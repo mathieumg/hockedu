@@ -1,0 +1,52 @@
+//////////////////////////////////////////////////////////////////////////////
+/// @file EvenementRouletteSouris.cpp
+/// @author Charles Etienne Lalonde
+/// @date 2012-01-25
+/// @version 1.0 
+///
+/// @addtogroup inf2990 INF2990
+/// @{
+//////////////////////////////////////////////////////////////////////////////
+
+#include "EvenementRouletteSouris.h"
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn EvenementRouletteSouris::EvenementRouletteSouris(JNIEnv* env, jobject& evenementRouletteSouris)
+///
+/// Contructeur par événement Java.
+///
+/// @param[in] JNIEnv* env : L'environnement Java.
+/// @param[in] jobject& evenementRouletteSouris : L'événement envoyé par le Java.
+///
+/// @return 
+///
+////////////////////////////////////////////////////////////////////////
+EvenementRouletteSouris::EvenementRouletteSouris(JNIEnv* env, jobject& evenementRouletteSouris)
+{
+	jclass classe = env->GetObjectClass(evenementRouletteSouris);
+	
+	//Appel de mouseWheelEvent.getWheelRotation()
+	jmethodID getWheelRotation = env->GetMethodID(classe, "getWheelRotation", "()I");
+	nbCoches_ = env->CallIntMethod(evenementRouletteSouris, getWheelRotation);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn int EvenementRouletteSouris::obtenirNbCoches()
+///
+/// Accesseur au nombre de coches dont la roulette a bougé.
+///
+/// @return : Le nombre de coches.
+///
+////////////////////////////////////////////////////////////////////////
+int EvenementRouletteSouris::obtenirNbCoches()
+{
+	return nbCoches_;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////////
+
+

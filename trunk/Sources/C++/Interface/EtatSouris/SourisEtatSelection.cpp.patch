@@ -1,0 +1,125 @@
+Index: SourisEtatSelection.cpp
+===================================================================
+--- SourisEtatSelection.cpp	(revision 522)
++++ SourisEtatSelection.cpp	(working copy)
+@@ -11,6 +11,9 @@
+ #include "SourisEtatSelection.h"
+ #include "FacadeModele.h"
+ #include "VisiteurSelection.h"
++#include <GL\gl.h>
++#include <GL\glu.h>
++#include "Vue.h"
+ 
+ ////////////////////////////////////////////////////////////////////////
+ ///
+@@ -107,30 +110,95 @@
+ 		if(drag_)
+ 		{
+ 			// DRAG
+-			FacadeModele::obtenirInstance()->modifierVariableZoomElastique(false);
++			//FacadeModele::obtenirInstance()->modifierVariableZoomElastique(false);
+ 
+-			Vecteur3 coordVirt1, coordVirt2;
+-			FacadeModele::obtenirInstance()->convertirClotureAVirtuelle(positionEnfoncee_[VX], positionEnfoncee_[VY], coordVirt1);
+-			FacadeModele::obtenirInstance()->convertirClotureAVirtuelle(positionPrecedente_[VX], positionPrecedente_[VY], coordVirt2);
++			//Vecteur3 posCurVirt, posPrecedentVirt;
++			//FacadeModele::obtenirInstance()->convertirClotureAVirtuelle(positionEnfoncee_[VX], positionEnfoncee_[VY], posCurVirt);
++			//FacadeModele::obtenirInstance()->convertirClotureAVirtuelle(positionPrecedente_[VX], positionPrecedente_[VY], posPrecedentVirt);
+ 
+-			Vecteur2 positionEnfonce(coordVirt1[VX], coordVirt1[VY]);
+-			Vecteur2 positionPrecedente(coordVirt2[VX], coordVirt2[VY]);
++// 			glMatrixMode( GL_PROJECTION );
++// 			glLoadIdentity();
++// 			GLint viewport[4];
++// 			glGetIntegerv(GL_VIEWPORT,viewport);
++// 			gluPickMatrix(lastx,viewport[3]-lasty,50,50,viewport);
+ 
+-			VisiteurSelection visiteur(positionEnfonce, positionPrecedente);
+-			FacadeModele::obtenirInstance()->visiterArbre(&visiteur);
+-			visiteur.faireSelection();
++
++// 			VisiteurSelection visiteur(positionEnfonce, positionPrecedente);
++// 			FacadeModele::obtenirInstance()->visiterArbre(&visiteur);
++//			visiteur.faireSelection();
+ 		}
+ 		else
+ 		{
+ 			// CLIC
+ 			positionPrecedente_ = evenementSouris.obtenirPosition();
+ 			
+-			Vecteur3 coordVirt;
+-			FacadeModele::obtenirInstance()->convertirClotureAVirtuelle(positionPrecedente_[VX], positionPrecedente_[VY], coordVirt);
+-			Vecteur2 positionClic(coordVirt[VX], coordVirt[VY]);
+-			VisiteurSelection visiteur(positionClic, positionClic);
+-			FacadeModele::obtenirInstance()->visiterArbre(&visiteur);
+-			visiteur.faireSelection();
++			Vecteur3 positionClic;
++			//FacadeModele::obtenirInstance()->convertirClotureAVirtuelle(positionPrecedente_[VX], positionPrecedente_[VY], positionClic);
++
++			// Pre selelection
++			glMatrixMode( GL_PROJECTION );
++			//glPushMatrix();
++			glLoadIdentity();
++			GLint viewport[4];
++			glGetIntegerv(GL_VIEWPORT,viewport);
++			gluPickMatrix(positionPrecedente_[VX],viewport[3]-positionPrecedente_[VY],1,1,viewport);
++
++			FacadeModele::obtenirInstance()->obtenirVue()->appliquerProjection();
++
++			
++
++			const GLsizei taille = 200;
++			GLuint tampon[taille];
++
++			
++			//glInitNames();
++			glSelectBuffer( taille, tampon );
++			glRenderMode(GL_SELECT);
++
++			glMatrixMode( GL_MODELVIEW );
++			glLoadIdentity();
++			FacadeModele::obtenirInstance()->obtenirVue()->appliquerCamera();
++			FacadeModele::obtenirInstance()->afficherBase();
++
++			int nbObjets = glRenderMode(GL_RENDER);
++			
++			
++			GLuint* ptr = tampon;
++			std::vector<int> liste;
++
++			float zMinimum = 100000;
++			for(int i=0; i<nbObjets; i++)
++			{
++				bool ajouter = false;
++				int nbNoms = (*ptr);
++				ptr++;
++				float zMin = (float)(*ptr)/0xFFFFFFFF;
++				ptr++;
++				float zMax = (float)(*ptr)/0xFFFFFFFF;
++				ptr++;
++
++				if(zMin<zMinimum)
++				{
++					zMinimum = zMin;
++					liste.clear();
++					ajouter = true;
++				}
++				for(int j=0; j<nbNoms; j++)
++				{
++					if(ajouter)
++						liste.push_back((*ptr));
++					ptr++;
++				}
++			}
++			
++			//glMatrixMode( GL_PROJECTION );
++		//	glPopMatrix();
++		//	glMatrixMode( GL_MODELVIEW );
++
++
++// 			VisiteurSelection visiteur(positionClic, positionClic);
++// 			FacadeModele::obtenirInstance()->visiterArbre(&visiteur);
++			//visiteur.faireSelection();
+ 		}
+ 
+ 	}

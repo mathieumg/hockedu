@@ -1,0 +1,69 @@
+//////////////////////////////////////////////////////////////////////////////
+/// @file JoueurAbstrait.h
+/// @author Vincent Lemire
+/// @date 2012-02-17
+/// @version 1.0
+///
+/// @addtogroup inf2990 INF2990
+/// @{
+//////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+#include "INF2990TypeDef.h"
+
+enum TypeJoueur{JOUEUR_HUMAIN,JOUEUR_VIRTUEL};
+
+class TiXmlElement;
+///////////////////////////////////////////////////////////////////////////
+/// @class JoueurAbstrait
+/// @brief Classe abstraite qui représente un joueur dans le mode jeu.
+///
+/// @author Vincent Lemire, Michael Ferris
+/// @date 2012-02-17
+///////////////////////////////////////////////////////////////////////////
+class JoueurAbstrait
+{
+public:
+	/// Constructeur
+    JoueurAbstrait(const std::string& nom);	
+	/// Destructeur virtuel pure
+	virtual ~JoueurAbstrait(void) = 0;
+	/// Accesseur pour le nom
+	std::string obtenirNom() const;
+	/// Modificateur pour le nom
+	void modifierNom(const std::string nom);
+	/// Creation du noeud XML du joueur
+	virtual TiXmlElement* creerNoeudXML() const;
+	/// Permet de generer des informations aleatoire pour un joueur,
+	/// utile si on a besoin d'un joueur, mais probleme rencontrer a son chargement
+	virtual void genererAleatoirement() = 0;
+
+	TypeJoueur obtenirType() const { return type_; }
+	void modifierType(const TypeJoueur val) { type_ = val; }
+
+	static const std::string etiquetteJoueur;
+	static const std::string etiquetteType;
+
+	/// Permet d'obtenir un pointeur sur un joueur à partir d'un élément XML, pointeur null si echec
+	static SPJoueurAbstrait usineJoueurXML(const TiXmlElement* element, ConteneurJoueur* profilsExistant = 0);
+
+protected:
+	/// Le type du joueur (humain ou virtuel)
+	TypeJoueur type_;
+	/// Initialisaiton du joueur à partir d'un element XML
+	virtual bool initialiser(const TiXmlElement* element);
+private:
+	/// Le nom du joueur
+	std::string nom_;
+	/// Outils pour connaitre le nom d'un joueur contenu dans un noeud XML
+	static std::string extraireNomXmlNode(const TiXmlElement* element);
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////////
+
+
+
+
+

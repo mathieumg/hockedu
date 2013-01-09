@@ -1,0 +1,42 @@
+//////////////////////////////////////////////////////////////////////////////
+/// @file AIStratDefensive.h
+/// @author Michael Ferris
+/// @date 2012-04-02
+/// @version 1.0
+///
+/// @addtogroup inf2990 INF2990
+/// @{
+//////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+#include "aistrat.h"
+
+///////////////////////////////////////////////////////////////////////////
+/// @class AIStratDefensive
+/// @brief Représente la stratégie d'un joueur virtuel en mode défense.
+///
+/// @author Michael Ferris
+/// @date 2012-04-02
+///////////////////////////////////////////////////////////////////////////
+class AIStratDefensive : public AIStrat
+{
+public:
+	/// Constructeur
+	AIStratDefensive(const AIMaillet&);
+
+	/// Destructeur
+	virtual ~AIStratDefensive();
+
+	/// Retourne la direction à prendre pour le maillet selon une stratégie defensive
+	virtual Vecteur2 appliquerStrategie( NoeudMaillet* maillet );
+
+/// Accesseurs
+public:
+	virtual typeStrat obtenirType() { return DEFENSIVE; }
+
+};
+
+
+///////////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////////

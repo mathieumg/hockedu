@@ -1,0 +1,254 @@
+#
+## Alias OBJ Material File
+# Exported from SketchUp, (c) 2000-2006 Google, Inc.
+
+newmtl _Wood_Lumber_ButtJoined_2
+Ka 0.000000 0.000000 0.000000
+Kd 0.643137 0.596078 0.439216
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/_Wood_Lumber_ButtJoined_2.jpg
+
+newmtl Frame
+Ka 0.000000 0.000000 0.000000
+Kd 0.270588 0.149020 0.054902
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/Frame.jpg
+
+newmtl Color_B21
+Ka 0.000000 0.000000 0.000000
+Kd 0.200000 0.047059 0.000000
+Ks 0.330000 0.330000 0.330000
+
+newmtl ChalkBoard
+Ka 0.000000 0.000000 0.000000
+Kd 0.149020 0.156863 0.176471
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/ChalkBoard.jpg
+
+newmtl Material3
+Ka 0.000000 0.000000 0.000000
+Kd 0.588235 0.556863 0.541176
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/Material3.jpg
+
+newmtl Material2
+Ka 0.000000 0.000000 0.000000
+Kd 0.545098 0.533333 0.521569
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/Material2.jpg
+
+newmtl Material4
+Ka 0.000000 0.000000 0.000000
+Kd 0.733333 0.721569 0.694118
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/Material4.jpg
+
+newmtl Color_D13
+Ka 0.000000 0.000000 0.000000
+Kd 0.600000 0.509804 0.239216
+Ks 0.330000 0.330000 0.330000
+
+newmtl Wood_Cherry_Original
+Ka 0.000000 0.000000 0.000000
+Kd 0.596078 0.337255 0.164706
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/Wood_Cherry_Original.jpg
+
+newmtl Color_D17
+Ka 0.000000 0.000000 0.000000
+Kd 0.400000 0.317647 0.078431
+Ks 0.330000 0.330000 0.330000
+
+newmtl FrontColor
+Ka 0.000000 0.000000 0.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.330000 0.330000 0.330000
+
+newmtl _____________1
+Ka 0.000000 0.000000 0.000000
+Kd 0.792157 0.819608 0.858824
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/_____________1.jpg
+
+newmtl __________1
+Ka 0.000000 0.000000 0.000000
+Kd 0.827451 0.819608 0.686275
+Ks 0.330000 0.330000 0.330000
+d 0.150000
+
+newmtl ______________1
+Ka 0.000000 0.000000 0.000000
+Kd 0.235294 0.262745 0.333333
+Ks 0.330000 0.330000 0.330000
+d 0.940000
+map_Kd Piece/______________1.png
+
+newmtl Material_2
+Ka 0.000000 0.000000 0.000000
+Kd 0.760784 0.000000 0.000000
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/Material_2.png
+
+newmtl Cone
+Ka 0.000000 0.000000 0.000000
+Kd 0.188235 0.098039 0.788235
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/Cone.jpg
+
+newmtl Color_008
+Ka 0.000000 0.000000 0.000000
+Kd 0.117647 0.117647 0.117647
+Ks 0.330000 0.330000 0.330000
+
+newmtl Color_B12
+Ka 0.000000 0.000000 0.000000
+Kd 0.600000 0.239216 0.117647
+Ks 0.330000 0.330000 0.330000
+
+newmtl wolk
+Ka 0.000000 0.000000 0.000000
+Kd 0.545098 0.462745 0.305882
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/wolk.jpg
+
+newmtl Fencing_Metal_Straight
+Ka 0.000000 0.000000 0.000000
+Kd 0.760784 0.764706 0.768627
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/Fencing_Metal_Straight.png
+
+newmtl spiderBody
+Ka 0.000000 0.000000 0.000000
+Kd 0.356863 0.317647 0.203922
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/spiderBody.jpg
+
+newmtl SpiderLowerBody
+Ka 0.000000 0.000000 0.000000
+Kd 0.286275 0.254902 0.180392
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/SpiderLowerBody.jpg
+
+newmtl BeinTexdrkwo1
+Ka 0.000000 0.000000 0.000000
+Kd 0.270588 0.149020 0.054902
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/BeinTexdrkwo1.jpg
+
+newmtl SpiderEye
+Ka 0.000000 0.000000 0.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/SpiderEye.jpg
+
+newmtl Stone_Brushed_Khaki
+Ka 0.000000 0.000000 0.000000
+Kd 0.886275 0.772549 0.521569
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/Stone_Brushed_Khaki.jpg
+
+newmtl Metal_Rough
+Ka 0.000000 0.000000 0.000000
+Kd 0.600000 0.615686 0.627451
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/Metal_Rough.jpg
+
+newmtl Material5
+Ka 0.000000 0.000000 0.000000
+Kd 0.560784 0.403922 0.294118
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/Material5.jpg
+
+newmtl Material6
+Ka 0.000000 0.000000 0.000000
+Kd 0.588235 0.454902 0.341176
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/Material6.jpg
+
+newmtl Vegetation_Bark_Maple2
+Ka 0.000000 0.000000 0.000000
+Kd 0.376471 0.352941 0.352941
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/Vegetation_Bark_Maple2.jpg
+
+newmtl _Wood_Lumber_ButtJoined_1
+Ka 0.000000 0.000000 0.000000
+Kd 0.356863 0.333333 0.243137
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/_Wood_Lumber_ButtJoined_1.jpg
+
+newmtl Brick_Rough_Dark
+Ka 0.000000 0.000000 0.000000
+Kd 0.368627 0.301961 0.207843
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/Brick_Rough_Dark.jpg
+
+newmtl Roofing_Shingles_Wood
+Ka 0.000000 0.000000 0.000000
+Kd 0.615686 0.572549 0.431373
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/Roofing_Shingles_Wood.jpg
+
+newmtl Wood_Lumber_ButtJoined
+Ka 0.000000 0.000000 0.000000
+Kd 0.447059 0.415686 0.305882
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/Wood_Lumber_ButtJoined.jpg
+
+newmtl Wood_Floor_Dark
+Ka 0.000000 0.000000 0.000000
+Kd 0.600000 0.368627 0.164706
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/Wood_Floor_Dark.jpg
+
+newmtl Carpet_Berber_Pattern_Gray
+Ka 0.000000 0.000000 0.000000
+Kd 0.647059 0.647059 0.647059
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/Carpet_Berber_Pattern_Gray.jpg
+
+newmtl _Carpet_Diamond_Olive_1
+Ka 0.000000 0.000000 0.000000
+Kd 0.341176 0.301961 0.239216
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/_Carpet_Diamond_Olive_1.jpg
+
+newmtl Translucent_Glass_Gold
+Ka 0.000000 0.000000 0.000000
+Kd 0.827451 0.498039 0.007843
+Ks 0.330000 0.330000 0.330000
+d 0.600000
+map_Kd Piece/Translucent_Glass_Gold.jpg
+
+newmtl Material7
+Ka 0.000000 0.000000 0.000000
+Kd 0.776471 0.278431 0.145098
+Ks 0.330000 0.330000 0.330000
+d 0.500000
+map_Kd Piece/Material7.jpg
+
+newmtl Translucent_Glass_Orange
+Ka 0.000000 0.000000 0.000000
+Kd 0.741176 0.313725 0.039216
+Ks 0.330000 0.330000 0.330000
+d 0.500000
+map_Kd Piece/Translucent_Glass_Orange.jpg
+
+newmtl _Stone_Brushed_Khaki_1
+Ka 0.000000 0.000000 0.000000
+Kd 0.886275 0.772549 0.521569
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/_Stone_Brushed_Khaki_1.jpg
+
+newmtl _Groundcover_RiverRock_4inch_2
+Ka 0.000000 0.000000 0.000000
+Kd 0.568627 0.494118 0.427451
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/_Groundcover_RiverRock_4inch_2.jpg
+
+newmtl _Vegetation_Juniper2_1
+Ka 0.000000 0.000000 0.000000
+Kd 0.388235 0.501961 0.274510
+Ks 0.330000 0.330000 0.330000
+map_Kd Piece/_Vegetation_Juniper2_1.jpg
+

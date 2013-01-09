@@ -1,0 +1,467 @@
+///////////////////////////////////////////////////////////////////////////////
+/// @file NoeudAbstrait.h
+/// @author DGI-INF2990, Michael Ferris, Samuel Ledoux, Mathieu Parent
+/// @date 2007-01-24
+/// @version 1.0
+///
+/// @addtogroup inf2990 INF2990
+/// @{
+///////////////////////////////////////////////////////////////////////////////
+#ifndef __ARBRE_NOEUDS_NOEUDABSTRAIT_H__
+#define __ARBRE_NOEUDS_NOEUDABSTRAIT_H__
+
+#define _USE_MATH_DEFINES
+#include <math.h>
+#include <windows.h>
+#include "glew.h"
+#include "Vecteur.h"
+#include "VisiteurNoeud.h"
+#include "Animation.h"
+#include "ObjetAnimable.h"
+
+//Foward Declaration
+class NoeudComposite;
+class VisiteurCollision;
+class VisiteurNoeudTest;
+class TiXmlElement;
+class Modele3D;
+class Terrain;
+
+///////////////////////////////////////////////////////////////////////////
+/// @class NoeudAbstrait
+/// @brief Classe de base du patron composite utilisée pour créer l'arbre
+///        de rendu.
+///
+///        Cette classe abstraite comprend l'interface de base que doivent
+///        implanter tous les noeuds pouvant être présent dans l'arbre de
+///        rendu.
+///
+/// @author DGI-2990, Michael Ferris, Samuel Ledoux, Mathieu Parent
+/// @date 2007-01-24
+///////////////////////////////////////////////////////////////////////////
+class NoeudAbstrait : public ObjetAnimable
+{
+public:
+	friend VisiteurNoeudTest;
+	/// Constructeur.
+	NoeudAbstrait(
+		const std::string& type = std::string( "" )
+		);
+	/// Destructeur.
+	virtual ~NoeudAbstrait();
+
+	/// Obtient le parent de ce noeud.
+	inline NoeudComposite* obtenirParent();
+
+	/// Obtient le parent de ce noeud (version constante).
+	inline const NoeudComposite* obtenirParent() const;
+
+	/// Assigne le parent de ce noeud.
+	void assignerParent( NoeudComposite* parent );
+
+	/// Obtient la position relative du noeud.
+	inline const Vecteur3& obtenirPositionRelative() const;
+
+	/// Obtenir la position absolue du noeud.
+	virtual Vecteur3 obtenirPositionAbsolue() const;
+
+	/// Assigne la position relative du noeud.
+	virtual void assignerPositionRelative( const Vecteur3& positionRelative);
+
+	/// Obtient le type du noeud.
+	inline const std::string& obtenirType() const;
+
+	/// Écrit l'état de l'affichage du du noeud.
+	inline void assignerAffiche( bool affiche );
+	/// Vérifie si le noeud se fait afficher.
+	inline bool estAffiche() const;
+
+	/// Écrit l'état de la sélection du noeud.
+	inline void assignerSelection( const bool& selectionne );
+	/// Vérifie si le noeud est sélectionné.
+	inline bool estSelectionne() const;
+	/// Écrit si le noeud peut être sélectionné ou non.
+	inline void assignerEstSelectionnable( const bool& selectionnable );
+	/// Vérifie si le noeud est sélectionnable.
+	inline bool estSelectionnable() const;
+	/// Écrit si le noeud peut être enregistré ou non.
+	inline void assignerEstEnregistrable( const bool& enregistrable );
+	/// Vérifie si le noeud est enregistrable.
+	inline bool estEnregistrable() const;
+
+
+
+	// Interface d'un noeud
+
+	/// Calcule la profondeur de l'arbre sous le noeud courant.
+	virtual unsigned int calculerProfondeur() const;
+
+	/// Vide le noeud de ses enfants.
+	virtual void vider();
+	/// Efface le noeud passé en paramètre.
+	virtual void effacer( const NoeudAbstrait* noeud );
+
+	/// Cherche un noeud par le type (sur un noeud constant).
+	virtual const NoeudAbstrait* chercher( const std::string& typeNoeud ) const;
+	/// Cherche un noeud par le type.
+	virtual NoeudAbstrait* chercher( const std::string& typeNoeud );
+	/// Cherche un noeud enfant selon l'indice (sur un noeud constant).
+	virtual const NoeudAbstrait* chercher( unsigned int indice ) const;
+	/// Cherche un noeud enfant selon l'indice.
+	virtual NoeudAbstrait* chercher( unsigned int indice );
+
+	/// Ajoute un noeud enfant.
+	virtual bool ajouter( NoeudAbstrait* enfant );
+	/// Obtient le nombre d'enfants du noeud.
+	virtual unsigned int obtenirNombreEnfants() const;
+
+	/// Changer la sélection du noeud.
+	virtual void inverserSelection();
+	/// Sélectionne tous les enfants de même que le noeud.
+	virtual void selectionnerTout();
+	/// Désélectionne tous les enfants de même que le noeud.
+	virtual void deselectionnerTout();
+	/// Vérifier si le noeud ou un de ses enfants est sélectionné.
+	virtual bool selectionExiste() const;
+
+	/// Change le mode d'affichage des polygones.
+	virtual void changerModePolygones( bool estForce );
+	/// Assigne le mode d'affichage des polygones.
+	virtual void assignerModePolygones( GLenum modePolygones );
+	/// Affiche le noeud.
+	virtual void afficher() const;
+	/// Affiche le noeud de manière concrète.
+	virtual void afficherConcret() const;
+	/// Anime le noeud.
+	virtual void animer( const float& dt );
+
+	/// Accueil un visiteur
+	virtual void accueillirVisiteurNoeud( VisiteurNoeud& v){v.visiterNoeudAbstrait(this);}   
+	/// Accesseur de la matrice de transformation
+	virtual void obtenirMatrice(GLdouble* matriceRetour) const;
+	/// Accesseur des facteurs d'echelle
+	virtual void obtenirEchelleCourante(Vecteur3& echelleCourante) const;
+	/// Mutateur des facteurs d'echelle
+	virtual void modifierEchelleCourante(const Vecteur3& echelleCourante);
+	/// Mutateur de la matrice de transformation
+	virtual void modifierMatrice(GLdouble *matrice);
+	/// Acces et modification de l'angle de rotation
+	virtual void assignerAngle(const double& angle);
+	virtual double obtenirAngle() const;
+
+	/// Met a jour la matrice de transformations
+	virtual void updateMatrice();
+	/// Modifie la valeur de la collision
+	virtual void modifierSurligner(const bool& estEnCollision);
+	/// Retourne la valeur de collision_
+	virtual bool estSurligne();
+	/// Retourne true si le noeud est selectionne
+	virtual bool possedeSelection();
+
+	typedef std::pair<Vecteur3, Vecteur3> PaireVect3;
+	/// Retourne la zone occupee par le noeud (coord virtuelles)
+	virtual PaireVect3 obtenirZoneOccupee() const;
+	/// Retourne le rayon du noeud
+	virtual double obtenirRayon() const;
+	/// Recalcule le rayon
+	virtual void updateRayon();
+
+	/// Permet d'assigner les attribut nécessaire à la collision
+	virtual void assignerAttributVisiteurCollision(VisiteurCollision* v);
+
+	/// Application de la physique des noeuds la ou applicable
+	virtual void gestionCollision( const float& temps ){}
+	/// Misae a Jour de la position de ce noeud
+	virtual void majPosition( const float& temps) {}
+	/// Repositionnement des modele pour enlever la penetration entre les noeuds
+	virtual void ajusterEnfoncement(){}
+	/// Ajustement de la vitesse des noeuds
+	virtual void ajusterVitesse( const float& temps ) {}
+
+	/// Creation du noeud XML du Noeud
+	virtual TiXmlElement* creerNoeudXML();
+	/// Initialisation du NoeudAbstrait à partir d'un element XML
+	virtual bool initialiser(const TiXmlElement* element);
+
+	/// Retourne le modele 3D representant le noeud ( !!! peut etre NULL )
+	Modele3D* obtenirModele() const;
+
+	virtual void animerAnimation();
+
+	virtual std::string obtenirNom() const;
+	/// Accesseur de terrain_
+	Terrain* obtenirTerrain() const { return terrain_; }
+	/// Modificateur de terrain_
+	virtual void modifierTerrain(Terrain* val);
+protected:
+    class b2Body* mPhysicBody;
+	/// Type du noeud.
+	std::string      type_;
+
+	/// Mode d'affichage des polygones.
+	GLenum           modePolygones_;
+
+	/// Position relative du noeud.
+	mutable Vecteur3  positionRelative_;
+
+	/// Vrai si on doit afficher le noeud.
+	bool             affiche_;
+
+	/// Sélection du noeud.
+	bool             selectionne_;
+
+	/// Vrai si le noeud est sélectionnable.
+	bool             selectionnable_;
+
+	/// Détermine si l'objet peut être sauvegardé en XML.
+	bool             enregistrable_;
+
+	/// Pointeur vers le parent.
+	NoeudComposite*   parent_;
+
+	/// Matrice de transformation.
+	GLdouble matrice_[16];
+
+	/// Echelle courante (afin de limiter la mise a l'echelle).
+	Vecteur3 echelleCourante_;
+
+	/// Angle de rotation autour de l'axe Z.
+	double angle_;
+
+	/// Rayon de l'objet
+	double rayon_;
+
+	/// Est en collision
+	bool surligne_;
+	
+	/// id unique dans openGL
+    GLuint glId_;
+    /// id unique dans openGL pour le type du noeud
+	GLuint glTypeId_;
+private:
+	/// Compteur pour les id unique dans openGL
+	static GLuint compteurIdGl_;
+	
+	
+	/// Pointeur sur le terrain que le noeud est inclu dedans, Null si le noeud n'est pas sur un terrain
+	Terrain* terrain_;
+
+
+	/// Accesseurs
+public:
+	/// Accesseur de glId_
+	GLuint obtenirGlId() const { return glId_; }
+	
+};
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn inline NoeudComposite* NoeudAbstrait::obtenirParent(  )
+///
+/// Cette fonction retourne le pointeur vers le parent de ce noeud.
+///
+///
+/// @return NoeudComposite* : Le pointeur vers le parent.
+///
+////////////////////////////////////////////////////////////////////////
+inline NoeudComposite* NoeudAbstrait::obtenirParent()
+{
+	return parent_;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn inline const NoeudComposite* NoeudAbstrait::obtenirParent(  )
+///
+/// Cette fonction retourne le pointeur constant vers le parent de ce noeud.
+///
+///
+/// @return const NoeudComposite* : Le pointeur constant vers le parent.
+///
+////////////////////////////////////////////////////////////////////////
+inline const NoeudComposite* NoeudAbstrait::obtenirParent() const
+{
+	return parent_;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn inline const Vecteur3& NoeudAbstrait::obtenirPositionRelative(  )
+///
+/// Cette fonction retourne la position relative du noeud par rapport
+/// à son parent.
+///
+///
+/// @return const Vecteur3& : La position relative.
+///
+////////////////////////////////////////////////////////////////////////
+inline const Vecteur3& NoeudAbstrait::obtenirPositionRelative() const
+{
+	return positionRelative_;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn inline void NoeudAbstrait::assignerPositionRelative( const Vecteur3& positionRelative )
+///
+/// Cette fonction permet d'assigner la position relative du noeud par
+/// rapport à son parent.
+///
+/// @param[in] const Vecteur3 & positionRelative : La position relative.
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn inline const std::string& NoeudAbstrait::obtenirType(  )
+///
+/// Cette fonction retourne une chaîne représentante le type du noeud.
+///
+///
+/// @return const std::string& : Le type du noeud.
+///
+////////////////////////////////////////////////////////////////////////
+inline const std::string& NoeudAbstrait::obtenirType() const
+{
+	return type_;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn inline void NoeudAbstrait::assignerAffiche( bool affiche )
+///
+/// Cette fonction permet d'assigner si le noeud se fait afficher ou
+/// non lorsque l'arbre de rendu se fait afficher.  Elle permet donc
+/// de temporairement suspendre ou activer l'affichage d'un noeud.
+///
+/// @param[in] bool affiche : L'état affiché ou non.
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+inline void NoeudAbstrait::assignerAffiche( bool affiche )
+{
+	affiche_ = affiche;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn inline bool NoeudAbstrait::estAffiche(  )
+///
+/// Cette fonction retourne l'état que le noeud se fait afficher ou non.
+///
+///
+/// @return bool : L'état affiché ou non.
+///
+////////////////////////////////////////////////////////////////////////
+inline bool NoeudAbstrait::estAffiche() const
+{
+	return affiche_;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn inline void NoeudAbstrait::assignerSelection( bool selectionne )
+///
+/// Cette fonction permet d'assigner l'état d'être sélectionné ou non du noeud.
+///
+/// @param[in] bool selectionne : L'état sélectionné ou non.
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+inline void NoeudAbstrait::assignerSelection( const bool& selectionne )
+{
+	// Un objet non sélectionnable n'est jamais sélectionné.
+	selectionne_ = (selectionne && selectionnable_);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn inline bool NoeudAbstrait::estSelectionne(  )
+///
+/// Cette fonction retourne l'état d'être sélectionné ou non du noeud.
+///
+///
+/// @return bool : L'état sélectionné ou non.
+///
+////////////////////////////////////////////////////////////////////////
+inline bool NoeudAbstrait::estSelectionne() const
+{
+	// Un objet non sélectionnable n'est jamais sélectionné.
+	return (selectionne_ && selectionnable_);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn inline void NoeudAbstrait::assignerEstSelectionnable( bool selectionnable )
+///
+/// Cette fonction permet d'assigner l'état d'être sélectionnable ou non du noeud.
+///
+/// @param[in] bool selectionnable : L'état sélectionnable ou non.
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+inline void NoeudAbstrait::assignerEstSelectionnable( const bool& selectionnable )
+{
+	selectionnable_ = selectionnable;
+	selectionne_    = selectionne_ && selectionnable_;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn inline bool NoeudAbstrait::estSelectionnable(  )
+///
+/// Cette fonction retourne l'état d'être sélectionnable ou non du noeud.
+///
+///
+/// @return bool : L'état sélectionnable ou non.
+///
+////////////////////////////////////////////////////////////////////////
+inline bool NoeudAbstrait::estSelectionnable() const
+{
+	return selectionnable_;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudAbstrait::assignerEstEnregistrable( bool enregistrable )
+///
+/// Cette fonction permet d'assigner l'état d'être entregistrable ou non du noeud.
+///
+/// @param[in] bool enregistrable : L'état enregistrable ou non.
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+inline void NoeudAbstrait::assignerEstEnregistrable( const bool& enregistrable )
+{
+	enregistrable_ = enregistrable;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool NoeudAbstrait::estEnregistrable(  )
+///
+/// Cette fonction retourne l'état d'être enregistrable en XML ou non du
+/// noeud.
+///
+///
+/// @return bool : L'état enregistrable ou non.
+///
+////////////////////////////////////////////////////////////////////////
+inline bool NoeudAbstrait::estEnregistrable() const
+{
+	return enregistrable_;
+}
+
+
+#endif // __ARBRE_NOEUDS_NOEUDABSTRAIT_H__
+
+
+///////////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Sealed: false
+Main-Class: ca.polymtl.inf2990.Lancement
+SplashScreen-Image: ca/polymtl/inf2990/icones/splash.jpg
+Class-Path: lib/tinylaf.jar
+

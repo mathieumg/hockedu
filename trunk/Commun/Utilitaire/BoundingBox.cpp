@@ -1,0 +1,21 @@
+#include "BoundingBox.h"
+
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn  BoundingBox::BoundingBox( const Vecteur2& pos )
+///
+/// /*Description*/
+///
+/// @param[in] const Vecteur2 & pos
+///
+/// @return 
+///
+////////////////////////////////////////////////////////////////////////
+BoundingBox::BoundingBox( const Vecteur2& pos )
+{
+
+}
+
+

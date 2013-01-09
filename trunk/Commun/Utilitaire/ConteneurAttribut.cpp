@@ -1,0 +1,77 @@
+//////////////////////////////////////////////////////////////////////////////
+/// @file ConteneurAttribut.cpp
+/// @author Michael Ferris
+/// @date 2012-02-15
+/// @version 1.0 
+///
+/// @addtogroup utilitaire Utilitaire
+/// @{
+//////////////////////////////////////////////////////////////////////////////
+#include "ConteneurAttribut.h"
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn ConteneurAttribut::ConteneurAttribut(void)
+///
+/// Constructeur par défaut.
+///
+/// @return
+///
+////////////////////////////////////////////////////////////////////////
+ConteneurAttribut::ConteneurAttribut(void)
+{
+
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn ConteneurAttribut::~ConteneurAttribut(void)
+///
+/// Destructeur vide.
+///
+/// @return
+///
+////////////////////////////////////////////////////////////////////////
+ConteneurAttribut::~ConteneurAttribut(void)
+{
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn ConteneurAttribut::randomizeAttribut( const TypeAttribut& type )
+///
+/// Affecte une valeur aléatoire à un attribut
+///
+/// @param[in] const TypeAttribut & type : le type de l'attribut que l'on veut générer
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void ConteneurAttribut::randomizeAttribut( const TypeAttribut& type )
+{
+	switch(type)
+	{
+	case INT_TYPE: intElem = rand(); break;
+	case BOOL_TYPE: boolElem = rand()%2 == 0; break;
+	case DOUBLE_TYPE: doubleElem = rand()+(double)rand()/100000.0; break;
+	case STRING_TYPE: 
+		{
+			stringElem = ""; 
+			int n = rand()%20;
+			for(int i=0; i<n;i++)
+			{
+				stringElem.push_back(rand()%26 + 'a');
+			}
+			break;
+		}
+	default: break;
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////////
+
+
+
+

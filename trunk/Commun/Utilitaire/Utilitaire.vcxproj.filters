@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Sources Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Sources Files\Vue">
+      <UniqueIdentifier>{00a0c2de-e50b-4c8b-b7fc-ab6fe4c680a9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Vue\Camera.cpp">
+      <Filter>Sources Files\Vue</Filter>
+    </ClCompile>
+    <ClCompile Include="Vue\VueOrtho.cpp">
+      <Filter>Sources Files\Vue</Filter>
+    </ClCompile>
+    <ClCompile Include="Vue\Projection.cpp">
+      <Filter>Sources Files\Vue</Filter>
+    </ClCompile>
+    <ClCompile Include="Vue\ProjectionOrtho.cpp">
+      <Filter>Sources Files\Vue</Filter>
+    </ClCompile>
+    <ClCompile Include="Vue\Vue.cpp">
+      <Filter>Sources Files\Vue</Filter>
+    </ClCompile>
+    <ClCompile Include="AideCollision.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilitaire.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AideGL.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BoiteEnvironnement.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CEcritureFichierBinaire.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLectureFichierBinaire.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CompteurAffichage.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Droite3D.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EtatOpenGL.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Plan3D.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ConteneurAttribut.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTime.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vue\ProjectionPerspective.cpp">
+      <Filter>Sources Files\Vue</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationFrame.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjetAnimable.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GestionnaireAnimations.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LumiereAbstraite.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LumiereSpot.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LumiereAmbiante.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LumiereDirectionnelle.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vue\VuePerspectiveLibre.cpp">
+      <Filter>Sources Files\Vue</Filter>
+    </ClCompile>
+    <ClCompile Include="Vue\VuePerspectiveCiel.cpp">
+      <Filter>Sources Files\Vue</Filter>
+    </ClCompile>
+    <ClCompile Include="Vue\VuePerspectiveOrbit.cpp">
+      <Filter>Sources Files\Vue</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationReprise.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Phont.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="textfile.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vue\VuePerspectiveSplit.cpp">
+      <Filter>Sources Files\Vue</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingBox.cpp" />
+    <ClCompile Include="XMLUtils.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugRenderBox2D.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AideCollision.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AideGL.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BoiteEnvironnement.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CEcritureFichierBinaire.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CLectureFichierBinaire.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CompteurAffichage.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Droite3D.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EtatOpenGL.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LignePointillee.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Plan3D.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilitaire.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vecteur.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vue\Camera.h">
+      <Filter>Sources Files\Vue</Filter>
+    </ClInclude>
+    <ClInclude Include="Vue\Projection.h">
+      <Filter>Sources Files\Vue</Filter>
+    </ClInclude>
+    <ClInclude Include="Vue\ProjectionOrtho.h">
+      <Filter>Sources Files\Vue</Filter>
+    </ClInclude>
+    <ClInclude Include="Vue\Vue.h">
+      <Filter>Sources Files\Vue</Filter>
+    </ClInclude>
+    <ClInclude Include="Vue\VueOrtho.h">
+      <Filter>Sources Files\Vue</Filter>
+    </ClInclude>
+    <ClInclude Include="ConteneurAttribut.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DecodeString.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTime.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OnceVector.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vue\ProjectionPerspective.h">
+      <Filter>Sources Files\Vue</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationFrame.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjetAnimable.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GestionnaireAnimations.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LumiereAbstraite.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LumiereSpot.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LumiereAmbiante.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LumiereDirectionnelle.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vue\VuePerspectiveLibre.h">
+      <Filter>Sources Files\Vue</Filter>
+    </ClInclude>
+    <ClInclude Include="Vue\VuePerspectiveOrbit.h">
+      <Filter>Sources Files\Vue</Filter>
+    </ClInclude>
+    <ClInclude Include="Vue\VuePerspectiveCiel.h">
+      <Filter>Sources Files\Vue</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationReprise.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Phont.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="textfile.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vue\VuePerspectiveSplit.h">
+      <Filter>Sources Files\Vue</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingBox.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLUtils.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugRenderBox2D.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Exe\nuanceurFragments.glsl">
+      <Filter>Sources Files</Filter>
+    </None>
+    <None Include="..\..\Exe\nuanceurSommets.glsl">
+      <Filter>Sources Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

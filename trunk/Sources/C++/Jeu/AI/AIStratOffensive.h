@@ -1,0 +1,44 @@
+//////////////////////////////////////////////////////////////////////////////
+/// @file AIStratOffensive.h
+/// @author Michael Ferris
+/// @date 2012-04-02
+/// @version 1.0
+///
+/// @addtogroup inf2990 INF2990
+/// @{
+//////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+#include "aistrat.h"
+
+///////////////////////////////////////////////////////////////////////////
+/// @class AIStratOffensive
+/// @brief Représente la stratégie d'un maillet en mode offensif.
+///
+/// @author Michael Ferris
+/// @date 2012-04-02
+///////////////////////////////////////////////////////////////////////////
+class AIStratOffensive : public AIStrat
+{
+public:
+	/// Constructeur
+	AIStratOffensive(const AIMaillet&);
+	/// Destructeur
+	virtual ~AIStratOffensive();
+	/// Retourne la direction à prendre pour le maillet selon une stratégie offensive
+	virtual Vecteur2 appliquerStrategie( NoeudMaillet* maillet );
+
+/// Attributs
+private:
+	bool tirReussi_;
+
+
+/// Accesseurs
+public:
+	virtual typeStrat obtenirType() { return OFFENSIVE; }
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////////

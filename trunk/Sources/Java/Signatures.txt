@@ -1,0 +1,2268 @@
+Compiled from "Fenetre.java"
+public class ca.polymtl.inf2990.Fenetre extends javax.swing.JFrame {
+  private static ca.polymtl.inf2990.Fenetre instance_;
+    Signature: Lca/polymtl/inf2990/Fenetre;
+  private static final long serialVersionUID;
+    Signature: J
+  private final java.util.Map<ca.polymtl.inf2990.Etats.Etats, ca.polymtl.inf2990.Panneaux.PanneauAbstrait> panneaux_;
+    Signature: Ljava/util/Map;
+  private final ca.polymtl.inf2990.BarresOutils.BarreDeMenus barreMenus_;
+    Signature: Lca/polymtl/inf2990/BarresOutils/BarreDeMenus;
+  private java.awt.Canvas canvas_;
+    Signature: Ljava/awt/Canvas;
+  private javax.swing.JDialog fenetreTouches;
+    Signature: Ljavax/swing/JDialog;
+  private javax.swing.JFrame fenetreRadio_;
+    Signature: Ljavax/swing/JFrame;
+  private ca.polymtl.inf2990.Panneaux.PanneauAbstrait panneauRadio_;
+    Signature: Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+  private boolean openGLinit_;
+    Signature: Z
+  private static int[] $SWITCH_TABLE$ca$polymtl$inf2990$BarresOutils$Commandes;
+    Signature: [I
+  public void giveFocusToCanevas();
+    Signature: ()V
+
+  public void triggerRadio();
+    Signature: ()V
+
+  public void afficherRadio();
+    Signature: ()V
+
+  public void cacherRadio();
+    Signature: ()V
+
+  private void construireRadio();
+    Signature: ()V
+
+  public static void chargerTinyLookAndFeel();
+    Signature: ()V
+
+  public void changerLookAndFeel(java.lang.String);
+    Signature: (Ljava/lang/String;)V
+
+  public void afficherPanneauModificationTouches();
+    Signature: ()V
+
+  public void cacherPanneauModificationTouches();
+    Signature: ()V
+
+  public static ca.polymtl.inf2990.Fenetre obtenirInstance();
+    Signature: ()Lca/polymtl/inf2990/Fenetre;
+
+  public ca.polymtl.inf2990.Panneaux.PanneauAbstrait obtenirPanneau(ca.polymtl.inf2990.Etats.Etats);
+    Signature: (Lca/polymtl/inf2990/Etats/Etats;)Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+
+  public static void rafraichirFenetre();
+    Signature: ()V
+
+  public static native void redimensionnerFenetre(int, int);
+    Signature: (II)V
+
+  public static boolean validerAction(java.lang.String);
+    Signature: (Ljava/lang/String;)Z
+
+  private ca.polymtl.inf2990.Fenetre(java.lang.String);
+    Signature: (Ljava/lang/String;)V
+
+  private void ajouterEvenements();
+    Signature: ()V
+
+  public void dessinerOpenGL();
+    Signature: ()V
+
+  public void pack();
+    Signature: ()V
+
+  public java.awt.Canvas obtenirCanevas();
+    Signature: ()Ljava/awt/Canvas;
+
+  public void ajouterElement(ca.polymtl.inf2990.Panneaux.PanneauAbstrait, ca.polymtl.inf2990.Etats.Etats);
+    Signature: (Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;Lca/polymtl/inf2990/Etats/Etats;)V
+
+  public void changerEtat(ca.polymtl.inf2990.Etats.Etats);
+    Signature: (Lca/polymtl/inf2990/Etats/Etats;)V
+
+  public void setCursor(java.awt.Cursor);
+    Signature: (Ljava/awt/Cursor;)V
+
+  public java.awt.Dimension obtenirTailleCanevas();
+    Signature: ()Ljava/awt/Dimension;
+
+  public void terminerRadio();
+    Signature: ()V
+
+  static int[] $SWITCH_TABLE$ca$polymtl$inf2990$BarresOutils$Commandes();
+    Signature: ()[I
+
+  static java.awt.Canvas access$1(ca.polymtl.inf2990.Fenetre);
+    Signature: (Lca/polymtl/inf2990/Fenetre;)Ljava/awt/Canvas;
+}
+Compiled from "GestionnaireEvenements.java"
+public class ca.polymtl.inf2990.GestionnaireEvenements implements java.awt.event.KeyListener,java.awt.event.MouseListener,java.awt.event.MouseMotionListener,java.awt.event.MouseWheelListener,java.awt.event.ActionListener {
+  private static ca.polymtl.inf2990.GestionnaireEvenements instance_;
+    Signature: Lca/polymtl/inf2990/GestionnaireEvenements;
+  public native void actionPerformed(java.awt.event.ActionEvent);
+    Signature: (Ljava/awt/event/ActionEvent;)V
+
+  public native void keyPressed(java.awt.event.KeyEvent);
+    Signature: (Ljava/awt/event/KeyEvent;)V
+
+  public native void keyReleased(java.awt.event.KeyEvent);
+    Signature: (Ljava/awt/event/KeyEvent;)V
+
+  public native void keyTyped(java.awt.event.KeyEvent);
+    Signature: (Ljava/awt/event/KeyEvent;)V
+
+  public native void mouseClicked(java.awt.event.MouseEvent);
+    Signature: (Ljava/awt/event/MouseEvent;)V
+
+  public native void mouseDragged(java.awt.event.MouseEvent);
+    Signature: (Ljava/awt/event/MouseEvent;)V
+
+  public native void mouseEntered(java.awt.event.MouseEvent);
+    Signature: (Ljava/awt/event/MouseEvent;)V
+
+  public native void mouseExited(java.awt.event.MouseEvent);
+    Signature: (Ljava/awt/event/MouseEvent;)V
+
+  public native void mouseMoved(java.awt.event.MouseEvent);
+    Signature: (Ljava/awt/event/MouseEvent;)V
+
+  public native void mousePressed(java.awt.event.MouseEvent);
+    Signature: (Ljava/awt/event/MouseEvent;)V
+
+  public native void mouseReleased(java.awt.event.MouseEvent);
+    Signature: (Ljava/awt/event/MouseEvent;)V
+
+  public native void mouseWheelMoved(java.awt.event.MouseWheelEvent);
+    Signature: (Ljava/awt/event/MouseWheelEvent;)V
+
+  private ca.polymtl.inf2990.GestionnaireEvenements();
+    Signature: ()V
+
+  public static ca.polymtl.inf2990.GestionnaireEvenements obtenirInstance();
+    Signature: ()Lca/polymtl/inf2990/GestionnaireEvenements;
+}
+Compiled from "GestionnaireImages.java"
+public class ca.polymtl.inf2990.GestionnaireImages {
+  static final java.lang.String dossierRoot;
+    Signature: Ljava/lang/String;
+  static final java.lang.String[] paths;
+    Signature: [Ljava/lang/String;
+  private static ca.polymtl.inf2990.GestionnaireImages instance_;
+    Signature: Lca/polymtl/inf2990/GestionnaireImages;
+  java.util.Map<ca.polymtl.inf2990.GestionnaireImages$NomImage, java.awt.Image> images_;
+    Signature: Ljava/util/Map;
+  static {};
+    Signature: ()V
+
+  public static ca.polymtl.inf2990.GestionnaireImages obtenirInstance();
+    Signature: ()Lca/polymtl/inf2990/GestionnaireImages;
+
+  private ca.polymtl.inf2990.GestionnaireImages();
+    Signature: ()V
+
+  public java.awt.Image obtenirImage(ca.polymtl.inf2990.GestionnaireImages$NomImage);
+    Signature: (Lca/polymtl/inf2990/GestionnaireImages$NomImage;)Ljava/awt/Image;
+
+  public java.awt.Image obtenirImageSelonTaille(ca.polymtl.inf2990.GestionnaireImages$NomImage, int, int);
+    Signature: (Lca/polymtl/inf2990/GestionnaireImages$NomImage;II)Ljava/awt/Image;
+
+  public javax.swing.ImageIcon obtenirImageIcon(ca.polymtl.inf2990.GestionnaireImages$NomImage);
+    Signature: (Lca/polymtl/inf2990/GestionnaireImages$NomImage;)Ljavax/swing/ImageIcon;
+}
+Compiled from "Lancement.java"
+public class ca.polymtl.inf2990.Lancement implements java.lang.Runnable {
+  private static final int TEMPS_INTER_AFFICHAGE;
+    Signature: I
+  private static java.util.Timer minuterie;
+    Signature: Ljava/util/Timer;
+  static {};
+    Signature: ()V
+
+  public ca.polymtl.inf2990.Lancement();
+    Signature: ()V
+
+  public static native void fctC_animer(float);
+    Signature: (F)V
+
+  public static native int fctC_executerTests();
+    Signature: ()I
+
+  public static void main(java.lang.String[]);
+    Signature: ([Ljava/lang/String;)V
+
+  private void activerMinuterie();
+    Signature: ()V
+
+  public static void pauserMinuterie();
+    Signature: ()V
+
+  public static void reactiverMinuterie();
+    Signature: ()V
+
+  public void run();
+    Signature: ()V
+}
+Compiled from "MainTest.java"
+public class ca.polymtl.inf2990.MainTest {
+  public ca.polymtl.inf2990.MainTest();
+    Signature: ()V
+
+  public static void main(java.lang.String[]);
+    Signature: ([Ljava/lang/String;)V
+}
+Compiled from "OpenGL.java"
+public class ca.polymtl.inf2990.OpenGL {
+  public ca.polymtl.inf2990.OpenGL();
+    Signature: ()V
+
+  public static native void dessinerOpenGL(java.awt.Canvas);
+    Signature: (Ljava/awt/Canvas;)V
+
+  public static native void initialiserOpenGL(java.awt.Canvas);
+    Signature: (Ljava/awt/Canvas;)V
+
+  public static native void libererOpenGL(java.awt.Canvas);
+    Signature: (Ljava/awt/Canvas;)V
+}
+Compiled from "BarreDeMenus.java"
+public class ca.polymtl.inf2990.BarresOutils.BarreDeMenus extends javax.swing.JMenuBar {
+  private final ca.polymtl.inf2990.BarresOutils.BarreEdition fenetreProprietes_;
+    Signature: Lca/polymtl/inf2990/BarresOutils/BarreEdition;
+  private static final long serialVersionUID;
+    Signature: J
+  private final javax.swing.ButtonGroup groupeBoutonsNormaux_;
+    Signature: Ljavax/swing/ButtonGroup;
+  private final javax.swing.ButtonGroup groupeBoutonsRadio_;
+    Signature: Ljavax/swing/ButtonGroup;
+  private final java.util.Hashtable<ca.polymtl.inf2990.Etats.Etats, ca.polymtl.inf2990.BarresOutils.BarreDeMenus$MenuConcret> menus_;
+    Signature: Ljava/util/Hashtable;
+  public ca.polymtl.inf2990.BarresOutils.BarreDeMenus();
+    Signature: ()V
+
+  public void ajouterEcouteurAction(java.awt.event.ActionListener);
+    Signature: (Ljava/awt/event/ActionListener;)V
+
+  public void changerMenuCourant(ca.polymtl.inf2990.Etats.Etats);
+    Signature: (Lca/polymtl/inf2990/Etats/Etats;)V
+
+  public ca.polymtl.inf2990.BarresOutils.BarreDeMenus$MenuConcret creerBarreEditeur();
+    Signature: ()Lca/polymtl/inf2990/BarresOutils/BarreDeMenus$MenuConcret;
+
+  public ca.polymtl.inf2990.BarresOutils.BarreDeMenus$MenuConcret creerBarreJeu();
+    Signature: ()Lca/polymtl/inf2990/BarresOutils/BarreDeMenus$MenuConcret;
+
+  public javax.swing.JMenuItem creerElementBoutonMenu(ca.polymtl.inf2990.BarresOutils.Commandes);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/Commandes;)Ljavax/swing/JMenuItem;
+
+  public javax.swing.JMenuItem creerElementRadioMenu(ca.polymtl.inf2990.BarresOutils.Commandes);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/Commandes;)Ljavax/swing/JMenuItem;
+
+  public void modifierSelection(ca.polymtl.inf2990.BarresOutils.Commandes);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/Commandes;)V
+
+  public void activerBoutonsObjetSelectionne(boolean);
+    Signature: (Z)V
+
+  static ca.polymtl.inf2990.BarresOutils.BarreEdition access$0(ca.polymtl.inf2990.BarresOutils.BarreDeMenus);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreDeMenus;)Lca/polymtl/inf2990/BarresOutils/BarreEdition;
+}
+Compiled from "BarreEdition.java"
+public class ca.polymtl.inf2990.BarresOutils.BarreEdition extends javax.swing.JDialog {
+  private final javax.swing.JFrame fenetreImageBandes_;
+    Signature: Ljavax/swing/JFrame;
+  private ca.polymtl.inf2990.BarresOutils.BarreEdition$VerificateurEntreePosition verificateurEntreePosition_;
+    Signature: Lca/polymtl/inf2990/BarresOutils/BarreEdition$VerificateurEntreePosition;
+  private final boolean[] proprieteChangee_;
+    Signature: [Z
+  private javax.swing.JButton boutonAnnuler_;
+    Signature: Ljavax/swing/JButton;
+  private javax.swing.JButton boutonAppliquer_;
+    Signature: Ljavax/swing/JButton;
+  public javax.swing.JFormattedTextField champAcceleration_;
+    Signature: Ljavax/swing/JFormattedTextField;
+  public javax.swing.JFormattedTextField champEchelle_;
+    Signature: Ljavax/swing/JFormattedTextField;
+  public javax.swing.JFormattedTextField champFriction_;
+    Signature: Ljavax/swing/JFormattedTextField;
+  public javax.swing.JFormattedTextField champPositionX_;
+    Signature: Ljavax/swing/JFormattedTextField;
+  public javax.swing.JFormattedTextField champPositionY_;
+    Signature: Ljavax/swing/JFormattedTextField;
+  public javax.swing.JFormattedTextField champRebond_;
+    Signature: Ljavax/swing/JFormattedTextField;
+  public javax.swing.JFormattedTextField champRotation_;
+    Signature: Ljavax/swing/JFormattedTextField;
+  public javax.swing.JFormattedTextField champLargeurZoneEdition_;
+    Signature: Ljavax/swing/JFormattedTextField;
+  public javax.swing.JFormattedTextField champLongueurZoneEdition_;
+    Signature: Ljavax/swing/JFormattedTextField;
+  public javax.swing.JFormattedTextField[] champsRebondBandes_;
+    Signature: [Ljavax/swing/JFormattedTextField;
+  private javax.swing.JLabel labelPositionX_;
+    Signature: Ljavax/swing/JLabel;
+  private javax.swing.JLabel labelPositionY_;
+    Signature: Ljavax/swing/JLabel;
+  private javax.swing.JLabel labelLargeurZoneEdition_;
+    Signature: Ljavax/swing/JLabel;
+  private javax.swing.JLabel labelLongueurZoneEdition_;
+    Signature: Ljavax/swing/JLabel;
+  private javax.swing.JLabel labelZoneEdition_;
+    Signature: Ljavax/swing/JLabel;
+  private javax.swing.JLabel labelAcceleration_;
+    Signature: Ljavax/swing/JLabel;
+  private javax.swing.JLabel labelEchelle_;
+    Signature: Ljavax/swing/JLabel;
+  private javax.swing.JLabel labelFriction_;
+    Signature: Ljavax/swing/JLabel;
+  private javax.swing.JLabel labelPosition_;
+    Signature: Ljavax/swing/JLabel;
+  private javax.swing.JLabel labelRebond_;
+    Signature: Ljavax/swing/JLabel;
+  private javax.swing.JLabel labelRotation_;
+    Signature: Ljavax/swing/JLabel;
+  private javax.swing.JLabel labelTitre_;
+    Signature: Ljavax/swing/JLabel;
+  private javax.swing.JLabel[] labelsRebondBandes_;
+    Signature: [Ljavax/swing/JLabel;
+  private javax.swing.JPanel panelAcceleration_;
+    Signature: Ljavax/swing/JPanel;
+  private javax.swing.JPanel panelEchelle_;
+    Signature: Ljavax/swing/JPanel;
+  private javax.swing.JPanel panelFriction_;
+    Signature: Ljavax/swing/JPanel;
+  private javax.swing.JPanel panelPosition_;
+    Signature: Ljavax/swing/JPanel;
+  private javax.swing.JPanel panelRebond_;
+    Signature: Ljavax/swing/JPanel;
+  private javax.swing.JPanel panelRotation_;
+    Signature: Ljavax/swing/JPanel;
+  private javax.swing.JPanel panelZoneEdition_;
+    Signature: Ljavax/swing/JPanel;
+  private javax.swing.JPanel[] panelsRebondBandes_;
+    Signature: [Ljavax/swing/JPanel;
+  private javax.swing.JPanel panneauDePanneaux_;
+    Signature: Ljavax/swing/JPanel;
+  private javax.swing.JPanel panneauCommun_;
+    Signature: Ljavax/swing/JPanel;
+  private javax.swing.JPanel panneauDeBoutons_;
+    Signature: Ljavax/swing/JPanel;
+  private javax.swing.JSeparator separateurPosition_;
+    Signature: Ljavax/swing/JSeparator;
+  private javax.swing.JSeparator separateurZoneEdition_;
+    Signature: Ljavax/swing/JSeparator;
+  private javax.swing.JSeparator separateurFriction_;
+    Signature: Ljavax/swing/JSeparator;
+  private javax.swing.JSlider sliderAcceleration_;
+    Signature: Ljavax/swing/JSlider;
+  private javax.swing.JSlider sliderEchelle_;
+    Signature: Ljavax/swing/JSlider;
+  private javax.swing.JSlider sliderFriction_;
+    Signature: Ljavax/swing/JSlider;
+  private javax.swing.JSlider sliderRebond_;
+    Signature: Ljavax/swing/JSlider;
+  private javax.swing.JSlider sliderRotation_;
+    Signature: Ljavax/swing/JSlider;
+  private javax.swing.JSlider[] slidersRebondBandes_;
+    Signature: [Ljavax/swing/JSlider;
+  private static int[] $SWITCH_TABLE$ca$polymtl$inf2990$BarresOutils$BarreEdition$Panneaux;
+    Signature: [I
+  public static native ca.polymtl.inf2990.Jeu.ModificateurProprieteNoeud obtenirValeursEdition();
+    Signature: ()Lca/polymtl/inf2990/Jeu/ModificateurProprieteNoeud;
+
+  public ca.polymtl.inf2990.BarresOutils.BarreEdition();
+    Signature: ()V
+
+  public void setVisible(boolean);
+    Signature: (Z)V
+
+  private void resetValeurs();
+    Signature: ()V
+
+  private void initComponents();
+    Signature: ()V
+
+  private void champEchelle_ActionPerformed(java.awt.event.ActionEvent);
+    Signature: (Ljava/awt/event/ActionEvent;)V
+
+  private void champRotation_ActionPerformed(java.awt.event.ActionEvent);
+    Signature: (Ljava/awt/event/ActionEvent;)V
+
+  private void champRebond_ActionPerformed(java.awt.event.ActionEvent);
+    Signature: (Ljava/awt/event/ActionEvent;)V
+
+  private void champAcceleration_ActionPerformed(java.awt.event.ActionEvent);
+    Signature: (Ljava/awt/event/ActionEvent;)V
+
+  private void champFriction_ActionPerformed(java.awt.event.ActionEvent);
+    Signature: (Ljava/awt/event/ActionEvent;)V
+
+  private void champPositionX_ActionPerformed(java.awt.event.ActionEvent);
+    Signature: (Ljava/awt/event/ActionEvent;)V
+
+  private void champPositionY_ActionPerformed(java.awt.event.ActionEvent);
+    Signature: (Ljava/awt/event/ActionEvent;)V
+
+  private void champLargeurZoneEdition_ActionPerformed(java.awt.event.ActionEvent);
+    Signature: (Ljava/awt/event/ActionEvent;)V
+
+  private void champLongueurZoneEdition_ActionPerformed(java.awt.event.ActionEvent);
+    Signature: (Ljava/awt/event/ActionEvent;)V
+
+  private void champsRebondBandes_ActionPerformed(java.awt.event.ActionEvent, int);
+    Signature: (Ljava/awt/event/ActionEvent;I)V
+
+  private void sliderEchelle_StateChanged(javax.swing.event.ChangeEvent);
+    Signature: (Ljavax/swing/event/ChangeEvent;)V
+
+  private void sliderAcceleration_StateChanged(javax.swing.event.ChangeEvent);
+    Signature: (Ljavax/swing/event/ChangeEvent;)V
+
+  private void sliderFriction_StateChanged(javax.swing.event.ChangeEvent);
+    Signature: (Ljavax/swing/event/ChangeEvent;)V
+
+  private void sliderRebond_StateChanged(javax.swing.event.ChangeEvent);
+    Signature: (Ljavax/swing/event/ChangeEvent;)V
+
+  private void sliderRotation_StateChanged(javax.swing.event.ChangeEvent);
+    Signature: (Ljavax/swing/event/ChangeEvent;)V
+
+  private void slidersRebondBandes_StateChanged(javax.swing.event.ChangeEvent, int);
+    Signature: (Ljavax/swing/event/ChangeEvent;I)V
+
+  private void boutonAppliquer_ActionPerformed(java.awt.event.ActionEvent);
+    Signature: (Ljava/awt/event/ActionEvent;)V
+
+  private double obtenirPositionX();
+    Signature: ()D
+
+  private double obtenirPositionY();
+    Signature: ()D
+
+  private double obtenirCoefFriction();
+    Signature: ()D
+
+  private double obtenirCoefRebond();
+    Signature: ()D
+
+  private double obtenirCoefAcceleration();
+    Signature: ()D
+
+  private double obtenirEchelle();
+    Signature: ()D
+
+  private double obtenirLargeurZoneEdition();
+    Signature: ()D
+
+  private double obtenirLongueurZoneEdition();
+    Signature: ()D
+
+  private int obtenirRotation();
+    Signature: ()I
+
+  private double obtenirRebondBande(int);
+    Signature: (I)D
+
+  private double[] obtenirCoefsRebondBandes();
+    Signature: ()[D
+
+  private void boutonAnnuler_ActionPerformed(java.awt.event.ActionEvent);
+    Signature: (Ljava/awt/event/ActionEvent;)V
+
+  private void modifierFriction(double);
+    Signature: (D)V
+
+  private void modifierEchelle(double);
+    Signature: (D)V
+
+  private void modifierLargeurZoneEdition(double);
+    Signature: (D)V
+
+  private void modifierLongueurZoneEdition(double);
+    Signature: (D)V
+
+  private void modifierAcceleration(double);
+    Signature: (D)V
+
+  private void modifierRebond(double);
+    Signature: (D)V
+
+  private void modifierPositionX(double);
+    Signature: (D)V
+
+  private void modifierPositionY(double);
+    Signature: (D)V
+
+  private void modifierRotation(int);
+    Signature: (I)V
+
+  private void modifierRebondBande(double, int);
+    Signature: (DI)V
+
+  public void toutAfficher();
+    Signature: ()V
+
+  public void toutCacher();
+    Signature: ()V
+
+  public void modifierAffichage(ca.polymtl.inf2990.BarresOutils.BarreEdition$Panneaux, boolean);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition$Panneaux;Z)V
+
+  private int convertirIntervalle(double);
+    Signature: (D)I
+
+  static javax.swing.JFrame access$0(ca.polymtl.inf2990.BarresOutils.BarreEdition);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;)Ljavax/swing/JFrame;
+
+  static ca.polymtl.inf2990.BarresOutils.BarreEdition$VerificateurEntreePosition access$1(ca.polymtl.inf2990.BarresOutils.BarreEdition);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;)Lca/polymtl/inf2990/BarresOutils/BarreEdition$VerificateurEntreePosition;
+
+  static void access$2(ca.polymtl.inf2990.BarresOutils.BarreEdition, java.awt.event.ActionEvent);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;Ljava/awt/event/ActionEvent;)V
+
+  static void access$3(ca.polymtl.inf2990.BarresOutils.BarreEdition, java.awt.event.ActionEvent);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;Ljava/awt/event/ActionEvent;)V
+
+  static void access$4(ca.polymtl.inf2990.BarresOutils.BarreEdition, javax.swing.event.ChangeEvent);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;Ljavax/swing/event/ChangeEvent;)V
+
+  static void access$5(ca.polymtl.inf2990.BarresOutils.BarreEdition, javax.swing.event.ChangeEvent);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;Ljavax/swing/event/ChangeEvent;)V
+
+  static void access$6(ca.polymtl.inf2990.BarresOutils.BarreEdition, javax.swing.event.ChangeEvent);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;Ljavax/swing/event/ChangeEvent;)V
+
+  static void access$7(ca.polymtl.inf2990.BarresOutils.BarreEdition, javax.swing.event.ChangeEvent);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;Ljavax/swing/event/ChangeEvent;)V
+
+  static void access$8(ca.polymtl.inf2990.BarresOutils.BarreEdition, javax.swing.event.ChangeEvent);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;Ljavax/swing/event/ChangeEvent;)V
+
+  static void access$9(ca.polymtl.inf2990.BarresOutils.BarreEdition, java.awt.event.ActionEvent);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;Ljava/awt/event/ActionEvent;)V
+
+  static void access$10(ca.polymtl.inf2990.BarresOutils.BarreEdition, java.awt.event.ActionEvent);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;Ljava/awt/event/ActionEvent;)V
+
+  static void access$11(ca.polymtl.inf2990.BarresOutils.BarreEdition, java.awt.event.ActionEvent);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;Ljava/awt/event/ActionEvent;)V
+
+  static void access$12(ca.polymtl.inf2990.BarresOutils.BarreEdition, java.awt.event.ActionEvent);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;Ljava/awt/event/ActionEvent;)V
+
+  static void access$13(ca.polymtl.inf2990.BarresOutils.BarreEdition, java.awt.event.ActionEvent);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;Ljava/awt/event/ActionEvent;)V
+
+  static void access$14(ca.polymtl.inf2990.BarresOutils.BarreEdition, java.awt.event.ActionEvent);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;Ljava/awt/event/ActionEvent;)V
+
+  static void access$15(ca.polymtl.inf2990.BarresOutils.BarreEdition, java.awt.event.ActionEvent);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;Ljava/awt/event/ActionEvent;)V
+
+  static void access$16(ca.polymtl.inf2990.BarresOutils.BarreEdition, java.awt.event.ActionEvent);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;Ljava/awt/event/ActionEvent;)V
+
+  static void access$17(ca.polymtl.inf2990.BarresOutils.BarreEdition, java.awt.event.ActionEvent);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;Ljava/awt/event/ActionEvent;)V
+
+  static void access$18(ca.polymtl.inf2990.BarresOutils.BarreEdition, java.awt.event.ActionEvent, int);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;Ljava/awt/event/ActionEvent;I)V
+
+  static void access$19(ca.polymtl.inf2990.BarresOutils.BarreEdition, javax.swing.event.ChangeEvent, int);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreEdition;Ljavax/swing/event/ChangeEvent;I)V
+
+  static int[] $SWITCH_TABLE$ca$polymtl$inf2990$BarresOutils$BarreEdition$Panneaux();
+    Signature: ()[I
+}
+Compiled from "BarreInsertion.java"
+public class ca.polymtl.inf2990.BarresOutils.BarreInsertion extends javax.swing.JToolBar {
+  private static final long serialVersionUID;
+    Signature: J
+  private final javax.swing.ButtonGroup groupeBoutons_;
+    Signature: Ljavax/swing/ButtonGroup;
+  public ca.polymtl.inf2990.BarresOutils.BarreInsertion(java.awt.Component);
+    Signature: (Ljava/awt/Component;)V
+
+  public void ajouterBouton(ca.polymtl.inf2990.BarresOutils.Commandes, javax.swing.Action);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/Commandes;Ljavax/swing/Action;)V
+
+  public void modifierGestionnaireEvenements(ca.polymtl.inf2990.GestionnaireEvenements, java.awt.event.ActionListener);
+    Signature: (Lca/polymtl/inf2990/GestionnaireEvenements;Ljava/awt/event/ActionListener;)V
+
+  public void modifierSelection(ca.polymtl.inf2990.BarresOutils.Commandes);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/Commandes;)V
+
+  public void activerBoutonsObjetSelectionne(boolean);
+    Signature: (Z)V
+}
+Compiled from "BarreOutils.java"
+public class ca.polymtl.inf2990.BarresOutils.BarreOutils extends javax.swing.JToolBar {
+  private static final long serialVersionUID;
+    Signature: J
+  private final javax.swing.ButtonGroup groupeBoutonsCamera_;
+    Signature: Ljavax/swing/ButtonGroup;
+  private final javax.swing.ButtonGroup groupeBoutonsNormaux_;
+    Signature: Ljavax/swing/ButtonGroup;
+  private final javax.swing.ButtonGroup groupeBoutonsToggle_;
+    Signature: Ljavax/swing/ButtonGroup;
+  public ca.polymtl.inf2990.BarresOutils.BarreOutils(java.awt.Component);
+    Signature: (Ljava/awt/Component;)V
+
+  public void ajouterBouton(ca.polymtl.inf2990.BarresOutils.Commandes, javax.swing.Action);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/Commandes;Ljavax/swing/Action;)V
+
+  public void modifierGestionnaireEvenements(ca.polymtl.inf2990.GestionnaireEvenements, java.awt.event.ActionListener);
+    Signature: (Lca/polymtl/inf2990/GestionnaireEvenements;Ljava/awt/event/ActionListener;)V
+
+  public void modifierSelection(ca.polymtl.inf2990.BarresOutils.Commandes);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/Commandes;)V
+
+  public void activerBoutonsObjetSelectionne(boolean);
+    Signature: (Z)V
+
+  static javax.swing.ButtonGroup access$0(ca.polymtl.inf2990.BarresOutils.BarreOutils);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/BarreOutils;)Ljavax/swing/ButtonGroup;
+}
+Compiled from "Commandes.java"
+public final class ca.polymtl.inf2990.BarresOutils.Commandes extends java.lang.Enum<ca.polymtl.inf2990.BarresOutils.Commandes> {
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes CAMERA;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes EDITEUR_CHARGER;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes EDITEUR_DEPLACER;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes EDITEUR_ECHELLE;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes EDITEUR_NOUVEAU;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes EDITEUR_ROTATION;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes EDITEUR_SAUVEGARDER;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes EDITEUR_SAUVEGARDER_SOUS;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes EDITEUR_SELECTION;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes INSERER_ACCELERATEUR;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes INSERER_BUT;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes INSERER_MURET;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes INSERER_PORTAIL;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes QUITTER;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes SUPPRIMER;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes ZOOM_ELASTIQUE;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes ZOOM_PROPORTIONNEL;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes INSERER_MAILLET;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes INSERER_RONDELLE;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes DUPLIQUER;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes ALLER_MODE_EDITION;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes ALLER_MODE_JEU;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes MODIFIER_TOUCHE;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes REINITIALISER_PARTIE;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes PAUSE_JEU;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes REPLAY;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes CAMERA_FIXE;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes CAMERA_ORBITE;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes CAMERA_LIBRE;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes ORBIT;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  public static final ca.polymtl.inf2990.BarresOutils.Commandes CAMERA_SPLIT;
+    Signature: Lca/polymtl/inf2990/BarresOutils/Commandes;
+  final int jobid;
+    Signature: I
+  private static final ca.polymtl.inf2990.BarresOutils.Commandes[] ENUM$VALUES;
+    Signature: [Lca/polymtl/inf2990/BarresOutils/Commandes;
+  static {};
+    Signature: ()V
+
+  private ca.polymtl.inf2990.BarresOutils.Commandes(java.lang.String, int, int);
+    Signature: (Ljava/lang/String;II)V
+
+  public int obtenirId();
+    Signature: ()I
+
+  public static boolean activerQuandObjetSelectionne(ca.polymtl.inf2990.BarresOutils.Commandes);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/Commandes;)Z
+
+  public static boolean desactiverQuandObjetSelectionne(ca.polymtl.inf2990.BarresOutils.Commandes);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/Commandes;)Z
+
+  public static ca.polymtl.inf2990.BarresOutils.Commandes[] values();
+    Signature: ()[Lca/polymtl/inf2990/BarresOutils/Commandes;
+
+  public static ca.polymtl.inf2990.BarresOutils.Commandes valueOf(java.lang.String);
+    Signature: (Ljava/lang/String;)Lca/polymtl/inf2990/BarresOutils/Commandes;
+}
+Compiled from "ConstantesOutils.java"
+public class ca.polymtl.inf2990.BarresOutils.ConstantesOutils {
+  public static final java.lang.String[] IMAGES;
+    Signature: [Ljava/lang/String;
+  public static final java.lang.String[] NOMS_MENUS;
+    Signature: [Ljava/lang/String;
+  public static final java.lang.String[][] RACCOURCIS;
+    Signature: [[Ljava/lang/String;
+  public static final java.lang.String[] TOOLTIPS;
+    Signature: [Ljava/lang/String;
+  public static final java.awt.Cursor[] CURSEURS;
+    Signature: [Ljava/awt/Cursor;
+  static {};
+    Signature: ()V
+
+  public ca.polymtl.inf2990.BarresOutils.ConstantesOutils();
+    Signature: ()V
+}
+Compiled from "EvenementsSelectionneurFichier.java"
+public class ca.polymtl.inf2990.BarresOutils.EvenementsSelectionneurFichier implements java.awt.event.ActionListener {
+  private static java.io.File dernierFichierSelectionne;
+    Signature: Ljava/io/File;
+  private static ca.polymtl.inf2990.BarresOutils.EvenementsSelectionneurFichier instance_;
+    Signature: Lca/polymtl/inf2990/BarresOutils/EvenementsSelectionneurFichier;
+  private final ca.polymtl.inf2990.SelectionneurFichier.SelectionneurFichier selectionneurDeFichier_;
+    Signature: Lca/polymtl/inf2990/SelectionneurFichier/SelectionneurFichier;
+  private static int[] $SWITCH_TABLE$ca$polymtl$inf2990$BarresOutils$Commandes;
+    Signature: [I
+  public static java.io.File obtenirDernierFichierSelectionne();
+    Signature: ()Ljava/io/File;
+
+  public static void reinitialiserDernierFichierSelectionne();
+    Signature: ()V
+
+  private ca.polymtl.inf2990.BarresOutils.EvenementsSelectionneurFichier();
+    Signature: ()V
+
+  public static ca.polymtl.inf2990.BarresOutils.EvenementsSelectionneurFichier obtenirInstance();
+    Signature: ()Lca/polymtl/inf2990/BarresOutils/EvenementsSelectionneurFichier;
+
+  public void actionPerformed(java.awt.event.ActionEvent);
+    Signature: (Ljava/awt/event/ActionEvent;)V
+
+  private native void chargerFichier(java.lang.String);
+    Signature: (Ljava/lang/String;)V
+
+  private native void sauvegarderFichier(java.lang.String);
+    Signature: (Ljava/lang/String;)V
+
+  static int[] $SWITCH_TABLE$ca$polymtl$inf2990$BarresOutils$Commandes();
+    Signature: ()[I
+}
+Compiled from "GestionChangementCurseurSouris.java"
+public class ca.polymtl.inf2990.BarresOutils.GestionChangementCurseurSouris implements java.awt.event.ActionListener {
+  private static ca.polymtl.inf2990.BarresOutils.GestionChangementCurseurSouris instance_;
+    Signature: Lca/polymtl/inf2990/BarresOutils/GestionChangementCurseurSouris;
+  public ca.polymtl.inf2990.BarresOutils.GestionChangementCurseurSouris();
+    Signature: ()V
+
+  private void GestionChangementCurseurSouris();
+    Signature: ()V
+
+  public static ca.polymtl.inf2990.BarresOutils.GestionChangementCurseurSouris obtenirInstance();
+    Signature: ()Lca/polymtl/inf2990/BarresOutils/GestionChangementCurseurSouris;
+
+  public void actionPerformed(java.awt.event.ActionEvent);
+    Signature: (Ljava/awt/event/ActionEvent;)V
+
+  public javax.swing.JFrame obtenirJFrameParent(java.awt.Component);
+    Signature: (Ljava/awt/Component;)Ljavax/swing/JFrame;
+}
+Compiled from "MenuContextuel.java"
+public class ca.polymtl.inf2990.BarresOutils.MenuContextuel extends javax.swing.JPopupMenu {
+  private static final long serialVersionUID;
+    Signature: J
+  private final javax.swing.ButtonGroup groupeBoutonsNormaux_;
+    Signature: Ljavax/swing/ButtonGroup;
+  private final javax.swing.ButtonGroup groupeBoutonsRadio_;
+    Signature: Ljavax/swing/ButtonGroup;
+  private javax.swing.JMenu menuEdition;
+    Signature: Ljavax/swing/JMenu;
+  private javax.swing.JMenu menuInserer_;
+    Signature: Ljavax/swing/JMenu;
+  private javax.swing.JMenu menuVue_;
+    Signature: Ljavax/swing/JMenu;
+  private final ca.polymtl.inf2990.BarresOutils.BarreEdition fenetreProprietes_;
+    Signature: Lca/polymtl/inf2990/BarresOutils/BarreEdition;
+  public ca.polymtl.inf2990.BarresOutils.MenuContextuel();
+    Signature: ()V
+
+  public void ajouterEcouteurAction(java.awt.event.ActionListener);
+    Signature: (Ljava/awt/event/ActionListener;)V
+
+  public void changerObjetSelectionnablePositionSouris(boolean);
+    Signature: (Z)V
+
+  public void creerMenuContextuel();
+    Signature: ()V
+
+  public javax.swing.JMenuItem creerElementBoutonMenu(ca.polymtl.inf2990.BarresOutils.Commandes);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/Commandes;)Ljavax/swing/JMenuItem;
+
+  public javax.swing.JMenuItem creerElementRadioMenu(ca.polymtl.inf2990.BarresOutils.Commandes);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/Commandes;)Ljavax/swing/JMenuItem;
+
+  public void modifierSelection(ca.polymtl.inf2990.BarresOutils.Commandes);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/Commandes;)V
+
+  public void activerBoutonsObjetSelectionne(boolean);
+    Signature: (Z)V
+
+  static ca.polymtl.inf2990.BarresOutils.BarreEdition access$0(ca.polymtl.inf2990.BarresOutils.MenuContextuel);
+    Signature: (Lca/polymtl/inf2990/BarresOutils/MenuContextuel;)Lca/polymtl/inf2990/BarresOutils/BarreEdition;
+}
+Compiled from "BoutonHockey.java"
+public class ca.polymtl.inf2990.Composants.BoutonHockey extends javax.swing.JButton {
+  private final ca.polymtl.inf2990.GestionnaireImages$NomImage enfonce_;
+    Signature: Lca/polymtl/inf2990/GestionnaireImages$NomImage;
+  private final ca.polymtl.inf2990.GestionnaireImages$NomImage survol_;
+    Signature: Lca/polymtl/inf2990/GestionnaireImages$NomImage;
+  private final ca.polymtl.inf2990.GestionnaireImages$NomImage normal_;
+    Signature: Lca/polymtl/inf2990/GestionnaireImages$NomImage;
+  public ca.polymtl.inf2990.Composants.BoutonHockey(ca.polymtl.inf2990.GestionnaireImages$NomImage, ca.polymtl.inf2990.GestionnaireImages$NomImage, ca.polymtl.inf2990.GestionnaireImages$NomImage);
+    Signature: (Lca/polymtl/inf2990/GestionnaireImages$NomImage;Lca/polymtl/inf2990/GestionnaireImages$NomImage;Lca/polymtl/inf2990/GestionnaireImages$NomImage;)V
+
+  public ca.polymtl.inf2990.Composants.BoutonHockey(ca.polymtl.inf2990.GestionnaireImages$NomImage, ca.polymtl.inf2990.GestionnaireImages$NomImage, ca.polymtl.inf2990.GestionnaireImages$NomImage, java.lang.String);
+    Signature: (Lca/polymtl/inf2990/GestionnaireImages$NomImage;Lca/polymtl/inf2990/GestionnaireImages$NomImage;Lca/polymtl/inf2990/GestionnaireImages$NomImage;Ljava/lang/String;)V
+
+  public void setSize(int, int);
+    Signature: (II)V
+
+  private void ajouterEcouteurSouris();
+    Signature: ()V
+
+  private void survolerImage();
+    Signature: ()V
+
+  private void resetImage();
+    Signature: ()V
+
+  static void access$0(ca.polymtl.inf2990.Composants.BoutonHockey);
+    Signature: (Lca/polymtl/inf2990/Composants/BoutonHockey;)V
+
+  static void access$1(ca.polymtl.inf2990.Composants.BoutonHockey);
+    Signature: (Lca/polymtl/inf2990/Composants/BoutonHockey;)V
+
+  static ca.polymtl.inf2990.GestionnaireImages$NomImage access$2(ca.polymtl.inf2990.Composants.BoutonHockey);
+    Signature: (Lca/polymtl/inf2990/Composants/BoutonHockey;)Lca/polymtl/inf2990/GestionnaireImages$NomImage;
+
+  static ca.polymtl.inf2990.GestionnaireImages$NomImage access$3(ca.polymtl.inf2990.Composants.BoutonHockey);
+    Signature: (Lca/polymtl/inf2990/Composants/BoutonHockey;)Lca/polymtl/inf2990/GestionnaireImages$NomImage;
+}
+Compiled from "EtatAbstrait.java"
+public abstract class ca.polymtl.inf2990.Etats.EtatAbstrait {
+  protected ca.polymtl.inf2990.Panneaux.PanneauAbstrait panneau;
+    Signature: Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+  protected static ca.polymtl.inf2990.Etats.EtatAbstrait instance_;
+    Signature: Lca/polymtl/inf2990/Etats/EtatAbstrait;
+  public ca.polymtl.inf2990.Etats.EtatAbstrait();
+    Signature: ()V
+
+  public abstract void initialiser();
+    Signature: ()V
+
+  public abstract void terminer();
+    Signature: ()V
+
+  public abstract void mettreAuRepos();
+    Signature: ()V
+
+  public abstract void reveiller();
+    Signature: ()V
+
+  public void rafraichir();
+    Signature: ()V
+
+  public abstract ca.polymtl.inf2990.Etats.Etats obtenirNom();
+    Signature: ()Lca/polymtl/inf2990/Etats/Etats;
+
+  protected abstract ca.polymtl.inf2990.Panneaux.PanneauAbstrait creerPanneau();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+
+  public ca.polymtl.inf2990.Panneaux.PanneauAbstrait obtenirPanneau();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+}
+Compiled from "EtatGererCanal.java"
+public class ca.polymtl.inf2990.Etats.EtatGererCanal extends ca.polymtl.inf2990.Etats.EtatAbstrait {
+  ca.polymtl.inf2990.Jeu.CanalRadio canal_;
+    Signature: Lca/polymtl/inf2990/Jeu/CanalRadio;
+  public ca.polymtl.inf2990.Etats.EtatGererCanal(ca.polymtl.inf2990.Jeu.CanalRadio);
+    Signature: (Lca/polymtl/inf2990/Jeu/CanalRadio;)V
+
+  public void initialiser();
+    Signature: ()V
+
+  public void terminer();
+    Signature: ()V
+
+  public void mettreAuRepos();
+    Signature: ()V
+
+  public void reveiller();
+    Signature: ()V
+
+  public ca.polymtl.inf2990.Etats.Etats obtenirNom();
+    Signature: ()Lca/polymtl/inf2990/Etats/Etats;
+
+  protected ca.polymtl.inf2990.Panneaux.PanneauAbstrait creerPanneau();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+}
+Compiled from "EtatGererElement.java"
+public class ca.polymtl.inf2990.Etats.EtatGererElement extends ca.polymtl.inf2990.Etats.EtatAbstrait {
+  ca.polymtl.inf2990.Jeu.ElementVisitable element_;
+    Signature: Lca/polymtl/inf2990/Jeu/ElementVisitable;
+  public ca.polymtl.inf2990.Etats.EtatGererElement();
+    Signature: ()V
+
+  public void chargerElement(ca.polymtl.inf2990.Jeu.ElementVisitable);
+    Signature: (Lca/polymtl/inf2990/Jeu/ElementVisitable;)V
+
+  public void initialiser();
+    Signature: ()V
+
+  public void terminer();
+    Signature: ()V
+
+  public void mettreAuRepos();
+    Signature: ()V
+
+  public void reveiller();
+    Signature: ()V
+
+  public ca.polymtl.inf2990.Etats.Etats obtenirNom();
+    Signature: ()Lca/polymtl/inf2990/Etats/Etats;
+
+  protected ca.polymtl.inf2990.Panneaux.PanneauAbstrait creerPanneau();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+}
+Compiled from "EtatGererTournoi.java"
+public class ca.polymtl.inf2990.Etats.EtatGererTournoi extends ca.polymtl.inf2990.Etats.EtatAbstrait {
+  ca.polymtl.inf2990.Jeu.Tournoi tournoi_;
+    Signature: Lca/polymtl/inf2990/Jeu/Tournoi;
+  public ca.polymtl.inf2990.Etats.EtatGererTournoi(ca.polymtl.inf2990.Jeu.Tournoi);
+    Signature: (Lca/polymtl/inf2990/Jeu/Tournoi;)V
+
+  public void initialiser();
+    Signature: ()V
+
+  public void terminer();
+    Signature: ()V
+
+  public void mettreAuRepos();
+    Signature: ()V
+
+  public void reveiller();
+    Signature: ()V
+
+  public ca.polymtl.inf2990.Etats.Etats obtenirNom();
+    Signature: ()Lca/polymtl/inf2990/Etats/Etats;
+
+  protected ca.polymtl.inf2990.Panneaux.PanneauAbstrait creerPanneau();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+}
+Compiled from "EtatJouer.java"
+public class ca.polymtl.inf2990.Etats.EtatJouer extends ca.polymtl.inf2990.Etats.EtatAbstrait {
+  public ca.polymtl.inf2990.Etats.EtatJouer();
+    Signature: ()V
+
+  public void initialiser();
+    Signature: ()V
+
+  public void terminer();
+    Signature: ()V
+
+  public void mettreAuRepos();
+    Signature: ()V
+
+  public void reveiller();
+    Signature: ()V
+
+  public ca.polymtl.inf2990.Etats.Etats obtenirNom();
+    Signature: ()Lca/polymtl/inf2990/Etats/Etats;
+
+  protected ca.polymtl.inf2990.Panneaux.PanneauAbstrait creerPanneau();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+}
+Compiled from "EtatJouerTournoi.java"
+public class ca.polymtl.inf2990.Etats.EtatJouerTournoi extends ca.polymtl.inf2990.Etats.EtatAbstrait {
+  public ca.polymtl.inf2990.Etats.EtatJouerTournoi();
+    Signature: ()V
+
+  public void initialiser();
+    Signature: ()V
+
+  public void terminer();
+    Signature: ()V
+
+  public void mettreAuRepos();
+    Signature: ()V
+
+  public void reveiller();
+    Signature: ()V
+
+  public ca.polymtl.inf2990.Etats.Etats obtenirNom();
+    Signature: ()Lca/polymtl/inf2990/Etats/Etats;
+
+  protected ca.polymtl.inf2990.Panneaux.PanneauAbstrait creerPanneau();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+}
+Compiled from "EtatListeCanaux.java"
+public class ca.polymtl.inf2990.Etats.EtatListeCanaux extends ca.polymtl.inf2990.Etats.EtatAbstrait {
+  public ca.polymtl.inf2990.Etats.EtatListeCanaux();
+    Signature: ()V
+
+  public void initialiser();
+    Signature: ()V
+
+  public void terminer();
+    Signature: ()V
+
+  public void mettreAuRepos();
+    Signature: ()V
+
+  public void reveiller();
+    Signature: ()V
+
+  public ca.polymtl.inf2990.Etats.Etats obtenirNom();
+    Signature: ()Lca/polymtl/inf2990/Etats/Etats;
+
+  protected ca.polymtl.inf2990.Panneaux.PanneauAbstrait creerPanneau();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+}
+Compiled from "EtatListeProfils.java"
+public class ca.polymtl.inf2990.Etats.EtatListeProfils extends ca.polymtl.inf2990.Etats.EtatAbstrait {
+  public ca.polymtl.inf2990.Etats.EtatListeProfils();
+    Signature: ()V
+
+  public void initialiser();
+    Signature: ()V
+
+  public void terminer();
+    Signature: ()V
+
+  public void mettreAuRepos();
+    Signature: ()V
+
+  public void reveiller();
+    Signature: ()V
+
+  public ca.polymtl.inf2990.Etats.Etats obtenirNom();
+    Signature: ()Lca/polymtl/inf2990/Etats/Etats;
+
+  protected ca.polymtl.inf2990.Panneaux.PanneauAbstrait creerPanneau();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+}
+Compiled from "EtatListeTournois.java"
+public class ca.polymtl.inf2990.Etats.EtatListeTournois extends ca.polymtl.inf2990.Etats.EtatAbstrait {
+  public ca.polymtl.inf2990.Etats.EtatListeTournois();
+    Signature: ()V
+
+  public void initialiser();
+    Signature: ()V
+
+  public void terminer();
+    Signature: ()V
+
+  public void mettreAuRepos();
+    Signature: ()V
+
+  public void reveiller();
+    Signature: ()V
+
+  public ca.polymtl.inf2990.Etats.Etats obtenirNom();
+    Signature: ()Lca/polymtl/inf2990/Etats/Etats;
+
+  protected ca.polymtl.inf2990.Panneaux.PanneauAbstrait creerPanneau();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+}
+Compiled from "EtatMenuPrincipal.java"
+public class ca.polymtl.inf2990.Etats.EtatMenuPrincipal extends ca.polymtl.inf2990.Etats.EtatAbstrait {
+  public ca.polymtl.inf2990.Etats.EtatMenuPrincipal();
+    Signature: ()V
+
+  public void initialiser();
+    Signature: ()V
+
+  public void terminer();
+    Signature: ()V
+
+  public void mettreAuRepos();
+    Signature: ()V
+
+  public void reveiller();
+    Signature: ()V
+
+  public ca.polymtl.inf2990.Etats.Etats obtenirNom();
+    Signature: ()Lca/polymtl/inf2990/Etats/Etats;
+
+  protected ca.polymtl.inf2990.Panneaux.PanneauAbstrait creerPanneau();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+}
+Compiled from "EtatModeEdition.java"
+public class ca.polymtl.inf2990.Etats.EtatModeEdition extends ca.polymtl.inf2990.Etats.EtatAbstrait {
+  private static ca.polymtl.inf2990.BarresOutils.BarreOutils barreOutils_;
+    Signature: Lca/polymtl/inf2990/BarresOutils/BarreOutils;
+  private static ca.polymtl.inf2990.BarresOutils.MenuContextuel menuContextuel_;
+    Signature: Lca/polymtl/inf2990/BarresOutils/MenuContextuel;
+  private static ca.polymtl.inf2990.Etats.EtatModeEdition$RelierBarresOutils relierBarresOutils;
+    Signature: Lca/polymtl/inf2990/Etats/EtatModeEdition$RelierBarresOutils;
+  private static ca.polymtl.inf2990.BarresOutils.BarreInsertion barreInsertion_;
+    Signature: Lca/polymtl/inf2990/BarresOutils/BarreInsertion;
+  private static ca.polymtl.inf2990.Etats.EtatModeEdition$EcouteurMenuContextuel ecouteurMenuContextuel_;
+    Signature: Lca/polymtl/inf2990/Etats/EtatModeEdition$EcouteurMenuContextuel;
+  private static ca.polymtl.inf2990.Etats.EtatModeEdition$EcouteurActivationBoutons ecouteurActivationBoutons_;
+    Signature: Lca/polymtl/inf2990/Etats/EtatModeEdition$EcouteurActivationBoutons;
+  private java.awt.Point positionMenuContextuel_;
+    Signature: Ljava/awt/Point;
+  public ca.polymtl.inf2990.Etats.EtatModeEdition();
+    Signature: ()V
+
+  public void initialiser();
+    Signature: ()V
+
+  public void terminer();
+    Signature: ()V
+
+  public void mettreAuRepos();
+    Signature: ()V
+
+  public ca.polymtl.inf2990.Etats.Etats obtenirNom();
+    Signature: ()Lca/polymtl/inf2990/Etats/Etats;
+
+  protected ca.polymtl.inf2990.Panneaux.PanneauAbstrait creerPanneau();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+
+  public ca.polymtl.inf2990.Panneaux.PanneauAbstrait obtenirPanneau();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+
+  public void reveiller();
+    Signature: ()V
+
+  public static native boolean objetEstSousCurseur(int, int);
+    Signature: (II)Z
+
+  public static native boolean objetEstSelectionne();
+    Signature: ()Z
+
+  static ca.polymtl.inf2990.BarresOutils.BarreOutils access$0();
+    Signature: ()Lca/polymtl/inf2990/BarresOutils/BarreOutils;
+
+  static ca.polymtl.inf2990.BarresOutils.MenuContextuel access$1();
+    Signature: ()Lca/polymtl/inf2990/BarresOutils/MenuContextuel;
+
+  static ca.polymtl.inf2990.BarresOutils.BarreInsertion access$2();
+    Signature: ()Lca/polymtl/inf2990/BarresOutils/BarreInsertion;
+
+  static void access$3(ca.polymtl.inf2990.Etats.EtatModeEdition, java.awt.Point);
+    Signature: (Lca/polymtl/inf2990/Etats/EtatModeEdition;Ljava/awt/Point;)V
+}
+Compiled from "EtatNouveauTournoi.java"
+public class ca.polymtl.inf2990.Etats.EtatNouveauTournoi extends ca.polymtl.inf2990.Etats.EtatAbstrait {
+  public ca.polymtl.inf2990.Etats.EtatNouveauTournoi();
+    Signature: ()V
+
+  public void initialiser();
+    Signature: ()V
+
+  public void terminer();
+    Signature: ()V
+
+  public void mettreAuRepos();
+    Signature: ()V
+
+  public void reveiller();
+    Signature: ()V
+
+  public ca.polymtl.inf2990.Etats.Etats obtenirNom();
+    Signature: ()Lca/polymtl/inf2990/Etats/Etats;
+
+  protected ca.polymtl.inf2990.Panneaux.PanneauAbstrait creerPanneau();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+}
+Compiled from "EtatOptionPartieRapide.java"
+public class ca.polymtl.inf2990.Etats.EtatOptionPartieRapide extends ca.polymtl.inf2990.Etats.EtatAbstrait {
+  public ca.polymtl.inf2990.Etats.EtatOptionPartieRapide();
+    Signature: ()V
+
+  public void initialiser();
+    Signature: ()V
+
+  public void terminer();
+    Signature: ()V
+
+  public void mettreAuRepos();
+    Signature: ()V
+
+  public void reveiller();
+    Signature: ()V
+
+  public ca.polymtl.inf2990.Etats.Etats obtenirNom();
+    Signature: ()Lca/polymtl/inf2990/Etats/Etats;
+
+  protected ca.polymtl.inf2990.Panneaux.PanneauAbstrait creerPanneau();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+}
+Compiled from "EtatOptions.java"
+public class ca.polymtl.inf2990.Etats.EtatOptions extends ca.polymtl.inf2990.Etats.EtatAbstrait {
+  public ca.polymtl.inf2990.Etats.EtatOptions();
+    Signature: ()V
+
+  public void initialiser();
+    Signature: ()V
+
+  public void terminer();
+    Signature: ()V
+
+  public void mettreAuRepos();
+    Signature: ()V
+
+  public void reveiller();
+    Signature: ()V
+
+  public ca.polymtl.inf2990.Etats.Etats obtenirNom();
+    Signature: ()Lca/polymtl/inf2990/Etats/Etats;
+
+  protected ca.polymtl.inf2990.Panneaux.PanneauAbstrait creerPanneau();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+}
+Compiled from "EtatOptionsTournoi.java"
+public class ca.polymtl.inf2990.Etats.EtatOptionsTournoi extends ca.polymtl.inf2990.Etats.EtatAbstrait {
+  public ca.polymtl.inf2990.Etats.EtatOptionsTournoi();
+    Signature: ()V
+
+  public void initialiser();
+    Signature: ()V
+
+  public void terminer();
+    Signature: ()V
+
+  public void mettreAuRepos();
+    Signature: ()V
+
+  public void reveiller();
+    Signature: ()V
+
+  public ca.polymtl.inf2990.Etats.Etats obtenirNom();
+    Signature: ()Lca/polymtl/inf2990/Etats/Etats;
+
+  protected ca.polymtl.inf2990.Panneaux.PanneauAbstrait creerPanneau();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+}
+Compiled from "EtatPartieRapide.java"
+public class ca.polymtl.inf2990.Etats.EtatPartieRapide extends ca.polymtl.inf2990.Etats.EtatAbstrait {
+  private ca.polymtl.inf2990.Jeu.JoueurAbstrait joueur_;
+    Signature: Lca/polymtl/inf2990/Jeu/JoueurAbstrait;
+  public ca.polymtl.inf2990.Etats.EtatPartieRapide();
+    Signature: ()V
+
+  public void initialiser();
+    Signature: ()V
+
+  public void terminer();
+    Signature: ()V
+
+  public void mettreAuRepos();
+    Signature: ()V
+
+  public ca.polymtl.inf2990.Etats.Etats obtenirNom();
+    Signature: ()Lca/polymtl/inf2990/Etats/Etats;
+
+  public void reveiller();
+    Signature: ()V
+
+  protected ca.polymtl.inf2990.Panneaux.PanneauAbstrait creerPanneau();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+
+  public ca.polymtl.inf2990.Panneaux.PanneauAbstrait obtenirPanneau();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+
+  public void changerJoueur(ca.polymtl.inf2990.Jeu.JoueurAbstrait);
+    Signature: (Lca/polymtl/inf2990/Jeu/JoueurAbstrait;)V
+
+  public ca.polymtl.inf2990.Jeu.JoueurAbstrait obtenirJoueur();
+    Signature: ()Lca/polymtl/inf2990/Jeu/JoueurAbstrait;
+}
+Compiled from "Etats.java"
+public final class ca.polymtl.inf2990.Etats.Etats extends java.lang.Enum<ca.polymtl.inf2990.Etats.Etats> {
+  public static final ca.polymtl.inf2990.Etats.Etats MODE_PARTIE_RAPIDE;
+    Signature: Lca/polymtl/inf2990/Etats/Etats;
+  public static final ca.polymtl.inf2990.Etats.Etats MODE_TOURNOI;
+    Signature: Lca/polymtl/inf2990/Etats/Etats;
+  public static final ca.polymtl.inf2990.Etats.Etats MODE_EDITION;
+    Signature: Lca/polymtl/inf2990/Etats/Etats;
+  public static final ca.polymtl.inf2990.Etats.Etats MENU_PRINCIPAL;
+    Signature: Lca/polymtl/inf2990/Etats/Etats;
+  public static final ca.polymtl.inf2990.Etats.Etats MODIFIER_ELEMENT;
+    Signature: Lca/polymtl/inf2990/Etats/Etats;
+  public static final ca.polymtl.inf2990.Etats.Etats CHOIX_JOUEUR;
+    Signature: Lca/polymtl/inf2990/Etats/Etats;
+  public static final ca.polymtl.inf2990.Etats.Etats CREATION_TOURNOI;
+    Signature: Lca/polymtl/inf2990/Etats/Etats;
+  public static final ca.polymtl.inf2990.Etats.Etats CHOIX_TOURNOI;
+    Signature: Lca/polymtl/inf2990/Etats/Etats;
+  public static final ca.polymtl.inf2990.Etats.Etats LISTE_PROFILS;
+    Signature: Lca/polymtl/inf2990/Etats/Etats;
+  public static final ca.polymtl.inf2990.Etats.Etats MODE_OPTION_PARTIE_RAPIDE;
+    Signature: Lca/polymtl/inf2990/Etats/Etats;
+  public static final ca.polymtl.inf2990.Etats.Etats MODE_OPTION_TOURNOI;
+    Signature: Lca/polymtl/inf2990/Etats/Etats;
+  public static final ca.polymtl.inf2990.Etats.Etats MODE_OPTIONS;
+    Signature: Lca/polymtl/inf2990/Etats/Etats;
+  public static final ca.polymtl.inf2990.Etats.Etats MODE_JOUER;
+    Signature: Lca/polymtl/inf2990/Etats/Etats;
+  public static final ca.polymtl.inf2990.Etats.Etats MODE_CANAL_RADIO;
+    Signature: Lca/polymtl/inf2990/Etats/Etats;
+  public static final ca.polymtl.inf2990.Etats.Etats MODE_LISTE_CANAUX;
+    Signature: Lca/polymtl/inf2990/Etats/Etats;
+  public static final ca.polymtl.inf2990.Etats.Etats MODE_LISTE_TOURNOIS;
+    Signature: Lca/polymtl/inf2990/Etats/Etats;
+  public static final ca.polymtl.inf2990.Etats.Etats GERER_TOURNOI;
+    Signature: Lca/polymtl/inf2990/Etats/Etats;
+  private static final ca.polymtl.inf2990.Etats.Etats[] ENUM$VALUES;
+    Signature: [Lca/polymtl/inf2990/Etats/Etats;
+  static {};
+    Signature: ()V
+
+  private ca.polymtl.inf2990.Etats.Etats(java.lang.String, int);
+    Signature: (Ljava/lang/String;I)V
+
+  public static ca.polymtl.inf2990.Etats.Etats[] values();
+    Signature: ()[Lca/polymtl/inf2990/Etats/Etats;
+
+  public static ca.polymtl.inf2990.Etats.Etats valueOf(java.lang.String);
+    Signature: (Ljava/lang/String;)Lca/polymtl/inf2990/Etats/Etats;
+}
+Compiled from "GestionnaireEtats.java"
+public class ca.polymtl.inf2990.Etats.GestionnaireEtats {
+  private final java.util.Stack<ca.polymtl.inf2990.Etats.EtatAbstrait> pileEtats_;
+    Signature: Ljava/util/Stack;
+  private static ca.polymtl.inf2990.Etats.GestionnaireEtats instance_;
+    Signature: Lca/polymtl/inf2990/Etats/GestionnaireEtats;
+  public native void genererTerrainParDefaut();
+    Signature: ()V
+
+  public native boolean validerTable();
+    Signature: ()Z
+
+  public native boolean changerEtat(int);
+    Signature: (I)Z
+
+  private ca.polymtl.inf2990.Etats.GestionnaireEtats();
+    Signature: ()V
+
+  public static ca.polymtl.inf2990.Etats.GestionnaireEtats obtenirInstance();
+    Signature: ()Lca/polymtl/inf2990/Etats/GestionnaireEtats;
+
+  public ca.polymtl.inf2990.Etats.EtatAbstrait obtenirEtat();
+    Signature: ()Lca/polymtl/inf2990/Etats/EtatAbstrait;
+
+  public void allerEtatPrecedent();
+    Signature: ()V
+
+  public void changerEtat(ca.polymtl.inf2990.Etats.EtatAbstrait);
+    Signature: (Lca/polymtl/inf2990/Etats/EtatAbstrait;)V
+}
+Compiled from "CanalRadio.java"
+public class ca.polymtl.inf2990.Jeu.CanalRadio {
+  private java.lang.String nomDuCanal_;
+    Signature: Ljava/lang/String;
+  private java.util.ArrayList<java.lang.Object> listeDesChansons_;
+    Signature: Ljava/util/ArrayList;
+  public ca.polymtl.inf2990.Jeu.CanalRadio();
+    Signature: ()V
+
+  public void assignerNomDuCanal(java.lang.String);
+    Signature: (Ljava/lang/String;)V
+
+  public void assignerListeDesChansons(java.util.ArrayList<java.lang.Object>);
+    Signature: (Ljava/util/ArrayList;)V
+
+  public java.lang.String obtenirNomDuCanal();
+    Signature: ()Ljava/lang/String;
+
+  public java.util.ArrayList<java.lang.Object> obtenirListeDesChansons();
+    Signature: ()Ljava/util/ArrayList;
+
+  public void ajouterChanson(java.lang.String);
+    Signature: (Ljava/lang/String;)V
+
+  public void retirerChanson(java.lang.String);
+    Signature: (Ljava/lang/String;)V
+}
+Compiled from "ElementVisitable.java"
+public interface ca.polymtl.inf2990.Jeu.ElementVisitable {
+  public abstract ca.polymtl.inf2990.Panneaux.PanneauAbstrait accepter(ca.polymtl.inf2990.Panneaux.VisiteurGenererPanneau);
+    Signature: (Lca/polymtl/inf2990/Panneaux/VisiteurGenererPanneau;)Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+}
+Compiled from "JoueurAbstrait.java"
+public abstract class ca.polymtl.inf2990.Jeu.JoueurAbstrait {
+  private final java.lang.String nom_;
+    Signature: Ljava/lang/String;
+  private final ca.polymtl.inf2990.Jeu.JoueurAbstrait$TypeJoueur type_;
+    Signature: Lca/polymtl/inf2990/Jeu/JoueurAbstrait$TypeJoueur;
+  public ca.polymtl.inf2990.Jeu.JoueurAbstrait(java.lang.String, ca.polymtl.inf2990.Jeu.JoueurAbstrait$TypeJoueur);
+    Signature: (Ljava/lang/String;Lca/polymtl/inf2990/Jeu/JoueurAbstrait$TypeJoueur;)V
+
+  public java.lang.String obtenirNom();
+    Signature: ()Ljava/lang/String;
+
+  public ca.polymtl.inf2990.Jeu.JoueurAbstrait$TypeJoueur obtenirType();
+    Signature: ()Lca/polymtl/inf2990/Jeu/JoueurAbstrait$TypeJoueur;
+
+  public int obtenirTypeNumeral();
+    Signature: ()I
+
+  public void supprimerJoueur();
+    Signature: ()V
+
+  public java.lang.String toString();
+    Signature: ()Ljava/lang/String;
+
+  public native void envoyerJNI();
+    Signature: ()V
+}
+Compiled from "JoueurHumain.java"
+public class ca.polymtl.inf2990.Jeu.JoueurHumain extends ca.polymtl.inf2990.Jeu.JoueurAbstrait implements ca.polymtl.inf2990.Jeu.ElementVisitable {
+  public ca.polymtl.inf2990.Jeu.JoueurHumain(java.lang.String);
+    Signature: (Ljava/lang/String;)V
+
+  public ca.polymtl.inf2990.Panneaux.PanneauAbstrait accepter(ca.polymtl.inf2990.Panneaux.VisiteurGenererPanneau);
+    Signature: (Lca/polymtl/inf2990/Panneaux/VisiteurGenererPanneau;)Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+}
+Compiled from "JoueurVirtuel.java"
+public class ca.polymtl.inf2990.Jeu.JoueurVirtuel extends ca.polymtl.inf2990.Jeu.JoueurAbstrait implements ca.polymtl.inf2990.Jeu.ElementVisitable {
+  private int probabiliteEchec_;
+    Signature: I
+  private int vitesse_;
+    Signature: I
+  public ca.polymtl.inf2990.Jeu.JoueurVirtuel(java.lang.String, int, int);
+    Signature: (Ljava/lang/String;II)V
+
+  public int obtenirProbabiliteEchec();
+    Signature: ()I
+
+  public int obtenirProbabiliteSucces();
+    Signature: ()I
+
+  public void modifierProbabiliteEchec(int);
+    Signature: (I)V
+
+  public int obtenirVitesse();
+    Signature: ()I
+
+  public void modifierVitesse(int);
+    Signature: (I)V
+
+  public ca.polymtl.inf2990.Panneaux.PanneauAbstrait accepter(ca.polymtl.inf2990.Panneaux.VisiteurGenererPanneau);
+    Signature: (Lca/polymtl/inf2990/Panneaux/VisiteurGenererPanneau;)Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+}
+Compiled from "ModificateurProprieteNoeud.java"
+public class ca.polymtl.inf2990.Jeu.ModificateurProprieteNoeud {
+  public static final int NOMBRE_BANDES;
+    Signature: I
+  private double coefFriction_;
+    Signature: D
+  private double coefRebond_;
+    Signature: D
+  private double bonusAccel_;
+    Signature: D
+  private double positionX_;
+    Signature: D
+  private double positionY_;
+    Signature: D
+  private double echelle_;
+    Signature: D
+  private int rotation_;
+    Signature: I
+  private double zoneEditionX_;
+    Signature: D
+  private double zoneEditionY_;
+    Signature: D
+  private final double[] coefRebondBandes_;
+    Signature: [D
+  private boolean[] proprietesModifiees_;
+    Signature: [Z
+  public ca.polymtl.inf2990.Jeu.ModificateurProprieteNoeud();
+    Signature: ()V
+
+  public ca.polymtl.inf2990.Jeu.ModificateurProprieteNoeud(double, double, double, double, double, double, int, double, double, double[]);
+    Signature: (DDDDDDIDD[D)V
+
+  public double obtenirCoefFriction();
+    Signature: ()D
+
+  public void modifierCoefFriction(double);
+    Signature: (D)V
+
+  public double obtenirCoefRebond();
+    Signature: ()D
+
+  public void modifierCoefRebond(double);
+    Signature: (D)V
+
+  public double obtenirBonusAccel();
+    Signature: ()D
+
+  public void modifierBonusAccel(double);
+    Signature: (D)V
+
+  public double obtenirPositionX();
+    Signature: ()D
+
+  public double obtenirPositionY();
+    Signature: ()D
+
+  public void modifierPositionX(double);
+    Signature: (D)V
+
+  public void modifierPositionY(double);
+    Signature: (D)V
+
+  public double obtenirEchelle();
+    Signature: ()D
+
+  public void modifierEchelle(double);
+    Signature: (D)V
+
+  public int obtenirRotation();
+    Signature: ()I
+
+  public void modifierRotation(int);
+    Signature: (I)V
+
+  public void modifierZoneEditionX(double);
+    Signature: (D)V
+
+  public void modifierZoneEditionY(double);
+    Signature: (D)V
+
+  public double obtenirZoneEditionX();
+    Signature: ()D
+
+  public double obtenirZoneEditionY();
+    Signature: ()D
+
+  public double obtenirCoefRebondBandes(int);
+    Signature: (I)D
+
+  public void modifierCoefRebondBandes(int, double);
+    Signature: (ID)V
+
+  public native void envoyerModificateurPropriete();
+    Signature: ()V
+}
+Compiled from "OperationsJoueursJNI.java"
+public class ca.polymtl.inf2990.Jeu.OperationsJoueursJNI {
+  public ca.polymtl.inf2990.Jeu.OperationsJoueursJNI();
+    Signature: ()V
+
+  public static native ca.polymtl.inf2990.Jeu.JoueurAbstrait obtenirJoueur(java.lang.String);
+    Signature: (Ljava/lang/String;)Lca/polymtl/inf2990/Jeu/JoueurAbstrait;
+
+  public static native void ajouterJoueur(ca.polymtl.inf2990.Jeu.JoueurAbstrait);
+    Signature: (Lca/polymtl/inf2990/Jeu/JoueurAbstrait;)V
+
+  public static native java.util.ArrayList<java.lang.Object> obtenirJoueurs();
+    Signature: ()Ljava/util/ArrayList;
+
+  public static native void supprimerJoueur(java.lang.String);
+    Signature: (Ljava/lang/String;)V
+
+  public static native void modifierTouches(int, int, int, int);
+    Signature: (IIII)V
+
+  public static native int[] obtenirTouches();
+    Signature: ()[I
+
+  public static native void creerNouveauTournoi(ca.polymtl.inf2990.Jeu.Tournoi);
+    Signature: (Lca/polymtl/inf2990/Jeu/Tournoi;)V
+}
+Compiled from "OperationsRadioJNI.java"
+public class ca.polymtl.inf2990.Jeu.OperationsRadioJNI {
+  public ca.polymtl.inf2990.Jeu.OperationsRadioJNI();
+    Signature: ()V
+
+  public static native void jouerMusiqueRadio();
+    Signature: ()V
+
+  public static native void arreterMusiqueRadio();
+    Signature: ()V
+
+  public static native void pauserMusiqueRadio();
+    Signature: ()V
+
+  public static native void avancerChansonRadio();
+    Signature: ()V
+
+  public static native void reculerChansonRadio();
+    Signature: ()V
+
+  public static native void placerVolumeRadio(int);
+    Signature: (I)V
+
+  public static native java.util.ArrayList<java.lang.Object> obtenirCanaux();
+    Signature: ()Ljava/util/ArrayList;
+
+  public static native ca.polymtl.inf2990.Jeu.CanalRadio obtenirCanal(java.lang.String);
+    Signature: (Ljava/lang/String;)Lca/polymtl/inf2990/Jeu/CanalRadio;
+
+  public static native void supprimerCanal(java.lang.String);
+    Signature: (Ljava/lang/String;)V
+
+  public static native void genererCanal(ca.polymtl.inf2990.Jeu.CanalRadio);
+    Signature: (Lca/polymtl/inf2990/Jeu/CanalRadio;)V
+
+  public static native void chargerCanal(java.lang.String);
+    Signature: (Ljava/lang/String;)V
+
+  public static native java.lang.String obtenirCanalCourant();
+    Signature: ()Ljava/lang/String;
+}
+Compiled from "OperationTournoiJNI.java"
+public class ca.polymtl.inf2990.Jeu.OperationTournoiJNI {
+  public ca.polymtl.inf2990.Jeu.OperationTournoiJNI();
+    Signature: ()V
+
+  public static java.util.ArrayList<java.lang.String> obtenirListeTournois();
+    Signature: ()Ljava/util/ArrayList;
+
+  public static native java.lang.Object obtenirTournoi(java.lang.String);
+    Signature: (Ljava/lang/String;)Ljava/lang/Object;
+
+  public static native void supprimerTournoi(java.lang.String);
+    Signature: (Ljava/lang/String;)V
+}
+Compiled from "Tournoi.java"
+public class ca.polymtl.inf2990.Jeu.Tournoi implements ca.polymtl.inf2990.Jeu.ElementVisitable {
+  private java.util.ArrayList<java.lang.Object> joueurs_;
+    Signature: Ljava/util/ArrayList;
+  private java.lang.String nom_;
+    Signature: Ljava/lang/String;
+  private java.lang.String terrain_;
+    Signature: Ljava/lang/String;
+  private java.util.ArrayList<java.lang.Object> vainqueurs_;
+    Signature: Ljava/util/ArrayList;
+  private java.util.ArrayList<java.lang.Object> pointsTable_;
+    Signature: Ljava/util/ArrayList;
+  public ca.polymtl.inf2990.Jeu.Tournoi();
+    Signature: ()V
+
+  public void modifierPointsTable(java.util.ArrayList<java.lang.Object>);
+    Signature: (Ljava/util/ArrayList;)V
+
+  public java.util.ArrayList<java.lang.Object> obtenirPointsTable();
+    Signature: ()Ljava/util/ArrayList;
+
+  public java.util.ArrayList<java.lang.Object> obtenirVainqueurs();
+    Signature: ()Ljava/util/ArrayList;
+
+  public void modifierVainqueurs(java.util.ArrayList<java.lang.Object>);
+    Signature: (Ljava/util/ArrayList;)V
+
+  public void modifierTerrain(java.lang.String);
+    Signature: (Ljava/lang/String;)V
+
+  public java.lang.String obtenirTerrain();
+    Signature: ()Ljava/lang/String;
+
+  public java.lang.String obtenirNom();
+    Signature: ()Ljava/lang/String;
+
+  public void setNom(java.lang.String);
+    Signature: (Ljava/lang/String;)V
+
+  public ca.polymtl.inf2990.Panneaux.PanneauAbstrait accepter(ca.polymtl.inf2990.Panneaux.VisiteurGenererPanneau);
+    Signature: (Lca/polymtl/inf2990/Panneaux/VisiteurGenererPanneau;)Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+
+  public void chargerJoueurs(java.util.ArrayList<java.lang.Object>);
+    Signature: (Ljava/util/ArrayList;)V
+
+  public java.util.ArrayList<java.lang.Object> obtenirListeDesJoueurs();
+    Signature: ()Ljava/util/ArrayList;
+
+  public int obtenirNombreDeJoueurs();
+    Signature: ()I
+}
+Compiled from "PanneauAbstrait.java"
+public abstract class ca.polymtl.inf2990.Panneaux.PanneauAbstrait extends javax.swing.JPanel {
+  public ca.polymtl.inf2990.Panneaux.PanneauAbstrait();
+    Signature: ()V
+
+  protected abstract void creer();
+    Signature: ()V
+
+  public abstract void rafraichir();
+    Signature: ()V
+}
+Compiled from "PanneauCanevas.java"
+public class ca.polymtl.inf2990.Panneaux.PanneauCanevas extends ca.polymtl.inf2990.Panneaux.PanneauAbstrait {
+  private static ca.polymtl.inf2990.Panneaux.PanneauCanevas instance_;
+    Signature: Lca/polymtl/inf2990/Panneaux/PanneauCanevas;
+  private ca.polymtl.inf2990.Panneaux.PanneauCanevas();
+    Signature: ()V
+
+  public static ca.polymtl.inf2990.Panneaux.PanneauCanevas obtenirInstance();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauCanevas;
+
+  protected void creer();
+    Signature: ()V
+
+  public void rafraichir();
+    Signature: ()V
+}
+Compiled from "PanneauCreerTournoi.java"
+public class ca.polymtl.inf2990.Panneaux.PanneauCreerTournoi extends ca.polymtl.inf2990.Panneaux.PanneauAbstrait {
+  javax.swing.JPanel listePanel;
+    Signature: Ljavax/swing/JPanel;
+  javax.swing.JScrollPane centerPanel;
+    Signature: Ljavax/swing/JScrollPane;
+  java.util.ArrayList<javax.swing.JComboBox> listeDesComboBox_;
+    Signature: Ljava/util/ArrayList;
+  java.awt.Font police;
+    Signature: Ljava/awt/Font;
+  ca.polymtl.inf2990.Panneaux.PanneauCreerTournoi$EcouteurComboBox ecouteurComboBox;
+    Signature: Lca/polymtl/inf2990/Panneaux/PanneauCreerTournoi$EcouteurComboBox;
+  int nbJoueurs_;
+    Signature: I
+  private javax.swing.JTextField champSelectionTerrain_;
+    Signature: Ljavax/swing/JTextField;
+  private final java.lang.String texteParDefaut_;
+    Signature: Ljava/lang/String;
+  public ca.polymtl.inf2990.Panneaux.PanneauCreerTournoi(int);
+    Signature: (I)V
+
+  protected void creer();
+    Signature: ()V
+
+  private boolean champValides();
+    Signature: ()Z
+
+  private void actionOk();
+    Signature: ()V
+
+  private void creerPanneauTournoi();
+    Signature: ()V
+
+  public void rafraichir();
+    Signature: ()V
+
+  private void afficherFenetreNomHumain(javax.swing.JComboBox);
+    Signature: (Ljavax/swing/JComboBox;)V
+
+  private boolean nomValide(java.lang.String);
+    Signature: (Ljava/lang/String;)Z
+
+  static boolean access$0(ca.polymtl.inf2990.Panneaux.PanneauCreerTournoi, java.lang.String);
+    Signature: (Lca/polymtl/inf2990/Panneaux/PanneauCreerTournoi;Ljava/lang/String;)Z
+
+  static void access$1(ca.polymtl.inf2990.Panneaux.PanneauCreerTournoi, javax.swing.JComboBox);
+    Signature: (Lca/polymtl/inf2990/Panneaux/PanneauCreerTournoi;Ljavax/swing/JComboBox;)V
+
+  static void access$2(ca.polymtl.inf2990.Panneaux.PanneauCreerTournoi);
+    Signature: (Lca/polymtl/inf2990/Panneaux/PanneauCreerTournoi;)V
+}
+Compiled from "PanneauGestionCanal.java"
+public class ca.polymtl.inf2990.Panneaux.PanneauGestionCanal extends ca.polymtl.inf2990.Panneaux.PanneauAbstrait {
+  javax.swing.JPanel listePanel;
+    Signature: Ljavax/swing/JPanel;
+  javax.swing.JScrollPane centerPanel;
+    Signature: Ljavax/swing/JScrollPane;
+  java.util.ArrayList<ca.polymtl.inf2990.Panneaux.PanneauGestionCanal$ElementListe> listeDesElements;
+    Signature: Ljava/util/ArrayList;
+  javax.swing.JTextField titreComponent_;
+    Signature: Ljavax/swing/JTextField;
+  ca.polymtl.inf2990.Jeu.CanalRadio canal_;
+    Signature: Lca/polymtl/inf2990/Jeu/CanalRadio;
+  public ca.polymtl.inf2990.Panneaux.PanneauGestionCanal(ca.polymtl.inf2990.Jeu.CanalRadio);
+    Signature: (Lca/polymtl/inf2990/Jeu/CanalRadio;)V
+
+  public void setCanal(ca.polymtl.inf2990.Jeu.CanalRadio);
+    Signature: (Lca/polymtl/inf2990/Jeu/CanalRadio;)V
+
+  public void chargerCanal();
+    Signature: ()V
+
+  private boolean nomValide(java.lang.String);
+    Signature: (Ljava/lang/String;)Z
+
+  private void actionOk();
+    Signature: ()V
+
+  private void actionCancel();
+    Signature: ()V
+
+  protected void creer();
+    Signature: ()V
+
+  public void rafraichir();
+    Signature: ()V
+
+  static void access$0(ca.polymtl.inf2990.Panneaux.PanneauGestionCanal);
+    Signature: (Lca/polymtl/inf2990/Panneaux/PanneauGestionCanal;)V
+
+  static void access$1(ca.polymtl.inf2990.Panneaux.PanneauGestionCanal);
+    Signature: (Lca/polymtl/inf2990/Panneaux/PanneauGestionCanal;)V
+}
+Compiled from "PanneauGestionElement.java"
+public class ca.polymtl.inf2990.Panneaux.PanneauGestionElement extends ca.polymtl.inf2990.Panneaux.PanneauAbstrait {
+  javax.swing.JPanel panneauContenu_;
+    Signature: Ljavax/swing/JPanel;
+  javax.swing.JScrollPane centerPanel;
+    Signature: Ljavax/swing/JScrollPane;
+  ca.polymtl.inf2990.Jeu.ElementVisitable element_;
+    Signature: Lca/polymtl/inf2990/Jeu/ElementVisitable;
+  public ca.polymtl.inf2990.Panneaux.PanneauGestionElement(java.lang.String, ca.polymtl.inf2990.Jeu.ElementVisitable);
+    Signature: (Ljava/lang/String;Lca/polymtl/inf2990/Jeu/ElementVisitable;)V
+
+  public ca.polymtl.inf2990.Panneaux.PanneauAbstrait chargerElement(ca.polymtl.inf2990.Jeu.ElementVisitable);
+    Signature: (Lca/polymtl/inf2990/Jeu/ElementVisitable;)Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+
+  protected void creer();
+    Signature: ()V
+
+  public void rafraichir();
+    Signature: ()V
+}
+Compiled from "PanneauGestionTournoi.java"
+public class ca.polymtl.inf2990.Panneaux.PanneauGestionTournoi extends ca.polymtl.inf2990.Panneaux.PanneauAbstrait {
+  ca.polymtl.inf2990.Jeu.Tournoi tournoi_;
+    Signature: Lca/polymtl/inf2990/Jeu/Tournoi;
+  javax.swing.JPanel panneauContenu_;
+    Signature: Ljavax/swing/JPanel;
+  javax.swing.JPanel panneauVaincoeursEtCarte;
+    Signature: Ljavax/swing/JPanel;
+  javax.swing.JPanel panneauVaincoeurs;
+    Signature: Ljavax/swing/JPanel;
+  ca.polymtl.inf2990.Panneaux.PanneauGestionTournoi$ElementTable elementTable;
+    Signature: Lca/polymtl/inf2990/Panneaux/PanneauGestionTournoi$ElementTable;
+  javax.swing.JScrollPane centerPanel;
+    Signature: Ljavax/swing/JScrollPane;
+  javax.swing.JLabel titreComponent;
+    Signature: Ljavax/swing/JLabel;
+  javax.swing.JScrollPane panneauVaincoueursScroll;
+    Signature: Ljavax/swing/JScrollPane;
+  javax.swing.JPanel panneauTable;
+    Signature: Ljavax/swing/JPanel;
+  public ca.polymtl.inf2990.Panneaux.PanneauGestionTournoi();
+    Signature: ()V
+
+  public native void reinitialiserTournoi();
+    Signature: ()V
+
+  protected void creer();
+    Signature: ()V
+
+  public void rafraichir();
+    Signature: ()V
+
+  public void chargerTournoi(ca.polymtl.inf2990.Jeu.Tournoi);
+    Signature: (Lca/polymtl/inf2990/Jeu/Tournoi;)V
+}
+Compiled from "PanneauJouer.java"
+public class ca.polymtl.inf2990.Panneaux.PanneauJouer extends ca.polymtl.inf2990.Panneaux.PanneauAbstrait {
+  public ca.polymtl.inf2990.Panneaux.PanneauJouer();
+    Signature: ()V
+
+  protected void creer();
+    Signature: ()V
+
+  public void rafraichir();
+    Signature: ()V
+}
+Compiled from "PanneauListeCanaux.java"
+public class ca.polymtl.inf2990.Panneaux.PanneauListeCanaux extends ca.polymtl.inf2990.Panneaux.PanneauAbstrait {
+  javax.swing.JPanel listePanel;
+    Signature: Ljavax/swing/JPanel;
+  javax.swing.JScrollPane centerPanel;
+    Signature: Ljavax/swing/JScrollPane;
+  java.util.ArrayList<ca.polymtl.inf2990.Panneaux.PanneauListeCanaux$ElementListe> listeDesElements;
+    Signature: Ljava/util/ArrayList;
+  public ca.polymtl.inf2990.Panneaux.PanneauListeCanaux(java.lang.String);
+    Signature: (Ljava/lang/String;)V
+
+  public void chargerCanaux();
+    Signature: ()V
+
+  protected void creer();
+    Signature: ()V
+
+  public void rafraichir();
+    Signature: ()V
+}
+Compiled from "PanneauListeProfils.java"
+public class ca.polymtl.inf2990.Panneaux.PanneauListeProfils extends ca.polymtl.inf2990.Panneaux.PanneauAbstrait {
+  javax.swing.JPanel listePanel;
+    Signature: Ljavax/swing/JPanel;
+  javax.swing.JScrollPane centerPanel;
+    Signature: Ljavax/swing/JScrollPane;
+  java.util.ArrayList<ca.polymtl.inf2990.Panneaux.PanneauListeProfils$ElementListe> listeDesElements;
+    Signature: Ljava/util/ArrayList;
+  public ca.polymtl.inf2990.Panneaux.PanneauListeProfils(java.lang.String);
+    Signature: (Ljava/lang/String;)V
+
+  public void chargerProfils();
+    Signature: ()V
+
+  protected void creer();
+    Signature: ()V
+
+  public void rafraichir();
+    Signature: ()V
+}
+Compiled from "PanneauListeTournois.java"
+public class ca.polymtl.inf2990.Panneaux.PanneauListeTournois extends ca.polymtl.inf2990.Panneaux.PanneauAbstrait {
+  javax.swing.JPanel listePanel;
+    Signature: Ljavax/swing/JPanel;
+  javax.swing.JScrollPane centerPanel;
+    Signature: Ljavax/swing/JScrollPane;
+  java.util.ArrayList<ca.polymtl.inf2990.Panneaux.PanneauListeTournois$ElementListe> listeDesElements;
+    Signature: Ljava/util/ArrayList;
+  public ca.polymtl.inf2990.Panneaux.PanneauListeTournois(java.lang.String);
+    Signature: (Ljava/lang/String;)V
+
+  public void chargerTournois();
+    Signature: ()V
+
+  protected void creer();
+    Signature: ()V
+
+  public void rafraichir();
+    Signature: ()V
+}
+Compiled from "PanneauMenuPrincipal.java"
+public class ca.polymtl.inf2990.Panneaux.PanneauMenuPrincipal extends ca.polymtl.inf2990.Panneaux.PanneauAbstrait {
+  private java.awt.Image imgFond;
+    Signature: Ljava/awt/Image;
+  private javax.swing.JPanel panneauCartes_;
+    Signature: Ljavax/swing/JPanel;
+  private javax.swing.JPanel panneauBoutons_;
+    Signature: Ljavax/swing/JPanel;
+  private static ca.polymtl.inf2990.Panneaux.PanneauMenuPrincipal instance_;
+    Signature: Lca/polymtl/inf2990/Panneaux/PanneauMenuPrincipal;
+  private java.awt.CardLayout layout_;
+    Signature: Ljava/awt/CardLayout;
+  private ca.polymtl.inf2990.Panneaux.PanneauMenuPrincipal();
+    Signature: ()V
+
+  public static ca.polymtl.inf2990.Panneaux.PanneauMenuPrincipal obtenirInstance();
+    Signature: ()Lca/polymtl/inf2990/Panneaux/PanneauMenuPrincipal;
+
+  protected void creer();
+    Signature: ()V
+
+  public void afficher(ca.polymtl.inf2990.Etats.Etats);
+    Signature: (Lca/polymtl/inf2990/Etats/Etats;)V
+
+  public void rafraichir();
+    Signature: ()V
+
+  public void paintComponent(java.awt.Graphics);
+    Signature: (Ljava/awt/Graphics;)V
+
+  static javax.swing.JPanel access$0(ca.polymtl.inf2990.Panneaux.PanneauMenuPrincipal);
+    Signature: (Lca/polymtl/inf2990/Panneaux/PanneauMenuPrincipal;)Ljavax/swing/JPanel;
+
+  static void access$1(ca.polymtl.inf2990.Panneaux.PanneauMenuPrincipal, java.awt.Image);
+    Signature: (Lca/polymtl/inf2990/Panneaux/PanneauMenuPrincipal;Ljava/awt/Image;)V
+
+  static javax.swing.JPanel access$2(ca.polymtl.inf2990.Panneaux.PanneauMenuPrincipal);
+    Signature: (Lca/polymtl/inf2990/Panneaux/PanneauMenuPrincipal;)Ljavax/swing/JPanel;
+}
+Compiled from "PanneauModificationTouches.java"
+public class ca.polymtl.inf2990.Panneaux.PanneauModificationTouches extends ca.polymtl.inf2990.Panneaux.PanneauAbstrait {
+  private static javax.swing.JPanel panneauModificationTouche_;
+    Signature: Ljavax/swing/JPanel;
+  private ca.polymtl.inf2990.Panneaux.PanneauModificationTouches$EcouteurDeTouches keyboardListener_;
+    Signature: Lca/polymtl/inf2990/Panneaux/PanneauModificationTouches$EcouteurDeTouches;
+  private ca.polymtl.inf2990.Panneaux.PanneauModificationTouches$ChampTouche textFieldSelectionne_;
+    Signature: Lca/polymtl/inf2990/Panneaux/PanneauModificationTouches$ChampTouche;
+  private ca.polymtl.inf2990.Panneaux.PanneauModificationTouches$ChampTouche toucheHaut_;
+    Signature: Lca/polymtl/inf2990/Panneaux/PanneauModificationTouches$ChampTouche;
+  private ca.polymtl.inf2990.Panneaux.PanneauModificationTouches$ChampTouche toucheBas_;
+    Signature: Lca/polymtl/inf2990/Panneaux/PanneauModificationTouches$ChampTouche;
+  private ca.polymtl.inf2990.Panneaux.PanneauModificationTouches$ChampTouche toucheGauche_;
+    Signature: Lca/polymtl/inf2990/Panneaux/PanneauModificationTouches$ChampTouche;
+  private ca.polymtl.inf2990.Panneaux.PanneauModificationTouches$ChampTouche toucheDroite_;
+    Signature: Lca/polymtl/inf2990/Panneaux/PanneauModificationTouches$ChampTouche;
+  private javax.swing.JButton boutonOk_;
+    Signature: Ljavax/swing/JButton;
+  private javax.swing.JButton boutonReset_;
+    Signature: Ljavax/swing/JButton;
+  private javax.swing.JButton boutonCancel_;
+    Signature: Ljavax/swing/JButton;
+  public ca.polymtl.inf2990.Panneaux.PanneauModificationTouches();
+    Signature: ()V
+
+  public void creer();
+    Signature: ()V
+
+  public void activerPanneau();
+    Signature: ()V
+
+  public void actionReset();
+    Signature: ()V
+
+  public void actionOk();
+    Signature: ()V
+
+  public void actionCancel();
+    Signature: ()V
+
+  public boolean valeursValide();
+    Signature: ()Z
+
+  public void rafraichir();
+    Signature: ()V
+
+  static ca.polymtl.inf2990.Panneaux.PanneauModificationTouches$ChampTouche access$0(ca.polymtl.inf2990.Panneaux.PanneauModificationTouches);
+    Signature: (Lca/polymtl/inf2990/Panneaux/PanneauModificationTouches;)Lca/polymtl/inf2990/Panneaux/PanneauModificationTouches$ChampTouche;
+
+  static void access$1(ca.polymtl.inf2990.Panneaux.PanneauModificationTouches, ca.polymtl.inf2990.Panneaux.PanneauModificationTouches$ChampTouche);
+    Signature: (Lca/polymtl/inf2990/Panneaux/PanneauModificationTouches;Lca/polymtl/inf2990/Panneaux/PanneauModificationTouches$ChampTouche;)V
+
+  static javax.swing.JButton access$2(ca.polymtl.inf2990.Panneaux.PanneauModificationTouches);
+    Signature: (Lca/polymtl/inf2990/Panneaux/PanneauModificationTouches;)Ljavax/swing/JButton;
+}
+Compiled from "PanneauOptions.java"
+public class ca.polymtl.inf2990.Panneaux.PanneauOptions extends ca.polymtl.inf2990.Panneaux.PanneauAbstrait {
+  public ca.polymtl.inf2990.Panneaux.PanneauOptions();
+    Signature: ()V
+
+  protected void creer();
+    Signature: ()V
+
+  public void rafraichir();
+    Signature: ()V
+}
+Compiled from "PanneauOptionsTournoi.java"
+public class ca.polymtl.inf2990.Panneaux.PanneauOptionsTournoi extends ca.polymtl.inf2990.Panneaux.PanneauAbstrait {
+  public ca.polymtl.inf2990.Panneaux.PanneauOptionsTournoi();
+    Signature: ()V
+
+  protected void creer();
+    Signature: ()V
+
+  public void rafraichir();
+    Signature: ()V
+}
+Compiled from "PanneauPartieRapide.java"
+public class ca.polymtl.inf2990.Panneaux.PanneauPartieRapide extends ca.polymtl.inf2990.Panneaux.PanneauAbstrait {
+  private static javax.swing.JDialog fenetre_;
+    Signature: Ljavax/swing/JDialog;
+  public ca.polymtl.inf2990.Panneaux.PanneauPartieRapide();
+    Signature: ()V
+
+  protected void creer();
+    Signature: ()V
+
+  public void rafraichir();
+    Signature: ()V
+}
+Compiled from "PanneauRadio.java"
+public class ca.polymtl.inf2990.Panneaux.PanneauRadio extends ca.polymtl.inf2990.Panneaux.PanneauAbstrait {
+  private ca.polymtl.inf2990.Panneaux.PanneauRadio$BoutonRadio boutonTogglePlayPause_;
+    Signature: Lca/polymtl/inf2990/Panneaux/PanneauRadio$BoutonRadio;
+  private ca.polymtl.inf2990.Panneaux.PanneauRadio$BoutonRadio boutonStop_;
+    Signature: Lca/polymtl/inf2990/Panneaux/PanneauRadio$BoutonRadio;
+  private ca.polymtl.inf2990.Panneaux.PanneauRadio$BoutonRadio boutonSuivant_;
+    Signature: Lca/polymtl/inf2990/Panneaux/PanneauRadio$BoutonRadio;
+  private ca.polymtl.inf2990.Panneaux.PanneauRadio$BoutonRadio boutonPrecedent_;
+    Signature: Lca/polymtl/inf2990/Panneaux/PanneauRadio$BoutonRadio;
+  private javax.swing.JSlider glissoirVolume_;
+    Signature: Ljavax/swing/JSlider;
+  private javax.swing.JComboBox champTexte_;
+    Signature: Ljavax/swing/JComboBox;
+  public ca.polymtl.inf2990.Panneaux.PanneauRadio();
+    Signature: ()V
+
+  protected void creer();
+    Signature: ()V
+
+  public void rafraichir();
+    Signature: ()V
+
+  private void togglePlayPause();
+    Signature: ()V
+
+  static javax.swing.JComboBox access$0(ca.polymtl.inf2990.Panneaux.PanneauRadio);
+    Signature: (Lca/polymtl/inf2990/Panneaux/PanneauRadio;)Ljavax/swing/JComboBox;
+
+  static javax.swing.JSlider access$1(ca.polymtl.inf2990.Panneaux.PanneauRadio);
+    Signature: (Lca/polymtl/inf2990/Panneaux/PanneauRadio;)Ljavax/swing/JSlider;
+
+  static void access$2(ca.polymtl.inf2990.Panneaux.PanneauRadio);
+    Signature: (Lca/polymtl/inf2990/Panneaux/PanneauRadio;)V
+
+  static ca.polymtl.inf2990.Panneaux.PanneauRadio$BoutonRadio access$3(ca.polymtl.inf2990.Panneaux.PanneauRadio);
+    Signature: (Lca/polymtl/inf2990/Panneaux/PanneauRadio;)Lca/polymtl/inf2990/Panneaux/PanneauRadio$BoutonRadio;
+}
+Compiled from "SousPanneauJoueurVirtuel.java"
+public class ca.polymtl.inf2990.Panneaux.SousPanneauJoueurVirtuel extends ca.polymtl.inf2990.Panneaux.PanneauAbstrait {
+  private ca.polymtl.inf2990.Jeu.JoueurVirtuel joueur_;
+    Signature: Lca/polymtl/inf2990/Jeu/JoueurVirtuel;
+  private static final int EPAISSEUR_SEPARATEUR;
+    Signature: I
+  private javax.swing.JTextField componentNom_;
+    Signature: Ljavax/swing/JTextField;
+  private javax.swing.JSlider componentVitesse_;
+    Signature: Ljavax/swing/JSlider;
+  private javax.swing.JSlider componentPrecision_;
+    Signature: Ljavax/swing/JSlider;
+  private javax.swing.JButton boutonOk_;
+    Signature: Ljavax/swing/JButton;
+  private javax.swing.JButton boutonReset_;
+    Signature: Ljavax/swing/JButton;
+  private javax.swing.JButton boutonCancel_;
+    Signature: Ljavax/swing/JButton;
+  private final java.awt.Color couleurPanneau;
+    Signature: Ljava/awt/Color;
+  private final java.awt.Color couleurLignesEtTexte;
+    Signature: Ljava/awt/Color;
+  private final java.awt.Color couleurErreur;
+    Signature: Ljava/awt/Color;
+  private ca.polymtl.inf2990.Panneaux.SousPanneauJoueurVirtuel$EcouteurBoutons ecouteur_;
+    Signature: Lca/polymtl/inf2990/Panneaux/SousPanneauJoueurVirtuel$EcouteurBoutons;
+  public ca.polymtl.inf2990.Panneaux.SousPanneauJoueurVirtuel(ca.polymtl.inf2990.Jeu.JoueurVirtuel);
+    Signature: (Lca/polymtl/inf2990/Jeu/JoueurVirtuel;)V
+
+  private void initialiserFenetre();
+    Signature: ()V
+
+  private ca.polymtl.inf2990.Jeu.JoueurAbstrait genererJoueur();
+    Signature: ()Lca/polymtl/inf2990/Jeu/JoueurAbstrait;
+
+  private boolean nomValide(java.lang.String);
+    Signature: (Ljava/lang/String;)Z
+
+  private boolean soumissionValide();
+    Signature: ()Z
+
+  protected void creer();
+    Signature: ()V
+
+  public void rafraichir();
+    Signature: ()V
+
+  static javax.swing.JTextField access$0(ca.polymtl.inf2990.Panneaux.SousPanneauJoueurVirtuel);
+    Signature: (Lca/polymtl/inf2990/Panneaux/SousPanneauJoueurVirtuel;)Ljavax/swing/JTextField;
+
+  static ca.polymtl.inf2990.Jeu.JoueurVirtuel access$1(ca.polymtl.inf2990.Panneaux.SousPanneauJoueurVirtuel);
+    Signature: (Lca/polymtl/inf2990/Panneaux/SousPanneauJoueurVirtuel;)Lca/polymtl/inf2990/Jeu/JoueurVirtuel;
+
+  static javax.swing.JSlider access$2(ca.polymtl.inf2990.Panneaux.SousPanneauJoueurVirtuel);
+    Signature: (Lca/polymtl/inf2990/Panneaux/SousPanneauJoueurVirtuel;)Ljavax/swing/JSlider;
+
+  static javax.swing.JSlider access$3(ca.polymtl.inf2990.Panneaux.SousPanneauJoueurVirtuel);
+    Signature: (Lca/polymtl/inf2990/Panneaux/SousPanneauJoueurVirtuel;)Ljavax/swing/JSlider;
+
+  static boolean access$4(ca.polymtl.inf2990.Panneaux.SousPanneauJoueurVirtuel);
+    Signature: (Lca/polymtl/inf2990/Panneaux/SousPanneauJoueurVirtuel;)Z
+
+  static ca.polymtl.inf2990.Jeu.JoueurAbstrait access$5(ca.polymtl.inf2990.Panneaux.SousPanneauJoueurVirtuel);
+    Signature: (Lca/polymtl/inf2990/Panneaux/SousPanneauJoueurVirtuel;)Lca/polymtl/inf2990/Jeu/JoueurAbstrait;
+}
+Compiled from "SousPanneauTournoi.java"
+public class ca.polymtl.inf2990.Panneaux.SousPanneauTournoi extends ca.polymtl.inf2990.Panneaux.PanneauAbstrait {
+  private java.util.ArrayList<javax.swing.JComboBox> listeDesComboBox_;
+    Signature: Ljava/util/ArrayList;
+  private javax.swing.JTextField champSelectionTerrain_;
+    Signature: Ljavax/swing/JTextField;
+  private final java.lang.String texteParDefaut_;
+    Signature: Ljava/lang/String;
+  public ca.polymtl.inf2990.Panneaux.SousPanneauTournoi(ca.polymtl.inf2990.Jeu.Tournoi);
+    Signature: (Lca/polymtl/inf2990/Jeu/Tournoi;)V
+
+  public java.util.ArrayList<java.lang.Object> genererJoueursParDefaut(int);
+    Signature: (I)Ljava/util/ArrayList;
+
+  public ca.polymtl.inf2990.Panneaux.SousPanneauTournoi(int);
+    Signature: (I)V
+
+  private void initialiserPanneau(java.util.ArrayList<java.lang.Object>);
+    Signature: (Ljava/util/ArrayList;)V
+
+  private void afficherFenetreNomHumain(javax.swing.JComboBox);
+    Signature: (Ljavax/swing/JComboBox;)V
+
+  private void actionOk();
+    Signature: ()V
+
+  private boolean champValides();
+    Signature: ()Z
+
+  private boolean nomValide(java.lang.String);
+    Signature: (Ljava/lang/String;)Z
+
+  protected void creer();
+    Signature: ()V
+
+  public void rafraichir();
+    Signature: ()V
+
+  static boolean access$0(ca.polymtl.inf2990.Panneaux.SousPanneauTournoi, java.lang.String);
+    Signature: (Lca/polymtl/inf2990/Panneaux/SousPanneauTournoi;Ljava/lang/String;)Z
+
+  static void access$1(ca.polymtl.inf2990.Panneaux.SousPanneauTournoi, javax.swing.JComboBox);
+    Signature: (Lca/polymtl/inf2990/Panneaux/SousPanneauTournoi;Ljavax/swing/JComboBox;)V
+
+  static void access$2(ca.polymtl.inf2990.Panneaux.SousPanneauTournoi);
+    Signature: (Lca/polymtl/inf2990/Panneaux/SousPanneauTournoi;)V
+}
+Compiled from "VisiteurGenererPanneau.java"
+public class ca.polymtl.inf2990.Panneaux.VisiteurGenererPanneau {
+  public ca.polymtl.inf2990.Panneaux.VisiteurGenererPanneau();
+    Signature: ()V
+
+  public ca.polymtl.inf2990.Panneaux.PanneauAbstrait visiterElement(ca.polymtl.inf2990.Jeu.ElementVisitable);
+    Signature: (Lca/polymtl/inf2990/Jeu/ElementVisitable;)Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+
+  public ca.polymtl.inf2990.Panneaux.PanneauAbstrait visiter(ca.polymtl.inf2990.Jeu.JoueurVirtuel);
+    Signature: (Lca/polymtl/inf2990/Jeu/JoueurVirtuel;)Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+
+  public ca.polymtl.inf2990.Panneaux.PanneauAbstrait visiter(ca.polymtl.inf2990.Jeu.JoueurHumain);
+    Signature: (Lca/polymtl/inf2990/Jeu/JoueurHumain;)Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+
+  public ca.polymtl.inf2990.Panneaux.PanneauAbstrait visiter(ca.polymtl.inf2990.Jeu.Tournoi);
+    Signature: (Lca/polymtl/inf2990/Jeu/Tournoi;)Lca/polymtl/inf2990/Panneaux/PanneauAbstrait;
+}
+Compiled from "FiltreFichiersXML.java"
+public class ca.polymtl.inf2990.SelectionneurFichier.FiltreFichiersXML extends javax.swing.filechooser.FileFilter {
+  public ca.polymtl.inf2990.SelectionneurFichier.FiltreFichiersXML();
+    Signature: ()V
+
+  public boolean accept(java.io.File);
+    Signature: (Ljava/io/File;)Z
+
+  public java.lang.String getDescription();
+    Signature: ()Ljava/lang/String;
+
+  public static java.lang.String obtenirExtension(java.io.File);
+    Signature: (Ljava/io/File;)Ljava/lang/String;
+}
+Compiled from "SelectionneurFichier.java"
+public class ca.polymtl.inf2990.SelectionneurFichier.SelectionneurFichier extends javax.swing.JFileChooser {
+  private static final long serialVersionUID;
+    Signature: J
+  public ca.polymtl.inf2990.SelectionneurFichier.SelectionneurFichier();
+    Signature: ()V
+
+  public void approveSelection();
+    Signature: ()V
+}

@@ -1,0 +1,91 @@
+///////////////////////////////////////////////////////////////////////////////
+/// @file NoeudGroupe.cpp
+/// @author Michael Ferris
+/// @date 2012-03-02
+/// @version 1.0
+///
+/// @addtogroup inf2990 INF2990
+/// @{
+///////////////////////////////////////////////////////////////////////////////
+
+#include "NoeudGroupe.h"
+#include "XMLUtils.h"
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn  NoeudGroupe::NoeudGroupe( std::string type, std::string typeEnfants ) : NoeudComposite(type),typeEnfants_(typeEnfants)
+///
+/// Constructeur du groupe de noeuds.
+///
+/// @param[in] std::string type
+/// @param[in] std::string typeEnfants
+///
+/// @return 
+///
+////////////////////////////////////////////////////////////////////////
+NoeudGroupe::NoeudGroupe(std::string type, std::string typeEnfants):
+NoeudComposite(type),typeEnfants_(typeEnfants)
+{
+	assignerEstSelectionnable(false);
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn  NoeudGroupe::~NoeudGroupe( void )
+///
+/// Destructeur vide.
+///
+/// @param[in] void
+///
+/// @return 
+///
+////////////////////////////////////////////////////////////////////////
+NoeudGroupe::~NoeudGroupe(void)
+{
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn TiXmlElement* NoeudGroupe::creerNoeudXML()
+///
+/// Retourne un élément XML pour le groupe de noeuds.
+///
+/// @return TiXmlElement*
+///
+////////////////////////////////////////////////////////////////////////
+TiXmlElement* NoeudGroupe::creerNoeudXML()
+{
+	TiXmlElement* element = XMLUtils::creerNoeud(type_.c_str());
+
+    XMLUtils::ecrireAttribute(element,"TypeEnfants",typeEnfants_);
+	
+	return element;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool NoeudGroupe::initialiser( const TiXmlElement* element )
+///
+/// Initialisation du NoeudGroupe à partir d'un element XML
+///
+/// @param[in] const TiXmlElement * element
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool NoeudGroupe::initialiser( const TiXmlElement* element )
+{
+    if(!XMLUtils::LireAttribute(element,"TypeEnfants",typeEnfants_))
+        return false;
+
+	return true;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////////
+
+
+

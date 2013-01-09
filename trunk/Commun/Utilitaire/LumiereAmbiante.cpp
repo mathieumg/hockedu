@@ -1,0 +1,96 @@
+///////////////////////////////////////////////////////////////////////////////
+/// @file LumiereAmbiante.cpp
+/// @author Samuel Ledoux
+/// @date 2012-03-26
+/// @version 1.0
+///
+/// @addtogroup utilitaire Utilitaire
+/// @{
+///////////////////////////////////////////////////////////////////////////////
+
+#include "LumiereAmbiante.h"
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn  LumiereAmbiante::LumiereAmbiante( GLfloat position[4], GLfloat ambiante[4], GLfloat diffuse[4], GLfloat speculaire[4], int lienOpenGl )
+///
+/// Constructeur par paramètre
+///
+/// @param[in] GLfloat position[4] : la position 
+/// @param[in] GLfloat ambiante[4] : composante ambiante de la lumière
+/// @param[in] GLfloat diffuse[4] : composante diffuse de la lumière
+/// @param[in] GLfloat speculaire[4] :  composante speculaire de la lumière
+/// @param[in] int lienOpenGl : lien vers le define openGL, ex : GL_LIGHT0
+///
+/// @return 
+///
+////////////////////////////////////////////////////////////////////////
+LumiereAmbiante::LumiereAmbiante(GLfloat position[4], GLfloat ambiante[4], GLfloat diffuse[4], GLfloat speculaire[4], int lienOpenGl, GLfloat attenuation[4])
+	:LumiereAbstraite(position, ambiante, diffuse, speculaire, lienOpenGl, attenuation)
+{
+	
+}
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void LumiereAmbiante::animerAnimation()
+///
+/// Sert à créé une animation pour la lumière ambiante
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void LumiereAmbiante::animerAnimation()
+{
+
+}
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void LumiereAmbiante::obtenirNom()
+///
+/// Affiche le nom de l'objet animable
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+std::string LumiereAmbiante::obtenirNom() const
+{
+    return "Lumiere Ambiante";
+}
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn  LumiereAmbiante::~LumiereAbstraite()
+///
+/// Destructeur
+///
+///
+/// @return 
+///
+////////////////////////////////////////////////////////////////////////
+LumiereAmbiante::~LumiereAmbiante()
+{
+}
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void LumiereAmbiante::initLumiere()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void LumiereAmbiante::initLumiere()
+{
+	LumiereAbstraite::initLumiere();
+}
+
+
+///////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////
+
+
+
+
