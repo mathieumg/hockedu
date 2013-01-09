@@ -257,8 +257,8 @@ private:
 	HDC   hDC_;
     HANDLE renderThread_;
 
-    class DebugRenderBox2D* debugRenderBox2D_;
-    class b2World* world_;
+    class DebugRenderBox2D* mDebugRenderBox2D;
+    class b2World* mWorld;
 
 	/// Vue courante de la scène.
 	vue::Vue* vue_;	
@@ -303,8 +303,8 @@ private:
 
 	/// Accesseurs
 public:
-    /// Accessors of world_
-    inline class b2World* getWorld() const { return world_; }
+    /// Accessors of mWorld
+    inline class b2World* getWorld() const { return mWorld; }
 
     inline bool IsInGame() const { return enJeu_; }
     /// Accessors of hGLRC_

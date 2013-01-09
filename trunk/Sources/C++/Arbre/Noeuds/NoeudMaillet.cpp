@@ -66,6 +66,10 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud)
     b2FixtureDef myFixtureDef;
     myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
     myFixtureDef.density = 1;
+    myFixtureDef.filter.categoryBits = CATEGORY_MALLET;
+    myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_BOUNDARY;
+    myFixtureDef.filter.groupIndex = 1;
+
     mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
 
 }
@@ -83,8 +87,6 @@ NoeudMaillet::~NoeudMaillet()
 {
 	FacadeModele::obtenirInstance()->supprimerElementSurTable(this);
 	NoeudMaillet::mailletExistant--;
-    FacadeModele::obtenirInstance()->getWorld()->DestroyBody(mPhysicBody);
-    mPhysicBody = NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////

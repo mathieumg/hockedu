@@ -36,7 +36,7 @@ NoeudPoint::NoeudPoint( const std::string& typeNoeud, double coordX, double coor
 	: NoeudComposite(typeNoeud) , longueurCote_(2.0f), typePosNoeud_(typePosNoeud)
 {
 	// Il ne faut aps utiliser le modificateur de position relative, car il ne faut pas affecter le modele 3D a la construction des points
-	positionRelative_ = Vecteur3(coordX,coordY, 0);
+    NoeudAbstrait::assignerPositionRelative(Vecteur3(coordX,coordY, 0));
 	modifierPositionInitiale(positionRelative_);
 }
 
@@ -91,7 +91,7 @@ void NoeudPoint::afficherConcret() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudPoint::animer( const float& temps )
 {
-	angle_ = (int)(angle_+temps*500.0)%360;
+	mAngle = (int)(mAngle+temps*500.0)%360;
 	updateMatrice();
 
 	glPushMatrix();

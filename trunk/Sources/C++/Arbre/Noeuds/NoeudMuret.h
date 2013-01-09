@@ -62,6 +62,8 @@ public:
    virtual void assignerAngle(const double& angle);
    /// Mutateur des facteurs d'echelle et conserve les coins a jour
    virtual void modifierEchelleCourante(const Vecteur3& echelleCourante);
+   /// Recreates the physics body according to current attributes
+   virtual void updatePhysicBody();
 protected:
 private:
    /// Coin1 du muret

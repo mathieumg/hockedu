@@ -27,6 +27,7 @@
 #include "NoeudGroupe.h"
 #include "Terrain.h"
 #include "NoeudPortail.h"
+#include <Box2D/Box2D.h>
 
 unsigned int NoeudRondelle::rondellesPresentes=0;
 bool UsineNoeudRondelle::bypassLimitePourTest = false;
@@ -52,12 +53,31 @@ NoeudRondelle::NoeudRondelle(const std::string& typeNoeud)
 	if(FacadeModele::obtenirInstance()->obtenirArbreRenduINF2990())
 		table_ = FacadeModele::obtenirInstance()->obtenirArbreRenduINF2990()->obtenirTable();
 
-	coefFriction_ = 2.5;
-	velocite_ = Vecteur3(0.0,0.0, 0.0);
-	angle_ = 0.0;
-	vitesseRotation_ = 0.0;
+	mCoefFriction = 2.5;
+	mVelocite = Vecteur3(0.0,0.0, 0.0);
+	mAngle = 0.0;
+	mVitesseRotation = 0.0;
 
 	FacadeModele::obtenirInstance()->ajouterElementSurTable(this);
+
+    b2BodyDef myBodyDef;
+    myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
+    myBodyDef.position.Set(0, 0); //set the starting position
+    myBodyDef.angle = 0; //set the starting angle
+
+    mPhysicBody = getWorld()->CreateBody(&myBodyDef);
+    b2CircleShape circleShape;
+    circleShape.m_p.Set(0, 0); //position, relative to body position
+    circleShape.m_radius = (float32)obtenirRayon(); //radius
+
+    b2FixtureDef myFixtureDef;
+    myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
+    myFixtureDef.density = 1;
+    myFixtureDef.friction = 0.1f;
+    myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
+    myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY;
+
+    mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
 
 }
 
@@ -116,7 +136,7 @@ void NoeudRondelle::afficherConcret() const
 void NoeudRondelle::animer( const float& temps)
 {
 	//A mettre dans majPosition();
-	//positionRelative_ += velocite_*temps;
+	//positionRelative_ += mVelocite*temps;
 	// Appel à la version de la classe de base pour l'animation des enfants.
 	NoeudAbstrait::animer(temps);
 }
@@ -161,7 +181,7 @@ void NoeudRondelle::gestionCollision( const float& temps )
 	//for(int i=0; i<cycles;i++)
 	{
 		
-		positionRelative_+=velocite_*temps;
+		positionRelative_+=mVelocite*temps;
 
 		Vecteur2 vecteurDirecteur(positionRelative_-anciennePos_);
 		vecteurDirecteur.normaliser();
@@ -222,14 +242,14 @@ void NoeudRondelle::gestionCollision( const float& temps )
 					double time = aidecollision::TimeOfClosestApproach(
 						anciennePos_.convertir<2>(),
 						maillet->obtenirAnciennePos().convertir<2>(),
-						velocite_.convertir<2>(),
+						mVelocite.convertir<2>(),
 						maillet->obtenirVelocite().convertir<2>(),
 						obtenirRayon(),
 						maillet->obtenirRayon(),
 						collisionMaillet);
 					if(collisionMaillet && time <= temps)
 					{
-						Vecteur3 nouvellePosTOIRondelle = anciennePos_+velocite_*time;
+						Vecteur3 nouvellePosTOIRondelle = anciennePos_+mVelocite*time;
 						Vecteur3 nouvellePosTOIMaillet = maillet->obtenirAnciennePos()+maillet->obtenirVelocite()*time;
 						droiteEntreCentres = nouvellePosTOIRondelle-nouvellePosTOIMaillet;
 						droiteEntreCentres.normaliser();
@@ -240,7 +260,7 @@ void NoeudRondelle::gestionCollision( const float& temps )
 					droiteEntreCentres.normaliser();
 					Vecteur3 normale(droiteEntreCentres[VY],-droiteEntreCentres[VX]);
 
-					Vecteur3 reflexion = calculerReflexion(velocite_,droiteEntreCentres);
+					Vecteur3 reflexion = calculerReflexion(mVelocite,droiteEntreCentres);
 					vitesseResultante_ += reflexion;
 
 					Vecteur3 projectionTemp = calculerProjectionDroite(maillet->obtenirVelocite(),droiteEntreCentres);
@@ -317,10 +337,10 @@ void NoeudRondelle::gestionCollision( const float& temps )
 				detailsRes.direction.normaliser();
 				Vecteur3 normale(-detailsRes.direction[VY],detailsRes.direction[VX]);
 
-				vitesseResultante_ += calculerReflexion(velocite_,normale)*-1*rebond;
+				vitesseResultante_ += calculerReflexion(mVelocite,normale)*-1*rebond;
 				
 				collision_ = true;
-				if(velocite_.norme2() > 200)
+				if(mVelocite.norme2() > 200)
 					SoundFMOD::obtenirInstance()->playEffect(COLLISION_MURET_EFFECT);
 			}
 		}
@@ -341,8 +361,8 @@ void NoeudRondelle::gestionCollision( const float& temps )
 void NoeudRondelle::majPosition( const float& temps )
 {
 	anciennePos_ = positionRelative_;
-	positionRelative_ += velocite_*temps;
-	angle_ = (int)(angle_ + 5*vitesseRotation_)%360;
+	positionRelative_ += mVelocite*temps;
+	mAngle = (int)(mAngle + 5*mVitesseRotation)%360;
 	updateMatrice();
 }
 
@@ -373,7 +393,7 @@ void NoeudRondelle::ajusterEnfoncement()
 		if(produitScalaire(normale,direction) < 0)
 			normale*=-1;
 		// La normale de la normale est la droite elle meme
-		velocite_ = calculerReflexion(velocite_,directeur.convertir<3>())*-1*1.10;//muret->obtenirCoefRebond();
+		mVelocite = calculerReflexion(mVelocite,directeur.convertir<3>())*-1*1.10;//muret->obtenirCoefRebond();
 		normale*= obtenirRayon();
 		positionRelative_ = intersection.convertir<3>()+normale;
 	}
@@ -402,7 +422,7 @@ void NoeudRondelle::ajusterEnfoncement()
 		partie->miseAuJeu();
 		// Rendu dans miseAuJeu de Partie
 // 		positionRelative_ = positionOriginale_;
- 		velocite_.remetAZero();
+ 		mVelocite.remetAZero();
 		
 		
 	}
@@ -449,7 +469,7 @@ void NoeudRondelle::ajusterVitesse( const float& temps )
 						if(distance.norme2() != 0)
 							ajustement *= 37*portail->obtenirRayon()/(distance.norme2());
 
-						velocite_+= ajustement;
+						mVelocite+= ajustement;
 					}
 				}
 				else if(!portail->champAttractionActive())
@@ -476,7 +496,7 @@ void NoeudRondelle::ajusterVitesse( const float& temps )
 	}
 	directeur.normaliser();
 	directeur *= -coeffVent_*positionRelative_[VX]*positionRelative_[VX]+puissanceVent_;
-	velocite_ += directeur;
+	mVelocite += directeur;
 	
 	///////////////////////////////////////////////
 
@@ -484,7 +504,7 @@ void NoeudRondelle::ajusterVitesse( const float& temps )
 	// Algo pour rotation !!
 	if(collision_)
 	{
-		Vecteur3 vitesseAvant( -1 * velocite_ );
+		Vecteur3 vitesseAvant( -1 * mVelocite );
 		vitesseAvant.normaliser();
 		Vecteur3 vitesseApres(vitesseResultante_);
 		vitesseApres.normaliser();
@@ -493,27 +513,27 @@ void NoeudRondelle::ajusterVitesse( const float& temps )
 			(vitesseAvant[VX] > 0 && vitesseApres[VX] < 0 && vitesseAvant[VY] < 0 && vitesseApres[VY] < 0) ||
 			(vitesseAvant[VX] > 0 && vitesseApres[VX] > 0 && vitesseAvant[VY] > 0 && vitesseApres[VY] < 0) ||
 			(vitesseAvant[VX] < 0 && vitesseApres[VX] > 0 && vitesseAvant[VY] > 0 && vitesseApres[VY] > 0))
-			vitesseRotation_ = -1 * acos(produitScalaire(vitesseAvant, vitesseApres));
+			mVitesseRotation = -1 * acos(produitScalaire(vitesseAvant, vitesseApres));
 		else
-			vitesseRotation_ = acos(produitScalaire(vitesseAvant, vitesseApres));
+			mVitesseRotation = acos(produitScalaire(vitesseAvant, vitesseApres));
 
-		velocite_ = vitesseResultante_;
+		mVelocite = vitesseResultante_;
 	}
 
 	// Diminution de la vitesse par la friction
-	velocite_ *= (1.0-coefFriction_*temps);
+	mVelocite *= (1.0-mCoefFriction*temps);
 	// Modification de la vitesse selon les bonus accel
-	velocite_ *= bonusAccelResultant_;
+	mVelocite *= bonusAccelResultant_;
 
 	// Cap de vitesse
-	if(velocite_.norme2() > 1000000)
+	if(mVelocite.norme2() > 1000000)
 	{
-		velocite_.normaliser();
-		velocite_*= 1000;
+		mVelocite.normaliser();
+		mVelocite*= 1000;
 	}
 
-	velocite_[VZ] = 0;
-	vitesseRotation_ *= 0.99;
+	mVelocite[VZ] = 0;
+	mVitesseRotation *= 0.99;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -543,7 +563,7 @@ void NoeudRondelle::validerPropriteteTablePourJeu() throw(std::logic_error)
 			Vecteur3 ref = rand()&1 ? table_->obtenirPoint(POSITION_HAUT_DROITE)->obtenirPositionAbsolue() : table_->obtenirPoint(POSITION_BAS_DROITE)->obtenirPositionAbsolue();
 			coeffDirectVent_ = ref[VX]/ref[VY]/ref[VY];
 
-			coefFriction_ = table_->obtenirCoefFriction()/10;
+			mCoefFriction = table_->obtenirCoefFriction()/10;
 		}
 		else
 			throw std::logic_error("Aucune table sur le terrain de la rondelle");

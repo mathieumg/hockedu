@@ -18,6 +18,7 @@
 #include "Box2D/Box2D.h"
 
 GLuint NoeudAbstrait::compteurIdGl_ = 1;
+b2World* NoeudAbstrait::mWorld = NULL;
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -43,7 +44,7 @@ NoeudAbstrait::NoeudAbstrait(
     selectionnable_(true) ,
     enregistrable_(true) ,
     parent_(0) , 
-    angle_(0) ,
+    mAngle(0) ,
     surligne_(false),
     glId_(compteurIdGl_++),
     terrain_(NULL)
@@ -79,7 +80,7 @@ NoeudAbstrait::NoeudAbstrait(
 ////////////////////////////////////////////////////////////////////////
 NoeudAbstrait::~NoeudAbstrait()
 {
-	
+	clearPhysicsBody();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -625,7 +626,11 @@ void NoeudAbstrait::assignerParent( NoeudComposite* parent )
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::assignerAngle( const double& angle )
 {
-	angle_ = angle;
+	mAngle = angle;
+    if(mPhysicBody)
+    {
+        mPhysicBody->SetTransform(mPhysicBody->GetPosition(),utilitaire::DEG_TO_RAD(mAngle));
+    }
 	updateMatrice();
 }
 
@@ -640,7 +645,7 @@ void NoeudAbstrait::assignerAngle( const double& angle )
 ////////////////////////////////////////////////////////////////////////
 double NoeudAbstrait::obtenirAngle() const
 {
-	return angle_;
+	return mAngle;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -657,7 +662,7 @@ void NoeudAbstrait::updateMatrice()
 	glPushMatrix();
 	glLoadIdentity();
 
-	glRotated(angle_, 0.0, 0.0, 1.0);
+	glRotated(mAngle, 0.0, 0.0, 1.0);
 	glScaled(echelleCourante_[VX], echelleCourante_[VY], echelleCourante_[VZ]);
 	
 	glGetDoublev(GL_MODELVIEW_MATRIX, matrice_); // Savegarde de la matrice courante dans le noeud
@@ -689,11 +694,11 @@ NoeudAbstrait::PaireVect3 NoeudAbstrait::obtenirZoneOccupee() const
         hauteur = echelleCourante_[VY]*(maximum[VY]-minimum[VY]);
 
         // On multiplie par l'echelle maximale
-        minimum[VX] = obtenirPositionAbsolue()[VX]-(largeur*cos(((int)angle_%90)*M_PI/180))/2;
-        maximum[VX] = obtenirPositionAbsolue()[VX]+(largeur*cos(((int)angle_%90)*M_PI/180))/2;
+        minimum[VX] = obtenirPositionAbsolue()[VX]-(largeur*cos(((int)mAngle%90)*M_PI/180))/2;
+        maximum[VX] = obtenirPositionAbsolue()[VX]+(largeur*cos(((int)mAngle%90)*M_PI/180))/2;
 
-        minimum[VY] = obtenirPositionAbsolue()[VY]-(largeur*sin(((int)angle_%90)*M_PI/180))/2;
-        maximum[VY] = obtenirPositionAbsolue()[VY]+(largeur*sin(((int)angle_%90)*M_PI/180))/2;
+        minimum[VY] = obtenirPositionAbsolue()[VY]-(largeur*sin(((int)mAngle%90)*M_PI/180))/2;
+        maximum[VY] = obtenirPositionAbsolue()[VY]+(largeur*sin(((int)mAngle%90)*M_PI/180))/2;
 
         if(maximum[VY]-minimum[VY]<hauteur)
         {
@@ -822,7 +827,7 @@ TiXmlElement* NoeudAbstrait::creerNoeudXML()
 	TiXmlElement* elementNoeud = XMLUtils::creerNoeud(type_.c_str());
     XMLUtils::ecrireVecteur3Dxml(&positionRelative_,elementNoeud,"pos");
     XMLUtils::ecrireVecteur3Dxml(&echelleCourante_,elementNoeud,"echelle");
-    XMLUtils::ecrireAttribute<double>(elementNoeud,"angle",angle_);
+    XMLUtils::ecrireAttribute<double>(elementNoeud,"angle",mAngle);
     XMLUtils::ecrireAttribute<int>(elementNoeud,"affiche",affiche_);
     XMLUtils::ecrireAttribute<int>(elementNoeud,"selectionnable",selectionnable_);
 
@@ -854,7 +859,7 @@ bool NoeudAbstrait::initialiser( const TiXmlElement* element )
 
     if( !XMLUtils::LireAttribute<double>(element,"angle",doubleElem) )
         return false;
-    angle_ = doubleElem;
+    mAngle = doubleElem;
 
 	if( !XMLUtils::LireAttribute<int>(element,"affiche",intElem) )
 		return false;
@@ -884,7 +889,7 @@ void NoeudAbstrait::animerAnimation()
 	if(modParam1_)
 		assignerPositionRelative(animationParam1_);
 	if(modParam2_)
-		angle_ = animationParam2_[VZ];
+		mAngle = animationParam2_[VZ];
 	if(modParam3_)
 		echelleCourante_ = animationParam3_;
 	updateMatrice();
@@ -958,6 +963,25 @@ void NoeudAbstrait::assignerPositionRelative( const Vecteur3& positionRelative )
 Modele3D* NoeudAbstrait::obtenirModele() const
 {
     return GestionnaireModeles::obtenirInstance()->obtenirModele(type_);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudAbstrait::clearPhysicsBody()
+///
+/// Release memory of the physics body
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAbstrait::clearPhysicsBody()
+{
+    if(mPhysicBody && getWorld())
+    {
+        getWorld()->DestroyBody(mPhysicBody);
+    }
+    mPhysicBody = NULL;
 }
 
 

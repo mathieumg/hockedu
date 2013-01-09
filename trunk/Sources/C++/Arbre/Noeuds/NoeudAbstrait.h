@@ -27,6 +27,17 @@ class TiXmlElement;
 class Modele3D;
 class Terrain;
 
+// max of 16 categories because box2D flag have only 16 bits
+enum PhyhicsCategory
+{
+    CATEGORY_NONE     = 0x0000,
+    CATEGORY_BOUNDARY = 0x0001,
+    CATEGORY_PUCK     = 0x0002,
+    CATEGORY_MALLET   = 0x0004,
+    CATEGORY_PORTAL   = 0x0008,
+    CATEGORY_BOOST    = 0x0010,
+};
+
 ///////////////////////////////////////////////////////////////////////////
 /// @class NoeudAbstrait
 /// @brief Classe de base du patron composite utilisée pour créer l'arbre
@@ -193,7 +204,17 @@ public:
 	Terrain* obtenirTerrain() const { return terrain_; }
 	/// Modificateur de terrain_
 	virtual void modifierTerrain(Terrain* val);
+
+    /// Recreates the physics body according to current attributes
+    virtual void updatePhysicBody() {}
+
+	/// Libere la memoire de l'objet Box2D
+    void clearPhysicsBody();
+    /// Accessors of mWorld
+    inline static class b2World* getWorld() { return mWorld; }
+    inline static void setWorld(class b2World* pVal) { mWorld = pVal; }
 protected:
+    static class b2World* mWorld;
     class b2Body* mPhysicBody;
 	/// Type du noeud.
 	std::string      type_;
@@ -226,7 +247,7 @@ protected:
 	Vecteur3 echelleCourante_;
 
 	/// Angle de rotation autour de l'axe Z.
-	double angle_;
+	double mAngle;
 
 	/// Rayon de l'objet
 	double rayon_;

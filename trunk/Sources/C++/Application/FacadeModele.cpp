@@ -242,42 +242,11 @@ FacadeModele::FacadeModele()
 	// creation d'un dossier avec un autre API, dunno which yet
 #endif
     b2Vec2 gravity;
-    world_ = new b2World(gravity);
-    debugRenderBox2D_ = new DebugRenderBox2D();
-    world_->SetDebugDraw(debugRenderBox2D_);
-
-    debugRenderBox2D_->AppendFlags(b2Draw::e_shapeBit);
-
-    //set up a dynamic body
-    b2BodyDef myBodyDef;
-    myBodyDef.type = b2_dynamicBody;
-    myBodyDef.position.Set(0, 20); //middle
-    b2Body* dynamicBody = world_->CreateBody(&myBodyDef);
-
-    //prepare a shape definition
-    b2PolygonShape polygonShape;
-    b2FixtureDef myFixtureDef;
-    myFixtureDef.shape = &polygonShape;
-    myFixtureDef.density = 1;
-
-    //add four square shaped fixtures around the body center
-    for ( int i = 0; i < 4; i++) {
-        b2Vec2 pos( sinf(i*90*DEGTORAD), cosf(i*90*DEGTORAD) ); //radial placement
-        polygonShape.SetAsBox(1, 1, pos, 0 ); //a 2x2 rectangle
-        myFixtureDef.friction = i/4.0f;
-        myFixtureDef.restitution = 0.5f;
-        dynamicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
-    }
-
-    //make a static floor to drop things on
-    myBodyDef.type = b2_staticBody;
-    myBodyDef.position.Set(0, 0); //middle, bottom
-    b2Body* floor = world_->CreateBody(&myBodyDef);  
-    b2EdgeShape edgeShape;
-    myFixtureDef.shape = &edgeShape;
-    edgeShape.Set( b2Vec2(-15,0), b2Vec2(15,3) ); //slightly sloped  
-    floor->CreateFixture(&myFixtureDef); //add a fixture to the body
-
+    mWorld = new b2World(gravity);
+    mDebugRenderBox2D = new DebugRenderBox2D();
+    mWorld->SetDebugDraw(mDebugRenderBox2D);
+    mDebugRenderBox2D->AppendFlags(b2Draw::e_shapeBit);
+    NoeudAbstrait::setWorld(mWorld);
 }
 
 
@@ -302,13 +271,13 @@ FacadeModele::~FacadeModele()
 		delete boiteEnvironnement;
 		boiteEnvironnement=0;
 	}
-    if(world_)
+    if(mWorld)
     {
-        delete world_;
-        world_ = NULL;
+        delete mWorld;
+        mWorld = NULL;
     }
-    delete debugRenderBox2D_;
-    debugRenderBox2D_ = NULL;
+    delete mDebugRenderBox2D;
+    mDebugRenderBox2D = NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -848,8 +817,8 @@ void FacadeModele::afficher( )
 	glDisable(GL_LIGHTING);
 
     DrawSelectionRectangle();
-    world_->DrawDebugData();
-    //debugRenderBox2D_->DrawString(150,150,"test %d",this->temps_.Elapsed_Time_sec());
+    mWorld->DrawDebugData();
+    //mDebugRenderBox2D->DrawString(150,150,"test %d",this->temps_.Elapsed_Time_sec());
 
 	if(vue_->obtenirNbViewports()>1)
 	{

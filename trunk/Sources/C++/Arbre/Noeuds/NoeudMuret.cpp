@@ -14,6 +14,7 @@
 #include "Modele3D.h"
 #include "tinyxml.h"
 #include "XMLUtils.h"
+#include <Box2D/Box2D.h>
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -50,6 +51,42 @@ NoeudMuret::~NoeudMuret()
 {
 	FacadeModele::obtenirInstance()->supprimerElementSurTable(this);
 }
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudMuret::updatePhysicBody()
+///
+/// Recreates the physics body according to current attributes
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudMuret::updatePhysicBody()
+{
+    clearPhysicsBody();
+
+    float halfLength = echelleCourante_[VX]/2.f;//(float)(coin2-coin1).norme()/2.f;
+
+    b2BodyDef myBodyDef;
+    myBodyDef.type = b2_staticBody; //this will be a dynamic body
+    myBodyDef.position.Set(0, 0); //set the starting position
+    myBodyDef.angle = 0; //set the starting angle
+
+    mPhysicBody = getWorld()->CreateBody(&myBodyDef);
+    b2PolygonShape shape;
+    shape.SetAsBox(halfLength,1,b2Vec2(positionRelative_[VX],positionRelative_[VY]),utilitaire::DEG_TO_RAD(mAngle));
+
+    b2FixtureDef myFixtureDef;
+    myFixtureDef.shape = &shape; //this is a pointer to the shape above
+    myFixtureDef.density = 1;
+    myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
+    myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_MALLET;
+
+    mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+}
+
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -158,9 +195,9 @@ Vecteur3 NoeudMuret::obtenirCoin2()
 ////////////////////////////////////////////////////////////////////////
 void NoeudMuret::majPosCoins()
 {
-	//double deltaX = (cos(utilitaire::DEG_TO_RAD(angle_)) *echelleCourante_[VX])/2.0;
-	//double deltaY = (sin(utilitaire::DEG_TO_RAD(angle_)) *echelleCourante_[VX])/2.0;
-	Vecteur3 deplacement( cos(utilitaire::DEG_TO_RAD(angle_) ), sin(utilitaire::DEG_TO_RAD(angle_) ) );
+	//double deltaX = (cos(utilitaire::DEG_TO_RAD(mAngle)) *echelleCourante_[VX])/2.0;
+	//double deltaY = (sin(utilitaire::DEG_TO_RAD(mAngle)) *echelleCourante_[VX])/2.0;
+	Vecteur3 deplacement( cos(utilitaire::DEG_TO_RAD(mAngle) ), sin(utilitaire::DEG_TO_RAD(mAngle) ) );
 	deplacement*= echelleCourante_[VX];
 	deplacement /= 2.0;
 	positionCoin1_ = positionRelative_+deplacement;
@@ -182,10 +219,10 @@ void NoeudMuret::trouverAngle()
 {
 	Vecteur3 coin1Relatif(positionCoin1_-positionRelative_);
 	coin1Relatif.normaliser();
-	angle_ = (360.0+(utilitaire::RAD_TO_DEG(acos(coin1Relatif[VX]))*( (coin1Relatif[VY] < 0)?-1:1) ) );
-	angle_ /= 360.0;
-	angle_ -= (int)(angle_);
-	angle_ *= 360.0;
+	mAngle = (360.0+(utilitaire::RAD_TO_DEG(acos(coin1Relatif[VX]))*( (coin1Relatif[VY] < 0)?-1:1) ) );
+	mAngle /= 360.0;
+	mAngle -= (int)(mAngle);
+	mAngle *= 360.0;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -215,8 +252,9 @@ void NoeudMuret::assignerPositionCoin( int lequel, Vecteur3 position )
 	double	deltaX = positionCoin2_[VX]-positionCoin1_[VX],
 		deltaY = positionCoin2_[VY]-positionCoin1_[VY];
 
-	positionRelative_ = Vecteur3(positionCoin1_[VX]+deltaX/2.0, positionCoin1_[VY]+deltaY/2.0, 0);
+	NoeudAbstrait::assignerPositionRelative(Vecteur3(positionCoin1_[VX]+deltaX/2.0, positionCoin1_[VY]+deltaY/2.0, 0));
 	trouverAngle();
+    updatePhysicBody();
 }
 
 ////////////////////////////////////////////////////////////////////////
