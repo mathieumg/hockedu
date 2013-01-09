@@ -1,0 +1,55 @@
+But de l'application
+====================
+
+Cette application est une version simplifiée de l'éditeur que vous aviez fait en INF2990. Elle est là pour vous permettre de vous familiariser avec Xcode et Objective-C et pour vous servir de base de code au besoin. Vous pouvez donc utiliser le code source comme bon vous semble pour votre application sur iPad.
+
+
+Boutons de la fenêtre
+=====================
+
+Charger : charge une scène à partir d'un fichier XML.
+
+Enregistrer sous : enregistre la scène courante dans un fichier XML.
+
+
+Boutons de la barre d'outils
+============================
+
+Triangle : pour ajouter des triangles à la scène. Est fait en cliquant dans la scène.
+
+Carré : pour ajouter des carrés à la scène. Est fait en cliquant dans la scène.
+
+Zoom : pour effectuer des zooms avec rectangle élastique. Le rectangle élastique se fait avec un "drag and drop". Au moment du relâchement du bouton, si aucune touche n'est enfoncée, il s'agira d'un zoom avant. Si la touche alt est enfoncée, il s'agira d'un zoom arrière.
+
+Pan : déplace la vue sur la scène. Est fait avec un "drag and drop".
+
+Sélect. : choisi l'outil de sélection. Avec cet outil il suffit de cliquer sur des objets pour inverser leur état de sélection. Un "drag and drop" dans la scène fait déplacer les objets. Un "drag and drop" dans la scène lorsque le bouton alt est enfoncé fera pivoter la sélection autour de son centre.
+
+
+Roulette de la souris
+=====================
+
+Lorsque l'outil courant est celui de sélection, la roulette fait faire une mise à l'échelle de la sélection. Si l'outil courant est autre chose, la roulette est utilisée pour effectuer des zooms.
+
+
+Commandes par touches du clavier
+================================
+
++ / - : zoom avant et arrière.
+
+Les flèches : pan dans les 4 directions.
+
+d : effectue une duplication des objets sélectionnés sous ceux-ci. Cela agit comme une étampe. Pour voir la duplication, déplacer les objets sélectionnés.
+
+e : efface les objets sélectionnés.
+
+cmd-n : ouvre une nouvelle fenêtre d'édition.
+
+cmd-w : ferme la fenêtre active.
+
+cmd-q : ferme l'application.
+
+cmd-s : ouvre la boite de dialogue permettant d'enregistrer la scène dans un fichier XML.
+
+cmd-o : ouvre la boite de dialogue permettant de charger une scène à partir d'un fichier XML.
+
