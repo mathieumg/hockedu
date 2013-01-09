@@ -1406,7 +1406,12 @@ JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_pointPa
 
 
 
+// TEST
 
+int GlobalTestForCS(int a)
+{
+	return a*2;
+}
 
 
 

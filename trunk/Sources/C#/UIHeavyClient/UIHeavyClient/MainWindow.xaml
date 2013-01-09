@@ -1,0 +1,8 @@
+﻿<Window x:Class="UIHeavyClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="565" Width="769">
+    <Grid>
+        <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="374,148,0,0" Name="label1" VerticalAlignment="Top" Width="76" />
+    </Grid>
+</Window>
