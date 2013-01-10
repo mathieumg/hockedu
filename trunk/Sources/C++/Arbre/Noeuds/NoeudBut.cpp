@@ -121,6 +121,9 @@ void NoeudBut::afficherConcret() const
 {
     GLuint liste = NULL;
     GestionnaireModeles::obtenirInstance()->obtenirListe(type_,liste);
+
+    glTranslated(positionRelative_[0], positionRelative_[1], positionRelative_[2]);
+
     if(liste != 0 && estAffiche())
     {
         Vecteur3 positionPoint = parent_->obtenirPositionAbsolue();

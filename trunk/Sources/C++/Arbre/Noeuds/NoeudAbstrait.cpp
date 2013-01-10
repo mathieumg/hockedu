@@ -394,27 +394,24 @@ void NoeudAbstrait::assignerModePolygones( GLenum modePolygones )
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::afficher() const
 {
-   if (estAffiche()) 
-   {
-      glPushMatrix();
-      glPushAttrib(GL_CURRENT_BIT | GL_POLYGON_BIT);
+    glPushMatrix();
+    glPushAttrib(GL_CURRENT_BIT | GL_POLYGON_BIT);
 
-	  glTranslated(
-		  positionRelative_[0], positionRelative_[1], positionRelative_[2]
-	  );
+	glTranslated(
+		positionRelative_[0], positionRelative_[1], positionRelative_[2]
+	);
 
-	  glMultMatrixd(matrice_);
+	glMultMatrixd(matrice_);
       
-      // Assignation du mode d'affichage des polygones
-      glPolygonMode( GL_FRONT_AND_BACK, modePolygones_ );
+    // Assignation du mode d'affichage des polygones
+    glPolygonMode( GL_FRONT_AND_BACK, modePolygones_ );
       
-      // Affichage concret
-      afficherConcret();
+    // Affichage concret
+    afficherConcret();
       
-      // Restauration
-      glPopAttrib();
-      glPopMatrix();
-   }
+    // Restauration
+    glPopAttrib();
+    glPopMatrix();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -433,6 +430,9 @@ void NoeudAbstrait::afficher() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::afficherConcret() const
 {
+    // Effectue une translation pour placer le modele au bon endroit
+    glTranslated(positionRelative_[0], positionRelative_[1], positionRelative_[2]);
+
     if(estAffiche())
     {
         GLuint liste;
@@ -440,9 +440,7 @@ void NoeudAbstrait::afficherConcret() const
         // Si aucune liste n'est trouvé, on sort de la fonction.
         if(liste==NULL)
             return;
-
-        // Effectue une translation pour placer le modele au bon endroit
-        glTranslated(positionRelative_[0], positionRelative_[1], positionRelative_[2]);
+        
 
         glPushMatrix();
 
