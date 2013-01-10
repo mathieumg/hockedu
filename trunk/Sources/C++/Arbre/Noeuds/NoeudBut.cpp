@@ -305,6 +305,7 @@ void NoeudBut::updateLongueur(double facteurModificationEchelle)
 
 	updateMatrice();
     updatePhysicBody();
+    signalModification();
 }
 
 ////////////////////////////////////////////////////////////////////////

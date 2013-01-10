@@ -10,6 +10,8 @@
 #pragma once
 
 #include "NoeudMuret.h"
+#include "NoeudPoint.h"
+#include "PositionObserver.h"
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class NoeudMuretRelatif
@@ -20,14 +22,13 @@
 /// @date 2012-01-25
 ///////////////////////////////////////////////////////////////////////////
 class NoeudMuretRelatif :
-	public NoeudMuret
+	public NoeudMuret, public PositionObserver
 {
 public:
 	/// Constructeurs par paramètres
 	NoeudMuretRelatif(NoeudPoint* n1, NoeudPoint* n2		);
 	NoeudMuretRelatif(NoeudPoint* n, NoeudBut* but, bool haut);
 	NoeudMuretRelatif(NoeudBut* but, NoeudPoint* n, bool haut);
-	NoeudMuretRelatif(Vecteur3& coin1, Vecteur3& coin2);
 	/// Destructeur
 	~NoeudMuretRelatif(void);
 
@@ -44,7 +45,7 @@ public:
 	/// Initialise les deux valeurs pour l'utilisation d'un modele 3D
 	virtual void mettreAJourEchelleRotation();
 
-	
+    virtual void updatePosition( class PositionSubject& pSubject );
 
 private:
 	typedef Vecteur3D<double*> Vecteur3pd;

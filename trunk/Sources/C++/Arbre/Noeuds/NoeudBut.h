@@ -11,6 +11,7 @@
 #define __ARBRE_NOEUDS_NOEUDBUT_H__
 
 #include "NoeudComposite.h"
+#include "PositionSubject.h"
 
 class NoeudMuretRelatif;
 class NoeudPoint;
@@ -22,7 +23,7 @@ class NoeudPoint;
 /// @author Mathieu Parent
 /// @date 2012-01-25
 ///////////////////////////////////////////////////////////////////////////
-class NoeudBut : public NoeudComposite
+class NoeudBut : public NoeudComposite, public PositionSubject
 {
 public:
 	friend NoeudMuretRelatif;
@@ -71,6 +72,7 @@ public:
     virtual void updatePhysicBody();
     /// Recreates everything needed for the game
     virtual void forceFullUpdate();
+
 private:
 	/// Attribut disant si le but est au joueur1 ou joueur 2 par un int, 1 ou 2
 	int joueur_;

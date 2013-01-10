@@ -145,7 +145,7 @@ float NoeudPoint::obtenirLongueur() const
 /// @return int : le type de position du noeud.
 ///
 ////////////////////////////////////////////////////////////////////////
-int NoeudPoint::obtenirTypePosNoeud() const
+TypePosPoint NoeudPoint::obtenirTypePosNoeud() const
 {
 	return typePosNoeud_;
 }
@@ -209,7 +209,7 @@ void NoeudPoint::modifierPointSym( NoeudPoint* pointSym )
 /// @return bool : si le deplacement est valide ou non.
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NoeudPoint::validerDeplacement( Vecteur3 pos, Vecteur2 deplace, int axe )
+bool NoeudPoint::validerDeplacement( const Vecteur3& pos, const Vecteur2& deplace, int axe )
 {
 	Terrain* t = obtenirTerrain();
 	if( t )
@@ -354,14 +354,7 @@ void NoeudPoint::assignerPositionRelative( const Vecteur3& positionRelative )
 
     // assigner la position du point en premier pour que la table puisse l'utiliser à sa mise a jour
     NoeudAbstrait::assignerPositionRelative(positionRelative);
-
-    if(obtenirTypePosNoeud() == POSITION_BAS_MILIEU || obtenirTypePosNoeud() == POSITION_HAUT_MILIEU)
-    {
-        if (obtenirParent())
-        {
-        	obtenirParent()->updatePhysicBody();
-        }
-    }
+    signalModification();
 }
 
 

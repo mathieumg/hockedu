@@ -254,63 +254,36 @@ void VisiteurDeplacement::visiterNoeudPoint( NoeudPoint* noeud )
 	//const GroupeTripleAdresseFloat* listeSym = noeud->obtenirPointSym()->obtenirListePointsAChanger();
 
 	Vecteur3 posRelative = noeud->obtenirPositionRelative();
+    TypePosPoint type = noeud->obtenirTypePosNoeud();
+    // check pour les noeuds Haut et bas milieu
+
+
 	// check pour les noeuds Haut et bas milieu
-	if(noeud->obtenirTypePosNoeud() == POSITION_HAUT_MILIEU || noeud->obtenirTypePosNoeud() == POSITION_BAS_MILIEU)
+	if(type == POSITION_HAUT_MILIEU || type == POSITION_BAS_MILIEU)
 	{
 		if(noeud->validerDeplacement(posRelative, deplacement_,VY))
 		{
 			noeud->assignerPositionRelative(posRelative+Vecteur3(0, deplacement_[VY], 0));
 			noeud->obtenirPointSym()->assignerPositionRelative(noeud->obtenirPointSym()->obtenirPositionRelative()+Vecteur3(0, -deplacement_[VY], 0));
-			
-// 			for(unsigned int i=0; i<liste->size(); i++)
-// 			{
-// 				*(liste->get(i)[VY]) = (*(liste->get(i)[VY]))+(float)deplacement_[VY];
-// 			}
-// 			for(unsigned int i=0; i<listeSym->size(); i++)
-// 			{
-// 				*(listeSym->get(i)[VY]) = (*(listeSym->get(i)[VY]))-(float)deplacement_[VY];
-// 			}
 		}
 	}
-	else if(noeud->obtenirTypePosNoeud() == POSITION_MILIEU_GAUCHE || noeud->obtenirTypePosNoeud() == POSITION_MILIEU_DROITE)
+	else if(type == POSITION_MILIEU_GAUCHE || type == POSITION_MILIEU_DROITE)
 	{
 		if(noeud->validerDeplacement(posRelative, -deplacement_,VX))
 		{
 			noeud->assignerPositionRelative(posRelative+Vecteur3(-deplacement_[VX], 0, 0));
-			noeud->obtenirPointSym()->assignerPositionRelative(noeud->obtenirPointSym()->obtenirPositionRelative()+Vecteur3(deplacement_[VX],0, 0));
-// 			for(unsigned int i=0; i<liste->size(); i++)
-// 			{
-// 				*(liste->get(i)[VX]) = (*(liste->get(i)[VX]))-(float)deplacement_[VX];
-// 			}
-// 			for(unsigned int i=0; i<listeSym->size(); i++)
-// 			{
-// 				*(listeSym->get(i)[VX]) = (*(listeSym->get(i)[VX]))+(float)deplacement_[VX];
-// 			}
-			
+			noeud->obtenirPointSym()->assignerPositionRelative(noeud->obtenirPointSym()->obtenirPositionRelative()+Vecteur3(deplacement_[VX],0, 0));			
 		}
 	}
 
-	else if(noeud->obtenirTypePosNoeud() == POSITION_HAUT_GAUCHE || noeud->obtenirTypePosNoeud() == POSITION_HAUT_DROITE || noeud->obtenirTypePosNoeud() == POSITION_BAS_DROITE || noeud->obtenirTypePosNoeud() == POSITION_BAS_GAUCHE)
+	else if(type == POSITION_HAUT_GAUCHE || type == POSITION_HAUT_DROITE || type == POSITION_BAS_DROITE || type == POSITION_BAS_GAUCHE)
 	{
 		if(noeud->validerDeplacement(posRelative, deplacement_,VY) && noeud->validerDeplacement(posRelative, -deplacement_,VX))
 		{
 			noeud->assignerPositionRelative(posRelative+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
 			noeud->obtenirPointSym()->assignerPositionRelative(noeud->obtenirPointSym()->obtenirPositionRelative()+deplacement_.convertir<3>());
-// 			for(unsigned int i=0; i<liste->size(); i++)
-// 			{
-// 				*(liste->get(i)[VX]) = (*(liste->get(i)[VX]))-(float)deplacement_[VX];
-// 				*(liste->get(i)[VY]) = (*(liste->get(i)[VY]))+(float)deplacement_[VY];
-// 			}
-// 			for(unsigned int i=0; i<listeSym->size(); i++)
-// 			{
-// 				*(listeSym->get(i)[VX]) = (*(listeSym->get(i)[VX]))+(float)deplacement_[VX];
-// 				*(listeSym->get(i)[VY]) = (*(listeSym->get(i)[VY]))+(float)deplacement_[VY];
-// 			}
 		}
 	}
-	// Permet de reposition les objets maintenant en collision avec des murets
-	//FacadeModele::obtenirInstance()->ajusterElementEnCollision();
-
 
 	// Recalcul de la longueur des buts 
 	NoeudTable* table = dynamic_cast<NoeudTable*>(noeud->obtenirParent());

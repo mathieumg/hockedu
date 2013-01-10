@@ -12,8 +12,18 @@
 #include "NoeudComposite.h"
 #include "OnceVector.h"
 #include <set>
+#include "PositionSubject.h"
 
-enum TypePosPoint{POSITION_HAUT_GAUCHE, POSITION_HAUT_MILIEU, POSITION_HAUT_DROITE, POSITION_MILIEU_GAUCHE, POSITION_MILIEU_DROITE, POSITION_BAS_GAUCHE, POSITION_BAS_MILIEU, POSITION_BAS_DROITE};
+enum TypePosPoint{
+    POSITION_HAUT_GAUCHE   , 
+    POSITION_HAUT_MILIEU   , 
+    POSITION_HAUT_DROITE   , 
+    POSITION_MILIEU_GAUCHE , 
+    POSITION_MILIEU_DROITE , 
+    POSITION_BAS_GAUCHE    , 
+    POSITION_BAS_MILIEU    , 
+    POSITION_BAS_DROITE    ,
+};
 // #define LIMITE_IN 20
 // #define LIMITE_OUT 150
 
@@ -31,7 +41,7 @@ class NoeudMuretRelatif;
 /// @author Samuel Ledoux, Michael Ferris
 /// @date 2012-01-25
 ///////////////////////////////////////////////////////////////////////////
-class NoeudPoint : public NoeudComposite
+class NoeudPoint : public NoeudComposite, public PositionSubject
 {
 public:
 	friend NoeudMuretRelatif;
@@ -49,7 +59,7 @@ public:
 	/// Accesseur de la longueur d'un cote du carre
 	float obtenirLongueur() const;
 	/// Accesseur du typePosNoeud
-	int obtenirTypePosNoeud() const;
+    TypePosPoint obtenirTypePosNoeud() const;
 	/// Retourne la coordonee puisque la table est toujours a (0, 0, 0)
 	Vecteur3 obtenirPositionAbsolue() const;
 	/// Assigne la position relative du noeud et deplace le modele 3D de la table
@@ -61,7 +71,7 @@ public:
 	/// Mutateur de pointHorizontalSym_
 	void modifierPointSym(NoeudPoint* pointSym);
 	/// Méthode de validation des déplacements
-	bool validerDeplacement(Vecteur3 pos, Vecteur2 deplace, int axe);
+    bool validerDeplacement(const Vecteur3& pos, const Vecteur2& deplace, int axe);
 	
 	/// Retourne le rayon du noeud
 	virtual double obtenirRayon() const;
@@ -92,7 +102,6 @@ private:
 	GroupeTripleAdresseFloat listePointsAChanger_;
 	/// Position initiale du noeud
 	Vecteur3 positionInitiale_;
-	
 	
 };
 ///////////////////////////////////////////////////////////////////////////////

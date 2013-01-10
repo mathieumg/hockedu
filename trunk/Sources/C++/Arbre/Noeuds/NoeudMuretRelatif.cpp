@@ -12,6 +12,7 @@
 #include "ArbreRenduINF2990.h"
 #include "NoeudPoint.h"
 #include "NoeudBut.h"
+#include "Utilitaire.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -34,6 +35,9 @@ NoeudMuret(ArbreRenduINF2990::NOM_MURET_RELATIF,false)
 	coin2_[VX] = &n2->positionRelative_[VX];
 	coin2_[VY] = &n2->positionRelative_[VY];
 	coin2_[VZ] = &n2->positionRelative_[VZ];
+
+    n1->attach(*this);
+    n2->attach(*this);
 
 	animer(0);
 	assignerEstSelectionnable(false);
@@ -73,6 +77,8 @@ NoeudMuret(ArbreRenduINF2990::NOM_MURET_RELATIF, false)
 		coin2_[VY] = &but->positionBas_[VY];
 		coin2_[VZ] = &but->positionBas_[VZ];
 	}
+    n->attach(*this);
+    but->attach(*this);
 
 	animer(0);
 	assignerEstSelectionnable(false);
@@ -115,37 +121,8 @@ NoeudMuret(ArbreRenduINF2990::NOM_MURET_RELATIF, false)
 		coin1_[VZ] = &but->positionBas_[VZ];
 	}
 
-	animer(0);
-	assignerEstSelectionnable(false);
-	assignerEstEnregistrable(false);
-
-	mettreAJourEchelleRotation();
-	//assignerAffiche(false);
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn  NoeudMuretRelatif::NoeudMuretRelatif( Vecteur3& coin1, Vecteur3& coin2 )
-///
-/// /*Description*/
-///
-/// @param[in] Vecteur3 & coin1
-/// @param[in] Vecteur3 & coin2
-///
-/// @return 
-///
-////////////////////////////////////////////////////////////////////////
-NoeudMuretRelatif::NoeudMuretRelatif( Vecteur3& coin1, Vecteur3& coin2 ):
-NoeudMuret(ArbreRenduINF2990::NOM_MURET_ZONE_EDITION, false)
-{
-	coin1_[VX] = &coin1[VX];
-	coin1_[VY] = &coin1[VY];
-	coin1_[VZ] = &coin1[VZ];
-
-	coin2_[VX] = &coin2[VX];
-	coin2_[VY] = &coin2[VY];
-	coin2_[VZ] = &coin2[VZ];
-
+    n->attach(*this);
+    but->attach(*this);
 
 	animer(0);
 	assignerEstSelectionnable(false);
@@ -240,10 +217,6 @@ void NoeudMuretRelatif::afficherConcret() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudMuretRelatif::animer( const float& temps )
 {
-	double	deltaX = *coin2_[VX]-*coin1_[VX],
-			deltaY = *coin2_[VY]-*coin1_[VY];
-	positionRelative_ = Vecteur3(*coin1_[VX]+deltaX/2.0, *coin1_[VY]+deltaY/2.0);
-	mettreAJourEchelleRotation();
 	// Appel à la version de la classe de base pour l'animation des enfants.
 	NoeudComposite::animer(temps);
 }
@@ -275,13 +248,30 @@ double NoeudMuretRelatif::obtenirRayon() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudMuretRelatif::mettreAJourEchelleRotation()
 {
-	Vecteur3 vecteurEntre(*coin2_[VX]-*coin1_[VX], *coin2_[VY]-*coin1_[VY], *coin2_[VZ]-*coin1_[VZ]);
+	Vecteur3 vecteurEntre(*coin2_[VX]-*coin1_[VX], *coin2_[VY]-*coin1_[VY], 0);
+	assignerPositionRelative(Vecteur3(*coin1_[VX]+vecteurEntre[VX]/2.0, *coin1_[VY]+vecteurEntre[VY]/2.0));
 	double distance = vecteurEntre.norme();
 	modifierEchelleCourante(Vecteur3(distance, 5, 5));
-	double angle = 180*atan2(vecteurEntre[VY], vecteurEntre[VX])/M_PI;
+	double angle = utilitaire::RAD_TO_DEG(atan2(vecteurEntre[VY], vecteurEntre[VX]));
 	assignerAngle((int)angle);
 	updateMatrice();
     updatePhysicBody();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn  NoeudMuretRelatif::updatePosition( class PositionSubject& pSubject )
+///
+/// /*Description*/
+///
+/// @param[in] class PositionSubject & pSubject
+///
+/// @return 
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudMuretRelatif::updatePosition( PositionSubject& pSubject )
+{
+    mettreAJourEchelleRotation();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

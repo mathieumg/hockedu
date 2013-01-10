@@ -14,6 +14,7 @@
 #include "aiScene.h"
 #include "NoeudPoint.h"
 #include "NoeudMuret.h"
+#include "PositionObserver.h"
 
 class NoeudMuret;
 class NoeudBut;
@@ -29,7 +30,7 @@ enum TypePosMuretEdition{HAUT,GAUCHE,DROITE,BAS};
 /// @author Samuel Ledoux, Michael Ferris
 /// @date 2012-01-25
 ///////////////////////////////////////////////////////////////////////////
-class NoeudTable : public NoeudComposite
+class NoeudTable : public NoeudComposite, public PositionObserver
 {
 public:
 
@@ -77,6 +78,9 @@ public:
 
    /// Recreates the physics body according to current attributes
    virtual void updatePhysicBody();
+
+   /// update the table when a modification is done on either middle control points
+   virtual void updatePosition( class PositionSubject& pSubject );
 
 private:
    
@@ -134,6 +138,8 @@ public:
 	/// Accesseur des groupes de la table
 	NoeudGroupe* obtenirGroupe(std::string typeEnfant);
 	NoeudGroupe* obtenirGroupe(unsigned int typeIdEnfant);
+
+
 
 	float rayonCercleCentre_;
 

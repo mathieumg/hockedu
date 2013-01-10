@@ -70,6 +70,9 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
 	basMilieu_->modifierPointSym(hautMilieu_);
 	basDroite_->modifierPointSym(basGauche_);
 
+    hautMilieu_->attach(*this);
+    basMilieu_->attach(*this);
+
 	/// Ajout dans le vecteur contenant les points pour la sauvegarde
 	vecteurPoint_.push_back(hautGauche_);
 	vecteurPoint_.push_back(hautMilieu_);
@@ -968,6 +971,22 @@ void NoeudTable::updatePhysicBody()
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
     }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudTable::updatePosition( class PositionSubject& pSubject )
+///
+/// update the table when a modification is done on either middle control points
+///
+/// @param[in] class PositionSubject & pSubject
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudTable::updatePosition( class PositionSubject& pSubject )
+{
+    updatePhysicBody();
 }
 
 
