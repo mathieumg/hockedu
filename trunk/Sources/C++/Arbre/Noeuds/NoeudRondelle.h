@@ -64,6 +64,9 @@ public:
    Vecteur3 obtenirPositionOriginale() const { return positionOriginale_; }
    void modifierPositionOriginale(Vecteur3 val) { positionOriginale_ = val; }
 
+   /// Recreates the physics body according to current attributes
+   virtual void updatePhysicBody();
+
 private:
 	/// Velocite courante de la rondelle
 	Vecteur3 mVelocite;

@@ -29,23 +29,7 @@ NoeudPortail::NoeudPortail(const std::string& typeNoeud)
 
    FacadeModele::obtenirInstance()->ajouterElementSurTable(this);
 
-   b2BodyDef myBodyDef;
-   myBodyDef.type = b2_staticBody; //this will be a dynamic body
-   myBodyDef.position.Set(0, 0); //set the starting position
-   myBodyDef.angle = 0; //set the starting angle
-
-   mPhysicBody = FacadeModele::obtenirInstance()->getWorld()->CreateBody(&myBodyDef);
-   b2CircleShape circleShape;
-   circleShape.m_p.Set(0, 0); //position, relative to body position
-   circleShape.m_radius = (float32)obtenirRayon(); //radius
-
-   b2FixtureDef myFixtureDef;
-   myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
-   myFixtureDef.density = 1;
-   myFixtureDef.filter.categoryBits = CATEGORY_NONE;
-   myFixtureDef.filter.maskBits = CATEGORY_NONE;
-
-   mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+    updatePhysicBody();
 
 }
 
@@ -123,6 +107,40 @@ void NoeudPortail::animer( const float& temps)
 void NoeudPortail::accueillirVisiteurNoeud( VisiteurNoeud& v )
 {
 	v.visiterNoeudPortail(this);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudPortail::updatePhysicBody()
+///
+/// Recreates the physics body according to current attributes
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudPortail::updatePhysicBody()
+{
+    clearPhysicsBody();
+
+    b2BodyDef myBodyDef;
+    myBodyDef.type = b2_staticBody; //this will be a dynamic body
+    Vecteur3 pos = obtenirPositionAbsolue();
+    myBodyDef.position.Set(pos[VX], pos[VY]); //set the starting position
+    myBodyDef.angle = 0; //set the starting angle
+
+    mPhysicBody = getWorld()->CreateBody(&myBodyDef);
+    b2CircleShape circleShape;
+    circleShape.m_p.Set(0, 0); //position, relative to body position
+    circleShape.m_radius = (float32)obtenirRayon(); //radius
+
+    b2FixtureDef myFixtureDef;
+    myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
+    myFixtureDef.density = 1;
+    myFixtureDef.filter.categoryBits = CATEGORY_NONE;
+    myFixtureDef.filter.maskBits = CATEGORY_NONE;
+
+    mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
 }
 
 ///////////////////////////////////////////////////////////////////////////////

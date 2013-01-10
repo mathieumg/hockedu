@@ -52,25 +52,7 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud)
     velocite_.remetAZero();
     FacadeModele::obtenirInstance()->ajouterElementSurTable(this);
 
-
-    b2BodyDef myBodyDef;
-    myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
-    myBodyDef.position.Set(0, 0); //set the starting position
-    myBodyDef.angle = 0; //set the starting angle
-
-    mPhysicBody = FacadeModele::obtenirInstance()->getWorld()->CreateBody(&myBodyDef);
-    b2CircleShape circleShape;
-    circleShape.m_p.Set(0, 0); //position, relative to body position
-    circleShape.m_radius = (float32)obtenirRayon(); //radius
-
-    b2FixtureDef myFixtureDef;
-    myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
-    myFixtureDef.density = 1;
-    myFixtureDef.filter.categoryBits = CATEGORY_MALLET;
-    myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_BOUNDARY;
-    myFixtureDef.filter.groupIndex = 1;
-
-    mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+    updatePhysicBody();
 
 }
 
@@ -426,6 +408,41 @@ void NoeudMaillet::ajusterVitesse( const float& temps )
 	velocite_ *= 0.50;
 	//velocite_[VZ] = 0;
 	
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudMaillet::updatePhysicBody()
+///
+/// Recreates the physics body according to current attributes
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudMaillet::updatePhysicBody()
+{
+    clearPhysicsBody();
+
+    b2BodyDef myBodyDef;
+    myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
+    Vecteur3 pos = obtenirPositionAbsolue();
+    myBodyDef.position.Set(pos[VX], pos[VY]); //set the starting position
+    myBodyDef.angle = 0; //set the starting angle
+
+    mPhysicBody = getWorld()->CreateBody(&myBodyDef);
+    b2CircleShape circleShape;
+    circleShape.m_p.Set(0, 0); //position, relative to body position
+    circleShape.m_radius = (float32)obtenirRayon(); //radius
+
+    b2FixtureDef myFixtureDef;
+    myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
+    myFixtureDef.density = 1;
+    myFixtureDef.filter.categoryBits = CATEGORY_MALLET;
+    myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_BOUNDARY;
+    myFixtureDef.filter.groupIndex = 1;
+
+    mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
 }
 
 

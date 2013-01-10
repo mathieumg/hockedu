@@ -38,6 +38,9 @@ public:
    inline bool champAttractionActive() const{return champAttractionActif_;}
    void modifierChampAttractionActif(const bool actif){champAttractionActif_=actif;}
 
+   /// Recreates the physics body according to current attributes
+   virtual void updatePhysicBody();
+
 private:
 	bool champAttractionActif_;
 	

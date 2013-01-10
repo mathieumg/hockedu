@@ -47,9 +47,6 @@ NoeudBut::NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHa
 	longueurBut_ = longueurButBase_;
 	echelleCourante_ = Vecteur3(30, 5, 5);
     updateLongueur();
-// 	updateMatrice();
-//     updatePhysicBody();
-	//assignerEstSelectionnable(false);
 }
 
 ////////////////////////////////////////////////////////////////////////

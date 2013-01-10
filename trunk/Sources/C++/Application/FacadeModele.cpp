@@ -432,7 +432,7 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
 void FacadeModele::chargerTerrain( const std::string& nomFichier /*= ""*/, Terrain* terrain /*= 0*/ )
 {
 	// En place pour eviter des cas speciaux avec la souris (soit des ajout d'objets liberer 2 fois)
-	//GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
+	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
 	std::string fichierACharger;
 
 	// Si le nom du fichier est vide, on utilise celui par défaut.

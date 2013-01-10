@@ -59,26 +59,7 @@ NoeudRondelle::NoeudRondelle(const std::string& typeNoeud)
 	mVitesseRotation = 0.0;
 
 	FacadeModele::obtenirInstance()->ajouterElementSurTable(this);
-
-    b2BodyDef myBodyDef;
-    myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
-    myBodyDef.position.Set(0, 0); //set the starting position
-    myBodyDef.angle = 0; //set the starting angle
-
-    mPhysicBody = getWorld()->CreateBody(&myBodyDef);
-    b2CircleShape circleShape;
-    circleShape.m_p.Set(0, 0); //position, relative to body position
-    circleShape.m_radius = (float32)obtenirRayon(); //radius
-
-    b2FixtureDef myFixtureDef;
-    myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
-    myFixtureDef.density = 1;
-    myFixtureDef.friction = 0.1f;
-    myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
-    myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY;
-
-    mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
-
+    updatePhysicBody();
 }
 
 
@@ -570,6 +551,42 @@ void NoeudRondelle::validerPropriteteTablePourJeu() throw(std::logic_error)
 	}
 	else
 		throw std::logic_error("Aucun terrain pour la rondelle qui tente de ce valider");
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudRondelle::updatePhysicBody()
+///
+/// Recreates the physics body according to current attributes
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudRondelle::updatePhysicBody()
+{
+    clearPhysicsBody();
+
+    b2BodyDef myBodyDef;
+    myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
+
+    Vecteur3 pos = obtenirPositionAbsolue();
+    myBodyDef.position.Set(pos[VX], pos[VY]); //set the starting position
+    myBodyDef.angle = 0; //set the starting angle
+
+    mPhysicBody = getWorld()->CreateBody(&myBodyDef);
+    b2CircleShape circleShape;
+    circleShape.m_p.Set(0, 0); //position, relative to body position
+    circleShape.m_radius = (float32)obtenirRayon(); //radius
+
+    b2FixtureDef myFixtureDef;
+    myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
+    myFixtureDef.density = 1;
+    myFixtureDef.friction = 0.1f;
+    myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
+    myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY;
+
+    mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
 }
 
 

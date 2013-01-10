@@ -49,6 +49,10 @@ public:
 
 	/// Application de la physique de la rondelle
 	virtual void gestionCollision( const float& temps );
+
+    /// Recreates the physics body according to current attributes
+    virtual void updatePhysicBody();
+
 private:
 	/// Acceleration fournie par les bonus accelerateurs
 	double bonusAccel_;

@@ -47,7 +47,8 @@ public:
    virtual void ajusterEnfoncement();
    /// Ajustement de la vitesse des noeuds
    virtual void ajusterVitesse( const float& temps );
-   
+   /// Recreates the physics body according to current attributes
+   virtual void updatePhysicBody();
 
    static unsigned int mailletExistant;
 
@@ -118,6 +119,7 @@ public:
 	JoueurVirtuel* obtenirJoueur() const { return joueur_; }
 	/// Modificateur de joueur_
 	void assignerJoueurVirtuel(JoueurVirtuel* val) { joueur_ = val; }
+
 };
 
 #endif // __ARBRE_NOEUDS_NOEUDMAILLET_H__
