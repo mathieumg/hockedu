@@ -14,6 +14,8 @@
 #include "NoeudPoint.h"
 #include "FacadeModele.h"
 #include "XMLUtils.h"
+#include <Box2D/Box2D.h>
+#include "Utilitaire.h"
 
 double NoeudBut::longueurBut_ = 1;
 
@@ -29,16 +31,24 @@ double NoeudBut::longueurBut_ = 1;
 /// @param[in] int joueur : Le numero du joueur.
 /// @param[in] NoeudPoint * coinHaut : Un pointeur sur le coin en haut.
 /// @param[in] NoeudPoint * coinBas : Un pointeur sur le coin en bas.
+/// @param[in] NoeudComposite * pParent : parent du but
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudBut::NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHaut, NoeudPoint * coinBas)
-   : NoeudComposite(typeNoeud), joueur_(joueur), coinHaut_(coinHaut), coinBas_(coinBas), longueurButBase_(1)
+NoeudBut::NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHaut, NoeudPoint * coinBas, NoeudComposite* pParent)
+   : NoeudComposite(typeNoeud), joueur_(joueur), coinHaut_(coinHaut), coinBas_(coinBas), mBottomAngle(0),mTopAngle(0), longueurButBase_(1)
 {
+    if(pParent)
+    {
+        pParent->ajouter(this);
+    }
+
 	longueurBut_ = longueurButBase_;
 	echelleCourante_ = Vecteur3(30, 5, 5);
-	updateMatrice();
+    updateLongueur();
+// 	updateMatrice();
+//     updatePhysicBody();
 	//assignerEstSelectionnable(false);
 }
 
@@ -58,6 +68,48 @@ NoeudBut::~NoeudBut()
 
 ////////////////////////////////////////////////////////////////////////
 ///
+/// @fn void NoeudBut::updatePhysicBody()
+///
+/// Recreates the physics body according to current attributes
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudBut::updatePhysicBody()
+{
+    clearPhysicsBody();
+
+    float halfLength = (float)echelleCourante_[VX]/2.f;//(float)(coin2-coin1).norme()/2.f;
+
+    b2BodyDef myBodyDef;
+    myBodyDef.type = b2_staticBody; //this will be a dynamic body
+    myBodyDef.position.Set(0, 0); //set the starting position
+    myBodyDef.angle = 0; //set the starting angle
+
+    mPhysicBody = getWorld()->CreateBody(&myBodyDef);
+    Vecteur3 anchorPointPos = obtenirPositionAbsolue();
+    b2Vec2 anchorPointPosB2, topPosB2,BottomPosB2 ;
+    utilitaire::VEC3_TO_B2VEC(anchorPointPos,anchorPointPosB2);
+    utilitaire::VEC3_TO_B2VEC(positionHaut_,topPosB2);
+    utilitaire::VEC3_TO_B2VEC(positionBas_,BottomPosB2);
+    b2EdgeShape shape;
+    shape.Set(anchorPointPosB2,topPosB2);
+    
+    b2FixtureDef myFixtureDef;
+    myFixtureDef.shape = &shape; //this is a pointer to the shapeHaut above
+    myFixtureDef.density = 1;
+    myFixtureDef.filter.categoryBits = CATEGORY_NONE;
+    myFixtureDef.filter.maskBits = CATEGORY_NONE;
+    myFixtureDef.filter.groupIndex = 1;
+
+    mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+    shape.Set(anchorPointPosB2,BottomPosB2);
+    mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+}
+
+////////////////////////////////////////////////////////////////////////
+///
 /// @fn void NoeudBut::afficherConcret() const
 ///
 /// Cette fonction effectue le véritable rendu de l'objet.
@@ -71,25 +123,9 @@ void NoeudBut::afficherConcret() const
     GestionnaireModeles::obtenirInstance()->obtenirListe(type_,liste);
     if(liste != 0 && estAffiche())
     {
-        Vecteur3 positionCoinBas = coinBas_->obtenirPositionAbsolue();
-        Vecteur3 positionCoinHaut = coinHaut_->obtenirPositionAbsolue();
         Vecteur3 positionPoint = parent_->obtenirPositionAbsolue();
-
-        double	deltaXbas = positionCoinBas[VX]-positionPoint[VX],
-            deltaXhaut = positionCoinHaut[VX]-positionPoint[VX],
-            deltaYbas = positionCoinBas[VY]-positionPoint[VY],
-            deltaYhaut = positionCoinHaut[VY]-positionPoint[VY];
-
-        double	angleBas = atan2(deltaYbas, deltaXbas), 
-            angleHaut = atan2(deltaYhaut, deltaXhaut);
-
-
-        double positionBasX = cos(angleBas)*echelleCourante_[VX];
-        double positionBasY = sin(angleBas)*echelleCourante_[VX];
-        double positionHautX = cos(angleHaut)*echelleCourante_[VX];
-        double positionHautY = sin(angleHaut)*echelleCourante_[VX];
-
-        // Exporter les modeles avec un frontX et TopZ
+        Vecteur3 posBas = positionBas_ - positionPoint;
+        Vecteur3 posHaut = positionHaut_ - positionPoint;
 
         // Initialisation
         glPushMatrix();
@@ -98,8 +134,8 @@ void NoeudBut::afficherConcret() const
 
         // Dessin de la partie ajustable en bas
         glPushMatrix();
-        glTranslated(positionBasX, positionBasY, 0);
-        glRotated((angleBas*180/M_PI), 0, 0, 1);
+        glTranslated(posBas[VX], posBas[VY], 0);
+        glRotated(mBottomAngle, 0, 0, 1);
         glMultMatrixd(matrice_);
         if(joueur_==1)
         {
@@ -120,8 +156,8 @@ void NoeudBut::afficherConcret() const
 
         // Dessin de la partie ajustable en haut
         glPushMatrix();
-        glTranslated(positionHautX, positionHautY, 0);
-        glRotated((angleHaut*180/M_PI), 0, 0, 1);
+        glTranslated(posHaut[VX], posHaut[VY], 0);
+        glRotated(mTopAngle, 0, 0, 1);
         glMultMatrixd(matrice_);
         if(joueur_==2)
         {
@@ -250,12 +286,25 @@ void NoeudBut::updateLongueur(double facteurModificationEchelle)
 
 	double ratioHaut = longueur/longueurHaut;
 	double ratioBas = longueur/longueurBas;
-	positionHaut_[VX] = pos[VX]+deltaHaut[VX]*ratioHaut;
-	positionHaut_[VY] = pos[VY]+deltaHaut[VY]*ratioHaut;
-	positionBas_[VX] = pos[VX]+deltaBas[VX]*ratioBas;
-	positionBas_[VY] = pos[VY]+deltaBas[VY]*ratioBas;
+
+    double	
+        deltaXhaut = deltaHaut[VX]*ratioHaut,
+        deltaXbas = deltaBas[VX]*ratioBas,
+        deltaYhaut = deltaHaut[VY]*ratioHaut,
+        deltaYbas = deltaBas[VY]*ratioBas;
+
+	positionHaut_[VX] = pos[VX]+deltaXhaut;
+	positionHaut_[VY] = pos[VY]+deltaYhaut;
+	positionBas_[VX] = pos[VX]+deltaXbas;
+	positionBas_[VY] = pos[VY]+deltaYbas;
 	longueurBut_ = longueur;
+
+    mBottomAngle = utilitaire::RAD_TO_DEG(atan2(deltaYbas, deltaXbas)), 
+    mTopAngle = utilitaire::RAD_TO_DEG(atan2(deltaYhaut, deltaXhaut));
+    
+
 	updateMatrice();
+    updatePhysicBody();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -391,6 +440,21 @@ bool NoeudBut::initialiser( const TiXmlElement* element )
 double NoeudBut::obtenirHauteurBut()
 {
 	return positionHaut_[VY] - positionBas_[VY];
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudBut::forceFullUpdate()
+///
+/// Recreates everything needed for the game
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudBut::forceFullUpdate()
+{
+    updateLongueur();
 }
 
 

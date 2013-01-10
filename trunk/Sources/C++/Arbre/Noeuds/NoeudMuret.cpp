@@ -35,6 +35,7 @@ NoeudMuret::NoeudMuret(const std::string& typeNoeud, bool estSurTable)
 	if(estSurTable)
 		FacadeModele::obtenirInstance()->ajouterElementSurTable(this);
 	coefRebond_ = 0.75;
+    updatePhysicBody();
 }
 
 
@@ -67,7 +68,7 @@ void NoeudMuret::updatePhysicBody()
 {
     clearPhysicsBody();
 
-    float halfLength = echelleCourante_[VX]/2.f;//(float)(coin2-coin1).norme()/2.f;
+    float32 halfLength = (float32)echelleCourante_[VX]/2.f;//(float)(coin2-coin1).norme()/2.f;
 
     b2BodyDef myBodyDef;
     myBodyDef.type = b2_staticBody; //this will be a dynamic body
@@ -76,7 +77,8 @@ void NoeudMuret::updatePhysicBody()
 
     mPhysicBody = getWorld()->CreateBody(&myBodyDef);
     b2PolygonShape shape;
-    shape.SetAsBox(halfLength,1,b2Vec2(positionRelative_[VX],positionRelative_[VY]),utilitaire::DEG_TO_RAD(mAngle));
+    Vecteur3 position = obtenirPositionAbsolue();
+    shape.SetAsBox(halfLength,2.5f,b2Vec2(position[VX],position[VY]),utilitaire::DEG_TO_RAD(mAngle));
 
     b2FixtureDef myFixtureDef;
     myFixtureDef.shape = &shape; //this is a pointer to the shape above
@@ -202,6 +204,7 @@ void NoeudMuret::majPosCoins()
 	deplacement /= 2.0;
 	positionCoin1_ = positionRelative_+deplacement;
 	positionCoin2_ = positionRelative_-deplacement;
+    updatePhysicBody();
 }
 
 

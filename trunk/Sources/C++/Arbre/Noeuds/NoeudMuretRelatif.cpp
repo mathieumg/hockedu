@@ -281,7 +281,7 @@ void NoeudMuretRelatif::mettreAJourEchelleRotation()
 	double angle = 180*atan2(vecteurEntre[VY], vecteurEntre[VX])/M_PI;
 	assignerAngle((int)angle);
 	updateMatrice();
-
+    updatePhysicBody();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

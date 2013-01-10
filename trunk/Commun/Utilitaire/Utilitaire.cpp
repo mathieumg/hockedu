@@ -7,8 +7,8 @@
 /// @addtogroup utilitaire Utilitaire
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
+#include "Box2D/Box2D.h"
 #include "Utilitaire.h"
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -395,6 +395,24 @@ namespace utilitaire {
       pointTransforme /= w;
 
       return pointTransforme;
+   }
+
+   ////////////////////////////////////////////////////////////////////////
+   ///
+   /// @fn void VEC3_TO_B2VEC( const Vecteur3& pVector, class b2Vec2& pB2vector )
+   ///
+   /// /*Description*/
+   ///
+   /// @param[in] const Vecteur3 & pVector
+   /// @param[in] class b2Vec2 & pB2vector
+   ///
+   /// @return void
+   ///
+   ////////////////////////////////////////////////////////////////////////
+   void VEC3_TO_B2VEC( const Vecteur3& pVector, b2Vec2& pB2vector )
+   {
+       pB2vector.x = (float32)pVector[VX];
+       pB2vector.y = (float32)pVector[VY];
    }
 
 

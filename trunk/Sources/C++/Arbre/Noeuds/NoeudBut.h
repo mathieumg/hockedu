@@ -27,7 +27,7 @@ class NoeudBut : public NoeudComposite
 public:
 	friend NoeudMuretRelatif;
 	/// Constructeur à partir du type du noeud.
-	NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHaut, NoeudPoint * coinBas);
+	NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHaut, NoeudPoint * coinBas, NoeudComposite* pParent = NULL);
 	/// Destructeur.
 	~NoeudBut();
 
@@ -66,6 +66,11 @@ public:
 	inline Vecteur3 obtenirPositionBas() const { return positionBas_; }
 	/// Accesseur de positionHaut_
 	inline Vecteur3 obtenirPositionHaut() const { return positionHaut_; }
+
+    /// Recreates the physics body according to current attributes
+    virtual void updatePhysicBody();
+    /// Recreates everything needed for the game
+    virtual void forceFullUpdate();
 private:
 	/// Attribut disant si le but est au joueur1 ou joueur 2 par un int, 1 ou 2
 	int joueur_;
@@ -73,6 +78,8 @@ private:
 	NoeudPoint* coinHaut_;
 	/// Pointeur sur le coin en bas
 	NoeudPoint* coinBas_;
+    /// Angle des 2 composantes du but en degre
+    float mBottomAngle,mTopAngle;
 	/// Longueur du but
 	const double longueurButBase_;
 	/// Pointeur sur le but adverse

@@ -8,7 +8,6 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudTable.h"
-#include "Utilitaire.h"
 #include "aideGL.h"
 #include "ArbreRenduINF2990.h"
 #include "NoeudPoint.h"
@@ -21,7 +20,9 @@
 #include "VisiteurDeplacement.h"
 #include <GL\glu.h>
 #include "XMLUtils.h"
-
+// doit inclure box2d avant utilitaire
+#include "Box2D/Box2D.h"
+#include "Utilitaire.h"
 
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
 
@@ -102,17 +103,12 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
 
 	
 	// Allocation de l'espace mémoire pour les but et on donne les paramètre nécessaire à l'affichage
-	butJoueur1_ = new NoeudBut(ArbreRenduINF2990::NOM_BUT_MILIEU,1,hautGauche_,basGauche_);
+	butJoueur1_ = new NoeudBut(ArbreRenduINF2990::NOM_BUT_MILIEU,1,hautGauche_,basGauche_,milieuGauche_);
 
-	butJoueur2_ = new NoeudBut(ArbreRenduINF2990::NOM_BUT_MILIEU,2,hautDroite_,basDroite_);
+	butJoueur2_ = new NoeudBut(ArbreRenduINF2990::NOM_BUT_MILIEU,2,hautDroite_,basDroite_,milieuDroite_);
 	butJoueur1_->modifierButAdverse(butJoueur2_);
 	butJoueur2_->modifierButAdverse(butJoueur1_);
 
-	milieuGauche_->ajouter(butJoueur1_);
-	milieuDroite_->ajouter(butJoueur2_);
-	//Pour effectuer les calculs de base
-	butJoueur1_->updateLongueur();
-	butJoueur2_->updateLongueur();
 
 	//Ajout de mur relatif aux point et buts pour qu'il s'ajustent automatiquement à leur déplacement
 	NoeudMuretRelatif   *mr1 = new NoeudMuretRelatif(hautGauche_,hautMilieu_),
@@ -139,6 +135,8 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
 	bande_[5] = mr4;//mr6;
 	bande_[6] = mr3;//mr7;
 	bande_[7] = mr7;//mr8;
+
+    updatePhysicBody();
 }
 
 
@@ -929,6 +927,47 @@ void NoeudTable::replacerModele()
 void NoeudTable::assignerCoefRebond( int index, double coefRebond )
 {
 	bande_[index]->modifierCoefRebond(coefRebond);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudTable::updatePhysicBody()
+///
+/// Recreates the physics body according to current attributes
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudTable::updatePhysicBody()
+{
+    clearPhysicsBody();
+
+    auto pHaut = obtenirPoint(POSITION_HAUT_MILIEU), pBas = obtenirPoint(POSITION_BAS_MILIEU);
+    if(pHaut && pBas)
+    {
+        b2BodyDef myBodyDef;
+        myBodyDef.type = b2_staticBody; //this will be a dynamic body
+        myBodyDef.position.Set(0, 0); //set the starting position
+        myBodyDef.angle = 0; //set the starting angle
+
+        mPhysicBody = getWorld()->CreateBody(&myBodyDef);
+
+        b2Vec2 topPosB2,bottomPosB2 ;
+        utilitaire::VEC3_TO_B2VEC(pHaut->obtenirPositionAbsolue(),topPosB2);
+        utilitaire::VEC3_TO_B2VEC(pBas->obtenirPositionAbsolue(),bottomPosB2);
+        b2EdgeShape shape;
+        shape.Set(bottomPosB2,topPosB2);
+
+        b2FixtureDef myFixtureDef;
+        myFixtureDef.shape = &shape; //this is a pointer to the shapeHaut above
+        myFixtureDef.density = 1;
+        myFixtureDef.filter.categoryBits = CATEGORY_NONE;
+        myFixtureDef.filter.maskBits = CATEGORY_NONE;
+        myFixtureDef.filter.groupIndex = 1;
+
+        mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+    }
 }
 
 

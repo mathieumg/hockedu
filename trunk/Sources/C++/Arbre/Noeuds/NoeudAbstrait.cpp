@@ -593,6 +593,7 @@ void NoeudAbstrait::modifierEchelleCourante( const Vecteur3& echelleCourante )
 	echelleCourante_[VY] = echelleCourante[VY];
 	echelleCourante_[VZ] = echelleCourante[VZ];
 	updateMatrice();
+    updatePhysicBody();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -629,7 +630,7 @@ void NoeudAbstrait::assignerAngle( const double& angle )
 	mAngle = angle;
     if(mPhysicBody)
     {
-        mPhysicBody->SetTransform(mPhysicBody->GetPosition(),utilitaire::DEG_TO_RAD(mAngle));
+        mPhysicBody->SetTransform(mPhysicBody->GetPosition(),(float32)utilitaire::DEG_TO_RAD(mAngle));
     }
 	updateMatrice();
 }
@@ -869,7 +870,6 @@ bool NoeudAbstrait::initialiser( const TiXmlElement* element )
 		return false;
 	selectionnable_ = intElem==1;
 	
-
 	return true;
 }
 
@@ -982,6 +982,22 @@ void NoeudAbstrait::clearPhysicsBody()
         getWorld()->DestroyBody(mPhysicBody);
     }
     mPhysicBody = NULL;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudAbstrait::forceFullUpdate()
+///
+/// Recreates everything needed for the game
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAbstrait::forceFullUpdate()
+{
+    updateMatrice();
+    updatePhysicBody();
 }
 
 

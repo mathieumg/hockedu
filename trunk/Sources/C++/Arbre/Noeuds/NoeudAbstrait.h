@@ -208,6 +208,9 @@ public:
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody() {}
 
+    /// Recreates everything needed for the game
+    virtual void forceFullUpdate();
+
 	/// Libere la memoire de l'objet Box2D
     void clearPhysicsBody();
     /// Accessors of mWorld

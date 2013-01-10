@@ -81,6 +81,8 @@ namespace utilitaire {
 	double RAD_TO_DEG( double AngleRad );
 	/// Pour convertir les angles de degrés en radians.
 	double DEG_TO_RAD( double AngleDeg );
+    /// Pour convertir un vecteur de jeu en un vecteur pour Box2D
+    void VEC3_TO_B2VEC( const Vecteur3& pVector, struct b2Vec2& pB2vector);
 
 	/// Pour convertir les km/h en m/s.
 	float KMH_TO_MS( float kmh );

@@ -75,6 +75,9 @@ public:
 
    static void initialiserListeIndexPoints(Modele3D* modele);
 
+   /// Recreates the physics body according to current attributes
+   virtual void updatePhysicBody();
+
 private:
    
       

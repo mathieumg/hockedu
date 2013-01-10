@@ -820,6 +820,21 @@ void FacadeModele::afficher( )
     mWorld->DrawDebugData();
     //mDebugRenderBox2D->DrawString(150,150,"test %d",this->temps_.Elapsed_Time_sec());
 
+    for(int i=(int)mUIRunnables.size()-1; i>=0; --i)
+    {
+        Runnable* pRun = mUIRunnables.front();
+        mUIRunnables.pop();
+        pRun->Run();
+        if(pRun->KeepAlive())
+        {
+            mUIRunnables.push(pRun);
+        }
+        else
+        {
+            delete pRun;
+        }
+    }
+
 	if(vue_->obtenirNbViewports()>1)
 	{
 		// Il faut remettre le viewport full pour le hud
@@ -836,21 +851,6 @@ void FacadeModele::afficher( )
 
 	// Compte de l'affichage
 	utilitaire::CompteurAffichage::obtenirInstance()->signalerAffichage();
-	
-    for(int i=(int)mUIRunnables.size()-1; i>=0; --i)
-    {
-        Runnable* pRun = mUIRunnables.front();
-        mUIRunnables.pop();
-        pRun->Run();
-        if(pRun->KeepAlive())
-        {
-            mUIRunnables.push(pRun);
-        }
-        else
-        {
-            delete pRun;
-        }
-    }
 
 	// Échange les tampons pour que le résultat du rendu soit visible.
 	::SwapBuffers( hDC_ );

@@ -298,12 +298,14 @@ TiXmlElement* NoeudPoint::creerNoeudXML()
 ////////////////////////////////////////////////////////////////////////
 bool NoeudPoint::initialiser( const TiXmlElement* element )
 {
-	if(!NoeudComposite::initialiser(element))
-		return false;
+    // faire l'initialisaiton des attribut concernant le point en premier pour que la suite puisse les utiliser
 	int intElem;
     if(!XMLUtils::LireAttribute<int>(element,"typePosNoeud",intElem))
 		return false;
 	typePosNoeud_ = TypePosPoint(intElem);
+
+    if(!NoeudComposite::initialiser(element))
+        return false;
 
 	return true;
 }
@@ -349,7 +351,17 @@ void NoeudPoint::assignerPositionRelative( const Vecteur3& positionRelative )
 			*(liste->get(i)[VY]) += (float)deplacement[VY];
 		}
 	}
-	NoeudAbstrait::assignerPositionRelative(positionRelative);
+
+    // assigner la position du point en premier pour que la table puisse l'utiliser à sa mise a jour
+    NoeudAbstrait::assignerPositionRelative(positionRelative);
+
+    if(obtenirTypePosNoeud() == POSITION_BAS_MILIEU || obtenirTypePosNoeud() == POSITION_HAUT_MILIEU)
+    {
+        if (obtenirParent())
+        {
+        	obtenirParent()->updatePhysicBody();
+        }
+    }
 }
 
 
