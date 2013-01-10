@@ -1,0 +1,486 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		96091E9F154081D400785DA0 /* FenetreOutils.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96091E9E154081D400785DA0 /* FenetreOutils.xib */; };
+		96091EA315408BB500785DA0 /* ControleurFenetreOutils.m in Sources */ = {isa = PBXBuildFile; fileRef = 96091EA215408BB500785DA0 /* ControleurFenetreOutils.m */; };
+		96091EA615408D7800785DA0 /* ControleurFenetreEdition.m in Sources */ = {isa = PBXBuildFile; fileRef = 96091EA515408D7800785DA0 /* ControleurFenetreEdition.m */; };
+		96091EA815408DC700785DA0 /* FenetreEdition.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96091EA715408DC700785DA0 /* FenetreEdition.xib */; };
+		96558B95151A477200E81482 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96558B94151A477200E81482 /* Cocoa.framework */; };
+		96558B9F151A477200E81482 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96558B9D151A477200E81482 /* InfoPlist.strings */; };
+		96558BA1151A477200E81482 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 96558BA0151A477200E81482 /* main.m */; };
+		96558BA5151A477200E81482 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 96558BA3151A477200E81482 /* Credits.rtf */; };
+		96558BA8151A477200E81482 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96558BA7151A477200E81482 /* AppDelegate.m */; };
+		96558BAB151A477200E81482 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96558BA9151A477200E81482 /* MainMenu.xib */; };
+		96558BC8151A4DF400E81482 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96558BC7151A4DF400E81482 /* OpenGL.framework */; };
+		96558BCA151A4DFC00E81482 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96558BC9151A4DFC00E81482 /* GLUT.framework */; };
+		966DD6C01552F718000334FB /* Cadre.m in Sources */ = {isa = PBXBuildFile; fileRef = 966DD6BF1552F718000334FB /* Cadre.m */; };
+		966DD6C4155340AD000334FB /* CadreAjustable.m in Sources */ = {isa = PBXBuildFile; fileRef = 966DD6C3155340AD000334FB /* CadreAjustable.m */; };
+		967015E91540AA0A008AF98B /* DonneesFenetreEdition.m in Sources */ = {isa = PBXBuildFile; fileRef = 967015E81540AA0A008AF98B /* DonneesFenetreEdition.m */; };
+		968BEEAE15583A7500AC2B43 /* BoutonOutil.m in Sources */ = {isa = PBXBuildFile; fileRef = 968BEEAD15583A7500AC2B43 /* BoutonOutil.m */; };
+		968BEEB215587BFC00AC2B43 /* OutilAjoutObjetSimple.m in Sources */ = {isa = PBXBuildFile; fileRef = 968BEEB115587BFC00AC2B43 /* OutilAjoutObjetSimple.m */; };
+		968BEEB515587D0D00AC2B43 /* Tableau.m in Sources */ = {isa = PBXBuildFile; fileRef = 968BEEB415587D0D00AC2B43 /* Tableau.m */; };
+		968BEEBC1559670200AC2B43 /* Triangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 968BEEBB1559670200AC2B43 /* Triangle.m */; };
+		968BEEBF1559671300AC2B43 /* Carre.m in Sources */ = {isa = PBXBuildFile; fileRef = 968BEEBE1559671300AC2B43 /* Carre.m */; };
+		968DE9A31549AD7300B9CF8F /* Outil.m in Sources */ = {isa = PBXBuildFile; fileRef = 968DE9A21549AD7300B9CF8F /* Outil.m */; };
+		968DE9A71549B7D700B9CF8F /* OutilZoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 968DE9A61549B7D700B9CF8F /* OutilZoom.m */; };
+		969BD074151A86380095C026 /* DonneesEditeur.m in Sources */ = {isa = PBXBuildFile; fileRef = 969BD06B151A86380095C026 /* DonneesEditeur.m */; };
+		969BD075151A86380095C026 /* Noeud.m in Sources */ = {isa = PBXBuildFile; fileRef = 969BD06D151A86380095C026 /* Noeud.m */; };
+		969BD076151A86380095C026 /* NoeudComposite.m in Sources */ = {isa = PBXBuildFile; fileRef = 969BD06F151A86380095C026 /* NoeudComposite.m */; };
+		969BD077151A86380095C026 /* NoeudSimple.m in Sources */ = {isa = PBXBuildFile; fileRef = 969BD071151A86380095C026 /* NoeudSimple.m */; };
+		969BD078151A86380095C026 /* VueOpenGL.m in Sources */ = {isa = PBXBuildFile; fileRef = 969BD073151A86380095C026 /* VueOpenGL.m */; };
+		96A8E20D1541B95100C535FB /* ControleurFenetreEdition+Menus.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A8E20C1541B95100C535FB /* ControleurFenetreEdition+Menus.m */; };
+		96E7F385155D9EF80058C77E /* OutilSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E7F384155D9EF80058C77E /* OutilSelection.m */; };
+		96F898031549E4260013F413 /* OutilDeplacement.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F898021549E4260013F413 /* OutilDeplacement.m */; };
+		96F898071549FA4C0013F413 /* VueBoiteOutils.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F898061549FA4C0013F413 /* VueBoiteOutils.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		96091E9E154081D400785DA0 /* FenetreOutils.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FenetreOutils.xib; sourceTree = "<group>"; };
+		96091EA115408BB500785DA0 /* ControleurFenetreOutils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControleurFenetreOutils.h; sourceTree = "<group>"; };
+		96091EA215408BB500785DA0 /* ControleurFenetreOutils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControleurFenetreOutils.m; sourceTree = "<group>"; };
+		96091EA415408D7800785DA0 /* ControleurFenetreEdition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControleurFenetreEdition.h; sourceTree = "<group>"; };
+		96091EA515408D7800785DA0 /* ControleurFenetreEdition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControleurFenetreEdition.m; sourceTree = "<group>"; };
+		96091EA715408DC700785DA0 /* FenetreEdition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FenetreEdition.xib; sourceTree = "<group>"; };
+		96558B90151A477200E81482 /* Editeur.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Editeur.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		96558B94151A477200E81482 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		96558B97151A477200E81482 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		96558B98151A477200E81482 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		96558B99151A477200E81482 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		96558B9C151A477200E81482 /* Editeur-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Editeur-Info.plist"; sourceTree = "<group>"; };
+		96558B9E151A477200E81482 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		96558BA0151A477200E81482 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		96558BA2151A477200E81482 /* Editeur-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Editeur-Prefix.pch"; sourceTree = "<group>"; };
+		96558BA4151A477200E81482 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		96558BA6151A477200E81482 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		96558BA7151A477200E81482 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		96558BAA151A477200E81482 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		96558BC7151A4DF400E81482 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		96558BC9151A4DFC00E81482 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		966DD6BE1552F718000334FB /* Cadre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cadre.h; sourceTree = "<group>"; };
+		966DD6BF1552F718000334FB /* Cadre.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cadre.m; sourceTree = "<group>"; };
+		966DD6C2155340AD000334FB /* CadreAjustable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CadreAjustable.h; sourceTree = "<group>"; };
+		966DD6C3155340AD000334FB /* CadreAjustable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CadreAjustable.m; sourceTree = "<group>"; };
+		967015E71540AA0A008AF98B /* DonneesFenetreEdition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DonneesFenetreEdition.h; sourceTree = "<group>"; };
+		967015E81540AA0A008AF98B /* DonneesFenetreEdition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DonneesFenetreEdition.m; sourceTree = "<group>"; };
+		968BEEAC15583A7500AC2B43 /* BoutonOutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoutonOutil.h; sourceTree = "<group>"; };
+		968BEEAD15583A7500AC2B43 /* BoutonOutil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoutonOutil.m; sourceTree = "<group>"; };
+		968BEEB015587BFC00AC2B43 /* OutilAjoutObjetSimple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutilAjoutObjetSimple.h; sourceTree = "<group>"; };
+		968BEEB115587BFC00AC2B43 /* OutilAjoutObjetSimple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutilAjoutObjetSimple.m; sourceTree = "<group>"; };
+		968BEEB315587D0D00AC2B43 /* Tableau.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tableau.h; sourceTree = "<group>"; };
+		968BEEB415587D0D00AC2B43 /* Tableau.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tableau.m; sourceTree = "<group>"; };
+		968BEEBA1559670200AC2B43 /* Triangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Triangle.h; sourceTree = "<group>"; };
+		968BEEBB1559670200AC2B43 /* Triangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Triangle.m; sourceTree = "<group>"; };
+		968BEEBD1559671200AC2B43 /* Carre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Carre.h; sourceTree = "<group>"; };
+		968BEEBE1559671300AC2B43 /* Carre.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Carre.m; sourceTree = "<group>"; };
+		968DE9A11549AD7300B9CF8F /* Outil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Outil.h; sourceTree = "<group>"; };
+		968DE9A21549AD7300B9CF8F /* Outil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Outil.m; sourceTree = "<group>"; };
+		968DE9A51549B7D700B9CF8F /* OutilZoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutilZoom.h; sourceTree = "<group>"; };
+		968DE9A61549B7D700B9CF8F /* OutilZoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutilZoom.m; sourceTree = "<group>"; };
+		969BD06A151A86380095C026 /* DonneesEditeur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DonneesEditeur.h; sourceTree = "<group>"; };
+		969BD06B151A86380095C026 /* DonneesEditeur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DonneesEditeur.m; sourceTree = "<group>"; };
+		969BD06C151A86380095C026 /* Noeud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Noeud.h; sourceTree = "<group>"; };
+		969BD06D151A86380095C026 /* Noeud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Noeud.m; sourceTree = "<group>"; };
+		969BD06E151A86380095C026 /* NoeudComposite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoeudComposite.h; sourceTree = "<group>"; };
+		969BD06F151A86380095C026 /* NoeudComposite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoeudComposite.m; sourceTree = "<group>"; };
+		969BD070151A86380095C026 /* NoeudSimple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoeudSimple.h; sourceTree = "<group>"; };
+		969BD071151A86380095C026 /* NoeudSimple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoeudSimple.m; sourceTree = "<group>"; };
+		969BD072151A86380095C026 /* VueOpenGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VueOpenGL.h; sourceTree = "<group>"; };
+		969BD073151A86380095C026 /* VueOpenGL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VueOpenGL.m; sourceTree = "<group>"; };
+		96A8E20B1541B95100C535FB /* ControleurFenetreEdition+Menus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ControleurFenetreEdition+Menus.h"; sourceTree = "<group>"; };
+		96A8E20C1541B95100C535FB /* ControleurFenetreEdition+Menus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ControleurFenetreEdition+Menus.m"; sourceTree = "<group>"; };
+		96A8E20E1545B64300C535FB /* Configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Configuration.h; sourceTree = "<group>"; };
+		96E7F383155D9EF70058C77E /* OutilSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutilSelection.h; sourceTree = "<group>"; };
+		96E7F384155D9EF80058C77E /* OutilSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutilSelection.m; sourceTree = "<group>"; };
+		96F898011549E4260013F413 /* OutilDeplacement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutilDeplacement.h; sourceTree = "<group>"; };
+		96F898021549E4260013F413 /* OutilDeplacement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutilDeplacement.m; sourceTree = "<group>"; };
+		96F898051549FA4C0013F413 /* VueBoiteOutils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VueBoiteOutils.h; sourceTree = "<group>"; };
+		96F898061549FA4C0013F413 /* VueBoiteOutils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VueBoiteOutils.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		96558B8D151A477200E81482 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96558BCA151A4DFC00E81482 /* GLUT.framework in Frameworks */,
+				96558BC8151A4DF400E81482 /* OpenGL.framework in Frameworks */,
+				96558B95151A477200E81482 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		96558B85151A477100E81482 = {
+			isa = PBXGroup;
+			children = (
+				96558B9A151A477200E81482 /* Editeur */,
+				96558B93151A477200E81482 /* Frameworks */,
+				96558B91151A477200E81482 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		96558B91151A477200E81482 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				96558B90151A477200E81482 /* Editeur.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		96558B93151A477200E81482 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				96558BC9151A4DFC00E81482 /* GLUT.framework */,
+				96558BC7151A4DF400E81482 /* OpenGL.framework */,
+				96558B94151A477200E81482 /* Cocoa.framework */,
+				96558B96151A477200E81482 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		96558B96151A477200E81482 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				96558B97151A477200E81482 /* AppKit.framework */,
+				96558B98151A477200E81482 /* CoreData.framework */,
+				96558B99151A477200E81482 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		96558B9A151A477200E81482 /* Editeur */ = {
+			isa = PBXGroup;
+			children = (
+				96A8E20E1545B64300C535FB /* Configuration.h */,
+				96558BA6151A477200E81482 /* AppDelegate.h */,
+				96558BA7151A477200E81482 /* AppDelegate.m */,
+				966DD6BE1552F718000334FB /* Cadre.h */,
+				966DD6BF1552F718000334FB /* Cadre.m */,
+				966DD6C2155340AD000334FB /* CadreAjustable.h */,
+				966DD6C3155340AD000334FB /* CadreAjustable.m */,
+				968BEEB61559607600AC2B43 /* Objets */,
+				968DE9A81549B7ED00B9CF8F /* Modele */,
+				96A8E20A1541B3AF00C535FB /* Interfaces */,
+				96A8E2081541B33B00C535FB /* Controleurs */,
+				96558B9B151A477200E81482 /* Supporting Files */,
+			);
+			path = Editeur;
+			sourceTree = "<group>";
+		};
+		96558B9B151A477200E81482 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				96558B9C151A477200E81482 /* Editeur-Info.plist */,
+				96558B9D151A477200E81482 /* InfoPlist.strings */,
+				96558BA0151A477200E81482 /* main.m */,
+				96558BA2151A477200E81482 /* Editeur-Prefix.pch */,
+				96558BA3151A477200E81482 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		968BEEB61559607600AC2B43 /* Objets */ = {
+			isa = PBXGroup;
+			children = (
+				969BD06C151A86380095C026 /* Noeud.h */,
+				969BD06D151A86380095C026 /* Noeud.m */,
+				969BD06E151A86380095C026 /* NoeudComposite.h */,
+				969BD06F151A86380095C026 /* NoeudComposite.m */,
+				969BD070151A86380095C026 /* NoeudSimple.h */,
+				969BD071151A86380095C026 /* NoeudSimple.m */,
+				968BEEB315587D0D00AC2B43 /* Tableau.h */,
+				968BEEB415587D0D00AC2B43 /* Tableau.m */,
+				968BEEBA1559670200AC2B43 /* Triangle.h */,
+				968BEEBB1559670200AC2B43 /* Triangle.m */,
+				968BEEBD1559671200AC2B43 /* Carre.h */,
+				968BEEBE1559671300AC2B43 /* Carre.m */,
+			);
+			name = Objets;
+			sourceTree = "<group>";
+		};
+		968DE9A81549B7ED00B9CF8F /* Modele */ = {
+			isa = PBXGroup;
+			children = (
+				969BD06A151A86380095C026 /* DonneesEditeur.h */,
+				969BD06B151A86380095C026 /* DonneesEditeur.m */,
+				967015E71540AA0A008AF98B /* DonneesFenetreEdition.h */,
+				967015E81540AA0A008AF98B /* DonneesFenetreEdition.m */,
+				968DE9A91549B80600B9CF8F /* Outils */,
+			);
+			name = Modele;
+			sourceTree = "<group>";
+		};
+		968DE9A91549B80600B9CF8F /* Outils */ = {
+			isa = PBXGroup;
+			children = (
+				968DE9A11549AD7300B9CF8F /* Outil.h */,
+				968DE9A21549AD7300B9CF8F /* Outil.m */,
+				968BEEB015587BFC00AC2B43 /* OutilAjoutObjetSimple.h */,
+				968BEEB115587BFC00AC2B43 /* OutilAjoutObjetSimple.m */,
+				968DE9A51549B7D700B9CF8F /* OutilZoom.h */,
+				968DE9A61549B7D700B9CF8F /* OutilZoom.m */,
+				96F898011549E4260013F413 /* OutilDeplacement.h */,
+				96F898021549E4260013F413 /* OutilDeplacement.m */,
+				96E7F383155D9EF70058C77E /* OutilSelection.h */,
+				96E7F384155D9EF80058C77E /* OutilSelection.m */,
+			);
+			name = Outils;
+			sourceTree = "<group>";
+		};
+		96A8E2081541B33B00C535FB /* Controleurs */ = {
+			isa = PBXGroup;
+			children = (
+				96091EA415408D7800785DA0 /* ControleurFenetreEdition.h */,
+				96091EA515408D7800785DA0 /* ControleurFenetreEdition.m */,
+				96A8E20B1541B95100C535FB /* ControleurFenetreEdition+Menus.h */,
+				96A8E20C1541B95100C535FB /* ControleurFenetreEdition+Menus.m */,
+				96091EA115408BB500785DA0 /* ControleurFenetreOutils.h */,
+				96091EA215408BB500785DA0 /* ControleurFenetreOutils.m */,
+			);
+			name = Controleurs;
+			sourceTree = "<group>";
+		};
+		96A8E20A1541B3AF00C535FB /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				96558BA9151A477200E81482 /* MainMenu.xib */,
+				96091EA715408DC700785DA0 /* FenetreEdition.xib */,
+				96091E9E154081D400785DA0 /* FenetreOutils.xib */,
+				968BEEAC15583A7500AC2B43 /* BoutonOutil.h */,
+				968BEEAD15583A7500AC2B43 /* BoutonOutil.m */,
+				96F898051549FA4C0013F413 /* VueBoiteOutils.h */,
+				96F898061549FA4C0013F413 /* VueBoiteOutils.m */,
+				969BD072151A86380095C026 /* VueOpenGL.h */,
+				969BD073151A86380095C026 /* VueOpenGL.m */,
+			);
+			name = Interfaces;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		96558B8F151A477200E81482 /* Editeur */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 96558BAE151A477200E81482 /* Build configuration list for PBXNativeTarget "Editeur" */;
+			buildPhases = (
+				96558B8C151A477200E81482 /* Sources */,
+				96558B8D151A477200E81482 /* Frameworks */,
+				96558B8E151A477200E81482 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Editeur;
+			productName = Editeur;
+			productReference = 96558B90151A477200E81482 /* Editeur.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		96558B87151A477100E81482 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+			};
+			buildConfigurationList = 96558B8A151A477100E81482 /* Build configuration list for PBXProject "Editeur" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 96558B85151A477100E81482;
+			productRefGroup = 96558B91151A477200E81482 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				96558B8F151A477200E81482 /* Editeur */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		96558B8E151A477200E81482 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96558B9F151A477200E81482 /* InfoPlist.strings in Resources */,
+				96558BA5151A477200E81482 /* Credits.rtf in Resources */,
+				96558BAB151A477200E81482 /* MainMenu.xib in Resources */,
+				96091E9F154081D400785DA0 /* FenetreOutils.xib in Resources */,
+				96091EA815408DC700785DA0 /* FenetreEdition.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		96558B8C151A477200E81482 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96558BA1151A477200E81482 /* main.m in Sources */,
+				96558BA8151A477200E81482 /* AppDelegate.m in Sources */,
+				969BD074151A86380095C026 /* DonneesEditeur.m in Sources */,
+				969BD075151A86380095C026 /* Noeud.m in Sources */,
+				969BD076151A86380095C026 /* NoeudComposite.m in Sources */,
+				969BD077151A86380095C026 /* NoeudSimple.m in Sources */,
+				969BD078151A86380095C026 /* VueOpenGL.m in Sources */,
+				96091EA315408BB500785DA0 /* ControleurFenetreOutils.m in Sources */,
+				96091EA615408D7800785DA0 /* ControleurFenetreEdition.m in Sources */,
+				967015E91540AA0A008AF98B /* DonneesFenetreEdition.m in Sources */,
+				96A8E20D1541B95100C535FB /* ControleurFenetreEdition+Menus.m in Sources */,
+				968DE9A31549AD7300B9CF8F /* Outil.m in Sources */,
+				968DE9A71549B7D700B9CF8F /* OutilZoom.m in Sources */,
+				96F898031549E4260013F413 /* OutilDeplacement.m in Sources */,
+				96F898071549FA4C0013F413 /* VueBoiteOutils.m in Sources */,
+				966DD6C01552F718000334FB /* Cadre.m in Sources */,
+				966DD6C4155340AD000334FB /* CadreAjustable.m in Sources */,
+				968BEEAE15583A7500AC2B43 /* BoutonOutil.m in Sources */,
+				968BEEB215587BFC00AC2B43 /* OutilAjoutObjetSimple.m in Sources */,
+				968BEEB515587D0D00AC2B43 /* Tableau.m in Sources */,
+				968BEEBC1559670200AC2B43 /* Triangle.m in Sources */,
+				968BEEBF1559671300AC2B43 /* Carre.m in Sources */,
+				96E7F385155D9EF80058C77E /* OutilSelection.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		96558B9D151A477200E81482 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				96558B9E151A477200E81482 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		96558BA3151A477200E81482 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				96558BA4151A477200E81482 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		96558BA9151A477200E81482 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				96558BAA151A477200E81482 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		96558BAC151A477200E81482 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		96558BAD151A477200E81482 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		96558BAF151A477200E81482 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Editeur/Editeur-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG_NOTIFICATIONS=0",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Editeur/Editeur-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		96558BB0151A477200E81482 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Editeur/Editeur-Prefix.pch";
+				INFOPLIST_FILE = "Editeur/Editeur-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		96558B8A151A477100E81482 /* Build configuration list for PBXProject "Editeur" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96558BAC151A477200E81482 /* Debug */,
+				96558BAD151A477200E81482 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		96558BAE151A477200E81482 /* Build configuration list for PBXNativeTarget "Editeur" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96558BAF151A477200E81482 /* Debug */,
+				96558BB0151A477200E81482 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 96558B87151A477100E81482 /* Project object */;
+}
