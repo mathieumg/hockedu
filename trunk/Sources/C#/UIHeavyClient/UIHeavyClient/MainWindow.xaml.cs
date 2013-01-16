@@ -20,13 +20,21 @@ namespace UIHeavyClient
     /// </summary>
     public partial class MainWindow : Window
     {
-        //[DllImport("../../../../../../Exe/DLL/INF2990.dll")]
-        //public static extern int GlobalTestForCS(int a);
+        [DllImport(@"..\..\..\..\..\..\Exe\DLL\INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int TestCSCall(int a);
 
         public MainWindow()
         {
             InitializeComponent();
-            //label1.Content = GlobalTestForCS(19);
+
+            try
+            {
+                label1.Content = TestCSCall(19);
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
         
     }
