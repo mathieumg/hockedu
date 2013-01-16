@@ -98,7 +98,7 @@ private:
 /// Accesseurs
 public:
 	/// Accesseur de arbreRendu_
-	inline ArbreRenduINF2990* obtenirArbreRendu() const { return arbreRendu_; }
+	inline ArbreRenduINF2990* getArbreRendu() const { return arbreRendu_; }
 	/// Accesseur de zoneEdition_
 	inline ZoneEdition& obtenirZoneEdition() { return zoneEdition_; }
 	/// Accesseur de nom_

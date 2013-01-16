@@ -316,7 +316,7 @@ void ConfigScene::creerDOM( TiXmlNode& node, ArbreRenduINF2990* arbre ) const
 	VisiteurEcrireXML v;
 	for( unsigned int i = 0; i < arbre->obtenirNombreEnfants(); i++)
 	{
-		arbre->chercher(i)->accueillirVisiteurNoeud(v);
+		arbre->chercher(i)->acceptVisitor(v);
 		TiXmlElement* racineSousArbre = v.obtenirRacine();
 		if(racineSousArbre != 0)
 			racine->LinkEndChild(racineSousArbre);

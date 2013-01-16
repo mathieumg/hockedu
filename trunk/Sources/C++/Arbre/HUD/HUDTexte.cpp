@@ -110,19 +110,19 @@ void HUDTexte::peindreElement()
 			mess << message_.c_str();
 			break;
 		case POINTAGE_JOUEUR_GAUCHE:
-			mess << FacadeModele::obtenirInstance()->obtenirPartieCourante()->obtenirReferencePointsJoueurGauche();
+			mess << FacadeModele::getInstance()->obtenirPartieCourante()->obtenirReferencePointsJoueurGauche();
 			break;
 		case POINTAGE_JOUEUR_DROIT:
-			mess << FacadeModele::obtenirInstance()->obtenirPartieCourante()->obtenirReferencePointsJoueurDroit();
+			mess << FacadeModele::getInstance()->obtenirPartieCourante()->obtenirReferencePointsJoueurDroit();
 			break;
 		case NOM_JOUEUR_GAUCHE:
-			mess << FacadeModele::obtenirInstance()->obtenirPartieCourante()->obtenirNomJoueurGauche();
+			mess << FacadeModele::getInstance()->obtenirPartieCourante()->obtenirNomJoueurGauche();
 			break;
 		case NOM_JOUEUR_DROIT:
-			mess << FacadeModele::obtenirInstance()->obtenirPartieCourante()->obtenirNomJoueurDroit();
+			mess << FacadeModele::getInstance()->obtenirPartieCourante()->obtenirNomJoueurDroit();
 			break;
 		case NOM_VAINQUEUR:
-			mess << FacadeModele::obtenirInstance()->obtenirPartieCourante()->obtenirGagnant()->obtenirNom();
+			mess << FacadeModele::getInstance()->obtenirPartieCourante()->obtenirGagnant()->obtenirNom();
 			break;
 		case TOURNOI_JOUEUR:
 			{
@@ -130,31 +130,31 @@ void HUDTexte::peindreElement()
 				if(indexPartie_ > (Tournoi::nbrParties_-1))
 				{
 					unsigned int index = 0;
-					joueur = FacadeModele::obtenirInstance()->obtenirTournoi()->obtenirPartie(index)->obtenirGagnant();
+					joueur = FacadeModele::getInstance()->obtenirTournoi()->obtenirPartie(index)->obtenirGagnant();
 					glColor4f(couleurSiGagnantPartie_[0], couleurSiGagnantPartie_[1], couleurSiGagnantPartie_[2], couleurSiGagnantPartie_[3]);
 				}
 				else if(indexJoueur_)
 				{
-					joueur = FacadeModele::obtenirInstance()->obtenirTournoi()->obtenirPartie(indexPartie_)->obtenirJoueurDroit();
+					joueur = FacadeModele::getInstance()->obtenirTournoi()->obtenirPartie(indexPartie_)->obtenirJoueurDroit();
 				}
 				else
 				{
-					joueur = FacadeModele::obtenirInstance()->obtenirTournoi()->obtenirPartie(indexPartie_)->obtenirJoueurGauche();
+					joueur = FacadeModele::getInstance()->obtenirTournoi()->obtenirPartie(indexPartie_)->obtenirJoueurGauche();
 				}
 				if(joueur)
 				{
-					Vainqueurs chemin = FacadeModele::obtenirInstance()->obtenirTournoi()->obtenirCheminDernierVainqueur();
+					Vainqueurs chemin = FacadeModele::getInstance()->obtenirTournoi()->obtenirCheminDernierVainqueur();
 					if(find(chemin.begin(),chemin.end(),Vainqueur(indexPartie_,indexJoueur_ == 1 ? GAGNANT_DROITE : GAGNANT_GAUCHE)) != chemin.end())
 					{
 						glColor4f(couleurSiGagnantPartie_[0], couleurSiGagnantPartie_[1], couleurSiGagnantPartie_[2], couleurSiGagnantPartie_[3]);
 					}
 // 
 // 					unsigned int indexPartiePrecedente;
-// 					if(FacadeModele::obtenirInstance()->obtenirTournoi()->estTermine())
+// 					if(FacadeModele::getInstance()->obtenirTournoi()->estTermine())
 // 						indexPartiePrecedente = 0;
 // 					else 
-// 						indexPartiePrecedente = FacadeModele::obtenirInstance()->obtenirTournoi()->obtenirIndexPartieCourante() + 1;
-// 					if(indexPartiePrecedente < Tournoi::nbrParties_ && joueur == FacadeModele::obtenirInstance()->obtenirTournoi()->obtenirPartie(indexPartiePrecedente)->obtenirGagnant())
+// 						indexPartiePrecedente = FacadeModele::getInstance()->obtenirTournoi()->obtenirIndexPartieCourante() + 1;
+// 					if(indexPartiePrecedente < Tournoi::nbrParties_ && joueur == FacadeModele::getInstance()->obtenirTournoi()->obtenirPartie(indexPartiePrecedente)->obtenirGagnant())
 // 					{
 // 						glColor4f(couleurSiGagnantPartie_[0], couleurSiGagnantPartie_[1], couleurSiGagnantPartie_[2], couleurSiGagnantPartie_[3]);
 // 					}
@@ -163,7 +163,7 @@ void HUDTexte::peindreElement()
 				break;
 			}
 		case TEMPS_JEU:
-			float tempsJeu = FacadeModele::obtenirInstance()->obtenirPartieCourante()->obtenirTempsJeu();
+			float tempsJeu = FacadeModele::getInstance()->obtenirPartieCourante()->obtenirTempsJeu();
 			int nbHeures = (int)tempsJeu/3600;
 			tempsJeu -= nbHeures*3600;
 			if(nbHeures > 0)

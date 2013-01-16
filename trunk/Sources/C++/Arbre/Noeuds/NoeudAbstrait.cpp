@@ -8,7 +8,6 @@
 ////////////////////////////////////////////////
 
 #include "NoeudAbstrait.h"
-#include "Utilitaire.h"
 #include "NoeudComposite.h"
 #include "VisiteurCollision.h"
 #include "GestionnaireModeles.h"
@@ -16,6 +15,7 @@
 #include "Singleton.h"
 #include "XMLUtils.h"
 #include "Box2D/Box2D.h"
+#include "Utilitaire.h"
 
 GLuint NoeudAbstrait::compteurIdGl_ = 1;
 b2World* NoeudAbstrait::mWorld = NULL;
@@ -943,7 +943,8 @@ void NoeudAbstrait::assignerPositionRelative( const Vecteur3& positionRelative )
     positionRelative_ = positionRelative;
     if(mPhysicBody)
     {
-        b2Vec2 pos((float)positionRelative_[VX],(float)positionRelative_[VY]);
+        b2Vec2 pos;
+        utilitaire::VEC3_TO_B2VEC(positionRelative_,pos);
         mPhysicBody->SetTransform(pos,mPhysicBody->GetAngle());
     }
 }
@@ -994,6 +995,7 @@ void NoeudAbstrait::clearPhysicsBody()
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::forceFullUpdate()
 {
+    updateRayon();
     updateMatrice();
     updatePhysicBody();
 }

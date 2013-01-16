@@ -87,7 +87,7 @@ void VisiteurSelectionOpenGL::visiterNoeudComposite( NoeudComposite* noeud )
 {
 	for (unsigned int i=0; i<noeud->obtenirNombreEnfants(); i++)
 	{
-		noeud->chercher(i)->accueillirVisiteurNoeud(*this);
+		noeud->chercher(i)->acceptVisitor(*this);
 	}
 }
 

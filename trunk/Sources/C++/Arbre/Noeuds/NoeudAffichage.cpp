@@ -45,7 +45,7 @@ NoeudAffichage::NoeudAffichage(const std::string& typeNoeud)
 ////////////////////////////////////////////////////////////////////////
 NoeudAffichage::~NoeudAffichage()
 {
-	FacadeModele::obtenirInstance()->supprimerElementSurTable(this);
+	FacadeModele::getInstance()->supprimerElementSurTable(this);
 }
 
 
@@ -101,7 +101,7 @@ void NoeudAffichage::animer( const float& temps)
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudAffichage::accueillirVisiteurNoeud( VisiteurNoeudComposite& v )
+/// @fn NoeudAffichage::acceptVisitor( VisiteurNoeudComposite& v )
 ///
 /// Permet d'indiquer au visiteur le type concret du noeud courant.
 ///
@@ -110,7 +110,7 @@ void NoeudAffichage::animer( const float& temps)
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAffichage::accueillirVisiteurNoeud( VisiteurNoeud& v )
+void NoeudAffichage::acceptVisitor( VisiteurNoeud& v )
 {
 	
 }
@@ -130,7 +130,7 @@ void NoeudAffichage::modifierListes( const std::string& nomListe )
 {
     type_ = nomListe;
 	/*GLuint liste1;
-	GestionnaireModeles::obtenirInstance()->obtenirListe(nomListe, liste1);
+	GestionnaireModeles::getInstance()->obtenirListe(nomListe, liste1);
     if(liste1 != 0)
 	    liste_ = liste1;*/
 }

@@ -52,7 +52,7 @@ SourisEtatSelection::SourisEtatSelection(  )
 ////////////////////////////////////////////////////////////////////////
 SourisEtatSelection::~SourisEtatSelection(void)
 {
-	FacadeModele::obtenirInstance()->modifierVariableZoomElastique(false);
+	FacadeModele::getInstance()->modifierVariableZoomElastique(false);
 }
 
 /// Comportement lorsqu'une touche du clavier est enfoncée.
@@ -110,16 +110,16 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 	if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_GAUCHE)
 	{
 		if(!ctrlEnfoncee_)
-			FacadeModele::obtenirInstance()->selectionArbre(false);
+			FacadeModele::getInstance()->selectionArbre(false);
 
 		//if(drag_)
 		{
 			// DRAG
-			//FacadeModele::obtenirInstance()->modifierVariableZoomElastique(false);
+			//FacadeModele::getInstance()->modifierVariableZoomElastique(false);
 
 			//Vecteur3 posCurVirt, posPrecedentVirt;
-			//FacadeModele::obtenirInstance()->convertirClotureAVirtuelle(positionEnfoncee_[VX], positionEnfoncee_[VY], posCurVirt);
-			//FacadeModele::obtenirInstance()->convertirClotureAVirtuelle(positionPrecedente_[VX], positionPrecedente_[VY], posPrecedentVirt);
+			//FacadeModele::getInstance()->convertirClotureAVirtuelle(positionEnfoncee_[VX], positionEnfoncee_[VY], posCurVirt);
+			//FacadeModele::getInstance()->convertirClotureAVirtuelle(positionPrecedente_[VX], positionPrecedente_[VY], posPrecedentVirt);
 
 // 			glMatrixMode( GL_PROJECTION );
 // 			glLoadIdentity();
@@ -129,7 +129,7 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 
 
 // 			VisiteurSelection visiteur(positionEnfonce, positionPrecedente);
-// 			FacadeModele::obtenirInstance()->visiterArbre(&visiteur);
+// 			FacadeModele::getInstance()->visiterArbre(&visiteur);
 //			visiteur.faireSelection();
 		}
 		//else
@@ -137,7 +137,7 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 			Vecteur2i centreSelection(positionPrecedente_);
 			Vecteur2i tailleSelection(1,1);
 			// On s'assure de desactiver le rectangle elastique
-			FacadeModele::obtenirInstance()->modifierVariableZoomElastique(false);
+			FacadeModele::getInstance()->modifierVariableZoomElastique(false);
 			
 			if(drag_)
 			{
@@ -156,7 +156,7 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 			glGetIntegerv(GL_VIEWPORT,viewport);
 			gluPickMatrix(centreSelection[VX],viewport[3]-centreSelection[VY],tailleSelection[VX],tailleSelection[VY],viewport);
 
-			FacadeModele::obtenirInstance()->obtenirVue()->appliquerProjection();
+			FacadeModele::getInstance()->obtenirVue()->appliquerProjection();
 
 			const GLsizei taille = 1000;
 			GLuint tampon[taille];			
@@ -167,8 +167,8 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 
 			glMatrixMode( GL_MODELVIEW );
 			glLoadIdentity();
-			FacadeModele::obtenirInstance()->obtenirVue()->appliquerCamera();
-			FacadeModele::obtenirInstance()->afficherBase();
+			FacadeModele::getInstance()->obtenirVue()->appliquerCamera();
+			FacadeModele::getInstance()->afficherBase();
 
 			int nbObjets = glRenderMode(GL_RENDER);
 			
@@ -228,13 +228,13 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 			for(; iter != liste.end(); iter++)
 			{
 				VisiteurSelectionOpenGL visiteur(&iter->second,ctrlEnfoncee_);
-				NoeudGroupe* groupe = FacadeModele::obtenirInstance()->obtenirTerrain()->obtenirTable()->obtenirGroupe(iter->first);
+				NoeudGroupe* groupe = FacadeModele::getInstance()->getTerrain()->obtenirTable()->obtenirGroupe(iter->first);
 				if(groupe)
 				{
-					groupe->accueillirVisiteurNoeud(visiteur);
+					groupe->acceptVisitor(visiteur);
 				}
 				else
-					FacadeModele::obtenirInstance()->visiterArbre(&visiteur);
+					FacadeModele::getInstance()->visiterArbre(&visiteur);
 			}
 
 
@@ -245,7 +245,7 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 
 
 // 			VisiteurSelection visiteur(positionClic, positionClic);
-// 			FacadeModele::obtenirInstance()->visiterArbre(&visiteur);
+// 			FacadeModele::getInstance()->visiterArbre(&visiteur);
 			//visiteur.faireSelection();
 		}
 
@@ -272,7 +272,7 @@ void SourisEtatSelection::sourisDeplacee( EvenementSouris& evenementSouris )
 	positionPrecedente_ = evenementSouris.obtenirPosition();
 	if(drag_)
 	{
-		FacadeModele::obtenirInstance()->modifierVariableZoomElastique( estEnfoncee_,positionEnfoncee_,positionPrecedente_ );
+		FacadeModele::getInstance()->modifierVariableZoomElastique( estEnfoncee_,positionEnfoncee_,positionPrecedente_ );
 	}
 	
 	if(estEnfoncee_ && (abs(positionEnfoncee_[VX]-positionPrecedente_[VX])>5 || abs(positionEnfoncee_[VY]-positionPrecedente_[VY])>5))

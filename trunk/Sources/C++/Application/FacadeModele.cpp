@@ -30,6 +30,7 @@
 #include "Projection.h"
 #include "LignePointillee.h"
 
+#include "Box2D/Box2D.h"
 #include "Utilitaire.h"
 #include "AideGL.h"
 #include "ArbreRenduINF2990.h"
@@ -76,10 +77,11 @@
 #include "textfile.h"
 #include "VuePerspectiveSplit.h"
 #include "ProjectionPerspective.h"
-#include "Box2D/Box2D.h"
 #include "BoiteEnvironnement.h"
 #include <iostream>
 #include "DebugRenderBox2D.h"
+#include "VisiteurFunction.h"
+#include "HUDTexte.h"
 
 /// Pointeur vers l'instance unique de la classe.
 FacadeModele* FacadeModele::instance_ = 0;
@@ -89,6 +91,9 @@ const std::string FacadeModele::FICHIER_TERRAIN_EN_COURS = "MapEnCours.xml";
 const std::string FacadeModele::FICHIER_JOUEURS = "joueurs.xml";
 
 int FacadeModele::anglePause_ = 0;
+Vecteur3 virtualMousePos;
+b2Vec2 virtualMousePosB2;
+HUDTexte* debugInfo;
 
 //DebugDraw __debugDraw;
 HANDLE mutexRender;
@@ -108,13 +113,13 @@ DWORD WINAPI RenderSceneWorker(LPVOID arg)
 
     bool returnValue = true;
 
-    if(!wglMakeCurrent(FacadeModele::obtenirInstance()->obtenirHDC(),data->glrc))
+    if(!wglMakeCurrent(FacadeModele::getInstance()->obtenirHDC(),data->glrc))
     {
         returnValue = false;
     }
     ReleaseMutex(mutexRender);
 
-    FacadeModele::obtenirInstance()->InitOpenGLContext();
+    FacadeModele::getInstance()->InitOpenGLContext();
 
     while(bRendering & returnValue)
     {
@@ -126,7 +131,7 @@ DWORD WINAPI RenderSceneWorker(LPVOID arg)
         {
             returnValue = false;
         }
-        FacadeModele::obtenirInstance()->afficher();
+        FacadeModele::getInstance()->afficher();
         ReleaseMutex(mutexNoeuds);
     }
 
@@ -172,7 +177,7 @@ Tournoi* FacadeModele::obtenirTournoi()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn FacadeModele* FacadeModele::obtenirInstance()
+/// @fn FacadeModele* FacadeModele::getInstance()
 ///
 /// Cette fonction retourne un pointeur vers l'instance unique de la
 /// classe.  Si cette instance n'a pas été créée, elle la crée.  Cette
@@ -183,7 +188,7 @@ Tournoi* FacadeModele::obtenirTournoi()
 /// @return Un pointeur vers l'instance unique de cette classe.
 ///
 ////////////////////////////////////////////////////////////////////////
-FacadeModele* FacadeModele::obtenirInstance()
+FacadeModele* FacadeModele::getInstance()
 {
    if (instance_ == 0)
       instance_ = new FacadeModele;
@@ -226,7 +231,7 @@ void FacadeModele::libererInstance()
 ////////////////////////////////////////////////////////////////////////
 FacadeModele::FacadeModele()
 	: hGLRC_(0), hDC_(0), hWnd_(0), vue_(0),zoomElastique_(false),tournoi_(0),cheminTournoi_(""),enJeu_(false),
-	partieCourante_(0), /*adversaire_(0),*/ terrain_(0)
+	partieCourante_(0), /*adversaire_(0),*/ terrain_(0), mUpdating(false), mRendering(false)
 {
 	// Il ne faut pas faire d'initialisation de Noeud ici, car le contexte OpenGl n'est pas encore creer
 
@@ -241,12 +246,20 @@ FacadeModele::FacadeModele()
 #else
 	// creation d'un dossier avec un autre API, dunno which yet
 #endif
-    b2Vec2 gravity;
+#if BOX2D_INTEGRATED
+    b2Vec2 gravity(0,0);
     mWorld = new b2World(gravity);
     mDebugRenderBox2D = new DebugRenderBox2D();
     mWorld->SetDebugDraw(mDebugRenderBox2D);
     mDebugRenderBox2D->AppendFlags(b2Draw::e_shapeBit);
     NoeudAbstrait::setWorld(mWorld);
+
+    // body bidon pour lier la souris au maillet
+    b2BodyDef bodyDef;
+    mMouseBody = mWorld->CreateBody(&bodyDef);
+    mMouseJoint = NULL;
+#endif
+
 }
 
 
@@ -351,6 +364,14 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
  	//ConfigScene::obtenirInstance()->obtenirLumiere(1)->allumerLumiere();
  	//ConfigScene::obtenirInstance()->obtenirLumiere(2)->allumerLumiere();
 
+#if _DEBUG
+    GestionnaireHUD::obtenirInstance();
+    debugInfo = new HUDTexte("",Vecteur4f(0,1,1,1));
+    debugInfo->modifierVisibilite(true);
+    debugInfo->modifierPosition(0.15f,0.10f);
+    GestionnaireHUD::obtenirInstance()->obtenirRacine(RACINE_JEU)->add(debugInfo);
+#endif
+
 	// On crée une vue par défaut.
 	initialiserVue();
 
@@ -445,7 +466,7 @@ void FacadeModele::chargerTerrain( const std::string& nomFichier /*= ""*/, Terra
 	// Si le parametre est null, on lui assigne le terrain du modele
 	if(!terrain)
 	{
-		terrain = obtenirTerrain();
+		terrain = getTerrain();
 	}
 	// Si le terrain du modele est null, on en cree un
 	if(!terrain)
@@ -489,7 +510,7 @@ void FacadeModele::chargerTerrain( const std::string& nomFichier /*= ""*/, Terra
 			{
 				for (int i = 0; i < 8 ; i++)
 				{
-					obtenirTerrain()->obtenirTable()->obtenirPoint(i)->assignerAffiche(true);
+					getTerrain()->obtenirTable()->obtenirPoint(i)->assignerAffiche(true);
 				}
 			}
 			ajusterElementSurTableEnCollision();
@@ -522,7 +543,7 @@ void FacadeModele::enregistrerTerrain( const std::string& nomFichier /*= ""*/, T
 	// Si le parametre est null, on lui assigne le terrain du modele
 	if(!terrain)
 	{
-		terrain = obtenirTerrain();
+		terrain = getTerrain();
 	}
 	// Si le terrain du modele est null, on l'initialise avant de continuer
 	if(!terrain)
@@ -782,7 +803,7 @@ void FacadeModele::SignalRender()
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::afficher( )
 {
-
+    mRendering = true;
 	// Efface l'ancien rendu
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
 
@@ -817,7 +838,38 @@ void FacadeModele::afficher( )
 	glDisable(GL_LIGHTING);
 
     DrawSelectionRectangle();
-    mWorld->DrawDebugData();
+    
+
+
+#if BOX2D_INTEGRATED && BOX2D_DEBUG
+    b2Vec2 pos[] = {
+        b2Vec2(300,300),
+        b2Vec2(300,-300),
+        b2Vec2(-300,-300),
+        b2Vec2(-300,300),
+        b2Vec2(300,300),
+    };
+    glColor3f(1,1,1);
+    glBegin(GL_TRIANGLE_FAN);
+        for(int i=0; i<5; ++i)
+            glVertex3f(pos[i].x,pos[i].y,-5.f);
+    glEnd();
+    mWorld->DrawDebugData(); 
+    if (mMouseJoint)
+    {
+        b2Vec2 p1 = mMouseJoint->GetAnchorB();
+        b2Vec2 p2 = mMouseJoint->GetTarget();
+
+        b2Color c;
+        c.Set(0.0f, 1.0f, 0.0f);
+        mDebugRenderBox2D->DrawPoint(p1, 4.0f, c);
+        mDebugRenderBox2D->DrawPoint(p2, 4.0f, c);
+
+        c.Set(0.8f, 0.8f, 0.8f);
+        mDebugRenderBox2D->DrawSegment(p1, p2, c);
+    }
+#endif
+
     //mDebugRenderBox2D->DrawString(150,150,"test %d",this->temps_.Elapsed_Time_sec());
 
     for(int i=(int)mUIRunnables.size()-1; i>=0; --i)
@@ -854,6 +906,7 @@ void FacadeModele::afficher( )
 
 	// Échange les tampons pour que le résultat du rendu soit visible.
 	::SwapBuffers( hDC_ );
+    mRendering = false;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -930,6 +983,7 @@ void FacadeModele::reinitialiserTerrain()
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::animer( const float& temps)
 {
+    mUpdating = true;
 	utilitaire::CompteurAffichage::obtenirInstance()->signalerAffichage();
 	
 	float tempsReel = temps;//temps_.Elapsed_Time_sec();
@@ -964,13 +1018,36 @@ void FacadeModele::animer( const float& temps)
 	bool replaying = false;
 	if(GestionnaireAnimations::obtenirInstance()->estJouerReplay())
 		replaying = true;
+
+#if BOX2D_INTEGRATED
+    if(enJeu_)
+    {
+        b2Body* body = obtenirMailletJoueurGauche()->getPhysicBody();
+        float inertia = body->GetInertia();
+        float damping = body->GetLinearDamping();
+        b2Vec2 velocity = body->GetLinearVelocity();
+        char message[1048];
+        sprintf_s(message,"Inertia = %.2f, Damping = %.2f, Velocity = [%.2f,%.2f]",inertia,damping,velocity.x,velocity.y);
+        debugInfo->setMessage(message);
+        static float t = 50.f;
+        body->ApplyForceToCenter((virtualMousePosB2 - body->GetPosition())*t);
+        mWorld->SetWarmStarting(true);
+        mWorld->SetContinuousPhysics(true);
+        mWorld->SetSubStepping(true);
+        mWorld->Step(temps, 8, 3);
+    }
+#endif
+
 	GestionnaireAnimations::obtenirInstance()->animer(tempsReel*1000);// Prends le temps en ms
+
+
+
 	if(replaying && obtenirPartieCourante() && !obtenirPartieCourante()->partieTerminee() && !GestionnaireAnimations::obtenirInstance()->estJouerReplay())
 	{
 		obtenirPartieCourante()->obtenirGameTime()->unPause();
 	}
 
-
+    mUpdating = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1098,6 +1175,13 @@ void FacadeModele::modifierVariableZoomElastique(bool actif, Vecteur2i coin1, Ve
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageModeEdition()
 {
+#if BOX2D_INTEGRATED
+    if(mMouseJoint)
+    {
+        mWorld->DestroyJoint(mMouseJoint);
+        mMouseJoint = NULL;
+    }
+#endif
 	// Indique que nous ne somme plus en train de jouer le tournoi
 	if(tournoi_)
 		tournoi_->modifierEstEnCours(false);
@@ -1117,6 +1201,8 @@ bool FacadeModele::passageModeEdition()
 		obtenirArbreRenduINF2990()->obtenirTable()->obtenirPoint(i)->assignerAffiche(true);
 	}
 
+
+
 	return true;
 }
 
@@ -1133,6 +1219,13 @@ bool FacadeModele::passageModeEdition()
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageModeTournoi()
 {
+#if BOX2D_INTEGRATED
+    if(mMouseJoint)
+    {
+        mWorld->DestroyJoint(mMouseJoint);
+        mMouseJoint = NULL;
+    }
+#endif
 	if(!tournoi_)
 	{
 		utilitaire::afficherErreur("Le modele ne contient pas de tournoi a jouer");
@@ -1220,6 +1313,11 @@ bool FacadeModele::passageModeJeu()
 // 		return false;
 // 	}
 
+    // Attend que tous les modeles soit charger
+    while(GestionnaireModeles::obtenirInstance()->isStillLoadingModel()){}
+
+    FullRebuild();
+
 	// Indique que nous ne somme plus en train de jouer le tournoi
 	if(tournoi_)
 		tournoi_->modifierEstEnCours(false);
@@ -1230,9 +1328,10 @@ bool FacadeModele::passageModeJeu()
 	partieCourante_ = new Partie(SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")),adversaire_);
 	//partieCourante_ = new Partie(new JoueurVirtuel("Joueur Gauche",225),new JoueurVirtuel("Joueur Droit",225));
 	partieCourante_->modifierTerrain(FICHIER_TERRAIN_EN_COURS);
+    auto mailletGauche = obtenirMailletJoueurGauche(), mailletDroit = obtenirMailletJoueurDroit();
 	try
 	{
-		partieCourante_->assignerControlesMaillet(obtenirMailletJoueurGauche(),obtenirMailletJoueurDroit(),obtenirRondelle());
+		partieCourante_->assignerControlesMaillet(mailletGauche,mailletDroit,obtenirRondelle());
 	}
 	catch(std::logic_error& e)
 	{
@@ -1254,6 +1353,21 @@ bool FacadeModele::passageModeJeu()
 	obtenirVue()->obtenirProjection().centrerAZero();
 	obtenirVue()->obtenirProjection().mettreAJourProjection();
 
+#if BOX2D_INTEGRATED
+    if(!mMouseJoint)
+    {
+        b2Body* body = mailletGauche->getPhysicBody();
+        b2MouseJointDef md;
+        md.bodyA = mMouseBody;
+        md.bodyB = body;
+        Vecteur3 pos = mailletGauche->obtenirPositionAbsolue();
+        utilitaire::VEC3_TO_B2VEC(pos,md.target);
+        md.maxForce = 10000.0f * body->GetMass();
+        md.dampingRatio = 0;
+        md.frequencyHz = 100;
+        mMouseJoint = (b2MouseJoint*)mWorld->CreateJoint(&md);
+    }
+#endif
 	return true;
 }
 
@@ -1268,6 +1382,13 @@ bool FacadeModele::passageModeJeu()
 ////////////////////////////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageMenuPrincipal()
 {
+#if BOX2D_INTEGRATED
+    if(mMouseJoint)
+    {
+        mWorld->DestroyJoint(mMouseJoint);
+        mMouseJoint = NULL;
+    }
+#endif
 	// Indique que nous ne somme plus en train de jouer le tournoi
 	if(tournoi_)
 		tournoi_->modifierEstEnCours(false);
@@ -1401,7 +1522,7 @@ void FacadeModele::initialiserVue()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void FacadeModele::visiterArbre( VisiteurNoeud* visiteur )
 {
-	obtenirArbreRenduINF2990()->accueillirVisiteurNoeud(*visiteur);
+	obtenirArbreRenduINF2990()->acceptVisitor(*visiteur);
 }
 
 
@@ -1481,7 +1602,7 @@ bool FacadeModele::pointOccupe( Vecteur2 positionSouris )
 	Vecteur3 positionVirt;
 	FacadeModele::convertirClotureAVirtuelle((int)positionSouris[VX], (int)positionSouris[VY], positionVirt);
 	VisiteurCollision visiteurColision(Vecteur2(positionVirt[VX], positionVirt[VY]), false);
-	obtenirArbreRenduINF2990()->accueillirVisiteurNoeud(visiteurColision);
+	obtenirArbreRenduINF2990()->acceptVisitor(visiteurColision);
 	// Retourne true s'il y a un objet a la position cliquee
 	return visiteurColision.collisionPresente();
 }
@@ -1613,7 +1734,7 @@ bool FacadeModele::ajusterElementEnCollision( NoeudAbstrait* noeud, const unsign
 	}
 
 	VisiteurCollision v(noeud,false);
-	racine->accueillirVisiteurNoeud(v);
+	racine->acceptVisitor(v);
 	
 	unsigned int tentative = 0;
 	while( v.collisionPresente() && ++tentative <= nbIterations)
@@ -1629,7 +1750,7 @@ bool FacadeModele::ajusterElementEnCollision( NoeudAbstrait* noeud, const unsign
 				deplacement = Vecteur3(1.0,1.0);
 			//deplacement.normaliser();
 			VisiteurDeplacement vDeplacement(deplacement,true);
-			noeud->accueillirVisiteurNoeud(vDeplacement);
+			noeud->acceptVisitor(vDeplacement);
 		}
 		if(!insideLimits(noeud))
 		{
@@ -1637,7 +1758,7 @@ bool FacadeModele::ajusterElementEnCollision( NoeudAbstrait* noeud, const unsign
 			noeud->assignerPositionRelative(Vecteur3());
 		}
 		v.reinitialiser();
-		racine->accueillirVisiteurNoeud(v);
+		racine->acceptVisitor(v);
 	}
 
 	// Il faut la partie égale de la comparaison, car le ++tentative 
@@ -1661,7 +1782,7 @@ bool FacadeModele::ajusterElementEnCollision( NoeudAbstrait* noeud, const unsign
 std::string FacadeModele::obtenirTypeNoeudSelectionne()
 {
 	VisiteurEstSelectione visiteur;
-	obtenirArbreRenduINF2990()->accueillirVisiteurNoeud(visiteur);
+	obtenirArbreRenduINF2990()->acceptVisitor(visiteur);
 	ConteneurNoeuds* noeudsSelectionnes = visiteur.obtenirListeNoeuds();
 	std::string typeRetour;
 	if(!noeudsSelectionnes->empty())
@@ -1811,7 +1932,7 @@ bool FacadeModele::verifierValiditeMap( Terrain* terrain/*= 0 */ )
 {
 	//GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
 	/// Si le parametre est egal a 0, on assigne l'arbre du Modele
-	terrain = terrain == 0 ? obtenirTerrain() : terrain;
+	terrain = terrain == 0 ? getTerrain() : terrain;
 	if(!terrain)
 		return false;
 	return terrain->verifierValidite();
@@ -1832,7 +1953,7 @@ void FacadeModele::creerTerrainParDefaut()
 {
 	if(!terrain_)
 		terrain_ = new Terrain();
-	obtenirTerrain()->creerTerrainParDefaut(FICHIER_TERRAIN_EN_COURS);	
+	getTerrain()->creerTerrainParDefaut(FICHIER_TERRAIN_EN_COURS);	
 }
 
 
@@ -1848,11 +1969,11 @@ void FacadeModele::creerTerrainParDefaut()
 NoeudMaillet* FacadeModele::obtenirMailletJoueurGauche() const
 {
 	NoeudMaillet* maillet = 0;
-	if(obtenirTerrain())
+	if(getTerrain())
 	{
-		if(obtenirTerrain()->obtenirTable())
+		if(getTerrain()->obtenirTable())
 		{
-			NoeudComposite* g = (NoeudComposite*)obtenirTerrain()->obtenirTable()->obtenirGroupe(ArbreRenduINF2990::NOM_MAILLET);
+			NoeudComposite* g = (NoeudComposite*)getTerrain()->obtenirTable()->obtenirGroupe(ArbreRenduINF2990::NOM_MAILLET);
 			if(g)
 			{
 				for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
@@ -1880,11 +2001,11 @@ NoeudMaillet* FacadeModele::obtenirMailletJoueurGauche() const
 NoeudMaillet* FacadeModele::obtenirMailletJoueurDroit() const
 {
 	NoeudMaillet* maillet = 0;
-	if(obtenirTerrain())
+	if(getTerrain())
 	{
-		if(obtenirTerrain()->obtenirTable())
+		if(getTerrain()->obtenirTable())
 		{
-			NoeudComposite* g = (NoeudComposite*)obtenirTerrain()->obtenirTable()->obtenirGroupe(ArbreRenduINF2990::NOM_MAILLET);
+			NoeudComposite* g = (NoeudComposite*)getTerrain()->obtenirTable()->obtenirGroupe(ArbreRenduINF2990::NOM_MAILLET);
 			if(g)
 			{
 				for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
@@ -1911,7 +2032,7 @@ NoeudMaillet* FacadeModele::obtenirMailletJoueurDroit() const
 jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
 {
 	VisiteurEstSelectione visiteur;
-	obtenirArbreRenduINF2990()->accueillirVisiteurNoeud(visiteur);
+	obtenirArbreRenduINF2990()->acceptVisitor(visiteur);
 	ConteneurNoeuds* listeNoeud = visiteur.obtenirListeNoeuds();
 
 
@@ -1919,10 +2040,10 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
 	double largeurTable;
 	double longueurTable;
 	double friction;
-	if(obtenirTerrain())
+	if(getTerrain())
 	{
-		longueurTable = obtenirTerrain()->obtenirZoneEdition().obtenirLimiteExtLongueur();
-		largeurTable  = obtenirTerrain()->obtenirZoneEdition().obtenirLimiteExtLargeur();
+		longueurTable = getTerrain()->obtenirZoneEdition().obtenirLimiteExtLongueur();
+		largeurTable  = getTerrain()->obtenirZoneEdition().obtenirLimiteExtLargeur();
 
 		NoeudTable* table = dynamic_cast<NoeudTable*>(obtenirArbreRenduINF2990()->chercher(ArbreRenduINF2990::NOM_TABLE));
 		if(!table)
@@ -2127,7 +2248,7 @@ void FacadeModele::resetHighlightFlags()
 ////////////////////////////////////////////////////////////////////////
 const ArbreRenduINF2990* FacadeModele::obtenirArbreRenduINF2990() const
 {
-	return terrain_->obtenirArbreRendu();
+	return terrain_->getArbreRendu();
 }
 
 
@@ -2145,7 +2266,7 @@ const ArbreRenduINF2990* FacadeModele::obtenirArbreRenduINF2990() const
 ArbreRenduINF2990* FacadeModele::obtenirArbreRenduINF2990()
 {
 	if(terrain_)
-		return terrain_->obtenirArbreRendu();
+		return terrain_->getArbreRendu();
 	else
 		return NULL;
 }
@@ -2244,9 +2365,9 @@ bool FacadeModele::estEnPause() const
 ////////////////////////////////////////////////////////////////////////
 NoeudRondelle* FacadeModele::obtenirRondelle() const
 {
-	if(obtenirTerrain())
+	if(getTerrain())
 	{
-		return obtenirTerrain()->obtenirRondelle();
+		return getTerrain()->obtenirRondelle();
 	}
 	return 0;
 }
@@ -2382,7 +2503,7 @@ void FacadeModele::DrawSelectionRectangle() const
 ////////////////////////////////////////////////////////////////////////
 double FacadeModele::obtenirLargeurZoneEdition()
 {
-    return 2.0*obtenirTerrain()->obtenirZoneEdition().obtenirLimiteExtLargeur();
+    return 2.0*getTerrain()->obtenirZoneEdition().obtenirLimiteExtLargeur();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -2398,6 +2519,120 @@ double FacadeModele::obtenirLargeurZoneEdition()
 NoeudAffichage* FacadeModele::obtenirDecompte()
 {
     return obtenirPartieCourante()->obtenirDecompte();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void FacadeModele::MouseMove( EvenementSouris& evenementSouris )
+///
+/// /*Description*/
+///
+/// @param[in] EvenementSouris & evenementSouris
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void FacadeModele::MouseMove( EvenementSouris& evenementSouris )
+{
+#if BOX2D_INTEGRATED
+    if(mMouseJoint)
+    {
+        b2Vec2 reactionforce = mMouseJoint->GetReactionForce(1);
+        static float damping = mMouseJoint->GetDampingRatio();
+        static float frequency = mMouseJoint->GetFrequency() ;
+        static float force = mMouseJoint->GetMaxForce() ;
+        if(mMouseJoint->GetDampingRatio() != damping)
+            mMouseJoint->SetDampingRatio(damping);
+        if(mMouseJoint->GetFrequency() != frequency)
+            mMouseJoint->SetFrequency(frequency);
+        if(mMouseJoint->GetMaxForce() != force)
+            mMouseJoint->SetMaxForce(force);
+        convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX],evenementSouris.obtenirPosition()[VY],virtualMousePos);
+        utilitaire::VEC3_TO_B2VEC(virtualMousePos,virtualMousePosB2);
+        mMouseJoint->SetTarget(virtualMousePosB2);
+    }
+#endif
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void FacadeModele::FullRebuild()
+///
+/// Updates the content of the game to be ready to play
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void FacadeModele::FullRebuild()
+{
+    VisiteurFunction v([](NoeudAbstrait* n)
+        {
+            n->forceFullUpdate();
+        });
+    getTerrain()->getArbreRendu()->acceptVisitor(v);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void FacadeModele::RunOnUIThread( Runnable* run )
+///
+/// /*Description*/
+///
+/// @param[in] Runnable * run
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void FacadeModele::RunOnUIThread( Runnable* run )
+{
+    if(mUpdating)
+    {
+        mUIRunnables.push(run);
+    }
+    else
+    {
+        run->Run();
+        if(run->KeepAlive())
+        {
+            mUIRunnables.push(run);
+        }
+        else
+        {
+            delete run;
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void FacadeModele::RunOnUpdateThread( Runnable* run )
+///
+/// /*Description*/
+///
+/// @param[in] Runnable * run
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void FacadeModele::RunOnUpdateThread( Runnable* run )
+{
+    if(mRendering)
+    {
+        mUpdateRunnables.push(run);
+    }
+    else
+    {
+        run->Run();
+        if(run->KeepAlive())
+        {
+            mUpdateRunnables.push(run);
+        }
+        else
+        {
+            delete run;
+        }
+    }
 }
 
 

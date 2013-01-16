@@ -481,7 +481,7 @@ void NoeudComposite::animer( const float& dt )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudComposite::accueillirVisiteurNoeud( const VisiteurNoeud& v )
+/// @fn NoeudComposite::acceptVisitor( const VisiteurNoeud& v )
 ///
 /// Permet d'indiquer au visiteur le type concret du noeud courant
 ///
@@ -490,7 +490,7 @@ void NoeudComposite::animer( const float& dt )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudComposite::accueillirVisiteurNoeud( VisiteurNoeud& v )
+void NoeudComposite::acceptVisitor( VisiteurNoeud& v )
 {
 	v.visiterNoeudComposite(this);
 }

@@ -55,7 +55,7 @@ public:
 	/// Effectue l'animation
 	virtual void animer( const float& temps );
 	/// Accueil un visiteur
-	virtual void accueillirVisiteurNoeud( VisiteurNoeud& v);
+	virtual void acceptVisitor( VisiteurNoeud& v);
 	/// Accesseur de la longueur d'un cote du carre
 	float obtenirLongueur() const;
 	/// Accesseur du typePosNoeud

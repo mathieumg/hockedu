@@ -89,7 +89,7 @@ public:
     /// Anime le noeud.
 	virtual void animer( const float& dt );
 	/// Accueil un visiteur
-	virtual void accueillirVisiteurNoeud( VisiteurNoeud& v);
+	virtual void acceptVisitor( VisiteurNoeud& v);
 
 	/// Retourne la position absolue dans la scene
 	virtual Vecteur3 obtenirPositionAbsolue() const;

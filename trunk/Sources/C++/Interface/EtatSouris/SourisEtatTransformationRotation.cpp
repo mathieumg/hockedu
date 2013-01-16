@@ -89,11 +89,11 @@ void SourisEtatTransformationRotation::toucheRelachee( EvenementClavier& eveneme
 				if(rotationInverse_[i] != 0)
 				{
 					VisiteurRotation visiteurRotationInverse(rotationInverse_[i],centreRot_);
-					noeudsSelectionnes_[i]->accueillirVisiteurNoeud(visiteurRotationInverse);
+					noeudsSelectionnes_[i]->acceptVisitor(visiteurRotationInverse);
 					rotationInverse_[i] = 0;
 				}
 			}
-			FacadeModele::obtenirInstance()->ajusterElementSurTableEnCollision();
+			FacadeModele::getInstance()->ajusterElementSurTableEnCollision();
 		}
 	}
 }
@@ -120,7 +120,7 @@ void SourisEtatTransformationRotation::sourisEnfoncee( EvenementSouris& evenemen
 		// Assigne les attributs concernés
 		estEnfoncee_ = true;
 		positionPrecedente_ = evenementSouris.obtenirPosition();
-		noeudsSelectionnes_ = FacadeModele::obtenirInstance()->obtenirArbreRenduINF2990()->obtenirNoeudsSelectionnes();
+		noeudsSelectionnes_ = FacadeModele::getInstance()->obtenirArbreRenduINF2990()->obtenirNoeudsSelectionnes();
 		centreRot_ = obtenirCentreRot();
 		rotationInverse_ = new int[noeudsSelectionnes_.size()];
 		for (int i = 0; i < noeudsSelectionnes_.size() ; i++)
@@ -157,11 +157,11 @@ void SourisEtatTransformationRotation::sourisRelachee( EvenementSouris& evenemen
 			if(rotationInverse_[i] != 0)
 			{
 				VisiteurRotation visiteurRotationInverse(rotationInverse_[i],centreRot_);
-				noeudsSelectionnes_[i]->accueillirVisiteurNoeud(visiteurRotationInverse);
+				noeudsSelectionnes_[i]->acceptVisitor(visiteurRotationInverse);
 				rotationInverse_[i] = 0;
 			}
 		}
-		FacadeModele::obtenirInstance()->ajusterElementSurTableEnCollision();
+		FacadeModele::getInstance()->ajusterElementSurTableEnCollision();
 
 		delete[] rotationInverse_;
 		rotationInverse_ = 0;
@@ -197,16 +197,16 @@ void SourisEtatTransformationRotation::sourisDeplacee( EvenementSouris& evenemen
 		int i=0; 
 		for(; i<noeudsSelectionnes_.size(); i++)
 		{
-			noeudsSelectionnes_[i]->accueillirVisiteurNoeud(visiteurRotation);
+			noeudsSelectionnes_[i]->acceptVisitor(visiteurRotation);
 			// On verifie qu'elle n'a pas engendre de nouvelles collisions
-			if(!FacadeModele::obtenirInstance()->validerPositionNoeud(noeudsSelectionnes_[i]))
+			if(!FacadeModele::getInstance()->validerPositionNoeud(noeudsSelectionnes_[i]))
 			{
 				if(ignoreCollision_)
 				{
 					rotationInverse_[i] -= angle;
 				}
 				else
-					noeudsSelectionnes_[i]->accueillirVisiteurNoeud(visiteurRotationInverse);
+					noeudsSelectionnes_[i]->acceptVisitor(visiteurRotationInverse);
 			}
 			else
 				rotationInverse_[i] = 0;

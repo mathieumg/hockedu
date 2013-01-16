@@ -38,21 +38,12 @@ public:
     void ajoutModele(const std::string& key, Modele3D* modele3d);
 	/// Création d'une liste
     static GLuint CreerListe(Modele3D* pModel, bool avecTexture = true);
-
-    ////////////////////////////////////////////////////////////////////////
-    ///
-    /// @fn void AjouterListe( const std::string& key, GLuint liste )
-    ///
-    /// /*Description*/
-    ///
-    /// @param[in] 
-    ///
-    /// @return void
-    ///
-    ////////////////////////////////////////////////////////////////////////
+    /// Ajoute une liste dans la map pour la retrouver
     void AjouterListe( const std::string& key, GLuint liste );
 
 	void initialiser();
+
+    bool isStillLoadingModel() const;
 
 private:
 	typedef std::map<std::string,GLuint> NameToTypeId;
@@ -77,6 +68,8 @@ private:
 	/// Tables de référence entre les types concrets des noeuds et un numéro
 	NameToTypeId nameToTypeId_;
 	TypeIdToName typeIdToName_; 
+
+    HANDLE mLoadingThread;
 };
 
 ////////////////////////////////////////////////

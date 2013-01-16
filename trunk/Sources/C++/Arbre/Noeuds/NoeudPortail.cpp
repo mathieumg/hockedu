@@ -10,6 +10,7 @@
 #include "NoeudPortail.h"
 #include "FacadeModele.h"
 #include <Box2D/Box2D.h>
+#include "Utilitaire.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -27,7 +28,7 @@ NoeudPortail::NoeudPortail(const std::string& typeNoeud)
    : NoeudAbstrait(typeNoeud), champAttractionActif_(true)
 {   
 
-   FacadeModele::obtenirInstance()->ajouterElementSurTable(this);
+   FacadeModele::getInstance()->ajouterElementSurTable(this);
 
     updatePhysicBody();
 
@@ -45,7 +46,7 @@ NoeudPortail::NoeudPortail(const std::string& typeNoeud)
 ////////////////////////////////////////////////////////////////////////
 NoeudPortail::~NoeudPortail()
 {
-	FacadeModele::obtenirInstance()->supprimerElementSurTable(this);
+	FacadeModele::getInstance()->supprimerElementSurTable(this);
 }
 
 
@@ -95,7 +96,7 @@ void NoeudPortail::animer( const float& temps)
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudPortail::accueillirVisiteurNoeud( VisiteurNoeudComposite& v )
+/// @fn NoeudPortail::acceptVisitor( VisiteurNoeudComposite& v )
 ///
 /// Permet d'indiquer au visiteur le type concret du noeud courant.
 ///
@@ -104,7 +105,7 @@ void NoeudPortail::animer( const float& temps)
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudPortail::accueillirVisiteurNoeud( VisiteurNoeud& v )
+void NoeudPortail::acceptVisitor( VisiteurNoeud& v )
 {
 	v.visiterNoeudPortail(this);
 }
@@ -121,18 +122,21 @@ void NoeudPortail::accueillirVisiteurNoeud( VisiteurNoeud& v )
 ////////////////////////////////////////////////////////////////////////
 void NoeudPortail::updatePhysicBody()
 {
+#if BOX2D_INTEGRATED
     clearPhysicsBody();
 
     b2BodyDef myBodyDef;
     myBodyDef.type = b2_staticBody; //this will be a dynamic body
     Vecteur3 pos = obtenirPositionAbsolue();
-    myBodyDef.position.Set(pos[VX], pos[VY]); //set the starting position
+    b2Vec2 posB2;
+    utilitaire::VEC3_TO_B2VEC(pos,posB2);
+    myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
     myBodyDef.angle = 0; //set the starting angle
 
     mPhysicBody = getWorld()->CreateBody(&myBodyDef);
     b2CircleShape circleShape;
     circleShape.m_p.Set(0, 0); //position, relative to body position
-    circleShape.m_radius = (float32)obtenirRayon(); //radius
+    circleShape.m_radius = (float32)obtenirRayon()*utilitaire::ratioWorldToBox2D; //radius
 
     b2FixtureDef myFixtureDef;
     myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
@@ -141,7 +145,9 @@ void NoeudPortail::updatePhysicBody()
     myFixtureDef.filter.maskBits = CATEGORY_NONE;
 
     mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+#endif
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

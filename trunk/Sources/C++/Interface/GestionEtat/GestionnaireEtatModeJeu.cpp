@@ -71,7 +71,7 @@ GestionnaireEtatModeJeu::~GestionnaireEtatModeJeu()
 void GestionnaireEtatModeJeu::toucheEnfoncee(EvenementClavier& evenementClavier)
 {
 	ToucheClavier touche = evenementClavier.obtenirTouche();
-	NoeudMaillet* maillet = FacadeModele::obtenirInstance()->obtenirMailletJoueurDroit();
+	NoeudMaillet* maillet = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
 	
 	// Les 4 cas suivants déplacent le maillet du joueur 2
 	if(touche == ConfigScene::obtenirInstance()->obtenirToucheHaut())
@@ -119,7 +119,7 @@ void GestionnaireEtatModeJeu::toucheRelachee( EvenementClavier& evenementClavier
 		toucheSauvegardee_ = 0;
 
 
-	NoeudMaillet* maillet = FacadeModele::obtenirInstance()->obtenirMailletJoueurDroit();
+	NoeudMaillet* maillet = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
 	
 	// Les 4 cas suivants déplacent le maillet du joueur 2
 	if(touche == ConfigScene::obtenirInstance()->obtenirToucheHaut())
@@ -192,7 +192,7 @@ void GestionnaireEtatModeJeu::sourisDeplacee( EvenementSouris& evenementSouris )
 
 
 	Vecteur3 coordonneesSouris, anciennePos;
-	FacadeModele::obtenirInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX], evenementSouris.obtenirPosition()[VY], coordonneesSouris);
+	FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX], evenementSouris.obtenirPosition()[VY], coordonneesSouris);
 	
 	// VERIF ETAT PAUSE
 	if(enfonce_ && boutonEnfonce_==BOUTON_SOURIS_MILIEU)
@@ -200,20 +200,20 @@ void GestionnaireEtatModeJeu::sourisDeplacee( EvenementSouris& evenementSouris )
 		Vecteur2i delta = evenementSouris.obtenirPosition()-positionSouris_;
 		if(shiftEnfonce_)
 		{
-			FacadeModele::obtenirInstance()->deplacerSouris(delta);
+			FacadeModele::getInstance()->deplacerSouris(delta);
 
 		}
 		else
 		{
-			FacadeModele::obtenirInstance()->orbit(delta);
+			FacadeModele::getInstance()->orbit(delta);
 		}
 		positionSouris_ = evenementSouris.obtenirPosition();
 	}
 	else
 	{
-		NoeudMaillet* maillet = FacadeModele::obtenirInstance()->obtenirMailletJoueurGauche();
+		NoeudMaillet* maillet = FacadeModele::getInstance()->obtenirMailletJoueurGauche();
 		maillet->assignerPosSouris(coordonneesSouris);
-		maillet = FacadeModele::obtenirInstance()->obtenirMailletJoueurDroit();
+		maillet = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
 		maillet->assignerPosSouris(coordonneesSouris);		
 	}
 
@@ -251,20 +251,20 @@ void GestionnaireEtatModeJeu::rouletteSouris( EvenementRouletteSouris& evenement
 void GestionnaireEtatModeJeu::animer( const float& temps )
 {
 	SoundFMOD::obtenirInstance()->change_song_if_end();
-	Partie* partieCourante = FacadeModele::obtenirInstance()->obtenirPartieCourante();
+	Partie* partieCourante = FacadeModele::getInstance()->obtenirPartieCourante();
 
 	if(partieCourante)
 	{
 		partieCourante->animer(temps);
 		partieCourante->updateMinuterie((int)(temps*1000));
-		if(!FacadeModele::obtenirInstance()->estEnPause() && !GestionnaireAnimations::obtenirInstance()->estJouerReplay())
+		if(!FacadeModele::getInstance()->estEnPause() && !GestionnaireAnimations::obtenirInstance()->estJouerReplay())
 		{
 			if(partieCourante->partieTerminee())
 			{
 				contexte_->modifierEtat(ETAT_PARTIE_RAPIDE_TERMINEE);
 				return;
 			}
-			Terrain* terrain = FacadeModele::obtenirInstance()->obtenirTerrain();
+			Terrain* terrain = FacadeModele::getInstance()->getTerrain();
 			if(partieCourante->estPret() && terrain)
 			{
 				// Gestion de la physique du jeu
@@ -302,29 +302,29 @@ void GestionnaireEtatModeJeu::miseAJourEvenementsRepetitifs( double deltaTemps )
 	switch(toucheSauvegardee_)
 	{
 	case VJAK_UP:
-		FacadeModele::obtenirInstance()->deplacerFleches(Vecteur2i(0, -tempsMs));
+		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(0, -tempsMs));
 		break;
 	case VJAK_DOWN:
-		FacadeModele::obtenirInstance()->deplacerFleches(Vecteur2i(0, tempsMs));
+		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(0, tempsMs));
 		break;
 	case VJAK_LEFT:
-		FacadeModele::obtenirInstance()->deplacerFleches(Vecteur2i(-tempsMs, 0));
+		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(-tempsMs, 0));
 		break;
 	case VJAK_RIGHT:
-		FacadeModele::obtenirInstance()->deplacerFleches(Vecteur2i(tempsMs, 0));
+		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(tempsMs, 0));
 		break;
 	case VJAK_ADD:
 	case VJAK_PLUS:
 		// Utilisation temporaire de la méthode pour le zooom associé à la roulette de la souris
 		// -1 indique que c'est un zoomIn
-		FacadeModele::obtenirInstance()->zoom(-tempsMs);
+		FacadeModele::getInstance()->zoom(-tempsMs);
 		break;
 
 	case VJAK_SUBTRACT:
 	case VJAK_MINUS:
 		// Utilisation temporaire de la méthode pour le zooom associé à la roulette de la souris
 		// 1 indique que c'est un zoomOut
-		FacadeModele::obtenirInstance()->zoom(tempsMs);
+		FacadeModele::getInstance()->zoom(tempsMs);
 		break;
 
 	default:

@@ -97,7 +97,7 @@ void VisiteurSelection::visiterNoeudComposite( NoeudComposite* noeud )
 {
 	for (unsigned int i=0; i<noeud->obtenirNombreEnfants(); i++)
 	{
-		noeud->chercher(i)->accueillirVisiteurNoeud(*this);
+		noeud->chercher(i)->acceptVisitor(*this);
 	}
 }
 
@@ -124,7 +124,7 @@ void VisiteurSelection::visiterNoeudMuret( NoeudMuret* noeud )
 		else
 		{
 			VisiteurCollision visiteurCollision(positionClicMin_, false);
-			FacadeModele::obtenirInstance()->visiterArbre((VisiteurNoeud*)&visiteurCollision);
+			FacadeModele::getInstance()->visiterArbre((VisiteurNoeud*)&visiteurCollision);
 			if(visiteurCollision.collisionPresente())
 			{
 				ConteneurNoeuds listeNoeuds;
@@ -290,7 +290,7 @@ void VisiteurSelection::visiterNoeudAffichable( NoeudAbstrait* noeud )
 
 		//Utilisation du code du visiteur de collision pour une meilleure efficacite
 		VisiteurCollision visiteurCollision(positionClicMin_);
-		//FacadeModele::obtenirInstance()->
+		//FacadeModele::getInstance()->
 		if(	zoneOccuppee.first[VX]<positionClicMin_[VX] && 
 			zoneOccuppee.first[VY]<positionClicMin_[VY] && 
 			zoneOccuppee.second[VX]>positionClicMax_[VX] && 
@@ -322,7 +322,7 @@ void VisiteurSelection::visiterNoeudAffichable( NoeudAbstrait* noeud )
 
 		//Utilisation du code du visiteur de collision pour une meilleure efficacite
 		VisiteurCollision* visiteurCollision = new VisiteurCollision(positionClicMin_);
-		FacadeModele::obtenirInstance()->visiterArbre((VisiteurNoeud*)visiteurCollision);
+		FacadeModele::getInstance()->visiterArbre((VisiteurNoeud*)visiteurCollision);
 		ConteneurNoeuds conteneur;
 		visiteurCollision->obtenirListeCollision(conteneur);
 		for(int i=1; i<conteneur.size(); i++)

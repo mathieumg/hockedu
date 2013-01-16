@@ -29,21 +29,21 @@
 ////////////////////////////////////////////////////////////////////////
 GestionnaireEtatPartieRapideTerminee::GestionnaireEtatPartieRapideTerminee(GestionnaireEvenements* contexte): GestionnaireEtatAbstrait(contexte)
 {
-	Partie* partie = FacadeModele::obtenirInstance()->obtenirPartieCourante();
+	Partie* partie = FacadeModele::getInstance()->obtenirPartieCourante();
 	if(partie)
 		partie->obtenirGameTime()->pause();
 
 	// Animation qui lance le maillet du perdant dans le feu
 	NoeudMaillet* mailletPerdant;
 	if(partie->obtenirPositionGagant() == GAGNANT_GAUCHE)
-		mailletPerdant = FacadeModele::obtenirInstance()->obtenirMailletJoueurGauche();
+		mailletPerdant = FacadeModele::getInstance()->obtenirMailletJoueurGauche();
 	else
-		mailletPerdant = FacadeModele::obtenirInstance()->obtenirMailletJoueurDroit();
+		mailletPerdant = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
 
 	Vecteur3 positionDepart = mailletPerdant->obtenirPositionAbsolue();
 	Vecteur3 positionFinale = Vecteur3(-1170, -15, -55);
 
-	vue::Camera* cameraCourante = &FacadeModele::obtenirInstance()->obtenirVue()->obtenirCamera();
+	vue::Camera* cameraCourante = &FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
 
 	// Animation pour le maillet
 	AnimationFrame* frame[3];
@@ -104,8 +104,8 @@ void GestionnaireEtatPartieRapideTerminee::toucheEnfoncee( EvenementClavier& eve
 		return;
 	GestionnaireAnimations::obtenirInstance()->terminerReplay();
 	GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
-	FacadeModele::obtenirInstance()->reinitialiserPartie();
-	FacadeModele::obtenirInstance()->obtenirPartieCourante()->modifierEnPause(false);
+	FacadeModele::getInstance()->reinitialiserPartie();
+	FacadeModele::getInstance()->obtenirPartieCourante()->modifierEnPause(false);
 	contexte_->modifierEtat(ETAT_MODE_JEU);
 }
 

@@ -95,7 +95,7 @@ void GestionnaireEvenementsTest::testChangementEtat()
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEvenementsTest::testToucheEnfoncee()
 {
-	FacadeModele::obtenirInstance()->initialiserVue();
+	FacadeModele::getInstance()->initialiserVue();
 
 	// Déclaration d'un événement du clavier (touche 'escape')
 	EvenementClavier evenementTest(VJAK_MINUS);
@@ -103,7 +103,7 @@ void GestionnaireEvenementsTest::testToucheEnfoncee()
 	// Simulation de l'événement
 	GestionnaireEvenements::obtenirInstance()->toucheEnfoncee(evenementTest);
 
-	Vecteur2i vecteurTest = dynamic_cast<vue::ProjectionOrtho&>(FacadeModele::obtenirInstance()->obtenirVue()->obtenirProjection()).obtenirDimensionFenetre();
+	Vecteur2i vecteurTest = dynamic_cast<vue::ProjectionOrtho&>(FacadeModele::getInstance()->obtenirVue()->obtenirProjection()).obtenirDimensionFenetre();
 
 	// Tests
 	CPPUNIT_ASSERT(vecteurTest[VX] > 200);
@@ -147,8 +147,8 @@ void GestionnaireEvenementsTest::testSourisEnfoncee()
 void GestionnaireEvenementsTest::testSourisRelachee()
 {
 	// Initialisation d'un arbre de rendu et calcul de son nombre d'enfants
-	FacadeModele::obtenirInstance()->reinitialiserTerrain();
-	int nbEnfantsAvant = FacadeModele::obtenirInstance()->obtenirArbreRenduINF2990()->obtenirNombreEnfants();
+	FacadeModele::getInstance()->reinitialiserTerrain();
+	int nbEnfantsAvant = FacadeModele::getInstance()->obtenirArbreRenduINF2990()->obtenirNombreEnfants();
 	
 	// Déclaration d'un événement de la souris (bouton gauche)
 	Vecteur2i vecteurTest(19,23);
@@ -159,7 +159,7 @@ void GestionnaireEvenementsTest::testSourisRelachee()
 	GestionnaireEvenements::obtenirInstance()->sourisRelachee(evenementTest);
 
 	// En relâchant le bouton de la souris, l'arbre doit gagner un enfant, on vérifie le bon fonctionnement
-	int nbEnfantsApres = FacadeModele::obtenirInstance()->obtenirArbreRenduINF2990()->obtenirNombreEnfants();
+	int nbEnfantsApres = FacadeModele::getInstance()->obtenirArbreRenduINF2990()->obtenirNombreEnfants();
 	CPPUNIT_ASSERT(nbEnfantsApres = nbEnfantsAvant+1);
 }
 

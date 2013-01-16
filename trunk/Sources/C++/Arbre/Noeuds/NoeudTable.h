@@ -44,7 +44,7 @@ public:
    /// Effectue l'animation
    virtual void animer( const float& temps );
    /// Accueil un visiteur
-   virtual void accueillirVisiteurNoeud( VisiteurNoeud& v);
+   virtual void acceptVisitor( VisiteurNoeud& v);
    /// Ajoute un noeud enfant.
    virtual bool ajouter( NoeudAbstrait* enfant );
    /// Calcule la hauteur max en y plus et y moins et la longueur max de la table

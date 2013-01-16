@@ -29,13 +29,15 @@ using namespace std;
 
 const float DebugZ = 25.f;
 
+const float& ratio = utilitaire::ratioWorldToBox2D;
+
 void DebugRenderBox2D::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
 {
 	glColor3f(color.r, color.g, color.b);
 	glBegin(GL_LINE_LOOP);
 	for (int32 i = 0; i < vertexCount; ++i)
 	{
-		glVertex3f(vertices[i].x, vertices[i].y,DebugZ);
+		glVertex3f(vertices[i].x/ratio, vertices[i].y/ratio,DebugZ);
 	}
 	glEnd();
 }
@@ -48,7 +50,7 @@ void DebugRenderBox2D::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCoun
 	glBegin(GL_TRIANGLE_FAN);
 	for (int32 i = 0; i < vertexCount; ++i)
 	{
-		glVertex3f(vertices[i].x, vertices[i].y,DebugZ);
+		glVertex3f(vertices[i].x/ratio, vertices[i].y/ratio,DebugZ);
 	}
 	glEnd();
 	glDisable(GL_BLEND);
@@ -57,7 +59,7 @@ void DebugRenderBox2D::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCoun
 	glBegin(GL_LINE_LOOP);
 	for (int32 i = 0; i < vertexCount; ++i)
 	{
-		glVertex3f(vertices[i].x, vertices[i].y,DebugZ);
+		glVertex3f(vertices[i].x/ratio, vertices[i].y/ratio,DebugZ);
 	}
 	glEnd();
 }
@@ -72,7 +74,7 @@ void DebugRenderBox2D::DrawCircle(const b2Vec2& center, float32 radius, const b2
 	for (int32 i = 0; i < k_segments; ++i)
 	{
 		b2Vec2 v = center + radius * b2Vec2(cosf(theta), sinf(theta));
-		glVertex3f(v.x, v.y,DebugZ);
+		glVertex3f(v.x/ratio, v.y/ratio,DebugZ);
 		theta += k_increment;
 	}
 	glEnd();
@@ -90,7 +92,7 @@ void DebugRenderBox2D::DrawSolidCircle(const b2Vec2& center, float32 radius, con
 	for (int32 i = 0; i < k_segments; ++i)
 	{
 		b2Vec2 v = center + radius * b2Vec2(cosf(theta), sinf(theta));
-		glVertex3f(v.x, v.y,DebugZ);
+		glVertex3f(v.x/ratio, v.y/ratio,DebugZ);
 		theta += k_increment;
 	}
 	glEnd();
@@ -102,15 +104,15 @@ void DebugRenderBox2D::DrawSolidCircle(const b2Vec2& center, float32 radius, con
 	for (int32 i = 0; i < k_segments; ++i)
 	{
 		b2Vec2 v = center + radius * b2Vec2(cosf(theta), sinf(theta));
-		glVertex3f(v.x, v.y,DebugZ);
+		glVertex3f(v.x/ratio, v.y/ratio,DebugZ);
 		theta += k_increment;
 	}
 	glEnd();
 
 	b2Vec2 p = center + radius * axis;
 	glBegin(GL_LINES);
-	glVertex3f(center.x, center.y,DebugZ);
-	glVertex3f(p.x, p.y,DebugZ);
+	glVertex3f(center.x/ratio, center.y/ratio,DebugZ);
+	glVertex3f(p.x/ratio, p.y/ratio,DebugZ);
 	glEnd();
 }
 
@@ -118,8 +120,8 @@ void DebugRenderBox2D::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2C
 {
 	glColor3f(color.r, color.g, color.b);
 	glBegin(GL_LINES);
-	glVertex3f(p1.x, p1.y,DebugZ);
-	glVertex3f(p2.x, p2.y,DebugZ);
+	glVertex3f(p1.x/ratio, p1.y/ratio,DebugZ);
+	glVertex3f(p2.x/ratio, p2.y/ratio,DebugZ);
 	glEnd();
 }
 
@@ -130,14 +132,14 @@ void DebugRenderBox2D::DrawTransform(const b2Transform& xf)
 	glBegin(GL_LINES);
 	
 	glColor3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(p1.x, p1.y,DebugZ);
+	glVertex3f(p1.x/ratio, p1.y/ratio,DebugZ);
 	p2 = p1 + k_axisScale * xf.q.GetXAxis();
-	glVertex3f(p2.x, p2.y,DebugZ);
+	glVertex3f(p2.x/ratio, p2.y/ratio,DebugZ);
 
 	glColor3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(p1.x, p1.y,DebugZ);
+	glVertex3f(p1.x/ratio, p1.y/ratio,DebugZ);
 	p2 = p1 + k_axisScale * xf.q.GetYAxis();
-	glVertex3f(p2.x, p2.y,DebugZ);
+	glVertex3f(p2.x/ratio, p2.y/ratio,DebugZ);
 
 	glEnd();
 }
@@ -147,7 +149,7 @@ void DebugRenderBox2D::DrawPoint(const b2Vec2& p, float32 size, const b2Color& c
 	glPointSize(size);
 	glBegin(GL_POINTS);
 	glColor3f(color.r, color.g, color.b);
-	glVertex3f(p.x, p.y,DebugZ);
+	glVertex3f(p.x/ratio, p.y/ratio,DebugZ);
 	glEnd();
 	glPointSize(1.0f);
 }
@@ -197,9 +199,9 @@ void DebugRenderBox2D::DrawAABB(b2AABB* aabb, const b2Color& c)
 {
 	glColor3f(c.r, c.g, c.b);
 	glBegin(GL_LINE_LOOP);
-	glVertex3f(aabb->lowerBound.x, aabb->lowerBound.y,DebugZ);
-	glVertex3f(aabb->upperBound.x, aabb->lowerBound.y,DebugZ);
-	glVertex3f(aabb->upperBound.x, aabb->upperBound.y,DebugZ);
-	glVertex3f(aabb->lowerBound.x, aabb->upperBound.y,DebugZ);
+	glVertex3f(aabb->lowerBound.x/ratio, aabb->lowerBound.y/ratio,DebugZ);
+	glVertex3f(aabb->upperBound.x/ratio, aabb->lowerBound.y/ratio,DebugZ);
+	glVertex3f(aabb->upperBound.x/ratio, aabb->upperBound.y/ratio,DebugZ);
+	glVertex3f(aabb->lowerBound.x/ratio, aabb->upperBound.y/ratio,DebugZ);
 	glEnd();
 }

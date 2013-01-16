@@ -13,6 +13,7 @@
 #include "GestionnaireAnimations.h"
 #include "XMLUtils.h"
 #include <Box2D/Box2D.h>
+#include "Utilitaire.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -28,7 +29,7 @@
 NoeudAccelerateur::NoeudAccelerateur(const std::string& typeNoeud)
 	: NoeudAbstrait(typeNoeud),bonusAccel_(1.50), activer_(true)
 {
-	FacadeModele::obtenirInstance()->ajouterElementSurTable(this);
+	FacadeModele::getInstance()->ajouterElementSurTable(this);
 
 
 	AnimationFrame* frame[5];
@@ -47,7 +48,7 @@ NoeudAccelerateur::NoeudAccelerateur(const std::string& typeNoeud)
 
     updatePhysicBody();
 
-	//GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
+	//GestionnaireAnimations::getInstance()->ajouterAnimation(animation);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -62,7 +63,7 @@ NoeudAccelerateur::NoeudAccelerateur(const std::string& typeNoeud)
 ////////////////////////////////////////////////////////////////////////
 NoeudAccelerateur::~NoeudAccelerateur()
 {
-	FacadeModele::obtenirInstance()->supprimerElementSurTable(this);
+	FacadeModele::getInstance()->supprimerElementSurTable(this);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -109,7 +110,7 @@ void NoeudAccelerateur::animer( const float& temps)
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAccelerateur::accueillirVisiteurNoeud( VisiteurNoeud& v )
+/// @fn void NoeudAccelerateur::acceptVisitor( VisiteurNoeud& v )
 ///
 /// Permet d'acceuillir les différents visiteur pour les transformations.
 ///
@@ -118,7 +119,7 @@ void NoeudAccelerateur::animer( const float& temps)
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAccelerateur::accueillirVisiteurNoeud( VisiteurNoeud& v )
+void NoeudAccelerateur::acceptVisitor( VisiteurNoeud& v )
 {
 	v.visiterNoeudAccelerateur(this);
 }
@@ -177,7 +178,7 @@ bool NoeudAccelerateur::initialiser( const TiXmlElement* element )
 ////////////////////////////////////////////////////////////////////////
 void NoeudAccelerateur::gestionCollision( const float& temps )
 {
-	NoeudRondelle* rondelle = FacadeModele::obtenirInstance()->obtenirRondelle();
+	NoeudRondelle* rondelle = FacadeModele::getInstance()->obtenirRondelle();
 	Vecteur3 distance = obtenirPositionAbsolue()- rondelle->obtenirPositionAbsolue();
 	double rayon = obtenirRayon()+rondelle->obtenirRayon();
 	if(distance.norme2() > rayon*rayon+25)
@@ -215,18 +216,21 @@ void NoeudAccelerateur::modifierActiver( bool val )
 ////////////////////////////////////////////////////////////////////////
 void NoeudAccelerateur::updatePhysicBody()
 {
+#if BOX2D_INTEGRATED
     clearPhysicsBody();
 
     b2BodyDef myBodyDef;
     myBodyDef.type = b2_staticBody; //this will be a dynamic body
     Vecteur3 pos = obtenirPositionAbsolue();
-    myBodyDef.position.Set(pos[VX], pos[VY]); //set the starting position
+    b2Vec2 posB2;
+    utilitaire::VEC3_TO_B2VEC(pos,posB2);
+    myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
     myBodyDef.angle = 0; //set the starting angle
 
     mPhysicBody = getWorld()->CreateBody(&myBodyDef);
     b2CircleShape circleShape;
     circleShape.m_p.Set(0, 0); //position, relative to body position
-    circleShape.m_radius = (float32)obtenirRayon(); //radius
+    circleShape.m_radius = (float32)obtenirRayon()*utilitaire::ratioWorldToBox2D; //radius
 
     b2FixtureDef myFixtureDef;
     myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
@@ -235,6 +239,8 @@ void NoeudAccelerateur::updatePhysicBody()
     myFixtureDef.filter.maskBits = CATEGORY_NONE;
 
     mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+#endif
+
 }
 
 

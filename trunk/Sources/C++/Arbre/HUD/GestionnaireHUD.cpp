@@ -334,7 +334,7 @@ void GestionnaireHUD::creerHUDJeu()
 	racineJeu_->add(panneauScores);
 	
 	HUDElementComparatif* panneauVainqueur = new HUDElementComparatif([](){
-		return FacadeModele::obtenirInstance()->obtenirPartieCourante()->partieTerminee() 
+		return FacadeModele::getInstance()->obtenirPartieCourante()->partieTerminee() 
 			&& !GestionnaireAnimations::obtenirInstance()->estJouerReplay();
 	
 	}, Vecteur4f(0.0f,0.0f,0.0f,0.8f));
@@ -579,7 +579,7 @@ void GestionnaireHUD::dessinerHUDTournoi()
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireHUD::effectuerDecompte()
 {
-	NoeudAffichage* decompte = FacadeModele::obtenirInstance()->obtenirDecompte();
+	NoeudAffichage* decompte = FacadeModele::getInstance()->obtenirDecompte();
 	
 	glPushMatrix();
 	glTranslatef(0.5f, 0.5f, 0.0f);
@@ -588,7 +588,7 @@ void GestionnaireHUD::effectuerDecompte()
 	glPopMatrix();
 
 	static int anglePause_ = 0;
-	if(listePause_ != 0 && FacadeModele::obtenirInstance()->estEnPause())
+	if(listePause_ != 0 && FacadeModele::getInstance()->estEnPause())
 	{
 		anglePause_ = (anglePause_+5)%360;
 		glPushMatrix();

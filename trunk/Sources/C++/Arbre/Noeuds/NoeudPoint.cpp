@@ -105,7 +105,7 @@ void NoeudPoint::animer( const float& temps )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudPoint::accueillirVisiteurNoeud(VisiteurNoeud& v)
+/// @fn NoeudPoint::acceptVisitor(VisiteurNoeud& v)
 ///
 /// Permet d'accueillir un visiteur pour faire un opération qui 
 ///	vient de l'extérieur.
@@ -115,7 +115,7 @@ void NoeudPoint::animer( const float& temps )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudPoint::accueillirVisiteurNoeud( VisiteurNoeud& v )
+void NoeudPoint::acceptVisitor( VisiteurNoeud& v )
 {
 	v.visiterNoeudPoint(this);
 }

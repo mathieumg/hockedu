@@ -31,7 +31,7 @@ public:
 	/// Effectue l'animation de l'accelerateur.
 	virtual void animer( const float& temps );
 
-	virtual void accueillirVisiteurNoeud( VisiteurNoeud& v );
+	virtual void acceptVisitor( VisiteurNoeud& v );
 
 	/// Accesseur de bonusAccel_
 	double obtenirBonusAccel() const { return bonusAccel_; }

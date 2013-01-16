@@ -411,8 +411,27 @@ namespace utilitaire {
    ////////////////////////////////////////////////////////////////////////
    void VEC3_TO_B2VEC( const Vecteur3& pVector, b2Vec2& pB2vector )
    {
-       pB2vector.x = (float32)pVector[VX];
-       pB2vector.y = (float32)pVector[VY];
+       
+       pB2vector.x = (float32)pVector[VX]*ratioWorldToBox2D;
+       pB2vector.y = (float32)pVector[VY]*ratioWorldToBox2D;
+   }
+
+   ////////////////////////////////////////////////////////////////////////
+   ///
+   /// @fn void B2VEC_TO_VEC3( Vecteur3& pVector, const struct b2Vec2& pB2vector )
+   ///
+   /// /*Description*/
+   ///
+   /// @param[in] Vecteur3 & pVector
+   /// @param[in] const struct b2Vec2 & pB2vector
+   ///
+   /// @return void
+   ///
+   ////////////////////////////////////////////////////////////////////////
+   void B2VEC_TO_VEC3( Vecteur3& pVector, const struct b2Vec2& pB2vector )
+   {
+       pVector[VX] = pB2vector.x/ratioWorldToBox2D;
+       pVector[VY] = pB2vector.y/ratioWorldToBox2D;
    }
 
 

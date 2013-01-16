@@ -141,12 +141,12 @@ void GestionnaireEtatModeEdition::sourisDeplacee( EvenementSouris& evenementSour
 		Vecteur2i delta = evenementSouris.obtenirPosition()-positionSouris_;
 		if(shiftEnfonce_)
 		{
-			FacadeModele::obtenirInstance()->deplacerSouris(delta);
+			FacadeModele::getInstance()->deplacerSouris(delta);
 
 		}
 		else
 		{
-			FacadeModele::obtenirInstance()->orbit(delta);
+			FacadeModele::getInstance()->orbit(delta);
 		}
 		positionSouris_ = evenementSouris.obtenirPosition();
 	}
@@ -189,29 +189,29 @@ void GestionnaireEtatModeEdition::miseAJourEvenementsRepetitifs( double deltaTem
 	switch(toucheSauvegardee_)
 	{
 	case VJAK_UP:
-		FacadeModele::obtenirInstance()->deplacerFleches(Vecteur2i(0, -tempsMs));
+		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(0, -tempsMs));
 		break;
 	case VJAK_DOWN:
-		FacadeModele::obtenirInstance()->deplacerFleches(Vecteur2i(0, tempsMs));
+		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(0, tempsMs));
 		break;
 	case VJAK_LEFT:
-		FacadeModele::obtenirInstance()->deplacerFleches(Vecteur2i(-tempsMs, 0));
+		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(-tempsMs, 0));
 		break;
 	case VJAK_RIGHT:
-		FacadeModele::obtenirInstance()->deplacerFleches(Vecteur2i(tempsMs, 0));
+		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(tempsMs, 0));
 		break;
 	case VJAK_ADD:
 	case VJAK_PLUS:
 		// Utilisation temporaire de la méthode pour le zooom associé à la roulette de la souris
 		// -1 indique que c'est un zoomIn
-		FacadeModele::obtenirInstance()->zoom(-tempsMs);
+		FacadeModele::getInstance()->zoom(-tempsMs);
 		break;
 
 	case VJAK_SUBTRACT:
 	case VJAK_MINUS:
 		// Utilisation temporaire de la méthode pour le zooom associé à la roulette de la souris
 		// 1 indique que c'est un zoomOut
-		FacadeModele::obtenirInstance()->zoom(tempsMs);
+		FacadeModele::getInstance()->zoom(tempsMs);
 		break;
 	
 	default:

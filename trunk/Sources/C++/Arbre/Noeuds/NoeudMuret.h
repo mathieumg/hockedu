@@ -35,7 +35,7 @@ public:
    /// Effectue l'animation
    virtual void animer( const float& temps );
    /// Accueil un visiteur
-   virtual void accueillirVisiteurNoeud( VisiteurNoeud& v);
+   virtual void acceptVisitor( VisiteurNoeud& v);
    /// Accesseur du coin1
    virtual Vecteur3 obtenirCoin1();
    /// Accesseur du coin2

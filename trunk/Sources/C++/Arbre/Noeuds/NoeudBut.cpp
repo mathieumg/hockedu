@@ -75,9 +75,11 @@ NoeudBut::~NoeudBut()
 ////////////////////////////////////////////////////////////////////////
 void NoeudBut::updatePhysicBody()
 {
+#if BOX2D_INTEGRATED
+
     clearPhysicsBody();
 
-    float halfLength = (float)echelleCourante_[VX]/2.f;//(float)(coin2-coin1).norme()/2.f;
+    float halfLength = (float)echelleCourante_[VX]/2.f*utilitaire::ratioWorldToBox2D;//(float)(coin2-coin1).norme()/2.f;
 
     b2BodyDef myBodyDef;
     myBodyDef.type = b2_staticBody; //this will be a dynamic body
@@ -103,6 +105,8 @@ void NoeudBut::updatePhysicBody()
     mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
     shape.Set(anchorPointPosB2,BottomPosB2);
     mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+#endif
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -206,7 +210,7 @@ void NoeudBut::animer( const float& temps)
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudBut::accueillirVisiteurNoeud( VisiteurNoeud& v )
+/// @fn void NoeudBut::acceptVisitor( VisiteurNoeud& v )
 ///
 /// Permet d'indiquer au visiteur le type concret du noeud courant.
 ///
@@ -215,7 +219,7 @@ void NoeudBut::animer( const float& temps)
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudBut::accueillirVisiteurNoeud( VisiteurNoeud& v )
+void NoeudBut::acceptVisitor( VisiteurNoeud& v )
 {
 	v.visiterNoeudBut(this);
 }

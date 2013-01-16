@@ -62,7 +62,7 @@
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Lancement_fctC_1animer
 	(JNIEnv*, jclass, jfloat temps)
 {
-	FacadeModele::obtenirInstance()->animer(temps);
+	FacadeModele::getInstance()->animer(temps);
 }
 
 
@@ -115,7 +115,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_OpenGL_dessinerOpenGL
 		return;
 
 	// Affiche la scène.
-	FacadeModele::obtenirInstance()->SignalRender();
+	FacadeModele::getInstance()->SignalRender();
 
 	// Temporaire: pour détecter les erreurs OpenGL
 	aidegl::verifierErreurOpenGL();
@@ -150,7 +150,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_OpenGL_initialiserOpenGL
    if(hWnd == 0)
       return;
 
-	FacadeModele::obtenirInstance()->initialiserOpenGL(hWnd);
+	FacadeModele::getInstance()->initialiserOpenGL(hWnd);
 }
 
 
@@ -183,7 +183,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_OpenGL_libererOpenGL
    if(hWnd == 0)
       return;
 
-   FacadeModele::obtenirInstance()->libererOpenGL();
+   FacadeModele::getInstance()->libererOpenGL();
 	
 	
    // Désinitialisation de la façade.  Le fait de le faire après la
@@ -397,20 +397,20 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_actionPerf
 	if(chaineCpp == "SUPPRIMER" || chaineCpp == "EDITEUR_NOUVEAU" || chaineCpp == "REINITIALISER_PARTIE")
 	{
 		// Si on est dans le cas de suppression et qu'il n'y a pas de sélection.
-		if(chaineCpp == "SUPPRIMER"  && !FacadeModele::obtenirInstance()->possedeSelection())
+		if(chaineCpp == "SUPPRIMER"  && !FacadeModele::getInstance()->possedeSelection())
 			return;
 		
-		bool pause = FacadeModele::obtenirInstance()->estEnPause();
-		FacadeModele::obtenirInstance()->modifierEnPause(true);
+		bool pause = FacadeModele::getInstance()->estEnPause();
+		FacadeModele::getInstance()->modifierEnPause(true);
 		//Appel de Fenetre.validerAction(chaine). Quitte la méthode si il reçoit "false".
 		jclass classe = env -> FindClass("ca/polymtl/inf2990/Fenetre");
 		jmethodID methode = env -> GetStaticMethodID(classe, "validerAction", "(Ljava/lang/String;)Z");
 		if(!env->CallStaticBooleanMethod(classe, methode, chaine))
 		{
-			FacadeModele::obtenirInstance()->modifierEnPause(pause);
+			FacadeModele::getInstance()->modifierEnPause(pause);
 			return;
 		}
-		FacadeModele::obtenirInstance()->modifierEnPause(pause);
+		FacadeModele::getInstance()->modifierEnPause(pause);
 	}
 
 	RepartiteurActions::obtenirInstance()->appelerMethodeAction(chaineCpp);
@@ -431,7 +431,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_BarresOutils_EvenementsSelectionn
 {
 
 	std::string nomFichier = utilitaire::obtenirChaineISO(env, chaine);
-	FacadeModele::obtenirInstance() -> enregistrerTerrain(nomFichier);
+	FacadeModele::getInstance() -> enregistrerTerrain(nomFichier);
 
 }
 
@@ -449,7 +449,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_BarresOutils_EvenementsSelectionn
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_BarresOutils_EvenementsSelectionneurFichier_chargerFichier(JNIEnv * env, jobject, jstring chaine)
 {
 	std::string nomFichier = utilitaire::obtenirChaineISO(env, chaine);
-	FacadeModele::obtenirInstance() -> chargerTerrain(nomFichier);
+	FacadeModele::getInstance() -> chargerTerrain(nomFichier);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -468,11 +468,11 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_BarresOutils_EvenementsSelectionn
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Fenetre_redimensionnerFenetre(JNIEnv*, jclass, jint largeur, jint hauteur)
 {
-	FacadeModele::obtenirInstance()->obtenirVue()->redimensionnerFenetre(
+	FacadeModele::getInstance()->obtenirVue()->redimensionnerFenetre(
 		Vecteur2i(0,0),
 		Vecteur2i(largeur, hauteur)
 		);
-	FacadeModele::obtenirInstance()->rafraichirFenetre();
+	FacadeModele::getInstance()->rafraichirFenetre();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -490,7 +490,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Fenetre_redimensionnerFenetre(JNI
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_objetEstSousCurseur( JNIEnv *, jclass, jint x, jint y )
 {
-	return FacadeModele::obtenirInstance()->pointOccupe(Vecteur2(x,y));
+	return FacadeModele::getInstance()->pointOccupe(Vecteur2(x,y));
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -514,12 +514,12 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_JoueurAbstrait_envoyerJNI (JN
 	if(type == JOUEUR_VIRTUEL)
 	{
 		SPJoueurAbstrait joueurVirtuel = SPJoueurAbstrait(new JoueurVirtuel(env, joueur));
-		FacadeModele::obtenirInstance()->modifierAdversaire(joueurVirtuel);
+		FacadeModele::getInstance()->modifierAdversaire(joueurVirtuel);
 	}
 	else if(type == JOUEUR_HUMAIN)
 	{
 		SPJoueurAbstrait joueurHumain = SPJoueurAbstrait(new JoueurHumain(env, joueur));
-		FacadeModele::obtenirInstance()->modifierAdversaire(joueurHumain);
+		FacadeModele::getInstance()->modifierAdversaire(joueurHumain);
 	}
 }
 
@@ -537,7 +537,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_JoueurAbstrait_envoyerJNI (JN
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_ModificateurProprieteNoeud_envoyerModificateurPropriete( JNIEnv * env, jobject obj)
 {
-	FacadeModele::obtenirInstance()->visiterArbre(&VisiteurModifierProprieteNoeud(env,obj));
+	FacadeModele::getInstance()->visiterArbre(&VisiteurModifierProprieteNoeud(env,obj));
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -556,7 +556,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_ModificateurProprieteNoeud_en
 JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_obtenirJoueur(JNIEnv * env, jclass, jstring leopard)
 {
 	std::string nom = utilitaire::obtenirChaineISO(env, leopard);
-	SPJoueurAbstrait joueur = FacadeModele::obtenirInstance()->obtenirJoueur(nom);
+	SPJoueurAbstrait joueur = FacadeModele::getInstance()->obtenirJoueur(nom);
 	if(joueur == NULL)
 		return NULL;
 
@@ -605,12 +605,12 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_ajouterJ
 	if(type == 0)
 	{
 		SPJoueurAbstrait joueurHumain(new JoueurHumain(env, joueur));
-		FacadeModele::obtenirInstance()->ajouterJoueur(joueurHumain);
+		FacadeModele::getInstance()->ajouterJoueur(joueurHumain);
 	}
 	else
 	{
 		SPJoueurAbstrait joueurVirtuel(new JoueurVirtuel(env, joueur));
-		FacadeModele::obtenirInstance()->ajouterJoueur(joueurVirtuel);
+		FacadeModele::getInstance()->ajouterJoueur(joueurVirtuel);
 	}
 }
 
@@ -631,7 +631,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_ajouterJ
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_supprimerJoueur(JNIEnv * env, jclass, jstring jNom)
 {
 	std::string nom = utilitaire::obtenirChaineISO(env, jNom);
-	FacadeModele::obtenirInstance()->supprimerJoueur(nom);
+	FacadeModele::getInstance()->supprimerJoueur(nom);
 }
 
 
@@ -652,7 +652,7 @@ JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_obten
 	ConteneurJoueursTries listeJoueursTries;
 	ConteneurJoueursTries::iterator iter;
 
-	listeJoueursTries = FacadeModele::obtenirInstance()->obtenirListeNomsJoueurs();
+	listeJoueursTries = FacadeModele::getInstance()->obtenirListeNomsJoueurs();
 
 	jclass classe = env->FindClass("java/util/ArrayList");
 	jmethodID constructeur = env->GetMethodID(classe, "<init>", "()V");
@@ -685,7 +685,7 @@ JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_obten
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_BarresOutils_BarreEdition_obtenirValeursEdition(JNIEnv * env, jclass modificateur)
 {
-	return FacadeModele::obtenirInstance()->obtenirAttributsNoeudSelectionne(env);
+	return FacadeModele::getInstance()->obtenirAttributsNoeudSelectionne(env);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -758,7 +758,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_modifier
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Etats_GestionnaireEtats_genererTerrainParDefaut( JNIEnv *, jobject )
 {
-	FacadeModele::obtenirInstance()->creerTerrainParDefaut();
+	FacadeModele::getInstance()->creerTerrainParDefaut();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -775,7 +775,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Etats_GestionnaireEtats_genererTe
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_GestionnaireEtats_validerTable( JNIEnv *, jobject )
 {
-	return FacadeModele::obtenirInstance()->verifierValiditeMap();
+	return FacadeModele::getInstance()->verifierValiditeMap();
 }
 
 // Énumération des différents états du logiciels
@@ -865,7 +865,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_creerNou
 			jmethodID obtenirNom = env->GetMethodID(classeJoueur, "obtenirNom", "()Ljava/lang/String;");
 			jstring nom = (jstring)env->CallObjectMethod(joueur, obtenirNom);
 
-			SPJoueurAbstrait jv = FacadeModele::obtenirInstance()->obtenirJoueur(utilitaire::obtenirChaineISO(env, nom));
+			SPJoueurAbstrait jv = FacadeModele::getInstance()->obtenirJoueur(utilitaire::obtenirChaineISO(env, nom));
 			if(jv)
 			{
 				joueurs.push_back(jv);
@@ -885,8 +885,8 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_creerNou
 	}
 
 	// Initialisation du tournoi
-	FacadeModele::obtenirInstance()->initialiserTournoi(joueurs,nomDuTerrain);
-	Tournoi* tournoiCpp = FacadeModele::obtenirInstance()->obtenirTournoi();
+	FacadeModele::getInstance()->initialiserTournoi(joueurs,nomDuTerrain);
+	Tournoi* tournoiCpp = FacadeModele::getInstance()->obtenirTournoi();
 
 	//obtenir le nom : 
 	jmethodID obtenirNom = env->GetMethodID(classeTournoi, "obtenirNom", "()Ljava/lang/String;");
@@ -897,7 +897,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_creerNou
 	
 
 	// Enregistrement du tournoi
-	FacadeModele::obtenirInstance()->enregistrerTournoi(tournoiCpp);
+	FacadeModele::getInstance()->enregistrerTournoi(tournoiCpp);
 }
 
 
@@ -1211,7 +1211,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsRadioJNI_genererCan
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_objetEstSelectionne (JNIEnv *, jclass)
 {
-	return FacadeModele::obtenirInstance()->possedeSelection();
+	return FacadeModele::getInstance()->possedeSelection();
 }
 
 
@@ -1230,8 +1230,8 @@ JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_objetEs
 JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationTournoiJNI_obtenirTournoi(JNIEnv* env, jclass, jstring nomTournoi)
 {
 	std::string nomT = utilitaire::obtenirChaineISO(env, nomTournoi);
-	FacadeModele::obtenirInstance()->chargerTournoi("tournoi/"+nomT+".xml");
-	Tournoi* tournoi = FacadeModele::obtenirInstance()->obtenirTournoi();
+	FacadeModele::getInstance()->chargerTournoi("tournoi/"+nomT+".xml");
+	Tournoi* tournoi = FacadeModele::getInstance()->obtenirTournoi();
 
 	
 
@@ -1265,8 +1265,8 @@ JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationTournoiJNI_obteni
 	jmethodID modifierListeGagnants = env->GetMethodID(jTournoi, "modifierVainqueurs", "(Ljava/util/ArrayList;)V");
 	env->CallVoidMethod(tournoiJava, modifierListeGagnants, arraylist);
 	// placer les points de la table
-	FacadeModele::obtenirInstance()->chargerTerrain(tournoi->obtenirTerrain());
-	NoeudTable* table=FacadeModele::obtenirInstance()->obtenirTerrain()->obtenirTable();
+	FacadeModele::getInstance()->chargerTerrain(tournoi->obtenirTerrain());
+	NoeudTable* table=FacadeModele::getInstance()->getTerrain()->obtenirTable();
 
 	jclass point = env->FindClass("java/awt/Point");
 	jmethodID creerPoint=env->GetMethodID(point,"<init>","()V");
@@ -1337,11 +1337,11 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationTournoiJNI_supprimer
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Panneaux_PanneauGestionTournoi_reinitialiserTournoi( JNIEnv *, jobject )
 {
-	Tournoi* tournoi = FacadeModele::obtenirInstance()->obtenirTournoi();
+	Tournoi* tournoi = FacadeModele::getInstance()->obtenirTournoi();
 	if(tournoi)
 	{
 		tournoi->reinitialiserTournoi();
-		FacadeModele::obtenirInstance()->enregistrerTournoi(tournoi);
+		FacadeModele::getInstance()->enregistrerTournoi(tournoi);
 	}
 }
 
@@ -1359,7 +1359,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Panneaux_PanneauGestionTournoi_re
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_pointButEstSelectionne (JNIEnv *, jclass)
 {
-	Terrain* terrain = FacadeModele::obtenirInstance()->obtenirTerrain();
+	Terrain* terrain = FacadeModele::getInstance()->getTerrain();
 	if(!terrain)
 		return false;
 
@@ -1384,7 +1384,7 @@ JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_pointBu
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_pointPasButEstSelectionne (JNIEnv *, jclass)
 {
-	Terrain* terrain = FacadeModele::obtenirInstance()->obtenirTerrain();
+	Terrain* terrain = FacadeModele::getInstance()->getTerrain();
 	if(!terrain)
 		return false;
 

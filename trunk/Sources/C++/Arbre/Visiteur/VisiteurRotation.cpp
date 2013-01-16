@@ -108,7 +108,7 @@ void VisiteurRotation::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 	
 	Vecteur2 posInverse(-noeud->obtenirPositionRelative()[VX], -noeud->obtenirPositionRelative()[VY]);
 	VisiteurDeplacement visiteurDeplacement(posInverse);
-	noeud->accueillirVisiteurNoeud(visiteurDeplacement);
+	noeud->acceptVisitor(visiteurDeplacement);
 	noeud->assignerPositionRelative(Vecteur3(varDeplacement[VX], varDeplacement[VY], 0));
 
 
@@ -140,7 +140,7 @@ void VisiteurRotation::visiterNoeudComposite( NoeudComposite* noeud )
 	
 	for (unsigned int i=0; i<noeud->obtenirNombreEnfants(); i++)
 	{
-		noeud->chercher(i)->accueillirVisiteurNoeud(*this);
+		noeud->chercher(i)->acceptVisitor(*this);
 	}
 
 	

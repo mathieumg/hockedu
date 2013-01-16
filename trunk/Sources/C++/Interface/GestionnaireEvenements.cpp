@@ -111,7 +111,7 @@ void GestionnaireEvenements::toucheEnfoncee(EvenementClavier& evenementClavier)
 	}
 	if(evenementClavier.obtenirTouche() == VJAK_0)
 	{
-		FacadeModele::obtenirInstance()->obtenirVue()->centrerCamera(FacadeModele::obtenirInstance()->obtenirLargeurZoneEdition());
+		FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->obtenirLargeurZoneEdition());
 	}
 	etatCourant_->toucheEnfoncee(evenementClavier);
 }
@@ -178,6 +178,7 @@ void GestionnaireEvenements::sourisRelachee( EvenementSouris& evenementSouris )
 void GestionnaireEvenements::sourisDeplacee( EvenementSouris& evenementSouris )
 {
 	etatCourant_->sourisDeplacee(evenementSouris);
+    FacadeModele::getInstance()->MouseMove(evenementSouris);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

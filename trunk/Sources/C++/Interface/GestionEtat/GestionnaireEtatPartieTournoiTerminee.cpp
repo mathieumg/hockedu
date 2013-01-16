@@ -31,7 +31,7 @@
 GestionnaireEtatPartieTournoiTerminee::GestionnaireEtatPartieTournoiTerminee(GestionnaireEvenements* contexte): GestionnaireEtatAbstrait(contexte)
 {
 	pointerCameraSurScoreBoard();
-	Partie* partie = FacadeModele::obtenirInstance()->obtenirPartieCourante();
+	Partie* partie = FacadeModele::getInstance()->obtenirPartieCourante();
 	if(partie)
 		partie->obtenirGameTime()->pause();
 }
@@ -71,17 +71,17 @@ void GestionnaireEtatPartieTournoiTerminee::toucheEnfoncee( EvenementClavier& ev
 	GestionnaireAnimations::obtenirInstance()->terminerReplay();
 	GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
 
-	Tournoi* tournoi = FacadeModele::obtenirInstance()->obtenirTournoi();
+	Tournoi* tournoi = FacadeModele::getInstance()->obtenirTournoi();
 	if(tournoi->estTermine())
 	{
 		// Demander pour Rejouer le tournoi
 		tournoi->reinitialiserTournoi();
-		FacadeModele::obtenirInstance()->enregistrerTournoi(tournoi);
-		FacadeModele::obtenirInstance()->passageModeTournoi();
+		FacadeModele::getInstance()->enregistrerTournoi(tournoi);
+		FacadeModele::getInstance()->passageModeTournoi();
 	}
 	else
 	{
-		FacadeModele::obtenirInstance()->passageModeTournoi();
+		FacadeModele::getInstance()->passageModeTournoi();
 	}
 	tournoi->obtenirPartieCourante()->modifierEnPause(false);
 	contexte_->modifierEtat(ETAT_MODE_TOURNOI);
@@ -221,7 +221,7 @@ void GestionnaireEtatPartieTournoiTerminee::pointerCameraSurScoreBoard()
 	GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
 
 	// Ajout de l'animation de camera pour pointer sur le tableau du tournoi
-	vue::Camera* cameraCourante = &FacadeModele::obtenirInstance()->obtenirVue()->obtenirCamera();
+	vue::Camera* cameraCourante = &FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
 
 	AnimationFrame* frame[3];
 	frame[0] = new AnimationFrame(0, cameraCourante->obtenirPosition(), cameraCourante->obtenirPointVise(), cameraCourante->obtenirDirectionHaut());

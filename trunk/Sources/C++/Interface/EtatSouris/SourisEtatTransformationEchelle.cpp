@@ -29,7 +29,7 @@ SourisEtatTransformationEchelle::SourisEtatTransformationEchelle(  )
 {
 	estEnfoncee_ = false;
 	positionPrecedente_ = NULL;
-	noeudSelectionnes_ = FacadeModele::obtenirInstance()->obtenirArbreRenduINF2990()->obtenirNoeudsSelectionnes();
+	noeudSelectionnes_ = FacadeModele::getInstance()->obtenirArbreRenduINF2990()->obtenirNoeudsSelectionnes();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -115,12 +115,12 @@ void SourisEtatTransformationEchelle::sourisDeplacee( EvenementSouris& evenement
 		// Effectue la mise a l'echelle
 		if(deplacementY>0)
 		{
-			//FacadeModele::obtenirInstance()->modifierEchelle(1.05);
+			//FacadeModele::getInstance()->modifierEchelle(1.05);
 			facteur = 1.05;
 		}
 		else if (deplacementY<0)
 		{
-			//FacadeModele::obtenirInstance()->modifierEchelle(0.95);
+			//FacadeModele::getInstance()->modifierEchelle(0.95);
 			facteur = 0.95;
 		}
 		else
@@ -134,9 +134,9 @@ void SourisEtatTransformationEchelle::sourisDeplacee( EvenementSouris& evenement
 		for(; i<noeudSelectionnes_.size(); i++)
 		{
 
-			noeudSelectionnes_[i]->accueillirVisiteurNoeud(visiteurEchelle);
+			noeudSelectionnes_[i]->acceptVisitor(visiteurEchelle);
 			// On verifie qu'elle n'a pas engendre de nouvelles collisions
-			if(!FacadeModele::obtenirInstance()->validerPositionNoeud(noeudSelectionnes_[i]))
+			if(!FacadeModele::getInstance()->validerPositionNoeud(noeudSelectionnes_[i]))
 			{
 				echelleValide = false;
 				i++;
@@ -149,7 +149,7 @@ void SourisEtatTransformationEchelle::sourisDeplacee( EvenementSouris& evenement
 			for(int j=0; j<i; j++)
 			{
 				// S'il y a une collision, on fait l'operation inverse
-				noeudSelectionnes_[j]->accueillirVisiteurNoeud(visiteurEchelleInverse);
+				noeudSelectionnes_[j]->acceptVisitor(visiteurEchelleInverse);
 			}
 		}
 

@@ -383,9 +383,9 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
 void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 {
 	// Obtention des éléments
-	NoeudRondelle* rondelle = FacadeModele::obtenirInstance()->obtenirRondelle();
-	NoeudMaillet* maillet1 = FacadeModele::obtenirInstance()->obtenirMailletJoueurGauche();
-	NoeudMaillet* maillet2 = FacadeModele::obtenirInstance()->obtenirMailletJoueurDroit();
+	NoeudRondelle* rondelle = FacadeModele::getInstance()->obtenirRondelle();
+	NoeudMaillet* maillet1 = FacadeModele::getInstance()->obtenirMailletJoueurGauche();
+	NoeudMaillet* maillet2 = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
 
 	// Positionnement
 	rondelle->assignerPositionRelative(rondelle->obtenirPositionOriginale());
@@ -415,7 +415,7 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 		for(int i=0; i<7; i++)
 			animation->ajouterFrame(frame[i]);
 
-		vue::Camera* cameraCourante = &FacadeModele::obtenirInstance()->obtenirVue()->obtenirCamera();
+		vue::Camera* cameraCourante = &FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
 		animation->ajouterObjet((ObjetAnimable*)cameraCourante);
 		GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
 	
@@ -437,14 +437,14 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 void Partie::afficherScore() const
 {
 	return; // Non utilisée pour l'instant
-	FacadeModele::obtenirInstance()->togglePause();
+	FacadeModele::getInstance()->togglePause();
     std::ostringstream mess;
     mess << "Pointage: ";
     mess << obtenirPointsJoueurGauche();
     mess << "\t";
     mess << obtenirPointsJoueurDroit();
 	utilitaire::afficherErreur(mess.str());
-	FacadeModele::obtenirInstance()->togglePause();
+	FacadeModele::getInstance()->togglePause();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -522,7 +522,7 @@ void Partie::updateMinuterie( int time )
 
 			chiffres_->resetEchelle();
 			if(lequel == 2)
-				FacadeModele::obtenirInstance()->obtenirVue()->centrerCamera(FacadeModele::obtenirInstance()->obtenirLargeurZoneEdition());
+				FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->obtenirLargeurZoneEdition());
 		}
 	}
 }

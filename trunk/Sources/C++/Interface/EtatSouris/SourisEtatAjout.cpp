@@ -56,7 +56,7 @@ SourisEtatAjout::~SourisEtatAjout(void)
 {
 	if(noeud_ != NULL)
 	{
-		FacadeModele::obtenirInstance()->obtenirTerrain()->retirerNoeudTemp(noeud_);
+		FacadeModele::getInstance()->getTerrain()->retirerNoeudTemp(noeud_);
 		delete noeud_;
 	}
 	GestionnaireHUD::obtenirInstance()->obtenirRacine(RACINE_EDITION)->supprimerElement(hudTextPosInvalide);
@@ -77,9 +77,9 @@ SourisEtatAjout::~SourisEtatAjout(void)
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatAjout::genererNoeud()
 {
-	noeud_ =  FacadeModele::obtenirInstance()->obtenirTerrain()->obtenirArbreRendu()->creerNoeud(nom_);
+	noeud_ =  FacadeModele::getInstance()->getTerrain()->getArbreRendu()->creerNoeud(nom_);
 	if(noeud_ != NULL)
-		FacadeModele::obtenirInstance()->obtenirTerrain()->ajouterNoeudTemp(noeud_);	
+		FacadeModele::getInstance()->getTerrain()->ajouterNoeudTemp(noeud_);	
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -117,16 +117,16 @@ void SourisEtatAjout::sourisRelachee( EvenementSouris& evenementSouris )
 		if(noeud_ != 0)
 		{
 			hudTextPosInvalide->modifierVisibilite(false);
-			if(FacadeModele::obtenirInstance()->validerPositionNoeud(noeud_))
+			if(FacadeModele::getInstance()->validerPositionNoeud(noeud_))
 			{
-				FacadeModele::obtenirInstance()->obtenirTerrain()->transfererNoeud(noeud_);
+				FacadeModele::getInstance()->getTerrain()->transfererNoeud(noeud_);
 				genererNoeud();
 				// La generation d'un noeud peut entrainer le noeud a etre invalide si on ne peut le creer
 				if(noeud_ != 0)
 				{
 					Vecteur2i position=evenementSouris.obtenirPosition();
 					Vecteur3 positionVirtuelle;
-					FacadeModele::obtenirInstance()->convertirClotureAVirtuelle(position[VX],position[VY],positionVirtuelle);
+					FacadeModele::getInstance()->convertirClotureAVirtuelle(position[VX],position[VY],positionVirtuelle);
 					noeud_->assignerPositionRelative(positionVirtuelle);
 				}
 			}
@@ -156,13 +156,13 @@ void SourisEtatAjout::sourisDeplacee( EvenementSouris& evenementSouris )
 	if(noeud_!=0)
 	{
 		// Pour s'assurer que le noeud est dans le bon arbre pour les cas ou le terrain serait reinitialiser entre temps
-		FacadeModele::obtenirInstance()->obtenirTerrain()->ajouterNoeudTemp(noeud_);
+		FacadeModele::getInstance()->getTerrain()->ajouterNoeudTemp(noeud_);
 		Vecteur2i position=evenementSouris.obtenirPosition();
 
 		Vecteur3 positionVirtuelle;
-		FacadeModele::obtenirInstance()->convertirClotureAVirtuelle(position[VX],position[VY],positionVirtuelle);
+		FacadeModele::getInstance()->convertirClotureAVirtuelle(position[VX],position[VY],positionVirtuelle);
 		noeud_->assignerPositionRelative(positionVirtuelle);
-		FacadeModele::obtenirInstance()->validerPositionNoeud(noeud_, true);
+		FacadeModele::getInstance()->validerPositionNoeud(noeud_, true);
 	}
 }
 

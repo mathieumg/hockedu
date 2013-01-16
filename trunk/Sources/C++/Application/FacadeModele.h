@@ -18,6 +18,9 @@
 #include "GameTime.h"
 #include <queue>
 
+#define BOX2D_INTEGRATED 0
+#define BOX2D_DEBUG 0
+
 class VisiteurNoeud;
 class NoeudMaillet;
 class NoeudAbstrait;
@@ -93,7 +96,7 @@ public:
 	friend GestionnaireEvenementsTest;
 
 	/// Obtient l'instance unique de la classe.
-	static FacadeModele* obtenirInstance();
+	static FacadeModele* getInstance();
 	/// Libère l'instance unique de la classe.
 	static void libererInstance();
 
@@ -223,10 +226,14 @@ public:
 
 	NoeudAffichage* obtenirDecompte();
 
+    /// Updates the content of the game to be ready to play
+    void FullRebuild();
+
     // va surement necessité des mutex
     /// Permet d'exécuter du code sur un thread spécifique au moment opportun
-    inline void RunOnUIThread(Runnable* run){mUIRunnables.push(run);}
-    inline void RunOnUpdateThread(Runnable* run){mUpdateRunnables.push(run);}
+    void RunOnUIThread(Runnable* run);
+    void RunOnUpdateThread(Runnable* run);
+
 
 private:
    /// Constructeur par défaut.
@@ -259,6 +266,8 @@ private:
 
     class DebugRenderBox2D* mDebugRenderBox2D;
     class b2World* mWorld;
+    class b2Body* mMouseBody;
+    class b2MouseJoint* mMouseJoint;
 
 	/// Vue courante de la scène.
 	vue::Vue* vue_;	
@@ -300,7 +309,7 @@ private:
 	GLuint progPhong_;
 
     std::queue<Runnable*> mUIRunnables, mUpdateRunnables;
-
+    bool mUpdating, mRendering;
 	/// Accesseurs
 public:
     /// Accessors of mWorld
@@ -319,7 +328,7 @@ public:
 	inline ArbreRenduINF2990* obtenirArbreRenduINF2990();
 
 	/// Accesseur de terrain_
-	inline Terrain* obtenirTerrain() const { return terrain_; }
+	inline Terrain* getTerrain() const { return terrain_; }
 
 	/// Application de la mise a l'echelle sur les noeuds selectionnes de l'arbre
 	void modifierDeplacement(Vecteur2 deplacement);
@@ -372,6 +381,8 @@ public:
 	void initialiserNuanceurs();
 	void afficherProgramInfoLog( GLuint obj, const char* message );
 	void afficherShaderInfoLog( GLuint obj, const char* message );
+
+    void MouseMove( class EvenementSouris& evenementSouris );
 };
 
 

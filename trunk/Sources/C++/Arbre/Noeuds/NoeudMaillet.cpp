@@ -8,7 +8,6 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudMaillet.h"
-#include "Utilitaire.h"
 #include "ArbreRenduINF2990.h"
 #include "UsineNoeudMaillet.h"
 #include "FacadeModele.h"
@@ -23,6 +22,7 @@
 #include "JoueurVirtuel.h"
 #include "Terrain.h"
 #include <Box2D/Box2D.h>
+#include "Utilitaire.h"
 
 unsigned int NoeudMaillet::mailletExistant = 0;
 bool UsineNoeudMaillet::bypassLimitePourTest = false;
@@ -50,7 +50,7 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud)
         direction_[i] = false;
     }
     velocite_.remetAZero();
-    FacadeModele::obtenirInstance()->ajouterElementSurTable(this);
+    FacadeModele::getInstance()->ajouterElementSurTable(this);
 
     updatePhysicBody();
 
@@ -67,7 +67,7 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud)
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet::~NoeudMaillet()
 {
-	FacadeModele::obtenirInstance()->supprimerElementSurTable(this);
+	FacadeModele::getInstance()->supprimerElementSurTable(this);
 	NoeudMaillet::mailletExistant--;
 }
 
@@ -117,7 +117,7 @@ void NoeudMaillet::animer( const float& temps)
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudMaillet::accueillirVisiteurNoeud( VisiteurNoeud& v )
+/// @fn NoeudMaillet::acceptVisitor( VisiteurNoeud& v )
 ///
 /// Permet d'indiquer au visiteur le type concret du noeud courant
 ///
@@ -126,7 +126,7 @@ void NoeudMaillet::animer( const float& temps)
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::accueillirVisiteurNoeud( VisiteurNoeud& v )
+void NoeudMaillet::acceptVisitor( VisiteurNoeud& v )
 {
 	v.visiterNoeudMaillet(this);
 }
@@ -160,7 +160,7 @@ void NoeudMaillet::gestionCollision( const float& temps )
 	
 	// On se crée un visiteur de collision
 	VisiteurCollision v(this,false);
-	rondelle->accueillirVisiteurNoeud(v);
+	rondelle->acceptVisitor(v);
 
 	// Si il y a collision
 	if(v.collisionPresente())
@@ -258,7 +258,7 @@ void NoeudMaillet::majPosition( const float& temps )
 	NoeudGroupe* groupe = obtenirTerrain()->obtenirTable()->obtenirGroupe(ArbreRenduINF2990::NOM_MURET);
 	NoeudBut* but = obtenirTerrain()->obtenirTable()->obtenirBut(anciennePos_[VX] < 0 ? 1:2);
 	VisiteurCollision v(this,false);
-	groupe->accueillirVisiteurNoeud(v);
+	groupe->acceptVisitor(v);
 
 	if(v.collisionPresente())
 	{
@@ -278,7 +278,7 @@ void NoeudMaillet::majPosition( const float& temps )
 	}
 	v.reinitialiser();
 
-	but->accueillirVisiteurNoeud(v);
+	but->acceptVisitor(v);
 	if(v.collisionPresente())
 	{
 		ConteneurDetailsCollision details = v.obtenirConteneurDetailsCollision();
@@ -422,27 +422,32 @@ void NoeudMaillet::ajusterVitesse( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void NoeudMaillet::updatePhysicBody()
 {
+#if BOX2D_INTEGRATED
     clearPhysicsBody();
 
     b2BodyDef myBodyDef;
     myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
     Vecteur3 pos = obtenirPositionAbsolue();
-    myBodyDef.position.Set(pos[VX], pos[VY]); //set the starting position
+    b2Vec2 posB2;
+    utilitaire::VEC3_TO_B2VEC(pos,posB2);
+    myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
     myBodyDef.angle = 0; //set the starting angle
+    myBodyDef.fixedRotation = true;
 
     mPhysicBody = getWorld()->CreateBody(&myBodyDef);
     b2CircleShape circleShape;
     circleShape.m_p.Set(0, 0); //position, relative to body position
-    circleShape.m_radius = (float32)obtenirRayon(); //radius
+    circleShape.m_radius = (float32)obtenirRayon()*utilitaire::ratioWorldToBox2D; //radius
 
     b2FixtureDef myFixtureDef;
     myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
-    myFixtureDef.density = 1;
+    myFixtureDef.density = 0.02f;
     myFixtureDef.filter.categoryBits = CATEGORY_MALLET;
     myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_BOUNDARY;
     myFixtureDef.filter.groupIndex = 1;
 
     mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+#endif
 }
 
 

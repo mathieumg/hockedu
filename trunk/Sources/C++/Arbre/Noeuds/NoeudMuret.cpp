@@ -8,13 +8,13 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudMuret.h"
+#include <Box2D/Box2D.h>
 #include "Utilitaire.h"
 #include "VisiteurCollision.h"
 #include "FacadeModele.h"
 #include "Modele3D.h"
 #include "tinyxml.h"
 #include "XMLUtils.h"
-#include <Box2D/Box2D.h>
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -33,7 +33,7 @@ NoeudMuret::NoeudMuret(const std::string& typeNoeud, bool estSurTable)
 	: NoeudComposite(typeNoeud)
 {
 	if(estSurTable)
-		FacadeModele::obtenirInstance()->ajouterElementSurTable(this);
+		FacadeModele::getInstance()->ajouterElementSurTable(this);
 	coefRebond_ = 0.75;
     updatePhysicBody();
 }
@@ -50,7 +50,7 @@ NoeudMuret::NoeudMuret(const std::string& typeNoeud, bool estSurTable)
 ////////////////////////////////////////////////////////////////////////
 NoeudMuret::~NoeudMuret()
 {
-	FacadeModele::obtenirInstance()->supprimerElementSurTable(this);
+	FacadeModele::getInstance()->supprimerElementSurTable(this);
 }
 
 
@@ -66,9 +66,11 @@ NoeudMuret::~NoeudMuret()
 ////////////////////////////////////////////////////////////////////////
 void NoeudMuret::updatePhysicBody()
 {
+#if BOX2D_INTEGRATED
+
     clearPhysicsBody();
 
-    float32 halfLength = (float32)echelleCourante_[VX]/2.f;//(float)(coin2-coin1).norme()/2.f;
+    float32 halfLength = (float32)echelleCourante_[VX]/2.f*utilitaire::ratioWorldToBox2D;//(float)(coin2-coin1).norme()/2.f;
 
     b2BodyDef myBodyDef;
     myBodyDef.type = b2_staticBody; //this will be a dynamic body
@@ -77,8 +79,11 @@ void NoeudMuret::updatePhysicBody()
 
     mPhysicBody = getWorld()->CreateBody(&myBodyDef);
     b2PolygonShape shape;
-    Vecteur3 position = obtenirPositionAbsolue();
-    shape.SetAsBox(halfLength,2.5f,b2Vec2(position[VX],position[VY]),utilitaire::DEG_TO_RAD(mAngle));
+    Vecteur3 pos = obtenirPositionAbsolue();
+    b2Vec2 posB2;
+    utilitaire::VEC3_TO_B2VEC(pos,posB2);
+    myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
+    shape.SetAsBox(halfLength,2.5f*utilitaire::ratioWorldToBox2D,b2Vec2(posB2.x,posB2.y),utilitaire::DEG_TO_RAD(mAngle));
 
     b2FixtureDef myFixtureDef;
     myFixtureDef.shape = &shape; //this is a pointer to the shape above
@@ -87,6 +92,8 @@ void NoeudMuret::updatePhysicBody()
     myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_MALLET;
 
     mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+#endif
+
 }
 
 
@@ -137,7 +144,7 @@ void NoeudMuret::animer( const float& temps)
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudMuret::accueillirVisiteurNoeud( const VisiteurNoeud& v )
+/// @fn NoeudMuret::acceptVisitor( const VisiteurNoeud& v )
 ///
 /// Permet d'indiquer au visiteur le type concret du noeud courant
 ///
@@ -146,7 +153,7 @@ void NoeudMuret::animer( const float& temps)
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMuret::accueillirVisiteurNoeud( VisiteurNoeud& v )
+void NoeudMuret::acceptVisitor( VisiteurNoeud& v )
 {
 	v.visiterNoeudMuret(this);
 }

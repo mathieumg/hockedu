@@ -147,7 +147,7 @@ public:
 	virtual void animer( const float& dt );
 
 	/// Accueil un visiteur
-	virtual void accueillirVisiteurNoeud( VisiteurNoeud& v){v.visiterNoeudAbstrait(this);}   
+	virtual void acceptVisitor( VisiteurNoeud& v){v.visiterNoeudAbstrait(this);}   
 	/// Accesseur de la matrice de transformation
 	virtual void obtenirMatrice(GLdouble* matriceRetour) const;
 	/// Accesseur des facteurs d'echelle
@@ -219,7 +219,8 @@ public:
 protected:
     static class b2World* mWorld;
     class b2Body* mPhysicBody;
-	/// Type du noeud.
+
+    /// Type du noeud.
 	std::string      type_;
 
 	/// Mode d'affichage des polygones.
@@ -273,6 +274,8 @@ private:
 
 	/// Accesseurs
 public:
+    /// Accessors of mPhysicBody
+    inline class b2Body* getPhysicBody() const { return mPhysicBody; }
 	/// Accesseur de glId_
 	GLuint obtenirGlId() const { return glId_; }
 	

@@ -108,7 +108,7 @@ void SourisEtatZoomProportionnel::sourisDeplacee( EvenementSouris& evenementSour
 		int deplacementY = positionPrecedente_[VY]-evenementSouris.obtenirPosition()[VY];
 
 		// Effectue le zoom
-		FacadeModele::obtenirInstance()->zoomDoux(deplacementY);
+		FacadeModele::getInstance()->zoomDoux(deplacementY);
 
 		
 		// Mise à jour de la position

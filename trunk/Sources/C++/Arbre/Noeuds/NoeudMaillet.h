@@ -36,7 +36,7 @@ public:
    /// Effectue l'animation
    virtual void animer( const float& temps );
    /// Accueil un visiteur
-   virtual void accueillirVisiteurNoeud( VisiteurNoeud& v);
+   virtual void acceptVisitor( VisiteurNoeud& v);
    /// Cette fonction effectue le véritable rendu de l'objet.
    virtual void afficherConcret() const;
    /// Physique

@@ -37,7 +37,7 @@ public:
 	/// Effectue l'animation
 	virtual void animer( const float& temps );
 	/// Accueil un visiteur
-	virtual void accueillirVisiteurNoeud( VisiteurNoeud& v);
+	virtual void acceptVisitor( VisiteurNoeud& v);
 	/// Pour savoir à quel joueur le but appartient
 	int obtenirJoueur() const;
 	/// Retourne la zone occupee par la table

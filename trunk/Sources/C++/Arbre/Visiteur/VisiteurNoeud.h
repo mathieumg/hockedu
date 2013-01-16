@@ -43,23 +43,23 @@ public:
 	/// Visitation d'un noeud abstrait
 	virtual void visiterNoeudAbstrait( NoeudAbstrait* noeud ) = 0;
 	/// Visitation d'un noeud composite
-	virtual void visiterNoeudComposite( NoeudComposite* noeud ) = 0;
+	virtual void visiterNoeudComposite( NoeudComposite* noeud );
 	/// Visitation d'un noeud muret
-	virtual void visiterNoeudMuret( NoeudMuret* noeud ) = 0;
+	virtual void visiterNoeudMuret( NoeudMuret* noeud ) {visiterNoeudComposite((NoeudComposite*)noeud);}
 	/// Visitation d'un noeud but
-	virtual void visiterNoeudBut( NoeudBut* noeud ) = 0;
+	virtual void visiterNoeudBut( NoeudBut* noeud ) {visiterNoeudComposite((NoeudComposite*)noeud);}
 	/// Visitation d'un noeud maillet
-	virtual void visiterNoeudMaillet( NoeudMaillet* noeud ) = 0;
+	virtual void visiterNoeudMaillet( NoeudMaillet* noeud ) {visiterNoeudAbstrait((NoeudAbstrait*)noeud);}
 	/// Visitation d'un noeud portail
-	virtual void visiterNoeudPortail( NoeudPortail* noeud ) = 0;
+	virtual void visiterNoeudPortail( NoeudPortail* noeud ) {visiterNoeudAbstrait((NoeudAbstrait*)noeud);}
 	/// Visitation d'un noeud rondelle
-	virtual void visiterNoeudRondelle( NoeudRondelle* noeud ) = 0;
+	virtual void visiterNoeudRondelle( NoeudRondelle* noeud ) {visiterNoeudAbstrait((NoeudAbstrait*)noeud);}
 	/// Visitation d'un noeud table
-	virtual void visiterNoeudTable( NoeudTable* noeud ) = 0;
+	virtual void visiterNoeudTable( NoeudTable* noeud ) {visiterNoeudComposite((NoeudComposite*)noeud);}
 	/// Visitation d'un noeud point
-	virtual void visiterNoeudPoint( NoeudPoint* noeud ) = 0;
+	virtual void visiterNoeudPoint( NoeudPoint* noeud ) {visiterNoeudComposite((NoeudComposite*)noeud);}
 	/// Visitation d'un noeud accélérateur
-	virtual void visiterNoeudAccelerateur( NoeudAccelerateur* noeud ) = 0;
+	virtual void visiterNoeudAccelerateur( NoeudAccelerateur* noeud ) {visiterNoeudAbstrait((NoeudAbstrait*)noeud);}
 };
 
 ///////////////////////////////////////////////////////////////////////////////

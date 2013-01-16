@@ -139,7 +139,7 @@ bool GestionnaireEtatAbstrait::GetMouseStateName( NomEtatSouris& outName )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatAbstrait::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
 {
-	FacadeModele::obtenirInstance()->zoom(evenementRouletteSouris.obtenirNbCoches());
+	FacadeModele::getInstance()->zoom(evenementRouletteSouris.obtenirNbCoches());
 }
 
 
@@ -166,10 +166,10 @@ void GestionnaireEtatAbstrait::gestionAnimationEnJeu( Partie* partieCourante, co
 	if(!GestionnaireAnimations::obtenirInstance()->estJouerReplay())
 	{
 
-		vue::Camera* camera = &FacadeModele::obtenirInstance()->obtenirVue()->obtenirCamera();
-		NoeudMaillet* maillet1 = FacadeModele::obtenirInstance()->obtenirMailletJoueurGauche();
-		NoeudMaillet* maillet2 = FacadeModele::obtenirInstance()->obtenirMailletJoueurDroit();
-		NoeudRondelle* rondelle = FacadeModele::obtenirInstance()->obtenirRondelle();
+		vue::Camera* camera = &FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
+		NoeudMaillet* maillet1 = FacadeModele::getInstance()->obtenirMailletJoueurGauche();
+		NoeudMaillet* maillet2 = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
+		NoeudRondelle* rondelle = FacadeModele::getInstance()->obtenirRondelle();
 
 		GestionnaireAnimations* gestionnaire = GestionnaireAnimations::obtenirInstance();
 		if(GestionnaireAnimations::obtenirInstance()->replayEstTermine())

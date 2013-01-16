@@ -349,19 +349,19 @@ void GestionnaireModeles::initialiser()
 
     DataThreadModels* dataWorkerModel = new DataThreadModels();
     dataWorkerModel->tampon = &tamponGlobal;
-    dataWorkerModel->dc = FacadeModele::obtenirInstance()->obtenirHDC();
+    dataWorkerModel->dc = FacadeModele::getInstance()->obtenirHDC();
     dataWorkerModel->glrc = wglCreateContext(dataWorkerModel->dc);
-    HGLRC baseGlrc = FacadeModele::obtenirInstance()->GetHGLRC();
+    HGLRC baseGlrc = FacadeModele::getInstance()->GetHGLRC();
 
-    HANDLE thd = NULL;
+    mLoadingThread = NULL;
     DWORD thId1;
 
     if(dataWorkerModel->glrc != NULL && wglShareLists(baseGlrc , dataWorkerModel->glrc))
     {
-        thd = CreateThread(NULL, 0, WorkerLoadModel, dataWorkerModel,NULL,&thId1);
-        FacadeModele::obtenirInstance()->RunOnUIThread(new Runnable([=](Runnable* pRun){
+        mLoadingThread = CreateThread(NULL, 0, WorkerLoadModel, dataWorkerModel,NULL,&thId1);
+        FacadeModele::getInstance()->RunOnUIThread(new Runnable([=](Runnable* pRun){
             DWORD exitCode;
-            if(!IsThreadAlive(thd,exitCode))
+            if(!IsThreadAlive(mLoadingThread,exitCode))
             {
                 if(exitCode == FALSE)
                 {
@@ -372,14 +372,14 @@ void GestionnaireModeles::initialiser()
                 }
                 else
                 {
-                    CloseHandle(thd);
+                    CloseHandle(mLoadingThread);
                 }
                 pRun->setKeepAlive(false);
             }
         },true));
 
     }
-    if(thd == NULL)
+    if(mLoadingThread == NULL)
     {
         // pour ne pas recreer le context OpenGL
         dataWorkerModel->glrc = NULL;
@@ -403,6 +403,26 @@ void GestionnaireModeles::initialiser()
 	nameToTypeId_[ArbreRenduINF2990::NOM_POINT] = ++compteurTypeID;
 	typeIdToName_[compteurTypeID] = ArbreRenduINF2990::NOM_POINT;
 
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool GestionnaireModeles::isStillLoadingModel()
+///
+/// /*Description*/
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool GestionnaireModeles::isStillLoadingModel() const
+{
+    DWORD exitCode;
+    if(!IsThreadAlive(mLoadingThread,exitCode))
+    {
+        return tamponGlobal.vec.size() != 0;
+    }
+    return true;
 }
 
 
@@ -449,7 +469,7 @@ DWORD WINAPI WorkerLoadModel( LPVOID arg )
         GLuint liste = GestionnaireModeles::CreerListe(modele);
 
         const string& key = modelInfo.mKey;
-        FacadeModele::obtenirInstance()->RunOnUIThread(new Runnable([=](Runnable*) -> void {
+        FacadeModele::getInstance()->RunOnUIThread(new Runnable([=](Runnable*) -> void {
             // les ajouter direct dans ce thread n'est pas bon car ca peut crasher si un read&write ce fait en meme temps
             GestionnaireModeles::obtenirInstance()->ajoutModele(key,modele);
             if(modelInfo.mbCreateList)

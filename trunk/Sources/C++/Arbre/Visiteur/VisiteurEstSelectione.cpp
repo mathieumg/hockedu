@@ -88,7 +88,7 @@ void VisiteurEstSelectione::visiterNoeudComposite( NoeudComposite* noeud )
 {
 	for (unsigned int i=0; i<noeud->obtenirNombreEnfants(); i++)
 	{
-		noeud->chercher(i)->accueillirVisiteurNoeud(*this);
+		noeud->chercher(i)->acceptVisitor(*this);
 	}
 }
 
@@ -246,7 +246,7 @@ void VisiteurEstSelectione::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
 ////////////////////////////////////////////////////////////////////////
 ConteneurNoeuds* VisiteurEstSelectione::obtenirListeNoeuds() const
 {
-	FacadeModele::obtenirInstance()->modifierNbNoeudSelect((unsigned int)listeNoeuds_->size());
+	FacadeModele::getInstance()->modifierNbNoeudSelect((unsigned int)listeNoeuds_->size());
 	return listeNoeuds_;
 }
 

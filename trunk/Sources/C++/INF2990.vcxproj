@@ -255,6 +255,7 @@
     <ClCompile Include="Arbre\Visiteur\VisiteurDupliquer.cpp" />
     <ClCompile Include="Arbre\Visiteur\VisiteurEchelle.cpp" />
     <ClCompile Include="Arbre\Visiteur\VisiteurEstSelectione.cpp" />
+    <ClCompile Include="Arbre\Visiteur\VisiteurFunction.cpp" />
     <ClCompile Include="Arbre\Visiteur\VisiteurModifierProprieteNoeud.cpp" />
     <ClCompile Include="Arbre\Visiteur\VisiteurNoeud.cpp" />
     <ClCompile Include="Arbre\Visiteur\VisiteurEcrireXML.cpp" />
@@ -352,6 +353,7 @@
     <ClInclude Include="Arbre\Visiteur\VisiteurDupliquer.h" />
     <ClInclude Include="Arbre\Visiteur\VisiteurEchelle.h" />
     <ClInclude Include="Arbre\Visiteur\VisiteurEstSelectione.h" />
+    <ClInclude Include="Arbre\Visiteur\VisiteurFunction.h" />
     <ClInclude Include="Arbre\Visiteur\VisiteurModifierProprieteNoeud.h" />
     <ClInclude Include="Arbre\Visiteur\VisiteurNoeud.h" />
     <ClInclude Include="Arbre\Visiteur\VisiteurEcrireXML.h" />

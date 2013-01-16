@@ -91,7 +91,7 @@ void SourisEtatAjoutMuret::sourisRelachee( EvenementSouris& evenementSouris )
 	if(evenementSouris.obtenirBouton()!=BOUTON_SOURIS_GAUCHE)
 		return;
 	hudTextPosInvalide->modifierVisibilite(false);
-	if(!FacadeModele::obtenirInstance()->validerPositionNoeud(noeud_))
+	if(!FacadeModele::getInstance()->validerPositionNoeud(noeud_))
 	{
 		hudTextPosInvalide->modifierVisibilite(true);
 		return;
@@ -103,9 +103,9 @@ void SourisEtatAjoutMuret::sourisRelachee( EvenementSouris& evenementSouris )
 	case PLACERPOINT1:
 		{
 			// On fixe le premier point
-			FacadeModele::obtenirInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX], evenementSouris.obtenirPosition()[VY], positionClic1_);
+			FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX], evenementSouris.obtenirPosition()[VY], positionClic1_);
 			VisiteurCollision v(positionClic1_.convertir<2>());
-			FacadeModele::obtenirInstance()->visiterArbre(&v);
+			FacadeModele::getInstance()->visiterArbre(&v);
 			noeud_->modifierSurligner(false);
 
 			if(v.collisionPresente() && v.obtenirNbrNoeudEncollision() > 1)
@@ -117,8 +117,8 @@ void SourisEtatAjoutMuret::sourisRelachee( EvenementSouris& evenementSouris )
 		}
 	case PLACERPOINT2:
 		// On fixe le deuxieme point
-		FacadeModele::obtenirInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX], evenementSouris.obtenirPosition()[VY], positionClic2_);
-		FacadeModele::obtenirInstance()->obtenirTerrain()->transfererNoeud(noeud_);
+		FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX], evenementSouris.obtenirPosition()[VY], positionClic2_);
+		FacadeModele::getInstance()->getTerrain()->transfererNoeud(noeud_);
 
 		genererNoeud();
 
@@ -149,7 +149,7 @@ void SourisEtatAjoutMuret::sourisDeplacee( EvenementSouris& evenementSouris )
 	if(noeud_ == NULL)
 		return;
 
-	FacadeModele::obtenirInstance()->obtenirTerrain()->ajouterNoeudTemp(noeud_);
+	FacadeModele::getInstance()->getTerrain()->ajouterNoeudTemp(noeud_);
 
 	Vecteur2i positionSouris;
 	Vecteur3 positionVirtuelle;
@@ -160,13 +160,13 @@ void SourisEtatAjoutMuret::sourisDeplacee( EvenementSouris& evenementSouris )
 	case PLACERPOINT1:
 		// On affiche la forme de base
 		positionSouris=evenementSouris.obtenirPosition();
-		FacadeModele::obtenirInstance()->convertirClotureAVirtuelle(positionSouris[VX],positionSouris[VY],positionVirtuelle);
+		FacadeModele::getInstance()->convertirClotureAVirtuelle(positionSouris[VX],positionSouris[VY],positionVirtuelle);
 		noeud_->assignerPositionRelative(positionVirtuelle);
 		break;
 	case PLACERPOINT2:
 		// On affiche la forme modifiee
 		positionSouris = evenementSouris.obtenirPosition();
-		FacadeModele::obtenirInstance()->convertirClotureAVirtuelle(positionSouris[VX], positionSouris[VY], positionVirtuelle);
+		FacadeModele::getInstance()->convertirClotureAVirtuelle(positionSouris[VX], positionSouris[VY], positionVirtuelle);
 		deltaX = positionVirtuelle[VX]-positionClic1_[VX];
 		deltaY = positionVirtuelle[VY]-positionClic1_[VY];
 		angle = (atan2(deltaY, deltaX)*180.0/(double)M_PI);
@@ -180,7 +180,7 @@ void SourisEtatAjoutMuret::sourisDeplacee( EvenementSouris& evenementSouris )
 		}
 
 		// Appel pour faire le surlignement
-		FacadeModele::obtenirInstance()->validerPositionNoeud(noeud_, true);
+		FacadeModele::getInstance()->validerPositionNoeud(noeud_, true);
 
 		break;
 	default:

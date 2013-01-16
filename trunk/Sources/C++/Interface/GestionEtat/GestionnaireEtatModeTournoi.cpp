@@ -49,7 +49,7 @@ GestionnaireEtatModeTournoi::GestionnaireEtatModeTournoi(GestionnaireEvenements*
 void GestionnaireEtatModeTournoi::toucheEnfoncee( EvenementClavier& evenementClavier )
 {
 	ToucheClavier touche = evenementClavier.obtenirTouche();
-	NoeudMaillet* maillet = FacadeModele::obtenirInstance()->obtenirMailletJoueurDroit();
+	NoeudMaillet* maillet = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
 
 	// Les 4 cas suivants déplacent le maillet du joueur 2
 	if(touche == ConfigScene::obtenirInstance()->obtenirToucheHaut())
@@ -79,7 +79,7 @@ void GestionnaireEtatModeTournoi::toucheEnfoncee( EvenementClavier& evenementCla
 void GestionnaireEtatModeTournoi::toucheRelachee( EvenementClavier& evenementClavier )
 {
 	ToucheClavier touche = evenementClavier.obtenirTouche();
-	NoeudMaillet* maillet = FacadeModele::obtenirInstance()->obtenirMailletJoueurDroit();
+	NoeudMaillet* maillet = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
 
 	// Les 4 cas suivants déplacent le maillet du joueur 2
 	if(touche == ConfigScene::obtenirInstance()->obtenirToucheHaut())
@@ -139,10 +139,10 @@ void GestionnaireEtatModeTournoi::sourisRelachee( EvenementSouris& evenementSour
 void GestionnaireEtatModeTournoi::sourisDeplacee( EvenementSouris& evenementSouris )
 {
 	Vecteur3 coordonneesSouris, anciennePos;
-	FacadeModele::obtenirInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX], evenementSouris.obtenirPosition()[VY], coordonneesSouris);
-	NoeudMaillet* maillet = FacadeModele::obtenirInstance()->obtenirMailletJoueurGauche();
+	FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX], evenementSouris.obtenirPosition()[VY], coordonneesSouris);
+	NoeudMaillet* maillet = FacadeModele::getInstance()->obtenirMailletJoueurGauche();
 	maillet->assignerPosSouris(coordonneesSouris);
-	maillet = FacadeModele::obtenirInstance()->obtenirMailletJoueurDroit();
+	maillet = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
 	maillet->assignerPosSouris(coordonneesSouris);	
 }
 
@@ -177,21 +177,21 @@ void GestionnaireEtatModeTournoi::animer( const float& temps )
 {
 	SoundFMOD::obtenirInstance()->change_song_if_end();
 
-	Partie* partieCourante = FacadeModele::obtenirInstance()->obtenirPartieCourante();
+	Partie* partieCourante = FacadeModele::getInstance()->obtenirPartieCourante();
 	
 	if(partieCourante)
 	{
 		partieCourante->animer(temps);
 		partieCourante->updateMinuterie((int)(temps*1000));
-		if(!FacadeModele::obtenirInstance()->estEnPause() && !GestionnaireAnimations::obtenirInstance()->estJouerReplay())
+		if(!FacadeModele::getInstance()->estEnPause() && !GestionnaireAnimations::obtenirInstance()->estJouerReplay())
 		{
-			Tournoi* tournoi = FacadeModele::obtenirInstance()->obtenirTournoi();
+			Tournoi* tournoi = FacadeModele::getInstance()->obtenirTournoi();
 			if(tournoi->miseAJour())
 			{
 				contexte_->modifierEtat(ETAT_PARTIE_TOURNOI_TERMINEE);
 				return;
 			}
-			Terrain* terrain = FacadeModele::obtenirInstance()->obtenirTerrain();
+			Terrain* terrain = FacadeModele::getInstance()->getTerrain();
 			if(partieCourante->estPret() && terrain)
 			{
 				// Gestion de la physique du jeu
@@ -217,7 +217,7 @@ void GestionnaireEtatModeTournoi::animer( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeTournoi::afficher()
 {
-	Tournoi* tournoi = FacadeModele::obtenirInstance()->obtenirTournoi();
+	Tournoi* tournoi = FacadeModele::getInstance()->obtenirTournoi();
 	if(tournoi && tournoi->obtenirPartieCourante() && tournoi->obtenirPartieCourante()->partieTerminee())
 	{
 		GestionnaireHUD::obtenirInstance()->dessinerHUDTournoi();

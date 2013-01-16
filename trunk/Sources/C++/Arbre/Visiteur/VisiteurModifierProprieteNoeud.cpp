@@ -42,8 +42,8 @@
 VisiteurModifierProprieteNoeud::VisiteurModifierProprieteNoeud( JNIEnv* env, jobject& modificateur)
 {
 	// Test pour s'assurer que l'arbre de rendu existe
-	if(FacadeModele::obtenirInstance()->obtenirArbreRenduINF2990())
-		table_ = FacadeModele::obtenirInstance()->obtenirArbreRenduINF2990()->obtenirTable();
+	if(FacadeModele::getInstance()->obtenirArbreRenduINF2990())
+		table_ = FacadeModele::getInstance()->obtenirArbreRenduINF2990()->obtenirTable();
 
 	//On met le coef de friction dans la variable associé.
 	jclass classe = env->GetObjectClass(modificateur);
@@ -81,7 +81,7 @@ VisiteurModifierProprieteNoeud::VisiteurModifierProprieteNoeud( JNIEnv* env, job
 	jmethodID obtenirZoneEditionY = env->GetMethodID(classe, "obtenirZoneEditionY", "()D");
 	hauteurZoneEdition_ = env->CallDoubleMethod(modificateur, obtenirZoneEditionY);
 
-	unSeulSelect_ = FacadeModele::obtenirInstance()->obtenirNbNoeudSelect() == 1;
+	unSeulSelect_ = FacadeModele::getInstance()->obtenirNbNoeudSelect() == 1;
 
 	// Coef de rebond des bandes
 	jmethodID obtenirCoefRebondBandes = env->GetMethodID(classe, "obtenirCoefRebondBandes", "(I)D");
@@ -142,7 +142,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudComposite( NoeudComposite* noeu
 {
 	for (unsigned int i=0; i<noeud->obtenirNombreEnfants(); i++)
 	{
-		noeud->chercher(i)->accueillirVisiteurNoeud(*this);
+		noeud->chercher(i)->acceptVisitor(*this);
 	}
 }
 
@@ -177,7 +177,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NoeudMuret* noeud )
 			noeud->majPosCoins();
 
 			// Si on arrive pas à assigner les nouvelles positions on annule les modifications et l'indique à l'usager
-			if(!FacadeModele::obtenirInstance()->ajusterElementEnCollision(noeud,20))
+			if(!FacadeModele::getInstance()->ajusterElementEnCollision(noeud,20))
 			{
 				noeud->assignerPositionRelative(oldPos);
 				noeud->assignerAngle(oldAngle);
@@ -382,12 +382,12 @@ void VisiteurModifierProprieteNoeud::visiterNoeudPoint( NoeudPoint* noeud )
 		Vecteur3 deplacement = position_-positionCourante;
 		deplacement[VX]*=-1;
 		VisiteurDeplacement visiteur(deplacement);
-		noeud->accueillirVisiteurNoeud(visiteur);
+		noeud->acceptVisitor(visiteur);
 
-		if(!FacadeModele::obtenirInstance()->ajusterElementSurTableEnCollision())
+		if(!FacadeModele::getInstance()->ajusterElementSurTableEnCollision())
 		{
 			VisiteurDeplacement visiteur(deplacement*-1);
-			noeud->accueillirVisiteurNoeud(visiteur);
+			noeud->acceptVisitor(visiteur);
 			utilitaire::afficherErreur("Nouvelles propriétés du point ne sont pas valides");
 		}
 
@@ -425,14 +425,14 @@ void VisiteurModifierProprieteNoeud::visiterNoeudNeutre( NoeudAbstrait* noeud )
 		/// On fait le deplacement contenu dans position_ par rapport à l'origine
 		/*Vecteur3 deplacement = ((position_.convertir<3>())-(noeud->obtenirPositionAbsolue()));
 		VisiteurDeplacement visiteurDeplacement(deplacement,true);
-		noeud->accueillirVisiteurNoeud(visiteurDeplacement);*/
+		noeud->acceptVisitor(visiteurDeplacement);*/
 		Vecteur3 oldPos = noeud->obtenirPositionRelative();
 		noeud->assignerPositionRelative(position_);
 
 		double oldAngle = noeud->obtenirAngle();
 		/// On applique la nouvelle rotation
 		VisiteurRotation rotationAFaire(rotation_,position_);
-		noeud->accueillirVisiteurNoeud(rotationAFaire);
+		noeud->acceptVisitor(rotationAFaire);
 
 		Vecteur3 oldEchelle; noeud->obtenirEchelleCourante(oldEchelle);
 
@@ -446,7 +446,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudNeutre( NoeudAbstrait* noeud )
 		noeud->updateMatrice();
 
 		/// On regle les nouvelles collision créé
-		if(!FacadeModele::obtenirInstance()->ajusterElementEnCollision(noeud,20))
+		if(!FacadeModele::getInstance()->ajusterElementEnCollision(noeud,20))
 		{
 			noeud->assignerPositionRelative(oldPos);
 			noeud->assignerAngle(oldAngle);

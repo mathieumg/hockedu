@@ -418,7 +418,7 @@ void NoeudTable::animer( const float& temps)
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudTable::accueillirVisiteurNoeud( VisiteurNoeud& v )
+/// @fn NoeudTable::acceptVisitor( VisiteurNoeud& v )
 ///
 /// Permet d'indiquer au visiteur le type concret du noeud courant.
 ///
@@ -427,7 +427,7 @@ void NoeudTable::animer( const float& temps)
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudTable::accueillirVisiteurNoeud( VisiteurNoeud& v )
+void NoeudTable::acceptVisitor( VisiteurNoeud& v )
 {
 	v.visiterNoeudTable(this);
 }
@@ -944,6 +944,8 @@ void NoeudTable::assignerCoefRebond( int index, double coefRebond )
 ////////////////////////////////////////////////////////////////////////
 void NoeudTable::updatePhysicBody()
 {
+#if BOX2D_INTEGRATED
+
     clearPhysicsBody();
 
     auto pHaut = obtenirPoint(POSITION_HAUT_MILIEU), pBas = obtenirPoint(POSITION_BAS_MILIEU);
@@ -971,6 +973,8 @@ void NoeudTable::updatePhysicBody()
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
     }
+#endif
+
 }
 
 ////////////////////////////////////////////////////////////////////////

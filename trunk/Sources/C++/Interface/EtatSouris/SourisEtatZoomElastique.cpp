@@ -42,7 +42,7 @@ estEnfoncee_(false)
 ////////////////////////////////////////////////////////////////////////
 SourisEtatZoomElastique::~SourisEtatZoomElastique(void)
 {
-	FacadeModele::obtenirInstance()->modifierVariableZoomElastique(false);
+	FacadeModele::getInstance()->modifierVariableZoomElastique(false);
 }
 
 
@@ -128,15 +128,15 @@ void SourisEtatZoomElastique::sourisRelachee( EvenementSouris& evenementSouris )
 		// Indique qu'il n'y a plus de bouton enfoncé
 		estEnfoncee_ = false;
 		// Indique au modèle qu'il ne doit plus faire le rendu du rectangle elastique
-		FacadeModele::obtenirInstance()->modifierVariableZoomElastique(estEnfoncee_);
+		FacadeModele::getInstance()->modifierVariableZoomElastique(estEnfoncee_);
 
 		// Vérification du bouton enfoncé
 		if(ctrlEnfoncee_)
 			// Si le bouton enfoncé est le bouton droit, on effectue un zoom out 
-			FacadeModele::obtenirInstance()->obtenirVue()->zoomerOutElastique( positionDepart_,evenementSouris.obtenirPosition()) ;
+			FacadeModele::getInstance()->obtenirVue()->zoomerOutElastique( positionDepart_,evenementSouris.obtenirPosition()) ;
 		else if(boutonEnfonce_ == BOUTON_SOURIS_GAUCHE)
 			// Si le bouton enfoncé est le bouton gauche, on effectue un zoom in
-			FacadeModele::obtenirInstance()->obtenirVue()->zoomerInElastique( positionDepart_,evenementSouris.obtenirPosition() );
+			FacadeModele::getInstance()->obtenirVue()->zoomerInElastique( positionDepart_,evenementSouris.obtenirPosition() );
 	}
 }
 
@@ -157,7 +157,7 @@ void SourisEtatZoomElastique::sourisDeplacee( EvenementSouris& evenementSouris )
 	if(estEnfoncee_)
 	{
 		// Mise à jours du rectangle pour son rendu
-		FacadeModele::obtenirInstance()->modifierVariableZoomElastique( estEnfoncee_,positionDepart_,evenementSouris.obtenirPosition() );
+		FacadeModele::getInstance()->modifierVariableZoomElastique( estEnfoncee_,positionDepart_,evenementSouris.obtenirPosition() );
 	}
 }
 

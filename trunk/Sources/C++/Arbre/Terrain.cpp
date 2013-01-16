@@ -358,11 +358,11 @@ TiXmlElement* Terrain::creerNoeudXML()
 
 	racine->SetAttribute("nom",obtenirNom().c_str() );
 
-	if(obtenirArbreRendu())
+	if(getArbreRendu())
 	{
-		obtenirArbreRendu()->deselectionnerTout();
+		getArbreRendu()->deselectionnerTout();
 		// Creation du domaine de l'arbre de rendu
-		ConfigScene::obtenirInstance()->creerDOM(*racine,obtenirArbreRendu());
+		ConfigScene::obtenirInstance()->creerDOM(*racine,getArbreRendu());
 	}
 
 	racine->LinkEndChild(obtenirZoneEdition().creerNoeudXML());
@@ -523,9 +523,9 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 void Terrain::creerTerrainParDefaut(std::string nom)
 {
 	initialiser(nom);
-	NoeudAbstrait* maillet1 = obtenirArbreRendu()->creerNoeud(ArbreRenduINF2990::NOM_MAILLET);
-	NoeudAbstrait* maillet2 = obtenirArbreRendu()->creerNoeud(ArbreRenduINF2990::NOM_MAILLET);
-	NoeudAbstrait* rondelle = obtenirArbreRendu()->creerNoeud(ArbreRenduINF2990::NOM_RONDELLE);
+	NoeudAbstrait* maillet1 = getArbreRendu()->creerNoeud(ArbreRenduINF2990::NOM_MAILLET);
+	NoeudAbstrait* maillet2 = getArbreRendu()->creerNoeud(ArbreRenduINF2990::NOM_MAILLET);
+	NoeudAbstrait* rondelle = getArbreRendu()->creerNoeud(ArbreRenduINF2990::NOM_RONDELLE);
 
 	maillet1->assignerPositionRelative(table_->obtenirPoint(POSITION_MILIEU_GAUCHE)->obtenirPositionAbsolue()/2.0);
 	maillet2->assignerPositionRelative(table_->obtenirPoint(POSITION_MILIEU_DROITE)->obtenirPositionAbsolue()/2.0);

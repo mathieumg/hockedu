@@ -41,7 +41,10 @@ public:
 	/// Retourne le type de bouton de la souris
 	BoutonSouris obtenirBouton() const;
 	/// Retourne la position de la souris
-	Vecteur2i obtenirPosition() const;
+	inline const Vecteur2i& obtenirPosition() const
+    {
+        return position_;
+    }
 private:
 	/// Attributs de la souris
 	Vecteur2i position_;

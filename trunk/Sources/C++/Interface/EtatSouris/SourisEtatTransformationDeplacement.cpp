@@ -93,11 +93,11 @@ void SourisEtatTransformationDeplacement::toucheRelachee( EvenementClavier& even
 				if(!deplacementInverse_[i].estNul())
 				{
 					VisiteurDeplacement visiteurDeplacementInverse(deplacementInverse_[i]);
-					noeudsSelectionnes_[i]->accueillirVisiteurNoeud(visiteurDeplacementInverse);
+					noeudsSelectionnes_[i]->acceptVisitor(visiteurDeplacementInverse);
 					deplacementInverse_[i].remetAZero();
 				}
 			}
-			FacadeModele::obtenirInstance()->ajusterElementSurTableEnCollision();
+			FacadeModele::getInstance()->ajusterElementSurTableEnCollision();
 		}
 	}
 }
@@ -122,16 +122,16 @@ void SourisEtatTransformationDeplacement::sourisEnfoncee( EvenementSouris& evene
 	{
 		Vecteur3 positionVirtuelle;
 		Vecteur2i positionCloture = evenementSouris.obtenirPosition();
-		FacadeModele::obtenirInstance()->convertirClotureAVirtuelle(positionCloture[VX], positionCloture[VY], positionVirtuelle);
+		FacadeModele::getInstance()->convertirClotureAVirtuelle(positionCloture[VX], positionCloture[VY], positionVirtuelle);
 
 		VisiteurCollision visiteurCollision(positionVirtuelle.convertir<2>(), false,50.0);
-		FacadeModele::obtenirInstance()->visiterArbre(&visiteurCollision);
+		FacadeModele::getInstance()->visiterArbre(&visiteurCollision);
 		bool objetSous = false;
 		ConteneurNoeuds conteneurColision;
 		if(visiteurCollision.collisionPresente())
 		{
 			visiteurCollision.obtenirListeCollision(conteneurColision);
-			noeudsSelectionnes_ = FacadeModele::obtenirInstance()->obtenirArbreRenduINF2990()->obtenirNoeudsSelectionnes();
+			noeudsSelectionnes_ = FacadeModele::getInstance()->obtenirArbreRenduINF2990()->obtenirNoeudsSelectionnes();
 			for(ConteneurNoeuds::iterator it1 = conteneurColision.begin(); it1!=conteneurColision.end(); it1++)
 			{
 				for(ConteneurNoeuds::iterator it2 = noeudsSelectionnes_.begin(); it2!=noeudsSelectionnes_.end(); it2++)
@@ -180,11 +180,11 @@ void SourisEtatTransformationDeplacement::sourisRelachee( EvenementSouris& evene
 			if(!deplacementInverse_[i].estNul())
 			{
 				VisiteurDeplacement visiteurDeplacementInverse(deplacementInverse_[i]);
-				noeudsSelectionnes_[i]->accueillirVisiteurNoeud(visiteurDeplacementInverse);
+				noeudsSelectionnes_[i]->acceptVisitor(visiteurDeplacementInverse);
 				deplacementInverse_[i].remetAZero();
 			}
 		}
-		FacadeModele::obtenirInstance()->ajusterElementSurTableEnCollision();
+		FacadeModele::getInstance()->ajusterElementSurTableEnCollision();
 		delete[] deplacementInverse_;
 		deplacementInverse_ = 0;
 	}
@@ -211,7 +211,7 @@ void SourisEtatTransformationDeplacement::sourisDeplacee( EvenementSouris& evene
 		int deplacementY = positionPrecedente_[VY]-evenementSouris.obtenirPosition()[VY];
 
 		Vecteur2 deplacementCloture(deplacementX, deplacementY);
-		Vecteur2 deplacementVirt = FacadeModele::obtenirInstance()->convertirDeplacementClotureAVirtuelle(positionPrecedente_, evenementSouris.obtenirPosition());
+		Vecteur2 deplacementVirt = FacadeModele::getInstance()->convertirDeplacementClotureAVirtuelle(positionPrecedente_, evenementSouris.obtenirPosition());
 		Vecteur2 deplacementVirtInverse = Vecteur2(-deplacementVirt[VX], -deplacementVirt[VY]);
 
 		VisiteurDeplacement visiteurDeplacement(deplacementVirt);
@@ -219,16 +219,16 @@ void SourisEtatTransformationDeplacement::sourisDeplacee( EvenementSouris& evene
 
 		for(int i=0; i<noeudsSelectionnes_.size(); i++)
 		{
-			noeudsSelectionnes_[i]->accueillirVisiteurNoeud(visiteurDeplacement);
+			noeudsSelectionnes_[i]->acceptVisitor(visiteurDeplacement);
 			// On verifie qu'elle n'a pas engendre de nouvelles collisions
-			if(!FacadeModele::obtenirInstance()->validerPositionNoeud(noeudsSelectionnes_[i]))
+			if(!FacadeModele::getInstance()->validerPositionNoeud(noeudsSelectionnes_[i]))
 			{
 				if(ignoreCollision_)
 				{
 					deplacementInverse_[i] += deplacementVirtInverse;
 				}
 				else
-					noeudsSelectionnes_[i]->accueillirVisiteurNoeud(visiteurDeplacementInverse);
+					noeudsSelectionnes_[i]->acceptVisitor(visiteurDeplacementInverse);
 			}
 			else
 				deplacementInverse_[i].remetAZero();

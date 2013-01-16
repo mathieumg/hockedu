@@ -430,7 +430,7 @@ bool Tournoi::miseAJour( bool save /*= true */ )
 			
 			passerProchainePartie();
 			if(save)
-				FacadeModele::obtenirInstance()->enregistrerTournoi(this);
+				FacadeModele::getInstance()->enregistrerTournoi(this);
 			return true;
 		}
 	}

@@ -84,7 +84,7 @@ void VisiteurNoeudTest::testDeplacerObjet()
 	n->assignerPositionRelative(Vecteur3(0.0,0.0));
 	n->assignerSelection(true);
 	VisiteurDeplacement v(Vecteur2(25.0,-10.0));
-	n->accueillirVisiteurNoeud(v);
+	n->acceptVisitor(v);
 	CPPUNIT_ASSERT(n->obtenirPositionRelative() == Vecteur3(-25.0,-10.0));
 
 
@@ -136,7 +136,7 @@ void VisiteurNoeudTest::testSelectionObjet()
 	VisiteurSelection v(Vecteur2(-500.0,500.0),Vecteur2(-500.0,500.0));
 	CPPUNIT_ASSERT(v.avecRectangle == false);
 
-	arbre->accueillirVisiteurNoeud(v);
+	arbre->acceptVisitor(v);
 	v.faireSelection();
 
 	CPPUNIT_ASSERT(noeud1->estSelectionne() == true);
@@ -149,7 +149,7 @@ void VisiteurNoeudTest::testSelectionObjet()
 	VisiteurSelection v2(Vecteur2(-550.0,450.0),Vecteur2(550.0,550.0));
 	CPPUNIT_ASSERT(v2.avecRectangle == true);
 
-	arbre->accueillirVisiteurNoeud(v2);
+	arbre->acceptVisitor(v2);
 	v2.faireSelection();
 	CPPUNIT_ASSERT(noeud1->estSelectionne() == true);
 	CPPUNIT_ASSERT(noeud2->estSelectionne() == true);
@@ -208,7 +208,7 @@ void VisiteurNoeudTest::testSuppressionObjet()
 
 
 	VisiteurSuppression v;
-	arbre->accueillirVisiteurNoeud(v);
+	arbre->acceptVisitor(v);
 
 	CPPUNIT_ASSERT(arbre->obtenirNombreEnfants() == 3);
 	CPPUNIT_ASSERT(arbre->calculerProfondeur() == 3);

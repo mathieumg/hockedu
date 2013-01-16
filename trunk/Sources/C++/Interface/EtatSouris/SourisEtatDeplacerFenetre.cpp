@@ -95,7 +95,7 @@ void SourisEtatDeplacerFenetre::sourisDeplacee( EvenementSouris& evenementSouris
 		if(evenementSouris.obtenirPosition() != dernierePosition_[BOUTON_SOURIS_GAUCHE])
 		{
 			// On déplace la fenêtre et on ajuste les attributs
-			FacadeModele::obtenirInstance()->deplacerSouris(evenementSouris.obtenirPosition() - dernierePosition_[BOUTON_SOURIS_GAUCHE]);
+			FacadeModele::getInstance()->deplacerSouris(evenementSouris.obtenirPosition() - dernierePosition_[BOUTON_SOURIS_GAUCHE]);
 			dernierePosition_[BOUTON_SOURIS_GAUCHE] = evenementSouris.obtenirPosition();
 		}
 	}

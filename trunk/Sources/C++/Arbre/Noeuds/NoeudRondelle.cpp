@@ -19,7 +19,6 @@
 #include "NoeudPoint.h"
 #include "Partie.h"
 #include "NoeudAccelerateur.h"
-#include "Utilitaire.h"
 #include "DecodeString.h"
 #include "NoeudMuretRelatif.h"
 #include <iostream>
@@ -28,6 +27,7 @@
 #include "Terrain.h"
 #include "NoeudPortail.h"
 #include <Box2D/Box2D.h>
+#include "Utilitaire.h"
 
 unsigned int NoeudRondelle::rondellesPresentes=0;
 bool UsineNoeudRondelle::bypassLimitePourTest = false;
@@ -50,15 +50,15 @@ NoeudRondelle::NoeudRondelle(const std::string& typeNoeud)
 	NoeudRondelle::rondellesPresentes++;
 
 	// Test pour s'assurer que l'arbre de rendu existe
-	if(FacadeModele::obtenirInstance()->obtenirArbreRenduINF2990())
-		table_ = FacadeModele::obtenirInstance()->obtenirArbreRenduINF2990()->obtenirTable();
+	if(FacadeModele::getInstance()->obtenirArbreRenduINF2990())
+		table_ = FacadeModele::getInstance()->obtenirArbreRenduINF2990()->obtenirTable();
 
 	mCoefFriction = 2.5;
 	mVelocite = Vecteur3(0.0,0.0, 0.0);
 	mAngle = 0.0;
 	mVitesseRotation = 0.0;
 
-	FacadeModele::obtenirInstance()->ajouterElementSurTable(this);
+	FacadeModele::getInstance()->ajouterElementSurTable(this);
     updatePhysicBody();
 }
 
@@ -74,7 +74,7 @@ NoeudRondelle::NoeudRondelle(const std::string& typeNoeud)
 ////////////////////////////////////////////////////////////////////////
 NoeudRondelle::~NoeudRondelle()
 {
-	FacadeModele::obtenirInstance()->supprimerElementSurTable(this);
+	FacadeModele::getInstance()->supprimerElementSurTable(this);
 	NoeudRondelle::rondellesPresentes--;
 }
 
@@ -124,7 +124,7 @@ void NoeudRondelle::animer( const float& temps)
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudRondelle::accueillirVisiteurNoeud( VisiteurNoeud& v )
+/// @fn NoeudRondelle::acceptVisitor( VisiteurNoeud& v )
 ///
 /// Permet d'indiquer au visiteur le type concret du noeud courant.
 ///
@@ -133,7 +133,7 @@ void NoeudRondelle::animer( const float& temps)
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudRondelle::accueillirVisiteurNoeud( VisiteurNoeud& v )
+void NoeudRondelle::acceptVisitor( VisiteurNoeud& v )
 {
 	v.visiterNoeudRondelle(this);
 }
@@ -207,7 +207,7 @@ void NoeudRondelle::gestionCollision( const float& temps )
 
 
 		/// Collisions sur les maillets
-		NoeudMaillet* maillet = FacadeModele::obtenirInstance()->obtenirMailletJoueurGauche();
+		NoeudMaillet* maillet = FacadeModele::getInstance()->obtenirMailletJoueurGauche();
 		
 		for (int i = 0; i < 2 ; i++)
 		{
@@ -252,7 +252,7 @@ void NoeudRondelle::gestionCollision( const float& temps )
 				}
 			}
 			
-			maillet = FacadeModele::obtenirInstance()->obtenirMailletJoueurDroit();
+			maillet = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
 		}
 
 		// Collision avec un accelerateur
@@ -291,7 +291,7 @@ void NoeudRondelle::gestionCollision( const float& temps )
 			VisiteurCollision v(this,false);
 		
 			v.reinitialiser();
-			groupe->accueillirVisiteurNoeud(v);
+			groupe->acceptVisitor(v);
 			if(v.collisionPresente())
 			{
 				ConteneurNoeuds liste;
@@ -381,7 +381,7 @@ void NoeudRondelle::ajusterEnfoncement()
 
 	if(!table_->estSurTable(this) )
 	{
-		Partie* partie = FacadeModele::obtenirInstance()->obtenirPartieCourante();
+		Partie* partie = FacadeModele::getInstance()->obtenirPartieCourante();
 		if(partie != 0)
 		{
 			if(positionRelative_[VX] < 0)
@@ -396,9 +396,9 @@ void NoeudRondelle::ajusterEnfoncement()
 			SoundFMOD::obtenirInstance()->playEffect(GOAL_EFFECT);
 			partie->afficherScore();
 			// RENDU DANS afficherScore() de Partie
-// 			FacadeModele::obtenirInstance()->togglePause();
+// 			FacadeModele::getInstance()->togglePause();
 // 			utilitaire::afficherErreur("Pointage: "+DecodeString::toString(partie->obtenirPointsJoueurGauche() )+"\t"+DecodeString::toString(partie->obtenirPointsJoueurDroit() ) );
-// 			FacadeModele::obtenirInstance()->togglePause();
+// 			FacadeModele::getInstance()->togglePause();
 		}
 		partie->miseAuJeu();
 		// Rendu dans miseAuJeu de Partie
@@ -565,28 +565,34 @@ void NoeudRondelle::validerPropriteteTablePourJeu() throw(std::logic_error)
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::updatePhysicBody()
 {
+#if BOX2D_INTEGRATED
+
     clearPhysicsBody();
 
     b2BodyDef myBodyDef;
     myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
 
     Vecteur3 pos = obtenirPositionAbsolue();
-    myBodyDef.position.Set(pos[VX], pos[VY]); //set the starting position
+    b2Vec2 posB2;
+    utilitaire::VEC3_TO_B2VEC(pos,posB2);
+    myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
     myBodyDef.angle = 0; //set the starting angle
-
+    myBodyDef.linearDamping = 0.5f;
     mPhysicBody = getWorld()->CreateBody(&myBodyDef);
     b2CircleShape circleShape;
     circleShape.m_p.Set(0, 0); //position, relative to body position
-    circleShape.m_radius = (float32)obtenirRayon(); //radius
+    circleShape.m_radius = (float32)obtenirRayon()*utilitaire::ratioWorldToBox2D; //radius
 
     b2FixtureDef myFixtureDef;
     myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
-    myFixtureDef.density = 1;
+    myFixtureDef.density = 0.02f;
     myFixtureDef.friction = 0.1f;
+    myFixtureDef.restitution = 0.95f;
     myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
     myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY;
-
     mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+#endif
+
 }
 
 

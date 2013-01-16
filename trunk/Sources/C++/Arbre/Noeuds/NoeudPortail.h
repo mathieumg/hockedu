@@ -32,7 +32,7 @@ public:
    /// Effectue l'animation
    virtual void animer( const float& temps );
    /// Accueil un visiteur
-   virtual void accueillirVisiteurNoeud( VisiteurNoeud& v);
+   virtual void acceptVisitor( VisiteurNoeud& v);
 
    /// Accesseur et modificateur sur l'activité du champ d'attraction
    inline bool champAttractionActive() const{return champAttractionActif_;}
