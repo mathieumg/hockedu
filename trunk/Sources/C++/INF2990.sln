@@ -1,6 +1,9 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "INF2990", "INF2990.vcxproj", "{67188F6B-27BE-4E93-A7EF-C512656343A1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8A935C00-5AD9-4CED-9867-B2F0174BF979} = {8A935C00-5AD9-4CED-9867-B2F0174BF979}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utilitaire", "..\..\Commun\Utilitaire\Utilitaire.vcxproj", "{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}"
 EndProject
@@ -154,6 +157,7 @@ Global
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Debug|Win32.ActiveCfg = Debug|x86
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Debug|x64.ActiveCfg = Debug|x86
+		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Debug|x64.Build.0 = Debug|x86
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Debug|x86.ActiveCfg = Debug|x86
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Debug|x86.Build.0 = Debug|x86
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Release|Mixed Platforms.ActiveCfg = Release|x86

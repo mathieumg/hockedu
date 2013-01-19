@@ -20,22 +20,44 @@ namespace UIHeavyClient
     /// </summary>
     public partial class MainWindow : Window
     {
-        //[DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int TestCSCall(int a);
+
+
+        string userName;
 
         public MainWindow()
         {
             InitializeComponent();
+            userName = "Mike Ferris";
+            Chat.mContext = this;
+            messageTextBox.Focus();
+        }
 
+        private void submitButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (messageTextBox.Text != "")
+            {
+                Chat.UpdateChat(userName, messageTextBox.Text);
+                messageTextBox.Clear();
+                ShowWholeMessage();
+            }
+        }
 
-            try
-            {
-                label1.Content = TestCSCall(19);
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+        private void ShowWholeMessage()
+        {
+            wholeMessageBox.Text = Chat.WholeMessage;
+        }
+
+        private void messageTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                submitButton_Click(sender, e);
+        }
+
+        private void messageTextBox_TouchEnter(object sender, TouchEventArgs e)
+        {
+
         }
         
     }
