@@ -20,12 +20,13 @@ namespace UIHeavyClient
     /// </summary>
     public partial class MainWindow : Window
     {
-        [DllImport(@"..\..\..\..\..\..\Exe\DLL\INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
+        //[DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int TestCSCall(int a);
 
         public MainWindow()
         {
             InitializeComponent();
+
 
             try
             {

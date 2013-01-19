@@ -335,6 +335,9 @@
     <ClCompile Include="Arbre\Visiteur\VisiteurFunction.cpp">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\FacadeCSharp.cpp">
+      <Filter>Sources Files\Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -636,6 +639,9 @@
     </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisiteurFunction.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\FacadeCSharp.h">
+      <Filter>Sources Files\Interface</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

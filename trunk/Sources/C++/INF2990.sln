@@ -24,6 +24,10 @@ Global
 		Release|Win32 = Release|Win32
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
+		WithJava|Mixed Platforms = WithJava|Mixed Platforms
+		WithJava|Win32 = WithJava|Win32
+		WithJava|x64 = WithJava|x64
+		WithJava|x86 = WithJava|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{67188F6B-27BE-4E93-A7EF-C512656343A1}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
@@ -39,6 +43,13 @@ Global
 		{67188F6B-27BE-4E93-A7EF-C512656343A1}.Release|x64.ActiveCfg = Release|x64
 		{67188F6B-27BE-4E93-A7EF-C512656343A1}.Release|x64.Build.0 = Release|x64
 		{67188F6B-27BE-4E93-A7EF-C512656343A1}.Release|x86.ActiveCfg = Release|x64
+		{67188F6B-27BE-4E93-A7EF-C512656343A1}.WithJava|Mixed Platforms.ActiveCfg = WithJava|x64
+		{67188F6B-27BE-4E93-A7EF-C512656343A1}.WithJava|Mixed Platforms.Build.0 = WithJava|x64
+		{67188F6B-27BE-4E93-A7EF-C512656343A1}.WithJava|Win32.ActiveCfg = WithJava|Win32
+		{67188F6B-27BE-4E93-A7EF-C512656343A1}.WithJava|Win32.Build.0 = WithJava|Win32
+		{67188F6B-27BE-4E93-A7EF-C512656343A1}.WithJava|x64.ActiveCfg = WithJava|x64
+		{67188F6B-27BE-4E93-A7EF-C512656343A1}.WithJava|x64.Build.0 = WithJava|x64
+		{67188F6B-27BE-4E93-A7EF-C512656343A1}.WithJava|x86.ActiveCfg = WithJava|x64
 		{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
 		{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}.Debug|Mixed Platforms.Build.0 = Debug|x64
 		{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -52,6 +63,13 @@ Global
 		{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}.Release|x64.ActiveCfg = Release|x64
 		{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}.Release|x64.Build.0 = Release|x64
 		{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}.Release|x86.ActiveCfg = Release|x64
+		{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}.WithJava|Mixed Platforms.ActiveCfg = WithJava|x64
+		{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}.WithJava|Mixed Platforms.Build.0 = WithJava|x64
+		{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}.WithJava|Win32.ActiveCfg = WithJava|Win32
+		{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}.WithJava|Win32.Build.0 = WithJava|Win32
+		{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}.WithJava|x64.ActiveCfg = WithJava|x64
+		{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}.WithJava|x64.Build.0 = WithJava|x64
+		{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}.WithJava|x86.ActiveCfg = WithJava|x64
 		{98400D17-43A5-1A40-95BE-C53AC78E7694}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
 		{98400D17-43A5-1A40-95BE-C53AC78E7694}.Debug|Mixed Platforms.Build.0 = Debug|x64
 		{98400D17-43A5-1A40-95BE-C53AC78E7694}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -65,6 +83,13 @@ Global
 		{98400D17-43A5-1A40-95BE-C53AC78E7694}.Release|x64.ActiveCfg = Release|x64
 		{98400D17-43A5-1A40-95BE-C53AC78E7694}.Release|x64.Build.0 = Release|x64
 		{98400D17-43A5-1A40-95BE-C53AC78E7694}.Release|x86.ActiveCfg = Release|x64
+		{98400D17-43A5-1A40-95BE-C53AC78E7694}.WithJava|Mixed Platforms.ActiveCfg = WithJava|x64
+		{98400D17-43A5-1A40-95BE-C53AC78E7694}.WithJava|Mixed Platforms.Build.0 = WithJava|x64
+		{98400D17-43A5-1A40-95BE-C53AC78E7694}.WithJava|Win32.ActiveCfg = WithJava|Win32
+		{98400D17-43A5-1A40-95BE-C53AC78E7694}.WithJava|Win32.Build.0 = WithJava|Win32
+		{98400D17-43A5-1A40-95BE-C53AC78E7694}.WithJava|x64.ActiveCfg = WithJava|x64
+		{98400D17-43A5-1A40-95BE-C53AC78E7694}.WithJava|x64.Build.0 = WithJava|x64
+		{98400D17-43A5-1A40-95BE-C53AC78E7694}.WithJava|x86.ActiveCfg = WithJava|x64
 		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
 		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.Debug|Mixed Platforms.Build.0 = Debug|x64
 		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -78,6 +103,13 @@ Global
 		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.Release|x64.ActiveCfg = Release|x64
 		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.Release|x64.Build.0 = Release|x64
 		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.Release|x86.ActiveCfg = Release|x64
+		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.WithJava|Mixed Platforms.ActiveCfg = WithJava|x64
+		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.WithJava|Mixed Platforms.Build.0 = WithJava|x64
+		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.WithJava|Win32.ActiveCfg = WithJava|Win32
+		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.WithJava|Win32.Build.0 = WithJava|Win32
+		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.WithJava|x64.ActiveCfg = WithJava|x64
+		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.WithJava|x64.Build.0 = WithJava|x64
+		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.WithJava|x86.ActiveCfg = WithJava|x64
 		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
 		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.Debug|Mixed Platforms.Build.0 = Debug|x64
 		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -91,6 +123,13 @@ Global
 		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.Release|x64.ActiveCfg = Release|x64
 		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.Release|x64.Build.0 = Release|x64
 		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.Release|x86.ActiveCfg = Release|x64
+		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.WithJava|Mixed Platforms.ActiveCfg = WithJava|x64
+		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.WithJava|Mixed Platforms.Build.0 = WithJava|x64
+		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.WithJava|Win32.ActiveCfg = WithJava|Win32
+		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.WithJava|Win32.Build.0 = WithJava|Win32
+		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.WithJava|x64.ActiveCfg = WithJava|x64
+		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.WithJava|x64.Build.0 = WithJava|x64
+		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.WithJava|x86.ActiveCfg = WithJava|x64
 		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
 		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.Debug|Mixed Platforms.Build.0 = Debug|x64
 		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -104,6 +143,13 @@ Global
 		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.Release|x64.ActiveCfg = Release|x64
 		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.Release|x64.Build.0 = Release|x64
 		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.Release|x86.ActiveCfg = Release|x64
+		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.WithJava|Mixed Platforms.ActiveCfg = WithJava|x64
+		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.WithJava|Mixed Platforms.Build.0 = WithJava|x64
+		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.WithJava|Win32.ActiveCfg = WithJava|Win32
+		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.WithJava|Win32.Build.0 = WithJava|Win32
+		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.WithJava|x64.ActiveCfg = WithJava|x64
+		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.WithJava|x64.Build.0 = WithJava|x64
+		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.WithJava|x86.ActiveCfg = WithJava|x64
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Debug|Win32.ActiveCfg = Debug|x86
@@ -116,6 +162,11 @@ Global
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Release|x64.ActiveCfg = Release|x86
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Release|x86.ActiveCfg = Release|x86
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Release|x86.Build.0 = Release|x86
+		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.WithJava|Mixed Platforms.ActiveCfg = WithJava|x86
+		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.WithJava|Mixed Platforms.Build.0 = WithJava|x86
+		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.WithJava|Win32.ActiveCfg = WithJava|x86
+		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.WithJava|x64.ActiveCfg = WithJava|x86
+		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.WithJava|x86.ActiveCfg = WithJava|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

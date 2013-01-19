@@ -1406,11 +1406,7 @@ JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_pointPa
 
 
 
-// Test pour l'appel de la DLL depuis le C#
-int TestCSCall(int a)
-{
-	return a*2;
-}
+
 
 
 
