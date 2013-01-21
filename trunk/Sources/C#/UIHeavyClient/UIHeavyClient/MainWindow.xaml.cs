@@ -24,21 +24,32 @@ namespace UIHeavyClient
         public static extern int TestCSCall(int a);
 
 
-        string userName;
+        string mUserName;
+        LoginWindow mLoginWindow;
+
+        public string UserName
+        {
+            get { return mUserName; }
+            set { mUserName = value; }
+        }
 
         public MainWindow()
         {
             InitializeComponent();
-            userName = "Mike Ferris";
+
+            mUserName = "";
+
             Chat.mContext = this;
-            messageTextBox.Focus();
+
+            mLoginWindow = new LoginWindow(this);
+            mLoginWindow.ShowDialog();
         }
 
         private void submitButton_Click(object sender, RoutedEventArgs e)
         {
             if (messageTextBox.Text != "")
             {
-                Chat.UpdateChat(userName, messageTextBox.Text);
+                Chat.UpdateChat(mUserName, messageTextBox.Text);
                 messageTextBox.Clear();
                 ShowWholeMessage();
             }
