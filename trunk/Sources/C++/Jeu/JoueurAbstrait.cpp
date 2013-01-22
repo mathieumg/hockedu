@@ -129,7 +129,7 @@ std::string JoueurAbstrait::extraireNomXmlNode( const TiXmlElement* element )
 	const TiXmlElement* node = element->FirstChildElement("nom");
 	if(node == 0)
 		return "";
-	const TiXmlElement* etiquetteNom = node->FirstChildElement();
+	const TiXmlNode* etiquetteNom = node->FirstChild();
 	if(etiquetteNom == 0)
 		return "";
 	const TiXmlText* nom = etiquetteNom->ToText();

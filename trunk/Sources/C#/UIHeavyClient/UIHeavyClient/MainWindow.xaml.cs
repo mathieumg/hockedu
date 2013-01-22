@@ -49,8 +49,14 @@ namespace UIHeavyClient
 
             Chat.mContext = this;
 
-            mLoginWindow = new LoginWindow(this);
+            mLoginWindow = new LoginWindow();
             mLoginWindow.ShowDialog();
+            IsUserConnected = mLoginWindow.UserConnected;
+            UserName = mLoginWindow.UserName;
+            if (!IsUserConnected)
+            {
+                Close();
+            }
         }
 
         private void submitButton_Click(object sender, RoutedEventArgs e)
@@ -74,10 +80,7 @@ namespace UIHeavyClient
                 submitButton_Click(sender, e);
         }
 
-        private void messageTextBox_TouchEnter(object sender, TouchEventArgs e)
-        {
-
-        }
+       
 
         private void Window_Closed(object sender, EventArgs e)
         {

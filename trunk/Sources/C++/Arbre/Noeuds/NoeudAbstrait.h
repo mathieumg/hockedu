@@ -216,7 +216,7 @@ public:
     virtual void forceFullUpdate();
 
 	/// Libere la memoire de l'objet Box2D
-    void clearPhysicsBody();
+    virtual void clearPhysicsBody();
     /// Accessors of mWorld
     inline static class b2World* getWorld() { return mWorld; }
     inline static void setWorld(class b2World* pVal) { mWorld = pVal; }

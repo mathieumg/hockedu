@@ -94,7 +94,6 @@ GestionnaireModeles* GestionnaireModeles::obtenirInstance()
 	if (instance_ == 0)
 	{
 		instance_ = new GestionnaireModeles();
-		instance_->initialiser();
 	}
 
 	return instance_;
@@ -113,7 +112,21 @@ GestionnaireModeles* GestionnaireModeles::obtenirInstance()
 ////////////////////////////////////////////////////////////////////////
 GestionnaireModeles::GestionnaireModeles()
 {
+    int compteurTypeID = 0;
+    nameToTypeId_[ArbreRenduINF2990::NOM_MURET] = ++compteurTypeID;
+    typeIdToName_[compteurTypeID] = ArbreRenduINF2990::NOM_MURET;
 
+    nameToTypeId_[ArbreRenduINF2990::NOM_PORTAIL] = ++compteurTypeID;
+    typeIdToName_[compteurTypeID] = ArbreRenduINF2990::NOM_PORTAIL;
+
+    nameToTypeId_[ArbreRenduINF2990::NOM_ACCELERATEUR] = ++compteurTypeID;
+    typeIdToName_[compteurTypeID] = ArbreRenduINF2990::NOM_ACCELERATEUR;
+
+    nameToTypeId_[ArbreRenduINF2990::NOM_MAILLET] = ++compteurTypeID;
+    typeIdToName_[compteurTypeID] = ArbreRenduINF2990::NOM_MAILLET;
+
+    nameToTypeId_[ArbreRenduINF2990::NOM_POINT] = ++compteurTypeID;
+    typeIdToName_[compteurTypeID] = ArbreRenduINF2990::NOM_POINT;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -330,7 +343,6 @@ void TablePostLoad(const std::string& key, Modele3D* model, GLuint list)
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireModeles::initialiser()
 {
-	int compteurTypeID = 0;
     // La piece en premier pour qu'elle soit loader en dernier
     tamponGlobal.vec.push_back(ModelToLoad(ArbreRenduINF2990::NOM_PIECE));
 	tamponGlobal.vec.push_back(ModelToLoad(ArbreRenduINF2990::NOM_TABLE,TablePostLoad,false));
@@ -388,20 +400,7 @@ void GestionnaireModeles::initialiser()
     }
 
 
-	nameToTypeId_[ArbreRenduINF2990::NOM_MURET] = ++compteurTypeID;
-	typeIdToName_[compteurTypeID] = ArbreRenduINF2990::NOM_MURET;
 
-	nameToTypeId_[ArbreRenduINF2990::NOM_PORTAIL] = ++compteurTypeID;
-	typeIdToName_[compteurTypeID] = ArbreRenduINF2990::NOM_PORTAIL;
-
-	nameToTypeId_[ArbreRenduINF2990::NOM_ACCELERATEUR] = ++compteurTypeID;
-	typeIdToName_[compteurTypeID] = ArbreRenduINF2990::NOM_ACCELERATEUR;
-
-	nameToTypeId_[ArbreRenduINF2990::NOM_MAILLET] = ++compteurTypeID;
-	typeIdToName_[compteurTypeID] = ArbreRenduINF2990::NOM_MAILLET;
-
-	nameToTypeId_[ArbreRenduINF2990::NOM_POINT] = ++compteurTypeID;
-	typeIdToName_[compteurTypeID] = ArbreRenduINF2990::NOM_POINT;
 
 }
 

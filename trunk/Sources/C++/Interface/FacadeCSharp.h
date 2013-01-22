@@ -2,4 +2,5 @@
 extern "C" 
 {
     __declspec(dllexport) int TestCSCall(int i);
+    __declspec(dllexport) int ExecuteUnitTest();
 }

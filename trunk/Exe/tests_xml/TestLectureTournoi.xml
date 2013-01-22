@@ -1,58 +1,19 @@
-<Tournoi indexPartie="7" termine="0">
-    <Gagnants>Aucun Gagnant de ce tournoi</Gagnants>
-    <Joueurs>
+<Tournoi indexPartie="14" termine="0">
+    <Gagnants>
+        <Gagnant>Roger</Gagnant>
+        <Gagnant>tamere</Gagnant>
+        <Gagnant>lolol</Gagnant>
+        <Gagnant>Roger</Gagnant>
+        <Gagnant>Roger</Gagnant>
+        <Gagnant>Roger</Gagnant>
+    </Gagnants>
+    <Nom nom="awesomeness tournament" />
+    <Terrain chemin="D:/test_terrain.xml" />
+    <Partie ptsG="7" ptsD="0" Terrain="D:/test_terrain.xml">
         <Joueur Type="0">
             <nom>Michael</nom>
         </Joueur>
-        <Joueur Type="0">
-            <nom>Samuel</nom>
-        </Joueur>
-        <Joueur Type="0">
-            <nom>Vincent</nom>
-        </Joueur>
-        <Joueur Type="0">
-            <nom>Mathieu</nom>
-        </Joueur>
-        <Joueur Type="0">
-            <nom>Gabriel</nom>
-        </Joueur>
-        <Joueur Type="0">
-            <nom>Charles Etienne</nom>
-        </Joueur>
-        <Joueur Type="1" vitesse="10" probEchec="50">
-            <nom>bot1</nom>
-        </Joueur>
-        <Joueur Type="1" vitesse="15" probEchec="25">
-            <nom>bot2</nom>
-        </Joueur>
-        <Joueur Type="1" vitesse="25" probEchec="0">
-            <nom>bot3</nom>
-        </Joueur>
-        <Joueur Type="1" vitesse="10" probEchec="-10">
-            <nom>bot4</nom>
-        </Joueur>
-        <Joueur Type="1" vitesse="12" probEchec="25">
-            <nom>bot5</nom>
-        </Joueur>
-        <Joueur Type="1" vitesse="48" probEchec="75">
-            <nom>bot6</nom>
-        </Joueur>
-        <Joueur Type="1" vitesse="95" probEchec="60">
-            <nom>bot8</nom>
-        </Joueur>
-        <Joueur Type="1" vitesse="47" probEchec="55">
-            <nom>bot9</nom>
-        </Joueur>
-        <Joueur Type="1" vitesse="47" probEchec="55">
-            <nom>bot10</nom>
-        </Joueur>
-        <Joueur Type="1" vitesse="47" probEchec="55">
-            <nom>bot11</nom>
-        </Joueur>
-    </Joueurs>
-    <Nom nom="awesomeness tournament" />
-    <Terrain chemin="D:/test_terrain.xml" />
-    <Partie ptsG="0" ptsD="0" Terrain="D:/test_terrain.xml" />
+    </Partie>
     <Partie ptsG="0" ptsD="0" Terrain="D:/test_terrain.xml" />
     <Partie ptsG="0" ptsD="0" Terrain="D:/test_terrain.xml" />
     <Partie ptsG="0" ptsD="0" Terrain="D:/test_terrain.xml" />

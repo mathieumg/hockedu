@@ -356,7 +356,7 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
     FreeImage_Initialise();
 
 	// Initialisation des modèles
-    CheckTime(GestionnaireModeles::obtenirInstance(););
+    CheckTime(GestionnaireModeles::obtenirInstance()->initialiser(););
 	ConfigScene::obtenirInstance();
 	SoundFMOD::obtenirInstance();
 

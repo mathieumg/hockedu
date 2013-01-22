@@ -424,6 +424,7 @@ void Terrain::transfererNoeud( NoeudAbstrait* noeud )
 {
 	arbreAjoutNoeud_->detacherEnfant(noeud);
 	table_->ajouter(noeud);
+    noeud->forceFullUpdate();
 }
 
 ////////////////////////////////////////////////////////////////////////

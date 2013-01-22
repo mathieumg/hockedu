@@ -19,20 +19,29 @@ namespace UIHeavyClient
     public partial class LoginWindow : Window
     {
         string mExpectedPassword = "TaMere";
-        MainWindow mContext;
-
-        public LoginWindow(MainWindow pContext)
+        string mUserName = "";
+        public string UserName
+        {
+            get { return mUserName; }
+            set { mUserName = value; }
+        }
+        bool mUserConnected = false;
+        public bool UserConnected
+        {
+            get { return mUserConnected; }
+            set { mUserConnected = value; }
+        }
+        public LoginWindow()
         {
             InitializeComponent();
-            mContext = pContext;
         }
 
         private void TryConnecting()
         {
             if (passwordInput.Password == mExpectedPassword)
             {
-                mContext.UserName = nickameInput.Text;
-                mContext.IsUserConnected = true;
+                mUserName = nickameInput.Text;
+                mUserConnected = true;
                 this.Close();
             }
             else
@@ -48,8 +57,7 @@ namespace UIHeavyClient
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            if(!mContext.IsUserConnected)
-                mContext.Close();
+            
         }
     }
 }

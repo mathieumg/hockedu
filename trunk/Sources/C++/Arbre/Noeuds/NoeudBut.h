@@ -76,6 +76,9 @@ public:
     /// Update the physics body for the puck catcher according with the radius of the puck
     void updatePuckCatcher(float puckRadius);
 
+    /// Libere la memoire de l'objet Box2D
+    virtual void clearPhysicsBody();
+
 private:
 	/// Attribut disant si le but est au joueur1 ou joueur 2 par un int, 1 ou 2
 	int joueur_;

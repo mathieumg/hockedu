@@ -1,9 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "INF2990", "INF2990.vcxproj", "{67188F6B-27BE-4E93-A7EF-C512656343A1}"
-	ProjectSection(ProjectDependencies) = postProject
-		{8A935C00-5AD9-4CED-9867-B2F0174BF979} = {8A935C00-5AD9-4CED-9867-B2F0174BF979}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utilitaire", "..\..\Commun\Utilitaire\Utilitaire.vcxproj", "{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}"
 EndProject
@@ -16,6 +13,11 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreeGLUT", "..\..\Commun\Externe\BuildBox2D\vs2010\FreeGLUT.vcxproj", "{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIHeavyClient", "..\C#\UIHeavyClient\UIHeavyClient\UIHeavyClient.csproj", "{8A935C00-5AD9-4CED-9867-B2F0174BF979}"
+	ProjectSection(ProjectDependencies) = postProject
+		{67188F6B-27BE-4E93-A7EF-C512656343A1} = {67188F6B-27BE-4E93-A7EF-C512656343A1}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExecuteUnitTests", "..\ExecuteUnitTests\ExecuteUnitTests.csproj", "{F8497571-CB74-4F8D-89E8-2B01DA054851}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -171,6 +173,24 @@ Global
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.WithJava|Win32.ActiveCfg = WithJava|x86
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.WithJava|x64.ActiveCfg = WithJava|x86
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.WithJava|x86.ActiveCfg = WithJava|x86
+		{F8497571-CB74-4F8D-89E8-2B01DA054851}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{F8497571-CB74-4F8D-89E8-2B01DA054851}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{F8497571-CB74-4F8D-89E8-2B01DA054851}.Debug|Win32.ActiveCfg = Debug|x86
+		{F8497571-CB74-4F8D-89E8-2B01DA054851}.Debug|x64.ActiveCfg = Debug|x64
+		{F8497571-CB74-4F8D-89E8-2B01DA054851}.Debug|x86.ActiveCfg = Debug|x86
+		{F8497571-CB74-4F8D-89E8-2B01DA054851}.Debug|x86.Build.0 = Debug|x86
+		{F8497571-CB74-4F8D-89E8-2B01DA054851}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{F8497571-CB74-4F8D-89E8-2B01DA054851}.Release|Mixed Platforms.Build.0 = Release|x86
+		{F8497571-CB74-4F8D-89E8-2B01DA054851}.Release|Win32.ActiveCfg = Release|x86
+		{F8497571-CB74-4F8D-89E8-2B01DA054851}.Release|x64.ActiveCfg = Release|x86
+		{F8497571-CB74-4F8D-89E8-2B01DA054851}.Release|x86.ActiveCfg = Release|x86
+		{F8497571-CB74-4F8D-89E8-2B01DA054851}.Release|x86.Build.0 = Release|x86
+		{F8497571-CB74-4F8D-89E8-2B01DA054851}.WithJava|Mixed Platforms.ActiveCfg = Release|x86
+		{F8497571-CB74-4F8D-89E8-2B01DA054851}.WithJava|Mixed Platforms.Build.0 = Release|x86
+		{F8497571-CB74-4F8D-89E8-2B01DA054851}.WithJava|Win32.ActiveCfg = Release|x86
+		{F8497571-CB74-4F8D-89E8-2B01DA054851}.WithJava|x64.ActiveCfg = Release|x86
+		{F8497571-CB74-4F8D-89E8-2B01DA054851}.WithJava|x86.ActiveCfg = Release|x86
+		{F8497571-CB74-4F8D-89E8-2B01DA054851}.WithJava|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
