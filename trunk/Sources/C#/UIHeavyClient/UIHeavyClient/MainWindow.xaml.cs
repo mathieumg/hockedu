@@ -26,6 +26,7 @@ namespace UIHeavyClient
 
         string mUserName;
         LoginWindow mLoginWindow;
+        bool mIsUserConnected;
 
         public string UserName
         {
@@ -33,11 +34,18 @@ namespace UIHeavyClient
             set { mUserName = value; }
         }
 
+        public bool IsUserConnected
+        {
+            get { return mIsUserConnected; }
+            set { mIsUserConnected = value; }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
 
             mUserName = "";
+            mIsUserConnected = false;
 
             Chat.mContext = this;
 
@@ -47,7 +55,7 @@ namespace UIHeavyClient
 
         private void submitButton_Click(object sender, RoutedEventArgs e)
         {
-            if (messageTextBox.Text != "")
+            if (messageTextBox.Text != "" && mIsUserConnected)
             {
                 Chat.UpdateChat(mUserName, messageTextBox.Text);
                 messageTextBox.Clear();
@@ -69,6 +77,11 @@ namespace UIHeavyClient
         private void messageTextBox_TouchEnter(object sender, TouchEventArgs e)
         {
 
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            mLoginWindow.Close();
         }
         
     }

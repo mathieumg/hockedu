@@ -32,13 +32,24 @@ namespace UIHeavyClient
             if (passwordInput.Password == mExpectedPassword)
             {
                 mContext.UserName = nickameInput.Text;
+                mContext.IsUserConnected = true;
                 this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Données de connexion invalides");
             }
         }
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
             TryConnecting();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            if(!mContext.IsUserConnected)
+                mContext.Close();
         }
     }
 }
