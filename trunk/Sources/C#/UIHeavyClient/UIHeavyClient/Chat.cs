@@ -9,6 +9,7 @@ namespace UIHeavyClient
     {
         public static MainWindow mContext;
         static string mWholeMessage;
+        static string mLastUser = "";
 
         public static string WholeMessage
         {
@@ -17,8 +18,15 @@ namespace UIHeavyClient
 
         public static void UpdateChat(string userName, string message)
         {
-            mWholeMessage += (userName + " dit :\n");
+            if (userName != mLastUser)
+            {
+                mWholeMessage += (userName + " dit :\n");
+                mLastUser = userName;
+            }
+
             mWholeMessage += (message + "\n");
+
+            SendNewMessage(userName, message);
         }
 
         public static void CheckForNewMessage()
@@ -27,9 +35,16 @@ namespace UIHeavyClient
             bool newMessage = false;
 
             // CALL DLL
+            // ...
 
             if (newMessage)
                 UpdateChat(userName, message);
+        }
+
+        public static void SendNewMessage(string userName, string message)
+        { 
+            // CALL DLL
+            // ...
         }
     }
 }

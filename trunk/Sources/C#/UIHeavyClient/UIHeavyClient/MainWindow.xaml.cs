@@ -24,21 +24,40 @@ namespace UIHeavyClient
         public static extern int TestCSCall(int a);
 
 
-        string userName;
+        string mUserName;
+        LoginWindow mLoginWindow;
+        bool mIsUserConnected;
+
+        public string UserName
+        {
+            get { return mUserName; }
+            set { mUserName = value; }
+        }
+
+        public bool IsUserConnected
+        {
+            get { return mIsUserConnected; }
+            set { mIsUserConnected = value; }
+        }
 
         public MainWindow()
         {
             InitializeComponent();
-            userName = "Mike Ferris";
+
+            mUserName = "";
+            mIsUserConnected = false;
+
             Chat.mContext = this;
-            messageTextBox.Focus();
+
+            mLoginWindow = new LoginWindow(this);
+            mLoginWindow.ShowDialog();
         }
 
         private void submitButton_Click(object sender, RoutedEventArgs e)
         {
-            if (messageTextBox.Text != "")
+            if (messageTextBox.Text != "" && mIsUserConnected)
             {
-                Chat.UpdateChat(userName, messageTextBox.Text);
+                Chat.UpdateChat(mUserName, messageTextBox.Text);
                 messageTextBox.Clear();
                 ShowWholeMessage();
             }
@@ -58,6 +77,11 @@ namespace UIHeavyClient
         private void messageTextBox_TouchEnter(object sender, TouchEventArgs e)
         {
 
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            mLoginWindow.Close();
         }
         
     }
