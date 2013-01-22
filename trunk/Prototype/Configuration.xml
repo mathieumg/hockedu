@@ -1,4 +1,4 @@
 <?xml version="1.0" ?>
 <configuration>
-    <CScene toucheHaut="38" toucheBas="40" toucheGauche="37" toucheDroite="39" volSong="0" volEffect="0" />
+    <CScene toucheHaut="87" toucheBas="83" toucheGauche="65" toucheDroite="68" volSong="0" volEffect="0" />
 </configuration>
