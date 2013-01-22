@@ -368,7 +368,7 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
     GestionnaireHUD::obtenirInstance();
     debugInfo = new HUDTexte("",Vecteur4f(0,1,1,1));
     debugInfo->modifierVisibilite(true);
-    debugInfo->modifierPosition(0.15f,0.10f);
+    debugInfo->modifierPosition(0.15f,0.15f);
     GestionnaireHUD::obtenirInstance()->obtenirRacine(RACINE_JEU)->add(debugInfo);
 #endif
 
@@ -510,7 +510,7 @@ void FacadeModele::chargerTerrain( const std::string& nomFichier /*= ""*/, Terra
 			{
 				for (int i = 0; i < 8 ; i++)
 				{
-					getTerrain()->obtenirTable()->obtenirPoint(i)->assignerAffiche(true);
+					getTerrain()->getTable()->obtenirPoint(i)->assignerAffiche(true);
 				}
 			}
 			ajusterElementSurTableEnCollision();
@@ -835,26 +835,37 @@ void FacadeModele::afficher( )
 		glUseProgram(0);
 #endif
 	}
-	glDisable(GL_LIGHTING);
 
-    DrawSelectionRectangle();
-    
-
+    glDisable(GL_LIGHTING);
 
 #if BOX2D_INTEGRATED && BOX2D_DEBUG
-    b2Vec2 pos[] = {
-        b2Vec2(300,300),
-        b2Vec2(300,-300),
-        b2Vec2(-300,-300),
-        b2Vec2(-300,300),
-        b2Vec2(300,300),
+    const b2Vec2 pos[] = {
+        b2Vec2(30,30),
+        b2Vec2(30,-30),
+        b2Vec2(-30,-30),
+        b2Vec2(-30,30),
+        b2Vec2(30,30),
     };
-    glColor3f(1,1,1);
-    glBegin(GL_TRIANGLE_FAN);
-        for(int i=0; i<5; ++i)
-            glVertex3f(pos[i].x,pos[i].y,-5.f);
-    glEnd();
+    b2Color color(1,1,1);
+
+    glPushMatrix();
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
     mWorld->DrawDebugData(); 
+    
+    const float32 k_segments = 16.0f;
+    const float32 k_increment = 2.0f * b2_pi / k_segments;
+    float32 theta = 0.0f;
+    float32 radius = 300.f;
+//     glColor4f(color.r, color.g, color.b, 1.f);
+//     glBegin(GL_TRIANGLE_FAN);
+//     for (int32 i = 0; i < k_segments; ++i)
+//     {
+//         b2Vec2 v = radius * b2Vec2(cosf(theta), sinf(theta));
+//         glVertex3f(v.x, v.y,20);
+//         theta += k_increment;
+//     }
+//     glEnd();
+
     if (mMouseJoint)
     {
         b2Vec2 p1 = mMouseJoint->GetAnchorB();
@@ -868,9 +879,13 @@ void FacadeModele::afficher( )
         c.Set(0.8f, 0.8f, 0.8f);
         mDebugRenderBox2D->DrawSegment(p1, p2, c);
     }
+
+    // Restauration de la matrice.
+    glPopAttrib();
+    glPopMatrix();
 #endif
 
-    //mDebugRenderBox2D->DrawString(150,150,"test %d",this->temps_.Elapsed_Time_sec());
+    DrawSelectionRectangle();
 
     for(int i=(int)mUIRunnables.size()-1; i>=0; --i)
     {
@@ -986,15 +1001,7 @@ void FacadeModele::animer( const float& temps)
     mUpdating = true;
 	utilitaire::CompteurAffichage::obtenirInstance()->signalerAffichage();
 	
-	float tempsReel = temps;//temps_.Elapsed_Time_sec();
-// 	if(tempsReel > 0.5)
-// 	{
-// 		temps_.reset_Time();
-// 		return;
-// 	}
-// 	if(tempsReel < 0.015)
-// 		return;
-// 	temps_.reset_Time();
+	float tempsReel = temps;
 
     for(int i=(int)mUpdateRunnables.size()-1; i>=0; --i)
     {
@@ -1011,41 +1018,20 @@ void FacadeModele::animer( const float& temps)
         }
     }
 
-	GestionnaireEvenements::obtenirInstance()->miseAJourEvenementsRepetitifs(tempsReel);
-	// Mise à jour des objets
-	terrain_->animerTerrain(tempsReel);
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->animer(tempsReel);
-	bool replaying = false;
-	if(GestionnaireAnimations::obtenirInstance()->estJouerReplay())
-		replaying = true;
+    GestionnaireEvenements::obtenirInstance()->miseAJourEvenementsRepetitifs(tempsReel);
+    // Mise à jour des objets
+    terrain_->animerTerrain(tempsReel);
+    GestionnaireEvenements::obtenirInstance()->obtenirEtat()->animer(tempsReel);
+    bool replaying = false;
+    if(GestionnaireAnimations::obtenirInstance()->estJouerReplay())
+        replaying = true;
 
-#if BOX2D_INTEGRATED
-    if(enJeu_)
+    GestionnaireAnimations::obtenirInstance()->animer(tempsReel*1000);// Prends le temps en ms
+
+    if(replaying && obtenirPartieCourante() && !obtenirPartieCourante()->partieTerminee() && !GestionnaireAnimations::obtenirInstance()->estJouerReplay())
     {
-        b2Body* body = obtenirMailletJoueurGauche()->getPhysicBody();
-        float inertia = body->GetInertia();
-        float damping = body->GetLinearDamping();
-        b2Vec2 velocity = body->GetLinearVelocity();
-        char message[1048];
-        sprintf_s(message,"Inertia = %.2f, Damping = %.2f, Velocity = [%.2f,%.2f]",inertia,damping,velocity.x,velocity.y);
-        debugInfo->setMessage(message);
-        static float t = 50.f;
-        body->ApplyForceToCenter((virtualMousePosB2 - body->GetPosition())*t);
-        mWorld->SetWarmStarting(true);
-        mWorld->SetContinuousPhysics(true);
-        mWorld->SetSubStepping(true);
-        mWorld->Step(temps, 8, 3);
+        obtenirPartieCourante()->obtenirGameTime()->unPause();
     }
-#endif
-
-	GestionnaireAnimations::obtenirInstance()->animer(tempsReel*1000);// Prends le temps en ms
-
-
-
-	if(replaying && obtenirPartieCourante() && !obtenirPartieCourante()->partieTerminee() && !GestionnaireAnimations::obtenirInstance()->estJouerReplay())
-	{
-		obtenirPartieCourante()->obtenirGameTime()->unPause();
-	}
 
     mUpdating = false;
 }
@@ -1971,9 +1957,9 @@ NoeudMaillet* FacadeModele::obtenirMailletJoueurGauche() const
 	NoeudMaillet* maillet = 0;
 	if(getTerrain())
 	{
-		if(getTerrain()->obtenirTable())
+		if(getTerrain()->getTable())
 		{
-			NoeudComposite* g = (NoeudComposite*)getTerrain()->obtenirTable()->obtenirGroupe(ArbreRenduINF2990::NOM_MAILLET);
+			NoeudComposite* g = (NoeudComposite*)getTerrain()->getTable()->obtenirGroupe(ArbreRenduINF2990::NOM_MAILLET);
 			if(g)
 			{
 				for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
@@ -2003,9 +1989,9 @@ NoeudMaillet* FacadeModele::obtenirMailletJoueurDroit() const
 	NoeudMaillet* maillet = 0;
 	if(getTerrain())
 	{
-		if(getTerrain()->obtenirTable())
+		if(getTerrain()->getTable())
 		{
-			NoeudComposite* g = (NoeudComposite*)getTerrain()->obtenirTable()->obtenirGroupe(ArbreRenduINF2990::NOM_MAILLET);
+			NoeudComposite* g = (NoeudComposite*)getTerrain()->getTable()->obtenirGroupe(ArbreRenduINF2990::NOM_MAILLET);
 			if(g)
 			{
 				for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
@@ -2042,8 +2028,8 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
 	double friction;
 	if(getTerrain())
 	{
-		longueurTable = getTerrain()->obtenirZoneEdition().obtenirLimiteExtLongueur();
-		largeurTable  = getTerrain()->obtenirZoneEdition().obtenirLimiteExtLargeur();
+		longueurTable = getTerrain()->getZoneEdition().obtenirLimiteExtLongueur();
+		largeurTable  = getTerrain()->getZoneEdition().obtenirLimiteExtLargeur();
 
 		NoeudTable* table = dynamic_cast<NoeudTable*>(obtenirArbreRenduINF2990()->chercher(ArbreRenduINF2990::NOM_TABLE));
 		if(!table)
@@ -2367,7 +2353,7 @@ NoeudRondelle* FacadeModele::obtenirRondelle() const
 {
 	if(getTerrain())
 	{
-		return getTerrain()->obtenirRondelle();
+		return getTerrain()->getRondelle();
 	}
 	return 0;
 }
@@ -2503,7 +2489,7 @@ void FacadeModele::DrawSelectionRectangle() const
 ////////////////////////////////////////////////////////////////////////
 double FacadeModele::obtenirLargeurZoneEdition()
 {
-    return 2.0*getTerrain()->obtenirZoneEdition().obtenirLimiteExtLargeur();
+    return 2.0*getTerrain()->getZoneEdition().obtenirLimiteExtLargeur();
 }
 
 ////////////////////////////////////////////////////////////////////////

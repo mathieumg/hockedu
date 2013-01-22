@@ -37,7 +37,7 @@ double NoeudBut::longueurBut_ = 1;
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudBut::NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHaut, NoeudPoint * coinBas, NoeudComposite* pParent)
-   : NoeudComposite(typeNoeud), joueur_(joueur), coinHaut_(coinHaut), coinBas_(coinBas), mBottomAngle(0),mTopAngle(0), longueurButBase_(1)
+   : NoeudComposite(typeNoeud), joueur_(joueur), coinHaut_(coinHaut), coinBas_(coinBas), mBottomAngle(0),mTopAngle(0), longueurButBase_(1), mPuckCatcher(NULL),mCachedPuckRadius(5.f)
 {
     if(pParent)
     {
@@ -90,8 +90,8 @@ void NoeudBut::updatePhysicBody()
     Vecteur3 anchorPointPos = obtenirPositionAbsolue();
     b2Vec2 anchorPointPosB2, topPosB2,BottomPosB2 ;
     utilitaire::VEC3_TO_B2VEC(anchorPointPos,anchorPointPosB2);
-    utilitaire::VEC3_TO_B2VEC(positionHaut_,topPosB2);
-    utilitaire::VEC3_TO_B2VEC(positionBas_,BottomPosB2);
+    utilitaire::VEC3_TO_B2VEC(mTopPosition,topPosB2);
+    utilitaire::VEC3_TO_B2VEC(mBottomPosition,BottomPosB2);
     b2EdgeShape shape;
     shape.Set(anchorPointPosB2,topPosB2);
     
@@ -105,6 +105,8 @@ void NoeudBut::updatePhysicBody()
     mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
     shape.Set(anchorPointPosB2,BottomPosB2);
     mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+//     mPhysicBody->SetUserData(this);
+//     mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
 #endif
 
 }
@@ -128,8 +130,8 @@ void NoeudBut::afficherConcret() const
     if(liste != 0 && estAffiche())
     {
         Vecteur3 positionPoint = parent_->obtenirPositionAbsolue();
-        Vecteur3 posBas = positionBas_ - positionPoint;
-        Vecteur3 posHaut = positionHaut_ - positionPoint;
+        Vecteur3 posBas = mBottomPosition - positionPoint;
+        Vecteur3 posHaut = mTopPosition - positionPoint;
 
         // Initialisation
         glPushMatrix();
@@ -297,10 +299,10 @@ void NoeudBut::updateLongueur(double facteurModificationEchelle)
         deltaYhaut = deltaHaut[VY]*ratioHaut,
         deltaYbas = deltaBas[VY]*ratioBas;
 
-	positionHaut_[VX] = pos[VX]+deltaXhaut;
-	positionHaut_[VY] = pos[VY]+deltaYhaut;
-	positionBas_[VX] = pos[VX]+deltaXbas;
-	positionBas_[VY] = pos[VY]+deltaYbas;
+	mTopPosition[VX] = pos[VX]+deltaXhaut;
+	mTopPosition[VY] = pos[VY]+deltaYhaut;
+	mBottomPosition[VX] = pos[VX]+deltaXbas;
+	mBottomPosition[VY] = pos[VY]+deltaYbas;
 	longueurBut_ = longueur;
 
     mBottomAngle = utilitaire::RAD_TO_DEG(atan2(deltaYbas, deltaXbas)), 
@@ -394,8 +396,8 @@ TiXmlElement* NoeudBut::creerNoeudXML()
 
     XMLUtils::ecrireAttribute<double>(elementNoeud,"longueurBut",longueurBut_);
     XMLUtils::ecrireAttribute<int>(elementNoeud,"joueur",joueur_);
-    XMLUtils::ecrireVecteur3Dxml(&positionHaut_,elementNoeud,"coinHaut");
-    XMLUtils::ecrireVecteur3Dxml(&positionBas_,elementNoeud,"coinBas");
+    XMLUtils::ecrireVecteur3Dxml(&mTopPosition,elementNoeud,"coinHaut");
+    XMLUtils::ecrireVecteur3Dxml(&mBottomPosition,elementNoeud,"coinBas");
 	return elementNoeud;
 }
 
@@ -424,9 +426,9 @@ bool NoeudBut::initialiser( const TiXmlElement* element )
 		return false;
 	joueur_ = intElem;
 
-    if( !XMLUtils::lectureVecteur3Dxml(&positionHaut_,element,"coinHaut") )
+    if( !XMLUtils::lectureVecteur3Dxml(&mTopPosition,element,"coinHaut") )
 		return false;
-    if( !XMLUtils::lectureVecteur3Dxml(&positionBas_,element,"coinBas") )
+    if( !XMLUtils::lectureVecteur3Dxml(&mBottomPosition,element,"coinBas") )
 		return false;
 
 	return true;
@@ -444,7 +446,7 @@ bool NoeudBut::initialiser( const TiXmlElement* element )
 ////////////////////////////////////////////////////////////////////////
 double NoeudBut::obtenirHauteurBut()
 {
-	return positionHaut_[VY] - positionBas_[VY];
+	return mTopPosition[VY] - mBottomPosition[VY];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -460,6 +462,70 @@ double NoeudBut::obtenirHauteurBut()
 void NoeudBut::forceFullUpdate()
 {
     updateLongueur();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudBut::updatePuckCatcher( float puckRadius )
+///
+/// /*Description*/
+///
+/// @param[in] float puckRadius
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudBut::updatePuckCatcher( float puckRadius )
+{
+    if(mCachedPuckRadius != puckRadius)
+    {
+        if(mPuckCatcher)
+        {
+            getWorld()->DestroyBody(mPuckCatcher);
+            mPuckCatcher = NULL;
+        }
+
+        float shiftValue = ( obtenirJoueur() == 1 ? -1 : 1 ) * puckRadius * 2;
+        Vecteur3 anchorPointPosShifted = obtenirPositionAbsolue();
+        Vecteur3 topPosShifted = mTopPosition;
+        Vecteur3 bottomPosShifted = mBottomPosition;
+        anchorPointPosShifted[VX] += shiftValue;
+        topPosShifted[VX] += shiftValue;
+        bottomPosShifted[VX] += shiftValue;
+
+        b2BodyDef myBodyDef;
+        myBodyDef.type = b2_staticBody; //this will be a dynamic body
+        myBodyDef.position.Set(0, 0); //set the starting position
+        myBodyDef.angle = 0; //set the starting angle
+
+        mPuckCatcher = getWorld()->CreateBody(&myBodyDef);
+
+        b2Vec2 anchorPointPosShiftedB2, topPosB2,bottomPosB2, topPosShiftedB2, bottomPosShiftedB2;
+        utilitaire::VEC3_TO_B2VEC(anchorPointPosShifted,anchorPointPosShiftedB2);
+        utilitaire::VEC3_TO_B2VEC(mTopPosition,topPosB2);
+        utilitaire::VEC3_TO_B2VEC(mBottomPosition,bottomPosB2);
+        utilitaire::VEC3_TO_B2VEC(topPosShifted,topPosShiftedB2);
+        utilitaire::VEC3_TO_B2VEC(bottomPosShifted,bottomPosShiftedB2);
+        b2EdgeShape shape;
+
+        b2FixtureDef myFixtureDef;
+        myFixtureDef.shape = &shape; //this is a pointer to the shapeHaut above
+        myFixtureDef.density = 1;
+        myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
+        myFixtureDef.filter.maskBits = CATEGORY_PUCK;
+        myFixtureDef.filter.groupIndex = 0;
+
+        shape.Set(topPosB2,topPosShiftedB2);
+        mPuckCatcher->CreateFixture(&myFixtureDef); //add a fixture to the body
+        shape.Set(topPosShiftedB2,anchorPointPosShiftedB2);
+        mPuckCatcher->CreateFixture(&myFixtureDef); //add a fixture to the body
+        shape.Set(anchorPointPosShiftedB2,bottomPosShiftedB2);
+        mPuckCatcher->CreateFixture(&myFixtureDef); //add a fixture to the body
+        shape.Set(bottomPosShiftedB2,bottomPosB2);
+        mPuckCatcher->CreateFixture(&myFixtureDef); //add a fixture to the body
+
+        mCachedPuckRadius = puckRadius;
+    }
 }
 
 

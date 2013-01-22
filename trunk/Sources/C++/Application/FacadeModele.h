@@ -18,8 +18,6 @@
 #include "GameTime.h"
 #include <queue>
 
-#define BOX2D_INTEGRATED 0
-#define BOX2D_DEBUG 0
 
 class VisiteurNoeud;
 class NoeudMaillet;

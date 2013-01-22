@@ -988,7 +988,7 @@ void NoeudTable::updatePhysicBody()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudTable::updatePosition( class PositionSubject& pSubject )
+void NoeudTable::updatePosition( PositionSubject& pSubject )
 {
     updatePhysicBody();
 }

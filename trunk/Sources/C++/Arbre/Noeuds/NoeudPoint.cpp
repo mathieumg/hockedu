@@ -211,10 +211,10 @@ void NoeudPoint::modifierPointSym( NoeudPoint* pointSym )
 ////////////////////////////////////////////////////////////////////////
 bool NoeudPoint::validerDeplacement( const Vecteur3& pos, const Vecteur2& deplace, int axe )
 {
-	Terrain* t = obtenirTerrain();
+	Terrain* t = GetTerrain();
 	if( t )
 	{
-		ZoneEdition* zone = &t->obtenirZoneEdition();
+		ZoneEdition* zone = &t->getZoneEdition();
 		Vecteur3 deplace2(deplace[VX],deplace[VY],0);
 		Vecteur3 cible=pos+deplace2;
 		double valeurLimiteInt = (axe == VX) ? zone->obtenirLimiteIntLongueur() : zone->obtenirLimiteIntLargeur();

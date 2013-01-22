@@ -19,6 +19,10 @@
 #ifndef BOX2D_H
 #define BOX2D_H
 
+
+#define BOX2D_INTEGRATED 0
+#define BOX2D_DEBUG 0
+
 /**
 \mainpage Box2D API Documentation
 

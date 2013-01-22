@@ -1000,6 +1000,48 @@ void NoeudAbstrait::forceFullUpdate()
     updatePhysicBody();
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudAbstrait::SynchroniseTransformFromB2CallBack( void* , const struct b2Transform& )
+///
+/// /*Description*/
+///
+/// @param[in] void *
+/// @param[in] const struct b2Transform &
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAbstrait::SynchroniseTransformFromB2CallBack( void* node, const b2Transform& transform)
+{
+#if BOX2D_INTEGRATED 
+    if(node)
+    {
+        ((NoeudAbstrait*)node)->SynchroniseTransformFromB2(transform);
+    }
+#endif
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudAbstrait::SynchroniseTransformFromB2( const struct b2Transform& )
+///
+/// /*Description*/
+///
+/// @param[in] const struct b2Transform &
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAbstrait::SynchroniseTransformFromB2( const b2Transform& transform)
+{
+#if BOX2D_INTEGRATED 
+    // TODO:: a verifier avec la position du parent
+    utilitaire::B2VEC_TO_VEC3(positionRelative_,transform.p);
+    mAngle = utilitaire::RAD_TO_DEG(transform.q.GetAngle());
+#endif
+}
+
 
 
 ////////////////////////////////////////////////

@@ -63,15 +63,18 @@ public:
 	virtual bool initialiser(const TiXmlElement* element);
 
 	static double longueurBut_;
-	/// Accesseur de positionBas_
-	inline Vecteur3 obtenirPositionBas() const { return positionBas_; }
-	/// Accesseur de positionHaut_
-	inline Vecteur3 obtenirPositionHaut() const { return positionHaut_; }
+	/// Accesseur de mBottomPosition
+	inline Vecteur3 obtenirPositionBas() const { return mBottomPosition; }
+	/// Accesseur de mTopPosition
+	inline Vecteur3 obtenirPositionHaut() const { return mTopPosition; }
 
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody();
     /// Recreates everything needed for the game
     virtual void forceFullUpdate();
+
+    /// Update the physics body for the puck catcher according with the radius of the puck
+    void updatePuckCatcher(float puckRadius);
 
 private:
 	/// Attribut disant si le but est au joueur1 ou joueur 2 par un int, 1 ou 2
@@ -87,8 +90,11 @@ private:
 	/// Pointeur sur le but adverse
 	NoeudBut* butAdverse_;
 	/// Position du point extérieur du but
-	mutable Vecteur3 positionHaut_, positionBas_;
+	mutable Vecteur3 mTopPosition, mBottomPosition;
 	
+    class b2Body* mPuckCatcher;
+    float mCachedPuckRadius;
+
 };
 
 

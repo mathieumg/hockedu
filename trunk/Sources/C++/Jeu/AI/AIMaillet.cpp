@@ -83,7 +83,7 @@ Vecteur2 AIMaillet::evaluerDirection( NoeudMaillet* maillet )
 void AIMaillet::evaluerStrategie( NoeudMaillet* maillet )
 {
 	NoeudRondelle* rondelle;
-	if(!maillet->obtenirTerrain() || !(rondelle = maillet->obtenirTerrain()->obtenirRondelle()))
+	if(!maillet->GetTerrain() || !(rondelle = maillet->GetTerrain()->getRondelle()))
 		return;
 
 	(rondelle->obtenirPositionAbsolue()[VX] * maillet->obtenirPositionAbsolue()[VX] >= 0) ? changerStrat(OFFENSIVE): changerStrat(DEFENSIVE);

@@ -272,7 +272,7 @@ bool NoeudComposite::ajouter( NoeudAbstrait* enfant )
 
 	enfant->assignerParent(this);
 	enfants_.push_back( enfant );
-	enfant->modifierTerrain(obtenirTerrain());
+	enfant->modifierTerrain(GetTerrain());
 	return true;
 }
 

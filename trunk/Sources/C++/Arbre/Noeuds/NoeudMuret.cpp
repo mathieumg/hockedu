@@ -92,6 +92,8 @@ void NoeudMuret::updatePhysicBody()
     myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_MALLET;
 
     mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+//     mPhysicBody->SetUserData(this);
+//     mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
 #endif
 
 }

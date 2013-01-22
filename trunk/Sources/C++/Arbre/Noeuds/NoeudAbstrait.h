@@ -201,12 +201,16 @@ public:
 
 	virtual std::string obtenirNom() const;
 	/// Accesseur de terrain_
-	Terrain* obtenirTerrain() const { return terrain_; }
+	Terrain* GetTerrain() const { return terrain_; }
 	/// Modificateur de terrain_
 	virtual void modifierTerrain(Terrain* val);
 
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody() {}
+
+    /// Allows to keep this node in sync with box2D
+    static void SynchroniseTransformFromB2CallBack(void* , const struct b2Transform&);
+    virtual void SynchroniseTransformFromB2(const struct b2Transform&);
 
     /// Recreates everything needed for the game
     virtual void forceFullUpdate();

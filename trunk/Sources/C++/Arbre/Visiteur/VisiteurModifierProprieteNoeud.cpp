@@ -287,7 +287,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudTable( NoeudTable* noeud )
 	noeud->modifierCoefFriction(coefFriction_);
 
 	ZoneEdition* zone;
-	if(noeud->obtenirTerrain() && (zone = &noeud->obtenirTerrain()->obtenirZoneEdition()) )
+	if(noeud->GetTerrain() && (zone = &noeud->GetTerrain()->getZoneEdition()) )
 	{
 		// On déclare un pointeur sur un double qui servira a contenir la longueur et hauteur max de la table
 		double boiteEnglobantTable[2];
@@ -340,9 +340,9 @@ void VisiteurModifierProprieteNoeud::visiterNoeudPoint( NoeudPoint* noeud )
 		// Assigner la position avant pour que le calcul de la longueur max des buts soit mise a jour
 		Vecteur3 positionCourante = noeud->obtenirPositionAbsolue();
 		
-		if(noeud->obtenirTerrain() )
+		if(noeud->GetTerrain() )
 		{
-			ZoneEdition* zone = &noeud->obtenirTerrain()->obtenirZoneEdition();
+			ZoneEdition* zone = &noeud->GetTerrain()->getZoneEdition();
 			int signe[2];
 			for(int i=0; i<2; i++)
 			{

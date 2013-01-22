@@ -46,6 +46,8 @@ enum b2BodyType
 	//b2_bulletBody,
 };
 
+typedef void (*SynchroniseTransformWithUserData)(void*, const b2Transform&);
+
 /// A body definition holds all the data needed to construct a rigid body.
 /// You can safely re-use body definitions. Shapes are added to a body after construction.
 struct b2BodyDef
@@ -374,9 +376,11 @@ public:
 	/// Get the parent world of this body.
 	b2World* GetWorld();
 	const b2World* GetWorld() const;
-
+    
 	/// Dump this body to a log file
 	void Dump();
+
+    SynchroniseTransformWithUserData mSynchroniseTransformWithUserData;
 
 private:
 
@@ -421,6 +425,7 @@ private:
 
 	void Advance(float32 t);
 
+
 	b2BodyType m_type;
 
 	uint16 m_flags;
@@ -459,6 +464,10 @@ private:
 
 	void* m_userData;
 };
+
+
+
+
 
 inline b2BodyType b2Body::GetType() const
 {
@@ -821,6 +830,10 @@ inline void b2Body::SynchronizeTransform()
 {
 	m_xf.q.Set(m_sweep.a);
 	m_xf.p = m_sweep.c - b2Mul(m_xf.q, m_sweep.localCenter);
+    if(mSynchroniseTransformWithUserData)
+    {
+        mSynchroniseTransformWithUserData(m_userData,m_xf);
+    }
 }
 
 inline void b2Body::Advance(float32 alpha)

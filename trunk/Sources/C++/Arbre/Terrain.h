@@ -100,15 +100,18 @@ public:
 	/// Accesseur de arbreRendu_
 	inline ArbreRenduINF2990* getArbreRendu() const { return arbreRendu_; }
 	/// Accesseur de zoneEdition_
-	inline ZoneEdition& obtenirZoneEdition() { return zoneEdition_; }
+	inline ZoneEdition& getZoneEdition() { return zoneEdition_; }
 	/// Accesseur de nom_
-	std::string obtenirNom() const { return nom_; }
+	std::string getNom() const { return nom_; }
 	/// Modificateur de nom_
 	void modifierNom(std::string val) { nom_ = val; }
 	/// Accesseur de table_
-	inline NoeudTable* obtenirTable() const { return table_; }
+	inline NoeudTable* getTable() const { return table_; }
 	/// Accesseur de la rondelle sur le terrain.
-	NoeudRondelle* obtenirRondelle() const ;
+	NoeudRondelle* getRondelle() const ;
+    /// Accesseur des buts, l<argument DOIT etre un array de 2 pointeur sur des but
+    void getGoals(class NoeudBut** pOutGoals);
+
 };
 
 ///////////////////////////////////////////////////////////////////////////

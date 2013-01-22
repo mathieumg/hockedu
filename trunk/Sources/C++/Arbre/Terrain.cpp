@@ -23,6 +23,8 @@
 #include "NoeudRondelle.h"
 #include "NoeudPiece.h"
 #include "XMLUtils.h"
+#include "FacadeModele.h"
+#include "Box2D\Box2D.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -181,7 +183,7 @@ void Terrain::afficherTerrain( bool afficherZoneEdition /*= false*/ )
 	if(arbreAjoutNoeud_)
 		arbreAjoutNoeud_->afficher();
 	if(afficherZoneEdition)
-		obtenirZoneEdition().afficher();
+		getZoneEdition().afficher();
 	if(arbreAffichage_)
 		arbreAffichage_->afficher();
 }
@@ -210,7 +212,7 @@ void Terrain::initialiser( std::string nom )
 	// Assignation du nom du terrain
 	nom_ = nom;
 	// Initialisation de la Zone d'edition
-	obtenirZoneEdition().reinitialiser();
+	getZoneEdition().reinitialiser();
 
 	// Initialisation des arbres de rendus
 	arbreAjoutNoeud_ = new ArbreNoeudLibre();
@@ -310,7 +312,7 @@ bool Terrain::initialiserXml( TiXmlElement* element )
 		initialiserArbreRendu();
 	}
 
-	if(!obtenirZoneEdition().initialisationXML(racine))
+	if(!getZoneEdition().initialisationXML(racine))
 		return false;
 
 	
@@ -337,7 +339,7 @@ void Terrain::reinitialiser()
 		arbreAjoutNoeud_->vider();
 
 	initialiserArbreRendu();
-	obtenirZoneEdition().reinitialiser();
+	getZoneEdition().reinitialiser();
 }
 
 
@@ -356,7 +358,7 @@ TiXmlElement* Terrain::creerNoeudXML()
 	// Créer le noeud 
 	TiXmlElement* racine = XMLUtils::creerNoeud("Terrain");
 
-	racine->SetAttribute("nom",obtenirNom().c_str() );
+	racine->SetAttribute("nom",getNom().c_str() );
 
 	if(getArbreRendu())
 	{
@@ -365,7 +367,7 @@ TiXmlElement* Terrain::creerNoeudXML()
 		ConfigScene::obtenirInstance()->creerDOM(*racine,getArbreRendu());
 	}
 
-	racine->LinkEndChild(obtenirZoneEdition().creerNoeudXML());
+	racine->LinkEndChild(getZoneEdition().creerNoeudXML());
 
 	return racine;
 }
@@ -466,8 +468,8 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 			if(aidecollision::calculerCollisionSegmentSegment(
 				muret->obtenirCoin1().convertir<2>(),
 				muret->obtenirCoin2().convertir<2>(),
-				Vecteur2(-obtenirZoneEdition().obtenirLimiteExtLongueur(),obtenirZoneEdition().obtenirLimiteExtLargeur()),
-				Vecteur2(obtenirZoneEdition().obtenirLimiteExtLongueur(),obtenirZoneEdition().obtenirLimiteExtLargeur()),
+				Vecteur2(-getZoneEdition().obtenirLimiteExtLongueur(),getZoneEdition().obtenirLimiteExtLargeur()),
+				Vecteur2(getZoneEdition().obtenirLimiteExtLongueur(),getZoneEdition().obtenirLimiteExtLargeur()),
 				Vecteur2()	// pas besoin du point dintersection
 				).type != aidecollision::COLLISION_AUCUNE)
 				return false;
@@ -475,8 +477,8 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 			if(aidecollision::calculerCollisionSegmentSegment(
 				muret->obtenirCoin1().convertir<2>(),
 				muret->obtenirCoin2().convertir<2>(),
-				Vecteur2(obtenirZoneEdition().obtenirLimiteExtLongueur(),obtenirZoneEdition().obtenirLimiteExtLargeur()),
-				Vecteur2(obtenirZoneEdition().obtenirLimiteExtLongueur(),-obtenirZoneEdition().obtenirLimiteExtLargeur()),
+				Vecteur2(getZoneEdition().obtenirLimiteExtLongueur(),getZoneEdition().obtenirLimiteExtLargeur()),
+				Vecteur2(getZoneEdition().obtenirLimiteExtLongueur(),-getZoneEdition().obtenirLimiteExtLargeur()),
 				Vecteur2()	// pas besoin du point dintersection
 				).type != aidecollision::COLLISION_AUCUNE)
 				return false;
@@ -484,8 +486,8 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 			if(aidecollision::calculerCollisionSegmentSegment(
 				muret->obtenirCoin1().convertir<2>(),
 				muret->obtenirCoin2().convertir<2>(),
-				Vecteur2(obtenirZoneEdition().obtenirLimiteExtLongueur(),-obtenirZoneEdition().obtenirLimiteExtLargeur()),
-				Vecteur2(-obtenirZoneEdition().obtenirLimiteExtLongueur(),-obtenirZoneEdition().obtenirLimiteExtLargeur()),
+				Vecteur2(getZoneEdition().obtenirLimiteExtLongueur(),-getZoneEdition().obtenirLimiteExtLargeur()),
+				Vecteur2(-getZoneEdition().obtenirLimiteExtLongueur(),-getZoneEdition().obtenirLimiteExtLargeur()),
 				Vecteur2()	// pas besoin du point dintersection
 				).type != aidecollision::COLLISION_AUCUNE)
 				return false;
@@ -493,8 +495,8 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 			if(aidecollision::calculerCollisionSegmentSegment(
 				muret->obtenirCoin1().convertir<2>(),
 				muret->obtenirCoin2().convertir<2>(),
-				Vecteur2(-obtenirZoneEdition().obtenirLimiteExtLongueur(),-obtenirZoneEdition().obtenirLimiteExtLargeur()),
-				Vecteur2(-obtenirZoneEdition().obtenirLimiteExtLongueur(),obtenirZoneEdition().obtenirLimiteExtLargeur()),
+				Vecteur2(-getZoneEdition().obtenirLimiteExtLongueur(),-getZoneEdition().obtenirLimiteExtLargeur()),
+				Vecteur2(-getZoneEdition().obtenirLimiteExtLongueur(),getZoneEdition().obtenirLimiteExtLargeur()),
 				Vecteur2()	// pas besoin du point dintersection
 				).type != aidecollision::COLLISION_AUCUNE)
 				return false;
@@ -502,9 +504,9 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 	}
 	// Tests sur les positions avec leurs rayons beaucoup plus simple
 	// sert aussi de double check pour les murets car leur rayon est nulle
-	if(pos[VX]+noeud->obtenirRayon() > obtenirZoneEdition().obtenirLimiteExtLongueur() || pos[VX]-noeud->obtenirRayon() < -obtenirZoneEdition().obtenirLimiteExtLongueur())
+	if(pos[VX]+noeud->obtenirRayon() > getZoneEdition().obtenirLimiteExtLongueur() || pos[VX]-noeud->obtenirRayon() < -getZoneEdition().obtenirLimiteExtLongueur())
 		return false;
-	if(pos[VY]+noeud->obtenirRayon() > obtenirZoneEdition().obtenirLimiteExtLargeur() || pos[VY]-noeud->obtenirRayon() < -obtenirZoneEdition().obtenirLimiteExtLargeur())
+	if(pos[VY]+noeud->obtenirRayon() > getZoneEdition().obtenirLimiteExtLargeur() || pos[VY]-noeud->obtenirRayon() < -getZoneEdition().obtenirLimiteExtLargeur())
 		return false;
 	return true;
 }
@@ -680,7 +682,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudRondelle* Terrain::obtenirRondelle()
+/// @fn NoeudRondelle* Terrain::getRondelle()
 ///
 /// Accesseur de la rondelle
 ///
@@ -688,11 +690,11 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 /// @return NoeudRondelle* : pointeur sur la rondelle s'il la trouve, 0 sinon
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudRondelle* Terrain::obtenirRondelle() const
+NoeudRondelle* Terrain::getRondelle() const
 {
-	if(obtenirTable())
+	if(getTable())
 	{
-		NoeudComposite* g = (NoeudComposite*)obtenirTable()->obtenirGroupe(ArbreRenduINF2990::NOM_RONDELLE);
+		NoeudComposite* g = (NoeudComposite*)getTable()->obtenirGroupe(ArbreRenduINF2990::NOM_RONDELLE);
 		if(g)
 		{
 			for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
@@ -719,11 +721,43 @@ void Terrain::appliquerPhysique( float temps )
 {
 	if(arbreRendu_)
 	{
+#if BOX2D_INTEGRATED
+        FacadeModele::getInstance()->getWorld()->SetWarmStarting(true);
+        FacadeModele::getInstance()->getWorld()->SetContinuousPhysics(true);
+        FacadeModele::getInstance()->getWorld()->SetSubStepping(true);
+        FacadeModele::getInstance()->getWorld()->Step(temps, 8, 3);
+#else
 		arbreRendu_->majPosition(temps);
 		arbreRendu_->gestionCollision(temps);
 		arbreRendu_->ajusterVitesse(temps);
 		arbreRendu_->ajusterEnfoncement();
+#endif
 	}
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::getGoals( NoeudBut** pOutGoals )
+///
+/// /*Description*/
+///
+/// @param[in] NoeudBut * * pOutGoals
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::getGoals( NoeudBut** pOutGoals )
+{
+    pOutGoals[0] = NULL;
+    pOutGoals[1] = NULL;
+
+    NoeudTable* table = getTable();
+    if(table)
+    {
+        pOutGoals[0] = table->obtenirBut(1);
+        pOutGoals[1] = table->obtenirBut(2);
+    }
+
 }
 
 

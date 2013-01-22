@@ -67,15 +67,15 @@ NoeudMuret(ArbreRenduINF2990::NOM_MURET_RELATIF, false)
 	coin1_[VZ] = &n->positionRelative_[VZ];
 	if(haut)
 	{
-		coin2_[VX] = &but->positionHaut_[VX];
-		coin2_[VY] = &but->positionHaut_[VY];
-		coin2_[VZ] = &but->positionHaut_[VZ];
+		coin2_[VX] = &but->mTopPosition[VX];
+		coin2_[VY] = &but->mTopPosition[VY];
+		coin2_[VZ] = &but->mTopPosition[VZ];
 	}
 	else
 	{
-		coin2_[VX] = &but->positionBas_[VX];
-		coin2_[VY] = &but->positionBas_[VY];
-		coin2_[VZ] = &but->positionBas_[VZ];
+		coin2_[VX] = &but->mBottomPosition[VX];
+		coin2_[VY] = &but->mBottomPosition[VY];
+		coin2_[VZ] = &but->mBottomPosition[VZ];
 	}
     n->attach(*this);
     but->attach(*this);
@@ -110,15 +110,15 @@ NoeudMuret(ArbreRenduINF2990::NOM_MURET_RELATIF, false)
 	coin2_[VZ] = &n->positionRelative_[VZ];
 	if(haut)
 	{
-		coin1_[VX] = &but->positionHaut_[VX];
-		coin1_[VY] = &but->positionHaut_[VY];
-		coin1_[VZ] = &but->positionHaut_[VZ];
+		coin1_[VX] = &but->mTopPosition[VX];
+		coin1_[VY] = &but->mTopPosition[VY];
+		coin1_[VZ] = &but->mTopPosition[VZ];
 	}
 	else
 	{
-		coin1_[VX] = &but->positionBas_[VX];
-		coin1_[VY] = &but->positionBas_[VY];
-		coin1_[VZ] = &but->positionBas_[VZ];
+		coin1_[VX] = &but->mBottomPosition[VX];
+		coin1_[VY] = &but->mBottomPosition[VY];
+		coin1_[VZ] = &but->mBottomPosition[VZ];
 	}
 
     n->attach(*this);

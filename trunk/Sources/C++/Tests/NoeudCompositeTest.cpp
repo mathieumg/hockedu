@@ -356,21 +356,21 @@ void NoeudCompositeTest::modificationTerrain()
     
 	// Assignation d'un terrain a la racine d'un arbre
 	arbre->modifierTerrain(terrain);
-	CPPUNIT_ASSERT(arbre->obtenirTerrain() == terrain);
+	CPPUNIT_ASSERT(arbre->GetTerrain() == terrain);
 	for (int i = 0; i < 5 ; i++)
 	{
-		CPPUNIT_ASSERT(enfants[i]->obtenirTerrain() == terrain);
+		CPPUNIT_ASSERT(enfants[i]->GetTerrain() == terrain);
 	}
-	CPPUNIT_ASSERT(n->obtenirTerrain() == NULL);
+	CPPUNIT_ASSERT(n->GetTerrain() == NULL);
 	// Verificaiton du terrain apres un ajout
 	arbre->ajouter(n);
-	CPPUNIT_ASSERT(n->obtenirTerrain() == terrain);
+	CPPUNIT_ASSERT(n->GetTerrain() == terrain);
 
 	// Verificaiton du terrain apres un detachement d'enfant
 	enfants[0]->detacherEnfant(enfants[2]);
 	for (int i = 2; i < 5 ; i++)
 	{
-		CPPUNIT_ASSERT(enfants[i]->obtenirTerrain() == NULL);
+		CPPUNIT_ASSERT(enfants[i]->GetTerrain() == NULL);
 	}
 	enfants[3]->ajouter(n);
 
@@ -379,32 +379,32 @@ void NoeudCompositeTest::modificationTerrain()
 	// S'assure que les noeuds qui ne devrait pas etre affecté pointe toujours sur le bon terrain
 	for (int i = 0; i < 2 ; i++)
 	{
-		CPPUNIT_ASSERT(enfants[i]->obtenirTerrain() == terrain);
+		CPPUNIT_ASSERT(enfants[i]->GetTerrain() == terrain);
 	}
-	CPPUNIT_ASSERT(arbre->obtenirTerrain() == terrain);
+	CPPUNIT_ASSERT(arbre->GetTerrain() == terrain);
 	
 	for (int i = 2; i < 5 ; i++)
 	{
-		CPPUNIT_ASSERT(enfants[i]->obtenirTerrain() == terrain2);
+		CPPUNIT_ASSERT(enfants[i]->GetTerrain() == terrain2);
 	}
-	CPPUNIT_ASSERT(n->obtenirTerrain() == terrain2);
+	CPPUNIT_ASSERT(n->GetTerrain() == terrain2);
 
 	// Verificaiton du terrain apres un ajout d'un noeud composé
 	enfants[0]->ajouter(enfants[2]);
 	for (int i = 2; i < 5 ; i++)
 	{
-		CPPUNIT_ASSERT(enfants[i]->obtenirTerrain() == terrain);
+		CPPUNIT_ASSERT(enfants[i]->GetTerrain() == terrain);
 	}
-	CPPUNIT_ASSERT(n->obtenirTerrain() == terrain);
+	CPPUNIT_ASSERT(n->GetTerrain() == terrain);
 
 	// Mise a null du terrain de la racine
 	arbre->modifierTerrain(NULL);
-	CPPUNIT_ASSERT(arbre->obtenirTerrain() == NULL);
+	CPPUNIT_ASSERT(arbre->GetTerrain() == NULL);
 	for (int i = 0; i < 5 ; i++)
 	{
-		CPPUNIT_ASSERT(enfants[i]->obtenirTerrain() == NULL);
+		CPPUNIT_ASSERT(enfants[i]->GetTerrain() == NULL);
 	}
-	CPPUNIT_ASSERT(n->obtenirTerrain() == NULL);
+	CPPUNIT_ASSERT(n->GetTerrain() == NULL);
 
 
 	// On ne supprime pas n puisqu'il fait partie de l'arbre principal

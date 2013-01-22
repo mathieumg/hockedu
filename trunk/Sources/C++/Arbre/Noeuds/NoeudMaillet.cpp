@@ -151,7 +151,7 @@ void NoeudMaillet::gestionCollision( const float& temps )
 
 	NoeudRondelle* rondelle;
 	// Si le maillet n'est pas sur un table, il n'y a pas de physique appliquee
-	if(!obtenirTerrain() || !( rondelle = obtenirTerrain()->obtenirRondelle() ) )
+	if(!GetTerrain() || !( rondelle = GetTerrain()->getRondelle() ) )
 		return;
 	// Reinitialisation du vecteur d'enfoncement
 	enfoncement_.remetAZero();
@@ -248,15 +248,15 @@ void NoeudMaillet::assignerPosSouris( Vecteur3 pos )
 void NoeudMaillet::majPosition( const float& temps )
 {
 	// Si le maillet n'est pas sur une table, il n'y a pas de physique appliquee
-	if(!obtenirTerrain() || !obtenirTerrain()->obtenirTable())
+	if(!GetTerrain() || !GetTerrain()->getTable())
 		return;
 	anciennePos_ = positionRelative_;
 	positionRelative_ += velocite_*temps;
 	positionRelative_[VZ] = 0;
 
 
-	NoeudGroupe* groupe = obtenirTerrain()->obtenirTable()->obtenirGroupe(ArbreRenduINF2990::NOM_MURET);
-	NoeudBut* but = obtenirTerrain()->obtenirTable()->obtenirBut(anciennePos_[VX] < 0 ? 1:2);
+	NoeudGroupe* groupe = GetTerrain()->getTable()->obtenirGroupe(ArbreRenduINF2990::NOM_MURET);
+	NoeudBut* but = GetTerrain()->getTable()->obtenirBut(anciennePos_[VX] < 0 ? 1:2);
 	VisiteurCollision v(this,false);
 	groupe->acceptVisitor(v);
 
@@ -326,12 +326,12 @@ void NoeudMaillet::majPosition( const float& temps )
 void NoeudMaillet::ajusterEnfoncement()
 {
 	// Si le maillet n'est pas sur une table, il n'y a pas de physique appliquee
-	if(!obtenirTerrain() || !obtenirTerrain()->obtenirTable())
+	if(!GetTerrain() || !GetTerrain()->getTable())
 		return;
 	// il faudrait regarder si le maillet a ete mis en situation ou il est en collision avec qqc
 
 
-	if(!obtenirTerrain()->obtenirTable()->estSurTable(this) )
+	if(!GetTerrain()->getTable()->estSurTable(this) )
 	{
 		positionRelative_ = anciennePos_;
 	}
@@ -447,6 +447,8 @@ void NoeudMaillet::updatePhysicBody()
     myFixtureDef.filter.groupIndex = 1;
 
     mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+    mPhysicBody->SetUserData(this);
+    mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
 #endif
 }
 

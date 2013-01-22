@@ -28,6 +28,7 @@
 #include "NoeudPortail.h"
 #include <Box2D/Box2D.h>
 #include "Utilitaire.h"
+#include "NoeudBut.h"
 
 unsigned int NoeudRondelle::rondellesPresentes=0;
 bool UsineNoeudRondelle::bypassLimitePourTest = false;
@@ -529,9 +530,9 @@ void NoeudRondelle::ajusterVitesse( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::validerPropriteteTablePourJeu() throw(std::logic_error)
 {
-	if(obtenirTerrain())
+	if(GetTerrain())
 	{
-		table_ = obtenirTerrain()->obtenirTable();
+		table_ = GetTerrain()->getTable();
 		if(table_ != NULL)
 		{
 			positionOriginale_ = positionRelative_;
@@ -572,16 +573,19 @@ void NoeudRondelle::updatePhysicBody()
     b2BodyDef myBodyDef;
     myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
 
+    float puckRadius = obtenirRayon();
+
     Vecteur3 pos = obtenirPositionAbsolue();
     b2Vec2 posB2;
     utilitaire::VEC3_TO_B2VEC(pos,posB2);
     myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
     myBodyDef.angle = 0; //set the starting angle
     myBodyDef.linearDamping = 0.5f;
+    myBodyDef.angularDamping = 0.1f;
     mPhysicBody = getWorld()->CreateBody(&myBodyDef);
     b2CircleShape circleShape;
     circleShape.m_p.Set(0, 0); //position, relative to body position
-    circleShape.m_radius = (float32)obtenirRayon()*utilitaire::ratioWorldToBox2D; //radius
+    circleShape.m_radius = puckRadius*utilitaire::ratioWorldToBox2D; //radius
 
     b2FixtureDef myFixtureDef;
     myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
@@ -591,6 +595,26 @@ void NoeudRondelle::updatePhysicBody()
     myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
     myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY;
     mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+    mPhysicBody->SetUserData(this);
+    mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
+
+    /// Update Goals physics body accordingly with puck radius
+    Terrain* terrain = GetTerrain();
+    if(terrain)
+    {
+        NoeudBut* goals[2];
+        terrain->getGoals(goals);
+
+        for(int i=0; i<2; ++i)
+        {
+            NoeudBut* goal = goals[i];
+            if(goal)
+            {
+                goal->updatePuckCatcher(puckRadius);
+            }
+        }
+    }
+
 #endif
 
 }

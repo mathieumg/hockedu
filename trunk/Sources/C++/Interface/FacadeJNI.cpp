@@ -1266,7 +1266,7 @@ JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationTournoiJNI_obteni
 	env->CallVoidMethod(tournoiJava, modifierListeGagnants, arraylist);
 	// placer les points de la table
 	FacadeModele::getInstance()->chargerTerrain(tournoi->obtenirTerrain());
-	NoeudTable* table=FacadeModele::getInstance()->getTerrain()->obtenirTable();
+	NoeudTable* table=FacadeModele::getInstance()->getTerrain()->getTable();
 
 	jclass point = env->FindClass("java/awt/Point");
 	jmethodID creerPoint=env->GetMethodID(point,"<init>","()V");
@@ -1363,7 +1363,7 @@ JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_pointBu
 	if(!terrain)
 		return false;
 
-	NoeudTable* table = terrain->obtenirTable();
+	NoeudTable* table = terrain->getTable();
 	if(!table)
 		return false;
 
@@ -1388,7 +1388,7 @@ JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_pointPa
 	if(!terrain)
 		return false;
 
-	NoeudTable* table = terrain->obtenirTable();
+	NoeudTable* table = terrain->getTable();
 	if(!table)
 		return false;
 
