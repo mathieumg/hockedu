@@ -54,13 +54,13 @@ namespace XMLUtils
         {
             for ( int i = 0; i < 3; i++ ) 
             {
-                double item;
+                float item;
                 std::ostringstream nameAttribute;
                 nameAttribute << name;
                 nameAttribute << i;
-                if( element->QueryDoubleAttribute(nameAttribute.str().c_str(),&item) != TIXML_SUCCESS)
+                if( element->QueryFloatAttribute(nameAttribute.str().c_str(),&item) != TIXML_SUCCESS)
                     return false;
-                vecteur->operator[](i) = (float)item;
+                vecteur->operator[](i) = item;
             }
             return true;
         }

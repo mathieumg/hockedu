@@ -120,6 +120,9 @@
     <ClCompile Include="DebugRenderBox2D.cpp">
       <Filter>Sources Files</Filter>
     </ClCompile>
+    <ClCompile Include="StackWalker.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AideCollision.h">
@@ -243,6 +246,9 @@
       <Filter>Sources Files</Filter>
     </ClInclude>
     <ClInclude Include="DebugRenderBox2D.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StackWalker.h">
       <Filter>Sources Files</Filter>
     </ClInclude>
   </ItemGroup>
