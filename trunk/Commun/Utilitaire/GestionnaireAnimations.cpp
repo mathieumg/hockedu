@@ -138,7 +138,7 @@ void GestionnaireAnimations::retirerAnimation( Animation* animation )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireAnimations::retirerAnimation( double temps )
+/// @fn void GestionnaireAnimations::retirerAnimation( float temps )
 ///
 /// Anime les animations
 ///
@@ -147,7 +147,7 @@ void GestionnaireAnimations::retirerAnimation( Animation* animation )
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireAnimations::animer( double temps )
+void GestionnaireAnimations::animer( float temps )
 {
 	ListeAnimations::iterator aSuprimer = animations_.end();
 	ListeAnimations::iterator itAnimations = animations_.begin();

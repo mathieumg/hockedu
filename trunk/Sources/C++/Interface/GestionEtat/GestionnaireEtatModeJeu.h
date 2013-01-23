@@ -45,7 +45,7 @@ public:
 
 	/// Permet d'effectuer l'affichage specifique a l'etat
 	virtual void afficher();
-	virtual void miseAJourEvenementsRepetitifs( double deltaTemps );
+	virtual void miseAJourEvenementsRepetitifs( float deltaTemps );
 
 private:
 	bool shiftEnfonce_;

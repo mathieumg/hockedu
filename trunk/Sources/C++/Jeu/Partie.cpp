@@ -408,7 +408,7 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 		frame[3] = new AnimationFrame(1700, Vecteur3(-300, 150, 200), Vecteur3(0, 0, 0), Vecteur3(0, 0, 1));
 		frame[4] = new AnimationFrame(2000, Vecteur3(-300, -150, 200), Vecteur3(0, 0, 0), Vecteur3(0, 0, 1));
 		frame[5] = new AnimationFrame(2500, Vecteur3(300, 0, 0), Vecteur3(150, 0, 0), Vecteur3(0, 0, 1));
-		frame[6] = new AnimationFrame(dureeAnimationIntro, Vecteur3(0, -0.0001, 300), Vecteur3(0, 0, 0), Vecteur3(0, 1, 0));
+		frame[6] = new AnimationFrame((float)dureeAnimationIntro, Vecteur3(0, -0.0001f, 300), Vecteur3(0, 0, 0), Vecteur3(0, 1, 0));
 
 
 		Animation* animation = new Animation(BEZIER, true, true, true);

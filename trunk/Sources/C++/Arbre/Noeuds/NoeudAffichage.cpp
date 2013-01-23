@@ -91,9 +91,9 @@ void NoeudAffichage::animer( const float& temps)
 {
 	if(estAffiche())
 	{
-		echelleCourante_[VX]*=(1.0-(temps*4));
-		echelleCourante_[VY]*=(1.0-(temps*4));
-		echelleCourante_[VZ]*=(1.0-(temps*4));
+		echelleCourante_[VX]*=(1.0f-(temps*4));
+		echelleCourante_[VY]*=(1.0f-(temps*4));
+		echelleCourante_[VZ]*=(1.0f-(temps*4));
 		updateMatrice();
 	}
 	

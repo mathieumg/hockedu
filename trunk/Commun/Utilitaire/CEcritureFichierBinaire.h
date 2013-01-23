@@ -14,7 +14,7 @@
 ///////////////////////////////////////////////////////////////////////////
 /// @class CEcritureFichierBinaire
 /// @brief Cette classe contient des méthodes < permettant d'écrire
-///        dans un fichier binaire des variables string, double,
+///        dans un fichier binaire des variables string, float,
 ///        float, int, unsigned int, char, bool.
 ///
 /// @author DGI-2990
@@ -32,8 +32,8 @@ public:
 
    /// Surcharge de l'opérateur pour le type @em std::string.
    friend CEcritureFichierBinaire& operator< ( CEcritureFichierBinaire& out, const std::string& s );
-   /// Surcharge de l'opérateur pour le type @em double.
-   friend CEcritureFichierBinaire& operator< ( CEcritureFichierBinaire& out, const double& x );
+   /// Surcharge de l'opérateur pour le type @em float.
+   friend CEcritureFichierBinaire& operator< ( CEcritureFichierBinaire& out, const float& x );
    /// Surcharge de l'opérateur pour le type @em float.
    friend CEcritureFichierBinaire& operator< ( CEcritureFichierBinaire& out, const float& x );
    /// Surcharge de l'opérateur pour le type @em int.

@@ -17,7 +17,7 @@ namespace vue {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn VueOrtho::VueOrtho(const Camera& camera, int xMinCloture, int xMaxCloture, int yMinCloture, int yMaxCloture, double zAvant, double zArriere, double zoomInMax, double zoomOutMax, double incrementZoom, double xMinFenetre, double xMaxFenetre, double yMinFenetre, double yMaxFenetre)
+   /// @fn VueOrtho::VueOrtho(const Camera& camera, int xMinCloture, int xMaxCloture, int yMinCloture, int yMaxCloture, float zAvant, float zArriere, float zoomInMax, float zoomOutMax, float incrementZoom, float xMinFenetre, float xMaxFenetre, float yMinFenetre, float yMaxFenetre)
    ///
    /// Constructeur d'une vue orthogonale.  Ne fait que créer les objets
    /// Projection et Camera correspondant.
@@ -46,11 +46,11 @@ namespace vue {
    ////////////////////////////////////////////////////////////////////////
    VueOrtho::VueOrtho(const Camera& camera,
                       int xMinCloture, int xMaxCloture, int yMinCloture, int yMaxCloture,
-                      double zAvant,  double zArriere,
-                      double zoomInMax, double zoomOutMax,
-                      double incrementZoom,
-                      double xMinFenetre, double xMaxFenetre,
-                      double yMinFenetre, double yMaxFenetre) :
+                      float zAvant,  float zArriere,
+                      float zoomInMax, float zoomOutMax,
+                      float incrementZoom,
+                      float xMinFenetre, float xMaxFenetre,
+                      float yMinFenetre, float yMaxFenetre) :
       Vue(camera),
       projection_(xMinCloture, xMaxCloture, yMinCloture, yMaxCloture,
                   zAvant, zArriere, zoomInMax, zoomOutMax,
@@ -239,7 +239,7 @@ namespace vue {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void VueOrtho::deplacerXYSouris(double deplacementX, double deplacementY)
+   /// @fn void VueOrtho::deplacerXYSouris(float deplacementX, float deplacementY)
    ///
    /// @param[in]  deplacementX : Déplacement en pourcentage de la largeur.
    /// @param[in]  deplacementY : Déplacement en pourcentage de la hauteur.
@@ -249,7 +249,7 @@ namespace vue {
    /// @return Aucune.
    ///
    ////////////////////////////////////////////////////////////////////////
-   void VueOrtho::deplacerXYSouris(double deplacementX, double deplacementY)
+   void VueOrtho::deplacerXYSouris(float deplacementX, float deplacementY)
    {
       projection_.translater(deplacementX, deplacementY);
    }
@@ -276,7 +276,7 @@ namespace vue {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void VueOrtho::deplacerXYFleches(double deplacementX, double deplacementY)
+   /// @fn void VueOrtho::deplacerXYFleches(float deplacementX, float deplacementY)
    ///
    /// @param[in]  deplacementX : Déplacement en pourcentage de la largeur.
    /// @param[in]  deplacementY : Déplacement en pourcentage de la hauteur.
@@ -286,7 +286,7 @@ namespace vue {
    /// @return Aucune.
    ///
    ////////////////////////////////////////////////////////////////////////
-   void VueOrtho::deplacerXYFleches(double deplacementX, double deplacementY)
+   void VueOrtho::deplacerXYFleches(float deplacementX, float deplacementY)
    {
 	   deplacerXYSouris(deplacementX, deplacementY);
    }
@@ -312,7 +312,7 @@ namespace vue {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void VueOrtho::deplacerZ(double deplacement)
+   /// @fn void VueOrtho::deplacerZ(float deplacement)
    ///
    /// Ne fait rien, car se déplacer dans l'axe de la profondeur n'a pas
    /// vraiment de signification avec une vue orthogonale.
@@ -322,14 +322,14 @@ namespace vue {
    /// @return Aucune.
    ///
    ////////////////////////////////////////////////////////////////////////
-   void VueOrtho::deplacerZ(double deplacement)
+   void VueOrtho::deplacerZ(float deplacement)
    {
    }
 
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void VueOrtho::rotaterXY(double rotationX, double rotationY)
+   /// @fn void VueOrtho::rotaterXY(float rotationX, float rotationY)
    ///
    /// Permet de faire une rotation de la caméra autour du point vers
    /// lequel elle regarde en modifiant l'angle de rotation et l'angle
@@ -344,7 +344,7 @@ namespace vue {
    /// @return Aucune.
    ///
    ////////////////////////////////////////////////////////////////////////
-   void VueOrtho::rotaterXY(double rotationX, double rotationY)
+   void VueOrtho::rotaterXY(float rotationX, float rotationY)
    {
       //obtenirCamera().orbiterXY(rotationX * 360, rotationY * 180);
    }
@@ -368,14 +368,14 @@ namespace vue {
    void VueOrtho::rotaterXY(const Vecteur2i& rotation)
    {
       /*const Vecteur2i dimensions = projection_.obtenirDimensionCloture();
-      rotaterXY(rotation[0] / (double) dimensions[0],
-                rotation[1] / (double) dimensions[1]);*/
+      rotaterXY(rotation[0] / (float) dimensions[0],
+                rotation[1] / (float) dimensions[1]);*/
    }
 
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void VueOrtho::rotaterZ(double rotation)
+   /// @fn void VueOrtho::rotaterZ(float rotation)
    ///
    /// Ne fait rien, car tourner autour de l'axe de la profondeur
    /// correspondrait à un rouli et n'est pas souhaitable pour cette vue.
@@ -385,7 +385,7 @@ namespace vue {
    /// @return Aucune.
    ///
    ////////////////////////////////////////////////////////////////////////
-   void VueOrtho::rotaterZ(double rotation)
+   void VueOrtho::rotaterZ(float rotation)
    {
    }
 

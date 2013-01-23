@@ -618,12 +618,12 @@ void NoeudAbstrait::assignerParent( NoeudComposite* parent )
 ///
 /// Assigne l'angle de rotation.
 ///
-/// @param[in] double angle : nouvel angle de rotation.
+/// @param[in] float angle : nouvel angle de rotation.
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::assignerAngle( const double& angle )
+void NoeudAbstrait::assignerAngle( const float& angle )
 {
 	mAngle = angle;
     if(mPhysicBody)
@@ -635,14 +635,14 @@ void NoeudAbstrait::assignerAngle( const double& angle )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn double NoeudAbstrait::obtenirAngle(  )
+/// @fn float NoeudAbstrait::obtenirAngle(  )
 ///
 /// retourne l'angle de rotation.
 ///
-/// @return double : l'angle en degree
+/// @return float : l'angle en degree
 ///
 ////////////////////////////////////////////////////////////////////////
-double NoeudAbstrait::obtenirAngle() const
+float NoeudAbstrait::obtenirAngle() const
 {
 	return mAngle;
 }
@@ -684,7 +684,7 @@ NoeudAbstrait::PaireVect3 NoeudAbstrait::obtenirZoneOccupee() const
 {
 	
 	Vecteur3 minimum, maximum;
-	double largeur, hauteur;
+	float largeur, hauteur;
     Modele3D* pModel = obtenirModele();
     if(pModel)
     {
@@ -693,11 +693,11 @@ NoeudAbstrait::PaireVect3 NoeudAbstrait::obtenirZoneOccupee() const
         hauteur = echelleCourante_[VY]*(maximum[VY]-minimum[VY]);
 
         // On multiplie par l'echelle maximale
-        minimum[VX] = obtenirPositionAbsolue()[VX]-(largeur*cos(((int)mAngle%90)*M_PI/180))/2;
-        maximum[VX] = obtenirPositionAbsolue()[VX]+(largeur*cos(((int)mAngle%90)*M_PI/180))/2;
+        minimum[VX] = obtenirPositionAbsolue()[VX]-(largeur*cos(((int)mAngle%90)*(float)M_PI/180))/2;
+        maximum[VX] = obtenirPositionAbsolue()[VX]+(largeur*cos(((int)mAngle%90)*(float)M_PI/180))/2;
 
-        minimum[VY] = obtenirPositionAbsolue()[VY]-(largeur*sin(((int)mAngle%90)*M_PI/180))/2;
-        maximum[VY] = obtenirPositionAbsolue()[VY]+(largeur*sin(((int)mAngle%90)*M_PI/180))/2;
+        minimum[VY] = obtenirPositionAbsolue()[VY]-(largeur*sin(((int)mAngle%90)*(float)M_PI/180))/2;
+        maximum[VY] = obtenirPositionAbsolue()[VY]+(largeur*sin(((int)mAngle%90)*(float)M_PI/180))/2;
 
         if(maximum[VY]-minimum[VY]<hauteur)
         {
@@ -712,15 +712,15 @@ NoeudAbstrait::PaireVect3 NoeudAbstrait::obtenirZoneOccupee() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn double NoeudAbstrait::obtenirRayon(  )
+/// @fn float NoeudAbstrait::obtenirRayon(  )
 ///
 /// Retourne le rayon du noeud
 ///
 ///
-/// @return double : Le rayon du noeud.
+/// @return float : Le rayon du noeud.
 ///
 ////////////////////////////////////////////////////////////////////////
-double NoeudAbstrait::obtenirRayon() const
+float NoeudAbstrait::obtenirRayon() const
 {
 	return rayon_;
 }
@@ -728,17 +728,17 @@ double NoeudAbstrait::obtenirRayon() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn double NoeudAbstrait::updateRayon(  )
+/// @fn float NoeudAbstrait::updateRayon(  )
 ///
 /// Recalcule le rayon
 ///
 ///
-/// @return double : Le rayon du noeud.
+/// @return float : Le rayon du noeud.
 ///
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::updateRayon()
 {
-	double rayon = 1, bas, haut;
+	float rayon = 1, bas, haut;
     Modele3D* pModel = obtenirModele();
 	if(pModel)
 		pModel->calculerCylindreEnglobant(rayon, bas, haut);
@@ -826,7 +826,7 @@ TiXmlElement* NoeudAbstrait::creerNoeudXML()
 	TiXmlElement* elementNoeud = XMLUtils::creerNoeud(type_.c_str());
     XMLUtils::ecrireVecteur3Dxml(&positionRelative_,elementNoeud,"pos");
     XMLUtils::ecrireVecteur3Dxml(&echelleCourante_,elementNoeud,"echelle");
-    XMLUtils::ecrireAttribute<double>(elementNoeud,"angle",mAngle);
+    XMLUtils::ecrireAttribute<float>(elementNoeud,"angle",mAngle);
     XMLUtils::ecrireAttribute<int>(elementNoeud,"affiche",affiche_);
     XMLUtils::ecrireAttribute<int>(elementNoeud,"selectionnable",selectionnable_);
 
@@ -847,7 +847,7 @@ TiXmlElement* NoeudAbstrait::creerNoeudXML()
 bool NoeudAbstrait::initialiser( const TiXmlElement* element )
 {
 	int intElem;
-	double doubleElem;
+	float doubleElem;
 	Vecteur3 pos;
     
 	if( !XMLUtils::lectureVecteur3Dxml(&pos,element,"pos") )
@@ -856,7 +856,7 @@ bool NoeudAbstrait::initialiser( const TiXmlElement* element )
     if( !XMLUtils::lectureVecteur3Dxml(&echelleCourante_,element,"echelle") )
         return false;
 
-    if( !XMLUtils::LireAttribute<double>(element,"angle",doubleElem) )
+    if( !XMLUtils::LireAttribute<float>(element,"angle",doubleElem) )
         return false;
     mAngle = doubleElem;
 

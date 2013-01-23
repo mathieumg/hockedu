@@ -66,7 +66,7 @@ namespace aidegl {
    void afficherRectangleIntervalle(
       const Vecteur3& point1, const Vecteur3& point2,
       const Vecteur3& point3, const Vecteur3& point4,
-      double deltaS, double deltaT
+      float deltaS, float deltaT
       );
 
 

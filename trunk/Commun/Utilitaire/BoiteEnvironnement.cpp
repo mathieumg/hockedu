@@ -83,7 +83,7 @@ namespace utilitaire {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void BoiteEnvironnement::afficher(const Vecteur3& centre, double demiLargeur) const
+   /// @fn void BoiteEnvironnement::afficher(const Vecteur3& centre, float demiLargeur) const
    ///
    /// Cette fonction affiche tout simplement la boîte d'environnement.
    ///
@@ -96,7 +96,7 @@ namespace utilitaire {
    ///
    ////////////////////////////////////////////////////////////////////////
    void BoiteEnvironnement::afficher(const Vecteur3& centre,
-                                     double demiLargeur) const
+                                     float demiLargeur) const
    {
       glPushAttrib(GL_ENABLE_BIT | GL_DEPTH_BUFFER_BIT);
 

@@ -37,7 +37,7 @@ namespace math {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void Plan3D::lireParam(double& a, double& b, double& c, double& d) const
+   /// @fn void Plan3D::lireParam(float& a, float& b, float& c, float& d) const
    ///
    /// Lire les 4 coefficients qui définissent un plan en 3D.
    /// \f$ Ax + By + Cz + D = 0 \f$
@@ -50,7 +50,7 @@ namespace math {
    /// @return Aucune.
    ///
    ////////////////////////////////////////////////////////////////////////
-   void Plan3D::lireParam(double& a, double& b, double& c, double& d) const
+   void Plan3D::lireParam(float& a, float& b, float& c, float& d) const
    {
       a = normale_[0];
       b = normale_[1];

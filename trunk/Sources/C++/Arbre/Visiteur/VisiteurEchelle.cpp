@@ -21,16 +21,16 @@
 #include "NoeudAccelerateur.h"
 
 
-const double VisiteurEchelle::FACTEUR_ECHELLE = 1.005;
-const double VisiteurEchelle::FACTEUR_ROTATION = 1;
-const double VisiteurEchelle::FACTEUR_ECHELLE_MAX = 20;
-const double VisiteurEchelle::FACTEUR_ECHELLE_MIN = 0.20;
+const float VisiteurEchelle::FACTEUR_ECHELLE = 1.005f;
+const float VisiteurEchelle::FACTEUR_ROTATION = 1;
+const float VisiteurEchelle::FACTEUR_ECHELLE_MAX = 20;
+const float VisiteurEchelle::FACTEUR_ECHELLE_MIN = 0.20f;
 
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn  VisiteurEchelle::VisiteurEchelle( double facteur, int axe /* = -1 */ )
+/// @fn  VisiteurEchelle::VisiteurEchelle( float facteur, int axe /* = -1 */ )
 ///
 /// Constructeur par paramètre
 ///
@@ -41,7 +41,7 @@ const double VisiteurEchelle::FACTEUR_ECHELLE_MIN = 0.20;
 /// @return Aucun
 ///
 ////////////////////////////////////////////////////////////////////////
-VisiteurEchelle::VisiteurEchelle( double facteur, int axe /* = -1 */, bool ignoreSelection /* = false */ )
+VisiteurEchelle::VisiteurEchelle( float facteur, int axe /* = -1 */, bool ignoreSelection /* = false */ )
 {
 	facteur_ = facteur;
 	axe_ = axe;

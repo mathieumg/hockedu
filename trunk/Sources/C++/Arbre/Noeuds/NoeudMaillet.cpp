@@ -175,7 +175,7 @@ void NoeudMaillet::gestionCollision( const float& temps )
 			if( (*iter) == rondelle)
 			{
 				Vecteur3 dir = rondelle->obtenirPositionAbsolue() - obtenirPositionAbsolue();
-				double enf = (rondelle->obtenirRayon()+obtenirRayon())-dir.norme();
+				float enf = (rondelle->obtenirRayon()+obtenirRayon())-dir.norme();
 				dir.normaliser();
 				enfoncement_ += dir*enf;
 				collisionAvecRondelle_ = true;

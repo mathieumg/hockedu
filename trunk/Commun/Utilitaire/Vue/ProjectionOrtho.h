@@ -39,17 +39,17 @@ namespace vue {
       /// Constructeur.
       ProjectionOrtho(int xMinCloture, int xMaxCloture,
                       int yMinCloture, int yMaxCloture,
-                      double zAvant,  double zArriere,
-                      double zoomInMax, double zoomOutMax,
-                      double incrementZoom,
-                      double xMinFenetre, double xMaxFenetre,
-                      double yMinFenetre, double yMaxFenetre);
+                      float zAvant,  float zArriere,
+                      float zoomInMax, float zoomOutMax,
+                      float incrementZoom,
+                      float xMinFenetre, float xMaxFenetre,
+                      float yMinFenetre, float yMaxFenetre);
 
 
       /// Zoom in, c'est-à-dire un agrandissement.
-      virtual void zoomerIn( double increment );
+      virtual void zoomerIn( float increment );
       /// Zoom out, c'est-à-dire un rapetissement.
-      virtual void zoomerOut( double increment );
+      virtual void zoomerOut( float increment );
       /// Modification de la clôture.
       virtual void redimensionnerFenetre( const Vecteur2i& coinMin,
                                           const Vecteur2i& coinMax );
@@ -62,7 +62,7 @@ namespace vue {
       /// Zoom in élatique, sur un rectangle.
       void zoomerIn( const Vecteur2i& coin1, const Vecteur2i& coin2);
 	  /// Translater la fenêtre virtuelle d'un pourcentage en @a X ou en @a Y
-      void translater( double deplacementX, double deplacementY );
+      void translater( float deplacementX, float deplacementY );
       /// Translater la fenêtre virtuelle d'un vecteur
       void translater( const Vecteur2i& deplacement );
       /// Centrer la fenêtre virtuelle sur un point
@@ -70,7 +70,7 @@ namespace vue {
 
       /// Obtenir les coordonnées de la fenêtre virtuelle.
       inline void obtenirCoordonneesFenetreVirtuelle(
-         double& xMin, double& xMax, double& yMin, double& yMax
+         float& xMin, float& xMax, float& yMin, float& yMax
          ) const;
 	  /// Obtention des dimensions de la fenêtre de clotûre.
 	  virtual inline Vecteur2 obtenirDimensionFenetre() const;
@@ -90,18 +90,18 @@ namespace vue {
       
       /// Convertir des coordonnées entre la fenêtre de clôture et la fenêtre
       /// virtuelle.
-      void convertirClotureAVirtuelle(int i, int j, double& x, double& y) const;
+      void convertirClotureAVirtuelle(int i, int j, float& x, float& y) const;
 	  /// Convertir des coordonnées entre la fenêtre de clôture et la fenêtre
 	  /// virtuelle.
 	  Vecteur2 convertirClotureAVirtuelle(const Vecteur2i& v ) const;
 	  /// Borne supérieure en X de la fenêtre virtuelle.
-      double xMaxFenetre_;
+      float xMaxFenetre_;
       /// Borne inférieure en Y de la fenêtre virtuelle.
-      double yMinFenetre_;
+      float yMinFenetre_;
       /// Borne supérieure en Y de la fenêtre virtuelle.
-      double yMaxFenetre_;
+      float yMaxFenetre_;
 	  /// Borne inférieure en X de la fenêtre virtuelle.
-	  double xMinFenetre_;
+	  float xMinFenetre_;
    };
 
 
@@ -109,7 +109,7 @@ namespace vue {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn inline void ProjectionOrtho::obtenirCoordonneesFenetreVirtuelle(double& xMin, double& xMax, double& yMin, double& yMax) const
+   /// @fn inline void ProjectionOrtho::obtenirCoordonneesFenetreVirtuelle(float& xMin, float& xMax, float& yMin, float& yMax) const
    ///
    /// Cette fonction retourne les coordonnées de la fenêtre virtuelle
    /// associée à cette projection.
@@ -123,7 +123,7 @@ namespace vue {
    ///
    ////////////////////////////////////////////////////////////////////////
    inline void ProjectionOrtho::obtenirCoordonneesFenetreVirtuelle(
-      double& xMin, double& xMax, double& yMin, double& yMax
+      float& xMin, float& xMax, float& yMin, float& yMax
       ) const
    {
       xMin = xMinFenetre_;

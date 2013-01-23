@@ -18,21 +18,21 @@
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn  NoeudPoint::NoeudPoint( const std::string& typeNoeud, 
-/// double coordX, double coordY, int typePosNoeud )
+/// float coordX, float coordY, int typePosNoeud )
 ///
 /// Constructeur assignant les paramètres donner aux attributs de la 
 /// classe.
 ///
 /// @param[in] const std::string & typeNoeud : le type de noeud.
-/// @param[in] double coordX : la coordonne en X du noeud.
-/// @param[in] double coordY : la coordonne en Y du noeud.
+/// @param[in] float coordX : la coordonne en X du noeud.
+/// @param[in] float coordY : la coordonne en Y du noeud.
 /// @param[in] int typePosNoeud : un int représentant le enum du 
 ///									type de position du noeud, i.e. HG.
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudPoint::NoeudPoint( const std::string& typeNoeud, double coordX, double coordY, TypePosPoint typePosNoeud)
+NoeudPoint::NoeudPoint( const std::string& typeNoeud, float coordX, float coordY, TypePosPoint typePosNoeud)
 	: NoeudComposite(typeNoeud) , longueurCote_(2.0f), typePosNoeud_(typePosNoeud)
 {
 	// Il ne faut aps utiliser le modificateur de position relative, car il ne faut pas affecter le modele 3D a la construction des points
@@ -91,7 +91,7 @@ void NoeudPoint::afficherConcret() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudPoint::animer( const float& temps )
 {
-	mAngle = (int)(mAngle+temps*500.0)%360;
+	mAngle = (float)((int)(mAngle+temps*500.0f)%360);
 	updateMatrice();
 
 	glPushMatrix();
@@ -217,11 +217,11 @@ bool NoeudPoint::validerDeplacement( const Vecteur3& pos, const Vecteur2& deplac
 		ZoneEdition* zone = &t->getZoneEdition();
 		Vecteur3 deplace2(deplace[VX],deplace[VY],0);
 		Vecteur3 cible=pos+deplace2;
-		double valeurLimiteInt = (axe == VX) ? zone->obtenirLimiteIntLongueur() : zone->obtenirLimiteIntLargeur();
+		float valeurLimiteInt = (axe == VX) ? zone->obtenirLimiteIntLongueur() : zone->obtenirLimiteIntLargeur();
 		if(abs(cible[axe]) < valeurLimiteInt)
 			return false;
 
-		double valeurLimiteExt = (axe == VX) ? zone->obtenirLimiteExtLongueur() : zone->obtenirLimiteExtLargeur();
+		float valeurLimiteExt = (axe == VX) ? zone->obtenirLimiteExtLongueur() : zone->obtenirLimiteExtLargeur();
 		if(abs(cible[axe]) > valeurLimiteExt)
 			return false;
 
@@ -240,10 +240,10 @@ bool NoeudPoint::validerDeplacement( const Vecteur3& pos, const Vecteur2& deplac
 ///
 /// @param[in]	void
 ///
-/// @return double : rayon du noeud.
+/// @return float : rayon du noeud.
 ///
 ////////////////////////////////////////////////////////////////////////
-double NoeudPoint::obtenirRayon() const
+float NoeudPoint::obtenirRayon() const
 {
 	return longueurCote_;
 }

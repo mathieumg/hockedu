@@ -88,7 +88,7 @@ void NoeudPortail::afficherConcret() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudPortail::animer( const float& temps)
 {
-	mAngle = (int)(mAngle+temps*1000.0)%360;
+	mAngle = (float)((int)(mAngle+temps*1000.0f)%360);
 	updateMatrice();
    // Appel à la version de la classe de base pour l'animation des enfants.
    NoeudAbstrait::animer(temps);

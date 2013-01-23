@@ -22,7 +22,7 @@ class AnimationFrame
 {
 public:
 	/// Constructeur par paramètres
-	AnimationFrame(double temps, Vecteur3 param1, Vecteur3 param2 = Vecteur3(0, 0, 0), Vecteur3 param3 = Vecteur3(1, 1, 1));
+	AnimationFrame(float temps, Vecteur3 param1, Vecteur3 param2 = Vecteur3(0, 0, 0), Vecteur3 param3 = Vecteur3(1, 1, 1));
 	/// Destructeur
 	~AnimationFrame(void);
 
@@ -30,8 +30,8 @@ public:
 	void afficher() const;
 
 	/// Accesseur et modificateur du temps
-	double obtenirTemps() const { return temps_; }
-	void modifierTemps(double val) { temps_ = val; }
+	float obtenirTemps() const { return temps_; }
+	void modifierTemps(float val) { temps_ = val; }
 
 	/// Accesseur et modificateur du premier paramètre
 	Vecteur3 obtenirParam1() const { return param1_; }
@@ -50,7 +50,7 @@ public:
 
 protected:
 	/// Temps a laquelle la frame doit etre effectuer
-	double temps_;
+	float temps_;
 	
 	/// Attribut de position
 	Vecteur3 param1_;

@@ -3281,7 +3281,7 @@ std::string EtatOpenGL::obtenirChaineGlDither() const
 ///
 /// Selon le man page, cet attribut:
 ///
-/// params returns a single boolean value indicating whether double buffering
+/// params returns a single boolean value indicating whether float buffering
 /// is supported.
 ///
 /// @return Une chaîne représentant l'attribut GL_DOUBLEBUFFER.

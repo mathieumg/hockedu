@@ -43,26 +43,26 @@ public:
 	/// Retourne la zone occupee par la table
 	virtual PaireVect3 obtenirZoneOccupee() const;
 	/// Retourne le rayon du noeud
-	void updateLongueur(double facteurModificationEchelle = 1);
+	void updateLongueur(float facteurModificationEchelle = 1);
 	/// Modifie le pointeur sur le but adverse
 	void modifierButAdverse(NoeudBut* butAdverse);
 	NoeudBut* obtenirButAdverse();
 
 	/// Permet de connaitre la hauteur des buts pour savoir si la rondelle peut y passer
-	double obtenirHauteurBut();
+	float obtenirHauteurBut();
 
 	/// Permet d'assigner les attribut nécessaire à la collision
 	virtual void assignerAttributVisiteurCollision(VisiteurCollision* v);
 
 	/// Oermet d'obtenir le rayon du but
-	virtual double obtenirRayon();
+	virtual float obtenirRayon();
 
 	/// Creation du noeud XML du but
 	virtual TiXmlElement* creerNoeudXML();
 	/// Initialisation du But à partir d'un element XML
 	virtual bool initialiser(const TiXmlElement* element);
 
-	static double longueurBut_;
+	static float longueurBut_;
 	/// Accesseur de mBottomPosition
 	inline Vecteur3 obtenirPositionBas() const { return mBottomPosition; }
 	/// Accesseur de mTopPosition
@@ -89,7 +89,7 @@ private:
     /// Angle des 2 composantes du but en degre
     float mBottomAngle,mTopAngle;
 	/// Longueur du but
-	const double longueurButBase_;
+	const float longueurButBase_;
 	/// Pointeur sur le but adverse
 	NoeudBut* butAdverse_;
 	/// Position du point extérieur du but

@@ -32,7 +32,7 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-VisiteurRotation::VisiteurRotation( double angle, Vecteur2 centreRot )
+VisiteurRotation::VisiteurRotation( float angle, Vecteur2 centreRot )
 {
 	angleRot_ = (int)angle;
 	centreRot_ = centreRot;
@@ -77,15 +77,15 @@ void VisiteurRotation::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 	
 	Vecteur3 positionNoeud = noeud->obtenirPositionAbsolue();
 
-	double	deltaX = positionNoeud[VX]-centreRot_[VX],
+	float	deltaX = positionNoeud[VX]-centreRot_[VX],
 			deltaY = positionNoeud[VY]-centreRot_[VY];
 
-	double rayon = sqrt(deltaX*deltaX+deltaY*deltaY);
+	float rayon = sqrt(deltaX*deltaX+deltaY*deltaY);
 
-	double angleCourantRad = atan2(deltaY, deltaX);
+	float angleCourantRad = atan2(deltaY, deltaX);
 
 
-	double centreRotRel[2];
+	float centreRotRel[2];
 	NoeudAbstrait* parent = noeud->obtenirParent();
 	if(parent!=0)
 	{
@@ -103,8 +103,8 @@ void VisiteurRotation::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 	noeud->assignerAngle(noeud->obtenirAngle()-angleRot_);
 
 	Vecteur2 varDeplacement;
-	varDeplacement[VX] = centreRotRel[VX]+rayon*cos((angleCourantRad-(angleRot_*M_PI/180)));
-	varDeplacement[VY] = centreRotRel[VY]+rayon*sin((angleCourantRad-(angleRot_*M_PI/180)));
+	varDeplacement[VX] = centreRotRel[VX]+rayon*cos((angleCourantRad-(angleRot_*(float)M_PI/180)));
+	varDeplacement[VY] = centreRotRel[VY]+rayon*sin((angleCourantRad-(angleRot_*(float)M_PI/180)));
 	
 	Vecteur2 posInverse(-noeud->obtenirPositionRelative()[VX], -noeud->obtenirPositionRelative()[VY]);
 	VisiteurDeplacement visiteurDeplacement(posInverse);

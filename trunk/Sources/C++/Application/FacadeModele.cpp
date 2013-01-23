@@ -1462,10 +1462,10 @@ void FacadeModele::initialiserVue()
 
 
 	vue_ = new vue::VuePerspectiveOrbit(
-		vue::Camera(Vecteur3(0, -0.0001, 300), Vecteur3(0, 0, 0),
+		vue::Camera(Vecteur3(0, -0.0001f, 300), Vecteur3(0, 0, 0),
 		Vecteur3(0, 1, 0)  , Vecteur3(0, 1, 0)),
 		0, 400, 0, 400,
-		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
+		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25f,
 		-150, 150, -150, 150);
 
 	
@@ -2022,10 +2022,10 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
 	ConteneurNoeuds* listeNoeud = visiteur.obtenirListeNoeuds();
 
 
-	double coeffRebondBandes[8];
-	double largeurTable;
-	double longueurTable;
-	double friction;
+	float coeffRebondBandes[8];
+	float largeurTable;
+	float longueurTable;
+	float friction;
 	if(getTerrain())
 	{
 		longueurTable = getTerrain()->getZoneEdition().obtenirLimiteExtLongueur();
@@ -2061,12 +2061,13 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
 
 	jobject modificateurAEnvoyer = env->NewObject(classe, constructeur);
 
-	Vecteur3 pos(DBL_MAX, DBL_MAX, DBL_MAX);
+	//Vecteur3 pos((float)DBL_MAX, (float)DBL_MAX, (float)DBL_MAX);
+	Vecteur3 pos(0,0,0);
 	int rotation = -1;
 	Vecteur3 echelleTotale(0, 0, 0);
-	double echelle = -1;
-	double rebond = -1;
-	double acceleration = -1;
+	float echelle = -1;
+	float rebond = -1;
+	float acceleration = -1;
 
 	std::string type;
 	bool trouve = false,ok = true;
@@ -2105,7 +2106,7 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
 		echelle = max(max(echelleTotale[VX], echelleTotale[VY]), echelleTotale[VZ]);
 
 		if(type=="muret")
-			echelle = echelleTotale[VX]/10.0;
+			echelle = echelleTotale[VX]/10.0f;
 		if(type=="point")
 		{
 			if(noeudATraiter->obtenirNombreEnfants()>0)
@@ -2115,7 +2116,7 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
 				{
 					Vecteur3 echelleCouranteBut;
 					enfant->obtenirEchelleCourante(echelleCouranteBut);
-					echelle = echelleCouranteBut[VX]/10.0;
+					echelle = echelleCouranteBut[VX]/10.0f;
 				}
 				else
 				{
@@ -2479,17 +2480,17 @@ void FacadeModele::DrawSelectionRectangle() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn double FacadeModele::obtenirLargeurZoneEdition()
+/// @fn float FacadeModele::obtenirLargeurZoneEdition()
 ///
 /// /*Description*/
 ///
 ///
-/// @return double
+/// @return float
 ///
 ////////////////////////////////////////////////////////////////////////
-double FacadeModele::obtenirLargeurZoneEdition()
+float FacadeModele::obtenirLargeurZoneEdition()
 {
-    return 2.0*getTerrain()->getZoneEdition().obtenirLimiteExtLargeur();
+    return 2.0f*getTerrain()->getZoneEdition().obtenirLimiteExtLargeur();
 }
 
 ////////////////////////////////////////////////////////////////////////

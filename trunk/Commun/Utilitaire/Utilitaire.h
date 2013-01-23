@@ -63,7 +63,7 @@ namespace utilitaire {
 	typedef unsigned int uint;
 
 	/// Constante pour la différence entre deux nombres réels.
-	static const double EPSILON( 0.00000001 );
+	static const float EPSILON( 0.00000001f );
 	/// Constante PI.
 	static const double PI( 3.1415926535897932384626433832795 );
 
@@ -79,9 +79,9 @@ namespace utilitaire {
 	void afficherErreur(const std::string& message);
 
 	/// Pour convertir les angles de radians en degrés.
-	double RAD_TO_DEG( double AngleRad );
+	float RAD_TO_DEG( float AngleRad );
 	/// Pour convertir les angles de degrés en radians.
-	double DEG_TO_RAD( double AngleDeg );
+	float DEG_TO_RAD( float AngleDeg );
     /// Pour convertir un vecteur de jeu en un vecteur pour Box2D
     void VEC3_TO_B2VEC( const Vecteur3& pVector, struct b2Vec2& pB2vector);
     void B2VEC_TO_VEC3( Vecteur3& pVector, const struct b2Vec2& pB2vector);
@@ -97,23 +97,23 @@ namespace utilitaire {
 	/// Fonction qui retourne la valeur absolue d'un nombre.
 	float ABS( float nombre );
 
-	/// Fonction pour savoir si un double est égal à zéro.
-	bool EGAL_ZERO(double Nombre);
+	/// Fonction pour savoir si un float est égal à zéro.
+	bool EGAL_ZERO(float Nombre);
 
 	/// Pour savoir si un nombre est dans l'intervalle: [BorneMin, BorneMax].
-	bool DANS_INTERVALLE( double Valeur, double BorneMin, double BorneMax );
+	bool DANS_INTERVALLE( float Valeur, float BorneMin, float BorneMax );
 	/// Fonction pour vérifier si un Point 2d est dans un carré.
-	bool DANS_LIMITESXY( double x, double xMin, double xMax,
-		double y, double yMin, double yMax );
+	bool DANS_LIMITESXY( float x, float xMin, float xMax,
+		float y, float yMin, float yMax );
 
 	/// Calcule le rapport d'écrasement
-	double ecrasement( double a, double b);
+	float ecrasement( float a, float b);
 
 	/// Vérification de l'existance d'un fichier
 	bool fichierExiste( const std::string& nomDuFichier );
 
 	/// Applique une matrice de transformation à un point.
-	Vecteur3 appliquerMatrice( const Vecteur3& point, const double mat[] );
+	Vecteur3 appliquerMatrice( const Vecteur3& point, const float mat[] );
 
 	// Foncteur permettant de supprimer chaque element avec un for_each d'un vecteur
 	struct LibererVecteur

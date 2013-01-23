@@ -157,8 +157,8 @@ public:
 	/// Mutateur de la matrice de transformation
 	virtual void modifierMatrice(GLdouble *matrice);
 	/// Acces et modification de l'angle de rotation
-	virtual void assignerAngle(const double& angle);
-	virtual double obtenirAngle() const;
+	virtual void assignerAngle(const float& angle);
+	virtual float obtenirAngle() const;
 
 	/// Met a jour la matrice de transformations
 	virtual void updateMatrice();
@@ -173,7 +173,7 @@ public:
 	/// Retourne la zone occupee par le noeud (coord virtuelles)
 	virtual PaireVect3 obtenirZoneOccupee() const;
 	/// Retourne le rayon du noeud
-	virtual double obtenirRayon() const;
+	virtual float obtenirRayon() const;
 	/// Recalcule le rayon
 	virtual void updateRayon();
 
@@ -255,10 +255,10 @@ protected:
 	Vecteur3 echelleCourante_;
 
 	/// Angle de rotation autour de l'axe Z.
-	double mAngle;
+	float mAngle;
 
 	/// Rayon de l'objet
-	double rayon_;
+	float rayon_;
 
 	/// Est en collision
 	bool surligne_;

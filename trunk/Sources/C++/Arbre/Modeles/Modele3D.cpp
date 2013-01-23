@@ -472,14 +472,14 @@ void Modele3D::dessinerNoeud(const aiScene* scene, const aiNode* noeud, bool ave
 	glPopMatrix();
 }
 
-double Modele3D::calculerSphereEnglobante() const
+float Modele3D::calculerSphereEnglobante() const
 {
 	Vecteur3 xMin,xMax,yMin,yMax,zMin,zMax;
 	this->obtenirPointsExtremes(xMin,xMax,yMin,yMax,zMin,zMax);
 
 	// Le rayon de la sphère englobante est le point le plus éloigné parmi les 6 points extrêmes possibles...
-	double max = 0;
-	double norme = 0;
+	float max = 0;
+	float norme = 0;
 	norme = xMin.norme2(); if (norme>max) max=norme;
 	norme = yMin.norme2(); if (norme>max) max=norme;
 	norme = zMin.norme2(); if (norme>max) max=norme;
@@ -490,7 +490,7 @@ double Modele3D::calculerSphereEnglobante() const
 	return sqrt(max);
 }
 
-void Modele3D::calculerCylindreEnglobant(double& rayon, double& bas, double& haut) const
+void Modele3D::calculerCylindreEnglobant(float& rayon, float& bas, float& haut) const
 {
 	Vecteur3 xMin,xMax,yMin,yMax,zMin,zMax;
 	this->obtenirPointsExtremes(xMin,xMax,yMin,yMax,zMin,zMax);
@@ -498,8 +498,8 @@ void Modele3D::calculerCylindreEnglobant(double& rayon, double& bas, double& hau
 	// Obtenir le point extrême le plus éloigné parmi les axes xy. L'axe z servira
 	// à établir le bas et le haut du cylindre.
 
-	double max = 0;
-	double norme = 0;
+	float max = 0;
+	float norme = 0;
 	norme = xMin[0]*xMin[0]+xMin[1]*xMin[1]; if (norme>max) max=norme;
 	norme = yMin[0]*yMin[0]+yMin[1]*yMin[1]; if (norme>max) max=norme;
 	norme = zMin[0]*zMin[0]+zMin[1]*zMin[1]; if (norme>max) max=norme;

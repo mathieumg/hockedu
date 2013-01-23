@@ -34,11 +34,11 @@ namespace vue {
       // Constructeur.
       VuePerspectiveSplit(const Camera& camera,
                int xMinCloture, int xMaxCloture, int yMinCloture, int yMaxCloture,
-               double zAvant,  double zArriere,
-               double zoomInMax, double zoomOutMax,
-               double incrementZoom,
-               double xMinFenetre, double xMaxFenetre,
-               double yMinFenetre, double yMaxFenetre);
+               float zAvant,  float zArriere,
+               float zoomInMax, float zoomOutMax,
+               float incrementZoom,
+               float xMinFenetre, float xMaxFenetre,
+               float yMinFenetre, float yMaxFenetre);
 
       /// Obtention de la projection.
       virtual const ProjectionPerspective& obtenirProjection() const;
@@ -68,27 +68,27 @@ namespace vue {
                                       const Vecteur2i& coin2);
 
       /// Déplacement dans le plan XY par rapport à la vue.
-      virtual void deplacerXYSouris(double deplacementX, double deplacementY);
+      virtual void deplacerXYSouris(float deplacementX, float deplacementY);
       /// Déplacement dans le plan XY par rapport à la vue.
       virtual void deplacerXYSouris(const Vecteur2i& deplacement);
 	  /// Déplacement dans le plan XY par rapport à la vue.
-	  virtual void deplacerXYFleches(double deplacementX, double deplacementY);
+	  virtual void deplacerXYFleches(float deplacementX, float deplacementY);
 	  /// Déplacement dans le plan XY par rapport à la vue.
 	  virtual void deplacerXYFleches(const Vecteur2i& deplacement);
       /// Déplacement selon l'axe des Z par rapport à la vue.
-      virtual void deplacerZ(double deplacement);
+      virtual void deplacerZ(float deplacement);
       /// Rotation selon les axes des X et des Y par rapport à la vue.
-      virtual void rotaterXY(double rotationX, double rotationY);
+      virtual void rotaterXY(float rotationX, float rotationY);
       /// Rotation selon les axes des X et des Y par rapport à la vue.
       virtual void rotaterXY(const Vecteur2i& rotation);
       /// Rotation selon l'axe des Z par rapport à la vue.
-      virtual void rotaterZ(double rotation);
+      virtual void rotaterZ(float rotation);
 
 	  virtual Vecteur2 convertirDeplacementClotureAVirtuelle( const Vecteur2i& v, const Vecteur2i& v2  ) const;
 
 	  virtual Vecteur3 convertirClotureAVirtuelle( const Vecteur2i& v ) const;
 
-	  virtual double obtenirAngleOuvertureProjection();
+	  virtual float obtenirAngleOuvertureProjection();
 
 	  virtual void appliquerViewport( int lequel );
 

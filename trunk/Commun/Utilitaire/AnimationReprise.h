@@ -16,19 +16,19 @@
 
 
 typedef std::pair<AnimationFrame*, ObjetAnimable*> AnimationRepriseFrame;
-//typedef std::pair<double, std::vector<AnimationRepriseFrame*>> IterationReplay;
+//typedef std::pair<float, std::vector<AnimationRepriseFrame*>> IterationReplay;
 
 
 struct IterationReplay
 {
-	IterationReplay(double temps, std::vector<AnimationRepriseFrame*> liste)
+	IterationReplay(float temps, std::vector<AnimationRepriseFrame*> liste)
 	{
 		temps_ = temps;
 		listeAnimationRepriseFrame_ = liste;
 		choixSon_ = -1;
 	}
 
-	double obtenirTemps()
+	float obtenirTemps()
 	{
 		return temps_;
 	}
@@ -43,7 +43,7 @@ struct IterationReplay
 		return choixSon_;
 	}
 
-	void modifierTemps(double temps)
+	void modifierTemps(float temps)
 	{
 		temps_ = temps;
 	}
@@ -53,7 +53,7 @@ struct IterationReplay
 		choixSon_ = choix;
 	}
 
-	double temps_;
+	float temps_;
 	std::vector<AnimationRepriseFrame*> listeAnimationRepriseFrame_;
 	int choixSon_; // -1 si vide
 
@@ -89,10 +89,10 @@ public:
 	virtual void arreterAnimation();
 
 	/// Accesseur sur la durée
-	double obtenirDureeTotale();
+	float obtenirDureeTotale();
 
 	/// Animer
-	virtual void animer( double temps );
+	virtual void animer( float temps );
 	/// Vider les frames
 	void viderListe();
 

@@ -43,13 +43,13 @@ public:
    /// Mutateur des coins
    virtual void assignerPositionCoin(int lequel, Vecteur3 position);
    /// Retourne le rayon du noeud
-   virtual double obtenirRayon() const;
+   virtual float obtenirRayon() const;
    /// Permet d'assigner les attribut nécessaire à la collision
    virtual void assignerAttributVisiteurCollision(VisiteurCollision* v);
 
    /// Accesseur de coefRebond_
-   double obtenirCoefRebond() const { return coefRebond_; }
-   void modifierCoefRebond(double val) { coefRebond_ = val; }
+   float obtenirCoefRebond() const { return coefRebond_; }
+   void modifierCoefRebond(float val) { coefRebond_ = val; }
    /// Permet de recalculer la position des coin des muret suite a une rotation
    void majPosCoins();
    /// Creation du noeud XML du muret
@@ -59,7 +59,7 @@ public:
    /// Permet de calculer l'angle du muret selon ces coins
    void trouverAngle();
    /// Permet de modifier l'angle du muret et garde les coins a jour
-   virtual void assignerAngle(const double& angle);
+   virtual void assignerAngle(const float& angle);
    /// Mutateur des facteurs d'echelle et conserve les coins a jour
    virtual void modifierEchelleCourante(const Vecteur3& echelleCourante);
    /// Recreates the physics body according to current attributes
@@ -72,7 +72,7 @@ private:
    Vecteur3 positionCoin2_;
 
    /// Coefficient different different pour chaque muret, sauvegarde en XML
-   double coefRebond_;
+   float coefRebond_;
 };
 
 

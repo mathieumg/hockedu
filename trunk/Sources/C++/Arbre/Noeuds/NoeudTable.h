@@ -48,7 +48,7 @@ public:
    /// Ajoute un noeud enfant.
    virtual bool ajouter( NoeudAbstrait* enfant );
    /// Calcule la hauteur max en y plus et y moins et la longueur max de la table
-   void calculerHautLongMax(double reponse[]);
+   void calculerHautLongMax(float reponse[]);
    /// Algorithme pour savoir si l'element est sur la table
    bool estSurTable(NoeudAbstrait* noeud);
    bool estSurTable(Vecteur2 position);
@@ -71,7 +71,7 @@ public:
    void replacerModele();
 
    /// Assigner le coefficient de rebond a la bande voulu a lindex voulu
-   void assignerCoefRebond(int index, double coefRebond);
+   void assignerCoefRebond(int index, float coefRebond);
 
 
    static void initialiserListeIndexPoints(Modele3D* modele);
@@ -96,7 +96,7 @@ private:
    //GLuint textureId_; 
 
    /// Coefficient de friction de la surface de la table, sauvegarder en XML
-   double coefFriction_;
+   float coefFriction_;
 
    /// Informations sur les 8 points modifiables
    typedef std::pair<TypePosPoint,TypePosPoint> CouplePoint;
@@ -123,17 +123,17 @@ public:
 	/// Retourne la zone occupee par la table
 	virtual PaireVect3 obtenirZoneOccupee() const;
 	/// Retourne le rayon du noeud
-	virtual double obtenirRayon() const;
+	virtual float obtenirRayon() const;
 	/// Retourne le muret de la zone d'edition correspondant a son enum
 	NoeudMuret* obtenirMuretZoneEdition(TypePosMuretEdition type) const;
 
 	/// Accesseur de coefFriction_
-	double obtenirCoefFriction() const { return coefFriction_; }
-	void modifierCoefFriction(double val) { coefFriction_ = val; }
+	float obtenirCoefFriction() const { return coefFriction_; }
+	void modifierCoefFriction(float val) { coefFriction_ = val; }
 
 	/// Accesseur du coefRebond des bandes
-	double obtenirCoefRebond(int quelBande) {return bande_[quelBande]->obtenirCoefRebond();}
-	void modifierCoefRebond(int quelBande, double coef) {bande_[quelBande]->modifierCoefRebond(coef);}
+	float obtenirCoefRebond(int quelBande) {return bande_[quelBande]->obtenirCoefRebond();}
+	void modifierCoefRebond(int quelBande, float coef) {bande_[quelBande]->modifierCoefRebond(coef);}
 
 	/// Accesseur des groupes de la table
 	NoeudGroupe* obtenirGroupe(std::string typeEnfant);

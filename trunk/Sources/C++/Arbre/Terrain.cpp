@@ -95,8 +95,8 @@ Terrain::Terrain(): arbreRendu_(NULL), arbreAjoutNoeud_(NULL), table_(NULL),nom_
 // 
 // 	vec.clear();
 // 
-// // 	double posX = -1207;
-// // 	double posY = 337;
+// // 	float posX = -1207;
+// // 	float posY = 337;
 // // 
 // // 	while(posY < 555)
 // // 	{
@@ -504,7 +504,7 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 		}
 	}
 	// Tests sur les positions avec leurs rayons beaucoup plus simple
-	// sert aussi de double check pour les murets car leur rayon est nulle
+	// sert aussi de float check pour les murets car leur rayon est nulle
 	if(pos[VX]+noeud->obtenirRayon() > getZoneEdition().obtenirLimiteExtLongueur() || pos[VX]-noeud->obtenirRayon() < -getZoneEdition().obtenirLimiteExtLongueur())
 		return false;
 	if(pos[VY]+noeud->obtenirRayon() > getZoneEdition().obtenirLimiteExtLargeur() || pos[VY]-noeud->obtenirRayon() < -getZoneEdition().obtenirLimiteExtLargeur())
@@ -567,7 +567,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 			utilitaire::afficherErreur("Erreur: table invalide\naucun buts presents sur le terrain");
 		return false;
 	}
-	double hauteurBut = table_->obtenirBut(1)->obtenirHauteurBut();
+	float hauteurBut = table_->obtenirBut(1)->obtenirHauteurBut();
 
 	const unsigned int nbTypeModifiable = 5;
 	std::string typeNoeudModifiable[] = {

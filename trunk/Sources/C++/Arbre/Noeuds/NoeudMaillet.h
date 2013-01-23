@@ -57,7 +57,7 @@ private:
 	/// Velocite courante du maillet
 	Vecteur3 velocite_;
 	/// Vitesse maximale
-	const double vitesse_;
+	const float vitesse_;
 	/// tableau indiquant dans quel direction ce deplace le maillet controlle par le clavier
 	bool direction_[NB_DIR];
 	/// Flag pour savoir qui a le controle de ce maillet
@@ -99,7 +99,7 @@ public:
 	/// Modificateur de velocite_
 	void modifierVelocite(Vecteur3 val) { velocite_ = val; }
 	/// Accesseur de vitesseMax_
-	const double obtenirVitesse() const { return vitesse_; }
+	const float obtenirVitesse() const { return vitesse_; }
 	/// Accesseur de estControleParOrdinateur_
 	bool obtenirEstControleParOrdinateur() const { return estControleParOrdinateur_; }
 	/// Modificateur de estControleParOrdinateur_

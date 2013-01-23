@@ -44,7 +44,7 @@ public:
 	/// Comportement lorsqu'on bouge la roulette de la souris
 	virtual void rouletteSouris(EvenementRouletteSouris& evenementRouletteSouris);
 
-	virtual void miseAJourEvenementsRepetitifs( double deltaTemps );
+	virtual void miseAJourEvenementsRepetitifs( float deltaTemps );
 	/// Animation en mode édition
 	virtual void animer( const float& temps );
 	/// Permet d'effectuer l'affichage specifique a l'etat

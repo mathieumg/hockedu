@@ -178,7 +178,7 @@ void Animation::afficher() const
 
 ///////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn Animation::animer(double temps) 
+/// @fn Animation::animer(float temps) 
 ///
 /// Methode pour avancer l'animaition dans le temps
 ///
@@ -187,7 +187,7 @@ void Animation::afficher() const
 /// @return void
 ///
 ///////////////////////////////////////////////////////////////////////////////
-void Animation::animer( double temps )
+void Animation::animer( float temps )
 {
 	if(termine_)
 		return;
@@ -201,12 +201,12 @@ void Animation::animer( double temps )
 	}
 
 	AnimationFrame* frameCourant = frames_[indexFrameCourant_];
-	double tempsFrameCourant = frameCourant->obtenirTemps();
+	float tempsFrameCourant = frameCourant->obtenirTemps();
 	if(indexFrameCourant_<((int)frames_.size()-1))
 	{
 		// Pas dernier frame
 		AnimationFrame* frameSuivant = frames_[indexFrameCourant_+1];
-		double tempsFrameSuivant = frameSuivant->obtenirTemps();
+		float tempsFrameSuivant = frameSuivant->obtenirTemps();
 		if((tempsCourant_)>tempsFrameSuivant)
 		{
 			// Si le temps a augmente de plus qu'une frame
@@ -338,9 +338,9 @@ void Animation::animerLineaire( AnimationFrame* courant, AnimationFrame* suivant
 	Vecteur3 angleCourant = courant->obtenirParam2_();
 	Vecteur3 echelleCourante = courant->obtenirParam3_();
 
-	double deltaTemps = suivant->obtenirTemps()-courant->obtenirTemps();
+	float deltaTemps = suivant->obtenirTemps()-courant->obtenirTemps();
 
-	double ratio = (tempsCourant_-courant->obtenirTemps())/(deltaTemps);
+	float ratio = (tempsCourant_-courant->obtenirTemps())/(deltaTemps);
 
 	Vecteur3 deltaPosition = (suivant->obtenirParam1()-positionCourante)*ratio;
 	Vecteur3 deltaAngle = (suivant->obtenirParam2_()-angleCourant)*ratio;
@@ -375,10 +375,10 @@ void Animation::animerLineaire( AnimationFrame* courant, AnimationFrame* suivant
 ///////////////////////////////////////////////////////////////////////////////
 void Animation::animerBezier( )
 {
-	double deltaTemps = frames_[frames_.size()-1]->obtenirTemps()-frames_[0]->obtenirTemps();
+	float deltaTemps = frames_[frames_.size()-1]->obtenirTemps()-frames_[0]->obtenirTemps();
 
 
-	double t = tempsCourant_/deltaTemps;
+	float t = tempsCourant_/deltaTemps;
 
 	Vecteur3 nouvellePosition = NULL;
 	Vecteur3 nouvelAngle = NULL;
@@ -405,7 +405,7 @@ void Animation::animerBezier( )
 		{
 			Vecteur3 deltaPosition = nouvellePosition-anciennePositionCamera;
 			deltaPosition.normaliser();
-			deltaPosition[VZ] = (-1.0+deltaPosition[VZ])/2.0;
+			deltaPosition[VZ] = (-1.0f+deltaPosition[VZ])/2.0f;
 			nouvelAngle = nouvellePosition + deltaPosition;
 		}
 		
@@ -467,7 +467,7 @@ int Animation::obtenirNbObjets() const
 /// @return void
 ///
 ///////////////////////////////////////////////////////////////////////////////
-Vecteur3 Animation::calculerBezier(int attribut, double t,  int indexPremier, int indexDernier )
+Vecteur3 Animation::calculerBezier(int attribut, float t,  int indexPremier, int indexDernier )
 {
 	if(indexPremier==indexDernier)
 	{
@@ -487,7 +487,7 @@ Vecteur3 Animation::calculerBezier(int attribut, double t,  int indexPremier, in
 	}
 
 	
-	double tm = 1.0-t;
+	float tm = 1.0f-t;
 
 	Vecteur3 nouvelAttribut = tm*calculerBezier(attribut, t, indexPremier, indexDernier-1)+t*calculerBezier(attribut, t, indexPremier+1, indexDernier);
 

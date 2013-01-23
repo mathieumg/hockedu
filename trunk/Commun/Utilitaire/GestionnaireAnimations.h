@@ -37,7 +37,7 @@ public:
 	void retirerAnimation(Animation* animation);
 
 	/// Permet d'animer les animations qu'il contient
-	void animer(double temps);
+	void animer(float temps);
 
 	/// Delie un objet des animations
 	void delierObjet(ObjetAnimable* objet);

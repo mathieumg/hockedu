@@ -72,15 +72,15 @@ namespace vue {
 	  inline const Vecteur3& obtenirDirectionHautMonde() const;
 
       /// Déplacement dans le plan perpendiculaire à la direction visée.
-      void deplacerXY(double deplacementX, double deplacementY, bool avecPointVise = false);
+      void deplacerXY(float deplacementX, float deplacementY, bool avecPointVise = false);
       /// Déplacement dans l'axe de la direction visée.
-      void deplacerZ(double deplacement, bool bougePointVise, bool avecPointVise = false);
+      void deplacerZ(float deplacement, bool bougePointVise, bool avecPointVise = false);
 	  /// Deplacement en XYZ
 	  void deplacerXYZ(Vecteur3 deplacement, bool avecPointVise = false);
       /// Rotation de la caméra autour de sa position.
-      void tournerXY(double rotationX, double rotationY, bool empecheInversion = true);
+      void tournerXY(float rotationX, float rotationY, bool empecheInversion = true);
       /// Rotation de la position de la caméra autour de son point de visé.
-      void orbiterXY(double rotationX, double rotationY);
+      void orbiterXY(float rotationX, float rotationY);
 
 
 

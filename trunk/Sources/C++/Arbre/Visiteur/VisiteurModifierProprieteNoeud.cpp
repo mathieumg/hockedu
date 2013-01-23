@@ -48,25 +48,25 @@ VisiteurModifierProprieteNoeud::VisiteurModifierProprieteNoeud( JNIEnv* env, job
 	//On met le coef de friction dans la variable associé.
 	jclass classe = env->GetObjectClass(modificateur);
 	jmethodID obtenirCoefFriction = env->GetMethodID(classe, "obtenirCoefFriction", "()D");
-	coefFriction_ = env->CallDoubleMethod(modificateur, obtenirCoefFriction);
+	coefFriction_ = (float)(env->CallDoubleMethod(modificateur, obtenirCoefFriction));
 
 	//On met le coef de rebond dans la variable associé.
 	jmethodID obtenirCoefRebond = env->GetMethodID(classe, "obtenirCoefRebond", "()D");
-	coefRebond_ = env->CallDoubleMethod(modificateur, obtenirCoefRebond);
+	coefRebond_ = (float)(env->CallDoubleMethod(modificateur, obtenirCoefRebond));
 
 	//On met le coef de bonusAccel dans la variable associé.
 	jmethodID obtenirBonusAccel = env->GetMethodID(classe, "obtenirBonusAccel", "()D");
-	bonusAccel_ = env->CallDoubleMethod(modificateur, obtenirBonusAccel);
+	bonusAccel_ = (float)(env->CallDoubleMethod(modificateur, obtenirBonusAccel));
 
 	//On met la position dans la variable associé.
 	jmethodID obtenirPositionX = env->GetMethodID(classe, "obtenirPositionX", "()D");
-	position_[VX] = env->CallDoubleMethod(modificateur, obtenirPositionX);
+	position_[VX] = (float)(env->CallDoubleMethod(modificateur, obtenirPositionX));
 	jmethodID obtenirPositionY = env->GetMethodID(classe, "obtenirPositionY", "()D");
-	position_[VY] = env->CallDoubleMethod(modificateur, obtenirPositionY);
+	position_[VY] = (float)(env->CallDoubleMethod(modificateur, obtenirPositionY));
 
 	//On met l'Echelle dans la variable associé.
 	jmethodID obtenirEchelle = env->GetMethodID(classe, "obtenirEchelle", "()D");
-	echelle_ = env->CallDoubleMethod(modificateur, obtenirEchelle);
+	echelle_ = (float)(env->CallDoubleMethod(modificateur, obtenirEchelle));
 	
 
 	//On met la rotation dans la variable associé.
@@ -75,11 +75,11 @@ VisiteurModifierProprieteNoeud::VisiteurModifierProprieteNoeud( JNIEnv* env, job
 
 	//On met la longueur de la zone d'edition dans la variable associé.
 	jmethodID obtenirZoneEditionX = env->GetMethodID(classe, "obtenirZoneEditionX", "()D");
-	longueurZoneEdition_ = env->CallDoubleMethod(modificateur, obtenirZoneEditionX);
+	longueurZoneEdition_ = (float)(env->CallDoubleMethod(modificateur, obtenirZoneEditionX));
 
 	//On met la hauteur de la zone d'edition dans la variable associé.
 	jmethodID obtenirZoneEditionY = env->GetMethodID(classe, "obtenirZoneEditionY", "()D");
-	hauteurZoneEdition_ = env->CallDoubleMethod(modificateur, obtenirZoneEditionY);
+	hauteurZoneEdition_ = (float)(env->CallDoubleMethod(modificateur, obtenirZoneEditionY));
 
 	unSeulSelect_ = FacadeModele::getInstance()->obtenirNbNoeudSelect() == 1;
 
@@ -87,7 +87,7 @@ VisiteurModifierProprieteNoeud::VisiteurModifierProprieteNoeud( JNIEnv* env, job
 	jmethodID obtenirCoefRebondBandes = env->GetMethodID(classe, "obtenirCoefRebondBandes", "(I)D");
 	for (int i=0;i<8;++i)
 	{
-		coefRebondBandes_[i] = env->CallDoubleMethod(modificateur, obtenirCoefRebondBandes,i);
+		coefRebondBandes_[i] = (float)(env->CallDoubleMethod(modificateur, obtenirCoefRebondBandes,i));
 	}
 	
 }
@@ -170,8 +170,8 @@ void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NoeudMuret* noeud )
 		{
 			Vecteur3 oldPos = noeud->obtenirPositionRelative();
 			noeud->assignerPositionRelative(position_);
-			double oldAngle = noeud->obtenirAngle();
-			noeud->assignerAngle(rotation_);
+			float oldAngle = noeud->obtenirAngle();
+			noeud->assignerAngle((float)rotation_);
 			Vecteur3 oldEchelle; noeud->obtenirEchelleCourante(oldEchelle);
 			noeud->modifierEchelleCourante(Vecteur3(echelle_*10, 1.0, 1.0));
 			noeud->majPosCoins();
@@ -289,8 +289,8 @@ void VisiteurModifierProprieteNoeud::visiterNoeudTable( NoeudTable* noeud )
 	ZoneEdition* zone;
 	if(noeud->GetTerrain() && (zone = &noeud->GetTerrain()->getZoneEdition()) )
 	{
-		// On déclare un pointeur sur un double qui servira a contenir la longueur et hauteur max de la table
-		double boiteEnglobantTable[2];
+		// On déclare un pointeur sur un float qui servira a contenir la longueur et hauteur max de la table
+		float boiteEnglobantTable[2];
 		// On obtient la longueur et hauteur max
 		table_->calculerHautLongMax(boiteEnglobantTable);
 
@@ -429,9 +429,9 @@ void VisiteurModifierProprieteNoeud::visiterNoeudNeutre( NoeudAbstrait* noeud )
 		Vecteur3 oldPos = noeud->obtenirPositionRelative();
 		noeud->assignerPositionRelative(position_);
 
-		double oldAngle = noeud->obtenirAngle();
+		float oldAngle = noeud->obtenirAngle();
 		/// On applique la nouvelle rotation
-		VisiteurRotation rotationAFaire(rotation_,position_);
+		VisiteurRotation rotationAFaire((float)rotation_,position_);
 		noeud->acceptVisitor(rotationAFaire);
 
 		Vecteur3 oldEchelle; noeud->obtenirEchelleCourante(oldEchelle);

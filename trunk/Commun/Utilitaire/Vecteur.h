@@ -24,10 +24,10 @@
 ///        Définition d'une classe générique pour les vecteurs.
 ///
 ///        Cette classe générique implante des vecteurs en n dimensions.
-///        Le type du vecteur est aussi générique (double, float, int,...).
+///        Le type du vecteur est aussi générique (float, float, int,...).
 ///        Les fonctions communes définies sont:
 ///        - [] pour la lecture et l'écriture
-///        - conversion double/float ou int/float
+///        - conversion float/float ou int/float
 ///        - norme du vecteur
 ///        - si le vecteur est nul
 ///        - opérateur =
@@ -56,7 +56,7 @@
 /// @author Jean-François Pérusse.
 /// @date 2006-02-23
 ///////////////////////////////////////////////////////////////////////////
-template <class T = double, const int N = 3>
+template <class T = float, const int N = 3>
 class Vecteur
 {
 public:
@@ -1326,12 +1326,12 @@ public:
 
 
 
-/// Définition de type de vecteur à 2 coordonnées de type double.
-typedef Vecteur2D<double> Vecteur2;
-/// Définition de type de vecteur à 3 coordonnées de type double.
-typedef Vecteur3D<double> Vecteur3;
-/// Définition de type de vecteur à 4 coordonnées de type double.
-typedef Vecteur4D<double> Vecteur4;
+/// Définition de type de vecteur à 2 coordonnées de type float.
+typedef Vecteur2D<float> Vecteur2;
+/// Définition de type de vecteur à 3 coordonnées de type float.
+typedef Vecteur3D<float> Vecteur3;
+/// Définition de type de vecteur à 4 coordonnées de type float.
+typedef Vecteur4D<float> Vecteur4;
 
 /// Définition de type de vecteur à 2 coordonnées de type float.
 typedef Vecteur2D<float> Vecteur2f;

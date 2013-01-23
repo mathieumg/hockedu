@@ -19,7 +19,7 @@ namespace vue {
 
 	////////////////////////////////////////////////////////////////////////
 	///
-	/// @fn ProjectionOrtho::ProjectionOrtho(int xMinCloture, int xMaxCloture, int yMinCloture, int yMaxCloture, double zAvant,  double zArriere, double zoomInMax, double zoomOutMax, double incrementZoom, double xMinFenetre, double xMaxFenetre, double yMinFenetre, double yMaxFenetre)
+	/// @fn ProjectionOrtho::ProjectionOrtho(int xMinCloture, int xMaxCloture, int yMinCloture, int yMaxCloture, float zAvant,  float zArriere, float zoomInMax, float zoomOutMax, float incrementZoom, float xMinFenetre, float xMaxFenetre, float yMinFenetre, float yMaxFenetre)
 	///
 	/// Constructeur d'une projection orthogonale.  Ne fait qu'assigner les
 	/// variables membres et ajuste ensuite le rapport d'aspect.
@@ -47,11 +47,11 @@ namespace vue {
 	////////////////////////////////////////////////////////////////////////
 	ProjectionOrtho::ProjectionOrtho(int xMinCloture, int xMaxCloture,
 		int yMinCloture, int yMaxCloture,
-		double zAvant,  double zArriere,
-		double zoomInMax, double zoomOutMax,
-		double incrementZoom,
-		double xMinFenetre, double xMaxFenetre,
-		double yMinFenetre, double yMaxFenetre) :
+		float zAvant,  float zArriere,
+		float zoomInMax, float zoomOutMax,
+		float incrementZoom,
+		float xMinFenetre, float xMaxFenetre,
+		float yMinFenetre, float yMaxFenetre) :
 	Projection(xMinCloture, xMaxCloture, yMinCloture, yMaxCloture,
 		zAvant, zArriere,
 		zoomInMax, zoomOutMax, incrementZoom, false) ,
@@ -73,23 +73,23 @@ namespace vue {
 	/// @return Aucune.
 	///
 	////////////////////////////////////////////////////////////////////////
-	void ProjectionOrtho::zoomerIn(double increment) 
+	void ProjectionOrtho::zoomerIn(float increment) 
 	{
-		double incrementZoom = increment;
+		float incrementZoom = increment;
 		if(increment == 0)
 		{
 			incrementZoom = incrementZoom_;
 		}
 		//Ajouter valeur arbitraire
 
-		double	deltaX = (xMaxFenetre_- xMinFenetre_),
+		float	deltaX = (xMaxFenetre_- xMinFenetre_),
 				deltaY = (yMaxFenetre_- yMinFenetre_);
 		if( ( deltaX/*/incrementZoom*/ > zoomInMax_) &&  ( deltaY/*/incrementZoom*/ > zoomInMax_ ) )
 		{
-			xMinFenetre_ += incrementZoom*deltaX*0.05;
-			xMaxFenetre_ -= incrementZoom*deltaX*0.05;
-			yMinFenetre_ += incrementZoom*deltaY*0.05;
-			yMaxFenetre_ -= incrementZoom*deltaY*0.05;
+			xMinFenetre_ += incrementZoom*deltaX*0.05f;
+			xMaxFenetre_ -= incrementZoom*deltaX*0.05f;
+			yMinFenetre_ += incrementZoom*deltaY*0.05f;
+			yMaxFenetre_ -= incrementZoom*deltaY*0.05f;
 			/*xMinFenetre_ /= incrementZoom;
 			xMaxFenetre_ /= incrementZoom;
 			yMinFenetre_ /= incrementZoom;
@@ -109,10 +109,10 @@ namespace vue {
 	/// @return Aucune.
 	///
 	//////////////////////////////////////////////////////////////////////// 
-	void ProjectionOrtho::zoomerOut(double increment) 
+	void ProjectionOrtho::zoomerOut(float increment) 
 	{
-		double incrementZoom = increment;
-		double	deltaX = (xMaxFenetre_- xMinFenetre_),
+		float incrementZoom = increment;
+		float	deltaX = (xMaxFenetre_- xMinFenetre_),
 				deltaY = (yMaxFenetre_- yMinFenetre_);
 		if(increment == 0)
 		{
@@ -124,10 +124,10 @@ namespace vue {
 			xMaxFenetre_ *= incrementZoom;
 			yMinFenetre_ *= incrementZoom;
 			yMaxFenetre_ *= incrementZoom;*/
-			xMinFenetre_ -= incrementZoom*deltaX*0.05;
-			xMaxFenetre_ += incrementZoom*deltaX*0.05;
-			yMinFenetre_ -= incrementZoom*deltaY*0.05;
-			yMaxFenetre_ += incrementZoom*deltaY*0.05;
+			xMinFenetre_ -= incrementZoom*deltaX*0.05f;
+			xMaxFenetre_ += incrementZoom*deltaX*0.05f;
+			yMinFenetre_ -= incrementZoom*deltaY*0.05f;
+			yMaxFenetre_ += incrementZoom*deltaY*0.05f;
 		}
 		ajusterRapportAspect(); // Ajoute
 		mettreAJourProjection();
@@ -230,15 +230,15 @@ namespace vue {
 	{
 
 		Vecteur2 coin1Virtuelle = convertirClotureAVirtuelle(coin1), coin2Virtuelle = convertirClotureAVirtuelle(coin2);
-		double	nouveauXMin = min(coin1Virtuelle[VX],coin2Virtuelle[VX]),
+		float	nouveauXMin = min(coin1Virtuelle[VX],coin2Virtuelle[VX]),
 				nouveauXMax = max(coin1Virtuelle[VX],coin2Virtuelle[VX]),
 				nouveauYMin = min(coin1Virtuelle[VY],coin2Virtuelle[VY]),
 				nouveauYMax = max(coin1Virtuelle[VY],coin2Virtuelle[VY]);
 
-		double longueurRectangleX = nouveauXMax - nouveauXMin;
-		double centreX = longueurRectangleX/2.0+nouveauXMin;
-		double longueurRectangleY = nouveauYMax - nouveauYMin;
-		double centreY = longueurRectangleY/2.0+nouveauYMin;
+		float longueurRectangleX = nouveauXMax - nouveauXMin;
+		float centreX = longueurRectangleX/2.0f+nouveauXMin;
+		float longueurRectangleY = nouveauYMax - nouveauYMin;
+		float centreY = longueurRectangleY/2.0f+nouveauYMin;
 		
 		if(centreX < -250 || centreX > 250 || centreY <-200 || centreY > 200)
 			return;
@@ -248,16 +248,16 @@ namespace vue {
 		{
 			longueurRectangleX = zoomInMax_;
 		}
-		xMinFenetre_ = centreX-longueurRectangleX/2.0;
-		xMaxFenetre_ = centreX+longueurRectangleX/2.0;
+		xMinFenetre_ = centreX-longueurRectangleX/2.0f;
+		xMaxFenetre_ = centreX+longueurRectangleX/2.0f;
 
 		
 		if( longueurRectangleY < zoomInMax_)
 		{
 			longueurRectangleY = zoomInMax_;
 		}
-		yMinFenetre_ = centreY-longueurRectangleY/2.0;
-		yMaxFenetre_ = centreY+longueurRectangleY/2.0;
+		yMinFenetre_ = centreY-longueurRectangleY/2.0f;
+		yMaxFenetre_ = centreY+longueurRectangleY/2.0f;
 
 		//Ajustement du rapport en augmentant le côté le plus court, ainsi on est certain de voir tout ce qui a été sélectionné par le rectangle élastique
 		ajusterRapportAspect(false);
@@ -282,48 +282,48 @@ namespace vue {
 	void ProjectionOrtho::zoomerOut( const Vecteur2i& coin1, const Vecteur2i& coin2 ) 
 	{
  		Vecteur2 coin1Virtuelle = convertirClotureAVirtuelle(coin1), coin2Virtuelle = convertirClotureAVirtuelle(coin2);
-		double	nouveauXMin = min(coin1Virtuelle[VX],coin2Virtuelle[VX]),
+		float	nouveauXMin = min(coin1Virtuelle[VX],coin2Virtuelle[VX]),
 			nouveauXMax = max(coin1Virtuelle[VX],coin2Virtuelle[VX]),
 			nouveauYMin = min(coin1Virtuelle[VY],coin2Virtuelle[VY]),
 			nouveauYMax = max(coin1Virtuelle[VY],coin2Virtuelle[VY]);
 
 		Vecteur2 lDepart = obtenirDimensionFenetre();
 		Vecteur2 lFin;
-		double lDessinerX = nouveauXMax - nouveauXMin;
+		float lDessinerX = nouveauXMax - nouveauXMin;
 		lFin[VX] = lDepart[VX]*lDepart[VX]/lDessinerX;
-		double centreX = (xMinFenetre_+xMaxFenetre_)/2.0;
-		double lDessinerY = nouveauYMax - nouveauYMin;
+		float centreX = (xMinFenetre_+xMaxFenetre_)/2.0f;
+		float lDessinerY = nouveauYMax - nouveauYMin;
 		lFin[VY] = lDepart[VY]*lDepart[VY]/lDessinerY;
-		double centreY = (yMinFenetre_+yMaxFenetre_)/2.0;
+		float centreY = (yMinFenetre_+yMaxFenetre_)/2.0f;
 
 
 		if( lFin[VX] > zoomOutMax_)
 		{
 			lFin[VX] = zoomOutMax_;
 		}
-		double variation = (lFin[VX]-lDepart[VX])/2.0;
-		xMinFenetre_ = centreX-(lFin[VX]/2.0);
-		xMaxFenetre_ = centreX+(lFin[VX]/2.0);
+		float variation = (lFin[VX]-lDepart[VX])/2.0f;
+		xMinFenetre_ = centreX-(lFin[VX]/2.0f);
+		xMaxFenetre_ = centreX+(lFin[VX]/2.0f);
 
 		
 		if( lFin[VY] > zoomOutMax_)
 		{
 			lFin[VY] = zoomOutMax_;
 		}
-		variation = (lFin[VY]-lDepart[VY])/2.0;
-		yMinFenetre_ = centreY-(lFin[VY]/2.0);
-		yMaxFenetre_ = centreY+(lFin[VY]/2.0);
+		variation = (lFin[VY]-lDepart[VY])/2.0f;
+		yMinFenetre_ = centreY-(lFin[VY]/2.0f);
+		yMaxFenetre_ = centreY+(lFin[VY]/2.0f);
 
 		ajusterRapportAspect();
 
-		Vecteur2i pointCentre((int)((coin1[VX]+coin2[VX])/2.0),(int)((coin1[VY]+coin2[VY])/2.0));
+		Vecteur2i pointCentre((int)((coin1[VX]+coin2[VX])/2.0f),(int)((coin1[VY]+coin2[VY])/2.0f));
 		centrerSurPoint(pointCentre);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////
 	///
-	/// @fn void ProjectionOrtho::translater( double deplacementX, double deplacementY )
+	/// @fn void ProjectionOrtho::translater( float deplacementX, float deplacementY )
 	///
 	/// Permet de déplacer la fenêtre virtuelle en @a x et en @a y.  Les
 	/// déplacement doivent être exprimés en proportion de la fenêtre virtuelle.
@@ -334,7 +334,7 @@ namespace vue {
 	/// @return Aucune.
 	///
 	////////////////////////////////////////////////////////////////////////
-	void ProjectionOrtho::translater( double deplacementX, double deplacementY )
+	void ProjectionOrtho::translater( float deplacementX, float deplacementY )
 	{
 		if( (deplacementX < 0 || xMaxFenetre_-deplacementX > -150) && (deplacementX > 0 || xMinFenetre_-deplacementX < 150))
 		{
@@ -409,22 +409,22 @@ namespace vue {
 	{
 		Vecteur2i dimCloture = obtenirDimensionCloture();
 		Vecteur2 dimFenetre = obtenirDimensionFenetre();
-		double rapportXYCloture = dimCloture[0] / (double)dimCloture[1],
+		float rapportXYCloture = dimCloture[0] / (float)dimCloture[1],
 			rapportXYFenetre = dimFenetre[VX] / dimFenetre[VY];
 
 		if( (rapportXYFenetre > rapportXYCloture) == diminuerLongueur )
 		{
-			double nouvelleLongueurXFenetre = rapportXYCloture*dimFenetre[VY];
-			double centreX = (xMaxFenetre_ + xMinFenetre_)/2.0;
-			xMinFenetre_ = centreX-nouvelleLongueurXFenetre/2.0;
-			xMaxFenetre_ = centreX+nouvelleLongueurXFenetre/2.0;
+			float nouvelleLongueurXFenetre = rapportXYCloture*dimFenetre[VY];
+			float centreX = (xMaxFenetre_ + xMinFenetre_)/2.0f;
+			xMinFenetre_ = centreX-nouvelleLongueurXFenetre/2.0f;
+			xMaxFenetre_ = centreX+nouvelleLongueurXFenetre/2.0f;
 		}
 		else
 		{
-			double nouveauYFenetre = dimFenetre[VX]/rapportXYCloture;
-			double centreY = (yMaxFenetre_ + yMinFenetre_)/2.0;
-			yMinFenetre_ = centreY-nouveauYFenetre/2.0;
-			yMaxFenetre_ = centreY+nouveauYFenetre/2.0;
+			float nouveauYFenetre = dimFenetre[VX]/rapportXYCloture;
+			float centreY = (yMaxFenetre_ + yMinFenetre_)/2.0f;
+			yMinFenetre_ = centreY-nouveauYFenetre/2.0f;
+			yMaxFenetre_ = centreY+nouveauYFenetre/2.0f;
 		}
 		mettreAJourProjection();
 	}
@@ -432,7 +432,7 @@ namespace vue {
 
 	////////////////////////////////////////////////////////////////////////
 	///
-	/// @fn void ProjectionOrtho::convertirClotureAVirtuelle( int i, int j, double& x, double& y ) const 
+	/// @fn void ProjectionOrtho::convertirClotureAVirtuelle( int i, int j, float& x, float& y ) const 
 	///
 	/// Permet de calculer les coordonnées dans l'espace virtuel d'un point
 	/// specifié en coordonnées d'affichage.  Utilise le calcul des rapports.
@@ -447,8 +447,8 @@ namespace vue {
 	////////////////////////////////////////////////////////////////////////
 	void ProjectionOrtho::convertirClotureAVirtuelle( int i,
 		int j,
-		double& x,
-		double& y ) const
+		float& x,
+		float& y ) const
 	{
 		Vecteur2 v = convertirClotureAVirtuelle(Vecteur2i(i,j));
 		x = v[VX];
@@ -527,8 +527,8 @@ namespace vue {
 	////////////////////////////////////////////////////////////////////////
 	void ProjectionOrtho::centrerAZero()
 	{
-		double largeur = xMaxFenetre_ - xMinFenetre_;
-		double hauteur = yMaxFenetre_ - yMinFenetre_;
+		float largeur = xMaxFenetre_ - xMinFenetre_;
+		float hauteur = yMaxFenetre_ - yMinFenetre_;
 		xMaxFenetre_ = largeur/2;
 		xMinFenetre_ = -largeur/2;
 		yMaxFenetre_ = hauteur/2;

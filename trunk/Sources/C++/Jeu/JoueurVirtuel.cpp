@@ -15,7 +15,7 @@
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn JoueurVirtuel::JoueurVirtuel(std::string nom, double vitesse, int probabiliteEchec)
+/// @fn JoueurVirtuel::JoueurVirtuel(std::string nom, float vitesse, int probabiliteEchec)
 ///
 /// Constructeur qui initialisela le joueur virtuel.
 ///

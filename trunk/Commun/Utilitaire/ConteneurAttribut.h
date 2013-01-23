@@ -49,10 +49,10 @@ public:
 	{
 		return intElem == elem;
 	}
-	/// Surcharge de l'opérateur== avec un double
-	inline bool operator==(const double& elem)
+	/// Surcharge de l'opérateur== avec un float
+	inline bool operator==(const float& elem)
 	{
-		// Permet de comparer 2 double jusqu'à une précision de 5 décimal
+		// Permet de comparer 2 float jusqu'à une précision de 5 décimal
 		return (long)(doubleElem*10000) == (long)(elem*10000);
 	}
 	/// Surcharge de l'opérateur== avec un string
@@ -70,10 +70,10 @@ public:
 	{
 		return intElem != elem;
 	}
-	/// Surcharge de l'opérateur!= avec un double
-	inline bool operator!=(const double& elem)
+	/// Surcharge de l'opérateur!= avec un float
+	inline bool operator!=(const float& elem)
 	{
-		// Permet de comparer 2 double jusqu'à une précision de 5 décimal
+		// Permet de comparer 2 float jusqu'à une précision de 5 décimal
 		return (long)(doubleElem*10000) != (long)(elem*10000);
 	}
 	/// Surcharge de l'opérateur!= avec un strin
@@ -90,7 +90,7 @@ public:
 		case INT_TYPE: return intElem == ca.intElem;
 		case BOOL_TYPE: return boolElem == ca.boolElem;
 		case DOUBLE_TYPE: 
-			// Permet de comparer 2 double jusqu'à une précision de 5 décimal
+			// Permet de comparer 2 float jusqu'à une précision de 5 décimal
 			return (long)(doubleElem*10000) == (long)(ca.doubleElem*10000);
 		case STRING_TYPE: return stringElem == ca.stringElem;
 		default: throw ("wtf");
@@ -107,8 +107,8 @@ public:
 	{
 		intElem = Elem;
 	}
-	/// Modification du double du conteneur
-	void modifier( const double& Elem)
+	/// Modification du float du conteneur
+	void modifier( const float& Elem)
 	{
 		doubleElem = Elem;
 	}
@@ -127,7 +127,7 @@ public:
 	{
 		Elem = intElem;
 	}
-	/// Accesseur au double du conteneur
+	/// Accesseur au float du conteneur
 	void obtenir(double& Elem)
 	{
 		Elem = doubleElem;

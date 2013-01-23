@@ -263,7 +263,7 @@ void GestionnaireHUD::creerHUDJeu()
 	listeDesVertexes01->push_back(Vecteur2f(1.0f,0.0f));
 	for(int angle = 90; angle <= 270; ++angle)
 	{
-		listeDesVertexes01->push_back(Vecteur2(0.1f+(0.1f*cos(utilitaire::DEG_TO_RAD(angle))), 0.5f-(0.5f*sin(utilitaire::DEG_TO_RAD(angle)))));
+		listeDesVertexes01->push_back(Vecteur2(0.1f+(0.1f*cos(utilitaire::DEG_TO_RAD((float)angle))), 0.5f-(0.5f*sin(utilitaire::DEG_TO_RAD((float)angle)))));
 	}
 	listeDesVertexes01->push_back(Vecteur2f(1.0f,1.0f));
 	HUDSurfaceGL *surfaceJoueurGauche = new HUDSurfaceGL(GL_TRIANGLE_FAN, listeDesVertexes01, Vecteur4f(0.0f,0.0f,1.0f,0.6f));
@@ -285,7 +285,7 @@ void GestionnaireHUD::creerHUDJeu()
 	listeDesVertexes01->push_back(Vecteur2f(0.0f,1.0f));
 	for(int angle = 270; angle >= 90; --angle)
 	{
-		listeDesVertexes01->push_back(Vecteur2(1.0f-0.1f-(0.1f*cos(utilitaire::DEG_TO_RAD(angle))), 0.5f-(0.5f*sin(utilitaire::DEG_TO_RAD(angle)))));
+		listeDesVertexes01->push_back(Vecteur2(1.0f-0.1f-(0.1f*cos(utilitaire::DEG_TO_RAD((float)angle))), 0.5f-(0.5f*sin(utilitaire::DEG_TO_RAD((float)angle)))));
 	}
 	listeDesVertexes01->push_back(Vecteur2f(0.0f,0.0f));
 	listeDesVertexes01->push_back(Vecteur2(0.0f,0.5f));
@@ -308,7 +308,7 @@ void GestionnaireHUD::creerHUDJeu()
 	listeDesVertexes01 = new ConteneurVertex2D;
 	listeDesVertexes01->push_back(Vecteur2f(0.5f, 0.5f));
 	for(int i=360;i>=0;--i)
-		listeDesVertexes01->push_back(Vecteur2f((float)(0.5f+0.5f*cos(utilitaire::DEG_TO_RAD(i))),(float)(0.5f+0.5f*sin(utilitaire::DEG_TO_RAD(i)))));
+		listeDesVertexes01->push_back(Vecteur2f((float)(0.5f+0.5f*cos(utilitaire::DEG_TO_RAD((float)i))),(float)(0.5f+0.5f*sin(utilitaire::DEG_TO_RAD((float)i)))));
 	HUDSurfaceGL *cercleDuCentre = new HUDSurfaceGL(GL_TRIANGLE_FAN, listeDesVertexes01,Vecteur4f(1.0f,1.0f,1.0f,1.0f));
 	cercleDuCentre->modifierPosition(0.47f,0.0f);
 	cercleDuCentre->modifierTaille(0.06f,0.7f);

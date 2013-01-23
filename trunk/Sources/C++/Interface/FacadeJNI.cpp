@@ -490,7 +490,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Fenetre_redimensionnerFenetre(JNI
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_objetEstSousCurseur( JNIEnv *, jclass, jint x, jint y )
 {
-	return FacadeModele::getInstance()->pointOccupe(Vecteur2(x,y));
+	return FacadeModele::getInstance()->pointOccupe(Vecteur2((float)x,(float)y));
 }
 
 ////////////////////////////////////////////////////////////////////////

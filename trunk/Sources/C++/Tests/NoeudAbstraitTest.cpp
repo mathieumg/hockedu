@@ -61,13 +61,13 @@ void NoeudAbstraitTest::tearDown()
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstraitTest::testPositionRelative()
 {
-	noeud->assignerPositionRelative(Vecteur3(2.2, 3.3, 4.4));
+	noeud->assignerPositionRelative(Vecteur3(2.2f, 3.3f, 4.4f));
 
 	Vecteur3 vecteur = noeud->obtenirPositionRelative();
 
-	CPPUNIT_ASSERT( utilitaire::EGAL_ZERO(vecteur[0] - 2.2) );
-	CPPUNIT_ASSERT( utilitaire::EGAL_ZERO(vecteur[1] - 3.3) );
-	CPPUNIT_ASSERT( utilitaire::EGAL_ZERO(vecteur[2] - 4.4) );
+	CPPUNIT_ASSERT( utilitaire::EGAL_ZERO(vecteur[0] - 2.2f) );
+	CPPUNIT_ASSERT( utilitaire::EGAL_ZERO(vecteur[1] - 3.3f) );
+	CPPUNIT_ASSERT( utilitaire::EGAL_ZERO(vecteur[2] - 4.4f) );
 }
 
 ////////////////////////////////////////////////////////////////////////

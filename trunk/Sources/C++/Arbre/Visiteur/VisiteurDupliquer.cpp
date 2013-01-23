@@ -89,18 +89,18 @@ void VisiteurDupliquer::visiterNoeudMuret( NoeudMuret* noeud )
 		{
 			for (int i=1; i<10; i++)
 			{
-				Vecteur3 positionClic1_(noeud->obtenirCoin1()+Vecteur3(0.0,i*5.0)), positionVirtuelle(noeud->obtenirCoin2()+Vecteur3(0.0,i*5.0));
+				Vecteur3 positionClic1_(noeud->obtenirCoin1()+Vecteur3(0.0f,i*5.0f)), positionVirtuelle(noeud->obtenirCoin2()+Vecteur3(0.0f,i*5.0f));
 				nouveauNoeud->assignerPositionCoin(1,positionClic1_);
 				nouveauNoeud->assignerPositionCoin(2,positionVirtuelle);
-				double deltaX = positionVirtuelle[VX]-positionClic1_[VX];
-				double deltaY = positionVirtuelle[VY]-positionClic1_[VY];
-				double angle = (atan2(deltaY, deltaX)*180.0/(double)M_PI);
-				double rayon = sqrt(deltaX*deltaX+deltaY*deltaY);
+				float deltaX = positionVirtuelle[VX]-positionClic1_[VX];
+				float deltaY = positionVirtuelle[VY]-positionClic1_[VY];
+				float angle = (atan2(deltaY, deltaX)*180.0f/(float)M_PI);
+				float rayon = sqrt(deltaX*deltaX+deltaY*deltaY);
 				if(rayon>1)
 				{
 					nouveauNoeud->assignerPositionCoin(2, positionVirtuelle);
 					nouveauNoeud->modifierEchelleCourante(Vecteur3(rayon, 1, 1));
-					nouveauNoeud->assignerAngle((int)angle);
+					nouveauNoeud->assignerAngle(angle);
 					nouveauNoeud->updateMatrice();
 				}
 				if(FacadeModele::getInstance()->validerPositionNoeud(nouveauNoeud))

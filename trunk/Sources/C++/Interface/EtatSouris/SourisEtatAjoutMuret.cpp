@@ -154,7 +154,7 @@ void SourisEtatAjoutMuret::sourisDeplacee( EvenementSouris& evenementSouris )
 	Vecteur2i positionSouris;
 	Vecteur3 positionVirtuelle;
 	Vecteur3 positionVirtuelle2;
-	double	deltaX, deltaY, angle, rayon;
+	float	deltaX, deltaY, angle, rayon;
 	switch(etat_)
 	{
 	case PLACERPOINT1:
@@ -169,7 +169,7 @@ void SourisEtatAjoutMuret::sourisDeplacee( EvenementSouris& evenementSouris )
 		FacadeModele::getInstance()->convertirClotureAVirtuelle(positionSouris[VX], positionSouris[VY], positionVirtuelle);
 		deltaX = positionVirtuelle[VX]-positionClic1_[VX];
 		deltaY = positionVirtuelle[VY]-positionClic1_[VY];
-		angle = (atan2(deltaY, deltaX)*180.0/(double)M_PI);
+		angle = (atan2(deltaY, deltaX)*180.0f/(float)M_PI);
 		rayon = sqrt(deltaX*deltaX+deltaY*deltaY);
 		if(rayon>1)
 		{

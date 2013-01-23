@@ -152,16 +152,16 @@ namespace utilitaire {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn bool EGAL_ZERO(double nombre)
+   /// @fn bool EGAL_ZERO(float nombre)
    ///
-   /// Fonction pour savoir si un double est égal à zéro.
+   /// Fonction pour savoir si un float est égal à zéro.
    ///
    /// @param[in] nombre : Valeur à vérifier.
    ///
    /// @return true si nombre est égal a 0, false autrement.
    ///
    ////////////////////////////////////////////////////////////////////////
-   bool EGAL_ZERO(double nombre)
+   bool EGAL_ZERO(float nombre)
    {
       return (nombre < EPSILON) && (-nombre < EPSILON);
    }
@@ -169,7 +169,7 @@ namespace utilitaire {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn double RAD_TO_DEG(double angleRad)
+   /// @fn float RAD_TO_DEG(float angleRad)
    ///
    /// Cette fonction convertit les angles de radians en degrés.
    ///
@@ -178,15 +178,15 @@ namespace utilitaire {
    /// @return L'angle converti en degrés
    ///
    ////////////////////////////////////////////////////////////////////////
-   double RAD_TO_DEG(double angleRad) 
+   float RAD_TO_DEG(float angleRad) 
    {
-      return angleRad * 57.2957795130823208767981548141052;
+      return angleRad * (float)57.2957795130823208767981548141052;
    }
 
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn double DEG_TO_RAD(double angleDeg)
+   /// @fn float DEG_TO_RAD(float angleDeg)
    ///
    /// Cette fonction convertit les angles de degrés en radians.
    ///
@@ -195,9 +195,9 @@ namespace utilitaire {
    /// @return L'angle converti en radians.
    ///
    ////////////////////////////////////////////////////////////////////////
-   double DEG_TO_RAD(double angleDeg)
+   float DEG_TO_RAD(float angleDeg)
    {
-      return angleDeg * 0.0174532925199432957692369076848861;
+      return angleDeg * (float)0.0174532925199432957692369076848861;
    }
 
 
@@ -279,7 +279,7 @@ namespace utilitaire {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn bool DANS_INTERVALLE( double valeur, double borneMin, double borneMax ) 
+   /// @fn bool DANS_INTERVALLE( float valeur, float borneMin, float borneMax ) 
    ///
    /// Cette fonction vérifie si une valeur est dans un intervalle.
    ///
@@ -290,7 +290,7 @@ namespace utilitaire {
    /// @return Vrai si la valeur est dans l'intervalle, faux autrement.
    ///
    ////////////////////////////////////////////////////////////////////////
-   bool DANS_INTERVALLE( double valeur, double borneMin, double borneMax ) 
+   bool DANS_INTERVALLE( float valeur, float borneMin, float borneMax ) 
    {
       return (valeur >= borneMin) && (valeur <= borneMax);
    }
@@ -298,7 +298,7 @@ namespace utilitaire {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn bool DANS_LIMITESXY( double x, double xMin, double xMax, double y, double yMin, double yMax )
+   /// @fn bool DANS_LIMITESXY( float x, float xMin, float xMax, float y, float yMin, float yMax )
    ///
    /// Cette fonction vérifie si un point 2d est dans un carré.
    ///
@@ -312,8 +312,8 @@ namespace utilitaire {
    /// @return Vrai si le point (x,y) est dans le carré, faux autrement.
    ///
    ////////////////////////////////////////////////////////////////////////
-   bool DANS_LIMITESXY( double x, double xMin, double xMax,
-                        double y, double yMin, double yMax ) 
+   bool DANS_LIMITESXY( float x, float xMin, float xMax,
+                        float y, float yMin, float yMax ) 
    {
       return (DANS_INTERVALLE( x, xMin, xMax ) && DANS_INTERVALLE( y, yMin, yMax ));
    }
@@ -321,7 +321,7 @@ namespace utilitaire {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn double CUtilitaire::ecrasement( double a, double b )
+   /// @fn float CUtilitaire::ecrasement( float a, float b )
    ///
    /// Cette fonction calcule le rapport d'écrasement pour un rectangle de
    /// longueur @a a et largeur @a b.
@@ -334,12 +334,12 @@ namespace utilitaire {
    /// @return Le rapport @a r  de @a a /  @a b
    ///
    ////////////////////////////////////////////////////////////////////////
-   double ecrasement( double a, double b )
+   float ecrasement( float a, float b )
    {
-      double r = a / b;
+      float r = a / b;
       // Le rapport doit être toujours positif.
-      if (r < 1.0)
-         r = 1.0 / r;
+      if (r < 1.0f)
+         r = 1.0f / r;
 
        return r;
    }
@@ -369,7 +369,7 @@ namespace utilitaire {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void appliquerMatrice( const Vecteur3& point, const double mat[])
+   /// @fn void appliquerMatrice( const Vecteur3& point, const float mat[])
    ///
    /// Cette fonction multiplie le point par une matrice de transformation
    /// donnée et retourne le résultat.
@@ -380,7 +380,7 @@ namespace utilitaire {
    /// @return Le point transformé.
    ///
    ////////////////////////////////////////////////////////////////////////
-   Vecteur3 appliquerMatrice( const Vecteur3& point, const double mat[] )
+   Vecteur3 appliquerMatrice( const Vecteur3& point, const float mat[] )
    {
       // Calculer la multiplication entre la matrice et le point.
       Vecteur3 pointTransforme(
@@ -388,7 +388,7 @@ namespace utilitaire {
          mat[1] * point[0] + mat[5] * point[1] + mat[ 9] * point[2] + mat[13],
          mat[2] * point[0] + mat[6] * point[1] + mat[10] * point[2] + mat[14]
       );
-      const double w = mat[3] * point[0] + mat[7] * point[1] +
+      const float w = mat[3] * point[0] + mat[7] * point[1] +
                        mat[11] * point[2] + mat[15];
 
       // Retour des coordonnées homogènes vers la 3D.

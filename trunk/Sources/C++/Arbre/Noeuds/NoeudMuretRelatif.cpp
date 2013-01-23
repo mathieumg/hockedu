@@ -223,15 +223,15 @@ void NoeudMuretRelatif::animer( const float& temps )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn double NoeudMuretRelatif::obtenirRayon(  )
+/// @fn float NoeudMuretRelatif::obtenirRayon(  )
 ///
 /// Méthode temporaire, les murets ne devrait plus avoir de rayon puisque ce sont des segments.
 ///
 ///
-/// @return double : le rayon.
+/// @return float : le rayon.
 ///
 ////////////////////////////////////////////////////////////////////////
-double NoeudMuretRelatif::obtenirRayon() const
+float NoeudMuretRelatif::obtenirRayon() const
 {
 	return 0;
 }
@@ -239,21 +239,21 @@ double NoeudMuretRelatif::obtenirRayon() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn double NoeudMuretRelatif::mettreAJourEchelleRotation()
+/// @fn float NoeudMuretRelatif::mettreAJourEchelleRotation()
 ///
 /// Methode pour initialiser la mise a l'echelle et l'angle de rotation ainsi que mettre a jour la matrice de transformation pour l'affichage des modeles 3D
 ///
-/// @return double : le rayon.
+/// @return float : le rayon.
 ///
 ////////////////////////////////////////////////////////////////////////
 void NoeudMuretRelatif::mettreAJourEchelleRotation()
 {
 	Vecteur3 vecteurEntre(*coin2_[VX]-*coin1_[VX], *coin2_[VY]-*coin1_[VY], 0);
-	assignerPositionRelative(Vecteur3(*coin1_[VX]+vecteurEntre[VX]/2.0, *coin1_[VY]+vecteurEntre[VY]/2.0));
-	double distance = vecteurEntre.norme();
+	assignerPositionRelative(Vecteur3(*coin1_[VX]+vecteurEntre[VX]/2.0f, *coin1_[VY]+vecteurEntre[VY]/2.0f));
+	float distance = vecteurEntre.norme();
 	modifierEchelleCourante(Vecteur3(distance, 5, 5));
-	double angle = utilitaire::RAD_TO_DEG(atan2(vecteurEntre[VY], vecteurEntre[VX]));
-	assignerAngle((int)angle);
+	float angle = utilitaire::RAD_TO_DEG(atan2(vecteurEntre[VY], vecteurEntre[VX]));
+	assignerAngle(angle);
 	updateMatrice();
     updatePhysicBody();
 }

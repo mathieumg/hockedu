@@ -14,7 +14,7 @@ namespace XMLUtils
     ///
     /// Permet d'ecrire un vecteur dans un element XML
     ///
-    /// @param[in] Vecteur3D<double> * vecteur : vecteur à écrire dans le noeud xml
+    /// @param[in] Vecteur3D<float> * vecteur : vecteur à écrire dans le noeud xml
     /// @param[in] TiXmlElement * element : noeud xml
     /// @param[in] const char* name : nom de ce vecteur a etre ecrit dans le fichier XML, s'assurer qu'il soit unique
     ///
@@ -37,11 +37,11 @@ namespace XMLUtils
 
     ////////////////////////////////////////////////////////////////////////
     ///
-    /// @fn void utilitaire::lectureVecteur3Dxml( Vecteur3D<double>* vecteur, const TiXmlElement* element, const std::string& nom )
+    /// @fn void utilitaire::lectureVecteur3Dxml( Vecteur3D<float>* vecteur, const TiXmlElement* element, const std::string& nom )
     ///
     /// Permet de lire un element XML dans un vecteur 
     ///
-    /// @param[in] Vecteur3D<double> * vecteur : vecteur à écrire dans le noeud xml
+    /// @param[in] Vecteur3D<float> * vecteur : vecteur à écrire dans le noeud xml
     /// @param[in] TiXmlElement * element : noeud xml
     /// @param[in] const char* name : nom de ce vecteur a etre ecrit dans le fichier XML, s'assurer qu'il soit unique
     ///
@@ -60,7 +60,7 @@ namespace XMLUtils
                 nameAttribute << i;
                 if( element->QueryDoubleAttribute(nameAttribute.str().c_str(),&item) != TIXML_SUCCESS)
                     return false;
-                vecteur->operator[](i) = item;
+                vecteur->operator[](i) = (float)item;
             }
             return true;
         }
@@ -71,12 +71,12 @@ namespace XMLUtils
     ///
     /// @fn ecrireAttribute<double>( TiXmlElement* element, const double* attribute )
     ///
-    /// écrit un attribut de type double dans le noeud xml
+    /// écrit un attribut de type float dans le noeud xml
     /// Tous les pointeurs doivent être validé avant les appels à cette fonction
     /// 
     /// @param[in] TiXmlElement * element : make sure to valid the pointer before calling
     /// @param[in] const char * name : nom du nom à écrire
-    /// @param[in] const double & attribute : double attribute to write
+    /// @param[in] const float & attribute : float attribute to write
     ///
     /// @return void
     ///
@@ -87,16 +87,37 @@ namespace XMLUtils
         element->SetDoubleAttribute(name,attribute);
     }
 
+	////////////////////////////////////////////////////////////////////////
+    ///
+    /// @fn ecrireAttribute<float>( TiXmlElement* element, const float* attribute )
+    ///
+    /// écrit un attribut de type float dans le noeud xml
+    /// Tous les pointeurs doivent être validé avant les appels à cette fonction
+    /// 
+    /// @param[in] TiXmlElement * element : make sure to valid the pointer before calling
+    /// @param[in] const char * name : nom du nom à écrire
+    /// @param[in] const float & attribute : float attribute to write
+    ///
+    /// @return void
+    ///
+    ////////////////////////////////////////////////////////////////////////
+    template<>
+    void ecrireAttribute<float>( TiXmlElement* element, const char* name, const float& attribute )
+    {
+		double buffer = (double)attribute;
+        element->SetDoubleAttribute(name,buffer);
+    }
+
     ////////////////////////////////////////////////////////////////////////
     ///
     /// @fn ecrireAttribute
     ///
-    /// écrit un attribut de type double dans le noeud xml
+    /// écrit un attribut de type float dans le noeud xml
     /// Tous les pointeurs doivent être validé avant les appels à cette fonction
     ///
     /// @param[in] TiXmlElement * element : make sure to valid the pointer before calling
     /// @param[in] const char * name : nom du nom à écrire
-    /// @param[in] const int& attribute : double attribute to write
+    /// @param[in] const int& attribute : float attribute to write
     ///
     /// @return void
     ///
@@ -111,12 +132,12 @@ namespace XMLUtils
     ///
     /// @fn ecrireAttribute
     ///
-    /// écrit un attribut de type double dans le noeud xml
+    /// écrit un attribut de type float dans le noeud xml
     /// Tous les pointeurs doivent être validé avant les appels à cette fonction
     ///
     /// @param[in] TiXmlElement * element : make sure to valid the pointer before calling
     /// @param[in] const char * name : nom du nom à écrire
-    /// @param[in] const string& attribute : double attribute to write
+    /// @param[in] const string& attribute : float attribute to write
     ///
     /// @return void
     ///
@@ -132,12 +153,12 @@ namespace XMLUtils
     ///
     /// @fn bool utilitaire::LireAttribute<double>( const TiXmlElement* element, const char* name, double* attribute )
     ///
-    /// Permet la lecture d'un noeud xml dans un attribut de type double
+    /// Permet la lecture d'un noeud xml dans un attribut de type float
     /// Tous les pointeurs doivent être validé avant les appels à cette fonction
     ///
     /// @param[in] const TiXmlElement * element : make sure to valid the pointer before calling
     /// @param[in] const char * name : nom du nom à lire
-    /// @param[in] double * attribute : double attribute to read
+    /// @param[in] double * attribute : float attribute to read
     ///
     /// @return bool : retourne vrai si la lecture a réussi 
     ///
@@ -146,6 +167,28 @@ namespace XMLUtils
     bool LireAttribute<double>( const TiXmlElement* element, const char* name, double& attribute )
     {
         return element->QueryDoubleAttribute(name, &attribute) == TIXML_SUCCESS;
+    }
+
+	////////////////////////////////////////////////////////////////////////
+    ///
+    /// @fn bool utilitaire::LireAttribute<float>( const TiXmlElement* element, const char* name, double* attribute )
+    ///
+    /// Permet la lecture d'un noeud xml dans un attribut de type float
+    /// Tous les pointeurs doivent être validé avant les appels à cette fonction
+    ///
+    /// @param[in] const TiXmlElement * element : make sure to valid the pointer before calling
+    /// @param[in] const char * name : nom du nom à lire
+    /// @param[in] double * attribute : float attribute to read
+    ///
+    /// @return bool : retourne vrai si la lecture a réussi 
+    ///
+    ////////////////////////////////////////////////////////////////////////
+    template<>
+    bool LireAttribute<float>( const TiXmlElement* element, const char* name, float& attribute )
+    {
+		double buffer = 0;
+        return element->QueryDoubleAttribute(name, &buffer) == TIXML_SUCCESS;
+		attribute = (float)buffer;
     }
 
     ////////////////////////////////////////////////////////////////////////
@@ -157,7 +200,7 @@ namespace XMLUtils
     ///
     /// @param[in] const TiXmlElement * element : make sure to valid the pointer before calling
     /// @param[in] const char * name : nom du nom à lire
-    /// @param[in] int * attribute : double attribute to read
+    /// @param[in] int * attribute : float attribute to read
     ///
     /// @return bool : retourne vrai si la lecture a réussi 
     ///
@@ -177,7 +220,7 @@ namespace XMLUtils
     ///
     /// @param[in] const TiXmlElement * element : make sure to valid the pointer before calling
     /// @param[in] const char * name : nom du nom à lire
-    /// @param[in] int * attribute : double attribute to read
+    /// @param[in] int * attribute : float attribute to read
     ///
     /// @return bool : retourne vrai si la lecture a réussi 
     ///

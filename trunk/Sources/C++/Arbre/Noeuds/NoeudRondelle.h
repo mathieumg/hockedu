@@ -51,12 +51,12 @@ public:
    void modifierVelocite(Vecteur3 val) { mVelocite = val; }
 
    /// Accesseurs pour la modification
-   //double obtenirAngle() const {return angle_;}
-   double obtenirVitesseRotation() const {return mVitesseRotation;}
+   //float obtenirAngle() const {return angle_;}
+   float obtenirVitesseRotation() const {return mVitesseRotation;}
 
    /// Modificateurs pour la rotation
-   //void modifierAngle(const double angle) {angle_ = angle;}
-   void modifierVitesseRotation(const double vitesse) {mVitesseRotation = vitesse;}
+   //void modifierAngle(const float angle) {angle_ = angle;}
+   void modifierVitesseRotation(const float vitesse) {mVitesseRotation = vitesse;}
 
    void validerPropriteteTablePourJeu() throw(std::logic_error);
 
@@ -71,9 +71,9 @@ private:
 	/// Velocite courante de la rondelle
 	Vecteur3 mVelocite;
 	/// Coefficient de friction resenti par la table
-	double mCoefFriction;
+	float mCoefFriction;
 	/// Vitesse de rotation
-	double mVitesseRotation;
+	float mVitesseRotation;
 	/// Sauvegarde de la position de la rondelle avant la MAJ
 	Vecteur3 anciennePos_;
 	
@@ -87,12 +87,12 @@ private:
 	Vecteur3 positionOriginale_;
 	
 	/// Variables pour la gestion du vent
-	double coeffVent_;
-	double puissanceVent_;
-	double coeffDirectVent_;
+	float coeffVent_;
+	float puissanceVent_;
+	float coeffDirectVent_;
 
 	/// Acceleration de la rondelle passant par un accelerateur
-	double bonusAccelResultant_;
+	float bonusAccelResultant_;
 };
 
 

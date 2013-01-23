@@ -27,7 +27,7 @@ public:
 	ZoneEdition();
 
 	/// Permet de modifier les limites de la zone d'edition de facon relative à une table
-	void modifierLimitesExt(const double* boiteEnglobantTable, const double& longueur,const double& largeur);
+	void modifierLimitesExt(const float* boiteEnglobantTable, const float& longueur,const float& largeur);
 
 	/// Creation du noeud XML de la zone d'édition
 	TiXmlElement* creerNoeudXML();
@@ -39,33 +39,33 @@ public:
 	void afficher();
 private:
 	/// Attribut de la zone d'édition
-	double limiteIntLongueur_;
-	double limiteIntLargeur_;
-	double limiteExtLargeur_; 
-	double limiteExtLongueur_;
-	static const double DEFAUT_LIMITE_INT_LONGUEUR;
-	static const double DEFAUT_LIMITE_INT_LARGEUR;
-	static const double DEFAUT_LIMITE_EXT_LARGEUR; 
-	static const double DEFAUT_LIMITE_EXT_LONGUEUR;
+	float limiteIntLongueur_;
+	float limiteIntLargeur_;
+	float limiteExtLargeur_; 
+	float limiteExtLongueur_;
+	static const float DEFAUT_LIMITE_INT_LONGUEUR;
+	static const float DEFAUT_LIMITE_INT_LARGEUR;
+	static const float DEFAUT_LIMITE_EXT_LARGEUR; 
+	static const float DEFAUT_LIMITE_EXT_LONGUEUR;
 
 /// Accesseurs
 public:
 	/// Accesseur de limiteIntLongueur_
-	double obtenirLimiteIntLongueur() const { return limiteIntLongueur_; }
+	float obtenirLimiteIntLongueur() const { return limiteIntLongueur_; }
 	/// Modificateur de limiteIntLongueur_
-	void modifierLimiteIntLongueur(double val) { limiteIntLongueur_ = val; }
+	void modifierLimiteIntLongueur(float val) { limiteIntLongueur_ = val; }
 	/// Accesseur de limiteIntLargeur_
-	double obtenirLimiteIntLargeur() const { return limiteIntLargeur_; }
+	float obtenirLimiteIntLargeur() const { return limiteIntLargeur_; }
 	/// Modificateur de limiteIntLargeur_
-	void modifierLimiteIntLargeur(double val) { limiteIntLargeur_ = val; }
+	void modifierLimiteIntLargeur(float val) { limiteIntLargeur_ = val; }
 	/// Accesseur de limiteExtLargeur_
-	double obtenirLimiteExtLargeur() const { return limiteExtLargeur_; }
+	float obtenirLimiteExtLargeur() const { return limiteExtLargeur_; }
 	/// Modificateur de limiteExtLargeur_
-	void modifierLimiteExtLargeur(double val) { limiteExtLargeur_ = val; }
+	void modifierLimiteExtLargeur(float val) { limiteExtLargeur_ = val; }
 	/// Accesseur de limiteExtLongueur_
-	double obtenirLimiteExtLongueur() const { return limiteExtLongueur_; }
+	float obtenirLimiteExtLongueur() const { return limiteExtLongueur_; }
 	/// Modificateur de limiteExtLongueur_
-	void modifierLimiteExtLongueur(double val) { limiteExtLongueur_ = val; }
+	void modifierLimiteExtLongueur(float val) { limiteExtLongueur_ = val; }
 };
 
 ///////////////////////////////////////////////////////////////////////////

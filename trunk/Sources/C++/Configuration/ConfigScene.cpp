@@ -230,8 +230,8 @@ void ConfigScene::enregistrerConfiguration () const
 	elementScene->SetAttribute("toucheDroite", toucheDroite_);
 	
 	// Enregistrement du volumes de la musique et des effets
-	elementScene->SetDoubleAttribute("volSong", (double) SoundFMOD::obtenirInstance()->getAppSongVolume());
-	elementScene->SetDoubleAttribute("volEffect", (double) SoundFMOD::obtenirInstance()->getEffectVolume());
+	elementScene->SetDoubleAttribute("volSong", (float) SoundFMOD::obtenirInstance()->getAppSongVolume());
+	elementScene->SetDoubleAttribute("volEffect", (float) SoundFMOD::obtenirInstance()->getEffectVolume());
 
 	// Adjoindre le noeud 'elementScene'
 	elementConfiguration->LinkEndChild(elementScene);

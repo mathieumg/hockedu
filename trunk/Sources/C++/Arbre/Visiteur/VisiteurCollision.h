@@ -32,7 +32,7 @@ public:
 	/// Constructeur par paramètre
 	VisiteurCollision(NoeudAbstrait* noeudAVerifier, bool flag = true);
 	/// Constructeur par paramètre
-	VisiteurCollision(Vecteur2 position, bool flag = true, double rayon = 5);
+	VisiteurCollision(Vecteur2 position, bool flag = true, float rayon = 5);
 	/// Destructeur
 	~VisiteurCollision(void);
 
@@ -77,8 +77,8 @@ public:
 	TypeCollision obtenirTypeCollision() const { return typeCollision_; }
 	void modifierTypeCollision(TypeCollision val) { typeCollision_ = val; }
 	/// Accesseur de rayonAVerifier_
-	double obtenirRayonAVerifier() const { return rayonAVerifier_; }
-	void modifierRayonAVerifier(double val) { rayonAVerifier_ = val; }
+	float obtenirRayonAVerifier() const { return rayonAVerifier_; }
+	void modifierRayonAVerifier(float val) { rayonAVerifier_ = val; }
 	/// Accesseur de conteneurDetailsCollision
 	inline ConteneurDetailsCollision obtenirConteneurDetailsCollision() const { return conteneurDetailsCollision; }
 	/// Permet de connaitre le nombre de noeud en collision detecter par le visiteur
@@ -89,7 +89,7 @@ private:
 	/// Position de l'élément à vérifier
 	Vecteur2 positionAVerifier_;
 	/// Rayon du cercle à vérifier
-	double rayonAVerifier_;
+	float rayonAVerifier_;
 	/// Ensemble contenant tous les noeuds en collision avec le noeud. Le premier noeud est celui de base pour effectuer les tests
 	ConteneurNoeuds noeudsCollision_;
 	/// Résultat indiquant s'il y à une collision ou non

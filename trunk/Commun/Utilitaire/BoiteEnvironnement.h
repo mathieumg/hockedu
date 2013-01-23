@@ -42,7 +42,7 @@ namespace utilitaire {
       ~BoiteEnvironnement();
 
       /// Affiche la boîte d'environnement.
-      void afficher(const Vecteur3& centre, double demiLargeur) const;
+      void afficher(const Vecteur3& centre, float demiLargeur) const;
 
 
    private:

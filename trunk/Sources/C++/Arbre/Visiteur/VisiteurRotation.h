@@ -23,7 +23,7 @@ class VisiteurRotation :
 {
 public:
 	/// Constructeur par paramètre
-	VisiteurRotation(double angle, Vecteur2 centreRot);
+	VisiteurRotation(float angle, Vecteur2 centreRot);
 	/// Destrcuteur
 	~VisiteurRotation(void);
 

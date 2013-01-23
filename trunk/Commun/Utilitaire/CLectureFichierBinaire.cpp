@@ -76,26 +76,26 @@ CLectureFichierBinaire& operator> ( CLectureFichierBinaire& in, std::string& s )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn operator> ( CLectureFichierBinaire& in, double& f)
+/// @fn operator> ( CLectureFichierBinaire& in, float& f)
 ///
-/// Surcharge de l'opérateur >  pour une variable de type @a double.
+/// Surcharge de l'opérateur >  pour une variable de type @a float.
 ///
 /// @param[in]  in : objet représentant le fichier binaire.
-/// @param[out] f  : La variable de type @a double
+/// @param[out] f  : La variable de type @a float
 ///
 /// @return L'objet représentant le fichier binaire.
 ///
 ////////////////////////////////////////////////////////////////////////
-CLectureFichierBinaire& operator> ( CLectureFichierBinaire& in, double& f )
+CLectureFichierBinaire& operator> ( CLectureFichierBinaire& in, float& f )
 {
-   in.read( ( char* ) &f, sizeof ( double ) );
+   in.read( ( char* ) &f, sizeof ( float ) );
    return in;
 }
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn operator> ( CLectureFichierBinaire& in, float& f)
+/// @fn operator> ( CLectureFichierBinaire& in, double& f)
 ///
 /// Surcharge de l'opérateur > pour une variable de type @a float.
 ///
@@ -105,7 +105,7 @@ CLectureFichierBinaire& operator> ( CLectureFichierBinaire& in, double& f )
 /// @return L'objet représentant le fichier binaire.
 ///
 ////////////////////////////////////////////////////////////////////////
-CLectureFichierBinaire& operator> ( CLectureFichierBinaire& in, float& f )
+CLectureFichierBinaire& operator> ( CLectureFichierBinaire& in, double& f )
 {
    in.read( ( char* ) &f, sizeof ( float ) );
    return in;

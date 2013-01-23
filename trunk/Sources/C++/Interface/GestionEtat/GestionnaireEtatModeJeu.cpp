@@ -294,7 +294,7 @@ void GestionnaireEtatModeJeu::afficher()
 	GestionnaireHUD::obtenirInstance()->dessinerHUDJeu();
 }
 
-void GestionnaireEtatModeJeu::miseAJourEvenementsRepetitifs( double deltaTemps )
+void GestionnaireEtatModeJeu::miseAJourEvenementsRepetitifs( float deltaTemps )
 {
 	int tempsMs = (int)deltaTemps*1000;
 

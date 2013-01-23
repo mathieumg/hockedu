@@ -55,10 +55,10 @@ public:
 	void dessiner(bool avecTexture);
 
    /// Calcule la sphère englobante
-   double calculerSphereEnglobante() const;
+   float calculerSphereEnglobante() const;
 
    /// Calcule le cylindre englobant
-   void calculerCylindreEnglobant(double& rayon, double& bas, double& haut) const;
+   void calculerCylindreEnglobant(float& rayon, float& bas, float& haut) const;
 
    /// Calcule le rayon du cylindre englobant
    void calculerBoiteEnglobante(Vecteur3& coinMin, Vecteur3& coinMax) const;

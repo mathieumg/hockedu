@@ -330,7 +330,7 @@ public:
 
 	/// Application de la mise a l'echelle sur les noeuds selectionnes de l'arbre
 	void modifierDeplacement(Vecteur2 deplacement);
-	void modifierRotation( double angle );
+	void modifierRotation( float angle );
 	/// retourne le type des noeuds selectionné
 	std::string obtenirTypeNoeudSelectionne();
 	/// Obtention d'un joueur
@@ -346,7 +346,7 @@ public:
 	Tournoi* obtenirTournoi();
 
 	/// Obtention de la largeur de la zone d'edition
-	double obtenirLargeurZoneEdition();
+	float obtenirLargeurZoneEdition();
 
 	/// Accesseur de partieCourante_
 	Partie* obtenirPartieCourante() const { return partieCourante_; }

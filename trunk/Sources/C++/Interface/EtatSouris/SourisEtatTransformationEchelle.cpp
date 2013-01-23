@@ -111,23 +111,23 @@ void SourisEtatTransformationEchelle::sourisDeplacee( EvenementSouris& evenement
 		// Calcul le déplacement relatif entre depuis le dernier appel de la méthode
 		int deplacementY = positionPrecedente_[VY]-evenementSouris.obtenirPosition()[VY];
 
-		double facteur;
+		float facteur;
 		// Effectue la mise a l'echelle
 		if(deplacementY>0)
 		{
 			//FacadeModele::getInstance()->modifierEchelle(1.05);
-			facteur = 1.05;
+			facteur = 1.05f;
 		}
 		else if (deplacementY<0)
 		{
 			//FacadeModele::getInstance()->modifierEchelle(0.95);
-			facteur = 0.95;
+			facteur = 0.95f;
 		}
 		else
 			return;
 		
 		VisiteurEchelle visiteurEchelle(facteur, -1);
-		VisiteurEchelle visiteurEchelleInverse(1.0/facteur, -1);
+		VisiteurEchelle visiteurEchelleInverse(1.0f/facteur, -1);
 
 		bool echelleValide = true;
 		int i=0; 

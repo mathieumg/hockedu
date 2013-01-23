@@ -56,27 +56,27 @@ public:
 
 private:
 	/// Coefficient de friction de la table
-	double	coefFriction_; 
+	float	coefFriction_; 
 	/// Coefficient de rebond des murets
-	double	coefRebond_;  
+	float	coefRebond_;  
 	/// Coefficient d'accélération des bonus accélérateurs
-	double	bonusAccel_; 
+	float	bonusAccel_; 
 	/// Position de l'élément (s'applique à tout sauf au noeud de la table)
 	Vecteur2 position_; 
 	/// Grosseur de l'élément (s'applique à tout sauf au noeud de la table)
-	double echelle_;
+	float echelle_;
 	/// Angle de rotation de l'élément (s'applique à tout sauf au noeud de la table)
 	int rotation_;
 	/// Indique si une seul objet doit être sélectionné pour gérer les modifications
 	bool unSeulSelect_;
 	/// Les dimensions de la zone d'édition
-	double longueurZoneEdition_;
-	double hauteurZoneEdition_;
+	float longueurZoneEdition_;
+	float hauteurZoneEdition_;
 	/// Accès direct au noeud représentant la table
 	NoeudTable* table_;
 
 	// Tableau contenant les coef de rebond pour les 8 bandes
-	double coefRebondBandes_[8];
+	float coefRebondBandes_[8];
 
 
 };

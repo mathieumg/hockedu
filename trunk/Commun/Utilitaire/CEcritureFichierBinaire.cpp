@@ -66,25 +66,6 @@ CEcritureFichierBinaire& operator< ( CEcritureFichierBinaire& out, const std::st
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn operator< ( CEcritureFichierBinaire& out, const double& x )
-///
-/// Surcharge de l'opérateur < pour une variable de type @a double.
-///
-/// @param[in] out : L'objet représentant le fichier binaire.
-/// @param[in] x   : La variable de type @a double.
-///
-/// @return L'objet représentant le fichier binaire.
-///
-////////////////////////////////////////////////////////////////////////
-CEcritureFichierBinaire& operator< ( CEcritureFichierBinaire& out, const double& x )
-{
-   out.write( ( char* ) &x, sizeof ( double ) );
-   return out;
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
 /// @fn operator< ( CEcritureFichierBinaire& out, const float& x )
 ///
 /// Surcharge de l'opérateur < pour une variable de type @a float.
@@ -96,6 +77,25 @@ CEcritureFichierBinaire& operator< ( CEcritureFichierBinaire& out, const double&
 ///
 ////////////////////////////////////////////////////////////////////////
 CEcritureFichierBinaire& operator< ( CEcritureFichierBinaire& out, const float& x )
+{
+   out.write( ( char* ) &x, sizeof ( float ) );
+   return out;
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn operator< ( CEcritureFichierBinaire& out, const double& x )
+///
+/// Surcharge de l'opérateur < pour une variable de type @a float.
+///
+/// @param[in] out : L'objet représentant le fichier binaire.
+/// @param[in] x   : La variable de type @a float.
+///
+/// @return L'objet représentant le fichier binaire.
+///
+////////////////////////////////////////////////////////////////////////
+CEcritureFichierBinaire& operator< ( CEcritureFichierBinaire& out, const double& x )
 {
    out.write( ( char* ) &x, sizeof ( float ) );
    return out;

@@ -133,7 +133,7 @@ void VisiteurSelection::visiterNoeudMuret( NoeudMuret* noeud )
 				for(int i=0; i<listeNoeuds.size(); i++)
 				{
 					
-					aSelectionner_ = NoeudZBuf(listeNoeuds[i], 0);
+					aSelectionner_ = NoeudZBuf(listeNoeuds[i], 0.0f);
 				}
 				
 			}
@@ -327,7 +327,7 @@ void VisiteurSelection::visiterNoeudAffichable( NoeudAbstrait* noeud )
 		visiteurCollision->obtenirListeCollision(conteneur);
 		for(int i=1; i<conteneur.size(); i++)
 		{
-			double posZCourante = conteneur[i]->obtenirPositionAbsolue()[VZ];
+			float posZCourante = conteneur[i]->obtenirPositionAbsolue()[VZ];
 			if(posZCourante>=aSelectionner_.second && conteneur[i]->estSelectionnable() || avecRectangle)
 			{
 				if(avecRectangle)

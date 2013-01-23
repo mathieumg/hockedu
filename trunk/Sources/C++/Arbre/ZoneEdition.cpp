@@ -14,10 +14,10 @@
 #include "glew.h"
 #include "XMLUtils.h"
 
-const double ZoneEdition::DEFAUT_LIMITE_INT_LONGUEUR = 75;
-const double ZoneEdition::DEFAUT_LIMITE_INT_LARGEUR = 50;
-const double ZoneEdition::DEFAUT_LIMITE_EXT_LARGEUR = 150; 
-const double ZoneEdition::DEFAUT_LIMITE_EXT_LONGUEUR = 200;
+const float ZoneEdition::DEFAUT_LIMITE_INT_LONGUEUR = 75;
+const float ZoneEdition::DEFAUT_LIMITE_INT_LARGEUR = 50;
+const float ZoneEdition::DEFAUT_LIMITE_EXT_LARGEUR = 150; 
+const float ZoneEdition::DEFAUT_LIMITE_EXT_LONGUEUR = 200;
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -39,20 +39,20 @@ ZoneEdition::ZoneEdition()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void ZoneEdition::modifierLimitesExt( const double* boiteEnglobantTable, const double& longueur,const double& largeur )
+/// @fn void ZoneEdition::modifierLimitesExt( const float* boiteEnglobantTable, const float& longueur,const float& largeur )
 ///
 /// Permet de modifier les limites de la zone d'edition de facon relative à une table
 ///
-/// @param[in] const double * boiteEnglobantTable : Tableau a 2 dimension contenant la longueur et hauteur max d'une table
+/// @param[in] const float * boiteEnglobantTable : Tableau a 2 dimension contenant la longueur et hauteur max d'une table
 ///													boiteEnglobantTable[0] : hauteur
 ///													boiteEnglobantTable[1] : largeur
-/// @param[in] const double & longueur : nouvelle longueur à assigner à la zone d'édition
-/// @param[in] const double & largeur : nouvelle largeur à assigner à la zone d'édition
+/// @param[in] const float & longueur : nouvelle longueur à assigner à la zone d'édition
+/// @param[in] const float & largeur : nouvelle largeur à assigner à la zone d'édition
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void ZoneEdition::modifierLimitesExt( const double* boiteEnglobantTable, const double& longueur,const double& largeur )
+void ZoneEdition::modifierLimitesExt( const float* boiteEnglobantTable, const float& longueur,const float& largeur )
 {
 	// Si la longueur a assigner est plus petite que la longueur maximale de la table, on cap a la longueur de la table
 	if(longueur< boiteEnglobantTable[1] )

@@ -310,23 +310,23 @@ void NoeudTable::afficherConcret() const
     // TODO:: cache the values when modifying / loading the control points
 	// Dessin des lignes sur la table et des zones de but
 	// Ligne bleu de gauche 1/3
-	Vecteur3 pointHautLigneGauche1 = vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_HAUT_GAUCHE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue())/3.0;
-	Vecteur3 pointcentreLigneGauche1 = vecteurPoint_[POSITION_MILIEU_GAUCHE]->obtenirPositionAbsolue()*0.33;
-	Vecteur3 pointBasLigneGauche1 = vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_BAS_GAUCHE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue())/3.0;
+	Vecteur3 pointHautLigneGauche1 = vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_HAUT_GAUCHE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue())/3.0f;
+	Vecteur3 pointcentreLigneGauche1 = vecteurPoint_[POSITION_MILIEU_GAUCHE]->obtenirPositionAbsolue()*0.33f;
+	Vecteur3 pointBasLigneGauche1 = vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_BAS_GAUCHE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue())/3.0f;
 	// Ligne bleu de gauche 2/3
-	Vecteur3 pointHautLigneGauche2 = vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_HAUT_GAUCHE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue())*2.0/3.0;
-	Vecteur3 pointcentreLigneGauche2 = vecteurPoint_[POSITION_MILIEU_GAUCHE]->obtenirPositionAbsolue()*0.66;
-	Vecteur3 pointBasLigneGauche2 = vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_BAS_GAUCHE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue())*2.0/3.0;
+	Vecteur3 pointHautLigneGauche2 = vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_HAUT_GAUCHE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue())*2.0f/3.0f;
+	Vecteur3 pointcentreLigneGauche2 = vecteurPoint_[POSITION_MILIEU_GAUCHE]->obtenirPositionAbsolue()*0.66f;
+	Vecteur3 pointBasLigneGauche2 = vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_BAS_GAUCHE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue())*2.0f/3.0f;
 	// Ligne bleu de Droite 1/3
-	Vecteur3 pointHautLigneDroite1 = vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_HAUT_DROITE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue())/3.0;
-	Vecteur3 pointcentreLigneDroite1 = vecteurPoint_[POSITION_MILIEU_DROITE]->obtenirPositionAbsolue() * 0.33;
-	Vecteur3 pointBasLigneDroite1 = vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_BAS_DROITE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue())/3.0;
+	Vecteur3 pointHautLigneDroite1 = vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_HAUT_DROITE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue())/3.0f;
+	Vecteur3 pointcentreLigneDroite1 = vecteurPoint_[POSITION_MILIEU_DROITE]->obtenirPositionAbsolue() * 0.33f;
+	Vecteur3 pointBasLigneDroite1 = vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_BAS_DROITE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue())/3.0f;
 	// Ligne bleu de Droite 2/3
-	Vecteur3 pointHautLigneDroite2 = vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_HAUT_DROITE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue())*2.0/3.0;
-	Vecteur3 pointcentreLigneDroite2 = vecteurPoint_[POSITION_MILIEU_DROITE]->obtenirPositionAbsolue() * 0.66;
-	Vecteur3 pointBasLigneDroite2 = vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_BAS_DROITE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue())*2.0/3.0;
+	Vecteur3 pointHautLigneDroite2 = vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_HAUT_DROITE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue())*2.0f/3.0f;
+	Vecteur3 pointcentreLigneDroite2 = vecteurPoint_[POSITION_MILIEU_DROITE]->obtenirPositionAbsolue() * 0.66f;
+	Vecteur3 pointBasLigneDroite2 = vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_BAS_DROITE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue())*2.0f/3.0f;
 
-	const double hauteurLigne = 0;
+	const float hauteurLigne = 0;
 	float moitieLargeurLigne = 1.0f;
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 	glPushMatrix();
@@ -492,15 +492,15 @@ NoeudAbstrait::PaireVect3 NoeudTable::obtenirZoneOccupee() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn double NoeudTable::obtenirRayon(  )
+/// @fn float NoeudTable::obtenirRayon(  )
 ///
 /// Retourne le rayon du noeud.
 ///
 ///
-/// @return double : rayon du noeud.
+/// @return float : rayon du noeud.
 ///
 ////////////////////////////////////////////////////////////////////////
-double NoeudTable::obtenirRayon() const
+float NoeudTable::obtenirRayon() const
 {
 	return 0;
 	// A COMPLETER
@@ -540,26 +540,26 @@ NoeudBut* NoeudTable::obtenirBut( int joueur ) const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudTable::calculerHautLongMax(double reponse[])
+void NoeudTable::calculerHautLongMax(float reponse[])
 {
 	// Puisque le table est symétrique par rapport a y seulement
 	// On a besoin de 2 variable pour la hauteur puisqu'elle diffère
 	
 	// On trouve la hauteur max en haut
-	double maxHauteurEntre2=max(obtenirPoint(POSITION_HAUT_GAUCHE)->obtenirPositionAbsolue()[VY],obtenirPoint(POSITION_HAUT_MILIEU)->obtenirPositionAbsolue()[VY]);
-	double hauteurYHaut=max(maxHauteurEntre2,obtenirPoint(POSITION_HAUT_DROITE)->obtenirPositionAbsolue()[VY]); 
+	float maxHauteurEntre2=max(obtenirPoint(POSITION_HAUT_GAUCHE)->obtenirPositionAbsolue()[VY],obtenirPoint(POSITION_HAUT_MILIEU)->obtenirPositionAbsolue()[VY]);
+	float hauteurYHaut=max(maxHauteurEntre2,obtenirPoint(POSITION_HAUT_DROITE)->obtenirPositionAbsolue()[VY]); 
 
 	// On trouve la hauteur max en bas
 	maxHauteurEntre2=min(obtenirPoint(POSITION_BAS_GAUCHE)->obtenirPositionAbsolue()[VY],obtenirPoint(POSITION_BAS_MILIEU)->obtenirPositionAbsolue()[VY]);
-	double hauteurYBas=-1*min(maxHauteurEntre2,obtenirPoint(POSITION_BAS_DROITE)->obtenirPositionAbsolue()[VY]);
+	float hauteurYBas=-1*min(maxHauteurEntre2,obtenirPoint(POSITION_BAS_DROITE)->obtenirPositionAbsolue()[VY]);
 
 	// On compare la hauteur max en haut et en bas
-	double HauteurY=max(hauteurYHaut,hauteurYBas);
+	float HauteurY=max(hauteurYHaut,hauteurYBas);
 	reponse[0]=HauteurY;
 
 	// On trouve la longueur max, on le fait sur le cote droit seulement puisqua la table est symetrique en Y
-	double maxLongueurEntre2=max(obtenirPoint(POSITION_HAUT_DROITE)->obtenirPositionAbsolue()[VX],obtenirPoint(POSITION_MILIEU_DROITE)->obtenirPositionAbsolue()[VX]);
-	double longueurX=max(maxLongueurEntre2,obtenirPoint(POSITION_BAS_DROITE)->obtenirPositionAbsolue()[VX]);
+	float maxLongueurEntre2=max(obtenirPoint(POSITION_HAUT_DROITE)->obtenirPositionAbsolue()[VX],obtenirPoint(POSITION_MILIEU_DROITE)->obtenirPositionAbsolue()[VX]);
+	float longueurX=max(maxLongueurEntre2,obtenirPoint(POSITION_BAS_DROITE)->obtenirPositionAbsolue()[VX]);
 	reponse[1]=longueurX;
 }
 
@@ -615,7 +615,7 @@ bool NoeudTable::estSurTable(NoeudAbstrait* noeud)
 ////////////////////////////////////////////////////////////////////////
 NoeudMuret* NoeudTable::detectionCollisionGrandeVitesseMuret( const Vecteur2& anciennePos,const Vecteur2& nouvellePos, Vecteur2 &intersectionRetour )
 {
-	double distance = 9999999;
+	float distance = 9999999;
 	NoeudMuret* retour = 0;
 	NoeudGroupe* groupe = obtenirGroupe(ArbreRenduINF2990::NOM_MURET);
 	if(groupe)
@@ -629,13 +629,13 @@ NoeudMuret* NoeudTable::detectionCollisionGrandeVitesseMuret( const Vecteur2& an
 				Vecteur2 point2 = muret->obtenirCoin2().convertir<2>();
 				Vecteur2 directeur(point2-point1);
 				directeur.normaliser();
-				directeur*=1.05;
+				directeur*=1.05f;
 				point2 += directeur;
 				point1 -= directeur;
 				Vecteur2 intersection;
 				if(aidecollision::calculerCollisionSegmentSegment(anciennePos,nouvellePos,point1,point2,intersection).type != aidecollision::COLLISION_AUCUNE )
 				{
-					double distCur = (intersection-anciennePos).norme2();
+					float distCur = (intersection-anciennePos).norme2();
 					if(distCur <= distance)
 					{
 						distance = distCur;
@@ -696,14 +696,14 @@ TiXmlElement* NoeudTable::creerNoeudXML()
 {
 	TiXmlElement* elementNoeud = NoeudComposite::creerNoeudXML();
     
-    XMLUtils::ecrireAttribute<double>(elementNoeud,"coefFriction",coefFriction_);
+    XMLUtils::ecrireAttribute<float>(elementNoeud,"coefFriction",coefFriction_);
 	for (int i = 0; i < 8 ; i++)
 	{
         std::ostringstream name;
         name << "rebondBande";
         name << i;
-        double coef = bande_[i]->obtenirCoefRebond();
-        XMLUtils::ecrireAttribute<double>(elementNoeud,name.str().c_str(),coef);
+        float coef = bande_[i]->obtenirCoefRebond();
+        XMLUtils::ecrireAttribute<float>(elementNoeud,name.str().c_str(),coef);
 	}
 
 	return elementNoeud;
@@ -724,18 +724,18 @@ bool NoeudTable::initialiser( const TiXmlElement* element )
 {
 	if(!NoeudComposite::initialiser(element))
 		return false;
-    if(!XMLUtils::LireAttribute<double>(element,"coefFriction",coefFriction_))
+    if(!XMLUtils::LireAttribute<float>(element,"coefFriction",coefFriction_))
 		return false;
 
 	// On assigne le coefficient de rebon des bandes exterieurs
 	for (int i = 0; i < 8 ; i++)
 	{
-		double doubleElem;
+		float doubleElem;
         std::ostringstream name;
         name << "rebondBande";
         name << i;
 
-        if(!XMLUtils::LireAttribute<double>(element,name.str().c_str(),doubleElem))
+        if(!XMLUtils::LireAttribute<float>(element,name.str().c_str(),doubleElem))
 			return false;
 		assignerCoefRebond(i,doubleElem);
 	}
@@ -917,17 +917,17 @@ void NoeudTable::replacerModele()
 }
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudTable::assignerCoefRebond( int index, double coefRebond )
+/// @fn void NoeudTable::assignerCoefRebond( int index, float coefRebond )
 ///
 /// Assigne le coefficient de rebond a la bande de l'index voulu
 ///
 /// @param[in] int index : l'index de la bande
-/// @param[in] double coefRebond
+/// @param[in] float coefRebond
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudTable::assignerCoefRebond( int index, double coefRebond )
+void NoeudTable::assignerCoefRebond( int index, float coefRebond )
 {
 	bande_[index]->modifierCoefRebond(coefRebond);
 }

@@ -58,7 +58,7 @@ namespace math {
       /// Trouve l'intersection entre la droite et un segment.
       bool      intersectionSegment(const Vecteur3& point1, const Vecteur3& point2);
       /// Calcule la distance entre un point et la droite.
-      double    distancePoint(const Vecteur3& centre);
+      float    distancePoint(const Vecteur3& centre);
       /// Trouve le point de rencontre entre la droite et une perpendiculaire à partir d'un point.
       Vecteur3 perpendiculaireDroite(const Vecteur3& point);
 

@@ -56,7 +56,7 @@ VisiteurCollision::VisiteurCollision( NoeudAbstrait* noeudAVerifier , bool flag 
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-VisiteurCollision::VisiteurCollision( Vecteur2 position , bool flag /* = true*/, double rayon /*= 5*/)
+VisiteurCollision::VisiteurCollision( Vecteur2 position , bool flag /* = true*/, float rayon /*= 5*/)
 {
 	flag_ = flag;
 	collision_ = false;

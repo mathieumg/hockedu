@@ -24,7 +24,7 @@ namespace aidecollision {
 	///        const Vecteur2& point1,
 	///        const Vecteur2& point2,
 	///        const Vecteur2& position,
-	///        double          rayon,
+	///        float          rayon,
 	///        bool            collisionAvecPoints
 	///        );
 	///
@@ -50,7 +50,7 @@ namespace aidecollision {
 		const Vecteur2& point1,
 		const Vecteur2& point2,
 		const Vecteur2& position,
-		double          rayon,
+		float          rayon,
 		bool            collisionAvecPoints //= true
 		)
 	{
@@ -70,7 +70,7 @@ namespace aidecollision {
 	///        const Vecteur3& point1,
 	///        const Vecteur3& point2,
 	///        const Vecteur3& position,
-	///        double          rayon,
+	///        float          rayon,
 	///        bool            collisionAvecPoints
 	///        );
 	///
@@ -94,7 +94,7 @@ namespace aidecollision {
 		const Vecteur3& point1,
 		const Vecteur3& point2,
 		const Vecteur3& position,
-		double          rayon,
+		float          rayon,
 		bool            collisionAvecPoints //= true
 		)
 	{
@@ -105,14 +105,14 @@ namespace aidecollision {
 		// On calcule la projection de la position de la sphère sur le vecteur
 		// du segment de droite.
 		const Vecteur3 segment = point2 - point1;
-		const double ratio = produitScalaire(position - point1, segment) /
+		const float ratio = produitScalaire(position - point1, segment) /
 			segment.norme2();
 
 		if (collisionAvecPoints) {
 			if (ratio < 0.0) {
 				// On est du côté du premier point.
 				const Vecteur3 directionCollision = position - point1;
-				const double distance = directionCollision.norme();
+				const float distance = directionCollision.norme();
 				if (distance < rayon) {
 					detailsCollision.type = COLLISION_SEGMENT_PREMIERPOINT;
 					detailsCollision.direction = directionCollision / distance;
@@ -122,7 +122,7 @@ namespace aidecollision {
 			else if (ratio > 1.0) {
 				// On est du côté du second point.
 				const Vecteur3 directionCollision = position - point2;
-				const double distance = directionCollision.norme();
+				const float distance = directionCollision.norme();
 				if (distance < rayon) {
 					detailsCollision.type = COLLISION_SEGMENT_DEUXIEMEPOINT;
 					detailsCollision.direction = directionCollision / distance;
@@ -135,7 +135,7 @@ namespace aidecollision {
 			// On est sur le segment de droite.
 			Vecteur3f pointPerpendiculaire = (1 - ratio) * point1 + ratio * point2;
 			const Vecteur3 directionCollision = position - pointPerpendiculaire;
-			const double distance = directionCollision.norme();
+			const float distance = directionCollision.norme();
 			if (distance < rayon) {
 				detailsCollision.type = COLLISION_SEGMENT;
 				detailsCollision.direction = directionCollision / distance;
@@ -151,9 +151,9 @@ namespace aidecollision {
 	///
 	/// @fn DetailsCollision calculerCollisionCercle(
 	///        const Vecteur2& centreCercle,
-	///        double          rayonCercle,
+	///        float          rayonCercle,
 	///        const Vecteur2& positionObjet,
-	///        double          rayonObjet
+	///        float          rayonObjet
 	///        );
 	///
 	/// Cette fonction calcule l'intersection d'un cercle avec un autre
@@ -173,9 +173,9 @@ namespace aidecollision {
 	////////////////////////////////////////////////////////////////////////
 	DetailsCollision calculerCollisionCercle(
 		const Vecteur2& centreCercle,
-		double          rayonCercle,
+		float          rayonCercle,
 		const Vecteur2& positionObjet,
-		double          rayonObjet
+		float          rayonObjet
 		)
 	{
 		return calculerCollisionSphere(
@@ -194,7 +194,7 @@ namespace aidecollision {
 	///        const Vecteur2& pointArc1,
 	///        const Vecteur2& pointArc2,
 	///        const Vecteur2& positionObjet,
-	///        double          rayonObjet
+	///        float          rayonObjet
 	///        );
 	///
 	/// Cette fonction calcule l'intersection d'un cercle identifié par
@@ -218,7 +218,7 @@ namespace aidecollision {
 		const Vecteur2& pointArc1,
 		const Vecteur2& pointArc2,
 		const Vecteur2& positionObjet,
-		double          rayonObjet
+		float          rayonObjet
 		)
 	{
 		// Valeur de retour.
@@ -226,7 +226,7 @@ namespace aidecollision {
 		detailsCollision.type = COLLISION_AUCUNE;
 
 		// Rayon de l'arc de cercle.
-		double rayonCercle = (pointArc1 - centreCercle).norme();
+		float rayonCercle = (pointArc1 - centreCercle).norme();
 
 		detailsCollision.direction = (positionObjet - centreCercle).convertir<3>();
 		detailsCollision.enfoncement = rayonCercle + rayonObjet -
@@ -238,9 +238,9 @@ namespace aidecollision {
 
 			// On vérifie si la direction est située à l'intérieur de l'arc à
 			// l'aide de produits vectoriels.
-			double sensExtremites = produitVectoriel(direction1, direction2)[2];
-			double sens1          = produitVectoriel(direction1, detailsCollision.direction)[2];
-			double sens2          = produitVectoriel(detailsCollision.direction, direction2)[2];
+			float sensExtremites = produitVectoriel(direction1, direction2)[2];
+			float sens1          = produitVectoriel(direction1, detailsCollision.direction)[2];
+			float sens2          = produitVectoriel(detailsCollision.direction, direction2)[2];
 
 			if ( ((sens1 > 0.0) == (sensExtremites > 0.0)) &&
 				((sens1 > 0.0) == (sens2 > 0.0)) ) {
@@ -254,7 +254,7 @@ namespace aidecollision {
 
 	////////////////////////////////////////////////////////////////////////
 	///
-	/// @fn DetailsCollision calculerCollisionSphere( const Vecteur3& centreSphere, double rayonSphere, const Vecteur3& positionObjet, double rayonObjet );
+	/// @fn DetailsCollision calculerCollisionSphere( const Vecteur3& centreSphere, float rayonSphere, const Vecteur3& positionObjet, float rayonObjet );
 	///
 	/// Cette fonction calcule l'intersection d'une sphère avec une autre
 	/// sphère, chacune identifiée par son centre et son rayon.
@@ -271,9 +271,9 @@ namespace aidecollision {
 	////////////////////////////////////////////////////////////////////////
 	DetailsCollision calculerCollisionSphere(
 		const Vecteur3& centreSphere,
-		double          rayonSphere,
+		float          rayonSphere,
 		const Vecteur3& positionObjet,
-		double          rayonObjet
+		float          rayonObjet
 		)
 	{
 		// Valeur de retour
@@ -296,7 +296,7 @@ namespace aidecollision {
 	///
 	/// @fn Vecteur2 calculerForceRebondissement2D(
 	///        const DetailsCollision& details,
-	///        double constanteRebondissement
+	///        float constanteRebondissement
 	///        );
 	///
 	/// Cette fonction calcule la force causée par une collision à partir
@@ -315,7 +315,7 @@ namespace aidecollision {
 	////////////////////////////////////////////////////////////////////////
 	Vecteur2 calculerForceRebondissement2D(
 		const DetailsCollision& details,
-		double constanteRebondissement
+		float constanteRebondissement
 		)
 	{
 		if (details.type == COLLISION_AUCUNE) {
@@ -334,7 +334,7 @@ namespace aidecollision {
 	///
 	/// @fn Vecteur3 calculerForceRebondissement3D(
 	///        const DetailsCollision& details,
-	///        double constanteRebondissement
+	///        float constanteRebondissement
 	///        );
 	///
 	/// Cette fonction calcule la force causée par une collision à partir
@@ -352,7 +352,7 @@ namespace aidecollision {
 	////////////////////////////////////////////////////////////////////////
 	Vecteur3 calculerForceRebondissement3D(
 		const DetailsCollision& details,
-		double constanteRebondissement
+		float constanteRebondissement
 		)
 	{
 		if (details.type == COLLISION_AUCUNE) {
@@ -372,7 +372,7 @@ namespace aidecollision {
 	/// @fn Vecteur2 calculerForceAmortissement2D(
 	///        const DetailsCollision& details,
 	///        const Vecteur2& vitesse,
-	///        double constanteAmortissement
+	///        float constanteAmortissement
 	///        );
 	///
 	/// Cette fonction calcule une force d'amortissement proportionnelle à
@@ -391,7 +391,7 @@ namespace aidecollision {
 	Vecteur2 calculerForceAmortissement2D(
 		const DetailsCollision& details,
 		const Vecteur2& vitesse,
-		double constanteAmortissement
+		float constanteAmortissement
 		)
 	{
 		return calculerForceAmortissement3D(
@@ -405,7 +405,7 @@ namespace aidecollision {
 	/// @fn Vecteur3 calculerForceAmortissement3D(
 	///        const DetailsCollision& details,
 	///        const Vecteur3& vitesse,
-	///        double constanteAmortissement
+	///        float constanteAmortissement
 	///        );
 	///
 	/// Cette fonction calcule une force d'amortissement proportionnelle à
@@ -422,7 +422,7 @@ namespace aidecollision {
 	Vecteur3 calculerForceAmortissement3D(
 		const DetailsCollision& details,
 		const Vecteur3& vitesse,
-		double constanteAmortissement
+		float constanteAmortissement
 		)
 	{
 		if (details.type == COLLISION_AUCUNE) {
@@ -443,10 +443,10 @@ namespace aidecollision {
 	///        const Vecteur2&   point1,
 	///        const Vecteur2&   point2,
 	///        const Vecteur2&   position,
-	///        double            rayon,
+	///        float            rayon,
 	///        bool              collisionAvecPoints,
-	///        double            constanteRebondissement,
-	///        double            constanteAmortissement,
+	///        float            constanteRebondissement,
+	///        float            constanteAmortissement,
 	///        const Vecteur2&   vitesse,
 	///        DetailsCollision* retourDetails = 0
 	///        );
@@ -482,10 +482,10 @@ namespace aidecollision {
 		const Vecteur2&   point1,
 		const Vecteur2&   point2,
 		const Vecteur2&   position,
-		double            rayon,
+		float            rayon,
 		bool              collisionAvecPoints,
-		double            constanteRebondissement,
-		double            constanteAmortissement,
+		float            constanteRebondissement,
+		float            constanteAmortissement,
 		const Vecteur2&   vitesse,
 		DetailsCollision* retourDetails //= 0
 		)
@@ -508,10 +508,10 @@ namespace aidecollision {
 	///        const Vecteur3&   point1,
 	///        const Vecteur3&   point2,
 	///        const Vecteur3&   position,
-	///        double            rayon,
+	///        float            rayon,
 	///        bool              collisionAvecPoints,
-	///        double            constanteRebondissement,
-	///        double            constanteAmortissement,
+	///        float            constanteRebondissement,
+	///        float            constanteAmortissement,
 	///        const Vecteur3&   vitesse,
 	///        DetailsCollision* retourDetails = 0
 	///        );
@@ -545,10 +545,10 @@ namespace aidecollision {
 		const Vecteur3&   point1,
 		const Vecteur3&   point2,
 		const Vecteur3&   position,
-		double            rayon,
+		float            rayon,
 		bool              collisionAvecPoints,
-		double            constanteRebondissement,
-		double            constanteAmortissement,
+		float            constanteRebondissement,
+		float            constanteAmortissement,
 		const Vecteur3&   vitesse,
 		DetailsCollision* retourDetails //= 0
 		)
@@ -577,11 +577,11 @@ namespace aidecollision {
 	///
 	/// @fn Vecteur2 calculerCollisionCercle(
 	///        const Vecteur2&   centreCercle,
-	///        double            rayonCercle,
+	///        float            rayonCercle,
 	///        const Vecteur2&   positionObjet,
-	///        double            rayonObjet,
-	///        double            constanteRebondissement,
-	///        double            constanteAmortissement,
+	///        float            rayonObjet,
+	///        float            constanteRebondissement,
+	///        float            constanteAmortissement,
 	///        const Vecteur2&   vitesse,
 	///        DetailsCollision* retourDetails = 0
 	///        );
@@ -614,11 +614,11 @@ namespace aidecollision {
 	////////////////////////////////////////////////////////////////////////
 	Vecteur2 calculerCollisionCercle(
 		const Vecteur2&   centreCercle,
-		double            rayonCercle,
+		float            rayonCercle,
 		const Vecteur2&   positionObjet,
-		double            rayonObjet,
-		double            constanteRebondissement,
-		double            constanteAmortissement,
+		float            rayonObjet,
+		float            constanteRebondissement,
+		float            constanteAmortissement,
 		const Vecteur2&   vitesse,
 		DetailsCollision* retourDetails //= 0
 		)
@@ -638,11 +638,11 @@ namespace aidecollision {
 	///
 	/// @fn Vecteur3 calculerCollisionSphere(
 	///        const Vecteur3&   centreSphere,
-	///        double            rayonSphere,
+	///        float            rayonSphere,
 	///        const Vecteur3&   positionObjet,
-	///        double            rayonObjet,
-	///        double            constanteRebondissement,
-	///        double            constanteAmortissement,
+	///        float            rayonObjet,
+	///        float            constanteRebondissement,
+	///        float            constanteAmortissement,
 	///        const Vecteur3&   vitesse,
 	///        DetailsCollision* retourDetails = 0
 	///        );
@@ -673,11 +673,11 @@ namespace aidecollision {
 	////////////////////////////////////////////////////////////////////////
 	Vecteur3 calculerCollisionSphere(
 		const Vecteur3&   centreSphere,
-		double            rayonSphere,
+		float            rayonSphere,
 		const Vecteur3&   positionObjet,
-		double            rayonObjet,
-		double            constanteRebondissement,
-		double            constanteAmortissement,
+		float            rayonObjet,
+		float            constanteRebondissement,
+		float            constanteAmortissement,
 		const Vecteur3&   vitesse,
 		DetailsCollision* retourDetails //= 0
 		)
@@ -703,8 +703,8 @@ namespace aidecollision {
 
 	////////////////////////////////////////////////////////////////////////
 	///
-	/// @fn double calculerCombinaisonRebondissement(
-	///        double constante1, double constante2
+	/// @fn float calculerCombinaisonRebondissement(
+	///        float constante1, float constante2
 	///        );
 	///
 	/// Cette fonction calcule la constante résultant de la combinaison de deux
@@ -719,8 +719,8 @@ namespace aidecollision {
 	/// @return Constante résultante pour les deux objets.
 	///
 	////////////////////////////////////////////////////////////////////////
-	double calculerCombinaisonRebondissement(
-		double constante1, double constante2
+	float calculerCombinaisonRebondissement(
+		float constante1, float constante2
 		)
 	{
 		return constante1 * constante2 / (constante1 + constante2);
@@ -729,8 +729,8 @@ namespace aidecollision {
 
 	////////////////////////////////////////////////////////////////////////
 	///
-	/// @fn double calculerCombinaisonAmortissement(
-	///        double constante1, double constante2
+	/// @fn float calculerCombinaisonAmortissement(
+	///        float constante1, float constante2
 	///        );
 	///
 	/// Cette fonction calcule la constante résultant de la combinaison de deux
@@ -742,8 +742,8 @@ namespace aidecollision {
 	/// @return Constante résultante pour les deux objets.
 	///
 	////////////////////////////////////////////////////////////////////////
-	double calculerCombinaisonAmortissement(
-		double constante1, double constante2
+	float calculerCombinaisonAmortissement(
+		float constante1, float constante2
 		)
 	{
 		return constante1 + constante2;
@@ -778,11 +778,11 @@ namespace aidecollision {
 		details.enfoncement = details.direction.norme();
 		details.direction /= details.enfoncement;
 
-		double deltaX1 = (d1P2[VX]-d1P1[VX]);
-		double deltaX2 = (d2P2[VX]-d2P1[VX]);
+		float deltaX1 = (d1P2[VX]-d1P1[VX]);
+		float deltaX2 = (d2P2[VX]-d2P1[VX]);
 		bool droite1Vertical = utilitaire::EGAL_ZERO(deltaX1), droite2Vertical = utilitaire::EGAL_ZERO(deltaX2);
 
-		double a1,a2,b1,b2;
+		float a1,a2,b1,b2;
 		// les 2 droites sont verticales
 		if(droite1Vertical && droite2Vertical)
 		{
@@ -793,11 +793,11 @@ namespace aidecollision {
 			}
 
 			// Droites verticales superpose
-			double distanceCarre = (d1P1-d1P2).norme2();
-			double distanceCarre1 = (d2P1-d1P1).norme2();
-			double distanceCarre2 = (d2P1-d1P2).norme2();
-			double distanceCarre3 = (d2P2-d1P1).norme2();
-			double distanceCarre4 = (d2P2-d1P2).norme2();
+			float distanceCarre = (d1P1-d1P2).norme2();
+			float distanceCarre1 = (d2P1-d1P1).norme2();
+			float distanceCarre2 = (d2P1-d1P2).norme2();
+			float distanceCarre3 = (d2P2-d1P1).norme2();
+			float distanceCarre4 = (d2P2-d1P2).norme2();
 			// Regarde si l'une des extremite d'un segment fait parti de l'autre segment
 			if((distanceCarre1 <= distanceCarre && distanceCarre2 <= distanceCarre) || (distanceCarre3 <= distanceCarre && distanceCarre4 <= distanceCarre))
 			{
@@ -835,11 +835,11 @@ namespace aidecollision {
 				// Droite superpose
 				if(utilitaire::EGAL_ZERO(b1-b2))
 				{
-					double distanceCarre = (d1P1-d1P2).norme2();
-					double distanceCarre1 = (d2P1-d1P1).norme2();
-					double distanceCarre2 = (d2P1-d1P2).norme2();
-					double distanceCarre3 = (d2P2-d1P1).norme2();
-					double distanceCarre4 = (d2P2-d1P2).norme2();
+					float distanceCarre = (d1P1-d1P2).norme2();
+					float distanceCarre1 = (d2P1-d1P1).norme2();
+					float distanceCarre2 = (d2P1-d1P2).norme2();
+					float distanceCarre3 = (d2P2-d1P1).norme2();
+					float distanceCarre4 = (d2P2-d1P2).norme2();
 
 					// Regarde si l'une des extremite d'un segment fait parti de l'autre segment
 					if((distanceCarre1 <= distanceCarre && distanceCarre2 <= distanceCarre) || (distanceCarre3 <= distanceCarre && distanceCarre4 <= distanceCarre))
@@ -858,12 +858,12 @@ namespace aidecollision {
 			intersection[VY] = a1*intersection[VX]+b1;
 		}
 
-		double distanceCarreP1 = (d1P1-d1P2).norme2();
-		double distanceCarreP2 = (d2P1-d2P2).norme2();
-		double distanceCarre1 = (intersection-d1P1).norme2();
-		double distanceCarre2 = (intersection-d1P2).norme2();
-		double distanceCarre3 = (intersection-d2P1).norme2();
-		double distanceCarre4 = (intersection-d2P2).norme2();
+		float distanceCarreP1 = (d1P1-d1P2).norme2();
+		float distanceCarreP2 = (d2P1-d2P2).norme2();
+		float distanceCarre1 = (intersection-d1P1).norme2();
+		float distanceCarre2 = (intersection-d1P2).norme2();
+		float distanceCarre3 = (intersection-d2P1).norme2();
+		float distanceCarre4 = (intersection-d2P2).norme2();
 		// Regarde si le point d'intersection appartient au 2 segments
 		if((distanceCarre1 <= distanceCarreP1 && distanceCarre2 <= distanceCarreP1) && (distanceCarre3 <= distanceCarreP2 && distanceCarre4 <= distanceCarreP2))
 		{
@@ -875,7 +875,7 @@ namespace aidecollision {
 	DetailsCollision calculerCollisionCercleSegmentGrandeVitesse(
 		const Vecteur2& anciennePos, 
 		const Vecteur2& nouvellePos, 
-		const double& rayon,
+		const float& rayon,
 		const Vecteur2& coinMuret1,
 		const Vecteur2& coinMuret2,
 		Vecteur2& intersection
@@ -893,7 +893,7 @@ namespace aidecollision {
 				 coinBasDroite(anciennePos-normale),
 				 coinHautMilieu(nouvellePos+directeurObjet*rayon);
 		Vecteur2 intersectionTemp;
-		double distance = 9999999;
+		float distance = 9999999;
 		bool intersectionGauche = false, intersectionDroite = false, intersectionMilieu = false, intersectionFront = false;
 		if(calculerCollisionSegmentSegment(coinBasGauche,coinHautGauche,coinMuret1,coinMuret2,intersectionTemp).type != COLLISION_AUCUNE)
 		{
@@ -904,19 +904,19 @@ namespace aidecollision {
 		if(calculerCollisionSegmentSegment(coinBasDroite,coinHautDroite,coinMuret1,coinMuret2,intersectionTemp).type != COLLISION_AUCUNE)
 		{
 			intersectionDroite = true;
-			double distTemp = produitScalaire(intersection-anciennePos,directeurObjet);
+			float distTemp = produitScalaire(intersection-anciennePos,directeurObjet);
 			if(distTemp < distance)
 			{
 				intersection = intersectionTemp;
 				distance = distTemp;
 			}
 		}
-		double distanceDeplacement = produitScalaire(nouvellePos-anciennePos,directeurObjet);
+		float distanceDeplacement = produitScalaire(nouvellePos-anciennePos,directeurObjet);
 
 		if(calculerCollisionSegmentSegment(anciennePos,coinHautMilieu,coinMuret1,coinMuret2,intersectionTemp).type != COLLISION_AUCUNE)
 		{
 			intersectionMilieu = true;
-			double distTemp = produitScalaire(intersection-anciennePos,directeurObjet)-rayon;
+			float distTemp = produitScalaire(intersection-anciennePos,directeurObjet)-rayon;
 			if(distTemp < distance)
 			{
 				intersection = intersectionTemp;
@@ -926,31 +926,31 @@ namespace aidecollision {
 
 		if(!intersectionDroite && !intersectionGauche)
 		{
-			double a;
-			double b;
-			double ac4; 
-			double deltaX = (coinMuret2[VX]-coinMuret1[VX]);
+			float a;
+			float b;
+			float ac4; 
+			float deltaX = (coinMuret2[VX]-coinMuret1[VX]);
 
 			if(utilitaire::EGAL_ZERO(deltaX))
 			{
 				a = 1;
 				b = nouvellePos[VY]*2;
-				double lambda = coinMuret1[VX]-nouvellePos[VX];
+				float lambda = coinMuret1[VX]-nouvellePos[VX];
 				ac4 = ((nouvellePos[VY]*nouvellePos[VY]+lambda*lambda-rayon*rayon)*4);
 				intersectionTemp[VX] = coinMuret1[VX];
 				/*if(utilitaire::EGAL_ZERO(b*b-ac4))
 				{
-					double distTemp1 = produitScalaire(Vecteur2(coinMuret1[VX],b/2.0)-anciennePos,directeurObjet);
+					float distTemp1 = produitScalaire(Vecteur2(coinMuret1[VX],b/2.0)-anciennePos,directeurObjet);
 					if(distTemp1 < distanceDeplacement)
 						enfoncement = true;					
 					intersectionFront = true;
 				}
 				else*/ if(b*b >= ac4)
 				{
-					/*double y1 = (b+sqrt(b*b-ac4))/2.0;
-					double distTemp1 = produitScalaire(Vecteur2(intersectionTemp[VX],y1)-anciennePos,directeurObjet);
-					double y2 = (b-sqrt(b*b-ac4))/2.0;
-					double distTemp2 = produitScalaire(Vecteur2(intersectionTemp[VX],y2)-anciennePos,directeurObjet);
+					/*float y1 = (b+sqrt(b*b-ac4))/2.0;
+					float distTemp1 = produitScalaire(Vecteur2(intersectionTemp[VX],y1)-anciennePos,directeurObjet);
+					float y2 = (b-sqrt(b*b-ac4))/2.0;
+					float distTemp2 = produitScalaire(Vecteur2(intersectionTemp[VX],y2)-anciennePos,directeurObjet);
 					if(distTemp1 < distanceDeplacement || distTemp2 < distanceDeplacement)
 						enfoncement = true;*/
 					intersectionFront = true;
@@ -958,31 +958,31 @@ namespace aidecollision {
 			}
 			else
 			{
-				double aDroite = (coinMuret2[VX]-coinMuret1[VX])/deltaX;
+				float aDroite = (coinMuret2[VX]-coinMuret1[VX])/deltaX;
 				if(utilitaire::EGAL_ZERO(aDroite))
 					aDroite = 0;
-				double bDroite = coinMuret1[VY]-aDroite*coinMuret1[VX];
-				double lambda = bDroite-nouvellePos[VY];
+				float bDroite = coinMuret1[VY]-aDroite*coinMuret1[VX];
+				float lambda = bDroite-nouvellePos[VY];
 				a = aDroite*aDroite+1;
 				b = 2*(nouvellePos[VX]+lambda);
-				double ac4 = 4*a*((nouvellePos[VX]*nouvellePos[VX]+lambda*lambda-rayon*rayon));
+				float ac4 = 4*a*((nouvellePos[VX]*nouvellePos[VX]+lambda*lambda-rayon*rayon));
 
 				/*if(utilitaire::EGAL_ZERO(b*b-ac4))
 				{
-					double x1 = b/(2.0*a);
-					double distTemp1 = produitScalaire(Vecteur2(x1,aDroite*x1+bDroite)-anciennePos,directeurObjet);
+					float x1 = b/(2.0*a);
+					float distTemp1 = produitScalaire(Vecteur2(x1,aDroite*x1+bDroite)-anciennePos,directeurObjet);
 					if(distTemp1 < distanceDeplacement)
 						enfoncement = true;	
 					intersectionFront = true;
 				}
 				else*/ if(b*b >= ac4)
 				{
-					/*double x1 = (b+sqrt(b*b-ac4))/(2.0*a);
-					double y1 = aDroite*x1+bDroite;
-					double distTemp1 = produitScalaire(Vecteur2(x1,y1)-anciennePos,directeurObjet);
-					double x2 = (b-sqrt(b*b-ac4))/(2.0*a);
-					double y2 = aDroite*x2+bDroite;
-					double distTemp2 = produitScalaire(Vecteur2(x2,y2)-anciennePos,directeurObjet);
+					/*float x1 = (b+sqrt(b*b-ac4))/(2.0*a);
+					float y1 = aDroite*x1+bDroite;
+					float distTemp1 = produitScalaire(Vecteur2(x1,y1)-anciennePos,directeurObjet);
+					float x2 = (b-sqrt(b*b-ac4))/(2.0*a);
+					float y2 = aDroite*x2+bDroite;
+					float distTemp2 = produitScalaire(Vecteur2(x2,y2)-anciennePos,directeurObjet);
 					if(distTemp1 < distanceDeplacement || distTemp2 < distanceDeplacement)
 						enfoncement = true;*/
 					intersectionFront = true;
@@ -1001,8 +1001,8 @@ namespace aidecollision {
 		}
 		if(!intersectionDroite && !intersectionGauche)
 		{
-			double distcoin1 = produitScalaire(coinMuret1-nouvellePos,directeurObjet);
-			double distcoin2 = produitScalaire(coinMuret2-nouvellePos,directeurObjet);
+			float distcoin1 = produitScalaire(coinMuret1-nouvellePos,directeurObjet);
+			float distcoin2 = produitScalaire(coinMuret2-nouvellePos,directeurObjet);
 			// Si les 2 superieur a 1 alors il ne sagit pas d<enfoncement
 			if(distcoin1 < 0 || distcoin2 < 0)
 			{
@@ -1040,21 +1040,21 @@ namespace aidecollision {
 	/// This algorithm will work in any dimension.  Simply change the Vector2's to Vector3's to make this work
 	/// for spheres.  You can also set the radii to 0 to work with points/rays.
 	/// 
-	double TimeOfClosestApproach( const Vecteur2& Pa, const Vecteur2& Pb, const Vecteur2& Va, const Vecteur2& Vb, const double& Ra, const double& Rb, bool& collision )
+	float TimeOfClosestApproach( const Vecteur2& Pa, const Vecteur2& Pb, const Vecteur2& Va, const Vecteur2& Vb, const float& Ra, const float& Rb, bool& collision )
 	{
 		Vecteur2 Pab = Pa - Pb;
 		Vecteur2 Vab = Va - Vb;
-		double a = produitScalaire(Vab, Vab);
-		double b = 2 * produitScalaire(Pab, Vab);
-		double c = produitScalaire(Pab, Pab) - (Ra + Rb) * (Ra + Rb);
+		float a = produitScalaire(Vab, Vab);
+		float b = 2 * produitScalaire(Pab, Vab);
+		float c = produitScalaire(Pab, Pab) - (Ra + Rb) * (Ra + Rb);
 
 		// The quadratic discriminant.
-		double discriminant = b * b - 4 * a * c;
+		float discriminant = b * b - 4 * a * c;
 
 		// Case 1:
 		// If the discriminant is negative, then there are no real roots, so there is no collision.  The time of
 		// closest approach is then given by the average of the imaginary roots, which is:  t = -b / 2a
-		double t;
+		float t;
 		if (discriminant < 0)
 		{
 			t = -b / (2 * a);
@@ -1066,8 +1066,8 @@ namespace aidecollision {
 			// If the discriminant is zero, then there is exactly one real root, meaning that the circles just grazed each other.  If the 
 			// discriminant is positive, then there are two real roots, meaning that the circles penetrate each other.  In that case, the
 			// smallest of the two roots is the initial time of impact.  We handle these two cases identically.
-			double t0 = (-b + sqrt(discriminant)) / (2 * a);
-			double t1 = (-b - sqrt(discriminant)) / (2 * a);
+			float t0 = (-b + sqrt(discriminant)) / (2 * a);
+			float t1 = (-b - sqrt(discriminant)) / (2 * a);
 			t = (t0 < t1) ? t0:t1;
 			
 			// We also have to check if the time to impact is negative.  If it is negative, then that means that the collision
@@ -1089,17 +1089,17 @@ namespace aidecollision {
 
 	////////////////////////////////////////////////////////////////////////
 	///
-	/// @fn void CollisionGrandeVitesse::updateCollisionGauche( const double& distance, const Vecteur2& intersection )
+	/// @fn void CollisionGrandeVitesse::updateCollisionGauche( const float& distance, const Vecteur2& intersection )
 	///
 	/// /*Description*/
 	///
-	/// @param[in] const double & distanceCarre : la distance entre le point d'intersection et le point d'origine
+	/// @param[in] const float & distanceCarre : la distance entre le point d'intersection et le point d'origine
 	/// @param[in] const Vecteur2 & intersection :
 	///
 	/// @return void
 	///
 	////////////////////////////////////////////////////////////////////////
-	void CollisionGrandeVitesse::updateCollisionGauche( const double& distanceCarre, const Vecteur2& intersection )
+	void CollisionGrandeVitesse::updateCollisionGauche( const float& distanceCarre, const Vecteur2& intersection )
 	{
 		if(distanceCarre < distanceMinCarre_)
 		{
@@ -1120,17 +1120,17 @@ namespace aidecollision {
 
 	////////////////////////////////////////////////////////////////////////
 	///
-	/// @fn void CollisionGrandeVitesse::updateCollisionDroite( const double& distanceCarre, const Vecteur2& intersection )
+	/// @fn void CollisionGrandeVitesse::updateCollisionDroite( const float& distanceCarre, const Vecteur2& intersection )
 	///
 	/// /*Description*/
 	///
-	/// @param[in] const double & distanceCarre
+	/// @param[in] const float & distanceCarre
 	/// @param[in] const Vecteur2 & intersection
 	///
 	/// @return void
 	///
 	////////////////////////////////////////////////////////////////////////
-	void CollisionGrandeVitesse::updateCollisionDroite( const double& distanceCarre, const Vecteur2& intersection )
+	void CollisionGrandeVitesse::updateCollisionDroite( const float& distanceCarre, const Vecteur2& intersection )
 	{
 		if(distanceCarre < distanceMinCarre_)
 		{
@@ -1151,17 +1151,17 @@ namespace aidecollision {
 
 	////////////////////////////////////////////////////////////////////////
 	///
-	/// @fn void CollisionGrandeVitesse::updateCollisionMilieu( const double& distanceCarre, const Vecteur2& intersection )
+	/// @fn void CollisionGrandeVitesse::updateCollisionMilieu( const float& distanceCarre, const Vecteur2& intersection )
 	///
 	/// /*Description*/
 	///
-	/// @param[in] const double & distanceCarre : s'assurer de soustraire la valeur du rayon au carre car 
+	/// @param[in] const float & distanceCarre : s'assurer de soustraire la valeur du rayon au carre car 
 	/// @param[in] const Vecteur2 & intersection
 	///
 	/// @return void
 	///
 	////////////////////////////////////////////////////////////////////////
-	void CollisionGrandeVitesse::updateCollisionMilieu( const double& distanceCarre, const Vecteur2& intersection )
+	void CollisionGrandeVitesse::updateCollisionMilieu( const float& distanceCarre, const Vecteur2& intersection )
 	{
 		if(distanceCarre <= distanceMinCarre_)
 		{
@@ -1183,17 +1183,17 @@ namespace aidecollision {
 
 	////////////////////////////////////////////////////////////////////////
 	///
-	/// @fn void CollisionGrandeVitesse::updateCollisionFront( const double& distanceCarre, const Vecteur2& intersection )
+	/// @fn void CollisionGrandeVitesse::updateCollisionFront( const float& distanceCarre, const Vecteur2& intersection )
 	///
 	/// /*Description*/
 	///
-	/// @param[in] const double & distanceCarre
+	/// @param[in] const float & distanceCarre
 	/// @param[in] const Vecteur2 & intersection
 	///
 	/// @return void
 	///
 	////////////////////////////////////////////////////////////////////////
-	void CollisionGrandeVitesse::updateCollisionFront( const double& distanceCarre, const Vecteur2& intersection )
+	void CollisionGrandeVitesse::updateCollisionFront( const float& distanceCarre, const Vecteur2& intersection )
 	{
 		if(distanceCarre < distanceMinCarre_)
 		{

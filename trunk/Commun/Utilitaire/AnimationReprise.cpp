@@ -86,7 +86,7 @@ void AnimationReprise::ajouterFrame( IterationReplay* frame)
 	}
 	if(frames_.size()>0)
 	{
-		double tempsDernier = frames_.back()->obtenirTemps();
+		float tempsDernier = frames_.back()->obtenirTemps();
 		//AnimationFrame* frameCourant = frame.second;
 		frame->modifierTemps(frame->obtenirTemps()+tempsDernier);
 		for(int i=0; i<(int)frame->obtenirListe().size(); i++)
@@ -161,14 +161,14 @@ void AnimationReprise::delierObjet( ObjetAnimable* objet )
 /// @return void
 ///
 ///////////////////////////////////////////////////////////////////////////////
-double AnimationReprise::obtenirDureeTotale()
+float AnimationReprise::obtenirDureeTotale()
 {
 	if(frames_.size()<2)
 		return 0.0;
 
-	double premier = frames_.front()->obtenirTemps();
-	double dernier = frames_.back()->obtenirTemps();
-	double delta = dernier-premier;
+	float premier = frames_.front()->obtenirTemps();
+	float dernier = frames_.back()->obtenirTemps();
+	float delta = dernier-premier;
 
 	return delta;
 
@@ -177,7 +177,7 @@ double AnimationReprise::obtenirDureeTotale()
 
 ///////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn AnimationReprise::animer( double temps )
+/// @fn AnimationReprise::animer( float temps )
 ///
 /// Methode pour jouer l'animation
 ///
@@ -185,7 +185,7 @@ double AnimationReprise::obtenirDureeTotale()
 /// @return void
 ///
 ///////////////////////////////////////////////////////////////////////////////
-void AnimationReprise::animer( double temps )
+void AnimationReprise::animer( float temps )
 {
 	if(termine_ || frames_.size()==0)
 		return;
@@ -195,7 +195,7 @@ void AnimationReprise::animer( double temps )
 	if(tempsCourant_<frames_.front()->obtenirTemps())
 		tempsCourant_ = frames_.front()->obtenirTemps();
 
-	double tempsFrameCourant = (*frameCourant_)->obtenirTemps();
+	float tempsFrameCourant = (*frameCourant_)->obtenirTemps();
 
 	if(*frameCourant_ == frames_.back())
 	{

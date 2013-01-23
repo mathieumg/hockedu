@@ -46,7 +46,7 @@ class NoeudPoint : public NoeudComposite, public PositionSubject
 public:
 	friend NoeudMuretRelatif;
 	/// Constructeur à partir du type du noeud.
-	NoeudPoint( const std::string& typeNoeud, double coordX, double coordY, TypePosPoint typePosNoeud);
+	NoeudPoint( const std::string& typeNoeud, float coordX, float coordY, TypePosPoint typePosNoeud);
 	/// Destructeur.
 	~NoeudPoint();
 
@@ -74,7 +74,7 @@ public:
     bool validerDeplacement(const Vecteur3& pos, const Vecteur2& deplace, int axe);
 	
 	/// Retourne le rayon du noeud
-	virtual double obtenirRayon() const;
+	virtual float obtenirRayon() const;
 	/// Méthode calculant le deplacement maximale d'un point de contrôle
 	Vecteur3 calculerDeplacementMax(Vecteur3 posAbsActuel, Vecteur3 deplacement);
 

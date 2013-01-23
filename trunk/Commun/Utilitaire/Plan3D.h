@@ -39,7 +39,7 @@ namespace math {
       inline const Vecteur3& lireNormale() const;
 
       /// Lire les 4 paramètres qui définissent un plan en 3D.
-      void lireParam(double& a, double& b, double& c, double& d) const;
+      void lireParam(float& a, float& b, float& c, float& d) const;
 
 
    private:
@@ -47,7 +47,7 @@ namespace math {
       const Vecteur3 normale_;
 
       /// Le décalage du plan.
-      const double   d_;
+      const float   d_;
 
    };
 

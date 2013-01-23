@@ -41,14 +41,14 @@ public:
 	/// Effectue l'animation
 	virtual void animer( const float& temps );
 	/// Retourne le rayon du noeud
-	virtual double obtenirRayon() const;
+	virtual float obtenirRayon() const;
 	/// Initialise les deux valeurs pour l'utilisation d'un modele 3D
 	virtual void mettreAJourEchelleRotation();
 
     virtual void updatePosition( class PositionSubject& pSubject );
 
 private:
-	typedef Vecteur3D<double*> Vecteur3pd;
+	typedef Vecteur3D<float*> Vecteur3pd;
 	Vecteur3pd coin1_,coin2_;
 
 };

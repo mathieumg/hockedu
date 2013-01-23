@@ -144,7 +144,7 @@ void GestionnaireEtatAbstrait::rouletteSouris( EvenementRouletteSouris& evenemen
 
 
 
-void GestionnaireEtatAbstrait::miseAJourEvenementsRepetitifs( double deltaTemps )
+void GestionnaireEtatAbstrait::miseAJourEvenementsRepetitifs( float deltaTemps )
 {
 
 }

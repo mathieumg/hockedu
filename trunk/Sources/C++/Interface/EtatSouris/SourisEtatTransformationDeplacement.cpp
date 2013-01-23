@@ -210,7 +210,7 @@ void SourisEtatTransformationDeplacement::sourisDeplacee( EvenementSouris& evene
 		int deplacementX = positionPrecedente_[VX]-evenementSouris.obtenirPosition()[VX];
 		int deplacementY = positionPrecedente_[VY]-evenementSouris.obtenirPosition()[VY];
 
-		Vecteur2 deplacementCloture(deplacementX, deplacementY);
+		Vecteur2 deplacementCloture((float)deplacementX, (float)deplacementY);
 		Vecteur2 deplacementVirt = FacadeModele::getInstance()->convertirDeplacementClotureAVirtuelle(positionPrecedente_, evenementSouris.obtenirPosition());
 		Vecteur2 deplacementVirtInverse = Vecteur2(-deplacementVirt[VX], -deplacementVirt[VY]);
 

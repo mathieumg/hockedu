@@ -99,28 +99,28 @@ namespace vue {
                                       const Vecteur2i& coin2) = 0;
 
       /// Déplacement dans le plan XY par rapport à la vue
-      virtual void deplacerXYSouris(double deplacementX, double deplacementY) = 0;
+      virtual void deplacerXYSouris(float deplacementX, float deplacementY) = 0;
       /// Déplacement dans le plan XY par rapport à la vue
       virtual void deplacerXYSouris(const Vecteur2i& deplacement) = 0;
 	  /// Déplacement dans le plan XY par rapport à la vue
-	  virtual void deplacerXYFleches(double deplacementX, double deplacementY) = 0;
+	  virtual void deplacerXYFleches(float deplacementX, float deplacementY) = 0;
 	  /// Déplacement dans le plan XY par rapport à la vue
 	  virtual void deplacerXYFleches(const Vecteur2i& deplacement) = 0;
       /// Déplacement selon l'axe des Z par rapport à la vue
-      virtual void deplacerZ(double deplacement) = 0;
+      virtual void deplacerZ(float deplacement) = 0;
       /// Rotation selon les axes des X et des Y par rapport à la vue
-      virtual void rotaterXY(double rotationX, double rotationY) = 0;
+      virtual void rotaterXY(float rotationX, float rotationY) = 0;
       /// Rotation selon les axes des X et des Y par rapport à la vue
       virtual void rotaterXY(const Vecteur2i& rotation) = 0;
       /// Rotation selon l'axe des Z par rapport à la vue
-      virtual void rotaterZ(double rotation) = 0;
+      virtual void rotaterZ(float rotation) = 0;
 
       /// Animation de la vue en fonction du temps
-      virtual void animer(double temps);
+      virtual void animer(float temps);
 	  /// Centre la camera a l'origine pour voir la largeur du parametre
-	  virtual void centrerCamera(double largeurVue);
+	  virtual void centrerCamera(float largeurVue);
 
-	  virtual double obtenirAngleOuvertureProjection() {return 0.0;}
+	  virtual float obtenirAngleOuvertureProjection() {return 0.0;}
 	  /// Retourne le nombre de viewports utilises par la vue
 	  int obtenirNbViewports() const { return nbViewports_; }
 	  

@@ -24,7 +24,7 @@ namespace vue {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn VuePerspectiveCiel::VuePerspectiveCiel(const Camera& camera, int xMinCloture, int xMaxCloture, int yMinCloture, int yMaxCloture, double zAvant, double zArriere, double zoomInMax, double zoomOutMax, double incrementZoom, double xMinFenetre, double xMaxFenetre, double yMinFenetre, double yMaxFenetre)
+   /// @fn VuePerspectiveCiel::VuePerspectiveCiel(const Camera& camera, int xMinCloture, int xMaxCloture, int yMinCloture, int yMaxCloture, float zAvant, float zArriere, float zoomInMax, float zoomOutMax, float incrementZoom, float xMinFenetre, float xMaxFenetre, float yMinFenetre, float yMaxFenetre)
    ///
    /// Constructeur d'une vue orthogonale.  Ne fait que créer les objets
    /// Projection et Camera correspondant.
@@ -46,11 +46,11 @@ namespace vue {
    ////////////////////////////////////////////////////////////////////////
    VuePerspectiveCiel::VuePerspectiveCiel(const Camera& camera,
                       int xMinCloture, int xMaxCloture, int yMinCloture, int yMaxCloture,
-                      double zAvant,  double zArriere,
-                      double zoomInMax, double zoomOutMax,
-                      double incrementZoom,
-                      double xMinFenetre, double xMaxFenetre,
-                      double yMinFenetre, double yMaxFenetre) :
+                      float zAvant,  float zArriere,
+                      float zoomInMax, float zoomOutMax,
+                      float incrementZoom,
+                      float xMinFenetre, float xMaxFenetre,
+                      float yMinFenetre, float yMaxFenetre) :
       Vue(camera),
       projection_(xMinCloture, xMaxCloture, yMinCloture, yMaxCloture,
                   zAvant, zArriere, zoomInMax, zoomOutMax,
@@ -150,7 +150,7 @@ namespace vue {
    void VuePerspectiveCiel::zoomerIn()
    {
 	   Vecteur3 deplacement = obtenirCamera().obtenirPointVise()-obtenirCamera().obtenirPosition();
-	   deplacement*=0.1;
+	   deplacement*=0.1f;
 	   obtenirCamera().deplacerXYZ(deplacement);
    }
 
@@ -166,7 +166,7 @@ namespace vue {
    void VuePerspectiveCiel::zoomerInSmooth()
    {
 	   Vecteur3 deplacement = obtenirCamera().obtenirPointVise()-obtenirCamera().obtenirPosition();
-	   deplacement*=0.005;
+	   deplacement*=0.005f;
 	   obtenirCamera().deplacerXYZ(deplacement);
    }
 
@@ -183,7 +183,7 @@ namespace vue {
    void VuePerspectiveCiel::zoomerOut()
    {
 	   Vecteur3 deplacement = obtenirCamera().obtenirPosition()-obtenirCamera().obtenirPointVise();
-	   deplacement*=0.1;
+	   deplacement*=0.1f;
 	   obtenirCamera().deplacerXYZ(deplacement);
    }
 
@@ -199,7 +199,7 @@ namespace vue {
    void VuePerspectiveCiel::zoomerOutSmooth()
    {
 	   Vecteur3 deplacement = obtenirCamera().obtenirPosition()-obtenirCamera().obtenirPointVise();
-	   deplacement*=0.005;
+	   deplacement*=0.005f;
 	   obtenirCamera().deplacerXYZ(deplacement);
    }
 
@@ -248,7 +248,7 @@ namespace vue {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void VuePerspectiveCiel::deplacerXYSouris(double deplacementX, double deplacementY)
+   /// @fn void VuePerspectiveCiel::deplacerXYSouris(float deplacementX, float deplacementY)
    ///
    /// @param[in]  deplacementX : Déplacement en pourcentage de la largeur.
    /// @param[in]  deplacementY : Déplacement en pourcentage de la hauteur.
@@ -258,7 +258,7 @@ namespace vue {
    /// @return Aucune.
    ///
    ////////////////////////////////////////////////////////////////////////
-   void VuePerspectiveCiel::deplacerXYSouris(double deplacementX, double deplacementY)
+   void VuePerspectiveCiel::deplacerXYSouris(float deplacementX, float deplacementY)
    {
       //projection_.translater(deplacementX, deplacementY);
    }
@@ -280,13 +280,13 @@ namespace vue {
    void VuePerspectiveCiel::deplacerXYSouris(const Vecteur2i& deplacement)
    {
       
-// 	  double distance = (obtenirCamera().obtenirPointVise()-obtenirCamera().obtenirPosition()).norme();
-// 	  double angle = projection_.obtenirAngleOuverture()*M_PI/360.0;
-// 	  double facteur = tan(angle)*distance;
-// 	  double pourcentageX = (double)deplacement[VX]/(double)projection_.obtenirDimensionCloture()[VX];
-// 	  double pourcentageY = (double)deplacement[VY]/(double)projection_.obtenirDimensionCloture()[VY];
-// 	  double facteurX = facteur*pourcentageX*2;
-// 	  double facteurY = facteur*pourcentageY*2;
+// 	  float distance = (obtenirCamera().obtenirPointVise()-obtenirCamera().obtenirPosition()).norme();
+// 	  float angle = projection_.obtenirAngleOuverture()*M_PI/360.0;
+// 	  float facteur = tan(angle)*distance;
+// 	  float pourcentageX = (float)deplacement[VX]/(float)projection_.obtenirDimensionCloture()[VX];
+// 	  float pourcentageY = (float)deplacement[VY]/(float)projection_.obtenirDimensionCloture()[VY];
+// 	  float facteurX = facteur*pourcentageX*2;
+// 	  float facteurY = facteur*pourcentageY*2;
 // 
 // 	  obtenirCamera().deplacerXY(-facteurX, facteurY, true);
 
@@ -295,7 +295,7 @@ namespace vue {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void VuePerspectiveCiel::deplacerXYFleches(double deplacementX, double deplacementY)
+   /// @fn void VuePerspectiveCiel::deplacerXYFleches(float deplacementX, float deplacementY)
    ///
    /// @param[in]  deplacementX : Déplacement en pourcentage de la largeur.
    /// @param[in]  deplacementY : Déplacement en pourcentage de la hauteur.
@@ -305,7 +305,7 @@ namespace vue {
    /// @return Aucune.
    ///
    ////////////////////////////////////////////////////////////////////////
-   void VuePerspectiveCiel::deplacerXYFleches(double deplacementX, double deplacementY)
+   void VuePerspectiveCiel::deplacerXYFleches(float deplacementX, float deplacementY)
    {
 	   //projection_.translater(deplacementX, deplacementY);
    }
@@ -334,7 +334,7 @@ namespace vue {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void VuePerspectiveCiel::deplacerZ(double deplacement)
+   /// @fn void VuePerspectiveCiel::deplacerZ(float deplacement)
    ///
    /// Ne fait rien, car se déplacer dans l'axe de la profondeur n'a pas
    /// vraiment de signification avec une vue orthogonale.
@@ -344,7 +344,7 @@ namespace vue {
    /// @return Aucune.
    ///
    ////////////////////////////////////////////////////////////////////////
-   void VuePerspectiveCiel::deplacerZ(double deplacement)
+   void VuePerspectiveCiel::deplacerZ(float deplacement)
    {
 	   Vecteur2 deplacementVirtuel = projection_.convertirDistanceClotureAVirtuelle(Vecteur2(deplacement, 0));
 	   obtenirCamera().deplacerZ(deplacementVirtuel[0], 0);
@@ -353,7 +353,7 @@ namespace vue {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void VuePerspectiveCiel::rotaterXY(double rotationX, double rotationY)
+   /// @fn void VuePerspectiveCiel::rotaterXY(float rotationX, float rotationY)
    ///
    /// Permet de faire une rotation de la caméra autour du point vers
    /// lequel elle regarde en modifiant l'angle de rotation et l'angle
@@ -368,7 +368,7 @@ namespace vue {
    /// @return Aucune.
    ///
    ////////////////////////////////////////////////////////////////////////
-   void VuePerspectiveCiel::rotaterXY(double rotationX, double rotationY)
+   void VuePerspectiveCiel::rotaterXY(float rotationX, float rotationY)
    {
       //obtenirCamera().orbiterXY(rotationX * 2 * M_PI, rotationY * M_PI);
    }
@@ -392,14 +392,14 @@ namespace vue {
    void VuePerspectiveCiel::rotaterXY(const Vecteur2i& rotation)
    {
       //const Vecteur2i dimensions = projection_.obtenirDimensionCloture();
-      //rotaterXY(rotation[0] / (double) dimensions[0],
-                //rotation[1] / (double) dimensions[1]);
+      //rotaterXY(rotation[0] / (float) dimensions[0],
+                //rotation[1] / (float) dimensions[1]);
    }
 
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void VuePerspectiveCiel::rotaterZ(double rotation)
+   /// @fn void VuePerspectiveCiel::rotaterZ(float rotation)
    ///
    /// Ne fait rien, car tourner autour de l'axe de la profondeur
    /// correspondrait à un rouli et n'est pas souhaitable pour cette vue.
@@ -409,7 +409,7 @@ namespace vue {
    /// @return Aucune.
    ///
    ////////////////////////////////////////////////////////////////////////
-   void VuePerspectiveCiel::rotaterZ(double rotation)
+   void VuePerspectiveCiel::rotaterZ(float rotation)
    {
    }
 
@@ -462,10 +462,10 @@ namespace vue {
    /// Retourne l<angle d<ouverture de la projection
    ///
    /// 
-   /// @return double :	angle d<ouverture en degres
+   /// @return float :	angle d<ouverture en degres
    ///
    ////////////////////////////////////////////////////////////////////////
-   double VuePerspectiveCiel::obtenirAngleOuvertureProjection()
+   float VuePerspectiveCiel::obtenirAngleOuvertureProjection()
    {
 	   return projection_.obtenirAngleOuverture();
    }

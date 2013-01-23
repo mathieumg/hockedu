@@ -43,7 +43,7 @@ namespace aidecollision {
       /// Direction de la collision.
       Vecteur3  direction;
       /// Enfoncement de l'objet à l'intérieur de la collision.
-      double    enfoncement;
+      float    enfoncement;
    };
 
    DetailsCollision calculerCollisionSegmentSegment( const Vecteur2& d1P1, const Vecteur2& d1P2, const Vecteur2& d2P1, const Vecteur2& d2P2, Vecteur2& intersection );
@@ -54,7 +54,7 @@ namespace aidecollision {
       const Vecteur2& point1,
       const Vecteur2& point2,
       const Vecteur2& position,
-      double          rayon,
+      float          rayon,
       bool            collisionAvecPoints = true
       );
 
@@ -63,16 +63,16 @@ namespace aidecollision {
       const Vecteur3& point1,
       const Vecteur3& point2,
       const Vecteur3& position,
-      double          rayon,
+      float          rayon,
       bool            collisionAvecPoints = true
       );
 
    /// Calcule la collision d'un objet circulaire avec un cercle.
    DetailsCollision calculerCollisionCercle(
       const Vecteur2& centreCercle,
-      double          rayonCercle,
+      float          rayonCercle,
       const Vecteur2& positionObjet,
-      double          rayonObjet
+      float          rayonObjet
       );
 
    /// Calcule la collision d'un objet circulaire avec un arc de cercle.
@@ -81,27 +81,27 @@ namespace aidecollision {
       const Vecteur2& pointArc1,
       const Vecteur2& pointArc2,
       const Vecteur2& positionObjet,
-      double          rayonObjet
+      float          rayonObjet
       );
 
    /// Calcule la collision d'un objet sphérique avec une sphère.
    DetailsCollision calculerCollisionSphere(
       const Vecteur3& centreSphere,
-      double          rayonSphere,
+      float          rayonSphere,
       const Vecteur3& positionObjet,
-      double          rayonObjet
+      float          rayonObjet
       );
 
    /// Calcule la force en deux dimensions à partir d'une collision.
    Vecteur2 calculerForceRebondissement2D(
       const DetailsCollision& details,
-      double constanteRebondissement
+      float constanteRebondissement
       );
 
    /// Calcule la force en trois dimensions à partir d'une collision.
    Vecteur3 calculerForceRebondissement3D(
       const DetailsCollision& details,
-      double constanteRebondissement
+      float constanteRebondissement
       );
 
    /// Calcule la force d'amortissement en deux dimensions au cours d'une
@@ -109,7 +109,7 @@ namespace aidecollision {
    Vecteur2 calculerForceAmortissement2D(
       const DetailsCollision& details,
       const Vecteur2& vitesse,
-      double constanteAmortissement
+      float constanteAmortissement
       );
 
    /// Calcule la force d'amortissement en trois dimensions au cours d'une
@@ -117,7 +117,7 @@ namespace aidecollision {
    Vecteur3 calculerForceAmortissement3D(
       const DetailsCollision& details,
       const Vecteur3& vitesse,
-      double constanteAmortissement
+      float constanteAmortissement
       );
 
    /// Calcule la force en deux dimensions causée par la collision d'un objet
@@ -126,10 +126,10 @@ namespace aidecollision {
       const Vecteur2&   point1,
       const Vecteur2&   point2,
       const Vecteur2&   position,
-      double            rayon,
+      float            rayon,
       bool              collisionAvecPoints,
-      double            constanteRebondissement,
-      double            constanteAmortissement,
+      float            constanteRebondissement,
+      float            constanteAmortissement,
       const Vecteur2&   vitesse,
       DetailsCollision* retourDetails = 0
       );
@@ -140,10 +140,10 @@ namespace aidecollision {
       const Vecteur3&   point1,
       const Vecteur3&   point2,
       const Vecteur3&   position,
-      double            rayon,
+      float            rayon,
       bool              collisionAvecPoints,
-      double            constanteRebondissement,
-      double            constanteAmortissement,
+      float            constanteRebondissement,
+      float            constanteAmortissement,
       const Vecteur3&   vitesse,
       DetailsCollision* retourDetails = 0
       );
@@ -152,11 +152,11 @@ namespace aidecollision {
    /// circulaire avec un cercle.
    Vecteur2 calculerCollisionCercle(
       const Vecteur2&   centreCercle,
-      double            rayonCercle,
+      float            rayonCercle,
       const Vecteur2&   positionObjet,
-      double            rayonObjet,
-      double            constanteRebondissement,
-      double            constanteAmortissement,
+      float            rayonObjet,
+      float            constanteRebondissement,
+      float            constanteAmortissement,
       const Vecteur2&   vitesse,
       DetailsCollision* retourDetails = 0
       );
@@ -165,36 +165,36 @@ namespace aidecollision {
    /// sphérique avec une sphère.
    Vecteur3 calculerCollisionSphere(
       const Vecteur3&   centreSphere,
-      double            rayonSphere,
+      float            rayonSphere,
       const Vecteur3&   positionObjet,
-      double            rayonObjet,
-      double            constanteRebondissement,
-      double            constanteAmortissement,
+      float            rayonObjet,
+      float            constanteRebondissement,
+      float            constanteAmortissement,
       const Vecteur3&   vitesse,
       DetailsCollision* retourDetails = 0
       );
 
    /// Calcule la combinaison de deux constantes de rebondissement.
-   double calculerCombinaisonRebondissement(
-      double constante1, double constante2
+   float calculerCombinaisonRebondissement(
+      float constante1, float constante2
       );
 
    /// Calcule la combinaison de deux constantes d'amortissement.
-   double calculerCombinaisonAmortissement(
-      double constante1, double constante2
+   float calculerCombinaisonAmortissement(
+      float constante1, float constante2
       );
 
    /// Calcule s'il y a collision avec ce muret a grande vitesse
    DetailsCollision calculerCollisionCercleSegmentGrandeVitesse(
 	   const Vecteur2& anciennePos, 
 	   const Vecteur2& nouvellePos, 
-	   const double& rayon,
+	   const float& rayon,
 	   const Vecteur2& coinMuret1,
 	   const Vecteur2& coinMuret2,
 	   Vecteur2& intersection
 	   );
 
-   double TimeOfClosestApproach(const Vecteur2& Pa, const Vecteur2& Pb, const Vecteur2& Va, const Vecteur2& Vb, const double& Ra, const double& Rb, bool& collision);
+   float TimeOfClosestApproach(const Vecteur2& Pa, const Vecteur2& Pb, const Vecteur2& Va, const Vecteur2& Vb, const float& Ra, const float& Rb, bool& collision);
 
 
 
@@ -221,17 +221,17 @@ namespace aidecollision {
 		   positionCollision_ = CGV.positionCollision_;
 		   muret_ = CGV.muret_;
 	   }
-	   void updateCollisionGauche(const double& distanceCarre, const Vecteur2& intersection);
-	   void updateCollisionMilieu(const double& distanceCarre, const Vecteur2& intersection);
-	   void updateCollisionDroite(const double& distanceCarre, const Vecteur2& intersection);
-	   void updateCollisionFront (const double& distanceCarre, const Vecteur2& intersection);
+	   void updateCollisionGauche(const float& distanceCarre, const Vecteur2& intersection);
+	   void updateCollisionMilieu(const float& distanceCarre, const Vecteur2& intersection);
+	   void updateCollisionDroite(const float& distanceCarre, const Vecteur2& intersection);
+	   void updateCollisionFront (const float& distanceCarre, const Vecteur2& intersection);
 	   void saveMuret( NoeudMuret* muret)
 	   {
 		   muret_ = muret;
 	   }
 
 	   Vecteur2* intersectionMin_;
-	   double distanceMinCarre_;
+	   float distanceMinCarre_;
 	   CollisionCase case_;
 	   PositionCollision positionCollision_;
 	   NoeudMuret* muret_;

@@ -65,7 +65,7 @@ private:
 	/// Position du deuxième clique de souris pour la sélection
 	Vecteur2 positionClicMax_;
 
-	typedef std::pair<NoeudAbstrait*, double> NoeudZBuf;
+	typedef std::pair<NoeudAbstrait*, float> NoeudZBuf;
 	/// Conservation du noeud le plus près de l'écran
 	NoeudZBuf aSelectionner_;
 

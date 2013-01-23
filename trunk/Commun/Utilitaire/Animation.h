@@ -40,7 +40,7 @@ public:
 	virtual ~Animation(void);
 
 	/// Modifie le temps d'animation
-	virtual void animer(double temps);
+	virtual void animer(float temps);
 
 	/// Ajout d'élément
 	virtual void ajouterFrame(AnimationFrame* frame);
@@ -64,7 +64,7 @@ public:
 	int obtenirNbObjets() const;
 
 	/// Calcul du bezier
-	Vecteur3 calculerBezier(int attribut, double t, int indexPremier, int indexDernier);
+	Vecteur3 calculerBezier(int attribut, float t, int indexPremier, int indexDernier);
 
 	/// L'animation est-elle terminée?
 	bool estTermine() const { return termine_; }
@@ -99,7 +99,7 @@ protected:
 	int indexFrameCourant_;
 
 	/// Temps courant
-	double tempsCourant_;
+	float tempsCourant_;
 	
 	/// Type d'interpolation
 	int interpolation_;

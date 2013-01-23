@@ -69,8 +69,8 @@ namespace vue {
    bool Vue::convertirClotureAVirtuelle(int x, int y, const math::Plan3D& plan, Vecteur3& point) const
    {
       //Initialisation de variables.
-      const GLdouble MinZ = 0.0;
-      const GLdouble MaxZ = 1.0;
+      const GLfloat MinZ = 0.0;
+      const GLfloat MaxZ = 1.0;
 
       // Lire la matrice de modélisation et de visualisation.
       GLdouble matriceModelisation[16];
@@ -85,7 +85,7 @@ namespace vue {
       glGetIntegerv ( GL_VIEWPORT, cloture );
 
       // Premier point.
-      Vecteur3 point1;
+      Vecteur3D<double> point1;
       gluUnProject(
          x, cloture[3] - y, MinZ,
          matriceModelisation, matriceProjection, cloture,
@@ -93,7 +93,7 @@ namespace vue {
       );
 
       // Deuxième point.
-      Vecteur3 point2;
+      Vecteur3D<double> point2;
       gluUnProject(
          x, cloture[3] - y, MaxZ,
          matriceModelisation, matriceProjection, cloture,
@@ -143,19 +143,19 @@ namespace vue {
 
    ////////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void Vue::animer(double temps)
+   /// @fn void Vue::animer(float temps)
    ///
    /// Cette fonction permet de faire évoluer la vue en fonction du temps, par
    /// exemple lorsque cette dernière se déplace par rapport à un objet en
    /// fonction du temps.
    ///
-   /// @param[in]  temps double : L'intervalle de temps pour lequel réaliser
+   /// @param[in]  temps float : L'intervalle de temps pour lequel réaliser
    ///                            l'animation.
    ///
    /// @return Aucune.
    ///
    ////////////////////////////////////////////////////////////////////////////
-   void Vue::animer(double temps)
+   void Vue::animer(float temps)
    {
    }
 
@@ -178,18 +178,16 @@ namespace vue {
 
    }
 
-
-
-   void Vue::centrerCamera(double largeurVue)
+   void Vue::centrerCamera(float largeurVue)
    {
 	   GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
-	   double angleOuverture = obtenirAngleOuvertureProjection();
-	   Vecteur3 positionOptimale = Vecteur3(0, -0.0001, 300);
+	   float angleOuverture = obtenirAngleOuvertureProjection();
+	   Vecteur3 positionOptimale = Vecteur3(0, -0.0001f, 300);
 	   if(angleOuverture!=0.0 && largeurVue!=0.0)
 	   {
 		   // On modifie la position selon l'angle pour voir toute la zone d'edition
-		   double angle = angleOuverture*M_PI/360.0;
-		   double distance = largeurVue/(2.0*tan(angle));
+		   float angle = angleOuverture*((float)M_PI)/360.0f;
+		   float distance = largeurVue/(2.0f*tan(angle));
 		   positionOptimale[VZ] = distance;
 	   }
 

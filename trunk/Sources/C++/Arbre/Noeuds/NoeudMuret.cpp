@@ -206,8 +206,8 @@ Vecteur3 NoeudMuret::obtenirCoin2()
 ////////////////////////////////////////////////////////////////////////
 void NoeudMuret::majPosCoins()
 {
-	//double deltaX = (cos(utilitaire::DEG_TO_RAD(mAngle)) *echelleCourante_[VX])/2.0;
-	//double deltaY = (sin(utilitaire::DEG_TO_RAD(mAngle)) *echelleCourante_[VX])/2.0;
+	//float deltaX = (cos(utilitaire::DEG_TO_RAD(mAngle)) *echelleCourante_[VX])/2.0;
+	//float deltaY = (sin(utilitaire::DEG_TO_RAD(mAngle)) *echelleCourante_[VX])/2.0;
 	Vecteur3 deplacement( cos(utilitaire::DEG_TO_RAD(mAngle) ), sin(utilitaire::DEG_TO_RAD(mAngle) ) );
 	deplacement*= echelleCourante_[VX];
 	deplacement /= 2.0;
@@ -231,10 +231,10 @@ void NoeudMuret::trouverAngle()
 {
 	Vecteur3 coin1Relatif(positionCoin1_-positionRelative_);
 	coin1Relatif.normaliser();
-	mAngle = (360.0+(utilitaire::RAD_TO_DEG(acos(coin1Relatif[VX]))*( (coin1Relatif[VY] < 0)?-1:1) ) );
-	mAngle /= 360.0;
+	mAngle = (360.0f+(utilitaire::RAD_TO_DEG(acos(coin1Relatif[VX]))*( (coin1Relatif[VY] < 0)?-1:1) ) );
+	mAngle /= 360.0f;
 	mAngle -= (int)(mAngle);
-	mAngle *= 360.0;
+	mAngle *= 360.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -261,10 +261,10 @@ void NoeudMuret::assignerPositionCoin( int lequel, Vecteur3 position )
 	}
 
 
-	double	deltaX = positionCoin2_[VX]-positionCoin1_[VX],
+	float	deltaX = positionCoin2_[VX]-positionCoin1_[VX],
 		deltaY = positionCoin2_[VY]-positionCoin1_[VY];
 
-	NoeudAbstrait::assignerPositionRelative(Vecteur3(positionCoin1_[VX]+deltaX/2.0, positionCoin1_[VY]+deltaY/2.0, 0));
+	NoeudAbstrait::assignerPositionRelative(Vecteur3(positionCoin1_[VX]+deltaX/2.0f, positionCoin1_[VY]+deltaY/2.0f, 0));
 	trouverAngle();
     updatePhysicBody();
 }
@@ -277,10 +277,10 @@ void NoeudMuret::assignerPositionCoin( int lequel, Vecteur3 position )
 ///
 /// @param[in]	void
 ///
-/// @return double : rayon du noeud
+/// @return float : rayon du noeud
 ///
 ////////////////////////////////////////////////////////////////////////
-double NoeudMuret::obtenirRayon() const
+float NoeudMuret::obtenirRayon() const
 {
 	return 0;
 }
@@ -342,7 +342,7 @@ bool NoeudMuret::initialiser( const TiXmlElement* element )
 	double doubleElem;
 	if( element->QueryDoubleAttribute("coefRebond", &doubleElem) != TIXML_SUCCESS )
 		return false;
-	coefRebond_ = doubleElem;
+	coefRebond_ = (float)doubleElem;
 
     if( !XMLUtils::lectureVecteur3Dxml(&positionCoin1_,element,"coinA") )
 		return false;
@@ -354,16 +354,16 @@ bool NoeudMuret::initialiser( const TiXmlElement* element )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudMuret::assignerAngle( double angle )
+/// @fn void NoeudMuret::assignerAngle( float angle )
 ///
 /// Permet de modifier l'angle du muret et garde les coins a jour
 ///
-/// @param[in] double angle : nouvel angle du muret
+/// @param[in] float angle : nouvel angle du muret
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMuret::assignerAngle( const double& angle )
+void NoeudMuret::assignerAngle( const float& angle )
 {
 	NoeudAbstrait::assignerAngle(angle);
 	majPosCoins();

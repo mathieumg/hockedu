@@ -104,7 +104,7 @@ void NoeudAccelerateur::afficherConcret() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAccelerateur::animer( const float& temps)
 {
-	mAngle = (int)(mAngle+temps*500.0)%360;
+	mAngle = (float)((int)(mAngle+temps*500.0f)%360);
 	updateMatrice();
 }
 
@@ -157,7 +157,7 @@ bool NoeudAccelerateur::initialiser( const TiXmlElement* element )
 {
 	if(!NoeudAbstrait::initialiser(element))
 		return false;
-	double doubleElem;
+	float doubleElem;
 	if( !XMLUtils::LireAttribute(element,"bonusAccel",doubleElem) )
 		return false;
 	bonusAccel_ = doubleElem;
@@ -180,7 +180,7 @@ void NoeudAccelerateur::gestionCollision( const float& temps )
 {
 	NoeudRondelle* rondelle = FacadeModele::getInstance()->obtenirRondelle();
 	Vecteur3 distance = obtenirPositionAbsolue()- rondelle->obtenirPositionAbsolue();
-	double rayon = obtenirRayon()+rondelle->obtenirRayon();
+	float rayon = obtenirRayon()+rondelle->obtenirRayon();
 	if(distance.norme2() > rayon*rayon+25)
 	{
 		modifierActiver(true);

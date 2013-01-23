@@ -138,7 +138,7 @@ unsigned int Phont::getTextLength(const char* text) const {
  * @param ...		Arguments 'printf'
  * @return		Succès
  */
-bool Phont::print(GLdouble vp_x, GLdouble vp_y, bool keep_gl, const char* format, ...) const {
+bool Phont::print(GLfloat vp_x, GLfloat vp_y, bool keep_gl, const char* format, ...) const {
 	if (!loaded_) {
 		return false;
 	}
@@ -173,7 +173,7 @@ bool Phont::print(GLdouble vp_x, GLdouble vp_y, bool keep_gl, const char* format
 	// Matrice de projection orthogonale 2D de même dimensions virtuelles que le viewport
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluOrtho2D(0.0, (GLdouble) viewport[2] - 1.0, 0, (GLdouble) viewport[3] - 1.0);
+	gluOrtho2D(0.0, (GLfloat) viewport[2] - 1.0, 0, (GLfloat) viewport[3] - 1.0);
 
 	// Matrice de modèle/vue identité
 	glMatrixMode(GL_MODELVIEW);
@@ -187,8 +187,8 @@ bool Phont::print(GLdouble vp_x, GLdouble vp_y, bool keep_gl, const char* format
 	
 	// Imprimer la chaine
 	glPushMatrix();
-		glTranslated(0.0, (GLdouble) common_.line_height, 0.0);
-		glTranslated((GLdouble) vp_x * (viewport[2] - 1.0), (GLdouble) vp_y * (viewport[3] - 1.0), 0.0);
+		glTranslated(0.0, (GLfloat) common_.line_height, 0.0);
+		glTranslated((GLfloat) vp_x * (viewport[2] - 1.0), (GLfloat) vp_y * (viewport[3] - 1.0), 0.0);
 		glScalef(scale_,scale_,1);
 		glListBase(cl_base_);
 		glCallLists((GLsizei)strlen(buf), GL_UNSIGNED_BYTE, buf);
@@ -449,12 +449,12 @@ bool Phont::create_cl(const char* filename) {
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 4); // Appelé chaque fois par précaution
 		glNewList(cl_base_ + i, GL_COMPILE);
 			glPushMatrix();
-				glTranslated((GLdouble) x_off, (GLdouble) -y_off, 0.0);
+				glTranslated((GLfloat) x_off, (GLfloat) -y_off, 0.0);
 				glRasterPos2i(0, 0);
 				glBitmap((GLsizei) w, (GLsizei) h, 0.0f, (GLfloat) h,
 					0.0f, 0.0f, bitmap);
 			glPopMatrix();
-			glTranslated((GLdouble) x_adv, 0.0, 0.0);
+			glTranslated((GLfloat) x_adv, 0.0, 0.0);
 		glEndList();
 
 		// Désallouer les pixels et le bitmap
@@ -571,7 +571,7 @@ const unsigned int pad, const unsigned char p_on, const unsigned char pad_ch) {
 	unsigned int off = 0;
 	
 	// Calculer la taille du buffer bitmap
-	unsigned int w_buf_sz = (unsigned int) ceil((double) width / 8.0);
+	unsigned int w_buf_sz = (unsigned int) ceil((float) width / 8.0);
 	unsigned int r_pad = pmod(pad, w_buf_sz);
 	w_buf_sz += r_pad;
 	const unsigned int bitmap_sz = w_buf_sz * height;

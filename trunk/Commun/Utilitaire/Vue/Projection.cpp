@@ -18,7 +18,7 @@ namespace vue {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn Projection::Projection(int xMinCloture, int xMaxCloture, int yMinCloture, int yMaxCloture, double zAvant,  double zArriere, double zoomInMax, double zoomOutMax, double incrementZoom, bool estPerspective)
+   /// @fn Projection::Projection(int xMinCloture, int xMaxCloture, int yMinCloture, int yMaxCloture, float zAvant,  float zArriere, float zoomInMax, float zoomOutMax, float incrementZoom, bool estPerspective)
    ///
    /// Constructeur d'une projection.  Ne fait qu'assigner les variables
    /// membres.
@@ -39,9 +39,9 @@ namespace vue {
    ////////////////////////////////////////////////////////////////////////
    Projection::Projection(int xMinCloture, int xMaxCloture,
                           int yMinCloture, int yMaxCloture,
-                          double zAvant,  double zArriere,
-                          double zoomInMax, double zoomOutMax,
-                          double incrementZoom, bool estPerspective) :
+                          float zAvant,  float zArriere,
+                          float zoomInMax, float zoomOutMax,
+                          float incrementZoom, bool estPerspective) :
       xMinCloture_(xMinCloture),
       xMaxCloture_(xMaxCloture),
       yMinCloture_(yMinCloture),

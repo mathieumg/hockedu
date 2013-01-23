@@ -71,8 +71,8 @@ void HUDElementComparatif::peindreElement()
 
 
 /*
-bool (*fonctionDeComparaison_)(double);//fonction appelee pour decider si lelement doit etre dessiner ou non.
-double valeurDeComparaison_;
+bool (*fonctionDeComparaison_)(float);//fonction appelee pour decider si lelement doit etre dessiner ou non.
+float valeurDeComparaison_;
 */
 
 ///////////////////////////////////////////////////////////////////////////

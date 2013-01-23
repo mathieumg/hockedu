@@ -88,7 +88,7 @@ void SourisEtatTransformationRotation::toucheRelachee( EvenementClavier& eveneme
 			{
 				if(rotationInverse_[i] != 0)
 				{
-					VisiteurRotation visiteurRotationInverse(rotationInverse_[i],centreRot_);
+					VisiteurRotation visiteurRotationInverse((float)rotationInverse_[i],centreRot_);
 					noeudsSelectionnes_[i]->acceptVisitor(visiteurRotationInverse);
 					rotationInverse_[i] = 0;
 				}
@@ -156,7 +156,7 @@ void SourisEtatTransformationRotation::sourisRelachee( EvenementSouris& evenemen
 		{
 			if(rotationInverse_[i] != 0)
 			{
-				VisiteurRotation visiteurRotationInverse(rotationInverse_[i],centreRot_);
+				VisiteurRotation visiteurRotationInverse((float)rotationInverse_[i],centreRot_);
 				noeudsSelectionnes_[i]->acceptVisitor(visiteurRotationInverse);
 				rotationInverse_[i] = 0;
 			}
@@ -190,8 +190,8 @@ void SourisEtatTransformationRotation::sourisDeplacee( EvenementSouris& evenemen
 
 
 		// Effectue la rotation		
-		VisiteurRotation visiteurRotation(angle, centreRot_);
-		VisiteurRotation visiteurRotationInverse(-angle, centreRot_);
+		VisiteurRotation visiteurRotation((float)angle, centreRot_);
+		VisiteurRotation visiteurRotationInverse((float)-angle, centreRot_);
 		bool rotationValide = true;
 		
 		int i=0; 
@@ -247,7 +247,7 @@ Vecteur2 SourisEtatTransformationRotation::obtenirCentreRot() const
 {
 	if(noeudsSelectionnes_.size()!=0)
 	{
-		double min[2], max[2];
+		float min[2], max[2];
 		Vecteur3 positionAbsolue = static_cast<NoeudComposite*>(noeudsSelectionnes_[0])->obtenirPositionAbsolue();
 		min[VX] = positionAbsolue[VX];
 		min[VY] = positionAbsolue[VY];
@@ -268,7 +268,7 @@ Vecteur2 SourisEtatTransformationRotation::obtenirCentreRot() const
 				min[VY] = positionAbsolue[VY];
 		}
 
-		Vecteur2 centreRot((max[VX]-min[VX])/2.0+min[VX], (max[VY]-min[VY])/2.0+min[VY]);
+		Vecteur2 centreRot((max[VX]-min[VX])/2.0f+min[VX], (max[VY]-min[VY])/2.0f+min[VY]);
 		return centreRot;
 	}
 	else

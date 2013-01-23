@@ -174,7 +174,7 @@ void GestionnaireEtatModeEdition::rouletteSouris( EvenementRouletteSouris& evene
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeEdition::miseAJourEvenementsRepetitifs( double deltaTemps )
+/// @fn void GestionnaireEtatModeEdition::miseAJourEvenementsRepetitifs( float deltaTemps )
 ///
 /// Fonction qui appelle les fonctions qui doivent etre repetees tant que le bouton est enfonce
 ///
@@ -183,7 +183,7 @@ void GestionnaireEtatModeEdition::rouletteSouris( EvenementRouletteSouris& evene
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeEdition::miseAJourEvenementsRepetitifs( double deltaTemps )
+void GestionnaireEtatModeEdition::miseAJourEvenementsRepetitifs( float deltaTemps )
 {
 	int tempsMs = (int)(deltaTemps*1000);
 	switch(toucheSauvegardee_)

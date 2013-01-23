@@ -17,7 +17,7 @@
 #include <Box2D/Box2D.h>
 #include "Utilitaire.h"
 
-double NoeudBut::longueurBut_ = 1;
+float NoeudBut::longueurBut_ = 1;
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -211,26 +211,26 @@ NoeudAbstrait::PaireVect3 NoeudBut::obtenirZoneOccupee() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudBut::updateLongueur( double facteurModificationEchelle )
+/// @fn void NoeudBut::updateLongueur( float facteurModificationEchelle )
 ///
 /// Calcul et retourne le longueur du but.
 ///
-/// @param[in] double facteurModificationEchelle :
+/// @param[in] float facteurModificationEchelle :
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudBut::updateLongueur(double facteurModificationEchelle)
+void NoeudBut::updateLongueur(float facteurModificationEchelle)
 {
 	echelleCourante_[VX]*=facteurModificationEchelle;
 
 	Vecteur3 pos = obtenirPositionAbsolue();
 
-	Vecteur3 deltaHaut=(coinHaut_->obtenirPositionAbsolue()-pos)*0.85;
-	double longueurHaut = deltaHaut.norme(); // Valeur pour ne pas que les but empiete sur les bandes
-	Vecteur3 deltaBas=(coinBas_->obtenirPositionAbsolue()-pos)*0.85;
-	double longueurBas = deltaBas.norme();	// Valeur pour ne pas que les but empiete sur les bandes
-	double longueur=echelleCourante_[VX]*longueurButBase_;
+	Vecteur3 deltaHaut=(coinHaut_->obtenirPositionAbsolue()-pos)*0.85f;
+	float longueurHaut = deltaHaut.norme(); // Valeur pour ne pas que les but empiete sur les bandes
+	Vecteur3 deltaBas=(coinBas_->obtenirPositionAbsolue()-pos)*0.85f;
+	float longueurBas = deltaBas.norme();	// Valeur pour ne pas que les but empiete sur les bandes
+	float longueur=echelleCourante_[VX]*longueurButBase_;
 	if(longueur>longueurHaut)
 	{
 		longueur=longueurHaut;
@@ -242,10 +242,10 @@ void NoeudBut::updateLongueur(double facteurModificationEchelle)
 		echelleCourante_[VX] = longueur/longueurButBase_;
 	}
 
-	double ratioHaut = longueur/longueurHaut;
-	double ratioBas = longueur/longueurBas;
+	float ratioHaut = longueur/longueurHaut;
+	float ratioBas = longueur/longueurBas;
 
-    double	
+    float	
         deltaXhaut = deltaHaut[VX]*ratioHaut,
         deltaXbas = deltaBas[VX]*ratioBas,
         deltaYhaut = deltaHaut[VY]*ratioHaut,
@@ -300,15 +300,15 @@ NoeudBut* NoeudBut::obtenirButAdverse()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn double NoeudBut::obtenirRayon(  )
+/// @fn float NoeudBut::obtenirRayon(  )
 ///
 /// obtention du rayon
 ///
 ///
-/// @return double
+/// @return float
 ///
 ////////////////////////////////////////////////////////////////////////
-double NoeudBut::obtenirRayon()
+float NoeudBut::obtenirRayon()
 {
 	return 1;
 }
@@ -346,7 +346,7 @@ TiXmlElement* NoeudBut::creerNoeudXML()
 {
 	TiXmlElement* elementNoeud = NoeudComposite::creerNoeudXML();
 
-    XMLUtils::ecrireAttribute<double>(elementNoeud,"longueurBut",longueurBut_);
+    XMLUtils::ecrireAttribute<float>(elementNoeud,"longueurBut",longueurBut_);
     XMLUtils::ecrireAttribute<int>(elementNoeud,"joueur",joueur_);
     XMLUtils::ecrireVecteur3Dxml(&mTopPosition,elementNoeud,"coinHaut");
     XMLUtils::ecrireVecteur3Dxml(&mBottomPosition,elementNoeud,"coinBas");
@@ -368,8 +368,8 @@ bool NoeudBut::initialiser( const TiXmlElement* element )
 {
 	if(!NoeudComposite::initialiser(element))
 		return false;
-	double doubleElem;
-    if(!XMLUtils::LireAttribute<double>(element,"longueurBut",doubleElem))
+	float doubleElem;
+    if(!XMLUtils::LireAttribute<float>(element,"longueurBut",doubleElem))
 		return false;
 	longueurBut_ = doubleElem;
 
@@ -388,15 +388,15 @@ bool NoeudBut::initialiser( const TiXmlElement* element )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn double NoeudBut::obtenirHauteurBut()
+/// @fn float NoeudBut::obtenirHauteurBut()
 ///
 /// Permet de connaitre la hauteur des buts pour savoir si la rondelle peut y passer
 ///
 ///
-/// @return double
+/// @return float
 ///
 ////////////////////////////////////////////////////////////////////////
-double NoeudBut::obtenirHauteurBut()
+float NoeudBut::obtenirHauteurBut()
 {
 	return mTopPosition[VY] - mBottomPosition[VY];
 }

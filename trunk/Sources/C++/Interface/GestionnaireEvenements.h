@@ -60,7 +60,7 @@ public:
 	/// Redirige l'événement de roulette de souris
 	void rouletteSouris(EvenementRouletteSouris& evenementRouletteSouris);
 
-	void miseAJourEvenementsRepetitifs(double detlaTemps);
+	void miseAJourEvenementsRepetitifs(float detlaTemps);
 	/// Renvoie l'état courant
 	GestionnaireEtatAbstrait* obtenirEtat();
 private:

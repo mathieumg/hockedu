@@ -201,7 +201,7 @@ void GestionnaireEvenements::rouletteSouris( EvenementRouletteSouris& evenementR
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEvenements::miseAJourEvenementsRepetitifs( double detlaTemps )
+/// @fn void GestionnaireEvenements::miseAJourEvenementsRepetitifs( float detlaTemps )
 ///
 /// Fonction qui appelle la mise a jour des touches pour l'etat courant.
 ///
@@ -210,7 +210,7 @@ void GestionnaireEvenements::rouletteSouris( EvenementRouletteSouris& evenementR
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEvenements::miseAJourEvenementsRepetitifs( double detlaTemps )
+void GestionnaireEvenements::miseAJourEvenementsRepetitifs( float detlaTemps )
 {
 	etatCourant_->miseAJourEvenementsRepetitifs(detlaTemps);
 }

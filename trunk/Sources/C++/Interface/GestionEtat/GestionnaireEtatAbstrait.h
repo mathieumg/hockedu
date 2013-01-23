@@ -76,7 +76,7 @@ public:
 	/// Modifier l'état de la souris
 	void modifierEtatSouris(NomEtatSouris etatSouris);
 	/// Met a jour les evenements clavier pour la repetition
-	virtual void miseAJourEvenementsRepetitifs(double deltaTemps);
+	virtual void miseAJourEvenementsRepetitifs(float deltaTemps);
 
 	/// Pour les tests
 	GestionnaireEvenements* obtenirContexte() const { return contexte_; }

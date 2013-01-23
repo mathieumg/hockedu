@@ -72,10 +72,10 @@ void ProjectionOrthoTest::tearDown()
 void ProjectionOrthoTest::testTranslation()
 {
 	// Initialisations
-	double xMinInitial, xMaxInitial, yMinInitial,  yMaxInitial;
-	double xMinFinal, xMaxFinal, yMinFinal, yMaxFinal;
-	double xTest[8] = {0, 43, 42, -90, 12, -36, 90, 54}; 
-	double yTest[8] = {0, -45, -9, 63, -21, 9, -24, -42};
+	float xMinInitial, xMaxInitial, yMinInitial,  yMaxInitial;
+	float xMinFinal, xMaxFinal, yMinFinal, yMaxFinal;
+	float xTest[8] = {0, 43, 42, -90, 12, -36, 90, 54}; 
+	float yTest[8] = {0, -45, -9, 63, -21, 9, -24, -42};
 
 	// Opérations
 	p_->obtenirCoordonneesFenetreVirtuelle(xMinInitial, xMaxInitial, yMinInitial, yMaxInitial);
@@ -147,8 +147,8 @@ void ProjectionOrthoTest::testZoomOut()
 void ProjectionOrthoTest::testRedimensionnement()
 {
 	// Initialisations
-	double xMinInitial, xMaxInitial, yMinInitial,  yMaxInitial;
-	double xMinFinal, xMaxFinal, yMinFinal, yMaxFinal;
+	float xMinInitial, xMaxInitial, yMinInitial,  yMaxInitial;
+	float xMinFinal, xMaxFinal, yMinFinal, yMaxFinal;
 	p_->obtenirCoordonneesFenetreVirtuelle(xMinInitial, xMaxInitial, yMinInitial, yMaxInitial);
 	Vecteur2i vecteurMinTest(0,0);
 	Vecteur2i vecteurMaxTest(519,523);
@@ -194,7 +194,7 @@ void ProjectionOrthoTest::testAjusterRapportAspect()
 	p_->ajusterRapportAspect(true);
 	int x = (int)p_->obtenirDimensionFenetre()[VX];
 	int y = (int)p_->obtenirDimensionFenetre()[VY];
-	double rapport = x/y;
+	float rapport = (float)x/(float)y;
 
 	// Tests
 	CPPUNIT_ASSERT(rapport == 1);

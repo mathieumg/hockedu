@@ -15,7 +15,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn AnimationFrame::AnimationFrame( double temps, Vecteur3 position, double angle, double echelle )
+/// @fn AnimationFrame::AnimationFrame( float temps, Vecteur3 position, float angle, float echelle )
 ///
 /// Ce constructeur initialise les valeurs du frame
 ///
@@ -27,7 +27,7 @@
 /// @return Aucune (constructeur).
 ///
 ///////////////////////////////////////////////////////////////////////////////
-AnimationFrame::AnimationFrame( double temps, Vecteur3 param1, Vecteur3 param2 /* =Vecteur3(0, 0, 0) */, Vecteur3 param3 /* = Vecteur3(1, 1, 1) */)
+AnimationFrame::AnimationFrame( float temps, Vecteur3 param1, Vecteur3 param2 /* =Vecteur3(0, 0, 0) */, Vecteur3 param3 /* = Vecteur3(1, 1, 1) */)
 {
 	temps_ = temps;
 	param1_ = param1;

@@ -35,17 +35,17 @@ namespace vue {
       /// Constructeur.
       Projection(int xMinCloture, int xMaxCloture,
                  int yMinCloture, int yMaxCloture,
-                 double zAvant,  double zArriere,
-                 double zoomInMax, double zoomOutMax,
-                 double incrementZoom, bool estPerspective);
+                 float zAvant,  float zArriere,
+                 float zoomInMax, float zoomOutMax,
+                 float incrementZoom, bool estPerspective);
 
       /// Destructeur virtuel vide.
       virtual ~Projection() {}
 
       /// Zoom in, c'est-à-dire un agrandissement.
-      virtual void zoomerIn( double increment ) = 0;
+      virtual void zoomerIn( float increment ) = 0;
       /// Zoom out, c'est-à-dire un rapetissement.
-      virtual void zoomerOut( double increment ) = 0;
+      virtual void zoomerOut( float increment ) = 0;
 
 	  /// Modification de la clôture.
       virtual void redimensionnerFenetre( const Vecteur2i& coinMin,
@@ -96,16 +96,16 @@ namespace vue {
       int yMaxCloture_;
 
       /// Avant du volume de visualisation.
-      double zAvant_;
+      float zAvant_;
       /// Arrière du volume de visualisation.
-      double zArriere_;
+      float zArriere_;
 
       /// Facteur maximal de zoom in.
-      const double zoomInMax_;
+      const float zoomInMax_;
       /// Facteur maximal de zoom out.
-      const double zoomOutMax_;
+      const float zoomOutMax_;
       /// Incrément des zooms.
-      const double incrementZoom_;
+      const float incrementZoom_;
       /// Vrai si la projection est perspective.
       const bool   estPerspective_;
 

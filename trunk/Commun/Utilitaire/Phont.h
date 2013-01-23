@@ -117,7 +117,7 @@ class Phont {
 	struct phont_bfg_char getCharInfo(const unsigned int index) const;
 	unsigned int getCharCount(void) const;
 	unsigned int getTextLength(const char* text) const;
-	bool print(GLdouble vp_x, GLdouble vp_y, bool keep_gl, const char* format, ...) const;
+	bool print(GLfloat vp_x, GLfloat vp_y, bool keep_gl, const char* format, ...) const;
 	
 	private:
 		float scale_;

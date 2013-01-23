@@ -34,8 +34,8 @@ public:
 	virtual void acceptVisitor( VisiteurNoeud& v );
 
 	/// Accesseur de bonusAccel_
-	double obtenirBonusAccel() const { return bonusAccel_; }
-	void modifierBonusAccel(double val) { bonusAccel_ = val; }
+	float obtenirBonusAccel() const { return bonusAccel_; }
+	void modifierBonusAccel(float val) { bonusAccel_ = val; }
 
 	/// Creation du noeud XML de l'accelerateur
 	virtual TiXmlElement* creerNoeudXML();
@@ -55,7 +55,7 @@ public:
 
 private:
 	/// Acceleration fournie par les bonus accelerateurs
-	double bonusAccel_;
+	float bonusAccel_;
 	bool activer_;
 };
 

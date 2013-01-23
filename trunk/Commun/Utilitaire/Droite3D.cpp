@@ -80,19 +80,19 @@ namespace math {
    bool Droite3D::intersection( const Plan3D& planCoupe, Vecteur3& intersection )
    {
       // Initialisation de variables
-      const double x0   = pointDroite_[0];
-      const double y0   = pointDroite_[1];
-      const double z0   = pointDroite_[2];
+      const float x0   = pointDroite_[0];
+      const float y0   = pointDroite_[1];
+      const float z0   = pointDroite_[2];
 
-      const double a    = direction_[0];
-      const double b    = direction_[1];
-      const double c    = direction_[2];
+      const float a    = direction_[0];
+      const float b    = direction_[1];
+      const float c    = direction_[2];
 
-      double A, B, C, D;
+      float A, B, C, D;
       planCoupe.lireParam( A, B, C, D );
 
       //Le résultat
-      double x, y, z;
+      float x, y, z;
 
       // On regarde si le plan et la droite sont parallèles.
       bool bParalleles = utilitaire::EGAL_ZERO(
@@ -180,11 +180,11 @@ namespace math {
       pointBas[1]  =  pointBas[1]  - pointDroite_[1];
 
       // L'équation de la droite
-      double m = ( pointHaut[1] - pointBas[1] ) / ( pointHaut[0] - pointBas[0] );
-      double b = pointHaut[1] - pointHaut[0] * m;
+      float m = ( pointHaut[1] - pointBas[1] ) / ( pointHaut[0] - pointBas[0] );
+      float b = pointHaut[1] - pointHaut[0] * m;
 
       // Lorsque y = 0
-      double x = ( -1.0 * b ) / m;
+      float x = ( -1.0f * b ) / m;
 
       if ( x > 0.0 ) {
          return true;
@@ -196,7 +196,7 @@ namespace math {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn double Droite3D::distancePoint( const Vecteur3& centre )
+   /// @fn float Droite3D::distancePoint( const Vecteur3& centre )
    ///
    /// Calcule la distance euclidienne entre la droite et un point.
    ///
@@ -205,16 +205,16 @@ namespace math {
    /// @return Distance du point à la droite.
    ///
    ////////////////////////////////////////////////////////////////////////
-   double Droite3D::distancePoint( const Vecteur3& centre )
+   float Droite3D::distancePoint( const Vecteur3& centre )
    {
       // En 2D
-      const double ad = direction_[1];
-      const double bd = -1.0 * direction_[0];
-      const double cd = -1.0 * direction_[1] * pointDroite_[0] +
+      const float ad = direction_[1];
+      const float bd = -1.0f * direction_[0];
+      const float cd = -1.0f * direction_[1] * pointDroite_[0] +
                         direction_[0] * pointDroite_[1];
 
-      double num = fabs( ad * centre[0] + bd * centre[1] + cd );
-      double den = sqrt( pow ( ad, 2 ) + pow ( bd, 2 ) );
+      float num = fabs( ad * centre[0] + bd * centre[1] + cd );
+      float den = sqrt( pow ( ad, 2 ) + pow ( bd, 2 ) );
 
       // En 3D
       const Vecteur3 centreNul(centre[0], centre[1], 0.0);
@@ -247,26 +247,26 @@ namespace math {
       const Vecteur3  orig( 0.0, 0.0, 0.0 );
       const Vecteur3  op1( orig, p1 );
 
-      const double op1x = p1[0];
-      const double op1y = p1[1];
-      const double op1z = p1[2];
+      const float op1x = p1[0];
+      const float op1y = p1[1];
+      const float op1z = p1[2];
 
-      const double op0x = point[0];
-      const double op0y = point[1];
-      const double op0z = point[2];
+      const float op0x = point[0];
+      const float op0y = point[1];
+      const float op0z = point[2];
 
-      const double ax   = a[0];
-      const double ay   = a[1];
-      const double az   = a[2];
+      const float ax   = a[0];
+      const float ay   = a[1];
+      const float az   = a[2];
 
-      const double num = ax * ( op1x - op0x ) +
+      const float num = ax * ( op1x - op0x ) +
                          ay * ( op1y - op0y ) +
                          az * ( op1z - op0z );
-      const double den = -1.0 * ( pow ( ax, 2 ) +
+      const float den = -1.0f * ( pow ( ax, 2 ) +
                                   pow ( ay, 2 ) +
                                   pow ( az, 2 ) );
 
-      const double r = num / den;
+      const float r = num / den;
 
       const Vecteur3 oq = op1 + a * r;
 

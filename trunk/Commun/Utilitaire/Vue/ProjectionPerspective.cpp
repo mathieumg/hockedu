@@ -21,7 +21,7 @@ namespace vue {
 
 	////////////////////////////////////////////////////////////////////////
 	///
-	/// @fn ProjectionPerspective::ProjectionPerspective(int xMinCloture, int xMaxCloture, int yMinCloture, int yMaxCloture, double zAvant,  double zArriere, double zoomInMax, double zoomOutMax, double incrementZoom, double xMinFenetre, double xMaxFenetre, double yMinFenetre, double yMaxFenetre)
+	/// @fn ProjectionPerspective::ProjectionPerspective(int xMinCloture, int xMaxCloture, int yMinCloture, int yMaxCloture, float zAvant,  float zArriere, float zoomInMax, float zoomOutMax, float incrementZoom, float xMinFenetre, float xMaxFenetre, float yMinFenetre, float yMaxFenetre)
 	///
 	/// Constructeur d'une projection perspective.  Ne fait qu'assigner les
 	/// variables membres et ajuste ensuite le rapport d'aspect.
@@ -49,11 +49,11 @@ namespace vue {
 	////////////////////////////////////////////////////////////////////////
 	ProjectionPerspective::ProjectionPerspective(int xMinCloture, int xMaxCloture,
 		int yMinCloture, int yMaxCloture,
-		double zAvant,  double zArriere,
-		double zoomInMax, double zoomOutMax,
-		double incrementZoom,
-		double xMinFenetre, double xMaxFenetre,
-		double yMinFenetre, double yMaxFenetre) :
+		float zAvant,  float zArriere,
+		float zoomInMax, float zoomOutMax,
+		float incrementZoom,
+		float xMinFenetre, float xMaxFenetre,
+		float yMinFenetre, float yMaxFenetre) :
 	Projection(xMinCloture, xMaxCloture, yMinCloture, yMaxCloture,
 		zAvant, zArriere,
 		zoomInMax, zoomOutMax, incrementZoom, false) ,
@@ -62,7 +62,7 @@ namespace vue {
 		yMinFenetre_(yMinFenetre),
 		yMaxFenetre_(yMaxFenetre)
 	{
-		angleOuverture_ = 360.0*atan((yMaxFenetre-yMinFenetre)/(2.0*zAvant))/3.141592;
+		angleOuverture_ = 360.0f*(float)atan((yMaxFenetre-yMinFenetre)/(2.0f*zAvant))/3.141592f;
 		ajusterRapportAspect();
 		mettreAJourProjection();
 	}
@@ -77,16 +77,16 @@ namespace vue {
 	/// @return Aucune.
 	///
 	////////////////////////////////////////////////////////////////////////
-	void ProjectionPerspective::zoomerIn(double increment) 
+	void ProjectionPerspective::zoomerIn(float increment) 
 	{
-		/*double incrementZoom = increment;
+		/*float incrementZoom = increment;
 		if(increment == 0)
 		{
 			incrementZoom = incrementZoom_;
 		}
 		//Ajouter valeur arbitraire
 
-		double	deltaX = (xMaxFenetre_- xMinFenetre_),
+		float	deltaX = (xMaxFenetre_- xMinFenetre_),
 				deltaY = (yMaxFenetre_- yMinFenetre_);
 		if( ( deltaX > zoomInMax_) &&  ( deltaY > zoomInMax_ ) )
 		{
@@ -98,7 +98,7 @@ namespace vue {
 		}
 		ajusterRapportAspect(); // Ajoute
 		mettreAJourProjection();*/
-		/*double incrementZoom = increment;
+		/*float incrementZoom = increment;
 		xMinFenetre_ += incrementZoom*0.05;
 		xMaxFenetre_ -= incrementZoom*0.05;
 		yMinFenetre_ += incrementZoom*0.05;
@@ -122,10 +122,10 @@ namespace vue {
 	/// @return Aucune.
 	///
 	//////////////////////////////////////////////////////////////////////// 
-	void ProjectionPerspective::zoomerOut(double increment) 
+	void ProjectionPerspective::zoomerOut(float increment) 
 	{
-		/*double incrementZoom = increment;
-		double	deltaX = (xMaxFenetre_- xMinFenetre_),
+		/*float incrementZoom = increment;
+		float	deltaX = (xMaxFenetre_- xMinFenetre_),
 				deltaY = (yMaxFenetre_- yMinFenetre_);
 		if(increment == 0)
 		{
@@ -142,7 +142,7 @@ namespace vue {
 		ajusterRapportAspect(); // Ajoute
 		mettreAJourProjection();*/
 
-		/*double incrementZoom = increment;
+		/*float incrementZoom = increment;
 		xMinFenetre_ -= incrementZoom*0.05;
 		xMaxFenetre_ += incrementZoom*0.05;
 		yMinFenetre_ -= incrementZoom*0.05;
@@ -211,7 +211,7 @@ namespace vue {
 			
 		}*/
 		
-// 		double aspect = (xMaxFenetre_-xMinFenetre_)/(yMaxFenetre_-yMinFenetre_);
+// 		float aspect = (xMaxFenetre_-xMinFenetre_)/(yMaxFenetre_-yMinFenetre_);
 // 		xMinFenetre_-=10;
 // 		xMaxFenetre_+=10;
 // 		yMinFenetre_-=10;
@@ -272,15 +272,15 @@ namespace vue {
 		/*
 
 		Vecteur2 coin1Virtuelle = convertirClotureAVirtuelle(coin1), coin2Virtuelle = convertirClotureAVirtuelle(coin2);
-		double	nouveauXMin = min(coin1Virtuelle[VX],coin2Virtuelle[VX]),
+		float	nouveauXMin = min(coin1Virtuelle[VX],coin2Virtuelle[VX]),
 				nouveauXMax = max(coin1Virtuelle[VX],coin2Virtuelle[VX]),
 				nouveauYMin = min(coin1Virtuelle[VY],coin2Virtuelle[VY]),
 				nouveauYMax = max(coin1Virtuelle[VY],coin2Virtuelle[VY]);
 
-		double longueurRectangleX = nouveauXMax - nouveauXMin;
-		double centreX = longueurRectangleX/2.0+nouveauXMin;
-		double longueurRectangleY = nouveauYMax - nouveauYMin;
-		double centreY = longueurRectangleY/2.0+nouveauYMin;
+		float longueurRectangleX = nouveauXMax - nouveauXMin;
+		float centreX = longueurRectangleX/2.0+nouveauXMin;
+		float longueurRectangleY = nouveauYMax - nouveauYMin;
+		float centreY = longueurRectangleY/2.0+nouveauYMin;
 		
 		if(centreX < -ZoneEdition_old::LIMITE_EXT_LONGUEUR-50 || centreX > ZoneEdition_old::LIMITE_EXT_LONGUEUR+50 || centreY <-ZoneEdition_old::LIMITE_EXT_LARGEUR-50 || centreY > ZoneEdition_old::LIMITE_EXT_LARGEUR+50)
 			return;
@@ -325,26 +325,26 @@ namespace vue {
 	{
 		// A IMPLEMENTER
  		/*Vecteur2 coin1Virtuelle = convertirClotureAVirtuelle(coin1), coin2Virtuelle = convertirClotureAVirtuelle(coin2);
-		double	nouveauXMin = min(coin1Virtuelle[VX],coin2Virtuelle[VX]),
+		float	nouveauXMin = min(coin1Virtuelle[VX],coin2Virtuelle[VX]),
 			nouveauXMax = max(coin1Virtuelle[VX],coin2Virtuelle[VX]),
 			nouveauYMin = min(coin1Virtuelle[VY],coin2Virtuelle[VY]),
 			nouveauYMax = max(coin1Virtuelle[VY],coin2Virtuelle[VY]);
 
 		Vecteur2 lDepart = obtenirDimensionFenetre();
 		Vecteur2 lFin;
-		double lDessinerX = nouveauXMax - nouveauXMin;
+		float lDessinerX = nouveauXMax - nouveauXMin;
 		lFin[VX] = lDepart[VX]*lDepart[VX]/lDessinerX;
-		double centreX = (xMinFenetre_+xMaxFenetre_)/2.0;
-		double lDessinerY = nouveauYMax - nouveauYMin;
+		float centreX = (xMinFenetre_+xMaxFenetre_)/2.0;
+		float lDessinerY = nouveauYMax - nouveauYMin;
 		lFin[VY] = lDepart[VY]*lDepart[VY]/lDessinerY;
-		double centreY = (yMinFenetre_+yMaxFenetre_)/2.0;
+		float centreY = (yMinFenetre_+yMaxFenetre_)/2.0;
 
 
 		if( lFin[VX] > zoomOutMax_)
 		{
 			lFin[VX] = zoomOutMax_;
 		}
-		double variation = (lFin[VX]-lDepart[VX])/2.0;
+		float variation = (lFin[VX]-lDepart[VX])/2.0;
 		xMinFenetre_ = centreX-(lFin[VX]/2.0);
 		xMaxFenetre_ = centreX+(lFin[VX]/2.0);
 
@@ -366,7 +366,7 @@ namespace vue {
 
 	////////////////////////////////////////////////////////////////////////
 	///
-	/// @fn void ProjectionPerspective::translater( double deplacementX, double deplacementY )
+	/// @fn void ProjectionPerspective::translater( float deplacementX, float deplacementY )
 	///
 	/// Permet de déplacer la fenêtre virtuelle en @a x et en @a y.  Les
 	/// déplacement doivent être exprimés en proportion de la fenêtre virtuelle.
@@ -377,7 +377,7 @@ namespace vue {
 	/// @return Aucune.
 	///
 	////////////////////////////////////////////////////////////////////////
-	void ProjectionPerspective::translater( double deplacementX, double deplacementY )
+	void ProjectionPerspective::translater( float deplacementX, float deplacementY )
 	{
 		/*if( (deplacementX < 0 || xMaxFenetre_-deplacementX > - ZoneEdition_old::LIMITE_EXT_LONGUEUR+50) && (deplacementX > 0 || xMinFenetre_-deplacementX < ZoneEdition_old::LIMITE_EXT_LONGUEUR-50))
 		{
@@ -479,22 +479,22 @@ namespace vue {
 	{
 
 
-		double rapportXYCloture = (double)dimentionCloture[0] / (double)dimentionCloture[1],
+		float rapportXYCloture = (float)dimentionCloture[0] / (float)dimentionCloture[1],
 			rapportXYFenetre = dimentionFenetre[VX] / dimentionFenetre[VY];
 
 		if( (rapportXYFenetre > rapportXYCloture) == diminuerLongueur )
 		{
-			double nouvelleLongueurXFenetre = rapportXYCloture*dimentionFenetre[VY];
-			double centreX = (xMaxFenetre_ + xMinFenetre_)/2.0;
-			xMinFenetre_ = centreX-nouvelleLongueurXFenetre/2.0;
-			xMaxFenetre_ = centreX+nouvelleLongueurXFenetre/2.0;
+			float nouvelleLongueurXFenetre = rapportXYCloture*dimentionFenetre[VY];
+			float centreX = (xMaxFenetre_ + xMinFenetre_)/2.0f;
+			xMinFenetre_ = centreX-nouvelleLongueurXFenetre/2.0f;
+			xMaxFenetre_ = centreX+nouvelleLongueurXFenetre/2.0f;
 		}
 		else
 		{
-			double nouveauYFenetre = dimentionFenetre[VX]/rapportXYCloture;
-			double centreY = (yMaxFenetre_ + yMinFenetre_)/2.0;
-			yMinFenetre_ = centreY-nouveauYFenetre/2.0;
-			yMaxFenetre_ = centreY+nouveauYFenetre/2.0;
+			float nouveauYFenetre = dimentionFenetre[VX]/rapportXYCloture;
+			float centreY = (yMaxFenetre_ + yMinFenetre_)/2.0f;
+			yMinFenetre_ = centreY-nouveauYFenetre/2.0f;
+			yMaxFenetre_ = centreY+nouveauYFenetre/2.0f;
 			//angleOuverture_ = 360.0*atan((yMaxFenetre_-yMinFenetre_)/(2.0*zAvant_))/3.141592;
 
 		}
@@ -505,7 +505,7 @@ namespace vue {
 
 	////////////////////////////////////////////////////////////////////////
 	///
-	/// @fn void ProjectionPerspective::convertirClotureAVirtuelle( int i, int j, double& x, double& y ) const 
+	/// @fn void ProjectionPerspective::convertirClotureAVirtuelle( int i, int j, float& x, float& y ) const 
 	///
 	/// Permet de calculer les coordonnées dans l'espace virtuel d'un point
 	/// specifié en coordonnées d'affichage.  Utilise le calcul des rapports.
@@ -520,8 +520,8 @@ namespace vue {
 	////////////////////////////////////////////////////////////////////////
 	void ProjectionPerspective::convertirClotureAVirtuelle( int i,
 		int j,
-		double& x,
-		double& y ) const
+		float& x,
+		float& y ) const
 	{
 		Vecteur2 v = convertirClotureAVirtuelle(Vecteur2i(i,j));
 		x = v[VX];
@@ -602,8 +602,8 @@ namespace vue {
 	////////////////////////////////////////////////////////////////////////
 	void ProjectionPerspective::centrerAZero()
 	{
-		/*double largeur = xMaxFenetre_ - xMinFenetre_;
-		double hauteur = yMaxFenetre_ - yMinFenetre_;
+		/*float largeur = xMaxFenetre_ - xMinFenetre_;
+		float hauteur = yMaxFenetre_ - yMinFenetre_;
 		xMaxFenetre_ = largeur/2;
 		xMinFenetre_ = -largeur/2;
 		yMaxFenetre_ = hauteur/2;

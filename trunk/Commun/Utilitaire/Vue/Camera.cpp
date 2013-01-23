@@ -55,7 +55,7 @@ namespace vue {
 
    ////////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void Camera::deplacerXY( double deplacementX, double deplacementY )
+   /// @fn void Camera::deplacerXY( float deplacementX, float deplacementY )
    ///
    /// Déplace la caméra dans le plan perpendiculaire à la direction visée
    ///
@@ -67,7 +67,7 @@ namespace vue {
    /// @return Aucune.
    ///
    ////////////////////////////////////////////////////////////////////////////
-   void Camera::deplacerXY(double deplacementX, double deplacementY, bool avecPointVise)
+   void Camera::deplacerXY(float deplacementX, float deplacementY, bool avecPointVise)
    {
 	   /*position_[VX]+=deplacementX;
 	   position_[VY]+=deplacementY;
@@ -93,7 +93,7 @@ namespace vue {
 
    ////////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void Camera::deplacerZ( double deplacement, bool bougePointVise )
+   /// @fn void Camera::deplacerZ( float deplacement, bool bougePointVise )
    ///
    /// Déplace la caméra dans l'axe de la direction visée.
    ///
@@ -104,10 +104,10 @@ namespace vue {
    /// @return Aucune.
    ///
    ////////////////////////////////////////////////////////////////////////////
-   void Camera::deplacerZ(double deplacement, bool bougePointVise, bool avecPointVise)
+   void Camera::deplacerZ(float deplacement, bool bougePointVise, bool avecPointVise)
    {
-	   double nouvellePosition = position_[VZ]+deplacement;
-	   double distanceCentre = (position_-pointVise_).norme();
+	   float nouvellePosition = position_[VZ]+deplacement;
+	   float distanceCentre = (position_-pointVise_).norme();
 	   if(nouvellePosition>20.0/* && distanceCentre<2000.0*/)
 	   {
 		   position_[VZ] = nouvellePosition;
@@ -131,7 +131,7 @@ namespace vue {
    void Camera::deplacerXYZ( Vecteur3 deplacement, bool avecPointVise )
    {
 	   Vecteur3 nouvellePosition = position_+deplacement;
-	   double distanceCentre = (position_-pointVise_).norme();
+	   float distanceCentre = (position_-pointVise_).norme();
 	   if(nouvellePosition[VZ]>20.0/* && distanceCentre<2000.0*/)
 	   {
 		   position_ = nouvellePosition;
@@ -144,7 +144,7 @@ namespace vue {
 
    ////////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void Camera::tournerXY( double rotationX, double rotationY, bool empecheInversion )
+   /// @fn void Camera::tournerXY( float rotationX, float rotationY, bool empecheInversion )
    ///
    /// Rotation de la caméra autour de sa position (et donc déplacement du
    /// point visé en gardant la position fixe.
@@ -160,27 +160,27 @@ namespace vue {
    /// @return Aucune.
    ///
    ////////////////////////////////////////////////////////////////////////////
-   void Camera::tournerXY(double rotationX,
-                          double rotationY,
+   void Camera::tournerXY(float rotationX,
+                          float rotationY,
                           bool   empecheInversion //=true
                           )
    {
 	   // Deplacer le point viser pour donner l'illusion que la camera tourne sur elle meme
 
 	   // On calcule le rayon courant
-	   double r = (pointVise_-position_).norme();
+	   float r = (pointVise_-position_).norme();
 	   // On calcule les angles courants
-	   double theta = atan2(position_[VY]-(pointVise_)[VY],position_[VX]-(pointVise_)[VX]);
-	   double phi = acos((position_[VZ]-(pointVise_)[VZ])/r);
+	   float theta = atan2(position_[VY]-(pointVise_)[VY],position_[VX]-(pointVise_)[VX]);
+	   float phi = acos((position_[VZ]-(pointVise_)[VZ])/r);
 	   // On effectue la modification des angles
 	   theta-=rotationX;
-	   double phiTemp = phi-rotationY;
-	   phi = CLIP(phiTemp, 0.00001, M_PI); // On limite la rotation sur cet axe
+	   float phiTemp = phi-rotationY;
+	   phi = CLIP(phiTemp, 0.00001f, (float)M_PI); // On limite la rotation sur cet axe
 	   
 	   // On calcule la nouvelle position et on l'applique
-	   double dx = r*cos(theta)*sin(phi);
-	   double dy = r*sin(theta)*sin(phi);
-	   double dz = r*cos(phi);
+	   float dx = r*cos(theta)*sin(phi);
+	   float dy = r*sin(theta)*sin(phi);
+	   float dz = r*cos(phi);
 	   Vecteur3 nouvellePosition(dx, dy, dz);
 	   pointVise_ = position_-nouvellePosition;
 
@@ -191,7 +191,7 @@ namespace vue {
 
    ////////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void Camera::orbiterXY( double rotationX, double rotationY, bool empecheInversion )
+   /// @fn void Camera::orbiterXY( float rotationX, float rotationY, bool empecheInversion )
    ///
    /// Rotation de la caméra autour de son point de visé (et donc déplacement
    /// de la position en gardant le point de visé fixe.
@@ -204,26 +204,26 @@ namespace vue {
    ///  @return Aucune.
    ///
    ////////////////////////////////////////////////////////////////////////////
-   void Camera::orbiterXY(double rotationX,
-                          double rotationY
+   void Camera::orbiterXY(float rotationX,
+                          float rotationY
                           )
    {
 	   // On calcule le rayon courant
-	   double r = (pointVise_-position_).norme();
+	   float r = (pointVise_-position_).norme();
 	   // On calcule les angles courants
-	   double theta = atan2(position_[VY]-(pointVise_)[VY],position_[VX]-(pointVise_)[VX]);
-	   double phi = acos((position_[VZ]-(pointVise_)[VZ])/r);
+	   float theta = atan2(position_[VY]-(pointVise_)[VY],position_[VX]-(pointVise_)[VX]);
+	   float phi = acos((position_[VZ]-(pointVise_)[VZ])/r);
 	   // On effectue la modification des angles
 	   theta-=rotationX;
-	   double phiTemp = phi-rotationY;
-	   phi = CLIP(phiTemp, 0.000001, M_PI/2.0); // On limite la rotation sur cet axe
+	   float phiTemp = phi-rotationY;
+	   phi = CLIP(phiTemp, 0.000001f, (float)M_PI/2.0f); // On limite la rotation sur cet axe
 	   // On calcule la nouvelle position et on l'applique
-	   double dx = r*cos(theta)*sin(phi);
-	   double dy = r*sin(theta)*sin(phi);
-	   double dz = r*cos(phi);
+	   float dx = r*cos(theta)*sin(phi);
+	   float dy = r*sin(theta)*sin(phi);
+	   float dz = r*cos(phi);
 	   Vecteur3 nouvellePosition(dx, dy, dz);
-	   double distanceCentre = (position_-pointVise_).norme();
-	   if(nouvellePosition[VZ]>20.0/* && distanceCentre<2000.0*/)
+	   float distanceCentre = (position_-pointVise_).norme();
+	   if(nouvellePosition[VZ]>20.0f/* && distanceCentre<2000.0*/)
 	   {
 		   position_ = nouvellePosition+pointVise_;
 
