@@ -154,7 +154,7 @@ public:
 
 	/// Accesseur et modificateur pour le terrain
 	std::string obtenirCheminTerrain() const;
-	void modifierTerrain(const std::string terrain);
+	void setFieldName(const std::string terrain);
 
 	/// Retourne le gagnant de la partie
 	SPJoueurAbstrait obtenirGagnant() const;
@@ -164,6 +164,18 @@ public:
 	bool estPret() const {return estPret_;}
 
 	float obtenirTempsJeu(){ return tempsJeu_.Elapsed_Time_sec(); }
+    ////////////////////////////////////////////////////////////////////////
+    ///
+    /// @fn void SignalGameOver()
+    ///
+    /// /*Description*/
+    ///
+    /// @param[in] 
+    ///
+    /// @return void
+    ///
+    ////////////////////////////////////////////////////////////////////////
+    void SignalGameOver();
 };
 
 ///////////////////////////////////////////////////////////////////////////////

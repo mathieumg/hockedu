@@ -28,7 +28,7 @@ const std::string JoueurAbstrait::etiquetteType = "Type";
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-JoueurAbstrait::JoueurAbstrait(const std::string& nom): nom_(nom)
+JoueurAbstrait::JoueurAbstrait(const std::string& nom): nom_(nom), mControlingMallet(NULL)
 {}
 
 ////////////////////////////////////////////////////////////////////////

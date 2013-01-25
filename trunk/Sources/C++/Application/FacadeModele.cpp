@@ -30,10 +30,11 @@
 #include "Projection.h"
 #include "LignePointillee.h"
 
-#include "Box2D/Box2D.h"
+#if BOX2D_INTEGRATED  
+#include <Box2D/Box2D.h>
+#endif
 #include "Utilitaire.h"
 #include "AideGL.h"
-#include "ArbreRenduINF2990.h"
 #include "CompteurAffichage.h"
 #include "ConfigScene.h"
 
@@ -91,8 +92,6 @@ const std::string FacadeModele::FICHIER_TERRAIN_EN_COURS = "MapEnCours.xml";
 const std::string FacadeModele::FICHIER_JOUEURS = "joueurs.xml";
 
 int FacadeModele::anglePause_ = 0;
-Vecteur3 virtualMousePos;
-b2Vec2 virtualMousePosB2;
 HUDTexte* debugInfo;
 
 //DebugDraw __debugDraw;
@@ -253,11 +252,6 @@ FacadeModele::FacadeModele()
     mWorld->SetDebugDraw(mDebugRenderBox2D);
     mDebugRenderBox2D->AppendFlags(b2Draw::e_shapeBit);
     NoeudAbstrait::setWorld(mWorld);
-
-    // body bidon pour lier la souris au maillet
-    b2BodyDef bodyDef;
-    mMouseBody = mWorld->CreateBody(&bodyDef);
-    mMouseJoint = NULL;
 #endif
 
 }
@@ -284,6 +278,7 @@ FacadeModele::~FacadeModele()
 		delete boiteEnvironnement;
 		boiteEnvironnement=0;
 	}
+#if BOX2D_INTEGRATED  
     if(mWorld)
     {
         delete mWorld;
@@ -291,6 +286,7 @@ FacadeModele::~FacadeModele()
     }
     delete mDebugRenderBox2D;
     mDebugRenderBox2D = NULL;
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -348,7 +344,7 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
 {
 	hWnd_ = hWnd;
 	bool succes = aidegl::creerContexteGL(hWnd_, hDC_, hGLRC_);
-	assert(succes);
+	checkf(succes);
 
     InitOpenGLContext();
 
@@ -866,19 +862,6 @@ void FacadeModele::afficher( )
 //     }
 //     glEnd();
 
-    if (mMouseJoint)
-    {
-        b2Vec2 p1 = mMouseJoint->GetAnchorB();
-        b2Vec2 p2 = mMouseJoint->GetTarget();
-
-        b2Color c;
-        c.Set(0.0f, 1.0f, 0.0f);
-        mDebugRenderBox2D->DrawPoint(p1, 4.0f, c);
-        mDebugRenderBox2D->DrawPoint(p2, 4.0f, c);
-
-        c.Set(0.8f, 0.8f, 0.8f);
-        mDebugRenderBox2D->DrawSegment(p1, p2, c);
-    }
 
     // Restauration de la matrice.
     glPopAttrib();
@@ -1161,25 +1144,27 @@ void FacadeModele::modifierVariableZoomElastique(bool actif, Vecteur2i coin1, Ve
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageModeEdition()
 {
-#if BOX2D_INTEGRATED
-    if(mMouseJoint)
-    {
-        mWorld->DestroyJoint(mMouseJoint);
-        mMouseJoint = NULL;
-    }
+#if BOX2D_INTEGRATED  
+    mWorld->SetContactListener(NULL);
 #endif
 	// Indique que nous ne somme plus en train de jouer le tournoi
 	if(tournoi_)
 		tournoi_->modifierEstEnCours(false);
+    if(partieCourante_)
+    {
+        if(!partieCourante_->faitPartieDunTournoi())
+        {
+            delete partieCourante_;
+        }
+    }
+    partieCourante_ = 0;
+
 	if(enJeu_)
 	{
 		chargerTerrain();
 	}
 	else
 		terrain_->initialiser(FICHIER_TERRAIN_EN_COURS);
-	if(partieCourante_ && !partieCourante_->faitPartieDunTournoi())
-		delete partieCourante_;
-	partieCourante_ = 0;
 
 	enJeu_ = false;
 	for (int i = 0; i < 8 ; i++)
@@ -1205,20 +1190,37 @@ bool FacadeModele::passageModeEdition()
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageModeTournoi()
 {
-#if BOX2D_INTEGRATED
-    if(mMouseJoint)
-    {
-        mWorld->DestroyJoint(mMouseJoint);
-        mMouseJoint = NULL;
-    }
+#ifdef WIN32
+    static auto loadingCursor = LoadCursor(NULL,IDC_WAIT);
+    auto NormalCursor = GetCursor();
+    SetCursor(loadingCursor);
 #endif
+
+    // Attend que tous les modeles soit charger
+    while(GestionnaireModeles::obtenirInstance()->isStillLoadingModel()){}
+
+#ifdef WIN32
+    SetCursor(NormalCursor);
+#endif
+
+#if BOX2D_INTEGRATED  
+    mWorld->SetContactListener(getTerrain());
+#endif
+
+    FullRebuild();
+
 	if(!tournoi_)
 	{
 		utilitaire::afficherErreur("Le modele ne contient pas de tournoi a jouer");
 		return false;
 	}
-	if(partieCourante_ && !partieCourante_->faitPartieDunTournoi())
-		delete partieCourante_;
+    if(partieCourante_)
+    {
+        if(!partieCourante_->faitPartieDunTournoi())
+        {
+            delete partieCourante_;
+        }
+    }
 
 	GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
 	partieCourante_ = tournoi_->obtenirPartieCourante();
@@ -1299,8 +1301,22 @@ bool FacadeModele::passageModeJeu()
 // 		return false;
 // 	}
 
+#ifdef WIN32
+    static auto loadingCursor = LoadCursor(NULL,IDC_WAIT);
+    auto NormalCursor = GetCursor();
+    SetCursor(loadingCursor);
+#endif
+
     // Attend que tous les modeles soit charger
     while(GestionnaireModeles::obtenirInstance()->isStillLoadingModel()){}
+
+#ifdef WIN32
+    SetCursor(NormalCursor);
+#endif
+
+#if BOX2D_INTEGRATED  
+    mWorld->SetContactListener(getTerrain());
+#endif
 
     FullRebuild();
 
@@ -1313,7 +1329,7 @@ bool FacadeModele::passageModeJeu()
 		adversaire_ = SPJoueurAbstrait(new JoueurHumain("Joueur Droit"));
 	partieCourante_ = new Partie(SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")),adversaire_);
 	//partieCourante_ = new Partie(new JoueurVirtuel("Joueur Gauche",225),new JoueurVirtuel("Joueur Droit",225));
-	partieCourante_->modifierTerrain(FICHIER_TERRAIN_EN_COURS);
+	partieCourante_->setFieldName(FICHIER_TERRAIN_EN_COURS);
     auto mailletGauche = obtenirMailletJoueurGauche(), mailletDroit = obtenirMailletJoueurDroit();
 	try
 	{
@@ -1339,21 +1355,6 @@ bool FacadeModele::passageModeJeu()
 	obtenirVue()->obtenirProjection().centrerAZero();
 	obtenirVue()->obtenirProjection().mettreAJourProjection();
 
-#if BOX2D_INTEGRATED
-    if(!mMouseJoint)
-    {
-        b2Body* body = mailletGauche->getPhysicBody();
-        b2MouseJointDef md;
-        md.bodyA = mMouseBody;
-        md.bodyB = body;
-        Vecteur3 pos = mailletGauche->obtenirPositionAbsolue();
-        utilitaire::VEC3_TO_B2VEC(pos,md.target);
-        md.maxForce = 10000.0f * body->GetMass();
-        md.dampingRatio = 0;
-        md.frequencyHz = 100;
-        mMouseJoint = (b2MouseJoint*)mWorld->CreateJoint(&md);
-    }
-#endif
 	return true;
 }
 
@@ -1368,20 +1369,22 @@ bool FacadeModele::passageModeJeu()
 ////////////////////////////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageMenuPrincipal()
 {
-#if BOX2D_INTEGRATED
-    if(mMouseJoint)
-    {
-        mWorld->DestroyJoint(mMouseJoint);
-        mMouseJoint = NULL;
-    }
+#if BOX2D_INTEGRATED  
+    mWorld->SetContactListener(NULL);
 #endif
 	// Indique que nous ne somme plus en train de jouer le tournoi
 	if(tournoi_)
 		tournoi_->modifierEstEnCours(false);
 
-	if(partieCourante_ && !partieCourante_->faitPartieDunTournoi())
-		delete partieCourante_;
+    if(partieCourante_)
+    {
+        if(!partieCourante_->faitPartieDunTournoi())
+        {
+            delete partieCourante_;
+        }
+    }
 	partieCourante_ = 0;
+
 	enJeu_ = false;
 	obtenirArbreRenduINF2990()->deselectionnerTout();
 	return true;
@@ -2522,22 +2525,7 @@ NoeudAffichage* FacadeModele::obtenirDecompte()
 void FacadeModele::MouseMove( EvenementSouris& evenementSouris )
 {
 #if BOX2D_INTEGRATED
-    if(mMouseJoint)
-    {
-        b2Vec2 reactionforce = mMouseJoint->GetReactionForce(1);
-        static float damping = mMouseJoint->GetDampingRatio();
-        static float frequency = mMouseJoint->GetFrequency() ;
-        static float force = mMouseJoint->GetMaxForce() ;
-        if(mMouseJoint->GetDampingRatio() != damping)
-            mMouseJoint->SetDampingRatio(damping);
-        if(mMouseJoint->GetFrequency() != frequency)
-            mMouseJoint->SetFrequency(frequency);
-        if(mMouseJoint->GetMaxForce() != force)
-            mMouseJoint->SetMaxForce(force);
-        convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX],evenementSouris.obtenirPosition()[VY],virtualMousePos);
-        utilitaire::VEC3_TO_B2VEC(virtualMousePos,virtualMousePosB2);
-        mMouseJoint->SetTarget(virtualMousePosB2);
-    }
+
 #endif
 }
 
@@ -2562,7 +2550,7 @@ void FacadeModele::FullRebuild()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void FacadeModele::RunOnUIThread( Runnable* run )
+/// @fn void FacadeModele::RunOnRenderThread( Runnable* run )
 ///
 /// /*Description*/
 ///
@@ -2571,9 +2559,9 @@ void FacadeModele::FullRebuild()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void FacadeModele::RunOnUIThread( Runnable* run )
+void FacadeModele::RunOnRenderThread( Runnable* run, bool pForceQueue /*= false*/ )
 {
-    if(mUpdating)
+    if(mUpdating || pForceQueue)
     {
         mUIRunnables.push(run);
     }
@@ -2602,9 +2590,9 @@ void FacadeModele::RunOnUIThread( Runnable* run )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void FacadeModele::RunOnUpdateThread( Runnable* run )
+void FacadeModele::RunOnUpdateThread( Runnable* run, bool pForceQueue /*= false*/ )
 {
-    if(mRendering)
+    if(mRendering || pForceQueue)
     {
         mUpdateRunnables.push(run);
     }

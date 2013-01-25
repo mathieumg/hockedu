@@ -47,6 +47,10 @@ public:
 	/// Permet d'obtenir un pointeur sur un joueur à partir d'un élément XML, pointeur null si echec
 	static SPJoueurAbstrait usineJoueurXML(const TiXmlElement* element, ConteneurJoueur* profilsExistant = 0);
 
+    /// Accessors of mControlingMallet
+    inline class NoeudMaillet* getControlingMallet() const { return mControlingMallet; }
+    inline void setControlingMallet(class NoeudMaillet* pVal) { mControlingMallet = pVal; }
+
 protected:
 	/// Le type du joueur (humain ou virtuel)
 	TypeJoueur type_;
@@ -57,6 +61,11 @@ private:
 	std::string nom_;
 	/// Outils pour connaitre le nom d'un joueur contenu dans un noeud XML
 	static std::string extraireNomXmlNode(const TiXmlElement* element);
+
+    class NoeudMaillet* mControlingMallet;
+
+    
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////

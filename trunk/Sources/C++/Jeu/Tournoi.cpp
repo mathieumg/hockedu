@@ -147,7 +147,7 @@ bool Tournoi::initialisation( const JoueursParticipant& joueurs, const std::stri
 	// On assigne le terrain au parties
 	for (unsigned int i = 0; i < nbrParties_ ; i++)
 	{
-		parties_[i].modifierTerrain(terrain);
+		parties_[i].setFieldName(terrain);
 		parties_[i].modifierFaitPartieDunTournoi(true);
 	}
 	return true;

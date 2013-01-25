@@ -11,6 +11,7 @@
 #define __ARBRE_NOEUDS_NOEUDABSTRAIT_H__
 
 #define _USE_MATH_DEFINES
+#include "UtilitaireINF2990.h"
 #include <math.h>
 #include <windows.h>
 #include "glew.h"
@@ -18,6 +19,7 @@
 #include "VisiteurNoeud.h"
 #include "Animation.h"
 #include "ObjetAnimable.h"
+
 
 //Foward Declaration
 class NoeudComposite;
@@ -28,7 +30,7 @@ class Modele3D;
 class Terrain;
 
 // max of 16 categories because box2D flag have only 16 bits
-enum PhyhicsCategory
+enum PhysicsCategory
 {
     CATEGORY_NONE     = 0x0000,
     CATEGORY_BOUNDARY = 0x0001,

@@ -21,6 +21,13 @@ class TiXmlElement;
 class NoeudAbstrait;
 class TerrainTest;
 
+#if BOX2D_INTEGRATED
+#include "Box2D\Dynamics\b2WorldCallbacks.h"
+class b2Contact;
+struct b2ContactImpulse;
+struct b2Manifold;
+#endif
+
 ///////////////////////////////////////////////////////////////////////////
 /// @class Terrain
 /// @brief Objet contenant les éléments d'un terrain de jeu permettant de l'afficher,
@@ -32,11 +39,14 @@ class TerrainTest;
 /// @date 2012-03-19
 ///////////////////////////////////////////////////////////////////////////
 class Terrain
+#if BOX2D_INTEGRATED 
+    : public b2ContactListener 
+#endif
 {
 public:
 	friend TerrainTest;
 	Terrain();
-	~Terrain();
+	virtual ~Terrain();
 
 	/// Permet d'effectuer le rendu des arbres du terrain
 	void afficherTerrain(bool afficherZoneEdition = false);
@@ -69,6 +79,19 @@ public:
 	/// Applique la physique sur l'arbre de rendu contenant les noeuds de la table
 	void appliquerPhysique( float temps );
 
+#if BOX2D_INTEGRATED
+    /// Callback before the contact between 2 fixtures
+    virtual void BeginContact( b2Contact* contact );
+
+    /// Callback after the contact between 2 fixtures
+    virtual void EndContact( b2Contact* contact );
+
+    /// Callback before the solving the contact between 2 fixtures
+    virtual void PreSolve( b2Contact* contact, const b2Manifold* oldManifold );
+
+    /// Callback after the solving the contact between 2 fixtures
+    virtual void PostSolve( b2Contact* contact, const b2ContactImpulse* impulse );
+#endif
 
 /// Private Methods
 private:

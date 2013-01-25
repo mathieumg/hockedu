@@ -14,7 +14,9 @@
 #include "DecodeString.h"
 #include "Singleton.h"
 #include "XMLUtils.h"
-#include "Box2D/Box2D.h"
+#if BOX2D_INTEGRATED  
+#include <Box2D/Box2D.h>
+#endif
 #include "Utilitaire.h"
 
 GLuint NoeudAbstrait::compteurIdGl_ = 1;
@@ -626,10 +628,12 @@ void NoeudAbstrait::assignerParent( NoeudComposite* parent )
 void NoeudAbstrait::assignerAngle( const float& angle )
 {
 	mAngle = angle;
+#if BOX2D_INTEGRATED  
     if(mPhysicBody)
     {
         mPhysicBody->SetTransform(mPhysicBody->GetPosition(),(float32)utilitaire::DEG_TO_RAD(mAngle));
     }
+#endif
 	updateMatrice();
 }
 
@@ -941,12 +945,14 @@ void NoeudAbstrait::modifierTerrain( Terrain* val )
 void NoeudAbstrait::assignerPositionRelative( const Vecteur3& positionRelative )
 {
     positionRelative_ = positionRelative;
+#if BOX2D_INTEGRATED  
     if(mPhysicBody)
     {
         b2Vec2 pos;
         utilitaire::VEC3_TO_B2VEC(positionRelative_,pos);
         mPhysicBody->SetTransform(pos,mPhysicBody->GetAngle());
     }
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -976,11 +982,13 @@ Modele3D* NoeudAbstrait::obtenirModele() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::clearPhysicsBody()
 {
+#if BOX2D_INTEGRATED  
     if(mPhysicBody && getWorld())
     {
         getWorld()->DestroyBody(mPhysicBody);
     }
     mPhysicBody = NULL;
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////

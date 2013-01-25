@@ -371,7 +371,7 @@ void GestionnaireModeles::initialiser()
     if(dataWorkerModel->glrc != NULL && wglShareLists(baseGlrc , dataWorkerModel->glrc))
     {
         mLoadingThread = CreateThread(NULL, 0, WorkerLoadModel, dataWorkerModel,NULL,&thId1);
-        FacadeModele::getInstance()->RunOnUIThread(new Runnable([=](Runnable* pRun){
+        FacadeModele::getInstance()->RunOnRenderThread(new Runnable([=](Runnable* pRun){
             DWORD exitCode;
             if(!IsThreadAlive(mLoadingThread,exitCode))
             {
@@ -448,7 +448,7 @@ DWORD WINAPI WorkerLoadModel( LPVOID arg )
         if(!wglMakeCurrent(data->dc,data->glrc))
         {
             aidegl::verifierErreurOpenGL();
-            wglDeleteContext(data->glrc);
+            //wglDeleteContext(data->glrc);
             delete data;
             return FALSE;
         }
@@ -468,7 +468,7 @@ DWORD WINAPI WorkerLoadModel( LPVOID arg )
         GLuint liste = GestionnaireModeles::CreerListe(modele);
 
         const string& key = modelInfo.mKey;
-        FacadeModele::getInstance()->RunOnUIThread(new Runnable([=](Runnable*) -> void {
+        FacadeModele::getInstance()->RunOnRenderThread(new Runnable([=](Runnable*) -> void {
             // les ajouter direct dans ce thread n'est pas bon car ca peut crasher si un read&write ce fait en meme temps
             GestionnaireModeles::obtenirInstance()->ajoutModele(key,modele);
             if(modelInfo.mbCreateList)
@@ -485,7 +485,7 @@ DWORD WINAPI WorkerLoadModel( LPVOID arg )
         tampon->vec.pop_back();
 	}
 	
-    wglDeleteContext(data->glrc);
+    //wglDeleteContext(data->glrc);
     delete data;
 
 	return TRUE;

@@ -26,7 +26,9 @@
 #include "NoeudGroupe.h"
 #include "Terrain.h"
 #include "NoeudPortail.h"
+#if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
+#endif
 #include "Utilitaire.h"
 #include "NoeudBut.h"
 
@@ -188,14 +190,14 @@ void NoeudRondelle::gestionCollision( const float& temps )
 					Vecteur3 distance(portail->obtenirPositionAbsolue()-obtenirPositionAbsolue());
 
 					// Collision
-					if(portail->champAttractionActive() && distance.norme() <= sommeRayon && nbEnfant > 1 )
+					if(portail->isAttractionFieldActive() && distance.norme() <= sommeRayon && nbEnfant > 1 )
 					{
 						// Choix aléatoire du portail de sortie
 						int noPortailDeSortie = 0;
 						while((noPortailDeSortie = rand()%nbEnfant) == i);
 
 						NoeudPortail* portailDeSortie = dynamic_cast<NoeudPortail*>(groupe->chercher(noPortailDeSortie));
-						portailDeSortie->modifierChampAttractionActif(false);
+						portailDeSortie->setIsAttractionFieldActive(false);
 						anciennePos_ = positionRelative_ = portailDeSortie->obtenirPositionRelative();
 						enfoncement_.remetAZero();
 						collision_ = false;
@@ -442,7 +444,7 @@ void NoeudRondelle::ajusterVitesse( const float& temps )
 				// La vitesse sera affectée seulement si la distance est plus petite que 50
 				if(distance.norme() <= 50)
 				{
-					if(portail->champAttractionActive())
+					if(portail->isAttractionFieldActive())
 					{
 						Vecteur3 ajustement = distance;
 						ajustement.normaliser();
@@ -454,9 +456,9 @@ void NoeudRondelle::ajusterVitesse( const float& temps )
 						mVelocite+= ajustement;
 					}
 				}
-				else if(!portail->champAttractionActive())
+				else if(!portail->isAttractionFieldActive())
 				{
-					portail->modifierChampAttractionActif(true);
+					portail->setIsAttractionFieldActive(true);
 				}
 					
 			}
@@ -592,8 +594,12 @@ void NoeudRondelle::updatePhysicBody()
     myFixtureDef.density = 0.02f;
     myFixtureDef.friction = 0.1f;
     myFixtureDef.restitution = 0.95f;
+
+    // Il s'agit ici d'une rondelle qui peut entre en collision avec un maillet, un mur, un portail ou un boost
     myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
-    myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY;
+    myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY | CATEGORY_PORTAL | CATEGORY_BOOST;
+    
+    
     mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
     mPhysicBody->SetUserData(this);
     mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
@@ -618,12 +624,6 @@ void NoeudRondelle::updatePhysicBody()
 #endif
 
 }
-
-
-
-
-
-
 
 
 ///////////////////////////////////////////////////////////////////////////////

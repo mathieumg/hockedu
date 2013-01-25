@@ -9,7 +9,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudPortail.h"
 #include "FacadeModele.h"
+#if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
+#endif
 #include "Utilitaire.h"
 
 ////////////////////////////////////////////////////////////////////////
@@ -25,7 +27,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudPortail::NoeudPortail(const std::string& typeNoeud)
-   : NoeudAbstrait(typeNoeud), champAttractionActif_(true)
+   : NoeudAbstrait(typeNoeud), mIsAttractionFieldActive(true)
 {   
 
    FacadeModele::getInstance()->ajouterElementSurTable(this);
@@ -141,8 +143,13 @@ void NoeudPortail::updatePhysicBody()
     b2FixtureDef myFixtureDef;
     myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
     myFixtureDef.density = 1;
-    myFixtureDef.filter.categoryBits = CATEGORY_NONE;
-    myFixtureDef.filter.maskBits = CATEGORY_NONE;
+
+    // Il s'agit ici d'un portail qui peut entré en collision avec une rondell
+    myFixtureDef.filter.categoryBits = CATEGORY_PORTAL;
+    myFixtureDef.filter.maskBits = CATEGORY_PUCK;
+
+    // Le sensor indique qu'on va recevoir la callback de collision avec la rondelle sans vraiment avoir de collision
+    myFixtureDef.isSensor = true;
 
     mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
     mPhysicBody->SetUserData(this);

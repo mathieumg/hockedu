@@ -58,6 +58,7 @@ pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurD
 ////////////////////////////////////////////////////////////////////////
 Partie::~Partie( void )
 {
+    SignalGameOver();
 	joueurGauche_.reset();
 	joueurDroit_.reset();
 	delete chiffres_;
@@ -141,14 +142,14 @@ std::string Partie::obtenirCheminTerrain() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void Partie::modifierTerrain( const std::string terrain )
+/// @fn void Partie::setFieldName( const std::string terrain )
 ///
 /// Modificateur du nom du terrain.
 ///
 /// @return Le nom du terrain.
 ///
 ////////////////////////////////////////////////////////////////////////
-void Partie::modifierTerrain( const std::string terrain )
+void Partie::setFieldName( const std::string terrain )
 {
 	terrain_ = terrain;
 }
@@ -336,31 +337,34 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
 	{
 		if(mailletGauche && mailletDroit && rondelle)
 		{
-			mailletGauche->assignerAGauche(true);
-			mailletDroit->assignerAGauche(false);
-			mailletGauche->controleParClavier(false);
+            joueurGauche_->setControlingMallet(mailletGauche);
+            joueurDroit_->setControlingMallet(mailletDroit);
+			mailletGauche->setIsLeft(true);
+			mailletDroit->setIsLeft(false);
+			mailletGauche->setKeyboardControlled(false);
 			if(joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
 			{
-				mailletGauche->modifierEstControleParOrdinateur(false);
-				
+				mailletGauche->setIsAI(false);
 			}
 			else
 			{
-				mailletGauche->modifierEstControleParOrdinateur(true);
+				mailletGauche->setIsAI(true);
 				
-				mailletGauche->assignerJoueurVirtuel((JoueurVirtuel*)joueurGauche_.get());
+				mailletGauche->setAIPlayer((JoueurVirtuel*)joueurGauche_.get());
 			}
 			if(joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
 			{
-				mailletDroit->modifierEstControleParOrdinateur(false);
+				mailletDroit->setIsAI(false);
 				// Si le maillet gauche est controller par lordinateur alors le maillet droit est controle par la souris
-				mailletDroit->controleParClavier(!mailletGauche->obtenirEstControleParOrdinateur());
+				mailletDroit->setKeyboardControlled(!mailletGauche->obtenirEstControleParOrdinateur());
 			}
 			else
 			{
-				mailletDroit->modifierEstControleParOrdinateur(true);
-				mailletDroit->assignerJoueurVirtuel((JoueurVirtuel*)joueurDroit_.get());
+				mailletDroit->setIsAI(true);
+				mailletDroit->setAIPlayer((JoueurVirtuel*)joueurDroit_.get());
 			}
+            mailletGauche->buildMouseJoint();
+            mailletDroit->buildMouseJoint();
 		}
 		else
 			throw std::logic_error("Tente d'assigner les controles a des maillets et/ou rondelle non valides");
@@ -673,6 +677,42 @@ PositionJoueur Partie::obtenirPositionGagant()
 	if(!partieTerminee())
 		return GAGNANT_AUCUN;
 	return pointsJoueurGauche_ > pointsJoueurDroit_ ? GAGNANT_GAUCHE : GAGNANT_DROITE;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Partie::SignalGameOver()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Partie::SignalGameOver()
+{
+    if(joueurGauche_)
+    {
+        NoeudMaillet* mailletGauche = joueurGauche_->getControlingMallet();
+
+        if(mailletGauche)
+        {
+            mailletGauche->destroyMouseJoint();
+        }
+
+        joueurGauche_->setControlingMallet(NULL);
+    }
+    if(joueurDroit_)
+    {
+        NoeudMaillet* mailletDroit = joueurDroit_->getControlingMallet();
+
+        if(mailletDroit)
+        {
+            mailletDroit->destroyMouseJoint();
+        }
+
+        joueurDroit_->setControlingMallet(NULL);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

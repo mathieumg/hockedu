@@ -269,10 +269,11 @@ void NoeudMuretRelatif::mettreAJourEchelleRotation()
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMuretRelatif::updatePosition( PositionSubject& pSubject )
+void NoeudMuretRelatif::updateObserver( PositionSubject& pSubject )
 {
     mettreAJourEchelleRotation();
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

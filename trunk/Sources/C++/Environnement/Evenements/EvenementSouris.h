@@ -10,7 +10,6 @@
 
 #pragma once
 
-#include <jni.h>
 #include "Vecteur.h"
 
 /// Type de bouton de la souris
@@ -30,8 +29,9 @@ enum BoutonSouris{
 class EvenementSouris
 {
 public:
+    EvenementSouris();
 	/// Constructeur par paramètre
-	EvenementSouris(JNIEnv* env, jobject& evenementSouris);
+	EvenementSouris(void* env, void* evenementSouris);
 	/// Constructeur par paramètre
 	EvenementSouris(Vecteur2i position,BoutonSouris bouton):position_(position),bouton_(bouton){}
 	/// Constructeur de copie
@@ -50,9 +50,6 @@ private:
 	Vecteur2i position_;
 	BoutonSouris bouton_;
 
-	/// Constructeur par défaut.  Déclaré mais non défini pour éviter qu'il soit
-	/// généré par le compilateur.
-	EvenementSouris();
 };
 
 ///////////////////////////////////////////////////////////////////////////////

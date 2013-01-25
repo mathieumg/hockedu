@@ -20,8 +20,9 @@
 #include "VisiteurDeplacement.h"
 #include <GL\glu.h>
 #include "XMLUtils.h"
-// doit inclure box2d avant utilitaire
-#include "Box2D/Box2D.h"
+#if BOX2D_INTEGRATED  
+#include <Box2D/Box2D.h>
+#endif
 #include "Utilitaire.h"
 
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
@@ -988,7 +989,7 @@ void NoeudTable::updatePhysicBody()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudTable::updatePosition( PositionSubject& pSubject )
+void NoeudTable::updateObserver( PositionSubject& pSubject )
 {
     updatePhysicBody();
 }

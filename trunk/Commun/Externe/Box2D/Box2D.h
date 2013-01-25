@@ -20,9 +20,6 @@
 #define BOX2D_H
 
 
-#define BOX2D_INTEGRATED 1
-#define BOX2D_DEBUG 1
-
 /**
 \mainpage Box2D API Documentation
 
@@ -34,6 +31,7 @@ For discussion please visit http://box2d.org/forum
 */
 
 // These include files constitute the main Box2D API
+
 
 #include <Box2D/Common/b2Settings.h>
 #include <Box2D/Common/b2Draw.h>

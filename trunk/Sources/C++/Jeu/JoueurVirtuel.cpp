@@ -64,7 +64,7 @@ JoueurVirtuel::JoueurVirtuel( JNIEnv* env, jobject& joueurVirtuel ) : JoueurAbst
 	jint probabiliteEchec = env->CallIntMethod(joueurVirtuel, obtenirProbabiliteEchec);
 
 	// Modification des attributs
-	modifierNom(utilitaire::obtenirChaineISO(env, nom));
+	modifierNom(utilitaire::obtenirChaineISO(env, &nom));
 	vitesse_ = (unsigned int)(vitesse/100.0*500.0);
 	probabiliteEchec_ = probabiliteEchec;
 	type_ = JOUEUR_VIRTUEL;

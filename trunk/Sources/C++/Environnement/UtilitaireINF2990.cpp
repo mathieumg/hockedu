@@ -9,6 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////
 #include "UtilitaireINF2990.h"
 
+#include <jni.h>
 
 namespace utilitaire {
 
@@ -27,8 +28,10 @@ namespace utilitaire {
    /// @return La chaîne C++.
    ///
    ////////////////////////////////////////////////////////////////////////
-   std::string obtenirChaineISO(JNIEnv* env, jstring chaine)
+   std::string obtenirChaineISO(void* envVoid, void* chaineVoid)
    {
+       JNIEnv* env = (JNIEnv*)envVoid;
+       jstring chaine = *(jstring*)chaineVoid;
       jclass classeString = env->FindClass("java/lang/String");
 
       jmethodID getBytes = env->GetMethodID(

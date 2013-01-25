@@ -7,6 +7,10 @@
 /// @addtogroup inf2990 INF2990
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
+#include "UtilitaireINF2990.h"
+#if BOX2D_INTEGRATED  
+#include <Box2D/Box2D.h>
+#endif
 
 #include "Terrain.h"
 #include "ArbreRenduINF2990.h"
@@ -24,7 +28,8 @@
 #include "NoeudPiece.h"
 #include "XMLUtils.h"
 #include "FacadeModele.h"
-#include "Box2D\Box2D.h"
+#include "NoeudAccelerateur.h"
+#include "NoeudPortail.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -723,6 +728,19 @@ void Terrain::appliquerPhysique( float temps )
 	if(arbreRendu_)
 	{
 #if BOX2D_INTEGRATED
+        /// TODO:: cache pointer to mallet for field to access directly
+        NoeudMaillet* mailletGauche = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
+        NoeudMaillet* mailletDroit = FacadeModele::getInstance()->obtenirMailletJoueurGauche();
+
+        if(mailletDroit)
+        {
+            mailletDroit->preSimulationActions();
+        }
+        if(mailletGauche)
+        {
+            mailletGauche->preSimulationActions();
+        }
+
         FacadeModele::getInstance()->getWorld()->SetWarmStarting(true);
         FacadeModele::getInstance()->getWorld()->SetContinuousPhysics(true);
         FacadeModele::getInstance()->getWorld()->SetSubStepping(true);
@@ -735,6 +753,205 @@ void Terrain::appliquerPhysique( float temps )
 #endif
 	}
 }
+
+#if BOX2D_INTEGRATED
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudRondelle::BeginContact( b2Contact* contact )
+///
+/// Callback before the contact between 2 fixtures
+///
+/// @param[in] b2Contact * contact
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::BeginContact( b2Contact* contact )
+{
+    bool isEnabled = contact->IsEnabled();
+    bool isTouching = contact->IsTouching();
+
+    auto fixtureA = contact->GetFixtureA();
+    auto fixtureB = contact->GetFixtureB();
+    auto bodyA = fixtureA->GetBody();
+    auto bodyB = fixtureB->GetBody();
+    auto filterA = fixtureA->GetFilterData();
+    auto filterB = fixtureB->GetFilterData();
+    short category = filterA.categoryBits | filterB.categoryBits;
+    bool isPuckPresent = !!(( category ) & CATEGORY_PUCK );
+
+    if(isPuckPresent)
+    {
+        // on ne conserve que l'autre categorie
+        category &= ~CATEGORY_PUCK;
+        b2Body* bodies[2];
+        if(filterA.categoryBits & CATEGORY_PUCK)
+        {
+            bodies[0] = bodyA;
+            bodies[1] = bodyB;
+        }
+        else
+        {
+            bodies[0] = bodyB;
+            bodies[1] = bodyA;
+        }
+
+
+        switch(category)
+        {
+        case CATEGORY_BOUNDARY:
+            // TODO:: à tester
+            if(bodies[0]->GetLinearVelocity().LengthSquared() > 200)
+                SoundFMOD::obtenirInstance()->playEffect(COLLISION_MURET_EFFECT);
+            break;
+            //     case CATEGORY_PUCK    : // impossible case
+            //         break;
+        case CATEGORY_MALLET  :
+            SoundFMOD::obtenirInstance()->playEffect(effect(COLLISION_MAILLET_EFFECT1+(rand()%5)));			
+            break;
+        case CATEGORY_PORTAL  :
+            {
+                NoeudPortail* portail = (NoeudPortail*)bodies[1]->GetUserData();
+                checkf(portail, "Portal's body's User Data is not the Portal");
+                
+                if(portail->isAttractionFieldActive())
+                {
+                    // Collision avec un portail et téléportation
+                    NoeudGroupe *groupe = dynamic_cast<NoeudGroupe *>(portail->obtenirParent());
+                    if(groupe)
+                    {
+                        unsigned int nbEnfant = groupe->obtenirNombreEnfants();
+
+                        if( nbEnfant > 1 )
+                        {
+                            // Choix aléatoire du portail de sortie
+                            NoeudPortail* portailDeSortie = NULL;
+                            while(!portailDeSortie || portailDeSortie == portail)
+                            {
+                                int noPortailDeSortie = rand()%nbEnfant;
+                                portailDeSortie = dynamic_cast<NoeudPortail*>(groupe->chercher(noPortailDeSortie));
+                            }
+
+                            NoeudRondelle* rondelle = (NoeudRondelle*)bodies[0]->GetUserData();
+
+                            // The new pos can only be assigned outside of the world's step, so we queue it
+                            FacadeModele::getInstance()->RunOnUpdateThread(new Runnable([=](Runnable*)
+                            {
+                                portailDeSortie->setIsAttractionFieldActive(false);
+                                auto newPos = portailDeSortie->obtenirPositionRelative();
+                                rondelle->assignerPositionRelative(newPos);
+                                SoundFMOD::obtenirInstance()->playEffect(effect(PORTAL_EFFECT));
+                            }),true);
+                            return;
+                        }
+                    }
+                }
+            }
+            break;
+        case CATEGORY_BOOST   :
+            {
+                NoeudAccelerateur* accelerateur = (NoeudAccelerateur*)bodies[1]->GetUserData();
+                checkf(accelerateur, "Boost's body's User Data is not the boost");
+
+                auto bonusAccel = accelerateur->obtenirBonusAccel();
+                auto linearVelocity = bodies[0]->GetLinearVelocity();
+
+                linearVelocity *= bonusAccel;
+                bodies[0]->SetLinearVelocity(linearVelocity);
+
+                SoundFMOD::obtenirInstance()->playEffect(effect(ACCELERATOR_EFFECT));
+            }
+            break;
+        default:
+            break;
+        }
+    }
+    
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudRondelle::EndContact( b2Contact* contact )
+///
+/// Callback after the contact between 2 fixtures
+///
+/// @param[in] b2Contact * contact
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::EndContact( b2Contact* contact )
+{
+    bool isEnabled = contact->IsEnabled();
+    bool isTouching = contact->IsTouching();
+
+    auto fixtureA = contact->GetFixtureA();
+    auto fixtureB = contact->GetFixtureB();
+    auto bodyA = fixtureA->GetBody();
+    auto bodyB = fixtureB->GetBody();
+    auto filterA = fixtureA->GetFilterData();
+    auto filterB = fixtureB->GetFilterData();
+    short category = filterA.categoryBits | filterB.categoryBits;
+    bool isPuckPresent = !!(( category ) & CATEGORY_PUCK );
+
+    // la rondelle est sortie d'un portal
+    if( category == (CATEGORY_PUCK|CATEGORY_PORTAL) )
+    {
+        b2Body* portalBody = NULL;
+        if(filterA.categoryBits & CATEGORY_PORTAL)
+        {
+            portalBody = bodyA;
+        }
+        else
+        {
+            portalBody = bodyB;
+        }
+
+        NoeudPortail* portal = (NoeudPortail*)portalBody->GetUserData();
+        checkf(portal, "Portal's body's User Data is not the Portal");
+
+        portal->setIsAttractionFieldActive(true);
+    }
+
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudRondelle::PreSolve( b2Contact* contact, const b2Manifold* oldManifold )
+///
+/// Callback before the solving the contact between 2 fixtures
+///
+/// @param[in] b2Contact * contact
+/// @param[in] const b2Manifold * oldManifold
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::PreSolve( b2Contact* contact, const b2Manifold* oldManifold )
+{
+    B2_NOT_USED(contact);
+    B2_NOT_USED(oldManifold);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudRondelle::PostSolve( b2Contact* contact, const b2ContactImpulse* impulse )
+///
+/// Callback after the solving the contact between 2 fixtures
+///
+/// @param[in] b2Contact * contact
+/// @param[in] const b2ContactImpulse * impulse
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::PostSolve( b2Contact* contact, const b2ContactImpulse* impulse )
+{
+    B2_NOT_USED(contact);
+    B2_NOT_USED(impulse);
+}
+#endif
+
 
 ////////////////////////////////////////////////////////////////////////
 ///

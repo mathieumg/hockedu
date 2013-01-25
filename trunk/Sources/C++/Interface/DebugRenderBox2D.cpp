@@ -18,12 +18,14 @@
 
 #include "DebugRenderBox2D.h"
 
+#if BOX2D_INTEGRATED
+
 #include "glew.h"
 
 #include <cstdio>
 #include <cstdarg>
 #include <cstring>
-#include "..\Arbre\HUD\HUDTexte.h"
+#include "HUDTexte.h"
 #include "Utilitaire.h"
 using namespace std;
 
@@ -205,3 +207,5 @@ void DebugRenderBox2D::DrawAABB(b2AABB* aabb, const b2Color& c)
 	glVertex3f(aabb->lowerBound.x/ratio, aabb->upperBound.y/ratio,DebugZ);
 	glEnd();
 }
+
+#endif

@@ -338,6 +338,9 @@
     <ClCompile Include="Interface\FacadeCSharp.cpp">
       <Filter>Sources Files\Interface</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\DebugRenderBox2D.cpp">
+      <Filter>Sources Files\Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -641,6 +644,9 @@
       <Filter>Sources Files\Arbre\Visiteur</Filter>
     </ClInclude>
     <ClInclude Include="Interface\FacadeCSharp.h">
+      <Filter>Sources Files\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\DebugRenderBox2D.h">
       <Filter>Sources Files\Interface</Filter>
     </ClInclude>
   </ItemGroup>

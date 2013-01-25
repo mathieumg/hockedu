@@ -35,14 +35,14 @@ public:
    virtual void acceptVisitor( VisiteurNoeud& v);
 
    /// Accesseur et modificateur sur l'activité du champ d'attraction
-   inline bool champAttractionActive() const{return champAttractionActif_;}
-   void modifierChampAttractionActif(const bool actif){champAttractionActif_=actif;}
+   inline bool isAttractionFieldActive() const{return mIsAttractionFieldActive;}
+   void setIsAttractionFieldActive(const bool actif){mIsAttractionFieldActive=actif;}
 
    /// Recreates the physics body according to current attributes
    virtual void updatePhysicBody();
 
 private:
-	bool champAttractionActif_;
+	bool mIsAttractionFieldActive;
 	
 };
 

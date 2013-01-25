@@ -19,8 +19,10 @@
 #ifndef RENDER_H
 #define RENDER_H
 
-#include <Box2D/Box2D.h>
+#include "UtilitaireINF2990.h"
 
+#if BOX2D_INTEGRATED
+#include <Box2D/Box2D.h>
 struct b2AABB;
 
 // This class implements debug drawing callbacks that are invoked
@@ -46,6 +48,7 @@ public:
 
     void DrawAABB(b2AABB* aabb, const b2Color& color);
 };
+#endif
 
 
 #endif

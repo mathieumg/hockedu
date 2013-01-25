@@ -8,13 +8,15 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudBut.h"
+#if BOX2D_INTEGRATED  
+#include <Box2D/Box2D.h>
+#endif
 #include "ArbreRenduINF2990.h"
 #include "VisiteurCollision.h"
 #include "GestionnaireModeles.h"
 #include "NoeudPoint.h"
 #include "FacadeModele.h"
 #include "XMLUtils.h"
-#include <Box2D/Box2D.h>
 #include "Utilitaire.h"
 
 float NoeudBut::longueurBut_ = 1;
@@ -263,7 +265,7 @@ void NoeudBut::updateLongueur(float facteurModificationEchelle)
 
 	updateMatrice();
     updatePhysicBody();
-    signalModification();
+    signalObservers();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -479,6 +481,7 @@ void NoeudBut::updatePhysicBody()
 ////////////////////////////////////////////////////////////////////////
 void NoeudBut::updatePuckCatcher( float puckRadius )
 {
+#if BOX2D_INTEGRATED  
     if(!mPuckCatcher || mCachedPuckRadius != puckRadius)
     {
         if(mPuckCatcher)
@@ -526,8 +529,11 @@ void NoeudBut::updatePuckCatcher( float puckRadius )
         shape.Set(bottomPosShiftedB2,bottomPosB2);
         mPuckCatcher->CreateFixture(&myFixtureDef); //add a fixture to the body
 
+        mPuckCatcher->SetUserData(this);
+
         mCachedPuckRadius = puckRadius;
     }
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -543,11 +549,13 @@ void NoeudBut::updatePuckCatcher( float puckRadius )
 void NoeudBut::clearPhysicsBody()
 {
     NoeudAbstrait::clearPhysicsBody();
+#if BOX2D_INTEGRATED  
     if(mPuckCatcher)
     {
         getWorld()->DestroyBody(mPuckCatcher);
         mPuckCatcher = NULL;
     }
+#endif
 }
 
 

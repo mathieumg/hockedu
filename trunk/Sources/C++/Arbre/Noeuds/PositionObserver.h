@@ -1,14 +1,9 @@
 #pragma once
 #include <set>
+#include "ObserverPaternMacros.h"
 
 class PositionObserver
 {
-public:
-    virtual ~PositionObserver();
-    virtual void updatePosition(class PositionSubject& pSubject) = 0;
-    void addSubject(class PositionSubject& pSubject);
-    void removeSubject(class PositionSubject& pSubject);
-private:
-    std::set<class PositionSubject*> mSubjects;
+OBSERVER_DECLARATION(PositionObserver,PositionSubject)
 };
 

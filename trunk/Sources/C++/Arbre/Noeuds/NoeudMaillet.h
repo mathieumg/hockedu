@@ -12,6 +12,7 @@
 
 
 #include "NoeudAbstrait.h"
+#include "MouseMoveObserver.h"
 
 enum DirectionMaillet{DIR_HAUT,DIR_BAS,DIR_GAUCHE,DIR_DROITE,NB_DIR};
 class NoeudTable;
@@ -25,32 +26,40 @@ class JoueurVirtuel;
 /// @author Mathieu Parent
 /// @date 2012-01-25
 ///////////////////////////////////////////////////////////////////////////
-class NoeudMaillet : public NoeudAbstrait
+class NoeudMaillet : public NoeudAbstrait, public MouseMoveObserver
 {
 public:
-   /// Constructeur à partir du type du noeud.
-   NoeudMaillet(const std::string& typeNoeud);
-   /// Destructeur.
-   ~NoeudMaillet();
+    /// Constructeur à partir du type du noeud.
+    NoeudMaillet(const std::string& typeNoeud);
+    /// Destructeur.
+    ~NoeudMaillet();
 
-   /// Effectue l'animation
-   virtual void animer( const float& temps );
-   /// Accueil un visiteur
-   virtual void acceptVisitor( VisiteurNoeud& v);
-   /// Cette fonction effectue le véritable rendu de l'objet.
-   virtual void afficherConcret() const;
-   /// Physique
-   virtual void gestionCollision( const float& temps);
-   /// Mise a Jour de la position de ce noeud
-   virtual void majPosition( const float& temps );
-   /// Repositionnement des modele pour enlever la penetration entre les noeuds
-   virtual void ajusterEnfoncement();
-   /// Ajustement de la vitesse des noeuds
-   virtual void ajusterVitesse( const float& temps );
-   /// Recreates the physics body according to current attributes
-   virtual void updatePhysicBody();
+    /// Effectue l'animation
+    virtual void animer( const float& temps );
+    /// Accueil un visiteur
+    virtual void acceptVisitor( VisiteurNoeud& v);
+    /// Cette fonction effectue le véritable rendu de l'objet.
+    virtual void afficherConcret() const;
+    /// Physique
+    virtual void gestionCollision( const float& temps);
+    /// Mise a Jour de la position de ce noeud
+    virtual void majPosition( const float& temps );
+    /// Repositionnement des modele pour enlever la penetration entre les noeuds
+    virtual void ajusterEnfoncement();
+    /// Ajustement de la vitesse des noeuds
+    virtual void ajusterVitesse( const float& temps );
+    /// Recreates the physics body according to current attributes
+    virtual void updatePhysicBody();
+    /// Builds the mouse joint when starting to play
+    void buildMouseJoint();
+    /// Free memory of the mouse joint when game is done
+    void destroyMouseJoint();
+    /// updates mouse joint when receiving a mousemove event
+    virtual void updateObserver( class MouseMoveSubject& pSubject );
+    /// applies physics behavior on b2Body before simulation
+    void preSimulationActions();
 
-   static unsigned int mailletExistant;
+    static unsigned int mailletExistant;
 
 /// Attributs
 private:
@@ -84,6 +93,9 @@ private:
 	/// Le joueur qui possède ce maillet
 	JoueurVirtuel* joueur_;
 	
+    /// joint controlling the mallet
+    class b2MouseJoint* mMouseJoint;
+
 /// Accesseurs
 public:
 
@@ -91,7 +103,7 @@ public:
 	/// Mutateur de la direction du maillet controler par clavier
 	void modifierDirection(bool active, DirectionMaillet dir);
 	/// Permet d'indiquer au maillet s'il est controle par le clavier ou la souris
-	void controleParClavier(bool clavier);
+	void setKeyboardControlled(bool clavier);
 	/// Assignation de la position de la souris pour que le maillet puisse la suivre
 	void assignerPosSouris(Vecteur3 pos);
 	/// Accesseur de velocite_
@@ -103,7 +115,7 @@ public:
 	/// Accesseur de estControleParOrdinateur_
 	bool obtenirEstControleParOrdinateur() const { return estControleParOrdinateur_; }
 	/// Modificateur de estControleParOrdinateur_
-	void modifierEstControleParOrdinateur(bool val) { estControleParOrdinateur_ = val; }
+	void setIsAI(bool val) { estControleParOrdinateur_ = val; }
 	/// Accesseur et mutateur de positionOriginale
 	Vecteur3 obtenirPositionOriginale() const { return positionOriginale_; }
 	void modifierPositionOriginale(Vecteur3 val) { positionOriginale_ = val; }
@@ -112,13 +124,15 @@ public:
 	/// Modificateur de anciennePos_
 	void modifierAnciennePos(Vecteur3 val) { anciennePos_ = val; }
 	/// Modificateur de l'indicateur de la position du joueur
-	void assignerAGauche(bool val) { estAGauche_ = val; }
+	void setIsLeft(bool val) { estAGauche_ = val; }
 	/// Accesseur de joueurGauche_
 	bool estAGauche() const { return estAGauche_; }
 	/// Accesseur de joueur_
 	JoueurVirtuel* obtenirJoueur() const { return joueur_; }
 	/// Modificateur de joueur_
-	void assignerJoueurVirtuel(JoueurVirtuel* val) { joueur_ = val; }
+	void setAIPlayer(JoueurVirtuel* val) { joueur_ = val; }
+
+
 
 };
 

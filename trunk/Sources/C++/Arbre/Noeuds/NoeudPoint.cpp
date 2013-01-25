@@ -354,7 +354,7 @@ void NoeudPoint::assignerPositionRelative( const Vecteur3& positionRelative )
 
     // assigner la position du point en premier pour que la table puisse l'utiliser à sa mise a jour
     NoeudAbstrait::assignerPositionRelative(positionRelative);
-    signalModification();
+    signalObservers();
 }
 
 

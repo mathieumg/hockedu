@@ -12,6 +12,7 @@
 #pragma warning( disable : 4290 )
 
 #include "NoeudComposite.h"
+
 class NoeudTable;
 ///////////////////////////////////////////////////////////////////////////
 /// @class NoeudRondelle
@@ -20,7 +21,10 @@ class NoeudTable;
 /// @author Mathieu Parent
 /// @date 2012-01-25
 ///////////////////////////////////////////////////////////////////////////
-class NoeudRondelle : public NoeudAbstrait
+/////////////////////////////////////////////////////////////////////////// 
+
+
+class NoeudRondelle : public NoeudAbstrait 
 {
 public:
    /// Constructeur à partir du type du noeud.

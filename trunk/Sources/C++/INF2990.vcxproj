@@ -141,7 +141,7 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../Exe</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugPrototype|x64'">../../Exe</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='UnitTest|x64'">../../Exe</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'">../../Exe</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'">../../Exe/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugPrototype|x64'">$(Platform)\Debug\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='UnitTest|x64'">$(Platform)\$(Configuration)\</IntDir>
@@ -583,6 +583,7 @@
     <ClCompile Include="Environnement\Evenements\EvenementRouletteSouris.cpp" />
     <ClCompile Include="Environnement\Evenements\EvenementSouris.cpp" />
     <ClCompile Include="Environnement\UtilitaireINF2990.cpp" />
+    <ClCompile Include="Interface\DebugRenderBox2D.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatAbstrait.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatAjout.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatAjoutMuret.cpp" />
@@ -688,6 +689,7 @@
     <ClInclude Include="Environnement\Evenements\EvenementSouris.h" />
     <ClInclude Include="Environnement\UtilitaireINF2990.h" />
     <ClInclude Include="Interface\CodesEvenements.h" />
+    <ClInclude Include="Interface\DebugRenderBox2D.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatAbstrait.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatAjout.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatAjoutMuret.h" />

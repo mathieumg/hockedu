@@ -8,6 +8,7 @@
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
+#include <jni.h>
 #include "EvenementSouris.h"
 
 ////////////////////////////////////////////////////////////////////////
@@ -23,8 +24,10 @@
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-EvenementSouris::EvenementSouris( JNIEnv* env, jobject& evenementSouris )
+EvenementSouris::EvenementSouris( void* envVoid, void* evenementSourisVoid )
 {
+    JNIEnv* env = (JNIEnv*)envVoid;
+    jobject& evenementSouris = *(jobject*)evenementSourisVoid;
 	jclass classe = env->GetObjectClass(evenementSouris);
 	jmethodID getButton = env->GetMethodID(classe, "getButton", "()I");
 	bouton_ = BoutonSouris(env->CallIntMethod(evenementSouris, getButton));
@@ -58,6 +61,21 @@ EvenementSouris::EvenementSouris( const EvenementSouris& evenementSouris )
 		position_ = evenementSouris.position_;
 		bouton_ = evenementSouris.bouton_;
 	}
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn  EvenementSouris::EvenementSouris()
+///
+/// /*Description*/
+///
+///
+/// @return 
+///
+////////////////////////////////////////////////////////////////////////
+EvenementSouris::EvenementSouris()
+{
+
 }
 
 ////////////////////////////////////////////////////////////////////////

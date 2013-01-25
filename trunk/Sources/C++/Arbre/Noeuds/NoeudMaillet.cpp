@@ -21,12 +21,19 @@
 #include <iostream>
 #include "JoueurVirtuel.h"
 #include "Terrain.h"
+#if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
+#endif
 #include "Utilitaire.h"
+#include "DebugRenderBox2D.h"
+#include "GestionnaireEvenements.h"
 
 unsigned int NoeudMaillet::mailletExistant = 0;
 bool UsineNoeudMaillet::bypassLimitePourTest = false;
 
+
+
+b2Body* mMouseBody;
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -41,10 +48,19 @@ bool UsineNoeudMaillet::bypassLimitePourTest = false;
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet::NoeudMaillet(const std::string& typeNoeud)
-   : NoeudAbstrait(typeNoeud), vitesse_(300.0),estControleParClavier_(false), joueur_(0)
+   : NoeudAbstrait(typeNoeud), vitesse_(300.0),estControleParClavier_(false), joueur_(0), mMouseJoint(NULL)
 {
     NoeudMaillet::mailletExistant++;
    
+#if BOX2D_INTEGRATED
+    if(!mMouseBody)
+    {
+        b2BodyDef bodyDef;
+        mMouseBody = mWorld->CreateBody(&bodyDef);
+    }
+#endif
+
+
     for (int i = 0; i < NB_DIR ; i++)
     {
         direction_[i] = false;
@@ -69,6 +85,17 @@ NoeudMaillet::~NoeudMaillet()
 {
 	FacadeModele::getInstance()->supprimerElementSurTable(this);
 	NoeudMaillet::mailletExistant--;
+
+#if BOX2D_INTEGRATED
+    checkf(!mMouseJoint, "Le mouse joint a mal ete liberé");
+    if(mMouseJoint)
+    {
+        mWorld->DestroyJoint(mMouseJoint);
+        mMouseJoint = NULL;
+    }
+#endif
+
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -93,6 +120,33 @@ void NoeudMaillet::afficherConcret() const
     // Restauration de la matrice.
     glPopAttrib();
     glPopMatrix();
+
+#if BOX2D_INTEGRATED && BOX2D_DEBUG
+    // Sauvegarde de la matrice.
+    glPushMatrix();
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
+    if (mMouseJoint)
+    {
+        DebugRenderBox2D* debugRender = FacadeModele::getInstance()->getDebugRenderBox2D();
+        if(debugRender)
+        {
+            b2Vec2 p1 = mMouseJoint->GetAnchorB();
+            b2Vec2 p2 = mMouseJoint->GetTarget();
+
+            b2Color c;
+            c.Set(0.0f, 1.0f, 0.0f);
+            debugRender->DrawPoint(p1, 4.0f, c);
+            debugRender->DrawPoint(p2, 4.0f, c);
+
+            c.Set(0.8f, 0.8f, 0.8f);
+            debugRender->DrawSegment(p1, p2, c);
+        }
+    }
+    // Restauration de la matrice.
+    glPopAttrib();
+    glPopMatrix();
+#endif
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -187,7 +241,7 @@ void NoeudMaillet::gestionCollision( const float& temps )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void controleParClavier(bool clavier)
+/// @fn void setKeyboardControlled(bool clavier)
 ///
 /// Permet d'indiquer au maillet s'il est controle par le clavier ou la souris
 ///
@@ -196,7 +250,7 @@ void NoeudMaillet::gestionCollision( const float& temps )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::controleParClavier(bool clavier)
+void NoeudMaillet::setKeyboardControlled(bool clavier)
 {
 	estControleParClavier_ = clavier;
 }
@@ -449,6 +503,154 @@ void NoeudMaillet::updatePhysicBody()
     mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
     mPhysicBody->SetUserData(this);
     mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
+#endif
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudMaillet::buildMouseJoint()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudMaillet::buildMouseJoint()
+{
+#if BOX2D_INTEGRATED
+    if(!mMouseJoint)
+    {
+        if(!estControleParOrdinateur_ && !estControleParClavier_)
+        {
+            GestionnaireEvenements::obtenirInstance()->attach(*this);
+        }
+
+        b2Body* body = getPhysicBody();
+        b2MouseJointDef md;
+        md.bodyA = mMouseBody;
+        md.bodyB = body;
+        Vecteur3 pos = obtenirPositionAbsolue();
+        utilitaire::VEC3_TO_B2VEC(pos,md.target);
+        md.maxForce = 10000.0f * body->GetMass();
+        md.dampingRatio = 0;
+        md.frequencyHz = 100;
+        mMouseJoint = (b2MouseJoint*)mWorld->CreateJoint(&md);
+    }
+#endif
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudMaillet::destroyMouseJoint()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudMaillet::destroyMouseJoint()
+{
+#if BOX2D_INTEGRATED
+    if(mMouseJoint)
+    {
+        GestionnaireEvenements::obtenirInstance()->detach(*this);
+        mWorld->DestroyJoint(mMouseJoint);
+        mMouseJoint = NULL;
+    }
+#endif
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudMaillet::updateObserver( class MouseMoveSubject& pSubject )
+///
+/// /*Description*/
+///
+/// @param[in] class MouseMoveSubject & pSubject
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudMaillet::updateObserver( MouseMoveSubject& pSubject )
+{
+#if BOX2D_INTEGRATED
+    if(mMouseJoint)
+    {
+        Vecteur3 virtualMousePos;
+        b2Vec2 virtualMousePosB2;
+        FacadeModele::getInstance()->convertirClotureAVirtuelle(pSubject.mEvent.obtenirPosition()[VX],pSubject.mEvent.obtenirPosition()[VY],virtualMousePos);
+        utilitaire::VEC3_TO_B2VEC(virtualMousePos,virtualMousePosB2);
+        mMouseJoint->SetTarget(virtualMousePosB2);
+    }
+#endif
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudMaillet::preSimulationActions()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudMaillet::preSimulationActions()
+{
+#if BOX2D_INTEGRATED  
+    Vecteur2 direction(0,0);
+    if(estControleParClavier_ || estControleParOrdinateur_)
+    {
+        if(!estControleParOrdinateur_)
+        {
+            if(estControleParClavier_)
+            {
+                for (int i = 0; i < NB_DIR ; i++)
+                {
+                    if(direction_[i])
+                    {
+                        switch(i)
+                        {
+                        case DIR_HAUT:
+                            direction[VY] += 1;
+                            break;
+                        case DIR_BAS:
+                            direction[VY] -= 1;
+                            break;
+                        case DIR_GAUCHE:
+                            direction[VX] -= 1;
+                            break;
+                        case DIR_DROITE:
+                            direction[VX] += 1;
+                            break;
+                        default:
+                            break;
+                        }
+                    }
+                }
+            }
+            direction.normaliser();
+            direction *= obtenirVitesse();
+        }
+        else
+        {
+            direction = joueur_->obtenirDirectionAI(this);
+        }
+
+        direction.normaliser();
+        direction *= 10;
+        direction += obtenirPositionAbsolue();
+
+        b2Vec2 velocite;
+        utilitaire::VEC3_TO_B2VEC(direction,velocite);
+        if(mMouseJoint)
+        {
+            mMouseJoint->SetTarget(velocite);
+        }
+    }
 #endif
 }
 

@@ -10,13 +10,14 @@
 #ifndef __ENVIRONNEMENT_UTILITAIREINF2990_H__
 #define __ENVIRONNEMENT_UTILITAIREINF2990_H__
 
-#include <jni.h>
+#define BOX2D_INTEGRATED 0
+#define BOX2D_DEBUG 1
 #include <string>
 
 namespace utilitaire {
 	
    /// Effectue une conversion entre une chaîne Java et une chaîne C++.
-   std::string obtenirChaineISO(JNIEnv* env, jstring chaine);
+   std::string obtenirChaineISO(void* env, void* chaine);
    
 }
 

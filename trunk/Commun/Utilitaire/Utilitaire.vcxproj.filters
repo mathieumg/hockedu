@@ -12,6 +12,9 @@
     <Filter Include="Sources Files\Vue">
       <UniqueIdentifier>{00a0c2de-e50b-4c8b-b7fc-ab6fe4c680a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources Files\Observer">
+      <UniqueIdentifier>{69f37242-4c71-42aa-956c-9da3a2060800}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vue\Camera.cpp">
@@ -113,15 +116,17 @@
     <ClCompile Include="Vue\VuePerspectiveSplit.cpp">
       <Filter>Sources Files\Vue</Filter>
     </ClCompile>
-    <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="XMLUtils.cpp">
-      <Filter>Sources Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugRenderBox2D.cpp">
       <Filter>Sources Files</Filter>
     </ClCompile>
     <ClCompile Include="StackWalker.cpp">
       <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingBox.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseMoveObserver.cpp">
+      <Filter>Sources Files\Observer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -245,11 +250,14 @@
     <ClInclude Include="XMLUtils.h">
       <Filter>Sources Files</Filter>
     </ClInclude>
-    <ClInclude Include="DebugRenderBox2D.h">
-      <Filter>Sources Files</Filter>
-    </ClInclude>
     <ClInclude Include="StackWalker.h">
       <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseMoveObserver.h">
+      <Filter>Sources Files\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="ObserverPaternMacros.h">
+      <Filter>Sources Files\Observer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

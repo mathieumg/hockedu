@@ -45,7 +45,7 @@ public:
 	/// Initialise les deux valeurs pour l'utilisation d'un modele 3D
 	virtual void mettreAJourEchelleRotation();
 
-    virtual void updatePosition( class PositionSubject& pSubject );
+    virtual void updateObserver( class PositionSubject& pSubject );
 
 private:
 	typedef Vecteur3D<float*> Vecteur3pd;

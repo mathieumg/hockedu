@@ -7,7 +7,10 @@
 /// @addtogroup utilitaire Utilitaire
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
-#include "Box2D/Box2D.h"
+#include "../Environnement/UtilitaireINF2990.h"
+#if BOX2D_INTEGRATED  
+#include <Box2D/Box2D.h>
+#endif
 #include "Utilitaire.h"
 #include <iostream>
 #include <fstream>
@@ -16,6 +19,7 @@
 #include <algorithm>
 #include <stdarg.h>
 #include <Windows.h>
+#include "StackWalker.h"
 
 /**
 * Helper function to write formatted output using an argument list
@@ -47,6 +51,27 @@ int GenerateHashCode( const char* pString )
     return (int)_Val;
 }
 
+// Simple implementation of an additional output to the console:
+class MyStackWalker : public StackWalker
+{
+public:
+    MyStackWalker() : StackWalker(RetrieveLine) 
+    {
+        nbLines = 0;
+    }
+    MyStackWalker(DWORD dwProcessId, HANDLE hProcess) : StackWalker(dwProcessId, hProcess) {}
+    virtual void OnOutput(LPCSTR szText) 
+    { 
+        if(++nbLines < 10)
+            mStackTrace += szText; 
+        
+        /*printf(szText); StackWalker::OnOutput(szText);*/ 
+    }
+    int nbLines;
+    std::string mStackTrace;
+};
+
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, const char* Format/*=""*/, ... )
@@ -69,6 +94,11 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
     char AssertMsg[2048];
     GET_VARARGS( AssertMsg, ARRAY_COUNT(AssertMsg), ARRAY_COUNT(AssertMsg)-1, Format, Format );
 
+    //MyStackWalker myStackWalker;
+    //myStackWalker.ShowCallstack();
+    std::string displayMessage = AssertMsg;
+    //displayMessage += myStackWalker.mStackTrace;
+
     static std::vector<int> IgnoredAssertTrackingList;
     int hash = GenerateHashCode(assertIDText);
 
@@ -76,7 +106,7 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
 
     if(!bIsAssertIgnored)
     {
-        AssertHandleMode HandleMode = DisplayAssertMessage( AssertMsg );
+        AssertHandleMode HandleMode = DisplayAssertMessage( displayMessage.c_str() );
         switch( HandleMode )
         {
         case ASSERT_IgnoreAll:
@@ -102,19 +132,19 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
 
 
 /** Displays an assert dialog AssertMsg with choice to BREAK, IGNORE or IGNORE ALL (release builds only) */
-AssertHandleMode __cdecl DisplayAssertMessage( const char *Fmt, ... )
+AssertHandleMode __cdecl DisplayAssertMessage( const char *message)
 {
     enum AssertHandleMode HandleMode = ASSERT_Break;
-    char TempStr[4096];
-    char MessageStr[4096] = "Press [Abort] to exit and create crash report\nPress [Retry] to ignore the assertion and continue\nPress [Ignore] to *always* ignore this assertion\n\n";
+    //char TempStr[4096];
+    std::string MessageStr = "Press [Abort] to exit and create crash report\nPress [Retry] to ignore the assertion and continue\nPress [Ignore] to *always* ignore this assertion\n\n";
 
-    // Prepare assert AssertMsg
-    GET_VARARGS( TempStr, ARRAY_COUNT(TempStr), ARRAY_COUNT(TempStr)-1, Fmt, Fmt );
+//     // Prepare assert AssertMsg
+//     GET_VARARGS( TempStr, ARRAY_COUNT(TempStr), ARRAY_COUNT(TempStr)-1, Fmt, Fmt );
+// 
+//     // Also add the instructions
+    MessageStr += message;
 
-    // Also add the instructions
-    strcat_s( MessageStr, TempStr);
-
-    int Result = MessageBoxA( NULL, MessageStr, "Assertion Failed", MB_ICONERROR | MB_ABORTRETRYIGNORE | MB_TOPMOST );
+    int Result = MessageBoxA( NULL, MessageStr.c_str(), "Assertion Failed", MB_ICONERROR | MB_ABORTRETRYIGNORE | MB_TOPMOST );
     if( Result == IDRETRY )
     {
         HandleMode = ASSERT_Ignore;
@@ -397,6 +427,7 @@ namespace utilitaire {
       return pointTransforme;
    }
 
+#if BOX2D_INTEGRATED
    ////////////////////////////////////////////////////////////////////////
    ///
    /// @fn void VEC3_TO_B2VEC( const Vecteur3& pVector, class b2Vec2& pB2vector )
@@ -433,9 +464,24 @@ namespace utilitaire {
        pVector[VX] = pB2vector.x/ratioWorldToBox2D;
        pVector[VY] = pB2vector.y/ratioWorldToBox2D;
    }
-
+#endif
 
 }; // Fin de l'espace de nom utilitaire.
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void appDebugBreak()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void appDebugBreak()
+{
+    __debugbreak();
+}
 
 
 ///////////////////////////////////////////////////////////////////////////

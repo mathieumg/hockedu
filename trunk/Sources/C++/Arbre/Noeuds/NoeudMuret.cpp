@@ -8,7 +8,9 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudMuret.h"
+#if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
+#endif
 #include "Utilitaire.h"
 #include "VisiteurCollision.h"
 #include "FacadeModele.h"

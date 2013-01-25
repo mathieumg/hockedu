@@ -80,7 +80,7 @@ public:
    virtual void updatePhysicBody();
 
    /// update the table when a modification is done on either middle control points
-   virtual void updatePosition( class PositionSubject& pSubject );
+   virtual void updateObserver( class PositionSubject& pSubject );
 
 private:
    

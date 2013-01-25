@@ -15,6 +15,7 @@
 #include "EvenementClavier.h"
 #include "EvenementRouletteSouris.h"
 #include "EvenementSouris.h"
+#include "MouseMoveObserver.h"
 
 class GestionnaireEvenementsTest;
 class GestionnaireEtatAbstrait;
@@ -37,7 +38,7 @@ enum EtatGestion{
 /// @author Vincent Lemire
 /// @date 2012-01-20
 ////////////////////////////////////////////////////////////////////////////
-class GestionnaireEvenements:public Singleton<GestionnaireEvenements>
+class GestionnaireEvenements:public Singleton<GestionnaireEvenements>, public MouseMoveSubject
 {
 	
 public:
