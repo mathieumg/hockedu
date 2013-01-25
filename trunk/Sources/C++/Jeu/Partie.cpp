@@ -308,6 +308,7 @@ bool Partie::initialiserXML( TiXmlElement* elem, ConteneurJoueur* profilsVirtuel
 ////////////////////////////////////////////////////////////////////////
 void Partie::reinitialiserPartie()
 {
+    SignalGameOver();
 	pointsJoueurGauche_ = 0;
 	pointsJoueurDroit_ = 0;
 	// Reinitialisation du noeudAffichage Chiffre

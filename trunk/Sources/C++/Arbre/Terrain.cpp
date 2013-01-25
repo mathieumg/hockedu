@@ -30,6 +30,7 @@
 #include "FacadeModele.h"
 #include "NoeudAccelerateur.h"
 #include "NoeudPortail.h"
+#include "VisiteurFunction.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -243,6 +244,7 @@ void Terrain::initialiserArbreRendu()
 		arbreRendu_ = new ArbreRenduINF2990();
 	else
 		arbreRendu_->vider();
+    arbreRendu_->modifierTerrain(this);
 
 	// Ajout d'une table de base au terrain
 	table_ = new NoeudTable(ArbreRenduINF2990::NOM_TABLE);
@@ -265,8 +267,6 @@ void Terrain::initialiserArbreRendu()
 
 	// Permet de rediriger les bandes extérieur de la table vers le groupe  gMuret
 	table_->reassignerParentBandeExt();
-
-	arbreRendu_->modifierTerrain(this);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -298,12 +298,15 @@ bool Terrain::initialiserXml( TiXmlElement* element )
 
 	try
 	{
-		ConfigScene::obtenirInstance()->lireDOM(*racine,arbreRendu_);
+        // l'arbre doit connaitre le terrain avant de s'initialiser pour avoir acces a celui durant l'initialisation
 		arbreRendu_->modifierTerrain(this);
+
+		ConfigScene::obtenirInstance()->lireDOM(*racine,arbreRendu_);
 		table_ = arbreRendu_->obtenirTable();
 		if(table_ == NULL)
 			throw std::runtime_error("Il ny a pas de table sur le terrain");
 		table_->reassignerParentBandeExt();
+        fullRebuild();
 	}
 	catch(std::runtime_error& e)
 	{
@@ -976,6 +979,29 @@ void Terrain::getGoals( NoeudBut** pOutGoals )
         pOutGoals[1] = table->obtenirBut(2);
     }
 
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::fullRebuild()
+///
+/// Updates the content of the game to be ready to play
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::fullRebuild()
+{
+    checkf(arbreRendu_,"Requete pour un full rebuild d'un terrain sans arbre");
+    if(arbreRendu_)
+    {
+        VisiteurFunction v([](NoeudAbstrait* n)
+        {
+            n->forceFullUpdate();
+        });
+        arbreRendu_->acceptVisitor(v);
+    }
 }
 
 

@@ -78,6 +78,8 @@ public:
 	bool verifierValidite( bool afficherErreur = true);
 	/// Applique la physique sur l'arbre de rendu contenant les noeuds de la table
 	void appliquerPhysique( float temps );
+    /// Updates the content of the game to be ready to play
+    void fullRebuild();
 
 #if BOX2D_INTEGRATED
     /// Callback before the contact between 2 fixtures
@@ -97,6 +99,8 @@ public:
 private:
 	/// Methode pour initialiser l'arbre de rendu
 	void initialiserArbreRendu();
+
+   
 
 	/// Fields
 private:

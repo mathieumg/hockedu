@@ -81,7 +81,6 @@
 #include "BoiteEnvironnement.h"
 #include <iostream>
 #include "DebugRenderBox2D.h"
-#include "VisiteurFunction.h"
 #include "HUDTexte.h"
 
 /// Pointeur vers l'instance unique de la classe.
@@ -2541,11 +2540,7 @@ void FacadeModele::MouseMove( EvenementSouris& evenementSouris )
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::FullRebuild()
 {
-    VisiteurFunction v([](NoeudAbstrait* n)
-        {
-            n->forceFullUpdate();
-        });
-    getTerrain()->getArbreRendu()->acceptVisitor(v);
+    getTerrain()->fullRebuild();
 }
 
 ////////////////////////////////////////////////////////////////////////

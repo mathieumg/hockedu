@@ -489,7 +489,6 @@ void ConfigScene::ecrireArbre(NoeudAbstrait* parentNoeud, const TiXmlNode* node)
 	{
 		throw std::runtime_error("Erreur de lecture d'attribut");
 	}
-    noeudCourant->forceFullUpdate();
 	if(!elem->NoChildren())
 	{
 		const TiXmlNode *child;

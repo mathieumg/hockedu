@@ -62,7 +62,8 @@ NoeudBut::NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHa
 ////////////////////////////////////////////////////////////////////////
 NoeudBut::~NoeudBut()
 {
-
+    // doit etre appelé ici, car l'instance NoeudBut n'existe plus lorsque nous atteignons le destructeur de NoeudAbstrait
+    clearPhysicsBody();
 }
 
 ////////////////////////////////////////////////////////////////////////
