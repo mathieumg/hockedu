@@ -10,9 +10,8 @@
 #ifndef __ARBRE_NOEUDS_NOEUDMAILLET_H__
 #define __ARBRE_NOEUDS_NOEUDMAILLET_H__
 
-
 #include "NoeudAbstrait.h"
-#include "MouseMoveObserver.h"
+#include "ObserverPaternMacros.h"
 
 enum DirectionMaillet{DIR_HAUT,DIR_BAS,DIR_GAUCHE,DIR_DROITE,NB_DIR};
 class NoeudTable;
@@ -26,7 +25,7 @@ class JoueurVirtuel;
 /// @author Mathieu Parent
 /// @date 2012-01-25
 ///////////////////////////////////////////////////////////////////////////
-class NoeudMaillet : public NoeudAbstrait, public MouseMoveObserver
+class NoeudMaillet : public NoeudAbstrait, public Observer<class GestionnaireEvenements>
 {
 public:
     /// Constructeur à partir du type du noeud.
@@ -55,7 +54,8 @@ public:
     /// Free memory of the mouse joint when game is done
     void destroyMouseJoint();
     /// updates mouse joint when receiving a mousemove event
-    virtual void updateObserver( class MouseMoveSubject& pSubject );
+    virtual void updateObserver( class GestionnaireEvenements* pSubject );
+
     /// applies physics behavior on b2Body before simulation
     void preSimulationActions();
 
