@@ -370,13 +370,13 @@ bool NoeudBut::initialiser( const TiXmlElement* element )
 {
 	if(!NoeudComposite::initialiser(element))
 		return false;
-	float doubleElem;
-    if(!XMLUtils::LireAttribute<float>(element,"longueurBut",doubleElem))
+	auto floatElem = longueurBut_;
+    if(!XMLUtils::LireAttribute(element,"longueurBut",floatElem))
 		return false;
-	longueurBut_ = doubleElem;
+	longueurBut_ = floatElem;
 
-	int intElem;
-    if(!XMLUtils::LireAttribute<int>(element,"joueur",intElem))
+	auto intElem = joueur_;
+    if(!XMLUtils::LireAttribute(element,"joueur",intElem))
 		return false;
 	joueur_ = intElem;
 

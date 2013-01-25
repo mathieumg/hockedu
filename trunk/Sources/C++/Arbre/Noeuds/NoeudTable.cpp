@@ -725,20 +725,20 @@ bool NoeudTable::initialiser( const TiXmlElement* element )
 {
 	if(!NoeudComposite::initialiser(element))
 		return false;
-    if(!XMLUtils::LireAttribute<float>(element,"coefFriction",coefFriction_))
+    if(!XMLUtils::LireAttribute(element,"coefFriction",coefFriction_))
 		return false;
 
 	// On assigne le coefficient de rebon des bandes exterieurs
 	for (int i = 0; i < 8 ; i++)
 	{
-		float doubleElem;
+		float tempElem;
         std::ostringstream name;
         name << "rebondBande";
         name << i;
 
-        if(!XMLUtils::LireAttribute<float>(element,name.str().c_str(),doubleElem))
+        if(!XMLUtils::LireAttribute(element,name.str().c_str(),tempElem))
 			return false;
-		assignerCoefRebond(i,doubleElem);
+		assignerCoefRebond(i,tempElem);
 	}
 
 	return true;

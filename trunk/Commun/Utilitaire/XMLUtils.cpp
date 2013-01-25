@@ -186,9 +186,7 @@ namespace XMLUtils
     template<>
     bool LireAttribute<float>( const TiXmlElement* element, const char* name, float& attribute )
     {
-		double buffer = 0;
-        return element->QueryDoubleAttribute(name, &buffer) == TIXML_SUCCESS;
-		attribute = (float)buffer;
+        return element->QueryFloatAttribute(name, &attribute) == TIXML_SUCCESS;
     }
 
     ////////////////////////////////////////////////////////////////////////

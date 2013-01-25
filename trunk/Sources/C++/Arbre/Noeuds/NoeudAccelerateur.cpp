@@ -159,7 +159,7 @@ bool NoeudAccelerateur::initialiser( const TiXmlElement* element )
 {
 	if(!NoeudAbstrait::initialiser(element))
 		return false;
-	float doubleElem;
+	auto doubleElem = bonusAccel_;
 	if( !XMLUtils::LireAttribute(element,"bonusAccel",doubleElem) )
 		return false;
 	bonusAccel_ = doubleElem;

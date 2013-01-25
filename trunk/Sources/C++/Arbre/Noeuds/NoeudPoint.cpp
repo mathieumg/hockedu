@@ -300,7 +300,7 @@ bool NoeudPoint::initialiser( const TiXmlElement* element )
 {
     // faire l'initialisaiton des attribut concernant le point en premier pour que la suite puisse les utiliser
 	int intElem;
-    if(!XMLUtils::LireAttribute<int>(element,"typePosNoeud",intElem))
+    if(!XMLUtils::LireAttribute(element,"typePosNoeud",intElem))
 		return false;
 	typePosNoeud_ = TypePosPoint(intElem);
 

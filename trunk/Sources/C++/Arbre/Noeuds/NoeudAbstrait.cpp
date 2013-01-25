@@ -851,7 +851,7 @@ TiXmlElement* NoeudAbstrait::creerNoeudXML()
 bool NoeudAbstrait::initialiser( const TiXmlElement* element )
 {
 	int intElem;
-	float doubleElem;
+	float floatElem;
 	Vecteur3 pos;
     
 	if( !XMLUtils::lectureVecteur3Dxml(&pos,element,"pos") )
@@ -860,17 +860,17 @@ bool NoeudAbstrait::initialiser( const TiXmlElement* element )
     if( !XMLUtils::lectureVecteur3Dxml(&echelleCourante_,element,"echelle") )
         return false;
 
-    if( !XMLUtils::LireAttribute<float>(element,"angle",doubleElem) )
+    if( !XMLUtils::LireAttribute(element,"angle",floatElem) )
         return false;
-    mAngle = doubleElem;
+    assignerAngle(floatElem);
 
-	if( !XMLUtils::LireAttribute<int>(element,"affiche",intElem) )
+	if( !XMLUtils::LireAttribute(element,"affiche",intElem) )
 		return false;
- 	affiche_ = intElem==1;
+    assignerAffiche(intElem==1);
 
-    if( !XMLUtils::LireAttribute<int>(element,"selectionnable",intElem) )
+    if( !XMLUtils::LireAttribute(element,"selectionnable",intElem) )
 		return false;
-	selectionnable_ = intElem==1;
+    assignerEstSelectionnable(intElem==1);
 	
 	return true;
 }
