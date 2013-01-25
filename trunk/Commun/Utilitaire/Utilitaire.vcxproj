@@ -395,7 +395,6 @@
     <ClCompile Include="LumiereAmbiante.cpp" />
     <ClCompile Include="LumiereDirectionnelle.cpp" />
     <ClCompile Include="LumiereSpot.cpp" />
-    <ClCompile Include="MouseMoveObserver.cpp" />
     <ClCompile Include="ObjetAnimable.cpp" />
     <ClCompile Include="Phont.cpp" />
     <ClCompile Include="Plan3D.cpp" />

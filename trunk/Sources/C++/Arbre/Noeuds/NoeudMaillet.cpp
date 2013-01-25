@@ -88,11 +88,7 @@ NoeudMaillet::~NoeudMaillet()
 
 #if BOX2D_INTEGRATED
     checkf(!mMouseJoint, "Le mouse joint a mal ete liberé");
-    if(mMouseJoint)
-    {
-        mWorld->DestroyJoint(mMouseJoint);
-        mMouseJoint = NULL;
-    }
+    destroyMouseJoint();
 #endif
 
 
