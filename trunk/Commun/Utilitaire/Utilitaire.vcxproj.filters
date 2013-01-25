@@ -140,9 +140,6 @@
     <ClCompile Include="BoundingBox.cpp">
       <Filter>Sources Files</Filter>
     </ClCompile>
-    <ClCompile Include="MouseMoveObserver.cpp">
-      <Filter>Sources Files\Observer</Filter>
-    </ClCompile>
     <ClCompile Include="Reseau\CommunicateurReseau.cpp">
       <Filter>Sources Files\Reseau</Filter>
     </ClCompile>

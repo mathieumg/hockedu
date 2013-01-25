@@ -562,8 +562,6 @@
     <ClCompile Include="Arbre\Noeuds\NoeudPortail.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudRondelle.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudTable.cpp" />
-    <ClCompile Include="Arbre\Noeuds\PositionObserver.cpp" />
-    <ClCompile Include="Arbre\Noeuds\PositionSubject.cpp" />
     <ClCompile Include="Arbre\Terrain.cpp" />
     <ClCompile Include="Arbre\Visiteur\VisiteurCollision.cpp" />
     <ClCompile Include="Arbre\Visiteur\VisiteurDeplacement.cpp" />
@@ -660,7 +658,6 @@
     <ClInclude Include="Arbre\Noeuds\NoeudPortail.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudRondelle.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudTable.h" />
-    <ClInclude Include="Arbre\Noeuds\PositionObserver.h" />
     <ClInclude Include="Arbre\Noeuds\PositionSubject.h" />
     <ClInclude Include="Arbre\Terrain.h" />
     <ClInclude Include="Arbre\Usines\UsineNoeudAccelerateur.h" />
