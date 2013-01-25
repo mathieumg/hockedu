@@ -36,8 +36,8 @@ NoeudMuret(ArbreRenduINF2990::NOM_MURET_RELATIF,false)
 	coin2_[VY] = &n2->positionRelative_[VY];
 	coin2_[VZ] = &n2->positionRelative_[VZ];
 
-    n1->attach(*this);
-    n2->attach(*this);
+    n1->attach(this);
+    n2->attach(this);
 
 	animer(0);
 	assignerEstSelectionnable(false);
@@ -77,8 +77,8 @@ NoeudMuret(ArbreRenduINF2990::NOM_MURET_RELATIF, false)
 		coin2_[VY] = &but->mBottomPosition[VY];
 		coin2_[VZ] = &but->mBottomPosition[VZ];
 	}
-    n->attach(*this);
-    but->attach(*this);
+    n->attach(this);
+    but->attach(this);
 
 	animer(0);
 	assignerEstSelectionnable(false);
@@ -121,8 +121,8 @@ NoeudMuret(ArbreRenduINF2990::NOM_MURET_RELATIF, false)
 		coin1_[VZ] = &but->mBottomPosition[VZ];
 	}
 
-    n->attach(*this);
-    but->attach(*this);
+    n->attach(this);
+    but->attach(this);
 
 	animer(0);
 	assignerEstSelectionnable(false);
@@ -269,7 +269,7 @@ void NoeudMuretRelatif::mettreAJourEchelleRotation()
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMuretRelatif::updateObserver( PositionSubject& pSubject )
+void NoeudMuretRelatif::updateObserver( PositionSubject* pSubject )
 {
     mettreAJourEchelleRotation();
 }

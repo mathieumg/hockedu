@@ -1,9 +1,10 @@
 #pragma once
-#include <set>
 #include "ObserverPaternMacros.h"
 
-class PositionSubject
+class PositionSubject : public Subject<PositionSubject>
 {
-SUBJECT_DECLARATION(PositionSubject,PositionObserver)
 };
 
+class PositionObserver : public Observer<PositionSubject>
+{
+};

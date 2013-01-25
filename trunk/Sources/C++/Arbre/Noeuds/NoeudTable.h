@@ -14,7 +14,7 @@
 #include "aiScene.h"
 #include "NoeudPoint.h"
 #include "NoeudMuret.h"
-#include "PositionObserver.h"
+#include "PositionSubject.h"
 
 class NoeudMuret;
 class NoeudBut;
@@ -80,7 +80,7 @@ public:
    virtual void updatePhysicBody();
 
    /// update the table when a modification is done on either middle control points
-   virtual void updateObserver( class PositionSubject& pSubject );
+   virtual void updateObserver( class PositionSubject* pSubject );
 
 private:
    

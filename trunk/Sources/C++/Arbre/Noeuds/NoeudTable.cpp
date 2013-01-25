@@ -71,8 +71,8 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
 	basMilieu_->modifierPointSym(hautMilieu_);
 	basDroite_->modifierPointSym(basGauche_);
 
-    hautMilieu_->attach(*this);
-    basMilieu_->attach(*this);
+    hautMilieu_->attach(this);
+    basMilieu_->attach(this);
 
 	/// Ajout dans le vecteur contenant les points pour la sauvegarde
 	vecteurPoint_.push_back(hautGauche_);
@@ -989,7 +989,7 @@ void NoeudTable::updatePhysicBody()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudTable::updateObserver( PositionSubject& pSubject )
+void NoeudTable::updateObserver( PositionSubject* pSubject )
 {
     updatePhysicBody();
 }

@@ -3,14 +3,15 @@
 #include "ObserverPaternMacros.h"
 #include "..\Environnement\Evenements\EvenementSouris.h"
 
-class MouseMoveSubject
+class MouseMoveSubject : public Subject<MouseMoveSubject>
 {
-    SUBJECT_DECLARATION(MouseMoveSubject,MouseMoveObserver)
 public:
+    /// Accessors of mEvent
+    inline const EvenementSouris& getEvent() const { return mEvent; }
+protected:
     EvenementSouris mEvent;
 };
 
-class MouseMoveObserver
+class MouseMoveObserver : public Observer<MouseMoveSubject>
 {
-    OBSERVER_DECLARATION(MouseMoveObserver,MouseMoveSubject)
 };

@@ -64,6 +64,7 @@ public:
 	void miseAJourEvenementsRepetitifs(float detlaTemps);
 	/// Renvoie l'état courant
 	GestionnaireEtatAbstrait* obtenirEtat();
+
 private:
 	SINGLETON_DECLARATION_CLASSE_SANS_CONSTRUCTEUR(GestionnaireEvenements);
 	/// Contructeur
@@ -72,7 +73,6 @@ private:
 	~GestionnaireEvenements();
 	/// Ceci est un pointeur vers le gestionnaire d'événement auquel renvoyer les différents événements, comme le clavier ou la souris, selon l'état courant
 	GestionnaireEtatAbstrait* etatCourant_; 
-
 };
 
 #endif
