@@ -97,7 +97,7 @@ CEcritureFichierBinaire& operator< ( CEcritureFichierBinaire& out, const float& 
 ////////////////////////////////////////////////////////////////////////
 CEcritureFichierBinaire& operator< ( CEcritureFichierBinaire& out, const double& x )
 {
-   out.write( ( char* ) &x, sizeof ( float ) );
+   out.write( ( char* ) &x, sizeof ( double ) );
    return out;
 }
 

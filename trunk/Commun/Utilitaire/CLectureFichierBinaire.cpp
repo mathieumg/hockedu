@@ -107,7 +107,7 @@ CLectureFichierBinaire& operator> ( CLectureFichierBinaire& in, float& f )
 ////////////////////////////////////////////////////////////////////////
 CLectureFichierBinaire& operator> ( CLectureFichierBinaire& in, double& f )
 {
-   in.read( ( char* ) &f, sizeof ( float ) );
+   in.read( ( char* ) &f, sizeof ( double ) );
    return in;
 }
 

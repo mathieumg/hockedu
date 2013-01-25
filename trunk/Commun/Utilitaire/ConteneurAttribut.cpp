@@ -53,7 +53,7 @@ void ConteneurAttribut::randomizeAttribut( const TypeAttribut& type )
 	{
 	case INT_TYPE: intElem = rand(); break;
 	case BOOL_TYPE: boolElem = rand()%2 == 0; break;
-	case DOUBLE_TYPE: doubleElem = rand()+(double)rand()/100000.0; break;
+	case FLOAT_TYPE: floatElem = rand()+(float)rand()/100000.0f; break;
 	case STRING_TYPE: 
 		{
 			stringElem = ""; 

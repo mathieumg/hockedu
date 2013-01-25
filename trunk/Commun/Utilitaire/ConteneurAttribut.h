@@ -14,7 +14,7 @@
 #include <ctime>
 
 /// Type d'attribut géré par le conteneur
-enum TypeAttribut{INT_TYPE,BOOL_TYPE,DOUBLE_TYPE,STRING_TYPE};
+enum TypeAttribut{INT_TYPE,BOOL_TYPE,FLOAT_TYPE,STRING_TYPE};
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class ConteneurAttribut
@@ -32,7 +32,7 @@ public:
 
 	bool boolElem;
 	int intElem;
-	double doubleElem;
+	float floatElem;
 	std::string stringElem;
 
 	/// Affecte une valeur aléatoire à un attribut
@@ -53,7 +53,7 @@ public:
 	inline bool operator==(const float& elem)
 	{
 		// Permet de comparer 2 float jusqu'à une précision de 5 décimal
-		return (long)(doubleElem*10000) == (long)(elem*10000);
+		return (long)(floatElem*10000) == (long)(elem*10000);
 	}
 	/// Surcharge de l'opérateur== avec un string
 	inline bool operator==(const std::string& elem)
@@ -74,7 +74,7 @@ public:
 	inline bool operator!=(const float& elem)
 	{
 		// Permet de comparer 2 float jusqu'à une précision de 5 décimal
-		return (long)(doubleElem*10000) != (long)(elem*10000);
+		return (long)(floatElem*10000) != (long)(elem*10000);
 	}
 	/// Surcharge de l'opérateur!= avec un strin
 	inline bool operator!=(const std::string& elem)
@@ -89,9 +89,9 @@ public:
 		{
 		case INT_TYPE: return intElem == ca.intElem;
 		case BOOL_TYPE: return boolElem == ca.boolElem;
-		case DOUBLE_TYPE: 
+		case FLOAT_TYPE: 
 			// Permet de comparer 2 float jusqu'à une précision de 5 décimal
-			return (long)(doubleElem*10000) == (long)(ca.doubleElem*10000);
+			return (long)(floatElem*10000) == (long)(ca.floatElem*10000);
 		case STRING_TYPE: return stringElem == ca.stringElem;
 		default: throw ("wtf");
 		}
@@ -110,7 +110,7 @@ public:
 	/// Modification du float du conteneur
 	void modifier( const float& Elem)
 	{
-		doubleElem = Elem;
+		floatElem = Elem;
 	}
 	/// Modification du string du conteneur
 	void modifier( const std::string& Elem)
@@ -128,9 +128,9 @@ public:
 		Elem = intElem;
 	}
 	/// Accesseur au float du conteneur
-	void obtenir(double& Elem)
+	void obtenir(float& Elem)
 	{
-		Elem = doubleElem;
+		Elem = floatElem;
 	}
 	/// Accesseur au string du conteneur
 	void obtenir(std::string& Elem)
