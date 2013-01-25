@@ -623,6 +623,7 @@
     <ClCompile Include="Jeu\JoueurVirtuel.cpp" />
     <ClCompile Include="Jeu\Partie.cpp" />
     <ClCompile Include="Jeu\Tournoi.cpp" />
+    <ClCompile Include="Reseau\GestionnaireReseauClientLourd.cpp" />
     <ClCompile Include="Sons\SoundFMOD.cpp" />
     <ClCompile Include="Tests\BancTests.cpp" />
     <ClCompile Include="Tests\ConfigSceneTest.cpp" />
@@ -730,6 +731,7 @@
     <ClInclude Include="Jeu\JoueurVirtuel.h" />
     <ClInclude Include="Jeu\Partie.h" />
     <ClInclude Include="Jeu\Tournoi.h" />
+    <ClInclude Include="Reseau\GestionnaireReseauClientLourd.h" />
     <ClInclude Include="Sons\SoundFMOD.h" />
     <ClInclude Include="Tests\BancTests.h" />
     <ClInclude Include="Tests\ConfigSceneTest.h" />

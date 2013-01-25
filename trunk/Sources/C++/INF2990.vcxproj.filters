@@ -66,6 +66,9 @@
     <Filter Include="Sources Files\Arbre\Hud">
       <UniqueIdentifier>{b888852e-6f04-4fad-b632-a4c009c203ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources Files\Reseau">
+      <UniqueIdentifier>{5c38cbba-2b01-416d-abce-e6453f3078f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application\FacadeModele.cpp">
@@ -340,6 +343,9 @@
     </ClCompile>
     <ClCompile Include="Interface\DebugRenderBox2D.cpp">
       <Filter>Sources Files\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Reseau\GestionnaireReseauClientLourd.cpp">
+      <Filter>Sources Files\Reseau</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -648,6 +654,9 @@
     </ClInclude>
     <ClInclude Include="Interface\DebugRenderBox2D.h">
       <Filter>Sources Files\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\GestionnaireReseauClientLourd.h">
+      <Filter>Sources Files\Reseau</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
