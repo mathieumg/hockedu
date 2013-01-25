@@ -38,7 +38,7 @@ enum EtatGestion{
 /// @author Vincent Lemire
 /// @date 2012-01-20
 ////////////////////////////////////////////////////////////////////////////
-class GestionnaireEvenements:public Singleton<GestionnaireEvenements>, public Subject<GestionnaireEvenements>
+class GestionnaireEvenements:public Singleton<GestionnaireEvenements>, public MouseMoveSubject
 {
 	
 public:
@@ -64,9 +64,6 @@ public:
 	void miseAJourEvenementsRepetitifs(float detlaTemps);
 	/// Renvoie l'état courant
 	GestionnaireEtatAbstrait* obtenirEtat();
-
-    /// Accessors of mEvent
-    inline const EvenementSouris& getEvent() const { return mEvent; }
 private:
 	SINGLETON_DECLARATION_CLASSE_SANS_CONSTRUCTEUR(GestionnaireEvenements);
 	/// Contructeur
@@ -75,10 +72,6 @@ private:
 	~GestionnaireEvenements();
 	/// Ceci est un pointeur vers le gestionnaire d'événement auquel renvoyer les différents événements, comme le clavier ou la souris, selon l'état courant
 	GestionnaireEtatAbstrait* etatCourant_; 
-
-    /// Cache de l'événement souris pour l'accès par ses observers
-    /// uniquement utilisé pour le MouseMove en ce moment
-    EvenementSouris mEvent;
 
 };
 

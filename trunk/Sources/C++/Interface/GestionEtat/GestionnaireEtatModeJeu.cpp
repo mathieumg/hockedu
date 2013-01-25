@@ -211,12 +211,10 @@ void GestionnaireEtatModeJeu::sourisDeplacee( EvenementSouris& evenementSouris )
 	}
 	else
 	{
-#if !BOX2D_INTEGRATED  
 		NoeudMaillet* maillet = FacadeModele::getInstance()->obtenirMailletJoueurGauche();
 		maillet->assignerPosSouris(coordonneesSouris);
 		maillet = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
-		maillet->assignerPosSouris(coordonneesSouris);	
-#endif	
+		maillet->assignerPosSouris(coordonneesSouris);		
 	}
 
 
