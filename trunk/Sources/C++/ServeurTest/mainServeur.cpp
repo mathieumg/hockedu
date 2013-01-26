@@ -17,7 +17,7 @@ int main(void)  {
 
     GestionnaireReseau::setNetworkMode(SERVER);
     GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
-
+    wGestionnaireReseau->init();
 
 
 

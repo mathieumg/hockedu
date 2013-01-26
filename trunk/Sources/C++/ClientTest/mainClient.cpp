@@ -34,6 +34,7 @@ int main(void)  {
 
 	GestionnaireReseau::setNetworkMode(CLIENT);
 	GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
+    wGestionnaireReseau->init();
 	
 	Socket* wSocket = new Socket(wIpServeur, 5010, TCP);
 
