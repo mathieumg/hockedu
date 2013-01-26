@@ -25,12 +25,14 @@
 #include "utilitaire.h"
 #include "NoeudMaillet.h"
 #include "NoeudRondelle.h"
+#include "NoeudBut.h"
 #include "NoeudPiece.h"
 #include "XMLUtils.h"
 #include "FacadeModele.h"
 #include "NoeudAccelerateur.h"
 #include "NoeudPortail.h"
 #include "VisiteurFunction.h"
+#include "Partie.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -747,7 +749,7 @@ void Terrain::appliquerPhysique( float temps )
         FacadeModele::getInstance()->getWorld()->SetWarmStarting(true);
         FacadeModele::getInstance()->getWorld()->SetContinuousPhysics(true);
         FacadeModele::getInstance()->getWorld()->SetSubStepping(true);
-        FacadeModele::getInstance()->getWorld()->Step(temps, 8, 3);
+        FacadeModele::getInstance()->getWorld()->Step(temps, 8, 8);
 #else
 		arbreRendu_->majPosition(temps);
 		arbreRendu_->gestionCollision(temps);
@@ -804,8 +806,38 @@ void Terrain::BeginContact( b2Contact* contact )
         {
         case CATEGORY_BOUNDARY:
             // TODO:: à tester
-            if(bodies[0]->GetLinearVelocity().LengthSquared() > 200)
-                SoundFMOD::obtenirInstance()->playEffect(COLLISION_MURET_EFFECT);
+            {
+                NoeudBut *but = dynamic_cast<NoeudBut *>((NoeudAbstrait*)bodies[1]->GetUserData());
+                if (but)
+                {
+                    b2Body* rondelleBody = bodies[0];
+                    NoeudRondelle* rondelle = (NoeudRondelle*)(rondelleBody->GetUserData());
+                    FacadeModele::getInstance()->RunOnUpdateThread(new Runnable([=](Runnable*){
+                        Partie* partie = FacadeModele::getInstance()->obtenirPartieCourante();
+                        if(partie)
+                        {
+                            auto position = rondelle->obtenirPositionAbsolue();
+                            if(position[VX] < 0)
+                            {
+                                partie->incrementerPointsJoueurDroit();
+                            }
+                            else
+                            {
+                                partie->incrementerPointsJoueurGauche();
+                            }
+                            SoundFMOD::obtenirInstance()->playEffect(GOAL_EFFECT);
+                            partie->afficherScore();
+                        }
+                        partie->miseAuJeu();
+                        rondelleBody->SetLinearVelocity(b2Vec2(0,0));
+                    }),true);
+                }
+                else
+                {
+                    if(bodies[0]->GetLinearVelocity().LengthSquared() > 200)
+                        SoundFMOD::obtenirInstance()->playEffect(COLLISION_MURET_EFFECT);
+                }
+            }
             break;
             //     case CATEGORY_PUCK    : // impossible case
             //         break;
