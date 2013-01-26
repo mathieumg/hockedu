@@ -43,9 +43,9 @@ PaquetBase::PaquetBase( const std::string& pOperation)
 {
 	numeroPaquet = ++CompteurNumeroPaquet;
     // Size de Paquet
-    mTaillePaquet = Paquet::sequenceIdentification.length()+1 + GestionnaireReseau::longueurMaxOperationReseau;
+    //mTaillePaquet = (int) (Paquet::sequenceIdentification.length()+1 + GestionnaireReseau::longueurMaxOperationReseau);
     // Size de PaquetBase
-    mTaillePaquet += sizeof(PaquetBase::numeroPaquet) + sizeof(mTaillePaquet);
+    //mTaillePaquet += sizeof(PaquetBase::numeroPaquet) + sizeof(mTaillePaquet);
 }
 
 
@@ -76,9 +76,4 @@ PaquetBase::~PaquetBase()
 int PaquetBase::getNumeroPaquet() const
 {
 	return numeroPaquet;
-}
-
-int PaquetBase::getTaillePaquet() const
-{
-    return mTaillePaquet;
 }

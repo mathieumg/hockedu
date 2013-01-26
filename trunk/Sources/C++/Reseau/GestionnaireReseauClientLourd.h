@@ -18,15 +18,18 @@
 /// @author Mathieu Parent
 /// @date 2013-01-25
 ///////////////////////////////////////////////////////////////////////////
-class GestionnaireReseauClientLourd :public GestionnaireReseau
+class GestionnaireReseauClientLourd :public Singleton<GestionnaireReseauClientLourd>
 {
+
+    SINGLETON_DECLARATION_CLASSE_SANS_CONSTRUCTEUR(GestionnaireReseauClientLourd);
 public:
-	/// Constructeur par defaut
-	GestionnaireReseauClientLourd();
-	/// Destructeur
-	~GestionnaireReseauClientLourd();
+	
 
 private:
+    /// Constructeur par defaut
+    GestionnaireReseauClientLourd();
+    /// Destructeur
+    ~GestionnaireReseauClientLourd();
 
 };
 

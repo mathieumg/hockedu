@@ -9,6 +9,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "GestionnaireReseauClientLourd.h"
+#include "PaquetHandlers\PacketHandlerChatMessage.h"
+#include "UsinePaquets\UsinePaquetChatMessage.h"
+
+// Initialisations automatiques
+SINGLETON_DECLARATION_CPP(GestionnaireReseauClientLourd);
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -22,6 +27,15 @@
 ////////////////////////////////////////////////////////////////////////
 GestionnaireReseauClientLourd::GestionnaireReseauClientLourd()
 {
+    // Initialisation du GestionnaireReseau
+    GestionnaireReseau::setNetworkMode(CLIENT);
+    GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
+    wGestionnaireReseau->init();
+
+    // On doit ajouter une nouvelle operation reseau pour que le systeme le connaisse (1 par type de paquet)
+    wGestionnaireReseau->ajouterOperationReseau("ChatMessage", new PacketHandlerChatMessage, new UsinePaquetChatMessage);
+
+
 }
 
 
@@ -37,7 +51,7 @@ GestionnaireReseauClientLourd::GestionnaireReseauClientLourd()
 ////////////////////////////////////////////////////////////////////////
 GestionnaireReseauClientLourd::~GestionnaireReseauClientLourd()
 {
-
+    GestionnaireReseau::libererInstance();
 }
 
 

@@ -7,7 +7,7 @@
 /// @addtogroup utilitaire Utilitaire
 /// @{
 ////////////////////////////////////////////////////////////////////////////////////
-
+#define _WINSOCKAPI_
 #include <windows.h>
 #include "glew.h"
 #include "ProjectionOrtho.h"

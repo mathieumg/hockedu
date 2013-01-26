@@ -10,6 +10,7 @@
 
 #pragma once
 #include <queue>
+#define _WINSOCKAPI_
 #include <Windows.h>
 
 

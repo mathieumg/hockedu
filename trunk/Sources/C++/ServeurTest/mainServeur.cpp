@@ -19,6 +19,8 @@ int main(void)  {
     GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
 
 
+
+
     //Socket* wSocket = new Socket("127.0.0.1", 5010, TCP);
 
 

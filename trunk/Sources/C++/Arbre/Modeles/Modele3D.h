@@ -13,7 +13,7 @@
 #include <assimp.hpp>      // Interface d'importation "assimp" C++
 #include <aiScene.h>       // Structure de données de sortie "assimp"
 #include <aiPostProcess.h> // Drapaux de post-traitement "assimp"
-
+#define _WINSOCKAPI_
 #include <windows.h>
 #include "glew.h"
 

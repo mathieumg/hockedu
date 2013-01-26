@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <cassert>
 #include <cmath>
 #include <cstring>
+#define _WINSOCKAPI_
 #include <windows.h>
 #include "glew.h"
 #include <GL/glu.h>

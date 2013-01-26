@@ -70,7 +70,7 @@ void SocketTCPServeur::listen( uint32_t nbConnections /* = 1*/)
 ////////////////////////////////////////////////////////////////////////
 Socket* SocketTCPServeur::accept( __out sockaddr* addr, uint32_t* addrlen )
 {
-    sockaddr_in* temp;
+    sockaddr_in* temp = new sockaddr_in;
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
     SOCKET wTempSocket;
 #else
@@ -79,7 +79,7 @@ Socket* SocketTCPServeur::accept( __out sockaddr* addr, uint32_t* addrlen )
     if(addr == NULL && addrlen == NULL)
     {
 
-        int taille = sizeof(*temp);
+        int taille = sizeof(sockaddr_in);
         wTempSocket = ::accept(mSocket, (sockaddr*)temp, &taille);
     }
     else

@@ -28,7 +28,7 @@ public:
     //Reads a byte from the packet
     byte readByte() { return readUnsignedChar(); }
     //Reads a bool from the packet
-    bool readBool(bool pBoolToAdd) { return readByte() == 1; }
+    bool readBool() { return readByte() == 1; }
 
     //Two bytes data types.
     //Reads a short from the packet
@@ -83,7 +83,7 @@ private:
 	uint8_t* mArrStart;
 
     // Stores current position in the array
-    uint16_t mCurrentPosition;
+    size_t mCurrentPosition; // Doit etre de type au moins aussi grand que mSize pour pouvoir donner la position 
     size_t mSize;
 };
 

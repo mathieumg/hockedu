@@ -16,6 +16,7 @@
 #include "Utilitaire.h"
 
 #ifdef WIN32
+#define _WINSOCKAPI_
 #include <windows.h>
 // Nous pouvons charger la librairie OpenGL (GLU) en indiquant cette directive
 // au précompilateur

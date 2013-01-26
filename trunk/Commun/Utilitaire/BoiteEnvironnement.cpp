@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////
 #include "BoiteEnvironnement.h"
 #include "AideGL.h"
-
+#define _WINSOCKAPI_
 #include <windows.h>
 #include "glew.h"
 

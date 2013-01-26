@@ -18,6 +18,7 @@
 #include <vector>
 #include <algorithm>
 #include <stdarg.h>
+#define _WINSOCKAPI_
 #include <Windows.h>
 #include "StackWalker.h"
 

@@ -3,7 +3,6 @@
 PaquetString::PaquetString( )
 	:PaquetBase("String")
 {
-    mTaillePaquet += 4;
     message = "";
 }
 
@@ -16,10 +15,7 @@ std::string PaquetString::getMessage() const
 
 void PaquetString::setMessage( const std::string& message )
 {
-    if( this->message != "" )
-        mTaillePaquet -= (message.length() + 1);
 	this->message = message;
-    mTaillePaquet += message.length()+1;
 }
 
 

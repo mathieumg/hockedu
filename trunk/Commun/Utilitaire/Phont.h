@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _PHONT_H
 
 #define _CRT_SECURE_NO_WARNINGS 1
-
+#define _WINSOCKAPI_
 #include <windows.h>
 #include "glew.h"
 #include <cstdarg>

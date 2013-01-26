@@ -7,7 +7,7 @@
 /// @addtogroup utilitaire Utilitaire
 /// @{
 /////////////////////////////////////////////////////////////////////////////////
-
+#define _WINSOCKAPI_
 #include <windows.h>
 #include <GL/glu.h>
 

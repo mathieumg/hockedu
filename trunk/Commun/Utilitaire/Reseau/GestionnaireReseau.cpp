@@ -33,6 +33,7 @@
 #include "UsinePaquets/UsinePaquetString.h"
 #include "UsinePaquets/UsinePaquetTest.h"
 #include "PaquetHandlers/PacketHandlerTest.h"
+#include <utility>
 
 // lien avec la librairie winsock2
 #pragma comment( lib, "ws2_32.lib" )
@@ -79,16 +80,11 @@ std::ofstream GestionnaireReseau::mLogHandle = GestionnaireReseau::logSetup();
 ////////////////////////////////////////////////////////////////////////
 GestionnaireReseau::GestionnaireReseau()
 {
-	
 	if(mNetworkMode == NOT_DEFINED) {
 		throw ExceptionReseau("Appel du constructeur de GestionnaireReseau avant GestionnaireReseau::setNetworkMode", NULL);
 	}
 
-
-	if(!init())
-	{
-		throw ExceptionReseau("Erreur init de Gestionnaire Reseau", NULL);
-	}
+    
     getNativeByteOrder();
 
 	mMutexListeSockets = CreateMutex(NULL, false, NULL);
@@ -122,10 +118,10 @@ GestionnaireReseau::~GestionnaireReseau()
 ///
 /// Initialisaiton des parametres systeme
 ///
-/// @return bool : Vrai si aucune erreur
+/// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-bool GestionnaireReseau::init()
+void GestionnaireReseau::init()
 {
     // Setup de la map pour les types d'exceptions
     mMapExceptions[WSAENOTCONN]         = SOCKET_DECONNECTE;    // Socket not connected
@@ -190,16 +186,22 @@ bool GestionnaireReseau::init()
 
 	
 
-
+    
     // Demarrer thread conn TCP Serveur
     if(GestionnaireReseau::getNetworkMode() == SERVER)
     {
         mCommunicateurReseau.demarrerThreadsConnectionTCPServeur();
     }
+    
 
 
 
-	return iResult == NO_ERROR;
+    if(iResult != NO_ERROR)
+    {
+        throw ExceptionReseau("Erreur init de Gestionnaire Reseau", NULL);
+    }
+
+
 }
 
 
@@ -391,7 +393,12 @@ bool GestionnaireReseau::validerOperation( const std::string& pOperation ) const
 ////////////////////////////////////////////////////////////////////////
 PacketHandler* GestionnaireReseau::getPacketHandler( const std::string& pOperation )
 {
-	return (*mListeHandlers.find(pOperation)).second;
+    std::map<std::string, PacketHandler*>::iterator it = mListeHandlers.find(pOperation);
+    if(it == mListeHandlers.end())
+    {
+        throw ExceptionReseau("Operation invalide lors de l'appel a getPacketHandler");
+    }
+	return (*it).second;
 }
 
 
@@ -677,7 +684,7 @@ void GestionnaireReseau::throwExceptionReseau(const std::string& pMessagePrefix 
     {
         wType = mMapExceptions.at(wErreur);
     }
-    catch(std::out_of_range& e)
+    catch(std::out_of_range&)
     {
         if(wErreur == 0)
         {
@@ -757,6 +764,29 @@ std::string GestionnaireReseau::getPlayerName( Socket* pSocket )
     }
     ReleaseMutex(mMutexListeSockets);
     return "";
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn std::set<std::string> GestionnaireReseau::getPlayerNameList() const
+///
+/// Methode pour obtenir la liste des noms des joueurs connectes
+/// 
+/// @return std::set<std::string>   : Liste des noms
+///
+////////////////////////////////////////////////////////////////////////
+std::set<std::string> GestionnaireReseau::getPlayerNameList(ConnectionType pConnectionType) const
+{
+    std::set<std::string> wReturnSet;
+    for (std::map<std::pair<std::string, ConnectionType>, Socket*>::const_iterator it = mListeSockets.begin(); it!=mListeSockets.end(); ++it)
+    {
+        if((*it).first.second == pConnectionType)
+        {
+            wReturnSet.insert((*it).first.first);
+        }
+    }
+    return wReturnSet;
 }
 
 

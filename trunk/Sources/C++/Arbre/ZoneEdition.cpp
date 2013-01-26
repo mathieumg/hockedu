@@ -10,6 +10,7 @@
 
 #include "ZoneEdition.h"
 #include "tinyxml.h"
+#define _WINSOCKAPI_
 #include <windows.h>
 #include "glew.h"
 #include "XMLUtils.h"

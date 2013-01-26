@@ -150,7 +150,7 @@ public:
     void clearBuffer();
 
     // Methode pour avoir la taille d'un string qui doit etre envoye par le network
-    static int getSizeForString(const std::string& pString) {return 5 + pString.length();} // 5 = 4 pour le int et 1 pour caractere de fin
+    static int getSizeForString(const std::string& pString) {return (int) (5 + pString.length());} // 5 = 4 pour le int et 1 pour caractere de fin
        
     // Methode pour avoir la taille d'un int qui doit etre envoye par le network
     static int getSizeForInt() {return sizeof(int);}
@@ -163,6 +163,12 @@ public:
 
     //Methode pour avoir la taille d'un char qui doit etre envoye par le network
     static int getSizeForChar() {return sizeof(char);}
+
+    //Methode pour avoir la taille d'un bool qui doit etre envoye par le network
+    static int getSizeForBool() {return sizeof(bool);}
+
+    //Methode pour avoir la taille d'un int64_t qui doit etre envoye par le network
+    static int getSizeFor64bInteger() {return sizeof(int64_t);}
       
 private:
 	//Boolean which determines whether data's bytes should be switched or not.

@@ -175,7 +175,7 @@ void CommunicateurReseau::demarrerThreadsConnectionTCPServeur()
     if(hostCourant == NULL)
     {
         // Probleme au get des valeurs reseau locales
-        GestionnaireReseau::obtenirInstance()->throwExceptionReseau();
+        throw ExceptionReseau("Erreur lors de la lecture des adresses reseau locales");
         return;
     }
     
@@ -548,8 +548,7 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
                 // Probleme, on ne sait pas c'est quoi, on drop le paquet
             }
 
-
-            delete wPaquetAEnvoyer->paquet;
+            wPaquetAEnvoyer->paquet->removeAssociatedQuery();
 			delete wPaquetAEnvoyer;
 		}
 
@@ -634,12 +633,12 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                                     HeaderPaquet wPacketHeader = wPacketHandler->handlePacketHeaderReception(wPacketReader);
                                     wPacketReader.setSize(wReceivedBytes);
                                     checkf(wPacketHeader.taillePaquet > wReceivedBytes); // Si trigger, probleme avec lecture du header du paquet (big trouble)
-                                    int wTailleRestanteALire = wPacketHeader.taillePaquet - wReceivedBytes;
+                                    int wTailleRestanteALire = (int) (wPacketHeader.taillePaquet - wReceivedBytes);
                                     while (wTailleRestanteALire>0)
                                     {
                                         wReceivedBytes += wSocket->recv(readBuffer, wTailleRestanteALire);
                                         wPacketReader.append(wReceivedBytes, readBuffer);
-                                        wTailleRestanteALire = wPacketHeader.taillePaquet - wReceivedBytes;
+                                        wTailleRestanteALire = (int) (wPacketHeader.taillePaquet - wReceivedBytes);
                                     }
                                     wPacketHandler = GestionnaireReseau::obtenirInstance()->getPacketHandler(wPacketHeader.type);
                                     wPacketHandler->handlePacketReceptionSpecific( wPacketReader );
@@ -656,7 +655,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                     // Test
                     
                 }
-                catch(ExceptionReseauSocketDeconnecte& e)
+                catch(ExceptionReseauSocketDeconnecte&)
                 {
                     wSocket->disconnect();
                     if(GestionnaireReseau::getNetworkMode() == CLIENT)
@@ -674,13 +673,13 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                     
                     continue;
                 }
-                catch(ExceptionReseauTimeout& e)
+                catch(ExceptionReseauTimeout&)
                 {
                     // Timeout
                     // Just wait and skip this iteration (should not happend here)
                     // Va etre utile pour la detection de connection en UDP
                 }
-                catch(ExceptionReseau& e)
+                catch(ExceptionReseau&)
                 {
                     // Erreur inconnue
                     GestionnaireReseau::sendMessageToLog("Erreur inconnue survenue a la reception ");
@@ -792,10 +791,10 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
     {
         wSocket->bind();
     }
-    catch(ExceptionReseau& e)
+    catch(ExceptionReseau&)
     {
         wSocket->setConnectionState(NOT_CONNECTED);
-        throw ExceptionReseau("Appel a bind() impossible. Type: TCP SERVEUR. Adresse: " + wSocket->getAdresseDestination());
+        throw ExceptionReseau("Appel a bind() impossible. Type: TCP SERVEUR.");
         ExitThread(EXIT_FAILURE);
     }
 
@@ -804,10 +803,10 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
     {
         wSocket->listen(50);
     }
-    catch(ExceptionReseau& e)
+    catch(ExceptionReseau&)
     {
         wSocket->setConnectionState(NOT_CONNECTED);
-        throw ExceptionReseau("Appel a listen() impossible. Type: TCP SERVEUR. Adresse: " + wSocket->getAdresseDestination());
+        throw ExceptionReseau("Appel a listen() impossible. Type: TCP SERVEUR.");
         ExitThread(EXIT_FAILURE);
     }
 
@@ -847,7 +846,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
             }
 
         }
-        catch(ExceptionReseau& e)
+        catch(ExceptionReseau&)
         {
             wNewSocket->disconnect();
             delete wNewSocket; // Prevent a memory leak if the Socket object was still created

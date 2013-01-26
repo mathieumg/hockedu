@@ -14,7 +14,7 @@
 #ifndef __UTILITAIRE_AIDEGL_H__
 #define __UTILITAIRE_AIDEGL_H__
 
-
+#define _WINSOCKAPI_
 #include <windows.h>
 #include "glew.h"
 #include <string>

@@ -69,6 +69,15 @@
     <Filter Include="Sources Files\Reseau">
       <UniqueIdentifier>{5c38cbba-2b01-416d-abce-e6453f3078f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources Files\Reseau\Paquets">
+      <UniqueIdentifier>{d36e293c-de77-45e1-bfec-591015b4a879}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources Files\Reseau\PaquetHandlers">
+      <UniqueIdentifier>{88fca8f0-3b7b-4125-a2df-36c117b13552}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources Files\Reseau\UsinePaquets">
+      <UniqueIdentifier>{730757d9-2967-4595-9ace-2d0c4045ab15}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application\FacadeModele.cpp">
@@ -339,6 +348,15 @@
       <Filter>Sources Files\Interface</Filter>
     </ClCompile>
     <ClCompile Include="Reseau\GestionnaireReseauClientLourd.cpp">
+      <Filter>Sources Files\Reseau</Filter>
+    </ClCompile>
+    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp">
+      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="Reseau\Paquets\PaquetChatMessage.cpp">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="Reseau\RelayeurMessage.cpp">
       <Filter>Sources Files\Reseau</Filter>
     </ClCompile>
   </ItemGroup>
@@ -647,6 +665,18 @@
       <Filter>Sources Files\Interface</Filter>
     </ClInclude>
     <ClInclude Include="Reseau\GestionnaireReseauClientLourd.h">
+      <Filter>Sources Files\Reseau</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerChatMessage.h">
+      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\Paquets\PaquetChatMessage.h">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetChatMessage.h">
+      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\RelayeurMessage.h">
       <Filter>Sources Files\Reseau</Filter>
     </ClInclude>
   </ItemGroup>

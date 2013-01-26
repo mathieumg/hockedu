@@ -13,6 +13,7 @@
 #define _USE_MATH_DEFINES
 #include "UtilitaireINF2990.h"
 #include <math.h>
+#define _WINSOCKAPI_
 #include <windows.h>
 #include "glew.h"
 #include "Vecteur.h"

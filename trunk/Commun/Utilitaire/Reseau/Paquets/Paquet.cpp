@@ -26,6 +26,7 @@ const std::string Paquet::sequenceIdentification = "LindseyStirling";
 Paquet::Paquet(const std::string& operation)
 {
 	strncpy_s(mOperation, GestionnaireReseau::longueurMaxOperationReseau, operation.c_str(), GestionnaireReseau::longueurMaxOperationReseau);
+    mNbAssociatedQueries = 1; // Par defaut, on envoie le paquet qu'une seule fois
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -54,6 +55,26 @@ Paquet::~Paquet(void)
 std::string Paquet::getOperation() const
 {
 	return std::string(mOperation);
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Paquet::removeAssociatedQueries()
+///
+/// Methode qui decremente le compteur de queries associees a ce Paquet.
+/// Si compteur = 0, on appelle le destructeur
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Paquet::removeAssociatedQuery()
+{
+    --mNbAssociatedQueries;
+    if(mNbAssociatedQueries == 0)
+    {
+        delete this;
+    }
 }
 
 

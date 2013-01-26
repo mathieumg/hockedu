@@ -9,6 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 //#include "glew.h"
+#define _WINSOCKAPI_
 #include <windows.h>
 #include "glew.h"
 #include <vector>

@@ -48,7 +48,6 @@ Socket::Socket(const std::string& pDestinationIP, const int& pPortNumber, Connec
 	if(mSocket == -1)
 #endif
 	{
-		int i = WSAGetLastError();
 		throw ExceptionReseau("Could not initialize socket.");
 	}
 
@@ -511,7 +510,7 @@ void Socket::init()
             {
                 bind();
             }
-            catch(ExceptionReseau& e)
+            catch(ExceptionReseau&)
             {
                 // Could not connect
                 mConnectionState = NOT_CONNECTED;
@@ -532,7 +531,7 @@ void Socket::init()
                 connect();
                 // Si connect fonctionne, il faut envoyer notre nom de player au serveur
                 std::string wPlayerName = GestionnaireReseau::obtenirInstance()->getPlayerName(this); // C'est plate, mais on ne veut pas garder le nom du joueur dans le socket lui-meme
-                send((uint8_t*) wPlayerName.c_str(), wPlayerName.length()+1, true); // +1 pour avoir le caractere de fin de string
+                send((uint8_t*) wPlayerName.c_str(), (uint32_t) (wPlayerName.length()+1), true); // +1 pour avoir le caractere de fin de string
 
                 // On recoit le message de confirmation
                 char wConfirmation[2];
@@ -548,7 +547,7 @@ void Socket::init()
                 }
 
             }
-            catch(ExceptionReseau& e)
+            catch(ExceptionReseau&)
             {
                 // Could not connect
                 mConnectionState = NOT_CONNECTED;

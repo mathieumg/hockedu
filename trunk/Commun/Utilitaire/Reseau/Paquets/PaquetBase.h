@@ -28,11 +28,9 @@ private:
     
 protected:
 	PaquetBase( const std::string& pOperation);
-    int mTaillePaquet;
 public:
 	static int CompteurNumeroPaquet;
 	int getNumeroPaquet() const;
-    int getTaillePaquet() const;
 	~PaquetBase();
 
 };

@@ -46,13 +46,13 @@ int main(void)  {
     {
         PaquetTest* wPaquet = (PaquetTest*) wGestionnaireReseau->creerPaquet("Test");
         wPaquet->setMessage("!!!!!!!!!!! BOB EST BEAU !!!!!!!!!!!");
-        wPaquet->setInt(1.0);
-        wPaquet->setFloat(1.0/3.0);
+        wPaquet->setInt(1);
+        wPaquet->setFloat(1.0f/3.0f);
         try
         {
             wGestionnaireReseau->envoyerPaquet(wSocket, wPaquet);
         }
-        catch(ExceptionReseau& e)
+        catch(ExceptionReseau&)
         {
             // On ne peut pas envoyer le paquet pour le moment
 

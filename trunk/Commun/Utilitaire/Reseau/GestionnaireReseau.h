@@ -17,6 +17,7 @@
 #include "ExceptionsReseau\ExceptionReseau.h"
 #include "CommunicateurReseau.h"
 #include <fstream>
+#include <set>
 
 class PacketHandler;
 class UsinePaquet;
@@ -51,7 +52,8 @@ public:
 
 
 
-
+    // Methode d'initialisation (initialise notamment Winsock)
+	void init();
 
 	// Set the network mode
 	inline static void setNetworkMode(NetworkMode pNetworkMode) {mNetworkMode = pNetworkMode;}
@@ -90,6 +92,9 @@ public:
     // Methode (PAS OPTIMALE) pour retourner le nom du player associee a un socket
     std::string getPlayerName(Socket* pSocket);
 
+    // Retourne la liste des joueurs connectes
+    std::set<std::string> getPlayerNameList(ConnectionType pConnectionType) const;
+
 	Paquet* creerPaquet(const std::string& pOperation);
 
 	void gererExceptionReseau(ExceptionReseau* pException) const;
@@ -112,16 +117,12 @@ public:
     //Contains the operating system's byte order.
 	static ByteOrder NATIVE_BYTE_ORDER;
 private:
-    // Methode d'initialisation (initialise notamment Winsock)
-	bool init();
+    
 
     // Methode de nettoyage
 	void supprimerPacketHandlersEtUsines();
 
-	/// Constructeur par défaut.
-	GestionnaireReseau();
-	/// Destructeur.
-	~GestionnaireReseau();
+	
 
 	// Liste des handlers pour les paquets
 	std::map<std::string, PacketHandler*> mListeHandlers;
@@ -145,6 +146,11 @@ private:
 	// fstream pour le log de reseautique
 	static std::ofstream mLogHandle;
 	
+protected:
+    /// Constructeur par défaut.
+    GestionnaireReseau();
+    /// Destructeur.
+    ~GestionnaireReseau();
 };
 
 

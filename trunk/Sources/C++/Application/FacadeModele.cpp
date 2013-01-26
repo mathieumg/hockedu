@@ -16,7 +16,7 @@
 
 @li <a href="../javadoc/index.html">Documentation Javadoc de la partie Java.</a>
 */
-
+#define _WINSOCKAPI_
 #include <windows.h>
 #include <cassert>
 

@@ -11,6 +11,7 @@
 #define __APPLICATION_FACADEMODELE_H__
 #define GL_GLEXT_PROTOTYPES 1
 #include "glew.h"
+#define _WINSOCKAPI_
 #include <windows.h>
 #include "Vecteur.h"
 #include "INF2990TypeDef.h"

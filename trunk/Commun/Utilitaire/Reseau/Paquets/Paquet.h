@@ -31,12 +31,18 @@ public:
 	static const std::string sequenceIdentification;
 	std::string getOperation() const;
 
+    inline int getNbAssociatedQueries() const { return mNbAssociatedQueries; }
+    // Attention, si la mauvaise valeur est mise, cela peut causer des GROS problemes
+    inline void setNbAssociatedQueries(int pNbAssociatedQueries) { mNbAssociatedQueries = pNbAssociatedQueries; }
+    // Fonction qui decremente le compteur de queries associees a ce Paquet, Si compteur = 0, on appelle le destructeur
+    void removeAssociatedQuery();
+
 protected: 
 	Paquet(const std::string& operation);
 private:
 	char mOperation[GestionnaireReseau::longueurMaxOperationReseau];
-	
-
+	int mNbAssociatedQueries; // Nb de fois que le paquet doit etre envoyer (different de 1 si on fait un envoie de masse)
+    
 	
 };
 

@@ -12,6 +12,7 @@
 
 #define _USE_MATH_DEFINES
 #include <math.h>
+#define _WINSOCKAPI_
 #include <windows.h>
 #include <GL/glu.h>
 #include "Utilitaire.h"
