@@ -820,7 +820,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
         {
             wNewSocket = wSocket->accept((sockaddr*)&sinRemote, &nAddrSize);
 
-            // On recoit le premier paquet venant de la personne qui se connecte (contient son nom)
+            // On recoit le premier paquet venant de la personne qui se connecte (contient son nom) ne pas bloquer trop longtemps
             char wPlayerName[50];
             wNewSocket->recv((uint8_t*) &wPlayerName, 50, true);
             // On verifie que le user n'est pas deja connecte

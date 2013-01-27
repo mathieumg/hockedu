@@ -88,6 +88,7 @@ void RelayeurMessage::relayerPaquetGlobalement(Paquet* pPaquet, const std::set<s
 ////////////////////////////////////////////////////////////////////////
 void RelayeurMessage::relayerPaquet( const std::string& pPlayerName, Paquet* pPaquet, ConnectionType pConnectionType /* = TCP */ )
 {
+  
     // On envoie le paquet a une personne en particulier
     GestionnaireReseau* wGestionnaire = GestionnaireReseau::obtenirInstance();
     try

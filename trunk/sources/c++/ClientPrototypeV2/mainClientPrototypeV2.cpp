@@ -9,6 +9,8 @@
 #include <string>
 #include "..\Reseau\Paquets\PaquetChatMessage.h"
 #include <time.h>
+#include "Menu.h"
+#include "MenuOption.h"
 
 
 using namespace std;
@@ -25,10 +27,13 @@ int main(void)  {
     char wName[50];
     cin.getline(wName, 50);
 
+    Menu wMenu("Choose the IP of the server");
+    wMenu.addMenuOption(0, new MenuOption("127.0.0.1"));
+    wMenu.addMenuOption(1, new MenuOption("173.177.0.193"));
+    std::string wServerIp = wMenu.displayAndPick();
 
 
-
-    Socket* wSocket = new Socket("127.0.0.1", 5010, TCP);
+    Socket* wSocket = new Socket(wServerIp, 5010, TCP);
     GestionnaireReseau::obtenirInstance()->saveSocket(wName, wSocket);
 
     std::cout << "Entrer un message et appuyez sur Entree: " << std::endl;
@@ -38,6 +43,20 @@ int main(void)  {
         
         char wBuffer[2000];
         cin.getline(wBuffer, 2000);
+
+        // Remonte std::cout d'une ligne (pas parfait, mais fait la job)
+        HANDLE ConHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+        if(ConHandle != INVALID_HANDLE_VALUE)
+        {
+            CONSOLE_SCREEN_BUFFER_INFO SBInfo;
+            GetConsoleScreenBufferInfo(ConHandle, &SBInfo);
+
+            COORD Pos;
+            Pos.X=0;
+            Pos.Y=SBInfo.dwCursorPosition.Y-1;
+
+            SetConsoleCursorPosition(ConHandle,Pos);
+        }
 
         PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet("ChatMessage");
 

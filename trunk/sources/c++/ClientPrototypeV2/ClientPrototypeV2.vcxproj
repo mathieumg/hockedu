@@ -146,6 +146,10 @@
     <ClCompile Include="..\Reseau\Paquets\PaquetChatMessage.cpp" />
     <ClCompile Include="..\Reseau\RelayeurMessage.cpp" />
     <ClCompile Include="mainClientPrototypeV2.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MenuOption.cpp" />
+    <ClCompile Include="MenuOptionIPChooser.cpp" />
+    <ClCompile Include="PacketDisassembler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Commun\Utilitaire\Utilitaire.vcxproj">
@@ -163,6 +167,10 @@
     <ClInclude Include="..\Reseau\Paquets\PaquetChatMessage.h" />
     <ClInclude Include="..\Reseau\RelayeurMessage.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatMessage.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="MenuOption.h" />
+    <ClInclude Include="MenuOptionIPChooser.h" />
+    <ClInclude Include="PacketDisassembler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

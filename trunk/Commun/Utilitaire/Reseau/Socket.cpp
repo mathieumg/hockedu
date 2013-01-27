@@ -533,14 +533,31 @@ void Socket::init()
                 std::string wPlayerName = GestionnaireReseau::obtenirInstance()->getPlayerName(this); // C'est plate, mais on ne veut pas garder le nom du joueur dans le socket lui-meme
                 send((uint8_t*) wPlayerName.c_str(), (uint32_t) (wPlayerName.length()+1), true); // +1 pour avoir le caractere de fin de string
 
-                // On recoit le message de confirmation
+                // On recoit le message de confirmation, ne pas bloquer
                 char wConfirmation[2];
-                recv((uint8_t*) &wConfirmation, 2, true);
+
+                fd_set readfds;
+                FD_ZERO(&readfds);
+                FD_SET(mSocket, &readfds); // Set the File Descriptor to the one of the socket
+                timeval tv = { 10 }; // 10 sec timeout
+                if(select(0, &readfds, NULL, NULL, &tv) <= 0) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
+                {
+                    // Timeout
+                    wConfirmation[0] = '0';
+                }
+                else
+                {
+                    recv((uint8_t*) &wConfirmation, 2, true);
+                }
+
+                
 
                 if(wConfirmation[0] == '0')
                 {
                     // Connection refusee
                     mConnectionState = NOT_CONNECTED;
+                    disconnect();
+                    std::cout << "Connection refusee" << std::endl;
                     GestionnaireReseau::sendMessageToLog("Connection refusee. Type: TCP CLIENT. Adresse: " + getAdresseDestination());
                     ReleaseMutex(mMutexActiviteSocket);
                     return;
