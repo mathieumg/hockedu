@@ -52,6 +52,9 @@ public:
     // Methode pour deconnecter le socket (s'il est brise par exemple)
     void disconnect();
 
+    // Methode qui attend que le socket soit lisible avec un Timeout max (True si libre)
+    bool attendreSocket(const int& pTimeout) const;
+
 private:
     
     HANDLE mMutexActiviteSocket;

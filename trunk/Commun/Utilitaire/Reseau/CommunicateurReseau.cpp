@@ -738,7 +738,7 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
 
     int wNbTentatives = 0;
 	
-    while(wNbTentatives<200000) // 20 tentatives max = 40 sec de connection max
+    while(wNbTentatives<200) // 200 tentatives max = 40 sec de connection max
     {
 	    // Essayer de connecter le socket
         std::cout << "Tentative de connection a " << wSocket->getAdresseDestination() << std::endl;
@@ -822,6 +822,10 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
 
             // On recoit le premier paquet venant de la personne qui se connecte (contient son nom) ne pas bloquer trop longtemps
             char wPlayerName[50];
+            if(!wNewSocket->attendreSocket(5)) // On donne 5 sec au client pour envoyer son nom, sinon on le rejette
+            {
+                throw ExceptionReseau("Blocage prevenu a la reception du PlayerName lors de la connection");
+            }
             wNewSocket->recv((uint8_t*) &wPlayerName, 50, true);
             // On verifie que le user n'est pas deja connecte
             if(GestionnaireReseau::obtenirInstance()->getSocket(wPlayerName, TCP) == NULL)
@@ -848,6 +852,12 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
         }
         catch(ExceptionReseau&)
         {
+            try // On essaie d'envoyer un message de refus au client (try pcq il peut etre deconnecte et le send va fail)
+            {
+                char wMessageRefus[2] = "0";
+                wNewSocket->send((uint8_t*) &wMessageRefus, 2, true);
+            }
+            catch(ExceptionReseau&){}
             wNewSocket->disconnect();
             delete wNewSocket; // Prevent a memory leak if the Socket object was still created
             wNewSocket = 0;

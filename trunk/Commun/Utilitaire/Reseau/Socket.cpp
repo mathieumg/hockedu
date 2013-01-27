@@ -2,6 +2,8 @@
 #include "ExceptionsReseau\ExceptionReseau.h"
 #include "GestionnaireReseau.h"
 #include "ExceptionsReseau\ExceptionReseauSocketDeconnecte.h"
+#include "Utilitaire.h"
+#include <winsock2.h>
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -218,11 +220,7 @@ uint32_t Socket::recvfrom( __out uint8_t* msg, uint32_t msglen,__out sockaddr* f
 	// :: pour dire que c'est la fonction globale de ce nom et pas la methode
     if(!pBlock)
     {
-        fd_set readfds;
-        FD_ZERO(&readfds);
-        FD_SET(mSocket, &readfds); // Set the File Descriptor to the one of the socket
-        timeval tv = { 0 }; // 0 sec timeout
-        if(select(0, &readfds, NULL, NULL, &tv) <= 0) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
+        if(!attendreSocket(0)) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
         {
             // On ne peut pas appeler recvfrom car ca va bloquer
             return 0;
@@ -258,11 +256,7 @@ uint32_t Socket::sendto( uint8_t* msg, uint32_t msglen,sockaddr* to, bool pBlock
 {
     if(!pBlock)
     {
-        fd_set readfds;
-        FD_ZERO(&readfds);
-        FD_SET(mSocket, &readfds); // Set the File Descriptor to the one of the socket
-        timeval tv = { 0 }; // 0 sec timeout
-        if(select(0, &readfds, NULL, NULL, &tv) <= 0) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
+        if(!attendreSocket(0)) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
         {
             // On ne peut pas appeler sendto car ca va bloquer (buffer plein)
             return 0;
@@ -294,11 +288,7 @@ uint32_t Socket::recv( __out uint8_t* buf, uint32_t bufLen, bool pBlock /* = fal
 {
     if(!pBlock)
     {
-        fd_set readfds;
-        FD_ZERO(&readfds);
-        FD_SET(mSocket, &readfds); // Set the File Descriptor to the one of the socket
-        timeval tv = { 0 }; // 0 sec timeout
-        if(select(0, &readfds, NULL, NULL, &tv) <= 0) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
+        if(!attendreSocket(0)) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
         {
             // On ne peut pas appeler recv car ca va bloquer
             return 0;
@@ -396,11 +386,7 @@ uint32_t Socket::send( const uint8_t* msg, uint32_t msglen, bool pBlock /* = fal
 {
     if(!pBlock)
     {
-        fd_set readfds;
-        FD_ZERO(&readfds);
-        FD_SET(mSocket, &readfds); // Set the File Descriptor to the one of the socket
-        timeval tv = { 0 }; // 0 sec timeout
-        if(select(0, &readfds, NULL, NULL, &tv) <= 0) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
+        if(!attendreSocket(0)) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
         {
             // On ne peut pas appeler send car ca va bloquer
             return 0;
@@ -536,18 +522,14 @@ void Socket::init()
                 // On recoit le message de confirmation, ne pas bloquer
                 char wConfirmation[2];
 
-                fd_set readfds;
-                FD_ZERO(&readfds);
-                FD_SET(mSocket, &readfds); // Set the File Descriptor to the one of the socket
-                timeval tv = { 10 }; // 10 sec timeout
-                if(select(0, &readfds, NULL, NULL, &tv) <= 0) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
+                if(attendreSocket(15)) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
                 {
-                    // Timeout
-                    wConfirmation[0] = '0';
+                    recv((uint8_t*) &wConfirmation, 2, true);
                 }
                 else
                 {
-                    recv((uint8_t*) &wConfirmation, 2, true);
+                    // Timeout
+                    wConfirmation[0] = '0';
                 }
 
                 
@@ -588,6 +570,27 @@ void Socket::init()
     ReleaseMutex(mMutexActiviteSocket);
 }
 
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool Socket::attendreSocket( const SOCKET& pSocket, const int& pTimeout ) const
+///
+/// Methode pour attendre et voir si un socket se lebere dans un delais donne
+/// 
+/// @param[in] const int& pTimeout      : Duree max d'attente (en sec)
+/// 
+/// @return bool    : True si Socket libre au return, False si Timeout atteint et socket encore occuppe
+///
+////////////////////////////////////////////////////////////////////////
+bool Socket::attendreSocket( const int& pTimeout ) const
+{
+    checkf(pTimeout>=0);
+    fd_set readfds;
+    FD_ZERO(&readfds);
+    FD_SET(mSocket, &readfds); // Set the File Descriptor to the one of the socket
+    timeval tv = { pTimeout }; // Set timeout
+    return select(0, &readfds, NULL, NULL, &tv) > 0; // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
+}
 
 
 void Socket::disconnect()

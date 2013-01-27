@@ -78,6 +78,7 @@ public:
 	// Enleve le socket et son thread de connection de la liste (surtout appelee par le thread lui meme quand il a terminer son travail)
 	void enleverConnectionThread(Socket* pSocket, bool pSuccess);
 
+
 	static int maxBufferSize;
 
 private:
