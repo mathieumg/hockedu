@@ -95,5 +95,8 @@
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.h">
       <Filter>Source Files\PacketHandlers</Filter>
     </ClInclude>
+    <ClInclude Include="..\Reseau\ControllerCPP.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

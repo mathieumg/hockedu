@@ -539,7 +539,7 @@ void Socket::init()
                     // Connection refusee
                     setConnectionState(NOT_CONNECTED);
                     disconnect();
-                    std::cout << "Connection refusee" << std::endl;
+                    //std::cout << "Connection refusee" << std::endl;
                     GestionnaireReseau::sendMessageToLog("Connection refusee. Type: TCP CLIENT. Adresse: " + getAdresseDestination());
                     ReleaseMutex(mMutexActiviteSocket);
                     return;

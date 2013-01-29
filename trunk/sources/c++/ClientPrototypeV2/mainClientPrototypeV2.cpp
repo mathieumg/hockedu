@@ -12,6 +12,7 @@
 #include "Menu.h"
 #include "MenuOption.h"
 #include <sstream>
+#include "..\Reseau\ControllerCPP.h"
 
 
 using namespace std;
@@ -20,6 +21,9 @@ int main(void)  {
 
     
     GestionnaireReseauClientLourd::obtenirInstance();
+
+    ControllerCPP* wControlleur = new ControllerCPP();
+    GestionnaireReseau::obtenirInstance()->setController(wControlleur);
 
 
     std::cout << "--------- Client Prototype (Chat) ---------" << std::endl << std::endl;
@@ -97,6 +101,7 @@ int main(void)  {
     }
 */
 
+    delete wControlleur;
     system("pause");
 
     return 0;
