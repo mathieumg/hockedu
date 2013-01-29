@@ -727,6 +727,7 @@
     <ClCompile Include="Jeu\JoueurVirtuel.cpp" />
     <ClCompile Include="Jeu\Partie.cpp" />
     <ClCompile Include="Jeu\Tournoi.cpp" />
+    <ClCompile Include="Reseau\ControllerCSharp.cpp" />
     <ClCompile Include="Reseau\GestionnaireReseauClientLourd.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerChatUserStatus.cpp" />
@@ -840,6 +841,7 @@
     <ClInclude Include="Jeu\JoueurVirtuel.h" />
     <ClInclude Include="Jeu\Partie.h" />
     <ClInclude Include="Jeu\Tournoi.h" />
+    <ClInclude Include="Reseau\ControllerCSharp.h" />
     <ClInclude Include="Reseau\GestionnaireReseauClientLourd.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerChatMessage.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerChatUserStatus.h" />
