@@ -23,7 +23,7 @@ class GestionnaireReseauClientLourd :public Singleton<GestionnaireReseauClientLo
 
     SINGLETON_DECLARATION_CLASSE_SANS_CONSTRUCTEUR(GestionnaireReseauClientLourd);
 public:
-	
+	QueueThreadSafe<std::string> mMessages;
 
 private:
     /// Constructeur par defaut

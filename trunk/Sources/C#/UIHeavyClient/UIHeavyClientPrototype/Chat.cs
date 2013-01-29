@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace UIHeavyClient
 {
@@ -10,6 +11,11 @@ namespace UIHeavyClient
         public static MainWindow mContext;
         static string mWholeMessage;
         static string mLastUser = "";
+
+        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SendMessageDLL(string message);
+        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern string GetMessageDLL(StringBuilder pMessage, ref int pBufferSize);
 
         public static string WholeMessage
         {
@@ -37,14 +43,18 @@ namespace UIHeavyClient
             // CALL DLL
             // ...
 
-            if (newMessage)
-                UpdateChat(userName, message);
+            int bufferSize = 512;
+            StringBuilder buffer = new StringBuilder(bufferSize);
+            //GetMessageDLL(buffer,ref bufferSize);
+
+            if (buffer.Length != 0)
+                UpdateChat(userName, buffer.ToString());
+
         }
 
         public static void SendNewMessage(string userName, string message)
-        { 
-            // CALL DLL
-            // ...
+        {
+            SendMessageDLL(message);
         }
     }
 }

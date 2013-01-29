@@ -19,7 +19,7 @@ namespace UIHeavyClient
     /// </summary>
     public partial class LoginWindow : Window
     {
-        string mExpectedPassword = "TaMere";
+        string mExpectedPassword = "";
         string mUserName = "";
         public string UserName
         {

@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace UIHeavyClient
 {
@@ -22,7 +23,8 @@ namespace UIHeavyClient
     {
         [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int TestCSCall(int a);
-
+        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void InitDLL(string username);
 
         string mUserName;
         LoginWindow mLoginWindow;
@@ -39,6 +41,25 @@ namespace UIHeavyClient
             get { return mIsUserConnected; }
             set { mIsUserConnected = value; }
         }
+
+        class Worker
+        {
+            public void DoWork()
+            {
+                while (!_shouldStop)
+                {
+                    Chat.CheckForNewMessage();
+                    Thread.Sleep(1000);
+                }
+            }
+        
+            public bool _shouldStop { get; set; }
+            public void RequestStop()
+            {
+                _shouldStop = true;
+            }
+        };
+        Worker workerObject = new Worker();
 
         public MainWindow()
         {
@@ -57,7 +78,17 @@ namespace UIHeavyClient
             {
                 Close();
             }
+
+            InitDLL(UserName);
+
+            Thread workerThread = new Thread(workerObject.DoWork);
+            workerThread.Start();
         }
+
+        ~MainWindow()
+        {
+            workerObject.RequestStop();
+         }
 
         private void submitButton_Click(object sender, RoutedEventArgs e)
         {

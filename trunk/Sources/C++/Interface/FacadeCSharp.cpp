@@ -3,7 +3,10 @@
 #include "UsineNoeudRondelle.h"
 #include "BancTests.h"
 #include "..\Reseau\GestionnaireReseauClientLourd.h"
+#include "..\Reseau\Paquets\PaquetChatMessage.h"
 #include "Reseau\Paquets\PaquetTest.h"
+#include "QueueThreadSafe.h"
+#include <ctime>
 
 // Test pour l'appel de la DLL depuis le C#
 int TestCSCall(int i)
@@ -66,4 +69,51 @@ void TestGestionnaireReseau()
 }
 
 
+std::string mName;
+void InitDLL(char * pName)
+{
+    mName = pName;
+    GestionnaireReseauClientLourd::obtenirInstance();
 
+    Socket* wSocket = new Socket("127.0.0.1", 5010, TCP);
+    GestionnaireReseau::obtenirInstance()->saveSocket(mName, wSocket);
+
+}
+
+
+void SendMessageDLL(char * pMessage)
+{
+    PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet("ChatMessage");
+    wPaquet->setMessage(pMessage);
+    wPaquet->setIsTargetGroup(true);
+    wPaquet->setGroupName("groupe");
+    wPaquet->setTimestamp(time(0));
+    wPaquet->setOrigin(mName);
+
+    Socket* wSocket = GestionnaireReseau::obtenirInstance()->getSocket(mName,TCP);
+
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet(wSocket, wPaquet);
+}
+
+void GetMessageDLL(char * pMessage , int* pBufferSize)
+{
+    QueueThreadSafe<std::string>& queue = GestionnaireReseauClientLourd::obtenirInstance()->mMessages;
+    if(!queue.empty())
+	{
+		std::string message = queue.pop();
+		int i = 0;
+		for(i=0; i<(int)message.size(); ++i)
+		{
+			if(i < *pBufferSize)
+			{
+				pMessage[i] = message[i];
+			}
+			else
+			{
+				--i;
+				break;
+			}
+		}
+		pMessage[i] = 0;
+	}
+}

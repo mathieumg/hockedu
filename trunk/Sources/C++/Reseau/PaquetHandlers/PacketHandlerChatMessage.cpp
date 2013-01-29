@@ -7,6 +7,9 @@
 #include <time.h>
 #include <sstream>
 #include <iomanip>
+#ifndef _SERVER
+#include "..\GestionnaireReseauClientLourd.h"
+#endif
 
 
 void PacketHandlerChatMessage::handlePacketReceptionSpecific(PacketReader& pPacketReader)
@@ -19,7 +22,8 @@ void PacketHandlerChatMessage::handlePacketReceptionSpecific(PacketReader& pPack
     wPaquet->setOrigin((char*) pPacketReader.readString());
 
 
-    if(GestionnaireReseau::getNetworkMode() == SERVER)
+#ifdef _SERVER
+    //if(GestionnaireReseau::getNetworkMode() == SERVER)
     {
         // On veut relayer le message a une personne en particulier ou a tout le monde
         // On ne call donc pas delete dessus tout suite
@@ -39,8 +43,10 @@ void PacketHandlerChatMessage::handlePacketReceptionSpecific(PacketReader& pPack
             RelayeurMessage::obtenirInstance()->relayerPaquet(wPaquet->getGroupName(), wPaquet, TCP);
         }
     }
-    else if(GestionnaireReseau::getNetworkMode() == CLIENT)
+#else
+    //else if(GestionnaireReseau::getNetworkMode() == CLIENT)
     {
+        std::ostringstream wTimeOutput;
         time_t wT = wPaquet->getTimestamp();
         struct tm wTime;
         if(_localtime64_s(&wTime, &wT))
@@ -49,7 +55,6 @@ void PacketHandlerChatMessage::handlePacketReceptionSpecific(PacketReader& pPack
         }
         else
         {
-            std::ostringstream wTimeOutput;
             wTimeOutput << std::setfill('0') << "["
                 << std::setw(2) << wTime.tm_hour
                 << std::setw(1) << ":"
@@ -57,15 +62,17 @@ void PacketHandlerChatMessage::handlePacketReceptionSpecific(PacketReader& pPack
                 << std::setw(1) << ":"
                 << std::setw(2) << wTime.tm_sec
                 << std::setw(1) << "]";
-            std::cout << wTimeOutput.str();
         }
         
 
-        std::cout  << "[" << wPaquet->getOrigin() << "]: " << wPaquet->getMessage() << std::endl;
+        wTimeOutput << "[" << wPaquet->getOrigin() << "]: " << wPaquet->getMessage() << std::endl;
+        std::cout << wTimeOutput.str();
+
+        GestionnaireReseauClientLourd::obtenirInstance()->mMessages.push(wTimeOutput.str());
 
         delete wPaquet;
     }
-
+#endif
     
 }
 
