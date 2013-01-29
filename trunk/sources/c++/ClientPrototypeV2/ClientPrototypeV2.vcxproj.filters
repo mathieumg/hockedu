@@ -51,6 +51,12 @@
     <ClCompile Include="PacketDisassembler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Reseau\Paquets\PaquetChatUserStatus.cpp">
+      <Filter>Source Files\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.cpp">
+      <Filter>Source Files\PacketHandlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatMessage.h">
@@ -79,6 +85,15 @@
     </ClInclude>
     <ClInclude Include="PacketDisassembler.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatUserStatus.h">
+      <Filter>Source Files\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\Paquets\PaquetChatUserStatus.h">
+      <Filter>Source Files\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.h">
+      <Filter>Source Files\PacketHandlers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -33,9 +33,9 @@ void PacketHandlerChatMessage::handlePacketReceptionSpecific(PacketReader& pPack
             // On modifie le paquet pour que le timestamp soit sync pour tout a l'heure du serveur
             wPaquet->setTimestamp(time(0));
             // On envoie a tout le monde
-            std::set<std::string> wListeIgnore;
+            //std::set<std::string> wListeIgnore;
             //wListeIgnore.insert(wPaquet->getOrigin()); // Decommenter pour ne pas recevoir ses propres messages
-            RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, wListeIgnore, TCP);
+            RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, NULL, TCP);
         }
         else
         {

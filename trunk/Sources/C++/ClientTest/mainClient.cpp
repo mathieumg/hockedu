@@ -36,10 +36,9 @@ int main(void)  {
 	GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
     wGestionnaireReseau->init();
 	
-	Socket* wSocket = new Socket(wIpServeur, 5010, TCP);
+	SPSocket wSocket = wGestionnaireReseau->demarrerNouvelleConnection(wNom, wIpServeur, TCP);
 
 
-	wGestionnaireReseau->saveSocket(wNom, wSocket);
 	
     Sleep(2000);
 

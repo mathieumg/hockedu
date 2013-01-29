@@ -19,7 +19,7 @@
 
 class Paquet;
 struct PaquetAEnvoyer {
-	Socket* socket;
+	SPSocket socket;
 	Paquet* paquet;
 };
 
@@ -43,7 +43,7 @@ public:
 	~CommunicateurReseau();
 
 	// Methode pour ajouter un paquet a la liste a envoyer
-	bool ajouterPaquetEnvoie(Socket* pSocket, Paquet* pPaquet);
+	bool ajouterPaquetEnvoie(SPSocket pSocket, Paquet* pPaquet);
 
 	// Methode pour avoir un pointeur sur la queue de paquets a envoyer
 	QueueThreadSafe<PaquetAEnvoyer*>* getSendingList();
@@ -52,34 +52,33 @@ public:
 	QueueThreadSafe<Paquet*>* getReceivedList();
 
 	// Methode pour ajouter un socket a ecouter
-	void ajouterSocketEcoute(Socket* pSocket);
+	void ajouterSocketEcoute(SPSocket pSocket);
 
 	// Methode qui retourne un iterateur sur la liste de sockets a ecouter ET QUI MET UN VERROU.
-	std::list<Socket*>::const_iterator getFirstSocketEcoute() const;
+	std::list<SPSocket>::const_iterator getFirstSocketEcoute() const;
 
 	// Methode pour avoir le end de la liste de sockets a ecouter
-	std::list<Socket*>::const_iterator getEndSocketEcoute() const;
+	std::list<SPSocket>::const_iterator getEndSocketEcoute() const;
 
 	// Methode qui relache le mutex de la liste de sockets a ecouter
 	void terminerIterationListeSocketEcoute();
 
 	// Methode pour supprimer un socket dans la liste de sockets a ecouter
-    std::list<Socket*>::const_iterator supprimerEcouteSocket(const std::list<Socket*>::const_iterator& pIterateur);
+    std::list<SPSocket>::const_iterator supprimerEcouteSocket(const std::list<SPSocket>::const_iterator& pIterateur);
 
     // Methode pour supprimer un socket dans la liste a ecouter selon son pointeur
-    void supprimerEcouteSocket(Socket* pSocket);
+    void supprimerEcouteSocket(SPSocket pSocket);
 
 	// Demarre la connection d'un socket TCP dans un thread separe
-	void demarrerConnectionThread(Socket* pSocket);
+	void demarrerConnectionThread(SPSocket pSocket);
 
     // Methode pour demarrer les threads de connection TCP
     void demarrerThreadsConnectionTCPServeur();
 
 	// Enleve le socket et son thread de connection de la liste (surtout appelee par le thread lui meme quand il a terminer son travail)
-	void enleverConnectionThread(Socket* pSocket, bool pSuccess);
+	void enleverConnectionThread(SPSocket pSocket, bool pSuccess);
 
-
-	static int maxBufferSize;
+	static unsigned int maxBufferSize;
 
 private:
 	// Methode pour demarrer le thread d'envoie
@@ -109,10 +108,10 @@ private:
 	QueueThreadSafe<Paquet*> mListeReception;
 
 	// Liste des Socket a "ecouter"
-	std::list<Socket*> mListeSocketsEcoute;
+	std::list<SPSocket> mListeSocketsEcoute;
 
 	// Liste des sockets a connecter
-	std::list<Socket*> mListeSocketsConnection;
+	std::list<SPSocket> mListeSocketsConnection;
 
 	// Mutex pour l'acces a mListeSocketsEcoute
 	HANDLE mMutexListeSocketsEcoute;
@@ -129,7 +128,7 @@ private:
     std::vector<HANDLE> mHandlesThreadConnectionTCPServeur;
 
 	// Map de handles de thread de connection selon les sockets
-	std::map<Socket*, HANDLE> mHandlesThreadConnection;
+	std::map<SPSocket, HANDLE> mHandlesThreadConnection;
 
 };
 

@@ -12,10 +12,9 @@ int main(void)  {
     std::cout << "--------- Serveur Prototype (Chat) ---------" << std::endl << std::endl;
 
     GestionnaireReseauServeur::obtenirInstance();
+	GestionnaireReseau* wGestReseau = GestionnaireReseau::obtenirInstance();
 
-    Socket* wSocket = new Socket("127.0.0.1", 5010, TCP);
-
-
+    
     GestionnaireReseau::obtenirInstance()->ajouterOperationReseau("ChatMessage", new PacketHandlerChatMessage, new UsinePaquetChatMessage);
 
     std::cout << "Server running, Press Enter to exit at any time.";

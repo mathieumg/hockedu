@@ -11,6 +11,7 @@
 #include <time.h>
 #include "Menu.h"
 #include "MenuOption.h"
+#include <sstream>
 
 
 using namespace std;
@@ -33,8 +34,7 @@ int main(void)  {
     std::string wServerIp = wMenu.displayAndPick();
 
 
-    Socket* wSocket = new Socket(wServerIp, 5010, TCP);
-    GestionnaireReseau::obtenirInstance()->saveSocket(wName, wSocket);
+	SPSocket wSocket = GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection(wName, wServerIp, TCP);
 
     std::cout << "Entrer un message et appuyez sur Entree: " << std::endl;
 
@@ -57,16 +57,25 @@ int main(void)  {
 
             SetConsoleCursorPosition(ConHandle,Pos);
         }
+		/*system("pause");
+		for(int i=0; i<500; ++i)
+		{
+			std::stringstream ss;
+			ss << "bob " << i;
 
-        PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet("ChatMessage");
+			*/
+			PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet("ChatMessage");
 
-        wPaquet->setMessage(wBuffer);
-        wPaquet->setIsTargetGroup(true);
-        wPaquet->setGroupName("groupe");
-        wPaquet->setTimestamp(time(0));
-        wPaquet->setOrigin(wName);
+			
 
-        GestionnaireReseau::obtenirInstance()->envoyerPaquet(wSocket, wPaquet);
+			wPaquet->setMessage(wBuffer);
+			wPaquet->setIsTargetGroup(true);
+			wPaquet->setGroupName("groupe");
+			wPaquet->setTimestamp(time(0));
+			wPaquet->setOrigin(wName);
+
+			GestionnaireReseau::obtenirInstance()->envoyerPaquet(wSocket, wPaquet);
+		//}
 
 
         

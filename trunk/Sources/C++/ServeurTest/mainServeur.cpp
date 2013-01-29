@@ -21,7 +21,7 @@ int main(void)  {
 
 
 
-    //Socket* wSocket = new Socket("127.0.0.1", 5010, TCP);
+    //Socket* wSocket = new Socket("127.0.0.1", GestionnaireReseau::communicationPort, TCP);
 
 
     //wGestionnaireReseau->saveSocket("bob", wSocket);

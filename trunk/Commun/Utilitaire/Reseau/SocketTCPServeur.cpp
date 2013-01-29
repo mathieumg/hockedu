@@ -68,7 +68,7 @@ void SocketTCPServeur::listen( uint32_t nbConnections /* = 1*/)
 /// @return Socket* : Pointeur vers le nouveau Socket qui est connecte
 ///
 ////////////////////////////////////////////////////////////////////////
-Socket* SocketTCPServeur::accept( __out sockaddr* addr, uint32_t* addrlen )
+SPSocket SocketTCPServeur::accept( __out sockaddr* addr, uint32_t* addrlen )
 {
     sockaddr_in* temp = new sockaddr_in;
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
@@ -99,13 +99,13 @@ Socket* SocketTCPServeur::accept( __out sockaddr* addr, uint32_t* addrlen )
 
     if(addr == NULL && addrlen == NULL)
     {
-        return new Socket(wTempSocket, temp, TCP);
+        return SPSocket(new Socket(wTempSocket, temp, TCP));
     }
     else
     {
         sockaddr_in* addr2 = new sockaddr_in;
         memcpy(addr2, addr, sizeof(addr));
-        return new Socket(wTempSocket, (sockaddr_in*)addr, TCP);
+        return SPSocket(new Socket(wTempSocket, (sockaddr_in*)addr, TCP));
     }
 
 }
