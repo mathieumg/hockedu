@@ -79,7 +79,7 @@ public:
 	void enleverConnectionThread(Socket* pSocket, bool pSuccess);
 
 
-	static int maxBufferSize;
+	static unsigned int maxBufferSize;
 
 private:
 	// Methode pour demarrer le thread d'envoie

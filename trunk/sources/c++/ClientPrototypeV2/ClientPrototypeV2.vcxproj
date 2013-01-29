@@ -143,7 +143,9 @@
   <ItemGroup>
     <ClCompile Include="..\Reseau\GestionnaireReseauClientLourd.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp" />
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetChatMessage.cpp" />
+    <ClCompile Include="..\Reseau\Paquets\PaquetChatUserStatus.cpp" />
     <ClCompile Include="..\Reseau\RelayeurMessage.cpp" />
     <ClCompile Include="mainClientPrototypeV2.cpp" />
     <ClCompile Include="Menu.cpp" />
@@ -164,9 +166,12 @@
   <ItemGroup>
     <ClInclude Include="..\Reseau\GestionnaireReseauClientLourd.h" />
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h" />
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetChatMessage.h" />
+    <ClInclude Include="..\Reseau\Paquets\PaquetChatUserStatus.h" />
     <ClInclude Include="..\Reseau\RelayeurMessage.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatMessage.h" />
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatUserStatus.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuOption.h" />
     <ClInclude Include="MenuOptionIPChooser.h" />

@@ -34,6 +34,7 @@
 #include "UsinePaquets/UsinePaquetTest.h"
 #include "PaquetHandlers/PacketHandlerTest.h"
 #include <utility>
+#include "../Reseau/SocketObserver.h"
 
 // lien avec la librairie winsock2
 #pragma comment( lib, "ws2_32.lib" )
@@ -46,8 +47,15 @@ SINGLETON_DECLARATION_CPP(GestionnaireReseau);
 // Mode du terminal courant (ex: CLIENT OU SERVEUR)
 NetworkMode GestionnaireReseau::mNetworkMode = NOT_DEFINED;
 
+// Mode du terminal courant (ex: CLIENT OU SERVEUR)
+Observer<Socket>* GestionnaireReseau::mObserverSocket = NULL;
+
 // Port utilise pour la connexion automatique (Multicast en UDP)
 int GestionnaireReseau::multicastPort = 1001;
+
+// Port a utiliser pour les communications de base
+int GestionnaireReseau::communicationPort = 5010;
+
 
 // Network Log setup
 std::ofstream GestionnaireReseau::logSetup()
@@ -78,7 +86,7 @@ std::ofstream GestionnaireReseau::mLogHandle = GestionnaireReseau::logSetup();
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-GestionnaireReseau::GestionnaireReseau()
+GestionnaireReseau::GestionnaireReseau(): mSocketStateCallback(NULL)
 {
 	if(mNetworkMode == NOT_DEFINED) {
 		throw ExceptionReseau("Appel du constructeur de GestionnaireReseau avant GestionnaireReseau::setNetworkMode", NULL);
@@ -430,6 +438,35 @@ Paquet* GestionnaireReseau::creerPaquet( const std::string& pOperation )
 
 ////////////////////////////////////////////////////////////////////////
 ///
+/// @fn void GestionnaireReseau::demarrerNouvelleConnection(const std::string& pIP, ConnectionType pConnectionType)
+///
+/// // Methode pour creer une nouvelle connection (un nouveau Socket) et le sauvegarder a la liste des Sockets actifs
+///
+/// @param[in] const std::string& pPlayerName,	: Nom du joueur (local) qui doit etre associe a cette connection
+/// @param[in] const std::string& pIP			: Adresse IP du Socket a creer
+/// @param[in] ConnectionType pConnectionType	: Type de connectiona  demarrer (TCP ou UDP)
+/// 
+/// @return     : Socket*	: Pointeur vers le socket qui vient d'être créer
+///
+////////////////////////////////////////////////////////////////////////
+Socket* GestionnaireReseau::demarrerNouvelleConnection(const std::string& pPlayerName, const std::string& pIP, ConnectionType pConnectionType)
+{
+	Socket* wNewSocket = new Socket(pIP, GestionnaireReseau::communicationPort, pConnectionType);
+
+// 	if(GestionnaireReseau::mObserverSocket != NULL && GestionnaireReseau::getNetworkMode() == SERVER)
+// 	{
+// 		wNewSocket->attach(mObserverSocket);
+// 	}
+// 
+
+
+	saveSocket(pPlayerName, wNewSocket);
+	return wNewSocket;
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
 /// @fn void GestionnaireReseau::saveSocket( const std::string& pNomJoueur, Socket* pSocket )
 ///
 /// Methode pour sauvegarder un Socket. Le socket est donc associe a un identifiant de nom de joueur unique.
@@ -514,6 +551,7 @@ void GestionnaireReseau::removeSocket( const std::string& pNomJoueur, Connection
 	if(itMap == mListeSockets.end())
 	{
         // Le socket n'est pas dans la liste de sockets sauvegardes
+		ReleaseMutex(mMutexListeSockets);
 		return;
 	}
 	Socket* wSocketASupprimer = itMap->second;
@@ -754,16 +792,17 @@ void GestionnaireReseau::throwExceptionReseau(const std::string& pMessagePrefix 
 std::string GestionnaireReseau::getPlayerName( Socket* pSocket )
 {
     WaitForSingleObject(mMutexListeSockets,INFINITE);
+	std::string name;
     for (std::map<std::pair<std::string, ConnectionType>, Socket*>::iterator it = mListeSockets.begin(); it!=mListeSockets.end(); ++it)
     {
         if((*it).second == pSocket)
         {
-            return (*it).first.first;
+            name = (*it).first.first;
             break;
         }
     }
     ReleaseMutex(mMutexListeSockets);
-    return "";
+    return name;
 }
 
 
@@ -788,6 +827,19 @@ std::set<std::string> GestionnaireReseau::getPlayerNameList(ConnectionType pConn
     }
     return wReturnSet;
 }
+
+void GestionnaireReseau::socketConnectionStateEvent( Socket* pSocket, ConnectionStateEvent& pEvent )
+{
+	if(mSocketStateCallback)
+	{
+		pEvent.mPlayerName = getPlayerName(pSocket);
+		mSocketStateCallback(pEvent);
+	}
+}
+
+
+
+
 
 
 

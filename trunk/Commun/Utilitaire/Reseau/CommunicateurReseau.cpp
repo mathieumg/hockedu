@@ -26,7 +26,7 @@
 #include "Utilitaire.h"
 
 // Taille maximale des buffers pour l<envoie et la reception
-int CommunicateurReseau::maxBufferSize = 5000;
+unsigned int CommunicateurReseau::maxBufferSize = 5000;
 
 struct ArgsConnectionThread {
 	CommunicateurReseau* communicateurReseau;
@@ -42,9 +42,8 @@ struct ArgsConnectionThread {
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-CommunicateurReseau::CommunicateurReseau()
+CommunicateurReseau::CommunicateurReseau():mListeEnvoie(maxBufferSize),mListeReception(maxBufferSize)
 {
-	mMutexListeSocketsEcoute = CreateMutex(NULL, FALSE, NULL);
 	mMutexListeSocketsEcoute = CreateMutex(NULL, FALSE, NULL);
 	mMutexListeSocketsConnection = CreateMutex(NULL, FALSE, NULL);
 	demarrerSendingThread();
@@ -69,15 +68,21 @@ CommunicateurReseau::~CommunicateurReseau()
 	// Ces paquets ne seront jamais envoyes
 	while(!mListeEnvoie.empty())
 	{
-		Paquet* paquet = mListeEnvoie.front()->paquet;
-		mListeEnvoie.pop();
-		delete paquet;
+		PaquetAEnvoyer* paquet = NULL;
+		mListeEnvoie.pop(paquet);
+		if(paquet)
+		{
+			delete paquet;
+		}
 	}
 	while(!mListeReception.empty())
 	{
-		Paquet* paquet = mListeReception.front();
-		mListeReception.pop();
-		delete paquet;
+		Paquet* paquet = NULL;
+		mListeReception.pop(paquet);
+		if(paquet)
+		{
+			delete paquet;
+		}
 	}
 
     for(std::vector<HANDLE>::iterator it = mHandlesThreadConnectionTCPServeur.begin(); it!=mHandlesThreadConnectionTCPServeur.end(); ++it)
@@ -104,20 +109,17 @@ CommunicateurReseau::~CommunicateurReseau()
 ////////////////////////////////////////////////////////////////////////
 bool CommunicateurReseau::ajouterPaquetEnvoie( Socket* pSocket, Paquet* pPaquet )
 {
-	if(mListeEnvoie.size()>maxBufferSize)
+	// On sauvegarde le paquet
+	PaquetAEnvoyer* paquetAEnvoyer = new PaquetAEnvoyer;
+	paquetAEnvoyer->paquet = pPaquet;
+	paquetAEnvoyer->socket = pSocket;
+	if(!mListeEnvoie.push(paquetAEnvoyer))
 	{
 		// On ne peut pas ajouter le paquet a la liste car elle est pleine
+		delete paquetAEnvoyer;
 		return false;
 	}
-	else
-	{
-		// On sauvegarde le paquet
-		PaquetAEnvoyer* paquetAEnvoyer = new PaquetAEnvoyer;
-		paquetAEnvoyer->paquet = pPaquet;
-		paquetAEnvoyer->socket = pSocket;
-		mListeEnvoie.push(paquetAEnvoyer);
-		return true;
-	}
+	return true;
 }
 
 
@@ -182,7 +184,7 @@ void CommunicateurReseau::demarrerThreadsConnectionTCPServeur()
     // Ajouter localhost car pas dans la liste
     ArgsConnectionThread* wArgsLocal = new ArgsConnectionThread;
     wArgsLocal->communicateurReseau = this;
-    wArgsLocal->socketAConnecter = new SocketTCPServeur("127.0.0.1", 5010);
+    wArgsLocal->socketAConnecter = new SocketTCPServeur("127.0.0.1", GestionnaireReseau::communicationPort);
     HANDLE wHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)connectionTCPServeurThreadRoutine, wArgsLocal, 0, NULL);
     if(wHandle==NULL)
     {
@@ -200,7 +202,7 @@ void CommunicateurReseau::demarrerThreadsConnectionTCPServeur()
         ArgsConnectionThread* wArgs = new ArgsConnectionThread;
         wArgs->communicateurReseau = this;
         std::string wIP = inet_ntoa(*(struct in_addr *)hostCourant->h_addr_list[wNbCount]);
-        wArgs->socketAConnecter = new SocketTCPServeur(wIP, 5010);
+        wArgs->socketAConnecter = new SocketTCPServeur(wIP, GestionnaireReseau::communicationPort);
         HANDLE wHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)connectionTCPServeurThreadRoutine, wArgs, 0, NULL);
         if(wHandle==NULL)
         {
@@ -219,7 +221,7 @@ void CommunicateurReseau::demarrerThreadsConnectionTCPServeur()
         ArgsConnectionThread* wArgs = new ArgsConnectionThread;
         wArgs->communicateurReseau = this;
         std::string wIP = "127.0.0.1";//inet_ntoa(*(struct in_addr *)hostCourant->h_addr_list[wNbCount]);
-        wArgs->socketAConnecter = new SocketTCPServeur(wIP, 5010);
+        wArgs->socketAConnecter = new SocketTCPServeur(wIP, GestionnaireReseau::communicationPort);
         HANDLE wHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)connectionTCPServeurThreadRoutine, &wArgs, 0, NULL);
         if(wHandle==NULL)
         {
@@ -465,94 +467,90 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 	QueueThreadSafe<PaquetAEnvoyer*>* listeAEnvoyer = wCommunicateurReseau->getSendingList();
 	PacketBuilder wPacketBuilder;
 
+	PaquetAEnvoyer* wPaquetAEnvoyer = NULL;
 	while (true)
 	{
-		while(listeAEnvoyer->size()>0)
+		if(!listeAEnvoyer->empty())
 		{
+			 // Queue, alors ordre ok, pop enleve le premier element et le retourne
 			// Aller chercher le Paquet et l'envoyer
-			PaquetAEnvoyer* wPaquetAEnvoyer = listeAEnvoyer->pop(); // Queue, alors ordre ok, pop enleve le premier element et le retourne
+			if(listeAEnvoyer->pop(wPaquetAEnvoyer) && wPaquetAEnvoyer)
+			{
+				Socket* wSocket = wPaquetAEnvoyer->socket;
 
-			Socket* wSocket = wPaquetAEnvoyer->socket;
+				ConnectionState wConnectionState = wSocket->getConnectionState();
+				if(wConnectionState == CONNECTING || wConnectionState == NOT_CONNECTED)
+				{
+					// Socket probablement en attente de se faire connecter (on ne fait rien et on le met a la fin de la queue)
+					listeAEnvoyer->push(wPaquetAEnvoyer);
+					continue;
+				}
 
-            ConnectionState wConnectionState = wSocket->getConnectionState();
-            if(wConnectionState == CONNECTING || wConnectionState == NOT_CONNECTED)
-            {
-                // Socket probablement en attente de se faire connecter (on ne fait rien et on le met a la fin de la queue)
-                listeAEnvoyer->push(wPaquetAEnvoyer);
-                continue;
-            }
+				try
+				{
+					PacketHandler* wPacketHandler = GestionnaireReseau::obtenirInstance()->getPacketHandler(wPaquetAEnvoyer->paquet->getOperation());
 
-            try
-            {
-                PacketHandler* wPacketHandler = GestionnaireReseau::obtenirInstance()->getPacketHandler(wPaquetAEnvoyer->paquet->getOperation());
-
-                // On utilise le handler pour convertir le paquet en suite de char et l'envoyer
-                wPacketBuilder.clearBuffer(); // On s'assure que le buffer est vide
-                wPacketHandler->handlePacketPreparation(wPaquetAEnvoyer->paquet, wPacketBuilder);
+					// On utilise le handler pour convertir le paquet en suite de char et l'envoyer
+					wPacketBuilder.clearBuffer(); // On s'assure que le buffer est vide
+					wPacketHandler->handlePacketPreparation(wPaquetAEnvoyer->paquet, wPacketBuilder);
 
 
-                // On essaie d'envoyer la chaine
-                int wTailleEnvoyee = wSocket->send( wPacketBuilder.getPacketString(),  wPacketBuilder.getPacketLength(), true);
+					// On essaie d'envoyer la chaine, envoi bloquant
+					wSocket->send( wPacketBuilder.getPacketString(),  wPacketBuilder.getPacketLength(), true);
 
-                // Si va bloquer, on remet dans la queue fifo et on reessaye plus tard
-                if(wTailleEnvoyee == 0)
-                {
-                    listeAEnvoyer->push(wPaquetAEnvoyer);
-                    continue;
-                }
+				}
+				catch(ExceptionReseauSocketDeconnecte& )
+				{
+					// Pas capable d'envoyer le paquet car le Socket est brise
+					// On drop le paquet et on envoie le Socket se faire connecter
+					wSocket->disconnect();
+					if(GestionnaireReseau::getNetworkMode() == CLIENT)
+					{
+						// Si c'est un client, on essaie de reconnecter
+						wCommunicateurReseau->demarrerConnectionThread(wSocket);
+						wCommunicateurReseau->supprimerEcouteSocket(wSocket);
+					}
+					else
+					{
+						// Si c'est un serveur, on ne veut pas reconnecter le socket. Le client va se reconnecter et le serveur creera un nouveau socket
+						GestionnaireReseau::obtenirInstance()->removeSocket(wSocket);
+						break; // On doit enlever le socket globalement, impossible de recuperer de ca
+					}
 
-            }
-            catch(ExceptionReseauSocketDeconnecte& )
-            {
-                // Pas capable d'envoyer le paquet car le Socket est brise
-                // On drop le paquet et on envoie le Socket se faire connecter
-                wSocket->disconnect();
-                if(GestionnaireReseau::getNetworkMode() == CLIENT)
-                {
-                    // Si c'est un client, on essaie de reconnecter
-                    wCommunicateurReseau->demarrerConnectionThread(wSocket);
-                    wCommunicateurReseau->supprimerEcouteSocket(wSocket);
-                }
-                else
-                {
-                    // Si c'est un serveur, on ne veut pas reconnecter le socket. Le client va se reconnecter et le serveur creera un nouveau socket
-                    GestionnaireReseau::obtenirInstance()->removeSocket(wSocket);
-                    break; // On doit enlever le socket globalement, impossible de recuperer de ca
-                }
+				}
+				catch(ExceptionReseauTimeout&)
+				{
+					// Pas capable d'envoyer a cause de Timeout
+					// On fait la meme chose que la deconnection pour l'instant
 
-            }
-            catch(ExceptionReseauTimeout&)
-            {
-                // Pas capable d'envoyer a cause de Timeout
-                // On fait la meme chose que la deconnection pour l'instant
+					// Pas capable d'envoyer le paquet car le Socket est brise
+					// On drop le paquet et on envoie le Socket se faire connecter
+					wSocket->disconnect();
+					if(GestionnaireReseau::getNetworkMode() == CLIENT)
+					{
+						// Si c'est un client, on essaie de reconnecter
+						wCommunicateurReseau->demarrerConnectionThread(wSocket);
+						wCommunicateurReseau->supprimerEcouteSocket(wSocket);
+					}
+					else
+					{
+						// Si c'est un serveur, on ne veut pas reconnecter le socket. Le client va se reconnecter et le serveur creera un nouveau socket
+						GestionnaireReseau::obtenirInstance()->removeSocket(wSocket);
+						break; // On doit enlever le socket globalement, impossible de recuperer de ca
+					}
 
-                // Pas capable d'envoyer le paquet car le Socket est brise
-                // On drop le paquet et on envoie le Socket se faire connecter
-                wSocket->disconnect();
-                if(GestionnaireReseau::getNetworkMode() == CLIENT)
-                {
-                    // Si c'est un client, on essaie de reconnecter
-                    wCommunicateurReseau->demarrerConnectionThread(wSocket);
-                    wCommunicateurReseau->supprimerEcouteSocket(wSocket);
-                }
-                else
-                {
-                    // Si c'est un serveur, on ne veut pas reconnecter le socket. Le client va se reconnecter et le serveur creera un nouveau socket
-                    GestionnaireReseau::obtenirInstance()->removeSocket(wSocket);
-                    break; // On doit enlever le socket globalement, impossible de recuperer de ca
-                }
+				}
+				catch(ExceptionReseau&)
+				{
+					// Probleme, on ne sait pas c'est quoi, on drop le paquet
+				}
 
-            }
-            catch(ExceptionReseau&)
-            {
-                // Probleme, on ne sait pas c'est quoi, on drop le paquet
-            }
+				wPaquetAEnvoyer->paquet->removeAssociatedQuery();
+				delete wPaquetAEnvoyer;
+			}
 
-            wPaquetAEnvoyer->paquet->removeAssociatedQuery();
-			delete wPaquetAEnvoyer;
+			Sleep(10); // A reduire pour le release
 		}
-
-        Sleep(10); // A reduire pour le release
 
 	}
 	
@@ -623,7 +621,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                     case TCP:
                         {
                             size_t wReceivedBytes = -1;
-                            while(wReceivedBytes!=0) // On lit tant que le buffer contient quelque chose
+                            while(wReceivedBytes!=0) // On lit tant que le buffer contient quelque chose et qu'on a pas atteint la taille du paquet a recevoir
                             {
                                 wReceivedBytes = wSocket->recv(readBuffer, 44);
                                 if (wReceivedBytes != 0)
@@ -835,7 +833,11 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
                 wNewSocket->send((uint8_t*) &wMessageAcceptation, 2, true);
 
                 // On ajoute le nouveau socket au gestionnaire reseau (avec son nom obtenu dans le paquet)
-                GestionnaireReseau::obtenirInstance()->saveSocket(std::string(wPlayerName), wNewSocket); 
+                GestionnaireReseau::obtenirInstance()->saveSocket(std::string(wPlayerName), wNewSocket);
+				wNewSocket->setConnectionState(CONNECTED);
+
+				// Ne pas mettre avant de save() sinon il le connait pas le nom su player
+				//wNewSocket->attach(GestionnaireReseau::getObserverSocketServer());
             }
             else
             {

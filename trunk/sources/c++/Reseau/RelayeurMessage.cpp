@@ -58,14 +58,14 @@ RelayeurMessage::~RelayeurMessage()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void RelayeurMessage::relayerPaquetGlobalement(Paquet* pPaquet, const std::set<std::string> pListeNomsAIgnorer, ConnectionType pConnectionType /* = TCP */)
+void RelayeurMessage::relayerPaquetGlobalement( Paquet* pPaquet, const std::set<std::string>* pListeNomsAIgnorer /*= NULL*/, ConnectionType pConnectionType /*= TCP */ )
 {
     // On trouve la liste des personnes connectees et on envoie le Paquet a tous
     std::set<std::string> wListe = GestionnaireReseau::obtenirInstance()->getPlayerNameList(pConnectionType);
     pPaquet->setNbAssociatedQueries((int) (wListe.size()));
     for(std::set<std::string>::const_iterator it = wListe.begin(); it!=wListe.end(); ++it)
     {
-        if(pListeNomsAIgnorer.find(*it) == pListeNomsAIgnorer.end())
+        if(!pListeNomsAIgnorer || pListeNomsAIgnorer->find(*it) == pListeNomsAIgnorer->end())
         {
             relayerPaquet((*it), pPaquet, TCP);
         }

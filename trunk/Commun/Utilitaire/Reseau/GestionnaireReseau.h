@@ -18,6 +18,7 @@
 #include "CommunicateurReseau.h"
 #include <fstream>
 #include <set>
+#include "ObserverPaternMacros.h"
 
 class PacketHandler;
 class UsinePaquet;
@@ -29,6 +30,14 @@ enum NetworkMode {CLIENT, SERVER, NOT_DEFINED};
 enum ByteOrder {NATIVE, LITTLE_ENDIAN, BIG_ENDIAN, UNKNOWN};
 
 enum ExceptionTypes {GLOBALE, PARAMETRE_INVALIDE, SOCKET_DECONNECTE, TIMEOUT, TYPE_NOT_DEFINED, AUCUNE_ERREUR};
+
+struct ConnectionStateEvent
+{
+	std::string mPlayerName;
+	ConnectionState mState;
+};
+
+typedef void (*SocketConnectionStateCallback)(const ConnectionStateEvent&);
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class GestionnaireReseau
@@ -49,6 +58,8 @@ public:
 	static const int longueurMaxOperationReseau = 20;
 	// Port a utiliser pour la communication multicast
 	static int multicastPort;
+	// Port a utiliser pour les comminications de base
+	static int communicationPort;
 
 
 
@@ -58,8 +69,17 @@ public:
 	// Set the network mode
 	inline static void setNetworkMode(NetworkMode pNetworkMode) {mNetworkMode = pNetworkMode;}
 
+	// Set the Observer for the server sockets
+	inline static void setObserverSocketServer(Observer<Socket>* pObserver) {mObserverSocket = pObserver;}
+	
+	
     // Get the network mode
     inline static NetworkMode getNetworkMode() {return mNetworkMode;}
+
+	// Get the server socket observer
+    inline static Observer<Socket>* getObserverSocketServer() {return mObserverSocket;}
+	void setSocketConnectionStateCallback(SocketConnectionStateCallback val) { mSocketStateCallback = val; }
+	void socketConnectionStateEvent(Socket* pSocket, ConnectionStateEvent& pEvent);
 	
 	// Methode pour obtenir l'adresse IP locale qui est dans le meme subnet que l'adresse IP passee en parametre
 	std::string getAdresseIPLocaleAssociee(const std::string& pDestinationIP);
@@ -95,7 +115,11 @@ public:
     // Retourne la liste des joueurs connectes
     std::set<std::string> getPlayerNameList(ConnectionType pConnectionType) const;
 
+	// Methode qui appelle la Factory de Paquets et qui retourne un Paquet du bon type représenté par le nom d'opération
 	Paquet* creerPaquet(const std::string& pOperation);
+
+	// Methode pour creer une nouvelle connection (un nouveau Socket) et le sauvegarder a la liste des Sockets actifs
+	Socket* demarrerNouvelleConnection(const std::string& pPlayerName, const std::string& pIP, ConnectionType pConnectionType);
 
 	void gererExceptionReseau(ExceptionReseau* pException) const;
 
@@ -142,6 +166,10 @@ private:
 
     // Network Mode (CLIENT OR SERVER)
 	static NetworkMode mNetworkMode;
+
+	SocketConnectionStateCallback mSocketStateCallback;
+	// Observer a associer aux sockets crees pour le serveur
+	static Observer<Socket>* mObserverSocket;
 
 	// fstream pour le log de reseautique
 	static std::ofstream mLogHandle;

@@ -39,6 +39,15 @@
     <ClCompile Include="..\Reseau\RelayeurMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Reseau\Paquets\PaquetChatUserStatus.cpp">
+      <Filter>Source Files\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.cpp">
+      <Filter>Source Files\PacketHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\SocketObserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h">
@@ -54,6 +63,18 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\RelayeurMessage.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatUserStatus.h">
+      <Filter>Source Files\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\Paquets\PaquetChatUserStatus.h">
+      <Filter>Source Files\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.h">
+      <Filter>Source Files\PacketHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\SocketObserver.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -359,6 +359,12 @@
     <ClCompile Include="Reseau\RelayeurMessage.cpp">
       <Filter>Sources Files\Reseau</Filter>
     </ClCompile>
+    <ClCompile Include="Reseau\Paquets\PaquetChatUserStatus.cpp">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerChatUserStatus.cpp">
+      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -678,6 +684,15 @@
     </ClInclude>
     <ClInclude Include="Reseau\RelayeurMessage.h">
       <Filter>Sources Files\Reseau</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetChatUserStatus.h">
+      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\Paquets\PaquetChatUserStatus.h">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerChatUserStatus.h">
+      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

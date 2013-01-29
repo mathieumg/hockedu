@@ -10,10 +10,13 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdexcept>
+#include "ObserverPaternMacros.h"
 
 enum InternetProtocol {IPv4 = AF_INET, IPv6 = AF_INET6, UNSPECIFIED = AF_UNSPEC};
 enum ConnectionType {UDP, TCP};
 enum ConnectionState {CONNECTED, CONNECTING, NOT_CONNECTED};
+
+
 
 class Socket
 {
@@ -42,7 +45,7 @@ public:
 
 	inline ConnectionType getConnectionType() const {return mConnectionType;}
 	inline ConnectionState getConnectionState() const {return mConnectionState;}
-	inline void setConnectionState(ConnectionState pConnectionState) {mConnectionState = pConnectionState;}
+	void setConnectionState(ConnectionState pConnectionState);
 
     inline HANDLE getMutexActiviteSocket() const { return mMutexActiviteSocket; }
 
@@ -80,3 +83,4 @@ protected:
 
 };
 
+typedef std::shared_ptr<Socket> SPSocket;

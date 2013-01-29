@@ -25,15 +25,11 @@ template <typename T>
 class QueueThreadSafe {
 
 public:
-	QueueThreadSafe();
-	T pop();
-	T front();
-	T back();
+	QueueThreadSafe(unsigned int pMaxBufferSize = 0);
+	bool pop(T&);
+	bool push(T element);
 
-	void push(T element);
-
-	inline size_t size() const {return mFile.size();}
-	bool empty() const {return mFile.empty();}
+	inline bool empty()const{return mFile.empty();}
 
 private:
 	void getMutex() const;
@@ -41,54 +37,56 @@ private:
 
 	HANDLE mMutex;
 	std::queue<T> mFile;
+	unsigned int mMaxBufferSize;
 };
+
+template <typename T>
+bool QueueThreadSafe<T>::pop( T& pOutElem )
+{
+	getMutex();
+	bool wObjectPresent = false;
+	if(!mFile.empty())
+	{
+		pOutElem = mFile.front();
+		mFile.pop();
+		wObjectPresent = true;
+	}
+	releaseMutex();
+	return wObjectPresent;
+}
 
 
 template <typename T>
-QueueThreadSafe<T>::QueueThreadSafe()
+QueueThreadSafe<T>::QueueThreadSafe(unsigned int pMaxBufferSize /*= 0 */):mMaxBufferSize(pMaxBufferSize)
 {
 	mMutex = CreateMutex(NULL, FALSE, NULL);
 }
 
 
 template <typename T>
-void QueueThreadSafe<T>::push( T element )
+bool QueueThreadSafe<T>::push( T element )
 {
 	getMutex();
-	mFile.push(element);
+	bool wObjectAdded = false;
+	if(mMaxBufferSize && (unsigned int)mFile.size() < mMaxBufferSize )
+	{
+		mFile.push(element);
+		wObjectAdded = true;
+	}
 	releaseMutex();
+	return wObjectAdded;
 }
 
-template <typename T>
-T QueueThreadSafe<T>::back()
-{
-	getMutex();
-	T element = mFile.back();
-	releaseMutex();
-	return element;
-}
-
-template <typename T>
-T QueueThreadSafe<T>::front()
-{
-	getMutex();
-	T element = mFile.front();
-	releaseMutex();
-	return element;
-}
-
-template <typename T>
-T QueueThreadSafe<T>::pop()
-{
-	getMutex();
-	T buf = mFile.front();
-	mFile.pop();
-	releaseMutex();
-	return buf;
-	
-}
-
-
+// template <typename T>
+// T QueueThreadSafe<T>::pop()
+// {
+// 	getMutex();
+// 	T buf = mFile.front();
+// 	mFile.pop();
+// 	releaseMutex();
+// 	return buf;
+// 	
+// }
 
 template <typename T>
 void QueueThreadSafe<T>::releaseMutex() const

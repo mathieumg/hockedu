@@ -51,8 +51,7 @@ void TestGestionnaireReseau()
 {
     GestionnaireReseauClientLourd::obtenirInstance();
     
-    Socket* wSocket = new Socket("127.0.0.1",5010, TCP);
-    GestionnaireReseau::obtenirInstance()->saveSocket("bob", wSocket);
+    Socket* wSocket = GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("bob", "127.0.0.1", TCP);
 
     PaquetTest* wPaquet = (PaquetTest*) GestionnaireReseau::obtenirInstance()->creerPaquet("Test");
     wPaquet->setMessage("SUP C#");

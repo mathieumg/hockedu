@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "Singleton.h"
-
+#include "Reseau\GestionnaireReseau.h"
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class GestionnaireReseauClientLourd
@@ -23,7 +23,7 @@ class GestionnaireReseauServeur :public Singleton<GestionnaireReseauServeur>
 
     SINGLETON_DECLARATION_CLASSE_SANS_CONSTRUCTEUR(GestionnaireReseauServeur);
 public:
-	
+	static void SocketStateCallback(const ConnectionStateEvent& pEvent);
 
 private:
     /// Constructeur par defaut
