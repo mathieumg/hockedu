@@ -6,17 +6,23 @@
 #import "AppDemoAppDelegate.h"
 #import "MenuViewController.h"
 #import "EAGLViewController.h"
+#import "RougeViewController.h"
 
 @implementation AppDemoAppDelegate
 
 @synthesize window = _window;
 @synthesize menuViewController = _menuViewController;
 @synthesize eaglViewController = _eaglViewController;
-
+@synthesize rougeViewController = _rougeViewController;
 
 - (void) afficherVueAnimee
 {    
     self.window.rootViewController = self.eaglViewController;
+}
+
+-(void) afficherVueRouge
+{
+    self.window.rootViewController = self.rougeViewController;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
