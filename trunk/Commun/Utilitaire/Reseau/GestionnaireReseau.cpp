@@ -34,6 +34,8 @@
 #include "UsinePaquets/UsinePaquetTest.h"
 #include "PaquetHandlers/PacketHandlerTest.h"
 #include <utility>
+#include "PaquetHandlers/PacketHandlerEvent.h"
+#include "UsinePaquets/UsinePaquetEvent.h"
 
 // lien avec la librairie winsock2
 #pragma comment( lib, "ws2_32.lib" )
@@ -178,6 +180,7 @@ void GestionnaireReseau::init()
     ajouterOperationReseau("String", new PacketHandlerString(), new UsinePaquetString());
     ajouterOperationReseau("ConnAutomatique", new PacketHandlerConnAutomatique(), new UsinePaquetConnAutomatique());
     ajouterOperationReseau("Test", new PacketHandlerTest(), new UsinePaquetTest());
+    ajouterOperationReseau("Error", new PacketHandlerEvent(), new UsinePaquetEvent());
 
 	// Init Winsock2
 	// --> The WSAStartup function initiates use of the Winsock DLL by a process.
@@ -478,6 +481,28 @@ SPSocket GestionnaireReseau::demarrerNouvelleConnection(const std::string& pPlay
 	saveSocket(pPlayerName, wNewSocket);
 	return wNewSocket;
 }
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void GestionnaireReseau::transmitEvent( int pMessageCode, const std::string& pMessageContent ) const
+///
+/// Methode pour envoyer des events au Controlleur
+///
+/// @param[in] int pMessageCode : Code de message a envoyer au controlleur
+/// @param[in] ...              : Autres parametres a envoyer au controlleur (varient selon le MessageCode)
+/// 
+/// @return     void
+///
+////////////////////////////////////////////////////////////////////////
+void GestionnaireReseau::transmitEvent( int pMessageCode, ... ) const
+{
+    va_list args;
+    va_start(args, pMessageCode);
+    mControlleur->handleEvent(pMessageCode, args);
+    va_end(args);
+}
+
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -850,6 +875,7 @@ void GestionnaireReseau::socketConnectionStateEvent( SPSocket pSocket, Connectio
 		mSocketStateCallback(pEvent);
 	}
 }
+
 
 
 
