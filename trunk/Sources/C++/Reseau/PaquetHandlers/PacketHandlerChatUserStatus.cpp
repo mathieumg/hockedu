@@ -16,9 +16,13 @@
 void PacketHandlerChatUserStatus::handlePacketReceptionSpecific(PacketReader& pPacketReader)
 {
     PaquetChatUserStatus* wPaquet = (PaquetChatUserStatus*) GestionnaireReseau::obtenirInstance()->creerPaquet("ChatUserStatus");
-	wPaquet->setUserName((char*) pPacketReader.readString());
-	wPaquet->setConnectionState( (ConnectionState) pPacketReader.readInteger());
+    int wArraySize = pPacketReader.readInteger();
+    uint8_t* wBuffer = new uint8_t[wArraySize];
+    pPacketReader.readString(wBuffer, wArraySize);
+	wPaquet->setUserName((char*) wBuffer);
+    //delete wBuffer;
 
+	wPaquet->setConnectionState( (ConnectionState) pPacketReader.readInteger());
 
 	// Seul les Clients devraient recevoir ceci
 

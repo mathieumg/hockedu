@@ -20,5 +20,9 @@ void PacketHandlerBase::handlePacketPreparationBase(Paquet* pPaquet, PacketBuild
 
 int PacketHandlerBase::getPacketSize(Paquet* pPaquet) const
 {
-    return 44; // TODO: REMOVE HARDCODED VALUE
+    // Size de Paquet
+    int mTaillePaquet = Paquet::sequenceIdentification.length()+1 + GestionnaireReseau::longueurMaxOperationReseau;
+    // Size de PaquetBase
+    mTaillePaquet += sizeof(PaquetBase::CompteurNumeroPaquet) + sizeof(mTaillePaquet);
+    return mTaillePaquet; // TODO: REMOVE HARDCODED VALUE
 }

@@ -16,6 +16,7 @@
 #include "Paquets/Paquet.h"
 #include "ExceptionsReseau\ExceptionReseauSocketDeconnecte.h"
 #include "ExceptionsReseau\ExceptionReseauTimeout.h"
+#include "ExceptionsReseau\ExceptionReseauParametreInvalide.h"
 #include "SocketTCPServeur.h"
 #include "PacketBuilder.h"
 #include "PaquetHandlers\PacketHandler.h"
@@ -466,7 +467,7 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 	CommunicateurReseau* wCommunicateurReseau = (CommunicateurReseau*) arg;
 	QueueThreadSafe<PaquetAEnvoyer*>* listeAEnvoyer = wCommunicateurReseau->getSendingList();
 	PacketBuilder wPacketBuilder;
-
+    int nbBytesEnvoye = 0;
 	PaquetAEnvoyer* wPaquetAEnvoyer = NULL;
 	while (true)
 	{
@@ -495,8 +496,7 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 					wPacketHandler->handlePacketPreparation(wPaquetAEnvoyer->paquet, wPacketBuilder);
 
 
-					// On essaie d'envoyer la chaine, envoi bloquant
-					wSocket->send( wPacketBuilder.getPacketString(),  wPacketBuilder.getPacketLength(), true);
+					// On essaie d'envoyer la chaine, envoi bloquant					wSocket->send( wPacketBuilder.getPacketString(),  wPacketBuilder.getPacketLength(), true);
 
 				}
 				catch(ExceptionReseauSocketDeconnecte& )
@@ -630,7 +630,12 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                                     wPacketReader.setArrayStart(readBuffer, wReceivedBytes);
                                     HeaderPaquet wPacketHeader = wPacketHandler->handlePacketHeaderReception(wPacketReader);
                                     wPacketReader.setSize(wReceivedBytes);
-                                    checkf(wPacketHeader.taillePaquet > wReceivedBytes); // Si trigger, probleme avec lecture du header du paquet (big trouble)
+                                    bool wTaillePaquetValide = wPacketHeader.taillePaquet > wReceivedBytes;
+                                    checkf(wTaillePaquetValide, "Probleme avec lecture du header du paquet"); // Si trigger, probleme avec lecture du header du paquet (big trouble)
+                                    if( !wTaillePaquetValide )
+                                    {
+                                        throw ExceptionReseauParametreInvalide("La taille du paquet reçu était inférieure à la taille du header des paquets");
+                                    }
                                     int wTailleRestanteALire = (int) (wPacketHeader.taillePaquet - wReceivedBytes);
                                     while (wTailleRestanteALire>0)
                                     {
