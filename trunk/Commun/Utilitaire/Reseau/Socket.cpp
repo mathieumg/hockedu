@@ -516,7 +516,7 @@ void Socket::init()
             {
                 connect();
                 // Si connect fonctionne, il faut envoyer notre nom de player au serveur
-                std::string wPlayerName = GestionnaireReseau::obtenirInstance()->getPlayerName(this); // C'est plate, mais on ne veut pas garder le nom du joueur dans le socket lui-meme
+                std::string wPlayerName = GestionnaireReseau::obtenirInstance()->getPlayerName(shared_from_this()); // C'est plate, mais on ne veut pas garder le nom du joueur dans le socket lui-meme
                 send((uint8_t*) wPlayerName.c_str(), (uint32_t) (wPlayerName.length()+1), true); // +1 pour avoir le caractere de fin de string
 
                 // On recoit le message de confirmation, ne pas bloquer
@@ -616,7 +616,7 @@ void Socket::setConnectionState( ConnectionState pConnectionState )
 
 	ConnectionStateEvent event;
 	event.mState = mConnectionState;
-	GestionnaireReseau::obtenirInstance()->socketConnectionStateEvent(this,event);
+	GestionnaireReseau::obtenirInstance()->socketConnectionStateEvent(shared_from_this(),event);
 
 
 	/*if(pConnectionState == CONNECTING)

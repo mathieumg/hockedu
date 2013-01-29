@@ -48,7 +48,7 @@ SINGLETON_DECLARATION_CPP(GestionnaireReseau);
 NetworkMode GestionnaireReseau::mNetworkMode = NOT_DEFINED;
 
 // Mode du terminal courant (ex: CLIENT OU SERVEUR)
-Observer<Socket>* GestionnaireReseau::mObserverSocket = NULL;
+Observer<SPSocket>* GestionnaireReseau::mObserverSocket = NULL;
 
 // Port utilise pour la connexion automatique (Multicast en UDP)
 int GestionnaireReseau::multicastPort = 1001;
@@ -322,12 +322,12 @@ void GestionnaireReseau::supprimerPacketHandlersEtUsines()
 	mListeUsines.clear();
 
     // Vider la liste de Sockets et les detruire
-    std::map<std::pair<std::string, ConnectionType>, Socket*>::iterator iter;
+    std::map<std::pair<std::string, ConnectionType>, SPSocket>::iterator iter;
     WaitForSingleObject(mMutexListeSockets,INFINITE);
-    for (iter = mListeSockets.begin(); iter != mListeSockets.end(); ++iter)
-    {
-        delete (*iter).second;
-    }
+//     for (iter = mListeSockets.begin(); iter != mListeSockets.end(); ++iter)
+//     {
+//         delete (*iter).second;
+//     }
     mListeSockets.clear();
     ReleaseMutex(mMutexListeSockets);
 }
@@ -346,7 +346,7 @@ void GestionnaireReseau::supprimerPacketHandlersEtUsines()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireReseau::envoyerPaquet( Socket* pSocketAUtiliser, Paquet* pPaquet )
+void GestionnaireReseau::envoyerPaquet( SPSocket pSocketAUtiliser, Paquet* pPaquet )
 {
 	if(this->validerOperation(pPaquet->getOperation()))
 	{
@@ -449,9 +449,9 @@ Paquet* GestionnaireReseau::creerPaquet( const std::string& pOperation )
 /// @return     : Socket*	: Pointeur vers le socket qui vient d'être créer
 ///
 ////////////////////////////////////////////////////////////////////////
-Socket* GestionnaireReseau::demarrerNouvelleConnection(const std::string& pPlayerName, const std::string& pIP, ConnectionType pConnectionType)
+SPSocket GestionnaireReseau::demarrerNouvelleConnection(const std::string& pPlayerName, const std::string& pIP, ConnectionType pConnectionType)
 {
-	Socket* wNewSocket = new Socket(pIP, GestionnaireReseau::communicationPort, pConnectionType);
+	SPSocket wNewSocket = SPSocket(new Socket(pIP, GestionnaireReseau::communicationPort, pConnectionType));
 
 // 	if(GestionnaireReseau::mObserverSocket != NULL && GestionnaireReseau::getNetworkMode() == SERVER)
 // 	{
@@ -479,19 +479,19 @@ Socket* GestionnaireReseau::demarrerNouvelleConnection(const std::string& pPlaye
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireReseau::saveSocket( const std::string& pNomJoueur, Socket* pSocket )
+void GestionnaireReseau::saveSocket( const std::string& pNomJoueur, SPSocket pSocket )
 {
     WaitForSingleObject(mMutexListeSockets,INFINITE);
-    try
-    {
-        std::map<std::pair<std::string, ConnectionType>, Socket*>::iterator it = mListeSockets.find(std::pair<std::string, ConnectionType>(pNomJoueur, pSocket->getConnectionType()));
-        if(it != mListeSockets.end())
-        {
-            delete (*it).second;
-        }
-        
-    }
-    catch(...){} // Pour etre certain de ne pas planter pour rien
+//     try
+//     {
+//         std::map<std::pair<std::string, ConnectionType>, SPSocket>::iterator it = mListeSockets.find(std::pair<std::string, ConnectionType>(pNomJoueur, pSocket->getConnectionType()));
+//         if(it != mListeSockets.end())
+//         {
+//             delete (*it).second;
+//         }
+//         
+//     }
+//     catch(...){} // Pour etre certain de ne pas planter pour rien
 
 	// On ecrase le dernier socket qui etait associe a ce nom de joueur et a ce type de socket
 	mListeSockets[std::pair<std::string, ConnectionType>(pNomJoueur, pSocket->getConnectionType())] = pSocket;
@@ -513,7 +513,7 @@ void GestionnaireReseau::saveSocket( const std::string& pNomJoueur, Socket* pSoc
 /// @return Socket* : Pointeur vers le socket associe a ce joueur et a ce type ou NULL si pas dans la liste
 ///
 ////////////////////////////////////////////////////////////////////////
-Socket* GestionnaireReseau::getSocket( const std::string& pNomJoueur, ConnectionType pConnectionType )
+SPSocket GestionnaireReseau::getSocket( const std::string& pNomJoueur, ConnectionType pConnectionType )
 {
     WaitForSingleObject(mMutexListeSockets,INFINITE);
 	ListeSockets::iterator iterateurRecherche = mListeSockets.find(std::pair<std::string, ConnectionType>(pNomJoueur, pConnectionType));
@@ -554,14 +554,14 @@ void GestionnaireReseau::removeSocket( const std::string& pNomJoueur, Connection
 		ReleaseMutex(mMutexListeSockets);
 		return;
 	}
-	Socket* wSocketASupprimer = itMap->second;
+	SPSocket wSocketASupprimer = itMap->second;
 
     // On attend pour ne pas supprimer le socket pendant une operation critique
     HANDLE wHandle = wSocketASupprimer->getMutexActiviteSocket();
     WaitForSingleObject(wHandle,INFINITE);
 
     // On doit le retirer de la liste de Socket a ecouter avant de le supprimer
-	std::list<Socket*>::const_iterator it = mCommunicateurReseau.getFirstSocketEcoute(); // On va egalement chercher le mutex vers la liste de Sockets a ecouter
+	std::list<SPSocket>::const_iterator it = mCommunicateurReseau.getFirstSocketEcoute(); // On va egalement chercher le mutex vers la liste de Sockets a ecouter
 	for(it; it!=mCommunicateurReseau.getEndSocketEcoute(); ++it)
 	{
 		if((*it)==wSocketASupprimer)
@@ -578,7 +578,6 @@ void GestionnaireReseau::removeSocket( const std::string& pNomJoueur, Connection
 	mListeSockets.erase(itMap);
 
 	// Liberer la memoire et invalider le pointeur
-	delete wSocketASupprimer;
 	wSocketASupprimer = 0;
 
     ReleaseMutex(wHandle); // On relache le mutex sur le socket
@@ -599,12 +598,12 @@ void GestionnaireReseau::removeSocket( const std::string& pNomJoueur, Connection
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireReseau::removeSocket( Socket* pSocket )
+void GestionnaireReseau::removeSocket( SPSocket pSocket )
 {
 
     // Now remove it from here and delete it
     WaitForSingleObject(mMutexListeSockets,INFINITE);
-    for (std::map<std::pair<std::string, ConnectionType>, Socket*>::iterator it = mListeSockets.begin(); it!=mListeSockets.end(); ++it)
+    for (std::map<std::pair<std::string, ConnectionType>, SPSocket>::iterator it = mListeSockets.begin(); it!=mListeSockets.end(); ++it)
     {
         if((*it).second == pSocket)
         {
@@ -789,11 +788,11 @@ void GestionnaireReseau::throwExceptionReseau(const std::string& pMessagePrefix 
 /// @return std::string : Nom du joueur
 ///
 ////////////////////////////////////////////////////////////////////////
-std::string GestionnaireReseau::getPlayerName( Socket* pSocket )
+std::string GestionnaireReseau::getPlayerName( SPSocket pSocket )
 {
     WaitForSingleObject(mMutexListeSockets,INFINITE);
 	std::string name;
-    for (std::map<std::pair<std::string, ConnectionType>, Socket*>::iterator it = mListeSockets.begin(); it!=mListeSockets.end(); ++it)
+    for (std::map<std::pair<std::string, ConnectionType>, SPSocket>::iterator it = mListeSockets.begin(); it!=mListeSockets.end(); ++it)
     {
         if((*it).second == pSocket)
         {
@@ -818,7 +817,7 @@ std::string GestionnaireReseau::getPlayerName( Socket* pSocket )
 std::set<std::string> GestionnaireReseau::getPlayerNameList(ConnectionType pConnectionType) const
 {
     std::set<std::string> wReturnSet;
-    for (std::map<std::pair<std::string, ConnectionType>, Socket*>::const_iterator it = mListeSockets.begin(); it!=mListeSockets.end(); ++it)
+    for (std::map<std::pair<std::string, ConnectionType>, SPSocket>::const_iterator it = mListeSockets.begin(); it!=mListeSockets.end(); ++it)
     {
         if((*it).first.second == pConnectionType)
         {
@@ -828,7 +827,7 @@ std::set<std::string> GestionnaireReseau::getPlayerNameList(ConnectionType pConn
     return wReturnSet;
 }
 
-void GestionnaireReseau::socketConnectionStateEvent( Socket* pSocket, ConnectionStateEvent& pEvent )
+void GestionnaireReseau::socketConnectionStateEvent( SPSocket pSocket, ConnectionStateEvent& pEvent )
 {
 	if(mSocketStateCallback)
 	{

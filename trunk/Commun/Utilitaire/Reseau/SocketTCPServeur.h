@@ -8,7 +8,8 @@ public:
 	~SocketTCPServeur();
 	
     void listen(uint32_t nbConnections = 1);
-    Socket* accept(__out sockaddr* addr, uint32_t* addrlen);
+    SPSocket accept(__out sockaddr* addr, uint32_t* addrlen);
 
 };
 
+typedef std::shared_ptr<SocketTCPServeur> SPSocketTCPServer;

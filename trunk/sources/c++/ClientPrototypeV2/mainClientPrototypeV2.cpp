@@ -34,7 +34,7 @@ int main(void)  {
     std::string wServerIp = wMenu.displayAndPick();
 
 
-	Socket* wSocket = GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection(wName, wServerIp, TCP);
+	SPSocket wSocket = GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection(wName, wServerIp, TCP);
 
     std::cout << "Entrer un message et appuyez sur Entree: " << std::endl;
 

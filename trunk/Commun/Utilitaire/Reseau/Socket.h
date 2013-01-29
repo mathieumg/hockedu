@@ -11,6 +11,7 @@
 #include <stdint.h>
 #include <stdexcept>
 #include "ObserverPaternMacros.h"
+#include <memory>
 
 enum InternetProtocol {IPv4 = AF_INET, IPv6 = AF_INET6, UNSPECIFIED = AF_UNSPEC};
 enum ConnectionType {UDP, TCP};
@@ -18,7 +19,7 @@ enum ConnectionState {CONNECTED, CONNECTING, NOT_CONNECTED};
 
 
 
-class Socket
+class Socket : public std::enable_shared_from_this<Socket>
 {
 public:
 	Socket(const std::string& pDestinationIP, const int& pPortNumber, ConnectionType conType = TCP, InternetProtocol ipProtocol = IPv4);

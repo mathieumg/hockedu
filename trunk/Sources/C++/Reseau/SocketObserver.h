@@ -30,7 +30,7 @@ public:
 	/// Destructeur
 	~SocketObserverServerChat();
 
-	virtual void updateObserver( Socket* pSubject );
+	virtual void updateObserver( SPSocket pSubject );
     
 
 private:

@@ -30,7 +30,7 @@ unsigned int CommunicateurReseau::maxBufferSize = 5000;
 
 struct ArgsConnectionThread {
 	CommunicateurReseau* communicateurReseau;
-	Socket* socketAConnecter;
+	SPSocket socketAConnecter;
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -107,7 +107,7 @@ CommunicateurReseau::~CommunicateurReseau()
 /// @return bool    : True si l'ajout a reussi
 ///
 ////////////////////////////////////////////////////////////////////////
-bool CommunicateurReseau::ajouterPaquetEnvoie( Socket* pSocket, Paquet* pPaquet )
+bool CommunicateurReseau::ajouterPaquetEnvoie( SPSocket pSocket, Paquet* pPaquet )
 {
 	// On sauvegarde le paquet
 	PaquetAEnvoyer* paquetAEnvoyer = new PaquetAEnvoyer;
@@ -184,7 +184,7 @@ void CommunicateurReseau::demarrerThreadsConnectionTCPServeur()
     // Ajouter localhost car pas dans la liste
     ArgsConnectionThread* wArgsLocal = new ArgsConnectionThread;
     wArgsLocal->communicateurReseau = this;
-    wArgsLocal->socketAConnecter = new SocketTCPServeur("127.0.0.1", GestionnaireReseau::communicationPort);
+	wArgsLocal->socketAConnecter = SPSocketTCPServer(new SocketTCPServeur("127.0.0.1", GestionnaireReseau::communicationPort));
     HANDLE wHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)connectionTCPServeurThreadRoutine, wArgsLocal, 0, NULL);
     if(wHandle==NULL)
     {
@@ -202,7 +202,7 @@ void CommunicateurReseau::demarrerThreadsConnectionTCPServeur()
         ArgsConnectionThread* wArgs = new ArgsConnectionThread;
         wArgs->communicateurReseau = this;
         std::string wIP = inet_ntoa(*(struct in_addr *)hostCourant->h_addr_list[wNbCount]);
-        wArgs->socketAConnecter = new SocketTCPServeur(wIP, GestionnaireReseau::communicationPort);
+        wArgs->socketAConnecter = SPSocketTCPServer(new SocketTCPServeur(wIP, GestionnaireReseau::communicationPort));
         HANDLE wHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)connectionTCPServeurThreadRoutine, wArgs, 0, NULL);
         if(wHandle==NULL)
         {
@@ -283,7 +283,7 @@ QueueThreadSafe<Paquet*>* CommunicateurReseau::getReceivedList()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void CommunicateurReseau::ajouterSocketEcoute( Socket* pSocket )
+void CommunicateurReseau::ajouterSocketEcoute( SPSocket pSocket )
 {
 	WaitForSingleObject(mMutexListeSocketsEcoute,INFINITE);
 	mListeSocketsEcoute.push_back(pSocket);
@@ -303,7 +303,7 @@ void CommunicateurReseau::ajouterSocketEcoute( Socket* pSocket )
 /// @return std::list<Socket*>::const_iterator  : Iterateur sur le debut de la liste de sockets a ecouter
 ///
 ////////////////////////////////////////////////////////////////////////
-std::list<Socket*>::const_iterator CommunicateurReseau::getFirstSocketEcoute() const
+std::list<SPSocket>::const_iterator CommunicateurReseau::getFirstSocketEcoute() const
 {
 	DWORD wTest = WaitForSingleObject(mMutexListeSocketsEcoute,INFINITE);
 	return mListeSocketsEcoute.begin();
@@ -320,7 +320,7 @@ std::list<Socket*>::const_iterator CommunicateurReseau::getFirstSocketEcoute() c
 /// @return std::list<Socket*>::const_iterator  : Iterateur sur le dernier element de la liste de sockets a ecouter
 ///
 ////////////////////////////////////////////////////////////////////////
-std::list<Socket*>::const_iterator CommunicateurReseau::getEndSocketEcoute() const
+std::list<SPSocket>::const_iterator CommunicateurReseau::getEndSocketEcoute() const
 {
 	return mListeSocketsEcoute.end();
 }
@@ -351,7 +351,7 @@ void CommunicateurReseau::terminerIterationListeSocketEcoute()
 /// @return std::list<Socket*>::const_iterator  : Nouvel iterateur pour continuer la boucle si necessaire
 ///
 ////////////////////////////////////////////////////////////////////////
-std::list<Socket*>::const_iterator CommunicateurReseau::supprimerEcouteSocket( const std::list<Socket*>::const_iterator& pIterateur )
+std::list<SPSocket>::const_iterator CommunicateurReseau::supprimerEcouteSocket( const std::list<SPSocket>::const_iterator& pIterateur )
 {
 	return mListeSocketsEcoute.erase(pIterateur);
 }
@@ -366,10 +366,10 @@ std::list<Socket*>::const_iterator CommunicateurReseau::supprimerEcouteSocket( c
 /// @return void cause we like it
 ///
 ////////////////////////////////////////////////////////////////////////
-void CommunicateurReseau::supprimerEcouteSocket( Socket* pSocket )
+void CommunicateurReseau::supprimerEcouteSocket( SPSocket pSocket )
 {
     WaitForSingleObject(mMutexListeSocketsEcoute,INFINITE);
-    for(std::list<Socket*>::iterator it = mListeSocketsEcoute.begin(); it!=mListeSocketsEcoute.end(); ++it)
+    for(std::list<SPSocket>::iterator it = mListeSocketsEcoute.begin(); it!=mListeSocketsEcoute.end(); ++it)
     {
         if((*it) == pSocket)
         {
@@ -390,7 +390,7 @@ void CommunicateurReseau::supprimerEcouteSocket( Socket* pSocket )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void CommunicateurReseau::demarrerConnectionThread( Socket* pSocket )
+void CommunicateurReseau::demarrerConnectionThread( SPSocket pSocket )
 {
 	if(mHandlesThreadConnection.find(pSocket) == mHandlesThreadConnection.end())
 	{
@@ -426,7 +426,7 @@ void CommunicateurReseau::demarrerConnectionThread( Socket* pSocket )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void CommunicateurReseau::enleverConnectionThread( Socket* pSocket, bool pSuccess )
+void CommunicateurReseau::enleverConnectionThread( SPSocket pSocket, bool pSuccess )
 {
 	WaitForSingleObject(mMutexListeSocketsConnection,INFINITE);
 	mHandlesThreadConnection.erase(mHandlesThreadConnection.find(pSocket));
@@ -476,7 +476,7 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 			// Aller chercher le Paquet et l'envoyer
 			if(listeAEnvoyer->pop(wPaquetAEnvoyer) && wPaquetAEnvoyer)
 			{
-				Socket* wSocket = wPaquetAEnvoyer->socket;
+				SPSocket wSocket = wPaquetAEnvoyer->socket;
 
 				ConnectionState wConnectionState = wSocket->getConnectionState();
 				if(wConnectionState == CONNECTING || wConnectionState == NOT_CONNECTED)
@@ -578,11 +578,11 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
 	while(true)
 	{
 		
-		std::list<Socket*>::const_iterator it = wCommunicateurReseau->getFirstSocketEcoute();
-		std::list<Socket*>::const_iterator end = wCommunicateurReseau->getEndSocketEcoute();
+		std::list<SPSocket>::const_iterator it = wCommunicateurReseau->getFirstSocketEcoute();
+		std::list<SPSocket>::const_iterator end = wCommunicateurReseau->getEndSocketEcoute();
 		for(;it!=end; )
 		{
-			Socket* wSocket = (*it);
+			SPSocket wSocket = (*it);
 			if(wSocket == 0) 
 			{
 				// Bad socket, on le supprime et on doit recommencer la boucle car l'iterateur n'est plus valide
@@ -730,7 +730,7 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
 	ArgsConnectionThread* wArgs = (ArgsConnectionThread*) arg;
 
 	CommunicateurReseau* wCommunicateurReseau = wArgs->communicateurReseau;
-	Socket* wSocket = wArgs->socketAConnecter;
+	SPSocket wSocket = wArgs->socketAConnecter;
 
     delete wArgs; // Plus besoin des arguments
 
@@ -779,7 +779,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
     ArgsConnectionThread* wArgs = (ArgsConnectionThread*) arg;
 
     CommunicateurReseau* wCommunicateurReseau = wArgs->communicateurReseau;
-    SocketTCPServeur* wSocket = (SocketTCPServeur*) wArgs->socketAConnecter;
+    SPSocketTCPServer wSocket = (SPSocketTCPServer&)wArgs->socketAConnecter;
 
     delete wArgs; // Plus besoin des arguments
     
@@ -813,7 +813,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
     {
         sockaddr_in sinRemote;
         uint32_t nAddrSize = sizeof(sinRemote);
-        Socket* wNewSocket = NULL;
+        SPSocket wNewSocket = NULL;
         try
         {
             wNewSocket = wSocket->accept((sockaddr*)&sinRemote, &nAddrSize);
@@ -847,7 +847,6 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
                 wNewSocket->send((uint8_t*)&wMessageRefus, 2, true);
 
                 wNewSocket->disconnect();
-                delete wNewSocket;
                 wNewSocket = 0;
             }
 
@@ -861,7 +860,6 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
             }
             catch(ExceptionReseau&){}
             wNewSocket->disconnect();
-            delete wNewSocket; // Prevent a memory leak if the Socket object was still created
             wNewSocket = 0;
         }
 

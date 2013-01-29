@@ -51,7 +51,7 @@ SocketObserverServerChat::~SocketObserverServerChat()
 
 
 
-void SocketObserverServerChat::updateObserver( Socket* pSubject )
+void SocketObserverServerChat::updateObserver( SPSocket pSubject )
 {
 	// Le socket a change de state, on envoie une notification aux autres
 	ConnectionState wConnState = pSubject->getConnectionState();
