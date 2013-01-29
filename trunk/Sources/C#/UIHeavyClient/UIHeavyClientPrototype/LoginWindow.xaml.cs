@@ -237,6 +237,24 @@ namespace UIHeavyClient
             if (e.Key == Key.Enter)
                 loginButton_Click(sender, e);
         }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void LoginWindow.refreshButton_Click(object sender, RoutedEventArgs e)
+        ///
+        /// Event when the user pressed the refresh button.
+        /// 
+        /// @param[in] object : The object related to the event.
+        /// @param[in] RoutedEventArgs : The key event.
+        ///
+        /// @return None.
+        ////////////////////////////////////////////////////////////////////////
+        private void refreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Server s in listedServer)
+            { 
+                //s.isAvailable = ... TODO : CALL DLL
+            }
+        }
     }
 }
 

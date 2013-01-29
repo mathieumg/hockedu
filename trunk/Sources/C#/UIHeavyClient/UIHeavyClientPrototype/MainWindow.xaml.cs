@@ -170,10 +170,11 @@ namespace UIHeavyClient
             // Init attributes
             mUserName = "";
             mIsUserConnected = false;
-            // Display connexion window
 
+            // Display connexion window
             mLoginWindow = new LoginWindow();
             mLoginWindow.ShowDialog();
+
             // Once the login is closed, validate if the user is connected
             IsUserConnected = mLoginWindow.UserConnected;
             UserName = mLoginWindow.UserName;
@@ -246,8 +247,10 @@ namespace UIHeavyClient
 
             foreach (string s in Chat.ConnectedUsers)
             {
-                if(onlineListView.Items.IndexOf(s) == -1)
+                if (onlineListView.Items.IndexOf(s) == -1)
+                {
                     onlineListView.Items.Add(s);
+                }
             }
         }
 
@@ -282,6 +285,31 @@ namespace UIHeavyClient
         {
             // Make sure the login window is closed
             mLoginWindow.Close();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            mUserName = "";
+            mIsUserConnected = false;
+
+            // Display connexion window
+            mLoginWindow = new LoginWindow();
+            mLoginWindow.ShowDialog();
+
+            // Once the login is closed, validate if the user is connected
+            IsUserConnected = mLoginWindow.UserConnected;
+            UserName = mLoginWindow.UserName;
+            if (!IsUserConnected)
+            {
+                Close();
+            }
+            SetMessageCallback(mMessageCallback);
+            messageTextBox.Focus();
         }
         
     }
