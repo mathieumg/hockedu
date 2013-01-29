@@ -82,7 +82,8 @@ public:
 	void ajouterOperationReseau(const std::string& pNomOperation, PacketHandler* pPacketHandler, UsinePaquet* pUsine);
 	
 	// Verifie le type de socket et utilise le bon communicateurReseau afin de transmettre la message
-	void envoyerPaquet(SPSocket pSocketAUtiliser, Paquet* pPaquet);
+    void envoyerPaquet(SPSocket pSocketAUtiliser, Paquet* pPaquet);
+	void envoyerPaquet(const std::string& pPlayerName, Paquet* pPaquet, ConnectionType pConnectionType);
 
 	/*// Demarre la reception de paquets dans un thread separe afin que le communicateur reseau du meme type que le socket ecoute et gere la reception sur ce socket
 	Paquet* recevoirPaquets(Socket* pSocketAUtiliser);*/

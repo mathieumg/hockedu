@@ -35,9 +35,7 @@ namespace UIHeavyClient
         static string mLastUser = "";
 
         [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SendMessageDLL(string message);
-        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void GetMessageDLL();
+        public static extern void SendMessageDLL(string username, string message);
 
         ////////////////////////////////////////////////////////////////////////
         /// @propertie string Chat.WholeMessage
@@ -86,20 +84,6 @@ namespace UIHeavyClient
         }
 
         ////////////////////////////////////////////////////////////////////////
-        /// @fn Chat.CheckForNewMessage()
-        ///
-        /// Call the server to check for new messages.
-        ///
-        /// @return None.
-        ////////////////////////////////////////////////////////////////////////
-        public static void CheckForNewMessage()
-        {
-            GetMessageDLL();
-
-
-        }
-
-        ////////////////////////////////////////////////////////////////////////
         /// @fn void Chat.CheckForConnectedUsers()
         ///
         /// Call the server to check for connected users.
@@ -126,7 +110,7 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public static void SendNewMessage(string userName, string message)
         {
-            SendMessageDLL(message);
+            SendMessageDLL(userName,message);
         }
     }
 }

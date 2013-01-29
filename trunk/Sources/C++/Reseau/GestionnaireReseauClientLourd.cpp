@@ -27,7 +27,7 @@ SINGLETON_DECLARATION_CPP(GestionnaireReseauClientLourd);
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-GestionnaireReseauClientLourd::GestionnaireReseauClientLourd()
+GestionnaireReseauClientLourd::GestionnaireReseauClientLourd(): mMessageReceivedCallBack(NULL)
 {
     // Initialisation du GestionnaireReseau
     GestionnaireReseau::setNetworkMode(CLIENT);
@@ -55,6 +55,26 @@ GestionnaireReseauClientLourd::GestionnaireReseauClientLourd()
 GestionnaireReseauClientLourd::~GestionnaireReseauClientLourd()
 {
     GestionnaireReseau::libererInstance();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void GestionnaireReseauClientLourd::messageReceived( char* pUsername, char* pMessage )
+///
+/// /*Description*/
+///
+/// @param[in] char * pUsername
+/// @param[in] char * pMessage
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void GestionnaireReseauClientLourd::messageReceived( const char* pUsername, const char* pMessage )
+{
+    if(mMessageReceivedCallBack)
+    {
+        mMessageReceivedCallBack((char*)pUsername,(char*)pMessage);
+    }
 }
 
 

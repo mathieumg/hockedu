@@ -11,6 +11,13 @@
 #include "Reseau\GestionnaireReseau.h"
 
 
+struct ChatMessageReceived
+{
+    std::string mUsername;
+    std::string mMessage;
+};
+typedef BOOL (__stdcall *MessageReceivedCallBack)(char* pUsername, char* pMessage);
+
 ///////////////////////////////////////////////////////////////////////////
 /// @class GestionnaireReseauClientLourd
 /// @brief Classe qui représente le Gestionnaire Réseau du client lourd
@@ -23,13 +30,17 @@ class GestionnaireReseauClientLourd :public Singleton<GestionnaireReseauClientLo
 
     SINGLETON_DECLARATION_CLASSE_SANS_CONSTRUCTEUR(GestionnaireReseauClientLourd);
 public:
-	QueueThreadSafe<std::string> mMessages;
+    /// Accessors of mMessageReceivedCallBack
+    inline void setMessageReceivedCallBack(MessageReceivedCallBack pVal) { mMessageReceivedCallBack = pVal; }
+    void messageReceived(const char* pUsername, const char* pMessage);
 
 private:
     /// Constructeur par defaut
     GestionnaireReseauClientLourd();
     /// Destructeur
     ~GestionnaireReseauClientLourd();
+
+    MessageReceivedCallBack mMessageReceivedCallBack;
 
 };
 

@@ -34,6 +34,37 @@ namespace UIHeavyClient
     ///////////////////////////////////////////////////////////////////////////
     public partial class LoginWindow : Window
     {
+        // sends a request to connect the user. Will not be necessarly connected when exiting this function
+        // must wait for a callback indicating the status of this user's connection
+        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void RequestLogin( string pUsername, string pIpAdress );
+
+        ////////////////////////////////////////////////////////////////////////////////////
+        // Callback to received event messages from C++
+        // declare the callback prototype
+        // use this callback to validate user's connection
+        [DllImport(@"INF2990.dll")]
+        static extern void SetEventCallback(MainWindow.EventReceivedCallBack callback);
+        static bool EventReceived(int id, IntPtr pMessage)
+        {
+            if(id >= 0 && MainWindow.EventType.NB_ELEM.CompareTo(id) < 0)
+            {
+                string message = Marshal.PtrToStringAnsi(pMessage);
+                MainWindow.EventType type = (MainWindow.EventType)id;
+                switch (type)
+                {
+                    case MainWindow.EventType.USER_CONNECTED: break;
+                    case MainWindow.EventType.USER_ALREADY_CONNECTED: break;
+                    case MainWindow.EventType.USER_DID_NOT_SEND_NAME_ON_CONNECTION: break;
+                    case MainWindow.EventType.USER_DISCONNECTED: break;
+                    default: break;
+                }
+            }
+            return true;
+        }
+        MainWindow.EventReceivedCallBack mEventCallback = EventReceived;
+        ////////////////////////////////////////////////////////////////////////////////////
+
         // The user name input
         string mUserName = "";
 

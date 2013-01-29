@@ -36,8 +36,7 @@ namespace UIHeavyClient
     ///////////////////////////////////////////////////////////////////////////
     public partial class MainWindow : Window
     {
-        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void InitDLL(string username);
+        
 
         // The uset name
         string mUserName;
@@ -74,13 +73,56 @@ namespace UIHeavyClient
             set { mIsUserConnected = value; }
         }
 
+        // C++ function to initialise C# controller on that side
+        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void InitDLL();
 
         ////////////////////////////////////////////////////////////////////////////////////
-        //Callback to received event from C++
+        //
+        // Keep synch with C++ in GestionnaireReseau
+        public enum EventType { 
+            USER_ALREADY_CONNECTED,
+            USER_DID_NOT_SEND_NAME_ON_CONNECTION, 
+            USER_CONNECTED, 
+            USER_DISCONNECTED, 
+            RECONNECTION_TIMEOUT, 
+            RECONNECTION_IN_PROGRESS, 
+            WRONG_PASSWORD,
+            NB_ELEM
+        };
+
+        //Callback to received event messages from C++
+        //declare the callback prototype
+        public delegate bool EventReceivedCallBack(int id, IntPtr message);
+        [DllImport(@"INF2990.dll")]
+        static extern void SetEventCallback(EventReceivedCallBack callback);
+        static bool EventReceived(int id, IntPtr pMessage)
+        {
+            string message = Marshal.PtrToStringAnsi(pMessage);
+            if (id >= 0 && MainWindow.EventType.NB_ELEM.CompareTo(id) < 0)
+            {
+                MainWindow.EventType type = (MainWindow.EventType)id;
+                switch (type)
+                {
+                    case MainWindow.EventType.USER_CONNECTED: break;
+                    case MainWindow.EventType.USER_ALREADY_CONNECTED: break;
+                    case MainWindow.EventType.USER_DID_NOT_SEND_NAME_ON_CONNECTION: break;
+                    case MainWindow.EventType.USER_DISCONNECTED: break;
+                    default: break;
+                }
+            }
+            Chat.UpdateChat("", message);
+            return true;
+        }
+        EventReceivedCallBack mEventCallback = EventReceived;
+        ////////////////////////////////////////////////////////////////////////////////////
+
+        ////////////////////////////////////////////////////////////////////////////////////
+        //Callback to received user messages from C++
         //declare the callback prototype
         delegate bool MessageReceivedCallBack(IntPtr username, IntPtr message);
         [DllImport(@"INF2990.dll")]
-        static extern void SetCallback(MessageReceivedCallBack callback);
+        static extern void SetMessageCallback(MessageReceivedCallBack callback);
         static bool MessageReceived(IntPtr pUsername, IntPtr pMessage)
         {
             string message = Marshal.PtrToStringAnsi(pMessage);
@@ -88,7 +130,7 @@ namespace UIHeavyClient
             Chat.UpdateChat(username, message);
             return true;
         }
-        MessageReceivedCallBack mCallback = MessageReceived;
+        MessageReceivedCallBack mMessageCallback = MessageReceived;
         ////////////////////////////////////////////////////////////////////////////////////
 
         private void bw_DoWork(object sender, DoWorkEventArgs e)
@@ -125,6 +167,7 @@ namespace UIHeavyClient
         public MainWindow()
         {
             InitializeComponent();
+            InitDLL();
 
             // Init attributes
             mUserName = "";
@@ -140,9 +183,8 @@ namespace UIHeavyClient
             {
                 Close();
             }
-            SetCallback(mCallback);
+            SetMessageCallback(mMessageCallback);
 			messageTextBox.Focus();
-            InitDLL(UserName);
 
             // Worker pour faire le rafraichissement de la fenetre
             BackgroundWorker mBgWorker = new BackgroundWorker();
