@@ -33,9 +33,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0C5913FA16B07041003F39E4 /* RougeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RougeViewController.h; sourceTree = "<group>"; };
-		0C5913FB16B07041003F39E4 /* RougeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RougeViewController.m; sourceTree = "<group>"; };
-		0C5913FC16B07041003F39E4 /* RougeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RougeViewController.xib; sourceTree = "<group>"; };
+		0C5913FA16B07041003F39E4 /* RougeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RougeViewController.h; path = ../RougeViewController.h; sourceTree = "<group>"; };
+		0C5913FB16B07041003F39E4 /* RougeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RougeViewController.m; path = ../RougeViewController.m; sourceTree = "<group>"; };
+		0C5913FC16B07041003F39E4 /* RougeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RougeViewController.xib; path = ../RougeViewController.xib; sourceTree = "<group>"; };
 		96378D761472C71100F543EA /* AppDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96378D7A1472C71100F543EA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		96378D7C1472C71100F543EA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -90,9 +90,6 @@
 		96378D6B1472C71100F543EA = {
 			isa = PBXGroup;
 			children = (
-				0C5913FA16B07041003F39E4 /* RougeViewController.h */,
-				0C5913FB16B07041003F39E4 /* RougeViewController.m */,
-				0C5913FC16B07041003F39E4 /* RougeViewController.xib */,
 				96378D801472C71100F543EA /* AppDemo */,
 				96378D791472C71100F543EA /* Frameworks */,
 				96378D771472C71100F543EA /* Products */,
@@ -148,6 +145,8 @@
 		96378D941472C78200F543EA /* Controleurs */ = {
 			isa = PBXGroup;
 			children = (
+				0C5913FA16B07041003F39E4 /* RougeViewController.h */,
+				0C5913FB16B07041003F39E4 /* RougeViewController.m */,
 				96378D951472C7CC00F543EA /* MenuViewController.h */,
 				96378D961472C7CC00F543EA /* MenuViewController.m */,
 				969DDF8D1472E15900ED5DC8 /* EAGLViewController.h */,
@@ -159,6 +158,7 @@
 		96378D981472C7F200F543EA /* Interface Builder */ = {
 			isa = PBXGroup;
 			children = (
+				0C5913FC16B07041003F39E4 /* RougeViewController.xib */,
 				96378D8C1472C71200F543EA /* MainWindow.xib */,
 				96378D991472C80A00F543EA /* MenuViewController.xib */,
 				969DDF8F1472E15900ED5DC8 /* EAGLViewController.xib */,
