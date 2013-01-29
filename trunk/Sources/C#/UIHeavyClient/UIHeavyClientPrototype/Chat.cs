@@ -15,12 +15,14 @@ namespace UIHeavyClient
         [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void SendMessageDLL(string message);
         [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern string GetMessageDLL(StringBuilder pMessage, ref int pBufferSize);
+        public static extern void GetMessageDLL();
 
         public static string WholeMessage
         {
             get { return mWholeMessage; }
         }
+
+        
 
         public static void UpdateChat(string userName, string message)
         {
@@ -31,24 +33,11 @@ namespace UIHeavyClient
             }
 
             mWholeMessage += (message + "\n");
-
-            SendNewMessage(userName, message);
         }
 
         public static void CheckForNewMessage()
         {
-            string userName = "", message = "";
-            bool newMessage = false;
-
-            // CALL DLL
-            // ...
-
-            int bufferSize = 512;
-            StringBuilder buffer = new StringBuilder(bufferSize);
-            //GetMessageDLL(buffer,ref bufferSize);
-
-            if (buffer.Length != 0)
-                UpdateChat(userName, buffer.ToString());
+            GetMessageDLL();
 
         }
 

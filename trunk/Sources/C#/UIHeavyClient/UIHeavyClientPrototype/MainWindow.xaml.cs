@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.ComponentModel;
 
 namespace UIHeavyClient
 {
@@ -21,8 +22,6 @@ namespace UIHeavyClient
     /// </summary>
     public partial class MainWindow : Window
     {
-        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int TestCSCall(int a);
         [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void InitDLL(string username);
 
@@ -42,24 +41,47 @@ namespace UIHeavyClient
             set { mIsUserConnected = value; }
         }
 
-        class Worker
+
+        ////////////////////////////////////////////////////////////////////////////////////
+        //Callback to received event from C++
+        //declare the callback prototype
+        delegate bool MessageReceivedCallBack(IntPtr username, IntPtr message);
+        [DllImport(@"INF2990.dll")]
+        static extern void SetCallback(MessageReceivedCallBack callback);
+        static bool MessageReceived(IntPtr pUsername, IntPtr pMessage)
         {
-            public void DoWork()
+            string message = Marshal.PtrToStringAnsi(pMessage);
+            string username = Marshal.PtrToStringAnsi(pUsername);
+            Chat.UpdateChat(username, message);
+            return true;
+        }
+        MessageReceivedCallBack mCallback = MessageReceived;
+        ////////////////////////////////////////////////////////////////////////////////////
+
+        private void bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+
+            while(true)
             {
-                while (!_shouldStop)
+                if ((worker.CancellationPending == true))
                 {
-                    Chat.CheckForNewMessage();
-                    Thread.Sleep(1000);
+                    e.Cancel = true;
+                    break;
+                }
+                else
+                {
+                    System.Threading.Thread.Sleep(100);
+                    worker.ReportProgress(100);
                 }
             }
-        
-            public bool _shouldStop { get; set; }
-            public void RequestStop()
-            {
-                _shouldStop = true;
-            }
-        };
-        Worker workerObject = new Worker();
+        }
+        private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            ShowWholeMessage();
+        }
+        BackgroundWorker mBgWorker = new BackgroundWorker();
+
 
         public MainWindow()
         {
@@ -67,7 +89,6 @@ namespace UIHeavyClient
 
             mUserName = "";
             mIsUserConnected = false;
-
             Chat.mContext = this;
 
             mLoginWindow = new LoginWindow();
@@ -78,29 +99,29 @@ namespace UIHeavyClient
             {
                 Close();
             }
-
+            SetCallback(mCallback);
             InitDLL(UserName);
 
-            Thread workerThread = new Thread(workerObject.DoWork);
-            workerThread.Start();
+            // Worker pour faire le rafraichissement de la fenetre
+            BackgroundWorker mBgWorker = new BackgroundWorker();
+            mBgWorker.WorkerReportsProgress = true;
+            mBgWorker.DoWork +=
+                new DoWorkEventHandler(bw_DoWork);
+            mBgWorker.ProgressChanged +=
+                new ProgressChangedEventHandler(bw_ProgressChanged);
+            mBgWorker.RunWorkerAsync();
         }
-
-        ~MainWindow()
-        {
-            workerObject.RequestStop();
-         }
 
         private void submitButton_Click(object sender, RoutedEventArgs e)
         {
             if (messageTextBox.Text != "" && mIsUserConnected)
             {
-                Chat.UpdateChat(mUserName, messageTextBox.Text);
+                Chat.SendNewMessage(mUserName, messageTextBox.Text);
                 messageTextBox.Clear();
-                ShowWholeMessage();
             }
         }
 
-        private void ShowWholeMessage()
+        public void ShowWholeMessage()
         {
             wholeMessageBox.Text = Chat.WholeMessage;
         }
