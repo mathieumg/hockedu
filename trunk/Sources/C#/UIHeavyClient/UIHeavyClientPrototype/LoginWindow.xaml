@@ -1,13 +1,15 @@
 ﻿<Window x:Class="UIHeavyClient.LoginWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="LoginWindow" Height="189" Width="390" Background="#FF323232">
-    <Grid Height="144" Width="368">
-        <TextBox Height="28" HorizontalAlignment="Left" Margin="12,43,0,0" Name="userNameInput" VerticalAlignment="Top" Width="296" Background="Black" Foreground="White" KeyDown="messageTextBox_KeyDown" />
+        Title="Connexion" Height="248" Width="421" Background="#FF323232" ResizeMode="NoResize">
+    <Grid Height="170" Width="368">
+        <TextBox Height="28" HorizontalAlignment="Left" Margin="12,31,0,0" Name="userNameInput" VerticalAlignment="Top" Width="296" Background="Black" Foreground="White" KeyDown="messageTextBox_KeyDown" />
         <!--<PasswordBox Height="30" HorizontalAlignment="Left" Margin="12,108,0,0" Name="passwordInput" VerticalAlignment="Top" Width="308" Background="Black" Foreground="White" KeyDown="messageTextBox_KeyDown" />-->
-        <Label Content="Pseudonyme" Height="25" HorizontalAlignment="Left" Margin="12,12,0,0" Name="label1" VerticalAlignment="Top" Width="182" Foreground="White" />
+        <Label Content="Pseudonyme" Height="25" HorizontalAlignment="Left" Name="label1" VerticalAlignment="Top" Width="182" Foreground="White" />
         <!--<Label Content="Mot de passe" Height="25" HorizontalAlignment="Left" Margin="12,77,0,0" Name="label2" VerticalAlignment="Top" Width="185" Foreground="White" />-->
-        <Button Content="Connexion" Height="26" HorizontalAlignment="Left" Margin="249,110,0,0" Name="loginButton" VerticalAlignment="Top" Width="104" Click="loginButton_Click" Background="Black" Foreground="White" />
-        <Label Content="" Height="59" HorizontalAlignment="Left" Margin="12,77,0,0" Name="errorMessageLabel" VerticalAlignment="Top" Width="222" Foreground="Red" />
+        <Button Content="Connexion" Height="26" HorizontalAlignment="Left" Margin="252,132,0,0" Name="loginButton" VerticalAlignment="Top" Width="104" Click="loginButton_Click" Background="Black" Foreground="White" />
+        <Label Content="" Height="48" HorizontalAlignment="Left" Margin="12,110,0,0" Name="errorMessageLabel" VerticalAlignment="Top" Width="222" Foreground="Red" />
+        <Label Content="Serveur" Foreground="White" Height="25" HorizontalAlignment="Left" Margin="0,65,0,0" Name="label2" VerticalAlignment="Top" Width="64" />
+        <ComboBox Height="23" HorizontalAlignment="Left" Margin="54,67,0,0" Name="serverComboBox" VerticalAlignment="Top" Width="146" Background="#FF646464" Foreground="Black" BorderBrush="White" />
     </Grid>
 </Window>
