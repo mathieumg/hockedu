@@ -6,7 +6,7 @@
 void PacketHandlerString::handlePacketReceptionSpecific(PacketReader& pPacketReader)
 {
     std::string str =  std::string((char*)pPacketReader.readString());
-    std::cout << str << std::endl;
+    //std::cout << str << std::endl;
 }
 
 void PacketHandlerString::handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder)
