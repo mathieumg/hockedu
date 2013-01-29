@@ -18,6 +18,7 @@
 #include "CommunicateurReseau.h"
 #include <fstream>
 #include <set>
+#include "ControllerInterface.h"
 
 class PacketHandler;
 class UsinePaquet;
@@ -29,6 +30,9 @@ enum NetworkMode {CLIENT, SERVER, NOT_DEFINED};
 enum ByteOrder {NATIVE, LITTLE_ENDIAN, BIG_ENDIAN, UNKNOWN};
 
 enum ExceptionTypes {GLOBALE, PARAMETRE_INVALIDE, SOCKET_DECONNECTE, TIMEOUT, TYPE_NOT_DEFINED, AUCUNE_ERREUR};
+
+enum EventCodes {USER_ALREADY_CONNECTED, USER_DID_NOT_SEND_NAME_ON_CONNECTION, USER_CONNECTED, USER_DISCONNECTED, RECONNECTION_TIMEOUT, RECONNECTION_IN_PROGRESS, WRONG_PASSWORD};
+
 
 struct ConnectionStateEvent
 {
@@ -75,6 +79,10 @@ public:
 	void setSocketConnectionStateCallback(SocketConnectionStateCallback val) { mSocketStateCallback = val; }
 	void socketConnectionStateEvent(SPSocket pSocket, ConnectionStateEvent& pEvent);
 	
+    // Methode pour configurer le Controlleur a associer avec la Modele
+    inline void setController(ControllerInterface* pController) {mControlleur = pController;}
+    inline ControllerInterface* getController() const {return mControlleur;}
+
 	// Methode pour obtenir l'adresse IP locale qui est dans le meme subnet que l'adresse IP passee en parametre
 	std::string getAdresseIPLocaleAssociee(const std::string& pDestinationIP);
 
@@ -115,8 +123,11 @@ public:
 	// Methode pour creer une nouvelle connection (un nouveau Socket) et le sauvegarder a la liste des Sockets actifs
 	SPSocket demarrerNouvelleConnection(const std::string& pPlayerName, const std::string& pIP, ConnectionType pConnectionType);
 
-	void gererExceptionReseau(ExceptionReseau* pException) const;
+    // Methode pour envoyer des events au Controlleur
+    void transmitEvent(int pMessageCode, ...) const;
 
+	void gererExceptionReseau(ExceptionReseau* pException) const;
+    
     //Determines native byte order of a system.
 	static void determineNativeByteOrder();
 	//Returns system native byte order
@@ -140,6 +151,8 @@ private:
     // Methode de nettoyage
 	void supprimerPacketHandlersEtUsines();
 
+    // Controlleur associe au modele
+    ControllerInterface* mControlleur;
 	
 
 	// Liste des handlers pour les paquets

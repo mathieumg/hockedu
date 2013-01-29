@@ -203,6 +203,12 @@
     <ClCompile Include="Reseau\Paquets\Paquet.cpp">
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClCompile>
+    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerEvent.cpp">
+      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="Reseau\Paquets\PaquetEvent.cpp">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AideCollision.h">
@@ -414,6 +420,18 @@
     </ClInclude>
     <ClInclude Include="ObserverPaternDefinitions.h">
       <Filter>Sources Files\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\ControllerInterface.h">
+      <Filter>Sources Files\Reseau</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerEvent.h">
+      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\Paquets\PaquetEvent.h">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetEvent.h">
+      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

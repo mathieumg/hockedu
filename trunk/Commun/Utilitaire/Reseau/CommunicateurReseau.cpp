@@ -433,10 +433,12 @@ void CommunicateurReseau::enleverConnectionThread( SPSocket pSocket, bool pSucce
 	ReleaseMutex(mMutexListeSocketsConnection);
     if(!pSuccess)
     {
+        GestionnaireReseau::obtenirInstance()->transmitEvent(EventCodes::RECONNECTION_TIMEOUT);
         GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
     }
     else
     {
+        GestionnaireReseau::obtenirInstance()->transmitEvent(EventCodes::USER_CONNECTED);
         // Si la reconnection a reussie, on le remet dans la liste des sockets a ecouter
         ajouterSocketEcoute(pSocket);
     }
@@ -735,8 +737,9 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
     delete wArgs; // Plus besoin des arguments
 
     int wNbTentatives = 0;
+    GestionnaireReseau::obtenirInstance()->transmitEvent(RECONNECTION_IN_PROGRESS);
 	
-    while(wNbTentatives<200) // 200 tentatives max = 40 sec de connection max
+    while(wNbTentatives<200) // 200 tentatives max = 400 sec de connection max
     {
 	    // Essayer de connecter le socket
         std::cout << "Tentative de connection a " << wSocket->getAdresseDestination() << std::endl;
@@ -752,6 +755,9 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
             ++wNbTentatives;
         }
     }
+
+    
+
 
     wCommunicateurReseau->enleverConnectionThread(wSocket, wNbTentatives != 20);
     
