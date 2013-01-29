@@ -821,6 +821,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
         uint32_t nAddrSize = sizeof(sinRemote);
         SPSocket wNewSocket = NULL;
         int wMessageConfirmation = 0;
+        std::stringstream ss;
         try
         {
             wNewSocket = wSocket->accept((sockaddr*)&sinRemote, &nAddrSize);
@@ -837,22 +838,24 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
             {
                 // On envoit un message de confirmation pour dire que la conenction est acceptee
                 wMessageConfirmation = USER_CONNECTED;
-                //wNewSocket->send((uint8_t*) &wMessageConfirmation, 4, true);
+                // Send connection state message
+                ss << wMessageConfirmation;
+                wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
 
                 // On ajoute le nouveau socket au gestionnaire reseau (avec son nom obtenu dans le paquet)
                 GestionnaireReseau::obtenirInstance()->saveSocket(std::string(wPlayerName), wNewSocket);
 				wNewSocket->setConnectionState(CONNECTED);
 
 
-				// Ne pas mettre avant de save() sinon il le connait pas le nom su player
-				//wNewSocket->attach(GestionnaireReseau::getObserverSocketServer());
             }
             else
             {
                 // Sinon on ne connecte pas et on delete le socket
                 // On envoit un message de confirmation pour dire que la conenction est acceptee
                 wMessageConfirmation = USER_ALREADY_CONNECTED;
-                //wNewSocket->send((uint8_t*)&wMessageRefus, 2, true);
+                // Send connection state message
+                ss << wMessageConfirmation;
+                wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
 
                 wNewSocket->disconnect();
                 wNewSocket = 0;
@@ -861,32 +864,25 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
         }
         catch(ExceptionReseauTimeout&)
         {
-            try // On essaie d'envoyer un message de refus au client (try pcq il peut etre deconnecte et le send va fail)
-            {
-                wMessageConfirmation = USER_DID_NOT_SEND_NAME_ON_CONNECTION;
-                //wNewSocket->send((uint8_t*) &wMessageRefus, 2, true);
-            }
-            catch(ExceptionReseau&){}
+            wMessageConfirmation = USER_DID_NOT_SEND_NAME_ON_CONNECTION;
+            // Send connection state message
+            ss << wMessageConfirmation;
+            wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
             wNewSocket->disconnect();
             wNewSocket = 0;
         }
         catch(ExceptionReseau&)
         {
-            try // On essaie d'envoyer un message de refus au client (try pcq il peut etre deconnecte et le send va fail)
-            {
-                wMessageConfirmation = USER_DISCONNECTED;
-                //wNewSocket->send((uint8_t*) &wMessageRefus, 2, true);
-            }
-            catch(ExceptionReseau&){}
+            wMessageConfirmation = USER_DISCONNECTED;
+            // Send connection state message
+            ss << wMessageConfirmation;
+            wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
             wNewSocket->disconnect();
             wNewSocket = 0;
         }
 
-        // Send connection state message
-        std::stringstream ss;
-        ss << wMessageConfirmation;
-        std::string wTemp = ss.str();
-        wNewSocket->send((uint8_t*)wTemp.c_str(), 3, true);
+        
+        
         
         
     }

@@ -514,7 +514,7 @@ void Socket::init()
             // connect()
             try
             {
-                int wConfirmation = USER_CONNECTED;
+                int wConfirmation = USER_DISCONNECTED;
                 connect();
                 // Si connect fonctionne, il faut envoyer notre nom de player au serveur
                 std::string wPlayerName = GestionnaireReseau::obtenirInstance()->getPlayerName(shared_from_this()); // C'est plate, mais on ne veut pas garder le nom du joueur dans le socket lui-meme
