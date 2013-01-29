@@ -360,12 +360,31 @@ void GestionnaireReseau::envoyerPaquet( SPSocket pSocketAUtiliser, Paquet* pPaqu
 	{
 		throw ExceptionReseau("Operation invalide a l'envoie d'un Paquet dans GestionnaireReseau.");
 	}
+}
 
-
-
-
-	
-
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void GestionnaireReseau::envoyerPaquet( const std::string& pPlayerName, Paquet* pPaquet )
+///
+/// Methode pour envoyer un paquet par un joueur en particulier
+///
+/// @param[in] const std::string & pPlayerName : Nom du joueur qui désire envoyer le paque
+/// @param[in] Paquet* pPaquet                 : Paquet a envoyer (sera delete par le CommunicateurReseau une fois que le paquet sera envoye)
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void GestionnaireReseau::envoyerPaquet( const std::string& pPlayerName, Paquet* pPaquet, ConnectionType pConnectionType )
+{
+    SPSocket pSocket = getSocket(pPlayerName,pConnectionType);
+    if(pSocket)
+    {
+        envoyerPaquet(pSocket,pPaquet);
+    }
+    else
+    {
+        pPaquet->removeAssociatedQuery();
+    }
 }
 
 

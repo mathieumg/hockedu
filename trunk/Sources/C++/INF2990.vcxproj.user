@@ -35,7 +35,7 @@
     <LocalDebuggerWorkingDirectory>$(ProjectDir)..\..\Exe</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerAttach>false</LocalDebuggerAttach>
-    <LocalDebuggerDebuggerType>Auto</LocalDebuggerDebuggerType>
+    <LocalDebuggerDebuggerType>Mixed</LocalDebuggerDebuggerType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|x64'">
     <LocalDebuggerWorkingDirectory>$(ProjectDir)..\..\Exe</LocalDebuggerWorkingDirectory>

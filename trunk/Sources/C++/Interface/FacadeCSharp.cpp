@@ -1,4 +1,3 @@
-#include "FacadeCSharp.h"
 #include "UsineNoeudMaillet.h"
 #include "UsineNoeudRondelle.h"
 #include "BancTests.h"
@@ -7,12 +6,8 @@
 #include "Reseau\Paquets\PaquetTest.h"
 #include "QueueThreadSafe.h"
 #include <ctime>
+#include "FacadeCSharp.h"
 
-// Test pour l'appel de la DLL depuis le C#
-int TestCSCall(int i)
-{
-    return i*2;
-}
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -63,58 +58,80 @@ void TestGestionnaireReseau()
 
     GestionnaireReseau::obtenirInstance()->envoyerPaquet(wSocket, wPaquet);
 
-
-
 }
 
 
-std::string mName;
-void InitDLL(char * pName)
+void InitDLL()
 {
-    mName = pName;
-    GestionnaireReseauClientLourd::obtenirInstance();
-
-    SPSocket wSocket = SPSocket(new Socket("173.177.0.193", 5010, TCP));
-    GestionnaireReseau::obtenirInstance()->saveSocket(mName, wSocket);
-
+    // Creer le controlleur C# dans le gestionnaireReseau
+    
 }
 
 
-void SendMessageDLL(char * pMessage)
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void RequestLogin( char* pUsername, char* pIpAdress )
+///
+/// Envoi une demande pour ce connecter
+///
+/// @param[in] char * pUsername
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void RequestLogin( char* pUsername, char* pIpAdress )
+{
+    GestionnaireReseauClientLourd::obtenirInstance();
+    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection(pUsername,pIpAdress,TCP);
+}
+
+void SendMessageDLL(char * pUsername, char * pMessage)
 {
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet("ChatMessage");
     wPaquet->setMessage(pMessage);
     wPaquet->setIsTargetGroup(true);
     wPaquet->setGroupName("groupe");
     wPaquet->setTimestamp(time(0));
-    wPaquet->setOrigin(mName);
+    wPaquet->setOrigin(pUsername);
 
-    SPSocket wSocket = GestionnaireReseau::obtenirInstance()->getSocket(mName,TCP);
-    GestionnaireReseau::obtenirInstance()->envoyerPaquet(wSocket, wPaquet);
+    try
+    {
+        GestionnaireReseau::obtenirInstance()->envoyerPaquet(pUsername, wPaquet,TCP);
+    }
+    catch(...)
+    {
+        wPaquet->removeAssociatedQuery();
+    }
 }
 
-void GetMessageDLL(char * pMessage , int* pBufferSize)
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void SetMessageCallback( MessageReceivedCallBack callback )
+///
+/// Enregistre la callback pour mettre a jour la vue lors de nouveau message
+///
+/// @param[in] MessageReceivedCallBack callback
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void SetMessageCallback( MessageReceivedCallBack callback )
 {
-    QueueThreadSafe<std::string>& queue = GestionnaireReseauClientLourd::obtenirInstance()->mMessages;
-    if(!queue.empty())
-	{
-        std::string message;
-        if(queue.pop(message))
-        {
-            int i = 0;
-            for(i=0; i<(int)message.size(); ++i)
-            {
-                if(i < *pBufferSize)
-                {
-                    pMessage[i] = message[i];
-                }
-                else
-                {
-                    --i;
-                    break;
-                }
-            }
-            pMessage[i] = 0;
-        }
-	}
+    GestionnaireReseauClientLourd::obtenirInstance()->setMessageReceivedCallBack(callback);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void SetEventCallback( EventReceivedCallBack callback )
+///
+/// Enregistre la callback pour mettre a jour la vue lors d'événement
+///
+/// @param[in] EventReceivedCallBack callback
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void SetEventCallback( EventReceivedCallBack callback )
+{
+
 }

@@ -68,7 +68,7 @@ bool QueueThreadSafe<T>::push( T element )
 {
 	getMutex();
 	bool wObjectAdded = false;
-	if(mMaxBufferSize && (unsigned int)mFile.size() < mMaxBufferSize )
+	if(!mMaxBufferSize || (unsigned int)mFile.size() < mMaxBufferSize )
 	{
 		mFile.push(element);
 		wObjectAdded = true;
