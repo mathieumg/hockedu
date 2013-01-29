@@ -18,7 +18,6 @@
 #include "CommunicateurReseau.h"
 #include <fstream>
 #include <set>
-#include "ObserverPaternMacros.h"
 
 class PacketHandler;
 class UsinePaquet;
@@ -69,15 +68,10 @@ public:
 	// Set the network mode
 	inline static void setNetworkMode(NetworkMode pNetworkMode) {mNetworkMode = pNetworkMode;}
 
-	// Set the Observer for the server sockets
-	inline static void setObserverSocketServer(Observer<SPSocket>* pObserver) {mObserverSocket = pObserver;}
-	
-	
     // Get the network mode
     inline static NetworkMode getNetworkMode() {return mNetworkMode;}
 
 	// Get the server socket observer
-    inline static Observer<SPSocket>* getObserverSocketServer() {return mObserverSocket;}
 	void setSocketConnectionStateCallback(SocketConnectionStateCallback val) { mSocketStateCallback = val; }
 	void socketConnectionStateEvent(SPSocket pSocket, ConnectionStateEvent& pEvent);
 	
@@ -168,8 +162,6 @@ private:
 	static NetworkMode mNetworkMode;
 
 	SocketConnectionStateCallback mSocketStateCallback;
-	// Observer a associer aux sockets crees pour le serveur
-	static Observer<SPSocket>* mObserverSocket;
 
 	// fstream pour le log de reseautique
 	static std::ofstream mLogHandle;

@@ -34,7 +34,6 @@
 #include "UsinePaquets/UsinePaquetTest.h"
 #include "PaquetHandlers/PacketHandlerTest.h"
 #include <utility>
-#include "../Reseau/SocketObserver.h"
 
 // lien avec la librairie winsock2
 #pragma comment( lib, "ws2_32.lib" )
@@ -46,9 +45,6 @@ SINGLETON_DECLARATION_CPP(GestionnaireReseau);
 
 // Mode du terminal courant (ex: CLIENT OU SERVEUR)
 NetworkMode GestionnaireReseau::mNetworkMode = NOT_DEFINED;
-
-// Mode du terminal courant (ex: CLIENT OU SERVEUR)
-Observer<SPSocket>* GestionnaireReseau::mObserverSocket = NULL;
 
 // Port utilise pour la connexion automatique (Multicast en UDP)
 int GestionnaireReseau::multicastPort = 1001;

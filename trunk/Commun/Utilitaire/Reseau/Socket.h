@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdexcept>
-#include "ObserverPaternMacros.h"
 #include <memory>
 
 enum InternetProtocol {IPv4 = AF_INET, IPv6 = AF_INET6, UNSPECIFIED = AF_UNSPEC};
