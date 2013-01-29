@@ -435,7 +435,6 @@
     <ClCompile Include="XMLUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ObserverPaternMacros.h" />
     <ClInclude Include="AideCollision.h" />
     <ClInclude Include="AideGL.h" />
     <ClInclude Include="Animation.h" />
@@ -459,6 +458,7 @@
     <ClInclude Include="LumiereSpot.h" />
     <ClInclude Include="MouseMoveObserver.h" />
     <ClInclude Include="ObjetAnimable.h" />
+    <ClInclude Include="ObserverPaternDefinitions.h" />
     <ClInclude Include="OnceVector.h" />
     <ClInclude Include="Phont.h" />
     <ClInclude Include="Plan3D.h" />

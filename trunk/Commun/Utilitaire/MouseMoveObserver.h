@@ -1,6 +1,5 @@
 #pragma once
-#include <set>
-#include "ObserverPaternMacros.h"
+#include "ObserverPaternDefinitions.h"
 #include "..\Environnement\Evenements\EvenementSouris.h"
 
 class MouseMoveSubject : public Subject<MouseMoveSubject>

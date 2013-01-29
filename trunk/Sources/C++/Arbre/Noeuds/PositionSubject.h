@@ -1,5 +1,5 @@
 #pragma once
-#include "ObserverPaternMacros.h"
+#include "ObserverPaternDefinitions.h"
 
 class PositionSubject : public Subject<PositionSubject>
 {

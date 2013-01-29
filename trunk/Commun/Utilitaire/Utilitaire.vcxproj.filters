@@ -331,9 +331,6 @@
     <ClInclude Include="MouseMoveObserver.h">
       <Filter>Sources Files\Observer</Filter>
     </ClInclude>
-    <ClInclude Include="ObserverPaternMacros.h">
-      <Filter>Sources Files\Observer</Filter>
-    </ClInclude>
     <ClInclude Include="Reseau\CommunicateurReseau.h">
       <Filter>Sources Files\Reseau</Filter>
     </ClInclude>
@@ -414,6 +411,9 @@
     </ClInclude>
     <ClInclude Include="QueueThreadSafe.h">
       <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObserverPaternDefinitions.h">
+      <Filter>Sources Files\Observer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

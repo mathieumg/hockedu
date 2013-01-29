@@ -266,7 +266,7 @@ void NoeudBut::updateLongueur(float facteurModificationEchelle)
 
 	updateMatrice();
     updatePhysicBody();
-    signalObservers();
+    PositionSubject::signalObservers();
 }
 
 ////////////////////////////////////////////////////////////////////////
