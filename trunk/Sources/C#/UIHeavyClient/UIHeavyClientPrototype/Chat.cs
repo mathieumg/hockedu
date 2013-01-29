@@ -16,6 +16,12 @@ using System.Runtime.InteropServices;
 
 namespace UIHeavyClient
 {
+    struct ChatUser
+    {
+        public string mUserName;
+        public string mUserState;
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     /// @class Chat
     /// @brief The chat.
@@ -29,7 +35,7 @@ namespace UIHeavyClient
         static string mWholeMessage;
 
         // Connected users
-        static string mConnectedUsers = "En ligne :\nTa Mère\nTa Soeur\nTa Cousine";
+        static List<string> mConnectedUsers = new List<string>();
 
         // Last user who has talked
         static string mLastUser = "";
@@ -58,7 +64,7 @@ namespace UIHeavyClient
         ///
         /// @return The user name.
         ////////////////////////////////////////////////////////////////////////
-        public static string ConnectedUsers
+        public static List<string> ConnectedUsers
         {
             get { return mConnectedUsers; }
         }
@@ -95,8 +101,6 @@ namespace UIHeavyClient
         public static void CheckForNewMessage()
         {
             GetMessageDLL();
-
-
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -111,7 +115,10 @@ namespace UIHeavyClient
             // TODO : CALL DLL
             // ...
 
-            mConnectedUsers = "En ligne :\nTa Mère\nTa Soeur\nTa Cousine"; // TEMP
+            mConnectedUsers.Clear(); // TEMP
+            mConnectedUsers.Add("Ta Mère"); // TEMP
+            mConnectedUsers.Add("Ta Soeur"); // TEMP
+            mConnectedUsers.Add("Ta Cousine"); // TEMP
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -126,7 +133,7 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public static void SendNewMessage(string userName, string message)
         {
-            SendMessageDLL(message);
+            //SendMessageDLL(message);
         }
     }
 }

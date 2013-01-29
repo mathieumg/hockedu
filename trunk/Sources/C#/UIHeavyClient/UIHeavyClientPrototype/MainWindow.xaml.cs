@@ -140,9 +140,9 @@ namespace UIHeavyClient
             {
                 Close();
             }
-            SetCallback(mCallback);
+            //SetCallback(mCallback);
 			messageTextBox.Focus();
-            InitDLL(UserName);
+            //InitDLL(UserName);
 
             // Worker pour faire le rafraichissement de la fenetre
             BackgroundWorker mBgWorker = new BackgroundWorker();
@@ -158,6 +158,7 @@ namespace UIHeavyClient
         {
             
          }
+
         ////////////////////////////////////////////////////////////////////////
         /// @fn void MainWindow.submitButton_Click()
         ///
@@ -173,14 +174,29 @@ namespace UIHeavyClient
             if (messageTextBox.Text != "" && mIsUserConnected)
             {
                 Chat.SendNewMessage(mUserName, messageTextBox.Text);
+                Chat.UpdateChat(mUserName, messageTextBox.Text); // TEMP
+                Chat.CheckForConnectedUsers(); // TEMP
                 messageTextBox.Clear();
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.ShowWholeMessage()
+        ///
+        /// Update the chat.
+        ///
+        /// @return None.
+        ////////////////////////////////////////////////////////////////////////
         public void ShowWholeMessage()
         {
             wholeMessageBox.Text = Chat.WholeMessage;
-            currentOnlineTextBox.Text = Chat.ConnectedUsers;
+
+            onlineListView.Items.Clear();
+
+            foreach (string s in Chat.ConnectedUsers)
+            {
+                onlineListView.Items.Add(s);
+            }
         }
 
         ////////////////////////////////////////////////////////////////////////

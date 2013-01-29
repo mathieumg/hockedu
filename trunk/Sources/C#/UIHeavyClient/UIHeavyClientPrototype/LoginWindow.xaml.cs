@@ -25,6 +25,27 @@ using System.Runtime.InteropServices;
 namespace UIHeavyClient
 {
     ///////////////////////////////////////////////////////////////////////////
+    /// @struct Server
+    /// @brief A server.
+    ///
+    /// @author Vincent Lemire
+    /// @date 2013-01-29
+    ///////////////////////////////////////////////////////////////////////////
+    struct Server
+    {
+        public string mName;
+        public string mIPAdress;
+        public bool isAvailable;
+
+        public Server(string pName, string pIPAdress)
+        {
+            mName = pName;
+            mIPAdress = pIPAdress;
+            isAvailable = true;
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
     /// @class LoginWindow
     /// @brief A simple window where the user will input his user name.
     ///        The server will be called to validate the name.
@@ -39,6 +60,9 @@ namespace UIHeavyClient
 
         // The main window must know if the user is connected
         bool mUserConnected = false;
+
+        // The server list
+        Server[] listedServer;
 
         ////////////////////////////////////////////////////////////////////////
         /// @propertie string LoginWindow.UserName
@@ -76,6 +100,20 @@ namespace UIHeavyClient
         public LoginWindow()
         {
             InitializeComponent();
+
+            listedServer = new Server[]
+            {
+                new Server("Local", "127.0.0.1"),
+                new Server("Chez Joe", "437.0.69.1"),
+            };
+
+            foreach (Server s in listedServer)
+            {
+                serverComboBox.Items.Add(s.mName);
+            }
+
+            serverComboBox.SelectedIndex = 0;
+
             userNameInput.Focus();
         }
 
@@ -88,16 +126,23 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         private void TryConnecting()
         {
-            if(ValidateUser(userNameInput.Text))
+            if(ValidateUser(userNameInput.Text, listedServer[serverComboBox.SelectedIndex].mIPAdress))
             {
                 mUserName = userNameInput.Text;
                 mUserConnected = true;
+                Mouse.OverrideCursor = Cursors.Arrow;
                 this.Close();
             }
             else
             {
                 // Show an error message if connexion failed
                 errorMessageLabel.Content = "Ce pseudonyme est déjà utilisé.\nVeuillez en choisir un autre.";
+
+                // Unblock everything while connecting
+                userNameInput.IsEnabled = true;
+                loginButton.IsEnabled = true;
+                serverComboBox.IsEnabled = true;
+                Mouse.OverrideCursor = Cursors.Arrow;
             }
         }
 
@@ -110,8 +155,15 @@ namespace UIHeavyClient
         ///
         /// @return If the connexion succed.
         ////////////////////////////////////////////////////////////////////////
-        private bool ValidateUser(string pUserName)
+        private bool ValidateUser(string pUserName, string pIPAdress)
         {
+            // Block everything while connecting
+            userNameInput.IsEnabled = false;
+            loginButton.IsEnabled = false;
+            errorMessageLabel.Content = "Connecting to server, please wait...";
+            serverComboBox.IsEnabled = false;
+            Mouse.OverrideCursor = Cursors.Wait;
+
             // TODO : CALL DLL
             // ...
 
