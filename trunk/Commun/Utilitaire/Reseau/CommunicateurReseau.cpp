@@ -836,6 +836,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
                 GestionnaireReseau::obtenirInstance()->saveSocket(std::string(wPlayerName), wNewSocket);
 				wNewSocket->setConnectionState(CONNECTED);
 
+
 				// Ne pas mettre avant de save() sinon il le connait pas le nom su player
 				//wNewSocket->attach(GestionnaireReseau::getObserverSocketServer());
             }

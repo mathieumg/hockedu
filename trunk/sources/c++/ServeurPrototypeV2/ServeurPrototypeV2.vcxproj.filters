@@ -45,9 +45,6 @@
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.cpp">
       <Filter>Source Files\PacketHandlers</Filter>
     </ClCompile>
-    <ClCompile Include="..\Reseau\SocketObserver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h">
@@ -73,9 +70,6 @@
     </ClInclude>
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.h">
       <Filter>Source Files\PacketHandlers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\SocketObserver.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -149,7 +149,6 @@
     <ClCompile Include="..\Reseau\Paquets\PaquetChatMessage.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetChatUserStatus.cpp" />
     <ClCompile Include="..\Reseau\RelayeurMessage.cpp" />
-    <ClCompile Include="..\Reseau\SocketObserver.cpp" />
     <ClCompile Include="mainServeurPrototypeV2.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -159,7 +158,6 @@
     <ClInclude Include="..\Reseau\Paquets\PaquetChatMessage.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetChatUserStatus.h" />
     <ClInclude Include="..\Reseau\RelayeurMessage.h" />
-    <ClInclude Include="..\Reseau\SocketObserver.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatMessage.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatUserStatus.h" />
   </ItemGroup>
