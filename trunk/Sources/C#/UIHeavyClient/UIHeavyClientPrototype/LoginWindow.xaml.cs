@@ -140,7 +140,12 @@ namespace UIHeavyClient
 
             foreach (Server s in listedServer)
             {
-                serverComboBox.Items.Add(s.mName);
+                ComboBoxItem buffer = new ComboBoxItem();
+                buffer.Content = s.mName + (s.isAvailable ? " (Actif)" : " (Inactif)");
+                buffer.Background = serverComboBox.Background;
+                buffer.Foreground = serverComboBox.Foreground;
+
+                serverComboBox.Items.Add(buffer);
             }
 
             serverComboBox.SelectedIndex = 0;

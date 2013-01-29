@@ -36,8 +36,6 @@ namespace UIHeavyClient
     ///////////////////////////////////////////////////////////////////////////
     public partial class MainWindow : Window
     {
-        
-
         // The uset name
         string mUserName;
 
@@ -196,10 +194,17 @@ namespace UIHeavyClient
             mBgWorker.RunWorkerAsync();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn MainWindow.~MainWindow()
+        ///
+        /// Destructor. Used to stop the sub thread
+        ///
+        /// @return None (destructor).
+        ////////////////////////////////////////////////////////////////////////
         ~MainWindow()
         {
             
-         }
+        }
 
         ////////////////////////////////////////////////////////////////////////
         /// @fn void MainWindow.submitButton_Click()
@@ -233,10 +238,16 @@ namespace UIHeavyClient
         {
             wholeMessageBox.Text = Chat.WholeMessage;
 
-            onlineListView.Items.Clear();
+            if (Chat.NewMessages)
+            {
+                wholeMessageBox.ScrollToEnd();
+                Chat.NewMessages = false;
+            }
+
             foreach (string s in Chat.ConnectedUsers)
             {
-                onlineListView.Items.Add(s);
+                if(onlineListView.Items.IndexOf(s) == -1)
+                    onlineListView.Items.Add(s);
             }
         }
 
