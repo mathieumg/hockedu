@@ -4,6 +4,22 @@
 
 ////////////////////////////////////////////////////////////////////////
 ///
+/// @fn  ControllerCSharp::ControllerCSharp()
+///
+/// Constructeur
+///
+///
+/// @return 
+///
+////////////////////////////////////////////////////////////////////////
+ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceivedCallBack(NULL)
+{
+
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
 /// @fn void ControllerCSharp::handleEvent( int pEventCode, va_list pListeElems )
 ///
 /// Reception d'un événement provenant du réseau
@@ -36,7 +52,7 @@ void ControllerCSharp::handleEvent( int pEventCode, va_list pListeElems )
         default:
             if(mEventReceivedCallback)
             {
-                wEventHandled = mEventReceivedCallback(pEventCode,"");
+                wEventHandled = mEventReceivedCallback(pEventCode,(char*)message.c_str());
             }
         }
     }
@@ -45,4 +61,3 @@ void ControllerCSharp::handleEvent( int pEventCode, va_list pListeElems )
         std::cerr << "UnHandled event\n";
     }
 }
-

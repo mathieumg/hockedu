@@ -25,7 +25,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.ComponentModel;
 
-namespace UIHeavyClient
+namespace UIHeavyClientPrototype
 {
     ///////////////////////////////////////////////////////////////////////////
     /// @class MainWindow
@@ -41,6 +41,8 @@ namespace UIHeavyClient
 
         // The login window which is displayed at begining
         LoginWindow mLoginWindow;
+
+        public TaskManager mTaskManager = new TaskManager();
 
         // Validate if the user is connected
         bool mIsUserConnected;
@@ -75,89 +77,7 @@ namespace UIHeavyClient
         [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void InitDLL();
 
-        ////////////////////////////////////////////////////////////////////////////////////
-        //
-        // Keep synch with C++ in GestionnaireReseau
-        public enum EventType { 
-            USER_ALREADY_CONNECTED,
-            USER_DID_NOT_SEND_NAME_ON_CONNECTION, 
-            USER_CONNECTED, 
-            USER_DISCONNECTED, 
-            RECONNECTION_TIMEOUT, 
-            RECONNECTION_IN_PROGRESS, 
-            WRONG_PASSWORD,
-            CHAT_MESSAGE_RECEIVED,
-            SERVER_USER_CONNECTED,
-            SERVER_USER_DISCONNECTED,
-            NB_ELEM
-        };
-
-        //Callback to received event messages from C++
-        //declare the callback prototype
-        public delegate bool EventReceivedCallBack(int id, IntPtr message);
-        [DllImport(@"INF2990.dll")]
-        static extern void SetEventCallback(EventReceivedCallBack callback);
-        static bool EventReceived(int id, IntPtr pMessage)
-        {
-            string message = Marshal.PtrToStringAnsi(pMessage);
-            if (id >= 0 && MainWindow.EventType.NB_ELEM.CompareTo(id) < 0)
-            {
-                MainWindow.EventType type = (MainWindow.EventType)id;
-                switch (type)
-                {
-                    case MainWindow.EventType.USER_CONNECTED: break;
-                    case MainWindow.EventType.USER_ALREADY_CONNECTED: break;
-                    case MainWindow.EventType.USER_DID_NOT_SEND_NAME_ON_CONNECTION: break;
-                    case MainWindow.EventType.USER_DISCONNECTED: break;
-                    default: break;
-                }
-            }
-            Chat.UpdateChat("", message);
-            return true;
-        }
-        EventReceivedCallBack mEventCallback = EventReceived;
-        ////////////////////////////////////////////////////////////////////////////////////
-
-        ////////////////////////////////////////////////////////////////////////////////////
-        //Callback to received user messages from C++
-        //declare the callback prototype
-        delegate bool MessageReceivedCallBack(IntPtr username, IntPtr message);
-        [DllImport(@"INF2990.dll")]
-        static extern void SetMessageCallback(MessageReceivedCallBack callback);
-        static bool MessageReceived(IntPtr pUsername, IntPtr pMessage)
-        {
-            string message = Marshal.PtrToStringAnsi(pMessage);
-            string username = Marshal.PtrToStringAnsi(pUsername);
-            Chat.UpdateChat(username, message);
-            return true;
-        }
-        MessageReceivedCallBack mMessageCallback = MessageReceived;
-        ////////////////////////////////////////////////////////////////////////////////////
-
-        private void bw_DoWork(object sender, DoWorkEventArgs e)
-        {
-            BackgroundWorker worker = sender as BackgroundWorker;
-
-            while(true)
-            {
-                if ((worker.CancellationPending == true))
-                {
-                    e.Cancel = true;
-                    break;
-                }
-                else
-                {
-                    System.Threading.Thread.Sleep(100);
-                    worker.ReportProgress(100);
-                }
-            }
-        }
-        private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            ShowWholeMessage();
-        }
-        BackgroundWorker mBgWorker = new BackgroundWorker();
-
+        
         ////////////////////////////////////////////////////////////////////////
         /// @fn MainWindow.MainWindow()
         ///
@@ -173,10 +93,11 @@ namespace UIHeavyClient
             // Init attributes
             mUserName = "";
             mIsUserConnected = false;
-            // Display connexion window
 
+            // Display connexion window
             mLoginWindow = new LoginWindow();
             mLoginWindow.ShowDialog();
+
             // Once the login is closed, validate if the user is connected
             IsUserConnected = mLoginWindow.UserConnected;
             UserName = mLoginWindow.UserName;
@@ -184,17 +105,10 @@ namespace UIHeavyClient
             {
                 Close();
             }
-            SetMessageCallback(mMessageCallback);
+            Chat.MainWindow = this;
 			messageTextBox.Focus();
 
-            // Worker pour faire le rafraichissement de la fenetre
-            BackgroundWorker mBgWorker = new BackgroundWorker();
-            mBgWorker.WorkerReportsProgress = true;
-            mBgWorker.DoWork +=
-                new DoWorkEventHandler(bw_DoWork);
-            mBgWorker.ProgressChanged +=
-                new ProgressChangedEventHandler(bw_ProgressChanged);
-            mBgWorker.RunWorkerAsync();
+            ShowWholeMessage();
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -224,8 +138,6 @@ namespace UIHeavyClient
             if (messageTextBox.Text != "" && mIsUserConnected)
             {
                 Chat.SendNewMessage(mUserName, messageTextBox.Text);
-                Chat.UpdateChat(mUserName, messageTextBox.Text); // TEMP
-                Chat.CheckForConnectedUsers(); // TEMP
                 messageTextBox.Clear();
             }
         }
@@ -246,13 +158,33 @@ namespace UIHeavyClient
                 wholeMessageBox.ScrollToEnd();
                 Chat.NewMessages = false;
             }
+            UpdateConnectedUserList();
+        }
 
+        private void UpdateConnectedUserList()
+        {
+            // handle newly conected users
             foreach (string s in Chat.ConnectedUsers)
             {
-                if(onlineListView.Items.IndexOf(s) == -1)
+                if (onlineListView.Items.IndexOf(s) == -1)
+                {
                     onlineListView.Items.Add(s);
+                }
+            }
+
+            // handle disconnected users
+            for(int i=0; i < onlineListView.Items.Count; ++i)
+            {
+                string s = (string)onlineListView.Items.GetItemAt(i);
+                if (Chat.ConnectedUsers.IndexOf(s) == -1)
+                {
+                    onlineListView.Items.RemoveAt(i);
+                    --i;
+                }
             }
         }
+
+
 
         ////////////////////////////////////////////////////////////////////////
         /// @fn void MainWindow.messageTextBox_KeyDown()
@@ -285,6 +217,32 @@ namespace UIHeavyClient
         {
             // Make sure the login window is closed
             mLoginWindow.Close();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            Chat.MainWindow = null;
+            mUserName = "";
+            mIsUserConnected = false;
+
+            // Display connexion window
+            mLoginWindow = new LoginWindow();
+            mLoginWindow.ShowDialog();
+
+            // Once the login is closed, validate if the user is connected
+            IsUserConnected = mLoginWindow.UserConnected;
+            UserName = mLoginWindow.UserName;
+            if (!IsUserConnected)
+            {
+                Close();
+            }
+            Chat.MainWindow = this;
+            messageTextBox.Focus();
         }
         
     }

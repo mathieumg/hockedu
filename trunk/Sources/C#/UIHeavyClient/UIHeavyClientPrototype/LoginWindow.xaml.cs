@@ -22,11 +22,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
-using System.Threading.Tasks;
-using System.Windows.Threading;
-using System.Threading;
 
-namespace UIHeavyClient
+
+namespace UIHeavyClientPrototype
 {
     ///////////////////////////////////////////////////////////////////////////
     /// @struct Server
@@ -64,51 +62,7 @@ namespace UIHeavyClient
         [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void RequestLogin( string pUsername, string pIpAdress );
 
-        ////////////////////////////////////////////////////////////////////////////////////
-        // Callback to received event messages from C++
-        // declare the callback prototype
-        // use this callback to validate user's connection
-        public static LoginWindow mLoginWindow = null;
-        public static ThreadData mData = new ThreadData(1);
-        [DllImport(@"INF2990.dll")]
-        static extern void SetEventCallback(MainWindow.EventReceivedCallBack callback);
-        static bool EventReceived(int id, IntPtr pMessage)
-        {
-            if(id >= 0 && (int)MainWindow.EventType.NB_ELEM > id)
-            {
-                string message = Marshal.PtrToStringAnsi(pMessage);
-                MainWindow.EventType type = (MainWindow.EventType)id;
-                switch (type)
-                {
-                    case MainWindow.EventType.USER_CONNECTED:
-                        mData.ExecuteTask(() =>
-                        {
-                            mLoginWindow.mUserName = mLoginWindow.userNameInput.Text;
-                            mLoginWindow.mUserConnected = true;
-                            Mouse.OverrideCursor = Cursors.Arrow;
-                            mLoginWindow.Close(); 
-                        });
-                        break;
-                    case MainWindow.EventType.USER_ALREADY_CONNECTED:
-                        mData.ExecuteTask(() =>
-                        {
-                            mLoginWindow.errorMessageLabel.Content = "Ce pseudonyme est déjà utilisé.\nVeuillez en choisir un autre.";
-                            mLoginWindow.UnBlockUIContent();
-                        });
-                        break;
-                        break;
-                    case MainWindow.EventType.USER_DID_NOT_SEND_NAME_ON_CONNECTION: break;
-                    case MainWindow.EventType.USER_DISCONNECTED: break;
-                    case MainWindow.EventType.RECONNECTION_TIMEOUT: break;
-                    case MainWindow.EventType.RECONNECTION_IN_PROGRESS: break;
-                    case MainWindow.EventType.WRONG_PASSWORD: break;
-                    default: break;
-                }
-            }
-            return true;
-        }
-        MainWindow.EventReceivedCallBack mEventCallback = EventReceived;
-        ////////////////////////////////////////////////////////////////////////////////////
+        public TaskManager mTaskManager = new TaskManager();
 
         // The user name input
         string mUserName = "";
@@ -154,22 +108,12 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public LoginWindow()
         {
-            mLoginWindow = this;
-            SetEventCallback(mEventCallback);
             InitializeComponent();
-
-            // Worker pour faire le rafraichissement de la fenetre
-            BackgroundWorker mBgWorker = new BackgroundWorker();
-            mBgWorker.WorkerReportsProgress = true;
-            mBgWorker.DoWork +=
-                new DoWorkEventHandler(bw_DoWork);
-            mBgWorker.ProgressChanged +=
-                new ProgressChangedEventHandler(bw_ProgressChanged);
 
             listedServer = new Server[]
             {
                 new Server("Local", "127.0.0.1"),
-                new Server("Chez Joe", "437.0.69.1"),
+                new Server("Chez Math", "173.177.0.193"),
             };
 
             foreach (Server s in listedServer)
@@ -187,33 +131,24 @@ namespace UIHeavyClient
             userNameInput.Focus();
         }
 
-
-        private void bw_DoWork(object sender, DoWorkEventArgs e)
+        void Window_Closed(object sender, EventArgs e)
         {
-            BackgroundWorker worker = sender as BackgroundWorker;
-
-            while (true)
-            {
-                if ((worker.CancellationPending == true))
-                {
-                    e.Cancel = true;
-                    break;
-                }
-                else
-                {
-                    System.Threading.Thread.Sleep(100);
-                    worker.ReportProgress(100);
-                }
-            }
+            Chat.SetupLoginCallBackEvents(null);
         }
-        private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
+
+        public void ConnectionSuccessful()
         {
             mUserName = userNameInput.Text;
             mUserConnected = true;
             Mouse.OverrideCursor = Cursors.Arrow;
             this.Close();
         }
-        BackgroundWorker mBgWorker = new BackgroundWorker();
+
+        public void UserNameAlreadyChosen()
+        {
+            errorMessageLabel.Content = "Ce pseudonyme est déjà utilisé.\nVeuillez en choisir un autre.";
+            UnBlockUIContent();
+        }
 
         ////////////////////////////////////////////////////////////////////////
         /// @fn void LoginWindow.TryConnecting()
@@ -226,7 +161,9 @@ namespace UIHeavyClient
         {
             // Block everything while connecting
             BlockUIContent();
-            //mBgWorker.RunWorkerAsync(this);
+
+            // Setup to be ready to receive events
+            Chat.SetupLoginCallBackEvents(this);
             RequestLogin(userNameInput.Text, listedServer[serverComboBox.SelectedIndex].mIPAdress);
         }
 
@@ -234,6 +171,7 @@ namespace UIHeavyClient
         {
             userNameInput.IsEnabled = false;
             loginButton.IsEnabled = false;
+            refreshButton.IsEnabled = false;
             errorMessageLabel.Content = "Connecting to server, please wait...";
             serverComboBox.IsEnabled = false;
             Mouse.OverrideCursor = Cursors.Wait;
@@ -244,6 +182,7 @@ namespace UIHeavyClient
             // Unblock everything while connecting
             userNameInput.IsEnabled = true;
             loginButton.IsEnabled = true;
+            refreshButton.IsEnabled = true;
             serverComboBox.IsEnabled = true;
             Mouse.OverrideCursor = Cursors.Arrow;
         }
@@ -278,71 +217,24 @@ namespace UIHeavyClient
             if (e.Key == Key.Enter)
                 loginButton_Click(sender, e);
         }
-
-        public sealed class ThreadData : IDisposable
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void LoginWindow.refreshButton_Click(object sender, RoutedEventArgs e)
+        ///
+        /// Event when the user pressed the refresh button.
+        /// 
+        /// @param[in] object : The object related to the event.
+        /// @param[in] RoutedEventArgs : The key event.
+        ///
+        /// @return None.
+        ////////////////////////////////////////////////////////////////////////
+        private void refreshButton_Click(object sender, RoutedEventArgs e)
         {
-            private readonly Dispatcher dispatcher;
-            private readonly TaskScheduler scheduler;
-            private readonly TaskFactory factory;
-            private readonly CountdownEvent countdownEvent;
-
-            // In this example, we initialize the countdown event with the total number
-            // of child threads so that we know when all threads are finished scheduling
-            // work.
-            public ThreadData(int threadCount)
-            {
-                this.dispatcher = Dispatcher.CurrentDispatcher;
-                SynchronizationContext context =
-                    new DispatcherSynchronizationContext(this.dispatcher);
-                SynchronizationContext.SetSynchronizationContext(context);
-                this.scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-                this.factory = new TaskFactory(this.scheduler);
-                this.countdownEvent = new CountdownEvent(threadCount);
-            }
-
-            // This method should be called by a child thread when it wants to invoke
-            // an operation back on the main dispatcher thread.  This will block until
-            // the method is done executing.
-            public void ExecuteTask(Action action)
-            {
-                Task task = this.factory.StartNew(action);
-                task.Wait();
-            }
-
-            // This method should be called by threads when they are done
-            // scheduling work.
-            public void OnThreadCompleted()
-            {
-                bool allThreadsFinished = this.countdownEvent.Signal();
-                if (allThreadsFinished)
-                {
-                    this.dispatcher.InvokeShutdown();
-                }
-            }
-
-            // This method should be called by the main thread so that it will begin
-            // processing the work scheduled by child threads. It will return when
-            // the dispatcher is shutdown.
-            public void RunDispatcher()
-            {
-                Dispatcher.Run();
-            }
-
-            public void Dispose()
-            {
-                this.Dispose(true);
-                GC.SuppressFinalize(this);
-            }
-
-            // Dispose all IDisposable resources.
-            private void Dispose(bool disposing)
-            {
-                if (disposing)
-                {
-                    this.countdownEvent.Dispose();
-                }
+            foreach (Server s in listedServer)
+            { 
+                //s.isAvailable = ... TODO : CALL DLL
             }
         }
+
     }
 }
 

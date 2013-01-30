@@ -1,4 +1,4 @@
-﻿<Window x:Class="UIHeavyClient.MainWindow"
+﻿<Window x:Class="UIHeavyClientPrototype.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Razor Chat" Height="602" Width="875" Closed="Window_Closed" Background="#FF323232" MinWidth="850" MinHeight="350">
@@ -13,10 +13,22 @@
         </Grid.ColumnDefinitions>
         <TextBox  Name="messageTextBox"  Width="Auto" Height="33" HorizontalAlignment="Stretch" VerticalAlignment="Top"     Margin="12,7,0,0"   Background="Black" Foreground="White" Grid.Row="1"                                            KeyDown="messageTextBox_KeyDown"   />
         <Button   Name="submitButton"    Width="147"  Height="35" HorizontalAlignment="Left"    VerticalAlignment="Top"     Margin="10,6,0,0"   Background="Black" Foreground="White" Grid.Column="1" Grid.Row="1" Content="Envoyer"          Click="submitButton_Click"   />
-        <TextBox  Name="wholeMessageBox" Width="Auto"                                                                       Margin="12,12,0,24" Background="Black" Foreground="White"                              Text="Vous êtes en ligne!" IsReadOnly="True" VerticalScrollBarVisibility="Auto"   />
-        <ListView Name="onlineListView"  Width="146"             HorizontalAlignment="Left"     VerticalAlignment="Stretch" Margin="11,38,0,24" Background="Black" Foreground="White" Grid.Column="1" />
-        <Label    Name="onlineLabel"     Width="145" Height="37" HorizontalAlignment="Left"     VerticalAlignment="Top"     Margin="12,6,0,0"   Foreground="White"                    Grid.Column="1"              Content="En ligne : " />
-        
+        <TextBox  Name="wholeMessageBox" Width="Auto"                                                                       Margin="12,29,0,24" Background="Black" Foreground="White"                              Text="Vous êtes en ligne!" IsReadOnly="True" VerticalScrollBarVisibility="Auto"   />
+        <ListView Name="onlineListView"  Width="146"             HorizontalAlignment="Left"     VerticalAlignment="Stretch" Margin="11,49,0,24" Background="Black" Foreground="White" Grid.Column="1" >
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Bloquer" />
+                    <MenuItem Header="Message privé" />
+                </ContextMenu>
+            </ListView.ContextMenu>
+        </ListView>
+        <Label    Name="onlineLabel"     Width="145" Height="37" HorizontalAlignment="Left"     VerticalAlignment="Top"     Margin="12,24,0,0"                      Foreground="White" Grid.Column="1"              Content="En ligne : " />
+        <Menu Height="23" HorizontalAlignment="Left" Name="menu1" VerticalAlignment="Top" Width="62" Background="Black" Foreground="White">
+            <MenuItem Header="Options" Background="Black" Foreground="White">
+                <MenuItem Header="Quitter" Click="MenuItem_Click" Background="Black" Foreground="White"/>
+                <MenuItem Header="Déconnexion" Background="Black" Foreground="White" Click="MenuItem_Click_1" />
+            </MenuItem>
+        </Menu>
     </Grid>
 
 </Window>

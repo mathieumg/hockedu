@@ -8,7 +8,10 @@ void PacketHandlerTest::handlePacketReceptionSpecific(PacketReader& pPacketReade
 {
     PaquetTest* wPaquet = (PaquetTest*) GestionnaireReseau::obtenirInstance()->creerPaquet("Test");
 
-    wPaquet->setMessage((char*)pPacketReader.readString());
+    int wArraySize = pPacketReader.readInteger();
+    uint8_t* wBuffer = new uint8_t[wArraySize];
+    pPacketReader.readString(wBuffer, wArraySize);
+    wPaquet->setMessage((char*)wArraySize);
     wPaquet->setInt(pPacketReader.readInteger());
     wPaquet->setFloat(pPacketReader.readFloat());
 
@@ -17,7 +20,7 @@ void PacketHandlerTest::handlePacketReceptionSpecific(PacketReader& pPacketReade
     std::cout << "Int: " << wPaquet->getInt() << std::endl;
     std::cout << "Float: " << wPaquet->getFloat() << std::endl;
 
-
+    delete wBuffer;
     delete wPaquet;
 }
 

@@ -25,6 +25,7 @@ typedef int (__stdcall *EventReceivedCallBack)( int pId, char* pMessage );
 class ControllerCSharp : public ControllerInterface
 {
 public:
+    ControllerCSharp();
     virtual void handleEvent(int pEventCode,  va_list pListeElems);
     inline void setMessageReceivedCallBack(MessageReceivedCallBack pVal) { mMessageReceivedCallBack = pVal; }
     inline void setEventReceivedCallBack(EventReceivedCallBack pVal) { mEventReceivedCallback = pVal; }

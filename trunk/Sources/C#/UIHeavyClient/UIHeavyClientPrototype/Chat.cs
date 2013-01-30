@@ -13,8 +13,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.Windows.Input;
 
-namespace UIHeavyClient
+namespace UIHeavyClientPrototype
 {
     struct ChatUser
     {
@@ -88,7 +89,7 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public static void UpdateChat(string userName, string message)
         {
-            message = "<" + DateTime.Now.ToString("HH:mm")  + "> " + message + "\n";
+            message = "    [" + DateTime.Now.ToString("HH:mm")  + "]  " + message + "\n";
 
             // Don't write the name if it's the same user again
             if (userName != mLastUser)
@@ -101,23 +102,14 @@ namespace UIHeavyClient
             mNewMessages = true;
         }
 
-        ////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////
-        /// @fn void Chat.CheckForConnectedUsers()
-        ///
-        /// Call the server to check for connected users.
-        ///
-        /// @return None.
-        ////////////////////////////////////////////////////////////////////////
-        public static void CheckForConnectedUsers()
+        public static void SendServerEventMessage(string message)
         {
-            // TODO : CALL DLL
-            // ...
+            message = "    [" + DateTime.Now.ToString("HH:mm") + "]  " + message + "\n";
 
-            mConnectedUsers.Clear(); // TEMP
-            mConnectedUsers.Add("Ta Mère"); // TEMP
-            mConnectedUsers.Add("Ta Soeur"); // TEMP
-            mConnectedUsers.Add("Ta Cousine"); // TEMP
+            mLastUser = null;
+
+            mWholeMessage += message;
+            mNewMessages = true;
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -134,5 +126,194 @@ namespace UIHeavyClient
         {
             SendMessageDLL(userName,message);
         }
+
+        ////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////
+        // Keep synch with C++ in GestionnaireReseau
+        enum EventType
+        {
+            USER_ALREADY_CONNECTED,
+            USER_DID_NOT_SEND_NAME_ON_CONNECTION,
+            USER_CONNECTED,
+            USER_DISCONNECTED,
+            RECONNECTION_TIMEOUT,
+            RECONNECTION_IN_PROGRESS,
+            WRONG_PASSWORD,
+            CHAT_MESSAGE_RECEIVED,
+            SERVER_USER_CONNECTED,
+            SERVER_USER_DISCONNECTED,
+            NB_ELEM
+        };
+        ////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////
+
+
+        delegate bool EventReceivedCallBack(int id, IntPtr message);
+        [DllImport(@"INF2990.dll")]
+        static extern void SetEventCallback(EventReceivedCallBack callback);
+        ////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////
+        // Callback to received event messages from C++
+        // declare the callback prototype
+        // 
+        public static bool SetupLoginCallBackEvents(LoginWindow pLoginWindow)
+        {
+            mLoginWindow = pLoginWindow;
+            if (mLoginWindow != null)
+            {
+                SetEventCallback(mLoginEventCallback);
+                return true;
+            }
+            return false;
+        }
+        static LoginWindow mLoginWindow = null;
+        static bool LoginWindowEventReceived(int id, IntPtr pMessage)
+        {
+            if (mLoginWindow != null && id >= 0 && (int)EventType.NB_ELEM > id)
+            {
+                string message = Marshal.PtrToStringAnsi(pMessage);
+                EventType type = (EventType)id;
+                switch (type)
+                {
+                    case EventType.USER_CONNECTED:
+                        // La fenetre principale doit maintenant ecouter les evenement pour mettre a jour le chat
+                        SetEventCallback(mMainWindowEventCallback);
+                        SetMessageCallback(mMessageCallback);
+
+                        // Signal à la fenetre l'événement
+                        mLoginWindow.mTaskManager.ExecuteTask(() =>
+                        {
+                            mLoginWindow.ConnectionSuccessful();
+                        });
+                        mLoginWindow = null;
+                        break;
+                    case EventType.USER_ALREADY_CONNECTED:
+                        // On n'écoute plus les événements
+                        SetEventCallback(null);
+                        // Signal à la fenetre l'événement
+                        mLoginWindow.mTaskManager.ExecuteTask(() =>
+                        {
+                            mLoginWindow.UserNameAlreadyChosen();
+                        });
+                        mLoginWindow = null;
+                        break;
+                    case EventType.USER_DID_NOT_SEND_NAME_ON_CONNECTION:
+                        // On n'écoute plus les événements
+                        SetEventCallback(null);
+                        // Signal à la fenetre l'événement
+                        mLoginWindow.mTaskManager.ExecuteTask(() =>
+                        {
+                            mLoginWindow.UnBlockUIContent();
+                        });
+                        mLoginWindow = null;
+                        break;
+                    case EventType.USER_DISCONNECTED: break;
+
+                    case EventType.RECONNECTION_TIMEOUT:
+                        // On n'écoute plus les événements
+                        SetEventCallback(null);
+                        // Signal à la fenetre l'événement
+                        mLoginWindow.mTaskManager.ExecuteTask(() =>
+                        {
+                            mLoginWindow.UnBlockUIContent();
+                        });
+                        mLoginWindow = null;
+                        break;
+                    case EventType.RECONNECTION_IN_PROGRESS: break;
+                    case EventType.WRONG_PASSWORD: break;
+                    default: break;
+                }
+            }
+            return true;
+        }
+        static EventReceivedCallBack mLoginEventCallback = LoginWindowEventReceived;
+        ////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////
+
+        ////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////
+        //
+        //Callback to received event messages from C++
+        //declare the callback prototype
+        static MainWindow mMainWindow;
+        public static MainWindow MainWindow
+        {
+            private get { return Chat.mMainWindow; }
+            set { Chat.mMainWindow = value; }
+        }
+        static bool MainWindowEventReceived(int id, IntPtr pMessage)
+        {
+            string message = Marshal.PtrToStringAnsi(pMessage);
+            if ( id >= 0 && (int)EventType.NB_ELEM > id)
+            {
+                switch ((EventType)id)
+                {
+                    case EventType.USER_DISCONNECTED: 
+                        
+                        break;
+                    case EventType.SERVER_USER_DISCONNECTED:
+                        // on enleve le user de la liste
+                        ConnectedUsers.Remove(message);
+
+                        // affiche un message de l'événement
+                        message = message + " Disconnected";
+                        SendServerEventMessage(message);
+                        if (mMainWindow != null)
+                        {
+                            mMainWindow.mTaskManager.ExecuteTask(() =>
+                            {
+                                mMainWindow.ShowWholeMessage();
+                            });
+                        }
+                        break;
+                    case EventType.SERVER_USER_CONNECTED:
+                        // on ajoute le user de la liste
+                        ConnectedUsers.Add(message);
+
+                        // affiche un message de l'événement
+                        message = message + " Connected";
+                        SendServerEventMessage(message);
+                        if (mMainWindow != null)
+                        {
+                            mMainWindow.mTaskManager.ExecuteTask(() =>
+                            {
+                                mMainWindow.ShowWholeMessage();
+                            });
+                        }
+                        break;
+                    default: break;
+                }
+            }
+            return true;
+        }
+        static EventReceivedCallBack mMainWindowEventCallback = MainWindowEventReceived;
+        ////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////
+
+        ////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////
+        //Callback to received user messages from C++
+        //declare the callback prototype
+        delegate bool MessageReceivedCallBack(IntPtr username, IntPtr message);
+        [DllImport(@"INF2990.dll")]
+        static extern void SetMessageCallback(MessageReceivedCallBack callback);
+        static bool MessageReceived(IntPtr pUsername, IntPtr pMessage)
+        {
+            string message = Marshal.PtrToStringAnsi(pMessage);
+            string username = Marshal.PtrToStringAnsi(pUsername);
+            UpdateChat(username, message);
+            if (mMainWindow != null)
+            {
+                mMainWindow.mTaskManager.ExecuteTask(() =>
+                {
+                    mMainWindow.ShowWholeMessage();
+                });
+            }
+            return true;
+        }
+        static MessageReceivedCallBack mMessageCallback = MessageReceived;
+        ////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////
     }
+
 }

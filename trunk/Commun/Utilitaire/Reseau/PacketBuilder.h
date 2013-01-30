@@ -150,7 +150,7 @@ public:
     void clearBuffer();
 
     // Methode pour avoir la taille d'un string qui doit etre envoye par le network
-    static int getSizeForString(const std::string& pString) {return (int) (5 + pString.length());} // 5 = 4 pour le int et 1 pour caractere de fin
+    static int getSizeForString(const std::string& pString, const bool& pIncludeStringLength = true) {return (int) ((pIncludeStringLength ? 5 : 1) + pString.length());} // 5 = 4 pour le int et 1 pour caractere de fin
        
     // Methode pour avoir la taille d'un int qui doit etre envoye par le network
     static int getSizeForInt() {return sizeof(int);}
