@@ -19,7 +19,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 Socket::Socket(const std::string& pDestinationIP, const int& pPortNumber, ConnectionType pConType/*=TCP*/, InternetProtocol pIpProtocol /*=IPv4*/)
-	:mIpProtocol(pIpProtocol)
+    :mIpProtocol(pIpProtocol),mPendingDelete(false)
 {
 	mConnectionType = pConType;
 	mSocketInfo = new sockaddr_in;
@@ -75,6 +75,7 @@ Socket::Socket(const std::string& pDestinationIP, const int& pPortNumber, Connec
 ////////////////////////////////////////////////////////////////////////
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 Socket::Socket( SOCKET socket, sockaddr_in* socketInfo, ConnectionType pConnectionType)
+    :mPendingDelete(false)
 {
     mIpProtocol =  IPv4;
     mConnectionType = pConnectionType;

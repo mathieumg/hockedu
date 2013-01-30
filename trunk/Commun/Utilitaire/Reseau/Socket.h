@@ -58,9 +58,15 @@ public:
     // Methode qui attend que le socket soit lisible avec un Timeout max (True si libre)
     bool attendreSocket(const int& pTimeout) const;
 
+    /// Accessors of mPendingDelete
+    inline bool isPendingDelete() const { return mPendingDelete; }
+    inline void flagToDelete() { mPendingDelete = true; }
+
 private:
     
     HANDLE mMutexActiviteSocket;
+    bool mPendingDelete;
+
     
 
     void connect();

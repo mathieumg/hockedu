@@ -620,6 +620,7 @@ void GestionnaireReseau::removeSocket( const std::string& pNomJoueur, Connection
 	mListeSockets.erase(itMap);
 
 	// Liberer la memoire et invalider le pointeur
+    wSocketASupprimer->flagToDelete();
 	wSocketASupprimer = 0;
 
     ReleaseMutex(wHandle); // On relache le mutex sur le socket
