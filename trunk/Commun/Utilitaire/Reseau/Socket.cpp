@@ -121,15 +121,11 @@ Socket::~Socket()
 #else
 	if(mSocket == -1)
 #endif
+    {
 		return;
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-	if(closesocket(mSocket) == -1)
-#else
-	if(close(mSocket) == -1)
-#endif
-	{
-		throw ExceptionReseau("Error while closing socket.");
-	}
+    }
+    disconnect();
+	
 }
 
 
