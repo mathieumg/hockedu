@@ -86,6 +86,9 @@ namespace UIHeavyClient
             RECONNECTION_TIMEOUT, 
             RECONNECTION_IN_PROGRESS, 
             WRONG_PASSWORD,
+            CHAT_MESSAGE_RECEIVED,
+            SERVER_USER_CONNECTED,
+            SERVER_USER_DISCONNECTED,
             NB_ELEM
         };
 

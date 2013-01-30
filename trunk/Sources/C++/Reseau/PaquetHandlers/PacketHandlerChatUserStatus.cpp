@@ -44,10 +44,10 @@ void PacketHandlerChatUserStatus::handlePacketReceptionSpecific(PacketReader& pP
 	switch(wPaquet->getConnectionState())
 	{
 	case CONNECTED:
-		std::cout << " connected" << std::endl;
+        GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_CONNECTED,wPaquet->getUserName());
 		break;
 	case NOT_CONNECTED:
-		std::cout << " disconnected" << std::endl;
+        GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_DISCONNECTED,wPaquet->getUserName());
 		break;
 	case CONNECTING:
 		std::cout << " is reconnecting" << std::endl;
