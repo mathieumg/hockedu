@@ -70,6 +70,7 @@ void InitDLL()
 {
     // Creer le controlleur C# dans le gestionnaireReseau
     // Initialisation du GestionnaireReseau
+    GestionnaireReseau::setNetworkMode(CLIENT);
     GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
 
     // ajout du controlleur qui va gèrer les événements du réseau et les retransmettre par callback à la vue

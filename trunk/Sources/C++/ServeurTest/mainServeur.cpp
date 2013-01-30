@@ -15,6 +15,7 @@ int main(void)  {
 
 	printf("serveur\n");
 
+    GestionnaireReseau::setNetworkMode(SERVER);
     GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
     wGestionnaireReseau->init();
 

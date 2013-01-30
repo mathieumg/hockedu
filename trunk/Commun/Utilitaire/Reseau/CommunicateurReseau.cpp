@@ -51,6 +51,8 @@ CommunicateurReseau::CommunicateurReseau():mListeEnvoie(maxBufferSize),mListeRec
     mHandleSemaphoreContentSend = CreateSemaphore(NULL,0,maxBufferSize,NULL);
 	demarrerSendingThread();
 	demarrerReceivingThread();
+    
+    
 }
 
 
@@ -511,17 +513,18 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 					// Pas capable d'envoyer le paquet car le Socket est brise
 					// On drop le paquet et on envoie le Socket se faire connecter
 					wSocket->disconnect();
-#ifdef _SERVER
-					// Si c'est un serveur, on ne veut pas reconnecter le socket. Le client va se reconnecter et le serveur creera un nouveau socket
-					GestionnaireReseau::obtenirInstance()->removeSocket(wSocket);
-                    wPaquetAEnvoyer->paquet->removeAssociatedQuery();
-                    delete wPaquetAEnvoyer;
-					continue; // On doit enlever le socket globalement, impossible de recuperer de ca
-#else
-					// Si c'est un client, on essaie de reconnecter
-					wCommunicateurReseau->demarrerConnectionThread(wSocket);
-					wCommunicateurReseau->supprimerEcouteSocket(wSocket);
-#endif
+					if(GestionnaireReseau::getNetworkMode() == CLIENT)
+					{
+						// Si c'est un client, on essaie de reconnecter
+						wCommunicateurReseau->demarrerConnectionThread(wSocket);
+						wCommunicateurReseau->supprimerEcouteSocket(wSocket);
+					}
+					else
+					{
+						// Si c'est un serveur, on ne veut pas reconnecter le socket. Le client va se reconnecter et le serveur creera un nouveau socket
+						GestionnaireReseau::obtenirInstance()->removeSocket(wSocket);
+						break; // On doit enlever le socket globalement, impossible de recuperer de ca
+					}
 				}
 				catch(ExceptionReseauTimeout&)
 				{
@@ -531,17 +534,19 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 					// Pas capable d'envoyer le paquet car le Socket est brise
 					// On drop le paquet et on envoie le Socket se faire connecter
 					wSocket->disconnect();
-#ifdef _SERVER
-                    // Si c'est un serveur, on ne veut pas reconnecter le socket. Le client va se reconnecter et le serveur creera un nouveau socket
-					GestionnaireReseau::obtenirInstance()->removeSocket(wSocket);
-                    wPaquetAEnvoyer->paquet->removeAssociatedQuery();
-                    delete wPaquetAEnvoyer;
-					continue; // On doit enlever le socket globalement, impossible de recuperer de ca
-#else
-					// Si c'est un client, on essaie de reconnecter
-					wCommunicateurReseau->demarrerConnectionThread(wSocket);
-					wCommunicateurReseau->supprimerEcouteSocket(wSocket);
-#endif
+					if(GestionnaireReseau::getNetworkMode() == CLIENT)
+					{
+						// Si c'est un client, on essaie de reconnecter
+						wCommunicateurReseau->demarrerConnectionThread(wSocket);
+						wCommunicateurReseau->supprimerEcouteSocket(wSocket);
+					}
+					else
+					{
+						// Si c'est un serveur, on ne veut pas reconnecter le socket. Le client va se reconnecter et le serveur creera un nouveau socket
+						GestionnaireReseau::obtenirInstance()->removeSocket(wSocket);
+						break; // On doit enlever le socket globalement, impossible de recuperer de ca
+					}
+
 				}
 				catch(ExceptionReseau&)
 				{
@@ -660,15 +665,19 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                 catch(ExceptionReseauSocketDeconnecte&)
                 {
                     wSocket->disconnect();
-#ifdef _SERVER
-                    // Si c'est un serveur, on ne veut pas reconnecter le socket. Le client va se reconnecter et le serveur creera un nouveau socket
-                    GestionnaireReseau::obtenirInstance()->removeSocket(wSocket);
-                    break; // On doit enlever le socket globalement, impossible de recuperer de ca
-#else
-                    // Si c'est un client, on essaie de reconnecter
-                    wCommunicateurReseau->demarrerConnectionThread(wSocket);
-                    it = wCommunicateurReseau->supprimerEcouteSocket(it);
-#endif
+                    if(GestionnaireReseau::getNetworkMode() == CLIENT)
+                    {
+                        // Si c'est un client, on essaie de reconnecter
+                        wCommunicateurReseau->demarrerConnectionThread(wSocket);
+                        it = wCommunicateurReseau->supprimerEcouteSocket(it);
+                    }
+                    else
+                    {
+                        // Si c'est un serveur, on ne veut pas reconnecter le socket. Le client va se reconnecter et le serveur creera un nouveau socket
+                        GestionnaireReseau::obtenirInstance()->removeSocket(wSocket);
+                        break; // On doit enlever le socket globalement, impossible de recuperer de ca
+                    }
+                    
                     continue;
                 }
                 catch(ExceptionReseauTimeout&)
@@ -681,6 +690,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                 {
                     // Erreur inconnue
                     GestionnaireReseau::sendMessageToLog("Erreur inconnue survenue a la reception ");
+
                 }
 
             }

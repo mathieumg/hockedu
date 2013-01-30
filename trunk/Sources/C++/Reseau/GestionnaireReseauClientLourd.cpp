@@ -30,6 +30,7 @@ SINGLETON_DECLARATION_CPP(GestionnaireReseauClientLourd);
 GestionnaireReseauClientLourd::GestionnaireReseauClientLourd(): mMessageReceivedCallBack(NULL)
 {
     // Initialisation du GestionnaireReseau
+    GestionnaireReseau::setNetworkMode(CLIENT);
     GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
     wGestionnaireReseau->init();
 

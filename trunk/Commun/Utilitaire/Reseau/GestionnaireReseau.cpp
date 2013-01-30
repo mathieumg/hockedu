@@ -45,6 +45,9 @@ ByteOrder GestionnaireReseau::NATIVE_BYTE_ORDER = UNKNOWN;
 // Initialisations automatiques
 SINGLETON_DECLARATION_CPP(GestionnaireReseau);
 
+// Mode du terminal courant (ex: CLIENT OU SERVEUR)
+NetworkMode GestionnaireReseau::mNetworkMode = NOT_DEFINED;
+
 // Port utilise pour la connexion automatique (Multicast en UDP)
 int GestionnaireReseau::multicastPort = 1001;
 
@@ -83,9 +86,16 @@ std::ofstream GestionnaireReseau::mLogHandle = GestionnaireReseau::logSetup();
 ////////////////////////////////////////////////////////////////////////
 GestionnaireReseau::GestionnaireReseau(): mSocketStateCallback(NULL), mControlleur(NULL)
 {
+	if(mNetworkMode == NOT_DEFINED) {
+		throw ExceptionReseau("Appel du constructeur de GestionnaireReseau avant GestionnaireReseau::setNetworkMode", NULL);
+	}
+
+    
     getNativeByteOrder();
 
 	mMutexListeSockets = CreateMutex(NULL, false, NULL);
+
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -106,6 +116,7 @@ GestionnaireReseau::~GestionnaireReseau()
 	}
     WSACleanup();
 }
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -181,13 +192,16 @@ void GestionnaireReseau::init()
 
 
 	
+    
     // Demarrer thread conn TCP Serveur
-#ifdef _SERVER
-    mCommunicateurReseau.demarrerThreadsConnectionTCPServeur();
-#endif
+    if(GestionnaireReseau::getNetworkMode() == SERVER)
+    {
+        mCommunicateurReseau.demarrerThreadsConnectionTCPServeur();
+    }
     
 
-    
+
+
     if(iResult != NO_ERROR)
     {
         throw ExceptionReseau("Erreur init de Gestionnaire Reseau", NULL);

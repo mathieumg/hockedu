@@ -25,6 +25,8 @@ class UsinePaquet;
 // Typedef pour la liste de sockets
 typedef std::map<std::pair<std::string, ConnectionType>, SPSocket> ListeSockets;
 
+enum NetworkMode {CLIENT, SERVER, NOT_DEFINED};
+
 enum ByteOrder {NATIVE, LITTLE_ENDIAN, BIG_ENDIAN, UNKNOWN};
 
 enum ExceptionTypes {GLOBALE, PARAMETRE_INVALIDE, SOCKET_DECONNECTE, TIMEOUT, TYPE_NOT_DEFINED, AUCUNE_ERREUR};
@@ -74,8 +76,16 @@ public:
 	// Port a utiliser pour les comminications de base
 	static int communicationPort;
 
+
+
     // Methode d'initialisation (initialise notamment Winsock)
 	void init();
+
+	// Set the network mode
+	inline static void setNetworkMode(NetworkMode pNetworkMode) {mNetworkMode = pNetworkMode;}
+
+    // Get the network mode
+    inline static NetworkMode getNetworkMode() {return mNetworkMode;}
 
 	// Get the server socket observer
 	void setSocketConnectionStateCallback(SocketConnectionStateCallback val) { mSocketStateCallback = val; }
@@ -150,6 +160,7 @@ public:
 	static ByteOrder NATIVE_BYTE_ORDER;
 private:
     
+
     // Methode de nettoyage
 	void supprimerPacketHandlersEtUsines();
 
@@ -172,6 +183,9 @@ private:
 
     // Mutex pour la gestion de la liste des sockets (doit etre acquis si on modifie la liste de sockets)
     HANDLE mMutexListeSockets;
+
+    // Network Mode (CLIENT OR SERVER)
+	static NetworkMode mNetworkMode;
 
 	SocketConnectionStateCallback mSocketStateCallback;
 
