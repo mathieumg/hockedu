@@ -9,7 +9,7 @@ void PacketHandlerString::handlePacketReceptionSpecific(PacketReader& pPacketRea
     uint8_t* wBuffer = new uint8_t[wArraySize];
     pPacketReader.readString(wBuffer, wArraySize);
     std::string str =  std::string((char*)wBuffer);
-    std::cout << str << std::endl;
+    //std::cout << str << std::endl;
     delete wBuffer;
 }
 

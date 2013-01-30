@@ -158,21 +158,21 @@ void Animation::afficher() const
 {
 	// PAS ENTIEREMENT TESTE
 
-	std::cout << "Liste des frames: " << std::endl;
+	//std::cout << "Liste des frames: " << std::endl;
 	ListeFrame::const_iterator it = frames_.begin();
 	for(; it!=frames_.end(); it++)
 	{
-		std::cout << "\t";
+		//std::cout << "\t";
 		(*it)->afficher();
 	}
-	std::cout << std::endl << "Objets affectes: " << std::endl;
+	//std::cout << std::endl << "Objets affectes: " << std::endl;
 	ListeObjetsAnimable::const_iterator itObjets = objets_.begin();
 	for(; itObjets!=objets_.end(); itObjets++)
 	{
-		std::cout << "\t";
-		std::cout << (*itObjets)->obtenirNom() << std::endl;
+		//std::cout << "\t";
+		//std::cout << (*itObjets)->obtenirNom() << std::endl;
 	}
-	std::cout << std::endl;
+	//std::cout << std::endl;
 
 }
 
@@ -294,8 +294,8 @@ void Animation::animerConstant(AnimationFrame* courant)
 {
 	
 	ListeObjetsAnimable::iterator it = objets_.begin();
-	std::cout << "Index courant: " << indexFrameCourant_ << std::endl;
-	std::cout << "Position: " << courant->obtenirParam1() << std::endl << std::endl;
+	//std::cout << "Index courant: " << indexFrameCourant_ << std::endl;
+	//std::cout << "Position: " << courant->obtenirParam1() << std::endl << std::endl;
 	
 	Vecteur3 nouvellePosition = NULL;
 	Vecteur3 nouvelAngle = NULL;

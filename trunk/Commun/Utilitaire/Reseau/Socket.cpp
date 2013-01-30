@@ -323,7 +323,7 @@ void Socket::getaddrinfo( uint8_t* addr, uint16_t port, addrinfo* result )
 {
 	char portString[5];
 	sprintf_s(portString, "%d", port);
-	std::cout << (char*)addr << std::endl;
+	//std::cout << (char*)addr << std::endl;
 	struct addrinfo hints;
 	memset(&hints, 0, sizeof(hints));
 	hints.ai_family = AF_UNSPEC;
@@ -514,31 +514,38 @@ void Socket::init()
             // connect()
             try
             {
+                int wConfirmation = USER_DISCONNECTED;
                 connect();
                 // Si connect fonctionne, il faut envoyer notre nom de player au serveur
                 std::string wPlayerName = GestionnaireReseau::obtenirInstance()->getPlayerName(shared_from_this()); // C'est plate, mais on ne veut pas garder le nom du joueur dans le socket lui-meme
                 send((uint8_t*) wPlayerName.c_str(), (uint32_t) (wPlayerName.length()+1), true); // +1 pour avoir le caractere de fin de string
 
                 // On recoit le message de confirmation, ne pas bloquer
-                char wConfirmation[2];
+                char wReceptionValue[3];
 
                 if(attendreSocket(15)) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
                 {
-                    recv((uint8_t*) &wConfirmation, 2, true);
+                    recv((uint8_t*) &wReceptionValue, 3, true);
+                    if(sscanf_s(wReceptionValue,"%i",&wConfirmation) == 0)
+                    {
+                        // sscanf ne fonctionne pas
+                        wConfirmation = USER_DISCONNECTED;
+                    }
                 }
                 else
                 {
                     // Timeout
-                    wConfirmation[0] = '0';
+                    wConfirmation = RECONNECTION_TIMEOUT;
                 }
 
                 
 
-                if(wConfirmation[0] == '0')
+                if(wConfirmation != USER_CONNECTED)
                 {
                     // Connection refusee
                     setConnectionState(NOT_CONNECTED);
                     disconnect();
+                    GestionnaireReseau::obtenirInstance()->transmitEvent(wConfirmation);
                     //std::cout << "Connection refusee" << std::endl;
                     GestionnaireReseau::sendMessageToLog("Connection refusee. Type: TCP CLIENT. Adresse: " + getAdresseDestination());
                     ReleaseMutex(mMutexActiviteSocket);
@@ -550,6 +557,7 @@ void Socket::init()
             {
                 // Could not connect
                 setConnectionState(NOT_CONNECTED);
+                GestionnaireReseau::obtenirInstance()->transmitEvent(USER_DISCONNECTED);
                 GestionnaireReseau::sendMessageToLog("Appel a connect() impossible. Type: TCP CLIENT. Adresse: " + getAdresseDestination());
                 ReleaseMutex(mMutexActiviteSocket);
                 return;

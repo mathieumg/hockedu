@@ -8,7 +8,11 @@ void PacketHandlerEvent::handlePacketReceptionSpecific(PacketReader& pPacketRead
 {
     
     PaquetEvent* wPaquet = (PaquetEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet("Error");
-    wPaquet->setMessage((char*) pPacketReader.readString());
+    uint32_t wArraySize = pPacketReader.readInteger();
+    uint8_t* wBuffer = new uint8_t[wArraySize];
+    pPacketReader.readString(wBuffer, wArraySize);
+    wPaquet->setMessage((char*)wBuffer);
+    delete wBuffer;
     wPaquet->setErrorCode(pPacketReader.readInteger());
 
 
@@ -34,5 +38,4 @@ int PacketHandlerEvent::getPacketSize( Paquet* pPaquet ) const
     return PacketBuilder::getSizeForString(wPaquet->getMessage())
         + PacketBuilder::getSizeForInt()
         + PacketHandlerBase::getPacketSize(pPaquet);
-
 }

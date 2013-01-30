@@ -25,6 +25,7 @@
 #include "PacketReader.h"
 #include "GestionnaireReseau.h"
 #include "Utilitaire.h"
+#include <sstream>
 
 // Taille maximale des buffers pour l<envoie et la reception
 unsigned int CommunicateurReseau::maxBufferSize = 5000;
@@ -434,12 +435,12 @@ void CommunicateurReseau::enleverConnectionThread( SPSocket pSocket, bool pSucce
 	ReleaseMutex(mMutexListeSocketsConnection);
     if(!pSuccess)
     {
-        GestionnaireReseau::obtenirInstance()->transmitEvent(EventCodes::RECONNECTION_TIMEOUT);
+        GestionnaireReseau::obtenirInstance()->transmitEvent(RECONNECTION_TIMEOUT);
         GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
     }
     else
     {
-        GestionnaireReseau::obtenirInstance()->transmitEvent(EventCodes::USER_CONNECTED);
+        GestionnaireReseau::obtenirInstance()->transmitEvent(USER_CONNECTED);
         // Si la reconnection a reussie, on le remet dans la liste des sockets a ecouter
         ajouterSocketEcoute(pSocket);
     }
@@ -498,7 +499,8 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 					wPacketHandler->handlePacketPreparation(wPaquetAEnvoyer->paquet, wPacketBuilder);
 
 
-					// On essaie d'envoyer la chaine, envoi bloquant					wSocket->send( wPacketBuilder.getPacketString(),  wPacketBuilder.getPacketLength(), true);
+					// On essaie d'envoyer la chaine, envoi bloquant					
+                    wSocket->send( wPacketBuilder.getPacketString(),  wPacketBuilder.getPacketLength(), true);
 
 				}
 				catch(ExceptionReseauSocketDeconnecte& )
@@ -553,7 +555,6 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 
 			Sleep(10); // A reduire pour le release
 		}
-
 	}
 	
 	// On termine le thread
@@ -579,7 +580,6 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
     PacketReader wPacketReader;
 	while(true)
 	{
-		
 		std::list<SPSocket>::const_iterator it = wCommunicateurReseau->getFirstSocketEcoute();
 		std::list<SPSocket>::const_iterator end = wCommunicateurReseau->getEndSocketEcoute();
 		for(;it!=end; )
@@ -610,7 +610,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                         {
                             // On recoit le paquet de controle de taille fixe qui nous donne la taille du paquet suivant
                             wSocket->recvfrom(readBuffer, GestionnaireReseau::TAILLE_PAQUET_CONTROLE_UDP, (struct sockaddr*)&sinRemote, false);
-                            std::cout << "readUDP: " << (*it)->getAdresseDestination() << std::endl;
+                            //std::cout << "readUDP: " << (*it)->getAdresseDestination() << std::endl;
                             // On lit ensuite de la taille contenue dans le paquet de controle
                             // TODO: implementer truc qui envoie un paquet de controle a chaque 1 sec or so pour valider que la connection fonctionne (une fois que l'envoie va etre correctement implemente)
 
@@ -703,11 +703,8 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
             {
                 // Don't do anything
             }
-
-			
-
-			++it;
-		}
+            ++it;
+        }
 		//std::cout << "loop" << std::endl;
 
 		wCommunicateurReseau->terminerIterationListeSocketEcoute();
@@ -744,10 +741,9 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
     int wNbTentatives = 0;
     GestionnaireReseau::obtenirInstance()->transmitEvent(RECONNECTION_IN_PROGRESS);
 	
-    while(wNbTentatives<200) // 200 tentatives max = 400 sec de connection max
+    while(wNbTentatives<2) // 200 tentatives max = 400 sec de connection max
     {
 	    // Essayer de connecter le socket
-        std::cout << "Tentative de connection a " << wSocket->getAdresseDestination() << std::endl;
         wSocket->init();
 
         if(wSocket->getConnectionState() == CONNECTED)
@@ -825,56 +821,69 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
         sockaddr_in sinRemote;
         uint32_t nAddrSize = sizeof(sinRemote);
         SPSocket wNewSocket = NULL;
+        int wMessageConfirmation = 0;
+        std::stringstream ss;
         try
         {
             wNewSocket = wSocket->accept((sockaddr*)&sinRemote, &nAddrSize);
-
+            
             // On recoit le premier paquet venant de la personne qui se connecte (contient son nom) ne pas bloquer trop longtemps
             char wPlayerName[50];
             if(!wNewSocket->attendreSocket(5)) // On donne 5 sec au client pour envoyer son nom, sinon on le rejette
             {
-                throw ExceptionReseau("Blocage prevenu a la reception du PlayerName lors de la connection");
+                throw ExceptionReseauTimeout("Blocage prevenu a la reception du PlayerName lors de la connection");
             }
             wNewSocket->recv((uint8_t*) &wPlayerName, 50, true);
             // On verifie que le user n'est pas deja connecte
             if(GestionnaireReseau::obtenirInstance()->getSocket(wPlayerName, TCP) == NULL)
             {
                 // On envoit un message de confirmation pour dire que la conenction est acceptee
-                char wMessageAcceptation[2] = "1";
-                wNewSocket->send((uint8_t*) &wMessageAcceptation, 2, true);
+                wMessageConfirmation = USER_CONNECTED;
+                // Send connection state message
+                ss << wMessageConfirmation;
+                wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
 
                 // On ajoute le nouveau socket au gestionnaire reseau (avec son nom obtenu dans le paquet)
                 GestionnaireReseau::obtenirInstance()->saveSocket(std::string(wPlayerName), wNewSocket);
 				wNewSocket->setConnectionState(CONNECTED);
 
 
-				// Ne pas mettre avant de save() sinon il le connait pas le nom su player
-				//wNewSocket->attach(GestionnaireReseau::getObserverSocketServer());
             }
             else
             {
                 // Sinon on ne connecte pas et on delete le socket
                 // On envoit un message de confirmation pour dire que la conenction est acceptee
-                char wMessageRefus[2] = "0";
-                wNewSocket->send((uint8_t*)&wMessageRefus, 2, true);
+                wMessageConfirmation = USER_ALREADY_CONNECTED;
+                // Send connection state message
+                ss << wMessageConfirmation;
+                wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
 
                 wNewSocket->disconnect();
                 wNewSocket = 0;
             }
 
         }
+        catch(ExceptionReseauTimeout&)
+        {
+            wMessageConfirmation = USER_DID_NOT_SEND_NAME_ON_CONNECTION;
+            // Send connection state message
+            ss << wMessageConfirmation;
+            wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
+            wNewSocket->disconnect();
+            wNewSocket = 0;
+        }
         catch(ExceptionReseau&)
         {
-            try // On essaie d'envoyer un message de refus au client (try pcq il peut etre deconnecte et le send va fail)
-            {
-                char wMessageRefus[2] = "0";
-                wNewSocket->send((uint8_t*) &wMessageRefus, 2, true);
-            }
-            catch(ExceptionReseau&){}
+            wMessageConfirmation = USER_DISCONNECTED;
+            // Send connection state message
+            ss << wMessageConfirmation;
+            wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
             wNewSocket->disconnect();
             wNewSocket = 0;
         }
 
+        
+        
         
         
     }

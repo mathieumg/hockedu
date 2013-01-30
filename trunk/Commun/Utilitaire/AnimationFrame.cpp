@@ -63,7 +63,7 @@ AnimationFrame::~AnimationFrame( void )
 ///////////////////////////////////////////////////////////////////////////////
 void AnimationFrame::afficher() const
 {
-	std::cout << "Frame a t=" << temps_ << std::endl;
+	//std::cout << "Frame a t=" << temps_ << std::endl;
 }
 
 
