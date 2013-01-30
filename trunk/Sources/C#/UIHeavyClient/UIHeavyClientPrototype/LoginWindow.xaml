@@ -8,6 +8,7 @@
         <Button   Name="loginButton"       Content="Connexion"  Width="104" Height="26" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="252,132,0,0" Background="Black"     Foreground="White" Click="loginButton_Click"/>
         <Label    Name="errorMessageLabel" Content=""           Width="222" Height="48" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,110,0,0"                         Foreground="Red" />
         <Label    Name="label2"            Content="Serveur"    Width="64"  Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,65,0,0"                           Foreground="White" />
-        <ComboBox Name="serverComboBox"                         Width="146" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="54,67,0,0"   Background="#FF646464" Foreground="White" BorderBrush="White" />
+        <ComboBox Name="serverComboBox"                         Width="180" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="54,67,0,0"   Background="#FF646464" Foreground="White" BorderBrush="White" />
+        <Button   Name="refreshButton"     Content="Rafraîchir" Width="104" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="252,67,0,0"  Background="Black"     Foreground="White" Click="refreshButton_Click" />
     </Grid>
 </Window>
