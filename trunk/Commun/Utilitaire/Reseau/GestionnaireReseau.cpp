@@ -181,7 +181,6 @@ void GestionnaireReseau::init()
 
 
 	
-
     // Demarrer thread conn TCP Serveur
 #ifdef _SERVER
     mCommunicateurReseau.demarrerThreadsConnectionTCPServeur();
@@ -453,7 +452,7 @@ Paquet* GestionnaireReseau::creerPaquet( const std::string& pOperation )
 /// @return     : Socket*	: Pointeur vers le socket qui vient d'être créer
 ///
 ////////////////////////////////////////////////////////////////////////
-SPSocket GestionnaireReseau::demarrerNouvelleConnection(const std::string& pPlayerName, const std::string& pIP, ConnectionType pConnectionType)
+void GestionnaireReseau::demarrerNouvelleConnection(const std::string& pPlayerName, const std::string& pIP, ConnectionType pConnectionType)
 {
 	SPSocket wNewSocket = SPSocket(new Socket(pIP, GestionnaireReseau::communicationPort, pConnectionType));
 
@@ -465,7 +464,6 @@ SPSocket GestionnaireReseau::demarrerNouvelleConnection(const std::string& pPlay
 
 
 	saveSocket(pPlayerName, wNewSocket);
-	return wNewSocket;
 }
 
 
@@ -607,6 +605,7 @@ void GestionnaireReseau::removeSocket( const std::string& pNomJoueur, Connection
 	mListeSockets.erase(itMap);
 
 	// Liberer la memoire et invalider le pointeur
+    wSocketASupprimer->flagToDelete();
 	wSocketASupprimer = 0;
 
     ReleaseMutex(wHandle); // On relache le mutex sur le socket

@@ -124,7 +124,7 @@ public:
 	Paquet* creerPaquet(const std::string& pOperation);
 
 	// Methode pour creer une nouvelle connection (un nouveau Socket) et le sauvegarder a la liste des Sockets actifs
-	SPSocket demarrerNouvelleConnection(const std::string& pPlayerName, const std::string& pIP, ConnectionType pConnectionType);
+	void demarrerNouvelleConnection(const std::string& pPlayerName, const std::string& pIP, ConnectionType pConnectionType);
 
     // Methode pour envoyer des events au Controlleur
     void transmitEvent(int pMessageCode, ...) const;

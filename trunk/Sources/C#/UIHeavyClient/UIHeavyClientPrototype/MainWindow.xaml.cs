@@ -76,7 +76,9 @@ namespace UIHeavyClientPrototype
         // C++ function to initialise C# controller on that side
         [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void InitDLL();
-
+        // Disonnects the user from the server
+        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void DisconnectUser(string pUserName);
         
         ////////////////////////////////////////////////////////////////////////
         /// @fn MainWindow.MainWindow()
@@ -224,11 +226,15 @@ namespace UIHeavyClientPrototype
             this.Close();
         }
 
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        private void OnDisconnect(object sender, RoutedEventArgs e)
         {
+            DisconnectUser(mUserName);
+            Chat.ClearContent();
             Chat.MainWindow = null;
             mUserName = "";
             mIsUserConnected = false;
+
+            Hide();
 
             // Display connexion window
             mLoginWindow = new LoginWindow();
@@ -241,8 +247,13 @@ namespace UIHeavyClientPrototype
             {
                 Close();
             }
-            Chat.MainWindow = this;
-            messageTextBox.Focus();
+            else
+            {
+                Show();
+                Chat.MainWindow = this;
+                messageTextBox.Focus();
+            }
+            
         }
         
     }

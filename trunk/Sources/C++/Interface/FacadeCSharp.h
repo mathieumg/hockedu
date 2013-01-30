@@ -15,4 +15,6 @@ extern "C"
     typedef BOOL (__stdcall *EventReceivedCallBack)( int pId, char* pMessage );
     /// Enregistre la callback pour mettre a jour la vue lors d'événement
     __declspec(dllexport) void SetEventCallback( EventReceivedCallBack callback );
+
+    __declspec(dllexport) void DisconnectUser( char* pUsername );
 }

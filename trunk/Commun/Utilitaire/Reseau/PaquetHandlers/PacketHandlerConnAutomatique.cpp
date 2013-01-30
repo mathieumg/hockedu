@@ -24,7 +24,7 @@ void PacketHandlerConnAutomatique::handlePacketReceptionSpecific( PacketReader& 
 
 		GestionnaireReseau::obtenirInstance()->envoyerPaquetBroadcast(wPaquetReponse);
 
-		SPSocket wSocket = GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection(wPaquet->getRequestHostname(), wPaquet->getRequestIP(), wPaquet->getNewConnectionType());
+		GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection(wPaquet->getRequestHostname(), wPaquet->getRequestIP(), wPaquet->getNewConnectionType());
 		
 
 	}
@@ -35,7 +35,7 @@ void PacketHandlerConnAutomatique::handlePacketReceptionSpecific( PacketReader& 
 		if(wAdresseRequest == GestionnaireReseau::obtenirInstance()->getAdresseIPLocaleAssociee(wAdresseRequest)) {
 			// Reponse pour nous, on essaye de se connecter
 
-			SPSocket wSocket = GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection(wPaquet->getResponseHostname(), wPaquet->getResponseIP(), wPaquet->getNewConnectionType());
+			GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection(wPaquet->getResponseHostname(), wPaquet->getResponseIP(), wPaquet->getNewConnectionType());
 			
 
 		}

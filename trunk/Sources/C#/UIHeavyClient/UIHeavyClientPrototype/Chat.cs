@@ -311,6 +311,13 @@ namespace UIHeavyClientPrototype
             }
             return true;
         }
+
+        public static void ClearContent()
+        {
+            mWholeMessage = "";
+            mConnectedUsers.Clear();
+        }
+
         static MessageReceivedCallBack mMessageCallback = MessageReceived;
         ////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////
