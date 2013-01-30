@@ -34,7 +34,9 @@ int main(void)  {
 
     Menu wMenu("Choose the IP of the server");
     wMenu.addMenuOption(0, new MenuOption("127.0.0.1"));
-    wMenu.addMenuOption(1, new MenuOption("173.177.0.193"));
+	wMenu.addMenuOption(1, new MenuOption("192.168.0.196"));
+	wMenu.addMenuOption(2, new MenuOption("192.168.0.151"));
+    wMenu.addMenuOption(3, new MenuOption("173.177.0.193"));
     std::string wServerIp = wMenu.displayAndPick();
 
 
