@@ -1,49 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="C++Client|Win32">
-      <Configuration>C++Client</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="C++Client|x64">
       <Configuration>C++Client</Configuration>
       <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="DebugPrototype|Win32">
-      <Configuration>DebugPrototype</Configuration>
-      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="DebugPrototype|x64">
       <Configuration>DebugPrototype</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="UnitTest|Win32">
-      <Configuration>UnitTest</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="UnitTest|x64">
       <Configuration>UnitTest</Configuration>
       <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="WithJava|Win32">
-      <Configuration>WithJava</Configuration>
-      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="WithJava|x64">
       <Configuration>WithJava</Configuration>
@@ -56,31 +32,6 @@
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='C++Client|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugPrototype|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='WithJava|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
@@ -109,24 +60,6 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='C++Client|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugPrototype|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='WithJava|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -148,21 +81,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../Exe/DLL/</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='C++Client|Win32'">../../Exe/DLL/</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugPrototype|Win32'">../../Exe/DLL/</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'">../../Exe/DLL/</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='WithJava|Win32'">../../Exe/DLL/</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='C++Client|Win32'">$(Configuration)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugPrototype|Win32'">$(Configuration)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'">$(Configuration)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='WithJava|Win32'">$(Configuration)\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='C++Client|Win32'">true</LinkIncremental>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugPrototype|Win32'">true</LinkIncremental>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'">true</LinkIncremental>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='WithJava|Win32'">true</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../Exe</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='C++Client|x64'">../../Exe</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugPrototype|x64'">../../Exe/</OutDir>
@@ -178,27 +96,9 @@
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugPrototype|x64'">true</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='UnitTest|x64'">true</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'">true</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../Prototype</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
-    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='C++Client|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='DebugPrototype|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='WithJava|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
-    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='C++Client|Win32'" />
-    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='DebugPrototype|Win32'" />
-    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'" />
-    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='WithJava|Win32'" />
-    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
-    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='C++Client|Win32'" />
-    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='DebugPrototype|Win32'" />
-    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'" />
-    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='WithJava|Win32'" />
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='C++Client|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='DebugPrototype|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
@@ -214,9 +114,6 @@
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='DebugPrototype|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='UnitTest|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'" />
-    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
-    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
@@ -232,171 +129,6 @@
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='UnitTest|x64'">$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;C:\Program Files\Java\jdk1.6.0_25\include;</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'">$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;C:\Program Files\Java\jdk1.6.0_25\include;</IncludePath>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;../../Commun/Externe/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;INF2990_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>false</MinimalRebuild>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>opengl32.lib;jawt.lib;glu32.lib;freetype.lib;glew32.lib;tinyxml_D_x86.lib;assimp_D_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>../../Exe/DLL/$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(JAVA_HOME)/lib;../../Commun/Externe/xerces-c/lib;../../Commun/Externe/FreeType/lib;../../Commun/Externe/GLEW/lib;../../Commun/Externe/tinyxml/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Link>
-    <PostBuildEvent>
-      <Command>C:\Users\Julien\Documents\Julien\Poly\E2011-INF2990\Cadriciel\Sources\Java\LancerInterfaceGraphiqueTests.bat</Command>
-    </PostBuildEvent>
-    <PostBuildEvent>
-      <Message>Tests unitaires</Message>
-    </PostBuildEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='C++Client|Win32'">
-    <ClCompile>
-      <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;../../Commun/Externe/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;INF2990_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>false</MinimalRebuild>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>opengl32.lib;jawt.lib;glu32.lib;freetype.lib;glew32.lib;tinyxml_D_x86.lib;assimp_D_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>../../Exe/DLL/$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(JAVA_HOME)/lib;../../Commun/Externe/xerces-c/lib;../../Commun/Externe/FreeType/lib;../../Commun/Externe/GLEW/lib;../../Commun/Externe/tinyxml/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Link>
-    <PostBuildEvent>
-      <Command>C:\Users\Julien\Documents\Julien\Poly\E2011-INF2990\Cadriciel\Sources\Java\LancerInterfaceGraphiqueTests.bat</Command>
-    </PostBuildEvent>
-    <PostBuildEvent>
-      <Message>Tests unitaires</Message>
-    </PostBuildEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugPrototype|Win32'">
-    <ClCompile>
-      <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;../../Commun/Externe/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;INF2990_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>false</MinimalRebuild>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>opengl32.lib;jawt.lib;glu32.lib;freetype.lib;glew32.lib;tinyxml_D_x86.lib;assimp_D_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>../../Exe/DLL/$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(JAVA_HOME)/lib;../../Commun/Externe/xerces-c/lib;../../Commun/Externe/FreeType/lib;../../Commun/Externe/GLEW/lib;../../Commun/Externe/tinyxml/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Link>
-    <PostBuildEvent>
-      <Command>C:\Users\Julien\Documents\Julien\Poly\E2011-INF2990\Cadriciel\Sources\Java\LancerInterfaceGraphiqueTests.bat</Command>
-    </PostBuildEvent>
-    <PostBuildEvent>
-      <Message>Tests unitaires</Message>
-    </PostBuildEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'">
-    <ClCompile>
-      <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;../../Commun/Externe/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;INF2990_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>false</MinimalRebuild>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>opengl32.lib;jawt.lib;glu32.lib;freetype.lib;glew32.lib;tinyxml_D_x86.lib;assimp_D_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>../../Exe/DLL/$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(JAVA_HOME)/lib;../../Commun/Externe/xerces-c/lib;../../Commun/Externe/FreeType/lib;../../Commun/Externe/GLEW/lib;../../Commun/Externe/tinyxml/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Link>
-    <PostBuildEvent>
-      <Command>C:\Users\Julien\Documents\Julien\Poly\E2011-INF2990\Cadriciel\Sources\Java\LancerInterfaceGraphiqueTests.bat</Command>
-    </PostBuildEvent>
-    <PostBuildEvent>
-      <Message>Tests unitaires</Message>
-    </PostBuildEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='WithJava|Win32'">
-    <ClCompile>
-      <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;../../Commun/Externe/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;INF2990_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>false</MinimalRebuild>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>opengl32.lib;jawt.lib;glu32.lib;freetype.lib;glew32.lib;tinyxml_D_x86.lib;assimp_D_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>../../Exe/DLL/$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(JAVA_HOME)/lib;../../Commun/Externe/xerces-c/lib;../../Commun/Externe/FreeType/lib;../../Commun/Externe/GLEW/lib;../../Commun/Externe/tinyxml/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Link>
-    <PostBuildEvent>
-      <Command>C:\Users\Julien\Documents\Julien\Poly\E2011-INF2990\Cadriciel\Sources\Java\LancerInterfaceGraphiqueTests.bat</Command>
-    </PostBuildEvent>
-    <PostBuildEvent>
-      <Message>Tests unitaires</Message>
-    </PostBuildEvent>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
@@ -577,37 +309,6 @@
       <Message>Tests Unitaires</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/Noeuds;Arbre/Usines;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;%(AdditionalIncludeDirectories);Tests</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;INF2990_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>opengl32.lib;jawt.lib;glu32.lib;freetype.lib;glew32.lib;tinyxml_x86.lib;assimp_R_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>../Java/InterfaceGraphique/DLL/$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(JAVA_HOME)/lib;../../Commun/Externe/xerces-c/lib;../../Commun/Externe/FreeType/lib;../../Commun/Externe/GLEW/lib;../../Commun/Externe/tinyxml/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Link>
-    <PostBuildEvent>
-      <Command>C:\Users\Julien\Documents\Julien\Poly\E2011-INF2990\Cadriciel\Sources\Java\LancerInterfaceGraphiqueTests.bat</Command>
-    </PostBuildEvent>
-    <PostBuildEvent>
-      <Message>Tests unitaires</Message>
-    </PostBuildEvent>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
@@ -727,6 +428,7 @@
     <ClCompile Include="Jeu\JoueurVirtuel.cpp" />
     <ClCompile Include="Jeu\Partie.cpp" />
     <ClCompile Include="Jeu\Tournoi.cpp" />
+    <ClCompile Include="Reseau\ControllerCSharp.cpp" />
     <ClCompile Include="Reseau\GestionnaireReseauClientLourd.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerChatUserStatus.cpp" />
@@ -840,6 +542,7 @@
     <ClInclude Include="Jeu\JoueurVirtuel.h" />
     <ClInclude Include="Jeu\Partie.h" />
     <ClInclude Include="Jeu\Tournoi.h" />
+    <ClInclude Include="Reseau\ControllerCSharp.h" />
     <ClInclude Include="Reseau\GestionnaireReseauClientLourd.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerChatMessage.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerChatUserStatus.h" />

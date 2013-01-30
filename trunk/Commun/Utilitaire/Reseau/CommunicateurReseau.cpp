@@ -761,7 +761,7 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
     
 
 
-    wCommunicateurReseau->enleverConnectionThread(wSocket, wNbTentatives != 20);
+    wCommunicateurReseau->enleverConnectionThread(wSocket, wNbTentatives != 2);
     
 
 	// On termine le thread

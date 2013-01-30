@@ -82,7 +82,7 @@ void PacketHandlerChatMessage::handlePacketReceptionSpecific(PacketReader& pPack
         wTimeOutput << "[" << wPaquet->getOrigin() << "]: " << wPaquet->getMessage() << std::endl;
         std::cout << wTimeOutput.str();
 
-        GestionnaireReseauClientLourd::obtenirInstance()->messageReceived(wPaquet->getOrigin().c_str(),wPaquet->getMessage().c_str());
+        GestionnaireReseau::obtenirInstance()->transmitEvent(CHAT_MESSAGE_RECEIVED,wPaquet->getOrigin(),wPaquet->getMessage());
 
         delete wPaquet;
     }
