@@ -33,7 +33,6 @@ SINGLETON_DECLARATION_CPP(GestionnaireReseauServeur);
 GestionnaireReseauServeur::GestionnaireReseauServeur()
 {
     // Initialisation du GestionnaireReseau
-    GestionnaireReseau::setNetworkMode(SERVER);
 	GestionnaireReseau::obtenirInstance()->setSocketConnectionStateCallback(SocketStateCallback);
 	//GestionnaireReseau::setObserverSocketServer(new SocketObserverServerChat());
     GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();

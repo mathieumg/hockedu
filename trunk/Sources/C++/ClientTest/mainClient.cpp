@@ -16,7 +16,6 @@ int main(void)  {
 
 	
 	printf("client\n");
-    GestionnaireReseau::setNetworkMode(CLIENT);
 	GestionnaireReseau::obtenirInstance();
     while(true)
     {
@@ -27,8 +26,7 @@ int main(void)  {
         uint8_t  test8b  = 4, read8b;
         double testDouble = 0.121321861351681351891361654986154651894135489615494865189432198451, readDouble;
         float testFloat = 0.236185413219816f, readFloat;
-
-    
+        
         PacketBuilder pString, p64b, p32b, p16b, p8b, pDouble, pFloat;
         pString << testString ;
         PacketReader prString(pString.getPacketString());
