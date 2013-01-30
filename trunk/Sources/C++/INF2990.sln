@@ -1,5 +1,5 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "INF2990", "INF2990.vcxproj", "{67188F6B-27BE-4E93-A7EF-C512656343A1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utilitaire", "..\..\Commun\Utilitaire\Utilitaire.vcxproj", "{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}"
@@ -61,7 +61,6 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{67188F6B-27BE-4E93-A7EF-C512656343A1}.C++Client|Mixed Platforms.ActiveCfg = Debug|x64
-		{67188F6B-27BE-4E93-A7EF-C512656343A1}.C++Client|Mixed Platforms.Build.0 = Debug|x64
 		{67188F6B-27BE-4E93-A7EF-C512656343A1}.C++Client|Win32.ActiveCfg = C++Client|x64
 		{67188F6B-27BE-4E93-A7EF-C512656343A1}.C++Client|x64.ActiveCfg = C++Client|x64
 		{67188F6B-27BE-4E93-A7EF-C512656343A1}.C++Client|x64.Build.0 = C++Client|x64
@@ -134,7 +133,6 @@ Global
 		{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}.WithJava|x64.Build.0 = WithJava|x64
 		{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}.WithJava|x86.ActiveCfg = WithJava|x64
 		{98400D17-43A5-1A40-95BE-C53AC78E7694}.C++Client|Mixed Platforms.ActiveCfg = Debug|x64
-		{98400D17-43A5-1A40-95BE-C53AC78E7694}.C++Client|Mixed Platforms.Build.0 = Debug|x64
 		{98400D17-43A5-1A40-95BE-C53AC78E7694}.C++Client|Win32.ActiveCfg = C++Client|x64
 		{98400D17-43A5-1A40-95BE-C53AC78E7694}.C++Client|x64.ActiveCfg = C++Client|x64
 		{98400D17-43A5-1A40-95BE-C53AC78E7694}.C++Client|x64.Build.0 = C++Client|x64
@@ -170,7 +168,6 @@ Global
 		{98400D17-43A5-1A40-95BE-C53AC78E7694}.WithJava|x64.Build.0 = WithJava|x64
 		{98400D17-43A5-1A40-95BE-C53AC78E7694}.WithJava|x86.ActiveCfg = WithJava|x64
 		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.C++Client|Mixed Platforms.ActiveCfg = Debug|x64
-		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.C++Client|Mixed Platforms.Build.0 = Debug|x64
 		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.C++Client|Win32.ActiveCfg = C++Client|x64
 		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.C++Client|x64.ActiveCfg = C++Client|x64
 		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.C++Client|x86.ActiveCfg = C++Client|x64
@@ -196,7 +193,6 @@ Global
 		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.WithJava|x64.ActiveCfg = WithJava|x64
 		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.WithJava|x86.ActiveCfg = WithJava|x64
 		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.C++Client|Mixed Platforms.ActiveCfg = Debug|x64
-		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.C++Client|Mixed Platforms.Build.0 = Debug|x64
 		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.C++Client|Win32.ActiveCfg = C++Client|x64
 		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.C++Client|x64.ActiveCfg = C++Client|x64
 		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.C++Client|x86.ActiveCfg = C++Client|x64
@@ -221,7 +217,6 @@ Global
 		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.WithJava|x64.ActiveCfg = WithJava|x64
 		{6F01DB00-32F0-A842-9B60-3ABA75A2D458}.WithJava|x86.ActiveCfg = WithJava|x64
 		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.C++Client|Mixed Platforms.ActiveCfg = Debug|x64
-		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.C++Client|Mixed Platforms.Build.0 = Debug|x64
 		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.C++Client|Win32.ActiveCfg = C++Client|x64
 		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.C++Client|x64.ActiveCfg = C++Client|x64
 		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.C++Client|x86.ActiveCfg = C++Client|x64
@@ -246,7 +241,6 @@ Global
 		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.WithJava|x64.ActiveCfg = WithJava|x64
 		{BCA4569B-A486-E443-9EE2-07D4CB3CFBA8}.WithJava|x86.ActiveCfg = WithJava|x64
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.C++Client|Mixed Platforms.ActiveCfg = Debug|x64
-		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.C++Client|Mixed Platforms.Build.0 = Debug|x64
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.C++Client|Win32.ActiveCfg = C++Client|x64
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.C++Client|x64.ActiveCfg = C++Client|x64
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.C++Client|x64.Build.0 = C++Client|x64
@@ -281,7 +275,6 @@ Global
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.WithJava|x64.ActiveCfg = WithJava|x64
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.WithJava|x86.ActiveCfg = WithJava|x86
 		{F8497571-CB74-4F8D-89E8-2B01DA054851}.C++Client|Mixed Platforms.ActiveCfg = Debug|x64
-		{F8497571-CB74-4F8D-89E8-2B01DA054851}.C++Client|Mixed Platforms.Build.0 = Debug|x64
 		{F8497571-CB74-4F8D-89E8-2B01DA054851}.C++Client|Win32.ActiveCfg = C++Client|x64
 		{F8497571-CB74-4F8D-89E8-2B01DA054851}.C++Client|x64.ActiveCfg = C++Client|x64
 		{F8497571-CB74-4F8D-89E8-2B01DA054851}.C++Client|x86.ActiveCfg = C++Client|x86
@@ -311,7 +304,6 @@ Global
 		{F8497571-CB74-4F8D-89E8-2B01DA054851}.WithJava|x86.ActiveCfg = Release|x86
 		{F8497571-CB74-4F8D-89E8-2B01DA054851}.WithJava|x86.Build.0 = Release|x86
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.C++Client|Mixed Platforms.ActiveCfg = Debug|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.C++Client|Mixed Platforms.Build.0 = Debug|x64
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.C++Client|Win32.ActiveCfg = C++Client|x64
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.C++Client|x64.ActiveCfg = C++Client|x64
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.C++Client|x86.ActiveCfg = C++Client|x86
@@ -344,7 +336,6 @@ Global
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.WithJava|x86.ActiveCfg = Release|x86
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.WithJava|x86.Build.0 = Release|x86
 		{CDF1A79A-95AE-4984-8AC9-C39D99ED9289}.C++Client|Mixed Platforms.ActiveCfg = Debug|x64
-		{CDF1A79A-95AE-4984-8AC9-C39D99ED9289}.C++Client|Mixed Platforms.Build.0 = Debug|x64
 		{CDF1A79A-95AE-4984-8AC9-C39D99ED9289}.C++Client|Win32.ActiveCfg = C++Client|x64
 		{CDF1A79A-95AE-4984-8AC9-C39D99ED9289}.C++Client|x64.ActiveCfg = C++Client|x64
 		{CDF1A79A-95AE-4984-8AC9-C39D99ED9289}.C++Client|x64.Build.0 = C++Client|x64
@@ -375,7 +366,6 @@ Global
 		{CDF1A79A-95AE-4984-8AC9-C39D99ED9289}.WithJava|x64.ActiveCfg = Release|x64
 		{CDF1A79A-95AE-4984-8AC9-C39D99ED9289}.WithJava|x86.ActiveCfg = Release|x64
 		{7C39F51D-07D4-4353-97A6-92636EA2BAA7}.C++Client|Mixed Platforms.ActiveCfg = Debug|x64
-		{7C39F51D-07D4-4353-97A6-92636EA2BAA7}.C++Client|Mixed Platforms.Build.0 = Debug|x64
 		{7C39F51D-07D4-4353-97A6-92636EA2BAA7}.C++Client|Win32.ActiveCfg = C++Client|x64
 		{7C39F51D-07D4-4353-97A6-92636EA2BAA7}.C++Client|x64.ActiveCfg = C++Client|x64
 		{7C39F51D-07D4-4353-97A6-92636EA2BAA7}.C++Client|x64.Build.0 = C++Client|x64
@@ -406,7 +396,6 @@ Global
 		{7C39F51D-07D4-4353-97A6-92636EA2BAA7}.WithJava|x64.ActiveCfg = Release|x64
 		{7C39F51D-07D4-4353-97A6-92636EA2BAA7}.WithJava|x86.ActiveCfg = Release|x64
 		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.C++Client|Mixed Platforms.ActiveCfg = Debug|x64
-		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.C++Client|Mixed Platforms.Build.0 = Debug|x64
 		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.C++Client|Win32.ActiveCfg = C++Client|x64
 		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.C++Client|x64.ActiveCfg = C++Client|x64
 		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.C++Client|x64.Build.0 = C++Client|x64
