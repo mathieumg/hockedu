@@ -553,8 +553,9 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 				delete wPaquetAEnvoyer;
 			}
 
-			Sleep(10); // A reduire pour le release
+			
 		}
+		Sleep(10); // A reduire pour le release
 	}
 	
 	// On termine le thread
