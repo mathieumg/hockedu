@@ -54,14 +54,14 @@ void TestGestionnaireReseau()
 {
     GestionnaireReseauClientLourd::obtenirInstance();
     
-    SPSocket wSocket = GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("bob", "127.0.0.1", TCP);
+    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("bob", "127.0.0.1", TCP);
 
     PaquetTest* wPaquet = (PaquetTest*) GestionnaireReseau::obtenirInstance()->creerPaquet("Test");
     wPaquet->setMessage("SUP C#");
     wPaquet->setInt(666);
     wPaquet->setFloat(666.666f);
 
-    GestionnaireReseau::obtenirInstance()->envoyerPaquet(wSocket, wPaquet);
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet("bob", wPaquet,TCP);
 
 }
 
@@ -153,4 +153,20 @@ void SetEventCallback( EventReceivedCallBack callback )
     ControllerCSharp* pControler = (ControllerCSharp*)GestionnaireReseau::obtenirInstance()->getController();
     checkf(pControler, "The controler must exist at all time inside the NetworkManager");
     pControler->setEventReceivedCallBack(callback);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void DisconnectUser( char* pUsername )
+///
+/// /*Description*/
+///
+/// @param[in] char * pUsername
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void DisconnectUser( char* pUsername )
+{
+    GestionnaireReseau::obtenirInstance()->removeSocket(pUsername,TCP);
 }

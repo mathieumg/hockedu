@@ -40,7 +40,7 @@ int main(void)  {
     std::string wServerIp = wMenu.displayAndPick();
 
 
-	SPSocket wSocket = GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection(wName, wServerIp, TCP);
+	GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection(wName, wServerIp, TCP);
 
     std::cout << "Entrer un message et appuyez sur Entree: " << std::endl;
 
@@ -80,7 +80,7 @@ int main(void)  {
 			wPaquet->setTimestamp(time(0));
 			wPaquet->setOrigin(wName);
 
-			GestionnaireReseau::obtenirInstance()->envoyerPaquet(wSocket, wPaquet);
+			GestionnaireReseau::obtenirInstance()->envoyerPaquet(wName, wPaquet,TCP);
 		//}
 
 

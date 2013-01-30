@@ -467,7 +467,7 @@ Paquet* GestionnaireReseau::creerPaquet( const std::string& pOperation )
 /// @return     : Socket*	: Pointeur vers le socket qui vient d'être créer
 ///
 ////////////////////////////////////////////////////////////////////////
-SPSocket GestionnaireReseau::demarrerNouvelleConnection(const std::string& pPlayerName, const std::string& pIP, ConnectionType pConnectionType)
+void GestionnaireReseau::demarrerNouvelleConnection(const std::string& pPlayerName, const std::string& pIP, ConnectionType pConnectionType)
 {
 	SPSocket wNewSocket = SPSocket(new Socket(pIP, GestionnaireReseau::communicationPort, pConnectionType));
 
@@ -479,7 +479,6 @@ SPSocket GestionnaireReseau::demarrerNouvelleConnection(const std::string& pPlay
 
 
 	saveSocket(pPlayerName, wNewSocket);
-	return wNewSocket;
 }
 
 

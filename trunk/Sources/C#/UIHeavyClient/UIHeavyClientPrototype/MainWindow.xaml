@@ -26,7 +26,7 @@
         <Menu Height="23" HorizontalAlignment="Left" Name="menu1" VerticalAlignment="Top" Width="62" Background="Black" Foreground="White">
             <MenuItem Header="Options" Background="Black" Foreground="White">
                 <MenuItem Header="Quitter" Click="MenuItem_Click" Background="Black" Foreground="White"/>
-                <MenuItem Header="Déconnexion" Background="Black" Foreground="White" Click="MenuItem_Click_1" />
+                <MenuItem Header="Déconnexion" Background="Black" Foreground="White" Click="OnDisconnect" />
             </MenuItem>
         </Menu>
     </Grid>

@@ -484,7 +484,6 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 			if(listeAEnvoyer->pop(wPaquetAEnvoyer) && wPaquetAEnvoyer)
 			{
 				SPSocket wSocket = wPaquetAEnvoyer->socket;
-
 				ConnectionState wConnectionState = wSocket->getConnectionState();
 				if(wConnectionState == CONNECTING || wConnectionState == NOT_CONNECTED)
 				{
@@ -524,7 +523,9 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 					{
 						// Si c'est un serveur, on ne veut pas reconnecter le socket. Le client va se reconnecter et le serveur creera un nouveau socket
 						GestionnaireReseau::obtenirInstance()->removeSocket(wSocket);
-						break; // On doit enlever le socket globalement, impossible de recuperer de ca
+                        wPaquetAEnvoyer->paquet->removeAssociatedQuery();
+                        delete wPaquetAEnvoyer;
+						continue; // On doit enlever le socket globalement, impossible de recuperer de ca
 					}
 
 				}
@@ -546,7 +547,9 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 					{
 						// Si c'est un serveur, on ne veut pas reconnecter le socket. Le client va se reconnecter et le serveur creera un nouveau socket
 						GestionnaireReseau::obtenirInstance()->removeSocket(wSocket);
-						break; // On doit enlever le socket globalement, impossible de recuperer de ca
+                        wPaquetAEnvoyer->paquet->removeAssociatedQuery();
+                        delete wPaquetAEnvoyer;
+						continue; // On doit enlever le socket globalement, impossible de recuperer de ca
 					}
 
 				}
@@ -562,7 +565,7 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 	}
 	
 	// On termine le thread
-	ExitThread(EXIT_SUCCESS);
+	return 0;
 }
 
 
@@ -717,7 +720,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
 
 
 	// On termine le thread
-	ExitThread(EXIT_SUCCESS);
+	return 0;
 }
 
 
@@ -745,7 +748,8 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
     int wNbTentatives = 0;
     GestionnaireReseau::obtenirInstance()->transmitEvent(RECONNECTION_IN_PROGRESS);
 	
-    while(wNbTentatives<2) // 200 tentatives max = 400 sec de connection max
+    static const int TOTAL_TENTATIVE = 200;
+    while(wNbTentatives<TOTAL_TENTATIVE) // 200 tentatives max = 400 sec de connection max
     {
 	    // Essayer de connecter le socket
         wSocket->init();
@@ -764,11 +768,11 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
     
 
 
-    wCommunicateurReseau->enleverConnectionThread(wSocket, wNbTentatives != 2);
+    wCommunicateurReseau->enleverConnectionThread(wSocket, wNbTentatives != TOTAL_TENTATIVE);
     
 
 	// On termine le thread
-	ExitThread(EXIT_SUCCESS);
+	return 0;
 }
 
 
@@ -894,7 +898,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
 
 
     // On termine le thread
-    ExitThread(EXIT_SUCCESS);
+    return 0;
 }
 
 
