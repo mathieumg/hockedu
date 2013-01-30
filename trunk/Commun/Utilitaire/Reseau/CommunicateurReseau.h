@@ -123,7 +123,8 @@ private:
 	// Handle du thread qui s'occupe d'envoyer les paquets
 	HANDLE mHandleThreadEnvoie;
 	// Handle du thread qui s'occupe de recevoir les paquets
-	HANDLE mHandleThreadReception;
+    HANDLE mHandleThreadReception;
+    HANDLE mHandleSemaphoreContentSend;
 
     // Liste des HANDLE pour les threads de connection TCP
     std::vector<HANDLE> mHandlesThreadConnectionTCPServeur;

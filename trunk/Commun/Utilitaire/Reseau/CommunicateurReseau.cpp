@@ -48,6 +48,7 @@ CommunicateurReseau::CommunicateurReseau():mListeEnvoie(maxBufferSize),mListeRec
 {
 	mMutexListeSocketsEcoute = CreateMutex(NULL, FALSE, NULL);
 	mMutexListeSocketsConnection = CreateMutex(NULL, FALSE, NULL);
+    mHandleSemaphoreContentSend = CreateSemaphore(NULL,0,maxBufferSize,NULL);
 	demarrerSendingThread();
 	demarrerReceivingThread();
     
@@ -121,6 +122,7 @@ bool CommunicateurReseau::ajouterPaquetEnvoie( SPSocket pSocket, Paquet* pPaquet
 		delete paquetAEnvoyer;
 		return false;
 	}
+    ReleaseSemaphore(mHandleSemaphoreContentSend,1,NULL);
 	return true;
 }
 
@@ -474,7 +476,8 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 	PaquetAEnvoyer* wPaquetAEnvoyer = NULL;
 	while (true)
 	{
-		if(!listeAEnvoyer->empty())
+        WaitForSingleObject(wCommunicateurReseau->mHandleSemaphoreContentSend,INFINITE);
+        if(!listeAEnvoyer->empty())
 		{
 			 // Queue, alors ordre ok, pop enleve le premier element et le retourne
 			// Aller chercher le Paquet et l'envoyer
@@ -486,8 +489,11 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 				if(wConnectionState == CONNECTING || wConnectionState == NOT_CONNECTED)
 				{
 					// Socket probablement en attente de se faire connecter (on ne fait rien et on le met a la fin de la queue)
-					listeAEnvoyer->push(wPaquetAEnvoyer);
-					continue;
+					if(listeAEnvoyer->push(wPaquetAEnvoyer))
+                    {
+                        ReleaseSemaphore(wCommunicateurReseau->mHandleSemaphoreContentSend,1,NULL);
+                    }
+                    continue;
 				}
 
 				try
@@ -552,8 +558,6 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 				wPaquetAEnvoyer->paquet->removeAssociatedQuery();
 				delete wPaquetAEnvoyer;
 			}
-
-			Sleep(10); // A reduire pour le release
 		}
 	}
 	
@@ -707,8 +711,8 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
         }
 		//std::cout << "loop" << std::endl;
 
-		wCommunicateurReseau->terminerIterationListeSocketEcoute();
-		Sleep(10);
+        Sleep(10);
+        wCommunicateurReseau->terminerIterationListeSocketEcoute();
 	}
 
 

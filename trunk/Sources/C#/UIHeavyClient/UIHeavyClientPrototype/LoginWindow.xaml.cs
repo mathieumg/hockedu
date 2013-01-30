@@ -114,6 +114,7 @@ namespace UIHeavyClientPrototype
             {
                 new Server("Local", "127.0.0.1"),
                 new Server("Chez Math", "173.177.0.193"),
+                new Server("Chez Mike", "173.177.0.193"),
             };
 
             foreach (Server s in listedServer)
