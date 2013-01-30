@@ -16,9 +16,13 @@
 void PacketHandlerChatUserStatus::handlePacketReceptionSpecific(PacketReader& pPacketReader)
 {
     PaquetChatUserStatus* wPaquet = (PaquetChatUserStatus*) GestionnaireReseau::obtenirInstance()->creerPaquet("ChatUserStatus");
-	wPaquet->setUserName((char*) pPacketReader.readString());
-	wPaquet->setConnectionState( (ConnectionState) pPacketReader.readInteger());
+    int wArraySize = pPacketReader.readInteger();
+    uint8_t* wBuffer = new uint8_t[wArraySize];
+    pPacketReader.readString(wBuffer, wArraySize);
+	wPaquet->setUserName((char*) wBuffer);
+    //delete wBuffer;
 
+	wPaquet->setConnectionState( (ConnectionState) pPacketReader.readInteger());
 
 	// Seul les Clients devraient recevoir ceci
 
@@ -44,10 +48,10 @@ void PacketHandlerChatUserStatus::handlePacketReceptionSpecific(PacketReader& pP
 	switch(wPaquet->getConnectionState())
 	{
 	case CONNECTED:
-		std::cout << " connected" << std::endl;
+        GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_CONNECTED,wPaquet->getUserName());
 		break;
 	case NOT_CONNECTED:
-		std::cout << " disconnected" << std::endl;
+        GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_DISCONNECTED,wPaquet->getUserName());
 		break;
 	case CONNECTING:
 		std::cout << " is reconnecting" << std::endl;

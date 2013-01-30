@@ -6,12 +6,19 @@
 
 HeaderPaquet PacketHandler::handlePacketHeaderReception( PacketReader& pPacketReader )
 {
-    std::string wStringIdentification = std::string((char*)pPacketReader.readString((uint32_t) (Paquet::sequenceIdentification.size()+1)));
+    int wArraySize = (uint32_t) (Paquet::sequenceIdentification.size()+1);
+    uint8_t* wBuffer = new uint8_t[wArraySize];
+    pPacketReader.readString(wBuffer, wArraySize);
+    std::string wStringIdentification = std::string((char*)wBuffer);
+    delete wBuffer;
     if (wStringIdentification != Paquet::sequenceIdentification)
         return HeaderPaquet();
     HeaderPaquet hp;
     const int longueurType = GestionnaireReseau::longueurMaxOperationReseau;
-    strncpy_s(hp.type, longueurType, (const char*)pPacketReader.readString(longueurType), longueurType);
+    wBuffer = new uint8_t[longueurType];
+    pPacketReader.readString(wBuffer, longueurType);
+    strncpy_s(hp.type, longueurType, (const char*)wBuffer, longueurType);
+    delete wBuffer;
     return handlePacketHeaderReceptionBase(pPacketReader, hp);
 }
 

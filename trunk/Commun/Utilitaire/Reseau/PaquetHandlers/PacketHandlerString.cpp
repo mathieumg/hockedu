@@ -5,8 +5,12 @@
 
 void PacketHandlerString::handlePacketReceptionSpecific(PacketReader& pPacketReader)
 {
-    std::string str =  std::string((char*)pPacketReader.readString());
-    std::cout << str << std::endl;
+    int wArraySize =pPacketReader.readInteger();
+    uint8_t* wBuffer = new uint8_t[wArraySize];
+    pPacketReader.readString(wBuffer, wArraySize);
+    std::string str =  std::string((char*)wBuffer);
+    //std::cout << str << std::endl;
+    delete wBuffer;
 }
 
 void PacketHandlerString::handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder)
@@ -21,6 +25,4 @@ int PacketHandlerString::getPacketSize(Paquet* pPaquet) const
     PaquetString* wPaquet = (PaquetString*) pPaquet;
 
     return PacketBuilder::getSizeForString(wPaquet->getMessage()) + PacketHandlerBase::getPacketSize(pPaquet);
-
-
 }

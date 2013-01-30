@@ -15,11 +15,25 @@
 void PacketHandlerChatMessage::handlePacketReceptionSpecific(PacketReader& pPacketReader)
 {
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet("ChatMessage");
-    wPaquet->setMessage((char*) pPacketReader.readString());
+    int wArraySize = pPacketReader.readInteger();
+    uint8_t* wBuffer = new uint8_t[wArraySize];
+    pPacketReader.readString(wBuffer, wArraySize);
+    wPaquet->setMessage((char*) wBuffer);
+    delete wBuffer;
     wPaquet->setTimestamp( pPacketReader.read64bInteger());
     wPaquet->setIsTargetGroup(pPacketReader.readBool());
-    wPaquet->setGroupName((char*) pPacketReader.readString());
-    wPaquet->setOrigin((char*) pPacketReader.readString());
+
+    wArraySize = pPacketReader.readInteger();
+    wBuffer = new uint8_t[wArraySize];
+    pPacketReader.readString(wBuffer, wArraySize);
+    wPaquet->setGroupName((char*) wBuffer);
+    delete wBuffer;
+
+    wArraySize = pPacketReader.readInteger();
+    wBuffer = new uint8_t[wArraySize];
+    pPacketReader.readString(wBuffer, wArraySize);
+    wPaquet->setOrigin((char*) wBuffer);
+    delete wBuffer;
 
 
 #ifdef _SERVER
@@ -68,7 +82,7 @@ void PacketHandlerChatMessage::handlePacketReceptionSpecific(PacketReader& pPack
         wTimeOutput << "[" << wPaquet->getOrigin() << "]: " << wPaquet->getMessage() << std::endl;
         std::cout << wTimeOutput.str();
 
-        GestionnaireReseauClientLourd::obtenirInstance()->messageReceived(wPaquet->getOrigin().c_str(),wPaquet->getMessage().c_str());
+        GestionnaireReseau::obtenirInstance()->transmitEvent(CHAT_MESSAGE_RECEIVED,wPaquet->getOrigin(),wPaquet->getMessage());
 
         delete wPaquet;
     }

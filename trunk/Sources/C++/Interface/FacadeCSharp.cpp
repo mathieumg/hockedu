@@ -7,6 +7,11 @@
 #include "QueueThreadSafe.h"
 #include <ctime>
 #include "FacadeCSharp.h"
+#include "..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h"
+#include "..\Reseau\UsinePaquets\UsinePaquetChatUserStatus.h"
+#include "..\Reseau\UsinePaquets\UsinePaquetChatMessage.h"
+#include "..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.h"
+#include "..\Reseau\ControllerCSharp.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -64,7 +69,17 @@ void TestGestionnaireReseau()
 void InitDLL()
 {
     // Creer le controlleur C# dans le gestionnaireReseau
-    
+    // Initialisation du GestionnaireReseau
+    GestionnaireReseau::setNetworkMode(CLIENT);
+    GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
+
+    // ajout du controlleur qui va gèrer les événements du réseau et les retransmettre par callback à la vue
+    wGestionnaireReseau->setController(new ControllerCSharp);
+    wGestionnaireReseau->init();
+
+    // On doit ajouter une nouvelle operation reseau pour que le systeme le connaisse (1 par type de paquet)
+    wGestionnaireReseau->ajouterOperationReseau("ChatMessage", new PacketHandlerChatMessage, new UsinePaquetChatMessage);
+    wGestionnaireReseau->ajouterOperationReseau("ChatUserStatus", new PacketHandlerChatUserStatus, new UsinePaquetChatUserStatus);
 }
 
 
@@ -117,7 +132,9 @@ void SendMessageDLL(char * pUsername, char * pMessage)
 ////////////////////////////////////////////////////////////////////////
 void SetMessageCallback( MessageReceivedCallBack callback )
 {
-    GestionnaireReseauClientLourd::obtenirInstance()->setMessageReceivedCallBack(callback);
+    ControllerCSharp* pControler = (ControllerCSharp*)GestionnaireReseau::obtenirInstance()->getController();
+    checkf(pControler, "The controler must exist at all time inside the NetworkManager");
+    pControler->setMessageReceivedCallBack(callback);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -133,5 +150,7 @@ void SetMessageCallback( MessageReceivedCallBack callback )
 ////////////////////////////////////////////////////////////////////////
 void SetEventCallback( EventReceivedCallBack callback )
 {
-
+    ControllerCSharp* pControler = (ControllerCSharp*)GestionnaireReseau::obtenirInstance()->getController();
+    checkf(pControler, "The controler must exist at all time inside the NetworkManager");
+    pControler->setEventReceivedCallBack(callback);
 }

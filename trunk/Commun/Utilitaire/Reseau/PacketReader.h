@@ -23,7 +23,7 @@ public:
 
     //One byte data types - endianness doesn't matter.
     //Reads a character from the packet.
-    int8_t readChar() { return *readData( sizeof(int8_t) ); }
+    int8_t readChar() { return readData<int8_t>(); }
     uint8_t readUnsignedChar() { return (uint8_t)readChar(); }
     //Reads a byte from the packet
     byte readByte() { return readUnsignedChar(); }
@@ -32,35 +32,34 @@ public:
 
     //Two bytes data types.
     //Reads a short from the packet
-    int16_t readShort() { return *((int16_t*)readData( sizeof(int16_t) )); }
+    int16_t readShort() { return readData<int16_t>(); }
     uint16_t readUnsignedShort() { return (uint16_t)readShort(); }
 
     //Four bytes data types.
     //Reads an integer from the packet
-    int32_t readInteger() { return *((int32_t*)readData( sizeof(int32_t) )); }
+    int32_t readInteger() { return readData<int32_t>(); }
     uint32_t readUnsignedInteger() { return (uint32_t)readInteger(); }
 
     //Reads a float from the packet.
-    float readFloat() { return  *((float*)readData( sizeof(float) )); }
+    float readFloat() { return  readData<float>(); }
 
     //Eight bytes data types.
     //Adds a double from the packet.
-    double readDouble() { return *((double*)readData( sizeof(double) )); }
+    double readDouble() { return readData<double>(); }
 
     //Reads a 64 bits integer from the packet.
-    int64_t read64bInteger() { return *((int64_t*)readData( sizeof(int64_t) )); }
+    int64_t read64bInteger() { return readData<int64_t>(); }
     uint64_t readUnsigned64bInteger() { return (uint64_t) read64bInteger(); }
 
     //Variable length data types.
     //Reads a string from the packet.
-	uint8_t* readString(uint32_t pStringLength) {  return (uint8_t*)readData(pStringLength); }
-    uint8_t* readString() { return (uint8_t*)readData( readInteger() ); }
+	void readString(__out uint8_t* pReturnString, uint32_t pStringLength);
 
     //Reads padding from the packet.
     uint8_t* readPadding(uint32_t pPaddingLength);
 
     //Generic function to read data from the packet.
-    int8_t* readData( size_t pDataSize);
+    template<class T> T readData( );
 
     void setArrayStart( uint8_t* arrayStart, size_t arraySize);
     void append ( size_t pNewSize, uint8_t* pDataToAdd);
@@ -121,3 +120,26 @@ T PacketReader::swapBytes( T& pValueToSwap )
 	return data.value;
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn Packet::setCurrentByteOrder( ByteOrder pNewByteOrder )
+///
+/// Reads the next pDataSize bytes from the packet.
+///
+/// @param[in] ByteOrder pDataSize The number of bytes to read.
+///
+/// @return int8_t The data read from the packet.
+///
+////////////////////////////////////////////////////////////////////////
+template<class T>
+T PacketReader::readData( )
+{
+    size_t wDataSize = sizeof(T);
+    int8_t* wBytes = new int8_t[wDataSize];
+    memset(wBytes, 0, wDataSize);
+    memcpy_s(wBytes, wDataSize, mArrStart+mCurrentPosition, wDataSize);
+    mCurrentPosition += wDataSize;
+    T wDataRead = *((T*)wBytes);
+    delete wBytes;
+    return wDataRead;
+}

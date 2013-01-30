@@ -43,28 +43,6 @@ void PacketReader::setCurrentByteOrder( ByteOrder pNewByteOrder )
 	mSwapBytes = false;
 }
 
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn Packet::setCurrentByteOrder( ByteOrder pNewByteOrder )
-///
-/// Reads the next pDataSize bytes from the packet.
-///
-/// @param[in] ByteOrder pDataSize The number of bytes to read.
-///
-/// @return int8_t The data read from the packet.
-///
-////////////////////////////////////////////////////////////////////////
-int8_t* PacketReader::readData( size_t pDataSize)
-{
-    int8_t* bytes = new int8_t[pDataSize];
-    memset(bytes, 0, pDataSize);
-    memcpy_s(bytes, pDataSize, mArrStart+mCurrentPosition, pDataSize);
-    mCurrentPosition += pDataSize;
-    return bytes;
-}
-
-
 void PacketReader::append ( size_t pNewSize, uint8_t* pDataToAdd)
 {
     uint8_t* newArrayStart = new uint8_t[pNewSize];
@@ -89,5 +67,37 @@ void PacketReader::setArrayStart( uint8_t* arrayStart, size_t arraySize )
 void PacketReader::clearBuffer()
 {
     mCurrentPosition = 0;
-    //mArrStart = 0;
+    //if (mArrStart != NULL)
+    //    delete mArrStart;
+    //mArrStart = NULL;
 }
+
+void PacketReader::readString(uint8_t* pReturnString, uint32_t pStringLength)
+{
+    memset(pReturnString, 0, pStringLength);
+    memcpy_s(pReturnString, pStringLength, mArrStart+mCurrentPosition, pStringLength);
+    mCurrentPosition += pStringLength;
+}
+
+/*
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn Packet::setCurrentByteOrder( ByteOrder pNewByteOrder )
+///
+/// Reads the next pDataSize bytes from the packet.
+///
+/// @param[in] ByteOrder pDataSize The number of bytes to read.
+///
+/// @return int8_t The data read from the packet.
+///
+////////////////////////////////////////////////////////////////////////
+int8_t* PacketReader::readData( size_t pDataSize)
+{
+    int8_t* bytes = new int8_t[pDataSize];
+    memset(bytes, 0, pDataSize);
+    memcpy_s(bytes, pDataSize, mArrStart+mCurrentPosition, pDataSize);
+    mCurrentPosition += pDataSize;
+    return bytes;
+}
+
+*/

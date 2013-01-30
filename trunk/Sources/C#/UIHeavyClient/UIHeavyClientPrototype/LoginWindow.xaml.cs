@@ -21,8 +21,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
+using System.ComponentModel;
 
-namespace UIHeavyClient
+
+namespace UIHeavyClientPrototype
 {
     ///////////////////////////////////////////////////////////////////////////
     /// @struct Server
@@ -60,31 +62,7 @@ namespace UIHeavyClient
         [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void RequestLogin( string pUsername, string pIpAdress );
 
-        ////////////////////////////////////////////////////////////////////////////////////
-        // Callback to received event messages from C++
-        // declare the callback prototype
-        // use this callback to validate user's connection
-        [DllImport(@"INF2990.dll")]
-        static extern void SetEventCallback(MainWindow.EventReceivedCallBack callback);
-        static bool EventReceived(int id, IntPtr pMessage)
-        {
-            if(id >= 0 && MainWindow.EventType.NB_ELEM.CompareTo(id) < 0)
-            {
-                string message = Marshal.PtrToStringAnsi(pMessage);
-                MainWindow.EventType type = (MainWindow.EventType)id;
-                switch (type)
-                {
-                    case MainWindow.EventType.USER_CONNECTED: break;
-                    case MainWindow.EventType.USER_ALREADY_CONNECTED: break;
-                    case MainWindow.EventType.USER_DID_NOT_SEND_NAME_ON_CONNECTION: break;
-                    case MainWindow.EventType.USER_DISCONNECTED: break;
-                    default: break;
-                }
-            }
-            return true;
-        }
-        MainWindow.EventReceivedCallBack mEventCallback = EventReceived;
-        ////////////////////////////////////////////////////////////////////////////////////
+        public TaskManager mTaskManager = new TaskManager();
 
         // The user name input
         string mUserName = "";
@@ -135,7 +113,8 @@ namespace UIHeavyClient
             listedServer = new Server[]
             {
                 new Server("Local", "127.0.0.1"),
-                new Server("Chez Joe", "437.0.69.1"),
+                new Server("Chez Math", "173.177.0.193"),
+                new Server("Chez Mike", "173.177.0.193"),
             };
 
             foreach (Server s in listedServer)
@@ -153,6 +132,25 @@ namespace UIHeavyClient
             userNameInput.Focus();
         }
 
+        void Window_Closed(object sender, EventArgs e)
+        {
+            Chat.SetupLoginCallBackEvents(null);
+        }
+
+        public void ConnectionSuccessful()
+        {
+            mUserName = userNameInput.Text;
+            mUserConnected = true;
+            Mouse.OverrideCursor = Cursors.Arrow;
+            this.Close();
+        }
+
+        public void UserNameAlreadyChosen()
+        {
+            errorMessageLabel.Content = "Ce pseudonyme est déjà utilisé.\nVeuillez en choisir un autre.";
+            UnBlockUIContent();
+        }
+
         ////////////////////////////////////////////////////////////////////////
         /// @fn void LoginWindow.TryConnecting()
         ///
@@ -162,50 +160,33 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         private void TryConnecting()
         {
-            if(ValidateUser(userNameInput.Text, listedServer[serverComboBox.SelectedIndex].mIPAdress))
-            {
-                mUserName = userNameInput.Text;
-                mUserConnected = true;
-                Mouse.OverrideCursor = Cursors.Arrow;
-                this.Close();
-            }
-            else
-            {
-                // Show an error message if connexion failed
-                errorMessageLabel.Content = "Ce pseudonyme est déjà utilisé.\nVeuillez en choisir un autre.";
+            // Block everything while connecting
+            BlockUIContent();
 
-                // Unblock everything while connecting
-                userNameInput.IsEnabled = true;
-                loginButton.IsEnabled = true;
-                serverComboBox.IsEnabled = true;
-                Mouse.OverrideCursor = Cursors.Arrow;
-            }
+            // Setup to be ready to receive events
+            Chat.SetupLoginCallBackEvents(this);
+            RequestLogin(userNameInput.Text, listedServer[serverComboBox.SelectedIndex].mIPAdress);
         }
 
-        ////////////////////////////////////////////////////////////////////////
-        /// @fn bool LoginWindow.ValidateUser()
-        ///
-        /// Call the server to validate the user name.
-        /// 
-        /// @param[in] string : The user name.
-        ///
-        /// @return If the connexion succed.
-        ////////////////////////////////////////////////////////////////////////
-        private bool ValidateUser(string pUserName, string pIPAdress)
+        public void BlockUIContent()
         {
-            // Block everything while connecting
             userNameInput.IsEnabled = false;
             loginButton.IsEnabled = false;
+            refreshButton.IsEnabled = false;
             errorMessageLabel.Content = "Connecting to server, please wait...";
             serverComboBox.IsEnabled = false;
             Mouse.OverrideCursor = Cursors.Wait;
-
-            // TODO : CALL DLL
-            // ...
-
-            return pUserName != ""; // TEMP
         }
 
+        public void UnBlockUIContent()
+        {
+            // Unblock everything while connecting
+            userNameInput.IsEnabled = true;
+            loginButton.IsEnabled = true;
+            refreshButton.IsEnabled = true;
+            serverComboBox.IsEnabled = true;
+            Mouse.OverrideCursor = Cursors.Arrow;
+        }
         ////////////////////////////////////////////////////////////////////////
         /// @fn void LoginWindow.loginButton_Click()
         ///
@@ -237,6 +218,24 @@ namespace UIHeavyClient
             if (e.Key == Key.Enter)
                 loginButton_Click(sender, e);
         }
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void LoginWindow.refreshButton_Click(object sender, RoutedEventArgs e)
+        ///
+        /// Event when the user pressed the refresh button.
+        /// 
+        /// @param[in] object : The object related to the event.
+        /// @param[in] RoutedEventArgs : The key event.
+        ///
+        /// @return None.
+        ////////////////////////////////////////////////////////////////////////
+        private void refreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Server s in listedServer)
+            { 
+                //s.isAvailable = ... TODO : CALL DLL
+            }
+        }
+
     }
 }
 

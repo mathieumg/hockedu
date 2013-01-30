@@ -84,7 +84,7 @@ std::ofstream GestionnaireReseau::mLogHandle = GestionnaireReseau::logSetup();
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-GestionnaireReseau::GestionnaireReseau(): mSocketStateCallback(NULL)
+GestionnaireReseau::GestionnaireReseau(): mSocketStateCallback(NULL), mControlleur(NULL)
 {
 	if(mNetworkMode == NOT_DEFINED) {
 		throw ExceptionReseau("Appel du constructeur de GestionnaireReseau avant GestionnaireReseau::setNetworkMode", NULL);
@@ -497,10 +497,13 @@ SPSocket GestionnaireReseau::demarrerNouvelleConnection(const std::string& pPlay
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireReseau::transmitEvent( int pMessageCode, ... ) const
 {
-    va_list args;
-    va_start(args, pMessageCode);
-    mControlleur->handleEvent(pMessageCode, args);
-    va_end(args);
+    if(mControlleur)
+    {
+        va_list args;
+        va_start(args, pMessageCode);
+        mControlleur->handleEvent(pMessageCode, args);
+        va_end(args);
+    }
 }
 
 
