@@ -8,6 +8,8 @@
 
 @implementation MenuViewController
 
+@synthesize boutonGenerateur;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     
@@ -53,6 +55,19 @@
     [delegate afficherVueAnimee];
 }
 
+- (IBAction)afficherVueRouge
+{
+    AppDemoAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
+    [delegate afficherVueRouge];
+}
 
+- (IBAction)genererValeur
+{
+    NSUInteger valeurEntiere = 1 + (arc4random() % 100);
+    NSString *chaineValeur = [NSString stringWithFormat:@"%d", valeurEntiere];
+    [boutonGenerateur setTitle:chaineValeur forState:UIControlStateNormal];
+    
+    
+}
 
 @end
