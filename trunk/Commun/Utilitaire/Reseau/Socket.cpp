@@ -646,12 +646,7 @@ void Socket::setConnectionState( ConnectionState pConnectionState )
 ////////////////////////////////////////////////////////////////////////
 void Socket::cancelConnection()
 {
-    WaitForSingleObject(mMutexActiviteSocket,INFINITE);
-    if(getConnectionState() != CONNECTED)
-    {
-        flagToCancel();
-    }
-    ReleaseMutex(mMutexActiviteSocket);
+    flagToCancel();
 }
 
 

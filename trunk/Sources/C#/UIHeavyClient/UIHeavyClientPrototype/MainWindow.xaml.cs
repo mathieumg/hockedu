@@ -201,8 +201,8 @@ namespace UIHeavyClientPrototype
         private void messageTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             // If enter key is pressed, simulate a submit button click
-            if (e.Key == Key.Enter)
-                submitButton_Click(sender, e);
+            //if (e.Key == Key.Enter)
+               // submitButton_Click(sender, e);
         }
 
         ////////////////////////////////////////////////////////////////////////

@@ -800,6 +800,7 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
     }
     else if(connectionSuccessful)
     {
+        wSocket->removeCancelFlag();
         GestionnaireReseau::obtenirInstance()->transmitEvent(USER_CONNECTED);
     }
     // sinon on n'envoi pas d'event, car init s'en ait charger dans le cas d'une erreur de logique
