@@ -90,7 +90,7 @@ void GestionnaireReseauServeur::SocketStateCallback( const ConnectionStateEvent&
 			}
 		}
 	}
-	if("" == wPlayerName)
+	if(wPlayerName.size() == 0)
 	{
 		delete wPaquet;
 	}

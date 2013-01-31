@@ -62,6 +62,10 @@ namespace UIHeavyClientPrototype
         [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void RequestLogin( string pUsername, string pIpAdress );
 
+        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void CancelConnection(string pUsername);
+
+
         public TaskManager mTaskManager = new TaskManager();
 
         // The user name input
@@ -69,6 +73,8 @@ namespace UIHeavyClientPrototype
 
         // The main window must know if the user is connected
         bool mUserConnected = false;
+
+        bool mConnecting = false;
 
         // The server list
         Server[] listedServer;
@@ -110,17 +116,17 @@ namespace UIHeavyClientPrototype
         {
             InitializeComponent();
 
+            refreshButton.Visibility = Visibility.Hidden;
             listedServer = new Server[]
             {
                 new Server("Local", "127.0.0.1"),
                 new Server("Chez Math", "173.177.0.193"),
-                new Server("Chez Mike", "173.177.0.193"),
             };
 
             foreach (Server s in listedServer)
             {
                 ComboBoxItem buffer = new ComboBoxItem();
-                buffer.Content = s.mName + (s.isAvailable ? " (Actif)" : " (Inactif)");
+                buffer.Content = s.mName;// +(s.isAvailable ? " (Actif)" : " (Inactif)");
                 buffer.Background = serverComboBox.Background;
                 buffer.Foreground = serverComboBox.Foreground;
 
@@ -147,7 +153,7 @@ namespace UIHeavyClientPrototype
 
         public void UserNameAlreadyChosen()
         {
-            errorMessageLabel.Content = "Ce pseudonyme est déjà utilisé.\nVeuillez en choisir un autre.";
+            errorMessageLabel.Content = "Ce pseudonyme est déjà utilisé. Veuillez en choisir un autre.";
             UnBlockUIContent();
         }
 
@@ -160,28 +166,50 @@ namespace UIHeavyClientPrototype
         ////////////////////////////////////////////////////////////////////////
         private void TryConnecting()
         {
-            // Block everything while connecting
-            BlockUIContent();
+            if(userNameInput.Text != "")
+            {
+                // Block everything while connecting
+                BlockUIContent();
 
-            // Setup to be ready to receive events
-            Chat.SetupLoginCallBackEvents(this);
-            RequestLogin(userNameInput.Text, listedServer[serverComboBox.SelectedIndex].mIPAdress);
+                // Setup to be ready to receive events
+                Chat.SetupLoginCallBackEvents(this);
+                string ipAdress;
+                if (ManualServerEntry.Text != "")
+                {
+                    ipAdress = ManualServerEntry.Text;
+                    errorMessageLabel.Content = "Connecting to server " + ipAdress + ", please wait...";
+                }
+                else
+                {
+                    ipAdress = listedServer[serverComboBox.SelectedIndex].mIPAdress;
+                    errorMessageLabel.Content = "Connecting to server " + listedServer[serverComboBox.SelectedIndex].mName + ", please wait...";
+
+                }
+                RequestLogin(userNameInput.Text, ipAdress);
+            }
+            else
+            {
+                errorMessageLabel.Content = "Veuillez choisir un pseudonyme.";
+            }
         }
 
         public void BlockUIContent()
         {
+            mConnecting = true;
             userNameInput.IsEnabled = false;
             loginButton.IsEnabled = false;
+            cancelButton.IsEnabled = true;
             refreshButton.IsEnabled = false;
-            errorMessageLabel.Content = "Connecting to server, please wait...";
             serverComboBox.IsEnabled = false;
             Mouse.OverrideCursor = Cursors.Wait;
         }
 
         public void UnBlockUIContent()
         {
+            mConnecting = false;
             // Unblock everything while connecting
             userNameInput.IsEnabled = true;
+            cancelButton.IsEnabled = false;
             loginButton.IsEnabled = true;
             refreshButton.IsEnabled = true;
             serverComboBox.IsEnabled = true;
@@ -235,6 +263,19 @@ namespace UIHeavyClientPrototype
                 //s.isAvailable = ... TODO : CALL DLL
             }
         }
+
+        private void cancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (mConnecting)
+            {
+                CancelConnection(userNameInput.Text);
+            }
+//             else
+//             {
+//                 Close();
+//             }
+        }
+        
 
     }
 }

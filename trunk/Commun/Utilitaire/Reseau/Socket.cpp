@@ -22,7 +22,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 Socket::Socket(const std::string& pDestinationIP, const int& pPortNumber, ConnectionType pConType/*=TCP*/, InternetProtocol pIpProtocol /*=IPv4*/)
-    :mIpProtocol(pIpProtocol),mPendingDelete(false)
+    :mIpProtocol(pIpProtocol),mFlags(0)
 {
 	mConnectionType = pConType;
 	mSocketInfo = new sockaddr_in;
@@ -78,7 +78,7 @@ Socket::Socket(const std::string& pDestinationIP, const int& pPortNumber, Connec
 ////////////////////////////////////////////////////////////////////////
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 Socket::Socket( SOCKET socket, sockaddr_in* socketInfo, ConnectionType pConnectionType)
-    :mPendingDelete(false)
+    :mFlags(0)
 {
     mIpProtocol =  IPv4;
     mConnectionType = pConnectionType;
@@ -458,124 +458,132 @@ std::string Socket::getAdresseDestination() const
 
 
 // THIS METHOD CAN BLOCK!!!!!!!!!!!!!!!!!
-void Socket::init()
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool Socket::init(  )
+///
+/// Initialise la connection d'un socket
+///
+///
+/// @return bool : indique si le comportement de la connection est normal
+///                vrai si le processus de connection doit continuer
+///                faux si on arrete les tentatives
+///
+////////////////////////////////////////////////////////////////////////
+ConnectionState Socket::init()
 {
     // Doit avoir le mutex pour faire quoique ce soit
     WaitForSingleObject(mMutexActiviteSocket,INFINITE);
 
-    setConnectionState(CONNECTING);
-    
-    // Si le socket est mauvais, on le reinitialise
-    if(mSocket == INVALID_SOCKET)
+    // par défaut on tente la reconnection, si la connection réussi, celle-ci override le comportement de reconnection
+    ConnectionState attemptReconnect = CONNECTING;
+    if(isPendingCancel())
     {
+        GestionnaireReseau::obtenirInstance()->transmitEvent(CONNECTION_CANCELED);
+        attemptReconnect = NOT_CONNECTED;
+    }
+    else
+    {
+        // Si le socket est mauvais, on le reinitialise
+        if(mSocket == INVALID_SOCKET)
+        {
+            if(mConnectionType == UDP)
+            {
+                mSocket = socket(mIpProtocol, SOCK_DGRAM, IPPROTO_UDP);
+            }
+            else if(mConnectionType == TCP)
+            {
+                mSocket = socket(mIpProtocol, SOCK_STREAM, IPPROTO_TCP);
+            }
+        }
+
         if(mConnectionType == UDP)
         {
-            mSocket = socket(mIpProtocol, SOCK_DGRAM, IPPROTO_UDP);
+            //UDP datagram
+            if(GestionnaireReseau::getNetworkMode() == CLIENT)
+            {
+                // UDP CLIENT
+                // Dans ce cas, c'est que le client ne pouvait plus parler au serveur (pas encore gerer. a faire plus tard)
+                // Pour l'instant, on est "toujours" connecte
+                setConnectionState(CONNECTED);
+            }
+            else if(GestionnaireReseau::getNetworkMode() == SERVER)
+            {
+                // UDP SERVER
+                // bind
+                try
+                {
+                    bind();
+                }
+                catch(ExceptionReseau&)
+                {
+                }
+            }
         }
         else if(mConnectionType == TCP)
         {
-            mSocket = socket(mIpProtocol, SOCK_STREAM, IPPROTO_TCP);
-        }
-    }
-
-    if(mConnectionType == UDP)
-    {
-        //UDP datagram
-        if(GestionnaireReseau::getNetworkMode() == CLIENT)
-        {
-            // UDP CLIENT
-            // Dans ce cas, c'est que le client ne pouvait plus parler au serveur (pas encore gerer. a faire plus tard)
-            // Pour l'instant, on est "toujours" connecte
-            setConnectionState(CONNECTED);
-        }
-        else if(GestionnaireReseau::getNetworkMode() == SERVER)
-        {
-            // UDP SERVER
-            // bind
-            try
+            if(GestionnaireReseau::getNetworkMode() == CLIENT)
             {
-                bind();
-            }
-            catch(ExceptionReseau&)
-            {
-                // Could not connect
-                setConnectionState(NOT_CONNECTED);
-                //throw ExceptionReseau("Appel a bind() impossible. Type: UDP SERVER. Adresse: " + getAdresseDestination());
-                ReleaseMutex(mMutexActiviteSocket);
-                return;
-            }
-        }
-    }
-    else if(mConnectionType == TCP)
-    {
-        if(GestionnaireReseau::getNetworkMode() == CLIENT)
-        {
-            // TCP CLIENT
-            // connect()
-            try
-            {
-                int wConfirmation = USER_DISCONNECTED;
-                connect();
-                // Si connect fonctionne, il faut envoyer notre nom de player au serveur
-                std::string wPlayerName = GestionnaireReseau::obtenirInstance()->getPlayerName(shared_from_this()); // C'est plate, mais on ne veut pas garder le nom du joueur dans le socket lui-meme
-                send((uint8_t*) wPlayerName.c_str(), (uint32_t) (wPlayerName.length()+1), true); // +1 pour avoir le caractere de fin de string
-
-                // On recoit le message de confirmation, ne pas bloquer
-                char wReceptionValue[3];
-
-                if(attendreSocket(15)) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
+                // TCP CLIENT
+                // connect()
+                try
                 {
-                    recv((uint8_t*) &wReceptionValue, 3, true);
-                    if(sscanf_s(wReceptionValue,"%i",&wConfirmation) == 0)
+                    int wConfirmation = USER_DISCONNECTED;
+                    connect();
+                    // Si connect fonctionne, il faut envoyer notre nom de player au serveur
+                    std::string wPlayerName = GestionnaireReseau::obtenirInstance()->getPlayerName(shared_from_this()); // C'est plate, mais on ne veut pas garder le nom du joueur dans le socket lui-meme
+                    send((uint8_t*) wPlayerName.c_str(), (uint32_t) (wPlayerName.length()+1), true); // +1 pour avoir le caractere de fin de string
+
+                    // On recoit le message de confirmation, ne pas bloquer
+                    char wReceptionValue[3];
+
+                    if(attendreSocket(15)) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
                     {
-                        // sscanf ne fonctionne pas
-                        wConfirmation = USER_DISCONNECTED;
+                        recv((uint8_t*) &wReceptionValue, 3, true);
+                        if(sscanf_s(wReceptionValue,"%i",&wConfirmation) == 0)
+                        {
+                            // sscanf ne fonctionne pas
+                            wConfirmation = USER_DISCONNECTED;
+                        }
+                    }
+                    else
+                    {
+                        // Timeout
+                        wConfirmation = RECONNECTION_TIMEOUT;
+                    }
+
+                    if(wConfirmation != USER_CONNECTED)
+                    {
+                        // Connection refusee
+                        // probleme lors de la confirmation de la connection, on envoi l'événement et on arrete d'essayer de ce connecter
+                        attemptReconnect = NOT_CONNECTED;
+                        disconnect();
+                        GestionnaireReseau::obtenirInstance()->transmitEvent(wConfirmation);
+                        GestionnaireReseau::sendMessageToLog("Connection refusee. Type: TCP CLIENT. Adresse: " + getAdresseDestination());
+                    }
+                    else
+                    {
+                        attemptReconnect = CONNECTED;
                     }
                 }
-                else
+                catch(ExceptionReseau&)
                 {
-                    // Timeout
-                    wConfirmation = RECONNECTION_TIMEOUT;
+                    // Could not connect
+                    // on n'arrive pas à ce connecter, on relance la tentative un peu plus tard
+                    attemptReconnect = CONNECTING;
+                    
+                    GestionnaireReseau::sendMessageToLog("Appel a connect() impossible. Type: TCP CLIENT. Adresse: " + getAdresseDestination());
                 }
-
-                
-
-                if(wConfirmation != USER_CONNECTED)
-                {
-                    // Connection refusee
-                    setConnectionState(NOT_CONNECTED);
-                    disconnect();
-                    GestionnaireReseau::obtenirInstance()->transmitEvent(wConfirmation);
-                    //std::cout << "Connection refusee" << std::endl;
-                    GestionnaireReseau::sendMessageToLog("Connection refusee. Type: TCP CLIENT. Adresse: " + getAdresseDestination());
-                    ReleaseMutex(mMutexActiviteSocket);
-                    return;
-                }
-
             }
-            catch(ExceptionReseau&)
+            else if(GestionnaireReseau::getNetworkMode() == SERVER)
             {
-                // Could not connect
-                setConnectionState(NOT_CONNECTED);
-                GestionnaireReseau::obtenirInstance()->transmitEvent(USER_DISCONNECTED);
-                GestionnaireReseau::sendMessageToLog("Appel a connect() impossible. Type: TCP CLIENT. Adresse: " + getAdresseDestination());
-                ReleaseMutex(mMutexActiviteSocket);
-                return;
+                attemptReconnect = CONNECTING;
             }
-        }
-        else if(GestionnaireReseau::getNetworkMode() == SERVER)
-        {
-            // TCP SERVER
-            // Le serveur est deja fait pour se reconnecter tout seul, car il ecoute le socket
-            //GestionnaireReseau::obtenirInstance()->removeSocket(this); // Devrait wait pour la liberation du mutex
-            ReleaseMutex(mMutexActiviteSocket);
-            return;
         }
     }
-
-    // Pas d'erreur, on met le status a CONNECTED
-    setConnectionState(CONNECTED);
     ReleaseMutex(mMutexActiviteSocket);
+
+    return attemptReconnect;
 }
 
 
@@ -603,15 +611,8 @@ bool Socket::attendreSocket( const int& pTimeout ) const
 
 void Socket::disconnect()
 {
-    //setConnectionState(NOT_CONNECTED);
     try
     {
-        PaquetChatUserStatus* wPaquet = (PaquetChatUserStatus*) GestionnaireReseau::obtenirInstance()->creerPaquet("ChatUserStatis");
-        PacketBuilder pBuilder;
-
-
-
-
         shutdown(mSocket, SD_BOTH);
         closesocket(mSocket);
     }
@@ -631,12 +632,26 @@ void Socket::setConnectionState( ConnectionState pConnectionState )
 	ConnectionStateEvent event;
 	event.mState = mConnectionState;
 	GestionnaireReseau::obtenirInstance()->socketConnectionStateEvent(shared_from_this(),event);
+}
 
-
-	/*if(pConnectionState == CONNECTING)
-	{
-
-	}*/
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Socket::cancelConnection()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Socket::cancelConnection()
+{
+    WaitForSingleObject(mMutexActiviteSocket,INFINITE);
+    if(getConnectionState() != CONNECTED)
+    {
+        flagToCancel();
+    }
+    ReleaseMutex(mMutexActiviteSocket);
 }
 
 

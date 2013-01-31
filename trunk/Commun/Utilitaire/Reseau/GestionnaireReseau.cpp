@@ -468,17 +468,33 @@ Paquet* GestionnaireReseau::creerPaquet( const std::string& pOperation )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireReseau::demarrerNouvelleConnection(const std::string& pPlayerName, const std::string& pIP, ConnectionType pConnectionType)
 {
-	SPSocket wNewSocket = SPSocket(new Socket(pIP, GestionnaireReseau::communicationPort, pConnectionType));
-
-// 	if(GestionnaireReseau::mObserverSocket != NULL && GestionnaireReseau::getNetworkMode() == SERVER)
-// 	{
-// 		wNewSocket->attach(mObserverSocket);
-// 	}
-// 
-
-
-	saveSocket(pPlayerName, wNewSocket);
+    if(pPlayerName != "")
+    {
+        SPSocket wNewSocket = SPSocket(new Socket(pIP, GestionnaireReseau::communicationPort, pConnectionType));
+        saveSocket(pPlayerName, wNewSocket);
+    }
 }
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void GestionnaireReseau::cancelNewConnection( const std::string& pPlayerName )
+///
+/// Permet d'arreter d'essayer de connecter un socket
+///
+/// @param[in] const std::string & pPlayerName
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void GestionnaireReseau::cancelNewConnection(const std::string& pPlayerName, ConnectionType pConnectionType)
+{
+    SPSocket wSocket = getSocket(pPlayerName,pConnectionType);
+    if(wSocket)
+    {
+        wSocket->cancelConnection();
+    }
+}
+
 
 
 ////////////////////////////////////////////////////////////////////////

@@ -170,3 +170,8 @@ void DisconnectUser( char* pUsername )
 {
     GestionnaireReseau::obtenirInstance()->disconnectClient(pUsername);
 }
+
+void CancelConnection( char* pUsername )
+{
+    GestionnaireReseau::obtenirInstance()->cancelNewConnection(pUsername);
+}

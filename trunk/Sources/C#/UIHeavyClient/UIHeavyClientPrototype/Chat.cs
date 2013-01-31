@@ -44,9 +44,6 @@ namespace UIHeavyClientPrototype
         // New messages?
         static bool mNewMessages = false;
 
-        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SendMessageDLL(string username, string message);
-
         ////////////////////////////////////////////////////////////////////////
         /// @propertie string Chat.WholeMessage
         ///
@@ -102,9 +99,9 @@ namespace UIHeavyClientPrototype
             mNewMessages = true;
         }
 
-        public static void SendServerEventMessage(string message)
+        public static void AddServerEventMessage(string message)
         {
-            message = "    [" + DateTime.Now.ToString("HH:mm") + "]  " + message + "\n";
+            message = "[" + DateTime.Now.ToString("HH:mm") + "]  " + message + "\n";
 
             mLastUser = null;
 
@@ -112,20 +109,9 @@ namespace UIHeavyClientPrototype
             mNewMessages = true;
         }
 
-        ////////////////////////////////////////////////////////////////////////
-        /// @fn void Chat.CheckForNewMessage()
-        ///
-        /// Call the server to send a new messages.
-        /// 
-        /// @param[in] string : The user name.
-        /// @param[in] string : The message.
-        ///
-        /// @return None.
-        ////////////////////////////////////////////////////////////////////////
-        public static void SendNewMessage(string userName, string message)
-        {
-            SendMessageDLL(userName,message);
-        }
+        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SendMessageDLL(string pUsername, string pMessage);
+
 
         ////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////
@@ -136,13 +122,14 @@ namespace UIHeavyClientPrototype
             USER_DID_NOT_SEND_NAME_ON_CONNECTION,
             USER_CONNECTED,
             USER_DISCONNECTED,
+            CONNECTION_CANCELED,
             RECONNECTION_TIMEOUT,
             RECONNECTION_IN_PROGRESS,
             WRONG_PASSWORD,
             CHAT_MESSAGE_RECEIVED,
             SERVER_USER_CONNECTED,
             SERVER_USER_DISCONNECTED,
-            NB_ELEM
+            NB_EVENT_CODES // Must be always last !
         };
         ////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////
@@ -169,7 +156,7 @@ namespace UIHeavyClientPrototype
         static LoginWindow mLoginWindow = null;
         static bool LoginWindowEventReceived(int id, IntPtr pMessage)
         {
-            if (mLoginWindow != null && id >= 0 && (int)EventType.NB_ELEM > id)
+            if (mLoginWindow != null && id >= 0 && (int)EventType.NB_EVENT_CODES > id)
             {
                 string message = Marshal.PtrToStringAnsi(pMessage);
                 EventType type = (EventType)id;
@@ -203,18 +190,40 @@ namespace UIHeavyClientPrototype
                         // Signal à la fenetre l'événement
                         mLoginWindow.mTaskManager.ExecuteTask(() =>
                         {
+                            mLoginWindow.errorMessageLabel.Content = "Erreur de connection";
                             mLoginWindow.UnBlockUIContent();
                         });
                         mLoginWindow = null;
                         break;
-                    case EventType.USER_DISCONNECTED: break;
-
+                    case EventType.USER_DISCONNECTED:
+                        // On n'écoute plus les événements
+                        SetEventCallback(null);
+                        // Signal à la fenetre l'événement
+                        mLoginWindow.mTaskManager.ExecuteTask(() =>
+                        {
+                            mLoginWindow.errorMessageLabel.Content = "Erreur de connection";
+                            mLoginWindow.UnBlockUIContent();
+                        });
+                        mLoginWindow = null;
+                        break;
+                    case EventType.CONNECTION_CANCELED:
+                        // On n'écoute plus les événements
+                        SetEventCallback(null);
+                        // Signal à la fenetre l'événement
+                        mLoginWindow.mTaskManager.ExecuteTask(() =>
+                        {
+                            mLoginWindow.errorMessageLabel.Content = "";
+                            mLoginWindow.UnBlockUIContent();
+                        });
+                        mLoginWindow = null;
+                        break;
                     case EventType.RECONNECTION_TIMEOUT:
                         // On n'écoute plus les événements
                         SetEventCallback(null);
                         // Signal à la fenetre l'événement
                         mLoginWindow.mTaskManager.ExecuteTask(() =>
                         {
+                            mLoginWindow.errorMessageLabel.Content = "Delais de connection dépassé";
                             mLoginWindow.UnBlockUIContent();
                         });
                         mLoginWindow = null;
@@ -244,7 +253,7 @@ namespace UIHeavyClientPrototype
         static bool MainWindowEventReceived(int id, IntPtr pMessage)
         {
             string message = Marshal.PtrToStringAnsi(pMessage);
-            if ( id >= 0 && (int)EventType.NB_ELEM > id)
+            if (id >= 0 && (int)EventType.NB_EVENT_CODES > id)
             {
                 switch ((EventType)id)
                 {
@@ -257,7 +266,7 @@ namespace UIHeavyClientPrototype
 
                         // affiche un message de l'événement
                         message = message + " Disconnected";
-                        SendServerEventMessage(message);
+                        AddServerEventMessage(message);
                         if (mMainWindow != null)
                         {
                             mMainWindow.mTaskManager.ExecuteTask(() =>
@@ -272,7 +281,7 @@ namespace UIHeavyClientPrototype
 
                         // affiche un message de l'événement
                         message = message + " Connected";
-                        SendServerEventMessage(message);
+                        AddServerEventMessage(message);
                         if (mMainWindow != null)
                         {
                             mMainWindow.mTaskManager.ExecuteTask(() =>
