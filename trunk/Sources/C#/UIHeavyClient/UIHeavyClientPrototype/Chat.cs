@@ -16,6 +16,9 @@ using System.Runtime.InteropServices;
 using System.Windows.Input;
 using System.Net;
 using System.Net.Sockets;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Controls;
 
 namespace UIHeavyClientPrototype
 {
@@ -52,7 +55,7 @@ namespace UIHeavyClientPrototype
         // New messages?
         static bool mNewMessages = false;
 
-        public static LoginWindowSavedInfo LoginInfo = new LoginWindowSavedInfo();
+        public static LoginWindowSavedInfo mLoginInfo = new LoginWindowSavedInfo();
         ////////////////////////////////////////////////////////////////////////
         /// @propertie string Chat.WholeMessage
         ///
@@ -134,9 +137,25 @@ namespace UIHeavyClientPrototype
             mNewMessages = true;
         }
 
+        public static void ControlEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            Control control = sender as Control;
+            if ((bool)e.NewValue)
+            {
+                control.Foreground = Brushes.White;
+            }
+            else
+            {
+                control.Foreground = Brushes.Black;
+            }
+        }
+
         [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void SendMessageDLL(string pUsername, string pMessage);
-
+        // sends a request to connect the user. Will not be necessarly connected when exiting this function
+        // must wait for a callback indicating the status of this user's connection
+        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void RequestLogin( string pUsername, string pIpAdress );
 
         ////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////
@@ -280,10 +299,99 @@ namespace UIHeavyClientPrototype
             string message = Marshal.PtrToStringAnsi(pMessage);
             if (id >= 0 && (int)EventType.NB_EVENT_CODES > id)
             {
-                switch ((EventType)id)
+                EventType type = (EventType)id;
+                switch (type)
                 {
-                    case EventType.USER_DISCONNECTED: 
-                        
+                    case EventType.USER_CONNECTED:
+                        AddServerEventMessage("Connection successful !");
+                        if (mMainWindow != null)
+                        {
+                            mMainWindow.mTaskManager.ExecuteTask(() =>
+                            {
+                                mMainWindow.UnBlockUIContent();
+                                mMainWindow.ShowWholeMessage();
+                            });
+                        }
+                        break;
+                    case EventType.USER_ALREADY_CONNECTED:
+                        MessageBoxResult dialogResult1 = MessageBox.Show("User with same name already connected\nDo you want to retry connection?", "Connection Error", MessageBoxButton.YesNo);
+                        if (dialogResult1 == MessageBoxResult.Yes)
+                        {
+                            if (mMainWindow != null)
+                            {
+                                mMainWindow.mTaskManager.ExecuteTask(() =>
+                                {
+                                    mMainWindow.BlockUIContent();
+                                    RequestLogin(mLoginInfo.mUserName, mLoginInfo.mIpAddress);
+                                });
+                            }
+                        }
+                        else if (dialogResult1 == MessageBoxResult.No)
+                        {
+                            if (mMainWindow != null)
+                            {
+                                mMainWindow.mTaskManager.ExecuteTask(() =>
+                                {
+                                    mMainWindow.OnDisconnect(null, null);
+                                });
+                            }
+                        }
+                        break;
+                    case EventType.USER_DISCONNECTED:
+                        MessageBoxResult dialogResult2 = MessageBox.Show("Error trying to reach server\nDo you want to retry connection?", "Connection Error", MessageBoxButton.YesNo);
+                        if (dialogResult2 == MessageBoxResult.Yes)
+                        {
+                            if (mMainWindow != null)
+                            {
+                                mMainWindow.mTaskManager.ExecuteTask(() =>
+                                {
+                                    mMainWindow.BlockUIContent();
+                                    RequestLogin(mLoginInfo.mUserName, mLoginInfo.mIpAddress);
+                                });
+                            }
+                        }
+                        else if (dialogResult2 == MessageBoxResult.No)
+                        {
+                            if (mMainWindow != null)
+                            {
+                                mMainWindow.mTaskManager.ExecuteTask(() =>
+                                {
+                                    mMainWindow.OnDisconnect(null, null);
+                                });
+                            }
+                        }
+                        break;
+                    case EventType.RECONNECTION_TIMEOUT:
+                        MessageBoxResult dialogResult3 = MessageBox.Show("Connection to server timed out\nDo you want to retry connection?", "Connection Lost", MessageBoxButton.YesNo);
+                        if (dialogResult3 == MessageBoxResult.Yes)
+                        {
+                            if (mMainWindow != null)
+                            {
+                                mMainWindow.mTaskManager.ExecuteTask(() =>
+                                {
+                                    mMainWindow.BlockUIContent();
+                                    RequestLogin(mLoginInfo.mUserName, mLoginInfo.mIpAddress);
+                                });
+                            }
+                        }
+                        else if (dialogResult3 == MessageBoxResult.No)
+                        {
+                            if (mMainWindow != null)
+                            {
+                                mMainWindow.OnDisconnect(null, null);
+                            }
+                        }
+                        break;
+                    case EventType.RECONNECTION_IN_PROGRESS:
+                        AddServerEventMessage("Connection lost, attempting reconnection");
+                        if (mMainWindow != null)
+                        {
+                            mMainWindow.mTaskManager.ExecuteTask(() =>
+                            {
+                                mMainWindow.BlockUIContent();
+                                mMainWindow.ShowWholeMessage();
+                            });
+                        }
                         break;
                     case EventType.SERVER_USER_DISCONNECTED:
                         // on enleve le user de la liste

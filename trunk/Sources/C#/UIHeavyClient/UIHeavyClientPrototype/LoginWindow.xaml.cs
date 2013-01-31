@@ -57,10 +57,6 @@ namespace UIHeavyClientPrototype
     ///////////////////////////////////////////////////////////////////////////
     public partial class LoginWindow : Window
     {
-        // sends a request to connect the user. Will not be necessarly connected when exiting this function
-        // must wait for a callback indicating the status of this user's connection
-        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void RequestLogin( string pUsername, string pIpAdress );
 
         [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void CancelConnection(string pUsername);
@@ -131,12 +127,12 @@ namespace UIHeavyClientPrototype
 
             InitSavedValues();
 
-            cancelButton.IsEnabledChanged += ControlEnabledChanged;
-            loginButton.IsEnabledChanged += ControlEnabledChanged;
-            userNameInput.IsEnabledChanged += ControlEnabledChanged;
-            refreshButton.IsEnabledChanged += ControlEnabledChanged;
-            serverComboBox.IsEnabledChanged += ControlEnabledChanged;
-            ManualServerEntry.IsEnabledChanged += ControlEnabledChanged;
+            cancelButton.IsEnabledChanged += Chat.ControlEnabledChanged;
+            loginButton.IsEnabledChanged += Chat.ControlEnabledChanged;
+            userNameInput.IsEnabledChanged += Chat.ControlEnabledChanged;
+            refreshButton.IsEnabledChanged += Chat.ControlEnabledChanged;
+            serverComboBox.IsEnabledChanged += Chat.ControlEnabledChanged;
+            ManualServerEntry.IsEnabledChanged += Chat.ControlEnabledChanged;
 
             refreshButton.Visibility = Visibility.Hidden;
             listedServer = new Server[]
@@ -160,23 +156,10 @@ namespace UIHeavyClientPrototype
             userNameInput.Focus();
         }
 
-        void ControlEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            Control control = sender as Control;
-            if ((bool)e.NewValue)
-            {
-                control.Foreground = Brushes.White;
-            }
-            else
-            {
-                control.Foreground = Brushes.Black;
-            }
-        }
+        
 
         void Window_Closed(object sender, EventArgs e)
         {
-            Chat.LoginInfo.mUserName = userNameInput.Text;
-            Chat.LoginInfo.mIpAddress = ManualServerEntry.Text;
             Chat.SetupLoginCallBackEvents(null);
         }
 
@@ -204,7 +187,7 @@ namespace UIHeavyClientPrototype
         ///
         /// @return None.
         ////////////////////////////////////////////////////////////////////////
-        private void TryConnecting()
+        public void TryConnecting()
         {
             if(userNameInput.Text != "")
             {
@@ -225,12 +208,14 @@ namespace UIHeavyClientPrototype
 
                 if (Chat.IsIPv4(ipAdress))
                 {
+                    Chat.mLoginInfo.mUserName = userNameInput.Text;
+                    Chat.mLoginInfo.mIpAddress = ipAdress;
                     BlockUIContent();
                     // Setup to be ready to receive events
                     Chat.SetupLoginCallBackEvents(this);
 
                     SetUserMessageFeedBack(String.Format("Connecting to server {0}\nPlease wait...", serverName), false);
-                    RequestLogin(userNameInput.Text, ipAdress);
+                    Chat.RequestLogin(userNameInput.Text, ipAdress);
                 }
                 else
                 {
@@ -333,8 +318,8 @@ namespace UIHeavyClientPrototype
 
         private void InitSavedValues()
         {
-            userNameInput.Text = Chat.LoginInfo.mUserName;
-            ManualServerEntry.Text = Chat.LoginInfo.mIpAddress;
+            userNameInput.Text = Chat.mLoginInfo.mUserName;
+            ManualServerEntry.Text = Chat.mLoginInfo.mIpAddress;
         }
 
         

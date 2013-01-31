@@ -92,6 +92,10 @@ namespace UIHeavyClientPrototype
             InitializeComponent();
             InitDLL();
 
+            messageTextBox.IsEnabledChanged += Chat.ControlEnabledChanged;
+            submitButton.IsEnabledChanged += Chat.ControlEnabledChanged;
+            onlineListView.IsEnabledChanged += Chat.ControlEnabledChanged;
+
             // Init attributes
             mUserName = "";
             mIsUserConnected = false;
@@ -230,7 +234,7 @@ namespace UIHeavyClientPrototype
             this.Close();
         }
 
-        private void OnDisconnect(object sender, RoutedEventArgs e)
+        public void OnDisconnect(object sender, RoutedEventArgs e)
         {
             DisconnectUser(mUserName);
             Chat.ClearContent();
@@ -260,6 +264,21 @@ namespace UIHeavyClientPrototype
             }
             
         }
+
+        public void BlockUIContent()
+        {
+            messageTextBox.IsEnabled = false;
+            submitButton.IsEnabled = false;
+            onlineListView.IsEnabled = false;
+        }
+
+        public void UnBlockUIContent()
+        {
+            messageTextBox.IsEnabled = true;
+            submitButton.IsEnabled = true;
+            onlineListView.IsEnabled = true;
+        }
+
         
     }
 }
