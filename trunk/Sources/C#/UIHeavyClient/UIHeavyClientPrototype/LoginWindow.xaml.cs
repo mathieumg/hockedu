@@ -137,7 +137,6 @@ namespace UIHeavyClientPrototype
             refreshButton.IsEnabledChanged += ControlEnabledChanged;
             serverComboBox.IsEnabledChanged += ControlEnabledChanged;
             ManualServerEntry.IsEnabledChanged += ControlEnabledChanged;
-            cancelButton.IsEnabled = false;
 
             refreshButton.Visibility = Visibility.Hidden;
             listedServer = new Server[]
@@ -247,26 +246,28 @@ namespace UIHeavyClientPrototype
         public void BlockUIContent()
         {
             mConnecting = true;
+
             userNameInput.IsEnabled = false;
             loginButton.IsEnabled = false;
-            cancelButton.IsEnabled = true;
             refreshButton.IsEnabled = false;
             serverComboBox.IsEnabled = false;
             ManualServerEntry.IsEnabled = false;
+            cancelButton.Content = "Cancel";
             Mouse.OverrideCursor = Cursors.Wait;
         }
 
         public void UnBlockUIContent()
         {
-            mConnecting = false;
             // Unblock everything while connecting
             userNameInput.IsEnabled = true;
-            cancelButton.IsEnabled = false;
             loginButton.IsEnabled = true;
             refreshButton.IsEnabled = true;
             serverComboBox.IsEnabled = true;
             ManualServerEntry.IsEnabled = true;
+            cancelButton.Content = "Exit";
             Mouse.OverrideCursor = Cursors.Arrow;
+
+            mConnecting = false;
         }
         ////////////////////////////////////////////////////////////////////////
         /// @fn void LoginWindow.loginButton_Click()
