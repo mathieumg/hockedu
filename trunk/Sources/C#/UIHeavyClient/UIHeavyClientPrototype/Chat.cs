@@ -25,6 +25,12 @@ namespace UIHeavyClientPrototype
         public string mUserState;
     }
 
+    struct LoginWindowSavedInfo
+    {
+        public string mUserName;
+        public string mIpAddress;
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     /// @class Chat
     /// @brief The chat.
@@ -46,6 +52,7 @@ namespace UIHeavyClientPrototype
         // New messages?
         static bool mNewMessages = false;
 
+        public static LoginWindowSavedInfo LoginInfo = new LoginWindowSavedInfo();
         ////////////////////////////////////////////////////////////////////////
         /// @propertie string Chat.WholeMessage
         ///

@@ -129,6 +129,8 @@ namespace UIHeavyClientPrototype
         {
             InitializeComponent();
 
+            InitSavedValues();
+
             cancelButton.IsEnabledChanged += ControlEnabledChanged;
             loginButton.IsEnabledChanged += ControlEnabledChanged;
             userNameInput.IsEnabledChanged += ControlEnabledChanged;
@@ -174,6 +176,8 @@ namespace UIHeavyClientPrototype
 
         void Window_Closed(object sender, EventArgs e)
         {
+            Chat.LoginInfo.mUserName = userNameInput.Text;
+            Chat.LoginInfo.mIpAddress = ManualServerEntry.Text;
             Chat.SetupLoginCallBackEvents(null);
         }
 
@@ -325,6 +329,13 @@ namespace UIHeavyClientPrototype
                 Close();
             }
         }
+
+        private void InitSavedValues()
+        {
+            userNameInput.Text = Chat.LoginInfo.mUserName;
+            ManualServerEntry.Text = Chat.LoginInfo.mIpAddress;
+        }
+
         
 
     }
