@@ -14,6 +14,8 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
+using System.Net;
+using System.Net.Sockets;
 
 namespace UIHeavyClientPrototype
 {
@@ -74,6 +76,22 @@ namespace UIHeavyClientPrototype
             set { mNewMessages = value; }
         }
 
+        public static bool IsIPv4(string value)
+        {
+            IPAddress address;
+
+            Func<char, bool> myFunc = c => c == '.';
+            int nbDot = value.Count(myFunc);
+            if (nbDot == 3 && IPAddress.TryParse(value, out address))
+            {
+                if (address.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         ////////////////////////////////////////////////////////////////////////
         /// @fn void Chat.UpdateChat()
         ///
@@ -91,7 +109,7 @@ namespace UIHeavyClientPrototype
             // Don't write the name if it's the same user again
             if (userName != mLastUser)
             {
-                mWholeMessage += (userName + " dit :\n");
+                mWholeMessage += (userName + " says :\n");
                 mLastUser = userName;
             }
 
@@ -190,7 +208,7 @@ namespace UIHeavyClientPrototype
                         // Signal à la fenetre l'événement
                         mLoginWindow.mTaskManager.ExecuteTask(() =>
                         {
-                            mLoginWindow.errorMessageLabel.Content = "Erreur de connection";
+                            mLoginWindow.SetUserMessageFeedBack("Connection Error",true);
                             mLoginWindow.UnBlockUIContent();
                         });
                         mLoginWindow = null;
@@ -201,7 +219,7 @@ namespace UIHeavyClientPrototype
                         // Signal à la fenetre l'événement
                         mLoginWindow.mTaskManager.ExecuteTask(() =>
                         {
-                            mLoginWindow.errorMessageLabel.Content = "Erreur de connection";
+                            mLoginWindow.SetUserMessageFeedBack("Connection Error", true);
                             mLoginWindow.UnBlockUIContent();
                         });
                         mLoginWindow = null;
@@ -212,7 +230,7 @@ namespace UIHeavyClientPrototype
                         // Signal à la fenetre l'événement
                         mLoginWindow.mTaskManager.ExecuteTask(() =>
                         {
-                            mLoginWindow.errorMessageLabel.Content = "";
+                            mLoginWindow.SetUserMessageFeedBack("Connection Canceled", false);
                             mLoginWindow.UnBlockUIContent();
                         });
                         mLoginWindow = null;
@@ -223,7 +241,7 @@ namespace UIHeavyClientPrototype
                         // Signal à la fenetre l'événement
                         mLoginWindow.mTaskManager.ExecuteTask(() =>
                         {
-                            mLoginWindow.errorMessageLabel.Content = "Delais de connection dépassé";
+                            mLoginWindow.SetUserMessageFeedBack("Connection Timed out", true);
                             mLoginWindow.UnBlockUIContent();
                         });
                         mLoginWindow = null;

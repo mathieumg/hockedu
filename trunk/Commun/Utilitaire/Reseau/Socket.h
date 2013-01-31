@@ -68,7 +68,7 @@ public:
     inline void flagToDelete() { mFlags |= SOCKET_FLAGS_PENDING_DELETE; }
     inline bool isPendingCancel() const { return !!(mFlags & SOCKET_FLAGS_PENDING_CANCEL); }
     inline void flagToCancel() { mFlags |= SOCKET_FLAGS_PENDING_CANCEL; }
-
+    inline void removeCancelFlag(){  mFlags &= ~SOCKET_FLAGS_PENDING_CANCEL; }
 private:
     
     HANDLE mMutexActiviteSocket;

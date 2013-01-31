@@ -12,21 +12,21 @@
             <ColumnDefinition Width="169*" />
         </Grid.ColumnDefinitions>
         <TextBox  Name="messageTextBox"  Width="Auto" HorizontalAlignment="Stretch"     Margin="12,7,0,12"   Background="Black" Foreground="White" Grid.Row="1"                                            KeyDown="messageTextBox_KeyDown" MaxHeight="50"   />
-        <Button   Name="submitButton"     Margin="12,7,12,12"   Background="Black" Foreground="White" Grid.Column="1" Grid.Row="1" Content="Envoyer"          Click="submitButton_Click" MaxHeight="50"   />
-        <TextBox  Name="wholeMessageBox" Width="Auto"                                                                       Margin="12,29,0,24" Background="Black" Foreground="White"                              Text="Vous êtes en ligne!" IsReadOnly="True" VerticalScrollBarVisibility="Auto"   />
+        <Button   Name="submitButton"     Margin="12,7,12,12"   Background="Black" Foreground="White" Grid.Column="1" Grid.Row="1" Content="Send"          Click="submitButton_Click" MaxHeight="50" IsDefault="True"   />
+        <TextBox  Name="wholeMessageBox" Width="Auto"                                                                       Margin="12,29,0,24" Background="Black" Foreground="White"                              Text="Welcome!" IsReadOnly="True" VerticalScrollBarVisibility="Auto"   />
         <ListView Name="onlineListView" Margin="11,49,12,24" Background="Black" Foreground="White" Grid.Column="1" >
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Bloquer" />
-                    <MenuItem Header="Message privé" />
+                    <MenuItem Header="Block" />
+                    <MenuItem Header="Private Message" />
                 </ContextMenu>
             </ListView.ContextMenu>
         </ListView>
-        <Label    Name="onlineLabel"     Width="145" Height="37" HorizontalAlignment="Left"     VerticalAlignment="Top"     Margin="12,24,0,0"                      Foreground="White" Grid.Column="1"              Content="En ligne : " />
+        <Label    Name="onlineLabel"     Width="145" Height="37" HorizontalAlignment="Left"     VerticalAlignment="Top"     Margin="12,24,0,0"                      Foreground="White" Grid.Column="1"              Content="Online:" />
         <Menu Height="23" HorizontalAlignment="Left" Name="menu1" VerticalAlignment="Top" Width="62" Background="Black" Foreground="White">
             <MenuItem Header="Options" Background="Black" Foreground="White">
-                <MenuItem Header="Quitter" Click="MenuItem_Click" Background="Black" Foreground="White"/>
-                <MenuItem Header="Déconnexion" Background="Black" Foreground="White" Click="OnDisconnect" />
+                <MenuItem Header="Disconnect" Background="Black" Foreground="White" Click="OnDisconnect" />
+                <MenuItem Header="Exit" Click="MenuItem_Click" Background="Black" Foreground="White"/>
             </MenuItem>
         </Menu>
     </Grid>

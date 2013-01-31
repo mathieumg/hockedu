@@ -105,6 +105,19 @@ namespace UIHeavyClientPrototype
             set { mUserConnected = value; }
         }
 
+        public void SetUserMessageFeedBack(string message, bool isError)
+        {
+            if (isError)
+            {
+                errorMessageLabel.Foreground = Brushes.Red;
+            }
+            else
+            {
+                errorMessageLabel.Foreground = Brushes.White;
+            }
+            errorMessageLabel.Content = message;
+        }
+
         ////////////////////////////////////////////////////////////////////////
         /// @fn LoginWindow.LoginWindow()
         ///
@@ -116,11 +129,19 @@ namespace UIHeavyClientPrototype
         {
             InitializeComponent();
 
+            cancelButton.IsEnabledChanged += ControlEnabledChanged;
+            loginButton.IsEnabledChanged += ControlEnabledChanged;
+            userNameInput.IsEnabledChanged += ControlEnabledChanged;
+            refreshButton.IsEnabledChanged += ControlEnabledChanged;
+            serverComboBox.IsEnabledChanged += ControlEnabledChanged;
+            ManualServerEntry.IsEnabledChanged += ControlEnabledChanged;
+            cancelButton.IsEnabled = false;
+
             refreshButton.Visibility = Visibility.Hidden;
             listedServer = new Server[]
             {
                 new Server("Local", "127.0.0.1"),
-                new Server("Chez Math", "173.177.0.193"),
+                new Server("Math's house", "173.177.0.193"),
             };
 
             foreach (Server s in listedServer)
@@ -138,6 +159,19 @@ namespace UIHeavyClientPrototype
             userNameInput.Focus();
         }
 
+        void ControlEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            Control control = sender as Control;
+            if ((bool)e.NewValue)
+            {
+                control.Foreground = Brushes.White;
+            }
+            else
+            {
+                control.Foreground = Brushes.Black;
+            }
+        }
+
         void Window_Closed(object sender, EventArgs e)
         {
             Chat.SetupLoginCallBackEvents(null);
@@ -145,6 +179,7 @@ namespace UIHeavyClientPrototype
 
         public void ConnectionSuccessful()
         {
+            SetUserMessageFeedBack("Connection successful !", false);
             mUserName = userNameInput.Text;
             mUserConnected = true;
             Mouse.OverrideCursor = Cursors.Arrow;
@@ -153,9 +188,11 @@ namespace UIHeavyClientPrototype
 
         public void UserNameAlreadyChosen()
         {
-            errorMessageLabel.Content = "Ce pseudonyme est déjà utilisé. Veuillez en choisir un autre.";
+            SetUserMessageFeedBack("User name already used.\nPlease choose another.", true);
             UnBlockUIContent();
         }
+
+        
 
         ////////////////////////////////////////////////////////////////////////
         /// @fn void LoginWindow.TryConnecting()
@@ -168,28 +205,38 @@ namespace UIHeavyClientPrototype
         {
             if(userNameInput.Text != "")
             {
+                
                 // Block everything while connecting
-                BlockUIContent();
-
-                // Setup to be ready to receive events
-                Chat.SetupLoginCallBackEvents(this);
+                string serverName;
                 string ipAdress;
                 if (ManualServerEntry.Text != "")
                 {
                     ipAdress = ManualServerEntry.Text;
-                    errorMessageLabel.Content = "Connecting to server " + ipAdress + ", please wait...";
+                    serverName = ipAdress;
                 }
                 else
                 {
                     ipAdress = listedServer[serverComboBox.SelectedIndex].mIPAdress;
-                    errorMessageLabel.Content = "Connecting to server " + listedServer[serverComboBox.SelectedIndex].mName + ", please wait...";
-
+                    serverName = listedServer[serverComboBox.SelectedIndex].mName;
                 }
-                RequestLogin(userNameInput.Text, ipAdress);
+
+                if (Chat.IsIPv4(ipAdress))
+                {
+                    BlockUIContent();
+                    // Setup to be ready to receive events
+                    Chat.SetupLoginCallBackEvents(this);
+
+                    SetUserMessageFeedBack(String.Format("Connecting to server {0}\nPlease wait...", serverName), false);
+                    RequestLogin(userNameInput.Text, ipAdress);
+                }
+                else
+                {
+                    SetUserMessageFeedBack(String.Format("IP Address [{0}] invalid", ipAdress), true);
+                }
             }
             else
             {
-                errorMessageLabel.Content = "Veuillez choisir un pseudonyme.";
+                SetUserMessageFeedBack("Please enter a user name", true);
             }
         }
 
@@ -201,6 +248,7 @@ namespace UIHeavyClientPrototype
             cancelButton.IsEnabled = true;
             refreshButton.IsEnabled = false;
             serverComboBox.IsEnabled = false;
+            ManualServerEntry.IsEnabled = false;
             Mouse.OverrideCursor = Cursors.Wait;
         }
 
@@ -213,6 +261,7 @@ namespace UIHeavyClientPrototype
             loginButton.IsEnabled = true;
             refreshButton.IsEnabled = true;
             serverComboBox.IsEnabled = true;
+            ManualServerEntry.IsEnabled = true;
             Mouse.OverrideCursor = Cursors.Arrow;
         }
         ////////////////////////////////////////////////////////////////////////
@@ -240,11 +289,11 @@ namespace UIHeavyClientPrototype
         ///
         /// @return None.
         ////////////////////////////////////////////////////////////////////////
-        private void messageTextBox_KeyDown(object sender, KeyEventArgs e)
+        private void OnKeyDown(object sender, KeyEventArgs e)
         {
             // If enter key is pressed, simulate a login button click
-            if (e.Key == Key.Enter)
-                loginButton_Click(sender, e);
+            if (e.Key == Key.Escape)
+                cancelButton_Click(sender, e);
         }
         ////////////////////////////////////////////////////////////////////////
         /// @fn void LoginWindow.refreshButton_Click(object sender, RoutedEventArgs e)
@@ -269,11 +318,12 @@ namespace UIHeavyClientPrototype
             if (mConnecting)
             {
                 CancelConnection(userNameInput.Text);
+                SetUserMessageFeedBack("Cancel requested", false);
             }
-//             else
-//             {
-//                 Close();
-//             }
+            else
+            {
+                Close();
+            }
         }
         
 
