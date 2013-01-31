@@ -42,6 +42,7 @@ public:
 	// Destructeur
 	~CommunicateurReseau();
 
+
 	// Methode pour ajouter un paquet a la liste a envoyer
 	bool ajouterPaquetEnvoie(SPSocket pSocket, Paquet* pPaquet);
 
@@ -78,6 +79,8 @@ public:
 	// Enleve le socket et son thread de connection de la liste (surtout appelee par le thread lui meme quand il a terminer son travail)
 	void enleverConnectionThread(SPSocket pSocket, bool pSuccess);
 
+    // Methode statique pour envoyer un paquet de maniere synchrone
+    static void envoyerPaquetSync( Paquet* wPaquetAEnvoyer, SPSocket wSocket );
 
 	static unsigned int maxBufferSize;
 

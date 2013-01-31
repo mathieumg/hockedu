@@ -128,6 +128,7 @@
     <ClInclude Include="..\Reseau\RelayeurMessage.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatMessage.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatUserStatus.h" />
+    <ClInclude Include="ControllerServeurPrototype.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -6,6 +6,7 @@
 #include "Reseau\GestionnaireReseau.h"
 #include "..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetChatMessage.h"
+#include "ControllerServeurPrototype.h"
 
 int main(void)  {
 
@@ -16,6 +17,7 @@ int main(void)  {
 
     
     GestionnaireReseau::obtenirInstance()->ajouterOperationReseau("ChatMessage", new PacketHandlerChatMessage, new UsinePaquetChatMessage);
+    GestionnaireReseau::obtenirInstance()->setController(new ControllerServeurPrototype());
 
     std::cout << "Server running, Press Enter to exit at any time.";
     getchar(); // Pause until enter is pressed

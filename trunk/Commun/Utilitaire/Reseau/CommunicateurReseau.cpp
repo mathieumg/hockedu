@@ -35,6 +35,22 @@ struct ArgsConnectionThread {
 	SPSocket socketAConnecter;
 };
 
+void CommunicateurReseau::envoyerPaquetSync( Paquet* wPaquetAEnvoyer, SPSocket wSocket )
+{
+    PacketBuilder wPacketBuilder;
+    
+    PacketHandler* wPacketHandler = GestionnaireReseau::obtenirInstance()->getPacketHandler(wPaquetAEnvoyer->getOperation());
+
+    // On utilise le handler pour convertir le paquet en suite de char et l'envoyer
+    wPacketHandler->handlePacketPreparation(wPaquetAEnvoyer, wPacketBuilder);
+
+
+    // On essaie d'envoyer la chaine, envoi bloquant
+    uint32_t wTaille = wSocket->send( wPacketBuilder.getPacketString(),  wPacketBuilder.getPacketLength(), true);
+
+}
+
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn CommunicateurReseau::CommunicateurReseau()
@@ -485,12 +501,15 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 			{
 				SPSocket wSocket = wPaquetAEnvoyer->socket;
 				ConnectionState wConnectionState = wSocket->getConnectionState();
-				if(wConnectionState == CONNECTING || wConnectionState == NOT_CONNECTED)
-				{
-					// Socket probablement en attente de se faire connecter (on ne fait rien et on le met a la fin de la queue)
-					if(listeAEnvoyer->push(wPaquetAEnvoyer))
+				if(wConnectionState == CONNECTING || wConnectionState == NOT_CONNECTED) 
+                {
+                    if (wConnectionState == CONNECTING)
                     {
-                        ReleaseSemaphore(wCommunicateurReseau->mHandleSemaphoreContentSend,1,NULL);
+					    // Socket probablement en attente de se faire connecter (on ne fait rien et on le met a la fin de la queue)
+					    if(listeAEnvoyer->push(wPaquetAEnvoyer))
+                        {
+                            ReleaseSemaphore(wCommunicateurReseau->mHandleSemaphoreContentSend,1,NULL);
+                        }
                     }
                     continue;
 				}
@@ -694,7 +713,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                 }
 
             }
-            else if(wState = NOT_CONNECTED)
+            else if(wState == NOT_CONNECTED)
             {
                 // On essaye de demarrer un thread de connection et on le retire de la liste de sockets a ecouter
                 wCommunicateurReseau->demarrerConnectionThread(wSocket);

@@ -180,7 +180,7 @@ void GestionnaireReseau::init()
     ajouterOperationReseau("String", new PacketHandlerString(), new UsinePaquetString());
     ajouterOperationReseau("ConnAutomatique", new PacketHandlerConnAutomatique(), new UsinePaquetConnAutomatique());
     ajouterOperationReseau("Test", new PacketHandlerTest(), new UsinePaquetTest());
-    ajouterOperationReseau("Error", new PacketHandlerEvent(), new UsinePaquetEvent());
+    ajouterOperationReseau("Event", new PacketHandlerEvent(), new UsinePaquetEvent());
 
 	// Init Winsock2
 	// --> The WSAStartup function initiates use of the Winsock DLL by a process.
@@ -615,11 +615,14 @@ void GestionnaireReseau::removeSocket( const std::string& pNomJoueur, Connection
     // On relache le mutex
 	mCommunicateurReseau.terminerIterationListeSocketEcoute(); 
 	
+    // Changer le connection state (a pour effet d'envoyer un event de deconnection)
+    wSocketASupprimer->setConnectionState(NOT_CONNECTED);
 	// Le supprimer de la liste dans cette classe
 	mListeSockets.erase(itMap);
 
 	// Liberer la memoire et invalider le pointeur
     wSocketASupprimer->flagToDelete();
+    
 	wSocketASupprimer = 0;
 
     ReleaseMutex(wHandle); // On relache le mutex sur le socket
@@ -876,6 +879,17 @@ void GestionnaireReseau::socketConnectionStateEvent( SPSocket pSocket, Connectio
 		pEvent.mPlayerName = getPlayerName(pSocket);
 		mSocketStateCallback(pEvent);
 	}
+}
+
+
+
+void GestionnaireReseau::disconnectClient( const std::string& pPlayerName, ConnectionType pConnectionType /*= TCP*/ )
+{
+    SPSocket wSocket = getSocket(pPlayerName, pConnectionType);
+    PaquetEvent* wPaquet = (PaquetEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet("Event");
+    wPaquet->setErrorCode(USER_DISCONNECTED);
+    wPaquet->setMessage(pPlayerName);
+    CommunicateurReseau::envoyerPaquetSync(wPaquet, wSocket);
 }
 
 

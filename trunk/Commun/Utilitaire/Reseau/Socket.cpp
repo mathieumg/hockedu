@@ -4,6 +4,9 @@
 #include "ExceptionsReseau\ExceptionReseauSocketDeconnecte.h"
 #include "Utilitaire.h"
 #include <winsock2.h>
+#include <Mswsock.h>
+#include "..\Reseau\Paquets\PaquetChatUserStatus.h"
+#include "PacketBuilder.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -600,9 +603,15 @@ bool Socket::attendreSocket( const int& pTimeout ) const
 
 void Socket::disconnect()
 {
-    setConnectionState(NOT_CONNECTED);
+    //setConnectionState(NOT_CONNECTED);
     try
     {
+        PaquetChatUserStatus* wPaquet = (PaquetChatUserStatus*) GestionnaireReseau::obtenirInstance()->creerPaquet("ChatUserStatis");
+        PacketBuilder pBuilder;
+
+
+
+
         shutdown(mSocket, SD_BOTH);
         closesocket(mSocket);
     }

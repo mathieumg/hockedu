@@ -81,6 +81,8 @@ public:
     // Methode d'initialisation (initialise notamment Winsock)
 	void init();
 
+    void disconnectClient(const std::string& pPlayerName, ConnectionType pConnectionType = TCP);
+
 	// Set the network mode
 	inline static void setNetworkMode(NetworkMode pNetworkMode) {mNetworkMode = pNetworkMode;}
 

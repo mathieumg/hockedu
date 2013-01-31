@@ -168,5 +168,5 @@ void SetEventCallback( EventReceivedCallBack callback )
 ////////////////////////////////////////////////////////////////////////
 void DisconnectUser( char* pUsername )
 {
-    GestionnaireReseau::obtenirInstance()->removeSocket(pUsername,TCP);
+    GestionnaireReseau::obtenirInstance()->disconnectClient(pUsername);
 }

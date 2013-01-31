@@ -105,7 +105,7 @@ SPSocket SocketTCPServeur::accept( __out sockaddr* addr, uint32_t* addrlen )
     {
         sockaddr_in* addr2 = new sockaddr_in;
         memcpy(addr2, addr, sizeof(addr));
-        return SPSocket(new Socket(wTempSocket, (sockaddr_in*)addr, TCP));
+        return SPSocket(new Socket(wTempSocket, (sockaddr_in*)addr2, TCP));
     }
 
 }
