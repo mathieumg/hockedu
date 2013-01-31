@@ -453,12 +453,10 @@ void CommunicateurReseau::enleverConnectionThread( SPSocket pSocket, bool pSucce
 	ReleaseMutex(mMutexListeSocketsConnection);
     if(!pSuccess)
     {
-        GestionnaireReseau::obtenirInstance()->transmitEvent(RECONNECTION_TIMEOUT);
         GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
     }
     else
     {
-        GestionnaireReseau::obtenirInstance()->transmitEvent(USER_CONNECTED);
         // Si la reconnection a reussie, on le remet dans la liste des sockets a ecouter
         ajouterSocketEcoute(pSocket);
     }
@@ -762,28 +760,51 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
     int wNbTentatives = 0;
     GestionnaireReseau::obtenirInstance()->transmitEvent(RECONNECTION_IN_PROGRESS);
 	
-    static const int TOTAL_TENTATIVE = 200;
-    while(wNbTentatives<TOTAL_TENTATIVE) // 200 tentatives max = 400 sec de connection max
+    static const int TOTAL_TENTATIVE = 20;
+    bool connectionSuccessful = false;
+    bool tryConnection = true;
+    wSocket->setConnectionState(CONNECTING);
+
+    while(tryConnection)
     {
 	    // Essayer de connecter le socket
-        wSocket->init();
-
-        if(wSocket->getConnectionState() == CONNECTED)
+        switch(wSocket->init())
         {
+        case CONNECTED:
+            tryConnection = false;
+            connectionSuccessful = true;
             break;
-        }
-        else
-        {
-            Sleep(2000); // Pas capable de connecter, on essaye encore dans 2 sec
+        case CONNECTING:
             ++wNbTentatives;
+            // on tente de ce reconnecter s'il reste des tentatives
+            tryConnection = wNbTentatives < TOTAL_TENTATIVE;
+            if(tryConnection)
+            {
+                Sleep(1000); // Pas capable de connecter, on essaye encore dans 1 sec
+            }
+            break;
+        case NOT_CONNECTED:
+        default:
+            // probleme de logique de connection alors on arrete
+            tryConnection = false;
+            break;
         }
     }
 
-    
+    wSocket->setConnectionState(connectionSuccessful ? CONNECTED : NOT_CONNECTED);
 
+    // cas ou il n'y a plus de tentative possible
+    if(wNbTentatives == TOTAL_TENTATIVE)
+    {
+        GestionnaireReseau::obtenirInstance()->transmitEvent(RECONNECTION_TIMEOUT);
+    }
+    else if(connectionSuccessful)
+    {
+        GestionnaireReseau::obtenirInstance()->transmitEvent(USER_CONNECTED);
+    }
+    // sinon on n'envoi pas d'event, car init s'en ait charger dans le cas d'une erreur de logique
 
-    wCommunicateurReseau->enleverConnectionThread(wSocket, wNbTentatives != TOTAL_TENTATIVE);
-    
+    wCommunicateurReseau->enleverConnectionThread(wSocket, connectionSuccessful);
 
 	// On termine le thread
 	return 0;

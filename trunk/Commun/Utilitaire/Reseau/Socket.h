@@ -16,7 +16,11 @@ enum InternetProtocol {IPv4 = AF_INET, IPv6 = AF_INET6, UNSPECIFIED = AF_UNSPEC}
 enum ConnectionType {UDP, TCP};
 enum ConnectionState {CONNECTED, CONNECTING, NOT_CONNECTED};
 
-
+enum SocketFlags
+{
+    SOCKET_FLAGS_PENDING_DELETE = (1<<0),
+    SOCKET_FLAGS_PENDING_CANCEL = (1<<1),
+};
 
 class Socket : public std::enable_shared_from_this<Socket>
 {
@@ -50,7 +54,8 @@ public:
     inline HANDLE getMutexActiviteSocket() const { return mMutexActiviteSocket; }
 
     // Methode pour connecter les sockets (bind() pour UDP et connect ou accept pour TCP)
-    void init();
+    ConnectionState init();
+    void cancelConnection();
 
     // Methode pour deconnecter le socket (s'il est brise par exemple)
     void disconnect();
@@ -59,15 +64,15 @@ public:
     bool attendreSocket(const int& pTimeout) const;
 
     /// Accessors of mPendingDelete
-    inline bool isPendingDelete() const { return mPendingDelete; }
-    inline void flagToDelete() { mPendingDelete = true; }
+    inline bool isPendingDelete() const { return !!(mFlags & SOCKET_FLAGS_PENDING_DELETE); }
+    inline void flagToDelete() { mFlags |= SOCKET_FLAGS_PENDING_DELETE; }
+    inline bool isPendingCancel() const { return !!(mFlags & SOCKET_FLAGS_PENDING_CANCEL); }
+    inline void flagToCancel() { mFlags |= SOCKET_FLAGS_PENDING_CANCEL; }
 
 private:
     
     HANDLE mMutexActiviteSocket;
-    bool mPendingDelete;
-
-    
+    int mFlags;
 
     void connect();
 

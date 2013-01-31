@@ -4,7 +4,11 @@ extern "C"
     __declspec(dllexport) int ExecuteUnitTest();
     __declspec(dllexport) void InitDLL();
     __declspec(dllexport) void RequestLogin( char* pUsername, char* pIpAdress );
+    __declspec(dllexport) void CancelConnection( char* pUsername );
+
     __declspec(dllexport) void SendMessageDLL( char* pUsername, char * pMessage );
+
+    
 
     /// declare the callback prototype
     typedef BOOL (__stdcall *MessageReceivedCallBack)( char* pUsername, char* pMessage );

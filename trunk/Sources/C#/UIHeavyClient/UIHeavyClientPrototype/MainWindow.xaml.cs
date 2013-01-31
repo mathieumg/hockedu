@@ -139,7 +139,7 @@ namespace UIHeavyClientPrototype
         {
             if (messageTextBox.Text != "" && mIsUserConnected)
             {
-                Chat.SendNewMessage(mUserName, messageTextBox.Text);
+                Chat.SendMessageDLL(mUserName, messageTextBox.Text);
                 messageTextBox.Clear();
             }
         }

@@ -36,6 +36,7 @@ enum EventCodes {
     USER_DID_NOT_SEND_NAME_ON_CONNECTION, 
     USER_CONNECTED, 
     USER_DISCONNECTED, 
+    CONNECTION_CANCELED,
     RECONNECTION_TIMEOUT, 
     RECONNECTION_IN_PROGRESS, 
     WRONG_PASSWORD, 
@@ -137,6 +138,8 @@ public:
 
 	// Methode pour creer une nouvelle connection (un nouveau Socket) et le sauvegarder a la liste des Sockets actifs
 	void demarrerNouvelleConnection(const std::string& pPlayerName, const std::string& pIP, ConnectionType pConnectionType);
+    /// Permet d'arreter d'essayer de connecter un socket
+    void cancelNewConnection(const std::string& pPlayerName, ConnectionType pConnectionType = TCP);
 
     // Methode pour envoyer des events au Controlleur
     void transmitEvent(int pMessageCode, ...) const;
