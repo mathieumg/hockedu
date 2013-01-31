@@ -217,6 +217,10 @@ namespace UIHeavyClientPrototype
         ////////////////////////////////////////////////////////////////////////
         private void Window_Closed(object sender, EventArgs e)
         {
+            if (mUserName != "")
+            {
+                DisconnectUser(mUserName);
+            }
             // Make sure the login window is closed
             mLoginWindow.Close();
         }
@@ -249,8 +253,9 @@ namespace UIHeavyClientPrototype
             }
             else
             {
-                Show();
                 Chat.MainWindow = this;
+                Show();
+                ShowWholeMessage();
                 messageTextBox.Focus();
             }
             
