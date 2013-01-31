@@ -396,7 +396,6 @@ Global
 		{7C39F51D-07D4-4353-97A6-92636EA2BAA7}.WithJava|x64.ActiveCfg = Release|x64
 		{7C39F51D-07D4-4353-97A6-92636EA2BAA7}.WithJava|x86.ActiveCfg = Release|x64
 		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.C++Client|Mixed Platforms.ActiveCfg = Debug|x64
-		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.C++Client|Mixed Platforms.Build.0 = Debug|x64
 		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.C++Client|Win32.ActiveCfg = C++Client|x64
 		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.C++Client|x64.ActiveCfg = C++Client|x64
 		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.C++Client|x64.Build.0 = C++Client|x64
