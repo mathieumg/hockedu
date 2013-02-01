@@ -168,7 +168,14 @@ void SetEventCallback( EventReceivedCallBack callback )
 ////////////////////////////////////////////////////////////////////////
 void DisconnectUser( char* pUsername )
 {
-    GestionnaireReseau::obtenirInstance()->disconnectClient(pUsername);
+    try
+    {
+        GestionnaireReseau::obtenirInstance()->disconnectClient(pUsername);
+    }
+    catch(...)
+    {
+        // nothing to do, it most likely failed because the server isnt responsive
+    }
 }
 
 void CancelConnection( char* pUsername )

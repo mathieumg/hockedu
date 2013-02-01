@@ -57,10 +57,6 @@ namespace UIHeavyClientPrototype
     ///////////////////////////////////////////////////////////////////////////
     public partial class LoginWindow : Window
     {
-        // sends a request to connect the user. Will not be necessarly connected when exiting this function
-        // must wait for a callback indicating the status of this user's connection
-        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void RequestLogin( string pUsername, string pIpAdress );
 
         [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void CancelConnection(string pUsername);
@@ -129,13 +125,14 @@ namespace UIHeavyClientPrototype
         {
             InitializeComponent();
 
-            cancelButton.IsEnabledChanged += ControlEnabledChanged;
-            loginButton.IsEnabledChanged += ControlEnabledChanged;
-            userNameInput.IsEnabledChanged += ControlEnabledChanged;
-            refreshButton.IsEnabledChanged += ControlEnabledChanged;
-            serverComboBox.IsEnabledChanged += ControlEnabledChanged;
-            ManualServerEntry.IsEnabledChanged += ControlEnabledChanged;
-            cancelButton.IsEnabled = false;
+            InitSavedValues();
+
+            cancelButton.IsEnabledChanged += Chat.ControlEnabledChanged;
+            loginButton.IsEnabledChanged += Chat.ControlEnabledChanged;
+            userNameInput.IsEnabledChanged += Chat.ControlEnabledChanged;
+            refreshButton.IsEnabledChanged += Chat.ControlEnabledChanged;
+            serverComboBox.IsEnabledChanged += Chat.ControlEnabledChanged;
+            ManualServerEntry.IsEnabledChanged += Chat.ControlEnabledChanged;
 
             refreshButton.Visibility = Visibility.Hidden;
             listedServer = new Server[]
@@ -159,18 +156,7 @@ namespace UIHeavyClientPrototype
             userNameInput.Focus();
         }
 
-        void ControlEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            Control control = sender as Control;
-            if ((bool)e.NewValue)
-            {
-                control.Foreground = Brushes.White;
-            }
-            else
-            {
-                control.Foreground = Brushes.Black;
-            }
-        }
+        
 
         void Window_Closed(object sender, EventArgs e)
         {
@@ -201,7 +187,7 @@ namespace UIHeavyClientPrototype
         ///
         /// @return None.
         ////////////////////////////////////////////////////////////////////////
-        private void TryConnecting()
+        public void TryConnecting()
         {
             if(userNameInput.Text != "")
             {
@@ -222,12 +208,14 @@ namespace UIHeavyClientPrototype
 
                 if (Chat.IsIPv4(ipAdress))
                 {
+                    Chat.mLoginInfo.mUserName = userNameInput.Text;
+                    Chat.mLoginInfo.mIpAddress = ipAdress;
                     BlockUIContent();
                     // Setup to be ready to receive events
                     Chat.SetupLoginCallBackEvents(this);
 
                     SetUserMessageFeedBack(String.Format("Connecting to server {0}\nPlease wait...", serverName), false);
-                    RequestLogin(userNameInput.Text, ipAdress);
+                    Chat.RequestLogin(userNameInput.Text, ipAdress);
                 }
                 else
                 {
@@ -243,26 +231,28 @@ namespace UIHeavyClientPrototype
         public void BlockUIContent()
         {
             mConnecting = true;
+
             userNameInput.IsEnabled = false;
             loginButton.IsEnabled = false;
-            cancelButton.IsEnabled = true;
             refreshButton.IsEnabled = false;
             serverComboBox.IsEnabled = false;
             ManualServerEntry.IsEnabled = false;
+            cancelButton.Content = "Cancel";
             Mouse.OverrideCursor = Cursors.Wait;
         }
 
         public void UnBlockUIContent()
         {
-            mConnecting = false;
             // Unblock everything while connecting
             userNameInput.IsEnabled = true;
-            cancelButton.IsEnabled = false;
             loginButton.IsEnabled = true;
             refreshButton.IsEnabled = true;
             serverComboBox.IsEnabled = true;
             ManualServerEntry.IsEnabled = true;
+            cancelButton.Content = "Exit";
             Mouse.OverrideCursor = Cursors.Arrow;
+
+            mConnecting = false;
         }
         ////////////////////////////////////////////////////////////////////////
         /// @fn void LoginWindow.loginButton_Click()
@@ -325,6 +315,13 @@ namespace UIHeavyClientPrototype
                 Close();
             }
         }
+
+        private void InitSavedValues()
+        {
+            userNameInput.Text = Chat.mLoginInfo.mUserName;
+            ManualServerEntry.Text = Chat.mLoginInfo.mIpAddress;
+        }
+
         
 
     }

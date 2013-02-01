@@ -11,10 +11,11 @@
 @interface ViewController : UIViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIPopoverControllerDelegate>
 {
     
-UIImagePickerController *picker;
+//UIImagePickerController *imagePicker;
 UIPopoverController *popOverController;
 
 IBOutlet UIImageView * selectedImage;
+    UIActionSheet *sheet;
 
 }
 

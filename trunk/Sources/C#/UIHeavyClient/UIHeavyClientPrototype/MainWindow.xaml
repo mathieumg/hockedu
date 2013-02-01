@@ -11,9 +11,9 @@
             <ColumnDefinition Width="684*" />
             <ColumnDefinition Width="169*" />
         </Grid.ColumnDefinitions>
-        <TextBox  Name="messageTextBox"  Width="Auto" HorizontalAlignment="Stretch"     Margin="12,7,0,12"   Background="Black" Foreground="White" Grid.Row="1"                                            KeyDown="messageTextBox_KeyDown" MaxHeight="50"   />
+        <TextBox  Name="messageTextBox"  Width="Auto" HorizontalAlignment="Stretch"  TextWrapping="Wrap"   Margin="12,7,0,12"   Background="Black" Foreground="White" Grid.Row="1"                                            KeyDown="messageTextBox_KeyDown" MaxHeight="50" VerticalScrollBarVisibility="Auto"   />
         <Button   Name="submitButton"     Margin="12,7,12,12"   Background="Black" Foreground="White" Grid.Column="1" Grid.Row="1" Content="Send"          Click="submitButton_Click" MaxHeight="50" IsDefault="True"   />
-        <TextBox  Name="wholeMessageBox" Width="Auto"                                                                       Margin="12,29,0,24" Background="Black" Foreground="White"                              Text="Welcome!" IsReadOnly="True" VerticalScrollBarVisibility="Auto"   />
+        <TextBox  Name="wholeMessageBox" Width="Auto" TextWrapping="Wrap"                                                  Margin="12,29,0,24" Background="Black" Foreground="White"                              Text="Welcome!" IsReadOnly="True" VerticalScrollBarVisibility="Auto" UseLayoutRounding="True"   />
         <ListView Name="onlineListView" Margin="11,49,12,24" Background="Black" Foreground="White" Grid.Column="1" >
             <ListView.ContextMenu>
                 <ContextMenu>
