@@ -39,10 +39,11 @@ public:
 	uint32_t recv( __out uint8_t* buf, uint32_t bufLen, bool pBlock = false);
 	uint32_t send( const uint8_t* msg, uint32_t msglen, bool pBlock = false);
 	uint32_t recvfrom(__out uint8_t* msg, uint32_t msglen, __out sockaddr* from, bool pBlock = true);
-	uint32_t sendto(uint8_t* msg, uint32_t msglen, sockaddr* to, bool pBlock = false);
+	uint32_t sendto(const uint8_t* msg, uint32_t msglen, sockaddr* to, bool pBlock = false);
 	static void getaddrinfo( uint8_t* addr, uint16_t port, addrinfo* result);
 	static void freeaddrinfo(addrinfo* addr);
 	void setsockopt(uint32_t level, uint32_t optionName, uint8_t* optionValue, uint32_t optionSize);
+    void setSocketInfo(sockaddr_in* pSockInfo);
 	
 	std::string getAdresseSource() const;
 	std::string getAdresseDestination() const;

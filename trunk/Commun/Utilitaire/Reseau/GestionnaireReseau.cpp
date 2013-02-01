@@ -54,6 +54,12 @@ int GestionnaireReseau::multicastPort = 1001;
 // Port a utiliser pour les communications de base
 int GestionnaireReseau::communicationPort = 5010;
 
+// Port a utiliser pour les communications de base
+int GestionnaireReseau::communicationUDPPort = 5011;
+
+// Port a utiliser pour les communications de base
+int GestionnaireReseau::connectionUDPPort = 5012;
+
 
 // Network Log setup
 std::ofstream GestionnaireReseau::logSetup()
@@ -196,10 +202,11 @@ void GestionnaireReseau::init()
     // Demarrer thread conn TCP Serveur
     if(GestionnaireReseau::getNetworkMode() == SERVER)
     {
-        mCommunicateurReseau.demarrerThreadsConnectionTCPServeur();
+        mCommunicateurReseau.demarrerThreadsConnectionServeur();
     }
     
-
+    // Demarre les threads de reception UDP (pour serveur et client)
+    mCommunicateurReseau.demarrerThreadsReceptionUDP();
 
 
     if(iResult != NO_ERROR)
@@ -552,8 +559,10 @@ void GestionnaireReseau::saveSocket( const std::string& pNomJoueur, SPSocket pSo
 
 	// On ecrase le dernier socket qui etait associe a ce nom de joueur et a ce type de socket
 	mListeSockets[std::pair<std::string, ConnectionType>(pNomJoueur, pSocket->getConnectionType())] = pSocket;
-
-	mCommunicateurReseau.ajouterSocketEcoute(pSocket);
+    if(pSocket->getConnectionType() == TCP)
+    {
+	    mCommunicateurReseau.ajouterSocketEcoute(pSocket);
+    }
     ReleaseMutex(mMutexListeSockets);
 }
 
@@ -906,6 +915,34 @@ void GestionnaireReseau::disconnectClient( const std::string& pPlayerName, Conne
     wPaquet->setErrorCode(USER_DISCONNECTED);
     wPaquet->setMessage(pPlayerName);
     CommunicateurReseau::envoyerPaquetSync(wPaquet, wSocket);
+}
+
+
+
+
+void GestionnaireReseau::getListeAdressesIPLocales(std::list<std::string>& pOut) const
+{
+
+    hostent *hostCourant;
+    hostCourant=gethostbyname("");
+    if(hostCourant == NULL)
+    {
+        // Probleme au get des valeurs reseau locales
+        GestionnaireReseau::obtenirInstance()->throwExceptionReseau("Erreur lors de la lecture des adresses reseau locales");
+        return;
+    }
+    
+    pOut.push_back("127.0.0.1");
+
+    int wNbCount = 0;
+    while(hostCourant->h_addr_list[wNbCount])
+    {
+        std::string wIP = inet_ntoa(*(struct in_addr *)hostCourant->h_addr_list[wNbCount]);
+        pOut.push_back(wIP);
+        ++wNbCount;
+    }
+
+
 }
 
 

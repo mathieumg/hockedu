@@ -26,6 +26,7 @@
 #include "GestionnaireReseau.h"
 #include "Utilitaire.h"
 #include <sstream>
+#include <time.h>
 
 // Taille maximale des buffers pour l<envoie et la reception
 unsigned int CommunicateurReseau::maxBufferSize = 5000;
@@ -183,46 +184,24 @@ void CommunicateurReseau::demarrerReceivingThread()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void CommunicateurReseau::demarrerThreadsConnectionTCPServeur()
+/// @fn void CommunicateurReseau::demarrerThreadsConnectionServeur()
 ///
 /// Methode pour demarrer les threads de connection TCP cote serveur
 /// 
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void CommunicateurReseau::demarrerThreadsConnectionTCPServeur()
+void CommunicateurReseau::demarrerThreadsConnectionServeur()
 {
-    hostent *hostCourant;
-    hostCourant=gethostbyname("");
-    if(hostCourant == NULL)
-    {
-        // Probleme au get des valeurs reseau locales
-        throw ExceptionReseau("Erreur lors de la lecture des adresses reseau locales");
-        return;
-    }
-    
-    // Ajouter localhost car pas dans la liste
-    ArgsConnectionThread* wArgsLocal = new ArgsConnectionThread;
-    wArgsLocal->communicateurReseau = this;
-	wArgsLocal->socketAConnecter = SPSocketTCPServer(new SocketTCPServeur("127.0.0.1", GestionnaireReseau::communicationPort));
-    HANDLE wHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)connectionTCPServeurThreadRoutine, wArgsLocal, 0, NULL);
-    if(wHandle==NULL)
-    {
-        throw ExceptionReseau("Erreur lors de la creation du thread de connection TCP serveur", NULL);
-    }
-    else
-    {
-        // On ajoute le handle a la liste
-        mHandlesThreadConnectionTCPServeur.push_back(wHandle);
-    }
-    
-    int wNbCount = 0;
-    while(hostCourant->h_addr_list[wNbCount])
+    std::list<std::string> wIPList;
+    GestionnaireReseau::obtenirInstance()->getListeAdressesIPLocales(wIPList);
+
+    for(std::list<std::string>::iterator it = wIPList.begin(); it!=wIPList.end(); ++it)
     {
         ArgsConnectionThread* wArgs = new ArgsConnectionThread;
         wArgs->communicateurReseau = this;
-        std::string wIP = inet_ntoa(*(struct in_addr *)hostCourant->h_addr_list[wNbCount]);
-        wArgs->socketAConnecter = SPSocketTCPServer(new SocketTCPServeur(wIP, GestionnaireReseau::communicationPort));
+        wArgs->socketAConnecter = SPSocketTCPServer(new SocketTCPServeur((*it), GestionnaireReseau::communicationPort, TCP));
+        
         HANDLE wHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)connectionTCPServeurThreadRoutine, wArgs, 0, NULL);
         if(wHandle==NULL)
         {
@@ -233,29 +212,38 @@ void CommunicateurReseau::demarrerThreadsConnectionTCPServeur()
             // On ajoute le handle a la liste
             mHandlesThreadConnectionTCPServeur.push_back(wHandle);
         }
-        ++wNbCount;
-
-
-
-        /*
-        ArgsConnectionThread* wArgs = new ArgsConnectionThread;
-        wArgs->communicateurReseau = this;
-        std::string wIP = "127.0.0.1";//inet_ntoa(*(struct in_addr *)hostCourant->h_addr_list[wNbCount]);
-        wArgs->socketAConnecter = new SocketTCPServeur(wIP, GestionnaireReseau::communicationPort);
-        HANDLE wHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)connectionTCPServeurThreadRoutine, &wArgs, 0, NULL);
-        if(wHandle==NULL)
-        {
-            throw ExceptionReseau("Erreur lors de la creation du thread de connection TCP serveur", NULL);
-        }
-        else
-        {
-            // On ajoute le handle a la liste
-            mHandlesThreadConnectionTCPServeur.push_back(wHandle);
-        }
-        ++wNbCount;*/
     }
+}
 
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void CommunicateurReseau::demarrerThreadsReceptionUDP()
+///
+/// Methode qui demarre plusieurs threads (1 par interface reseau) pour ecouter toutes les communications 
+/// entrantes sur cette interface et au port global
+/// 
+/// @return void*
+///
+////////////////////////////////////////////////////////////////////////
+void CommunicateurReseau::demarrerThreadsReceptionUDP()
+{
+
+    ArgsConnectionThread* wArgs = new ArgsConnectionThread;
+    wArgs->communicateurReseau = this;
+    wArgs->socketAConnecter = SPSocket(new Socket("0.0.0.0", GestionnaireReseau::connectionUDPPort, UDP));
+        
+    HANDLE wHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)receivingUDPThreadRoutine, wArgs, 0, NULL);
+    if(wHandle==NULL)
+    {
+        throw ExceptionReseau("Erreur lors de la creation du thread de reception UDP", NULL);
+    }
+    else
+    {
+        // On ajoute le handle a la liste
+        mHandleThreadReceptionUDP = wHandle;
+    }
+        
 }
 
 
@@ -814,7 +802,7 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void* CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
+/// @fn void* CommunicateurReseau::connectionServeurThreadRoutine( void *arg )
 ///
 /// Routine d'execution du thread de connection des sockets TCP cote serveur
 ///
@@ -911,8 +899,12 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
         {
             wMessageConfirmation = USER_DID_NOT_SEND_NAME_ON_CONNECTION;
             // Send connection state message
-            ss << wMessageConfirmation;
-            wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
+            try 
+            {
+                ss << wMessageConfirmation;
+                wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
+            }
+            catch(ExceptionReseau&) {}
             wNewSocket->disconnect();
             wNewSocket = 0;
         }
@@ -920,8 +912,12 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
         {
             wMessageConfirmation = USER_DISCONNECTED;
             // Send connection state message
-            ss << wMessageConfirmation;
-            wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
+            try 
+            {
+                ss << wMessageConfirmation;
+                wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
+            }
+            catch(ExceptionReseau&) {}
             wNewSocket->disconnect();
             wNewSocket = 0;
         }
@@ -936,6 +932,79 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
     // On termine le thread
     return 0;
 }
+
+
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void* CommunicateurReseau::receivingUDPThreadRoutine( void *arg )
+///
+/// Routine d'execution du thread de de reception UDP
+/// 1 Thread pour 1 socket UDP qui est bind a une interface reseau
+///
+/// @param[in] void *arg  : arguments a passer au thread
+/// 
+/// @return void*
+///
+////////////////////////////////////////////////////////////////////////
+void * CommunicateurReseau::receivingUDPThreadRoutine( void *arg )
+{
+    ArgsConnectionThread* wArgs = (ArgsConnectionThread*) arg;
+
+    CommunicateurReseau* wCommunicateurReseau = wArgs->communicateurReseau;
+    SPSocket wSocket = (SPSocket)wArgs->socketAConnecter;
+
+    delete arg;
+
+    
+
+    try
+    {
+        wSocket->bind();
+    }
+    catch(ExceptionReseau& e)
+    {
+        GestionnaireReseau::obtenirInstance()->throwExceptionReseau("Bind du socket de reception UDP impossible");
+    }
+
+    char wBuffer[10000];
+    while(true)
+    {
+
+        try
+        {
+            // recv bloquant
+            sockaddr_in wTemp;
+            wSocket->recvfrom((uint8_t*)wBuffer, 10000, (sockaddr*)&wTemp, true);
+
+            // Data received
+
+
+
+        }
+        catch(ExceptionReseau&)
+        {
+            throw;
+        }
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    return 0;
+}
+
+
 
 
 
