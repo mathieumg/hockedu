@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
+using System.Windows.Interop;
 
 namespace UIHeavyClient
 {
@@ -20,14 +21,10 @@ namespace UIHeavyClient
     /// </summary>
     public partial class MainWindow : Window
     {
-        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int TestCSCall(int a);
-
-
+        HwndHost h = new HwndHost();
         public MainWindow()
         {
             InitializeComponent();
-
         }
 
     }
