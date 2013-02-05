@@ -3,6 +3,7 @@
 //  ImagePicker
 //
 //  Created by Samuel Ledoux on 2013-01-30.
+//  Modified by Mathieu M-Gosselin on 2013-02-05.
 //  Copyright (c) 2013 RazorSharp Technologies. All rights reserved.
 //
 
@@ -48,40 +49,21 @@
             // Use library.
             [imagePicker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
             
-            UIPopoverController *popover =
-            [[UIPopoverController alloc] initWithContentViewController:imagePicker];
-            [popover presentPopoverFromRect:CGRectMake(0.0, 0.0, 400.0, 200.0)
+            popOverController = [[UIPopoverController alloc] initWithContentViewController:imagePicker];
+            popOverController.delegate = self;
+
+            [popOverController presentPopoverFromRect:CGRectMake(150.0, 300.0, 450.0, 300.0)
                                      inView:self.view
                    permittedArrowDirections:UIPopoverArrowDirectionAny
                                    animated:YES];
+            
+            [imagePicker setDelegate:self];
             break;
     }
-    
-
-    
-    //[self popController];
-    
-    //popOverController = [[UIPopoverController alloc] initWithContentViewController:picker];
-    //popOverController.delegate = self;
-}
-
-- (void)popController
-{
-    //picker = [[UIImagePickerController alloc] init];
-    //picker.delegate = self;
-    
-    //popOverController = [[UIPopoverController alloc] initWithContentViewController:picker];
-    //popOverController.delegate = self;
-    
-    //[self presentViewController:picker animated:YES completion:nil];
-    //[popOverController presentPopoverFromRect:CGRectMake(0.0, 0.0, 400.0, 200.0) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 
 -(IBAction) buttonClicked{
-
-    //picker = [[UIImagePickerController alloc] init];
-    //picker.delegate = self;
     
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {       
@@ -94,44 +76,26 @@
         [sheet showInView:self.view];
     } else
     {
-        //picker = [[UIImagePickerController alloc] init];
-        //picker.delegate = self;
+        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
         
-        //--->>>picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [imagePicker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
         
-        //popOverController = [[UIPopoverController alloc] initWithContentViewController:picker];
-        //popOverController.delegate = self;
+        popOverController = [[UIPopoverController alloc] initWithContentViewController:imagePicker];
+        popOverController.delegate = self;
         
-        //[self presentViewController:picker animated:YES completion:nil];
-        //[popOverController presentPopoverFromRect:CGRectMake(0.0, 0.0, 400.0, 200.0) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        [popOverController presentPopoverFromRect:CGRectMake(150.0, 300.0, 450.0, 300.0)
+                                           inView:self.view
+                         permittedArrowDirections:0
+                                         animated:YES];
         
-        // http://stackoverflow.com/questions/10498574/using-imagepickercontroller-causes-my-app-to-crash
-        /*
-        if (imagePicker==nil) {
-            imagePicker = [[UIImagePickerController alloc] init];
-            imagePicker.delegate = self;
-        }// create once!
-        
-        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    
-        UIPopoverController *popover =
-        [[UIPopoverController alloc] initWithContentViewController:imagePicker];
-        [popover presentPopoverFromRect:sender.bounds
-                                 inView:self.view
-               permittedArrowDirections:UIPopoverArrowDirectionAny
-                               animated:YES];
-        */
+        [imagePicker setDelegate:self];
     }
-    
-    //popOverController = [[UIPopoverController alloc] initWithContentViewController:picker];
-    //popOverController.delegate = self;
-    
-    //[self presentViewController:picker animated:YES completion:nil];
-    //[popOverController presentPopoverFromRect:CGRectMake(0.0, 0.0, 400.0, 200.0) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+    // Inspired by: http://stackoverflow.com/questions/8564833/ios-upload-image-and-text-using-http-post
+    
     // Code here to work with media
     // Get the image from the result
     UIImage* image = [info valueForKey:@"UIImagePickerControllerOriginalImage"];
@@ -145,7 +109,6 @@
     //[_params setObject:[NSString stringWithString:@"en"] forKey:[NSString stringWithString:@"lan"]];
     //[_params setObject:[NSString stringWithFormat:@"%d", userId] forKey:[NSString stringWithString:@"userId"]];
     //[_params setObject:[NSString stringWithFormat:@"%@",title] forKey:[NSString stringWithString:@"title"]];
-    
     
     
     // the boundary string : a random string, that will not repeat in post data, to separate post data fields.
@@ -220,7 +183,7 @@
                           error:&error];
     
     
-    // On a le url ici!! de limage fraichement uploader
+    // We now have the URL of the uploaded image. Copy it to the clipboard.
     NSArray* imageLocation = [json objectForKey:@"location"]; //2
     
     UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
