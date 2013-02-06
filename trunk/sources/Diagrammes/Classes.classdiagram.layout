@@ -59,7 +59,7 @@
         <packageShapeMoniker Id="9c5923fd-c4eb-4b3c-918d-d4ae947b38ac" />
       </nodes>
     </packageImportConnector>
-    <packageImportConnector edgePoints="[(5.125 : 5.34375); (10.875 : 5.34375)]" fixedFrom="NotFixed" fixedTo="NotFixed" customColor="Black">
+    <packageImportConnector edgePoints="[(5.125 : 5.34375); (6.82741245591344 : 5.34375 : JumpStart); (6.9940791225801 : 5.34375 : JumpEnd); (10.875 : 5.34375)]" fixedFrom="NotFixed" fixedTo="NotFixed" customColor="Black">
       <packageImportMoniker Id="0912c78d-4280-408d-ba1a-f4e1883668d5" />
       <relativeChildShapes />
       <nodes>

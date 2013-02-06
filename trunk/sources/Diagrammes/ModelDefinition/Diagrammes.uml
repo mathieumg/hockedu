@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/UseCaseModel"
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/dsltools/UseCaseModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
   dslVersion="1.0.0.0"
   Id="bd496572-2d56-4f1a-82f9-f287c782ea4e"
   name="Diagrammes" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
@@ -802,31 +802,6 @@
             LastKnownLocation="Diagrammes.uml" />
         </subjects>
       </useCase>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <class
-        Id="d65ba82e-2411-4c9f-be9e-5798b55b73f8"
-        name="NoeudRondelle"
-        isAbstract="false"
-        isLeaf="false"
-        isActiveClass="false">
-        <suppliersInternal>
-          <interfaceRealization
-            Id="91de2bc0-1477-4b29-a731-12d2c46d8c20">
-            <interfaceMoniker
-              Id="02f31808-7e12-4b73-ab44-472f9ab6a76a"
-              LastKnownName="NoeudAbstrait"
-              LastKnownLocation="Diagrammes.uml" />
-          </interfaceRealization>
-        </suppliersInternal>
-      </class>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <Interface
-        Id="02f31808-7e12-4b73-ab44-472f9ab6a76a"
-        name="NoeudAbstrait"
-        isAbstract="false"
-        isLeaf="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <useCase
