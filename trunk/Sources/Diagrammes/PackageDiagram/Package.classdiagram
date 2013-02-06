@@ -1,19 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="f457e5e3-6889-48f4-a7be-c8c42c8f7650" name="Package" linkedPackageId="a324f0f8-fd52-4229-a559-83d1e4f7e391" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
-  <profileInstances>
-    <packageHasProfileInstances Id="08ee7481-d80f-4346-8231-becd39aa7173">
-      <profileInstance Id="168f76ad-8e58-4b62-acf4-77faec523b02" name="StandardProfileL2">
-        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
-      </profileInstance>
-      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
-    </packageHasProfileInstances>
-    <packageHasProfileInstances Id="4a3479a3-18ca-475f-8c25-b5853a8a8ce2">
-      <profileInstance Id="027505a4-3204-46ec-ba7a-3cbbf70403fc" name="StandardProfileL3">
-        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
-      </profileInstance>
-      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
-    </packageHasProfileInstances>
-  </profileInstances>
   <packagedElements>
     <logicalClassDesignerModelHasPackages>
       <package Id="308fc672-c650-4d26-bbcf-1b980dc652d6" name="Présentation">
@@ -76,10 +62,11 @@
                   <body>+ Login
 + Register
 - LeaderBoard
-- Achivements
+- Achievements
 - Stats
 - TerrainUtilisateur
-- TerrainPublique</body>
+- TerrainPublic
+</body>
                 </comment>
               </ownedCommentsInternal>
               <elementDefinition Id="3df28ac2-6335-40e6-96cb-7f9d58d9ebe1" />
@@ -102,11 +89,10 @@
             <body>- EtatSouris
 + ÉvénementClavier
 + ÉvénementSouris
-+ GestionnaireEtats
-+ GestionnaireEvenements
++ GestionnaireEtat
++ GestionnaireEvenement
 + SoundFMod
-+ GestionnaireAchievements
-+ GestionnaireAnimations</body>
++ GestionnaireAchivement</body>
           </comment>
         </ownedCommentsInternal>
         <elementDefinition Id="443266b4-e90c-47fe-83ca-3abb3c839a64" />
@@ -189,7 +175,7 @@
 + Controlleur
 - ExceptionReseau
 - UsinePaquet
-</body>
++ PacketHandler</body>
                       </comment>
                     </ownedCommentsInternal>
                     <elementDefinition Id="6ec427c5-274e-4eae-841f-68808e52c08f" />
@@ -305,6 +291,12 @@
                   <elementDefinition Id="7b63f21b-c819-4c15-8ad9-7e895194e954" />
                 </dependency>
               </suppliersInternal>
+              <importedPackagesInternal>
+                <packageImport Id="5e18a06d-b367-4fad-bef3-a702d1aa53e2" visibility="Public">
+                  <packageMoniker Id="a33bd3ee-3f0e-4f3f-af55-af4c4f6680e4" LastKnownName="Réseau" />
+                  <elementDefinition Id="87578e5f-9845-4431-98f7-73c259fc746a" />
+                </packageImport>
+              </importedPackagesInternal>
             </package>
           </packageHasNamedElement>
           <packageHasNamedElement>
@@ -321,6 +313,12 @@
           <packageHasNamedElement>
             <package Id="319c700b-4801-40a5-a6ca-2952239f365f" name="Jeu">
               <elementDefinition Id="b4121d89-cf48-4a31-bdae-fd83beedcfa5" />
+              <importedPackagesInternal>
+                <packageImport Id="27fa3c43-4cca-4cd4-892b-ffa1414a34bc" visibility="Public">
+                  <packageMoniker Id="a33bd3ee-3f0e-4f3f-af55-af4c4f6680e4" LastKnownName="Réseau" />
+                  <elementDefinition Id="2fd9f85f-0525-4aab-90f3-ff22755caa2c" />
+                </packageImport>
+              </importedPackagesInternal>
             </package>
           </packageHasNamedElement>
         </packagedElements>
@@ -334,5 +332,19 @@
   </packagedElements>
   <package Id="a324f0f8-fd52-4229-a559-83d1e4f7e391" name="PackageDiagram">
     <elementDefinition Id="e3be6b7a-c594-4cdf-a79e-a902a52468de" />
+    <profileInstances>
+      <packageHasProfileInstances Id="08ee7481-d80f-4346-8231-becd39aa7173">
+        <profileInstance Id="168f76ad-8e58-4b62-acf4-77faec523b02" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="4a3479a3-18ca-475f-8c25-b5853a8a8ce2">
+        <profileInstance Id="027505a4-3204-46ec-ba7a-3cbbf70403fc" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
   </package>
 </logicalClassDesignerModel>

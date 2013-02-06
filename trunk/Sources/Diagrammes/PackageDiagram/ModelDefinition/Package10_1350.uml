@@ -5,4 +5,14 @@
   name="Jeu" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
   <elementDefinition
     Id="8eed1e63-30aa-4a6c-9425-bd259e64621e" />
+  <importedPackagesInternal>
+    <packageImport
+      Id="2fd9f85f-0525-4aab-90f3-ff22755caa2c"
+      visibility="Public">
+      <packageMoniker
+        Id="6ec427c5-274e-4eae-841f-68808e52c08f"
+        LastKnownName="Réseau"
+        LastKnownLocation="Package_1404.uml" />
+    </packageImport>
+  </importedPackagesInternal>
 </package>

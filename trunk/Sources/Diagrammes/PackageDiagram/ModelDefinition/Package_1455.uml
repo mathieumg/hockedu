@@ -9,10 +9,11 @@
       <body>+ Login
 + Register
 - LeaderBoard
-- Achivements
+- Achievements
 - Stats
 - TerrainUtilisateur
-- TerrainPublique</body>
+- TerrainPublic
+</body>
     </comment>
   </ownedCommentsInternal>
   <importedPackagesInternal>

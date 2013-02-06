@@ -16,4 +16,14 @@
         Id="219163ef-9768-4448-96b3-d92ac39e4a1d" />
     </dependency>
   </suppliersInternal>
+  <importedPackagesInternal>
+    <packageImport
+      Id="87578e5f-9845-4431-98f7-73c259fc746a"
+      visibility="Public">
+      <packageMoniker
+        Id="6ec427c5-274e-4eae-841f-68808e52c08f"
+        LastKnownName="Réseau"
+        LastKnownLocation="Package_1404.uml" />
+    </packageImport>
+  </importedPackagesInternal>
 </package>

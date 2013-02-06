@@ -12,7 +12,7 @@
 + Controlleur
 - ExceptionReseau
 - UsinePaquet
-</body>
++ PacketHandler</body>
     </comment>
   </ownedCommentsInternal>
   <suppliersInternal>
