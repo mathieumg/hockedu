@@ -1,0 +1,680 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="316ecab2-52b8-4684-8bd5-b84d40a7595c" name="GererCartes" linkedPackageId="1de2d0a7-fd3d-4a40-b6e6-044bda3e1298" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <profileInstances>
+    <packageHasProfileInstances Id="e2395952-1c2d-4032-a538-3b9fffe400a7">
+      <profileInstance Id="d57b803c-6478-4d8e-933e-13cbd3b7b202" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="37dbea91-01ea-4ac8-bdf0-d2e74ce596d6">
+      <profileInstance Id="761dd418-f147-4f82-a301-c4ba944a1926" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <subsystem Id="93666228-44bf-40f6-ae78-89298e1b0f26" name="2. Gérer les cartes" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <ownedCommentsInternal>
+          <comment Id="47f641d6-63bb-4056-90c3-8a802f915d1b">
+            <elementDefinition Id="6f77a7a7-8157-4179-a8cd-a34890271d3b" />
+            <body>Sur client lourd seulement</body>
+            <annotatedElements>
+              <useCaseMoniker Id="be18d7d6-16ee-45ed-8a20-e0e9ebe6862e" LastKnownName="2.8 Tester une carte" />
+            </annotatedElements>
+          </comment>
+        </ownedCommentsInternal>
+        <elementDefinition Id="89267896-9543-4093-b862-917bc874a00c" />
+      </subsystem>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="0a02f28a-0fc7-4227-a6fc-c1191af19a60" name="Utilisateur" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="45a57549-b92d-457c-a351-14cfdca18539" />
+        <targetEnds>
+          <association Id="6bfb9be6-0a30-4298-9ad7-2578fe53a560" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="2.1 Créer une carte" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="d3f0b2fa-1a1e-40ad-b25b-117d26b8a299" LastKnownName="2.1 Créer une nouvelle carte" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="4433b5fe-b373-47ec-a61a-4d82f2219afc" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="3629e102-fded-4c1f-9b7a-efed5f8cd5f2" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="0d45dffd-f7cb-4313-a622-ca433cd8ffa7" name="2.1 Créer une carte" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="47e86b6f-acf5-44a6-8ef3-9403b93e8334" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="4e10e5a9-57fe-460a-9e8b-7e8bb551d296" />
+          </association>
+          <association Id="418016ec-c2f0-4769-aa6e-a85b74be3399" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="2.2 Modifier une carte" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="a5f6c34e-5fe5-4d63-925e-09014d3b6bb9" LastKnownName="2.2 Modifier une carte" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="e52ed162-3ee0-4d52-a9de-a8ae16cd57c4" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="98ec34ad-ff63-4910-9e1d-f2f712fe9793" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="5c0a147e-52d3-401e-84bd-94952c1335e0" name="2.2 Modifier une carte" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="90f52f78-e20a-4ba0-a2bf-9cc8c33031be" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="3beabba3-0348-4499-a21a-d30865be49ef" />
+          </association>
+          <association Id="43f99243-057c-4778-a0c5-1b6c44a5c64a" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="2.3 Charger une carte" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="b0cea24e-61ce-4a9f-89e7-21f0f289fc6e" LastKnownName="2.3 Charger une carte" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="341aa003-1b92-4291-820e-23362421655b" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="7ac13496-deb2-4f46-826b-3fb318e2ea21" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="f2ae4801-6dc3-4d4a-a34e-3934559247f1" name="2.3 Charger une carte" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="71d0bf9a-69e5-4346-9f5d-363ca5dd8b56" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="8b59f4c3-99ee-4002-805c-e45a5753ba21" />
+          </association>
+          <association Id="f8de0e90-88ef-4afb-9b38-817385ff909e" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="2.4 Sauvegarder une carte" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="4cdb97f2-129f-4e53-88aa-679eb6c7e239" LastKnownName="2.4 Sauvegarder une carte" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="8997bd53-a69f-4ef3-a086-7c3cbad8fa44" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="3eb448c9-aaa1-4d04-8de7-13971dd46cb5" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="3ea9d96f-388d-4518-aaee-4631af8fc407" name="2.4 Sauvegarder une carte" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="764185a9-78a5-4372-948f-f433866b255e" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="f78eb1a2-a32d-4267-adcc-9d5678e3eb9b" />
+          </association>
+          <association Id="e8dd76d5-8e0d-4676-9951-c0020a7e97f8" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="2.5 Soumettre une carte" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="0ed44199-d881-4dda-8d5b-5629fd2d4ec3" LastKnownName="2.5 Soumettre une carte" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="097ab8f4-61fb-45df-bed3-d46178c5ca0e" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="4280e321-3327-4b0a-ac5c-62e4adeba506" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="4a3a4f08-c274-484a-a7dd-8e21f0470d03" name="2.5 Soumettre une carte" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="b3d13b04-02fc-4459-99a8-ef3d2b75100b" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="ef8ab314-5208-45d4-a73b-501d8781b71f" />
+          </association>
+          <association Id="56e38919-22f5-46f1-92af-a30103746fe1" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="2.6 Télécharger une carte" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="975e2129-c0ee-4a56-80d3-cb8478dacae9" LastKnownName="2.6 Télécharger une carte" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="adf7d157-65d5-477e-8b1a-dff0134b1c20" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="f07c85a6-ab2b-4732-9376-733f7b973ad4" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="7b14df8a-de40-4680-b27c-96eb39fc117f" name="2.6 Télécharger une carte" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="12da12ae-2f05-497d-b4ba-c95e021b23cb" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="0fb04c59-e85f-477c-a62c-389cb163c355" />
+          </association>
+          <association Id="d7a561b2-ef60-42a0-8d1e-a0e9ed5b8dec" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="2.7 Énumérer les cartes disponibles" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="7163d8bf-6076-4ebd-9357-ab4dce59a372" LastKnownName="2.7 Énumérer les cartes disponibles" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="678c61f2-b187-4448-879a-b978929c0dad" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="474510d9-4dc1-49ea-b8e4-4c0bab018834" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="09ce0783-8dc8-4b1a-be48-e4960d779e13" name="2.7 Énumérer les cartes disponibles" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="780ce4c7-d64b-4e53-8554-a2e0908f045b" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="3c3134e8-ebbd-4851-941c-b4868cd2be3e" />
+          </association>
+          <association Id="fa1a6a0c-92ff-4fcc-8ed8-933734e7eca1" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="2.8 Tester une carte" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="be18d7d6-16ee-45ed-8a20-e0e9ebe6862e" LastKnownName="2.8 Tester une carte" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="81e24afb-546e-4c3f-89f3-d687db626d23" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="42b7f331-bc94-4d26-a4c7-ae73d1582c46" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="9920a756-c283-41cb-b4ee-fe732f5c5fbe" name="2.8 Tester une carte" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="a467607b-c71c-4fb7-8b1b-166771f59220" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="14b0f1fc-96ce-4429-b064-bbf5cf86ddff" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <packageHasNamedElement>
+      <useCase Id="a5f6c34e-5fe5-4d63-925e-09014d3b6bb9" name="2.2 Modifier une carte" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="9387674f-1fc9-476b-8eec-7b4a842b62dd" />
+        <targetEnds>
+          <association Id="efbc5f43-4ff7-43f7-ae33-d932b2f425b9" isDerived="false" sourceEndRoleName="2.2 Modifier une carte" targetEndRoleName="2.2.1 Manipuler des objets" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="e78c8e98-aabc-47eb-bd7c-eba37c7cdfd9" LastKnownName="2.2.1 Manipuler des objets" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="3c2a6da9-0f39-429a-9d80-600c59fc6033" name="2.2 Modifier une carte" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="c0835781-deab-48ac-8bf7-f5808455bb4d" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="cb4bdfe1-cefb-4a64-a8e9-d536e7b52e22" name="2.2.1 Manipuler des objets" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="fcd06623-adf2-4c25-acc3-529388b5102b" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="dcf0718c-0906-4559-8695-705b0db2ff33" />
+          </association>
+          <association Id="6a0efe28-b21c-4441-9a3c-ae3071798317" isDerived="false" sourceEndRoleName="2.2 Modifier une carte" targetEndRoleName="2.2.2 Annuler une action" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="9a5c0341-1c6c-45bb-badf-c34b6f8c5a56" LastKnownName="2.2.2 Annuler une action" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="371782a3-cc69-4fe9-a60a-43074e171994" name="2.2 Modifier une carte" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="44f6b91f-c818-4d4e-84aa-0a0f79b505af" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="64d30a98-692b-4b45-94bd-c38d391bd8c1" name="2.2.2 Annuler une action" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="9e3f9a2b-805a-4be3-b18a-23c181ed215d" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="3799e894-268c-4b02-9917-957be6fdc0a0" />
+          </association>
+          <association Id="6bfd88bd-3ec9-455d-a9b0-f832dbf83505" isDerived="false" sourceEndRoleName="2.2 Modifier une carte" targetEndRoleName="2.2.3 Refaire une action" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="3bb7c236-9fb3-4caa-8ce5-3500995aa7ea" LastKnownName="2.2.3 Refaire une action" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="3fb847c5-3750-46b7-ac16-71b6b4f1379b" name="2.2 Modifier une carte" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="c94dc805-c807-4505-bd04-334cc851b2ee" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="de4ad791-c637-43cd-9f0b-d04d608c1a27" name="2.2.3 Refaire une action" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="226ab64e-776c-46a2-9696-83e39b8ddd54" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="6a0eb156-036b-4558-95d7-4e828c8c1df2" />
+          </association>
+          <association Id="dd041013-b0ca-4f5b-9f55-f0c092db16ea" isDerived="false" sourceEndRoleName="2.2 Modifier une carte" targetEndRoleName="2.2.4 Manipuler la surface de jeu" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="a53b04ee-737d-4cc3-b016-1de273c75c8c" LastKnownName="2.2.4 Manipuler la surface de jeu" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="b0fab902-8ae5-4a09-8059-94a17de04b82" name="2.2 Modifier une carte" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="b25a2f30-0af3-4c68-b926-484afedd1961" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="7abd11ca-467f-48a1-90dc-6478183efdca" name="2.2.4 Manipuler la surface de jeu" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="4ad3ff6c-f3f8-4876-9b7c-95e8e514c4ab" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="d1297728-8de2-4c6d-b027-feeb569fff9c" />
+          </association>
+        </targetEnds>
+        <extendedCases>
+          <extend Id="b2302131-f338-4100-a523-77e6e9833516">
+            <useCaseMoniker Id="9241559c-9aef-494d-adc7-b35c1223fcf3" LastKnownName="2.2.5 Modifier la vue" />
+            <elementDefinition Id="3e56224b-4142-444b-a45e-29a36b8f243c" />
+          </extend>
+        </extendedCases>
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="b0cea24e-61ce-4a9f-89e7-21f0f289fc6e" name="2.3 Charger une carte" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="353b85b8-f89e-4fde-9105-300c08b9ef34" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="4cdb97f2-129f-4e53-88aa-679eb6c7e239" name="2.4 Sauvegarder une carte" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="9b8cc3ef-dbae-4cf5-83ef-acf43b0a5efb" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="d3f0b2fa-1a1e-40ad-b25b-117d26b8a299" name="2.1 Créer une nouvelle carte" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="78d0bfa8-a929-4681-bf64-9f5e5236e0b4" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="0ed44199-d881-4dda-8d5b-5629fd2d4ec3" name="2.5 Soumettre une carte" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="5ff7ad49-4d8c-4f67-9a52-3be6ee549160" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="975e2129-c0ee-4a56-80d3-cb8478dacae9" name="2.6 Télécharger une carte" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="914f9363-4d54-4e96-a9c5-3549c1516457" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="7163d8bf-6076-4ebd-9357-ab4dce59a372" name="2.7 Énumérer les cartes disponibles" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="dcabd349-caae-4040-ba8f-c55844c0534c" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="be18d7d6-16ee-45ed-8a20-e0e9ebe6862e" name="2.8 Tester une carte" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="8e7212e8-c6fc-4c3b-8af9-5330c14e7049" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="e78c8e98-aabc-47eb-bd7c-eba37c7cdfd9" name="2.2.1 Manipuler des objets" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="aab19ff9-0cc0-45ca-a0bb-9474fe8dba0d" />
+        <targetEnds>
+          <association Id="15fa77ea-f1fc-4e74-9209-d9bccad880ed" isDerived="false" sourceEndRoleName="2.2.1 Manipuler des objets" targetEndRoleName="2.2.1.1 Ajouter un objet" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="5428662f-608d-4cf4-93b5-b6767faf0510" LastKnownName="2.2.1.1 Ajouter un objet" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="f5016b0a-606c-4fab-9c94-b1a608ee161e" name="2.2.1 Manipuler des objets" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="1e0d15b6-a54b-4331-87f3-99f2c402aea2" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="1110b7f2-fcaa-42a9-ab3f-d0cb658a4b01" name="2.2.1.1 Ajouter un objet" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="8e6447c3-c926-4341-bcdb-6bbeda69cbde" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="aae0cd90-e69b-483c-85c9-f5967d3aec48" />
+          </association>
+          <association Id="946380a3-1ed1-45b1-8c5b-1eaf12134728" isDerived="false" sourceEndRoleName="2.2.1 Manipuler des objets" targetEndRoleName="2.2.1.2 Supprimer un objet" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="011509f0-d151-40d4-8365-41b070b7e8d5" LastKnownName="2.2.1.2 Supprimer un objet" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="d24a9784-fa82-4492-84ef-e5ff28d500a5" name="2.2.1 Manipuler des objets" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="d68fa2aa-0c2a-4a86-b56d-21db499391ca" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a390a8ec-43d8-45a1-a483-1bb1323ca36c" name="2.2.1.2 Supprimer un objet" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="d305f7cf-deb9-4f42-9a50-9813c1dcfcee" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="005f8fa2-fe77-41a0-b4b9-9268842a4d4e" />
+          </association>
+          <association Id="652e345d-1af0-40e3-9b44-3c409f73ab91" isDerived="false" sourceEndRoleName="2.2.1 Manipuler des objets" targetEndRoleName="2.2.1.3 Dupliquer un objet" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="7775f557-6b14-409c-9b08-d77f75da09f4" LastKnownName="2.2.1.3 Dupliquer un objet" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="7fbd2947-cbe1-4efe-8420-35fa72672fa4" name="2.2.1 Manipuler des objets" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="f012f252-9166-4393-89fe-1c3f05b21acf" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a7aa8095-a690-4246-bd8f-76f54fda0877" name="2.2.1.3 Dupliquer un objet" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="92e73c0e-def3-4245-9706-1bc7c6e21cf7" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="8a292e81-5e95-4fba-a548-6aaef7f93b65" />
+          </association>
+          <association Id="c959930b-cb1c-40bb-852e-231e8f1fccfc" isDerived="false" sourceEndRoleName="2.2.1 Manipuler des objets" targetEndRoleName="2.2.1.4 Déplacer un objet" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="01cb62e0-0e96-4dfe-afb1-89db22f98814" LastKnownName="2.2.1.4 Déplacer un objet" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="edfb5ae1-6ee8-4bcc-a0e2-bd8dff64f092" name="2.2.1 Manipuler des objets" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="3583d307-3b55-4ab5-95cf-eafb0ca30cfb" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="3d81d260-7eb4-481b-a085-2a078e858d92" name="2.2.1.4 Déplacer un objet" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="ebdc9129-d79a-4488-b043-304f562e4864" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="4e2f0851-3a6c-4420-926e-cf53e47c3562" />
+          </association>
+          <association Id="2d7447da-5c81-434c-b696-41e1422edb08" isDerived="false" sourceEndRoleName="2.2.1 Manipuler des objets" targetEndRoleName="2.2.1.5 Mettre un objet à l'échelle" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="2e74fa85-4667-4829-b8a0-2315f81b1902" LastKnownName="2.2.1.5 Mettre un objet à l'échelle" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="e1abd4d3-9d26-4f64-8ef4-2d2ae4ac494b" name="2.2.1 Manipuler des objets" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="80b3ef8c-b715-4d43-bd0b-fc147898ebba" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="5cefabd2-ef95-46e4-a88e-af2f13839e0f" name="2.2.1.5 Mettre un objet à l'échelle" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="3954c893-5714-4eb2-bdea-3d11f539ee11" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="850013bf-b448-4eb6-8b92-c1ef353602f7" />
+          </association>
+          <association Id="4f48be9f-3e7d-403b-82ae-9088d744a4e9" isDerived="false" sourceEndRoleName="2.2.1 Manipuler des objets" targetEndRoleName="2.2.1.6 Modifier les propriétés physiques d'un objet" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="466fb910-1d07-4c53-a654-4804612b1cee" LastKnownName="2.2.1.6 Modifier les propriétés physiques d'un objet" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="61b8e9cd-d8c9-4a26-9d4d-f5e3f4170172" name="2.2.1 Manipuler des objets" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="efc89ebe-8509-47f5-b1b1-78c0620bdcad" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="adcbdce1-a314-485f-a3d1-8a42d583cd6c" name="2.2.1.6 Modifier les propriétés physiques d'un objet" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="598a5565-e1b4-45d7-b394-791a5ca8e2f5" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="cdec1c6d-c581-4bfc-afd6-6ba3c45cff43" />
+          </association>
+        </targetEnds>
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="9a5c0341-1c6c-45bb-badf-c34b6f8c5a56" name="2.2.2 Annuler une action" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="6978e994-b2e9-4f9d-93b1-64da652215d9" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="3bb7c236-9fb3-4caa-8ce5-3500995aa7ea" name="2.2.3 Refaire une action" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="5ca5a5da-657c-4549-824e-0d1ec42e16a3" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="a53b04ee-737d-4cc3-b016-1de273c75c8c" name="2.2.4 Manipuler la surface de jeu" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="ca1c10db-71d7-4ef0-a9c3-5181d4961117" />
+        <targetEnds>
+          <association Id="9c4e44bf-77b1-44f8-92d1-55c426a3a715" isDerived="false" sourceEndRoleName="2.2.4 Manipuler la surface de jeu" targetEndRoleName="2.2.4.1 Modifier la forme de la surface de jeu" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="c6d5802a-040a-4aff-b248-ad2461bf9de0" LastKnownName="2.2.4.1 Modifier la forme de la surface de jeu" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="8fe57074-6afd-4fd2-858b-2624b0358bf4" name="2.2.4 Manipuler la surface de jeu" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="1b5642db-c5b9-43f6-8e0e-8b480af74346" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="b86b1829-6398-41bc-936a-f550d628d6e5" name="2.2.4.1 Modifier la forme de la surface de jeu" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="2c467bf8-5b30-45e1-aac5-0080f970b2f9" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="ac9a7559-cee4-45f5-a9a4-9881186150f5" />
+          </association>
+          <association Id="1737f280-f012-4925-8bda-f6912400a390" isDerived="false" sourceEndRoleName="2.2.4 Manipuler la surface de jeu" targetEndRoleName="2.2.4.2 Modifier les propriétés physiques de la surface de jeu" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="f15e1c2f-72f3-4834-9fef-6493444d6bb9" LastKnownName="2.2.4.2 Modifier les propriétés physiques de la surface de jeu" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="f3d524b9-db1f-4125-8e3d-9890c660b689" name="2.2.4 Manipuler la surface de jeu" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="20776c30-49ce-49e3-8aa3-63764cb55bfb" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="6ba63e3e-adff-4f8c-a603-6fe90809a20e" name="2.2.4.2 Modifier les propriétés physiques de la surface de jeu" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="545b5310-b055-4839-92f7-d5c35e04424c" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="624caf27-750c-4c6c-9df0-d8199aa9c7c2" />
+          </association>
+          <association Id="e6dc07fb-8eed-4203-a3cc-3a648a0dd179" isDerived="false" sourceEndRoleName="2.2.4 Manipuler la surface de jeu" targetEndRoleName="2.2.4.3 Modifier la dimension des buts" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="b4fd575f-cacc-4c85-b72c-0c5256323287" LastKnownName="2.2.4.3 Modifier la dimension des buts" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="6fb002e7-32ea-4792-96eb-bd0a8cbf272c" name="2.2.4 Manipuler la surface de jeu" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="02244803-3ca3-4a56-af14-2c1ee0ee81a8" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="660261fd-faa9-4d2e-b08f-042a6c8ea200" name="2.2.4.3 Modifier la dimension des buts" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="32d040f4-dcf8-49ba-9461-f6a94cf6f43e" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="3727bfff-8208-4e21-aceb-c30be8c0a0f1" />
+          </association>
+        </targetEnds>
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="9241559c-9aef-494d-adc7-b35c1223fcf3" name="2.2.5 Modifier la vue" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="06730095-cca5-42df-aa82-4217a041070f" />
+        <targetEnds>
+          <association Id="516cd532-940d-4f46-b83d-673c5a967dec" isDerived="false" sourceEndRoleName="2.2.5 Modifier la vue" targetEndRoleName="2.2.5.1 Choisir le type de caméra utilisé" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="9cb3c68e-5c5f-43ce-962c-3520ea15aab5" LastKnownName="2.2.5.1 Choisir le type de caméra utilisé" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="ba6bbb57-0233-4ee7-8059-0f91dc12c2e9" name="2.2.5 Modifier la vue" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="d7f7831c-7ba3-45e0-82a2-e6c6eb189380" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="b1173ea6-c87e-423e-9ef6-fef99c480302" name="2.2.5.1 Choisir le type de caméra utilisé" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="8d04e68c-022f-4a20-9384-0627b84996dd" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="2b27fa45-eedf-4b28-8c94-4690610ff83c" />
+          </association>
+          <association Id="52ee2ac5-f7e2-4c98-bf76-0000f042334c" isDerived="false" sourceEndRoleName="2.2.5 Modifier la vue" targetEndRoleName="2.2.5.2 Rotater l'environnement d'édition" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="dc62aae3-43e0-4d10-91f9-a6531452acd6" LastKnownName="2.2.5.2 Rotater l'environnement d'édition" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="d20e8926-343a-43ac-a1f1-60de26d49c85" name="2.2.5 Modifier la vue" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="623a61a2-151a-4a10-9631-394946c18aa8" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="d389605a-a4e0-4905-92e8-ffcfd8086579" name="2.2.5.2 Rotater l'environnement d'édition" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="abd68311-8983-4c0f-908a-41156b12be8d" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="6ea7b0d8-df09-4da0-a1f1-160504f41323" />
+          </association>
+          <association Id="b366f275-f2ca-44a1-90a6-931de3f16d0f" isDerived="false" sourceEndRoleName="2.2.5 Modifier la vue" targetEndRoleName="2.2.5.3 Se déplacer dans l'environnement d'édition" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="2b4e71d6-26d3-4288-844f-909168d44f0a" LastKnownName="2.2.5.3 Se déplacer dans l'environnement d'édition" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="e149ea07-ee87-47d6-992b-adcece4e06af" name="2.2.5 Modifier la vue" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="cb0c326e-47cb-4e03-8db5-53293eaa4aa0" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="ae03393d-2fd4-41b0-ac85-eb5193b975b0" name="2.2.5.3 Se déplacer dans l'environnement d'édition" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="89df9f6d-192e-46ea-9290-4c49e4f1dcb2" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="67be164d-895f-4261-bc80-3d6243d75f9d" />
+          </association>
+        </targetEnds>
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="5428662f-608d-4cf4-93b5-b6767faf0510" name="2.2.1.1 Ajouter un objet" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="2017f51e-433e-470b-a949-0ff882eef6ce" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="011509f0-d151-40d4-8365-41b070b7e8d5" name="2.2.1.2 Supprimer un objet" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="2cddd30c-4082-4a43-be67-85630b25e6a9" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="7775f557-6b14-409c-9b08-d77f75da09f4" name="2.2.1.3 Dupliquer un objet" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="e557cf08-94dc-4e97-a6ff-d2f91335dc84" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="01cb62e0-0e96-4dfe-afb1-89db22f98814" name="2.2.1.4 Déplacer un objet" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="d72f3f6b-aebe-4ea3-9ca3-eae46a9a3f04" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="2e74fa85-4667-4829-b8a0-2315f81b1902" name="2.2.1.5 Mettre un objet à l'échelle" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="9e08e91c-682a-4025-9d12-59753b73a4bb" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="466fb910-1d07-4c53-a654-4804612b1cee" name="2.2.1.6 Modifier les propriétés physiques d'un objet" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="db45c8ee-4779-4639-a83a-5b5495f338ce" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="c6d5802a-040a-4aff-b248-ad2461bf9de0" name="2.2.4.1 Modifier la forme de la surface de jeu" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="9d7b9cd9-4172-42e6-b2d9-6043ba0ff483" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="f15e1c2f-72f3-4834-9fef-6493444d6bb9" name="2.2.4.2 Modifier les propriétés physiques de la surface de jeu" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="0c88c8de-4074-42a2-8f4c-704e8cd1206a" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="b4fd575f-cacc-4c85-b72c-0c5256323287" name="2.2.4.3 Modifier la dimension des buts" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="004005aa-203c-4398-b934-404dafe79938" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="9cb3c68e-5c5f-43ce-962c-3520ea15aab5" name="2.2.5.1 Choisir le type de caméra utilisé" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="ec3070b2-1b7d-4a9f-b402-2518217e147b" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="dc62aae3-43e0-4d10-91f9-a6531452acd6" name="2.2.5.2 Rotater l'environnement d'édition" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="ce6e88c4-a4aa-4cd4-a1e4-2224456f25fa" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="2b4e71d6-26d3-4288-844f-909168d44f0a" name="2.2.5.3 Se déplacer dans l'environnement d'édition" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="fb536d3f-0856-44f8-b03a-01386fa383d1" />
+        <subjects>
+          <subsystemMoniker Id="93666228-44bf-40f6-ae78-89298e1b0f26" LastKnownName="2. Gérer les cartes" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <useCaseModelRootHasTypes>
+      <actor Id="77825a61-dda4-40c2-90d6-11e377038a3e" name="Serveur web" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="1acdd410-4e12-474d-a636-c0f7a1b092c7" />
+        <targetEnds>
+          <association Id="67134669-ceb7-4487-b964-799dc0e6903d" isDerived="false" sourceEndRoleName="Serveur web" targetEndRoleName="2.5 Soumettre une carte" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="0ed44199-d881-4dda-8d5b-5629fd2d4ec3" LastKnownName="2.5 Soumettre une carte" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="4868afc2-5af6-475c-8600-b8d8b4c05a98" name="Serveur web" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="8bf015ae-a946-4631-a3f3-4da31a46ab0c" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="dcd537f6-9bde-49b2-89d2-12a6af4eed98" name="2.5 Soumettre une carte" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="6ee3cd38-90c7-4b8f-8fd5-0c70816ca4c9" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="252892d2-c6f2-488f-9086-4557859b41a1" />
+          </association>
+          <association Id="580dce4a-8113-48a6-934d-55763f14e118" isDerived="false" sourceEndRoleName="Serveur web" targetEndRoleName="2.6 Télécharger une carte" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="975e2129-c0ee-4a56-80d3-cb8478dacae9" LastKnownName="2.6 Télécharger une carte" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="1a8e8061-3bc9-4dbb-b377-d34bfa97e03a" name="Serveur web" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="5333e836-1761-4ade-bf99-a5dad47d9b51" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="4e422b07-6e33-48e7-ae64-fa224ad4ba7e" name="2.6 Télécharger une carte" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="04d80fee-e7a7-48dc-8e44-cc9e8de56424" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="7c3152c3-018e-4fe4-a21c-43836f9c9a1a" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+  </packagedElements>
+  <package Id="1de2d0a7-fd3d-4a40-b6e6-044bda3e1298" name="Diagrammes">
+    <elementDefinition Id="bd496572-2d56-4f1a-82f9-f287c782ea4e" />
+  </package>
+</useCaseModelRoot>
