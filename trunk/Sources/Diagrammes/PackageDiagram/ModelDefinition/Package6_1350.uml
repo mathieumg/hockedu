@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="878f9358-c4ee-4dec-bff3-164777cc84a4"
+  name="Éditeur Lourd" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="054bc425-60c4-41d0-ae74-648be719939c">
+      <body>- EtatSourisAjout
+- EtatSourisSelection
+- EtatSourisDeplacement
+- EtatSourisEchelle
+- EtatSourisRoation
++ GestionnaireEtatModeEdition
++ Camera</body>
+    </comment>
+  </ownedCommentsInternal>
+  <elementDefinition
+    Id="fa240314-9ecc-41a9-92ea-4ebf86095add" />
+  <suppliersInternal>
+    <dependency
+      Id="9a8e11a3-8ebd-48cc-a702-d1cede133d8f">
+      <packageMoniker
+        Id="d1245d44-354e-40f8-992e-086624acfcc4"
+        LastKnownName="Web"
+        LastKnownLocation="Package9_1350.uml" />
+      <elementDefinition
+        Id="d12575e5-6f82-491a-a929-3bf2eb3c45e5" />
+    </dependency>
+  </suppliersInternal>
+</package>

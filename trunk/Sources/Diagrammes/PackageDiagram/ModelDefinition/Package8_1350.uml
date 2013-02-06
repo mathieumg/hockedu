@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="5a319f25-63b6-488d-81e4-d25ecb628b54"
+  name="Maitre" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <elementDefinition
+    Id="7a626400-216a-4839-ad45-1062b899e011" />
+  <suppliersInternal>
+    <dependency
+      Id="7b63f21b-c819-4c15-8ad9-7e895194e954">
+      <packageMoniker
+        Id="f166b49a-8c33-4834-923d-61e6cab8c50a"
+        LastKnownName="Base de données"
+        LastKnownLocation="Package11_1350.uml" />
+      <elementDefinition
+        Id="219163ef-9768-4448-96b3-d92ac39e4a1d" />
+    </dependency>
+  </suppliersInternal>
+</package>

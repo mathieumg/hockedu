@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="0b801a66-e7c0-42fb-b6ea-6823c10802d3" name="Facade" linkedPackageId="1ddf85ad-2772-4e7c-9f4d-d963a7b485f3" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="755ca82c-027b-443b-ac90-162151a932cc">
+      <profileInstance Id="50279c1f-69be-4894-a607-752e1fe4b124" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="e11aaee5-895e-4bf2-b310-9e31731324d7">
+      <profileInstance Id="1771309e-4bc9-4729-b2bd-f094dddac271" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="b8c9bb96-b145-487e-9e35-a07fdc46687c" name="Facade">
+        <description>Facade</description>
+        <elementDefinition Id="64dbbb3f-a26f-4c33-a5ee-20cbad2acf17" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="6d6f758d-9537-4587-b9b5-7840165e4fa0" name="FacadeModele" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <description>Singleton</description>
+              <elementDefinition Id="33c1b178-bf44-45d3-94d3-7cd702a22422" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="9089140e-9cab-4af0-9001-7b1143475a1a" name="FacadeC#" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="b1aa96f6-5f8c-4b0d-8ed5-1d3c4a1c607c" />
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+  </packagedElements>
+  <package Id="1ddf85ad-2772-4e7c-9f4d-d963a7b485f3" name="PackageDiagram">
+    <elementDefinition Id="e3be6b7a-c594-4cdf-a79e-a902a52468de" />
+  </package>
+</logicalClassDesignerModel>

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="6ec427c5-274e-4eae-841f-68808e52c08f"
+  name="Réseau" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="02cae95e-c140-4c99-ab42-62e46e410e53">
+      <body>+ Paquet
++ CommunicateurReseau
++ GestionnaireReseau
++ Controlleur
+- ExceptionReseau
+- UsinePaquet
+</body>
+    </comment>
+  </ownedCommentsInternal>
+  <suppliersInternal>
+    <dependency
+      Id="3f13fbeb-3fe4-4e33-a4a9-40aa6a3d2516">
+      <packageMoniker
+        Id="64dbbb3f-a26f-4c33-a5ee-20cbad2acf17"
+        LastKnownName="Facade"
+        LastKnownLocation="Package_1352.uml" />
+    </dependency>
+  </suppliersInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <Interface
+        Id="9f387a10-1a93-4b07-9ad6-49e9942c7741"
+        name="Controlleur"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

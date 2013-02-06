@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="7d53e7bc-65b3-41f9-b877-7daf54e87cf7"
+  name="Partie" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="233745c4-9cbd-4054-b636-34eb1782ecff">
+      <body>+ Partie
++ Tournoi
++ JoueurAbstrait
+- AIMaillet
+- AIStrat
+- Zamboni</body>
+    </comment>
+  </ownedCommentsInternal>
+  <suppliersInternal>
+    <dependency
+      Id="8fe40e87-3de7-4132-a6ec-92aa15bac33a">
+      <packageMoniker
+        Id="64dbbb3f-a26f-4c33-a5ee-20cbad2acf17"
+        LastKnownName="Facade"
+        LastKnownLocation="Package_1352.uml" />
+    </dependency>
+  </suppliersInternal>
+</package>

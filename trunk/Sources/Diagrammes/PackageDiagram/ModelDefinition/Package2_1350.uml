@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="d45c7dd2-dc24-499d-b4ba-03163b890226"
+  name="Interface Léger" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="281fccff-8e4b-4f48-b020-68a9f5e81d44">
+      <body>+ Login
++ MenuPrincipal
++ Editeur</body>
+    </comment>
+  </ownedCommentsInternal>
+  <elementDefinition
+    Id="ac60970c-a82c-47f6-b8af-ecf185a715c8" />
+  <suppliersInternal>
+    <dependency
+      Id="958b7ae6-7548-4d10-afcb-e874f226c8a7">
+      <packageMoniker
+        Id="cdb6a7eb-419e-4cd7-8c30-16970040b1d3"
+        LastKnownName="Éditeur Léger"
+        LastKnownLocation="Package5_1350.uml" />
+      <elementDefinition
+        Id="f2f7d9e1-2229-48fa-b5a9-04d02fb9f3f8" />
+    </dependency>
+  </suppliersInternal>
+</package>

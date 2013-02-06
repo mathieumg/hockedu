@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="3f982649-244d-4f62-877e-eda83f2e9019" name="Terrain" linkedPackageId="c4dd6f29-a348-4cfb-8da5-04f6b865b7a4" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="2176ed2f-38c9-45ae-884b-b00ab871c556">
+      <profileInstance Id="6579e25f-b617-47c8-b40f-fb08a89d4e96" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="a2ca4ecd-9f30-4509-b7c1-bbe0433a7f2c">
+      <profileInstance Id="7d462c15-4fc1-4888-9065-158efd486d54" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="b0b0c171-00a5-4acc-9ce2-ab03edc0ae64" name="Terrain">
+        <elementDefinition Id="1f8f1e2b-1ceb-4f62-bb23-4d434c6036cb" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="a6c4d9e4-8199-4bc0-b077-7515ffabe372" name="NoeudAbstrait" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="860a93e9-f68a-49c4-a387-425a01d1bf97" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="4432a9a3-2dbd-4f7e-ab51-3248d0a636af" name="Terrain" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="59efb27a-c179-48d7-8efd-5ddcb0635d28" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="4ab1bf91-f11a-4525-a081-7b330db09df8" name="ZoneEdition" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="e5b4c97a-2afd-42f5-9d53-04a27fbc0c41" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="333adc62-a091-423d-8009-234918c7642b" name="VisiteurAbstrait" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="fb11051f-ef56-4602-a73b-504012fc41f9" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="0a7656bc-fbdc-4f70-ae68-fb5dbd16311b" name="UsineNoeuds" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="cf54de51-d20c-4366-9cf4-ecdc3ac9d802" />
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+  </packagedElements>
+  <package Id="c4dd6f29-a348-4cfb-8da5-04f6b865b7a4" name="PackageDiagram">
+    <elementDefinition Id="e3be6b7a-c594-4cdf-a79e-a902a52468de" />
+  </package>
+</logicalClassDesignerModel>

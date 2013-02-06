@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="df0883fe-d7c7-4263-914b-9ae534754276"
+  name="Jeu" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="d3d64b8d-8a68-4773-a1be-83825c77fadf">
+      <body># GestionnaoreHUD
+# GestionnaireEtatModeJeu
+- EtatSourisJeu</body>
+    </comment>
+  </ownedCommentsInternal>
+  <elementDefinition
+    Id="a2389aa2-8d95-485a-9bf1-001199ed2e27" />
+  <suppliersInternal>
+    <dependency
+      Id="492f5f23-8e36-4e43-bfb6-3469a03efe2d">
+      <packageMoniker
+        Id="b4121d89-cf48-4a31-bdae-fd83beedcfa5"
+        LastKnownName="Jeu"
+        LastKnownLocation="Package10_1350.uml" />
+      <elementDefinition
+        Id="f518c9b9-62a6-4413-a44c-43618fb46161" />
+    </dependency>
+    <dependency
+      Id="b3d257d7-df24-416c-9bc7-e51323308105">
+      <packageMoniker
+        Id="5a319f25-63b6-488d-81e4-d25ecb628b54"
+        LastKnownName="Maitre"
+        LastKnownLocation="Package8_1350.uml" />
+      <elementDefinition
+        Id="e7dab4a1-24e0-49f9-be7a-0a8a60786696" />
+    </dependency>
+  </suppliersInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="64dbbb3f-a26f-4c33-a5ee-20cbad2acf17"
+        LastKnownName="Facade"
+        LastKnownLocation="Package_1352.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="b3d0bf5b-d028-483d-9406-8f8acc29fce0"
+        LastKnownName="Package1"
+        LastKnownLocation="Package_1354.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="1f8f1e2b-1ceb-4f62-bb23-4d434c6036cb"
+        LastKnownName="Terrain"
+        LastKnownLocation="Package_1357.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="6ec427c5-274e-4eae-841f-68808e52c08f"
+        LastKnownName="Réseau"
+        LastKnownLocation="Package_1404.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="adb8c67c-e32c-4e7c-af2e-d8abdb69d1c0"
+        LastKnownName="Modèle 3D"
+        LastKnownLocation="Package_1411.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="7d53e7bc-65b3-41f9-b877-7daf54e87cf7"
+        LastKnownName="Partie"
+        LastKnownLocation="Package_1434.uml" />
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

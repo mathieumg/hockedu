@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="64dbbb3f-a26f-4c33-a5ee-20cbad2acf17"
+  name="Facade" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <description>Facade</description>
+  <ownedCommentsInternal>
+    <comment
+      Id="2058895e-7acb-41db-a17d-c662115463df">
+      <body>+ FacadeC#
++ FacadeModele</body>
+    </comment>
+  </ownedCommentsInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="33c1b178-bf44-45d3-94d3-7cd702a22422"
+        name="FacadeModele"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <description>Singleton</description>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="b1aa96f6-5f8c-4b0d-8ed5-1d3c4a1c607c"
+        name="FacadeC#"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

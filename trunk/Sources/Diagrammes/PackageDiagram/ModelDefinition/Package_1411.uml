@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="adb8c67c-e32c-4e7c-af2e-d8abdb69d1c0"
+  name="Modèle 3D" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="0d404c62-1fa7-4536-b642-5d92b7099c72">
+      <body>+ GestionnaireModeles
++ Modele3D</body>
+    </comment>
+  </ownedCommentsInternal>
+  <suppliersInternal>
+    <dependency
+      Id="56b8d0ec-4d1e-4062-b2bd-14990fa801c4">
+      <packageMoniker
+        Id="1f8f1e2b-1ceb-4f62-bb23-4d434c6036cb"
+        LastKnownName="Terrain"
+        LastKnownLocation="Package_1357.uml" />
+    </dependency>
+  </suppliersInternal>
+</package>
