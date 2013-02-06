@@ -17,12 +17,26 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" />
   <ItemGroup>
-    <Content Include="CasUtilisation.usecasediagram">
+    <Content Include="CasUtilisation_GererCartes.usecasediagram">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="CasUtilisation.usecasediagram.layout">
+    <Content Include="CasUtilisation_GererCartes.usecasediagram.layout">
       <SubType>Content</SubType>
-      <DependentUpon>CasUtilisation.usecasediagram</DependentUpon>
+      <DependentUpon>CasUtilisation_GererCartes.usecasediagram</DependentUpon>
+    </Content>
+    <Content Include="CasUtilisation_GererTournoi.usecasediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="CasUtilisation_GererTournoi.usecasediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>CasUtilisation_GererTournoi.usecasediagram</DependentUpon>
+    </Content>
+    <Content Include="CasUtilisation_Hockedu.usecasediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="CasUtilisation_Hockedu.usecasediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>CasUtilisation_Hockedu.usecasediagram</DependentUpon>
     </Content>
     <Folder Include="ModelDefinition\" />
     <Content Include="Classes.classdiagram">
