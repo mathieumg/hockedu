@@ -182,7 +182,6 @@ Global
 		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.Release|Mixed Platforms.ActiveCfg = Release|x64
 		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.Release|Win32.ActiveCfg = Release|x64
 		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.Release|x64.ActiveCfg = Release|x64
-		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.Release|x64.Build.0 = Release|x64
 		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.Release|x86.ActiveCfg = Release|x64
 		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.UnitTest|Mixed Platforms.ActiveCfg = UnitTest|x64
 		{3FC8974C-9179-4D4E-A5E0-79E3C836548F}.UnitTest|Win32.ActiveCfg = UnitTest|x64
@@ -262,7 +261,6 @@ Global
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Release|Mixed Platforms.Build.0 = Release|x64
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Release|Win32.ActiveCfg = Release|x86
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Release|x64.ActiveCfg = Release|x64
-		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Release|x64.Build.0 = Release|x64
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Release|x86.ActiveCfg = Release|x86
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Release|x86.Build.0 = Release|x86
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.UnitTest|Mixed Platforms.ActiveCfg = UnitTest|x64
@@ -322,7 +320,8 @@ Global
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.DebugPrototype|x86.Build.0 = DebugPrototype|x86
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Release|Mixed Platforms.ActiveCfg = Release|x64
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Release|Win32.ActiveCfg = Release|x86
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Release|x64.ActiveCfg = Release|x86
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Release|x64.ActiveCfg = Release|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Release|x64.Build.0 = Release|x64
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Release|x86.ActiveCfg = Release|x86
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Release|x86.Build.0 = Release|x86
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.UnitTest|Mixed Platforms.ActiveCfg = Release|x64
@@ -452,7 +451,6 @@ Global
 		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.Release|Mixed Platforms.Build.0 = Release|x64
 		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.Release|Win32.ActiveCfg = Release|x64
 		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.Release|x64.ActiveCfg = Release|x64
-		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.Release|x64.Build.0 = Release|x64
 		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.Release|x86.ActiveCfg = Release|x64
 		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.UnitTest|Mixed Platforms.ActiveCfg = Release|x64
 		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.UnitTest|Mixed Platforms.Build.0 = Release|x64

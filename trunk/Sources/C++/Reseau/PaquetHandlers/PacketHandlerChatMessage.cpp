@@ -39,29 +39,8 @@ void PacketHandlerChatMessage::handlePacketReceptionSpecific(PacketReader& pPack
 #ifdef _SERVER
     //if(GestionnaireReseau::getNetworkMode() == SERVER)
     {
-        // On veut relayer le message a une personne en particulier ou a tout le monde
-        // On ne call donc pas delete dessus tout suite
-
-        if(wPaquet->IsTargetGroup())
-        {
-            // On modifie le paquet pour que le timestamp soit sync pour tout a l'heure du serveur
-            wPaquet->setTimestamp(time(0));
-            // On envoie a tout le monde
-            //std::set<std::string> wListeIgnore;
-            //wListeIgnore.insert(wPaquet->getOrigin()); // Decommenter pour ne pas recevoir ses propres messages
-            RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, NULL, TCP);
-        }
-        else
-        {
-            // On l'envoie a la personne dans groupName seulement
-            RelayeurMessage::obtenirInstance()->relayerPaquet(wPaquet->getGroupName(), wPaquet, TCP);
-        }
-    }
-#else
-    //else if(GestionnaireReseau::getNetworkMode() == CLIENT)
-    {
         std::ostringstream wTimeOutput;
-        time_t wT = wPaquet->getTimestamp();
+        time_t wT = time(0);
         struct tm wTime;
         if(_localtime64_s(&wTime, &wT))
         {
@@ -77,10 +56,32 @@ void PacketHandlerChatMessage::handlePacketReceptionSpecific(PacketReader& pPack
                 << std::setw(2) << wTime.tm_sec
                 << std::setw(1) << "]";
         }
-        
+
 
         wTimeOutput << "[" << wPaquet->getOrigin() << "]: " << wPaquet->getMessage() << std::endl;
         std::cout << wTimeOutput.str();
+
+        // On veut relayer le message a une personne en particulier ou a tout le monde
+        // On ne call donc pas delete dessus tout suite
+
+        if(wPaquet->IsTargetGroup())
+        {
+            // On envoie a tout le monde
+            //std::set<std::string> wListeIgnore;
+            //wListeIgnore.insert(wPaquet->getOrigin()); // Decommenter pour ne pas recevoir ses propres messages
+            RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, NULL, TCP);
+        }
+        else
+        {
+            // On l'envoie a la personne dans groupName seulement
+            RelayeurMessage::obtenirInstance()->relayerPaquet(wPaquet->getGroupName(), wPaquet, TCP);
+        }
+        
+    }
+#else
+    //else if(GestionnaireReseau::getNetworkMode() == CLIENT)
+    {
+        
 
         GestionnaireReseau::obtenirInstance()->transmitEvent(CHAT_MESSAGE_RECEIVED,wPaquet->getOrigin(),wPaquet->getMessage());
 
