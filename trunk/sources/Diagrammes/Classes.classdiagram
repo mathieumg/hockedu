@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/UseCaseModel" dslVersion="1.0.0.0" Id="a52ed50a-07bb-4c6f-8c9a-c633201f42ff" name="Classes" linkedPackageId="913ec683-6dde-452c-9d32-8fef97cce8f9" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <packagedElements>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="6f3257f3-4fd5-4406-8119-222a4919cc1f" name="NoeudRondelle" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="d65ba82e-2411-4c9f-be9e-5798b55b73f8" />
+        <suppliersInternal>
+          <interfaceRealization Id="fd7fc04f-3915-4da9-ac72-ff1c118ab6ba">
+            <interfaceMoniker Id="2855d4be-1aa1-4516-84f4-8f8365143813" LastKnownName="NoeudAbstrait" />
+            <elementDefinition Id="91de2bc0-1477-4b29-a731-12d2c46d8c20" />
+          </interfaceRealization>
+        </suppliersInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <Interface Id="2855d4be-1aa1-4516-84f4-8f8365143813" name="NoeudAbstrait" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="02f31808-7e12-4b73-ab44-472f9ab6a76a" />
+      </Interface>
+    </logicalClassDesignerModelHasTypes>
+  </packagedElements>
+  <package Id="913ec683-6dde-452c-9d32-8fef97cce8f9" name="Diagrammes">
+    <elementDefinition Id="bd496572-2d56-4f1a-82f9-f287c782ea4e" />
+    <profileInstances>
+      <packageHasProfileInstances Id="0404a432-231b-49b9-b224-3b555067275e">
+        <profileInstance Id="1589691d-962e-4733-8952-15e7b3cb4211" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="3fc71079-7cb0-4515-b79f-ef454d177d2f">
+        <profileInstance Id="1da0c054-b674-4161-a9fc-b77009abe84a" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</logicalClassDesignerModel>

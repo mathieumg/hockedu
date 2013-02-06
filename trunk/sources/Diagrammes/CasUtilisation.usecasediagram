@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="d2f31772-168b-462b-b1db-19d6011f01a0" name="UMLUseCaseDiagram1" linkedPackageId="18cb3b51-3470-43a6-9279-1447ee9fcc0e" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <profileInstances>
+    <packageHasProfileInstances Id="5693c40c-8d61-47a3-aea0-cbc0cfe53838">
+      <profileInstance Id="357061a9-602c-4cfc-8ed5-3db5d8b57a8a" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="4aae2e8f-e2ca-41e3-b2e2-ed3bf4d80ecb">
+      <profileInstance Id="c4b92d46-f962-49c3-b4b5-34ac94998e3f" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <subsystem Id="e6600581-07cf-4714-a4c7-4e0d7db28319" name="iPad" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="ddf74c9c-128c-480f-9dc4-02c5e23250ca" />
+      </subsystem>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="a9ca2d41-71c7-40a9-b848-9c480ae36219" name="Utilisateur" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="45a57549-b92d-457c-a351-14cfdca18539" />
+        <targetEnds>
+          <association Id="9fd7666a-8c26-4f66-b46a-4fd1c0acdcf2" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="Créer une carte" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="7ecc36e7-75cc-4498-af93-b5a1c6e242e6" LastKnownName="Créer une carte" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="36f184b3-3429-43d5-a7e8-86e6a7aa7769" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="1ecbd6f7-118e-470f-849e-3f49458ad259" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="97a6ff72-a34f-42f3-bff3-9d0665b1a033" name="Créer une carte" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="07a7ea79-1913-46b2-85bb-f5822cdb7b42" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="96a809e9-c10b-45bd-ab62-21e2dd08b491" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="7ecc36e7-75cc-4498-af93-b5a1c6e242e6" name="Créer une carte" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="c9f25ece-1afa-4ebb-9eaf-f51a2effee85" />
+        <subjects>
+          <subsystemMoniker Id="e6600581-07cf-4714-a4c7-4e0d7db28319" LastKnownName="iPad" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+  </packagedElements>
+  <package Id="18cb3b51-3470-43a6-9279-1447ee9fcc0e" name="Diagrammes">
+    <elementDefinition Id="bd496572-2d56-4f1a-82f9-f287c782ea4e" />
+  </package>
+</useCaseModelRoot>
