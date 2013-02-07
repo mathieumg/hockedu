@@ -1,27 +1,248 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="ed2e75ad-7dec-4fee-be2d-e69e5e74f611" name="ChargerCarte" linkedPackageId="f1c78805-1778-44f2-9924-6de3f7a3b3c4" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
-  <profileInstances>
-    <packageHasProfileInstances Id="ad289a6b-098f-4bc8-9e2f-a4c34d39e1a5">
-      <profileInstance Id="43f86e92-6c86-4725-b6aa-38d6898cc99b" name="StandardProfileL2">
-        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
-      </profileInstance>
-      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
-    </packageHasProfileInstances>
-    <packageHasProfileInstances Id="61cb0d72-b8b8-49b6-bab8-49384c660826">
-      <profileInstance Id="01ee16fa-0f18-4c55-a907-b39754ccb485" name="StandardProfileL3">
-        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
-      </profileInstance>
-      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
-    </packageHasProfileInstances>
-  </profileInstances>
   <packagedElements>
     <useCaseModelRootHasTypes>
       <subsystem Id="a26a97f5-549e-44c4-b8b2-b49c617381db" name="2.3 Charger une carte" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="adc3fac3-8f22-4032-b959-5d4b0ee4ff76" />
       </subsystem>
     </useCaseModelRootHasTypes>
+    <packageHasNamedElement>
+      <useCase Id="6675b809-6251-41e9-98b3-964af189235f" name="2.3.1 Charger une carte locale" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="3e65f279-e420-4bf8-bc48-bca2f981727a" />
+        <subjects>
+          <subsystemMoniker Id="a26a97f5-549e-44c4-b8b2-b49c617381db" LastKnownName="2.3 Charger une carte" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="67434540-0a47-40d7-ae55-906926a77cfa" name="2.3.2 Charger une carte distante" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="6e66b80d-76e3-41e6-88a0-342e7848f139" />
+        <additions>
+          <include Id="b9de5044-a91d-4953-ae08-91df137e8bbd">
+            <useCaseMoniker Id="48af21d7-7928-4cc8-a6e4-04f0088f521d" LastKnownName="2.3.2.1 Obtenir la liste des cartes distantes" />
+            <elementDefinition Id="fddf79c8-4097-4500-b268-fa0522873e13" />
+          </include>
+          <include Id="29446a6a-0206-46fa-94b7-f136302e2e12">
+            <useCaseMoniker Id="553e1edb-928d-42be-b273-961f5452534c" LastKnownName="2.3.2.2 Télécharger une carte distante" />
+            <elementDefinition Id="9f68baab-3250-496c-804f-ba1e48fc105a" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="a26a97f5-549e-44c4-b8b2-b49c617381db" LastKnownName="2.3 Charger une carte" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="48af21d7-7928-4cc8-a6e4-04f0088f521d" name="2.3.2.1 Obtenir la liste des cartes distantes" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="a30d6de0-d74b-45d5-ad2f-228140216a3c" />
+        <subjects>
+          <subsystemMoniker Id="a26a97f5-549e-44c4-b8b2-b49c617381db" LastKnownName="2.3 Charger une carte" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <useCaseModelRootHasTypes>
+      <actor Id="d03fa024-3a3b-4b0b-ba04-72608b7973d3" name="Serveur web" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="1acdd410-4e12-474d-a636-c0f7a1b092c7" />
+        <targetEnds>
+          <association Id="a95a98d9-5cec-4bb7-bea1-18f2623cd299" isDerived="false" sourceEndRoleName="Serveur web" targetEndRoleName="2.3.2.1 Obtenir la liste des cartes distantes" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="48af21d7-7928-4cc8-a6e4-04f0088f521d" LastKnownName="2.3.2.1 Obtenir la liste des cartes distantes" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="aee8d150-bbb6-48d4-ab89-8f49022d4889" name="Serveur web" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="83a6297d-e966-4c9f-9779-404caaa8ddee" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="079fb0ce-e7fc-4264-888d-a59fc591607b" name="2.3.2.1 Obtenir la liste des cartes distantes" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="576dada3-d931-434f-825f-bd4f2d9b8011" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="91107ba9-1f8e-4b7e-8c97-92f767f7772d" />
+          </association>
+          <association Id="36b48adb-0e1f-4813-869c-f5af68a06255" isDerived="false" sourceEndRoleName="Serveur web" targetEndRoleName="2.3.2.2 Télécharger une carte distante" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="553e1edb-928d-42be-b273-961f5452534c" LastKnownName="2.3.2.2 Télécharger une carte distante" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="d02c0e3e-2b9e-4dc4-8296-fdc681d85cec" name="Serveur web" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="e95a8c96-841d-48eb-898d-4c6367530ee2" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a38fa110-365e-4261-88a0-3f3b2e7f80c0" name="2.3.2.2 Télécharger une carte distante" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="9a0356c6-461c-4035-8299-2ba5a1720fa7" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="4c161d2e-6901-4c11-9572-bf604cfebd82" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="e0412f5e-a400-4edd-b981-73284f98ac94" name="Utilisateur" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="45a57549-b92d-457c-a351-14cfdca18539" />
+        <targetEnds>
+          <association Id="e2f0edb1-c1d3-4980-97c6-052919e2ec69" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="2.3.1 Charger une carte locale" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="6675b809-6251-41e9-98b3-964af189235f" LastKnownName="2.3.1 Charger une carte locale" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="bbd67b48-c3d0-40ad-a9a9-81cf565aca16" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="87311113-ab56-4d63-9f67-39f2f5fc904d" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="882c2d0a-c149-4f45-8245-3f650ce12745" name="2.3.1 Charger une carte locale" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="8874edf6-9a75-48ae-9ed3-ed48ab59ab82" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="fef918da-e40d-412c-8a92-f01af4e8749d" />
+          </association>
+          <association Id="ce9dc489-01c4-4639-ac43-8c45313beac2" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="2.3.2 Charger une carte distante" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="67434540-0a47-40d7-ae55-906926a77cfa" LastKnownName="2.3.2 Charger une carte distante" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="1c314baa-1bf8-45ff-a5bb-cef1fd5528ed" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="5feb85a2-4b11-431a-9289-7d3961d78e8b" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="f598a134-d931-450a-8ab8-af8408333c3a" name="2.3.2 Charger une carte distante" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="e40bb34c-3158-4997-ab0f-3b38f38ad262" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="d311e050-1cc4-4c4a-b8ff-7a4ab3de881b" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <packageHasNamedElement>
+      <useCase Id="553e1edb-928d-42be-b273-961f5452534c" name="2.3.2.2 Télécharger une carte distante" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="f20e9b16-26da-46c5-8d9e-af31445f1625" />
+        <subjects>
+          <subsystemMoniker Id="a26a97f5-549e-44c4-b8b2-b49c617381db" LastKnownName="2.3 Charger une carte" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <useCaseModelRootHasTypes>
+      <actor Id="f8ed7f84-b0fc-4fde-b502-60ea8b418d94" name="Base de données" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="1e071713-1ba0-457f-8383-688edf8d79d3" />
+        <targetEnds>
+          <association Id="29a8f982-db77-4797-98d8-4c5d13478f1b" isDerived="false" sourceEndRoleName="Base de données" targetEndRoleName="2.3.2.1 Obtenir la liste des cartes distantes" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="48af21d7-7928-4cc8-a6e4-04f0088f521d" LastKnownName="2.3.2.1 Obtenir la liste des cartes distantes" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a5ed761a-9bb6-4fff-ab97-e04cefcdd3f9" name="Base de données" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="f69f20cb-0a51-43aa-a1e5-fd0a3dd8b85a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="aea8c995-0c0d-47a5-a262-f3451e8c62fc" name="2.3.2.1 Obtenir la liste des cartes distantes" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="4740626b-4803-4f35-babb-6fb058516462" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="eca2bbba-ef2d-4efd-8167-b65d4d222d20" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="20acb59e-2235-42a6-9675-c44596a3bb18" name="Client lourd" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="03e4be54-0129-46d4-8138-c6d5f9dac602" />
+        <targetEnds>
+          <association Id="92b8892b-4096-4421-8995-1d73cf05e49c" isDerived="false" sourceEndRoleName="Client lourd" targetEndRoleName="2.3.2.1 Obtenir la liste des cartes distantes" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="48af21d7-7928-4cc8-a6e4-04f0088f521d" LastKnownName="2.3.2.1 Obtenir la liste des cartes distantes" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="dc0f7e62-cc2d-45f4-b3ab-46b0648ef288" name="Client lourd" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="f573b282-6a47-4f19-914f-9d9e56b1c1b0" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="21c72a58-c5d6-4ac4-970f-8ce059f0ce01" name="2.3.2.1 Obtenir la liste des cartes distantes" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="dc04e8fd-8943-4486-8c20-ce593faa060b" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="932d2983-7d09-481a-9bba-c06d0fafb5ea" />
+          </association>
+          <association Id="d3ca0cc6-2bae-405d-8677-289f1c9d43cd" isDerived="false" sourceEndRoleName="Client lourd" targetEndRoleName="2.3.2.2 Télécharger une carte distante" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="553e1edb-928d-42be-b273-961f5452534c" LastKnownName="2.3.2.2 Télécharger une carte distante" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="af71690d-2cff-4c57-bc77-7c894b836937" name="Client lourd" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="ebfd1f62-c2dc-42b3-8549-2d19001c7fdd" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="6e0dd099-1a4e-4147-9437-b4eb94df7060" name="2.3.2.2 Télécharger une carte distante" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="b8085474-efd7-4f87-aeeb-ead383d85329" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="83757eb4-4a24-40e3-930b-ccfebede808d" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="481a6e45-2ef1-485f-82ef-6bf59ccfcc74" name="Client léger" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="b2df0eda-9d16-461e-a2ac-317e9e2a9422" />
+        <targetEnds>
+          <association Id="2f2a1284-8831-4cb5-99b9-f4ddd04730b6" isDerived="false" sourceEndRoleName="Client léger" targetEndRoleName="2.3.2.1 Obtenir la liste des cartes distantes" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="48af21d7-7928-4cc8-a6e4-04f0088f521d" LastKnownName="2.3.2.1 Obtenir la liste des cartes distantes" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="2ccb306f-777d-4f37-a71f-b3489914515a" name="Client léger" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="6dd58237-d9d6-4fa6-aac3-f964a84c3710" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="99eff98f-2f83-491b-ac86-4b2b99a5f7f8" name="2.3.2.1 Obtenir la liste des cartes distantes" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="f2ca9015-cb78-4ebb-96fa-96e9b2e54434" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="6de8c883-c2a2-4e35-93b8-9913b4ecbc33" />
+          </association>
+          <association Id="0091c828-afde-4a56-96b8-508d66f2487f" isDerived="false" sourceEndRoleName="Client léger" targetEndRoleName="2.3.2.2 Télécharger une carte distante" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="553e1edb-928d-42be-b273-961f5452534c" LastKnownName="2.3.2.2 Télécharger une carte distante" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="3d0552c9-be99-4def-a35f-ae1ef549b803" name="Client léger" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="90e5bbf0-35bf-4f90-8979-c021d536e80b" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="0f83eea4-85eb-46da-b652-349e3fbf011f" name="2.3.2.2 Télécharger une carte distante" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="b214d3e7-7b3f-416d-b57c-a1eaa428cf1c" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="5993d1f3-68c4-4a4e-a392-b6fe1f86e9d0" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
   </packagedElements>
   <package Id="f1c78805-1778-44f2-9924-6de3f7a3b3c4" name="Diagrammes">
     <elementDefinition Id="bd496572-2d56-4f1a-82f9-f287c782ea4e" />
+    <profileInstances>
+      <packageHasProfileInstances Id="ad289a6b-098f-4bc8-9e2f-a4c34d39e1a5">
+        <profileInstance Id="43f86e92-6c86-4725-b6aa-38d6898cc99b" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="61cb0d72-b8b8-49b6-bab8-49384c660826">
+        <profileInstance Id="01ee16fa-0f18-4c55-a907-b39754ccb485" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
   </package>
 </useCaseModelRoot>

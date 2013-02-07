@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="CasUtilisation_ModifierParametres">
+  <useCaseModelRootMoniker Id="ae6ce541-0453-4d20-80bf-c78c1f29863f" />
+  <nestedChildShapes>
+    <actorShape Id="03732176-087b-4a72-90bd-917c4e797486" absoluteBounds="0.625, 3.125, 0.5, 0.5" isReference="false" heightOffset="0">
+      <actorMoniker Id="365f1401-d80f-491f-bb2f-41459d011972" LastKnownName="Utilisateur" />
+      <relativeChildShapes />
+    </actorShape>
+    <SubsystemShape Id="abaf04f7-7730-42e8-af28-d36d35b25233" absoluteBounds="1.5, 0.5, 9, 5.5" customColor="White">
+      <subsystemMoniker Id="97f15d53-be07-4e92-b489-bfe521f0365f" LastKnownName="4. Modifier les paramètres de jeu" />
+      <nestedChildShapes>
+        <useCaseShape Id="c5375e0e-0189-420f-bfab-8cc2dd7fe25e" absoluteBounds="2, 2.125, 3.75, 0.5" customColor="238, 237, 131" heightOffset="0">
+          <useCaseMoniker Id="7e47ad35-e02e-4123-b654-abc3db3ef4d2" LastKnownName="4.1 Gérer les profils d'intellgience artificielle" />
+          <relativeChildShapes />
+        </useCaseShape>
+        <useCaseShape Id="126dee3c-49e7-4345-9f07-39d47ba21114" absoluteBounds="2.375, 2.875, 3.5, 0.5" customColor="238, 237, 131" heightOffset="0">
+          <useCaseMoniker Id="9170a99c-cf3f-4233-9a0e-a72f07b65af1" LastKnownName="4.2 Gérer la radio" />
+          <relativeChildShapes />
+        </useCaseShape>
+        <useCaseShape Id="b6fd4f12-9029-4890-86d0-320d0dfae8a9" absoluteBounds="2.375, 3.625, 3.5, 0.5" customColor="238, 237, 131" heightOffset="0">
+          <useCaseMoniker Id="2e52611d-6d7d-44de-981b-646c42e683c7" LastKnownName="4.3 Ajuster le volume" />
+          <relativeChildShapes />
+        </useCaseShape>
+        <useCaseShape Id="37f2333c-78fc-42cd-b760-87072b4f60bb" absoluteBounds="2, 5, 3.5, 0.5" customColor="238, 237, 131" heightOffset="0">
+          <useCaseMoniker Id="1cbd116d-0b45-416b-b802-26f0288d8034" LastKnownName="4.4 Ajuster les contrôles" />
+          <relativeChildShapes />
+        </useCaseShape>
+        <useCaseShape Id="1cd4b62e-1119-4ba6-8e38-7eb977dcfc4d" absoluteBounds="6.5, 1, 3.375, 0.5" customColor="238, 237, 131" heightOffset="0">
+          <useCaseMoniker Id="a9f41cdc-0d0d-4fc3-bac6-5fb3149945b2" LastKnownName="4.1.1 Créer un profil d'intelligence artificielle" />
+          <relativeChildShapes />
+        </useCaseShape>
+        <useCaseShape Id="22832e54-f6d1-4770-9108-db0d116940ad" absoluteBounds="6.5, 1.625, 3.625, 0.5" customColor="238, 237, 131" heightOffset="0">
+          <useCaseMoniker Id="856e24fd-b9b3-442f-8c26-696eb32cbca5" LastKnownName="4.1.2 Supprimer un profil d'intellgience artificielle" />
+          <relativeChildShapes />
+        </useCaseShape>
+        <useCaseShape Id="cbad3733-be62-4cd8-908a-bb9e4bc31870" absoluteBounds="6.5, 2.25, 3.625, 0.5" customColor="238, 237, 131" heightOffset="0">
+          <useCaseMoniker Id="a8ff57ee-5152-40fa-a51a-c92465b1b239" LastKnownName="4.1.3 Modifier un profil d'intelligence artificielle" />
+          <relativeChildShapes />
+        </useCaseShape>
+        <useCaseShape Id="ad99c55f-b9ab-4898-9e20-006461c70c23" absoluteBounds="6.5, 2.875, 1.625, 0.5" customColor="238, 237, 131" heightOffset="0">
+          <useCaseMoniker Id="44b12436-31c7-47b5-8ed3-cc40f79d8d49" LastKnownName="4.2.1 Créer un canal" />
+          <relativeChildShapes />
+        </useCaseShape>
+        <useCaseShape Id="0460cb9c-617b-4ae6-8b11-a8a5a443fbe0" absoluteBounds="6.5, 3.5, 1.875, 0.5" customColor="238, 237, 131" heightOffset="0">
+          <useCaseMoniker Id="2b2a2541-867e-4ce5-8af2-00799ff45e94" LastKnownName="4.2.2 Gérer les chansons" />
+          <relativeChildShapes />
+        </useCaseShape>
+        <useCaseShape Id="7848c47b-9f36-4726-a887-bdc352999aac" absoluteBounds="8.25, 3, 2.125, 0.5" customColor="238, 237, 131" heightOffset="0">
+          <useCaseMoniker Id="fa5d4f8e-ac1e-445c-afa4-6fe2e933b39d" LastKnownName="4.2.2.1 Ajouter une chanson" />
+          <relativeChildShapes />
+        </useCaseShape>
+        <useCaseShape Id="c75f6741-211b-4c8f-b300-339d90e4e829" absoluteBounds="8, 4.125, 2.375, 0.5" customColor="238, 237, 131" heightOffset="0">
+          <useCaseMoniker Id="68c2db7a-3a9e-46d0-bf0c-8a90bed34b9a" LastKnownName="4.2.2.2 Supprimer une chanson" />
+          <relativeChildShapes />
+        </useCaseShape>
+        <useCaseShape Id="5ceb7f5e-0d78-44db-adb1-6a2307adab20" absoluteBounds="6.125, 4.75, 2.875, 0.5" customColor="238, 237, 131" heightOffset="0">
+          <useCaseMoniker Id="54615de5-8545-4eac-beeb-3587d4b67c23" LastKnownName="4.3.1 Ajuster le volume de la musique" />
+          <relativeChildShapes />
+        </useCaseShape>
+        <useCaseShape Id="aa7b1554-f453-4839-b15b-8a8e9d839e52" absoluteBounds="5.625, 5.375, 3.375, 0.5" customColor="238, 237, 131" heightOffset="0">
+          <useCaseMoniker Id="4a811bab-07e4-453f-8805-abf648312db2" LastKnownName="4.3.2 Ajuster le volume des effets sonores" />
+          <relativeChildShapes />
+        </useCaseShape>
+      </nestedChildShapes>
+    </SubsystemShape>
+    <useCaseAssociationConnector edgePoints="[(1.125 : 3.29166666666667); (3.17864248183606 : 2.60711917272131)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="113, 111, 110" sourceMultiplicity="" targetMultiplicity="">
+      <associationMoniker Id="e5b96967-f671-412c-87b3-79077128e704" />
+      <relativeChildShapes />
+      <nodes>
+        <actorShapeMoniker Id="03732176-087b-4a72-90bd-917c4e797486" />
+        <useCaseShapeMoniker Id="c5375e0e-0189-420f-bfab-8cc2dd7fe25e" />
+      </nodes>
+    </useCaseAssociationConnector>
+    <useCaseAssociationConnector edgePoints="[(1.125 : 3.35576923076923); (2.58417557513619 : 3.24352495575875)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="113, 111, 110" sourceMultiplicity="" targetMultiplicity="">
+      <associationMoniker Id="e4fbf104-5853-4b5f-bf44-ac8582fb72b6" />
+      <relativeChildShapes />
+      <nodes>
+        <actorShapeMoniker Id="03732176-087b-4a72-90bd-917c4e797486" />
+        <useCaseShapeMoniker Id="126dee3c-49e7-4345-9f07-39d47ba21114" />
+      </nodes>
+    </useCaseAssociationConnector>
+    <useCaseAssociationConnector edgePoints="[(1.125 : 3.41346153846154); (2.93421057610726 : 3.69180162709343)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="113, 111, 110" sourceMultiplicity="" targetMultiplicity="">
+      <associationMoniker Id="6081b255-7ea8-4baa-ac6e-f0887e0d386f" />
+      <relativeChildShapes />
+      <nodes>
+        <actorShapeMoniker Id="03732176-087b-4a72-90bd-917c4e797486" />
+        <useCaseShapeMoniker Id="b6fd4f12-9029-4890-86d0-320d0dfae8a9" />
+      </nodes>
+    </useCaseAssociationConnector>
+    <useCaseAssociationConnector edgePoints="[(1.125 : 3.53804347826087); (3.37554494040463 : 5.00579017852476)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="113, 111, 110" sourceMultiplicity="" targetMultiplicity="">
+      <associationMoniker Id="3f26555c-60ce-4665-af18-3ee0b7c3e85c" />
+      <relativeChildShapes />
+      <nodes>
+        <actorShapeMoniker Id="03732176-087b-4a72-90bd-917c4e797486" />
+        <useCaseShapeMoniker Id="37f2333c-78fc-42cd-b760-87072b4f60bb" />
+      </nodes>
+    </useCaseAssociationConnector>
+    <useCaseAssociationConnector edgePoints="[(4.72833323710458 : 2.15239132945098); (7.35417038819931 : 1.46739033351322)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="113, 111, 110" sourceMultiplicity="" targetMultiplicity="">
+      <associationMoniker Id="650a9255-af2f-4171-808b-633b7cce187c" />
+      <relativeChildShapes />
+      <nodes>
+        <useCaseShapeMoniker Id="c5375e0e-0189-420f-bfab-8cc2dd7fe25e" />
+        <useCaseShapeMoniker Id="1cd4b62e-1119-4ba6-8e38-7eb977dcfc4d" />
+      </nodes>
+    </useCaseAssociationConnector>
+    <useCaseAssociationConnector edgePoints="[(5.30711409199129 : 2.21363503188831); (6.90882196168534 : 2.0331609057256)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="113, 111, 110" sourceMultiplicity="" targetMultiplicity="">
+      <associationMoniker Id="d497a1ab-fd7d-41f1-8502-16b8b061587b" />
+      <relativeChildShapes />
+      <nodes>
+        <useCaseShapeMoniker Id="c5375e0e-0189-420f-bfab-8cc2dd7fe25e" />
+        <useCaseShapeMoniker Id="22832e54-f6d1-4770-9108-db0d116940ad" />
+      </nodes>
+    </useCaseAssociationConnector>
+    <useCaseAssociationConnector edgePoints="[(5.70950624028684 : 2.42667623212076); (6.53665516415968 : 2.44997620180732)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="113, 111, 110" sourceMultiplicity="" targetMultiplicity="">
+      <associationMoniker Id="9ff0b101-2a44-4977-a7c5-13d444546192" />
+      <relativeChildShapes />
+      <nodes>
+        <useCaseShapeMoniker Id="c5375e0e-0189-420f-bfab-8cc2dd7fe25e" />
+        <useCaseShapeMoniker Id="cbad3733-be62-4cd8-908a-bb9e4bc31870" />
+      </nodes>
+    </useCaseAssociationConnector>
+    <useCaseAssociationConnector edgePoints="[(5.875 : 3.125); (6.5 : 3.125)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="113, 111, 110" sourceMultiplicity="" targetMultiplicity="">
+      <associationMoniker Id="7b4c9565-ddb5-4f37-8598-c474cd01e241" />
+      <relativeChildShapes />
+      <nodes>
+        <useCaseShapeMoniker Id="126dee3c-49e7-4345-9f07-39d47ba21114" />
+        <useCaseShapeMoniker Id="ad99c55f-b9ab-4898-9e20-006461c70c23" />
+      </nodes>
+    </useCaseAssociationConnector>
+    <useCaseAssociationConnector edgePoints="[(5.18136716951772 : 3.32431456028636); (6.67219336692348 : 3.60560252206103)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="113, 111, 110" sourceMultiplicity="" targetMultiplicity="">
+      <associationMoniker Id="ca47cd44-6fee-4ad2-ba5d-5237908b5d0a" />
+      <relativeChildShapes />
+      <nodes>
+        <useCaseShapeMoniker Id="126dee3c-49e7-4345-9f07-39d47ba21114" />
+        <useCaseShapeMoniker Id="0460cb9c-617b-4ae6-8b11-a8a5a443fbe0" />
+      </nodes>
+    </useCaseAssociationConnector>
+    <useCaseAssociationConnector edgePoints="[(8.10041260736239 : 3.57322330470336); (8.60952701059523 : 3.43745946384127)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="113, 111, 110" sourceMultiplicity="" targetMultiplicity="">
+      <associationMoniker Id="01b49f0c-11fd-4d85-9f6c-64ca4736b0f3" />
+      <relativeChildShapes />
+      <nodes>
+        <useCaseShapeMoniker Id="0460cb9c-617b-4ae6-8b11-a8a5a443fbe0" />
+        <useCaseShapeMoniker Id="7848c47b-9f36-4726-a887-bdc352999aac" />
+      </nodes>
+    </useCaseAssociationConnector>
+    <useCaseAssociationConnector edgePoints="[(7.99839615545439 : 3.95032005551943); (8.58447266211828 : 4.15963309361367)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="113, 111, 110" sourceMultiplicity="" targetMultiplicity="">
+      <associationMoniker Id="5df114c2-bb50-4124-afb9-032748a35248" />
+      <relativeChildShapes />
+      <nodes>
+        <useCaseShapeMoniker Id="0460cb9c-617b-4ae6-8b11-a8a5a443fbe0" />
+        <useCaseShapeMoniker Id="c75f6741-211b-4c8f-b300-339d90e4e829" />
+      </nodes>
+    </useCaseAssociationConnector>
+    <extendConnector edgePoints="[(5.874960669943 : 3.8766760841916); (7.19912875507921 : 4.75811905389914)]" fixedFrom="Caller" fixedTo="Algorithm" customColor="Black" useCaseStereotype="«étendre»">
+      <extendMoniker Id="3b0713b0-2d98-4d2a-bd80-d05bd1002ee3" />
+      <relativeChildShapes />
+      <nodes>
+        <useCaseShapeMoniker Id="b6fd4f12-9029-4890-86d0-320d0dfae8a9" />
+        <useCaseShapeMoniker Id="5ceb7f5e-0d78-44db-adb1-6a2307adab20" />
+      </nodes>
+    </extendConnector>
+    <extendConnector edgePoints="[(5.36171124918909 : 4.05188029424566); (6.28906045584136 : 5.42622582799633)]" fixedFrom="Caller" fixedTo="Caller" customColor="Black" useCaseStereotype="«étendre»">
+      <extendMoniker Id="d37bafec-e849-4b95-8210-1a0eb33a64ae" />
+      <relativeChildShapes />
+      <nodes>
+        <useCaseShapeMoniker Id="b6fd4f12-9029-4890-86d0-320d0dfae8a9" />
+        <useCaseShapeMoniker Id="aa7b1554-f453-4839-b15b-8a8e9d839e52" />
+      </nodes>
+    </extendConnector>
+  </nestedChildShapes>
+</useCaseDiagram>

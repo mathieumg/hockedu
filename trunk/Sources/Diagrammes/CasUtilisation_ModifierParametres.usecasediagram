@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="ae6ce541-0453-4d20-80bf-c78c1f29863f" name="ModifierParametres" linkedPackageId="87fac299-8529-4011-a883-a06eea96298b" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <profileInstances>
+    <packageHasProfileInstances Id="ddb91464-86b0-401d-a15d-0847d6492dc1">
+      <profileInstance Id="fd6645ec-3ede-4615-91e1-ebbfbd85d44f" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="dccd5559-9795-4a15-b188-17c1d27d38f6">
+      <profileInstance Id="7c63b2d5-5988-4486-912d-e97e09075181" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <subsystem Id="97f15d53-be07-4e92-b489-bfe521f0365f" name="4. Modifier les paramètres de jeu" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="2a887bf9-0b58-4b47-bb5c-75ce0ae9954a" />
+      </subsystem>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="365f1401-d80f-491f-bb2f-41459d011972" name="Utilisateur" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="45a57549-b92d-457c-a351-14cfdca18539" />
+        <targetEnds>
+          <association Id="e5b96967-f671-412c-87b3-79077128e704" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="4.1 Gérer les profils d'intellgience artificielle" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="7e47ad35-e02e-4123-b654-abc3db3ef4d2" LastKnownName="4.1 Gérer les profils d'intellgience artificielle" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="ed617cdb-ddff-4b19-b082-8fd7ad5b224d" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="7193ac10-ed1e-40dd-a297-adf769bab43c" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="efd394c8-3a9d-4f51-b172-8bf2c32dc47c" name="4.1 Gérer les profils d'intellgience artificielle" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="64042bb4-8be2-4996-9a34-044942111d86" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="c48cf845-1bf7-45a0-8f25-4b5ad80eeebf" />
+          </association>
+          <association Id="e4fbf104-5853-4b5f-bf44-ac8582fb72b6" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="4.2 Gérer la radio" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="9170a99c-cf3f-4233-9a0e-a72f07b65af1" LastKnownName="4.2 Gérer la radio" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="bb11f08b-fb08-474e-8b84-73585e496c40" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="44a80ab9-86e5-48b0-babc-40fa571f181c" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a16b4d73-4662-4291-b4cf-fb1ffff25814" name="4.2 Gérer la radio" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="21820f04-e240-4339-823f-f9f765273801" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="154aa590-5878-4089-b705-988d1270c6fe" />
+          </association>
+          <association Id="6081b255-7ea8-4baa-ac6e-f0887e0d386f" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="4.3 Ajuster le volume" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="2e52611d-6d7d-44de-981b-646c42e683c7" LastKnownName="4.3 Ajuster le volume" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="153a073a-4bf6-4533-a29c-edcb42a02c3c" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="3d3be6d4-8822-40f1-89d4-f5e36686ff32" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="52f640aa-db20-4d4a-a33e-0433cb42b38d" name="4.3 Ajuster le volume" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="82ee977b-e39a-4016-8643-3dd1b4386a31" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="1aad611f-2498-4cd7-9608-30cb8d534731" />
+          </association>
+          <association Id="3f26555c-60ce-4665-af18-3ee0b7c3e85c" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="4.4 Ajuster les contrôles" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="1cbd116d-0b45-416b-b802-26f0288d8034" LastKnownName="4.4 Ajuster les contrôles" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="b857ce95-9577-46d1-b3ab-a5c0d18717f4" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="a1b6a9de-906f-4a83-9492-315284dcb117" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="eeae78d3-508b-4ed5-bf5e-b8d9017633b8" name="4.4 Ajuster les contrôles" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="8c374106-27aa-40bc-8aed-a8a9f32a9a04" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="8a40d9d4-2887-41c7-9379-8809883f8661" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <packageHasNamedElement>
+      <useCase Id="7e47ad35-e02e-4123-b654-abc3db3ef4d2" name="4.1 Gérer les profils d'intellgience artificielle" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="9e8fed66-b87a-46e6-9d8b-775830f912ca" />
+        <targetEnds>
+          <association Id="650a9255-af2f-4171-808b-633b7cce187c" isDerived="false" sourceEndRoleName="4.1 Gérer les profils d'intellgience artificielle" targetEndRoleName="4.1.1 Créer un profil d'intelligence artificielle" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="a9f41cdc-0d0d-4fc3-bac6-5fb3149945b2" LastKnownName="4.1.1 Créer un profil d'intelligence artificielle" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="80d7a441-3ccb-4a80-9f1f-5cab7f8c2d28" name="4.1 Gérer les profils d'intellgience artificielle" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="01fbb8c6-1cb6-4629-81b9-22da98661c22" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="9fae398a-b18c-4771-848b-be7753e97304" name="4.1.1 Créer un profil d'intelligence artificielle" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="c3cc84bf-d09a-4da7-995f-394393b059bb" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="df206608-498c-4ecc-9957-f9bb93d2ecf9" />
+          </association>
+          <association Id="d497a1ab-fd7d-41f1-8502-16b8b061587b" isDerived="false" sourceEndRoleName="4.1 Gérer les profils d'intellgience artificielle" targetEndRoleName="4.1.2 Supprimer un profil d'intellgience artificielle" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="856e24fd-b9b3-442f-8c26-696eb32cbca5" LastKnownName="4.1.2 Supprimer un profil d'intellgience artificielle" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="f01fe37d-e1e4-4330-a9e0-a799d73da926" name="4.1 Gérer les profils d'intellgience artificielle" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="9a437dd4-fee7-49c2-b9d9-469e4f0294e1" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="2277f75b-d8de-43b5-ad80-f7c078514b49" name="4.1.2 Supprimer un profil d'intellgience artificielle" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="476a5420-e997-4d06-90c6-aa0249184167" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="cc26d12b-48d8-4737-9f3f-90d861f8a9ff" />
+          </association>
+          <association Id="9ff0b101-2a44-4977-a7c5-13d444546192" isDerived="false" sourceEndRoleName="4.1 Gérer les profils d'intellgience artificielle" targetEndRoleName="4.1.3 Modifier un profil d'intelligence artificielle" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="a8ff57ee-5152-40fa-a51a-c92465b1b239" LastKnownName="4.1.3 Modifier un profil d'intelligence artificielle" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="29632793-ba7a-4246-a9fb-00cb0d76ecb4" name="4.1 Gérer les profils d'intellgience artificielle" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="ad1314c9-1db1-4a2a-a3ca-d7959e3f922e" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="25024ac6-46e7-4bbc-80d0-cb7009b77968" name="4.1.3 Modifier un profil d'intelligence artificielle" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="09fc4deb-7d7f-4d3a-b904-91bdad16f465" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="8f6d260c-49fd-450c-9a06-358cceba398a" />
+          </association>
+        </targetEnds>
+        <subjects>
+          <subsystemMoniker Id="97f15d53-be07-4e92-b489-bfe521f0365f" LastKnownName="4. Modifier les paramètres de jeu" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="9170a99c-cf3f-4233-9a0e-a72f07b65af1" name="4.2 Gérer la radio" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="456b1b7b-a674-40ac-801d-f87626b2a8f7" />
+        <targetEnds>
+          <association Id="7b4c9565-ddb5-4f37-8598-c474cd01e241" isDerived="false" sourceEndRoleName="4.2 Gérer la radio" targetEndRoleName="4.2.1 Créer un canal" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="44b12436-31c7-47b5-8ed3-cc40f79d8d49" LastKnownName="4.2.1 Créer un canal" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="23cfa7fe-4031-43bb-8a6c-bc8f5d39f689" name="4.2 Gérer la radio" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="5017e18b-7b0e-4f2d-b733-664d8c3871a1" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="0b3b023b-d7c2-436d-a8ed-93f6daf01494" name="4.2.1 Créer un canal" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="84f885a9-3677-476c-bbc8-1d1a308a443c" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="0f7fc239-639e-4fe9-bd84-fea7a6a4f5b0" />
+          </association>
+          <association Id="ca47cd44-6fee-4ad2-ba5d-5237908b5d0a" isDerived="false" sourceEndRoleName="4.2 Gérer la radio" targetEndRoleName="4.2.2 Gérer les chansons" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="2b2a2541-867e-4ce5-8af2-00799ff45e94" LastKnownName="4.2.2 Gérer les chansons" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="8e8092ad-185b-4beb-93c2-aabc85a6b156" name="4.2 Gérer la radio" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="63af6b92-1beb-4009-af63-661b7b516844" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="e1282ab7-8768-4a66-82b5-60cdc5b6f3d1" name="4.2.2 Gérer les chansons" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="999f1116-bbe5-4584-bc44-0b1ca699e8ed" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="c2ff7a0c-21fe-49b2-95ca-5b922d4329e3" />
+          </association>
+        </targetEnds>
+        <subjects>
+          <subsystemMoniker Id="97f15d53-be07-4e92-b489-bfe521f0365f" LastKnownName="4. Modifier les paramètres de jeu" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="2e52611d-6d7d-44de-981b-646c42e683c7" name="4.3 Ajuster le volume" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="cbe04adf-1cca-4f3c-be46-0239be1b5bd7" />
+        <extendedCases>
+          <extend Id="3b0713b0-2d98-4d2a-bd80-d05bd1002ee3">
+            <useCaseMoniker Id="54615de5-8545-4eac-beeb-3587d4b67c23" LastKnownName="4.3.1 Ajuster le volume de la musique" />
+            <elementDefinition Id="949c9a55-660d-4e24-a425-0c0b3a5b293f" />
+          </extend>
+          <extend Id="d37bafec-e849-4b95-8210-1a0eb33a64ae">
+            <useCaseMoniker Id="4a811bab-07e4-453f-8805-abf648312db2" LastKnownName="4.3.2 Ajuster le volume des effets sonores" />
+            <elementDefinition Id="8761bcc6-f6aa-4a2e-b487-c962867ed331" />
+          </extend>
+        </extendedCases>
+        <subjects>
+          <subsystemMoniker Id="97f15d53-be07-4e92-b489-bfe521f0365f" LastKnownName="4. Modifier les paramètres de jeu" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="1cbd116d-0b45-416b-b802-26f0288d8034" name="4.4 Ajuster les contrôles" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="f9a7a59a-ff16-4dff-ac67-65031e1a487d" />
+        <subjects>
+          <subsystemMoniker Id="97f15d53-be07-4e92-b489-bfe521f0365f" LastKnownName="4. Modifier les paramètres de jeu" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="a9f41cdc-0d0d-4fc3-bac6-5fb3149945b2" name="4.1.1 Créer un profil d'intelligence artificielle" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="337baf2b-4756-4dbf-a6ca-b5c3aaa09047" />
+        <subjects>
+          <subsystemMoniker Id="97f15d53-be07-4e92-b489-bfe521f0365f" LastKnownName="4. Modifier les paramètres de jeu" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="856e24fd-b9b3-442f-8c26-696eb32cbca5" name="4.1.2 Supprimer un profil d'intellgience artificielle" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="c3d498d3-3224-457d-83a7-e9e293987edc" />
+        <subjects>
+          <subsystemMoniker Id="97f15d53-be07-4e92-b489-bfe521f0365f" LastKnownName="4. Modifier les paramètres de jeu" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="a8ff57ee-5152-40fa-a51a-c92465b1b239" name="4.1.3 Modifier un profil d'intelligence artificielle" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="ec1ddc47-e220-49ae-a4f7-05b33712c070" />
+        <subjects>
+          <subsystemMoniker Id="97f15d53-be07-4e92-b489-bfe521f0365f" LastKnownName="4. Modifier les paramètres de jeu" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="44b12436-31c7-47b5-8ed3-cc40f79d8d49" name="4.2.1 Créer un canal" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="5aae0754-28e3-46f9-bd60-b6128f97cef8" />
+        <subjects>
+          <subsystemMoniker Id="97f15d53-be07-4e92-b489-bfe521f0365f" LastKnownName="4. Modifier les paramètres de jeu" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="2b2a2541-867e-4ce5-8af2-00799ff45e94" name="4.2.2 Gérer les chansons" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="01b2018e-cb9e-444a-8b0b-854685c4c542" />
+        <targetEnds>
+          <association Id="01b49f0c-11fd-4d85-9f6c-64ca4736b0f3" isDerived="false" sourceEndRoleName="4.2.2 Gérer les chansons" targetEndRoleName="4.2.2.1 Ajouter une chanson" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="fa5d4f8e-ac1e-445c-afa4-6fe2e933b39d" LastKnownName="4.2.2.1 Ajouter une chanson" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="07a9dc52-144c-4dcf-a962-515dd9bb882d" name="4.2.2 Gérer les chansons" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="5fde24d2-8844-4534-bcaf-b53ebcfc4a4e" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="3d196ce7-4b4e-4075-b7d3-5713bd78f4f1" name="4.2.2.1 Ajouter une chanson" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="69a7dcd4-4a38-46e3-a62f-f9a8b6660495" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="d2f8f22b-6628-4fdc-9864-1135628e0d62" />
+          </association>
+          <association Id="5df114c2-bb50-4124-afb9-032748a35248" isDerived="false" sourceEndRoleName="4.2.2 Gérer les chansons" targetEndRoleName="4.2.2.2 Supprimer une chanson" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="68c2db7a-3a9e-46d0-bf0c-8a90bed34b9a" LastKnownName="4.2.2.2 Supprimer une chanson" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="0de67276-d3a1-4a16-ae11-4d68c583a7bc" name="4.2.2 Gérer les chansons" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="a3c3f5e2-65f2-4e6d-88d0-1fbdc6f1f825" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="7836915e-efa4-4492-a12c-488b34dd9be6" name="4.2.2.2 Supprimer une chanson" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="3ee47596-09f4-419e-bdff-2af213359cce" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="9ec9b1d7-d496-4219-83be-e5130ab6e49d" />
+          </association>
+        </targetEnds>
+        <subjects>
+          <subsystemMoniker Id="97f15d53-be07-4e92-b489-bfe521f0365f" LastKnownName="4. Modifier les paramètres de jeu" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="fa5d4f8e-ac1e-445c-afa4-6fe2e933b39d" name="4.2.2.1 Ajouter une chanson" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="b75ec43c-57cd-4202-a1b2-1596e0fb2f77" />
+        <subjects>
+          <subsystemMoniker Id="97f15d53-be07-4e92-b489-bfe521f0365f" LastKnownName="4. Modifier les paramètres de jeu" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="68c2db7a-3a9e-46d0-bf0c-8a90bed34b9a" name="4.2.2.2 Supprimer une chanson" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="bf7926c0-a40d-4e9d-9156-e8cc6432f163" />
+        <subjects>
+          <subsystemMoniker Id="97f15d53-be07-4e92-b489-bfe521f0365f" LastKnownName="4. Modifier les paramètres de jeu" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="54615de5-8545-4eac-beeb-3587d4b67c23" name="4.3.1 Ajuster le volume de la musique" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="435b2de7-bc3f-4a92-86cc-1ffa6693d163" />
+        <subjects>
+          <subsystemMoniker Id="97f15d53-be07-4e92-b489-bfe521f0365f" LastKnownName="4. Modifier les paramètres de jeu" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="4a811bab-07e4-453f-8805-abf648312db2" name="4.3.2 Ajuster le volume des effets sonores" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="66e32817-54ff-429a-b4d5-bf2a8df8d4bc" />
+        <subjects>
+          <subsystemMoniker Id="97f15d53-be07-4e92-b489-bfe521f0365f" LastKnownName="4. Modifier les paramètres de jeu" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="87fac299-8529-4011-a883-a06eea96298b" name="Diagrammes">
+    <elementDefinition Id="bd496572-2d56-4f1a-82f9-f287c782ea4e" />
+  </package>
+</useCaseModelRoot>
