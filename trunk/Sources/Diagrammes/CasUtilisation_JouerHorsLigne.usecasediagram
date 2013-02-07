@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" dslVersion="1.0.0.0" Id="87599dea-f406-4e1d-9057-79104144d718" name="JouerHorsLigne" linkedPackageId="3d85d7d5-64b7-45e0-abe2-1489f2e22ea2" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <profileInstances>
+    <packageHasProfileInstances Id="c737e78b-1de2-49ad-908e-6c791af31424">
+      <profileInstance Id="2403f41d-b2e5-49bf-934a-d8fc7095b96a" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="3474f17b-8b42-49f3-8a0b-130830145999">
+      <profileInstance Id="efba19b5-5175-4fce-a82a-c5cea6c342ba" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <subsystem Id="5148f56e-5dd5-4be4-8927-7a5529e29555" name="5. Jouer une partie hors-ligne" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="1d9ca80d-b07d-4d07-988e-65175cce3828" />
+      </subsystem>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="f4400081-debf-4a9e-a3e8-088fddb2fa3f" name="Utilisateur" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="45a57549-b92d-457c-a351-14cfdca18539" />
+        <targetEnds>
+          <association Id="69f02cbe-3d85-4d2a-b2cf-3df72d3ee955" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="5.1 Jouer une partie en réseau local" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="2c247736-128d-43a0-9093-63c99cf72d3b" LastKnownName="5.1 Jouer une partie en réseau local" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="041d62f9-1127-4094-8f1c-ee0076ea4b11" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="711ba003-d710-4ce6-9df5-15d10da0f8a7" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="66206b2c-e790-4c2e-95c2-37f8f20f74af" name="5.1 Jouer une partie en réseau local" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="a19be735-5968-46b9-b41c-b5447a03995d" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="f3c9fd4d-a880-41fd-8bda-8cd978f536e0" />
+          </association>
+          <association Id="cbcb0569-f995-4f6d-98e1-9eaf7f8d0d2d" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="5.2 Jouer une partie contre l'intelligence artificielle" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="6b867662-bc9f-4898-8e5d-51ae3c55914f" LastKnownName="5.2 Jouer une partie contre l'intelligence artificielle" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="e3a178f3-0b60-4068-8ef1-ae955f3a1820" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="575a958d-4553-4653-872d-28d7835a0006" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="5ba05f82-4701-4dfc-bdb7-1f398e634d18" name="5.2 Jouer une partie contre l'intelligence artificielle" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="73134ffd-5a3f-42de-bd47-1f7666dba016" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="59e547b5-33e5-4425-9bbf-95caa4d82b35" />
+          </association>
+          <association Id="53d069d0-025b-4ce1-8bc9-ab569594611c" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="5.3 Jouer contre un humain sur le même poste" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="ada08883-1ec7-4bd6-9a70-0acb94788d12" LastKnownName="5.3 Jouer contre un humain sur le même poste" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="6cc71868-2ead-4630-bed3-4ccd5ba59d44" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="ab1ab913-1df2-4f82-abc8-fabd6fa8365a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="02b52e84-43f9-458c-84fa-2f67744e02c9" name="5.3 Jouer contre un humain sur le même poste" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="a0374c12-27a4-47fc-9fdf-37c160c92185" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="cb6dfbdc-8183-44d8-b351-98b457fed54a" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <packageHasNamedElement>
+      <useCase Id="2c247736-128d-43a0-9093-63c99cf72d3b" name="5.1 Jouer une partie en réseau local" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="05cd1d7e-8edd-4848-b758-145b6257a5e6" />
+        <targetEnds>
+          <association Id="9761dd2e-4cbb-4166-b808-e13cc0cb41df" isDerived="false" sourceEndRoleName="5.1 Jouer une partie en réseau local" targetEndRoleName="5.1.1 Créer une partie en réseau local" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="d068d6df-34ef-4b29-98a5-637861cfbc5d" LastKnownName="5.1.1 Créer une partie en réseau local" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="6e1b8a7a-8799-4ed5-b882-1d6d1211dd7f" name="5.1 Jouer une partie en réseau local" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="9bbfdf57-3394-4efc-afca-1604aca3978c" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="75a0d8be-dfa7-426c-9e58-cf358be26550" name="5.1.1 Créer une partie en réseau local" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="89519490-1e6d-458d-bdc0-1202853f5507" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="67945b0e-9465-4216-bbc4-070863b4365e" />
+          </association>
+          <association Id="d2f57900-73b6-4e23-8749-f7bc10f63bd4" isDerived="false" sourceEndRoleName="5.1 Jouer une partie en réseau local" targetEndRoleName="5.1.2 Rejoindre une partie en réseau local" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="0c49a6b4-7768-40d7-8cbb-871dce1a3c61" LastKnownName="5.1.2 Rejoindre une partie en réseau local" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="8bb3994c-c207-488e-9547-0571ec2b08e8" name="5.1 Jouer une partie en réseau local" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="027af25e-dc41-49a0-ada4-048a620a81b9" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="f9217766-0bf6-4007-b724-b6199bc895e0" name="5.1.2 Rejoindre une partie en réseau local" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="d7632d12-62b6-4657-a8e2-7f694a98950e" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="6fba9568-658f-4d52-b2f2-5f325873758c" />
+          </association>
+        </targetEnds>
+        <subjects>
+          <subsystemMoniker Id="5148f56e-5dd5-4be4-8927-7a5529e29555" LastKnownName="5. Jouer une partie hors-ligne" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="6b867662-bc9f-4898-8e5d-51ae3c55914f" name="5.2 Jouer une partie contre l'intelligence artificielle" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="3547ef44-fedd-4428-a3c7-8bf75df53056" />
+        <additions>
+          <include Id="90dbbef2-12c8-46f0-8249-c9c16ef606a9">
+            <useCaseMoniker Id="f105dfd3-6bb4-401d-bac8-16cdfb61e640" LastKnownName="5.2.1 Choisir un profil d'intelligence artificielle" />
+            <elementDefinition Id="f0bdccc4-5e2e-4d59-911f-0a1fc4d1e8bc" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="5148f56e-5dd5-4be4-8927-7a5529e29555" LastKnownName="5. Jouer une partie hors-ligne" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="f105dfd3-6bb4-401d-bac8-16cdfb61e640" name="5.2.1 Choisir un profil d'intelligence artificielle" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="cca969e5-86f9-4d80-a7f8-225317994886" />
+        <subjects>
+          <subsystemMoniker Id="5148f56e-5dd5-4be4-8927-7a5529e29555" LastKnownName="5. Jouer une partie hors-ligne" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="d068d6df-34ef-4b29-98a5-637861cfbc5d" name="5.1.1 Créer une partie en réseau local" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="dbc25bae-e29e-44a1-8390-aa99ddce28cf" />
+        <subjects>
+          <subsystemMoniker Id="5148f56e-5dd5-4be4-8927-7a5529e29555" LastKnownName="5. Jouer une partie hors-ligne" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="0c49a6b4-7768-40d7-8cbb-871dce1a3c61" name="5.1.2 Rejoindre une partie en réseau local" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="30d67cca-0445-41c0-a679-60ee0855f32b" />
+        <subjects>
+          <subsystemMoniker Id="5148f56e-5dd5-4be4-8927-7a5529e29555" LastKnownName="5. Jouer une partie hors-ligne" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="ada08883-1ec7-4bd6-9a70-0acb94788d12" name="5.3 Jouer contre un humain sur le même poste" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="3cfb4b3f-2e5f-4f84-bc79-06e24016bba0" />
+        <subjects>
+          <subsystemMoniker Id="5148f56e-5dd5-4be4-8927-7a5529e29555" LastKnownName="5. Jouer une partie hors-ligne" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="3d85d7d5-64b7-45e0-abe2-1489f2e22ea2" name="Diagrammes">
+    <elementDefinition Id="bd496572-2d56-4f1a-82f9-f287c782ea4e" />
+  </package>
+</useCaseModelRoot>

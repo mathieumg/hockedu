@@ -65,12 +65,33 @@
       <SubType>Content</SubType>
       <DependentUpon>CasUtilisation_Hockedu.usecasediagram</DependentUpon>
     </Content>
+    <Content Include="CasUtilisation_JouerHorsLigne.usecasediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="CasUtilisation_JouerHorsLigne.usecasediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>CasUtilisation_JouerHorsLigne.usecasediagram</DependentUpon>
+    </Content>
+    <Content Include="CasUtilisation_ModifierParametres.usecasediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="CasUtilisation_ModifierParametres.usecasediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>CasUtilisation_ModifierParametres.usecasediagram</DependentUpon>
+    </Content>
     <Content Include="CasUtilisation_RealiserAchievement.usecasediagram">
       <SubType>Content</SubType>
     </Content>
     <Content Include="CasUtilisation_RealiserAchievement.usecasediagram.layout">
       <SubType>Content</SubType>
       <DependentUpon>CasUtilisation_RealiserAchievement.usecasediagram</DependentUpon>
+    </Content>
+    <Content Include="CasUtilisation_SauvegarderCarte.usecasediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="CasUtilisation_SauvegarderCarte.usecasediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>CasUtilisation_SauvegarderCarte.usecasediagram</DependentUpon>
     </Content>
     <Content Include="ModelDefinition\Package1_1201.uml">
       <SubType>Content</SubType>
