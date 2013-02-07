@@ -214,6 +214,83 @@
       <SubType>Content</SubType>
       <DependentUpon>2. Gérer les cartes.sequencediagram</DependentUpon>
     </Content>
+    <Content Include="3. Se connecter au serveur maître.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="3. Se connecter au serveur maître.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>3. Se connecter au serveur maître.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="3.1 Saisir ses informations de connexion.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="3.1 Saisir ses informations de connexion.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>3.1 Saisir ses informations de connexion.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="3.1.1 Valider les informations de connexion.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="3.1.1 Valider les informations de connexion.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>3.1.1 Valider les informations de connexion.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="3.2 Clavarder avec les autres utilisateurs.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="3.2 Clavarder avec les autres utilisateurs.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>3.2 Clavarder avec les autres utilisateurs.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="3.3 Jouer une partie.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="3.3 Jouer une partie.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>3.3 Jouer une partie.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="3.3.1 Créer une partie en ligne.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="3.3.1 Créer une partie en ligne.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>3.3.1 Créer une partie en ligne.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="3.3.2 Joindre une partie en ligne.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="3.3.2 Joindre une partie en ligne.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>3.3.2 Joindre une partie en ligne.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="3.3.3 Trouver un adversaire pour une partie en ligne %28Matchmaking%29.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="3.3.3 Trouver un adversaire pour une partie en ligne %28Matchmaking%29.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>3.3.3 Trouver un adversaire pour une partie en ligne (Matchmaking).sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="3.3.3.1 Choisir une préférence de carte.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="3.3.3.1 Choisir une préférence de carte.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>3.3.3.1 Choisir une préférence de carte.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="3.3.3.1.1 Déterminer la  carte utilisée pour la partie.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="3.3.3.1.1 Déterminer la  carte utilisée pour la partie.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>3.3.3.1.1 Déterminer la  carte utilisée pour la partie.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="3.4 Réaliser un _achievement.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="3.4 Réaliser un _achievement.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>3.4 Réaliser un _achievement.sequencediagram</DependentUpon>
+    </Content>
     <Content Include="ModelDefinition\SequenceDiagrams.uml">
       <SubType>Content</SubType>
     </Content>

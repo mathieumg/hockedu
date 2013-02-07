@@ -244,16 +244,16 @@
               <lifelineMoniker Id="c0ccf585-3f57-4c17-b4d0-071a85e624dd" LastKnownName="client Leger : Client Leger" />
             </covered>
           </operandOccurrenceSpecification>
-          <messageOccurrenceSpecification Id="94c28610-1fb5-4d34-b0a6-1c6042889b59" name="MessageOccurrenceSpecification3">
-            <elementDefinition Id="d9cdd962-15ec-4d57-92c8-662de83a7334" />
-            <covered>
-              <lifelineMoniker Id="c0ccf585-3f57-4c17-b4d0-071a85e624dd" LastKnownName="client Leger : Client Leger" />
-            </covered>
-          </messageOccurrenceSpecification>
           <messageOccurrenceSpecification Id="45a140b4-38ea-46a3-9d79-10de582c6880" name="MessageOccurrenceSpecification4">
             <elementDefinition Id="dc68fd92-4e5a-4009-ab6c-70861f0e46b4" />
             <covered>
               <lifelineMoniker Id="ad5299bf-681d-49c6-82ce-218ce477eaca" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="94c28610-1fb5-4d34-b0a6-1c6042889b59" name="MessageOccurrenceSpecification3">
+            <elementDefinition Id="d9cdd962-15ec-4d57-92c8-662de83a7334" />
+            <covered>
+              <lifelineMoniker Id="c0ccf585-3f57-4c17-b4d0-071a85e624dd" LastKnownName="client Leger : Client Leger" />
             </covered>
           </messageOccurrenceSpecification>
           <executionOccurrenceSpecification Id="6e527454-17ff-4d4b-8dfd-d42d3e6a6c35" name="ExecutionOccurrenceSpecification2">
