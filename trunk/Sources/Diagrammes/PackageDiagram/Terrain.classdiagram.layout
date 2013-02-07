@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<logicalClassDesignerDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 22.875, 8.5" name="Terrain">
+<logicalClassDesignerDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 19.75, 8.5" name="Terrain">
   <logicalClassDesignerModelMoniker Id="3f982649-244d-4f62-877e-eda83f2e9019" />
   <nestedChildShapes>
-    <packageShape Id="15e04de9-e45b-41fc-b4a6-bc498712d3fe" absoluteBounds="0.5, 1.25, 22.125, 6.5" customColor="255, 249, 230" hideQualifiedName="false">
+    <packageShape Id="15e04de9-e45b-41fc-b4a6-bc498712d3fe" absoluteBounds="0.5, 1.25, 19, 5.25" customColor="255, 249, 230" hideQualifiedName="false">
       <packageMoniker Id="b0b0c171-00a5-4acc-9ce2-ab03edc0ae64" LastKnownName="Terrain" />
       <nestedChildShapes>
         <classShape Id="084265af-9b4a-48ca-9efb-36ea894b9b6f" isExpanded="false" absoluteBounds="4.375, 5, 1.5, 0.5" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
