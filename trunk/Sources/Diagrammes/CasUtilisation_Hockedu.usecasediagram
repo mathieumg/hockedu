@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="d2f31772-168b-462b-b1db-19d6011f01a0" name="Hockedu" linkedPackageId="18cb3b51-3470-43a6-9279-1447ee9fcc0e" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <subsystem Id="e6600581-07cf-4714-a4c7-4e0d7db28319" name="Hockedu" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="ddf74c9c-128c-480f-9dc4-02c5e23250ca" />
+      </subsystem>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="a9ca2d41-71c7-40a9-b848-9c480ae36219" name="Utilisateur" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="45a57549-b92d-457c-a351-14cfdca18539" />
+        <targetEnds>
+          <association Id="9fd7666a-8c26-4f66-b46a-4fd1c0acdcf2" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="Créer une carte" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="7ecc36e7-75cc-4498-af93-b5a1c6e242e6" LastKnownName="1. Gérer un tournoi" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="36f184b3-3429-43d5-a7e8-86e6a7aa7769" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="1ecbd6f7-118e-470f-849e-3f49458ad259" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="97a6ff72-a34f-42f3-bff3-9d0665b1a033" name="Créer une carte" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="07a7ea79-1913-46b2-85bb-f5822cdb7b42" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="96a809e9-c10b-45bd-ab62-21e2dd08b491" />
+          </association>
+          <association Id="b21df88a-cf47-4fcd-9f62-da6048b8b78b" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="Créer ou modifier carte" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="6af60a20-5369-4eb2-b923-7c5ee6954edc" LastKnownName="2. Gérer les cartes" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="95017a0c-21cb-496a-9808-24ae49ea5df0" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="ed9451fe-b377-4cf7-94e8-35b36b24f554" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="888c28ac-c749-4933-b225-275d500958a5" name="Créer ou modifier carte" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="dd8c4448-b751-42b8-a218-251ee8640536" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="0eb53cc9-48dd-4cdf-add0-ef88706dc78d" />
+          </association>
+          <association Id="ec76672c-3165-4b14-a17e-008c7c51b144" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="Se connecter au serveur maître" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="24ce2b4f-91ac-4c5e-8825-66d7302d2e7a" LastKnownName="Se connecter au serveur maître" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="15c28ac7-8001-432e-9482-198f75d4c92f" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="2f5cbfd8-12a6-4f0f-a2a8-6ea25e4fa12c" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a273b3c6-b8c1-42b9-93ae-b5781634cffe" name="Se connecter au serveur maître" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="53e5e2d5-3b79-433f-bc79-1716a2a1dd8a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="9a6522ec-90a9-428c-aaf1-7385987da265" />
+          </association>
+          <association Id="be9281b4-c44e-4fbf-8fa9-1fb4efcba94d" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="Modifier les paramètres de jeu" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="c02f30ad-f65b-40d0-9b6b-f2bc7f469732" LastKnownName="Modifier les paramètres de jeu" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="ed56f1d5-861f-48fe-9d3d-ecbb713eeb1c" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="7a53a45c-52ad-4aad-a725-95401f925d8c" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="775bf48f-3d77-45d3-8d98-340af6406093" name="Modifier les paramètres de jeu" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="817ee57e-bc64-4f7f-ad00-be75393c940f" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="ed2ed706-78f1-4222-92b5-75781959c312" />
+          </association>
+          <association Id="1a5e292c-aaa9-42ec-8112-79aa594c848f" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="Quitter le jeu" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="0b3be129-9caa-4c56-9a1e-2e7233718a04" LastKnownName="Quitter le jeu" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="110b83b7-ad0f-4057-8b8d-0f0ae26e9e04" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="d4420899-82ea-48f6-95f9-2ee0f2a7e1a8" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="f3b9f9af-e73d-4915-a112-4c3ab8a274ba" name="Quitter le jeu" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="78ef27eb-0501-4d6c-807c-f1a4ecc88d29" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="3fe7bc0f-552a-4571-b28f-e0d73de63de8" />
+          </association>
+          <association Id="6135cb6c-fe67-48fc-a2e8-b07c31771d5b" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="Jouer une partie hors-ligne" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="6a91ee0d-0f39-468a-bee3-0119a84de51b" LastKnownName="Jouer une partie hors-ligne" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="2347e0bd-810a-4cf5-809e-50399088007d" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="6ac0771f-ae16-4809-b470-0acad68143a7" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="6bbc6655-8d26-4414-9169-dec69b16963b" name="Jouer une partie hors-ligne" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="84de8c54-d782-4a47-b920-22e6f77ab415" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="4bdd6c89-b169-4e4d-bcf4-b8a1baa8a731" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="7ecc36e7-75cc-4498-af93-b5a1c6e242e6" name="1. Gérer un tournoi" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="c9f25ece-1afa-4ebb-9eaf-f51a2effee85" />
+        <subjects>
+          <subsystemMoniker Id="e6600581-07cf-4714-a4c7-4e0d7db28319" LastKnownName="Hockedu" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <packageHasNamedElement>
+      <useCase Id="6af60a20-5369-4eb2-b923-7c5ee6954edc" name="2. Gérer les cartes" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="8c854908-6acc-46d0-8322-37219b1324b3" />
+        <subjects>
+          <subsystemMoniker Id="e6600581-07cf-4714-a4c7-4e0d7db28319" LastKnownName="Hockedu" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="24ce2b4f-91ac-4c5e-8825-66d7302d2e7a" name="Se connecter au serveur maître" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="713a25b5-fee7-47a6-87bd-486dde2573c5" />
+        <subjects>
+          <subsystemMoniker Id="e6600581-07cf-4714-a4c7-4e0d7db28319" LastKnownName="Hockedu" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="c02f30ad-f65b-40d0-9b6b-f2bc7f469732" name="Modifier les paramètres de jeu" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="c2b0390f-cb14-4f18-b5e5-d4215808eaca" />
+        <subjects>
+          <subsystemMoniker Id="e6600581-07cf-4714-a4c7-4e0d7db28319" LastKnownName="Hockedu" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="0b3be129-9caa-4c56-9a1e-2e7233718a04" name="Quitter le jeu" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="b47e7fcc-21a6-436f-81a7-e2ec61b9ce48" />
+        <subjects>
+          <subsystemMoniker Id="e6600581-07cf-4714-a4c7-4e0d7db28319" LastKnownName="Hockedu" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="6a91ee0d-0f39-468a-bee3-0119a84de51b" name="Jouer une partie hors-ligne" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="d5003570-956d-46d5-803b-d2a9fa3fb050" />
+        <subjects>
+          <subsystemMoniker Id="e6600581-07cf-4714-a4c7-4e0d7db28319" LastKnownName="Hockedu" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="18cb3b51-3470-43a6-9279-1447ee9fcc0e" name="Diagrammes">
+    <elementDefinition Id="bd496572-2d56-4f1a-82f9-f287c782ea4e" />
+    <profileInstances>
+      <packageHasProfileInstances Id="5693c40c-8d61-47a3-aea0-cbc0cfe53838">
+        <profileInstance Id="357061a9-602c-4cfc-8ed5-3db5d8b57a8a" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="4aae2e8f-e2ca-41e3-b2e2-ed3bf4d80ecb">
+        <profileInstance Id="c4b92d46-f962-49c3-b4b5-34ac94998e3f" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</useCaseModelRoot>

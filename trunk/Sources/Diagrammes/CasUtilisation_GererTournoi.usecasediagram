@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="4af57d3a-8172-431c-a4c1-c981e9a1af9c" name="CasUtilisation_GererTournoi" linkedPackageId="d66d9f3a-4ad1-4e64-8bc1-ed33c039c6b5" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <useCase Id="5681e4a4-3392-4f9e-816b-7a1c25300c78" name="1.1 Choisir les joueurs" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="c4e836f8-e4f5-4bdb-bdb0-bd67ff43fb03" />
+        <subjects>
+          <subsystemMoniker Id="9ebc4855-fea0-4636-930d-debe0519538d" LastKnownName="1. Gérer un tournoi" />
+        </subjects>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <subsystem Id="9ebc4855-fea0-4636-930d-debe0519538d" name="1. Gérer un tournoi" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="7f2bc9b8-ab72-4869-9c64-84c0f6587447" />
+      </subsystem>
+    </useCaseModelRootHasTypes>
+    <packageHasNamedElement>
+      <useCase Id="a6f2b45a-dbcc-455a-884f-1e857a82ec84" name="1.2 Choisir une carte" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="805117a7-510a-4a34-93d2-a1087934b1ad" />
+        <subjects>
+          <subsystemMoniker Id="9ebc4855-fea0-4636-930d-debe0519538d" LastKnownName="1. Gérer un tournoi" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="c0d0bb7d-e9f8-43ee-a53e-5b9e321a7522" name="1.3 Choisir le nombre de joueurs" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="9e382113-14e2-4095-86af-1d001af351c5" />
+        <subjects>
+          <subsystemMoniker Id="9ebc4855-fea0-4636-930d-debe0519538d" LastKnownName="1. Gérer un tournoi" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="7c5d7e20-17b7-47bd-9f05-76aeeb98a2b5" name="1.4 Sauvegarder le tournoi" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="134ccbef-fa5b-499f-8fce-0a3004708e70" />
+        <subjects>
+          <subsystemMoniker Id="9ebc4855-fea0-4636-930d-debe0519538d" LastKnownName="1. Gérer un tournoi" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="b2c1a05d-b496-4f5b-a079-91d2447b26be" name="1.5 Charger un tournoi" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="be61d93b-c5be-4f59-8413-333dbdc227d9" />
+        <subjects>
+          <subsystemMoniker Id="9ebc4855-fea0-4636-930d-debe0519538d" LastKnownName="1. Gérer un tournoi" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <useCaseModelRootHasTypes>
+      <actor Id="963987a5-4318-453d-b728-4aff11e6cdbd" name="Utilisateur" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="45a57549-b92d-457c-a351-14cfdca18539" />
+        <targetEnds>
+          <association Id="d557e36a-20fc-4fe5-9434-1bc4db761f63" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="1.1 Choisir les joueurs" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="5681e4a4-3392-4f9e-816b-7a1c25300c78" LastKnownName="1.1 Choisir les joueurs" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="26b42a15-5799-4d21-ab2c-7a54abeeb8bd" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="5a0d9412-80be-4e27-bfa3-f77e65a8d3c3" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="7fd7d1ba-6989-454f-9716-12ba662b5f28" name="1.1 Choisir les joueurs" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="40de6847-93f3-4274-8691-9c9b725975e6" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="002dfda1-f42e-4457-97d5-e122576c9e90" />
+          </association>
+          <association Id="d93f4127-5e7d-4147-8b76-238f02eaa4c7" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="1.2 Choisir une carte" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="a6f2b45a-dbcc-455a-884f-1e857a82ec84" LastKnownName="1.2 Choisir une carte" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="4823b7bd-ab94-47f0-8fbe-52f9310c7e14" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="16340732-2dcf-43d2-b762-f28a9882de9d" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="48457ba9-c379-4fce-88c7-d7b74b447a6f" name="1.2 Choisir une carte" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="a742d0e6-a8f7-4f51-ad9d-365a3a70b3a9" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="09d94f04-4338-4da8-823b-0d5eee7b88aa" />
+          </association>
+          <association Id="822ef18f-660d-4439-964a-97e1b6dd1f69" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="1.3 Choisir le nombre de joueurs" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="c0d0bb7d-e9f8-43ee-a53e-5b9e321a7522" LastKnownName="1.3 Choisir le nombre de joueurs" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="4a0a8895-579e-4314-b6d0-8abb0be2a75f" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="c516879f-5b33-4e58-82ea-28261a3069de" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="83e21b40-5b76-4eab-8625-cfbd277bf9de" name="1.3 Choisir le nombre de joueurs" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="4dc25f93-d8b3-4896-a476-e3febd6abdd3" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="efee24d7-b4ed-4212-a1fb-ae483f4d589d" />
+          </association>
+          <association Id="ae0a5ff0-de29-40ae-abf2-67d717b3a309" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="1.4 Sauvegarder le tournoi" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="7c5d7e20-17b7-47bd-9f05-76aeeb98a2b5" LastKnownName="1.4 Sauvegarder le tournoi" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a1acdfdb-36e5-4cd5-a8e1-c48b688251fc" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="4ee5a997-471f-48b3-b867-9228b998addb" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="de3af90a-7749-4966-95c6-f444d4e9adef" name="1.4 Sauvegarder le tournoi" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="bb1e288d-cb63-4083-bca8-09ffc13002d0" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="559563c3-f4ce-41d9-8f59-015c279885f9" />
+          </association>
+          <association Id="ab09604c-3025-4566-8460-9a7eaf34810e" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="1.5 Charger un tournoi" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="b2c1a05d-b496-4f5b-a079-91d2447b26be" LastKnownName="1.5 Charger un tournoi" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a4799114-aa39-49c3-bbee-f6af97f237c2" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="0422caf4-5cf4-498a-8b2a-b3dbbd5554dc" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="e671f2dc-8710-4570-941e-ddca9670265d" name="1.5 Charger un tournoi" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="3130c385-a184-4b9f-ad09-23a7a933c3cf" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="5d11e89a-d421-412b-ab70-123b4cd6c365" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+  </packagedElements>
+  <package Id="d66d9f3a-4ad1-4e64-8bc1-ed33c039c6b5" name="Diagrammes">
+    <elementDefinition Id="bd496572-2d56-4f1a-82f9-f287c782ea4e" />
+    <profileInstances>
+      <packageHasProfileInstances Id="ce72bf20-faf3-497b-9173-cc867e8202b5">
+        <profileInstance Id="8552454f-37bb-4265-a137-88d5a28c5047" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="30647152-eeb3-4e72-ab01-89295f2f8ccd">
+        <profileInstance Id="8f021c2d-c17d-40a8-964f-4f57e41a6e96" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</useCaseModelRoot>
