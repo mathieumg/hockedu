@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SequenceDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/UseCaseModel" dslVersion="1.0.0.0" Id="ec8022e2-6db6-41e0-9d9a-196134b14b28" name="2.2.5 Modifier la vue" linkedPackageId="0bbae2e9-8b69-49ae-b637-32bebaa9fcf6" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="41ac2555-927e-4169-b181-11b175a4ede4">
+      <profileInstance Id="48c36d12-ad4b-4058-94bb-d5ad75f3af30" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="045ca8bb-e767-4e8d-9230-dfe252240547">
+      <profileInstance Id="926725bd-5ab9-4a59-9d91-12753d299cba" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <packageHasNamedElement>
+      <interaction Id="c49c8438-fbea-4fe7-9c62-21f44ced9478" name="2.2.5 Modifier la vue" collapseFragmentsFlag="false" isActiveClass="false" isAbstract="false" isLeaf="false" isReentrant="false">
+        <elementDefinition Id="4a4a7ea9-8d49-4e99-a3e5-0c98f6c7d674" />
+        <lifelines>
+          <lifeline Id="f6bbe948-2fa8-48bc-bc04-753bbfafd77c" name="utilisateur : Utilisateur" isActor="true" lifelineDisplayName="utilisateur : Utilisateur">
+            <elementDefinition Id="eba2e3f3-4cf1-4596-8b88-54f878609252" />
+            <represents>
+              <propertyMoniker Id="19d48c46-3cf9-4147-97eb-8687e8509ef7" />
+            </represents>
+          </lifeline>
+          <lifeline Id="72ca6988-5690-49de-9a01-f244ef3d8477" name="client Leger : Client Leger" isActor="true" lifelineDisplayName="client Leger : Client Leger">
+            <elementDefinition Id="c2334a7d-6f11-405f-8115-1dca8d88e631" />
+            <represents>
+              <propertyMoniker Id="68131ae4-de82-4441-b8e2-bc78e2130b7b" />
+            </represents>
+          </lifeline>
+        </lifelines>
+        <ownedAttributesInternal>
+          <property Id="19d48c46-3cf9-4147-97eb-8687e8509ef7" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="91eebcd4-3ccf-4adb-a9f9-881519a37a15" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="724b9e80-1e68-4f42-87ce-d5111e7c8060" LastKnownName="Utilisateur" />
+            </type_NamedElement>
+          </property>
+          <property Id="68131ae4-de82-4441-b8e2-bc78e2130b7b" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="cbc8b49a-90cb-410e-bfd2-7a085c31d28c" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="de5be9e6-e302-4bc8-8b5a-7676b6a01c2e" LastKnownName="Client Leger" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </interaction>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="724b9e80-1e68-4f42-87ce-d5111e7c8060" name="Utilisateur" isAbstract="false" isLeaf="false" cachedFullName="Diagrammes::Utilisateur">
+        <elementDefinition Id="45a57549-b92d-457c-a351-14cfdca18539" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="de5be9e6-e302-4bc8-8b5a-7676b6a01c2e" name="Client Leger" isAbstract="false" isLeaf="false" cachedFullName="Diagrammes::Client Leger">
+        <elementDefinition Id="62828cb1-dd23-4d62-8996-487b92db172b" />
+      </referencedType>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="0bbae2e9-8b69-49ae-b637-32bebaa9fcf6" name="Diagrammes">
+    <elementDefinition Id="bd496572-2d56-4f1a-82f9-f287c782ea4e" />
+  </package>
+</SequenceDesignerModel>

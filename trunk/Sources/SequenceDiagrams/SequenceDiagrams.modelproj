@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4d8b9a69-1dd8-4616-881c-7a06cfb77fa7}</ProjectGuid>
+    <ArchitectureToolsVersion>1.0.0.0</ArchitectureToolsVersion>
+    <Name>SequenceDiagrams</Name>
+    <RootNamespace>SequenceDiagrams</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" />
+  <ItemGroup>
+    <Folder Include="ModelDefinition\" />
+    <Content Include="1. Gerer le Tournoi.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="1.1 Choisir les joueurs.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="1.1 Choisir les joueurs.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>1.1 Choisir les joueurs.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="1.2 Choisir une carte.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="1.2 Choisir une carte.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>1.2 Choisir une carte.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="1.3 Choisir le nombre de joueurs.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="1.3 Choisir le nombre de joueurs.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>1.3 Choisir le nombre de joueurs.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="1.4 Sauvegarder tournoi.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="1.4 Sauvegarder tournoi.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>1.4 Sauvegarder tournoi.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="1.5 Charger tournoi.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="1.5 Charger tournoi.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>1.5 Charger tournoi.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="1.GererTournoi.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>1. Gerer le Tournoi.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2. Gérer les cartes.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.1 Créer une nouvelle carte.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.1 Créer une nouvelle carte.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.1 Créer une nouvelle carte.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.2 Modifier une carte.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.2 Modifier une carte.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.2 Modifier une carte.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.2.1 Manipuler des objets.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.2.1 Manipuler des objets.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.2.1 Manipuler des objets.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.2.1.1 Ajouter un objet.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.2.1.1 Ajouter un objet.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.2.1.1 Ajouter un objet.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.2.1.2 Supprimer un objet.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.2.1.2 Supprimer un objet.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.2.1.2 Supprimer un objet.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.2.1.3 Dupliquer un objet.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.2.1.3 Dupliquer un objet.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.2.1.3 Dupliquer un objet.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.2.1.4 Déplacer un objet.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.2.1.4 Déplacer un objet.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.2.1.4 Déplacer un objet.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.2.1.5 Mettre un objet à l%27échelle.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.2.1.5 Mettre un objet à l%27échelle.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.2.1.5 Mettre un objet à l'échelle.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.2.1.6 Modifier les propriétés physiques d%27un objet.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.2.1.6 Modifier les propriétés physiques d%27un objet.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.2.1.6 Modifier les propriétés physiques d'un objet.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.2.1.7 Sélectionner un objet.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.2.1.7 Sélectionner un objet.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.2.1.7 Sélectionner un objet.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.2.2 Annuler une action.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.2.2 Annuler une action.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.2.2 Annuler une action.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.2.3 Refaire une action.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.2.3 Refaire une action.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.2.3 Refaire une action.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.2.4 Manipuler la surface de jeu.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.2.4 Manipuler la surface de jeu.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.2.4 Manipuler la surface de jeu.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.2.5 Modifier la vue.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.2.5 Modifier la vue.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.2.5 Modifier la vue.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.2.6 Réinitialiser la carte.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.2.6 Réinitialiser la carte_1.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.2.6 Réinitialiser la carte.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.3 Charger une carte.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.3 Charger une carte.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.3 Charger une carte.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.4 Sauvegarder une carte.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.4 Sauvegarder une carte.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.4 Sauvegarder une carte.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.5 Soumettre une carte.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.5 Soumettre une carte.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.5 Soumettre une carte.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.6 Télécharger une carte.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.6 Télécharger une carte.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.6 Télécharger une carte.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.7 Énumérer les cartes disponibles.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.7 Énumérer les cartes disponibles.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.7 Énumérer les cartes disponibles.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.8 Tester une carte.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.8 Tester une carte.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.8 Tester une carte.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2. Gérer les cartes.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="ModelDefinition\SequenceDiagrams.uml">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="c65d34b8-8dc7-49ea-b91f-38a747fd7090" name="RealiserAchievement" linkedPackageId="b8c2ddf1-10ea-4a5f-8119-25397077afd1" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <subsystem Id="eaddeee7-1637-4c39-98c0-d3c20c11f23a" name="3.4 Réaliser un &quot;achievement&quot;" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="0f405b84-c50a-4bfe-ba4f-82ad9d3ad007" />
+      </subsystem>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="66c93584-0025-4832-9258-efed1ae04e4f" name="Serveur maître" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="d8723cee-0cbe-4ffa-8818-e60d1d0d8db2" />
+        <targetEnds>
+          <association Id="a3a867ba-0946-4667-ba71-c4cd504373cf" isDerived="false" sourceEndRoleName="Serveur maître" targetEndRoleName="3.4.1 Envoyer un événement de réalisation d'achievement" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="7bf8a462-7a33-4e12-85d6-c9ab77938e98" LastKnownName="3.4.1 Envoyer un événement de réalisation d'achievement" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="3ab0ee85-e642-488f-9690-e5197ae57e83" name="Serveur maître" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="ad391e6f-0cbe-4a5f-a663-6b1a1fb5c584" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="9f3b118e-e4b3-4667-9168-1a79d0a98c73" name="3.4.1 Envoyer un événement de réalisation d'achievement" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="7f84444b-8123-4543-9a3f-3b298ce9cc8c" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="336c8f53-65ac-4677-abb4-46b3039d86f9" />
+          </association>
+          <association Id="eb6064f4-56a3-4c99-aa7c-2d76cc499933" isDerived="false" sourceEndRoleName="Serveur maître" targetEndRoleName="3.4.2 Recevoir un événement de réalisation d'achievement" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="2c56b826-d0f9-4abb-841e-b36b21e5ebf3" LastKnownName="3.4.2 Recevoir un événement de réalisation d'achievement" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="dc60670d-1378-47de-bc0a-bc5a84496be3" name="Serveur maître" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="c59eee00-c174-45f1-a9e1-caca90a5389d" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="7641c6b4-6fa0-46aa-a946-085d1544239f" name="3.4.2 Recevoir un événement de réalisation d'achievement" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="61bb0196-4127-40ee-a8ad-5c4ec0244408" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="57933029-8ddf-49ea-89c3-ffdb44205cb0" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <packageHasNamedElement>
+      <useCase Id="7bf8a462-7a33-4e12-85d6-c9ab77938e98" name="3.4.1 Envoyer un événement de réalisation d'achievement" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="0eb0c218-7fd8-4185-b100-8b59b019796c" />
+        <subjects>
+          <subsystemMoniker Id="eaddeee7-1637-4c39-98c0-d3c20c11f23a" LastKnownName="3.4 Réaliser un &quot;achievement&quot;" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <useCaseModelRootHasTypes>
+      <actor Id="5686bc20-2788-43d3-ac4b-963dd78c0115" name="Base de données" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="1e071713-1ba0-457f-8383-688edf8d79d3" />
+        <targetEnds>
+          <association Id="42fda65a-1f97-475a-a855-9f543d8c497c" isDerived="false" sourceEndRoleName="Base de données" targetEndRoleName="3.4.2.1 Enregistrer la réalisation d'un achievement" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="448d5a11-ebfb-47f9-938c-7ab1362dfb52" LastKnownName="3.4.2.1 Enregistrer la réalisation d'un achievement" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="000c3db8-5cc4-44cb-a9bd-b7d6a9ef9342" name="Base de données" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="8ac25730-945f-496f-ad68-b0c40edae80a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a44b6844-94cb-41db-b90c-dbeb041fe134" name="3.4.2.1 Enregistrer la réalisation d'un achievement" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="2179ef02-41f6-449a-8c78-a0fb2fd7f539" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="9e1b6ffa-6747-483b-8ed7-0543223bc0b4" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <packageHasNamedElement>
+      <useCase Id="2c56b826-d0f9-4abb-841e-b36b21e5ebf3" name="3.4.2 Recevoir un événement de réalisation d'achievement" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="ac9718e0-7332-49d7-acb8-bfe8b95cc9db" />
+        <suppliersInternal>
+          <dependency Id="9e476057-b5b5-4013-baae-364df41f60b5">
+            <useCaseMoniker Id="7bf8a462-7a33-4e12-85d6-c9ab77938e98" LastKnownName="3.4.1 Envoyer un événement de réalisation d'achievement" />
+            <elementDefinition Id="17ffc41a-d273-4409-a37f-134186de472f" />
+          </dependency>
+        </suppliersInternal>
+        <additions>
+          <include Id="a174b50a-cd05-465a-9da4-ab3025285abc">
+            <useCaseMoniker Id="448d5a11-ebfb-47f9-938c-7ab1362dfb52" LastKnownName="3.4.2.1 Enregistrer la réalisation d'un achievement" />
+            <elementDefinition Id="cf05c980-672e-426b-84f1-707e6d6a1c82" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="eaddeee7-1637-4c39-98c0-d3c20c11f23a" LastKnownName="3.4 Réaliser un &quot;achievement&quot;" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="448d5a11-ebfb-47f9-938c-7ab1362dfb52" name="3.4.2.1 Enregistrer la réalisation d'un achievement" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="84f6eb1c-039d-4a4c-a73d-5e54be57c667" />
+        <subjects>
+          <subsystemMoniker Id="eaddeee7-1637-4c39-98c0-d3c20c11f23a" LastKnownName="3.4 Réaliser un &quot;achievement&quot;" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <useCaseModelRootHasTypes>
+      <actor Id="2fd6d50e-75a1-4a68-abe3-91f98ef7cd3f" name="Client lourd" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="03e4be54-0129-46d4-8138-c6d5f9dac602" />
+        <targetEnds>
+          <association Id="ccb2faec-d445-483b-a19e-cc9fcd928b15" isDerived="false" sourceEndRoleName="Client lourd" targetEndRoleName="3.4.1 Envoyer un événement de réalisation d'achievement" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="7bf8a462-7a33-4e12-85d6-c9ab77938e98" LastKnownName="3.4.1 Envoyer un événement de réalisation d'achievement" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="407a42e2-cb49-4513-a110-2f8104158096" name="Client lourd" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="247252b8-f610-4944-aef2-8100413a2ea4" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="6d9ba72f-7a28-42f0-882c-b099f807603a" name="3.4.1 Envoyer un événement de réalisation d'achievement" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="2ad0e629-92e8-426d-b413-4aa908ff9e39" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="0391b0db-e06f-4c69-94fb-3b9c6c5d6ac9" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+  </packagedElements>
+  <package Id="b8c2ddf1-10ea-4a5f-8119-25397077afd1" name="Diagrammes">
+    <elementDefinition Id="bd496572-2d56-4f1a-82f9-f287c782ea4e" />
+    <profileInstances>
+      <packageHasProfileInstances Id="7ba211c9-b9ee-4e86-85f5-24cd7cddc37e">
+        <profileInstance Id="9e6786cc-bf44-4987-870c-7d41ddf82403" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="cbd6d2b9-5a3f-4e9a-b371-0e2e6e3d5033">
+        <profileInstance Id="0aef1cd9-0fe2-4e7c-a650-c72b9160aefc" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</useCaseModelRoot>

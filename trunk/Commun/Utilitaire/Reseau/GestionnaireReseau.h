@@ -76,6 +76,10 @@ public:
 	static int multicastPort;
 	// Port a utiliser pour les comminications de base
 	static int communicationPort;
+    // Port a utiliser pour les comminications de base
+    static int communicationUDPPort;
+    // Port a utiliser pour les comminications de base
+    static int connectionUDPPort;
 
 
 
@@ -132,6 +136,9 @@ public:
 
     // Retourne la liste des joueurs connectes
     std::set<std::string> getPlayerNameList(ConnectionType pConnectionType) const;
+
+    // Retourne la liste des adresses IP disponibles sur la machine courante
+    void getListeAdressesIPLocales(std::list<std::string>& pOut) const;
 
 	// Methode qui appelle la Factory de Paquets et qui retourne un Paquet du bon type représenté par le nom d'opération
 	Paquet* creerPaquet(const std::string& pOperation);

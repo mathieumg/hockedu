@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="d2f31772-168b-462b-b1db-19d6011f01a0" name="Hockedu" linkedPackageId="18cb3b51-3470-43a6-9279-1447ee9fcc0e" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="d2f31772-168b-462b-b1db-19d6011f01a0" name="Hockedu" linkedPackageId="18cb3b51-3470-43a6-9279-1447ee9fcc0e" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
   <packagedElements>
     <useCaseModelRootHasTypes>
       <subsystem Id="e6600581-07cf-4714-a4c7-4e0d7db28319" name="Hockedu" isAbstract="false" isLeaf="false" isActiveClass="false">
@@ -43,7 +43,7 @@
             <elementDefinition Id="0eb53cc9-48dd-4cdf-add0-ef88706dc78d" />
           </association>
           <association Id="ec76672c-3165-4b14-a17e-008c7c51b144" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="Se connecter au serveur maître" isLeaf="false" isAbstract="false">
-            <useCaseMoniker Id="24ce2b4f-91ac-4c5e-8825-66d7302d2e7a" LastKnownName="Se connecter au serveur maître" />
+            <useCaseMoniker Id="24ce2b4f-91ac-4c5e-8825-66d7302d2e7a" LastKnownName="3. Se connecter au serveur maître" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
                 <memberEnd Id="15c28ac7-8001-432e-9482-198f75d4c92f" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
@@ -59,7 +59,7 @@
             <elementDefinition Id="9a6522ec-90a9-428c-aaf1-7385987da265" />
           </association>
           <association Id="be9281b4-c44e-4fbf-8fa9-1fb4efcba94d" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="Modifier les paramètres de jeu" isLeaf="false" isAbstract="false">
-            <useCaseMoniker Id="c02f30ad-f65b-40d0-9b6b-f2bc7f469732" LastKnownName="Modifier les paramètres de jeu" />
+            <useCaseMoniker Id="c02f30ad-f65b-40d0-9b6b-f2bc7f469732" LastKnownName="4. Modifier les paramètres de jeu" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
                 <memberEnd Id="ed56f1d5-861f-48fe-9d3d-ecbb713eeb1c" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
@@ -75,7 +75,7 @@
             <elementDefinition Id="ed2ed706-78f1-4222-92b5-75781959c312" />
           </association>
           <association Id="1a5e292c-aaa9-42ec-8112-79aa594c848f" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="Quitter le jeu" isLeaf="false" isAbstract="false">
-            <useCaseMoniker Id="0b3be129-9caa-4c56-9a1e-2e7233718a04" LastKnownName="Quitter le jeu" />
+            <useCaseMoniker Id="0b3be129-9caa-4c56-9a1e-2e7233718a04" LastKnownName="6. Quitter le jeu" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
                 <memberEnd Id="110b83b7-ad0f-4057-8b8d-0f0ae26e9e04" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
@@ -91,7 +91,7 @@
             <elementDefinition Id="3fe7bc0f-552a-4571-b28f-e0d73de63de8" />
           </association>
           <association Id="6135cb6c-fe67-48fc-a2e8-b07c31771d5b" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="Jouer une partie hors-ligne" isLeaf="false" isAbstract="false">
-            <useCaseMoniker Id="6a91ee0d-0f39-468a-bee3-0119a84de51b" LastKnownName="Jouer une partie hors-ligne" />
+            <useCaseMoniker Id="6a91ee0d-0f39-468a-bee3-0119a84de51b" LastKnownName="5. Jouer une partie hors-ligne" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
                 <memberEnd Id="2347e0bd-810a-4cf5-809e-50399088007d" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
@@ -126,7 +126,7 @@
       </useCase>
     </packageHasNamedElement>
     <packageHasNamedElement>
-      <useCase Id="24ce2b4f-91ac-4c5e-8825-66d7302d2e7a" name="Se connecter au serveur maître" isAbstract="false" isLeaf="false">
+      <useCase Id="24ce2b4f-91ac-4c5e-8825-66d7302d2e7a" name="3. Se connecter au serveur maître" isAbstract="false" isLeaf="false">
         <elementDefinition Id="713a25b5-fee7-47a6-87bd-486dde2573c5" />
         <subjects>
           <subsystemMoniker Id="e6600581-07cf-4714-a4c7-4e0d7db28319" LastKnownName="Hockedu" />
@@ -134,7 +134,7 @@
       </useCase>
     </packageHasNamedElement>
     <packageHasNamedElement>
-      <useCase Id="c02f30ad-f65b-40d0-9b6b-f2bc7f469732" name="Modifier les paramètres de jeu" isAbstract="false" isLeaf="false">
+      <useCase Id="c02f30ad-f65b-40d0-9b6b-f2bc7f469732" name="4. Modifier les paramètres de jeu" isAbstract="false" isLeaf="false">
         <elementDefinition Id="c2b0390f-cb14-4f18-b5e5-d4215808eaca" />
         <subjects>
           <subsystemMoniker Id="e6600581-07cf-4714-a4c7-4e0d7db28319" LastKnownName="Hockedu" />
@@ -142,7 +142,7 @@
       </useCase>
     </packageHasNamedElement>
     <packageHasNamedElement>
-      <useCase Id="0b3be129-9caa-4c56-9a1e-2e7233718a04" name="Quitter le jeu" isAbstract="false" isLeaf="false">
+      <useCase Id="0b3be129-9caa-4c56-9a1e-2e7233718a04" name="6. Quitter le jeu" isAbstract="false" isLeaf="false">
         <elementDefinition Id="b47e7fcc-21a6-436f-81a7-e2ec61b9ce48" />
         <subjects>
           <subsystemMoniker Id="e6600581-07cf-4714-a4c7-4e0d7db28319" LastKnownName="Hockedu" />
@@ -150,7 +150,7 @@
       </useCase>
     </packageHasNamedElement>
     <packageHasNamedElement>
-      <useCase Id="6a91ee0d-0f39-468a-bee3-0119a84de51b" name="Jouer une partie hors-ligne" isAbstract="false" isLeaf="false">
+      <useCase Id="6a91ee0d-0f39-468a-bee3-0119a84de51b" name="5. Jouer une partie hors-ligne" isAbstract="false" isLeaf="false">
         <elementDefinition Id="d5003570-956d-46d5-803b-d2a9fa3fb050" />
         <subjects>
           <subsystemMoniker Id="e6600581-07cf-4714-a4c7-4e0d7db28319" LastKnownName="Hockedu" />

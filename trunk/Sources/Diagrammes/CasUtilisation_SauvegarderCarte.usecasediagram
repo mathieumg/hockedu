@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="b8a5ed4f-5683-4d35-b1bb-0adbb5c7fdef" name="SauvegarderCarte" linkedPackageId="54df571e-0bc1-4a0f-81b8-8d368b1bb6dd" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <profileInstances>
+    <packageHasProfileInstances Id="f7e08bef-2730-4553-a9d3-eabd1052a424">
+      <profileInstance Id="d749c349-351d-4d47-9e4a-4f42068a91e0" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="e059d9c7-019d-4207-900d-f8724bc3dd18">
+      <profileInstance Id="6b90237c-2e59-4a14-a7f3-a0cda237b6f4" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <subsystem Id="46afee37-cdb2-49fd-b7d6-a62d8eee03c0" name="2.4 Sauvegarder une carte" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="f77dea55-ca1f-4e54-a392-7c3739c8fc62" />
+      </subsystem>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="abe9cca0-d356-4844-a23e-6b13990c2dac" name="Utilisateur" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="45a57549-b92d-457c-a351-14cfdca18539" />
+        <targetEnds>
+          <association Id="a9244354-4992-4e3f-8410-e6c23f88dbb2" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="2.4.1 Enregistrer une carte localement" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="70547553-e70b-450a-968e-bcf7ca15c042" LastKnownName="2.4.1 Enregistrer une carte localement" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="53de4c28-939d-49a0-86cb-bc28a5f52c35" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="04a2fe14-1ead-415d-aecf-155f4fc27680" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="5e612a5b-b52e-4a77-aaef-fcb4395d96df" name="2.4.1 Enregistrer une carte localement" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="bfefb085-1328-41b7-89a1-09a376c64a13" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="507bcd18-9972-4949-8d6d-b2082aeacf99" />
+          </association>
+          <association Id="21ad26f4-3a58-43c8-ae61-31ba926c02fa" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="2.4.2 Envoyer une carte au serveur web" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="3a4cb2f2-4af8-405d-914d-e9f57f5b6653" LastKnownName="2.4.2 Envoyer une carte au serveur web" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="f99ce6c7-7270-4eee-8803-28e84dc2d38e" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="3bac2917-4f28-401d-936d-d0cee9f9735a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="92313366-376c-4a09-ac9e-970a73a9d02b" name="2.4.2 Envoyer une carte au serveur web" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="4dfcdf22-f3a6-4ac4-828a-40d0ac37e485" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="3d0447e4-2310-42d1-a26c-12ba38f9be96" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="695d09e3-8406-4d11-ac4e-63c07d6f41ee" name="Client lourd" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="03e4be54-0129-46d4-8138-c6d5f9dac602" />
+        <targetEnds>
+          <association Id="13a16222-b7ef-4642-af8f-06a56a6e7ab8" isDerived="false" sourceEndRoleName="Client lourd" targetEndRoleName="2.4.2.1 Transmettre la carte au serveur web" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="9d0ff817-53a5-4a50-a1bb-eb9617a7d4c5" LastKnownName="2.4.2.1 Transmettre la carte au serveur web" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="41b6f5eb-68c2-4206-9611-1de5cc206329" name="Client lourd" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="dbbfcdc4-36a7-40e1-8a28-a7ca97b1f79a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="6ab37ba6-b1dc-48ca-bb4a-78fa465d6fb4" name="2.4.2.1 Transmettre la carte au serveur web" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="26ed5404-f761-46b4-b14f-466c11b9da92" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="19acc48a-98f3-46d7-b734-f940dc338fc9" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="0aa7a663-39c5-42e0-afb6-a8eab571374b" name="Client léger" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="b2df0eda-9d16-461e-a2ac-317e9e2a9422" />
+        <targetEnds>
+          <association Id="95dae998-c0e5-47f0-960e-ed0dbe3fe194" isDerived="false" sourceEndRoleName="Client léger" targetEndRoleName="2.4.2.1 Transmettre la carte au serveur web" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="9d0ff817-53a5-4a50-a1bb-eb9617a7d4c5" LastKnownName="2.4.2.1 Transmettre la carte au serveur web" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="8acf86d5-c45c-4eca-9e24-047ea03bf38e" name="Client léger" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="ae3eaad9-789b-4342-82d2-5bb1a136236f" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="5dafd68e-bd3e-4798-a0a6-ecede57086ab" name="2.4.2.1 Transmettre la carte au serveur web" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="e5ba5519-698d-4539-bc55-5e70590bad2d" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="9ff629f8-06b2-4af6-9ac9-6dd27ac1ed09" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="3f110aaf-00c4-4251-a86c-4a35eaead107" name="Base de données" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="1e071713-1ba0-457f-8383-688edf8d79d3" />
+        <targetEnds>
+          <association Id="1f3d6f12-a0cd-44a8-8536-27eab99cd14b" isDerived="false" sourceEndRoleName="Base de données" targetEndRoleName="2.4.3 Associer la carte à son utilisateur" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="7c43882a-59ea-4ca6-b5c8-00547ad10d34" LastKnownName="2.4.3 Associer la carte à son utilisateur" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="dfb3b04f-03cc-4273-8a05-e0c7d4efc4c9" name="Base de données" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="044b2c45-7953-4686-98c9-800d6b53a9ac" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="8063271d-f143-4662-bce7-41b276adbc16" name="2.4.3 Associer la carte à son utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="781fcb6c-5732-4b9f-81d3-2ab16211539b" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="2263fc8f-8b94-48e7-ba45-126aacde6d80" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="b13f3981-5311-4211-a51a-9f5a68418935" name="Serveur web" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="1acdd410-4e12-474d-a636-c0f7a1b092c7" />
+        <targetEnds>
+          <association Id="111f113b-6cc6-4a31-b8ff-9ad2bf10c44a" isDerived="false" sourceEndRoleName="Serveur web" targetEndRoleName="2.4.2.1 Transmettre la carte au serveur web" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="9d0ff817-53a5-4a50-a1bb-eb9617a7d4c5" LastKnownName="2.4.2.1 Transmettre la carte au serveur web" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="01331c32-5aad-4cc4-bd86-2628fb6de96d" name="Serveur web" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="4a554b24-1ed2-408f-a45c-048606ed32ca" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="27d093eb-ae8a-4570-a4e6-b22a2e0338c5" name="2.4.2.1 Transmettre la carte au serveur web" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="7ab3969e-d330-49dd-bd82-a8686660d94b" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="0b0ed596-94b4-4e39-933d-c1a2556b7b51" />
+          </association>
+          <association Id="5b61f37b-843b-4b49-a9b4-dc4a18b02bd6" isDerived="false" sourceEndRoleName="Serveur web" targetEndRoleName="2.4.3 Associer la carte à son utilisateur" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="7c43882a-59ea-4ca6-b5c8-00547ad10d34" LastKnownName="2.4.3 Associer la carte à son utilisateur" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="f389eaae-418a-4736-b499-20d14ddaa6e6" name="Serveur web" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="164fa5b4-9b20-4a2d-b003-3c3f69053b5c" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="4fc593e7-1175-47c9-b32d-74a762d9a85e" name="2.4.3 Associer la carte à son utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="7395a473-1ce5-4845-b200-8003df86d561" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="5e304796-4f85-481a-ae1d-678678c28591" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <packageHasNamedElement>
+      <useCase Id="70547553-e70b-450a-968e-bcf7ca15c042" name="2.4.1 Enregistrer une carte localement" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="38970b6a-4fa5-4aad-9f31-d1fcc5ab639a" />
+        <subjects>
+          <subsystemMoniker Id="46afee37-cdb2-49fd-b7d6-a62d8eee03c0" LastKnownName="2.4 Sauvegarder une carte" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="3a4cb2f2-4af8-405d-914d-e9f57f5b6653" name="2.4.2 Envoyer une carte au serveur web" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="ee90f653-70ce-4cc5-8408-ae7c8c771fef" />
+        <additions>
+          <include Id="8cb064a9-d6e8-4320-abfe-c82cac38d5dc">
+            <useCaseMoniker Id="9d0ff817-53a5-4a50-a1bb-eb9617a7d4c5" LastKnownName="2.4.2.1 Transmettre la carte au serveur web" />
+            <elementDefinition Id="4edfbe40-d30c-4fbc-83ec-aef2f8feb89b" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="46afee37-cdb2-49fd-b7d6-a62d8eee03c0" LastKnownName="2.4 Sauvegarder une carte" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="9d0ff817-53a5-4a50-a1bb-eb9617a7d4c5" name="2.4.2.1 Transmettre la carte au serveur web" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="79ff3591-7104-40f9-a583-94bc4fc74ffa" />
+        <subjects>
+          <subsystemMoniker Id="46afee37-cdb2-49fd-b7d6-a62d8eee03c0" LastKnownName="2.4 Sauvegarder une carte" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="7c43882a-59ea-4ca6-b5c8-00547ad10d34" name="2.4.3 Associer la carte à son utilisateur" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="8b297d45-f3c7-41a0-b97f-aa6e46608643" />
+        <subjects>
+          <subsystemMoniker Id="46afee37-cdb2-49fd-b7d6-a62d8eee03c0" LastKnownName="2.4 Sauvegarder une carte" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="54df571e-0bc1-4a0f-81b8-8d368b1bb6dd" name="Diagrammes">
+    <elementDefinition Id="bd496572-2d56-4f1a-82f9-f287c782ea4e" />
+  </package>
+</useCaseModelRoot>

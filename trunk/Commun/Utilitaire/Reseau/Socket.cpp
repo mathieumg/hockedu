@@ -38,7 +38,7 @@ Socket::Socket(const std::string& pDestinationIP, const int& pPortNumber, Connec
 		mSocket = socket(pIpProtocol, SOCK_DGRAM, IPPROTO_UDP);
         if(GestionnaireReseau::getNetworkMode() == CLIENT)
         {
-		    setConnectionState(CONNECTED); // Techiniquement, UDP n'a pas besoin de connection
+            mConnectionState = CONNECTED; // Techiniquement, UDP n'a pas besoin de connection
         }
 	}
 	else if(pConType == TCP)
@@ -150,6 +150,7 @@ void Socket::bind( uint8_t* ipAddr, uint16_t port )
 	//Structure definition for the bind call.
 	mSocketInfo->sin_port = htons(port);
 	mSocketInfo->sin_addr.s_addr = inet_addr((char*)ipAddr);
+    
 	int ret;
 
 	//Binds the socket
@@ -179,19 +180,32 @@ void Socket::bind( uint8_t* ipAddr, uint16_t port )
 void Socket::bind()
 {
     //Structure definition for the bind call.
-    sockaddr_in wStructServer;
-    wStructServer.sin_family = mSocketInfo->sin_family;
-    wStructServer.sin_addr.s_addr = inet_addr(getAdresseSource().c_str());
-    wStructServer.sin_port = mSocketInfo->sin_port; // Deja en format reseau
+    sockaddr_in* wStructServer;
+    if( mConnectionType == TCP )
+    {
+        wStructServer = new sockaddr_in;
+        wStructServer->sin_family = mSocketInfo->sin_family;
+        wStructServer->sin_addr.s_addr = inet_addr(getAdresseSource().c_str());
+        wStructServer->sin_port = mSocketInfo->sin_port; // Deja en format reseau
+    }
+    else
+    {
+        // Sinon on utilise le socketInfo directement
+        wStructServer = mSocketInfo;
+    }
 
     int ret;
 
     //Binds the socket
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    ret = ::bind(mSocket, (SOCKADDR*)&wStructServer, sizeof(wStructServer));
+    ret = ::bind(mSocket, (sockaddr*)wStructServer, sizeof(*wStructServer));
 #else
     ret = ::bind(mSocket, wStructServer, sizeof(wStructServer));
 #endif
+    if( mConnectionType == TCP )
+    {
+        delete wStructServer;
+    }
     if(ret == -1)
     {
         throw ExceptionReseau("Error while binding socket.");
@@ -252,7 +266,7 @@ uint32_t Socket::recvfrom( __out uint8_t* msg, uint32_t msglen,__out sockaddr* f
 /// @return uint32_t    : size sent
 ///
 ////////////////////////////////////////////////////////////////////////
-uint32_t Socket::sendto( uint8_t* msg, uint32_t msglen,sockaddr* to, bool pBlock /* = false */ )
+uint32_t Socket::sendto( const uint8_t* msg, uint32_t msglen,sockaddr* to, bool pBlock /* = false */ )
 {
     if(!pBlock)
     {
@@ -286,24 +300,33 @@ uint32_t Socket::sendto( uint8_t* msg, uint32_t msglen,sockaddr* to, bool pBlock
 ////////////////////////////////////////////////////////////////////////
 uint32_t Socket::recv( __out uint8_t* buf, uint32_t bufLen, bool pBlock /* = false*/ )
 {
-    if(!pBlock)
+    if(mConnectionType == UDP)
     {
-        if(!attendreSocket(0)) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
-        {
-            // On ne peut pas appeler recv car ca va bloquer
-            return 0;
-        }
+        sockaddr_in wTemp;
+        return recvfrom(buf, bufLen, (sockaddr*)&wTemp, pBlock);
     }
+    else
+    {
+        if(!pBlock)
+        {
+            if(!attendreSocket(0)) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
+            {
+                // On ne peut pas appeler recv car ca va bloquer
+                return 0;
+            }
+        }
 
+
+        uint32_t ret = ::recv(mSocket, (char*)buf, bufLen, 0);
+
+        if(ret == -1)
+        {
+            GestionnaireReseau::obtenirInstance()->throwExceptionReseau();
+        }
+
+        return ret;
+    }
     
-	uint32_t ret = ::recv(mSocket, (char*)buf, bufLen, 0);
-    
-	if(ret == -1)
-	{
-        GestionnaireReseau::obtenirInstance()->throwExceptionReseau();
-	}
-    
-	return ret;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -384,21 +407,31 @@ void Socket::connect( )
 ////////////////////////////////////////////////////////////////////////
 uint32_t Socket::send( const uint8_t* msg, uint32_t msglen, bool pBlock /* = false */ )
 {
-    if(!pBlock)
+    if(mConnectionType == UDP)
     {
-        if(!attendreSocket(0)) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
+        // Si udp, on appelle la methode sendto
+        return sendto(msg, msglen, (sockaddr*)mSocketInfo, pBlock);
+    }
+    else
+    {
+        if(!pBlock)
         {
-            // On ne peut pas appeler send car ca va bloquer
-            return 0;
+            if(!attendreSocket(0)) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
+            {
+                // On ne peut pas appeler send car ca va bloquer
+                return 0;
+            }
         }
+
+
+        if(::send(mSocket, (const char*)msg, msglen, 0) == -1)
+        {
+            GestionnaireReseau::obtenirInstance()->throwExceptionReseau("Erreur lors du send");
+        }
+        return msglen;
     }
 
-
-	if(::send(mSocket, (const char*)msg, msglen, 0) == -1)
-	{
-		GestionnaireReseau::obtenirInstance()->throwExceptionReseau("Erreur lors du send");
-	}
-    return msglen;
+    
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -647,6 +680,16 @@ void Socket::setConnectionState( ConnectionState pConnectionState )
 void Socket::cancelConnection()
 {
     flagToCancel();
+}
+
+
+
+void Socket::setSocketInfo( sockaddr_in* pSockInfo )
+{
+    checkf(pSockInfo);
+    // delete the old socketInfo
+    delete mSocketInfo;
+    mSocketInfo = pSockInfo;
 }
 
 

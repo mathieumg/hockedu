@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sequenceDesignerDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="2.2.5 Modifier la vue">
+  <SequenceDesignerModelMoniker Id="ec8022e2-6db6-41e0-9d9a-196134b14b28" />
+  <nestedChildShapes>
+    <lifelineShape Id="9d15f187-de54-4520-8c3d-1b8f45b6bc23" absoluteBounds="1.025, 1, 0.15, 7" visible="true" visualStyleMode="Modified">
+      <lifelineMoniker Id="f6bbe948-2fa8-48bc-bc04-753bbfafd77c" LastKnownName="utilisateur : Utilisateur" />
+      <relativeChildShapes>
+        <umlLifelineHeadShape Id="3fe85910-766b-4af7-9701-7e6b623402f4" absoluteBounds="0.59999999999999987, 0.6, 1, 0.4" customColor="White" visualStyleMode="Modified">
+          <lifelineMoniker Id="f6bbe948-2fa8-48bc-bc04-753bbfafd77c" LastKnownName="utilisateur : Utilisateur" />
+          <relativeChildShapes />
+        </umlLifelineHeadShape>
+        <lifelineHoverShape Id="fd21e5ad-93bb-49d7-a244-7992746ce53f" absoluteBounds="1.025, 1, 0, 7">
+          <lifelineMoniker Id="f6bbe948-2fa8-48bc-bc04-753bbfafd77c" LastKnownName="utilisateur : Utilisateur" />
+        </lifelineHoverShape>
+      </relativeChildShapes>
+    </lifelineShape>
+    <lifelineShape Id="c058d872-df21-46a7-95c9-7d206034c184" absoluteBounds="2.9979166666666663, 1, 0.15, 7" visible="true" visualStyleMode="Modified">
+      <lifelineMoniker Id="72ca6988-5690-49de-9a01-f244ef3d8477" LastKnownName="client Leger : Client Leger" />
+      <relativeChildShapes>
+        <umlLifelineHeadShape Id="77c6927e-33fa-428a-863c-d0817d2d9ad9" absoluteBounds="2.5729166666666665, 0.6, 1, 0.4" customColor="White" visualStyleMode="Modified">
+          <lifelineMoniker Id="72ca6988-5690-49de-9a01-f244ef3d8477" LastKnownName="client Leger : Client Leger" />
+          <relativeChildShapes />
+        </umlLifelineHeadShape>
+        <lifelineHoverShape Id="96ccc7bb-10d7-4180-94a9-c8565c19222c" absoluteBounds="2.9979166666666663, 1, 0, 7">
+          <lifelineMoniker Id="72ca6988-5690-49de-9a01-f244ef3d8477" LastKnownName="client Leger : Client Leger" />
+        </lifelineHoverShape>
+      </relativeChildShapes>
+    </lifelineShape>
+  </nestedChildShapes>
+</sequenceDesignerDiagram>

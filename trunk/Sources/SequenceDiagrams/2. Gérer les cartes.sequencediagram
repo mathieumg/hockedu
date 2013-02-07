@@ -1,0 +1,699 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SequenceDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="d434f197-c449-427d-bc4d-a62d87c7c377" name="Sequence1" linkedPackageId="aee7454d-9b2e-4d53-918f-6c65dd0c3175" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner">
+  <packagedElements>
+    <packageHasNamedElement>
+      <interaction Id="9ac5a34b-462b-457e-8c6b-8a8a9dd6d17f" name="Sequence1" collapseFragmentsFlag="false" isActiveClass="false" isAbstract="false" isLeaf="false" isReentrant="false">
+        <ownedCommentsInternal>
+          <comment Id="bfd0f96d-54c5-4c0d-bc48-72be2c6b1b89">
+            <elementDefinition Id="988baaf9-6fa4-4650-a06b-38dfa82a6cea" />
+            <body>Le client lourd fonctionne de la même façon</body>
+          </comment>
+        </ownedCommentsInternal>
+        <elementDefinition Id="822ead70-eb50-4b18-b155-2c3968ba0360" />
+        <fragments>
+          <combinedFragment Id="3d158651-3143-4e8e-b2ae-3c6e00da2acf" name="CombinedFragment1" interactionOperator="Alt">
+            <elementDefinition Id="2c1da703-479d-4d7b-8659-55363236298d" />
+            <coveredLifelines>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </coveredLifelines>
+            <operands>
+              <interactionOperand Id="86646fd6-3f52-4b32-8c87-5401ccc67db8" name="InteractionOperand1">
+                <elementDefinition Id="ab99038d-a1f1-4ad4-b884-6fc9abbd6165" />
+                <coveredLifelines>
+                  <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+                  <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+                </coveredLifelines>
+                <guard>
+                  <interactionConstraint Id="bd65bb28-fc26-444b-82d8-af25c06ee671" guardText="Création d'une nouvelle carte">
+                    <elementDefinition Id="ad852bdb-8831-47e2-babf-6012e78ec9f9" />
+                  </interactionConstraint>
+                </guard>
+                <operandOccurrenceSpecifications>
+                  <operandOccurrenceSpecificationMoniker Id="e7a9371b-0546-4a8d-9a77-b0ebe46b0e05" LastKnownName="OperandOccurrenceSpecification1" />
+                  <operandOccurrenceSpecificationMoniker Id="1f295535-f9ab-4e54-a696-0b644d3d7eef" LastKnownName="OperandOccurrenceSpecification2" />
+                  <operandOccurrenceSpecificationMoniker Id="7fd6e433-1a9d-49a9-8208-8388527f4a3b" LastKnownName="OperandOccurrenceSpecification3" />
+                  <operandOccurrenceSpecificationMoniker Id="c75ab158-3a16-4bcf-b276-5f334931b77b" LastKnownName="OperandOccurrenceSpecification4" />
+                </operandOccurrenceSpecifications>
+              </interactionOperand>
+              <interactionOperand Id="9d808d6d-79d7-4799-97f9-50a2a69666e2" name="InteractionOperand2">
+                <elementDefinition Id="5cbaaea6-8d40-461e-9ebf-dbc7297f1782" />
+                <coveredLifelines>
+                  <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+                  <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+                </coveredLifelines>
+                <fragments>
+                  <combinedFragment Id="6f4360d8-7c50-4194-be6a-ef489342c286" name="CombinedFragment1" interactionOperator="Opt">
+                    <elementDefinition Id="fbcb607e-9b24-47e5-8acc-dd95addf0afc" />
+                    <coveredLifelines>
+                      <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+                      <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+                    </coveredLifelines>
+                    <operands>
+                      <interactionOperand Id="122cdd5d-cc71-485b-9072-a98c0282d4e5" name="InteractionOperand1">
+                        <elementDefinition Id="9a23fe7f-3d99-4cfb-84bc-b10f557b1ca4" />
+                        <coveredLifelines>
+                          <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+                          <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+                        </coveredLifelines>
+                        <guard>
+                          <interactionConstraint Id="371e11e1-7f98-4aa5-80f6-ed49bcc0bbf0" guardText="Si on veut une carte sur le serveur">
+                            <elementDefinition Id="2bd6ca73-fc63-4676-9580-f6a774954a27" />
+                          </interactionConstraint>
+                        </guard>
+                        <operandOccurrenceSpecifications>
+                          <operandOccurrenceSpecificationMoniker Id="c9b12062-e17b-4dfb-81dd-3f348fb6c8a8" LastKnownName="OperandOccurrenceSpecification9" />
+                          <operandOccurrenceSpecificationMoniker Id="eafc28a9-960f-45ac-b94f-27499650467f" LastKnownName="OperandOccurrenceSpecification10" />
+                          <operandOccurrenceSpecificationMoniker Id="2fe54a6e-3167-4926-8135-1253ccc71d25" LastKnownName="OperandOccurrenceSpecification11" />
+                          <operandOccurrenceSpecificationMoniker Id="6c7fc20d-e20e-46ed-abe2-d52044c9cdcf" LastKnownName="OperandOccurrenceSpecification12" />
+                        </operandOccurrenceSpecifications>
+                      </interactionOperand>
+                    </operands>
+                  </combinedFragment>
+                </fragments>
+                <guard>
+                  <interactionConstraint Id="f662ef24-3926-4109-a9b3-87b1fefdd778" guardText="Utilisation d'une carte existante">
+                    <elementDefinition Id="7abeb78b-a73a-4cc8-9c85-b8c04a96ad4c" />
+                  </interactionConstraint>
+                </guard>
+                <operandOccurrenceSpecifications>
+                  <operandOccurrenceSpecificationMoniker Id="391c2945-099e-4c92-ae41-c14bd7d2a81a" LastKnownName="OperandOccurrenceSpecification5" />
+                  <operandOccurrenceSpecificationMoniker Id="987ec88e-4064-449d-a7df-3dff922aba17" LastKnownName="OperandOccurrenceSpecification6" />
+                  <operandOccurrenceSpecificationMoniker Id="9269c5c5-69dc-442e-b69d-a26479a4e5b6" LastKnownName="OperandOccurrenceSpecification7" />
+                  <operandOccurrenceSpecificationMoniker Id="0735cf19-5e0a-4865-83fc-4eccb26bcae4" LastKnownName="OperandOccurrenceSpecification8" />
+                </operandOccurrenceSpecifications>
+              </interactionOperand>
+            </operands>
+          </combinedFragment>
+          <operandOccurrenceSpecification Id="7fd6e433-1a9d-49a9-8208-8388527f4a3b" name="OperandOccurrenceSpecification3">
+            <elementDefinition Id="a7c280f5-a5fd-42b6-afe4-91ac2c765feb" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="e7a9371b-0546-4a8d-9a77-b0ebe46b0e05" name="OperandOccurrenceSpecification1">
+            <elementDefinition Id="a7bcf027-e583-45bb-a6ec-a154b65535ab" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <interactionUse Id="73e386b7-5f8d-4b80-8cf5-377787f9ccb6" name="2.1 Créer une nouvelle carte" referredToFile="2.1 Créer une nouvelle carte">
+            <referencesInternal>
+              <reference Id="a85fcf37-adcf-4ded-b4e9-c7d2cc4ba05e" handle="backplane://Backplane/Microsoft.VisualStudio.TeamArchitect.SequenceDesigner.ToolAdapter.SequenceServiceManager/4d8b9a69-1dd8-4616-881c-7a06cfb77fa7\2.1 Créer une nouvelle carte.sequencediagram" tag="Definition Reference">
+                <elementDefinition Id="9c94a06a-bb64-4e3e-9a12-17703f7f2a77" />
+              </reference>
+            </referencesInternal>
+            <elementDefinition Id="31955f97-1a8b-4ef2-95b8-ee8fa02ab8a9" />
+            <coveredLifelines>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </coveredLifelines>
+            <interactionUseOccurrenceSpecifications>
+              <interactionUseOccurrenceSpecificationMoniker Id="341546f9-8b6f-405e-be85-b1322d340243" LastKnownName="InteractionUseOccurrenceSpecification1" />
+              <interactionUseOccurrenceSpecificationMoniker Id="87fa7454-59a7-407d-906c-f9bdd07e8b70" LastKnownName="InteractionUseOccurrenceSpecification2" />
+            </interactionUseOccurrenceSpecifications>
+          </interactionUse>
+          <interactionUseOccurrenceSpecification Id="341546f9-8b6f-405e-be85-b1322d340243" name="InteractionUseOccurrenceSpecification1">
+            <elementDefinition Id="b05a8bcc-57d0-4064-b80d-7d9f8772303b" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <interactionUseOccurrenceSpecification Id="87fa7454-59a7-407d-906c-f9bdd07e8b70" name="InteractionUseOccurrenceSpecification2">
+            <elementDefinition Id="a52434de-0eb1-4057-b50a-4e07e1883118" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="c75ab158-3a16-4bcf-b276-5f334931b77b" name="OperandOccurrenceSpecification4">
+            <elementDefinition Id="39b3f9d0-4fb5-43b4-ac2e-6a6fc9c05954" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="1f295535-f9ab-4e54-a696-0b644d3d7eef" name="OperandOccurrenceSpecification2">
+            <elementDefinition Id="f25f420f-b048-4d78-85e7-b042a5ad86d1" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="391c2945-099e-4c92-ae41-c14bd7d2a81a" name="OperandOccurrenceSpecification5">
+            <elementDefinition Id="c62665ed-8da2-4f1c-8348-569e570f2b58" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="9269c5c5-69dc-442e-b69d-a26479a4e5b6" name="OperandOccurrenceSpecification7">
+            <elementDefinition Id="440fb433-f173-423c-8123-4da8c04d7657" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="2fe54a6e-3167-4926-8135-1253ccc71d25" name="OperandOccurrenceSpecification11">
+            <elementDefinition Id="7498078b-3225-4697-a5e7-8834bf74ef7e" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="c9b12062-e17b-4dfb-81dd-3f348fb6c8a8" name="OperandOccurrenceSpecification9">
+            <elementDefinition Id="aa8d5e5b-0aaa-49f8-ada6-d59f169bedeb" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <interactionUse Id="a87548ab-3397-4fe5-b301-bccbd890c7a4" name="2.6 Télécharger une carte" referredToFile="2.6 Télécharger une carte">
+            <referencesInternal>
+              <reference Id="c4d2ecb8-b6d4-4014-bed8-05dd89a9a434" handle="backplane://Backplane/Microsoft.VisualStudio.TeamArchitect.SequenceDesigner.ToolAdapter.SequenceServiceManager/4d8b9a69-1dd8-4616-881c-7a06cfb77fa7\2.6 Télécharger une carte.sequencediagram" tag="Definition Reference">
+                <elementDefinition Id="ced6b1cd-b4ef-40ce-b6b9-41f6556583f0" />
+              </reference>
+            </referencesInternal>
+            <elementDefinition Id="93498a9a-5ecb-4b32-8273-8bc1814346bb" />
+            <coveredLifelines>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </coveredLifelines>
+            <interactionUseOccurrenceSpecifications>
+              <interactionUseOccurrenceSpecificationMoniker Id="42cca4a9-8065-4798-a5cb-eb8cd69c1b24" LastKnownName="InteractionUseOccurrenceSpecification23" />
+              <interactionUseOccurrenceSpecificationMoniker Id="a46a31f1-d024-4a7a-befe-72d4842c07b4" LastKnownName="InteractionUseOccurrenceSpecification24" />
+            </interactionUseOccurrenceSpecifications>
+          </interactionUse>
+          <interactionUseOccurrenceSpecification Id="42cca4a9-8065-4798-a5cb-eb8cd69c1b24" name="InteractionUseOccurrenceSpecification23">
+            <elementDefinition Id="79ef10a9-0f7a-4b1c-ad46-0d90074e5bc0" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <interactionUseOccurrenceSpecification Id="a46a31f1-d024-4a7a-befe-72d4842c07b4" name="InteractionUseOccurrenceSpecification24">
+            <elementDefinition Id="a487e8a7-baca-499b-98fc-9e4e67e6bf6b" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="eafc28a9-960f-45ac-b94f-27499650467f" name="OperandOccurrenceSpecification10">
+            <elementDefinition Id="1646e47f-9a6a-4ac2-9e1d-8a576ccd68f1" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="6c7fc20d-e20e-46ed-abe2-d52044c9cdcf" name="OperandOccurrenceSpecification12">
+            <elementDefinition Id="ab97b529-cdbb-4dd7-8736-8881cdc326ff" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <interactionUse Id="187ebbca-c4bf-445a-a632-ea43f0a63758" name="2.7 Énumérer les cartes disponibles" referredToFile="2.7 Énumérer les cartes disponibles">
+            <referencesInternal>
+              <reference Id="3cb820bb-d819-4d58-b906-0879eb4b6fbe" handle="backplane://Backplane/Microsoft.VisualStudio.TeamArchitect.SequenceDesigner.ToolAdapter.SequenceServiceManager/4d8b9a69-1dd8-4616-881c-7a06cfb77fa7\2.7 Énumérer les cartes disponibles.sequencediagram" tag="Definition Reference">
+                <elementDefinition Id="52f3ee9d-48e3-41f1-acb7-844c1acc3273" />
+              </reference>
+            </referencesInternal>
+            <elementDefinition Id="5c5aedd0-5d20-42d9-ac82-036ac7f8caef" />
+            <coveredLifelines>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </coveredLifelines>
+            <interactionUseOccurrenceSpecifications>
+              <interactionUseOccurrenceSpecificationMoniker Id="45823cbe-962e-4c32-a0f5-bfca817645da" LastKnownName="InteractionUseOccurrenceSpecification29" />
+              <interactionUseOccurrenceSpecificationMoniker Id="77ae3d52-4dfb-42e8-bd8a-66d12c5dfcfd" LastKnownName="InteractionUseOccurrenceSpecification30" />
+            </interactionUseOccurrenceSpecifications>
+          </interactionUse>
+          <interactionUseOccurrenceSpecification Id="45823cbe-962e-4c32-a0f5-bfca817645da" name="InteractionUseOccurrenceSpecification29">
+            <elementDefinition Id="defa6fd9-9bc0-43ca-8d03-00125ca4a323" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <interactionUseOccurrenceSpecification Id="77ae3d52-4dfb-42e8-bd8a-66d12c5dfcfd" name="InteractionUseOccurrenceSpecification30">
+            <elementDefinition Id="769ce943-0859-4e5c-9cec-6dfc661d86b4" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <interactionUse Id="7cb13fe7-0db5-4879-bcb2-af62a5600aae" name="2.3 Charger une carte" referredToFile="2.3 Charger une carte">
+            <referencesInternal>
+              <reference Id="71e75ed9-9093-401d-a3fb-1d74c8c49a2d" handle="backplane://Backplane/Microsoft.VisualStudio.TeamArchitect.SequenceDesigner.ToolAdapter.SequenceServiceManager/4d8b9a69-1dd8-4616-881c-7a06cfb77fa7\2.3 Charger une carte.sequencediagram" tag="Definition Reference">
+                <elementDefinition Id="fbc44ec7-52ff-4a0b-b3d5-921ebd6d3d84" />
+              </reference>
+            </referencesInternal>
+            <elementDefinition Id="7eb0fe84-4384-4001-b166-be247a605a61" />
+            <coveredLifelines>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </coveredLifelines>
+            <interactionUseOccurrenceSpecifications>
+              <interactionUseOccurrenceSpecificationMoniker Id="c3f8cb68-030c-4660-ab83-bfccbb822551" LastKnownName="InteractionUseOccurrenceSpecification21" />
+              <interactionUseOccurrenceSpecificationMoniker Id="ea402668-45e8-4111-96dc-c407592077f7" LastKnownName="InteractionUseOccurrenceSpecification22" />
+            </interactionUseOccurrenceSpecifications>
+          </interactionUse>
+          <interactionUseOccurrenceSpecification Id="ea402668-45e8-4111-96dc-c407592077f7" name="InteractionUseOccurrenceSpecification22">
+            <elementDefinition Id="3dbac95e-9c9b-4ce3-b8a1-1b650d921f6b" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <interactionUseOccurrenceSpecification Id="c3f8cb68-030c-4660-ab83-bfccbb822551" name="InteractionUseOccurrenceSpecification21">
+            <elementDefinition Id="c280b369-3ac4-4e61-9072-d799bb112c7f" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="0735cf19-5e0a-4865-83fc-4eccb26bcae4" name="OperandOccurrenceSpecification8">
+            <elementDefinition Id="312558c0-8df5-47d7-a462-6d0d59abc46d" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="987ec88e-4064-449d-a7df-3dff922aba17" name="OperandOccurrenceSpecification6">
+            <elementDefinition Id="f82d89da-26fc-4b44-91d5-2020d40dcbd9" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <combinedFragment Id="0260c37e-94c3-4d34-912e-acc81375cfd2" name="CombinedFragment2" interactionOperator="Par">
+            <elementDefinition Id="4d7d4cbb-712b-425d-aa00-828dd7a5d92c" />
+            <coveredLifelines>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </coveredLifelines>
+            <operands>
+              <interactionOperand Id="ffd78b2e-5656-4de1-bff0-a282f16ca5db" name="InteractionOperand1">
+                <elementDefinition Id="12e6b388-0f3f-4b3d-be18-adf3826c6d1b" />
+                <coveredLifelines>
+                  <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+                  <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+                </coveredLifelines>
+                <guard>
+                  <interactionConstraint Id="cdb86bd5-9bf0-481f-86c2-689c10fd9479">
+                    <elementDefinition Id="2e6d5a62-d256-44fa-9a6c-055a87606835" />
+                  </interactionConstraint>
+                </guard>
+                <operandOccurrenceSpecifications>
+                  <operandOccurrenceSpecificationMoniker Id="8b88cee7-867c-432d-bc59-af204542b26c" LastKnownName="OperandOccurrenceSpecification13" />
+                  <operandOccurrenceSpecificationMoniker Id="4b0989c2-a494-4280-9004-935a90c54c3f" LastKnownName="OperandOccurrenceSpecification14" />
+                  <operandOccurrenceSpecificationMoniker Id="04ab7a03-b4eb-444a-a0a9-1929135d1952" LastKnownName="OperandOccurrenceSpecification15" />
+                  <operandOccurrenceSpecificationMoniker Id="46d590e2-b332-4dba-946e-9eaf8dbc5d8c" LastKnownName="OperandOccurrenceSpecification16" />
+                </operandOccurrenceSpecifications>
+              </interactionOperand>
+              <interactionOperand Id="df8163ab-419f-4204-980c-6396cd3d1ef1" name="InteractionOperand2">
+                <elementDefinition Id="6b75bac9-67fd-40b6-bf00-1887a5f1fc26" />
+                <coveredLifelines>
+                  <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+                  <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+                </coveredLifelines>
+                <fragments>
+                  <combinedFragment Id="2e170915-be67-4e86-8f92-4f5fe4619adf" name="CombinedFragment1" interactionOperator="Opt">
+                    <elementDefinition Id="8665a6ae-7491-4c10-ae76-91e8e4de0c0a" />
+                    <coveredLifelines>
+                      <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+                      <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+                    </coveredLifelines>
+                    <operands>
+                      <interactionOperand Id="d2fe9654-d4d1-4b57-aabb-e6c6f0e18322" name="InteractionOperand1">
+                        <elementDefinition Id="0a29359d-e6c3-4e61-8f3f-a96d37e4a7b4" />
+                        <coveredLifelines>
+                          <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+                          <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+                        </coveredLifelines>
+                        <guard>
+                          <interactionConstraint Id="b6017c3d-b14e-4479-b99c-21cb0afe804d" guardText="Client lourd seulement">
+                            <elementDefinition Id="e1125f53-d489-4fc6-ade0-edf4156b3b57" />
+                          </interactionConstraint>
+                        </guard>
+                        <operandOccurrenceSpecifications>
+                          <operandOccurrenceSpecificationMoniker Id="94e2394d-1c34-43de-8a8f-c1ef762339f0" LastKnownName="OperandOccurrenceSpecification21" />
+                          <operandOccurrenceSpecificationMoniker Id="75064882-2cda-459f-b0ca-470ea706570c" LastKnownName="OperandOccurrenceSpecification22" />
+                          <operandOccurrenceSpecificationMoniker Id="dbe145b0-3a54-492b-9107-51f7b4e3427b" LastKnownName="OperandOccurrenceSpecification23" />
+                          <operandOccurrenceSpecificationMoniker Id="b69f46d9-e0c0-4b3b-8d96-b1bb6fd07a7f" LastKnownName="OperandOccurrenceSpecification24" />
+                        </operandOccurrenceSpecifications>
+                      </interactionOperand>
+                    </operands>
+                  </combinedFragment>
+                </fragments>
+                <guard>
+                  <interactionConstraint Id="67e06a09-122e-4e2d-85d4-87ae8d2e9fb2">
+                    <elementDefinition Id="47360a44-aff8-4e76-b8f1-76168189f9f6" />
+                  </interactionConstraint>
+                </guard>
+                <operandOccurrenceSpecifications>
+                  <operandOccurrenceSpecificationMoniker Id="f3ac092b-ca90-4f84-8685-6759cfc45c25" LastKnownName="OperandOccurrenceSpecification17" />
+                  <operandOccurrenceSpecificationMoniker Id="96a5cfa9-7e0e-49b7-86f5-96eec38eca4d" LastKnownName="OperandOccurrenceSpecification18" />
+                  <operandOccurrenceSpecificationMoniker Id="514a6078-1d50-4dc0-b48b-0b7ed98e3a37" LastKnownName="OperandOccurrenceSpecification19" />
+                  <operandOccurrenceSpecificationMoniker Id="1d502b17-679d-4fef-a478-7829a244fea8" LastKnownName="OperandOccurrenceSpecification20" />
+                </operandOccurrenceSpecifications>
+              </interactionOperand>
+            </operands>
+          </combinedFragment>
+          <operandOccurrenceSpecification Id="04ab7a03-b4eb-444a-a0a9-1929135d1952" name="OperandOccurrenceSpecification15">
+            <elementDefinition Id="42db79b8-2ff1-496d-a167-77998fc8944c" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="8b88cee7-867c-432d-bc59-af204542b26c" name="OperandOccurrenceSpecification13">
+            <elementDefinition Id="62825255-6661-4c70-a272-d7d7aeb3400e" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <interactionUse Id="0e949908-67cc-4952-94b3-9bf83ef38958" name="2.2 Modifier une carte" referredToFile="2.2 Modifier une carte">
+            <referencesInternal>
+              <reference Id="9e6e50a9-16dd-4bcb-bb80-a8f8e9d9ab88" handle="backplane://Backplane/Microsoft.VisualStudio.TeamArchitect.SequenceDesigner.ToolAdapter.SequenceServiceManager/4d8b9a69-1dd8-4616-881c-7a06cfb77fa7\2.2 Modifier une carte.sequencediagram" tag="Definition Reference">
+                <elementDefinition Id="9e007bdc-a0e3-42fb-a983-e3077b72da0f" />
+              </reference>
+            </referencesInternal>
+            <elementDefinition Id="9e8562e8-04bb-49fb-ae4b-cb0ff9a06e51" />
+            <coveredLifelines>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </coveredLifelines>
+            <interactionUseOccurrenceSpecifications>
+              <interactionUseOccurrenceSpecificationMoniker Id="82964968-3c24-415c-9860-df08eddca9d5" LastKnownName="InteractionUseOccurrenceSpecification25" />
+              <interactionUseOccurrenceSpecificationMoniker Id="cd6d67aa-c306-4152-ae57-0eac5ea0902d" LastKnownName="InteractionUseOccurrenceSpecification26" />
+            </interactionUseOccurrenceSpecifications>
+          </interactionUse>
+          <interactionUseOccurrenceSpecification Id="82964968-3c24-415c-9860-df08eddca9d5" name="InteractionUseOccurrenceSpecification25">
+            <elementDefinition Id="8544e88f-1401-4b73-9a31-9e4d5148e8f4" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <interactionUseOccurrenceSpecification Id="cd6d67aa-c306-4152-ae57-0eac5ea0902d" name="InteractionUseOccurrenceSpecification26">
+            <elementDefinition Id="340a181a-635c-4061-8e3c-04032fd1d2f4" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="46d590e2-b332-4dba-946e-9eaf8dbc5d8c" name="OperandOccurrenceSpecification16">
+            <elementDefinition Id="a03d79f6-f2e5-4860-b8df-838681a9007e" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="4b0989c2-a494-4280-9004-935a90c54c3f" name="OperandOccurrenceSpecification14">
+            <elementDefinition Id="a9da57dc-51ee-438b-a5cf-ee677cedc85b" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="514a6078-1d50-4dc0-b48b-0b7ed98e3a37" name="OperandOccurrenceSpecification19">
+            <elementDefinition Id="2896ab2a-d10d-4087-b09b-daed5e14d3e1" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="f3ac092b-ca90-4f84-8685-6759cfc45c25" name="OperandOccurrenceSpecification17">
+            <elementDefinition Id="277e6402-610a-4d12-afa2-e647656f32e8" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="94e2394d-1c34-43de-8a8f-c1ef762339f0" name="OperandOccurrenceSpecification21">
+            <elementDefinition Id="04138efc-0a6d-47f8-9699-1008a28fa9ea" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="dbe145b0-3a54-492b-9107-51f7b4e3427b" name="OperandOccurrenceSpecification23">
+            <elementDefinition Id="d8824eb2-e3af-445f-93ac-d0afcc0a231c" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <interactionUse Id="3841620b-5d3b-4589-bfbd-2f23a9e3a8ab" name="2.8 Tester une carte" referredToFile="2.8 Tester une carte">
+            <referencesInternal>
+              <reference Id="883ee892-c867-412f-993c-42ac09b1a94d" handle="backplane://Backplane/Microsoft.VisualStudio.TeamArchitect.SequenceDesigner.ToolAdapter.SequenceServiceManager/4d8b9a69-1dd8-4616-881c-7a06cfb77fa7\2.8 Tester une carte.sequencediagram" tag="Definition Reference">
+                <elementDefinition Id="efc4d6b8-a189-4f4f-9d30-567d0c1e8efb" />
+              </reference>
+            </referencesInternal>
+            <elementDefinition Id="a48ba62d-11a7-425f-b514-4c6960772ca8" />
+            <coveredLifelines>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </coveredLifelines>
+            <interactionUseOccurrenceSpecifications>
+              <interactionUseOccurrenceSpecificationMoniker Id="d597b2e5-7aba-427d-88c5-37624a0aac4f" LastKnownName="InteractionUseOccurrenceSpecification27" />
+              <interactionUseOccurrenceSpecificationMoniker Id="e65cb580-2acb-4236-a8f9-0a77d5e9fe3b" LastKnownName="InteractionUseOccurrenceSpecification28" />
+            </interactionUseOccurrenceSpecifications>
+          </interactionUse>
+          <interactionUseOccurrenceSpecification Id="e65cb580-2acb-4236-a8f9-0a77d5e9fe3b" name="InteractionUseOccurrenceSpecification28">
+            <elementDefinition Id="ee6bf084-5f4d-4c11-80fa-e8c3ff81373e" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <interactionUseOccurrenceSpecification Id="d597b2e5-7aba-427d-88c5-37624a0aac4f" name="InteractionUseOccurrenceSpecification27">
+            <elementDefinition Id="c1248f54-6a94-4172-8045-67f3b01f1bbb" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="75064882-2cda-459f-b0ca-470ea706570c" name="OperandOccurrenceSpecification22">
+            <elementDefinition Id="10627f45-6603-4cc6-ab74-f51ed4526762" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="b69f46d9-e0c0-4b3b-8d96-b1bb6fd07a7f" name="OperandOccurrenceSpecification24">
+            <elementDefinition Id="82e176b7-b206-417b-89d1-7fff0ac2ad16" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="96a5cfa9-7e0e-49b7-86f5-96eec38eca4d" name="OperandOccurrenceSpecification18">
+            <elementDefinition Id="2ed952d1-6a8e-4b44-b878-b77537b32c3e" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="1d502b17-679d-4fef-a478-7829a244fea8" name="OperandOccurrenceSpecification20">
+            <elementDefinition Id="6c8ffc42-556c-42a5-a501-15c6e0f691ec" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <interactionUse Id="85433f72-8166-428a-89a2-22437bb421ac" name="2.4 Sauvegarder une carte" referredToFile="2.4 Sauvegarder une carte">
+            <referencesInternal>
+              <reference Id="8371afe9-3161-4cfd-9f6b-e421f90d3950" handle="backplane://Backplane/Microsoft.VisualStudio.TeamArchitect.SequenceDesigner.ToolAdapter.SequenceServiceManager/4d8b9a69-1dd8-4616-881c-7a06cfb77fa7\2.4 Sauvegarder une carte.sequencediagram" tag="Definition Reference">
+                <elementDefinition Id="41775f03-91ad-414e-bc06-6027cda520e3" />
+              </reference>
+            </referencesInternal>
+            <elementDefinition Id="2eb3afd5-6ff7-40ab-9c84-051eeab609da" />
+            <coveredLifelines>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </coveredLifelines>
+            <interactionUseOccurrenceSpecifications>
+              <interactionUseOccurrenceSpecificationMoniker Id="16d5a215-f74a-4002-92f9-a5ef3c53bd51" LastKnownName="InteractionUseOccurrenceSpecification9" />
+              <interactionUseOccurrenceSpecificationMoniker Id="b4c60c5a-899b-480a-b5bd-3fe6534de081" LastKnownName="InteractionUseOccurrenceSpecification10" />
+            </interactionUseOccurrenceSpecifications>
+          </interactionUse>
+          <interactionUseOccurrenceSpecification Id="16d5a215-f74a-4002-92f9-a5ef3c53bd51" name="InteractionUseOccurrenceSpecification9">
+            <elementDefinition Id="ea2a1f00-7c03-4d0e-b7e2-b95a159e5b1a" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <interactionUseOccurrenceSpecification Id="b4c60c5a-899b-480a-b5bd-3fe6534de081" name="InteractionUseOccurrenceSpecification10">
+            <elementDefinition Id="cf9587c4-496d-42b1-93d8-8dfe9733b0fb" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <combinedFragment Id="4d247f06-0103-4d18-a6aa-b258697371b5" name="CombinedFragment3" interactionOperator="Opt">
+            <elementDefinition Id="da6d9b5a-3bf0-4851-b929-8c3872c002fc" />
+            <coveredLifelines>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </coveredLifelines>
+            <operands>
+              <interactionOperand Id="f06e11d1-d1c5-46e6-9254-359128f3eca0" name="InteractionOperand1">
+                <elementDefinition Id="dfca0931-ccce-4511-96db-59fb63164373" />
+                <coveredLifelines>
+                  <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+                  <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+                </coveredLifelines>
+                <guard>
+                  <interactionConstraint Id="952a72fe-00d0-43b0-9fb9-3ed7b9f650af" guardText="Si on veut envoyer la carte sur le serveur">
+                    <elementDefinition Id="852fddaf-0e95-4c85-8277-524ea8d50d8b" />
+                  </interactionConstraint>
+                </guard>
+                <operandOccurrenceSpecifications>
+                  <operandOccurrenceSpecificationMoniker Id="17a2f69a-1eec-44f3-b4bc-d147683332ad" LastKnownName="OperandOccurrenceSpecification25" />
+                  <operandOccurrenceSpecificationMoniker Id="6ad3a419-9605-4b01-8cbd-dbc477eff5c6" LastKnownName="OperandOccurrenceSpecification26" />
+                  <operandOccurrenceSpecificationMoniker Id="1776693a-dcce-48e3-8bde-d467a14e9b5c" LastKnownName="OperandOccurrenceSpecification27" />
+                  <operandOccurrenceSpecificationMoniker Id="471cc3a8-3955-425d-86a7-50d3ca161e05" LastKnownName="OperandOccurrenceSpecification28" />
+                </operandOccurrenceSpecifications>
+              </interactionOperand>
+            </operands>
+          </combinedFragment>
+          <operandOccurrenceSpecification Id="17a2f69a-1eec-44f3-b4bc-d147683332ad" name="OperandOccurrenceSpecification25">
+            <elementDefinition Id="3e31a19b-6baf-4687-9762-4b6884d61d51" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="1776693a-dcce-48e3-8bde-d467a14e9b5c" name="OperandOccurrenceSpecification27">
+            <elementDefinition Id="d1754e2c-6b8c-478c-9d54-4ca523b0ccd1" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <interactionUse Id="2c65d9bd-3050-43bf-8f58-7966bb4b8308" name="2.5 Soumettre une carte" referredToFile="2.5 Soumettre une carte">
+            <referencesInternal>
+              <reference Id="ef2830ea-2e45-4e99-975c-1c7e91e84555" handle="backplane://Backplane/Microsoft.VisualStudio.TeamArchitect.SequenceDesigner.ToolAdapter.SequenceServiceManager/4d8b9a69-1dd8-4616-881c-7a06cfb77fa7\2.5 Soumettre une carte.sequencediagram" tag="Definition Reference">
+                <elementDefinition Id="ea832008-8408-4f83-9e85-82bbf26310a0" />
+              </reference>
+            </referencesInternal>
+            <elementDefinition Id="df7575ce-7c26-4977-9c51-864bde1f2981" />
+            <coveredLifelines>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </coveredLifelines>
+            <interactionUseOccurrenceSpecifications>
+              <interactionUseOccurrenceSpecificationMoniker Id="d8ce9218-de85-48d0-804d-fe1265f222fe" LastKnownName="InteractionUseOccurrenceSpecification11" />
+              <interactionUseOccurrenceSpecificationMoniker Id="1f9655d3-5c50-4a3b-b94f-f587e9bb4b94" LastKnownName="InteractionUseOccurrenceSpecification12" />
+            </interactionUseOccurrenceSpecifications>
+          </interactionUse>
+          <interactionUseOccurrenceSpecification Id="d8ce9218-de85-48d0-804d-fe1265f222fe" name="InteractionUseOccurrenceSpecification11">
+            <elementDefinition Id="96169902-3648-4368-9717-0c2f25ce20ef" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <interactionUseOccurrenceSpecification Id="1f9655d3-5c50-4a3b-b94f-f587e9bb4b94" name="InteractionUseOccurrenceSpecification12">
+            <elementDefinition Id="4b2ef24a-ad11-4442-a7af-fa5552a949d6" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="6ad3a419-9605-4b01-8cbd-dbc477eff5c6" name="OperandOccurrenceSpecification26">
+            <elementDefinition Id="a1116815-410d-4ca9-af5c-a0ded79d0c80" />
+            <covered>
+              <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="471cc3a8-3955-425d-86a7-50d3ca161e05" name="OperandOccurrenceSpecification28">
+            <elementDefinition Id="44483be7-fae5-4477-8463-c068aa2a7181" />
+            <covered>
+              <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </operandOccurrenceSpecification>
+        </fragments>
+        <lifelines>
+          <lifeline Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" name="utilisateur : Utilisateur" isActor="true" lifelineDisplayName="utilisateur : Utilisateur">
+            <elementDefinition Id="6b881199-35b3-465a-842c-f4c2b5d22fd5" />
+            <represents>
+              <propertyMoniker Id="0b345af0-5a64-4aca-bec9-57634a2b3d32" />
+            </represents>
+            <topLevelOccurrences>
+              <operandOccurrenceSpecificationMoniker Id="e7a9371b-0546-4a8d-9a77-b0ebe46b0e05" LastKnownName="OperandOccurrenceSpecification1" />
+              <interactionUseOccurrenceSpecificationMoniker Id="341546f9-8b6f-405e-be85-b1322d340243" LastKnownName="InteractionUseOccurrenceSpecification1" />
+              <operandOccurrenceSpecificationMoniker Id="1f295535-f9ab-4e54-a696-0b644d3d7eef" LastKnownName="OperandOccurrenceSpecification2" />
+              <operandOccurrenceSpecificationMoniker Id="391c2945-099e-4c92-ae41-c14bd7d2a81a" LastKnownName="OperandOccurrenceSpecification5" />
+              <operandOccurrenceSpecificationMoniker Id="c9b12062-e17b-4dfb-81dd-3f348fb6c8a8" LastKnownName="OperandOccurrenceSpecification9" />
+              <interactionUseOccurrenceSpecificationMoniker Id="42cca4a9-8065-4798-a5cb-eb8cd69c1b24" LastKnownName="InteractionUseOccurrenceSpecification23" />
+              <operandOccurrenceSpecificationMoniker Id="eafc28a9-960f-45ac-b94f-27499650467f" LastKnownName="OperandOccurrenceSpecification10" />
+              <interactionUseOccurrenceSpecificationMoniker Id="45823cbe-962e-4c32-a0f5-bfca817645da" LastKnownName="InteractionUseOccurrenceSpecification29" />
+              <interactionUseOccurrenceSpecificationMoniker Id="c3f8cb68-030c-4660-ab83-bfccbb822551" LastKnownName="InteractionUseOccurrenceSpecification21" />
+              <operandOccurrenceSpecificationMoniker Id="987ec88e-4064-449d-a7df-3dff922aba17" LastKnownName="OperandOccurrenceSpecification6" />
+              <operandOccurrenceSpecificationMoniker Id="8b88cee7-867c-432d-bc59-af204542b26c" LastKnownName="OperandOccurrenceSpecification13" />
+              <interactionUseOccurrenceSpecificationMoniker Id="82964968-3c24-415c-9860-df08eddca9d5" LastKnownName="InteractionUseOccurrenceSpecification25" />
+              <operandOccurrenceSpecificationMoniker Id="4b0989c2-a494-4280-9004-935a90c54c3f" LastKnownName="OperandOccurrenceSpecification14" />
+              <operandOccurrenceSpecificationMoniker Id="f3ac092b-ca90-4f84-8685-6759cfc45c25" LastKnownName="OperandOccurrenceSpecification17" />
+              <operandOccurrenceSpecificationMoniker Id="94e2394d-1c34-43de-8a8f-c1ef762339f0" LastKnownName="OperandOccurrenceSpecification21" />
+              <interactionUseOccurrenceSpecificationMoniker Id="d597b2e5-7aba-427d-88c5-37624a0aac4f" LastKnownName="InteractionUseOccurrenceSpecification27" />
+              <operandOccurrenceSpecificationMoniker Id="75064882-2cda-459f-b0ca-470ea706570c" LastKnownName="OperandOccurrenceSpecification22" />
+              <operandOccurrenceSpecificationMoniker Id="96a5cfa9-7e0e-49b7-86f5-96eec38eca4d" LastKnownName="OperandOccurrenceSpecification18" />
+              <interactionUseOccurrenceSpecificationMoniker Id="16d5a215-f74a-4002-92f9-a5ef3c53bd51" LastKnownName="InteractionUseOccurrenceSpecification9" />
+              <operandOccurrenceSpecificationMoniker Id="17a2f69a-1eec-44f3-b4bc-d147683332ad" LastKnownName="OperandOccurrenceSpecification25" />
+              <interactionUseOccurrenceSpecificationMoniker Id="d8ce9218-de85-48d0-804d-fe1265f222fe" LastKnownName="InteractionUseOccurrenceSpecification11" />
+              <operandOccurrenceSpecificationMoniker Id="6ad3a419-9605-4b01-8cbd-dbc477eff5c6" LastKnownName="OperandOccurrenceSpecification26" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline Id="22086580-f28c-4cde-aead-347e27d14e83" name="client Leger : Client Leger" isActor="true" lifelineDisplayName="client Leger : Client Leger">
+            <elementDefinition Id="acd8cd06-f3c6-4bd7-8af7-99c7219959d5" />
+            <represents>
+              <propertyMoniker Id="c25b0080-aee1-4c0a-9144-d89e9bc701ed" />
+            </represents>
+            <topLevelOccurrences>
+              <operandOccurrenceSpecificationMoniker Id="7fd6e433-1a9d-49a9-8208-8388527f4a3b" LastKnownName="OperandOccurrenceSpecification3" />
+              <interactionUseOccurrenceSpecificationMoniker Id="87fa7454-59a7-407d-906c-f9bdd07e8b70" LastKnownName="InteractionUseOccurrenceSpecification2" />
+              <operandOccurrenceSpecificationMoniker Id="c75ab158-3a16-4bcf-b276-5f334931b77b" LastKnownName="OperandOccurrenceSpecification4" />
+              <operandOccurrenceSpecificationMoniker Id="9269c5c5-69dc-442e-b69d-a26479a4e5b6" LastKnownName="OperandOccurrenceSpecification7" />
+              <operandOccurrenceSpecificationMoniker Id="2fe54a6e-3167-4926-8135-1253ccc71d25" LastKnownName="OperandOccurrenceSpecification11" />
+              <interactionUseOccurrenceSpecificationMoniker Id="a46a31f1-d024-4a7a-befe-72d4842c07b4" LastKnownName="InteractionUseOccurrenceSpecification24" />
+              <operandOccurrenceSpecificationMoniker Id="6c7fc20d-e20e-46ed-abe2-d52044c9cdcf" LastKnownName="OperandOccurrenceSpecification12" />
+              <interactionUseOccurrenceSpecificationMoniker Id="77ae3d52-4dfb-42e8-bd8a-66d12c5dfcfd" LastKnownName="InteractionUseOccurrenceSpecification30" />
+              <interactionUseOccurrenceSpecificationMoniker Id="ea402668-45e8-4111-96dc-c407592077f7" LastKnownName="InteractionUseOccurrenceSpecification22" />
+              <operandOccurrenceSpecificationMoniker Id="0735cf19-5e0a-4865-83fc-4eccb26bcae4" LastKnownName="OperandOccurrenceSpecification8" />
+              <operandOccurrenceSpecificationMoniker Id="04ab7a03-b4eb-444a-a0a9-1929135d1952" LastKnownName="OperandOccurrenceSpecification15" />
+              <interactionUseOccurrenceSpecificationMoniker Id="cd6d67aa-c306-4152-ae57-0eac5ea0902d" LastKnownName="InteractionUseOccurrenceSpecification26" />
+              <operandOccurrenceSpecificationMoniker Id="46d590e2-b332-4dba-946e-9eaf8dbc5d8c" LastKnownName="OperandOccurrenceSpecification16" />
+              <operandOccurrenceSpecificationMoniker Id="514a6078-1d50-4dc0-b48b-0b7ed98e3a37" LastKnownName="OperandOccurrenceSpecification19" />
+              <operandOccurrenceSpecificationMoniker Id="dbe145b0-3a54-492b-9107-51f7b4e3427b" LastKnownName="OperandOccurrenceSpecification23" />
+              <interactionUseOccurrenceSpecificationMoniker Id="e65cb580-2acb-4236-a8f9-0a77d5e9fe3b" LastKnownName="InteractionUseOccurrenceSpecification28" />
+              <operandOccurrenceSpecificationMoniker Id="b69f46d9-e0c0-4b3b-8d96-b1bb6fd07a7f" LastKnownName="OperandOccurrenceSpecification24" />
+              <operandOccurrenceSpecificationMoniker Id="1d502b17-679d-4fef-a478-7829a244fea8" LastKnownName="OperandOccurrenceSpecification20" />
+              <interactionUseOccurrenceSpecificationMoniker Id="b4c60c5a-899b-480a-b5bd-3fe6534de081" LastKnownName="InteractionUseOccurrenceSpecification10" />
+              <operandOccurrenceSpecificationMoniker Id="1776693a-dcce-48e3-8bde-d467a14e9b5c" LastKnownName="OperandOccurrenceSpecification27" />
+              <interactionUseOccurrenceSpecificationMoniker Id="1f9655d3-5c50-4a3b-b94f-f587e9bb4b94" LastKnownName="InteractionUseOccurrenceSpecification12" />
+              <operandOccurrenceSpecificationMoniker Id="471cc3a8-3955-425d-86a7-50d3ca161e05" LastKnownName="OperandOccurrenceSpecification28" />
+            </topLevelOccurrences>
+          </lifeline>
+        </lifelines>
+        <ownedAttributesInternal>
+          <property Id="c25b0080-aee1-4c0a-9144-d89e9bc701ed" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="d055ee50-8c02-47f8-8eb4-93ccd9681475" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="e1e2f90f-ee55-49c0-84ac-e964eec51c06" LastKnownName="Client Leger" />
+            </type_NamedElement>
+          </property>
+          <property Id="3bbd879f-eb3f-40e3-9f5c-e6b7659d2855" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="27b8e3ca-9326-452e-99a8-e2fd68b82700" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="ff69a360-254d-4f04-acff-1892658857e3" LastKnownName="Client Lourd" />
+            </type_NamedElement>
+          </property>
+          <property Id="0b345af0-5a64-4aca-bec9-57634a2b3d32" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="a360c2f1-f5d2-40a3-9311-782d308d5bfa" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="047f532e-df89-43f8-bca8-647b6598540f" LastKnownName="Utilisateur" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </interaction>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="e1e2f90f-ee55-49c0-84ac-e964eec51c06" name="Client Leger" isAbstract="false" isLeaf="false" cachedFullName="Diagrammes::Client Leger">
+        <elementDefinition Id="62828cb1-dd23-4d62-8996-487b92db172b" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="ff69a360-254d-4f04-acff-1892658857e3" name="Client Lourd" isAbstract="false" isLeaf="false" cachedFullName="Diagrammes::Client Lourd">
+        <elementDefinition Id="62764bb5-4bbe-45c6-9d59-d02d9b421b05" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="047f532e-df89-43f8-bca8-647b6598540f" name="Utilisateur" isAbstract="false" isLeaf="false" cachedFullName="Diagrammes::Utilisateur">
+        <elementDefinition Id="45a57549-b92d-457c-a351-14cfdca18539" />
+      </referencedType>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="aee7454d-9b2e-4d53-918f-6c65dd0c3175" name="Diagrammes">
+    <elementDefinition Id="bd496572-2d56-4f1a-82f9-f287c782ea4e" />
+    <profileInstances>
+      <packageHasProfileInstances Id="5b947e53-41ab-4df7-a639-0c9e71374b26">
+        <profileInstance Id="be563d37-c040-42c0-9873-970945232f4a" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="6a75d24f-6d8a-41c5-bd41-50f8a0bd8775">
+        <profileInstance Id="d1aa53d4-4433-40c2-a4bd-3b24ed2e0a32" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</SequenceDesignerModel>

@@ -1,0 +1,420 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="5a49e6b8-53cc-45a5-8155-0eca31b5f0ef" name="ConnecterServeurMaitre" linkedPackageId="5f0807df-3d3a-4b0f-b39a-e932fd10db2c" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <profileInstances>
+    <packageHasProfileInstances Id="1dad2ae8-4d39-4672-ac8f-f4d5dcf779fa">
+      <profileInstance Id="95936361-d912-49c2-870b-c7bd4f589ecd" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="756286d8-1621-49eb-8bd7-32bd2075e662">
+      <profileInstance Id="9de11516-185b-42f5-9eaf-82428bd6cf36" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <subsystem Id="dce2d959-c98d-463f-840e-26622b418923" name="3. Se connecter au serveur maître" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="1abf5aef-ab88-466e-9c28-a180705ffb0f" />
+      </subsystem>
+    </useCaseModelRootHasTypes>
+    <packageHasNamedElement>
+      <useCase Id="2b614741-c4dc-46cd-b71d-6cfba38446d3" name="3.1 Saisir ses informations de connexion" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="4b2d5423-91a5-4071-83a8-713520ae0b1f" />
+        <additions>
+          <include Id="842407c5-2e98-4b1d-af52-6293d86cee34">
+            <useCaseMoniker Id="0447eeb1-d417-4c2e-bbf8-2c0ac322f18f" LastKnownName="3.1.1 Valider les informations de connexion" />
+            <elementDefinition Id="17c10768-0c64-4328-becd-fcfbd9f6b232" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="dce2d959-c98d-463f-840e-26622b418923" LastKnownName="3. Se connecter au serveur maître" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <useCaseModelRootHasTypes>
+      <actor Id="b739a1b7-85fa-4360-acc3-b7cbe3bad5b8" name="Utilisateur" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="45a57549-b92d-457c-a351-14cfdca18539" />
+        <targetEnds>
+          <association Id="bb1a4f61-9d4e-4be2-b550-444b9acd66f1" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="3.1 Saisir ses informations de connexion" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="2b614741-c4dc-46cd-b71d-6cfba38446d3" LastKnownName="3.1 Saisir ses informations de connexion" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="1cc70a7e-5580-4bd2-bd38-68119250db0e" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="9dd6e04c-191f-4e5a-a4a9-08b860d7fac4" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="367397e3-99e2-470d-9a37-2c60176d1e81" name="3.1 Saisir ses informations de connexion" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="ab7871a4-3a6b-4001-b082-820d9c8eda8b" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="b143400c-b45b-4413-91e2-d88073a982c6" />
+          </association>
+          <association Id="0b5aee8c-9f9d-4a82-aad4-674921fa5999" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="3.2 Clavarder avec les autres utilisateurs" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="7928171b-129b-4f56-a0ed-a1a7270b6062" LastKnownName="3.2 Clavarder avec les autres utilisateurs" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="691884e7-0341-49e1-8231-f9d5c2993ae0" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="d1c517a5-e84c-4983-a328-65cf43a6ed16" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="f677fccc-c3ab-478a-8ca8-12436d9608f2" name="3.2 Clavarder avec les autres utilisateurs" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="1a6cddd8-3852-4899-aa8f-033971133423" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="354cac51-5aa7-4fca-b723-f23fb523621e" />
+          </association>
+          <association Id="a958af20-f365-4368-94f9-066998dd44ae" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="3.3 Jouer une partie" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="a08135f7-40ee-4381-9c45-715c8a96bf98" LastKnownName="3.3 Jouer une partie" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="77775ff3-f92c-4516-b5d4-f5d33f058fab" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="711f202a-3410-4e21-be20-6750dc0acf24" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="d44707aa-7c83-4feb-b564-62c90dd355d5" name="3.3 Jouer une partie" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="cb976533-fbdf-4d52-ac38-7fca85301b57" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="4e64467d-465e-4dc9-aaf0-b1e97978e38b" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <packageHasNamedElement>
+      <useCase Id="0447eeb1-d417-4c2e-bbf8-2c0ac322f18f" name="3.1.1 Valider les informations de connexion" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="102c5b22-b5d0-4880-bdda-2cd26b0e099a" />
+        <subjects>
+          <subsystemMoniker Id="dce2d959-c98d-463f-840e-26622b418923" LastKnownName="3. Se connecter au serveur maître" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <useCaseModelRootHasTypes>
+      <actor Id="fa17737c-fccf-446a-a623-0d0f6871f273" name="Serveur maître" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="d8723cee-0cbe-4ffa-8818-e60d1d0d8db2" />
+        <targetEnds>
+          <association Id="f1ebd2c2-fabe-4f62-96cb-1111d76ec98f" isDerived="false" sourceEndRoleName="Serveur maître" targetEndRoleName="3.1 Saisir ses informations de connexion" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="2b614741-c4dc-46cd-b71d-6cfba38446d3" LastKnownName="3.1 Saisir ses informations de connexion" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="7e458312-f9c0-4615-89a4-7a139e9c9dd5" name="Serveur maître" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="c150a0c3-38fa-406e-b184-0a2ea28e8865" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="09a93357-019a-4ed7-9a02-f57ece6cb6cb" name="3.1 Saisir ses informations de connexion" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="6632431e-18e4-477a-8239-ee251679a6bb" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="b1403f0e-621f-41ef-bf5a-ff378419fd48" />
+          </association>
+          <association Id="86f59736-a066-4fb6-a3b5-754da165507a" isDerived="false" sourceEndRoleName="Serveur maître" targetEndRoleName="3.1.1 Valider les informations de connexion" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="0447eeb1-d417-4c2e-bbf8-2c0ac322f18f" LastKnownName="3.1.1 Valider les informations de connexion" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="01822959-d498-4db2-88fa-6efb995f49a6" name="Serveur maître" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="67fbd209-7feb-46aa-bd0a-82dfbbfc34ea" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="94106fd0-d50f-4238-aaa7-c3531048ccef" name="3.1.1 Valider les informations de connexion" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="766ae709-8b80-419d-a5ae-dc8c56818464" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="e11f0b8d-2980-4e10-b6b2-69ac9e01b8c0" />
+          </association>
+          <association Id="beec221f-eb07-48c1-9d59-b0709fa92b70" isDerived="false" sourceEndRoleName="Serveur maître" targetEndRoleName="3.3.3.1.1 Déterminer la  carte utilisée pour la partie" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="a215b49b-0204-4523-80c0-084569d1e30a" LastKnownName="3.3.3.1.1 Déterminer la  carte utilisée pour la partie" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="56ce3ea8-0fde-42be-9672-451d8a6a152f" name="Serveur maître" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="8e0d2d73-1b29-4c99-bc40-bf51ac306279" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="4176f838-4195-4f64-bd44-827e659c1a0a" name="3.3.3.1.1 Déterminer la  carte utilisée pour la partie" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="f0f9fb5f-9143-4607-8c59-67508bb9fc37" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="83d52126-d718-4c85-a543-87e369017e28" />
+          </association>
+          <association Id="0c0dde04-5f7a-4450-9143-c2b0c2244a51" isDerived="false" sourceEndRoleName="Serveur maître" targetEndRoleName="3.3.3 Trouver un adversaire pour une partie en ligne (Matchmaking)" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="d169dc3c-def3-4b4b-8651-b6b40e0bf5e9" LastKnownName="3.3.3 Trouver un adversaire pour une partie en ligne (Matchmaking)" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="472354a1-9206-4268-a0c7-7fef52cfadb8" name="Serveur maître" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="cb342809-d679-4095-99f0-08a8743af0b7" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="f3945dc5-ae28-4cab-86ad-110ca080dd8a" name="3.3.3 Trouver un adversaire pour une partie en ligne (Matchmaking)" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="a39ce6b3-1f5f-4ec5-99d6-1c38e3e08706" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="1f22bdac-dd23-4af7-9415-6eaee4d3cb5d" />
+          </association>
+          <association Id="df5cf209-a13a-4840-a484-1ce647b60059" isDerived="false" sourceEndRoleName="Serveur maître" targetEndRoleName="3.4 Envoyer un &quot;achievement&quot;" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="5c67ffd9-0a32-4b85-b9bd-80fbea579781" LastKnownName="3.4 Réaliser un &quot;achievement&quot;" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="accf7e0d-3870-4767-bec0-2564639fee9f" name="Serveur maître" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="6c88591c-257e-41de-8b9b-f2675f66b8d1" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="96936991-79c5-4018-a200-3ba79a66ae81" name="3.4 Envoyer un &quot;achievement&quot;" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="f7f51a78-400f-4c13-b0ed-2041fa38c60f" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="4fb4b95d-f1db-4143-b6ab-fa6e9fa0ec62" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <packageHasNamedElement>
+      <useCase Id="7928171b-129b-4f56-a0ed-a1a7270b6062" name="3.2 Clavarder avec les autres utilisateurs" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="29869478-24da-475f-9034-9872d22eff5e" />
+        <suppliersInternal>
+          <dependency Id="a67841a6-8ad8-45bb-bd19-893d3c2cfcce">
+            <useCaseMoniker Id="0447eeb1-d417-4c2e-bbf8-2c0ac322f18f" LastKnownName="3.1.1 Valider les informations de connexion" />
+            <elementDefinition Id="b0772b26-dbfa-42b4-830d-bc2aef544180" />
+          </dependency>
+        </suppliersInternal>
+        <subjects>
+          <subsystemMoniker Id="dce2d959-c98d-463f-840e-26622b418923" LastKnownName="3. Se connecter au serveur maître" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="d169dc3c-def3-4b4b-8651-b6b40e0bf5e9" name="3.3.3 Trouver un adversaire pour une partie en ligne (Matchmaking)" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="c0d7c4bd-65c8-40cb-9d98-5b6e5e3d7236" />
+        <targetEnds>
+          <association Id="6e267d3b-5c8a-452e-be55-d4e475300290" isDerived="false" sourceEndRoleName="3.3.3 Trouver un adversaire pour une partie en ligne (Matchmaking)" targetEndRoleName="3.3.3.1 Choisir une préférence de carte" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="0bebda07-50cd-4226-89a4-24e1b550aab4" LastKnownName="3.3.3.1 Choisir une préférence de carte" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="2c671d85-fdd6-4a22-ba95-e78e337caa93" name="3.3.3 Trouver un adversaire pour une partie en ligne (Matchmaking)" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="04f49829-de72-4fb8-ad59-f58e8236c6ee" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a51ff2ed-2d83-4edf-ba52-b6eabc18f778" name="3.3.3.1 Choisir une préférence de carte" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="83d54d4c-a237-45a5-ad30-2b547a0d9977" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="e2def480-7b7d-42ae-bd5d-52baaf96eaf7" />
+          </association>
+        </targetEnds>
+        <subjects>
+          <subsystemMoniker Id="dce2d959-c98d-463f-840e-26622b418923" LastKnownName="3. Se connecter au serveur maître" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="1ca3b2cf-7903-497f-bb9c-b339a5f12fe8" name="3.3.2 Joindre une partie en ligne" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="7743922b-1275-4fcc-b99c-f47af4297141" />
+        <subjects>
+          <subsystemMoniker Id="dce2d959-c98d-463f-840e-26622b418923" LastKnownName="3. Se connecter au serveur maître" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="0bebda07-50cd-4226-89a4-24e1b550aab4" name="3.3.3.1 Choisir une préférence de carte" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="dfbc49d4-1fc6-469c-8a90-513e8317f2ef" />
+        <subjects>
+          <subsystemMoniker Id="dce2d959-c98d-463f-840e-26622b418923" LastKnownName="3. Se connecter au serveur maître" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <useCaseModelRootHasTypes>
+      <actor Id="eff4abf9-113f-4d36-8935-0a5eaba237dd" name="Base de données" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="1e071713-1ba0-457f-8383-688edf8d79d3" />
+        <targetEnds>
+          <association Id="45b662d5-500f-42f5-b35e-b9505504d106" isDerived="false" sourceEndRoleName="Base de données" targetEndRoleName="3.1.1 Valider les informations de connexion" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="0447eeb1-d417-4c2e-bbf8-2c0ac322f18f" LastKnownName="3.1.1 Valider les informations de connexion" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="f766709b-d5df-4b9d-a8f8-dbfb7a51e2d7" name="Base de données" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="1bf59c51-05d0-4a6c-940a-a251d284559b" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="5f45833a-57ac-43ef-8cd5-ca41b8e7a89c" name="3.1.1 Valider les informations de connexion" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="54d60963-0900-472f-add2-50b93ff1d3e3" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="e82047de-932b-41c2-837e-7377a8448238" />
+          </association>
+          <association Id="c4d5e0cc-594b-41bc-bee0-48345f953cc1" isDerived="false" sourceEndRoleName="Base de données" targetEndRoleName="3.3.3.1 Choisir une préférence de carte" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="0bebda07-50cd-4226-89a4-24e1b550aab4" LastKnownName="3.3.3.1 Choisir une préférence de carte" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="5522c8f4-2a0b-418c-8208-5799e240b821" name="Base de données" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="32f34e65-a882-452e-ac18-41f85df54f92" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="25069ee1-585f-46ca-9eb7-dd78d0a1f1a2" name="3.3.3.1 Choisir une préférence de carte" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="73153e84-9416-4d94-8b48-d3d00a8ce3b5" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="2f3e5c9f-b695-49a7-9116-efe8ca65a7b7" />
+          </association>
+          <association Id="c1102f69-70ca-412a-9a08-d94fe627ae2c" isDerived="false" sourceEndRoleName="Base de données" targetEndRoleName="Base de données" isLeaf="false" isAbstract="false">
+            <actorMoniker Id="eff4abf9-113f-4d36-8935-0a5eaba237dd" LastKnownName="Base de données" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="481fd5a4-daba-4953-985a-9ccafd996810" name="Base de données" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="85d4cbd0-2d85-4885-8eb2-88f629f2e3dd" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="53a158d5-7296-4eeb-9b79-abcd53da6369" name="Base de données" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="381d475f-413f-44a3-81e2-b8b5c4f5e58e" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="2d187d7d-48ae-48e0-8699-c5ac1b0607a0" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <packageHasNamedElement>
+      <useCase Id="a215b49b-0204-4523-80c0-084569d1e30a" name="3.3.3.1.1 Déterminer la  carte utilisée pour la partie" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="3a702453-2c1f-4429-b71f-ea2bf7f4e0a5" />
+        <suppliersInternal>
+          <dependency Id="556cc79a-b35b-46d1-aaa1-cac7f1eaab4c">
+            <useCaseMoniker Id="0bebda07-50cd-4226-89a4-24e1b550aab4" LastKnownName="3.3.3.1 Choisir une préférence de carte" />
+            <elementDefinition Id="302f2e07-0532-4a65-9323-b099c3ae9566" />
+          </dependency>
+        </suppliersInternal>
+        <subjects>
+          <subsystemMoniker Id="dce2d959-c98d-463f-840e-26622b418923" LastKnownName="3. Se connecter au serveur maître" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="a08135f7-40ee-4381-9c45-715c8a96bf98" name="3.3 Jouer une partie" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="939c7152-c148-4605-b883-687e60cb3fa4" />
+        <suppliersInternal>
+          <dependency Id="13e0fc5b-d75e-4691-838d-d6e41e67d1f4">
+            <useCaseMoniker Id="0447eeb1-d417-4c2e-bbf8-2c0ac322f18f" LastKnownName="3.1.1 Valider les informations de connexion" />
+            <elementDefinition Id="f11d41b5-8ddb-412a-827c-91317819e737" />
+          </dependency>
+        </suppliersInternal>
+        <targetEnds>
+          <association Id="bc95d9f5-4e15-4ec7-9e87-081d3f89f694" isDerived="false" sourceEndRoleName="3.3 Jouer une partie" targetEndRoleName="3.3.1 Créer une partie en ligne" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="5f84f630-8806-499e-9f30-72350e21557e" LastKnownName="3.3.1 Créer une partie en ligne" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="b67f594a-e203-415c-b966-f07532cd4332" name="3.3 Jouer une partie" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="c19fba17-d0a9-4246-9338-a14909e9fe99" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="b2467172-75a7-4470-bfd7-3d60bc3e6a87" name="3.3.1 Créer une partie en ligne" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="cbc4d991-11f6-44c8-b294-47c68093ef8a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="f603f0a7-341c-4cb4-8758-d2fe01c849e9" />
+          </association>
+          <association Id="27f71e5f-917b-4619-95ea-37110b840630" isDerived="false" sourceEndRoleName="3.3 Jouer une partie" targetEndRoleName="3.3.2 Joindre une partie en ligne" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="1ca3b2cf-7903-497f-bb9c-b339a5f12fe8" LastKnownName="3.3.2 Joindre une partie en ligne" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="d4c6b70f-ed45-4089-91b6-a219bafa8f26" name="3.3 Jouer une partie" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="7426b6de-e0d6-4b0e-816e-7272de520b55" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="0a905563-06cd-4860-80bb-882fc1e9626b" name="3.3.2 Joindre une partie en ligne" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="a4732e8b-a1c1-433d-81a7-694cd9744a78" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="7d329007-2d68-4f0e-90c0-378f891e8f58" />
+          </association>
+          <association Id="86496b67-a660-4a58-9e09-dec7029774f0" isDerived="false" sourceEndRoleName="3.3 Jouer une partie" targetEndRoleName="3.3.3 Trouver un adversaire pour une partie en ligne (Matchmaking)" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="d169dc3c-def3-4b4b-8651-b6b40e0bf5e9" LastKnownName="3.3.3 Trouver un adversaire pour une partie en ligne (Matchmaking)" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="f332a64a-12e1-4844-966a-06220f560f57" name="3.3 Jouer une partie" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="844e74d6-4298-40db-b79d-d2db80b8b39c" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="dc64627e-a6f6-444a-9f13-ea8fbd9b7ddf" name="3.3.3 Trouver un adversaire pour une partie en ligne (Matchmaking)" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="696b1374-0185-4d84-bfcc-297503ad46a4" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="3f1e1f8c-4247-4fa6-9154-16c6d6733e93" />
+          </association>
+        </targetEnds>
+        <subjects>
+          <subsystemMoniker Id="dce2d959-c98d-463f-840e-26622b418923" LastKnownName="3. Se connecter au serveur maître" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="5f84f630-8806-499e-9f30-72350e21557e" name="3.3.1 Créer une partie en ligne" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="f94c4456-40c3-4a73-b81e-7854a65b18a4" />
+        <subjects>
+          <subsystemMoniker Id="dce2d959-c98d-463f-840e-26622b418923" LastKnownName="3. Se connecter au serveur maître" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="5c67ffd9-0a32-4b85-b9bd-80fbea579781" name="3.4 Réaliser un &quot;achievement&quot;" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="6da8d2be-98e0-4d95-9642-ffde28a32126" />
+        <suppliersInternal>
+          <dependency Id="69db9cc7-9d87-4be7-87cd-05f6c174a06f">
+            <useCaseMoniker Id="a08135f7-40ee-4381-9c45-715c8a96bf98" LastKnownName="3.3 Jouer une partie" />
+            <elementDefinition Id="a8740763-98d9-438d-a692-10d9c114c712" />
+          </dependency>
+        </suppliersInternal>
+        <targetEnds>
+          <association Id="ca7ce782-dd3d-4c62-9a5c-47763e799122" isDerived="false" sourceEndRoleName="3.4 Envoyer un &quot;achievement&quot;" targetEndRoleName="Utilisateur" isLeaf="false" isAbstract="false">
+            <actorMoniker Id="b739a1b7-85fa-4360-acc3-b7cbe3bad5b8" LastKnownName="Utilisateur" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="5af39aaa-6a11-4cd3-abc9-451becbd44d6" name="3.4 Envoyer un &quot;achievement&quot;" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="298b0072-6bab-47d6-9b74-302335c9c0c5" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="09422153-fe74-43e8-ab25-146ce1697657" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="ed85ae76-62fd-4db8-a312-79e34585428a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="9b49e021-3459-4d36-a5f5-3d00995d56f1" />
+          </association>
+        </targetEnds>
+        <subjects>
+          <subsystemMoniker Id="dce2d959-c98d-463f-840e-26622b418923" LastKnownName="3. Se connecter au serveur maître" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="5f0807df-3d3a-4b0f-b39a-e932fd10db2c" name="Diagrammes">
+    <elementDefinition Id="bd496572-2d56-4f1a-82f9-f287c782ea4e" />
+  </package>
+</useCaseModelRoot>

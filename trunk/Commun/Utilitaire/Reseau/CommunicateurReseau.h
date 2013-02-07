@@ -74,7 +74,10 @@ public:
 	void demarrerConnectionThread(SPSocket pSocket);
 
     // Methode pour demarrer les threads de connection TCP
-    void demarrerThreadsConnectionTCPServeur();
+    void demarrerThreadsConnectionServeur();
+
+    // Methode pour demarrer les threads de reception UDP 
+    void demarrerThreadsReceptionUDP();
 
 	// Enleve le socket et son thread de connection de la liste (surtout appelee par le thread lui meme quand il a terminer son travail)
 	void enleverConnectionThread(SPSocket pSocket, bool pSuccess);
@@ -102,6 +105,9 @@ private:
 	static void *connectionThreadRoutine(void *arg);
 
     static void *connectionTCPServeurThreadRoutine(void *arg);
+
+    // Thread de reception UDP (reception est differente de TCP, mais pas l'envoi)
+    static void *receivingUDPThreadRoutine(void *arg);
 
 	// Methode pour avertir le thread d'envoie que des paquets sont a envoyer (le thread se met en wait si la file est vide)
 	void wakeThreadEnvoie() const;
@@ -131,6 +137,9 @@ private:
 
     // Liste des HANDLE pour les threads de connection TCP
     std::vector<HANDLE> mHandlesThreadConnectionTCPServeur;
+
+    // Liste des HANDLE pour les threads de reception UDP
+    HANDLE mHandleThreadReceptionUDP;
 
 	// Map de handles de thread de connection selon les sockets
 	std::map<SPSocket, HANDLE> mHandlesThreadConnection;
