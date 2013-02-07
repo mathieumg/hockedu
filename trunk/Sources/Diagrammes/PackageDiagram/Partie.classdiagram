@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="c21662a6-df0e-40c3-bba0-125a6fd1bea6" name="Partie" linkedPackageId="944dda3e-4cf1-41d8-8572-751d8f8e3fea" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="254be7f3-01cd-4eaa-9a26-e2dea713a7ab">
+      <profileInstance Id="7ac74968-2947-41e2-bb7e-605bc078be48" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="0e1b9b02-4aac-4a91-b0b8-e2d828a32089">
+      <profileInstance Id="c4946796-d7dc-4907-9203-728f42ea07a6" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="b78d9564-a836-4ef2-bf85-c1b7f1e07bb9" name="Partie">
+        <elementDefinition Id="7d53e7bc-65b3-41f9-b877-7daf54e87cf7" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="8db108c5-bbb1-4f1f-ad33-303b7bc4b80a" name="Partie" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="d8de03a8-2d9a-43c2-a5ba-151d6a1f8172" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="f920aa08-7d25-4138-aef2-5c8c1ce06fc7" name="Tournoi" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="4a11739c-42b2-4203-b716-bc87c38c985b" />
+              <targetEnds>
+                <association Id="fefa4bf8-829e-4662-af1f-73058151f7b7" isDerived="false" sourceEndRoleName="Tournoi" targetEndRoleName="Partie" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="8db108c5-bbb1-4f1f-ad33-303b7bc4b80a" LastKnownName="Partie" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="cfa3c637-f3aa-4c4d-a8a1-c2dae5609f51" name="Tournoi" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="f49b0243-b677-4c1d-99c4-0c2c97bd579e" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="06e55276-51b9-44c6-bae1-2c62dd17f84e" name="Partie" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <lowerValueInternal>
+                          <literalString Id="2c188f15-5bd5-4322-88b7-0c20e5488e1b" name="Lower" value="1">
+                            <elementDefinition Id="bba3e4e7-324b-48c3-bbc8-df6217d8bb6d" />
+                          </literalString>
+                        </lowerValueInternal>
+                        <upperValueInternal>
+                          <literalString Id="ec2b1b79-2e0a-4c06-97e9-dd52521718c2" name="Upper" value="*">
+                            <elementDefinition Id="a7463285-f6b1-4611-be6a-fe2264625c51" />
+                          </literalString>
+                        </upperValueInternal>
+                        <elementDefinition Id="497a397f-75b2-4195-af0b-298eb73d4063" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="efbd4228-2872-4648-8717-ff0842c7cc18" />
+                </association>
+                <association Id="03213f09-be94-478a-8a5e-e21f3ba05cdf" isDerived="false" sourceEndRoleName="Tournoi" targetEndRoleName="JoueurAbstrait" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="ad7fe38b-e9bb-4e25-b562-422cc1082b5f" LastKnownName="JoueurAbstrait" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="5b4b6645-bfe8-4d30-9639-fece7afb5d75" name="Tournoi" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="2be4e968-da8e-4f8c-93ea-be05695c819c" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="cbc01dba-6d3e-484b-aedd-89df2562e6eb" name="JoueurAbstrait" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <lowerValueInternal>
+                          <literalString Id="2b0d6ef6-638a-4023-8990-1f396a1748ab" name="Lower" value="*">
+                            <elementDefinition Id="499de257-83c5-490d-9bf4-db253409ec3b" />
+                          </literalString>
+                        </lowerValueInternal>
+                        <upperValueInternal>
+                          <literalString Id="07c98890-13d5-4446-8721-2aae24021fa7" name="Upper" value="*">
+                            <elementDefinition Id="017424af-f492-4d82-b536-36e3c856a406" />
+                          </literalString>
+                        </upperValueInternal>
+                        <elementDefinition Id="2311f5a4-2653-4108-b476-1af4046294dd" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="efbae49c-bd6d-4cf5-a1e5-f191a2b46e9f" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="ad7fe38b-e9bb-4e25-b562-422cc1082b5f" name="JoueurAbstrait" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="1fa35bc8-8a99-44d6-8a03-40cc44b10fa2" />
+              <targetEnds>
+                <association Id="8c3c82da-ed07-4637-982a-0bdb09a5cd29" isDerived="false" sourceEndRoleName="JoueurAbstrait" targetEndRoleName="AIMaillet" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="5c2f9764-07ec-43d1-89d1-8d7b514d6763" LastKnownName="AIMaillet" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="d375959f-ff76-4bc9-b32a-7a14dd23016b" name="JoueurAbstrait" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <lowerValueInternal>
+                          <literalString Id="c4e885b1-d4ac-4d94-95d1-c6bdbbc40a95" name="Lower" value="*">
+                            <elementDefinition Id="9c295be8-9695-4559-816e-3a809e8eba00" />
+                          </literalString>
+                        </lowerValueInternal>
+                        <upperValueInternal>
+                          <literalString Id="e049c788-3a33-4451-8520-25b7dfe95df4" name="Upper" value="*">
+                            <elementDefinition Id="39c94893-e81d-4cdc-bb28-367b0076d0aa" />
+                          </literalString>
+                        </upperValueInternal>
+                        <elementDefinition Id="c6e70ad2-40ea-4b5d-b7e7-bf67a53545db" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="009035e3-f6ff-464b-b302-f4bca5b6c3e5" name="AIMaillet" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <lowerValueInternal>
+                          <literalString Id="4ddf8d77-7982-434c-9ba5-9de39e29d697" name="Lower" value="1">
+                            <elementDefinition Id="f93a9483-00c1-46d5-9e1c-8c97c454ff3b" />
+                          </literalString>
+                        </lowerValueInternal>
+                        <upperValueInternal>
+                          <literalString Id="7b923a0b-832e-4910-b562-0d33d638b85d" name="Upper" value="1">
+                            <elementDefinition Id="6da2fe09-4ffb-4655-a9c1-84c73654636c" />
+                          </literalString>
+                        </upperValueInternal>
+                        <elementDefinition Id="a0941801-c0c9-4a9d-881c-11220c648333" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="fdc1cc9d-edf2-4235-81f7-75d68e1156e2" />
+                </association>
+                <association Id="921a8e94-f1e3-424d-bf58-1119614cc42f" isDerived="false" sourceEndRoleName="JoueurAbstrait" targetEndRoleName="Zamboni" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="9c8e34be-90a7-48c7-8e5b-124b55a1f243" LastKnownName="Zamboni" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="bece4580-e669-4868-91e9-b5b56fe41d9b" name="JoueurAbstrait" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="4d3e5324-6175-40dd-97a8-ba4854c8ac95" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="047252d6-144c-4cbd-8f07-a7f556ba7eb8" name="Zamboni" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <lowerValueInternal>
+                          <literalString Id="2ae86c01-6de4-44b4-a2b6-f369c803d22a" name="Lower" value="1">
+                            <elementDefinition Id="ca0c38d8-fc0f-49b6-84e7-cdfce0bc2753" />
+                          </literalString>
+                        </lowerValueInternal>
+                        <upperValueInternal>
+                          <literalString Id="4268f1e6-d32c-4e6b-b410-07a072773e4f" name="Upper" value="1">
+                            <elementDefinition Id="8196e307-1b71-42cf-9f1d-fa4a660db611" />
+                          </literalString>
+                        </upperValueInternal>
+                        <elementDefinition Id="4561e25b-6880-4b8d-a3a1-d8823330265d" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="44582684-7332-4792-96ab-3741472301ff" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="5c2f9764-07ec-43d1-89d1-8d7b514d6763" name="AIMaillet" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="4e215ddf-fd19-4a3f-87fb-e44262b65c58" />
+              <targetEnds>
+                <association Id="d1df5152-d9c2-4161-9cd3-f8367873aac9" isDerived="false" sourceEndRoleName="AIMaillet" targetEndRoleName="AIStrat" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="2ceaf08f-fd7b-43c9-9ee5-3e090f66f6f0" LastKnownName="AIStrat" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="b12d3187-b153-4b39-9851-82cde259dae1" name="AIMaillet" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <lowerValueInternal>
+                          <literalString Id="ba7c749f-2b10-4ada-a951-783501ca0cd5" name="Lower" value="*">
+                            <elementDefinition Id="4bc064f0-2284-4ca0-b3c6-713350ec2943" />
+                          </literalString>
+                        </lowerValueInternal>
+                        <upperValueInternal>
+                          <literalString Id="b5a47d8f-a73d-46f5-9825-0782acc1801d" name="Upper" value="*">
+                            <elementDefinition Id="336301a1-1cd0-4b60-880d-97269994be8d" />
+                          </literalString>
+                        </upperValueInternal>
+                        <elementDefinition Id="2fcd8e18-2c0d-4436-b226-7f97f58be679" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="2c9bd829-c70f-4cea-bb08-660668983a10" name="AIStrat" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <lowerValueInternal>
+                          <literalString Id="a0fb3fd2-df0a-4b64-81b2-fdcbcd4a285c" name="Lower" value="*">
+                            <elementDefinition Id="4b530489-797e-4585-af35-690386bdd1ec" />
+                          </literalString>
+                        </lowerValueInternal>
+                        <upperValueInternal>
+                          <literalString Id="c82bcdca-8490-4224-8c5b-dc0a948c379f" name="Upper" value="*">
+                            <elementDefinition Id="66a7a3f5-f0db-4c3e-99a1-08e8c3281d8f" />
+                          </literalString>
+                        </upperValueInternal>
+                        <elementDefinition Id="ec85d75d-e205-42aa-914d-3650c047b9f2" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="4a7b6926-4bc4-4dda-8d5b-663a604a5fdd" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="2ceaf08f-fd7b-43c9-9ee5-3e090f66f6f0" name="AIStrat" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="7c18d1c1-224e-4d23-8e3e-0893040249dd" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="9c8e34be-90a7-48c7-8e5b-124b55a1f243" name="Zamboni" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="1b750638-7742-4b78-a382-300d9aaacfd6" />
+              <targetEnds>
+                <association Id="bfbb6882-b0c4-4936-8bce-6ddbeb2329cd" isDerived="false" sourceEndRoleName="Zamboni" targetEndRoleName="AIStrat" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="2ceaf08f-fd7b-43c9-9ee5-3e090f66f6f0" LastKnownName="AIStrat" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="3214d460-7680-4497-ba81-279624dd6ea6" name="Zamboni" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="b5a363d6-4265-440f-89dd-c87bb22d63e8" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="f9945499-b43b-4f91-9afb-809391b772a1" name="AIStrat" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="eabe7df7-d6bd-459c-a2ea-f07add22f368" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="0d77ea2e-25b7-4e3d-88e4-7fca8c5bd095" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+  </packagedElements>
+  <package Id="944dda3e-4cf1-41d8-8572-751d8f8e3fea" name="PackageDiagram">
+    <elementDefinition Id="e3be6b7a-c594-4cdf-a79e-a902a52468de" />
+  </package>
+</logicalClassDesignerModel>

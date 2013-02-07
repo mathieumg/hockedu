@@ -1,0 +1,368 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="f457e5e3-6889-48f4-a7be-c8c42c8f7650" name="Package" linkedPackageId="a324f0f8-fd52-4229-a559-83d1e4f7e391" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <packagedElements>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="308fc672-c650-4d26-bbcf-1b980dc652d6" name="Présentation">
+        <elementDefinition Id="5c453134-38df-40ff-a463-f2250f80ecb4" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <package Id="f603809e-cec9-4cf4-a2f7-def471c672a4" name="Interface Lourd">
+              <ownedCommentsInternal>
+                <comment Id="5c8af476-0539-4ffb-8b12-5a4900da745c">
+                  <elementDefinition Id="47b7d946-552c-4daa-8e74-b8bc08cb14a9" />
+                  <body>- Chat
+- Login
+- MenuPrincipal
+- Options
+- Tournoi
+- GameBrowser
+- Editeur
+- Partie
+- Profils AI
+</body>
+                </comment>
+              </ownedCommentsInternal>
+              <elementDefinition Id="7bcf0af2-9f72-488a-a8fa-4164b8b5ce6b" />
+              <suppliersInternal>
+                <dependency Id="0d19888d-f34f-4cf6-88c2-ec5acd65675d">
+                  <packageMoniker Id="a18a8380-679c-4524-b204-bd7319b9c0de" LastKnownName="Éditeur Lourd" />
+                  <elementDefinition Id="92cffdb1-1d6c-4afd-8465-f0be788c5b6d" />
+                </dependency>
+                <dependency Id="33584c9f-29ea-44fd-8355-1cf5715c5bdc">
+                  <packageMoniker Id="9096f2e7-cc42-472c-8fed-a7dce03d76be" LastKnownName="Facade" />
+                  <elementDefinition Id="9f84a2cd-7c7e-425e-88c5-5a3ef74cb787" />
+                </dependency>
+              </suppliersInternal>
+            </package>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <package Id="556be4b4-0f6c-4875-ad3a-79f60686abcc" name="Interface Léger">
+              <ownedCommentsInternal>
+                <comment Id="8faf9391-ce8b-40aa-a805-6d87a2d7d93a">
+                  <elementDefinition Id="281fccff-8e4b-4f48-b020-68a9f5e81d44" />
+                  <body>- Login
+- MenuPrincipal
+- Editeur
+- Options</body>
+                </comment>
+              </ownedCommentsInternal>
+              <elementDefinition Id="d45c7dd2-dc24-499d-b4ba-03163b890226" />
+              <suppliersInternal>
+                <dependency Id="b659cc9d-ad0a-4001-adb1-87b14f87212d">
+                  <packageMoniker Id="81faa07e-fcfe-46ae-a701-65af88121bc1" LastKnownName="Éditeur Léger" />
+                  <elementDefinition Id="958b7ae6-7548-4d10-afcb-e874f226c8a7" />
+                </dependency>
+              </suppliersInternal>
+            </package>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <package Id="42fb9f07-830b-4656-af15-4e37627e82c2" name="Interface Web">
+              <ownedCommentsInternal>
+                <comment Id="0655c823-1da7-444f-b927-c8567ab95f5e">
+                  <elementDefinition Id="763d34af-8f3f-43df-b8a7-1a0f4a1db330" />
+                  <body>- Login.html
+- Register.html
+- LeaderBoard.html 
+- Achievements.html 
+- Stats.html 
+- TerrainUtilisateur.html
+- TerrainPublic.html
+</body>
+                </comment>
+              </ownedCommentsInternal>
+              <elementDefinition Id="3df28ac2-6335-40e6-96cb-7f9d58d9ebe1" />
+              <importedPackagesInternal>
+                <packageImport Id="db019642-e32f-4a1e-9b47-c1f95a51c2aa" visibility="Public">
+                  <packageMoniker Id="a9f9c6ff-bdf8-42c9-b6e8-43cc06a888fa" LastKnownName="Web" />
+                  <elementDefinition Id="4d11e77c-4ed6-4c0e-a1d5-d18ecb4b26d0" />
+                </packageImport>
+              </importedPackagesInternal>
+            </package>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="4bc4fc94-546f-429e-a581-73c6a1ed40f2" name="Modèle">
+        <ownedCommentsInternal>
+          <comment Id="8262498b-bbcd-4694-9137-9283117602dd">
+            <elementDefinition Id="a28ef3f8-97a5-405b-8251-c4fb68cff0a4" />
+            <body>- EtatSouris
++ ÉvénementClavier
++ ÉvénementSouris
++ GestionnaireEtat
++ GestionnaireEvenement
++ SoundFMod
++ GestionnaireAchivement</body>
+          </comment>
+        </ownedCommentsInternal>
+        <elementDefinition Id="443266b4-e90c-47fe-83ca-3abb3c839a64" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <package Id="0885a3e4-a3ca-4fd7-a9ea-ba54420cad84" name="Jeu">
+              <ownedCommentsInternal>
+                <comment Id="d9e8a30a-4876-4477-8d9f-94317a71e90b">
+                  <elementDefinition Id="d3d64b8d-8a68-4773-a1be-83825c77fadf" />
+                  <body># GestionnaoreHUD
+# GestionnaireEtatModeJeu
+- EtatSourisJeu</body>
+                </comment>
+              </ownedCommentsInternal>
+              <elementDefinition Id="df0883fe-d7c7-4263-914b-9ae534754276" />
+              <suppliersInternal>
+                <dependency Id="f7cb65fc-32f5-4d71-b54f-5c0803449a58">
+                  <packageMoniker Id="319c700b-4801-40a5-a6ca-2952239f365f" LastKnownName="Jeu" />
+                  <elementDefinition Id="492f5f23-8e36-4e43-bfb6-3469a03efe2d" />
+                </dependency>
+                <dependency Id="7a931bbf-7789-4228-9123-4d3cf104dc76">
+                  <packageMoniker Id="74f91d15-b242-4377-817f-8c8609b60a52" LastKnownName="Maitre" />
+                  <elementDefinition Id="b3d257d7-df24-416c-9bc7-e51323308105" />
+                </dependency>
+              </suppliersInternal>
+              <packagedElements>
+                <packageHasNamedElement>
+                  <package Id="9096f2e7-cc42-472c-8fed-a7dce03d76be" name="Facade">
+                    <description>Facade</description>
+                    <ownedCommentsInternal>
+                      <comment Id="20a7df5e-d0ec-4b7f-a941-f99a654297fc">
+                        <elementDefinition Id="2058895e-7acb-41db-a17d-c662115463df" />
+                        <body>+ FacadeC#
++ FacadeModele</body>
+                      </comment>
+                    </ownedCommentsInternal>
+                    <elementDefinition Id="64dbbb3f-a26f-4c33-a5ee-20cbad2acf17" />
+                  </package>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <package Id="dbb895f9-bbaf-45a3-b039-7b3a22f0c20c" name="Terrain">
+                    <ownedCommentsInternal>
+                      <comment Id="8b97e89c-1bb9-4468-be4b-3a6096ed55f0">
+                        <elementDefinition Id="40852d48-dff5-444b-8938-c02598041124" />
+                        <body>+ NoeudAbstrait
++ Terrain
++ ZoneEdition
++ Visiteur
+- UsineNoeuds
+- ConfigScene</body>
+                      </comment>
+                    </ownedCommentsInternal>
+                    <elementDefinition Id="1f8f1e2b-1ceb-4f62-bb23-4d434c6036cb" />
+                    <suppliersInternal>
+                      <dependency Id="572b2432-7ddf-4cbb-a190-f438adc52580">
+                        <packageMoniker Id="9096f2e7-cc42-472c-8fed-a7dce03d76be" LastKnownName="Facade" />
+                        <elementDefinition Id="6c08ee4c-4f6f-4180-9cb3-f14af3d5789f" />
+                      </dependency>
+                    </suppliersInternal>
+                    <importedPackagesInternal>
+                      <packageImport Id="80c0fc0e-06b2-42ce-a518-21ebf279f7f0" visibility="Public">
+                        <packageMoniker Id="a18a8380-679c-4524-b204-bd7319b9c0de" LastKnownName="Éditeur Lourd" />
+                        <elementDefinition Id="5f7eab1c-78bb-4f31-81bd-25c82246b92d" />
+                      </packageImport>
+                      <packageImport Id="77b2d87e-bd07-4bbb-a2c0-2e4bfce213da" visibility="Public">
+                        <packageMoniker Id="81faa07e-fcfe-46ae-a701-65af88121bc1" LastKnownName="Éditeur Léger" />
+                        <elementDefinition Id="18d3bfcc-4c56-4a4b-a4d3-269b2f075ddd" />
+                      </packageImport>
+                    </importedPackagesInternal>
+                  </package>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <package Id="a33bd3ee-3f0e-4f3f-af55-af4c4f6680e4" name="Réseau">
+                    <ownedCommentsInternal>
+                      <comment Id="d9073f63-1ed5-4e8e-aa26-9858c29722cf">
+                        <elementDefinition Id="02cae95e-c140-4c99-ab42-62e46e410e53" />
+                        <body>+ Paquet
++ CommunicateurReseau
++ GestionnaireReseau
++ Controlleur
+- ExceptionReseau
+- UsinePaquet
++ PacketHandler</body>
+                      </comment>
+                    </ownedCommentsInternal>
+                    <elementDefinition Id="6ec427c5-274e-4eae-841f-68808e52c08f" />
+                    <suppliersInternal>
+                      <dependency Id="769b8cb1-75d0-4734-ad89-8a12db09ef61">
+                        <packageMoniker Id="9096f2e7-cc42-472c-8fed-a7dce03d76be" LastKnownName="Facade" />
+                        <elementDefinition Id="3f13fbeb-3fe4-4e33-a4a9-40aa6a3d2516" />
+                      </dependency>
+                    </suppliersInternal>
+                  </package>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <package Id="1829deaf-2623-4302-9c3e-e13dc55c8f18" name="Modèle 3D">
+                    <ownedCommentsInternal>
+                      <comment Id="0e8fcd77-40d1-4f1f-88a1-eafe27fb86c1">
+                        <elementDefinition Id="0d404c62-1fa7-4536-b642-5d92b7099c72" />
+                        <body>+ GestionnaireModeles
++ Modele3D</body>
+                      </comment>
+                    </ownedCommentsInternal>
+                    <elementDefinition Id="adb8c67c-e32c-4e7c-af2e-d8abdb69d1c0" />
+                    <suppliersInternal>
+                      <dependency Id="fe704978-16a9-4b10-9b98-1acc9f776e39">
+                        <packageMoniker Id="dbb895f9-bbaf-45a3-b039-7b3a22f0c20c" LastKnownName="Terrain" />
+                        <elementDefinition Id="56b8d0ec-4d1e-4062-b2bd-14990fa801c4" />
+                      </dependency>
+                    </suppliersInternal>
+                  </package>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <package Id="54d6f870-7e29-4c16-a149-084f5015032f" name="Partie">
+                    <ownedCommentsInternal>
+                      <comment Id="8f9a7ab8-e34d-42fe-b9b5-681e13c7beb7">
+                        <elementDefinition Id="233745c4-9cbd-4054-b636-34eb1782ecff" />
+                        <body>+ Partie
++ Tournoi
++ JoueurAbstrait
+- AIMaillet
+- AIStrat
+- Zamboni</body>
+                      </comment>
+                    </ownedCommentsInternal>
+                    <elementDefinition Id="7d53e7bc-65b3-41f9-b877-7daf54e87cf7" />
+                    <suppliersInternal>
+                      <dependency Id="348944cc-13c7-485e-b419-91b98a3377fa">
+                        <packageMoniker Id="9096f2e7-cc42-472c-8fed-a7dce03d76be" LastKnownName="Facade" />
+                        <elementDefinition Id="8fe40e87-3de7-4132-a6ec-92aa15bac33a" />
+                      </dependency>
+                    </suppliersInternal>
+                  </package>
+                </packageHasNamedElement>
+              </packagedElements>
+            </package>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <package Id="81faa07e-fcfe-46ae-a701-65af88121bc1" name="Éditeur Léger">
+              <ownedCommentsInternal>
+                <comment Id="1d10bff2-2e6b-4420-8265-bd707c576138">
+                  <elementDefinition Id="6e8d8fcc-bbff-4208-a6b3-d09dcc67fbdc" />
+                  <body>- EtatAjout
+- EtatSelection
+- EtatDeplacement
+- EtatEchelle
+- EtatRotation
++ GestionnaireEtatModeEdition</body>
+                </comment>
+              </ownedCommentsInternal>
+              <elementDefinition Id="cdb6a7eb-419e-4cd7-8c30-16970040b1d3" />
+              <suppliersInternal>
+                <dependency Id="ef63750b-ae03-4389-b3c9-b9d336edfffa">
+                  <packageMoniker Id="a9f9c6ff-bdf8-42c9-b6e8-43cc06a888fa" LastKnownName="Web" />
+                  <elementDefinition Id="f4799d41-92bd-4630-875f-4bf724efb456" />
+                </dependency>
+              </suppliersInternal>
+            </package>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <package Id="a18a8380-679c-4524-b204-bd7319b9c0de" name="Éditeur Lourd">
+              <ownedCommentsInternal>
+                <comment Id="5167c1f9-cfcb-4d49-ad49-e5c0e2186f50">
+                  <elementDefinition Id="054bc425-60c4-41d0-ae74-648be719939c" />
+                  <body>- EtatSourisAjout
+- EtatSourisSelection
+- EtatSourisDeplacement
+- EtatSourisEchelle
+- EtatSourisRoation
++ GestionnaireEtatModeEdition
++ Camera
++ LumiereAbstraite</body>
+                </comment>
+              </ownedCommentsInternal>
+              <elementDefinition Id="878f9358-c4ee-4dec-bff3-164777cc84a4" />
+              <suppliersInternal>
+                <dependency Id="e5b0efff-a584-41d8-8c0a-2d4b62cffbf9">
+                  <packageMoniker Id="a9f9c6ff-bdf8-42c9-b6e8-43cc06a888fa" LastKnownName="Web" />
+                  <elementDefinition Id="9a8e11a3-8ebd-48cc-a702-d1cede133d8f" />
+                </dependency>
+              </suppliersInternal>
+            </package>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="6abe9d5f-0605-4ad1-99f7-b097e195d8e1" name="Serveur">
+        <elementDefinition Id="111e572d-fbf2-4a37-a0e4-12f77125d4c7" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <package Id="74f91d15-b242-4377-817f-8c8609b60a52" name="Maitre">
+              <ownedCommentsInternal>
+                <comment Id="16b96ecd-6529-4ec4-b22c-9838caefb85c">
+                  <elementDefinition Id="d0d93a0a-bf87-4740-8209-3655a7b1c177" />
+                  <body>Le serveur réutilise la même structure que le package Jeu.</body>
+                </comment>
+                <comment Id="858ccc67-48f0-4112-919e-001acde0d7dc">
+                  <elementDefinition Id="eda636b0-4edf-4c82-8492-7c080efd5bda" />
+                  <body>- Request</body>
+                </comment>
+              </ownedCommentsInternal>
+              <elementDefinition Id="5a319f25-63b6-488d-81e4-d25ecb628b54" />
+              <suppliersInternal>
+                <dependency Id="c5bd6f5d-4116-44b8-89c6-c0e09dd52f6d">
+                  <packageMoniker Id="b9d2a9d5-fab1-4fbd-8662-0e345e8f767e" LastKnownName="Base de données" />
+                  <elementDefinition Id="7b63f21b-c819-4c15-8ad9-7e895194e954" />
+                </dependency>
+              </suppliersInternal>
+              <importedPackagesInternal>
+                <packageImport Id="5e18a06d-b367-4fad-bef3-a702d1aa53e2" visibility="Public">
+                  <packageMoniker Id="a33bd3ee-3f0e-4f3f-af55-af4c4f6680e4" LastKnownName="Réseau" />
+                  <elementDefinition Id="87578e5f-9845-4431-98f7-73c259fc746a" />
+                </packageImport>
+              </importedPackagesInternal>
+            </package>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <package Id="a9f9c6ff-bdf8-42c9-b6e8-43cc06a888fa" name="Web">
+              <elementDefinition Id="d1245d44-354e-40f8-992e-086624acfcc4" />
+              <suppliersInternal>
+                <dependency Id="ad5dcfe1-76de-4143-9f4d-744707a48b10">
+                  <packageMoniker Id="b9d2a9d5-fab1-4fbd-8662-0e345e8f767e" LastKnownName="Base de données" />
+                  <elementDefinition Id="807352cc-2199-4bc2-aee6-b0e478a957de" />
+                </dependency>
+              </suppliersInternal>
+            </package>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <package Id="319c700b-4801-40a5-a6ca-2952239f365f" name="Jeu">
+              <ownedCommentsInternal>
+                <comment Id="ed537f58-8716-4009-929e-fdf966d78e98">
+                  <elementDefinition Id="7225e65c-ded3-41ff-9c2c-274912f9d01c" />
+                  <body>Le serveur réutilise la même structure que le package Jeu.</body>
+                </comment>
+              </ownedCommentsInternal>
+              <elementDefinition Id="b4121d89-cf48-4a31-bdae-fd83beedcfa5" />
+              <importedPackagesInternal>
+                <packageImport Id="27fa3c43-4cca-4cd4-892b-ffa1414a34bc" visibility="Public">
+                  <packageMoniker Id="a33bd3ee-3f0e-4f3f-af55-af4c4f6680e4" LastKnownName="Réseau" />
+                  <elementDefinition Id="2fd9f85f-0525-4aab-90f3-ff22755caa2c" />
+                </packageImport>
+              </importedPackagesInternal>
+            </package>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="b9d2a9d5-fab1-4fbd-8662-0e345e8f767e" name="Base de données">
+        <elementDefinition Id="f166b49a-8c33-4834-923d-61e6cab8c50a" />
+      </package>
+    </logicalClassDesignerModelHasPackages>
+  </packagedElements>
+  <package Id="a324f0f8-fd52-4229-a559-83d1e4f7e391" name="PackageDiagram">
+    <elementDefinition Id="e3be6b7a-c594-4cdf-a79e-a902a52468de" />
+    <profileInstances>
+      <packageHasProfileInstances Id="08ee7481-d80f-4346-8231-becd39aa7173">
+        <profileInstance Id="168f76ad-8e58-4b62-acf4-77faec523b02" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="4a3479a3-18ca-475f-8c25-b5853a8a8ce2">
+        <profileInstance Id="027505a4-3204-46ec-ba7a-3cbbf70403fc" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</logicalClassDesignerModel>

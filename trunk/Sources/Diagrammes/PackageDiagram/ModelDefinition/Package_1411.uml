@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="adb8c67c-e32c-4e7c-af2e-d8abdb69d1c0"
+  name="Modèle 3D" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="0d404c62-1fa7-4536-b642-5d92b7099c72">
+      <body>+ GestionnaireModeles
++ Modele3D</body>
+    </comment>
+  </ownedCommentsInternal>
+  <suppliersInternal>
+    <dependency
+      Id="56b8d0ec-4d1e-4062-b2bd-14990fa801c4">
+      <packageMoniker
+        Id="1f8f1e2b-1ceb-4f62-bb23-4d434c6036cb"
+        LastKnownName="Terrain"
+        LastKnownLocation="Package_1357.uml" />
+    </dependency>
+  </suppliersInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="843a3e8a-046c-4db9-9526-5c1c8d2fd837"
+        name="Modele3D"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="76bdaf1d-b44c-4333-80b3-964306c1c96b"
+        name="GestionnaireModeles"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="4ba5ce59-7f11-4caa-8d27-c7f582f311ea"
+            isDerived="false"
+            sourceEndRoleName="GestionnaireModeles"
+            targetEndRoleName="Modele3D"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="843a3e8a-046c-4db9-9526-5c1c8d2fd837"
+              LastKnownName="Modele3D"
+              LastKnownLocation="Package_1411.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="dd4163f6-182c-46a7-99c2-13f538afacd8"
+                  name="GestionnaireModeles"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Shared"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="d7bb93c0-8715-46d1-af67-77409c4cfb36"
+                  name="Modele3D"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="bbdcfa19-97ed-49e1-a01a-9f62a66324eb"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="62f3e683-e77c-4a8c-8a81-4ae10a76618e"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

@@ -1,0 +1,377 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="3f982649-244d-4f62-877e-eda83f2e9019" name="Terrain" linkedPackageId="c4dd6f29-a348-4cfb-8da5-04f6b865b7a4" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <packagedElements>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="b0b0c171-00a5-4acc-9ce2-ab03edc0ae64" name="Terrain">
+        <elementDefinition Id="1f8f1e2b-1ceb-4f62-bb23-4d434c6036cb" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="a6c4d9e4-8199-4bc0-b077-7515ffabe372" name="NoeudAbstrait" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="860a93e9-f68a-49c4-a387-425a01d1bf97" />
+              <generalsInternal>
+                <generalization Id="c7855853-7d15-4e39-93f4-c40edaa2c288" isSubstitutable="false">
+                  <classMoniker Id="fcef466f-08c4-4832-9e6b-e2ee245c12ef" LastKnownName="ObjetAnimable" />
+                  <elementDefinition Id="e4ffd080-21c9-4b7c-a303-ef84ebe1708c" />
+                </generalization>
+              </generalsInternal>
+              <targetEnds>
+                <association Id="bc770f15-aa12-4a76-9ff6-da03a2a73431" isDerived="false" sourceEndRoleName="NoeudAbstrait" targetEndRoleName="UsineNoeud" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="6859a97a-7226-497a-9109-dcc2773a2249" LastKnownName="UsineNoeud" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="a5dffed9-2692-4514-90df-50ddc718924b" name="NoeudAbstrait" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="aaed684a-eab9-4bde-b38f-8caefa7492cf" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="dc94fd89-7cc5-4ca4-8e5e-8bfff2948aa1" name="UsineNoeud" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="7d361fb9-6d14-438c-985f-f86ea94ea1be" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="1b4bf2cd-eb1f-4140-be5e-8ee16fd7b7df" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="b81918ba-f07f-461d-a01f-e9b7baf06772" name="NoeudAccelerateur" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="87532c68-86ea-40b5-97fc-d320df56de4d" />
+              <generalsInternal>
+                <generalization Id="275e94a3-1c3e-4aa5-af61-94ba9e79b383" isSubstitutable="false">
+                  <classMoniker Id="a6c4d9e4-8199-4bc0-b077-7515ffabe372" LastKnownName="NoeudAbstrait" />
+                  <elementDefinition Id="30fa3217-783c-4445-b92a-b60241eeaa39" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="cfe085b1-6c19-4ba3-91f6-79b35ed80627" name="NoeudComposite" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="045c87bb-e79f-4a35-bb58-c069347cb39e" />
+              <generalsInternal>
+                <generalization Id="b08dfc42-5c1d-49be-ae79-7e7db48044dd" isSubstitutable="false">
+                  <classMoniker Id="a6c4d9e4-8199-4bc0-b077-7515ffabe372" LastKnownName="NoeudAbstrait" />
+                  <elementDefinition Id="2e9a55a1-2d6c-4f6e-8ef9-3e6c2a48339e" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="23671c3b-33a9-4d4b-bcb8-6b74092aad64" name="NoeudMaillet" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="f3106f89-554c-4510-bd44-b7fed24b04f5" />
+              <generalsInternal>
+                <generalization Id="f4519bde-c1e2-4307-9c83-0301681ac10e" isSubstitutable="false">
+                  <classMoniker Id="a6c4d9e4-8199-4bc0-b077-7515ffabe372" LastKnownName="NoeudAbstrait" />
+                  <elementDefinition Id="995c4a2a-4a40-4b43-9b4b-7976afbdae94" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="e7793f83-bc09-4292-9058-5a7e221ec338" name="NoeudPortail" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="024c24aa-131a-4cf0-84b4-1531d7ee8ba5" />
+              <generalsInternal>
+                <generalization Id="e80b0da4-37d1-4ed9-86b2-5be7ed1ab392" isSubstitutable="false">
+                  <classMoniker Id="a6c4d9e4-8199-4bc0-b077-7515ffabe372" LastKnownName="NoeudAbstrait" />
+                  <elementDefinition Id="30bb652a-7e5f-46ab-a8eb-279a92533cae" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="2ea26647-79cb-4086-9f62-ccf28e3c19ba" name="NoeudRondelle" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="58f1f987-0d8b-4790-8298-ecf60f07a006" />
+              <generalsInternal>
+                <generalization Id="0511c15c-67d2-4462-b23c-8221bdd12f2a" isSubstitutable="false">
+                  <classMoniker Id="a6c4d9e4-8199-4bc0-b077-7515ffabe372" LastKnownName="NoeudAbstrait" />
+                  <elementDefinition Id="37ec867f-2b22-41fc-a696-b7503b1e1704" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="20651da5-d46d-48c4-ab05-8ea087197ecb" name="ArbreNoeudLibre" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="6f46a16c-9409-4336-94f5-445ff10aba84" />
+              <generalsInternal>
+                <generalization Id="c6b912e8-ae98-486e-8c5a-2335c697c26b" isSubstitutable="false">
+                  <classMoniker Id="cfe085b1-6c19-4ba3-91f6-79b35ed80627" LastKnownName="NoeudComposite" />
+                  <elementDefinition Id="70c3a6fb-0793-48c8-935c-ab35e6e39ea5" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="7996ec6b-fda3-4289-b89e-a875d43d1999" name="ArbreRendu" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="10fe8e8d-7bca-4827-8fd0-b47d46374191" />
+              <generalsInternal>
+                <generalization Id="7c2409dd-cfa4-4271-8468-8e78c1bbeaf7" isSubstitutable="false">
+                  <classMoniker Id="cfe085b1-6c19-4ba3-91f6-79b35ed80627" LastKnownName="NoeudComposite" />
+                  <elementDefinition Id="c1544f09-e7c2-4aad-ac4f-bf74affd3f5b" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="76266614-b982-4daa-bac6-edb2ba616a5f" name="NoeudBut" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="d836e5a4-600b-4fac-901b-a9c71b2f461d" />
+              <generalsInternal>
+                <generalization Id="9fb1536e-12aa-4e55-9128-012e749e6f75" isSubstitutable="false">
+                  <classMoniker Id="cfe085b1-6c19-4ba3-91f6-79b35ed80627" LastKnownName="NoeudComposite" />
+                  <elementDefinition Id="07e96232-c246-4a4c-a0c2-c69d70c00b4c" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="475942c6-843f-4ac5-8e18-4fd0ae181a1b" name="NoeudGroupe" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="51412520-62dd-4192-9eb1-6f2475b3af3e" />
+              <generalsInternal>
+                <generalization Id="58a2b679-0475-4298-9a2f-e98d3c4328cf" isSubstitutable="false">
+                  <classMoniker Id="cfe085b1-6c19-4ba3-91f6-79b35ed80627" LastKnownName="NoeudComposite" />
+                  <elementDefinition Id="f543b829-1823-4753-bfc2-1a80ea974cd6" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="923238a2-c4f8-432a-84ff-4504fbf96631" name="NoeudMuret" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="84c41f0a-be58-4261-977b-aaefd04d09ef" />
+              <generalsInternal>
+                <generalization Id="10350f9e-4d4b-4f6e-ae24-00ca2caca9dd" isSubstitutable="false">
+                  <classMoniker Id="cfe085b1-6c19-4ba3-91f6-79b35ed80627" LastKnownName="NoeudComposite" />
+                  <elementDefinition Id="95ead1d8-603b-4412-9693-8e6acc36d514" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="650ea8c0-b0fc-4676-b663-cb465c52ce6b" name="NoeudMuretRelatif" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="5446a4aa-cd3c-4d55-a7b0-83e333d1d8ec" />
+              <generalsInternal>
+                <generalization Id="d9ee5590-c49e-462a-b117-a52c8351bbc1" isSubstitutable="false">
+                  <classMoniker Id="923238a2-c4f8-432a-84ff-4504fbf96631" LastKnownName="NoeudMuret" />
+                  <elementDefinition Id="52461938-0545-462e-a407-8eed8d0027ad" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="39facdfc-aef9-48fc-9ef9-e0d44daec40b" name="NoeudPoint" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="6cd93031-d52d-44ac-9338-41f73262540a" />
+              <generalsInternal>
+                <generalization Id="31a5a27e-7efa-4d00-8cba-26898934a7bd" isSubstitutable="false">
+                  <classMoniker Id="cfe085b1-6c19-4ba3-91f6-79b35ed80627" LastKnownName="NoeudComposite" />
+                  <elementDefinition Id="274af45f-0567-4063-88b7-e372bae3bd73" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="e0751f64-382a-4dc4-830f-71f7f6f01678" name="NoeudTable" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="1a8fc0c0-403c-42b7-9b50-d5dc2e916902" />
+              <generalsInternal>
+                <generalization Id="1de93c69-5211-4f8d-81a4-f564e484e1a3" isSubstitutable="false">
+                  <classMoniker Id="cfe085b1-6c19-4ba3-91f6-79b35ed80627" LastKnownName="NoeudComposite" />
+                  <elementDefinition Id="806f460d-e37b-485b-9203-01beb5d0e1a7" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="fcef466f-08c4-4832-9e6b-e2ee245c12ef" name="ObjetAnimable" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="b3c050fe-44ea-40b2-8f12-19ecf0279906" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="88508eea-45e3-4809-b596-a3ba169dfc52" name="NoeudModel" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="238a13b1-1f54-494d-8087-c2228f3b3e78" />
+              <generalsInternal>
+                <generalization Id="97f1568e-45fa-4e3f-a156-c63118a10486" isSubstitutable="false">
+                  <classMoniker Id="cfe085b1-6c19-4ba3-91f6-79b35ed80627" LastKnownName="NoeudComposite" />
+                  <elementDefinition Id="f5b1f9f8-b19b-4855-a34d-73e4f705e012" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="c4984ca9-1e3e-4c07-9d75-d5d7cb395455" name="Terrain" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="05e120ad-49db-4a05-b1c9-30564b7955d6" />
+              <targetEnds>
+                <association Id="b569955a-c5ba-456c-8f35-5947f56cb56b" isDerived="false" sourceEndRoleName="Terrain" targetEndRoleName="ZoneEdition" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="beba885e-e654-4cc6-9017-25e2e5d689d7" LastKnownName="ZoneEdition" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="3fb7b79f-9fbd-4567-a97b-f74ed1a8e1b1" name="Terrain" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="be01e034-cc38-4b7e-93e2-bc9c5da394e2" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="1326813c-223a-4d33-8e5a-85cac6a094e6" name="ZoneEdition" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                        <elementDefinition Id="415f730c-e349-4448-8d7c-e8de3b7a130b" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="62270949-c447-4f1c-9c44-98aeb0cc1e2d" />
+                </association>
+                <association Id="a29dfded-ccf5-494c-8836-3ae749cbfb64" isDerived="false" sourceEndRoleName="Terrain" targetEndRoleName="ArbreRendu" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="7996ec6b-fda3-4289-b89e-a875d43d1999" LastKnownName="ArbreRendu" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="cda81e4c-08af-4117-8fa6-c8b3cddd6762" name="Terrain" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="6040bafb-04af-43e6-b9a2-f7e18ae874f1" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="56e38fb9-06fe-46c4-9e59-f6ab7b92026b" name="ArbreRendu" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="a448efae-fea0-4dd6-a7fe-652048ccae2b" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="78d8c328-9abe-4c3d-9309-28e6ba3a5236" />
+                </association>
+                <association Id="ed8ac8de-59ba-44fb-9938-26e6d09643e5" isDerived="false" sourceEndRoleName="Terrain" targetEndRoleName="ArbreNoeudLibre" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="20651da5-d46d-48c4-ab05-8ea087197ecb" LastKnownName="ArbreNoeudLibre" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="c9c419ab-fc50-4d65-a35a-e7c3c52c76ac" name="Terrain" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="446249c2-0689-4ba3-b5e2-7f013e8c3e1a" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="bba4ab11-b26e-4149-b269-8688e204664d" name="ArbreNoeudLibre" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="a0ade0d2-88e5-4491-a57e-78b3eec83270" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="0804a527-98ae-479d-b32a-1c470bc975f2" />
+                </association>
+                <association Id="f181c150-8206-49a5-8a02-6205237aa96a" isDerived="false" sourceEndRoleName="Terrain" targetEndRoleName="ConfigScene" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="ade21b5c-ea4c-4156-858b-34b22867e740" LastKnownName="ConfigScene" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="7b6fbe18-19a3-46b6-b253-19c69e26073b" name="Terrain" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="7a9ac6cf-526c-4099-9d91-e963d4785c93" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="e35b5d86-b5e1-4f1a-96c6-50dc0e86d68d" name="ConfigScene" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="a3a26b09-5d91-4915-8d87-d2f8ed3ca20d" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="1e10251f-0cb7-47d3-ba28-63bbc85f17f1" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="beba885e-e654-4cc6-9017-25e2e5d689d7" name="ZoneEdition" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="86a4da4e-a14a-412f-901d-f1c1f4619d84" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="6859a97a-7226-497a-9109-dcc2773a2249" name="UsineNoeud" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="39c22c92-3f25-462c-9086-706dbca898a1" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="8a645bc0-8488-40ce-9769-405f94a83ef5" name="VisiteurNoeud" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="81c124d6-101c-49a0-8eb1-e965b0139b91" />
+              <targetEnds>
+                <association Id="26f85588-dff0-4f37-b18b-20db8e7aed84" isDerived="false" sourceEndRoleName="VisiteurNoeud" targetEndRoleName="NoeudAbstrait" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="a6c4d9e4-8199-4bc0-b077-7515ffabe372" LastKnownName="NoeudAbstrait" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="bc69d3ab-0889-419a-9883-e59be62b2e96" name="VisiteurNoeud" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="f1b8716f-4d8b-4159-9e8c-2a1e90ede485" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="037a83d4-f3c3-4a89-acb5-980272800a3e" name="NoeudAbstrait" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="f6e9c51e-2df8-4bfd-85b9-0ff93de2f74a" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="2ccdb8c6-5027-4822-aaec-15f9c470a43b" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="ade21b5c-ea4c-4156-858b-34b22867e740" name="ConfigScene" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="306e8bfe-aff3-4b90-860a-6dacbbffe948" />
+              <targetEnds>
+                <association Id="485e96da-ce45-433f-8383-637429cd1edd" isDerived="false" sourceEndRoleName="ConfigScene" targetEndRoleName="VisiteurNoeud" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="8a645bc0-8488-40ce-9769-405f94a83ef5" LastKnownName="VisiteurNoeud" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="05d2d0a8-85a1-43ec-a2f8-c77469186278" name="ConfigScene" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="779be35b-d0e8-4dfd-95d5-e401067f48db" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="4de0c91e-8d95-4126-bb11-4cb13ad0bcbb" name="VisiteurNoeud" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="ea72f367-f345-4bec-92c1-630c2ba992ed" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="1d2f5c7e-24bb-4c9b-a6ff-f4a9a326d7b9" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="e2f0e6ab-26d9-4c63-add4-679e21285ff0" name="GestionnaireAnimations &lt;Singleton&gt;" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="2ac7792f-6ce7-4523-ac4a-edfb56edf9e5" />
+              <targetEnds>
+                <association Id="833a7a85-f960-44d1-a4ac-840ce052fc2b" isDerived="false" sourceEndRoleName="GestionnaireAnimations &lt;Singleton&gt;" targetEndRoleName="ObjetAnimable" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="fcef466f-08c4-4832-9e6b-e2ee245c12ef" LastKnownName="ObjetAnimable" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="725e5c9f-d2d4-48de-9961-337b625b9a3e" name="GestionnaireAnimations &lt;Singleton&gt;" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <lowerValueInternal>
+                          <literalString Id="dc6622fb-fccf-44c8-8ecc-51d6dfa3641e" name="Lower" value="*">
+                            <elementDefinition Id="2fe46648-6b59-413b-9424-bbe6ac2809b5" />
+                          </literalString>
+                        </lowerValueInternal>
+                        <upperValueInternal>
+                          <literalString Id="dcca7121-7dde-46ac-9595-1997d164242e" name="Upper" value="*">
+                            <elementDefinition Id="3fa7b3cf-c8c7-4d3f-bcf8-8215cdaf5c5f" />
+                          </literalString>
+                        </upperValueInternal>
+                        <elementDefinition Id="0dea7517-f636-406e-a2ec-3ee2a054486b" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="8ca17414-918c-4e66-a965-0c0a85e4d36e" name="ObjetAnimable" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="6f118a71-5bc8-4cbe-b168-64459382312c" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="f3558fd3-52d2-40a0-9ae0-2dc56afda4b4" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+  </packagedElements>
+  <package Id="c4dd6f29-a348-4cfb-8da5-04f6b865b7a4" name="PackageDiagram">
+    <elementDefinition Id="e3be6b7a-c594-4cdf-a79e-a902a52468de" />
+    <profileInstances>
+      <packageHasProfileInstances Id="2176ed2f-38c9-45ae-884b-b00ab871c556">
+        <profileInstance Id="6579e25f-b617-47c8-b40f-fb08a89d4e96" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="a2ca4ecd-9f30-4509-b7c1-bbe0433a7f2c">
+        <profileInstance Id="7d462c15-4fc1-4888-9065-158efd486d54" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</logicalClassDesignerModel>

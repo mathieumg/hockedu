@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{54454753-5f35-4057-b7af-013fb92cd21e}</ProjectGuid>
+    <ArchitectureToolsVersion>1.0.0.0</ArchitectureToolsVersion>
+    <Name>PackageDiagram</Name>
+    <RootNamespace>PackageDiagram</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" />
+  <ItemGroup>
+    <Content Include="Facade.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Facade.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Facade.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="InterfaceLourd.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="InterfaceLourd.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>InterfaceLourd.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="InterfaceLéger.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="InterfaceLéger.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>InterfaceLéger.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="Jeu.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Jeu.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Jeu.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="ModelDefinition\Package10_1350.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package11_1350.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package1_1350.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package2_1350.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package3_1350.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package4_1350.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package5_1350.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package6_1350.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package7_1350.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package8_1350.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package9_1350.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1350.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1352.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1354.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1357.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1404.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1411.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1434.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1455.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1502.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Modele.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Modele.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Modele.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="Modele3D.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Modele3D.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Modele3D.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="Package.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Package.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Package.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="Partie.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Partie.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Partie.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="Réseau.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Réseau.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Réseau.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="Terrain.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Terrain.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Terrain.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="ÉditeurLourd.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ÉditeurLourd.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>ÉditeurLourd.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="ÉditeurLéger.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ÉditeurLéger.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>ÉditeurLéger.classdiagram</DependentUpon>
+    </Content>
+    <Folder Include="ModelDefinition\" />
+    <Content Include="ModelDefinition\PackageDiagram.uml">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+</Project>

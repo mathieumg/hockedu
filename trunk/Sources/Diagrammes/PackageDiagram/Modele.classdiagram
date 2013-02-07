@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="f7aaf239-3162-4f01-b424-82b54f77305c" name="Modele" linkedPackageId="1789a1c2-5b03-47ed-8006-065e141a66a4" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <packagedElements>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="1bbbbfe6-dda3-45a8-9f3c-325806ea4b53" name="Modèle">
+        <elementDefinition Id="443266b4-e90c-47fe-83ca-3abb3c839a64" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="c6c0c7d6-5f21-4554-a439-f6ad59f214ff" name="EtatSouris &lt;Abstract&gt;" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="921ba588-eac3-468e-bddb-bbb7b46eb5b3" />
+              <targetEnds>
+                <association Id="225c87d2-873d-4452-ba5d-69e942fba6e8" isDerived="false" sourceEndRoleName="EtatSouris &lt;Abstract&gt;" targetEndRoleName="ÉvénementSouris" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="3914e65b-2dc9-4e81-a940-0b9f5393919e" LastKnownName="ÉvénementSouris" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="a0eb8bce-1b2e-4541-9356-a887da81692a" name="EtatSouris &lt;Abstract&gt;" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="141ca06c-8663-4fb5-938c-f2aef22c3b80" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="48eabaf8-e144-4ef3-a53e-2f2e9aeb7af4" name="ÉvénementSouris" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="7bfb6813-24ab-48c1-8e30-3aa0cc6a97fb" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="597199bb-8609-454d-8a01-eadb399c6ba2" />
+                </association>
+                <association Id="644e4114-fb15-4fb1-9533-6cd3351f323c" isDerived="false" sourceEndRoleName="EtatSouris &lt;Abstract&gt;" targetEndRoleName="ÉvénementsClavier" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="6accee9b-1810-4150-b47e-41b7d9417198" LastKnownName="ÉvénementsClavier" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="5222e4d2-7db7-4429-b320-afb8dedfa14e" name="EtatSouris &lt;Abstract&gt;" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="af05e546-3dbc-4145-9ce6-d3a3ee6209f2" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="20086b34-6799-412d-9fd3-f3d72944fd5a" name="ÉvénementsClavier" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="39a9e4bd-e4a0-4e9d-a277-fc9e221ec3a0" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="11c73331-82a2-44a9-8ca3-32aecefb5e0b" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="6accee9b-1810-4150-b47e-41b7d9417198" name="ÉvénementsClavier" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="71dbf3ec-1b8e-4f73-83e7-df5be0b3c013" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="cb25e3f1-13c5-4568-a5ba-5a3d80a6fc26" name="GestionnaireEtat" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="57863826-75cf-49d2-971d-403dd61e7fd6" />
+              <targetEnds>
+                <association Id="de6c5af6-a145-4836-ab36-8591fd419399" isDerived="false" sourceEndRoleName="GestionnaireEtats" targetEndRoleName="EtatSouris &lt;Abstract&gt;" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="c6c0c7d6-5f21-4554-a439-f6ad59f214ff" LastKnownName="EtatSouris &lt;Abstract&gt;" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="ee71f2a1-855c-494e-beb8-168117cbf245" name="GestionnaireEtats" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="b8580da5-9815-467f-b727-c692b446a165" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="cd9a6fe8-25f4-4fa6-8271-2424fbde7496" name="EtatSouris &lt;Abstract&gt;" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="6fe5b4df-8657-4eb6-9887-1d5103ec123b" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="fdf40844-eaac-45ff-b5f7-f191c9671dbd" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="2a37d6d4-5df6-45df-bcd8-b4d36ab424b0" name="GestionnaireEvenements &lt;Singleton&gt;" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="de657d5f-e3a2-4121-9172-28a8854ea23b" />
+              <targetEnds>
+                <association Id="f04d6840-e1b2-4265-8e58-0dd691d03606" isDerived="false" sourceEndRoleName="GestionnaireEvenements &lt;Singleton&gt;" targetEndRoleName="GestionnaireEtats" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="cb25e3f1-13c5-4568-a5ba-5a3d80a6fc26" LastKnownName="GestionnaireEtat" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="8f70d580-f178-4131-8a16-a4bb713fcd0f" name="GestionnaireEvenements &lt;Singleton&gt;" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="85ae8e64-0a9d-4b04-981d-a6afed40a952" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="555ae0c4-e50d-426b-a44c-744245efb324" name="GestionnaireEtats" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="d19584fc-2945-4dfb-ab48-3809d20ceba3" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="065329c5-3058-4b4c-afbe-b901f3274691" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="bf70812c-55e8-4f63-8324-88ed8ec6d4e5" name="SoundFMod &lt;Singleton&gt;" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="1ef2f4a2-d443-4fd1-b224-b365aeb7f196" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="98ba59b4-ec63-4318-a819-3d3d1b9fc040" name="GestionnaireAchievements &lt;Singleton&gt;" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="094f5300-1b57-4d2a-beb8-21db1328d85e" />
+              <targetEnds>
+                <association Id="2a2230a2-af0b-4f85-9ff8-061780acc22b" isDerived="false" sourceEndRoleName="GestionnaireAchievements &lt;Singleton&gt;" targetEndRoleName="AbstractAchievement" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="872e3872-951d-4b65-8ca3-59ee2d01fc63" LastKnownName="AbstractAchievement" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="47aabbbd-1026-489b-8a74-87a5fef33fbc" name="GestionnaireAchievements &lt;Singleton&gt;" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="64ea1a8d-8cc7-441c-9aab-df4d8994d996" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="3ca5bdad-a796-4ec2-b55f-e4fd0855f3bc" name="AbstractAchievement" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="435e17d0-b48f-4c4f-acee-ef52cfedc259" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="afaac4ed-ed48-408d-b468-77342a5a8bc2" />
+                </association>
+                <association Id="37c5fcdf-a3bb-4157-970f-592ff6a2e527" isDerived="false" sourceEndRoleName="GestionnaireAchievements &lt;Singleton&gt;" targetEndRoleName="AchievementEventType" isLeaf="false" isAbstract="false">
+                  <enumerationMoniker Id="f7b4cd11-bfe4-4e39-8f12-606ac5f32728" LastKnownName="AchievementEventType" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="867c6039-6f2a-4898-9ed5-f2b496656f8e" name="GestionnaireAchievements &lt;Singleton&gt;" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="ba42333a-00a8-40b4-890d-427bb9e0434f" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="e3566697-461e-46b0-a285-2bdc3928daa9" name="AchievementEventType" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="405dbcd7-f63b-4617-b103-ae50727700a2" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="356e3c2f-dfd5-4826-a2e6-0063f1ef2aa6" />
+                </association>
+              </targetEnds>
+              <ownedAttributesInternal>
+                <property Id="91eccd7c-0a9c-4b1d-93e3-339eee78edf6" name="mAchievement" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="60aeac2a-b300-48df-8ae7-95fad8d7842f" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="73597ded-54d8-40e3-8060-7330a6447ce9" LastKnownName="AbstractAchivement*" />
+                  </type_NamedElement>
+                </property>
+                <property Id="28088f7e-bca1-4cfb-8603-bd1211aadbca" name="mTypeCallBack" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="1bbf2e23-ecf3-4a1f-bf12-2a6031fddd36" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="19530fe2-1baa-4d62-ae83-84b79f09cb9a" LastKnownName="map&lt;AchievementEventType,List&lt;CallBack&gt;&gt;" />
+                  </type_NamedElement>
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="8be57c02-8e98-4ed1-9d56-9ebac45e799b" name="LoadAchievements" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="4f312896-8a17-429c-9daa-1b45b9367e80" />
+                </operation>
+                <operation Id="d7e5a0f1-b630-4f86-8322-2ba9ddeec378" name="InitialiseAchivements" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="87aca480-6862-465f-bd31-f0e0bbaa4647" />
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="3914e65b-2dc9-4e81-a940-0b9f5393919e" name="ÉvénementSouris" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="1767b69d-6217-42da-bb00-93b33e7c32d9" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="872e3872-951d-4b65-8ca3-59ee2d01fc63" name="AbstractAchievement" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="b7c06bde-d533-4d7d-8cca-95a9705dc3b7" />
+              <ownedAttributesInternal>
+                <property Id="a311b556-e438-4702-b070-fe66fba3c589" name="mbUnlocked" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="6456f038-be06-4b29-a6c4-7aa51554deda" />
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="0de1c4b9-f0b7-45d9-917d-11134378a9a9" name="RegisterCallbacks" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="bd37e89d-be50-412a-9630-4da6f58f01ab" />
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="4091c486-1040-43f1-aa0e-7318c3fbb7d5" name="RealAchivement" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="05b1f818-6cd1-4d4d-9458-6f0805077047" />
+              <generalsInternal>
+                <generalization Id="eccbb99d-a25f-4cb8-966f-1538e380ddce" isSubstitutable="false">
+                  <classMoniker Id="872e3872-951d-4b65-8ca3-59ee2d01fc63" LastKnownName="AbstractAchievement" />
+                  <elementDefinition Id="55852eff-9b12-4ede-ae4f-b461401cf4aa" />
+                </generalization>
+              </generalsInternal>
+              <ownedAttributesInternal>
+                <property Id="75af3ebe-708b-445b-ba89-5ede5d21e3d3" name="mAdditionnalInfo" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="bf74e17d-7b48-41a2-9380-1d1e7cc0cc5c" />
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="d391aa0f-3ad9-44cd-99e3-e18e03d46a3b" name="RegisterCallbacks" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="ccabc44a-78e3-4ebe-9117-7e52886855dc" />
+                </operation>
+                <operation Id="befb6b5b-4433-43eb-a6cc-cae971c80d84" name="Callback1" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="135ea92c-bdec-4f60-8357-7e0f1c611686" />
+                </operation>
+                <operation Id="7d1f97c6-0214-4d2d-a29b-ffb865e3f644" name="Callback2" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="637c593d-ebf8-4d31-b3c6-1977f716ba28" />
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <enumeration Id="f7b4cd11-bfe4-4e39-8f12-606ac5f32728" name="AchievementEventType" isAbstract="false" isLeaf="false">
+              <elementDefinition Id="ec837d22-017a-43af-9ce7-8f71f87267ba" />
+              <targetEnds>
+                <association Id="add9312e-e8bf-4cfd-b22f-0c9ae3df2bbe" isDerived="false" sourceEndRoleName="AchievementEventType" targetEndRoleName="AbstractAchievement" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="872e3872-951d-4b65-8ca3-59ee2d01fc63" LastKnownName="AbstractAchievement" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="142e2b9d-0a7f-4d19-8c38-f2321c9d53cd" name="AchievementEventType" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="e48658a2-fd2a-4100-bbdb-6a1ac9828836" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="1df70c58-453d-45fb-bee8-30484390b1b1" name="AbstractAchievement" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="f24de248-0673-43c5-b4f0-0a8e07e23392" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="0ee27206-37f5-4faf-a847-f3891b0bcc16" />
+                </association>
+              </targetEnds>
+            </enumeration>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <packageHasNamedElement>
+      <referencedType Id="73597ded-54d8-40e3-8060-7330a6447ce9" name="AbstractAchivement*" isAbstract="false" isLeaf="false" cachedFullName="AbstractAchivement*">
+        <elementDefinition Id="aecc15b5-41d2-405f-bd7d-a2db4101a6f6" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="19530fe2-1baa-4d62-ae83-84b79f09cb9a" name="map&lt;AchievementEventType,List&lt;CallBack&gt;&gt;" isAbstract="false" isLeaf="false" cachedFullName="map&lt;AchievementEventType,List&lt;CallBack&gt;&gt;">
+        <elementDefinition Id="1e799553-6298-4e25-a436-b28bbb6b44e0" />
+      </referencedType>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="1789a1c2-5b03-47ed-8006-065e141a66a4" name="PackageDiagram">
+    <elementDefinition Id="e3be6b7a-c594-4cdf-a79e-a902a52468de" />
+    <profileInstances>
+      <packageHasProfileInstances Id="24da95f8-e29d-4ce2-8d58-f8079f9ed1b0">
+        <profileInstance Id="f88cf43d-b656-451e-b00b-fbe3926b9f04" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="0ac7fdf9-57bb-4007-9a98-c59660c123e0">
+        <profileInstance Id="e24d1057-2c83-45ca-94b8-a2b8c714612c" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</logicalClassDesignerModel>

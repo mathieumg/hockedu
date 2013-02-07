@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="3df28ac2-6335-40e6-96cb-7f9d58d9ebe1"
+  name="Interface Web" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="763d34af-8f3f-43df-b8a7-1a0f4a1db330">
+      <body>- Login.html
+- Register.html
+- LeaderBoard.html 
+- Achievements.html 
+- Stats.html 
+- TerrainUtilisateur.html
+- TerrainPublic.html
+</body>
+    </comment>
+  </ownedCommentsInternal>
+  <importedPackagesInternal>
+    <packageImport
+      Id="4d11e77c-4ed6-4c0e-a1d5-d18ecb4b26d0"
+      visibility="Public">
+      <packageMoniker
+        Id="d1245d44-354e-40f8-992e-086624acfcc4"
+        LastKnownName="Web"
+        LastKnownLocation="Package9_1350.uml" />
+    </packageImport>
+  </importedPackagesInternal>
+</package>
