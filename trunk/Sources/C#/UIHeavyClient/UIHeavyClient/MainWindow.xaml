@@ -4,7 +4,7 @@
         Title="MainWindow" Height="430" Width="588">
     <Grid Height="382" Width="537">
         <WindowsFormsHost Name="windowsFormsHost1">
-            <Control Class = "UIHeavyClient.OpenGLUserControl" Name="openGLControl1"/>
+            <!--<Control Class = "UIHeavyClient.OpenGLUserControl" Name="openGLControl1"/>-->
 
         </WindowsFormsHost>
     </Grid>
