@@ -27,4 +27,128 @@
         Id="3b844cb8-3dbb-4103-8de3-5b057ca1ddec" />
     </dependency>
   </suppliersInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="362fed6f-5c33-4625-8862-8bcb1a16f863"
+        name="GestionnaireEtatModeEdition"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="39ad98a7-f187-45d3-a6d4-c67fa45b535d"
+            isSubstitutable="false">
+            <classMoniker
+              Id="57863826-75cf-49d2-971d-403dd61e7fd6"
+              LastKnownName="GestionnaireEtat"
+              LastKnownLocation="Package3_1350.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="755e5f4c-9eb8-416c-b62f-e5cdb9b47cf3"
+        name="EtatAjout"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="00884c05-bf27-4f08-bcea-b7e9cc608dc1"
+            isSubstitutable="false">
+            <classMoniker
+              Id="921ba588-eac3-468e-bddb-bbb7b46eb5b3"
+              LastKnownName="EtatSouris &lt;Abstract&gt;"
+              LastKnownLocation="Package3_1350.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="1937ce54-bba6-474b-acaf-0ced3d94f5c3"
+        name="EtatDeplacement"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="5155a0a3-89ff-4298-aabe-f2e5829a059e"
+            isSubstitutable="false">
+            <classMoniker
+              Id="921ba588-eac3-468e-bddb-bbb7b46eb5b3"
+              LastKnownName="EtatSouris &lt;Abstract&gt;"
+              LastKnownLocation="Package3_1350.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="1a0604ea-62d9-4897-8b13-ef51603cf812"
+        name="EtatRotation"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="88d218b3-8ed2-4b43-9b53-175a8336137a"
+            isSubstitutable="false">
+            <classMoniker
+              Id="921ba588-eac3-468e-bddb-bbb7b46eb5b3"
+              LastKnownName="EtatSouris &lt;Abstract&gt;"
+              LastKnownLocation="Package3_1350.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="ce9cb650-d11e-48a0-ba0f-69820449ccaa"
+        name="EtatSelection"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="aaad8264-256a-4a50-906f-0c53e3d91332"
+            isSubstitutable="false">
+            <classMoniker
+              Id="921ba588-eac3-468e-bddb-bbb7b46eb5b3"
+              LastKnownName="EtatSouris &lt;Abstract&gt;"
+              LastKnownLocation="Package3_1350.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="ddc5ea7a-a220-4e5c-9535-1223dc21f02e"
+        name="EtatEchelle"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="bd45dd17-25db-48aa-aa73-c0a72e7b79a7"
+            isSubstitutable="false">
+            <classMoniker
+              Id="921ba588-eac3-468e-bddb-bbb7b46eb5b3"
+              LastKnownName="EtatSouris &lt;Abstract&gt;"
+              LastKnownLocation="Package3_1350.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="629947ef-e4ae-40c4-b32e-d056ca3761ef"
+        name="Class1"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+  </packagedElements>
 </package>

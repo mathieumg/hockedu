@@ -24,6 +24,27 @@
       <SubType>Content</SubType>
       <DependentUpon>Facade.classdiagram</DependentUpon>
     </Content>
+    <Content Include="InterfaceLourd.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="InterfaceLourd.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>InterfaceLourd.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="InterfaceLéger.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="InterfaceLéger.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>InterfaceLéger.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="Jeu.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Jeu.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Jeu.classdiagram</DependentUpon>
+    </Content>
     <Content Include="ModelDefinition\Package10_1350.uml">
       <SubType>Content</SubType>
     </Content>
@@ -84,6 +105,20 @@
     <Content Include="ModelDefinition\Package_1502.uml">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="Modele.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Modele.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Modele.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="Modele3D.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Modele3D.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Modele3D.classdiagram</DependentUpon>
+    </Content>
     <Content Include="Package.classdiagram">
       <SubType>Content</SubType>
     </Content>
@@ -91,12 +126,40 @@
       <SubType>Content</SubType>
       <DependentUpon>Package.classdiagram</DependentUpon>
     </Content>
+    <Content Include="Partie.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Partie.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Partie.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="Réseau.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Réseau.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Réseau.classdiagram</DependentUpon>
+    </Content>
     <Content Include="Terrain.classdiagram">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Terrain.classdiagram.layout">
       <SubType>Content</SubType>
       <DependentUpon>Terrain.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="ÉditeurLourd.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ÉditeurLourd.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>ÉditeurLourd.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="ÉditeurLéger.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ÉditeurLéger.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>ÉditeurLéger.classdiagram</DependentUpon>
     </Content>
     <Folder Include="ModelDefinition\" />
     <Content Include="ModelDefinition\PackageDiagram.uml">

@@ -10,15 +10,15 @@
               <ownedCommentsInternal>
                 <comment Id="5c8af476-0539-4ffb-8b12-5a4900da745c">
                   <elementDefinition Id="47b7d946-552c-4daa-8e74-b8bc08cb14a9" />
-                  <body>+ Chat
-+ Login
-+ MenuPrincipal
-+ Options
-+ Tournoi
-+ GameBrowser
-+ Editeur
-+ Jeu
-+ Profils AI
+                  <body>- Chat
+- Login
+- MenuPrincipal
+- Options
+- Tournoi
+- GameBrowser
+- Editeur
+- Partie
+- Profils AI
 </body>
                 </comment>
               </ownedCommentsInternal>
@@ -40,9 +40,10 @@
               <ownedCommentsInternal>
                 <comment Id="8faf9391-ce8b-40aa-a805-6d87a2d7d93a">
                   <elementDefinition Id="281fccff-8e4b-4f48-b020-68a9f5e81d44" />
-                  <body>+ Login
-+ MenuPrincipal
-+ Editeur</body>
+                  <body>- Login
+- MenuPrincipal
+- Editeur
+- Options</body>
                 </comment>
               </ownedCommentsInternal>
               <elementDefinition Id="d45c7dd2-dc24-499d-b4ba-03163b890226" />
@@ -59,13 +60,13 @@
               <ownedCommentsInternal>
                 <comment Id="0655c823-1da7-444f-b927-c8567ab95f5e">
                   <elementDefinition Id="763d34af-8f3f-43df-b8a7-1a0f4a1db330" />
-                  <body>+ Login
-+ Register
-- LeaderBoard
-- Achievements
-- Stats
-- TerrainUtilisateur
-- TerrainPublic
+                  <body>- Login.html
+- Register.html
+- LeaderBoard.html 
+- Achievements.html 
+- Stats.html 
+- TerrainUtilisateur.html
+- TerrainPublic.html
 </body>
                 </comment>
               </ownedCommentsInternal>
@@ -263,7 +264,8 @@
 - EtatSourisEchelle
 - EtatSourisRoation
 + GestionnaireEtatModeEdition
-+ Camera</body>
++ Camera
++ LumiereAbstraite</body>
                 </comment>
               </ownedCommentsInternal>
               <elementDefinition Id="878f9358-c4ee-4dec-bff3-164777cc84a4" />
@@ -284,6 +286,16 @@
         <packagedElements>
           <packageHasNamedElement>
             <package Id="74f91d15-b242-4377-817f-8c8609b60a52" name="Maitre">
+              <ownedCommentsInternal>
+                <comment Id="16b96ecd-6529-4ec4-b22c-9838caefb85c">
+                  <elementDefinition Id="d0d93a0a-bf87-4740-8209-3655a7b1c177" />
+                  <body>Le serveur réutilise la même structure que le package Jeu.</body>
+                </comment>
+                <comment Id="858ccc67-48f0-4112-919e-001acde0d7dc">
+                  <elementDefinition Id="eda636b0-4edf-4c82-8492-7c080efd5bda" />
+                  <body>- Request</body>
+                </comment>
+              </ownedCommentsInternal>
               <elementDefinition Id="5a319f25-63b6-488d-81e4-d25ecb628b54" />
               <suppliersInternal>
                 <dependency Id="c5bd6f5d-4116-44b8-89c6-c0e09dd52f6d">
@@ -312,6 +324,12 @@
           </packageHasNamedElement>
           <packageHasNamedElement>
             <package Id="319c700b-4801-40a5-a6ca-2952239f365f" name="Jeu">
+              <ownedCommentsInternal>
+                <comment Id="ed537f58-8716-4009-929e-fdf966d78e98">
+                  <elementDefinition Id="7225e65c-ded3-41ff-9c2c-274912f9d01c" />
+                  <body>Le serveur réutilise la même structure que le package Jeu.</body>
+                </comment>
+              </ownedCommentsInternal>
               <elementDefinition Id="b4121d89-cf48-4a31-bdae-fd83beedcfa5" />
               <importedPackagesInternal>
                 <packageImport Id="27fa3c43-4cca-4cd4-892b-ffa1414a34bc" visibility="Public">

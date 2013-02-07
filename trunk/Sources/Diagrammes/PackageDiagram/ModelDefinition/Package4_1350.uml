@@ -70,5 +70,114 @@
         LastKnownName="Partie"
         LastKnownLocation="Package_1434.uml" />
     </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="ab8c2525-a0a1-4d85-9abb-93fae4944cb0"
+        name="GestionnaireHUD &lt;Singleton&gt;"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="74d08b34-01a4-4056-a0e9-7844cfba4eee"
+        name="GestionnaireEtatModeJeu"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="55e29dc3-d3a4-4ded-8cf6-cf2a04390e39"
+            isSubstitutable="false">
+            <classMoniker
+              Id="57863826-75cf-49d2-971d-403dd61e7fd6"
+              LastKnownName="GestionnaireEtat"
+              LastKnownLocation="Package3_1350.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="d2f0bcaf-733c-4673-872a-748b974234a8"
+        name="EtatSourisJeu"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="8d370428-25c0-4b3d-9917-e3de474d1074"
+            isSubstitutable="false">
+            <classMoniker
+              Id="921ba588-eac3-468e-bddb-bbb7b46eb5b3"
+              LastKnownName="EtatSouris &lt;Abstract&gt;"
+              LastKnownLocation="Package3_1350.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="2ac7792f-6ce7-4523-ac4a-edfb56edf9e5"
+        name="GestionnaireAnimations &lt;Singleton&gt;"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="f3558fd3-52d2-40a0-9ae0-2dc56afda4b4"
+            isDerived="false"
+            sourceEndRoleName="GestionnaireAnimations &lt;Singleton&gt;"
+            targetEndRoleName="ObjetAnimable"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="b3c050fe-44ea-40b2-8f12-19ecf0279906"
+              LastKnownName="ObjetAnimable"
+              LastKnownLocation="Package_1357.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="0dea7517-f636-406e-a2ec-3ee2a054486b"
+                  name="GestionnaireAnimations &lt;Singleton&gt;"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Shared"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="2fe46648-6b59-413b-9424-bbe6ac2809b5"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="3fa7b3cf-c8c7-4d3f-bcf8-8215cdaf5c5f"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="6f118a71-5bc8-4cbe-b168-64459382312c"
+                  name="ObjetAnimable"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </class>
+    </packageHasNamedElement>
   </packagedElements>
 </package>

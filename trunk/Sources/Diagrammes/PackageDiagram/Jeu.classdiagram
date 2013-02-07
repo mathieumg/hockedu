@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="dc4b813c-754d-4837-864c-2ffd5f751edc" name="Jeu" linkedPackageId="41871838-ae73-4a33-95f5-e3dac291f808" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="0817a536-38af-4c89-8d05-730ba8aef0cd">
+      <profileInstance Id="386d8159-e9f7-4f3e-8047-998dcc6927b2" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="04a1513b-2f4b-40cc-aa28-2925faa048ab">
+      <profileInstance Id="cae886f6-72d5-4e67-b771-77afcb348c12" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="0298129d-1896-413d-9c89-cec0e28b2119" name="Jeu">
+        <elementDefinition Id="df0883fe-d7c7-4263-914b-9ae534754276" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="bb1baef3-1260-4df2-8c82-3f38003ca6d1" name="GestionnaireHUD &lt;Singleton&gt;" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="ab8c2525-a0a1-4d85-9abb-93fae4944cb0" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="ec8d2ecd-78de-4881-bf6b-87d1ba0e1a0d" name="GestionnaireEtatModeJeu" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="74d08b34-01a4-4056-a0e9-7844cfba4eee" />
+              <generalsInternal>
+                <generalization Id="35697cda-05ee-4f49-81fe-8254a0d8b587" isSubstitutable="false">
+                  <classMoniker Id="5fde1d59-2cd7-401e-9079-7e42d5e24399" LastKnownName="GestionnaireEtat" />
+                  <elementDefinition Id="55e29dc3-d3a4-4ded-8cf6-cf2a04390e39" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="efc4927c-4506-4156-94ad-937d4f37c5e9" name="EtatSourisJeu" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="d2f0bcaf-733c-4673-872a-748b974234a8" />
+              <generalsInternal>
+                <generalization Id="a52b40f2-c985-465d-a640-7d9e8143910a" isSubstitutable="false">
+                  <classMoniker Id="09d69ea3-a8a9-4477-b660-fc495cd66a2a" LastKnownName="EtatSouris &lt;Abstract&gt;" />
+                  <elementDefinition Id="8d370428-25c0-4b3d-9917-e3de474d1074" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="09d69ea3-a8a9-4477-b660-fc495cd66a2a" name="EtatSouris &lt;Abstract&gt;" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="921ba588-eac3-468e-bddb-bbb7b46eb5b3" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="5fde1d59-2cd7-401e-9079-7e42d5e24399" name="GestionnaireEtat" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="57863826-75cf-49d2-971d-403dd61e7fd6" />
+              <targetEnds>
+                <association Id="8be398e1-96c9-42f8-8f70-f6db6c389a57" isDerived="false" sourceEndRoleName="GestionnaireEtats" targetEndRoleName="EtatSouris &lt;Abstract&gt;" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="09d69ea3-a8a9-4477-b660-fc495cd66a2a" LastKnownName="EtatSouris &lt;Abstract&gt;" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="9d5b0c4a-175b-4683-b0f5-5c17181a850d" name="GestionnaireEtats" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="b8580da5-9815-467f-b727-c692b446a165" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="21a1c339-dd2e-424a-b8c3-dd401abf6ef8" name="EtatSouris &lt;Abstract&gt;" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="6fe5b4df-8657-4eb6-9887-1d5103ec123b" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="fdf40844-eaac-45ff-b5f7-f191c9671dbd" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="3641ef9d-3ae5-49d6-b0a0-8df389e4d176" name="GestionnaireAnimations &lt;Singleton&gt;" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="2ac7792f-6ce7-4523-ac4a-edfb56edf9e5" />
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+  </packagedElements>
+  <package Id="41871838-ae73-4a33-95f5-e3dac291f808" name="PackageDiagram">
+    <elementDefinition Id="e3be6b7a-c594-4cdf-a79e-a902a52468de" />
+  </package>
+</logicalClassDesignerModel>

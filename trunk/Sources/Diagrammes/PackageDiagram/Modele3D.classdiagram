@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="f50a7040-9012-471c-9098-5a575665c0ce" name="Modele3D" linkedPackageId="7ebd7d7a-1e96-48ad-be89-51908f1c33fa" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="690c0673-ccbd-497b-9db1-d3510404ba5c">
+      <profileInstance Id="69e7d044-d682-46dc-984c-25f85454107d" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="51a6658a-6192-4cf9-8f3e-bb38f9724379">
+      <profileInstance Id="f48f51d3-5b8d-4464-828d-c3d7c062322b" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="8ea062e1-8fe6-4bef-af4f-e37e000ee6f7" name="Modèle 3D">
+        <elementDefinition Id="adb8c67c-e32c-4e7c-af2e-d8abdb69d1c0" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="8f866d77-db15-4ba9-9dcb-9c7a1b40020d" name="Modele3D" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="843a3e8a-046c-4db9-9526-5c1c8d2fd837" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="7a6d5f9d-562b-437a-a745-b8f52a2340b7" name="GestionnaireModeles" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="76bdaf1d-b44c-4333-80b3-964306c1c96b" />
+              <targetEnds>
+                <association Id="12d992d3-12bc-4dcb-877a-c7cf41bf7927" isDerived="false" sourceEndRoleName="GestionnaireModeles" targetEndRoleName="Modele3D" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="8f866d77-db15-4ba9-9dcb-9c7a1b40020d" LastKnownName="Modele3D" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="5b8b1566-57d5-4da3-8ab6-8ef5ed03c6aa" name="GestionnaireModeles" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="dd4163f6-182c-46a7-99c2-13f538afacd8" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="b9c30202-2ae5-4a0f-afb5-a741474647bd" name="Modele3D" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <lowerValueInternal>
+                          <literalString Id="4248f6d6-fd37-48b8-aec4-01e2c84e0a34" name="Lower" value="*">
+                            <elementDefinition Id="bbdcfa19-97ed-49e1-a01a-9f62a66324eb" />
+                          </literalString>
+                        </lowerValueInternal>
+                        <upperValueInternal>
+                          <literalString Id="0a5a5b18-0ed2-4615-bf82-b0c317ea8e5c" name="Upper" value="*">
+                            <elementDefinition Id="62f3e683-e77c-4a8c-8a81-4ae10a76618e" />
+                          </literalString>
+                        </upperValueInternal>
+                        <elementDefinition Id="d7bb93c0-8715-46d1-af67-77409c4cfb36" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="4ba5ce59-7f11-4caa-8d27-c7f582f311ea" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+  </packagedElements>
+  <package Id="7ebd7d7a-1e96-48ad-be89-51908f1c33fa" name="PackageDiagram">
+    <elementDefinition Id="e3be6b7a-c594-4cdf-a79e-a902a52468de" />
+  </package>
+</logicalClassDesignerModel>

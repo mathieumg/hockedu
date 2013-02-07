@@ -6,9 +6,10 @@
   <ownedCommentsInternal>
     <comment
       Id="281fccff-8e4b-4f48-b020-68a9f5e81d44">
-      <body>+ Login
-+ MenuPrincipal
-+ Editeur</body>
+      <body>- Login
+- MenuPrincipal
+- Editeur
+- Options</body>
     </comment>
   </ownedCommentsInternal>
   <elementDefinition
@@ -24,4 +25,168 @@
         Id="f2f7d9e1-2229-48fa-b5a9-04d02fb9f3f8" />
     </dependency>
   </suppliersInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="7e118528-fda5-435b-8cd8-9818620f8926"
+        name="Login"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="045158f6-93fa-4975-a83b-c40b1d44c255"
+            isDerived="false"
+            sourceEndRoleName="Login"
+            targetEndRoleName="MenuPrincipal"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="5f0f0740-c7e9-461f-9baf-ca0251e19536"
+              LastKnownName="MenuPrincipal"
+              LastKnownLocation="Package2_1350.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="fc394abe-efb3-4fe8-91fa-617b094bdbc2"
+                  name="Login"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="d770c58b-4a84-4b32-a96c-d0044f0b91b9"
+                  name="MenuPrincipal"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="5f0f0740-c7e9-461f-9baf-ca0251e19536"
+        name="MenuPrincipal"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="dcd606e1-5855-4dbd-8eec-b94b9ea704a3"
+            isDerived="false"
+            sourceEndRoleName="MenuPrincipal"
+            targetEndRoleName="Editeur"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="e010c74b-090f-4d4f-b859-a9ae795ec846"
+              LastKnownName="Editeur"
+              LastKnownLocation="Package2_1350.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="f3c81c56-0fda-4531-ad8a-d7976c31ce57"
+                  name="MenuPrincipal"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="0f41a50d-66bb-4325-bbc6-684eeb6595ce"
+                  name="Editeur"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="cf8cb1d4-689a-4196-900d-a0d57db089ed"
+            isDerived="false"
+            sourceEndRoleName="MenuPrincipal"
+            targetEndRoleName="Options"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="1b640df6-3700-41f4-b094-00aa65d8980e"
+              LastKnownName="Options"
+              LastKnownLocation="Package2_1350.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="e2f82bb3-6d95-472c-9228-300203acdacc"
+                  name="MenuPrincipal"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="6334eeb4-a4e6-43c8-8956-dea7d5b1c055"
+                  name="Options"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="e010c74b-090f-4d4f-b859-a9ae795ec846"
+        name="Editeur"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="5ef3fefe-7a0c-4f83-8ea8-e9ee073fe611"
+        name="Enumeration1"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="1b640df6-3700-41f4-b094-00aa65d8980e"
+        name="Options"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+  </packagedElements>
 </package>

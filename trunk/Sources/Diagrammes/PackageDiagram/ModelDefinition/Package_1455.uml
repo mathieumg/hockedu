@@ -6,13 +6,13 @@
   <ownedCommentsInternal>
     <comment
       Id="763d34af-8f3f-43df-b8a7-1a0f4a1db330">
-      <body>+ Login
-+ Register
-- LeaderBoard
-- Achievements
-- Stats
-- TerrainUtilisateur
-- TerrainPublic
+      <body>- Login.html
+- Register.html
+- LeaderBoard.html 
+- Achievements.html 
+- Stats.html 
+- TerrainUtilisateur.html
+- TerrainPublic.html
 </body>
     </comment>
   </ownedCommentsInternal>

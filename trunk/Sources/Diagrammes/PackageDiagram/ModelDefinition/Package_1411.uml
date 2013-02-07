@@ -19,4 +19,77 @@
         LastKnownLocation="Package_1357.uml" />
     </dependency>
   </suppliersInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="843a3e8a-046c-4db9-9526-5c1c8d2fd837"
+        name="Modele3D"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="76bdaf1d-b44c-4333-80b3-964306c1c96b"
+        name="GestionnaireModeles"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="4ba5ce59-7f11-4caa-8d27-c7f582f311ea"
+            isDerived="false"
+            sourceEndRoleName="GestionnaireModeles"
+            targetEndRoleName="Modele3D"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="843a3e8a-046c-4db9-9526-5c1c8d2fd837"
+              LastKnownName="Modele3D"
+              LastKnownLocation="Package_1411.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="dd4163f6-182c-46a7-99c2-13f538afacd8"
+                  name="GestionnaireModeles"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Shared"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="d7bb93c0-8715-46d1-af67-77409c4cfb36"
+                  name="Modele3D"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="bbdcfa19-97ed-49e1-a01a-9f62a66324eb"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="62f3e683-e77c-4a8c-8a81-4ae10a76618e"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
 </package>
