@@ -23,6 +23,27 @@
   <Import Project="$(VSToolsPath)\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" Condition="false" />
   <ItemGroup>
+    <Content Include="CasUtilisation_ChargerCarte.usecasediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="CasUtilisation_ChargerCarte.usecasediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>CasUtilisation_ChargerCarte.usecasediagram</DependentUpon>
+    </Content>
+    <Content Include="CasUtilisation_Clavarder.usecasediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="CasUtilisation_Clavarder.usecasediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>CasUtilisation_Clavarder.usecasediagram</DependentUpon>
+    </Content>
+    <Content Include="CasUtilisation_ConnecterServeurMaitre.usecasediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="CasUtilisation_ConnecterServeurMaitre.usecasediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>CasUtilisation_ConnecterServeurMaitre.usecasediagram</DependentUpon>
+    </Content>
     <Content Include="CasUtilisation_GererCartes.usecasediagram">
       <SubType>Content</SubType>
     </Content>
@@ -43,6 +64,13 @@
     <Content Include="CasUtilisation_Hockedu.usecasediagram.layout">
       <SubType>Content</SubType>
       <DependentUpon>CasUtilisation_Hockedu.usecasediagram</DependentUpon>
+    </Content>
+    <Content Include="CasUtilisation_RealiserAchievement.usecasediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="CasUtilisation_RealiserAchievement.usecasediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>CasUtilisation_RealiserAchievement.usecasediagram</DependentUpon>
     </Content>
     <Content Include="ModelDefinition\Package1_1201.uml">
       <SubType>Content</SubType>

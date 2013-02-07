@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="5b9b1145-bc5c-435e-a406-7c5e81add53b" name="Clavarder" linkedPackageId="b25690ba-dcbc-40ab-bd2f-d5d34ac48c32" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <profileInstances>
+    <packageHasProfileInstances Id="9f17a43d-e698-466a-8c38-519f88a20d4f">
+      <profileInstance Id="b85294cf-97fd-4fc0-b37d-e20fc4c0f8d9" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="0497eb3b-5182-4c5a-99d2-a1bf16c9dd4c">
+      <profileInstance Id="3d1a09ca-8221-47f2-8153-7ff2748b4e8b" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <subsystem Id="65c0fe1a-f89e-48a5-8583-49f6c87305c1" name="3.2 Clavarder avec les autres utilisateurs" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="21a4c815-2034-44e1-80b7-1e5f9e00ad9a" />
+      </subsystem>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="c5c5c2dd-cfbf-4707-932e-5f4475a1875a" name="Client lourd" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="03e4be54-0129-46d4-8138-c6d5f9dac602" />
+        <targetEnds>
+          <association Id="772f7c51-c83c-4a64-ae77-6266cefc547c" isDerived="false" sourceEndRoleName="Client lourd" targetEndRoleName="3.2.2 Transmettre un message" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="1f1a03f1-763b-4528-ac52-55dbe2e0f1d7" LastKnownName="3.2.2 Transmettre un message" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="9061caab-acfe-4ebf-b901-db076ca6998e" name="Client lourd" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="e87ccad9-5076-408b-8f36-8aaa5ec1e8ca" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="b8b51d31-25d9-4c56-ae0d-cb1f6b0af632" name="3.2.2 Transmettre un message" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="af3bfbd8-d62a-4e9d-b2b5-eaa2b2b45e72" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="1ba471bc-a043-46f9-bfd7-d3afc6946da5" />
+          </association>
+          <association Id="86acc2f7-9487-4206-be4b-a8a9a54440c4" isDerived="false" sourceEndRoleName="Client lourd" targetEndRoleName="3.2.3 Recevoir un message" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="350d374d-4d4e-4d91-9f13-2d4e0e5f3d4e" LastKnownName="3.2.3 Recevoir un message" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="f6f49c10-b7dc-44fb-86a4-094dd2bf47c2" name="Client lourd" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="36936a3a-d114-4ad1-a1e6-139bda8c0915" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="38d8d14d-c6a4-455f-8244-ae681a327b18" name="3.2.3 Recevoir un message" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="b1a90c5c-f543-4357-8a72-5b0b6bdd1572" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="376d803f-fd4c-4926-b13b-c94ecfe86f30" />
+          </association>
+          <association Id="e2284bc3-1fe2-4402-98d5-d5e24e68776e" isDerived="false" sourceEndRoleName="Client lourd" targetEndRoleName="3.2.4 Relayer les événements" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="8fe9134c-2cc3-4aa7-9f49-d2595490dcc8" LastKnownName="3.2.4 Relayer des événements" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="84625836-add4-437c-a4d2-1e3ea8e9fa02" name="Client lourd" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="e5453795-2de8-4e4a-a011-9e938082c48f" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="ba733944-cf7c-4f62-a6cb-a1449b30c395" name="3.2.4 Relayer les événements" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="9de43bfd-a016-4568-b3ed-0aac30ae6adf" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="60456fa4-63eb-47ac-b1bf-0bea8b51630f" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="8a5b4465-e15e-4f05-a7cf-9c8a88fcbc33" name="Utilisateur" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="45a57549-b92d-457c-a351-14cfdca18539" />
+        <targetEnds>
+          <association Id="2f122eca-e5a5-4b96-bbfc-d9a0be694a8a" isDerived="false" sourceEndRoleName="Utilisateur" targetEndRoleName="3.2.1 Envoyer un message" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="feae44dd-6695-48bc-bb09-7947084c37c2" LastKnownName="3.2.1 Envoyer un message" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="8571b832-d615-4f65-b250-969e6dfdf87c" name="Utilisateur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="4173d331-2868-4b78-831d-61f9d4f75eeb" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="4b3a9e88-4bb2-4c9c-b66c-77b48b366834" name="3.2.1 Envoyer un message" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="1e5d615e-09f7-4bae-a700-d77f02fe3856" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="1fa2ad74-562a-463d-b50e-8a03c5943955" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <packageHasNamedElement>
+      <useCase Id="feae44dd-6695-48bc-bb09-7947084c37c2" name="3.2.1 Envoyer un message" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="c4181638-77c4-479e-8774-7994712105fa" />
+        <additions>
+          <include Id="dc0779e0-4695-4873-a063-99826e34093b">
+            <useCaseMoniker Id="1f1a03f1-763b-4528-ac52-55dbe2e0f1d7" LastKnownName="3.2.2 Transmettre un message" />
+            <elementDefinition Id="8d2a7c1d-8f12-45b5-a289-40f0a89622e8" />
+          </include>
+        </additions>
+        <subjects>
+          <subsystemMoniker Id="65c0fe1a-f89e-48a5-8583-49f6c87305c1" LastKnownName="3.2 Clavarder avec les autres utilisateurs" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="1f1a03f1-763b-4528-ac52-55dbe2e0f1d7" name="3.2.2 Transmettre un message" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="2c482f13-5db9-4ed3-962e-50b453c11322" />
+        <subjects>
+          <subsystemMoniker Id="65c0fe1a-f89e-48a5-8583-49f6c87305c1" LastKnownName="3.2 Clavarder avec les autres utilisateurs" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="350d374d-4d4e-4d91-9f13-2d4e0e5f3d4e" name="3.2.3 Recevoir un message" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="a7c06322-5296-497f-ab99-d5ec90facbf0" />
+        <subjects>
+          <subsystemMoniker Id="65c0fe1a-f89e-48a5-8583-49f6c87305c1" LastKnownName="3.2 Clavarder avec les autres utilisateurs" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <useCaseModelRootHasTypes>
+      <actor Id="a349765a-a454-45a5-af91-4d07c970fe1a" name="Serveur maître" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="d8723cee-0cbe-4ffa-8818-e60d1d0d8db2" />
+        <targetEnds>
+          <association Id="bcbf14f8-08b6-451a-9d1d-4be37088c66f" isDerived="false" sourceEndRoleName="Serveur maître" targetEndRoleName="3.2.4 Relayer les événements" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="8fe9134c-2cc3-4aa7-9f49-d2595490dcc8" LastKnownName="3.2.4 Relayer des événements" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="1e12aaa8-d105-4905-b42f-cebfc970f6b5" name="Serveur maître" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="8ae78d02-5cda-4968-ba57-843bb36ab568" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="f483a17c-7614-4452-b7d3-b96176eab9d1" name="3.2.4 Relayer les événements" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="88e0084b-060d-46a4-baa6-00ba8d6f73e2" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="86c1defb-6b3f-4379-a57f-e53baaeb1583" />
+          </association>
+          <association Id="f1f83463-5d28-4c3b-bdab-d7ff653201e2" isDerived="false" sourceEndRoleName="Serveur maître" targetEndRoleName="3.2.5 Diffuser un message" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="4720e415-4c44-4112-a16c-b45f53adc3f2" LastKnownName="3.2.5 Diffuser un message" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="192e1987-e2d5-45a2-9cf6-9b4af2e5ad96" name="Serveur maître" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="8528f645-8be2-4b7f-9f25-fb3078f28741" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="999d3c6a-7e28-4487-866a-b4553f0dc3c0" name="3.2.5 Diffuser un message" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="b1222ee2-ecbf-4cf8-aa93-8989f5a6711e" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="ec628c01-d4dc-4fce-960f-2a6690dc604b" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <packageHasNamedElement>
+      <useCase Id="8fe9134c-2cc3-4aa7-9f49-d2595490dcc8" name="3.2.4 Relayer des événements" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="d62c9730-2dca-46f3-8424-97479bc68818" />
+        <subjects>
+          <subsystemMoniker Id="65c0fe1a-f89e-48a5-8583-49f6c87305c1" LastKnownName="3.2 Clavarder avec les autres utilisateurs" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase Id="4720e415-4c44-4112-a16c-b45f53adc3f2" name="3.2.5 Diffuser un message" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="8e3e96da-975d-423d-9e5e-cec2caa8d773" />
+        <targetEnds>
+          <association Id="440653fb-a64b-4692-8120-1a04f9f866bd" isDerived="false" sourceEndRoleName="3.2.5 Diffuser un message" targetEndRoleName="3.2.3 Recevoir un message" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="350d374d-4d4e-4d91-9f13-2d4e0e5f3d4e" LastKnownName="3.2.3 Recevoir un message" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="70e744cf-abf3-4823-8b0b-ffb1d9f22c07" name="3.2.5 Diffuser un message" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="0b1d6819-b622-4f00-ab22-5f75fbdd0428" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="f16516c5-1874-4e08-8bd8-f548c1392cc8" name="3.2.3 Recevoir un message" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="dd7c6a55-4b2a-4597-bc8c-3123fb600749" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="d8e28c60-39a6-49da-afc4-5600ec20cf02" />
+          </association>
+        </targetEnds>
+        <subjects>
+          <subsystemMoniker Id="65c0fe1a-f89e-48a5-8583-49f6c87305c1" LastKnownName="3.2 Clavarder avec les autres utilisateurs" />
+        </subjects>
+      </useCase>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="b25690ba-dcbc-40ab-bd2f-d5d34ac48c32" name="Diagrammes">
+    <elementDefinition Id="bd496572-2d56-4f1a-82f9-f287c782ea4e" />
+  </package>
+</useCaseModelRoot>

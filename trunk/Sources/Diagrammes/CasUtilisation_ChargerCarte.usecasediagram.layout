@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="CasUtilisation_ChargerCarte">
+  <useCaseModelRootMoniker Id="ed2e75ad-7dec-4fee-be2d-e69e5e74f611" />
+  <nestedChildShapes>
+    <SubsystemShape Id="6c429fbd-72d4-4454-8280-95f0443c836d" absoluteBounds="1.375, 1.375, 7.125, 5.5" customColor="White">
+      <subsystemMoniker Id="a26a97f5-549e-44c4-b8b2-b49c617381db" LastKnownName="2.3 Charger une carte" />
+    </SubsystemShape>
+  </nestedChildShapes>
+</useCaseDiagram>
