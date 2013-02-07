@@ -39,8 +39,10 @@ int main(void)  {
     wMenu.addMenuOption(3, new MenuOption("173.177.0.193"));
     std::string wServerIp = wMenu.displayAndPick();
 
+    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection(wName, wServerIp, UDP);
 
-	GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection(wName, wServerIp, TCP);
+
+	/*GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection(wName, wServerIp, TCP);
 
     std::cout << "Entrer un message et appuyez sur Entree: " << std::endl;
 
@@ -63,13 +65,6 @@ int main(void)  {
 
             SetConsoleCursorPosition(ConHandle,Pos);
         }
-		/*system("pause");
-		for(int i=0; i<500; ++i)
-		{
-			std::stringstream ss;
-			ss << "bob " << i;
-
-			*/
 			PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet("ChatMessage");
 
 			
@@ -81,27 +76,13 @@ int main(void)  {
 			wPaquet->setOrigin(wName);
 
 			GestionnaireReseau::obtenirInstance()->envoyerPaquet(wName, wPaquet,TCP);
-		//}
+		
 
 
         
     }
 
-    /*
-    for(int i=0; i<5000; ++i)
-    {
-        PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet("ChatMessage");
-
-        wPaquet->setMessage("Wow salut gang");
-        wPaquet->setIsTargetGroup(true);
-        wPaquet->setGroupName("groupe");
-        wPaquet->setTimestamp(i*2);
-        wPaquet->setOrigin(wName);
-
-        GestionnaireReseau::obtenirInstance()->envoyerPaquet(wSocket, wPaquet);
-        Sleep(10);
-    }
-*/
+    */
 
     delete wControlleur;
     system("pause");

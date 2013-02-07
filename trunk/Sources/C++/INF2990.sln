@@ -36,6 +36,8 @@ Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "Diagrammes", "..\Diagrammes
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "PackageDiagram", "..\Diagrammes\PackageDiagram\PackageDiagram.modelproj", "{54454753-5F35-4057-B7AF-013FB92CD21E}"
 EndProject
+Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "SequenceDiagrams", "..\SequenceDiagrams\SequenceDiagrams.modelproj", "{4D8B9A69-1DD8-4616-881C-7A06CFB77FA7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		C++Client|Any CPU = C++Client|Any CPU

@@ -12,7 +12,8 @@
 - EtatSourisEchelle
 - EtatSourisRoation
 + GestionnaireEtatModeEdition
-+ Camera</body>
++ Camera
++ LumiereAbstraite</body>
     </comment>
   </ownedCommentsInternal>
   <elementDefinition
@@ -28,4 +29,215 @@
         Id="d12575e5-6f82-491a-a929-3bf2eb3c45e5" />
     </dependency>
   </suppliersInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="4e001a42-236d-4dea-a789-4c71f02f541c"
+        name="GestionnaireEtatModeEdition"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="242be5b0-4c52-42eb-b8f5-9c0af6c9da33"
+            isSubstitutable="false">
+            <classMoniker
+              Id="57863826-75cf-49d2-971d-403dd61e7fd6"
+              LastKnownName="GestionnaireEtat"
+              LastKnownLocation="Package3_1350.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="afc1efe5-6d6d-41f6-9de5-a486d706dd37"
+        name="EtatSourisAjout"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="551fe985-897a-49aa-a6ba-e744f7b6dd22"
+            isSubstitutable="false">
+            <classMoniker
+              Id="921ba588-eac3-468e-bddb-bbb7b46eb5b3"
+              LastKnownName="EtatSouris &lt;Abstract&gt;"
+              LastKnownLocation="Package3_1350.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="62821597-d5a7-4add-821f-f10e3cdd5591"
+        name="EtatSourisSelection"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="ea1630bf-14c0-44d7-92a8-50dcf0da572d"
+            isSubstitutable="false">
+            <classMoniker
+              Id="921ba588-eac3-468e-bddb-bbb7b46eb5b3"
+              LastKnownName="EtatSouris &lt;Abstract&gt;"
+              LastKnownLocation="Package3_1350.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="2a28e8d6-a2d1-4d9c-b4d3-0dbf0c39960b"
+        name="EtatSourisDeplacement"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="0a9778c1-aafe-4b52-be81-dd4ea8e09b25"
+            isSubstitutable="false">
+            <classMoniker
+              Id="921ba588-eac3-468e-bddb-bbb7b46eb5b3"
+              LastKnownName="EtatSouris &lt;Abstract&gt;"
+              LastKnownLocation="Package3_1350.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="5773597f-3281-4bb4-ba9c-f43331f9cf2c"
+        name="EtatSourisEchelle"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="5c9ef4a7-5417-4899-9638-8cef4bd9e07d"
+            isSubstitutable="false">
+            <classMoniker
+              Id="921ba588-eac3-468e-bddb-bbb7b46eb5b3"
+              LastKnownName="EtatSouris &lt;Abstract&gt;"
+              LastKnownLocation="Package3_1350.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="6acb13d3-ce1d-4548-bca5-aa22485cf40f"
+        name="EtatSourisRotation"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="745d44e6-fd23-4635-8180-15265ef3512d"
+            isSubstitutable="false">
+            <classMoniker
+              Id="921ba588-eac3-468e-bddb-bbb7b46eb5b3"
+              LastKnownName="EtatSouris &lt;Abstract&gt;"
+              LastKnownLocation="Package3_1350.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="2f47684a-fdaf-4430-85ee-100a5d57b979"
+        name="Camera"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="76b643ad-f6e0-4727-bf06-e3f3e022f9dd"
+            isSubstitutable="false">
+            <classMoniker
+              Id="b3c050fe-44ea-40b2-8f12-19ecf0279906"
+              LastKnownName="ObjetAnimable"
+              LastKnownLocation="Package_1357.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="05e07bba-6ea5-4ba0-a386-8ca50f554e40"
+        name="LumiereAbstraite"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="b73eaad4-07ad-4241-b30e-f9c74b22adce"
+            isSubstitutable="false">
+            <classMoniker
+              Id="b3c050fe-44ea-40b2-8f12-19ecf0279906"
+              LastKnownName="ObjetAnimable"
+              LastKnownLocation="Package_1357.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="a3753cac-fd9c-4354-a6a4-c57f2a79b102"
+        name="LumiereAmbiante"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="2eb6cbb6-9fe6-4121-824a-4dcccf4e8bd8"
+            isSubstitutable="false">
+            <classMoniker
+              Id="05e07bba-6ea5-4ba0-a386-8ca50f554e40"
+              LastKnownName="LumiereAbstraite"
+              LastKnownLocation="Package6_1350.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="b3ff0f44-e37d-44fa-97b6-78dac79c1bd6"
+        name="LumiereSpot"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="ec25257e-f3a1-4be6-b716-c516811da097"
+            isSubstitutable="false">
+            <classMoniker
+              Id="05e07bba-6ea5-4ba0-a386-8ca50f554e40"
+              LastKnownName="LumiereAbstraite"
+              LastKnownLocation="Package6_1350.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="0e167bd2-d44a-4450-aa2c-c62203c787c1"
+        name="LumiereDirectionnelle"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="b9eb8991-10b5-43f0-994c-4efb4ac12c79"
+            isSubstitutable="false">
+            <classMoniker
+              Id="05e07bba-6ea5-4ba0-a386-8ca50f554e40"
+              LastKnownName="LumiereAbstraite"
+              LastKnownLocation="Package6_1350.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
 </package>

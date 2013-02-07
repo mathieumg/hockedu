@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sequenceDesignerDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 14.125" name="2. Gérer les cartes">
+  <SequenceDesignerModelMoniker Id="d434f197-c449-427d-bc4d-a62d87c7c377" />
+  <nestedChildShapes>
+    <commentShape Id="79fc3ead-4d2f-41b7-8c7d-bbbb95fbde04" absoluteBounds="5, 0.625, 1.25, 0.375" customColor="251, 247, 200">
+      <commentMoniker Id="bfd0f96d-54c5-4c0d-bc48-72be2c6b1b89" />
+      <relativeChildShapes />
+    </commentShape>
+    <combinedFragmentShape Id="91b16197-5a8e-4c32-90bc-f21bef402535" absoluteBounds="0.3649999998509883, 1.3, 4.0095833336313564, 5.6040103773772714" visible="true">
+      <combinedFragmentMoniker Id="3d158651-3143-4e8e-b2ae-3c6e00da2acf" LastKnownName="CombinedFragment1" />
+      <nestedChildShapes>
+        <interactionOperandShape Id="7966ae31-e3bb-468a-95cf-1bff85ed22b0" absoluteBounds="0.38499999940395346, 1.55, 3.9645833346371848, 1.2880034596472978">
+          <interactionOperandMoniker Id="86646fd6-3f52-4b32-8c87-5401ccc67db8" LastKnownName="InteractionOperand1" />
+        </interactionOperandShape>
+        <interactionOperandShape Id="2d508592-db06-49c2-92cb-c92ceb3655a5" absoluteBounds="0.38499999940395346, 2.8680034589767454, 3.9645833346371848, 4.0160069188475607">
+          <interactionOperandMoniker Id="9d808d6d-79d7-4799-97f9-50a2a69666e2" LastKnownName="InteractionOperand2" />
+          <nestedChildShapes>
+            <combinedFragmentShape Id="094d0424-06ec-4773-b766-5d4c994e8acc" absoluteBounds="0.50500000044703475, 3.286006918624043, 3.729583332439264, 1.558003459200263" visible="true">
+              <combinedFragmentMoniker Id="6f4360d8-7c50-4194-be6a-ef489342c286" LastKnownName="CombinedFragment1" />
+              <nestedChildShapes>
+                <interactionOperandShape Id="08b40c5d-0ed7-4c30-a595-69d328222331" absoluteBounds="0.52499999999999991, 3.536006918624043, 3.6845833334450924, 1.2880034596472978">
+                  <interactionOperandMoniker Id="122cdd5d-cc71-485b-9072-a98c0282d4e5" LastKnownName="InteractionOperand1" />
+                </interactionOperandShape>
+              </nestedChildShapes>
+            </combinedFragmentShape>
+          </nestedChildShapes>
+        </interactionOperandShape>
+      </nestedChildShapes>
+    </combinedFragmentShape>
+    <interactionUseShape Id="19a7dc4f-9c68-47e3-a297-fd732e691052" absoluteBounds="0.825, 1.968003459647298, 3.3395833333333331, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="73e386b7-5f8d-4b80-8cf5-377787f9ccb6" LastKnownName="2.1 Créer une nouvelle carte" />
+    </interactionUseShape>
+    <interactionUseShape Id="73add144-733d-4359-828d-4738c7d2060b" absoluteBounds="0.825, 3.9540103782713407, 3.3395833333333331, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="a87548ab-3397-4fe5-b301-bccbd890c7a4" LastKnownName="2.6 Télécharger une carte" />
+    </interactionUseShape>
+    <interactionUseShape Id="53f40985-1faa-4c9d-9cff-ccbc63803a32" absoluteBounds="0.825, 5.1440103778243058, 3.3395833333333331, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="187ebbca-c4bf-445a-a632-ea43f0a63758" LastKnownName="2.7 Énumérer les cartes disponibles" />
+    </interactionUseShape>
+    <interactionUseShape Id="f8432ff0-98b7-4a49-8f07-5afea4e13e12" absoluteBounds="0.825, 6.0140103778243059, 3.3395833333333331, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="7cb13fe7-0db5-4879-bcb2-af62a5600aae" LastKnownName="2.3 Charger une carte" />
+    </interactionUseShape>
+    <combinedFragmentShape Id="170d459e-4172-47c6-adf0-8070399a5f0d" absoluteBounds="0.3649999998509883, 7.204010377377271, 4.0095833336313564, 3.6280034580826772" visible="true">
+      <combinedFragmentMoniker Id="0260c37e-94c3-4d34-912e-acc81375cfd2" LastKnownName="CombinedFragment2" />
+      <nestedChildShapes>
+        <interactionOperandShape Id="e9227a2c-b7c7-434c-af0a-dba586f7ff99" absoluteBounds="0.38499999940395346, 7.454010377377271, 3.9645833346371848, 1.17">
+          <interactionOperandMoniker Id="ffd78b2e-5656-4de1-bff0-a282f16ca5db" LastKnownName="InteractionOperand1" />
+        </interactionOperandShape>
+        <interactionOperandShape Id="1d815d43-9339-4d4c-bb10-46777611be85" absoluteBounds="0.38499999940395346, 8.6540103767067187, 3.9645833346371848, 2.1580034592002644">
+          <interactionOperandMoniker Id="df8163ab-419f-4204-980c-6396cd3d1ef1" LastKnownName="InteractionOperand2" />
+          <nestedChildShapes>
+            <combinedFragmentShape Id="4ac189c5-28b9-454d-bafd-da7b6bb6139d" absoluteBounds="0.50500000044703475, 8.95401037670672, 3.729583332439264, 1.558003459200263" visible="true">
+              <combinedFragmentMoniker Id="2e170915-be67-4e86-8f92-4f5fe4619adf" LastKnownName="CombinedFragment1" />
+              <nestedChildShapes>
+                <interactionOperandShape Id="2ab14826-b3a0-4003-b0b1-cfa311814501" absoluteBounds="0.52499999999999991, 9.20401037670672, 3.6845833334450924, 1.2880034596472978">
+                  <interactionOperandMoniker Id="d2fe9654-d4d1-4b57-aabb-e6c6f0e18322" LastKnownName="InteractionOperand1" />
+                </interactionOperandShape>
+              </nestedChildShapes>
+            </combinedFragmentShape>
+          </nestedChildShapes>
+        </interactionOperandShape>
+      </nestedChildShapes>
+    </combinedFragmentShape>
+    <interactionUseShape Id="a1a100c7-ac7d-41ec-81d2-15fa11d7e86f" absoluteBounds="0.825, 7.7540103773772708, 3.3395833333333331, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="0e949908-67cc-4952-94b3-9bf83ef38958" LastKnownName="2.2 Modifier une carte" />
+    </interactionUseShape>
+    <interactionUseShape Id="e31f53a8-a5b5-43c8-b8a9-9d3e0ff2cb30" absoluteBounds="0.825, 9.622013836354018, 3.3395833333333331, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="3841620b-5d3b-4589-bfbd-2f23a9e3a8ab" LastKnownName="2.8 Tester une carte" />
+    </interactionUseShape>
+    <interactionUseShape Id="92538733-ba34-4fc7-a295-897f12409181" absoluteBounds="0.825, 11.132013835459949, 3.3395833333333331, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="85433f72-8166-428a-89a2-22437bb421ac" LastKnownName="2.4 Sauvegarder une carte" />
+    </interactionUseShape>
+    <combinedFragmentShape Id="fb57f3c6-aaac-4f8b-9dfc-5c1350096c48" absoluteBounds="0.50500000044703475, 12.002013835459948, 3.729583332439264, 1.558003459200263" visible="true">
+      <combinedFragmentMoniker Id="4d247f06-0103-4d18-a6aa-b258697371b5" LastKnownName="CombinedFragment3" />
+      <nestedChildShapes>
+        <interactionOperandShape Id="7451bcca-a3ee-46e2-aa10-3e44b23825ea" absoluteBounds="0.52499999999999991, 12.252013835459948, 3.6845833334450924, 1.2880034596472978">
+          <interactionOperandMoniker Id="f06e11d1-d1c5-46e6-9254-359128f3eca0" LastKnownName="InteractionOperand1" />
+        </interactionOperandShape>
+      </nestedChildShapes>
+    </combinedFragmentShape>
+    <interactionUseShape Id="eef05a49-8645-4819-a46a-366a893b4e5d" absoluteBounds="0.825, 12.670017295107247, 3.3395833333333331, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="2c65d9bd-3050-43bf-8f58-7966bb4b8308" LastKnownName="2.5 Soumettre une carte" />
+    </interactionUseShape>
+    <lifelineShape Id="8a3214b4-9b7c-451e-92e7-8213dfd34541" absoluteBounds="1.025, 1, 0.15, 12.860017294660212" visible="true">
+      <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+      <relativeChildShapes>
+        <umlLifelineHeadShape Id="497fcc56-6479-4456-a600-dcc2597a7748" absoluteBounds="0.32619940757751453, 0.6, 1.5476011848449707, 0.4" customColor="White">
+          <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+          <relativeChildShapes />
+        </umlLifelineHeadShape>
+        <lifelineHoverShape Id="2dfc37be-56fd-426a-af4d-f215594aa191" absoluteBounds="0, 0, 0, 0">
+          <lifelineMoniker Id="2872d567-a40a-4fb7-8a4e-ce4be536908b" LastKnownName="utilisateur : Utilisateur" />
+        </lifelineHoverShape>
+      </relativeChildShapes>
+    </lifelineShape>
+    <lifelineShape Id="c3628c33-db98-48a0-a330-68c08b97dded" absoluteBounds="3.8145833333333332, 1, 0.15, 12.860017294660212" visible="true">
+      <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+      <relativeChildShapes>
+        <umlLifelineHeadShape Id="11fce69e-a8df-4c03-9352-db28cc57513b" absoluteBounds="3.0289771588643388, 0.6, 1.7212123489379883, 0.4" customColor="White">
+          <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+          <relativeChildShapes />
+        </umlLifelineHeadShape>
+        <lifelineHoverShape Id="e9b2af6a-1002-4a6f-9f07-64300b546ff3" absoluteBounds="3.8145833333333332, 1, 0, 12.875">
+          <lifelineMoniker Id="22086580-f28c-4cde-aead-347e27d14e83" LastKnownName="client Leger : Client Leger" />
+        </lifelineHoverShape>
+      </relativeChildShapes>
+    </lifelineShape>
+  </nestedChildShapes>
+</sequenceDesignerDiagram>

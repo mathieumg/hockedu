@@ -3,6 +3,16 @@
   dslVersion="1.0.0.0"
   Id="5a319f25-63b6-488d-81e4-d25ecb628b54"
   name="Maitre" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="d0d93a0a-bf87-4740-8209-3655a7b1c177">
+      <body>Le serveur réutilise la même structure que le package Jeu.</body>
+    </comment>
+    <comment
+      Id="eda636b0-4edf-4c82-8492-7c080efd5bda">
+      <body>- Request</body>
+    </comment>
+  </ownedCommentsInternal>
   <elementDefinition
     Id="7a626400-216a-4839-ad45-1062b899e011" />
   <suppliersInternal>

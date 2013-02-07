@@ -3,6 +3,12 @@
   dslVersion="1.0.0.0"
   Id="b4121d89-cf48-4a31-bdae-fd83beedcfa5"
   name="Jeu" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="7225e65c-ded3-41ff-9c2c-274912f9d01c">
+      <body>Le serveur réutilise la même structure que le package Jeu.</body>
+    </comment>
+  </ownedCommentsInternal>
   <elementDefinition
     Id="8eed1e63-30aa-4a6c-9425-bd259e64621e" />
   <importedPackagesInternal>

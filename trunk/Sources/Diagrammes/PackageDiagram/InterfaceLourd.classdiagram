@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="e92852c5-912c-405a-b13c-4b8d79adbe1a" name="InterfaceLourd" linkedPackageId="8240a33f-bce6-4e99-8a8d-1fd225e5e615" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="d8791bd3-d99b-4247-bcee-0fe7a61aa2b1">
+      <profileInstance Id="bd735dfe-5f61-4ec2-9e54-7bef26362100" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="df1b14d2-b9ec-4e36-90f5-5969e9259db4">
+      <profileInstance Id="b8178834-1b53-4ca1-9588-b1b15ffd9940" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="bd6f6302-e069-46d5-a73a-0cbcfbe7896b" name="Interface Lourd">
+        <elementDefinition Id="7bcf0af2-9f72-488a-a8fa-4164b8b5ce6b" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="3f59f466-6768-4d49-8b54-d17e5460911b" name="Chat" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="0c486d17-b736-4e89-a08a-40360bfd3228" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="8ffa3a3f-a80f-47e8-a40c-de92b1d8b5ef" name="Login" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="5c6d20f1-b0eb-49e2-8db4-95ec7ccb9d5e" />
+              <targetEnds>
+                <association Id="069d05b7-0925-42c4-af82-a5e3ea572ebe" isDerived="false" sourceEndRoleName="Login" targetEndRoleName="MenuPrincipal" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="f54115b2-1a04-4a49-b666-81f37995da52" LastKnownName="MenuPrincipal" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="d0bb78fa-7035-42a1-97e2-0163beb9f75c" name="Login" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="4464be0c-17be-4031-b1ed-7d3367989f23" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="e03be9f3-b761-4423-9187-929e6f4b5e50" name="MenuPrincipal" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="9355cc98-851d-4b42-b1f1-52260bbd8055" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="83a285b9-8e0f-4787-8d57-dd8ec60e8754" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="f54115b2-1a04-4a49-b666-81f37995da52" name="MenuPrincipal" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="e9e48c3f-1784-4138-9780-21e8a15b7342" />
+              <targetEnds>
+                <association Id="ca5fd6dc-b793-4794-bb25-27d875ea7575" isDerived="false" sourceEndRoleName="MenuPrincipal" targetEndRoleName="Chat" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="3f59f466-6768-4d49-8b54-d17e5460911b" LastKnownName="Chat" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="25e6b709-0bfb-432e-bf3e-bf6f15df360d" name="MenuPrincipal" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="2e5a5b99-81bb-448f-98e6-01b7313c90e6" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="92a60891-003b-4091-b0a4-4eeba68fd242" name="Chat" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="44015f9f-97a6-42ee-95a7-eeeb5993ebc2" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="beab9da4-0517-434b-bdf2-af6d98da5792" />
+                </association>
+                <association Id="94ae5c51-6874-436a-b7fe-b46e67b91d88" isDerived="false" sourceEndRoleName="MenuPrincipal" targetEndRoleName="ProfilsAI" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="c5a87590-31a8-453f-8ac3-c412861c4424" LastKnownName="ProfilsAI" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="371ff90f-feaa-48af-972f-dae243e78a54" name="MenuPrincipal" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="4967d17e-0005-4f99-8f62-e2648b2ea5f6" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="ac801e9c-3e8b-4066-a8fc-cf2ae13892f7" name="ProfilsAI" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="f44277e7-31ad-438c-b40a-43602f320f65" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="07ebfd95-d0c9-49ca-a865-7c3adf82f1f9" />
+                </association>
+                <association Id="25cf1ccd-7790-4547-ac4b-68518f108a22" isDerived="false" sourceEndRoleName="MenuPrincipal" targetEndRoleName="Editeur" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="51978bce-8e69-418d-8629-2616deb26291" LastKnownName="Editeur" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="8b8c864d-199c-428b-8e11-af27492225f4" name="MenuPrincipal" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="6739086e-d4bf-4e03-a644-618f1d38e449" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="59c39725-4ada-4348-a913-e84696c90bc6" name="Editeur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="7fda5e6c-148a-4aea-8819-a60a85af3daf" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="c7b049f5-d267-46d1-8d5d-4e9415e2fa92" />
+                </association>
+                <association Id="c14c84d8-5741-4674-83bb-54b1bec405b5" isDerived="false" sourceEndRoleName="MenuPrincipal" targetEndRoleName="Options" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="f4676089-5e21-4012-bef9-4efe7ea828b3" LastKnownName="Options" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="ff50c985-35d5-431c-84a8-5a01ead0efcf" name="MenuPrincipal" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="03a2049b-0d36-45da-b235-e8543a7fe239" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="4475919f-9aee-4739-9408-01d9bfeeeaf1" name="Options" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="9ece78cd-71ca-47de-a3a9-fce327d9529f" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="392d07cf-8f26-47f4-b945-3f81ea333be6" />
+                </association>
+                <association Id="df747b00-fa01-4d44-9585-24c38affe1ba" isDerived="false" sourceEndRoleName="MenuPrincipal" targetEndRoleName="GameBrowser" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="c72e1182-02a2-4d87-9dad-65f10509c436" LastKnownName="GameBrowser" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="849d2324-2fda-4a2f-9c0f-cc0e5409c34d" name="MenuPrincipal" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="95f44af2-dec6-4ec7-939d-f3879d4eabaf" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="ceb3c2e4-1a15-4544-a224-bed5c210cf3b" name="GameBrowser" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="40defadc-cdd4-42ff-8b46-5ef4ca8d34cd" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="93dccd6f-d688-4d74-ae45-3c30b3b736e8" />
+                </association>
+                <association Id="d111ea27-3cee-4124-9d86-7d277cd83856" isDerived="false" sourceEndRoleName="MenuPrincipal" targetEndRoleName="Tournoi" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="d46b00d2-e7fd-4d38-9488-3235e47b9b4f" LastKnownName="Tournoi" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="5a78518e-f053-414d-aa7d-77caad940e47" name="MenuPrincipal" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="76d95886-f444-4487-b415-822339aac7c1" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="9339a4da-48f1-4a3d-bdba-6b33d7273438" name="Tournoi" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="984ebc12-1783-493e-ad5d-dc78dde81893" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="ecd3f84e-9cb1-4564-9a37-2d8deff6280c" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="f4676089-5e21-4012-bef9-4efe7ea828b3" name="Options" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="72604837-62d8-411e-b99f-537af90d00b2" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="d46b00d2-e7fd-4d38-9488-3235e47b9b4f" name="Tournoi" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="6ca19afe-5f54-47ef-9c37-953f3aaadd3a" />
+              <targetEnds>
+                <association Id="fb4354ae-a78b-4289-9e24-732876d9b4f1" isDerived="false" sourceEndRoleName="Tournoi" targetEndRoleName="Partie" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="fc4019c8-fb0d-44be-b9bc-367cfd6528d2" LastKnownName="Partie" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="8d9f6356-d5fb-49fc-8726-7aacdc678a70" name="Tournoi" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="1cc9504b-afb1-4261-9e19-b32d1f8aa4d2" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="fa13b935-c59f-4dfb-a514-e376e00023f6" name="Partie" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="1f83c9db-444b-49c8-b091-3d893cc1a3eb" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="e22c6bdd-8666-4a25-910f-36bf313d007e" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="c72e1182-02a2-4d87-9dad-65f10509c436" name="GameBrowser" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="d5ef17e9-1152-450a-a7f6-fa66a554f667" />
+              <targetEnds>
+                <association Id="c8fe8ade-7724-4002-bea7-e0791aa4e867" isDerived="false" sourceEndRoleName="GameBrowser" targetEndRoleName="Jeu" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="fc4019c8-fb0d-44be-b9bc-367cfd6528d2" LastKnownName="Partie" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="b1a13343-e96c-4fcb-8177-1558c0ab67c1" name="GameBrowser" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="32840531-c121-4933-9908-99b0cd89b50e" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="0c8bbfea-5fb2-4409-b744-40f86298f600" name="Jeu" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="9a732dda-6e20-40c1-a1f3-5fd37ae944c6" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="acc316b5-6863-4cbb-895a-de2efb8f32cb" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="51978bce-8e69-418d-8629-2616deb26291" name="Editeur" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="8ba7b96e-7dc6-4a2e-af73-f34fd01f9027" />
+              <targetEnds>
+                <association Id="5f6a3897-f1a7-4d7e-b1f2-fdec221f0773" isDerived="false" sourceEndRoleName="Editeur" targetEndRoleName="Partie" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="fc4019c8-fb0d-44be-b9bc-367cfd6528d2" LastKnownName="Partie" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="9135780c-198c-4073-8aa1-4bbedfef5d88" name="Editeur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="f8d586c4-0d29-4ba7-9ddb-6ed58d831de3" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="657794ee-698f-4b24-bf5b-619734b59791" name="Partie" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="391a0c7e-2410-4e1c-b2c7-3b45557d6cbf" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="f88924e9-9f1c-4f70-9c60-13daeed2a01a" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="fc4019c8-fb0d-44be-b9bc-367cfd6528d2" name="Partie" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="d016279e-14d3-4a8b-adc9-9ecc7b7ab512" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="c5a87590-31a8-453f-8ac3-c412861c4424" name="ProfilsAI" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="6c43c5bd-cd86-495e-b70b-9ac789d4aa79" />
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+  </packagedElements>
+  <package Id="8240a33f-bce6-4e99-8a8d-1fd225e5e615" name="PackageDiagram">
+    <elementDefinition Id="e3be6b7a-c594-4cdf-a79e-a902a52468de" />
+  </package>
+</logicalClassDesignerModel>

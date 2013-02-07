@@ -60,6 +60,12 @@ void ControllerCPP::handleEvent( int pEventCode, va_list pListeElems )
         case WRONG_PASSWORD                       :
             wSS << "Mot de passe invalide" << std::endl;
             break;
+        case SERVER_USER_CONNECTED:
+            wSS << va_arg(pListeElems,std::string) << " Connected" << std::endl;
+            break;
+        case SERVER_USER_DISCONNECTED:
+            wSS << va_arg(pListeElems,std::string) << " Disconnected" << std::endl;
+            break;
         default:
             break;
     };
