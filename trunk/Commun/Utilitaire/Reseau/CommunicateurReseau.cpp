@@ -748,7 +748,7 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
     int wNbTentatives = 0;
     GestionnaireReseau::obtenirInstance()->transmitEvent(RECONNECTION_IN_PROGRESS);
 	
-    static const int TOTAL_TENTATIVE = 20;
+    static const int TOTAL_TENTATIVE = 10;
     bool connectionSuccessful = false;
     bool tryConnection = true;
     wSocket->setConnectionState(CONNECTING);

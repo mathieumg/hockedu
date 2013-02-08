@@ -378,7 +378,10 @@ namespace UIHeavyClientPrototype
                         {
                             if (mMainWindow != null)
                             {
-                                mMainWindow.OnDisconnect(null, null);
+                                mMainWindow.mTaskManager.ExecuteTask(() =>
+                                {
+                                    mMainWindow.OnDisconnect(null, null);
+                                });
                             }
                         }
                         break;
