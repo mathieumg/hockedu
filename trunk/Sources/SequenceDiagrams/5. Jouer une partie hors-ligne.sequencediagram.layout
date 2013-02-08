@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sequenceDesignerDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="5. Jouer une partie hors-ligne">
+  <SequenceDesignerModelMoniker Id="dc71802b-e4e5-4b4c-87b9-d12dc05c03a3" />
+  <nestedChildShapes>
+    <lifelineShape Id="a83e8e8d-bcf8-47c5-8253-f72f694021bc" absoluteBounds="1.8124999999999998, 1, 0.15, 5.2604166666666679" visible="true" visualStyleMode="Modified">
+      <lifelineMoniker Id="7147d9f2-add8-4c84-8582-c5f0e328b955" LastKnownName="utilisateur : Utilisateur" />
+      <relativeChildShapes>
+        <umlLifelineHeadShape Id="608772d8-caa9-489d-b628-f367c9857594" absoluteBounds="1.1136994075775144, 0.6, 1.5476011848449707, 0.4" customColor="White" visualStyleMode="Modified">
+          <lifelineMoniker Id="7147d9f2-add8-4c84-8582-c5f0e328b955" LastKnownName="utilisateur : Utilisateur" />
+          <relativeChildShapes />
+        </umlLifelineHeadShape>
+        <lifelineHoverShape Id="869b9319-6154-4116-ac82-452f5e0749f2" absoluteBounds="1.8124999999999998, 1, 0, 5.25">
+          <lifelineMoniker Id="7147d9f2-add8-4c84-8582-c5f0e328b955" LastKnownName="utilisateur : Utilisateur" />
+        </lifelineHoverShape>
+      </relativeChildShapes>
+    </lifelineShape>
+    <lifelineShape Id="10d2b2c5-695e-40bb-9531-b7bf3a86ccad" absoluteBounds="5.7291666666666661, 1, 0.15, 5.2604166666666679" visible="true" visualStyleMode="Modified">
+      <lifelineMoniker Id="00ca7a3e-3322-476d-b6b7-9f53b2dd3503" LastKnownName="client Lourd : Client Lourd" />
+      <relativeChildShapes>
+        <umlLifelineHeadShape Id="f709f70e-3a27-40e1-888b-ebb1abde7ac1" absoluteBounds="4.9355309716860445, 0.6, 1.7372713899612426, 0.4" customColor="White" visualStyleMode="Modified">
+          <lifelineMoniker Id="00ca7a3e-3322-476d-b6b7-9f53b2dd3503" LastKnownName="client Lourd : Client Lourd" />
+          <relativeChildShapes />
+        </umlLifelineHeadShape>
+        <lifelineHoverShape Id="4c5c1d0e-a5fd-4c1e-8511-b20a1bc7a658" absoluteBounds="5.7291666666666661, 1, 0, 5.25">
+          <lifelineMoniker Id="00ca7a3e-3322-476d-b6b7-9f53b2dd3503" LastKnownName="client Lourd : Client Lourd" />
+        </lifelineHoverShape>
+      </relativeChildShapes>
+    </lifelineShape>
+    <interactionUseShape Id="749bf8ff-44ca-4115-9094-97077fd79501" absoluteBounds="1.6124999999999998, 1.8854166666666665, 4.4666666666666668, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="30831df7-b3fa-4561-8685-7909b2f0737b" LastKnownName="5.1 Jouer une partie en réseau local" />
+    </interactionUseShape>
+    <combinedFragmentShape Id="145a64af-921c-4ec1-9665-4064081b9008" absoluteBounds="1.2925000004470346, 1.3354166666666665, 4.8566666657725968, 3.8399999982118604" visible="true" visualStyleMode="Modified">
+      <combinedFragmentMoniker Id="976e7267-cc99-4a3f-83e9-194154b4d4c0" LastKnownName="CombinedFragment1" />
+      <nestedChildShapes>
+        <interactionOperandShape Id="683f89db-a0e1-4f87-a734-b9bc7d5a87a0" absoluteBounds="1.3124999999999998, 1.5854166666666665, 4.8116666667784251, 1.17">
+          <interactionOperandMoniker Id="0fc31f1d-070d-40b0-8862-6f82181658ea" LastKnownName="InteractionOperand1" />
+        </interactionOperandShape>
+        <interactionOperandShape Id="ab914d30-f59a-4b8d-a3c5-d143715f4d5c" absoluteBounds="1.3124999999999998, 2.7854166659961139, 4.8116666667784251, 1.17">
+          <interactionOperandMoniker Id="32151c23-ebc0-44d0-9ee1-ea1531fd235a" LastKnownName="InteractionOperand2" />
+        </interactionOperandShape>
+        <interactionOperandShape Id="a341899f-5d91-490a-9426-ce3583e4468d" absoluteBounds="1.3124999999999998, 3.9854166653255616, 4.8116666667784251, 1.17">
+          <interactionOperandMoniker Id="89288574-c2d0-4421-b14b-ec3e19ab06de" LastKnownName="InteractionOperand3" />
+        </interactionOperandShape>
+      </nestedChildShapes>
+    </combinedFragmentShape>
+    <interactionUseShape Id="05471c8f-59af-4414-a425-4d5fc67a2b4c" absoluteBounds="1.6124999999999998, 3.0854166659961137, 4.4666666666666668, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="199b9b3e-2355-4911-a4b1-40bed3370551" LastKnownName="5.2 Jouer une partie contre l'intelligence artificielle" />
+    </interactionUseShape>
+    <interactionUseShape Id="8004efee-22fc-48eb-85c5-ffce8ee6f249" absoluteBounds="1.6124999999999998, 4.2854166653255614, 4.4666666666666668, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="8240387f-20eb-412b-aceb-6e857a9359b2" LastKnownName="5.3 Jouer contre un humain sur le même poste" />
+    </interactionUseShape>
+  </nestedChildShapes>
+</sequenceDesignerDiagram>

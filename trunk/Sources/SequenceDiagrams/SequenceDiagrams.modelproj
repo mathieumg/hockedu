@@ -175,12 +175,61 @@
       <SubType>Content</SubType>
       <DependentUpon>2.3 Charger une carte.sequencediagram</DependentUpon>
     </Content>
+    <Content Include="2.3.1 Charger une carte locale.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.3.1 Charger une carte locale.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.3.1 Charger une carte locale.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.3.2 Charger une carte distante.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.3.2 Charger une carte distante.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.3.2 Charger une carte distante.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.3.2.1 Obtenir la liste des cartes distantes.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.3.2.1 Obtenir la liste des cartes distantes.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.3.2.1 Obtenir la liste des cartes distantes.sequencediagram</DependentUpon>
+    </Content>
     <Content Include="2.4 Sauvegarder une carte.sequencediagram">
       <SubType>Content</SubType>
     </Content>
     <Content Include="2.4 Sauvegarder une carte.sequencediagram.layout">
       <SubType>Content</SubType>
       <DependentUpon>2.4 Sauvegarder une carte.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.4.1 Enregistrer une carte localement.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.4.1 Enregistrer une carte localement.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.4.1 Enregistrer une carte localement.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.4.1.1 Associer la carte à son utilisateur.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.4.1.1 Associer la carte à son utilisateur.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.4.1.1 Associer la carte à son utilisateur.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.4.2 Envoyer une carte au serveur web.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.4.2 Envoyer une carte au serveur web.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.4.2 Envoyer une carte au serveur web.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="2.4.2.1 Transmettre la carte au serveur web.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="2.4.2.1 Transmettre la carte au serveur web.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>2.4.2.1 Transmettre la carte au serveur web.sequencediagram</DependentUpon>
     </Content>
     <Content Include="2.5 Soumettre une carte.sequencediagram">
       <SubType>Content</SubType>
@@ -290,6 +339,41 @@
     <Content Include="3.4 Réaliser un _achievement.sequencediagram.layout">
       <SubType>Content</SubType>
       <DependentUpon>3.4 Réaliser un _achievement.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="5. Jouer une partie hors-ligne.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="5. Jouer une partie hors-ligne.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>5. Jouer une partie hors-ligne.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="5.1 Jouer une partie en réseau local.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="5.1 Jouer une partie en réseau local.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>5.1 Jouer une partie en réseau local.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="5.2 Jouer une partie contre l%27intelligence artificielle.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="5.2 Jouer une partie contre l%27intelligence artificielle.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>5.2 Jouer une partie contre l'intelligence artificielle.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="5.2.1 Choisir un profil d%27intelligence artificielle.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="5.2.1 Choisir un profil d%27intelligence artificielle.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>5.2.1 Choisir un profil d'intelligence artificielle.sequencediagram</DependentUpon>
+    </Content>
+    <Content Include="5.3 Jouer contre un humain sur le même poste.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="5.3 Jouer contre un humain sur le même poste.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>5.3 Jouer contre un humain sur le même poste.sequencediagram</DependentUpon>
     </Content>
     <Content Include="ModelDefinition\SequenceDiagrams.uml">
       <SubType>Content</SubType>

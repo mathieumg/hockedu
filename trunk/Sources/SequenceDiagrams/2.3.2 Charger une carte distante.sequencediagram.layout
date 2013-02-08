@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sequenceDesignerDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="2.3.2 Charger une carte distante">
+  <SequenceDesignerModelMoniker Id="7f2719cb-954e-4aba-a34c-92b013524bfb" />
+  <nestedChildShapes>
+    <lifelineShape Id="a14d38eb-59d1-4737-a244-cb0f84b66172" absoluteBounds="1.025, 1, 0.15, 3.427083333333333" visible="true" visualStyleMode="Modified">
+      <lifelineMoniker Id="33bb8b14-ac97-4dc4-b807-217d9df61ddb" LastKnownName="utilisateur : Utilisateur" />
+      <relativeChildShapes>
+        <umlLifelineHeadShape Id="60742fdb-26e0-440e-80d7-5afd8da694fb" absoluteBounds="0.59999999999999987, 0.6, 1, 0.4" customColor="White" visualStyleMode="Modified">
+          <lifelineMoniker Id="33bb8b14-ac97-4dc4-b807-217d9df61ddb" LastKnownName="utilisateur : Utilisateur" />
+          <relativeChildShapes />
+        </umlLifelineHeadShape>
+        <lifelineHoverShape Id="3f07c38d-9bc1-4394-bb2b-cdc1479ec227" absoluteBounds="1.025, 1, 0, 3.375">
+          <lifelineMoniker Id="33bb8b14-ac97-4dc4-b807-217d9df61ddb" LastKnownName="utilisateur : Utilisateur" />
+        </lifelineHoverShape>
+      </relativeChildShapes>
+    </lifelineShape>
+    <lifelineShape Id="a567cb45-a59b-4aae-9aa6-d32a2391b97d" absoluteBounds="3.83125, 1, 0.15, 3.427083333333333" visible="true" visualStyleMode="Modified">
+      <lifelineMoniker Id="f3a4911a-24a0-41e3-8263-60db7fbd0b17" LastKnownName="client Leger : Client Leger" />
+      <relativeChildShapes>
+        <umlLifelineHeadShape Id="9165546c-8aa5-4166-ad15-1648d3c15f1b" absoluteBounds="3.40625, 0.6, 1, 0.4" customColor="White" visualStyleMode="Modified">
+          <lifelineMoniker Id="f3a4911a-24a0-41e3-8263-60db7fbd0b17" LastKnownName="client Leger : Client Leger" />
+          <relativeChildShapes />
+        </umlLifelineHeadShape>
+        <lifelineHoverShape Id="87b83d33-65ba-4562-a0cc-798a870d3e34" absoluteBounds="3.83125, 1, 0, 3.375">
+          <lifelineMoniker Id="f3a4911a-24a0-41e3-8263-60db7fbd0b17" LastKnownName="client Leger : Client Leger" />
+        </lifelineHoverShape>
+      </relativeChildShapes>
+    </lifelineShape>
+    <interactionUseShape Id="4fc0a3af-d59a-45a1-9f32-0b52931c97b5" absoluteBounds="0.825, 1.6354166666666665, 3.3562499999999997, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="dc81418c-02b1-4c5b-a88e-271dc6239417" LastKnownName="2.3.2.1 Obtenir la liste des cartes distantes" />
+    </interactionUseShape>
+    <interactionUseShape Id="93a7d77b-7841-4823-9b7e-89f5c04368af" absoluteBounds="0.825, 2.5054166666666662, 3.3562499999999997, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="8b2d450c-dabd-4018-b65a-9730dfc57be6" LastKnownName="2.3.2.2 Télécharger une carte distante" />
+    </interactionUseShape>
+  </nestedChildShapes>
+</sequenceDesignerDiagram>
