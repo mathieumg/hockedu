@@ -24,7 +24,7 @@
         <lifelineHoverShape Id="6ef68def-f124-4cc4-ad4d-35008718218c" absoluteBounds="3.075, 1, 0, 3.25">
           <lifelineMoniker Id="ec6fab1e-270a-4ba2-937b-a489f105c686" LastKnownName="client Lourd : Client Lourd" />
         </lifelineHoverShape>
-        <umlExecutionSpecificationShape Id="1d10e5a4-c541-49f2-8836-1264883a0281" absoluteBounds="3.075, 1.3, 0.15, 1.1699999999999997" customColor="184, 204, 215" visualStyleMode="Modified">
+        <umlExecutionSpecificationShape Id="1d10e5a4-c541-49f2-8836-1264883a0281" absoluteBounds="3.075, 1.3, 0.15, 1.22" customColor="184, 204, 215" visualStyleMode="Modified">
           <behaviorExecutionSpecificationMoniker Id="bdc63c56-c1a4-408b-a97d-551b557cbff3" LastKnownName="BehaviorExecutionSpecification1" />
         </umlExecutionSpecificationShape>
       </relativeChildShapes>
@@ -48,14 +48,14 @@
         <umlExecutionSpecificationShapeMoniker Id="1d10e5a4-c541-49f2-8836-1264883a0281" />
       </nodes>
     </syncMessageConnector>
-    <returnMessageConnector edgePoints="[(3.075 : 2.47); (1.1 : 2.47)]" fixedFrom="Caller" fixedTo="Caller" TargetRelationshipDomainClassId="e24617ce-6c7e-4c7d-802a-63014f02e313" customColor="Black" visible="true" visualStyleMode="Modified" messageId="00000000-0000-0000-0000-000000000000">
+    <returnMessageConnector edgePoints="[(3.075 : 2.52); (1.1 : 2.52)]" fixedFrom="Caller" fixedTo="Caller" TargetRelationshipDomainClassId="e24617ce-6c7e-4c7d-802a-63014f02e313" customColor="Black" visible="true" visualStyleMode="Modified" messageId="00000000-0000-0000-0000-000000000000">
       <relativeChildShapes />
       <nodes>
         <umlExecutionSpecificationShapeMoniker Id="1d10e5a4-c541-49f2-8836-1264883a0281" />
         <lifelineShapeMoniker Id="5ab27fa1-0b97-457d-9ced-1c1d3cbcf491" />
       </nodes>
     </returnMessageConnector>
-    <interactionUseShape Id="1ccf3760-b719-4755-89ab-1135478ed225" absoluteBounds="2.875, 1.6, 3.3291666666666671, 0.57" customColor="White" visible="true">
+    <interactionUseShape Id="1ccf3760-b719-4755-89ab-1135478ed225" absoluteBounds="2.825, 1.6, 3.4291666666666671, 0.62" customColor="White" visible="true">
       <interactionUseMoniker Id="994e8bdd-fbaf-457c-a4d7-99230ba9c0e6" LastKnownName="3.1.1 Valider les informations de connexion" />
     </interactionUseShape>
   </nestedChildShapes>
