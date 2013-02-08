@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteRule ^list$ list.php
+RewriteRule ^i/([a-zA-Z0-9_-]+)$ view.php?id=$1
+RewriteRule ^i/([a-zA-Z0-9_-]+)/$ view.php?id=$1
