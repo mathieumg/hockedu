@@ -2,26 +2,26 @@
 <sequenceDesignerDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 24.125" name="2.2.1 Manipuler des objets">
   <SequenceDesignerModelMoniker Id="874b4ffd-8939-45b1-8c30-7ac52181bd0d" />
   <nestedChildShapes>
-    <lifelineShape Id="cfe7a8ae-24a5-4e7e-8698-273cfafa3af8" absoluteBounds="1.025, 1, 0.15, 22.929999993965044" visible="true" visualStyleMode="Modified">
+    <lifelineShape Id="cfe7a8ae-24a5-4e7e-8698-273cfafa3af8" absoluteBounds="1.025, 1, 0.15, 12.409166660631716" visible="true" visualStyleMode="Modified">
       <lifelineMoniker Id="5733c438-44ef-4a38-a2b8-0a968237d7a0" LastKnownName="utilisateur : Utilisateur" />
       <relativeChildShapes>
         <umlLifelineHeadShape Id="566007a0-e22b-4a04-871d-b91341afc054" absoluteBounds="0.32619940757751453, 0.6, 1.5476011848449707, 0.4" customColor="White" visualStyleMode="Modified">
           <lifelineMoniker Id="5733c438-44ef-4a38-a2b8-0a968237d7a0" LastKnownName="utilisateur : Utilisateur" />
           <relativeChildShapes />
         </umlLifelineHeadShape>
-        <lifelineHoverShape Id="a5e3a3a8-e0e6-4b6a-a7f5-acb2fdbc885a" absoluteBounds="1.025, 1, 0, 22.875">
+        <lifelineHoverShape Id="a5e3a3a8-e0e6-4b6a-a7f5-acb2fdbc885a" absoluteBounds="1.025, 1, 0, 12.375">
           <lifelineMoniker Id="5733c438-44ef-4a38-a2b8-0a968237d7a0" LastKnownName="utilisateur : Utilisateur" />
         </lifelineHoverShape>
       </relativeChildShapes>
     </lifelineShape>
-    <lifelineShape Id="f41e640b-78e9-4d1b-a0d4-caf86bc68aa4" absoluteBounds="4.6270833333333332, 1, 0.15, 22.929999993965044" visible="true" visualStyleMode="Modified">
+    <lifelineShape Id="f41e640b-78e9-4d1b-a0d4-caf86bc68aa4" absoluteBounds="4.6270833333333332, 1, 0.15, 12.409166660631716" visible="true" visualStyleMode="Modified">
       <lifelineMoniker Id="d114b13b-977b-4312-a457-981b621406b3" LastKnownName="client Leger : Client Leger" />
       <relativeChildShapes>
         <umlLifelineHeadShape Id="765b040c-c1fa-46f0-8839-7d93266984d0" absoluteBounds="3.8414771588643388, 0.6, 1.7212123489379883, 0.4" customColor="White" visualStyleMode="Modified">
           <lifelineMoniker Id="d114b13b-977b-4312-a457-981b621406b3" LastKnownName="client Leger : Client Leger" />
           <relativeChildShapes />
         </umlLifelineHeadShape>
-        <lifelineHoverShape Id="71633ba8-efa6-42de-aff3-b8c02ce6a6a6" absoluteBounds="4.6270833333333332, 1, 0, 22.875">
+        <lifelineHoverShape Id="71633ba8-efa6-42de-aff3-b8c02ce6a6a6" absoluteBounds="4.6270833333333332, 1, 0, 12.375">
           <lifelineMoniker Id="d114b13b-977b-4312-a457-981b621406b3" LastKnownName="client Leger : Client Leger" />
         </lifelineHoverShape>
       </relativeChildShapes>

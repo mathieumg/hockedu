@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SequenceDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="53d4e780-5482-4810-bdca-6c2ce017402f" name="2.4.1 Enregistrer une carte localement" linkedPackageId="1eb4b31b-107c-47ce-a5c1-715ef0b443d9" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="3eae627b-2006-43d7-b4dd-90da9ff9638f">
+      <profileInstance Id="4813bca4-db15-415c-8d05-3cabbf66c46f" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="833e2de0-9c53-4670-8973-cfe8d0105f5f">
+      <profileInstance Id="b7e998c3-c535-4dcd-a16c-7abeed13199c" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <packageHasNamedElement>
+      <interaction Id="44acbf31-30c1-4984-85c2-7af53d5b058e" name="2.4.1 Enregistrer une carte localement" collapseFragmentsFlag="false" isActiveClass="false" isAbstract="false" isLeaf="false" isReentrant="false">
+        <elementDefinition Id="667030cf-a8f1-4cd0-818a-25c928398e04" />
+        <fragments>
+          <behaviorExecutionSpecification Id="c41a0c24-9eb3-4c85-8f39-f91463a40ec8" name="BehaviorExecutionSpecification1">
+            <elementDefinition Id="ed8e2e55-00c0-4354-904b-70ceafb90b15" />
+            <coveredLifelines>
+              <lifelineMoniker Id="f40e9a8e-7946-4057-b39f-5afee322bb98" LastKnownName="client Leger : Client Leger" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker Id="2e750dd0-dc99-45de-b3fa-92fdd24d141c" LastKnownName="ExecutionOccurrenceSpecification2" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker Id="d6f34070-f515-4931-801c-5afa37c9aef1" LastKnownName="ExecutionOccurrenceSpecification1" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker Id="547952fc-dd4a-4cbc-953c-929cfa3a0fd9" LastKnownName="MessageOccurrenceSpecification2" />
+              <messageOccurrenceSpecificationMoniker Id="dfdbec93-8601-46c3-b4ef-79322e162212" LastKnownName="MessageOccurrenceSpecification3" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification Id="d6f34070-f515-4931-801c-5afa37c9aef1" name="ExecutionOccurrenceSpecification1">
+            <elementDefinition Id="5c613bd8-802f-4e19-854b-665d6c34d380" />
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker Id="9a47fd21-51c7-4ba7-b35d-55e03616f979" LastKnownName="ExecutionEvent" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker Id="f40e9a8e-7946-4057-b39f-5afee322bb98" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="a04d23cb-0af6-4716-a3d0-def5b8090081" name="MessageOccurrenceSpecification1">
+            <elementDefinition Id="54f0e3e8-f04d-4571-92d8-ee8134ffe1e4" />
+            <covered>
+              <lifelineMoniker Id="c444acd2-4868-4cd2-bfdb-c0758af6c5b2" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="547952fc-dd4a-4cbc-953c-929cfa3a0fd9" name="MessageOccurrenceSpecification2">
+            <elementDefinition Id="106ee1cf-537d-4fc2-aa04-a068e16a79bb" />
+            <covered>
+              <lifelineMoniker Id="f40e9a8e-7946-4057-b39f-5afee322bb98" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="dfdbec93-8601-46c3-b4ef-79322e162212" name="MessageOccurrenceSpecification3">
+            <elementDefinition Id="a59c4f56-c40e-413e-bce8-8cb83d415959" />
+            <covered>
+              <lifelineMoniker Id="f40e9a8e-7946-4057-b39f-5afee322bb98" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="e4c71131-0388-4105-8fc1-652a924e7f69" name="MessageOccurrenceSpecification4">
+            <elementDefinition Id="2ddaf0dc-44ed-402b-856c-0d0c1fd4b55b" />
+            <covered>
+              <lifelineMoniker Id="c444acd2-4868-4cd2-bfdb-c0758af6c5b2" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification Id="2e750dd0-dc99-45de-b3fa-92fdd24d141c" name="ExecutionOccurrenceSpecification2">
+            <elementDefinition Id="20ac920e-a31d-4e93-bb27-99c88c0d2922" />
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker Id="e0a3268b-da85-4cfd-984e-f028af441c81" LastKnownName="ExecutionEvent" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker Id="f40e9a8e-7946-4057-b39f-5afee322bb98" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </executionOccurrenceSpecification>
+        </fragments>
+        <lifelines>
+          <lifeline Id="c444acd2-4868-4cd2-bfdb-c0758af6c5b2" name="utilisateur : Utilisateur" isActor="true" lifelineDisplayName="utilisateur : Utilisateur">
+            <elementDefinition Id="78e1c5d0-f6b7-4346-9964-aa682b1efc48" />
+            <represents>
+              <propertyMoniker Id="49b26249-77ed-41ee-8773-110b6fdd5891" />
+            </represents>
+            <topLevelOccurrences>
+              <messageOccurrenceSpecificationMoniker Id="a04d23cb-0af6-4716-a3d0-def5b8090081" LastKnownName="MessageOccurrenceSpecification1" />
+              <messageOccurrenceSpecificationMoniker Id="e4c71131-0388-4105-8fc1-652a924e7f69" LastKnownName="MessageOccurrenceSpecification4" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline Id="f40e9a8e-7946-4057-b39f-5afee322bb98" name="client Leger : Client Leger" isActor="true" lifelineDisplayName="client Leger : Client Leger">
+            <elementDefinition Id="ecbacea1-7b29-490c-b30f-ffb9e92ffb2b" />
+            <represents>
+              <propertyMoniker Id="29b65b32-7525-4c0c-9693-093a28ba9d9c" />
+            </represents>
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker Id="d6f34070-f515-4931-801c-5afa37c9aef1" LastKnownName="ExecutionOccurrenceSpecification1" />
+              <executionOccurrenceSpecificationMoniker Id="2e750dd0-dc99-45de-b3fa-92fdd24d141c" LastKnownName="ExecutionOccurrenceSpecification2" />
+            </topLevelOccurrences>
+          </lifeline>
+        </lifelines>
+        <messages>
+          <message Id="e016dd6a-159a-4231-b25f-395131b918be" name="Demande de sauvegarder la carte en cours" messageKind="Complete" messageSort="SynchCall" createSelfMessage="false">
+            <elementDefinition Id="a15f8670-9c8c-4be0-bad3-6604f40fabb1" />
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker Id="a04d23cb-0af6-4716-a3d0-def5b8090081" LastKnownName="MessageOccurrenceSpecification1" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker Id="547952fc-dd4a-4cbc-953c-929cfa3a0fd9" LastKnownName="MessageOccurrenceSpecification2" />
+            </receiveEvent>
+          </message>
+          <message Id="60e7a0dc-1d68-4ec0-82fb-4d598659202e" name="Sauvegarde effectuée avec succès" messageKind="Complete" messageSort="Reply" createSelfMessage="false">
+            <elementDefinition Id="c502824e-5cac-41d8-813c-751ec2c4202c" />
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker Id="dfdbec93-8601-46c3-b4ef-79322e162212" LastKnownName="MessageOccurrenceSpecification3" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker Id="e4c71131-0388-4105-8fc1-652a924e7f69" LastKnownName="MessageOccurrenceSpecification4" />
+            </receiveEvent>
+          </message>
+        </messages>
+        <ownedAttributesInternal>
+          <property Id="49b26249-77ed-41ee-8773-110b6fdd5891" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="a6fae770-318a-4c8b-8ec3-cb9f2641094c" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="1c8570a5-4ffb-43a6-9ea1-2221aee72b19" LastKnownName="Utilisateur" />
+            </type_NamedElement>
+          </property>
+          <property Id="29b65b32-7525-4c0c-9693-093a28ba9d9c" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="9dd943f4-7a9e-4fc5-8ff7-bc526b1faccc" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="9a8b2bf7-212b-4778-8449-8c836fd788eb" LastKnownName="Client Leger" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </interaction>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="1c8570a5-4ffb-43a6-9ea1-2221aee72b19" name="Utilisateur" isAbstract="false" isLeaf="false" cachedFullName="Diagrammes::Utilisateur">
+        <elementDefinition Id="45a57549-b92d-457c-a351-14cfdca18539" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="9a8b2bf7-212b-4778-8449-8c836fd788eb" name="Client Leger" isAbstract="false" isLeaf="false" cachedFullName="Diagrammes::Client Leger">
+        <elementDefinition Id="62828cb1-dd23-4d62-8996-487b92db172b" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent Id="9a47fd21-51c7-4ba7-b35d-55e03616f979" name="ExecutionEvent">
+        <elementDefinition Id="746df14f-f8f4-4645-bf9d-88dd252d7ad9" />
+      </executionEvent>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent Id="e0a3268b-da85-4cfd-984e-f028af441c81" name="ExecutionEvent">
+        <elementDefinition Id="afd7ba75-824a-4269-9a76-8be154b70817" />
+      </executionEvent>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="1eb4b31b-107c-47ce-a5c1-715ef0b443d9" name="Diagrammes">
+    <elementDefinition Id="bd496572-2d56-4f1a-82f9-f287c782ea4e" />
+  </package>
+</SequenceDesignerModel>

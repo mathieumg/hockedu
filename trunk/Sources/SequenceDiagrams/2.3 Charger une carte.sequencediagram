@@ -1,147 +1,66 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<SequenceDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/UseCaseModel" dslVersion="1.0.0.0" Id="4a0feca0-5674-40bb-97c3-0dbc4a03284c" name="2.3 Charger une carte" linkedPackageId="95337ba7-ba32-49ef-ba4e-78bb5e5df36e" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner">
-  <profileInstances>
-    <packageHasProfileInstances Id="d26bd408-7346-4e79-92e6-a7afc0500293">
-      <profileInstance Id="78110775-4e42-4544-bb2d-1abdbe721bbf" name="StandardProfileL2">
-        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
-      </profileInstance>
-      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
-    </packageHasProfileInstances>
-    <packageHasProfileInstances Id="be5d5813-fb9f-4f10-9df9-3d3d0f969d94">
-      <profileInstance Id="bed5f775-b15d-4414-bc5e-591dc1bbd4a5" name="StandardProfileL3">
-        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
-      </profileInstance>
-      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
-    </packageHasProfileInstances>
-  </profileInstances>
+<SequenceDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="4a0feca0-5674-40bb-97c3-0dbc4a03284c" name="2.3 Charger une carte" linkedPackageId="95337ba7-ba32-49ef-ba4e-78bb5e5df36e" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner">
   <packagedElements>
     <packageHasNamedElement>
       <interaction Id="f2c7fb74-79fe-4b43-9d81-df4fe71dcb1d" name="2.3 Charger une carte" collapseFragmentsFlag="false" isActiveClass="false" isAbstract="false" isLeaf="false" isReentrant="false">
         <elementDefinition Id="7e93de5d-5e88-411b-a245-ec9feaae3b02" />
         <fragments>
-          <combinedFragment Id="e8180365-1039-4df1-902e-b63f52e56707" name="CombinedFragment1" interactionOperator="Loop">
-            <elementDefinition Id="88d6d4e5-f1eb-4e9c-9225-828e90684657" />
+          <interactionUse Id="b7b77d78-36cb-4690-9091-ee85fd6b1702" name="2.3.1 Charger une carte locale" referredToFile="2.3.1 Charger une carte locale">
+            <referencesInternal>
+              <reference Id="c79984c4-9e21-431d-85fb-361f16856486" handle="backplane://Backplane/Microsoft.VisualStudio.TeamArchitect.SequenceDesigner.ToolAdapter.SequenceServiceManager/4d8b9a69-1dd8-4616-881c-7a06cfb77fa7\2.3.1 Charger une carte locale.sequencediagram" tag="Definition Reference">
+                <elementDefinition Id="8d733791-5ad2-460f-b66d-89ab6234174e" />
+              </reference>
+            </referencesInternal>
+            <elementDefinition Id="9af45635-3395-4714-aa20-0f63866e993a" />
             <coveredLifelines>
-              <lifelineMoniker Id="1b6e987c-0006-470c-8f1d-2e3da0cb52a8" LastKnownName="client Leger : Client Leger" />
               <lifelineMoniker Id="7ab2d133-ee14-40dc-9173-c6ddc34ac175" LastKnownName="utilisateur : Utilisateur" />
-            </coveredLifelines>
-            <operands>
-              <interactionOperand Id="f5b8c908-64bf-4e58-b274-6e937b71033d" name="InteractionOperand1">
-                <elementDefinition Id="a43d5886-8337-4267-b5fd-e6508a015552" />
-                <coveredLifelines>
-                  <lifelineMoniker Id="1b6e987c-0006-470c-8f1d-2e3da0cb52a8" LastKnownName="client Leger : Client Leger" />
-                  <lifelineMoniker Id="7ab2d133-ee14-40dc-9173-c6ddc34ac175" LastKnownName="utilisateur : Utilisateur" />
-                </coveredLifelines>
-                <guard>
-                  <interactionConstraint Id="bf7495e1-88a5-4544-be6f-9e0383fc33a9" guardText="Tant que le nom n'est pas valide">
-                    <elementDefinition Id="3c93af80-7f8d-4eac-8875-154241a76269" />
-                    <maxInt>
-                      <literalString Id="5c02e36c-bcee-4304-b21e-00e9e3da5d8a" name="LiteralString1">
-                        <elementDefinition Id="b50e8335-cbf3-4617-990b-46ff9ea04467" />
-                      </literalString>
-                    </maxInt>
-                    <minInt>
-                      <literalString Id="5a5fee27-6397-43e3-a8ee-428c7cf04376" name="LiteralString2">
-                        <elementDefinition Id="23d87d56-7ff0-4d48-bd46-3dd0dff1ebe9" />
-                      </literalString>
-                    </minInt>
-                  </interactionConstraint>
-                </guard>
-                <operandOccurrenceSpecifications>
-                  <operandOccurrenceSpecificationMoniker Id="480704b2-21f8-4225-be52-acbac0b016fe" LastKnownName="OperandOccurrenceSpecification1" />
-                  <operandOccurrenceSpecificationMoniker Id="c8d92f36-34fa-473a-ad4b-03813aed02f7" LastKnownName="OperandOccurrenceSpecification2" />
-                  <operandOccurrenceSpecificationMoniker Id="6d0d6035-7673-4441-a1aa-0ed6f92ac10e" LastKnownName="OperandOccurrenceSpecification3" />
-                  <operandOccurrenceSpecificationMoniker Id="14eaffcf-cc10-4e8b-b477-671a8b2f21d3" LastKnownName="OperandOccurrenceSpecification4" />
-                </operandOccurrenceSpecifications>
-              </interactionOperand>
-            </operands>
-          </combinedFragment>
-          <operandOccurrenceSpecification Id="480704b2-21f8-4225-be52-acbac0b016fe" name="OperandOccurrenceSpecification1">
-            <elementDefinition Id="9aa65cb1-5d88-482c-87da-b537d36c1089" />
-            <covered>
-              <lifelineMoniker Id="1b6e987c-0006-470c-8f1d-2e3da0cb52a8" LastKnownName="client Leger : Client Leger" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="6d0d6035-7673-4441-a1aa-0ed6f92ac10e" name="OperandOccurrenceSpecification3">
-            <elementDefinition Id="3e51b5d9-d142-47aa-bbd2-3f8d903f2df9" />
-            <covered>
-              <lifelineMoniker Id="7ab2d133-ee14-40dc-9173-c6ddc34ac175" LastKnownName="utilisateur : Utilisateur" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <behaviorExecutionSpecification Id="19d11851-3892-4296-b11a-39f853790f24" name="BehaviorExecutionSpecification1">
-            <elementDefinition Id="b8f7a99b-ee34-401f-b1ba-f598453b7256" />
-            <coveredLifelines>
               <lifelineMoniker Id="1b6e987c-0006-470c-8f1d-2e3da0cb52a8" LastKnownName="client Leger : Client Leger" />
             </coveredLifelines>
-            <finish>
-              <executionOccurrenceSpecificationMoniker Id="603909fd-406f-43aa-a4f9-38c59147ba98" LastKnownName="ExecutionOccurrenceSpecification2" />
-            </finish>
-            <start>
-              <executionOccurrenceSpecificationMoniker Id="0ebdbb8d-249f-4dfa-bf3b-f03c44d16ce2" LastKnownName="ExecutionOccurrenceSpecification1" />
-            </start>
-            <nestedOccurrences>
-              <messageOccurrenceSpecificationMoniker Id="03030857-2375-4df7-ac4d-358664c6a35c" LastKnownName="MessageOccurrenceSpecification2" />
-              <messageOccurrenceSpecificationMoniker Id="6060be76-f909-4acd-8bad-aa56c54b78dc" LastKnownName="MessageOccurrenceSpecification3" />
-            </nestedOccurrences>
-          </behaviorExecutionSpecification>
-          <executionOccurrenceSpecification Id="0ebdbb8d-249f-4dfa-bf3b-f03c44d16ce2" name="ExecutionOccurrenceSpecification1">
-            <elementDefinition Id="927ed5a4-a12a-4e52-a0a3-7e013fa42c10" />
-            <event>
-              <executionOccurrenceSpecificationReferencesEvent>
-                <executionEventMoniker Id="369e9e0b-1360-4d2b-88fe-87f600ebb3d4" LastKnownName="ExecutionEvent" />
-              </executionOccurrenceSpecificationReferencesEvent>
-            </event>
-            <covered>
-              <lifelineMoniker Id="1b6e987c-0006-470c-8f1d-2e3da0cb52a8" LastKnownName="client Leger : Client Leger" />
-            </covered>
-          </executionOccurrenceSpecification>
-          <messageOccurrenceSpecification Id="a0112c57-be9e-4839-9a72-1c722a4bc77e" name="MessageOccurrenceSpecification1">
-            <elementDefinition Id="9064f6c0-e9ea-42dc-935f-6e3fc032a1b3" />
+            <interactionUseOccurrenceSpecifications>
+              <interactionUseOccurrenceSpecificationMoniker Id="d4032eef-9aca-4122-aa89-2768c368bd12" LastKnownName="InteractionUseOccurrenceSpecification1" />
+              <interactionUseOccurrenceSpecificationMoniker Id="a50ed587-16f3-4695-b000-3e0508b88ddb" LastKnownName="InteractionUseOccurrenceSpecification2" />
+            </interactionUseOccurrenceSpecifications>
+          </interactionUse>
+          <interactionUseOccurrenceSpecification Id="d4032eef-9aca-4122-aa89-2768c368bd12" name="InteractionUseOccurrenceSpecification1">
+            <elementDefinition Id="5feb66bf-09a8-4995-b146-c396909a1580" />
             <covered>
               <lifelineMoniker Id="7ab2d133-ee14-40dc-9173-c6ddc34ac175" LastKnownName="utilisateur : Utilisateur" />
             </covered>
-          </messageOccurrenceSpecification>
-          <messageOccurrenceSpecification Id="03030857-2375-4df7-ac4d-358664c6a35c" name="MessageOccurrenceSpecification2">
-            <elementDefinition Id="a4fe8991-705d-4ec8-89e8-4c5f57f3901c" />
+          </interactionUseOccurrenceSpecification>
+          <interactionUseOccurrenceSpecification Id="a50ed587-16f3-4695-b000-3e0508b88ddb" name="InteractionUseOccurrenceSpecification2">
+            <elementDefinition Id="78cc7b57-25d8-4ea2-84b6-b1cfa8d200e2" />
             <covered>
               <lifelineMoniker Id="1b6e987c-0006-470c-8f1d-2e3da0cb52a8" LastKnownName="client Leger : Client Leger" />
             </covered>
-          </messageOccurrenceSpecification>
-          <messageOccurrenceSpecification Id="6060be76-f909-4acd-8bad-aa56c54b78dc" name="MessageOccurrenceSpecification3">
-            <elementDefinition Id="62d5f5d1-6243-4534-9759-f23b1d0babdd" />
-            <covered>
+          </interactionUseOccurrenceSpecification>
+          <interactionUse Id="63b6e2be-0bfe-4251-9fbe-a79120756f01" name="2.3.2 Charger une carte distante" referredToFile="2.3.2 Charger une carte distante">
+            <referencesInternal>
+              <reference Id="dc904aae-b629-41d9-b067-a74b6da7c98a" handle="backplane://Backplane/Microsoft.VisualStudio.TeamArchitect.SequenceDesigner.ToolAdapter.SequenceServiceManager/4d8b9a69-1dd8-4616-881c-7a06cfb77fa7\2.3.2 Charger une carte distante.sequencediagram" tag="Definition Reference">
+                <elementDefinition Id="0a08cf57-118c-4b06-abc6-95bf314258c8" />
+              </reference>
+            </referencesInternal>
+            <elementDefinition Id="c937ce52-7a17-4aba-bd1f-95524ee89b93" />
+            <coveredLifelines>
+              <lifelineMoniker Id="7ab2d133-ee14-40dc-9173-c6ddc34ac175" LastKnownName="utilisateur : Utilisateur" />
               <lifelineMoniker Id="1b6e987c-0006-470c-8f1d-2e3da0cb52a8" LastKnownName="client Leger : Client Leger" />
-            </covered>
-          </messageOccurrenceSpecification>
-          <messageOccurrenceSpecification Id="f5b9d02c-6246-4b0a-ba28-a3a6f898ded8" name="MessageOccurrenceSpecification4">
-            <elementDefinition Id="861c33bc-9bc4-452d-9b64-09678f934dd8" />
+            </coveredLifelines>
+            <interactionUseOccurrenceSpecifications>
+              <interactionUseOccurrenceSpecificationMoniker Id="d19b1961-3b38-494f-8d1e-21a608ed1d47" LastKnownName="InteractionUseOccurrenceSpecification3" />
+              <interactionUseOccurrenceSpecificationMoniker Id="09677be8-8777-4592-9686-73e97de4bca0" LastKnownName="InteractionUseOccurrenceSpecification4" />
+            </interactionUseOccurrenceSpecifications>
+          </interactionUse>
+          <interactionUseOccurrenceSpecification Id="d19b1961-3b38-494f-8d1e-21a608ed1d47" name="InteractionUseOccurrenceSpecification3">
+            <elementDefinition Id="b5f6ec3e-c047-412a-8946-e775a72da766" />
             <covered>
               <lifelineMoniker Id="7ab2d133-ee14-40dc-9173-c6ddc34ac175" LastKnownName="utilisateur : Utilisateur" />
             </covered>
-          </messageOccurrenceSpecification>
-          <executionOccurrenceSpecification Id="603909fd-406f-43aa-a4f9-38c59147ba98" name="ExecutionOccurrenceSpecification2">
-            <elementDefinition Id="7b58ea4f-b9cf-413a-bd07-401df0f9729e" />
-            <event>
-              <executionOccurrenceSpecificationReferencesEvent>
-                <executionEventMoniker Id="c8682e85-1158-4732-b49f-46cbc251d3f6" LastKnownName="ExecutionEvent" />
-              </executionOccurrenceSpecificationReferencesEvent>
-            </event>
+          </interactionUseOccurrenceSpecification>
+          <interactionUseOccurrenceSpecification Id="09677be8-8777-4592-9686-73e97de4bca0" name="InteractionUseOccurrenceSpecification4">
+            <elementDefinition Id="cbfa3fb2-bb5e-4b7e-9eb9-0909814afccb" />
             <covered>
               <lifelineMoniker Id="1b6e987c-0006-470c-8f1d-2e3da0cb52a8" LastKnownName="client Leger : Client Leger" />
             </covered>
-          </executionOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="c8d92f36-34fa-473a-ad4b-03813aed02f7" name="OperandOccurrenceSpecification2">
-            <elementDefinition Id="78e337b3-0327-40d3-9d6e-26c0d73c0a8c" />
-            <covered>
-              <lifelineMoniker Id="1b6e987c-0006-470c-8f1d-2e3da0cb52a8" LastKnownName="client Leger : Client Leger" />
-            </covered>
-          </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="14eaffcf-cc10-4e8b-b477-671a8b2f21d3" name="OperandOccurrenceSpecification4">
-            <elementDefinition Id="b5d13870-2b45-4fb5-bd3b-213bfc990a82" />
-            <covered>
-              <lifelineMoniker Id="7ab2d133-ee14-40dc-9173-c6ddc34ac175" LastKnownName="utilisateur : Utilisateur" />
-            </covered>
-          </operandOccurrenceSpecification>
+          </interactionUseOccurrenceSpecification>
         </fragments>
         <lifelines>
           <lifeline Id="7ab2d133-ee14-40dc-9173-c6ddc34ac175" name="utilisateur : Utilisateur" isActor="true" lifelineDisplayName="utilisateur : Utilisateur">
@@ -150,10 +69,8 @@
               <propertyMoniker Id="81a63f5a-96ab-4579-9866-15a17d78346a" />
             </represents>
             <topLevelOccurrences>
-              <operandOccurrenceSpecificationMoniker Id="6d0d6035-7673-4441-a1aa-0ed6f92ac10e" LastKnownName="OperandOccurrenceSpecification3" />
-              <messageOccurrenceSpecificationMoniker Id="a0112c57-be9e-4839-9a72-1c722a4bc77e" LastKnownName="MessageOccurrenceSpecification1" />
-              <messageOccurrenceSpecificationMoniker Id="f5b9d02c-6246-4b0a-ba28-a3a6f898ded8" LastKnownName="MessageOccurrenceSpecification4" />
-              <operandOccurrenceSpecificationMoniker Id="14eaffcf-cc10-4e8b-b477-671a8b2f21d3" LastKnownName="OperandOccurrenceSpecification4" />
+              <interactionUseOccurrenceSpecificationMoniker Id="d4032eef-9aca-4122-aa89-2768c368bd12" LastKnownName="InteractionUseOccurrenceSpecification1" />
+              <interactionUseOccurrenceSpecificationMoniker Id="d19b1961-3b38-494f-8d1e-21a608ed1d47" LastKnownName="InteractionUseOccurrenceSpecification3" />
             </topLevelOccurrences>
           </lifeline>
           <lifeline Id="1b6e987c-0006-470c-8f1d-2e3da0cb52a8" name="client Leger : Client Leger" isActor="true" lifelineDisplayName="client Leger : Client Leger">
@@ -162,33 +79,11 @@
               <propertyMoniker Id="0b26726d-31b3-4267-a8c3-02d3885603f6" />
             </represents>
             <topLevelOccurrences>
-              <operandOccurrenceSpecificationMoniker Id="480704b2-21f8-4225-be52-acbac0b016fe" LastKnownName="OperandOccurrenceSpecification1" />
-              <executionOccurrenceSpecificationMoniker Id="0ebdbb8d-249f-4dfa-bf3b-f03c44d16ce2" LastKnownName="ExecutionOccurrenceSpecification1" />
-              <executionOccurrenceSpecificationMoniker Id="603909fd-406f-43aa-a4f9-38c59147ba98" LastKnownName="ExecutionOccurrenceSpecification2" />
-              <operandOccurrenceSpecificationMoniker Id="c8d92f36-34fa-473a-ad4b-03813aed02f7" LastKnownName="OperandOccurrenceSpecification2" />
+              <interactionUseOccurrenceSpecificationMoniker Id="a50ed587-16f3-4695-b000-3e0508b88ddb" LastKnownName="InteractionUseOccurrenceSpecification2" />
+              <interactionUseOccurrenceSpecificationMoniker Id="09677be8-8777-4592-9686-73e97de4bca0" LastKnownName="InteractionUseOccurrenceSpecification4" />
             </topLevelOccurrences>
           </lifeline>
         </lifelines>
-        <messages>
-          <message Id="deaca775-e167-4df6-997d-df25c2719de3" name="Envoie le nom de la carte à charger" messageKind="Complete" messageSort="SynchCall" createSelfMessage="false">
-            <elementDefinition Id="46f8fd21-996c-4745-bef8-b60f4b66a47f" />
-            <sendEvent>
-              <messageOccurrenceSpecificationMoniker Id="a0112c57-be9e-4839-9a72-1c722a4bc77e" LastKnownName="MessageOccurrenceSpecification1" />
-            </sendEvent>
-            <receiveEvent>
-              <messageOccurrenceSpecificationMoniker Id="03030857-2375-4df7-ac4d-358664c6a35c" LastKnownName="MessageOccurrenceSpecification2" />
-            </receiveEvent>
-          </message>
-          <message Id="b6262b65-c4d7-4031-ac81-ce1e1697f8ed" name="Confirmation du nom valide" messageKind="Complete" messageSort="Reply" createSelfMessage="false">
-            <elementDefinition Id="477556ae-1f8b-4f8d-a8b3-0670c7e4911a" />
-            <sendEvent>
-              <messageOccurrenceSpecificationMoniker Id="6060be76-f909-4acd-8bad-aa56c54b78dc" LastKnownName="MessageOccurrenceSpecification3" />
-            </sendEvent>
-            <receiveEvent>
-              <messageOccurrenceSpecificationMoniker Id="f5b9d02c-6246-4b0a-ba28-a3a6f898ded8" LastKnownName="MessageOccurrenceSpecification4" />
-            </receiveEvent>
-          </message>
-        </messages>
         <ownedAttributesInternal>
           <property Id="81a63f5a-96ab-4579-9866-15a17d78346a" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
             <elementDefinition Id="701bd2ba-23f2-49ac-8ae8-44e899370007" />
@@ -215,18 +110,22 @@
         <elementDefinition Id="62828cb1-dd23-4d62-8996-487b92db172b" />
       </referencedType>
     </packageHasNamedElement>
-    <packageHasNamedElement>
-      <executionEvent Id="369e9e0b-1360-4d2b-88fe-87f600ebb3d4" name="ExecutionEvent">
-        <elementDefinition Id="d022e23e-0ff2-4e4c-9624-6131c156d783" />
-      </executionEvent>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <executionEvent Id="c8682e85-1158-4732-b49f-46cbc251d3f6" name="ExecutionEvent">
-        <elementDefinition Id="81e55f25-b098-407a-85d6-f50aa09bc101" />
-      </executionEvent>
-    </packageHasNamedElement>
   </packagedElements>
   <package Id="95337ba7-ba32-49ef-ba4e-78bb5e5df36e" name="Diagrammes">
     <elementDefinition Id="bd496572-2d56-4f1a-82f9-f287c782ea4e" />
+    <profileInstances>
+      <packageHasProfileInstances Id="d26bd408-7346-4e79-92e6-a7afc0500293">
+        <profileInstance Id="78110775-4e42-4544-bb2d-1abdbe721bbf" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="be5d5813-fb9f-4f10-9df9-3d3d0f969d94">
+        <profileInstance Id="bed5f775-b15d-4414-bc5e-591dc1bbd4a5" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
   </package>
 </SequenceDesignerModel>

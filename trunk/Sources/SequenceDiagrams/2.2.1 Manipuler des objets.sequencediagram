@@ -267,16 +267,16 @@
               <interactionUseOccurrenceSpecificationMoniker Id="751d9bc0-fca3-409d-bd65-d77f68235869" LastKnownName="InteractionUseOccurrenceSpecification14" />
             </interactionUseOccurrenceSpecifications>
           </interactionUse>
-          <interactionUseOccurrenceSpecification Id="751d9bc0-fca3-409d-bd65-d77f68235869" name="InteractionUseOccurrenceSpecification14">
-            <elementDefinition Id="d2a30030-ba9a-479c-b3ba-d1f055bc3e9f" />
-            <covered>
-              <lifelineMoniker Id="d114b13b-977b-4312-a457-981b621406b3" LastKnownName="client Leger : Client Leger" />
-            </covered>
-          </interactionUseOccurrenceSpecification>
           <interactionUseOccurrenceSpecification Id="5b797f17-180a-4a9c-8753-691521128d37" name="InteractionUseOccurrenceSpecification13">
             <elementDefinition Id="ed311a03-704d-4d81-a142-7a9b2d4d33e4" />
             <covered>
               <lifelineMoniker Id="5733c438-44ef-4a38-a2b8-0a968237d7a0" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <interactionUseOccurrenceSpecification Id="751d9bc0-fca3-409d-bd65-d77f68235869" name="InteractionUseOccurrenceSpecification14">
+            <elementDefinition Id="d2a30030-ba9a-479c-b3ba-d1f055bc3e9f" />
+            <covered>
+              <lifelineMoniker Id="d114b13b-977b-4312-a457-981b621406b3" LastKnownName="client Leger : Client Leger" />
             </covered>
           </interactionUseOccurrenceSpecification>
           <operandOccurrenceSpecification Id="b24bd83f-fca9-4f64-8401-9146d8fd7663" name="OperandOccurrenceSpecification33">
@@ -359,16 +359,16 @@
               <interactionUseOccurrenceSpecificationMoniker Id="2f059ced-3fbe-4cc7-8764-e107d80c9fed" LastKnownName="InteractionUseOccurrenceSpecification18" />
             </interactionUseOccurrenceSpecifications>
           </interactionUse>
-          <interactionUseOccurrenceSpecification Id="21999186-7663-4bc5-bfd0-05b80c6ddbdc" name="InteractionUseOccurrenceSpecification17">
-            <elementDefinition Id="0a3d3238-fa82-449d-991a-6154fb9d8a39" />
-            <covered>
-              <lifelineMoniker Id="5733c438-44ef-4a38-a2b8-0a968237d7a0" LastKnownName="utilisateur : Utilisateur" />
-            </covered>
-          </interactionUseOccurrenceSpecification>
           <interactionUseOccurrenceSpecification Id="2f059ced-3fbe-4cc7-8764-e107d80c9fed" name="InteractionUseOccurrenceSpecification18">
             <elementDefinition Id="ff0b23fe-5d06-479c-b145-6e1001bf709d" />
             <covered>
               <lifelineMoniker Id="d114b13b-977b-4312-a457-981b621406b3" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <interactionUseOccurrenceSpecification Id="21999186-7663-4bc5-bfd0-05b80c6ddbdc" name="InteractionUseOccurrenceSpecification17">
+            <elementDefinition Id="0a3d3238-fa82-449d-991a-6154fb9d8a39" />
+            <covered>
+              <lifelineMoniker Id="5733c438-44ef-4a38-a2b8-0a968237d7a0" LastKnownName="utilisateur : Utilisateur" />
             </covered>
           </interactionUseOccurrenceSpecification>
           <operandOccurrenceSpecification Id="4a5cb5c3-26b6-4cf7-95f7-0c6dba51b01a" name="OperandOccurrenceSpecification38">
@@ -435,16 +435,16 @@
               <lifelineMoniker Id="d114b13b-977b-4312-a457-981b621406b3" LastKnownName="client Leger : Client Leger" />
             </covered>
           </operandOccurrenceSpecification>
-          <operandOccurrenceSpecification Id="a0513d42-4255-418c-a374-5b00729ef434" name="OperandOccurrenceSpecification47">
-            <elementDefinition Id="b401f138-970f-4da7-8381-e8979db281dc" />
-            <covered>
-              <lifelineMoniker Id="d114b13b-977b-4312-a457-981b621406b3" LastKnownName="client Leger : Client Leger" />
-            </covered>
-          </operandOccurrenceSpecification>
           <operandOccurrenceSpecification Id="f3af7356-9bf0-4f25-8801-f10ba27b8cbe" name="OperandOccurrenceSpecification45">
             <elementDefinition Id="527a07a6-9089-428b-8917-cfa3df8fec6e" />
             <covered>
               <lifelineMoniker Id="5733c438-44ef-4a38-a2b8-0a968237d7a0" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </operandOccurrenceSpecification>
+          <operandOccurrenceSpecification Id="a0513d42-4255-418c-a374-5b00729ef434" name="OperandOccurrenceSpecification47">
+            <elementDefinition Id="b401f138-970f-4da7-8381-e8979db281dc" />
+            <covered>
+              <lifelineMoniker Id="d114b13b-977b-4312-a457-981b621406b3" LastKnownName="client Leger : Client Leger" />
             </covered>
           </operandOccurrenceSpecification>
           <interactionUse Id="32a3c1c9-8319-4f29-986b-aaac68f0fc1b" name="2.2.1.5 Mettre un objet à l'échelle" referredToFile="2.2.1.5 Mettre un objet à l'échelle">
