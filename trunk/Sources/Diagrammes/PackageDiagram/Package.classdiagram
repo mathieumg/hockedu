@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="f457e5e3-6889-48f4-a7be-c8c42c8f7650" name="Package" linkedPackageId="a324f0f8-fd52-4229-a559-83d1e4f7e391" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="f457e5e3-6889-48f4-a7be-c8c42c8f7650" name="Package" linkedPackageId="a324f0f8-fd52-4229-a559-83d1e4f7e391" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
   <packagedElements>
     <logicalClassDesignerModelHasPackages>
       <package Id="308fc672-c650-4d26-bbcf-1b980dc652d6" name="Présentation">
@@ -71,12 +71,12 @@
                 </comment>
               </ownedCommentsInternal>
               <elementDefinition Id="3df28ac2-6335-40e6-96cb-7f9d58d9ebe1" />
-              <importedPackagesInternal>
-                <packageImport Id="db019642-e32f-4a1e-9b47-c1f95a51c2aa" visibility="Public">
+              <suppliersInternal>
+                <dependency Id="bdfe1324-c2f3-4d30-93ef-5f5bd6003b71">
                   <packageMoniker Id="a9f9c6ff-bdf8-42c9-b6e8-43cc06a888fa" LastKnownName="Web" />
-                  <elementDefinition Id="4d11e77c-4ed6-4c0e-a1d5-d18ecb4b26d0" />
-                </packageImport>
-              </importedPackagesInternal>
+                  <elementDefinition Id="c81304c0-4619-41e4-b11b-5c4ad3ec05d3" />
+                </dependency>
+              </suppliersInternal>
             </package>
           </packageHasNamedElement>
         </packagedElements>
@@ -105,6 +105,7 @@
                   <elementDefinition Id="d3d64b8d-8a68-4773-a1be-83825c77fadf" />
                   <body># GestionnaoreHUD
 # GestionnaireEtatModeJeu
+# GestionnaireAnimations
 - EtatSourisJeu</body>
                 </comment>
               </ownedCommentsInternal>
@@ -153,16 +154,6 @@
                         <elementDefinition Id="6c08ee4c-4f6f-4180-9cb3-f14af3d5789f" />
                       </dependency>
                     </suppliersInternal>
-                    <importedPackagesInternal>
-                      <packageImport Id="80c0fc0e-06b2-42ce-a518-21ebf279f7f0" visibility="Public">
-                        <packageMoniker Id="a18a8380-679c-4524-b204-bd7319b9c0de" LastKnownName="Éditeur Lourd" />
-                        <elementDefinition Id="5f7eab1c-78bb-4f31-81bd-25c82246b92d" />
-                      </packageImport>
-                      <packageImport Id="77b2d87e-bd07-4bbb-a2c0-2e4bfce213da" visibility="Public">
-                        <packageMoniker Id="81faa07e-fcfe-46ae-a701-65af88121bc1" LastKnownName="Éditeur Léger" />
-                        <elementDefinition Id="18d3bfcc-4c56-4a4b-a4d3-269b2f075ddd" />
-                      </packageImport>
-                    </importedPackagesInternal>
                   </package>
                 </packageHasNamedElement>
                 <packageHasNamedElement>
@@ -251,6 +242,12 @@
                   <elementDefinition Id="f4799d41-92bd-4630-875f-4bf724efb456" />
                 </dependency>
               </suppliersInternal>
+              <importedPackagesInternal>
+                <packageImport Id="481b811a-c6c0-4393-99f9-6e9e14277ea9" visibility="Public">
+                  <packageMoniker Id="dbb895f9-bbaf-45a3-b039-7b3a22f0c20c" LastKnownName="Terrain" />
+                  <elementDefinition Id="b092308e-a0df-449e-9b68-01454a0dbfb7" />
+                </packageImport>
+              </importedPackagesInternal>
             </package>
           </packageHasNamedElement>
           <packageHasNamedElement>
@@ -275,6 +272,12 @@
                   <elementDefinition Id="9a8e11a3-8ebd-48cc-a702-d1cede133d8f" />
                 </dependency>
               </suppliersInternal>
+              <importedPackagesInternal>
+                <packageImport Id="23ad4412-1baa-4378-aaba-f6b01dd397f7" visibility="Public">
+                  <packageMoniker Id="dbb895f9-bbaf-45a3-b039-7b3a22f0c20c" LastKnownName="Terrain" />
+                  <elementDefinition Id="d377833a-814d-40f5-b903-0879644d2d3a" />
+                </packageImport>
+              </importedPackagesInternal>
             </package>
           </packageHasNamedElement>
         </packagedElements>
@@ -293,7 +296,8 @@
                 </comment>
                 <comment Id="858ccc67-48f0-4112-919e-001acde0d7dc">
                   <elementDefinition Id="eda636b0-4edf-4c82-8492-7c080efd5bda" />
-                  <body>- Request</body>
+                  <body>- Request
+- GameServer</body>
                 </comment>
               </ownedCommentsInternal>
               <elementDefinition Id="5a319f25-63b6-488d-81e4-d25ecb628b54" />
