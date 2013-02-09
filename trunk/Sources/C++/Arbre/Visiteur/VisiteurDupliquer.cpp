@@ -16,8 +16,8 @@
 #include "NoeudTable.h"
 #include "NoeudPoint.h"
 #include "NoeudAccelerateur.h"
-#include "ArbreRenduINF2990.h"
 #include "FacadeModele.h"
+#include "RazerGameTree.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -31,7 +31,7 @@
 /// @return Aucune
 ///
 ////////////////////////////////////////////////////////////////////////
-VisiteurDupliquer::VisiteurDupliquer( ArbreRenduINF2990* arbre ):arbre_(arbre)
+VisiteurDupliquer::VisiteurDupliquer( RazerGameTree* arbre ):arbre_(arbre)
 {
 
 }
@@ -84,7 +84,7 @@ void VisiteurDupliquer::visiterNoeudMuret( NoeudMuret* noeud )
 {
 	if(noeud -> estSelectionne())
 	{
-		NoeudMuret* nouveauNoeud = dynamic_cast<NoeudMuret*>(arbre_->ajouterNouveauNoeud(ArbreRenduINF2990::NOM_TABLE, noeud->obtenirType()));
+		NoeudMuret* nouveauNoeud = (NoeudMuret*)(arbre_->ajouterNouveauNoeud(RazerGameUtilities::NOM_TABLE, noeud->obtenirType()));
 		if(nouveauNoeud != 0)
 		{
 			for (int i=1; i<10; i++)
@@ -259,7 +259,7 @@ void VisiteurDupliquer::dupliquerNoeud( NoeudAbstrait* noeud )
 {
 	if(noeud -> estSelectionne())
 	{
-		NoeudAbstrait* nouveauNoeud = arbre_->ajouterNouveauNoeud(ArbreRenduINF2990::NOM_TABLE, noeud->obtenirType());
+		NoeudAbstrait* nouveauNoeud = arbre_->ajouterNouveauNoeud(RazerGameUtilities::NOM_TABLE, noeud->obtenirType());
 		if(nouveauNoeud != 0)
 		{
 

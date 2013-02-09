@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "JoueurHumain.h"
-#include "UtilitaireINF2990.h"
+#include "RazerGameUtilities.h"
 #include "tinyxml.h"
 
 ////////////////////////////////////////////////////////////////////////
@@ -50,7 +50,7 @@ JoueurHumain::JoueurHumain( JNIEnv* env, jobject& joueurHumain ) : JoueurAbstrai
 	jstring nom = (jstring)env->CallObjectMethod(joueurHumain, obtenirNom);
 
 	// Modification des attributs
-	modifierNom(utilitaire::obtenirChaineISO(env, &nom));
+	modifierNom(RazerGameUtilities::obtenirChaineISO(env, &nom));
 	type_ = JOUEUR_HUMAIN;
 
 }

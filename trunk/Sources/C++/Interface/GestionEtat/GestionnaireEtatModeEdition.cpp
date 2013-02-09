@@ -12,7 +12,6 @@
 #include "FacadeModele.h"
 #include "SourisEtatAbstrait.h"
 #include "GestionnaireModeles.h"
-#include "ArbreRenduINF2990.h"
 #include "SoundFMOD.h"
 #include "GestionnaireHUD.h"
 

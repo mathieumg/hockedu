@@ -19,7 +19,7 @@
 #ifndef RENDER_H
 #define RENDER_H
 
-#include "UtilitaireINF2990.h"
+#include "RazerGameUtilities.h"
 
 #if BOX2D_INTEGRATED
 #include <Box2D/Box2D.h>

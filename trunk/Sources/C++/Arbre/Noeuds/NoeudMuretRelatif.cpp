@@ -9,7 +9,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "NoeudMuretRelatif.h"
-#include "ArbreRenduINF2990.h"
 #include "NoeudPoint.h"
 #include "NoeudBut.h"
 #include "Utilitaire.h"
@@ -27,7 +26,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudMuretRelatif::NoeudMuretRelatif( NoeudPoint* n1, NoeudPoint* n2 ):
-NoeudMuret(ArbreRenduINF2990::NOM_MURET_RELATIF,false)
+NoeudMuret(RazerGameUtilities::NOM_MURET_RELATIF,false)
 {
 	coin1_[VX] = &n1->positionRelative_[VX];
 	coin1_[VY] = &n1->positionRelative_[VY];
@@ -60,7 +59,7 @@ NoeudMuret(ArbreRenduINF2990::NOM_MURET_RELATIF,false)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudMuretRelatif::NoeudMuretRelatif( NoeudPoint* n, NoeudBut* but, bool haut ):
-NoeudMuret(ArbreRenduINF2990::NOM_MURET_RELATIF, false)
+NoeudMuret(RazerGameUtilities::NOM_MURET_RELATIF, false)
 {
 	coin1_[VX] = &n->positionRelative_[VX];
 	coin1_[VY] = &n->positionRelative_[VY];
@@ -103,7 +102,7 @@ NoeudMuret(ArbreRenduINF2990::NOM_MURET_RELATIF, false)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudMuretRelatif::NoeudMuretRelatif( NoeudBut* but, NoeudPoint* n, bool haut ):
-NoeudMuret(ArbreRenduINF2990::NOM_MURET_RELATIF, false)
+NoeudMuret(RazerGameUtilities::NOM_MURET_RELATIF, false)
 {
 	coin2_[VX] = &n->positionRelative_[VX];
 	coin2_[VY] = &n->positionRelative_[VY];

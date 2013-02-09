@@ -21,7 +21,6 @@
 #include "NoeudAccelerateur.h"
 #include "NoeudPortail.h"
 #include "FacadeModele.h"
-#include "ArbreRenduINF2990.h"
 #include "ZoneEdition.h"
 #include "Terrain.h"
 #include "Utilitaire.h"
@@ -41,10 +40,6 @@
 ////////////////////////////////////////////////////////////////////////
 VisiteurModifierProprieteNoeud::VisiteurModifierProprieteNoeud( JNIEnv* env, jobject& modificateur)
 {
-	// Test pour s'assurer que l'arbre de rendu existe
-	if(FacadeModele::getInstance()->obtenirArbreRenduINF2990())
-		table_ = FacadeModele::getInstance()->obtenirArbreRenduINF2990()->obtenirTable();
-
 	//On met le coef de friction dans la variable associé.
 	jclass classe = env->GetObjectClass(modificateur);
 	jmethodID obtenirCoefFriction = env->GetMethodID(classe, "obtenirCoefFriction", "()D");
@@ -292,7 +287,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudTable( NoeudTable* noeud )
 		// On déclare un pointeur sur un float qui servira a contenir la longueur et hauteur max de la table
 		float boiteEnglobantTable[2];
 		// On obtient la longueur et hauteur max
-		table_->calculerHautLongMax(boiteEnglobantTable);
+		noeud->calculerHautLongMax(boiteEnglobantTable);
 
 		// Si la longueur a assigner est plus petite que la longueur maximale de la table, on cap a la longueur de la table
 		if(longueurZoneEdition_<(boiteEnglobantTable[1]))

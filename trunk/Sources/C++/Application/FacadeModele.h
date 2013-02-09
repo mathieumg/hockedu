@@ -18,7 +18,6 @@
 #include "jni.h"
 #include "GameTime.h"
 #include <queue>
-#include "ArbreRenduINF2990.h"
 
 
 class VisiteurNoeud;
@@ -26,7 +25,7 @@ class NoeudMaillet;
 class NoeudAbstrait;
 class NoeudRondelle;
 class NoeudAffichage;
-class ArbreRenduINF2990;
+class RazerGameTree;
 class ArbreNoeudLibre;
 class GestionnaireEvenementsTest;
 class Tournoi;
@@ -171,8 +170,12 @@ public:
 	bool passageModeTournoi();
 	bool passageMenuPrincipal();
 
-	/// Effectue la selection dans l'arbre de rendu
-	void visiterArbre(VisiteurNoeud* visiteur);
+	/// Launch a visitor on the field
+    void acceptVisitor(VisiteurNoeud& visiteur);
+    /// duplicate nodes selected that can be duplicated
+    void duplicateSelection();
+    /// retrieves node selected on the field
+    void getSelectedNodes(ConteneurNoeuds& pSelectedNodes) const;
 
 	/// Permet la convertion de coordonnes cloture en coordonnes virtuelles
 	bool convertirClotureAVirtuelle(int x, int y, Vecteur3& point) const;
@@ -203,7 +206,7 @@ public:
 	/// Algorithme pour rétablir la table dans un état où les éléments ne sont pas en collision
 	bool ajusterElementSurTableEnCollision(const unsigned int& nbIteration = 10);
 	/// Algorithme pour que les noeud en collisions se repositionne correctement
-	bool ajusterElementEnCollision( NoeudAbstrait* noeud, const unsigned int& nbIterations = 10, NoeudAbstrait* racine = 0 );
+    bool ajusterElementEnCollision( NoeudAbstrait* noeud, const unsigned int& nbIterations = 10 );
 
 	/// Ajout d'un joueur
 	void ajouterJoueur(SPJoueurAbstrait joueur);
@@ -339,10 +342,6 @@ public:
 	HDC obtenirHDC() const { return hDC_; }
 	/// Retourne la vue courante.
 	inline vue::Vue* obtenirVue();
-	/// Retourne l'arbre de rendu.
-	inline const ArbreRenduINF2990* obtenirArbreRenduINF2990() const;
-	/// Retourne l'arbre de rendu.
-	inline ArbreRenduINF2990* obtenirArbreRenduINF2990();
 
 	/// Accesseur de terrain_
 	inline Terrain* getTerrain() const { return terrain_; }

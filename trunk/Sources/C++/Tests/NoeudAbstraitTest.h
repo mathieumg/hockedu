@@ -13,7 +13,7 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "ArbreRenduINF2990.h"
+#include "RazerGameTree.h"
 #include "NoeudMaillet.h"
 ///////////////////////////////////////////////////////////////////////////
 /// @class NoeudAbstraitTest

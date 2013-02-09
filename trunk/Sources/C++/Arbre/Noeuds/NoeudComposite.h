@@ -108,7 +108,7 @@ public:
 	virtual void ajusterVitesse( const float& temps );
 	
 	/// Retourne les racines des sous-arbres selectionnees
-	ConteneurNoeuds obtenirNoeudsSelectionnes() const;
+    void getSelectedNodes(ConteneurNoeuds& pSelectedNodes) const;
 	/// Retourne true si un enfant possede un noeid selectionne
 	virtual bool possedeSelection();
 	/// Modificateur de terrain_

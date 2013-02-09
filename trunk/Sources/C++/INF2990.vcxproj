@@ -386,7 +386,7 @@
     <ClCompile Include="Environnement\Evenements\EvenementClavier.cpp" />
     <ClCompile Include="Environnement\Evenements\EvenementRouletteSouris.cpp" />
     <ClCompile Include="Environnement\Evenements\EvenementSouris.cpp" />
-    <ClCompile Include="Environnement\UtilitaireINF2990.cpp" />
+    <ClCompile Include="Environnement\RazerGameUtilities.cpp" />
     <ClCompile Include="Interface\DebugRenderBox2D.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatAbstrait.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatAjout.cpp" />
@@ -409,7 +409,7 @@
     </ClCompile>
     <ClCompile Include="Configuration\ConfigScene.cpp" />
     <ClCompile Include="Arbre\ArbreRendu.cpp" />
-    <ClCompile Include="Arbre\ArbreRenduINF2990.cpp" />
+    <ClCompile Include="Arbre\RazerGameTree.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudAbstrait.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudComposite.cpp" />
     <ClCompile Include="Interface\GestionEtat\GestionnaireEtatAbstrait.cpp" />
@@ -499,7 +499,7 @@
     <ClInclude Include="Environnement\Evenements\EvenementClavier.h" />
     <ClInclude Include="Environnement\Evenements\EvenementRouletteSouris.h" />
     <ClInclude Include="Environnement\Evenements\EvenementSouris.h" />
-    <ClInclude Include="Environnement\UtilitaireINF2990.h" />
+    <ClInclude Include="Environnement\RazerGameUtilities.h" />
     <ClInclude Include="Interface\CodesEvenements.h" />
     <ClInclude Include="Interface\DebugRenderBox2D.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatAbstrait.h" />
@@ -523,7 +523,7 @@
     </ClInclude>
     <ClInclude Include="Configuration\ConfigScene.h" />
     <ClInclude Include="Arbre\ArbreRendu.h" />
-    <ClInclude Include="Arbre\ArbreRenduINF2990.h" />
+    <ClInclude Include="Arbre\RazerGameTree.h" />
     <ClInclude Include="Arbre\Usines\UsineNoeud.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudAbstrait.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudComposite.h" />

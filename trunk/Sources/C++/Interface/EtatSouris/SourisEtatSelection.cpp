@@ -234,7 +234,7 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 					groupe->acceptVisitor(visiteur);
 				}
 				else
-					FacadeModele::getInstance()->visiterArbre(&visiteur);
+					FacadeModele::getInstance()->acceptVisitor(visiteur);
 			}
 
 

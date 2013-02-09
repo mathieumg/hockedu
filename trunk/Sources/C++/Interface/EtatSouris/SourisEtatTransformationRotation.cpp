@@ -11,7 +11,6 @@
 #include "SourisEtatTransformationRotation.h"
 #include "FacadeModele.h"
 #include "VisiteurRotation.h"
-#include "ArbreRenduINF2990.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -120,7 +119,10 @@ void SourisEtatTransformationRotation::sourisEnfoncee( EvenementSouris& evenemen
 		// Assigne les attributs concernés
 		estEnfoncee_ = true;
 		positionPrecedente_ = evenementSouris.obtenirPosition();
-		noeudsSelectionnes_ = FacadeModele::getInstance()->obtenirArbreRenduINF2990()->obtenirNoeudsSelectionnes();
+
+        noeudsSelectionnes_.clear(); 
+        FacadeModele::getInstance()->getSelectedNodes(noeudsSelectionnes_);
+
 		centreRot_ = obtenirCentreRot();
 		rotationInverse_ = new int[noeudsSelectionnes_.size()];
 		for (int i = 0; i < noeudsSelectionnes_.size() ; i++)
@@ -248,14 +250,14 @@ Vecteur2 SourisEtatTransformationRotation::obtenirCentreRot() const
 	if(noeudsSelectionnes_.size()!=0)
 	{
 		float min[2], max[2];
-		Vecteur3 positionAbsolue = static_cast<NoeudComposite*>(noeudsSelectionnes_[0])->obtenirPositionAbsolue();
+		Vecteur3 positionAbsolue = noeudsSelectionnes_[0]->obtenirPositionAbsolue();
 		min[VX] = positionAbsolue[VX];
 		min[VY] = positionAbsolue[VY];
 		max[VX] = positionAbsolue[VX];
 		max[VY] = positionAbsolue[VY];
 
 
-		for(int i=0; i<noeudsSelectionnes_.size(); i++)
+		for(int i=1; i<noeudsSelectionnes_.size(); i++)
 		{
 			Vecteur3 positionAbsolue = noeudsSelectionnes_[i]->obtenirPositionAbsolue();
 			if(positionAbsolue[VX]<min[VX])

@@ -11,7 +11,6 @@
 #include "SourisEtatTransformationDeplacement.h"
 #include "FacadeModele.h"
 #include "VisiteurDeplacement.h"
-#include "ArbreRenduINF2990.h"
 #include "VisiteurCollision.h"
 
 ////////////////////////////////////////////////////////////////////////
@@ -125,13 +124,16 @@ void SourisEtatTransformationDeplacement::sourisEnfoncee( EvenementSouris& evene
 		FacadeModele::getInstance()->convertirClotureAVirtuelle(positionCloture[VX], positionCloture[VY], positionVirtuelle);
 
 		VisiteurCollision visiteurCollision(positionVirtuelle.convertir<2>(), false,50.0);
-		FacadeModele::getInstance()->visiterArbre(&visiteurCollision);
+		FacadeModele::getInstance()->acceptVisitor(visiteurCollision);
 		bool objetSous = false;
 		ConteneurNoeuds conteneurColision;
 		if(visiteurCollision.collisionPresente())
 		{
 			visiteurCollision.obtenirListeCollision(conteneurColision);
-			noeudsSelectionnes_ = FacadeModele::getInstance()->obtenirArbreRenduINF2990()->obtenirNoeudsSelectionnes();
+
+			noeudsSelectionnes_.clear(); 
+            FacadeModele::getInstance()->getSelectedNodes(noeudsSelectionnes_);
+
 			for(ConteneurNoeuds::iterator it1 = conteneurColision.begin(); it1!=conteneurColision.end(); it1++)
 			{
 				for(ConteneurNoeuds::iterator it2 = noeudsSelectionnes_.begin(); it2!=noeudsSelectionnes_.end(); it2++)

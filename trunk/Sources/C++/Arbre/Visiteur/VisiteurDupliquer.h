@@ -10,7 +10,7 @@
 #pragma once
 #include "VisiteurNoeud.h"
 
-class ArbreRenduINF2990;
+class RazerGameTree;
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class VisiteurDupliquer
@@ -23,7 +23,7 @@ class VisiteurDupliquer: public VisiteurNoeud
 {
 public:
 	/// Constructeur par paramètre
-	VisiteurDupliquer(ArbreRenduINF2990* arbre);
+	VisiteurDupliquer(RazerGameTree* arbre);
 	/// Visitation d'un noeud abstrait
 	virtual void visiterNoeudAbstrait( NoeudAbstrait* noeud );
 	/// Visitation d'un noeud composite
@@ -51,5 +51,5 @@ public:
 
 private:
 	/// Racine de l'arbre à visiter
-	ArbreRenduINF2990* arbre_;
+	RazerGameTree* arbre_;
 };

@@ -11,7 +11,7 @@
 #define __ARBRE_NOEUDS_NOEUDABSTRAIT_H__
 
 #define _USE_MATH_DEFINES
-#include "UtilitaireINF2990.h"
+#include "RazerGameUtilities.h"
 #include <math.h>
 #define _WINSOCKAPI_
 #include <windows.h>
@@ -204,7 +204,7 @@ public:
 
 	virtual std::string obtenirNom() const;
 	/// Accesseur de terrain_
-	Terrain* GetTerrain() const { return terrain_; }
+	inline Terrain* GetTerrain() const { return terrain_; }
 	/// Modificateur de terrain_
 	virtual void modifierTerrain(Terrain* val);
 

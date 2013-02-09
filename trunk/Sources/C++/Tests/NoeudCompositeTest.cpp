@@ -31,7 +31,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( NoeudCompositeTest );
 ////////////////////////////////////////////////////////////////////////
 void NoeudCompositeTest::setUp()
 {
-	arbre = new ArbreRenduINF2990();
+	arbre = new RazerGameTree();
 	enfants[0] = new NoeudComposite();
 	enfants[1] = new NoeudComposite();
 	enfants[2] = new NoeudComposite();
@@ -352,7 +352,7 @@ void NoeudCompositeTest::modificationTerrain()
 {
 	Terrain* terrain = new Terrain();
 
-	NoeudAbstrait* n = arbre->creerNoeud(ArbreRenduINF2990::NOM_MAILLET);
+	NoeudAbstrait* n = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
     
 	// Assignation d'un terrain a la racine d'un arbre
 	arbre->modifierTerrain(terrain);

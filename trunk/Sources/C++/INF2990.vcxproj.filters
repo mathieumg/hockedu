@@ -227,9 +227,6 @@
     <ClCompile Include="Sons\SoundFMOD.cpp">
       <Filter>Sources Files\Sons</Filter>
     </ClCompile>
-    <ClCompile Include="Environnement\UtilitaireINF2990.cpp">
-      <Filter>Sources Files\Environnement</Filter>
-    </ClCompile>
     <ClCompile Include="Arbre\Visiteur\VisiteurModifierProprieteNoeud.cpp">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
     </ClCompile>
@@ -270,9 +267,6 @@
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClCompile>
     <ClCompile Include="Arbre\ArbreNoeudLibre.cpp">
-      <Filter>Sources Files\Arbre\ArbreRendu</Filter>
-    </ClCompile>
-    <ClCompile Include="Arbre\ArbreRenduINF2990.cpp">
       <Filter>Sources Files\Arbre\ArbreRendu</Filter>
     </ClCompile>
     <ClCompile Include="Arbre\ArbreRendu.cpp">
@@ -367,6 +361,12 @@
     </ClCompile>
     <ClCompile Include="Reseau\ControllerCSharp.cpp">
       <Filter>Sources Files\Reseau</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbre\RazerGameTree.cpp">
+      <Filter>Sources Files\Arbre\ArbreRendu</Filter>
+    </ClCompile>
+    <ClCompile Include="Environnement\RazerGameUtilities.cpp">
+      <Filter>Sources Files\Environnement</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -547,9 +547,6 @@
     <ClInclude Include="Sons\SoundFMOD.h">
       <Filter>Sources Files\Sons</Filter>
     </ClInclude>
-    <ClInclude Include="Environnement\UtilitaireINF2990.h">
-      <Filter>Sources Files\Environnement</Filter>
-    </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisiteurModifierProprieteNoeud.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
     </ClInclude>
@@ -596,9 +593,6 @@
       <Filter>Sources Files\Arbre\ArbreRendu</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\ArbreRendu.h">
-      <Filter>Sources Files\Arbre\ArbreRendu</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbre\ArbreRenduINF2990.h">
       <Filter>Sources Files\Arbre\ArbreRendu</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\ZoneEdition.h">
@@ -699,6 +693,12 @@
     </ClInclude>
     <ClInclude Include="Reseau\ControllerCSharp.h">
       <Filter>Sources Files\Reseau</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\RazerGameTree.h">
+      <Filter>Sources Files\Arbre\ArbreRendu</Filter>
+    </ClInclude>
+    <ClInclude Include="Environnement\RazerGameUtilities.h">
+      <Filter>Sources Files\Environnement</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

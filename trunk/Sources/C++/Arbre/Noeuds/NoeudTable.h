@@ -82,6 +82,8 @@ public:
    /// update the table when a modification is done on either middle control points
    virtual void updateObserver( class PositionSubject* pSubject );
 
+
+   static const unsigned int NB_CONTROL_POINTS = 8;
 private:
    
       

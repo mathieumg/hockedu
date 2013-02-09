@@ -124,7 +124,7 @@ void VisiteurSelection::visiterNoeudMuret( NoeudMuret* noeud )
 		else
 		{
 			VisiteurCollision visiteurCollision(positionClicMin_, false);
-			FacadeModele::getInstance()->visiterArbre((VisiteurNoeud*)&visiteurCollision);
+			FacadeModele::getInstance()->acceptVisitor(visiteurCollision);
 			if(visiteurCollision.collisionPresente())
 			{
 				ConteneurNoeuds listeNoeuds;

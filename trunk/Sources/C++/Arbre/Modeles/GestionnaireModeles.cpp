@@ -9,7 +9,6 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 #include "GestionnaireModeles.h"
-#include "ArbreRenduINF2990.h"
 #include "Utilitaire.h"
 #include "NoeudTable.h"
 #include "FacadeModele.h"
@@ -113,20 +112,20 @@ GestionnaireModeles* GestionnaireModeles::obtenirInstance()
 GestionnaireModeles::GestionnaireModeles()
 {
     int compteurTypeID = 0;
-    nameToTypeId_[ArbreRenduINF2990::NOM_MURET] = ++compteurTypeID;
-    typeIdToName_[compteurTypeID] = ArbreRenduINF2990::NOM_MURET;
+    nameToTypeId_[RazerGameUtilities::NOM_MURET] = ++compteurTypeID;
+    typeIdToName_[compteurTypeID] = RazerGameUtilities::NOM_MURET;
 
-    nameToTypeId_[ArbreRenduINF2990::NOM_PORTAIL] = ++compteurTypeID;
-    typeIdToName_[compteurTypeID] = ArbreRenduINF2990::NOM_PORTAIL;
+    nameToTypeId_[RazerGameUtilities::NOM_PORTAIL] = ++compteurTypeID;
+    typeIdToName_[compteurTypeID] = RazerGameUtilities::NOM_PORTAIL;
 
-    nameToTypeId_[ArbreRenduINF2990::NOM_ACCELERATEUR] = ++compteurTypeID;
-    typeIdToName_[compteurTypeID] = ArbreRenduINF2990::NOM_ACCELERATEUR;
+    nameToTypeId_[RazerGameUtilities::NOM_ACCELERATEUR] = ++compteurTypeID;
+    typeIdToName_[compteurTypeID] = RazerGameUtilities::NOM_ACCELERATEUR;
 
-    nameToTypeId_[ArbreRenduINF2990::NOM_MAILLET] = ++compteurTypeID;
-    typeIdToName_[compteurTypeID] = ArbreRenduINF2990::NOM_MAILLET;
+    nameToTypeId_[RazerGameUtilities::NOM_MAILLET] = ++compteurTypeID;
+    typeIdToName_[compteurTypeID] = RazerGameUtilities::NOM_MAILLET;
 
-    nameToTypeId_[ArbreRenduINF2990::NOM_POINT] = ++compteurTypeID;
-    typeIdToName_[compteurTypeID] = ArbreRenduINF2990::NOM_POINT;
+    nameToTypeId_[RazerGameUtilities::NOM_POINT] = ++compteurTypeID;
+    typeIdToName_[compteurTypeID] = RazerGameUtilities::NOM_POINT;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -282,7 +281,7 @@ void GestionnaireModeles::recharger( const std::string& type )
 	Modele3D *modele= new Modele3D();
 
 	/// Rechargement du modele
-	modele->charger(ArbreRenduINF2990::NOM_DOSSIER+type+ArbreRenduINF2990::NOM_EXTENSION);
+	modele->charger(RazerGameUtilities::NOM_DOSSIER+type+RazerGameUtilities::NOM_EXTENSION);
 	ajoutModele(type,modele);
     GLuint liste = CreerListe(modele);
     AjouterListe(type, liste);
@@ -344,16 +343,16 @@ void TablePostLoad(const std::string& key, Modele3D* model, GLuint list)
 void GestionnaireModeles::initialiser()
 {
     // La piece en premier pour qu'elle soit loader en dernier
-    tamponGlobal.vec.push_back(ModelToLoad(ArbreRenduINF2990::NOM_PIECE));
-	tamponGlobal.vec.push_back(ModelToLoad(ArbreRenduINF2990::NOM_TABLE,TablePostLoad,false));
-	tamponGlobal.vec.push_back(ModelToLoad(ArbreRenduINF2990::NOM_BUT_MILIEU));
-	tamponGlobal.vec.push_back(ModelToLoad(ArbreRenduINF2990::NOM_BUT_COTE));
-	tamponGlobal.vec.push_back(ModelToLoad(ArbreRenduINF2990::NOM_MURET));
-	tamponGlobal.vec.push_back(ModelToLoad(ArbreRenduINF2990::NOM_PORTAIL));
-	tamponGlobal.vec.push_back(ModelToLoad(ArbreRenduINF2990::NOM_RONDELLE));
-	tamponGlobal.vec.push_back(ModelToLoad(ArbreRenduINF2990::NOM_ACCELERATEUR));
-	tamponGlobal.vec.push_back(ModelToLoad(ArbreRenduINF2990::NOM_MAILLET));
-	tamponGlobal.vec.push_back(ModelToLoad(ArbreRenduINF2990::NOM_POINT));
+    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_PIECE));
+	tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_TABLE,TablePostLoad,false));
+	tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_BUT_MILIEU));
+	tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_BUT_COTE));
+	tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_MURET));
+	tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_PORTAIL));
+	tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_RONDELLE));
+	tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_ACCELERATEUR));
+	tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_MAILLET));
+	tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_POINT));
 	tamponGlobal.vec.push_back(ModelToLoad("pause"));
 	tamponGlobal.vec.push_back(ModelToLoad("1"));
 	tamponGlobal.vec.push_back(ModelToLoad("2"));
@@ -460,7 +459,7 @@ DWORD WINAPI WorkerLoadModel( LPVOID arg )
 		const string& modelName = modelInfo.mModelName;
 
 		Modele3D* modele = new Modele3D();
-		if(!modele->charger(ArbreRenduINF2990::NOM_DOSSIER+modelName+ArbreRenduINF2990::NOM_EXTENSION))
+		if(!modele->charger(RazerGameUtilities::NOM_DOSSIER+modelName+RazerGameUtilities::NOM_EXTENSION))
         {
             tampon->vec.pop_back();
             continue;

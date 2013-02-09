@@ -73,7 +73,7 @@ public:
 
 private:
 	/// Un arbre (racine) et des noeuds pour les tests
-	ArbreRenduINF2990* arbre;
+	RazerGameTree* arbre;
 	NoeudAbstrait* noeuds_[6];
 };
 

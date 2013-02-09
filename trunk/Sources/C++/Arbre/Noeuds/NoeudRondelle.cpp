@@ -8,7 +8,6 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudRondelle.h"
-#include "ArbreRenduINF2990.h"
 #include "UsineNoeudRondelle.h"
 #include "FacadeModele.h"
 #include "VisiteurCollision.h"
@@ -51,10 +50,6 @@ NoeudRondelle::NoeudRondelle(const std::string& typeNoeud)
 	: NoeudAbstrait(typeNoeud),puissanceVent_(0.05f)
 {
 	NoeudRondelle::rondellesPresentes++;
-
-	// Test pour s'assurer que l'arbre de rendu existe
-	if(FacadeModele::getInstance()->obtenirArbreRenduINF2990())
-		table_ = FacadeModele::getInstance()->obtenirArbreRenduINF2990()->obtenirTable();
 
 	mCoefFriction = 2.5f;
 	mVelocite = Vecteur3(0.0f,0.0f,0.0f);
@@ -154,7 +149,19 @@ void NoeudRondelle::acceptVisitor( VisiteurNoeud& v )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::gestionCollision( const float& temps )
 {
-	// Reinitialisation du vecteur d'enfoncement
+    if(!table_)
+    {
+        if(GetTerrain())
+        {
+            table_ = GetTerrain()->getTable();
+        }
+        if(!table_)
+        {
+            return;
+        }
+    }
+    
+    // Reinitialisation du vecteur d'enfoncement
 	enfoncement_.remetAZero();
 	vitesseResultante_.remetAZero();
 	bonusAccelResultant_ = 1;
@@ -176,7 +183,7 @@ void NoeudRondelle::gestionCollision( const float& temps )
 		collision_ = false;
 
 		// Collision avec un portail et téléportation
-		NoeudGroupe*  groupe = table_->obtenirGroupe(ArbreRenduINF2990::NOM_PORTAIL);
+		NoeudGroupe*  groupe = table_->obtenirGroupe(RazerGameUtilities::NOM_PORTAIL);
 		if(groupe)
 		{
 			// Parcours de la liste des portails
@@ -259,7 +266,7 @@ void NoeudRondelle::gestionCollision( const float& temps )
 		}
 
 		// Collision avec un accelerateur
-		groupe = table_->obtenirGroupe(ArbreRenduINF2990::NOM_ACCELERATEUR);
+		groupe = table_->obtenirGroupe(RazerGameUtilities::NOM_ACCELERATEUR);
 		if(groupe)
 		{
 			unsigned int nbEnfant = groupe->obtenirNombreEnfants();
@@ -287,7 +294,7 @@ void NoeudRondelle::gestionCollision( const float& temps )
 		
 
 		// TODO:::  Pas faire les tests avec les objets statique lorsque la velocite est nul 
-		groupe = table_->obtenirGroupe(ArbreRenduINF2990::NOM_MURET);
+		groupe = table_->obtenirGroupe(RazerGameUtilities::NOM_MURET);
 		/// Collision les murets
 		if(groupe)
 		{
@@ -362,6 +369,18 @@ void NoeudRondelle::majPosition( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::ajusterEnfoncement()
 {
+    if(!table_)
+    {
+        if(GetTerrain())
+        {
+            table_ = GetTerrain()->getTable();
+        }
+        if(!table_)
+        {
+            return;
+        }
+    }
+
 	positionRelative_ -= enfoncement_*1.1f;
 	// Initialisation d'un vecteur pour l'intersection
 	Vecteur2 intersection;
@@ -426,8 +445,20 @@ void NoeudRondelle::ajusterEnfoncement()
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::ajusterVitesse( const float& temps )
 {
+    if(!table_)
+    {
+        if(GetTerrain())
+        {
+            table_ = GetTerrain()->getTable();
+        }
+        if(!table_)
+        {
+            return;
+        }
+    }
+
 	// Ajustement de la vitesse par les portails
-	NoeudAbstrait* groupe = (NoeudAbstrait*)table_->obtenirGroupe(ArbreRenduINF2990::NOM_PORTAIL);
+	NoeudAbstrait* groupe = (NoeudAbstrait*)table_->obtenirGroupe(RazerGameUtilities::NOM_PORTAIL);
 	if(groupe)
 	{
 		// Parcours de la liste des portails

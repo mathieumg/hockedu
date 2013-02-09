@@ -12,7 +12,7 @@
 #include "ArbreNoeudLibre.h"
 #include "NoeudGroupe.h"
 #include "NoeudTable.h"
-#include "ArbreRenduINF2990.h"
+#include "RazerGameTree.h"
 
 // Enregistrement de la suite de tests au sein du registre
 CPPUNIT_TEST_SUITE_REGISTRATION( TerrainTest );
@@ -84,32 +84,32 @@ void TerrainTest::testVerifierValiditer()
 void TerrainTest::testInitialiser()
 {
 	terrain_->initialiser("terrainTest");
-	CPPUNIT_ASSERT(terrain_->zoneEdition_.obtenirLimiteExtLargeur() == ZoneEdition::DEFAUT_LIMITE_EXT_LARGEUR);
-	CPPUNIT_ASSERT(terrain_->zoneEdition_.obtenirLimiteExtLongueur() == ZoneEdition::DEFAUT_LIMITE_EXT_LONGUEUR);
-	CPPUNIT_ASSERT(terrain_->zoneEdition_.obtenirLimiteIntLargeur() == ZoneEdition::DEFAUT_LIMITE_INT_LARGEUR);
-	CPPUNIT_ASSERT(terrain_->zoneEdition_.obtenirLimiteIntLongueur() == ZoneEdition::DEFAUT_LIMITE_INT_LONGUEUR);
+	CPPUNIT_ASSERT(terrain_->mEditionZone.obtenirLimiteExtLargeur() == ZoneEdition::DEFAUT_LIMITE_EXT_LARGEUR);
+	CPPUNIT_ASSERT(terrain_->mEditionZone.obtenirLimiteExtLongueur() == ZoneEdition::DEFAUT_LIMITE_EXT_LONGUEUR);
+	CPPUNIT_ASSERT(terrain_->mEditionZone.obtenirLimiteIntLargeur() == ZoneEdition::DEFAUT_LIMITE_INT_LARGEUR);
+	CPPUNIT_ASSERT(terrain_->mEditionZone.obtenirLimiteIntLongueur() == ZoneEdition::DEFAUT_LIMITE_INT_LONGUEUR);
 
-	CPPUNIT_ASSERT(terrain_->arbreAjoutNoeud_);
-	CPPUNIT_ASSERT(terrain_->arbreAjoutNoeud_->obtenirNombreEnfants() == 0);
-	CPPUNIT_ASSERT(terrain_->arbreRendu_);
-	CPPUNIT_ASSERT(terrain_->table_);
-	CPPUNIT_ASSERT(terrain_->table_->obtenirNombreEnfants() == 13);
-	NoeudGroupe* gAccel = terrain_->table_->obtenirGroupe(ArbreRenduINF2990::NOM_ACCELERATEUR);
+	CPPUNIT_ASSERT(terrain_->mNewNodeTree);
+	CPPUNIT_ASSERT(terrain_->mNewNodeTree->obtenirNombreEnfants() == 0);
+	CPPUNIT_ASSERT(terrain_->mLogicTree);
+	CPPUNIT_ASSERT(terrain_->mTable);
+	CPPUNIT_ASSERT(terrain_->mTable->obtenirNombreEnfants() == 13);
+	NoeudGroupe* gAccel = terrain_->mTable->obtenirGroupe(RazerGameUtilities::NOM_ACCELERATEUR);
 	CPPUNIT_ASSERT(gAccel);
 	CPPUNIT_ASSERT(gAccel->obtenirNombreEnfants() == 0);
-	NoeudGroupe* gRondelle = terrain_->table_->obtenirGroupe(ArbreRenduINF2990::NOM_RONDELLE);
+	NoeudGroupe* gRondelle = terrain_->mTable->obtenirGroupe(RazerGameUtilities::NOM_RONDELLE);
 	CPPUNIT_ASSERT(gRondelle);
 	CPPUNIT_ASSERT(gRondelle->obtenirNombreEnfants() == 0);
-	NoeudGroupe* gPortail = terrain_->table_->obtenirGroupe(ArbreRenduINF2990::NOM_PORTAIL);
+	NoeudGroupe* gPortail = terrain_->mTable->obtenirGroupe(RazerGameUtilities::NOM_PORTAIL);
 	CPPUNIT_ASSERT(gPortail);
 	CPPUNIT_ASSERT(gPortail->obtenirNombreEnfants() == 0);
-	NoeudGroupe* gMaillet = terrain_->table_->obtenirGroupe(ArbreRenduINF2990::NOM_MAILLET);
+	NoeudGroupe* gMaillet = terrain_->mTable->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
 	CPPUNIT_ASSERT(gMaillet);
 	CPPUNIT_ASSERT(gMaillet->obtenirNombreEnfants() == 0);
-	NoeudGroupe* gMuret = terrain_->table_->obtenirGroupe(ArbreRenduINF2990::NOM_MURET);
+	NoeudGroupe* gMuret = terrain_->mTable->obtenirGroupe(RazerGameUtilities::NOM_MURET);
 	CPPUNIT_ASSERT(gMuret);
 	CPPUNIT_ASSERT(gMuret->obtenirNombreEnfants() == 8);
-	CPPUNIT_ASSERT(terrain_->nom_ == "terrainTest");
+	CPPUNIT_ASSERT(terrain_->mFieldName == "terrainTest");
 
 }
 

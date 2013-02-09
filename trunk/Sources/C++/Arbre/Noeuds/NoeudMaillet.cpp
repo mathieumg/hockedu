@@ -8,7 +8,6 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudMaillet.h"
-#include "ArbreRenduINF2990.h"
 #include "UsineNoeudMaillet.h"
 #include "FacadeModele.h"
 #include "VisiteurCollision.h"
@@ -305,7 +304,7 @@ void NoeudMaillet::majPosition( const float& temps )
 	positionRelative_[VZ] = 0;
 
 
-	NoeudGroupe* groupe = GetTerrain()->getTable()->obtenirGroupe(ArbreRenduINF2990::NOM_MURET);
+	NoeudGroupe* groupe = GetTerrain()->getTable()->obtenirGroupe(RazerGameUtilities::NOM_MURET);
 	NoeudBut* but = GetTerrain()->getTable()->obtenirBut(anciennePos_[VX] < 0 ? 1:2);
 	VisiteurCollision v(this,false);
 	groupe->acceptVisitor(v);

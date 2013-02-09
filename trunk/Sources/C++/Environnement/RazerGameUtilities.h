@@ -1,48 +1,25 @@
 ///////////////////////////////////////////////////////////////////////////
-/// @file ArbreRenduINF2990.h
-/// @author Martin Bisson
-/// @date 2007-03-23
-/// @version 1.0
+/// @file RazerGameUtilities.h
+/// @author Martin Bisson, Michael Ferris
+/// @date 2013-02-09
+/// @version 2.0
 ///
+/// 
 /// @addtogroup inf2990 INF2990
 /// @{
 ///////////////////////////////////////////////////////////////////////////
-#ifndef __ARBRE_ARBRERENDUINF2990_H__
-#define __ARBRE_ARBRERENDUINF2990_H__
+#ifndef __ENVIRONNEMENT_RAZERGAMEUTILITIES_H__
+#define __ENVIRONNEMENT_RAZERGAMEUTILITIES_H__
 
+#define BOX2D_INTEGRATED 1
+#define BOX2D_DEBUG 1
+#include <string>
 
-#include "ArbreRendu.h"
-
-#include <map>
-
-class NoeudTable;
-
-///////////////////////////////////////////////////////////////////////////
-/// @class ArbreRenduINF2990
-/// @brief Classe qui représente l'arbre de rendu spécifique au projet de
-///        INF2990.
-///
-///        Cette classe s'occupe de configurer les usines des noeuds qui
-///        seront utilisés par le projet.
-///
-/// @author Martin Bisson
-/// @date 2007-03-23
-///////////////////////////////////////////////////////////////////////////
-class ArbreRenduINF2990 : public ArbreRendu
-{
+class RazerGameUtilities {
 public:
-   /// Constructeur par défaut.
-   ArbreRenduINF2990();
-   /// Destructeur.
-   virtual ~ArbreRenduINF2990();
-
-   /// Initialise l'arbre de rendu à son état initial.
-   void initialiser();
-
-   /// Retourne le noeud représentant la table elle-même
-   NoeudTable* obtenirTable();
-
-
+   /// Effectue une conversion entre une chaîne Java et une chaîne C++.
+   static std::string obtenirChaineISO(void* env, void* chaine);
+   
    /// La chaîne représentant un accelerateur.
    static const std::string NOM_ACCELERATEUR;
 
@@ -54,7 +31,7 @@ public:
 
    /// La chaîne représentant le type de la piece.
    static const std::string NOM_PIECE;
-   
+
    /// La chaîne représentant le type des buts.
    static const std::string NOM_BUT_MILIEU;
 
@@ -75,7 +52,7 @@ public:
 
    /// La chaîne représentant le type des portails.
    static const std::string NOM_PORTAIL;
-   
+
    /// La chaîne représentant le type de la rondelle.
    static const std::string NOM_RONDELLE;
 
@@ -87,13 +64,10 @@ public:
 
    /// La chaîne représentant le type des Groupes.
    static const std::string NOM_GROUPE;
-
-
 };
 
 
-
-#endif // __ARBRE_ARBRERENDUINF2990_H__
+#endif // __ENVIRONNEMENT_UTILITAIREINF2990_H__
 
 
 ///////////////////////////////////////////////////////////////////////////////

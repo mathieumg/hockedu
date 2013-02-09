@@ -11,7 +11,6 @@
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
-#include "ArbreRenduINF2990.h"
 #include "VisiteurCollision.h"
 #include "GestionnaireModeles.h"
 #include "NoeudPoint.h"

@@ -1,5 +1,5 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "INF2990", "INF2990.vcxproj", "{67188F6B-27BE-4E93-A7EF-C512656343A1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utilitaire", "..\..\Commun\Utilitaire\Utilitaire.vcxproj", "{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}"
@@ -509,7 +509,6 @@ Global
 		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.WithJava|Mixed Platforms.Build.0 = Release|x64
 		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.WithJava|Win32.ActiveCfg = Release|x64
 		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.WithJava|x64.ActiveCfg = Debug|x64
-		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.WithJava|x64.Build.0 = Debug|x64
 		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.WithJava|x86.ActiveCfg = Release|x64
 		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.C++Client|Any CPU.ActiveCfg = C++Client|x64
 		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.C++Client|Mixed Platforms.ActiveCfg = C++Client|x64
@@ -549,7 +548,6 @@ Global
 		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.WithJava|Mixed Platforms.Build.0 = Release|x64
 		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.WithJava|Win32.ActiveCfg = Release|x64
 		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.WithJava|x64.ActiveCfg = Debug|x64
-		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.WithJava|x64.Build.0 = Debug|x64
 		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.WithJava|x86.ActiveCfg = Release|x64
 		{01F0C8F0-D591-4479-9F8C-56192453EECB}.C++Client|Any CPU.ActiveCfg = Release|Any CPU
 		{01F0C8F0-D591-4479-9F8C-56192453EECB}.C++Client|Any CPU.Build.0 = Release|Any CPU

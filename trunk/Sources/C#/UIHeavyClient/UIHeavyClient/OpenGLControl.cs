@@ -51,6 +51,8 @@ namespace UIHeavyClient
             this.MouseMove += OpenGLControl_MouseMove;
             this.MouseWheel += OpenGLControl_MouseWheel;
 
+            this.VisibleChanged += OpenGLControl_VisibleChanged;
+
             mRenderTimer.Tick += RenderTimerEventProcessor;
             mLogicalTimer.Tick += LogicalTimerEventProcessor;
 
@@ -58,6 +60,20 @@ namespace UIHeavyClient
             // Sets the timer interval to 1/60 seconds.
             mRenderTimer.Interval = 20;
             mLogicalTimer.Interval = 30;
+        }
+
+        void OpenGLControl_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                mRenderTimer.Start();
+                mLogicalTimer.Start();
+            }
+            else
+            {
+                mRenderTimer.Stop();
+                mLogicalTimer.Stop();
+            }
         }
 
         void OpenGLControl_MouseWheel(object sender, MouseEventArgs e)

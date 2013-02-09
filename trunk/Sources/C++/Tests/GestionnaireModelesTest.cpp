@@ -12,7 +12,7 @@
 #include "GestionnaireModeles.h"
 #include "Modele3D.h"
 #include <stdexcept>
-#include "ArbreRenduINF2990.h"
+#include "RazerGameTree.h"
 
 // Enregistrement de la suite de tests au sein du registre
 CPPUNIT_TEST_SUITE_REGISTRATION( GestionnaireModelesTest );
@@ -71,7 +71,7 @@ void GestionnaireModelesTest::testObtenirModele()
 	modeleTest = GestionnaireModeles::obtenirInstance()->obtenirModele("VincentLemire.sr");
 	CPPUNIT_ASSERT(!modeleTest);
 	// On tente d'obtenir modèle existant
-	modeleTest = GestionnaireModeles::obtenirInstance()->obtenirModele(ArbreRenduINF2990::NOM_MAILLET);
+	modeleTest = GestionnaireModeles::obtenirInstance()->obtenirModele(RazerGameUtilities::NOM_MAILLET);
 	//CPPUNIT_ASSERT(!!modeleTest);
 }
 

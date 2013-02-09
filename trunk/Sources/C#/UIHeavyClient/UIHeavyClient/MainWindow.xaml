@@ -16,7 +16,8 @@
         <WindowsFormsHost Name="windowsFormsHost1" Grid.Row ="2" Grid.Column ="2">
             <!--Ceci compile meme si intellisense dit le contraire, 
             simplement commenter la ligne pour travailler avec le designer-->
-            <local:OpenGLControl Name="mOpenGlControl" Margin="0,0,0,0"/>
+            <!--<local:OpenGLControl Name="mOpenGlControl" Margin="0,0,0,0"/>-->
         </WindowsFormsHost>
+        <Button Content="Hide" HorizontalAlignment="Left" Margin="4,17,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
     </Grid>
 </Window>

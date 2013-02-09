@@ -9,7 +9,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudTable.h"
 #include "aideGL.h"
-#include "ArbreRenduINF2990.h"
 #include "NoeudPoint.h"
 #include "NoeudBut.h"
 #include "NoeudMuretRelatif.h"
@@ -44,22 +43,22 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
 {
 	
 
-	//GestionnaireModeles::obtenirInstance()->recharger(ArbreRenduINF2990::NOM_TABLE);
-	//aidegl::glLoadTexture(ArbreRenduINF2990::NOM_DOSSIER+"table_hockey.png",textureId_,true);
+	//GestionnaireModeles::obtenirInstance()->recharger(RazerGameUtilities::NOM_TABLE);
+	//aidegl::glLoadTexture(RazerGameUtilities::NOM_DOSSIER+"table_hockey.png",textureId_,true);
 	float longueurTable = 300.;
 	float hauteurTable = 150.;
 	selectionnable_ = false;
 	selectionne_ = false;
 
 	/// Création des 8 points de la table
-	NoeudPoint* hautGauche_= new NoeudPoint(ArbreRenduINF2990::NOM_POINT,-longueurTable/2,hauteurTable/2, POSITION_HAUT_GAUCHE);
-	NoeudPoint* hautMilieu_= new NoeudPoint(ArbreRenduINF2990::NOM_POINT,0,hauteurTable/2, POSITION_HAUT_MILIEU);
-	NoeudPoint* hautDroite_= new NoeudPoint(ArbreRenduINF2990::NOM_POINT,longueurTable/2,hauteurTable/2, POSITION_HAUT_DROITE);
-	NoeudPoint* milieuGauche_= new NoeudPoint(ArbreRenduINF2990::NOM_POINT,-longueurTable/2,0, POSITION_MILIEU_GAUCHE);
-	NoeudPoint* milieuDroite_= new NoeudPoint(ArbreRenduINF2990::NOM_POINT,longueurTable/2,0, POSITION_MILIEU_DROITE);
-	NoeudPoint* basGauche_= new NoeudPoint(ArbreRenduINF2990::NOM_POINT,-longueurTable/2,-hauteurTable/2, POSITION_BAS_GAUCHE);
-	NoeudPoint* basMilieu_= new NoeudPoint(ArbreRenduINF2990::NOM_POINT,0,-hauteurTable/2, POSITION_BAS_MILIEU);
-	NoeudPoint* basDroite_= new NoeudPoint(ArbreRenduINF2990::NOM_POINT,longueurTable/2,-hauteurTable/2, POSITION_BAS_DROITE);
+	NoeudPoint* hautGauche_= new NoeudPoint(RazerGameUtilities::NOM_POINT,-longueurTable/2,hauteurTable/2, POSITION_HAUT_GAUCHE);
+	NoeudPoint* hautMilieu_= new NoeudPoint(RazerGameUtilities::NOM_POINT,0,hauteurTable/2, POSITION_HAUT_MILIEU);
+	NoeudPoint* hautDroite_= new NoeudPoint(RazerGameUtilities::NOM_POINT,longueurTable/2,hauteurTable/2, POSITION_HAUT_DROITE);
+	NoeudPoint* milieuGauche_= new NoeudPoint(RazerGameUtilities::NOM_POINT,-longueurTable/2,0, POSITION_MILIEU_GAUCHE);
+	NoeudPoint* milieuDroite_= new NoeudPoint(RazerGameUtilities::NOM_POINT,longueurTable/2,0, POSITION_MILIEU_DROITE);
+	NoeudPoint* basGauche_= new NoeudPoint(RazerGameUtilities::NOM_POINT,-longueurTable/2,-hauteurTable/2, POSITION_BAS_GAUCHE);
+	NoeudPoint* basMilieu_= new NoeudPoint(RazerGameUtilities::NOM_POINT,0,-hauteurTable/2, POSITION_BAS_MILIEU);
+	NoeudPoint* basDroite_= new NoeudPoint(RazerGameUtilities::NOM_POINT,longueurTable/2,-hauteurTable/2, POSITION_BAS_DROITE);
 
 	/// Ajout du point symétrique à chacun des points
 	hautGauche_->modifierPointSym(hautDroite_);
@@ -107,9 +106,9 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
 
 	
 	// Allocation de l'espace mémoire pour les but et on donne les paramètre nécessaire à l'affichage
-	butJoueur1_ = new NoeudBut(ArbreRenduINF2990::NOM_BUT_MILIEU,1,hautGauche_,basGauche_,milieuGauche_);
+	butJoueur1_ = new NoeudBut(RazerGameUtilities::NOM_BUT_MILIEU,1,hautGauche_,basGauche_,milieuGauche_);
 
-	butJoueur2_ = new NoeudBut(ArbreRenduINF2990::NOM_BUT_MILIEU,2,hautDroite_,basDroite_,milieuDroite_);
+	butJoueur2_ = new NoeudBut(RazerGameUtilities::NOM_BUT_MILIEU,2,hautDroite_,basDroite_,milieuDroite_);
 	butJoueur1_->modifierButAdverse(butJoueur2_);
 	butJoueur2_->modifierButAdverse(butJoueur1_);
 
@@ -618,7 +617,7 @@ NoeudMuret* NoeudTable::detectionCollisionGrandeVitesseMuret( const Vecteur2& an
 {
 	float distance = 9999999;
 	NoeudMuret* retour = 0;
-	NoeudGroupe* groupe = obtenirGroupe(ArbreRenduINF2990::NOM_MURET);
+	NoeudGroupe* groupe = obtenirGroupe(RazerGameUtilities::NOM_MURET);
 	if(groupe)
 	{
 		for(unsigned int i=0; i<groupe->obtenirNombreEnfants(); ++i)
@@ -820,7 +819,7 @@ NoeudGroupe* NoeudTable::obtenirGroupe( unsigned int typeIdEnfant )
 ////////////////////////////////////////////////////////////////////////
 void NoeudTable::reassignerParentBandeExt()
 {
-	NoeudGroupe *groupe = dynamic_cast<NoeudGroupe *>(obtenirGroupe(ArbreRenduINF2990::NOM_MURET));
+	NoeudGroupe *groupe = dynamic_cast<NoeudGroupe *>(obtenirGroupe(RazerGameUtilities::NOM_MURET));
 	if (groupe)
 	{
 		for (int i = 0; i < 8 ; i++)

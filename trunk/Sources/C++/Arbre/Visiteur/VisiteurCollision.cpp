@@ -17,7 +17,6 @@
 #include "NoeudTable.h"
 #include "NoeudPoint.h"
 #include "NoeudAccelerateur.h"
-#include "ArbreRenduINF2990.h"
 
 
 
@@ -527,7 +526,7 @@ void VisiteurCollision::detectionCollisionCercleSegment( NoeudAbstrait* noeud )
 bool VisiteurCollision::collisionPresente() const
 {
 	if(noeudAVerifier_!=NULL)
-		if(noeudAVerifier_->obtenirType() == ArbreRenduINF2990::NOM_POINT)
+		if(noeudAVerifier_->obtenirType() == RazerGameUtilities::NOM_POINT)
 			return false;
 	return collision_;
 }
