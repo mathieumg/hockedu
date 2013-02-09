@@ -18,7 +18,7 @@ void PacketHandlerEvent::handlePacketReceptionSpecific(PacketReader& pPacketRead
     GestionnaireReseau::obtenirInstance()->transmitEvent(wPaquet->getErrorCode(), wPaquet->getMessage());
 
 
-    delete wPaquet;
+    wPaquet->removeAssociatedQuery(); // delete
 
 }
 

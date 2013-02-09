@@ -21,7 +21,7 @@ void PacketHandlerTest::handlePacketReceptionSpecific(PacketReader& pPacketReade
     std::cout << "Float: " << wPaquet->getFloat() << std::endl;
 
     delete wBuffer;
-    delete wPaquet;
+    wPaquet->removeAssociatedQuery(); // delete
 }
 
 void PacketHandlerTest::handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder)

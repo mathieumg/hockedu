@@ -364,7 +364,7 @@ void GestionnaireReseau::envoyerPaquet( SPSocket pSocketAUtiliser, Paquet* pPaqu
 		if(!mCommunicateurReseau.ajouterPaquetEnvoie(pSocketAUtiliser, pPaquet))
         {
             // Le paquet ne peut pas etre ajouter
-            delete pPaquet;
+            pPaquet->removeAssociatedQuery();
             throw ExceptionReseau("Buffer d'envoie plein");
         }
 	}

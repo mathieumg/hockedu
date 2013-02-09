@@ -92,7 +92,7 @@ void GestionnaireReseauServeur::SocketStateCallback( const ConnectionStateEvent&
 	}
 	if(wPlayerName.size() == 0)
 	{
-		delete wPaquet;
+        wPaquet->removeAssociatedQuery(); // delete
 	}
 	else
 	{

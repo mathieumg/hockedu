@@ -85,7 +85,7 @@ void PacketHandlerChatMessage::handlePacketReceptionSpecific(PacketReader& pPack
 
         GestionnaireReseau::obtenirInstance()->transmitEvent(CHAT_MESSAGE_RECEIVED,wPaquet->getOrigin(),wPaquet->getMessage());
 
-        delete wPaquet;
+        wPaquet->removeAssociatedQuery();
     }
 #endif
     
