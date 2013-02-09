@@ -25,11 +25,17 @@ namespace UIHeavyClient
         
 
         //static System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
-        private OpenGLControl mOpenGLControl;
+        /*private OpenGLControl mOpenGLControl;*/
         public MainWindow()
         {
             InitializeComponent();
+            ConsoleManager.Show();
             //windowsFormsHost1.Loaded += CreateUserControl;
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            ConsoleManager.Hide();
         }
 
 //         public void CreateUserControl(object sender, EventArgs e)

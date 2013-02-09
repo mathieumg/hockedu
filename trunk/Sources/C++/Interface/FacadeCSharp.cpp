@@ -14,6 +14,7 @@
 #include "..\Reseau\ControllerCSharp.h"
 #include "FacadeModele.h"
 #include "Vue.h"
+#include "GestionnaireEvenements.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -196,7 +197,7 @@ void CancelConnection( char* pUsername )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void initialiserOpenGL( HWND hWnd )
+void InitOpenGL( HWND hWnd )
 {
     FacadeModele::getInstance()->initialiserOpenGL(hWnd);
     FacadeModele::getInstance()->passageModeEdition();
@@ -212,7 +213,7 @@ void initialiserOpenGL( HWND hWnd )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void renderOpenGL()
+void RenderOpenGL()
 {
     FacadeModele::getInstance()->afficher();
 }
@@ -225,4 +226,81 @@ void WindowResized(int largeur, int hauteur)
         Vecteur2i(largeur, hauteur)
         );
     FacadeModele::getInstance()->rafraichirFenetre();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void LogicUpdate( float time )
+///
+/// /*Description*/
+///
+/// @param[in] float time
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void LogicUpdate( float time )
+{
+    FacadeModele::getInstance()->animer(time);
+}
+
+
+void OnKeyPressed(int key)
+{
+    GestionnaireEvenements::obtenirInstance()->toucheEnfoncee(EvenementClavier(key));
+}
+
+
+void OnKeyReleased(int key)
+{
+    GestionnaireEvenements::obtenirInstance()->toucheRelachee(EvenementClavier(key));
+}
+
+
+
+void OnMousePressed( int x, int y, MouseButtons button)
+{
+    BoutonSouris type = AUCUN_BOUTON_SOURIS;
+    switch(button)
+    {
+    case Left  : type = BOUTON_SOURIS_GAUCHE; break;
+    case Right : type = BOUTON_SOURIS_DROIT; break;
+    case Middle: type = BOUTON_SOURIS_MILIEU; break;
+    default:break;
+    }
+    GestionnaireEvenements::obtenirInstance()->sourisEnfoncee(EvenementSouris(Vecteur2i(x,y),type));
+}
+
+
+void OnMouseReleased( int x, int y, MouseButtons button)
+{
+    BoutonSouris type = AUCUN_BOUTON_SOURIS;
+    switch(button)
+    {
+    case Left  : type = BOUTON_SOURIS_GAUCHE; break;
+    case Right : type = BOUTON_SOURIS_DROIT; break;
+    case Middle: type = BOUTON_SOURIS_MILIEU; break;
+    default:break;
+    }
+    GestionnaireEvenements::obtenirInstance()->sourisRelachee(EvenementSouris(Vecteur2i(x,y), type));
+}
+
+
+
+void OnMouseMoved( int x, int y, MouseButtons button )
+{
+    BoutonSouris type = AUCUN_BOUTON_SOURIS;
+    switch(button)
+    {
+    case Left  : type = BOUTON_SOURIS_GAUCHE; break;
+    case Right : type = BOUTON_SOURIS_DROIT; break;
+    case Middle: type = BOUTON_SOURIS_MILIEU; break;
+    default:break;
+    }
+    GestionnaireEvenements::obtenirInstance()->sourisDeplacee(EvenementSouris(Vecteur2i(x,y), type));
+}
+
+void OnMouseWheelMoved( int deltaRotation )
+{
+    GestionnaireEvenements::obtenirInstance()->rouletteSouris(EvenementRouletteSouris(-deltaRotation));
 }

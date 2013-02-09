@@ -1,9 +1,40 @@
+// Summary:
+//     Specifies constants that define which mouse button was pressed.
+enum MouseButtons
+{
+    // Summary:
+    //     No mouse button was pressed.
+    None = 0,
+    //
+    // Summary:
+    //     The left mouse button was pressed.
+    Left = 1048576,  //2^20
+    //
+    // Summary:
+    //     The right mouse button was pressed.
+    Right = 2097152,
+    //
+    // Summary:
+    //     The middle mouse button was pressed.
+    Middle = 4194304,
+    //
+    // Summary:
+    //     The first XButton was pressed.
+    XButton1 = 8388608,
+    //
+    // Summary:
+    //     The second XButton was pressed.
+    XButton2 = 16777216,
+};
+
+
 // Test pour l'appel de la DLL depuis le C#
 extern "C" 
 {
-    __declspec(dllexport) void initialiserOpenGL(HWND hWnd);
-    __declspec(dllexport) void renderOpenGL();
+    __declspec(dllexport) void InitOpenGL(HWND hWnd);
+    __declspec(dllexport) void RenderOpenGL();
     __declspec(dllexport) void WindowResized(int largeur, int hauteur);
+    __declspec(dllexport) void LogicUpdate(float time);
 
     __declspec(dllexport) int ExecuteUnitTest();
     __declspec(dllexport) void InitDLL();
@@ -25,4 +56,14 @@ extern "C"
     __declspec(dllexport) void SetEventCallback( EventReceivedCallBack callback );
 
     __declspec(dllexport) void DisconnectUser( char* pUsername );
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // User mouse and keyboard events
+    __declspec(dllexport) void OnKeyPressed(int key);
+    __declspec(dllexport) void OnKeyReleased(int key);
+    __declspec(dllexport) void OnMousePressed( int x, int y, MouseButtons button);
+    __declspec(dllexport) void OnMouseReleased( int x, int y, MouseButtons button);
+    __declspec(dllexport) void OnMouseMoved( int x, int y, MouseButtons button );
+    __declspec(dllexport) void OnMouseWheelMoved( int deltaRotation );
+    ///////////////////////////////////////////////////////////////////////////////
 }

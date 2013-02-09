@@ -25,16 +25,14 @@ class EvenementRouletteSouris
 public:
 	/// Constructeurs par paramètre
 	EvenementRouletteSouris(JNIEnv* env, jobject& evenementRouletteSouris);
-	EvenementRouletteSouris(jint nbCoche):nbCoches_(nbCoche){}
+	EvenementRouletteSouris(int nbCoche):nbCoches_(nbCoche){}
 
 	/// Retourne le nombre de coches de la roulette de la souris
 	/// Si le nombre de coche est négatif, c'est qu'on roule vers l'avant.
 	int obtenirNbCoches();
 private:
 	/// Nombre de coche de la roulette de la souris
-	jint nbCoches_;
-	/// Attribut contenant la position pour updater
-	Vecteur2i position_;
+	int nbCoches_;
 };
 
 
