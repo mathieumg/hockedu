@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
+using System.Windows.Forms;
 
 namespace UIHeavyClient
 {
@@ -21,11 +22,22 @@ namespace UIHeavyClient
     /// </summary>
     public partial class MainWindow : Window
     {
-        HwndHost h = new HwndHost();
+        
+
+        //static System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
+        private OpenGLControl mOpenGLControl;
         public MainWindow()
         {
             InitializeComponent();
+            //windowsFormsHost1.Loaded += CreateUserControl;
         }
+
+//         public void CreateUserControl(object sender, EventArgs e)
+//         {
+//             mOpenGLControl = new OpenGLControl();
+//             windowsFormsHost1.Child = mOpenGLControl;
+//             
+//         }
 
     }
 }

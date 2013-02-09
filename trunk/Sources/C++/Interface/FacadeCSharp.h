@@ -1,6 +1,10 @@
 // Test pour l'appel de la DLL depuis le C#
 extern "C" 
 {
+    __declspec(dllexport) void initialiserOpenGL(HWND hWnd);
+    __declspec(dllexport) void renderOpenGL();
+    __declspec(dllexport) void WindowResized(int largeur, int hauteur);
+
     __declspec(dllexport) int ExecuteUnitTest();
     __declspec(dllexport) void InitDLL();
     __declspec(dllexport) void RequestLogin( char* pUsername, char* pIpAdress );

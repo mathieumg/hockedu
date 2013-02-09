@@ -1,11 +1,9 @@
 ﻿<Window x:Class="UIHeavyClient.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:local="clr-namespace:UIHeavyClient"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="430" Width="588">
-    <Grid Height="382" Width="537">
-        <WindowsFormsHost Name="windowsFormsHost1">
-            <!--<Control Class = "UIHeavyClient.OpenGLUserControl" Name="openGLControl1"/>-->
-
-        </WindowsFormsHost>
-    </Grid>
+        Title="MainWindow" Height="300" Width="400">
+    <WindowsFormsHost Name="windowsFormsHost1" Grid.ColumnSpan="2" Grid.RowSpan="2">
+        <local:OpenGLControl Name="mOpenGlControl" Margin="0,0,0,0"/>
+    </WindowsFormsHost>
 </Window>

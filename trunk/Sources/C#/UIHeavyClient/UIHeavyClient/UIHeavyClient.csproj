@@ -262,11 +262,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OpenGLUserControl.cs">
+    <Compile Include="OpenGLControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="OpenGLUserControl.Designer.cs">
-      <DependentUpon>OpenGLUserControl.cs</DependentUpon>
+    <Compile Include="OpenGLControl.Designer.cs">
+      <DependentUpon>OpenGLControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -281,11 +281,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="OpenGLControl.resx">
+      <DependentUpon>OpenGLControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

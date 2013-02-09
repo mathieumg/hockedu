@@ -12,6 +12,8 @@
 #include "..\Reseau\UsinePaquets\UsinePaquetChatMessage.h"
 #include "..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.h"
 #include "..\Reseau\ControllerCSharp.h"
+#include "FacadeModele.h"
+#include "Vue.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -181,4 +183,46 @@ void DisconnectUser( char* pUsername )
 void CancelConnection( char* pUsername )
 {
     GestionnaireReseau::obtenirInstance()->cancelNewConnection(pUsername);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void initialiserOpenGL( HWND hWnd )
+///
+/// /*Description*/
+///
+/// @param[in] HWND hWnd
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void initialiserOpenGL( HWND hWnd )
+{
+    FacadeModele::getInstance()->initialiserOpenGL(hWnd);
+    FacadeModele::getInstance()->passageModeEdition();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void renderOpenGL()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void renderOpenGL()
+{
+    FacadeModele::getInstance()->afficher();
+}
+
+
+void WindowResized(int largeur, int hauteur)
+{
+    FacadeModele::getInstance()->obtenirVue()->redimensionnerFenetre(
+        Vecteur2i(0,0),
+        Vecteur2i(largeur, hauteur)
+        );
+    FacadeModele::getInstance()->rafraichirFenetre();
 }

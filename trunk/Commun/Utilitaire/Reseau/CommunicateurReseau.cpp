@@ -963,7 +963,7 @@ void * CommunicateurReseau::receivingUDPThreadRoutine( void *arg )
     {
         wSocket->bind();
     }
-    catch(ExceptionReseau& e)
+    catch(ExceptionReseau&)
     {
         GestionnaireReseau::obtenirInstance()->throwExceptionReseau("Bind du socket de reception UDP impossible");
     }
