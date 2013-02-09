@@ -592,7 +592,7 @@ ConnectionState Socket::init()
                         attemptReconnect = NOT_CONNECTED;
                         disconnect();
                         GestionnaireReseau::obtenirInstance()->transmitEvent(wConfirmation);
-                        GestionnaireReseau::sendMessageToLog("Connection refusee. Type: TCP CLIENT. Adresse: " + getAdresseDestination());
+                        GestionnaireReseau::obtenirInstance()->sendMessageToLog("Connection refusee. Type: TCP CLIENT. Adresse: " + getAdresseDestination());
                     }
                     else
                     {
@@ -605,7 +605,7 @@ ConnectionState Socket::init()
                     // on n'arrive pas à ce connecter, on relance la tentative un peu plus tard
                     attemptReconnect = CONNECTING;
                     
-                    GestionnaireReseau::sendMessageToLog("Appel a connect() impossible. Type: TCP CLIENT. Adresse: " + getAdresseDestination());
+                    GestionnaireReseau::obtenirInstance()->sendMessageToLog("Appel a connect() impossible. Type: TCP CLIENT. Adresse: " + getAdresseDestination());
                 }
             }
             else if(GestionnaireReseau::getNetworkMode() == SERVER)

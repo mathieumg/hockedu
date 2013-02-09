@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 
-namespace UIHeavyClient
+namespace UIHeavyClientPrototype
 {
     /// <summary>
     /// Logique d'interaction pour App.xaml

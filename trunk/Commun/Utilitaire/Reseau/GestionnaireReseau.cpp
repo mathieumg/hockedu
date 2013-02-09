@@ -60,22 +60,27 @@ int GestionnaireReseau::communicationUDPPort = 5011;
 // Port a utiliser pour les communications de base
 int GestionnaireReseau::connectionUDPPort = 5012;
 
+std::ofstream errorLogHandle;
+bool bLogCreated = false;
+
 
 // Network Log setup
-std::ofstream GestionnaireReseau::logSetup()
+// Methode pour creer le fichier de log
+void logSetup()
 {
-	std::ofstream wFstream;
-	time_t wTime = time(0);
-	struct tm wTimeNow;
-	localtime_s( &wTimeNow, &wTime );
-	std::stringstream wFilename;
-	wFilename << "NETWORK_LOG_" << wTimeNow.tm_mon << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec << ".txt";
+    if(!bLogCreated)
+    {
+        time_t wTime = time(0);
+        struct tm wTimeNow;
+        localtime_s( &wTimeNow, &wTime );
+        std::stringstream wFilename;
+        wFilename << "NETWORK_LOG_" << wTimeNow.tm_mon << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec << ".txt";
 
-	wFstream.open(wFilename.str(), std::fstream::out);
-	return wFstream;
+        errorLogHandle.open(wFilename.str(), std::fstream::out);
+        bLogCreated = true;
+    }
 }
 
-std::ofstream GestionnaireReseau::mLogHandle = GestionnaireReseau::logSetup();
 
 
 
@@ -116,9 +121,10 @@ GestionnaireReseau::GestionnaireReseau(): mSocketStateCallback(NULL), mControlle
 GestionnaireReseau::~GestionnaireReseau()
 {
 	supprimerPacketHandlersEtUsines();
-	if(!mLogHandle.fail())
+	if(bLogCreated && !errorLogHandle.fail())
 	{
-		mLogHandle.close();
+        bLogCreated = false;
+		errorLogHandle.close();
 	}
     WSACleanup();
 }
@@ -757,19 +763,17 @@ void GestionnaireReseau::envoyerPaquetBroadcast( Paquet* pPaquet )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireReseau::sendMessageToLog( const std::string& pMessage )
 {
-    time_t wTime = time(0);
-	struct tm wTimeNow;
-	localtime_s( &wTimeNow, &wTime );
-	std::stringstream wMessage;
-	wMessage << "[" << wTimeNow.tm_hour << ":" << wTimeNow.tm_min << ":" << wTimeNow.tm_sec << "] " << ExceptionReseau::getLastErrorMessage("", WSAGetLastError()) << " " << pMessage << std::endl;
-	
+    logSetup();
+    
     // On verifie que le fichier d'output a bien pu etre creer au demarrage
-	if(!mLogHandle.fail())
+	if(!errorLogHandle.fail())
 	{
-		// Si on peut ecrire dans le fichier, on le fait
-        std::string wMessageString = wMessage.str();
-		mLogHandle.write(wMessageString.c_str(), wMessageString.length());
-		mLogHandle.flush(); // Pour etre certain d'avoir tout meme si le programme crash
+        time_t wTime = time(0);
+        struct tm wTimeNow;
+        localtime_s( &wTimeNow, &wTime );
+
+        errorLogHandle << "[" << wTimeNow.tm_hour << ":" << wTimeNow.tm_min << ":" << wTimeNow.tm_sec << "] " << ExceptionReseau::getLastErrorMessage("", WSAGetLastError()) << " " << pMessage << std::endl;
+		errorLogHandle.flush(); // Pour etre certain d'avoir tout meme si le programme crash
 	}
 }
 

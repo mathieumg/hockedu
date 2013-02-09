@@ -158,8 +158,6 @@ public:
 	//Returns system native byte order
 	static ByteOrder& getNativeByteOrder();
 
-	// Methode pour creer le fichier de log
-	static std::ofstream logSetup();
 
 	// Methode pour ecrire une erreur dans le log de reseautique
 	static void sendMessageToLog(const std::string& pMessage);
@@ -199,11 +197,9 @@ private:
     // Network Mode (CLIENT OR SERVER)
 	static NetworkMode mNetworkMode;
 
+
 	SocketConnectionStateCallback mSocketStateCallback;
 
-	// fstream pour le log de reseautique
-	static std::ofstream mLogHandle;
-	
 protected:
     /// Constructeur par défaut.
     GestionnaireReseau();
