@@ -68,7 +68,8 @@ RepartiteurActions::RepartiteurActions()
 	// Fonctions de changement de mode
 	banqueActions_["ALLER_MODE_EDITION"] = &RepartiteurActions::actionBoutonAllerModeEdition;
 	banqueActions_["ALLER_MODE_JEU"] = &RepartiteurActions::actionBoutonAllerModeJeu;
-	//banqueActions_["ALLER_MODE_TOURNOI"] = &RepartiteurActions::actionBoutonAllerModeTournoi;
+    banqueActions_["ALLER_MODE_TOURNOI"] = &RepartiteurActions::actionBoutonAllerModeTournoi;
+    banqueActions_["ALLER_MENU_PRINCIPAL"] = &RepartiteurActions::actionBoutonAllerMenuPrincipal;
 
 	// Fonctions de changement de camera
 	banqueActions_["CAMERA_FIXE"] = &RepartiteurActions::actionChangerModeCameraFixe;
@@ -107,8 +108,8 @@ RepartiteurActions::~RepartiteurActions()
 bool RepartiteurActions::appelerMethodeAction( std::string& action )
 {
 	if(banqueActions_.find(action) != banqueActions_.end())
-		(this ->*(banqueActions_[action]))();
-	return true;
+		return (this ->*(banqueActions_[action]))();
+	return false;
 }
 
 

@@ -834,7 +834,7 @@ void FacadeModele::afficher( )
 
     glDisable(GL_LIGHTING);
 
-#if BOX2D_INTEGRATED && BOX2D_DEBUG
+#if BOX2D_DEBUG
     const b2Vec2 pos[] = {
         b2Vec2(30,30),
         b2Vec2(30,-30),

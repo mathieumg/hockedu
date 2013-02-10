@@ -59,7 +59,7 @@ namespace UIHeavyClient
 
             // Sets the timer interval to 1/60 seconds.
             mRenderTimer.Interval = 20;
-            mLogicalTimer.Interval = 30;
+            mLogicalTimer.Interval = 16;
         }
 
         void OpenGLControl_VisibleChanged(object sender, EventArgs e)
