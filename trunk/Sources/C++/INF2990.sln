@@ -38,11 +38,6 @@ Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "PackageDiagram", "..\Diagra
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "SequenceDiagrams", "..\SequenceDiagrams\SequenceDiagrams.modelproj", "{4D8B9A69-1DD8-4616-881C-7A06CFB77FA7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServeurMaitre", "ServeurMaitre\ServeurMaitre.vcxproj", "{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A} = {BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		C++Client|Any CPU = C++Client|Any CPU
@@ -682,50 +677,6 @@ Global
 		{4D8B9A69-1DD8-4616-881C-7A06CFB77FA7}.WithJava|Win32.ActiveCfg = Release|Any CPU
 		{4D8B9A69-1DD8-4616-881C-7A06CFB77FA7}.WithJava|x64.ActiveCfg = Release|Any CPU
 		{4D8B9A69-1DD8-4616-881C-7A06CFB77FA7}.WithJava|x86.ActiveCfg = Release|Any CPU
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.C++Client|Any CPU.ActiveCfg = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.C++Client|Mixed Platforms.ActiveCfg = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.C++Client|Mixed Platforms.Build.0 = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.C++Client|Win32.ActiveCfg = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.C++Client|x64.ActiveCfg = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.C++Client|x64.Build.0 = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.C++Client|x86.ActiveCfg = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Debug|Mixed Platforms.Build.0 = Debug|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Debug|Win32.ActiveCfg = Debug|Win32
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Debug|Win32.Build.0 = Debug|Win32
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Debug|x64.ActiveCfg = Debug|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Debug|x64.Build.0 = Debug|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Debug|x86.ActiveCfg = Debug|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.DebugPrototype|Any CPU.ActiveCfg = Debug|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.DebugPrototype|Mixed Platforms.ActiveCfg = Debug|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.DebugPrototype|Mixed Platforms.Build.0 = Debug|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.DebugPrototype|Win32.ActiveCfg = Debug|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.DebugPrototype|x64.ActiveCfg = Debug|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.DebugPrototype|x64.Build.0 = Debug|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.DebugPrototype|x86.ActiveCfg = Debug|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Release|Any CPU.ActiveCfg = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Release|Mixed Platforms.ActiveCfg = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Release|Mixed Platforms.Build.0 = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Release|Win32.ActiveCfg = Release|Win32
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Release|Win32.Build.0 = Release|Win32
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Release|x64.ActiveCfg = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Release|x64.Build.0 = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Release|x86.ActiveCfg = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.UnitTest|Any CPU.ActiveCfg = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.UnitTest|Mixed Platforms.ActiveCfg = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.UnitTest|Mixed Platforms.Build.0 = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.UnitTest|Win32.ActiveCfg = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.UnitTest|x64.ActiveCfg = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.UnitTest|x64.Build.0 = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.UnitTest|x86.ActiveCfg = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.WithJava|Any CPU.ActiveCfg = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.WithJava|Mixed Platforms.ActiveCfg = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.WithJava|Mixed Platforms.Build.0 = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.WithJava|Win32.ActiveCfg = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.WithJava|x64.ActiveCfg = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.WithJava|x64.Build.0 = Release|x64
-		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.WithJava|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
