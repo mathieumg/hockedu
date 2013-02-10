@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sequenceDesignerDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 24.125" name="2.2.1 Manipuler des objets">
+  <SequenceDesignerModelMoniker Id="874b4ffd-8939-45b1-8c30-7ac52181bd0d" />
+  <nestedChildShapes>
+    <lifelineShape Id="cfe7a8ae-24a5-4e7e-8698-273cfafa3af8" absoluteBounds="1.025, 1, 0.15, 12.409166660631716" visible="true" visualStyleMode="Modified">
+      <lifelineMoniker Id="5733c438-44ef-4a38-a2b8-0a968237d7a0" LastKnownName="utilisateur : Utilisateur" />
+      <relativeChildShapes>
+        <umlLifelineHeadShape Id="566007a0-e22b-4a04-871d-b91341afc054" absoluteBounds="0.32619940757751453, 0.6, 1.5476011848449707, 0.4" customColor="White" visualStyleMode="Modified">
+          <lifelineMoniker Id="5733c438-44ef-4a38-a2b8-0a968237d7a0" LastKnownName="utilisateur : Utilisateur" />
+          <relativeChildShapes />
+        </umlLifelineHeadShape>
+        <lifelineHoverShape Id="a5e3a3a8-e0e6-4b6a-a7f5-acb2fdbc885a" absoluteBounds="1.025, 1, 0, 12.375">
+          <lifelineMoniker Id="5733c438-44ef-4a38-a2b8-0a968237d7a0" LastKnownName="utilisateur : Utilisateur" />
+        </lifelineHoverShape>
+      </relativeChildShapes>
+    </lifelineShape>
+    <lifelineShape Id="f41e640b-78e9-4d1b-a0d4-caf86bc68aa4" absoluteBounds="4.6270833333333332, 1, 0.15, 12.409166660631716" visible="true" visualStyleMode="Modified">
+      <lifelineMoniker Id="d114b13b-977b-4312-a457-981b621406b3" LastKnownName="client Leger : Client Leger" />
+      <relativeChildShapes>
+        <umlLifelineHeadShape Id="765b040c-c1fa-46f0-8839-7d93266984d0" absoluteBounds="3.8414771588643388, 0.6, 1.7212123489379883, 0.4" customColor="White" visualStyleMode="Modified">
+          <lifelineMoniker Id="d114b13b-977b-4312-a457-981b621406b3" LastKnownName="client Leger : Client Leger" />
+          <relativeChildShapes />
+        </umlLifelineHeadShape>
+        <lifelineHoverShape Id="71633ba8-efa6-42de-aff3-b8c02ce6a6a6" absoluteBounds="4.6270833333333332, 1, 0, 12.375">
+          <lifelineMoniker Id="d114b13b-977b-4312-a457-981b621406b3" LastKnownName="client Leger : Client Leger" />
+        </lifelineHoverShape>
+      </relativeChildShapes>
+    </lifelineShape>
+    <interactionUseShape Id="f13f70ea-be68-44e4-b429-124ff911aee0" absoluteBounds="0.825, 1.85, 4.1520833333333336, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="8841aef3-db9e-4c67-8818-53f4147b27c2" LastKnownName="2.2.1.1 Ajouter un objet" />
+    </interactionUseShape>
+    <combinedFragmentShape Id="eb88372d-3d22-4699-9404-5ec54062520f" absoluteBounds="0.3649999998509883, 1.3, 4.8220833336313564, 11.339999996647238" visible="true" visualStyleMode="Modified">
+      <combinedFragmentMoniker Id="def8d863-590b-4ee7-9606-410a5a745c46" LastKnownName="CombinedFragment1" />
+      <nestedChildShapes>
+        <interactionOperandShape Id="b88846f6-70f7-497f-9cde-4ce8f4c08857" absoluteBounds="0.38499999940395346, 1.55, 4.7770833346371848, 1.1700000000000004">
+          <interactionOperandMoniker Id="47c0298e-d0a2-4fd4-be47-9434bd961f01" LastKnownName="InteractionOperand1" />
+        </interactionOperandShape>
+        <interactionOperandShape Id="6be4c6b1-ce43-4019-b68a-bdf8e45d1f58" absoluteBounds="0.38499999940395346, 2.7499999993294484, 4.7770833346371848, 9.8699999977648254">
+          <interactionOperandMoniker Id="cb2243d0-f2b5-43de-9392-e9e38b51196b" LastKnownName="InteractionOperand2" />
+          <nestedChildShapes>
+            <combinedFragmentShape Id="928ae603-c020-46b7-a483-cc5c7a9d20fc" absoluteBounds="0.50500000044703475, 3.9199999993294483, 4.5420833324392635, 1.4399999995529651" visible="true" visualStyleMode="Modified">
+              <combinedFragmentMoniker Id="d63256e9-0e92-4182-a483-0d0590300c0b" LastKnownName="CombinedFragment1" />
+              <nestedChildShapes>
+                <interactionOperandShape Id="18d7bd7e-753a-46b4-b725-4f4649f8d230" absoluteBounds="0.52499999999999991, 4.1699999993294483, 4.4970833334450919, 1.17">
+                  <interactionOperandMoniker Id="1f3de56e-9fc1-40b5-9f1a-c8cd0487505b" LastKnownName="InteractionOperand1" />
+                </interactionOperandShape>
+              </nestedChildShapes>
+            </combinedFragmentShape>
+            <combinedFragmentShape Id="18e43982-30cd-473c-972b-a3681834928a" absoluteBounds="0.50500000044703475, 5.6599999988824132, 4.5420833324392635, 1.4399999995529651" visible="true" visualStyleMode="Modified">
+              <combinedFragmentMoniker Id="2c9070e1-9ad3-4ccb-8a53-810a46ff806d" LastKnownName="CombinedFragment2" />
+              <nestedChildShapes>
+                <interactionOperandShape Id="c0689f29-6405-4edc-b2ba-bdff5d141010" absoluteBounds="0.52499999999999991, 5.9099999988824132, 4.4970833334450919, 1.17">
+                  <interactionOperandMoniker Id="d800ef53-6c30-404e-bb0a-4c9a93acfdb0" LastKnownName="InteractionOperand1" />
+                </interactionOperandShape>
+              </nestedChildShapes>
+            </combinedFragmentShape>
+            <combinedFragmentShape Id="f7bacdef-8bd7-4a51-bd02-3ed3e8c595e0" absoluteBounds="0.50500000044703475, 7.3999999984353781, 4.5420833324392635, 1.4399999995529651" visible="true" visualStyleMode="Modified">
+              <combinedFragmentMoniker Id="311326e9-353b-4985-b926-12b3b4d15f12" LastKnownName="CombinedFragment3" />
+              <nestedChildShapes>
+                <interactionOperandShape Id="7d8032f5-d93e-42aa-9a0e-ac7cf5cb8502" absoluteBounds="0.52499999999999991, 7.6499999984353773, 4.4970833334450919, 1.17">
+                  <interactionOperandMoniker Id="4ad8e8d2-d595-4814-9698-f38f3e2dda3f" LastKnownName="InteractionOperand1" />
+                </interactionOperandShape>
+              </nestedChildShapes>
+            </combinedFragmentShape>
+            <combinedFragmentShape Id="5801e926-b6d7-4ed4-8dd4-dd151940d0ff" absoluteBounds="0.50500000044703475, 9.1399999979883439, 4.5420833324392635, 1.4399999995529651" visible="true" visualStyleMode="Modified">
+              <combinedFragmentMoniker Id="c26c9e15-2c3e-437c-a2de-ec0199476357" LastKnownName="CombinedFragment4" />
+              <nestedChildShapes>
+                <interactionOperandShape Id="bf967026-9119-40b5-9d49-e30c2b8d6f3c" absoluteBounds="0.52499999999999991, 9.3899999979883439, 4.4970833334450919, 1.17">
+                  <interactionOperandMoniker Id="f8695de7-7c61-4036-8cb1-32b2722440d8" LastKnownName="InteractionOperand1" />
+                </interactionOperandShape>
+              </nestedChildShapes>
+            </combinedFragmentShape>
+            <combinedFragmentShape Id="9f1a02eb-70fe-4d20-bfb8-ba401833426f" absoluteBounds="0.50500000044703475, 10.879999997541308, 4.5420833324392635, 1.4399999995529669" visible="true" visualStyleMode="Modified">
+              <combinedFragmentMoniker Id="df84d895-21c6-4271-8264-fa5e9f144289" LastKnownName="CombinedFragment5" />
+              <nestedChildShapes>
+                <interactionOperandShape Id="3ae43a73-ed6d-4e21-b6cf-2e3f5c552752" absoluteBounds="0.52499999999999991, 11.12999999754131, 4.4970833334450919, 1.17">
+                  <interactionOperandMoniker Id="fbbc4a03-0f5a-4dab-b11a-e49494915500" LastKnownName="InteractionOperand1" />
+                </interactionOperandShape>
+              </nestedChildShapes>
+            </combinedFragmentShape>
+          </nestedChildShapes>
+        </interactionOperandShape>
+      </nestedChildShapes>
+    </combinedFragmentShape>
+    <interactionUseShape Id="18b35248-bb90-4ab6-9e06-d0ff366fa524" absoluteBounds="0.825, 3.0499999993294473, 4.1520833333333336, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="efbb23a7-8cef-48ab-90e8-f8221ed8b67c" LastKnownName="2.2.1.7 Sélectionner un objet" />
+    </interactionUseShape>
+    <interactionUseShape Id="03c763c8-36f4-4138-9db9-d1d811eb471b" absoluteBounds="0.825, 4.4699999993294472, 4.1520833333333336, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="e4856f4e-ac3d-4344-8e3c-a275c09674b5" LastKnownName="2.2.1.2 Supprimer un objet" />
+    </interactionUseShape>
+    <interactionUseShape Id="15ecfbd8-9af8-426e-9338-2e23a9f65a6a" absoluteBounds="0.825, 6.2099999988824122, 4.1520833333333336, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="cbcca66e-fbb1-41d3-84de-46629c3872dd" LastKnownName="2.2.1.3 Dupliquer un objet" />
+    </interactionUseShape>
+    <interactionUseShape Id="736b927e-c5ce-4029-bcbe-50b20b203287" absoluteBounds="0.825, 7.9499999984353771, 4.1520833333333336, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="c2483e98-e8f5-46af-b288-d7b74a710c28" LastKnownName="2.2.1.4 Déplacer un objet" />
+    </interactionUseShape>
+    <interactionUseShape Id="c7b65bf7-db79-4427-85e5-96a23277e2a1" absoluteBounds="0.825, 9.6899999979883429, 4.1520833333333336, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="32a3c1c9-8319-4f29-986b-aaac68f0fc1b" LastKnownName="2.2.1.5 Mettre un objet à l'échelle" />
+    </interactionUseShape>
+    <interactionUseShape Id="b7358618-d57c-4042-be41-2bb2131d366f" absoluteBounds="0.825, 11.429999997541309, 4.1520833333333336, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="e22a9add-ecb3-42b6-bde5-0e405cf2ae17" LastKnownName="2.2.1.6 Modifier les propriétés physiques d'un objet" />
+    </interactionUseShape>
+  </nestedChildShapes>
+</sequenceDesignerDiagram>

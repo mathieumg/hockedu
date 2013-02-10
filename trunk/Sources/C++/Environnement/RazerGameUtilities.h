@@ -5,7 +5,7 @@
 /// @version 2.0
 ///
 /// 
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////
 #ifndef __ENVIRONNEMENT_RAZERGAMEUTILITIES_H__
@@ -24,7 +24,7 @@ public:
    static const std::string NOM_ACCELERATEUR;
 
    /// La chaîne représentant le dossier.
-   static const std::string NOM_DOSSIER;
+   static const std::string NOM_DOSSIER_MEDIA;
 
    /// La chaîne représentant l'extension.
    static const std::string NOM_EXTENSION;
@@ -67,7 +67,7 @@ public:
 };
 
 
-#endif // __ENVIRONNEMENT_UTILITAIREINF2990_H__
+#endif // __ENVIRONNEMENT_RAZERGAMEUTILITIES_H__
 
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -4,7 +4,7 @@
 /// @date 2012-01-30
 /// @version 1.0 
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 #ifndef __APPLICATION_FACADEMODELE_H__
@@ -14,7 +14,7 @@
 #define _WINSOCKAPI_
 #include <windows.h>
 #include "Vecteur.h"
-#include "INF2990TypeDef.h"
+#include "RazerGameTypeDef.h"
 #include "jni.h"
 #include "GameTime.h"
 #include <queue>

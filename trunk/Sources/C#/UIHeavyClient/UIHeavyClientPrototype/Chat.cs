@@ -4,7 +4,7 @@
 /// @date 2013-01-28
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -150,11 +150,11 @@ namespace UIHeavyClientPrototype
             }
         }
 
-        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void SendMessageDLL(string pUsername, string pMessage);
         // sends a request to connect the user. Will not be necessarly connected when exiting this function
         // must wait for a callback indicating the status of this user's connection
-        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void RequestLogin( string pUsername, string pIpAdress );
 
         ////////////////////////////////////////////////////////////////////////////////////
@@ -180,7 +180,7 @@ namespace UIHeavyClientPrototype
 
 
         delegate bool EventReceivedCallBack(int id, IntPtr message);
-        [DllImport(@"INF2990.dll")]
+        [DllImport(@"RazerGame.dll")]
         static extern void SetEventCallback(EventReceivedCallBack callback);
         ////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////
@@ -440,7 +440,7 @@ namespace UIHeavyClientPrototype
         //Callback to received user messages from C++
         //declare the callback prototype
         delegate bool MessageReceivedCallBack(IntPtr username, IntPtr message);
-        [DllImport(@"INF2990.dll")]
+        [DllImport(@"RazerGame.dll")]
         static extern void SetMessageCallback(MessageReceivedCallBack callback);
         static bool MessageReceived(IntPtr pUsername, IntPtr pMessage)
         {

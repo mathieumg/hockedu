@@ -1,6 +1,6 @@
 #pragma once
 #include "VisiteurNoeud.h"
-#include "INF2990TypeDef.h"
+#include "RazerGameTypeDef.h"
 
 
 class VisiteurSelectionOpenGL :

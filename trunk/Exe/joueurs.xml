@@ -1,6 +1,0 @@
-<?xml version="1.0" ?>
-<ProfileJoueurs>
-    <Joueur Type="1" vitesse="500" probEchec="0">
-        <nom>Chuck Norris</nom>
-    </Joueur>
-</ProfileJoueurs>

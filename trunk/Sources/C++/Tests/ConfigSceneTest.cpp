@@ -4,7 +4,7 @@
 /// @date 2012-02-02
 /// @version 2.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -13,7 +13,7 @@
 #include "JoueurHumain.h"
 #include "Utilitaire.h"
 #include <algorithm>
-#include "..\Arbre\RazerGameTree.h"
+#include "RazerGameTree.h"
 
 // Enregistrement de la suite de tests au sein du registre
 CPPUNIT_TEST_SUITE_REGISTRATION( ConfigSceneTest );
@@ -199,6 +199,9 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
 	CPPUNIT_ASSERT (grantChild == NULL);
 
 	// Parcours de l'arbre complet
+
+    remove("tests_xml\\TestEnregistrement.xml");
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -229,6 +232,9 @@ void ConfigSceneTest::testLectureArbreRenduXML()
 
 	arbre2->vider();
 	delete arbre2;
+
+    remove("tests_xml\\TestLecture.xml");
+
 }
 
 
@@ -361,7 +367,7 @@ void ConfigSceneTest::testLectureEcritureJoueurXML()
 	CPPUNIT_ASSERT(conteneurJoueur2.find("bot9") != conteneurJoueur2.end());
 	CPPUNIT_ASSERT(conteneurJoueur2.find("random") == conteneurJoueur2.end());
 
-
+    remove("tests_xml\\TestEnregistrementJoueur.xml");
 	//for_each(conteneurJoueur.begin(),conteneurJoueur.end(),utilitaire::LibererMappe());
 	//for_each(conteneurJoueur2.begin(),conteneurJoueur2.end(),utilitaire::LibererMappe());
 

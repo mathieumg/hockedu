@@ -4,7 +4,7 @@
 /// @date 2012-01-27
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -281,7 +281,7 @@ void GestionnaireModeles::recharger( const std::string& type )
 	Modele3D *modele= new Modele3D();
 
 	/// Rechargement du modele
-	modele->charger(RazerGameUtilities::NOM_DOSSIER+type+RazerGameUtilities::NOM_EXTENSION);
+	modele->charger(RazerGameUtilities::NOM_DOSSIER_MEDIA+type+RazerGameUtilities::NOM_EXTENSION);
 	ajoutModele(type,modele);
     GLuint liste = CreerListe(modele);
     AjouterListe(type, liste);
@@ -459,7 +459,7 @@ DWORD WINAPI WorkerLoadModel( LPVOID arg )
 		const string& modelName = modelInfo.mModelName;
 
 		Modele3D* modele = new Modele3D();
-		if(!modele->charger(RazerGameUtilities::NOM_DOSSIER+modelName+RazerGameUtilities::NOM_EXTENSION))
+		if(!modele->charger(RazerGameUtilities::NOM_DOSSIER_MEDIA+modelName+RazerGameUtilities::NOM_EXTENSION))
         {
             tampon->vec.pop_back();
             continue;

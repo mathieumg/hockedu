@@ -4,7 +4,7 @@
 /// @date 2012-03-26
 /// @version 1.0 
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
@@ -312,7 +312,7 @@ void GestionnaireHUD::creerHUDJeu()
 	HUDSurfaceGL *cercleDuCentre = new HUDSurfaceGL(GL_TRIANGLE_FAN, listeDesVertexes01,Vecteur4f(1.0f,1.0f,1.0f,1.0f));
 	cercleDuCentre->modifierPosition(0.47f,0.0f);
 	cercleDuCentre->modifierTaille(0.06f,0.7f);
-	cercleDuCentre->assignerTexture(std::string("media/razer-logo_opaque.png"));
+	cercleDuCentre->assignerTexture(RazerGameUtilities::NOM_DOSSIER_MEDIA +"razer-logo_opaque.png");
 	panneauScores->add(cercleDuCentre);
 
 	// Chronomètre sous le symbole.
@@ -369,7 +369,7 @@ void GestionnaireHUD::creerHUDJeu()
 	pointsReplay->push_back(Vecteur2f(1.0f,1.0f));
 	pointsReplay->push_back(Vecteur2f(1.0f,0.0f));
 	HUDSurfaceGL* imageReplay=new HUDSurfaceGL(GL_QUADS, pointsReplay, Vecteur4f(1.0f,1.0f,1.0f,1.0f));
-	imageReplay->assignerTexture(std::string("media/replay_frame.png"));
+	imageReplay->assignerTexture(std::string(RazerGameUtilities::NOM_DOSSIER_MEDIA + "replay_frame.png"));
 	panneauReplay->add(imageReplay);
 	panneauReplay->modifierPosition(0,0);
 	panneauReplay->modifierTaille(1,1);

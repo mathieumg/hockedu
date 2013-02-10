@@ -4,13 +4,13 @@
 /// @date 2012-02-17
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 #include "Partie.h"
-#include "INF2990TypeDef.h"
+#include "RazerGameTypeDef.h"
 
 typedef std::vector<Partie*> ConteneurPartie;
 typedef std::pair<unsigned int, PositionJoueur> Vainqueur;

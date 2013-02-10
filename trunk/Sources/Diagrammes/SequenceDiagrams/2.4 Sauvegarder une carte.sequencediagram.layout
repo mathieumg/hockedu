@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sequenceDesignerDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="2.4 Sauvegarder une carte">
+  <SequenceDesignerModelMoniker Id="6f2d01f0-16c6-4d38-9b9f-53d0654fd076" />
+  <nestedChildShapes>
+    <lifelineShape Id="03dad2da-2a29-4205-b73e-cd5a027f0b50" absoluteBounds="1.025, 1, 0.15, 3.92541666554908" visible="true" visualStyleMode="Modified">
+      <lifelineMoniker Id="cdc2cd57-ad52-4bc6-8e7f-23d57fe9bdbb" LastKnownName="utilisateur : Utilisateur" />
+      <relativeChildShapes>
+        <umlLifelineHeadShape Id="d9aedc4f-72cf-4888-9f88-cca1f67d0e20" absoluteBounds="0.32619940757751453, 0.6, 1.5476011848449707, 0.4" customColor="White" visualStyleMode="Modified">
+          <lifelineMoniker Id="cdc2cd57-ad52-4bc6-8e7f-23d57fe9bdbb" LastKnownName="utilisateur : Utilisateur" />
+          <relativeChildShapes />
+        </umlLifelineHeadShape>
+        <lifelineHoverShape Id="3b7d578b-dab4-4b08-b090-4de9324882c5" absoluteBounds="1.025, 1, 0, 3.875">
+          <lifelineMoniker Id="cdc2cd57-ad52-4bc6-8e7f-23d57fe9bdbb" LastKnownName="utilisateur : Utilisateur" />
+        </lifelineHoverShape>
+      </relativeChildShapes>
+    </lifelineShape>
+    <lifelineShape Id="1e5fda6d-718f-421a-9dde-f88b80d91d36" absoluteBounds="3.6270833333333332, 1, 0.15, 3.92541666554908" visible="true" visualStyleMode="Modified">
+      <lifelineMoniker Id="c1e66c48-f49b-47ac-b7c8-42c31ace8e37" LastKnownName="client Leger : Client Leger" />
+      <relativeChildShapes>
+        <umlLifelineHeadShape Id="1a583dce-49c9-4d5c-9a36-e48cf0fc8a7a" absoluteBounds="2.8414771588643388, 0.6, 1.7212123489379883, 0.4" customColor="White" visualStyleMode="Modified">
+          <lifelineMoniker Id="c1e66c48-f49b-47ac-b7c8-42c31ace8e37" LastKnownName="client Leger : Client Leger" />
+          <relativeChildShapes />
+        </umlLifelineHeadShape>
+        <lifelineHoverShape Id="e54b70d0-fc6b-4289-b24d-dc66afaf13b5" absoluteBounds="3.6270833333333332, 1, 0, 3.875">
+          <lifelineMoniker Id="c1e66c48-f49b-47ac-b7c8-42c31ace8e37" LastKnownName="client Leger : Client Leger" />
+        </lifelineHoverShape>
+      </relativeChildShapes>
+    </lifelineShape>
+    <interactionUseShape Id="668b8fbf-d4fb-4a59-9866-1737ec22fd21" absoluteBounds="0.825, 1.85, 3.1520833333333331, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="a043fa0b-9be7-4826-aa25-e9a118ec8fa8" LastKnownName="2.4.1 Enregistrer une carte localement" />
+    </interactionUseShape>
+    <combinedFragmentShape Id="ab275de7-a98f-4c8a-9b5b-f37827a11a9b" absoluteBounds="0.50500000044703475, 1.3, 3.542083332439264, 2.6399999988824132" visible="true" visualStyleMode="Modified">
+      <combinedFragmentMoniker Id="b70e24d3-3879-411d-9642-b8195cd4dff6" LastKnownName="CombinedFragment1" />
+      <nestedChildShapes>
+        <interactionOperandShape Id="bf5a6b4e-d3cc-46ed-a9f6-3d1432475495" absoluteBounds="0.52499999999999991, 1.55, 3.4970833334450924, 1.1700000000000004">
+          <interactionOperandMoniker Id="24236f41-c783-4211-80e1-38cb5baa6e5f" LastKnownName="InteractionOperand1" />
+        </interactionOperandShape>
+        <interactionOperandShape Id="20dc0ae0-b278-40e1-8be8-63f79d637332" absoluteBounds="0.52499999999999991, 2.7499999993294484, 3.4970833334450924, 1.17">
+          <interactionOperandMoniker Id="ee4383d8-7fa1-4a7a-bd2c-737d09663cbd" LastKnownName="InteractionOperand2" />
+        </interactionOperandShape>
+      </nestedChildShapes>
+    </combinedFragmentShape>
+    <interactionUseShape Id="67f42ae8-80cc-4225-aae3-fe1d0b5896bf" absoluteBounds="0.825, 3.0499999993294473, 3.1520833333333331, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="0e636112-53d3-494d-af60-7518c1831646" LastKnownName="2.4.2 Envoyer une carte au serveur web" />
+    </interactionUseShape>
+  </nestedChildShapes>
+</sequenceDesignerDiagram>

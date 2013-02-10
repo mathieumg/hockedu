@@ -4,7 +4,7 @@
 /// @date 2007-05-22
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -12,7 +12,7 @@
 // Commentaire Doxygen mis sur la première page de la documentation Doxygen.
 /**
 
-@mainpage Projet intégrateur de deuxième année -- INF2990
+@mainpage Projet intégrateur de troisième année -- LOG3900
 
 @li <a href="../javadoc/index.html">Documentation Javadoc de la partie Java.</a>
 */
@@ -372,12 +372,12 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
 	initialiserVue();
 
 	// Initialisation du skybox
-	const std::string xpos = "media/sb2_xpos.png";
-	const std::string xneg = "media/sb2_xneg.png";
-	const std::string ypos = "media/sb2_ypos.png";
-	const std::string yneg = "media/sb2_yneg.png";
-	const std::string zpos = "media/sb2_zpos.png";
-	const std::string zneg = "media/sb2_zneg.png";
+	const std::string xpos = RazerGameUtilities::NOM_DOSSIER_MEDIA + "sb2_xpos.png";
+    const std::string xneg = RazerGameUtilities::NOM_DOSSIER_MEDIA + "sb2_xneg.png";
+    const std::string ypos = RazerGameUtilities::NOM_DOSSIER_MEDIA + "sb2_ypos.png";
+    const std::string yneg = RazerGameUtilities::NOM_DOSSIER_MEDIA + "sb2_yneg.png";
+    const std::string zpos = RazerGameUtilities::NOM_DOSSIER_MEDIA + "sb2_zpos.png";
+    const std::string zneg = RazerGameUtilities::NOM_DOSSIER_MEDIA + "sb2_zneg.png";
 	boiteEnvironnement= new utilitaire::BoiteEnvironnement(xpos,xneg,ypos,yneg,zpos,zneg);
 
 	SoundFMOD::obtenirInstance()->playApplicationSong(STARTUP_SONG);

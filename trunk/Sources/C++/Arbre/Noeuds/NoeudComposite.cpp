@@ -3,7 +3,7 @@
 /// @author DGI-2990
 /// @date   2007-01-25
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ////////////////////////////////////////////////
 

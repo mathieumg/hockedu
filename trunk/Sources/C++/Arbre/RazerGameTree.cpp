@@ -4,7 +4,7 @@
 /// @date 2007-03-23
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////
 #include "RazerGameTree.h"
@@ -27,7 +27,7 @@
 /// @fn RazerGameTree::RazerGameTree()
 ///
 /// Ce constructeur crée toutes les usines qui seront utilisées par le
-/// projet de INF2990et les enregistre auprès de la classe de base.
+/// projet et les enregistre auprès de la classe de base.
 /// Il crée également la structure de base de l'arbre de rendu, c'est-à-dire
 /// avec les noeuds structurants.
 ///

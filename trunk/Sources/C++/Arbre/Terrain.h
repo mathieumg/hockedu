@@ -4,14 +4,14 @@
 /// @date 2012-03-19
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include <string>
 #include "ZoneEdition.h"
 #include <vector>
-#include "INF2990TypeDef.h"
+#include "RazerGameTypeDef.h"
 
 class RazerGameTree;
 class ArbreNoeudLibre;

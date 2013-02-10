@@ -1,6 +1,0 @@
-<Arbre>
-    <muret pos0="0" pos1="0" pos2="0" echelle0="1" echelle1="1" echelle2="1" angle="0" affiche="1" selectionnable="1" coefRebond="0.75" coinA0="0" coinA1="0" coinA2="0" coinB0="0" coinB1="0" coinB2="0">
-        <portail pos0="0" pos1="0" pos2="0" echelle0="1" echelle1="1" echelle2="1" angle="0" affiche="1" selectionnable="1" />
-        <rondelle pos0="0" pos1="0" pos2="0" echelle0="1" echelle1="1" echelle2="1" angle="0" affiche="1" selectionnable="1" />
-    </muret>
-</Arbre>

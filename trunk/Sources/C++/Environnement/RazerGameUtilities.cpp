@@ -1,10 +1,10 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file UtilitaireINF2990.cpp
-/// @author Martin Bisson
+/// @file RazerGameUtilities.cpp
+/// @author Michael Ferris
 /// @date 2007-05-22
 /// @version 1.0 
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 #include "RazerGameUtilities.h"
@@ -45,7 +45,7 @@
 
 
    /// La chaîne représentant le dossier.
-   const std::string RazerGameUtilities::NOM_DOSSIER = "media/";
+   const std::string RazerGameUtilities::NOM_DOSSIER_MEDIA = "../media/";
 
    /// La chaîne représentant l'extension.
    const std::string RazerGameUtilities::NOM_EXTENSION = ".obj";

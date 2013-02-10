@@ -4,7 +4,7 @@
 /// @date 2012-02-02
 /// @version 2.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 #ifndef __CONFIGURATION_CONFIGSCENE_H__
@@ -13,7 +13,7 @@
 #include "Singleton.h"
 #include "Vecteur.h"
 #include "tinyxml.h"
-#include "INF2990TypeDef.h"
+#include "RazerGameTypeDef.h"
 #include "SoundFMOD.h"
 #include "LumiereAmbiante.h"
 #include "LumiereDirectionnelle.h"

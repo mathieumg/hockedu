@@ -16,26 +16,26 @@ namespace UIHeavyClient
         static System.Windows.Forms.Timer mRenderTimer = new System.Windows.Forms.Timer();
         static System.Windows.Forms.Timer mLogicalTimer = new System.Windows.Forms.Timer();
 
-        [DllImport(@"INF2990.dll")]
+        [DllImport(@"RazerGame.dll")]
         static extern void InitOpenGL(IntPtr hWnd);
-        [DllImport(@"INF2990.dll")]
+        [DllImport(@"RazerGame.dll")]
         static extern void RenderOpenGL();
-        [DllImport(@"INF2990.dll")]
+        [DllImport(@"RazerGame.dll")]
         static extern void LogicUpdate(float time);
-        [DllImport(@"INF2990.dll")]
+        [DllImport(@"RazerGame.dll")]
         static extern void WindowResized(int width, int height);
 
-        [DllImport(@"INF2990.dll")]
+        [DllImport(@"RazerGame.dll")]
         static extern void OnKeyPressed(int key);
-        [DllImport(@"INF2990.dll")]
+        [DllImport(@"RazerGame.dll")]
         static extern void OnKeyReleased(int key);
-        [DllImport(@"INF2990.dll")]
+        [DllImport(@"RazerGame.dll")]
         static extern void OnMousePressed(int x, int y, MouseButtons button);
-        [DllImport(@"INF2990.dll")]
+        [DllImport(@"RazerGame.dll")]
         static extern void OnMouseReleased(int x, int y, MouseButtons button);
-        [DllImport(@"INF2990.dll")]
+        [DllImport(@"RazerGame.dll")]
         static extern void OnMouseMoved(int x, int y, MouseButtons button);
-        [DllImport(@"INF2990.dll")]
+        [DllImport(@"RazerGame.dll")]
         static extern void OnMouseWheelMoved(int deltaRotation);
 
 

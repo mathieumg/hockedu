@@ -4,7 +4,7 @@
 /// @date 2011-05-19
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef __MODELE3D_H__

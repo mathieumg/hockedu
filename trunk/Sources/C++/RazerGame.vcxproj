@@ -1,0 +1,418 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="WithJava|x64">
+      <Configuration>WithJava</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{67188F6B-27BE-4E93-A7EF-C512656343A1}</ProjectGuid>
+    <RootNamespace>RazerGame</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectName>RazerGame</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../Content/Exe/</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'">../../Content/JavaExe/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../Content/Release/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'">false</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</PostBuildEventUseInBuild>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;C:\Program Files\Java\jdk1.6.0_25\include;</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'">$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;C:\Program Files\Java\jdk1.6.0_25\include;</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;../../Commun/Externe/</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;RazerGame_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;freetype246_D_x64.lib;glew32s.lib;tinyxml_D_x64.lib;assimp_D_x64.lib;cppunit_D_x64.lib;fmodex64_vc.lib;glew32.lib;Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>$(JAVA_HOME)/lib;../../Commun/Externe/xerces-c/lib;../../Commun/Externe/FreeType/lib;../../Commun/Externe/GLEW/lib;../../Commun/Externe/tinyxml/lib;../../Commun/Externe/assimp/lib;../../Commun/Externe/cppunit/lib;../../Commun/Externe/FMOD/lib;../../Commun/Externe/Box2D/Libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>$(SolutionDir)..\Java\LancerInterfaceGraphiqueTests.bat</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Tests Unitaires</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;../../Commun/Externe/</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;RazerGame_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;freetype246_D_x64.lib;glew32s.lib;tinyxml_D_x64.lib;assimp_D_x64.lib;cppunit_D_x64.lib;fmodex64_vc.lib;glew32.lib;Box2D.lib;jawt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>$(JAVA_HOME)/lib;../../Commun/Externe/xerces-c/lib;../../Commun/Externe/FreeType/lib;../../Commun/Externe/GLEW/lib;../../Commun/Externe/tinyxml/lib;../../Commun/Externe/assimp/lib;../../Commun/Externe/cppunit/lib;../../Commun/Externe/FMOD/lib;../../Commun/Externe/Box2D/Libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>cp -v $(SolutionDir)..\..\Exe\DLL\$(ProjectName).dll $(SolutionDir)..\Sources\Java\InterfaceGraphique\DLL</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Tests Unitaires</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;RazerGame_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;freetype246_R_x64.lib;glew32s.lib;tinyxml_R_x64.lib;assimp_R_x64.lib;cppunit_R_x64.lib;fmodex64_vc.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>$(JAVA_HOME)/lib;../../Commun/Externe/xerces-c/lib;../../Commun/Externe/FreeType/lib;../../Commun/Externe/GLEW/lib;../../Commun/Externe/tinyxml/lib;../../Commun/Externe/assimp/lib;../../Commun/Externe/cppunit/lib;../../Commun/Externe/FMOD/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>$(SolutionDir)..\Java\LancerInterfaceGraphique.bat</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Tests unitaires</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Application\FacadeModele.cpp" />
+    <ClCompile Include="Application\RepartiteurActions.cpp" />
+    <ClCompile Include="Arbre\ArbreNoeudLibre.cpp" />
+    <ClCompile Include="Arbre\HUD\GestionnaireHUD.cpp" />
+    <ClCompile Include="Arbre\HUD\HUDElement.cpp" />
+    <ClCompile Include="Arbre\HUD\HUDElementComparatif.cpp" />
+    <ClCompile Include="Arbre\HUD\HUDMultiligne.cpp" />
+    <ClCompile Include="Arbre\HUD\HUDSurfaceGL.cpp" />
+    <ClCompile Include="Arbre\HUD\HUDTexte.cpp" />
+    <ClCompile Include="Arbre\Modeles\GestionnaireModeles.cpp" />
+    <ClCompile Include="Arbre\Modeles\Modele3D.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NoeudAccelerateur.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NoeudAffichage.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NoeudGroupe.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NoeudMuret.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NoeudBut.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NoeudMaillet.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NoeudMuretRelatif.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NoeudPiece.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NoeudPoint.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NoeudPortail.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NoeudRondelle.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NoeudTable.cpp" />
+    <ClCompile Include="Arbre\Terrain.cpp" />
+    <ClCompile Include="Arbre\Visiteur\VisiteurCollision.cpp" />
+    <ClCompile Include="Arbre\Visiteur\VisiteurDeplacement.cpp" />
+    <ClCompile Include="Arbre\Visiteur\VisiteurDupliquer.cpp" />
+    <ClCompile Include="Arbre\Visiteur\VisiteurEchelle.cpp" />
+    <ClCompile Include="Arbre\Visiteur\VisiteurEstSelectione.cpp" />
+    <ClCompile Include="Arbre\Visiteur\VisiteurFunction.cpp" />
+    <ClCompile Include="Arbre\Visiteur\VisiteurModifierProprieteNoeud.cpp" />
+    <ClCompile Include="Arbre\Visiteur\VisiteurNoeud.cpp" />
+    <ClCompile Include="Arbre\Visiteur\VisiteurEcrireXML.cpp" />
+    <ClCompile Include="Arbre\Visiteur\VisiteurRotation.cpp" />
+    <ClCompile Include="Arbre\Visiteur\VisiteurSelection.cpp" />
+    <ClCompile Include="Arbre\Visiteur\VisiteurSelectionOpenGL.cpp" />
+    <ClCompile Include="Arbre\Visiteur\VisiteurSuppression.cpp" />
+    <ClCompile Include="Arbre\ZoneEdition.cpp" />
+    <ClCompile Include="Environnement\Evenements\EvenementClavier.cpp" />
+    <ClCompile Include="Environnement\Evenements\EvenementRouletteSouris.cpp" />
+    <ClCompile Include="Environnement\Evenements\EvenementSouris.cpp" />
+    <ClCompile Include="Environnement\RazerGameUtilities.cpp" />
+    <ClCompile Include="Interface\DebugRenderBox2D.cpp" />
+    <ClCompile Include="Interface\EtatSouris\SourisEtatAbstrait.cpp" />
+    <ClCompile Include="Interface\EtatSouris\SourisEtatAjout.cpp" />
+    <ClCompile Include="Interface\EtatSouris\SourisEtatAjoutMuret.cpp" />
+    <ClCompile Include="Interface\EtatSouris\SourisEtatDeplacerFenetre.cpp" />
+    <ClCompile Include="Interface\EtatSouris\SourisEtatOrbit.cpp" />
+    <ClCompile Include="Interface\EtatSouris\SourisEtatSelection.cpp" />
+    <ClCompile Include="Interface\EtatSouris\SourisEtatTransformationDeplacement.cpp" />
+    <ClCompile Include="Interface\EtatSouris\SourisEtatTransformationEchelle.cpp" />
+    <ClCompile Include="Interface\EtatSouris\SourisEtatTransformationRotation.cpp" />
+    <ClCompile Include="Interface\EtatSouris\SourisEtatZoomElastique.cpp" />
+    <ClCompile Include="Interface\EtatSouris\SourisEtatZoomProportionnel.cpp" />
+    <ClCompile Include="Interface\FacadeCSharp.cpp" />
+    <ClCompile Include="Interface\FacadeJNI.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Configuration\ConfigScene.cpp" />
+    <ClCompile Include="Arbre\ArbreRendu.cpp" />
+    <ClCompile Include="Arbre\RazerGameTree.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NoeudAbstrait.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NoeudComposite.cpp" />
+    <ClCompile Include="Interface\GestionEtat\GestionnaireEtatAbstrait.cpp" />
+    <ClCompile Include="Interface\GestionEtat\GestionnaireEtatMenuPrincipal.cpp" />
+    <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeEdition.cpp" />
+    <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeJeu.cpp" />
+    <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeTournoi.cpp" />
+    <ClCompile Include="Interface\GestionEtat\GestionnaireEtatPartieRapideTerminee.cpp" />
+    <ClCompile Include="Interface\GestionEtat\GestionnaireEtatPartieTournoiTerminee.cpp" />
+    <ClCompile Include="Interface\GestionnaireEvenements.cpp" />
+    <ClCompile Include="Jeu\AI\AIMaillet.cpp" />
+    <ClCompile Include="Jeu\AI\AIStrat.cpp" />
+    <ClCompile Include="Jeu\AI\AIStratDefensive.cpp" />
+    <ClCompile Include="Jeu\AI\AIStratOffensive.cpp" />
+    <ClCompile Include="Jeu\JoueurAbstrait.cpp" />
+    <ClCompile Include="Jeu\JoueurHumain.cpp" />
+    <ClCompile Include="Jeu\JoueurVirtuel.cpp" />
+    <ClCompile Include="Jeu\Partie.cpp" />
+    <ClCompile Include="Jeu\Tournoi.cpp" />
+    <ClCompile Include="Reseau\ControllerCSharp.cpp" />
+    <ClCompile Include="Reseau\GestionnaireReseauClientLourd.cpp" />
+    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp" />
+    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerChatUserStatus.cpp" />
+    <ClCompile Include="Reseau\Paquets\PaquetChatMessage.cpp" />
+    <ClCompile Include="Reseau\Paquets\PaquetChatUserStatus.cpp" />
+    <ClCompile Include="Reseau\RelayeurMessage.cpp" />
+    <ClCompile Include="Sons\SoundFMOD.cpp" />
+    <ClCompile Include="Tests\BancTests.cpp" />
+    <ClCompile Include="Tests\ConfigSceneTest.cpp" />
+    <ClCompile Include="Tests\GestionnaireEvenementsTest.cpp" />
+    <ClCompile Include="Tests\GestionnaireModelesTest.cpp" />
+    <ClCompile Include="Tests\NoeudAbstraitTest.cpp" />
+    <ClCompile Include="Tests\NoeudCompositeTest.cpp" />
+    <ClCompile Include="Tests\ProjectionOrthoTest.cpp" />
+    <ClCompile Include="Tests\TerrainTest.cpp" />
+    <ClCompile Include="Tests\TournoiTest.cpp" />
+    <ClCompile Include="Tests\VisiteurNoeudTest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application\FacadeModele.h" />
+    <ClInclude Include="Application\RepartiteurActions.h" />
+    <ClInclude Include="Arbre\ArbreNoeudLibre.h" />
+    <ClInclude Include="Arbre\HUD\GestionnaireHUD.h" />
+    <ClInclude Include="Arbre\HUD\HUDElement.h" />
+    <ClInclude Include="Arbre\HUD\HUDElementComparatif.h" />
+    <ClInclude Include="Arbre\HUD\HUDMultiligne.h" />
+    <ClInclude Include="Arbre\HUD\HUDSurfaceGL.h" />
+    <ClInclude Include="Arbre\HUD\HUDTexte.h" />
+    <ClInclude Include="Arbre\Modeles\GestionnaireModeles.h" />
+    <ClInclude Include="Arbre\Modeles\Modele3D.h" />
+    <ClInclude Include="Arbre\Noeuds\NoeudAccelerateur.h" />
+    <ClInclude Include="Arbre\Noeuds\NoeudAffichage.h" />
+    <ClInclude Include="Arbre\Noeuds\NoeudGroupe.h" />
+    <ClInclude Include="Arbre\Noeuds\NoeudMuret.h" />
+    <ClInclude Include="Arbre\Noeuds\NoeudBut.h" />
+    <ClInclude Include="Arbre\Noeuds\NoeudMaillet.h" />
+    <ClInclude Include="Arbre\Noeuds\NoeudMuretRelatif.h" />
+    <ClInclude Include="Arbre\Noeuds\NoeudPiece.h" />
+    <ClInclude Include="Arbre\Noeuds\NoeudPoint.h" />
+    <ClInclude Include="Arbre\Noeuds\NoeudPortail.h" />
+    <ClInclude Include="Arbre\Noeuds\NoeudRondelle.h" />
+    <ClInclude Include="Arbre\Noeuds\NoeudTable.h" />
+    <ClInclude Include="Arbre\Noeuds\PositionSubject.h" />
+    <ClInclude Include="Arbre\Terrain.h" />
+    <ClInclude Include="Arbre\Usines\UsineNoeudAccelerateur.h" />
+    <ClInclude Include="Arbre\Usines\UsineNoeudGroupe.h" />
+    <ClInclude Include="Arbre\Usines\UsineNoeudMuret.h" />
+    <ClInclude Include="Arbre\Usines\UsineNoeudMaillet.h" />
+    <ClInclude Include="Arbre\Usines\UsineNoeudPortail.h" />
+    <ClInclude Include="Arbre\Usines\UsineNoeudRondelle.h" />
+    <ClInclude Include="Arbre\Usines\UsineNoeudTable.h" />
+    <ClInclude Include="Arbre\Visiteur\VisiteurCollision.h" />
+    <ClInclude Include="Arbre\Visiteur\VisiteurDeplacement.h" />
+    <ClInclude Include="Arbre\Visiteur\VisiteurDupliquer.h" />
+    <ClInclude Include="Arbre\Visiteur\VisiteurEchelle.h" />
+    <ClInclude Include="Arbre\Visiteur\VisiteurEstSelectione.h" />
+    <ClInclude Include="Arbre\Visiteur\VisiteurFunction.h" />
+    <ClInclude Include="Arbre\Visiteur\VisiteurModifierProprieteNoeud.h" />
+    <ClInclude Include="Arbre\Visiteur\VisiteurNoeud.h" />
+    <ClInclude Include="Arbre\Visiteur\VisiteurEcrireXML.h" />
+    <ClInclude Include="Arbre\Visiteur\VisiteurRotation.h" />
+    <ClInclude Include="Arbre\Visiteur\VisiteurSelection.h" />
+    <ClInclude Include="Arbre\Visiteur\VisiteurSelectionOpenGL.h" />
+    <ClInclude Include="Arbre\Visiteur\VisiteurSuppression.h" />
+    <ClInclude Include="Arbre\ZoneEdition.h" />
+    <ClInclude Include="Configuration\RazerGameTypeDef.h" />
+    <ClInclude Include="Environnement\Evenements\EvenementClavier.h" />
+    <ClInclude Include="Environnement\Evenements\EvenementRouletteSouris.h" />
+    <ClInclude Include="Environnement\Evenements\EvenementSouris.h" />
+    <ClInclude Include="Environnement\RazerGameUtilities.h" />
+    <ClInclude Include="Interface\CodesEvenements.h" />
+    <ClInclude Include="Interface\DebugRenderBox2D.h" />
+    <ClInclude Include="Interface\EtatSouris\SourisEtatAbstrait.h" />
+    <ClInclude Include="Interface\EtatSouris\SourisEtatAjout.h" />
+    <ClInclude Include="Interface\EtatSouris\SourisEtatAjoutMuret.h" />
+    <ClInclude Include="Interface\EtatSouris\SourisEtatDeplacerFenetre.h" />
+    <ClInclude Include="Interface\EtatSouris\SourisEtatOrbit.h" />
+    <ClInclude Include="Interface\EtatSouris\SourisEtatSelection.h" />
+    <ClInclude Include="Interface\EtatSouris\SourisEtatTransformationDeplacement.h" />
+    <ClInclude Include="Interface\EtatSouris\SourisEtatTransformationEchelle.h" />
+    <ClInclude Include="Interface\EtatSouris\SourisEtatTransformationRotation.h" />
+    <ClInclude Include="Interface\EtatSouris\SourisEtatZoomElastique.h" />
+    <ClInclude Include="Interface\EtatSouris\SourisEtatZoomProportionnel.h" />
+    <ClInclude Include="Interface\FacadeCSharp.h" />
+    <ClInclude Include="Interface\FacadeJNI.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Configuration\ConfigScene.h" />
+    <ClInclude Include="Arbre\ArbreRendu.h" />
+    <ClInclude Include="Arbre\RazerGameTree.h" />
+    <ClInclude Include="Arbre\Usines\UsineNoeud.h" />
+    <ClInclude Include="Arbre\Noeuds\NoeudAbstrait.h" />
+    <ClInclude Include="Arbre\Noeuds\NoeudComposite.h" />
+    <ClInclude Include="Interface\GestionEtat\GestionnaireEtatAbstrait.h" />
+    <ClInclude Include="Interface\GestionEtat\GestionnaireEtatMenuPrincipal.h" />
+    <ClInclude Include="Interface\GestionEtat\GestionnaireEtatModeEdition.h" />
+    <ClInclude Include="Interface\GestionEtat\GestionnaireEtatModeJeu.h" />
+    <ClInclude Include="Interface\GestionEtat\GestionnaireEtatModeTournoi.h" />
+    <ClInclude Include="Interface\GestionEtat\GestionnaireEtatPartieRapideTerminee.h" />
+    <ClInclude Include="Interface\GestionEtat\GestionnaireEtatPartieTournoiTerminee.h" />
+    <ClInclude Include="Interface\GestionnaireEvenements.h" />
+    <ClInclude Include="Jeu\AI\AIMaillet.h" />
+    <ClInclude Include="Jeu\AI\AIStrat.h" />
+    <ClInclude Include="Jeu\AI\AIStratDefensive.h" />
+    <ClInclude Include="Jeu\AI\AIStratOffensive.h" />
+    <ClInclude Include="Jeu\JoueurAbstrait.h" />
+    <ClInclude Include="Jeu\JoueurHumain.h" />
+    <ClInclude Include="Jeu\JoueurVirtuel.h" />
+    <ClInclude Include="Jeu\Partie.h" />
+    <ClInclude Include="Jeu\Tournoi.h" />
+    <ClInclude Include="Reseau\ControllerCSharp.h" />
+    <ClInclude Include="Reseau\GestionnaireReseauClientLourd.h" />
+    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerChatMessage.h" />
+    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerChatUserStatus.h" />
+    <ClInclude Include="Reseau\Paquets\PaquetChatMessage.h" />
+    <ClInclude Include="Reseau\Paquets\PaquetChatUserStatus.h" />
+    <ClInclude Include="Reseau\RelayeurMessage.h" />
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetChatMessage.h" />
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetChatUserStatus.h" />
+    <ClInclude Include="Sons\SoundFMOD.h" />
+    <ClInclude Include="Tests\BancTests.h" />
+    <ClInclude Include="Tests\ConfigSceneTest.h" />
+    <ClInclude Include="Tests\GestionnaireEvenementsTest.h" />
+    <ClInclude Include="Tests\GestionnaireModelesTest.h" />
+    <ClInclude Include="Tests\NoeudAbstraitTest.h" />
+    <ClInclude Include="Tests\NoeudCompositeTest.h" />
+    <ClInclude Include="Tests\ProjectionOrthoTest.h" />
+    <ClInclude Include="Tests\TerrainTest.h" />
+    <ClInclude Include="Tests\TournoiTest.h" />
+    <ClInclude Include="Tests\VisiteurNoeudTest.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Commun\Externe\BuildBox2D\vs2010\Box2D.vcxproj">
+      <Project>{98400d17-43a5-1a40-95be-c53ac78e7694}</Project>
+      <Private>true</Private>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Commun\Utilitaire\Utilitaire.vcxproj">
+      <Project>{bb8c9c8a-3b65-4599-b4fe-ca965ee76d2a}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="ClientPrototypeV2\ClientPrototypeV2.vcxproj">
+      <Project>{2d7dec8b-4f27-454a-a01c-14e76fa674ae}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

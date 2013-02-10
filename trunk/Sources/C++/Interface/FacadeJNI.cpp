@@ -4,7 +4,7 @@
 /// @date 2007-08-14
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #define _WINSOCKAPI_
@@ -20,7 +20,6 @@
 #include "FacadeModele.h"
 #include "Vue.h"
 #include "AideGL.h"
-#include "RazerGameTree.h"
 #include "CompteurAffichage.h"
 #include "BancTests.h"
 
@@ -36,7 +35,7 @@
 #include "RazerGameUtilities.h"
 #include "JoueurVirtuel.h"
 #include "JoueurHumain.h"
-#include "INF2990TypeDef.h"
+#include "RazerGameTypeDef.h"
 #include "VisiteurModifierProprieteNoeud.h"
 #include "SoundFMOD.h"
 #include "Tournoi.h"

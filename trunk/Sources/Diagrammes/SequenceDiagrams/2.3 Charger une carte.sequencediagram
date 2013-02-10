@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SequenceDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="4a0feca0-5674-40bb-97c3-0dbc4a03284c" name="2.3 Charger une carte" linkedPackageId="95337ba7-ba32-49ef-ba4e-78bb5e5df36e" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner">
+  <packagedElements>
+    <packageHasNamedElement>
+      <interaction Id="f2c7fb74-79fe-4b43-9d81-df4fe71dcb1d" name="2.3 Charger une carte" collapseFragmentsFlag="false" isActiveClass="false" isAbstract="false" isLeaf="false" isReentrant="false">
+        <elementDefinition Id="7e93de5d-5e88-411b-a245-ec9feaae3b02" />
+        <fragments>
+          <interactionUse Id="b7b77d78-36cb-4690-9091-ee85fd6b1702" name="2.3.1 Charger une carte locale" referredToFile="2.3.1 Charger une carte locale">
+            <referencesInternal>
+              <reference Id="c79984c4-9e21-431d-85fb-361f16856486" handle="backplane://Backplane/Microsoft.VisualStudio.TeamArchitect.SequenceDesigner.ToolAdapter.SequenceServiceManager/4d8b9a69-1dd8-4616-881c-7a06cfb77fa7\2.3.1 Charger une carte locale.sequencediagram" tag="Definition Reference">
+                <elementDefinition Id="8d733791-5ad2-460f-b66d-89ab6234174e" />
+              </reference>
+            </referencesInternal>
+            <elementDefinition Id="9af45635-3395-4714-aa20-0f63866e993a" />
+            <coveredLifelines>
+              <lifelineMoniker Id="7ab2d133-ee14-40dc-9173-c6ddc34ac175" LastKnownName="utilisateur : Utilisateur" />
+              <lifelineMoniker Id="1b6e987c-0006-470c-8f1d-2e3da0cb52a8" LastKnownName="client Leger : Client Leger" />
+            </coveredLifelines>
+            <interactionUseOccurrenceSpecifications>
+              <interactionUseOccurrenceSpecificationMoniker Id="d4032eef-9aca-4122-aa89-2768c368bd12" LastKnownName="InteractionUseOccurrenceSpecification1" />
+              <interactionUseOccurrenceSpecificationMoniker Id="a50ed587-16f3-4695-b000-3e0508b88ddb" LastKnownName="InteractionUseOccurrenceSpecification2" />
+            </interactionUseOccurrenceSpecifications>
+          </interactionUse>
+          <interactionUseOccurrenceSpecification Id="d4032eef-9aca-4122-aa89-2768c368bd12" name="InteractionUseOccurrenceSpecification1">
+            <elementDefinition Id="5feb66bf-09a8-4995-b146-c396909a1580" />
+            <covered>
+              <lifelineMoniker Id="7ab2d133-ee14-40dc-9173-c6ddc34ac175" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <interactionUseOccurrenceSpecification Id="a50ed587-16f3-4695-b000-3e0508b88ddb" name="InteractionUseOccurrenceSpecification2">
+            <elementDefinition Id="78cc7b57-25d8-4ea2-84b6-b1cfa8d200e2" />
+            <covered>
+              <lifelineMoniker Id="1b6e987c-0006-470c-8f1d-2e3da0cb52a8" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <interactionUse Id="63b6e2be-0bfe-4251-9fbe-a79120756f01" name="2.3.2 Charger une carte distante" referredToFile="2.3.2 Charger une carte distante">
+            <referencesInternal>
+              <reference Id="dc904aae-b629-41d9-b067-a74b6da7c98a" handle="backplane://Backplane/Microsoft.VisualStudio.TeamArchitect.SequenceDesigner.ToolAdapter.SequenceServiceManager/4d8b9a69-1dd8-4616-881c-7a06cfb77fa7\2.3.2 Charger une carte distante.sequencediagram" tag="Definition Reference">
+                <elementDefinition Id="0a08cf57-118c-4b06-abc6-95bf314258c8" />
+              </reference>
+            </referencesInternal>
+            <elementDefinition Id="c937ce52-7a17-4aba-bd1f-95524ee89b93" />
+            <coveredLifelines>
+              <lifelineMoniker Id="7ab2d133-ee14-40dc-9173-c6ddc34ac175" LastKnownName="utilisateur : Utilisateur" />
+              <lifelineMoniker Id="1b6e987c-0006-470c-8f1d-2e3da0cb52a8" LastKnownName="client Leger : Client Leger" />
+            </coveredLifelines>
+            <interactionUseOccurrenceSpecifications>
+              <interactionUseOccurrenceSpecificationMoniker Id="d19b1961-3b38-494f-8d1e-21a608ed1d47" LastKnownName="InteractionUseOccurrenceSpecification3" />
+              <interactionUseOccurrenceSpecificationMoniker Id="09677be8-8777-4592-9686-73e97de4bca0" LastKnownName="InteractionUseOccurrenceSpecification4" />
+            </interactionUseOccurrenceSpecifications>
+          </interactionUse>
+          <interactionUseOccurrenceSpecification Id="d19b1961-3b38-494f-8d1e-21a608ed1d47" name="InteractionUseOccurrenceSpecification3">
+            <elementDefinition Id="b5f6ec3e-c047-412a-8946-e775a72da766" />
+            <covered>
+              <lifelineMoniker Id="7ab2d133-ee14-40dc-9173-c6ddc34ac175" LastKnownName="utilisateur : Utilisateur" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+          <interactionUseOccurrenceSpecification Id="09677be8-8777-4592-9686-73e97de4bca0" name="InteractionUseOccurrenceSpecification4">
+            <elementDefinition Id="cbfa3fb2-bb5e-4b7e-9eb9-0909814afccb" />
+            <covered>
+              <lifelineMoniker Id="1b6e987c-0006-470c-8f1d-2e3da0cb52a8" LastKnownName="client Leger : Client Leger" />
+            </covered>
+          </interactionUseOccurrenceSpecification>
+        </fragments>
+        <lifelines>
+          <lifeline Id="7ab2d133-ee14-40dc-9173-c6ddc34ac175" name="utilisateur : Utilisateur" isActor="true" lifelineDisplayName="utilisateur : Utilisateur">
+            <elementDefinition Id="390b16a0-b29a-4473-8a8f-e0412fe1b087" />
+            <represents>
+              <propertyMoniker Id="81a63f5a-96ab-4579-9866-15a17d78346a" />
+            </represents>
+            <topLevelOccurrences>
+              <interactionUseOccurrenceSpecificationMoniker Id="d4032eef-9aca-4122-aa89-2768c368bd12" LastKnownName="InteractionUseOccurrenceSpecification1" />
+              <interactionUseOccurrenceSpecificationMoniker Id="d19b1961-3b38-494f-8d1e-21a608ed1d47" LastKnownName="InteractionUseOccurrenceSpecification3" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline Id="1b6e987c-0006-470c-8f1d-2e3da0cb52a8" name="client Leger : Client Leger" isActor="true" lifelineDisplayName="client Leger : Client Leger">
+            <elementDefinition Id="81a8998a-9fde-46f7-871e-a9621759bd72" />
+            <represents>
+              <propertyMoniker Id="0b26726d-31b3-4267-a8c3-02d3885603f6" />
+            </represents>
+            <topLevelOccurrences>
+              <interactionUseOccurrenceSpecificationMoniker Id="a50ed587-16f3-4695-b000-3e0508b88ddb" LastKnownName="InteractionUseOccurrenceSpecification2" />
+              <interactionUseOccurrenceSpecificationMoniker Id="09677be8-8777-4592-9686-73e97de4bca0" LastKnownName="InteractionUseOccurrenceSpecification4" />
+            </topLevelOccurrences>
+          </lifeline>
+        </lifelines>
+        <ownedAttributesInternal>
+          <property Id="81a63f5a-96ab-4579-9866-15a17d78346a" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="701bd2ba-23f2-49ac-8ae8-44e899370007" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="0a646d40-d32b-4d42-be14-cf829d665c0d" LastKnownName="Utilisateur" />
+            </type_NamedElement>
+          </property>
+          <property Id="0b26726d-31b3-4267-a8c3-02d3885603f6" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="1f84bfb7-ca6c-4745-98c0-5f746c0662f2" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="14ea0fe9-d8b4-43c2-ab71-c5bed422d970" LastKnownName="Client Leger" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+      </interaction>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="0a646d40-d32b-4d42-be14-cf829d665c0d" name="Utilisateur" isAbstract="false" isLeaf="false" cachedFullName="Diagrammes::Utilisateur">
+        <elementDefinition Id="45a57549-b92d-457c-a351-14cfdca18539" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="14ea0fe9-d8b4-43c2-ab71-c5bed422d970" name="Client Leger" isAbstract="false" isLeaf="false" cachedFullName="Diagrammes::Client Leger">
+        <elementDefinition Id="62828cb1-dd23-4d62-8996-487b92db172b" />
+      </referencedType>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="95337ba7-ba32-49ef-ba4e-78bb5e5df36e" name="Diagrammes">
+    <elementDefinition Id="bd496572-2d56-4f1a-82f9-f287c782ea4e" />
+    <profileInstances>
+      <packageHasProfileInstances Id="d26bd408-7346-4e79-92e6-a7afc0500293">
+        <profileInstance Id="78110775-4e42-4544-bb2d-1abdbe721bbf" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="be5d5813-fb9f-4f10-9df9-3d3d0f969d94">
+        <profileInstance Id="bed5f775-b15d-4414-bc5e-591dc1bbd4a5" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</SequenceDesignerModel>
