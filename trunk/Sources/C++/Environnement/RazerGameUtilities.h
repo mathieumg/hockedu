@@ -11,8 +11,6 @@
 #ifndef __ENVIRONNEMENT_RAZERGAMEUTILITIES_H__
 #define __ENVIRONNEMENT_RAZERGAMEUTILITIES_H__
 
-#define BOX2D_INTEGRATED 1
-#define BOX2D_DEBUG 1
 #include <string>
 
 class RazerGameUtilities {

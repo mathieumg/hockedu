@@ -54,7 +54,7 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
 #endif
 
 // Fonction pour faire la verification
-#ifdef _DEBUG
+#if !SHIPPING
 #define checkf(expr, ...)   { if(!(expr)) appFailAssert( #expr, __FILE__, __LINE__, ##__VA_ARGS__ ); }
 #else
 #define checkf(expr, ...)   

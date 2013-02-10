@@ -116,7 +116,7 @@ void NoeudMaillet::afficherConcret() const
     glPopAttrib();
     glPopMatrix();
 
-#if BOX2D_INTEGRATED && BOX2D_DEBUG
+#if BOX2D_DEBUG
     // Sauvegarde de la matrice.
     glPushMatrix();
     glPushAttrib(GL_ALL_ATTRIB_BITS);

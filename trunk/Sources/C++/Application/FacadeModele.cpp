@@ -360,7 +360,7 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
  	//ConfigScene::obtenirInstance()->obtenirLumiere(1)->allumerLumiere();
  	//ConfigScene::obtenirInstance()->obtenirLumiere(2)->allumerLumiere();
 
-#if _DEBUG
+#if !SHIPPING
     GestionnaireHUD::obtenirInstance();
     debugInfo = new HUDTexte("",Vecteur4f(0,1,1,1));
     debugInfo->modifierVisibilite(true);
