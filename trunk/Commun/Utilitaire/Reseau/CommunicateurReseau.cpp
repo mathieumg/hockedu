@@ -866,26 +866,12 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
                 throw ExceptionReseauTimeout("Blocage prevenu a la reception du PlayerName lors de la connection");
             }
             wNewSocket->recv((uint8_t*) &wPlayerName, 50, true);
-            // On verifie que le user n'est pas deja connecte
-            if(GestionnaireReseau::obtenirInstance()->getSocket(wPlayerName, TCP) == NULL)
+
+            // On verifie que le nom ne contient pas d'espaces et n'est pas vide
+            if(!GestionnaireReseau::obtenirInstance()->validerUsername(std::string(wPlayerName)))
             {
-                // On envoit un message de confirmation pour dire que la conenction est acceptee
-                wMessageConfirmation = USER_CONNECTED;
-                // Send connection state message
-                ss << wMessageConfirmation;
-                wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
-
-                // On ajoute le nouveau socket au gestionnaire reseau (avec son nom obtenu dans le paquet)
-                GestionnaireReseau::obtenirInstance()->saveSocket(std::string(wPlayerName), wNewSocket);
-				wNewSocket->setConnectionState(CONNECTED);
-
-
-            }
-            else
-            {
-                // Sinon on ne connecte pas et on delete le socket
-                // On envoit un message de confirmation pour dire que la conenction est acceptee
-                wMessageConfirmation = USER_ALREADY_CONNECTED;
+                // On envoit un message de confirmation pour dire que la conenction est refusee
+                wMessageConfirmation = INVALID_USERNAME;
                 // Send connection state message
                 ss << wMessageConfirmation;
                 wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
@@ -893,6 +879,40 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
                 wNewSocket->disconnect();
                 wNewSocket = 0;
             }
+            else
+            {
+                // On verifie que le user n'est pas deja connecte
+                if(GestionnaireReseau::obtenirInstance()->getSocket(wPlayerName, TCP) == NULL)
+                {
+                    // On envoit un message de confirmation pour dire que la conenction est acceptee
+                    wMessageConfirmation = USER_CONNECTED;
+                    // Send connection state message
+                    ss << wMessageConfirmation;
+                    wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
+
+                    // On ajoute le nouveau socket au gestionnaire reseau (avec son nom obtenu dans le paquet)
+                    GestionnaireReseau::obtenirInstance()->saveSocket(std::string(wPlayerName), wNewSocket);
+                    wNewSocket->setConnectionState(CONNECTED);
+
+
+                }
+                else
+                {
+                    // Sinon on ne connecte pas et on delete le socket
+                    // On envoit un message de confirmation pour dire que la conenction est refusee
+                    wMessageConfirmation = USER_ALREADY_CONNECTED;
+                    // Send connection state message
+                    ss << wMessageConfirmation;
+                    wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
+
+                    wNewSocket->disconnect();
+                    wNewSocket = 0;
+                }
+            }
+
+
+
+            
 
         }
         catch(ExceptionReseauTimeout&)

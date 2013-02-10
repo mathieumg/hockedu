@@ -36,6 +36,7 @@ enum EventCodes {
     USER_DID_NOT_SEND_NAME_ON_CONNECTION, 
     USER_CONNECTED, 
     USER_DISCONNECTED, 
+    INVALID_USERNAME = USER_DISCONNECTED, // Pour eviter d'avoir a changer le handling pour le prototype. Mettre 2 enums separes pour la version finale
     CONNECTION_CANCELED,
     RECONNECTION_TIMEOUT, 
     RECONNECTION_IN_PROGRESS, 
@@ -119,6 +120,10 @@ public:
 
 	// True si valide
 	bool validerOperation(const std::string& pOperation) const;
+
+    // True si valide
+    bool validerUsername(const std::string& pUsername) const;
+
 	PacketHandler* getPacketHandler(const std::string& pOperation);
 
 	// Methode pour sauvegarder un socket en fonction d'un nom de joueur

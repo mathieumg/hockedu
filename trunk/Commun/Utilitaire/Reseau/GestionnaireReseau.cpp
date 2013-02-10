@@ -951,6 +951,26 @@ void GestionnaireReseau::getListeAdressesIPLocales(std::list<std::string>& pOut)
 
 
 
+bool GestionnaireReseau::validerUsername( const std::string& pUsername ) const
+{
+    // Verifier que le nom n'est pas vide
+    if(pUsername.length() == 0)
+    {
+        return false;
+    }
+
+    // Verifier que le nom ne contient pas d'espaces
+    if(pUsername.find(" ") != std::string::npos)
+    {
+        return false;
+    }
+
+
+    return true;
+}
+
+
+
 
 
 
