@@ -4,7 +4,7 @@
 /// @date 2007-01-25
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef __ARBRE_NOEUDS_NOEUDCOMPOSITE_H__
@@ -12,7 +12,7 @@
 
 
 #include "NoeudAbstrait.h"
-#include "INF2990TypeDef.h"
+#include "RazerGameTypeDef.h"
 
 class NoeudCompositeTest;
 
@@ -108,7 +108,7 @@ public:
 	virtual void ajusterVitesse( const float& temps );
 	
 	/// Retourne les racines des sous-arbres selectionnees
-	ConteneurNoeuds obtenirNoeudsSelectionnes() const;
+    void getSelectedNodes(ConteneurNoeuds& pSelectedNodes) const;
 	/// Retourne true si un enfant possede un noeid selectionne
 	virtual bool possedeSelection();
 	/// Modificateur de terrain_

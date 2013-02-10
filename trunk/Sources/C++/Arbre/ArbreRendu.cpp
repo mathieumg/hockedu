@@ -3,7 +3,7 @@
 /// @author Martin Bisson
 /// @date   2007-01-28
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ////////////////////////////////////////////////
 

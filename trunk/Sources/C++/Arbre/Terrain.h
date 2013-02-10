@@ -4,15 +4,16 @@
 /// @date 2012-03-19
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include <string>
 #include "ZoneEdition.h"
 #include <vector>
+#include "RazerGameTypeDef.h"
 
-class ArbreRenduINF2990;
+class RazerGameTree;
 class ArbreNoeudLibre;
 class ZoneEdition;
 class NoeudTable;
@@ -80,6 +81,18 @@ public:
 	void appliquerPhysique( float temps );
     /// Updates the content of the game to be ready to play
     void fullRebuild();
+    /// Show or hide the control points of the table ( they are hidden during play )
+    void setTableControlPointVisible(bool pVisible);
+    /// removes user selection on all nodes
+    void setTableItemsSelection(bool pSelect);
+    /// Indicates if any node in the logic tree is selected
+    bool IsAnyNodeSelected() const;
+    /// Launch a visitor on the field
+    void acceptVisitor(class VisiteurNoeud& visitor);
+    /// duplicate nodes selected that can be duplicated
+    void duplicateSelection();
+    /// gets the list of node selected
+    void getSelectedNodes(ConteneurNoeuds& pSelectedNodes) const;
 
 #if BOX2D_INTEGRATED
     /// Callback before the contact between 2 fixtures
@@ -100,44 +113,46 @@ private:
 	/// Methode pour initialiser l'arbre de rendu
 	void initialiserArbreRendu();
 
-   
-
 	/// Fields
 private:
 	/// Le nom du terrain est en fait le chemin pour la sauvegarde en XML
-	std::string nom_;
+	std::string mFieldName;
 	
-	/// Arbre de rendus du terrain
-	ArbreRenduINF2990* arbreRendu_;
-	ArbreRenduINF2990* arbreAffichage_;
-	ArbreNoeudLibre* arbreAjoutNoeud_;
+	/// Tree containing game items
+	RazerGameTree* mLogicTree;
+    /// tree containing items used only to display
+	RazerGameTree* mRenderTree;
+    /// tree containing temporary node for display
+	ArbreNoeudLibre* mNewNodeTree;
 
 	/// Conservation d'un pointeur vers la table
-	NoeudTable* table_;
+	NoeudTable* mTable;
 	
-
 	/// Contient la zone d'édition du terrain
-	ZoneEdition zoneEdition_;
+	ZoneEdition mEditionZone;
 	
 	/// Indique si le terrain est initialise et donc s'il contient ses elements de base
-	bool initialise_;
+	bool mbIsInit;
 
 /// Accesseurs
 public:
 	/// Accesseur de arbreRendu_
-	inline ArbreRenduINF2990* getArbreRendu() const { return arbreRendu_; }
+	inline RazerGameTree* getLogicTree() const { return mLogicTree; }
 	/// Accesseur de zoneEdition_
-	inline ZoneEdition& getZoneEdition() { return zoneEdition_; }
+	inline ZoneEdition& getZoneEdition() { return mEditionZone; }
 	/// Accesseur de nom_
-	std::string getNom() const { return nom_; }
+	std::string getNom() const { return mFieldName; }
 	/// Modificateur de nom_
-	void modifierNom(std::string val) { nom_ = val; }
+	void modifierNom(std::string val) { mFieldName = val; }
 	/// Accesseur de table_
-	inline NoeudTable* getTable() const { return table_; }
+	inline NoeudTable* getTable() const { return mTable; }
 	/// Accesseur de la rondelle sur le terrain.
 	NoeudRondelle* getRondelle() const ;
-    /// Accesseur des buts, l<argument DOIT etre un array de 2 pointeur sur des but
+    /// Accesseur des buts, l'argument DOIT etre un array de 2 pointeur sur des but
     void getGoals(class NoeudBut** pOutGoals);
+
+
+public:
 
 };
 

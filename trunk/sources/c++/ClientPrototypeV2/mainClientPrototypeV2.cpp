@@ -84,8 +84,8 @@ int main(void)  {
 
     */
 
-    delete wControlleur;
     system("pause");
+    delete wControlleur;
 
     return 0;
 }

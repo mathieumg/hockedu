@@ -4,7 +4,7 @@
 /// @date 2012-02-10
 /// @version 1.0 
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
@@ -14,7 +14,6 @@
 #include "FacadeModele.h"
 #include "VisiteurCollision.h"
 #include "NoeudMuret.h"
-#include "ArbreRenduINF2990.h"
 #include "Terrain.h"
 #include "HUDTexte.h"
 
@@ -30,7 +29,7 @@
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-SourisEtatAjoutMuret::SourisEtatAjoutMuret():SourisEtatAjout(ArbreRenduINF2990::NOM_MURET)
+SourisEtatAjoutMuret::SourisEtatAjoutMuret():SourisEtatAjout(RazerGameUtilities::NOM_MURET)
 {
 	etat_ = PLACERPOINT1;
 	positionClic1_ = 0;
@@ -104,11 +103,11 @@ void SourisEtatAjoutMuret::sourisRelachee( EvenementSouris& evenementSouris )
 		{
 			// On fixe le premier point
 			FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX], evenementSouris.obtenirPosition()[VY], positionClic1_);
-			VisiteurCollision v(positionClic1_.convertir<2>());
-			FacadeModele::getInstance()->visiterArbre(&v);
+			VisiteurCollision collisionVisitor(positionClic1_.convertir<2>());
+			FacadeModele::getInstance()->acceptVisitor(collisionVisitor);
 			noeud_->modifierSurligner(false);
 
-			if(v.collisionPresente() && v.obtenirNbrNoeudEncollision() > 1)
+			if(collisionVisitor.collisionPresente() && collisionVisitor.obtenirNbrNoeudEncollision() > 1)
 				return;
 			((NoeudMuret*)noeud_)->assignerPositionCoin(1, positionClic1_);
 			((NoeudMuret*)noeud_)->assignerPositionCoin(2, positionClic1_);

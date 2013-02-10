@@ -4,7 +4,7 @@
 /// @date 2012-01-25
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////
 #ifndef __ARBRE_NOEUDS_NoeudAffichage_H__

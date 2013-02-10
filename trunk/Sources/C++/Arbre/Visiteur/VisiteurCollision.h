@@ -4,14 +4,14 @@
 /// @date 2012-02-06
 /// @version 1.0 
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 #include "VisiteurNoeud.h"
 #include "AideCollision.h"
-#include "INF2990TypeDef.h"
+#include "RazerGameTypeDef.h"
 
 /// Enum contenant le type boite de collision à vérifier
 enum TypeCollision{SEGMENT, CERCLE};

@@ -4,16 +4,16 @@
 /// @date 2012-03-19
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
-#include "UtilitaireINF2990.h"
+#include "RazerGameUtilities.h"
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
 
 #include "Terrain.h"
-#include "ArbreRenduINF2990.h"
+#include "RazerGameTree.h"
 #include "ArbreNoeudLibre.h"
 #include "ZoneEdition.h"
 #include "NoeudTable.h"
@@ -33,6 +33,7 @@
 #include "NoeudPortail.h"
 #include "VisiteurFunction.h"
 #include "Partie.h"
+#include "VisiteurDupliquer.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -44,11 +45,11 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-Terrain::Terrain(): arbreRendu_(NULL), arbreAjoutNoeud_(NULL), table_(NULL),nom_(""),initialise_(false),arbreAffichage_(0)
+Terrain::Terrain(): mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mbIsInit(false),mRenderTree(0)
 {
-	arbreAffichage_ = new ArbreRenduINF2990();
-	NoeudAbstrait* piece = new NoeudPiece(ArbreRenduINF2990::NOM_PIECE);
-	arbreAffichage_->ajouter(piece);
+	mRenderTree = new RazerGameTree();
+	NoeudAbstrait* piece = new NoeudPiece(RazerGameUtilities::NOM_PIECE);
+	mRenderTree->ajouter(piece);
 	
 // 	std::vector<Vecteur3> vec;
 // 	vec.push_back(Vecteur3(-1200,-538,-100.51) );
@@ -129,10 +130,10 @@ Terrain::Terrain(): arbreRendu_(NULL), arbreAjoutNoeud_(NULL), table_(NULL),nom_
 Terrain::~Terrain()
 {
 	libererMemoire();
-	if(arbreAffichage_)
+	if(mRenderTree)
 	{
-		arbreAffichage_->vider();
-		delete arbreAffichage_;
+		mRenderTree->vider();
+		delete mRenderTree;
 	}
 }
 
@@ -150,25 +151,25 @@ void Terrain::libererMemoire()
 {
 	// S'assurer de remettre tous les pointeurs a NULL car la comparaison est utiliser 
 	// partout dans le terrain pour savoir si le pointeur est valide
-	if(arbreRendu_ != NULL)
+	if(mLogicTree != NULL)
 	{
 		// Libération de l'arbre de rendu complet
-		arbreRendu_->vider();
-		delete arbreRendu_;
-		arbreRendu_ = NULL;
+		mLogicTree->vider();
+		delete mLogicTree;
+		mLogicTree = NULL;
 	}
-	if(arbreAjoutNoeud_ != NULL)
+	if(mNewNodeTree != NULL)
 	{
 		// Ses enfants ne seront pas libérés, mais le terrain n'en n'est pas responsable
-		arbreAjoutNoeud_->vider();
-		delete arbreAjoutNoeud_;
-		arbreAjoutNoeud_ = NULL;
+		mNewNodeTree->vider();
+		delete mNewNodeTree;
+		mNewNodeTree = NULL;
 	}
 	// On ne libère pas la table, car elle est un enfant de l'arbre de rendu
-	table_ = NULL;
+	mTable = NULL;
 	
-	nom_ = "";
-	initialise_ = false;
+	mFieldName = "";
+	mbIsInit = false;
 }
 
 
@@ -186,14 +187,14 @@ void Terrain::libererMemoire()
 ////////////////////////////////////////////////////////////////////////
 void Terrain::afficherTerrain( bool afficherZoneEdition /*= false*/ )
 {
-	if(arbreRendu_)
-		arbreRendu_->afficher();
-	if(arbreAjoutNoeud_)
-		arbreAjoutNoeud_->afficher();
+	if(mLogicTree)
+		mLogicTree->afficher();
+	if(mNewNodeTree)
+		mNewNodeTree->afficher();
 	if(afficherZoneEdition)
 		getZoneEdition().afficher();
-	if(arbreAffichage_)
-		arbreAffichage_->afficher();
+	if(mRenderTree)
+		mRenderTree->afficher();
 }
 
 
@@ -218,16 +219,16 @@ void Terrain::initialiser( std::string nom )
 	///////////////////////////////////////////////////////////////////////////
 
 	// Assignation du nom du terrain
-	nom_ = nom;
+	mFieldName = nom;
 	// Initialisation de la Zone d'edition
 	getZoneEdition().reinitialiser();
 
 	// Initialisation des arbres de rendus
-	arbreAjoutNoeud_ = new ArbreNoeudLibre();
+	mNewNodeTree = new ArbreNoeudLibre();
 
 	initialiserArbreRendu();
 	
-	initialise_ = true;
+	mbIsInit = true;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -242,33 +243,33 @@ void Terrain::initialiser( std::string nom )
 ////////////////////////////////////////////////////////////////////////
 void Terrain::initialiserArbreRendu()
 {
-	if(arbreRendu_ == NULL)
-		arbreRendu_ = new ArbreRenduINF2990();
+	if(mLogicTree == NULL)
+		mLogicTree = new RazerGameTree();
 	else
-		arbreRendu_->vider();
-    arbreRendu_->modifierTerrain(this);
+		mLogicTree->vider();
+    mLogicTree->modifierTerrain(this);
 
 	// Ajout d'une table de base au terrain
-	table_ = new NoeudTable(ArbreRenduINF2990::NOM_TABLE);
-	arbreRendu_->ajouter(table_);
+	mTable = new NoeudTable(RazerGameUtilities::NOM_TABLE);
+	mLogicTree->ajouter(mTable);
 
 
 	/// Groupe destine a contenir les noeud concret pour un meilleur parcours d'arbre
-	NoeudGroupe* 	gMaillet =	new NoeudGroupe(ArbreRenduINF2990::NOM_GROUPE,ArbreRenduINF2990::NOM_MAILLET),
-		*gRondelle =	new NoeudGroupe(ArbreRenduINF2990::NOM_GROUPE,ArbreRenduINF2990::NOM_RONDELLE),
-		*gAccel =		new NoeudGroupe(ArbreRenduINF2990::NOM_GROUPE,ArbreRenduINF2990::NOM_ACCELERATEUR),
-		*gMuret =		new NoeudGroupe(ArbreRenduINF2990::NOM_GROUPE,ArbreRenduINF2990::NOM_MURET),
-		*gPortail =		new NoeudGroupe(ArbreRenduINF2990::NOM_GROUPE,ArbreRenduINF2990::NOM_PORTAIL);
+	NoeudGroupe* 	gMaillet =	new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_MAILLET),
+		*gRondelle =	new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_RONDELLE),
+		*gAccel =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_ACCELERATEUR),
+		*gMuret =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_MURET),
+		*gPortail =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_PORTAIL);
 
 	// La table contient ces groupes.
-	table_->ajouter(gRondelle);
-	table_->ajouter(gMaillet);
-	table_->ajouter(gAccel);
-	table_->ajouter(gMuret);
-	table_->ajouter(gPortail);
+	mTable->ajouter(gRondelle);
+	mTable->ajouter(gMaillet);
+	mTable->ajouter(gAccel);
+	mTable->ajouter(gMuret);
+	mTable->ajouter(gPortail);
 
 	// Permet de rediriger les bandes extérieur de la table vers le groupe  gMuret
-	table_->reassignerParentBandeExt();
+	mTable->reassignerParentBandeExt();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -287,8 +288,8 @@ bool Terrain::initialiserXml( TiXmlElement* element )
 	libererMemoire();
 	
 	// Initialisation des arbres de rendus
-	arbreAjoutNoeud_ = new ArbreNoeudLibre();
-	arbreRendu_ = new ArbreRenduINF2990();
+	mNewNodeTree = new ArbreNoeudLibre();
+	mLogicTree = new RazerGameTree();
 
 	TiXmlElement* racine = element->FirstChildElement("Terrain");
 	if(!racine)
@@ -296,18 +297,18 @@ bool Terrain::initialiserXml( TiXmlElement* element )
 	const char* nom = racine->Attribute("nom");
 	if(nom == 0)
 		return false;
-	nom_ = nom;
+	mFieldName = nom;
 
 	try
 	{
         // l'arbre doit connaitre le terrain avant de s'initialiser pour avoir acces a celui durant l'initialisation
-		arbreRendu_->modifierTerrain(this);
+		mLogicTree->modifierTerrain(this);
 
-		ConfigScene::obtenirInstance()->lireDOM(*racine,arbreRendu_);
-		table_ = arbreRendu_->obtenirTable();
-		if(table_ == NULL)
+		ConfigScene::obtenirInstance()->lireDOM(*racine,mLogicTree);
+		mTable = mLogicTree->obtenirTable();
+		if(mTable == NULL)
 			throw std::runtime_error("Il ny a pas de table sur le terrain");
-		table_->reassignerParentBandeExt();
+		mTable->reassignerParentBandeExt();
         fullRebuild();
 	}
 	catch(std::runtime_error& e)
@@ -343,10 +344,10 @@ bool Terrain::initialiserXml( TiXmlElement* element )
 void Terrain::reinitialiser()
 {
 	
-	if(!arbreAjoutNoeud_)
-		arbreAjoutNoeud_ = new ArbreNoeudLibre();
+	if(!mNewNodeTree)
+		mNewNodeTree = new ArbreNoeudLibre();
 	else
-		arbreAjoutNoeud_->vider();
+		mNewNodeTree->vider();
 
 	initialiserArbreRendu();
 	getZoneEdition().reinitialiser();
@@ -370,11 +371,11 @@ TiXmlElement* Terrain::creerNoeudXML()
 
 	racine->SetAttribute("nom",getNom().c_str() );
 
-	if(getArbreRendu())
+	if(getLogicTree())
 	{
-		getArbreRendu()->deselectionnerTout();
+		getLogicTree()->deselectionnerTout();
 		// Creation du domaine de l'arbre de rendu
-		ConfigScene::obtenirInstance()->creerDOM(*racine,getArbreRendu());
+		ConfigScene::obtenirInstance()->creerDOM(*racine,getLogicTree());
 	}
 
 	racine->LinkEndChild(getZoneEdition().creerNoeudXML());
@@ -395,12 +396,12 @@ TiXmlElement* Terrain::creerNoeudXML()
 ////////////////////////////////////////////////////////////////////////
 void Terrain::animerTerrain( const float& temps )
 {
-	if(arbreRendu_)
-		arbreRendu_->animer(temps);
-	if(arbreAjoutNoeud_)
-		arbreAjoutNoeud_->animer(temps);
-	if(arbreAffichage_)
-		arbreAffichage_->animer(temps);
+	if(mLogicTree)
+		mLogicTree->animer(temps);
+	if(mNewNodeTree)
+		mNewNodeTree->animer(temps);
+	if(mRenderTree)
+		mRenderTree->animer(temps);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -416,7 +417,7 @@ void Terrain::animerTerrain( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void Terrain::ajouterNoeudTemp( NoeudAbstrait* noeud )
 {
-	arbreAjoutNoeud_->ajouter(noeud);
+	mNewNodeTree->ajouter(noeud);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -432,8 +433,8 @@ void Terrain::ajouterNoeudTemp( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 void Terrain::transfererNoeud( NoeudAbstrait* noeud )
 {
-	arbreAjoutNoeud_->detacherEnfant(noeud);
-	table_->ajouter(noeud);
+	mNewNodeTree->detacherEnfant(noeud);
+	mTable->ajouter(noeud);
     noeud->forceFullUpdate();
 }
 
@@ -450,7 +451,7 @@ void Terrain::transfererNoeud( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 void Terrain::retirerNoeudTemp( NoeudAbstrait* noeud )
 {
-	arbreAjoutNoeud_->detacherEnfant(noeud);
+	mNewNodeTree->detacherEnfant(noeud);
 }
 
 
@@ -470,7 +471,7 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 	Vecteur3 pos = noeud->obtenirPositionAbsolue();
 
 	// Cas particulier pour des muret puisque ce sont des segment et non des cercles
-	if(noeud->obtenirType() == ArbreRenduINF2990::NOM_MURET)
+	if(noeud->obtenirType() == RazerGameUtilities::NOM_MURET)
 	{
 		NoeudMuret *muret = dynamic_cast<NoeudMuret *>(noeud);
 		if (muret)
@@ -536,17 +537,17 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 void Terrain::creerTerrainParDefaut(std::string nom)
 {
 	initialiser(nom);
-	NoeudAbstrait* maillet1 = getArbreRendu()->creerNoeud(ArbreRenduINF2990::NOM_MAILLET);
-	NoeudAbstrait* maillet2 = getArbreRendu()->creerNoeud(ArbreRenduINF2990::NOM_MAILLET);
-	NoeudAbstrait* rondelle = getArbreRendu()->creerNoeud(ArbreRenduINF2990::NOM_RONDELLE);
+	NoeudAbstrait* maillet1 = getLogicTree()->creerNoeud(RazerGameUtilities::NOM_MAILLET);
+	NoeudAbstrait* maillet2 = getLogicTree()->creerNoeud(RazerGameUtilities::NOM_MAILLET);
+	NoeudAbstrait* rondelle = getLogicTree()->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
 
-	maillet1->assignerPositionRelative(table_->obtenirPoint(POSITION_MILIEU_GAUCHE)->obtenirPositionAbsolue()/2.0);
-	maillet2->assignerPositionRelative(table_->obtenirPoint(POSITION_MILIEU_DROITE)->obtenirPositionAbsolue()/2.0);
+	maillet1->assignerPositionRelative(mTable->obtenirPoint(POSITION_MILIEU_GAUCHE)->obtenirPositionAbsolue()/2.0);
+	maillet2->assignerPositionRelative(mTable->obtenirPoint(POSITION_MILIEU_DROITE)->obtenirPositionAbsolue()/2.0);
 	rondelle->assignerPositionRelative(Vecteur3(0.0,0.0,0.0));
 
-	table_->ajouter(maillet1);
-	table_->ajouter(maillet2);
-	table_->ajouter(rondelle);
+	mTable->ajouter(maillet1);
+	mTable->ajouter(maillet2);
+	mTable->ajouter(rondelle);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -562,7 +563,7 @@ void Terrain::creerTerrainParDefaut(std::string nom)
 ////////////////////////////////////////////////////////////////////////
 bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 {
-	if(!table_)
+	if(!mTable)
 	{
 		if(afficherErreur)
 			utilitaire::afficherErreur("Erreur: table invalide\naucune table presente sur le terrain");
@@ -571,27 +572,27 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 	bool mailletGaucheOk = false, mailletDroiteOk = false, rondelleOk = false;
 
 	// on prend un des 2 buts
-	if(!table_->obtenirBut(1))
+	if(!mTable->obtenirBut(1))
 	{
 		if(afficherErreur)
 			utilitaire::afficherErreur("Erreur: table invalide\naucun buts presents sur le terrain");
 		return false;
 	}
-	float hauteurBut = table_->obtenirBut(1)->obtenirHauteurBut();
+	float hauteurBut = mTable->obtenirBut(1)->obtenirHauteurBut();
 
 	const unsigned int nbTypeModifiable = 5;
 	std::string typeNoeudModifiable[] = {
-		ArbreRenduINF2990::NOM_RONDELLE,
-		ArbreRenduINF2990::NOM_MAILLET,
-		ArbreRenduINF2990::NOM_ACCELERATEUR,
-		ArbreRenduINF2990::NOM_PORTAIL,
-		ArbreRenduINF2990::NOM_MURET,
+		RazerGameUtilities::NOM_RONDELLE,
+		RazerGameUtilities::NOM_MAILLET,
+		RazerGameUtilities::NOM_ACCELERATEUR,
+		RazerGameUtilities::NOM_PORTAIL,
+		RazerGameUtilities::NOM_MURET,
 	};
 	
 	// Suppression des noeuds qui ne sont pas sur la table
 	for(unsigned int i=0; i<nbTypeModifiable; ++i)
 	{
-		NoeudComposite* g = (NoeudComposite*)table_->obtenirGroupe(typeNoeudModifiable[i]);
+		NoeudComposite* g = (NoeudComposite*)mTable->obtenirGroupe(typeNoeudModifiable[i]);
 		if(g)
 		{
 			for(unsigned int j=0; j<g->obtenirNombreEnfants(); ++j)
@@ -600,7 +601,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 				// On verifie que le type est bon, surtout utile pour les bande exterieur qui ont un nom different et doivent etre ignorer par cette methode
 				if(n->obtenirType() == typeNoeudModifiable[i])
 				{
-					if(!table_->estSurTable(n) )
+					if(!mTable->estSurTable(n) )
 					{
 						// La suppression du noeud l'enlevera du groupe
 						g->effacer(n);
@@ -613,7 +614,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 	}
 
 	// Verification des maillets
-	NoeudComposite* g = (NoeudComposite*)table_->obtenirGroupe(ArbreRenduINF2990::NOM_MAILLET);
+	NoeudComposite* g = (NoeudComposite*)mTable->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
 	if(!g)
 		return false;
 	for(unsigned int j=0; j<g->obtenirNombreEnfants(); ++j)
@@ -646,7 +647,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 			}
 		}
 	}
-	g = (NoeudComposite*)table_->obtenirGroupe(ArbreRenduINF2990::NOM_RONDELLE);
+	g = (NoeudComposite*)mTable->obtenirGroupe(RazerGameUtilities::NOM_RONDELLE);
 	if(!g)
 		return false;
 	for(unsigned int j=0; j<g->obtenirNombreEnfants(); ++j)
@@ -705,7 +706,7 @@ NoeudRondelle* Terrain::getRondelle() const
 {
 	if(getTable())
 	{
-		NoeudComposite* g = (NoeudComposite*)getTable()->obtenirGroupe(ArbreRenduINF2990::NOM_RONDELLE);
+		NoeudComposite* g = (NoeudComposite*)getTable()->obtenirGroupe(RazerGameUtilities::NOM_RONDELLE);
 		if(g)
 		{
 			for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
@@ -730,7 +731,7 @@ NoeudRondelle* Terrain::getRondelle() const
 ////////////////////////////////////////////////////////////////////////
 void Terrain::appliquerPhysique( float temps )
 {
-	if(arbreRendu_)
+	if(mLogicTree)
 	{
 #if BOX2D_INTEGRATED
         /// TODO:: cache pointer to mallet for field to access directly
@@ -751,10 +752,10 @@ void Terrain::appliquerPhysique( float temps )
         FacadeModele::getInstance()->getWorld()->SetSubStepping(true);
         FacadeModele::getInstance()->getWorld()->Step(temps, 8, 8);
 #else
-		arbreRendu_->majPosition(temps);
-		arbreRendu_->gestionCollision(temps);
-		arbreRendu_->ajusterVitesse(temps);
-		arbreRendu_->ajusterEnfoncement();
+		mLogicTree->majPosition(temps);
+		mLogicTree->gestionCollision(temps);
+		mLogicTree->ajusterVitesse(temps);
+		mLogicTree->ajusterEnfoncement();
 #endif
 	}
 }
@@ -1025,17 +1026,135 @@ void Terrain::getGoals( NoeudBut** pOutGoals )
 ////////////////////////////////////////////////////////////////////////
 void Terrain::fullRebuild()
 {
-    checkf(arbreRendu_,"Requete pour un full rebuild d'un terrain sans arbre");
-    if(arbreRendu_)
+    checkf(mLogicTree,"Requete pour un full rebuild d'un terrain sans arbre");
+    if(mLogicTree)
     {
         VisiteurFunction v([](NoeudAbstrait* n)
         {
             n->forceFullUpdate();
         });
-        arbreRendu_->acceptVisitor(v);
+        mLogicTree->acceptVisitor(v);
     }
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::setTableControlPointVisible( bool pVisible )
+///
+/// Show or hide the control points of the table ( they are hidden during play )
+///
+/// @param[in] bool pVisible
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::setTableControlPointVisible( bool pVisible )
+{
+    if(mTable)
+    {
+        for (int i = 0; i < NoeudTable::NB_CONTROL_POINTS ; ++i)
+        {
+            // the control points always exists with the table
+            mTable->obtenirPoint(i)->assignerAffiche(pVisible);
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::deselectTableItems()
+///
+/// removes user selection on all nodes
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::setTableItemsSelection( bool pSelect )
+{
+    if(mLogicTree)
+    {
+        if(pSelect)
+        {
+            mLogicTree->selectionnerTout();
+        }
+        else
+        {
+            mLogicTree->deselectionnerTout();
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool Terrain::IsNodeSelected()
+///
+/// Indicates if any node in the logic tree is selected
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool Terrain::IsAnyNodeSelected() const
+{
+    return mLogicTree && mLogicTree->possedeSelection();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::acceptVisitor( class VisiteurNoeud* visiteur )
+///
+/// Launch a visitor on the field
+///
+/// @param[in] class VisiteurNoeud * visiteur
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::acceptVisitor( class VisiteurNoeud& visitor )
+{
+    if(mLogicTree)
+    {
+        mLogicTree->acceptVisitor(visitor);
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::duplicateSelection()
+///
+/// duplicate nodes selected that can be duplicated
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::duplicateSelection()
+{
+    if(mLogicTree)
+    {
+        acceptVisitor(VisiteurDupliquer(mLogicTree));
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::getSelectedNodes( ConteneurNoeuds& pSelectedNodes )
+///
+/// gets the list of node selected
+///
+/// @param[in] ConteneurNoeuds & pSelectedNodes
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::getSelectedNodes( ConteneurNoeuds& pSelectedNodes ) const
+{
+    if(mLogicTree)
+    {
+        mLogicTree->getSelectedNodes(pSelectedNodes);
+    }
+}
 
 
 ///////////////////////////////////////////////////////////////////////////

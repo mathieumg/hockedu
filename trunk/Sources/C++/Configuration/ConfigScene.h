@@ -4,7 +4,7 @@
 /// @date 2012-02-02
 /// @version 2.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 #ifndef __CONFIGURATION_CONFIGSCENE_H__
@@ -13,8 +13,7 @@
 #include "Singleton.h"
 #include "Vecteur.h"
 #include "tinyxml.h"
-#include "ArbreRenduINF2990.h"
-#include "INF2990TypeDef.h"
+#include "RazerGameTypeDef.h"
 #include "SoundFMOD.h"
 #include "LumiereAmbiante.h"
 #include "LumiereDirectionnelle.h"
@@ -24,7 +23,7 @@
 
 class Tournoi;
 class Terrain;
-
+class RazerGameTree;
 ///////////////////////////////////////////////////////////////////////////
 /// @class ConfigScene
 /// @brief Les variables de configuration de la classe CScene.
@@ -46,10 +45,10 @@ public:
 	void chargerConfiguration();
 
 	/// Créer le DOM avec les valeurs d'un arbre de rendu.
-	void creerDOM( TiXmlNode& node, ArbreRenduINF2990* arbre ) const;
+	void creerDOM( TiXmlNode& node, RazerGameTree* arbre ) const;
 
 	/// Lire les valeurs du DOM d'un arbre de rendu.
-	void lireDOM( const TiXmlNode& node, ArbreRenduINF2990* arbre );
+	void lireDOM( const TiXmlNode& node, RazerGameTree* arbre );
 	
 	/// Créer le DOM avec les valeurs d'une liste de joueur.
 	void creerDOM( TiXmlNode& node, const ConteneurJoueur& Joueurs ) const;
@@ -103,7 +102,7 @@ private:
 	// Lumieres 0-7
 	std::vector<LumiereAbstraite*> conteneurLumiere_;
 	/// Arbre de rendu
-	ArbreRenduINF2990* arbre_;
+	RazerGameTree* arbre_;
 
 public:
 

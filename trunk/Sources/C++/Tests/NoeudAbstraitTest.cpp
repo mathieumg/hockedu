@@ -4,7 +4,7 @@
 /// @date 2011-07-16
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -29,7 +29,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( NoeudAbstraitTest );
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstraitTest::setUp()
 {
-	noeud = new NoeudMaillet(ArbreRenduINF2990::NOM_MAILLET);
+	noeud = new NoeudMaillet(RazerGameUtilities::NOM_MAILLET);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -81,7 +81,7 @@ void NoeudAbstraitTest::testPositionRelative()
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstraitTest::testType()
 {
-	CPPUNIT_ASSERT( noeud->obtenirType() == ArbreRenduINF2990::NOM_MAILLET );
+	CPPUNIT_ASSERT( noeud->obtenirType() == RazerGameUtilities::NOM_MAILLET );
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -175,7 +175,7 @@ void NoeudAbstraitTest::testEnfants()
 void NoeudAbstraitTest::testAjout()
 {
 // 	// Essaie d'ajouter un noeud
-// 	NoeudAbstrait* nouveauNoeud = new NoeudConeCube(ArbreRenduINF2990::NOM_CUBECONE);
+// 	NoeudAbstrait* nouveauNoeud = new NoeudConeCube(RazerGameUtilities::NOM_CUBECONE);
 // 	bool ajout = noeud->ajouter(nouveauNoeud);
 // 
 // 	// L'ajout devrait avoir échoué puisqu'il s'agit d'un noeud abstrait...

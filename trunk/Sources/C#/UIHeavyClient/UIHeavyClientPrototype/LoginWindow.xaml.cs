@@ -4,7 +4,7 @@
 /// @date 2013-01-28
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -58,7 +58,7 @@ namespace UIHeavyClientPrototype
     public partial class LoginWindow : Window
     {
 
-        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void CancelConnection(string pUsername);
 
 

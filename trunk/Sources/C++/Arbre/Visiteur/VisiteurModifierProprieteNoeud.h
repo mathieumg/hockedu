@@ -4,7 +4,7 @@
 /// @date 2012-02-17
 /// @version 1.0 
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
@@ -72,8 +72,6 @@ private:
 	/// Les dimensions de la zone d'édition
 	float longueurZoneEdition_;
 	float hauteurZoneEdition_;
-	/// Accès direct au noeud représentant la table
-	NoeudTable* table_;
 
 	// Tableau contenant les coef de rebond pour les 8 bandes
 	float coefRebondBandes_[8];

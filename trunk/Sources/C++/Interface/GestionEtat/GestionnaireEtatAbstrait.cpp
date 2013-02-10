@@ -4,7 +4,7 @@
 /// @date 2012-01-20
 /// @version 1.0 
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
@@ -20,7 +20,6 @@
 #include "SourisEtatSelection.h"
 #include "SourisEtatAjoutMuret.h"
 #include "SourisEtatAjout.h"
-#include "ArbreRenduINF2990.h"
 #include "GestionnaireAnimations.h"
 #include "Partie.h"
 #include "NoeudRondelle.h"
@@ -91,11 +90,11 @@ void GestionnaireEtatAbstrait::modifierEtatSouris( NomEtatSouris etatSouris )
 		case ETAT_SOURIS_TRANSFORMATION_ECHELLE		: etatSouris_ = new SourisEtatTransformationEchelle		();	break;
 		case ETAT_SOURIS_TRANSFORMATION_DEPLACEMENT	: etatSouris_ = new SourisEtatTransformationDeplacement	();	break;
 		case ETAT_SOURIS_SELECTION					: etatSouris_ = new SourisEtatSelection					();	break;
-		case ETAT_SOURIS_AJOUTER_PORTAIL			: etatSouris_ = new SourisEtatAjout						(ArbreRenduINF2990::NOM_PORTAIL);	break;
+		case ETAT_SOURIS_AJOUTER_PORTAIL			: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_PORTAIL);	break;
 		case ETAT_SOURIS_AJOUTER_MURET				: etatSouris_ = new SourisEtatAjoutMuret				();	break;
-		case ETAT_SOURIS_AJOUTER_MAILLET			: etatSouris_ = new SourisEtatAjout						(ArbreRenduINF2990::NOM_MAILLET);	break;
-		case ETAT_SOURIS_AJOUTER_RONDELLE			: etatSouris_ = new SourisEtatAjout						(ArbreRenduINF2990::NOM_RONDELLE);	break;
-		case ETAT_SOURIS_AJOUTER_ACCELERATEUR		: etatSouris_ = new SourisEtatAjout						(ArbreRenduINF2990::NOM_ACCELERATEUR);	break;
+		case ETAT_SOURIS_AJOUTER_MAILLET			: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_MAILLET);	break;
+		case ETAT_SOURIS_AJOUTER_RONDELLE			: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_RONDELLE);	break;
+		case ETAT_SOURIS_AJOUTER_ACCELERATEUR		: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_ACCELERATEUR);	break;
 		case ETAT_SOURIS_ORBIT						: etatSouris_ = new SourisEtatOrbit						();	break;
 	}
 }

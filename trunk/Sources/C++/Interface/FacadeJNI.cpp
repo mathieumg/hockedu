@@ -4,7 +4,7 @@
 /// @date 2007-08-14
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #define _WINSOCKAPI_
@@ -20,7 +20,6 @@
 #include "FacadeModele.h"
 #include "Vue.h"
 #include "AideGL.h"
-#include "ArbreRenduINF2990.h"
 #include "CompteurAffichage.h"
 #include "BancTests.h"
 
@@ -33,10 +32,10 @@
 #include "UsineNoeudMaillet.h"
 #include "UsineNoeudRondelle.h"
 #include "VisiteurSelection.h"
-#include "UtilitaireINF2990.h"
+#include "RazerGameUtilities.h"
 #include "JoueurVirtuel.h"
 #include "JoueurHumain.h"
-#include "INF2990TypeDef.h"
+#include "RazerGameTypeDef.h"
 #include "VisiteurModifierProprieteNoeud.h"
 #include "SoundFMOD.h"
 #include "Tournoi.h"
@@ -394,7 +393,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_actionPerf
 	jmethodID getActionCommand = env -> GetMethodID(classe, "getActionCommand", "()Ljava/lang/String;");
 	jstring chaine = (jstring)(env ->CallObjectMethod(evenementAction, getActionCommand));
 
-	std::string chaineCpp = utilitaire::obtenirChaineISO(env,&chaine);
+	std::string chaineCpp = RazerGameUtilities::obtenirChaineISO(env,&chaine);
 	if(chaineCpp == "SUPPRIMER" || chaineCpp == "EDITEUR_NOUVEAU" || chaineCpp == "REINITIALISER_PARTIE")
 	{
 		// Si on est dans le cas de suppression et qu'il n'y a pas de sélection.
@@ -431,7 +430,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_actionPerf
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_BarresOutils_EvenementsSelectionneurFichier_sauvegarderFichier(JNIEnv * env, jobject, jstring chaine)
 {
 
-	std::string nomFichier = utilitaire::obtenirChaineISO(env, &chaine);
+	std::string nomFichier = RazerGameUtilities::obtenirChaineISO(env, &chaine);
 	FacadeModele::getInstance() -> enregistrerTerrain(nomFichier);
 
 }
@@ -449,7 +448,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_BarresOutils_EvenementsSelectionn
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_BarresOutils_EvenementsSelectionneurFichier_chargerFichier(JNIEnv * env, jobject, jstring chaine)
 {
-	std::string nomFichier = utilitaire::obtenirChaineISO(env, &chaine);
+	std::string nomFichier = RazerGameUtilities::obtenirChaineISO(env, &chaine);
 	FacadeModele::getInstance() -> chargerTerrain(nomFichier);
 }
 
@@ -538,7 +537,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_JoueurAbstrait_envoyerJNI (JN
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_ModificateurProprieteNoeud_envoyerModificateurPropriete( JNIEnv * env, jobject obj)
 {
-	FacadeModele::getInstance()->visiterArbre(&VisiteurModifierProprieteNoeud(env,obj));
+	FacadeModele::getInstance()->acceptVisitor(VisiteurModifierProprieteNoeud(env,obj));
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -556,7 +555,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_ModificateurProprieteNoeud_en
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_obtenirJoueur(JNIEnv * env, jclass, jstring leopard)
 {
-	std::string nom = utilitaire::obtenirChaineISO(env, &leopard);
+	std::string nom = RazerGameUtilities::obtenirChaineISO(env, &leopard);
 	SPJoueurAbstrait joueur = FacadeModele::getInstance()->obtenirJoueur(nom);
 	if(joueur == NULL)
 		return NULL;
@@ -631,7 +630,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_ajouterJ
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_supprimerJoueur(JNIEnv * env, jclass, jstring jNom)
 {
-	std::string nom = utilitaire::obtenirChaineISO(env, &jNom);
+	std::string nom = RazerGameUtilities::obtenirChaineISO(env, &jNom);
 	FacadeModele::getInstance()->supprimerJoueur(nom);
 }
 
@@ -866,7 +865,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_creerNou
 			jmethodID obtenirNom = env->GetMethodID(classeJoueur, "obtenirNom", "()Ljava/lang/String;");
 			jstring nom = (jstring)env->CallObjectMethod(joueur, obtenirNom);
 
-			SPJoueurAbstrait jv = FacadeModele::getInstance()->obtenirJoueur(utilitaire::obtenirChaineISO(env,&nom));
+			SPJoueurAbstrait jv = FacadeModele::getInstance()->obtenirJoueur(RazerGameUtilities::obtenirChaineISO(env,&nom));
 			if(jv)
 			{
 				joueurs.push_back(jv);
@@ -881,7 +880,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_creerNou
 	std::string nomDuTerrain;
 	if(terrain != NULL)
 	{
-		nomDuTerrain = utilitaire::obtenirChaineISO(env, &terrain);
+		nomDuTerrain = RazerGameUtilities::obtenirChaineISO(env, &terrain);
 		//tournoiCpp->modifierTerrain(nomDuTerrain);
 	}
 
@@ -892,7 +891,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_creerNou
 	//obtenir le nom : 
 	jmethodID obtenirNom = env->GetMethodID(classeTournoi, "obtenirNom", "()Ljava/lang/String;");
 	jobject nom=env->CallObjectMethod(tournoiJava, obtenirNom);
-	std::string nomDuTournoi = utilitaire::obtenirChaineISO(env, &nom);
+	std::string nomDuTournoi = RazerGameUtilities::obtenirChaineISO(env, &nom);
 	tournoiCpp->modifierNom(nomDuTournoi);
 
 	
@@ -1032,7 +1031,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsRadioJNI_placerVolu
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsRadioJNI_chargerCanal(JNIEnv * env, jclass, jstring canal)
 {
-	SoundFMOD::obtenirInstance()->modifierPlaylistActuelle(utilitaire::obtenirChaineISO(env, &canal));
+	SoundFMOD::obtenirInstance()->modifierPlaylistActuelle(RazerGameUtilities::obtenirChaineISO(env, &canal));
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1107,7 +1106,7 @@ JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsRadioJNI_obtenir
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsRadioJNI_obtenirCanal(JNIEnv * env, jclass, jstring nomCanal)
 {
-	std::string nom = utilitaire::obtenirChaineISO(env, &nomCanal);
+	std::string nom = RazerGameUtilities::obtenirChaineISO(env, &nomCanal);
 	
 	NomsPlaylists canal = ConfigScene::obtenirInstance()->obtenirCanal(nom);
 	
@@ -1154,7 +1153,7 @@ JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsRadioJNI_obtenir
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsRadioJNI_supprimerCanal(JNIEnv * env, jclass, jstring nomCanal)
 {
-	std::string nom = utilitaire::obtenirChaineISO(env, &nomCanal);
+	std::string nom = RazerGameUtilities::obtenirChaineISO(env, &nomCanal);
 	ConfigScene::obtenirInstance()->supprimerCanal(nom);
 }
 
@@ -1179,7 +1178,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsRadioJNI_genererCan
 	jmethodID obtenirNomCanal = env->GetMethodID(classeCanal, "obtenirNomDuCanal", "()Ljava/lang/String;");
 	jstring jnom = (jstring)env->CallObjectMethod(canal, obtenirNomCanal);
 
-	std::string nom = utilitaire::obtenirChaineISO(env, &jnom);
+	std::string nom = RazerGameUtilities::obtenirChaineISO(env, &jnom);
 
 	ConfigScene::obtenirInstance()->supprimerCanal(nom);
 	ConfigScene::obtenirInstance()->ajouterCanal(nom);
@@ -1194,7 +1193,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsRadioJNI_genererCan
 	for(int i=0;i<size;i++)
 	{
         jobject obj = env->CallObjectMethod(arrayDeChansons, get, i);
-		std::string pathChanson = utilitaire::obtenirChaineISO(env, &obj);
+		std::string pathChanson = RazerGameUtilities::obtenirChaineISO(env, &obj);
 		ConfigScene::obtenirInstance()->ajouterChanson(nom, pathChanson);
 	}
 }
@@ -1231,7 +1230,7 @@ JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_objetEs
  */
 JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationTournoiJNI_obtenirTournoi(JNIEnv* env, jclass, jstring nomTournoi)
 {
-	std::string nomT = utilitaire::obtenirChaineISO(env, &nomTournoi);
+	std::string nomT = RazerGameUtilities::obtenirChaineISO(env, &nomTournoi);
 	FacadeModele::getInstance()->chargerTournoi("tournoi/"+nomT+".xml");
 	Tournoi* tournoi = FacadeModele::getInstance()->obtenirTournoi();
 
@@ -1317,7 +1316,7 @@ JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationTournoiJNI_obteni
  */
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationTournoiJNI_supprimerTournoi(JNIEnv* env, jclass, jstring nomT)
 {
-	string nomfile=utilitaire::obtenirChaineISO(env, &nomT);
+	string nomfile=RazerGameUtilities::obtenirChaineISO(env, &nomT);
 #ifdef WIN32
 	DeleteFileA(("tournoi/"+ nomfile +".xml").c_str());
 #else

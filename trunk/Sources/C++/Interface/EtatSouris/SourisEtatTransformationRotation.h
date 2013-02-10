@@ -4,13 +4,13 @@
 /// @date 2012-01-21
 /// @version 1.0 
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 #include "SourisEtatAbstrait.h"
-#include "INF2990TypeDef.h"
+#include "RazerGameTypeDef.h"
 
 ////////////////////////////////////////////////////////////////////////////
 /// @class SourisEtatTransformationRotation

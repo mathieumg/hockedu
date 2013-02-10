@@ -4,7 +4,7 @@
 /// @date 2012-01-25
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////
 #ifndef __ARBRE_NOEUDS_NOEUDTABLE_H__
@@ -82,6 +82,8 @@ public:
    /// update the table when a modification is done on either middle control points
    virtual void updateObserver( class PositionSubject* pSubject );
 
+
+   static const unsigned int NB_CONTROL_POINTS = 8;
 private:
    
       

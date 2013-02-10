@@ -4,7 +4,7 @@
 /// @date 2013-01-28
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -74,10 +74,10 @@ namespace UIHeavyClientPrototype
         }
 
         // C++ function to initialise C# controller on that side
-        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void InitDLL();
         // Disonnects the user from the server
-        [DllImport(@"INF2990.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void DisconnectUser(string pUserName);
         
         ////////////////////////////////////////////////////////////////////////

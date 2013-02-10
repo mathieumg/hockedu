@@ -4,7 +4,7 @@
 /// @date 2012-03-09
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -13,7 +13,6 @@
 #include "GestionnaireEvenements.h"
 #include "VisiteurSuppression.h"
 #include "GestionnaireEtatAbstrait.h"
-#include "ArbreRenduINF2990.h"
 #include "VisiteurDupliquer.h"
 #include "GestionnaireAnimations.h"
 #include "VuePerspectiveCiel.h"
@@ -255,7 +254,7 @@ bool RepartiteurActions::actionBoutonTransformationEchelle()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonSupprimer()
 {
-	FacadeModele::getInstance()->visiterArbre(&VisiteurSuppression());
+	FacadeModele::getInstance()->acceptVisitor(VisiteurSuppression());
 	return true; 
 }
 
@@ -305,7 +304,7 @@ bool RepartiteurActions::actionReinitialiserPartie()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonInsererPortail()
 {
-	FacadeModele::getInstance()->obtenirArbreRenduINF2990()->deselectionnerTout();
+	FacadeModele::getInstance()->selectionArbre(false);
 	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_AJOUTER_PORTAIL);
 	return true; 
 }
@@ -322,8 +321,8 @@ bool RepartiteurActions::actionBoutonInsererPortail()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonInsererMuret()
 {
-	FacadeModele::getInstance()->obtenirArbreRenduINF2990()->deselectionnerTout();
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_AJOUTER_MURET);
+    FacadeModele::getInstance()->selectionArbre(false);
+    GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_AJOUTER_MURET);
 	return true; 
 }
 
@@ -339,8 +338,8 @@ bool RepartiteurActions::actionBoutonInsererMuret()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonInsererMaillet()
 {
-	FacadeModele::getInstance()->obtenirArbreRenduINF2990()->deselectionnerTout();
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_AJOUTER_MAILLET);
+    FacadeModele::getInstance()->selectionArbre(false);
+    GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_AJOUTER_MAILLET);
 	return true; 
 }
 
@@ -356,8 +355,8 @@ bool RepartiteurActions::actionBoutonInsererMaillet()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonInsererRondelle()
 {
-	FacadeModele::getInstance()->obtenirArbreRenduINF2990()->deselectionnerTout();
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_AJOUTER_RONDELLE);
+    FacadeModele::getInstance()->selectionArbre(false);
+    GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_AJOUTER_RONDELLE);
 	return true; 
 }
 
@@ -373,8 +372,8 @@ bool RepartiteurActions::actionBoutonInsererRondelle()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonInsererAccelerateur()
 {
-	FacadeModele::getInstance()->obtenirArbreRenduINF2990()->deselectionnerTout();
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_AJOUTER_ACCELERATEUR);
+    FacadeModele::getInstance()->selectionArbre(false);
+    GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_AJOUTER_ACCELERATEUR);
 	return true; 
 }
 
@@ -390,7 +389,7 @@ bool RepartiteurActions::actionBoutonInsererAccelerateur()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonDupliquer()
 {
-	FacadeModele::getInstance()->visiterArbre(&VisiteurDupliquer(FacadeModele::getInstance()->obtenirArbreRenduINF2990()));
+	FacadeModele::getInstance()->duplicateSelection();
 	return true; 
 }
 

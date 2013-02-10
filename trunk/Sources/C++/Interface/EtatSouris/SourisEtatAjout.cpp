@@ -6,17 +6,18 @@
 /// @date 2012-02-10
 /// @version 1.0 
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SourisEtatAjout.h"
 #include "FacadeModele.h"
 #include "Terrain.h"
-#include "ArbreRenduINF2990.h"
 #include "HUDTexte.h"
 #include "GestionnaireHUD.h"
 #include "HUDElement.h"
+#include "NoeudAbstrait.h"
+#include "RazerGameTree.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -77,7 +78,7 @@ SourisEtatAjout::~SourisEtatAjout(void)
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatAjout::genererNoeud()
 {
-	noeud_ =  FacadeModele::getInstance()->getTerrain()->getArbreRendu()->creerNoeud(nom_);
+	noeud_ =  FacadeModele::getInstance()->getTerrain()->getLogicTree()->creerNoeud(nom_);
 	if(noeud_ != NULL)
 		FacadeModele::getInstance()->getTerrain()->ajouterNoeudTemp(noeud_);	
 }
@@ -180,15 +181,15 @@ void SourisEtatAjout::sourisDeplacee( EvenementSouris& evenementSouris )
 ////////////////////////////////////////////////////////////////////////
 NomEtatSouris SourisEtatAjout::obtenirNomEtatSouris()
 {
-	if(nom_ == ArbreRenduINF2990::NOM_MAILLET)
+	if(nom_ == RazerGameUtilities::NOM_MAILLET)
 		return ETAT_SOURIS_AJOUTER_MAILLET;
-	if(nom_ == ArbreRenduINF2990::NOM_ACCELERATEUR)
+	if(nom_ == RazerGameUtilities::NOM_ACCELERATEUR)
 		return ETAT_SOURIS_AJOUTER_ACCELERATEUR;
-	if(nom_ == ArbreRenduINF2990::NOM_PORTAIL)
+	if(nom_ == RazerGameUtilities::NOM_PORTAIL)
 		return ETAT_SOURIS_AJOUTER_PORTAIL;
-	if(nom_ == ArbreRenduINF2990::NOM_RONDELLE)
+	if(nom_ == RazerGameUtilities::NOM_RONDELLE)
 		return ETAT_SOURIS_AJOUTER_RONDELLE;
-	if(nom_ == ArbreRenduINF2990::NOM_MURET)
+	if(nom_ == RazerGameUtilities::NOM_MURET)
 		return ETAT_SOURIS_AJOUTER_MURET;
 	return ETAT_SOURIS_INCONNU;
 }

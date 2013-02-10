@@ -4,12 +4,12 @@
 /// @date 2012-02-17
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
 #include "JoueurVirtuel.h"
-#include "UtilitaireINF2990.h"
+#include "RazerGameUtilities.h"
 #include "AIMaillet.h"
 #include "tinyxml.h"
 
@@ -64,7 +64,7 @@ JoueurVirtuel::JoueurVirtuel( JNIEnv* env, jobject& joueurVirtuel ) : JoueurAbst
 	jint probabiliteEchec = env->CallIntMethod(joueurVirtuel, obtenirProbabiliteEchec);
 
 	// Modification des attributs
-	modifierNom(utilitaire::obtenirChaineISO(env, &nom));
+	modifierNom(RazerGameUtilities::obtenirChaineISO(env, &nom));
 	vitesse_ = (unsigned int)(vitesse/100.0*500.0);
 	probabiliteEchec_ = probabiliteEchec;
 	type_ = JOUEUR_VIRTUEL;

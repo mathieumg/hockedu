@@ -4,7 +4,7 @@
 /// @date 2012-02-02
 /// @version 2.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
@@ -73,7 +73,7 @@ public:
 
 private:
 	/// Un arbre (racine) et des noeuds pour les tests
-	ArbreRenduINF2990* arbre;
+	RazerGameTree* arbre;
 	NoeudAbstrait* noeuds_[6];
 };
 

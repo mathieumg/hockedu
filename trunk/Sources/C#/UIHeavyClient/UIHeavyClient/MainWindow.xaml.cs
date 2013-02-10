@@ -25,12 +25,12 @@ namespace UIHeavyClient
         
 
         //static System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
-        /*private OpenGLControl mOpenGLControl;*/
+        private OpenGLControl mOpenGLControl;
         public MainWindow()
         {
             InitializeComponent();
             ConsoleManager.Show();
-            //windowsFormsHost1.Loaded += CreateUserControl;
+            windowsFormsHost1.Loaded += CreateUserControl;
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -38,12 +38,27 @@ namespace UIHeavyClient
             ConsoleManager.Hide();
         }
 
-//         public void CreateUserControl(object sender, EventArgs e)
-//         {
-//             mOpenGLControl = new OpenGLControl();
-//             windowsFormsHost1.Child = mOpenGLControl;
-//             
-//         }
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            mOpenGLControl.Visible = !mOpenGLControl.Visible;
+            
+            System.Windows.Controls.Button b = sender as System.Windows.Controls.Button;
+            if (mOpenGLControl.Visible)
+            {
+                b.Content = "Hide";
+            }
+            else
+            {
+                b.Content = "Show";
+            }
+        }
+
+        public void CreateUserControl(object sender, EventArgs e)
+        {
+            mOpenGLControl = new OpenGLControl();
+            windowsFormsHost1.Child = mOpenGLControl;
+            
+        }
 
     }
 }

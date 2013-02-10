@@ -4,7 +4,7 @@
 /// @date 2007-01-28
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef __ARBRE_USINES_USINENOEUD_H__

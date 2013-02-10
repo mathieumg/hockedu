@@ -4,7 +4,7 @@
 /// @date 2012-02-03
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
@@ -27,6 +27,7 @@
 #include "VisiteurRotation.h"
 #include "VisiteurDupliquer.h"
 #include "FacadeModele.h"
+#include "..\Arbre\RazerGameTree.h"
 
 // Enregistrement de la suite de tests au sein du registre
 CPPUNIT_TEST_SUITE_REGISTRATION( VisiteurNoeudTest );
@@ -80,7 +81,7 @@ void VisiteurNoeudTest::tearDown()
 void VisiteurNoeudTest::testDeplacerObjet()
 {
 
-	NoeudAbstrait* n = new NoeudMaillet(ArbreRenduINF2990::NOM_MAILLET);
+	NoeudAbstrait* n = new NoeudMaillet(RazerGameUtilities::NOM_MAILLET);
 	n->assignerPositionRelative(Vecteur3(0.0,0.0));
 	n->assignerSelection(true);
 	VisiteurDeplacement v(Vecteur2(25.0,-10.0));
@@ -103,12 +104,12 @@ void VisiteurNoeudTest::testDeplacerObjet()
 ////////////////////////////////////////////////////////////////////////
 void VisiteurNoeudTest::testSelectionObjet()
 {
-	ArbreRenduINF2990* arbre = new ArbreRenduINF2990();
-	NoeudAbstrait	*noeud1 = arbre->creerNoeud(ArbreRenduINF2990::NOM_MAILLET),
-					*noeud2 = arbre->creerNoeud(ArbreRenduINF2990::NOM_PORTAIL),
-					*noeud3 = arbre->creerNoeud(ArbreRenduINF2990::NOM_PORTAIL),
-					*noeud4 = arbre->creerNoeud(ArbreRenduINF2990::NOM_MAILLET),
-					*noeud5 = arbre->creerNoeud(ArbreRenduINF2990::NOM_RONDELLE);
+	RazerGameTree* arbre = new RazerGameTree();
+	NoeudAbstrait	*noeud1 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET),
+					*noeud2 = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL),
+					*noeud3 = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL),
+					*noeud4 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET),
+					*noeud5 = arbre->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
 	arbre->ajouter(noeud1);
 	arbre->ajouter(noeud2);
 	arbre->ajouter(noeud3);
@@ -175,14 +176,14 @@ void VisiteurNoeudTest::testSelectionObjet()
 void VisiteurNoeudTest::testSuppressionObjet()
 {
 	// Construction d'un arbre de test
-	ArbreRenduINF2990* arbre = new ArbreRenduINF2990();
-	NoeudAbstrait* n1 = arbre->creerNoeud(ArbreRenduINF2990::NOM_MAILLET);
-	NoeudAbstrait* n2 = arbre->creerNoeud(ArbreRenduINF2990::NOM_MAILLET);
-	NoeudAbstrait* n3 = arbre->creerNoeud(ArbreRenduINF2990::NOM_PORTAIL);
-	NoeudAbstrait* n4 = arbre->creerNoeud(ArbreRenduINF2990::NOM_PORTAIL);
-	NoeudAbstrait* n5 = arbre->creerNoeud(ArbreRenduINF2990::NOM_RONDELLE);
-	NoeudAbstrait* n6 = arbre->creerNoeud(ArbreRenduINF2990::NOM_RONDELLE);
-	NoeudAbstrait* n7 = arbre->creerNoeud(ArbreRenduINF2990::NOM_ACCELERATEUR);
+	RazerGameTree* arbre = new RazerGameTree();
+	NoeudAbstrait* n1 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
+	NoeudAbstrait* n2 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
+	NoeudAbstrait* n3 = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL);
+	NoeudAbstrait* n4 = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL);
+	NoeudAbstrait* n5 = arbre->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
+	NoeudAbstrait* n6 = arbre->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
+	NoeudAbstrait* n7 = arbre->creerNoeud(RazerGameUtilities::NOM_ACCELERATEUR);
 	NoeudComposite* nC1 = new NoeudComposite("groupe1");
 	NoeudComposite* nC2 = new NoeudComposite("groupe2");
 	NoeudComposite* nC3 = new NoeudComposite("groupe3");

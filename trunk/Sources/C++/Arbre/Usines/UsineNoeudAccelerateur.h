@@ -4,7 +4,7 @@
 /// @date 2012-2-7
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////
 #pragma once

@@ -3,7 +3,7 @@
 /// @author DGI-2990
 /// @date   2007-01-25
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ////////////////////////////////////////////////
 
@@ -549,33 +549,27 @@ void NoeudComposite::detacherEnfant( const NoeudAbstrait* noeud )
 /// @return ConteneurNoeuds : un conteneur avec tous les noeuds selectionnes
 ///
 ////////////////////////////////////////////////////////////////////////
-ConteneurNoeuds NoeudComposite::obtenirNoeudsSelectionnes() const
+void NoeudComposite::getSelectedNodes( ConteneurNoeuds& pSelectedNodes ) const
 {
-	static ConteneurNoeuds liste;
-
 	if(estSelectionne() && estSelectionnable())
 	{
-		liste.push_back((NoeudAbstrait*)this);
+		pSelectedNodes.push_back((NoeudAbstrait*)this);
 	}
 	else
 	{
 		for (ConteneurNoeuds::const_iterator it = enfants_.begin(); it != enfants_.end(); ++it)
 		{
-			NoeudComposite* enfant = dynamic_cast<NoeudComposite*> (*it);
-			if(enfant != 0)
-				enfant->obtenirNoeudsSelectionnes();
+			NoeudComposite* compositeChild = dynamic_cast<NoeudComposite*> (*it);
+			if(compositeChild)
+            {
+				compositeChild->getSelectedNodes(pSelectedNodes);
+            }
 			else if((*it)->estSelectionne())
 			{
-				liste.push_back(*it);
+				pSelectedNodes.push_back(*it);
 			}
 		}
 	}
-
-	ConteneurNoeuds listeTemp = ConteneurNoeuds(liste);
-	if(type_=="racine")
-		liste.clear();
-	return listeTemp;
-
 }
 
 

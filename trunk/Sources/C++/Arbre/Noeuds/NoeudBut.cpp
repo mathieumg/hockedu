@@ -4,14 +4,13 @@
 /// @date 2012-01-25
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudBut.h"
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
-#include "ArbreRenduINF2990.h"
 #include "VisiteurCollision.h"
 #include "GestionnaireModeles.h"
 #include "NoeudPoint.h"

@@ -4,7 +4,7 @@
 /// @date 2012-01-20
 /// @version 1.0 
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
@@ -12,7 +12,6 @@
 #include "FacadeModele.h"
 #include "SourisEtatAbstrait.h"
 #include "GestionnaireModeles.h"
-#include "ArbreRenduINF2990.h"
 #include "SoundFMOD.h"
 #include "GestionnaireHUD.h"
 

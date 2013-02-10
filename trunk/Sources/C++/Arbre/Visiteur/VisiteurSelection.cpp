@@ -4,7 +4,7 @@
 /// @date 2012-02-06
 /// @version 1.0 
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
@@ -124,7 +124,7 @@ void VisiteurSelection::visiterNoeudMuret( NoeudMuret* noeud )
 		else
 		{
 			VisiteurCollision visiteurCollision(positionClicMin_, false);
-			FacadeModele::getInstance()->visiterArbre((VisiteurNoeud*)&visiteurCollision);
+			FacadeModele::getInstance()->acceptVisitor(visiteurCollision);
 			if(visiteurCollision.collisionPresente())
 			{
 				ConteneurNoeuds listeNoeuds;

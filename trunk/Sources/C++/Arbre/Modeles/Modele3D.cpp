@@ -4,7 +4,7 @@
 /// @date 2011-07-21
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -17,6 +17,7 @@
 #include "Modele3D.h"
 #include "Utilitaire.h"
 #include "AideGL.h"
+#include "RazerGameUtilities.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -153,7 +154,7 @@ void Modele3D::chargerTextures()
 		itr++;
 
 		// Charger la texture
-		aidegl::glLoadTexture(std::string("media/") + nomFichier, identificateursTextures_[j], false);
+		aidegl::glLoadTexture( RazerGameUtilities::NOM_DOSSIER_MEDIA + nomFichier, identificateursTextures_[j], false);
 	}
 
 }

@@ -4,7 +4,7 @@
 /// @date 2012-03-26
 /// @version 1.0 
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
@@ -32,7 +32,7 @@
 HUDTexte::HUDTexte(std::string texte, Vecteur4f& couleur, std::string& typeFont)
 	:message_(texte), couleur_(couleur), typeTexte_(TEXTE)
 {
-	if(!textRenderer_.load("", ("media\\"+typeFont).c_str()))
+	if(!textRenderer_.load("", (RazerGameUtilities::NOM_DOSSIER_MEDIA + typeFont).c_str()))
 	{
 		utilitaire::afficherErreur("Erreur: incapable d'ouvrir le font " + typeFont);
 		exit(-1);
@@ -54,7 +54,7 @@ HUDTexte::HUDTexte(std::string texte, Vecteur4f& couleur, std::string& typeFont)
 HUDTexte::HUDTexte(TypeTexte typeTexte, Vecteur4f& couleur, std::string& typeFont)
 	:couleur_(couleur), typeTexte_(typeTexte)
 {
-	if(!textRenderer_.load("", ("media\\"+typeFont).c_str()))
+	if(!textRenderer_.load("", (RazerGameUtilities::NOM_DOSSIER_MEDIA +typeFont).c_str()))
 	{
 		utilitaire::afficherErreur("Erreur: incapable d'ouvrir le font game_over");
 		exit(-1);
@@ -79,7 +79,7 @@ HUDTexte::HUDTexte(TypeTexte typeTexte, Vecteur4f& couleur, std::string& typeFon
 HUDTexte::HUDTexte(unsigned int& idPartie, unsigned int& joueur, Vecteur4f& couleur, Vecteur4f& couleurSiGagnantPartie, std::string& typeFont)
 	:typeTexte_(TOURNOI_JOUEUR), indexPartie_(idPartie), indexJoueur_(joueur), couleur_(couleur), couleurSiGagnantPartie_(couleurSiGagnantPartie)
 {
-	if(!textRenderer_.load("", ("media\\"+typeFont).c_str()))
+	if(!textRenderer_.load("", (RazerGameUtilities::NOM_DOSSIER_MEDIA +typeFont).c_str()))
 	{
 		utilitaire::afficherErreur("Erreur: incapable d'ouvrir le font game_over");
 		exit(-1);

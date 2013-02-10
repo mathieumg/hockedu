@@ -4,7 +4,7 @@
 /// @date 2012-02-06
 /// @version 1.0 
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
@@ -234,7 +234,7 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 					groupe->acceptVisitor(visiteur);
 				}
 				else
-					FacadeModele::getInstance()->visiterArbre(&visiteur);
+					FacadeModele::getInstance()->acceptVisitor(visiteur);
 			}
 
 

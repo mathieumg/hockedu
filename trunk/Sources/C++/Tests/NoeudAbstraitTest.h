@@ -4,7 +4,7 @@
 /// @date 2011-07-16
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
@@ -13,7 +13,7 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "ArbreRenduINF2990.h"
+#include "RazerGameTree.h"
 #include "NoeudMaillet.h"
 ///////////////////////////////////////////////////////////////////////////
 /// @class NoeudAbstraitTest

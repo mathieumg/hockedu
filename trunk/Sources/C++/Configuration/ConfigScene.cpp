@@ -4,7 +4,7 @@
 /// @date 2007-01-10
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -24,6 +24,7 @@
 #include "ZoneEdition.h"
 #include "GestionnaireAnimations.h"
 #include "XMLUtils.h"
+#include "RazerGameTree.h"
 
 SINGLETON_DECLARATION_CPP(ConfigScene);
 
@@ -294,17 +295,17 @@ void ConfigScene::chargerConfiguration( )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void ConfigScene::creerDOM( TiXmlNode& node, ArbreRenduINF2990* arbre ) const
+/// @fn void ConfigScene::creerDOM( TiXmlNode& node, RazerGameTree* arbre ) const
 ///
 /// Cette fonction écrit les valeurs de la configuration dans un élément XML.
 ///
 /// @param[in] TiXmlNode & node : racine pour la création, généralement le document lui-meme
-/// @param[in] ArbreRenduINF2990 * arbre : pointeur vers l'arbre à créer
+/// @param[in] RazerGameTree * arbre : pointeur vers l'arbre à créer
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void ConfigScene::creerDOM( TiXmlNode& node, ArbreRenduINF2990* arbre ) const
+void ConfigScene::creerDOM( TiXmlNode& node, RazerGameTree* arbre ) const
 {
 	if(arbre == 0)
 		return;
@@ -377,7 +378,7 @@ void ConfigScene::creerDOM( TiXmlNode& node, const Tournoi& tournoi ) const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void ConfigScene::lireDOM( const TiXmlNode& node, ArbreRenduINF2990* arbre )
+/// @fn void ConfigScene::lireDOM( const TiXmlNode& node, RazerGameTree* arbre )
 ///
 /// Cette fonction lit les valeurs de la configuration à partir d'un élément
 /// XML.
@@ -385,7 +386,7 @@ void ConfigScene::creerDOM( TiXmlNode& node, const Tournoi& tournoi ) const
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-void ConfigScene::lireDOM( const TiXmlNode& node, ArbreRenduINF2990* arbre )
+void ConfigScene::lireDOM( const TiXmlNode& node, RazerGameTree* arbre )
 {
 	arbre->vider();
 	arbre_ = arbre;
@@ -451,7 +452,7 @@ void ConfigScene::ecrireArbre(NoeudAbstrait* parentNoeud, const TiXmlNode* node)
 	NoeudAbstrait* noeudCourant;
 
 	// Si le noeud est un point, on doit retrouver ce noeud à partir de la table et non en instancier un nouveau
-	if(nom.c_str() == ArbreRenduINF2990::NOM_POINT)
+	if(nom.c_str() == RazerGameUtilities::NOM_POINT)
 	{
 		int typeNoeud;
 		if( unsigned short result = elem->QueryIntAttribute("typePosNoeud", &typeNoeud) != TIXML_SUCCESS )
@@ -466,7 +467,7 @@ void ConfigScene::ecrireArbre(NoeudAbstrait* parentNoeud, const TiXmlNode* node)
 		noeudCourant = table->obtenirPoint(typeNoeud);
 	}
 	// Si le noeud est un but, on doit retrouver ce noeud à partir de la table et non en instancier un nouveau
-	else if(nom.c_str() == ArbreRenduINF2990::NOM_BUT_MILIEU)
+	else if(nom.c_str() == RazerGameUtilities::NOM_BUT_MILIEU)
 	{
 		NoeudPoint* pointMilieu = dynamic_cast<NoeudPoint*>(parentNoeud);
 		if(pointMilieu == 0)

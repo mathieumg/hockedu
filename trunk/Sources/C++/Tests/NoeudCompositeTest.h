@@ -4,7 +4,7 @@
 /// @date 2012-02-03
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
@@ -13,7 +13,7 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 #include "NoeudComposite.h"
-#include "ArbreRenduINF2990.h"
+#include "RazerGameTree.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -75,7 +75,7 @@ public:
 
 private:
 	NoeudComposite* enfants[5];
-	ArbreRenduINF2990 *arbre;
+	RazerGameTree *arbre;
 };
 
 #endif

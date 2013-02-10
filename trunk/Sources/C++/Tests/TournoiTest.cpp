@@ -4,7 +4,7 @@
 /// @date 2012-02-18
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ////////////////////////////////////////////////////////////////////////////////////
 #include "TournoiTest.h"
@@ -115,6 +115,9 @@ void TournoiTest::testEcritureXML()
 	TiXmlDocument document2;
 	document2.LinkEndChild(tournoi.creerTournoiXML());
 	document2.SaveFile( "tests_xml\\TestLectureTournoi.xml" );
+
+    remove("tests_xml\\TestLectureTournoi.xml");
+    remove("tests_xml\\TestEnregistrementTournoi.xml");
 }
 
 ////////////////////////////////////////////////////////////////////////

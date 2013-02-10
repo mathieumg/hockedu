@@ -4,12 +4,12 @@
 /// @date 2012-02-17
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "INF2990TypeDef.h"
+#include "RazerGameTypeDef.h"
 
 enum TypeJoueur{JOUEUR_HUMAIN,JOUEUR_VIRTUEL};
 

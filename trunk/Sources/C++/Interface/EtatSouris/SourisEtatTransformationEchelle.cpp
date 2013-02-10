@@ -4,7 +4,7 @@
 /// @date 2012-01-21
 /// @version 1.0 
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
@@ -12,7 +12,6 @@
 #include "FacadeModele.h"
 #include "VisiteurEchelle.h"
 #include "VisiteurCollision.h"
-#include "ArbreRenduINF2990.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -29,7 +28,8 @@ SourisEtatTransformationEchelle::SourisEtatTransformationEchelle(  )
 {
 	estEnfoncee_ = false;
 	positionPrecedente_ = NULL;
-	noeudSelectionnes_ = FacadeModele::getInstance()->obtenirArbreRenduINF2990()->obtenirNoeudsSelectionnes();
+    noeudSelectionnes_.clear(); 
+    FacadeModele::getInstance()->getSelectedNodes(noeudSelectionnes_);
 }
 
 ////////////////////////////////////////////////////////////////////////

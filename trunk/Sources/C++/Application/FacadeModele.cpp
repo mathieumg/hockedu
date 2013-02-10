@@ -4,7 +4,7 @@
 /// @date 2007-05-22
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -12,7 +12,7 @@
 // Commentaire Doxygen mis sur la première page de la documentation Doxygen.
 /**
 
-@mainpage Projet intégrateur de deuxième année -- INF2990
+@mainpage Projet intégrateur de troisième année -- LOG3900
 
 @li <a href="../javadoc/index.html">Documentation Javadoc de la partie Java.</a>
 */
@@ -22,13 +22,12 @@
 
 #include "FreeImage.h"
 
-#include "FacadeModele.h"
-
 #include "VueOrtho.h"
 
 #include "Camera.h"
 #include "Projection.h"
 #include "LignePointillee.h"
+#include "RazerGameUtilities.h"
 
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
@@ -37,6 +36,8 @@
 #include "AideGL.h"
 #include "CompteurAffichage.h"
 #include "ConfigScene.h"
+
+#include "FacadeModele.h"
 
 // Remlacement de EnveloppeXML/XercesC par TinyXML
 // Julien Gascon-Samson, été 2011
@@ -359,7 +360,7 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
  	//ConfigScene::obtenirInstance()->obtenirLumiere(1)->allumerLumiere();
  	//ConfigScene::obtenirInstance()->obtenirLumiere(2)->allumerLumiere();
 
-#if _DEBUG
+#if !SHIPPING
     GestionnaireHUD::obtenirInstance();
     debugInfo = new HUDTexte("",Vecteur4f(0,1,1,1));
     debugInfo->modifierVisibilite(true);
@@ -371,12 +372,12 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
 	initialiserVue();
 
 	// Initialisation du skybox
-	const std::string xpos = "media/sb2_xpos.png";
-	const std::string xneg = "media/sb2_xneg.png";
-	const std::string ypos = "media/sb2_ypos.png";
-	const std::string yneg = "media/sb2_yneg.png";
-	const std::string zpos = "media/sb2_zpos.png";
-	const std::string zneg = "media/sb2_zneg.png";
+	const std::string xpos = RazerGameUtilities::NOM_DOSSIER_MEDIA + "sb2_xpos.png";
+    const std::string xneg = RazerGameUtilities::NOM_DOSSIER_MEDIA + "sb2_xneg.png";
+    const std::string ypos = RazerGameUtilities::NOM_DOSSIER_MEDIA + "sb2_ypos.png";
+    const std::string yneg = RazerGameUtilities::NOM_DOSSIER_MEDIA + "sb2_yneg.png";
+    const std::string zpos = RazerGameUtilities::NOM_DOSSIER_MEDIA + "sb2_zpos.png";
+    const std::string zneg = RazerGameUtilities::NOM_DOSSIER_MEDIA + "sb2_zneg.png";
 	boiteEnvironnement= new utilitaire::BoiteEnvironnement(xpos,xneg,ypos,yneg,zpos,zneg);
 
 	SoundFMOD::obtenirInstance()->playApplicationSong(STARTUP_SONG);
@@ -1166,12 +1167,7 @@ bool FacadeModele::passageModeEdition()
 		terrain_->initialiser(FICHIER_TERRAIN_EN_COURS);
 
 	enJeu_ = false;
-	for (int i = 0; i < 8 ; i++)
-	{
-		obtenirArbreRenduINF2990()->obtenirTable()->obtenirPoint(i)->assignerAffiche(true);
-	}
-
-
+    terrain_->setTableControlPointVisible(true);
 
 	return true;
 }
@@ -1251,12 +1247,9 @@ bool FacadeModele::passageModeTournoi()
 
 	partieCourante_->miseAuJeu(true);
 	
-	obtenirArbreRenduINF2990()->deselectionnerTout();
+    selectionArbre(false);
 	enJeu_ = true;
-	for (int i = 0; i < 8 ; i++)
-	{
-		obtenirArbreRenduINF2990()->obtenirTable()->obtenirPoint(i)->assignerAffiche(false);
-	}
+    terrain_->setTableControlPointVisible(false);
 
 	// On enregistre dans le fichier de la partie courante apres avoir desactiver les points pour ne pas les voir si on reinitialise la partie
 	enregistrerTerrain();
@@ -1340,16 +1333,13 @@ bool FacadeModele::passageModeJeu()
 		return false;
 	}
 	
-	partieCourante_->miseAuJeu(true);
-	
-	obtenirArbreRenduINF2990()->deselectionnerTout();
-	enJeu_ = true;
-	for (int i = 0; i < 8 ; i++)
-	{
-		obtenirArbreRenduINF2990()->obtenirTable()->obtenirPoint(i)->assignerAffiche(false);
-	}
+    selectionArbre(false);
+    terrain_->setTableControlPointVisible(false);
 
-	// On enregistre apres avoir desactiver les points pour ne pas les voir si on reinitialise la partie
+    partieCourante_->miseAuJeu(true);
+
+    enJeu_ = true;
+    // On enregistre apres avoir desactiver les points pour ne pas les voir si on reinitialise la partie
 	enregistrerTerrain();
 	obtenirVue()->obtenirProjection().centrerAZero();
 	obtenirVue()->obtenirProjection().mettreAJourProjection();
@@ -1385,8 +1375,8 @@ bool FacadeModele::passageMenuPrincipal()
 	partieCourante_ = 0;
 
 	enJeu_ = false;
-	obtenirArbreRenduINF2990()->deselectionnerTout();
-	return true;
+    selectionArbre(false);
+    return true;
 }
 
 
@@ -1495,22 +1485,20 @@ void FacadeModele::initialiserVue()
 
 }
 
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void FacadeModele::selection( VisiteurSelection &visiteur )
+/// @fn void FacadeModele::visiterArbre( VisiteurNoeud* visiteur )
 ///
-/// Effectue la selection dans l'arbre de rendu
+/// Launch a visitor on the field
 ///
-/// @param[in]	visiteur	: visiteur de selection
-/// @return Aucune.
+/// @param[in] VisiteurNoeud * visiteur
 ///
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void FacadeModele::visiterArbre( VisiteurNoeud* visiteur )
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void FacadeModele::acceptVisitor( VisiteurNoeud& visitor )
 {
-	obtenirArbreRenduINF2990()->acceptVisitor(*visiteur);
+    terrain_->acceptVisitor(visitor);
 }
 
 
@@ -1548,10 +1536,7 @@ bool FacadeModele::convertirClotureAVirtuelle( int x, int y, Vecteur3& point ) c
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void FacadeModele::selectionArbre( bool selectionner )
 {
-	if(selectionner)
-		obtenirArbreRenduINF2990()->selectionnerTout();
-	else
-		obtenirArbreRenduINF2990()->deselectionnerTout();
+    terrain_->setTableItemsSelection(selectionner);
 }
 
 
@@ -1569,7 +1554,7 @@ void FacadeModele::selectionArbre( bool selectionner )
 bool FacadeModele::validerPositionNoeud(NoeudAbstrait* noeudAValider, bool flag /* = false*/)
 {
 	VisiteurCollision visiteur(noeudAValider,flag);
-	visiterArbre(&visiteur);
+	acceptVisitor(visiteur);
 	return !(visiteur.collisionPresente()) && insideLimits(noeudAValider);
 }
 
@@ -1590,7 +1575,7 @@ bool FacadeModele::pointOccupe( Vecteur2 positionSouris )
 	Vecteur3 positionVirt;
 	FacadeModele::convertirClotureAVirtuelle((int)positionSouris[VX], (int)positionSouris[VY], positionVirt);
 	VisiteurCollision visiteurColision(Vecteur2(positionVirt[VX], positionVirt[VY]), false);
-	obtenirArbreRenduINF2990()->acceptVisitor(visiteurColision);
+	acceptVisitor(visiteurColision);
 	// Retourne true s'il y a un objet a la position cliquee
 	return visiteurColision.collisionPresente();
 }
@@ -1626,7 +1611,7 @@ Vecteur2 FacadeModele::convertirDeplacementClotureAVirtuelle( const Vecteur2i& v
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::possedeSelection()
 {
-	return obtenirArbreRenduINF2990()->possedeSelection();
+	return terrain_ && terrain_->IsAnyNodeSelected();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1704,14 +1689,10 @@ bool FacadeModele::ajusterElementSurTableEnCollision( const unsigned int& nbIter
 /// @return bool vrai si la méthode à réussi à trouver un emplacement valide au noeud selon le nombre d'itération
 ///
 ////////////////////////////////////////////////////////////////////////
-bool FacadeModele::ajusterElementEnCollision( NoeudAbstrait* noeud, const unsigned int& nbIterations /*= 10*/, NoeudAbstrait* racine /*= 0*/ )
+bool FacadeModele::ajusterElementEnCollision( NoeudAbstrait* noeud, const unsigned int& nbIterations /*= 10 */ )
 {
 	// Si l'un des noeud est null, on ne fait pas le travail
 	if(!noeud)
-		return true;
-	if(!racine)
-		racine = obtenirArbreRenduINF2990();
-	if(!racine)
 		return true;
 
 	// Avant les tests de collision, on regarde d'abord si le noeud est dans les limites
@@ -1722,7 +1703,7 @@ bool FacadeModele::ajusterElementEnCollision( NoeudAbstrait* noeud, const unsign
 	}
 
 	VisiteurCollision v(noeud,false);
-	racine->acceptVisitor(v);
+	acceptVisitor(v);
 	
 	unsigned int tentative = 0;
 	while( v.collisionPresente() && ++tentative <= nbIterations)
@@ -1746,7 +1727,7 @@ bool FacadeModele::ajusterElementEnCollision( NoeudAbstrait* noeud, const unsign
 			noeud->assignerPositionRelative(Vecteur3());
 		}
 		v.reinitialiser();
-		racine->acceptVisitor(v);
+		acceptVisitor(v);
 	}
 
 	// Il faut la partie égale de la comparaison, car le ++tentative 
@@ -1770,7 +1751,7 @@ bool FacadeModele::ajusterElementEnCollision( NoeudAbstrait* noeud, const unsign
 std::string FacadeModele::obtenirTypeNoeudSelectionne()
 {
 	VisiteurEstSelectione visiteur;
-	obtenirArbreRenduINF2990()->acceptVisitor(visiteur);
+	acceptVisitor(visiteur);
 	ConteneurNoeuds* noeudsSelectionnes = visiteur.obtenirListeNoeuds();
 	std::string typeRetour;
 	if(!noeudsSelectionnes->empty())
@@ -1907,22 +1888,24 @@ ConteneurJoueursTries FacadeModele::obtenirListeNomsJoueurs()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool FacadeModele::verifierValiditeMap(ArbreRenduINF2990* arbre)
+/// @fn bool FacadeModele::verifierValiditeMap(Terrain* terrain)
 ///
 /// Vérifie si un terrain est valide lorsqu'on passe en mode jeu
 ///
-/// @param[in] ArbreRenduINF2990* arbre : L'arbre de rendu représentant le terrain.
+/// @param[in] Terrain* terrain : le terrain à valider.
 ///
-/// @return ConteneurJoueursTries : le set de joueurs
+/// @return bool : vrai si le terrain est valide
 ///
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::verifierValiditeMap( Terrain* terrain/*= 0 */ )
 {
-	//GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
 	/// Si le parametre est egal a 0, on assigne l'arbre du Modele
-	terrain = terrain == 0 ? getTerrain() : terrain;
-	if(!terrain)
-		return false;
+    if(!terrain)
+    {
+        terrain = getTerrain();
+        if(!terrain)
+            return false;
+    }
 	return terrain->verifierValidite();
 }
 
@@ -1961,7 +1944,7 @@ NoeudMaillet* FacadeModele::obtenirMailletJoueurGauche() const
 	{
 		if(getTerrain()->getTable())
 		{
-			NoeudComposite* g = (NoeudComposite*)getTerrain()->getTable()->obtenirGroupe(ArbreRenduINF2990::NOM_MAILLET);
+			NoeudComposite* g = (NoeudComposite*)getTerrain()->getTable()->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
 			if(g)
 			{
 				for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
@@ -1993,7 +1976,7 @@ NoeudMaillet* FacadeModele::obtenirMailletJoueurDroit() const
 	{
 		if(getTerrain()->getTable())
 		{
-			NoeudComposite* g = (NoeudComposite*)getTerrain()->getTable()->obtenirGroupe(ArbreRenduINF2990::NOM_MAILLET);
+			NoeudComposite* g = (NoeudComposite*)getTerrain()->getTable()->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
 			if(g)
 			{
 				for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
@@ -2020,7 +2003,7 @@ NoeudMaillet* FacadeModele::obtenirMailletJoueurDroit() const
 jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
 {
 	VisiteurEstSelectione visiteur;
-	obtenirArbreRenduINF2990()->acceptVisitor(visiteur);
+	acceptVisitor(visiteur);
 	ConteneurNoeuds* listeNoeud = visiteur.obtenirListeNoeuds();
 
 
@@ -2032,14 +2015,12 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
 	{
 		longueurTable = getTerrain()->getZoneEdition().obtenirLimiteExtLongueur();
 		largeurTable  = getTerrain()->getZoneEdition().obtenirLimiteExtLargeur();
-
-		NoeudTable* table = dynamic_cast<NoeudTable*>(obtenirArbreRenduINF2990()->chercher(ArbreRenduINF2990::NOM_TABLE));
+        
+		NoeudTable* table = getTerrain()->getTable();
 		if(!table)
 			throw std::runtime_error("Impossible de trouver la table de jeu");
 
-
 		friction = table->obtenirCoefFriction();
-		
 
 		for(int i=0; i<8; i++)
 		{
@@ -2222,42 +2203,6 @@ void FacadeModele::resetHighlightFlags()
 	{
 		elementSurTable_[i]->modifierSurligner(false);
 	}
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn inline const ArbreRenduINF2990* FacadeModele::obtenirArbreRenduINF2990() const
-///
-/// Cette fonction retourne l'arbre de rendu de la scène (version constante
-/// de la fonction).
-///
-/// @return L'arbre de rendu de la scène.
-///
-////////////////////////////////////////////////////////////////////////
-const ArbreRenduINF2990* FacadeModele::obtenirArbreRenduINF2990() const
-{
-	return terrain_->getArbreRendu();
-}
-
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn inline ArbreRenduINF2990* FacadeModele::obtenirArbreRenduINF2990()
-///
-/// Cette fonction retourne l'arbre de rendu de la scène (version non constante
-/// de la fonction).
-///
-/// @return L'arbre de rendu de la scène.
-///
-////////////////////////////////////////////////////////////////////////
-ArbreRenduINF2990* FacadeModele::obtenirArbreRenduINF2990()
-{
-	if(terrain_)
-		return terrain_->getArbreRendu();
-	else
-		return NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -2602,6 +2547,42 @@ void FacadeModele::RunOnUpdateThread( Runnable* run, bool pForceQueue /*= false*
         {
             delete run;
         }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void FacadeModele::duplicateSelection()
+///
+/// duplicate nodes selected that can be duplicated
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void FacadeModele::duplicateSelection()
+{
+    if(terrain_)
+    {
+        terrain_->duplicateSelection();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn ConteneurNoeuds FacadeModele::getSelectedNodes()
+///
+/// retrieves node selected on the field
+///
+///
+/// @return ConteneurNoeuds
+///
+////////////////////////////////////////////////////////////////////////
+void FacadeModele::getSelectedNodes(ConteneurNoeuds& pSelectedNodes) const
+{
+    if(terrain_)
+    {
+        terrain_->getSelectedNodes(pSelectedNodes);
     }
 }
 

@@ -4,7 +4,7 @@
 /// @date 2012-02-02
 /// @version 2.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -13,6 +13,7 @@
 #include "JoueurHumain.h"
 #include "Utilitaire.h"
 #include <algorithm>
+#include "RazerGameTree.h"
 
 // Enregistrement de la suite de tests au sein du registre
 CPPUNIT_TEST_SUITE_REGISTRATION( ConfigSceneTest );
@@ -33,11 +34,11 @@ CPPUNIT_TEST_SUITE_REGISTRATION( ConfigSceneTest );
 void ConfigSceneTest::setUp()
 {
 	// On initialise un arbre arbitraire pour les test
-	arbre = new ArbreRenduINF2990();
-	noeuds_[0] = arbre->creerNoeud(ArbreRenduINF2990::NOM_MURET);
-	noeuds_[1] = arbre->creerNoeud(ArbreRenduINF2990::NOM_PORTAIL); 
-	noeuds_[2] = arbre->creerNoeud(ArbreRenduINF2990::NOM_RONDELLE); 
-	noeuds_[3] = arbre->creerNoeud(ArbreRenduINF2990::NOM_MAILLET);
+	arbre = new RazerGameTree();
+	noeuds_[0] = arbre->creerNoeud(RazerGameUtilities::NOM_MURET);
+	noeuds_[1] = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL); 
+	noeuds_[2] = arbre->creerNoeud(RazerGameUtilities::NOM_RONDELLE); 
+	noeuds_[3] = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
 	if(noeuds_[0] != 0)
 	{
 		if(noeuds_[1] != 0)
@@ -96,13 +97,13 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
 {
 	arbre->vider();
 
-	NoeudAbstrait* n1 = arbre->creerNoeud(ArbreRenduINF2990::NOM_MAILLET);
-	NoeudAbstrait* n2 = arbre->creerNoeud(ArbreRenduINF2990::NOM_MAILLET);
-	NoeudAbstrait* n3 = arbre->creerNoeud(ArbreRenduINF2990::NOM_PORTAIL);
-	NoeudAbstrait* n4 = arbre->creerNoeud(ArbreRenduINF2990::NOM_PORTAIL);
-	NoeudAbstrait* n5 = arbre->creerNoeud(ArbreRenduINF2990::NOM_RONDELLE);
-	NoeudAbstrait* n6 = arbre->creerNoeud(ArbreRenduINF2990::NOM_RONDELLE);
-	NoeudAbstrait* n7 = arbre->creerNoeud(ArbreRenduINF2990::NOM_ACCELERATEUR);
+	NoeudAbstrait* n1 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
+	NoeudAbstrait* n2 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
+	NoeudAbstrait* n3 = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL);
+	NoeudAbstrait* n4 = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL);
+	NoeudAbstrait* n5 = arbre->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
+	NoeudAbstrait* n6 = arbre->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
+	NoeudAbstrait* n7 = arbre->creerNoeud(RazerGameUtilities::NOM_ACCELERATEUR);
 	NoeudComposite* nC1 = new NoeudComposite("groupe1");
 	NoeudComposite* nC2 = new NoeudComposite("groupe2");
 	NoeudComposite* nC3 = new NoeudComposite("groupe3");
@@ -135,13 +136,13 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
 	child = elementConfiguration->FirstChild();
 	CPPUNIT_ASSERT (child != NULL);
 	std::string name = child->Value();
-	CPPUNIT_ASSERT(name == ArbreRenduINF2990::NOM_MAILLET);
+	CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_MAILLET);
 
 	// n2
 	child = child->NextSibling();
 	CPPUNIT_ASSERT (child != NULL);
 	name = child->Value();
-	CPPUNIT_ASSERT(name == ArbreRenduINF2990::NOM_MAILLET);
+	CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_MAILLET);
 
 	// nC1
 	child = child->NextSibling();
@@ -153,13 +154,13 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
 	grantChild = child->FirstChild();
 	CPPUNIT_ASSERT (grantChild != NULL);
 	name = grantChild->Value();
-	CPPUNIT_ASSERT(name == ArbreRenduINF2990::NOM_PORTAIL);
+	CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_PORTAIL);
 
 	// n4
 	grantChild = grantChild->NextSibling();
 	CPPUNIT_ASSERT (grantChild != NULL);
 	name = grantChild->Value();
-	CPPUNIT_ASSERT(name == ArbreRenduINF2990::NOM_PORTAIL);
+	CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_PORTAIL);
 
 	// n'existe pas
 	grantChild = grantChild->NextSibling();
@@ -175,7 +176,7 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
 	grantChild = child->FirstChild();
 	CPPUNIT_ASSERT (grantChild != NULL);
 	name = grantChild->Value();
-	CPPUNIT_ASSERT(name == ArbreRenduINF2990::NOM_RONDELLE);
+	CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_RONDELLE);
 
 	// nC3
 	grantChild = grantChild->NextSibling();
@@ -187,7 +188,7 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
 	grantGrantChild = grantChild->FirstChild();
 	CPPUNIT_ASSERT (grantGrantChild != NULL);
 	name = grantGrantChild->Value();
-	CPPUNIT_ASSERT(name == ArbreRenduINF2990::NOM_ACCELERATEUR);
+	CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_ACCELERATEUR);
 
 	// n'existe pas
 	grantGrantChild = grantGrantChild->NextSibling();
@@ -198,6 +199,9 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
 	CPPUNIT_ASSERT (grantChild == NULL);
 
 	// Parcours de l'arbre complet
+
+    remove("tests_xml\\TestEnregistrement.xml");
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -219,7 +223,7 @@ void ConfigSceneTest::testLectureArbreRenduXML()
 
 	// Chargement et lecture du document
 	document.LoadFile( "tests_xml\\TestLecture.xml" );
-	ArbreRenduINF2990* arbre2 = new ArbreRenduINF2990();
+	RazerGameTree* arbre2 = new RazerGameTree();
 	ConfigScene::obtenirInstance()->lireDOM(document, arbre2);
 
 	// Comparaison entre le document lu et l'arbre écrit dedans au départ
@@ -228,6 +232,9 @@ void ConfigSceneTest::testLectureArbreRenduXML()
 
 	arbre2->vider();
 	delete arbre2;
+
+    remove("tests_xml\\TestLecture.xml");
+
 }
 
 
@@ -360,7 +367,7 @@ void ConfigSceneTest::testLectureEcritureJoueurXML()
 	CPPUNIT_ASSERT(conteneurJoueur2.find("bot9") != conteneurJoueur2.end());
 	CPPUNIT_ASSERT(conteneurJoueur2.find("random") == conteneurJoueur2.end());
 
-
+    remove("tests_xml\\TestEnregistrementJoueur.xml");
 	//for_each(conteneurJoueur.begin(),conteneurJoueur.end(),utilitaire::LibererMappe());
 	//for_each(conteneurJoueur2.begin(),conteneurJoueur2.end(),utilitaire::LibererMappe());
 

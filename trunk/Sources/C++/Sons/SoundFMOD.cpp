@@ -4,7 +4,7 @@
 /// @date 2011-06-08
 /// @version 1.0
 ///
-/// @addtogroup inf2990 INF2990
+/// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
@@ -12,6 +12,9 @@
 #include "GestionnaireAnimations.h"
 #include "Utilitaire.h"
 #include "DecodeString.h"
+#include "RazerGameUtilities.h"
+
+const std::string SOUND_PATH = RazerGameUtilities::NOM_DOSSIER_MEDIA + "Sons/";
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -113,7 +116,6 @@ void SoundFMOD::init()
 	create_sound("hockey.mp3", FMOD_SOFTWARE, 0, songs_group);
 	create_sound("SongoftheCagedBird.mp3", FMOD_LOOP_NORMAL, 0, songs_group);
 	create_sound("Diamond_Mine.xm", FMOD_LOOP_NORMAL, 0, songs_group);
-	//create_sound("media/Sons/eyeOfTheTiger.mp3", FMOD_LOOP_NORMAL, 0, songs_group);
 	
 	// Volume des musiques
 	songs_group->setVolume((float)0.25);
@@ -306,7 +308,7 @@ void SoundFMOD::ajouterChanson( std::string nomPlaylist, FMOD::Sound* sound )
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::create_sound(std::string name_or_data, FMOD_MODE mode, FMOD_CREATESOUNDEXINFO *exinfo, FMOD::SoundGroup* group)
 {
-	name_or_data = "media/Sons/"+name_or_data;
+	name_or_data = SOUND_PATH+name_or_data;
 	FMOD::Sound* sound;
 	//systemFmod->createStream();
 	result = systemFmod->createSound(name_or_data.c_str(), mode, exinfo, &sound);
