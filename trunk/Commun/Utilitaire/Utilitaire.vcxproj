@@ -137,7 +137,6 @@
     <ClCompile Include="Reseau\Paquets\PaquetTest.cpp" />
     <ClCompile Include="Reseau\Socket.cpp" />
     <ClCompile Include="Reseau\SocketTCPServeur.cpp" />
-    <ClCompile Include="StackWalker.cpp" />
     <ClCompile Include="textfile.cpp" />
     <ClCompile Include="Utilitaire.cpp" />
     <ClCompile Include="Vue\Camera.cpp" />
@@ -212,7 +211,7 @@
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetString.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetTest.h" />
     <ClInclude Include="Singleton.h" />
-    <ClInclude Include="StackWalker.h" />
+    <ClInclude Include="Solution_Defines.h" />
     <ClInclude Include="textfile.h" />
     <ClInclude Include="Utilitaire.h" />
     <ClInclude Include="Vecteur.h" />

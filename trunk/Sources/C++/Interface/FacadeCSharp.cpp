@@ -15,6 +15,8 @@
 #include "FacadeModele.h"
 #include "Vue.h"
 #include "GestionnaireEvenements.h"
+#include "..\Application\RepartiteurActions.h"
+#include "..\Jeu\JoueurHumain.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -200,7 +202,10 @@ void CancelConnection( char* pUsername )
 void InitOpenGL( HWND hWnd )
 {
     FacadeModele::getInstance()->initialiserOpenGL(hWnd);
-    FacadeModele::getInstance()->passageModeEdition();
+
+    SPJoueurAbstrait joueurHumain = SPJoueurAbstrait(new JoueurHumain("Joueur 2"));
+    FacadeModele::getInstance()->modifierAdversaire(joueurHumain);
+    //FacadeModele::getInstance()->passageModeEdition();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -304,3 +309,80 @@ void OnMouseWheelMoved( int deltaRotation )
 {
     GestionnaireEvenements::obtenirInstance()->rouletteSouris(EvenementRouletteSouris(-deltaRotation));
 }
+
+bool ActionPerformed( char* action )
+{
+    std::string actionString = action;
+    if(actionString == "SUPPRIMER" || actionString == "EDITEUR_NOUVEAU" || actionString == "REINITIALISER_PARTIE")
+    {
+        // Si on est dans le cas de suppression et qu'il n'y a pas de sélection.
+        if(actionString == "SUPPRIMER"  && !FacadeModele::getInstance()->possedeSelection())
+            return false;
+
+        checkf(0,"Enleve le check pour les cas une fois que la fenetre de validation est géré par le C#");
+    }
+
+    return RepartiteurActions::obtenirInstance()->appelerMethodeAction(actionString);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool IsGamePaused()
+///
+/// /*Description*/
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool IsGamePaused()
+{
+    return FacadeModele::getInstance()->estEnPause();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void PauseGame( bool doPause )
+///
+/// /*Description*/
+///
+/// @param[in] bool doPause
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void PauseGame( bool doPause )
+{
+    FacadeModele::getInstance()->modifierEnPause(doPause);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void GenerateDefaultField()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void GenerateDefaultField()
+{
+    FacadeModele::getInstance()->creerTerrainParDefaut();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool ValidateField()
+///
+/// /*Description*/
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool ValidateField()
+{
+    return FacadeModele::getInstance()->verifierValiditeMap();
+}
+

@@ -20,7 +20,6 @@
 #include <stdarg.h>
 #define _WINSOCKAPI_
 #include <Windows.h>
-#include "StackWalker.h"
 
 /**
 * Helper function to write formatted output using an argument list
@@ -52,27 +51,6 @@ int GenerateHashCode( const char* pString )
     return (int)_Val;
 }
 
-// Simple implementation of an additional output to the console:
-class MyStackWalker : public StackWalker
-{
-public:
-    MyStackWalker() : StackWalker(RetrieveLine) 
-    {
-        nbLines = 0;
-    }
-    MyStackWalker(DWORD dwProcessId, HANDLE hProcess) : StackWalker(dwProcessId, hProcess) {}
-    virtual void OnOutput(LPCSTR szText) 
-    { 
-        if(++nbLines < 10)
-            mStackTrace += szText; 
-        
-        /*printf(szText); StackWalker::OnOutput(szText);*/ 
-    }
-    int nbLines;
-    std::string mStackTrace;
-};
-
-
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, const char* Format/*=""*/, ... )
@@ -95,10 +73,7 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
     char AssertMsg[2048];
     GET_VARARGS( AssertMsg, ARRAY_COUNT(AssertMsg), ARRAY_COUNT(AssertMsg)-1, Format, Format );
 
-    //MyStackWalker myStackWalker;
-    //myStackWalker.ShowCallstack();
     std::string displayMessage = AssertMsg;
-    //displayMessage += myStackWalker.mStackTrace;
 
     static std::vector<int> IgnoredAssertTrackingList;
     int hash = GenerateHashCode(assertIDText);

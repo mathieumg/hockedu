@@ -130,9 +130,6 @@
     <ClCompile Include="XMLUtils.cpp">
       <Filter>Sources Files</Filter>
     </ClCompile>
-    <ClCompile Include="StackWalker.cpp">
-      <Filter>Sources Files</Filter>
-    </ClCompile>
     <ClCompile Include="BoundingBox.cpp">
       <Filter>Sources Files</Filter>
     </ClCompile>
@@ -327,9 +324,6 @@
     <ClInclude Include="XMLUtils.h">
       <Filter>Sources Files</Filter>
     </ClInclude>
-    <ClInclude Include="StackWalker.h">
-      <Filter>Sources Files</Filter>
-    </ClInclude>
     <ClInclude Include="MouseMoveObserver.h">
       <Filter>Sources Files\Observer</Filter>
     </ClInclude>
@@ -428,6 +422,9 @@
     </ClInclude>
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetEvent.h">
       <Filter>Sources Files\Reseau\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="Solution_Defines.h">
+      <Filter>Sources Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
