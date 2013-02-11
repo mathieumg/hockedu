@@ -6,6 +6,7 @@
 #include "..\Reseau\UsinePaquets\UsinePaquetChatMessage.h"
 #include "ControllerServeurMaitre.h"
 #include "..\Reseau\GestionnaireReseauServeurMaitre.h"
+#include "FacadeServeurMaitre.h"
 
 int main(void)  {
 
@@ -14,10 +15,10 @@ int main(void)  {
     GestionnaireReseauServeurMaitre::obtenirInstance();
 	GestionnaireReseau* wGestReseau = GestionnaireReseau::obtenirInstance();
 
-    
     GestionnaireReseau::obtenirInstance()->ajouterOperationReseau("ChatMessage", new PacketHandlerChatMessage, new UsinePaquetChatMessage);
     GestionnaireReseau::obtenirInstance()->setController(new ControllerServeurMaitre());
 
+    FacadeServeurMaitre::obtenirInstance();
     
 
 

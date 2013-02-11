@@ -46,6 +46,11 @@ void ControllerServeurMaitre::handleEvent( int pEventCode, va_list pListeElems )
             }
             break;
         }
+    case SERVER_USER_CONNECTING:
+        {
+            std::cout << "Event: Tentative de connexion de " << va_arg(pListeElems,std::string) << std::endl;
+            break;
+        }
     default:
         std::cout << "EventCode: " << pEventCode << std::endl;
         break;

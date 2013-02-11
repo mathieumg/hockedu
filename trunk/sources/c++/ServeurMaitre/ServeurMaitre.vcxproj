@@ -139,23 +139,34 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Reseau\GestionnaireReseauServeurMaitre.cpp" />
+    <ClCompile Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.cpp" />
+    <ClCompile Include="..\Reseau\ObjetsGlobaux\PartieServeurs.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp" />
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerLoginInfo.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetChatMessage.cpp" />
+    <ClCompile Include="..\Reseau\Paquets\PaquetLoginInfo.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetUserStatus.cpp" />
     <ClCompile Include="..\Reseau\RelayeurMessage.cpp" />
+    <ClCompile Include="FacadeServeurMaitre.cpp" />
     <ClCompile Include="mainServeurMaitre.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Reseau\GestionnaireReseauServeurMaitre.h" />
+    <ClInclude Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.h" />
+    <ClInclude Include="..\Reseau\ObjetsGlobaux\PartieServeurs.h" />
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h" />
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerLoginInfo.h" />
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetChatMessage.h" />
+    <ClInclude Include="..\Reseau\Paquets\PaquetLoginInfo.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetUserStatus.h" />
     <ClInclude Include="..\Reseau\RelayeurMessage.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatMessage.h" />
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetLoginInfo.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetUserStatus.h" />
     <ClInclude Include="ControllerServeurMaitre.h" />
+    <ClInclude Include="FacadeServeurMaitre.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Commun\Utilitaire\Utilitaire.vcxproj">
