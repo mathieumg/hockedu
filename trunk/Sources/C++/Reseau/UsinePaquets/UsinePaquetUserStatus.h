@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file UsinePaquetChatUserStatus.h
+/// @file UsinePaquetUserStatus.h
 /// @author Mathieu Parent
 /// @date 2013-01-28
 /// @version 1.0
@@ -10,21 +10,21 @@
 
 #pragma once
 #include "Reseau\UsinePaquets\UsinePaquet.h"
-#include "..\Paquets\PaquetChatUserStatus.h"
+#include "..\Paquets\PaquetUserStatus.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
-/// @class UsinePaquetChatUserStatus
-/// @brief Classe Factory (Usine) pour les paquets de type ChatUserStatus
+/// @class UsinePaquetUserStatus
+/// @brief Classe Factory (Usine) pour les paquets de type UserStatus
 ///
 /// @author Mathieu Parent
 /// @date 2013-01-28
 ///////////////////////////////////////////////////////////////////////////
-class UsinePaquetChatUserStatus : public UsinePaquet
+class UsinePaquetUserStatus : public UsinePaquet
 {
 public:
     /// Constructeur par paramètres.
-    inline UsinePaquetChatUserStatus();
+    inline UsinePaquetUserStatus();
 
 	/// Fonction à surcharger pour la création d'un noeud.
 	inline virtual Paquet* creerPaquet() const;
@@ -45,8 +45,8 @@ public:
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-inline UsinePaquetChatUserStatus::UsinePaquetChatUserStatus()
-	: UsinePaquet("ChatUserStatus")
+inline UsinePaquetUserStatus::UsinePaquetUserStatus()
+	: UsinePaquet("UserStatus")
 {
 }
 
@@ -61,9 +61,9 @@ inline UsinePaquetChatUserStatus::UsinePaquetChatUserStatus()
 /// @return Le noeud nouvellement créé.
 ///
 ////////////////////////////////////////////////////////////////////////
-Paquet* UsinePaquetChatUserStatus::creerPaquet() const
+Paquet* UsinePaquetUserStatus::creerPaquet() const
 {
-	return new PaquetChatUserStatus();
+	return new PaquetUserStatus();
 }
 
 

@@ -8,9 +8,9 @@
 #include <ctime>
 #include "FacadeCSharp.h"
 #include "..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetChatUserStatus.h"
+#include "..\Reseau\UsinePaquets\UsinePaquetUserStatus.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetChatMessage.h"
-#include "..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.h"
+#include "..\Reseau\PaquetHandlers\PacketHandlerUserStatus.h"
 #include "..\Reseau\ControllerCSharp.h"
 #include "FacadeModele.h"
 #include "Vue.h"
@@ -84,7 +84,7 @@ void InitDLL()
 
     // On doit ajouter une nouvelle operation reseau pour que le systeme le connaisse (1 par type de paquet)
     wGestionnaireReseau->ajouterOperationReseau("ChatMessage", new PacketHandlerChatMessage, new UsinePaquetChatMessage);
-    wGestionnaireReseau->ajouterOperationReseau("ChatUserStatus", new PacketHandlerChatUserStatus, new UsinePaquetChatUserStatus);
+    wGestionnaireReseau->ajouterOperationReseau("UserStatus", new PacketHandlerUserStatus, new UsinePaquetUserStatus);
 }
 
 

@@ -1,10 +1,10 @@
 
 
-#include "..\Paquets\PaquetChatUserStatus.h"
+#include "..\Paquets\PaquetUserStatus.h"
 #include "Reseau\PacketReader.h"
 #include "Reseau\PacketBuilder.h"
 #include "Reseau\PaquetHandlers\PacketHandlerBase.h"
-#include "PacketHandlerChatUserStatus.h"
+#include "PacketHandlerUserStatus.h"
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -13,9 +13,9 @@
 
 
 
-void PacketHandlerChatUserStatus::handlePacketReceptionSpecific(PacketReader& pPacketReader)
+void PacketHandlerUserStatus::handlePacketReceptionSpecific(PacketReader& pPacketReader)
 {
-    PaquetChatUserStatus* wPaquet = (PaquetChatUserStatus*) GestionnaireReseau::obtenirInstance()->creerPaquet("ChatUserStatus");
+    PaquetUserStatus* wPaquet = (PaquetUserStatus*) GestionnaireReseau::obtenirInstance()->creerPaquet("UserStatus");
     int wArraySize = pPacketReader.readInteger();
     uint8_t* wBuffer = new uint8_t[wArraySize];
     pPacketReader.readString(wBuffer, wArraySize);
@@ -113,9 +113,9 @@ void PacketHandlerChatUserStatus::handlePacketReceptionSpecific(PacketReader& pP
     
 }
 
-void PacketHandlerChatUserStatus::handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder)
+void PacketHandlerUserStatus::handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder)
 {
-    PaquetChatUserStatus* wPaquet = (PaquetChatUserStatus*) pPaquet;
+    PaquetUserStatus* wPaquet = (PaquetUserStatus*) pPaquet;
 
 
     pPacketBuilder << wPaquet->getUserName()
@@ -125,9 +125,9 @@ void PacketHandlerChatUserStatus::handlePacketPreparationSpecific(Paquet* pPaque
 
 
 
-int PacketHandlerChatUserStatus::getPacketSize( Paquet* pPaquet ) const
+int PacketHandlerUserStatus::getPacketSize( Paquet* pPaquet ) const
 {
-    PaquetChatUserStatus* wPaquet = (PaquetChatUserStatus*) pPaquet;
+    PaquetUserStatus* wPaquet = (PaquetUserStatus*) pPaquet;
 
     
     return PacketBuilder::getSizeForString(wPaquet->getUserName())

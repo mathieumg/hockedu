@@ -51,11 +51,11 @@
     <ClCompile Include="PacketDisassembler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Reseau\Paquets\PaquetChatUserStatus.cpp">
-      <Filter>Source Files\Paquets</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.cpp">
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp">
       <Filter>Source Files\PacketHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\Paquets\PaquetUserStatus.cpp">
+      <Filter>Source Files\Paquets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,17 +86,17 @@
     <ClInclude Include="PacketDisassembler.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatUserStatus.h">
-      <Filter>Source Files\UsinePaquets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\Paquets\PaquetChatUserStatus.h">
-      <Filter>Source Files\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.h">
-      <Filter>Source Files\PacketHandlers</Filter>
-    </ClInclude>
     <ClInclude Include="..\Reseau\ControllerCPP.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.h">
+      <Filter>Source Files\PacketHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\Paquets\PaquetUserStatus.h">
+      <Filter>Source Files\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetUserStatus.h">
+      <Filter>Source Files\UsinePaquets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

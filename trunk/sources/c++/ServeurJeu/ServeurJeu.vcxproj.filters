@@ -33,17 +33,17 @@
     <ClCompile Include="..\Reseau\Paquets\PaquetChatMessage.cpp">
       <Filter>Source Files\Paquets</Filter>
     </ClCompile>
-    <ClCompile Include="..\Reseau\Paquets\PaquetChatUserStatus.cpp">
-      <Filter>Source Files\Paquets</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.cpp">
-      <Filter>Source Files\PaquetHandlers</Filter>
-    </ClCompile>
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp">
       <Filter>Source Files\PaquetHandlers</Filter>
     </ClCompile>
     <ClCompile Include="..\Reseau\RelayeurMessage.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp">
+      <Filter>Source Files\PaquetHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\Paquets\PaquetUserStatus.cpp">
+      <Filter>Source Files\Paquets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,23 +56,23 @@
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatMessage.h">
       <Filter>Source Files\UsinePaquets</Filter>
     </ClInclude>
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatUserStatus.h">
-      <Filter>Source Files\UsinePaquets</Filter>
-    </ClInclude>
     <ClInclude Include="..\Reseau\Paquets\PaquetChatMessage.h">
-      <Filter>Source Files\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\Paquets\PaquetChatUserStatus.h">
       <Filter>Source Files\Paquets</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h">
       <Filter>Source Files\PaquetHandlers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.h">
-      <Filter>Source Files\PaquetHandlers</Filter>
-    </ClInclude>
     <ClInclude Include="..\Reseau\RelayeurMessage.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.h">
+      <Filter>Source Files\PaquetHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\Paquets\PaquetUserStatus.h">
+      <Filter>Source Files\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetUserStatus.h">
+      <Filter>Source Files\UsinePaquets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
