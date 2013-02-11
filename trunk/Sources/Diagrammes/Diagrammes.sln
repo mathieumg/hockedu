@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "Diagrammes", "Diagrammes.modelproj", "{01F0C8F0-D591-4479-9F8C-56192453EECB}"
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "SequenceDiagrams", "SequenceDiagrams\SequenceDiagrams.modelproj", "{4D8B9A69-1DD8-4616-881C-7A06CFB77FA7}"
