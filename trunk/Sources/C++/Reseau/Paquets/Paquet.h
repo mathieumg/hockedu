@@ -37,13 +37,18 @@ public:
     // Fonction qui decremente le compteur de queries associees a ce Paquet, Si compteur = 0, on appelle le destructeur
     void removeAssociatedQuery();
 
+    // Execution du Paquet avec un runnable
+    inline int run() { return mRunnableFunction(this); }
+
+    inline void setRunnable(PaquetRunnableFunc pRunnable) { mRunnableFunction = pRunnable; }
+
 protected: 
 	Paquet(const std::string& operation);
 private:
 	char mOperation[GestionnaireReseau::longueurMaxOperationReseau];
 	int mNbAssociatedQueries; // Nb de fois que le paquet doit etre envoyer (different de 1 si on fait un envoie de masse)
     
-	
+	PaquetRunnableFunc mRunnableFunction;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

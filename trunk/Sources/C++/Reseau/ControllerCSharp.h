@@ -15,6 +15,7 @@
 typedef int (__stdcall *MessageReceivedCallBack)( char* pUsername, char* pMessage );
 typedef int (__stdcall *EventReceivedCallBack)( int pId, char* pMessage );
 
+
 ///////////////////////////////////////////////////////////////////////////
 /// @class ControllerCSharp
 /// @brief Controlleur du client CPP en Command line
@@ -32,6 +33,8 @@ public:
 private:
     MessageReceivedCallBack mMessageReceivedCallBack;
     EventReceivedCallBack   mEventReceivedCallback;
+
+    
 
 };
 

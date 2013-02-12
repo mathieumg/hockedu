@@ -386,3 +386,18 @@ bool ValidateField()
     return FacadeModele::getInstance()->verifierValiditeMap();
 }
 
+
+
+
+
+
+
+void initNetwork( ControllerInterface* pController )
+{
+    GestionnaireReseau::obtenirInstance()->setController(pController);
+
+
+
+
+}
+

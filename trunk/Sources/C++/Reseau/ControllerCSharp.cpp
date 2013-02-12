@@ -1,5 +1,6 @@
 #include "ControllerCSharp.h"
 #include "GestionnaireReseau.h"
+#include "PaquetRunnable.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -14,6 +15,25 @@
 ////////////////////////////////////////////////////////////////////////
 ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceivedCallBack(NULL)
 {
+    // Ajouter tous les Runnables dependant de ce qui est handled selon le type de controlleur
+    mPaquetRunnables[0] = PaquetRunnable::RunnableEvent;
+
+
+
+    int RunnableEvent(Paquet* pPaquet);
+
+    int RunnableLoginInfoServer(Paquet* pPaquet);
+
+    int RunnableConnAutomatiqueClient(Paquet* pPaquet);
+    int RunnableConnAutomatiqueServer(Paquet* pPaquet);
+
+    int RunnableUserStatusClient(Paquet* pPaquet);
+    int RunnableUserStatusServer(Paquet* pPaquet);
+
+    int RunnableChatMessageServer(Paquet* pPaquet);
+    int RunnableChatMessageClient(Paquet* pPaquet);
+
+    int RunnableTest(Paquet* pPaquet);
 
 }
 

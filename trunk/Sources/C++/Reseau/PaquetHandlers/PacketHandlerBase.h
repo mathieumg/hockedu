@@ -3,7 +3,7 @@
 class PacketHandlerBase :
     public PacketHandler
 {
-    virtual void handlePacketReceptionSpecific(PacketReader& pPacketReader) {}
+    virtual void handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable = NULL) {}
 protected:
     virtual HeaderPaquet& handlePacketHeaderReceptionBase(PacketReader& pPacketReader, HeaderPaquet& pHeaderPaquet); // Méthode pour lire le header d'un paquet
     virtual void handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder) {}

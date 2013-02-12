@@ -98,6 +98,7 @@
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerLoginInfo.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerTest.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp" />
+    <ClCompile Include="..\Reseau\PaquetRunnable.cpp" />
     <ClCompile Include="..\Reseau\Paquets\Paquet.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetBase.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetChatMessage.cpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerLoginInfo.h" />
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerTest.h" />
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.h" />
+    <ClInclude Include="..\Reseau\PaquetRunnable.h" />
     <ClInclude Include="..\Reseau\Paquets\Paquet.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetBase.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetChatMessage.h" />

@@ -653,7 +653,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                                         wTailleRestanteALire = (int) (wPacketHeader.taillePaquet - wReceivedBytes);
                                     }
                                     wPacketHandler = GestionnaireReseau::obtenirInstance()->getPacketHandler(wPacketHeader.type);
-                                    wPacketHandler->handlePacketReceptionSpecific( wPacketReader );
+                                    wPacketHandler->handlePacketReceptionSpecific( wPacketReader , GestionnaireReseau::obtenirInstance()->getController()->getRunnable(wPacketHeader.type) );
                                 }
                                 wPacketReader.clearBuffer();
                             }

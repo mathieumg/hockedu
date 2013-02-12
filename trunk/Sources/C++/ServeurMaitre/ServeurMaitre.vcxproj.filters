@@ -129,6 +129,9 @@
     <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseauTimeout.cpp">
       <Filter>Source Files\ExceptionsReseau</Filter>
     </ClCompile>
+    <ClCompile Include="..\Reseau\PaquetRunnable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControllerServeurMaitre.h">
@@ -256,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="..\Reseau\ExceptionsReseau\ExceptionReseauTimeout.h">
       <Filter>Source Files\ExceptionsReseau</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\PaquetRunnable.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

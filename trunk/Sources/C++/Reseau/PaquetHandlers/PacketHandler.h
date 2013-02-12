@@ -28,7 +28,7 @@ class PacketHandler {
     
 public:
     virtual HeaderPaquet handlePacketHeaderReception(PacketReader& pPacketReader); // Méthode pour lire le header d'un paquet
-    virtual void handlePacketReceptionSpecific(PacketReader& pPacketReader) = 0; // Méthode pour lire les données d'un paquet pour un paquet de base
+    virtual void handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable = NULL) = 0; // Méthode pour lire les données d'un paquet pour un paquet de base
     void handlePacketPreparation(Paquet* pPaquet, PacketBuilder& pPacketBuilder); // Methode pour la construction du paquet pour l'envoie sur le reseau
     virtual int getPacketSize(Paquet* pPaquet) const;
 protected:

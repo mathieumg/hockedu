@@ -12,50 +12,24 @@
 
 
 
-void PacketHandlerUserStatus::handlePacketReceptionSpecific(PacketReader& pPacketReader)
+void PacketHandlerUserStatus::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)
 {
-    PaquetUserStatus* wPaquet = (PaquetUserStatus*) GestionnaireReseau::obtenirInstance()->creerPaquet("UserStatus");
-    int wArraySize = pPacketReader.readInteger();
-    uint8_t* wBuffer = new uint8_t[wArraySize];
-    pPacketReader.readString(wBuffer, wArraySize);
-	wPaquet->setUserName((char*) wBuffer);
-    //delete wBuffer;
+    if(pRunnable)
+    {
+        PaquetUserStatus* wPaquet = (PaquetUserStatus*) GestionnaireReseau::obtenirInstance()->creerPaquet("UserStatus");
+        int wArraySize = pPacketReader.readInteger();
+        uint8_t* wBuffer = new uint8_t[wArraySize];
+        pPacketReader.readString(wBuffer, wArraySize);
+        wPaquet->setUserName((char*) wBuffer);
+        //delete wBuffer;
 
-	wPaquet->setConnectionState( (ConnectionState) pPacketReader.readInteger());
+        wPaquet->setConnectionState( (ConnectionState) pPacketReader.readInteger());
 
-	// Seul les Clients devraient recevoir ceci
 
-	time_t wT = time(0);
-	struct tm wTime;
-	if(_localtime64_s(&wTime, &wT))
-	{
-		std::cout << "[00:00:00]";
-	}
-	else
-	{
-		std::ostringstream wTimeOutput;
-		wTimeOutput << std::setfill('0') << "["
-			<< std::setw(2) << wTime.tm_hour
-			<< std::setw(1) << ":"
-			<< std::setw(2) << wTime.tm_min
-			<< std::setw(1) << ":"
-			<< std::setw(2) << wTime.tm_sec
-			<< std::setw(1) << "]";
-		std::cout << wTimeOutput.str();
-	}
-	std::cout << " " << wPaquet->getUserName();
-	switch(wPaquet->getConnectionState())
-	{
-	case CONNECTED:
-        GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_CONNECTED,wPaquet->getUserName());
-		break;
-	case NOT_CONNECTED:
-        GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_DISCONNECTED,wPaquet->getUserName());
-		break;
-	case CONNECTING:
-		std::cout << " is reconnecting" << std::endl;
-		break;
-	}
+        wPaquet->setRunnable(pRunnable);
+        wPaquet->run();
+        
+    }
 
 
 
