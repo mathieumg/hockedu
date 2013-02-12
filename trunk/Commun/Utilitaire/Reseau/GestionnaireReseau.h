@@ -36,7 +36,7 @@ enum EventCodes {
     USER_DID_NOT_SEND_NAME_ON_CONNECTION, 
     USER_CONNECTED, 
     USER_DISCONNECTED, 
-    INVALID_USERNAME = USER_DISCONNECTED, // Pour eviter d'avoir a changer le handling pour le prototype. Mettre 2 enums separes pour la version finale
+        INVALID_USERNAME = USER_DISCONNECTED, // Pour eviter d'avoir a changer le handling pour le prototype. Mettre 2 enums separes pour la version finale
     CONNECTION_CANCELED,
     RECONNECTION_TIMEOUT, 
     RECONNECTION_IN_PROGRESS, 
@@ -44,6 +44,7 @@ enum EventCodes {
     CHAT_MESSAGE_RECEIVED,
     SERVER_USER_CONNECTED,
     SERVER_USER_DISCONNECTED,
+    SERVER_USER_CONNECTING,
     NB_EVENT_CODES // Must be always last !
 };
 

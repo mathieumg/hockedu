@@ -22,12 +22,15 @@
     <Filter Include="Source Files\UsinePaquets">
       <UniqueIdentifier>{3fd4b753-bd14-4e38-b994-50547049153b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ObjetsGlobaux">
+      <UniqueIdentifier>{eee0db9a-e64f-4600-82f8-b0550dacf82d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mainServeurJeu.cpp">
+    <ClCompile Include="mainServeurMaitre.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Reseau\GestionnaireReseauServeurJeu.cpp">
+    <ClCompile Include="..\Reseau\GestionnaireReseauServeurMaitre.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Reseau\Paquets\PaquetChatMessage.cpp">
@@ -45,12 +48,27 @@
     <ClCompile Include="..\Reseau\Paquets\PaquetUserStatus.cpp">
       <Filter>Source Files\Paquets</Filter>
     </ClCompile>
+    <ClCompile Include="FacadeServeurMaitre.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\ObjetsGlobaux\PartieServeurs.cpp">
+      <Filter>Source Files\ObjetsGlobaux</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.cpp">
+      <Filter>Source Files\ObjetsGlobaux</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\Paquets\PaquetLoginInfo.cpp">
+      <Filter>Source Files\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerLoginInfo.cpp">
+      <Filter>Source Files\PaquetHandlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ControllerServeurJeu.h">
+    <ClInclude Include="ControllerServeurMaitre.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Reseau\GestionnaireReseauServeurJeu.h">
+    <ClInclude Include="..\Reseau\GestionnaireReseauServeurMaitre.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatMessage.h">
@@ -68,11 +86,29 @@
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.h">
       <Filter>Source Files\PaquetHandlers</Filter>
     </ClInclude>
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetUserStatus.h">
+      <Filter>Source Files\UsinePaquets</Filter>
+    </ClInclude>
     <ClInclude Include="..\Reseau\Paquets\PaquetUserStatus.h">
       <Filter>Source Files\Paquets</Filter>
     </ClInclude>
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetUserStatus.h">
+    <ClInclude Include="FacadeServeurMaitre.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\ObjetsGlobaux\PartieServeurs.h">
+      <Filter>Source Files\ObjetsGlobaux</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.h">
+      <Filter>Source Files\ObjetsGlobaux</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetLoginInfo.h">
       <Filter>Source Files\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\Paquets\PaquetLoginInfo.h">
+      <Filter>Source Files\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerLoginInfo.h">
+      <Filter>Source Files\PaquetHandlers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

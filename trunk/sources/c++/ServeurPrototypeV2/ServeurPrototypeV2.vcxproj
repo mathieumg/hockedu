@@ -85,21 +85,21 @@
   <ItemGroup>
     <ClCompile Include="..\Reseau\GestionnaireReseauServeur.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp" />
-    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.cpp" />
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetChatMessage.cpp" />
-    <ClCompile Include="..\Reseau\Paquets\PaquetChatUserStatus.cpp" />
+    <ClCompile Include="..\Reseau\Paquets\PaquetUserStatus.cpp" />
     <ClCompile Include="..\Reseau\RelayeurMessage.cpp" />
     <ClCompile Include="mainServeurPrototypeV2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Reseau\GestionnaireReseauServeur.h" />
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h" />
-    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.h" />
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetChatMessage.h" />
-    <ClInclude Include="..\Reseau\Paquets\PaquetChatUserStatus.h" />
+    <ClInclude Include="..\Reseau\Paquets\PaquetUserStatus.h" />
     <ClInclude Include="..\Reseau\RelayeurMessage.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatMessage.h" />
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatUserStatus.h" />
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetUserStatus.h" />
     <ClInclude Include="ControllerServeurPrototype.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

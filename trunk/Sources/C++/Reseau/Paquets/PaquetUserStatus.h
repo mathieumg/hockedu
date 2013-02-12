@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file PaquetChatUserStatus.h
+/// @file PaquetUserStatus.h
 /// @author Mathieu Parent
 /// @date 2013-01-28
 /// @version 1.0
@@ -11,24 +11,24 @@
 #pragma once
 #include "Reseau\Paquets\PaquetBase.h"
 
-class UsinePaquetChatUserStatus;
+class UsinePaquetUserStatus;
 
 ///////////////////////////////////////////////////////////////////////////
-/// @class PaquetChatUserStatus
+/// @class PaquetUserStatus
 /// @brief Classe qui represente une modification du status de connection d'un user connecte au Chat
 ///
 /// @author Mathieu Parent
 /// @date 2013-01-28
 ///////////////////////////////////////////////////////////////////////////
-class PaquetChatUserStatus : public PaquetBase {
+class PaquetUserStatus : public PaquetBase {
 private:
-    friend UsinePaquetChatUserStatus;
+    friend UsinePaquetUserStatus;
 
     std::string mUserName;
 	ConnectionState mConnectionState;
 
 protected:
-	PaquetChatUserStatus();
+	PaquetUserStatus();
 
 public:
 
@@ -39,7 +39,7 @@ public:
 	void setConnectionState(ConnectionState val) { mConnectionState = val; }
 
 
-	~PaquetChatUserStatus();
+	~PaquetUserStatus();
 
 };
 
