@@ -32,7 +32,8 @@ protected:
 	PaquetLoginInfo();
 
 public:
-	
+    virtual PacketTypes getOperation() const { return LOGIN_INFO; }
+
     inline std::string getUsername() const { return mUsername; }
     inline void setUsername(const std::string& val) { mUsername = val; }
 

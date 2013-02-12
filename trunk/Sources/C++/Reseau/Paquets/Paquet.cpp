@@ -23,9 +23,8 @@ const std::string Paquet::sequenceIdentification = "LindseyStirling";
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-Paquet::Paquet(const std::string& operation)
+Paquet::Paquet()
 {
-	strncpy_s(mOperation, GestionnaireReseau::longueurMaxOperationReseau, operation.c_str(), GestionnaireReseau::longueurMaxOperationReseau);
     mNbAssociatedQueries = 1; // Par defaut, on envoie le paquet qu'une seule fois
 }
 
@@ -42,21 +41,6 @@ Paquet::~Paquet(void)
 {
 	
 }
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn Paquet::getOperation( )
-///
-/// Accesseur du champ mOperation
-///
-/// @return std::string qui represente l'mOperation transmise dans le paquet
-///
-////////////////////////////////////////////////////////////////////////
-std::string Paquet::getOperation() const
-{
-	return std::string(mOperation);
-}
-
 
 ////////////////////////////////////////////////////////////////////////
 ///

@@ -12,9 +12,10 @@
 
 void PacketHandlerLoginInfo::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)
 {
+    
     if(pRunnable)
     {
-        PaquetLoginInfo* wPaquet = (PaquetLoginInfo*) GestionnaireReseau::obtenirInstance()->creerPaquet("LoginInfo");
+        PaquetLoginInfo* wPaquet = (PaquetLoginInfo*) GestionnaireReseau::obtenirInstance()->creerPaquet(LOGIN_INFO);
 
         int wArraySize = pPacketReader.readInteger();
         uint8_t* wBuffer = new uint8_t[wArraySize];

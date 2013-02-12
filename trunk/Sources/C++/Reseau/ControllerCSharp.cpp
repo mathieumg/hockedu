@@ -16,7 +16,7 @@
 ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceivedCallBack(NULL)
 {
     // Ajouter tous les Runnables dependant de ce qui est handled selon le type de controlleur
-    mPaquetRunnables[0] = PaquetRunnable::RunnableEvent;
+    mPaquetRunnables[EVENT] = PaquetRunnable::RunnableEvent;
 
 
 

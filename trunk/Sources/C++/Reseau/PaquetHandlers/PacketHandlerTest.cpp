@@ -6,9 +6,10 @@
 
 void PacketHandlerTest::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)
 {
+    
     if(pRunnable)
     {
-        PaquetTest* wPaquet = (PaquetTest*) GestionnaireReseau::obtenirInstance()->creerPaquet("Test");
+        PaquetTest* wPaquet = (PaquetTest*) GestionnaireReseau::obtenirInstance()->creerPaquet(TEST);
 
         int wArraySize = pPacketReader.readInteger();
         uint8_t* wBuffer = new uint8_t[wArraySize];

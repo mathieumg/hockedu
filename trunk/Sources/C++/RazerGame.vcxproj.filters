@@ -461,6 +461,12 @@
     <ClCompile Include="Reseau\ObjetsGlobaux\JoueurServeurs.cpp">
       <Filter>Sources Files\Reseau\Global\ObjetsGlobauxServeurs</Filter>
     </ClCompile>
+    <ClCompile Include="Reseau\ControllerInterface.cpp">
+      <Filter>Sources Files\Reseau</Filter>
+    </ClCompile>
+    <ClCompile Include="Reseau\PaquetRunnable.cpp">
+      <Filter>Sources Files\Reseau</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -796,9 +802,6 @@
     <ClInclude Include="Reseau\ControllerCPP.h">
       <Filter>Sources Files\Reseau\Global</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\ControllerInterface.h">
-      <Filter>Sources Files\Reseau\Global</Filter>
-    </ClInclude>
     <ClInclude Include="Reseau\GestionnaireReseau.h">
       <Filter>Sources Files\Reseau\Global</Filter>
     </ClInclude>
@@ -850,9 +853,6 @@
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquet.h">
       <Filter>Sources Files\Reseau\Global\UsinePaquets</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetBase.h">
-      <Filter>Sources Files\Reseau\Global\UsinePaquets</Filter>
-    </ClInclude>
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetConnAutomatique.h">
       <Filter>Sources Files\Reseau\Global\UsinePaquets</Filter>
     </ClInclude>
@@ -891,6 +891,12 @@
     </ClInclude>
     <ClInclude Include="Reseau\ObjetsGlobaux\PartieServeurs.h">
       <Filter>Sources Files\Reseau\Global\ObjetsGlobauxServeurs</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\ControllerInterface.h">
+      <Filter>Sources Files\Reseau</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\PaquetRunnable.h">
+      <Filter>Sources Files\Reseau</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

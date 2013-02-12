@@ -2,7 +2,6 @@
 
 
 PaquetLoginInfo::PaquetLoginInfo(  )
-	:PaquetBase("LoginInfo")
 {
     mUsername = "";
     mPassword = "";

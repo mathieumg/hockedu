@@ -38,8 +38,7 @@ int PaquetBase::CompteurNumeroPaquet = obtenirNumeroInitHazard();
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-PaquetBase::PaquetBase( const std::string& pOperation)
-	:Paquet(pOperation)
+PaquetBase::PaquetBase()
 {
 	numeroPaquet = ++CompteurNumeroPaquet;
     // Size de Paquet

@@ -14,20 +14,16 @@ HeaderPaquet PacketHandler::handlePacketHeaderReception( PacketReader& pPacketRe
     if (wStringIdentification != Paquet::sequenceIdentification)
         return HeaderPaquet();
     HeaderPaquet hp;
-    const int longueurType = GestionnaireReseau::longueurMaxOperationReseau;
-    wBuffer = new uint8_t[longueurType];
-    pPacketReader.readString(wBuffer, longueurType);
-    strncpy_s(hp.type, longueurType, (const char*)wBuffer, longueurType);
-    delete wBuffer;
-    return handlePacketHeaderReceptionBase(pPacketReader, hp);
+    hp.type = (PacketTypes)pPacketReader.readInteger();
+    handlePacketHeaderReceptionBase(pPacketReader, hp);
+    return hp;
 }
 
 void PacketHandler::handlePacketPreparation( Paquet* pPaquet, PacketBuilder& pPacketBuilder )
 {
     pPacketBuilder.includeStringLength(false);
-    std::string wType = pPaquet->getOperation();
+    PacketTypes wType = pPaquet->getOperation();
     pPacketBuilder << pPaquet->sequenceIdentification << wType;
-    pPacketBuilder.addPadding((uint32_t) (GestionnaireReseau::longueurMaxOperationReseau - wType.length() - 1));
     int wSize = getPacketSize(pPaquet);
     handlePacketPreparationBase(pPaquet, pPacketBuilder, wSize);
     pPacketBuilder.includeStringLength(true);

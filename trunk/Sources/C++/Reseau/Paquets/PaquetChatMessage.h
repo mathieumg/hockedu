@@ -35,7 +35,8 @@ protected:
 	PaquetChatMessage();
 
 public:
-	
+	virtual PacketTypes getOperation() const { return EVENT; }
+
     inline std::string getMessage() const { return mMessage; }
     inline void setMessage(const std::string& val) { mMessage = val; }
 

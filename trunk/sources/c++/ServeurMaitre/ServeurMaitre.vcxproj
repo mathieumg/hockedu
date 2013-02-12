@@ -51,7 +51,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_SERVER;_DEBUG;_CONSOLE;_SERVER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_SERVEUR_MAITRE;_SERVER;_DEBUG;_CONSOLE;_SERVER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -67,7 +67,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_SERVEUR_MAITRE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -79,6 +79,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Reseau\CommunicateurReseau.cpp" />
+    <ClCompile Include="..\Reseau\ControllerInterface.cpp" />
     <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseau.cpp" />
     <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseauGlobale.cpp" />
     <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseauParametreInvalide.cpp" />

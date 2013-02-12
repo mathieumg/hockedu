@@ -132,6 +132,9 @@
     <ClCompile Include="..\Reseau\PaquetRunnable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Reseau\ControllerInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControllerServeurMaitre.h">

@@ -25,12 +25,16 @@ int PaquetRunnable::RunnableEvent( Paquet* pPaquet )
     GestionnaireReseau::obtenirInstance()->transmitEvent(wPaquet->getErrorCode(), wPaquet->getMessage());
 
     wPaquet->removeAssociatedQuery(); // delete
+    return 0;
 }
 
 
 int PaquetRunnable::RunnableLoginInfoServer( Paquet* pPaquet )
 {
     PaquetLoginInfo* wPaquet = (PaquetLoginInfo*) pPaquet;
+
+    // Code pour l'authentification des users du cote du serveur maitre
+#ifdef _SERVEUR_MAITRE
 
     // On envoie un event au gestionnaire reseau
     GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_CONNECTING, wPaquet->getUsername());
@@ -40,9 +44,10 @@ int PaquetRunnable::RunnableLoginInfoServer( Paquet* pPaquet )
     FacadeServeurMaitre::obtenirInstance()->saveJoueurConnecting(wJoueur);
 
     // On traite la demande avec la BD
+#endif
 
 
-
+    return 0;
 }
 
 
@@ -89,6 +94,7 @@ int PaquetRunnable::RunnableChatMessageServer( Paquet* pPaquet )
         RelayeurMessage::obtenirInstance()->relayerPaquet(wPaquet->getGroupName(), wPaquet, TCP);
     }
 
+    return 0;
 }
 
 
@@ -98,6 +104,7 @@ int PaquetRunnable::RunnableChatMessageClient( Paquet* pPaquet )
 
     GestionnaireReseau::obtenirInstance()->transmitEvent(CHAT_MESSAGE_RECEIVED,wPaquet->getOrigin(),wPaquet->getMessage());
     wPaquet->removeAssociatedQuery();
+    return 0;
 }
 
 
@@ -107,6 +114,7 @@ int PaquetRunnable::RunnableConnAutomatiqueClient( Paquet* pPaquet )
     PaquetConnAutomatique* wPaquet = (PaquetConnAutomatique*) pPaquet;
 
     // Implementer
+    return 0;
 }
 
 int PaquetRunnable::RunnableConnAutomatiqueServer( Paquet* pPaquet )
@@ -115,6 +123,7 @@ int PaquetRunnable::RunnableConnAutomatiqueServer( Paquet* pPaquet )
 
 
     // Implementer
+    return 0;
 }
 
 
@@ -138,6 +147,7 @@ int PaquetRunnable::RunnableUserStatusClient( Paquet* pPaquet )
     }
 
 
+    return 0;
 }
 
 int PaquetRunnable::RunnableUserStatusServer( Paquet* pPaquet )
@@ -145,6 +155,7 @@ int PaquetRunnable::RunnableUserStatusServer( Paquet* pPaquet )
     PaquetUserStatus* wPaquet = (PaquetUserStatus*) pPaquet;
 
 
+    return 0;
 }
 
 
@@ -158,6 +169,7 @@ int PaquetRunnable::RunnableTest( Paquet* pPaquet )
     std::cout << "Float: " << wPaquet->getFloat() << std::endl;
 
     wPaquet->removeAssociatedQuery(); // delete
+    return 0;
 }
 
 

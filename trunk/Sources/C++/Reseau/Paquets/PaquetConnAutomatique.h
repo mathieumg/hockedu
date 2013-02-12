@@ -34,11 +34,14 @@ private:
 	BroadcastType mBroadcastType;
 	int mPortNumber;
 	
+
+
 protected:
-	PaquetConnAutomatique(const std::string& operation);
+	PaquetConnAutomatique();
 
 public:
-	
+    virtual PacketTypes getOperation() const { return CONN_AUTOMATIQUE; }
+
 	ConnectionType getNewConnectionType() const { return mNewConnectionType; }
 	void setNewConnectionType(ConnectionType val) { mNewConnectionType = val; }
 

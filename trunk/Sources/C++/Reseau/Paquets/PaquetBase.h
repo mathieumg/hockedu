@@ -27,7 +27,7 @@ private:
 	int numeroPaquet;
     
 protected:
-	PaquetBase( const std::string& pOperation);
+	PaquetBase();
 public:
 	static int CompteurNumeroPaquet;
 	int getNumeroPaquet() const;

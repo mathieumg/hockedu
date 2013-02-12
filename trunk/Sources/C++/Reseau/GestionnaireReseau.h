@@ -48,6 +48,15 @@ enum EventCodes {
     NB_EVENT_CODES // Must be always last !
 };
 
+enum PacketTypes {
+    CONN_AUTOMATIQUE,
+    EVENT,
+    LOGIN_INFO,
+    CHAT_MESSAGE,
+    USER_STATUS,
+    TEST,
+    BASE
+};
 
 struct ConnectionStateEvent
 {
@@ -108,7 +117,7 @@ public:
 	std::string getAdresseIPLocaleAssociee(const std::string& pDestinationIP);
 
 	// Methode pour ajouter une operation reseau (ex: deplacerNoeud). Le handler doit etre fourni ainsi que l'usine pour creer les noeuds
-	void ajouterOperationReseau(const std::string& pNomOperation, PacketHandler* pPacketHandler, UsinePaquet* pUsine);
+	void ajouterOperationReseau(const PacketTypes pNomOperation, PacketHandler* pPacketHandler, UsinePaquet* pUsine);
 	
 	// Verifie le type de socket et utilise le bon communicateurReseau afin de transmettre la message
     void envoyerPaquet(SPSocket pSocketAUtiliser, Paquet* pPaquet);
@@ -120,12 +129,12 @@ public:
 	void envoyerPaquetBroadcast(Paquet* pPaquet);
 
 	// True si valide
-	bool validerOperation(const std::string& pOperation) const;
+	bool validerOperation(const PacketTypes pOperation) const;
 
     // True si valide
     bool validerUsername(const std::string& pUsername) const;
 
-	PacketHandler* getPacketHandler(const std::string& pOperation);
+	PacketHandler* getPacketHandler(const PacketTypes pOperation);
 
 	// Methode pour sauvegarder un socket en fonction d'un nom de joueur
 	void saveSocket(const std::string& pNomJoueur, SPSocket pSocket);
@@ -147,7 +156,7 @@ public:
     void getListeAdressesIPLocales(std::list<std::string>& pOut) const;
 
 	// Methode qui appelle la Factory de Paquets et qui retourne un Paquet du bon type représenté par le nom d'opération
-	Paquet* creerPaquet(const std::string& pOperation);
+	Paquet* creerPaquet(const PacketTypes pOperation);
 
 	// Methode pour creer une nouvelle connection (un nouveau Socket) et le sauvegarder a la liste des Sockets actifs
 	void demarrerNouvelleConnection(const std::string& pPlayerName, const std::string& pIP, ConnectionType pConnectionType);
@@ -185,9 +194,9 @@ private:
 	
 
 	// Liste des handlers pour les paquets
-	std::map<std::string, PacketHandler*> mListeHandlers;
+	std::map<PacketTypes, PacketHandler*> mListeHandlers;
 	// Liste des usines de paquets avec la clée = nom de l'opération
-	std::map<std::string, UsinePaquet*> mListeUsines;
+	std::map<PacketTypes, UsinePaquet*> mListeUsines;
 
     std::map<int, ExceptionTypes> mMapExceptions;
 

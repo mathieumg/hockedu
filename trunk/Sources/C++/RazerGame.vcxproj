@@ -267,6 +267,7 @@
     <ClCompile Include="Jeu\Tournoi.cpp" />
     <ClCompile Include="Reseau\CommunicateurReseau.cpp" />
     <ClCompile Include="Reseau\ControllerCSharp.cpp" />
+    <ClCompile Include="Reseau\ControllerInterface.cpp" />
     <ClCompile Include="Reseau\ExceptionsReseau\ExceptionReseau.cpp" />
     <ClCompile Include="Reseau\ExceptionsReseau\ExceptionReseauGlobale.cpp" />
     <ClCompile Include="Reseau\ExceptionsReseau\ExceptionReseauParametreInvalide.cpp" />
@@ -286,6 +287,7 @@
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerLoginInfo.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerTest.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp" />
+    <ClCompile Include="Reseau\PaquetRunnable.cpp" />
     <ClCompile Include="Reseau\Paquets\Paquet.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetBase.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetChatMessage.cpp" />
@@ -425,6 +427,7 @@
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerLoginInfo.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerTest.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerUserStatus.h" />
+    <ClInclude Include="Reseau\PaquetRunnable.h" />
     <ClInclude Include="Reseau\Paquets\Paquet.h" />
     <ClInclude Include="Reseau\Paquets\PaquetBase.h" />
     <ClInclude Include="Reseau\Paquets\PaquetChatMessage.h" />
@@ -437,7 +440,6 @@
     <ClInclude Include="Reseau\Socket.h" />
     <ClInclude Include="Reseau\SocketTCPServeur.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquet.h" />
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetBase.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetChatMessage.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetConnAutomatique.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetEvent.h" />

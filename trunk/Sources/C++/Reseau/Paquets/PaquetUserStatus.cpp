@@ -2,7 +2,6 @@
 
 
 PaquetUserStatus::PaquetUserStatus(  )
-	:PaquetBase("UserStatus")
 {
     mConnectionState = CONNECTED;
 	mUserName = "";
