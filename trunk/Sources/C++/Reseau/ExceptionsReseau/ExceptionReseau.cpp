@@ -12,8 +12,8 @@
 #include <strstream>
 #include <algorithm>
 #include <sstream>
-#include "Reseau/GestionnaireReseau.h"
 #include <ctime>
+#include "..\GestionnaireReseau.h"
 struct ErrorEntry
 {
     int nID;

@@ -1,15 +1,14 @@
 
 
 #include "..\Paquets\PaquetUserStatus.h"
-#include "Reseau\PacketReader.h"
-#include "Reseau\PacketBuilder.h"
-#include "Reseau\PaquetHandlers\PacketHandlerBase.h"
+#include "..\PacketBuilder.h"
 #include "PacketHandlerUserStatus.h"
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <sstream>
 #include <iomanip>
+#include "..\PacketReader.h"
 
 
 

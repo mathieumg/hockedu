@@ -5,7 +5,6 @@
 #include "Utilitaire.h"
 #include <winsock2.h>
 #include <Mswsock.h>
-#include "..\Reseau\Paquets\PaquetUserStatus.h"
 #include "PacketBuilder.h"
 
 

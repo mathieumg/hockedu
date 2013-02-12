@@ -13,66 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Paquets">
-      <UniqueIdentifier>{41b6ccb6-84d6-4e43-bd0b-895ac59c47c5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\PaquetHandlers">
-      <UniqueIdentifier>{67b55d99-d516-4b93-aff6-95a87e09091e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\UsinePaquets">
-      <UniqueIdentifier>{3fd4b753-bd14-4e38-b994-50547049153b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mainServeurJeu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Reseau\GestionnaireReseauServeurJeu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Reseau\Paquets\PaquetChatMessage.cpp">
-      <Filter>Source Files\Paquets</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp">
-      <Filter>Source Files\PaquetHandlers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Reseau\RelayeurMessage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp">
-      <Filter>Source Files\PaquetHandlers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Reseau\Paquets\PaquetUserStatus.cpp">
-      <Filter>Source Files\Paquets</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControllerServeurJeu.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\GestionnaireReseauServeurJeu.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatMessage.h">
-      <Filter>Source Files\UsinePaquets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\Paquets\PaquetChatMessage.h">
-      <Filter>Source Files\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h">
-      <Filter>Source Files\PaquetHandlers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\RelayeurMessage.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.h">
-      <Filter>Source Files\PaquetHandlers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\Paquets\PaquetUserStatus.h">
-      <Filter>Source Files\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetUserStatus.h">
-      <Filter>Source Files\UsinePaquets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

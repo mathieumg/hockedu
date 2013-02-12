@@ -10,7 +10,7 @@
 
 #pragma once
 #include "Utilitaire.h"
-#include "Reseau\ControllerInterface.h"
+#include "ControllerInterface.h"
 
 typedef int (__stdcall *MessageReceivedCallBack)( char* pUsername, char* pMessage );
 typedef int (__stdcall *EventReceivedCallBack)( int pId, char* pMessage );

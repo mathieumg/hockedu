@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "Reseau\Paquets\PaquetBase.h"
+#include "PaquetBase.h"
 
 class UsinePaquetUserStatus;
 

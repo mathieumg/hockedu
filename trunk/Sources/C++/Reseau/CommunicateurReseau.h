@@ -12,7 +12,7 @@
 #include <string>
 #include <queue>
 #include <concrt.h>
-#include "Reseau/Socket.h"
+#include "Socket.h"
 #include <list>
 #include <map>
 #include "QueueThreadSafe.h"

@@ -13,7 +13,7 @@
 
 
 ///////////////////////////////////////////////////////////////////////////
-/// @class PaquetChatMessage
+/// @class JoueurServeurs
 /// @brief Classe qui represente un joueur qui est connecte au serveur maitre
 ///
 /// @author Mathieu Parent

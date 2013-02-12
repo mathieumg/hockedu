@@ -9,9 +9,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "GestionnaireReseauServeurJeu.h"
-#include "..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetChatMessage.h"
-#include "Reseau\GestionnaireReseau.h"
+#include "..\PaquetHandlers\PacketHandlerChatMessage.h"
+#include "..\UsinePaquets\UsinePaquetChatMessage.h"
+#include "GestionnaireReseau.h"
 #include "Paquets\PaquetUserStatus.h"
 #include "PaquetHandlers\PacketHandlerUserStatus.h"
 #include "UsinePaquets\UsinePaquetUserStatus.h"

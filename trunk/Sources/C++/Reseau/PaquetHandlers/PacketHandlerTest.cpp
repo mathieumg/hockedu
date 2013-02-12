@@ -1,8 +1,8 @@
 #include "PacketHandlerTest.h"
 #include <iostream>
 #include <sstream>
-#include "Reseau/Paquets\PaquetTest.h"
-#include "Reseau/GestionnaireReseau.h"
+#include "..\GestionnaireReseau.h"
+#include "..\Paquets\PaquetTest.h"
 
 void PacketHandlerTest::handlePacketReceptionSpecific(PacketReader& pPacketReader)
 {

@@ -1,6 +1,6 @@
 
 #pragma once
-#include "Reseau\PaquetHandlers\PacketHandlerBase.h"
+#include "PacketHandlerBase.h"
 
 class PacketHandlerLoginInfo :public PacketHandlerBase {
 protected:

@@ -10,8 +10,8 @@
 #pragma once
 #include "Singleton.h"
 #include <map>
-#include "..\Reseau\ObjetsGlobaux\PartieServeurs.h"
 #include "..\Reseau\ObjetsGlobaux\JoueurServeurs.h"
+#include "..\Reseau\ObjetsGlobaux\PartieServeurs.h"
 
 
 ///////////////////////////////////////////////////////////////////////////

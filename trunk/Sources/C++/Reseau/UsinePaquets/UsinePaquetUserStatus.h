@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "Reseau\UsinePaquets\UsinePaquet.h"
+#include "UsinePaquet.h"
 #include "..\Paquets\PaquetUserStatus.h"
 
 

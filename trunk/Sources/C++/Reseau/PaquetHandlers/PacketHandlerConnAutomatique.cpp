@@ -1,9 +1,9 @@
 #include "PacketHandlerConnAutomatique.h"
 #include <iostream>
 #include <sstream>
-#include "Reseau\Paquets\PaquetConnAutomatique.h"
+#include "..\Paquets\PaquetConnAutomatique.h"
 #include <sstream>
-#include "Reseau/GestionnaireReseau.h"
+#include "..\GestionnaireReseau.h"
 
 void PacketHandlerConnAutomatique::handlePacketReceptionSpecific( PacketReader& pPacketReader )
 {

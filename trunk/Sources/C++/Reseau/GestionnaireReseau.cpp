@@ -18,19 +18,17 @@
 #include <iostream>
 #include <ctime>
 #include <sstream>
-#include "ExceptionsReseau/ExceptionReseau.h"
-#include "ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
-#include "ExceptionsReseau/ExceptionReseauTimeout.h"
-#include "ExceptionsReseau/ExceptionReseauParametreInvalide.h"
-#include "ExceptionsReseau/ExceptionReseauGlobale.h"
+#include "ExceptionsReseau\ExceptionReseau.h"
+#include "ExceptionsReseau\ExceptionReseauSocketDeconnecte.h"
+#include "ExceptionsReseau\ExceptionReseauTimeout.h"
+#include "ExceptionsReseau\ExceptionReseauParametreInvalide.h"
+#include "ExceptionsReseau\ExceptionReseauGlobale.h"
 #include <stdexcept>
 #include "CommunicateurReseau.h"
 #include "PaquetHandlers/PacketHandlerBase.h"
 #include "PaquetHandlers/PacketHandlerConnAutomatique.h"
-#include "PaquetHandlers/PacketHandlerString.h"
 #include "UsinePaquets/UsinePaquetBase.h"
 #include "UsinePaquets/UsinePaquetConnAutomatique.h"
-#include "UsinePaquets/UsinePaquetString.h"
 #include "UsinePaquets/UsinePaquetTest.h"
 #include "PaquetHandlers/PacketHandlerTest.h"
 #include <utility>
@@ -189,7 +187,6 @@ void GestionnaireReseau::init()
 
     // Ajout des classes PacketHandler et UsinePaquet de base
     ajouterOperationReseau("Base", new PacketHandlerBase(), new UsinePaquetBase());
-    ajouterOperationReseau("String", new PacketHandlerString(), new UsinePaquetString());
     ajouterOperationReseau("ConnAutomatique", new PacketHandlerConnAutomatique(), new UsinePaquetConnAutomatique());
     ajouterOperationReseau("Test", new PacketHandlerTest(), new UsinePaquetTest());
     ajouterOperationReseau("Event", new PacketHandlerEvent(), new UsinePaquetEvent());

@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "Reseau\UsinePaquets\UsinePaquet.h"
+#include "UsinePaquets\UsinePaquet.h"
 #include "..\Paquets\PaquetEvent.h"
 
 

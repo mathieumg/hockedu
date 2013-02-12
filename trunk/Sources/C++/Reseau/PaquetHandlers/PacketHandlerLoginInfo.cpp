@@ -5,7 +5,9 @@
 #include "..\Paquets\PaquetLoginInfo.h"
 #include "Utilitaire.h"
 #include "..\ObjetsGlobaux\JoueurServeurs.h"
-#include "..\..\ServeurMaitre\FacadeServeurMaitre.h"
+#ifdef SERVER
+#include "..\ServeurMaitre\FacadeServeurMaitre.h"
+#endif
 
 
 void PacketHandlerLoginInfo::handlePacketReceptionSpecific(PacketReader& pPacketReader)
@@ -26,10 +28,7 @@ void PacketHandlerLoginInfo::handlePacketReceptionSpecific(PacketReader& pPacket
     delete wBuffer;
 
 
-
-
-    // Handle Paquet
-    checkf(GestionnaireReseau::getNetworkMode()==CLIENT, "Le client ne devrait pas recevoir de paquet de login");
+#ifdef SERVER
 
     // On envoie un event au gestionnaire reseau
     GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_CONNECTING, wPaquet->getUsername());
@@ -41,7 +40,7 @@ void PacketHandlerLoginInfo::handlePacketReceptionSpecific(PacketReader& pPacket
     // On traite la demande avec la BD
 
 
-
+#endif
     
 }
 

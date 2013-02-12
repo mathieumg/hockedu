@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file UsinePaquetString.h
+/// @file UsinePaquetLoginInfo.h
 /// @author Mathieu Parent
-/// @date 2012-12-30
+/// @date 2013-02-11
 /// @version 1.0
 ///
 /// @addtogroup razergame RazerGame
@@ -9,22 +9,22 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "UsinePaquet.h"
-#include "..\Paquets\PaquetString.h"
+#include "UsinePaquets\UsinePaquet.h"
+#include "..\Paquets\PaquetLoginInfo.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
-/// @class UsinePaquetString
-/// @brief Classe Factory (Usine) pour les paquets de type string
+/// @class UsinePaquetLoginInfo
+/// @brief Classe Factory (Usine) pour les paquets de type LoginInfo
 ///
 /// @author Mathieu Parent
-/// @date 2012-12-30
+/// @date 2013-02-11
 ///////////////////////////////////////////////////////////////////////////
-class UsinePaquetString : public UsinePaquet
+class UsinePaquetLoginInfo : public UsinePaquet
 {
 public:
-	/// Constructeur par paramètres.
-	inline UsinePaquetString();
+    /// Constructeur par paramètres.
+    inline UsinePaquetLoginInfo();
 
 	/// Fonction à surcharger pour la création d'un noeud.
 	inline virtual Paquet* creerPaquet() const;
@@ -35,7 +35,7 @@ public:
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn UsinePaquetString::UsinePaquetString(const std::string& nom)
+/// @fn UsinePaquetLoginInfo::UsinePaquetLoginInfo(const std::string& nom)
 ///
 /// Ce constructeur ne fait qu'appeler la version de la classe et base
 /// et donner des valeurs par défaut aux variables membres..
@@ -45,15 +45,15 @@ public:
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-inline UsinePaquetString::UsinePaquetString()
-	: UsinePaquet("String")
+inline UsinePaquetLoginInfo::UsinePaquetLoginInfo()
+	: UsinePaquet("LoginInfo")
 {
 }
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn Paquet* UsinePaquetString::creerNoeud() const
+/// @fn Paquet* UsinePaquetLoginInfo::creerNoeud() const
 ///
 /// Cette fonction retourne un noeud nouvellement créé du type produit
 /// par cette usine.
@@ -61,9 +61,9 @@ inline UsinePaquetString::UsinePaquetString()
 /// @return Le noeud nouvellement créé.
 ///
 ////////////////////////////////////////////////////////////////////////
-Paquet* UsinePaquetString::creerPaquet() const
+Paquet* UsinePaquetLoginInfo::creerPaquet() const
 {
-	return new PaquetString();
+	return new PaquetLoginInfo();
 }
 
 
