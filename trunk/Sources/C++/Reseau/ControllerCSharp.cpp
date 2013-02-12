@@ -17,23 +17,13 @@ ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceiv
 {
     // Ajouter tous les Runnables dependant de ce qui est handled selon le type de controlleur
     mPaquetRunnables[EVENT] = PaquetRunnable::RunnableEvent;
+    mPaquetRunnables[CONN_AUTOMATIQUE] = PaquetRunnable::RunnableConnAutomatiqueClient;
+    mPaquetRunnables[USER_STATUS] = PaquetRunnable::RunnableUserStatusClient;
+    mPaquetRunnables[CHAT_MESSAGE] = PaquetRunnable::RunnableChatMessageClient;
+    mPaquetRunnables[TEST] = PaquetRunnable::RunnableTest;
 
 
 
-    int RunnableEvent(Paquet* pPaquet);
-
-    int RunnableLoginInfoServer(Paquet* pPaquet);
-
-    int RunnableConnAutomatiqueClient(Paquet* pPaquet);
-    int RunnableConnAutomatiqueServer(Paquet* pPaquet);
-
-    int RunnableUserStatusClient(Paquet* pPaquet);
-    int RunnableUserStatusServer(Paquet* pPaquet);
-
-    int RunnableChatMessageServer(Paquet* pPaquet);
-    int RunnableChatMessageClient(Paquet* pPaquet);
-
-    int RunnableTest(Paquet* pPaquet);
 
 }
 

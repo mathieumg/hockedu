@@ -111,6 +111,7 @@
     <ClCompile Include="..\Reseau\RelayeurMessage.cpp" />
     <ClCompile Include="..\Reseau\Socket.cpp" />
     <ClCompile Include="..\Reseau\SocketTCPServeur.cpp" />
+    <ClCompile Include="ControllerServeurMaitre.cpp" />
     <ClCompile Include="FacadeServeurMaitre.cpp" />
     <ClCompile Include="mainServeurMaitre.cpp" />
   </ItemGroup>

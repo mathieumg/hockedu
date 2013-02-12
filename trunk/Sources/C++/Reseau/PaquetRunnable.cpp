@@ -15,8 +15,11 @@
 #include <sstream>
 #include <iomanip>
 #include "ObjetsGlobaux\JoueurServeurs.h"
-#include "..\ServeurMaitre\FacadeServeurMaitre.h"
 #include "Paquets\PaquetTest.h"
+
+#ifdef _SERVEUR_MAITRE
+#include "..\ServeurMaitre\FacadeServeurMaitre.h"
+#endif
 
 
 int PaquetRunnable::RunnableEvent( Paquet* pPaquet )
@@ -80,12 +83,9 @@ int PaquetRunnable::RunnableChatMessageServer( Paquet* pPaquet )
 
     // On veut relayer le message a une personne en particulier ou a tout le monde
     // On ne call donc pas delete dessus tout suite
-
     if(wPaquet->IsTargetGroup())
     {
         // On envoie a tout le monde
-        //std::set<std::string> wListeIgnore;
-        //wListeIgnore.insert(wPaquet->getOrigin()); // Decommenter pour ne pas recevoir ses propres messages
         RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, NULL, TCP);
     }
     else
