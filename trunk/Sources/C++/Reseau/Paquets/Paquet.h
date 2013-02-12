@@ -29,7 +29,7 @@ public:
 	virtual ~Paquet() = 0;
 
 	static const std::string sequenceIdentification;
-	std::string getOperation() const;
+	virtual PacketTypes getOperation() const = 0;
 
     inline int getNbAssociatedQueries() const { return mNbAssociatedQueries; }
     // Attention, si la mauvaise valeur est mise, cela peut causer des GROS problemes
@@ -38,9 +38,8 @@ public:
     void removeAssociatedQuery();
 
 protected: 
-	Paquet(const std::string& operation);
+	Paquet();
 private:
-	char mOperation[GestionnaireReseau::longueurMaxOperationReseau];
 	int mNbAssociatedQueries; // Nb de fois que le paquet doit etre envoyer (different de 1 si on fait un envoie de masse)
     
 	

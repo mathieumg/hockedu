@@ -16,7 +16,7 @@ void PacketHandlerConnAutomatique::handlePacketReceptionSpecific( PacketReader& 
 	{
 		// Si on a recu une requete, on repond puis on essaie de se connecter a cette adresse
 
-		PaquetConnAutomatique* wPaquetReponse = (PaquetConnAutomatique*) GestionnaireReseau::obtenirInstance()->creerPaquet("connAutomatique");
+		PaquetConnAutomatique* wPaquetReponse = (PaquetConnAutomatique*) GestionnaireReseau::obtenirInstance()->creerPaquet(CONN_AUTOMATIQUE);
 		wPaquetReponse->setRequestIP(wPaquet->getRequestIP());
 		wPaquetReponse->setResponseIP(GestionnaireReseau::obtenirInstance()->getAdresseIPLocaleAssociee(wPaquet->getRequestIP()));
 		wPaquetReponse->setNewConnectionType(wPaquet->getNewConnectionType());

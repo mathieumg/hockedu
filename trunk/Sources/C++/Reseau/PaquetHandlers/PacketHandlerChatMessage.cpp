@@ -14,7 +14,7 @@
 
 void PacketHandlerChatMessage::handlePacketReceptionSpecific(PacketReader& pPacketReader)
 {
-    PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet("ChatMessage");
+    PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet(CHAT_MESSAGE);
     int wArraySize = pPacketReader.readInteger();
     uint8_t* wBuffer = new uint8_t[wArraySize];
     pPacketReader.readString(wBuffer, wArraySize);

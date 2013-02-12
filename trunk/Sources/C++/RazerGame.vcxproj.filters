@@ -850,9 +850,6 @@
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquet.h">
       <Filter>Sources Files\Reseau\Global\UsinePaquets</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetBase.h">
-      <Filter>Sources Files\Reseau\Global\UsinePaquets</Filter>
-    </ClInclude>
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetConnAutomatique.h">
       <Filter>Sources Files\Reseau\Global\UsinePaquets</Filter>
     </ClInclude>

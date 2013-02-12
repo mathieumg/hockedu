@@ -1,7 +1,6 @@
 #include "PaquetTest.h"
 
 PaquetTest::PaquetTest(  )
-	:PaquetBase("Test")
 {
     message = "";
 }

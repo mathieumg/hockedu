@@ -437,7 +437,6 @@
     <ClInclude Include="Reseau\Socket.h" />
     <ClInclude Include="Reseau\SocketTCPServeur.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquet.h" />
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetBase.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetChatMessage.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetConnAutomatique.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetEvent.h" />

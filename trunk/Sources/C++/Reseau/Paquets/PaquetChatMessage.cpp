@@ -2,7 +2,6 @@
 
 
 PaquetChatMessage::PaquetChatMessage(  )
-	:PaquetBase("ChatMessage")
 {
     mMessage = "";
     mOrigin = "";

@@ -19,7 +19,7 @@ class Paquet;
 
 struct HeaderPaquet
 {
-    char type[GestionnaireReseau::longueurMaxOperationReseau];
+    PacketTypes type;
     int numeroPaquet;
     size_t taillePaquet;
 };

@@ -4,7 +4,6 @@
 
 
 PaquetEvent::PaquetEvent(  )
-	:PaquetBase("Event")
 {
     mMessage = "";
     mErrorCode = 0;

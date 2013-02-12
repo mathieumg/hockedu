@@ -635,7 +635,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                                 wReceivedBytes = wSocket->recv(readBuffer, 44);
                                 if (wReceivedBytes != 0)
                                 {
-                                    PacketHandler* wPacketHandler = GestionnaireReseau::obtenirInstance()->getPacketHandler("Base");
+                                    PacketHandler* wPacketHandler = GestionnaireReseau::obtenirInstance()->getPacketHandler(BASE);
                                     wPacketReader.setArrayStart(readBuffer, wReceivedBytes);
                                     HeaderPaquet wPacketHeader = wPacketHandler->handlePacketHeaderReception(wPacketReader);
                                     wPacketReader.setSize(wReceivedBytes);

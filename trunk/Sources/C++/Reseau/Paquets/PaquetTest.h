@@ -30,7 +30,8 @@ protected:
 	PaquetTest();
 
 public:
-	
+	virtual PacketTypes getOperation() const { return TEST; }
+
 	std::string getMessage() const;
 	void setMessage(const std::string& message);
 

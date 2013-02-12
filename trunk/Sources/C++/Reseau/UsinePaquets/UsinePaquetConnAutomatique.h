@@ -63,7 +63,7 @@ inline UsinePaquetConnAutomatique::UsinePaquetConnAutomatique()
 ////////////////////////////////////////////////////////////////////////
 Paquet* UsinePaquetConnAutomatique::creerPaquet() const
 {
-	return new PaquetConnAutomatique(getNom());
+	return new PaquetConnAutomatique();
 }
 
 

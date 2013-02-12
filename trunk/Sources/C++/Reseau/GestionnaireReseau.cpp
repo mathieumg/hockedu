@@ -27,7 +27,6 @@
 #include "CommunicateurReseau.h"
 #include "PaquetHandlers/PacketHandlerBase.h"
 #include "PaquetHandlers/PacketHandlerConnAutomatique.h"
-#include "UsinePaquets/UsinePaquetBase.h"
 #include "UsinePaquets/UsinePaquetConnAutomatique.h"
 #include "UsinePaquets/UsinePaquetTest.h"
 #include "PaquetHandlers/PacketHandlerTest.h"
@@ -186,10 +185,10 @@ void GestionnaireReseau::init()
 
 
     // Ajout des classes PacketHandler et UsinePaquet de base
-    ajouterOperationReseau("Base", new PacketHandlerBase(), new UsinePaquetBase());
-    ajouterOperationReseau("ConnAutomatique", new PacketHandlerConnAutomatique(), new UsinePaquetConnAutomatique());
-    ajouterOperationReseau("Test", new PacketHandlerTest(), new UsinePaquetTest());
-    ajouterOperationReseau("Event", new PacketHandlerEvent(), new UsinePaquetEvent());
+    ajouterOperationReseau(BASE, new PacketHandlerBase(), NULL);
+    ajouterOperationReseau(CONN_AUTOMATIQUE, new PacketHandlerConnAutomatique(), new UsinePaquetConnAutomatique());
+    ajouterOperationReseau(TEST, new PacketHandlerTest(), new UsinePaquetTest());
+    ajouterOperationReseau(EVENT, new PacketHandlerEvent(), new UsinePaquetEvent());
 
 	// Init Winsock2
 	// --> The WSAStartup function initiates use of the Winsock DLL by a process.
@@ -285,13 +284,8 @@ std::string GestionnaireReseau::getAdresseIPLocaleAssociee( const std::string& p
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireReseau::ajouterOperationReseau(const std::string& pNomOperation, PacketHandler* pPacketHandler, UsinePaquet* pUsine)
+void GestionnaireReseau::ajouterOperationReseau(const PacketTypes pNomOperation, PacketHandler* pPacketHandler, UsinePaquet* pUsine)
 {
-	// Valider le nom
-	if(pNomOperation.length() > longueurMaxOperationReseau)
-	{
-		throw std::exception("Nom d'operation trop long");
-	}
 	// Ajouter le handler de paquet
 	mListeHandlers[pNomOperation] = pPacketHandler;
 
@@ -314,15 +308,15 @@ void GestionnaireReseau::ajouterOperationReseau(const std::string& pNomOperation
 void GestionnaireReseau::supprimerPacketHandlersEtUsines()
 {
 	// Vide liste Handlers
-	std::map<std::string, PacketHandler*>::iterator itHandlers = mListeHandlers.begin();
-	for(itHandlers; itHandlers!=this->mListeHandlers.end(); ++itHandlers)
+	auto itHandlers = mListeHandlers.begin();
+	for(itHandlers; itHandlers != this->mListeHandlers.end(); ++itHandlers)
 	{
 		delete (*itHandlers).second;
 	}
 	mListeHandlers.clear();
 
 	// Vide liste Usines
-	std::map<std::string, UsinePaquet*>::iterator itUsines = mListeUsines.begin();
+	auto itUsines = mListeUsines.begin();
 	for(itUsines; itUsines!=this->mListeUsines.end(); ++itUsines)
 	{
 		delete (*itUsines).second;
@@ -409,7 +403,7 @@ void GestionnaireReseau::envoyerPaquet( const std::string& pPlayerName, Paquet* 
 /// @return bool    : True si valide
 ///
 ////////////////////////////////////////////////////////////////////////
-bool GestionnaireReseau::validerOperation( const std::string& pOperation ) const
+bool GestionnaireReseau::validerOperation( const PacketTypes pOperation ) const
 {
 	return mListeHandlers.find(pOperation)!=mListeHandlers.end();
 }
@@ -426,9 +420,9 @@ bool GestionnaireReseau::validerOperation( const std::string& pOperation ) const
 /// @return     : Pointeur sur le PaquetHandler (Ne pas appeler delete sur ce pointeur. GestionnaireReseau va s'en occuper.)
 ///
 ////////////////////////////////////////////////////////////////////////
-PacketHandler* GestionnaireReseau::getPacketHandler( const std::string& pOperation )
+PacketHandler* GestionnaireReseau::getPacketHandler( const PacketTypes pOperation )
 {
-    std::map<std::string, PacketHandler*>::iterator it = mListeHandlers.find(pOperation);
+    auto it = mListeHandlers.find(pOperation);
     if(it == mListeHandlers.end())
     {
         throw ExceptionReseau("Operation invalide lors de l'appel a getPacketHandler");
@@ -448,9 +442,9 @@ PacketHandler* GestionnaireReseau::getPacketHandler( const std::string& pOperati
 /// @return     : Pointeur sur un Paquet du bon type
 ///
 ////////////////////////////////////////////////////////////////////////
-Paquet* GestionnaireReseau::creerPaquet( const std::string& pOperation ) 
+Paquet* GestionnaireReseau::creerPaquet( const PacketTypes pOperation ) 
 {
-    std::map<std::string, UsinePaquet*>::iterator wIterateur = mListeUsines.find(pOperation);
+    auto wIterateur = mListeUsines.find(pOperation);
 
     // Valider l'operation
     if (wIterateur == mListeUsines.end())
@@ -912,7 +906,7 @@ void GestionnaireReseau::socketConnectionStateEvent( SPSocket pSocket, Connectio
 void GestionnaireReseau::disconnectClient( const std::string& pPlayerName, ConnectionType pConnectionType /*= TCP*/ )
 {
     SPSocket wSocket = getSocket(pPlayerName, pConnectionType);
-    PaquetEvent* wPaquet = (PaquetEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet("Event");
+    PaquetEvent* wPaquet = (PaquetEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(EVENT);
     wPaquet->setErrorCode(USER_DISCONNECTED);
     wPaquet->setMessage(pPlayerName);
     CommunicateurReseau::envoyerPaquetSync(wPaquet, wSocket);

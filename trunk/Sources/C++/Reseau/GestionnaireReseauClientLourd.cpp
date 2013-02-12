@@ -35,8 +35,8 @@ GestionnaireReseauClientLourd::GestionnaireReseauClientLourd(): mMessageReceived
     wGestionnaireReseau->init();
 
     // On doit ajouter une nouvelle operation reseau pour que le systeme le connaisse (1 par type de paquet)
-    wGestionnaireReseau->ajouterOperationReseau("ChatMessage", new PacketHandlerChatMessage, new UsinePaquetChatMessage);
-	wGestionnaireReseau->ajouterOperationReseau("UserStatus", new PacketHandlerUserStatus, new UsinePaquetUserStatus);
+    wGestionnaireReseau->ajouterOperationReseau(CHAT_MESSAGE, new PacketHandlerChatMessage, new UsinePaquetChatMessage);
+	wGestionnaireReseau->ajouterOperationReseau(USER_STATUS, new PacketHandlerUserStatus, new UsinePaquetUserStatus);
 
 
 }
