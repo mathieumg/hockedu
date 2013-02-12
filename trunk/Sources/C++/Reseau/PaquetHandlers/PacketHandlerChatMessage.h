@@ -1,6 +1,5 @@
 
 #pragma once
-#include "PacketHandlerChatMessage.h"
 #include "Reseau\PaquetHandlers\PacketHandlerBase.h"
 
 class PacketHandlerChatMessage :public PacketHandlerBase {
