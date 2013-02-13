@@ -1,0 +1,17 @@
+﻿<Window x:Class="UIHeavyClient.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Login" Height="260" Width="400" Background="#FF323232" ResizeMode="NoResize" Closed="Window_Closed" KeyDown="OnKeyDown">
+    <Grid Width="368" Margin="14,10,12,8">
+        <TextBox  Name="userNameInput"                          Width="296" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,31,0,0"   Background="Black"     Foreground="White"  SelectionBrush="#FFD1E8FF" CaretBrush="White" />
+        <Label    Name="label1"            Content="User name" Width="182" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"                                             Foreground="White" />
+        <Button   Name="loginButton"       Content="Connect"  Width="104" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="145,181,0,0" Background="Black"     Foreground="White" Click="loginButton_Click" IsDefault="True"/>
+        <Label    Name="errorMessageLabel" Content=""           Width="346" HorizontalAlignment="Left" Margin="12,128,0,38"                         Foreground="Red" BorderThickness="1" />
+        <Label    Name="label2"            Content="Server"    Width="64"  Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,65,0,0"                           Foreground="White" />
+        <ComboBox Name="serverComboBox"                         Width="254" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="54,67,0,0"   Background="#FF646464" Foreground="White" BorderBrush="White" />
+        <Button   Name="refreshButton"     Content="Refresh" Width="104" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,183,0,0"  Background="Black"     Foreground="White" Click="refreshButton_Click" />
+        <Label    Name="ManualServerEntryLabel" Content="Manual" Width="64"  Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,95,0,0"                           Foreground="White" />
+        <TextBox  Name="ManualServerEntry"                    Width="254" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="54,95,0,0"   Background="Black"     Foreground="White" SelectionBrush="#FFBCDEFF" CaretBrush="White" />
+        <Button   Name="cancelButton"       Content="Exit"  Width="104" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="254,181,0,0" Background="Black"     Foreground="White" Click="cancelButton_Click"/>
+    </Grid>
+</Window>
