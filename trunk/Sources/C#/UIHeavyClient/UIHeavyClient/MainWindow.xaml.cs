@@ -28,6 +28,7 @@ namespace UIHeavyClient
 
         // Controls
         private OpenGLControl mOpenGLControl;
+            
         private EditionModeControl mEditionModeControl;
         private MainMenuControl mMainMenuControl;
         private PlayModeControl mPlayModeControl;
@@ -42,26 +43,59 @@ namespace UIHeavyClient
         {
             get { return mOpenGLControl; }
         }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            ConsoleManager.Hide();
+        }
+
         public EditionModeControl EditionModeControl
         {
             get { return mEditionModeControl; }
         }
+
         public PlayModeControl PlayModeControl
         {
             get { return mPlayModeControl; }
         }
-        public TournamentControl TournamentControl
+
+
+        public void CreateUserControl(object sender, EventArgs e)
         {
+            MainWindowHandler.Context = this;
+
+            mOpenGLControl = new OpenGLControl();
+            
+            mWindowFormsHost = new WindowsFormsHost();
+            mWindowFormsHost.Name = "windowsFormsHost1";
+
+            mWindowFormsHost.Child = mOpenGLControl;
+
+            mMainMenuControl = new MainMenuControl();
+            mPlayModeControl = new PlayModeControl(mWindowFormsHost);
+            mEditionModeControl = new EditionModeControl(mWindowFormsHost);
+            mTournamentControl = new TournamentControl();
+            mOnlineLobbyControl = new OnlineLobbyControl();
+            mOptionControl = new OptionsControl();
+            this.WindowContentControl.Content = mMainMenuControl;
+        }
+            
+
+
+        public TournamentControl TournamentControl{
             get { return mTournamentControl; }
         }
+
         public MainMenuControl MainMenuControl
         {
             get { return mMainMenuControl; }
         }
+
         public OnlineLobbyControl OnlineLobbyControl
         {
             get { return mOnlineLobbyControl; }
         }
+
         public OptionsControl OptionsControl
         {
             get { return mOptionControl; }
@@ -77,37 +111,65 @@ namespace UIHeavyClient
             InitializeComponent();
             ConsoleManager.Show();
             this.Loaded += CreateUserControl;
+            this.KeyDown += MainWindow_KeyDown;
+            this.KeyUp += MainWindow_KeyUp;
         }
-
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            ConsoleManager.Hide();
-        }
-
-        public void CreateUserControl(object sender, EventArgs e)
-        {
-            MainWindowHandler.Context = this;
-
-            mOpenGLControl = new OpenGLControl();
-            
-            mWindowFormsHost = new WindowsFormsHost();
-            mWindowFormsHost.Name = "windowsFormsHost1";
-
-            mWindowFormsHost.Child = mOpenGLControl;
-
-            mMainMenuControl = new MainMenuControl();
-            mEditionModeControl = new EditionModeControl(mWindowFormsHost);
-            mPlayModeControl = new PlayModeControl(mWindowFormsHost);
-            mTournamentControl = new TournamentControl();
-            mOnlineLobbyControl = new OnlineLobbyControl();
-            mOptionControl = new OptionsControl();
-
-            this.WindowContentControl.Content = mMainMenuControl;
-        }
+        
 
         private void BackToMainMenu(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToMainMenu();
         }
+      
+
+        void MainWindow_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (mOpenGLControl != null)
+            {
+                if (mOpenGLControl.Focused)
+                {
+                    System.Windows.Forms.KeyEventArgs keyEv = ConvertKeyEvent(ref e);
+                    
+                    if (keyEv != null)
+                    {
+                        mOpenGLControl.OpenGLControl_KeyUp(sender, keyEv);
+                        e.Handled = true;
+                    }
+                    
+                }
+            }
+        }
+
+        static System.Windows.Forms.KeyEventArgs ConvertKeyEvent(ref System.Windows.Input.KeyEventArgs e)
+        {
+            System.Windows.Forms.KeyEventArgs keyEv = null;
+            switch (e.Key)
+            {
+                case Key.Up: keyEv = new System.Windows.Forms.KeyEventArgs(System.Windows.Forms.Keys.Up); break;
+                case Key.Down: keyEv = new System.Windows.Forms.KeyEventArgs(System.Windows.Forms.Keys.Down); break;
+                case Key.Left: keyEv = new System.Windows.Forms.KeyEventArgs(System.Windows.Forms.Keys.Left); break;
+                case Key.Right: keyEv = new System.Windows.Forms.KeyEventArgs(System.Windows.Forms.Keys.Right); break;
+                case Key.LeftAlt: keyEv = new System.Windows.Forms.KeyEventArgs(System.Windows.Forms.Keys.Alt); break;
+                case Key.RightAlt: keyEv = new System.Windows.Forms.KeyEventArgs(System.Windows.Forms.Keys.Alt); break;
+            }
+            return keyEv;
+        }
+        void MainWindow_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (mOpenGLControl != null)
+            {
+                if (mOpenGLControl.Focused)
+                {
+                    System.Windows.Forms.KeyEventArgs keyEv = ConvertKeyEvent(ref e);
+
+                    if (keyEv != null)
+                    {
+                        mOpenGLControl.OpenGLControl_KeyDown(sender, keyEv);
+                        e.Handled = true;
+                    }
+                }
+            }
+        }
+
     }
 }
