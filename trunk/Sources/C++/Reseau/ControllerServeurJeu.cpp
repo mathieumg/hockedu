@@ -1,7 +1,6 @@
 #include "ControllerServeurJeu.h"
-// #include "..\Reseau\GestionnaireReseau.h"
-// #include "..\Reseau\PaquetRunnable.h"
-// #include "..\Reseau\ExceptionsReseau\ExceptionReseauSocketDeconnecte.h"
+#include "..\Reseau\GestionnaireReseau.h"
+#include "..\Reseau\PaquetRunnable.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -17,12 +16,13 @@
 ControllerServeurJeu::ControllerServeurJeu()
 {
     // Ajouter tous les Runnables dependant de ce qui est handled selon le type de controlleur
-//     mPaquetRunnables[EVENT] = PaquetRunnable::RunnableEvent;
-//     mPaquetRunnables[LOGIN_INFO] = PaquetRunnable::RunnableLoginInfoServerMaster;
-//     mPaquetRunnables[CONN_AUTOMATIQUE] = PaquetRunnable::RunnableConnAutomatiqueServer;
-//     mPaquetRunnables[USER_STATUS] = PaquetRunnable::RunnableUserStatusServer;
-//     mPaquetRunnables[CHAT_MESSAGE] = PaquetRunnable::RunnableChatMessageServer;
-//     mPaquetRunnables[TEST] = PaquetRunnable::RunnableTest;
+    mPaquetRunnables[EVENT] = PaquetRunnable::RunnableEvent;
+    //mPaquetRunnables[LOGIN_INFO] = PaquetRunnable::RunnableLoginInfoServer;
+    mPaquetRunnables[CONN_AUTOMATIQUE] = PaquetRunnable::RunnableConnAutomatiqueServer;
+    mPaquetRunnables[USER_STATUS] = PaquetRunnable::RunnableUserStatusServer;
+    mPaquetRunnables[CHAT_MESSAGE] = PaquetRunnable::RunnableChatMessageServer;
+    mPaquetRunnables[TEST] = PaquetRunnable::RunnableTest;
+
 
 }
 

@@ -7,8 +7,11 @@ namespace PaquetRunnable
 {
     // Delegates specifiques au serveur maitre
 
-
     int RunnableLoginInfoServerMaster(Paquet* pPaquet);
+
+    int RunnableChatMessageServerMaster(Paquet* pPaquet);
+
+    int RunnableUserStatusServerMaster(Paquet* pPaquet);
 
 
 };

@@ -268,6 +268,7 @@
     <ClCompile Include="Reseau\CommunicateurReseau.cpp" />
     <ClCompile Include="Reseau\ControllerCSharp.cpp" />
     <ClCompile Include="Reseau\ControllerInterface.cpp" />
+    <ClCompile Include="Reseau\ControllerServeurJeu.cpp" />
     <ClCompile Include="Reseau\ExceptionsReseau\ExceptionReseau.cpp" />
     <ClCompile Include="Reseau\ExceptionsReseau\ExceptionReseauGlobale.cpp" />
     <ClCompile Include="Reseau\ExceptionsReseau\ExceptionReseauParametreInvalide.cpp" />
@@ -408,6 +409,7 @@
     <ClInclude Include="Reseau\ControllerCPP.h" />
     <ClInclude Include="Reseau\ControllerCSharp.h" />
     <ClInclude Include="Reseau\ControllerInterface.h" />
+    <ClInclude Include="Reseau\ControllerServeurJeu.h" />
     <ClInclude Include="Reseau\ExceptionsReseau\ExceptionReseau.h" />
     <ClInclude Include="Reseau\ExceptionsReseau\ExceptionReseauGlobale.h" />
     <ClInclude Include="Reseau\ExceptionsReseau\ExceptionReseauParametreInvalide.h" />

@@ -10,18 +10,15 @@
 #include "RelayeurMessage.h"
 
 
-#include <sstream>
 #include <time.h>
 #include <sstream>
 #include <iomanip>
 #include "ObjetsGlobaux\JoueurServeurs.h"
 #include "Paquets\PaquetTest.h"
 
-#ifdef _SERVEUR_MAITRE
-#include "..\ServeurMaitre\FacadeServeurMaitre.h"
-#endif
 
-
+// Meme pour le client et les serveurs. 
+// Relance l'event au gestionnaire reseau
 int PaquetRunnable::RunnableEvent( Paquet* pPaquet )
 {
     PaquetEvent* wPaquet = (PaquetEvent*) pPaquet;
@@ -33,50 +30,8 @@ int PaquetRunnable::RunnableEvent( Paquet* pPaquet )
 
 
 
-int PaquetRunnable::RunnableChatMessageServer( Paquet* pPaquet )
-{
-    PaquetChatMessage* wPaquet = (PaquetChatMessage*) pPaquet;
-
-
-    std::ostringstream wTimeOutput;
-    time_t wT = time(0);
-    struct tm wTime;
-    if(_localtime64_s(&wTime, &wT))
-    {
-        std::cout << "[00:00:00]";
-    }
-    else
-    {
-        wTimeOutput << std::setfill('0') << "["
-            << std::setw(2) << wTime.tm_hour
-            << std::setw(1) << ":"
-            << std::setw(2) << wTime.tm_min
-            << std::setw(1) << ":"
-            << std::setw(2) << wTime.tm_sec
-            << std::setw(1) << "]";
-    }
-
-
-    wTimeOutput << "[" << wPaquet->getOrigin() << "]: " << wPaquet->getMessage() << std::endl;
-    std::cout << wTimeOutput.str();
-
-    // On veut relayer le message a une personne en particulier ou a tout le monde
-    // On ne call donc pas delete dessus tout suite
-    if(wPaquet->IsTargetGroup())
-    {
-        // On envoie a tout le monde
-        RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, NULL, TCP);
-    }
-    else
-    {
-        // On l'envoie a la personne dans groupName seulement
-        RelayeurMessage::obtenirInstance()->relayerPaquet(wPaquet->getGroupName(), wPaquet, TCP);
-    }
-
-    return 0;
-}
-
-
+// Client seulement 
+// Gere la reception de messages de chat
 int PaquetRunnable::RunnableChatMessageClient( Paquet* pPaquet )
 {
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) pPaquet;
@@ -86,8 +41,20 @@ int PaquetRunnable::RunnableChatMessageClient( Paquet* pPaquet )
     return 0;
 }
 
+// Serveur jeu seulement 
+// Gere la reception de messages de chat
+int PaquetRunnable::RunnableChatMessageServer( Paquet* pPaquet )
+{
+    PaquetChatMessage* wPaquet = (PaquetChatMessage*) pPaquet;
+
+    GestionnaireReseau::obtenirInstance()->transmitEvent(CHAT_MESSAGE_RECEIVED,wPaquet->getOrigin(),wPaquet->getMessage());
+    wPaquet->removeAssociatedQuery();
+    return 0;
+}
 
 
+// Client seulement
+// Doit recevoir la reponse de conn automatique du serveur
 int PaquetRunnable::RunnableConnAutomatiqueClient( Paquet* pPaquet )
 {
     PaquetConnAutomatique* wPaquet = (PaquetConnAutomatique*) pPaquet;
@@ -96,6 +63,10 @@ int PaquetRunnable::RunnableConnAutomatiqueClient( Paquet* pPaquet )
     return 0;
 }
 
+
+
+// Serveur jeu seulement. 
+// Doit Recevoir la demande de conn automatique et repondre au client
 int PaquetRunnable::RunnableConnAutomatiqueServer( Paquet* pPaquet )
 {
     PaquetConnAutomatique* wPaquet = (PaquetConnAutomatique*) pPaquet;
@@ -105,7 +76,8 @@ int PaquetRunnable::RunnableConnAutomatiqueServer( Paquet* pPaquet )
     return 0;
 }
 
-
+// Client seulement
+// Doit gerer le status de connexion des autres utilisateurs
 int PaquetRunnable::RunnableUserStatusClient( Paquet* pPaquet )
 {
     PaquetUserStatus* wPaquet = (PaquetUserStatus*) pPaquet;
@@ -129,6 +101,9 @@ int PaquetRunnable::RunnableUserStatusClient( Paquet* pPaquet )
     return 0;
 }
 
+
+// Pour serveur jeu
+// Doit gerer le status de connexion des autres utilisateurs
 int PaquetRunnable::RunnableUserStatusServer( Paquet* pPaquet )
 {
     PaquetUserStatus* wPaquet = (PaquetUserStatus*) pPaquet;
@@ -138,7 +113,8 @@ int PaquetRunnable::RunnableUserStatusServer( Paquet* pPaquet )
 }
 
 
-
+// Global
+// Pour des tests
 int PaquetRunnable::RunnableTest( Paquet* pPaquet )
 {
     PaquetTest* wPaquet = (PaquetTest*) pPaquet;
@@ -150,9 +126,6 @@ int PaquetRunnable::RunnableTest( Paquet* pPaquet )
     wPaquet->removeAssociatedQuery(); // delete
     return 0;
 }
-
-
-
 
 
 
