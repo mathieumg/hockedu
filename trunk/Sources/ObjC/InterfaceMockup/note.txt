@@ -1,0 +1,2 @@
+Le projet démo du chargeur de modèles en format Wavefront OBJ par Jeff Lamarche est disponible à l'adresse suivante : https://github.com/jlamarche/iOS-OpenGLES-Stuff/tree/master/Wavefront OBJ Loader
+Le code concernant la vue EAGL et une partie de son contrôleur est disponible dans l'ancien gabarit de projet OpenGL ES 1.1 offert avec les versions antérieures d'Xcode.
