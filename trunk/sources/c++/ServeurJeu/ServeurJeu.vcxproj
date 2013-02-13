@@ -52,7 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_SERVER;_DEBUG;_CONSOLE;_SERVER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -78,23 +78,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Reseau\GestionnaireReseauServeurJeu.cpp" />
-    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp" />
-    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.cpp" />
-    <ClCompile Include="..\Reseau\Paquets\PaquetChatMessage.cpp" />
-    <ClCompile Include="..\Reseau\Paquets\PaquetChatUserStatus.cpp" />
-    <ClCompile Include="..\Reseau\RelayeurMessage.cpp" />
     <ClCompile Include="mainServeurJeu.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Reseau\GestionnaireReseauServeurJeu.h" />
-    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h" />
-    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.h" />
-    <ClInclude Include="..\Reseau\Paquets\PaquetChatMessage.h" />
-    <ClInclude Include="..\Reseau\Paquets\PaquetChatUserStatus.h" />
-    <ClInclude Include="..\Reseau\RelayeurMessage.h" />
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatMessage.h" />
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatUserStatus.h" />
     <ClInclude Include="ControllerServeurJeu.h" />
   </ItemGroup>
   <ItemGroup>
