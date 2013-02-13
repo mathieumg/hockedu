@@ -31,6 +31,57 @@ namespace UIHeavyClient
             InitializeComponent();
             ConsoleManager.Show();
             windowsFormsHost1.Loaded += CreateUserControl;
+            this.KeyDown += MainWindow_KeyDown;
+            this.KeyUp += MainWindow_KeyUp;
+        }
+
+        void MainWindow_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (mOpenGLControl != null)
+            {
+                if (mOpenGLControl.Focused)
+                {
+                    System.Windows.Forms.KeyEventArgs keyEv = ConvertKeyEvent(ref e);
+                    
+                    if (keyEv != null)
+                    {
+                        mOpenGLControl.OpenGLControl_KeyUp(sender, keyEv);
+                        e.Handled = true;
+                    }
+                    
+                }
+            }
+        }
+
+        static System.Windows.Forms.KeyEventArgs ConvertKeyEvent(ref System.Windows.Input.KeyEventArgs e)
+        {
+            System.Windows.Forms.KeyEventArgs keyEv = null;
+            switch (e.Key)
+            {
+                case Key.Up: keyEv = new System.Windows.Forms.KeyEventArgs(System.Windows.Forms.Keys.Up); break;
+                case Key.Down: keyEv = new System.Windows.Forms.KeyEventArgs(System.Windows.Forms.Keys.Down); break;
+                case Key.Left: keyEv = new System.Windows.Forms.KeyEventArgs(System.Windows.Forms.Keys.Left); break;
+                case Key.Right: keyEv = new System.Windows.Forms.KeyEventArgs(System.Windows.Forms.Keys.Right); break;
+                case Key.LeftAlt: keyEv = new System.Windows.Forms.KeyEventArgs(System.Windows.Forms.Keys.Alt); break;
+                case Key.RightAlt: keyEv = new System.Windows.Forms.KeyEventArgs(System.Windows.Forms.Keys.Alt); break;
+            }
+            return keyEv;
+        }
+        void MainWindow_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (mOpenGLControl != null)
+            {
+                if (mOpenGLControl.Focused)
+                {
+                    System.Windows.Forms.KeyEventArgs keyEv = ConvertKeyEvent(ref e);
+
+                    if (keyEv != null)
+                    {
+                        mOpenGLControl.OpenGLControl_KeyDown(sender, keyEv);
+                        e.Handled = true;
+                    }
+                }
+            }
         }
 
         private void Window_Closed(object sender, EventArgs e)
