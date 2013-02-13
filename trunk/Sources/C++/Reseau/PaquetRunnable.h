@@ -8,8 +8,6 @@ namespace PaquetRunnable
 {
     int RunnableEvent(Paquet* pPaquet);
 
-    int RunnableLoginInfoServer(Paquet* pPaquet);
-
     int RunnableConnAutomatiqueClient(Paquet* pPaquet);
     int RunnableConnAutomatiqueServer(Paquet* pPaquet);
 

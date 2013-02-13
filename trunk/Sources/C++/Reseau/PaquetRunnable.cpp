@@ -32,27 +32,6 @@ int PaquetRunnable::RunnableEvent( Paquet* pPaquet )
 }
 
 
-int PaquetRunnable::RunnableLoginInfoServer( Paquet* pPaquet )
-{
-    PaquetLoginInfo* wPaquet = (PaquetLoginInfo*) pPaquet;
-
-    // Code pour l'authentification des users du cote du serveur maitre
-#ifdef _SERVEUR_MAITRE
-
-    // On envoie un event au gestionnaire reseau
-    GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_CONNECTING, wPaquet->getUsername());
-
-    // On sauvearde le joueur
-    JoueurServeurs* wJoueur = new JoueurServeurs(wPaquet->getUsername());
-    FacadeServeurMaitre::obtenirInstance()->saveJoueurConnecting(wJoueur);
-
-    // On traite la demande avec la BD
-#endif
-
-
-    return 0;
-}
-
 
 int PaquetRunnable::RunnableChatMessageServer( Paquet* pPaquet )
 {
