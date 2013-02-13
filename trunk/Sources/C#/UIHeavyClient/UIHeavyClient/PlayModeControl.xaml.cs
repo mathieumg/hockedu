@@ -27,5 +27,17 @@ namespace UIHeavyClient
             InitializeComponent();
             mWindowsFormsHost = pWindowsFormsHost;
         }
+
+        public void AppendOpenGL()
+        {
+            playControlGrid.Children.Add(mWindowsFormsHost);
+            Grid.SetColumn(mWindowsFormsHost, 0);
+            Grid.SetRow(mWindowsFormsHost, 0);
+        }
+
+        public void RemoveOpenGL()
+        {
+            playControlGrid.Children.Remove(mWindowsFormsHost);
+        }
     }
 }

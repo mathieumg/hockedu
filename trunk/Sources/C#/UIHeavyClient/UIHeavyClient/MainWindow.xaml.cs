@@ -27,15 +27,16 @@ namespace UIHeavyClient
         //static System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
 
         // Controls
-        private OpenGLControl mOpenGLControl;
-            
         private EditionModeControl mEditionModeControl;
         private MainMenuControl mMainMenuControl;
         private PlayModeControl mPlayModeControl;
         private TournamentControl mTournamentControl;
         private OnlineLobbyControl mOnlineLobbyControl;
         private OptionsControl mOptionControl;
+        private RadioOptionControl mRadioOptionControl;
+        private AIOptionControl mAIOptionControl;
 
+        private OpenGLControl mOpenGLControl;
         private WindowsFormsHost mWindowFormsHost;
 
         // Properties
@@ -77,6 +78,9 @@ namespace UIHeavyClient
             mTournamentControl = new TournamentControl();
             mOnlineLobbyControl = new OnlineLobbyControl();
             mOptionControl = new OptionsControl();
+            mRadioOptionControl = new RadioOptionControl();
+            mAIOptionControl = new AIOptionControl();
+
             this.WindowContentControl.Content = mMainMenuControl;
         }
             
@@ -104,6 +108,16 @@ namespace UIHeavyClient
         public ContentControl WindowContentControl
         {
             get { return windowContentControl; }
+        }
+
+        public RadioOptionControl RadioOptionControl
+        {
+            get { return mRadioOptionControl; }
+        }
+
+        public AIOptionControl AIOptionControl
+        {
+            get { return mAIOptionControl; }
         }
 
         public MainWindow()

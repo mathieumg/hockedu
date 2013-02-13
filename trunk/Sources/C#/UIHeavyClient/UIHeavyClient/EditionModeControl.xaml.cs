@@ -171,5 +171,17 @@ namespace UIHeavyClient
         {
             MainWindowHandler.GoToMainMenu();
         }
+
+        public void AppendOpenGL()
+        {
+            editionControlGrid.Children.Add(mWindowsFormsHost);
+            Grid.SetColumn(mWindowsFormsHost, 2);
+            Grid.SetRow(mWindowsFormsHost, 2);
+        }
+
+        public void RemoveOpenGL()
+        {
+            editionControlGrid.Children.Remove(mWindowsFormsHost);
+        }
     }
 }

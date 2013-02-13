@@ -28,5 +28,15 @@ namespace UIHeavyClient
         {
             MainWindowHandler.GoToMainMenu();
         }
+
+        private void aiConfigureButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowHandler.GoToAIOptions();
+        }
+
+        private void radioOptionButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowHandler.GoToRadioOptions();
+        }
     }
 }
