@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Forms.Integration;
 
 namespace UIHeavyClient
 {
@@ -19,10 +20,12 @@ namespace UIHeavyClient
     /// </summary>
     public partial class PlayModeControl : UserControl
     {
-        public PlayModeControl(OpenGLControl pOpenGLControl)
+        private WindowsFormsHost mWindowsFormsHost;
+
+        public PlayModeControl(WindowsFormsHost pWindowsFormsHost)
         {
             InitializeComponent();
-            windowsFormsHost1.Child = pOpenGLControl;
+            mWindowsFormsHost = pWindowsFormsHost;
         }
     }
 }

@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
+using System.Windows.Forms.Integration;
 
 namespace UIHeavyClient
 {
@@ -21,10 +22,12 @@ namespace UIHeavyClient
     /// </summary>
     public partial class EditionModeControl : UserControl
     {
-        public EditionModeControl(OpenGLControl pOpenGLControl)
+        private WindowsFormsHost mWindowsFormsHost;
+
+        public EditionModeControl(WindowsFormsHost pWindowsFormsHost)
         {
             InitializeComponent();
-            windowsFormsHost1.Child = pOpenGLControl;
+            mWindowsFormsHost = pWindowsFormsHost;
         }
 
         #region Edition Tool Events

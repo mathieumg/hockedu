@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows.Forms;
+using System.Windows.Forms.Integration;
 
 namespace UIHeavyClient
 {
@@ -33,6 +34,8 @@ namespace UIHeavyClient
         private TournamentControl mTournamentControl;
         private OnlineLobbyControl mOnlineLobbyControl;
         private OptionsControl mOptionControl;
+
+        private WindowsFormsHost mWindowFormsHost;
 
         // Properties
         public OpenGLControl OpenGLControl
@@ -87,9 +90,14 @@ namespace UIHeavyClient
 
             mOpenGLControl = new OpenGLControl();
             
+            mWindowFormsHost = new WindowsFormsHost();
+            mWindowFormsHost.Name = "windowsFormsHost1";
+
+            mWindowFormsHost.Child = mOpenGLControl;
+
             mMainMenuControl = new MainMenuControl();
-            mPlayModeControl = new PlayModeControl(mOpenGLControl);
-            mEditionModeControl = new EditionModeControl(mOpenGLControl);
+            mEditionModeControl = new EditionModeControl(mWindowFormsHost);
+            mPlayModeControl = new PlayModeControl(mWindowFormsHost);
             mTournamentControl = new TournamentControl();
             mOnlineLobbyControl = new OnlineLobbyControl();
             mOptionControl = new OptionsControl();
