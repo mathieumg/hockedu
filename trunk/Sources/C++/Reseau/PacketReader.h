@@ -141,5 +141,6 @@ T PacketReader::readData( )
     mCurrentPosition += wDataSize;
     T wDataRead = *((T*)wBytes);
     delete wBytes;
-    return wDataRead;
+
+    return mSwapBytes ? swapBytes(wDataRead) : wDataRead;
 }
