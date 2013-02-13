@@ -1,0 +1,84 @@
+@charset "utf-8";
+
+table 
+{
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+body 
+{
+	background-color: #fff70a;
+}
+
+#loginbox
+{
+    height: 230px;
+    border-color: black;
+}
+
+#colmask 
+{
+    background: #fff70a;
+}
+
+#colright
+{
+    background: #f5f3c1;
+}
+
+#invoice_subtotal
+{
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+#invoice_total
+{
+	font-size: 2em;
+	font-weight: bold;
+}
+
+.expired_time
+{
+    color: red;
+}
+
+.invoice
+{
+	width: 100%;
+}
+
+.invoice thead th
+{
+	background-color: #fff70a;
+	border-bottom: 2px solid black;
+	margin: 0px;
+	padding: 3px;
+}
+
+.invoice tbody td
+{
+	padding: 5px;
+}
+
+.invoice .remove_item:hover, .invoice .minus_quantity:hover, .invoice .plus_quantity:hover
+{
+	cursor: pointer;
+}
+
+.invoice_paid
+{
+	color: lime;
+}
+
+.invoice_canceled
+{
+	color: red;
+}
+
+.ongoing_time
+{
+    color: green;
+}
+

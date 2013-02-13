@@ -1,0 +1,249 @@
+@charset "utf-8";
+
+body 
+{
+    margin:0;
+    padding:0;
+    width:100%;
+    background-color: #efefef;
+    font: 0.95em arial, sans-serif;
+}
+
+a:visited
+{
+	color: black;
+}
+
+table
+{
+    width: 98%;
+}
+
+table caption
+{
+    margin-bottom: 5px;
+    font-size: 1.5em;
+}
+
+th
+{
+    text-align: left;
+}
+
+tbody tr.clickable:hover
+{
+    cursor: pointer;
+    background-color: #b0d9f7;
+}
+
+form 
+{
+	margin:1em;
+}
+
+form p
+{
+    text-align: left;
+}
+
+fieldset
+{
+    margin: 5px;
+}
+
+fieldset input, fieldset select
+{
+    margin: 3px;
+    margin-right: 20px;
+}
+
+.center
+{
+    text-align: center;
+}
+
+.right
+{
+    text-align: right;
+}
+
+.imglink
+{
+    text-decoration: none;
+
+}
+
+.imglink span
+{
+    text-decoration: underline;
+}
+
+input.error
+{
+    border: 2px solid red;
+    background-color: #fec1ba;
+}
+
+#loginbox
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 350px;
+    height: 320px;
+    margin: auto;
+    border: 2px #5b7590 solid;
+    background-color: white;
+    text-align: center;
+    clear:both;
+}
+
+#loginbox fieldset 
+{
+	border:none;
+}
+
+#loginbox label 
+{
+	float:left;
+	width: 130px;
+	text-align:right;
+}
+
+#loginbox input, select 
+{
+	border:1px solid black;
+	font:0.95em arial, sans-serif;
+    margin: 2px;
+    margin-left: 10px;
+}
+
+#usermenu
+{
+    float: right;
+    padding: 10px;
+    margin-right: 15px;
+}
+
+#header
+{	
+    position:fixed; 
+    top:0;
+    z-index: 1;
+    width:100%;
+    height: 35px;
+    padding: 10px;
+    background-color: white;
+    border-bottom:1px solid #000;
+}
+
+#header p
+{
+    padding-left:.5em;
+    margin:0;
+}
+
+#header h1
+{
+    padding:.2em 15px;
+    margin:0;
+}
+
+#header h2
+{
+    padding:.2em 15px	.7em 15px;
+    margin:0;
+}
+
+#colmask 
+{
+    position:relative;	/* This fixes the IE7 overflow hidden bug and stops the layout jumping out of place */
+    clear:both;
+    float:left;
+    margin-top: 50px;
+    padding-bottom: 50px;
+    width:100%;			/* width of whole page */
+    overflow:hidden;		/* This chops off any overhanging divs */
+    background: #cacadb;		/* Left column background colour */
+}
+
+#colmid
+{
+    float:left;
+    width:200%;
+    position:relative;
+    left:200px;
+    background:#fff;    	/* Centre column background colour */
+}
+
+#colright
+{
+    position:relative;
+    float:left;
+    width: 100%;
+    left:50%;
+    margin-left:-400px;
+    background:#e0dff2;    	/* Right column background colour */
+}
+
+#col1wrap
+{
+    float:right;
+    width:50%;
+    position:relative;
+    right:100%;
+}
+
+#col1pad
+{
+    margin:0 15px 0 415px;
+    overflow:hidden;
+}
+
+#col1
+{
+    width:100%;
+}
+
+#col2
+{
+    float:left;
+    width:200px;
+    min-height: 300px;
+    position:relative;
+    margin-left:-50%;
+    left:215px;
+    overflow:hidden;
+}
+
+#col2 ul
+{
+    margin-left: -10px;;
+}
+
+#col3
+{
+    float:left;
+    width:170px;
+    position:relative;
+    left:15px;
+    overflow:hidden;
+}
+
+#footer
+{
+    width:100%;
+    height: 50px;
+    background-color: #ebe6df;
+    padding:0;
+    margin:0;
+    border-top:1px solid #000;
+    position: fixed;
+    bottom: 0px;
+}
+
+#footer p {
+    padding:.5em 15px;
+}

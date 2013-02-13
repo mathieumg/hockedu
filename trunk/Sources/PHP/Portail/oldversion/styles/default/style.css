@@ -1,0 +1,223 @@
+/* Overall */
+* 
+{
+	margin:0;
+	padding:0;
+}
+
+body
+{
+	font-size: 12px;
+	font-family: Verdana, Courrier;
+	background-color: #142e0b;
+  background-image: url("back.jpg");
+	background-repeat: repeat-x;
+}
+
+#logo
+{
+	background-image: url("logo.jpg");
+	background-repeat: no-repeat;
+	height: 244px;
+	width: 924px;
+	margin: auto;
+	margin-top: 0px;
+	padding-bottom: 0px;
+}
+
+.ad
+{
+  margin-top: 10px;
+  text-align: center;
+}
+
+#container
+{
+	width: 820px;
+	margin: auto;
+	background-color: #8dae55;
+	border-color: #344c28;
+	border-width: 2px;
+  border-top-width: 0px;
+	border-style: solid;
+}
+
+a:visited
+{
+	color: #206009;
+}
+
+a:active
+{
+	color: #20600a;
+}
+
+a
+{
+	color: #20940a;
+}
+
+#topmenu
+{
+	background-image: url("menuback.jpg");
+	background-repeat: no-repeat;
+}
+
+.menu
+{
+	list-style-type: none;
+	text-align: center;
+	background-color: #5f7b31;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.menu li
+{
+	display: inline;
+	border-color: #5f7221;
+/* 	background-color: #97d553;
+	border-width: 2px;
+	border-style: solid;  */
+	padding: 2px;
+	color: white;
+	font-size: 14px;
+}
+
+.menu li a
+{
+	text-decoration: none;
+	color: white;
+	padding: 2px;
+}
+
+.menu li a:hover
+{
+	background-color: #76973e;
+}
+
+#content
+{
+	padding: 10px;
+}
+
+#content ul
+{
+	margin-left: 30px;
+}
+
+#content p
+{
+	margin-left: 10px;
+}
+
+h1
+{
+	color: #660000;
+	margin: 5px;
+	margin-bottom: 10px;
+	font-size: 22px;
+	font-weight: bold;
+}
+
+h2
+{
+	margin: 5px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.itembox
+{
+	background-color: #fbfdd5;
+	margin-left: 10px;
+	padding: 5px;
+	margin-bottom: 10px;
+}
+
+.itembox p
+{
+	margin-left: 10px;
+}
+
+.newsdetails
+{
+	font-size: 10px;
+	margin-top: 10px;
+}
+
+th
+{
+	padding-top: 3px;
+	padding-bottom: 3px;
+	background-color: #526a19;
+  color: white;
+}
+
+.tdthumb, .tdauthor, .tdrating, .tddownload
+{
+	text-align: center;
+}
+.tdauthor, .tdrating, .tddownload, .tddescription, .tdmapname
+{
+	background-color: #f0f3cc;
+	margin: 0px;
+	padding: 5px;
+	border: 1px solid #2c3d0a;
+	overflow: hidden;
+}
+
+.tddownload
+{
+	background-color: #FFFFFF;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.pages
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+.pages li
+{
+	display: inline;
+	margin-right: 3px;
+  margin-bottom: 35px;
+}
+
+.pages li a
+{
+	background-color: #f0f3cc;
+	text-decoration: none;
+	border: 1px solid #2c3d0a;
+	padding: 2px;
+	margin-right: 3px;
+}
+
+.currentpage
+{
+	font-weight: bold;
+}
+
+form p
+{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+sup, .error
+{
+	color: red;
+	font-weight: bold;
+}
+
+#copyright
+{
+	margin-top: 15px;
+	font-size: 10px;
+	text-align: center;
+	color: #ddf700;
+}

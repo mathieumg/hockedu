@@ -1,0 +1,38 @@
+Options +FollowSymlinks
+RewriteEngine On
+
+ErrorDocument 403 /403.html
+ErrorDocument 404 /404.html
+
+#<files "reviewmaps.html">
+#AuthUserFile /home/interpix/smileys-war.com/.htpasswd 
+#AuthType Basic
+#AuthName "Smileys-War Dev"
+#require valid-user
+#</files>
+
+<files ".htaccess">
+order allow,deny
+deny from all
+</files>
+
+RewriteRule ^home\.html$  index.php?module=home [L]
+RewriteRule ^features\.html$  index.php?module=features [L]
+RewriteRule ^play-([0-9]+)\.html$ index.php?module=play&mapid=$1 [L]
+RewriteRule ^play\.html$  index.php?module=play [L]
+RewriteRule ^mapeditor\.html$  index.php?module=mapeditor [L]
+RewriteRule ^custommaps\.html$  index.php?module=custommaps [L]
+RewriteRule ^browsemaps\.html$  index.php?module=browsemaps [L]
+RewriteRule ^browsemaps-([0-9]+)-a-d\.html$ index.php?module=browsemaps&page=$1&sort=a&order=d [L]
+RewriteRule ^browsemaps-([0-9]+)-a\.html$ index.php?module=browsemaps&page=$1&sort=a [L]
+RewriteRule ^browsemaps-([0-9]+)-r\.html$ index.php?module=browsemaps&page=$1&sort=r [L]
+RewriteRule ^browsemaps-([0-9]+)\.html$ index.php?module=browsemaps&page=$1 [L]
+RewriteRule ^reviewmaps-([0-9]+)\.html$ index.php?module=reviewmaps&mapid=$1 [L]
+RewriteRule ^download-([0-9]+)\.html$ download/index.php?mapid=$1 [L]
+RewriteRule ^uploadmaps\.html$  index.php?module=uploadmaps [L]
+RewriteRule ^removemaps\.html$  index.php?module=removemaps [L]
+RewriteRule ^captcha\.png$  captcha/index.php [L]
+RewriteRule ^support\.html$  index.php?module=support [L]
+RewriteRule ^about\.html$  index.php?module=about [L]
+RewriteRule ^403\.html$  index.php?module=403 [L]
+RewriteRule ^404\.html$  index.php?module=404 [L]

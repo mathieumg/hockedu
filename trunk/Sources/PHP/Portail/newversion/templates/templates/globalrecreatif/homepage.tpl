@@ -1,0 +1,1 @@
+<p>Bienvenue dans le panneau de gestion de Global Récréatif. Max saura plus que moi quoi mettre ici lors de son retour d'Europe... le chanceux! "Serait un hub où l’on y met en place des alertes et reporting et statistiques de performance sur l’entreprise."</p>
