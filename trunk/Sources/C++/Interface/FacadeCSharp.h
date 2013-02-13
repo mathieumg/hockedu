@@ -76,4 +76,18 @@ extern "C"
 
     __declspec(dllexport) void DisconnectUser( char* pUsername );
     //////////////////////////////////////////////////////////////////////////
+
+
+
+
+    class ControllerInterface;
+    class Paquet;
+    //////////////////////////////////////////////////////////////////////////
+    /// Network functions
+    __declspec(dllexport) void initNetwork( ControllerInterface* pController );
+    __declspec(dllexport) void envoyerPaquet( Paquet* pPaquet );
+    //__declspec(dllexport) void recevoirPaquet( Paquet* pPaquet );
+    /// 
+    //////////////////////////////////////////////////////////////////////////
+   
 }

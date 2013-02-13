@@ -4,14 +4,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
-#include "..\Reseau\GestionnaireReseauClientLourd.h"
-#include "Reseau\Socket.h"
 #include <string>
-#include "..\Reseau\Paquets\PaquetChatMessage.h"
 #include <time.h>
 #include "Menu.h"
 #include "MenuOption.h"
 #include <sstream>
+#include "..\Reseau\GestionnaireReseauClientLourd.h"
 #include "..\Reseau\ControllerCPP.h"
 
 

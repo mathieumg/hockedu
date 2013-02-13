@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="UIHeavyClient.TournamentControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="310" d:DesignWidth="402">
+    <Grid Background="#FF323232">
+        <Button Content="Create a tournament" Height="23" HorizontalAlignment="Left" Margin="32,32,0,0" Name="createTournamentButton" VerticalAlignment="Top" Width="127" />
+        <Button Content="Play a tournament" Height="23" HorizontalAlignment="Left" Margin="32,71,0,0" Name="playTournamentButton" VerticalAlignment="Top" Width="127" />
+        <Button Content="Back" Height="23" HorizontalAlignment="Left" Margin="32,109,0,0" Name="backButton" VerticalAlignment="Top" Width="127" Click="backButton_Click" />
+    </Grid>
+</UserControl>

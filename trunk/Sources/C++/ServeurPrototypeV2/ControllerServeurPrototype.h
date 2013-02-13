@@ -9,11 +9,11 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "Reseau\ControllerInterface.h"
+#include "ControllerInterface.h"
 #include "Utilitaire.h"
 #include <iostream>
-#include "Reseau\GestionnaireReseau.h"
-#include "Reseau\ExceptionsReseau\ExceptionReseauSocketDeconnecte.h"
+#include "GestionnaireReseau.h"
+#include "ExceptionsReseau\ExceptionReseauSocketDeconnecte.h"
 
 
 ///////////////////////////////////////////////////////////////////////////

@@ -52,7 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_SERVER;_DEBUG;_CONSOLE;_SERVER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -78,29 +78,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Commun\Utilitaire\Utilitaire.vcxproj">
-      <Project>{bb8c9c8a-3b65-4599-b4fe-ca965ee76d2a}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="..\Reseau\GestionnaireReseauServeur.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp" />
-    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.cpp" />
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetChatMessage.cpp" />
-    <ClCompile Include="..\Reseau\Paquets\PaquetChatUserStatus.cpp" />
+    <ClCompile Include="..\Reseau\Paquets\PaquetUserStatus.cpp" />
     <ClCompile Include="..\Reseau\RelayeurMessage.cpp" />
     <ClCompile Include="mainServeurPrototypeV2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Reseau\GestionnaireReseauServeur.h" />
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h" />
-    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.h" />
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetChatMessage.h" />
-    <ClInclude Include="..\Reseau\Paquets\PaquetChatUserStatus.h" />
+    <ClInclude Include="..\Reseau\Paquets\PaquetUserStatus.h" />
     <ClInclude Include="..\Reseau\RelayeurMessage.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatMessage.h" />
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatUserStatus.h" />
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetUserStatus.h" />
     <ClInclude Include="ControllerServeurPrototype.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Commun\Utilitaire\Utilitaire.vcxproj">
+      <Project>{bb8c9c8a-3b65-4599-b4fe-ca965ee76d2a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

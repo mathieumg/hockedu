@@ -1,22 +1,22 @@
 #include "UsineNoeudMaillet.h"
 #include "UsineNoeudRondelle.h"
 #include "BancTests.h"
-#include "..\Reseau\GestionnaireReseauClientLourd.h"
-#include "..\Reseau\Paquets\PaquetChatMessage.h"
-#include "Reseau\Paquets\PaquetTest.h"
 #include "QueueThreadSafe.h"
 #include <ctime>
 #include "FacadeCSharp.h"
-#include "..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetChatUserStatus.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetChatMessage.h"
-#include "..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.h"
-#include "..\Reseau\ControllerCSharp.h"
 #include "FacadeModele.h"
 #include "Vue.h"
 #include "GestionnaireEvenements.h"
 #include "..\Application\RepartiteurActions.h"
 #include "..\Jeu\JoueurHumain.h"
+#include "..\Reseau\GestionnaireReseauClientLourd.h"
+#include "..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h"
+#include "..\Reseau\PaquetHandlers\PacketHandlerUserStatus.h"
+#include "..\Reseau\UsinePaquets\UsinePaquetChatMessage.h"
+#include "..\Reseau\UsinePaquets\UsinePaquetUserStatus.h"
+#include "..\Reseau\Paquets\PaquetChatMessage.h"
+#include "..\Reseau\Paquets\PaquetTest.h"
+#include "..\Reseau\ControllerCSharp.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -61,7 +61,7 @@ void TestGestionnaireReseau()
     
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("bob", "127.0.0.1", TCP);
 
-    PaquetTest* wPaquet = (PaquetTest*) GestionnaireReseau::obtenirInstance()->creerPaquet("Test");
+    PaquetTest* wPaquet = (PaquetTest*) GestionnaireReseau::obtenirInstance()->creerPaquet(TEST);
     wPaquet->setMessage("SUP C#");
     wPaquet->setInt(666);
     wPaquet->setFloat(666.666f);
@@ -83,8 +83,8 @@ void InitDLL()
     wGestionnaireReseau->init();
 
     // On doit ajouter une nouvelle operation reseau pour que le systeme le connaisse (1 par type de paquet)
-    wGestionnaireReseau->ajouterOperationReseau("ChatMessage", new PacketHandlerChatMessage, new UsinePaquetChatMessage);
-    wGestionnaireReseau->ajouterOperationReseau("ChatUserStatus", new PacketHandlerChatUserStatus, new UsinePaquetChatUserStatus);
+    wGestionnaireReseau->ajouterOperationReseau(CHAT_MESSAGE, new PacketHandlerChatMessage, new UsinePaquetChatMessage);
+    wGestionnaireReseau->ajouterOperationReseau(USER_STATUS, new PacketHandlerUserStatus, new UsinePaquetUserStatus);
 }
 
 
@@ -107,7 +107,7 @@ void RequestLogin( char* pUsername, char* pIpAdress )
 
 void SendMessageDLL(char * pUsername, char * pMessage)
 {
-    PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet("ChatMessage");
+    PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet(CHAT_MESSAGE);
     wPaquet->setMessage(pMessage);
     wPaquet->setIsTargetGroup(true);
     wPaquet->setGroupName("groupe");
@@ -384,5 +384,20 @@ void GenerateDefaultField()
 bool ValidateField()
 {
     return FacadeModele::getInstance()->verifierValiditeMap();
+}
+
+
+
+
+
+
+
+void initNetwork( ControllerInterface* pController )
+{
+    GestionnaireReseau::obtenirInstance()->setController(pController);
+
+
+
+
 }
 

@@ -8,7 +8,7 @@
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
-#include "Reseau\GestionnaireReseau.h"
+#include "GestionnaireReseau.h"
 
 
 struct ChatMessageReceived

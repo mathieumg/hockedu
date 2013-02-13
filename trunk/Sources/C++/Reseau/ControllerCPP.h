@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "Reseau\ControllerInterface.h"
+#include "ControllerInterface.h"
 #include "Utilitaire.h"
 #include <iostream>
 
@@ -36,7 +36,7 @@ void ControllerCPP::handleEvent( int pEventCode, va_list pListeElems )
 {
     std::stringstream wSS;
     wSS << ":::EVENT:::";
-    int wBaseSize = wSS.str().length();
+    int wBaseSize = (int)wSS.str().length();
 
     switch(pEventCode) {
         case USER_ALREADY_CONNECTED               :

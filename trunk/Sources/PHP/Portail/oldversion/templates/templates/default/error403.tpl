@@ -1,0 +1,1 @@
+<p>You don't have the rights to access this page.</p>

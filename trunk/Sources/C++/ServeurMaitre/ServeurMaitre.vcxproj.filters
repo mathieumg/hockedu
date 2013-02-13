@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Paquets">
+      <UniqueIdentifier>{41b6ccb6-84d6-4e43-bd0b-895ac59c47c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PaquetHandlers">
+      <UniqueIdentifier>{67b55d99-d516-4b93-aff6-95a87e09091e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UsinePaquets">
+      <UniqueIdentifier>{3fd4b753-bd14-4e38-b994-50547049153b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ObjetsGlobaux">
+      <UniqueIdentifier>{eee0db9a-e64f-4600-82f8-b0550dacf82d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ExceptionsReseau">
+      <UniqueIdentifier>{8cca456a-be0c-4c44-829f-350f186d9d34}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="mainServeurMaitre.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\GestionnaireReseauServeurMaitre.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\Paquets\PaquetChatMessage.cpp">
+      <Filter>Source Files\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp">
+      <Filter>Source Files\PaquetHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\RelayeurMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp">
+      <Filter>Source Files\PaquetHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\Paquets\PaquetUserStatus.cpp">
+      <Filter>Source Files\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="FacadeServeurMaitre.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\ObjetsGlobaux\PartieServeurs.cpp">
+      <Filter>Source Files\ObjetsGlobaux</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.cpp">
+      <Filter>Source Files\ObjetsGlobaux</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\Paquets\PaquetLoginInfo.cpp">
+      <Filter>Source Files\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerLoginInfo.cpp">
+      <Filter>Source Files\PaquetHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandler.cpp">
+      <Filter>Source Files\PaquetHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerBase.cpp">
+      <Filter>Source Files\PaquetHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerConnAutomatique.cpp">
+      <Filter>Source Files\PaquetHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerEvent.cpp">
+      <Filter>Source Files\PaquetHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerTest.cpp">
+      <Filter>Source Files\PaquetHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\Paquets\PaquetTest.cpp">
+      <Filter>Source Files\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\Paquets\Paquet.cpp">
+      <Filter>Source Files\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\Paquets\PaquetBase.cpp">
+      <Filter>Source Files\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\Paquets\PaquetConnAutomatique.cpp">
+      <Filter>Source Files\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\Paquets\PaquetEvent.cpp">
+      <Filter>Source Files\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\Socket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\CommunicateurReseau.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\SocketTCPServeur.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\PacketBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\PacketReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\GestionnaireReseau.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseau.cpp">
+      <Filter>Source Files\ExceptionsReseau</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseauGlobale.cpp">
+      <Filter>Source Files\ExceptionsReseau</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseauParametreInvalide.cpp">
+      <Filter>Source Files\ExceptionsReseau</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseauSocketDeconnecte.cpp">
+      <Filter>Source Files\ExceptionsReseau</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseauTimeout.cpp">
+      <Filter>Source Files\ExceptionsReseau</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\PaquetRunnable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\ControllerInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ControllerServeurMaitre.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ControllerServeurMaitre.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\GestionnaireReseauServeurMaitre.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatMessage.h">
+      <Filter>Source Files\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\Paquets\PaquetChatMessage.h">
+      <Filter>Source Files\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h">
+      <Filter>Source Files\PaquetHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\RelayeurMessage.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.h">
+      <Filter>Source Files\PaquetHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetUserStatus.h">
+      <Filter>Source Files\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\Paquets\PaquetUserStatus.h">
+      <Filter>Source Files\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="FacadeServeurMaitre.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\ObjetsGlobaux\PartieServeurs.h">
+      <Filter>Source Files\ObjetsGlobaux</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.h">
+      <Filter>Source Files\ObjetsGlobaux</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetLoginInfo.h">
+      <Filter>Source Files\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\Paquets\PaquetLoginInfo.h">
+      <Filter>Source Files\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerLoginInfo.h">
+      <Filter>Source Files\PaquetHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandler.h">
+      <Filter>Source Files\PaquetHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerBase.h">
+      <Filter>Source Files\PaquetHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerConnAutomatique.h">
+      <Filter>Source Files\PaquetHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerEvent.h">
+      <Filter>Source Files\PaquetHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerTest.h">
+      <Filter>Source Files\PaquetHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\Paquets\PaquetTest.h">
+      <Filter>Source Files\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\Paquets\Paquet.h">
+      <Filter>Source Files\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\Paquets\PaquetBase.h">
+      <Filter>Source Files\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\Paquets\PaquetConnAutomatique.h">
+      <Filter>Source Files\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\Paquets\PaquetEvent.h">
+      <Filter>Source Files\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetTest.h">
+      <Filter>Source Files\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquet.h">
+      <Filter>Source Files\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetBase.h">
+      <Filter>Source Files\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetConnAutomatique.h">
+      <Filter>Source Files\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetEvent.h">
+      <Filter>Source Files\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\GestionnaireReseau.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\CommunicateurReseau.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\ControllerInterface.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\Socket.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\PacketBuilder.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\PacketReader.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\SocketTCPServeur.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\ExceptionsReseau\ExceptionReseau.h">
+      <Filter>Source Files\ExceptionsReseau</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\ExceptionsReseau\ExceptionReseauGlobale.h">
+      <Filter>Source Files\ExceptionsReseau</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\ExceptionsReseau\ExceptionReseauParametreInvalide.h">
+      <Filter>Source Files\ExceptionsReseau</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\ExceptionsReseau\ExceptionReseauSocketDeconnecte.h">
+      <Filter>Source Files\ExceptionsReseau</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\ExceptionsReseau\ExceptionReseauTimeout.h">
+      <Filter>Source Files\ExceptionsReseau</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\PaquetRunnable.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

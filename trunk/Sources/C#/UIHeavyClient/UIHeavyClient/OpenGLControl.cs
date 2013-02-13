@@ -140,6 +140,7 @@ namespace UIHeavyClient
             InitOpenGL(this.Handle);
             mRenderTimer.Start();
             mLogicalTimer.Start();
+            this.Visible = false;
         }
 
         protected override void OnPaintBackground( PaintEventArgs e )

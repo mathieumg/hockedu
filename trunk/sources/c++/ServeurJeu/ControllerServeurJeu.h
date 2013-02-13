@@ -10,10 +10,8 @@
 
 #pragma once
 #include <iostream>
-#include "Reseau\ControllerInterface.h"
 #include "Utilitaire.h"
-#include "Reseau\GestionnaireReseau.h"
-#include "Reseau\ExceptionsReseau\ExceptionReseauSocketDeconnecte.h"
+#include "..\Reseau\ControllerInterface.h"
 
 
 ///////////////////////////////////////////////////////////////////////////

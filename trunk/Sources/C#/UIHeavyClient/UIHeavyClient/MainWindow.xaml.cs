@@ -23,17 +23,94 @@ namespace UIHeavyClient
     public partial class MainWindow : Window
     {
         
-
         //static System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
+
+        // Controls
         private OpenGLControl mOpenGLControl;
+            
+        private EditionModeControl mEditionModeControl;
+        private MainMenuControl mMainMenuControl;
+        private PlayModeControl mPlayModeControl;
+        private TournamentControl mTournamentControl;
+        private OnlineLobbyControl mOnlineLobbyControl;
+        private OptionsControl mOptionControl;
+
+        // Properties
+        public OpenGLControl OpenGLControl
+        {
+            get { return mOpenGLControl; }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            ConsoleManager.Hide();
+        }
+
+        public EditionModeControl EditionModeControl
+        {
+            get { return mEditionModeControl; }
+        }
+
+        public PlayModeControl PlayModeControl
+        {
+            get { return mPlayModeControl; }
+        }
+
+
+        public void CreateUserControl(object sender, EventArgs e)
+        {
+            mOpenGLControl = new OpenGLControl();
+            
+            mMainMenuControl = new MainMenuControl();
+            mPlayModeControl = new PlayModeControl(mOpenGLControl);
+            mEditionModeControl = new EditionModeControl(mOpenGLControl);
+            mTournamentControl = new TournamentControl();
+            mOnlineLobbyControl = new OnlineLobbyControl();
+            mOptionControl = new OptionsControl();
+            this.WindowContentControl.Content = mMainMenuControl;
+        }
+            
+
+
+        public TournamentControl TournamentControl{
+            get { return mTournamentControl; }
+        }
+
+        public MainMenuControl MainMenuControl
+        {
+            get { return mMainMenuControl; }
+        }
+
+        public OnlineLobbyControl OnlineLobbyControl
+        {
+            get { return mOnlineLobbyControl; }
+        }
+
+        public OptionsControl OptionsControl
+        {
+            get { return mOptionControl; }
+        }
+
+        public ContentControl WindowContentControl
+        {
+            get { return windowContentControl; }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
             ConsoleManager.Show();
-            windowsFormsHost1.Loaded += CreateUserControl;
+            this.Loaded += CreateUserControl;
             this.KeyDown += MainWindow_KeyDown;
             this.KeyUp += MainWindow_KeyUp;
         }
+        
+
+        private void BackToMainMenu(object sender, RoutedEventArgs e)
+        {
+            MainWindowHandler.GoToMainMenu();
+        }
+      
 
         void MainWindow_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -84,169 +161,5 @@ namespace UIHeavyClient
             }
         }
 
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            ConsoleManager.Hide();
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            mOpenGLControl.Visible = !mOpenGLControl.Visible;
-            
-            System.Windows.Controls.Button b = sender as System.Windows.Controls.Button;
-            if (mOpenGLControl.Visible)
-            {
-                b.Content = "Hide";
-            }
-            else
-            {
-                b.Content = "Show";
-            }
-        }
-
-        public void CreateUserControl(object sender, EventArgs e)
-        {
-            mOpenGLControl = new OpenGLControl();
-            windowsFormsHost1.Child = mOpenGLControl;
-            
-        }
-
-        #region Edition Tool Events
-        [DllImport(@"RazerGame.dll")]
-        static extern bool ActionPerformed(string action);
-        [DllImport(@"RazerGame.dll")]
-        static extern bool IsGamePaused();
-        [DllImport(@"RazerGame.dll")]
-        static extern void PauseGame(bool doPause);
-
-        [DllImport(@"RazerGame.dll")]
-        static extern void GenerateDefaultField();
-        [DllImport(@"RazerGame.dll")]
-        static extern bool ValidateField();
-
-        private void SetCameraFixe(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("CAMERA_FIXE");
-        }
-
-        private void SetCameraOrbite(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("CAMERA_ORBITE");
-        }
-
-        private void SetCameraLibre(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("CAMERA_LIBRE");
-        }
-
-        private void CameraToolMove(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("CAMERA");
-        }
-
-        private void CameraToolRotation(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("ORBIT");
-        }
-
-        private void CameraToolZoom(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("ZOOM_ELASTIQUE");
-        }
-
-        private void EditToolSelection(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("EDITEUR_SELECTION");
-        }
-
-        private void EditToolMove(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("EDITEUR_DEPLACER");
-        }
-
-        private void EditToolRotation(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("EDITEUR_ROTATION");
-        }
-
-        private void EditToolScale(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("EDITEUR_ECHELLE");
-        }
-
-        private void EditToolDuplicate(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("DUPLIQUER");
-        }
-
-        private void EditToolDelete(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("SUPPRIMER");
-        }
-
-        private void AddObjectWall(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("INSERER_MURET");
-        }
-
-        private void AddObjectPortal(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("INSERER_PORTAIL");
-        }
-
-        private void AddObjectBoost(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("INSERER_ACCELERATEUR");
-        }
-
-        private void AddObjectPuck(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("INSERER_RONDELLE");
-        }
-
-        private void AddObjectMallet(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("INSERER_MAILLET");
-        }
-
-        private void GoToEditionMode(object sender, RoutedEventArgs e)
-        {
-            if (ActionPerformed("ALLER_MODE_EDITION"))
-            {
-                mEditionModeButton.IsEnabled = false;
-                mGameModeButton.IsEnabled = true;
-                mDefaultFieldButton.IsEnabled = true;
-                mAddObjectCombo.IsEnabled = true;
-                mEditObjectCombo.IsEnabled = true;
-            }
-        }
-
-        private void GoToGameMode(object sender, RoutedEventArgs e)
-        {
-            if(ValidateField())
-            {
-                if (ActionPerformed("ALLER_MODE_JEU"))
-                {
-                    mEditionModeButton.IsEnabled = true;
-                    mGameModeButton.IsEnabled = false;
-                    mDefaultFieldButton.IsEnabled = false;
-                    mAddObjectCombo.IsEnabled = false;
-                    mEditObjectCombo.IsEnabled = false;
-                }
-            }
-        }
-
-        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            System.Windows.Controls.ComboBox box = sender as System.Windows.Controls.ComboBox;
-            box.SelectedIndex = -1;
-
-        }
-
-        private void OnGenerateField(object sender, RoutedEventArgs e)
-        {
-            GenerateDefaultField();
-        }
-        #endregion
     }
 }

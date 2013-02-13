@@ -1,11 +1,11 @@
 
 
 #include <iostream>
-#include "..\Reseau\GestionnaireReseauServeur.h"
-#include "Reseau\Socket.h"
-#include "Reseau\GestionnaireReseau.h"
-#include "..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetChatMessage.h"
+#include "..\GestionnaireReseauServeur.h"
+#include "Socket.h"
+#include "GestionnaireReseau.h"
+#include "..\PaquetHandlers\PacketHandlerChatMessage.h"
+#include "..\UsinePaquets\UsinePaquetChatMessage.h"
 #include "ControllerServeurPrototype.h"
 
 int main(void)  {

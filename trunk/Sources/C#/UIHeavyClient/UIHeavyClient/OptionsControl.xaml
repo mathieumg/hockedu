@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="UIHeavyClient.OptionsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="315" d:DesignWidth="382">
+    <Grid Background="#FF323232">
+        <Button Content="Configure Radio" Height="23" HorizontalAlignment="Left" Margin="38,113,0,0" Name="radioOptionButton" VerticalAlignment="Top" Width="125" />
+        <Button Content="Configure AI" Height="23" HorizontalAlignment="Left" Margin="38,37,0,0" Name="aiConfigureButton" VerticalAlignment="Top" Width="125" />
+        <Button Content="Back to Main Menu" Height="23" HorizontalAlignment="Left" Margin="38,190,0,0" Name="backToMenuButton" VerticalAlignment="Top" Width="125" Click="backToMenuButton_Click" />
+    </Grid>
+</UserControl>

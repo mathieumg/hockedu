@@ -51,8 +51,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_SERVER;_DEBUG;_CONSOLE;_SERVER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_SERVEUR_MAITRE;_SERVER;_DEBUG;_CONSOLE;_SERVER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>Solution_Defines.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
@@ -68,7 +68,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_SERVEUR_MAITRE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire;</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>Solution_Defines.h</ForcedIncludeFiles>
     </ClCompile>
@@ -80,24 +80,87 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Reseau\CommunicateurReseau.cpp" />
+    <ClCompile Include="..\Reseau\ControllerInterface.cpp" />
+    <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseau.cpp" />
+    <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseauGlobale.cpp" />
+    <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseauParametreInvalide.cpp" />
+    <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseauSocketDeconnecte.cpp" />
+    <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseauTimeout.cpp" />
+    <ClCompile Include="..\Reseau\GestionnaireReseau.cpp" />
     <ClCompile Include="..\Reseau\GestionnaireReseauServeurMaitre.cpp" />
+    <ClCompile Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.cpp" />
+    <ClCompile Include="..\Reseau\ObjetsGlobaux\PartieServeurs.cpp" />
+    <ClCompile Include="..\Reseau\PacketBuilder.cpp" />
+    <ClCompile Include="..\Reseau\PacketReader.cpp" />
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandler.cpp" />
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerBase.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp" />
-    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.cpp" />
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerConnAutomatique.cpp" />
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerEvent.cpp" />
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerLoginInfo.cpp" />
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerTest.cpp" />
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp" />
+    <ClCompile Include="..\Reseau\PaquetRunnable.cpp" />
+    <ClCompile Include="..\Reseau\Paquets\Paquet.cpp" />
+    <ClCompile Include="..\Reseau\Paquets\PaquetBase.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetChatMessage.cpp" />
-    <ClCompile Include="..\Reseau\Paquets\PaquetChatUserStatus.cpp" />
+    <ClCompile Include="..\Reseau\Paquets\PaquetConnAutomatique.cpp" />
+    <ClCompile Include="..\Reseau\Paquets\PaquetEvent.cpp" />
+    <ClCompile Include="..\Reseau\Paquets\PaquetLoginInfo.cpp" />
+    <ClCompile Include="..\Reseau\Paquets\PaquetTest.cpp" />
+    <ClCompile Include="..\Reseau\Paquets\PaquetUserStatus.cpp" />
     <ClCompile Include="..\Reseau\RelayeurMessage.cpp" />
+    <ClCompile Include="..\Reseau\Socket.cpp" />
+    <ClCompile Include="..\Reseau\SocketTCPServeur.cpp" />
+    <ClCompile Include="ControllerServeurMaitre.cpp" />
+    <ClCompile Include="FacadeServeurMaitre.cpp" />
     <ClCompile Include="mainServeurMaitre.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Reseau\CommunicateurReseau.h" />
+    <ClInclude Include="..\Reseau\ControllerInterface.h" />
+    <ClInclude Include="..\Reseau\ExceptionsReseau\ExceptionReseau.h" />
+    <ClInclude Include="..\Reseau\ExceptionsReseau\ExceptionReseauGlobale.h" />
+    <ClInclude Include="..\Reseau\ExceptionsReseau\ExceptionReseauParametreInvalide.h" />
+    <ClInclude Include="..\Reseau\ExceptionsReseau\ExceptionReseauSocketDeconnecte.h" />
+    <ClInclude Include="..\Reseau\ExceptionsReseau\ExceptionReseauTimeout.h" />
+    <ClInclude Include="..\Reseau\GestionnaireReseau.h" />
     <ClInclude Include="..\Reseau\GestionnaireReseauServeurMaitre.h" />
+    <ClInclude Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.h" />
+    <ClInclude Include="..\Reseau\ObjetsGlobaux\PartieServeurs.h" />
+    <ClInclude Include="..\Reseau\PacketBuilder.h" />
+    <ClInclude Include="..\Reseau\PacketReader.h" />
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandler.h" />
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerBase.h" />
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h" />
-    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatUserStatus.h" />
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerConnAutomatique.h" />
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerEvent.h" />
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerLoginInfo.h" />
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerTest.h" />
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.h" />
+    <ClInclude Include="..\Reseau\PaquetRunnable.h" />
+    <ClInclude Include="..\Reseau\Paquets\Paquet.h" />
+    <ClInclude Include="..\Reseau\Paquets\PaquetBase.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetChatMessage.h" />
-    <ClInclude Include="..\Reseau\Paquets\PaquetChatUserStatus.h" />
+    <ClInclude Include="..\Reseau\Paquets\PaquetConnAutomatique.h" />
+    <ClInclude Include="..\Reseau\Paquets\PaquetEvent.h" />
+    <ClInclude Include="..\Reseau\Paquets\PaquetLoginInfo.h" />
+    <ClInclude Include="..\Reseau\Paquets\PaquetTest.h" />
+    <ClInclude Include="..\Reseau\Paquets\PaquetUserStatus.h" />
     <ClInclude Include="..\Reseau\RelayeurMessage.h" />
+    <ClInclude Include="..\Reseau\Socket.h" />
+    <ClInclude Include="..\Reseau\SocketTCPServeur.h" />
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquet.h" />
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetBase.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatMessage.h" />
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatUserStatus.h" />
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetConnAutomatique.h" />
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetEvent.h" />
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetLoginInfo.h" />
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetTest.h" />
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetUserStatus.h" />
     <ClInclude Include="ControllerServeurMaitre.h" />
+    <ClInclude Include="FacadeServeurMaitre.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Commun\Utilitaire\Utilitaire.vcxproj">

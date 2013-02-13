@@ -1,0 +1,75 @@
+//////////////////////////////////////////////////////////////////////////////
+/// @file UsinePaquetEvent.h
+/// @author Mathieu Parent
+/// @date 2013-01-29
+/// @version 1.0
+///
+/// @addtogroup razergame RazerGame
+/// @{
+//////////////////////////////////////////////////////////////////////////////
+
+#pragma once
+#include "UsinePaquets\UsinePaquet.h"
+#include "..\Paquets\PaquetEvent.h"
+
+
+///////////////////////////////////////////////////////////////////////////
+/// @class UsinePaquetEvent
+/// @brief Classe Factory (Usine) pour les paquets de type Event
+///
+/// @author Mathieu Parent
+/// @date 2013-01-29
+///////////////////////////////////////////////////////////////////////////
+class UsinePaquetEvent : public UsinePaquet
+{
+public:
+    /// Constructeur par paramètres.
+    inline UsinePaquetEvent();
+
+	/// Fonction à surcharger pour la création d'un noeud.
+	inline virtual Paquet* creerPaquet() const;
+	
+	
+};
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn UsinePaquetEvent::UsinePaquetEvent()
+///
+/// Ce constructeur ne fait qu'appeler la version de la classe et base
+/// et donner des valeurs par défaut aux variables membres..
+///
+/// @return Aucune (constructeur).
+///
+////////////////////////////////////////////////////////////////////////
+inline UsinePaquetEvent::UsinePaquetEvent()
+	: UsinePaquet("Event")
+{
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn Paquet* UsinePaquetEvent::creerNoeud() const
+///
+/// Cette fonction retourne un noeud nouvellement créé du type produit
+/// par cette usine.
+///
+/// @return Le noeud nouvellement créé.
+///
+////////////////////////////////////////////////////////////////////////
+Paquet* UsinePaquetEvent::creerPaquet() const
+{
+	return new PaquetEvent();
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
