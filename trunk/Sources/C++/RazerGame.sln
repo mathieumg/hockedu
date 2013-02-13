@@ -16,14 +16,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExecuteUnitTests", "..\Exec
 		{67188F6B-27BE-4E93-A7EF-C512656343A1} = {67188F6B-27BE-4E93-A7EF-C512656343A1}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIHeavyClientPrototype", "..\C#\UIHeavyClient\UIHeavyClientPrototype\UIHeavyClientPrototype.csproj", "{E81776B6-F065-4629-BF4E-0182B9548EA2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServeurMaitre", "ServeurMaitre\ServeurMaitre.vcxproj", "{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServeurJeu", "ServeurJeu\ServeurJeu.vcxproj", "{2469C5D8-015A-4862-AAEE-1E861D06DEE1}"
 	ProjectSection(ProjectDependencies) = postProject
 		{67188F6B-27BE-4E93-A7EF-C512656343A1} = {67188F6B-27BE-4E93-A7EF-C512656343A1}
 	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServeurPrototypeV2", "ServeurPrototypeV2\ServeurPrototypeV2.vcxproj", "{7E161B23-3ABE-48B9-ADAC-373B4A957205}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientPrototypeV2", "ClientPrototypeV2\ClientPrototypeV2.vcxproj", "{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,26 +72,26 @@ Global
 		{F8497571-CB74-4F8D-89E8-2B01DA054851}.DebugPrototype|x64.ActiveCfg = Debug|x64
 		{F8497571-CB74-4F8D-89E8-2B01DA054851}.Release|x64.ActiveCfg = Release|x64
 		{F8497571-CB74-4F8D-89E8-2B01DA054851}.WithJava|x64.ActiveCfg = Debug|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.C++Client|x64.ActiveCfg = Debug|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Debug|x64.ActiveCfg = Debug|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.DebugPrototype|x64.ActiveCfg = Debug|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.DebugPrototype|x64.Build.0 = Debug|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Release|x64.ActiveCfg = Release|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.WithJava|x64.ActiveCfg = Debug|x64
-		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.C++Client|x64.ActiveCfg = Debug|x64
-		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.C++Client|x64.Build.0 = Debug|x64
-		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.Debug|x64.ActiveCfg = Debug|x64
-		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.DebugPrototype|x64.ActiveCfg = Debug|x64
-		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.DebugPrototype|x64.Build.0 = Debug|x64
-		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.Release|x64.ActiveCfg = Release|x64
-		{7E161B23-3ABE-48B9-ADAC-373B4A957205}.WithJava|x64.ActiveCfg = Debug|x64
-		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.C++Client|x64.ActiveCfg = C++Client|x64
-		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.C++Client|x64.Build.0 = C++Client|x64
-		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.Debug|x64.ActiveCfg = Debug|x64
-		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.DebugPrototype|x64.ActiveCfg = Debug|x64
-		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.DebugPrototype|x64.Build.0 = Debug|x64
-		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.Release|x64.ActiveCfg = Release|x64
-		{2D7DEC8B-4F27-454A-A01C-14E76FA674AE}.WithJava|x64.ActiveCfg = Debug|x64
+		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.C++Client|x64.ActiveCfg = Debug|x64
+		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.C++Client|x64.Build.0 = Debug|x64
+		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Debug|x64.ActiveCfg = Debug|x64
+		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Debug|x64.Build.0 = Debug|x64
+		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.DebugPrototype|x64.ActiveCfg = Debug|x64
+		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.DebugPrototype|x64.Build.0 = Debug|x64
+		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Release|x64.ActiveCfg = Release|x64
+		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Release|x64.Build.0 = Release|x64
+		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.WithJava|x64.ActiveCfg = Debug|x64
+		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.WithJava|x64.Build.0 = Debug|x64
+		{2469C5D8-015A-4862-AAEE-1E861D06DEE1}.C++Client|x64.ActiveCfg = Debug|x64
+		{2469C5D8-015A-4862-AAEE-1E861D06DEE1}.C++Client|x64.Build.0 = Debug|x64
+		{2469C5D8-015A-4862-AAEE-1E861D06DEE1}.Debug|x64.ActiveCfg = Debug|x64
+		{2469C5D8-015A-4862-AAEE-1E861D06DEE1}.Debug|x64.Build.0 = Debug|x64
+		{2469C5D8-015A-4862-AAEE-1E861D06DEE1}.DebugPrototype|x64.ActiveCfg = Debug|x64
+		{2469C5D8-015A-4862-AAEE-1E861D06DEE1}.DebugPrototype|x64.Build.0 = Debug|x64
+		{2469C5D8-015A-4862-AAEE-1E861D06DEE1}.Release|x64.ActiveCfg = Release|x64
+		{2469C5D8-015A-4862-AAEE-1E861D06DEE1}.Release|x64.Build.0 = Release|x64
+		{2469C5D8-015A-4862-AAEE-1E861D06DEE1}.WithJava|x64.ActiveCfg = Debug|x64
+		{2469C5D8-015A-4862-AAEE-1E861D06DEE1}.WithJava|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

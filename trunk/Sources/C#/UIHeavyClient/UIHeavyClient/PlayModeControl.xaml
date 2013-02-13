@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="UIHeavyClient.PlayModeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="414" d:DesignWidth="545">
+    <Grid>
+        <WindowsFormsHost Name="windowsFormsHost1" Grid.Row ="2" Grid.Column ="2">
+            <!--Ceci compile meme si intellisense dit le contraire, 
+                simplement commenter la ligne pour travailler avec le designer-->
+            <!--<local:OpenGLControl Name="mOpenGlControl" Margin="0,0,0,0"/>-->
+        </WindowsFormsHost>
+    </Grid>
+</UserControl>

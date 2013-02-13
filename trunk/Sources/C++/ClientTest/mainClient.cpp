@@ -3,12 +3,12 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "Reseau\GestionnaireReseau.h"
 #include <iostream>
 #include "Reseau\PaquetHandlers\PacketHandlerString.h"
 #include "Reseau\UsinePaquets\UsinePaquetString.h"
 #include <sstream>
 #include "Reseau\Paquets\PaquetTest.h"
+#include "Reseau\GestionnaireReseau.h"
 
 using namespace std;
 
