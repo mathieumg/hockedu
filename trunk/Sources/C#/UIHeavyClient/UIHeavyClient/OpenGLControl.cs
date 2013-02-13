@@ -26,9 +26,9 @@ namespace UIHeavyClient
         static extern void WindowResized(int width, int height);
 
         [DllImport(@"RazerGame.dll")]
-        static extern void OnKeyPressed(int key);
+        static extern void OnKeyPressed(Keys key);
         [DllImport(@"RazerGame.dll")]
-        static extern void OnKeyReleased(int key);
+        static extern void OnKeyReleased(Keys key);
         [DllImport(@"RazerGame.dll")]
         static extern void OnMousePressed(int x, int y, MouseButtons button);
         [DllImport(@"RazerGame.dll")]
@@ -46,6 +46,7 @@ namespace UIHeavyClient
             this.SizeChanged += UpdateSize;
             this.KeyDown += OpenGLControl_KeyDown;
             this.KeyUp += OpenGLControl_KeyUp;
+            this.PreviewKeyDown += OpenGLControl_PreviewKeyDown;
             this.MouseDown += OpenGLControl_MouseDown;
             this.MouseUp += OpenGLControl_MouseUp;
             this.MouseMove += OpenGLControl_MouseMove;
@@ -60,6 +61,12 @@ namespace UIHeavyClient
             // Sets the timer interval to 1/60 seconds.
             mRenderTimer.Interval = 20;
             mLogicalTimer.Interval = 16;
+        }
+
+        void OpenGLControl_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            Console.Out.WriteLine(e.KeyCode.ToString());
+            
         }
 
         void OpenGLControl_VisibleChanged(object sender, EventArgs e)
@@ -96,14 +103,17 @@ namespace UIHeavyClient
             OnMousePressed(e.X, e.Y, e.Button);
         }
 
-        void OpenGLControl_KeyUp(object sender, KeyEventArgs e)
+        public void OpenGLControl_KeyUp(object sender, KeyEventArgs e)
         {
-            OnKeyReleased(e.KeyValue);
+            OnKeyReleased(e.KeyCode);
+            e.Handled = true;
         }
 
-        void OpenGLControl_KeyDown(object sender, KeyEventArgs e)
+        public void OpenGLControl_KeyDown(object sender, KeyEventArgs e)
         {
-            OnKeyPressed(e.KeyValue);
+            OnKeyPressed(e.KeyCode);
+            e.Handled = true;
+
         }
 
         // This is the method to run when the timer is raised.
