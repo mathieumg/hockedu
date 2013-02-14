@@ -44,7 +44,7 @@ public:
 ///
 ////////////////////////////////////////////////////////////////////////
 inline UsinePaquetEvent::UsinePaquetEvent()
-	: UsinePaquet("Event")
+	: UsinePaquet()
 {
 }
 

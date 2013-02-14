@@ -46,7 +46,7 @@ public:
 ///
 ////////////////////////////////////////////////////////////////////////
 inline UsinePaquetChatMessage::UsinePaquetChatMessage()
-	: UsinePaquet("ChatMessage")
+	: UsinePaquet()
 {
 }
 

@@ -30,36 +30,15 @@ public:
 	/// Fonction à surcharger pour la création d'un paquet.
 	virtual Paquet* creerPaquet() const = 0;
 
-	/// Retourne le nom associé à l'usine
-	inline const std::string& getNom() const;
-
-private:
-	/// Le nom associé à l'usine
-	std::string nom_;
 
 protected:
 	/// Constructeur qui prend le nom associé à l'usine.
-	UsinePaquet(const std::string& nom) : nom_(nom) {}
+	UsinePaquet()  {}
 	
 	
 };
 
 
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn inline const std::string& UsinePaquet::obtenirNom() const
-///
-/// Cette fonction retourne une chaîne représentante le nom associé à
-/// l'usine.
-///
-/// @return Le nom associé à l'usine.
-///
-////////////////////////////////////////////////////////////////////////
-inline const std::string& UsinePaquet::getNom() const
-{
-	return nom_;
-}
 
 
 ///////////////////////////////////////////////////////////////////////////////

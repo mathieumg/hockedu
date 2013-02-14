@@ -224,9 +224,6 @@
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquet.h">
       <Filter>Source Files\UsinePaquets</Filter>
     </ClInclude>
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetBase.h">
-      <Filter>Source Files\UsinePaquets</Filter>
-    </ClInclude>
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetConnAutomatique.h">
       <Filter>Source Files\UsinePaquets</Filter>
     </ClInclude>

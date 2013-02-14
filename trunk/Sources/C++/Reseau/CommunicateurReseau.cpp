@@ -584,6 +584,19 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
 {
 	CommunicateurReseau* wCommunicateurReseau = (CommunicateurReseau*) arg;
 	uint8_t readBuffer[GestionnaireReseau::TAILLE_BUFFER_RECEPTION_ENVOI];
+	PacketHandler* wPacketHandlerBase = NULL;
+	// Pour eviter un probleme de timing si le handler n'a pas encore ete ajoute au GestionnaireReseau
+	while (wPacketHandlerBase == NULL)
+	{
+		try
+		{
+			wPacketHandlerBase = GestionnaireReseau::obtenirInstance()->getPacketHandler(BASE); // On le garde en memoire pour ne pas a aller le chercher a chaque iteration
+		}
+		catch(ExceptionReseau&)
+		{
+			Sleep(50);
+		}
+	}
     PacketReader wPacketReader;
 	while(true)
 	{
@@ -632,15 +645,16 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                             size_t wReceivedBytes = -1;
                             while(wReceivedBytes!=0) // On lit tant que le buffer contient quelque chose et qu'on a pas atteint la taille du paquet a recevoir
                             {
-                                wReceivedBytes = wSocket->recv(readBuffer, 28);
+                                wReceivedBytes = wSocket->recv(readBuffer, wPacketHandlerBase->getPacketSize(NULL)); // Pas besoin de lui passer d'arguments
                                 if (wReceivedBytes != 0)
                                 {
-                                    PacketHandler* wPacketHandler = GestionnaireReseau::obtenirInstance()->getPacketHandler(BASE);
+                                    
                                     wPacketReader.setArrayStart(readBuffer, wReceivedBytes);
-                                    HeaderPaquet wPacketHeader = wPacketHandler->handlePacketHeaderReception(wPacketReader);
+                                    HeaderPaquet wPacketHeader = wPacketHandlerBase->handlePacketHeaderReception(wPacketReader);
                                     wPacketReader.setSize(wReceivedBytes);
                                     bool wTaillePaquetValide = wPacketHeader.taillePaquet > wReceivedBytes;
-                                    checkf(wTaillePaquetValide, "Probleme avec lecture du header du paquet"); // Si trigger, probleme avec lecture du header du paquet (big trouble)
+									// Ne devrait pas planter, mais laisser une trace dans le log
+                                    //checkf(wTaillePaquetValide, "Probleme avec lecture du header du paquet"); // Si trigger, probleme avec lecture du header du paquet (big trouble)
                                     if( !wTaillePaquetValide )
                                     {
                                         throw ExceptionReseauParametreInvalide("La taille du paquet reçu était inférieure à la taille du header des paquets");
@@ -658,7 +672,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                                             throw ExceptionReseau("Erreur de reception du message. Loop infinie");
                                         }
                                     }
-                                    wPacketHandler = GestionnaireReseau::obtenirInstance()->getPacketHandler(wPacketHeader.type);
+                                    PacketHandler* wPacketHandler = GestionnaireReseau::obtenirInstance()->getPacketHandler(wPacketHeader.type);
                                     wPacketHandler->handlePacketReceptionSpecific( wPacketReader , GestionnaireReseau::obtenirInstance()->getController()->getRunnable(wPacketHeader.type) );
                                 }
                                 wPacketReader.clearBuffer();
