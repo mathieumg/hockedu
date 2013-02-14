@@ -32,7 +32,7 @@ LumiereAmbiante::LumiereAmbiante(GLfloat position[4], GLfloat ambiante[4], GLflo
 }
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void LumiereAmbiante::animerAnimation()
+/// @fn void LumiereAmbiante::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
 ///
 /// Sert à créé une animation pour la lumière ambiante
 ///
@@ -40,24 +40,11 @@ LumiereAmbiante::LumiereAmbiante(GLfloat position[4], GLfloat ambiante[4], GLflo
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void LumiereAmbiante::animerAnimation()
+void LumiereAmbiante::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
 {
 
 }
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void LumiereAmbiante::obtenirNom()
-///
-/// Affiche le nom de l'objet animable
-///
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-std::string LumiereAmbiante::obtenirNom() const
-{
-    return "Lumiere Ambiante";
-}
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn  LumiereAmbiante::~LumiereAbstraite()

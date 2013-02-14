@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
   dslVersion="1.0.0.0"
   Id="1f8f1e2b-1ceb-4f62-bb23-4d434c6036cb"
   name="Terrain" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
@@ -31,16 +31,6 @@
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
-        <generalsInternal>
-          <generalization
-            Id="e4ffd080-21c9-4b7c-a303-ef84ebe1708c"
-            isSubstitutable="false">
-            <classMoniker
-              Id="b3c050fe-44ea-40b2-8f12-19ecf0279906"
-              LastKnownName="ObjetAnimable"
-              LastKnownLocation="Package_1357.uml" />
-          </generalization>
-        </generalsInternal>
         <targetEnds>
           <association
             Id="1b4bf2cd-eb1f-4140-be5e-8ee16fd7b7df"
@@ -342,11 +332,11 @@
         isActiveClass="false">
         <generalsInternal>
           <generalization
-            Id="f5b1f9f8-b19b-4855-a34d-73e4f705e012"
+            Id="370b2ebd-2fb5-491f-9978-2b9a9b7d3c39"
             isSubstitutable="false">
             <classMoniker
-              Id="045c87bb-e79f-4a35-bb58-c069347cb39e"
-              LastKnownName="NoeudComposite"
+              Id="860a93e9-f68a-49c4-a387-425a01d1bf97"
+              LastKnownName="NoeudAbstrait"
               LastKnownLocation="Package_1357.uml" />
           </generalization>
         </generalsInternal>
@@ -684,6 +674,22 @@
       <class
         Id="b3c050fe-44ea-40b2-8f12-19ecf0279906"
         name="ObjetAnimable"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="759475fb-5a9b-4f77-a320-8936048f6b02"
+        name="CylinderElement"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="5ba9cb57-d69a-4a40-961c-396e9a3902c7"
+        name="BoxElement"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />

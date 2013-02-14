@@ -252,25 +252,16 @@ namespace vue {
                  directionHaut_[0] , directionHaut_[1] , directionHaut_[2] );
    }
 
-   void Camera::animerAnimation()
+   void Camera::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
    {
-	   if(modParam1_)
-			position_ = animationParam1_;
-	   if(modParam2_)
-			pointVise_ = animationParam2_;
-	   if(modParam3_ &&  animationParam3_!=Vecteur3(0, 0, 0))
-			directionHaut_ = animationParam3_;
+	   if(pAnimationResult.CanUpdatedPosition())
+			position_ = pAnimationResult.mPosition;
+	   if(pAnimationResult.CanUpdatedAngle())
+			pointVise_ = pAnimationResult.mAngle;
+	   if(pAnimationResult.CanUpdatedScale() &&  !pAnimationResult.mScale.estNul())
+			directionHaut_ = pAnimationResult.mScale;
 	   positionner();
-	   
    }
-
-   
-   std::string Camera::obtenirNom() const
-   {
-       return "Camera";
-	   //throw std::exception("Pas fait");
-   }
-
 
    ////////////////////////////////////////////////////////////////////////
    ///

@@ -66,9 +66,6 @@ namespace vue {
       /// Obtient la caméra associée à cette vue (version constante).
       inline const Camera& obtenirCamera(int laquelle = 1) const;
 
-	  void modifierCamera(Camera camera, int laquelle = 1);
-
-
       // Obtention de la projection
       virtual const Projection& obtenirProjection() const = 0;
       virtual Projection& obtenirProjection() = 0;

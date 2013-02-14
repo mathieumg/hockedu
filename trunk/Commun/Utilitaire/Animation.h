@@ -11,6 +11,7 @@
 #pragma once
 #include <vector>
 #include "Vecteur.h"
+#include "ObjetAnimable.h"
 
 enum TypeAnimation {OBJET, CAMERAPOINT, CAMERALIBRE};
 enum Interpolation {CONSTANT, LINEAIRE, BEZIER};
@@ -35,7 +36,6 @@ class Animation
 public:
 	/// Constructeurs
 	Animation(int typeInterpolation,bool modParam1 = true, bool modParam2 = true, bool modParam3 = true, bool repeat = false);
-	Animation(int mode, int typeInterpolation);
 	/// Destructeur
 	virtual ~Animation(void);
 
@@ -45,9 +45,6 @@ public:
 	/// Ajout d'élément
 	virtual void ajouterFrame(AnimationFrame* frame);
 	virtual void ajouterObjet(ObjetAnimable* objet);
-
-	/// Affichage
-	void afficher() const;
 
 	/// Libération d'un objet
 	virtual void delierObjet(ObjetAnimable* objet);
@@ -104,13 +101,7 @@ protected:
 	/// Type d'interpolation
 	int interpolation_;
 
-	/// Mode d'animation
-	int mode_;
-
-	/// Indique si on doit appliquer la modification aux objets
-	bool modParam1_;
-	bool modParam2_;
-	bool modParam3_;
+	ObjectAnimationParameters mAnimationResult;
 };
 
 typedef std::vector<Animation*> ListeAnimations;

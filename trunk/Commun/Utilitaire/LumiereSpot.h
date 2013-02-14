@@ -25,9 +25,7 @@ public:
 	/// Destructeur
 	virtual ~LumiereSpot();
 	/// Anime l'animation
-	virtual void animerAnimation();
-	/// affiche le id opengl
-	virtual std::string obtenirNom() const;
+	virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
 	/// On reimplemente linitialisation pour un spot puisquil y a 3 autres parametres
 	virtual void initLumiere();
 

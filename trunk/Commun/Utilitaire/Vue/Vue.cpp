@@ -160,23 +160,7 @@ namespace vue {
    }
 
 
-   ////////////////////////////////////////////////////////////////////////////
-   ///
-   /// @fn void Vue::modifierCamera( Camera camera )
-   ///
-   /// Modification de la camera
-   ///
-   /// @param[in]  camera Camera	: camera possedant les attributs a copier
-   ///
-   /// @return Aucune.
-   ///
-   ////////////////////////////////////////////////////////////////////////////
-   void Vue::modifierCamera( Camera camera, int laquelle/* = 1*/ )
-   {
-	   obtenirCamera(laquelle) = camera;
 
-
-   }
 
    void Vue::centrerCamera(float largeurVue)
    {

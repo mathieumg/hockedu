@@ -93,10 +93,10 @@ void LumiereAbstraite::eteindreLumiere()
 ////////////////////////////////////////////////////////////////////////
 void LumiereAbstraite::initLumiere()
 {
-	glLightfv(lienOpenGL_, GL_POSITION,  position_ );
-	glLightfv(lienOpenGL_, GL_AMBIENT,  ambiante_ );
-	glLightfv(lienOpenGL_, GL_DIFFUSE,  diffuse_ );
-	glLightfv(lienOpenGL_, GL_SPECULAR,  speculaire_ );
+	glLightfv(lienOpenGL_, GL_POSITION,  position_.c_arr() );
+	glLightfv(lienOpenGL_, GL_AMBIENT,  ambiante_.c_arr() );
+	glLightfv(lienOpenGL_, GL_DIFFUSE,  diffuse_.c_arr() );
+	glLightfv(lienOpenGL_, GL_SPECULAR,  speculaire_.c_arr() );
 	glLightf(lienOpenGL_, GL_CONSTANT_ATTENUATION,  attenuation_[0] );
 	glLightf(lienOpenGL_, GL_LINEAR_ATTENUATION,  attenuation_[1] );
 	glLightf(lienOpenGL_, GL_QUADRATIC_ATTENUATION,  attenuation_[2] );
@@ -116,28 +116,24 @@ void LumiereAbstraite::initLumiere()
 
 
 
-void LumiereAbstraite::animerAnimation()
+void LumiereAbstraite::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
 {
-	if(modParam1_)
+	if(pAnimationResult.CanUpdatedPosition())
 	{
-		
-		ambiante_[0]	 = (float)animationParam1_[0];
-		ambiante_[1]	 = (float)animationParam1_[1];
-		ambiante_[2]	 = (float)animationParam1_[2];
-		diffuse_[0]		 = (float)animationParam1_[0];
-		diffuse_[1]		 = (float)animationParam1_[1];
-		diffuse_[2]		 = (float)animationParam1_[2];
+		for(int i=0; i<3; ++i)
+        {
+            ambiante_[i] = (float)pAnimationResult.mPosition[i];
+            diffuse_[i] = (float)pAnimationResult.mPosition[i];
+        }
 	}
 
-	if(modParam2_)
+	if(pAnimationResult.CanUpdatedAngle())
 	{
-		if(animationParam2_[VX]<0.5)
+		if(pAnimationResult.mAngle[VX] < 0.5f)
 			eteindreLumiere();
 		else
 			allumerLumiere();
 	}
-
-	
 }
 
 

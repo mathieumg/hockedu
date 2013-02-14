@@ -10,6 +10,7 @@
 
 #pragma once
 #include "Vecteur.h"
+#include "ObjetAnimable.h"
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class AnimationFrame
@@ -22,7 +23,7 @@ class AnimationFrame
 {
 public:
 	/// Constructeur par paramètres
-	AnimationFrame(float temps, Vecteur3 param1, Vecteur3 param2 = Vecteur3(0, 0, 0), Vecteur3 param3 = Vecteur3(1, 1, 1));
+	AnimationFrame(float temps, const Vecteur3& pos, const Vecteur3& angle = Vecteur3(0, 0, 0), const Vecteur3& scale = Vecteur3(1, 1, 1));
 	/// Destructeur
 	~AnimationFrame(void);
 
@@ -34,16 +35,16 @@ public:
 	void modifierTemps(float val) { temps_ = val; }
 
 	/// Accesseur et modificateur du premier paramètre
-	Vecteur3 obtenirParam1() const { return param1_; }
-	void modifierParam1_(Vecteur3 val) { param1_ = val; }
+	inline const Vecteur3& getPosition() const { return mParams.mPosition; }
+	inline void setPosition(const Vecteur3& val) { mParams.mPosition = val; }
 
 	/// Accesseur et modificateur du deuxième paramètre
-	Vecteur3 obtenirParam2_() const { return param2_; }
-	void modifierParam2_(Vecteur3 val) { param2_ = val; }
+	inline const Vecteur3& getAngle() const { return mParams.mAngle; }
+	inline void setAngle(const Vecteur3& val) { mParams.mAngle = val; }
 
 	/// Accesseur et modificateur du troisième paramètre
-	Vecteur3 obtenirParam3_() const { return param3_; }
-	void modifierParam3_(Vecteur3 val) { param3_ = val; }
+	inline const Vecteur3& getScale() const { return mParams.mScale; }
+	inline void setScale(const Vecteur3& val) { mParams.mScale = val; }
 
 	/// Surcharge de l'opérateur de comparaison <
 	bool operator < (const AnimationFrame& a) const { return temps_ < a.temps_; }
@@ -51,16 +52,7 @@ public:
 protected:
 	/// Temps a laquelle la frame doit etre effectuer
 	float temps_;
-	
-	/// Attribut de position
-	Vecteur3 param1_;
-	
-	/// Attribut de rotation en degres
-	Vecteur3 param2_;
-	
-	/// Attribut de mise a lechelle
-	Vecteur3 param3_;
-	
+    ObjectAnimationParameters mParams;
 };
 
 ///////////////////////////////////////////////////////////////////////////

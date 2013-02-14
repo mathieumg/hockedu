@@ -60,7 +60,7 @@ LumiereSpot::~LumiereSpot()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void LumiereSpot::animerAnimation()
+/// @fn void LumiereSpot::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
 ///
 /// Permet de créé une animation
 ///
@@ -68,16 +68,17 @@ LumiereSpot::~LumiereSpot()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void LumiereSpot::animerAnimation()
+void LumiereSpot::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
 {
-	LumiereAbstraite::animerAnimation();
-	if(modParam2_)
+	LumiereAbstraite::appliquerAnimation( pAnimationResult );
+	if(pAnimationResult.CanUpdatedAngle())
 	{
-		spotCutoff_ = (float)animationParam2_[VY];
+		spotCutoff_ = pAnimationResult.mAngle[VY];
 	}
-	if(modParam3_)
+	if(pAnimationResult.CanUpdatedScale())
 	{
-		Vecteur3 delta = animationParam3_-Vecteur3(position_[VX], position_[VY], position_[VZ]);
+        Vecteur3 delta = pAnimationResult.mScale-position_;
+		//Vecteur3 delta( pAnimationResult.mScale[VX]-position_[VX], pAnimationResult.mScale[VY]-position_[VY], pAnimationResult.mScale[VZ]-position_[VZ]);
 		delta.normaliser();
 		spotDirection_[0] = (float)delta[0];
 		spotDirection_[1] = (float)delta[1];
@@ -87,20 +88,7 @@ void LumiereSpot::animerAnimation()
 	
 
 }
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void LumiereSpot::obtenirNom()
-///
-/// Permer d'afficher le nom de l'objet
-///
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-std::string LumiereSpot::obtenirNom() const
-{
-    return "Lumiere Spot";
-}
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void LumiereSpot::initLumiere()

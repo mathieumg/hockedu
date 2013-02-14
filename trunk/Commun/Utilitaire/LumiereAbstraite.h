@@ -36,18 +36,16 @@ public:
 	/// fermer la lumiere voulu
 	virtual void eteindreLumiere();
 	/// Anime l'animation
-	virtual void animerAnimation();
-	/// affiche le id opengl
-	virtual std::string obtenirNom() const = 0;
+	virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
 
 protected:
 	int lienOpenGL_;
 	bool enabled_;
-	GLfloat position_[4];
-	GLfloat ambiante_[4];
-	GLfloat diffuse_[4];
-	GLfloat speculaire_[4];
-	GLfloat attenuation_[4]; // dernier parametre inutilise
+	Vecteur4 position_;
+	Vecteur4 ambiante_;
+	Vecteur4 diffuse_;
+	Vecteur4 speculaire_;
+	Vecteur4 attenuation_; // dernier parametre inutilise
 	
 };
 

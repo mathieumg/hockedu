@@ -871,46 +871,6 @@ bool NoeudAbstrait::initialiser( const TiXmlElement* element )
 	return true;
 }
 
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudMaillet::animerAnimation()
-///
-/// Met les valeurs a jour venant d'une animation
-///
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::animerAnimation()
-{
-	if(modParam1_)
-		assignerPositionRelative(animationParam1_);
-	if(modParam2_)
-		mAngle = animationParam2_[VZ];
-	if(modParam3_)
-		echelleCourante_ = animationParam3_;
-	updateMatrice();
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudMaillet::obtenirNom
-///
-/// Affiche ce que la noeud est pour l'affichage des animations
-/// (aide au debug)
-///
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-std::string NoeudAbstrait::obtenirNom() const
-{
-    return type_;
-}
-
-
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void NoeudAbstrait::modifierTerrain( Terrain* val )

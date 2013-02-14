@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="3f982649-244d-4f62-877e-eda83f2e9019" name="Terrain" linkedPackageId="c4dd6f29-a348-4cfb-8da5-04f6b865b7a4" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="3f982649-244d-4f62-877e-eda83f2e9019" name="Terrain" linkedPackageId="c4dd6f29-a348-4cfb-8da5-04f6b865b7a4" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
   <packagedElements>
     <logicalClassDesignerModelHasPackages>
       <package Id="b0b0c171-00a5-4acc-9ce2-ab03edc0ae64" name="Terrain">
@@ -8,12 +8,6 @@
           <packageHasNamedElement>
             <class Id="a6c4d9e4-8199-4bc0-b077-7515ffabe372" name="NoeudAbstrait" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="860a93e9-f68a-49c4-a387-425a01d1bf97" />
-              <generalsInternal>
-                <generalization Id="c7855853-7d15-4e39-93f4-c40edaa2c288" isSubstitutable="false">
-                  <classMoniker Id="fcef466f-08c4-4832-9e6b-e2ee245c12ef" LastKnownName="ObjetAnimable" />
-                  <elementDefinition Id="e4ffd080-21c9-4b7c-a303-ef84ebe1708c" />
-                </generalization>
-              </generalsInternal>
               <targetEnds>
                 <association Id="bc770f15-aa12-4a76-9ff6-da03a2a73431" isDerived="false" sourceEndRoleName="NoeudAbstrait" targetEndRoleName="UsineNoeud" isLeaf="false" isAbstract="false">
                   <classMoniker Id="6859a97a-7226-497a-9109-dcc2773a2249" LastKnownName="UsineNoeud" />
@@ -186,9 +180,9 @@
             <class Id="88508eea-45e3-4809-b596-a3ba169dfc52" name="NoeudModel" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="238a13b1-1f54-494d-8087-c2228f3b3e78" />
               <generalsInternal>
-                <generalization Id="97f1568e-45fa-4e3f-a156-c63118a10486" isSubstitutable="false">
-                  <classMoniker Id="cfe085b1-6c19-4ba3-91f6-79b35ed80627" LastKnownName="NoeudComposite" />
-                  <elementDefinition Id="f5b1f9f8-b19b-4855-a34d-73e4f705e012" />
+                <generalization Id="5899fd1e-e954-4345-b7f5-ef51cbcd53c4" isSubstitutable="false">
+                  <classMoniker Id="a6c4d9e4-8199-4bc0-b077-7515ffabe372" LastKnownName="NoeudAbstrait" />
+                  <elementDefinition Id="370b2ebd-2fb5-491f-9978-2b9a9b7d3c39" />
                 </generalization>
               </generalsInternal>
             </class>
@@ -351,6 +345,16 @@
                   <elementDefinition Id="f3558fd3-52d2-40a0-9ae0-2dc56afda4b4" />
                 </association>
               </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="69c7a231-6faf-49c3-9d1b-3b378b2872b2" name="CylinderElement" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="759475fb-5a9b-4f77-a320-8936048f6b02" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="d966d745-c9bf-4910-a0a2-20da8af86a2f" name="BoxElement" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="5ba9cb57-d69a-4a40-961c-396e9a3902c7" />
             </class>
           </packageHasNamedElement>
         </packagedElements>
