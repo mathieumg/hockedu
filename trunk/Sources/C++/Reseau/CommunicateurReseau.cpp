@@ -632,7 +632,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                             size_t wReceivedBytes = -1;
                             while(wReceivedBytes!=0) // On lit tant que le buffer contient quelque chose et qu'on a pas atteint la taille du paquet a recevoir
                             {
-                                wReceivedBytes = wSocket->recv(readBuffer, 44);
+                                wReceivedBytes = wSocket->recv(readBuffer, 28);
                                 if (wReceivedBytes != 0)
                                 {
                                     PacketHandler* wPacketHandler = GestionnaireReseau::obtenirInstance()->getPacketHandler(BASE);
@@ -646,11 +646,17 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                                         throw ExceptionReseauParametreInvalide("La taille du paquet reçu était inférieure à la taille du header des paquets");
                                     }
                                     int wTailleRestanteALire = (int) (wPacketHeader.taillePaquet - wReceivedBytes);
+                                    int wNbTries = 0;
                                     while (wTailleRestanteALire>0)
                                     {
                                         wReceivedBytes += wSocket->recv(readBuffer, wTailleRestanteALire);
                                         wPacketReader.append(wReceivedBytes, readBuffer);
                                         wTailleRestanteALire = (int) (wPacketHeader.taillePaquet - wReceivedBytes);
+                                        ++wNbTries;
+                                        if(wNbTries > 10000) // Prevent infinite loop
+                                        {
+                                            throw ExceptionReseau("Erreur de reception du message. Loop infinie");
+                                        }
                                     }
                                     wPacketHandler = GestionnaireReseau::obtenirInstance()->getPacketHandler(wPacketHeader.type);
                                     wPacketHandler->handlePacketReceptionSpecific( wPacketReader , GestionnaireReseau::obtenirInstance()->getController()->getRunnable(wPacketHeader.type) );

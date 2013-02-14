@@ -1,22 +1,22 @@
 
 
 #include <iostream>
-#include "ControllerServeurJeu.h"
+#include "..\Reseau\ControllerServeurJeu.h"
 
 int main(void)  {
 
     std::cout << "--------- Serveur Jeu ---------" << std::endl << std::endl;
-    /*
-    GestionnaireReseauServeurJeu::obtenirInstance();
+    
+    /*GestionnaireReseauServeurJeu::obtenirInstance();
 	GestionnaireReseau* wGestReseau = GestionnaireReseau::obtenirInstance();
 
     
     GestionnaireReseau::obtenirInstance()->ajouterOperationReseau("ChatMessage", new PacketHandlerChatMessage, new UsinePaquetChatMessage);
     GestionnaireReseau::obtenirInstance()->setController(new ControllerServeurJeu());
-
+    */
     
 
-    */
+    
 
 
 
