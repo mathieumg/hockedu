@@ -53,6 +53,8 @@ public:
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody();
 
+    /// rayon par défaut de l'accélérateur
+    static const float DEFAULT_RADIUS;
 private:
 	/// Acceleration fournie par les bonus accelerateurs
 	float bonusAccel_;

@@ -250,7 +250,8 @@ void NoeudMuretRelatif::mettreAJourEchelleRotation()
 	Vecteur3 vecteurEntre(*coin2_[VX]-*coin1_[VX], *coin2_[VY]-*coin1_[VY], 0);
 	assignerPositionRelative(Vecteur3(*coin1_[VX]+vecteurEntre[VX]/2.0f, *coin1_[VY]+vecteurEntre[VY]/2.0f));
 	float distance = vecteurEntre.norme();
-	modifierEchelleCourante(Vecteur3(distance, 5, 5));
+    // echelle en y,z a 0 car il n'est pas visible
+	modifierEchelleCourante(Vecteur3(distance, 0, 0));
 	float angle = utilitaire::RAD_TO_DEG(atan2(vecteurEntre[VY], vecteurEntre[VX]));
 	assignerAngle(angle);
 	updateMatrice();

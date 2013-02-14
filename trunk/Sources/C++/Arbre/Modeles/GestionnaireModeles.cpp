@@ -29,25 +29,20 @@ bool IsThreadAlive(const HANDLE hThread , DWORD& dwExitCode)
     return dwExitCode == STILL_ACTIVE;
 }
 
-typedef void (*ModelPostLoad)(const std::string&, Modele3D*, GLuint);
-
 struct ModelToLoad
 {
-    ModelToLoad(std::string key, ModelPostLoad callback = NULL, bool createList = true):
-    mKey(key), mModelName(mKey), mbCreateList(createList), mCallBack(callback)
-    {
-
-    }
-    ModelToLoad(std::string key, std::string modelName, ModelPostLoad callback = NULL, bool createList = true):
-    mKey(key), mModelName(modelName), mbCreateList(createList), mCallBack(callback)
-    {
-
-    }
+    ModelToLoad(const std::string& key, std::string modelName, CreateListDelegate createListDelegate = NULL):
+        mKey(key), mModelName(modelName), mCreateListDelegate(createListDelegate){}
+    ModelToLoad(const std::string& key, CreateListDelegate createListDelegate = NULL):
+        mKey(key), mModelName(key), mCreateListDelegate(createListDelegate){}
     // these 2 are pretty much always the same
+    // the key used in the maps to retrieve the list and model, must be unique
     std::string mKey;
+    // the name of the .obj containing the model
     std::string mModelName;
-    bool mbCreateList;
-    ModelPostLoad mCallBack;
+
+    // delegate to create the openGL list, called after loading the model
+    CreateListDelegate mCreateListDelegate;
 };
 
 struct TamponNomModele
@@ -277,14 +272,18 @@ void GestionnaireModeles::obtenirListe( const std::string& key, GLuint& liste )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireModeles::recharger( const std::string& type )
 {
-	/// Instance temporaire qui permet d'ajouter tous les modèles à la banque de modèle.
-	Modele3D *modele= new Modele3D();
+    checkf(0,"Do not use reload model until method has been updated");
+    // Fonction pu a jour
 
-	/// Rechargement du modele
-	modele->charger(RazerGameUtilities::NOM_DOSSIER_MEDIA+type+RazerGameUtilities::NOM_EXTENSION);
-	ajoutModele(type,modele);
-    GLuint liste = CreerListe(modele);
-    AjouterListe(type, liste);
+
+// 	/// Instance temporaire qui permet d'ajouter tous les modèles à la banque de modèle.
+// 	Modele3D *modele= new Modele3D();
+// 
+// 	/// Rechargement du modele
+// 	modele->charger(RazerGameUtilities::NOM_DOSSIER_MEDIA+type+RazerGameUtilities::NOM_EXTENSION);
+// 	ajoutModele(type,modele);
+//     GLuint liste = CreerListe(modele);
+//     AjouterListe(type, liste);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -325,11 +324,6 @@ GLuint GestionnaireModeles::obtenirTypeIdFromName( const std::string& name ) con
 	return 0;
 }
 
-void TablePostLoad(const std::string& key, Modele3D* model, GLuint list)
-{
-    NoeudTable::initialiserListeIndexPoints(model);
-}
-
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void GestionnaireModeles::initialiser()
@@ -343,20 +337,19 @@ void TablePostLoad(const std::string& key, Modele3D* model, GLuint list)
 void GestionnaireModeles::initialiser()
 {
     // La piece en premier pour qu'elle soit loader en dernier
-    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_PIECE));
-	tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_TABLE,TablePostLoad,false));
-	tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_BUT_MILIEU));
-	tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_BUT_COTE));
-	tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_MURET));
-	tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_PORTAIL));
-	tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_RONDELLE));
-	tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_ACCELERATEUR));
-	tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_MAILLET));
-	tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_POINT));
-	tamponGlobal.vec.push_back(ModelToLoad("pause"));
-	tamponGlobal.vec.push_back(ModelToLoad("1"));
-	tamponGlobal.vec.push_back(ModelToLoad("2"));
-	tamponGlobal.vec.push_back(ModelToLoad("3"));
+    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_HOUSE));
+    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_TABLE,RazerGameUtilities::CreateListDelegateTable));
+    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_BUT,RazerGameUtilities::CreateListDelegateGoal));
+    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_MURET,RazerGameUtilities::CreateListDelegateWall));
+    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_PORTAIL,RazerGameUtilities::CreateListDelegatePortal));
+    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_RONDELLE,RazerGameUtilities::CreateListDelegatePuck));
+    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_ACCELERATEUR,RazerGameUtilities::CreateListDelegateBoost));
+    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_MAILLET,RazerGameUtilities::CreateListDelegateMallet));
+    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_POINT,RazerGameUtilities::CreateListDelegateControlPoint));
+    tamponGlobal.vec.push_back(ModelToLoad("pause"));
+    tamponGlobal.vec.push_back(ModelToLoad("1"));
+    tamponGlobal.vec.push_back(ModelToLoad("2"));
+    tamponGlobal.vec.push_back(ModelToLoad("3"));
 
     DataThreadModels* dataWorkerModel = new DataThreadModels();
     dataWorkerModel->tampon = &tamponGlobal;
@@ -456,33 +449,41 @@ DWORD WINAPI WorkerLoadModel( LPVOID arg )
 	while(tampon->vec.size())
 	{
         ModelToLoad& modelInfo = tampon->vec.back();
-		const string& modelName = modelInfo.mModelName;
+
+        const string& modelName = modelInfo.mModelName;
 
 		Modele3D* modele = new Modele3D();
 		if(!modele->charger(RazerGameUtilities::NOM_DOSSIER_MEDIA+modelName+RazerGameUtilities::NOM_EXTENSION))
         {
+            // pop plus tard car on garde une reference sur l'item
             tampon->vec.pop_back();
+            delete modele;
             continue;
         }
-        GLuint liste = GestionnaireModeles::CreerListe(modele);
+        
+        GLuint liste = 0;
+        if(modelInfo.mCreateListDelegate)
+        {
+            liste = modelInfo.mCreateListDelegate(modele);
+        }
+        else
+        {
+            liste = GestionnaireModeles::CreerListe(modele);
+        }
 
         const string& key = modelInfo.mKey;
-        FacadeModele::getInstance()->RunOnRenderThread(new Runnable([=](Runnable*) -> void {
+        FacadeModele::getInstance()->RunOnUpdateThread(new Runnable([=](Runnable*) -> void {
             // les ajouter direct dans ce thread n'est pas bon car ca peut crasher si un read&write ce fait en meme temps
             GestionnaireModeles::obtenirInstance()->ajoutModele(key,modele);
-            if(modelInfo.mbCreateList)
+            if(liste)
             {
                 GestionnaireModeles::obtenirInstance()->AjouterListe(key, liste);
             }
         }));
 
-        if(modelInfo.mCallBack)
-        {
-            modelInfo.mCallBack(key,modele,liste);
-        }
-
+        // pop plus tard car on garde une reference sur l'item
         tampon->vec.pop_back();
-	}
+    }
 	
     //wglDeleteContext(data->glrc);
     delete data;

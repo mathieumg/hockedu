@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="456" d:DesignWidth="946">
-    <Grid Background="#FF323232">
+    <Grid Background="#FF323232" Name="editionControlGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="42" MaxHeight="50"/>
             <RowDefinition Height="103*"/>
@@ -47,12 +47,6 @@
         </ComboBox>
         <Button Content="Main Menu" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="85" Click="Button_Click_1" Height="22" Grid.Row="0" Grid.Column="0"/>
         <Button Name="mDefaultFieldButton" Content="Terrain Defaut" HorizontalAlignment="Left" Margin="223,12,0,0" VerticalAlignment="Top" Width="99" Click="OnGenerateField" Grid.Column="1"/>
-
-        <WindowsFormsHost Name="windowsFormsHost1" Grid.Row ="1" Grid.Column ="1">
-            <!--Ceci compile meme si intellisense dit le contraire, 
-            simplement commenter la ligne pour travailler avec le designer-->
-            <!--<local:OpenGLControl Name="mOpenGlControl" Margin="0,0,0,0"/>-->
-        </WindowsFormsHost>
     </Grid>
 
 </UserControl>

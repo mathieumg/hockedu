@@ -34,6 +34,14 @@
 unsigned int NoeudRondelle::rondellesPresentes=0;
 bool UsineNoeudRondelle::bypassLimitePourTest = false;
 
+
+const float NoeudRondelle::DEFAULT_RADIUS = 8;
+
+CreateListDelegateImplementation(Puck)
+{
+    return RazerGameUtilities::CreateListSphereDefault(pModel,NoeudRondelle::DEFAULT_RADIUS);
+}
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn NoeudRondelle::NoeudRondelle(const std::string& typeNoeud)
@@ -49,12 +57,16 @@ bool UsineNoeudRondelle::bypassLimitePourTest = false;
 NoeudRondelle::NoeudRondelle(const std::string& typeNoeud)
 	: NoeudAbstrait(typeNoeud),puissanceVent_(0.05f)
 {
-	NoeudRondelle::rondellesPresentes++;
+    // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
+    setDefaultRadius(DEFAULT_RADIUS);
+
+    NoeudRondelle::rondellesPresentes++;
 
 	mCoefFriction = 2.5f;
 	mVelocite = Vecteur3(0.0f,0.0f,0.0f);
 	mAngle = 0.0f;
 	mVitesseRotation = 0.0f;
+
 
 	FacadeModele::getInstance()->ajouterElementSurTable(this);
     updatePhysicBody();

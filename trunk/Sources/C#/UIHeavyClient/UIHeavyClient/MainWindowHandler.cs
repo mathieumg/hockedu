@@ -30,16 +30,22 @@ namespace UIHeavyClient
         public static void GoToEditionMode()
         {
             Context.WindowContentControl.Content = Context.EditionModeControl;
+            Context.PlayModeControl.RemoveOpenGL();
+            Context.EditionModeControl.AppendOpenGL();
         }
 
         public static void GoToPlayMode()
         {
             Context.WindowContentControl.Content = Context.PlayModeControl;
+            Context.EditionModeControl.RemoveOpenGL();
+            Context.PlayModeControl.AppendOpenGL();
         }
 
         public static void GoToMainMenu()
         {
             Context.WindowContentControl.Content = Context.MainMenuControl;
+            Context.EditionModeControl.RemoveOpenGL();
+            Context.PlayModeControl.RemoveOpenGL();
         }
 
         public static void GoToTournamentMenu()
@@ -55,6 +61,16 @@ namespace UIHeavyClient
         public static void GoToOptionsMenu()
         {
             Context.WindowContentControl.Content = Context.OptionsControl;
+        }
+
+        public static void GoToRadioOptions()
+        {
+            Context.WindowContentControl.Content = Context.RadioOptionControl;
+        }
+
+        public static void GoToAIOptions()
+        {
+            Context.WindowContentControl.Content = Context.AIOptionControl;
         }
     }
 }

@@ -54,7 +54,7 @@ public:
 	/// Permet d'assigner les attribut nécessaire à la collision
 	virtual void assignerAttributVisiteurCollision(VisiteurCollision* v);
 
-	/// Oermet d'obtenir le rayon du but
+	/// Permet d'obtenir le rayon du but
 	virtual float obtenirRayon();
 
 	/// Creation du noeud XML du but
@@ -62,7 +62,6 @@ public:
 	/// Initialisation du But à partir d'un element XML
 	virtual bool initialiser(const TiXmlElement* element);
 
-	static float longueurBut_;
 	/// Accesseur de mBottomPosition
 	inline Vecteur3 obtenirPositionBas() const { return mBottomPosition; }
 	/// Accesseur de mTopPosition
@@ -79,6 +78,11 @@ public:
     /// Libere la memoire de l'objet Box2D
     virtual void clearPhysicsBody();
 
+    /// Gets the length of the current goal
+    inline float getLength() const {return mGoalLength;}
+
+    static const Vecteur3 DEFAULT_SIZE;
+    
 private:
 	/// Attribut disant si le but est au joueur1 ou joueur 2 par un int, 1 ou 2
 	int joueur_;
@@ -88,13 +92,13 @@ private:
 	NoeudPoint* coinBas_;
     /// Angle des 2 composantes du but en degre
     float mBottomAngle,mTopAngle;
-	/// Longueur du but
-	const float longueurButBase_;
 	/// Pointeur sur le but adverse
 	NoeudBut* butAdverse_;
 	/// Position du point extérieur du but
 	mutable Vecteur3 mTopPosition, mBottomPosition;
-	
+    /// Longueur du but
+    float mGoalLength;
+
     class b2Body* mPuckCatcher;
     float mCachedPuckRadius;
 

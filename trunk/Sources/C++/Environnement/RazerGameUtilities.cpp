@@ -10,6 +10,7 @@
 #include "RazerGameUtilities.h"
 
 #include <jni.h>
+#include "GestionnaireModeles.h"
 
    ////////////////////////////////////////////////////////////////////////
    ///
@@ -43,6 +44,26 @@
          );
    }
 
+   ////////////////////////////////////////////////////////////////////////
+   ///
+   /// @fn unsigned int RazerGameUtilities::CreateListSphereDefault( class Modele3D*, float radius )
+   ///
+   /// /*Description*/
+   ///
+   /// @param[in] class Modele3D *
+   /// @param[in] float radius
+   ///
+   /// @return unsigned int
+   ///
+   ////////////////////////////////////////////////////////////////////////
+   unsigned int RazerGameUtilities::CreateListSphereDefault( Modele3D* pModel, float radius )
+   {
+       float rayon,haut,bas;
+       pModel->calculerCylindreEnglobant(rayon,bas,haut);
+       float ratio = radius / rayon;
+       pModel->assignerFacteurAgrandissement(Vecteur3(ratio,ratio,ratio));
+       return GestionnaireModeles::CreerListe(pModel);
+   }
 
    /// La chaîne représentant le dossier.
    const std::string RazerGameUtilities::NOM_DOSSIER_MEDIA = "../media/";
@@ -51,23 +72,17 @@
    const std::string RazerGameUtilities::NOM_EXTENSION = ".obj";
 
    /// La chaîne représentant le type de la piece.
-   const std::string RazerGameUtilities::NOM_PIECE = "piece";
+   const std::string RazerGameUtilities::NOM_HOUSE = "piece";
 
    /// La chaîne représentant le type des buts.
-   const std::string RazerGameUtilities::NOM_BUT_MILIEU = "but_milieu";
-
-   /// La chaîne représentant le type des buts.
-   const std::string RazerGameUtilities::NOM_BUT_COTE = "but_cote";
-
+   const std::string RazerGameUtilities::NOM_BUT = "but_milieu";
+   
    /// La chaîne représentant le type des murets.
    const std::string RazerGameUtilities::NOM_MURET = "muret";
 
    /// La chaîne représentant le type des murets.
    const std::string RazerGameUtilities::NOM_MURET_RELATIF = "muret_relatif";
-
-   /// La chaîne représentant le type des murets de la zone d'edition.
-   const std::string RazerGameUtilities::NOM_MURET_ZONE_EDITION = "muret_zone_edition";
-
+   
    /// La chaîne représentant le type de la table de jeu.
    const std::string RazerGameUtilities::NOM_TABLE = "table";
 

@@ -133,7 +133,7 @@ namespace vue {
    {
 	   Vecteur3 nouvellePosition = position_+deplacement;
 	   float distanceCentre = (position_-pointVise_).norme();
-	   if(nouvellePosition[VZ]>20.0/* && distanceCentre<2000.0*/)
+	   if(nouvellePosition[VZ]>0.0/* && distanceCentre<2000.0*/)
 	   {
 		   position_ = nouvellePosition;
 		   if(avecPointVise)

@@ -203,11 +203,10 @@ void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NoeudMuret* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurModifierProprieteNoeud::visiterNoeudBut( NoeudBut* noeud )
 {
-	Vecteur3 echelleCourante;
-	noeud->obtenirEchelleCourante(echelleCourante);
+    float length = noeud->getLength();
 	
-	noeud->updateLongueur((echelle_*10)/echelleCourante[VX]);
-	noeud->obtenirButAdverse()->updateLongueur((echelle_*10)/echelleCourante[VX]);
+	noeud->updateLongueur((echelle_*10)/length);
+	noeud->obtenirButAdverse()->updateLongueur((echelle_*10)/length);
 }
 
 

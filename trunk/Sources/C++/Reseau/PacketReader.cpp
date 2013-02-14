@@ -5,13 +5,13 @@
 PacketReader::PacketReader()
     : mArrStart(NULL), mCurrentPosition(0), mSize(0)
 {
-
+    setCurrentByteOrder(NATIVE);
 }
 
 PacketReader::PacketReader( uint8_t* pPacketData)
     : mArrStart(pPacketData), mCurrentPosition(0), mSize(0)
 {
-
+    setCurrentByteOrder(NATIVE);
 }
 
 
@@ -67,9 +67,9 @@ void PacketReader::setArrayStart( uint8_t* arrayStart, size_t arraySize )
 void PacketReader::clearBuffer()
 {
     mCurrentPosition = 0;
-    //if (mArrStart != NULL)
-    //    delete mArrStart;
-    //mArrStart = NULL;
+    if (mArrStart != NULL)
+        delete mArrStart;
+    mArrStart = NULL;
 }
 
 void PacketReader::readString(uint8_t* pReturnString, uint32_t pStringLength)

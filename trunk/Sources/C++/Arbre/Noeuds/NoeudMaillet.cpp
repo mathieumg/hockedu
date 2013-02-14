@@ -29,10 +29,14 @@
 
 unsigned int NoeudMaillet::mailletExistant = 0;
 bool UsineNoeudMaillet::bypassLimitePourTest = false;
-
-
-
 b2Body* mMouseBody;
+
+const float NoeudMaillet::DEFAULT_RADIUS = 10;
+
+CreateListDelegateImplementation(Mallet)
+{
+    return RazerGameUtilities::CreateListSphereDefault(pModel,NoeudMaillet::DEFAULT_RADIUS);
+}
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -49,6 +53,8 @@ b2Body* mMouseBody;
 NoeudMaillet::NoeudMaillet(const std::string& typeNoeud)
    : NoeudAbstrait(typeNoeud), vitesse_(300.0),estControleParClavier_(false), joueur_(0), mMouseJoint(NULL)
 {
+    // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
+    setDefaultRadius(DEFAULT_RADIUS);
     NoeudMaillet::mailletExistant++;
    
 #if BOX2D_INTEGRATED
@@ -58,7 +64,6 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud)
         mMouseBody = mWorld->CreateBody(&bodyDef);
     }
 #endif
-
 
     for (int i = 0; i < NB_DIR ; i++)
     {

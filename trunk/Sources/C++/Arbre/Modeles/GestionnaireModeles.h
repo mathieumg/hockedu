@@ -37,7 +37,7 @@ public:
 	/// Ajout d'un modele
     void ajoutModele(const std::string& key, Modele3D* modele3d);
 	/// Création d'une liste
-    static GLuint CreerListe(Modele3D* pModel, bool avecTexture = true);
+    static GLuint CreerListe( Modele3D* pModel, bool avecTexture = true);
     /// Ajoute une liste dans la map pour la retrouver
     void AjouterListe( const std::string& key, GLuint liste );
 

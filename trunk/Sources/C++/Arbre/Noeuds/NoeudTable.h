@@ -84,6 +84,8 @@ public:
 
 
    static const unsigned int NB_CONTROL_POINTS = 8;
+   /// taille par défaut de table
+   static const Vecteur3 DEFAULT_SIZE;
 private:
    
       
@@ -143,7 +145,7 @@ public:
 
 
 
-	float rayonCercleCentre_;
+	static const float rayonCercleCentre_;
 
 	
 

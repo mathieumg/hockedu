@@ -89,6 +89,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AIOptionControl.xaml.cs">
+      <DependentUpon>AIOptionControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Chat.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
@@ -102,10 +105,17 @@
     <Compile Include="OptionsControl.xaml.cs">
       <DependentUpon>OptionsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RadioOptionControl.xaml.cs">
+      <DependentUpon>RadioOptionControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TaskManager.cs" />
     <Compile Include="TournamentControl.xaml.cs">
       <DependentUpon>TournamentControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="AIOptionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -143,6 +153,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlayModeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RadioOptionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

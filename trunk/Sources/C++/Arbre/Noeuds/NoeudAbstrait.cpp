@@ -742,11 +742,7 @@ float NoeudAbstrait::obtenirRayon() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::updateRayon()
 {
-	float rayon = 1, bas, haut;
-    Modele3D* pModel = obtenirModele();
-	if(pModel)
-		pModel->calculerCylindreEnglobant(rayon, bas, haut);
-	rayon_ = rayon*max(echelleCourante_[VX], echelleCourante_[VY]);
+	rayon_ = getDefaultRadius()*max(echelleCourante_[VX], echelleCourante_[VY]);
 }
 
 

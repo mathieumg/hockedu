@@ -474,7 +474,14 @@ public:
 		r /= k;
 		return r;
 	}
-
+    inline Vecteur<T, N> operator / ( const Vecteur<T,N>& v ) const
+    {
+        Vecteur<T, N> r ( *this );
+        for ( int i = 0; i < N; i++ ) {
+            r.vect[i] /= v.vect[i];
+        }
+        return r;
+    }
 
 	////////////////////////////////////////////////////////////////////////////
 	///

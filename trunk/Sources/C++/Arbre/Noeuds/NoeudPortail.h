@@ -41,6 +41,7 @@ public:
    /// Recreates the physics body according to current attributes
    virtual void updatePhysicBody();
 
+   static const float DEFAULT_RADIUS;
 private:
 	bool mIsAttractionFieldActive;
 	

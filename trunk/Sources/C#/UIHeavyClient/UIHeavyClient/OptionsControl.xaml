@@ -6,8 +6,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="315" d:DesignWidth="382">
     <Grid Background="#FF323232">
-        <Button Content="Configure Radio" Height="23" HorizontalAlignment="Left" Margin="38,113,0,0" Name="radioOptionButton" VerticalAlignment="Top" Width="125" />
-        <Button Content="Configure AI" Height="23" HorizontalAlignment="Left" Margin="38,37,0,0" Name="aiConfigureButton" VerticalAlignment="Top" Width="125" />
+        <Button Content="Configure Radio" Height="23" HorizontalAlignment="Left" Margin="38,113,0,0" Name="radioOptionButton" VerticalAlignment="Top" Width="125" Click="radioOptionButton_Click" />
+        <Button Content="Configure AI" Height="23" HorizontalAlignment="Left" Margin="38,37,0,0" Name="aiConfigureButton" VerticalAlignment="Top" Width="125" Click="aiConfigureButton_Click" />
         <Button Content="Back to Main Menu" Height="23" HorizontalAlignment="Left" Margin="38,190,0,0" Name="backToMenuButton" VerticalAlignment="Top" Width="125" Click="backToMenuButton_Click" />
     </Grid>
 </UserControl>
