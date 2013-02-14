@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
   dslVersion="1.0.0.0"
   Id="1f8f1e2b-1ceb-4f62-bb23-4d434c6036cb"
   name="Terrain" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
@@ -122,6 +122,22 @@
               LastKnownName="NoeudAbstrait"
               LastKnownLocation="Package_1357.uml" />
           </generalization>
+          <generalization
+            Id="a9db7c36-f0c2-4a0d-81d4-31e53f1caa3c"
+            isSubstitutable="false">
+            <classMoniker
+              Id="759475fb-5a9b-4f77-a320-8936048f6b02"
+              LastKnownName="CylinderNode"
+              LastKnownLocation="Package_1357.uml" />
+          </generalization>
+          <generalization
+            Id="eeadb9db-c42a-45bd-b486-3c97090519ae"
+            isSubstitutable="false">
+            <classMoniker
+              Id="b3c050fe-44ea-40b2-8f12-19ecf0279906"
+              LastKnownName="ObjetAnimable"
+              LastKnownLocation="Package_1357.uml" />
+          </generalization>
         </generalsInternal>
       </class>
     </packageHasNamedElement>
@@ -168,6 +184,22 @@
               LastKnownName="NoeudAbstrait"
               LastKnownLocation="Package_1357.uml" />
           </generalization>
+          <generalization
+            Id="1815a744-c8a4-456b-be5d-4c93e9bea20f"
+            isSubstitutable="false">
+            <classMoniker
+              Id="759475fb-5a9b-4f77-a320-8936048f6b02"
+              LastKnownName="CylinderNode"
+              LastKnownLocation="Package_1357.uml" />
+          </generalization>
+          <generalization
+            Id="69db9600-3bfd-4cbc-8022-23410120dde6"
+            isSubstitutable="false">
+            <classMoniker
+              Id="b3c050fe-44ea-40b2-8f12-19ecf0279906"
+              LastKnownName="ObjetAnimable"
+              LastKnownLocation="Package_1357.uml" />
+          </generalization>
         </generalsInternal>
       </class>
     </packageHasNamedElement>
@@ -187,6 +219,14 @@
               LastKnownName="NoeudAbstrait"
               LastKnownLocation="Package_1357.uml" />
           </generalization>
+          <generalization
+            Id="0e8e82d7-50d2-42b1-83c4-ba32ca0175c4"
+            isSubstitutable="false">
+            <classMoniker
+              Id="759475fb-5a9b-4f77-a320-8936048f6b02"
+              LastKnownName="CylinderNode"
+              LastKnownLocation="Package_1357.uml" />
+          </generalization>
         </generalsInternal>
       </class>
     </packageHasNamedElement>
@@ -204,6 +244,22 @@
             <classMoniker
               Id="860a93e9-f68a-49c4-a387-425a01d1bf97"
               LastKnownName="NoeudAbstrait"
+              LastKnownLocation="Package_1357.uml" />
+          </generalization>
+          <generalization
+            Id="53fb6d32-6b92-4151-9a5d-b6283bd3c145"
+            isSubstitutable="false">
+            <classMoniker
+              Id="759475fb-5a9b-4f77-a320-8936048f6b02"
+              LastKnownName="CylinderNode"
+              LastKnownLocation="Package_1357.uml" />
+          </generalization>
+          <generalization
+            Id="6c683c61-3dfa-4f5e-9e5f-55ff344f133d"
+            isSubstitutable="false">
+            <classMoniker
+              Id="b3c050fe-44ea-40b2-8f12-19ecf0279906"
+              LastKnownName="ObjetAnimable"
               LastKnownLocation="Package_1357.uml" />
           </generalization>
         </generalsInternal>
@@ -263,6 +319,14 @@
               LastKnownName="NoeudComposite"
               LastKnownLocation="Package_1357.uml" />
           </generalization>
+          <generalization
+            Id="f0bfb1ec-42b3-4a43-9a07-063bb775bbb6"
+            isSubstitutable="false">
+            <classMoniker
+              Id="5ba9cb57-d69a-4a40-961c-396e9a3902c7"
+              LastKnownName="RectangleNode"
+              LastKnownLocation="Package_1357.uml" />
+          </generalization>
         </generalsInternal>
       </class>
     </packageHasNamedElement>
@@ -299,6 +363,14 @@
             <classMoniker
               Id="045c87bb-e79f-4a35-bb58-c069347cb39e"
               LastKnownName="NoeudComposite"
+              LastKnownLocation="Package_1357.uml" />
+          </generalization>
+          <generalization
+            Id="aba5d81b-91bf-42ff-8efe-3d9a5f6e884d"
+            isSubstitutable="false">
+            <classMoniker
+              Id="5ba9cb57-d69a-4a40-961c-396e9a3902c7"
+              LastKnownName="RectangleNode"
               LastKnownLocation="Package_1357.uml" />
           </generalization>
         </generalsInternal>
@@ -356,6 +428,14 @@
             <classMoniker
               Id="045c87bb-e79f-4a35-bb58-c069347cb39e"
               LastKnownName="NoeudComposite"
+              LastKnownLocation="Package_1357.uml" />
+          </generalization>
+          <generalization
+            Id="697e9683-0ead-4887-91f4-6e99d063d809"
+            isSubstitutable="false">
+            <classMoniker
+              Id="759475fb-5a9b-4f77-a320-8936048f6b02"
+              LastKnownName="CylinderNode"
               LastKnownLocation="Package_1357.uml" />
           </generalization>
         </generalsInternal>
@@ -681,7 +761,7 @@
     <packageHasNamedElement>
       <class
         Id="759475fb-5a9b-4f77-a320-8936048f6b02"
-        name="CylinderElement"
+        name="CylinderNode"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
@@ -689,7 +769,7 @@
     <packageHasNamedElement>
       <class
         Id="5ba9cb57-d69a-4a40-961c-396e9a3902c7"
-        name="BoxElement"
+        name="RectangleNode"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
