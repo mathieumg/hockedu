@@ -23,6 +23,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServeurJeu", "ServeurJeu\Se
 		{67188F6B-27BE-4E93-A7EF-C512656343A1} = {67188F6B-27BE-4E93-A7EF-C512656343A1}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIHeavyClientPrototype", "..\C#\UIHeavyClient\UIHeavyClientPrototype\UIHeavyClientPrototype.csproj", "{E81776B6-F065-4629-BF4E-0182B9548EA2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{67188F6B-27BE-4E93-A7EF-C512656343A1} = {67188F6B-27BE-4E93-A7EF-C512656343A1}
+		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A} = {DF32D3B2-5344-47CA-A836-E6C80EB0E40A}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		C++Client|x64 = C++Client|x64
@@ -92,6 +98,16 @@ Global
 		{2469C5D8-015A-4862-AAEE-1E861D06DEE1}.Release|x64.Build.0 = Release|x64
 		{2469C5D8-015A-4862-AAEE-1E861D06DEE1}.WithJava|x64.ActiveCfg = Debug|x64
 		{2469C5D8-015A-4862-AAEE-1E861D06DEE1}.WithJava|x64.Build.0 = Debug|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.C++Client|x64.ActiveCfg = C++Client|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.C++Client|x64.Build.0 = C++Client|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Debug|x64.ActiveCfg = Debug|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Debug|x64.Build.0 = Debug|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.DebugPrototype|x64.ActiveCfg = DebugPrototype|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.DebugPrototype|x64.Build.0 = DebugPrototype|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Release|x64.ActiveCfg = Release|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Release|x64.Build.0 = Release|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.WithJava|x64.ActiveCfg = C++Client|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.WithJava|x64.Build.0 = C++Client|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

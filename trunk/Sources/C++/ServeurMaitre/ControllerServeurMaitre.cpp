@@ -1,6 +1,7 @@
 #include "ControllerServeurMaitre.h"
 #include "..\Reseau\GestionnaireReseau.h"
 #include "..\Reseau\PaquetRunnable.h"
+#include "PaquetRunnableServeurMaitre.h"
 #include "..\Reseau\ExceptionsReseau\ExceptionReseauSocketDeconnecte.h"
 
 
@@ -18,10 +19,11 @@ ControllerServeurMaitre::ControllerServeurMaitre()
 {
     // Ajouter tous les Runnables dependant de ce qui est handled selon le type de controlleur
     mPaquetRunnables[EVENT] = PaquetRunnable::RunnableEvent;
-    mPaquetRunnables[LOGIN_INFO] = PaquetRunnable::RunnableLoginInfoServer;
-    mPaquetRunnables[CONN_AUTOMATIQUE] = PaquetRunnable::RunnableConnAutomatiqueServer;
-    mPaquetRunnables[USER_STATUS] = PaquetRunnable::RunnableUserStatusServer;
-    mPaquetRunnables[CHAT_MESSAGE] = PaquetRunnable::RunnableChatMessageServer;
+    mPaquetRunnables[LOGIN_INFO] = PaquetRunnable::RunnableLoginInfoServerMaster;
+    // Pas de connexion automatique pour le serveur maitre
+    //mPaquetRunnables[CONN_AUTOMATIQUE] = PaquetRunnable::RunnableConnAutomatiqueServer;
+    mPaquetRunnables[USER_STATUS] = PaquetRunnable::RunnableUserStatusServerMaster;
+    mPaquetRunnables[CHAT_MESSAGE] = PaquetRunnable::RunnableChatMessageServerMaster;
     mPaquetRunnables[TEST] = PaquetRunnable::RunnableTest;
 
 }

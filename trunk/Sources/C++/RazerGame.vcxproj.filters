@@ -467,6 +467,9 @@
     <ClCompile Include="Reseau\PaquetRunnable.cpp">
       <Filter>Sources Files\Reseau</Filter>
     </ClCompile>
+    <ClCompile Include="Reseau\ControllerServeurJeu.cpp">
+      <Filter>Sources Files\Reseau</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -896,6 +899,9 @@
       <Filter>Sources Files\Reseau</Filter>
     </ClInclude>
     <ClInclude Include="Reseau\PaquetRunnable.h">
+      <Filter>Sources Files\Reseau</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\ControllerServeurJeu.h">
       <Filter>Sources Files\Reseau</Filter>
     </ClInclude>
   </ItemGroup>

@@ -51,7 +51,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_SERVEUR_MAITRE;_SERVER;_DEBUG;_CONSOLE;_SERVER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_SERVER;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>Solution_Defines.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -70,7 +70,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;_SERVEUR_MAITRE;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire;</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>Solution_Defines.h</ForcedIncludeFiles>
     </ClCompile>
@@ -118,6 +118,7 @@
     <ClCompile Include="ControllerServeurMaitre.cpp" />
     <ClCompile Include="FacadeServeurMaitre.cpp" />
     <ClCompile Include="mainServeurMaitre.cpp" />
+    <ClCompile Include="PaquetRunnableServeurMaitre.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Reseau\CommunicateurReseau.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetUserStatus.h" />
     <ClInclude Include="ControllerServeurMaitre.h" />
     <ClInclude Include="FacadeServeurMaitre.h" />
+    <ClInclude Include="PaquetRunnableServeurMaitre.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Commun\Utilitaire\Utilitaire.vcxproj">

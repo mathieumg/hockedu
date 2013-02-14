@@ -86,9 +86,6 @@
     <ClCompile Include="mainServeurJeu.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ControllerServeurJeu.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Commun\Utilitaire\Utilitaire.vcxproj">
       <Project>{bb8c9c8a-3b65-4599-b4fe-ca965ee76d2a}</Project>
     </ProjectReference>
