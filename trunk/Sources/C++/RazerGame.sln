@@ -98,16 +98,13 @@ Global
 		{2469C5D8-015A-4862-AAEE-1E861D06DEE1}.Release|x64.Build.0 = Release|x64
 		{2469C5D8-015A-4862-AAEE-1E861D06DEE1}.WithJava|x64.ActiveCfg = Debug|x64
 		{2469C5D8-015A-4862-AAEE-1E861D06DEE1}.WithJava|x64.Build.0 = Debug|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.C++Client|x64.ActiveCfg = C++Client|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.C++Client|x64.Build.0 = C++Client|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.C++Client|x64.ActiveCfg = Debug|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.C++Client|x64.Build.0 = Debug|x64
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Debug|x64.ActiveCfg = Debug|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Debug|x64.Build.0 = Debug|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.DebugPrototype|x64.ActiveCfg = DebugPrototype|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.DebugPrototype|x64.Build.0 = DebugPrototype|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.DebugPrototype|x64.ActiveCfg = Debug|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.DebugPrototype|x64.Build.0 = Debug|x64
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Release|x64.ActiveCfg = Release|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Release|x64.Build.0 = Release|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.WithJava|x64.ActiveCfg = C++Client|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.WithJava|x64.Build.0 = C++Client|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.WithJava|x64.ActiveCfg = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
