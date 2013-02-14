@@ -46,7 +46,7 @@ public:
 ///
 ////////////////////////////////////////////////////////////////////////
 inline UsinePaquetLoginInfo::UsinePaquetLoginInfo()
-	: UsinePaquet("LoginInfo")
+	: UsinePaquet()
 {
 }
 

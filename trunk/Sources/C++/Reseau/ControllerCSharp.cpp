@@ -22,9 +22,6 @@ ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceiv
     mPaquetRunnables[CHAT_MESSAGE] = PaquetRunnable::RunnableChatMessageClient;
     mPaquetRunnables[TEST] = PaquetRunnable::RunnableTest;
 
-
-
-
 }
 
 

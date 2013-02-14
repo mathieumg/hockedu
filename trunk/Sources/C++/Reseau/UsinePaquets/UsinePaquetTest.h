@@ -46,7 +46,7 @@ public:
 ///
 ////////////////////////////////////////////////////////////////////////
 inline UsinePaquetTest::UsinePaquetTest()
-	: UsinePaquet("Test")
+	: UsinePaquet()
 {
 }
 

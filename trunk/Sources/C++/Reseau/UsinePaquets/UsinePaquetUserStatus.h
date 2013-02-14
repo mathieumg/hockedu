@@ -46,7 +46,7 @@ public:
 ///
 ////////////////////////////////////////////////////////////////////////
 inline UsinePaquetUserStatus::UsinePaquetUserStatus()
-	: UsinePaquet("UserStatus")
+	: UsinePaquet()
 {
 }
 

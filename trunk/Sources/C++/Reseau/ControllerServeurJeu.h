@@ -24,25 +24,12 @@
 class ControllerServeurJeu : public ControllerInterface
 {
 public:
+    ControllerServeurJeu();
     virtual void handleEvent(int pEventCode,  va_list pListeElems);
 
 private:
     
 };
-
-
-
-void ControllerServeurJeu::handleEvent( int pEventCode, va_list pListeElems )
-{
-    switch(pEventCode) {
-    default:
-        std::cout << "EventCode: " << pEventCode << std::endl;
-        break;
-    };
-
-    
-
-}
 
 
 ///////////////////////////////////////////////////////////////////////////////

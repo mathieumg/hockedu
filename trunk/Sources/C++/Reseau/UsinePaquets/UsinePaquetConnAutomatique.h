@@ -46,7 +46,7 @@ public:
 ///
 ////////////////////////////////////////////////////////////////////////
 inline UsinePaquetConnAutomatique::UsinePaquetConnAutomatique()
-	: UsinePaquet("ConnAutomatique")
+	: UsinePaquet()
 {
 }
 

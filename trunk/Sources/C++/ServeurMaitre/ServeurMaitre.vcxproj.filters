@@ -132,6 +132,9 @@
     <ClCompile Include="ControllerServeurMaitre.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PaquetRunnableServeurMaitre.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControllerServeurMaitre.h">
@@ -209,9 +212,6 @@
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquet.h">
       <Filter>Source Files\UsinePaquets</Filter>
     </ClInclude>
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetBase.h">
-      <Filter>Source Files\UsinePaquets</Filter>
-    </ClInclude>
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetConnAutomatique.h">
       <Filter>Source Files\UsinePaquets</Filter>
     </ClInclude>
@@ -255,6 +255,9 @@
       <Filter>Source Files\ExceptionsReseau</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\PaquetRunnable.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PaquetRunnableServeurMaitre.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

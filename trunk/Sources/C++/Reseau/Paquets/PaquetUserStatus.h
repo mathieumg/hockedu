@@ -31,7 +31,7 @@ protected:
 	PaquetUserStatus();
 
 public:
-    virtual PacketTypes getOperation() const { return EVENT; }
+    virtual PacketTypes getOperation() const { return USER_STATUS; }
 
 	std::string getUserName() const { return mUserName; }
 	void setUserName(const std::string& val) { mUserName = val; }

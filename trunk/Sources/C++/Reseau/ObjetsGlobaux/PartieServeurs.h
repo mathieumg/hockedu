@@ -22,6 +22,9 @@
 ///////////////////////////////////////////////////////////////////////////
 class PartieServeurs {
 private:
+    // Id de la partie
+    int mUniqueGameId;
+
     // Noms des joueurs
     std::string mPlayer1Name;
     std::string mPlayer2Name;
@@ -39,7 +42,7 @@ public:
 	PartieServeurs(const std::string& pPlayer1Name, const std::string& pPlayer2Name);
 	~PartieServeurs();
 
-    int mUniqueGameId;
+    
 
     std::string getPlayer1Name() const { return mPlayer1Name; }
     std::string getPlayer2Name() const { return mPlayer2Name; }
