@@ -185,7 +185,6 @@ void GestionnaireReseau::init()
 
 
     // Ajout des classes PacketHandler et UsinePaquet de base
-    ajouterOperationReseau(BASE, NULL, NULL);
     ajouterOperationReseau(CONN_AUTOMATIQUE, new PacketHandlerConnAutomatique(), new UsinePaquetConnAutomatique());
     ajouterOperationReseau(TEST, new PacketHandlerTest(), new UsinePaquetTest());
     ajouterOperationReseau(EVENT, new PacketHandlerEvent(), new UsinePaquetEvent());

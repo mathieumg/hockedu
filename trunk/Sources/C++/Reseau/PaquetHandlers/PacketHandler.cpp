@@ -31,16 +31,19 @@ void PacketHandler::handlePacketPreparation( Paquet* pPaquet, PacketBuilder& pPa
     handlePacketPreparationSpecific(pPaquet, pPacketBuilder);
 }
 
-
-
 int PacketHandler::getPacketSize( Paquet* pPaquet ) const
 {
     // Size de Paquet
-    int wTaillePaquet = (int)(Paquet::sequenceIdentification.length()+1 + sizeof(pPaquet->getOperation()));
-    // Size de Paquet
-    wTaillePaquet += sizeof(Paquet::CompteurNumeroPaquet) + sizeof(wTaillePaquet);
+    int wTaillePaquet = getPacketHeaderSize();
     wTaillePaquet += getPacketSizeSpecific(pPaquet);
     return wTaillePaquet;
+}
+
+int PacketHandler::getPacketHeaderSize()
+{
+    int wTailleHeader = (int)(Paquet::sequenceIdentification.length()+1 + sizeof(BASE));
+    wTailleHeader += sizeof(Paquet::CompteurNumeroPaquet) + sizeof(wTailleHeader);
+    return wTailleHeader;
 }
 
 
