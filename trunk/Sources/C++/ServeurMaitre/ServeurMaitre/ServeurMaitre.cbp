@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="ServeurMaitre" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../../../Content/Exe/ServeurMaitre" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../x64/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="../../../Content/Exe/ServeurMaitre" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../x64/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="../../Reseau/CommunicateurReseau.cpp" />
+		<Unit filename="../../Reseau/CommunicateurReseau.h" />
+		<Unit filename="../../Reseau/ControllerCPP.h" />
+		<Unit filename="../../Reseau/ControllerCSharp.cpp" />
+		<Unit filename="../../Reseau/ControllerCSharp.h" />
+		<Unit filename="../../Reseau/ControllerInterface.cpp" />
+		<Unit filename="../../Reseau/ControllerInterface.h" />
+		<Unit filename="../../Reseau/ExceptionsReseau/ExceptionReseau.cpp" />
+		<Unit filename="../../Reseau/ExceptionsReseau/ExceptionReseau.h" />
+		<Unit filename="../../Reseau/ExceptionsReseau/ExceptionReseauGlobale.cpp" />
+		<Unit filename="../../Reseau/ExceptionsReseau/ExceptionReseauGlobale.h" />
+		<Unit filename="../../Reseau/ExceptionsReseau/ExceptionReseauParametreInvalide.cpp" />
+		<Unit filename="../../Reseau/ExceptionsReseau/ExceptionReseauParametreInvalide.h" />
+		<Unit filename="../../Reseau/ExceptionsReseau/ExceptionReseauSocketDeconnecte.cpp" />
+		<Unit filename="../../Reseau/ExceptionsReseau/ExceptionReseauSocketDeconnecte.h" />
+		<Unit filename="../../Reseau/ExceptionsReseau/ExceptionReseauTimeout.cpp" />
+		<Unit filename="../../Reseau/ExceptionsReseau/ExceptionReseauTimeout.h" />
+		<Unit filename="../../Reseau/GestionnaireReseau.cpp" />
+		<Unit filename="../../Reseau/GestionnaireReseau.h" />
+		<Unit filename="../../Reseau/GestionnaireReseauClientLourd.cpp" />
+		<Unit filename="../../Reseau/GestionnaireReseauClientLourd.h" />
+		<Unit filename="../../Reseau/GestionnaireReseauServeur.cpp" />
+		<Unit filename="../../Reseau/GestionnaireReseauServeur.h" />
+		<Unit filename="../../Reseau/GestionnaireReseauServeurJeu.cpp" />
+		<Unit filename="../../Reseau/GestionnaireReseauServeurJeu.h" />
+		<Unit filename="../../Reseau/GestionnaireReseauServeurMaitre.cpp" />
+		<Unit filename="../../Reseau/GestionnaireReseauServeurMaitre.h" />
+		<Unit filename="../../Reseau/ObjetsGlobaux/JoueurServeurs.cpp" />
+		<Unit filename="../../Reseau/ObjetsGlobaux/JoueurServeurs.h" />
+		<Unit filename="../../Reseau/ObjetsGlobaux/PartieServeurs.cpp" />
+		<Unit filename="../../Reseau/ObjetsGlobaux/PartieServeurs.h" />
+		<Unit filename="../../Reseau/PacketBuilder.cpp" />
+		<Unit filename="../../Reseau/PacketBuilder.h" />
+		<Unit filename="../../Reseau/PacketReader.cpp" />
+		<Unit filename="../../Reseau/PacketReader.h" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandler.cpp" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandler.h" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerBase.cpp" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerBase.h" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerChatMessage.cpp" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerChatMessage.h" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerConnAutomatique.cpp" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerConnAutomatique.h" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerEvent.cpp" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerEvent.h" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerLoginInfo.cpp" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerLoginInfo.h" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerTest.cpp" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerTest.h" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerUserStatus.cpp" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerUserStatus.h" />
+		<Unit filename="../../Reseau/PaquetRunnable.cpp" />
+		<Unit filename="../../Reseau/PaquetRunnable.h" />
+		<Unit filename="../../Reseau/Paquets/Paquet.cpp" />
+		<Unit filename="../../Reseau/Paquets/Paquet.h" />
+		<Unit filename="../../Reseau/Paquets/PaquetBase.cpp" />
+		<Unit filename="../../Reseau/Paquets/PaquetBase.h" />
+		<Unit filename="../../Reseau/Paquets/PaquetChatMessage.cpp" />
+		<Unit filename="../../Reseau/Paquets/PaquetChatMessage.h" />
+		<Unit filename="../../Reseau/Paquets/PaquetConnAutomatique.cpp" />
+		<Unit filename="../../Reseau/Paquets/PaquetConnAutomatique.h" />
+		<Unit filename="../../Reseau/Paquets/PaquetEvent.cpp" />
+		<Unit filename="../../Reseau/Paquets/PaquetEvent.h" />
+		<Unit filename="../../Reseau/Paquets/PaquetLoginInfo.cpp" />
+		<Unit filename="../../Reseau/Paquets/PaquetLoginInfo.h" />
+		<Unit filename="../../Reseau/Paquets/PaquetTest.cpp" />
+		<Unit filename="../../Reseau/Paquets/PaquetTest.h" />
+		<Unit filename="../../Reseau/Paquets/PaquetUserStatus.cpp" />
+		<Unit filename="../../Reseau/Paquets/PaquetUserStatus.h" />
+		<Unit filename="../../Reseau/RelayeurMessage.cpp" />
+		<Unit filename="../../Reseau/RelayeurMessage.h" />
+		<Unit filename="../../Reseau/Socket.cpp" />
+		<Unit filename="../../Reseau/Socket.h" />
+		<Unit filename="../../Reseau/SocketTCPServeur.cpp" />
+		<Unit filename="../../Reseau/SocketTCPServeur.h" />
+		<Unit filename="../../Reseau/UsinePaquets/UsinePaquet.h" />
+		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetChatMessage.h" />
+		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetConnAutomatique.h" />
+		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetEvent.h" />
+		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetLoginInfo.h" />
+		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetTest.h" />
+		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetUserStatus.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
