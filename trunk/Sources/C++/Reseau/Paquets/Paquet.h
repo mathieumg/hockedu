@@ -29,6 +29,8 @@ public:
 	virtual ~Paquet() = 0;
 
 	static const std::string sequenceIdentification;
+    static int CompteurNumeroPaquet;
+
 	virtual PacketTypes getOperation() const = 0;
 
     inline int getNbAssociatedQueries() const { return mNbAssociatedQueries; }
@@ -42,10 +44,13 @@ public:
 
     inline void setRunnable(PaquetRunnableFunc pRunnable) { mRunnableFunction = pRunnable; }
 
+    int getNumeroPaquet() const;
+
 protected: 
 	Paquet();
 private:
 	int mNbAssociatedQueries; // Nb de fois que le paquet doit etre envoyer (different de 1 si on fait un envoie de masse)
+    int mNumeroPaquet;
     
 	PaquetRunnableFunc mRunnableFunction;
 };

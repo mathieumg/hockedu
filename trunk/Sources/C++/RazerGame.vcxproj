@@ -280,7 +280,6 @@
     <ClCompile Include="Reseau\PacketBuilder.cpp" />
     <ClCompile Include="Reseau\PacketReader.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandler.cpp" />
-    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerBase.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerConnAutomatique.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerEvent.cpp" />
@@ -289,7 +288,6 @@
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp" />
     <ClCompile Include="Reseau\PaquetRunnable.cpp" />
     <ClCompile Include="Reseau\Paquets\Paquet.cpp" />
-    <ClCompile Include="Reseau\Paquets\PaquetBase.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetChatMessage.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetConnAutomatique.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetEvent.cpp" />
@@ -420,7 +418,6 @@
     <ClInclude Include="Reseau\PacketBuilder.h" />
     <ClInclude Include="Reseau\PacketReader.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandler.h" />
-    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerBase.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerChatMessage.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerConnAutomatique.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerEvent.h" />
@@ -429,7 +426,6 @@
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerUserStatus.h" />
     <ClInclude Include="Reseau\PaquetRunnable.h" />
     <ClInclude Include="Reseau\Paquets\Paquet.h" />
-    <ClInclude Include="Reseau\Paquets\PaquetBase.h" />
     <ClInclude Include="Reseau\Paquets\PaquetChatMessage.h" />
     <ClInclude Include="Reseau\Paquets\PaquetConnAutomatique.h" />
     <ClInclude Include="Reseau\Paquets\PaquetEvent.h" />

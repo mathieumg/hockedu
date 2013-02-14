@@ -13,10 +13,11 @@ HeaderPaquet PacketHandler::handlePacketHeaderReception( PacketReader& pPacketRe
     delete wBuffer;
     if (wStringIdentification != Paquet::sequenceIdentification)
         return HeaderPaquet();
-    HeaderPaquet hp;
-    hp.type = (PacketTypes)pPacketReader.readInteger();
-    handlePacketHeaderReceptionBase(pPacketReader, hp);
-    return hp;
+    HeaderPaquet wHeaderPaquet;
+    wHeaderPaquet.type = (PacketTypes)pPacketReader.readInteger();
+    wHeaderPaquet.numeroPaquet = pPacketReader.readInteger();
+    wHeaderPaquet.taillePaquet = pPacketReader.readInteger();
+    return wHeaderPaquet;
 }
 
 void PacketHandler::handlePacketPreparation( Paquet* pPaquet, PacketBuilder& pPacketBuilder )
@@ -24,8 +25,8 @@ void PacketHandler::handlePacketPreparation( Paquet* pPaquet, PacketBuilder& pPa
     pPacketBuilder.includeStringLength(false);
     PacketTypes wType = pPaquet->getOperation();
     pPacketBuilder << pPaquet->sequenceIdentification << wType;
-    int wSize = getPacketSize(pPaquet);
-    handlePacketPreparationBase(pPaquet, pPacketBuilder, wSize);
+    // Size du paquet courant
+    pPacketBuilder << pPaquet->getNumeroPaquet() << getPacketSize(pPaquet);
     pPacketBuilder.includeStringLength(true);
     handlePacketPreparationSpecific(pPaquet, pPacketBuilder);
 }
@@ -34,7 +35,12 @@ void PacketHandler::handlePacketPreparation( Paquet* pPaquet, PacketBuilder& pPa
 
 int PacketHandler::getPacketSize( Paquet* pPaquet ) const
 {
-    return 0; // Ne devrait pas etre appele
+    // Size de Paquet
+    int wTaillePaquet = (int)(Paquet::sequenceIdentification.length()+1 + sizeof(pPaquet->getOperation()));
+    // Size de Paquet
+    wTaillePaquet += sizeof(Paquet::CompteurNumeroPaquet) + sizeof(wTaillePaquet);
+    wTaillePaquet += getPacketSizeSpecific(pPaquet);
+    return wTaillePaquet;
 }
 
 

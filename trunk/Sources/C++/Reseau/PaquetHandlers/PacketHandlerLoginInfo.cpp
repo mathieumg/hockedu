@@ -69,7 +69,6 @@ int PacketHandlerLoginInfo::getPacketSize( Paquet* pPaquet ) const
 
     
     return PacketBuilder::getSizeForString(wPaquet->getUsername())
-        + PacketBuilder::getSizeForString(wPaquet->getPassword())
-        + PacketHandlerBase::getPacketSize(pPaquet);
+        + PacketBuilder::getSizeForString(wPaquet->getPassword());
     
 }

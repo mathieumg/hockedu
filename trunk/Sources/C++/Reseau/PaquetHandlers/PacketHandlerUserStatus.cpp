@@ -99,13 +99,12 @@ void PacketHandlerUserStatus::handlePacketPreparationSpecific(Paquet* pPaquet, P
 
 
 
-int PacketHandlerUserStatus::getPacketSize( Paquet* pPaquet ) const
+int PacketHandlerUserStatus::getPacketSizeSpecific( Paquet* pPaquet ) const
 {
     PaquetUserStatus* wPaquet = (PaquetUserStatus*) pPaquet;
 
     
     return PacketBuilder::getSizeForString(wPaquet->getUserName())
-        + PacketBuilder::getSizeForInt()
-        + PacketHandlerBase::getPacketSize(pPaquet);
+        + PacketBuilder::getSizeForInt();
     
 }

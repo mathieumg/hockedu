@@ -30,10 +30,9 @@ public:
     virtual HeaderPaquet handlePacketHeaderReception(PacketReader& pPacketReader); // Méthode pour lire le header d'un paquet
     virtual void handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable = NULL) = 0; // Méthode pour lire les données d'un paquet pour un paquet de base
     void handlePacketPreparation(Paquet* pPaquet, PacketBuilder& pPacketBuilder); // Methode pour la construction du paquet pour l'envoie sur le reseau
-    virtual int getPacketSize(Paquet* pPaquet) const;
+    int getPacketSize(Paquet* pPaquet) const;
 protected:
-    virtual HeaderPaquet& handlePacketHeaderReceptionBase(PacketReader& pPacketReader, HeaderPaquet& pHeaderPaquet) = 0; // Méthode pour lire le header d'un paquet
-    virtual void handlePacketPreparationBase(Paquet* pPaquet, PacketBuilder& pPacketBuilder, int& pPaquetSize) = 0;  // Méthode pour construire le paquet à envoyer pour un paquet de base
+    virtual int getPacketSizeSpecific(Paquet* pPaquet) const = 0 { return 0; };
     virtual void handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder) = 0; // Méthode pour construire le paquet à envoyer
 };
 

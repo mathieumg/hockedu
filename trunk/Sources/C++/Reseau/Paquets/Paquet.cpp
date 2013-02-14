@@ -11,6 +11,32 @@
 #include "Paquet.h"
 #include <sstream>
 #include <iostream>
+#include <time.h>
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn obtenirNumeroHazard() const
+///
+/// Fonction qui retourne un nombre aleatoire afin d'initialiser le numero de sequence
+/// 
+///
+/// @return int : nombre aleatoire entre 1 et INT_MAX/2
+///
+////////////////////////////////////////////////////////////////////////
+int obtenirNumeroInitHazard()
+{
+    int maxValue = INT_MAX/2;
+
+#pragma warning( disable : 4244 )
+    srand(time(NULL));
+
+
+    return rand() % maxValue;
+
+}
+
+// Numero des paquets (unique)
+int Paquet::CompteurNumeroPaquet = obtenirNumeroInitHazard();
 
 const std::string Paquet::sequenceIdentification = "LindseyStirling";
 
@@ -26,6 +52,7 @@ const std::string Paquet::sequenceIdentification = "LindseyStirling";
 Paquet::Paquet()
 {
     mNbAssociatedQueries = 1; // Par defaut, on envoie le paquet qu'une seule fois
+    mNumeroPaquet = ++CompteurNumeroPaquet;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -61,10 +88,21 @@ void Paquet::removeAssociatedQuery()
     }
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn Paquet::obtenirNumeroPaquet() const
+///
+/// Accesseur du numero de paquet
+/// 
+///
+/// @return int : numero de paquet
+///
+////////////////////////////////////////////////////////////////////////
+int Paquet::getNumeroPaquet() const
+{
+    return mNumeroPaquet;
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}
 ///////////////////////////////////////////////////////////////////////////////
-
-
-

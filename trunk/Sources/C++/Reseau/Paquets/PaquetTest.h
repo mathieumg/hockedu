@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "PaquetBase.h"
+#include "Paquet.h"
 
 class UsinePaquetTest;
 
@@ -20,7 +20,7 @@ class UsinePaquetTest;
 /// @author Mathieu Parent
 /// @date 2013-01-24
 ///////////////////////////////////////////////////////////////////////////
-class PaquetTest : public PaquetBase {
+class PaquetTest : public Paquet {
 private:
 	friend UsinePaquetTest;
 	std::string message;

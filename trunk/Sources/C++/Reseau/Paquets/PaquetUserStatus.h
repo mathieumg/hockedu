@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "PaquetBase.h"
+#include "Paquet.h"
 
 class UsinePaquetUserStatus;
 
@@ -20,7 +20,7 @@ class UsinePaquetUserStatus;
 /// @author Mathieu Parent
 /// @date 2013-01-28
 ///////////////////////////////////////////////////////////////////////////
-class PaquetUserStatus : public PaquetBase {
+class PaquetUserStatus : public Paquet {
 private:
     friend UsinePaquetUserStatus;
 
