@@ -18,8 +18,19 @@
 #include "XMLUtils.h"
 #include "Utilitaire.h"
 
-float NoeudBut::longueurBut_ = 1;
+//const Vecteur3 NoeudBut::DEFAULT_SIZE = Vecteur3(1,1,1);
+const Vecteur3 NoeudBut::DEFAULT_SIZE = Vecteur3(30, 10, 5);
 
+CreateListDelegateImplementation(Goal)
+{
+    Vecteur3 coinMin,coinMax;
+    pModel->calculerBoiteEnglobante(coinMin,coinMax);
+    Vecteur3 delta = coinMax - coinMin;
+    delta = NoeudBut::DEFAULT_SIZE / delta;
+
+    pModel->assignerFacteurAgrandissement(delta);
+    return GestionnaireModeles::CreerListe(pModel);
+}
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -38,15 +49,15 @@ float NoeudBut::longueurBut_ = 1;
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudBut::NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHaut, NoeudPoint * coinBas, NoeudComposite* pParent)
-   : NoeudComposite(typeNoeud), joueur_(joueur), coinHaut_(coinHaut), coinBas_(coinBas), mBottomAngle(0),mTopAngle(0), longueurButBase_(1), mPuckCatcher(NULL),mCachedPuckRadius(20.f)
+   : NoeudComposite(typeNoeud), joueur_(joueur), coinHaut_(coinHaut), coinBas_(coinBas), mBottomAngle(0),mTopAngle(0), mPuckCatcher(NULL),mCachedPuckRadius(20.f)
 {
     if(pParent)
     {
         pParent->ajouter(this);
     }
 
-	longueurBut_ = longueurButBase_;
-	echelleCourante_ = Vecteur3(30, 5, 5);
+	mGoalLength = DEFAULT_SIZE[VX];
+	//echelleCourante_ = Vecteur3(30, 5, 5);
     updateLongueur();
 }
 
@@ -232,16 +243,16 @@ void NoeudBut::updateLongueur(float facteurModificationEchelle)
 	float longueurHaut = deltaHaut.norme(); // Valeur pour ne pas que les but empiete sur les bandes
 	Vecteur3 deltaBas=(coinBas_->obtenirPositionAbsolue()-pos)*0.85f;
 	float longueurBas = deltaBas.norme();	// Valeur pour ne pas que les but empiete sur les bandes
-	float longueur=echelleCourante_[VX]*longueurButBase_;
+	float longueur=echelleCourante_[VX]*DEFAULT_SIZE[VX];
 	if(longueur>longueurHaut)
 	{
 		longueur=longueurHaut;
-		echelleCourante_[VX] = longueur/longueurButBase_;
+		echelleCourante_[VX] = longueur/DEFAULT_SIZE[VX];
 	}
 	if(longueur>longueurBas)
 	{
 		longueur=longueurBas;
-		echelleCourante_[VX] = longueur/longueurButBase_;
+		echelleCourante_[VX] = longueur/DEFAULT_SIZE[VX];
 	}
 
 	float ratioHaut = longueur/longueurHaut;
@@ -257,7 +268,7 @@ void NoeudBut::updateLongueur(float facteurModificationEchelle)
 	mTopPosition[VY] = pos[VY]+deltaYhaut;
 	mBottomPosition[VX] = pos[VX]+deltaXbas;
 	mBottomPosition[VY] = pos[VY]+deltaYbas;
-	longueurBut_ = longueur;
+	mGoalLength = longueur;
 
     mBottomAngle = utilitaire::RAD_TO_DEG(atan2(deltaYbas, deltaXbas)), 
     mTopAngle = utilitaire::RAD_TO_DEG(atan2(deltaYhaut, deltaXhaut));
@@ -331,7 +342,7 @@ void NoeudBut::assignerAttributVisiteurCollision( VisiteurCollision* v )
 	v->modifierTypeCollision(SEGMENT);
 	v->modifierCoin1(coinBas_->obtenirPositionAbsolue());
 	v->modifierCoin2(coinHaut_->obtenirPositionAbsolue());
-	v->modifierRayonAVerifier(longueurBut_);
+	v->modifierRayonAVerifier(mGoalLength);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -348,7 +359,7 @@ TiXmlElement* NoeudBut::creerNoeudXML()
 {
 	TiXmlElement* elementNoeud = NoeudComposite::creerNoeudXML();
 
-    XMLUtils::ecrireAttribute<float>(elementNoeud,"longueurBut",longueurBut_);
+    XMLUtils::ecrireAttribute<float>(elementNoeud,"longueurBut",mGoalLength);
     XMLUtils::ecrireAttribute<int>(elementNoeud,"joueur",joueur_);
     XMLUtils::ecrireVecteur3Dxml(&mTopPosition,elementNoeud,"coinHaut");
     XMLUtils::ecrireVecteur3Dxml(&mBottomPosition,elementNoeud,"coinBas");
@@ -370,10 +381,10 @@ bool NoeudBut::initialiser( const TiXmlElement* element )
 {
 	if(!NoeudComposite::initialiser(element))
 		return false;
-	auto floatElem = longueurBut_;
+	auto floatElem = mGoalLength;
     if(!XMLUtils::LireAttribute(element,"longueurBut",floatElem))
 		return false;
-	longueurBut_ = floatElem;
+	mGoalLength = floatElem;
 
 	auto intElem = joueur_;
     if(!XMLUtils::LireAttribute(element,"joueur",intElem))
@@ -434,7 +445,7 @@ void NoeudBut::updatePhysicBody()
 
     clearPhysicsBody();
 
-    float halfLength = (float)echelleCourante_[VX]/2.f*utilitaire::ratioWorldToBox2D;//(float)(coin2-coin1).norme()/2.f;
+    float halfLength = getLength()/2.f*utilitaire::ratioWorldToBox2D;//(float)(coin2-coin1).norme()/2.f;
 
     b2BodyDef myBodyDef;
     myBodyDef.type = b2_staticBody; //this will be a dynamic body
@@ -557,8 +568,6 @@ void NoeudBut::clearPhysicsBody()
     }
 #endif
 }
-
-
 
 
 

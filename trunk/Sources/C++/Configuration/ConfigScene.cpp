@@ -467,7 +467,7 @@ void ConfigScene::ecrireArbre(NoeudAbstrait* parentNoeud, const TiXmlNode* node)
 		noeudCourant = table->obtenirPoint(typeNoeud);
 	}
 	// Si le noeud est un but, on doit retrouver ce noeud à partir de la table et non en instancier un nouveau
-	else if(nom.c_str() == RazerGameUtilities::NOM_BUT_MILIEU)
+	else if(nom.c_str() == RazerGameUtilities::NOM_BUT)
 	{
 		NoeudPoint* pointMilieu = dynamic_cast<NoeudPoint*>(parentNoeud);
 		if(pointMilieu == 0)

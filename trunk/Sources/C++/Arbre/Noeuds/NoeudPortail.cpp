@@ -14,6 +14,13 @@
 #endif
 #include "Utilitaire.h"
 
+const float NoeudPortail::DEFAULT_RADIUS = 10;
+
+CreateListDelegateImplementation(Portal)
+{
+    return RazerGameUtilities::CreateListSphereDefault(pModel,NoeudPortail::DEFAULT_RADIUS);
+}
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn NoeudPortail::NoeudPortail(const std::string& typeNoeud)
@@ -29,8 +36,9 @@
 NoeudPortail::NoeudPortail(const std::string& typeNoeud)
    : NoeudAbstrait(typeNoeud), mIsAttractionFieldActive(true)
 {   
-
-   FacadeModele::getInstance()->ajouterElementSurTable(this);
+    // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
+    setDefaultRadius(DEFAULT_RADIUS);
+    FacadeModele::getInstance()->ajouterElementSurTable(this);
 
     updatePhysicBody();
 

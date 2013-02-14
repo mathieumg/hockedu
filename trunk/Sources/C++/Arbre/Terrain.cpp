@@ -48,7 +48,7 @@
 Terrain::Terrain(): mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mbIsInit(false),mRenderTree(0)
 {
 	mRenderTree = new RazerGameTree();
-	NoeudAbstrait* piece = new NoeudPiece(RazerGameUtilities::NOM_PIECE);
+	NoeudAbstrait* piece = new NoeudPiece(RazerGameUtilities::NOM_HOUSE);
 	mRenderTree->ajouter(piece);
 	
 // 	std::vector<Vecteur3> vec;

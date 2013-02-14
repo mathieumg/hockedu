@@ -25,6 +25,24 @@
 #include "Utilitaire.h"
 
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
+const Vecteur3 NoeudTable::DEFAULT_SIZE = Vecteur3(300,150);
+const float NoeudTable::rayonCercleCentre_ = 25;
+
+CreateListDelegateImplementation(Table)
+{
+    NoeudTable::initialiserListeIndexPoints(pModel);
+    Vecteur3 coinMin,coinMax;
+    pModel->calculerBoiteEnglobante(coinMin,coinMax);
+    Vecteur3 delta = coinMax - coinMin;
+
+    // prepare scaling
+
+
+
+
+    // dont make a list for table
+    return 0;
+}
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -39,14 +57,14 @@ ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudTable::NoeudTable(const std::string& typeNoeud)
-   : NoeudComposite(typeNoeud) , coefFriction_(5), rayonCercleCentre_(25)
+   : NoeudComposite(typeNoeud) , coefFriction_(5)
 {
 	
 
 	//GestionnaireModeles::obtenirInstance()->recharger(RazerGameUtilities::NOM_TABLE);
 	//aidegl::glLoadTexture(RazerGameUtilities::NOM_DOSSIER+"table_hockey.png",textureId_,true);
-	float longueurTable = 300.;
-	float hauteurTable = 150.;
+	const float longueurTable = DEFAULT_SIZE[VX];
+	const float hauteurTable = DEFAULT_SIZE[VY];
 	selectionnable_ = false;
 	selectionne_ = false;
 
@@ -106,9 +124,9 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
 
 	
 	// Allocation de l'espace mémoire pour les but et on donne les paramètre nécessaire à l'affichage
-	butJoueur1_ = new NoeudBut(RazerGameUtilities::NOM_BUT_MILIEU,1,hautGauche_,basGauche_,milieuGauche_);
+	butJoueur1_ = new NoeudBut(RazerGameUtilities::NOM_BUT,1,hautGauche_,basGauche_,milieuGauche_);
 
-	butJoueur2_ = new NoeudBut(RazerGameUtilities::NOM_BUT_MILIEU,2,hautDroite_,basDroite_,milieuDroite_);
+	butJoueur2_ = new NoeudBut(RazerGameUtilities::NOM_BUT,2,hautDroite_,basDroite_,milieuDroite_);
 	butJoueur1_->modifierButAdverse(butJoueur2_);
 	butJoueur2_->modifierButAdverse(butJoueur1_);
 
@@ -156,6 +174,9 @@ NoeudTable::~NoeudTable()
 {
    replacerModele();
 }
+
+
+
 
 ////////////////////////////////////////////////////////////////////////
 ///

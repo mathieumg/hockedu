@@ -15,6 +15,14 @@
 #include "NoeudTable.h"
 #include "XMLUtils.h"
 
+
+const float NoeudPoint::DEFAULT_RADIUS = 22;
+
+CreateListDelegateImplementation(ControlPoint)
+{
+    return RazerGameUtilities::CreateListSphereDefault(pModel,NoeudPoint::DEFAULT_RADIUS);
+}
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn  NoeudPoint::NoeudPoint( const std::string& typeNoeud, 
@@ -35,7 +43,9 @@
 NoeudPoint::NoeudPoint( const std::string& typeNoeud, float coordX, float coordY, TypePosPoint typePosNoeud)
 	: NoeudComposite(typeNoeud) , longueurCote_(2.0f), typePosNoeud_(typePosNoeud)
 {
-	// Il ne faut aps utiliser le modificateur de position relative, car il ne faut pas affecter le modele 3D a la construction des points
+    // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
+    setDefaultRadius(DEFAULT_RADIUS);
+    // Il ne faut aps utiliser le modificateur de position relative, car il ne faut pas affecter le modele 3D a la construction des points
     NoeudAbstrait::assignerPositionRelative(Vecteur3(coordX,coordY, 0));
 	modifierPositionInitiale(positionRelative_);
 }

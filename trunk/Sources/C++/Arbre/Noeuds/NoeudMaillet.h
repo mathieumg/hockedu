@@ -61,7 +61,8 @@ public:
 
     static unsigned int mailletExistant;
 
-/// Attributs
+    static const float DEFAULT_RADIUS;
+    /// Attributs
 private:
 	/// Velocite courante du maillet
 	Vecteur3 velocite_;

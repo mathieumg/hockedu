@@ -64,6 +64,8 @@ public:
    virtual void modifierEchelleCourante(const Vecteur3& echelleCourante);
    /// Recreates the physics body according to current attributes
    virtual void updatePhysicBody();
+
+   static const Vecteur3 NoeudMuret::DEFAULT_SIZE;
 protected:
 private:
    /// Coin1 du muret

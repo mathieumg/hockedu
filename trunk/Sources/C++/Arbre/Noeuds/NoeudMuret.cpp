@@ -17,6 +17,21 @@
 #include "Modele3D.h"
 #include "tinyxml.h"
 #include "XMLUtils.h"
+#include "GestionnaireModeles.h"
+
+const Vecteur3 NoeudMuret::DEFAULT_SIZE = Vecteur3(1, 5, 15);
+
+CreateListDelegateImplementation(Wall)
+{
+    Vecteur3 coinMin,coinMax;
+    pModel->calculerBoiteEnglobante(coinMin,coinMax);
+    Vecteur3 delta = coinMax - coinMin;
+    delta = NoeudMuret::DEFAULT_SIZE / delta;
+
+    pModel->assignerFacteurAgrandissement(delta);
+    return GestionnaireModeles::CreerListe(pModel);
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -72,7 +87,8 @@ void NoeudMuret::updatePhysicBody()
 
     clearPhysicsBody();
 
-    float32 halfLength = (float32)echelleCourante_[VX]/2.f*utilitaire::ratioWorldToBox2D;//(float)(coin2-coin1).norme()/2.f;
+    float halfLength = echelleCourante_[VX]*DEFAULT_SIZE[VX]/2.f*utilitaire::ratioWorldToBox2D;
+    float halfHeight = echelleCourante_[VY]*DEFAULT_SIZE[VY]/2.f*utilitaire::ratioWorldToBox2D;
 
     b2BodyDef myBodyDef;
     myBodyDef.type = b2_staticBody; //this will be a dynamic body
@@ -85,7 +101,7 @@ void NoeudMuret::updatePhysicBody()
     b2Vec2 posB2;
     utilitaire::VEC3_TO_B2VEC(pos,posB2);
     myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
-    shape.SetAsBox(halfLength,2.5f*utilitaire::ratioWorldToBox2D,b2Vec2(posB2.x,posB2.y),utilitaire::DEG_TO_RAD(mAngle));
+    shape.SetAsBox(halfLength,halfHeight,b2Vec2(posB2.x,posB2.y),utilitaire::DEG_TO_RAD(mAngle));
 
     b2FixtureDef myFixtureDef;
     myFixtureDef.shape = &shape; //this is a pointer to the shape above

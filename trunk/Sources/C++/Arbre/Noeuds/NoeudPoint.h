@@ -91,6 +91,7 @@ public:
 	Vecteur3 obtenirPositionInitiale() const { return positionInitiale_; }
 	void modifierPositionInitiale(Vecteur3 val) { positionInitiale_ = val; }
 
+    static const float DEFAULT_RADIUS;
 private:
 	/// Longueur d'un cote du carre représentant le point
 	float longueurCote_;

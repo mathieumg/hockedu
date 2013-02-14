@@ -262,6 +262,11 @@ protected:
 
 	/// Rayon de l'objet
 	float rayon_;
+    /// Rayon de l'objet sans la mise à l'échelle, 
+    /// les noeuds concrets doivent assigner cette valeur
+    float mDefaultRadius;
+
+    
 
 	/// Est en collision
 	bool surligne_;
@@ -285,7 +290,10 @@ public:
     inline class b2Body* getPhysicBody() const { return mPhysicBody; }
 	/// Accesseur de glId_
 	GLuint obtenirGlId() const { return glId_; }
-	
+
+    /// Accessors of mDefaultRadius
+    inline float getDefaultRadius() const { return mDefaultRadius; }
+    inline void setDefaultRadius(const float& pVal) { mDefaultRadius = pVal; updateRayon(); }
 };
 
 ////////////////////////////////////////////////////////////////////////

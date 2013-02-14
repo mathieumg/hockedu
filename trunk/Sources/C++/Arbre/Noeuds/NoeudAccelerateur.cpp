@@ -17,6 +17,13 @@
 #endif
 #include "Utilitaire.h"
 
+const float NoeudAccelerateur::DEFAULT_RADIUS = 7;
+
+CreateListDelegateImplementation(Boost)
+{
+    return RazerGameUtilities::CreateListSphereDefault(pModel,NoeudAccelerateur::DEFAULT_RADIUS);
+}
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn  NoeudAccelerateur::NoeudAccelerateur( const std::string& typeNoeud )
@@ -31,8 +38,10 @@
 NoeudAccelerateur::NoeudAccelerateur(const std::string& typeNoeud)
 	: NoeudAbstrait(typeNoeud),bonusAccel_(1.50), activer_(true)
 {
-	FacadeModele::getInstance()->ajouterElementSurTable(this);
+    // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
+    setDefaultRadius(DEFAULT_RADIUS);
 
+    FacadeModele::getInstance()->ajouterElementSurTable(this);
 
 	AnimationFrame* frame[5];
 	frame[0] = new AnimationFrame(0, Vecteur3(50, 0, 0), Vecteur3(0, 0, 0), Vecteur3(1, 1, 1));

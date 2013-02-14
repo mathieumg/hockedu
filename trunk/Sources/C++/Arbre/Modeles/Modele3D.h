@@ -64,10 +64,10 @@ public:
    void calculerBoiteEnglobante(Vecteur3& coinMin, Vecteur3& coinMax) const;
 
 	/// Assigner le facteur d'agrandissement
-	inline void assignerFacteurAgrandissement(float facteurAgrandissement);
+	inline void assignerFacteurAgrandissement(const Vecteur3& facteurAgrandissement);
 
 	/// Obtenir le facteur d'agrandissement
-	inline const float obtenirFacteurAgrandissement();
+	inline const Vecteur3& obtenirFacteurAgrandissement();
 
 	/// Obtenir la scene
 	const aiScene* obtenirScene() {return scene_;}
@@ -121,7 +121,7 @@ private:
 	std::map<std::string, GLuint*> mapTextures_;
 
 	/// Facteur d'agrandissement de l'objet
-	float facteurAgrandissement_;
+	Vecteur3 facteurAgrandissement_;
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -140,7 +140,7 @@ private:
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-void Modele3D::assignerFacteurAgrandissement(float facteurAgrandissement)
+void Modele3D::assignerFacteurAgrandissement(const Vecteur3& facteurAgrandissement)
 {
 	facteurAgrandissement_ = facteurAgrandissement;
 }
@@ -156,7 +156,7 @@ void Modele3D::assignerFacteurAgrandissement(float facteurAgrandissement)
 ///         la taille originale.
 ///
 ////////////////////////////////////////////////////////////////////////
-const float Modele3D::obtenirFacteurAgrandissement()
+const Vecteur3& Modele3D::obtenirFacteurAgrandissement()
 {
 	return facteurAgrandissement_;
 }

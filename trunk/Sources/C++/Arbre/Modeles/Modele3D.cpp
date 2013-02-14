@@ -29,7 +29,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 Modele3D::Modele3D():
-	facteurAgrandissement_(1.0)
+	facteurAgrandissement_(1.0f,1.0f,1.0f), identificateursTextures_(NULL)
 {
 }
 
@@ -47,7 +47,10 @@ Modele3D::~Modele3D()
 {
 	// Libérer les textures
 	glDeleteTextures((GLsizei)mapTextures_.size(), identificateursTextures_);
-	delete [] identificateursTextures_;
+    if(identificateursTextures_)
+    {
+	    delete [] identificateursTextures_;
+    }
 
 	// Libérer la scène
 	scene_ = NULL;
@@ -338,8 +341,12 @@ void Modele3D::couleurVersFloat4(const struct aiColor4D *c, float f[4])
 ////////////////////////////////////////////////////////////////////////
 void Modele3D::dessiner(bool avecTexture)
 {
+    glPushMatrix();
+    glScaled(facteurAgrandissement_[VX], facteurAgrandissement_[VY], facteurAgrandissement_[VZ]);
+
 	dessinerNoeud(scene_, scene_->mRootNode, avecTexture);
 
+    glPopMatrix();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -365,14 +372,13 @@ void Modele3D::dessiner(bool avecTexture)
 void Modele3D::dessinerNoeud(const aiScene* scene, const aiNode* noeud, bool avecTexture)
 {
 	// Matrice de transformation
-	aiMatrix4x4 m = noeud->mTransformation;
+	//aiMatrix4x4 m = noeud->mTransformation;
 
-	m.Scaling(aiVector3D(facteurAgrandissement_,facteurAgrandissement_,facteurAgrandissement_), m);
+	//m.Scaling(aiVector3D(facteurAgrandissement_[VX],facteurAgrandissement_[VY],facteurAgrandissement_[VZ]), m);
 
-	m.Transpose();
+	//m.Transpose();
 	glPushMatrix();
-	glMultMatrixf((float*)&m);
-	
+	//glMultMatrixf((float*)&m);
 
 	for (unsigned int i=0; i<noeud->mNumMeshes; i++) {
 		const aiMesh* mesh = scene->mMeshes[noeud->mMeshes[i]];
