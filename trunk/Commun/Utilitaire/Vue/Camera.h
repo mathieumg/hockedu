@@ -87,9 +87,7 @@ namespace vue {
       /// Positionner la caméra (appel à gluLookAt).
       void positionner() const;
 
-	  virtual void animerAnimation();
-
-	  virtual std::string obtenirNom() const;
+	  virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
 
 	  void recalculerHaut();
 

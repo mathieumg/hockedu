@@ -18,9 +18,6 @@
 #include "glew.h"
 #include "Vecteur.h"
 #include "VisiteurNoeud.h"
-#include "Animation.h"
-#include "ObjetAnimable.h"
-
 
 //Foward Declaration
 class NoeudComposite;
@@ -53,7 +50,7 @@ enum PhysicsCategory
 /// @author DGI-2990, Michael Ferris, Samuel Ledoux, Mathieu Parent
 /// @date 2007-01-24
 ///////////////////////////////////////////////////////////////////////////
-class NoeudAbstrait : public ObjetAnimable
+class NoeudAbstrait
 {
 public:
 	friend VisiteurNoeudTest;
@@ -200,9 +197,6 @@ public:
 	/// Retourne le modele 3D representant le noeud ( !!! peut etre NULL )
 	Modele3D* obtenirModele() const;
 
-	virtual void animerAnimation();
-
-	virtual std::string obtenirNom() const;
 	/// Accesseur de terrain_
 	inline Terrain* GetTerrain() const { return terrain_; }
 	/// Modificateur de terrain_

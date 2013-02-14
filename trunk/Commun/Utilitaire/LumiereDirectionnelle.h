@@ -25,9 +25,7 @@ public:
 	/// Destructeur
 	virtual ~LumiereDirectionnelle();
 	/// Anime l'animation
-	virtual void animerAnimation();
-	/// affiche le id opengl
-	virtual std::string obtenirNom() const;
+	virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
 	/// Initialisation de la lumière
 	virtual void initLumiere();
 

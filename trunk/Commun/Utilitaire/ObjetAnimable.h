@@ -9,14 +9,74 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include <vector>
 #include "Vecteur.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
+/// @class ObjectAnimationParameters
+/// @brief Structure contenant les parametres d'animation des objet animables.
+///
+/// @author Michael Ferris
+/// @date 2013-02-14
+///////////////////////////////////////////////////////////////////////////
+class ObjectAnimationParameters
+{
+public:
+    Vecteur3 mPosition;
+    Vecteur3 mAngle;
+    Vecteur3 mScale;
+
+    inline void setCanUpdatedPosition(bool can)
+    {
+        setFlag(can,ObjectAnimationParameters::POSITION);
+    }
+    inline void setCanUpdatedAngle(bool can)
+    {
+        setFlag(can,ObjectAnimationParameters::ANGLE);
+    }
+    inline void setCanUpdatedScale(bool can)
+    {
+        setFlag(can,ObjectAnimationParameters::SCALE);
+    }
+    inline bool CanUpdatedPosition() const
+    {
+        return isFlagSet(ObjectAnimationParameters::POSITION);
+    }
+    inline bool CanUpdatedAngle() const
+    {
+        return isFlagSet(ObjectAnimationParameters::ANGLE);
+    }
+    inline bool CanUpdatedScale() const
+    {
+        return isFlagSet(ObjectAnimationParameters::SCALE);
+    }
+
+private:
+    enum Flag{
+        POSITION    = 1<<0,
+        ANGLE       = 1<<1,
+        SCALE       = 1<<2
+    };
+
+    inline void setFlag(bool can, Flag flag)
+    {
+        // if (f) mUpdateFlag |= POSITION; else mUpdateFlag &= ~POSITION; 
+        mUpdateFlag ^= (-((int)can) ^ mUpdateFlag) & flag;
+    }
+    inline bool isFlagSet(Flag flag) const
+    {
+        return !!(mUpdateFlag & flag);
+    }
+
+    /// Indicate if the attribute needs to be updated(1) or not(0)
+    unsigned int mUpdateFlag;
+};
+
+///////////////////////////////////////////////////////////////////////////
 /// @class ObjetAnimable
 /// @brief Reprensente l'interface a implementer pour faire en sorte qu'un objet est animable
-///
+///        mferris: Attention le meme objet ne peut etre animer de 2 facon différente, car l'animation overwrite ses infos
+///                 refactor needed si besoin d'animer de plusieur facon.
 /// @author Mathieu Parent
 /// @date 2012-03-16
 ///////////////////////////////////////////////////////////////////////////
@@ -28,43 +88,7 @@ public:
 	/// Destructeur virtuel
 	virtual ~ObjetAnimable(void);
 	/// Méhode d'animation
-	virtual void animerAnimation() = 0;
-
-	/// Affichage
-    virtual std::string obtenirNom() const = 0;
-
-	/// Mise à jour des attributs
-	void updateAttributs(Vecteur3 param1, Vecteur3 param2, Vecteur3 param3);
-
-	/// Assignation des modificateurs
-	void assignerModificateurs(bool modParam1, bool modParam2, bool modParam3);
-
-	/// Accesseur et modificateur du premier paramètre
-	Vecteur3 obtenirAnimationParam1() const { return animationParam1_; }
-	void modifierAnimationParam1(Vecteur3 val) { animationParam1_ = val; }
-
-	/// Accesseur et modificateur du deuxième paramètre
-	Vecteur3 obtenirAnimationParam2() const { return animationParam2_; }
-	void modifierAnimationParam2(Vecteur3 val) { animationParam2_ = val; }
-
-	/// Accesseur et modificateur du troisième paramètre
-	Vecteur3 otenirAnimationParam3() const { return animationParam3_; }
-	void modifierAnimationParam3(Vecteur3 val) { animationParam3_ = val; }
-
-protected:
-	/// Attributs du premier paramètre
-	bool modParam1_;
-	Vecteur3 animationParam1_;
-	
-	/// Attributs du deuxième paramètre
-	bool modParam2_;
-	Vecteur3 animationParam2_;
-	
-	/// Attributs du troisième paramètre
-	bool modParam3_;
-	Vecteur3 animationParam3_;
-	
-
+	virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult ) = 0;
 };
 
 ///////////////////////////////////////////////////////////////////////////

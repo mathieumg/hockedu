@@ -201,7 +201,14 @@ public:
 	////////////////////////////////////////////////////////////////////////////
 	inline bool estNul() const
 	{
-		return (norme() == 0);
+        for ( int i = 0; i < N; ++i ) 
+        {
+            if(vect[i] != 0)
+            {
+                return false;
+            }
+        }
+        return true;
 	}
 
 
@@ -314,10 +321,11 @@ public:
 	///         sémantique de l'opérateur de retrait C++.
 	///
 	////////////////////////////////////////////////////////////////////////////
-	inline const Vecteur<T, N>& operator -= ( const Vecteur<T, N>& u )
+    template<const int N2>
+    inline const Vecteur<T, N>& operator -= ( const Vecteur<T, N2>& u )
 	{
-		for ( int i = 0; i < N; i++ ) {
-			vect[i] -= u.vect[i];
+		for ( int i = 0; i < N && i < N2; i++ ) {
+			vect[i] -= u[i];
 		}
 		return *this;
 	}
@@ -412,7 +420,8 @@ public:
 	/// @return Le vecteur à soustraire.
 	///
 	////////////////////////////////////////////////////////////////////////////
-	inline Vecteur<T, N> operator- ( const Vecteur<T, N>& v ) const
+    template<const int N2>
+    inline Vecteur<T, N> operator- ( const Vecteur<T, N2>& v ) const
 	{
 		Vecteur<T, N> r ( *this );
 		r -= v;
@@ -784,6 +793,16 @@ public:
 			vect[i] = 0;
 		}
 	}
+
+    inline T* c_arr()
+    {
+        return vect;
+    }
+
+    inline const T* c_arr() const
+    {
+        return vect;
+    }
 
 
 

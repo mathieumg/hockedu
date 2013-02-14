@@ -8,12 +8,6 @@
           <packageHasNamedElement>
             <class Id="a6c4d9e4-8199-4bc0-b077-7515ffabe372" name="NoeudAbstrait" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="860a93e9-f68a-49c4-a387-425a01d1bf97" />
-              <generalsInternal>
-                <generalization Id="c7855853-7d15-4e39-93f4-c40edaa2c288" isSubstitutable="false">
-                  <classMoniker Id="fcef466f-08c4-4832-9e6b-e2ee245c12ef" LastKnownName="ObjetAnimable" />
-                  <elementDefinition Id="e4ffd080-21c9-4b7c-a303-ef84ebe1708c" />
-                </generalization>
-              </generalsInternal>
               <targetEnds>
                 <association Id="bc770f15-aa12-4a76-9ff6-da03a2a73431" isDerived="false" sourceEndRoleName="NoeudAbstrait" targetEndRoleName="UsineNoeud" isLeaf="false" isAbstract="false">
                   <classMoniker Id="6859a97a-7226-497a-9109-dcc2773a2249" LastKnownName="UsineNoeud" />
@@ -42,6 +36,14 @@
                   <classMoniker Id="a6c4d9e4-8199-4bc0-b077-7515ffabe372" LastKnownName="NoeudAbstrait" />
                   <elementDefinition Id="30fa3217-783c-4445-b92a-b60241eeaa39" />
                 </generalization>
+                <generalization Id="b172f352-2052-457b-81e9-00b59badff44" isSubstitutable="false">
+                  <classMoniker Id="69c7a231-6faf-49c3-9d1b-3b378b2872b2" LastKnownName="CylinderNode" />
+                  <elementDefinition Id="a9db7c36-f0c2-4a0d-81d4-31e53f1caa3c" />
+                </generalization>
+                <generalization Id="31f1f515-5abc-4283-93b9-5ba3ccb90c51" isSubstitutable="false">
+                  <classMoniker Id="fcef466f-08c4-4832-9e6b-e2ee245c12ef" LastKnownName="ObjetAnimable" />
+                  <elementDefinition Id="eeadb9db-c42a-45bd-b486-3c97090519ae" />
+                </generalization>
               </generalsInternal>
             </class>
           </packageHasNamedElement>
@@ -64,6 +66,14 @@
                   <classMoniker Id="a6c4d9e4-8199-4bc0-b077-7515ffabe372" LastKnownName="NoeudAbstrait" />
                   <elementDefinition Id="995c4a2a-4a40-4b43-9b4b-7976afbdae94" />
                 </generalization>
+                <generalization Id="2999c28f-3c51-43de-8060-b23cdf4b1457" isSubstitutable="false">
+                  <classMoniker Id="69c7a231-6faf-49c3-9d1b-3b378b2872b2" LastKnownName="CylinderNode" />
+                  <elementDefinition Id="1815a744-c8a4-456b-be5d-4c93e9bea20f" />
+                </generalization>
+                <generalization Id="aafb9e4f-4817-46b6-b6d5-d109f2e8f5ee" isSubstitutable="false">
+                  <classMoniker Id="fcef466f-08c4-4832-9e6b-e2ee245c12ef" LastKnownName="ObjetAnimable" />
+                  <elementDefinition Id="69db9600-3bfd-4cbc-8022-23410120dde6" />
+                </generalization>
               </generalsInternal>
             </class>
           </packageHasNamedElement>
@@ -75,6 +85,10 @@
                   <classMoniker Id="a6c4d9e4-8199-4bc0-b077-7515ffabe372" LastKnownName="NoeudAbstrait" />
                   <elementDefinition Id="30bb652a-7e5f-46ab-a8eb-279a92533cae" />
                 </generalization>
+                <generalization Id="e9efaee7-7800-4668-932c-9619fe458617" isSubstitutable="false">
+                  <classMoniker Id="69c7a231-6faf-49c3-9d1b-3b378b2872b2" LastKnownName="CylinderNode" />
+                  <elementDefinition Id="0e8e82d7-50d2-42b1-83c4-ba32ca0175c4" />
+                </generalization>
               </generalsInternal>
             </class>
           </packageHasNamedElement>
@@ -85,6 +99,14 @@
                 <generalization Id="0511c15c-67d2-4462-b23c-8221bdd12f2a" isSubstitutable="false">
                   <classMoniker Id="a6c4d9e4-8199-4bc0-b077-7515ffabe372" LastKnownName="NoeudAbstrait" />
                   <elementDefinition Id="37ec867f-2b22-41fc-a696-b7503b1e1704" />
+                </generalization>
+                <generalization Id="31fb4dbf-ce99-4507-be83-4a87b564e2ca" isSubstitutable="false">
+                  <classMoniker Id="69c7a231-6faf-49c3-9d1b-3b378b2872b2" LastKnownName="CylinderNode" />
+                  <elementDefinition Id="53fb6d32-6b92-4151-9a5d-b6283bd3c145" />
+                </generalization>
+                <generalization Id="4a22dd39-fa48-4002-b9fb-30d27ef0897a" isSubstitutable="false">
+                  <classMoniker Id="fcef466f-08c4-4832-9e6b-e2ee245c12ef" LastKnownName="ObjetAnimable" />
+                  <elementDefinition Id="6c683c61-3dfa-4f5e-9e5f-55ff344f133d" />
                 </generalization>
               </generalsInternal>
             </class>
@@ -119,6 +141,10 @@
                   <classMoniker Id="cfe085b1-6c19-4ba3-91f6-79b35ed80627" LastKnownName="NoeudComposite" />
                   <elementDefinition Id="07e96232-c246-4a4c-a0c2-c69d70c00b4c" />
                 </generalization>
+                <generalization Id="ea8edee0-0053-45f6-bc5d-cb9d3e1254c9" isSubstitutable="false">
+                  <classMoniker Id="d966d745-c9bf-4910-a0a2-20da8af86a2f" LastKnownName="RectangleNode" />
+                  <elementDefinition Id="f0bfb1ec-42b3-4a43-9a07-063bb775bbb6" />
+                </generalization>
               </generalsInternal>
             </class>
           </packageHasNamedElement>
@@ -141,6 +167,10 @@
                   <classMoniker Id="cfe085b1-6c19-4ba3-91f6-79b35ed80627" LastKnownName="NoeudComposite" />
                   <elementDefinition Id="95ead1d8-603b-4412-9693-8e6acc36d514" />
                 </generalization>
+                <generalization Id="318eb900-f74b-4115-95fb-66bd7d84fd57" isSubstitutable="false">
+                  <classMoniker Id="d966d745-c9bf-4910-a0a2-20da8af86a2f" LastKnownName="RectangleNode" />
+                  <elementDefinition Id="aba5d81b-91bf-42ff-8efe-3d9a5f6e884d" />
+                </generalization>
               </generalsInternal>
             </class>
           </packageHasNamedElement>
@@ -162,6 +192,10 @@
                 <generalization Id="31a5a27e-7efa-4d00-8cba-26898934a7bd" isSubstitutable="false">
                   <classMoniker Id="cfe085b1-6c19-4ba3-91f6-79b35ed80627" LastKnownName="NoeudComposite" />
                   <elementDefinition Id="274af45f-0567-4063-88b7-e372bae3bd73" />
+                </generalization>
+                <generalization Id="07781797-decb-40f4-bd92-abbb7839c7a5" isSubstitutable="false">
+                  <classMoniker Id="69c7a231-6faf-49c3-9d1b-3b378b2872b2" LastKnownName="CylinderNode" />
+                  <elementDefinition Id="697e9683-0ead-4887-91f4-6e99d063d809" />
                 </generalization>
               </generalsInternal>
             </class>
@@ -186,9 +220,9 @@
             <class Id="88508eea-45e3-4809-b596-a3ba169dfc52" name="NoeudModel" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="238a13b1-1f54-494d-8087-c2228f3b3e78" />
               <generalsInternal>
-                <generalization Id="97f1568e-45fa-4e3f-a156-c63118a10486" isSubstitutable="false">
-                  <classMoniker Id="cfe085b1-6c19-4ba3-91f6-79b35ed80627" LastKnownName="NoeudComposite" />
-                  <elementDefinition Id="f5b1f9f8-b19b-4855-a34d-73e4f705e012" />
+                <generalization Id="5899fd1e-e954-4345-b7f5-ef51cbcd53c4" isSubstitutable="false">
+                  <classMoniker Id="a6c4d9e4-8199-4bc0-b077-7515ffabe372" LastKnownName="NoeudAbstrait" />
+                  <elementDefinition Id="370b2ebd-2fb5-491f-9978-2b9a9b7d3c39" />
                 </generalization>
               </generalsInternal>
             </class>
@@ -351,6 +385,16 @@
                   <elementDefinition Id="f3558fd3-52d2-40a0-9ae0-2dc56afda4b4" />
                 </association>
               </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="69c7a231-6faf-49c3-9d1b-3b378b2872b2" name="CylinderNode" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="759475fb-5a9b-4f77-a320-8936048f6b02" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="d966d745-c9bf-4910-a0a2-20da8af86a2f" name="RectangleNode" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="5ba9cb57-d69a-4a40-961c-396e9a3902c7" />
             </class>
           </packageHasNamedElement>
         </packagedElements>

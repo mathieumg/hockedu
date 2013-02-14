@@ -12,6 +12,7 @@
 #pragma warning( disable : 4290 )
 
 #include "NoeudComposite.h"
+#include "ObjetAnimable.h"
 
 class NoeudTable;
 ///////////////////////////////////////////////////////////////////////////
@@ -24,7 +25,7 @@ class NoeudTable;
 /////////////////////////////////////////////////////////////////////////// 
 
 
-class NoeudRondelle : public NoeudAbstrait 
+class NoeudRondelle : public NoeudAbstrait , public ObjetAnimable
 {
 public:
    /// Constructeur à partir du type du noeud.
@@ -70,6 +71,11 @@ public:
 
    /// Recreates the physics body according to current attributes
    virtual void updatePhysicBody();
+
+   //////////////////////////////////////////////////////////////////////////
+   /// Objet Animable interface
+   virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
+   //////////////////////////////////////////////////////////////////////////
 
    static const float DEFAULT_RADIUS;
 private:

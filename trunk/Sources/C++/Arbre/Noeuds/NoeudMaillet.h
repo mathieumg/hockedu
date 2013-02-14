@@ -13,6 +13,7 @@
 
 #include "NoeudAbstrait.h"
 #include "MouseMoveObserver.h"
+#include "ObjetAnimable.h"
 
 enum DirectionMaillet{DIR_HAUT,DIR_BAS,DIR_GAUCHE,DIR_DROITE,NB_DIR};
 class NoeudTable;
@@ -26,7 +27,7 @@ class JoueurVirtuel;
 /// @author Mathieu Parent
 /// @date 2012-01-25
 ///////////////////////////////////////////////////////////////////////////
-class NoeudMaillet : public NoeudAbstrait, public MouseMoveObserver
+class NoeudMaillet : public NoeudAbstrait, public MouseMoveObserver, public ObjetAnimable
 {
 public:
     /// Constructeur à partir du type du noeud.
@@ -58,6 +59,11 @@ public:
     virtual void updateObserver( class MouseMoveSubject* pSubject );
     /// applies physics behavior on b2Body before simulation
     void preSimulationActions();
+
+    //////////////////////////////////////////////////////////////////////////
+    /// Objet Animable interface
+    virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
+    //////////////////////////////////////////////////////////////////////////
 
     static unsigned int mailletExistant;
 

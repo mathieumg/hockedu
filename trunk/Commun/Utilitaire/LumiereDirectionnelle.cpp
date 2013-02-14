@@ -47,7 +47,7 @@ LumiereDirectionnelle::~LumiereDirectionnelle()
 }
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void LumiereDirectionnelle::animerAnimation()
+/// @fn void LumiereDirectionnelle::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
 ///
 /// Sert à animer l'objet
 ///
@@ -55,24 +55,11 @@ LumiereDirectionnelle::~LumiereDirectionnelle()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void LumiereDirectionnelle::animerAnimation()
+void LumiereDirectionnelle::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
 {
 
 }
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void LumiereDirectionnelle::obtenirNom()
-///
-/// Affiche le nom de l'objet animable
-///
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-std::string LumiereDirectionnelle::obtenirNom() const
-{
-    return "Lumiere Directionnelle";
-}
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void LumiereDirectionnelle::initLumiere()

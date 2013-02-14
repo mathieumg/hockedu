@@ -9,9 +9,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "AnimationFrame.h"
-#include <iostream>
-
-
 
 ///////////////////////////////////////////////////////////////////////////////
 ///
@@ -20,19 +17,19 @@
 /// Ce constructeur initialise les valeurs du frame
 ///
 /// @param	temps	: temps du frame dans l'animation
-///			param1	: parametre 1 (position)
-///			param2	: parametre 2 (rotation)
-///			param3	: parametre 3 (echelle)
+///			pos	: parametre 1 (position)
+///			angle	: parametre 2 (rotation)
+///			scale	: parametre 3 (echelle)
 /// 
 /// @return Aucune (constructeur).
 ///
 ///////////////////////////////////////////////////////////////////////////////
-AnimationFrame::AnimationFrame( float temps, Vecteur3 param1, Vecteur3 param2 /* =Vecteur3(0, 0, 0) */, Vecteur3 param3 /* = Vecteur3(1, 1, 1) */)
+AnimationFrame::AnimationFrame( float temps, const Vecteur3& pos, const Vecteur3& angle /* =Vecteur3(0, 0, 0) */, const Vecteur3& scale /* = Vecteur3(1, 1, 1) */)
 {
 	temps_ = temps;
-	param1_ = param1;
-	param2_ = param2;
-	param3_ = param3;
+    setPosition(pos);
+    setAngle(angle);
+    setScale(scale);
 }
 
 

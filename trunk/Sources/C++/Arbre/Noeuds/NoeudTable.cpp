@@ -31,15 +31,6 @@ const float NoeudTable::rayonCercleCentre_ = 25;
 CreateListDelegateImplementation(Table)
 {
     NoeudTable::initialiserListeIndexPoints(pModel);
-    Vecteur3 coinMin,coinMax;
-    pModel->calculerBoiteEnglobante(coinMin,coinMax);
-    Vecteur3 delta = coinMax - coinMin;
-
-    // prepare scaling
-
-
-
-
     // dont make a list for table
     return 0;
 }

@@ -261,6 +261,28 @@ void NoeudAccelerateur::updatePhysicBody()
 
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudAccelerateur::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAccelerateur::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
+{
+    if(pAnimationResult.CanUpdatedPosition())
+        assignerPositionRelative(pAnimationResult.mPosition);
+    if(pAnimationResult.CanUpdatedAngle())
+        mAngle = pAnimationResult.mAngle[VZ];
+    if(pAnimationResult.CanUpdatedScale())
+        echelleCourante_ = pAnimationResult.mScale;
+    updateMatrice();
+}
+
+
 
 
 

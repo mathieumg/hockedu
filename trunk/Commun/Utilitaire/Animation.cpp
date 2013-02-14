@@ -28,10 +28,9 @@ Animation::Animation( int typeInterpolation,bool modParam1 /*= true*/, bool modP
 	tempsCourant_ = 0;
 	termine_ = false;
 	repeat_ = repeat;
-	modParam1_ = modParam1;
-	modParam3_ = modParam3;
-	modParam2_ = modParam2;
-	mode_ = OBJET;
+    mAnimationResult.setCanUpdatedPosition(modParam1);
+    mAnimationResult.setCanUpdatedAngle(modParam2);
+    mAnimationResult.setCanUpdatedScale(modParam3);
 	if(typeInterpolation<4 && typeInterpolation>=0)
 	{
 		interpolation_ = typeInterpolation;
@@ -40,59 +39,6 @@ Animation::Animation( int typeInterpolation,bool modParam1 /*= true*/, bool modP
 	{
 		throw std::exception("Type pas supporte");
 	}
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-///
-/// @fn Animation::Animation( int mode, int typeInterpolation )
-///
-/// Ce constructeur initialise les valeurs de l'animation selon le mode (utile pour les cameras)
-///
-/// @param	mode				: mode de l'animation
-///			typeInterpolation	: type d'interpolation de l'animation
-/// 
-/// @return Aucune (constructeur).
-///
-///////////////////////////////////////////////////////////////////////////////
-Animation::Animation( int mode, int typeInterpolation )
-{
-	switch(mode)
-	{
-	case CAMERAPOINT:
-		modParam1_ = true;
-		modParam2_ = true;
-		modParam3_ = false;
-		repeat_ = false;
-		break;
-	case CAMERALIBRE:
-		modParam1_ = true;
-		modParam2_ = false;
-		modParam3_ = false;
-		repeat_ = false;
-		break;
-	case OBJET: // Cas par defaut = cas pour un objet avec tous les modificateurs
-	default:
-		modParam1_ = true;
-		modParam3_ = true;
-		modParam2_ = true;
-		repeat_ = true;
-		break;
-	}
-	mode_ = mode;
-	indexFrameCourant_ = 0;
-	tempsCourant_ = 0;
-	termine_ = false;
-	if(typeInterpolation<4 && typeInterpolation>=0)
-	{
-		interpolation_ = typeInterpolation;
-	}
-	else
-	{
-		throw std::exception("Type pas supporte");
-	}
-
-
 }
 
 
@@ -141,39 +87,6 @@ void Animation::ajouterFrame( AnimationFrame* frame)
 	
 	frames_.push_back(frame);
 	
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-///
-/// @fn Animation::afficher() const 
-///
-/// Methode pour afficher le contenu de l'animation
-///
-///
-/// @return void
-///
-///////////////////////////////////////////////////////////////////////////////
-void Animation::afficher() const
-{
-	// PAS ENTIEREMENT TESTE
-
-	//std::cout << "Liste des frames: " << std::endl;
-	ListeFrame::const_iterator it = frames_.begin();
-	for(; it!=frames_.end(); it++)
-	{
-		//std::cout << "\t";
-		(*it)->afficher();
-	}
-	//std::cout << std::endl << "Objets affectes: " << std::endl;
-	ListeObjetsAnimable::const_iterator itObjets = objets_.begin();
-	for(; itObjets!=objets_.end(); itObjets++)
-	{
-		//std::cout << "\t";
-		//std::cout << (*itObjets)->obtenirNom() << std::endl;
-	}
-	//std::cout << std::endl;
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -274,7 +187,6 @@ void Animation::animer( float temps )
 ///////////////////////////////////////////////////////////////////////////////
 void Animation::ajouterObjet( ObjetAnimable* objet )
 {
-	objet->assignerModificateurs(modParam1_, modParam2_, modParam3_);
 	objets_.push_back(objet);
 }
 
@@ -292,27 +204,18 @@ void Animation::ajouterObjet( ObjetAnimable* objet )
 ///////////////////////////////////////////////////////////////////////////////
 void Animation::animerConstant(AnimationFrame* courant)
 {
-	
-	ListeObjetsAnimable::iterator it = objets_.begin();
-	//std::cout << "Index courant: " << indexFrameCourant_ << std::endl;
-	//std::cout << "Position: " << courant->obtenirParam1() << std::endl << std::endl;
-	
-	Vecteur3 nouvellePosition = NULL;
-	Vecteur3 nouvelAngle = NULL;
-	Vecteur3 nouvelleEchelle = NULL;
-	if(modParam1_)
-		nouvellePosition = courant->obtenirParam1();
-	if(modParam2_)
-		nouvelAngle = courant->obtenirParam2_();
-	if(modParam3_)
-		nouvelleEchelle = courant->obtenirParam3_();
+	if(mAnimationResult.CanUpdatedPosition())
+		mAnimationResult.mPosition = courant->getPosition();
+	if(mAnimationResult.CanUpdatedAngle())
+		mAnimationResult.mAngle = courant->getAngle();
+	if(mAnimationResult.CanUpdatedScale())
+		mAnimationResult.mScale = courant->getScale();
 
-	
-	for(;it!=objets_.end(); it++)
+    ListeObjetsAnimable::iterator it = objets_.begin();
+    for(;it!=objets_.end(); it++)
 	{
-		(*it)->updateAttributs(nouvellePosition, nouvelAngle, nouvelleEchelle);
+		(*it)->appliquerAnimation(mAnimationResult);
 	}
-
 }
 
 
@@ -332,34 +235,30 @@ void Animation::animerLineaire( AnimationFrame* courant, AnimationFrame* suivant
 {
 	if(indexFrameCourant_>=(int)frames_.size()-1)
 		return;
-	ListeObjetsAnimable::iterator it = objets_.begin();
 
-	Vecteur3 positionCourante = courant->obtenirParam1();
-	Vecteur3 angleCourant = courant->obtenirParam2_();
-	Vecteur3 echelleCourante = courant->obtenirParam3_();
+	const Vecteur3& positionCourante = courant->getPosition();
+	const Vecteur3& angleCourant = courant->getAngle();
+	const Vecteur3& echelleCourante = courant->getScale();
 
 	float deltaTemps = suivant->obtenirTemps()-courant->obtenirTemps();
-
 	float ratio = (tempsCourant_-courant->obtenirTemps())/(deltaTemps);
 
-	Vecteur3 deltaPosition = (suivant->obtenirParam1()-positionCourante)*ratio;
-	Vecteur3 deltaAngle = (suivant->obtenirParam2_()-angleCourant)*ratio;
-	Vecteur3 deltaEchelle = (suivant->obtenirParam3_()-echelleCourante)*ratio;
+	const Vecteur3& deltaPosition = (suivant->getPosition()-positionCourante)*ratio;
+	const Vecteur3& deltaAngle = (suivant->getAngle()-angleCourant)*ratio;
+	const Vecteur3& deltaEchelle = (suivant->getScale()-echelleCourante)*ratio;
 
-	Vecteur3 nouvellePosition = NULL;
-	Vecteur3 nouvelAngle = NULL;
-	Vecteur3 nouvelleEchelle = NULL;
-	if(modParam1_)
-		nouvellePosition = positionCourante+deltaPosition;
-	if(modParam2_)
-		nouvelAngle = angleCourant+deltaAngle;
-	if(modParam3_)
-		nouvelleEchelle = echelleCourante+deltaEchelle;
+    if(mAnimationResult.CanUpdatedPosition())
+        mAnimationResult.mPosition = positionCourante+deltaPosition;
+    if(mAnimationResult.CanUpdatedAngle())
+        mAnimationResult.mAngle = angleCourant+deltaAngle;
+    if(mAnimationResult.CanUpdatedScale())
+        mAnimationResult.mScale = echelleCourante+deltaEchelle;
 
-	for(;it!=objets_.end(); it++)
-	{
-		(*it)->updateAttributs(nouvellePosition, nouvelAngle, nouvelleEchelle);
-	}
+    ListeObjetsAnimable::iterator it = objets_.begin();
+    for(;it!=objets_.end(); it++)
+    {
+        (*it)->appliquerAnimation(mAnimationResult);
+    }
 }
 
 
@@ -376,42 +275,20 @@ void Animation::animerLineaire( AnimationFrame* courant, AnimationFrame* suivant
 void Animation::animerBezier( )
 {
 	float deltaTemps = frames_[frames_.size()-1]->obtenirTemps()-frames_[0]->obtenirTemps();
-
-
 	float t = tempsCourant_/deltaTemps;
 
-	Vecteur3 nouvellePosition = NULL;
-	Vecteur3 nouvelAngle = NULL;
-	Vecteur3 nouvelleEchelle = NULL;
-	Vecteur3 anciennePositionCamera = frames_[frames_.size()-1]->obtenirParam1();
+    if(mAnimationResult.CanUpdatedPosition())
+        mAnimationResult.mPosition = calculerBezier(ANIMPOSITION, t, 0,(int)(frames_.size()-1));
+    if(mAnimationResult.CanUpdatedAngle())
+        mAnimationResult.mAngle = calculerBezier(ANIMANGLE, t, 0, (int)(frames_.size()-1));
+    if(mAnimationResult.CanUpdatedScale())
+        mAnimationResult.mScale = calculerBezier(ANIMECHELLE, t, 0, (int)(frames_.size()-1));
 
-	if(mode_==CAMERALIBRE)
-		anciennePositionCamera = objets_[0]->obtenirAnimationParam1();
-
-	if(modParam1_)
-		nouvellePosition = calculerBezier(ANIMPOSITION, t, 0,(int)(frames_.size()-1));
-	if(modParam2_)
-		nouvelAngle = calculerBezier(ANIMANGLE, t, 0, (int)(frames_.size()-1));
-
-	if(modParam3_)
-		nouvelleEchelle = calculerBezier(ANIMECHELLE, t, 0, (int)(frames_.size()-1));
-
-	ListeObjetsAnimable::iterator it = objets_.begin();
-
-	
-	for(;it!=objets_.end(); it++)
-	{
-		if(mode_==CAMERALIBRE)
-		{
-			Vecteur3 deltaPosition = nouvellePosition-anciennePositionCamera;
-			deltaPosition.normaliser();
-			deltaPosition[VZ] = (-1.0f+deltaPosition[VZ])/2.0f;
-			nouvelAngle = nouvellePosition + deltaPosition;
-		}
-		
-		(*it)->updateAttributs(nouvellePosition, nouvelAngle, nouvelleEchelle);
-	}
-
+    ListeObjetsAnimable::iterator it = objets_.begin();
+    for(;it!=objets_.end(); it++)
+    {
+        (*it)->appliquerAnimation(mAnimationResult);
+    }
 }
 
 
@@ -474,16 +351,15 @@ Vecteur3 Animation::calculerBezier(int attribut, float t,  int indexPremier, int
 		switch(attribut)
 		{
 		case ANIMPOSITION:
-			return frames_[indexPremier]->obtenirParam1();
+			return frames_[indexPremier]->getPosition();
 			break;
 		case ANIMANGLE:
-			return frames_[indexPremier]->obtenirParam2_();
+			return frames_[indexPremier]->getAngle();
 			break;
 		case ANIMECHELLE:
-			return frames_[indexPremier]->obtenirParam3_();
+			return frames_[indexPremier]->getScale();
 			break;
 		}
-		
 	}
 
 	

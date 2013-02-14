@@ -654,6 +654,28 @@ void NoeudMaillet::preSimulationActions()
 #endif
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudMaillet::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
+///
+/// /*Description*/
+///
+/// @param[in] const ObjectAnimationParameters & pAnimationResult
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudMaillet::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
+{
+    if(pAnimationResult.CanUpdatedPosition())
+        assignerPositionRelative(pAnimationResult.mPosition);
+    if(pAnimationResult.CanUpdatedAngle())
+        mAngle = pAnimationResult.mAngle[VZ];
+    if(pAnimationResult.CanUpdatedScale())
+        echelleCourante_ = pAnimationResult.mScale;
+    updateMatrice();
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}
