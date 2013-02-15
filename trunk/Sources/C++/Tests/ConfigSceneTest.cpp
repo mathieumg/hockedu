@@ -129,7 +129,7 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
 	document.SaveFile( "tests_xml\\TestEnregistrement.xml" );
 	
 	// Lecture manuelle du document et vérification des noeuds lus (et de la non-existence de noeuds qui ne sont pas supposer exister
-	const TiXmlNode* elementConfiguration = document.FirstChild(ConfigScene::ETIQUETTE_ARBRE), *child, *grantChild, *grantGrantChild;//, *grantGrantGrantChild;
+	const XmlNode* elementConfiguration = document.FirstChild(ConfigScene::ETIQUETTE_ARBRE), *child, *grantChild, *grantGrantChild;//, *grantGrantGrantChild;
 	CPPUNIT_ASSERT (elementConfiguration != NULL);
 
 	// n1

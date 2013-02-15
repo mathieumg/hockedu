@@ -26,7 +26,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudMuretRelatif::NoeudMuretRelatif( NoeudPoint* n1, NoeudPoint* n2 ):
-NodeWallAbstract(RazerGameUtilities::NOM_MURET_RELATIF,false)
+Super(RazerGameUtilities::NOM_MURET_RELATIF)
 {
 	coin1_[VX] = &n1->positionRelative_[VX];
 	coin1_[VY] = &n1->positionRelative_[VY];
@@ -35,14 +35,14 @@ NodeWallAbstract(RazerGameUtilities::NOM_MURET_RELATIF,false)
 	coin2_[VY] = &n2->positionRelative_[VY];
 	coin2_[VZ] = &n2->positionRelative_[VZ];
 
+    // observe les deplacement de ces noeuds
     n1->attach(this);
     n2->attach(this);
 
-	animer(0);
 	assignerEstSelectionnable(false);
 	assignerEstEnregistrable(false);
-	mettreAJourEchelleRotation();
-	//assignerAffiche(false); // Mis en commentaire pour l'ajout d'un modele 3D
+	updateWallProperties();
+	assignerAffiche(false);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -59,7 +59,7 @@ NodeWallAbstract(RazerGameUtilities::NOM_MURET_RELATIF,false)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudMuretRelatif::NoeudMuretRelatif( NoeudPoint* n, NoeudBut* but, bool haut ):
-NodeWallAbstract(RazerGameUtilities::NOM_MURET_RELATIF, false)
+Super(RazerGameUtilities::NOM_MURET_RELATIF)
 {
 	coin1_[VX] = &n->positionRelative_[VX];
 	coin1_[VY] = &n->positionRelative_[VY];
@@ -76,15 +76,15 @@ NodeWallAbstract(RazerGameUtilities::NOM_MURET_RELATIF, false)
 		coin2_[VY] = &but->mBottomPosition[VY];
 		coin2_[VZ] = &but->mBottomPosition[VZ];
 	}
+
+    // observe les deplacement de ces noeuds
     n->attach(this);
     but->attach(this);
 
-	animer(0);
 	assignerEstSelectionnable(false);
 	assignerEstEnregistrable(false);
-
-	mettreAJourEchelleRotation();
-	//assignerAffiche(false);
+	updateWallProperties();
+	assignerAffiche(false);
 }
 
 
@@ -102,7 +102,7 @@ NodeWallAbstract(RazerGameUtilities::NOM_MURET_RELATIF, false)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudMuretRelatif::NoeudMuretRelatif( NoeudBut* but, NoeudPoint* n, bool haut ):
-NodeWallAbstract(RazerGameUtilities::NOM_MURET_RELATIF, false)
+Super(RazerGameUtilities::NOM_MURET_RELATIF)
 {
 	coin2_[VX] = &n->positionRelative_[VX];
 	coin2_[VY] = &n->positionRelative_[VY];
@@ -120,33 +120,14 @@ NodeWallAbstract(RazerGameUtilities::NOM_MURET_RELATIF, false)
 		coin1_[VZ] = &but->mBottomPosition[VZ];
 	}
 
+    // observe les deplacement de ces noeuds
     n->attach(this);
     but->attach(this);
 
-	animer(0);
 	assignerEstSelectionnable(false);
 	assignerEstEnregistrable(false);
-
-	mettreAJourEchelleRotation();
-	//assignerAffiche(false);
-}
-
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn  NoeudMuretRelatif::~NoeudMuretRelatif( void )
-///
-/// Destructeur des murets relatifs.
-///
-/// @param[in] void
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-NoeudMuretRelatif::~NoeudMuretRelatif(void)
-{
-
+	updateWallProperties();
+	assignerAffiche(false);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -182,44 +163,6 @@ Vecteur3 NoeudMuretRelatif::obtenirCoin2()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn float NoeudMuretRelatif::obtenirRayon(  )
-///
-/// Méthode temporaire, les murets ne devrait plus avoir de rayon puisque ce sont des segments.
-///
-///
-/// @return float : le rayon.
-///
-////////////////////////////////////////////////////////////////////////
-float NoeudMuretRelatif::obtenirRayon() const
-{
-	return 0;
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn float NoeudMuretRelatif::mettreAJourEchelleRotation()
-///
-/// Methode pour initialiser la mise a l'echelle et l'angle de rotation ainsi que mettre a jour la matrice de transformation pour l'affichage des modeles 3D
-///
-/// @return float : le rayon.
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudMuretRelatif::mettreAJourEchelleRotation()
-{
-	Vecteur3 vecteurEntre(*coin2_[VX]-*coin1_[VX], *coin2_[VY]-*coin1_[VY], 0);
-	assignerPositionRelative(Vecteur3(*coin1_[VX]+vecteurEntre[VX]/2.0f, *coin1_[VY]+vecteurEntre[VY]/2.0f));
-	float distance = vecteurEntre.norme();
-    // echelle en y,z a 0 car il n'est pas visible
-	modifierEchelleCourante(Vecteur3(distance, 0, 0));
-	float angle = utilitaire::RAD_TO_DEG(atan2(vecteurEntre[VY], vecteurEntre[VX]));
-	assignerAngle(angle);
-	updateMatrice();
-    updatePhysicBody();
-}
-
-////////////////////////////////////////////////////////////////////////
-///
 /// @fn  NoeudMuretRelatif::updatePosition( class PositionSubject& pSubject )
 ///
 /// /*Description*/
@@ -231,7 +174,7 @@ void NoeudMuretRelatif::mettreAJourEchelleRotation()
 ////////////////////////////////////////////////////////////////////////
 void NoeudMuretRelatif::updateObserver( PositionSubject* pSubject )
 {
-    mettreAJourEchelleRotation();
+    updateWallProperties();
 }
 
 

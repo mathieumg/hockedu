@@ -109,8 +109,8 @@ void SourisEtatAjoutMuret::sourisRelachee( EvenementSouris& evenementSouris )
 
 			if(collisionVisitor.collisionPresente() && collisionVisitor.obtenirNbrNoeudEncollision() > 1)
 				return;
-			((NodeWallAbstract*)noeud_)->assignerPositionCoin(1, positionClic1_);
-			((NodeWallAbstract*)noeud_)->assignerPositionCoin(2, positionClic1_);
+			((NoeudMuret*)noeud_)->assignerPositionCoin(1, positionClic1_);
+			((NoeudMuret*)noeud_)->assignerPositionCoin(2, positionClic1_);
 			etat_ = PLACERPOINT2;
 			break;
 		}
@@ -172,7 +172,7 @@ void SourisEtatAjoutMuret::sourisDeplacee( EvenementSouris& evenementSouris )
 		rayon = sqrt(deltaX*deltaX+deltaY*deltaY);
 		if(rayon>1)
 		{
-			((NodeWallAbstract*)noeud_)->assignerPositionCoin(2, positionVirtuelle);
+			((NoeudMuret*)noeud_)->assignerPositionCoin(2, positionVirtuelle);
 			noeud_->modifierEchelleCourante(Vecteur3(rayon, 1, 1));
 			//muretConcerne_->assignerAngle((int)angle);
 			//muretConcerne_->updateMatrice();

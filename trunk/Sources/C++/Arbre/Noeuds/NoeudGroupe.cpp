@@ -56,9 +56,9 @@ NoeudGroupe::~NoeudGroupe(void)
 ////////////////////////////////////////////////////////////////////////
 XmlElement* NoeudGroupe::creerNoeudXML()
 {
-	XmlElement* element = XMLUtils::creerNoeud(type_.c_str());
+	XmlElement* element = XMLUtils::createNode(type_.c_str());
 
-    XMLUtils::ecrireAttribute(element,"TypeEnfants",typeEnfants_);
+    XMLUtils::writeAttribute(element,"TypeEnfants",typeEnfants_);
 	
 	return element;
 }
@@ -76,7 +76,7 @@ XmlElement* NoeudGroupe::creerNoeudXML()
 ////////////////////////////////////////////////////////////////////////
 bool NoeudGroupe::initialiser( const XmlElement* element )
 {
-    if(!XMLUtils::LireAttribute(element,"TypeEnfants",typeEnfants_))
+    if(!XMLUtils::readAttribute(element,"TypeEnfants",typeEnfants_))
         return false;
 
 	return true;

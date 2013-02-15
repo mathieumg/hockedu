@@ -291,7 +291,7 @@ XmlElement* NoeudPoint::creerNoeudXML()
 {
 	XmlElement* elementNoeud = NoeudComposite::creerNoeudXML();
 
-    XMLUtils::ecrireAttribute<int>(elementNoeud,"typePosNoeud",typePosNoeud_);
+    XMLUtils::writeAttribute<int>(elementNoeud,"typePosNoeud",typePosNoeud_);
 
 	return elementNoeud;
 }
@@ -311,7 +311,7 @@ bool NoeudPoint::initialiser( const XmlElement* element )
 {
     // faire l'initialisaiton des attribut concernant le point en premier pour que la suite puisse les utiliser
 	int intElem;
-    if(!XMLUtils::LireAttribute(element,"typePosNoeud",intElem))
+    if(!XMLUtils::readAttribute(element,"typePosNoeud",intElem))
 		return false;
 	typePosNoeud_ = TypePosPoint(intElem);
 

@@ -14,7 +14,6 @@
 #include "Utilitaire.h"
 #include <algorithm>
 #include "JoueurHumain.h"
-#include "tinyxml.h"
 #include "XMLUtils.h"
 
 const std::string Tournoi::tounoiNonJoue = "Aucun Gagnant de ce tournoi!";
@@ -188,7 +187,7 @@ bool Tournoi::initialisationXML( XmlElement* element, ConteneurJoueur* profilsVi
 		return false;
 	for(; gagnant; gagnant = gagnant->NextSiblingElement())
 	{
-		TiXmlNode* child = gagnant->FirstChild();
+		XmlNode* child = gagnant->FirstChild();
 		if(!child || !child->ToText())
 			return false;
 		if(child->ToText()->Value() != tounoiNonJoue)
@@ -265,7 +264,7 @@ void Tournoi::libererMemoire()
 XmlElement* Tournoi::creerTournoiXML() const
 {
 	// Noeud Principal
-	XmlElement* elementNoeud = XMLUtils::creerNoeud("Tournoi");
+	XmlElement* elementNoeud = XMLUtils::createNode("Tournoi");
 
 	// Indicateur de la partie courante a jouer
 	elementNoeud->SetAttribute("indexPartie", indexPartieCourante_);
@@ -273,14 +272,14 @@ XmlElement* Tournoi::creerTournoiXML() const
 	elementNoeud->SetAttribute("termine", estTermine());
 
 	// Enregistrement des Gagnants  ////////////////////////////////////////////////////////////////
-	XmlElement* gagnants = XMLUtils::creerNoeud("Gagnants");
+	XmlElement* gagnants = XMLUtils::createNode("Gagnants");
 	
 	if(!listeGagnants_.empty())
 	{
 		ListeGagnants::const_iterator iter = listeGagnants_.begin();
 		for (; iter != listeGagnants_.end()  ; iter++)
 		{
-			XmlElement* gagnant = XMLUtils::creerNoeud("Gagnant");
+			XmlElement* gagnant = XMLUtils::createNode("Gagnant");
 			XmlText* text = new XmlText(iter->c_str());
 			gagnant->LinkEndChild(text);
 			gagnants->LinkEndChild(gagnant);
@@ -288,7 +287,7 @@ XmlElement* Tournoi::creerTournoiXML() const
 	}
 	else
 	{
-		XmlElement* gagnant = XMLUtils::creerNoeud("Gagnant");
+		XmlElement* gagnant = XMLUtils::createNode("Gagnant");
 		XmlText* text = new XmlText(tounoiNonJoue.c_str());
 		gagnant->LinkEndChild(text);	
 		gagnants->LinkEndChild(gagnant);
@@ -298,12 +297,12 @@ XmlElement* Tournoi::creerTournoiXML() const
 
 
 	// Enregistrement du nom du tournoi  ////////////////////////////////////////////////////////////////
-	XmlElement* nom = XMLUtils::creerNoeud("Nom");
+	XmlElement* nom = XMLUtils::createNode("Nom");
 	nom->SetAttribute("nom", nom_.c_str());
 	elementNoeud->LinkEndChild(nom);
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	XmlElement* map = XMLUtils::creerNoeud("Terrain");
+	XmlElement* map = XMLUtils::createNode("Terrain");
 	map->SetAttribute("chemin", obtenirTerrain().c_str());
 	elementNoeud->LinkEndChild(map);
 

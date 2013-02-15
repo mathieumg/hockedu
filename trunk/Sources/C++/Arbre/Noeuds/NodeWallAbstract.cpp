@@ -15,7 +15,6 @@
 #include "VisiteurCollision.h"
 #include "FacadeModele.h"
 #include "Modele3D.h"
-#include "tinyxml.h"
 #include "XMLUtils.h"
 #include "GestionnaireModeles.h"
 
@@ -83,33 +82,36 @@ void NodeWallAbstract::updatePhysicBody()
 {
 #if BOX2D_INTEGRATED
 
-    clearPhysicsBody();
+    if(getWorld())
+    {
+        clearPhysicsBody();
 
-    float halfLength = echelleCourante_[VX]*DEFAULT_SIZE[VX]/2.f*utilitaire::ratioWorldToBox2D;
-    float halfHeight = echelleCourante_[VY]*DEFAULT_SIZE[VY]/2.f*utilitaire::ratioWorldToBox2D;
+        float halfLength = echelleCourante_[VX]*DEFAULT_SIZE[VX]/2.f*utilitaire::ratioWorldToBox2D;
+        float halfHeight = echelleCourante_[VY]*DEFAULT_SIZE[VY]/2.f*utilitaire::ratioWorldToBox2D;
 
-    b2BodyDef myBodyDef;
-    myBodyDef.type = b2_staticBody; //this will be a dynamic body
-    myBodyDef.position.Set(0, 0); //set the starting position
-    myBodyDef.angle = 0; //set the starting angle
+        b2BodyDef myBodyDef;
+        myBodyDef.type = b2_staticBody; //this will be a dynamic body
+        myBodyDef.position.Set(0, 0); //set the starting position
+        myBodyDef.angle = 0; //set the starting angle
 
-    mPhysicBody = getWorld()->CreateBody(&myBodyDef);
-    b2PolygonShape shape;
-    Vecteur3 pos = obtenirPositionAbsolue();
-    b2Vec2 posB2;
-    utilitaire::VEC3_TO_B2VEC(pos,posB2);
-    myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
-    shape.SetAsBox(halfLength,halfHeight,b2Vec2(posB2.x,posB2.y),utilitaire::DEG_TO_RAD(mAngle));
+        mPhysicBody = getWorld()->CreateBody(&myBodyDef);
+        b2PolygonShape shape;
+        Vecteur3 pos = obtenirPositionAbsolue();
+        b2Vec2 posB2;
+        utilitaire::VEC3_TO_B2VEC(pos,posB2);
+        myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
+        shape.SetAsBox(halfLength,halfHeight,b2Vec2(posB2.x,posB2.y),utilitaire::DEG_TO_RAD(mAngle));
 
-    b2FixtureDef myFixtureDef;
-    myFixtureDef.shape = &shape; //this is a pointer to the shape above
-    myFixtureDef.density = 1;
-    myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
-    myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_MALLET;
+        b2FixtureDef myFixtureDef;
+        myFixtureDef.shape = &shape; //this is a pointer to the shape above
+        myFixtureDef.density = 1;
+        myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
+        myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_MALLET;
 
-    mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+        mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
 //     mPhysicBody->SetUserData(this);
 //     mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
+    }
 #endif
 
 }
@@ -187,7 +189,7 @@ XmlElement* NodeWallAbstract::creerNoeudXML()
 {
 	XmlElement* elementNoeud = Super::creerNoeudXML();
 	// Ajouter la position des coins des murets
-	elementNoeud->SetDoubleAttribute("coefRebond",coefRebond_);
+	XMLUtils::writeAttribute(elementNoeud,"coefRebond",coefRebond_);
 	return elementNoeud;
 }
 
@@ -206,10 +208,10 @@ bool NodeWallAbstract::initialiser( const XmlElement* element )
 {
 	if(!Super::initialiser(element))
 		return false;
-	double doubleElem;
-	if( element->QueryDoubleAttribute("coefRebond", &doubleElem) != TIXML_SUCCESS )
+	float floatElem;
+	if( !XMLUtils::readAttribute(element,"coefRebond",floatElem) )
 		return false;
-	coefRebond_ = (float)doubleElem;
+	coefRebond_ = floatElem;
 
 	return true;
 }
@@ -249,6 +251,10 @@ void NodeWallAbstract::updateWallProperties()
 
     // arctan(y/x) = angle
     float angle = utilitaire::RAD_TO_DEG(atan2(vecteurEntre[VY], vecteurEntre[VX]));
+    if(angle<0)
+    {
+        angle += 360.f;
+    }
 
     // pour conserver l'echelle en Y et Z
     Vecteur3 echelle;
@@ -264,9 +270,17 @@ void NodeWallAbstract::updateWallProperties()
     * de refaire la matrice de tranformation et 
     * le body box2d plusieurs fois pour rien
     */
-    positionRelative_ = corner1+(vecteurEntre/2.0f);
+    positionRelative_ = corner2+(vecteurEntre/2.0f);
     echelleCourante_ = echelle;
     mAngle = angle;
+
+//     vecteurEntre.normaliser();
+//     mAngle = (360.0f+(utilitaire::RAD_TO_DEG(acos(vecteurEntre[VX]))*( (vecteurEntre[VY] < 0)?-1:1) ) );
+//     mAngle /= 360.0f;
+//     mAngle -= (int)(mAngle);
+//     mAngle *= 360.0f;
+
+
 
     // necessaire pour s'assurer de l'integrite des proprietes
     // physiques et d'affichage

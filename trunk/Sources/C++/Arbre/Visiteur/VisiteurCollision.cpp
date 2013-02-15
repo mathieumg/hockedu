@@ -180,7 +180,6 @@ void VisiteurCollision::visiterNoeudMuret( NodeWallAbstract* noeud )
 		}
 		break;
 	}
-	visiterNoeudComposite(noeud);
 }
 
 

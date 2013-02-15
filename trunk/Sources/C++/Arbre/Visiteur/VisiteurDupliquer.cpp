@@ -84,7 +84,8 @@ void VisiteurDupliquer::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
 	if(noeud -> estSelectionne())
 	{
-		NodeWallAbstract* nouveauNoeud = (NodeWallAbstract*)(arbre_->ajouterNouveauNoeud(RazerGameUtilities::NOM_TABLE, noeud->obtenirType()));
+        // assume ici qu'un muret relatif ne peut etre selectionné
+		NoeudMuret* nouveauNoeud = (NoeudMuret*)(arbre_->ajouterNouveauNoeud(RazerGameUtilities::NOM_TABLE, noeud->obtenirType()));
 		if(nouveauNoeud != 0)
 		{
 			for (int i=1; i<10; i++)

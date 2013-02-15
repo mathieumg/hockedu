@@ -1,5 +1,3 @@
-#include "UsineNoeudMaillet.h"
-#include "UsineNoeudRondelle.h"
 #include "BancTests.h"
 #include "QueueThreadSafe.h"
 #include <ctime>
@@ -17,6 +15,7 @@
 #include "..\Reseau\Paquets\PaquetChatMessage.h"
 #include "..\Reseau\Paquets\PaquetTest.h"
 #include "..\Reseau\ControllerCSharp.h"
+#include "UsineNoeud.h"
 
 
 ////////////////////////////////////////////////////////////////////////

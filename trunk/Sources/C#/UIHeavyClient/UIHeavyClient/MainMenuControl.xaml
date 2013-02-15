@@ -4,12 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="320" d:DesignWidth="189">
-    <Grid Height="Auto" Width="Auto" Background="#FF323232">
+             d:DesignHeight="320" Width="374.323">
+    <Grid Name="mGrid" Height="Auto" Background="#FF323232">
         <Button Content="Edition Mode" Height="41" HorizontalAlignment="Left" Margin="12,12,0,0" Name="editionModeButton" VerticalAlignment="Top" Width="164" Click="editionModeButton_Click" />
         <Button Content="Quick Play" Height="41" HorizontalAlignment="Left" Margin="12,73,0,0" Name="quickPlayButton" VerticalAlignment="Top" Width="164" Click="quickPlayButton_Click" />
         <Button Content="Tournament" Height="41" HorizontalAlignment="Left" Margin="12,134,0,0" Name="tournamentButton" VerticalAlignment="Top" Width="164" Click="tournamentButton_Click" />
         <Button Content="Online Lobby" Height="41" HorizontalAlignment="Left" Margin="12,195,0,0" Name="onlineModeButton" VerticalAlignment="Top" Width="164" Click="onlineModeButton_Click" />
         <Button Content="Options" Height="41" HorizontalAlignment="Left" Margin="12,256,0,0" Name="optionButton" VerticalAlignment="Top" Width="164" Click="optionButton_Click" />
+        <Button Content="Unit Test" Height="41" HorizontalAlignment="Left" Margin="195,256,-170,0" Name="mUnitTestButton" VerticalAlignment="Top" Width="164" />
     </Grid>
 </UserControl>

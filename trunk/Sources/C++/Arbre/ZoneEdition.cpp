@@ -9,7 +9,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "ZoneEdition.h"
-#include "tinyxml.h"
 #define _WINSOCKAPI_
 #include <windows.h>
 #include "glew.h"
@@ -91,12 +90,12 @@ void ZoneEdition::modifierLimitesExt( const float* boiteEnglobantTable, const fl
 ////////////////////////////////////////////////////////////////////////
 XmlElement* ZoneEdition::creerNoeudXML()
 {
-	XmlElement* element = XMLUtils::creerNoeud("ZoneEdition");
+	XmlElement* element = XMLUtils::createNode("ZoneEdition");
 
-    XMLUtils::ecrireAttribute(element,"ExtLar",limiteExtLargeur_);
-    XMLUtils::ecrireAttribute(element,"ExtLon",limiteExtLongueur_);
-    XMLUtils::ecrireAttribute(element,"IntLar",limiteIntLargeur_);
-    XMLUtils::ecrireAttribute(element,"IntLon",limiteIntLongueur_);
+    XMLUtils::writeAttribute(element,"ExtLar",limiteExtLargeur_);
+    XMLUtils::writeAttribute(element,"ExtLon",limiteExtLongueur_);
+    XMLUtils::writeAttribute(element,"IntLar",limiteIntLargeur_);
+    XMLUtils::writeAttribute(element,"IntLon",limiteIntLongueur_);
 
 	return element;
 }
@@ -114,15 +113,15 @@ XmlElement* ZoneEdition::creerNoeudXML()
 ////////////////////////////////////////////////////////////////////////
 bool ZoneEdition::initialisationXML( const XmlElement* element )
 {
-	const XmlElement* zone = element->FirstChildElement("ZoneEdition");
+	const XmlElement* zone = XMLUtils::FirstChildElement(element,"ZoneEdition");
 
 	if(!zone)
 		return false;
 
-    if(!XMLUtils::LireAttribute(zone,"ExtLar",limiteExtLargeur_) ) return false;
-    if(!XMLUtils::LireAttribute(zone,"ExtLon",limiteExtLongueur_)) return false;
-    if(!XMLUtils::LireAttribute(zone,"IntLar",limiteIntLargeur_) ) return false;
-    if(!XMLUtils::LireAttribute(zone,"IntLon",limiteIntLongueur_)) return false;
+    if(!XMLUtils::readAttribute(zone,"ExtLar",limiteExtLargeur_) ) return false;
+    if(!XMLUtils::readAttribute(zone,"ExtLon",limiteExtLongueur_)) return false;
+    if(!XMLUtils::readAttribute(zone,"IntLar",limiteIntLargeur_) ) return false;
+    if(!XMLUtils::readAttribute(zone,"IntLon",limiteIntLongueur_)) return false;
 
 	return true;
 }

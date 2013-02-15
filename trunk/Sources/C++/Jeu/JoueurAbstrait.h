@@ -10,10 +10,10 @@
 
 #pragma once
 #include "RazerGameTypeDef.h"
+#include "XMLUtils.h"
 
 enum TypeJoueur{JOUEUR_HUMAIN,JOUEUR_VIRTUEL};
 
-class XmlElement;
 ///////////////////////////////////////////////////////////////////////////
 /// @class JoueurAbstrait
 /// @brief Classe abstraite qui représente un joueur dans le mode jeu.

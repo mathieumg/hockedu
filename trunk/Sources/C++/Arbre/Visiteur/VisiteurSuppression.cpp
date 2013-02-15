@@ -98,8 +98,7 @@ void VisiteurSuppression::visiterNoeudComposite( NoeudComposite* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurSuppression::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
-	if(!effacerSiSelectionne(noeud))
-		visiterEnfants(noeud);
+	effacerSiSelectionne(noeud);
 }
 
 

@@ -102,9 +102,6 @@ void VisiteurEchelle::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 	}
 
 	noeud->modifierEchelleCourante(echelleCourante);
-	noeud->updateMatrice();
-	
-	
 }
 
 
@@ -146,8 +143,6 @@ void VisiteurEchelle::visiterNoeudMuret( NodeWallAbstract* noeud )
 	visiterNoeudAbstrait(noeud);
 	// pop
 	axe_ = oldAxe;
-	visiterNoeudComposite(noeud);
-	noeud->majPosCoins();
 }
 
 ////////////////////////////////////////////////////////////////////////

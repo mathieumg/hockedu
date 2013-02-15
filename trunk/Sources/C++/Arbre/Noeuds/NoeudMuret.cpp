@@ -11,7 +11,6 @@
 #include "Utilitaire.h"
 #include "FacadeModele.h"
 #include "Modele3D.h"
-#include "tinyxml.h"
 #include "XMLUtils.h"
 
 ////////////////////////////////////////////////////////////////////////
@@ -143,8 +142,8 @@ XmlElement* NoeudMuret::creerNoeudXML()
 {
 	XmlElement* elementNoeud = Super::creerNoeudXML();
 	// Ajouter la position des coins des murets
-    XMLUtils::ecrireVecteur3Dxml(&positionCoin1_,elementNoeud,"coinA");
-    XMLUtils::ecrireVecteur3Dxml(&positionCoin2_,elementNoeud,"coinB");
+    XMLUtils::writeArray(positionCoin1_.c_arr(),3,elementNoeud,"coinA");
+    XMLUtils::writeArray(positionCoin2_.c_arr(),3,elementNoeud,"coinB");
 	return elementNoeud;
 }
 
@@ -163,9 +162,9 @@ bool NoeudMuret::initialiser( const XmlElement* element )
 {
 	if(!Super::initialiser(element))
 		return false;
-    if( !XMLUtils::lectureVecteur3Dxml(&positionCoin1_,element,"coinA") )
+    if( !XMLUtils::readArray(positionCoin1_.c_arr(),3,element,"coinA") )
 		return false;
-    if( !XMLUtils::lectureVecteur3Dxml(&positionCoin2_,element,"coinB") )
+    if( !XMLUtils::readArray(positionCoin2_.c_arr(),3,element,"coinB") )
 		return false;
     updateWallProperties();
 	return true;

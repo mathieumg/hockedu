@@ -11,7 +11,6 @@
 #include "JoueurVirtuel.h"
 #include "RazerGameUtilities.h"
 #include "AIMaillet.h"
-#include "tinyxml.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///

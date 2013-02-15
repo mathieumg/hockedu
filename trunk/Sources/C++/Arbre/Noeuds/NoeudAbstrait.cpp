@@ -823,12 +823,12 @@ bool NoeudAbstrait::possedeSelection()
 ////////////////////////////////////////////////////////////////////////
 XmlElement* NoeudAbstrait::creerNoeudXML()
 {
-	XmlElement* elementNoeud = XMLUtils::creerNoeud(type_.c_str());
-    XMLUtils::ecrireVecteur3Dxml(&positionRelative_,elementNoeud,"pos");
-    XMLUtils::ecrireVecteur3Dxml(&echelleCourante_,elementNoeud,"echelle");
-    XMLUtils::ecrireAttribute<float>(elementNoeud,"angle",mAngle);
-    XMLUtils::ecrireAttribute<int>(elementNoeud,"affiche",affiche_);
-    XMLUtils::ecrireAttribute<int>(elementNoeud,"selectionnable",selectionnable_);
+	XmlElement* elementNoeud = XMLUtils::createNode(type_.c_str());
+    XMLUtils::writeArray(positionRelative_.c_arr(),3,elementNoeud,"pos");
+    XMLUtils::writeArray(echelleCourante_.c_arr(),3,elementNoeud,"echelle");
+    XMLUtils::writeAttribute(elementNoeud,"angle",mAngle);
+    XMLUtils::writeAttribute(elementNoeud,"affiche",affiche_);
+    XMLUtils::writeAttribute(elementNoeud,"selectionnable",selectionnable_);
 
 	return elementNoeud;
 }
@@ -850,21 +850,21 @@ bool NoeudAbstrait::initialiser( const XmlElement* element )
 	float floatElem;
 	Vecteur3 pos;
     
-	if( !XMLUtils::lectureVecteur3Dxml(&pos,element,"pos") )
+	if( !XMLUtils::readArray(pos.c_arr(),3,element,"pos") )
 		return false;
 	assignerPositionRelative(pos);
-    if( !XMLUtils::lectureVecteur3Dxml(&echelleCourante_,element,"echelle") )
+    if( !XMLUtils::readArray(echelleCourante_.c_arr(),3,element,"echelle") )
         return false;
 
-    if( !XMLUtils::LireAttribute(element,"angle",floatElem) )
+    if( !XMLUtils::readAttribute(element,"angle",floatElem) )
         return false;
     assignerAngle(floatElem);
 
-	if( !XMLUtils::LireAttribute(element,"affiche",intElem) )
+	if( !XMLUtils::readAttribute(element,"affiche",intElem) )
 		return false;
     assignerAffiche(intElem==1);
 
-    if( !XMLUtils::LireAttribute(element,"selectionnable",intElem) )
+    if( !XMLUtils::readAttribute(element,"selectionnable",intElem) )
 		return false;
     assignerEstSelectionnable(intElem==1);
 	

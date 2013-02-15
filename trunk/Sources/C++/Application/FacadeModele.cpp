@@ -39,10 +39,6 @@
 
 #include "FacadeModele.h"
 
-// Remlacement de EnveloppeXML/XercesC par TinyXML
-// Julien Gascon-Samson, été 2011
-#include "tinyxml.h"
-
 #include "CompteurAffichage.h"
 #include "GestionnaireEvenements.h"
 #include "SourisEtatDeplacerFenetre.h"
@@ -484,10 +480,10 @@ void FacadeModele::chargerTerrain( const std::string& nomFichier /*= ""*/, Terra
 	// si le fichier existe on le lit
 	else 
 	{
-		TiXmlDocument document;
+		XmlDocument* document = XMLUtils::LoadDocument(fichierACharger.c_str());
 
 		// Lire à partir du fichier de configuration
-		if( !document.LoadFile ( fichierACharger.c_str() ) )
+		if( !document )
 		{
 			utilitaire::afficherErreur("Erreur : chargement XML : erreur de lecture du fichier");
 			// Si on est en jeu on s'assure d'avoir une table valide
@@ -500,7 +496,7 @@ void FacadeModele::chargerTerrain( const std::string& nomFichier /*= ""*/, Terra
 		}
 		else
 		{
-			if(!terrain->initialiserXml((XmlElement*)&document))
+			if(!terrain->initialiserXml((XmlElement*)document))
 				terrain->initialiser(fichierACharger);
 			if(!enJeu_)
 			{
@@ -510,6 +506,8 @@ void FacadeModele::chargerTerrain( const std::string& nomFichier /*= ""*/, Terra
 				}
 			}
 			ajusterElementSurTableEnCollision();
+
+            XMLUtils::FreeDocument(document);
 		}
 	}
 }
@@ -549,17 +547,14 @@ void FacadeModele::enregistrerTerrain( const std::string& nomFichier /*= ""*/, T
 	}
 
 
-	TiXmlDocument document;
-
-	// Écrire la déclaration XML standard...
-	TiXmlDeclaration* declaration = new TiXmlDeclaration( "1.0", "", "" );
-	document.LinkEndChild(declaration);
+	XmlDocument* document = XMLUtils::CreateDocument("1.0", "", "");
 
 	// Creation du noeud du terrain
-	document.LinkEndChild( terrain->creerNoeudXML());
+    XMLUtils::LinkEndChild((XmlElement*)document,terrain->creerNoeudXML());
 
 	// Écrire dans le fichier
-	document.SaveFile( fichierAEnregistrer.c_str() );
+    XMLUtils::SaveDocument(document,fichierAEnregistrer.c_str());
+    XMLUtils::FreeDocument(document);
 }
 
 
@@ -587,22 +582,23 @@ void FacadeModele::chargerJoueurs( const std::string& nomFichier /*= ""*/, Conte
 
 	if(joueurs == 0)
 		joueurs = &profilsVirtuels_;
-	TiXmlDocument document;
 
 	if(!utilitaire::fichierExiste(fichierACharger))
 	{
 		enregistrerJoueurs();
 		return;
 	}
-	if( !document.LoadFile ( fichierACharger.c_str() ) )
+    XmlDocument* document = XMLUtils::LoadDocument(fichierACharger.c_str());
+    if( !document )
 	{
 		utilitaire::afficherErreur("Erreur : chargement XML : erreur de lecture du fichier");
 		return;
 	}
 
 	// On enregistre les différentes configurations.
-	ConfigScene::obtenirInstance()->lireDOM(document,*joueurs);
+	ConfigScene::obtenirInstance()->lireDOM((XmlNode&)*document,*joueurs);
 
+    XMLUtils::FreeDocument(document);
 }
 
 
@@ -630,15 +626,15 @@ void FacadeModele::enregistrerJoueurs( const std::string& nomFichier /*= ""*/, C
 
 	if(joueurs == 0)
 		joueurs = &profilsVirtuels_;
-	TiXmlDocument document;
-	// Écrire la déclaration XML standard...
-	TiXmlDeclaration* declaration = new TiXmlDeclaration( "1.0", "", "" );
-	document.LinkEndChild(declaration);
 
-	// On enregistre les différentes configurations.
-	ConfigScene::obtenirInstance()->creerDOM(document,*joueurs);
-	// Écrire dans le fichier
-	document.SaveFile( fichierAEnregistrer.c_str() );
+    XmlDocument* document = XMLUtils::CreateDocument("1.0", "", "");
+
+    // Creation du noeud du terrain
+    ConfigScene::obtenirInstance()->creerDOM((XmlNode&)*document,*joueurs);
+
+    // Écrire dans le fichier
+    XMLUtils::SaveDocument(document,fichierAEnregistrer.c_str());
+    XMLUtils::FreeDocument(document);
 }
 
 
@@ -657,15 +653,16 @@ void FacadeModele::chargerTournoi(std::string nomFichier)
 {
 	if(utilitaire::fichierExiste(nomFichier))
 	{
-		TiXmlDocument document;
-		if( !document.LoadFile ( nomFichier.c_str() ) )
+	    XmlDocument* document = XMLUtils::LoadDocument(nomFichier.c_str());
+		if( !document )
 		{
 			utilitaire::afficherErreur("Erreur : chargement XML : erreur de lecture du fichier de tournoi");
 			return;
 		}
 		Tournoi* tournoi = new Tournoi();
-		XmlElement* elem = document.FirstChildElement("Tournoi");
-		if(tournoi->initialisationXML(elem,&profilsVirtuels_))
+        
+		XmlElement* elem = XMLUtils::FirstChildElement((XmlElement*)document,"Tournoi");
+		if(elem && tournoi->initialisationXML(elem,&profilsVirtuels_))
 		{
 			if(tournoi_ != 0)
 				delete tournoi_;

@@ -107,7 +107,6 @@ void VisiteurEstSelectione::visiterNoeudComposite( NoeudComposite* noeud )
 void VisiteurEstSelectione::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
 	visiterNoeudAbstrait(noeud);
-	visiterNoeudComposite(noeud);
 }
 
 

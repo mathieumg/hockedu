@@ -28,31 +28,21 @@ class NoeudMuretRelatif :
 	public NodeWallAbstract, public PositionObserver
 {
 public:
+    typedef NodeWallAbstract Super;
 	/// Constructeurs par paramètres
-	NoeudMuretRelatif(NoeudPoint* n1, NoeudPoint* n2		);
+	NoeudMuretRelatif(NoeudPoint* n1, NoeudPoint* n2);
 	NoeudMuretRelatif(NoeudPoint* n, NoeudBut* but, bool haut);
 	NoeudMuretRelatif(NoeudBut* but, NoeudPoint* n, bool haut);
-	/// Destructeur
-	~NoeudMuretRelatif(void);
 
-	/// Affiche le muret.
-	virtual void afficherConcret() const;
 	/// Accesseur du coin1
 	virtual Vecteur3 obtenirCoin1();
 	/// Accesseur du coin2
 	virtual Vecteur3 obtenirCoin2();
-	/// Effectue l'animation
-	virtual void animer( const float& temps );
-	/// Retourne le rayon du noeud
-	virtual float obtenirRayon() const;
-	/// Initialise les deux valeurs pour l'utilisation d'un modele 3D
-	virtual void mettreAJourEchelleRotation();
 
     virtual void updateObserver( class PositionSubject* pSubject );
 
 private:
 	typedef Vecteur3D<float*> Vecteur3pd;
 	Vecteur3pd coin1_,coin2_;
-
 };
 

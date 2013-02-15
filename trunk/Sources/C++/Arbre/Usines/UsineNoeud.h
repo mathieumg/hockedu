@@ -52,8 +52,6 @@ protected:
 private:
    /// Le nom associé à l'usine
    std::string nom_;
-
-
 };
 
 
@@ -83,11 +81,48 @@ public:                                                                      \
 
 CreateNodeFactory(NoeudGroupe);
 CreateNodeFactory(NoeudAccelerateur);
-CreateNodeFactory(NoeudMaillet);
 CreateNodeFactory(NoeudMuret);
 CreateNodeFactory(NoeudPortail);
-CreateNodeFactory(NoeudRondelle);
 CreateNodeFactory(NoeudTable);
+
+class UsineNoeudMaillet : public UsineNoeud
+{
+public:
+    /// Constructeur par paramètres.
+    inline UsineNoeudMaillet(const std::string& nom):UsineNoeud(nom){}
+
+    /// Fonction à surcharger pour la création d'un noeud.
+    inline virtual NoeudAbstrait* creerNoeud() const
+    {
+        if(UsineNoeudMaillet::bypassLimitePourTest || NoeudMaillet::mailletExistant < 2)
+        {
+            return new NoeudMaillet(obtenirNom());
+        }
+        return 0;
+    }
+
+    static bool bypassLimitePourTest; //Définie dans NoeudMaillet.cpp
+};
+
+class UsineNoeudRondelle : public UsineNoeud
+{
+public:
+    /// Constructeur par paramètres.
+    inline UsineNoeudRondelle(const std::string& nom):UsineNoeud(nom){}
+
+    /// Fonction à surcharger pour la création d'un noeud.
+    inline virtual NoeudAbstrait* creerNoeud() const
+    {
+        if(UsineNoeudRondelle::bypassLimitePourTest || NoeudRondelle::rondellesPresentes < 1)
+        {
+            return new NoeudRondelle(obtenirNom());
+        }
+        return 0;
+    }
+
+    static bool bypassLimitePourTest; //Définie dans NoeudMaillet.cpp
+};
+
 
 #endif // __ARBRE_USINES_USINENOEUD_H__
 

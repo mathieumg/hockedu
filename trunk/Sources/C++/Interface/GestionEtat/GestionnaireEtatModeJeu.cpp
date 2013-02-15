@@ -18,6 +18,7 @@
 #include "GestionnaireHUD.h"
 #include "GestionnaireEtatAbstrait.h"
 #include "SourisEtatAbstrait.h"
+#include "SoundFMOD.h"
 
 
 

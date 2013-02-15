@@ -20,7 +20,6 @@
 #include "Vue.h"
 #include "Camera.h"
 #include "GestionnaireAnimations.h"
-#include "tinyxml.h"
 #include "XMLUtils.h"
 
 
@@ -232,7 +231,7 @@ void Partie::assignerJoueur( SPJoueurAbstrait joueur )
 ////////////////////////////////////////////////////////////////////////
 XmlElement* Partie::creerNoeudXML() const
 {
-	XmlElement* elementNoeud = XMLUtils::creerNoeud("Partie");
+	XmlElement* elementNoeud = XMLUtils::createNode("Partie");
 
 	elementNoeud->SetAttribute("ptsG", pointsJoueurGauche_);
 	elementNoeud->SetAttribute("ptsD", pointsJoueurDroit_);

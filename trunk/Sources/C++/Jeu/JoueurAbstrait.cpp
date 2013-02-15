@@ -11,7 +11,6 @@
 #include "JoueurAbstrait.h"
 #include "JoueurHumain.h"
 #include "JoueurVirtuel.h"
-#include "tinyxml.h"
 #include "XMLUtils.h"
 
 const std::string JoueurAbstrait::etiquetteJoueur = "Joueur";
@@ -85,11 +84,11 @@ JoueurAbstrait::~JoueurAbstrait( void )
 ////////////////////////////////////////////////////////////////////////
 XmlElement* JoueurAbstrait::creerNoeudXML() const
 {
-	XmlElement* elementNoeud = XMLUtils::creerNoeud(etiquetteJoueur.c_str());
+	XmlElement* elementNoeud = XMLUtils::createNode(etiquetteJoueur.c_str());
 
-	XmlElement* etiquetteNom = XMLUtils::creerNoeud("nom");
-    XmlText* nom = XMLUtils::creerNoeudText(obtenirNom().c_str());
-    etiquetteNom->LinkEndChild(nom);
+	XmlElement* etiquetteNom = XMLUtils::createNode("nom");
+    XmlText* nom = XMLUtils::createTextNode(obtenirNom().c_str());
+    XMLUtils::LinkEndChild(etiquetteNom,(XmlElement*)nom);
     XMLUtils::LinkEndChild(elementNoeud,etiquetteNom);
 
 	return elementNoeud;
@@ -126,14 +125,14 @@ bool JoueurAbstrait::initialiser( const XmlElement* element )
 ////////////////////////////////////////////////////////////////////////
 std::string JoueurAbstrait::extraireNomXmlNode( const XmlElement* element )
 {
-	const XmlElement* node = element->FirstChildElement("nom");
-	if(node == 0)
+	const XmlElement* node = XMLUtils::FirstChildElement(element,"nom");
+	if(!node)
 		return "";
-	const TiXmlNode* etiquetteNom = node->FirstChild();
-	if(etiquetteNom == 0)
+	const XmlNode* etiquetteNom = node->FirstChild();
+	if(!etiquetteNom)
 		return "";
 	const XmlText* nom = etiquetteNom->ToText();
-	if(nom == 0)
+	if(!nom )
 		return "";
 	return nom->Value();
 }

@@ -25,6 +25,9 @@
 #include "GestionnaireAnimations.h"
 #include "XMLUtils.h"
 #include "RazerGameTree.h"
+#include "LumiereAmbiante.h"
+#include "LumiereDirectionnelle.h"
+#include "LumiereSpot.h"
 
 SINGLETON_DECLARATION_CPP(ConfigScene);
 
@@ -204,7 +207,7 @@ ConfigScene::~ConfigScene()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void ConfigScene::creerDOM ( TiXmlNode& node ) const
+/// @fn void ConfigScene::creerDOM ( XmlNode& node ) const
 ///
 /// Cette fonction écrit les valeurs de la configuration dans un élément XML.
 ///
@@ -213,44 +216,39 @@ ConfigScene::~ConfigScene()
 ////////////////////////////////////////////////////////////////////////
 void ConfigScene::enregistrerConfiguration () const
 {
-	TiXmlDocument document;
-
-	// Écrire la déclaration XML standard...
-	TiXmlDeclaration* declaration = new TiXmlDeclaration( "1.0", "", "" );
-	document.LinkEndChild(declaration);
+	XmlDocument* document = XMLUtils::CreateDocument("1.0", "", "");
 
 	// On enregistre les différentes configurations.
 	// Créer le noeud 'configuration'
-	XmlElement* elementConfiguration = XMLUtils::creerNoeud("configuration");
+	XmlElement* elementConfiguration = XMLUtils::createNode("configuration");
 
 	// Créer le noeud scene et définir ses attributs
-	XmlElement* elementScene = XMLUtils::creerNoeud("CScene");
-	elementScene->SetAttribute("toucheHaut", toucheHaut_);
-	elementScene->SetAttribute("toucheBas",	   toucheBas_);
-	elementScene->SetAttribute("toucheGauche", toucheGauche_);
-	elementScene->SetAttribute("toucheDroite", toucheDroite_);
+	XmlElement* elementScene = XMLUtils::createNode("CScene");
+    XMLUtils::writeAttribute(elementScene,"toucheHaut", toucheHaut_);
+    XMLUtils::writeAttribute(elementScene,"toucheBas",	   toucheBas_);
+    XMLUtils::writeAttribute(elementScene,"toucheGauche", toucheGauche_);
+    XMLUtils::writeAttribute(elementScene,"toucheDroite", toucheDroite_);
 	
 	// Enregistrement du volumes de la musique et des effets
-	elementScene->SetDoubleAttribute("volSong", (float) SoundFMOD::obtenirInstance()->getAppSongVolume());
-	elementScene->SetDoubleAttribute("volEffect", (float) SoundFMOD::obtenirInstance()->getEffectVolume());
+    XMLUtils::writeAttribute(elementScene,"volSong", SoundFMOD::obtenirInstance()->getAppSongVolume());
+    XMLUtils::writeAttribute(elementScene,"volEffect", SoundFMOD::obtenirInstance()->getEffectVolume());
 
 	// Adjoindre le noeud 'elementScene'
-	elementConfiguration->LinkEndChild(elementScene);
+    XMLUtils::LinkEndChild(elementConfiguration,elementScene);
 
 	// Adjoindre le noeud 'configuration' au noeud principal
 	// (Rappel : pas besoin de libérer la mémoire de elementConfiguration
 	// puisque toutes les fonctions Link... le font pour nous)
-	document.LinkEndChild(elementConfiguration);
+    XMLUtils::LinkEndChild((XmlElement*)document,elementConfiguration);
 
 	// Écrire dans le fichier
-	document.SaveFile( FICHIER_CONFIGURATION.c_str() );
-	
+    XMLUtils::SaveDocument(document,FICHIER_CONFIGURATION.c_str());
 }
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void ConfigScene::lireDOM( const TiXmlNode& node )
+/// @fn void ConfigScene::lireDOM( const XmlNode& node )
 ///
 /// Cette fonction lit les valeurs de la configuration à partir d'un élément
 /// XML.
@@ -268,26 +266,28 @@ void ConfigScene::chargerConfiguration( )
 	}
 	// si le fichier existe on le lit
 	else {
-		TiXmlDocument document;
+		XmlDocument* document = XMLUtils::LoadDocument(FICHIER_CONFIGURATION.c_str());
 
-		// Lire à partir du fichier de configuration
-		document.LoadFile ( FICHIER_CONFIGURATION.c_str() );
-
-		// Tenter d'obtenir le noeud 'Configuration'
-		const XmlElement* elementConfiguration = (XmlElement*)(document.FirstChild("configuration"));
-		if (elementConfiguration != NULL) {
-			// Tenter d'obtenir l'élément CScene, puis l'attribut CALCULS_PAR_IMAGE
-			const XmlElement* elementScene = (XmlElement*)(elementConfiguration->FirstChild("CScene"));
-			if (elementScene != NULL) {
-				if(elementScene->Attribute("toucheHaut",   &toucheHaut_  ) == 0)toucheHaut_ = VJAK_W;
-				if(elementScene->Attribute("toucheBas",		&toucheBas_  ) == 0)toucheBas_ = VJAK_S;
-				if(elementScene->Attribute("toucheGauche", &toucheGauche_) == 0)toucheGauche_ = VJAK_A;
-				if(elementScene->Attribute("toucheDroite", &toucheDroite_) == 0)toucheDroite_ = VJAK_D;
-				float vol;
-				if(elementScene->QueryFloatAttribute("volSong", &vol) == TIXML_SUCCESS)SoundFMOD::obtenirInstance()->setAppVolume(vol);
-				if(elementScene->QueryFloatAttribute("volEffect", &vol) == TIXML_SUCCESS)SoundFMOD::obtenirInstance()->setEffectVolume(vol);
-			}
-		}
+        if(document)
+        {
+            // Tenter d'obtenir le noeud 'Configuration'
+            const XmlElement* elementConfiguration = XMLUtils::FirstChildElement((XmlElement*)document,"configuration");
+            if (elementConfiguration) {
+                // Tenter d'obtenir l'élément CScene, puis l'attribut CALCULS_PAR_IMAGE
+                const XmlElement* elementScene =  XMLUtils::FirstChildElement(elementConfiguration,"CScene");
+                if (elementScene) 
+                {
+                    if(!XMLUtils::readAttribute(elementScene,"toucheHaut",   toucheHaut_  ))toucheHaut_   = VJAK_W;
+                    if(!XMLUtils::readAttribute(elementScene,"toucheBas",	toucheBas_    ))toucheBas_    = VJAK_S;
+                    if(!XMLUtils::readAttribute(elementScene,"toucheGauche", toucheGauche_))toucheGauche_ = VJAK_A;
+                    if(!XMLUtils::readAttribute(elementScene,"toucheDroite", toucheDroite_))toucheDroite_ = VJAK_D;
+                    float vol;                             
+                    if(XMLUtils::readAttribute(elementScene,"volSong", vol)  )SoundFMOD::obtenirInstance()->setAppVolume(vol);
+                    if(XMLUtils::readAttribute(elementScene,"volEffect", vol))SoundFMOD::obtenirInstance()->setEffectVolume(vol);
+                }
+            }
+            XMLUtils::FreeDocument(document);
+        }
 	}
 
 	
@@ -295,23 +295,23 @@ void ConfigScene::chargerConfiguration( )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void ConfigScene::creerDOM( TiXmlNode& node, RazerGameTree* arbre ) const
+/// @fn void ConfigScene::creerDOM( XmlNode& node, RazerGameTree* arbre ) const
 ///
 /// Cette fonction écrit les valeurs de la configuration dans un élément XML.
 ///
-/// @param[in] TiXmlNode & node : racine pour la création, généralement le document lui-meme
+/// @param[in] XmlNode & node : racine pour la création, généralement le document lui-meme
 /// @param[in] RazerGameTree * arbre : pointeur vers l'arbre à créer
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void ConfigScene::creerDOM( TiXmlNode& node, RazerGameTree* arbre ) const
+void ConfigScene::creerDOM( XmlNode& node, RazerGameTree* arbre ) const
 {
 	if(arbre == 0)
 		return;
 
 	// Créer le noeud 
-	XmlElement* racine = XMLUtils::creerNoeud(ETIQUETTE_ARBRE);
+	XmlElement* racine = XMLUtils::createNode(ETIQUETTE_ARBRE);
 	node.LinkEndChild(racine);
 
 	VisiteurEcrireXML v;
@@ -328,20 +328,20 @@ void ConfigScene::creerDOM( TiXmlNode& node, RazerGameTree* arbre ) const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void ConfigScene::creerDOM( TiXmlNode& node, ConteneurJoueur* joueurs ) const
+/// @fn void ConfigScene::creerDOM( XmlNode& node, ConteneurJoueur* joueurs ) const
 ///
 /// Cette fonction écrit les valeurs de la configuration dans un élément XML.
 ///
-/// @param[in] TiXmlNode & node : racine pour la création, généralement le document lui-meme
+/// @param[in] XmlNode & node : racine pour la création, généralement le document lui-meme
 /// @param[in] ConteneurJoueur * joueurs : conteneur de joueur à enregistrer
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void ConfigScene::creerDOM( TiXmlNode& node, const ConteneurJoueur& joueurs ) const
+void ConfigScene::creerDOM( XmlNode& node, const ConteneurJoueur& joueurs ) const
 {
 	// Créer le noeud 
-	XmlElement* racine = XMLUtils::creerNoeud("ProfileJoueurs");
+	XmlElement* racine = XMLUtils::createNode("ProfileJoueurs");
 	node.LinkEndChild(racine);
 
 	// Parcour du conteneur et création des noeud XML de chacun des joueurs
@@ -356,20 +356,20 @@ void ConfigScene::creerDOM( TiXmlNode& node, const ConteneurJoueur& joueurs ) co
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void ConfigScene::creerDOM( TiXmlNode& node, const Tournoi& tournoi ) const
+/// @fn void ConfigScene::creerDOM( XmlNode& node, const Tournoi& tournoi ) const
 ///
 /// Creation du DOM pour un tournoi pour l'enregistrement XML
 ///
-/// @param[in] TiXmlNode & node
+/// @param[in] XmlNode & node
 /// @param[in] const Tournoi & tournoi
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void ConfigScene::creerDOM( TiXmlNode& node, const Tournoi& tournoi ) const
+void ConfigScene::creerDOM( XmlNode& node, const Tournoi& tournoi ) const
 {
 	// Créer le noeud 
-	XmlElement* racine = XMLUtils::creerNoeud("Tournoi");
+	XmlElement* racine = XMLUtils::createNode("Tournoi");
 	node.LinkEndChild(racine);
 
 	// Parcour du conteneur et création des noeud XML de chacun des joueurs
@@ -378,7 +378,7 @@ void ConfigScene::creerDOM( TiXmlNode& node, const Tournoi& tournoi ) const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void ConfigScene::lireDOM( const TiXmlNode& node, RazerGameTree* arbre )
+/// @fn void ConfigScene::lireDOM( const XmlNode& node, RazerGameTree* arbre )
 ///
 /// Cette fonction lit les valeurs de la configuration à partir d'un élément
 /// XML.
@@ -386,12 +386,12 @@ void ConfigScene::creerDOM( TiXmlNode& node, const Tournoi& tournoi ) const
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-void ConfigScene::lireDOM( const TiXmlNode& node, RazerGameTree* arbre )
+void ConfigScene::lireDOM( const XmlNode& node, RazerGameTree* arbre )
 {
 	arbre->vider();
 	arbre_ = arbre;
 	// Tenter d'obtenir le noeud 'Arbre'
-	const TiXmlNode* elementConfiguration = node.FirstChild("Arbre"), *child;
+	const XmlNode* elementConfiguration = node.FirstChild("Arbre"), *child;
 	if (elementConfiguration != NULL)
 	{
 		for( child = elementConfiguration->FirstChild(); child/*Vérifie si child est non-null*/; child = child->NextSibling() )
@@ -405,19 +405,19 @@ void ConfigScene::lireDOM( const TiXmlNode& node, RazerGameTree* arbre )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void ConfigScene::lireDOM( const TiXmlNode& node, ConteneurJoueur& Joueurs )
+/// @fn void ConfigScene::lireDOM( const XmlNode& node, ConteneurJoueur& Joueurs )
 ///
 /// /*Description*/
 ///
-/// @param[in] const TiXmlNode & node
+/// @param[in] const XmlNode & node
 /// @param[in] ConteneurJoueur & Joueurs
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void ConfigScene::lireDOM( const TiXmlNode& node, ConteneurJoueur& Joueurs )
+void ConfigScene::lireDOM( const XmlNode& node, ConteneurJoueur& Joueurs )
 {
-	const TiXmlNode* elementConfiguration = node.FirstChild("ProfileJoueurs");
+	const XmlNode* elementConfiguration = node.FirstChild("ProfileJoueurs");
 	const XmlElement* child;
 	if (elementConfiguration != NULL)
 	{
@@ -440,12 +440,12 @@ void ConfigScene::lireDOM( const TiXmlNode& node, ConteneurJoueur& Joueurs )
 /// Méthode pour faire l'arbre de rendu à partir d'un noeud XML
 ///
 /// @param[in] NoeudAbstrait * parentNoeud
-/// @param[in] TiXmlNode * node
+/// @param[in] XmlNode * node
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void ConfigScene::ecrireArbre(NoeudAbstrait* parentNoeud, const TiXmlNode* node)
+void ConfigScene::ecrireArbre(NoeudAbstrait* parentNoeud, const XmlNode* node)
 {
 	XmlElement* elem = (XmlElement*)node;
 	TiXmlString nom = elem->ValueTStr();
@@ -492,7 +492,7 @@ void ConfigScene::ecrireArbre(NoeudAbstrait* parentNoeud, const TiXmlNode* node)
 	}
 	if(!elem->NoChildren())
 	{
-		const TiXmlNode *child;
+		const XmlNode *child;
 		for( child = node->FirstChild(); child; child = child->NextSibling() )
 		{
 			ecrireArbre(noeudCourant,child);
@@ -512,7 +512,7 @@ void ConfigScene::ecrireArbre(NoeudAbstrait* parentNoeud, const TiXmlNode* node)
 void ConfigScene::creerFichierMusique()
 {
 	TiXmlDocument document;
-	XmlElement* racine = XMLUtils::creerNoeud("listeCanaux");
+	XmlElement* racine = XMLUtils::createNode("listeCanaux");
 
 	// Écrire la déclaration XML standard...
 	TiXmlDeclaration* declaration = new TiXmlDeclaration( "1.0", "", "" );
@@ -552,7 +552,7 @@ void ConfigScene::ajouterCanal(std::string nomCanal)
 	if(racine != NULL)
 	{
 		// Ajout du canal
-		XmlElement* nouveauCanal = XMLUtils::creerNoeud("canal");
+		XmlElement* nouveauCanal = XMLUtils::createNode("canal");
 		nouveauCanal->SetAttribute("nom", nomCanal.c_str());
 		racine->LinkEndChild(nouveauCanal);
 		document.SaveFile(FICHIER_MUSIQUE.c_str());
@@ -656,7 +656,7 @@ void ConfigScene::ajouterChanson(std::string nomCanal, std::string nomChanson)
 		if(canal != NULL)
 		{
 			// Ajout de la chanson
-			XmlElement* nouvelleChanson = XMLUtils::creerNoeud("chanson");
+			XmlElement* nouvelleChanson = XMLUtils::createNode("chanson");
 			nouvelleChanson->SetAttribute("Nom", nomChanson.c_str());
 			canal->LinkEndChild(nouvelleChanson);
 			SoundFMOD::obtenirInstance()->create_sound(nomChanson, FMOD_HARDWARE, 0, nomCanal);

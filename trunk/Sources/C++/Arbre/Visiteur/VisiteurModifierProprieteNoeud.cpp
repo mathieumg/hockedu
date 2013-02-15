@@ -168,8 +168,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NodeWallAbstract* noeud 
 			float oldAngle = noeud->obtenirAngle();
 			noeud->assignerAngle((float)rotation_);
 			Vecteur3 oldEchelle; noeud->obtenirEchelleCourante(oldEchelle);
-			noeud->modifierEchelleCourante(Vecteur3(echelle_*10, 1.0, 1.0));
-			noeud->majPosCoins();
+			noeud->modifierEchelleCourante(Vecteur3(echelle_*10, oldEchelle[VY], oldEchelle[VZ]));
 
 			// Si on arrive pas à assigner les nouvelles positions on annule les modifications et l'indique à l'usager
 			if(!FacadeModele::getInstance()->ajusterElementEnCollision(noeud,20))
@@ -177,16 +176,10 @@ void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NodeWallAbstract* noeud 
 				noeud->assignerPositionRelative(oldPos);
 				noeud->assignerAngle(oldAngle);
 				noeud->modifierEchelleCourante(oldEchelle);
-				noeud->majPosCoins();
 				utilitaire::afficherErreur("Nouvelles propriétés du Muret ne sont pas valides");
 			}
-
 		}
 	}
-	if(noeud->getReboundRatio()==-1)
-		int test = 1;
-
-	visiterNoeudComposite(noeud);
 }
 
 

@@ -12,13 +12,13 @@
 #include "ZoneEdition.h"
 #include <vector>
 #include "RazerGameTypeDef.h"
+#include "XMLUtils.h"
 
 class RazerGameTree;
 class ArbreNoeudLibre;
 class ZoneEdition;
 class NoeudTable;
 class NoeudRondelle;
-class XmlElement;
 class NoeudAbstrait;
 class TerrainTest;
 

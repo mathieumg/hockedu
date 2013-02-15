@@ -142,14 +142,12 @@ void VisiteurDeplacement::visiterNoeudComposite( NoeudComposite* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurDeplacement::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
-	/*if(!noeud->estSelectionne())
-		return;*/
-
-	noeud->assignerPositionCoin(1, noeud->obtenirCoin1()+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
-	noeud->assignerPositionCoin(2, noeud->obtenirCoin2()+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
-
-
-	visiterNoeudComposite(noeud);
+    if(!ignoreSelection_ && !noeud->estSelectionne())
+        return;
+    // assume ici qu'un muret relatif ne peut etre selectionné
+    NoeudMuret* muret = (NoeudMuret*)noeud;
+    muret->assignerPositionCoin(1, noeud->obtenirCoin1()+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
+	muret->assignerPositionCoin(2, noeud->obtenirCoin2()+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
 }
 
 ////////////////////////////////////////////////////////////////////////

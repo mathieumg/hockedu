@@ -10,7 +10,6 @@
 #include "TournoiTest.h"
 #include "JoueurHumain.h"
 #include "JoueurVirtuel.h"
-#include "tinyxml.h"
 #include "XMLUtils.h"
 
 // Enregistrement de la suite de tests au sein du registre
@@ -103,7 +102,7 @@ void TournoiTest::testEcritureXML()
 	TiXmlDocument document;
 	TiXmlDeclaration* declaration = new TiXmlDeclaration( "1.0", "", "" );
 	document.LinkEndChild(declaration);
-	XmlElement* racine = XMLUtils::creerNoeud("Tournoi");
+	XmlElement* racine = XMLUtils::createNode("Tournoi");
 	document.LinkEndChild(racine);
 
 	racine->LinkEndChild(tournoi_->creerTournoiXML());

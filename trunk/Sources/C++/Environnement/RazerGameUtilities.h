@@ -12,6 +12,7 @@
 #define __ENVIRONNEMENT_RAZERGAMEUTILITIES_H__
 
 #include <string>
+#include "XMLUtils.h"
 
 // Macro permettant de localiser la signature des fonctions et éviter des gros replace all en cas de changement
 #define CreateListDelegateSignature(name) static unsigned int CreateListDelegate##name##(class Modele3D* pModel)

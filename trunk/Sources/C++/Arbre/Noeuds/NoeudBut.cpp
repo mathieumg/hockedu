@@ -359,10 +359,10 @@ XmlElement* NoeudBut::creerNoeudXML()
 {
 	XmlElement* elementNoeud = NoeudComposite::creerNoeudXML();
 
-    XMLUtils::ecrireAttribute<float>(elementNoeud,"longueurBut",mGoalLength);
-    XMLUtils::ecrireAttribute<int>(elementNoeud,"joueur",joueur_);
-    XMLUtils::ecrireVecteur3Dxml(&mTopPosition,elementNoeud,"coinHaut");
-    XMLUtils::ecrireVecteur3Dxml(&mBottomPosition,elementNoeud,"coinBas");
+    XMLUtils::writeAttribute(elementNoeud,"longueurBut",mGoalLength);
+    XMLUtils::writeAttribute(elementNoeud,"joueur",joueur_);
+    XMLUtils::writeArray(mTopPosition.c_arr(),3,elementNoeud,"coinHaut");
+    XMLUtils::writeArray(mBottomPosition.c_arr(),3,elementNoeud,"coinBas");
 	return elementNoeud;
 }
 
@@ -382,18 +382,18 @@ bool NoeudBut::initialiser( const XmlElement* element )
 	if(!NoeudComposite::initialiser(element))
 		return false;
 	auto floatElem = mGoalLength;
-    if(!XMLUtils::LireAttribute(element,"longueurBut",floatElem))
+    if(!XMLUtils::readAttribute(element,"longueurBut",floatElem))
 		return false;
 	mGoalLength = floatElem;
 
 	auto intElem = joueur_;
-    if(!XMLUtils::LireAttribute(element,"joueur",intElem))
+    if(!XMLUtils::readAttribute(element,"joueur",intElem))
 		return false;
 	joueur_ = intElem;
 
-    if( !XMLUtils::lectureVecteur3Dxml(&mTopPosition,element,"coinHaut") )
+    if( !XMLUtils::readArray(mTopPosition.c_arr(),3,element,"coinHaut") )
 		return false;
-    if( !XMLUtils::lectureVecteur3Dxml(&mBottomPosition,element,"coinBas") )
+    if( !XMLUtils::readArray(mBottomPosition.c_arr(),3,element,"coinBas") )
 		return false;
 
 	return true;
@@ -443,38 +443,41 @@ void NoeudBut::updatePhysicBody()
 {
 #if BOX2D_INTEGRATED
 
-    clearPhysicsBody();
+    if(getWorld())
+    {
+        clearPhysicsBody();
 
-    float halfLength = getLength()/2.f*utilitaire::ratioWorldToBox2D;//(float)(coin2-coin1).norme()/2.f;
+        float halfLength = getLength()/2.f*utilitaire::ratioWorldToBox2D;//(float)(coin2-coin1).norme()/2.f;
 
-    b2BodyDef myBodyDef;
-    myBodyDef.type = b2_staticBody; //this will be a dynamic body
-    myBodyDef.position.Set(0, 0); //set the starting position
-    myBodyDef.angle = 0; //set the starting angle
+        b2BodyDef myBodyDef;
+        myBodyDef.type = b2_staticBody; //this will be a dynamic body
+        myBodyDef.position.Set(0, 0); //set the starting position
+        myBodyDef.angle = 0; //set the starting angle
 
-    mPhysicBody = getWorld()->CreateBody(&myBodyDef);
-    Vecteur3 anchorPointPos = obtenirPositionAbsolue();
-    b2Vec2 anchorPointPosB2, topPosB2,BottomPosB2 ;
-    utilitaire::VEC3_TO_B2VEC(anchorPointPos,anchorPointPosB2);
-    utilitaire::VEC3_TO_B2VEC(mTopPosition,topPosB2);
-    utilitaire::VEC3_TO_B2VEC(mBottomPosition,BottomPosB2);
-    b2EdgeShape shape;
-    shape.Set(anchorPointPosB2,topPosB2);
+        mPhysicBody = getWorld()->CreateBody(&myBodyDef);
+        Vecteur3 anchorPointPos = obtenirPositionAbsolue();
+        b2Vec2 anchorPointPosB2, topPosB2,BottomPosB2 ;
+        utilitaire::VEC3_TO_B2VEC(anchorPointPos,anchorPointPosB2);
+        utilitaire::VEC3_TO_B2VEC(mTopPosition,topPosB2);
+        utilitaire::VEC3_TO_B2VEC(mBottomPosition,BottomPosB2);
+        b2EdgeShape shape;
+        shape.Set(anchorPointPosB2,topPosB2);
 
-    b2FixtureDef myFixtureDef;
-    myFixtureDef.shape = &shape; //this is a pointer to the shapeHaut above
-    myFixtureDef.density = 1;
-    myFixtureDef.filter.categoryBits = CATEGORY_NONE;
-    myFixtureDef.filter.maskBits = CATEGORY_NONE;
-    myFixtureDef.filter.groupIndex = 1;
+        b2FixtureDef myFixtureDef;
+        myFixtureDef.shape = &shape; //this is a pointer to the shapeHaut above
+        myFixtureDef.density = 1;
+        myFixtureDef.filter.categoryBits = CATEGORY_NONE;
+        myFixtureDef.filter.maskBits = CATEGORY_NONE;
+        myFixtureDef.filter.groupIndex = 1;
 
-    mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
-    shape.Set(anchorPointPosB2,BottomPosB2);
-    mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+        mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+        shape.Set(anchorPointPosB2,BottomPosB2);
+        mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
 
-    updatePuckCatcher(mCachedPuckRadius);
-    //     mPhysicBody->SetUserData(this);
-    //     mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
+        updatePuckCatcher(mCachedPuckRadius);
+        //     mPhysicBody->SetUserData(this);
+        //     mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
+    }
 #endif
 
 }
@@ -493,7 +496,7 @@ void NoeudBut::updatePhysicBody()
 void NoeudBut::updatePuckCatcher( float puckRadius )
 {
 #if BOX2D_INTEGRATED  
-    if(!mPuckCatcher || mCachedPuckRadius != puckRadius)
+    if(getWorld() && (!mPuckCatcher || mCachedPuckRadius != puckRadius) )
     {
         if(mPuckCatcher)
         {
@@ -561,7 +564,7 @@ void NoeudBut::clearPhysicsBody()
 {
     NoeudAbstrait::clearPhysicsBody();
 #if BOX2D_INTEGRATED  
-    if(mPuckCatcher)
+    if(getWorld() && mPuckCatcher)
     {
         getWorld()->DestroyBody(mPuckCatcher);
         mPuckCatcher = NULL;

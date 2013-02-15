@@ -8,7 +8,6 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudRondelle.h"
-#include "UsineNoeudRondelle.h"
 #include "FacadeModele.h"
 #include "VisiteurCollision.h"
 #include "NoeudMuret.h"
@@ -30,6 +29,7 @@
 #endif
 #include "Utilitaire.h"
 #include "NoeudBut.h"
+#include "UsineNoeud.h"
 
 unsigned int NoeudRondelle::rondellesPresentes=0;
 bool UsineNoeudRondelle::bypassLimitePourTest = false;
@@ -613,53 +613,56 @@ void NoeudRondelle::updatePhysicBody()
 {
 #if BOX2D_INTEGRATED
 
-    clearPhysicsBody();
-
-    b2BodyDef myBodyDef;
-    myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
-
-    float puckRadius = obtenirRayon();
-
-    Vecteur3 pos = obtenirPositionAbsolue();
-    b2Vec2 posB2;
-    utilitaire::VEC3_TO_B2VEC(pos,posB2);
-    myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
-    myBodyDef.angle = 0; //set the starting angle
-    myBodyDef.linearDamping = 0.5f;
-    myBodyDef.angularDamping = 0.1f;
-    mPhysicBody = getWorld()->CreateBody(&myBodyDef);
-    b2CircleShape circleShape;
-    circleShape.m_p.Set(0, 0); //position, relative to body position
-    circleShape.m_radius = puckRadius*utilitaire::ratioWorldToBox2D; //radius
-
-    b2FixtureDef myFixtureDef;
-    myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
-    myFixtureDef.density = 0.02f;
-    myFixtureDef.friction = 0.1f;
-    myFixtureDef.restitution = 0.95f;
-
-    // Il s'agit ici d'une rondelle qui peut entre en collision avec un maillet, un mur, un portail ou un boost
-    myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
-    myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY | CATEGORY_PORTAL | CATEGORY_BOOST;
-    
-    
-    mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
-    mPhysicBody->SetUserData(this);
-    mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
-
-    /// Update Goals physics body accordingly with puck radius
-    Terrain* terrain = GetTerrain();
-    if(terrain)
+    if(getWorld())
     {
-        NoeudBut* goals[2];
-        terrain->getGoals(goals);
+        clearPhysicsBody();
 
-        for(int i=0; i<2; ++i)
+        b2BodyDef myBodyDef;
+        myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
+
+        float puckRadius = obtenirRayon();
+
+        Vecteur3 pos = obtenirPositionAbsolue();
+        b2Vec2 posB2;
+        utilitaire::VEC3_TO_B2VEC(pos,posB2);
+        myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
+        myBodyDef.angle = 0; //set the starting angle
+        myBodyDef.linearDamping = 0.5f;
+        myBodyDef.angularDamping = 0.1f;
+        mPhysicBody = getWorld()->CreateBody(&myBodyDef);
+        b2CircleShape circleShape;
+        circleShape.m_p.Set(0, 0); //position, relative to body position
+        circleShape.m_radius = puckRadius*utilitaire::ratioWorldToBox2D; //radius
+
+        b2FixtureDef myFixtureDef;
+        myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
+        myFixtureDef.density = 0.02f;
+        myFixtureDef.friction = 0.1f;
+        myFixtureDef.restitution = 0.95f;
+
+        // Il s'agit ici d'une rondelle qui peut entre en collision avec un maillet, un mur, un portail ou un boost
+        myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
+        myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY | CATEGORY_PORTAL | CATEGORY_BOOST;
+
+
+        mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+        mPhysicBody->SetUserData(this);
+        mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
+
+        /// Update Goals physics body accordingly with puck radius
+        Terrain* terrain = GetTerrain();
+        if(terrain)
         {
-            NoeudBut* goal = goals[i];
-            if(goal)
+            NoeudBut* goals[2];
+            terrain->getGoals(goals);
+
+            for(int i=0; i<2; ++i)
             {
-                goal->updatePuckCatcher(puckRadius);
+                NoeudBut* goal = goals[i];
+                if(goal)
+                {
+                    goal->updatePuckCatcher(puckRadius);
+                }
             }
         }
     }

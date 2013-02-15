@@ -708,14 +708,14 @@ XmlElement* NoeudTable::creerNoeudXML()
 {
 	XmlElement* elementNoeud = NoeudComposite::creerNoeudXML();
     
-    XMLUtils::ecrireAttribute<float>(elementNoeud,"coefFriction",coefFriction_);
+    XMLUtils::writeAttribute<float>(elementNoeud,"coefFriction",coefFriction_);
 	for (int i = 0; i < 8 ; i++)
 	{
         std::ostringstream name;
         name << "rebondBande";
         name << i;
         float coef = bande_[i]->getReboundRatio();
-        XMLUtils::ecrireAttribute<float>(elementNoeud,name.str().c_str(),coef);
+        XMLUtils::writeAttribute<float>(elementNoeud,name.str().c_str(),coef);
 	}
 
 	return elementNoeud;
@@ -736,7 +736,7 @@ bool NoeudTable::initialiser( const XmlElement* element )
 {
 	if(!NoeudComposite::initialiser(element))
 		return false;
-    if(!XMLUtils::LireAttribute(element,"coefFriction",coefFriction_))
+    if(!XMLUtils::readAttribute(element,"coefFriction",coefFriction_))
 		return false;
 
 	// On assigne le coefficient de rebon des bandes exterieurs
@@ -747,7 +747,7 @@ bool NoeudTable::initialiser( const XmlElement* element )
         name << "rebondBande";
         name << i;
 
-        if(!XMLUtils::LireAttribute(element,name.str().c_str(),tempElem))
+        if(!XMLUtils::readAttribute(element,name.str().c_str(),tempElem))
 			return false;
 		assignerCoefRebond(i,tempElem);
 	}

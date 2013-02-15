@@ -23,7 +23,6 @@ class NoeudComposite;
 class VisiteurNoeud;
 class VisiteurCollision;
 class VisiteurNoeudTest;
-class XmlElement;
 class Modele3D;
 class Terrain;
 

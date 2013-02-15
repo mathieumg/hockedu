@@ -34,6 +34,7 @@
 #include "VisiteurFunction.h"
 #include "Partie.h"
 #include "VisiteurDupliquer.h"
+#include "SoundFMOD.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -291,13 +292,11 @@ bool Terrain::initialiserXml( XmlElement* element )
 	mNewNodeTree = new ArbreNoeudLibre();
 	mLogicTree = new RazerGameTree();
 
-	XmlElement* racine = element->FirstChildElement("Terrain");
+	XmlElement* racine = XMLUtils::FirstChildElement(element,"Terrain");
 	if(!racine)
 		return false;
-	const char* nom = racine->Attribute("nom");
-	if(nom == 0)
+    if(!XMLUtils::readAttribute(racine,"nom",mFieldName))
 		return false;
-	mFieldName = nom;
 
 	try
 	{
@@ -367,9 +366,8 @@ void Terrain::reinitialiser()
 XmlElement* Terrain::creerNoeudXML()
 {
 	// Créer le noeud 
-	XmlElement* racine = XMLUtils::creerNoeud("Terrain");
-
-	racine->SetAttribute("nom",getNom().c_str() );
+	XmlElement* racine = XMLUtils::createNode("Terrain");
+    XMLUtils::writeAttribute(racine,"nom",getNom());
 
 	if(getLogicTree())
 	{
@@ -378,7 +376,7 @@ XmlElement* Terrain::creerNoeudXML()
 		ConfigScene::obtenirInstance()->creerDOM(*racine,getLogicTree());
 	}
 
-	racine->LinkEndChild(getZoneEdition().creerNoeudXML());
+    XMLUtils::LinkEndChild(racine,getZoneEdition().creerNoeudXML());
 
 	return racine;
 }

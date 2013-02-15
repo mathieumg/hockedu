@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="3f982649-244d-4f62-877e-eda83f2e9019" name="Terrain" linkedPackageId="c4dd6f29-a348-4cfb-8da5-04f6b865b7a4" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="3f982649-244d-4f62-877e-eda83f2e9019" name="Terrain" linkedPackageId="c4dd6f29-a348-4cfb-8da5-04f6b865b7a4" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
   <packagedElements>
     <logicalClassDesignerModelHasPackages>
       <package Id="b0b0c171-00a5-4acc-9ce2-ab03edc0ae64" name="Terrain">
@@ -137,13 +137,13 @@
             <class Id="76266614-b982-4daa-bac6-edb2ba616a5f" name="NoeudBut" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="d836e5a4-600b-4fac-901b-a9c71b2f461d" />
               <generalsInternal>
-                <generalization Id="9fb1536e-12aa-4e55-9128-012e749e6f75" isSubstitutable="false">
-                  <classMoniker Id="cfe085b1-6c19-4ba3-91f6-79b35ed80627" LastKnownName="NoeudComposite" />
-                  <elementDefinition Id="07e96232-c246-4a4c-a0c2-c69d70c00b4c" />
-                </generalization>
                 <generalization Id="ea8edee0-0053-45f6-bc5d-cb9d3e1254c9" isSubstitutable="false">
                   <classMoniker Id="d966d745-c9bf-4910-a0a2-20da8af86a2f" LastKnownName="RectangleNode" />
                   <elementDefinition Id="f0bfb1ec-42b3-4a43-9a07-063bb775bbb6" />
+                </generalization>
+                <generalization Id="622dff4e-cb91-40b2-8a84-c22a9a00cd73" isSubstitutable="false">
+                  <classMoniker Id="a6c4d9e4-8199-4bc0-b077-7515ffabe372" LastKnownName="NoeudAbstrait" />
+                  <elementDefinition Id="023db742-c9e4-41bd-98bd-c8cce32ab165" />
                 </generalization>
               </generalsInternal>
             </class>
@@ -163,13 +163,13 @@
             <class Id="923238a2-c4f8-432a-84ff-4504fbf96631" name="NoeudMuret" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="84c41f0a-be58-4261-977b-aaefd04d09ef" />
               <generalsInternal>
-                <generalization Id="10350f9e-4d4b-4f6e-ae24-00ca2caca9dd" isSubstitutable="false">
-                  <classMoniker Id="cfe085b1-6c19-4ba3-91f6-79b35ed80627" LastKnownName="NoeudComposite" />
-                  <elementDefinition Id="95ead1d8-603b-4412-9693-8e6acc36d514" />
-                </generalization>
                 <generalization Id="318eb900-f74b-4115-95fb-66bd7d84fd57" isSubstitutable="false">
                   <classMoniker Id="d966d745-c9bf-4910-a0a2-20da8af86a2f" LastKnownName="RectangleNode" />
                   <elementDefinition Id="aba5d81b-91bf-42ff-8efe-3d9a5f6e884d" />
+                </generalization>
+                <generalization Id="200a9095-3d99-4fd6-ae85-beb66c6fda31" isSubstitutable="false">
+                  <classMoniker Id="a6c4d9e4-8199-4bc0-b077-7515ffabe372" LastKnownName="NoeudAbstrait" />
+                  <elementDefinition Id="867bac56-9432-4755-bc26-fc2a03602ddd" />
                 </generalization>
               </generalsInternal>
             </class>
@@ -193,9 +193,9 @@
                   <classMoniker Id="cfe085b1-6c19-4ba3-91f6-79b35ed80627" LastKnownName="NoeudComposite" />
                   <elementDefinition Id="274af45f-0567-4063-88b7-e372bae3bd73" />
                 </generalization>
-                <generalization Id="07781797-decb-40f4-bd92-abbb7839c7a5" isSubstitutable="false">
-                  <classMoniker Id="69c7a231-6faf-49c3-9d1b-3b378b2872b2" LastKnownName="CylinderNode" />
-                  <elementDefinition Id="697e9683-0ead-4887-91f4-6e99d063d809" />
+                <generalization Id="7389e664-76cd-476f-9c16-97eef35a2042" isSubstitutable="false">
+                  <classMoniker Id="d5d9b2bb-39ef-42dd-a0c2-e33bff97c3ec" LastKnownName="CylinderNode" />
+                  <elementDefinition Id="216f9d75-d2f4-4d1a-a727-7ce2ebc3e505" />
                 </generalization>
               </generalsInternal>
             </class>
@@ -395,6 +395,11 @@
           <packageHasNamedElement>
             <class Id="d966d745-c9bf-4910-a0a2-20da8af86a2f" name="RectangleNode" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="5ba9cb57-d69a-4a40-961c-396e9a3902c7" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="d5d9b2bb-39ef-42dd-a0c2-e33bff97c3ec" name="CylinderNode" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="759475fb-5a9b-4f77-a320-8936048f6b02" />
             </class>
           </packageHasNamedElement>
         </packagedElements>

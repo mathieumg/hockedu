@@ -10,8 +10,8 @@
 
 #pragma once
 #include "VisiteurNoeud.h"
+#include "XMLUtils.h"
 
-class XmlElement;
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class VisiteurEcrireXML

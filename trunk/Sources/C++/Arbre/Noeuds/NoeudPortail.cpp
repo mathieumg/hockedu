@@ -134,35 +134,38 @@ void NoeudPortail::acceptVisitor( VisiteurNoeud& v )
 void NoeudPortail::updatePhysicBody()
 {
 #if BOX2D_INTEGRATED
-    clearPhysicsBody();
+    if(getWorld())
+    {
+        clearPhysicsBody();
 
-    b2BodyDef myBodyDef;
-    myBodyDef.type = b2_staticBody; //this will be a dynamic body
-    Vecteur3 pos = obtenirPositionAbsolue();
-    b2Vec2 posB2;
-    utilitaire::VEC3_TO_B2VEC(pos,posB2);
-    myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
-    myBodyDef.angle = 0; //set the starting angle
+        b2BodyDef myBodyDef;
+        myBodyDef.type = b2_staticBody; //this will be a dynamic body
+        Vecteur3 pos = obtenirPositionAbsolue();
+        b2Vec2 posB2;
+        utilitaire::VEC3_TO_B2VEC(pos,posB2);
+        myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
+        myBodyDef.angle = 0; //set the starting angle
 
-    mPhysicBody = getWorld()->CreateBody(&myBodyDef);
-    b2CircleShape circleShape;
-    circleShape.m_p.Set(0, 0); //position, relative to body position
-    circleShape.m_radius = (float32)obtenirRayon()*utilitaire::ratioWorldToBox2D; //radius
+        mPhysicBody = getWorld()->CreateBody(&myBodyDef);
+        b2CircleShape circleShape;
+        circleShape.m_p.Set(0, 0); //position, relative to body position
+        circleShape.m_radius = (float32)obtenirRayon()*utilitaire::ratioWorldToBox2D; //radius
 
-    b2FixtureDef myFixtureDef;
-    myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
-    myFixtureDef.density = 1;
+        b2FixtureDef myFixtureDef;
+        myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
+        myFixtureDef.density = 1;
 
-    // Il s'agit ici d'un portail qui peut entré en collision avec une rondell
-    myFixtureDef.filter.categoryBits = CATEGORY_PORTAL;
-    myFixtureDef.filter.maskBits = CATEGORY_PUCK;
+        // Il s'agit ici d'un portail qui peut entré en collision avec une rondell
+        myFixtureDef.filter.categoryBits = CATEGORY_PORTAL;
+        myFixtureDef.filter.maskBits = CATEGORY_PUCK;
 
-    // Le sensor indique qu'on va recevoir la callback de collision avec la rondelle sans vraiment avoir de collision
-    myFixtureDef.isSensor = true;
+        // Le sensor indique qu'on va recevoir la callback de collision avec la rondelle sans vraiment avoir de collision
+        myFixtureDef.isSensor = true;
 
-    mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
-    mPhysicBody->SetUserData(this);
-    mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
+        mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+        mPhysicBody->SetUserData(this);
+        mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
+    }
 #endif
 }
 

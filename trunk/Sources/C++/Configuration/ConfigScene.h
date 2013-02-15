@@ -11,19 +11,16 @@
 #define __CONFIGURATION_CONFIGSCENE_H__
 
 #include "Singleton.h"
-#include "Vecteur.h"
-#include "tinyxml.h"
 #include "RazerGameTypeDef.h"
-#include "SoundFMOD.h"
-#include "LumiereAmbiante.h"
-#include "LumiereDirectionnelle.h"
-#include "LumiereSpot.h"
 #include <vector>
-#include "LumiereAbstraite.h"
+#include "XMLUtils.h"
 
 class Tournoi;
 class Terrain;
 class RazerGameTree;
+class LumiereAbstraite;
+
+typedef std::vector<std::string> NomsPlaylists;
 ///////////////////////////////////////////////////////////////////////////
 /// @class ConfigScene
 /// @brief Les variables de configuration de la classe CScene.
@@ -45,22 +42,22 @@ public:
 	void chargerConfiguration();
 
 	/// Créer le DOM avec les valeurs d'un arbre de rendu.
-	void creerDOM( TiXmlNode& node, RazerGameTree* arbre ) const;
+	void creerDOM( XmlNode& node, RazerGameTree* arbre ) const;
 
 	/// Lire les valeurs du DOM d'un arbre de rendu.
-	void lireDOM( const TiXmlNode& node, RazerGameTree* arbre );
+	void lireDOM( const XmlNode& node, RazerGameTree* arbre );
 	
 	/// Créer le DOM avec les valeurs d'une liste de joueur.
-	void creerDOM( TiXmlNode& node, const ConteneurJoueur& Joueurs ) const;
+	void creerDOM( XmlNode& node, const ConteneurJoueur& Joueurs ) const;
 
 	/// Lire les valeurs du DOM d'une liste de joueur.
-	void lireDOM( const TiXmlNode& node, ConteneurJoueur& Joueurs );
+	void lireDOM( const XmlNode& node, ConteneurJoueur& Joueurs );
 
 	/// Creer le DOM pour un tournoi
-	void creerDOM( TiXmlNode& node, const Tournoi& tournoi ) const;
+	void creerDOM( XmlNode& node, const Tournoi& tournoi ) const;
 
 	/// Méthode pour faire l'arbre de rendu à partir d'un noeud XML
-	void ecrireArbre(NoeudAbstrait* parentNoeud,const TiXmlNode* node);
+	void ecrireArbre(NoeudAbstrait* parentNoeud,const XmlNode* node);
 	
 	/// Accesseurs des touches de déplacement
 	int obtenirToucheHaut() const {return toucheHaut_;}

@@ -10,7 +10,6 @@
 
 #include "JoueurHumain.h"
 #include "RazerGameUtilities.h"
-#include "tinyxml.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -83,7 +82,7 @@ XmlElement* JoueurHumain::creerNoeudXML() const
 {
 	XmlElement* elementNoeud = JoueurAbstrait::creerNoeudXML();
 	
-	elementNoeud->SetAttribute(JoueurAbstrait::etiquetteType.c_str(),type_);
+	XMLUtils::writeAttribute<int>(elementNoeud,JoueurAbstrait::etiquetteType.c_str(),type_);
 	
 	return elementNoeud;
 }

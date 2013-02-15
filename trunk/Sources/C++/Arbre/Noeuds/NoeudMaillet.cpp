@@ -8,7 +8,6 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudMaillet.h"
-#include "UsineNoeudMaillet.h"
 #include "FacadeModele.h"
 #include "VisiteurCollision.h"
 #include "NoeudMuret.h"
@@ -26,6 +25,7 @@
 #include "Utilitaire.h"
 #include "DebugRenderBox2D.h"
 #include "GestionnaireEvenements.h"
+#include "UsineNoeud.h"
 
 unsigned int NoeudMaillet::mailletExistant = 0;
 bool UsineNoeudMaillet::bypassLimitePourTest = false;
@@ -477,32 +477,35 @@ void NoeudMaillet::ajusterVitesse( const float& temps )
 void NoeudMaillet::updatePhysicBody()
 {
 #if BOX2D_INTEGRATED
-    clearPhysicsBody();
+    if(getWorld())
+    {
+        clearPhysicsBody();
 
-    b2BodyDef myBodyDef;
-    myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
-    Vecteur3 pos = obtenirPositionAbsolue();
-    b2Vec2 posB2;
-    utilitaire::VEC3_TO_B2VEC(pos,posB2);
-    myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
-    myBodyDef.angle = 0; //set the starting angle
-    myBodyDef.fixedRotation = true;
+        b2BodyDef myBodyDef;
+        myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
+        Vecteur3 pos = obtenirPositionAbsolue();
+        b2Vec2 posB2;
+        utilitaire::VEC3_TO_B2VEC(pos,posB2);
+        myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
+        myBodyDef.angle = 0; //set the starting angle
+        myBodyDef.fixedRotation = true;
 
-    mPhysicBody = getWorld()->CreateBody(&myBodyDef);
-    b2CircleShape circleShape;
-    circleShape.m_p.Set(0, 0); //position, relative to body position
-    circleShape.m_radius = (float32)obtenirRayon()*utilitaire::ratioWorldToBox2D; //radius
+        mPhysicBody = getWorld()->CreateBody(&myBodyDef);
+        b2CircleShape circleShape;
+        circleShape.m_p.Set(0, 0); //position, relative to body position
+        circleShape.m_radius = (float32)obtenirRayon()*utilitaire::ratioWorldToBox2D; //radius
 
-    b2FixtureDef myFixtureDef;
-    myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
-    myFixtureDef.density = 0.02f;
-    myFixtureDef.filter.categoryBits = CATEGORY_MALLET;
-    myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_BOUNDARY;
-    myFixtureDef.filter.groupIndex = 1;
+        b2FixtureDef myFixtureDef;
+        myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
+        myFixtureDef.density = 0.02f;
+        myFixtureDef.filter.categoryBits = CATEGORY_MALLET;
+        myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_BOUNDARY;
+        myFixtureDef.filter.groupIndex = 1;
 
-    mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
-    mPhysicBody->SetUserData(this);
-    mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
+        mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+        mPhysicBody->SetUserData(this);
+        mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
+    }
 #endif
 }
 

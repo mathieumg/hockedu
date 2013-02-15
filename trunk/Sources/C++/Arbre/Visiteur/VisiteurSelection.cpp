@@ -139,7 +139,6 @@ void VisiteurSelection::visiterNoeudMuret( NodeWallAbstract* noeud )
 			}
 		}
 	}
-	visiterNoeudComposite(noeud);
 }
 
 
