@@ -94,16 +94,16 @@ void VisiteurSelectionOpenGL::visiterNoeudComposite( NoeudComposite* noeud )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void VisiteurSelectionOpenGL::visiterNoeudMuret( NoeudMuret* noeud )
+/// @fn void VisiteurSelectionOpenGL::visiterNoeudMuret( NodeWallAbstract* noeud )
 ///
 /// Visitation d'un noeud muret.
 ///
-/// @param[in] NoeudMuret * noeud : noeud à vérifier
+/// @param[in] NodeWallAbstract * noeud : noeud à vérifier
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void VisiteurSelectionOpenGL::visiterNoeudMuret( NoeudMuret* noeud )
+void VisiteurSelectionOpenGL::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
 	visiterNoeudAffichable(noeud);
 	visiterNoeudComposite(noeud);

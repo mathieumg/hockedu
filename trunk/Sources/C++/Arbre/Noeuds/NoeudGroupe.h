@@ -27,9 +27,9 @@ public:
 	~NoeudGroupe(void);
 
 	/// Creation du noeud XML du Groupe
-	virtual TiXmlElement* creerNoeudXML();
+	virtual XmlElement* creerNoeudXML();
 	/// Initialisation du NoeudGroupe à partir d'un element XML
-	virtual bool initialiser(const TiXmlElement* element);
+	virtual bool initialiser(const XmlElement* element);
 	/// Accesseur de typeEnfants_
 	std::string obtenirTypeEnfants() const { return typeEnfants_; }
 private:

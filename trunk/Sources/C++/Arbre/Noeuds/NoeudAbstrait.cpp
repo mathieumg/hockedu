@@ -438,7 +438,7 @@ void NoeudAbstrait::afficherConcret() const
     if(estAffiche())
     {
         GLuint liste;
-        GestionnaireModeles::obtenirInstance()->obtenirListe(type_,liste);
+        GestionnaireModeles::obtenirInstance()->obtenirListe(get3DModelKey(),liste);
         // Si aucune liste n'est trouvé, on sort de la fonction.
         if(liste==NULL)
             return;
@@ -813,17 +813,17 @@ bool NoeudAbstrait::possedeSelection()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn TiXmlElement* NoeudAbstrait::creerNoeudXML(  )
+/// @fn XmlElement* NoeudAbstrait::creerNoeudXML(  )
 ///
 /// Creation du noeud XML d'un noeud abstrait
 ///
 ///
-/// @return TiXmlElement*
+/// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-TiXmlElement* NoeudAbstrait::creerNoeudXML()
+XmlElement* NoeudAbstrait::creerNoeudXML()
 {
-	TiXmlElement* elementNoeud = XMLUtils::creerNoeud(type_.c_str());
+	XmlElement* elementNoeud = XMLUtils::creerNoeud(type_.c_str());
     XMLUtils::ecrireVecteur3Dxml(&positionRelative_,elementNoeud,"pos");
     XMLUtils::ecrireVecteur3Dxml(&echelleCourante_,elementNoeud,"echelle");
     XMLUtils::ecrireAttribute<float>(elementNoeud,"angle",mAngle);
@@ -835,16 +835,16 @@ TiXmlElement* NoeudAbstrait::creerNoeudXML()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NoeudAbstrait::initialiser( const TiXmlElement* element )
+/// @fn bool NoeudAbstrait::initialiser( const XmlElement* element )
 ///
 /// Initialisation du NoeudAbstrait à partir d'un element XML
 ///
-/// @param[in] const TiXmlElement * element
+/// @param[in] const XmlElement * element
 ///
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NoeudAbstrait::initialiser( const TiXmlElement* element )
+bool NoeudAbstrait::initialiser( const XmlElement* element )
 {
 	int intElem;
 	float floatElem;
@@ -923,7 +923,7 @@ void NoeudAbstrait::assignerPositionRelative( const Vecteur3& positionRelative )
 ////////////////////////////////////////////////////////////////////////
 Modele3D* NoeudAbstrait::obtenirModele() const
 {
-    return GestionnaireModeles::obtenirInstance()->obtenirModele(type_);
+    return GestionnaireModeles::obtenirInstance()->obtenirModele(get3DModelKey());
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1004,6 +1004,22 @@ void NoeudAbstrait::SynchroniseTransformFromB2( const b2Transform& transform)
     utilitaire::B2VEC_TO_VEC3(positionRelative_,transform.p);
     mAngle = utilitaire::RAD_TO_DEG(transform.q.GetAngle());
 #endif
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudAbstrait::acceptVisitor( class VisiteurNoeud& v )
+///
+/// Accepte un visiteur sur le noeud
+///
+/// @param[in] class VisiteurNoeud & v
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAbstrait::acceptVisitor( class VisiteurNoeud& v )
+{
+    v.visiterNoeudAbstrait(this);
 }
 
 

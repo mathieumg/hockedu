@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////
 /// @file NoeudMuret.h
-/// @author Samuel Ledoux
-/// @date 2012-01-25
-/// @version 1.0
+/// @author Michael Ferris
+/// @date 2013-02-14
+/// @version 2.0
 ///
 /// @addtogroup razergame RazerGame
 /// @{
@@ -11,70 +11,51 @@
 #define __ARBRE_NOEUDS_NOEUDMURET_H__
 
 
-#include "NoeudComposite.h"
-
+#include "NodeWallAbstract.h"
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class NoeudMuret
-/// @brief Classe qui représente un muret.
+/// @brief Classe qui représente un muret statique.
 ///
-/// @author Samuel Ledoux
-/// @date 2012-01-25
+/// @author Michael Ferris
+/// @date 2013-02-14
 ///////////////////////////////////////////////////////////////////////////
-class NoeudMuret : public NoeudComposite
+class NoeudMuret : public NodeWallAbstract
 {
 public:
+    typedef NodeWallAbstract Super;
    /// Constructeur à partir du type du noeud.
-   NoeudMuret(const std::string& typeNoeud, bool estSurTable = true);
+   NoeudMuret(const std::string& typeNoeud);
    /// Destructeur.
    ~NoeudMuret();
-   /// Assigne la position relative du noeud.
-   inline virtual void assignerPositionRelative( const Vecteur3& positionRelative);
-   /// Affiche le muret.
-   virtual void afficherConcret() const;
-   /// Effectue l'animation
-   virtual void animer( const float& temps );
-   /// Accueil un visiteur
-   virtual void acceptVisitor( VisiteurNoeud& v);
+   
    /// Accesseur du coin1
    virtual Vecteur3 obtenirCoin1();
    /// Accesseur du coin2
    virtual Vecteur3 obtenirCoin2();
    /// Mutateur des coins
    virtual void assignerPositionCoin(int lequel, Vecteur3 position);
-   /// Retourne le rayon du noeud
-   virtual float obtenirRayon() const;
-   /// Permet d'assigner les attribut nécessaire à la collision
-   virtual void assignerAttributVisiteurCollision(VisiteurCollision* v);
 
-   /// Accesseur de coefRebond_
-   float obtenirCoefRebond() const { return coefRebond_; }
-   void modifierCoefRebond(float val) { coefRebond_ = val; }
-   /// Permet de recalculer la position des coin des muret suite a une rotation
+   /// Permet de recalculer la position des coin des muret suite a une rotation ou une mise a l'échelle
    void majPosCoins();
    /// Creation du noeud XML du muret
-   virtual TiXmlElement* creerNoeudXML();
+   virtual XmlElement* creerNoeudXML();
    /// Initialisation du NoeudMuret à partir d'un element XML
-   virtual bool initialiser(const TiXmlElement* element);
-   /// Permet de calculer l'angle du muret selon ces coins
-   void trouverAngle();
+   virtual bool initialiser(const XmlElement* element);
+
    /// Permet de modifier l'angle du muret et garde les coins a jour
    virtual void assignerAngle(const float& angle);
    /// Mutateur des facteurs d'echelle et conserve les coins a jour
    virtual void modifierEchelleCourante(const Vecteur3& echelleCourante);
-   /// Recreates the physics body according to current attributes
-   virtual void updatePhysicBody();
+   /// Assigne la position relative du noeud et conserve les coins a jour
+   inline virtual void assignerPositionRelative( const Vecteur3& positionRelative);
 
-   static const Vecteur3 NoeudMuret::DEFAULT_SIZE;
 protected:
 private:
    /// Coin1 du muret
    Vecteur3 positionCoin1_;
    /// Coin2 du muret
    Vecteur3 positionCoin2_;
-
-   /// Coefficient different different pour chaque muret, sauvegarde en XML
-   float coefRebond_;
 };
 
 

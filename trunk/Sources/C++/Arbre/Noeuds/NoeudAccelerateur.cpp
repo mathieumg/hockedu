@@ -16,6 +16,7 @@
 #include <Box2D/Box2D.h>
 #endif
 #include "Utilitaire.h"
+#include "VisiteurNoeud.h"
 
 const float NoeudAccelerateur::DEFAULT_RADIUS = 7;
 
@@ -137,16 +138,16 @@ void NoeudAccelerateur::acceptVisitor( VisiteurNoeud& v )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn TiXmlElement* NoeudAccelerateur::creerNoeudXML()
+/// @fn XmlElement* NoeudAccelerateur::creerNoeudXML()
 ///
 /// Creation du noeud XML du joueur
 ///
-/// @return TiXmlElement*
+/// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-TiXmlElement* NoeudAccelerateur::creerNoeudXML()
+XmlElement* NoeudAccelerateur::creerNoeudXML()
 {
-	TiXmlElement* elementNoeud = NoeudAbstrait::creerNoeudXML();
+	XmlElement* elementNoeud = NoeudAbstrait::creerNoeudXML();
 
     XMLUtils::ecrireAttribute(elementNoeud,"bonusAccel",bonusAccel_);
 	
@@ -155,16 +156,16 @@ TiXmlElement* NoeudAccelerateur::creerNoeudXML()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NoeudAccelerateur::initialiser( const TiXmlElement* element )
+/// @fn bool NoeudAccelerateur::initialiser( const XmlElement* element )
 ///
 /// Initialisation du NoeudAccelerateur à partir d'un element XML
 ///
-/// @param[in] const TiXmlElement * element
+/// @param[in] const XmlElement * element
 ///
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NoeudAccelerateur::initialiser( const TiXmlElement* element )
+bool NoeudAccelerateur::initialiser( const XmlElement* element )
 {
 	if(!NoeudAbstrait::initialiser(element))
 		return false;

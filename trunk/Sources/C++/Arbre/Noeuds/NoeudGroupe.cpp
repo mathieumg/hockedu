@@ -47,16 +47,16 @@ NoeudGroupe::~NoeudGroupe(void)
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn TiXmlElement* NoeudGroupe::creerNoeudXML()
+/// @fn XmlElement* NoeudGroupe::creerNoeudXML()
 ///
 /// Retourne un élément XML pour le groupe de noeuds.
 ///
-/// @return TiXmlElement*
+/// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-TiXmlElement* NoeudGroupe::creerNoeudXML()
+XmlElement* NoeudGroupe::creerNoeudXML()
 {
-	TiXmlElement* element = XMLUtils::creerNoeud(type_.c_str());
+	XmlElement* element = XMLUtils::creerNoeud(type_.c_str());
 
     XMLUtils::ecrireAttribute(element,"TypeEnfants",typeEnfants_);
 	
@@ -65,16 +65,16 @@ TiXmlElement* NoeudGroupe::creerNoeudXML()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NoeudGroupe::initialiser( const TiXmlElement* element )
+/// @fn bool NoeudGroupe::initialiser( const XmlElement* element )
 ///
 /// Initialisation du NoeudGroupe à partir d'un element XML
 ///
-/// @param[in] const TiXmlElement * element
+/// @param[in] const XmlElement * element
 ///
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NoeudGroupe::initialiser( const TiXmlElement* element )
+bool NoeudGroupe::initialiser( const XmlElement* element )
 {
     if(!XMLUtils::LireAttribute(element,"TypeEnfants",typeEnfants_))
         return false;

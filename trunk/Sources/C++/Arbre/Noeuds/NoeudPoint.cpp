@@ -14,6 +14,7 @@
 #include "Terrain.h"
 #include "NoeudTable.h"
 #include "XMLUtils.h"
+#include "VisiteurNoeud.h"
 
 
 const float NoeudPoint::DEFAULT_RADIUS = 22;
@@ -278,17 +279,17 @@ Vecteur3 NoeudPoint::calculerDeplacementMax( Vecteur3 posAbsActuel, Vecteur3 dep
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn TiXmlElement* NoeudPoint::creerNoeudXML()
+/// @fn XmlElement* NoeudPoint::creerNoeudXML()
 ///
 /// Creation du noeud XML d'un point
 ///
 ///
-/// @return TiXmlElement*
+/// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-TiXmlElement* NoeudPoint::creerNoeudXML()
+XmlElement* NoeudPoint::creerNoeudXML()
 {
-	TiXmlElement* elementNoeud = NoeudComposite::creerNoeudXML();
+	XmlElement* elementNoeud = NoeudComposite::creerNoeudXML();
 
     XMLUtils::ecrireAttribute<int>(elementNoeud,"typePosNoeud",typePosNoeud_);
 
@@ -297,16 +298,16 @@ TiXmlElement* NoeudPoint::creerNoeudXML()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NoeudPoint::initialiser( const TiXmlElement* element )
+/// @fn bool NoeudPoint::initialiser( const XmlElement* element )
 ///
 /// Initialisation du NoeudPoint à partir d'un element XML
 ///
-/// @param[in] const TiXmlElement * element
+/// @param[in] const XmlElement * element
 ///
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NoeudPoint::initialiser( const TiXmlElement* element )
+bool NoeudPoint::initialiser( const XmlElement* element )
 {
     // faire l'initialisaiton des attribut concernant le point en premier pour que la suite puisse les utiliser
 	int intElem;

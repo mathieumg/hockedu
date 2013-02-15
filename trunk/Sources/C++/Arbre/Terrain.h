@@ -18,7 +18,7 @@ class ArbreNoeudLibre;
 class ZoneEdition;
 class NoeudTable;
 class NoeudRondelle;
-class TiXmlElement;
+class XmlElement;
 class NoeudAbstrait;
 class TerrainTest;
 
@@ -59,11 +59,11 @@ public:
 	/// Permet de reintialiser en meme temps
 	void initialiser(std::string nom);
 	/// Permet d'initialiser le terrain avec ces éléments a partir d'un noeud XML
-	bool initialiserXml( TiXmlElement* element );
+	bool initialiserXml( XmlElement* element );
 	/// Remet le terrain a son etat de base
 	void reinitialiser();
 	/// Creation du noeud XML du Terrain
-	TiXmlElement* creerNoeudXML();
+	XmlElement* creerNoeudXML();
 	/// Ajout d'un noeud dans l'arbre de noeud Temporaire
 	void ajouterNoeudTemp( NoeudAbstrait* noeud);
 	/// Transfert d'un noeud de l'arbre de noeud temporaire à l'arbre de rendu

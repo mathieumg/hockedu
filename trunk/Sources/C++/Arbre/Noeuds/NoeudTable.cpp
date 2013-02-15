@@ -614,7 +614,7 @@ bool NoeudTable::estSurTable(NoeudAbstrait* noeud)
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudMuret* NoeudTable::detectionCollisionGrandeVitesseMuret( Vecteur2 anciennePos, Vecteur2 nouvellePos )
+/// @fn NodeWallAbstract* NoeudTable::detectionCollisionGrandeVitesseMuret( Vecteur2 anciennePos, Vecteur2 nouvellePos )
 ///
 /// Permet de detecter si la rondelle entre en collision avec les muret exterieur malgre la grande vitesse
 ///
@@ -625,16 +625,16 @@ bool NoeudTable::estSurTable(NoeudAbstrait* noeud)
 ///					vecteur nul si aucune intersection
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudMuret* NoeudTable::detectionCollisionGrandeVitesseMuret( const Vecteur2& anciennePos,const Vecteur2& nouvellePos, Vecteur2 &intersectionRetour )
+NodeWallAbstract* NoeudTable::detectionCollisionGrandeVitesseMuret( const Vecteur2& anciennePos,const Vecteur2& nouvellePos, Vecteur2 &intersectionRetour )
 {
 	float distance = 9999999;
-	NoeudMuret* retour = 0;
+	NodeWallAbstract* retour = 0;
 	NoeudGroupe* groupe = obtenirGroupe(RazerGameUtilities::NOM_MURET);
 	if(groupe)
 	{
 		for(unsigned int i=0; i<groupe->obtenirNombreEnfants(); ++i)
 		{
-			NoeudMuret* muret = dynamic_cast<NoeudMuret*>(groupe->chercher(i));
+			NodeWallAbstract* muret = dynamic_cast<NodeWallAbstract*>(groupe->chercher(i));
 			if(muret)
 			{
 				Vecteur2 point1 = muret->obtenirCoin1().convertir<2>();
@@ -696,17 +696,17 @@ bool NoeudTable::estSurTable(Vecteur2 position)
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn TiXmlElement* NoeudTable::creerNoeudXML()
+/// @fn XmlElement* NoeudTable::creerNoeudXML()
 ///
 /// /*Description*/
 ///
 ///
-/// @return TiXmlElement*
+/// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-TiXmlElement* NoeudTable::creerNoeudXML()
+XmlElement* NoeudTable::creerNoeudXML()
 {
-	TiXmlElement* elementNoeud = NoeudComposite::creerNoeudXML();
+	XmlElement* elementNoeud = NoeudComposite::creerNoeudXML();
     
     XMLUtils::ecrireAttribute<float>(elementNoeud,"coefFriction",coefFriction_);
 	for (int i = 0; i < 8 ; i++)
@@ -714,7 +714,7 @@ TiXmlElement* NoeudTable::creerNoeudXML()
         std::ostringstream name;
         name << "rebondBande";
         name << i;
-        float coef = bande_[i]->obtenirCoefRebond();
+        float coef = bande_[i]->getReboundRatio();
         XMLUtils::ecrireAttribute<float>(elementNoeud,name.str().c_str(),coef);
 	}
 
@@ -723,16 +723,16 @@ TiXmlElement* NoeudTable::creerNoeudXML()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NoeudTable::initialiser( const TiXmlElement* element )
+/// @fn bool NoeudTable::initialiser( const XmlElement* element )
 ///
 /// Initialisation du NoeudTable à partir d'un element XML
 ///
-/// @param[in] const TiXmlElement * element
+/// @param[in] const XmlElement * element
 ///
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NoeudTable::initialiser( const TiXmlElement* element )
+bool NoeudTable::initialiser( const XmlElement* element )
 {
 	if(!NoeudComposite::initialiser(element))
 		return false;
@@ -756,16 +756,16 @@ bool NoeudTable::initialiser( const TiXmlElement* element )
 }
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudMuret* NoeudTable::obtenirMuretZoneEdition( TypePosMuretEdition type ) const
+/// @fn NodeWallAbstract* NoeudTable::obtenirMuretZoneEdition( TypePosMuretEdition type ) const
 ///
 /// Retourne le muret de la zone d'edition associe au numero donne selon l'enum
 ///
 /// @param[in] TypePosMuretEdition type : le numero du muret
 ///
-/// @return NoeudMuret* : un pointeur sur le muret en question
+/// @return NodeWallAbstract* : un pointeur sur le muret en question
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudMuret* NoeudTable::obtenirMuretZoneEdition( TypePosMuretEdition type ) const
+NodeWallAbstract* NoeudTable::obtenirMuretZoneEdition( TypePosMuretEdition type ) const
 {
 	return muretZoneEdition_[type];
 }
@@ -941,7 +941,7 @@ void NoeudTable::replacerModele()
 ////////////////////////////////////////////////////////////////////////
 void NoeudTable::assignerCoefRebond( int index, float coefRebond )
 {
-	bande_[index]->modifierCoefRebond(coefRebond);
+	bande_[index]->setReboundRatio(coefRebond);
 }
 
 ////////////////////////////////////////////////////////////////////////

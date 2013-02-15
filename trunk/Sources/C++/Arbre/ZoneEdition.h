@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-class TiXmlElement;
+class XmlElement;
 class TerrainTest;
 
 
@@ -30,9 +30,9 @@ public:
 	void modifierLimitesExt(const float* boiteEnglobantTable, const float& longueur,const float& largeur);
 
 	/// Creation du noeud XML de la zone d'édition
-	TiXmlElement* creerNoeudXML();
+	XmlElement* creerNoeudXML();
 	/// Initialistion de la zone d'édition à partir d'un noeud XML
-	bool initialisationXML(const TiXmlElement*);
+	bool initialisationXML(const XmlElement*);
 	/// Remet la zone d'edition a son etat par defaut
 	void reinitialiser();
 	/// Effectue l'affichage de la zone d'edition

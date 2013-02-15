@@ -129,16 +129,16 @@ void VisiteurEchelle::visiterNoeudComposite( NoeudComposite* noeud )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void VisiteurEchelle::visiterNoeudMuret( NoeudMuret* noeud )
+/// @fn void VisiteurEchelle::visiterNoeudMuret( NodeWallAbstract* noeud )
 ///
 /// Echelle d'un noeud représentant un muret.
 ///
-/// @param[in] NoeudMuret * n : noeud à vérifier
+/// @param[in] NodeWallAbstract * n : noeud à vérifier
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void VisiteurEchelle::visiterNoeudMuret( NoeudMuret* noeud )
+void VisiteurEchelle::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
 	int oldAxe = axe_;
 	// Push

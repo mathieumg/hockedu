@@ -13,6 +13,7 @@
 #include <Box2D/Box2D.h>
 #endif
 #include "Utilitaire.h"
+#include "VisiteurNoeud.h"
 
 const float NoeudPortail::DEFAULT_RADIUS = 10;
 

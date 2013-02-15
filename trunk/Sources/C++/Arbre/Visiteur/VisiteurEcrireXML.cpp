@@ -70,7 +70,7 @@ void VisiteurEcrireXML::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 		return;
 
 	// Créer le noeud 
-	TiXmlElement* elementNoeud = noeud->creerNoeudXML();
+	XmlElement* elementNoeud = noeud->creerNoeudXML();
 
 	if(racine_ == 0)
 	{
@@ -102,7 +102,7 @@ void VisiteurEcrireXML::visiterNoeudComposite( NoeudComposite* noeud )
 		return;
 
 	// Créer le noeud 
-	TiXmlElement* elementNoeud = noeud->creerNoeudXML();//obtenirElement(noeud);
+	XmlElement* elementNoeud = noeud->creerNoeudXML();//obtenirElement(noeud);
 
 	if(racine_ == 0)
 	{
@@ -114,7 +114,7 @@ void VisiteurEcrireXML::visiterNoeudComposite( NoeudComposite* noeud )
         XMLUtils::LinkEndChild(parent_,elementNoeud);
 	}
 
-	TiXmlElement* ancienParent = parent_;
+	XmlElement* ancienParent = parent_;
 	parent_ = elementNoeud;
 	for( unsigned int i = 0; i < noeud->obtenirNombreEnfants(); i++)
 	{
@@ -127,16 +127,16 @@ void VisiteurEcrireXML::visiterNoeudComposite( NoeudComposite* noeud )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void VisiteurEcrireXML::visiterNoeudMuret( NoeudMuret* noeud )
+/// @fn void VisiteurEcrireXML::visiterNoeudMuret( NodeWallAbstract* noeud )
 ///
 /// Écriture d'un noeud représentant un muret.
 ///
-/// @param[in] NoeudMuret * noeud : noeud à vérifier
+/// @param[in] NodeWallAbstract * noeud : noeud à vérifier
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void VisiteurEcrireXML::visiterNoeudMuret( NoeudMuret* noeud )
+void VisiteurEcrireXML::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
 	visiterNoeudComposite(noeud);
 }
@@ -263,15 +263,15 @@ void VisiteurEcrireXML::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn TiXmlElement* VisiteurEcrireXML::obtenirRacine()
+/// @fn XmlElement* VisiteurEcrireXML::obtenirRacine()
 ///
 /// Retourne la racine du sous-arbre
 ///
 ///
-/// @return TiXmlElement* : racine du sous-arbre courant
+/// @return XmlElement* : racine du sous-arbre courant
 ///
 ////////////////////////////////////////////////////////////////////////
-TiXmlElement* VisiteurEcrireXML::obtenirRacine()
+XmlElement* VisiteurEcrireXML::obtenirRacine()
 {
 	return racine_;
 }

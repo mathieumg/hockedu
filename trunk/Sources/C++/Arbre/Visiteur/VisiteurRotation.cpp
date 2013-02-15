@@ -150,16 +150,16 @@ void VisiteurRotation::visiterNoeudComposite( NoeudComposite* noeud )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void VisiteurRotation::visiterNoeudMuret( NoeudMuret* noeud )
+/// @fn void VisiteurRotation::visiterNoeudMuret( NodeWallAbstract* noeud )
 ///
-/// Rotation d'un NoeudMuret
+/// Rotation d'un NodeWallAbstract
 ///
-/// @param[in] NoeudMuret * noeud : noeud à vérifier
+/// @param[in] NodeWallAbstract * noeud : noeud à vérifier
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void VisiteurRotation::visiterNoeudMuret( NoeudMuret* noeud )
+void VisiteurRotation::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
 	noeud->assignerAngle(noeud->obtenirAngle()-angleRot_);
 	visiterNoeudAbstrait(noeud);

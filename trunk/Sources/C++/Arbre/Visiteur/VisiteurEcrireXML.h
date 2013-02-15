@@ -11,7 +11,7 @@
 #pragma once
 #include "VisiteurNoeud.h"
 
-class TiXmlElement;
+class XmlElement;
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class VisiteurEcrireXML
@@ -34,7 +34,7 @@ public:
 	/// Visitation d'un noeud composite
 	virtual void visiterNoeudComposite( NoeudComposite* noeud );
 	/// Visitation d'un noeud muret
-	virtual void visiterNoeudMuret( NoeudMuret* noeud );
+	virtual void visiterNoeudMuret( NodeWallAbstract* noeud );
 	/// Visitation d'un noeud but
 	virtual void visiterNoeudBut( NoeudBut* noeud );
 	/// Visitation d'un noeud maillet
@@ -51,12 +51,12 @@ public:
 	virtual void visiterNoeudAccelerateur( NoeudAccelerateur* noeud );
 
 	/// Accesseur de la racine
-	TiXmlElement* obtenirRacine( );
+	XmlElement* obtenirRacine( );
 	/// Réinitialisation de l'arbre
 	void reinitialiserRacine();
 private:
 	/// Les éléments XML
-	TiXmlElement* racine_, *parent_;
+	XmlElement* racine_, *parent_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -147,17 +147,17 @@ void JoueurVirtuel::modifierProbabiliteEchec(unsigned int probabiliteEchec)
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn TiXmlElement* JoueurVirtuel::creerNoeudXML()
+/// @fn XmlElement* JoueurVirtuel::creerNoeudXML()
 ///
 /// Creation du noeud XML du joueur
 ///
 ///
-/// @return TiXmlElement* le noeud XML du joueur
+/// @return XmlElement* le noeud XML du joueur
 ///
 ////////////////////////////////////////////////////////////////////////
-TiXmlElement* JoueurVirtuel::creerNoeudXML() const
+XmlElement* JoueurVirtuel::creerNoeudXML() const
 {
-	TiXmlElement* elementNoeud = JoueurAbstrait::creerNoeudXML();
+	XmlElement* elementNoeud = JoueurAbstrait::creerNoeudXML();
 
 	elementNoeud->SetAttribute(JoueurAbstrait::etiquetteType.c_str(),type_);
 	elementNoeud->SetAttribute("vitesse",obtenirVitesse());
@@ -168,16 +168,16 @@ TiXmlElement* JoueurVirtuel::creerNoeudXML() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool JoueurVirtuel::initialiser( const TiXmlElement* element )
+/// @fn bool JoueurVirtuel::initialiser( const XmlElement* element )
 ///
 /// Initialisaiton du joueur à partir d'un element XML
 ///
-/// @param[in] const TiXmlElement * element : élément contenant les informations pour créer le joueur
+/// @param[in] const XmlElement * element : élément contenant les informations pour créer le joueur
 ///
 /// @return bool Vrai si l'initialisation à bien été faite
 ///
 ////////////////////////////////////////////////////////////////////////
-bool JoueurVirtuel::initialiser( const TiXmlElement* element )
+bool JoueurVirtuel::initialiser( const XmlElement* element )
 {
 	if(!JoueurAbstrait::initialiser(element))
 		return false;

@@ -16,7 +16,7 @@
 #include "NoeudMuret.h"
 #include "PositionSubject.h"
 
-class NoeudMuret;
+class NodeWallAbstract;
 class NoeudBut;
 class NoeudGroupe;
 enum TypePosPoint;
@@ -54,11 +54,11 @@ public:
    bool estSurTable(Vecteur2 position);
 
    /// Creation du noeud XML d'un point
-   virtual TiXmlElement* creerNoeudXML();
+   virtual XmlElement* creerNoeudXML();
    /// Initialisation du NoeudTable à partir d'un element XML
-   virtual bool initialiser(const TiXmlElement* element);
+   virtual bool initialiser(const XmlElement* element);
    /// Permet de detecter si la rondelle entre en collision avec les muret exterieur malgre la grande vitesse
-   NoeudMuret* detectionCollisionGrandeVitesseMuret(const Vecteur2& anciennePos,const Vecteur2& nouvellePos, Vecteur2 &intersectionRetour);
+   NodeWallAbstract* detectionCollisionGrandeVitesseMuret(const Vecteur2& anciennePos,const Vecteur2& nouvellePos, Vecteur2 &intersectionRetour);
    
    /// Permet de trouver les vertex correspondants dans les modeles 3D
    static GroupeTripleAdresseFloat trouverVertex(const aiScene* scene, const aiNode* noeud, const GroupeCoord& listePoints);
@@ -105,13 +105,13 @@ private:
    /// Informations sur les 8 points modifiables
    typedef std::pair<TypePosPoint,TypePosPoint> CouplePoint;
    CouplePoint droiteMuret_[8];
-   NoeudMuret* bande_[8];
+   NodeWallAbstract* bande_[8];
 
    
    static ListeIndexPoints listeIndexPointsModeleTable_;
    
    /// Variable pour stocker les murets de la zone d'edition
-   NoeudMuret* muretZoneEdition_[4];
+   NodeWallAbstract* muretZoneEdition_[4];
 
 
 /// Accesseurs
@@ -129,15 +129,15 @@ public:
 	/// Retourne le rayon du noeud
 	virtual float obtenirRayon() const;
 	/// Retourne le muret de la zone d'edition correspondant a son enum
-	NoeudMuret* obtenirMuretZoneEdition(TypePosMuretEdition type) const;
+	NodeWallAbstract* obtenirMuretZoneEdition(TypePosMuretEdition type) const;
 
 	/// Accesseur de coefFriction_
 	float obtenirCoefFriction() const { return coefFriction_; }
 	void modifierCoefFriction(float val) { coefFriction_ = val; }
 
 	/// Accesseur du coefRebond des bandes
-	float obtenirCoefRebond(int quelBande) {return bande_[quelBande]->obtenirCoefRebond();}
-	void modifierCoefRebond(int quelBande, float coef) {bande_[quelBande]->modifierCoefRebond(coef);}
+	float obtenirCoefRebond(int quelBande) {return bande_[quelBande]->getReboundRatio();}
+	void modifierCoefRebond(int quelBande, float coef) {bande_[quelBande]->setReboundRatio(coef);}
 
 	/// Accesseur des groupes de la table
 	NoeudGroupe* obtenirGroupe(std::string typeEnfant);

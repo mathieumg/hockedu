@@ -81,17 +81,17 @@ void ZoneEdition::modifierLimitesExt( const float* boiteEnglobantTable, const fl
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn TiXmlElement* ZoneEdition::creerNoeudXML()
+/// @fn XmlElement* ZoneEdition::creerNoeudXML()
 ///
 /// Creation du noeud XML de la zone d'édition
 ///
 ///
-/// @return TiXmlElement* : le noeud XML avec la propriété de la zone
+/// @return XmlElement* : le noeud XML avec la propriété de la zone
 ///
 ////////////////////////////////////////////////////////////////////////
-TiXmlElement* ZoneEdition::creerNoeudXML()
+XmlElement* ZoneEdition::creerNoeudXML()
 {
-	TiXmlElement* element = XMLUtils::creerNoeud("ZoneEdition");
+	XmlElement* element = XMLUtils::creerNoeud("ZoneEdition");
 
     XMLUtils::ecrireAttribute(element,"ExtLar",limiteExtLargeur_);
     XMLUtils::ecrireAttribute(element,"ExtLon",limiteExtLongueur_);
@@ -103,18 +103,18 @@ TiXmlElement* ZoneEdition::creerNoeudXML()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool ZoneEdition::initialisationXML( TiXmlElement* element )
+/// @fn bool ZoneEdition::initialisationXML( XmlElement* element )
 ///
 /// Initialistion de la zone d'édition à partir d'un noeud XML
 ///
-/// @param[in] TiXmlElement * : noeud contenant les informations de la zone d'édition
+/// @param[in] XmlElement * : noeud contenant les informations de la zone d'édition
 ///
 /// @return bool vrai si l'initialisation c'est bien passé
 ///
 ////////////////////////////////////////////////////////////////////////
-bool ZoneEdition::initialisationXML( const TiXmlElement* element )
+bool ZoneEdition::initialisationXML( const XmlElement* element )
 {
-	const TiXmlElement* zone = element->FirstChildElement("ZoneEdition");
+	const XmlElement* zone = element->FirstChildElement("ZoneEdition");
 
 	if(!zone)
 		return false;

@@ -79,9 +79,9 @@ public:
 	Vecteur3 calculerDeplacementMax(Vecteur3 posAbsActuel, Vecteur3 deplacement);
 
 	/// Creation du noeud XML d'un point
-	virtual TiXmlElement* creerNoeudXML();
+	virtual XmlElement* creerNoeudXML();
 	/// Initialisation du NoeudPoint à partir d'un element XML
-	virtual bool initialiser(const TiXmlElement* element);
+	virtual bool initialiser(const XmlElement* element);
 
 	/// Retourne la liste
 	const GroupeTripleAdresseFloat* obtenirListePointsAChanger() const;

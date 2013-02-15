@@ -155,21 +155,21 @@ bool Tournoi::initialisation( const JoueursParticipant& joueurs, const std::stri
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool Tournoi::initialisationXML( TiXmlElement* element )
+/// @fn bool Tournoi::initialisationXML( XmlElement* element )
 ///
 /// Initialisation d'un tournoi avec un noeud XML
 ///
-/// @param[in] TiXmlElement * element
+/// @param[in] XmlElement * element
 ///
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool Tournoi::initialisationXML( TiXmlElement* element, ConteneurJoueur* profilsVirtuelsExistant /*= 0 */ )
+bool Tournoi::initialisationXML( XmlElement* element, ConteneurJoueur* profilsVirtuelsExistant /*= 0 */ )
 {
 	libererMemoire();
 
 	// Lecture du nom du tournoi
-	TiXmlElement* etiquetteNom = element->FirstChildElement("Nom");
+	XmlElement* etiquetteNom = element->FirstChildElement("Nom");
 	if(etiquetteNom == 0)
 		return false;
 	const char* nom = etiquetteNom->Attribute("nom");
@@ -180,10 +180,10 @@ bool Tournoi::initialisationXML( TiXmlElement* element, ConteneurJoueur* profils
 	
 	
 	// Lecture de la liste des gagnants
-	TiXmlElement* gagnants = element->FirstChildElement("Gagnants");
+	XmlElement* gagnants = element->FirstChildElement("Gagnants");
 	if(!gagnants)
 		return false;
-	TiXmlElement* gagnant = gagnants->FirstChildElement("Gagnant");
+	XmlElement* gagnant = gagnants->FirstChildElement("Gagnant");
 	if(!gagnant)
 		return false;
 	for(; gagnant; gagnant = gagnant->NextSiblingElement())
@@ -196,7 +196,7 @@ bool Tournoi::initialisationXML( TiXmlElement* element, ConteneurJoueur* profils
 	}
 
 	// Lecture du chemin pour le terrain a jouer
-	TiXmlElement* map = element->FirstChildElement("Terrain");
+	XmlElement* map = element->FirstChildElement("Terrain");
 	if(map == 0)
 		return false;
 	const char* mapPath = map->Attribute("chemin");
@@ -213,7 +213,7 @@ bool Tournoi::initialisationXML( TiXmlElement* element, ConteneurJoueur* profils
 		return false;
 
 	// Lecture des parties du tournoi
-	TiXmlElement* partie = element->FirstChildElement("Partie");
+	XmlElement* partie = element->FirstChildElement("Partie");
 	for(int i=0; i<nbrParties_; i++)
 	{
 		if(partie == 0)
@@ -254,18 +254,18 @@ void Tournoi::libererMemoire()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn TiXmlElement* Tournoi::creerTournoiXML()
+/// @fn XmlElement* Tournoi::creerTournoiXML()
 ///
 /// Enregistrement du tournoi dans le fichier XML
 ///
 ///
-/// @return TiXmlElement* noeud contenant le tournoi
+/// @return XmlElement* noeud contenant le tournoi
 ///
 ////////////////////////////////////////////////////////////////////////
-TiXmlElement* Tournoi::creerTournoiXML() const
+XmlElement* Tournoi::creerTournoiXML() const
 {
 	// Noeud Principal
-	TiXmlElement* elementNoeud = XMLUtils::creerNoeud("Tournoi");
+	XmlElement* elementNoeud = XMLUtils::creerNoeud("Tournoi");
 
 	// Indicateur de la partie courante a jouer
 	elementNoeud->SetAttribute("indexPartie", indexPartieCourante_);
@@ -273,23 +273,23 @@ TiXmlElement* Tournoi::creerTournoiXML() const
 	elementNoeud->SetAttribute("termine", estTermine());
 
 	// Enregistrement des Gagnants  ////////////////////////////////////////////////////////////////
-	TiXmlElement* gagnants = XMLUtils::creerNoeud("Gagnants");
+	XmlElement* gagnants = XMLUtils::creerNoeud("Gagnants");
 	
 	if(!listeGagnants_.empty())
 	{
 		ListeGagnants::const_iterator iter = listeGagnants_.begin();
 		for (; iter != listeGagnants_.end()  ; iter++)
 		{
-			TiXmlElement* gagnant = XMLUtils::creerNoeud("Gagnant");
-			TiXmlText* text = new TiXmlText(iter->c_str());
+			XmlElement* gagnant = XMLUtils::creerNoeud("Gagnant");
+			XmlText* text = new XmlText(iter->c_str());
 			gagnant->LinkEndChild(text);
 			gagnants->LinkEndChild(gagnant);
 		}
 	}
 	else
 	{
-		TiXmlElement* gagnant = XMLUtils::creerNoeud("Gagnant");
-		TiXmlText* text = new TiXmlText(tounoiNonJoue.c_str());
+		XmlElement* gagnant = XMLUtils::creerNoeud("Gagnant");
+		XmlText* text = new XmlText(tounoiNonJoue.c_str());
 		gagnant->LinkEndChild(text);	
 		gagnants->LinkEndChild(gagnant);
 	}	
@@ -298,12 +298,12 @@ TiXmlElement* Tournoi::creerTournoiXML() const
 
 
 	// Enregistrement du nom du tournoi  ////////////////////////////////////////////////////////////////
-	TiXmlElement* nom = XMLUtils::creerNoeud("Nom");
+	XmlElement* nom = XMLUtils::creerNoeud("Nom");
 	nom->SetAttribute("nom", nom_.c_str());
 	elementNoeud->LinkEndChild(nom);
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	TiXmlElement* map = XMLUtils::creerNoeud("Terrain");
+	XmlElement* map = XMLUtils::creerNoeud("Terrain");
 	map->SetAttribute("chemin", obtenirTerrain().c_str());
 	elementNoeud->LinkEndChild(map);
 
@@ -354,23 +354,23 @@ unsigned int Tournoi::obtenirPartieRondePrecedente( unsigned int index, bool gau
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn TiXmlElement* Tournoi::creerArbreXML(unsigned int index)
+/// @fn XmlElement* Tournoi::creerArbreXML(unsigned int index)
 ///
 /// crée un arbre de noeuds XML pour l'enregistrement
 ///
 /// @param[in]  unsigned int index : position de la partie courante
 ///
-/// @return TiXmlElement* : Premier appel :noeuds XML d'un sous-arbres
+/// @return XmlElement* : Premier appel :noeuds XML d'un sous-arbres
 ///							Appel recursif: noeuds de la parties courante ou 0 si inexistante
 ///
 ////////////////////////////////////////////////////////////////////////
-TiXmlElement* Tournoi::creerArbreXML( unsigned int index  )
+XmlElement* Tournoi::creerArbreXML( unsigned int index  )
 {
 	if(index >= nbrParties_)
 		return 0;
-	TiXmlElement* elementNoeud  = parties_[index].creerNoeudXML();
-	TiXmlElement* gauche = creerArbreXML(obtenirPartieRondePrecedente(index,true) );
-	TiXmlElement* droite = creerArbreXML(obtenirPartieRondePrecedente(index,false) );
+	XmlElement* elementNoeud  = parties_[index].creerNoeudXML();
+	XmlElement* gauche = creerArbreXML(obtenirPartieRondePrecedente(index,true) );
+	XmlElement* droite = creerArbreXML(obtenirPartieRondePrecedente(index,false) );
 
 	if(gauche != 0)
 		elementNoeud->LinkEndChild(gauche);

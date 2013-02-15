@@ -130,16 +130,16 @@ void VisiteurCollision::visiterNoeudComposite( NoeudComposite* noeud )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void VisiteurCollision::visiterNoeudMuret( NoeudMuret* noeud )
+/// @fn void VisiteurCollision::visiterNoeudMuret( NodeWallAbstract* noeud )
 ///
 /// Visiteur de collision pour un muret
 ///
-/// @param[in] NoeudMuret * noeud : noeud à vérifier
+/// @param[in] NodeWallAbstract * noeud : noeud à vérifier
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void VisiteurCollision::visiterNoeudMuret( NoeudMuret* noeud )
+void VisiteurCollision::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
 	if(noeud == noeudAVerifier_)
 		return;

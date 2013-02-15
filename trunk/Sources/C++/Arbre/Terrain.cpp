@@ -274,16 +274,16 @@ void Terrain::initialiserArbreRendu()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void Terrain::initialiserXml( TiXmlElement* element )
+/// @fn void Terrain::initialiserXml( XmlElement* element )
 ///
 /// Permet d'initialiser le terrain avec ces éléments a partir d'un noeud XML
 ///
-/// @param[in] TiXmlElement * element
+/// @param[in] XmlElement * element
 ///
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool Terrain::initialiserXml( TiXmlElement* element )
+bool Terrain::initialiserXml( XmlElement* element )
 {
 	libererMemoire();
 	
@@ -291,7 +291,7 @@ bool Terrain::initialiserXml( TiXmlElement* element )
 	mNewNodeTree = new ArbreNoeudLibre();
 	mLogicTree = new RazerGameTree();
 
-	TiXmlElement* racine = element->FirstChildElement("Terrain");
+	XmlElement* racine = element->FirstChildElement("Terrain");
 	if(!racine)
 		return false;
 	const char* nom = racine->Attribute("nom");
@@ -356,18 +356,18 @@ void Terrain::reinitialiser()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn TiXmlElement* Terrain::creerNoeudXML()
+/// @fn XmlElement* Terrain::creerNoeudXML()
 ///
 /// Creation du noeud XML du Terrain
 ///
 ///
-/// @return TiXmlElement*
+/// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-TiXmlElement* Terrain::creerNoeudXML()
+XmlElement* Terrain::creerNoeudXML()
 {
 	// Créer le noeud 
-	TiXmlElement* racine = XMLUtils::creerNoeud("Terrain");
+	XmlElement* racine = XMLUtils::creerNoeud("Terrain");
 
 	racine->SetAttribute("nom",getNom().c_str() );
 
@@ -473,7 +473,7 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 	// Cas particulier pour des muret puisque ce sont des segment et non des cercles
 	if(noeud->obtenirType() == RazerGameUtilities::NOM_MURET)
 	{
-		NoeudMuret *muret = dynamic_cast<NoeudMuret *>(noeud);
+		NodeWallAbstract *muret = (NodeWallAbstract *)noeud;
 		if (muret)
 		{
 			// Ligne du haut

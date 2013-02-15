@@ -347,17 +347,17 @@ void NoeudBut::assignerAttributVisiteurCollision( VisiteurCollision* v )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn TiXmlElement* NoeudBut::creerNoeudXML()
+/// @fn XmlElement* NoeudBut::creerNoeudXML()
 ///
 /// Creation du noeud XML d'un but
 ///
 ///
-/// @return TiXmlElement*
+/// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-TiXmlElement* NoeudBut::creerNoeudXML()
+XmlElement* NoeudBut::creerNoeudXML()
 {
-	TiXmlElement* elementNoeud = NoeudComposite::creerNoeudXML();
+	XmlElement* elementNoeud = NoeudComposite::creerNoeudXML();
 
     XMLUtils::ecrireAttribute<float>(elementNoeud,"longueurBut",mGoalLength);
     XMLUtils::ecrireAttribute<int>(elementNoeud,"joueur",joueur_);
@@ -368,16 +368,16 @@ TiXmlElement* NoeudBut::creerNoeudXML()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NoeudBut::initialiser( const TiXmlElement* element )
+/// @fn bool NoeudBut::initialiser( const XmlElement* element )
 ///
 /// Initialisation du But à partir d'un element XML
 ///
-/// @param[in] const TiXmlElement * element
+/// @param[in] const XmlElement * element
 ///
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NoeudBut::initialiser( const TiXmlElement* element )
+bool NoeudBut::initialiser( const XmlElement* element )
 {
 	if(!NoeudComposite::initialiser(element))
 		return false;

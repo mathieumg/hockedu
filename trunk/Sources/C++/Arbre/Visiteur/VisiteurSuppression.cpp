@@ -87,16 +87,16 @@ void VisiteurSuppression::visiterNoeudComposite( NoeudComposite* noeud )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void VisiteurSuppression::visiterNoeudMuret( NoeudMuret* noeud )
+/// @fn void VisiteurSuppression::visiterNoeudMuret( NodeWallAbstract* noeud )
 ///
 /// Visitation d'un noeud Muret
 ///
-/// @param[in] NoeudMuret * noeud : noeud à vérifier
+/// @param[in] NodeWallAbstract * noeud : noeud à vérifier
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void VisiteurSuppression::visiterNoeudMuret( NoeudMuret* noeud )
+void VisiteurSuppression::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
 	if(!effacerSiSelectionne(noeud))
 		visiterEnfants(noeud);

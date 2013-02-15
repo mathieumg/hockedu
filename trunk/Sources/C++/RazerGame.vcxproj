@@ -195,6 +195,7 @@
     <ClCompile Include="Arbre\HUD\HUDTexte.cpp" />
     <ClCompile Include="Arbre\Modeles\GestionnaireModeles.cpp" />
     <ClCompile Include="Arbre\Modeles\Modele3D.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NodeWallAbstract.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudAccelerateur.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudAffichage.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudGroupe.cpp" />
@@ -324,6 +325,7 @@
     <ClInclude Include="Arbre\HUD\HUDTexte.h" />
     <ClInclude Include="Arbre\Modeles\GestionnaireModeles.h" />
     <ClInclude Include="Arbre\Modeles\Modele3D.h" />
+    <ClInclude Include="Arbre\Noeuds\NodeWallAbstract.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudAccelerateur.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudAffichage.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudGroupe.h" />
@@ -338,13 +340,6 @@
     <ClInclude Include="Arbre\Noeuds\NoeudTable.h" />
     <ClInclude Include="Arbre\Noeuds\PositionSubject.h" />
     <ClInclude Include="Arbre\Terrain.h" />
-    <ClInclude Include="Arbre\Usines\UsineNoeudAccelerateur.h" />
-    <ClInclude Include="Arbre\Usines\UsineNoeudGroupe.h" />
-    <ClInclude Include="Arbre\Usines\UsineNoeudMuret.h" />
-    <ClInclude Include="Arbre\Usines\UsineNoeudMaillet.h" />
-    <ClInclude Include="Arbre\Usines\UsineNoeudPortail.h" />
-    <ClInclude Include="Arbre\Usines\UsineNoeudRondelle.h" />
-    <ClInclude Include="Arbre\Usines\UsineNoeudTable.h" />
     <ClInclude Include="Arbre\Visiteur\VisiteurCollision.h" />
     <ClInclude Include="Arbre\Visiteur\VisiteurDeplacement.h" />
     <ClInclude Include="Arbre\Visiteur\VisiteurDupliquer.h" />

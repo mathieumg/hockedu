@@ -25,7 +25,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudAffichage::NoeudAffichage(const std::string& typeNoeud)
-   : NoeudAbstrait(typeNoeud)
+   : NoeudAbstrait(typeNoeud),mModelKey(typeNoeud)
 {   
 	affiche_ = false;
 	echelleCourante_ = Vecteur3(5, 5, 5);
@@ -45,7 +45,6 @@ NoeudAffichage::NoeudAffichage(const std::string& typeNoeud)
 ////////////////////////////////////////////////////////////////////////
 NoeudAffichage::~NoeudAffichage()
 {
-	FacadeModele::getInstance()->supprimerElementSurTable(this);
 }
 
 
@@ -128,11 +127,7 @@ void NoeudAffichage::acceptVisitor( VisiteurNoeud& v )
 ////////////////////////////////////////////////////////////////////////
 void NoeudAffichage::modifierListes( const std::string& nomListe )
 {
-    type_ = nomListe;
-	/*GLuint liste1;
-	GestionnaireModeles::getInstance()->obtenirListe(nomListe, liste1);
-    if(liste1 != 0)
-	    liste_ = liste1;*/
+    mModelKey = nomListe;
 }
 
 

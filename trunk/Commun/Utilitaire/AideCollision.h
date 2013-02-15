@@ -17,7 +17,7 @@
 
 #include <Vecteur.h>
 
-class NoeudMuret;
+class NodeWallAbstract;
 
 /// Espace de nom contenant des fonctions utiles pour le calcul des forces
 /// causées par les collisions.
@@ -197,45 +197,6 @@ namespace aidecollision {
    float TimeOfClosestApproach(const Vecteur2& Pa, const Vecteur2& Pb, const Vecteur2& Va, const Vecteur2& Vb, const float& Ra, const float& Rb, bool& collision);
 
 
-
-   enum CollisionCase{
-	   AUCUNE_COLLISION_GV,
-	   COLLISION_COIN_GAUCHE,
-	   COLLISION_COIN_DROIT,
-	   COLLISION_MUR_COMPLET,
-	   COLLISION_CENTRE,
-	   COLLISION_ENFONCEE
-   };
-   enum PositionCollision{POS_COLLISION_GAUCHE,POS_COLLISION_DROITE,POS_COLLISION_MILIEU,POS_COLLISION_FRONT};
-   class CollisionGrandeVitesse
-   {
-   public:
-	   CollisionGrandeVitesse():case_(AUCUNE_COLLISION_GV),intersectionMin_(0),distanceMinCarre_(9999999){}
-	   ~CollisionGrandeVitesse(){if(!intersectionMin_)delete intersectionMin_;}
-	   CollisionGrandeVitesse(const CollisionGrandeVitesse& CGV)
-	   {
-		   if(CGV.intersectionMin_)
-			   intersectionMin_ = new Vecteur2(*CGV.intersectionMin_);
-		   case_ = CGV.case_;
-		   distanceMinCarre_ = CGV.distanceMinCarre_;
-		   positionCollision_ = CGV.positionCollision_;
-		   muret_ = CGV.muret_;
-	   }
-	   void updateCollisionGauche(const float& distanceCarre, const Vecteur2& intersection);
-	   void updateCollisionMilieu(const float& distanceCarre, const Vecteur2& intersection);
-	   void updateCollisionDroite(const float& distanceCarre, const Vecteur2& intersection);
-	   void updateCollisionFront (const float& distanceCarre, const Vecteur2& intersection);
-	   void saveMuret( NoeudMuret* muret)
-	   {
-		   muret_ = muret;
-	   }
-
-	   Vecteur2* intersectionMin_;
-	   float distanceMinCarre_;
-	   CollisionCase case_;
-	   PositionCollision positionCollision_;
-	   NoeudMuret* muret_;
-   };
 
 } // Fin de l'espace de nom aidecollision.
 

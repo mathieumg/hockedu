@@ -222,17 +222,17 @@ void Partie::assignerJoueur( SPJoueurAbstrait joueur )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn TiXmlElement* Partie::creerNoeudXML()
+/// @fn XmlElement* Partie::creerNoeudXML()
 ///
 /// Création de l'élément XML contenant la partie
 ///
 ///
-/// @return TiXmlElement* noeud contenant la partie
+/// @return XmlElement* noeud contenant la partie
 ///
 ////////////////////////////////////////////////////////////////////////
-TiXmlElement* Partie::creerNoeudXML() const
+XmlElement* Partie::creerNoeudXML() const
 {
-	TiXmlElement* elementNoeud = XMLUtils::creerNoeud("Partie");
+	XmlElement* elementNoeud = XMLUtils::creerNoeud("Partie");
 
 	elementNoeud->SetAttribute("ptsG", pointsJoueurGauche_);
 	elementNoeud->SetAttribute("ptsD", pointsJoueurDroit_);
@@ -248,16 +248,16 @@ TiXmlElement* Partie::creerNoeudXML() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void Partie::initialiserXML( TiXmlElement* elem )
+/// @fn void Partie::initialiserXML( XmlElement* elem )
 ///
 /// Initialisation d'une partie a partir d'un noeud XML
 ///
-/// @param[in] TiXmlElement * elem
+/// @param[in] XmlElement * elem
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-bool Partie::initialiserXML( TiXmlElement* elem, ConteneurJoueur* profilsVirtuelsExistants /*= 0*/ )
+bool Partie::initialiserXML( XmlElement* elem, ConteneurJoueur* profilsVirtuelsExistants /*= 0*/ )
 {
 	if(elem->QueryIntAttribute("ptsG", &pointsJoueurGauche_) != TIXML_SUCCESS)
 		pointsJoueurGauche_ = 0;		//Probleme pour le chargement des points, on assigne un pointage nul
@@ -271,7 +271,7 @@ bool Partie::initialiserXML( TiXmlElement* elem, ConteneurJoueur* profilsVirtuel
 	else
 		terrain_ = map;
 
-	const TiXmlElement* joueurXml = elem->FirstChildElement();
+	const XmlElement* joueurXml = elem->FirstChildElement();
 	int nbJoueurs=0;
 	for( ; joueurXml/*Vérifie si child est non-null*/; joueurXml = joueurXml->NextSiblingElement() )
 	{

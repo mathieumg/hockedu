@@ -103,7 +103,7 @@ void TournoiTest::testEcritureXML()
 	TiXmlDocument document;
 	TiXmlDeclaration* declaration = new TiXmlDeclaration( "1.0", "", "" );
 	document.LinkEndChild(declaration);
-	TiXmlElement* racine = XMLUtils::creerNoeud("Tournoi");
+	XmlElement* racine = XMLUtils::creerNoeud("Tournoi");
 	document.LinkEndChild(racine);
 
 	racine->LinkEndChild(tournoi_->creerTournoiXML());

@@ -26,7 +26,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudMuretRelatif::NoeudMuretRelatif( NoeudPoint* n1, NoeudPoint* n2 ):
-NoeudMuret(RazerGameUtilities::NOM_MURET_RELATIF,false)
+NodeWallAbstract(RazerGameUtilities::NOM_MURET_RELATIF,false)
 {
 	coin1_[VX] = &n1->positionRelative_[VX];
 	coin1_[VY] = &n1->positionRelative_[VY];
@@ -59,7 +59,7 @@ NoeudMuret(RazerGameUtilities::NOM_MURET_RELATIF,false)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudMuretRelatif::NoeudMuretRelatif( NoeudPoint* n, NoeudBut* but, bool haut ):
-NoeudMuret(RazerGameUtilities::NOM_MURET_RELATIF, false)
+NodeWallAbstract(RazerGameUtilities::NOM_MURET_RELATIF, false)
 {
 	coin1_[VX] = &n->positionRelative_[VX];
 	coin1_[VY] = &n->positionRelative_[VY];
@@ -102,7 +102,7 @@ NoeudMuret(RazerGameUtilities::NOM_MURET_RELATIF, false)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudMuretRelatif::NoeudMuretRelatif( NoeudBut* but, NoeudPoint* n, bool haut ):
-NoeudMuret(RazerGameUtilities::NOM_MURET_RELATIF, false)
+NodeWallAbstract(RazerGameUtilities::NOM_MURET_RELATIF, false)
 {
 	coin2_[VX] = &n->positionRelative_[VX];
 	coin2_[VY] = &n->positionRelative_[VY];
@@ -179,46 +179,6 @@ Vecteur3 NoeudMuretRelatif::obtenirCoin2()
 	return Vecteur3(*coin2_[VX],*coin2_[VY],0);
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudMuretRelatif::afficherConcret()
-///
-/// Cette fonction effectue le véritable rendu de l'objet.
-///
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudMuretRelatif::afficherConcret() const
-{
-	// Fais rien, ce muret est invisible...non non non, il l'est maintenant!
-	glPushMatrix();
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
-
-	NoeudComposite::afficherConcret(); // On ne call pas de liste pour ne pas les afficher
-
-	glPopAttrib();
-	glPopMatrix();
-
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudMuretRelatif::animer( const float& temps )
-///
-/// Cette fonction effectue l'animation du noeud pour un certain
-/// intervalle de temps.
-///
-/// @param[in] float temps : Intervalle de temps sur lequel faire l'animation.
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudMuretRelatif::animer( const float& temps )
-{
-	// Appel à la version de la classe de base pour l'animation des enfants.
-	NoeudComposite::animer(temps);
-}
 
 ////////////////////////////////////////////////////////////////////////
 ///

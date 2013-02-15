@@ -13,6 +13,9 @@
 #include "NoeudPoint.h"
 #include "PositionSubject.h"
 
+
+class NoeudBut;
+
 ///////////////////////////////////////////////////////////////////////////
 /// @class NoeudMuretRelatif
 /// @brief Classe qui représente un muret relatif, donc ceux aux extrimites 
@@ -22,7 +25,7 @@
 /// @date 2012-01-25
 ///////////////////////////////////////////////////////////////////////////
 class NoeudMuretRelatif :
-	public NoeudMuret, public PositionObserver
+	public NodeWallAbstract, public PositionObserver
 {
 public:
 	/// Constructeurs par paramètres

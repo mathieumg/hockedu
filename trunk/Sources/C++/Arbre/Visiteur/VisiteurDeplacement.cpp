@@ -131,16 +131,16 @@ void VisiteurDeplacement::visiterNoeudComposite( NoeudComposite* noeud )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn VisiteurDeplacement::visiterNoeudMuret( NoeudMuret* noeud )
+/// @fn VisiteurDeplacement::visiterNoeudMuret( NodeWallAbstract* noeud )
 ///
-/// Déplacement d'un NoeudMuret
+/// Déplacement d'un NodeWallAbstract
 ///
-/// @param[in] NoeudMuret * n : noeud à visiter
+/// @param[in] NodeWallAbstract * n : noeud à visiter
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void VisiteurDeplacement::visiterNoeudMuret( NoeudMuret* noeud )
+void VisiteurDeplacement::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
 	/*if(!noeud->estSelectionne())
 		return;*/

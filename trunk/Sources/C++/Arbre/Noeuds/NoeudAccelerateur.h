@@ -39,9 +39,9 @@ public:
 	void modifierBonusAccel(float val) { bonusAccel_ = val; }
 
 	/// Creation du noeud XML de l'accelerateur
-	virtual TiXmlElement* creerNoeudXML();
+	virtual XmlElement* creerNoeudXML();
 	/// Initialisation du NoeudAccelerateur à partir d'un element XML
-	virtual bool initialiser(const TiXmlElement* element);
+	virtual bool initialiser(const XmlElement* element);
 
 	/// Accesseur de activer_
 	bool estActiver() const { return activer_; }

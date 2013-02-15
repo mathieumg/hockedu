@@ -36,7 +36,7 @@ public:
 	virtual ~JoueurVirtuel(void);
 
 	/// Creation du noeud XML du joueur
-	virtual TiXmlElement* creerNoeudXML() const;
+	virtual XmlElement* creerNoeudXML() const;
 
 
 	/// Permet de generer des informations aleatoire pour un joueur,
@@ -66,7 +66,7 @@ private:
 	AIMaillet* aiMaillet_;
 protected:
 	/// Initialisaiton du joueur à partir d'un element XML
-	virtual bool initialiser(const TiXmlElement* element);
+	virtual bool initialiser(const XmlElement* element);
 };
 
 

@@ -221,10 +221,10 @@ void ConfigScene::enregistrerConfiguration () const
 
 	// On enregistre les différentes configurations.
 	// Créer le noeud 'configuration'
-	TiXmlElement* elementConfiguration = XMLUtils::creerNoeud("configuration");
+	XmlElement* elementConfiguration = XMLUtils::creerNoeud("configuration");
 
 	// Créer le noeud scene et définir ses attributs
-	TiXmlElement* elementScene = XMLUtils::creerNoeud("CScene");
+	XmlElement* elementScene = XMLUtils::creerNoeud("CScene");
 	elementScene->SetAttribute("toucheHaut", toucheHaut_);
 	elementScene->SetAttribute("toucheBas",	   toucheBas_);
 	elementScene->SetAttribute("toucheGauche", toucheGauche_);
@@ -274,10 +274,10 @@ void ConfigScene::chargerConfiguration( )
 		document.LoadFile ( FICHIER_CONFIGURATION.c_str() );
 
 		// Tenter d'obtenir le noeud 'Configuration'
-		const TiXmlElement* elementConfiguration = (TiXmlElement*)(document.FirstChild("configuration"));
+		const XmlElement* elementConfiguration = (XmlElement*)(document.FirstChild("configuration"));
 		if (elementConfiguration != NULL) {
 			// Tenter d'obtenir l'élément CScene, puis l'attribut CALCULS_PAR_IMAGE
-			const TiXmlElement* elementScene = (TiXmlElement*)(elementConfiguration->FirstChild("CScene"));
+			const XmlElement* elementScene = (XmlElement*)(elementConfiguration->FirstChild("CScene"));
 			if (elementScene != NULL) {
 				if(elementScene->Attribute("toucheHaut",   &toucheHaut_  ) == 0)toucheHaut_ = VJAK_W;
 				if(elementScene->Attribute("toucheBas",		&toucheBas_  ) == 0)toucheBas_ = VJAK_S;
@@ -311,14 +311,14 @@ void ConfigScene::creerDOM( TiXmlNode& node, RazerGameTree* arbre ) const
 		return;
 
 	// Créer le noeud 
-	TiXmlElement* racine = XMLUtils::creerNoeud(ETIQUETTE_ARBRE);
+	XmlElement* racine = XMLUtils::creerNoeud(ETIQUETTE_ARBRE);
 	node.LinkEndChild(racine);
 
 	VisiteurEcrireXML v;
 	for( unsigned int i = 0; i < arbre->obtenirNombreEnfants(); i++)
 	{
 		arbre->chercher(i)->acceptVisitor(v);
-		TiXmlElement* racineSousArbre = v.obtenirRacine();
+		XmlElement* racineSousArbre = v.obtenirRacine();
 		if(racineSousArbre != 0)
 			racine->LinkEndChild(racineSousArbre);
 		v.reinitialiserRacine();
@@ -341,7 +341,7 @@ void ConfigScene::creerDOM( TiXmlNode& node, RazerGameTree* arbre ) const
 void ConfigScene::creerDOM( TiXmlNode& node, const ConteneurJoueur& joueurs ) const
 {
 	// Créer le noeud 
-	TiXmlElement* racine = XMLUtils::creerNoeud("ProfileJoueurs");
+	XmlElement* racine = XMLUtils::creerNoeud("ProfileJoueurs");
 	node.LinkEndChild(racine);
 
 	// Parcour du conteneur et création des noeud XML de chacun des joueurs
@@ -369,7 +369,7 @@ void ConfigScene::creerDOM( TiXmlNode& node, const ConteneurJoueur& joueurs ) co
 void ConfigScene::creerDOM( TiXmlNode& node, const Tournoi& tournoi ) const
 {
 	// Créer le noeud 
-	TiXmlElement* racine = XMLUtils::creerNoeud("Tournoi");
+	XmlElement* racine = XMLUtils::creerNoeud("Tournoi");
 	node.LinkEndChild(racine);
 
 	// Parcour du conteneur et création des noeud XML de chacun des joueurs
@@ -418,7 +418,7 @@ void ConfigScene::lireDOM( const TiXmlNode& node, RazerGameTree* arbre )
 void ConfigScene::lireDOM( const TiXmlNode& node, ConteneurJoueur& Joueurs )
 {
 	const TiXmlNode* elementConfiguration = node.FirstChild("ProfileJoueurs");
-	const TiXmlElement* child;
+	const XmlElement* child;
 	if (elementConfiguration != NULL)
 	{
 		for( child = elementConfiguration->FirstChildElement(); child/*Vérifie si child est non-null*/; child = child->NextSiblingElement() )
@@ -447,7 +447,7 @@ void ConfigScene::lireDOM( const TiXmlNode& node, ConteneurJoueur& Joueurs )
 ////////////////////////////////////////////////////////////////////////
 void ConfigScene::ecrireArbre(NoeudAbstrait* parentNoeud, const TiXmlNode* node)
 {
-	TiXmlElement* elem = (TiXmlElement*)node;
+	XmlElement* elem = (XmlElement*)node;
 	TiXmlString nom = elem->ValueTStr();
 	NoeudAbstrait* noeudCourant;
 
@@ -512,7 +512,7 @@ void ConfigScene::ecrireArbre(NoeudAbstrait* parentNoeud, const TiXmlNode* node)
 void ConfigScene::creerFichierMusique()
 {
 	TiXmlDocument document;
-	TiXmlElement* racine = XMLUtils::creerNoeud("listeCanaux");
+	XmlElement* racine = XMLUtils::creerNoeud("listeCanaux");
 
 	// Écrire la déclaration XML standard...
 	TiXmlDeclaration* declaration = new TiXmlDeclaration( "1.0", "", "" );
@@ -546,13 +546,13 @@ void ConfigScene::ajouterCanal(std::string nomCanal)
 	document.LoadFile(FICHIER_MUSIQUE.c_str());
 
 	// Obtention de la racine
-	TiXmlElement* racine = document.FirstChildElement("listeCanaux");
+	XmlElement* racine = document.FirstChildElement("listeCanaux");
 
 	// Si elle existe
 	if(racine != NULL)
 	{
 		// Ajout du canal
-		TiXmlElement* nouveauCanal = XMLUtils::creerNoeud("canal");
+		XmlElement* nouveauCanal = XMLUtils::creerNoeud("canal");
 		nouveauCanal->SetAttribute("nom", nomCanal.c_str());
 		racine->LinkEndChild(nouveauCanal);
 		document.SaveFile(FICHIER_MUSIQUE.c_str());
@@ -587,13 +587,13 @@ void ConfigScene::supprimerCanal(std::string nomCanal)
 		document.LoadFile(FICHIER_MUSIQUE.c_str());
 
 		// Obtention de la racine
-		TiXmlElement* racine = document.FirstChildElement("listeCanaux");
+		XmlElement* racine = document.FirstChildElement("listeCanaux");
 
 		// Si la racine existe
 		if(racine != NULL)
 		{
 			// Premier canal
-			TiXmlElement* canal = racine->FirstChildElement("canal");
+			XmlElement* canal = racine->FirstChildElement("canal");
 
 			// Tant qu'on n'a pas trouver le canal (ou qu'on ait atteint la fin)
 			while(canal != NULL && canal->FirstAttribute()->Value() != nomCanal)
@@ -639,13 +639,13 @@ void ConfigScene::ajouterChanson(std::string nomCanal, std::string nomChanson)
 	document.LoadFile(FICHIER_MUSIQUE.c_str());
 
 	// Racine du document
-	TiXmlElement* racine = document.FirstChildElement("listeCanaux");
+	XmlElement* racine = document.FirstChildElement("listeCanaux");
 
 	// Si la racine existe
 	if(racine != NULL)
 	{
 		// Premier canal 
-		TiXmlElement* canal = racine->FirstChildElement("canal");
+		XmlElement* canal = racine->FirstChildElement("canal");
 
 		// Tant qu'on a pas trouvé le bon canal ou qu'on est à la in du document
 		while(canal != NULL && canal->FirstAttribute()->Value() != nomCanal)
@@ -656,7 +656,7 @@ void ConfigScene::ajouterChanson(std::string nomCanal, std::string nomChanson)
 		if(canal != NULL)
 		{
 			// Ajout de la chanson
-			TiXmlElement* nouvelleChanson = XMLUtils::creerNoeud("chanson");
+			XmlElement* nouvelleChanson = XMLUtils::creerNoeud("chanson");
 			nouvelleChanson->SetAttribute("Nom", nomChanson.c_str());
 			canal->LinkEndChild(nouvelleChanson);
 			SoundFMOD::obtenirInstance()->create_sound(nomChanson, FMOD_HARDWARE, 0, nomCanal);
@@ -692,13 +692,13 @@ void ConfigScene::supprimerChanson(std::string nomCanal, std::string nomChanson)
 	document.LoadFile(FICHIER_MUSIQUE.c_str());
 
 	// Racine du document
-	TiXmlElement* racine = document.FirstChildElement("listeCanaux");
+	XmlElement* racine = document.FirstChildElement("listeCanaux");
 
 	// Si la racine existe
 	if(racine != NULL)
 	{
 		// Premier canal
-		TiXmlElement* canal = racine->FirstChildElement("canal");
+		XmlElement* canal = racine->FirstChildElement("canal");
 
 		// Tant qu'on ne trouve pas le canal ou qu'on n'a ps atteint la fin du fichier
 		while(canal != NULL && canal->FirstAttribute()->Value() != nomCanal)
@@ -710,7 +710,7 @@ void ConfigScene::supprimerChanson(std::string nomCanal, std::string nomChanson)
 		if(canal != NULL)
 		{
 			// Premier chanson du canal
-			TiXmlElement* chanson = canal->FirstChildElement("chanson");
+			XmlElement* chanson = canal->FirstChildElement("chanson");
 
 			// Tant qu'on ne trouve pas la chanson ou qu'on n'a ps atteint la fin du fichier
 			while(chanson != NULL && chanson->FirstAttribute()->Value() != nomChanson)
@@ -756,13 +756,13 @@ std::vector<std::string> ConfigScene::obtenirListeCanaux()
 		document.LoadFile(FICHIER_MUSIQUE.c_str());
 
 		// Racine du document
-		TiXmlElement* racine = document.FirstChildElement("listeCanaux");
+		XmlElement* racine = document.FirstChildElement("listeCanaux");
 
 		// Si la racine existe
 		if(racine != NULL)
 		{
 			// Premier canal
-			TiXmlElement* canal = racine->FirstChildElement("canal");
+			XmlElement* canal = racine->FirstChildElement("canal");
 
 			// Parcours des canaux
 			while(canal != NULL)
@@ -805,13 +805,13 @@ NomsPlaylists ConfigScene::obtenirCanal(std::string nom)
 		document.LoadFile(FICHIER_MUSIQUE.c_str());
 
 		// Racine du document
-		TiXmlElement* racine = document.FirstChildElement("listeCanaux");
+		XmlElement* racine = document.FirstChildElement("listeCanaux");
 
 		// Si la racine existe
 		if(racine != NULL)
 		{
 			// Premier canal
-			TiXmlElement* canal = racine->FirstChildElement("canal");
+			XmlElement* canal = racine->FirstChildElement("canal");
 
 			// Tant qu'on ne trouve pas le canal ou qu'on n'a ps atteint la fin du fichier
 			while(canal != NULL && canal->FirstAttribute()->Value() != nom)
@@ -823,7 +823,7 @@ NomsPlaylists ConfigScene::obtenirCanal(std::string nom)
 			if(canal != NULL)
 			{
 				// Premier chanson du canal
-				TiXmlElement* chanson = canal->FirstChildElement("chanson");
+				XmlElement* chanson = canal->FirstChildElement("chanson");
 
 				// Tant qu'on ne trouve pas la chanson ou qu'on n'a ps atteint la fin du fichier
 				while(chanson != NULL)
@@ -864,19 +864,19 @@ void ConfigScene::chargerCanaux()
 		document.LoadFile(FICHIER_MUSIQUE.c_str());
 
 		// Racine du document
-		TiXmlElement* racine = document.FirstChildElement("listeCanaux");
+		XmlElement* racine = document.FirstChildElement("listeCanaux");
 
 		// Si la racine existe
 		if(racine != NULL)
 		{
 			// Premier canal
-			TiXmlElement* canal = racine->FirstChildElement("canal");
+			XmlElement* canal = racine->FirstChildElement("canal");
 
 			// Tant qu'on n'a ps atteint la fin de la liste des canaux
 			while(canal != NULL)
 			{
 				// Première chanson du canal
-				TiXmlElement* chanson = canal->FirstChildElement("chanson");
+				XmlElement* chanson = canal->FirstChildElement("chanson");
 
 				// Tant qu'on n'a ps atteint la fin de la liste des chansons
 				while(chanson != NULL)

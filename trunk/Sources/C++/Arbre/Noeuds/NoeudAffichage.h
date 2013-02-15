@@ -35,6 +35,9 @@ public:
    /// Accueil un visiteur
    virtual void acceptVisitor( VisiteurNoeud& v);
 
+   /// accessor to the key to retrieve the list and/or 3D Model
+   virtual const std::string& get3DModelKey() const {return mModelKey;}
+
    /// Modifie les listes d'affichage
    void modifierListes(const std::string& nomListe);
 
@@ -45,6 +48,7 @@ public:
 
 private:
 	Vecteur3 echelleBase_;
+    std::string mModelKey;
 	
 };
 

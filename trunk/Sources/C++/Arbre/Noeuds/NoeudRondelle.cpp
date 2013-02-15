@@ -328,10 +328,10 @@ void NoeudRondelle::gestionCollision( const float& temps )
 				int i=0;
 				for(; iter != liste.end(); iter++, ++i)
 				{
-					NoeudMuret *muret = dynamic_cast<NoeudMuret *>((*iter));
+					NodeWallAbstract *muret = dynamic_cast<NodeWallAbstract *>((*iter));
 					if (muret)
 					{
-						rebond *= muret->obtenirCoefRebond();
+						rebond *= muret->getReboundRatio();
 						enfoncement_ -= details[i].direction*details[i].enfoncement*1.05f;
 						detailsRes.enfoncement += details[i].enfoncement;
 						detailsRes.direction += details[i].direction;
@@ -398,7 +398,7 @@ void NoeudRondelle::ajusterEnfoncement()
 	Vecteur2 intersection;
 	// Inversion du vecteur de direction de la rondelle
 	//////// La methode doit retourne le muret pas juste ces point pour le coef de rebond
-	NoeudMuret* muret = table_->detectionCollisionGrandeVitesseMuret(anciennePos_.convertir<2>(),positionRelative_.convertir<2>(),intersection);
+	NodeWallAbstract* muret = table_->detectionCollisionGrandeVitesseMuret(anciennePos_.convertir<2>(),positionRelative_.convertir<2>(),intersection);
 	if(muret)
 	{
 		Vecteur2 directeur(muret->obtenirCoin2()-muret->obtenirCoin1());
@@ -408,7 +408,7 @@ void NoeudRondelle::ajusterEnfoncement()
 		if(produitScalaire(normale,direction) < 0)
 			normale*=-1;
 		// La normale de la normale est la droite elle meme
-		mVelocite = calculerReflexion(mVelocite,directeur.convertir<3>())*-1*1.10f;//muret->obtenirCoefRebond();
+		mVelocite = calculerReflexion(mVelocite,directeur.convertir<3>())*-1*1.10f;//muret->getReboundRatio();
 		normale*= obtenirRayon();
 		positionRelative_ = intersection.convertir<3>()+normale;
 	}

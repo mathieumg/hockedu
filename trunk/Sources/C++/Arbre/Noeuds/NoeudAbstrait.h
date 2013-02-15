@@ -17,13 +17,13 @@
 #include <windows.h>
 #include "glew.h"
 #include "Vecteur.h"
-#include "VisiteurNoeud.h"
 
 //Foward Declaration
 class NoeudComposite;
+class VisiteurNoeud;
 class VisiteurCollision;
 class VisiteurNoeudTest;
-class TiXmlElement;
+class XmlElement;
 class Modele3D;
 class Terrain;
 
@@ -147,7 +147,7 @@ public:
 	virtual void animer( const float& dt );
 
 	/// Accueil un visiteur
-	virtual void acceptVisitor( VisiteurNoeud& v){v.visiterNoeudAbstrait(this);}   
+	virtual void acceptVisitor( class VisiteurNoeud& v);   
 	/// Accesseur de la matrice de transformation
 	virtual void obtenirMatrice(GLdouble* matriceRetour) const;
 	/// Accesseur des facteurs d'echelle
@@ -190,12 +190,14 @@ public:
 	virtual void ajusterVitesse( const float& temps ) {}
 
 	/// Creation du noeud XML du Noeud
-	virtual TiXmlElement* creerNoeudXML();
+	virtual XmlElement* creerNoeudXML();
 	/// Initialisation du NoeudAbstrait à partir d'un element XML
-	virtual bool initialiser(const TiXmlElement* element);
+	virtual bool initialiser(const XmlElement* element);
 
 	/// Retourne le modele 3D representant le noeud ( !!! peut etre NULL )
 	Modele3D* obtenirModele() const;
+    /// accessor to the key to retrieve the list and/or 3D Model
+    virtual const std::string& get3DModelKey() const {return type_;}
 
 	/// Accesseur de terrain_
 	inline Terrain* GetTerrain() const { return terrain_; }

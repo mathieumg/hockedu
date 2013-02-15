@@ -71,17 +71,17 @@ JoueurHumain::~JoueurHumain( void )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn TiXmlElement* JoueurHumain::creerNoeudXML()
+/// @fn XmlElement* JoueurHumain::creerNoeudXML()
 ///
 /// Creation du noeud XML du joueur
 ///
 ///
-/// @return TiXmlElement* le noeud XMl du joueur
+/// @return XmlElement* le noeud XMl du joueur
 ///
 ////////////////////////////////////////////////////////////////////////
-TiXmlElement* JoueurHumain::creerNoeudXML() const
+XmlElement* JoueurHumain::creerNoeudXML() const
 {
-	TiXmlElement* elementNoeud = JoueurAbstrait::creerNoeudXML();
+	XmlElement* elementNoeud = JoueurAbstrait::creerNoeudXML();
 	
 	elementNoeud->SetAttribute(JoueurAbstrait::etiquetteType.c_str(),type_);
 	
@@ -90,16 +90,16 @@ TiXmlElement* JoueurHumain::creerNoeudXML() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool JoueurHumain::initialiser( const TiXmlElement* element )
+/// @fn bool JoueurHumain::initialiser( const XmlElement* element )
 ///
 /// Initialisaiton du joueur à partir d'un element XML
 ///
-/// @param[in] const TiXmlElement * element
+/// @param[in] const XmlElement * element
 ///
 /// @return bool Vrai si l'initialisation à bien été faite
 ///
 ////////////////////////////////////////////////////////////////////////
-bool JoueurHumain::initialiser( const TiXmlElement* element )
+bool JoueurHumain::initialiser( const XmlElement* element )
 {
 	if(!JoueurAbstrait::initialiser(element))
 		return false;

@@ -8,14 +8,7 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////
 #include "RazerGameTree.h"
-#include "UsineNoeudMuret.h"
-#include "UsineNoeudMaillet.h"
-#include "UsineNoeudPortail.h"
-#include "UsineNoeudRondelle.h"
-#include "UsineNoeudTable.h"
-#include "UsineNoeudAccelerateur.h"
-#include "UsineNoeudAccelerateur.h"
-#include "UsineNoeudGroupe.h"
+#include "UsineNoeud.h"
 #include "NoeudGroupe.h"
 
 

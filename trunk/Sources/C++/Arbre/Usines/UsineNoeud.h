@@ -12,7 +12,13 @@
 
 
 #include <string>
-
+#include "NoeudGroupe.h"
+#include "NoeudAccelerateur.h"
+#include "NoeudMaillet.h"
+#include "NoeudMuret.h"
+#include "NoeudPortail.h"
+#include "NoeudRondelle.h"
+#include "NoeudTable.h"
 
 class NoeudAbstrait;
 
@@ -51,8 +57,6 @@ private:
 };
 
 
-
-
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn inline const std::string& UsineNoeud::obtenirNom() const
@@ -68,6 +72,22 @@ inline const std::string& UsineNoeud::obtenirNom() const
    return nom_;
 }
 
+#define CreateNodeFactory(FactoryName)                                       \
+class Usine##FactoryName## : public UsineNoeud                               \
+{                                                                            \
+public:                                                                      \
+    inline Usine##FactoryName##(const std::string& nom):UsineNoeud(nom){}    \
+    virtual NoeudAbstrait* creerNoeud() const                                \
+    {  return new FactoryName##(obtenirNom());  }                            \
+};                                                                           \
+
+CreateNodeFactory(NoeudGroupe);
+CreateNodeFactory(NoeudAccelerateur);
+CreateNodeFactory(NoeudMaillet);
+CreateNodeFactory(NoeudMuret);
+CreateNodeFactory(NoeudPortail);
+CreateNodeFactory(NoeudRondelle);
+CreateNodeFactory(NoeudTable);
 
 #endif // __ARBRE_USINES_USINENOEUD_H__
 

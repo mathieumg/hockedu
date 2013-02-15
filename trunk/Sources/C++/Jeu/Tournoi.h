@@ -45,13 +45,13 @@ public:
 	/// Initialisation d'un tournoi
 	bool initialisation(const JoueursParticipant& joueurs, const std::string terrain);
 	/// Initialisation d'un tournoi avec un noeud XML
-	bool initialisationXML( TiXmlElement* element, ConteneurJoueur* profilsVirtuelsExistant = 0 );
+	bool initialisationXML( XmlElement* element, ConteneurJoueur* profilsVirtuelsExistant = 0 );
 	/// Liberation de la mémoire
 	void libererMemoire();
 	/// Enregistrement du tournoi dans le fichier XML
-	TiXmlElement* creerTournoiXML() const;
+	XmlElement* creerTournoiXML() const;
 	/// Méthode pour créer un arbre de noeuds XML pour l'enregistrement
-	TiXmlElement* creerArbreXML( unsigned int index  );
+	XmlElement* creerArbreXML( unsigned int index  );
 	// Permet de recommencer un tournoi
 	void reinitialiserTournoi();
 

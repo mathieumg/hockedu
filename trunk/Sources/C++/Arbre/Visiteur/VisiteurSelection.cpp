@@ -104,16 +104,16 @@ void VisiteurSelection::visiterNoeudComposite( NoeudComposite* noeud )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void VisiteurSelection::visiterNoeudMuret( NoeudMuret* noeud )
+/// @fn void VisiteurSelection::visiterNoeudMuret( NodeWallAbstract* noeud )
 ///
 /// Visitation d'un noeud muret.
 ///
-/// @param[in] NoeudMuret * noeud : noeud à vérifier
+/// @param[in] NodeWallAbstract * noeud : noeud à vérifier
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void VisiteurSelection::visiterNoeudMuret( NoeudMuret* noeud )
+void VisiteurSelection::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
 	if(noeud->estSelectionnable())
 	{

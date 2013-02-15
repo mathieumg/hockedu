@@ -1,5 +1,9 @@
 #include "XMLUtils.h"
+#ifdef WIN32
 #include "tinyxml\include\tinyxml.h"
+#else
+// mac librairie
+#endif
 #include "Vecteur.h"
 #include <sstream>
 #include <string>
@@ -10,18 +14,18 @@ namespace XMLUtils
 
     ////////////////////////////////////////////////////////////////////////
     ///
-    /// @fn void utilitaire::ecrireVecteur3Dxml( Vecteur* vecteur, TiXmlElement* element, const std::string* nom )
+    /// @fn void utilitaire::ecrireVecteur3Dxml( Vecteur* vecteur, XmlElement* element, const std::string* nom )
     ///
     /// Permet d'ecrire un vecteur dans un element XML
     ///
     /// @param[in] Vecteur3D<float> * vecteur : vecteur à écrire dans le noeud xml
-    /// @param[in] TiXmlElement * element : noeud xml
+    /// @param[in] XmlElement * element : noeud xml
     /// @param[in] const char* name : nom de ce vecteur a etre ecrit dans le fichier XML, s'assurer qu'il soit unique
     ///
     /// @return void
     ///
     ////////////////////////////////////////////////////////////////////////
-    void ecrireVecteur3Dxml( const Vecteur3* vecteur, TiXmlElement* element, const char* name )
+    void ecrireVecteur3Dxml( const Vecteur3* vecteur, XmlElement* element, const char* name )
     {
         if(vecteur && element)
         {
@@ -37,18 +41,18 @@ namespace XMLUtils
 
     ////////////////////////////////////////////////////////////////////////
     ///
-    /// @fn void utilitaire::lectureVecteur3Dxml( Vecteur3D<float>* vecteur, const TiXmlElement* element, const std::string& nom )
+    /// @fn void utilitaire::lectureVecteur3Dxml( Vecteur3D<float>* vecteur, const XmlElement* element, const std::string& nom )
     ///
     /// Permet de lire un element XML dans un vecteur 
     ///
     /// @param[in] Vecteur3D<float> * vecteur : vecteur à écrire dans le noeud xml
-    /// @param[in] TiXmlElement * element : noeud xml
+    /// @param[in] XmlElement * element : noeud xml
     /// @param[in] const char* name : nom de ce vecteur a etre ecrit dans le fichier XML, s'assurer qu'il soit unique
     ///
     /// @return void
     ///
     ////////////////////////////////////////////////////////////////////////
-    bool lectureVecteur3Dxml( Vecteur3* vecteur, const TiXmlElement* element, const char* name )
+    bool lectureVecteur3Dxml( Vecteur3* vecteur, const XmlElement* element, const char* name )
     {
         if(vecteur && element)
         {
@@ -69,12 +73,12 @@ namespace XMLUtils
 
     ////////////////////////////////////////////////////////////////////////
     ///
-    /// @fn ecrireAttribute<double>( TiXmlElement* element, const double* attribute )
+    /// @fn ecrireAttribute<double>( XmlElement* element, const double* attribute )
     ///
     /// écrit un attribut de type float dans le noeud xml
     /// Tous les pointeurs doivent être validé avant les appels à cette fonction
     /// 
-    /// @param[in] TiXmlElement * element : make sure to valid the pointer before calling
+    /// @param[in] XmlElement * element : make sure to valid the pointer before calling
     /// @param[in] const char * name : nom du nom à écrire
     /// @param[in] const float & attribute : float attribute to write
     ///
@@ -82,19 +86,19 @@ namespace XMLUtils
     ///
     ////////////////////////////////////////////////////////////////////////
     template<>
-    void ecrireAttribute<double>( TiXmlElement* element, const char* name, const double& attribute )
+    void ecrireAttribute<double>( XmlElement* element, const char* name, const double& attribute )
     {
         element->SetDoubleAttribute(name,attribute);
     }
 
 	////////////////////////////////////////////////////////////////////////
     ///
-    /// @fn ecrireAttribute<float>( TiXmlElement* element, const float* attribute )
+    /// @fn ecrireAttribute<float>( XmlElement* element, const float* attribute )
     ///
     /// écrit un attribut de type float dans le noeud xml
     /// Tous les pointeurs doivent être validé avant les appels à cette fonction
     /// 
-    /// @param[in] TiXmlElement * element : make sure to valid the pointer before calling
+    /// @param[in] XmlElement * element : make sure to valid the pointer before calling
     /// @param[in] const char * name : nom du nom à écrire
     /// @param[in] const float & attribute : float attribute to write
     ///
@@ -102,7 +106,7 @@ namespace XMLUtils
     ///
     ////////////////////////////////////////////////////////////////////////
     template<>
-    void ecrireAttribute<float>( TiXmlElement* element, const char* name, const float& attribute )
+    void ecrireAttribute<float>( XmlElement* element, const char* name, const float& attribute )
     {
 		double buffer = (double)attribute;
         element->SetDoubleAttribute(name,buffer);
@@ -115,7 +119,7 @@ namespace XMLUtils
     /// écrit un attribut de type float dans le noeud xml
     /// Tous les pointeurs doivent être validé avant les appels à cette fonction
     ///
-    /// @param[in] TiXmlElement * element : make sure to valid the pointer before calling
+    /// @param[in] XmlElement * element : make sure to valid the pointer before calling
     /// @param[in] const char * name : nom du nom à écrire
     /// @param[in] const int& attribute : float attribute to write
     ///
@@ -123,7 +127,7 @@ namespace XMLUtils
     ///
     ////////////////////////////////////////////////////////////////////////
     template<>
-    void ecrireAttribute<int>( TiXmlElement* element, const char* name, const int& attribute )
+    void ecrireAttribute<int>( XmlElement* element, const char* name, const int& attribute )
     {
         element->SetAttribute(name,attribute);
     }
@@ -135,7 +139,7 @@ namespace XMLUtils
     /// écrit un attribut de type float dans le noeud xml
     /// Tous les pointeurs doivent être validé avant les appels à cette fonction
     ///
-    /// @param[in] TiXmlElement * element : make sure to valid the pointer before calling
+    /// @param[in] XmlElement * element : make sure to valid the pointer before calling
     /// @param[in] const char * name : nom du nom à écrire
     /// @param[in] const string& attribute : float attribute to write
     ///
@@ -143,7 +147,7 @@ namespace XMLUtils
     ///
     ////////////////////////////////////////////////////////////////////////
     template<>
-    void ecrireAttribute<std::string>( TiXmlElement* element, const char* name, const std::string& attribute )
+    void ecrireAttribute<std::string>( XmlElement* element, const char* name, const std::string& attribute )
     {
         element->SetAttribute(name,attribute.c_str());
     }
@@ -151,12 +155,12 @@ namespace XMLUtils
 
     ////////////////////////////////////////////////////////////////////////
     ///
-    /// @fn bool utilitaire::LireAttribute<double>( const TiXmlElement* element, const char* name, double* attribute )
+    /// @fn bool utilitaire::LireAttribute<double>( const XmlElement* element, const char* name, double* attribute )
     ///
     /// Permet la lecture d'un noeud xml dans un attribut de type float
     /// Tous les pointeurs doivent être validé avant les appels à cette fonction
     ///
-    /// @param[in] const TiXmlElement * element : make sure to valid the pointer before calling
+    /// @param[in] const XmlElement * element : make sure to valid the pointer before calling
     /// @param[in] const char * name : nom du nom à lire
     /// @param[in] double * attribute : float attribute to read
     ///
@@ -164,19 +168,19 @@ namespace XMLUtils
     ///
     ////////////////////////////////////////////////////////////////////////
     template<>
-    bool LireAttribute<double>( const TiXmlElement* element, const char* name, double& attribute )
+    bool LireAttribute<double>( const XmlElement* element, const char* name, double& attribute )
     {
         return element->QueryDoubleAttribute(name, &attribute) == TIXML_SUCCESS;
     }
 
 	////////////////////////////////////////////////////////////////////////
     ///
-    /// @fn bool utilitaire::LireAttribute<float>( const TiXmlElement* element, const char* name, double* attribute )
+    /// @fn bool utilitaire::LireAttribute<float>( const XmlElement* element, const char* name, double* attribute )
     ///
     /// Permet la lecture d'un noeud xml dans un attribut de type float
     /// Tous les pointeurs doivent être validé avant les appels à cette fonction
     ///
-    /// @param[in] const TiXmlElement * element : make sure to valid the pointer before calling
+    /// @param[in] const XmlElement * element : make sure to valid the pointer before calling
     /// @param[in] const char * name : nom du nom à lire
     /// @param[in] double * attribute : float attribute to read
     ///
@@ -184,19 +188,19 @@ namespace XMLUtils
     ///
     ////////////////////////////////////////////////////////////////////////
     template<>
-    bool LireAttribute<float>( const TiXmlElement* element, const char* name, float& attribute )
+    bool LireAttribute<float>( const XmlElement* element, const char* name, float& attribute )
     {
         return element->QueryFloatAttribute(name, &attribute) == TIXML_SUCCESS;
     }
 
     ////////////////////////////////////////////////////////////////////////
     ///
-    /// @fn bool utilitaire::LireAttribute<int>( const TiXmlElement* element, const char* name, int* attribute )
+    /// @fn bool utilitaire::LireAttribute<int>( const XmlElement* element, const char* name, int* attribute )
     ///
     /// Permet la lecture d'un noeud xml dans un attribut de type int
     /// Tous les pointeurs doivent être validé avant les appels à cette fonction
     ///
-    /// @param[in] const TiXmlElement * element : make sure to valid the pointer before calling
+    /// @param[in] const XmlElement * element : make sure to valid the pointer before calling
     /// @param[in] const char * name : nom du nom à lire
     /// @param[in] int * attribute : float attribute to read
     ///
@@ -204,19 +208,19 @@ namespace XMLUtils
     ///
     ////////////////////////////////////////////////////////////////////////
     template<>
-    bool LireAttribute<int>( const TiXmlElement* element, const char* name, int& attribute )
+    bool LireAttribute<int>( const XmlElement* element, const char* name, int& attribute )
     {
         return element->QueryIntAttribute(name, &attribute) == TIXML_SUCCESS;
     }
 
     ////////////////////////////////////////////////////////////////////////
     ///
-    /// @fn bool utilitaire::LireAttribute<int>( const TiXmlElement* element, const char* name, int* attribute )
+    /// @fn bool utilitaire::LireAttribute<int>( const XmlElement* element, const char* name, int* attribute )
     ///
     /// Permet la lecture d'un noeud xml dans un attribut de type int
     /// Tous les pointeurs doivent être validé avant les appels à cette fonction
     ///
-    /// @param[in] const TiXmlElement * element : make sure to valid the pointer before calling
+    /// @param[in] const XmlElement * element : make sure to valid the pointer before calling
     /// @param[in] const char * name : nom du nom à lire
     /// @param[in] int * attribute : float attribute to read
     ///
@@ -224,7 +228,7 @@ namespace XMLUtils
     ///
     ////////////////////////////////////////////////////////////////////////
     template<>
-    bool LireAttribute<std::string>( const TiXmlElement* element, const char* name, std::string& attribute )
+    bool LireAttribute<std::string>( const XmlElement* element, const char* name, std::string& attribute )
     {
         const char* val = element->Attribute(name);
         if(val)
@@ -236,34 +240,34 @@ namespace XMLUtils
 
     ////////////////////////////////////////////////////////////////////////
     ///
-    /// @fn TiXmlElement* creerNoeud( const char* name )
+    /// @fn XmlElement* creerNoeud( const char* name )
     ///
     /// /*Description*/
     ///
     /// @param[in] const char * name
     ///
-    /// @return TiXmlElement*
+    /// @return XmlElement*
     ///
     ////////////////////////////////////////////////////////////////////////
-    TiXmlElement* creerNoeud( const char* name )
+    XmlElement* creerNoeud( const char* name )
     {
-        return new TiXmlElement(name);
+        return new XmlElement(name);
     }
 
     ////////////////////////////////////////////////////////////////////////
     ///
-    /// @fn TiXmlText* creerNoeudText( const char* name )
+    /// @fn XmlText* creerNoeudText( const char* name )
     ///
     /// /*Description*/
     ///
     /// @param[in] const char * name
     ///
-    /// @return TiXmlText*
+    /// @return XmlText*
     ///
     ////////////////////////////////////////////////////////////////////////
-    TiXmlText* creerNoeudText( const char* name )
+    XmlText* creerNoeudText( const char* name )
     {
-        return new TiXmlText(name);
+        return new XmlText(name);
     }
 
     ////////////////////////////////////////////////////////////////////////
@@ -278,7 +282,7 @@ namespace XMLUtils
     /// @return void
     ///
     ////////////////////////////////////////////////////////////////////////
-    void LinkEndChild( TiXmlElement* parent, TiXmlElement* child )
+    void LinkEndChild( XmlElement* parent, XmlElement* child )
     {
         parent->LinkEndChild(child);
     }

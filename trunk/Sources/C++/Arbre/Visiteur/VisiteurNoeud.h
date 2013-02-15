@@ -13,7 +13,7 @@
 
 class NoeudAbstrait;
 class NoeudComposite;
-class NoeudMuret;
+class NodeWallAbstract;
 class NoeudBut;
 class NoeudMaillet;
 class NoeudPortail;
@@ -45,7 +45,7 @@ public:
 	/// Visitation d'un noeud composite
 	virtual void visiterNoeudComposite( NoeudComposite* noeud );
 	/// Visitation d'un noeud muret
-	virtual void visiterNoeudMuret( NoeudMuret* noeud ) {visiterNoeudComposite((NoeudComposite*)noeud);}
+	virtual void visiterNoeudMuret( NodeWallAbstract* noeud ) {visiterNoeudComposite((NoeudComposite*)noeud);}
 	/// Visitation d'un noeud but
 	virtual void visiterNoeudBut( NoeudBut* noeud ) {visiterNoeudComposite((NoeudComposite*)noeud);}
 	/// Visitation d'un noeud maillet

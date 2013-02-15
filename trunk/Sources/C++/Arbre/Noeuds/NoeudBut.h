@@ -58,9 +58,9 @@ public:
 	virtual float obtenirRayon();
 
 	/// Creation du noeud XML du but
-	virtual TiXmlElement* creerNoeudXML();
+	virtual XmlElement* creerNoeudXML();
 	/// Initialisation du But à partir d'un element XML
-	virtual bool initialiser(const TiXmlElement* element);
+	virtual bool initialiser(const XmlElement* element);
 
 	/// Accesseur de mBottomPosition
 	inline Vecteur3 obtenirPositionBas() const { return mBottomPosition; }

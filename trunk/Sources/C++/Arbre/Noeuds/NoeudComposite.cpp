@@ -9,6 +9,7 @@
 
 #include "NoeudComposite.h"
 #include <algorithm>
+#include "VisiteurNoeud.h"
 
 extern HANDLE mutexNoeuds;
 

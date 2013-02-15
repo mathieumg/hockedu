@@ -500,7 +500,7 @@ void FacadeModele::chargerTerrain( const std::string& nomFichier /*= ""*/, Terra
 		}
 		else
 		{
-			if(!terrain->initialiserXml((TiXmlElement*)&document))
+			if(!terrain->initialiserXml((XmlElement*)&document))
 				terrain->initialiser(fichierACharger);
 			if(!enJeu_)
 			{
@@ -664,7 +664,7 @@ void FacadeModele::chargerTournoi(std::string nomFichier)
 			return;
 		}
 		Tournoi* tournoi = new Tournoi();
-		TiXmlElement* elem = document.FirstChildElement("Tournoi");
+		XmlElement* elem = document.FirstChildElement("Tournoi");
 		if(tournoi->initialisationXML(elem,&profilsVirtuels_))
 		{
 			if(tournoi_ != 0)
@@ -2113,10 +2113,10 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
 			rotation = -1;
 		}
 
-		NoeudMuret* muret = dynamic_cast<NoeudMuret*>(noeudATraiter);
+		NodeWallAbstract* muret = dynamic_cast<NodeWallAbstract*>(noeudATraiter);
 		if (muret)
 		{
-			rebond = muret->obtenirCoefRebond();
+			rebond = muret->getReboundRatio();
 		}
 		else
 		{

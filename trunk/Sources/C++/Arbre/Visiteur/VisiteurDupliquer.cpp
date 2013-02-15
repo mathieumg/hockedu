@@ -71,20 +71,20 @@ void VisiteurDupliquer::visiterNoeudComposite( NoeudComposite* noeud )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn VisiteurDupliquer::visiterNoeudMuret( NoeudMuret* noeud )
+/// @fn VisiteurDupliquer::visiterNoeudMuret( NodeWallAbstract* noeud )
 ///
 /// Visitation d'un noeud Muret
 ///
-/// @param[in] NoeudMuret * noeud : noeud à vérifier
+/// @param[in] NodeWallAbstract * noeud : noeud à vérifier
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void VisiteurDupliquer::visiterNoeudMuret( NoeudMuret* noeud )
+void VisiteurDupliquer::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
 	if(noeud -> estSelectionne())
 	{
-		NoeudMuret* nouveauNoeud = (NoeudMuret*)(arbre_->ajouterNouveauNoeud(RazerGameUtilities::NOM_TABLE, noeud->obtenirType()));
+		NodeWallAbstract* nouveauNoeud = (NodeWallAbstract*)(arbre_->ajouterNouveauNoeud(RazerGameUtilities::NOM_TABLE, noeud->obtenirType()));
 		if(nouveauNoeud != 0)
 		{
 			for (int i=1; i<10; i++)

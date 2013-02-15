@@ -8,30 +8,11 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudMuret.h"
-#if BOX2D_INTEGRATED  
-#include <Box2D/Box2D.h>
-#endif
 #include "Utilitaire.h"
-#include "VisiteurCollision.h"
 #include "FacadeModele.h"
 #include "Modele3D.h"
 #include "tinyxml.h"
 #include "XMLUtils.h"
-#include "GestionnaireModeles.h"
-
-const Vecteur3 NoeudMuret::DEFAULT_SIZE = Vecteur3(1, 5, 15);
-
-CreateListDelegateImplementation(Wall)
-{
-    Vecteur3 coinMin,coinMax;
-    pModel->calculerBoiteEnglobante(coinMin,coinMax);
-    Vecteur3 delta = coinMax - coinMin;
-    delta = NoeudMuret::DEFAULT_SIZE / delta;
-
-    pModel->assignerFacteurAgrandissement(delta);
-    return GestionnaireModeles::CreerListe(pModel);
-}
-
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -46,13 +27,10 @@ CreateListDelegateImplementation(Wall)
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudMuret::NoeudMuret(const std::string& typeNoeud, bool estSurTable)
-	: NoeudComposite(typeNoeud)
+NoeudMuret::NoeudMuret(const std::string& typeNoeud)
+	: Super(typeNoeud)
 {
-	if(estSurTable)
-		FacadeModele::getInstance()->ajouterElementSurTable(this);
-	coefRebond_ = 0.75;
-    updatePhysicBody();
+	FacadeModele::getInstance()->ajouterElementSurTable(this);
 }
 
 
@@ -70,114 +48,6 @@ NoeudMuret::~NoeudMuret()
 	FacadeModele::getInstance()->supprimerElementSurTable(this);
 }
 
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudMuret::updatePhysicBody()
-///
-/// Recreates the physics body according to current attributes
-///
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudMuret::updatePhysicBody()
-{
-#if BOX2D_INTEGRATED
-
-    clearPhysicsBody();
-
-    float halfLength = echelleCourante_[VX]*DEFAULT_SIZE[VX]/2.f*utilitaire::ratioWorldToBox2D;
-    float halfHeight = echelleCourante_[VY]*DEFAULT_SIZE[VY]/2.f*utilitaire::ratioWorldToBox2D;
-
-    b2BodyDef myBodyDef;
-    myBodyDef.type = b2_staticBody; //this will be a dynamic body
-    myBodyDef.position.Set(0, 0); //set the starting position
-    myBodyDef.angle = 0; //set the starting angle
-
-    mPhysicBody = getWorld()->CreateBody(&myBodyDef);
-    b2PolygonShape shape;
-    Vecteur3 pos = obtenirPositionAbsolue();
-    b2Vec2 posB2;
-    utilitaire::VEC3_TO_B2VEC(pos,posB2);
-    myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
-    shape.SetAsBox(halfLength,halfHeight,b2Vec2(posB2.x,posB2.y),utilitaire::DEG_TO_RAD(mAngle));
-
-    b2FixtureDef myFixtureDef;
-    myFixtureDef.shape = &shape; //this is a pointer to the shape above
-    myFixtureDef.density = 1;
-    myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
-    myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_MALLET;
-
-    mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
-//     mPhysicBody->SetUserData(this);
-//     mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
-#endif
-
-}
-
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudMuret::afficherConcret() const
-///
-/// Cette fonction effectue le véritable rendu de l'objet.
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudMuret::afficherConcret() const
-{
-	// Sauvegarde de la matrice.
-	glPushMatrix();
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
-
-	glColor3f(0.76f, 0.64f, 0.31f);
-
-	// Appel à la version de la classe de base pour l'affichage des enfants.
-	NoeudComposite::afficherConcret();
-
-	// Restauration de la matrice.
-	glPopAttrib();
-	glPopMatrix();
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudMuret::animer( const float& temps)
-///
-/// Cette fonction effectue l'animation du noeud pour un certain
-/// intervalle de temps.
-///
-/// @param[in] temps : Intervalle de temps sur lequel faire l'animation.
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudMuret::animer( const float& temps)
-{
-	// Appel à la version de la classe de base pour l'animation des enfants.
-	NoeudComposite::animer(temps);
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn NoeudMuret::acceptVisitor( const VisiteurNoeud& v )
-///
-/// Permet d'indiquer au visiteur le type concret du noeud courant
-///
-/// @param[in] VisiteurNoeud & v : Le visiteur du noeud
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudMuret::acceptVisitor( VisiteurNoeud& v )
-{
-	v.visiterNoeudMuret(this);
-}
-
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn NoeudMuret::obtenirCoin1()
@@ -193,7 +63,6 @@ Vecteur3 NoeudMuret::obtenirCoin1()
 {
 	return positionCoin1_;
 }
-
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -216,7 +85,7 @@ Vecteur3 NoeudMuret::obtenirCoin2()
 ///
 /// @fn void NoeudMuret::majPosCoins(  )
 ///
-/// Permet de recalculer la position des coin des muret suite a une rotation
+/// Permet de recalculer la position des coin des muret suite a une rotation ou une mise a l'échelle
 ///
 ///
 /// @return void
@@ -224,8 +93,6 @@ Vecteur3 NoeudMuret::obtenirCoin2()
 ////////////////////////////////////////////////////////////////////////
 void NoeudMuret::majPosCoins()
 {
-	//float deltaX = (cos(utilitaire::DEG_TO_RAD(mAngle)) *echelleCourante_[VX])/2.0;
-	//float deltaY = (sin(utilitaire::DEG_TO_RAD(mAngle)) *echelleCourante_[VX])/2.0;
 	Vecteur3 deplacement( cos(utilitaire::DEG_TO_RAD(mAngle) ), sin(utilitaire::DEG_TO_RAD(mAngle) ) );
 	deplacement*= echelleCourante_[VX];
 	deplacement /= 2.0;
@@ -234,26 +101,6 @@ void NoeudMuret::majPosCoins()
     updatePhysicBody();
 }
 
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudMuret::trouverAngle(  )
-///
-/// Permet de calculer l'angle du muret selon ces coins
-///
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudMuret::trouverAngle()
-{
-	Vecteur3 coin1Relatif(positionCoin1_-positionRelative_);
-	coin1Relatif.normaliser();
-	mAngle = (360.0f+(utilitaire::RAD_TO_DEG(acos(coin1Relatif[VX]))*( (coin1Relatif[VY] < 0)?-1:1) ) );
-	mAngle /= 360.0f;
-	mAngle -= (int)(mAngle);
-	mAngle *= 360.0f;
-}
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -278,65 +125,24 @@ void NoeudMuret::assignerPositionCoin( int lequel, Vecteur3 position )
 		positionCoin2_ = position;
 	}
 
-
-	float	deltaX = positionCoin2_[VX]-positionCoin1_[VX],
-		deltaY = positionCoin2_[VY]-positionCoin1_[VY];
-
-	NoeudAbstrait::assignerPositionRelative(Vecteur3(positionCoin1_[VX]+deltaX/2.0f, positionCoin1_[VY]+deltaY/2.0f, 0));
-	trouverAngle();
-    updatePhysicBody();
+	updateWallProperties();
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn NoeudMuret::obtenirRayon() const
-///
-/// Retourne le rayon du noeud.
-///
-/// @param[in]	void
-///
-/// @return float : rayon du noeud
-///
-////////////////////////////////////////////////////////////////////////
-float NoeudMuret::obtenirRayon() const
-{
-	return 0;
-}
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudMuret::assignerAttributVisiteurCollision( VisiteurCollision* v )
-///
-/// Permet d'assigner les attribut nécessaire à la collision.
-///
-/// @param[in] VisiteurCollision * v : le visiteur de collision.
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudMuret::assignerAttributVisiteurCollision( VisiteurCollision* v )
-{
-	v->modifierTypeCollision(SEGMENT);
-	v->modifierCoin1(positionCoin1_);
-	v->modifierCoin2(positionCoin2_);
-	v->modifierRayonAVerifier(obtenirRayon());
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn TiXmlElement* NoeudMuret::creerNoeudXML()
+/// @fn XmlElement* NoeudMuret::creerNoeudXML()
 ///
 /// /*Description*/
 ///
 ///
-/// @return TiXmlElement*
+/// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-TiXmlElement* NoeudMuret::creerNoeudXML()
+XmlElement* NoeudMuret::creerNoeudXML()
 {
-	TiXmlElement* elementNoeud = NoeudComposite::creerNoeudXML();
+	XmlElement* elementNoeud = Super::creerNoeudXML();
 	// Ajouter la position des coins des murets
-	elementNoeud->SetDoubleAttribute("coefRebond",coefRebond_);
     XMLUtils::ecrireVecteur3Dxml(&positionCoin1_,elementNoeud,"coinA");
     XMLUtils::ecrireVecteur3Dxml(&positionCoin2_,elementNoeud,"coinB");
 	return elementNoeud;
@@ -344,29 +150,24 @@ TiXmlElement* NoeudMuret::creerNoeudXML()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NoeudMuret::initialiser( const TiXmlElement* element )
+/// @fn bool NoeudMuret::initialiser( const XmlElement* element )
 ///
 /// Initialisation du NoeudMuret à partir d'un element XML
 ///
-/// @param[in] const TiXmlElement * element
+/// @param[in] const XmlElement * element
 ///
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NoeudMuret::initialiser( const TiXmlElement* element )
+bool NoeudMuret::initialiser( const XmlElement* element )
 {
-	if(!NoeudComposite::initialiser(element))
+	if(!Super::initialiser(element))
 		return false;
-	double doubleElem;
-	if( element->QueryDoubleAttribute("coefRebond", &doubleElem) != TIXML_SUCCESS )
-		return false;
-	coefRebond_ = (float)doubleElem;
-
     if( !XMLUtils::lectureVecteur3Dxml(&positionCoin1_,element,"coinA") )
 		return false;
     if( !XMLUtils::lectureVecteur3Dxml(&positionCoin2_,element,"coinB") )
 		return false;
-	trouverAngle();
+    updateWallProperties();
 	return true;
 }
 
@@ -383,7 +184,7 @@ bool NoeudMuret::initialiser( const TiXmlElement* element )
 ////////////////////////////////////////////////////////////////////////
 void NoeudMuret::assignerAngle( const float& angle )
 {
-	NoeudAbstrait::assignerAngle(angle);
+	Super::assignerAngle(angle);
 	majPosCoins();
 }
 
@@ -401,7 +202,7 @@ void NoeudMuret::assignerAngle( const float& angle )
 ////////////////////////////////////////////////////////////////////////
 void NoeudMuret::modifierEchelleCourante( const Vecteur3& echelleCourante )
 {
-	NoeudAbstrait::modifierEchelleCourante(echelleCourante);
+	Super::modifierEchelleCourante(echelleCourante);
 	majPosCoins();
 }
 
@@ -418,7 +219,7 @@ void NoeudMuret::modifierEchelleCourante( const Vecteur3& echelleCourante )
 ////////////////////////////////////////////////////////////////////////
 void NoeudMuret::assignerPositionRelative( const Vecteur3& positionRelative )
 {
-	NoeudAbstrait::assignerPositionRelative(positionRelative);
+	Super::assignerPositionRelative(positionRelative);
 	majPosCoins();
 }
 

@@ -144,23 +144,23 @@ void VisiteurModifierProprieteNoeud::visiterNoeudComposite( NoeudComposite* noeu
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NoeudMuret* noeud )
+/// @fn void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NodeWallAbstract* noeud )
 ///
 /// Visiteur du noeud muret.
 ///
-/// @param[in] NoeudMuret * noeud :  noeud a visiter.
+/// @param[in] NodeWallAbstract * noeud :  noeud a visiter.
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NoeudMuret* noeud )
+void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
 
 	/// On applique le nouveau coefficient de rebond
 	if(noeud->estSelectionne())
 	{
 		if(coefRebond_!=-1)
-			noeud->modifierCoefRebond(coefRebond_);		
+			noeud->setReboundRatio(coefRebond_);		
 		if(unSeulSelect_)
 		{
 			Vecteur3 oldPos = noeud->obtenirPositionRelative();
@@ -183,7 +183,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NoeudMuret* noeud )
 
 		}
 	}
-	if(noeud->obtenirCoefRebond()==-1)
+	if(noeud->getReboundRatio()==-1)
 		int test = 1;
 
 	visiterNoeudComposite(noeud);
@@ -196,7 +196,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NoeudMuret* noeud )
 ///
 /// Visiteur du noeud but.
 ///
-/// @param[in] NoeudMuret * noeud :  noeud a visiter.
+/// @param[in] NodeWallAbstract * noeud :  noeud a visiter.
 ///
 /// @return void
 ///
@@ -216,7 +216,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudBut( NoeudBut* noeud )
 ///
 /// Visiteur du noeud maillet.
 ///
-/// @param[in] NoeudMuret * noeud :  noeud a visiter.
+/// @param[in] NodeWallAbstract * noeud :  noeud a visiter.
 ///
 /// @return void
 ///
@@ -233,7 +233,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudMaillet( NoeudMaillet* noeud )
 ///
 /// Visiteur du noeud portail.
 ///
-/// @param[in] NoeudMuret * noeud :  noeud a visiter.
+/// @param[in] NodeWallAbstract * noeud :  noeud a visiter.
 ///
 /// @return void
 ///
@@ -250,7 +250,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudPortail( NoeudPortail* noeud )
 ///
 /// Visiteur du noeud rondelle.
 ///
-/// @param[in] NoeudMuret * noeud :  noeud a visiter.
+/// @param[in] NodeWallAbstract * noeud :  noeud a visiter.
 ///
 /// @return void
 ///
@@ -267,7 +267,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudRondelle( NoeudRondelle* noeud 
 ///
 /// Visiteur du noeud table.
 ///
-/// @param[in] NoeudMuret * noeud :  noeud a visiter.
+/// @param[in] NodeWallAbstract * noeud :  noeud a visiter.
 ///
 /// @return void
 ///
@@ -322,7 +322,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudTable( NoeudTable* noeud )
 ///
 /// Visiteur du noeud point.
 ///
-/// @param[in] NoeudMuret * noeud :  noeud a visiter.
+/// @param[in] NodeWallAbstract * noeud :  noeud a visiter.
 ///
 /// @return void
 ///
@@ -397,7 +397,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudPoint( NoeudPoint* noeud )
 ///
 /// Visiteur du noeud accelerateur.
 ///
-/// @param[in] NoeudMuret * noeud :  noeud a visiter.
+/// @param[in] NodeWallAbstract * noeud :  noeud a visiter.
 ///
 /// @return void
 ///

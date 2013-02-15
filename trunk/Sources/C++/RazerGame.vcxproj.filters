@@ -33,9 +33,6 @@
     <Filter Include="Sources Files\Arbre">
       <UniqueIdentifier>{824db547-4831-4bb7-b7f2-70d05299ed49}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources Files\Arbre\Usines">
-      <UniqueIdentifier>{2d7e83f6-88e0-4835-a145-53a4c662829e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sources Files\Arbre\Noeuds">
       <UniqueIdentifier>{adf7252c-e0c2-4e7e-9194-a254f846e61d}</UniqueIdentifier>
     </Filter>
@@ -470,6 +467,9 @@
     <ClCompile Include="Reseau\ControllerServeurJeu.cpp">
       <Filter>Sources Files\Reseau</Filter>
     </ClCompile>
+    <ClCompile Include="Arbre\Noeuds\NodeWallAbstract.cpp">
+      <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -480,9 +480,6 @@
     </ClInclude>
     <ClInclude Include="Configuration\ConfigScene.h">
       <Filter>Sources Files\Configuration</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbre\Usines\UsineNoeud.h">
-      <Filter>Sources Files\Arbre\Usines</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\Noeuds\NoeudAbstrait.h">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
@@ -510,18 +507,6 @@
     </ClInclude>
     <ClInclude Include="Arbre\Noeuds\NoeudPortail.h">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbre\Usines\UsineNoeudMaillet.h">
-      <Filter>Sources Files\Arbre\Usines</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbre\Usines\UsineNoeudPortail.h">
-      <Filter>Sources Files\Arbre\Usines</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbre\Usines\UsineNoeudRondelle.h">
-      <Filter>Sources Files\Arbre\Usines</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbre\Usines\UsineNoeudTable.h">
-      <Filter>Sources Files\Arbre\Usines</Filter>
     </ClInclude>
     <ClInclude Include="Interface\GestionEtat\GestionnaireEtatModeJeu.h">
       <Filter>Sources Files\Interface\GestionEtat</Filter>
@@ -608,9 +593,6 @@
       <Filter>Sources Files\Tests</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\Usines\UsineNoeudAccelerateur.h">
-      <Filter>Sources Files\Arbre\Usines</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbre\Usines\UsineNoeudAccelerateur.h">
       <Filter>Sources Files</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisiteurEchelle.h">
@@ -627,9 +609,6 @@
     </ClInclude>
     <ClInclude Include="Arbre\Noeuds\NoeudMuret.h">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbre\Usines\UsineNoeudMuret.h">
-      <Filter>Sources Files\Arbre\Usines</Filter>
     </ClInclude>
     <ClInclude Include="Interface\EtatSouris\SourisEtatAjoutMuret.h">
       <Filter>Sources Files\Interface\EtatSouris</Filter>
@@ -681,9 +660,6 @@
     </ClInclude>
     <ClInclude Include="Application\RepartiteurActions.h">
       <Filter>Sources Files\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbre\Usines\UsineNoeudGroupe.h">
-      <Filter>Sources Files\Arbre\Usines</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\Noeuds\NoeudGroupe.h">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
@@ -903,6 +879,12 @@
     </ClInclude>
     <ClInclude Include="Reseau\ControllerServeurJeu.h">
       <Filter>Sources Files\Reseau</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Noeuds\NodeWallAbstract.h">
+      <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Usines\UsineNoeud.h">
+      <Filter>Sources Files\Arbre</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

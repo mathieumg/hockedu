@@ -33,7 +33,7 @@ public:
 	/// Visitation d'un noeud composite
 	virtual void visiterNoeudComposite( NoeudComposite* noeud );
 	/// Visitation d'un noeud muret
-	virtual void visiterNoeudMuret( NoeudMuret* noeud );
+	virtual void visiterNoeudMuret( NodeWallAbstract* noeud );
 	/// Visitation d'un noeud but
 	virtual void visiterNoeudBut( NoeudBut* noeud );
 	/// Visitation d'un noeud maillet
