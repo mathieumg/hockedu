@@ -392,9 +392,6 @@
     <ClCompile Include="Reseau\PacketReader.cpp">
       <Filter>Sources Files\Reseau\Global</Filter>
     </ClCompile>
-    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerBase.cpp">
-      <Filter>Sources Files\Reseau\Global\PaquetHandlers</Filter>
-    </ClCompile>
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerConnAutomatique.cpp">
       <Filter>Sources Files\Reseau\Global\PaquetHandlers</Filter>
     </ClCompile>
@@ -420,9 +417,6 @@
       <Filter>Sources Files\Reseau\Global\Paquets</Filter>
     </ClCompile>
     <ClCompile Include="Reseau\Paquets\Paquet.cpp">
-      <Filter>Sources Files\Reseau\Global\Paquets</Filter>
-    </ClCompile>
-    <ClCompile Include="Reseau\Paquets\PaquetBase.cpp">
       <Filter>Sources Files\Reseau\Global\Paquets</Filter>
     </ClCompile>
     <ClCompile Include="Reseau\Paquets\PaquetConnAutomatique.cpp">
@@ -793,9 +787,6 @@
     <ClInclude Include="Reseau\Socket.h">
       <Filter>Sources Files\Reseau\Global</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerBase.h">
-      <Filter>Sources Files\Reseau\Global\PaquetHandlers</Filter>
-    </ClInclude>
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerConnAutomatique.h">
       <Filter>Sources Files\Reseau\Global\PaquetHandlers</Filter>
     </ClInclude>
@@ -824,9 +815,6 @@
       <Filter>Sources Files\Reseau\Global\Paquets</Filter>
     </ClInclude>
     <ClInclude Include="Reseau\Paquets\Paquet.h">
-      <Filter>Sources Files\Reseau\Global\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\Paquets\PaquetBase.h">
       <Filter>Sources Files\Reseau\Global\Paquets</Filter>
     </ClInclude>
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquet.h">

@@ -20,8 +20,7 @@
 #include "SocketTCPServeur.h"
 #include "PacketBuilder.h"
 #include "PaquetHandlers\PacketHandler.h"
-#include "PaquetHandlers\PacketHandlerBase.h"
-#include "Paquets/PaquetBase.h"
+#include "Paquets/Paquet.h"
 #include "PacketReader.h"
 #include "GestionnaireReseau.h"
 #include "Utilitaire.h"
@@ -584,19 +583,6 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
 {
 	CommunicateurReseau* wCommunicateurReseau = (CommunicateurReseau*) arg;
 	uint8_t readBuffer[GestionnaireReseau::TAILLE_BUFFER_RECEPTION_ENVOI];
-	PacketHandler* wPacketHandlerBase = NULL;
-	// Pour eviter un probleme de timing si le handler n'a pas encore ete ajoute au GestionnaireReseau
-	while (wPacketHandlerBase == NULL)
-	{
-		try
-		{
-			wPacketHandlerBase = GestionnaireReseau::obtenirInstance()->getPacketHandler(BASE); // On le garde en memoire pour ne pas a aller le chercher a chaque iteration
-		}
-		catch(ExceptionReseau&)
-		{
-			Sleep(50);
-		}
-	}
     PacketReader wPacketReader;
 	while(true)
 	{
@@ -645,12 +631,12 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                             size_t wReceivedBytes = -1;
                             while(wReceivedBytes!=0) // On lit tant que le buffer contient quelque chose et qu'on a pas atteint la taille du paquet a recevoir
                             {
-                                wReceivedBytes = wSocket->recv(readBuffer, wPacketHandlerBase->getPacketSize(NULL)); // Pas besoin de lui passer d'arguments
+                                wReceivedBytes = wSocket->recv(readBuffer, PacketHandler::getPacketHeaderSize()); // Pas besoin de lui passer d'arguments
                                 if (wReceivedBytes != 0)
                                 {
                                     
                                     wPacketReader.setArrayStart(readBuffer, wReceivedBytes);
-                                    HeaderPaquet wPacketHeader = wPacketHandlerBase->handlePacketHeaderReception(wPacketReader);
+                                    HeaderPaquet wPacketHeader = PacketHandler::handlePacketHeaderReception(wPacketReader);
                                     wPacketReader.setSize(wReceivedBytes);
                                     bool wTaillePaquetValide = wPacketHeader.taillePaquet > wReceivedBytes;
 									// Ne devrait pas planter, mais laisser une trace dans le log

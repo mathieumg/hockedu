@@ -25,7 +25,7 @@
 #include "ExceptionsReseau\ExceptionReseauGlobale.h"
 #include <stdexcept>
 #include "CommunicateurReseau.h"
-#include "PaquetHandlers/PacketHandlerBase.h"
+#include "PaquetHandlers/PacketHandler.h"
 #include "PaquetHandlers/PacketHandlerConnAutomatique.h"
 #include "UsinePaquets/UsinePaquetConnAutomatique.h"
 #include "UsinePaquets/UsinePaquetTest.h"
@@ -185,7 +185,6 @@ void GestionnaireReseau::init()
 
 
     // Ajout des classes PacketHandler et UsinePaquet de base
-    ajouterOperationReseau(BASE, new PacketHandlerBase(), NULL);
     ajouterOperationReseau(CONN_AUTOMATIQUE, new PacketHandlerConnAutomatique(), new UsinePaquetConnAutomatique());
     ajouterOperationReseau(TEST, new PacketHandlerTest(), new UsinePaquetTest());
     ajouterOperationReseau(EVENT, new PacketHandlerEvent(), new UsinePaquetEvent());

@@ -117,7 +117,7 @@ void PacketHandlerChatMessage::handlePacketPreparationSpecific(Paquet* pPaquet, 
 
 
 
-int PacketHandlerChatMessage::getPacketSize( Paquet* pPaquet ) const
+int PacketHandlerChatMessage::getPacketSizeSpecific( Paquet* pPaquet ) const
 {
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) pPaquet;
 
@@ -126,7 +126,6 @@ int PacketHandlerChatMessage::getPacketSize( Paquet* pPaquet ) const
         + PacketBuilder::getSizeFor64bInteger()
         + PacketBuilder::getSizeForBool()
         + PacketBuilder::getSizeForString(wPaquet->getGroupName())
-        + PacketBuilder::getSizeForString(wPaquet->getOrigin())
-        + PacketHandlerBase::getPacketSize(pPaquet);
+        + PacketBuilder::getSizeForString(wPaquet->getOrigin());
     
 }
