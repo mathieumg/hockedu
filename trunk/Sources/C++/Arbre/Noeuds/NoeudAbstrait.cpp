@@ -1022,6 +1022,27 @@ void NoeudAbstrait::acceptVisitor( class VisiteurNoeud& v )
     v.visiterNoeudAbstrait(this);
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudAbstrait::assignerPositionAbsolue( const Vecteur3& positionRelative )
+///
+/// /*Description*/
+///
+/// @param[in] const Vecteur3 & positionRelative
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAbstrait::assignerPositionAbsolue( const Vecteur3& positionAbsolue )
+{
+    Vecteur3 parentPos(0,0,0);
+    if(parent_)
+    {
+        parentPos = parent_->obtenirPositionAbsolue();
+    }
+    assignerPositionRelative(positionAbsolue-parentPos);
+}
+
 
 
 ////////////////////////////////////////////////

@@ -106,6 +106,7 @@ void VisiteurSelectionOpenGL::visiterNoeudComposite( NoeudComposite* noeud )
 void VisiteurSelectionOpenGL::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
 	visiterNoeudAffichable(noeud);
+    visiterNoeudComposite(noeud);
 }
 
 

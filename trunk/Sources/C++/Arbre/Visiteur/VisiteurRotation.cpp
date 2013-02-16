@@ -163,6 +163,7 @@ void VisiteurRotation::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
 	noeud->assignerAngle(noeud->obtenirAngle()-angleRot_);
 	visiterNoeudAbstrait(noeud);
+    visiterNoeudComposite(noeud);
 }
 
 

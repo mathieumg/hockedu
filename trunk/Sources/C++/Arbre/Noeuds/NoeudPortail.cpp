@@ -15,6 +15,7 @@
 #include "Utilitaire.h"
 #include "VisiteurNoeud.h"
 
+
 const float NoeudPortail::DEFAULT_RADIUS = 10;
 
 CreateListDelegateImplementation(Portal)

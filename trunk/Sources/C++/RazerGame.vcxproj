@@ -195,7 +195,10 @@
     <ClCompile Include="Arbre\HUD\HUDTexte.cpp" />
     <ClCompile Include="Arbre\Modeles\GestionnaireModeles.cpp" />
     <ClCompile Include="Arbre\Modeles\Modele3D.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NodeControlPoint.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NodeRinkBoards.cpp" />
     <ClCompile Include="Arbre\Noeuds\NodeWallAbstract.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NodeWallEdition.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudAccelerateur.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudAffichage.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudGroupe.cpp" />
@@ -231,6 +234,7 @@
     <ClCompile Include="Interface\EtatSouris\SourisEtatAbstrait.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatAjout.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatAjoutMuret.cpp" />
+    <ClCompile Include="Interface\EtatSouris\SourisEtatAjoutMuretRelatif.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatDeplacerFenetre.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatOrbit.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatSelection.cpp" />
@@ -323,7 +327,10 @@
     <ClInclude Include="Arbre\HUD\HUDTexte.h" />
     <ClInclude Include="Arbre\Modeles\GestionnaireModeles.h" />
     <ClInclude Include="Arbre\Modeles\Modele3D.h" />
+    <ClInclude Include="Arbre\Noeuds\NodeControlPoint.h" />
+    <ClInclude Include="Arbre\Noeuds\NodeRinkBoards.h" />
     <ClInclude Include="Arbre\Noeuds\NodeWallAbstract.h" />
+    <ClInclude Include="Arbre\Noeuds\NodeWallEdition.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudAccelerateur.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudAffichage.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudGroupe.h" />
@@ -362,6 +369,7 @@
     <ClInclude Include="Interface\EtatSouris\SourisEtatAbstrait.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatAjout.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatAjoutMuret.h" />
+    <ClInclude Include="Interface\EtatSouris\SourisEtatAjoutMuretRelatif.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatDeplacerFenetre.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatOrbit.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatSelection.h" />

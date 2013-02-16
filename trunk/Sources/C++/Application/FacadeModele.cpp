@@ -2321,6 +2321,7 @@ void FacadeModele::modifierVue( vue::Vue* nouvelleVue )
 }
 void FacadeModele::afficherProgramInfoLog( GLuint obj, const char* message )
 {
+#if !SHIPPING 
 	// afficher le message d'en-tête
 	cout << message << endl;
 
@@ -2341,10 +2342,12 @@ void FacadeModele::afficherProgramInfoLog( GLuint obj, const char* message )
 	{
 		cout << "Aucune erreur :-)" << endl;
 	}
+#endif
 }
 void FacadeModele::afficherShaderInfoLog( GLuint obj, const char* message )
 {
-	// afficher le message d'en-tête
+#if !SHIPPING 
+    // afficher le message d'en-tête
 	cout << message << endl;
 
 	// afficher le message d'erreur, le cas échéant
@@ -2363,6 +2366,7 @@ void FacadeModele::afficherShaderInfoLog( GLuint obj, const char* message )
 	{
 		cout << "Aucune erreur :-)" << endl;
 	}
+#endif
 }
 ////////////////////////////////////////////////////////////////////////
 ///

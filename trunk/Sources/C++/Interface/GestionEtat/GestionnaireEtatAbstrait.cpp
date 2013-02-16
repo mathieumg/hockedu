@@ -24,6 +24,7 @@
 #include "Partie.h"
 #include "NoeudRondelle.h"
 #include "NoeudMaillet.h"
+#include "..\EtatSouris\SourisEtatAjoutMuretRelatif.h"
 
 HANDLE mutexMouseState;
 
@@ -91,7 +92,7 @@ void GestionnaireEtatAbstrait::modifierEtatSouris( NomEtatSouris etatSouris )
 		case ETAT_SOURIS_TRANSFORMATION_DEPLACEMENT	: etatSouris_ = new SourisEtatTransformationDeplacement	();	break;
 		case ETAT_SOURIS_SELECTION					: etatSouris_ = new SourisEtatSelection					();	break;
 		case ETAT_SOURIS_AJOUTER_PORTAIL			: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_PORTAIL);	break;
-		case ETAT_SOURIS_AJOUTER_MURET				: etatSouris_ = new SourisEtatAjoutMuret				();	break;
+		case ETAT_SOURIS_AJOUTER_MURET				: etatSouris_ = new SourisEtatAjoutMuret         ();	break;
 		case ETAT_SOURIS_AJOUTER_MAILLET			: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_MAILLET);	break;
 		case ETAT_SOURIS_AJOUTER_RONDELLE			: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_RONDELLE);	break;
 		case ETAT_SOURIS_AJOUTER_ACCELERATEUR		: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_ACCELERATEUR);	break;

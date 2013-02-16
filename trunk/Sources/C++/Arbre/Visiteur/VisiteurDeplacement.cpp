@@ -148,6 +148,7 @@ void VisiteurDeplacement::visiterNoeudMuret( NodeWallAbstract* noeud )
     NoeudMuret* muret = (NoeudMuret*)noeud;
     muret->assignerPositionCoin(1, noeud->obtenirCoin1()+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
 	muret->assignerPositionCoin(2, noeud->obtenirCoin2()+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
+    visiterNoeudComposite(noeud);
 }
 
 ////////////////////////////////////////////////////////////////////////

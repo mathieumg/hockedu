@@ -464,6 +464,18 @@
     <ClCompile Include="Arbre\Noeuds\NodeWallAbstract.cpp">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClCompile>
+    <ClCompile Include="Arbre\Noeuds\NodeWallEdition.cpp">
+      <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbre\Noeuds\NodeRinkBoards.cpp">
+      <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbre\Noeuds\NodeControlPoint.cpp">
+      <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\EtatSouris\SourisEtatAjoutMuretRelatif.cpp">
+      <Filter>Sources Files\Interface\EtatSouris</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -585,9 +597,6 @@
     </ClInclude>
     <ClInclude Include="Tests\GestionnaireEvenementsTest.h">
       <Filter>Sources Files\Tests</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbre\Usines\UsineNoeudAccelerateur.h">
-      <Filter>Sources Files</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisiteurEchelle.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
@@ -873,6 +882,18 @@
     </ClInclude>
     <ClInclude Include="Arbre\Usines\UsineNoeud.h">
       <Filter>Sources Files\Arbre</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Noeuds\NodeRinkBoards.h">
+      <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Noeuds\NodeWallEdition.h">
+      <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Noeuds\NodeControlPoint.h">
+      <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\EtatSouris\SourisEtatAjoutMuretRelatif.h">
+      <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

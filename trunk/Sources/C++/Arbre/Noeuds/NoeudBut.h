@@ -13,7 +13,7 @@
 #include "NoeudComposite.h"
 #include "PositionSubject.h"
 
-class NoeudMuretRelatif;
+class NodeRinkBoards;
 class NoeudPoint;
 
 ///////////////////////////////////////////////////////////////////////////
@@ -26,7 +26,8 @@ class NoeudPoint;
 class NoeudBut : public NoeudComposite, public PositionSubject
 {
 public:
-	friend NoeudMuretRelatif;
+    typedef NoeudComposite Super;
+    friend NodeRinkBoards;
 	/// Constructeur à partir du type du noeud.
 	NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHaut, NoeudPoint * coinBas, NoeudComposite* pParent = NULL);
 	/// Destructeur.

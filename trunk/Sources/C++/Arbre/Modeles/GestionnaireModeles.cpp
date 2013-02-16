@@ -119,8 +119,11 @@ GestionnaireModeles::GestionnaireModeles()
     nameToTypeId_[RazerGameUtilities::NOM_MAILLET] = ++compteurTypeID;
     typeIdToName_[compteurTypeID] = RazerGameUtilities::NOM_MAILLET;
 
-    nameToTypeId_[RazerGameUtilities::NOM_POINT] = ++compteurTypeID;
-    typeIdToName_[compteurTypeID] = RazerGameUtilities::NOM_POINT;
+    nameToTypeId_[RazerGameUtilities::NAME_TABLE_CONTROL_POINT] = ++compteurTypeID;
+    typeIdToName_[compteurTypeID] = RazerGameUtilities::NAME_TABLE_CONTROL_POINT;
+
+    nameToTypeId_[RazerGameUtilities::NAME_CONTROL_POINT] = ++compteurTypeID;
+    typeIdToName_[compteurTypeID] = RazerGameUtilities::NAME_CONTROL_POINT;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -345,7 +348,7 @@ void GestionnaireModeles::initialiser()
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_RONDELLE,RazerGameUtilities::CreateListDelegatePuck));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_ACCELERATEUR,RazerGameUtilities::CreateListDelegateBoost));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_MAILLET,RazerGameUtilities::CreateListDelegateMallet));
-    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_POINT,RazerGameUtilities::CreateListDelegateControlPoint));
+    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,"point",RazerGameUtilities::CreateListDelegateControlPoint));
     tamponGlobal.vec.push_back(ModelToLoad("pause"));
     tamponGlobal.vec.push_back(ModelToLoad("1"));
     tamponGlobal.vec.push_back(ModelToLoad("2"));

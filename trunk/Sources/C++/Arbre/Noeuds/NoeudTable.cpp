@@ -11,7 +11,6 @@
 #include "aideGL.h"
 #include "NoeudPoint.h"
 #include "NoeudBut.h"
-#include "NoeudMuretRelatif.h"
 #include "AideCollision.h"
 #include "NoeudGroupe.h"
 #include "GestionnaireModeles.h"
@@ -23,6 +22,7 @@
 #include <Box2D/Box2D.h>
 #endif
 #include "Utilitaire.h"
+#include "NodeRinkBoards.h"
 
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
 const Vecteur3 NoeudTable::DEFAULT_SIZE = Vecteur3(300,150);
@@ -60,14 +60,14 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
 	selectionne_ = false;
 
 	/// Création des 8 points de la table
-	NoeudPoint* hautGauche_= new NoeudPoint(RazerGameUtilities::NOM_POINT,-longueurTable/2,hauteurTable/2, POSITION_HAUT_GAUCHE);
-	NoeudPoint* hautMilieu_= new NoeudPoint(RazerGameUtilities::NOM_POINT,0,hauteurTable/2, POSITION_HAUT_MILIEU);
-	NoeudPoint* hautDroite_= new NoeudPoint(RazerGameUtilities::NOM_POINT,longueurTable/2,hauteurTable/2, POSITION_HAUT_DROITE);
-	NoeudPoint* milieuGauche_= new NoeudPoint(RazerGameUtilities::NOM_POINT,-longueurTable/2,0, POSITION_MILIEU_GAUCHE);
-	NoeudPoint* milieuDroite_= new NoeudPoint(RazerGameUtilities::NOM_POINT,longueurTable/2,0, POSITION_MILIEU_DROITE);
-	NoeudPoint* basGauche_= new NoeudPoint(RazerGameUtilities::NOM_POINT,-longueurTable/2,-hauteurTable/2, POSITION_BAS_GAUCHE);
-	NoeudPoint* basMilieu_= new NoeudPoint(RazerGameUtilities::NOM_POINT,0,-hauteurTable/2, POSITION_BAS_MILIEU);
-	NoeudPoint* basDroite_= new NoeudPoint(RazerGameUtilities::NOM_POINT,longueurTable/2,-hauteurTable/2, POSITION_BAS_DROITE);
+	NoeudPoint* hautGauche_= new NoeudPoint(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,-longueurTable/2,hauteurTable/2, POSITION_HAUT_GAUCHE);
+	NoeudPoint* hautMilieu_= new NoeudPoint(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,0,hauteurTable/2, POSITION_HAUT_MILIEU);
+	NoeudPoint* hautDroite_= new NoeudPoint(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,longueurTable/2,hauteurTable/2, POSITION_HAUT_DROITE);
+	NoeudPoint* milieuGauche_= new NoeudPoint(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,-longueurTable/2,0, POSITION_MILIEU_GAUCHE);
+	NoeudPoint* milieuDroite_= new NoeudPoint(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,longueurTable/2,0, POSITION_MILIEU_DROITE);
+	NoeudPoint* basGauche_= new NoeudPoint(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,-longueurTable/2,-hauteurTable/2, POSITION_BAS_GAUCHE);
+	NoeudPoint* basMilieu_= new NoeudPoint(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,0,-hauteurTable/2, POSITION_BAS_MILIEU);
+	NoeudPoint* basDroite_= new NoeudPoint(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,longueurTable/2,-hauteurTable/2, POSITION_BAS_DROITE);
 
 	/// Ajout du point symétrique à chacun des points
 	hautGauche_->modifierPointSym(hautDroite_);
@@ -123,14 +123,14 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
 
 
 	//Ajout de mur relatif aux point et buts pour qu'il s'ajustent automatiquement à leur déplacement
-	NoeudMuretRelatif   *mr1 = new NoeudMuretRelatif(hautGauche_,hautMilieu_),
-						*mr2 = new NoeudMuretRelatif(hautMilieu_,hautDroite_),
-						*mr3 = new NoeudMuretRelatif(basMilieu_,basGauche_),
-						*mr4 = new NoeudMuretRelatif(basDroite_,basMilieu_),
-						*mr5 = new NoeudMuretRelatif(hautDroite_,butJoueur2_,true),//ok
-						*mr6 = new NoeudMuretRelatif(butJoueur2_,basDroite_,false),
-						*mr7 = new NoeudMuretRelatif(basGauche_,butJoueur1_,false),//ok
-						*mr8 = new NoeudMuretRelatif(butJoueur1_,hautGauche_,true);
+	NodeRinkBoards      *mr1 = new NodeRinkBoards(hautGauche_,hautMilieu_),
+						*mr2 = new NodeRinkBoards(hautMilieu_,hautDroite_),
+						*mr3 = new NodeRinkBoards(basMilieu_,basGauche_),
+						*mr4 = new NodeRinkBoards(basDroite_,basMilieu_),
+						*mr5 = new NodeRinkBoards(hautDroite_,butJoueur2_,true),//ok
+						*mr6 = new NodeRinkBoards(butJoueur2_,basDroite_,false),
+						*mr7 = new NodeRinkBoards(basGauche_,butJoueur1_,false),//ok
+						*mr8 = new NodeRinkBoards(butJoueur1_,hautGauche_,true);
 	ajouter(mr1);
 	ajouter(mr2);
 	ajouter(mr3);

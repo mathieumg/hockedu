@@ -18,6 +18,10 @@
 #include "XMLUtils.h"
 #include "GestionnaireModeles.h"
 
+#ifdef MIKE_BUILD
+PRAGMA_DISABLE_OPTIMIZATION
+#endif
+
 const Vecteur3 NodeWallAbstract::DEFAULT_SIZE = Vecteur3(1, 5, 15);
 
 CreateListDelegateImplementation(Wall)
@@ -249,45 +253,50 @@ void NodeWallAbstract::updateWallProperties()
     // just to be sure
     vecteurEntre[VZ] = 0;
 
-    // arctan(y/x) = angle
-    float angle = utilitaire::RAD_TO_DEG(atan2(vecteurEntre[VY], vecteurEntre[VX]));
-    if(angle<0)
+    if(vecteurEntre.estNul())
     {
-        angle += 360.f;
+        mAngle = 0;
+        echelleCourante_[VX] = 0;
+        positionRelative_ = corner1;
     }
+    else
+    {
+        // arctan(y/x) = angle
+        float angle = utilitaire::RAD_TO_DEG(atan2(vecteurEntre[VY], vecteurEntre[VX]));
+        // L'angle doit rester toujours positif pour garder la coherence dans tous les modifications
+        if(angle<0)
+        {
+            angle += 360.f;
+        }
 
-    // pour conserver l'echelle en Y et Z
-    Vecteur3 echelle;
-    obtenirEchelleCourante(echelle);
-    float distance = vecteurEntre.norme();
-    echelle[VX] = distance / DEFAULT_SIZE[VX];
+        // pour conserver l'echelle en Y et Z
+        Vecteur3 echelle;
+        obtenirEchelleCourante(echelle);
+        float distance = vecteurEntre.norme();
+        echelle[VX] = distance / DEFAULT_SIZE[VX];
 
-    /* pour s'assurer de ne pas appeler la version virtuelle
-    * puisque la modification de ceux-ci pourrait
-    * entrainer une mise a jour des coins, ce qui n'est pas
-    * desire dans cette situation
-    * Aussi, on n'utilise pas les accesseurs pour eviter
-    * de refaire la matrice de tranformation et 
-    * le body box2d plusieurs fois pour rien
-    */
-    positionRelative_ = corner2+(vecteurEntre/2.0f);
-    echelleCourante_ = echelle;
-    mAngle = angle;
-
-//     vecteurEntre.normaliser();
-//     mAngle = (360.0f+(utilitaire::RAD_TO_DEG(acos(vecteurEntre[VX]))*( (vecteurEntre[VY] < 0)?-1:1) ) );
-//     mAngle /= 360.0f;
-//     mAngle -= (int)(mAngle);
-//     mAngle *= 360.0f;
-
-
-
+        /* pour s'assurer de ne pas appeler la version virtuelle
+        * puisque la modification de ceux-ci pourrait
+        * entrainer une mise a jour des coins, ce qui n'est pas
+        * desire dans cette situation
+        * Aussi, on n'utilise pas les accesseurs pour eviter
+        * de refaire la matrice de tranformation et 
+        * le body box2d plusieurs fois pour rien
+        */
+        positionRelative_ = corner2+(vecteurEntre/2.0f);
+        echelleCourante_ = echelle;
+        mAngle = angle;
+    }
     // necessaire pour s'assurer de l'integrite des proprietes
     // physiques et d'affichage
     updateMatrice();
     updatePhysicBody();
 }
 
+
+#ifdef MIKE_BUILD
+PRAGMA_ENABLE_OPTIMIZATION
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

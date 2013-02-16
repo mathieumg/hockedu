@@ -67,7 +67,7 @@ public:
 	inline const NoeudComposite* obtenirParent() const;
 
 	/// Assigne le parent de ce noeud.
-	void assignerParent( NoeudComposite* parent );
+	virtual void assignerParent( NoeudComposite* parent );
 
 	/// Obtient la position relative du noeud.
 	inline const Vecteur3& obtenirPositionRelative() const;
@@ -76,7 +76,9 @@ public:
 	virtual Vecteur3 obtenirPositionAbsolue() const;
 
 	/// Assigne la position relative du noeud.
-	virtual void assignerPositionRelative( const Vecteur3& positionRelative);
+    virtual void assignerPositionRelative( const Vecteur3& positionRelative);
+    /// assigne la position relative de l'objet selon la position de son parent
+    virtual void assignerPositionAbsolue( const Vecteur3& positionAbsolue);
 
 	/// Obtient le type du noeud.
 	inline const std::string& obtenirType() const;

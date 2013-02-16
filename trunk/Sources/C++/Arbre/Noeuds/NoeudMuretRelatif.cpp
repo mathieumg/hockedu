@@ -2,7 +2,7 @@
 /// @file NoeudMuretRelatif.cpp
 /// @author Michael Ferris
 /// @date 2012-02-25
-/// @version 1.0
+/// @version 2.0
 ///
 /// @addtogroup razergame RazerGame
 /// @{
@@ -13,122 +13,9 @@
 #include "NoeudBut.h"
 #include "Utilitaire.h"
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn  NoeudMuretRelatif::NoeudMuretRelatif( NoeudPoint* n1, NoeudPoint* n2 )
-///
-/// Constructeur par paramètre.
-///
-/// @param[in] NoeudPoint * n1 : premier point associé
-/// @param[in] NoeudPoint * n2 : deuxieme point associé
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-NoeudMuretRelatif::NoeudMuretRelatif( NoeudPoint* n1, NoeudPoint* n2 ):
-Super(RazerGameUtilities::NOM_MURET_RELATIF)
-{
-	coin1_[VX] = &n1->positionRelative_[VX];
-	coin1_[VY] = &n1->positionRelative_[VY];
-	coin1_[VZ] = &n1->positionRelative_[VZ];
-	coin2_[VX] = &n2->positionRelative_[VX];
-	coin2_[VY] = &n2->positionRelative_[VY];
-	coin2_[VZ] = &n2->positionRelative_[VZ];
-
-    // observe les deplacement de ces noeuds
-    n1->attach(this);
-    n2->attach(this);
-
-	assignerEstSelectionnable(false);
-	assignerEstEnregistrable(false);
-	updateWallProperties();
-	assignerAffiche(false);
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn  NoeudMuretRelatif::NoeudMuretRelatif( NoeudPoint* n, NoeudBut* but, bool haut )
-///
-/// constructeur par paramètre
-///
-/// @param[in] NoeudPoint * n : point relié
-/// @param[in] NoeudBut * but : But relié
-/// @param[in] bool haut : indique si on ce lie à la partie du haut du but
-///
-/// @return Aucun
-///
-////////////////////////////////////////////////////////////////////////
-NoeudMuretRelatif::NoeudMuretRelatif( NoeudPoint* n, NoeudBut* but, bool haut ):
-Super(RazerGameUtilities::NOM_MURET_RELATIF)
-{
-	coin1_[VX] = &n->positionRelative_[VX];
-	coin1_[VY] = &n->positionRelative_[VY];
-	coin1_[VZ] = &n->positionRelative_[VZ];
-	if(haut)
-	{
-		coin2_[VX] = &but->mTopPosition[VX];
-		coin2_[VY] = &but->mTopPosition[VY];
-		coin2_[VZ] = &but->mTopPosition[VZ];
-	}
-	else
-	{
-		coin2_[VX] = &but->mBottomPosition[VX];
-		coin2_[VY] = &but->mBottomPosition[VY];
-		coin2_[VZ] = &but->mBottomPosition[VZ];
-	}
-
-    // observe les deplacement de ces noeuds
-    n->attach(this);
-    but->attach(this);
-
-	assignerEstSelectionnable(false);
-	assignerEstEnregistrable(false);
-	updateWallProperties();
-	assignerAffiche(false);
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn  NoeudMuretRelatif::NoeudMuretRelatif( NoeudBut* but, NoeudPoint* n, bool haut )
-///
-/// constructeur par paramètre
-///
-/// @param[in] NoeudPoint * n : point relié
-/// @param[in] NoeudBut * but : But relié
-/// @param[in] bool haut : indique si on ce lie à la partie du haut du but
-///
-/// @return Aucun
-///
-////////////////////////////////////////////////////////////////////////
-NoeudMuretRelatif::NoeudMuretRelatif( NoeudBut* but, NoeudPoint* n, bool haut ):
-Super(RazerGameUtilities::NOM_MURET_RELATIF)
-{
-	coin2_[VX] = &n->positionRelative_[VX];
-	coin2_[VY] = &n->positionRelative_[VY];
-	coin2_[VZ] = &n->positionRelative_[VZ];
-	if(haut)
-	{
-		coin1_[VX] = &but->mTopPosition[VX];
-		coin1_[VY] = &but->mTopPosition[VY];
-		coin1_[VZ] = &but->mTopPosition[VZ];
-	}
-	else
-	{
-		coin1_[VX] = &but->mBottomPosition[VX];
-		coin1_[VY] = &but->mBottomPosition[VY];
-		coin1_[VZ] = &but->mBottomPosition[VZ];
-	}
-
-    // observe les deplacement de ces noeuds
-    n->attach(this);
-    but->attach(this);
-
-	assignerEstSelectionnable(false);
-	assignerEstEnregistrable(false);
-	updateWallProperties();
-	assignerAffiche(false);
-}
+#ifdef MIKE_BUILD
+PRAGMA_DISABLE_OPTIMIZATION
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -177,6 +64,72 @@ void NoeudMuretRelatif::updateObserver( PositionSubject* pSubject )
     updateWallProperties();
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudMuretRelatif::init( const Vecteur3& pCorner1,const Vecteur3& pCorner2,PositionSubject* s1,PositionSubject* s2 )
+///
+/// Initialise les attributs necessaire pour le bon fonctionnement d'un muret relatif
+///
+/// @param[in] Vecteur3 & pCorner1
+/// @param[in] Vecteur3 & pCorner2
+/// @param[in] PositionSubject * s1
+/// @param[in] PositionSubject * s2
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudMuretRelatif::init( const Vecteur3& pCorner1, const Vecteur3& pCorner2,PositionSubject* s1,PositionSubject* s2 )
+{
+    coin1_[VX] = &pCorner1[VX];
+    coin1_[VY] = &pCorner1[VY];
+    coin1_[VZ] = &pCorner1[VZ];
+    coin2_[VX] = &pCorner2[VX];
+    coin2_[VY] = &pCorner2[VY];
+    coin2_[VZ] = &pCorner2[VZ];
+
+    // observe les deplacement de ces noeuds
+    s1->attach(this);
+    s2->attach(this);
+
+    assignerEstSelectionnable(false);
+    updateWallProperties();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn  NoeudMuretRelatif::NoeudMuretRelatif( std::string type )
+///
+/// constructeur
+///
+/// @param[in] std::string type
+///
+/// @return 
+///
+////////////////////////////////////////////////////////////////////////
+NoeudMuretRelatif::NoeudMuretRelatif( const std::string& type ):
+    Super(type)
+{
+
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn  NoeudMuretRelatif::~NoeudMuretRelatif()
+///
+/// /*Description*/
+///
+///
+/// @return 
+///
+////////////////////////////////////////////////////////////////////////
+NoeudMuretRelatif::~NoeudMuretRelatif()
+{
+
+}
+
+#ifdef MIKE_BUILD
+PRAGMA_ENABLE_OPTIMIZATION
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

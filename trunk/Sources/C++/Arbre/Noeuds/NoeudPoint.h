@@ -32,7 +32,7 @@ typedef Vecteur3D<float*> Vecteur3pf;
 typedef OnceVector<Vecteur3pf> GroupeTripleAdresseFloat;
 typedef std::vector<Vecteur3i> GroupeCoord;
 
-class NoeudMuretRelatif;
+class NodeRinkBoards;
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class NoeudPoint
@@ -44,7 +44,9 @@ class NoeudMuretRelatif;
 class NoeudPoint : public NoeudComposite, public PositionSubject
 {
 public:
-	friend NoeudMuretRelatif;
+    typedef NoeudComposite Super;
+
+	friend NodeRinkBoards;
 	/// Constructeur à partir du type du noeud.
 	NoeudPoint( const std::string& typeNoeud, float coordX, float coordY, TypePosPoint typePosNoeud);
 	/// Destructeur.

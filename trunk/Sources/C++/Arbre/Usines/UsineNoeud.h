@@ -19,6 +19,8 @@
 #include "NoeudPortail.h"
 #include "NoeudRondelle.h"
 #include "NoeudTable.h"
+#include "NodeWallEdition.h"
+#include "NodeControlPoint.h"
 
 class NoeudAbstrait;
 
@@ -84,6 +86,8 @@ CreateNodeFactory(NoeudAccelerateur);
 CreateNodeFactory(NoeudMuret);
 CreateNodeFactory(NoeudPortail);
 CreateNodeFactory(NoeudTable);
+CreateNodeFactory(NodeWallEdition);
+CreateNodeFactory(NodeControlPoint);
 
 class UsineNoeudMaillet : public UsineNoeud
 {

@@ -113,6 +113,7 @@ void VisiteurDupliquer::visiterNoeudMuret( NodeWallAbstract* noeud )
 			arbre_->effacer(nouveauNoeud);
 		}
 	}
+    visiterNoeudComposite(noeud);
 }
 ////////////////////////////////////////////////////////////////////////
 ///

@@ -34,7 +34,7 @@
 SourisEtatAjout::SourisEtatAjout(std::string nomNoeudAjout): noeud_(NULL), nom_(nomNoeudAjout), hudTextPosInvalide(0)
 {
 	hudTextPosInvalide = new HUDTexte("Position invalide !", Vecteur4f(1,0,0,1),std::string("game_over_big_text"));
-	hudTextPosInvalide->modifierVisibilite(false);
+	showInvalidText(false);
 	hudTextPosInvalide->modifierPosition(0.45f,0.5f);
 
 	GestionnaireHUD::obtenirInstance()->obtenirRacine(RACINE_EDITION)->add(hudTextPosInvalide);
@@ -117,7 +117,7 @@ void SourisEtatAjout::sourisRelachee( EvenementSouris& evenementSouris )
 	{
 		if(noeud_ != 0)
 		{
-			hudTextPosInvalide->modifierVisibilite(false);
+            showInvalidText(false);
 			if(FacadeModele::getInstance()->validerPositionNoeud(noeud_))
 			{
 				FacadeModele::getInstance()->getTerrain()->transfererNoeud(noeud_);
@@ -133,7 +133,7 @@ void SourisEtatAjout::sourisRelachee( EvenementSouris& evenementSouris )
 			}
 			else
 			{
-				hudTextPosInvalide->modifierVisibilite(true);
+                showInvalidText(true);
 			}
 		}
 
@@ -192,6 +192,22 @@ NomEtatSouris SourisEtatAjout::obtenirNomEtatSouris()
 	if(nom_ == RazerGameUtilities::NOM_MURET)
 		return ETAT_SOURIS_AJOUTER_MURET;
 	return ETAT_SOURIS_INCONNU;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void SourisEtatAjout::showInvalidText( bool show )
+///
+/// /*Description*/
+///
+/// @param[in] bool show
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void SourisEtatAjout::showInvalidText( bool show ) const
+{
+    hudTextPosInvalide->modifierVisibilite(show);
 }
 
 

@@ -28,6 +28,8 @@ class NoeudTable;
 class NoeudRondelle : public NoeudAbstrait , public ObjetAnimable
 {
 public:
+    typedef NoeudAbstrait Super;
+
    /// Constructeur à partir du type du noeud.
    NoeudRondelle(const std::string& typeNoeud);
    /// Destructeur.

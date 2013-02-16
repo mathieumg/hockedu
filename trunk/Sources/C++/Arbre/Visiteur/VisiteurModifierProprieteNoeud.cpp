@@ -180,6 +180,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NodeWallAbstract* noeud 
 			}
 		}
 	}
+    visiterNoeudComposite(noeud);
 }
 
 

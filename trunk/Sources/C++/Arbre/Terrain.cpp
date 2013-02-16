@@ -260,14 +260,16 @@ void Terrain::initialiserArbreRendu()
 		*gRondelle =	new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_RONDELLE),
 		*gAccel =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_ACCELERATEUR),
 		*gMuret =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_MURET),
-		*gPortail =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_PORTAIL);
+        *gPortail =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_PORTAIL),
+        *gControlPoint =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NAME_CONTROL_POINT);
 
 	// La table contient ces groupes.
 	mTable->ajouter(gRondelle);
 	mTable->ajouter(gMaillet);
 	mTable->ajouter(gAccel);
 	mTable->ajouter(gMuret);
-	mTable->ajouter(gPortail);
+    mTable->ajouter(gPortail);
+    mTable->ajouter(gControlPoint);
 
 	// Permet de rediriger les bandes extérieur de la table vers le groupe  gMuret
 	mTable->reassignerParentBandeExt();

@@ -11,7 +11,7 @@
 #define __ARBRE_NOEUDS_NODEWALLABSTRACT_H__
 
 
-#include "NoeudAbstrait.h"
+#include "NoeudComposite.h"
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class NodeWallAbstract
@@ -20,10 +20,10 @@
 /// @author Michael Ferris
 /// @date 2013-02-14
 ///////////////////////////////////////////////////////////////////////////
-class NodeWallAbstract : public NoeudAbstrait
+class NodeWallAbstract : public NoeudComposite
 {
 public:
-    typedef NoeudAbstrait Super;
+    typedef NoeudComposite Super;
    /// Constructeur à partir du type du noeud.
    NodeWallAbstract(const std::string& typeNoeud);
    /// Destructeur.

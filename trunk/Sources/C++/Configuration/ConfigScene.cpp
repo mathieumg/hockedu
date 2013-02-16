@@ -452,7 +452,7 @@ void ConfigScene::ecrireArbre(NoeudAbstrait* parentNoeud, const XmlNode* node)
 	NoeudAbstrait* noeudCourant;
 
 	// Si le noeud est un point, on doit retrouver ce noeud à partir de la table et non en instancier un nouveau
-	if(nom.c_str() == RazerGameUtilities::NOM_POINT)
+	if(nom.c_str() == RazerGameUtilities::NAME_TABLE_CONTROL_POINT)
 	{
 		int typeNoeud;
 		if( unsigned short result = elem->QueryIntAttribute("typePosNoeud", &typeNoeud) != TIXML_SUCCESS )

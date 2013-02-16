@@ -143,6 +143,7 @@ void VisiteurEchelle::visiterNoeudMuret( NodeWallAbstract* noeud )
 	visiterNoeudAbstrait(noeud);
 	// pop
 	axe_ = oldAxe;
+    visiterNoeudComposite(noeud);
 }
 
 ////////////////////////////////////////////////////////////////////////

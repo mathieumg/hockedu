@@ -17,6 +17,7 @@
 #include "NoeudTable.h"
 #include "NoeudPoint.h"
 #include "NoeudAccelerateur.h"
+#include "Noeuds\NodeControlPoint.h"
 
 
 
@@ -388,16 +389,17 @@ void VisiteurCollision::visiterNoeudTable( NoeudTable* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurCollision::visiterNoeudPoint( NoeudPoint* noeud )
 {
+    // do not do collision detection with control points
 
-	switch(typeCollision_)
-	{
-	case SEGMENT: // Collision Cercle-Segment
-		detectionCollisionCercleSegment(noeud);
-		break;
-	default: // Collision Cercle-Cercle
-		detectionCollisionCercleCercle(noeud);
-		break;
-	}
+// 	switch(typeCollision_)
+// 	{
+// 	case SEGMENT: // Collision Cercle-Segment
+// 		detectionCollisionCercleSegment(noeud);
+// 		break;
+// 	default: // Collision Cercle-Cercle
+// 		detectionCollisionCercleCercle(noeud);
+// 		break;
+// 	}
 	visiterNoeudComposite(noeud);
 }
 
@@ -525,7 +527,7 @@ void VisiteurCollision::detectionCollisionCercleSegment( NoeudAbstrait* noeud )
 bool VisiteurCollision::collisionPresente() const
 {
 	if(noeudAVerifier_!=NULL)
-		if(noeudAVerifier_->obtenirType() == RazerGameUtilities::NOM_POINT)
+		if(noeudAVerifier_->obtenirType() == RazerGameUtilities::NAME_TABLE_CONTROL_POINT)
 			return false;
 	return collision_;
 }
@@ -563,6 +565,23 @@ void VisiteurCollision::reinitialiser()
 	conteneurDetailsCollision.clear();
 	noeudAVerifier_->assignerAttributVisiteurCollision(this);
 	positionAVerifier_ = noeudAVerifier_->obtenirPositionAbsolue().convertir<2>();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void VisiteurCollision::visiterNodeControlPoint( NodeControlPoint* noeud )
+///
+/// /*Description*/
+///
+/// @param[in] NodeControlPoint * noeud
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void VisiteurCollision::visiterNodeControlPoint( NodeControlPoint* noeud )
+{
+    // do not do collision detection with control points
+    VisitParent(NodeControlPoint);
 }
 
 
