@@ -50,8 +50,8 @@ NodeWallEdition::NodeWallEdition( const std::string& type ):
     }
 
     init(
-        mPoints[0]->obtenirPositionRelative(),
-        mPoints[1]->obtenirPositionRelative(),
+        mPoints[0]->getPosition(),
+        mPoints[1]->getPosition(),
         mPoints[0],
         mPoints[1]
         );

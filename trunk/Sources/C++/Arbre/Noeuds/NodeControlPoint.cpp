@@ -51,16 +51,8 @@ NodeControlPoint::~NodeControlPoint()
 
 void NodeControlPoint::afficherConcret() const
 {
-    // Sauvegarde de la matrice.
-    glPushMatrix();
-    glPushAttrib(GL_ALL_ATTRIB_BITS);
-
     // Appel à la version de la classe de base pour l'affichage des enfants.
     NoeudAbstrait::afficherConcret();
-
-    // Restauration de la matrice.
-    glPopAttrib();
-    glPopMatrix();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -142,7 +134,7 @@ bool PositionScopedBool = false;
 void NodeControlPoint::assignerPositionRelative( const Vecteur3& positionRelative )
 {
     Super::assignerPositionRelative(positionRelative);
-    //mPointPosition = obtenirPositionAbsolue();
+    //mPointPosition = getPosition();
     signalObservers();
 
 //     if(!mLinkedObject || PositionScopedBool)
@@ -153,7 +145,7 @@ void NodeControlPoint::assignerPositionRelative( const Vecteur3& positionRelativ
 //     else
 //     {
 //         // appel independant de position absolue, recalcule la position absolue 
-//         Vecteur3 pos = mLinkedObject->obtenirPositionAbsolue();
+//         Vecteur3 pos = mLinkedObject->getPosition();
 //         assignerPositionAbsolue(pos+positionRelative);
 //     }
 }

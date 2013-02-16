@@ -100,7 +100,7 @@ void NodeWallAbstract::updatePhysicBody()
 
         mPhysicBody = getWorld()->CreateBody(&myBodyDef);
         b2PolygonShape shape;
-        Vecteur3 pos = obtenirPositionAbsolue();
+        const Vecteur3& pos = getPosition();
         b2Vec2 posB2;
         utilitaire::VEC3_TO_B2VEC(pos,posB2);
         myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
@@ -131,18 +131,10 @@ void NodeWallAbstract::updatePhysicBody()
 ////////////////////////////////////////////////////////////////////////
 void NodeWallAbstract::afficherConcret() const
 {
-	// Sauvegarde de la matrice.
-	glPushMatrix();
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
-
 	glColor3f(0.76f, 0.64f, 0.31f);
 
 	// Appel à la version de la classe de base pour l'affichage des enfants.
 	Super::afficherConcret();
-
-	// Restauration de la matrice.
-	glPopAttrib();
-	glPopMatrix();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -247,7 +239,7 @@ const std::string& NodeWallAbstract::get3DModelKey() const
 ////////////////////////////////////////////////////////////////////////
 void NodeWallAbstract::updateWallProperties()
 {
-    Vecteur3 corner1 = obtenirCoin1(), corner2 = obtenirCoin2();
+    const Vecteur3& corner1 = obtenirCoin1(), corner2 = obtenirCoin2();
     Vecteur3 vecteurEntre(corner1-corner2);
 
     // just to be sure
@@ -257,7 +249,7 @@ void NodeWallAbstract::updateWallProperties()
     {
         mAngle = 0;
         echelleCourante_[VX] = 0;
-        positionRelative_ = corner1;
+        mPosition = corner1;
     }
     else
     {
@@ -283,7 +275,7 @@ void NodeWallAbstract::updateWallProperties()
         * de refaire la matrice de tranformation et 
         * le body box2d plusieurs fois pour rien
         */
-        positionRelative_ = corner2+(vecteurEntre/2.0f);
+        mPosition = corner2+(vecteurEntre/2.0f);
         echelleCourante_ = echelle;
         mAngle = angle;
     }

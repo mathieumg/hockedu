@@ -119,35 +119,38 @@ void SourisEtatTransformationDeplacement::sourisEnfoncee( EvenementSouris& evene
 {
 	if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_GAUCHE)
 	{
-		Vecteur3 positionVirtuelle;
-		Vecteur2i positionCloture = evenementSouris.obtenirPosition();
-		FacadeModele::getInstance()->convertirClotureAVirtuelle(positionCloture[VX], positionCloture[VY], positionVirtuelle);
-
-		VisiteurCollision visiteurCollision(positionVirtuelle.convertir<2>(), false,50.0);
-		FacadeModele::getInstance()->acceptVisitor(visiteurCollision);
-		bool objetSous = false;
-		ConteneurNoeuds conteneurColision;
-		if(visiteurCollision.collisionPresente())
-		{
-			visiteurCollision.obtenirListeCollision(conteneurColision);
-
-			noeudsSelectionnes_.clear(); 
+// 		Vecteur3 positionVirtuelle;
+// 		Vecteur2i positionCloture = evenementSouris.obtenirPosition();
+// 		FacadeModele::getInstance()->convertirClotureAVirtuelle(positionCloture[VX], positionCloture[VY], positionVirtuelle);
+// 
+// 		VisiteurCollision visiteurCollision(positionVirtuelle.convertir<2>(), false,50.0);
+// 		FacadeModele::getInstance()->acceptVisitor(visiteurCollision);
+// 		bool objetSous = false;
+// 		ConteneurNoeuds conteneurColision;
+// 		if(visiteurCollision.collisionPresente())
+// 		{
+// 			visiteurCollision.obtenirListeCollision(conteneurColision);
+// 
+// 			noeudsSelectionnes_.clear(); 
+//             FacadeModele::getInstance()->getSelectedNodes(noeudsSelectionnes_);
+// 
+// 			for(ConteneurNoeuds::iterator it1 = conteneurColision.begin(); it1!=conteneurColision.end(); it1++)
+// 			{
+// 				for(ConteneurNoeuds::iterator it2 = noeudsSelectionnes_.begin(); it2!=noeudsSelectionnes_.end(); it2++)
+// 				{
+// 					if((*it1)==(*it2))
+// 					{
+// 						objetSous = true;
+// 						//break;
+// 					}
+// 				}
+// 			}
+        {
+            noeudsSelectionnes_.clear();
             FacadeModele::getInstance()->getSelectedNodes(noeudsSelectionnes_);
-
-			for(ConteneurNoeuds::iterator it1 = conteneurColision.begin(); it1!=conteneurColision.end(); it1++)
-			{
-				for(ConteneurNoeuds::iterator it2 = noeudsSelectionnes_.begin(); it2!=noeudsSelectionnes_.end(); it2++)
-				{
-					if((*it1)==(*it2))
-					{
-						objetSous = true;
-						//break;
-					}
-				}
-			}
 			//delete visiteurCollision;
 			// Vérifie si le bouton enfoncé est le bouton de gauche et qu'il y a un objet selectionne sous la souris
-			if(objetSous)
+			if(!noeudsSelectionnes_.empty())
 			{
 				// Assigne les attributs concernés
 				estEnfoncee_ = true;

@@ -86,7 +86,7 @@ void VisiteurNoeudTest::testDeplacerObjet()
 	n->assignerSelection(true);
 	VisiteurDeplacement v(Vecteur2(25.0,-10.0));
 	n->acceptVisitor(v);
-	CPPUNIT_ASSERT(n->obtenirPositionRelative() == Vecteur3(-25.0,-10.0));
+	CPPUNIT_ASSERT(n->getPosition() == Vecteur3(-25.0,-10.0));
 
 
 }

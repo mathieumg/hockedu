@@ -163,7 +163,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NodeWallAbstract* noeud 
 			noeud->setReboundRatio(coefRebond_);		
 		if(unSeulSelect_)
 		{
-			Vecteur3 oldPos = noeud->obtenirPositionRelative();
+			const Vecteur3& oldPos = noeud->getPosition();
 			noeud->assignerPositionRelative(position_);
 			float oldAngle = noeud->obtenirAngle();
 			noeud->assignerAngle((float)rotation_);
@@ -326,7 +326,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudPoint( NoeudPoint* noeud )
 	if(noeud->estSelectionne())
 	{
 		// Assigner la position avant pour que le calcul de la longueur max des buts soit mise a jour
-		Vecteur3 positionCourante = noeud->obtenirPositionAbsolue();
+		const Vecteur3& positionCourante = noeud->getPosition();
 		
 		if(noeud->GetTerrain() )
 		{
@@ -411,10 +411,10 @@ void VisiteurModifierProprieteNoeud::visiterNoeudNeutre( NoeudAbstrait* noeud )
 	if(unSeulSelect_ && noeud->estSelectionne())
 	{
 		/// On fait le deplacement contenu dans position_ par rapport à l'origine
-		/*Vecteur3 deplacement = ((position_.convertir<3>())-(noeud->obtenirPositionAbsolue()));
+		/*Vecteur3 deplacement = ((position_.convertir<3>())-(noeud->getPosition()));
 		VisiteurDeplacement visiteurDeplacement(deplacement,true);
 		noeud->acceptVisitor(visiteurDeplacement);*/
-		Vecteur3 oldPos = noeud->obtenirPositionRelative();
+		const Vecteur3& oldPos = noeud->getPosition();
 		noeud->assignerPositionRelative(position_);
 
 		float oldAngle = noeud->obtenirAngle();

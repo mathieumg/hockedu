@@ -110,16 +110,8 @@ NoeudMaillet::~NoeudMaillet()
 ////////////////////////////////////////////////////////////////////////
 void NoeudMaillet::afficherConcret() const
 {
-    // Sauvegarde de la matrice.
-    glPushMatrix();
-    glPushAttrib(GL_ALL_ATTRIB_BITS);
-
     // Appel à la version de la classe de base pour l'affichage des enfants.
     NoeudAbstrait::afficherConcret();
-
-    // Restauration de la matrice.
-    glPopAttrib();
-    glPopMatrix();
 
 #if BOX2D_DEBUG
     // Sauvegarde de la matrice.
@@ -228,7 +220,7 @@ void NoeudMaillet::gestionCollision( const float& temps )
 		{
 			if( (*iter) == rondelle)
 			{
-				Vecteur3 dir = rondelle->obtenirPositionAbsolue() - obtenirPositionAbsolue();
+				Vecteur3 dir = rondelle->getPosition() - getPosition();
 				float enf = (rondelle->obtenirRayon()+obtenirRayon())-dir.norme();
 				dir.normaliser();
 				enfoncement_ += dir*enf;
@@ -304,9 +296,9 @@ void NoeudMaillet::majPosition( const float& temps )
 	// Si le maillet n'est pas sur une table, il n'y a pas de physique appliquee
 	if(!GetTerrain() || !GetTerrain()->getTable())
 		return;
-	anciennePos_ = positionRelative_;
-	positionRelative_ += velocite_*temps;
-	positionRelative_[VZ] = 0;
+	anciennePos_ = mPosition;
+	mPosition += velocite_*temps;
+	mPosition[VZ] = 0;
 
 
 	NoeudGroupe* groupe = GetTerrain()->getTable()->obtenirGroupe(RazerGameUtilities::NOM_MURET);
@@ -326,7 +318,7 @@ void NoeudMaillet::majPosition( const float& temps )
 			detailsRes.direction += details[i].direction;
 		}
 		detailsRes.direction.normaliser();
-		positionRelative_ += detailsRes.direction*detailsRes.enfoncement;
+		mPosition += detailsRes.direction*detailsRes.enfoncement;
 		Vecteur3 normale(detailsRes.direction[VY],-detailsRes.direction[VX]);
 		velocite_ = calculerProjectionDroite(velocite_,normale);
 	}
@@ -345,23 +337,23 @@ void NoeudMaillet::majPosition( const float& temps )
 			detailsRes.direction += details[i].direction;
 		}
 		detailsRes.direction.normaliser();
-		positionRelative_ += detailsRes.direction*detailsRes.enfoncement;
+		mPosition += detailsRes.direction*detailsRes.enfoncement;
 		Vecteur3 normale(detailsRes.direction[VY],-detailsRes.direction[VX]);
 		velocite_ = calculerProjectionDroite(velocite_,normale);
 	}
 	if(estAGauche_)
 	{
-		if(positionRelative_[VX] + obtenirRayon() > 0)
+		if(mPosition[VX] + obtenirRayon() > 0)
 		{
-			positionRelative_[VX] = -obtenirRayon();
+			mPosition[VX] = -obtenirRayon();
 			velocite_[VX] = 0;
 		}
 	}
 	else
 	{
-		if(positionRelative_[VX] - obtenirRayon() < 0)
+		if(mPosition[VX] - obtenirRayon() < 0)
 		{
-			positionRelative_[VX] = obtenirRayon();
+			mPosition[VX] = obtenirRayon();
 			velocite_[VX] = 0;
 		}
 	}
@@ -387,10 +379,10 @@ void NoeudMaillet::ajusterEnfoncement()
 
 	if(!GetTerrain()->getTable()->estSurTable(this) )
 	{
-		positionRelative_ = anciennePos_;
+		mPosition = anciennePos_;
 	}
 	else
-		positionRelative_ -= enfoncement_;
+		mPosition -= enfoncement_;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -411,7 +403,7 @@ void NoeudMaillet::ajusterVitesse( const float& temps )
 	{
 		if(!estControleParClavier_)
 		{
-			direction = posSouris_-obtenirPositionAbsolue();
+			direction = posSouris_-getPosition();
 			// Pour arreter le maillet s'il est pres de la souris
 			if(direction.norme2() <= 10)
 			{
@@ -483,7 +475,7 @@ void NoeudMaillet::updatePhysicBody()
 
         b2BodyDef myBodyDef;
         myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
-        Vecteur3 pos = obtenirPositionAbsolue();
+        const Vecteur3& pos = getPosition();
         b2Vec2 posB2;
         utilitaire::VEC3_TO_B2VEC(pos,posB2);
         myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
@@ -533,7 +525,7 @@ void NoeudMaillet::buildMouseJoint()
         b2MouseJointDef md;
         md.bodyA = mMouseBody;
         md.bodyB = body;
-        Vecteur3 pos = obtenirPositionAbsolue();
+        const Vecteur3& pos = getPosition();
         utilitaire::VEC3_TO_B2VEC(pos,md.target);
         md.maxForce = 10000.0f * body->GetMass();
         md.dampingRatio = 0;
@@ -645,7 +637,7 @@ void NoeudMaillet::preSimulationActions()
 
         direction.normaliser();
         direction *= 10;
-        direction += obtenirPositionAbsolue();
+        direction += getPosition();
 
         b2Vec2 velocite;
         utilitaire::VEC3_TO_B2VEC(direction,velocite);

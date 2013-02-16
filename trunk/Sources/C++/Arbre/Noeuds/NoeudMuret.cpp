@@ -95,8 +95,8 @@ void NoeudMuret::majPosCoins()
 	Vecteur3 deplacement( cos(utilitaire::DEG_TO_RAD(mAngle) ), sin(utilitaire::DEG_TO_RAD(mAngle) ) );
 	deplacement*= echelleCourante_[VX];
 	deplacement /= 2.0;
-	positionCoin1_ = positionRelative_+deplacement;
-	positionCoin2_ = positionRelative_-deplacement;
+	positionCoin1_ = mPosition+deplacement;
+	positionCoin2_ = mPosition-deplacement;
     updatePhysicBody();
 }
 

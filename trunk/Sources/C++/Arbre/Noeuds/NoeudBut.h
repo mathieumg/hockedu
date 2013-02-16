@@ -75,6 +75,7 @@ public:
 
     /// Update the physics body for the puck catcher according with the radius of the puck
     void updatePuckCatcher(float puckRadius);
+    virtual const Vecteur3& getPosition() const {return parent_->getPosition();}
 
     /// Libere la memoire de l'objet Box2D
     virtual void clearPhysicsBody();

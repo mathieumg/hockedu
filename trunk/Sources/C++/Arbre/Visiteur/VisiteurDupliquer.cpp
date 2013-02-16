@@ -269,28 +269,28 @@ void VisiteurDupliquer::dupliquerNoeud( NoeudAbstrait* noeud )
 			bool posValide = FacadeModele::getInstance()->validerPositionNoeud(nouveauNoeud);
 			for(int i = 1; i <= 2; ++i)
 			{
-				position = noeud->obtenirPositionRelative().convertir<2>() + Vecteur2(2*i*noeud->obtenirRayon(), 2*i*noeud->obtenirRayon());
+				position = noeud->getPosition().convertir<2>() + Vecteur2(2*i*noeud->obtenirRayon(), 2*i*noeud->obtenirRayon());
 				nouveauNoeud->assignerPositionRelative(position.convertir<3>());
 				posValide = FacadeModele::getInstance()->validerPositionNoeud(nouveauNoeud);
 
 				if(posValide)
 					break;
 
-				position = noeud->obtenirPositionRelative().convertir<2>() + Vecteur2(-2*i*noeud->obtenirRayon(), 2*i*noeud->obtenirRayon());
+				position = noeud->getPosition().convertir<2>() + Vecteur2(-2*i*noeud->obtenirRayon(), 2*i*noeud->obtenirRayon());
 				nouveauNoeud->assignerPositionRelative(position.convertir<3>());
 				posValide = FacadeModele::getInstance()->validerPositionNoeud(nouveauNoeud);
 
 				if(posValide)
 					break;
 
-				position = noeud->obtenirPositionRelative().convertir<2>() + Vecteur2(-2*i*noeud->obtenirRayon(), -2*i*noeud->obtenirRayon());
+				position = noeud->getPosition().convertir<2>() + Vecteur2(-2*i*noeud->obtenirRayon(), -2*i*noeud->obtenirRayon());
 				nouveauNoeud->assignerPositionRelative(position.convertir<3>());
 				posValide = FacadeModele::getInstance()->validerPositionNoeud(nouveauNoeud);
 
 				if(posValide)
 					break;
 
-				position = noeud->obtenirPositionRelative().convertir<2>() + Vecteur2(2*i*noeud->obtenirRayon(), -2*i*noeud->obtenirRayon());
+				position = noeud->getPosition().convertir<2>() + Vecteur2(2*i*noeud->obtenirRayon(), -2*i*noeud->obtenirRayon());
 				nouveauNoeud->assignerPositionRelative(position.convertir<3>());
 				posValide = FacadeModele::getInstance()->validerPositionNoeud(nouveauNoeud);
 

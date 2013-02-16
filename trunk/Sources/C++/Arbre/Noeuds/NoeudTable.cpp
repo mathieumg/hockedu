@@ -322,21 +322,21 @@ void NoeudTable::afficherConcret() const
     // TODO:: cache the values when modifying / loading the control points
 	// Dessin des lignes sur la table et des zones de but
 	// Ligne bleu de gauche 1/3
-	Vecteur3 pointHautLigneGauche1 = vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_HAUT_GAUCHE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue())/3.0f;
-	Vecteur3 pointcentreLigneGauche1 = vecteurPoint_[POSITION_MILIEU_GAUCHE]->obtenirPositionAbsolue()*0.33f;
-	Vecteur3 pointBasLigneGauche1 = vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_BAS_GAUCHE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue())/3.0f;
+	Vecteur3 pointHautLigneGauche1 = vecteurPoint_[POSITION_HAUT_MILIEU]->getPosition()+ (vecteurPoint_[POSITION_HAUT_GAUCHE]->getPosition() - vecteurPoint_[POSITION_HAUT_MILIEU]->getPosition())/3.0f;
+	Vecteur3 pointcentreLigneGauche1 = vecteurPoint_[POSITION_MILIEU_GAUCHE]->getPosition()*0.33f;
+	Vecteur3 pointBasLigneGauche1 = vecteurPoint_[POSITION_BAS_MILIEU]->getPosition()+ (vecteurPoint_[POSITION_BAS_GAUCHE]->getPosition() - vecteurPoint_[POSITION_BAS_MILIEU]->getPosition())/3.0f;
 	// Ligne bleu de gauche 2/3
-	Vecteur3 pointHautLigneGauche2 = vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_HAUT_GAUCHE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue())*2.0f/3.0f;
-	Vecteur3 pointcentreLigneGauche2 = vecteurPoint_[POSITION_MILIEU_GAUCHE]->obtenirPositionAbsolue()*0.66f;
-	Vecteur3 pointBasLigneGauche2 = vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_BAS_GAUCHE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue())*2.0f/3.0f;
+	Vecteur3 pointHautLigneGauche2 = vecteurPoint_[POSITION_HAUT_MILIEU]->getPosition()+ (vecteurPoint_[POSITION_HAUT_GAUCHE]->getPosition() - vecteurPoint_[POSITION_HAUT_MILIEU]->getPosition())*2.0f/3.0f;
+	Vecteur3 pointcentreLigneGauche2 = vecteurPoint_[POSITION_MILIEU_GAUCHE]->getPosition()*0.66f;
+	Vecteur3 pointBasLigneGauche2 = vecteurPoint_[POSITION_BAS_MILIEU]->getPosition()+ (vecteurPoint_[POSITION_BAS_GAUCHE]->getPosition() - vecteurPoint_[POSITION_BAS_MILIEU]->getPosition())*2.0f/3.0f;
 	// Ligne bleu de Droite 1/3
-	Vecteur3 pointHautLigneDroite1 = vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_HAUT_DROITE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue())/3.0f;
-	Vecteur3 pointcentreLigneDroite1 = vecteurPoint_[POSITION_MILIEU_DROITE]->obtenirPositionAbsolue() * 0.33f;
-	Vecteur3 pointBasLigneDroite1 = vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_BAS_DROITE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue())/3.0f;
+	Vecteur3 pointHautLigneDroite1 = vecteurPoint_[POSITION_HAUT_MILIEU]->getPosition()+ (vecteurPoint_[POSITION_HAUT_DROITE]->getPosition() - vecteurPoint_[POSITION_HAUT_MILIEU]->getPosition())/3.0f;
+	Vecteur3 pointcentreLigneDroite1 = vecteurPoint_[POSITION_MILIEU_DROITE]->getPosition() * 0.33f;
+	Vecteur3 pointBasLigneDroite1 = vecteurPoint_[POSITION_BAS_MILIEU]->getPosition()+ (vecteurPoint_[POSITION_BAS_DROITE]->getPosition() - vecteurPoint_[POSITION_BAS_MILIEU]->getPosition())/3.0f;
 	// Ligne bleu de Droite 2/3
-	Vecteur3 pointHautLigneDroite2 = vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_HAUT_DROITE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_HAUT_MILIEU]->obtenirPositionAbsolue())*2.0f/3.0f;
-	Vecteur3 pointcentreLigneDroite2 = vecteurPoint_[POSITION_MILIEU_DROITE]->obtenirPositionAbsolue() * 0.66f;
-	Vecteur3 pointBasLigneDroite2 = vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue()+ (vecteurPoint_[POSITION_BAS_DROITE]->obtenirPositionAbsolue() - vecteurPoint_[POSITION_BAS_MILIEU]->obtenirPositionAbsolue())*2.0f/3.0f;
+	Vecteur3 pointHautLigneDroite2 = vecteurPoint_[POSITION_HAUT_MILIEU]->getPosition()+ (vecteurPoint_[POSITION_HAUT_DROITE]->getPosition() - vecteurPoint_[POSITION_HAUT_MILIEU]->getPosition())*2.0f/3.0f;
+	Vecteur3 pointcentreLigneDroite2 = vecteurPoint_[POSITION_MILIEU_DROITE]->getPosition() * 0.66f;
+	Vecteur3 pointBasLigneDroite2 = vecteurPoint_[POSITION_BAS_MILIEU]->getPosition()+ (vecteurPoint_[POSITION_BAS_DROITE]->getPosition() - vecteurPoint_[POSITION_BAS_MILIEU]->getPosition())*2.0f/3.0f;
 
 	const float hauteurLigne = 0;
 	float moitieLargeurLigne = 1.0f;
@@ -558,20 +558,20 @@ void NoeudTable::calculerHautLongMax(float reponse[])
 	// On a besoin de 2 variable pour la hauteur puisqu'elle diffère
 	
 	// On trouve la hauteur max en haut
-	float maxHauteurEntre2=max(obtenirPoint(POSITION_HAUT_GAUCHE)->obtenirPositionAbsolue()[VY],obtenirPoint(POSITION_HAUT_MILIEU)->obtenirPositionAbsolue()[VY]);
-	float hauteurYHaut=max(maxHauteurEntre2,obtenirPoint(POSITION_HAUT_DROITE)->obtenirPositionAbsolue()[VY]); 
+	float maxHauteurEntre2=max(obtenirPoint(POSITION_HAUT_GAUCHE)->getPosition()[VY],obtenirPoint(POSITION_HAUT_MILIEU)->getPosition()[VY]);
+	float hauteurYHaut=max(maxHauteurEntre2,obtenirPoint(POSITION_HAUT_DROITE)->getPosition()[VY]); 
 
 	// On trouve la hauteur max en bas
-	maxHauteurEntre2=min(obtenirPoint(POSITION_BAS_GAUCHE)->obtenirPositionAbsolue()[VY],obtenirPoint(POSITION_BAS_MILIEU)->obtenirPositionAbsolue()[VY]);
-	float hauteurYBas=-1*min(maxHauteurEntre2,obtenirPoint(POSITION_BAS_DROITE)->obtenirPositionAbsolue()[VY]);
+	maxHauteurEntre2=min(obtenirPoint(POSITION_BAS_GAUCHE)->getPosition()[VY],obtenirPoint(POSITION_BAS_MILIEU)->getPosition()[VY]);
+	float hauteurYBas=-1*min(maxHauteurEntre2,obtenirPoint(POSITION_BAS_DROITE)->getPosition()[VY]);
 
 	// On compare la hauteur max en haut et en bas
 	float HauteurY=max(hauteurYHaut,hauteurYBas);
 	reponse[0]=HauteurY;
 
 	// On trouve la longueur max, on le fait sur le cote droit seulement puisqua la table est symetrique en Y
-	float maxLongueurEntre2=max(obtenirPoint(POSITION_HAUT_DROITE)->obtenirPositionAbsolue()[VX],obtenirPoint(POSITION_MILIEU_DROITE)->obtenirPositionAbsolue()[VX]);
-	float longueurX=max(maxLongueurEntre2,obtenirPoint(POSITION_BAS_DROITE)->obtenirPositionAbsolue()[VX]);
+	float maxLongueurEntre2=max(obtenirPoint(POSITION_HAUT_DROITE)->getPosition()[VX],obtenirPoint(POSITION_MILIEU_DROITE)->getPosition()[VX]);
+	float longueurX=max(maxLongueurEntre2,obtenirPoint(POSITION_BAS_DROITE)->getPosition()[VX]);
 	reponse[1]=longueurX;
 }
 
@@ -591,7 +591,7 @@ bool NoeudTable::estSurTable(NoeudAbstrait* noeud)
 	if(noeud == 0)
 		return false;
 
-	Vecteur2 posNoeud = noeud->obtenirPositionAbsolue().convertir<2>();
+	Vecteur2 posNoeud = noeud->getPosition().convertir<2>();
 
 	// Le noeud est a la position 0 alors il est certainement sur la table
 	if(posNoeud.estNul())
@@ -599,8 +599,8 @@ bool NoeudTable::estSurTable(NoeudAbstrait* noeud)
 
 	for(int i=0; i<8; ++i)
 	{
-		Vecteur2 point1 = obtenirPoint(droiteMuret_[i].first)->obtenirPositionAbsolue().convertir<2>();
-		Vecteur2 point2 = obtenirPoint(droiteMuret_[i].second)->obtenirPositionAbsolue().convertir<2>();
+		Vecteur2 point1 = obtenirPoint(droiteMuret_[i].first)->getPosition().convertir<2>();
+		Vecteur2 point2 = obtenirPoint(droiteMuret_[i].second)->getPosition().convertir<2>();
 		Vecteur2 intersection;
 		if(aidecollision::calculerCollisionSegmentSegment(Vecteur2(),posNoeud,point1,point2,intersection).type != aidecollision::COLLISION_AUCUNE )
 		{
@@ -681,8 +681,8 @@ bool NoeudTable::estSurTable(Vecteur2 position)
 
 	for(int i=0; i<8; ++i)
 	{
-		Vecteur2 point1 = obtenirPoint(droiteMuret_[i].first)->obtenirPositionAbsolue().convertir<2>();
-		Vecteur2 point2 = obtenirPoint(droiteMuret_[i].second)->obtenirPositionAbsolue().convertir<2>();
+		Vecteur2 point1 = obtenirPoint(droiteMuret_[i].first)->getPosition().convertir<2>();
+		Vecteur2 point2 = obtenirPoint(droiteMuret_[i].second)->getPosition().convertir<2>();
 		Vecteur2 intersection;
 		if(aidecollision::calculerCollisionSegmentSegment(Vecteur2(),position,point1,point2,intersection).type != aidecollision::COLLISION_AUCUNE )
 		{
@@ -913,7 +913,7 @@ void NoeudTable::replacerModele()
 {
 	for(int i=0; i<vecteurPoint_.size(); i++)
 	{
-		Vecteur3 deplacement(vecteurPoint_[i]->obtenirPositionInitiale()-vecteurPoint_[i]->obtenirPositionAbsolue());
+		Vecteur3 deplacement(vecteurPoint_[i]->obtenirPositionInitiale()-vecteurPoint_[i]->getPosition());
 		const GroupeTripleAdresseFloat* liste = vecteurPoint_[i]->obtenirListePointsAChanger();
 		if(liste)
 		{
@@ -971,8 +971,8 @@ void NoeudTable::updatePhysicBody()
         mPhysicBody = getWorld()->CreateBody(&myBodyDef);
 
         b2Vec2 topPosB2,bottomPosB2 ;
-        utilitaire::VEC3_TO_B2VEC(pHaut->obtenirPositionAbsolue(),topPosB2);
-        utilitaire::VEC3_TO_B2VEC(pBas->obtenirPositionAbsolue(),bottomPosB2);
+        utilitaire::VEC3_TO_B2VEC(pHaut->getPosition(),topPosB2);
+        utilitaire::VEC3_TO_B2VEC(pBas->getPosition(),bottomPosB2);
         b2EdgeShape shape;
         shape.Set(bottomPosB2,topPosB2);
 

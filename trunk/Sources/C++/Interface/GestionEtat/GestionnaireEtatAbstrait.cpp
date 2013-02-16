@@ -197,7 +197,7 @@ void GestionnaireEtatAbstrait::gestionAnimationEnJeu( Partie* partieCourante, co
 			Vecteur3 directionHaut = camera->obtenirDirectionHaut();
 			if(rondelle!=0)
 			{
-				pointVise = rondelle->obtenirPositionAbsolue();
+				pointVise = rondelle->getPosition();
 				//directionHaut = 
 			}
 			AnimationFrame* animationFrameCamera = new AnimationFrame(temps*1000, camera->obtenirPosition(), pointVise, directionHaut);
@@ -207,21 +207,21 @@ void GestionnaireEtatAbstrait::gestionAnimationEnJeu( Partie* partieCourante, co
 		}
 		if(maillet1)
 		{
-			AnimationFrame* animationFrameMaillet1 = new AnimationFrame(temps*1000, maillet1->obtenirPositionRelative(), Vecteur3(0, 0, maillet1->obtenirAngle()));
+			AnimationFrame* animationFrameMaillet1 = new AnimationFrame(temps*1000, maillet1->getPosition(), Vecteur3(0, 0, maillet1->obtenirAngle()));
 			AnimationRepriseFrame* animationRepriseFrameMaillet1 = new AnimationRepriseFrame(animationFrameMaillet1, maillet1);
 
 			listeAnimationFrame.push_back(animationRepriseFrameMaillet1);
 		}
 		if(maillet2)
 		{
-			AnimationFrame* animationFrameMaillet2 = new AnimationFrame(temps*1000, maillet2->obtenirPositionRelative(), Vecteur3(0, 0, maillet2->obtenirAngle()));
+			AnimationFrame* animationFrameMaillet2 = new AnimationFrame(temps*1000, maillet2->getPosition(), Vecteur3(0, 0, maillet2->obtenirAngle()));
 			AnimationRepriseFrame* animationRepriseFrameMaillet2 = new AnimationRepriseFrame(animationFrameMaillet2, maillet2);
 
 			listeAnimationFrame.push_back(animationRepriseFrameMaillet2);
 		}
 		if(rondelle)
 		{
-			AnimationFrame* animationFrameRondelle = new AnimationFrame(temps*1000, rondelle->obtenirPositionRelative(), Vecteur3(0, 0, rondelle->obtenirAngle()));
+			AnimationFrame* animationFrameRondelle = new AnimationFrame(temps*1000, rondelle->getPosition(), Vecteur3(0, 0, rondelle->obtenirAngle()));
 			AnimationRepriseFrame* animationRepriseFrameRondelle = new AnimationRepriseFrame(animationFrameRondelle, rondelle);
 
 			listeAnimationFrame.push_back(animationRepriseFrameRondelle);

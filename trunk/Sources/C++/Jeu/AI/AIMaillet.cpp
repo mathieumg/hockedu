@@ -86,7 +86,7 @@ void AIMaillet::evaluerStrategie( NoeudMaillet* maillet )
 	if(!maillet->GetTerrain() || !(rondelle = maillet->GetTerrain()->getRondelle()))
 		return;
 
-	(rondelle->obtenirPositionAbsolue()[VX] * maillet->obtenirPositionAbsolue()[VX] >= 0) ? changerStrat(OFFENSIVE): changerStrat(DEFENSIVE);
+	(rondelle->getPosition()[VX] * maillet->getPosition()[VX] >= 0) ? changerStrat(OFFENSIVE): changerStrat(DEFENSIVE);
 }
 
 ////////////////////////////////////////////////////////////////////////

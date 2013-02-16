@@ -327,15 +327,15 @@ void NoeudCompositeTest::positionAbsolueTest()
 	racine->assignerPositionRelative(Vecteur3(0.0,0.0));
 
 	for(unsigned int i =0; i< vec.size(); i++)
-		CPPUNIT_ASSERT(vec[i]->obtenirPositionAbsolue() == Vecteur3(100.0,100.0));
+		CPPUNIT_ASSERT(vec[i]->getPosition() == Vecteur3(100.0,100.0));
 
 	racine->assignerPositionRelative(Vecteur3(-50.0,25.0));
 	for(unsigned int i =0; i< vec.size(); i++)
-		CPPUNIT_ASSERT(vec[i]->obtenirPositionAbsolue() == Vecteur3(50.0,125.0));
+		CPPUNIT_ASSERT(vec[i]->getPosition() == Vecteur3(50.0,125.0));
 
 	racine->assignerPositionRelative(Vecteur3(20.0,-25.0));
 	for(unsigned int i =0; i< vec.size(); i++)
-		CPPUNIT_ASSERT(vec[i]->obtenirPositionAbsolue() == Vecteur3(120.0,75.0));
+		CPPUNIT_ASSERT(vec[i]->getPosition() == Vecteur3(120.0,75.0));
 }
 
 ////////////////////////////////////////////////////////////////////////

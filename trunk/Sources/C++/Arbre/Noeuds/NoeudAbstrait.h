@@ -70,15 +70,10 @@ public:
 	virtual void assignerParent( NoeudComposite* parent );
 
 	/// Obtient la position relative du noeud.
-	inline const Vecteur3& obtenirPositionRelative() const;
-
-	/// Obtenir la position absolue du noeud.
-	virtual Vecteur3 obtenirPositionAbsolue() const;
+	inline const Vecteur3& getPosition() const {return mPosition;}
 
 	/// Assigne la position relative du noeud.
-    virtual void assignerPositionRelative( const Vecteur3& positionRelative);
-    /// assigne la position relative de l'objet selon la position de son parent
-    virtual void assignerPositionAbsolue( const Vecteur3& positionAbsolue);
+    virtual void assignerPositionRelative( const Vecteur3& positionRelative );
 
 	/// Obtient le type du noeud.
 	inline const std::string& obtenirType() const;
@@ -231,7 +226,7 @@ protected:
 	GLenum           modePolygones_;
 
 	/// Position relative du noeud.
-	mutable Vecteur3  positionRelative_;
+	mutable Vecteur3  mPosition;
 
 	/// Vrai si on doit afficher le noeud.
 	bool             affiche_;
@@ -323,21 +318,7 @@ inline const NoeudComposite* NoeudAbstrait::obtenirParent() const
 	return parent_;
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn inline const Vecteur3& NoeudAbstrait::obtenirPositionRelative(  )
-///
-/// Cette fonction retourne la position relative du noeud par rapport
-/// à son parent.
-///
-///
-/// @return const Vecteur3& : La position relative.
-///
-////////////////////////////////////////////////////////////////////////
-inline const Vecteur3& NoeudAbstrait::obtenirPositionRelative() const
-{
-	return positionRelative_;
-}
+
 
 ////////////////////////////////////////////////////////////////////////
 ///

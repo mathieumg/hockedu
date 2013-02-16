@@ -63,7 +63,7 @@ void NoeudAbstraitTest::testPositionRelative()
 {
 	noeud->assignerPositionRelative(Vecteur3(2.2f, 3.3f, 4.4f));
 
-	Vecteur3 vecteur = noeud->obtenirPositionRelative();
+	Vecteur3 vecteur = noeud->getPosition();
 
 	CPPUNIT_ASSERT( utilitaire::EGAL_ZERO(vecteur[0] - 2.2f) );
 	CPPUNIT_ASSERT( utilitaire::EGAL_ZERO(vecteur[1] - 3.3f) );

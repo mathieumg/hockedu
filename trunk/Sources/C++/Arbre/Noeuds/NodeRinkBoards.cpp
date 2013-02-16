@@ -36,7 +36,7 @@ NodeRinkBoards::NodeRinkBoards( NoeudPoint* n1, NoeudPoint* n2 ):
     assignerEstEnregistrable(false);
     assignerAffiche(false);
 
-    init(n1->positionRelative_,n2->positionRelative_,n1,n2);
+    init(n1->mPosition,n2->mPosition,n1,n2);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -59,7 +59,7 @@ NodeRinkBoards::NodeRinkBoards( NoeudPoint* n, NoeudBut* but, bool haut ):
     assignerEstEnregistrable(false);
     assignerAffiche(false);
 
-    init(n->positionRelative_,
+    init(n->mPosition,
         haut? but->mTopPosition : but->mBottomPosition,
         n,
         but);
@@ -87,7 +87,7 @@ NodeRinkBoards::NodeRinkBoards( NoeudBut* but, NoeudPoint* n, bool haut ):
     assignerAffiche(false);
 
     init(haut? but->mTopPosition : but->mBottomPosition,
-        n->positionRelative_,
+        n->mPosition,
         n,
         but);
 }

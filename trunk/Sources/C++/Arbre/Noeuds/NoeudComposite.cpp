@@ -454,10 +454,20 @@ void NoeudComposite::assignerModePolygones( GLenum modePolygones )
 ////////////////////////////////////////////////////////////////////////
 void NoeudComposite::afficherConcret() const
 {
+    glPushMatrix();
+    glPushAttrib(GL_CURRENT_BIT | GL_POLYGON_BIT);
+
+    // Assignation du mode d'affichage des polygones
+    glPolygonMode( GL_FRONT_AND_BACK, modePolygones_ );
+
+    // Affichage concret
     NoeudAbstrait::afficherConcret();
 
-    DrawChild();
+    // Restauration
+    glPopAttrib();
+    glPopMatrix();
 
+    DrawChild();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -494,27 +504,6 @@ void NoeudComposite::animer( const float& dt )
 void NoeudComposite::acceptVisitor( VisiteurNoeud& v )
 {
 	v.visiterNoeudComposite(this);
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn Vecteur3 NoeudComposite::obtenirPositionAbsolue(  )
-///
-/// Retourne la position absolue du noeud.
-///
-///
-/// @return Vecteur3 : le vecteur contenant la position absolue.
-///
-////////////////////////////////////////////////////////////////////////
-Vecteur3 NoeudComposite::obtenirPositionAbsolue() const
-{
-
-	Vecteur3 positionAbsolue = this->obtenirPositionRelative();
-	if(parent_ != 0 && parent_->obtenirType()!="racine")
-	{
-		positionAbsolue+=parent_->obtenirPositionAbsolue();
-	}
-	return positionAbsolue;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -716,7 +705,7 @@ void NoeudComposite::DrawChild() const
 {
     for (ConteneurNoeuds::const_iterator it = enfants_.begin(); it != enfants_.end(); ++it)
     {
-        (*it)->afficherConcret();
+        (*it)->afficher();
     }
 }
 

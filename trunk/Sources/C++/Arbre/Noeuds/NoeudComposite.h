@@ -91,9 +91,6 @@ public:
 	/// Accueil un visiteur
 	virtual void acceptVisitor( VisiteurNoeud& v);
 
-	/// Retourne la position absolue dans la scene
-	virtual Vecteur3 obtenirPositionAbsolue() const;
-
 	/// Retourne le conteneur d'enfant du noeud courant
 	ConteneurNoeuds obtenirEnfants() { return enfants_; }
 

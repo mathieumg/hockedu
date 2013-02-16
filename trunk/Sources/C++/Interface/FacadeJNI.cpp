@@ -1278,7 +1278,7 @@ JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationTournoiJNI_obteni
 		jobject p=env->NewObject(point,creerPoint);
 
 		NoeudPoint* pp=table->obtenirPoint(i);
-		Vecteur3 vv=pp->obtenirPositionAbsolue();
+		Vecteur3 vv=pp->getPosition();
 		
 		env->CallVoidMethod(p, setLocation, vv[VX], vv[VY]);
 		env->CallBooleanMethod(arrayPoints, add, p);

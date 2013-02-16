@@ -90,16 +90,8 @@ NoeudAccelerateur::~NoeudAccelerateur()
 ////////////////////////////////////////////////////////////////////////
 void NoeudAccelerateur::afficherConcret() const
 {
-    // Sauvegarde de la matrice.
-    glPushMatrix();
-    glPushAttrib(GL_ALL_ATTRIB_BITS);
-
 	// Appel à la version de la classe de base pour l'affichage des enfants.
 	NoeudAbstrait::afficherConcret();
-
-    // Restauration de la matrice.
-    glPopAttrib();
-    glPopMatrix();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -191,7 +183,7 @@ bool NoeudAccelerateur::initialiser( const XmlElement* element )
 void NoeudAccelerateur::gestionCollision( const float& temps )
 {
 	NoeudRondelle* rondelle = FacadeModele::getInstance()->obtenirRondelle();
-	Vecteur3 distance = obtenirPositionAbsolue()- rondelle->obtenirPositionAbsolue();
+	Vecteur3 distance = getPosition()- rondelle->getPosition();
 	float rayon = obtenirRayon()+rondelle->obtenirRayon();
 	if(distance.norme2() > rayon*rayon+25)
 	{
@@ -235,7 +227,7 @@ void NoeudAccelerateur::updatePhysicBody()
 
         b2BodyDef myBodyDef;
         myBodyDef.type = b2_staticBody; //this will be a dynamic body
-        Vecteur3 pos = obtenirPositionAbsolue();
+        const Vecteur3& pos = getPosition();
         b2Vec2 posB2;
         utilitaire::VEC3_TO_B2VEC(pos,posB2);
         myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position

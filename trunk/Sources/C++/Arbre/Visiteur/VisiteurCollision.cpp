@@ -39,7 +39,7 @@ VisiteurCollision::VisiteurCollision( NoeudAbstrait* noeudAVerifier , bool flag 
 	collision_ = false;
 	noeudAVerifier_ = noeudAVerifier;
 	noeudAVerifier->assignerAttributVisiteurCollision(this);
-	positionAVerifier_ = noeudAVerifier->obtenirPositionAbsolue().convertir<2>();
+	positionAVerifier_ = noeudAVerifier->getPosition().convertir<2>();
 
 
 	/// PAS OUBLIER DE REINITIALISER LES NOUVELLES VARIABLE DANS LA METHODE REINITIALISER
@@ -208,14 +208,14 @@ void VisiteurCollision::visiterNoeudBut( NoeudBut* noeud )
 	case SEGMENT:
 		{
 			aidecollision::DetailsCollision detailsCollision1 =aidecollision::calculerCollisionSegmentSegment(
-				noeud->obtenirParent()->obtenirPositionAbsolue().convertir<2>(),
+				noeud->obtenirParent()->getPosition().convertir<2>(),
 				noeud->obtenirPositionHaut().convertir<2>(),
 				coin1_.convertir<2>(),
 				coin2_.convertir<2>(),
 				Vecteur2()	// Pas besoin de connaitre le point d'intersection des segments
 				);
 			aidecollision::DetailsCollision detailsCollision2 =aidecollision::calculerCollisionSegmentSegment(
-				noeud->obtenirParent()->obtenirPositionAbsolue().convertir<2>(),
+				noeud->obtenirParent()->getPosition().convertir<2>(),
 				noeud->obtenirPositionBas().convertir<2>(),
 				coin1_.convertir<2>(),
 				coin2_.convertir<2>(),
@@ -249,8 +249,8 @@ void VisiteurCollision::visiterNoeudBut( NoeudBut* noeud )
 			break;
 		}
 	default: // Aussi pour cercle
-		aidecollision::DetailsCollision detailsCollision1 = aidecollision::calculerCollisionSegment(noeud->obtenirParent()->obtenirPositionAbsolue(), noeud->obtenirPositionHaut(), positionAVerifier_.convertir<3>(), rayonAVerifier_);
-		aidecollision::DetailsCollision detailsCollision2 = aidecollision::calculerCollisionSegment(noeud->obtenirParent()->obtenirPositionAbsolue(), noeud->obtenirPositionBas(), positionAVerifier_.convertir<3>(), rayonAVerifier_);
+		aidecollision::DetailsCollision detailsCollision1 = aidecollision::calculerCollisionSegment(noeud->obtenirParent()->getPosition(), noeud->obtenirPositionHaut(), positionAVerifier_.convertir<3>(), rayonAVerifier_);
+		aidecollision::DetailsCollision detailsCollision2 = aidecollision::calculerCollisionSegment(noeud->obtenirParent()->getPosition(), noeud->obtenirPositionBas(), positionAVerifier_.convertir<3>(), rayonAVerifier_);
 		
 		if(detailsCollision1.type == aidecollision::COLLISION_AUCUNE && detailsCollision2.type == aidecollision::COLLISION_AUCUNE)
 			break;
@@ -447,7 +447,7 @@ void VisiteurCollision::detectionCollisionCercleCercle( NoeudAbstrait* noeud )
 	if(noeud == noeudAVerifier_)
 		return;
 
-	aidecollision::DetailsCollision detailsCollision = aidecollision::calculerCollisionSphere(positionAVerifier_.convertir<3>(),rayonAVerifier_,noeud->obtenirPositionAbsolue(),noeud->obtenirRayon());
+	aidecollision::DetailsCollision detailsCollision = aidecollision::calculerCollisionSphere(positionAVerifier_.convertir<3>(),rayonAVerifier_,noeud->getPosition(),noeud->obtenirRayon());
 
 	if(detailsCollision.type != aidecollision::COLLISION_AUCUNE)
 	{
@@ -496,9 +496,9 @@ void VisiteurCollision::detectionCollisionCercleSegment( NoeudAbstrait* noeud )
 	if(noeud == noeudAVerifier_)
 		return;
 
-	Vecteur3 positionNoeudCercle = noeud->obtenirPositionAbsolue();
+	const Vecteur3& positionNoeudCercle = noeud->getPosition();
 
-	aidecollision::DetailsCollision detailsCollision = aidecollision::calculerCollisionSegment(coin1_, coin2_, noeud->obtenirPositionAbsolue(), noeud->obtenirRayon());
+	aidecollision::DetailsCollision detailsCollision = aidecollision::calculerCollisionSegment(coin1_, coin2_, noeud->getPosition(), noeud->obtenirRayon());
 	if(detailsCollision.type!=aidecollision::COLLISION_AUCUNE)
 	{
 		collision_ = true;
@@ -564,7 +564,7 @@ void VisiteurCollision::reinitialiser()
 	noeudsCollision_.clear();
 	conteneurDetailsCollision.clear();
 	noeudAVerifier_->assignerAttributVisiteurCollision(this);
-	positionAVerifier_ = noeudAVerifier_->obtenirPositionAbsolue().convertir<2>();
+	positionAVerifier_ = noeudAVerifier_->getPosition().convertir<2>();
 }
 
 ////////////////////////////////////////////////////////////////////////
