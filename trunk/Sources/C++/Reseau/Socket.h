@@ -2,15 +2,17 @@
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#include <memory>
 #pragma comment(lib, "ws2_32.lib")
 #else
 #include <sys/socket.h>
+#include <tr1/memory>
 #endif
 #include <iostream>
 #include <stdio.h>
 #include <stdint.h>
 #include <stdexcept>
-#include <memory>
+
 
 enum InternetProtocol {IPv4 = AF_INET, IPv6 = AF_INET6, UNSPECIFIED = AF_UNSPEC};
 enum ConnectionType {UDP, TCP};
@@ -22,7 +24,7 @@ enum SocketFlags
     SOCKET_FLAGS_PENDING_CANCEL = (1<<1),
 };
 
-class Socket : public std::enable_shared_from_this<Socket>
+class Socket : public std::tr1::enable_shared_from_this<Socket>
 {
 public:
 	Socket(const std::string& pDestinationIP, const int& pPortNumber, ConnectionType conType = TCP, InternetProtocol ipProtocol = IPv4);
@@ -44,7 +46,7 @@ public:
 	static void freeaddrinfo(addrinfo* addr);
 	void setsockopt(uint32_t level, uint32_t optionName, uint8_t* optionValue, uint32_t optionSize);
     void setSocketInfo(sockaddr_in* pSockInfo);
-	
+
 	std::string getAdresseSource() const;
 	std::string getAdresseDestination() const;
 
@@ -71,7 +73,7 @@ public:
     inline void flagToCancel() { mFlags |= SOCKET_FLAGS_PENDING_CANCEL; }
     inline void removeCancelFlag(){  mFlags &= ~SOCKET_FLAGS_PENDING_CANCEL; }
 private:
-    
+
     HANDLE mMutexActiviteSocket;
     int mFlags;
 

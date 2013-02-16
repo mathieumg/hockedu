@@ -11,7 +11,6 @@
 #pragma once
 #include <string>
 #include "Singleton.h"
-#include <winerror.h>
 #include <map>
 #include "Socket.h"
 #include "ExceptionsReseau\ExceptionReseau.h"
@@ -32,15 +31,15 @@ enum ByteOrder {NATIVE, LITTLE_ENDIAN, BIG_ENDIAN, UNKNOWN};
 enum ExceptionTypes {GLOBALE, PARAMETRE_INVALIDE, SOCKET_DECONNECTE, TIMEOUT, TYPE_NOT_DEFINED, AUCUNE_ERREUR};
 
 enum EventCodes {
-    USER_ALREADY_CONNECTED, 
-    USER_DID_NOT_SEND_NAME_ON_CONNECTION, 
-    USER_CONNECTED, 
-    USER_DISCONNECTED, 
+    USER_ALREADY_CONNECTED,
+    USER_DID_NOT_SEND_NAME_ON_CONNECTION,
+    USER_CONNECTED,
+    USER_DISCONNECTED,
         INVALID_USERNAME = USER_DISCONNECTED, // Pour eviter d'avoir a changer le handling pour le prototype. Mettre 2 enums separes pour la version finale
     CONNECTION_CANCELED,
-    RECONNECTION_TIMEOUT, 
-    RECONNECTION_IN_PROGRESS, 
-    WRONG_PASSWORD, 
+    RECONNECTION_TIMEOUT,
+    RECONNECTION_IN_PROGRESS,
+    WRONG_PASSWORD,
     CHAT_MESSAGE_RECEIVED,
     SERVER_USER_CONNECTED,
     SERVER_USER_DISCONNECTED,
@@ -108,7 +107,7 @@ public:
 	// Get the server socket observer
 	void setSocketConnectionStateCallback(SocketConnectionStateCallback val) { mSocketStateCallback = val; }
 	void socketConnectionStateEvent(SPSocket pSocket, ConnectionStateEvent& pEvent);
-	
+
     // Methode pour configurer le Controlleur a associer avec la Modele
     inline void setController(ControllerInterface* pController) {mControlleur = pController;}
     inline ControllerInterface* getController() const {return mControlleur;}
@@ -118,7 +117,7 @@ public:
 
 	// Methode pour ajouter une operation reseau (ex: deplacerNoeud). Le handler doit etre fourni ainsi que l'usine pour creer les noeuds
 	void ajouterOperationReseau(const PacketTypes pNomOperation, PacketHandler* pPacketHandler, UsinePaquet* pUsine);
-	
+
 	// Verifie le type de socket et utilise le bon communicateurReseau afin de transmettre la message
     void envoyerPaquet(SPSocket pSocketAUtiliser, Paquet* pPaquet);
 	void envoyerPaquet(const std::string& pPlayerName, Paquet* pPaquet, ConnectionType pConnectionType);
@@ -141,7 +140,7 @@ public:
 
 	// Methode pour obtenir le socket associe a un nom de joueur
 	SPSocket getSocket(const std::string& pNomJoueur, ConnectionType pConnectionType);
-	
+
 	// Methode pour enlever le Socket de la liste de sockets valides
 	void removeSocket(const std::string& pNomJoueur, ConnectionType pConnectionType);
     void removeSocket(SPSocket pSocket); // Pas optimal, mais necessaire dans certains cas
@@ -167,7 +166,7 @@ public:
     void transmitEvent(int pMessageCode, ...) const;
 
 	void gererExceptionReseau(ExceptionReseau* pException) const;
-    
+
     //Determines native byte order of a system.
 	static void determineNativeByteOrder();
 	//Returns system native byte order
@@ -184,14 +183,14 @@ public:
     //Contains the operating system's byte order.
 	static ByteOrder NATIVE_BYTE_ORDER;
 private:
-    
+
 
     // Methode de nettoyage
 	void supprimerPacketHandlersEtUsines();
 
     // Controlleur associe au modele
     ControllerInterface* mControlleur;
-	
+
 
 	// Liste des handlers pour les paquets
 	std::map<PacketTypes, PacketHandler*> mListeHandlers;
