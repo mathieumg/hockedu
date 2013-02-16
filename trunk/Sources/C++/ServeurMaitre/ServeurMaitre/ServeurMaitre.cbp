@@ -114,7 +114,9 @@
 		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetTest.h" />
 		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetUserStatus.h" />
 		<Extensions>
-			<code_completion />
+			<code_completion>
+				<search_path add="../../../../Commun/Utilitaire" />
+			</code_completion>
 			<debugger />
 		</Extensions>
 	</Project>

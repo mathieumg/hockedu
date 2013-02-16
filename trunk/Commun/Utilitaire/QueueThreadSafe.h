@@ -10,9 +10,17 @@
 
 #pragma once
 #include <queue>
+
+
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+// Includes pour les mutex en WIN API
 #define _WINSOCKAPI_
 #include <Windows.h>
+#else
+#include <pthread.h>
+// Includes pour mutex en linux
 
+#endif
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class QueueThreadSafe
@@ -34,11 +42,18 @@ public:
 private:
 	void getMutex() const;
 	void releaseMutex() const;
-
+    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 	HANDLE mMutex;
+	#else
+	pthread_mutex_t mMutex;
+	#endif
 	std::queue<T> mFile;
 	unsigned int mMaxBufferSize;
 };
+
+
+
+
 
 template <typename T>
 bool QueueThreadSafe<T>::pop( T& pOutElem )
@@ -59,7 +74,11 @@ bool QueueThreadSafe<T>::pop( T& pOutElem )
 template <typename T>
 QueueThreadSafe<T>::QueueThreadSafe(unsigned int pMaxBufferSize /*= 0 */):mMaxBufferSize(pMaxBufferSize)
 {
+    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 	mMutex = CreateMutex(NULL, FALSE, NULL);
+	#else
+	pthread_mutex_init (&mMutex, NULL);
+	#endif
 }
 
 
@@ -85,19 +104,27 @@ bool QueueThreadSafe<T>::push( T element )
 // 	mFile.pop();
 // 	releaseMutex();
 // 	return buf;
-// 	
+//
 // }
 
 template <typename T>
 void QueueThreadSafe<T>::releaseMutex() const
 {
+    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 	ReleaseMutex(mMutex);
+	#else
+	pthread_mutex_unlock (&mMutex);
+	#endif
 }
 
 template <typename T>
 void QueueThreadSafe<T>::getMutex() const
 {
+    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 	WaitForSingleObject(mMutex,INFINITE);
+	#else
+	pthread_mutex_lock (&mMutex);
+	#endif
 }
 
 

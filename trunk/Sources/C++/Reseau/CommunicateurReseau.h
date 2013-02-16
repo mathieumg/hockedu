@@ -11,7 +11,6 @@
 #pragma once
 #include <string>
 #include <queue>
-#include <concrt.h>
 #include "Socket.h"
 #include <list>
 #include <map>
