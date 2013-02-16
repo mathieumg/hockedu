@@ -820,7 +820,7 @@ bool NoeudAbstrait::initialiser( const XmlElement* element )
     
 	if( !XMLUtils::readArray(pos.c_arr(),3,element,"pos") )
 		return false;
-	assignerPositionRelative(pos);
+	setPosition(pos);
     if( !XMLUtils::readArray(echelleCourante_.c_arr(),3,element,"echelle") )
         return false;
 
@@ -857,7 +857,7 @@ void NoeudAbstrait::modifierTerrain( Terrain* val )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::assignerPositionRelative( const Vecteur3& positionRelative )
+/// @fn void NoeudAbstrait::setPosition( const Vecteur3& positionRelative )
 ///
 /// /*Description*/
 ///
@@ -866,7 +866,7 @@ void NoeudAbstrait::modifierTerrain( Terrain* val )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::assignerPositionRelative( const Vecteur3& positionRelative )
+void NoeudAbstrait::setPosition( const Vecteur3& positionRelative )
 {
     mPosition = positionRelative;
 #if BOX2D_INTEGRATED  

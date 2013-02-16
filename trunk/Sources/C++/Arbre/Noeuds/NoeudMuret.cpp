@@ -218,7 +218,7 @@ void NoeudMuret::modifierEchelleCourante( const Vecteur3& echelleCourante )
 ////////////////////////////////////////////////////////////////////////
 void NoeudMuret::assignerPositionRelative( const Vecteur3& positionRelative )
 {
-	Super::assignerPositionRelative(positionRelative);
+	Super::setPosition(positionRelative);
 	majPosCoins();
 }
 

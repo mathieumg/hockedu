@@ -139,10 +139,10 @@ void SourisEtatAjoutMuretRelatif::sourisDeplacee( EvenementSouris& evenementSour
         FacadeModele::getInstance()->convertirClotureAVirtuelle(positionSouris[VX],positionSouris[VY],positionVirtuelle);
 
 
-        mCurrentPoint->assignerPositionAbsolue(positionVirtuelle);
+        mCurrentPoint->setPosition(positionVirtuelle);
         std::for_each(mControlPoints.begin(),mControlPoints.end(),[&](NodeControlPoint* point)
             {
-                point->assignerPositionAbsolue(positionVirtuelle);
+                point->setPosition(positionVirtuelle);
             });
 
 		// Appel pour faire le surlignement

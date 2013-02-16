@@ -160,7 +160,7 @@ void SourisEtatAjoutMuret::sourisDeplacee( EvenementSouris& evenementSouris )
 		// On affiche la forme de base
 		positionSouris=evenementSouris.obtenirPosition();
 		FacadeModele::getInstance()->convertirClotureAVirtuelle(positionSouris[VX],positionSouris[VY],positionVirtuelle);
-		noeud_->assignerPositionRelative(positionVirtuelle);
+		noeud_->setPosition(positionVirtuelle);
 		break;
 	case PLACERPOINT2:
 		// On affiche la forme modifiee

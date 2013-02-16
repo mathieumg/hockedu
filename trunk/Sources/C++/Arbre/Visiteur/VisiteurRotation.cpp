@@ -109,7 +109,7 @@ void VisiteurRotation::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 	Vecteur2 posInverse(-noeud->getPosition()[VX], -noeud->getPosition()[VY]);
 	VisiteurDeplacement visiteurDeplacement(posInverse);
 	noeud->acceptVisitor(visiteurDeplacement);
-	noeud->assignerPositionRelative(Vecteur3(varDeplacement[VX], varDeplacement[VY], 0));
+	noeud->setPosition(Vecteur3(varDeplacement[VX], varDeplacement[VY], 0));
 
 
 	// Il faut recalculer la matrice de transformation

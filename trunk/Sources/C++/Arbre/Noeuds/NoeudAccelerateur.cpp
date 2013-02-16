@@ -270,7 +270,7 @@ void NoeudAccelerateur::updatePhysicBody()
 void NoeudAccelerateur::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
 {
     if(pAnimationResult.CanUpdatedPosition())
-        assignerPositionRelative(pAnimationResult.mPosition);
+        setPosition(pAnimationResult.mPosition);
     if(pAnimationResult.CanUpdatedAngle())
         mAngle = pAnimationResult.mAngle[VZ];
     if(pAnimationResult.CanUpdatedScale())

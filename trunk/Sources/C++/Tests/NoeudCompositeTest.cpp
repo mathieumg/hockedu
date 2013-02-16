@@ -319,21 +319,21 @@ void NoeudCompositeTest::positionAbsolueTest()
 		NoeudAbstrait* n = arbre->creerNoeud(TABLEAU_NOMS[i]);
 		if(n != 0)
 		{
-			n->assignerPositionRelative(Vecteur3(100.0,100.0));
+			n->setPosition(Vecteur3(100.0,100.0));
 			racine->ajouter(n);
 			vec.push_back(n);
 		}
 	}
-	racine->assignerPositionRelative(Vecteur3(0.0,0.0));
+	racine->setPosition(Vecteur3(0.0,0.0));
 
 	for(unsigned int i =0; i< vec.size(); i++)
 		CPPUNIT_ASSERT(vec[i]->getPosition() == Vecteur3(100.0,100.0));
 
-	racine->assignerPositionRelative(Vecteur3(-50.0,25.0));
+	racine->setPosition(Vecteur3(-50.0,25.0));
 	for(unsigned int i =0; i< vec.size(); i++)
 		CPPUNIT_ASSERT(vec[i]->getPosition() == Vecteur3(50.0,125.0));
 
-	racine->assignerPositionRelative(Vecteur3(20.0,-25.0));
+	racine->setPosition(Vecteur3(20.0,-25.0));
 	for(unsigned int i =0; i< vec.size(); i++)
 		CPPUNIT_ASSERT(vec[i]->getPosition() == Vecteur3(120.0,75.0));
 }

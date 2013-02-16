@@ -29,7 +29,7 @@ PRAGMA_DISABLE_OPTIMIZATION
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeControlPoint::NodeControlPoint( const std::string& typeNoeud, NoeudAbstrait* pLinkedObject/*= NULL*/  ):
-mLinkedObject(pLinkedObject),mCanBeVisited(true)
+Super(typeNoeud),mLinkedObject(pLinkedObject),mCanBeVisited(true)
 {
 
 }
@@ -116,13 +116,13 @@ void NodeControlPoint::flagSelectedAssociatedPoints() const
     );
 }
 
-// permet d'empecher d'appeler assignerPositionAbsolue a partir de assignerPositionRelative
-// lorsque assignerPositionRelative est appelée par assignerPositionAbsolue
+// permet d'empecher d'appeler assignerPositionAbsolue a partir de setPosition
+// lorsque setPosition est appelée par assignerPositionAbsolue
 bool PositionScopedBool = false;
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NodeControlPoint::assignerPositionRelative( const Vecteur3& positionRelative )
+/// @fn void NodeControlPoint::setPosition( const Vecteur3& positionRelative )
 ///
 /// /*Description*/
 ///
@@ -131,64 +131,11 @@ bool PositionScopedBool = false;
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NodeControlPoint::assignerPositionRelative( const Vecteur3& positionRelative )
+void NodeControlPoint::setPosition( const Vecteur3& positionRelative )
 {
-    Super::assignerPositionRelative(positionRelative);
-    //mPointPosition = getPosition();
+    Super::setPosition(positionRelative);
     signalObservers();
-
-//     if(!mLinkedObject || PositionScopedBool)
-//     {
-//         // assigner la position du point en premier pour que la table puisse l'utiliser à sa mise a jour
-//         Super::assignerPositionRelative(positionRelative);
-//     }
-//     else
-//     {
-//         // appel independant de position absolue, recalcule la position absolue 
-//         Vecteur3 pos = mLinkedObject->getPosition();
-//         assignerPositionAbsolue(pos+positionRelative);
-//     }
 }
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NodeControlPoint::assignerPositionAbsolue( const Vecteur3& positionAbsolue )
-///
-/// /*Description*/
-///
-/// @param[in] const Vecteur3 & positionAbsolue
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NodeControlPoint::assignerPositionAbsolue( const Vecteur3& positionAbsolue )
-{
-//     if(mLinkedObject)
-//     {
-//         PositionScopedBool = true;
-//         // met a jour ses observateurs
-//         mPointPosition = positionAbsolue;
-// 
-//         // la position relative sera mise a joue par l'objet lié
-//         PositionSubject::signalObservers();
-// 
-//         // met a jour sa position relative en fonction de la nouvelle position de son parent
-//         //Super::assignerPositionAbsolue(positionAbsolue);
-//         PositionScopedBool = false;
-//     }
-//     else
-    {
-        assignerPositionRelative(positionAbsolue);
-        //positionRelative_ = positionAbsolue;
-//         mPointPosition = positionAbsolue;
-//         Super::assignerPositionAbsolue(positionAbsolue);
-    }
-}
-
-
-
-
-
 
 
 #ifdef MIKE_BUILD

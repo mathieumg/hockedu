@@ -34,13 +34,11 @@ public:
 	/// Accueil un visiteur
 	virtual void acceptVisitor( VisiteurNoeud& v);
 	/// Assigne la position relative du noeud et alerte ses observers
-    virtual void assignerPositionRelative( const Vecteur3& positionRelative);
-    virtual void assignerPositionAbsolue( const Vecteur3& positionAbsolue);
+    virtual void setPosition( const Vecteur3& positionRelative);
 
     virtual const std::string& get3DModelKey()const { return RazerGameUtilities::NAME_TABLE_CONTROL_POINT; }
 
     /// hack les control point ne connaissent pas leur parent, mais les parent les connaissent
-    virtual void assignerParent( NoeudComposite* parent ){}
     void afficherConcret() const;
 
 private:

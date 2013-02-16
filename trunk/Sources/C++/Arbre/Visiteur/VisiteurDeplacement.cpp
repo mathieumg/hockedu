@@ -20,6 +20,7 @@
 #include "NoeudAccelerateur.h"
 #include "aiScene.h"
 #include "Modele3D.h"
+#include "..\Noeuds\NodeControlPoint.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -91,9 +92,7 @@ void VisiteurDeplacement::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 	if(!ignoreSelection_ && !noeud->estSelectionne())
 		return;
 
-
-	noeud->assignerPositionRelative(noeud->getPosition()+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
-
+	noeud->setPosition(noeud->getPosition()+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
 }
 
 
@@ -309,6 +308,22 @@ void VisiteurDeplacement::visiterNoeudPoint( NoeudPoint* noeud )
 void VisiteurDeplacement::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
 {
 	visiterNoeudAbstrait(noeud);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void VisiteurDeplacement::visiterNodeControlPoint( NodeControlPoint* noeud )
+///
+/// Visitation d'un noeud point de control
+///
+/// @param[in] NodeControlPoint * noeud
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void VisiteurDeplacement::visiterNodeControlPoint( NodeControlPoint* noeud )
+{
+    visiterNoeudAbstrait(noeud);
 }
 
 

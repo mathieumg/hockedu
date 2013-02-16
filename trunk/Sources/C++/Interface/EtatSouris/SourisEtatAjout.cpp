@@ -128,7 +128,7 @@ void SourisEtatAjout::sourisRelachee( EvenementSouris& evenementSouris )
 					Vecteur2i position=evenementSouris.obtenirPosition();
 					Vecteur3 positionVirtuelle;
 					FacadeModele::getInstance()->convertirClotureAVirtuelle(position[VX],position[VY],positionVirtuelle);
-					noeud_->assignerPositionRelative(positionVirtuelle);
+					noeud_->setPosition(positionVirtuelle);
 				}
 			}
 			else
@@ -162,7 +162,7 @@ void SourisEtatAjout::sourisDeplacee( EvenementSouris& evenementSouris )
 
 		Vecteur3 positionVirtuelle;
 		FacadeModele::getInstance()->convertirClotureAVirtuelle(position[VX],position[VY],positionVirtuelle);
-		noeud_->assignerPositionRelative(positionVirtuelle);
+		noeud_->setPosition(positionVirtuelle);
 		FacadeModele::getInstance()->validerPositionNoeud(noeud_, true);
 	}
 }

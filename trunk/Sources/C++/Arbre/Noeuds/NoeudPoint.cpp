@@ -47,7 +47,7 @@ NoeudPoint::NoeudPoint( const std::string& typeNoeud, float coordX, float coordY
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
     // Il ne faut aps utiliser le modificateur de position relative, car il ne faut pas affecter le modele 3D a la construction des points
-    NoeudAbstrait::assignerPositionRelative(Vecteur3(coordX,coordY, 0));
+    NoeudAbstrait::setPosition(Vecteur3(coordX,coordY, 0));
 	modifierPositionInitiale(mPosition);
 }
 
@@ -356,7 +356,7 @@ void NoeudPoint::assignerPositionRelative( const Vecteur3& positionRelative )
 	}
 
     // assigner la position du point en premier pour que la table puisse l'utiliser à sa mise a jour
-    NoeudAbstrait::assignerPositionRelative(positionRelative);
+    NoeudAbstrait::setPosition(positionRelative);
     PositionSubject::signalObservers();
 }
 

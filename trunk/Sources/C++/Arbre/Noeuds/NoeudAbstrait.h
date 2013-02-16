@@ -73,7 +73,7 @@ public:
 	inline const Vecteur3& getPosition() const {return mPosition;}
 
 	/// Assigne la position relative du noeud.
-    virtual void assignerPositionRelative( const Vecteur3& positionRelative );
+    virtual void setPosition( const Vecteur3& positionRelative );
 
 	/// Obtient le type du noeud.
 	inline const std::string& obtenirType() const;
@@ -281,7 +281,7 @@ public:
     /// Accessors of mPhysicBody
     inline class b2Body* getPhysicBody() const { return mPhysicBody; }
 	/// Accesseur de glId_
-	GLuint obtenirGlId() const { return glId_; }
+	inline GLuint obtenirGlId() const { return glId_; }
 
     /// Accessors of mDefaultRadius
     inline float getDefaultRadius() const { return mDefaultRadius; }
@@ -322,7 +322,7 @@ inline const NoeudComposite* NoeudAbstrait::obtenirParent() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn inline void NoeudAbstrait::assignerPositionRelative( const Vecteur3& positionRelative )
+/// @fn inline void NoeudAbstrait::setPosition( const Vecteur3& positionRelative )
 ///
 /// Cette fonction permet d'assigner la position relative du noeud par
 /// rapport à son parent.

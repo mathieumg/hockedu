@@ -164,7 +164,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NodeWallAbstract* noeud 
 		if(unSeulSelect_)
 		{
 			const Vecteur3& oldPos = noeud->getPosition();
-			noeud->assignerPositionRelative(position_);
+			noeud->setPosition(position_);
 			float oldAngle = noeud->obtenirAngle();
 			noeud->assignerAngle((float)rotation_);
 			Vecteur3 oldEchelle; noeud->obtenirEchelleCourante(oldEchelle);
@@ -173,7 +173,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NodeWallAbstract* noeud 
 			// Si on arrive pas à assigner les nouvelles positions on annule les modifications et l'indique à l'usager
 			if(!FacadeModele::getInstance()->ajusterElementEnCollision(noeud,20))
 			{
-				noeud->assignerPositionRelative(oldPos);
+				noeud->setPosition(oldPos);
 				noeud->assignerAngle(oldAngle);
 				noeud->modifierEchelleCourante(oldEchelle);
 				utilitaire::afficherErreur("Nouvelles propriétés du Muret ne sont pas valides");
@@ -415,7 +415,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudNeutre( NoeudAbstrait* noeud )
 		VisiteurDeplacement visiteurDeplacement(deplacement,true);
 		noeud->acceptVisitor(visiteurDeplacement);*/
 		const Vecteur3& oldPos = noeud->getPosition();
-		noeud->assignerPositionRelative(position_);
+		noeud->setPosition(position_);
 
 		float oldAngle = noeud->obtenirAngle();
 		/// On applique la nouvelle rotation
@@ -436,7 +436,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudNeutre( NoeudAbstrait* noeud )
 		/// On regle les nouvelles collision créé
 		if(!FacadeModele::getInstance()->ajusterElementEnCollision(noeud,20))
 		{
-			noeud->assignerPositionRelative(oldPos);
+			noeud->setPosition(oldPos);
 			noeud->assignerAngle(oldAngle);
 			noeud->modifierEchelleCourante(oldEchelle);
 			noeud->updateMatrice();

@@ -61,7 +61,7 @@ void NoeudAbstraitTest::tearDown()
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstraitTest::testPositionRelative()
 {
-	noeud->assignerPositionRelative(Vecteur3(2.2f, 3.3f, 4.4f));
+	noeud->setPosition(Vecteur3(2.2f, 3.3f, 4.4f));
 
 	Vecteur3 vecteur = noeud->getPosition();
 

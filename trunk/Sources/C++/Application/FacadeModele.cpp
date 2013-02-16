@@ -1696,7 +1696,7 @@ bool FacadeModele::ajusterElementEnCollision( NoeudAbstrait* noeud, const unsign
 	if(!insideLimits(noeud))
 	{
 		// Repositionne au centre de la table
-		noeud->assignerPositionRelative(Vecteur3());
+		noeud->setPosition(Vecteur3());
 	}
 
 	VisiteurCollision v(noeud,false);
@@ -1721,7 +1721,7 @@ bool FacadeModele::ajusterElementEnCollision( NoeudAbstrait* noeud, const unsign
 		if(!insideLimits(noeud))
 		{
 			// Repositionne au centre de la table
-			noeud->assignerPositionRelative(Vecteur3());
+			noeud->setPosition(Vecteur3());
 		}
 		v.reinitialiser();
 		acceptVisitor(v);
