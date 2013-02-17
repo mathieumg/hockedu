@@ -9,6 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "NoeudMuretRelatif.h"
+#include "ControlPointMutableAbstract.h"
 
 class NodeControlPoint;
 ///////////////////////////////////////////////////////////////////////////
@@ -19,33 +20,21 @@ class NodeControlPoint;
 /// @author Michael Ferris
 /// @date 2013-02-16
 ///////////////////////////////////////////////////////////////////////////
-class NodeWallEdition : public NoeudMuretRelatif
+class NodeWallEdition : public NoeudMuretRelatif, public ControlPointMutableAbstract
 {
 public:
     typedef NoeudMuretRelatif Super;
 	/// Constructeurs par paramètres
 	NodeWallEdition(const std::string& type);
     ~NodeWallEdition();
+    /// Ajoute un noeud enfant.
+    virtual bool ajouter( NoeudAbstrait* enfant );
+    virtual void afficherConcret()const;
 
-    inline NodeControlPoint* getControlPoint(int i)
-    {
-        if(i < NB_CONTROL_POINTS)
-        {
-            return mPoints[i];
-        }
-        return NULL;
-    }
+    ///////////////////////////////////////////////////////////////////////////
+    /// Implementation interface ControlPointMutableAbstract
+    virtual void modifierEchelle( float facteur );
+    ///////////////////////////////////////////////////////////////////////////
 
-    /// Assigne le parent de ce noeud.
-    virtual void assignerParent( NoeudComposite* parent );
-
-    virtual void updateObserver( PositionSubject* pSubject );
-
-    inline NodeControlPoint** getControlPoints() {return mPoints;}
-    inline unsigned int getNBControlPoint()const {return NB_CONTROL_POINTS;}
-private:
-    static const unsigned int NB_CONTROL_POINTS = 2;
-    /// Control points controlling the wall's corner position
-    NodeControlPoint* mPoints[NB_CONTROL_POINTS];
 };
 

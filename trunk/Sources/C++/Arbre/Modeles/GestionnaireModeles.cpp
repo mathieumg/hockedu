@@ -348,7 +348,8 @@ void GestionnaireModeles::initialiser()
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_RONDELLE,RazerGameUtilities::CreateListDelegatePuck));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_ACCELERATEUR,RazerGameUtilities::CreateListDelegateBoost));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_MAILLET,RazerGameUtilities::CreateListDelegateMallet));
-    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,"point",RazerGameUtilities::CreateListDelegateControlPoint));
+    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,"point",RazerGameUtilities::CreateListDelegateTableControlPoint));
+    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_CONTROL_POINT,"",RazerGameUtilities::CreateListDelegateControlPoint));
     tamponGlobal.vec.push_back(ModelToLoad("pause"));
     tamponGlobal.vec.push_back(ModelToLoad("1"));
     tamponGlobal.vec.push_back(ModelToLoad("2"));
@@ -455,13 +456,17 @@ DWORD WINAPI WorkerLoadModel( LPVOID arg )
 
         const string& modelName = modelInfo.mModelName;
 
-		Modele3D* modele = new Modele3D();
-		if(!modele->charger(RazerGameUtilities::NOM_DOSSIER_MEDIA+modelName+RazerGameUtilities::NOM_EXTENSION))
+        Modele3D* modele = NULL;
+        if(modelName.size())
         {
-            // pop plus tard car on garde une reference sur l'item
-            tampon->vec.pop_back();
-            delete modele;
-            continue;
+            modele = new Modele3D();
+            if(!modele->charger(RazerGameUtilities::NOM_DOSSIER_MEDIA+modelName+RazerGameUtilities::NOM_EXTENSION))
+            {
+                // pop plus tard car on garde une reference sur l'item
+                tampon->vec.pop_back();
+                delete modele;
+                continue;
+            }
         }
         
         GLuint liste = 0;

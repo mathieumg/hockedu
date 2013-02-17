@@ -31,16 +31,14 @@ public:
     virtual ~NoeudMuretRelatif() = 0;
 
 	/// Accesseur du coin1
-	virtual Vecteur3 obtenirCoin1();
+	virtual const Vecteur3& obtenirCoin1() const;
 	/// Accesseur du coin2
-	virtual Vecteur3 obtenirCoin2();
+	virtual const Vecteur3& obtenirCoin2() const;
 
     virtual void updateObserver( PositionSubject* pSubject );
 
 protected:
     void init( const Vecteur3& pCorner1, const Vecteur3& pCorner2,PositionSubject* s1,PositionSubject* s2);
-private:
-	typedef Vecteur3D<const float*> Vecteur3pd;
-	Vecteur3pd coin1_,coin2_;
+	const Vecteur3* coins_[2];
 };
 

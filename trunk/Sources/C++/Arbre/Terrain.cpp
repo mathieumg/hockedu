@@ -51,7 +51,8 @@ Terrain::Terrain(): mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldNam
 	mRenderTree = new RazerGameTree();
 	NoeudAbstrait* piece = new NoeudPiece(RazerGameUtilities::NOM_HOUSE);
 	mRenderTree->ajouter(piece);
-	
+    mRenderTree->modifierTerrain(this);
+
 // 	std::vector<Vecteur3> vec;
 // 	vec.push_back(Vecteur3(-1200,-538,-100.51) );
 // 	vec.push_back(Vecteur3(-1155,-505,-100.51) );
@@ -226,6 +227,7 @@ void Terrain::initialiser( std::string nom )
 
 	// Initialisation des arbres de rendus
 	mNewNodeTree = new ArbreNoeudLibre();
+    mNewNodeTree->modifierTerrain(this);
 
 	initialiserArbreRendu();
 	
@@ -344,9 +346,12 @@ void Terrain::reinitialiser()
 {
 	
 	if(!mNewNodeTree)
+    {
 		mNewNodeTree = new ArbreNoeudLibre();
+    }
 	else
 		mNewNodeTree->vider();
+    mNewNodeTree->modifierTerrain(this);
 
 	initialiserArbreRendu();
 	getZoneEdition().reinitialiser();

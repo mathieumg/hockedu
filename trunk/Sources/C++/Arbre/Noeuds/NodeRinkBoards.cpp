@@ -13,7 +13,7 @@
 #include "NoeudBut.h"
 #include "Utilitaire.h"
 
-#ifdef MIKE_BUILD
+#ifdef MIKE_DEBUG
 PRAGMA_DISABLE_OPTIMIZATION
 #endif
 
@@ -107,7 +107,8 @@ NodeRinkBoards::~NodeRinkBoards()
 
 }
 
-#ifdef MIKE_BUILD
+
+#ifdef MIKE_DEBUG
 PRAGMA_ENABLE_OPTIMIZATION
 #endif
 

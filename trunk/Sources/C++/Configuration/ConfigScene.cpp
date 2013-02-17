@@ -484,7 +484,10 @@ void ConfigScene::ecrireArbre(NoeudAbstrait* parentNoeud, const XmlNode* node)
 		{
 			throw std::runtime_error("Type de noeud inexistant");
 		}
-		parentNoeud->ajouter(noeudCourant);
+		if(!parentNoeud->ajouter(noeudCourant))
+        {
+            throw std::runtime_error("Incapable d'ajouter le noeud au parent");
+        }
 	}
 	if(!noeudCourant->initialiser(elem))
 	{

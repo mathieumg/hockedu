@@ -33,7 +33,7 @@ class TerrainTest : public CppUnit::TestFixture
 	// =================================================================
 	CPPUNIT_TEST_SUITE( TerrainTest );
 	CPPUNIT_TEST( testInitialiser );
-	CPPUNIT_TEST( testVerifierValiditer );
+    CPPUNIT_TEST( testVerifierValiditer );
 	CPPUNIT_TEST_SUITE_END();
 
 public:

@@ -17,8 +17,8 @@
 #include "FacadeModele.h"
 #include "XMLUtils.h"
 #include "Utilitaire.h"
+#include "NoeudRondelle.h"
 
-//const Vecteur3 NoeudBut::DEFAULT_SIZE = Vecteur3(1,1,1);
 const Vecteur3 NoeudBut::DEFAULT_SIZE = Vecteur3(30, 10, 5);
 
 CreateListDelegateImplementation(Goal)
@@ -49,7 +49,7 @@ CreateListDelegateImplementation(Goal)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudBut::NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHaut, NoeudPoint * coinBas, NoeudComposite* pParent)
-   : NoeudComposite(typeNoeud), joueur_(joueur), coinHaut_(coinHaut), coinBas_(coinBas), mBottomAngle(0),mTopAngle(0), mPuckCatcher(NULL),mCachedPuckRadius(20.f)
+   : NoeudComposite(typeNoeud), joueur_(joueur), coinHaut_(coinHaut), coinBas_(coinBas), mBottomAngle(0),mTopAngle(0), mPuckCatcher(NULL),mCachedPuckRadius(NoeudRondelle::DEFAULT_RADIUS)
 {
     if(pParent)
     {
@@ -57,7 +57,6 @@ NoeudBut::NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHa
     }
 
 	mGoalLength = DEFAULT_SIZE[VX];
-	//echelleCourante_ = Vecteur3(30, 5, 5);
     updateLongueur();
 }
 

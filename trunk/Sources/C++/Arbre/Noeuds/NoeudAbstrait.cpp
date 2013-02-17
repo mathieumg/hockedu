@@ -639,7 +639,6 @@ void NoeudAbstrait::updateMatrice()
 	glGetDoublev(GL_MODELVIEW_MATRIX, matrice_); // Savegarde de la matrice courante dans le noeud
 
 	glPopMatrix();
-	updateRayon();
 }
 
 ////////////////////////////////////////////////////////////////////////

@@ -73,10 +73,11 @@ public:
 
    /// La chaîne représentant le type des points de controle de la table.
    static const std::string NAME_TABLE_CONTROL_POINT;
-   CreateListDelegateSignature(ControlPoint);
+   CreateListDelegateSignature(TableControlPoint);
 
    /// La chaîne représentant le type des points de controle d'objet.
    static const std::string NAME_CONTROL_POINT;
+   CreateListDelegateSignature(ControlPoint);
 
    /// La chaîne représentant le type des Groupes.
    static const std::string NOM_GROUPE;

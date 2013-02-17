@@ -18,7 +18,7 @@
 
 class NoeudAbstrait;
 class UsineNoeud;
-
+class TerrainTest;
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class ArbreRendu
@@ -39,6 +39,7 @@ class UsineNoeud;
 class ArbreRendu : public NoeudComposite
 {
 public:
+    friend TerrainTest;
    /// Constructeur par défaut.
    ArbreRendu();
    /// Destructeur.

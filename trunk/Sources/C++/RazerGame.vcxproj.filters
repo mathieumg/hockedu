@@ -476,6 +476,9 @@
     <ClCompile Include="Interface\EtatSouris\SourisEtatAjoutMuretRelatif.cpp">
       <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClCompile>
+    <ClCompile Include="Arbre\Noeuds\ControlPointMutableAbstract.cpp">
+      <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -894,6 +897,9 @@
     </ClInclude>
     <ClInclude Include="Interface\EtatSouris\SourisEtatAjoutMuretRelatif.h">
       <Filter>Sources Files\Interface\EtatSouris</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Noeuds\ControlPointMutableAbstract.h">
+      <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

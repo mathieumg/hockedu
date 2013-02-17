@@ -29,7 +29,7 @@ public:
 	/// Constructeur par paramètre
 	SourisEtatAjoutMuretRelatif();
     /// asks the node to give the next control point to modify
-    void getNextControlPoint();
+    bool createNextControlPoint();
     /// Destructeur virtuel
 	virtual ~SourisEtatAjoutMuretRelatif(void);
 
@@ -44,9 +44,7 @@ public:
     virtual void genererNoeud();
 
 private : 
-    std::vector<class NodeControlPoint*> mControlPoints;
     class NodeControlPoint* mCurrentPoint;
-
 };
 
 ///////////////////////////////////////////////////////////////////////////////

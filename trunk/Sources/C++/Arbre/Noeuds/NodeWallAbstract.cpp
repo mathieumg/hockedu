@@ -18,7 +18,7 @@
 #include "XMLUtils.h"
 #include "GestionnaireModeles.h"
 
-#ifdef MIKE_BUILD
+#ifdef MIKE_DEBUG
 PRAGMA_DISABLE_OPTIMIZATION
 #endif
 
@@ -286,7 +286,7 @@ void NodeWallAbstract::updateWallProperties()
 }
 
 
-#ifdef MIKE_BUILD
+#ifdef MIKE_DEBUG
 PRAGMA_ENABLE_OPTIMIZATION
 #endif
 

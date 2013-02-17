@@ -35,9 +35,9 @@ public:
    /// Affiche le muret.
    virtual void afficherConcret() const;
    /// Accesseur du coin1
-   virtual Vecteur3 obtenirCoin1() = 0;
+   virtual const Vecteur3& obtenirCoin1() const = 0;
    /// Accesseur du coin2
-   virtual Vecteur3 obtenirCoin2() = 0;
+   virtual const Vecteur3& obtenirCoin2() const = 0;
    /// updates angle, scale and position according to its corners
    virtual void updateWallProperties();
 

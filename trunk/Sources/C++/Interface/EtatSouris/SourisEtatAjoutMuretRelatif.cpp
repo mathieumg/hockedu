@@ -15,7 +15,9 @@
 #include "SourisEtatAjout.h"
 #include "Terrain.h"
 
-
+#ifdef MIKE_DEBUG
+PRAGMA_DISABLE_OPTIMIZATION
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -31,16 +33,22 @@
 SourisEtatAjoutMuretRelatif::SourisEtatAjoutMuretRelatif():
     SourisEtatAjout(RazerGameUtilities::NAME_RELATIVE_WALL),mCurrentPoint(NULL)
 {
-    mControlPoints.clear();
-    NodeWallEdition *wall = dynamic_cast<NodeWallEdition *>(noeud_);
-    if (wall)
+    if(!createNextControlPoint())
     {
-        mControlPoints.resize(wall->getNBControlPoint());
-        for(unsigned int i=0; i < wall->getNBControlPoint(); ++i)
+        if(noeud_)
         {
-            mControlPoints[i] = wall->getControlPoint(i);
+            if(noeud_->GetTerrain())
+            {
+                noeud_->GetTerrain()->retirerNoeudTemp(noeud_);
+            }
+            delete noeud_;
+            noeud_ = NULL;
         }
-        getNextControlPoint();
+        if(mCurrentPoint)
+        {
+            delete mCurrentPoint;
+            mCurrentPoint = NULL;
+        }
     }
 }
 
@@ -105,14 +113,28 @@ void SourisEtatAjoutMuretRelatif::sourisRelachee( EvenementSouris& evenementSour
     showInvalidText(false);
 
 
-    getNextControlPoint();
-    if(!mCurrentPoint)
+    if(!createNextControlPoint())
     {
-        // nous avons utiliser tous les point de controle
-        FacadeModele::getInstance()->getTerrain()->transfererNoeud(noeud_);
+        noeud_->GetTerrain()->transfererNoeud(noeud_);
         genererNoeud();
+        if(!createNextControlPoint())
+        {
+            if(noeud_)
+            {
+                if(noeud_->GetTerrain())
+                {
+                    noeud_->GetTerrain()->retirerNoeudTemp(noeud_);
+                }
+                delete noeud_;
+                noeud_ = NULL;
+            }
+            if(mCurrentPoint)
+            {
+                delete mCurrentPoint;
+                mCurrentPoint = NULL;
+            }
+        }
     }
-
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -138,12 +160,7 @@ void SourisEtatAjoutMuretRelatif::sourisDeplacee( EvenementSouris& evenementSour
         Vecteur3 positionVirtuelle;
         FacadeModele::getInstance()->convertirClotureAVirtuelle(positionSouris[VX],positionSouris[VY],positionVirtuelle);
 
-
         mCurrentPoint->setPosition(positionVirtuelle);
-        std::for_each(mControlPoints.begin(),mControlPoints.end(),[&](NodeControlPoint* point)
-            {
-                point->setPosition(positionVirtuelle);
-            });
 
 		// Appel pour faire le surlignement
 		FacadeModele::getInstance()->validerPositionNoeud(noeud_, true);
@@ -152,7 +169,7 @@ void SourisEtatAjoutMuretRelatif::sourisDeplacee( EvenementSouris& evenementSour
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void SourisEtatAjoutMuretRelatif::getNextControlPoint()
+/// @fn void SourisEtatAjoutMuretRelatif::createNextControlPoint()
 ///
 /// /*Description*/
 ///
@@ -160,17 +177,32 @@ void SourisEtatAjoutMuretRelatif::sourisDeplacee( EvenementSouris& evenementSour
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void SourisEtatAjoutMuretRelatif::getNextControlPoint()
+bool SourisEtatAjoutMuretRelatif::createNextControlPoint()
 {
-    if(!mControlPoints.empty())
+    ControlPointMutableAbstract* controlNode = dynamic_cast<ControlPointMutableAbstract*>(noeud_);
+    if(controlNode)
     {
-        mCurrentPoint = mControlPoints.back();
-        mControlPoints.pop_back();
+        if(controlNode->getMaxControlPoints() == 0)
+        {
+            if(noeud_->GetTerrain())
+            {
+                noeud_->GetTerrain()->retirerNoeudTemp(noeud_);
+                delete noeud_;
+                noeud_  = NULL;
+                return false;
+            }
+            delete noeud_; 
+            return false;
+        }
+        if(controlNode->getNBControlPoint() < controlNode->getMaxControlPoints())
+        {
+            mCurrentPoint = new NodeControlPoint(RazerGameUtilities::NAME_CONTROL_POINT);
+            bool res = noeud_->ajouter(mCurrentPoint);
+            checkf(res);
+            return res;
+        }
     }
-    else
-    {
-        mCurrentPoint = NULL;
-    }
+    return false;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -186,21 +218,11 @@ void SourisEtatAjoutMuretRelatif::getNextControlPoint()
 void SourisEtatAjoutMuretRelatif::genererNoeud()
 {
     Super::genererNoeud();
-    mControlPoints.clear();
-    NodeWallEdition *wall = dynamic_cast<NodeWallEdition *>(noeud_);
-    if (wall)
-    {
-        mControlPoints.resize(wall->getNBControlPoint());
-    	for(unsigned int i=0; i < wall->getNBControlPoint(); ++i)
-        {
-            mControlPoints[i] = wall->getControlPoint(i);
-        }
-        getNextControlPoint();
-    }
 }
 
-
-
+#ifdef MIKE_DEBUG
+PRAGMA_ENABLE_OPTIMIZATION
+#endif
 
 
 ///////////////////////////////////////////////////////////////////////////////

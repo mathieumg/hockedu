@@ -12,7 +12,7 @@
 #include "Utilitaire.h"
 #include "NodeControlPoint.h"
 
-#ifdef MIKE_BUILD
+#ifdef MIKE_DEBUG
 PRAGMA_DISABLE_OPTIMIZATION
 #endif
 
@@ -29,41 +29,16 @@ PRAGMA_DISABLE_OPTIMIZATION
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeWallEdition::NodeWallEdition( const std::string& type ):
-    Super(type)
+    Super(type),ControlPointMutableAbstract(2)
 {
-    for(int i=0; i<NB_CONTROL_POINTS; ++i)
-    {
-        mPoints[i] = new NodeControlPoint(RazerGameUtilities::NAME_CONTROL_POINT,this);
-        ajouter(mPoints[i]);
-    }
 
-    for(int i=0; i<NB_CONTROL_POINTS; ++i)
-    {
-        for(int j=0; j<NB_CONTROL_POINTS; ++j)
-        {
-            if(i != j)
-            {
-                mPoints[i]->addAssociatedPoint(mPoints[j]);
-            }
-        }
-        mPoints[i]->assignerEstEnregistrable(false);
-    }
-
-    init(
-        mPoints[0]->getPosition(),
-        mPoints[1]->getPosition(),
-        mPoints[0],
-        mPoints[1]
-        );
-
-    
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn  NodeWallEdition::~NodeWallEdition()
 ///
-/// /*Description*/
+/// destructor
 ///
 ///
 /// @return 
@@ -76,43 +51,86 @@ NodeWallEdition::~NodeWallEdition()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NodeWallEdition::updateObserver( PositionSubject* pSubject )
+/// @fn bool NodeWallEdition::ajouter( NoeudAbstrait* enfant )
 ///
-/// /*Description*/
+/// Ajoute un noeud enfant.
 ///
-/// @param[in] PositionSubject * pSubject
+/// @param[in] NoeudAbstrait * enfant
 ///
-/// @return void
+/// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-void NodeWallEdition::updateObserver( PositionSubject* pSubject )
+bool NodeWallEdition::ajouter( NoeudAbstrait* enfant )
 {
-    // wall properties updated
-    Super::updateObserver(pSubject);
-
-//     // recalculates control points position from our new position
-//     for(int i=0; i<NB_CONTROL_POINTS; ++i)
-//     {
-//         mPoints[i]->updateRelativePosition();
-//     }
-//     updateWallProperties();
+    NodeControlPoint* controlPoint = dynamic_cast<NodeControlPoint*>(enfant);
+    if(controlPoint)
+    {
+        if(Super::ajouter(enfant) && addControlPoint(controlPoint))
+        {
+            controlPoint->attach(this);
+            coins_[getNBControlPoint()-1] = &enfant->getPosition();
+            updateWallProperties();
+            return true;
+        }
+        // cannot add a control point point if limit is reached
+        return false;
+    }
+    return Super::ajouter(enfant);
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NodeWallEdition::assignerParent( NoeudComposite* parent )
+/// @fn void NodeWallEdition::modifierEchelle( float facteur )
 ///
 /// /*Description*/
 ///
-/// @param[in] NoeudComposite * parent
+/// @param[in] float facteur
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NodeWallEdition::assignerParent( NoeudComposite* parent )
+void NodeWallEdition::modifierEchelle( float facteur )
 {
-    Super::assignerParent(parent);
+    Vecteur3 echelle;
+    obtenirEchelleCourante(echelle);
+    echelle[VY] *= facteur;
+    modifierEchelleCourante(echelle);
 }
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NodeWallEdition::afficherConcret()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NodeWallEdition::afficherConcret() const
+{
+    const Vecteur3& corner1 = obtenirCoin1(), corner2 = obtenirCoin2();
+    Vecteur2 vecteurEntre(corner1-corner2);
+    vecteurEntre = vecteurEntre.tournerMoinsPiSur2();
+    vecteurEntre.normaliser();
+    float halfHeight = echelleCourante_[VY]*DEFAULT_SIZE[VY]/2.f;
+    vecteurEntre *= halfHeight;
+    glPushMatrix();
+    glPushAttrib(GL_CURRENT_BIT | GL_POLYGON_BIT);
+    // Assignation du mode d'affichage des polygones
+    glPolygonMode( GL_FRONT_AND_BACK, modePolygones_ );
+    glTranslatef(vecteurEntre[VX],vecteurEntre[VY],0);
+    NoeudAbstrait::afficherConcret();
+
+    // Restauration
+    glPopAttrib();
+    glPopMatrix();
+
+    DrawChild();
+//     vecteurEntre.tourner(90,Vecteur3(0,0,1));
+//     vecteurEntre.
+}
+
 
 #ifdef MIKE_BUILD
 PRAGMA_ENABLE_OPTIMIZATION

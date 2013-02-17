@@ -138,7 +138,6 @@ void VisiteurEcrireXML::visiterNoeudComposite( NoeudComposite* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurEcrireXML::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
-	visiterNoeudAbstrait(noeud);
     visiterNoeudComposite(noeud);
 }
 

@@ -19,7 +19,7 @@
 
 const float NoeudPoint::DEFAULT_RADIUS = 22;
 
-CreateListDelegateImplementation(ControlPoint)
+CreateListDelegateImplementation(TableControlPoint)
 {
     return RazerGameUtilities::CreateListSphereDefault(pModel,NoeudPoint::DEFAULT_RADIUS);
 }

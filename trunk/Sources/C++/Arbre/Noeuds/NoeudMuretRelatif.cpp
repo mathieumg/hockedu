@@ -13,7 +13,7 @@
 #include "NoeudBut.h"
 #include "Utilitaire.h"
 
-#ifdef MIKE_BUILD
+#ifdef MIKE_DEBUG
 PRAGMA_DISABLE_OPTIMIZATION
 #endif
 
@@ -27,9 +27,9 @@ PRAGMA_DISABLE_OPTIMIZATION
 /// @return Vecteur3 : la position du coin1.
 ///
 ////////////////////////////////////////////////////////////////////////
-Vecteur3 NoeudMuretRelatif::obtenirCoin1()
+const Vecteur3& NoeudMuretRelatif::obtenirCoin1() const
 {
-	return Vecteur3(*coin1_[VX],*coin1_[VY],0);
+	return coins_[0] ? *coins_[0] : getPosition();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -42,9 +42,9 @@ Vecteur3 NoeudMuretRelatif::obtenirCoin1()
 /// @return Vecteur3 : la position du coin2.
 ///
 ////////////////////////////////////////////////////////////////////////
-Vecteur3 NoeudMuretRelatif::obtenirCoin2()
+const Vecteur3& NoeudMuretRelatif::obtenirCoin2() const
 {
-	return Vecteur3(*coin2_[VX],*coin2_[VY],0);
+    return coins_[1] ? *coins_[1] : obtenirCoin1();
 }
 
 
@@ -80,20 +80,16 @@ void NoeudMuretRelatif::updateObserver( PositionSubject* pSubject )
 ////////////////////////////////////////////////////////////////////////
 void NoeudMuretRelatif::init( const Vecteur3& pCorner1, const Vecteur3& pCorner2,PositionSubject* s1,PositionSubject* s2 )
 {
-    coin1_[VX] = &pCorner1[VX];
-    coin1_[VY] = &pCorner1[VY];
-    coin1_[VZ] = &pCorner1[VZ];
-    coin2_[VX] = &pCorner2[VX];
-    coin2_[VY] = &pCorner2[VY];
-    coin2_[VZ] = &pCorner2[VZ];
+    coins_[0] = &pCorner1;
+    coins_[1] = &pCorner2;
 
     // observe les deplacement de ces noeuds
     s1->attach(this);
     s2->attach(this);
 
-    assignerEstSelectionnable(false);
     updateWallProperties();
 }
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -109,7 +105,9 @@ void NoeudMuretRelatif::init( const Vecteur3& pCorner1, const Vecteur3& pCorner2
 NoeudMuretRelatif::NoeudMuretRelatif( const std::string& type ):
     Super(type)
 {
-
+    coins_[0] = NULL;
+    coins_[1] = NULL;
+    assignerEstSelectionnable(false);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -127,7 +125,7 @@ NoeudMuretRelatif::~NoeudMuretRelatif()
 
 }
 
-#ifdef MIKE_BUILD
+#ifdef MIKE_DEBUG
 PRAGMA_ENABLE_OPTIMIZATION
 #endif
 

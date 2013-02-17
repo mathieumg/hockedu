@@ -58,7 +58,7 @@ NoeudMuret::~NoeudMuret()
 /// @return Vecteur3 positionCoin1 : vecteur contenant la position.
 ///
 ////////////////////////////////////////////////////////////////////////
-Vecteur3 NoeudMuret::obtenirCoin1()
+const Vecteur3& NoeudMuret::obtenirCoin1() const
 {
 	return positionCoin1_;
 }
@@ -74,7 +74,7 @@ Vecteur3 NoeudMuret::obtenirCoin1()
 /// @return Vecteur3 positionCoin2 : vecteur contenant la position.
 ///
 ////////////////////////////////////////////////////////////////////////
-Vecteur3 NoeudMuret::obtenirCoin2()
+const Vecteur3& NoeudMuret::obtenirCoin2() const
 {
 	return positionCoin2_;
 }

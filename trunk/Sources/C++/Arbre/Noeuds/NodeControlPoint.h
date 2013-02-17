@@ -13,6 +13,8 @@
 #include "PositionSubject.h"
 #include <list>
 
+class ControlPointMutableAbstract;
+
 ///////////////////////////////////////////////////////////////////////////
 /// @class NodeControlPoint
 /// @brief Classe qui représente des points de control pour l'édition relative d'objet
@@ -25,7 +27,7 @@ class NodeControlPoint : public NoeudComposite, public PositionSubject
 public:
     typedef NoeudComposite Super;
 	/// Constructeur à partir du type du noeud.
-	NodeControlPoint( const std::string& typeNoeud, NoeudAbstrait* pLinkedObject = NULL );
+	NodeControlPoint( const std::string& typeNoeud);
 	/// Destructeur.
 	~NodeControlPoint();
 
@@ -36,7 +38,7 @@ public:
 	/// Assigne la position relative du noeud et alerte ses observers
     virtual void setPosition( const Vecteur3& positionRelative);
 
-    virtual const std::string& get3DModelKey()const { return RazerGameUtilities::NAME_TABLE_CONTROL_POINT; }
+    //virtual const std::string& get3DModelKey()const { return RazerGameUtilities::NAME_TABLE_CONTROL_POINT; }
 
     /// hack les control point ne connaissent pas leur parent, mais les parent les connaissent
     void afficherConcret() const;
@@ -45,13 +47,13 @@ private:
 	/// list of other control points linked to the same object, they must
     /// all have the same life scope
 	std::list<NodeControlPoint*> mAssociatedPoints;
-    NoeudAbstrait* mLinkedObject;
+    ControlPointMutableAbstract* mLinkedObject;
     bool mCanBeVisited;
 
 public:
     /// Accessors of mLinkedObject
-    inline NoeudAbstrait* getLinkedObject() const { return mLinkedObject; }
-    inline void setLinkedObject(NoeudAbstrait* pVal) { mLinkedObject = pVal; }
+    inline ControlPointMutableAbstract* getLinkedObject() const { return mLinkedObject; }
+    inline void setLinkedObject(ControlPointMutableAbstract* pVal) { mLinkedObject = pVal; }
 
     /// Accessors of mAssociatedPoints
     inline const std::list<NodeControlPoint*>& getAssociatedPoints() const { return mAssociatedPoints; }

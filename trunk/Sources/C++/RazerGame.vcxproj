@@ -195,6 +195,7 @@
     <ClCompile Include="Arbre\HUD\HUDTexte.cpp" />
     <ClCompile Include="Arbre\Modeles\GestionnaireModeles.cpp" />
     <ClCompile Include="Arbre\Modeles\Modele3D.cpp" />
+    <ClCompile Include="Arbre\Noeuds\ControlPointMutableAbstract.cpp" />
     <ClCompile Include="Arbre\Noeuds\NodeControlPoint.cpp" />
     <ClCompile Include="Arbre\Noeuds\NodeRinkBoards.cpp" />
     <ClCompile Include="Arbre\Noeuds\NodeWallAbstract.cpp" />
@@ -327,6 +328,7 @@
     <ClInclude Include="Arbre\HUD\HUDTexte.h" />
     <ClInclude Include="Arbre\Modeles\GestionnaireModeles.h" />
     <ClInclude Include="Arbre\Modeles\Modele3D.h" />
+    <ClInclude Include="Arbre\Noeuds\ControlPointMutableAbstract.h" />
     <ClInclude Include="Arbre\Noeuds\NodeControlPoint.h" />
     <ClInclude Include="Arbre\Noeuds\NodeRinkBoards.h" />
     <ClInclude Include="Arbre\Noeuds\NodeWallAbstract.h" />

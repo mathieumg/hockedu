@@ -12,10 +12,28 @@
 #include "NodeControlPoint.h"
 #include "VisiteurNoeud.h"
 #include <algorithm>
+#include "..\..\Interface\DebugRenderBox2D.h"
+#include "..\..\Application\FacadeModele.h"
+#include "..\..\..\..\Commun\Utilitaire\Utilitaire.h"
 
-#ifdef MIKE_BUILD
+#ifdef MIKE_DEBUG
 PRAGMA_DISABLE_OPTIMIZATION
 #endif
+
+CreateListDelegateImplementation(ControlPoint)
+{
+    GLuint liste = NULL;
+    liste = glGenLists(1);
+    glNewList(liste, GL_COMPILE);
+#if BOX2D_INTEGRATED
+        DebugRenderBox2D* debugRender = FacadeModele::getInstance()->getDebugRenderBox2D();
+        debugRender->DrawSolidCircle(b2Vec2(0,0),0.5,b2Vec2(0,0),b2Color(1,0,1));
+#endif
+    glEndList();
+
+    return liste;
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -28,8 +46,8 @@ PRAGMA_DISABLE_OPTIMIZATION
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-NodeControlPoint::NodeControlPoint( const std::string& typeNoeud, NoeudAbstrait* pLinkedObject/*= NULL*/  ):
-Super(typeNoeud),mLinkedObject(pLinkedObject),mCanBeVisited(true)
+NodeControlPoint::NodeControlPoint( const std::string& typeNoeud ):
+Super(typeNoeud),mCanBeVisited(true)
 {
 
 }
@@ -53,6 +71,17 @@ void NodeControlPoint::afficherConcret() const
 {
     // Appel à la version de la classe de base pour l'affichage des enfants.
     NoeudAbstrait::afficherConcret();
+
+#if BOX2D_INTEGRATED  
+//     if(estAffiche())
+//     {
+//         DebugRenderBox2D* debugRender = FacadeModele::getInstance()->getDebugRenderBox2D();
+//         b2Vec2 v;
+//         utilitaire::VEC3_TO_B2VEC(getPosition(),v);
+//         debugRender->DrawSolidCircle(v,0.5,b2Vec2(0,0),b2Color(1,0,1));
+//     }
+#endif
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -68,14 +97,15 @@ void NodeControlPoint::afficherConcret() const
 ////////////////////////////////////////////////////////////////////////
 void NodeControlPoint::animer( const float& temps )
 {
-    mAngle = (float)((int)(mAngle+temps*500.0f)%360);
-    updateMatrice();
-
-    glPushMatrix();
-    glLoadMatrixd(matrice_); // Chargement de la matrice du noeud
-    glRotated(90, 1.0, 0.0, 0.0);
-    glGetDoublev(GL_MODELVIEW_MATRIX, matrice_); // Savegarde de la matrice courante dans le noeud
-    glPopMatrix(); // Recuperation de la matrice d'origine
+    Super::animer(temps);
+//     mAngle = (float)((int)(mAngle+temps*500.0f)%360);
+//     updateMatrice();
+// 
+//     glPushMatrix();
+//     glLoadMatrixd(matrice_); // Chargement de la matrice du noeud
+//     glRotated(90, 1.0, 0.0, 0.0);
+//     glGetDoublev(GL_MODELVIEW_MATRIX, matrice_); // Savegarde de la matrice courante dans le noeud
+//     glPopMatrix(); // Recuperation de la matrice d'origine
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -138,7 +168,7 @@ void NodeControlPoint::setPosition( const Vecteur3& positionRelative )
 }
 
 
-#ifdef MIKE_BUILD
+#ifdef MIKE_DEBUG
 PRAGMA_ENABLE_OPTIMIZATION
 #endif
 
