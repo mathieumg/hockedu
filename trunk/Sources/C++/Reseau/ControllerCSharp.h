@@ -30,6 +30,9 @@ public:
     virtual void handleEvent(int pEventCode,  va_list pListeElems);
     inline void setMessageReceivedCallBack(MessageReceivedCallBack pVal) { mMessageReceivedCallBack = pVal; }
     inline void setEventReceivedCallBack(EventReceivedCallBack pVal) { mEventReceivedCallback = pVal; }
+
+    virtual void handleDisconnectDetection( SPSocket pSocket );
+
 private:
     MessageReceivedCallBack mMessageReceivedCallBack;
     EventReceivedCallBack   mEventReceivedCallback;

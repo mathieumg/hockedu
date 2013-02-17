@@ -35,11 +35,10 @@ SINGLETON_DECLARATION_CPP(GestionnaireReseauServeurMaitre);
 GestionnaireReseauServeurMaitre::GestionnaireReseauServeurMaitre()
 {
     // Initialisation du GestionnaireReseau
-    GestionnaireReseau::setNetworkMode(SERVER);
 	GestionnaireReseau::obtenirInstance()->setSocketConnectionStateCallback(SocketStateCallback);
 	//GestionnaireReseau::setObserverSocketServer(new SocketObserverServerChat());
     GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
-    wGestionnaireReseau->init();
+    wGestionnaireReseau->initServer();
 
     // On doit ajouter une nouvelle operation reseau pour que le systeme le connaisse (1 par type de paquet), trompez-vous pas pcq sa va chier en ti pepere!
 	wGestionnaireReseau->ajouterOperationReseau(CHAT_MESSAGE, new PacketHandlerChatMessage, new UsinePaquetChatMessage);

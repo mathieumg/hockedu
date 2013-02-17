@@ -10,3 +10,10 @@ PaquetRunnableFunc ControllerInterface::getRunnable( PaquetTypes pType ) const
     }
     return NULL;
 }
+
+
+// De base ne fait rien
+void ControllerInterface::handleDisconnectDetection( SPSocket pSocket )
+{
+
+}

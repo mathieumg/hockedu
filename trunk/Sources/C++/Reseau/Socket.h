@@ -56,8 +56,12 @@ public:
 
     inline HANDLE getMutexActiviteSocket() const { return mMutexActiviteSocket; }
 
-    // Methode pour connecter les sockets (bind() pour UDP et connect ou accept pour TCP)
-    ConnectionState init();
+    // Methode pour initialiser le Socket en mode Client
+    ConnectionState initClient();
+
+    // Methode pour initialiser le Socket en mode Server
+    ConnectionState initServer();
+    
     void cancelConnection();
 
     // Methode pour deconnecter le socket (s'il est brise par exemple)

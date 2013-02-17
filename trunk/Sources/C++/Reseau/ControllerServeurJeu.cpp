@@ -62,3 +62,8 @@ void ControllerServeurJeu::handleEvent( int pEventCode, va_list pListeElems )
 //         break;
 //     };
 }
+
+void ControllerServeurJeu::handleDisconnectDetection( SPSocket pSocket )
+{
+    GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
+}
