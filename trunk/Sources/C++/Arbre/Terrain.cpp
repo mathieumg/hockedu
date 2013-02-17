@@ -51,7 +51,8 @@ Terrain::Terrain(): mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldNam
 	mRenderTree = new RazerGameTree();
 	NoeudAbstrait* piece = new NoeudPiece(RazerGameUtilities::NOM_HOUSE);
 	mRenderTree->ajouter(piece);
-	
+    mRenderTree->modifierTerrain(this);
+
 // 	std::vector<Vecteur3> vec;
 // 	vec.push_back(Vecteur3(-1200,-538,-100.51) );
 // 	vec.push_back(Vecteur3(-1155,-505,-100.51) );
@@ -71,7 +72,7 @@ Terrain::Terrain(): mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldNam
 // 	for(unsigned int i = 0; i<vec.size(); ++i)
 // 	{
 // 		NoeudAbstrait* maillet = new NoeudMailletMeuble();
-// 		maillet->assignerPositionRelative(vec[i]);
+// 		maillet->setPosition(vec[i]);
 // 		maillet->modifierEchelleCourante(Vecteur3(3,3,2.5));
 // 		piece->ajouter(maillet);
 // 	}
@@ -98,7 +99,7 @@ Terrain::Terrain(): mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldNam
 // 	for(unsigned int i = 0; i<vec.size(); ++i)
 // 	{
 // 		NoeudAbstrait* rondelle = new NoeudRondelleMeuble();
-// 		rondelle->assignerPositionRelative(vec[i]);
+// 		rondelle->setPosition(vec[i]);
 // 		rondelle->modifierEchelleCourante(Vecteur3(4,4,4));
 // 		piece->ajouter(rondelle);
 // 	}
@@ -226,6 +227,7 @@ void Terrain::initialiser( std::string nom )
 
 	// Initialisation des arbres de rendus
 	mNewNodeTree = new ArbreNoeudLibre();
+    mNewNodeTree->modifierTerrain(this);
 
 	initialiserArbreRendu();
 	
@@ -260,14 +262,14 @@ void Terrain::initialiserArbreRendu()
 		*gRondelle =	new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_RONDELLE),
 		*gAccel =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_ACCELERATEUR),
 		*gMuret =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_MURET),
-		*gPortail =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_PORTAIL);
+        *gPortail =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_PORTAIL);
 
 	// La table contient ces groupes.
 	mTable->ajouter(gRondelle);
 	mTable->ajouter(gMaillet);
 	mTable->ajouter(gAccel);
 	mTable->ajouter(gMuret);
-	mTable->ajouter(gPortail);
+    mTable->ajouter(gPortail);
 
 	// Permet de rediriger les bandes extérieur de la table vers le groupe  gMuret
 	mTable->reassignerParentBandeExt();
@@ -344,9 +346,12 @@ void Terrain::reinitialiser()
 {
 	
 	if(!mNewNodeTree)
+    {
 		mNewNodeTree = new ArbreNoeudLibre();
+    }
 	else
 		mNewNodeTree->vider();
+    mNewNodeTree->modifierTerrain(this);
 
 	initialiserArbreRendu();
 	getZoneEdition().reinitialiser();
@@ -466,7 +471,7 @@ void Terrain::retirerNoeudTemp( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 bool Terrain::insideLimits( NoeudAbstrait* noeud )
 {
-	Vecteur3 pos = noeud->obtenirPositionAbsolue();
+	const Vecteur3& pos = noeud->getPosition();
 
 	// Cas particulier pour des muret puisque ce sont des segment et non des cercles
 	if(noeud->obtenirType() == RazerGameUtilities::NOM_MURET)
@@ -539,9 +544,9 @@ void Terrain::creerTerrainParDefaut(std::string nom)
 	NoeudAbstrait* maillet2 = getLogicTree()->creerNoeud(RazerGameUtilities::NOM_MAILLET);
 	NoeudAbstrait* rondelle = getLogicTree()->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
 
-	maillet1->assignerPositionRelative(mTable->obtenirPoint(POSITION_MILIEU_GAUCHE)->obtenirPositionAbsolue()/2.0);
-	maillet2->assignerPositionRelative(mTable->obtenirPoint(POSITION_MILIEU_DROITE)->obtenirPositionAbsolue()/2.0);
-	rondelle->assignerPositionRelative(Vecteur3(0.0,0.0,0.0));
+	maillet1->setPosition(mTable->obtenirPoint(POSITION_MILIEU_GAUCHE)->getPosition()/2.0);
+	maillet2->setPosition(mTable->obtenirPoint(POSITION_MILIEU_DROITE)->getPosition()/2.0);
+	rondelle->setPosition(Vecteur3(0.0,0.0,0.0));
 
 	mTable->ajouter(maillet1);
 	mTable->ajouter(maillet2);
@@ -621,7 +626,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 		if (maillet)
 		{
 			// verification des maillets
-			if(maillet->obtenirPositionAbsolue()[VX] <= 0)
+			if(maillet->getPosition()[VX] <= 0)
 			{
 				if(mailletGaucheOk)
 				{
@@ -630,7 +635,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 					return false;
 				}
 				mailletGaucheOk = true;
-				maillet->modifierPositionOriginale(maillet->obtenirPositionRelative());
+				maillet->modifierPositionOriginale(maillet->getPosition());
 			}
 			else
 			{
@@ -641,7 +646,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 					return false;
 				}
 				mailletDroiteOk = true;
-				maillet->modifierPositionOriginale(maillet->obtenirPositionRelative());
+				maillet->modifierPositionOriginale(maillet->getPosition());
 			}
 		}
 	}
@@ -815,7 +820,7 @@ void Terrain::BeginContact( b2Contact* contact )
                         Partie* partie = FacadeModele::getInstance()->obtenirPartieCourante();
                         if(partie)
                         {
-                            auto position = rondelle->obtenirPositionAbsolue();
+                            auto position = rondelle->getPosition();
                             if(position[VX] < 0)
                             {
                                 partie->incrementerPointsJoueurDroit();
@@ -872,8 +877,8 @@ void Terrain::BeginContact( b2Contact* contact )
                             FacadeModele::getInstance()->RunOnUpdateThread(new Runnable([=](Runnable*)
                             {
                                 portailDeSortie->setIsAttractionFieldActive(false);
-                                auto newPos = portailDeSortie->obtenirPositionRelative();
-                                rondelle->assignerPositionRelative(newPos);
+                                auto newPos = portailDeSortie->getPosition();
+                                rondelle->setPosition(newPos);
                                 SoundFMOD::obtenirInstance()->playEffect(effect(PORTAL_EFFECT));
                             }),true);
                             return;

@@ -15,6 +15,7 @@
 #include "Utilitaire.h"
 #include "VisiteurNoeud.h"
 
+
 const float NoeudPortail::DEFAULT_RADIUS = 10;
 
 CreateListDelegateImplementation(Portal)
@@ -72,16 +73,8 @@ NoeudPortail::~NoeudPortail()
 ////////////////////////////////////////////////////////////////////////
 void NoeudPortail::afficherConcret() const
 {
-    // Sauvegarde de la matrice.
-    glPushMatrix();
-    glPushAttrib(GL_ALL_ATTRIB_BITS);
-
 	// Appel à la version de la classe de base pour l'affichage des enfants.
 	NoeudAbstrait::afficherConcret();
-
-    // Restauration de la matrice.
-    glPopAttrib();
-    glPopMatrix();
 }
 
 
@@ -140,7 +133,7 @@ void NoeudPortail::updatePhysicBody()
 
         b2BodyDef myBodyDef;
         myBodyDef.type = b2_staticBody; //this will be a dynamic body
-        Vecteur3 pos = obtenirPositionAbsolue();
+        const Vecteur3& pos = getPosition();
         b2Vec2 posB2;
         utilitaire::VEC3_TO_B2VEC(pos,posB2);
         myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position

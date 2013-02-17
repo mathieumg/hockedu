@@ -32,7 +32,7 @@ typedef Vecteur3D<float*> Vecteur3pf;
 typedef OnceVector<Vecteur3pf> GroupeTripleAdresseFloat;
 typedef std::vector<Vecteur3i> GroupeCoord;
 
-class NoeudMuretRelatif;
+class NodeRinkBoards;
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class NoeudPoint
@@ -44,7 +44,9 @@ class NoeudMuretRelatif;
 class NoeudPoint : public NoeudComposite, public PositionSubject
 {
 public:
-	friend NoeudMuretRelatif;
+    typedef NoeudComposite Super;
+
+	friend NodeRinkBoards;
 	/// Constructeur à partir du type du noeud.
 	NoeudPoint( const std::string& typeNoeud, float coordX, float coordY, TypePosPoint typePosNoeud);
 	/// Destructeur.
@@ -61,7 +63,7 @@ public:
 	/// Accesseur du typePosNoeud
     TypePosPoint obtenirTypePosNoeud() const;
 	/// Retourne la coordonee puisque la table est toujours a (0, 0, 0)
-	Vecteur3 obtenirPositionAbsolue() const;
+	Vecteur3 getPosition() const;
 	/// Assigne la position relative du noeud et deplace le modele 3D de la table
 	virtual void assignerPositionRelative( const Vecteur3& positionRelative);
 

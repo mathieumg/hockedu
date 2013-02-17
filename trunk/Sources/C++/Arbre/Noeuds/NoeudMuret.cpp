@@ -58,7 +58,7 @@ NoeudMuret::~NoeudMuret()
 /// @return Vecteur3 positionCoin1 : vecteur contenant la position.
 ///
 ////////////////////////////////////////////////////////////////////////
-Vecteur3 NoeudMuret::obtenirCoin1()
+const Vecteur3& NoeudMuret::obtenirCoin1() const
 {
 	return positionCoin1_;
 }
@@ -74,7 +74,7 @@ Vecteur3 NoeudMuret::obtenirCoin1()
 /// @return Vecteur3 positionCoin2 : vecteur contenant la position.
 ///
 ////////////////////////////////////////////////////////////////////////
-Vecteur3 NoeudMuret::obtenirCoin2()
+const Vecteur3& NoeudMuret::obtenirCoin2() const
 {
 	return positionCoin2_;
 }
@@ -95,8 +95,8 @@ void NoeudMuret::majPosCoins()
 	Vecteur3 deplacement( cos(utilitaire::DEG_TO_RAD(mAngle) ), sin(utilitaire::DEG_TO_RAD(mAngle) ) );
 	deplacement*= echelleCourante_[VX];
 	deplacement /= 2.0;
-	positionCoin1_ = positionRelative_+deplacement;
-	positionCoin2_ = positionRelative_-deplacement;
+	positionCoin1_ = mPosition+deplacement;
+	positionCoin2_ = mPosition-deplacement;
     updatePhysicBody();
 }
 
@@ -218,7 +218,7 @@ void NoeudMuret::modifierEchelleCourante( const Vecteur3& echelleCourante )
 ////////////////////////////////////////////////////////////////////////
 void NoeudMuret::assignerPositionRelative( const Vecteur3& positionRelative )
 {
-	Super::assignerPositionRelative(positionRelative);
+	Super::setPosition(positionRelative);
 	majPosCoins();
 }
 

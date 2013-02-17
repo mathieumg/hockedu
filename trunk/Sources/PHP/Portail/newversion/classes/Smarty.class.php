@@ -4,8 +4,8 @@
  * 
  * Includes the Smarty templating system.
  * @author Mathieu M-Gosselin <mathieumg@gmail.com>
- * @since 30/08/2012
- * @package Cloud
+ * @since 17/02/2013
+ * @package Hockedu
  */
  
  

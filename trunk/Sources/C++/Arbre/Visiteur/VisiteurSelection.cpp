@@ -139,6 +139,7 @@ void VisiteurSelection::visiterNoeudMuret( NodeWallAbstract* noeud )
 			}
 		}
 	}
+    visiterNoeudComposite(noeud);
 }
 
 
@@ -267,7 +268,7 @@ void VisiteurSelection::visiterNoeudAffichable( NoeudAbstrait* noeud )
 		return;
 
 	NoeudAbstrait::PaireVect3 zoneOccuppee = noeud->obtenirZoneOccupee();
-	Vecteur3 pos = noeud->obtenirPositionAbsolue();
+	Vecteur3 pos = noeud->getPosition();
 
 	
 	bool selection = false;
@@ -326,7 +327,7 @@ void VisiteurSelection::visiterNoeudAffichable( NoeudAbstrait* noeud )
 		visiteurCollision->obtenirListeCollision(conteneur);
 		for(int i=1; i<conteneur.size(); i++)
 		{
-			float posZCourante = conteneur[i]->obtenirPositionAbsolue()[VZ];
+			float posZCourante = conteneur[i]->getPosition()[VZ];
 			if(posZCourante>=aSelectionner_.second && conteneur[i]->estSelectionnable() || avecRectangle)
 			{
 				if(avecRectangle)

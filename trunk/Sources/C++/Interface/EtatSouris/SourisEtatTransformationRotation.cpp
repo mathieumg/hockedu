@@ -250,7 +250,7 @@ Vecteur2 SourisEtatTransformationRotation::obtenirCentreRot() const
 	if(noeudsSelectionnes_.size()!=0)
 	{
 		float min[2], max[2];
-		Vecteur3 positionAbsolue = noeudsSelectionnes_[0]->obtenirPositionAbsolue();
+		Vecteur3 positionAbsolue = noeudsSelectionnes_[0]->getPosition();
 		min[VX] = positionAbsolue[VX];
 		min[VY] = positionAbsolue[VY];
 		max[VX] = positionAbsolue[VX];
@@ -259,7 +259,7 @@ Vecteur2 SourisEtatTransformationRotation::obtenirCentreRot() const
 
 		for(int i=1; i<noeudsSelectionnes_.size(); i++)
 		{
-			Vecteur3 positionAbsolue = noeudsSelectionnes_[i]->obtenirPositionAbsolue();
+			Vecteur3 positionAbsolue = noeudsSelectionnes_[i]->getPosition();
 			if(positionAbsolue[VX]<min[VX])
 				min[VX] = positionAbsolue[VX];
 			if(positionAbsolue[VY]<min[VY])

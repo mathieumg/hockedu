@@ -65,7 +65,7 @@ Vecteur2 AIStratOffensive::appliquerStrategie( NoeudMaillet* maillet )
 		return Vecteur2();
 
 	// Direction du deplacement de la rondelle
-	Vecteur2 dir = rondelle->obtenirPositionAbsolue().convertir<2>() - maillet->obtenirPositionAbsolue().convertir<2>();
+	Vecteur2 dir = rondelle->getPosition().convertir<2>() - maillet->getPosition().convertir<2>();
 	dir.normaliser();
 	dir *= (float)context_.obtenirJv().obtenirVitesse();
 

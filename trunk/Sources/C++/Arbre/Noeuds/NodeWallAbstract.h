@@ -11,7 +11,7 @@
 #define __ARBRE_NOEUDS_NODEWALLABSTRACT_H__
 
 
-#include "NoeudAbstrait.h"
+#include "NoeudComposite.h"
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class NodeWallAbstract
@@ -20,10 +20,10 @@
 /// @author Michael Ferris
 /// @date 2013-02-14
 ///////////////////////////////////////////////////////////////////////////
-class NodeWallAbstract : public NoeudAbstrait
+class NodeWallAbstract : public NoeudComposite
 {
 public:
-    typedef NoeudAbstrait Super;
+    typedef NoeudComposite Super;
    /// Constructeur à partir du type du noeud.
    NodeWallAbstract(const std::string& typeNoeud);
    /// Destructeur.
@@ -35,9 +35,9 @@ public:
    /// Affiche le muret.
    virtual void afficherConcret() const;
    /// Accesseur du coin1
-   virtual Vecteur3 obtenirCoin1() = 0;
+   virtual const Vecteur3& obtenirCoin1() const = 0;
    /// Accesseur du coin2
-   virtual Vecteur3 obtenirCoin2() = 0;
+   virtual const Vecteur3& obtenirCoin2() const = 0;
    /// updates angle, scale and position according to its corners
    virtual void updateWallProperties();
 

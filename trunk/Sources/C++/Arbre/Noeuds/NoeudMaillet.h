@@ -30,6 +30,7 @@ class JoueurVirtuel;
 class NoeudMaillet : public NoeudAbstrait, public MouseMoveObserver, public ObjetAnimable
 {
 public:
+    typedef NoeudAbstrait Super;
     /// Constructeur à partir du type du noeud.
     NoeudMaillet(const std::string& typeNoeud);
     /// Destructeur.

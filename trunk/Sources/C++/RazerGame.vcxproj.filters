@@ -470,6 +470,12 @@
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameStatus.cpp">
       <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
     </ClCompile>
+    <ClCompile Include="Arbre\Noeuds\NodeWallEdition.cpp">
+      <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbre\Noeuds\NodeRinkBoards.cpp">
+      <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -885,6 +891,15 @@
     </ClInclude>
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerGameStatus.h">
       <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Noeuds\NodeRinkBoards.h">
+      <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Noeuds\NodeWallEdition.h">
+      <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Noeuds\NodeControlPoint.h">
+      <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

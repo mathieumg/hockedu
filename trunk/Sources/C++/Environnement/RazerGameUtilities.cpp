@@ -81,8 +81,11 @@
    const std::string RazerGameUtilities::NOM_MURET = "muret";
 
    /// La chaîne représentant le type des murets.
-   const std::string RazerGameUtilities::NOM_MURET_RELATIF = "muret_relatif";
+   const std::string RazerGameUtilities::NAME_RINK_BOARD = "rink_board";
    
+   /// La chaîne représentant le type de muret relatif pour l'édition
+   const std::string RazerGameUtilities::NAME_RELATIVE_WALL = "muret_relatif";
+
    /// La chaîne représentant le type de la table de jeu.
    const std::string RazerGameUtilities::NOM_TABLE = "table";
 
@@ -99,11 +102,15 @@
    const std::string RazerGameUtilities::NOM_ACCELERATEUR = "accelerateur";
 
    /// La chaîne représentant le type des points pour le redimensionnement de la table.
-   const std::string RazerGameUtilities::NOM_POINT = "point";
+   const std::string RazerGameUtilities::NAME_TABLE_CONTROL_POINT = "table_point";
+
+   /// La chaîne représentant le type des points de controle d'objet.
+   const std::string RazerGameUtilities::NAME_CONTROL_POINT = "control_point";
 
    /// La chaîne représentant le type des groupes
    const std::string RazerGameUtilities::NOM_GROUPE = "Groupe";
 
+   const std::string RazerGameUtilities::NAME_POLYGONE = "polygone";
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

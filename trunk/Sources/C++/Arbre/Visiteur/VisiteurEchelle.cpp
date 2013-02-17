@@ -19,6 +19,8 @@
 #include "NoeudTable.h"
 #include "NoeudPoint.h"
 #include "NoeudAccelerateur.h"
+#include "..\Noeuds\NodeControlPoint.h"
+#include "..\Noeuds\ControlPointMutableAbstract.h"
 
 
 const float VisiteurEchelle::FACTEUR_ECHELLE = 1.005f;
@@ -143,6 +145,7 @@ void VisiteurEchelle::visiterNoeudMuret( NodeWallAbstract* noeud )
 	visiterNoeudAbstrait(noeud);
 	// pop
 	axe_ = oldAxe;
+    visiterNoeudComposite(noeud);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -265,6 +268,28 @@ void VisiteurEchelle::visiterNoeudPoint( NoeudPoint* noeud )
 void VisiteurEchelle::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
 {
 	visiterNoeudAbstrait(noeud);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void VisiteurEchelle::visiterNodeControlPoint( NodeControlPoint* noeud )
+///
+/// /*Description*/
+///
+/// @param[in] NodeControlPoint * noeud
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void VisiteurEchelle::visiterNodeControlPoint( NodeControlPoint* noeud )
+{
+    if(!ignoreSelection_ && !noeud->estSelectionne())
+        return;
+    ControlPointMutableAbstract* obj = noeud->getLinkedObject();
+    if(obj)
+    {
+        obj->modifierEchelle(facteur_);
+    }
 }
 
 

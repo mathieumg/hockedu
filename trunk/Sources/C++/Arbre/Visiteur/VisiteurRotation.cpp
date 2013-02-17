@@ -75,7 +75,7 @@ void VisiteurRotation::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 	
 	glPushMatrix(); // Sauvegarde de la matrice d'origine
 	
-	Vecteur3 positionNoeud = noeud->obtenirPositionAbsolue();
+	const Vecteur3& positionNoeud = noeud->getPosition();
 
 	float	deltaX = positionNoeud[VX]-centreRot_[VX],
 			deltaY = positionNoeud[VY]-centreRot_[VY];
@@ -94,8 +94,8 @@ void VisiteurRotation::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 	}
 	else
 	{
-		centreRotRel[VX] = centreRot_[VX]-static_cast<NoeudComposite*>(parent)->obtenirPositionAbsolue()[VX];
-		centreRotRel[VY] = centreRot_[VY]-static_cast<NoeudComposite*>(parent)->obtenirPositionAbsolue()[VY];
+		centreRotRel[VX] = centreRot_[VX]-static_cast<NoeudComposite*>(parent)->getPosition()[VX];
+		centreRotRel[VY] = centreRot_[VY]-static_cast<NoeudComposite*>(parent)->getPosition()[VY];
 	}
 
 	
@@ -106,10 +106,10 @@ void VisiteurRotation::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 	varDeplacement[VX] = centreRotRel[VX]+rayon*cos((angleCourantRad-(angleRot_*(float)M_PI/180)));
 	varDeplacement[VY] = centreRotRel[VY]+rayon*sin((angleCourantRad-(angleRot_*(float)M_PI/180)));
 	
-	Vecteur2 posInverse(-noeud->obtenirPositionRelative()[VX], -noeud->obtenirPositionRelative()[VY]);
+	Vecteur2 posInverse(-noeud->getPosition()[VX], -noeud->getPosition()[VY]);
 	VisiteurDeplacement visiteurDeplacement(posInverse);
 	noeud->acceptVisitor(visiteurDeplacement);
-	noeud->assignerPositionRelative(Vecteur3(varDeplacement[VX], varDeplacement[VY], 0));
+	noeud->setPosition(Vecteur3(varDeplacement[VX], varDeplacement[VY], 0));
 
 
 	// Il faut recalculer la matrice de transformation
@@ -163,6 +163,7 @@ void VisiteurRotation::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
 	noeud->assignerAngle(noeud->obtenirAngle()-angleRot_);
 	visiterNoeudAbstrait(noeud);
+    visiterNoeudComposite(noeud);
 }
 
 

@@ -33,6 +33,7 @@ enum TypePosMuretEdition{HAUT,GAUCHE,DROITE,BAS};
 class NoeudTable : public NoeudComposite, public PositionObserver
 {
 public:
+    typedef NoeudComposite Super;
 
 	/// Constructeur à partir du type du noeud.
    NoeudTable(const std::string& typeNoeud);

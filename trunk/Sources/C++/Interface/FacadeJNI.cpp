@@ -29,8 +29,7 @@
 #include "Evenements/EvenementRouletteSouris.h"
 #include "Evenements/EvenementSouris.h"
 #include "ConfigSceneTest.h"
-#include "UsineNoeudMaillet.h"
-#include "UsineNoeudRondelle.h"
+#include "UsineNoeud.h"
 #include "VisiteurSelection.h"
 #include "RazerGameUtilities.h"
 #include "JoueurVirtuel.h"
@@ -1279,7 +1278,7 @@ JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationTournoiJNI_obteni
 		jobject p=env->NewObject(point,creerPoint);
 
 		NoeudPoint* pp=table->obtenirPoint(i);
-		Vecteur3 vv=pp->obtenirPositionAbsolue();
+		Vecteur3 vv=pp->getPosition();
 		
 		env->CallVoidMethod(p, setLocation, vv[VX], vv[VY]);
 		env->CallBooleanMethod(arrayPoints, add, p);

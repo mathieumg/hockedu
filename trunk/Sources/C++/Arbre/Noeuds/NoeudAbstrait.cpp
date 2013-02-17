@@ -40,7 +40,7 @@ NoeudAbstrait::NoeudAbstrait(
     mPhysicBody(NULL),
     type_(type) ,
     modePolygones_(GL_FILL) ,
-    positionRelative_(0) ,
+    mPosition(0) ,
     affiche_(true) ,
     selectionne_(false) ,
     selectionnable_(true) ,
@@ -398,12 +398,6 @@ void NoeudAbstrait::afficher() const
 {
     glPushMatrix();
     glPushAttrib(GL_CURRENT_BIT | GL_POLYGON_BIT);
-
-	glTranslated(
-		positionRelative_[0], positionRelative_[1], positionRelative_[2]
-	);
-
-	glMultMatrixd(matrice_);
       
     // Assignation du mode d'affichage des polygones
     glPolygonMode( GL_FRONT_AND_BACK, modePolygones_ );
@@ -432,9 +426,6 @@ void NoeudAbstrait::afficher() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::afficherConcret() const
 {
-    // Effectue une translation pour placer le modele au bon endroit
-    glTranslated(positionRelative_[0], positionRelative_[1], positionRelative_[2]);
-
     if(estAffiche())
     {
         GLuint liste;
@@ -443,16 +434,13 @@ void NoeudAbstrait::afficherConcret() const
         if(liste==NULL)
             return;
         
-
+        glTranslated(mPosition[0], mPosition[1], mPosition[2]);
         glPushMatrix();
 
         // Effectue les mise a l'echelle et les rotations
         glMultMatrixd(matrice_);
 
         glPushAttrib( GL_ALL_ATTRIB_BITS );
-
-        
-
         if(surligne_ || selectionne_)
         {
             glEnable(GL_COLOR_LOGIC_OP);
@@ -474,7 +462,6 @@ void NoeudAbstrait::afficherConcret() const
         glCallList(liste); // Dessin de l'objet avec les textures
         glPopName();
         glPopName();
-
 
         glDisable(GL_STENCIL_TEST);
         // Restauration des attributs
@@ -537,25 +524,6 @@ void NoeudAbstrait::modifierMatrice(GLdouble *matrice)
 {
 	for(int i=0; i<16; i++)
 		matrice_[i] = matrice[i];
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn Vecteur3 NoeudAbstrait::obtenirPositionAbsolue(  )
-///
-/// Retourne la positionRelative (pos absolue = pos relative)
-///
-/// @return Vecteur3 : retourne le vecteur contenant la position relative
-///
-////////////////////////////////////////////////////////////////////////
-Vecteur3 NoeudAbstrait::obtenirPositionAbsolue() const
-{
-	Vecteur3 positionAbsolue = this->obtenirPositionRelative();
-	if(parent_ != 0 && parent_->obtenirType()!="racine")
-	{
-		positionAbsolue+=parent_->obtenirPositionAbsolue();
-	}
-	return positionAbsolue;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -671,7 +639,6 @@ void NoeudAbstrait::updateMatrice()
 	glGetDoublev(GL_MODELVIEW_MATRIX, matrice_); // Savegarde de la matrice courante dans le noeud
 
 	glPopMatrix();
-	updateRayon();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -697,16 +664,16 @@ NoeudAbstrait::PaireVect3 NoeudAbstrait::obtenirZoneOccupee() const
         hauteur = echelleCourante_[VY]*(maximum[VY]-minimum[VY]);
 
         // On multiplie par l'echelle maximale
-        minimum[VX] = obtenirPositionAbsolue()[VX]-(largeur*cos(((int)mAngle%90)*(float)M_PI/180))/2;
-        maximum[VX] = obtenirPositionAbsolue()[VX]+(largeur*cos(((int)mAngle%90)*(float)M_PI/180))/2;
+        minimum[VX] = getPosition()[VX]-(largeur*cos(((int)mAngle%90)*(float)M_PI/180))/2;
+        maximum[VX] = getPosition()[VX]+(largeur*cos(((int)mAngle%90)*(float)M_PI/180))/2;
 
-        minimum[VY] = obtenirPositionAbsolue()[VY]-(largeur*sin(((int)mAngle%90)*(float)M_PI/180))/2;
-        maximum[VY] = obtenirPositionAbsolue()[VY]+(largeur*sin(((int)mAngle%90)*(float)M_PI/180))/2;
+        minimum[VY] = getPosition()[VY]-(largeur*sin(((int)mAngle%90)*(float)M_PI/180))/2;
+        maximum[VY] = getPosition()[VY]+(largeur*sin(((int)mAngle%90)*(float)M_PI/180))/2;
 
         if(maximum[VY]-minimum[VY]<hauteur)
         {
-            minimum[VY] = obtenirPositionAbsolue()[VY]-hauteur/2;
-            maximum[VY] = obtenirPositionAbsolue()[VY]+hauteur/2;
+            minimum[VY] = getPosition()[VY]-hauteur/2;
+            maximum[VY] = getPosition()[VY]+hauteur/2;
 
         }
     }
@@ -824,7 +791,7 @@ bool NoeudAbstrait::possedeSelection()
 XmlElement* NoeudAbstrait::creerNoeudXML()
 {
 	XmlElement* elementNoeud = XMLUtils::createNode(type_.c_str());
-    XMLUtils::writeArray(positionRelative_.c_arr(),3,elementNoeud,"pos");
+    XMLUtils::writeArray(mPosition.c_arr(),3,elementNoeud,"pos");
     XMLUtils::writeArray(echelleCourante_.c_arr(),3,elementNoeud,"echelle");
     XMLUtils::writeAttribute(elementNoeud,"angle",mAngle);
     XMLUtils::writeAttribute(elementNoeud,"affiche",affiche_);
@@ -852,7 +819,7 @@ bool NoeudAbstrait::initialiser( const XmlElement* element )
     
 	if( !XMLUtils::readArray(pos.c_arr(),3,element,"pos") )
 		return false;
-	assignerPositionRelative(pos);
+	setPosition(pos);
     if( !XMLUtils::readArray(echelleCourante_.c_arr(),3,element,"echelle") )
         return false;
 
@@ -889,7 +856,7 @@ void NoeudAbstrait::modifierTerrain( Terrain* val )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::assignerPositionRelative( const Vecteur3& positionRelative )
+/// @fn void NoeudAbstrait::setPosition( const Vecteur3& positionRelative )
 ///
 /// /*Description*/
 ///
@@ -898,14 +865,14 @@ void NoeudAbstrait::modifierTerrain( Terrain* val )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::assignerPositionRelative( const Vecteur3& positionRelative )
+void NoeudAbstrait::setPosition( const Vecteur3& positionRelative )
 {
-    positionRelative_ = positionRelative;
+    mPosition = positionRelative;
 #if BOX2D_INTEGRATED  
     if(mPhysicBody)
     {
         b2Vec2 pos;
-        utilitaire::VEC3_TO_B2VEC(positionRelative_,pos);
+        utilitaire::VEC3_TO_B2VEC(mPosition,pos);
         mPhysicBody->SetTransform(pos,mPhysicBody->GetAngle());
     }
 #endif
@@ -1001,7 +968,7 @@ void NoeudAbstrait::SynchroniseTransformFromB2( const b2Transform& transform)
 {
 #if BOX2D_INTEGRATED 
     // TODO:: a verifier avec la position du parent
-    utilitaire::B2VEC_TO_VEC3(positionRelative_,transform.p);
+    utilitaire::B2VEC_TO_VEC3(mPosition,transform.p);
     mAngle = utilitaire::RAD_TO_DEG(transform.q.GetAngle());
 #endif
 }

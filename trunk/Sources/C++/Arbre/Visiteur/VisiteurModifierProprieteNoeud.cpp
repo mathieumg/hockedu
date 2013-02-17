@@ -163,8 +163,8 @@ void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NodeWallAbstract* noeud 
 			noeud->setReboundRatio(coefRebond_);		
 		if(unSeulSelect_)
 		{
-			Vecteur3 oldPos = noeud->obtenirPositionRelative();
-			noeud->assignerPositionRelative(position_);
+			const Vecteur3& oldPos = noeud->getPosition();
+			noeud->setPosition(position_);
 			float oldAngle = noeud->obtenirAngle();
 			noeud->assignerAngle((float)rotation_);
 			Vecteur3 oldEchelle; noeud->obtenirEchelleCourante(oldEchelle);
@@ -173,13 +173,14 @@ void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NodeWallAbstract* noeud 
 			// Si on arrive pas à assigner les nouvelles positions on annule les modifications et l'indique à l'usager
 			if(!FacadeModele::getInstance()->ajusterElementEnCollision(noeud,20))
 			{
-				noeud->assignerPositionRelative(oldPos);
+				noeud->setPosition(oldPos);
 				noeud->assignerAngle(oldAngle);
 				noeud->modifierEchelleCourante(oldEchelle);
 				utilitaire::afficherErreur("Nouvelles propriétés du Muret ne sont pas valides");
 			}
 		}
 	}
+    visiterNoeudComposite(noeud);
 }
 
 
@@ -325,7 +326,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudPoint( NoeudPoint* noeud )
 	if(noeud->estSelectionne())
 	{
 		// Assigner la position avant pour que le calcul de la longueur max des buts soit mise a jour
-		Vecteur3 positionCourante = noeud->obtenirPositionAbsolue();
+		const Vecteur3& positionCourante = noeud->getPosition();
 		
 		if(noeud->GetTerrain() )
 		{
@@ -410,11 +411,11 @@ void VisiteurModifierProprieteNoeud::visiterNoeudNeutre( NoeudAbstrait* noeud )
 	if(unSeulSelect_ && noeud->estSelectionne())
 	{
 		/// On fait le deplacement contenu dans position_ par rapport à l'origine
-		/*Vecteur3 deplacement = ((position_.convertir<3>())-(noeud->obtenirPositionAbsolue()));
+		/*Vecteur3 deplacement = ((position_.convertir<3>())-(noeud->getPosition()));
 		VisiteurDeplacement visiteurDeplacement(deplacement,true);
 		noeud->acceptVisitor(visiteurDeplacement);*/
-		Vecteur3 oldPos = noeud->obtenirPositionRelative();
-		noeud->assignerPositionRelative(position_);
+		const Vecteur3& oldPos = noeud->getPosition();
+		noeud->setPosition(position_);
 
 		float oldAngle = noeud->obtenirAngle();
 		/// On applique la nouvelle rotation
@@ -435,7 +436,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudNeutre( NoeudAbstrait* noeud )
 		/// On regle les nouvelles collision créé
 		if(!FacadeModele::getInstance()->ajusterElementEnCollision(noeud,20))
 		{
-			noeud->assignerPositionRelative(oldPos);
+			noeud->setPosition(oldPos);
 			noeud->assignerAngle(oldAngle);
 			noeud->modifierEchelleCourante(oldEchelle);
 			noeud->updateMatrice();

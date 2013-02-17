@@ -18,6 +18,10 @@
 #include "XMLUtils.h"
 #include "GestionnaireModeles.h"
 
+#ifdef MIKE_DEBUG
+PRAGMA_DISABLE_OPTIMIZATION
+#endif
+
 const Vecteur3 NodeWallAbstract::DEFAULT_SIZE = Vecteur3(1, 5, 15);
 
 CreateListDelegateImplementation(Wall)
@@ -96,7 +100,7 @@ void NodeWallAbstract::updatePhysicBody()
 
         mPhysicBody = getWorld()->CreateBody(&myBodyDef);
         b2PolygonShape shape;
-        Vecteur3 pos = obtenirPositionAbsolue();
+        const Vecteur3& pos = getPosition();
         b2Vec2 posB2;
         utilitaire::VEC3_TO_B2VEC(pos,posB2);
         myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
@@ -127,18 +131,10 @@ void NodeWallAbstract::updatePhysicBody()
 ////////////////////////////////////////////////////////////////////////
 void NodeWallAbstract::afficherConcret() const
 {
-	// Sauvegarde de la matrice.
-	glPushMatrix();
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
-
 	glColor3f(0.76f, 0.64f, 0.31f);
 
 	// Appel à la version de la classe de base pour l'affichage des enfants.
 	Super::afficherConcret();
-
-	// Restauration de la matrice.
-	glPopAttrib();
-	glPopMatrix();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -243,51 +239,56 @@ const std::string& NodeWallAbstract::get3DModelKey() const
 ////////////////////////////////////////////////////////////////////////
 void NodeWallAbstract::updateWallProperties()
 {
-    Vecteur3 corner1 = obtenirCoin1(), corner2 = obtenirCoin2();
+    const Vecteur3& corner1 = obtenirCoin1(), corner2 = obtenirCoin2();
     Vecteur3 vecteurEntre(corner1-corner2);
 
     // just to be sure
     vecteurEntre[VZ] = 0;
 
-    // arctan(y/x) = angle
-    float angle = utilitaire::RAD_TO_DEG(atan2(vecteurEntre[VY], vecteurEntre[VX]));
-    if(angle<0)
+    if(vecteurEntre.estNul())
     {
-        angle += 360.f;
+        mAngle = 0;
+        echelleCourante_[VX] = 0;
+        mPosition = corner1;
     }
+    else
+    {
+        // arctan(y/x) = angle
+        float angle = utilitaire::RAD_TO_DEG(atan2(vecteurEntre[VY], vecteurEntre[VX]));
+        // L'angle doit rester toujours positif pour garder la coherence dans tous les modifications
+        if(angle<0)
+        {
+            angle += 360.f;
+        }
 
-    // pour conserver l'echelle en Y et Z
-    Vecteur3 echelle;
-    obtenirEchelleCourante(echelle);
-    float distance = vecteurEntre.norme();
-    echelle[VX] = distance / DEFAULT_SIZE[VX];
+        // pour conserver l'echelle en Y et Z
+        Vecteur3 echelle;
+        obtenirEchelleCourante(echelle);
+        float distance = vecteurEntre.norme();
+        echelle[VX] = distance / DEFAULT_SIZE[VX];
 
-    /* pour s'assurer de ne pas appeler la version virtuelle
-    * puisque la modification de ceux-ci pourrait
-    * entrainer une mise a jour des coins, ce qui n'est pas
-    * desire dans cette situation
-    * Aussi, on n'utilise pas les accesseurs pour eviter
-    * de refaire la matrice de tranformation et 
-    * le body box2d plusieurs fois pour rien
-    */
-    positionRelative_ = corner2+(vecteurEntre/2.0f);
-    echelleCourante_ = echelle;
-    mAngle = angle;
-
-//     vecteurEntre.normaliser();
-//     mAngle = (360.0f+(utilitaire::RAD_TO_DEG(acos(vecteurEntre[VX]))*( (vecteurEntre[VY] < 0)?-1:1) ) );
-//     mAngle /= 360.0f;
-//     mAngle -= (int)(mAngle);
-//     mAngle *= 360.0f;
-
-
-
+        /* pour s'assurer de ne pas appeler la version virtuelle
+        * puisque la modification de ceux-ci pourrait
+        * entrainer une mise a jour des coins, ce qui n'est pas
+        * desire dans cette situation
+        * Aussi, on n'utilise pas les accesseurs pour eviter
+        * de refaire la matrice de tranformation et 
+        * le body box2d plusieurs fois pour rien
+        */
+        mPosition = corner2+(vecteurEntre/2.0f);
+        echelleCourante_ = echelle;
+        mAngle = angle;
+    }
     // necessaire pour s'assurer de l'integrite des proprietes
     // physiques et d'affichage
     updateMatrice();
     updatePhysicBody();
 }
 
+
+#ifdef MIKE_DEBUG
+PRAGMA_ENABLE_OPTIMIZATION
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

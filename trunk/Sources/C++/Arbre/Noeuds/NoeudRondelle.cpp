@@ -18,7 +18,6 @@
 #include "Partie.h"
 #include "NoeudAccelerateur.h"
 #include "DecodeString.h"
-#include "NoeudMuretRelatif.h"
 #include <iostream>
 #include "SoundFMOD.h"
 #include "NoeudGroupe.h"
@@ -99,16 +98,8 @@ NoeudRondelle::~NoeudRondelle()
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::afficherConcret() const
 {
-    // Sauvegarde de la matrice.
-    glPushMatrix();
-    glPushAttrib(GL_ALL_ATTRIB_BITS);
-
 	// Appel à la version de la classe de base pour l'affichage des enfants.
 	NoeudAbstrait::afficherConcret();
-
-    // Restauration de la matrice.
-    glPopAttrib();
-    glPopMatrix();
 }
 
 
@@ -127,7 +118,7 @@ void NoeudRondelle::afficherConcret() const
 void NoeudRondelle::animer( const float& temps)
 {
 	//A mettre dans majPosition();
-	//positionRelative_ += mVelocite*temps;
+	//mPosition += mVelocite*temps;
 	// Appel à la version de la classe de base pour l'animation des enfants.
 	NoeudAbstrait::animer(temps);
 }
@@ -178,15 +169,15 @@ void NoeudRondelle::gestionCollision( const float& temps )
 	vitesseResultante_.remetAZero();
 	bonusAccelResultant_ = 1;
 
-	positionRelative_ = anciennePos_;
+	mPosition = anciennePos_;
 	//const float cycles = 10;
 	//float dt = temps/cycles;
 	//for(int i=0; i<cycles;i++)
 	{
 		
-		positionRelative_+=mVelocite*temps;
+		mPosition+=mVelocite*temps;
 
-		Vecteur2 vecteurDirecteur(positionRelative_-anciennePos_);
+		Vecteur2 vecteurDirecteur(mPosition-anciennePos_);
 		vecteurDirecteur.normaliser();
 		Vecteur2 normale(vecteurDirecteur[VY],-vecteurDirecteur[VX]);	// Pointe vers la droite
 
@@ -206,7 +197,7 @@ void NoeudRondelle::gestionCollision( const float& temps )
 				if(portail)
 				{
 					float sommeRayon = (portail->obtenirRayon())/5 + obtenirRayon();
-					Vecteur3 distance(portail->obtenirPositionAbsolue()-obtenirPositionAbsolue());
+					Vecteur3 distance(portail->getPosition()-getPosition());
 
 					// Collision
 					if(portail->isAttractionFieldActive() && distance.norme() <= sommeRayon && nbEnfant > 1 )
@@ -217,7 +208,7 @@ void NoeudRondelle::gestionCollision( const float& temps )
 
 						NoeudPortail* portailDeSortie = dynamic_cast<NoeudPortail*>(groupe->chercher(noPortailDeSortie));
 						portailDeSortie->setIsAttractionFieldActive(false);
-						anciennePos_ = positionRelative_ = portailDeSortie->obtenirPositionRelative();
+						anciennePos_ = mPosition = portailDeSortie->getPosition();
 						enfoncement_.remetAZero();
 						collision_ = false;
 						SoundFMOD::obtenirInstance()->playEffect(effect(PORTAL_EFFECT));
@@ -236,11 +227,11 @@ void NoeudRondelle::gestionCollision( const float& temps )
 			if(maillet)
 			{
 				aidecollision::DetailsCollision details = aidecollision::calculerCollisionCercle(
-					maillet->obtenirPositionAbsolue().convertir<2>(),maillet->obtenirRayon(),
-					obtenirPositionAbsolue().convertir<2>(),obtenirRayon());
+					maillet->getPosition().convertir<2>(),maillet->obtenirRayon(),
+					getPosition().convertir<2>(),obtenirRayon());
 				if(details.type != aidecollision::COLLISION_AUCUNE)
 				{
-					Vecteur3 droiteEntreCentres = maillet->obtenirPositionAbsolue()-obtenirPositionAbsolue();
+					Vecteur3 droiteEntreCentres = maillet->getPosition()-getPosition();
 					bool collisionMaillet = false;
 					float time = aidecollision::TimeOfClosestApproach(
 						anciennePos_.convertir<2>(),
@@ -288,7 +279,7 @@ void NoeudRondelle::gestionCollision( const float& temps )
 				if(accel)
 				{
 					float sommeRayon = accel->obtenirRayon()+obtenirRayon();
-					Vecteur3 distance(accel->obtenirPositionAbsolue()-obtenirPositionAbsolue());
+					Vecteur3 distance(accel->getPosition()-getPosition());
 					// Collision
 					if(distance.norme2() <= sommeRayon*sommeRayon)
 					{
@@ -363,8 +354,8 @@ void NoeudRondelle::gestionCollision( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::majPosition( const float& temps )
 {
-	anciennePos_ = positionRelative_;
-	positionRelative_ += mVelocite*temps;
+	anciennePos_ = mPosition;
+	mPosition += mVelocite*temps;
 	mAngle = (float)((int)(mAngle + 5*mVitesseRotation)%360);
 	updateMatrice();
 }
@@ -393,24 +384,24 @@ void NoeudRondelle::ajusterEnfoncement()
         }
     }
 
-	positionRelative_ -= enfoncement_*1.1f;
+	mPosition -= enfoncement_*1.1f;
 	// Initialisation d'un vecteur pour l'intersection
 	Vecteur2 intersection;
 	// Inversion du vecteur de direction de la rondelle
 	//////// La methode doit retourne le muret pas juste ces point pour le coef de rebond
-	NodeWallAbstract* muret = table_->detectionCollisionGrandeVitesseMuret(anciennePos_.convertir<2>(),positionRelative_.convertir<2>(),intersection);
+	NodeWallAbstract* muret = table_->detectionCollisionGrandeVitesseMuret(anciennePos_.convertir<2>(),mPosition.convertir<2>(),intersection);
 	if(muret)
 	{
 		Vecteur2 directeur(muret->obtenirCoin2()-muret->obtenirCoin1());
 		directeur.normaliser();
 		Vecteur2 normale(-directeur[VY],directeur[VX]);
-		Vecteur2 direction(anciennePos_-positionRelative_);
+		Vecteur2 direction(anciennePos_-mPosition);
 		if(produitScalaire(normale,direction) < 0)
 			normale*=-1;
 		// La normale de la normale est la droite elle meme
 		mVelocite = calculerReflexion(mVelocite,directeur.convertir<3>())*-1*1.10f;//muret->getReboundRatio();
 		normale*= obtenirRayon();
-		positionRelative_ = intersection.convertir<3>()+normale;
+		mPosition = intersection.convertir<3>()+normale;
 	}
 
 	if(!table_->estSurTable(this) )
@@ -418,7 +409,7 @@ void NoeudRondelle::ajusterEnfoncement()
 		Partie* partie = FacadeModele::getInstance()->obtenirPartieCourante();
 		if(partie != 0)
 		{
-			if(positionRelative_[VX] < 0)
+			if(mPosition[VX] < 0)
 			{
 				partie->incrementerPointsJoueurDroit();
 				
@@ -436,12 +427,12 @@ void NoeudRondelle::ajusterEnfoncement()
 		}
 		partie->miseAuJeu();
 		// Rendu dans miseAuJeu de Partie
-// 		positionRelative_ = positionOriginale_;
+// 		mPosition = positionOriginale_;
  		mVelocite.remetAZero();
 		
 		
 	}
-	positionRelative_[VZ] = 0;
+	mPosition[VZ] = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -482,7 +473,7 @@ void NoeudRondelle::ajusterVitesse( const float& temps )
 			if(portail)
 			{
 				// Distance entre le centre du portail et le centre de la rondelle
-				Vecteur3 distance(portail->obtenirPositionAbsolue()-obtenirPositionAbsolue());
+				Vecteur3 distance(portail->getPosition()-getPosition());
 				
 				// La vitesse sera affectée seulement si la distance est plus petite que 50
 				if(distance.norme() <= 50)
@@ -512,17 +503,17 @@ void NoeudRondelle::ajusterVitesse( const float& temps )
 
 	// Algorithme pour calculer le vent !!!!!
 	Vecteur3 directeur;
-	if(positionRelative_[VX] == 0 && positionRelative_[VY] == 0)
+	if(mPosition[VX] == 0 && mPosition[VY] == 0)
 	{
 		// si la rondelle est au centre du terrain on lui donne une direction aleatoire pour commencer le mouvement
 		directeur = Vecteur3((rand()&1) == 0 ? 1.0f : -1.0f, (rand()&1) == 0 ? 1.0f : -1.0f);
 	}
 	else
 	{
-		directeur = Vecteur3(2*coeffDirectVent_*sqrt(abs(positionRelative_[VX])/coeffDirectVent_)*(positionRelative_[VX] <0.0f?-1.0f:1.0f),positionRelative_[VY] <0.0f?-1.0f:1.0f);
+		directeur = Vecteur3(2*coeffDirectVent_*sqrt(abs(mPosition[VX])/coeffDirectVent_)*(mPosition[VX] <0.0f?-1.0f:1.0f),mPosition[VY] <0.0f?-1.0f:1.0f);
 	}
 	directeur.normaliser();
-	directeur *= -coeffVent_*positionRelative_[VX]*positionRelative_[VX]+puissanceVent_;
+	directeur *= -coeffVent_*mPosition[VX]*mPosition[VX]+puissanceVent_;
 	mVelocite += directeur;
 	
 	///////////////////////////////////////////////
@@ -580,14 +571,14 @@ void NoeudRondelle::validerPropriteteTablePourJeu() throw(std::logic_error)
 		table_ = GetTerrain()->getTable();
 		if(table_ != NULL)
 		{
-			positionOriginale_ = positionRelative_;
+			positionOriginale_ = mPosition;
 			// CoeffVent _ = puissanceMax/ x^2
-			float x = table_->obtenirPoint(POSITION_MILIEU_DROITE)->obtenirPositionAbsolue()[VX]*0.50f;
+			float x = table_->obtenirPoint(POSITION_MILIEU_DROITE)->getPosition()[VX]*0.50f;
 			coeffVent_ = puissanceVent_/(x*x);
 
 
 			//coeffDirectVent_ = X/Y^2
-			Vecteur3 ref = rand()&1 ? table_->obtenirPoint(POSITION_HAUT_DROITE)->obtenirPositionAbsolue() : table_->obtenirPoint(POSITION_BAS_DROITE)->obtenirPositionAbsolue();
+			Vecteur3 ref = rand()&1 ? table_->obtenirPoint(POSITION_HAUT_DROITE)->getPosition() : table_->obtenirPoint(POSITION_BAS_DROITE)->getPosition();
 			coeffDirectVent_ = ref[VX]/ref[VY]/ref[VY];
 
 			mCoefFriction = table_->obtenirCoefFriction()/10;
@@ -622,7 +613,7 @@ void NoeudRondelle::updatePhysicBody()
 
         float puckRadius = obtenirRayon();
 
-        Vecteur3 pos = obtenirPositionAbsolue();
+        const Vecteur3& pos = getPosition();
         b2Vec2 posB2;
         utilitaire::VEC3_TO_B2VEC(pos,posB2);
         myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
@@ -685,7 +676,7 @@ void NoeudRondelle::updatePhysicBody()
 void NoeudRondelle::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
 {
     if(pAnimationResult.CanUpdatedPosition())
-        assignerPositionRelative(pAnimationResult.mPosition);
+        setPosition(pAnimationResult.mPosition);
     if(pAnimationResult.CanUpdatedAngle())
         mAngle = pAnimationResult.mAngle[VZ];
     if(pAnimationResult.CanUpdatedScale())

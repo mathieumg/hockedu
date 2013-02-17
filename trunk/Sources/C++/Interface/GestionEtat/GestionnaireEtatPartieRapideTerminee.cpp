@@ -40,7 +40,7 @@ GestionnaireEtatPartieRapideTerminee::GestionnaireEtatPartieRapideTerminee(Gesti
 	else
 		mailletPerdant = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
 
-	Vecteur3 positionDepart = mailletPerdant->obtenirPositionAbsolue();
+	Vecteur3 positionDepart = mailletPerdant->getPosition();
 	Vecteur3 positionFinale = Vecteur3(-1170, -15, -55);
 
 	vue::Camera* cameraCourante = &FacadeModele::getInstance()->obtenirVue()->obtenirCamera();

@@ -82,11 +82,11 @@ void VisiteurNoeudTest::testDeplacerObjet()
 {
 
 	NoeudAbstrait* n = new NoeudMaillet(RazerGameUtilities::NOM_MAILLET);
-	n->assignerPositionRelative(Vecteur3(0.0,0.0));
+	n->setPosition(Vecteur3(0.0,0.0));
 	n->assignerSelection(true);
 	VisiteurDeplacement v(Vecteur2(25.0,-10.0));
 	n->acceptVisitor(v);
-	CPPUNIT_ASSERT(n->obtenirPositionRelative() == Vecteur3(-25.0,-10.0));
+	CPPUNIT_ASSERT(n->getPosition() == Vecteur3(-25.0,-10.0));
 
 
 }
@@ -128,11 +128,11 @@ void VisiteurNoeudTest::testSelectionObjet()
 	noeud5->assignerSelection(false);
 
 	// assignation de position tres eloigné pour éviter que les boites de collisions se touchent
-	noeud1->assignerPositionRelative(Vecteur3(-500.0,500.0,0.0));
-	noeud2->assignerPositionRelative(Vecteur3(500.0,500.0,0));
-	noeud3->assignerPositionRelative(Vecteur3(0.0,0.0,0.0));
-	noeud4->assignerPositionRelative(Vecteur3(-500.0,-500.0,0.0));
-	noeud5->assignerPositionRelative(Vecteur3(500.0,-500.0,0.0));
+	noeud1->setPosition(Vecteur3(-500.0,500.0,0.0));
+	noeud2->setPosition(Vecteur3(500.0,500.0,0));
+	noeud3->setPosition(Vecteur3(0.0,0.0,0.0));
+	noeud4->setPosition(Vecteur3(-500.0,-500.0,0.0));
+	noeud5->setPosition(Vecteur3(500.0,-500.0,0.0));
 
 	VisiteurSelection v(Vecteur2(-500.0,500.0),Vecteur2(-500.0,500.0));
 	CPPUNIT_ASSERT(v.avecRectangle == false);

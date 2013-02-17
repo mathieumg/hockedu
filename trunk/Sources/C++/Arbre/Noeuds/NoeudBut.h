@@ -13,7 +13,7 @@
 #include "NoeudComposite.h"
 #include "PositionSubject.h"
 
-class NoeudMuretRelatif;
+class NodeRinkBoards;
 class NoeudPoint;
 
 ///////////////////////////////////////////////////////////////////////////
@@ -26,7 +26,8 @@ class NoeudPoint;
 class NoeudBut : public NoeudComposite, public PositionSubject
 {
 public:
-	friend NoeudMuretRelatif;
+    typedef NoeudComposite Super;
+    friend NodeRinkBoards;
 	/// Constructeur à partir du type du noeud.
 	NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHaut, NoeudPoint * coinBas, NoeudComposite* pParent = NULL);
 	/// Destructeur.
@@ -74,6 +75,7 @@ public:
 
     /// Update the physics body for the puck catcher according with the radius of the puck
     void updatePuckCatcher(float puckRadius);
+    virtual const Vecteur3& getPosition() const {return parent_->getPosition();}
 
     /// Libere la memoire de l'objet Box2D
     virtual void clearPhysicsBody();
