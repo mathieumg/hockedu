@@ -1,0 +1,1 @@
+<p>Test bro.{if isset($Example)} Sup, <strong>{$Example}</strong>?{/if}</p>

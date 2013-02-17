@@ -1,11 +1,11 @@
 <?php
 /**
- * Website management for the Berpa Management System.
+ * Website management for the Hockedu System.
  * 
- * Tools for the container of the management system.
+ * Tools for the container of the Hockedu system.
  * @author Mathieu M-Gosselin <mathieumg@gmail.com>
- * @since 06/07/2011
- * @package Cloud
+ * @since 17/02/2013
+ * @package Hockedu
  */
  
  
@@ -24,13 +24,6 @@ class Website
      * @var string
      */
     private $contentURL;
-    
-    /**
-     * Name of the current subsite.
-     * @access private
-     * @var string
-     */
-    private $currentSubsite;
     
     private $displaySite;
     
@@ -74,13 +67,6 @@ class Website
     private static $smartyAssignmentsDone;
     
     /**
-     * Contains all the valid subsites for the management system.
-     * @access private
-     * @var array
-     */
-    private $subsites;
-    
-    /**
      * Contains the path of the template to include.
      * @access private
      * @var string
@@ -112,36 +98,14 @@ class Website
             $this->killSite( 'Incapable de charger les paramètres depuis la cache.' );
         }
         
-        // Load subsites from cache.
-        $subsites = new CacheStore( 'subsites' );
-        if( $subsites->exists() )
-        {
-            $this->subsites = $subsites->getCacheData();
-        }
-        else
-        {
-            $this->killSite( 'Incapable de charger la liste des sous-sites depuis la cache.' );
-        }
-        
         // Initialize some properties.
         $this->contentURL = 'http://' . $this->settings['ContentSubDomain'] . '.' . $this->settings['MainDomain'] . '/';
         $this->displaySite = true;
-        $this->basePath = '/var/www/cloud/';
+        $this->basePath = '/var/www/hockedu.com/';
         $this->includePath = $this->basePath . 'includes/';
         $this->templatesPath = $this->basePath . 'templates/';
         $this->templateToInclude = 'homepage';
         self::$smartyAssignmentsDone = false;
-        
-        // Get current subsite.
-        $_GET['module'] = filter_var( $_GET['module'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH );
-        if( $this->isValidSubsite( $_GET['module'] ) )
-        {
-            $this->currentSubsite = $_GET['module'];
-        }
-        else
-        {
-            $this->changePage( $this->settings['MainDomain'] );
-        }
         
         // Generate module list from URL.
         $_GET['query'] = filter_var( $_GET['query'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH );
@@ -164,29 +128,19 @@ class Website
         $this->modules = $moduleList;
         
         // Initialize Smarty.
-		$this->smarty = new Smarty();
+        $this->smarty = new Smarty();
         
         $this->smarty->setTemplateDir( $this->templatesPath . 'templates/');
-		$this->smarty->setCompileDir( $this->templatesPath . 'templates_c/');
-		$this->smarty->setConfigDir( $this->templatesPath . 'configs/');
-		$this->smarty->setCacheDir( $this->templatesPath . 'cache/');
+        $this->smarty->setCompileDir( $this->templatesPath . 'templates_c/');
+        $this->smarty->setConfigDir( $this->templatesPath . 'configs/');
+        $this->smarty->setCacheDir( $this->templatesPath . 'cache/');
         
         // Set locale.
-		setlocale(LC_MONETARY, 'fr_CA.utf8');
+        //setlocale(LC_MONETARY, 'fr_CA.utf8');
         
         // Start sessions.
-        session_set_cookie_params( 0, '/', '.groupeberpa.com' );
+        session_set_cookie_params( 0, '/', '.hockedu.com' );
         session_start();
-    }
- 
-    /**
-     * Returns the current subsite.
-     * @access public
-     * @return string
-     */
-    public function getCurrentSubsite()
-    {
-        return $this->currentSubsite;
     }
     
     /**
@@ -211,9 +165,9 @@ class Website
         
         $mailMessage->default_charset = 'UTF-8';
         
-        $mailMessage->SetEncodedEmailHeader('From', 'no-reply@groupeberpa.com', 'Groupe Berpa');
-        $mailMessage->SetEncodedEmailHeader('Reply-To', 'contact@groupeberpa.com', 'Groupe Berpa');
-        $mailMessage->SetEncodedEmailHeader('Errors-To', 'webmaster@groupeberpa.com', 'Webmaster');
+        $mailMessage->SetEncodedEmailHeader('From', 'no-reply@hockedu.com', 'Hockedu');
+        $mailMessage->SetEncodedEmailHeader('Reply-To', 'contact@hockedu.com', 'Hockedu');
+        $mailMessage->SetEncodedEmailHeader('Errors-To', 'webmaster@hockedu.com', 'Webmaster');
         
         return $mailMessage;
 	}
@@ -282,25 +236,6 @@ class Website
         return 'Setting "' . $name . '" not found.';
     }
     
-    public function getSubsiteName( $subsite )
-    {
-        return $this->subsites[ $subsite ];
-    }
-    
-    public function getSubsiteUrl( $subsite, $http = true )
-    {
-        $subsiteUrl = '';
-        
-        if( $http )
-        {
-            $subsiteUrl .= 'http://';
-        }
-        
-        $subsiteUrl .= $subsite . '.' . $this->settings['MainDomain'] . '/';
-        
-        return $subsiteUrl;
-    }
-    
     public function &getSmarty()
     {
         return $this->smarty;
@@ -309,12 +244,7 @@ class Website
     public function setIncludeModule( $name )
     {
         $this->includeModule = $name;
-    }    
-    
-    public function setIncludeSubModule( $name )
-    {
-        $this->includeModule = $this->getCurrentSubsite() . '/' . $name;
-    }   
+    }     
     
     public function setTemplateToInclude( $name )
     {
@@ -340,31 +270,12 @@ class Website
     {
         if( !self::$smartyAssignmentsDone )
         {
-            if( $this->getCurrentSubsite() !== $this->settings['MainSubDomain'] )
-            {
-                $this->smarty->assign( 'Subsite', $this->getCurrentSubsite() );
-                $this->smarty->assign( 'CompleteUrl', $this->getSubsiteUrl( $this->getCurrentSubsite() ) );
-            }
-            else
-            {
-                $this->smarty->assign( 'CompleteUrl', $this->settings['MainDomain'] );
-            }
+            $this->smarty->assign( 'CompleteUrl', $this->settings['MainDomain'] );
             
             if( !empty( $_SESSION['userInformation'] ) )
             {
                 $this->smarty->assign( 'IsLoggedIn', true );
                 $this->smarty->assign( 'UserInformation', $_SESSION['userInformation'] );
-                
-                foreach( $_SESSION['userInformation']['allowedSubsites'] as $key => $value )
-                {
-                    $allowedSubsites[ $value ] = $this->getSubsiteName( $value );
-                }
-                
-                $this->smarty->assign( 'AllowedSubsites', $allowedSubsites );
-            }
-            else
-            {
-                $this->smarty->assign( 'SubsitesList', $this->subsites );
             }
             
             $this->smarty->assign( 'ModuleName', $this->modules[0] );
@@ -395,54 +306,6 @@ class Website
     public function doNotDisplaySite()
     {
         $this->displaySite = false;
-    }
-    
-    public function extractAllowedSubsites( $permissions )
-    {
-        if( !empty( $permissions ) )
-        {
-            $allowedSubsites = array();
-        
-            // If there is an access level set as a default for all subsites.
-            if( isset( $permissions['common'] ) && isset( $permissions['common']['accessLevel'] ) && ( $permissions['common']['accessLevel'] > 0 ) )
-            {
-                foreach( $this->subsites as $key => $value )
-                {
-                    $allowedSubsites[] = $key;
-                }
-            }
-            
-            // Specific access levels for subsites.
-            foreach( $permissions as $key => $value )
-            {
-                if( $key !== 'common' )
-                {
-                    if( isset( $permissions[ $key ]['accessLevel'] ) )
-                    {
-                        if( in_array( $key, $allowedSubsites, true ) )
-                        {
-                            // Remove a subsite that was previously assumed to have access granted.
-                            if( $permissions[ $key ]['accessLevel'] <= 0 )
-                            {
-                                unset( $allowedSubsites[ array_search( $key, $allowedSubsites, true ) ] );
-                            }
-                        }
-                        else
-                        {
-                            // Add a subsite.
-                            if( $permissions[ $key ]['accessLevel'] > 0 )
-                            {
-                                $allowedSubsites[] = $key;
-                            }
-                        }
-                    }
-                }
-            }
-            
-            return array_values( $allowedSubsites );
-        }
-        
-        return array();
     }
 	
 	public function formatPostalCode( $rawPostalCode, $rawCountry )
@@ -548,45 +411,6 @@ class Website
     public function isLoggedIn()
     {
         return !empty( $_SESSION['userInformation'] );
-    }
-    
-    /**
-     * Returns true if the provided subsite is valid.
-     * @access public
-     * @param string $name Name of the subsite to validate.
-     * @return boolean
-     */
-    public function isValidSubsite( $name )
-    {
-        // Easter egg.
-        if( $name === 'lolsinep' )
-        {
-            die( '<p><img src="' . $this->contentURL . 'img/trollface.jpg" /></p><p>Problem?</p>' );
-        }
-        
-        // If it is the subsite for the general login form.
-        if( $name == $this->settings['MainSubDomain'] )
-        {
-            return true;
-        }
-        
-        // If it is a specific subsite from those loaded.
-        if( array_key_exists( $name, $this->subsites ) )
-        {
-            return true;
-        }
-        
-        return false;
-    }
-    
-    /**
-     * Returns the theorical path to the AJAX handler (whether it actually exists or not) of the current subsite.
-     * @access public
-     * @return string
-     */
-    public function getCurrentSubsiteAjaxPath( )
-    {
-        return $this->includePath . $this->getCurrentSubsite() . '/ajax.inc.php';
     }
 	
 	/**
