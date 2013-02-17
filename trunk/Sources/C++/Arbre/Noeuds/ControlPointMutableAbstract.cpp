@@ -16,34 +16,6 @@
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void ControlPointMutableAbstract::addControlPoint( NodeControlPoint* point )
-///
-/// /*Description*/
-///
-/// @param[in] NodeControlPoint * point
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-bool ControlPointMutableAbstract::addControlPoint( NodeControlPoint* point )
-{
-    if(mPoints.size() < getMaxControlPoints())
-    {
-        point->setLinkedObject(this);
-        // ajout tous les points dejà existant comme point associé
-        std::for_each(mPoints.begin(),mPoints.end(),[&](NodeControlPoint* associatedPoint)
-        {
-            point->addAssociatedPoint(associatedPoint);
-            associatedPoint->addAssociatedPoint(point);
-        });
-        mPoints.push_back(point);
-        return true;
-    }
-    return false;
-}
-
-////////////////////////////////////////////////////////////////////////
-///
 /// @fn  ControlPointMutableAbstract::ControlPointMutableAbstract( unsigned int limit )
 ///
 /// /*Description*/
@@ -72,4 +44,86 @@ ControlPointMutableAbstract::ControlPointMutableAbstract( unsigned int limit ):
 ControlPointMutableAbstract::~ControlPointMutableAbstract()
 {
 
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void ControlPointMutableAbstract::addControlPoint( NodeControlPoint* point )
+///
+/// /*Description*/
+///
+/// @param[in] NodeControlPoint * point
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+bool ControlPointMutableAbstract::addControlPoint( NodeControlPoint* point )
+{
+    if(mPoints.size() < getMaxControlPoints())
+    {
+        point->setLinkedObject(this);
+        // ajout tous les points dejà existant comme point associé
+        std::for_each(mPoints.begin(),mPoints.end(),[&](NodeControlPoint* associatedPoint)
+        {
+            point->addAssociatedPoint(associatedPoint);
+            associatedPoint->addAssociatedPoint(point);
+        });
+        mPoints.push_back(point);
+
+        // doing call after so the node can use the new info to update itself
+        if(onAddControlPoint(point))
+        {
+            return true;
+        }
+        
+        // something went wrong, remove it
+        removeControlPointInner(point);
+    }
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void ControlPointMutableAbstract::removeControlPoint( NodeControlPoint* point )
+///
+/// /*Description*/
+///
+/// @param[in] NodeControlPoint * point
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void ControlPointMutableAbstract::removeControlPoint( NodeControlPoint* point )
+{
+    removeControlPointInner(point);
+    // doing call after so the node can use the new info to update itself
+    onRemoveControlPoint(point);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void ControlPointMutableAbstract::removeControlPointInner( NodeControlPoint* point )
+///
+/// /*Description*/
+///
+/// @param[in] NodeControlPoint * point
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void ControlPointMutableAbstract::removeControlPointInner( NodeControlPoint* point )
+{
+    auto it = find(mPoints.begin(),mPoints.end(), point);
+    if(it != mPoints.end())
+    {
+        mPoints.erase(it);
+    }
+
+    std::for_each(mPoints.begin(),mPoints.end(),[&](NodeControlPoint* associatedPoint)
+    {
+        point->removeAssociatedPoint(associatedPoint);
+        associatedPoint->removeAssociatedPoint(point);
+    });
+    point->setLinkedObject(NULL);
 }

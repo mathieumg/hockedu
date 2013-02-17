@@ -21,6 +21,7 @@
 #include "NoeudTable.h"
 #include "NodeWallEdition.h"
 #include "NodeControlPoint.h"
+#include "..\Noeuds\NodePolygone.h"
 
 class NoeudAbstrait;
 
@@ -88,6 +89,7 @@ CreateNodeFactory(NoeudPortail);
 CreateNodeFactory(NoeudTable);
 CreateNodeFactory(NodeWallEdition);
 CreateNodeFactory(NodeControlPoint);
+CreateNodeFactory(NodePolygone);
 
 class UsineNoeudMaillet : public UsineNoeud
 {

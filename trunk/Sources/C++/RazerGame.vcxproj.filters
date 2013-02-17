@@ -473,11 +473,14 @@
     <ClCompile Include="Arbre\Noeuds\NodeControlPoint.cpp">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClCompile>
-    <ClCompile Include="Interface\EtatSouris\SourisEtatAjoutMuretRelatif.cpp">
-      <Filter>Sources Files\Interface\EtatSouris</Filter>
-    </ClCompile>
     <ClCompile Include="Arbre\Noeuds\ControlPointMutableAbstract.cpp">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbre\Noeuds\NodePolygone.cpp">
+      <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\EtatSouris\SourisEtatAjoutControlPointMutable.cpp">
+      <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -895,11 +898,14 @@
     <ClInclude Include="Arbre\Noeuds\NodeControlPoint.h">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClInclude>
-    <ClInclude Include="Interface\EtatSouris\SourisEtatAjoutMuretRelatif.h">
-      <Filter>Sources Files\Interface\EtatSouris</Filter>
-    </ClInclude>
     <ClInclude Include="Arbre\Noeuds\ControlPointMutableAbstract.h">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Noeuds\NodePolygone.h">
+      <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\EtatSouris\SourisEtatAjoutControlPointMutable.h">
+      <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

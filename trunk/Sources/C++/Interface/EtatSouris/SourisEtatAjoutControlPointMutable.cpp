@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file SourisEtatAjoutMuretRelatif.cpp
+/// @file SourisEtatAjoutControlPointMutable.cpp
 /// @author Mathieu Parent
 /// @date 2012-02-10
 /// @version 1.0 
@@ -8,12 +8,12 @@
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
-#include "SourisEtatAjoutMuretRelatif.h"
+#include "SourisEtatAjoutControlPointMutable.h"
 #include "FacadeModele.h"
-#include "NodeWallEdition.h"
 #include "NodeControlPoint.h"
 #include "SourisEtatAjout.h"
 #include "Terrain.h"
+#include "ControlPointMutableAbstract.h"
 
 #ifdef MIKE_DEBUG
 PRAGMA_DISABLE_OPTIMIZATION
@@ -21,7 +21,7 @@ PRAGMA_DISABLE_OPTIMIZATION
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn SourisEtatAjoutMuretRelatif::SourisEtatAjoutMuretRelatif()
+/// @fn SourisEtatAjoutControlPointMutable::SourisEtatAjoutControlPointMutable()
 ///
 /// Ce constructeur appelle le constructeur de base, cree un noeud de base afin de voir un affichage et initialise les attributs
 ///
@@ -30,8 +30,8 @@ PRAGMA_DISABLE_OPTIMIZATION
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-SourisEtatAjoutMuretRelatif::SourisEtatAjoutMuretRelatif():
-    SourisEtatAjout(RazerGameUtilities::NAME_RELATIVE_WALL),mCurrentPoint(NULL)
+SourisEtatAjoutControlPointMutable::SourisEtatAjoutControlPointMutable(const std::string& typeNoeud):
+    SourisEtatAjout(typeNoeud),mCurrentPoint(NULL)
 {
     if(!createNextControlPoint())
     {
@@ -55,7 +55,7 @@ SourisEtatAjoutMuretRelatif::SourisEtatAjoutMuretRelatif():
 	
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn SourisEtatAjoutMuretRelatif::~SourisEtatAjoutMuretRelatif(void)
+/// @fn SourisEtatAjoutControlPointMutable::~SourisEtatAjoutControlPointMutable(void)
 ///
 /// Ce destructeur supprime le noeud en cours d'ajout
 ///
@@ -64,7 +64,7 @@ SourisEtatAjoutMuretRelatif::SourisEtatAjoutMuretRelatif():
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-SourisEtatAjoutMuretRelatif::~SourisEtatAjoutMuretRelatif(void)
+SourisEtatAjoutControlPointMutable::~SourisEtatAjoutControlPointMutable(void)
 {
 
 }
@@ -72,7 +72,7 @@ SourisEtatAjoutMuretRelatif::~SourisEtatAjoutMuretRelatif(void)
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void SourisEtatAjoutMuretRelatif::sourisEnfoncee( EvenementSouris& evenementSouris )
+/// @fn void SourisEtatAjoutControlPointMutable::sourisEnfoncee( EvenementSouris& evenementSouris )
 ///
 /// Action à effectuer lorsqu'un bouton de la souris est enfoncé
 ///
@@ -81,7 +81,7 @@ SourisEtatAjoutMuretRelatif::~SourisEtatAjoutMuretRelatif(void)
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void SourisEtatAjoutMuretRelatif::sourisEnfoncee( EvenementSouris& evenementSouris )
+void SourisEtatAjoutControlPointMutable::sourisEnfoncee( EvenementSouris& evenementSouris )
 { 
 
 }
@@ -89,7 +89,7 @@ void SourisEtatAjoutMuretRelatif::sourisEnfoncee( EvenementSouris& evenementSour
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void SourisEtatAjoutMuretRelatif::sourisRelachee( EvenementSouris& evenementSouris )
+/// @fn void SourisEtatAjoutControlPointMutable::sourisRelachee( EvenementSouris& evenementSouris )
 ///
 /// Action à effectuer lorsqu'un bouton de la souris est relaché
 ///
@@ -98,7 +98,7 @@ void SourisEtatAjoutMuretRelatif::sourisEnfoncee( EvenementSouris& evenementSour
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void SourisEtatAjoutMuretRelatif::sourisRelachee( EvenementSouris& evenementSouris )
+void SourisEtatAjoutControlPointMutable::sourisRelachee( EvenementSouris& evenementSouris )
 {
 	if(noeud_ == NULL)
 		return;
@@ -139,7 +139,7 @@ void SourisEtatAjoutMuretRelatif::sourisRelachee( EvenementSouris& evenementSour
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void SourisEtatAjoutMuretRelatif::sourisDeplacee( EvenementSouris& evenementSouris )
+/// @fn void SourisEtatAjoutControlPointMutable::sourisDeplacee( EvenementSouris& evenementSouris )
 ///
 /// Action à effectuer lorsqu'un bouton de la souris est déplacée
 ///
@@ -148,7 +148,7 @@ void SourisEtatAjoutMuretRelatif::sourisRelachee( EvenementSouris& evenementSour
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void SourisEtatAjoutMuretRelatif::sourisDeplacee( EvenementSouris& evenementSouris )
+void SourisEtatAjoutControlPointMutable::sourisDeplacee( EvenementSouris& evenementSouris )
 {
 	if(noeud_ == NULL)
 		return;
@@ -169,7 +169,7 @@ void SourisEtatAjoutMuretRelatif::sourisDeplacee( EvenementSouris& evenementSour
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void SourisEtatAjoutMuretRelatif::createNextControlPoint()
+/// @fn void SourisEtatAjoutControlPointMutable::createNextControlPoint()
 ///
 /// /*Description*/
 ///
@@ -177,7 +177,7 @@ void SourisEtatAjoutMuretRelatif::sourisDeplacee( EvenementSouris& evenementSour
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-bool SourisEtatAjoutMuretRelatif::createNextControlPoint()
+bool SourisEtatAjoutControlPointMutable::createNextControlPoint()
 {
     ControlPointMutableAbstract* controlNode = dynamic_cast<ControlPointMutableAbstract*>(noeud_);
     if(controlNode)
@@ -196,7 +196,13 @@ bool SourisEtatAjoutMuretRelatif::createNextControlPoint()
         }
         if(controlNode->getNBControlPoint() < controlNode->getMaxControlPoints())
         {
+            Vecteur3 pos;
+            if(mCurrentPoint)
+            {
+                pos = mCurrentPoint->getPosition();
+            }
             mCurrentPoint = new NodeControlPoint(RazerGameUtilities::NAME_CONTROL_POINT);
+            mCurrentPoint->setPosition(pos);
             bool res = noeud_->ajouter(mCurrentPoint);
             checkf(res);
             return res;
@@ -207,7 +213,7 @@ bool SourisEtatAjoutMuretRelatif::createNextControlPoint()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void SourisEtatAjoutMuretRelatif::genererNoeud()
+/// @fn void SourisEtatAjoutControlPointMutable::genererNoeud()
 ///
 /// /*Description*/
 ///
@@ -215,9 +221,59 @@ bool SourisEtatAjoutMuretRelatif::createNextControlPoint()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void SourisEtatAjoutMuretRelatif::genererNoeud()
+void SourisEtatAjoutControlPointMutable::genererNoeud()
 {
     Super::genererNoeud();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void SourisEtatAjoutControlPointMutable::toucheEnfoncee( EvenementClavier& evenementClavier )
+///
+/// /*Description*/
+///
+/// @param[in] EvenementClavier & evenementClavier
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void SourisEtatAjoutControlPointMutable::toucheEnfoncee( EvenementClavier& evenementClavier )
+{
+    if(evenementClavier.obtenirTouche() == VJAK_ENTER)
+    {
+        ControlPointMutableAbstract* controlNode = dynamic_cast<ControlPointMutableAbstract*>(noeud_);
+        if(controlNode && controlNode->getNBControlPoint() > 3 )
+        {
+            noeud_->detacherEnfant(mCurrentPoint);
+            if(FacadeModele::getInstance()->validerPositionNoeud(noeud_))
+            {
+                delete mCurrentPoint;
+                noeud_->GetTerrain()->transfererNoeud(noeud_);
+                genererNoeud();
+                if(!createNextControlPoint())
+                {
+                    if(noeud_)
+                    {
+                        if(noeud_->GetTerrain())
+                        {
+                            noeud_->GetTerrain()->retirerNoeudTemp(noeud_);
+                        }
+                        delete noeud_;
+                        noeud_ = NULL;
+                    }
+                    if(mCurrentPoint)
+                    {
+                        delete mCurrentPoint;
+                        mCurrentPoint = NULL;
+                    }
+                }
+            }
+            else
+            {
+                noeud_->ajouter(mCurrentPoint);
+            }
+        }
+    }
 }
 
 #ifdef MIKE_DEBUG

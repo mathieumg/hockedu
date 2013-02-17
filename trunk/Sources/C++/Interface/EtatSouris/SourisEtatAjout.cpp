@@ -31,7 +31,7 @@
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-SourisEtatAjout::SourisEtatAjout(std::string nomNoeudAjout): noeud_(NULL), nom_(nomNoeudAjout), hudTextPosInvalide(0)
+SourisEtatAjout::SourisEtatAjout(const std::string& nomNoeudAjout): noeud_(NULL), nom_(nomNoeudAjout), hudTextPosInvalide(0)
 {
 	hudTextPosInvalide = new HUDTexte("Position invalide !", Vecteur4f(1,0,0,1),std::string("game_over_big_text"));
 	showInvalidText(false);

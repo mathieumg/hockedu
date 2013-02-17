@@ -24,7 +24,7 @@
 #include "Partie.h"
 #include "NoeudRondelle.h"
 #include "NoeudMaillet.h"
-#include "..\EtatSouris\SourisEtatAjoutMuretRelatif.h"
+#include "SourisEtatAjoutControlPointMutable.h"
 
 HANDLE mutexMouseState;
 
@@ -82,6 +82,9 @@ void GestionnaireEtatAbstrait::modifierEtatSouris( NomEtatSouris etatSouris )
 		else
 			delete etatSouris_;
     etatSouris_ = NULL;
+
+    // petit hack pour pouvoir ajouter des polygones
+    static int i=0;
 	switch(etatSouris)
 	{
 		case ETAT_SOURIS_DEPLACER_FENETRE			: etatSouris_ = new SourisEtatDeplacerFenetre			();	break;
@@ -92,11 +95,11 @@ void GestionnaireEtatAbstrait::modifierEtatSouris( NomEtatSouris etatSouris )
 		case ETAT_SOURIS_TRANSFORMATION_DEPLACEMENT	: etatSouris_ = new SourisEtatTransformationDeplacement	();	break;
 		case ETAT_SOURIS_SELECTION					: etatSouris_ = new SourisEtatSelection					();	break;
 		case ETAT_SOURIS_AJOUTER_PORTAIL			: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_PORTAIL);	break;
-		case ETAT_SOURIS_AJOUTER_MURET				: etatSouris_ = new SourisEtatAjoutMuretRelatif         ();	break;
+        case ETAT_SOURIS_AJOUTER_MURET				: etatSouris_ = new SourisEtatAjoutControlPointMutable  ( (i++)&0 ? RazerGameUtilities::NAME_RELATIVE_WALL : RazerGameUtilities::NAME_POLYGONE);	break;
 		case ETAT_SOURIS_AJOUTER_MAILLET			: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_MAILLET);	break;
 		case ETAT_SOURIS_AJOUTER_RONDELLE			: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_RONDELLE);	break;
 		case ETAT_SOURIS_AJOUTER_ACCELERATEUR		: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_ACCELERATEUR);	break;
-		case ETAT_SOURIS_ORBIT						: etatSouris_ = new SourisEtatOrbit						();	break;
+		case ETAT_SOURIS_ORBIT						: etatSouris_ = new SourisEtatOrbit                     ();	break;
 	}
 }
 

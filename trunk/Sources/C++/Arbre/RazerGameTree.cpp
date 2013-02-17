@@ -35,6 +35,7 @@ RazerGameTree::RazerGameTree()
 	ajouterUsine(RazerGameUtilities::NOM_ACCELERATEUR, new UsineNoeudAccelerateur(RazerGameUtilities::NOM_ACCELERATEUR));
     ajouterUsine(RazerGameUtilities::NOM_GROUPE, new UsineNoeudGroupe(RazerGameUtilities::NOM_GROUPE));
     ajouterUsine(RazerGameUtilities::NAME_CONTROL_POINT, new UsineNoeudGroupe(RazerGameUtilities::NAME_CONTROL_POINT));
+    ajouterUsine(RazerGameUtilities::NAME_POLYGONE, new UsineNodePolygone(RazerGameUtilities::NAME_POLYGONE));
 }
 
 

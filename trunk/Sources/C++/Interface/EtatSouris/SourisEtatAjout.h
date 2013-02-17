@@ -10,7 +10,7 @@ class SourisEtatAjout :
 {
 public:
 	/// Constructeur par paramètre
-	SourisEtatAjout(std::string nomNoeudAjout);
+	SourisEtatAjout(const std::string& nomNoeudAjout);
 	/// Destructeur virtuel
 	virtual ~SourisEtatAjout(void);
 

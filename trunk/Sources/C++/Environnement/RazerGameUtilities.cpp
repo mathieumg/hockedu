@@ -110,6 +110,7 @@
    /// La chaîne représentant le type des groupes
    const std::string RazerGameUtilities::NOM_GROUPE = "Groupe";
 
+   const std::string RazerGameUtilities::NAME_POLYGONE = "polygone";
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

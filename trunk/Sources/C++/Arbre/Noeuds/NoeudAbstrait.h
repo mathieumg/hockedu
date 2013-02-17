@@ -119,6 +119,8 @@ public:
 
 	/// Ajoute un noeud enfant.
 	virtual bool ajouter( NoeudAbstrait* enfant );
+    /// Permet d'enlever l'enfant de la liste interne, sans libérer la mémoire de celui-ci
+    virtual void detacherEnfant( const NoeudAbstrait* noeud ){}
 	/// Obtient le nombre d'enfants du noeud.
 	virtual unsigned int obtenirNombreEnfants() const;
 

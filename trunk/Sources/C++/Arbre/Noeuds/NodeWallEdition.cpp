@@ -65,18 +65,36 @@ bool NodeWallEdition::ajouter( NoeudAbstrait* enfant )
     NodeControlPoint* controlPoint = dynamic_cast<NodeControlPoint*>(enfant);
     if(controlPoint)
     {
-        if(Super::ajouter(enfant) && addControlPoint(controlPoint))
-        {
-            controlPoint->attach(this);
-            coins_[getNBControlPoint()-1] = &enfant->getPosition();
-            updateWallProperties();
-            return true;
-        }
-        // cannot add a control point point if limit is reached
-        return false;
+        return addControlPoint(controlPoint);
     }
     return Super::ajouter(enfant);
 }
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool NodeWallEdition::detacherEnfant( const NoeudAbstrait* enfant )
+///
+/// /*Description*/
+///
+/// @param[in] const NoeudAbstrait * enfant
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+void NodeWallEdition::detacherEnfant( const NoeudAbstrait* enfant )
+{
+    NodeControlPoint* controlPoint = const_cast<NodeControlPoint*>(dynamic_cast<const NodeControlPoint*>(enfant));
+    if(controlPoint)
+    {
+        removeControlPoint(controlPoint);
+    }
+    else
+    {
+        Super::detacherEnfant(enfant);
+    }
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -129,6 +147,48 @@ void NodeWallEdition::afficherConcret() const
     DrawChild();
 //     vecteurEntre.tourner(90,Vecteur3(0,0,1));
 //     vecteurEntre.
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool NodeWallEdition::onAddControlPoint( NodeControlPoint* point )
+///
+/// /*Description*/
+///
+/// @param[in] NodeControlPoint * point
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool NodeWallEdition::onAddControlPoint( NodeControlPoint* point )
+{
+    if(Super::ajouter(point))
+    {
+        point->attach(this);
+        coins_[getNBControlPoint()-1] = &point->getPosition();
+        updateWallProperties();
+        return true;
+    }
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NodeWallEdition::onRemoveControlPoint( NodeControlPoint* point )
+///
+/// /*Description*/
+///
+/// @param[in] NodeControlPoint * point
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NodeWallEdition::onRemoveControlPoint( NodeControlPoint* point )
+{
+    Super::detacherEnfant(point);
+    point->detach(this);
+    coins_[getNBControlPoint()] = NULL;
+    updateWallProperties();
 }
 
 

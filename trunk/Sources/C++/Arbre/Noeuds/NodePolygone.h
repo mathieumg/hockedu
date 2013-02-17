@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-/// @file NodeWallEdition.h
+/// @file NodePolygone.h
 /// @author Michael Ferris
 /// @date 2013-02-16
 /// @version 1.0
@@ -8,29 +8,32 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////
 #pragma once
-#include "NoeudMuretRelatif.h"
 #include "ControlPointMutableAbstract.h"
+#include "NoeudComposite.h"
+#include "PositionSubject.h"
 
-class NodeControlPoint;
 ///////////////////////////////////////////////////////////////////////////
-/// @class NodeWallEdition
-/// @brief Classe qui représente un muret relatif qui peut être manipuler
-///         pour jouer sur le terrain
+/// @class NodePolygone
+/// @brief Classe qui représente un polygone
 ///
 /// @author Michael Ferris
 /// @date 2013-02-16
 ///////////////////////////////////////////////////////////////////////////
-class NodeWallEdition : public NoeudMuretRelatif, public ControlPointMutableAbstract
+class NodePolygone : public NoeudComposite, public ControlPointMutableAbstract, public PositionObserver
 {
 public:
-    typedef NoeudMuretRelatif Super;
+    typedef NoeudComposite Super;
 	/// Constructeurs par paramètres
-	NodeWallEdition(const std::string& type);
-    ~NodeWallEdition();
+	NodePolygone(const std::string& type);
+    ~NodePolygone();
+    virtual void afficherConcret()const;
     /// Ajoute un noeud enfant.
     virtual bool ajouter( NoeudAbstrait* enfant );
     virtual void detacherEnfant( const NoeudAbstrait* enfant );
-    virtual void afficherConcret()const;
+
+    virtual void updateObserver( PositionSubject* pSubject );
+    /// Recreates the physics body according to current attributes
+    virtual void updatePhysicBody();
 
     ///////////////////////////////////////////////////////////////////////////
     /// Implementation interface ControlPointMutableAbstract

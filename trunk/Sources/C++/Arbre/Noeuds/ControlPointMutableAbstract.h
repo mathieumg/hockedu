@@ -36,6 +36,9 @@ public:
     }
 
     virtual void modifierEchelle( float facteur ) = 0;
+protected:
+    virtual bool onAddControlPoint(NodeControlPoint* point) = 0;
+    virtual void onRemoveControlPoint(NodeControlPoint* point) = 0;
 
 private:
     /// Control points controlling the wall's corner position
@@ -48,5 +51,8 @@ public:
     inline void setMaxControlPoints(const unsigned int& pVal) { mMaxControlPoints = pVal; }
     inline unsigned int getNBControlPoint()const {return (unsigned int)mPoints.size();}
     bool addControlPoint(NodeControlPoint* point);
+    void removeControlPoint(NodeControlPoint* point);
+private:
+    void removeControlPointInner( NodeControlPoint* point );
 };
 
