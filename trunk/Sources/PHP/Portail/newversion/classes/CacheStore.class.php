@@ -1,11 +1,11 @@
 <?php
 /**
- * Cache management for the Berpa Management System.
+ * Cache management for the Hockedu System.
  * 
- * Manages the caching in the management system.
+ * Manages the caching in Hockedu.
  * @author Mathieu M-Gosselin <mathieumg@gmail.com>
- * @since 06/07/2011
- * @package Cloud
+ * @since 17/02/2013
+ * @package Hockedu
  */
  
  
@@ -60,7 +60,7 @@ class CacheStore
     {
         // Some default values for attributes.
         $this->exists = false;
-        $this->path = '/var/www/cloud/cache/';
+        $this->path = '/var/www/hockedu.com/cache/';
         $this->data = null;
         $this->name = $name;
         
