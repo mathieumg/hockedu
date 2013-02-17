@@ -54,7 +54,8 @@ enum PacketTypes {
     CHAT_MESSAGE,
     USER_STATUS,
     TEST,
-    BASE
+    BASE,
+    GAME_STATUS
 };
 
 struct ConnectionStateEvent

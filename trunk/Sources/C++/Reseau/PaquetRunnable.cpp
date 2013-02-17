@@ -15,6 +15,7 @@
 #include <iomanip>
 #include "ObjetsGlobaux\JoueurServeurs.h"
 #include "Paquets\PaquetTest.h"
+#include "Paquets\PaquetGameStatus.h"
 
 
 // Meme pour le client et les serveurs. 
@@ -58,7 +59,7 @@ int PaquetRunnable::RunnableChatMessageServer( Paquet* pPaquet )
 int PaquetRunnable::RunnableConnAutomatiqueClient( Paquet* pPaquet )
 {
     PaquetConnAutomatique* wPaquet = (PaquetConnAutomatique*) pPaquet;
-
+    throw std::runtime_error("Not yet implemented");
     // Implementer
     return 0;
 }
@@ -70,7 +71,7 @@ int PaquetRunnable::RunnableConnAutomatiqueClient( Paquet* pPaquet )
 int PaquetRunnable::RunnableConnAutomatiqueServer( Paquet* pPaquet )
 {
     PaquetConnAutomatique* wPaquet = (PaquetConnAutomatique*) pPaquet;
-
+    throw std::runtime_error("Not yet implemented");
 
     // Implementer
     return 0;
@@ -107,7 +108,7 @@ int PaquetRunnable::RunnableUserStatusClient( Paquet* pPaquet )
 int PaquetRunnable::RunnableUserStatusServer( Paquet* pPaquet )
 {
     PaquetUserStatus* wPaquet = (PaquetUserStatus*) pPaquet;
-
+    throw std::runtime_error("Not yet implemented");
 
     return 0;
 }
@@ -124,6 +125,23 @@ int PaquetRunnable::RunnableTest( Paquet* pPaquet )
     std::cout << "Float: " << wPaquet->getFloat() << std::endl;
 
     wPaquet->removeAssociatedQuery(); // delete
+    return 0;
+}
+
+
+int PaquetRunnable::RunnableGameStatusClient( Paquet* pPaquet )
+{
+    PaquetGameStatus* wPaquet = (PaquetGameStatus*) pPaquet;
+    throw std::runtime_error("Not yet implemented");
+
+    return 0;
+}
+
+int PaquetRunnable::RunnableGameStatusServer( Paquet* pPaquet )
+{
+    PaquetGameStatus* wPaquet = (PaquetGameStatus*) pPaquet;
+    throw std::runtime_error("Not yet implemented");
+
     return 0;
 }
 

@@ -13,6 +13,8 @@ namespace PaquetRunnable
 
     int RunnableUserStatusServerMaster(Paquet* pPaquet);
 
+    int RunnableGameStatusServerMaster(Paquet* pPaquet);
+
 
 };
 
