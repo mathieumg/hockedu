@@ -41,6 +41,7 @@ public:
 protected:
     virtual bool onAddControlPoint(NodeControlPoint* point);
     virtual void onRemoveControlPoint(NodeControlPoint* point);
+    void divideIntoTriangles() const;
     ///////////////////////////////////////////////////////////////////////////
 
 };

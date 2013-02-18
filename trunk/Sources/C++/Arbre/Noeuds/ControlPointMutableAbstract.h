@@ -26,7 +26,7 @@ public:
     ControlPointMutableAbstract(unsigned int limit);
     ~ControlPointMutableAbstract();
 
-    inline NodeControlPoint* getControlPoint(unsigned int i)
+    inline NodeControlPoint* getControlPoint(unsigned int i) const
     {
         if(i < getNBControlPoint())
         {

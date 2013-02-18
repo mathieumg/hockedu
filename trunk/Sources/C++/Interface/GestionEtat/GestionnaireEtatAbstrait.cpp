@@ -84,7 +84,7 @@ void GestionnaireEtatAbstrait::modifierEtatSouris( NomEtatSouris etatSouris )
     etatSouris_ = NULL;
 
     // petit hack pour pouvoir ajouter des polygones
-    static int i=0;
+    /*static */int i=0;
 	switch(etatSouris)
 	{
 		case ETAT_SOURIS_DEPLACER_FENETRE			: etatSouris_ = new SourisEtatDeplacerFenetre			();	break;
