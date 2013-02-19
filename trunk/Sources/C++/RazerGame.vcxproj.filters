@@ -476,6 +476,13 @@
     <ClCompile Include="Arbre\Noeuds\NodeRinkBoards.cpp">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClCompile>
+    <ClCompile Include="Arbre\Noeuds\ControlPointMutableAbstract.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NodeControlPoint.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NodePolygone.cpp" />
+    <ClCompile Include="Interface\EtatSouris\SourisEtatAjoutControlPointMutable.cpp" />
+    <ClCompile Include="..\..\..\..\..\INF3900 - Projet d%27evolution d%27un logiciel\log3900-04\trunk\Sources\C++\Reseau\Network_Defines.cpp">
+      <Filter>Sources Files\Reseau\Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -900,6 +907,18 @@
     </ClInclude>
     <ClInclude Include="Arbre\Noeuds\NodeControlPoint.h">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Noeuds\ControlPointMutableAbstract.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Noeuds\NodePolygone.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\EtatSouris\SourisEtatAjoutControlPointMutable.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\INF3900 - Projet d%27evolution d%27un logiciel\log3900-04\trunk\Sources\C++\Reseau\Network_Defines.h">
+      <Filter>Sources Files\Reseau\Global</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

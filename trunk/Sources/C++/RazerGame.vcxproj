@@ -184,6 +184,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\INF3900 - Projet d%27evolution d%27un logiciel\log3900-04\trunk\Sources\C++\Reseau\Network_Defines.cpp" />
     <ClCompile Include="Application\FacadeModele.cpp" />
     <ClCompile Include="Application\RepartiteurActions.cpp" />
     <ClCompile Include="Arbre\ArbreNoeudLibre.cpp" />
@@ -320,6 +321,7 @@
     <ClCompile Include="Tests\VisiteurNoeudTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\INF3900 - Projet d%27evolution d%27un logiciel\log3900-04\trunk\Sources\C++\Reseau\Network_Defines.h" />
     <ClInclude Include="Application\FacadeModele.h" />
     <ClInclude Include="Application\RepartiteurActions.h" />
     <ClInclude Include="Arbre\ArbreNoeudLibre.h" />

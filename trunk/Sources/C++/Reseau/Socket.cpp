@@ -198,8 +198,11 @@ void Socket::bind()
 ////////////////////////////////////////////////////////////////////////
 uint32_t Socket::recvfrom( uint8_t* msg, uint32_t msglen, sockaddr* from, bool pBlock/*=true*/ )
 {
-
-	unsigned int fromlen = sizeof(*from);
+#ifdef WINDOWS
+    int fromlen = sizeof(*from);
+#elif defined(LINUX)
+    unsigned int fromlen = sizeof(*from);
+#endif
 	// :: pour dire que c'est la fonction globale de ce nom et pas la methode
     if(!pBlock)
     {

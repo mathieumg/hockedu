@@ -78,12 +78,20 @@ SPSocket SocketTCPServeur::accept( sockaddr* addr, uint32_t* addrlen )
     if(addr == NULL && addrlen == NULL)
     {
 
+#ifdef WINDOWS
+        int taille = sizeof(sockaddr_in);
+#elif defined(LINUX)
         unsigned int taille = sizeof(sockaddr_in);
+#endif
         wTempSocket = ::accept(mSocket, (sockaddr*)temp, &taille);
     }
     else
     {
+#ifdef WINDOWS
+        wTempSocket = ::accept(mSocket, addr, (int*)addrlen);
+#elif defined(LINUX)
         wTempSocket = ::accept(mSocket, addr, (unsigned int*)addrlen);
+#endif
     }
 
     if(wTempSocket == INVALID_SOCKET)

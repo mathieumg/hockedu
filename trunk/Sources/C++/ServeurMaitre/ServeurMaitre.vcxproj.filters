@@ -141,6 +141,9 @@
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameStatus.cpp">
       <Filter>Source Files\PaquetHandlers</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\INF3900 - Projet d%27evolution d%27un logiciel\log3900-04\trunk\Sources\C++\Reseau\Network_Defines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControllerServeurMaitre.h">
@@ -274,6 +277,9 @@
     </ClInclude>
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetGameStatus.h">
       <Filter>Source Files\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\INF3900 - Projet d%27evolution d%27un logiciel\log3900-04\trunk\Sources\C++\Reseau\Network_Defines.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

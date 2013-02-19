@@ -23,7 +23,7 @@ void FacadePortability::createSemaphore (HANDLE_SEMAPHORE& pSemaphore, int pInit
 
 void FacadePortability::takeSemaphore (HANDLE_SEMAPHORE& pSemaphore)
 {
-    WaitForSingleObject(wCommunicateurReseau->mHandleSemaphoreContentSend,INFINITE);
+    WaitForSingleObject(pSemaphore, INFINITE);
 }
 
 void FacadePortability::releaseSemaphore (HANDLE_SEMAPHORE& pSemaphore)
