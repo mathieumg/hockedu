@@ -4,10 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="315" d:DesignWidth="382">
-    <Grid Background="#FF323232">
-        <Button Content="Configure Radio" Height="23" HorizontalAlignment="Left" Margin="38,113,0,0" Name="radioOptionButton" VerticalAlignment="Top" Width="125" Click="radioOptionButton_Click" />
-        <Button Content="Configure AI" Height="23" HorizontalAlignment="Left" Margin="38,37,0,0" Name="aiConfigureButton" VerticalAlignment="Top" Width="125" Click="aiConfigureButton_Click" />
-        <Button Content="Back to Main Menu" Height="23" HorizontalAlignment="Left" Margin="38,190,0,0" Name="backToMenuButton" VerticalAlignment="Top" Width="125" Click="backToMenuButton_Click" />
+             d:DesignHeight="444" d:DesignWidth="640" Background="Black">
+    <Grid Background="Black">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="86*" />
+            <RowDefinition Height="284*" />
+            <RowDefinition Height="74*" />
+        </Grid.RowDefinitions>
+        <Label Content="OPTIONS" HorizontalAlignment="Stretch" Margin="0,0,8,8" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="72" Grid.ColumnSpan="2" />
+        <Button Content="Configure Radio" Height="35" HorizontalAlignment="Left" Margin="24,98,0,0" Name="mRadioOptionButton" VerticalAlignment="Top" Width="175" Click="radioOptionButton_Click" Grid.Row="1" Background="Black" Foreground="White" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+        <Button Content="Configure AI" Height="35" HorizontalAlignment="Left" Margin="24,30,0,0" Name="mAIConfigureButton" VerticalAlignment="Top" Width="175" Click="aiConfigureButton_Click" Grid.Row="1" Background="Black" Foreground="White" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+        <Button Content="Back to Main Menu" Height="35" HorizontalAlignment="Left" Margin="24,217,0,0" Name="mBackToMenuButton" VerticalAlignment="Top" Width="175" Click="backToMenuButton_Click" Grid.Row="1" Background="Black" Foreground="White" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+        <Label Content="" Grid.Row="2" Height="Auto" HorizontalAlignment="Right" Margin="0,14,0,12" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" />
+        <Button Content="Configure Controls" Height="35" HorizontalAlignment="Left" Margin="24,156,0,0" Name="mKeyboardOptionButton" VerticalAlignment="Top" Width="175" Grid.Row="1" Background="Black" Foreground="White" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
     </Grid>
 </UserControl>
