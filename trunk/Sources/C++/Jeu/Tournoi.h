@@ -43,7 +43,7 @@ public:
 	static const unsigned int nbrJoueurs_ = 16;
 
 	/// Initialisation d'un tournoi
-	bool initialisation(const JoueursParticipant& joueurs, const std::string terrain);
+	bool initialisation(const JoueursParticipant& joueurs, const std::string& pFieldName);
 	/// Initialisation d'un tournoi avec un noeud XML
 	bool initialisationXML( XmlElement* element, ConteneurJoueur* profilsVirtuelsExistant = 0 );
 	/// Liberation de la mémoire
@@ -60,7 +60,6 @@ public:
 	bool miseAJour( bool save = true );
 
 private:
-	void modifierTerrain(const std::string terrain);
 	void majCheminVainqueur();
 	static const std::string tounoiNonJoue;
 
@@ -74,7 +73,7 @@ private:
 	unsigned int indexPartieCourante_;
 	
 	/// Nom du terrain
-	std::string terrain_;
+	std::string mFieldName;
 	/// Le nom du tournoi (et du fichier où il sera enregistré)
 	std::string nom_;
 	ListeGagnants listeGagnants_;
@@ -104,7 +103,7 @@ public:
 	/// Méthodes pour connaitre les position l'arbre binaire des parties adjacente (retourne -1 si n'existe pas)
 	unsigned int obtenirPartieRondeSuivante(unsigned int index);
 	unsigned int obtenirPartieRondePrecedente(unsigned int index, bool gauche);
-	std::string obtenirTerrain() const;
+	inline const std::string& GetFieldName() const {return mFieldName;}
 
 	/// Obtient un pointeur sur la partie courante. Objet statique donc pas besoin de vérifier la validité du pointeur
 	Partie* obtenirPartieCourante(){return &parties_[indexPartieCourante_];}

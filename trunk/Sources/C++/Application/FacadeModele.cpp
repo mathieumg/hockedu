@@ -226,7 +226,7 @@ void FacadeModele::libererInstance()
 ////////////////////////////////////////////////////////////////////////
 FacadeModele::FacadeModele()
 	: hGLRC_(0), hDC_(0), hWnd_(0), vue_(0),zoomElastique_(false),tournoi_(0),cheminTournoi_(""),enJeu_(false),
-	partieCourante_(0), /*adversaire_(0),*/ terrain_(0), mUpdating(false), mRendering(false)
+	partieCourante_(0), /*adversaire_(0),*/ mEditionField(0), mUpdating(false), mRendering(false)
 {
 	// Il ne faut pas faire d'initialisation de Noeud ici, car le contexte OpenGl n'est pas encore creer
 
@@ -267,8 +267,8 @@ FacadeModele::~FacadeModele()
 {
 	if(vue_)
 		delete vue_;
-	if(terrain_)
-		delete terrain_;
+	if(mEditionField)
+		delete mEditionField;
 	if(boiteEnvironnement!=0)
 	{
 		delete boiteEnvironnement;
@@ -380,11 +380,11 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
 	chargerJoueurs();
 
 
-	// Création de l'arbre de rendu.  À moins d'être complètement certain
-	// d'avoir une bonne raison de faire autrement, il est plus sage de créer
-	// l'arbre après avoir créé le contexte OpenGL.
-	// Création d'un terrain de base pointant sur le fichier de terrain en cours
-	terrain_ = new Terrain();
+// 	// Création de l'arbre de rendu.  À moins d'être complètement certain
+// 	// d'avoir une bonne raison de faire autrement, il est plus sage de créer
+// 	// l'arbre après avoir créé le contexte OpenGL.
+// 	// Création d'un terrain de base pointant sur le fichier de terrain en cours
+// 	mEditionField = new Terrain();
     
     renderThread_ = NULL;
     
@@ -399,7 +399,7 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
 // 
 //     bRendering = true;
 //     //RenderWorkerData* data = (RenderWorkerData*)malloc(sizeof(RenderWorkerData));
-//     renderWorkerData.terrain = &terrain_;
+//     renderWorkerData.terrain = &mFieldName;
 //     renderWorkerData.enjeu = &enJeu_;
 //     renderWorkerData.dc = hDC_;
 //     renderWorkerData.glrc = wglCreateContext(hDC_);
@@ -442,7 +442,7 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-void FacadeModele::chargerTerrain( const std::string& nomFichier /*= ""*/, Terrain* terrain /*= 0*/ )
+void FacadeModele::chargerTerrain( const std::string& nomFichier /*= ""*/, Terrain** terrain /*= 0*/ )
 {
 	// En place pour eviter des cas speciaux avec la souris (soit des ajout d'objets liberer 2 fois)
 	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
@@ -458,22 +458,23 @@ void FacadeModele::chargerTerrain( const std::string& nomFichier /*= ""*/, Terra
 	// Si le parametre est null, on lui assigne le terrain du modele
 	if(!terrain)
 	{
-		terrain = getTerrain();
+		terrain = &mEditionField;
 	}
 	// Si le terrain du modele est null, on en cree un
-	if(!terrain)
+	if(!*terrain)
 	{
-		terrain = new Terrain();
+		*terrain = new Terrain(false);
 	}
-	
+    Terrain* wTerrain = *terrain;
+
 	// Vérification de l'existence du ficher
 	if ( !utilitaire::fichierExiste(fichierACharger) ) 
 	{
 		// Si on est en jeu on s'assure d'avoir une table valide
 		if(enJeu_)
-			terrain->creerTerrainParDefaut(fichierACharger);
+			wTerrain->creerTerrainParDefaut(fichierACharger);
 		else
-			terrain->initialiser(fichierACharger);
+			wTerrain->initialiser(fichierACharger);
 		// Si le fichier n'existe pas, on le crée.
 		enregistrerTerrain(fichierACharger);
 	}
@@ -488,22 +489,19 @@ void FacadeModele::chargerTerrain( const std::string& nomFichier /*= ""*/, Terra
 			utilitaire::afficherErreur("Erreur : chargement XML : erreur de lecture du fichier");
 			// Si on est en jeu on s'assure d'avoir une table valide
 			if(enJeu_)
-				terrain->creerTerrainParDefaut(fichierACharger);
+				wTerrain->creerTerrainParDefaut(fichierACharger);
 			else
-				terrain->initialiser(fichierACharger);
+				wTerrain->initialiser(fichierACharger);
 			// Si le fichier n'existe pas, on le crée.
 			enregistrerTerrain(fichierACharger);
 		}
 		else
 		{
-			if(!terrain->initialiserXml((XmlElement*)document))
-				terrain->initialiser(fichierACharger);
+			if(!wTerrain->initialiserXml((XmlElement*)document))
+				wTerrain->initialiser(fichierACharger);
 			if(!enJeu_)
 			{
-				for (int i = 0; i < 8 ; i++)
-				{
-					getTerrain()->getTable()->obtenirPoint(i)->assignerAffiche(true);
-				}
+                wTerrain->setTableControlPointVisible(true);
 			}
 			ajusterElementSurTableEnCollision();
 
@@ -542,9 +540,10 @@ void FacadeModele::enregistrerTerrain( const std::string& nomFichier /*= ""*/, T
 	// Si le terrain du modele est null, on l'initialise avant de continuer
 	if(!terrain)
 	{
-		terrain = new Terrain();
+		terrain = new Terrain(false);
 		terrain->initialiser(fichierAEnregistrer);
 	}
+    checkf(terrain == mEditionField , "Enregistrement d'un terrain qui n'est pas celui du mode édition!!!");
 
 
 	XmlDocument* document = XMLUtils::CreateDocument("1.0", "", "");
@@ -917,7 +916,10 @@ void FacadeModele::afficher( )
 void FacadeModele::afficherBase() const
 {
     // Afficher la scène
-    terrain_->afficherTerrain(!enJeu_);
+    if(getTerrain())
+    {
+        getTerrain()->afficherTerrain();
+    }
 }
 
 
@@ -959,7 +961,7 @@ void FacadeModele::rafraichirFenetre() const
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::reinitialiserTerrain()
 {
-	terrain_->reinitialiser();
+	getTerrain()->reinitialiser();
 }
 
 
@@ -1000,7 +1002,10 @@ void FacadeModele::animer( const float& temps)
 
     GestionnaireEvenements::obtenirInstance()->miseAJourEvenementsRepetitifs(tempsReel);
     // Mise à jour des objets
-    terrain_->animerTerrain(tempsReel);
+    if(getTerrain())
+    {
+        getTerrain()->animerTerrain(tempsReel);
+    }
     GestionnaireEvenements::obtenirInstance()->obtenirEtat()->animer(tempsReel);
     bool replaying = false;
     if(GestionnaireAnimations::obtenirInstance()->estJouerReplay())
@@ -1156,15 +1161,9 @@ bool FacadeModele::passageModeEdition()
     }
     partieCourante_ = 0;
 
-	if(enJeu_)
-	{
-		chargerTerrain();
-	}
-	else
-		terrain_->initialiser(FICHIER_TERRAIN_EN_COURS);
-
-	enJeu_ = false;
-    terrain_->setTableControlPointVisible(true);
+    enJeu_ = false;
+    chargerTerrain(FICHIER_TERRAIN_EN_COURS,&mEditionField);
+    getTerrain()->setTableControlPointVisible(true);
 
 	return true;
 }
@@ -1212,19 +1211,24 @@ bool FacadeModele::passageModeTournoi()
         {
             delete partieCourante_;
         }
+        else
+        {
+            checkf(0, "Enlever la partie de la map de partie courantes");
+        }
     }
 
 	GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
 	partieCourante_ = tournoi_->obtenirPartieCourante();
 
 	// On charge le terrain du tournoi
-	if(tournoi_->obtenirTerrain() == "")
+	if(tournoi_->GetFieldName() == "")
 	{
 		// Terrain par defaut
-		creerTerrainParDefaut();
+        checkf(0,"A changer par un terrain dans la partie courante");
+		creerTerrainParDefaut(getTerrainModifier());
 	}
 	else
-		chargerTerrain(tournoi_->obtenirTerrain());
+		chargerTerrain(tournoi_->GetFieldName());
 
 	if(!verifierValiditeMap())
 	{
@@ -1246,7 +1250,7 @@ bool FacadeModele::passageModeTournoi()
 	
     selectionArbre(false);
 	enJeu_ = true;
-    terrain_->setTableControlPointVisible(false);
+    getTerrain()->setTableControlPointVisible(false);
 
 	// On enregistre dans le fichier de la partie courante apres avoir desactiver les points pour ne pas les voir si on reinitialise la partie
 	enregistrerTerrain();
@@ -1331,7 +1335,7 @@ bool FacadeModele::passageModeJeu()
 	}
 	
     selectionArbre(false);
-    terrain_->setTableControlPointVisible(false);
+    getTerrain()->setTableControlPointVisible(false);
 
     partieCourante_->miseAuJeu(true);
 
@@ -1389,23 +1393,23 @@ bool FacadeModele::passageMenuPrincipal()
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::reinitialiserPartie()
 {
-	if(partieCourante_ != 0)
+	if(partieCourante_)
 	{
 		partieCourante_->reinitialiserPartie();
-		chargerTerrain(partieCourante_->obtenirCheminTerrain());
-		if(!verifierValiditeMap())
-		{
-			/// comportement inconnu
-		}
-		try
-		{
-			partieCourante_->assignerControlesMaillet(obtenirMailletJoueurGauche(),obtenirMailletJoueurDroit(),obtenirRondelle());
-		}
-		catch(std::logic_error& e)
-		{
-			utilitaire::afficherErreur(e.what());
-			return;
-		}
+// 		chargerTerrain(partieCourante_->obtenirCheminTerrain());
+// 		if(!verifierValiditeMap())
+// 		{
+// 			/// comportement inconnu
+// 		}
+// 		try
+// 		{
+// 			partieCourante_->assignerControlesMaillet(obtenirMailletJoueurGauche(),obtenirMailletJoueurDroit(),obtenirRondelle());
+// 		}
+// 		catch(std::logic_error& e)
+// 		{
+// 			utilitaire::afficherErreur(e.what());
+// 			return;
+// 		}
 		partieCourante_->miseAuJeu(true);
 	}
 }
@@ -1495,7 +1499,7 @@ void FacadeModele::initialiserVue()
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::acceptVisitor( VisiteurNoeud& visitor )
 {
-    terrain_->acceptVisitor(visitor);
+    getTerrain()->acceptVisitor(visitor);
 }
 
 
@@ -1533,7 +1537,7 @@ bool FacadeModele::convertirClotureAVirtuelle( int x, int y, Vecteur3& point ) c
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void FacadeModele::selectionArbre( bool selectionner )
 {
-    terrain_->setTableItemsSelection(selectionner);
+    getTerrain()->setTableItemsSelection(selectionner);
 }
 
 
@@ -1608,7 +1612,7 @@ Vecteur2 FacadeModele::convertirDeplacementClotureAVirtuelle( const Vecteur2i& v
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::possedeSelection()
 {
-	return terrain_ && terrain_->IsAnyNodeSelected();
+	return getTerrain() && getTerrain()->IsAnyNodeSelected();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1624,9 +1628,7 @@ bool FacadeModele::possedeSelection()
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::insideLimits( NoeudAbstrait* noeud )
 {
-	if(terrain_)
-		return terrain_->insideLimits(noeud);
-	return true;
+	return !!getTerrain() && getTerrain()->insideLimits(noeud);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1917,11 +1919,11 @@ bool FacadeModele::verifierValiditeMap( Terrain* terrain/*= 0 */ )
 /// @return Un pointeur vers l'arbre créé.
 ///
 ////////////////////////////////////////////////////////////////////////
-void FacadeModele::creerTerrainParDefaut()
+void FacadeModele::creerTerrainParDefaut( Terrain** pField )
 {
-	if(!terrain_)
-		terrain_ = new Terrain();
-	getTerrain()->creerTerrainParDefaut(FICHIER_TERRAIN_EN_COURS);	
+	if(!*pField)
+		*pField = new Terrain(false);
+	(*pField)->creerTerrainParDefaut(FICHIER_TERRAIN_EN_COURS);	
 }
 
 
@@ -2010,8 +2012,9 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
 	float friction;
 	if(getTerrain())
 	{
-		longueurTable = getTerrain()->getZoneEdition().obtenirLimiteExtLongueur();
-		largeurTable  = getTerrain()->getZoneEdition().obtenirLimiteExtLargeur();
+        checkf(getTerrain()->getZoneEdition(),"terrain sans zone édition");
+        longueurTable = getTerrain()->getZoneEdition()->obtenirLimiteExtLongueur();
+        largeurTable  = getTerrain()->getZoneEdition()->obtenirLimiteExtLargeur();
         
 		NoeudTable* table = getTerrain()->getTable();
 		if(!table)
@@ -2438,7 +2441,11 @@ void FacadeModele::DrawSelectionRectangle() const
 ////////////////////////////////////////////////////////////////////////
 float FacadeModele::obtenirLargeurZoneEdition()
 {
-    return 2.0f*getTerrain()->getZoneEdition().obtenirLimiteExtLargeur();
+    if(getTerrain() && getTerrain()->getZoneEdition())
+    {
+        return 2.0f*getTerrain()->getZoneEdition()->obtenirLimiteExtLargeur();
+    }
+    return 2.0f*ZoneEdition::DEFAUT_LIMITE_EXT_LONGUEUR;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -2563,9 +2570,9 @@ void FacadeModele::RunOnUpdateThread( Runnable* run, bool pForceQueue /*= false*
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::duplicateSelection()
 {
-    if(terrain_)
+    if(getTerrain())
     {
-        terrain_->duplicateSelection();
+        getTerrain()->duplicateSelection();
     }
 }
 
@@ -2581,9 +2588,9 @@ void FacadeModele::duplicateSelection()
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::getSelectedNodes(ConteneurNoeuds& pSelectedNodes) const
 {
-    if(terrain_)
+    if(getTerrain())
     {
-        terrain_->getSelectedNodes(pSelectedNodes);
+        getTerrain()->getSelectedNodes(pSelectedNodes);
     }
 }
 

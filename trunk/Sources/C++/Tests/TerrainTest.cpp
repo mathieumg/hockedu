@@ -32,7 +32,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( TerrainTest );
 ////////////////////////////////////////////////////////////////////////
 void TerrainTest::setUp()
 {
-	terrain_ = new Terrain();
+	terrain_ = new Terrain(false);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -84,10 +84,10 @@ void TerrainTest::testVerifierValiditer()
 void TerrainTest::testInitialiser()
 {
 	terrain_->initialiser("terrainTest");
-	CPPUNIT_ASSERT(terrain_->mEditionZone.obtenirLimiteExtLargeur() == ZoneEdition::DEFAUT_LIMITE_EXT_LARGEUR);
-	CPPUNIT_ASSERT(terrain_->mEditionZone.obtenirLimiteExtLongueur() == ZoneEdition::DEFAUT_LIMITE_EXT_LONGUEUR);
-	CPPUNIT_ASSERT(terrain_->mEditionZone.obtenirLimiteIntLargeur() == ZoneEdition::DEFAUT_LIMITE_INT_LARGEUR);
-	CPPUNIT_ASSERT(terrain_->mEditionZone.obtenirLimiteIntLongueur() == ZoneEdition::DEFAUT_LIMITE_INT_LONGUEUR);
+    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteExtLargeur() == ZoneEdition::DEFAUT_LIMITE_EXT_LARGEUR);
+    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteExtLongueur() == ZoneEdition::DEFAUT_LIMITE_EXT_LONGUEUR);
+    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteIntLargeur() == ZoneEdition::DEFAUT_LIMITE_INT_LARGEUR);
+    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteIntLongueur() == ZoneEdition::DEFAUT_LIMITE_INT_LONGUEUR);
 
 	CPPUNIT_ASSERT(terrain_->mNewNodeTree);
 	CPPUNIT_ASSERT(terrain_->mNewNodeTree->obtenirNombreEnfants() == 0);

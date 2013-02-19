@@ -36,5 +36,7 @@ protected :
 
 private:
 	std::string nom_;
+    /// Pointeur sur le terrain présentement modifié
+    class Terrain* mTerrain;
 
 };

@@ -275,7 +275,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudTable( NoeudTable* noeud )
 	noeud->modifierCoefFriction(coefFriction_);
 
 	ZoneEdition* zone;
-	if(noeud->GetTerrain() && (zone = &noeud->GetTerrain()->getZoneEdition()) )
+	if(noeud->GetTerrain() && (zone = noeud->GetTerrain()->getZoneEdition()) )
 	{
 		// On déclare un pointeur sur un float qui servira a contenir la longueur et hauteur max de la table
 		float boiteEnglobantTable[2];
@@ -330,41 +330,45 @@ void VisiteurModifierProprieteNoeud::visiterNoeudPoint( NoeudPoint* noeud )
 		
 		if(noeud->GetTerrain() )
 		{
-			ZoneEdition* zone = &noeud->GetTerrain()->getZoneEdition();
-			int signe[2];
-			for(int i=0; i<2; i++)
-			{
-				if(position_[i]<0)
-					signe[i] = -1;
-				else
-					signe[i] = 1;
-			}
-			if(noeud->obtenirTypePosNoeud() == POSITION_HAUT_MILIEU || noeud->obtenirTypePosNoeud() == POSITION_BAS_MILIEU)
-			{
-			
-				if(abs(position_[VY])>zone->obtenirLimiteExtLargeur())
-					position_[VY] = signe[VY]*zone->obtenirLimiteExtLargeur();
-				if(abs(position_[VY])<zone->obtenirLimiteIntLargeur())
-					position_[VY] = signe[VY]*zone->obtenirLimiteIntLargeur();
-			}
-			else if(noeud->obtenirTypePosNoeud() == POSITION_MILIEU_GAUCHE || noeud->obtenirTypePosNoeud() == POSITION_MILIEU_DROITE)
-			{
-				if(abs(position_[VX])>zone->obtenirLimiteExtLongueur())
-					position_[VX] = signe[VX]*zone->obtenirLimiteExtLongueur();
-				if(abs(position_[VX])<zone->obtenirLimiteIntLongueur())
-					position_[VX] = signe[VX]*zone->obtenirLimiteIntLongueur();
-			}
-			else if(noeud->obtenirTypePosNoeud() == POSITION_HAUT_GAUCHE || noeud->obtenirTypePosNoeud() == POSITION_HAUT_DROITE || noeud->obtenirTypePosNoeud() == POSITION_BAS_DROITE || noeud->obtenirTypePosNoeud() == POSITION_BAS_GAUCHE)
-			{
-				if(abs(position_[VY])>zone->obtenirLimiteExtLargeur())
-					position_[VY] = signe[VY]*zone->obtenirLimiteExtLargeur();
-				if(abs(position_[VY])<zone->obtenirLimiteIntLargeur())
-					position_[VY] = signe[VY]*zone->obtenirLimiteIntLargeur();
-				if(abs(position_[VX])>zone->obtenirLimiteExtLongueur())
-					position_[VX] = signe[VX]*zone->obtenirLimiteExtLongueur();
-				if(abs(position_[VX])<zone->obtenirLimiteIntLongueur())
-					position_[VX] = signe[VX]*zone->obtenirLimiteIntLongueur();
-			}
+			ZoneEdition* zone = noeud->GetTerrain()->getZoneEdition();
+            checkf(zone,"Tentative de modifier un noeud qui n'est pas dans un terrain pour le mode édition");
+            if(zone)
+            {
+                int signe[2];
+                for(int i=0; i<2; i++)
+                {
+                    if(position_[i]<0)
+                        signe[i] = -1;
+                    else
+                        signe[i] = 1;
+                }
+                if(noeud->obtenirTypePosNoeud() == POSITION_HAUT_MILIEU || noeud->obtenirTypePosNoeud() == POSITION_BAS_MILIEU)
+                {
+
+                    if(abs(position_[VY])>zone->obtenirLimiteExtLargeur())
+                        position_[VY] = signe[VY]*zone->obtenirLimiteExtLargeur();
+                    if(abs(position_[VY])<zone->obtenirLimiteIntLargeur())
+                        position_[VY] = signe[VY]*zone->obtenirLimiteIntLargeur();
+                }
+                else if(noeud->obtenirTypePosNoeud() == POSITION_MILIEU_GAUCHE || noeud->obtenirTypePosNoeud() == POSITION_MILIEU_DROITE)
+                {
+                    if(abs(position_[VX])>zone->obtenirLimiteExtLongueur())
+                        position_[VX] = signe[VX]*zone->obtenirLimiteExtLongueur();
+                    if(abs(position_[VX])<zone->obtenirLimiteIntLongueur())
+                        position_[VX] = signe[VX]*zone->obtenirLimiteIntLongueur();
+                }
+                else if(noeud->obtenirTypePosNoeud() == POSITION_HAUT_GAUCHE || noeud->obtenirTypePosNoeud() == POSITION_HAUT_DROITE || noeud->obtenirTypePosNoeud() == POSITION_BAS_DROITE || noeud->obtenirTypePosNoeud() == POSITION_BAS_GAUCHE)
+                {
+                    if(abs(position_[VY])>zone->obtenirLimiteExtLargeur())
+                        position_[VY] = signe[VY]*zone->obtenirLimiteExtLargeur();
+                    if(abs(position_[VY])<zone->obtenirLimiteIntLargeur())
+                        position_[VY] = signe[VY]*zone->obtenirLimiteIntLargeur();
+                    if(abs(position_[VX])>zone->obtenirLimiteExtLongueur())
+                        position_[VX] = signe[VX]*zone->obtenirLimiteExtLongueur();
+                    if(abs(position_[VX])<zone->obtenirLimiteIntLongueur())
+                        position_[VX] = signe[VX]*zone->obtenirLimiteIntLongueur();
+                }
+            }
 		}
 		// Le visiteur permet de mettre a jour les buts en meme temps
 		Vecteur3 deplacement = position_-positionCourante;

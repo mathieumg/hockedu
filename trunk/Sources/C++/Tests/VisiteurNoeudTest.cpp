@@ -104,7 +104,7 @@ void VisiteurNoeudTest::testDeplacerObjet()
 ////////////////////////////////////////////////////////////////////////
 void VisiteurNoeudTest::testSelectionObjet()
 {
-	RazerGameTree* arbre = new RazerGameTree();
+	RazerGameTree* arbre = new RazerGameTree(NULL);
 	NoeudAbstrait	*noeud1 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET),
 					*noeud2 = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL),
 					*noeud3 = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL),
@@ -176,7 +176,7 @@ void VisiteurNoeudTest::testSelectionObjet()
 void VisiteurNoeudTest::testSuppressionObjet()
 {
 	// Construction d'un arbre de test
-	RazerGameTree* arbre = new RazerGameTree();
+	RazerGameTree* arbre = new RazerGameTree(NULL);
 	NoeudAbstrait* n1 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
 	NoeudAbstrait* n2 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
 	NoeudAbstrait* n3 = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL);

@@ -757,7 +757,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_modifier
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Etats_GestionnaireEtats_genererTerrainParDefaut( JNIEnv *, jobject )
 {
-	FacadeModele::getInstance()->creerTerrainParDefaut();
+	FacadeModele::getInstance()->creerTerrainParDefaut(FacadeModele::getInstance()->getTerrain());
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1265,7 +1265,7 @@ JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationTournoiJNI_obteni
 	jmethodID modifierListeGagnants = env->GetMethodID(jTournoi, "modifierVainqueurs", "(Ljava/util/ArrayList;)V");
 	env->CallVoidMethod(tournoiJava, modifierListeGagnants, arraylist);
 	// placer les points de la table
-	FacadeModele::getInstance()->chargerTerrain(tournoi->obtenirTerrain());
+	FacadeModele::getInstance()->chargerTerrain(tournoi->GetFieldName());
 	NoeudTable* table=FacadeModele::getInstance()->getTerrain()->getTable();
 
 	jclass point = env->FindClass("java/awt/Point");

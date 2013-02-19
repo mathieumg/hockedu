@@ -18,6 +18,7 @@
 #include "jni.h"
 #include "GameTime.h"
 #include <queue>
+#include <hash_map>
 
 
 class VisiteurNoeud;
@@ -32,6 +33,8 @@ class Tournoi;
 class Partie;
 class Terrain;
 class HUDElement;
+
+typedef int PartieId;
 
 namespace utilitaire
 {
@@ -106,7 +109,7 @@ public:
     void InitOpenGLContext();
 
     /// Charge un terrain à partir d'un fichier XML.
-	void chargerTerrain( const std::string& nomFichier = "", Terrain* terrain  = 0);
+    void chargerTerrain( const std::string& nomFichier = "", Terrain** terrain = 0);
 	/// Enregistre un terrain dans un fichier XML.
 	void enregistrerTerrain(const std::string& nomFichier = "", Terrain* terrain = 0);
 	/// Charge les joueurs à partir d'un fichier XML.
@@ -215,7 +218,7 @@ public:
 	/// Verifier si la map est valide pour jouer, soit la presence de 2 maillet sur des parties oppose de la map et une rondelle
 	bool verifierValiditeMap( Terrain*terrain= 0 );
 	/// Création d'un terrain par défaut
-	void creerTerrainParDefaut();
+    void creerTerrainParDefaut(Terrain** pField);
 
 	/// Permet de creer le tournoi avec une liste de joueurs y participants
 	void initialiserTournoi(JoueursParticipant joueurs, std::string terrain);
@@ -287,8 +290,10 @@ private:
 
 	/// Vue courante de la scène.
 	vue::Vue* vue_;	
-	/// Terrain contenant les arbres de rendus de la scène
-	Terrain* terrain_;
+	/// Terrain utilisé pour le mode édition, un seul nécessaire dans FacadeModèle, car il
+    /// ne peut avoir plusieurs terrain en édition en même temps.
+	Terrain* mEditionField;
+
 	/// Variable pour le rendu du rectangle de zoom elastique
 	bool zoomElastique_;
 	/// Variables pour conserver les coins du zoom élastique.
@@ -306,7 +311,7 @@ private:
 
 	/// Pointeur sur la partie courante
 	Partie* partieCourante_;
-
+    //std::hash_map<PartieId,Partie*> mGames;
 
 	/// Indique si on applique la physique du jeu 
 	bool enJeu_;	
@@ -343,8 +348,9 @@ public:
 	/// Retourne la vue courante.
 	inline vue::Vue* obtenirVue();
 
-	/// Accesseur de terrain_
-	inline Terrain* getTerrain() const { return terrain_; }
+	/// Accesseur de mFieldName
+    inline Terrain* getTerrain() const { return mEditionField; }
+    inline Terrain** getTerrainModifier() { return &mEditionField; }
 
 	/// Application de la mise a l'echelle sur les noeuds selectionnes de l'arbre
 	void modifierDeplacement(Vecteur2 deplacement);

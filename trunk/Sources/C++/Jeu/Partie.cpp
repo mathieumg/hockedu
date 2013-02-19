@@ -43,7 +43,7 @@ Partie::Partie(SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDro
 pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), enPause_(false), estPret_(false), faitPartieDunTournoi_(false)
 {
 	chiffres_ = new NoeudAffichage("3");
-	terrain_ = "";
+	mFieldName = "";
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -136,7 +136,7 @@ std::string Partie::obtenirNomJoueurDroit() const
 ////////////////////////////////////////////////////////////////////////
 std::string Partie::obtenirCheminTerrain() const
 {
-	return terrain_;
+	return mFieldName;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -150,7 +150,7 @@ std::string Partie::obtenirCheminTerrain() const
 ////////////////////////////////////////////////////////////////////////
 void Partie::setFieldName( const std::string terrain )
 {
-	terrain_ = terrain;
+	mFieldName = terrain;
 }
 
 
@@ -235,7 +235,7 @@ XmlElement* Partie::creerNoeudXML() const
 
 	elementNoeud->SetAttribute("ptsG", pointsJoueurGauche_);
 	elementNoeud->SetAttribute("ptsD", pointsJoueurDroit_);
-	elementNoeud->SetAttribute("Terrain", terrain_.c_str());
+	elementNoeud->SetAttribute("Terrain", mFieldName.c_str());
 
 	if(joueurGauche_ != 0)
 		elementNoeud->LinkEndChild(joueurGauche_->creerNoeudXML());
@@ -266,9 +266,9 @@ bool Partie::initialiserXML( XmlElement* elem, ConteneurJoueur* profilsVirtuelsE
 	// On recherche le terrain
 	const char* map = elem->Attribute("Terrain");
 	if(map == 0)
-		terrain_ = "";
+		mFieldName = "";
 	else
-		terrain_ = map;
+		mFieldName = map;
 
 	const XmlElement* joueurXml = elem->FirstChildElement();
 	int nbJoueurs=0;
@@ -307,7 +307,7 @@ bool Partie::initialiserXML( XmlElement* elem, ConteneurJoueur* profilsVirtuelsE
 ////////////////////////////////////////////////////////////////////////
 void Partie::reinitialiserPartie()
 {
-    SignalGameOver();
+    //SignalGameOver();
 	pointsJoueurGauche_ = 0;
 	pointsJoueurDroit_ = 0;
 	// Reinitialisation du noeudAffichage Chiffre

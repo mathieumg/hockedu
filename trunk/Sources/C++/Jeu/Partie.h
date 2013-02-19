@@ -100,7 +100,7 @@ private:
 	int pointsJoueurDroit_;
 
 	/// Fichier xml où est enregistré le terrain de la partie
-	std::string terrain_;
+	std::string mFieldName;
 	/// Indique si la partie peut debuter/continuer
 	bool estPret_;
 	/// Indique si la partie est en pause
@@ -119,6 +119,8 @@ private:
 
 	/// Indique si cette
 	bool faitPartieDunTournoi_;
+
+    Terrain* mField;
 
 /// Accesseurs
 public:

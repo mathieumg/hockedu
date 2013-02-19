@@ -34,7 +34,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( ConfigSceneTest );
 void ConfigSceneTest::setUp()
 {
 	// On initialise un arbre arbitraire pour les test
-	arbre = new RazerGameTree();
+	arbre = new RazerGameTree(NULL);
 	noeuds_[0] = arbre->creerNoeud(RazerGameUtilities::NOM_MURET);
 	noeuds_[1] = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL); 
 	noeuds_[2] = arbre->creerNoeud(RazerGameUtilities::NOM_RONDELLE); 
@@ -223,7 +223,7 @@ void ConfigSceneTest::testLectureArbreRenduXML()
 
 	// Chargement et lecture du document
 	document.LoadFile( "tests_xml\\TestLecture.xml" );
-	RazerGameTree* arbre2 = new RazerGameTree();
+	RazerGameTree* arbre2 = new RazerGameTree(NULL);
 	ConfigScene::obtenirInstance()->lireDOM(document, arbre2);
 
 	// Comparaison entre le document lu et l'arbre écrit dedans au départ

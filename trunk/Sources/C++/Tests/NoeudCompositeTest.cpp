@@ -31,7 +31,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( NoeudCompositeTest );
 ////////////////////////////////////////////////////////////////////////
 void NoeudCompositeTest::setUp()
 {
-	arbre = new RazerGameTree();
+	arbre = new RazerGameTree(NULL);
 	enfants[0] = new NoeudComposite();
 	enfants[1] = new NoeudComposite();
 	enfants[2] = new NoeudComposite();
@@ -296,7 +296,7 @@ void NoeudCompositeTest::deselectionTousTest()
 ////////////////////////////////////////////////////////////////////////
 void NoeudCompositeTest::modificationTerrain()
 {
-	Terrain* terrain = new Terrain();
+	Terrain* terrain = new Terrain(false);
 
 	NoeudAbstrait* n = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
     
@@ -320,7 +320,7 @@ void NoeudCompositeTest::modificationTerrain()
 	}
 	enfants[3]->ajouter(n);
 
-	Terrain* terrain2 = new Terrain();
+	Terrain* terrain2 = new Terrain(false);
 	enfants[2]->modifierTerrain(terrain2);
 	// S'assure que les noeuds qui ne devrait pas etre affecté pointe toujours sur le bon terrain
 	for (int i = 0; i < 2 ; i++)

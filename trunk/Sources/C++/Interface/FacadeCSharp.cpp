@@ -366,7 +366,7 @@ void PauseGame( bool doPause )
 ////////////////////////////////////////////////////////////////////////
 void GenerateDefaultField()
 {
-    FacadeModele::getInstance()->creerTerrainParDefaut();
+    FacadeModele::getInstance()->creerTerrainParDefaut(FacadeModele::getInstance()->getTerrainModifier());
 }
 
 ////////////////////////////////////////////////////////////////////////

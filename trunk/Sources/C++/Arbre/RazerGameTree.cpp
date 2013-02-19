@@ -23,7 +23,8 @@
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-RazerGameTree::RazerGameTree()
+RazerGameTree::RazerGameTree(class Terrain* pField):
+    Super(pField)
 {
 	// Construction des usines
     ajouterUsine(RazerGameUtilities::NOM_MURET , new UsineNoeudMuret(RazerGameUtilities::NOM_MURET));
@@ -35,7 +36,7 @@ RazerGameTree::RazerGameTree()
 	ajouterUsine(RazerGameUtilities::NOM_ACCELERATEUR, new UsineNoeudAccelerateur(RazerGameUtilities::NOM_ACCELERATEUR));
     ajouterUsine(RazerGameUtilities::NOM_GROUPE, new UsineNoeudGroupe(RazerGameUtilities::NOM_GROUPE));
     ajouterUsine(RazerGameUtilities::NAME_CONTROL_POINT, new UsineNoeudGroupe(RazerGameUtilities::NAME_CONTROL_POINT));
-    ajouterUsine(RazerGameUtilities::NAME_POLYGONE, new UsineNodePolygone(RazerGameUtilities::NAME_POLYGONE));
+    //ajouterUsine(RazerGameUtilities::NAME_POLYGONE, new UsineNodePolygone(RazerGameUtilities::NAME_POLYGONE));
 }
 
 
@@ -52,39 +53,6 @@ RazerGameTree::~RazerGameTree()
 {
 }
 
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void RazerGameTree::initialiser()
-///
-/// Cette fonction crée la structure de base de l'arbre de rendu, c'est-à-dire
-/// avec les noeuds structurants (pour les objets, les murs, les billes,
-/// les parties statiques, etc.)
-///
-/// @return Aucune.
-///
-////////////////////////////////////////////////////////////////////////
-void RazerGameTree::initialiser()
-{
-	// On vide l'arbre
-	vider();
-	NoeudTable* noeudTable = new NoeudTable(RazerGameUtilities::NOM_TABLE);
-	ajouter(noeudTable);
-	
-	/// Groupe destine a contenir les noeud concret pour un meilleur parcours d'arbre
-	NoeudGroupe* 	gMaillet =	new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_MAILLET),
-		*gRondelle =	new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_RONDELLE),
-		*gAccel =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_ACCELERATEUR),
-		*gMuret =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_MURET),
-		*gPortail =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_PORTAIL);
-	noeudTable->ajouter(gRondelle);
-	noeudTable->ajouter(gMaillet);/// Pas toucher a lordre
-	noeudTable->ajouter(gAccel);
-	noeudTable->ajouter(gMuret);
-	noeudTable->ajouter(gPortail);
-
-	noeudTable->reassignerParentBandeExt();	
-}
 
 ////////////////////////////////////////////////////////////////////////
 ///

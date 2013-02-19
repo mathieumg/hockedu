@@ -29,13 +29,11 @@ class NoeudTable;
 class RazerGameTree : public ArbreRendu
 {
 public:
+    typedef ArbreRendu Super;
    /// Constructeur par défaut.
-   RazerGameTree();
+   RazerGameTree(class Terrain* pField);
    /// Destructeur.
    virtual ~RazerGameTree();
-
-   /// Initialise l'arbre de rendu à son état initial.
-   void initialiser();
 
    /// Retourne le noeud représentant la table elle-même
    NoeudTable* obtenirTable();

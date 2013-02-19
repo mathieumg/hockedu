@@ -217,19 +217,23 @@ bool NoeudPoint::validerDeplacement( const Vecteur3& pos, const Vecteur2& deplac
 	Terrain* t = GetTerrain();
 	if( t )
 	{
-		ZoneEdition* zone = &t->getZoneEdition();
-		Vecteur3 deplace2(deplace[VX],deplace[VY],0);
-		Vecteur3 cible=pos+deplace2;
-		float valeurLimiteInt = (axe == VX) ? zone->obtenirLimiteIntLongueur() : zone->obtenirLimiteIntLargeur();
-		if(abs(cible[axe]) < valeurLimiteInt)
-			return false;
+		ZoneEdition* zone = t->getZoneEdition();
+        checkf(zone,"Tentative de déplacer un point sans zone édition, s'assurer qu'on est en mode édition");
+        if(zone)
+        {
+            Vecteur3 deplace2(deplace[VX],deplace[VY],0);
+            Vecteur3 cible=pos+deplace2;
+            float valeurLimiteInt = (axe == VX) ? zone->obtenirLimiteIntLongueur() : zone->obtenirLimiteIntLargeur();
+            if(abs(cible[axe]) < valeurLimiteInt)
+                return false;
 
-		float valeurLimiteExt = (axe == VX) ? zone->obtenirLimiteExtLongueur() : zone->obtenirLimiteExtLargeur();
-		if(abs(cible[axe]) > valeurLimiteExt)
-			return false;
+            float valeurLimiteExt = (axe == VX) ? zone->obtenirLimiteExtLongueur() : zone->obtenirLimiteExtLargeur();
+            if(abs(cible[axe]) > valeurLimiteExt)
+                return false;
 
-		if(pos[axe]*cible[axe]<0)
-			return false;
+            if(pos[axe]*cible[axe]<0)
+                return false;
+        }
 	}
 	return true;
 }

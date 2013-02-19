@@ -46,11 +46,11 @@ class Terrain
 {
 public:
 	friend TerrainTest;
-	Terrain();
+	Terrain(bool pIsGameField);
 	virtual ~Terrain();
 
 	/// Permet d'effectuer le rendu des arbres du terrain
-	void afficherTerrain(bool afficherZoneEdition = false);
+    void afficherTerrain();
 	/// Permet d'animer les noeuds des arbres du terrain, la physique reste géré par FacadeModele
 	void animerTerrain( const float& temps );
 	/// Libère la mémoire du terrain et le retourne à son état de base
@@ -121,7 +121,7 @@ private:
 	/// Tree containing game items
 	RazerGameTree* mLogicTree;
     /// tree containing items used only to display
-	RazerGameTree* mRenderTree;
+	class ArbreRendu* mRenderTree;
     /// tree containing temporary node for display
 	ArbreNoeudLibre* mNewNodeTree;
 
@@ -129,17 +129,17 @@ private:
 	NoeudTable* mTable;
 	
 	/// Contient la zone d'édition du terrain
-	ZoneEdition mEditionZone;
+	ZoneEdition* mEditionZone;
 	
-	/// Indique si le terrain est initialise et donc s'il contient ses elements de base
-	bool mbIsInit;
+    /// Indique si ce terrain est utilisé pour jouer ou pour l'édition
+    const bool mIsGameField;
 
 /// Accesseurs
 public:
 	/// Accesseur de arbreRendu_
 	inline RazerGameTree* getLogicTree() const { return mLogicTree; }
 	/// Accesseur de zoneEdition_
-	inline ZoneEdition& getZoneEdition() { return mEditionZone; }
+	inline ZoneEdition* getZoneEdition() { return mEditionZone; }
 	/// Accesseur de nom_
 	std::string getNom() const { return mFieldName; }
 	/// Modificateur de nom_
