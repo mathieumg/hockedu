@@ -1,6 +1,6 @@
 
 #pragma once
-#include "..\Reseau\PaquetRunnable.h"
+#include "../Reseau/PaquetRunnable.h"
 
 
 namespace PaquetRunnable
@@ -12,6 +12,8 @@ namespace PaquetRunnable
     int RunnableChatMessageServerMaster(Paquet* pPaquet);
 
     int RunnableUserStatusServerMaster(Paquet* pPaquet);
+
+    int RunnableGameStatusServerMaster(Paquet* pPaquet);
 
 
 };

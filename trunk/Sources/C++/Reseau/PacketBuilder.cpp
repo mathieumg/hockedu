@@ -76,7 +76,11 @@ PacketBuilder& PacketBuilder::operator=( PacketBuilder& pPacket )
 		free(mArrStart);
 		mArrStart = (uint8_t*)realloc(mArrStart, pPacket.getPacketLength());
 		*mArrSize = pPacket.getPacketLength();
+#ifdef WINDOWS
 		memcpy_s(getPacketString(), getPacketLength(), pPacket.getPacketString(), pPacket.getPacketLength());
+#elif defined(LINUX)
+        memcpy(getPacketString(), pPacket.getPacketString(), pPacket.getPacketLength());
+#endif
 		includeStringLength(pPacket.mAddStringLength);
 		setCurrentByteOrder(pPacket.getCurrentByteOrder());
 	}
@@ -101,7 +105,11 @@ void PacketBuilder::addString( const uint8_t* pStringToAdd, uint32_t pStringLeng
 	if(mAddStringLength)
 		addInteger(pStringLength);
 	mArrStart = (uint8_t*)realloc(mArrStart, *mArrSize + pStringLength);
+#ifdef WINDOWS
 	memcpy_s(mArrStart + *mArrSize, pStringLength, pStringToAdd, pStringLength);
+#elif defined(LINUX)
+    memcpy(mArrStart + *mArrSize, pStringToAdd, pStringLength);
+#endif
     *mArrSize = *mArrSize + pStringLength;
 }
 
@@ -119,7 +127,11 @@ void PacketBuilder::addString( const uint8_t* pStringToAdd, uint32_t pStringLeng
 void PacketBuilder::addChar( int8_t pCharToAdd )
 {
 	mArrStart = (uint8_t*)realloc(mArrStart, *mArrSize + 1);
+#ifdef WINDOWS
 	memcpy_s(mArrStart + *mArrSize, 1, &pCharToAdd, 1);
+#elif defined(LINUX)
+    memcpy(mArrStart + *mArrSize, &pCharToAdd, 1);
+#endif
 	*mArrSize = *mArrSize + 1;
 }
 

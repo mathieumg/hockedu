@@ -74,7 +74,7 @@ private:                                                       \
 // Cette macro doit être incluse dans un fichier source (.cpp).  Elle déclare
 // l'instance unique de la classe.
 #define SINGLETON_DECLARATION_CPP(Classe)       \
-   Classe * Singleton< Classe >::instance_ = 0; \
+   template<> Classe * Singleton< Classe >::instance_ = 0; \
 
 
 ////////////////////////////////////////////////////////////////////////

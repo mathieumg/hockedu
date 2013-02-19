@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file JoueurServeurs.h
+/// @file PaquetGameStatus.h
 /// @author Mathieu Parent
-/// @date 2013-02-11
+/// @date 2013-02-17
 /// @version 1.0
 ///
 /// @addtogroup razergame RazerGame
@@ -9,32 +9,35 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include <string>
+#include "Paquet.h"
+#include "../ObjetsGlobaux/PartieServeurs.h"
 
-
-typedef std::string PlayerIdentifier;
+class UsinePaquetGameStatus;
 
 ///////////////////////////////////////////////////////////////////////////
-/// @class JoueurServeurs
-/// @brief Classe qui represente un joueur qui est connecte au serveur maitre
+/// @class PaquetGameStatus
+/// @brief Classe qui represente un paquet pour faire les echanges d'informations de partie
 ///
 /// @author Mathieu Parent
-/// @date 2013-02-11
+/// @date 2013-02-17
 ///////////////////////////////////////////////////////////////////////////
-class JoueurServeurs {
+class PaquetGameStatus : public Paquet {
 private:
-    
-	std::string mName;
-    
+    friend UsinePaquetGameStatus;
+
+    PartieServeurs mGame;
+
+protected:
+	PaquetGameStatus();
 
 public:
-	
-    JoueurServeurs(const std::string& pName);
-	~JoueurServeurs();
+	virtual PacketTypes getOperation() const { return GAME_STATUS; }
 
-    PlayerIdentifier getIdentifier() {return mName;}
+    inline PartieServeurs* getGameInfos() {return &mGame;}
 
-    std::string getName() const { return mName; }
+    void setGameId(const int pGameId) {mGame.mUniqueGameId = pGameId;}
+
+	~PaquetGameStatus();
 
 };
 

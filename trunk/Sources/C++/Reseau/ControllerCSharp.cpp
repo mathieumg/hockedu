@@ -1,7 +1,9 @@
 #include "ControllerCSharp.h"
 #include "GestionnaireReseau.h"
 #include "PaquetRunnable.h"
-
+#ifdef LINUX
+#include <stdarg.h>
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -10,7 +12,7 @@
 /// Constructeur
 ///
 ///
-/// @return 
+/// @return
 ///
 ////////////////////////////////////////////////////////////////////////
 ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceivedCallBack(NULL)
@@ -48,14 +50,14 @@ void ControllerCSharp::handleEvent( int pEventCode, va_list pListeElems )
         case CHAT_MESSAGE_RECEIVED:
             if(mMessageReceivedCallBack)
             {
-                std::string username = va_arg(pListeElems,std::string);
-                std::string message = va_arg(pListeElems,std::string);
+                std::string username = va_arg(pListeElems,char*);
+                std::string message = va_arg(pListeElems,char*);
                 wEventHandled = mMessageReceivedCallBack((char*)username.c_str(),(char*)message.c_str());
             }
             break;
         case SERVER_USER_CONNECTED:
         case SERVER_USER_DISCONNECTED:
-            message = va_arg(pListeElems,std::string);
+            message = va_arg(pListeElems,char*);
         default:
             if(mEventReceivedCallback)
             {
@@ -67,4 +69,11 @@ void ControllerCSharp::handleEvent( int pEventCode, va_list pListeElems )
     {
         std::cerr << "UnHandled event\n";
     }
+}
+
+
+void ControllerCSharp::handleDisconnectDetection( SPSocket pSocket )
+{
+    GestionnaireReseau::obtenirInstance()->demarrerConnectionThread(pSocket);
+    GestionnaireReseau::obtenirInstance()->supprimerEcouteSocket(pSocket);
 }

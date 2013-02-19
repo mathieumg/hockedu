@@ -7,17 +7,25 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="../../../Content/Exe/ServeurMaitre" prefix_auto="1" extension_auto="1" />
-				<Option object_output="../x64/Debug/" />
+				<Option output="../../../../Content/Exe/ServeurMaitre" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../../../../Content/Exe/" />
+				<Option object_output="../../x64/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="../../../../Commun/Utilitaire" />
+					<Add directory="../../Reseau/ExceptionsReseau" />
 				</Compiler>
+				<Linker>
+					<Add directory="../../../../Commun/Utilitaire" />
+					<Add directory="../../Reseau/ExceptionsReseau" />
+				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="../../../Content/Exe/ServeurMaitre" prefix_auto="1" extension_auto="1" />
-				<Option object_output="../x64/Release/" />
+				<Option output="../../../../Content/Exe/ServeurMaitre" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../../../../Content/Exe/" />
+				<Option object_output="../../x64/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -116,6 +124,7 @@
 		<Extensions>
 			<code_completion>
 				<search_path add="../../../../Commun/Utilitaire" />
+				<search_path add="../../Reseau/ExceptionsReseau" />
 			</code_completion>
 			<debugger />
 		</Extensions>

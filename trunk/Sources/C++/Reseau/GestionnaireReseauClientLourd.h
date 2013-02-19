@@ -2,14 +2,13 @@
 /// @file GestionnaireReseauClientLourd.h
 /// @author Mathieu Parent
 /// @date 2013-01-25
-/// @version 1.0 
+/// @version 1.0
 ///
 /// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "GestionnaireReseau.h"
-
 
 struct ChatMessageReceived
 {

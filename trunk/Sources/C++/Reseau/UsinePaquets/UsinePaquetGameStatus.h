@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file UsinePaquetTest.h
+/// @file UsinePaquetGameStatus.h
 /// @author Mathieu Parent
-/// @date 2013-01-324
+/// @date 2013-02-17
 /// @version 1.0
 ///
 /// @addtogroup razergame RazerGame
@@ -10,42 +10,41 @@
 
 #pragma once
 #include "UsinePaquet.h"
-#include "../Paquets/PaquetTest.h"
+#include "..\Paquets\PaquetGameStatus.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
-/// @class UsinePaquetTest
-/// @brief Classe Factory (Usine) pour les paquets de type test
+/// @class UsinePaquetGameStatus
+/// @brief Classe Factory (Usine) pour les paquets de type GameStatus
 ///
 /// @author Mathieu Parent
-/// @date 2013-01-24
+/// @date 2013-02-17
 ///////////////////////////////////////////////////////////////////////////
-class UsinePaquetTest : public UsinePaquet
+class UsinePaquetGameStatus : public UsinePaquet
 {
 public:
-	/// Constructeur par paramètres.
-	inline UsinePaquetTest();
+    /// Constructeur par paramètres.
+    inline UsinePaquetGameStatus();
 
 	/// Fonction à surcharger pour la création d'un noeud.
 	inline virtual Paquet* creerPaquet() const;
-
-
+	
+	
 };
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn UsinePaquetString::UsinePaquetString(const std::string& nom)
+/// @fn UsinePaquetGameStatus::UsinePaquetGameStatus()
 ///
 /// Ce constructeur ne fait qu'appeler la version de la classe et base
 /// et donner des valeurs par défaut aux variables membres..
 ///
-/// @param[in] nom   : Le nom de l'usine qui correspond au type de paquets créés.
 ///
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-inline UsinePaquetTest::UsinePaquetTest()
+inline UsinePaquetGameStatus::UsinePaquetGameStatus()
 	: UsinePaquet()
 {
 }
@@ -53,7 +52,7 @@ inline UsinePaquetTest::UsinePaquetTest()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn Paquet* UsinePaquetString::creerNoeud() const
+/// @fn Paquet* UsinePaquetGameStatus::creerNoeud() const
 ///
 /// Cette fonction retourne un noeud nouvellement créé du type produit
 /// par cette usine.
@@ -61,9 +60,9 @@ inline UsinePaquetTest::UsinePaquetTest()
 /// @return Le noeud nouvellement créé.
 ///
 ////////////////////////////////////////////////////////////////////////
-Paquet* UsinePaquetTest::creerPaquet() const
+Paquet* UsinePaquetGameStatus::creerPaquet() const
 {
-	return new PaquetTest();
+	return new PaquetGameStatus();
 }
 
 

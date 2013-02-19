@@ -11,8 +11,8 @@
 #pragma once
 #include "Utilitaire.h"
 #include <iostream>
-#include "..\Reseau\ControllerInterface.h"
-
+#include "../Reseau/ControllerInterface.h"
+#include "../Reseau/Socket.h"
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class ControllerServeurMaitre
@@ -27,8 +27,10 @@ public:
     ControllerServeurMaitre();
     virtual void handleEvent(int pEventCode,  va_list pListeElems);
 
+    virtual void handleDisconnectDetection(SPSocket pSocket);
+
 private:
-    
+
 };
 
 

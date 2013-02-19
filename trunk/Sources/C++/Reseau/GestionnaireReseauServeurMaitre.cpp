@@ -10,12 +10,14 @@
 
 #include "GestionnaireReseauServeurMaitre.h"
 #include "GestionnaireReseau.h"
-#include "Paquets\PaquetUserStatus.h"
-#include "PaquetHandlers\PacketHandlerUserStatus.h"
-#include "UsinePaquets\UsinePaquetUserStatus.h"
+#include "Paquets/PaquetUserStatus.h"
+#include "PaquetHandlers/PacketHandlerUserStatus.h"
+#include "UsinePaquets/UsinePaquetUserStatus.h"
 #include "RelayeurMessage.h"
-#include "PaquetHandlers\PacketHandlerChatMessage.h"
-#include "UsinePaquets\UsinePaquetChatMessage.h"
+#include "PaquetHandlers/PacketHandlerChatMessage.h"
+#include "UsinePaquets/UsinePaquetChatMessage.h"
+#include "UsinePaquets/UsinePaquetGameStatus.h"
+#include "PaquetHandlers/PacketHandlerGameStatus.h"
 
 // Initialisations automatiques
 SINGLETON_DECLARATION_CPP(GestionnaireReseauServeurMaitre);
@@ -27,21 +29,21 @@ SINGLETON_DECLARATION_CPP(GestionnaireReseauServeurMaitre);
 /// Constructeur, appelle le constructeur de GestionnaireReseau
 ///
 ///
-/// @return 
+/// @return
 ///
 ////////////////////////////////////////////////////////////////////////
 GestionnaireReseauServeurMaitre::GestionnaireReseauServeurMaitre()
 {
     // Initialisation du GestionnaireReseau
-    GestionnaireReseau::setNetworkMode(SERVER);
 	GestionnaireReseau::obtenirInstance()->setSocketConnectionStateCallback(SocketStateCallback);
 	//GestionnaireReseau::setObserverSocketServer(new SocketObserverServerChat());
     GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
-    wGestionnaireReseau->init();
+    wGestionnaireReseau->initServer();
 
     // On doit ajouter une nouvelle operation reseau pour que le systeme le connaisse (1 par type de paquet), trompez-vous pas pcq sa va chier en ti pepere!
 	wGestionnaireReseau->ajouterOperationReseau(CHAT_MESSAGE, new PacketHandlerChatMessage, new UsinePaquetChatMessage);
 	wGestionnaireReseau->ajouterOperationReseau(USER_STATUS, new PacketHandlerUserStatus, new UsinePaquetUserStatus);
+    wGestionnaireReseau->ajouterOperationReseau(GAME_STATUS, new PacketHandlerGameStatus, new UsinePaquetGameStatus);
 
 
 }
@@ -51,10 +53,10 @@ GestionnaireReseauServeurMaitre::GestionnaireReseauServeurMaitre()
 ///
 /// @fn  GestionnaireReseauServeur::~GestionnaireReseauServeur(  )
 ///
-/// Destructeur 
+/// Destructeur
 ///
 ///
-/// @return 
+/// @return
 ///
 ////////////////////////////////////////////////////////////////////////
 GestionnaireReseauServeurMaitre::~GestionnaireReseauServeurMaitre()
@@ -70,7 +72,7 @@ void GestionnaireReseauServeurMaitre::SocketStateCallback( const ConnectionState
 	const std::string& wPlayerName = pEvent.mPlayerName;
 
 	PaquetUserStatus* wPaquet = (PaquetUserStatus*) GestionnaireReseau::obtenirInstance()->creerPaquet(USER_STATUS);
-	
+
 	if(wConnState == CONNECTED) // Si le socket vient de se connecter, on lui envoie la liste de tous les players connectes
 	{
 		std::set<std::string> wListe = GestionnaireReseau::obtenirInstance()->getPlayerNameList(TCP);

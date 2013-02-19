@@ -10,14 +10,22 @@
 
 #pragma once
 #include <string>
+#include "Network_Defines.h"
 #include "Singleton.h"
 #include <map>
 #include "Socket.h"
-#include "ExceptionsReseau\ExceptionReseau.h"
+#include "ExceptionsReseau/ExceptionReseau.h"
 #include "CommunicateurReseau.h"
 #include <fstream>
 #include <set>
 #include "ControllerInterface.h"
+
+#ifdef LINUX
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <stdarg.h>
+#endif
 
 class PacketHandler;
 class UsinePaquet;
@@ -26,7 +34,12 @@ typedef std::map<std::pair<std::string, ConnectionType>, SPSocket> ListeSockets;
 
 enum NetworkMode {CLIENT, SERVER, NOT_DEFINED};
 
-enum ByteOrder {NATIVE, LITTLE_ENDIAN, BIG_ENDIAN, UNKNOWN};
+#ifdef WINDOWS
+enum ByteOrder
+#elif defined(LINUX)
+enum ByteOrder : uint8_t
+#endif
+    {NATIVE, BO_LITTLE_ENDIAN, BO_BIG_ENDIAN, UNKNOWN};
 
 enum ExceptionTypes {GLOBALE, PARAMETRE_INVALIDE, SOCKET_DECONNECTE, TIMEOUT, TYPE_NOT_DEFINED, AUCUNE_ERREUR};
 
@@ -54,7 +67,8 @@ enum PacketTypes {
     CHAT_MESSAGE,
     USER_STATUS,
     TEST,
-    BASE
+    BASE,
+    GAME_STATUS
 };
 
 struct ConnectionStateEvent
@@ -91,18 +105,22 @@ public:
     // Port a utiliser pour les comminications de base
     static int connectionUDPPort;
 
+    // Initialise le GestionnaireReseau
+    void initClient();
+    // Initialise le GestionnaireReseau avec des fonctionnalites de serveur (listen de ports, etc.)
+    void initServer();
 
+    // Demarre la connection d'un socket TCP dans un thread separe
+    void demarrerConnectionThread(SPSocket pSocket);
 
-    // Methode d'initialisation (initialise notamment Winsock)
-	void init();
+    // Methode pour supprimer un socket dans la liste a ecouter selon son pointeur
+    void supprimerEcouteSocket(SPSocket pSocket);
 
+    // Methode a appeler dans le client quand on veut se deconnecter
     void disconnectClient(const std::string& pPlayerName, ConnectionType pConnectionType = TCP);
 
-	// Set the network mode
-	inline static void setNetworkMode(NetworkMode pNetworkMode) {mNetworkMode = pNetworkMode;}
-
-    // Get the network mode
-    inline static NetworkMode getNetworkMode() {return mNetworkMode;}
+    // Methode a appeler du serveur pour se deconnecter d'un client
+    //void disconnectOtherPlayer(const std::string& pPlayerName, ConnectionType pConnectionType = TCP);
 
 	// Get the server socket observer
 	void setSocketConnectionStateCallback(SocketConnectionStateCallback val) { mSocketStateCallback = val; }
@@ -145,6 +163,7 @@ public:
 	void removeSocket(const std::string& pNomJoueur, ConnectionType pConnectionType);
     void removeSocket(SPSocket pSocket); // Pas optimal, mais necessaire dans certains cas
 
+
     // Methode (PAS OPTIMALE) pour retourner le nom du player associee a un socket
     std::string getPlayerName(SPSocket pSocket);
 
@@ -154,7 +173,7 @@ public:
     // Retourne la liste des adresses IP disponibles sur la machine courante
     void getListeAdressesIPLocales(std::list<std::string>& pOut) const;
 
-	// Methode qui appelle la Factory de Paquets et qui retourne un Paquet du bon type représenté par le nom d'opération
+	// Methode qui appelle la Factory de Paquets et qui retourne un Paquet du bon type reprÃ©sentÃ© par le nom d'opÃ©ration
 	Paquet* creerPaquet(const PacketTypes pOperation);
 
 	// Methode pour creer une nouvelle connection (un nouveau Socket) et le sauvegarder a la liste des Sockets actifs
@@ -184,6 +203,8 @@ public:
 	static ByteOrder NATIVE_BYTE_ORDER;
 private:
 
+    // Methode d'initialisation (initialise notamment Winsock)
+    void init();
 
     // Methode de nettoyage
 	void supprimerPacketHandlersEtUsines();
@@ -194,7 +215,7 @@ private:
 
 	// Liste des handlers pour les paquets
 	std::map<PacketTypes, PacketHandler*> mListeHandlers;
-	// Liste des usines de paquets avec la clée = nom de l'opération
+	// Liste des usines de paquets avec la clÃ©e = nom de l'opÃ©ration
 	std::map<PacketTypes, UsinePaquet*> mListeUsines;
 
     std::map<int, ExceptionTypes> mMapExceptions;
@@ -206,16 +227,14 @@ private:
 	ListeSockets mListeSockets;
 
     // Mutex pour la gestion de la liste des sockets (doit etre acquis si on modifie la liste de sockets)
-    HANDLE mMutexListeSockets;
+    FacadePortability::HANDLE_MUTEX mMutexListeSockets;
 
-    // Network Mode (CLIENT OR SERVER)
-	static NetworkMode mNetworkMode;
 
 
 	SocketConnectionStateCallback mSocketStateCallback;
 
 protected:
-    /// Constructeur par défaut.
+    /// Constructeur par dÃ©faut.
     GestionnaireReseau();
     /// Destructeur.
     ~GestionnaireReseau();

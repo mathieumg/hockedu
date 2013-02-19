@@ -15,6 +15,7 @@
 #include <list>
 #include <map>
 #include "QueueThreadSafe.h"
+#include "Network_Defines.h"
 
 class Paquet;
 struct PaquetAEnvoyer {
@@ -27,12 +28,12 @@ struct PaquetAEnvoyer {
 ///////////////////////////////////////////////////////////////////////////
 /// @class CommunicateurReseau
 /// @brief Classe qui permet d'envoyer et de recevoir des paquets et qui contient la liste des paquets a envoyer
-/// ainsi que les paquets recus qui sont a executer sur le thread principal (basically pour gérer les threads de communication et les echanges de paquets)
+/// ainsi que les paquets recus qui sont a executer sur le thread principal (basically pour gÃ©rer les threads de communication et les echanges de paquets)
 ///
 /// @author Mathieu Parent
 /// @date 2013-01-08
 ///////////////////////////////////////////////////////////////////////////
-class CommunicateurReseau 
+class CommunicateurReseau
 {
 public:
 	// Constructeur
@@ -55,16 +56,16 @@ public:
 	void ajouterSocketEcoute(SPSocket pSocket);
 
 	// Methode qui retourne un iterateur sur la liste de sockets a ecouter ET QUI MET UN VERROU.
-	std::list<SPSocket>::const_iterator getFirstSocketEcoute() const;
+	std::list<SPSocket>::iterator getFirstSocketEcoute();
 
 	// Methode pour avoir le end de la liste de sockets a ecouter
-	std::list<SPSocket>::const_iterator getEndSocketEcoute() const;
+	std::list<SPSocket>::iterator getEndSocketEcoute();
 
 	// Methode qui relache le mutex de la liste de sockets a ecouter
 	void terminerIterationListeSocketEcoute();
 
 	// Methode pour supprimer un socket dans la liste de sockets a ecouter
-    std::list<SPSocket>::const_iterator supprimerEcouteSocket(const std::list<SPSocket>::const_iterator& pIterateur);
+    std::list<SPSocket>::iterator supprimerEcouteSocket(const std::list<SPSocket>::iterator& pIterateur);
 
     // Methode pour supprimer un socket dans la liste a ecouter selon son pointeur
     void supprimerEcouteSocket(SPSocket pSocket);
@@ -75,7 +76,7 @@ public:
     // Methode pour demarrer les threads de connection TCP
     void demarrerThreadsConnectionServeur();
 
-    // Methode pour demarrer les threads de reception UDP 
+    // Methode pour demarrer les threads de reception UDP
     void demarrerThreadsReceptionUDP();
 
 	// Enleve le socket et son thread de connection de la liste (surtout appelee par le thread lui meme quand il a terminer son travail)
@@ -123,25 +124,25 @@ private:
 	std::list<SPSocket> mListeSocketsConnection;
 
 	// Mutex pour l'acces a mListeSocketsEcoute
-	HANDLE mMutexListeSocketsEcoute;
+	FacadePortability::HANDLE_MUTEX mMutexListeSocketsEcoute;
 
 	// Mutex pour l'acces a mListeSocketsConnection
-	HANDLE mMutexListeSocketsConnection;
+	FacadePortability::HANDLE_MUTEX mMutexListeSocketsConnection;
 
 	// Handle du thread qui s'occupe d'envoyer les paquets
-	HANDLE mHandleThreadEnvoie;
+	FacadePortability::HANDLE_THREAD mHandleThreadEnvoie;
 	// Handle du thread qui s'occupe de recevoir les paquets
-    HANDLE mHandleThreadReception;
-    HANDLE mHandleSemaphoreContentSend;
+    FacadePortability::HANDLE_THREAD mHandleThreadReception;
+    FacadePortability::HANDLE_SEMAPHORE mHandleSemaphoreContentSend;
 
     // Liste des HANDLE pour les threads de connection TCP
-    std::vector<HANDLE> mHandlesThreadConnectionTCPServeur;
+    std::vector<FacadePortability::HANDLE_THREAD> mHandlesThreadConnectionTCPServeur;
 
     // Liste des HANDLE pour les threads de reception UDP
-    HANDLE mHandleThreadReceptionUDP;
+    FacadePortability::HANDLE_THREAD mHandleThreadReceptionUDP;
 
 	// Map de handles de thread de connection selon les sockets
-	std::map<SPSocket, HANDLE> mHandlesThreadConnection;
+	std::map<SPSocket, FacadePortability::HANDLE_THREAD> mHandlesThreadConnection;
 
 };
 

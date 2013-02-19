@@ -82,6 +82,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\..\INF3900 - Projet d%27evolution d%27un logiciel\log3900-04\trunk\Sources\C++\Reseau\Network_Defines.cpp" />
     <ClCompile Include="..\Reseau\CommunicateurReseau.cpp" />
     <ClCompile Include="..\Reseau\ControllerInterface.cpp" />
     <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseau.cpp" />
@@ -99,6 +100,7 @@
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerConnAutomatique.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerEvent.cpp" />
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameStatus.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerLoginInfo.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerTest.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp" />
@@ -107,6 +109,7 @@
     <ClCompile Include="..\Reseau\Paquets\PaquetChatMessage.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetConnAutomatique.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetEvent.cpp" />
+    <ClCompile Include="..\Reseau\Paquets\PaquetGameStatus.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetLoginInfo.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetTest.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetUserStatus.cpp" />
@@ -119,6 +122,7 @@
     <ClCompile Include="PaquetRunnableServeurMaitre.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\..\INF3900 - Projet d%27evolution d%27un logiciel\log3900-04\trunk\Sources\C++\Reseau\Network_Defines.h" />
     <ClInclude Include="..\Reseau\CommunicateurReseau.h" />
     <ClInclude Include="..\Reseau\ControllerInterface.h" />
     <ClInclude Include="..\Reseau\ExceptionsReseau\ExceptionReseau.h" />
@@ -136,6 +140,7 @@
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h" />
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerConnAutomatique.h" />
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerEvent.h" />
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerGameStatus.h" />
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerLoginInfo.h" />
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerTest.h" />
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.h" />
@@ -144,6 +149,7 @@
     <ClInclude Include="..\Reseau\Paquets\PaquetChatMessage.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetConnAutomatique.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetEvent.h" />
+    <ClInclude Include="..\Reseau\Paquets\PaquetGameStatus.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetLoginInfo.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetTest.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetUserStatus.h" />
@@ -154,6 +160,7 @@
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatMessage.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetConnAutomatique.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetEvent.h" />
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetGameStatus.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetLoginInfo.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetTest.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetUserStatus.h" />

@@ -10,7 +10,7 @@
 
 #pragma once
 #include "UsinePaquet.h"
-#include "..\Paquets\PaquetChatMessage.h"
+#include "../Paquets/PaquetChatMessage.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -28,8 +28,8 @@ public:
 
 	/// Fonction à surcharger pour la création d'un noeud.
 	inline virtual Paquet* creerPaquet() const;
-	
-	
+
+
 };
 
 

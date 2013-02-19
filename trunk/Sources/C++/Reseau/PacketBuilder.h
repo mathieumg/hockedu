@@ -5,8 +5,15 @@
 #ifndef byte
 typedef unsigned char byte;
 #endif
+#ifdef LINUX
+#include <string.h>
+#endif
 
+#ifdef WINDOWS
 enum ByteOrder;
+#elif defined(LINUX)
+enum ByteOrder : uint8_t;
+#endif
 
 class PacketBuilder
 {
@@ -91,7 +98,7 @@ public:
 	PacketBuilder& operator<<(T pDataToAdd);
 	//PacketBuilder
 	PacketBuilder& operator<<(PacketBuilder& pPacketToAdd) { addString(pPacketToAdd.getPacketString(), pPacketToAdd.getPacketLength()); return *this; }
-	
+
 	//Operator overloading - +
 	//Changes byte order.
 	PacketBuilder& operator+(ByteOrder pNewByteOrder) { setCurrentByteOrder(pNewByteOrder); return *this; }
@@ -143,7 +150,7 @@ public:
 
 	//Operator overloading - =
 	PacketBuilder& operator=(PacketBuilder& pPacket) ;
-	
+
 	//Indicates if the string length should be included when adding strings.
 	void includeStringLength(bool pAddStringLength) { mAddStringLength = pAddStringLength;}
 
@@ -151,10 +158,10 @@ public:
 
     // Methode pour avoir la taille d'un string qui doit etre envoye par le network
     static int getSizeForString(const std::string& pString, const bool& pIncludeStringLength = true) {return (int) ((pIncludeStringLength ? 5 : 1) + pString.length());} // 5 = 4 pour le int et 1 pour caractere de fin
-       
+
     // Methode pour avoir la taille d'un int qui doit etre envoye par le network
     static int getSizeForInt() {return sizeof(int);}
-    
+
     // Methode pour avoir la taille d'un float qui doit etre envoye par le network
     static int getSizeForFloat() {return sizeof(float);}
 
@@ -169,16 +176,16 @@ public:
 
     //Methode pour avoir la taille d'un int64_t qui doit etre envoye par le network
     static int getSizeFor64bInteger() {return sizeof(int64_t);}
-      
+
 private:
 	//Boolean which determines whether data's bytes should be switched or not.
 	bool mSwapBytes;
 	//Boolean which determines if string length should be added to the packet when adding a string
 	bool mAddStringLength;
 	//Swaps endianness
-	template<typename T> 
+	template<typename T>
 	T swapBytes(T& pValueToSwap);
-	//Will contain the current byte order 
+	//Will contain the current byte order
 	ByteOrder mCurrentByteOrder;
 
 	//Variables used to stock the bytes.
@@ -264,11 +271,19 @@ void PacketBuilder::addData( T& pDataToAdd )
 	if(mSwapBytes)
 	{
 		T result = swapBytes(pDataToAdd);
-		memcpy_s(mArrStart + *mArrSize, sizeof(T), &result, sizeof(T));
+#ifdef WINDOWS
+        memcpy_s(mArrStart+ *mArrSize, sizeof(T), &result, sizeof(T));
+#elif defined(LINUX)
+        memcpy(mArrStart+*mArrSize, &result, sizeof(T));
+#endif
 		*mArrSize = *mArrSize + sizeof(T);
 		return;
 	}
+#ifdef WINDOWS
 	memcpy_s(mArrStart+ *mArrSize, sizeof(T), &pDataToAdd, sizeof(T));
+#elif defined(LINUX)
+    memcpy(mArrStart+*mArrSize, &pDataToAdd, sizeof(T));
+#endif
 	*mArrSize = *mArrSize + sizeof(T);
 }
 
@@ -296,13 +311,13 @@ T PacketBuilder::swapBytes( T& pValueToSwap )
 	data.value = pValueToSwap;
 
 	char temp;
-	for(int i = 0 ; i < sizeof(data.bytes) >> 1; ++i)
+	for(unsigned int i = 0 ; i < sizeof(data.bytes) >> 1; ++i)
 	{
 		temp = data.bytes[i];
 		data.bytes[i] = data.bytes[sizeof(data.bytes) - i - 1];
 		data.bytes[(sizeof(data.bytes) - i - 1)] = temp;
 	}
-	
+
 	return data.value;
 }
 

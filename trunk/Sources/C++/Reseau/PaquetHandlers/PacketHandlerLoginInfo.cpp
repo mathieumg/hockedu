@@ -2,17 +2,17 @@
 #include <iostream>
 #include <sstream>
 #include "PacketHandlerLoginInfo.h"
-#include "..\Paquets\PaquetLoginInfo.h"
+#include "../Paquets/PaquetLoginInfo.h"
 #include "Utilitaire.h"
-#include "..\ObjetsGlobaux\JoueurServeurs.h"
+#include "../ObjetsGlobaux/JoueurServeurs.h"
 #ifdef SERVER
-#include "..\ServeurMaitre\FacadeServeurMaitre.h"
+#include "../ServeurMaitre/FacadeServeurMaitre.h"
 #endif
 
 
 void PacketHandlerLoginInfo::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)
 {
-    
+
     if(pRunnable)
     {
         PaquetLoginInfo* wPaquet = (PaquetLoginInfo*) GestionnaireReseau::obtenirInstance()->creerPaquet(LOGIN_INFO);
@@ -35,20 +35,20 @@ void PacketHandlerLoginInfo::handlePacketReceptionSpecific(PacketReader& pPacket
 
 
 //     #ifdef SERVER
-// 
+//
 //         // On envoie un event au gestionnaire reseau
 //         GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_CONNECTING, wPaquet->getUsername());
-// 
+//
 //         // On sauvearde le joueur
 //         JoueurServeurs* wJoueur = new JoueurServeurs(wPaquet->getUsername());
 //         FacadeServeurMaitre::obtenirInstance()->saveJoueurConnecting(wJoueur);
-// 
+//
 //         // On traite la demande avec la BD
-// 
-// 
+//
+//
 //     #endif
     }
-    
+
 }
 
 void PacketHandlerLoginInfo::handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder)
@@ -58,7 +58,7 @@ void PacketHandlerLoginInfo::handlePacketPreparationSpecific(Paquet* pPaquet, Pa
 
     pPacketBuilder << wPaquet->getUsername()
         << wPaquet->getPassword();
-    
+
 }
 
 
@@ -67,8 +67,8 @@ int PacketHandlerLoginInfo::getPacketSize( Paquet* pPaquet ) const
 {
     PaquetLoginInfo* wPaquet = (PaquetLoginInfo*) pPaquet;
 
-    
+
     return PacketBuilder::getSizeForString(wPaquet->getUsername())
         + PacketBuilder::getSizeForString(wPaquet->getPassword());
-    
+
 }
