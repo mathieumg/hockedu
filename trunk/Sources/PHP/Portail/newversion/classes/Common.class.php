@@ -1,19 +1,18 @@
 <?php
 /**
- * Class that manages actions specifically related to the management system itself.
+ * Class that manages actions specifically related to the Hockedu system itself.
  * 
- * Various actions that have some effect over all of the management system and are not
- * subsite-specific.
+ * Actions that affect the Hockedu logic.
  * @author Mathieu M-Gosselin <mathieumg@gmail.com>
- * @since 14/07/2011
- * @package Cloud
+ * @since 19/02/2013
+ * @package Hockedu
  */
  
  
 /**
  * Common
  *
- * Manages actions specifically related to the management system itself.
+ * Manages actions specifically related to the Hockedu logic itself.
  * @package Common
  */
 class Common
@@ -252,7 +251,31 @@ class Common
             return $ipInformation['activation'];
         }
     }
-    
+	
+	public function registerUser( $username, $password, $email )
+	{
+		$sql = 'INSERT INTO %s
+				( %s, %s, %s, %s, %s )
+				VALUES( %s, SHA1( %s ), %s, %s, %d )';
+		$sql = sprintf( $sql,
+						$this->db->quoteIdentifier( 'users' ),
+						
+						$this->db->quoteIdentifier( 'username' ),
+						$this->db->quoteIdentifier( 'password' ),
+						$this->db->quoteIdentifier( 'password_salt' ),
+						$this->db->quoteIdentifier( 'email' ),                                        
+						$this->db->quoteIdentifier( 'registration_time' ),                                      
+						
+						$this->db->quote( $username, 'text' ),
+						$this->db->quote( $password, 'text' ),
+						$this->db->quote( 'abcde12345', 'text' ),
+						$this->db->quote( $email, 'text' ),
+						$this->db->quote( time() , 'integer' )
+					   );
+		
+		$this->db->query( $sql );
+	}
+	   
     public function login( $username, $password, $subsite, &$Website )
     {
         // Check if a user with the provided credentials exist.
