@@ -34,7 +34,7 @@ class Socket : public std::enable_shared_from_this<Socket>
 {
 public:
 	Socket(const std::string& pDestinationIP, const int& pPortNumber, ConnectionType conType = TCP, InternetProtocol ipProtocol = IPv4);
-    Socket(FacadePortability::HANDLE_SOCKET socket, sockaddr_in* socketInfo, ConnectionType pConnectionType); // Pas bien adaptee pour notre projet
+    Socket(HANDLE_SOCKET socket, sockaddr_in* socketInfo, ConnectionType pConnectionType); // Pas bien adaptee pour notre projet
     ~Socket();
 
     void bind( uint8_t* ipAddr, const uint16_t port);
@@ -56,7 +56,7 @@ public:
 	inline ConnectionState getConnectionState() const {return mConnectionState;}
 	void setConnectionState(ConnectionState pConnectionState);
 
-    inline FacadePortability::HANDLE_MUTEX getMutexActiviteSocket() const { return mMutexActiviteSocket; }
+    inline HANDLE_MUTEX getMutexActiviteSocket() const { return mMutexActiviteSocket; }
 
     // Methode pour initialiser le Socket en mode Client
     ConnectionState initClient();
@@ -80,7 +80,7 @@ public:
     inline void removeCancelFlag(){  mFlags &= ~SOCKET_FLAGS_PENDING_CANCEL; }
 private:
 
-    FacadePortability::HANDLE_MUTEX mMutexActiviteSocket;
+    HANDLE_MUTEX mMutexActiviteSocket;
     int mFlags;
 
     void connect();

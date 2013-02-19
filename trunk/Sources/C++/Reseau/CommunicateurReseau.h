@@ -124,25 +124,25 @@ private:
 	std::list<SPSocket> mListeSocketsConnection;
 
 	// Mutex pour l'acces a mListeSocketsEcoute
-	FacadePortability::HANDLE_MUTEX mMutexListeSocketsEcoute;
+	HANDLE_MUTEX mMutexListeSocketsEcoute;
 
 	// Mutex pour l'acces a mListeSocketsConnection
-	FacadePortability::HANDLE_MUTEX mMutexListeSocketsConnection;
+	HANDLE_MUTEX mMutexListeSocketsConnection;
 
 	// Handle du thread qui s'occupe d'envoyer les paquets
-	FacadePortability::HANDLE_THREAD mHandleThreadEnvoie;
+	HANDLE_THREAD mHandleThreadEnvoie;
 	// Handle du thread qui s'occupe de recevoir les paquets
-    FacadePortability::HANDLE_THREAD mHandleThreadReception;
-    FacadePortability::HANDLE_SEMAPHORE mHandleSemaphoreContentSend;
+    HANDLE_THREAD mHandleThreadReception;
+    HANDLE_SEMAPHORE mHandleSemaphoreContentSend;
 
     // Liste des HANDLE pour les threads de connection TCP
-    std::vector<FacadePortability::HANDLE_THREAD> mHandlesThreadConnectionTCPServeur;
+    std::vector<HANDLE_THREAD> mHandlesThreadConnectionTCPServeur;
 
     // Liste des HANDLE pour les threads de reception UDP
-    FacadePortability::HANDLE_THREAD mHandleThreadReceptionUDP;
+    HANDLE_THREAD mHandleThreadReceptionUDP;
 
 	// Map de handles de thread de connection selon les sockets
-	std::map<SPSocket, FacadePortability::HANDLE_THREAD> mHandlesThreadConnection;
+	std::map<SPSocket, HANDLE_THREAD> mHandlesThreadConnection;
 
 };
 

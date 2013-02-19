@@ -55,15 +55,18 @@ int PaquetRunnable::RunnableChatMessageServerMaster( Paquet* pPaquet )
 
     std::ostringstream wTimeOutput;
     time_t wT = time(0);
-    struct tm* wTime;
+    struct tm* wTime = NULL;
 #ifdef WINDOWS
-    if(_localtime64_s(wTime, &wT))
+    struct tm wTimeWin;
+    if(_localtime64_s(&wTimeWin, &wT))
+    {
+        wTime = &wTimeWin;
 #elif defined(LINUX)
     time(&wT);
     wTime = localtime(&wT);
     if(wTime == NULL)
-#endif
     {
+#endif
         std::cout << "[00:00:00]";
     }
     else

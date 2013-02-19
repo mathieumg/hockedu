@@ -7,13 +7,12 @@
 /// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
-
-#include "GestionnaireReseau.h"
-#include <strstream>
-#include <algorithm>
 #ifdef WINDOWS
 #include <WinSock2.h>
 #endif
+#include "GestionnaireReseau.h"
+#include <strstream>
+#include <algorithm>
 #include <exception>
 #include <map>
 #include "UsinePaquets/UsinePaquet.h"
@@ -612,7 +611,7 @@ void GestionnaireReseau::removeSocket( const std::string& pNomJoueur, Connection
 	SPSocket wSocketASupprimer = itMap->second;
 
     // On attend pour ne pas supprimer le socket pendant une operation critique
-    FacadePortability::HANDLE_MUTEX wMutex = wSocketASupprimer->getMutexActiviteSocket();
+    HANDLE_MUTEX wMutex = wSocketASupprimer->getMutexActiviteSocket();
     FacadePortability::takeMutex(wMutex);
 
     // On doit le retirer de la liste de Socket a ecouter avant de le supprimer

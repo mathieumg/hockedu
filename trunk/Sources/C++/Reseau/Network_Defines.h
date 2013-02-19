@@ -4,10 +4,11 @@
 #include <pthread.h>
 #include <semaphore.h>
 #endif
-
-namespace FacadePortability {
 #ifdef WINDOWS
+#include <WinSock2.h>
 #include <windows.h>
+#endif
+#ifdef WINDOWS
 typedef HANDLE HANDLE_MUTEX;
 typedef HANDLE HANDLE_THREAD;
 typedef HANDLE HANDLE_SEMAPHORE;
@@ -18,22 +19,24 @@ typedef pthread_t       HANDLE_THREAD;
 typedef sem_t           HANDLE_SEMAPHORE;
 typedef int             HANDLE_SOCKET;
 #endif
-
-inline void createMutex  (HANDLE_MUTEX& pMutex);
-inline void takeMutex    (HANDLE_MUTEX& pMutex);
-inline void releaseMutex (HANDLE_MUTEX& pMutex);
-
-inline void createSemaphore  (HANDLE_SEMAPHORE& pSemaphore, int pInitialValue, int pMaxAmount);
-inline void takeSemaphore    (HANDLE_SEMAPHORE& pSemaphore);
-inline void releaseSemaphore (HANDLE_SEMAPHORE& pSemaphore);
-
-inline void createThread    (HANDLE_THREAD& pThread, void* (*pThreadFunction) (void*), void* pThreadParameters);
-inline void terminateThread (HANDLE_THREAD& pThread);
-inline void exitThread      (int result);
+namespace FacadePortability {
 
 
-inline void closeSocket (HANDLE_SOCKET& pSocket);
+    void createMutex  (HANDLE_MUTEX& pMutex);
+    void takeMutex    (HANDLE_MUTEX& pMutex);
+    void releaseMutex (HANDLE_MUTEX& pMutex);
 
-inline void sleep (int pTimeInMs);
+    void createSemaphore  (HANDLE_SEMAPHORE& pSemaphore, int pInitialValue, int pMaxAmount);
+    void takeSemaphore    (HANDLE_SEMAPHORE& pSemaphore);
+    void releaseSemaphore (HANDLE_SEMAPHORE& pSemaphore);
+
+    void createThread    (HANDLE_THREAD& pThread, void* (*pThreadFunction) (void*), void* pThreadParameters);
+    void terminateThread (HANDLE_THREAD& pThread);
+    void exitThread      (int result);
+
+
+    void closeSocket (HANDLE_SOCKET& pSocket);
+
+void sleep (int pTimeInMs);
 };
 #endif // NETWORK_DEFINES_INCLUDED

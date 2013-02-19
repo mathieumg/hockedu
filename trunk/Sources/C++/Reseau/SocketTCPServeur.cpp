@@ -74,7 +74,7 @@ void SocketTCPServeur::listen( uint32_t nbConnections /* = 1*/)
 SPSocket SocketTCPServeur::accept( sockaddr* addr, uint32_t* addrlen )
 {
     sockaddr_in* temp = new sockaddr_in;
-    FacadePortability::HANDLE_SOCKET wTempSocket;
+    HANDLE_SOCKET wTempSocket;
     if(addr == NULL && addrlen == NULL)
     {
 

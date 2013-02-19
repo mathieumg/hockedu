@@ -201,7 +201,7 @@ void CommunicateurReseau::demarrerThreadsConnectionServeur()
         wArgs->communicateurReseau = this;
         wArgs->socketAConnecter = SPSocketTCPServer(new SocketTCPServeur((*it), GestionnaireReseau::communicationPort, TCP));
 
-        FacadePortability::HANDLE_THREAD wThread;
+        HANDLE_THREAD wThread;
         FacadePortability::createThread(wThread, connectionTCPServeurThreadRoutine, wArgs);
         if(wThread==NULL)
         {
@@ -233,7 +233,7 @@ void CommunicateurReseau::demarrerThreadsReceptionUDP()
     wArgs->communicateurReseau = this;
     wArgs->socketAConnecter = SPSocket(new Socket("0.0.0.0", GestionnaireReseau::connectionUDPPort, UDP));
 
-    FacadePortability::HANDLE_THREAD wThread;
+    HANDLE_THREAD wThread;
     FacadePortability::createThread(wThread, receivingUDPThreadRoutine, wArgs);
     if(wThread==NULL)
     {
@@ -409,7 +409,7 @@ void CommunicateurReseau::demarrerConnectionThread( SPSocket pSocket )
 		wArgs->socketAConnecter = pSocket;
 
 		// Demarrer le thread
-		FacadePortability::HANDLE_THREAD wConnectionThread;
+		HANDLE_THREAD wConnectionThread;
 		FacadePortability::createThread(wConnectionThread, connectionThreadRoutine, wArgs);
 		if(wConnectionThread==NULL)
 		{

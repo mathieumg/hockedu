@@ -1,12 +1,13 @@
+#ifdef WINDOWS
+#include <winsock2.h>
+#include <Mswsock.h>
+#endif
 #include "Socket.h"
 #include "ExceptionsReseau/ExceptionReseau.h"
 #include "GestionnaireReseau.h"
 #include "ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
 #include "Utilitaire.h"
-#ifdef WINDOWS
-#include <winsock2.h>
-#include <Mswsock.h>
-#endif
+
 
 #include "PacketBuilder.h"
 
@@ -70,7 +71,7 @@ Socket::Socket(const std::string& pDestinationIP, const int& pPortNumber, Connec
 /// @param[in] sockaddr_in* socketInfo      : sockaddr_in associe au socket passe en parametre
 ///
 ////////////////////////////////////////////////////////////////////////
-Socket::Socket( FacadePortability::HANDLE_SOCKET socket, sockaddr_in* socketInfo, ConnectionType pConnectionType)
+Socket::Socket( HANDLE_SOCKET socket, sockaddr_in* socketInfo, ConnectionType pConnectionType)
     :mFlags(0)
 {
     mIpProtocol =  IPv4;

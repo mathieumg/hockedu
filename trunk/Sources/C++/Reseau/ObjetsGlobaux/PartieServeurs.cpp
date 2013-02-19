@@ -63,7 +63,7 @@ void PartieServeurs::setPlayerName2( const std::string& pPlayerName2 )
 void PartieServeurs::setTime( int pHours, int pMins, int pSec )
 {
     tm* timeInfo = NULL;
-#ifdef WINDOW
+#ifdef WINDOWS
     gmtime_s ( timeInfo, &mTime );
 #elif defined(LINUX)
     timeInfo = gmtime(&mTime);

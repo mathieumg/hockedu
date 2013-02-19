@@ -10,11 +10,11 @@
 
 #pragma once
 #include <string>
+#include "ExceptionsReseau/ExceptionReseau.h"
 #include "Network_Defines.h"
 #include "Singleton.h"
 #include <map>
 #include "Socket.h"
-#include "ExceptionsReseau/ExceptionReseau.h"
 #include "CommunicateurReseau.h"
 #include <fstream>
 #include <set>
@@ -227,7 +227,7 @@ private:
 	ListeSockets mListeSockets;
 
     // Mutex pour la gestion de la liste des sockets (doit etre acquis si on modifie la liste de sockets)
-    FacadePortability::HANDLE_MUTEX mMutexListeSockets;
+    HANDLE_MUTEX mMutexListeSockets;
 
 
 

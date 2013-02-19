@@ -32,7 +32,7 @@ public:
 private:
 	void getMutex();
 	void releaseMutex();
-	FacadePortability::HANDLE_MUTEX mMutex;
+	HANDLE_MUTEX mMutex;
 	std::queue<T> mFile;
 	unsigned int mMaxBufferSize;
 };

@@ -8,12 +8,11 @@
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
-#include "ExceptionReseau.h"
+#include "../GestionnaireReseau.h"
 #include <strstream>
 #include <algorithm>
 #include <sstream>
 #include <ctime>
-#include "../GestionnaireReseau.h"
 struct ErrorEntry
 {
     int nID;

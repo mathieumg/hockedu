@@ -184,7 +184,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\INF3900 - Projet d%27evolution d%27un logiciel\log3900-04\trunk\Sources\C++\Reseau\Network_Defines.cpp" />
     <ClCompile Include="Application\FacadeModele.cpp" />
     <ClCompile Include="Application\RepartiteurActions.cpp" />
     <ClCompile Include="Arbre\ArbreNoeudLibre.cpp" />
@@ -284,6 +283,7 @@
     <ClCompile Include="Reseau\ExceptionsReseau\ExceptionReseauTimeout.cpp" />
     <ClCompile Include="Reseau\GestionnaireReseau.cpp" />
     <ClCompile Include="Reseau\GestionnaireReseauClientLourd.cpp" />
+    <ClCompile Include="Reseau\Network_Defines.cpp" />
     <ClCompile Include="Reseau\ObjetsGlobaux\JoueurServeurs.cpp" />
     <ClCompile Include="Reseau\ObjetsGlobaux\PartieServeurs.cpp" />
     <ClCompile Include="Reseau\PacketBuilder.cpp" />
@@ -321,7 +321,6 @@
     <ClCompile Include="Tests\VisiteurNoeudTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\INF3900 - Projet d%27evolution d%27un logiciel\log3900-04\trunk\Sources\C++\Reseau\Network_Defines.h" />
     <ClInclude Include="Application\FacadeModele.h" />
     <ClInclude Include="Application\RepartiteurActions.h" />
     <ClInclude Include="Arbre\ArbreNoeudLibre.h" />
@@ -426,6 +425,7 @@
     <ClInclude Include="Reseau\ExceptionsReseau\ExceptionReseauTimeout.h" />
     <ClInclude Include="Reseau\GestionnaireReseau.h" />
     <ClInclude Include="Reseau\GestionnaireReseauClientLourd.h" />
+    <ClInclude Include="Reseau\Network_Defines.h" />
     <ClInclude Include="Reseau\ObjetsGlobaux\JoueurServeurs.h" />
     <ClInclude Include="Reseau\ObjetsGlobaux\PartieServeurs.h" />
     <ClInclude Include="Reseau\PacketBuilder.h" />
