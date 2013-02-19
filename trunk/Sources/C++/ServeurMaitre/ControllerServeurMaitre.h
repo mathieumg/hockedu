@@ -11,7 +11,7 @@
 #pragma once
 #include "Utilitaire.h"
 #include <iostream>
-#include "..\Reseau\ControllerInterface.h"
+#include "../Reseau/ControllerInterface.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -28,7 +28,7 @@ public:
     virtual void handleEvent(int pEventCode,  va_list pListeElems);
 
 private:
-    
+
 };
 
 

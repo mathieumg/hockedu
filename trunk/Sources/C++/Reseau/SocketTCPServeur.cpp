@@ -1,6 +1,9 @@
 #include "SocketTCPServeur.h"
-#include "ExceptionsReseau\ExceptionReseau.h"
+#include "ExceptionsReseau/ExceptionReseau.h"
 
+#ifdef LINUX
+#include <string.h>
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -17,7 +20,7 @@
 SocketTCPServeur::SocketTCPServeur(const std::string& pDestinationIP, const int& pPortNumber, ConnectionType pConType/*=TCP*/, InternetProtocol pIpProtocol /*=IPv4*/)
 	:Socket(pDestinationIP, pPortNumber, pConType, pIpProtocol)
 {
-	
+
 }
 
 
@@ -25,7 +28,7 @@ SocketTCPServeur::SocketTCPServeur(const std::string& pDestinationIP, const int&
 ///
 /// @fn SocketTCPServeur::~SocketTCPServeur()
 ///
-/// Destructeur par default qui s'occupe de fermer le socket 
+/// Destructeur par default qui s'occupe de fermer le socket
 ///
 ////////////////////////////////////////////////////////////////////////
 SocketTCPServeur::~SocketTCPServeur()
@@ -39,7 +42,7 @@ SocketTCPServeur::~SocketTCPServeur()
 ///
 /// @fn SocketTCPServeur::listen( uint32_t nbConnections )
 ///
-/// Listens to 
+/// Listens to
 ///
 /// @param[in] uint32_t nbConnections
 ///
@@ -51,7 +54,7 @@ void SocketTCPServeur::listen( uint32_t nbConnections /* = 1*/)
     if(::listen(mSocket, nbConnections) == -1)
     {
         throw ExceptionReseau("Error while trying to listen to the socket.");
-    }   
+    }
 }
 
 
@@ -68,29 +71,22 @@ void SocketTCPServeur::listen( uint32_t nbConnections /* = 1*/)
 /// @return Socket* : Pointeur vers le nouveau Socket qui est connecte
 ///
 ////////////////////////////////////////////////////////////////////////
-SPSocket SocketTCPServeur::accept( __out sockaddr* addr, uint32_t* addrlen )
+SPSocket SocketTCPServeur::accept( sockaddr* addr, uint32_t* addrlen )
 {
     sockaddr_in* temp = new sockaddr_in;
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    SOCKET wTempSocket;
-#else
-    int wTempSocket;
-#endif
+    FacadePortability::HANDLE_SOCKET wTempSocket;
     if(addr == NULL && addrlen == NULL)
     {
 
-        int taille = sizeof(sockaddr_in);
+        unsigned int taille = sizeof(sockaddr_in);
         wTempSocket = ::accept(mSocket, (sockaddr*)temp, &taille);
     }
     else
     {
-        wTempSocket = ::accept(mSocket, addr, (int*)addrlen);
+        wTempSocket = ::accept(mSocket, addr, (unsigned int*)addrlen);
     }
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+
     if(wTempSocket == INVALID_SOCKET)
-#else
-    if(wTempSocket == -1)
-#endif
     {
         throw ExceptionReseau("Erreur a la connection du socket ");
     }

@@ -11,7 +11,7 @@
 #pragma once
 #include <string>
 #include <map>
-#include "../Paquets\Paquet.h"
+#include "../Paquets/Paquet.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -34,8 +34,8 @@ public:
 protected:
 	/// Constructeur qui prend le nom associé à l'usine.
 	UsinePaquet()  {}
-	
-	
+
+
 };
 
 

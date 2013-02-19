@@ -9,8 +9,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "UsinePaquets\UsinePaquet.h"
-#include "..\Paquets\PaquetEvent.h"
+#include "UsinePaquets/UsinePaquet.h"
+#include "../Paquets/PaquetEvent.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -28,8 +28,8 @@ public:
 
 	/// Fonction à surcharger pour la création d'un noeud.
 	inline virtual Paquet* creerPaquet() const;
-	
-	
+
+
 };
 
 

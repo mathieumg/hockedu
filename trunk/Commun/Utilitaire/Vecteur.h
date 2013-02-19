@@ -18,6 +18,8 @@
 #define DEGTORAD 0.0174532925199432957f
 #define RADTODEG 57.295779513082320876f
 
+enum vecteurPos{VX,VY,VZ,VW};
+
 ///////////////////////////////////////////////////////////////////////////
 /// @class Vecteur
 ///
@@ -201,7 +203,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////
 	inline bool estNul() const
 	{
-        for ( int i = 0; i < N; ++i ) 
+        for ( int i = 0; i < N; ++i )
         {
             if(vect[i] != 0)
             {
@@ -246,7 +248,7 @@ public:
 	///
 	////////////////////////////////////////////////////////////////////////////
 	template<const int N2>
-	inline const Vecteur<T, N>& operator= ( const Vecteur<T, N2>& v )
+	inline const Vecteur<T, N>& operator= ( const Vecteur<T, N2>& u )
 	{
 		for ( int i = 0; i < N; i++ ) {
 			if(i>=N2)
@@ -617,7 +619,7 @@ public:
 	{
 		for ( int i = 0; i < N; i++ ) {
 			out << v[i];
-			if ( i < N - 1 ) out << ' ';
+			if ( i < N - 1 ) out << std::string(' ');
 		}
 		return out;
 	}
@@ -781,14 +783,14 @@ public:
 	/// @fn void Vecteur<T, N>::remetAZero(  )
 	///
 	/// fonction pour remettre un vecteur a zero sans avoir a passer par un constructeur
-	///	l'operateur = 
+	///	l'operateur =
 	///
 	/// @return void
 	///
 	////////////////////////////////////////////////////////////////////////
 	inline void remetAZero()
 	{
-		for ( int i = 0; i < N; i++ ) 
+		for ( int i = 0; i < N; i++ )
 		{
 			vect[i] = 0;
 		}
@@ -812,8 +814,6 @@ protected:
 
 
 };
-
-
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class Vecteur2D
@@ -867,8 +867,8 @@ public:
 	////////////////////////////////////////////////////////////////////////////
 	inline Vecteur2D( const T x = 0, const T y = 0 )
 	{
-		vect[0] = x;
-		vect[1] = y;
+		Vecteur<T,2>::vect[0] = x;
+		Vecteur<T,2>::vect[1] = y;
 	}
 
 
@@ -921,7 +921,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////
 	inline T angle() const
 	{
-		return atan2 ( vect[1], vect[0] );
+		return atan2 ( Vecteur<T,2>::vect[1], Vecteur<T,2>::vect[0] );
 	}
 
 
@@ -942,8 +942,8 @@ public:
 		const T cosAngle = cos(angle);
 		const T sinAngle = sin(angle);
 		return Vecteur2D(
-			vect[0] * cosAngle + vect[1] * -sinAngle,
-			vect[0] * sinAngle + vect[1] * cosAngle
+			Vecteur<T,2>::vect[0] * cosAngle + Vecteur<T,2>::vect[1] * -sinAngle,
+			Vecteur<T,2>::vect[0] * sinAngle + Vecteur<T,2>::vect[1] * cosAngle
 			);
 	}
 
@@ -1027,9 +1027,9 @@ public:
 	template<class T2>
 	inline Vecteur3D ( const Vecteur2D<T2>& u )
 	{
-		vect[0] = u[0];
-		vect[1] = u[1];
-		vect[2] = 0;
+		Vecteur<T,3>::vect[0] = u[0];
+		Vecteur<T,3>::vect[1] = u[1];
+		Vecteur<T,3>::vect[2] = 0;
 	}
 
 
@@ -1048,9 +1048,9 @@ public:
 	////////////////////////////////////////////////////////////////////////////
 	inline Vecteur3D ( const T x = 0, const T y = 0, const T z = 0 )
 	{
-		vect[0] = x;
-		vect[1] = y;
-		vect[2] = z;
+		Vecteur<T,3>::vect[0] = x;
+		Vecteur<T,3>::vect[1] = y;
+		Vecteur<T,3>::vect[2] = z;
 	}
 
 
@@ -1120,7 +1120,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////
 	inline T lireTheta() const
 	{
-		Vecteur2D<T> xy ( vect[0], vect[1] );
+		Vecteur2D<T> xy ( Vecteur<T,3>::vect[0], Vecteur<T,3>::vect[1] );
 		return xy.angle();
 	}
 
@@ -1137,8 +1137,8 @@ public:
 	////////////////////////////////////////////////////////////////////////////
 	inline T lirePhi() const
 	{
-		Vecteur2D<T> xy ( vect[0], vect[1] );
-		Vecteur2D<T> zr ( vect[2], xy.norme() );
+		Vecteur2D<T> xy ( Vecteur<T,3>::vect[0], Vecteur<T,3>::vect[1] );
+		Vecteur2D<T> zr ( Vecteur<T,3>::vect[2], xy.norme() );
 		return zr.angle();
 	}
 
@@ -1159,7 +1159,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////
 	inline void lireCoordSpheriques ( T& r, T& phi, T& theta ) const
 	{
-		r     = norme();
+		r     = Vecteur<T,3>::norme();
 		theta = lireTheta();
 		phi   = lirePhi();
 	}
@@ -1182,9 +1182,9 @@ public:
 	inline void assignerCoordSpheriques ( const T r, const T phi, const T theta )
 	{
 		// Calcul de la position à partir des coordonnées sphériques
-		vect[0] = r * sin(phi) * cos(theta);
-		vect[1] = r * sin(phi) * sin(theta);
-		vect[2] = r * cos(phi);
+		Vecteur<T,3>::vect[0] = r * sin(phi) * cos(theta);
+		Vecteur<T,3>::vect[1] = r * sin(phi) * sin(theta);
+		Vecteur<T,3>::vect[2] = r * cos(phi);
 	}
 
 
@@ -1233,17 +1233,17 @@ public:
 
 		return Vecteur3D(
 			// Calcul de la composante X
-			(cosAngle + unMoinsCosAngle * axe[0] * axe[0])          * vect[0] +
-			(unMoinsCosAngle * axe[0] * axe[1] - axe[2] * sinAngle) * vect[1] +
-			(unMoinsCosAngle * axe[0] * axe[2] + axe[1] * sinAngle) * vect[2],
+			(cosAngle + unMoinsCosAngle * axe[0] * axe[0])          * Vecteur<T,3>::vect[0] +
+			(unMoinsCosAngle * axe[0] * axe[1] - axe[2] * sinAngle) * Vecteur<T,3>::vect[1] +
+			(unMoinsCosAngle * axe[0] * axe[2] + axe[1] * sinAngle) * Vecteur<T,3>::vect[2],
 			// Calcul de la composante Y
-			(unMoinsCosAngle * axe[0] * axe[1] + axe[2] * sinAngle) * vect[0] +
-			(cosAngle + unMoinsCosAngle * axe[1] * axe[1])          * vect[1] +
-			(unMoinsCosAngle * axe[1] * axe[2] - axe[0] * sinAngle) * vect[2],
+			(unMoinsCosAngle * axe[0] * axe[1] + axe[2] * sinAngle) * Vecteur<T,3>::vect[0] +
+			(cosAngle + unMoinsCosAngle * axe[1] * axe[1])          * Vecteur<T,3>::vect[1] +
+			(unMoinsCosAngle * axe[1] * axe[2] - axe[0] * sinAngle) * Vecteur<T,3>::vect[2],
 			// Calcul de la composante Z
-			(unMoinsCosAngle * axe[0] * axe[2] - axe[1] * sinAngle) * vect[0] +
-			(unMoinsCosAngle * axe[1] * axe[2] + axe[0] * sinAngle) * vect[1] +
-			(cosAngle + unMoinsCosAngle * axe[2] * axe[2])          * vect[2]
+			(unMoinsCosAngle * axe[0] * axe[2] - axe[1] * sinAngle) * Vecteur<T,3>::vect[0] +
+			(unMoinsCosAngle * axe[1] * axe[2] + axe[0] * sinAngle) * Vecteur<T,3>::vect[1] +
+			(cosAngle + unMoinsCosAngle * axe[2] * axe[2])          * Vecteur<T,3>::vect[2]
 		);
 	}
 
@@ -1304,10 +1304,10 @@ public:
 	////////////////////////////////////////////////////////////////////////////
 	inline Vecteur4D ( const T x = 0, const T y = 0, const T z = 0, const T w = 0 )
 	{
-		vect[0] = x;
-		vect[1] = y;
-		vect[2] = z;
-		vect[3] = w;
+		Vecteur<T,4>::vect[0] = x;
+		Vecteur<T,4>::vect[1] = y;
+		Vecteur<T,4>::vect[2] = z;
+		Vecteur<T,4>::vect[3] = w;
 	}
 
 
@@ -1373,9 +1373,6 @@ typedef Vecteur3D<int> Vecteur3i;
 /// Définition de type de vecteur à 4 coordonnées de type int.
 typedef Vecteur4D<int> Vecteur4i;
 
-
-
-enum vecteurPos{VX,VY,VZ,VW};
 
 #endif // __UTILITAIRE_VECTEUR_H__
 

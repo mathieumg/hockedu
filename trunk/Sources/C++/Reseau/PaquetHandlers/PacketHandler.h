@@ -10,9 +10,9 @@ class Paquet;
 ///////////////////////////////////////////////////////////////////////////
 /// @class PaquetHandler
 /// @brief Classe (abstraite) pour la gestion des paquets a la reception (doit savoir quoi faire des paquets recus)
-/// 
+///
 /// ** Design pattern "Command"
-/// 
+///
 /// @author Mathieu Parent
 /// @date 2012-12-01
 ///////////////////////////////////////////////////////////////////////////
@@ -25,7 +25,7 @@ struct HeaderPaquet
 };
 
 class PacketHandler {
-    
+
 public:
     static int getPacketHeaderSize();
     static HeaderPaquet handlePacketHeaderReception(PacketReader& pPacketReader); // Méthode pour lire le header d'un paquet
@@ -33,7 +33,7 @@ public:
     void handlePacketPreparation(Paquet* pPaquet, PacketBuilder& pPacketBuilder); // Methode pour la construction du paquet pour l'envoie sur le reseau
     int getPacketSize(Paquet* pPaquet) const;
 protected:
-    virtual int getPacketSizeSpecific(Paquet* pPaquet) const = 0 { return 0; };
+    virtual int getPacketSizeSpecific(Paquet* pPaquet) const = 0;
     virtual void handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder) = 0; // Méthode pour construire le paquet à envoyer
 };
 

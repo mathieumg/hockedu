@@ -18,3 +18,9 @@
 #else
 #define PRAGMA_ENABLE_OPTIMIZATION __pragma(optimize("",on))
 #endif
+
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#define WINDOWS
+#else
+#define LINUX
+#endif

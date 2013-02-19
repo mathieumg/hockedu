@@ -9,16 +9,16 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "CommunicateurReseau.h"
-#include "ExceptionsReseau\ExceptionReseau.h"
+#include "ExceptionsReseau/ExceptionReseau.h"
 #include <iostream>
 #include "GestionnaireReseau.h"
 #include "Paquets/Paquet.h"
-#include "ExceptionsReseau\ExceptionReseauSocketDeconnecte.h"
-#include "ExceptionsReseau\ExceptionReseauTimeout.h"
-#include "ExceptionsReseau\ExceptionReseauParametreInvalide.h"
+#include "ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
+#include "ExceptionsReseau/ExceptionReseauTimeout.h"
+#include "ExceptionsReseau/ExceptionReseauParametreInvalide.h"
 #include "SocketTCPServeur.h"
 #include "PacketBuilder.h"
-#include "PaquetHandlers\PacketHandler.h"
+#include "PaquetHandlers/PacketHandler.h"
 #include "Paquets/Paquet.h"
 #include "PacketReader.h"
 #include "GestionnaireReseau.h"
@@ -61,9 +61,10 @@ void CommunicateurReseau::envoyerPaquetSync( Paquet* wPaquetAEnvoyer, SPSocket w
 ////////////////////////////////////////////////////////////////////////
 CommunicateurReseau::CommunicateurReseau():mListeEnvoie(maxBufferSize),mListeReception(maxBufferSize)
 {
-	mMutexListeSocketsEcoute = CreateMutex(NULL, FALSE, NULL);
-	mMutexListeSocketsConnection = CreateMutex(NULL, FALSE, NULL);
-    mHandleSemaphoreContentSend = CreateSemaphore(NULL,0,maxBufferSize,NULL);
+
+    FacadePortability::createMutex(mMutexListeSocketsEcoute);
+    FacadePortability::createMutex(mMutexListeSocketsConnection);
+    FacadePortability::createSemaphore(mHandleSemaphoreContentSend, 0, maxBufferSize);
 	demarrerSendingThread();
 	demarrerReceivingThread();
 
@@ -103,10 +104,10 @@ CommunicateurReseau::~CommunicateurReseau()
 		}
 	}
 
-    for(std::vector<HANDLE>::iterator it = mHandlesThreadConnectionTCPServeur.begin(); it!=mHandlesThreadConnectionTCPServeur.end(); ++it)
+    for(auto it = mHandlesThreadConnectionTCPServeur.begin(); it!=mHandlesThreadConnectionTCPServeur.end(); ++it)
     {
         // Quitter les threads
-        TerminateThread((*it), 0);
+        FacadePortability::terminateThread(*it);
     }
     mHandlesThreadConnectionTCPServeur.empty();
 
@@ -137,7 +138,7 @@ bool CommunicateurReseau::ajouterPaquetEnvoie( SPSocket pSocket, Paquet* pPaquet
 		delete paquetAEnvoyer;
 		return false;
 	}
-    ReleaseSemaphore(mHandleSemaphoreContentSend,1,NULL);
+	FacadePortability::releaseSemaphore(mHandleSemaphoreContentSend);
 	return true;
 }
 
@@ -153,7 +154,7 @@ bool CommunicateurReseau::ajouterPaquetEnvoie( SPSocket pSocket, Paquet* pPaquet
 ////////////////////////////////////////////////////////////////////////
 void CommunicateurReseau::demarrerSendingThread()
 {
-	mHandleThreadEnvoie = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)sendingThreadRoutine, this, 0, NULL);
+	FacadePortability::createThread(mHandleThreadEnvoie, sendingThreadRoutine, this);
 	if(mHandleThreadEnvoie==NULL)
 	{
 		throw ExceptionReseau("Erreur lors de la creation du thread d'envoie", NULL);
@@ -172,7 +173,7 @@ void CommunicateurReseau::demarrerSendingThread()
 ////////////////////////////////////////////////////////////////////////
 void CommunicateurReseau::demarrerReceivingThread()
 {
-	mHandleThreadReception = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)receivingThreadRoutine, this, 0, NULL);
+    FacadePortability::createThread(mHandleThreadReception, receivingThreadRoutine, this);
 	if(mHandleThreadReception==NULL)
 	{
 		throw ExceptionReseau("Erreur lors de la creation du thread de reception", NULL);
@@ -200,15 +201,16 @@ void CommunicateurReseau::demarrerThreadsConnectionServeur()
         wArgs->communicateurReseau = this;
         wArgs->socketAConnecter = SPSocketTCPServer(new SocketTCPServeur((*it), GestionnaireReseau::communicationPort, TCP));
 
-        HANDLE wHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)connectionTCPServeurThreadRoutine, wArgs, 0, NULL);
-        if(wHandle==NULL)
+        FacadePortability::HANDLE_THREAD wThread;
+        FacadePortability::createThread(wThread, connectionTCPServeurThreadRoutine, wArgs);
+        if(wThread==NULL)
         {
             throw ExceptionReseau("Erreur lors de la creation du thread de connection TCP serveur", NULL);
         }
         else
         {
             // On ajoute le handle a la liste
-            mHandlesThreadConnectionTCPServeur.push_back(wHandle);
+            mHandlesThreadConnectionTCPServeur.push_back(wThread);
         }
     }
 }
@@ -231,15 +233,16 @@ void CommunicateurReseau::demarrerThreadsReceptionUDP()
     wArgs->communicateurReseau = this;
     wArgs->socketAConnecter = SPSocket(new Socket("0.0.0.0", GestionnaireReseau::connectionUDPPort, UDP));
 
-    HANDLE wHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)receivingUDPThreadRoutine, wArgs, 0, NULL);
-    if(wHandle==NULL)
+    FacadePortability::HANDLE_THREAD wThread;
+    FacadePortability::createThread(wThread, receivingUDPThreadRoutine, wArgs);
+    if(wThread==NULL)
     {
         throw ExceptionReseau("Erreur lors de la creation du thread de reception UDP", NULL);
     }
     else
     {
         // On ajoute le handle a la liste
-        mHandleThreadReceptionUDP = wHandle;
+        mHandleThreadReceptionUDP = wThread;
     }
 
 }
@@ -291,27 +294,27 @@ QueueThreadSafe<Paquet*>* CommunicateurReseau::getReceivedList()
 ////////////////////////////////////////////////////////////////////////
 void CommunicateurReseau::ajouterSocketEcoute( SPSocket pSocket )
 {
-	WaitForSingleObject(mMutexListeSocketsEcoute,INFINITE);
+    FacadePortability::takeMutex(mMutexListeSocketsEcoute);
 	mListeSocketsEcoute.push_back(pSocket);
-	ReleaseMutex(mMutexListeSocketsEcoute);
+	FacadePortability::releaseMutex(mMutexListeSocketsEcoute);
 }
 
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn std::list<Socket*>::const_iterator CommunicateurReseau::getFirstSocketEcoute() const
+/// @fn std::list<Socket*>::iterator CommunicateurReseau::getFirstSocketEcoute() const
 ///
 /// Methode pour obtenir un iterateur sur la liste de Sockets a ecouter
 /// Elle prend egalement un mutex sur cette liste.
 /// Il faut donc absolument appeler la methode terminerIterationListeSocketEcoute() pour liberer le mutex
 ///
-/// @return std::list<Socket*>::const_iterator  : Iterateur sur le debut de la liste de sockets a ecouter
+/// @return std::list<Socket*>::iterator  : Iterateur sur le debut de la liste de sockets a ecouter
 ///
 ////////////////////////////////////////////////////////////////////////
-std::list<SPSocket>::const_iterator CommunicateurReseau::getFirstSocketEcoute() const
+std::list<SPSocket>::iterator CommunicateurReseau::getFirstSocketEcoute()
 {
-	DWORD wTest = WaitForSingleObject(mMutexListeSocketsEcoute,INFINITE);
+	FacadePortability::takeMutex(mMutexListeSocketsEcoute);
 	return mListeSocketsEcoute.begin();
 }
 
@@ -319,14 +322,14 @@ std::list<SPSocket>::const_iterator CommunicateurReseau::getFirstSocketEcoute() 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn std::list<Socket*>::const_iterator CommunicateurReseau::getEndSocketEcoute() const
+/// @fn std::list<Socket*>::iterator CommunicateurReseau::getEndSocketEcoute() const
 ///
 /// Methode pour obtenir un iterateur sur le dernier element de la liste de sockets a ecouter
 ///
-/// @return std::list<Socket*>::const_iterator  : Iterateur sur le dernier element de la liste de sockets a ecouter
+/// @return std::list<Socket*>::iterator  : Iterateur sur le dernier element de la liste de sockets a ecouter
 ///
 ////////////////////////////////////////////////////////////////////////
-std::list<SPSocket>::const_iterator CommunicateurReseau::getEndSocketEcoute() const
+std::list<SPSocket>::iterator CommunicateurReseau::getEndSocketEcoute()
 {
 	return mListeSocketsEcoute.end();
 }
@@ -343,21 +346,21 @@ std::list<SPSocket>::const_iterator CommunicateurReseau::getEndSocketEcoute() co
 ////////////////////////////////////////////////////////////////////////
 void CommunicateurReseau::terminerIterationListeSocketEcoute()
 {
-	ReleaseMutex(mMutexListeSocketsEcoute);
+	FacadePortability::releaseMutex(mMutexListeSocketsEcoute);
 }
 
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn std::list<Socket*>::const_iterator CommunicateurReseau::supprimerEcouteSocket( const std::list<Socket*>::const_iterator& pIterateur )
+/// @fn std::list<Socket*>::iterator CommunicateurReseau::supprimerEcouteSocket( const std::list<Socket*>::iterator& pIterateur )
 ///
 /// Methode pour supprimer un socket a ecouter
 ///
-/// @return std::list<Socket*>::const_iterator  : Nouvel iterateur pour continuer la boucle si necessaire
+/// @return std::list<Socket*>::iterator  : Nouvel iterateur pour continuer la boucle si necessaire
 ///
 ////////////////////////////////////////////////////////////////////////
-std::list<SPSocket>::const_iterator CommunicateurReseau::supprimerEcouteSocket( const std::list<SPSocket>::const_iterator& pIterateur )
+std::list<SPSocket>::iterator CommunicateurReseau::supprimerEcouteSocket( const std::list<SPSocket>::iterator& pIterateur )
 {
 	return mListeSocketsEcoute.erase(pIterateur);
 }
@@ -374,7 +377,7 @@ std::list<SPSocket>::const_iterator CommunicateurReseau::supprimerEcouteSocket( 
 ////////////////////////////////////////////////////////////////////////
 void CommunicateurReseau::supprimerEcouteSocket( SPSocket pSocket )
 {
-    WaitForSingleObject(mMutexListeSocketsEcoute,INFINITE);
+    FacadePortability::takeMutex(mMutexListeSocketsEcoute);
     for(std::list<SPSocket>::iterator it = mListeSocketsEcoute.begin(); it!=mListeSocketsEcoute.end(); ++it)
     {
         if((*it) == pSocket)
@@ -383,7 +386,7 @@ void CommunicateurReseau::supprimerEcouteSocket( SPSocket pSocket )
             break;
         }
     }
-    ReleaseMutex(mMutexListeSocketsEcoute);
+    FacadePortability::releaseMutex(mMutexListeSocketsEcoute);
 }
 
 
@@ -406,14 +409,15 @@ void CommunicateurReseau::demarrerConnectionThread( SPSocket pSocket )
 		wArgs->socketAConnecter = pSocket;
 
 		// Demarrer le thread
-		HANDLE wHandleConnectionThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)connectionThreadRoutine, wArgs, 0, NULL);
-		if(wHandleConnectionThread==NULL)
+		FacadePortability::HANDLE_THREAD wConnectionThread;
+		FacadePortability::createThread(wConnectionThread, connectionThreadRoutine, wArgs);
+		if(wConnectionThread==NULL)
 		{
 			throw ExceptionReseau("Erreur lors de la creation du thread de connection du socket pour l'adresse " + pSocket->getAdresseDestination(), NULL);
 		}
-		WaitForSingleObject(mMutexListeSocketsConnection,INFINITE);
-		mHandlesThreadConnection[pSocket] = wHandleConnectionThread;
-		ReleaseMutex(mMutexListeSocketsConnection);
+		FacadePortability::takeMutex(mMutexListeSocketsConnection);
+		mHandlesThreadConnection[pSocket] = wConnectionThread;
+		FacadePortability::createMutex(mMutexListeSocketsConnection);
 	}
 
 }
@@ -434,9 +438,9 @@ void CommunicateurReseau::demarrerConnectionThread( SPSocket pSocket )
 ////////////////////////////////////////////////////////////////////////
 void CommunicateurReseau::enleverConnectionThread( SPSocket pSocket, bool pSuccess )
 {
-	WaitForSingleObject(mMutexListeSocketsConnection,INFINITE);
+    FacadePortability::takeMutex(mMutexListeSocketsConnection);
 	mHandlesThreadConnection.erase(mHandlesThreadConnection.find(pSocket));
-	ReleaseMutex(mMutexListeSocketsConnection);
+    FacadePortability::releaseMutex(mMutexListeSocketsConnection);
     if(!pSuccess)
     {
         GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
@@ -476,7 +480,7 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 	PaquetAEnvoyer* wPaquetAEnvoyer = NULL;
 	while (true)
 	{
-        WaitForSingleObject(wCommunicateurReseau->mHandleSemaphoreContentSend,INFINITE);
+        FacadePortability::takeSemaphore(wCommunicateurReseau->mHandleSemaphoreContentSend);
         if(!listeAEnvoyer->empty())
 		{
 			 // Queue, alors ordre ok, pop enleve le premier element et le retourne
@@ -492,7 +496,7 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 					    // Socket probablement en attente de se faire connecter (on ne fait rien et on le met a la fin de la queue)
 					    if(listeAEnvoyer->push(wPaquetAEnvoyer))
                         {
-                            ReleaseSemaphore(wCommunicateurReseau->mHandleSemaphoreContentSend,1,NULL);
+                            FacadePortability::releaseSemaphore(wCommunicateurReseau->mHandleSemaphoreContentSend);
                         }
                     }
                     continue;
@@ -585,8 +589,8 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
     PacketReader wPacketReader;
 	while(true)
 	{
-		std::list<SPSocket>::const_iterator it = wCommunicateurReseau->getFirstSocketEcoute();
-		std::list<SPSocket>::const_iterator end = wCommunicateurReseau->getEndSocketEcoute();
+		auto it = wCommunicateurReseau->getFirstSocketEcoute();
+		auto end = wCommunicateurReseau->getEndSocketEcoute();
 		for(;it!=end; )
 		{
 			SPSocket wSocket = (*it);
@@ -642,7 +646,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                                     //checkf(wTaillePaquetValide, "Probleme avec lecture du header du paquet"); // Si trigger, probleme avec lecture du header du paquet (big trouble)
                                     if( !wTaillePaquetValide )
                                     {
-                                        throw ExceptionReseauParametreInvalide("La taille du paquet reçu était inférieure à la taille du header des paquets");
+                                        throw ExceptionReseauParametreInvalide("La taille du paquet reÃ§u Ã©tait infÃ©rieure Ã  la taille du header des paquets");
                                     }
                                     int wTailleRestanteALire = (int) (wPacketHeader.taillePaquet - wReceivedBytes);
                                     int wNbTries = 0;
@@ -719,7 +723,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
         }
 		//std::cout << "loop" << std::endl;
 
-        Sleep(10);
+        FacadePortability::sleep(10);
         wCommunicateurReseau->terminerIterationListeSocketEcoute();
 	}
 
@@ -773,7 +777,7 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
             tryConnection = wNbTentatives < TOTAL_TENTATIVE;
             if(tryConnection)
             {
-                Sleep(1000); // Pas capable de connecter, on essaye encore dans 1 sec
+                FacadePortability::sleep(1000); // Pas capable de connecter, on essaye encore dans 1 sec
             }
             break;
         case NOT_CONNECTED:
@@ -837,7 +841,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
     {
         wSocket->setConnectionState(NOT_CONNECTED);
         throw ExceptionReseau("Appel a bind() impossible. Type: TCP SERVEUR.");
-        ExitThread(EXIT_FAILURE);
+        FacadePortability::exitThread(EXIT_FAILURE);
     }
 
     // listen()
@@ -849,7 +853,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
     {
         wSocket->setConnectionState(NOT_CONNECTED);
         throw ExceptionReseau("Appel a listen() impossible. Type: TCP SERVEUR.");
-        ExitThread(EXIT_FAILURE);
+        FacadePortability::exitThread(EXIT_FAILURE);
     }
 
 

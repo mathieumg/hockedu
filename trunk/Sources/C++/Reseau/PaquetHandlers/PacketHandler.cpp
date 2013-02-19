@@ -1,7 +1,7 @@
 #include "PacketHandler.h"
-#include "..\PacketReader.h"
-#include "..\PacketBuilder.h"
-#include "..\Paquets\Paquet.h"
+#include "../PacketReader.h"
+#include "../PacketBuilder.h"
+#include "../Paquets/Paquet.h"
 
 
 HeaderPaquet PacketHandler::handlePacketHeaderReception( PacketReader& pPacketReader )

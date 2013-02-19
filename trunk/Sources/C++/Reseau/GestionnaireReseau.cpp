@@ -11,18 +11,20 @@
 #include "GestionnaireReseau.h"
 #include <strstream>
 #include <algorithm>
+#ifdef WINDOWS
 #include <WinSock2.h>
+#endif
 #include <exception>
 #include <map>
-#include "UsinePaquets\UsinePaquet.h"
+#include "UsinePaquets/UsinePaquet.h"
 #include <iostream>
 #include <ctime>
 #include <sstream>
-#include "ExceptionsReseau\ExceptionReseau.h"
-#include "ExceptionsReseau\ExceptionReseauSocketDeconnecte.h"
-#include "ExceptionsReseau\ExceptionReseauTimeout.h"
-#include "ExceptionsReseau\ExceptionReseauParametreInvalide.h"
-#include "ExceptionsReseau\ExceptionReseauGlobale.h"
+#include "ExceptionsReseau/ExceptionReseau.h"
+#include "ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
+#include "ExceptionsReseau/ExceptionReseauTimeout.h"
+#include "ExceptionsReseau/ExceptionReseauParametreInvalide.h"
+#include "ExceptionsReseau/ExceptionReseauGlobale.h"
 #include <stdexcept>
 #include "CommunicateurReseau.h"
 #include "PaquetHandlers/PacketHandler.h"
@@ -34,8 +36,10 @@
 #include "PaquetHandlers/PacketHandlerEvent.h"
 #include "UsinePaquets/UsinePaquetEvent.h"
 
+#ifdef WINDOWS
 // lien avec la librairie winsock2
 #pragma comment( lib, "ws2_32.lib" )
+#endif
 
 ByteOrder GestionnaireReseau::NATIVE_BYTE_ORDER = UNKNOWN;
 
@@ -69,7 +73,12 @@ void logSetup()
     {
         time_t wTime = time(0);
         struct tm wTimeNow;
+#ifdef WINDOWS
         localtime_s( &wTimeNow, &wTime );
+#elif defined(LINUX)
+        time(&wTime);
+        wTimeNow = *localtime(&wTime);
+#endif
         std::stringstream wFilename;
         wFilename << "NETWORK_LOG_" << wTimeNow.tm_mon << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec << ".txt";
 
@@ -98,19 +107,17 @@ GestionnaireReseau::GestionnaireReseau(): mSocketStateCallback(NULL), mControlle
 		throw ExceptionReseau("Appel du constructeur de GestionnaireReseau avant GestionnaireReseau::setNetworkMode", NULL);
 	}
 
-    
+
     getNativeByteOrder();
 
-	mMutexListeSockets = CreateMutex(NULL, false, NULL);
-
-
+    FacadePortability::createMutex(mMutexListeSockets);
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn GestionnaireReseau::~GestionnaireReseau( )
 ///
-/// Destructeur 
+/// Destructeur
 ///
 /// @return
 ///
@@ -123,7 +130,9 @@ GestionnaireReseau::~GestionnaireReseau()
         bLogCreated = false;
 		errorLogHandle.close();
 	}
+#ifdef WINDOWS
     WSACleanup();
+#endif
 }
 
 
@@ -139,6 +148,7 @@ GestionnaireReseau::~GestionnaireReseau()
 void GestionnaireReseau::init()
 {
     // Setup de la map pour les types d'exceptions
+#ifdef WINDOWS
     mMapExceptions[WSAENOTCONN]         = SOCKET_DECONNECTE;    // Socket not connected
     mMapExceptions[WSAECONNRESET]       = SOCKET_DECONNECTE;    // Connection reset
     mMapExceptions[WSAECONNABORTED]     = SOCKET_DECONNECTE;    // Connection aborted (ex: il y a eu un problemen de protocole)
@@ -169,7 +179,7 @@ void GestionnaireReseau::init()
     mMapExceptions[WSAENETUNREACH]          = PARAMETRE_INVALIDE;   // Pas de route connue pour cette adresse
     mMapExceptions[WSAELOOP]                = PARAMETRE_INVALIDE;   // Pas capable de traduire le nom
     mMapExceptions[WSAENAMETOOLONG]         = PARAMETRE_INVALIDE;   // Nom trop long
-                                                                    
+
     mMapExceptions[WSA_NOT_ENOUGH_MEMORY]   = GLOBALE;  // Memoire insuffisante
     mMapExceptions[WSAEMFILE]               = GLOBALE;  // Trop de sockets ouverts
     mMapExceptions[WSAENETDOWN]             = GLOBALE;  // Network is down
@@ -182,7 +192,7 @@ void GestionnaireReseau::init()
     mMapExceptions[WSASYSCALLFAILURE]       = GLOBALE;  // System call failure
     mMapExceptions[WSASERVICE_NOT_FOUND]    = GLOBALE;  // Service not found
     mMapExceptions[WSATYPE_NOT_FOUND]       = GLOBALE;  // Class type not found
-
+#endif
 
     // Ajout des classes PacketHandler et UsinePaquet de base
     ajouterOperationReseau(CONN_AUTOMATIQUE, new PacketHandlerConnAutomatique(), new UsinePaquetConnAutomatique());
@@ -191,30 +201,32 @@ void GestionnaireReseau::init()
 
 	// Init Winsock2
 	// --> The WSAStartup function initiates use of the Winsock DLL by a process.
+#ifdef WINDOWS
 	WSADATA wsaData;
 	int iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
-	
+#endif
 
 	// Demarrer Thread connexion automatique
 
 
-	
-    
+
+
     // Demarrer thread conn TCP Serveur
     if(GestionnaireReseau::getNetworkMode() == SERVER)
     {
         mCommunicateurReseau.demarrerThreadsConnectionServeur();
     }
-    
+
     // Demarre les threads de reception UDP (pour serveur et client)
     mCommunicateurReseau.demarrerThreadsReceptionUDP();
 
 
+#ifdef WINDOWS
     if(iResult != NO_ERROR)
     {
         throw ExceptionReseau("Erreur init de Gestionnaire Reseau", NULL);
     }
-
+#endif
 
 }
 
@@ -228,7 +240,7 @@ void GestionnaireReseau::init()
 ///         -> L'adresse retournee par la fonction sera celle sur l'adapteur reseau qui debute par 192.XXX.XXX.XXX
 ///
 /// @param[in] const std::string& pDestinationIP    : Adresse IP externe a laquelle on veut se connecter
-/// 
+///
 /// @return std::string : Adresse IP locale sous forme de string
 ///
 ////////////////////////////////////////////////////////////////////////
@@ -265,7 +277,7 @@ std::string GestionnaireReseau::getAdresseIPLocaleAssociee( const std::string& p
 	{
 		return wIpLocaleFinale;
 	}
-	
+
 }
 
 
@@ -279,7 +291,7 @@ std::string GestionnaireReseau::getAdresseIPLocaleAssociee( const std::string& p
 /// @param[in] const std::string& pNomOperation     : Nom de l'operation a ajouter
 /// @param[in] PacketHandler* pPacketHandler        : Pointeur vers un PaquetHandler a associer a ce type de Paquet
 /// @param[in] UsinePaquet* pUsine                  : Pointeur vers une UsinePaquet a associer a ce type de Paquet
-/// 
+///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
@@ -290,7 +302,7 @@ void GestionnaireReseau::ajouterOperationReseau(const PacketTypes pNomOperation,
 
 	// Ajouter le Factory (Usine) pour le type de paquet
 	mListeUsines[pNomOperation] = pUsine;
-	
+
 }
 
 
@@ -300,7 +312,7 @@ void GestionnaireReseau::ajouterOperationReseau(const PacketTypes pNomOperation,
 ///
 /// (Private)
 /// Methode pour nettoyer la liste des PaquetHandler et UsinePaquet (les libere de la memoire egalement)
-/// 
+///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
@@ -324,13 +336,13 @@ void GestionnaireReseau::supprimerPacketHandlersEtUsines()
 
     // Vider la liste de Sockets et les detruire
     std::map<std::pair<std::string, ConnectionType>, SPSocket>::iterator iter;
-    WaitForSingleObject(mMutexListeSockets,INFINITE);
+    FacadePortability::takeMutex(mMutexListeSockets);
 //     for (iter = mListeSockets.begin(); iter != mListeSockets.end(); ++iter)
 //     {
 //         delete (*iter).second;
 //     }
     mListeSockets.clear();
-    ReleaseMutex(mMutexListeSockets);
+    FacadePortability::releaseMutex(mMutexListeSockets);
 }
 
 
@@ -343,7 +355,7 @@ void GestionnaireReseau::supprimerPacketHandlersEtUsines()
 ///
 /// @param[in] Socket* pSocketAUtiliser     : Socket a utiliser pour l'envoie du paquet
 /// @param[in] Paquet* pPaquet              : Paquet a envoyer (sera delete par le CommunicateurReseau une fois que le paquet sera envoye)
-/// 
+///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
@@ -358,7 +370,7 @@ void GestionnaireReseau::envoyerPaquet( SPSocket pSocketAUtiliser, Paquet* pPaqu
             throw ExceptionReseau("Buffer d'envoie plein");
         }
 	}
-	else 
+	else
 	{
 		throw ExceptionReseau("Operation invalide a l'envoie d'un Paquet dans GestionnaireReseau.");
 	}
@@ -398,7 +410,7 @@ void GestionnaireReseau::envoyerPaquet( const std::string& pPlayerName, Paquet* 
 /// Methode pour valider si un type d'operation est valide (s'il a ete ajoute auparavant)
 ///
 /// @param[in] const std::string& pOperation     : Nom de l'operation a valider
-/// 
+///
 /// @return bool    : True si valide
 ///
 ////////////////////////////////////////////////////////////////////////
@@ -415,7 +427,7 @@ bool GestionnaireReseau::validerOperation( const PacketTypes pOperation ) const
 /// Methode pour obtenir le PaquetHandler associe a un type d'operation qui a ete ajoute auparavant
 ///
 /// @param[in] const std::string& pOperation     : Nom de l'operation dont on veut le PaquetHandler
-/// 
+///
 /// @return     : Pointeur sur le PaquetHandler (Ne pas appeler delete sur ce pointeur. GestionnaireReseau va s'en occuper.)
 ///
 ////////////////////////////////////////////////////////////////////////
@@ -432,16 +444,16 @@ PacketHandler* GestionnaireReseau::getPacketHandler( const PacketTypes pOperatio
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireReseau::creerPaquet( const std::string& pOperation ) 
+/// @fn void GestionnaireReseau::creerPaquet( const std::string& pOperation )
 ///
 /// Methode pour obtenir un paquet du bon type de paquet selon le nom d'operation (Appelle la factory)
 ///
 /// @param[in] const std::string& pOperation     : Nom de l'operation dont on veut creer un paquet
-/// 
+///
 /// @return     : Pointeur sur un Paquet du bon type
 ///
 ////////////////////////////////////////////////////////////////////////
-Paquet* GestionnaireReseau::creerPaquet( const PacketTypes pOperation ) 
+Paquet* GestionnaireReseau::creerPaquet( const PacketTypes pOperation )
 {
     auto wIterateur = mListeUsines.find(pOperation);
 
@@ -465,7 +477,7 @@ Paquet* GestionnaireReseau::creerPaquet( const PacketTypes pOperation )
 /// @param[in] const std::string& pPlayerName,	: Nom du joueur (local) qui doit etre associe a cette connection
 /// @param[in] const std::string& pIP			: Adresse IP du Socket a creer
 /// @param[in] ConnectionType pConnectionType	: Type de connectiona  demarrer (TCP ou UDP)
-/// 
+///
 /// @return     : Socket*	: Pointeur vers le socket qui vient d'être créer
 ///
 ////////////////////////////////////////////////////////////////////////
@@ -508,7 +520,7 @@ void GestionnaireReseau::cancelNewConnection(const std::string& pPlayerName, Con
 ///
 /// @param[in] int pMessageCode : Code de message a envoyer au controlleur
 /// @param[in] ...              : Autres parametres a envoyer au controlleur (varient selon le MessageCode)
-/// 
+///
 /// @return     void
 ///
 ////////////////////////////////////////////////////////////////////////
@@ -535,13 +547,13 @@ void GestionnaireReseau::transmitEvent( int pMessageCode, ... ) const
 ///
 /// @param[in] const std::string& pNomJoueur    : Nom du joueur (doit etre unique)
 /// @param[in] Socket* pSocket                  : Socket a sauvegarder
-/// 
+///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireReseau::saveSocket( const std::string& pNomJoueur, SPSocket pSocket )
 {
-    WaitForSingleObject(mMutexListeSockets,INFINITE);
+    FacadePortability::takeMutex(mMutexListeSockets);
 //     try
 //     {
 //         std::map<std::pair<std::string, ConnectionType>, SPSocket>::iterator it = mListeSockets.find(std::pair<std::string, ConnectionType>(pNomJoueur, pSocket->getConnectionType()));
@@ -549,7 +561,7 @@ void GestionnaireReseau::saveSocket( const std::string& pNomJoueur, SPSocket pSo
 //         {
 //             delete (*it).second;
 //         }
-//         
+//
 //     }
 //     catch(...){} // Pour etre certain de ne pas planter pour rien
 
@@ -559,7 +571,7 @@ void GestionnaireReseau::saveSocket( const std::string& pNomJoueur, SPSocket pSo
     {
 	    mCommunicateurReseau.ajouterSocketEcoute(pSocket);
     }
-    ReleaseMutex(mMutexListeSockets);
+    FacadePortability::takeMutex(mMutexListeSockets);
 }
 
 
@@ -571,25 +583,24 @@ void GestionnaireReseau::saveSocket( const std::string& pNomJoueur, SPSocket pSo
 ///
 /// @param[in] const std::string& pNomJoueur    : Nom du joueur (doit etre unique)
 /// @param[in] ConnectionType pConnectionType   : Type de Socket
-/// 
+///
 /// @return Socket* : Pointeur vers le socket associe a ce joueur et a ce type ou NULL si pas dans la liste
 ///
 ////////////////////////////////////////////////////////////////////////
 SPSocket GestionnaireReseau::getSocket( const std::string& pNomJoueur, ConnectionType pConnectionType )
 {
-    WaitForSingleObject(mMutexListeSockets,INFINITE);
+    FacadePortability::takeMutex(mMutexListeSockets);
 	ListeSockets::iterator iterateurRecherche = mListeSockets.find(std::pair<std::string, ConnectionType>(pNomJoueur, pConnectionType));
 	if(mListeSockets.end() == iterateurRecherche)
 	{
-        ReleaseMutex(mMutexListeSockets);
+        FacadePortability::releaseMutex(mMutexListeSockets);
 		return NULL;
 	}
 	else
 	{
-        ReleaseMutex(mMutexListeSockets);
+        FacadePortability::releaseMutex(mMutexListeSockets);
 		return (*iterateurRecherche).second;
 	}
-    
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -602,28 +613,28 @@ SPSocket GestionnaireReseau::getSocket( const std::string& pNomJoueur, Connectio
 ///
 /// @param[in] const std::string& pNomJoueur    : Nom du joueur (doit etre unique)
 /// @param[in] ConnectionType pConnectionType   : Type de Socket
-/// 
+///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireReseau::removeSocket( const std::string& pNomJoueur, ConnectionType pConnectionType )
 {
-    WaitForSingleObject(mMutexListeSockets,INFINITE);
+    FacadePortability::takeMutex(mMutexListeSockets);
 	ListeSockets::iterator itMap = mListeSockets.find(std::pair<std::string, ConnectionType>(pNomJoueur, pConnectionType));
 	if(itMap == mListeSockets.end())
 	{
         // Le socket n'est pas dans la liste de sockets sauvegardes
-		ReleaseMutex(mMutexListeSockets);
+        FacadePortability::releaseMutex(mMutexListeSockets);
 		return;
 	}
 	SPSocket wSocketASupprimer = itMap->second;
 
     // On attend pour ne pas supprimer le socket pendant une operation critique
-    HANDLE wHandle = wSocketASupprimer->getMutexActiviteSocket();
-    WaitForSingleObject(wHandle,INFINITE);
+    FacadePortability::HANDLE_MUTEX wMutex = wSocketASupprimer->getMutexActiviteSocket();
+    FacadePortability::takeMutex(wMutex);
 
     // On doit le retirer de la liste de Socket a ecouter avant de le supprimer
-	std::list<SPSocket>::const_iterator it = mCommunicateurReseau.getFirstSocketEcoute(); // On va egalement chercher le mutex vers la liste de Sockets a ecouter
+    auto it = mCommunicateurReseau.getFirstSocketEcoute(); // On va egalement chercher le mutex vers la liste de Sockets a ecouter
 	for(it; it!=mCommunicateurReseau.getEndSocketEcoute(); ++it)
 	{
 		if((*it)==wSocketASupprimer)
@@ -634,8 +645,8 @@ void GestionnaireReseau::removeSocket( const std::string& pNomJoueur, Connection
 		}
 	}
     // On relache le mutex
-	mCommunicateurReseau.terminerIterationListeSocketEcoute(); 
-	
+	mCommunicateurReseau.terminerIterationListeSocketEcoute();
+
     // Changer le connection state (a pour effet d'envoyer un event de deconnection)
     wSocketASupprimer->setConnectionState(NOT_CONNECTED);
 	// Le supprimer de la liste dans cette classe
@@ -643,11 +654,11 @@ void GestionnaireReseau::removeSocket( const std::string& pNomJoueur, Connection
 
 	// Liberer la memoire et invalider le pointeur
     wSocketASupprimer->flagToDelete();
-    
+
 	wSocketASupprimer = 0;
 
-    ReleaseMutex(wHandle); // On relache le mutex sur le socket
-    ReleaseMutex(mMutexListeSockets);
+    FacadePortability::releaseMutex(wMutex); // On relache le mutex sur le socket
+    FacadePortability::releaseMutex(mMutexListeSockets);
 }
 
 
@@ -660,7 +671,7 @@ void GestionnaireReseau::removeSocket( const std::string& pNomJoueur, Connection
 /// Les autres threads ne le reutilisent pas, mais il ne faut plus utiliser une ancienne reference
 ///
 /// @param[in] Socket* pSocket  : socket a supprimmer
-/// 
+///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
@@ -668,12 +679,12 @@ void GestionnaireReseau::removeSocket( SPSocket pSocket )
 {
 
     // Now remove it from here and delete it
-    WaitForSingleObject(mMutexListeSockets,INFINITE);
-    for (std::map<std::pair<std::string, ConnectionType>, SPSocket>::iterator it = mListeSockets.begin(); it!=mListeSockets.end(); ++it)
+    FacadePortability::takeMutex(mMutexListeSockets);
+    for (auto it = mListeSockets.begin(); it!=mListeSockets.end(); ++it)
     {
         if((*it).second == pSocket)
         {
-            ReleaseMutex(mMutexListeSockets);
+            FacadePortability::releaseMutex(mMutexListeSockets);
             removeSocket(it->first.first,it->first.second); // On laisse l'autre methode faire le retrait
             break;
         }
@@ -700,9 +711,9 @@ void GestionnaireReseau::determineNativeByteOrder()
 	} test;
 	test.value = 1;
 	if( test.c[3] && !test.c[2] && !test.c[1] && !test.c[0] )
-		NATIVE_BYTE_ORDER = BIG_ENDIAN;
+		NATIVE_BYTE_ORDER = BO_BIG_ENDIAN;
 	else if( !test.c[3] && !test.c[2] && !test.c[1] && test.c[0] )
-		NATIVE_BYTE_ORDER = LITTLE_ENDIAN;
+		NATIVE_BYTE_ORDER = BO_LITTLE_ENDIAN;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -730,7 +741,7 @@ ByteOrder& GestionnaireReseau::getNativeByteOrder()
 /// Methode pour envoyer un paquet en broadcast (Utilise le socket preconfigure de GestionnaireReseau)
 ///
 /// @param[in] Paquet* pPaquet    : Paquet a envoyer (Sera libere par CommunicateurReseau apres son envoie)
-/// 
+///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
@@ -747,22 +758,30 @@ void GestionnaireReseau::envoyerPaquetBroadcast( Paquet* pPaquet )
 /// Methode pour envoyer un message dans le log de reseautique
 ///
 /// @param[in] const std::string& pMessage    : Message a envoyer dans le log
-/// 
+///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireReseau::sendMessageToLog( const std::string& pMessage )
 {
     logSetup();
-    
+
     // On verifie que le fichier d'output a bien pu etre creer au demarrage
 	if(!errorLogHandle.fail())
 	{
         time_t wTime = time(0);
         struct tm wTimeNow;
+#ifdef WINDOWS
         localtime_s( &wTimeNow, &wTime );
-
-        errorLogHandle << "[" << wTimeNow.tm_hour << ":" << wTimeNow.tm_min << ":" << wTimeNow.tm_sec << "] " << ExceptionReseau::getLastErrorMessage("", WSAGetLastError()) << " " << pMessage << std::endl;
+#elif defined(LINUX)
+        time(&wTime);
+        wTimeNow = *localtime(&wTime);
+#endif
+        errorLogHandle << "[" << wTimeNow.tm_hour << ":" << wTimeNow.tm_min << ":" << wTimeNow.tm_sec << "] ";
+#ifdef WINDOWS
+        errorLogHandle << ExceptionReseau::getLastErrorMessage("", WSAGetLastError());
+#endif
+        errorLogHandle << " " << pMessage << std::endl;
 		errorLogHandle.flush(); // Pour etre certain d'avoir tout meme si le programme crash
 	}
 }
@@ -773,14 +792,19 @@ void GestionnaireReseau::sendMessageToLog( const std::string& pMessage )
 /// @fn void GestionnaireReseau::throwExceptionReseau(const std::string& pMessagePrefix) const
 ///
 /// Methode pour throw une exception du bon type (s'occupe de builder selon la derniere exception de WSAGetLastError())
-/// 
+///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireReseau::throwExceptionReseau(const std::string& pMessagePrefix /* = "" */) const
 {
     ExceptionTypes wType;
+#ifdef WINDOWS
     int wErreur = WSAGetLastError();
+#elif defined(LINUX)
+    int wErreur = -1;
+#endif
+
     try
     {
         wType = mMapExceptions.at(wErreur);
@@ -796,7 +820,7 @@ void GestionnaireReseau::throwExceptionReseau(const std::string& pMessagePrefix 
             wType = TYPE_NOT_DEFINED;
         }
     }
-    
+
     switch(wType)
     {
     case SOCKET_DECONNECTE:
@@ -835,9 +859,9 @@ void GestionnaireReseau::throwExceptionReseau(const std::string& pMessagePrefix 
             break;
         }
     }
-    
-    
-    
+
+
+
 }
 
 
@@ -848,15 +872,15 @@ void GestionnaireReseau::throwExceptionReseau(const std::string& pMessagePrefix 
 /// Methode pour obtenir le nom d'un joueur selon son socket
 ///
 /// @param[in] Socket* pSocket  : Socketdont on veut trouver le nom de joueur
-/// 
+///
 /// @return std::string : Nom du joueur
 ///
 ////////////////////////////////////////////////////////////////////////
 std::string GestionnaireReseau::getPlayerName( SPSocket pSocket )
 {
-    WaitForSingleObject(mMutexListeSockets,INFINITE);
+    FacadePortability::takeMutex(mMutexListeSockets);
 	std::string name;
-    for (std::map<std::pair<std::string, ConnectionType>, SPSocket>::iterator it = mListeSockets.begin(); it!=mListeSockets.end(); ++it)
+    for (auto it = mListeSockets.begin(); it!=mListeSockets.end(); ++it)
     {
         if((*it).second == pSocket)
         {
@@ -864,7 +888,7 @@ std::string GestionnaireReseau::getPlayerName( SPSocket pSocket )
             break;
         }
     }
-    ReleaseMutex(mMutexListeSockets);
+    FacadePortability::releaseMutex(mMutexListeSockets);
     return name;
 }
 
@@ -874,7 +898,7 @@ std::string GestionnaireReseau::getPlayerName( SPSocket pSocket )
 /// @fn std::set<std::string> GestionnaireReseau::getPlayerNameList() const
 ///
 /// Methode pour obtenir la liste des noms des joueurs connectes
-/// 
+///
 /// @return std::set<std::string>   : Liste des noms
 ///
 ////////////////////////////////////////////////////////////////////////
@@ -925,7 +949,7 @@ void GestionnaireReseau::getListeAdressesIPLocales(std::list<std::string>& pOut)
         GestionnaireReseau::obtenirInstance()->throwExceptionReseau("Erreur lors de la lecture des adresses reseau locales");
         return;
     }
-    
+
     pOut.push_back("127.0.0.1");
 
     int wNbCount = 0;

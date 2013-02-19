@@ -9,8 +9,12 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
+#ifdef WINDOWS
 #include <hash_map>
-
+#elif defined(LINUX)
+#include <ext/hash_map>
+namespace std {using namespace __gnu_cxx; }
+#endif
 typedef int PaquetTypes;
 typedef int (*PaquetRunnableFunc) (class Paquet*);
 

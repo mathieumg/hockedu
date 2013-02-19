@@ -1,13 +1,17 @@
 
 
 #include "PaquetRunnableServeurMaitre.h"
-#include "..\ServeurMaitre\FacadeServeurMaitre.h"
-#include "..\Reseau\Paquets\PaquetLoginInfo.h"
-#include "..\Reseau\GestionnaireReseau.h"
-#include "..\Reseau\ObjetsGlobaux\JoueurServeurs.h"
-#include "..\Reseau\RelayeurMessage.h"
-#include "..\Reseau\Paquets\PaquetUserStatus.h"
-#include "..\Reseau\Paquets\PaquetChatMessage.h"
+#include "../ServeurMaitre/FacadeServeurMaitre.h"
+#include "../Reseau/Paquets/PaquetLoginInfo.h"
+#include "../Reseau/GestionnaireReseau.h"
+#include "../Reseau/ObjetsGlobaux/JoueurServeurs.h"
+#include "../Reseau/RelayeurMessage.h"
+#include "../Reseau/Paquets/PaquetUserStatus.h"
+#include "../Reseau/Paquets/PaquetChatMessage.h"
+
+#ifdef LINUX
+#define _LARGE_TIME_API
+#endif
 
 #include <time.h>
 #include <sstream>
@@ -25,7 +29,7 @@ int PaquetRunnable::RunnableLoginInfoServerMaster( Paquet* pPaquet )
 
 
     // On envoie un event au gestionnaire reseau
-    GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_CONNECTING, wPaquet->getUsername());
+    GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_CONNECTING, wPaquet->getUsername().c_str());
 
     // On sauvearde le joueur
     JoueurServeurs* wJoueur = new JoueurServeurs(wPaquet->getUsername());
@@ -49,19 +53,25 @@ int PaquetRunnable::RunnableChatMessageServerMaster( Paquet* pPaquet )
 
     std::ostringstream wTimeOutput;
     time_t wT = time(0);
-    struct tm wTime;
-    if(_localtime64_s(&wTime, &wT))
+    struct tm* wTime;
+#ifdef WINDOWS
+    if(_localtime64_s(wTime, &wT))
+#elif defined(LINUX)
+    time(&wT);
+    wTime = localtime(&wT);
+    if(wTime == NULL)
+#endif
     {
         std::cout << "[00:00:00]";
     }
     else
     {
         wTimeOutput << std::setfill('0') << "["
-            << std::setw(2) << wTime.tm_hour
+            << std::setw(2) << wTime->tm_hour
             << std::setw(1) << ":"
-            << std::setw(2) << wTime.tm_min
+            << std::setw(2) << wTime->tm_min
             << std::setw(1) << ":"
-            << std::setw(2) << wTime.tm_sec
+            << std::setw(2) << wTime->tm_sec
             << std::setw(1) << "]";
     }
 

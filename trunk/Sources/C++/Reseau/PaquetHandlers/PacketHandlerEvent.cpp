@@ -1,7 +1,7 @@
 
 
 #include "PacketHandlerEvent.h"
-#include "..\Paquets\PaquetEvent.h"
+#include "../Paquets/PaquetEvent.h"
 
 
 void PacketHandlerEvent::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)
@@ -22,8 +22,8 @@ void PacketHandlerEvent::handlePacketReceptionSpecific(PacketReader& pPacketRead
 
 
 //     GestionnaireReseau::obtenirInstance()->transmitEvent(wPaquet->getErrorCode(), wPaquet->getMessage());
-// 
-// 
+//
+//
 //     wPaquet->removeAssociatedQuery(); // delete
 
 }

@@ -12,13 +12,16 @@
 #include <sstream>
 #include <iostream>
 #include <time.h>
+#ifdef LINUX
+#include <limits.h>
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn obtenirNumeroHazard() const
 ///
 /// Fonction qui retourne un nombre aleatoire afin d'initialiser le numero de sequence
-/// 
+///
 ///
 /// @return int : nombre aleatoire entre 1 et INT_MAX/2
 ///
@@ -66,7 +69,7 @@ Paquet::Paquet()
 ////////////////////////////////////////////////////////////////////////
 Paquet::~Paquet(void)
 {
-	
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -93,7 +96,7 @@ void Paquet::removeAssociatedQuery()
 /// @fn Paquet::obtenirNumeroPaquet() const
 ///
 /// Accesseur du numero de paquet
-/// 
+///
 ///
 /// @return int : numero de paquet
 ///

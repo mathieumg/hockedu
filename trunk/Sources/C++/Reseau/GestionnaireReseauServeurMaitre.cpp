@@ -10,12 +10,12 @@
 
 #include "GestionnaireReseauServeurMaitre.h"
 #include "GestionnaireReseau.h"
-#include "Paquets\PaquetUserStatus.h"
-#include "PaquetHandlers\PacketHandlerUserStatus.h"
-#include "UsinePaquets\UsinePaquetUserStatus.h"
+#include "Paquets/PaquetUserStatus.h"
+#include "PaquetHandlers/PacketHandlerUserStatus.h"
+#include "UsinePaquets/UsinePaquetUserStatus.h"
 #include "RelayeurMessage.h"
-#include "PaquetHandlers\PacketHandlerChatMessage.h"
-#include "UsinePaquets\UsinePaquetChatMessage.h"
+#include "PaquetHandlers/PacketHandlerChatMessage.h"
+#include "UsinePaquets/UsinePaquetChatMessage.h"
 
 // Initialisations automatiques
 SINGLETON_DECLARATION_CPP(GestionnaireReseauServeurMaitre);
@@ -27,7 +27,7 @@ SINGLETON_DECLARATION_CPP(GestionnaireReseauServeurMaitre);
 /// Constructeur, appelle le constructeur de GestionnaireReseau
 ///
 ///
-/// @return 
+/// @return
 ///
 ////////////////////////////////////////////////////////////////////////
 GestionnaireReseauServeurMaitre::GestionnaireReseauServeurMaitre()
@@ -51,10 +51,10 @@ GestionnaireReseauServeurMaitre::GestionnaireReseauServeurMaitre()
 ///
 /// @fn  GestionnaireReseauServeur::~GestionnaireReseauServeur(  )
 ///
-/// Destructeur 
+/// Destructeur
 ///
 ///
-/// @return 
+/// @return
 ///
 ////////////////////////////////////////////////////////////////////////
 GestionnaireReseauServeurMaitre::~GestionnaireReseauServeurMaitre()
@@ -70,7 +70,7 @@ void GestionnaireReseauServeurMaitre::SocketStateCallback( const ConnectionState
 	const std::string& wPlayerName = pEvent.mPlayerName;
 
 	PaquetUserStatus* wPaquet = (PaquetUserStatus*) GestionnaireReseau::obtenirInstance()->creerPaquet(USER_STATUS);
-	
+
 	if(wConnState == CONNECTED) // Si le socket vient de se connecter, on lui envoie la liste de tous les players connectes
 	{
 		std::set<std::string> wListe = GestionnaireReseau::obtenirInstance()->getPlayerNameList(TCP);
