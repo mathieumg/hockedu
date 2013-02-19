@@ -11,7 +11,7 @@
 #pragma once
 #include <iostream>
 #include "Utilitaire.h"
-#include "..\Reseau\ControllerInterface.h"
+#include "../Reseau/ControllerInterface.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -30,7 +30,7 @@ public:
     virtual void handleDisconnectDetection( SPSocket pSocket );
 
 private:
-    
+
 };
 
 

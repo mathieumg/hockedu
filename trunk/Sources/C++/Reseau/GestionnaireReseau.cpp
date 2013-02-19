@@ -229,7 +229,7 @@ std::string GestionnaireReseau::getAdresseIPLocaleAssociee( const std::string& p
 {
 	std::string wIpLocaleFinale = "";
 	hostent *hostCourant;
-	hostCourant=gethostbyname("");
+	hostCourant=gethostbyname("localhost");
 
 	int wNbCount = 0;
 	int wNbBadCount = 0;
@@ -936,7 +936,7 @@ void GestionnaireReseau::getListeAdressesIPLocales(std::list<std::string>& pOut)
 {
 
     hostent *hostCourant;
-    hostCourant=gethostbyname("");
+    hostCourant=gethostbyname(NULL);
     if(hostCourant == NULL)
     {
         // Probleme au get des valeurs reseau locales
@@ -944,7 +944,7 @@ void GestionnaireReseau::getListeAdressesIPLocales(std::list<std::string>& pOut)
         return;
     }
 
-    pOut.push_back("127.0.0.1");
+    //pOut.push_back("127.0.0.1");
 
     int wNbCount = 0;
     while(hostCourant->h_addr_list[wNbCount])
@@ -953,8 +953,6 @@ void GestionnaireReseau::getListeAdressesIPLocales(std::list<std::string>& pOut)
         pOut.push_back(wIP);
         ++wNbCount;
     }
-
-
 }
 
 
