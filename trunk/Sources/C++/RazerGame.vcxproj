@@ -195,7 +195,12 @@
     <ClCompile Include="Arbre\HUD\HUDTexte.cpp" />
     <ClCompile Include="Arbre\Modeles\GestionnaireModeles.cpp" />
     <ClCompile Include="Arbre\Modeles\Modele3D.cpp" />
+    <ClCompile Include="Arbre\Noeuds\ControlPointMutableAbstract.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NodeControlPoint.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NodePolygone.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NodeRinkBoards.cpp" />
     <ClCompile Include="Arbre\Noeuds\NodeWallAbstract.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NodeWallEdition.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudAccelerateur.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudAffichage.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudGroupe.cpp" />
@@ -230,6 +235,7 @@
     <ClCompile Include="Interface\DebugRenderBox2D.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatAbstrait.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatAjout.cpp" />
+    <ClCompile Include="Interface\EtatSouris\SourisEtatAjoutControlPointMutable.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatAjoutMuret.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatDeplacerFenetre.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatOrbit.cpp" />
@@ -285,6 +291,7 @@
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerConnAutomatique.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerEvent.cpp" />
+    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameStatus.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerLoginInfo.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerTest.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp" />
@@ -293,6 +300,7 @@
     <ClCompile Include="Reseau\Paquets\PaquetChatMessage.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetConnAutomatique.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetEvent.cpp" />
+    <ClCompile Include="Reseau\Paquets\PaquetGameStatus.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetLoginInfo.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetTest.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetUserStatus.cpp" />
@@ -323,7 +331,12 @@
     <ClInclude Include="Arbre\HUD\HUDTexte.h" />
     <ClInclude Include="Arbre\Modeles\GestionnaireModeles.h" />
     <ClInclude Include="Arbre\Modeles\Modele3D.h" />
+    <ClInclude Include="Arbre\Noeuds\ControlPointMutableAbstract.h" />
+    <ClInclude Include="Arbre\Noeuds\NodeControlPoint.h" />
+    <ClInclude Include="Arbre\Noeuds\NodePolygone.h" />
+    <ClInclude Include="Arbre\Noeuds\NodeRinkBoards.h" />
     <ClInclude Include="Arbre\Noeuds\NodeWallAbstract.h" />
+    <ClInclude Include="Arbre\Noeuds\NodeWallEdition.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudAccelerateur.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudAffichage.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudGroupe.h" />
@@ -361,6 +374,7 @@
     <ClInclude Include="Interface\DebugRenderBox2D.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatAbstrait.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatAjout.h" />
+    <ClInclude Include="Interface\EtatSouris\SourisEtatAjoutControlPointMutable.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatAjoutMuret.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatDeplacerFenetre.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatOrbit.h" />
@@ -418,6 +432,7 @@
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerChatMessage.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerConnAutomatique.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerEvent.h" />
+    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerGameStatus.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerLoginInfo.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerTest.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerUserStatus.h" />
@@ -426,6 +441,7 @@
     <ClInclude Include="Reseau\Paquets\PaquetChatMessage.h" />
     <ClInclude Include="Reseau\Paquets\PaquetConnAutomatique.h" />
     <ClInclude Include="Reseau\Paquets\PaquetEvent.h" />
+    <ClInclude Include="Reseau\Paquets\PaquetGameStatus.h" />
     <ClInclude Include="Reseau\Paquets\PaquetLoginInfo.h" />
     <ClInclude Include="Reseau\Paquets\PaquetTest.h" />
     <ClInclude Include="Reseau\Paquets\PaquetUserStatus.h" />
@@ -436,6 +452,7 @@
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetChatMessage.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetConnAutomatique.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetEvent.h" />
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameStatus.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetLoginInfo.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetTest.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetUserStatus.h" />

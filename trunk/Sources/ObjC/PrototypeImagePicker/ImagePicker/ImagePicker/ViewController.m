@@ -119,7 +119,7 @@
     
     // the server url to which the image (or the media) is uploaded. Use your server url here
     //NSURL* requestURL = [NSURL URLWithString:@"http://posttestserver.com/post.php"];
-    NSURL* requestURL = [NSURL URLWithString:@"http://hockedu.com/proto.php"];
+    NSURL* requestURL = [NSURL URLWithString:@"http://old.hockedu.com/proto.php"];
     
     
     // create request

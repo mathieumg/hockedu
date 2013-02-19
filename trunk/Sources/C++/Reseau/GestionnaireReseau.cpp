@@ -46,8 +46,6 @@ ByteOrder GestionnaireReseau::NATIVE_BYTE_ORDER = UNKNOWN;
 // Initialisations automatiques
 SINGLETON_DECLARATION_CPP(GestionnaireReseau);
 
-// Mode du terminal courant (ex: CLIENT OU SERVEUR)
-NetworkMode GestionnaireReseau::mNetworkMode = NOT_DEFINED;
 
 // Port utilise pour la connexion automatique (Multicast en UDP)
 int GestionnaireReseau::multicastPort = 1001;
@@ -103,14 +101,9 @@ void logSetup()
 ////////////////////////////////////////////////////////////////////////
 GestionnaireReseau::GestionnaireReseau(): mSocketStateCallback(NULL), mControlleur(NULL)
 {
-	if(mNetworkMode == NOT_DEFINED) {
-		throw ExceptionReseau("Appel du constructeur de GestionnaireReseau avant GestionnaireReseau::setNetworkMode", NULL);
-	}
-
-
     getNativeByteOrder();
 
-    FacadePortability::createMutex(mMutexListeSockets);
+	FacadePortability::createMutex(mMutexListeSockets);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -205,17 +198,6 @@ void GestionnaireReseau::init()
 	WSADATA wsaData;
 	int iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
 #endif
-
-	// Demarrer Thread connexion automatique
-
-
-
-
-    // Demarrer thread conn TCP Serveur
-    if(GestionnaireReseau::getNetworkMode() == SERVER)
-    {
-        mCommunicateurReseau.demarrerThreadsConnectionServeur();
-    }
 
     // Demarre les threads de reception UDP (pour serveur et client)
     mCommunicateurReseau.demarrerThreadsReceptionUDP();
@@ -936,6 +918,19 @@ void GestionnaireReseau::disconnectClient( const std::string& pPlayerName, Conne
 }
 
 
+// void GestionnaireReseau::disconnectOtherPlayer( const std::string& pPlayerName, ConnectionType pConnectionType /*= TCP*/ )
+// {
+//     // Si erreur c'est qu'il est deja enleve
+//     try
+//     {
+//         SPSocket wSocket = getSocket(pPlayerName, pConnectionType);
+//         removeSocket(wSocket);
+//     }
+//     catch(ExceptionReseau&) {}
+// }
+
+
+
 
 
 void GestionnaireReseau::getListeAdressesIPLocales(std::list<std::string>& pOut) const
@@ -981,6 +976,39 @@ bool GestionnaireReseau::validerUsername( const std::string& pUsername ) const
 
 
     return true;
+}
+
+
+
+void GestionnaireReseau::initClient()
+{
+    init();
+}
+
+
+void GestionnaireReseau::initServer()
+{
+    init();
+
+    // Demarrer le thread de connexion TCP
+    mCommunicateurReseau.demarrerThreadsConnectionServeur();
+
+    // Demarrer Thread connexion automatique
+
+
+}
+
+
+
+void GestionnaireReseau::demarrerConnectionThread( SPSocket pSocket )
+{
+    mCommunicateurReseau.demarrerConnectionThread(pSocket);
+}
+
+
+void GestionnaireReseau::supprimerEcouteSocket( SPSocket pSocket )
+{
+    mCommunicateurReseau.supprimerEcouteSocket(pSocket);
 }
 
 

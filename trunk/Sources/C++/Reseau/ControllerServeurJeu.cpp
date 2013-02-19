@@ -22,6 +22,7 @@ ControllerServeurJeu::ControllerServeurJeu()
     mPaquetRunnables[USER_STATUS] = PaquetRunnable::RunnableUserStatusServer;
     mPaquetRunnables[CHAT_MESSAGE] = PaquetRunnable::RunnableChatMessageServer;
     mPaquetRunnables[TEST] = PaquetRunnable::RunnableTest;
+    mPaquetRunnables[GAME_STATUS] = PaquetRunnable::RunnableGameStatusServer;
 
 
 }
@@ -60,4 +61,9 @@ void ControllerServeurJeu::handleEvent( int pEventCode, va_list pListeElems )
 //         std::cout << "EventCode: " << pEventCode << std::endl;
 //         break;
 //     };
+}
+
+void ControllerServeurJeu::handleDisconnectDetection( SPSocket pSocket )
+{
+    GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
 }

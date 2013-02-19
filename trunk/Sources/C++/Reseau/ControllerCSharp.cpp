@@ -70,3 +70,10 @@ void ControllerCSharp::handleEvent( int pEventCode, va_list pListeElems )
         std::cerr << "UnHandled event\n";
     }
 }
+
+
+void ControllerCSharp::handleDisconnectDetection( SPSocket pSocket )
+{
+    GestionnaireReseau::obtenirInstance()->demarrerConnectionThread(pSocket);
+    GestionnaireReseau::obtenirInstance()->supprimerEcouteSocket(pSocket);
+}

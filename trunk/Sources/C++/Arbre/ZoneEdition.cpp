@@ -156,18 +156,18 @@ void ZoneEdition::reinitialiser()
 ////////////////////////////////////////////////////////////////////////
 void ZoneEdition::afficher()
 {
-
-
 	// Dessin de la zone d'édition
+    glPushMatrix();
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
-	glBegin(GL_QUADS);
 	glColor4f(0,0.749f,1,1);
+	glBegin(GL_QUADS);
 	glVertex3d(limiteExtLongueur_, limiteExtLargeur_, -2);
 	glVertex3d(-limiteExtLongueur_, limiteExtLargeur_, -2);
 	glVertex3d(-limiteExtLongueur_, -limiteExtLargeur_, -2);
 	glVertex3d(limiteExtLongueur_, -limiteExtLargeur_, -2);
 	glEnd();
 	glPopAttrib();
+    glPopMatrix();
 }
 
 

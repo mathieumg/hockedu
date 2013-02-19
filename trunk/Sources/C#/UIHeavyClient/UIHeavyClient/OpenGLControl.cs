@@ -42,7 +42,8 @@ namespace UIHeavyClient
         public OpenGLControl()
         {
             InitializeComponent();
-            this.Load += InitializeOpenGL;
+            //InitOpenGL(this.Handle);
+            //this.Load += InitializeOpenGL;
             this.SizeChanged += UpdateSize;
             this.KeyDown += OpenGLControl_KeyDown;
             this.KeyUp += OpenGLControl_KeyUp;

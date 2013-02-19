@@ -45,12 +45,15 @@ public:
    static const std::string NOM_BUT;
    CreateListDelegateSignature(Goal);
 
-   /// La chaîne représentant le type des murets.
+   /// La chaîne représentant le type des murets statique.
    static const std::string NOM_MURET;
    CreateListDelegateSignature(Wall);
 
-   /// La chaîne représentant le type des murets.
-   static const std::string NOM_MURET_RELATIF;
+   /// La chaîne représentant le type des bande exterieur de la patinoire.
+   static const std::string NAME_RINK_BOARD;
+
+   /// La chaîne représentant le type de muret relatif pour l'édition
+   static const std::string NAME_RELATIVE_WALL;
 
    /// La chaîne représentant le type de la table de jeu.
    static const std::string NOM_TABLE;
@@ -68,12 +71,18 @@ public:
    static const std::string NOM_MAILLET;
    CreateListDelegateSignature(Mallet);
 
-   /// La chaîne représentant le type des points.
-   static const std::string NOM_POINT;
+   /// La chaîne représentant le type des points de controle de la table.
+   static const std::string NAME_TABLE_CONTROL_POINT;
+   CreateListDelegateSignature(TableControlPoint);
+
+   /// La chaîne représentant le type des points de controle d'objet.
+   static const std::string NAME_CONTROL_POINT;
    CreateListDelegateSignature(ControlPoint);
 
    /// La chaîne représentant le type des Groupes.
    static const std::string NOM_GROUPE;
+
+   static const std::string NAME_POLYGONE;
 
 };
 

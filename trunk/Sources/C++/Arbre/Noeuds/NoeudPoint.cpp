@@ -19,7 +19,7 @@
 
 const float NoeudPoint::DEFAULT_RADIUS = 22;
 
-CreateListDelegateImplementation(ControlPoint)
+CreateListDelegateImplementation(TableControlPoint)
 {
     return RazerGameUtilities::CreateListSphereDefault(pModel,NoeudPoint::DEFAULT_RADIUS);
 }
@@ -47,8 +47,8 @@ NoeudPoint::NoeudPoint( const std::string& typeNoeud, float coordX, float coordY
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
     // Il ne faut aps utiliser le modificateur de position relative, car il ne faut pas affecter le modele 3D a la construction des points
-    NoeudAbstrait::assignerPositionRelative(Vecteur3(coordX,coordY, 0));
-	modifierPositionInitiale(positionRelative_);
+    NoeudAbstrait::setPosition(Vecteur3(coordX,coordY, 0));
+	modifierPositionInitiale(mPosition);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -77,16 +77,8 @@ NoeudPoint::~NoeudPoint()
 ////////////////////////////////////////////////////////////////////////
 void NoeudPoint::afficherConcret() const
 {
-	// Sauvegarde de la matrice.
-	glPushMatrix();
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
-
 	// Appel à la version de la classe de base pour l'affichage des enfants.
 	NoeudComposite::afficherConcret();
-
-	// Restauration de la matrice.
-	glPopAttrib();
-	glPopMatrix();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -163,7 +155,7 @@ TypePosPoint NoeudPoint::obtenirTypePosNoeud() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudPoint::obtenirPositionAbsolue() const  
+/// @fn NoeudPoint::getPosition() const  
 ///
 /// Retourne la position absolue du noeud.
 ///
@@ -171,9 +163,9 @@ TypePosPoint NoeudPoint::obtenirTypePosNoeud() const
 /// @return Vecteur3 : position du noeud.
 ///
 ////////////////////////////////////////////////////////////////////////
-Vecteur3 NoeudPoint::obtenirPositionAbsolue() const 
+Vecteur3 NoeudPoint::getPosition() const 
 {
-	return Vecteur3(positionRelative_);
+	return Vecteur3(mPosition);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -355,7 +347,7 @@ void NoeudPoint::assignerPositionRelative( const Vecteur3& positionRelative )
 	const GroupeTripleAdresseFloat* liste = obtenirListePointsAChanger();
 	if(liste)
 	{
-		Vecteur3 deplacement(positionRelative-positionRelative_);
+		Vecteur3 deplacement(positionRelative-mPosition);
 		for(unsigned int i=0; i<liste->size(); i++)
 		{
 			*(liste->get(i)[VX]) += (float)deplacement[VX];
@@ -364,7 +356,7 @@ void NoeudPoint::assignerPositionRelative( const Vecteur3& positionRelative )
 	}
 
     // assigner la position du point en premier pour que la table puisse l'utiliser à sa mise a jour
-    NoeudAbstrait::assignerPositionRelative(positionRelative);
+    NoeudAbstrait::setPosition(positionRelative);
     PositionSubject::signalObservers();
 }
 

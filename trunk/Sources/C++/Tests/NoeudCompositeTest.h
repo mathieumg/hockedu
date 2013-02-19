@@ -34,7 +34,6 @@ class NoeudCompositeTest : public CppUnit::TestFixture
 	CPPUNIT_TEST (chercherEnfantTest);
 	CPPUNIT_TEST (selectionTousTest);
 	CPPUNIT_TEST (deselectionTousTest);
-	CPPUNIT_TEST (positionAbsolueTest);
 	CPPUNIT_TEST (modificationTerrain);
 	CPPUNIT_TEST_SUITE_END();
 public:
@@ -68,8 +67,6 @@ public:
 	void selectionTousTest();
 	/// Test pour la déselection d'un arbre de rendu
 	void deselectionTousTest();
-	/// Test pour les position absolue des enfants
-	void positionAbsolueTest();
 	/// Test pour la modification de terrain dans tout l'arbre
 	void modificationTerrain();
 

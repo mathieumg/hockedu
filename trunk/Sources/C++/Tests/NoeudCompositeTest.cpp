@@ -286,60 +286,6 @@ void NoeudCompositeTest::deselectionTousTest()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudCompositeTest::positionAbsolueTest()
-///
-/// Test pour les position absolue des enfants
-///
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudCompositeTest::positionAbsolueTest()
-{
-	arbre->vider();
-	typedef std::vector<NoeudAbstrait*> Noeuds;
-	Noeuds vec;
-
-	NoeudComposite* racine = new NoeudComposite();
-	arbre->ajouter(racine);
-	std::string TABLEAU_NOMS[8] = 
-	{
-		"but",
-		"muret",
-		"table",
-		"portail",
-		"rondelle",
-		"maillet",
-		"accelerateur",
-		"point"
-	};
-	// Essaie d'instancier tous les noeuds possibles
-	for(unsigned int i=0; i< 8; i++)
-	{
-		NoeudAbstrait* n = arbre->creerNoeud(TABLEAU_NOMS[i]);
-		if(n != 0)
-		{
-			n->assignerPositionRelative(Vecteur3(100.0,100.0));
-			racine->ajouter(n);
-			vec.push_back(n);
-		}
-	}
-	racine->assignerPositionRelative(Vecteur3(0.0,0.0));
-
-	for(unsigned int i =0; i< vec.size(); i++)
-		CPPUNIT_ASSERT(vec[i]->obtenirPositionAbsolue() == Vecteur3(100.0,100.0));
-
-	racine->assignerPositionRelative(Vecteur3(-50.0,25.0));
-	for(unsigned int i =0; i< vec.size(); i++)
-		CPPUNIT_ASSERT(vec[i]->obtenirPositionAbsolue() == Vecteur3(50.0,125.0));
-
-	racine->assignerPositionRelative(Vecteur3(20.0,-25.0));
-	for(unsigned int i =0; i< vec.size(); i++)
-		CPPUNIT_ASSERT(vec[i]->obtenirPositionAbsolue() == Vecteur3(120.0,75.0));
-}
-
-////////////////////////////////////////////////////////////////////////
-///
 /// @fn void NoeudCompositeTest::modificationTerrain()
 ///
 /// /*Description*/

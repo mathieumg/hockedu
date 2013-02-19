@@ -69,12 +69,12 @@ Vecteur2 AIStratDefensive::appliquerStrategie( NoeudMaillet* maillet )
 	butJV =  maillet->GetTerrain()->getTable()->obtenirBut(i);
 
 	// On determine la direction a prendre entre le but et le maillet
-	Vecteur2 dir= butJV->obtenirPositionAbsolue() - maillet->obtenirPositionAbsolue();
+	Vecteur2 dir= butJV->getPosition() - maillet->getPosition();
 
 	// On senligne avec la rondelle si on est deja dans la zone de but
 	if (abs(dir[VX]) < maillet->obtenirRayon()*2+10)
 	{
-		dir = rondelle->obtenirPositionAbsolue() - maillet->obtenirPositionAbsolue();
+		dir = rondelle->getPosition() - maillet->getPosition();
 		dir.normaliser();
 		dir[VX] = 0.0;
 	}

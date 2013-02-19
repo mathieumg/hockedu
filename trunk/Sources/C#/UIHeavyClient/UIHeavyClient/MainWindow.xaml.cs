@@ -71,6 +71,7 @@ namespace UIHeavyClient
             mWindowFormsHost.Name = "windowsFormsHost1";
 
             mWindowFormsHost.Child = mOpenGLControl;
+            mOpenGLControl.InitializeOpenGL(mOpenGLControl,new EventArgs());
 
             mMainMenuControl = new MainMenuControl();
             mPlayModeControl = new PlayModeControl(mWindowFormsHost);

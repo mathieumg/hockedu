@@ -30,9 +30,9 @@ public:
    ~NoeudMuret();
    
    /// Accesseur du coin1
-   virtual Vecteur3 obtenirCoin1();
+   virtual const Vecteur3& obtenirCoin1() const;
    /// Accesseur du coin2
-   virtual Vecteur3 obtenirCoin2();
+   virtual const Vecteur3& obtenirCoin2() const;
    /// Mutateur des coins
    virtual void assignerPositionCoin(int lequel, Vecteur3 position);
 

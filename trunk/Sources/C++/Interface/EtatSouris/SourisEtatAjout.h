@@ -10,12 +10,12 @@ class SourisEtatAjout :
 {
 public:
 	/// Constructeur par paramètre
-	SourisEtatAjout(std::string nomNoeudAjout);
+	SourisEtatAjout(const std::string& nomNoeudAjout);
 	/// Destructeur virtuel
 	virtual ~SourisEtatAjout(void);
 
 	/// Méthode qui cree des noeuds sur le parent en parametres
-	void genererNoeud();
+	virtual void genererNoeud();
 
 	/// Comportement lorsqu'un bouton de la souris est enfoncé
 	virtual void sourisEnfoncee( EvenementSouris& evenementSouris );
@@ -31,6 +31,9 @@ protected :
 	/// Pointeur vers le noeud en train d'être ajouté
 	NoeudAbstrait* noeud_;
 	HUDTexte* hudTextPosInvalide;
+
+    void showInvalidText(bool show)const;
+
 private:
 	std::string nom_;
 

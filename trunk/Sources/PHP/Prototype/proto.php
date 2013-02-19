@@ -115,7 +115,7 @@ if (move_uploaded_file($_FILES['myfile']['tmp_name'], $uploadfile))
 	}
 	
     //$response['location'] = 'http://hockedu.com/view.php?id=' . $uniqueId . '&o=' . $_POST['orientation'];
-    $response['location'] = 'http://hockedu.com/i/' . $uniqueId;
+    $response['location'] = 'http://old.hockedu.com/i/' . $uniqueId;
 }
 else {
     $response['error'] = 'Error dude';

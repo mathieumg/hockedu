@@ -43,7 +43,7 @@ int GenerateHashCode( const char* pString )
 {
     size_t _Val = 2166136261U;
     size_t _First = 0;
-    size_t _Last = ARRAY_COUNT(pString);
+    size_t _Last = strlen(pString);
     size_t _Stride = 1 + _Last / 10;
 
     for(; _First < _Last; _First += _Stride)
@@ -73,7 +73,11 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
     char AssertMsg[2048];
     GET_VARARGS( AssertMsg, ARRAY_COUNT(AssertMsg), ARRAY_COUNT(AssertMsg)-1, Format, Format );
 
-    std::string displayMessage = AssertMsg;
+    std::string displayMessage = assertIDText;
+    displayMessage += "\n";
+    displayMessage += Expr;
+    displayMessage += "\n";
+    displayMessage += AssertMsg;
 
     static std::vector<int> IgnoredAssertTrackingList;
     int hash = GenerateHashCode(assertIDText);

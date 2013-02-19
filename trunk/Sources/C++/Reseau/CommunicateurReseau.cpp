@@ -520,18 +520,8 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 					// Pas capable d'envoyer le paquet car le Socket est brise
 					// On drop le paquet et on envoie le Socket se faire connecter
 					wSocket->disconnect();
-					if(GestionnaireReseau::getNetworkMode() == CLIENT)
-					{
-						// Si c'est un client, on essaie de reconnecter
-						wCommunicateurReseau->demarrerConnectionThread(wSocket);
-						wCommunicateurReseau->supprimerEcouteSocket(wSocket);
-					}
-					else
-					{
-						// Si c'est un serveur, on ne veut pas reconnecter le socket. Le client va se reconnecter et le serveur creera un nouveau socket
-						GestionnaireReseau::obtenirInstance()->removeSocket(wSocket);
-						break; // On doit enlever le socket globalement, impossible de recuperer de ca
-					}
+                    GestionnaireReseau::obtenirInstance()->getController()->handleDisconnectDetection(wSocket);
+                    break;
 				}
 				catch(ExceptionReseauTimeout&)
 				{
@@ -541,19 +531,8 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 					// Pas capable d'envoyer le paquet car le Socket est brise
 					// On drop le paquet et on envoie le Socket se faire connecter
 					wSocket->disconnect();
-					if(GestionnaireReseau::getNetworkMode() == CLIENT)
-					{
-						// Si c'est un client, on essaie de reconnecter
-						wCommunicateurReseau->demarrerConnectionThread(wSocket);
-						wCommunicateurReseau->supprimerEcouteSocket(wSocket);
-					}
-					else
-					{
-						// Si c'est un serveur, on ne veut pas reconnecter le socket. Le client va se reconnecter et le serveur creera un nouveau socket
-						GestionnaireReseau::obtenirInstance()->removeSocket(wSocket);
-						break; // On doit enlever le socket globalement, impossible de recuperer de ca
-					}
-
+                    GestionnaireReseau::obtenirInstance()->getController()->handleDisconnectDetection(wSocket);
+                    break;
 				}
 				catch(ExceptionReseau&)
 				{
@@ -593,6 +572,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
 		auto end = wCommunicateurReseau->getEndSocketEcoute();
 		for(;it!=end; )
 		{
+            bool breakLoop = false;
 			SPSocket wSocket = (*it);
 			if(wSocket == 0)
 			{
@@ -668,31 +648,16 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                             }
 
 
-                            //std::cout << "readTCP: " << (*it)->getAdresseDestination() << std::endl;
                             break;
                         }
                     }
-
-                    // Test
 
                 }
                 catch(ExceptionReseauSocketDeconnecte&)
                 {
                     wSocket->disconnect();
-                    if(GestionnaireReseau::getNetworkMode() == CLIENT)
-                    {
-                        // Si c'est un client, on essaie de reconnecter
-                        wCommunicateurReseau->demarrerConnectionThread(wSocket);
-                        it = wCommunicateurReseau->supprimerEcouteSocket(it);
-                    }
-                    else
-                    {
-                        // Si c'est un serveur, on ne veut pas reconnecter le socket. Le client va se reconnecter et le serveur creera un nouveau socket
-                        GestionnaireReseau::obtenirInstance()->removeSocket(wSocket);
-                        break; // On doit enlever le socket globalement, impossible de recuperer de ca
-                    }
-
-                    continue;
+                    GestionnaireReseau::obtenirInstance()->getController()->handleDisconnectDetection(wSocket);
+                    breakLoop = true;
                 }
                 catch(ExceptionReseauTimeout&)
                 {
@@ -719,9 +684,13 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
             {
                 // Don't do anything
             }
+
+            if(breakLoop)
+            {
+                break;
+            }
             ++it;
         }
-		//std::cout << "loop" << std::endl;
 
         FacadePortability::sleep(10);
         wCommunicateurReseau->terminerIterationListeSocketEcoute();
@@ -765,7 +734,7 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
     while(tryConnection)
     {
 	    // Essayer de connecter le socket
-        switch(wSocket->init())
+        switch(wSocket->initClient())
         {
         case CONNECTED:
             tryConnection = false;

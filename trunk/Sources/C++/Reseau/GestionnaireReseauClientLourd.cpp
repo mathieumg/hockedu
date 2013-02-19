@@ -30,9 +30,8 @@ SINGLETON_DECLARATION_CPP(GestionnaireReseauClientLourd);
 GestionnaireReseauClientLourd::GestionnaireReseauClientLourd(): mMessageReceivedCallBack(NULL)
 {
     // Initialisation du GestionnaireReseau
-    GestionnaireReseau::setNetworkMode(CLIENT);
     GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
-    wGestionnaireReseau->init();
+    wGestionnaireReseau->initClient();
 
     // On doit ajouter une nouvelle operation reseau pour que le systeme le connaisse (1 par type de paquet)
     wGestionnaireReseau->ajouterOperationReseau(CHAT_MESSAGE, new PacketHandlerChatMessage, new UsinePaquetChatMessage);

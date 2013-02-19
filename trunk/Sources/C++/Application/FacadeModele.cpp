@@ -1696,7 +1696,7 @@ bool FacadeModele::ajusterElementEnCollision( NoeudAbstrait* noeud, const unsign
 	if(!insideLimits(noeud))
 	{
 		// Repositionne au centre de la table
-		noeud->assignerPositionRelative(Vecteur3());
+		noeud->setPosition(Vecteur3());
 	}
 
 	VisiteurCollision v(noeud,false);
@@ -1710,7 +1710,7 @@ bool FacadeModele::ajusterElementEnCollision( NoeudAbstrait* noeud, const unsign
 		v.obtenirListeCollision(liste);
 		for (int j = 0; j < liste.size()  ; j++)
 		{
-			//Vecteur3 deplacement(elementSurTable_[i]->obtenirPositionAbsolue() - liste[j]->obtenirPositionAbsolue());
+			//Vecteur3 deplacement(elementSurTable_[i]->getPosition() - liste[j]->getPosition());
 			Vecteur3 deplacement((details[j].direction*details[j].enfoncement)*-1);
 			if(deplacement.norme() == 0)
 				deplacement = Vecteur3(1.0,1.0);
@@ -1721,7 +1721,7 @@ bool FacadeModele::ajusterElementEnCollision( NoeudAbstrait* noeud, const unsign
 		if(!insideLimits(noeud))
 		{
 			// Repositionne au centre de la table
-			noeud->assignerPositionRelative(Vecteur3());
+			noeud->setPosition(Vecteur3());
 		}
 		v.reinitialiser();
 		acceptVisitor(v);
@@ -1947,7 +1947,7 @@ NoeudMaillet* FacadeModele::obtenirMailletJoueurGauche() const
 				for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
 				{
 					NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->chercher(i));
-					if(m->obtenirPositionAbsolue()[VX]<=0)
+					if(m->getPosition()[VX]<=0)
 						maillet = m;
 				}
 
@@ -1979,7 +1979,7 @@ NoeudMaillet* FacadeModele::obtenirMailletJoueurDroit() const
 				for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
 				{
 					NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->chercher(i));
-					if(m->obtenirPositionAbsolue()[VX]>0)
+					if(m->getPosition()[VX]>0)
 						maillet = m;
 				}
 				
@@ -2077,7 +2077,7 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
 		// On accede uniquement le premier element de la liste
 		NoeudAbstrait* noeudATraiter = (*listeNoeud)[0];
 
-		pos = noeudATraiter->obtenirPositionAbsolue();
+		pos = noeudATraiter->getPosition();
 		rotation = (int)noeudATraiter->obtenirAngle();
 		if(rotation<0)
 			rotation+=360;
@@ -2321,6 +2321,7 @@ void FacadeModele::modifierVue( vue::Vue* nouvelleVue )
 }
 void FacadeModele::afficherProgramInfoLog( GLuint obj, const char* message )
 {
+#if !SHIPPING 
 	// afficher le message d'en-tête
 	cout << message << endl;
 
@@ -2341,10 +2342,12 @@ void FacadeModele::afficherProgramInfoLog( GLuint obj, const char* message )
 	{
 		cout << "Aucune erreur :-)" << endl;
 	}
+#endif
 }
 void FacadeModele::afficherShaderInfoLog( GLuint obj, const char* message )
 {
-	// afficher le message d'en-tête
+#if !SHIPPING 
+    // afficher le message d'en-tête
 	cout << message << endl;
 
 	// afficher le message d'erreur, le cas échéant
@@ -2363,6 +2366,7 @@ void FacadeModele::afficherShaderInfoLog( GLuint obj, const char* message )
 	{
 		cout << "Aucune erreur :-)" << endl;
 	}
+#endif
 }
 ////////////////////////////////////////////////////////////////////////
 ///

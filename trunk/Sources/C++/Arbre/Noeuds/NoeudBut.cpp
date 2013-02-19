@@ -17,8 +17,8 @@
 #include "FacadeModele.h"
 #include "XMLUtils.h"
 #include "Utilitaire.h"
+#include "NoeudRondelle.h"
 
-//const Vecteur3 NoeudBut::DEFAULT_SIZE = Vecteur3(1,1,1);
 const Vecteur3 NoeudBut::DEFAULT_SIZE = Vecteur3(30, 10, 5);
 
 CreateListDelegateImplementation(Goal)
@@ -49,7 +49,7 @@ CreateListDelegateImplementation(Goal)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudBut::NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHaut, NoeudPoint * coinBas, NoeudComposite* pParent)
-   : NoeudComposite(typeNoeud), joueur_(joueur), coinHaut_(coinHaut), coinBas_(coinBas), mBottomAngle(0),mTopAngle(0), mPuckCatcher(NULL),mCachedPuckRadius(20.f)
+   : NoeudComposite(typeNoeud), joueur_(joueur), coinHaut_(coinHaut), coinBas_(coinBas), mBottomAngle(0),mTopAngle(0), mPuckCatcher(NULL),mCachedPuckRadius(NoeudRondelle::DEFAULT_RADIUS)
 {
     if(pParent)
     {
@@ -57,7 +57,6 @@ NoeudBut::NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHa
     }
 
 	mGoalLength = DEFAULT_SIZE[VX];
-	//echelleCourante_ = Vecteur3(30, 5, 5);
     updateLongueur();
 }
 
@@ -90,18 +89,13 @@ void NoeudBut::afficherConcret() const
     GLuint liste = NULL;
     GestionnaireModeles::obtenirInstance()->obtenirListe(type_,liste);
 
-    glTranslated(positionRelative_[0], positionRelative_[1], positionRelative_[2]);
-
     if(liste != 0 && estAffiche())
     {
-        Vecteur3 positionPoint = parent_->obtenirPositionAbsolue();
+        const Vecteur3& positionPoint = getPosition();
+        glTranslated(positionPoint[VX], positionPoint[VY], 0);
+
         Vecteur3 posBas = mBottomPosition - positionPoint;
         Vecteur3 posHaut = mTopPosition - positionPoint;
-
-        // Initialisation
-        glPushMatrix();
-        glEnable(GL_CULL_FACE);
-        glCullFace(GL_FRONT_AND_BACK);
 
         // Dessin de la partie ajustable en bas
         glPushMatrix();
@@ -147,11 +141,6 @@ void NoeudBut::afficherConcret() const
         glDisable(GL_STENCIL_TEST);
 
         glPopAttrib();
-        glPopMatrix();
-
-
-        // Fin
-        glDisable(GL_CULL_FACE);
         glPopMatrix();
     }
 
@@ -237,11 +226,11 @@ void NoeudBut::updateLongueur(float facteurModificationEchelle)
 {
 	echelleCourante_[VX]*=facteurModificationEchelle;
 
-	Vecteur3 pos = obtenirPositionAbsolue();
+	const Vecteur3& pos = getPosition();
 
-	Vecteur3 deltaHaut=(coinHaut_->obtenirPositionAbsolue()-pos)*0.85f;
+	Vecteur3 deltaHaut=(coinHaut_->getPosition()-pos)*0.85f;
 	float longueurHaut = deltaHaut.norme(); // Valeur pour ne pas que les but empiete sur les bandes
-	Vecteur3 deltaBas=(coinBas_->obtenirPositionAbsolue()-pos)*0.85f;
+	Vecteur3 deltaBas=(coinBas_->getPosition()-pos)*0.85f;
 	float longueurBas = deltaBas.norme();	// Valeur pour ne pas que les but empiete sur les bandes
 	float longueur=echelleCourante_[VX]*DEFAULT_SIZE[VX];
 	if(longueur>longueurHaut)
@@ -340,8 +329,8 @@ float NoeudBut::obtenirRayon()
 void NoeudBut::assignerAttributVisiteurCollision( VisiteurCollision* v )
 {
 	v->modifierTypeCollision(SEGMENT);
-	v->modifierCoin1(coinBas_->obtenirPositionAbsolue());
-	v->modifierCoin2(coinHaut_->obtenirPositionAbsolue());
+	v->modifierCoin1(coinBas_->getPosition());
+	v->modifierCoin2(coinHaut_->getPosition());
 	v->modifierRayonAVerifier(mGoalLength);
 }
 
@@ -455,7 +444,7 @@ void NoeudBut::updatePhysicBody()
         myBodyDef.angle = 0; //set the starting angle
 
         mPhysicBody = getWorld()->CreateBody(&myBodyDef);
-        Vecteur3 anchorPointPos = obtenirPositionAbsolue();
+        const Vecteur3& anchorPointPos = parent_->getPosition();
         b2Vec2 anchorPointPosB2, topPosB2,BottomPosB2 ;
         utilitaire::VEC3_TO_B2VEC(anchorPointPos,anchorPointPosB2);
         utilitaire::VEC3_TO_B2VEC(mTopPosition,topPosB2);
@@ -505,7 +494,7 @@ void NoeudBut::updatePuckCatcher( float puckRadius )
         }
 
         float shiftValue = ( obtenirJoueur() == 1 ? -1 : 1 ) * puckRadius * 2;
-        Vecteur3 anchorPointPosShifted = obtenirPositionAbsolue();
+        Vecteur3 anchorPointPosShifted = getPosition();
         Vecteur3 topPosShifted = mTopPosition;
         Vecteur3 bottomPosShifted = mBottomPosition;
         anchorPointPosShifted[VX] += shiftValue;

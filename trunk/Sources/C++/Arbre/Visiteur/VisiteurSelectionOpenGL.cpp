@@ -85,135 +85,12 @@ void VisiteurSelectionOpenGL::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurSelectionOpenGL::visiterNoeudComposite( NoeudComposite* noeud )
 {
-	for (unsigned int i=0; i<noeud->obtenirNombreEnfants(); i++)
+    visiterNoeudAffichable(noeud);
+    for (unsigned int i=0; i<noeud->obtenirNombreEnfants(); i++)
 	{
 		noeud->chercher(i)->acceptVisitor(*this);
 	}
 }
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void VisiteurSelectionOpenGL::visiterNoeudMuret( NodeWallAbstract* noeud )
-///
-/// Visitation d'un noeud muret.
-///
-/// @param[in] NodeWallAbstract * noeud : noeud à vérifier
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void VisiteurSelectionOpenGL::visiterNoeudMuret( NodeWallAbstract* noeud )
-{
-	visiterNoeudAffichable(noeud);
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void VisiteurSelectionOpenGL::visiterNoeudBut( NoeudBut* noeud )
-///
-/// Écriture d'un noeud représentant un but.
-///
-/// @param[in] NoeudBut * noeud : noeud à vérifier
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void VisiteurSelectionOpenGL::visiterNoeudBut( NoeudBut* noeud )
-{
-	visiterNoeudAffichable(noeud);
-	visiterNoeudComposite(noeud);
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void VisiteurSelectionOpenGL::visiterNoeudMaillet( NoeudMaillet* noeud )
-///
-/// Écriture d'un noeud représentant un maillet.
-///
-/// @param[in] NoeudMaillet * noeud : noeud à vérifier
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void VisiteurSelectionOpenGL::visiterNoeudMaillet( NoeudMaillet* noeud )
-{
-	visiterNoeudAffichable(noeud);
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void VisiteurSelectionOpenGL::visiterNoeudPortail( NoeudPortail* noeud )
-///
-/// Écriture d'un noeud représentant un portail.
-///
-/// @param[in] NoeudPortail * noeud : noeud à vérifier
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void VisiteurSelectionOpenGL::visiterNoeudPortail( NoeudPortail* noeud )
-{
-	visiterNoeudAffichable(noeud);
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void VisiteurSelectionOpenGL::visiterNoeudRondelle( NoeudRondelle* noeud )
-///
-/// Écriture d'un noeud représentant une rondelle.
-///
-/// @param[in] NoeudRondelle * noeud : noeud à vérifier
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void VisiteurSelectionOpenGL::visiterNoeudRondelle( NoeudRondelle* noeud )
-{
-	visiterNoeudAffichable(noeud);
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void VisiteurSelectionOpenGL::visiterNoeudTable( NoeudTable* noeud )
-///
-/// Écriture d'un noeud représentant une table.
-///
-/// @param[in] NoeudTable * noeud : noeud è vérifier
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void VisiteurSelectionOpenGL::visiterNoeudTable( NoeudTable* noeud )
-{
-	visiterNoeudComposite(noeud);
-}
-
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void VisiteurSelectionOpenGL::visiterNoeudPoint( NoeudPoint* noeud )
-///
-/// Visiteur de selection pour le noeudPoint
-///
-/// @param[in] NoeudPoint * noeud : noeud à vérifier
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void VisiteurSelectionOpenGL::visiterNoeudPoint( NoeudPoint* noeud )
-{
-	visiterNoeudAffichable(noeud);
-	visiterNoeudComposite(noeud);
-
-}
-
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -233,8 +110,8 @@ void VisiteurSelectionOpenGL::visiterNoeudAffichable( NoeudAbstrait* noeud )
 	// Quitte si le noeud n'est pas selectionnable
 	if(!noeud->estSelectionnable())
 		return;
-
-	if(noeudsAselectioner_->find(noeud->obtenirGlId()) != noeudsAselectioner_->end())
+    GLuint id = noeud->obtenirGlId();
+	if(noeudsAselectioner_->find(id) != noeudsAselectioner_->end())
 	{
 		if(!ctrlOn_)
 		{
@@ -253,26 +130,7 @@ void VisiteurSelectionOpenGL::visiterNoeudAffichable( NoeudAbstrait* noeud )
 		}
 		
 	}
-		
 }
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void VisiteurSelectionOpenGL::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
-///
-/// Visiteur de selection pour le noeudAccelerateur
-///
-/// @param[in] NoeudAccelerateur * noeud
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void VisiteurSelectionOpenGL::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
-{
-	visiterNoeudAffichable(noeud);
-}
-
 
 
 ///////////////////////////////////////////////////////////////////////////////

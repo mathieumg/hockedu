@@ -67,7 +67,8 @@ enum PacketTypes {
     CHAT_MESSAGE,
     USER_STATUS,
     TEST,
-    BASE
+    BASE,
+    GAME_STATUS
 };
 
 struct ConnectionStateEvent
@@ -104,18 +105,22 @@ public:
     // Port a utiliser pour les comminications de base
     static int connectionUDPPort;
 
+    // Initialise le GestionnaireReseau
+    void initClient();
+    // Initialise le GestionnaireReseau avec des fonctionnalites de serveur (listen de ports, etc.)
+    void initServer();
 
+    // Demarre la connection d'un socket TCP dans un thread separe
+    void demarrerConnectionThread(SPSocket pSocket);
 
-    // Methode d'initialisation (initialise notamment Winsock)
-	void init();
+    // Methode pour supprimer un socket dans la liste a ecouter selon son pointeur
+    void supprimerEcouteSocket(SPSocket pSocket);
 
+    // Methode a appeler dans le client quand on veut se deconnecter
     void disconnectClient(const std::string& pPlayerName, ConnectionType pConnectionType = TCP);
 
-	// Set the network mode
-	inline static void setNetworkMode(NetworkMode pNetworkMode) {mNetworkMode = pNetworkMode;}
-
-    // Get the network mode
-    inline static NetworkMode getNetworkMode() {return mNetworkMode;}
+    // Methode a appeler du serveur pour se deconnecter d'un client
+    //void disconnectOtherPlayer(const std::string& pPlayerName, ConnectionType pConnectionType = TCP);
 
 	// Get the server socket observer
 	void setSocketConnectionStateCallback(SocketConnectionStateCallback val) { mSocketStateCallback = val; }
@@ -158,6 +163,7 @@ public:
 	void removeSocket(const std::string& pNomJoueur, ConnectionType pConnectionType);
     void removeSocket(SPSocket pSocket); // Pas optimal, mais necessaire dans certains cas
 
+
     // Methode (PAS OPTIMALE) pour retourner le nom du player associee a un socket
     std::string getPlayerName(SPSocket pSocket);
 
@@ -197,6 +203,8 @@ public:
 	static ByteOrder NATIVE_BYTE_ORDER;
 private:
 
+    // Methode d'initialisation (initialise notamment Winsock)
+    void init();
 
     // Methode de nettoyage
 	void supprimerPacketHandlersEtUsines();
@@ -221,8 +229,6 @@ private:
     // Mutex pour la gestion de la liste des sockets (doit etre acquis si on modifie la liste de sockets)
     FacadePortability::HANDLE_MUTEX mMutexListeSockets;
 
-    // Network Mode (CLIENT OR SERVER)
-	static NetworkMode mNetworkMode;
 
 
 	SocketConnectionStateCallback mSocketStateCallback;

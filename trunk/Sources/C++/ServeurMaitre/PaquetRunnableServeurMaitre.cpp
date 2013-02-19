@@ -16,6 +16,8 @@
 #include <time.h>
 #include <sstream>
 #include <iomanip>
+#include <stdexcept>
+#include "../Reseau/Paquets/PaquetGameStatus.h"
 
 
 /// ***** PAR CONVENTION, METTRE Master A LA FIN DU NOM DES DELEGATES
@@ -33,7 +35,7 @@ int PaquetRunnable::RunnableLoginInfoServerMaster( Paquet* pPaquet )
 
     // On sauvearde le joueur
     JoueurServeurs* wJoueur = new JoueurServeurs(wPaquet->getUsername());
-    FacadeServeurMaitre::obtenirInstance()->saveJoueurConnecting(wJoueur);
+    FacadeServeurMaitre::obtenirInstance()->savePlayerConnecting(wJoueur);
 
     // On traite la demande avec la BD
 
@@ -100,6 +102,23 @@ int PaquetRunnable::RunnableChatMessageServerMaster( Paquet* pPaquet )
 int PaquetRunnable::RunnableUserStatusServerMaster( Paquet* pPaquet )
 {
     PaquetUserStatus* wPaquet = (PaquetUserStatus*) pPaquet;
+    throw std::runtime_error("Not yet implemented");
+
+    return 0;
+}
+
+
+
+
+int PaquetRunnable::RunnableGameStatusServerMaster( Paquet* pPaquet )
+{
+    PaquetGameStatus* wPaquet = (PaquetGameStatus*) pPaquet;
+
+    // *****On doit faire une copie du PartieServeurs avant de le propager car il sera detruit a la destruction du PaquetGameStatus
+    PartieServeurs* wPartie = new PartieServeurs(wPaquet->getGameInfos());
+
+
+    FacadeServeurMaitre::obtenirInstance()->updateGameStatus(wPartie);
 
 
     return 0;

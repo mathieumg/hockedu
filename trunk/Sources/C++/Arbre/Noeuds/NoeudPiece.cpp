@@ -53,16 +53,8 @@ NoeudPiece::~NoeudPiece()
 ////////////////////////////////////////////////////////////////////////
 void NoeudPiece::afficherConcret() const
 {
-	// Sauvegarde de la matrice.
-	glPushMatrix();
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
-
 	// Appel à la version de la classe de base pour l'affichage des enfants.
 	NoeudComposite::afficherConcret();
-
-	// Restauration de la matrice.
-	glPopAttrib();
-	glPopMatrix();
 }
 
 

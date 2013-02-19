@@ -22,6 +22,7 @@
 class NoeudPortail : public NoeudAbstrait
 {
 public:
+    typedef NoeudAbstrait Super;
    /// Constructeur à partir du type du noeud.
    NoeudPortail(const std::string& typeNoeud);
    /// Destructeur.

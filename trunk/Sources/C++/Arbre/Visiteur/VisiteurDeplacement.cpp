@@ -20,6 +20,7 @@
 #include "NoeudAccelerateur.h"
 #include "aiScene.h"
 #include "Modele3D.h"
+#include "..\Noeuds\NodeControlPoint.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -91,9 +92,7 @@ void VisiteurDeplacement::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 	if(!ignoreSelection_ && !noeud->estSelectionne())
 		return;
 
-
-	noeud->assignerPositionRelative(noeud->obtenirPositionRelative()+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
-
+	noeud->setPosition(noeud->getPosition()+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
 }
 
 
@@ -148,6 +147,7 @@ void VisiteurDeplacement::visiterNoeudMuret( NodeWallAbstract* noeud )
     NoeudMuret* muret = (NoeudMuret*)noeud;
     muret->assignerPositionCoin(1, noeud->obtenirCoin1()+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
 	muret->assignerPositionCoin(2, noeud->obtenirCoin2()+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
+    visiterNoeudComposite(noeud);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -251,7 +251,7 @@ void VisiteurDeplacement::visiterNoeudPoint( NoeudPoint* noeud )
 	//const GroupeTripleAdresseFloat* liste = noeud->obtenirListePointsAChanger();
 	//const GroupeTripleAdresseFloat* listeSym = noeud->obtenirPointSym()->obtenirListePointsAChanger();
 
-	Vecteur3 posRelative = noeud->obtenirPositionRelative();
+	const Vecteur3& posRelative = noeud->getPosition();
     TypePosPoint type = noeud->obtenirTypePosNoeud();
     // check pour les noeuds Haut et bas milieu
 
@@ -262,7 +262,7 @@ void VisiteurDeplacement::visiterNoeudPoint( NoeudPoint* noeud )
 		if(noeud->validerDeplacement(posRelative, deplacement_,VY))
 		{
 			noeud->assignerPositionRelative(posRelative+Vecteur3(0, deplacement_[VY], 0));
-			noeud->obtenirPointSym()->assignerPositionRelative(noeud->obtenirPointSym()->obtenirPositionRelative()+Vecteur3(0, -deplacement_[VY], 0));
+			noeud->obtenirPointSym()->assignerPositionRelative(noeud->obtenirPointSym()->getPosition()+Vecteur3(0, -deplacement_[VY], 0));
 		}
 	}
 	else if(type == POSITION_MILIEU_GAUCHE || type == POSITION_MILIEU_DROITE)
@@ -270,7 +270,7 @@ void VisiteurDeplacement::visiterNoeudPoint( NoeudPoint* noeud )
 		if(noeud->validerDeplacement(posRelative, -deplacement_,VX))
 		{
 			noeud->assignerPositionRelative(posRelative+Vecteur3(-deplacement_[VX], 0, 0));
-			noeud->obtenirPointSym()->assignerPositionRelative(noeud->obtenirPointSym()->obtenirPositionRelative()+Vecteur3(deplacement_[VX],0, 0));			
+			noeud->obtenirPointSym()->assignerPositionRelative(noeud->obtenirPointSym()->getPosition()+Vecteur3(deplacement_[VX],0, 0));			
 		}
 	}
 
@@ -279,7 +279,7 @@ void VisiteurDeplacement::visiterNoeudPoint( NoeudPoint* noeud )
 		if(noeud->validerDeplacement(posRelative, deplacement_,VY) && noeud->validerDeplacement(posRelative, -deplacement_,VX))
 		{
 			noeud->assignerPositionRelative(posRelative+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
-			noeud->obtenirPointSym()->assignerPositionRelative(noeud->obtenirPointSym()->obtenirPositionRelative()+deplacement_.convertir<3>());
+			noeud->obtenirPointSym()->assignerPositionRelative(noeud->obtenirPointSym()->getPosition()+deplacement_.convertir<3>());
 		}
 	}
 
@@ -308,6 +308,22 @@ void VisiteurDeplacement::visiterNoeudPoint( NoeudPoint* noeud )
 void VisiteurDeplacement::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
 {
 	visiterNoeudAbstrait(noeud);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void VisiteurDeplacement::visiterNodeControlPoint( NodeControlPoint* noeud )
+///
+/// Visitation d'un noeud point de control
+///
+/// @param[in] NodeControlPoint * noeud
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void VisiteurDeplacement::visiterNodeControlPoint( NodeControlPoint* noeud )
+{
+    visiterNoeudAbstrait(noeud);
 }
 
 

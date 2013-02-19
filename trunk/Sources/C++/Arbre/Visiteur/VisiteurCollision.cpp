@@ -17,6 +17,7 @@
 #include "NoeudTable.h"
 #include "NoeudPoint.h"
 #include "NoeudAccelerateur.h"
+#include "Noeuds\NodeControlPoint.h"
 
 
 
@@ -38,7 +39,7 @@ VisiteurCollision::VisiteurCollision( NoeudAbstrait* noeudAVerifier , bool flag 
 	collision_ = false;
 	noeudAVerifier_ = noeudAVerifier;
 	noeudAVerifier->assignerAttributVisiteurCollision(this);
-	positionAVerifier_ = noeudAVerifier->obtenirPositionAbsolue().convertir<2>();
+	positionAVerifier_ = noeudAVerifier->getPosition().convertir<2>();
 
 
 	/// PAS OUBLIER DE REINITIALISER LES NOUVELLES VARIABLE DANS LA METHODE REINITIALISER
@@ -207,14 +208,14 @@ void VisiteurCollision::visiterNoeudBut( NoeudBut* noeud )
 	case SEGMENT:
 		{
 			aidecollision::DetailsCollision detailsCollision1 =aidecollision::calculerCollisionSegmentSegment(
-				noeud->obtenirParent()->obtenirPositionAbsolue().convertir<2>(),
+				noeud->obtenirParent()->getPosition().convertir<2>(),
 				noeud->obtenirPositionHaut().convertir<2>(),
 				coin1_.convertir<2>(),
 				coin2_.convertir<2>(),
 				Vecteur2()	// Pas besoin de connaitre le point d'intersection des segments
 				);
 			aidecollision::DetailsCollision detailsCollision2 =aidecollision::calculerCollisionSegmentSegment(
-				noeud->obtenirParent()->obtenirPositionAbsolue().convertir<2>(),
+				noeud->obtenirParent()->getPosition().convertir<2>(),
 				noeud->obtenirPositionBas().convertir<2>(),
 				coin1_.convertir<2>(),
 				coin2_.convertir<2>(),
@@ -248,8 +249,8 @@ void VisiteurCollision::visiterNoeudBut( NoeudBut* noeud )
 			break;
 		}
 	default: // Aussi pour cercle
-		aidecollision::DetailsCollision detailsCollision1 = aidecollision::calculerCollisionSegment(noeud->obtenirParent()->obtenirPositionAbsolue(), noeud->obtenirPositionHaut(), positionAVerifier_.convertir<3>(), rayonAVerifier_);
-		aidecollision::DetailsCollision detailsCollision2 = aidecollision::calculerCollisionSegment(noeud->obtenirParent()->obtenirPositionAbsolue(), noeud->obtenirPositionBas(), positionAVerifier_.convertir<3>(), rayonAVerifier_);
+		aidecollision::DetailsCollision detailsCollision1 = aidecollision::calculerCollisionSegment(noeud->obtenirParent()->getPosition(), noeud->obtenirPositionHaut(), positionAVerifier_.convertir<3>(), rayonAVerifier_);
+		aidecollision::DetailsCollision detailsCollision2 = aidecollision::calculerCollisionSegment(noeud->obtenirParent()->getPosition(), noeud->obtenirPositionBas(), positionAVerifier_.convertir<3>(), rayonAVerifier_);
 		
 		if(detailsCollision1.type == aidecollision::COLLISION_AUCUNE && detailsCollision2.type == aidecollision::COLLISION_AUCUNE)
 			break;
@@ -388,16 +389,17 @@ void VisiteurCollision::visiterNoeudTable( NoeudTable* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurCollision::visiterNoeudPoint( NoeudPoint* noeud )
 {
+    // do not do collision detection with control points
 
-	switch(typeCollision_)
-	{
-	case SEGMENT: // Collision Cercle-Segment
-		detectionCollisionCercleSegment(noeud);
-		break;
-	default: // Collision Cercle-Cercle
-		detectionCollisionCercleCercle(noeud);
-		break;
-	}
+// 	switch(typeCollision_)
+// 	{
+// 	case SEGMENT: // Collision Cercle-Segment
+// 		detectionCollisionCercleSegment(noeud);
+// 		break;
+// 	default: // Collision Cercle-Cercle
+// 		detectionCollisionCercleCercle(noeud);
+// 		break;
+// 	}
 	visiterNoeudComposite(noeud);
 }
 
@@ -445,7 +447,7 @@ void VisiteurCollision::detectionCollisionCercleCercle( NoeudAbstrait* noeud )
 	if(noeud == noeudAVerifier_)
 		return;
 
-	aidecollision::DetailsCollision detailsCollision = aidecollision::calculerCollisionSphere(positionAVerifier_.convertir<3>(),rayonAVerifier_,noeud->obtenirPositionAbsolue(),noeud->obtenirRayon());
+	aidecollision::DetailsCollision detailsCollision = aidecollision::calculerCollisionSphere(positionAVerifier_.convertir<3>(),rayonAVerifier_,noeud->getPosition(),noeud->obtenirRayon());
 
 	if(detailsCollision.type != aidecollision::COLLISION_AUCUNE)
 	{
@@ -494,9 +496,9 @@ void VisiteurCollision::detectionCollisionCercleSegment( NoeudAbstrait* noeud )
 	if(noeud == noeudAVerifier_)
 		return;
 
-	Vecteur3 positionNoeudCercle = noeud->obtenirPositionAbsolue();
+	const Vecteur3& positionNoeudCercle = noeud->getPosition();
 
-	aidecollision::DetailsCollision detailsCollision = aidecollision::calculerCollisionSegment(coin1_, coin2_, noeud->obtenirPositionAbsolue(), noeud->obtenirRayon());
+	aidecollision::DetailsCollision detailsCollision = aidecollision::calculerCollisionSegment(coin1_, coin2_, noeud->getPosition(), noeud->obtenirRayon());
 	if(detailsCollision.type!=aidecollision::COLLISION_AUCUNE)
 	{
 		collision_ = true;
@@ -525,7 +527,7 @@ void VisiteurCollision::detectionCollisionCercleSegment( NoeudAbstrait* noeud )
 bool VisiteurCollision::collisionPresente() const
 {
 	if(noeudAVerifier_!=NULL)
-		if(noeudAVerifier_->obtenirType() == RazerGameUtilities::NOM_POINT)
+		if(noeudAVerifier_->obtenirType() == RazerGameUtilities::NAME_TABLE_CONTROL_POINT)
 			return false;
 	return collision_;
 }
@@ -562,7 +564,24 @@ void VisiteurCollision::reinitialiser()
 	noeudsCollision_.clear();
 	conteneurDetailsCollision.clear();
 	noeudAVerifier_->assignerAttributVisiteurCollision(this);
-	positionAVerifier_ = noeudAVerifier_->obtenirPositionAbsolue().convertir<2>();
+	positionAVerifier_ = noeudAVerifier_->getPosition().convertir<2>();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void VisiteurCollision::visiterNodeControlPoint( NodeControlPoint* noeud )
+///
+/// /*Description*/
+///
+/// @param[in] NodeControlPoint * noeud
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void VisiteurCollision::visiterNodeControlPoint( NodeControlPoint* noeud )
+{
+    // do not do collision detection with control points
+    VisitParent(NodeControlPoint);
 }
 
 

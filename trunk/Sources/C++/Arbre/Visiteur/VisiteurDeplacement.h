@@ -49,7 +49,10 @@ public:
 	virtual void visiterNoeudPoint( NoeudPoint* noeud );
 	/// Visitation d'un noeud accélérateur
 	virtual void visiterNoeudAccelerateur( NoeudAccelerateur* noeud );
-	
+    /// Visitation d'un noeud point de control
+    virtual void visiterNodeControlPoint( NodeControlPoint* noeud );
+
+
 private:
 	/// Indique si on ignore la sélection pour faire le déplacement
 	bool ignoreSelection_;

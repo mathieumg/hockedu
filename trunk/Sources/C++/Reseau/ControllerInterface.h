@@ -15,6 +15,8 @@
 #include <ext/hash_map>
 namespace std {using namespace __gnu_cxx; }
 #endif
+#include "Socket.h"
+
 typedef int PaquetTypes;
 typedef int (*PaquetRunnableFunc) (class Paquet*);
 
@@ -28,8 +30,11 @@ typedef int (*PaquetRunnableFunc) (class Paquet*);
 class ControllerInterface
 {
 public:
-    virtual void handleEvent(int pEventCode,  va_list pListeElems) = 0;
     PaquetRunnableFunc getRunnable(PaquetTypes pType) const;
+
+
+    virtual void handleEvent(int pEventCode,  va_list pListeElems) = 0;
+    virtual void handleDisconnectDetection(SPSocket pSocket);
 
 protected:
     std::hash_map<PaquetTypes, PaquetRunnableFunc> mPaquetRunnables;

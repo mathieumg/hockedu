@@ -12,6 +12,8 @@
 #include <string>
 
 
+typedef std::string PlayerIdentifier;
+
 ///////////////////////////////////////////////////////////////////////////
 /// @class JoueurServeurs
 /// @brief Classe qui represente un joueur qui est connecte au serveur maitre
@@ -30,6 +32,7 @@ public:
     JoueurServeurs(const std::string& pName);
 	~JoueurServeurs();
 
+    PlayerIdentifier getIdentifier() {return mName;}
 
     std::string getName() const { return mName; }
 

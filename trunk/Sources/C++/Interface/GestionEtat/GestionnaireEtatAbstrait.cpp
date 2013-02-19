@@ -24,6 +24,7 @@
 #include "Partie.h"
 #include "NoeudRondelle.h"
 #include "NoeudMaillet.h"
+#include "SourisEtatAjoutControlPointMutable.h"
 
 HANDLE mutexMouseState;
 
@@ -81,6 +82,9 @@ void GestionnaireEtatAbstrait::modifierEtatSouris( NomEtatSouris etatSouris )
 		else
 			delete etatSouris_;
     etatSouris_ = NULL;
+
+    // petit hack pour pouvoir ajouter des polygones
+    static int i=0;
 	switch(etatSouris)
 	{
 		case ETAT_SOURIS_DEPLACER_FENETRE			: etatSouris_ = new SourisEtatDeplacerFenetre			();	break;
@@ -91,11 +95,11 @@ void GestionnaireEtatAbstrait::modifierEtatSouris( NomEtatSouris etatSouris )
 		case ETAT_SOURIS_TRANSFORMATION_DEPLACEMENT	: etatSouris_ = new SourisEtatTransformationDeplacement	();	break;
 		case ETAT_SOURIS_SELECTION					: etatSouris_ = new SourisEtatSelection					();	break;
 		case ETAT_SOURIS_AJOUTER_PORTAIL			: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_PORTAIL);	break;
-		case ETAT_SOURIS_AJOUTER_MURET				: etatSouris_ = new SourisEtatAjoutMuret				();	break;
+        case ETAT_SOURIS_AJOUTER_MURET				: etatSouris_ = new SourisEtatAjoutControlPointMutable  ( (i++)&0 ? RazerGameUtilities::NAME_RELATIVE_WALL : RazerGameUtilities::NAME_POLYGONE);	break;
 		case ETAT_SOURIS_AJOUTER_MAILLET			: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_MAILLET);	break;
 		case ETAT_SOURIS_AJOUTER_RONDELLE			: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_RONDELLE);	break;
 		case ETAT_SOURIS_AJOUTER_ACCELERATEUR		: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_ACCELERATEUR);	break;
-		case ETAT_SOURIS_ORBIT						: etatSouris_ = new SourisEtatOrbit						();	break;
+		case ETAT_SOURIS_ORBIT						: etatSouris_ = new SourisEtatOrbit                     ();	break;
 	}
 }
 
@@ -196,7 +200,7 @@ void GestionnaireEtatAbstrait::gestionAnimationEnJeu( Partie* partieCourante, co
 			Vecteur3 directionHaut = camera->obtenirDirectionHaut();
 			if(rondelle!=0)
 			{
-				pointVise = rondelle->obtenirPositionAbsolue();
+				pointVise = rondelle->getPosition();
 				//directionHaut = 
 			}
 			AnimationFrame* animationFrameCamera = new AnimationFrame(temps*1000, camera->obtenirPosition(), pointVise, directionHaut);
@@ -206,21 +210,21 @@ void GestionnaireEtatAbstrait::gestionAnimationEnJeu( Partie* partieCourante, co
 		}
 		if(maillet1)
 		{
-			AnimationFrame* animationFrameMaillet1 = new AnimationFrame(temps*1000, maillet1->obtenirPositionRelative(), Vecteur3(0, 0, maillet1->obtenirAngle()));
+			AnimationFrame* animationFrameMaillet1 = new AnimationFrame(temps*1000, maillet1->getPosition(), Vecteur3(0, 0, maillet1->obtenirAngle()));
 			AnimationRepriseFrame* animationRepriseFrameMaillet1 = new AnimationRepriseFrame(animationFrameMaillet1, maillet1);
 
 			listeAnimationFrame.push_back(animationRepriseFrameMaillet1);
 		}
 		if(maillet2)
 		{
-			AnimationFrame* animationFrameMaillet2 = new AnimationFrame(temps*1000, maillet2->obtenirPositionRelative(), Vecteur3(0, 0, maillet2->obtenirAngle()));
+			AnimationFrame* animationFrameMaillet2 = new AnimationFrame(temps*1000, maillet2->getPosition(), Vecteur3(0, 0, maillet2->obtenirAngle()));
 			AnimationRepriseFrame* animationRepriseFrameMaillet2 = new AnimationRepriseFrame(animationFrameMaillet2, maillet2);
 
 			listeAnimationFrame.push_back(animationRepriseFrameMaillet2);
 		}
 		if(rondelle)
 		{
-			AnimationFrame* animationFrameRondelle = new AnimationFrame(temps*1000, rondelle->obtenirPositionRelative(), Vecteur3(0, 0, rondelle->obtenirAngle()));
+			AnimationFrame* animationFrameRondelle = new AnimationFrame(temps*1000, rondelle->getPosition(), Vecteur3(0, 0, rondelle->obtenirAngle()));
 			AnimationRepriseFrame* animationRepriseFrameRondelle = new AnimationRepriseFrame(animationFrameRondelle, rondelle);
 
 			listeAnimationFrame.push_back(animationRepriseFrameRondelle);

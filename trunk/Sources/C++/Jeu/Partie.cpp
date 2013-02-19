@@ -392,9 +392,9 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 	NoeudMaillet* maillet2 = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
 
 	// Positionnement
-	rondelle->assignerPositionRelative(rondelle->obtenirPositionOriginale());
-	maillet1->assignerPositionRelative(maillet1->obtenirPositionOriginale());
-	maillet2->assignerPositionRelative(maillet2->obtenirPositionOriginale());
+	rondelle->setPosition(rondelle->obtenirPositionOriginale());
+	maillet1->setPosition(maillet1->obtenirPositionOriginale());
+	maillet2->setPosition(maillet2->obtenirPositionOriginale());
 	rondelle->modifierVitesseRotation(0);
 
 	int dureeAnimationIntro = 0;
