@@ -552,7 +552,7 @@ void GestionnaireReseau::saveSocket( const std::string& pNomJoueur, SPSocket pSo
     {
 	    mCommunicateurReseau.ajouterSocketEcoute(pSocket);
     }
-    FacadePortability::takeMutex(mMutexListeSockets);
+    FacadePortability::releaseMutex(mMutexListeSockets);
 }
 
 

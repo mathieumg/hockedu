@@ -44,6 +44,8 @@ namespace UIHeavyClient
         public static void GoToMainMenu()
         {
             Context.WindowContentControl.Content = Context.MainMenuControl;
+            Context.MainMenuControl.InitOperations();
+
             Context.EditionModeControl.RemoveOpenGL();
             Context.PlayModeControl.RemoveOpenGL();
         }

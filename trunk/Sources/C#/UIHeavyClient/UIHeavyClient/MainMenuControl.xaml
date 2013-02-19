@@ -4,13 +4,32 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="320" Width="374.323">
-    <Grid Name="mGrid" Height="Auto" Background="#FF323232">
-        <Button Content="Edition Mode" Height="41" HorizontalAlignment="Left" Margin="12,12,0,0" Name="editionModeButton" VerticalAlignment="Top" Width="164" Click="editionModeButton_Click" />
-        <Button Content="Quick Play" Height="41" HorizontalAlignment="Left" Margin="12,73,0,0" Name="quickPlayButton" VerticalAlignment="Top" Width="164" Click="quickPlayButton_Click" />
-        <Button Content="Tournament" Height="41" HorizontalAlignment="Left" Margin="12,134,0,0" Name="tournamentButton" VerticalAlignment="Top" Width="164" Click="tournamentButton_Click" />
-        <Button Content="Online Lobby" Height="41" HorizontalAlignment="Left" Margin="12,195,0,0" Name="onlineModeButton" VerticalAlignment="Top" Width="164" Click="onlineModeButton_Click" />
-        <Button Content="Options" Height="41" HorizontalAlignment="Left" Margin="12,256,0,0" Name="optionButton" VerticalAlignment="Top" Width="164" Click="optionButton_Click" />
-        <Button Content="Unit Test" Height="41" HorizontalAlignment="Left" Margin="195,256,-170,0" Name="mUnitTestButton" VerticalAlignment="Top" Width="164" />
+             d:DesignHeight="578" Width="Auto" Height="Auto" d:DesignWidth="846">
+    <Grid Name="mGrid" Height="Auto" Background="Black" Width="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="99*" />
+            <RowDefinition Height="404*" />
+            <RowDefinition Height="83*" />
+        </Grid.RowDefinitions>
+        <Button Content="Edition Mode" Height="41" HorizontalAlignment="Left" Margin="12,40,0,0" Name="mEditionModeButton" VerticalAlignment="Top" Width="164" Click="editionModeButton_Click" Grid.Row="1" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" />
+        <Button Content="Quick Play" Height="41" HorizontalAlignment="Left" Margin="12,101,0,0" Name="mQuickPlayButton" VerticalAlignment="Top" Width="164" Click="quickPlayButton_Click" Grid.Row="1" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" />
+        <Button Content="Tournament" Height="41" HorizontalAlignment="Left" Margin="12,162,0,0" Name="mTournamentButton" VerticalAlignment="Top" Width="164" Click="tournamentButton_Click" Grid.Row="1" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" />
+        <Button Content="Online Mode" Height="41" HorizontalAlignment="Left" Margin="12,223,0,0" Name="mOnlineModeButton" VerticalAlignment="Top" Width="164" Click="onlineModeButton_Click" Grid.Row="1" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" />
+        <Button Content="Options" Height="41" HorizontalAlignment="Left" Margin="12,284,0,0" Name="mOptionButton" VerticalAlignment="Top" Width="164" Click="optionButton_Click" Grid.Row="1" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" />
+        <Button Content="Unit Tests" Height="41" HorizontalAlignment="Left" Margin="12,348,0,0" Name="mUnitTestButton" VerticalAlignment="Top" Width="164" Grid.Row="1" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" />
+        <Label Content="HOCKEDU" HorizontalAlignment="Stretch" Margin="0,0,8,14" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="72" Grid.Row="0" />
+        <Label Content="" Grid.Row="2" Height="Auto" HorizontalAlignment="Right" Margin="0,14,0,12" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" />
+        <GroupBox Grid.Row="1" Header="Quick Play" Height="190" HorizontalAlignment="Left" Margin="224,101,0,0" Name="mQuickPlayGroupBox" VerticalAlignment="Top" Width="292" Foreground="White" >
+            <Grid Height="Auto" Width="Auto" Name="mQuickPlayGrid">
+                <Button Content="Go!" Height="23" HorizontalAlignment="Left" Margin="231,138,0,0" Name="mQuickPlayGoButton" VerticalAlignment="Top" Width="43" Background="Black" Foreground="White" Click="mQuickPlayGoButton_Click" />
+                <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="182,138,0,0" Name="mQuickPlayCancelButton" VerticalAlignment="Top" Width="43" Background="Black" Foreground="White" Click="mQuickPlayCancelButton_Click" />
+                <Label Content="Choose your opponent" Height="Auto" HorizontalAlignment="Left" Margin="6,6,0,0" Name="mOpponentLabel" VerticalAlignment="Top" Foreground="White" />
+                <Label Content="Choose a map" Height="Auto" HorizontalAlignment="Left" Margin="6,78,0,0" Name="mMapLabel" VerticalAlignment="Top" Width="Auto" Foreground="White" />
+                <RadioButton Content="Human Player" Height="16" HorizontalAlignment="Left" Margin="16,42,0,0" Name="mHumanRadio" VerticalAlignment="Top" GroupName="rgOpponentRadios" Foreground="White" IsChecked="True" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+                <RadioButton Content="AI" Height="16" HorizontalAlignment="Left" Margin="16,57,0,0" Name="mAIRadio" VerticalAlignment="Top" GroupName="rgOpponentRadios" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+                <ComboBox Height="23" HorizontalAlignment="Left" Margin="115,57,0,0" Name="mAIComboBox" VerticalAlignment="Top" Width="120" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+                <ComboBox Height="23" HorizontalAlignment="Left" Margin="6,105,0,0" Name="mMapComboBox" VerticalAlignment="Top" Width="120" />
+            </Grid>
+        </GroupBox>
     </Grid>
 </UserControl>

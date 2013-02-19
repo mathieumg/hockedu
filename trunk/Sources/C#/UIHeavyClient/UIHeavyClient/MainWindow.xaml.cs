@@ -135,6 +135,11 @@ namespace UIHeavyClient
         {
             MainWindowHandler.GoToMainMenu();
         }
+
+        private void OpenWebSite(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.hockedu.com");
+        }
       
 
         void MainWindow_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
