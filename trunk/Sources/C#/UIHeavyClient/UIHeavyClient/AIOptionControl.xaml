@@ -4,8 +4,40 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
+             d:DesignHeight="603" d:DesignWidth="832">
+    <Grid Name="mGrid" Height="Auto" Background="Black" Width="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="271*" />
+            <ColumnDefinition Width="561*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90*" />
+            <RowDefinition Height="446*" />
+            <RowDefinition Height="67*" />
+        </Grid.RowDefinitions>
+        <Label Content="AI CONFIGURATION" HorizontalAlignment="Stretch" Margin="0,0,8,8" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="72" Grid.ColumnSpan="2" />
+        <Label Content="" Grid.Row="2" Height="Auto" HorizontalAlignment="Right" Margin="0,14,0,12" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" Grid.Column="1" />
+        <Button Content="Option Menu" Grid.Row="2" Height="37" HorizontalAlignment="Left" Margin="12,16,0,0" Name="mBackToOptionButton" VerticalAlignment="Top" Width="124" Background="Black" Foreground="White" Click="mBackToOptionButton_Click" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="18" />
+        <Button Content="Main Menu" Height="37" HorizontalAlignment="Left" Margin="142,16,0,0" Name="mBackToMainButton" VerticalAlignment="Top" Width="117" Grid.Row="2" Background="Black" Foreground="White" Click="mBackToMainButton_Click" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="18" />
+        <GroupBox Grid.Row="1" Header="Current AI profiles" Height="395" HorizontalAlignment="Left" Margin="12,26,0,0" Name="mCurrentProfilesGroupBox" VerticalAlignment="Top" Width="228" Foreground="White">
+            <Grid>
+                <Button Content="Add New" Height="33" HorizontalAlignment="Left" Margin="105,320,0,0" Name="mAddButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" />
+                <Button Content="Delete" Height="33" HorizontalAlignment="Left" Margin="6,320,0,0" Name="mDeleteButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" />
+                <ListBox Height="278" HorizontalAlignment="Left" Margin="18,28,0,0" Name="mCurrentAIList" VerticalAlignment="Top" Width="162" Background="Black" Foreground="White" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Grid.Row="1" Header="Profile Edition" Height="247" HorizontalAlignment="Left" Margin="21,88,0,0" Name="mCurrentEditGroupBox" VerticalAlignment="Top" Width="528" Foreground="White">
+            <Grid Height="Auto">
+                <Button Content="Save" Height="31" HorizontalAlignment="Left" Margin="15,177,0,0" Name="mSaveButton" VerticalAlignment="Top" Width="62" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" />
+                <Label Content="Profile's Name :" Foreground="White" Height="Auto" HorizontalAlignment="Left" Margin="15,21,0,0" Name="mProfileNameLabel" VerticalAlignment="Top" />
+                <Label Content="Speed : " Foreground="White" Height="Auto" HorizontalAlignment="Left" Margin="15,77,0,0" Name="mProfileSpeedLabel" VerticalAlignment="Top" />
+                <Label Content="Reflexes : " Foreground="White" Height="Auto" HorizontalAlignment="Left" Margin="15,120,0,0" Name="mProfileReflexLabel" VerticalAlignment="Top" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="113,24,0,0" Name="mProfileNameTextBox" VerticalAlignment="Top" Width="120" Background="Black" Foreground="White" />
+                <Slider Height="23" HorizontalAlignment="Left" Margin="113,80,0,0" Name="mSpeedSlider" VerticalAlignment="Top" Width="265" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+                <Slider Height="23" HorizontalAlignment="Left" Margin="113,120,0,0" Name="mReflexSlider" VerticalAlignment="Top" Width="265" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+                <Label Content="{Binding ElementName=mSpeedSlider, Path=Value}" Foreground="#FF00D500" Height="Auto" HorizontalAlignment="Left" Margin="384,77,0,0" Name="mSpeedDisplayLabel" VerticalAlignment="Top" Width="80" />
+                <Label Content="{Binding ElementName=mReflexSlider, Path=Value}" Foreground="#FF00D500" Height="Auto" HorizontalAlignment="Right" Margin="0,120,52,0" Name="mReflexDisplayLabel" VerticalAlignment="Top" Width="80" />
+            </Grid>
+        </GroupBox>
     </Grid>
 </UserControl>

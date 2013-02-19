@@ -4,8 +4,37 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="302" d:DesignWidth="404">
-    <Grid>
-            
+             d:DesignHeight="574" d:DesignWidth="867">
+    <Grid Name="mGrid" Height="Auto" Background="Black" Width="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="342*" />
+            <ColumnDefinition Width="525*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90*" />
+            <RowDefinition Height="446*" />
+            <RowDefinition Height="67*" />
+        </Grid.RowDefinitions>
+        <Label Content="RADIO CONFIGURATION" HorizontalAlignment="Stretch" Margin="0,0,8,8" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="72" Grid.ColumnSpan="2" />
+        <Label Content="" Grid.Row="2" Height="Auto" HorizontalAlignment="Right" Margin="0,14,0,12" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" Grid.Column="1" />
+        <Button Content="Option Menu" Grid.Row="2" Height="37" HorizontalAlignment="Left" Margin="12,16,0,0" Name="mBackToOptionButton" VerticalAlignment="Top" Width="124" Background="Black" Foreground="White" Click="mBackToOptionButton_Click" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+        <Button Content="Main Menu" Height="37" HorizontalAlignment="Left" Margin="142,16,0,0" Name="mBackToMainButton" VerticalAlignment="Top" Width="117" Grid.Row="2" Background="Black" Foreground="White" Click="mBackToMainButton_Click" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+        <GroupBox Grid.Row="1" Header="Current Playlists" Height="395" HorizontalAlignment="Left" Margin="12,26,0,0" Name="mCurrentPlaylistsGroupBox" VerticalAlignment="Top" Width="311" Foreground="White">
+            <Grid>
+                <Button Content="Add New" Height="33" HorizontalAlignment="Left" Margin="105,320,0,0" Name="mPlaylistAddButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" FontSize="16" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+                <Button Content="Delete" Height="33" HorizontalAlignment="Left" Margin="6,320,0,0" Name="mPlaylistDeleteButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" FontSize="16" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+                <ListBox Height="278" HorizontalAlignment="Left" Margin="18,28,0,0" Name="mCurrentPlaylistsList" VerticalAlignment="Top" Width="240" Background="Black" Foreground="White" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Grid.Row="1" Header="Playlist Edition" Height="389" HorizontalAlignment="Left" Margin="19,25,0,0" Name="mCurrentEditGroupBox" VerticalAlignment="Top" Width="413" Foreground="White">
+            <Grid Height="Auto">
+                <Label Content="Playlist's Name :" Foreground="White" Height="Auto" HorizontalAlignment="Left" Margin="6,6,0,0" Name="mPlaylistNameLabel" VerticalAlignment="Top" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="107,9,0,0" Name="mPlaylistNameTextBox" VerticalAlignment="Top" Width="120" Background="Black" Foreground="White" />
+                <Button Background="Black" Content="Add New" FontSize="16" Foreground="White" Height="33" HorizontalAlignment="Left" Margin="107,327,0,0" Name="mSongAddButton" VerticalAlignment="Top" Width="75" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+                <Button Background="Black" Content="Delete" FontSize="16" Foreground="White" Height="33" HorizontalAlignment="Left" Margin="15,327,0,0" Name="mSongDeleteButton" VerticalAlignment="Top" Width="75" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+                <ListBox Background="Black" Foreground="White" Height="251" HorizontalAlignment="Left" Margin="15,65,0,0" Name="mSongsLabel" VerticalAlignment="Top" Width="260" />
+                <Label Content="Playlist's Songs :" Foreground="White" Height="Auto" HorizontalAlignment="Left" Margin="15,38,0,0" Name="mSongsListLabel" VerticalAlignment="Top" />
+            </Grid>
+        </GroupBox>
     </Grid>
 </UserControl>

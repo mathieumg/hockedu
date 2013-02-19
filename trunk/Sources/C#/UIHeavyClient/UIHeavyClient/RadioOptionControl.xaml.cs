@@ -19,9 +19,41 @@ namespace UIHeavyClient
     /// </summary>
     public partial class RadioOptionControl : UserControl
     {
+        Dictionary<object, string> mGuidanceMessages;
+
         public RadioOptionControl()
         {
             InitializeComponent();
+
+            mGuidanceMessages = new Dictionary<object, string>()
+            {
+                {mPlaylistAddButton, "Add a new playlist"},
+                {mPlaylistDeleteButton, "Delete selected playlist"},
+                {mSongAddButton, "Add a new song"},
+                {mSongDeleteButton, "Delete selected song"},
+                {mBackToOptionButton, "Return to option menu"},
+                {mBackToMainButton, "Return to main menu"},
+            };
+        }
+
+        private void mBackToOptionButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowHandler.GoToOptionsMenu();
+        }
+
+        private void mBackToMainButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowHandler.GoToMainMenu();
+        }
+
+        private void DisplayGuidanceMessages(object sender, MouseEventArgs e)
+        {
+            mGuidanceLabel.Content = mGuidanceMessages[sender];
+        }
+
+        private void ClearGuidanceMessages(object sender, MouseEventArgs e)
+        {
+            mGuidanceLabel.Content = "";
         }
     }
 }
