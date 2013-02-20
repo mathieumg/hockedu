@@ -1,6 +1,6 @@
 
 #include "PacketHandlerGameStatus.h"
-#include "..\Paquets\PaquetGameStatus.h"
+#include "../Paquets/PaquetGameStatus.h"
 
 
 void PacketHandlerGameStatus::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)
@@ -12,7 +12,7 @@ void PacketHandlerGameStatus::handlePacketReceptionSpecific(PacketReader& pPacke
 
         // GameId
         wPaquet->setGameId(pPacketReader.readInteger());
-        
+
         // Player1Name
         int wArraySize      = pPacketReader.readInteger();
         uint8_t* wBuffer    = new uint8_t[wArraySize];
@@ -42,14 +42,14 @@ void PacketHandlerGameStatus::handlePacketReceptionSpecific(PacketReader& pPacke
     }
 
 
-    
+
 }
 
 void PacketHandlerGameStatus::handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder)
 {
     PaquetGameStatus* wPaquet   = (PaquetGameStatus*) pPaquet;
 
-    
+
     PartieServeurs* wGameInfos  = wPaquet->getGameInfos();
 
     pPacketBuilder << wGameInfos->getUniqueGameId()
@@ -58,7 +58,7 @@ void PacketHandlerGameStatus::handlePacketPreparationSpecific(Paquet* pPaquet, P
         << wGameInfos->getPlayer1Score()
         << wGameInfos->getPlayer2Score()
         << wGameInfos->getTime(); // time_t est represente par iun int
-    
+
 }
 
 
@@ -67,7 +67,7 @@ int PacketHandlerGameStatus::getPacketSizeSpecific( Paquet* pPaquet ) const
 {
     PaquetGameStatus* wPaquet = (PaquetGameStatus*) pPaquet;
     PartieServeurs* wGameInfos = wPaquet->getGameInfos();
-    
+
     return PacketBuilder::getSizeForInt() // GameId
         + PacketBuilder::getSizeForString(wGameInfos->getPlayer1Name()) // Player1 Name
         + PacketBuilder::getSizeForString(wGameInfos->getPlayer2Name()) // Player2 Name
@@ -75,5 +75,5 @@ int PacketHandlerGameStatus::getPacketSizeSpecific( Paquet* pPaquet ) const
         + PacketBuilder::getSizeForInt() // Player2 Score
         + PacketBuilder::getSizeForInt() // Time
         ;
-    
+
 }

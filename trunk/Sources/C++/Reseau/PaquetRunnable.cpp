@@ -2,28 +2,29 @@
 
 #include "PaquetRunnable.h"
 #include "GestionnaireReseau.h"
-#include "Paquets\PaquetEvent.h"
-#include "Paquets\PaquetLoginInfo.h"
-#include "Paquets\PaquetChatMessage.h"
-#include "Paquets\PaquetConnAutomatique.h"
-#include "Paquets\PaquetUserStatus.h"
+#include "Paquets/PaquetEvent.h"
+#include "Paquets/PaquetLoginInfo.h"
+#include "Paquets/PaquetChatMessage.h"
+#include "Paquets/PaquetConnAutomatique.h"
+#include "Paquets/PaquetUserStatus.h"
 #include "RelayeurMessage.h"
 
 
 #include <time.h>
 #include <sstream>
 #include <iomanip>
-#include "ObjetsGlobaux\JoueurServeurs.h"
-#include "Paquets\PaquetTest.h"
-#include "Paquets\PaquetGameStatus.h"
+
+#include "ObjetsGlobaux/JoueurServeurs.h"
+#include "Paquets/PaquetTest.h"
+#include "Paquets/PaquetGameStatus.h"
 
 
-// Meme pour le client et les serveurs. 
+// Meme pour le client et les serveurs.
 // Relance l'event au gestionnaire reseau
 int PaquetRunnable::RunnableEvent( Paquet* pPaquet )
 {
     PaquetEvent* wPaquet = (PaquetEvent*) pPaquet;
-    GestionnaireReseau::obtenirInstance()->transmitEvent(wPaquet->getErrorCode(), wPaquet->getMessage());
+    GestionnaireReseau::obtenirInstance()->transmitEvent(wPaquet->getErrorCode(), wPaquet->getMessage().c_str());
 
     wPaquet->removeAssociatedQuery(); // delete
     return 0;
@@ -31,24 +32,24 @@ int PaquetRunnable::RunnableEvent( Paquet* pPaquet )
 
 
 
-// Client seulement 
+// Client seulement
 // Gere la reception de messages de chat
 int PaquetRunnable::RunnableChatMessageClient( Paquet* pPaquet )
 {
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) pPaquet;
 
-    GestionnaireReseau::obtenirInstance()->transmitEvent(CHAT_MESSAGE_RECEIVED,wPaquet->getOrigin(),wPaquet->getMessage());
+    GestionnaireReseau::obtenirInstance()->transmitEvent(CHAT_MESSAGE_RECEIVED,wPaquet->getOrigin().c_str(),wPaquet->getMessage().c_str());
     wPaquet->removeAssociatedQuery();
     return 0;
 }
 
-// Serveur jeu seulement 
+// Serveur jeu seulement
 // Gere la reception de messages de chat
 int PaquetRunnable::RunnableChatMessageServer( Paquet* pPaquet )
 {
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) pPaquet;
 
-    GestionnaireReseau::obtenirInstance()->transmitEvent(CHAT_MESSAGE_RECEIVED,wPaquet->getOrigin(),wPaquet->getMessage());
+    GestionnaireReseau::obtenirInstance()->transmitEvent(CHAT_MESSAGE_RECEIVED,wPaquet->getOrigin().c_str(),wPaquet->getMessage().c_str());
     wPaquet->removeAssociatedQuery();
     return 0;
 }
@@ -66,7 +67,7 @@ int PaquetRunnable::RunnableConnAutomatiqueClient( Paquet* pPaquet )
 
 
 
-// Serveur jeu seulement. 
+// Serveur jeu seulement.
 // Doit Recevoir la demande de conn automatique et repondre au client
 int PaquetRunnable::RunnableConnAutomatiqueServer( Paquet* pPaquet )
 {
@@ -88,10 +89,10 @@ int PaquetRunnable::RunnableUserStatusClient( Paquet* pPaquet )
     switch(wPaquet->getConnectionState())
     {
     case CONNECTED:
-        GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_CONNECTED,wPaquet->getUserName());
+        GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_CONNECTED,wPaquet->getUserName().c_str());
         break;
     case NOT_CONNECTED:
-        GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_DISCONNECTED,wPaquet->getUserName());
+        GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_DISCONNECTED,wPaquet->getUserName().c_str());
         break;
     case CONNECTING:
         std::cout << " is reconnecting" << std::endl;

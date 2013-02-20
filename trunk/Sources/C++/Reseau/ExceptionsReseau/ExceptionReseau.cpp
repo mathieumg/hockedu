@@ -8,21 +8,20 @@
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
-#include "ExceptionReseau.h"
+#include "../GestionnaireReseau.h"
 #include <strstream>
 #include <algorithm>
 #include <sstream>
 #include <ctime>
-#include "..\GestionnaireReseau.h"
 struct ErrorEntry
 {
     int nID;
     const char* pcMessage;
 
-    ErrorEntry(int id, const char* pc = 0) : 
-        nID(id), 
-        pcMessage(pc) 
-    { 
+    ErrorEntry(int id, const char* pc = 0) :
+        nID(id),
+        pcMessage(pc)
+    {
     }
 
     bool operator<(const ErrorEntry& rhs) const
@@ -30,7 +29,7 @@ struct ErrorEntry
         return nID < rhs.nID;
     }
 };
-
+#ifdef WINDOWS
 ErrorEntry ExceptionReseau::mSocketErrorsList[] = {
     ErrorEntry(0,                  "No error"),
     ErrorEntry(WSAEINTR,           "Interrupted system call"),
@@ -84,13 +83,15 @@ ErrorEntry ExceptionReseau::mSocketErrorsList[] = {
     ErrorEntry(WSANO_DATA,         "No host data of that type was found")
 };
 const int ExceptionReseau::mErrorMessagesAmount = sizeof(mSocketErrorsList) / sizeof(ErrorEntry);
+#elif defined(LINUX)
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn ExceptionReseau::ExceptionReseau( const std::string& message, const int& pErrorId )
 ///
 /// Constructeur par defaut
-/// 
+///
 /// @params[in] : message	: message de l'exception
 /// @params[in] : pErrorId	: error id
 ///
@@ -107,18 +108,22 @@ ExceptionReseau::ExceptionReseau( const std::string& pMessage, const int& pError
 /// @fn ExceptionReseau::ExceptionReseau( const std::string& message )
 ///
 /// Constructeur par parametre qui ne prend que le message
-/// 
+///
 /// @params[in] : message	: message de l'exception
 ///
 ////////////////////////////////////////////////////////////////////////
 ExceptionReseau::ExceptionReseau( const std::string& pMessage )
+#ifdef WINDOWS
 	:mErrorId(WSAGetLastError()), runtime_error(pMessage)
+#elif defined(LINUX)
+    :mErrorId(-1), runtime_error(pMessage)
+#endif
 {
 	GestionnaireReseau::sendMessageToLog(pMessage);
 }
 
 //// WSAGetLastErrorMessage ////////////////////////////////////////////
-// A function similar in spirit to Unix's perror() that tacks a canned 
+// A function similar in spirit to Unix's perror() that tacks a canned
 // interpretation of the value of WSAGetLastError() onto the end of a
 // passed string, separated by a ": ".  Generally, you should implement
 // smarter error handling than this, but for default cases and simple
@@ -132,12 +137,14 @@ ExceptionReseau::ExceptionReseau( const std::string& pMessage )
 // Version de la fonction WSAGetLastErrorMessage du cours de reseau, modifie pour avoir un string en retour
 std::string ExceptionReseau::getLastErrorMessage(const char* pcMessagePrefix, int nErrorID/* = 0*/)
 {
+
     // Build basic error string
     static char acErrorBuffer[256];
+#ifdef WINDOWS
     std::ostrstream outs(acErrorBuffer, sizeof(acErrorBuffer));
     outs << pcMessagePrefix << ": ";
 
-    // Tack appropriate canned message onto end of supplied message 
+    // Tack appropriate canned message onto end of supplied message
     // prefix. Note that we do a binary search here: mSocketErrorsList must be
     // sorted by the error constant's value.
     ErrorEntry* pEnd = mSocketErrorsList + mErrorMessagesAmount;
@@ -157,6 +164,7 @@ std::string ExceptionReseau::getLastErrorMessage(const char* pcMessagePrefix, in
     // Finish error message off and return it.
     outs << std::ends;
     acErrorBuffer[sizeof(acErrorBuffer) - 1] = '\0';
+#endif
     return std::string(acErrorBuffer);
 }
 
@@ -165,7 +173,7 @@ std::string ExceptionReseau::getLastErrorMessage(const char* pcMessagePrefix, in
 /// @fn const char* ExceptionReseau::what()
 ///
 /// Methode qui surcharge la methode what() de runtime_error et qui retourne la chaine qui represente l'erreur
-/// 
+///
 /// @return const char* : Chaine qui represente le probleme
 ///
 ////////////////////////////////////////////////////////////////////////
@@ -182,7 +190,7 @@ const char* ExceptionReseau::what()
 /// @fn void ExceptionReseau::throwMe()
 ///
 /// Methode qui throw l'erreur elle-meme
-/// 
+///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////

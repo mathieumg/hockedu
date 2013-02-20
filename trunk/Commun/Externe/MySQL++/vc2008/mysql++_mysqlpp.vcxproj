@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>mysqlpp</ProjectName>
+    <ProjectGuid>{2DAE6437-6594-5B8A-B969-BBF287043EE4}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\mysqlpp\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\mysqlpp\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>C:\Program Files\MySQL\MySQL Server 5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_USRDLL;DLL_EXPORTS;UNICODE;_UNICODE;MYSQLPP_MAKING_DLL;HAVE_MYSQL_SSL_SET;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <AssemblerListingLocation>$(SolutionDir)$(Configuration)\mysqlpp\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)$(Configuration)\mysqlpp\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)$(Configuration)\mysqlpp.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>UNICODE;_UNICODE;MYSQLPP_MAKING_DLL;HAVE_MYSQL_SSL_SET;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>C:\Program Files\MySQL\MySQL Server 5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>wsock32.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(SolutionDir)$(Configuration)\mysqlpp.dll</OutputFile>
+      <ImportLibrary>$(SolutionDir)$(Configuration)\mysqlpp.lib</ImportLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>C:\Program Files\MySQL\MySQL Server 5.1\lib\opt;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ProgramDatabaseFile>$(SolutionDir)$(Configuration)\mysqlpp.pdb</ProgramDatabaseFile>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Bscmake>
+      <OutputFile>$(SolutionDir)$(Configuration)\mysql++_mysqlpp.bsc</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>C:\Program Files\MySQL\MySQL Server 5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_USRDLL;DLL_EXPORTS;_DEBUG;UNICODE;_UNICODE;MYSQLPP_MAKING_DLL;HAVE_MYSQL_SSL_SET;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <AssemblerListingLocation>$(SolutionDir)$(Configuration)\mysqlpp\</AssemblerListingLocation>
+      <ObjectFileName>$(SolutionDir)$(Configuration)\mysqlpp\</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)$(Configuration)\mysqlpp_d.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;UNICODE;_UNICODE;MYSQLPP_MAKING_DLL;HAVE_MYSQL_SSL_SET;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>C:\Program Files\MySQL\MySQL Server 5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>wsock32.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(SolutionDir)$(Configuration)\mysqlpp_d.dll</OutputFile>
+      <ImportLibrary>$(SolutionDir)$(Configuration)\mysqlpp_d.lib</ImportLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>C:\Program Files\MySQL\MySQL Server 5.1\lib\opt;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(SolutionDir)$(Configuration)\mysqlpp_d.pdb</ProgramDatabaseFile>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Bscmake>
+      <OutputFile>$(SolutionDir)$(Configuration)\mysql++_mysqlpp.bsc</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\lib\beemutex.cpp" />
+    <ClCompile Include="..\lib\cmdline.cpp" />
+    <ClCompile Include="..\lib\connection.cpp" />
+    <ClCompile Include="..\lib\cpool.cpp" />
+    <ClCompile Include="..\lib\datetime.cpp" />
+    <ClCompile Include="..\lib\dbdriver.cpp" />
+    <ClCompile Include="..\lib\field_names.cpp" />
+    <ClCompile Include="..\lib\field_types.cpp" />
+    <ClCompile Include="..\lib\manip.cpp" />
+    <ClCompile Include="..\lib\myset.cpp" />
+    <ClCompile Include="..\lib\mysql++.cpp" />
+    <ClCompile Include="..\lib\mystring.cpp" />
+    <ClCompile Include="..\lib\null.cpp" />
+    <ClCompile Include="..\lib\options.cpp" />
+    <ClCompile Include="..\lib\qparms.cpp" />
+    <ClCompile Include="..\lib\query.cpp" />
+    <ClCompile Include="..\lib\result.cpp" />
+    <ClCompile Include="..\lib\row.cpp" />
+    <ClCompile Include="..\lib\scopedconnection.cpp" />
+    <ClCompile Include="..\lib\sql_buffer.cpp" />
+    <ClCompile Include="..\lib\sqlstream.cpp" />
+    <ClCompile Include="..\lib\ssqls2.cpp" />
+    <ClCompile Include="..\lib\stadapter.cpp" />
+    <ClCompile Include="..\lib\tcp_connection.cpp" />
+    <ClCompile Include="..\lib\transaction.cpp" />
+    <ClCompile Include="..\lib\type_info.cpp" />
+    <ClCompile Include="..\lib\uds_connection.cpp" />
+    <ClCompile Include="..\lib\utility.cpp" />
+    <ClCompile Include="..\lib\vallist.cpp" />
+    <ClCompile Include="..\lib\wnp_connection.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

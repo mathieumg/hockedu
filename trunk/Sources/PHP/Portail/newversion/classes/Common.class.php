@@ -1,19 +1,18 @@
 <?php
 /**
- * Class that manages actions specifically related to the management system itself.
+ * Class that manages actions specifically related to the Hockedu system itself.
  * 
- * Various actions that have some effect over all of the management system and are not
- * subsite-specific.
+ * Actions that affect the Hockedu logic.
  * @author Mathieu M-Gosselin <mathieumg@gmail.com>
- * @since 14/07/2011
- * @package Cloud
+ * @since 19/02/2013
+ * @package Hockedu
  */
  
  
 /**
  * Common
  *
- * Manages actions specifically related to the management system itself.
+ * Manages actions specifically related to the Hockedu logic itself.
  * @package Common
  */
 class Common
@@ -252,7 +251,103 @@ class Common
             return $ipInformation['activation'];
         }
     }
-    
+	
+	public function registerUser( $username, $password, $email )
+	{
+		// Generate the salt.
+		$characterList = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%?&*()_+";
+		$salt = '';
+
+		for( $i = 0; $i < 10; $i++ )
+		{
+			$salt .= $characterList{ mt_rand( 0, strlen( $characterList ) ) };
+		}
+		
+		$sql = 'INSERT INTO %s
+				( %s, %s, %s, %s, %s )
+				VALUES( %s, SHA1( CONCAT( SHA1( %s ), SHA1( %s ) ) ), %s, %s, %d )';
+		$sql = sprintf( $sql,
+						$this->db->quoteIdentifier( 'users' ),
+						
+						$this->db->quoteIdentifier( 'username' ),
+						$this->db->quoteIdentifier( 'password' ),
+						$this->db->quoteIdentifier( 'password_salt' ),
+						$this->db->quoteIdentifier( 'email' ),                                        
+						$this->db->quoteIdentifier( 'registration_time' ),                                      
+						
+						$this->db->quote( $username, 'text' ),
+						$this->db->quote( $password, 'text' ),
+						$this->db->quote( $salt, 'text' ),
+						$this->db->quote( $salt, 'text' ),
+						$this->db->quote( $email, 'text' ),
+						$this->db->quote( time() , 'integer' )
+					   );
+		
+		$this->db->query( $sql );
+	}
+	
+	/**
+     * Indicates whether a user with the specified username exists.
+     * @access public
+     * @param string $username Username of the user to check for.
+     * @return boolean Whether the specified user exists or not.
+     */
+    public function userExists( $username )
+    { 
+        $sql = 'SELECT %s
+                FROM %s 
+                WHERE %s=%s';
+        $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'id' ),
+                        
+                        $this->db->quoteIdentifier( 'users'),
+                        
+                        $this->db->quoteIdentifier( 'username' ),
+                        $this->db->quote( $username, 'text' )
+                       );
+        $this->db->setLimit( 1 );
+        $userInformation = $this->db->queryOne( $sql );
+        
+        if( empty( $userInformation ) )
+        {
+            // User doesn't seem to exist.
+            return false;
+        }
+        
+        return true;
+    }
+	
+	/**
+     * Indicates whether a user with the specified email exists.
+     * @access public
+     * @param string $email Email of the user to check for.
+     * @return boolean Whether the specified email exists or not.
+     */
+    public function emailExists( $email )
+    { 
+        $sql = 'SELECT %s
+                FROM %s 
+                WHERE %s=%s';
+        $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'id' ),
+                        
+                        $this->db->quoteIdentifier( 'users'),
+                        
+                        $this->db->quoteIdentifier( 'email' ),
+                        $this->db->quote( $email, 'text' )
+                       );
+        $this->db->setLimit( 1 );
+        $userInformation = $this->db->queryOne( $sql );
+        
+        if( empty( $userInformation ) )
+        {
+            // User doesn't seem to exist.
+            return false;
+        }
+        
+        return true;
+    }
+	   
     public function login( $username, $password, $subsite, &$Website )
     {
         // Check if a user with the provided credentials exist.

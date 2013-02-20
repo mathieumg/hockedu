@@ -1,8 +1,8 @@
 #include "ControllerServeurMaitre.h"
-#include "..\Reseau\GestionnaireReseau.h"
-#include "..\Reseau\PaquetRunnable.h"
+#include "../Reseau/GestionnaireReseau.h"
+#include "../Reseau/PaquetRunnable.h"
 #include "PaquetRunnableServeurMaitre.h"
-#include "..\Reseau\ExceptionsReseau\ExceptionReseauSocketDeconnecte.h"
+#include "../Reseau/ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@
 /// Constructeur
 ///
 ///
-/// @return 
+/// @return
 ///
 ////////////////////////////////////////////////////////////////////////
 ControllerServeurMaitre::ControllerServeurMaitre()
@@ -47,7 +47,7 @@ void ControllerServeurMaitre::handleEvent( int pEventCode, va_list pListeElems )
     switch(pEventCode) {
     case USER_DISCONNECTED:
         {
-            std::string wPlayerName = va_arg(pListeElems,std::string);
+            std::string wPlayerName = va_arg(pListeElems,char*);
             if(wPlayerName.length() != 0 )
             {
                 // Handle deconnection (throw une exception qui sera catch dans le thread de reception et qui fera la deconnexion)
@@ -57,7 +57,7 @@ void ControllerServeurMaitre::handleEvent( int pEventCode, va_list pListeElems )
         }
     case SERVER_USER_CONNECTING:
         {
-            std::cout << "Event: Tentative de connexion de " << va_arg(pListeElems,std::string) << std::endl;
+            std::cout << "Event: Tentative de connexion de " << va_arg(pListeElems,char*) << std::endl;
             break;
         }
     default:

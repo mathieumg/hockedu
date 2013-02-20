@@ -1,16 +1,16 @@
 
 
 #include <iostream>
-#include "..\Reseau\GestionnaireReseauServeurMaitre.h"
+#include "../Reseau/GestionnaireReseauServeurMaitre.h"
 #include "ControllerServeurMaitre.h"
-#include "..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetChatMessage.h"
+#include "../Reseau/PaquetHandlers/PacketHandlerChatMessage.h"
+#include "../Reseau/UsinePaquets/UsinePaquetChatMessage.h"
 #include "FacadeServeurMaitre.h"
 
 int main(void)  {
 
     std::cout << "--------- Serveur Maitre ---------" << std::endl << std::endl;
-    
+
     GestionnaireReseauServeurMaitre::obtenirInstance();
 	GestionnaireReseau* wGestReseau = GestionnaireReseau::obtenirInstance();
 
@@ -18,12 +18,12 @@ int main(void)  {
     GestionnaireReseau::obtenirInstance()->setController(new ControllerServeurMaitre());
 
     FacadeServeurMaitre::obtenirInstance();
-    
 
 
 
 
-    
+
+
 
 
 

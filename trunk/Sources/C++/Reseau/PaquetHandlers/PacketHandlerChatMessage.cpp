@@ -2,13 +2,13 @@
 #include <iostream>
 #include <sstream>
 #include "PacketHandlerChatMessage.h"
-#include "..\Paquets\PaquetChatMessage.h"
-#include "..\RelayeurMessage.h"
+#include "../Paquets/PaquetChatMessage.h"
+#include "../RelayeurMessage.h"
 #include <time.h>
 #include <sstream>
 #include <iomanip>
 #ifndef _SERVER
-#include "..\GestionnaireReseauClientLourd.h"
+#include "../GestionnaireReseauClientLourd.h"
 #endif
 
 
@@ -63,14 +63,14 @@ void PacketHandlerChatMessage::handlePacketReceptionSpecific(PacketReader& pPack
 //                 << std::setw(2) << wTime.tm_sec
 //                 << std::setw(1) << "]";
 //         }
-// 
-// 
+//
+//
 //         wTimeOutput << "[" << wPaquet->getOrigin() << "]: " << wPaquet->getMessage() << std::endl;
 //         std::cout << wTimeOutput.str();
-// 
+//
 //         // On veut relayer le message a une personne en particulier ou a tout le monde
 //         // On ne call donc pas delete dessus tout suite
-// 
+//
 //         if(wPaquet->IsTargetGroup())
 //         {
 //             // On envoie a tout le monde
@@ -83,19 +83,19 @@ void PacketHandlerChatMessage::handlePacketReceptionSpecific(PacketReader& pPack
 //             // On l'envoie a la personne dans groupName seulement
 //             RelayeurMessage::obtenirInstance()->relayerPaquet(wPaquet->getGroupName(), wPaquet, TCP);
 //         }
-//         
+//
 //     }
 // #else
 //     //else if(GestionnaireReseau::getNetworkMode() == CLIENT)
 //     {
-//         
-// 
+//
+//
 //         GestionnaireReseau::obtenirInstance()->transmitEvent(CHAT_MESSAGE_RECEIVED,wPaquet->getOrigin(),wPaquet->getMessage());
-// 
+//
 //         wPaquet->removeAssociatedQuery();
 //     }
 // #endif
-    
+
 }
 
 void PacketHandlerChatMessage::handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder)
@@ -110,9 +110,9 @@ void PacketHandlerChatMessage::handlePacketPreparationSpecific(Paquet* pPaquet, 
     pPacketBuilder << wPaquet->getMessage()
         << wPaquet->getTimestamp()
         << wPaquet->IsTargetGroup()
-        << wPaquet->getGroupName() 
+        << wPaquet->getGroupName()
         <<wPaquet->getOrigin();
-    
+
 }
 
 
@@ -121,11 +121,11 @@ int PacketHandlerChatMessage::getPacketSizeSpecific( Paquet* pPaquet ) const
 {
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) pPaquet;
 
-    
+
     return PacketBuilder::getSizeForString(wPaquet->getMessage())
         + PacketBuilder::getSizeFor64bInteger()
         + PacketBuilder::getSizeForBool()
         + PacketBuilder::getSizeForString(wPaquet->getGroupName())
         + PacketBuilder::getSizeForString(wPaquet->getOrigin());
-    
+
 }

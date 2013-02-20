@@ -4,20 +4,23 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="522" d:DesignWidth="733" Background="#FF323232">
+             d:DesignHeight="511" d:DesignWidth="1036" Background="Black">
     <Grid Height="Auto" Width="Auto">
         <Grid.RowDefinitions>
-            <RowDefinition Height="388*" />
+            <RowDefinition Height="109*" />
+            <RowDefinition Height="378*" />
             <RowDefinition Height="64" MinHeight="64" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="684*" />
-            <ColumnDefinition Width="169*" />
+            <ColumnDefinition Width="228*" />
+            <ColumnDefinition Width="531*" />
+            <ColumnDefinition Width="187*" />
         </Grid.ColumnDefinitions>
-        <TextBox  Name="messageTextBox"  Width="Auto" HorizontalAlignment="Stretch"  TextWrapping="Wrap"   Margin="12,7,0,12"   Background="Black" Foreground="White" Grid.Row="1"                                            MaxHeight="50" VerticalScrollBarVisibility="Auto"   />
-        <Button   Name="submitButton"     Margin="12,7,12,12"   Background="Black" Foreground="White" Grid.Column="1" Grid.Row="1" Content="Send"           MaxHeight="50" IsDefault="True"   />
-        <TextBox  Name="wholeMessageBox" Width="Auto" TextWrapping="Wrap"                                                  Margin="12,29,0,24" Background="Black" Foreground="White"                              Text="Welcome!" IsReadOnly="True" VerticalScrollBarVisibility="Auto" UseLayoutRounding="True"   />
-        <ListView Name="onlineListView" Margin="11,49,12,24" Background="Black" Foreground="White" Grid.Column="1" >
+        <Label Content="HOCKEDU ONLINE LOBBY" HorizontalAlignment="Stretch" Margin="0,0,8,14" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="72" Grid.Row="0" Grid.ColumnSpan="3" />
+        <TextBox  Name="messageTextBox" HorizontalAlignment="Stretch"  TextWrapping="Wrap"   Margin="13,7,0,12"   Background="Black" Foreground="White" Grid.Row="2" MaxHeight="50" VerticalScrollBarVisibility="Auto" Grid.Column="1" />
+        <Button   Name="submitButton"     Margin="12,7,12,12"   Background="Black" Foreground="White" Grid.Column="2" Grid.Row="2" Content="Send" MaxHeight="50" IsDefault="True" FontSize="32" />
+        <TextBox  Name="wholeMessageBox" TextWrapping="Wrap" Margin="13,11,1,24" Background="Black" Foreground="White" Text="Welcome!" IsReadOnly="True" VerticalScrollBarVisibility="Auto" UseLayoutRounding="True" Grid.Column="1" Grid.Row="1" />
+        <ListView Name="onlineListView" Margin="11,31,12,24" Background="Black" Foreground="White" Grid.Column="2" Grid.Row="1">
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Block" />
@@ -25,6 +28,7 @@
                 </ContextMenu>
             </ListView.ContextMenu>
         </ListView>
-        <Label    Name="onlineLabel"     Width="145" Height="37" HorizontalAlignment="Left"     VerticalAlignment="Top"     Margin="12,24,0,0"                      Foreground="White" Grid.Column="1"              Content="Online:" />
+        <Label Name="onlineLabel" Width="145" Height="37" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,6,0,0" Foreground="White" Grid.Column="2" Content="Online:" Grid.Row="1" />
+        <Button Content="Main Menu" Grid.Row="2" Height="36" HorizontalAlignment="Left" Margin="35,16,0,0" Name="mBackToMainButton" VerticalAlignment="Top" Width="149" Background="Black" Foreground="White" FontSize="18" Click="mBackToMainButton_Click" />
     </Grid>
 </UserControl>

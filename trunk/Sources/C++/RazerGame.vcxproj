@@ -283,6 +283,7 @@
     <ClCompile Include="Reseau\ExceptionsReseau\ExceptionReseauTimeout.cpp" />
     <ClCompile Include="Reseau\GestionnaireReseau.cpp" />
     <ClCompile Include="Reseau\GestionnaireReseauClientLourd.cpp" />
+    <ClCompile Include="Reseau\Network_Defines.cpp" />
     <ClCompile Include="Reseau\ObjetsGlobaux\JoueurServeurs.cpp" />
     <ClCompile Include="Reseau\ObjetsGlobaux\PartieServeurs.cpp" />
     <ClCompile Include="Reseau\PacketBuilder.cpp" />
@@ -424,6 +425,7 @@
     <ClInclude Include="Reseau\ExceptionsReseau\ExceptionReseauTimeout.h" />
     <ClInclude Include="Reseau\GestionnaireReseau.h" />
     <ClInclude Include="Reseau\GestionnaireReseauClientLourd.h" />
+    <ClInclude Include="Reseau\Network_Defines.h" />
     <ClInclude Include="Reseau\ObjetsGlobaux\JoueurServeurs.h" />
     <ClInclude Include="Reseau\ObjetsGlobaux\PartieServeurs.h" />
     <ClInclude Include="Reseau\PacketBuilder.h" />

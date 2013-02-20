@@ -2,7 +2,7 @@
 /// @file FacadeServeurMaitre.h
 /// @author Mathieu Parent
 /// @date 2013-02-11
-/// @version 1.0 
+/// @version 1.0
 ///
 /// @addtogroup razergame RazerGame
 /// @{
@@ -10,8 +10,8 @@
 #pragma once
 #include "Singleton.h"
 #include <map>
-#include "..\Reseau\ObjetsGlobaux\JoueurServeurs.h"
-#include "..\Reseau\ObjetsGlobaux\PartieServeurs.h"
+#include "../Reseau/ObjetsGlobaux/JoueurServeurs.h"
+#include "../Reseau/ObjetsGlobaux/PartieServeurs.h"
 
 
 ///////////////////////////////////////////////////////////////////////////

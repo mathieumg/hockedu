@@ -1,20 +1,20 @@
 
 
-#include "..\Paquets\PaquetUserStatus.h"
-#include "..\PacketBuilder.h"
+#include "../Paquets/PaquetUserStatus.h"
+#include "../PacketBuilder.h"
 #include "PacketHandlerUserStatus.h"
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <sstream>
 #include <iomanip>
-#include "..\PacketReader.h"
+#include "../PacketReader.h"
 
 
 
 void PacketHandlerUserStatus::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)
 {
-    
+
     if(pRunnable)
     {
         PaquetUserStatus* wPaquet = (PaquetUserStatus*) GestionnaireReseau::obtenirInstance()->creerPaquet(USER_STATUS);
@@ -29,7 +29,7 @@ void PacketHandlerUserStatus::handlePacketReceptionSpecific(PacketReader& pPacke
 
         wPaquet->setRunnable(pRunnable);
         wPaquet->run();
-        
+
     }
 
 
@@ -77,14 +77,14 @@ void PacketHandlerUserStatus::handlePacketReceptionSpecific(PacketReader& pPacke
                 << std::setw(1) << "]";
             std::cout << wTimeOutput.str();
         }
-        
+
 
         std::cout  << "[" << wPaquet->getOrigin() << "]: " << wPaquet->getMessage() << std::endl;
 
         delete wPaquet;
     }
 	*/
-    
+
 }
 
 void PacketHandlerUserStatus::handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder)
@@ -94,7 +94,7 @@ void PacketHandlerUserStatus::handlePacketPreparationSpecific(Paquet* pPaquet, P
 
     pPacketBuilder << wPaquet->getUserName()
         << wPaquet->getConnectionState();
-    
+
 }
 
 
@@ -103,8 +103,8 @@ int PacketHandlerUserStatus::getPacketSizeSpecific( Paquet* pPaquet ) const
 {
     PaquetUserStatus* wPaquet = (PaquetUserStatus*) pPaquet;
 
-    
+
     return PacketBuilder::getSizeForString(wPaquet->getUserName())
         + PacketBuilder::getSizeForInt();
-    
+
 }

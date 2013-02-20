@@ -10,7 +10,7 @@
 
 #pragma once
 #include "Paquet.h"
-#include "..\ObjetsGlobaux\PartieServeurs.h"
+#include "../ObjetsGlobaux/PartieServeurs.h"
 
 class UsinePaquetGameStatus;
 

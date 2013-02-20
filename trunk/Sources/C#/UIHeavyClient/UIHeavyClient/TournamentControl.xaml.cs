@@ -19,14 +19,35 @@ namespace UIHeavyClient
     /// </summary>
     public partial class TournamentControl : UserControl
     {
+        Dictionary<object, string> mGuidanceMessages;
+
         public TournamentControl()
         {
             InitializeComponent();
+
+            mGuidanceMessages = new Dictionary<object, string>()
+            {
+                {mAddButton, "Add a new tournament in the list"},
+                {mDeleteButton, "Delete the selected tournament"},
+                {mSaveButton, "Save the tournament"},
+                {mTournamentBeginButton, "Let the show begin!!!"},
+                {mBackToMainButton, "Return to the main menu"},
+            };
         }
 
-        private void backButton_Click(object sender, RoutedEventArgs e)
+        private void mBackToMainButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToMainMenu();
+        }
+
+        private void DisplayGuidanceMessages(object sender, MouseEventArgs e)
+        {
+            mGuidanceLabel.Content = mGuidanceMessages[sender];
+        }
+
+        private void ClearGuidanceMessages(object sender, MouseEventArgs e)
+        {
+            mGuidanceLabel.Content = "";
         }
     }
 }

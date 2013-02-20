@@ -1,12 +1,12 @@
 #include "PacketHandlerTest.h"
 #include <iostream>
 #include <sstream>
-#include "..\GestionnaireReseau.h"
-#include "..\Paquets\PaquetTest.h"
+#include "../GestionnaireReseau.h"
+#include "../Paquets/PaquetTest.h"
 
 void PacketHandlerTest::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)
 {
-    
+
     if(pRunnable)
     {
         PaquetTest* wPaquet = (PaquetTest*) GestionnaireReseau::obtenirInstance()->creerPaquet(TEST);
@@ -22,7 +22,7 @@ void PacketHandlerTest::handlePacketReceptionSpecific(PacketReader& pPacketReade
         wPaquet->setRunnable(pRunnable);
         wPaquet->run();
 
-        
+
     }
 }
 
@@ -38,7 +38,7 @@ int PacketHandlerTest::getPacketSizeSpecific( Paquet* pPaquet ) const
 {
     PaquetTest* wPaquet = (PaquetTest*) pPaquet;
 
-    return PacketBuilder::getSizeForString(wPaquet->getMessage()) + 
-        PacketBuilder::getSizeForInt() + 
+    return PacketBuilder::getSizeForString(wPaquet->getMessage()) +
+        PacketBuilder::getSizeForInt() +
         PacketBuilder::getSizeForFloat();
 }

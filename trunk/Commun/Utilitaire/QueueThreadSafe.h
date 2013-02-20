@@ -10,17 +10,7 @@
 
 #pragma once
 #include <queue>
-
-
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-// Includes pour les mutex en WIN API
-#define _WINSOCKAPI_
-#include <Windows.h>
-#else
-#include <pthread.h>
-// Includes pour mutex en linux
-
-#endif
+#include "../../Sources/C++/Reseau/Network_Defines.h"
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class QueueThreadSafe
@@ -40,13 +30,9 @@ public:
 	inline bool empty()const{return mFile.empty();}
 
 private:
-	void getMutex() const;
-	void releaseMutex() const;
-    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-	HANDLE mMutex;
-	#else
-	pthread_mutex_t mMutex;
-	#endif
+	void getMutex();
+	void releaseMutex();
+	HANDLE_MUTEX mMutex;
 	std::queue<T> mFile;
 	unsigned int mMaxBufferSize;
 };
@@ -74,11 +60,7 @@ bool QueueThreadSafe<T>::pop( T& pOutElem )
 template <typename T>
 QueueThreadSafe<T>::QueueThreadSafe(unsigned int pMaxBufferSize /*= 0 */):mMaxBufferSize(pMaxBufferSize)
 {
-    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-	mMutex = CreateMutex(NULL, FALSE, NULL);
-	#else
-	pthread_mutex_init (&mMutex, NULL);
-	#endif
+    FacadePortability::createMutex(mMutex);
 }
 
 
@@ -108,23 +90,15 @@ bool QueueThreadSafe<T>::push( T element )
 // }
 
 template <typename T>
-void QueueThreadSafe<T>::releaseMutex() const
+void QueueThreadSafe<T>::releaseMutex()
 {
-    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-	ReleaseMutex(mMutex);
-	#else
-	pthread_mutex_unlock (&mMutex);
-	#endif
+    FacadePortability::releaseMutex(mMutex);
 }
 
 template <typename T>
-void QueueThreadSafe<T>::getMutex() const
+void QueueThreadSafe<T>::getMutex()
 {
-    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-	WaitForSingleObject(mMutex,INFINITE);
-	#else
-	pthread_mutex_lock (&mMutex);
-	#endif
+    FacadePortability::takeMutex(mMutex);
 }
 
 

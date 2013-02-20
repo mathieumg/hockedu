@@ -1,19 +1,23 @@
 
 
 #include "PaquetRunnableServeurMaitre.h"
-#include "..\ServeurMaitre\FacadeServeurMaitre.h"
-#include "..\Reseau\Paquets\PaquetLoginInfo.h"
-#include "..\Reseau\GestionnaireReseau.h"
-#include "..\Reseau\ObjetsGlobaux\JoueurServeurs.h"
-#include "..\Reseau\RelayeurMessage.h"
-#include "..\Reseau\Paquets\PaquetUserStatus.h"
-#include "..\Reseau\Paquets\PaquetChatMessage.h"
+#include "../ServeurMaitre/FacadeServeurMaitre.h"
+#include "../Reseau/Paquets/PaquetLoginInfo.h"
+#include "../Reseau/GestionnaireReseau.h"
+#include "../Reseau/ObjetsGlobaux/JoueurServeurs.h"
+#include "../Reseau/RelayeurMessage.h"
+#include "../Reseau/Paquets/PaquetUserStatus.h"
+#include "../Reseau/Paquets/PaquetChatMessage.h"
+
+#ifdef LINUX
+#define _LARGE_TIME_API
+#endif
 
 #include <time.h>
 #include <sstream>
 #include <iomanip>
 #include <stdexcept>
-#include "..\Reseau\Paquets\PaquetGameStatus.h"
+#include "../Reseau/Paquets/PaquetGameStatus.h"
 
 
 /// ***** PAR CONVENTION, METTRE Master A LA FIN DU NOM DES DELEGATES
@@ -27,7 +31,7 @@ int PaquetRunnable::RunnableLoginInfoServerMaster( Paquet* pPaquet )
 
 
     // On envoie un event au gestionnaire reseau
-    GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_CONNECTING, wPaquet->getUsername());
+    GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_CONNECTING, wPaquet->getUsername().c_str());
 
     // On sauvearde le joueur
     JoueurServeurs* wJoueur = new JoueurServeurs(wPaquet->getUsername());
@@ -51,19 +55,32 @@ int PaquetRunnable::RunnableChatMessageServerMaster( Paquet* pPaquet )
 
     std::ostringstream wTimeOutput;
     time_t wT = time(0);
-    struct tm wTime;
-    if(_localtime64_s(&wTime, &wT))
+    struct tm* wTime = NULL;
+#ifdef WINDOWS
+    struct tm wTimeWin;
+    if(_localtime64_s(&wTimeWin, &wT))
     {
+#elif defined(LINUX)
+    time(&wT);
+    wTime = localtime(&wT);
+    if(wTime == NULL)
+    {
+#endif
+
+		// If time == NULL
         std::cout << "[00:00:00]";
     }
     else
     {
+#ifdef WINDOWS
+		wTime = &wTimeWin;
+#endif
         wTimeOutput << std::setfill('0') << "["
-            << std::setw(2) << wTime.tm_hour
+            << std::setw(2) << wTime->tm_hour
             << std::setw(1) << ":"
-            << std::setw(2) << wTime.tm_min
+            << std::setw(2) << wTime->tm_min
             << std::setw(1) << ":"
-            << std::setw(2) << wTime.tm_sec
+            << std::setw(2) << wTime->tm_sec
             << std::setw(1) << "]";
     }
 
@@ -103,10 +120,10 @@ int PaquetRunnable::RunnableUserStatusServerMaster( Paquet* pPaquet )
 int PaquetRunnable::RunnableGameStatusServerMaster( Paquet* pPaquet )
 {
     PaquetGameStatus* wPaquet = (PaquetGameStatus*) pPaquet;
-    
+
     // *****On doit faire une copie du PartieServeurs avant de le propager car il sera detruit a la destruction du PaquetGameStatus
     PartieServeurs* wPartie = new PartieServeurs(wPaquet->getGameInfos());
-    
+
 
     FacadeServeurMaitre::obtenirInstance()->updateGameStatus(wPartie);
 

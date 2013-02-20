@@ -60,6 +60,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -71,7 +74,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire\;..\..\..\Commun\Externe\MySQLCPP\include\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>Solution_Defines.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
@@ -79,6 +82,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\..\..\Commun\Externe\MySQLCPP\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mysqlcppconn-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -91,6 +96,7 @@
     <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseauTimeout.cpp" />
     <ClCompile Include="..\Reseau\GestionnaireReseau.cpp" />
     <ClCompile Include="..\Reseau\GestionnaireReseauServeurMaitre.cpp" />
+    <ClCompile Include="..\Reseau\Network_Defines.cpp" />
     <ClCompile Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.cpp" />
     <ClCompile Include="..\Reseau\ObjetsGlobaux\PartieServeurs.cpp" />
     <ClCompile Include="..\Reseau\PacketBuilder.cpp" />
@@ -115,7 +121,9 @@
     <ClCompile Include="..\Reseau\RelayeurMessage.cpp" />
     <ClCompile Include="..\Reseau\Socket.cpp" />
     <ClCompile Include="..\Reseau\SocketTCPServeur.cpp" />
+    <ClCompile Include="CommunicateurBD.cpp" />
     <ClCompile Include="ControllerServeurMaitre.cpp" />
+    <ClCompile Include="ExceptionsReseau\ExceptionReseauBD.cpp" />
     <ClCompile Include="FacadeServeurMaitre.cpp" />
     <ClCompile Include="mainServeurMaitre.cpp" />
     <ClCompile Include="PaquetRunnableServeurMaitre.cpp" />
@@ -130,6 +138,7 @@
     <ClInclude Include="..\Reseau\ExceptionsReseau\ExceptionReseauTimeout.h" />
     <ClInclude Include="..\Reseau\GestionnaireReseau.h" />
     <ClInclude Include="..\Reseau\GestionnaireReseauServeurMaitre.h" />
+    <ClInclude Include="..\Reseau\Network_Defines.h" />
     <ClInclude Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.h" />
     <ClInclude Include="..\Reseau\ObjetsGlobaux\PartieServeurs.h" />
     <ClInclude Include="..\Reseau\PacketBuilder.h" />
@@ -162,7 +171,9 @@
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetLoginInfo.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetTest.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetUserStatus.h" />
+    <ClInclude Include="CommunicateurBD.h" />
     <ClInclude Include="ControllerServeurMaitre.h" />
+    <ClInclude Include="ExceptionsReseau\ExceptionReseauBD.h" />
     <ClInclude Include="FacadeServeurMaitre.h" />
     <ClInclude Include="PaquetRunnableServeurMaitre.h" />
   </ItemGroup>

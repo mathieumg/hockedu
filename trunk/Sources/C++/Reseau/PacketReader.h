@@ -7,7 +7,15 @@
 typedef unsigned char byte;
 #endif
 
+#ifdef LINUX
+#include <string.h>
+#endif
+
+#ifdef WINDOWS
 enum ByteOrder;
+#elif defined(LINUX)
+enum ByteOrder : uint8_t;
+#endif
 
 class PacketReader
 {
@@ -53,7 +61,7 @@ public:
 
     //Variable length data types.
     //Reads a string from the packet.
-	void readString(__out uint8_t* pReturnString, uint32_t pStringLength);
+	void readString(uint8_t* pReturnString, uint32_t pStringLength);
 
     //Reads padding from the packet.
     uint8_t* readPadding(uint32_t pPaddingLength);
@@ -73,16 +81,16 @@ private:
 	// Boolean which determines if string length should be read from the packet when reading a string
 	bool mReadStringLength;
 	// Swaps endianness
-	template<typename T> 
+	template<typename T>
 	T swapBytes(T& pValueToSwap);
-	// Will contain the current byte order 
+	// Will contain the current byte order
 	ByteOrder mCurrentByteOrder;
 
 	// Pointer to the start of the array
 	uint8_t* mArrStart;
 
     // Stores current position in the array
-    size_t mCurrentPosition; // Doit etre de type au moins aussi grand que mSize pour pouvoir donner la position 
+    size_t mCurrentPosition; // Doit etre de type au moins aussi grand que mSize pour pouvoir donner la position
     size_t mSize;
 };
 
@@ -110,13 +118,13 @@ T PacketReader::swapBytes( T& pValueToSwap )
 	data.value = pValueToSwap;
 
 	char temp;
-	for(int i = 0 ; i < sizeof(data.bytes) >> 1; ++i)
+	for(unsigned int i = 0 ; i < sizeof(data.bytes) >> 1; ++i)
 	{
 		temp = data.bytes[i];
 		data.bytes[i] = data.bytes[sizeof(data.bytes) - i - 1];
 		data.bytes[(sizeof(data.bytes) - i - 1)] = temp;
 	}
-	
+
 	return data.value;
 }
 
@@ -137,8 +145,13 @@ T PacketReader::readData( )
     size_t wDataSize = sizeof(T);
     int8_t* wBytes = new int8_t[wDataSize];
     memset(wBytes, 0, wDataSize);
+#ifdef WINDOWS
     memcpy_s(wBytes, wDataSize, mArrStart+mCurrentPosition, wDataSize);
+#elif defined(LINUX)
+    memcpy(wBytes, mArrStart + mCurrentPosition, wDataSize);
+#endif
     mCurrentPosition += wDataSize;
+
     T wDataRead = *((T*)wBytes);
     delete wBytes;
 
