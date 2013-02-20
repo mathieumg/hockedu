@@ -43,6 +43,7 @@
         self.navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
         self.navigationController.navigationBar.tintColor = [UIColor darkGrayColor];
         
+        NSLog(@"%f x %f", [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
         self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
         self.window.backgroundColor = [UIColor whiteColor];
         self.window.rootViewController = self.navigationController;
