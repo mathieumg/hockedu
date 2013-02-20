@@ -141,9 +141,6 @@
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameStatus.cpp">
       <Filter>Source Files\PaquetHandlers</Filter>
     </ClCompile>
-    <ClCompile Include="..\Reseau\Network_Defines.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CommunicateurBD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

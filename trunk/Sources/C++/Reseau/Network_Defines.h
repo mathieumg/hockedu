@@ -53,7 +53,7 @@ namespace FacadePortability {
     inline void createSemaphore  (HANDLE_SEMAPHORE& pSemaphore, int pInitialValue, int pMaxAmount)
     {
 #ifdef WINDOWS
-        pSemaphore = CreateSemaphore(NULL, pInitialCount, pMaxAmount, NULL);
+        pSemaphore = CreateSemaphore(NULL, pInitialValue, pMaxAmount, NULL);
 #elif defined(LINUX)
         sem_init(&pSemaphore, 0, pMaxAmount);
 #endif
