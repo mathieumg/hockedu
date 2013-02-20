@@ -21,7 +21,7 @@ typedef TiXmlNode XmlNode;
 class TiXmlDocument;
 typedef TiXmlDocument XmlDocument;
 
-#else 
+#else
 // mettre les typedef et class pour une librairie xml dans MAC
 #endif
 
