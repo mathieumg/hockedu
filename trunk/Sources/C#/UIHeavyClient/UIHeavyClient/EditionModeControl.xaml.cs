@@ -202,6 +202,8 @@ namespace UIHeavyClient
         public void AppendOpenGL()
         {
             editionControlGrid.Children.Add(mWindowsFormsHost);
+            Grid.SetColumnSpan(mWindowsFormsHost, 3);
+            Grid.SetRowSpan(mWindowsFormsHost, 2);
             Grid.SetColumn(mWindowsFormsHost, 1);
             Grid.SetRow(mWindowsFormsHost, 1);
         }

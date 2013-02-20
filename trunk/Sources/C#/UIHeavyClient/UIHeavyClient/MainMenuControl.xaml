@@ -6,20 +6,30 @@
              mc:Ignorable="d" 
              d:DesignHeight="578" Width="Auto" Height="Auto" d:DesignWidth="846">
     <Grid Name="mGrid" Height="Auto" Background="Black" Width="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="326*" />
+            <ColumnDefinition Width="202*" />
+            <ColumnDefinition Width="318*" />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="99*" />
-            <RowDefinition Height="404*" />
-            <RowDefinition Height="83*" />
+            <RowDefinition Height="100*" MinHeight="100" MaxHeight="100" />
+            <RowDefinition Height="70*" />
+            <RowDefinition Height="70*" />
+            <RowDefinition Height="70*" />
+            <RowDefinition Height="70*" />
+            <RowDefinition Height="70*" />
+            <RowDefinition Height="70*" />
+            <RowDefinition Height="70*" MinHeight="70" MaxHeight="70" />
         </Grid.RowDefinitions>
-        <Button Content="Edition Mode" Height="41" HorizontalAlignment="Left" Margin="12,40,0,0" Name="mEditionModeButton" VerticalAlignment="Top" Width="164" Click="editionModeButton_Click" Grid.Row="1" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" />
-        <Button Content="Quick Play" Height="41" HorizontalAlignment="Left" Margin="12,101,0,0" Name="mQuickPlayButton" VerticalAlignment="Top" Width="164" Click="quickPlayButton_Click" Grid.Row="1" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" />
-        <Button Content="Tournament" Height="41" HorizontalAlignment="Left" Margin="12,162,0,0" Name="mTournamentButton" VerticalAlignment="Top" Width="164" Click="tournamentButton_Click" Grid.Row="1" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" />
-        <Button Content="Online Mode" Height="41" HorizontalAlignment="Left" Margin="12,223,0,0" Name="mOnlineModeButton" VerticalAlignment="Top" Width="164" Click="onlineModeButton_Click" Grid.Row="1" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" />
-        <Button Content="Options" Height="41" HorizontalAlignment="Left" Margin="12,284,0,0" Name="mOptionButton" VerticalAlignment="Top" Width="164" Click="optionButton_Click" Grid.Row="1" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" />
-        <Button Content="Unit Tests" Height="41" HorizontalAlignment="Left" Margin="12,348,0,0" Name="mUnitTestButton" VerticalAlignment="Top" Width="164" Grid.Row="1" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" />
-        <Label Content="HOCKEDU" HorizontalAlignment="Stretch" Margin="0,0,8,14" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="72" Grid.Row="0" />
-        <Label Content="" Grid.Row="2" Height="Auto" HorizontalAlignment="Right" Margin="0,14,0,12" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" />
-        <GroupBox Grid.Row="1" Header="Quick Play" Height="190" HorizontalAlignment="Left" Margin="224,101,0,0" Name="mQuickPlayGroupBox" VerticalAlignment="Top" Width="292" Foreground="White" >
+        <Button Content="Edition Mode" Margin="12" Name="mEditionModeButton" Click="editionModeButton_Click" Grid.Row="1" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
+        <Button Content="Quick Play" Margin="12" Name="mQuickPlayButton" Click="quickPlayButton_Click" Grid.Row="2" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
+        <Button Content="Tournament" Margin="12" Name="mTournamentButton" Click="tournamentButton_Click" Grid.Row="3" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
+        <Button Content="Online Mode" Margin="12" Name="mOnlineModeButton" Click="onlineModeButton_Click" Grid.Row="4" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
+        <Button Content="Options" Margin="12" Name="mOptionButton" Click="optionButton_Click" Grid.Row="5" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
+        <Button Content="Unit Tests" Margin="12" Name="mUnitTestButton" Grid.Row="6" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
+        <Label Content="HOCKEDU" HorizontalAlignment="Stretch" Margin="0,0,8,14" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="72" Grid.ColumnSpan="3" />
+        <Label Content="" Grid.Row="7" Height="Auto" HorizontalAlignment="Right" Margin="0,14,0,12" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" Grid.Column="0" Grid.ColumnSpan="3" />
+        <GroupBox Grid.Row="1" Header="Quick Play" Margin="18,33,0,0" Name="mQuickPlayGroupBox" Foreground="White" Height="190" VerticalAlignment="Top" Grid.Column="2" HorizontalAlignment="Left" Width="292" Grid.RowSpan="4">
             <Grid Height="Auto" Width="Auto" Name="mQuickPlayGrid">
                 <Button Content="Go!" Height="23" HorizontalAlignment="Left" Margin="231,138,0,0" Name="mQuickPlayGoButton" VerticalAlignment="Top" Width="43" Background="Black" Foreground="White" Click="mQuickPlayGoButton_Click" />
                 <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="182,138,0,0" Name="mQuickPlayCancelButton" VerticalAlignment="Top" Width="43" Background="Black" Foreground="White" Click="mQuickPlayCancelButton_Click" />
@@ -27,7 +37,7 @@
                 <Label Content="Choose a map" Height="Auto" HorizontalAlignment="Left" Margin="6,78,0,0" Name="mMapLabel" VerticalAlignment="Top" Width="Auto" Foreground="White" />
                 <RadioButton Content="Human Player" Height="16" HorizontalAlignment="Left" Margin="16,42,0,0" Name="mHumanRadio" VerticalAlignment="Top" GroupName="rgOpponentRadios" Foreground="White" IsChecked="True" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
                 <RadioButton Content="AI" Height="16" HorizontalAlignment="Left" Margin="16,57,0,0" Name="mAIRadio" VerticalAlignment="Top" GroupName="rgOpponentRadios" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
-                <ComboBox Height="23" HorizontalAlignment="Left" Margin="115,57,0,0" Name="mAIComboBox" VerticalAlignment="Top" Width="120" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+                <ComboBox Height="23" HorizontalAlignment="Left" Margin="115,57,0,0" Name="mAIComboBox" VerticalAlignment="Top" Width="120" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" IsEnabled="{Binding ElementName=mAIRadio, Path=IsChecked}" />
                 <ComboBox Height="23" HorizontalAlignment="Left" Margin="6,105,0,0" Name="mMapComboBox" VerticalAlignment="Top" Width="120" />
             </Grid>
         </GroupBox>

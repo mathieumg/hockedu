@@ -6,16 +6,24 @@
              mc:Ignorable="d" 
              d:DesignHeight="444" d:DesignWidth="640" Background="Black">
     <Grid Background="Black">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="232*" />
+            <ColumnDefinition Width="200*" />
+            <ColumnDefinition Width="208*" />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="86*" />
-            <RowDefinition Height="284*" />
-            <RowDefinition Height="74*" />
+            <RowDefinition Height="100*" MinHeight="100" MaxHeight="100" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="70*" MinHeight="70" MaxHeight="70" />
         </Grid.RowDefinitions>
-        <Label Content="OPTIONS" HorizontalAlignment="Stretch" Margin="0,0,8,8" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="72" Grid.ColumnSpan="2" />
-        <Button Content="Configure Radio" Height="35" HorizontalAlignment="Left" Margin="24,98,0,0" Name="mRadioOptionButton" VerticalAlignment="Top" Width="175" Click="radioOptionButton_Click" Grid.Row="1" Background="Black" Foreground="White" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
-        <Button Content="Configure AI" Height="35" HorizontalAlignment="Left" Margin="24,30,0,0" Name="mAIConfigureButton" VerticalAlignment="Top" Width="175" Click="aiConfigureButton_Click" Grid.Row="1" Background="Black" Foreground="White" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
-        <Button Content="Back to Main Menu" Height="35" HorizontalAlignment="Left" Margin="24,217,0,0" Name="mBackToMenuButton" VerticalAlignment="Top" Width="175" Click="backToMenuButton_Click" Grid.Row="1" Background="Black" Foreground="White" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
-        <Label Content="" Grid.Row="2" Height="Auto" HorizontalAlignment="Right" Margin="0,14,0,12" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" />
-        <Button Content="Configure Controls" Height="35" HorizontalAlignment="Left" Margin="24,156,0,0" Name="mKeyboardOptionButton" VerticalAlignment="Top" Width="175" Grid.Row="1" Background="Black" Foreground="White" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+        <Label Content="OPTIONS" HorizontalAlignment="Stretch" Margin="0,0,8,8" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="72" Grid.ColumnSpan="3" />
+        <Button Content="Configure Radio" Margin="12" Name="mRadioOptionButton" Click="radioOptionButton_Click" Grid.Row="2" Background="Black" Foreground="White" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" />
+        <Button Content="Configure AI" Margin="12" Name="mAIConfigureButton" Click="aiConfigureButton_Click" Grid.Row="1" Background="Black" Foreground="White" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" />
+        <Button Content="Back to Main Menu" Margin="12" Name="mBackToMenuButton" Click="backToMenuButton_Click" Grid.Row="4" Background="Black" Foreground="White" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" />
+        <Label Content="" Grid.Row="5" Height="Auto" HorizontalAlignment="Right" Margin="0,14,0,12" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" Grid.Column="0" Grid.ColumnSpan="3" />
+        <Button Content="Configure Controls" Margin="12" Name="mKeyboardOptionButton" Grid.Row="3" Background="Black" Foreground="White" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" />
     </Grid>
 </UserControl>
