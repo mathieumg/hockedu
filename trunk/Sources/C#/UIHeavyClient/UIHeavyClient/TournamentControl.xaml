@@ -4,10 +4,148 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="310" d:DesignWidth="402">
-    <Grid Background="#FF323232">
-        <Button Content="Create a tournament" Height="23" HorizontalAlignment="Left" Margin="32,32,0,0" Name="createTournamentButton" VerticalAlignment="Top" Width="127" />
-        <Button Content="Play a tournament" Height="23" HorizontalAlignment="Left" Margin="32,71,0,0" Name="playTournamentButton" VerticalAlignment="Top" Width="127" />
-        <Button Content="Back" Height="23" HorizontalAlignment="Left" Margin="32,109,0,0" Name="backButton" VerticalAlignment="Top" Width="127" Click="backButton_Click" />
+             d:DesignHeight="600" d:DesignWidth="1034">
+    <Grid Name="mGrid" Height="Auto" Background="Black" Width="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="253*" />
+            <ColumnDefinition Width="654*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90*" />
+            <RowDefinition Height="446*" />
+            <RowDefinition Height="67*" />
+        </Grid.RowDefinitions>
+        <Label Content="TOURNAMENTS" HorizontalAlignment="Stretch" Margin="0,0,8,8" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="72" Grid.ColumnSpan="2" />
+        <Label Content="" Grid.Row="2" Height="Auto" HorizontalAlignment="Right" Margin="0,14,0,12" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" Grid.Column="1" />
+        <Button Content="Main Menu" Height="37" HorizontalAlignment="Left" Margin="18,18,0,0" Name="mBackToMainButton" VerticalAlignment="Top" Width="117" Grid.Row="2" Background="Black" Foreground="White" Click="mBackToMainButton_Click" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="18" />
+        <GroupBox Grid.Row="1" Header="Current Tournaments" Height="395" HorizontalAlignment="Left" Margin="6,0,0,0" Name="mCurrentTournamentsGroupBox" VerticalAlignment="Top" Width="228" Foreground="White">
+            <Grid>
+                <Button Content="Add New" Height="33" HorizontalAlignment="Left" Margin="105,320,0,0" Name="mAddButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" />
+                <Button Content="Delete" Height="33" HorizontalAlignment="Left" Margin="6,320,0,0" Name="mDeleteButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" />
+                <ListBox Height="278" HorizontalAlignment="Left" Margin="18,28,0,0" Name="mCurrentTournamentsList" VerticalAlignment="Top" Width="162" Background="Black" Foreground="White" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Grid.Row="1" Header="Tournament Edition" Height="433" HorizontalAlignment="Left" Name="mCurrentEditGroupBox" VerticalAlignment="Top" Width="738" Foreground="White">
+            <Grid Height="Auto">
+                <Button Content="Save" Height="31" HorizontalAlignment="Left" Margin="6,373,0,0" Name="mSaveButton" VerticalAlignment="Top" Width="62" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" />
+                <Label Content="Tournament's Name :" Foreground="White" Height="Auto" HorizontalAlignment="Left" Margin="6,6,0,0" Name="mTournamentNameLabel" VerticalAlignment="Top" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="133,8,0,0" Name="mTournamentNameTextBox" VerticalAlignment="Top" Width="120" Background="Black" Foreground="White" />
+                <GroupBox Header="Player 1" Height="72" HorizontalAlignment="Left" Margin="6,38,0,0" Name="mPlayer1" VerticalAlignment="Top" Width="175">
+                    <Grid>
+                        <RadioButton Content="Human Player" Foreground="White" GroupName="rgPlayer1Radios" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="6,6,0,0" Name="mHuman1Radio" VerticalAlignment="Top" />
+                        <RadioButton Content="AI" Foreground="White" GroupName="rgPlayer1Radios" Height="16" HorizontalAlignment="Left" Margin="6,28,0,0" Name="mAI1Radio" VerticalAlignment="Top" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="39,21,0,0" Name="mAI1ComboBox" VerticalAlignment="Top" Width="120" />
+                    </Grid>
+                </GroupBox>
+                <Label Content="Map : " Foreground="White" Height="Auto" HorizontalAlignment="Left" Margin="259,6,0,0" Name="mMapLabel" VerticalAlignment="Top" Width="Auto" />
+                <ComboBox Height="23" HorizontalAlignment="Left" Margin="308,9,0,0" Name="mMapComboBox" VerticalAlignment="Top" Width="120" />
+                <GroupBox Header="Player 5" Height="72" HorizontalAlignment="Left" Margin="6,116,0,0" Name="mPlayer5" VerticalAlignment="Top" Width="175">
+                    <Grid>
+                        <RadioButton Content="Human Player" Foreground="White" GroupName="rgPlayer5Radios" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="6,6,0,0" Name="mHuman5Radio" VerticalAlignment="Top" />
+                        <RadioButton Content="AI" Foreground="White" GroupName="rgPlayer5Radios" Height="16" HorizontalAlignment="Left" Margin="6,28,0,0" Name="mAI5Radio" VerticalAlignment="Top" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="39,21,0,0" Name="mAI5ComboBox" VerticalAlignment="Top" Width="120" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Player 9" Height="72" HorizontalAlignment="Left" Margin="6,188,0,0" Name="mPlayer9" VerticalAlignment="Top" Width="175">
+                    <Grid>
+                        <RadioButton Content="Human Player" Foreground="White" GroupName="rgPlayer9Radios" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="6,6,0,0" Name="mHuman9Radio" VerticalAlignment="Top" />
+                        <RadioButton Content="AI" Foreground="White" GroupName="rgPlayer9Radios" Height="16" HorizontalAlignment="Left" Margin="6,28,0,0" Name="mAI9Radio" VerticalAlignment="Top" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="39,21,0,0" Name="mAI9ComboBox" VerticalAlignment="Top" Width="120" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Player 13" Height="72" HorizontalAlignment="Left" Margin="6,267,0,0" Name="mPlayer13" VerticalAlignment="Top" Width="175">
+                    <Grid>
+                        <RadioButton Content="Human Player" Foreground="White" GroupName="rgPlayer13Radios" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="6,6,0,0" Name="mHuman13Radio" VerticalAlignment="Top" />
+                        <RadioButton Content="AI" Foreground="White" GroupName="rgPlayer13Radios" Height="16" HorizontalAlignment="Left" Margin="6,28,0,0" Name="mAI13Radio" VerticalAlignment="Top" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="39,21,0,0" Name="mAI13ComboBox" VerticalAlignment="Top" Width="120" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Player 2" Height="72" HorizontalAlignment="Left" Margin="187,38,0,0" Name="mPlayer2" VerticalAlignment="Top" Width="175">
+                    <Grid>
+                        <RadioButton Content="Human Player" Foreground="White" GroupName="rgPlayer2Radios" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="6,6,0,0" Name="mHuman2Radio" VerticalAlignment="Top" />
+                        <RadioButton Content="AI" Foreground="White" GroupName="rgPlayer2Radios" Height="16" HorizontalAlignment="Left" Margin="6,28,0,0" Name="mAI2Radio" VerticalAlignment="Top" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="39,21,0,0" Name="mAI2ComboBox" VerticalAlignment="Top" Width="120" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Player 6" Height="72" HorizontalAlignment="Left" Margin="187,116,0,0" Name="mPlayer6" VerticalAlignment="Top" Width="175">
+                    <Grid>
+                        <RadioButton Content="Human Player" Foreground="White" GroupName="rgPlayer6Radios" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="6,6,0,0" Name="mHuman6Radio" VerticalAlignment="Top" />
+                        <RadioButton Content="AI" Foreground="White" GroupName="rgPlayer6Radios" Height="16" HorizontalAlignment="Left" Margin="6,28,0,0" Name="mAI6Radio" VerticalAlignment="Top" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="39,21,0,0" Name="mAI6ComboBox" VerticalAlignment="Top" Width="120" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Player 10" Height="72" HorizontalAlignment="Left" Margin="187,188,0,0" Name="mPlayer10" VerticalAlignment="Top" Width="175">
+                    <Grid>
+                        <RadioButton Content="Human Player" Foreground="White" GroupName="rgPlayer10Radios" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="6,6,0,0" Name="mHuman10Radio" VerticalAlignment="Top" />
+                        <RadioButton Content="AI" Foreground="White" GroupName="rgPlayer10Radios" Height="16" HorizontalAlignment="Left" Margin="6,28,0,0" Name="mAI10Radio" VerticalAlignment="Top" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="39,21,0,0" Name="mAI10ComboBox" VerticalAlignment="Top" Width="120" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Player 14" Height="72" HorizontalAlignment="Left" Margin="187,267,0,0" Name="mPlayer14" VerticalAlignment="Top" Width="175">
+                    <Grid>
+                        <RadioButton Content="Human Player" Foreground="White" GroupName="rgPlayer14Radios" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="6,6,0,0" Name="mHuman14Radio" VerticalAlignment="Top" />
+                        <RadioButton Content="AI" Foreground="White" GroupName="rgPlayer14Radios" Height="16" HorizontalAlignment="Left" Margin="6,28,0,0" Name="mAI14Radio" VerticalAlignment="Top" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="39,21,0,0" Name="mAI14ComboBox" VerticalAlignment="Top" Width="120" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Player 3" Height="72" HorizontalAlignment="Left" Margin="368,38,0,0" Name="mPlayer3" VerticalAlignment="Top" Width="175">
+                    <Grid>
+                        <RadioButton Content="Human Player" Foreground="White" GroupName="rgPlayer3Radios" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="6,6,0,0" Name="mHuman3Radio" VerticalAlignment="Top" />
+                        <RadioButton Content="AI" Foreground="White" GroupName="rgPlayer3Radios" Height="16" HorizontalAlignment="Left" Margin="6,28,0,0" Name="mAI3Radio" VerticalAlignment="Top" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="39,21,0,0" Name="mAI3ComboBox" VerticalAlignment="Top" Width="120" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Player 7" Height="72" HorizontalAlignment="Left" Margin="368,116,0,0" Name="mPlayer7" VerticalAlignment="Top" Width="175">
+                    <Grid>
+                        <RadioButton Content="Human Player" Foreground="White" GroupName="rgPlayer7Radios" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="6,6,0,0" Name="mHuman7Radio" VerticalAlignment="Top" />
+                        <RadioButton Content="AI" Foreground="White" GroupName="rgPlayer7Radios" Height="16" HorizontalAlignment="Left" Margin="6,28,0,0" Name="mAI7Radio" VerticalAlignment="Top" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="39,21,0,0" Name="mAI7ComboBox" VerticalAlignment="Top" Width="120" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Player 11" Height="72" HorizontalAlignment="Left" Margin="368,188,0,0" Name="mPlayer11" VerticalAlignment="Top" Width="175">
+                    <Grid>
+                        <RadioButton Content="Human Player" Foreground="White" GroupName="rgPlayer11Radios" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="6,6,0,0" Name="mHuman11Radio" VerticalAlignment="Top" />
+                        <RadioButton Content="AI" Foreground="White" GroupName="rgPlayer11Radios" Height="16" HorizontalAlignment="Left" Margin="6,28,0,0" Name="mAI11Radio" VerticalAlignment="Top" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="39,21,0,0" Name="mAI11ComboBox" VerticalAlignment="Top" Width="120" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Player 15" Height="72" HorizontalAlignment="Left" Margin="368,267,0,0" Name="mPlayer15" VerticalAlignment="Top" Width="175">
+                    <Grid>
+                        <RadioButton Content="Human Player" Foreground="White" GroupName="rgPlayer15Radios" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="6,6,0,0" Name="mHuman15Radio" VerticalAlignment="Top" />
+                        <RadioButton Content="AI" Foreground="White" GroupName="rgPlayer15Radios" Height="16" HorizontalAlignment="Left" Margin="6,28,0,0" Name="mAI15Radio" VerticalAlignment="Top" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="39,21,0,0" Name="mAI15ComboBox" VerticalAlignment="Top" Width="120" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Player 4" Height="72" HorizontalAlignment="Left" Margin="549,38,0,0" Name="mPlayer4" VerticalAlignment="Top" Width="175">
+                    <Grid>
+                        <RadioButton Content="Human Player" Foreground="White" GroupName="rgPlayer4Radios" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="6,6,0,0" Name="mHuman4Radio" VerticalAlignment="Top" />
+                        <RadioButton Content="AI" Foreground="White" GroupName="rgPlayer4Radios" Height="16" HorizontalAlignment="Left" Margin="6,28,0,0" Name="mAI4Radio" VerticalAlignment="Top" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="39,21,0,0" Name="mAI4ComboBox" VerticalAlignment="Top" Width="120" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Player 8" Height="72" HorizontalAlignment="Left" Margin="549,116,0,0" Name="mPlayer8" VerticalAlignment="Top" Width="175">
+                    <Grid>
+                        <RadioButton Content="Human Player" Foreground="White" GroupName="rgPlayer8Radios" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="6,6,0,0" Name="mHuman8Radio" VerticalAlignment="Top" />
+                        <RadioButton Content="AI" Foreground="White" GroupName="rgPlayer8Radios" Height="16" HorizontalAlignment="Left" Margin="6,28,0,0" Name="mAI8Radio" VerticalAlignment="Top" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="39,21,0,0" Name="mAI8ComboBox" VerticalAlignment="Top" Width="120" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Player 12" Height="72" HorizontalAlignment="Left" Margin="549,188,0,0" Name="mPlayer12" VerticalAlignment="Top" Width="175">
+                    <Grid>
+                        <RadioButton Content="Human Player" Foreground="White" GroupName="rgPlayer12Radios" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="6,6,0,0" Name="mHuman12Radio" VerticalAlignment="Top" />
+                        <RadioButton Content="AI" Foreground="White" GroupName="rgPlayer12Radios" Height="16" HorizontalAlignment="Left" Margin="6,28,0,0" Name="mAI12Radio" VerticalAlignment="Top" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="39,21,0,0" Name="mAI12ComboBox" VerticalAlignment="Top" Width="120" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Player 16" Height="72" HorizontalAlignment="Left" Margin="549,267,0,0" Name="mPlayer16" VerticalAlignment="Top" Width="175">
+                    <Grid>
+                        <RadioButton Content="Human Player" Foreground="White" GroupName="rgPlayer16Radios" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="6,6,0,0" Name="mHuman16Radio" VerticalAlignment="Top" />
+                        <RadioButton Content="AI" Foreground="White" GroupName="rgPlayer16Radios" Height="16" HorizontalAlignment="Left" Margin="6,28,0,0" Name="mAI16Radio" VerticalAlignment="Top" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="39,21,0,0" Name="mAI16ComboBox" VerticalAlignment="Top" Width="120" />
+                    </Grid>
+                </GroupBox>
+                <Button Content="Begin Tournament" Height="40" HorizontalAlignment="Left" Margin="540,364,0,0" Name="mTournamentBeginButton" VerticalAlignment="Top" Width="180" Background="Black" Foreground="White" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+            </Grid>
+        </GroupBox>
     </Grid>
 </UserControl>

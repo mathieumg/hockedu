@@ -23,5 +23,10 @@ namespace UIHeavyClient
         {
             InitializeComponent();
         }
+
+        private void mBackToMainButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowHandler.GoToMainMenu();
+        }
     }
 }
