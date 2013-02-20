@@ -23,6 +23,8 @@ extern float const HAUTEUR_FENETRE;
     EAGLView* theEAGLView;
     GLuint program;
     IBOutlet UIView *mGLView;
+    IBOutlet UIView *mSideBarView;
+    IBOutlet UIView *mTopBarView;
     
     BOOL animating;
     NSInteger animationFrameInterval;

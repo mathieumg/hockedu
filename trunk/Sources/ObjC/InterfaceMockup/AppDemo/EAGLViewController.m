@@ -7,11 +7,10 @@
 
 #import "EAGLViewController.h"
 #import "EAGLView.h"
+#define degreesToRadian(x) (M_PI * (x) / 180.0)
 
-
-float const LARGEUR_FENETRE = 150;
-float const HAUTEUR_FENETRE = 200;
-
+float const LARGEUR_FENETRE = 1024;
+float const HAUTEUR_FENETRE = 768;
 // Uniform index.
 enum {
     UNIFORM_TRANSLATE,
@@ -30,6 +29,8 @@ enum {
 @property (nonatomic, retain) EAGLContext *context;
 @property (nonatomic, retain) EAGLView *theEAGLView;
 @property (nonatomic, retain) IBOutlet UIView *mGLView;
+@property (retain, nonatomic) IBOutlet UIView *mSideBarView;
+@property (retain, nonatomic) IBOutlet UIView *mTopBarView;
 @property (nonatomic, assign) CADisplayLink *displayLink;
 @end
 
@@ -37,6 +38,8 @@ enum {
 
 @synthesize animating;
 @synthesize theEAGLView;
+@synthesize mSideBarView;
+@synthesize mTopBarView;
 @synthesize mGLView;
 @synthesize context;
 @synthesize displayLink;
@@ -44,30 +47,19 @@ enum {
 
 - (void)awakeFromNib
 {
-    
-    //EAGLContext *aContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
-    [self.view init];
-    theEAGLView = [[EAGLView alloc] initWithFrame:self.mGLView.bounds];
+    [self.view init];    
+    theEAGLView = [[EAGLView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.mGLView.bounds.size.height, self.mGLView.bounds.size.width)];
+
     
     if (!theEAGLView)
         NSLog(@"Failed to create ES view");
     
-    theEAGLView.opaque = NO;
-    //self.view = theEAGLView;
+    theEAGLView.opaque = YES;
     
     [self.mGLView addSubview:theEAGLView];
+    [self.mGLView addSubview:mSideBarView];
+    [self.mGLView addSubview:mTopBarView];
     [self.theEAGLView setFramebuffer];
-    
-   /* if (!aContext)
-        NSLog(@"Failed to create ES context");
-    else if (![EAGLContext setCurrentContext:aContext])
-        NSLog(@"Failed to set ES context current");
-    
-	self.context = aContext;
-	[aContext release];
-	
-    [(EAGLView *)self.view setContext:context];
-    [(EAGLView *)self.view setFramebuffer];*/
     
     
     animating = FALSE;
@@ -89,7 +81,18 @@ enum {
     [context release];
     
     [mGLView release];
+    [mSideBarView release];
+    [mTopBarView release];
     [super dealloc];
+}
+
+
+ //With this and the next method, we only allow the landscaperight orientation when on this view
+-(BOOL)shouldAutorotate {
+    return YES;
+}
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight;
 }
 
 - (void)didReceiveMemoryWarning
@@ -103,7 +106,6 @@ enum {
 - (void)viewWillAppear:(BOOL)animated
 {
     [self startAnimation];
-    
     [super viewWillAppear:animated];
 }
 
