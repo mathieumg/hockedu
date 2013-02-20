@@ -134,12 +134,13 @@ ExceptionReseau::ExceptionReseau( const std::string& pMessage )
 // follows that this function is also not thread-safe.
 //
 //
-#ifdef WINDOWS
 // Version de la fonction WSAGetLastErrorMessage du cours de reseau, modifie pour avoir un string en retour
 std::string ExceptionReseau::getLastErrorMessage(const char* pcMessagePrefix, int nErrorID/* = 0*/)
 {
+
     // Build basic error string
     static char acErrorBuffer[256];
+#ifdef WINDOWS
     std::ostrstream outs(acErrorBuffer, sizeof(acErrorBuffer));
     outs << pcMessagePrefix << ": ";
 
@@ -163,9 +164,9 @@ std::string ExceptionReseau::getLastErrorMessage(const char* pcMessagePrefix, in
     // Finish error message off and return it.
     outs << std::ends;
     acErrorBuffer[sizeof(acErrorBuffer) - 1] = '\0';
+#endif
     return std::string(acErrorBuffer);
 }
-#endif
 
 ////////////////////////////////////////////////////////////////////////
 ///

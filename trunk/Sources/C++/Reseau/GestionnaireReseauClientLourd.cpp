@@ -9,10 +9,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "GestionnaireReseauClientLourd.h"
-#include "PaquetHandlers\PacketHandlerChatMessage.h"
-#include "UsinePaquets\UsinePaquetChatMessage.h"
-#include "PaquetHandlers\PacketHandlerUserStatus.h"
-#include "UsinePaquets\UsinePaquetUserStatus.h"
+#include "PaquetHandlers/PacketHandlerChatMessage.h"
+#include "UsinePaquets/UsinePaquetChatMessage.h"
+#include "PaquetHandlers/PacketHandlerUserStatus.h"
+#include "UsinePaquets/UsinePaquetUserStatus.h"
 
 // Initialisations automatiques
 SINGLETON_DECLARATION_CPP(GestionnaireReseauClientLourd);
@@ -24,7 +24,7 @@ SINGLETON_DECLARATION_CPP(GestionnaireReseauClientLourd);
 /// Constructeur, appelle le constructeur de GestionnaireReseau
 ///
 ///
-/// @return 
+/// @return
 ///
 ////////////////////////////////////////////////////////////////////////
 GestionnaireReseauClientLourd::GestionnaireReseauClientLourd(): mMessageReceivedCallBack(NULL)
@@ -45,10 +45,10 @@ GestionnaireReseauClientLourd::GestionnaireReseauClientLourd(): mMessageReceived
 ///
 /// @fn  GestionnaireReseauClientLourd::~GestionnaireReseauClientLourd(  )
 ///
-/// Destructeur 
+/// Destructeur
 ///
 ///
-/// @return 
+/// @return
 ///
 ////////////////////////////////////////////////////////////////////////
 GestionnaireReseauClientLourd::~GestionnaireReseauClientLourd()

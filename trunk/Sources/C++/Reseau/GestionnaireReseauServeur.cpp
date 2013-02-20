@@ -9,12 +9,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "GestionnaireReseauServeur.h"
-#include "..\PaquetHandlers\PacketHandlerChatMessage.h"
-#include "..\UsinePaquets\UsinePaquetChatMessage.h"
+#include "../PaquetHandlers/PacketHandlerChatMessage.h"
+#include "../UsinePaquets/UsinePaquetChatMessage.h"
 #include "GestionnaireReseau.h"
-#include "Paquets\PaquetUserStatus.h"
-#include "PaquetHandlers\PacketHandlerUserStatus.h"
-#include "UsinePaquets\UsinePaquetUserStatus.h"
+#include "Paquets/PaquetUserStatus.h"
+#include "PaquetHandlers/PacketHandlerUserStatus.h"
+#include "UsinePaquets/UsinePaquetUserStatus.h"
 #include "RelayeurMessage.h"
 
 // Initialisations automatiques
@@ -27,13 +27,12 @@ SINGLETON_DECLARATION_CPP(GestionnaireReseauServeur);
 /// Constructeur, appelle le constructeur de GestionnaireReseau
 ///
 ///
-/// @return 
+/// @return
 ///
 ////////////////////////////////////////////////////////////////////////
 GestionnaireReseauServeur::GestionnaireReseauServeur()
 {
     // Initialisation du GestionnaireReseau
-    GestionnaireReseau::setNetworkMode(SERVER);
 	GestionnaireReseau::obtenirInstance()->setSocketConnectionStateCallback(SocketStateCallback);
 	//GestionnaireReseau::setObserverSocketServer(new SocketObserverServerChat());
     GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
@@ -51,10 +50,10 @@ GestionnaireReseauServeur::GestionnaireReseauServeur()
 ///
 /// @fn  GestionnaireReseauServeur::~GestionnaireReseauServeur(  )
 ///
-/// Destructeur 
+/// Destructeur
 ///
 ///
-/// @return 
+/// @return
 ///
 ////////////////////////////////////////////////////////////////////////
 GestionnaireReseauServeur::~GestionnaireReseauServeur()
@@ -70,7 +69,7 @@ void GestionnaireReseauServeur::SocketStateCallback( const ConnectionStateEvent&
 	const std::string& wPlayerName = pEvent.mPlayerName;
 
 	PaquetUserStatus* wPaquet = (PaquetUserStatus*) GestionnaireReseau::obtenirInstance()->creerPaquet("UserStatus");
-	
+
 	if(wConnState == CONNECTED) // Si le socket vient de se connecter, on lui envoie la liste de tous les players connectes
 	{
 		std::set<std::string> wListe = GestionnaireReseau::obtenirInstance()->getPlayerNameList(TCP);
