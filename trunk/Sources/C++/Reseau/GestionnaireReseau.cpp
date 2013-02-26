@@ -228,8 +228,15 @@ void GestionnaireReseau::init()
 std::string GestionnaireReseau::getAdresseIPLocaleAssociee( const std::string& pDestinationIP )
 {
 	std::string wIpLocaleFinale = "";
-	hostent *hostCourant;
-	hostCourant=gethostbyname("localhost");
+	 char addrName[TAILLE_BUFFER_HOSTNAME];
+    if(gethostname(addrName, TAILLE_BUFFER_HOSTNAME))
+    {
+        GestionnaireReseau::obtenirInstance()->throwExceptionReseau("Erreur lors de la lecture du nom de l'hôte");
+        return;
+    }
+
+    hostent *hostCourant;
+    hostCourant=gethostbyname(addrName);
 
 	int wNbCount = 0;
 	int wNbBadCount = 0;
@@ -934,9 +941,15 @@ void GestionnaireReseau::disconnectClient( const std::string& pPlayerName, Conne
 
 void GestionnaireReseau::getListeAdressesIPLocales(std::list<std::string>& pOut) const
 {
+    char addrName[TAILLE_BUFFER_HOSTNAME];
+    if(gethostname(addrName, TAILLE_BUFFER_HOSTNAME))
+    {
+        GestionnaireReseau::obtenirInstance()->throwExceptionReseau("Erreur lors de la lecture du nom de l'hôte");
+        return;
+    }
 
     hostent *hostCourant;
-    hostCourant=gethostbyname(NULL);
+    hostCourant=gethostbyname(addrName);
     if(hostCourant == NULL)
     {
         // Probleme au get des valeurs reseau locales
@@ -944,7 +957,7 @@ void GestionnaireReseau::getListeAdressesIPLocales(std::list<std::string>& pOut)
         return;
     }
 
-    //pOut.push_back("127.0.0.1");
+    pOut.push_back("127.0.0.1");
 
     int wNbCount = 0;
     while(hostCourant->h_addr_list[wNbCount])
