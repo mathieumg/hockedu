@@ -4,7 +4,36 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="414" d:DesignWidth="545">
-    <Grid Name="playControlGrid">
+             d:DesignHeight="588" d:DesignWidth="973">
+    <Grid Name="playControlGrid" Background="Black">
+        <Grid HorizontalAlignment="Right" Name="mChatGrid" Width="654" Height="123" VerticalAlignment="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30*" MinHeight="30" MaxHeight="30" />
+                <RowDefinition Height="60*" MinHeight="60" MaxHeight="60" />
+                <RowDefinition Height="30*" MinHeight="30" MaxHeight="30" />
+            </Grid.RowDefinitions>
+            <Label Content="Chat with your opponent!" Height="28" HorizontalAlignment="Left" Margin="6,6,0,0" Name="mChatTitleLabel" VerticalAlignment="Top" Width="Auto" Foreground="White" Grid.RowSpan="2" />
+            <TextBox Margin="6,4,10,2" Name="mChatOutputTextBox" Text="" Background="Black" Foreground="White" IsReadOnly="True" Grid.Row="1" />
+            <TextBox HorizontalAlignment="Left" Margin="8,8,0,5" Name="mChatInputTextbox" Width="587" Background="Black" Foreground="White" Grid.Row="2" />
+            <Button Content="Send" HorizontalAlignment="Left" Margin="601,4,0,4" Name="mChatButton" Width="43" Background="Black" Foreground="White" Grid.Row="2" />
+        </Grid>
+        <Grid Name="mRadioGrid" Margin="0" MinHeight="120" MinWidth="240" MaxHeight="120" MaxWidth="240" Height="120" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="240">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="26*" MinHeight="26" MaxHeight="26" />
+                <RowDefinition Height="30*" MinHeight="30" MaxHeight="30" />
+                <RowDefinition Height="30*" MinHeight="30" MaxHeight="30" />
+                <RowDefinition Height="50*" MinHeight="50" MaxHeight="50" />
+            </Grid.RowDefinitions>
+            <Label Content="Hockedu Radio" Name="mRadioTitleLabel" Width="Auto" Foreground="White" FontSize="16" Margin="-3,-3,0,0" Height="29" VerticalAlignment="Top" />
+            <Label Content="Select a playlist :" Name="mPlaylistSelectLabel" HorizontalAlignment="Left" Width="118" Margin="-2,2,0,0" Foreground="White" Grid.Row="1" Height="27" VerticalAlignment="Top" />
+            <ComboBox Height="21" Name="mPlaylistComboBox" Width="120" Margin="100,7,0,0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <Label Content="Volume : " Height="28" HorizontalAlignment="Left" Name="mVolumeLabel" VerticalAlignment="Top" Foreground="White" Grid.Row="1" Margin="-2,28,0,0" Grid.RowSpan="2" />
+            <Slider Height="23" HorizontalAlignment="Left" Margin="47,2,0,0" Name="mVolumeSlider" VerticalAlignment="Top" Width="140" IsSnapToTickEnabled="True" Value="2" Grid.Row="2" />
+            <Label Content="{Binding ElementName=mVolumeSlider, Path=Value}" Height="23" HorizontalAlignment="Left" Margin="191,2,0,0" Name="mVolumeDisplayLabel" VerticalAlignment="Top" Foreground="#FF00D500" Grid.Row="2" />
+            <Button Content="&lt;" Height="23" HorizontalAlignment="Left" Margin="6,3,0,0" Name="mPeviousButton" VerticalAlignment="Top" Width="24" Background="Black" Foreground="White" Grid.Row="3" />
+            <Button Content=">" Height="23" HorizontalAlignment="Left" Margin="100,3,0,0" Name="mNextButton" VerticalAlignment="Top" Width="21" Background="Black" Foreground="White" Grid.Row="3" />
+            <Button Content="|-|" Height="23" HorizontalAlignment="Left" Margin="70,3,0,0" Name="mStopButton" VerticalAlignment="Top" Width="22" Background="Black" Foreground="White" Grid.Row="3" />
+            <Button Content="|>" Height="23" HorizontalAlignment="Left" Margin="36,3,0,0" Name="mPlayButton" VerticalAlignment="Top" Width="28" Background="Black" Foreground="White" Grid.Row="3" />
+        </Grid>
     </Grid>
 </UserControl>

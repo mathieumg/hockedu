@@ -24,6 +24,6 @@
         <Button Content="Configure AI" Margin="12" Name="mAIConfigureButton" Click="aiConfigureButton_Click" Grid.Row="1" Background="Black" Foreground="White" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" />
         <Button Content="Back to Main Menu" Margin="12" Name="mBackToMenuButton" Click="backToMenuButton_Click" Grid.Row="4" Background="Black" Foreground="White" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" />
         <Label Content="" Grid.Row="5" Height="Auto" HorizontalAlignment="Right" Margin="0,14,0,12" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" Grid.Column="0" Grid.ColumnSpan="3" />
-        <Button Content="Configure Controls" Margin="12" Name="mKeyboardOptionButton" Grid.Row="3" Background="Black" Foreground="White" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" />
+        <Button Content="Configure Controls" Margin="12" Name="mKeyboardOptionButton" Grid.Row="3" Background="Black" Foreground="White" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" Click="mKeyboardOptionButton_Click" />
     </Grid>
 </UserControl>

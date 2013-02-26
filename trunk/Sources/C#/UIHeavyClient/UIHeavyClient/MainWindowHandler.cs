@@ -74,5 +74,10 @@ namespace UIHeavyClient
         {
             Context.WindowContentControl.Content = Context.AIOptionControl;
         }
+
+        public static void GoToKeyboardOption()
+        {
+            Context.WindowContentControl.Content = Context.KeyboardOptionControl;
+        }
     }
 }
