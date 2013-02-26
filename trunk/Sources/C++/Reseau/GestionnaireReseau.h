@@ -92,6 +92,8 @@ class GestionnaireReseau : public Singleton<GestionnaireReseau>
 public:
 	// Taille des buffers de read et write lors des appels a recv et send
 	static const int TAILLE_BUFFER_RECEPTION_ENVOI = 10000;
+    //
+    static const int TAILLE_BUFFER_HOSTNAME = 256;
 	// Taille des paquets qui disent la longeur des 2e paquets en UDP
 	static const int TAILLE_PAQUET_CONTROLE_UDP = 10;
 	// Longueur max des noms d'operations
