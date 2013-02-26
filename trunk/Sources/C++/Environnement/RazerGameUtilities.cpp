@@ -71,7 +71,7 @@
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void RazerGameUtilities::chargerTerrain( const std::string& pFilePath, Terrain& pField )
+   /// @fn void RazerGameUtilities::LoadFieldFromFile( const std::string& pFilePath, Terrain& pField )
    ///
    /// Effectue le chargement XML d'un terrain
    ///
@@ -81,7 +81,7 @@
    /// @return void
    ///
    ////////////////////////////////////////////////////////////////////////
-   void RazerGameUtilities::chargerTerrain( const std::string& pFilePath, Terrain& pField )
+   void RazerGameUtilities::LoadFieldFromFile( const std::string& pFilePath, Terrain& pField )
    {
        // Todo:: ajouter de la valider sur le path du fichier
 //        if(pFilePath.size() < 4 )
@@ -102,7 +102,7 @@
            else
                pField.initialiser(pFilePath);
            // Si le fichier n'existe pas, on le crée.
-           enregistrerTerrain(pFilePath,pField);
+           SaveFieldToFile(pFilePath,pField);
        }
        // si le fichier existe on le lit
        else 
@@ -119,7 +119,7 @@
                else
                    pField.initialiser(pFilePath);
                // Si le fichier n'existe pas, on le crée.
-               enregistrerTerrain(pFilePath,pField);
+               SaveFieldToFile(pFilePath,pField);
            }
            else
            {
@@ -137,7 +137,7 @@
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn void RazerGameUtilities::enregistrerTerrain( const std::string& nomFichier )
+   /// @fn void RazerGameUtilities::SaveFieldToFile( const std::string& nomFichier )
    ///
    /// /*Description*/
    ///
@@ -146,7 +146,7 @@
    /// @return void
    ///
    ////////////////////////////////////////////////////////////////////////
-   void RazerGameUtilities::enregistrerTerrain( const std::string& nomFichier, Terrain& pField  )
+   void RazerGameUtilities::SaveFieldToFile( const std::string& nomFichier, Terrain& pField  )
    {
        XmlDocument* document = XMLUtils::CreateDocument("1.0", "", "");
 

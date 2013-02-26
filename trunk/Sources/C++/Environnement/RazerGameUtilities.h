@@ -26,8 +26,8 @@ public:
     static unsigned int CreateListSphereDefault(class Modele3D*, float radius);
 
     /// Effectue le chargement XML d'un terrain
-    static void chargerTerrain( const std::string& pFilePath, Terrain& pField );
-    static void enregistrerTerrain( const std::string& nomFichier, Terrain& pField  );
+    static void LoadFieldFromFile( const std::string& pFilePath, Terrain& pField );
+    static void SaveFieldToFile( const std::string& nomFichier, Terrain& pField  );
 
     /// Effectue une conversion entre une chaîne Java et une chaîne C++.
     static std::string obtenirChaineISO(void* env, void* chaine);

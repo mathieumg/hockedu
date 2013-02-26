@@ -430,8 +430,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_BarresOutils_EvenementsSelectionn
 {
 
 	std::string nomFichier = RazerGameUtilities::obtenirChaineISO(env, &chaine);
-	FacadeModele::getInstance() -> enregistrerTerrain(nomFichier);
-
+    RazerGameUtilities::SaveFieldToFile(nomFichier, *FacadeModele::getInstance()->getEditionField());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -448,7 +447,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_BarresOutils_EvenementsSelectionn
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_BarresOutils_EvenementsSelectionneurFichier_chargerFichier(JNIEnv * env, jobject, jstring chaine)
 {
 	std::string nomFichier = RazerGameUtilities::obtenirChaineISO(env, &chaine);
-	FacadeModele::getInstance() -> chargerTerrain(nomFichier);
+    RazerGameUtilities::LoadFieldFromFile(nomFichier, *FacadeModele::getInstance()->getEditionField());
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1265,7 +1264,7 @@ JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationTournoiJNI_obteni
 	jmethodID modifierListeGagnants = env->GetMethodID(jTournoi, "modifierVainqueurs", "(Ljava/util/ArrayList;)V");
 	env->CallVoidMethod(tournoiJava, modifierListeGagnants, arraylist);
 	// placer les points de la table
-	FacadeModele::getInstance()->chargerTerrain(tournoi->GetFieldName());
+    RazerGameUtilities::LoadFieldFromFile(tournoi->GetFieldName(), *FacadeModele::getInstance()->getEditionField());
 	NoeudTable* table=FacadeModele::getInstance()->getEditionField()->getTable();
 
 	jclass point = env->FindClass("java/awt/Point");

@@ -1029,7 +1029,7 @@ bool FacadeModele::passageModeEdition()
     partieCourante_ = 0;
 
     enJeu_ = false;
-    RazerGameUtilities::chargerTerrain(FICHIER_TERRAIN_EN_COURS,*mEditionField);
+    RazerGameUtilities::LoadFieldFromFile(FICHIER_TERRAIN_EN_COURS,*mEditionField);
     getEditionField()->setTableControlPointVisible(true);
 
 	return true;

@@ -232,7 +232,7 @@ std::string GestionnaireReseau::getAdresseIPLocaleAssociee( const std::string& p
     if(gethostname(addrName, TAILLE_BUFFER_HOSTNAME))
     {
         GestionnaireReseau::obtenirInstance()->throwExceptionReseau("Erreur lors de la lecture du nom de l'hôte");
-        return;
+        return "";
     }
 
     hostent *hostCourant;

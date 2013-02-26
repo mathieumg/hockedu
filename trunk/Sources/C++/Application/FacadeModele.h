@@ -108,8 +108,6 @@ public:
     /// Initialise le context OpenGl courant
     void InitOpenGLContext();
 
-    /// Charge un terrain à partir d'un fichier XML.
-    void chargerTerrain( const std::string& nomFichier = "", Terrain** terrain = 0);
 	/// Charge les joueurs à partir d'un fichier XML.
 	void chargerJoueurs( const std::string& nomFichier = "", ConteneurJoueur* joueurs = 0 );
 	/// Enregistre les joueurs dans un fichier XML.

@@ -711,7 +711,7 @@ bool Partie::getReadyToPlay()
     }
     else
     {
-        RazerGameUtilities::chargerTerrain(getFieldName(),*mField);
+        RazerGameUtilities::LoadFieldFromFile(getFieldName(),*mField);
     }
 
     if(!mField->verifierValidite())
