@@ -98,7 +98,6 @@
     <ClCompile Include="AnimationFrame.cpp" />
     <ClCompile Include="AnimationReprise.cpp" />
     <ClCompile Include="BoiteEnvironnement.cpp" />
-    <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="CEcritureFichierBinaire.cpp" />
     <ClCompile Include="CLectureFichierBinaire.cpp" />
     <ClCompile Include="CompteurAffichage.cpp" />

@@ -14,7 +14,7 @@
 #include "GestionnaireEtatAbstrait.h"
 
 class GestionnaireEvenementsTest;
-
+class Terrain;
 ////////////////////////////////////////////////////////////////////////////
 /// @class GestionnaireEtatAbstrait
 /// @brief Classe qui gère les événement lors du mode édition
@@ -25,11 +25,14 @@ class GestionnaireEvenementsTest;
 class GestionnaireEtatModeEdition : public GestionnaireEtatAbstrait
 {
 public:
+    typedef GestionnaireEtatAbstrait Super;
 	/// utile pour les tests.
 	friend GestionnaireEvenementsTest;
 
 	/// Constructeur par paramètre.
-	GestionnaireEtatModeEdition(GestionnaireEvenements* contexte);
+	GestionnaireEtatModeEdition(GestionnaireEvenements* contexte, Terrain* pField);
+
+    virtual void modifierEtatSouris(NomEtatSouris etatSouris);
 
 	/// Comportement pour une touche enfoncée
 	virtual void toucheEnfoncee(EvenementClavier& evenementClavier);
@@ -54,6 +57,8 @@ private:
 	bool enfonce_;
 	int boutonEnfonce_;
 	Vecteur2i positionSouris_;
+    /// pointer on the field currently being modified
+    Terrain* mField;
 };
 
 #endif

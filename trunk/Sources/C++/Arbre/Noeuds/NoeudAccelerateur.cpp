@@ -42,8 +42,6 @@ NoeudAccelerateur::NoeudAccelerateur(const std::string& typeNoeud)
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
 
-    FacadeModele::getInstance()->ajouterElementSurTable(this);
-
 	AnimationFrame* frame[5];
 	frame[0] = new AnimationFrame(0, Vecteur3(50, 0, 0), Vecteur3(0, 0, 0), Vecteur3(1, 1, 1));
 	frame[1] = new AnimationFrame(200, Vecteur3(0, 50, 0), Vecteur3(0, 0, 0), Vecteur3(1, 1, 1));
@@ -75,7 +73,6 @@ NoeudAccelerateur::NoeudAccelerateur(const std::string& typeNoeud)
 ////////////////////////////////////////////////////////////////////////
 NoeudAccelerateur::~NoeudAccelerateur()
 {
-	FacadeModele::getInstance()->supprimerElementSurTable(this);
 }
 
 ////////////////////////////////////////////////////////////////////////

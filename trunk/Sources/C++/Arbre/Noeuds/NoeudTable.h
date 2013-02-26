@@ -83,6 +83,8 @@ public:
    /// update the table when a modification is done on either middle control points
    virtual void updateObserver( class PositionSubject* pSubject );
 
+   /// retrieves the max width of the table
+   float GetWidth() const;
 
    static const unsigned int NB_CONTROL_POINTS = 8;
    /// taille par défaut de table
@@ -105,8 +107,9 @@ private:
 
    /// Informations sur les 8 points modifiables
    typedef std::pair<TypePosPoint,TypePosPoint> CouplePoint;
-   CouplePoint droiteMuret_[8];
-   NodeWallAbstract* bande_[8];
+   static const unsigned int NB_BANDES = 8;
+   CouplePoint droiteMuret_[NB_BANDES];
+   NodeWallAbstract* bande_[NB_BANDES];
 
    
    static ListeIndexPoints listeIndexPointsModeleTable_;

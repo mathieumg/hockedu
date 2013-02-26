@@ -406,6 +406,8 @@ bool RepartiteurActions::actionBoutonDupliquer()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonAllerModeJeu()
 {
+    // important de signaler le modele avant de faire le changement d'état, car
+    // celui-ci utilise des informations du modèle pour s'initialiser
 	bool retour = FacadeModele::getInstance()->passageModeJeu();
 	if(retour)
 		GestionnaireEvenements::obtenirInstance()->modifierEtat(ETAT_MODE_JEU);
@@ -424,6 +426,8 @@ bool RepartiteurActions::actionBoutonAllerModeJeu()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonAllerModeEdition()
 {
+    // important de signaler le modele avant de faire le changement d'état, car
+    // celui-ci utilise des informations du modèle pour s'initialiser
 	bool retour =  FacadeModele::getInstance()->passageModeEdition();
 	if(retour)
 	{
@@ -445,6 +449,8 @@ bool RepartiteurActions::actionBoutonAllerModeEdition()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonAllerModeTournoi()
 {
+    // important de signaler le modele avant de faire le changement d'état, car
+    // celui-ci utilise des informations du modèle pour s'initialiser
 	bool retour =  FacadeModele::getInstance()->passageModeTournoi();
 	if(retour)
 	{
@@ -468,8 +474,14 @@ bool RepartiteurActions::actionBoutonAllerModeTournoi()
 bool RepartiteurActions::actionBoutonAllerMenuPrincipal()
 {
 	SoundFMOD::obtenirInstance()->playApplicationSong(MENU_MODE_SONG);
-	GestionnaireEvenements::obtenirInstance()->modifierEtat(ETAT_MENU_PRINCIPAL);
-	return FacadeModele::getInstance()->passageMenuPrincipal();
+    // important de signaler le modele avant de faire le changement d'état, car
+    // celui-ci utilise des informations du modèle pour s'initialiser
+    bool retour = FacadeModele::getInstance()->passageMenuPrincipal();
+    if(retour)
+    {
+	    GestionnaireEvenements::obtenirInstance()->modifierEtat(ETAT_MENU_PRINCIPAL);
+    }
+	return retour;
 }
 
 
@@ -569,7 +581,7 @@ bool RepartiteurActions::actionChangerModeCameraFixe()
 		0, 400, 0, 400,
 		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
 		-150, 150, -150, 150);
-	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->obtenirLargeurZoneEdition());
+	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
 
@@ -600,7 +612,7 @@ bool RepartiteurActions::actionChangerModeCameraOrbite()
 		0, 400, 0, 400,
 		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
 		-150, 150, -150, 150);
-	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->obtenirLargeurZoneEdition());
+	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
 	FacadeModele::getInstance()->modifierVue(nouvelleVue);
@@ -631,7 +643,7 @@ bool RepartiteurActions::actionChangerModeCameraLibre()
 		0, 300, 0, 400,
 		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
 		-150, 150, -150, 150);
-	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->obtenirLargeurZoneEdition());
+	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
 	FacadeModele::getInstance()->modifierVue(nouvelleVue);
@@ -659,7 +671,7 @@ bool RepartiteurActions::actionChangerModeCameraSplit()
 		0, 400, 0, 400,
 		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
 		-150, 150, -150, 150);
-	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->obtenirLargeurZoneEdition());
+	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
 

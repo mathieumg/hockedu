@@ -115,9 +115,6 @@
     <ClCompile Include="XMLUtils.cpp">
       <Filter>Sources Files</Filter>
     </ClCompile>
-    <ClCompile Include="BoundingBox.cpp">
-      <Filter>Sources Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AideCollision.h">

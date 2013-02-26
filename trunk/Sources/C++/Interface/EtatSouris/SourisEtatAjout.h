@@ -4,13 +4,14 @@
 
 class NoeudAbstrait;
 class HUDTexte;
+class Terrain;
 
 class SourisEtatAjout :
 	public SourisEtatAbstrait
 {
 public:
 	/// Constructeur par paramètre
-	SourisEtatAjout(const std::string& nomNoeudAjout);
+	SourisEtatAjout(Terrain* pField, const std::string& nomNoeudAjout);
 	/// Destructeur virtuel
 	virtual ~SourisEtatAjout(void);
 
@@ -34,9 +35,9 @@ protected :
 
     void showInvalidText(bool show)const;
 
-private:
+protected:
 	std::string nom_;
     /// Pointeur sur le terrain présentement modifié
-    class Terrain* mTerrain;
+    Terrain* mField;
 
 };

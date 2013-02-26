@@ -757,7 +757,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_modifier
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Etats_GestionnaireEtats_genererTerrainParDefaut( JNIEnv *, jobject )
 {
-	FacadeModele::getInstance()->creerTerrainParDefaut(FacadeModele::getInstance()->getTerrain());
+	FacadeModele::getInstance()->creerTerrainParDefaut();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1266,7 +1266,7 @@ JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationTournoiJNI_obteni
 	env->CallVoidMethod(tournoiJava, modifierListeGagnants, arraylist);
 	// placer les points de la table
 	FacadeModele::getInstance()->chargerTerrain(tournoi->GetFieldName());
-	NoeudTable* table=FacadeModele::getInstance()->getTerrain()->getTable();
+	NoeudTable* table=FacadeModele::getInstance()->getEditionField()->getTable();
 
 	jclass point = env->FindClass("java/awt/Point");
 	jmethodID creerPoint=env->GetMethodID(point,"<init>","()V");
@@ -1359,7 +1359,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Panneaux_PanneauGestionTournoi_re
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_pointButEstSelectionne (JNIEnv *, jclass)
 {
-	Terrain* terrain = FacadeModele::getInstance()->getTerrain();
+	Terrain* terrain = FacadeModele::getInstance()->getEditionField();
 	if(!terrain)
 		return false;
 
@@ -1384,7 +1384,7 @@ JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_pointBu
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_pointPasButEstSelectionne (JNIEnv *, jclass)
 {
-	Terrain* terrain = FacadeModele::getInstance()->getTerrain();
+	Terrain* terrain = FacadeModele::getInstance()->getEditionField();
 	if(!terrain)
 		return false;
 

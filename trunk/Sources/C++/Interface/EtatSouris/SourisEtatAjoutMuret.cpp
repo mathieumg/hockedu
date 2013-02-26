@@ -29,8 +29,10 @@
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-SourisEtatAjoutMuret::SourisEtatAjoutMuret():SourisEtatAjout(RazerGameUtilities::NOM_MURET)
+SourisEtatAjoutMuret::SourisEtatAjoutMuret(Terrain* pField):
+    SourisEtatAjout(pField,RazerGameUtilities::NOM_MURET)
 {
+    checkf(0, "Deprecated state");
 	etat_ = PLACERPOINT1;
 	positionClic1_ = 0;
 	positionClic2_ = 0;
@@ -117,7 +119,7 @@ void SourisEtatAjoutMuret::sourisRelachee( EvenementSouris& evenementSouris )
 	case PLACERPOINT2:
 		// On fixe le deuxieme point
 		FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX], evenementSouris.obtenirPosition()[VY], positionClic2_);
-		FacadeModele::getInstance()->getTerrain()->transfererNoeud(noeud_);
+		FacadeModele::getInstance()->getEditionField()->transfererNoeud(noeud_);
 
 		genererNoeud();
 
@@ -147,8 +149,6 @@ void SourisEtatAjoutMuret::sourisDeplacee( EvenementSouris& evenementSouris )
 {
 	if(noeud_ == NULL)
 		return;
-
-	FacadeModele::getInstance()->getTerrain()->ajouterNoeudTemp(noeud_);
 
 	Vecteur2i positionSouris;
 	Vecteur3 positionVirtuelle;

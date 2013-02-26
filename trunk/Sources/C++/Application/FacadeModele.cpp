@@ -79,6 +79,7 @@
 #include <iostream>
 #include "DebugRenderBox2D.h"
 #include "HUDTexte.h"
+#include "VisiteurFunction.h"
 
 /// Pointeur vers l'instance unique de la classe.
 FacadeModele* FacadeModele::instance_ = 0;
@@ -233,6 +234,8 @@ FacadeModele::FacadeModele()
 	// Initialisation de la randomisation
 	srand( (unsigned int) clock()+(unsigned int) time);
 
+    mEditionField = new Terrain(false);
+
 #ifdef WIN32
 	CreateDirectoryA(
 		"tournoi",
@@ -379,13 +382,6 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
 	SoundFMOD::obtenirInstance()->playApplicationSong(STARTUP_SONG);
 	chargerJoueurs();
 
-
-// 	// Création de l'arbre de rendu.  À moins d'être complètement certain
-// 	// d'avoir une bonne raison de faire autrement, il est plus sage de créer
-// 	// l'arbre après avoir créé le contexte OpenGL.
-// 	// Création d'un terrain de base pointant sur le fichier de terrain en cours
-// 	mEditionField = new Terrain();
-    
     renderThread_ = NULL;
     
 //     mutexRender = CreateMutex(
@@ -425,135 +421,6 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
 //     {
 //         WaitForSingleObject(mutexRender, INFINITE);
 //     }
-}
-
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void FacadeModele::chargerTerrain() const
-///
-/// Cette fonction charge la configuration à partir d'un fichier XML si
-/// ce dernier existe.  Sinon, le fichier de configuration est généré à
-/// partir de valeurs par défaut directement dans le code.
-///
-/// @param[in] nomFichier : Le nom du fichier à charger.
-///
-/// @return Aucune.
-///
-////////////////////////////////////////////////////////////////////////
-void FacadeModele::chargerTerrain( const std::string& nomFichier /*= ""*/, Terrain** terrain /*= 0*/ )
-{
-	// En place pour eviter des cas speciaux avec la souris (soit des ajout d'objets liberer 2 fois)
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
-	std::string fichierACharger;
-
-	// Si le nom du fichier est vide, on utilise celui par défaut.
-	if(nomFichier == "")
-		fichierACharger = FICHIER_TERRAIN_EN_COURS;
-	else
-		fichierACharger = nomFichier;
-
-	
-	// Si le parametre est null, on lui assigne le terrain du modele
-	if(!terrain)
-	{
-		terrain = &mEditionField;
-	}
-	// Si le terrain du modele est null, on en cree un
-	if(!*terrain)
-	{
-		*terrain = new Terrain(false);
-	}
-    Terrain* wTerrain = *terrain;
-
-	// Vérification de l'existence du ficher
-	if ( !utilitaire::fichierExiste(fichierACharger) ) 
-	{
-		// Si on est en jeu on s'assure d'avoir une table valide
-		if(enJeu_)
-			wTerrain->creerTerrainParDefaut(fichierACharger);
-		else
-			wTerrain->initialiser(fichierACharger);
-		// Si le fichier n'existe pas, on le crée.
-		enregistrerTerrain(fichierACharger);
-	}
-	// si le fichier existe on le lit
-	else 
-	{
-		XmlDocument* document = XMLUtils::LoadDocument(fichierACharger.c_str());
-
-		// Lire à partir du fichier de configuration
-		if( !document )
-		{
-			utilitaire::afficherErreur("Erreur : chargement XML : erreur de lecture du fichier");
-			// Si on est en jeu on s'assure d'avoir une table valide
-			if(enJeu_)
-				wTerrain->creerTerrainParDefaut(fichierACharger);
-			else
-				wTerrain->initialiser(fichierACharger);
-			// Si le fichier n'existe pas, on le crée.
-			enregistrerTerrain(fichierACharger);
-		}
-		else
-		{
-			if(!wTerrain->initialiserXml((XmlElement*)document))
-				wTerrain->initialiser(fichierACharger);
-			if(!enJeu_)
-			{
-                wTerrain->setTableControlPointVisible(true);
-			}
-			ajusterElementSurTableEnCollision();
-
-            XMLUtils::FreeDocument(document);
-		}
-	}
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void FacadeModele::enregistrerTerrain() const
-///
-/// Cette fonction génère un fichier XML de configuration à partir de
-/// valeurs par défaut directement dans le code.
-///
-/// @param[in] nomFichier : Le nom du fichier à enregistrer.
-///
-/// @return Aucune.
-///
-////////////////////////////////////////////////////////////////////////
-void FacadeModele::enregistrerTerrain( const std::string& nomFichier /*= ""*/, Terrain* terrain /*= 0*/ ) 
-{
-	std::string fichierAEnregistrer;
-	
-	// Si le nom du fichier est vide, on utilise celui par défaut.
-	if(nomFichier == "")
-		fichierAEnregistrer = FICHIER_TERRAIN_EN_COURS;
-	else
-		fichierAEnregistrer = nomFichier;
-
-	// Si le parametre est null, on lui assigne le terrain du modele
-	if(!terrain)
-	{
-		terrain = getTerrain();
-	}
-	// Si le terrain du modele est null, on l'initialise avant de continuer
-	if(!terrain)
-	{
-		terrain = new Terrain(false);
-		terrain->initialiser(fichierAEnregistrer);
-	}
-    checkf(terrain == mEditionField , "Enregistrement d'un terrain qui n'est pas celui du mode édition!!!");
-
-
-	XmlDocument* document = XMLUtils::CreateDocument("1.0", "", "");
-
-	// Creation du noeud du terrain
-    XMLUtils::LinkEndChild((XmlElement*)document,terrain->creerNoeudXML());
-
-	// Écrire dans le fichier
-    XMLUtils::SaveDocument(document,fichierAEnregistrer.c_str());
-    XMLUtils::FreeDocument(document);
 }
 
 
@@ -916,9 +783,9 @@ void FacadeModele::afficher( )
 void FacadeModele::afficherBase() const
 {
     // Afficher la scène
-    if(getTerrain())
+    if(getEditionField())
     {
-        getTerrain()->afficherTerrain();
+        getEditionField()->afficherTerrain();
     }
 }
 
@@ -961,7 +828,7 @@ void FacadeModele::rafraichirFenetre() const
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::reinitialiserTerrain()
 {
-	getTerrain()->reinitialiser();
+	getEditionField()->reinitialiser();
 }
 
 
@@ -1002,9 +869,9 @@ void FacadeModele::animer( const float& temps)
 
     GestionnaireEvenements::obtenirInstance()->miseAJourEvenementsRepetitifs(tempsReel);
     // Mise à jour des objets
-    if(getTerrain())
+    if(getEditionField())
     {
-        getTerrain()->animerTerrain(tempsReel);
+        getEditionField()->animerTerrain(tempsReel);
     }
     GestionnaireEvenements::obtenirInstance()->obtenirEtat()->animer(tempsReel);
     bool replaying = false;
@@ -1162,8 +1029,8 @@ bool FacadeModele::passageModeEdition()
     partieCourante_ = 0;
 
     enJeu_ = false;
-    chargerTerrain(FICHIER_TERRAIN_EN_COURS,&mEditionField);
-    getTerrain()->setTableControlPointVisible(true);
+    RazerGameUtilities::chargerTerrain(FICHIER_TERRAIN_EN_COURS,*mEditionField);
+    getEditionField()->setTableControlPointVisible(true);
 
 	return true;
 }
@@ -1195,7 +1062,7 @@ bool FacadeModele::passageModeTournoi()
 #endif
 
 #if BOX2D_INTEGRATED  
-    mWorld->SetContactListener(getTerrain());
+    mWorld->SetContactListener(getEditionField());
 #endif
 
     FullRebuild();
@@ -1213,53 +1080,20 @@ bool FacadeModele::passageModeTournoi()
         }
         else
         {
-            checkf(0, "Enlever la partie de la map de partie courantes");
+            checkf(0, "TODO::Enlever la partie de la hash_map de partie courantes");
         }
     }
 
 	GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
 	partieCourante_ = tournoi_->obtenirPartieCourante();
-
-	// On charge le terrain du tournoi
-	if(tournoi_->GetFieldName() == "")
-	{
-		// Terrain par defaut
-        checkf(0,"A changer par un terrain dans la partie courante");
-		creerTerrainParDefaut(getTerrainModifier());
-	}
-	else
-		chargerTerrain(tournoi_->GetFieldName());
-
-	if(!verifierValiditeMap())
-	{
-		utilitaire::afficherErreur("La table du tournoi n'est pas valide");
-		return false;
-	}
-
-	try
-	{
-		partieCourante_->assignerControlesMaillet(obtenirMailletJoueurGauche(),obtenirMailletJoueurDroit(),obtenirRondelle());
-	}
-	catch(std::logic_error& e)
-	{
-		utilitaire::afficherErreur(e.what());
-		return false;
-	}
+    partieCourante_->getReadyToPlay();
 
 	partieCourante_->miseAuJeu(true);
-	
-    selectionArbre(false);
 	enJeu_ = true;
-    getTerrain()->setTableControlPointVisible(false);
 
-	// On enregistre dans le fichier de la partie courante apres avoir desactiver les points pour ne pas les voir si on reinitialise la partie
-	enregistrerTerrain();
-	obtenirVue()->obtenirProjection().centrerAZero();
-	obtenirVue()->obtenirProjection().mettreAJourProjection();
+	obtenirVue()->centrerCamera(partieCourante_->getField()->GetTableWidth());
 	
 	tournoi_->modifierEstEnCours(true);
-
-
 #ifdef WIN32
 	// If the no button was pressed ...
 	if (partieCourante_->partieVirtuelle() && MessageBoxA(0,
@@ -1308,7 +1142,7 @@ bool FacadeModele::passageModeJeu()
 #endif
 
 #if BOX2D_INTEGRATED  
-    mWorld->SetContactListener(getTerrain());
+    mWorld->SetContactListener(getEditionField());
 #endif
 
     FullRebuild();
@@ -1323,27 +1157,12 @@ bool FacadeModele::passageModeJeu()
 	partieCourante_ = new Partie(SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")),adversaire_);
 	//partieCourante_ = new Partie(new JoueurVirtuel("Joueur Gauche",225),new JoueurVirtuel("Joueur Droit",225));
 	partieCourante_->setFieldName(FICHIER_TERRAIN_EN_COURS);
-    auto mailletGauche = obtenirMailletJoueurGauche(), mailletDroit = obtenirMailletJoueurDroit();
-	try
-	{
-		partieCourante_->assignerControlesMaillet(mailletGauche,mailletDroit,obtenirRondelle());
-	}
-	catch(std::logic_error& e)
-	{
-		utilitaire::afficherErreur(e.what());
-		return false;
-	}
-	
-    selectionArbre(false);
-    getTerrain()->setTableControlPointVisible(false);
+    partieCourante_->getReadyToPlay();
 
     partieCourante_->miseAuJeu(true);
-
     enJeu_ = true;
     // On enregistre apres avoir desactiver les points pour ne pas les voir si on reinitialise la partie
-	enregistrerTerrain();
-	obtenirVue()->obtenirProjection().centrerAZero();
-	obtenirVue()->obtenirProjection().mettreAJourProjection();
+    obtenirVue()->centrerCamera(partieCourante_->getField()->GetTableWidth());
 
 	return true;
 }
@@ -1396,20 +1215,6 @@ void FacadeModele::reinitialiserPartie()
 	if(partieCourante_)
 	{
 		partieCourante_->reinitialiserPartie();
-// 		chargerTerrain(partieCourante_->obtenirCheminTerrain());
-// 		if(!verifierValiditeMap())
-// 		{
-// 			/// comportement inconnu
-// 		}
-// 		try
-// 		{
-// 			partieCourante_->assignerControlesMaillet(obtenirMailletJoueurGauche(),obtenirMailletJoueurDroit(),obtenirRondelle());
-// 		}
-// 		catch(std::logic_error& e)
-// 		{
-// 			utilitaire::afficherErreur(e.what());
-// 			return;
-// 		}
 		partieCourante_->miseAuJeu(true);
 	}
 }
@@ -1499,7 +1304,7 @@ void FacadeModele::initialiserVue()
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::acceptVisitor( VisiteurNoeud& visitor )
 {
-    getTerrain()->acceptVisitor(visitor);
+    getEditionField()->acceptVisitor(visitor);
 }
 
 
@@ -1537,7 +1342,7 @@ bool FacadeModele::convertirClotureAVirtuelle( int x, int y, Vecteur3& point ) c
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void FacadeModele::selectionArbre( bool selectionner )
 {
-    getTerrain()->setTableItemsSelection(selectionner);
+    getEditionField()->setTableItemsSelection(selectionner);
 }
 
 
@@ -1554,9 +1359,7 @@ void FacadeModele::selectionArbre( bool selectionner )
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::validerPositionNoeud(NoeudAbstrait* noeudAValider, bool flag /* = false*/)
 {
-	VisiteurCollision visiteur(noeudAValider,flag);
-	acceptVisitor(visiteur);
-	return !(visiteur.collisionPresente()) && insideLimits(noeudAValider);
+	return getEditionField() && getEditionField()->IsNodeAtValidEditionPosition(noeudAValider,flag);
 }
 
 
@@ -1612,7 +1415,7 @@ Vecteur2 FacadeModele::convertirDeplacementClotureAVirtuelle( const Vecteur2i& v
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::possedeSelection()
 {
-	return getTerrain() && getTerrain()->IsAnyNodeSelected();
+	return getEditionField() && getEditionField()->IsAnyNodeSelected();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1628,114 +1431,8 @@ bool FacadeModele::possedeSelection()
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::insideLimits( NoeudAbstrait* noeud )
 {
-	return !!getTerrain() && getTerrain()->insideLimits(noeud);
+	return !!getEditionField() && getEditionField()->insideLimits(noeud);
 }
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void FacadeModele::ajouterElementSurTable( NoeudAbstrait* n )
-///
-/// Méthode pour ajouter un élément sur la table
-///
-/// @param[in] NoeudAbstrait * n : noeud à ajouter
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void FacadeModele::ajouterElementSurTable( NoeudAbstrait* n )
-{
-	elementSurTable_.push_back(n);
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn bool FacadeModele::ajusterElementSurTableEnCollision()
-///
-/// Algorithme pour que les noeud en collisions se repositionne correctement
-///
-///
-/// @return bool vrai si la méthode à réussi à trouver un emplacement valide pour tous les noeuds de la table
-///
-////////////////////////////////////////////////////////////////////////
-bool FacadeModele::ajusterElementSurTableEnCollision( const unsigned int& nbIteration /*= 10*/ )
-{
-	bool tableValide = true;
-
-	for(unsigned int iter = 0; iter < nbIteration ; ++iter)
-	{
-		for (unsigned int i = 0; i < elementSurTable_.size() ; ++i)
-		{
-			if(!ajusterElementEnCollision(elementSurTable_[i], 2))
-				// On invalide la table seulement si nous somme dans la dernière itération
-				if(iter == nbIteration-1)
-					tableValide = false;
-		}
-	}
-	return tableValide;
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn bool FacadeModele::ajusterElementEnCollision( NoeudAbstrait* noeud, const unsigned int& nbIterations /*= 10*/, NoeudAbstrait* racine /*= 0*/ )
-///
-/// Permet de déplacer un noeud pour tenter de le positionner à un endroit où il n'est pas en collision
-///
-/// @param[in] NoeudAbstrait * noeud : noeud a replacer
-/// @param[in] NoeudAbstrait * racine : racine de l'arbre contenant les éléments 
-///										qui peuvent être en collision avec le noeud, par défaut on utilise l'arbre de rendu du modèle
-/// @param[in] const unsigned int & nbIterations : nombre d'itérations pour les tentative de repositionnement
-///
-/// @return bool vrai si la méthode à réussi à trouver un emplacement valide au noeud selon le nombre d'itération
-///
-////////////////////////////////////////////////////////////////////////
-bool FacadeModele::ajusterElementEnCollision( NoeudAbstrait* noeud, const unsigned int& nbIterations /*= 10 */ )
-{
-	// Si l'un des noeud est null, on ne fait pas le travail
-	if(!noeud)
-		return true;
-
-	// Avant les tests de collision, on regarde d'abord si le noeud est dans les limites
-	if(!insideLimits(noeud))
-	{
-		// Repositionne au centre de la table
-		noeud->setPosition(Vecteur3());
-	}
-
-	VisiteurCollision v(noeud,false);
-	acceptVisitor(v);
-	
-	unsigned int tentative = 0;
-	while( v.collisionPresente() && ++tentative <= nbIterations)
-	{
-		ConteneurNoeuds liste;
-		ConteneurDetailsCollision details = v.obtenirConteneurDetailsCollision();
-		v.obtenirListeCollision(liste);
-		for (int j = 0; j < liste.size()  ; j++)
-		{
-			//Vecteur3 deplacement(elementSurTable_[i]->getPosition() - liste[j]->getPosition());
-			Vecteur3 deplacement((details[j].direction*details[j].enfoncement)*-1);
-			if(deplacement.norme() == 0)
-				deplacement = Vecteur3(1.0,1.0);
-			//deplacement.normaliser();
-			VisiteurDeplacement vDeplacement(deplacement,true);
-			noeud->acceptVisitor(vDeplacement);
-		}
-		if(!insideLimits(noeud))
-		{
-			// Repositionne au centre de la table
-			noeud->setPosition(Vecteur3());
-		}
-		v.reinitialiser();
-		acceptVisitor(v);
-	}
-
-	// Il faut la partie égale de la comparaison, car le ++tentative 
-	// de la condition while ne ce fera pas s'il n'y a plus de collision
-	return tentative <= nbIterations;
-}
-
-
-
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -1766,27 +1463,6 @@ std::string FacadeModele::obtenirTypeNoeudSelectionne()
 		}
 	}
 	return typeRetour;
-}
-
-
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void FacadeModele::suprrimerElementSurTable( NoeudAbstrait* n )
-///
-/// Méthode pour supprimer un élément sur la table
-///
-/// @param[in] NoeudAbstrait * n : noeud à supprimer
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void FacadeModele::supprimerElementSurTable( NoeudAbstrait* n )
-{
-	ConteneurNoeuds::iterator iter = find(elementSurTable_.begin(),elementSurTable_.end(),n);
-	if(iter != elementSurTable_.end())
-		elementSurTable_.erase(iter);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1901,7 +1577,7 @@ bool FacadeModele::verifierValiditeMap( Terrain* terrain/*= 0 */ )
 	/// Si le parametre est egal a 0, on assigne l'arbre du Modele
     if(!terrain)
     {
-        terrain = getTerrain();
+        terrain = getEditionField();
         if(!terrain)
             return false;
     }
@@ -1919,11 +1595,9 @@ bool FacadeModele::verifierValiditeMap( Terrain* terrain/*= 0 */ )
 /// @return Un pointeur vers l'arbre créé.
 ///
 ////////////////////////////////////////////////////////////////////////
-void FacadeModele::creerTerrainParDefaut( Terrain** pField )
+void FacadeModele::creerTerrainParDefaut( )
 {
-	if(!*pField)
-		*pField = new Terrain(false);
-	(*pField)->creerTerrainParDefaut(FICHIER_TERRAIN_EN_COURS);	
+	mEditionField->creerTerrainParDefaut(FICHIER_TERRAIN_EN_COURS);	
 }
 
 
@@ -1939,11 +1613,11 @@ void FacadeModele::creerTerrainParDefaut( Terrain** pField )
 NoeudMaillet* FacadeModele::obtenirMailletJoueurGauche() const
 {
 	NoeudMaillet* maillet = 0;
-	if(getTerrain())
+	if(getEditionField())
 	{
-		if(getTerrain()->getTable())
+		if(getEditionField()->getTable())
 		{
-			NoeudComposite* g = (NoeudComposite*)getTerrain()->getTable()->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
+			NoeudComposite* g = (NoeudComposite*)getEditionField()->getTable()->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
 			if(g)
 			{
 				for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
@@ -1971,11 +1645,11 @@ NoeudMaillet* FacadeModele::obtenirMailletJoueurGauche() const
 NoeudMaillet* FacadeModele::obtenirMailletJoueurDroit() const
 {
 	NoeudMaillet* maillet = 0;
-	if(getTerrain())
+	if(getEditionField())
 	{
-		if(getTerrain()->getTable())
+		if(getEditionField()->getTable())
 		{
-			NoeudComposite* g = (NoeudComposite*)getTerrain()->getTable()->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
+			NoeudComposite* g = (NoeudComposite*)getEditionField()->getTable()->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
 			if(g)
 			{
 				for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
@@ -2010,13 +1684,13 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
 	float largeurTable;
 	float longueurTable;
 	float friction;
-	if(getTerrain())
+	if(getEditionField())
 	{
-        checkf(getTerrain()->getZoneEdition(),"terrain sans zone édition");
-        longueurTable = getTerrain()->getZoneEdition()->obtenirLimiteExtLongueur();
-        largeurTable  = getTerrain()->getZoneEdition()->obtenirLimiteExtLargeur();
+        checkf(getEditionField()->getZoneEdition(),"terrain sans zone édition");
+        longueurTable = getEditionField()->getZoneEdition()->obtenirLimiteExtLongueur();
+        largeurTable  = getEditionField()->getZoneEdition()->obtenirLimiteExtLargeur();
         
-		NoeudTable* table = getTerrain()->getTable();
+		NoeudTable* table = getEditionField()->getTable();
 		if(!table)
 			throw std::runtime_error("Impossible de trouver la table de jeu");
 
@@ -2199,10 +1873,11 @@ void FacadeModele::modifierAdversaire(SPJoueurAbstrait val)
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::resetHighlightFlags()
 {
-	for (int i = 0; i < elementSurTable_.size() ; i++)
-	{
-		elementSurTable_[i]->modifierSurligner(false);
-	}
+    VisiteurFunction visitor([](NoeudAbstrait* n)
+    {
+        n->modifierSurligner(false);
+    });
+    mEditionField->acceptVisitor(visitor);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -2299,9 +1974,9 @@ bool FacadeModele::estEnPause() const
 ////////////////////////////////////////////////////////////////////////
 NoeudRondelle* FacadeModele::obtenirRondelle() const
 {
-	if(getTerrain())
+	if(getEditionField())
 	{
-		return getTerrain()->getRondelle();
+		return getEditionField()->getPuck();
 	}
 	return 0;
 }
@@ -2431,7 +2106,7 @@ void FacadeModele::DrawSelectionRectangle() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn float FacadeModele::obtenirLargeurZoneEdition()
+/// @fn float FacadeModele::getTableWidth()
 ///
 /// /*Description*/
 ///
@@ -2439,13 +2114,9 @@ void FacadeModele::DrawSelectionRectangle() const
 /// @return float
 ///
 ////////////////////////////////////////////////////////////////////////
-float FacadeModele::obtenirLargeurZoneEdition()
+float FacadeModele::getTableWidth()
 {
-    if(getTerrain() && getTerrain()->getZoneEdition())
-    {
-        return 2.0f*getTerrain()->getZoneEdition()->obtenirLimiteExtLargeur();
-    }
-    return 2.0f*ZoneEdition::DEFAUT_LIMITE_EXT_LONGUEUR;
+    return mEditionField->GetTableWidth();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -2493,7 +2164,7 @@ void FacadeModele::MouseMove( EvenementSouris& evenementSouris )
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::FullRebuild()
 {
-    getTerrain()->fullRebuild();
+    getEditionField()->fullRebuild();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -2570,9 +2241,9 @@ void FacadeModele::RunOnUpdateThread( Runnable* run, bool pForceQueue /*= false*
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::duplicateSelection()
 {
-    if(getTerrain())
+    if(getEditionField())
     {
-        getTerrain()->duplicateSelection();
+        getEditionField()->duplicateSelection();
     }
 }
 
@@ -2588,9 +2259,9 @@ void FacadeModele::duplicateSelection()
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::getSelectedNodes(ConteneurNoeuds& pSelectedNodes) const
 {
-    if(getTerrain())
+    if(getEditionField())
     {
-        getTerrain()->getSelectedNodes(pSelectedNodes);
+        getEditionField()->getSelectedNodes(pSelectedNodes);
     }
 }
 

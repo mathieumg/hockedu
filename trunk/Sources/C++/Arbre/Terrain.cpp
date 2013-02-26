@@ -35,6 +35,8 @@
 #include "Partie.h"
 #include "VisiteurDupliquer.h"
 #include "SoundFMOD.h"
+#include "VisiteurCollision.h"
+#include "VisiteurDeplacement.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -48,9 +50,6 @@
 ////////////////////////////////////////////////////////////////////////
 Terrain::Terrain(bool pIsGameField): mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mIsGameField(pIsGameField)
 {
-	mRenderTree = new ArbreRendu(this);
-	NoeudAbstrait* piece = new NoeudPiece(RazerGameUtilities::NOM_HOUSE);
-	mRenderTree->ajouter(piece);
     mEditionZone = NULL;
     if(!mIsGameField)
     {
@@ -112,6 +111,7 @@ void Terrain::libererMemoire()
     {
         mRenderTree->vider();
         delete mRenderTree;
+        mRenderTree = NULL;
     }
 	// On ne libère pas la table, car elle est un enfant de l'arbre de rendu
 	mTable = NULL;
@@ -238,7 +238,7 @@ void Terrain::initialiserArbreRendu()
     mTable->ajouter(gPortail);
 
 	// Permet de rediriger les bandes extérieur de la table vers le groupe  gMuret
-	mTable->reassignerParentBandeExt();
+	//mTable->reassignerParentBandeExt();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -289,7 +289,7 @@ bool Terrain::initialiserXml( XmlElement* element )
 		mTable = mLogicTree->obtenirTable();
 		if(mTable == NULL)
 			throw std::runtime_error("Il ny a pas de table sur le terrain");
-		mTable->reassignerParentBandeExt();
+		//mTable->reassignerParentBandeExt();
         fullRebuild();
 	}
 	catch(std::runtime_error& e)
@@ -581,7 +581,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 				{
 					if(!mTable->estSurTable(n) )
 					{
-						// La suppression du noeud l'enlevera du groupe
+						// La suppression du pNode l'enlevera du groupe
 						g->effacer(n);
 						// Repositionnement de i pour pointer au bon endroit a la prochaine iteration
 						j--; 
@@ -672,7 +672,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudRondelle* Terrain::getRondelle()
+/// @fn NoeudRondelle* Terrain::getPuck()
 ///
 /// Accesseur de la rondelle
 ///
@@ -680,7 +680,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 /// @return NoeudRondelle* : pointeur sur la rondelle s'il la trouve, 0 sinon
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudRondelle* Terrain::getRondelle() const
+NoeudRondelle* Terrain::getPuck() const
 {
 	if(getTable())
 	{
@@ -713,8 +713,8 @@ void Terrain::appliquerPhysique( float temps )
 	{
 #if BOX2D_INTEGRATED
         /// TODO:: cache pointer to mallet for field to access directly
-        NoeudMaillet* mailletGauche = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
-        NoeudMaillet* mailletDroit = FacadeModele::getInstance()->obtenirMailletJoueurGauche();
+        NoeudMaillet* mailletGauche = getLeftMallet();
+        NoeudMaillet* mailletDroit = getRightMallet();
 
         if(mailletDroit)
         {
@@ -805,7 +805,6 @@ void Terrain::BeginContact( b2Contact* contact )
                                 partie->incrementerPointsJoueurGauche();
                             }
                             SoundFMOD::obtenirInstance()->playEffect(GOAL_EFFECT);
-                            partie->afficherScore();
                         }
                         partie->miseAuJeu();
                         rondelleBody->SetLinearVelocity(b2Vec2(0,0));
@@ -1134,6 +1133,206 @@ void Terrain::getSelectedNodes( ConteneurNoeuds& pSelectedNodes ) const
     }
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn NoeudMaillet* Terrain::getLeftMallet()
+///
+/// accesseur du maillet de gauche
+///
+///
+/// @return NoeudMaillet*
+///
+////////////////////////////////////////////////////////////////////////
+NoeudMaillet* Terrain::getLeftMallet() const
+{
+    NoeudMaillet* maillet = NULL;
+    if(getTable())
+    {
+        NoeudGroupe* g = getTable()->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
+        checkf(g, "Groupe pour les maillets manquant");
+        if(g)
+        {
+            for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
+            {
+                NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->chercher(i));
+                if( m->getPosition()[VX] <= 0 )
+                    maillet = m;
+            }
+        }
+    }
+    return maillet;
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn NoeudMaillet* Terrain::getRightMallet()
+///
+/// accesseur du maillet de droite
+///
+///
+/// @return NoeudMaillet*
+///
+////////////////////////////////////////////////////////////////////////
+NoeudMaillet* Terrain::getRightMallet() const
+{
+    NoeudMaillet* maillet = NULL;
+    if(getTable())
+    {
+        NoeudGroupe* g = getTable()->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
+        checkf(g, "Groupe pour les maillets manquant");
+        if(g)
+        {
+            for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
+            {
+                NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->chercher(i));
+                if(m->getPosition()[VX]>0)
+                    maillet = m;
+            }
+        }
+    }
+    return maillet;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool Terrain::IsNodeAtValidEditionPosition( NoeudAbstrait* pNode, bool pDoHightlightNodeInCollision /*= false*/ )
+///
+/// indicate if the node can be released at that position safely
+///
+/// @param[in] NoeudAbstrait * pNode : node to validate
+/// @param[in] bool pDoHightlightNodeInCollision : when true, node in collision with the node to validate will be highlighted
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool Terrain::IsNodeAtValidEditionPosition( NoeudAbstrait* pNode, bool pDoHightlightNodeInCollision /*= false*/ )
+{
+    VisiteurCollision visiteur(pNode,pDoHightlightNodeInCollision);
+    acceptVisitor(visiteur);
+    return !(visiteur.collisionPresente()) && insideLimits(pNode);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool Terrain::FixCollidingObjects()
+///
+/// /*Description*/
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool Terrain::FixCollidingObjects()
+{
+    bool tableValide = false;
+
+    static const int n = 5;
+    static const std::string groups[n] = {
+        RazerGameUtilities::NOM_ACCELERATEUR,
+        RazerGameUtilities::NOM_RONDELLE,
+        RazerGameUtilities::NOM_MURET,
+        RazerGameUtilities::NOM_PORTAIL,
+        RazerGameUtilities::NOM_MAILLET,
+    };
+
+    for(unsigned int iter = 0; iter < 10 && !tableValide ; ++iter)
+    {
+        tableValide = true;
+        for(int g=0; g<n; ++g)
+        {
+            NoeudGroupe* groupe = mTable->obtenirGroupe(groups[g]);
+            if(groupe)
+            {
+                for (auto it = groupe->obtenirEnfants().begin(); it != groupe->obtenirEnfants().end(); it++)
+                {
+                    tableValide &= FixCollindingNode(*it,2);
+                }
+            }
+        }
+    }
+    return tableValide;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool Terrain::FixCollindingNode( NoeudAbstrait* node )
+///
+/// /*Description*/
+///
+/// @param[in] NoeudAbstrait * node
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool Terrain::FixCollindingNode( NoeudAbstrait* pNode, unsigned int nbIterations )
+{
+    // Si l'un des pNode est null, on ne fait pas le travail
+    if(!pNode)
+        return true;
+
+    // Avant les tests de collision, on regarde d'abord si le pNode est dans les limites
+    if(!insideLimits(pNode))
+    {
+        // Repositionne au centre de la table
+        pNode->setPosition(Vecteur3());
+    }
+
+    VisiteurCollision v(pNode,false);
+    acceptVisitor(v);
+
+    unsigned int tentative = 0;
+    while( v.collisionPresente() && ++tentative <= nbIterations)
+    {
+        ConteneurNoeuds liste;
+        ConteneurDetailsCollision details = v.obtenirConteneurDetailsCollision();
+        v.obtenirListeCollision(liste);
+        for (int j = 0; j < liste.size()  ; j++)
+        {
+            //Vecteur3 deplacement(elementSurTable_[i]->getPosition() - liste[j]->getPosition());
+            Vecteur3 deplacement((details[j].direction*details[j].enfoncement)*-1);
+            if(deplacement.norme() == 0)
+                deplacement = Vecteur3(1.0,1.0);
+            //deplacement.normaliser();
+            VisiteurDeplacement vDeplacement(deplacement,true);
+            pNode->acceptVisitor(vDeplacement);
+        }
+        if(!insideLimits(pNode))
+        {
+            // Repositionne au centre de la table
+            pNode->setPosition(Vecteur3());
+        }
+        v.reinitialiser();
+        acceptVisitor(v);
+    }
+
+    // Il faut la partie égale de la comparaison, car le ++tentative 
+    // de la condition while ne ce fera pas s'il n'y a plus de collision
+    return tentative <= nbIterations;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn float Terrain::GetTableWidth()
+///
+/// /*Description*/
+///
+///
+/// @return float
+///
+////////////////////////////////////////////////////////////////////////
+float Terrain::GetTableWidth() const
+{
+    if(mTable)
+    {
+        return mTable->GetWidth();
+    }
+    if(mEditionZone)
+    {
+        return mEditionZone->obtenirLimiteExtLargeur()*2.f;
+    }
+    return ZoneEdition::DEFAUT_LIMITE_EXT_LARGEUR*2.f;
+}
 
 ///////////////////////////////////////////////////////////////////////////
 /// @}

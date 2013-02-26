@@ -21,6 +21,7 @@
 #include "Camera.h"
 #include "GestionnaireAnimations.h"
 #include "XMLUtils.h"
+#include "Terrain.h"
 
 
 GLuint Partie::listePause_ = 0;
@@ -34,7 +35,7 @@ const int Partie::POINTAGE_GAGNANT = 7;
 /// Constructeur qui initialise la partie.
 ///
 /// @param[in] SPJoueurAbstrait joueurGauche : le premier joueur.
-/// @param[in] SPJoueurAbstrait joueurDroit	 : le deuxième joueur.
+/// @param[in] SPJoueurAbstrait joueurDroit  : le deuxième joueur.
 ///
 /// @return 
 ///
@@ -42,8 +43,8 @@ const int Partie::POINTAGE_GAGNANT = 7;
 Partie::Partie(SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/ ):
 pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), enPause_(false), estPret_(false), faitPartieDunTournoi_(false)
 {
-	chiffres_ = new NoeudAffichage("3");
-	mFieldName = "";
+    chiffres_ = new NoeudAffichage("3");
+    mField = new Terrain(true);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -58,9 +59,10 @@ pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurD
 Partie::~Partie( void )
 {
     SignalGameOver();
-	joueurGauche_.reset();
-	joueurDroit_.reset();
-	delete chiffres_;
+    delete mField;
+    joueurGauche_.reset();
+    joueurDroit_.reset();
+    delete chiffres_;
 }
 
 
@@ -76,7 +78,7 @@ Partie::~Partie( void )
 ////////////////////////////////////////////////////////////////////////
 int Partie::obtenirPointsJoueurGauche() const
 {
-	return pointsJoueurGauche_;
+    return pointsJoueurGauche_;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -90,7 +92,7 @@ int Partie::obtenirPointsJoueurGauche() const
 ////////////////////////////////////////////////////////////////////////
 int Partie::obtenirPointsJoueurDroit() const
 {
-	return pointsJoueurDroit_;
+    return pointsJoueurDroit_;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -104,9 +106,9 @@ int Partie::obtenirPointsJoueurDroit() const
 ////////////////////////////////////////////////////////////////////////
 std::string Partie::obtenirNomJoueurGauche() const
 {
-	if(joueurGauche_)
-		return joueurGauche_->obtenirNom();
-	return "";
+    if(joueurGauche_)
+        return joueurGauche_->obtenirNom();
+    return "";
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -120,23 +122,23 @@ std::string Partie::obtenirNomJoueurGauche() const
 ////////////////////////////////////////////////////////////////////////
 std::string Partie::obtenirNomJoueurDroit() const
 {
-	if(joueurDroit_)
-		return joueurDroit_->obtenirNom();
-	return "";
+    if(joueurDroit_)
+        return joueurDroit_->obtenirNom();
+    return "";
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn std::string Partie::obtenirCheminTerrain() const
+/// @fn std::string Partie::getFieldName() const
 ///
 /// Accesseur du nom du terrain.
 ///
 /// @return Le nom du terrain.
 ///
 ////////////////////////////////////////////////////////////////////////
-std::string Partie::obtenirCheminTerrain() const
+const std::string& Partie::getFieldName() const
 {
-	return mFieldName;
+    return mField->getNom();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -148,9 +150,9 @@ std::string Partie::obtenirCheminTerrain() const
 /// @return Le nom du terrain.
 ///
 ////////////////////////////////////////////////////////////////////////
-void Partie::setFieldName( const std::string terrain )
+void Partie::setFieldName( const std::string& terrain )
 {
-	mFieldName = terrain;
+    mField->modifierNom(terrain);
 }
 
 
@@ -165,7 +167,7 @@ void Partie::setFieldName( const std::string terrain )
 ////////////////////////////////////////////////////////////////////////
 void Partie::incrementerPointsJoueurGauche()
 {
-	pointsJoueurGauche_++;
+    pointsJoueurGauche_++;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -179,7 +181,7 @@ void Partie::incrementerPointsJoueurGauche()
 ////////////////////////////////////////////////////////////////////////
 void Partie::incrementerPointsJoueurDroit()
 {
-	pointsJoueurDroit_++;
+    pointsJoueurDroit_++;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -193,9 +195,9 @@ void Partie::incrementerPointsJoueurDroit()
 ////////////////////////////////////////////////////////////////////////
 SPJoueurAbstrait Partie::obtenirGagnant() const
 {
-	if(!partieTerminee())
-		return 0;
-	return pointsJoueurGauche_ > pointsJoueurDroit_ ? joueurGauche_ : joueurDroit_;
+    if(!partieTerminee())
+        return 0;
+    return pointsJoueurGauche_ > pointsJoueurDroit_ ? joueurGauche_ : joueurDroit_;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -211,12 +213,12 @@ SPJoueurAbstrait Partie::obtenirGagnant() const
 ////////////////////////////////////////////////////////////////////////
 void Partie::assignerJoueur( SPJoueurAbstrait joueur )
 {
-	if(joueurGauche_ == 0)
-		modifierJoueurGauche(joueur);
-	else if(joueurDroit_ == 0)
-		modifierJoueurDroit(joueur);
-// 	else
-// 		delete joueur;
+    if(joueurGauche_ == 0)
+        modifierJoueurGauche(joueur);
+    else if(joueurDroit_ == 0)
+        modifierJoueurDroit(joueur);
+//  else
+//      delete joueur;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -231,18 +233,18 @@ void Partie::assignerJoueur( SPJoueurAbstrait joueur )
 ////////////////////////////////////////////////////////////////////////
 XmlElement* Partie::creerNoeudXML() const
 {
-	XmlElement* elementNoeud = XMLUtils::createNode("Partie");
+    XmlElement* elementNoeud = XMLUtils::createNode("Partie");
 
-	elementNoeud->SetAttribute("ptsG", pointsJoueurGauche_);
-	elementNoeud->SetAttribute("ptsD", pointsJoueurDroit_);
-	elementNoeud->SetAttribute("Terrain", mFieldName.c_str());
+    elementNoeud->SetAttribute("ptsG", pointsJoueurGauche_);
+    elementNoeud->SetAttribute("ptsD", pointsJoueurDroit_);
+    elementNoeud->SetAttribute("Terrain", getFieldName().c_str());
 
-	if(joueurGauche_ != 0)
-		elementNoeud->LinkEndChild(joueurGauche_->creerNoeudXML());
-	if(joueurDroit_ != 0)
-		elementNoeud->LinkEndChild(joueurDroit_->creerNoeudXML());
+    if(joueurGauche_ != 0)
+        elementNoeud->LinkEndChild(joueurGauche_->creerNoeudXML());
+    if(joueurDroit_ != 0)
+        elementNoeud->LinkEndChild(joueurDroit_->creerNoeudXML());
 
-	return elementNoeud;
+    return elementNoeud;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -258,41 +260,42 @@ XmlElement* Partie::creerNoeudXML() const
 ////////////////////////////////////////////////////////////////////////
 bool Partie::initialiserXML( XmlElement* elem, ConteneurJoueur* profilsVirtuelsExistants /*= 0*/ )
 {
-	if(elem->QueryIntAttribute("ptsG", &pointsJoueurGauche_) != TIXML_SUCCESS)
-		pointsJoueurGauche_ = 0;		//Probleme pour le chargement des points, on assigne un pointage nul
-	if(elem->QueryIntAttribute("ptsD", &pointsJoueurDroit_) != TIXML_SUCCESS)
-		pointsJoueurDroit_ = 0;		//Probleme pour le chargement des points, on assigne un pointage nul
+    if(elem->QueryIntAttribute("ptsG", &pointsJoueurGauche_) != TIXML_SUCCESS)
+        pointsJoueurGauche_ = 0;        //Probleme pour le chargement des points, on assigne un pointage nul
+    if(elem->QueryIntAttribute("ptsD", &pointsJoueurDroit_) != TIXML_SUCCESS)
+        pointsJoueurDroit_ = 0;     //Probleme pour le chargement des points, on assigne un pointage nul
 
-	// On recherche le terrain
-	const char* map = elem->Attribute("Terrain");
-	if(map == 0)
-		mFieldName = "";
-	else
-		mFieldName = map;
+    // On recherche le terrain
+    setFieldName("");
+    const char* map = elem->Attribute("Terrain");
+    if(map)
+    {
+        setFieldName(map);
+    }
 
-	const XmlElement* joueurXml = elem->FirstChildElement();
-	int nbJoueurs=0;
-	for( ; joueurXml/*Vérifie si child est non-null*/; joueurXml = joueurXml->NextSiblingElement() )
-	{
-		// On s'assure de ne pas ajouter plus que deux joueurs
-		if(nbJoueurs>= 2)
-			break;
-		SPJoueurAbstrait joueur( JoueurAbstrait::usineJoueurXML(joueurXml, profilsVirtuelsExistants) );
-		if(joueur)
-		{
-			assignerJoueur(joueur);
-			nbJoueurs++;
-		}
-		else
-		{
-			utilitaire::afficherErreur("Erreur: Problème pour l'initialisation d'un joueur dans une partie, joueur humain aléatoire generé");
-			joueur.reset(new JoueurHumain());
-			joueur->genererAleatoirement();
-			assignerJoueur(joueur);
-			nbJoueurs++;
-		}
-	}
-	return true;
+    const XmlElement* joueurXml = elem->FirstChildElement();
+    int nbJoueurs=0;
+    for( ; joueurXml/*Vérifie si child est non-null*/; joueurXml = joueurXml->NextSiblingElement() )
+    {
+        // On s'assure de ne pas ajouter plus que deux joueurs
+        if(nbJoueurs>= 2)
+            break;
+        SPJoueurAbstrait joueur( JoueurAbstrait::usineJoueurXML(joueurXml, profilsVirtuelsExistants) );
+        if(joueur)
+        {
+            assignerJoueur(joueur);
+            nbJoueurs++;
+        }
+        else
+        {
+            utilitaire::afficherErreur("Erreur: Problème pour l'initialisation d'un joueur dans une partie, joueur humain aléatoire generé");
+            joueur.reset(new JoueurHumain());
+            joueur->genererAleatoirement();
+            assignerJoueur(joueur);
+            nbJoueurs++;
+        }
+    }
+    return true;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -308,15 +311,15 @@ bool Partie::initialiserXML( XmlElement* elem, ConteneurJoueur* profilsVirtuelsE
 void Partie::reinitialiserPartie()
 {
     //SignalGameOver();
-	pointsJoueurGauche_ = 0;
-	pointsJoueurDroit_ = 0;
-	// Reinitialisation du noeudAffichage Chiffre
-	chiffres_->modifierListes("3");
-	chiffres_->assignerAffiche(false);
-	modifierEstPret(true);
-	tempsJeu_.reset_Time();
-	// Mise au jeu
-	//miseAuJeu();
+    pointsJoueurGauche_ = 0;
+    pointsJoueurDroit_ = 0;
+    // Reinitialisation du noeudAffichage Chiffre
+    chiffres_->modifierListes("3");
+    chiffres_->assignerAffiche(false);
+    modifierEstPret(true);
+    tempsJeu_.reset_Time();
+    // Mise au jeu
+    //miseAuJeu();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -333,46 +336,46 @@ void Partie::reinitialiserPartie()
 ////////////////////////////////////////////////////////////////////////
 void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle ) throw(std::logic_error)
 {
-	if(joueurDroit_ && joueurGauche_)
-	{
-		if(mailletGauche && mailletDroit && rondelle)
-		{
+    if(joueurDroit_ && joueurGauche_)
+    {
+        if(mailletGauche && mailletDroit && rondelle)
+        {
             joueurGauche_->setControlingMallet(mailletGauche);
             joueurDroit_->setControlingMallet(mailletDroit);
-			mailletGauche->setIsLeft(true);
-			mailletDroit->setIsLeft(false);
-			mailletGauche->setKeyboardControlled(false);
-			if(joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
-			{
-				mailletGauche->setIsAI(false);
-			}
-			else
-			{
-				mailletGauche->setIsAI(true);
-				
-				mailletGauche->setAIPlayer((JoueurVirtuel*)joueurGauche_.get());
-			}
-			if(joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
-			{
-				mailletDroit->setIsAI(false);
-				// Si le maillet gauche est controller par lordinateur alors le maillet droit est controle par la souris
-				mailletDroit->setKeyboardControlled(!mailletGauche->obtenirEstControleParOrdinateur());
-			}
-			else
-			{
-				mailletDroit->setIsAI(true);
-				mailletDroit->setAIPlayer((JoueurVirtuel*)joueurDroit_.get());
-			}
+            mailletGauche->setIsLeft(true);
+            mailletDroit->setIsLeft(false);
+            mailletGauche->setKeyboardControlled(false);
+            if(joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
+            {
+                mailletGauche->setIsAI(false);
+            }
+            else
+            {
+                mailletGauche->setIsAI(true);
+                
+                mailletGauche->setAIPlayer((JoueurVirtuel*)joueurGauche_.get());
+            }
+            if(joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
+            {
+                mailletDroit->setIsAI(false);
+                // Si le maillet gauche est controller par lordinateur alors le maillet droit est controle par la souris
+                mailletDroit->setKeyboardControlled(!mailletGauche->obtenirEstControleParOrdinateur());
+            }
+            else
+            {
+                mailletDroit->setIsAI(true);
+                mailletDroit->setAIPlayer((JoueurVirtuel*)joueurDroit_.get());
+            }
             mailletGauche->buildMouseJoint();
             mailletDroit->buildMouseJoint();
-		}
-		else
-			throw std::logic_error("Tente d'assigner les controles a des maillets et/ou rondelle non valides");
-	}
-	else
-	{
-		throw std::logic_error("Tente d'assigner les controles a des maillets lorsqu'il manque encore des joueurs dans la partie");
-	}
+        }
+        else
+            throw std::logic_error("Tente d'assigner les controles a des maillets et/ou rondelle non valides");
+    }
+    else
+    {
+        throw std::logic_error("Tente d'assigner les controles a des maillets lorsqu'il manque encore des joueurs dans la partie");
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -386,70 +389,49 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
 ////////////////////////////////////////////////////////////////////////
 void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 {
-	// Obtention des éléments
-	NoeudRondelle* rondelle = FacadeModele::getInstance()->obtenirRondelle();
-	NoeudMaillet* maillet1 = FacadeModele::getInstance()->obtenirMailletJoueurGauche();
-	NoeudMaillet* maillet2 = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
+    // Obtention des éléments
+    NoeudRondelle* rondelle = mField->getPuck();
+    NoeudMaillet* maillet1 = mField->getLeftMallet();
+    NoeudMaillet* maillet2 = mField->getRightMallet();
 
-	// Positionnement
-	rondelle->setPosition(rondelle->obtenirPositionOriginale());
-	maillet1->setPosition(maillet1->obtenirPositionOriginale());
-	maillet2->setPosition(maillet2->obtenirPositionOriginale());
-	rondelle->modifierVitesseRotation(0);
+    // Positionnement
+    rondelle->setPosition(rondelle->obtenirPositionOriginale());
+    rondelle->modifierVitesseRotation(0);
 
-	int dureeAnimationIntro = 0;
-	
+    maillet1->setPosition(maillet1->obtenirPositionOriginale());
+    maillet2->setPosition(maillet2->obtenirPositionOriginale());
 
-	if(debutDePartie)
-	{
-		dureeAnimationIntro = 3500;
+    int dureeAnimationIntro = 0;
+    
 
-
-		AnimationFrame* frame[7];
-		frame[0] = new AnimationFrame(0, Vecteur3(-300, -150, 200), Vecteur3(0, 0, 0), Vecteur3(0, 0, 1));
-		frame[1] = new AnimationFrame(500, Vecteur3(300, -150, 200), Vecteur3(0, 0, 0), Vecteur3(0, 0, 1));
-		frame[2] = new AnimationFrame(1000, Vecteur3(300, 150, 200), Vecteur3(0, 0, 0), Vecteur3(0, 0, 1));
-		frame[3] = new AnimationFrame(1700, Vecteur3(-300, 150, 200), Vecteur3(0, 0, 0), Vecteur3(0, 0, 1));
-		frame[4] = new AnimationFrame(2000, Vecteur3(-300, -150, 200), Vecteur3(0, 0, 0), Vecteur3(0, 0, 1));
-		frame[5] = new AnimationFrame(2500, Vecteur3(300, 0, 0), Vecteur3(150, 0, 0), Vecteur3(0, 0, 1));
-		frame[6] = new AnimationFrame((float)dureeAnimationIntro, Vecteur3(0, -0.0001f, 300), Vecteur3(0, 0, 0), Vecteur3(0, 1, 0));
+    if(debutDePartie)
+    {
+        dureeAnimationIntro = 3500;
 
 
-		Animation* animation = new Animation(BEZIER, true, true, true);
-		for(int i=0; i<7; i++)
-			animation->ajouterFrame(frame[i]);
+        AnimationFrame* frame[7];
+        frame[0] = new AnimationFrame(0, Vecteur3(-300, -150, 200), Vecteur3(0, 0, 0), Vecteur3(0, 0, 1));
+        frame[1] = new AnimationFrame(500, Vecteur3(300, -150, 200), Vecteur3(0, 0, 0), Vecteur3(0, 0, 1));
+        frame[2] = new AnimationFrame(1000, Vecteur3(300, 150, 200), Vecteur3(0, 0, 0), Vecteur3(0, 0, 1));
+        frame[3] = new AnimationFrame(1700, Vecteur3(-300, 150, 200), Vecteur3(0, 0, 0), Vecteur3(0, 0, 1));
+        frame[4] = new AnimationFrame(2000, Vecteur3(-300, -150, 200), Vecteur3(0, 0, 0), Vecteur3(0, 0, 1));
+        frame[5] = new AnimationFrame(2500, Vecteur3(300, 0, 0), Vecteur3(150, 0, 0), Vecteur3(0, 0, 1));
+        frame[6] = new AnimationFrame((float)dureeAnimationIntro, Vecteur3(0, -0.0001f, 300), Vecteur3(0, 0, 0), Vecteur3(0, 1, 0));
 
-		vue::Camera* cameraCourante = &FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
-		animation->ajouterObjet((ObjetAnimable*)cameraCourante);
-		GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
-	
-		
-		tempsJeu_.reset_Time();
-	}
-	delais(4100+dureeAnimationIntro);
+
+        Animation* animation = new Animation(BEZIER, true, true, true);
+        for(int i=0; i<7; i++)
+            animation->ajouterFrame(frame[i]);
+
+        vue::Camera* cameraCourante = &FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
+        animation->ajouterObjet(cameraCourante);
+        GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
+    
+        tempsJeu_.reset_Time();
+    }
+    delais(4100+dureeAnimationIntro);
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void Partie::afficherScore() const
-///
-/// Affichae le pointage dans un message d'erreur (temporaire, bien sûr).
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void Partie::afficherScore() const
-{
-	return; // Non utilisée pour l'instant
-	FacadeModele::getInstance()->togglePause();
-    std::ostringstream mess;
-    mess << "Pointage: ";
-    mess << obtenirPointsJoueurGauche();
-    mess << "\t";
-    mess << obtenirPointsJoueurDroit();
-	utilitaire::afficherErreur(mess.str());
-	FacadeModele::getInstance()->togglePause();
-}
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -464,10 +446,10 @@ void Partie::afficherScore() const
 ////////////////////////////////////////////////////////////////////////
 void Partie::delais( int time )
 {
-	modifierEstPret(false);
-	minuterie_ = time;
-	if(chiffres_==0)
-		return;
+    modifierEstPret(false);
+    minuterie_ = time;
+    if(chiffres_==0)
+        return;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -483,40 +465,36 @@ void Partie::delais( int time )
 ////////////////////////////////////////////////////////////////////////
 void Partie::updateMinuterie( int time )
 {
-	if(estPret_)
-		return;
+    if(estPret_)
+        return;
 
-	if(estEnPause())
-	{
-		delais(3100);
-		return;
-	}
+    if(estEnPause())
+    {
+        delais(3100);
+        return;
+    }
 
-	int minuterieAvant = minuterie_;
-	minuterie_ -= (time*2);
-	if(minuterie_ < 0)
-	{
-		//FacadeModele::obtenirInstance()->obtenirVue()->centrerCamera(FacadeModele::obtenirInstance()->obtenirLargeurZoneEdition());
+    int minuterieAvant = minuterie_;
+    minuterie_ -= (time*2);
+    if(minuterie_ < 0)
+    {
+        minuterie_ = 0;
+        chiffres_->modifierListes("3");
+        chiffres_->assignerAffiche(false);
+        modifierEstPret(true);
+        return;
+    }
 
-		/////
-
-		minuterie_ = 0;
-		chiffres_->modifierListes("3");
-		chiffres_->assignerAffiche(false);
-		modifierEstPret(true);
-		return;
-	}
-
-	
-	if((minuterieAvant/1000-minuterie_/1000)!=0)
-	{
-		if(chiffres_!=0)
-		{
-			int lequel = (minuterie_/1000+1);
-			if(lequel!=1 && lequel!=2 && lequel!=3)
-				return;
-			chiffres_->assignerAffiche(true);
-			SoundFMOD::obtenirInstance()->playEffect(BEEP_EFFECT);
+    
+    if((minuterieAvant/1000-minuterie_/1000)!=0)
+    {
+        if(chiffres_!=0)
+        {
+            int lequel = (minuterie_/1000+1);
+            if(lequel!=1 && lequel!=2 && lequel!=3)
+                return;
+            chiffres_->assignerAffiche(true);
+            SoundFMOD::obtenirInstance()->playEffect(BEEP_EFFECT);
 
             // Creation d'une chaine avec le charactère 0
             std::string numeroString = "0";
@@ -524,11 +502,11 @@ void Partie::updateMinuterie( int time )
             numeroString[0] += lequel;
             chiffres_->modifierListes(numeroString);
 
-			chiffres_->resetEchelle();
-			if(lequel == 2)
-				FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->obtenirLargeurZoneEdition());
-		}
-	}
+            chiffres_->resetEchelle();
+            if(lequel == 2)
+                FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -544,9 +522,9 @@ void Partie::updateMinuterie( int time )
 ////////////////////////////////////////////////////////////////////////
 void Partie::modifierJoueurDroit( SPJoueurAbstrait val )
 {
-// 	if(joueurDroit_)
-// 		delete joueurDroit_;
-	joueurDroit_ = val;
+//  if(joueurDroit_)
+//      delete joueurDroit_;
+    joueurDroit_ = val;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -562,9 +540,9 @@ void Partie::modifierJoueurDroit( SPJoueurAbstrait val )
 ////////////////////////////////////////////////////////////////////////
 void Partie::modifierJoueurGauche( SPJoueurAbstrait val )
 {
-// 	if(joueurGauche_)
-// 		delete joueurGauche_;
-	joueurGauche_ = val;
+//  if(joueurGauche_)
+//      delete joueurGauche_;
+    joueurGauche_ = val;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -579,8 +557,8 @@ void Partie::modifierJoueurGauche( SPJoueurAbstrait val )
 ////////////////////////////////////////////////////////////////////////
 void Partie::afficher()
 {
-	
-	
+    
+    
 
 }
 
@@ -596,15 +574,15 @@ void Partie::afficher()
 ////////////////////////////////////////////////////////////////////////
 void Partie::vider()
 {
-	pointsJoueurGauche_ = 0;
-	pointsJoueurDroit_ = 0;
-	joueurGauche_.reset();
-	joueurDroit_.reset();
-// 	modifierJoueurGauche(0);
-// 	modifierJoueurDroit(0);
-	enPause_ = false;
-	estPret_ = false;
-	faitPartieDunTournoi_ = false;
+    pointsJoueurGauche_ = 0;
+    pointsJoueurDroit_ = 0;
+    joueurGauche_.reset();
+    joueurDroit_.reset();
+//  modifierJoueurGauche(0);
+//  modifierJoueurDroit(0);
+    enPause_ = false;
+    estPret_ = false;
+    faitPartieDunTournoi_ = false;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -619,47 +597,47 @@ void Partie::vider()
 ////////////////////////////////////////////////////////////////////////
 bool Partie::terminerSi2AI()
 {
-	if(partieVirtuelle())
-	{
-		JoueurVirtuel* jvg = dynamic_cast<JoueurVirtuel*>(obtenirJoueurGauche().get());
-		JoueurVirtuel* jvd = dynamic_cast<JoueurVirtuel*>(obtenirJoueurDroit().get());
-		if(jvg && jvd)
-		{
-			// Score joueur gauche
-			unsigned int s1 = (110-jvg->obtenirProbabiliteEchec())*jvg->obtenirVitesse();
-			// Score joueur droit
-			unsigned int s2 = (110-jvd->obtenirProbabiliteEchec())*jvd->obtenirVitesse();
-			// Probabilite du joueur gauche de gagner
-			unsigned int p1 = (int)(( s1/(float(s1+s2)) )*100);
+    if(partieVirtuelle())
+    {
+        JoueurVirtuel* jvg = dynamic_cast<JoueurVirtuel*>(obtenirJoueurGauche().get());
+        JoueurVirtuel* jvd = dynamic_cast<JoueurVirtuel*>(obtenirJoueurDroit().get());
+        if(jvg && jvd)
+        {
+            // Score joueur gauche
+            unsigned int s1 = (110-jvg->obtenirProbabiliteEchec())*jvg->obtenirVitesse();
+            // Score joueur droit
+            unsigned int s2 = (110-jvd->obtenirProbabiliteEchec())*jvd->obtenirVitesse();
+            // Probabilite du joueur gauche de gagner
+            unsigned int p1 = (int)(( s1/(float(s1+s2)) )*100);
 
-			// On roule de pour savoir qui a gagner
-			if(rand()%100 <= (int)p1)
-			{
-				pointsJoueurGauche_ = POINTAGE_GAGNANT;
-				pointsJoueurDroit_ = rand()%POINTAGE_GAGNANT;
-			}
-			else
-			{
-				pointsJoueurDroit_ = POINTAGE_GAGNANT;
-				pointsJoueurGauche_ = rand()%POINTAGE_GAGNANT;
-			}
-			return true;
-		}
-		else
-		{
-			utilitaire::afficherErreur("Les joueurs de la partie sont indiqués comme joueur virtuel mais ne le sont pas");
-		}
-	}
-	return false;
+            // On roule de pour savoir qui a gagner
+            if(rand()%100 <= (int)p1)
+            {
+                pointsJoueurGauche_ = POINTAGE_GAGNANT;
+                pointsJoueurDroit_ = rand()%POINTAGE_GAGNANT;
+            }
+            else
+            {
+                pointsJoueurDroit_ = POINTAGE_GAGNANT;
+                pointsJoueurGauche_ = rand()%POINTAGE_GAGNANT;
+            }
+            return true;
+        }
+        else
+        {
+            utilitaire::afficherErreur("Les joueurs de la partie sont indiqués comme joueur virtuel mais ne le sont pas");
+        }
+    }
+    return false;
 }
 
 bool Partie::partieVirtuelle()
 {
-	if(obtenirJoueurGauche() && obtenirJoueurDroit())
-	{
-		return obtenirJoueurGauche()->obtenirType() == JOUEUR_VIRTUEL && obtenirJoueurDroit()->obtenirType() == JOUEUR_VIRTUEL;
-	}
-	return false;
+    if(obtenirJoueurGauche() && obtenirJoueurDroit())
+    {
+        return obtenirJoueurGauche()->obtenirType() == JOUEUR_VIRTUEL && obtenirJoueurDroit()->obtenirType() == JOUEUR_VIRTUEL;
+    }
+    return false;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -674,9 +652,9 @@ bool Partie::partieVirtuelle()
 ////////////////////////////////////////////////////////////////////////
 PositionJoueur Partie::obtenirPositionGagant()
 {
-	if(!partieTerminee())
-		return GAGNANT_AUCUN;
-	return pointsJoueurGauche_ > pointsJoueurDroit_ ? GAGNANT_GAUCHE : GAGNANT_DROITE;
+    if(!partieTerminee())
+        return GAGNANT_AUCUN;
+    return pointsJoueurGauche_ > pointsJoueurDroit_ ? GAGNANT_GAUCHE : GAGNANT_DROITE;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -713,6 +691,48 @@ void Partie::SignalGameOver()
 
         joueurDroit_->setControlingMallet(NULL);
     }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool Partie::getReadyToPlay()
+///
+/// /*Description*/
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool Partie::getReadyToPlay()
+{
+    if(getFieldName().size() == 0)
+    {
+        mField->creerTerrainParDefaut(FacadeModele::FICHIER_TERRAIN_EN_COURS);
+    }
+    else
+    {
+        RazerGameUtilities::chargerTerrain(getFieldName(),*mField);
+    }
+
+    if(!mField->verifierValidite())
+    {
+        return false;
+    }
+    
+    try
+    {
+        assignerControlesMaillet(mField->getLeftMallet(),mField->getRightMallet(),mField->getPuck());
+    }
+    catch(std::logic_error& e)
+    {
+        utilitaire::afficherErreur(e.what());
+        return false;
+    }
+
+    mField->setTableItemsSelection(false);
+    mField->setTableControlPointVisible(false);
+
+    return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

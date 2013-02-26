@@ -17,6 +17,8 @@
 enum TypeCollision{SEGMENT, CERCLE};
 typedef std::vector<aidecollision::DetailsCollision> ConteneurDetailsCollision;
 
+class VisitorQueryCallBack;
+
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class VisiteurCollision
@@ -29,6 +31,7 @@ class VisiteurCollision :
 	public VisiteurNoeud
 {
 public:
+    friend VisitorQueryCallBack;
 	/// Constructeur par paramètre
 	VisiteurCollision(NoeudAbstrait* noeudAVerifier, bool flag = true);
 	/// Constructeur par paramètre

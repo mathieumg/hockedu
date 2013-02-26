@@ -69,8 +69,8 @@ void GestionnaireEvenements::modifierEtat(const EtatGestion &nouvelEtat)
 	switch(nouvelEtat)
 	{
 		case ETAT_MENU_PRINCIPAL: etatCourant_ = new GestionnaireEtatMenuPrincipal(this); break;
-		case ETAT_MODE_EDITION: etatCourant_ = new GestionnaireEtatModeEdition(this); break;
-		case ETAT_MODE_JEU: etatCourant_ = new GestionnaireEtatModeJeu(this); break;
+		case ETAT_MODE_EDITION: etatCourant_ = new GestionnaireEtatModeEdition(this,FacadeModele::getInstance()->getEditionField()); break;
+        case ETAT_MODE_JEU: etatCourant_ = new GestionnaireEtatModeJeu(this,FacadeModele::getInstance()->obtenirPartieCourante()); break;
 		case ETAT_MODE_TOURNOI: etatCourant_ = new GestionnaireEtatModeTournoi(this); break;
 		case ETAT_PARTIE_RAPIDE_TERMINEE: etatCourant_ = new GestionnaireEtatPartieRapideTerminee(this); break;
 		case ETAT_PARTIE_TOURNOI_TERMINEE: etatCourant_ = new GestionnaireEtatPartieTournoiTerminee(this); break;
@@ -111,7 +111,7 @@ void GestionnaireEvenements::toucheEnfoncee(EvenementClavier& evenementClavier)
 	}
 	if(evenementClavier.obtenirTouche() == VJAK_0)
 	{
-		FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->obtenirLargeurZoneEdition());
+		FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 	}
 	etatCourant_->toucheEnfoncee(evenementClavier);
 }

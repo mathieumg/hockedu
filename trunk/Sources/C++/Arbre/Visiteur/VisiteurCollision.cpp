@@ -18,8 +18,36 @@
 #include "NoeudPoint.h"
 #include "NoeudAccelerateur.h"
 #include "Noeuds\NodeControlPoint.h"
+#if BOX2D_INTEGRATED  
+#include <Box2D/Box2D.h>
+#endif
 
 
+#if BOX2D_INTEGRATED  
+class VisitorQueryCallBack: public b2QueryCallback
+{
+public:
+    VisitorQueryCallBack(VisiteurCollision&v, NoeudAbstrait* noeud):
+        mVisitor(v),mNoeud(noeud){}
+
+    /// Called for each fixture found in the query AABB.
+    /// @return false to terminate the query.
+    virtual bool ReportFixture(b2Fixture* fixture)
+    {
+        NoeudAbstrait* n = dynamic_cast<NoeudAbstrait*>((NoeudAbstrait*)fixture->GetBody()->GetUserData());
+        if(n && mNoeud!= n)
+        {
+            noeudsCollision_.push_back(n);
+        }
+        return true;
+    }
+
+private:
+    ConteneurNoeuds noeudsCollision_;
+    VisiteurCollision& mVisitor;
+    NoeudAbstrait* mNoeud;
+};
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -40,6 +68,32 @@ VisiteurCollision::VisiteurCollision( NoeudAbstrait* noeudAVerifier , bool flag 
 	noeudAVerifier_ = noeudAVerifier;
 	noeudAVerifier->assignerAttributVisiteurCollision(this);
 	positionAVerifier_ = noeudAVerifier->getPosition().convertir<2>();
+
+
+#if BOX2D_INTEGRATED  
+    if(noeudAVerifier_)
+    {
+        b2Body* body = noeudAVerifier_->getPhysicBody();
+        b2World* world = noeudAVerifier_->getWorld();
+        if(world && body)
+        {
+            
+            b2AABB aabb;
+            aabb.lowerBound = b2Vec2(FLT_MAX,FLT_MAX);
+            aabb.upperBound = b2Vec2(-FLT_MAX,-FLT_MAX); 
+            for(b2Fixture* fixture = body->GetFixtureList(); fixture; fixture = fixture->GetNext())
+            {
+                for(int32 i = fixture->getProxyCount()-1; i>=0; --i)
+                {
+                    aabb.Combine(aabb,fixture->GetAABB(i));
+                }
+            }
+            VisitorQueryCallBack callback(*this,noeudAVerifier_);
+            world->QueryAABB(&callback,aabb);
+        }
+    }
+
+#endif
 
 
 	/// PAS OUBLIER DE REINITIALISER LES NOUVELLES VARIABLE DANS LA METHODE REINITIALISER
@@ -98,7 +152,6 @@ VisiteurCollision::~VisiteurCollision(void)
 ////////////////////////////////////////////////////////////////////////
 void VisiteurCollision::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 {
-	
 	
 }
 

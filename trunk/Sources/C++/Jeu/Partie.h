@@ -63,9 +63,6 @@ public:
 	/// Effectue une mise au jeu
 	void miseAuJeu( bool debutDePartie = false );
 
-	/// Affiche le score
-	void afficherScore() const;
-
 	/// Cree un delais d'inactivite de (time) ms
 	void delais(int time);
 
@@ -84,6 +81,10 @@ public:
 	/// Retourne lobjet gameTime
 	GameTime* obtenirGameTime(){return &tempsJeu_;}
 
+    float obtenirTempsJeu(){ return tempsJeu_.Elapsed_Time_sec(); }
+    void SignalGameOver();
+    bool getReadyToPlay();
+
 /// Methode Privee
 private:
 	/// Modificateur de estPret_
@@ -99,8 +100,6 @@ private:
 	int pointsJoueurGauche_;
 	int pointsJoueurDroit_;
 
-	/// Fichier xml où est enregistré le terrain de la partie
-	std::string mFieldName;
 	/// Indique si la partie peut debuter/continuer
 	bool estPret_;
 	/// Indique si la partie est en pause
@@ -119,7 +118,7 @@ private:
 
 	/// Indique si cette
 	bool faitPartieDunTournoi_;
-
+    /// Terrain associé à la partie, son scope est le meme que la partie
     Terrain* mField;
 
 /// Accesseurs
@@ -155,8 +154,8 @@ public:
 	void modifierJoueurGauche(SPJoueurAbstrait val);
 
 	/// Accesseur et modificateur pour le terrain
-	std::string obtenirCheminTerrain() const;
-	void setFieldName(const std::string terrain);
+    const std::string& getFieldName() const;
+    void setFieldName(const std::string& terrain);
 
 	/// Retourne le gagnant de la partie
 	SPJoueurAbstrait obtenirGagnant() const;
@@ -164,20 +163,8 @@ public:
 	PositionJoueur obtenirPositionGagant();
 	/// Indique si la partie est prete
 	bool estPret() const {return estPret_;}
-
-	float obtenirTempsJeu(){ return tempsJeu_.Elapsed_Time_sec(); }
-    ////////////////////////////////////////////////////////////////////////
-    ///
-    /// @fn void SignalGameOver()
-    ///
-    /// /*Description*/
-    ///
-    /// @param[in] 
-    ///
-    /// @return void
-    ///
-    ////////////////////////////////////////////////////////////////////////
-    void SignalGameOver();
+    /// Accessors of mField
+    inline Terrain* getField() const { return mField; }
 };
 
 ///////////////////////////////////////////////////////////////////////////////

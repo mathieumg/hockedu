@@ -192,7 +192,7 @@ void GestionnaireEtatModeTournoi::animer( const float& temps )
 				contexte_->modifierEtat(ETAT_PARTIE_TOURNOI_TERMINEE);
 				return;
 			}
-			Terrain* terrain = FacadeModele::getInstance()->getTerrain();
+			Terrain* terrain = FacadeModele::getInstance()->getEditionField();
 			if(partieCourante->estPret() && terrain)
 			{
 				// Gestion de la physique du jeu

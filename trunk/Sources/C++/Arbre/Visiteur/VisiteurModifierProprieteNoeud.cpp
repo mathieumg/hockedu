@@ -169,9 +169,9 @@ void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NodeWallAbstract* noeud 
 			noeud->assignerAngle((float)rotation_);
 			Vecteur3 oldEchelle; noeud->obtenirEchelleCourante(oldEchelle);
 			noeud->modifierEchelleCourante(Vecteur3(echelle_*10, oldEchelle[VY], oldEchelle[VZ]));
-
+            Terrain* field = noeud->GetTerrain();
 			// Si on arrive pas à assigner les nouvelles positions on annule les modifications et l'indique à l'usager
-			if(!FacadeModele::getInstance()->ajusterElementEnCollision(noeud,20))
+			if(!field || !field->FixCollindingNode(noeud,20))
 			{
 				noeud->setPosition(oldPos);
 				noeud->assignerAngle(oldAngle);
@@ -376,7 +376,8 @@ void VisiteurModifierProprieteNoeud::visiterNoeudPoint( NoeudPoint* noeud )
 		VisiteurDeplacement visiteur(deplacement);
 		noeud->acceptVisitor(visiteur);
 
-		if(!FacadeModele::getInstance()->ajusterElementSurTableEnCollision())
+        Terrain* field = noeud->GetTerrain();
+		if(!field || !field->FixCollidingObjects())
 		{
 			VisiteurDeplacement visiteur(deplacement*-1);
 			noeud->acceptVisitor(visiteur);
@@ -436,9 +437,9 @@ void VisiteurModifierProprieteNoeud::visiterNoeudNeutre( NoeudAbstrait* noeud )
 
 
 		noeud->updateMatrice();
-
+        Terrain* field = noeud->GetTerrain();
 		/// On regle les nouvelles collision créé
-		if(!FacadeModele::getInstance()->ajusterElementEnCollision(noeud,20))
+        if(!field || !field->FixCollindingNode(noeud,20))
 		{
 			noeud->setPosition(oldPos);
 			noeud->assignerAngle(oldAngle);

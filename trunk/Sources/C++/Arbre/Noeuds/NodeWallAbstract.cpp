@@ -68,7 +68,6 @@ NodeWallAbstract::NodeWallAbstract(const std::string& typeNoeud)
 ////////////////////////////////////////////////////////////////////////
 NodeWallAbstract::~NodeWallAbstract()
 {
-	FacadeModele::getInstance()->supprimerElementSurTable(this);
 }
 
 

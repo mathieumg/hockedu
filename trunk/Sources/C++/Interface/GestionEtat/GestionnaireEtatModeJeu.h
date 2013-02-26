@@ -24,7 +24,7 @@ class GestionnaireEtatModeJeu : public GestionnaireEtatAbstrait
 {
 public:
 	/// Constructeur par paramètre.
-	GestionnaireEtatModeJeu(GestionnaireEvenements* contexte);
+	GestionnaireEtatModeJeu(GestionnaireEvenements* contexte, Partie* pGame);
 	/// Destructeur virtuel
 	virtual ~GestionnaireEtatModeJeu();
 
@@ -52,6 +52,8 @@ private:
 	bool enfonce_;
 	int boutonEnfonce_;
 	Vecteur2i positionSouris_;
+    /// pointer to the current game
+    Partie* mGame;
 };
 
 #endif

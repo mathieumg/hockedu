@@ -110,8 +110,6 @@ public:
 
     /// Charge un terrain à partir d'un fichier XML.
     void chargerTerrain( const std::string& nomFichier = "", Terrain** terrain = 0);
-	/// Enregistre un terrain dans un fichier XML.
-	void enregistrerTerrain(const std::string& nomFichier = "", Terrain* terrain = 0);
 	/// Charge les joueurs à partir d'un fichier XML.
 	void chargerJoueurs( const std::string& nomFichier = "", ConteneurJoueur* joueurs = 0 );
 	/// Enregistre les joueurs dans un fichier XML.
@@ -202,15 +200,6 @@ public:
 	/// Vérification pour voir si un noeud est dans les limites de la zone edition
 	bool insideLimits(NoeudAbstrait* noeud);
 
-	/// Méthode pour ajouter un élément sur la table
-	void ajouterElementSurTable(NoeudAbstrait* n);
-	/// Méthode pour supprimer un élément sur la table
-	void supprimerElementSurTable(NoeudAbstrait* n);
-	/// Algorithme pour rétablir la table dans un état où les éléments ne sont pas en collision
-	bool ajusterElementSurTableEnCollision(const unsigned int& nbIteration = 10);
-	/// Algorithme pour que les noeud en collisions se repositionne correctement
-    bool ajusterElementEnCollision( NoeudAbstrait* noeud, const unsigned int& nbIterations = 10 );
-
 	/// Ajout d'un joueur
 	void ajouterJoueur(SPJoueurAbstrait joueur);
 	/// Suppression d'un joueur
@@ -218,7 +207,7 @@ public:
 	/// Verifier si la map est valide pour jouer, soit la presence de 2 maillet sur des parties oppose de la map et une rondelle
 	bool verifierValiditeMap( Terrain*terrain= 0 );
 	/// Création d'un terrain par défaut
-    void creerTerrainParDefaut(Terrain** pField);
+    void creerTerrainParDefaut();
 
 	/// Permet de creer le tournoi avec une liste de joueurs y participants
 	void initialiserTournoi(JoueursParticipant joueurs, std::string terrain);
@@ -253,7 +242,11 @@ public:
     void RunOnRenderThread(Runnable* run, bool pForceQueue = false);
     void RunOnUpdateThread(Runnable* run, bool pForceQueue = false);
 
+    /// Nom du fichier XML dans lequel doit se trouver le terrain par defaut
+    static const std::string FICHIER_TERRAIN_EN_COURS;
 
+    /// Nom du fichier XML dans lequel doit se trouver les joueurs.
+    static const std::string FICHIER_JOUEURS;
 private:
    /// Constructeur par défaut.
    FacadeModele();
@@ -267,11 +260,7 @@ private:
    FacadeModele& operator =(const FacadeModele&);
    /// Liberation de la mémoire
    void libererMemoire();
-   /// Nom du fichier XML dans lequel doit se trouver le terrain par defaut
-   static const std::string FICHIER_TERRAIN_EN_COURS;
-  
-   /// Nom du fichier XML dans lequel doit se trouver les joueurs.
-   static const std::string FICHIER_JOUEURS;
+
 
 	/// Pointeur vers l'instance unique de la classe.
 	static FacadeModele* instance_;
@@ -300,8 +289,6 @@ private:
 	Vecteur2i coinElastique1_;
 	Vecteur2i coinElastique2_;
 
-	/// Conteneur des éléments modifiable sur la table
-	ConteneurNoeuds elementSurTable_;
 	/// Joueurs possibles
 	ConteneurJoueur profilsVirtuels_;
 	/// Tournoi courant
@@ -349,8 +336,7 @@ public:
 	inline vue::Vue* obtenirVue();
 
 	/// Accesseur de mFieldName
-    inline Terrain* getTerrain() const { return mEditionField; }
-    inline Terrain** getTerrainModifier() { return &mEditionField; }
+    inline Terrain* getEditionField() const { return mEditionField; }
 
 	/// Application de la mise a l'echelle sur les noeuds selectionnes de l'arbre
 	void modifierDeplacement(Vecteur2 deplacement);
@@ -370,7 +356,7 @@ public:
 	Tournoi* obtenirTournoi();
 
 	/// Obtention de la largeur de la zone d'edition
-	float obtenirLargeurZoneEdition();
+	float getTableWidth();
 
 	/// Accesseur de partieCourante_
 	Partie* obtenirPartieCourante() const { return partieCourante_; }

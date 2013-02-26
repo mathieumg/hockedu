@@ -358,7 +358,7 @@ void PauseGame( bool doPause )
 ///
 /// @fn void GenerateDefaultField()
 ///
-/// /*Description*/
+/// permet de creer un terrain par defaut pour le mode edition
 ///
 ///
 /// @return void
@@ -366,7 +366,7 @@ void PauseGame( bool doPause )
 ////////////////////////////////////////////////////////////////////////
 void GenerateDefaultField()
 {
-    FacadeModele::getInstance()->creerTerrainParDefaut(FacadeModele::getInstance()->getTerrainModifier());
+    FacadeModele::getInstance()->creerTerrainParDefaut();
 }
 
 ////////////////////////////////////////////////////////////////////////

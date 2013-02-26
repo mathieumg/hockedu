@@ -27,7 +27,7 @@ class SourisEtatAjoutControlPointMutable :
 public:
     typedef SourisEtatAjout Super;
 	/// Constructeur par paramètre
-	SourisEtatAjoutControlPointMutable(const std::string& typeNoeud);
+	SourisEtatAjoutControlPointMutable(Terrain* pField, const std::string& typeNoeud);
     /// asks the node to give the next control point to modify
     bool createNextControlPoint();
     /// Destructeur virtuel

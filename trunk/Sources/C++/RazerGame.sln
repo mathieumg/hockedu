@@ -1,5 +1,5 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RazerGame", "RazerGame.vcxproj", "{67188F6B-27BE-4E93-A7EF-C512656343A1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utilitaire", "..\..\Commun\Utilitaire\Utilitaire.vcxproj", "{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}"
@@ -7,11 +7,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Box2D", "..\..\Commun\Externe\BuildBox2D\vs2010\Box2D.vcxproj", "{98400D17-43A5-1A40-95BE-C53AC78E7694}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIHeavyClient", "..\C#\UIHeavyClient\UIHeavyClient\UIHeavyClient.csproj", "{8A935C00-5AD9-4CED-9867-B2F0174BF979}"
-	ProjectSection(ProjectDependencies) = postProject
-		{67188F6B-27BE-4E93-A7EF-C512656343A1} = {67188F6B-27BE-4E93-A7EF-C512656343A1}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExecuteUnitTests", "..\ExecuteUnitTests\ExecuteUnitTests.csproj", "{F8497571-CB74-4F8D-89E8-2B01DA054851}"
 	ProjectSection(ProjectDependencies) = postProject
 		{67188F6B-27BE-4E93-A7EF-C512656343A1} = {67188F6B-27BE-4E93-A7EF-C512656343A1}
 	EndProjectSection
@@ -73,11 +68,6 @@ Global
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Release|x64.ActiveCfg = Release|x64
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.Release|x64.Build.0 = Release|x64
 		{8A935C00-5AD9-4CED-9867-B2F0174BF979}.WithJava|x64.ActiveCfg = Debug|x64
-		{F8497571-CB74-4F8D-89E8-2B01DA054851}.C++Client|x64.ActiveCfg = Debug|x64
-		{F8497571-CB74-4F8D-89E8-2B01DA054851}.Debug|x64.ActiveCfg = Debug|x64
-		{F8497571-CB74-4F8D-89E8-2B01DA054851}.DebugPrototype|x64.ActiveCfg = Debug|x64
-		{F8497571-CB74-4F8D-89E8-2B01DA054851}.Release|x64.ActiveCfg = Release|x64
-		{F8497571-CB74-4F8D-89E8-2B01DA054851}.WithJava|x64.ActiveCfg = Debug|x64
 		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.C++Client|x64.ActiveCfg = Debug|x64
 		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.C++Client|x64.Build.0 = Debug|x64
 		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}.Debug|x64.ActiveCfg = Debug|x64

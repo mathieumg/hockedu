@@ -70,7 +70,6 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud)
         direction_[i] = false;
     }
     velocite_.remetAZero();
-    FacadeModele::getInstance()->ajouterElementSurTable(this);
 
     updatePhysicBody();
 
@@ -87,7 +86,6 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud)
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet::~NoeudMaillet()
 {
-	FacadeModele::getInstance()->supprimerElementSurTable(this);
 	NoeudMaillet::mailletExistant--;
 
 #if BOX2D_INTEGRATED
@@ -197,7 +195,7 @@ void NoeudMaillet::gestionCollision( const float& temps )
 
 	NoeudRondelle* rondelle;
 	// Si le maillet n'est pas sur un table, il n'y a pas de physique appliquee
-	if(!GetTerrain() || !( rondelle = GetTerrain()->getRondelle() ) )
+	if(!GetTerrain() || !( rondelle = GetTerrain()->getPuck() ) )
 		return;
 	// Reinitialisation du vecteur d'enfoncement
 	enfoncement_.remetAZero();

@@ -92,7 +92,7 @@ public:
 	virtual void acceptVisitor( VisiteurNoeud& v);
 
 	/// Retourne le conteneur d'enfant du noeud courant
-	ConteneurNoeuds obtenirEnfants() { return enfants_; }
+	ConteneurNoeuds& obtenirEnfants() { return enfants_; }
 
 	/// Application de la physique des noeuds la ou applicable
 	virtual void gestionCollision( const float& temps );

@@ -12,6 +12,7 @@
 #include "FacadeModele.h"
 #include "VisiteurDeplacement.h"
 #include "VisiteurCollision.h"
+#include "Terrain.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -87,8 +88,10 @@ void SourisEtatTransformationDeplacement::toucheRelachee( EvenementClavier& even
 		ignoreCollision_ = false;
 		if(estEnfoncee_)
 		{
+            Terrain* field = NULL;
 			for(int i=0; i<noeudsSelectionnes_.size(); i++)
 			{
+                field = noeudsSelectionnes_[i]->GetTerrain();
 				if(!deplacementInverse_[i].estNul())
 				{
 					VisiteurDeplacement visiteurDeplacementInverse(deplacementInverse_[i]);
@@ -96,7 +99,10 @@ void SourisEtatTransformationDeplacement::toucheRelachee( EvenementClavier& even
 					deplacementInverse_[i].remetAZero();
 				}
 			}
-			FacadeModele::getInstance()->ajusterElementSurTableEnCollision();
+            if(field)
+            {
+                field->FixCollidingObjects();
+            }
 		}
 	}
 }
@@ -180,16 +186,21 @@ void SourisEtatTransformationDeplacement::sourisRelachee( EvenementSouris& evene
 		// Assigne les attributs concernés
 		positionPrecedente_ = NULL;
 		estEnfoncee_ = false;
+        Terrain* field = NULL;
 		for(int i=0; i<noeudsSelectionnes_.size(); i++)
 		{
-			if(!deplacementInverse_[i].estNul())
+            field = noeudsSelectionnes_[i]->GetTerrain();
+            if(!deplacementInverse_[i].estNul())
 			{
 				VisiteurDeplacement visiteurDeplacementInverse(deplacementInverse_[i]);
 				noeudsSelectionnes_[i]->acceptVisitor(visiteurDeplacementInverse);
 				deplacementInverse_[i].remetAZero();
 			}
 		}
-		FacadeModele::getInstance()->ajusterElementSurTableEnCollision();
+        if(field)
+        {
+            field->FixCollidingObjects();
+        }
 		delete[] deplacementInverse_;
 		deplacementInverse_ = 0;
 	}

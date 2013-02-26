@@ -29,7 +29,6 @@
 NoeudMuret::NoeudMuret(const std::string& typeNoeud)
 	: Super(typeNoeud)
 {
-	FacadeModele::getInstance()->ajouterElementSurTable(this);
 }
 
 
@@ -44,7 +43,6 @@ NoeudMuret::NoeudMuret(const std::string& typeNoeud)
 ////////////////////////////////////////////////////////////////////////
 NoeudMuret::~NoeudMuret()
 {
-	FacadeModele::getInstance()->supprimerElementSurTable(this);
 }
 
 ////////////////////////////////////////////////////////////////////////

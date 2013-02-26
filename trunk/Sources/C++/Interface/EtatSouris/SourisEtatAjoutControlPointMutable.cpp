@@ -30,16 +30,17 @@ PRAGMA_DISABLE_OPTIMIZATION
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-SourisEtatAjoutControlPointMutable::SourisEtatAjoutControlPointMutable(const std::string& typeNoeud):
-    SourisEtatAjout(typeNoeud),mCurrentPoint(NULL)
+SourisEtatAjoutControlPointMutable::SourisEtatAjoutControlPointMutable(Terrain* pField, const std::string& typeNoeud):
+    SourisEtatAjout(pField,typeNoeud),mCurrentPoint(NULL)
 {
     if(!createNextControlPoint())
     {
+        checkf(0,"Incapacité de créer le noeud ou de selectionné un point de control");
         if(noeud_)
         {
-            if(noeud_->GetTerrain())
+            if(mField)
             {
-                noeud_->GetTerrain()->retirerNoeudTemp(noeud_);
+                mField->retirerNoeudTemp(noeud_);
             }
             delete noeud_;
             noeud_ = NULL;
@@ -52,7 +53,7 @@ SourisEtatAjoutControlPointMutable::SourisEtatAjoutControlPointMutable(const std
     }
 }
 
-	
+    
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn SourisEtatAjoutControlPointMutable::~SourisEtatAjoutControlPointMutable(void)
@@ -76,7 +77,7 @@ SourisEtatAjoutControlPointMutable::~SourisEtatAjoutControlPointMutable(void)
 ///
 /// Action à effectuer lorsqu'un bouton de la souris est enfoncé
 ///
-/// @param[in]	evenementSouris	: événement de la souris correspondant
+/// @param[in]  evenementSouris : événement de la souris correspondant
 ///
 /// @return void
 ///
@@ -93,45 +94,40 @@ void SourisEtatAjoutControlPointMutable::sourisEnfoncee( EvenementSouris& evenem
 ///
 /// Action à effectuer lorsqu'un bouton de la souris est relaché
 ///
-/// @param[in]	evenementSouris	: événement de la souris correspondant
+/// @param[in]  evenementSouris : événement de la souris correspondant
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatAjoutControlPointMutable::sourisRelachee( EvenementSouris& evenementSouris )
 {
-	if(noeud_ == NULL)
-		return;
-
-	if(evenementSouris.obtenirBouton()!=BOUTON_SOURIS_GAUCHE)
-		return;
-	if(!FacadeModele::getInstance()->validerPositionNoeud(noeud_))
-    {	
-        showInvalidText(true);
-		return;
-	}
-    showInvalidText(false);
-
-
-    if(!createNextControlPoint())
+    if(noeud_ && mField && evenementSouris.obtenirBouton()==BOUTON_SOURIS_GAUCHE)
     {
-        noeud_->GetTerrain()->transfererNoeud(noeud_);
-        genererNoeud();
+        if(!mField->IsNodeAtValidEditionPosition(noeud_,false))
+        {   
+            showInvalidText(true);
+            return;
+        }
+        showInvalidText(false);
+
+
         if(!createNextControlPoint())
         {
-            if(noeud_)
+            mField->transfererNoeud(noeud_);
+            genererNoeud();
+            if(!createNextControlPoint())
             {
-                if(noeud_->GetTerrain())
+                if(noeud_)
                 {
-                    noeud_->GetTerrain()->retirerNoeudTemp(noeud_);
+                    mField->retirerNoeudTemp(noeud_);
+                    delete noeud_;
+                    noeud_ = NULL;
                 }
-                delete noeud_;
-                noeud_ = NULL;
-            }
-            if(mCurrentPoint)
-            {
-                delete mCurrentPoint;
-                mCurrentPoint = NULL;
+                if(mCurrentPoint)
+                {
+                    delete mCurrentPoint;
+                    mCurrentPoint = NULL;
+                }
             }
         }
     }
@@ -143,18 +139,14 @@ void SourisEtatAjoutControlPointMutable::sourisRelachee( EvenementSouris& evenem
 ///
 /// Action à effectuer lorsqu'un bouton de la souris est déplacée
 ///
-/// @param[in]	evenementSouris	: événement de la souris correspondant
+/// @param[in]  evenementSouris : événement de la souris correspondant
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatAjoutControlPointMutable::sourisDeplacee( EvenementSouris& evenementSouris )
 {
-	if(noeud_ == NULL)
-		return;
-
-
-    if(mCurrentPoint)
+    if(noeud_ && mField && mCurrentPoint)
     {
         auto positionSouris = evenementSouris.obtenirPosition();
         Vecteur3 positionVirtuelle;
@@ -162,9 +154,9 @@ void SourisEtatAjoutControlPointMutable::sourisDeplacee( EvenementSouris& evenem
 
         mCurrentPoint->setPosition(positionVirtuelle);
 
-		// Appel pour faire le surlignement
-		FacadeModele::getInstance()->validerPositionNoeud(noeud_, true);
-    }	
+        // Appel pour faire le surlignement
+        mField->IsNodeAtValidEditionPosition(noeud_,true);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////

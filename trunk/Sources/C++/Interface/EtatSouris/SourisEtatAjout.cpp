@@ -31,14 +31,15 @@
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-SourisEtatAjout::SourisEtatAjout(const std::string& nomNoeudAjout): noeud_(NULL), nom_(nomNoeudAjout), hudTextPosInvalide(0)
+SourisEtatAjout::SourisEtatAjout(Terrain* pField,const std::string& nomNoeudAjout): 
+    noeud_(NULL), nom_(nomNoeudAjout), hudTextPosInvalide(0),mField(pField)
 {
-	hudTextPosInvalide = new HUDTexte("Position invalide !", Vecteur4f(1,0,0,1),std::string("game_over_big_text"));
-	showInvalidText(false);
-	hudTextPosInvalide->modifierPosition(0.45f,0.5f);
+    hudTextPosInvalide = new HUDTexte("Position invalide !", Vecteur4f(1,0,0,1),std::string("game_over_big_text"));
+    showInvalidText(false);
+    hudTextPosInvalide->modifierPosition(0.45f,0.5f);
 
-	GestionnaireHUD::obtenirInstance()->obtenirRacine(RACINE_EDITION)->add(hudTextPosInvalide);
-	genererNoeud();
+    GestionnaireHUD::obtenirInstance()->obtenirRacine(RACINE_EDITION)->add(hudTextPosInvalide);
+    genererNoeud();
 }
 
 
@@ -55,12 +56,12 @@ SourisEtatAjout::SourisEtatAjout(const std::string& nomNoeudAjout): noeud_(NULL)
 ////////////////////////////////////////////////////////////////////////
 SourisEtatAjout::~SourisEtatAjout(void)
 {
-	if(noeud_ != NULL)
-	{
-		FacadeModele::getInstance()->getTerrain()->retirerNoeudTemp(noeud_);
-		delete noeud_;
-	}
-	GestionnaireHUD::obtenirInstance()->obtenirRacine(RACINE_EDITION)->supprimerElement(hudTextPosInvalide);
+    if(mField && noeud_)
+    {
+        mField->retirerNoeudTemp(noeud_);
+        delete noeud_;
+    }
+    GestionnaireHUD::obtenirInstance()->obtenirRacine(RACINE_EDITION)->supprimerElement(hudTextPosInvalide);
 }
 
 
@@ -70,17 +71,22 @@ SourisEtatAjout::~SourisEtatAjout(void)
 ///
 /// Crée un nouveau noeud et l'ajoute au parent
 ///
-/// @param[in]	objet	: Nom représentant l'objet à ajouter
-/// 			parent	: parent auquel ajouter le nouveau noeud
+/// @param[in]  objet   : Nom représentant l'objet à ajouter
+///             parent  : parent auquel ajouter le nouveau noeud
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatAjout::genererNoeud()
 {
-	noeud_ =  FacadeModele::getInstance()->getTerrain()->getLogicTree()->creerNoeud(nom_);
-	if(noeud_ != NULL)
-		FacadeModele::getInstance()->getTerrain()->ajouterNoeudTemp(noeud_);	
+    if(mField)
+    {
+        noeud_ =  mField->getLogicTree()->creerNoeud(nom_);
+        if(noeud_)
+        {
+            mField->ajouterNoeudTemp(noeud_);
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -89,7 +95,7 @@ void SourisEtatAjout::genererNoeud()
 ///
 /// Action à effectuer lorsqu'un bouton de la souris est enfoncé
 ///
-/// @param[in]	evenementSouris	: événement de la souris correspondant
+/// @param[in]  evenementSouris : événement de la souris correspondant
 ///
 /// @return void
 ///
@@ -106,39 +112,37 @@ void SourisEtatAjout::sourisEnfoncee( EvenementSouris& evenementSouris )
 ///
 /// Action à effectuer lorsqu'un bouton de la souris est relaché
 ///
-/// @param[in]	evenementSouris	: événement de la souris correspondant
+/// @param[in]  evenementSouris : événement de la souris correspondant
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatAjout::sourisRelachee( EvenementSouris& evenementSouris )
 {
-	if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_GAUCHE)
-	{
-		if(noeud_ != 0)
-		{
+    if(mField && evenementSouris.obtenirBouton()==BOUTON_SOURIS_GAUCHE)
+    {
+        if(noeud_ != 0)
+        {
             showInvalidText(false);
-			if(FacadeModele::getInstance()->validerPositionNoeud(noeud_))
-			{
-				FacadeModele::getInstance()->getTerrain()->transfererNoeud(noeud_);
-				genererNoeud();
-				// La generation d'un noeud peut entrainer le noeud a etre invalide si on ne peut le creer
-				if(noeud_ != 0)
-				{
-					Vecteur2i position=evenementSouris.obtenirPosition();
-					Vecteur3 positionVirtuelle;
-					FacadeModele::getInstance()->convertirClotureAVirtuelle(position[VX],position[VY],positionVirtuelle);
-					noeud_->setPosition(positionVirtuelle);
-				}
-			}
-			else
-			{
+            if(mField->IsNodeAtValidEditionPosition(noeud_,false))
+            {
+                mField->transfererNoeud(noeud_);
+                genererNoeud();
+                // La generation d'un noeud peut entrainer le noeud a etre invalide si on ne peut le creer
+                if(noeud_)
+                {
+                    Vecteur2i position=evenementSouris.obtenirPosition();
+                    Vecteur3 positionVirtuelle;
+                    FacadeModele::getInstance()->convertirClotureAVirtuelle(position[VX],position[VY],positionVirtuelle);
+                    noeud_->setPosition(positionVirtuelle);
+                }
+            }
+            else
+            {
                 showInvalidText(true);
-			}
-		}
-
-	}
-
+            }
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -147,24 +151,21 @@ void SourisEtatAjout::sourisRelachee( EvenementSouris& evenementSouris )
 ///
 /// Action à effectuer lorsqu'un bouton de la souris est déplacée
 ///
-/// @param[in]	evenementSouris	: événement de la souris correspondant
+/// @param[in]  evenementSouris : événement de la souris correspondant
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatAjout::sourisDeplacee( EvenementSouris& evenementSouris )
 {
-	if(noeud_!=0)
-	{
-		// Pour s'assurer que le noeud est dans le bon arbre pour les cas ou le terrain serait reinitialiser entre temps
-		FacadeModele::getInstance()->getTerrain()->ajouterNoeudTemp(noeud_);
-		Vecteur2i position=evenementSouris.obtenirPosition();
-
-		Vecteur3 positionVirtuelle;
-		FacadeModele::getInstance()->convertirClotureAVirtuelle(position[VX],position[VY],positionVirtuelle);
-		noeud_->setPosition(positionVirtuelle);
-		FacadeModele::getInstance()->validerPositionNoeud(noeud_, true);
-	}
+    if(noeud_ && mField)
+    {
+        Vecteur2i position=evenementSouris.obtenirPosition();
+        Vecteur3 positionVirtuelle;
+        FacadeModele::getInstance()->convertirClotureAVirtuelle(position[VX],position[VY],positionVirtuelle);
+        noeud_->setPosition(positionVirtuelle);
+        mField->IsNodeAtValidEditionPosition(noeud_,true);
+    }
 }
 
 
@@ -174,24 +175,24 @@ void SourisEtatAjout::sourisDeplacee( EvenementSouris& evenementSouris )
 ///
 /// Retourne le nom associé avec l'état de la souris
 ///
-/// @param[in]	void
+/// @param[in]  void
 ///
-/// @return (int )NomEtatSouris	: nom correspondant à l'état
+/// @return (int )NomEtatSouris : nom correspondant à l'état
 ///
 ////////////////////////////////////////////////////////////////////////
 NomEtatSouris SourisEtatAjout::obtenirNomEtatSouris()
 {
-	if(nom_ == RazerGameUtilities::NOM_MAILLET)
-		return ETAT_SOURIS_AJOUTER_MAILLET;
-	if(nom_ == RazerGameUtilities::NOM_ACCELERATEUR)
-		return ETAT_SOURIS_AJOUTER_ACCELERATEUR;
-	if(nom_ == RazerGameUtilities::NOM_PORTAIL)
-		return ETAT_SOURIS_AJOUTER_PORTAIL;
-	if(nom_ == RazerGameUtilities::NOM_RONDELLE)
-		return ETAT_SOURIS_AJOUTER_RONDELLE;
-	if(nom_ == RazerGameUtilities::NOM_MURET)
-		return ETAT_SOURIS_AJOUTER_MURET;
-	return ETAT_SOURIS_INCONNU;
+    if(nom_ == RazerGameUtilities::NOM_MAILLET)
+        return ETAT_SOURIS_AJOUTER_MAILLET;
+    if(nom_ == RazerGameUtilities::NOM_ACCELERATEUR)
+        return ETAT_SOURIS_AJOUTER_ACCELERATEUR;
+    if(nom_ == RazerGameUtilities::NOM_PORTAIL)
+        return ETAT_SOURIS_AJOUTER_PORTAIL;
+    if(nom_ == RazerGameUtilities::NOM_RONDELLE)
+        return ETAT_SOURIS_AJOUTER_RONDELLE;
+    if(nom_ == RazerGameUtilities::NOM_MURET)
+        return ETAT_SOURIS_AJOUTER_MURET;
+    return ETAT_SOURIS_INCONNU;
 }
 
 ////////////////////////////////////////////////////////////////////////

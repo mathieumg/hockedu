@@ -14,6 +14,12 @@
 #include "GestionnaireModeles.h"
 #include "SoundFMOD.h"
 #include "GestionnaireHUD.h"
+#include "SourisEtatTransformationRotation.h"
+#include "SourisEtatTransformationEchelle.h"
+#include "SourisEtatTransformationDeplacement.h"
+#include "SourisEtatSelection.h"
+#include "SourisEtatAjout.h"
+#include "SourisEtatAjoutControlPointMutable.h"
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,14 +33,14 @@
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-GestionnaireEtatModeEdition::GestionnaireEtatModeEdition(GestionnaireEvenements* contexte):
-GestionnaireEtatAbstrait(contexte)
+GestionnaireEtatModeEdition::GestionnaireEtatModeEdition(GestionnaireEvenements* contexte, Terrain* pField):
+GestionnaireEtatAbstrait(contexte),mField(pField)
 {
-	shiftEnfonce_ = false;
-	enfonce_ = false;
-	boutonEnfonce_ = NULL;
-	positionSouris_ = NULL;
-	modifierEtatSouris(ETAT_SOURIS_ORBIT);
+    shiftEnfonce_ = false;
+    enfonce_ = false;
+    boutonEnfonce_ = NULL;
+    positionSouris_ = NULL;
+    modifierEtatSouris(ETAT_SOURIS_ORBIT);
 }
 
 
@@ -51,14 +57,17 @@ GestionnaireEtatAbstrait(contexte)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeEdition::toucheEnfoncee(EvenementClavier& evenementClavier)
 {
-	ToucheClavier touche = evenementClavier.obtenirTouche();
-	
-	if(touche==VJAK_SHIFT)
-		shiftEnfonce_ = true;
-	else
-		toucheSauvegardee_ = touche;
-	
-	etatSouris_ ->toucheEnfoncee(evenementClavier);
+    ToucheClavier touche = evenementClavier.obtenirTouche();
+    
+    if(touche==VJAK_SHIFT)
+        shiftEnfonce_ = true;
+    else
+        toucheSauvegardee_ = touche;
+    
+    if(etatSouris_)
+    {
+        etatSouris_ ->toucheEnfoncee(evenementClavier);
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,12 +83,13 @@ void GestionnaireEtatModeEdition::toucheEnfoncee(EvenementClavier& evenementClav
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeEdition::toucheRelachee( EvenementClavier& evenementClavier )
 {
-	ToucheClavier touche = evenementClavier.obtenirTouche();
-	etatSouris_ ->toucheRelachee(evenementClavier);
-	if(touche==VJAK_SHIFT)
-		shiftEnfonce_ = false;
-	if(toucheSauvegardee_==touche)
-		toucheSauvegardee_ = 0;
+    ToucheClavier touche = evenementClavier.obtenirTouche();
+    if(etatSouris_)
+        etatSouris_ ->toucheRelachee(evenementClavier);
+    if(touche==VJAK_SHIFT)
+        shiftEnfonce_ = false;
+    if(toucheSauvegardee_==touche)
+        toucheSauvegardee_ = 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,12 +105,13 @@ void GestionnaireEtatModeEdition::toucheRelachee( EvenementClavier& evenementCla
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeEdition::sourisEnfoncee( EvenementSouris& evenementSouris )
 {
-	if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_MILIEU)
-		enfonce_ = true;
-	positionSouris_ = evenementSouris.obtenirPosition();
-	boutonEnfonce_ = evenementSouris.obtenirBouton();
-	etatSouris_->sourisEnfoncee(evenementSouris);
-}	
+    if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_MILIEU)
+        enfonce_ = true;
+    positionSouris_ = evenementSouris.obtenirPosition();
+    boutonEnfonce_ = evenementSouris.obtenirBouton();
+    if(etatSouris_)
+        etatSouris_->sourisEnfoncee(evenementSouris);
+}   
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
@@ -115,11 +126,14 @@ void GestionnaireEtatModeEdition::sourisEnfoncee( EvenementSouris& evenementSour
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeEdition::sourisRelachee( EvenementSouris& evenementSouris )
 {
-	if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_MILIEU)
-		enfonce_ = false;
+    if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_MILIEU)
+        enfonce_ = false;
 
-	etatSouris_->sourisRelachee(evenementSouris);
-	SoundFMOD::obtenirInstance()->playEffect(CLICK_EFFECT);
+    if(etatSouris_)
+    {
+        etatSouris_->sourisRelachee(evenementSouris);
+        SoundFMOD::obtenirInstance()->playEffect(CLICK_EFFECT);
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,21 +149,24 @@ void GestionnaireEtatModeEdition::sourisRelachee( EvenementSouris& evenementSour
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeEdition::sourisDeplacee( EvenementSouris& evenementSouris )
 {
-	if(enfonce_ && boutonEnfonce_==BOUTON_SOURIS_MILIEU)
-	{
-		Vecteur2i delta = evenementSouris.obtenirPosition()-positionSouris_;
-		if(shiftEnfonce_)
-		{
-			FacadeModele::getInstance()->deplacerSouris(delta);
+    if(enfonce_ && boutonEnfonce_==BOUTON_SOURIS_MILIEU)
+    {
+        Vecteur2i delta = evenementSouris.obtenirPosition()-positionSouris_;
+        if(shiftEnfonce_)
+        {
+            FacadeModele::getInstance()->deplacerSouris(delta);
 
-		}
-		else
-		{
-			FacadeModele::getInstance()->orbit(delta);
-		}
-		positionSouris_ = evenementSouris.obtenirPosition();
-	}
-	etatSouris_->sourisDeplacee(evenementSouris);
+        }
+        else
+        {
+            FacadeModele::getInstance()->orbit(delta);
+        }
+        positionSouris_ = evenementSouris.obtenirPosition();
+    }
+    if(etatSouris_)
+    {
+        etatSouris_->sourisDeplacee(evenementSouris);
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -165,9 +182,9 @@ void GestionnaireEtatModeEdition::sourisDeplacee( EvenementSouris& evenementSour
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeEdition::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
 {
-	// Application du zoom.
-	//evenementRouletteSouris
-	GestionnaireEtatAbstrait::rouletteSouris(evenementRouletteSouris);
+    // Application du zoom.
+    //evenementRouletteSouris
+    GestionnaireEtatAbstrait::rouletteSouris(evenementRouletteSouris);
 }
 
 
@@ -177,45 +194,45 @@ void GestionnaireEtatModeEdition::rouletteSouris( EvenementRouletteSouris& evene
 ///
 /// Fonction qui appelle les fonctions qui doivent etre repetees tant que le bouton est enfonce
 ///
-/// @param[in] deltaTemps :	temps en seconde depuis le dernier appel
+/// @param[in] deltaTemps : temps en seconde depuis le dernier appel
 ///
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeEdition::miseAJourEvenementsRepetitifs( float deltaTemps )
 {
-	int tempsMs = (int)(deltaTemps*1000);
-	switch(toucheSauvegardee_)
-	{
-	case VJAK_UP:
-		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(0, -tempsMs));
-		break;
-	case VJAK_DOWN:
-		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(0, tempsMs));
-		break;
-	case VJAK_LEFT:
-		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(-tempsMs, 0));
-		break;
-	case VJAK_RIGHT:
-		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(tempsMs, 0));
-		break;
-	case VJAK_ADD:
-	case VJAK_PLUS:
-		// Utilisation temporaire de la méthode pour le zooom associé à la roulette de la souris
-		// -1 indique que c'est un zoomIn
-		FacadeModele::getInstance()->zoom(-tempsMs);
-		break;
+    int tempsMs = (int)(deltaTemps*1000);
+    switch(toucheSauvegardee_)
+    {
+    case VJAK_UP:
+        FacadeModele::getInstance()->deplacerFleches(Vecteur2i(0, -tempsMs));
+        break;
+    case VJAK_DOWN:
+        FacadeModele::getInstance()->deplacerFleches(Vecteur2i(0, tempsMs));
+        break;
+    case VJAK_LEFT:
+        FacadeModele::getInstance()->deplacerFleches(Vecteur2i(-tempsMs, 0));
+        break;
+    case VJAK_RIGHT:
+        FacadeModele::getInstance()->deplacerFleches(Vecteur2i(tempsMs, 0));
+        break;
+    case VJAK_ADD:
+    case VJAK_PLUS:
+        // Utilisation temporaire de la méthode pour le zooom associé à la roulette de la souris
+        // -1 indique que c'est un zoomIn
+        FacadeModele::getInstance()->zoom(-tempsMs);
+        break;
 
-	case VJAK_SUBTRACT:
-	case VJAK_MINUS:
-		// Utilisation temporaire de la méthode pour le zooom associé à la roulette de la souris
-		// 1 indique que c'est un zoomOut
-		FacadeModele::getInstance()->zoom(tempsMs);
-		break;
-	
-	default:
-		break;
-	}
+    case VJAK_SUBTRACT:
+    case VJAK_MINUS:
+        // Utilisation temporaire de la méthode pour le zooom associé à la roulette de la souris
+        // 1 indique que c'est un zoomOut
+        FacadeModele::getInstance()->zoom(tempsMs);
+        break;
+    
+    default:
+        break;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -231,7 +248,7 @@ void GestionnaireEtatModeEdition::miseAJourEvenementsRepetitifs( float deltaTemp
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeEdition::animer( const float& temps )
 {
-	SoundFMOD::obtenirInstance()->repeatAppSong();
+    SoundFMOD::obtenirInstance()->repeatAppSong();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -246,7 +263,41 @@ void GestionnaireEtatModeEdition::animer( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeEdition::afficher()
 {
-	GestionnaireHUD::obtenirInstance()->dessinerHUDEdition();
+    GestionnaireHUD::obtenirInstance()->dessinerHUDEdition();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void GestionnaireEtatModeEdition::modifierEtatSouris( NomEtatSouris etatSouris )
+///
+/// /*Description*/
+///
+/// @param[in] NomEtatSouris etatSouris
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void GestionnaireEtatModeEdition::modifierEtatSouris( NomEtatSouris etatSouris )
+{
+    clearMouseState(etatSouris);
+    if(!etatSouris_)
+    {
+        // petit hack pour pouvoir ajouter des polygones
+        /*static */int i=0;
+        switch(etatSouris)
+        {
+        case ETAT_SOURIS_TRANSFORMATION_ROTATION    : etatSouris_ = new SourisEtatTransformationRotation    (); break;
+        case ETAT_SOURIS_TRANSFORMATION_ECHELLE     : etatSouris_ = new SourisEtatTransformationEchelle     (); break;
+        case ETAT_SOURIS_TRANSFORMATION_DEPLACEMENT : etatSouris_ = new SourisEtatTransformationDeplacement (); break;
+        case ETAT_SOURIS_SELECTION                  : etatSouris_ = new SourisEtatSelection                 (); break;
+        case ETAT_SOURIS_AJOUTER_PORTAIL            : etatSouris_ = new SourisEtatAjout                     (mField,RazerGameUtilities::NOM_PORTAIL);  break;
+        case ETAT_SOURIS_AJOUTER_MURET              : etatSouris_ = new SourisEtatAjoutControlPointMutable  (mField, ((i++)&1) == 0 ? RazerGameUtilities::NAME_RELATIVE_WALL : RazerGameUtilities::NAME_POLYGONE); break;
+        case ETAT_SOURIS_AJOUTER_MAILLET            : etatSouris_ = new SourisEtatAjout                     (mField,RazerGameUtilities::NOM_MAILLET);  break;
+        case ETAT_SOURIS_AJOUTER_RONDELLE           : etatSouris_ = new SourisEtatAjout                     (mField,RazerGameUtilities::NOM_RONDELLE); break;
+        case ETAT_SOURIS_AJOUTER_ACCELERATEUR       : etatSouris_ = new SourisEtatAjout                     (mField,RazerGameUtilities::NOM_ACCELERATEUR); break;
+        default: Super::modifierEtatSouris(etatSouris);
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
