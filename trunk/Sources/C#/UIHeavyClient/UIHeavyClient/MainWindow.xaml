@@ -2,25 +2,35 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Hockedu" Height="532" Width="759"
-        Closed="Window_Closed" MinWidth="400" MinHeight="300" Background="#FF555555" Foreground="#FFD4D2D2" BorderBrush="#FF666B89" OpacityMask="#FF646464" WindowStyle="ThreeDBorderWindow">
+        Closed="Window_Closed" MinWidth="1200" MinHeight="850" Background="#FF555555" Foreground="#FFD4D2D2" BorderBrush="#FF666B89" OpacityMask="#FF646464" WindowStyle="ThreeDBorderWindow">
     <DockPanel Background="#FF323232">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <!--<MenuItem Header="New" Click="NewDocument"/>
-                <MenuItem Header="Exit" Click="ExitApplication"/>-->
+                
+            </MenuItem>
+            <MenuItem Header="Option">
+                <MenuItem Header="Keyboard Control"/>
                 <MenuItem Header="Main Menu" Click="BackToMainMenu" />
             </MenuItem>
-            <MenuItem Header="Edit"/>
+            <MenuItem Header="Online Mode">
+                <MenuItem Header="Connect"/>
+                <MenuItem Header="Disconnect"/>
+                <MenuItem Header="Web Site" Click="OpenWebSite"/>
+            </MenuItem>
             <MenuItem Header="Window">
                 <!--<MenuItem Header="Explorer" Click="ShowExplorerWindow"/>
                 <MenuItem Header="Output" Click="ShowOutputWindow"/>
                 <MenuItem Header="Property" Click="ShowPropertyWindow"/>
                 <MenuItem Header="ToDoList" Click="ShowListWindow"/>-->
             </MenuItem>
-            <MenuItem Header="?"/>
+            <MenuItem Header="Help">
+                <MenuItem Header="FAQ"/>
+                <MenuItem Header="Credits"/>
+                <MenuItem Header="About"/>
+            </MenuItem>
         </Menu>
         
         <!-- Content controls use to display user controls-->
-        <ContentControl Name="windowContentControl" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="#FF323232"></ContentControl>
+        <ContentControl Name="windowContentControl" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="Black"></ContentControl>
     </DockPanel>
 </Window>

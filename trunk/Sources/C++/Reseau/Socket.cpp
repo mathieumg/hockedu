@@ -161,6 +161,9 @@ void Socket::bind()
         wStructServer->sin_family = mSocketInfo->sin_family;
         wStructServer->sin_addr.s_addr = inet_addr(getAdresseSource().c_str());
         wStructServer->sin_port = mSocketInfo->sin_port; // Deja en format reseau
+        std::cout << getAdresseSource() << std::endl;
+        std::cout << mSocketInfo->sin_port << std::endl;
+        std::cout << mSocketInfo->sin_family << std::endl;
     }
     else
     {

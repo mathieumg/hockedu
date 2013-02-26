@@ -93,6 +93,9 @@
       <DependentUpon>AIOptionControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Chat.cs" />
+    <Compile Include="KeyboardOptionControl.xaml.cs">
+      <DependentUpon>KeyboardOptionControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
@@ -113,6 +116,10 @@
       <DependentUpon>TournamentControl.xaml</DependentUpon>
     </Compile>
     <Page Include="AIOptionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="KeyboardOptionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

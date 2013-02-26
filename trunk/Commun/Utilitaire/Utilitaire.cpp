@@ -8,7 +8,7 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "../Environnement/RazerGameUtilities.h"
-#if BOX2D_INTEGRATED  
+#if BOX2D_INTEGRATED
 #include <Box2D/Box2D.h>
 #endif
 #include "Utilitaire.h"
@@ -120,7 +120,7 @@ AssertHandleMode __cdecl DisplayAssertMessage( const char *message)
 
 //     // Prepare assert AssertMsg
 //     GET_VARARGS( TempStr, ARRAY_COUNT(TempStr), ARRAY_COUNT(TempStr)-1, Fmt, Fmt );
-// 
+//
 //     // Also add the instructions
     MessageStr += message;
 
@@ -188,7 +188,7 @@ namespace utilitaire {
    /// @return L'angle converti en degrés
    ///
    ////////////////////////////////////////////////////////////////////////
-   float RAD_TO_DEG(float angleRad) 
+   float RAD_TO_DEG(float angleRad)
    {
       return angleRad * (float)57.2957795130823208767981548141052;
    }
@@ -289,7 +289,7 @@ namespace utilitaire {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn bool DANS_INTERVALLE( float valeur, float borneMin, float borneMax ) 
+   /// @fn bool DANS_INTERVALLE( float valeur, float borneMin, float borneMax )
    ///
    /// Cette fonction vérifie si une valeur est dans un intervalle.
    ///
@@ -300,7 +300,7 @@ namespace utilitaire {
    /// @return Vrai si la valeur est dans l'intervalle, faux autrement.
    ///
    ////////////////////////////////////////////////////////////////////////
-   bool DANS_INTERVALLE( float valeur, float borneMin, float borneMax ) 
+   bool DANS_INTERVALLE( float valeur, float borneMin, float borneMax )
    {
       return (valeur >= borneMin) && (valeur <= borneMax);
    }
@@ -323,7 +323,7 @@ namespace utilitaire {
    ///
    ////////////////////////////////////////////////////////////////////////
    bool DANS_LIMITESXY( float x, float xMin, float xMax,
-                        float y, float yMin, float yMax ) 
+                        float y, float yMin, float yMax )
    {
       return (DANS_INTERVALLE( x, xMin, xMax ) && DANS_INTERVALLE( y, yMin, yMax ));
    }
@@ -422,7 +422,7 @@ namespace utilitaire {
    ////////////////////////////////////////////////////////////////////////
    void VEC3_TO_B2VEC( const Vecteur3& pVector, b2Vec2& pB2vector )
    {
-       
+
        pB2vector.x = (float32)pVector[VX]*ratioWorldToBox2D;
        pB2vector.y = (float32)pVector[VY]*ratioWorldToBox2D;
    }

@@ -29,7 +29,7 @@
 #endif
 
 /// Solution utilities
-
+#ifdef WINDOWS
 #define CheckTime(content) \
 {\
     clock_t t = clock();\
@@ -74,8 +74,13 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
 #define appFailAssert(expr,file,line,...)				{ appFailAssertFunc(expr, file, line, ##__VA_ARGS__); }
 #endif
 
+//ifdef WINDOWS
+#endif
+
 // Fonction pour faire la verification
-#if !SHIPPING
+#ifdef LINUX
+#define checkf(expr, ...)
+#elif !SHIPPING
 #define checkf(expr, ...)   { if(!(expr)) appFailAssert( #expr, __FILE__, __LINE__, ##__VA_ARGS__ ); }
 #else
 #define checkf(expr, ...)

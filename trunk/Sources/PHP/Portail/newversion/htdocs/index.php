@@ -37,29 +37,38 @@ require_once( 'MDB2.php' );
 
 $Website = Website::getInstance();
 
-if( $Website->isLoggedIn() && ( $Website->getModules( 0 ) == 'connexion' ) )
+if( $Website->isLoggedIn() )
 {
-    $Website->changePage( $_SERVER['SERVER_NAME'] . '/' );
+	// Pages that do not require authentication.
+	switch( $Website->getModules( 0 ) )
+    {
+		case 'logoff':
+            $Website->setIncludeModule( 'logout' );
+            break;
+        default:
+            $Website->changePage( $_SERVER['SERVER_NAME'] . '/' );
+    }
 }
 else
 {    
-    switch( $Website->getModules( 0 ) )
+    // Pages that do require authentication.
+	switch( $Website->getModules( 0 ) )
     {
-        case 'connexion':
+		case 'register':
+            $Website->setIncludeModule( 'register' );
+            break;
+		case 'login':
             $Website->setIncludeModule( 'login' );
             break;
         case 'ajax':
             $Website->setIncludeModule( 'ajax' );
             break;
-        case 'deconnexion':
-            $Website->setIncludeModule( 'logout' );
-            break;
         default:
             $Website->setIncludeModule( 'homepage' );
     }
-    
-    include( $Website->getModulePath() );
 }
+
+include( $Website->getModulePath() );
 
 $Website->display();
 

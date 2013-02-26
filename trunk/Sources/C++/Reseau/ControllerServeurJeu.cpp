@@ -1,6 +1,6 @@
 #include "ControllerServeurJeu.h"
-#include "..\Reseau\GestionnaireReseau.h"
-#include "..\Reseau\PaquetRunnable.h"
+#include "../Reseau/GestionnaireReseau.h"
+#include "../Reseau/PaquetRunnable.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -10,7 +10,7 @@
 /// Constructeur
 ///
 ///
-/// @return 
+/// @return
 ///
 ////////////////////////////////////////////////////////////////////////
 ControllerServeurJeu::ControllerServeurJeu()

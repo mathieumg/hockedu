@@ -141,8 +141,11 @@
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameStatus.cpp">
       <Filter>Source Files\PaquetHandlers</Filter>
     </ClCompile>
-    <ClCompile Include="..\Reseau\Network_Defines.cpp">
+    <ClCompile Include="CommunicateurBD.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExceptionsReseau\ExceptionReseauBD.cpp">
+      <Filter>Source Files\ExceptionsReseau</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -280,6 +283,12 @@
     </ClInclude>
     <ClInclude Include="..\Reseau\Network_Defines.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommunicateurBD.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExceptionsReseau\ExceptionReseauBD.h">
+      <Filter>Source Files\ExceptionsReseau</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

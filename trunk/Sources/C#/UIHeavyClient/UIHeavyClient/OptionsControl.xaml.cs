@@ -19,9 +19,19 @@ namespace UIHeavyClient
     /// </summary>
     public partial class OptionsControl : UserControl
     {
+        Dictionary<object, string> mGuidanceMessages;
+
         public OptionsControl()
         {
             InitializeComponent();
+
+            mGuidanceMessages = new Dictionary<object, string>()
+            {
+                {mAIConfigureButton, "Configure AI profiles. AI are used for quick play and tournaments"},
+                {mKeyboardOptionButton, "Configure controls"},
+                {mRadioOptionButton, "Configure the radio. The radio will play music during your hockey games"},
+                {mBackToMenuButton, "Return to main menu"},
+            };
         }
 
         private void backToMenuButton_Click(object sender, RoutedEventArgs e)
@@ -37,6 +47,21 @@ namespace UIHeavyClient
         private void radioOptionButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToRadioOptions();
+        }
+
+        private void DisplayGuidanceMessages(object sender, MouseEventArgs e)
+        {
+            mGuidanceLabel.Content = mGuidanceMessages[sender];
+        }
+
+        private void ClearGuidanceMessages(object sender, MouseEventArgs e)
+        {
+            mGuidanceLabel.Content = "";
+        }
+
+        private void mKeyboardOptionButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowHandler.GoToKeyboardOption();
         }
     }
 }

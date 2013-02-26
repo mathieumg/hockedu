@@ -9,6 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "FacadeServeurMaitre.h"
+#include "CommunicateurBD.h"
 
 // Initialisations automatiques
 SINGLETON_DECLARATION_CPP(FacadeServeurMaitre);
@@ -25,7 +26,7 @@ SINGLETON_DECLARATION_CPP(FacadeServeurMaitre);
 ////////////////////////////////////////////////////////////////////////
 FacadeServeurMaitre::FacadeServeurMaitre()
 {
-    
+    CommunicateurBD::obtenirInstance()->authenticate("bob", "sdsd");
 
 }
 
@@ -66,6 +67,7 @@ void FacadeServeurMaitre::updateGameStatus(PartieServeurs* pPartieInfos)
         delete wPartieDejaEnMap;
     }
     mListeParties[pPartieInfos->getUniqueGameId()] = pPartieInfos;
+
 }
 
 

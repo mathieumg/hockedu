@@ -23,15 +23,42 @@ namespace UIHeavyClient
     public partial class EditionModeControl : UserControl
     {
         private WindowsFormsHost mWindowsFormsHost;
+        Dictionary<object, string> mGuidanceMessages;
 
         public EditionModeControl(WindowsFormsHost pWindowsFormsHost)
         {
             InitializeComponent();
             mWindowsFormsHost = pWindowsFormsHost;
+
+            mGuidanceMessages = new Dictionary<object, string>() 
+            { 
+                {mDeleteButton, "Delete selected objects"},
+                {mCopyButton, "Copy selected objects"},
+                {mUndoButton, "Cancel your last action"},
+                {mRedoButton, "Cancel your cancel"},
+
+                {mPuckButton, "The puck for the hockey game (you can only create one)"},
+                {mStickButton, "The sticks for the hockey game (you can only create two)"},
+                {mWallButton, "A wall that will block the puck"},
+                {mBoosterButton, "A booster that will give an acceleration to the puck"},
+                {mPortalButton, "Will warp the puck to another portal on the map"},
+                {mBonusButton, "A random bonus that will sometime appear"},
+
+                {mFreeStateRadio, "Use the mouse to move the camera"},
+                {mMoveStateRadio, "Use the mouse to move selected objects"},
+                {mRotateStateRadio, "Use the mouse to rotate selected objects"},
+                {mScaleStateRadio, "Use the mouse to rotate selected objects"},
+                {mSelectStateRadio, "Use the mouse to select objects"},
+                {mZoomStateRadio, "Use the mouse to zoom with the camera"},
+
+                {mFreeCameraRadio, "Free camera that can move anywhere in the 3D map"},
+                {mOrbitalCameraRadio, "Camera that can only turn around the map center"},
+                {mSkyCameraRadio, "Fixed camera above the map"},
+            };
         }
 
         #region Edition Tool Events
-        [DllImport(@"RazerGame.dll")]
+        /*[DllImport(@"RazerGame.dll")]
         static extern bool ActionPerformed(string action);
         [DllImport(@"RazerGame.dll")]
         static extern bool IsGamePaused();
@@ -164,7 +191,7 @@ namespace UIHeavyClient
         private void OnGenerateField(object sender, RoutedEventArgs e)
         {
             GenerateDefaultField();
-        }
+        }*/
         #endregion
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -175,13 +202,30 @@ namespace UIHeavyClient
         public void AppendOpenGL()
         {
             editionControlGrid.Children.Add(mWindowsFormsHost);
-            Grid.SetColumn(mWindowsFormsHost, 2);
-            Grid.SetRow(mWindowsFormsHost, 2);
+            Grid.SetColumnSpan(mWindowsFormsHost, 3);
+            Grid.SetRowSpan(mWindowsFormsHost, 2);
+            Grid.SetColumn(mWindowsFormsHost, 1);
+            Grid.SetRow(mWindowsFormsHost, 1);
         }
 
         public void RemoveOpenGL()
         {
             editionControlGrid.Children.Remove(mWindowsFormsHost);
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowHandler.GoToMainMenu();
+        }
+
+        private void DisplayGuidanceMessages(object sender, MouseEventArgs e)
+        {
+            mGuidanceLabel.Content = mGuidanceMessages[sender];
+        }
+
+        private void ClearGuidanceMessages(object sender, MouseEventArgs e)
+        {
+            mGuidanceLabel.Content = "";
         }
     }
 }

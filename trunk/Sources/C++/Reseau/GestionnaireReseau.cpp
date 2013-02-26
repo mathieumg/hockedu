@@ -228,8 +228,15 @@ void GestionnaireReseau::init()
 std::string GestionnaireReseau::getAdresseIPLocaleAssociee( const std::string& pDestinationIP )
 {
 	std::string wIpLocaleFinale = "";
-	hostent *hostCourant;
-	hostCourant=gethostbyname("");
+	 char addrName[TAILLE_BUFFER_HOSTNAME];
+    if(gethostname(addrName, TAILLE_BUFFER_HOSTNAME))
+    {
+        GestionnaireReseau::obtenirInstance()->throwExceptionReseau("Erreur lors de la lecture du nom de l'hôte");
+        return;
+    }
+
+    hostent *hostCourant;
+    hostCourant=gethostbyname(addrName);
 
 	int wNbCount = 0;
 	int wNbBadCount = 0;
@@ -552,7 +559,7 @@ void GestionnaireReseau::saveSocket( const std::string& pNomJoueur, SPSocket pSo
     {
 	    mCommunicateurReseau.ajouterSocketEcoute(pSocket);
     }
-    FacadePortability::takeMutex(mMutexListeSockets);
+    FacadePortability::releaseMutex(mMutexListeSockets);
 }
 
 
@@ -934,9 +941,15 @@ void GestionnaireReseau::disconnectClient( const std::string& pPlayerName, Conne
 
 void GestionnaireReseau::getListeAdressesIPLocales(std::list<std::string>& pOut) const
 {
+    char addrName[TAILLE_BUFFER_HOSTNAME];
+    if(gethostname(addrName, TAILLE_BUFFER_HOSTNAME))
+    {
+        GestionnaireReseau::obtenirInstance()->throwExceptionReseau("Erreur lors de la lecture du nom de l'hôte");
+        return;
+    }
 
     hostent *hostCourant;
-    hostCourant=gethostbyname("");
+    hostCourant=gethostbyname(addrName);
     if(hostCourant == NULL)
     {
         // Probleme au get des valeurs reseau locales
@@ -953,8 +966,6 @@ void GestionnaireReseau::getListeAdressesIPLocales(std::list<std::string>& pOut)
         pOut.push_back(wIP);
         ++wNbCount;
     }
-
-
 }
 
 

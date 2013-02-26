@@ -35,6 +35,7 @@ namespace UIHeavyClient
         private OptionsControl mOptionControl;
         private RadioOptionControl mRadioOptionControl;
         private AIOptionControl mAIOptionControl;
+        private KeyboardOptionControl mKeyboardOptionControl;
 
         private OpenGLControl mOpenGLControl;
         private WindowsFormsHost mWindowFormsHost;
@@ -44,22 +45,50 @@ namespace UIHeavyClient
         {
             get { return mOpenGLControl; }
         }
-
         private void Window_Closed(object sender, EventArgs e)
         {
             ConsoleManager.Hide();
         }
-
         public EditionModeControl EditionModeControl
         {
             get { return mEditionModeControl; }
         }
-
         public PlayModeControl PlayModeControl
         {
             get { return mPlayModeControl; }
         }
-
+        public TournamentControl TournamentControl
+        {
+            get { return mTournamentControl; }
+        }
+        public MainMenuControl MainMenuControl
+        {
+            get { return mMainMenuControl; }
+        }
+        public OnlineLobbyControl OnlineLobbyControl
+        {
+            get { return mOnlineLobbyControl; }
+        }
+        public OptionsControl OptionsControl
+        {
+            get { return mOptionControl; }
+        }
+        public ContentControl WindowContentControl
+        {
+            get { return windowContentControl; }
+        }
+        public RadioOptionControl RadioOptionControl
+        {
+            get { return mRadioOptionControl; }
+        }
+        public AIOptionControl AIOptionControl
+        {
+            get { return mAIOptionControl; }
+        }
+        public KeyboardOptionControl KeyboardOptionControl
+        {
+            get { return mKeyboardOptionControl; }
+        }
 
         public void CreateUserControl(object sender, EventArgs e)
         {
@@ -81,46 +110,11 @@ namespace UIHeavyClient
             mOptionControl = new OptionsControl();
             mRadioOptionControl = new RadioOptionControl();
             mAIOptionControl = new AIOptionControl();
+            mKeyboardOptionControl = new KeyboardOptionControl();
 
             this.WindowContentControl.Content = mMainMenuControl;
         }
             
-
-
-        public TournamentControl TournamentControl{
-            get { return mTournamentControl; }
-        }
-
-        public MainMenuControl MainMenuControl
-        {
-            get { return mMainMenuControl; }
-        }
-
-        public OnlineLobbyControl OnlineLobbyControl
-        {
-            get { return mOnlineLobbyControl; }
-        }
-
-        public OptionsControl OptionsControl
-        {
-            get { return mOptionControl; }
-        }
-
-        public ContentControl WindowContentControl
-        {
-            get { return windowContentControl; }
-        }
-
-        public RadioOptionControl RadioOptionControl
-        {
-            get { return mRadioOptionControl; }
-        }
-
-        public AIOptionControl AIOptionControl
-        {
-            get { return mAIOptionControl; }
-        }
-
         public MainWindow()
         {
             InitializeComponent();
@@ -130,10 +124,14 @@ namespace UIHeavyClient
             this.KeyUp += MainWindow_KeyUp;
         }
         
-
         private void BackToMainMenu(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToMainMenu();
+        }
+
+        private void OpenWebSite(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.hockedu.com");
         }
       
 

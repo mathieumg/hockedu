@@ -19,9 +19,42 @@ namespace UIHeavyClient
     /// </summary>
     public partial class AIOptionControl : UserControl
     {
+        Dictionary<object, string> mGuidanceMessages;
+
         public AIOptionControl()
         {
             InitializeComponent();
+
+            mGuidanceMessages = new Dictionary<object, string>()
+            {
+                {mAddButton, "Add a new AI profile"},
+                {mDeleteButton, "Delete selected AI profile"},
+                {mSaveButton, "Save modifications"},
+                {mBackToOptionButton, "Return to option menu, don't forget to save!"},
+                {mBackToMainButton, "Return to main menu, don't forget to save!"},
+                {mSpeedSlider, "The speed tells how fast the AI will move"},
+                {mReflexSlider, "The reflex tells how often the AI will succed hitting the puck"},
+            };
+        }
+
+        private void mBackToOptionButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowHandler.GoToOptionsMenu();
+        }
+
+        private void mBackToMainButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowHandler.GoToMainMenu();
+        }
+
+        private void DisplayGuidanceMessages(object sender, MouseEventArgs e)
+        {
+            mGuidanceLabel.Content = mGuidanceMessages[sender];
+        }
+
+        private void ClearGuidanceMessages(object sender, MouseEventArgs e)
+        {
+            mGuidanceLabel.Content = "";
         }
     }
 }
