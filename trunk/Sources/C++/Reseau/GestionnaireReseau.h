@@ -19,6 +19,7 @@
 #include <fstream>
 #include <set>
 #include "ControllerInterface.h"
+#include "..\..\Sources\C#\UIHeavyClient\UIHeavyClient\Enum_Declarations.cs"
 
 #ifdef LINUX
 #include <sys/socket.h>
@@ -42,23 +43,6 @@ enum ByteOrder : uint8_t
     {NATIVE, BO_LITTLE_ENDIAN, BO_BIG_ENDIAN, UNKNOWN};
 
 enum ExceptionTypes {GLOBALE, PARAMETRE_INVALIDE, SOCKET_DECONNECTE, TIMEOUT, TYPE_NOT_DEFINED, AUCUNE_ERREUR};
-
-enum EventCodes {
-    USER_ALREADY_CONNECTED,
-    USER_DID_NOT_SEND_NAME_ON_CONNECTION,
-    USER_CONNECTED,
-    USER_DISCONNECTED,
-        INVALID_USERNAME = USER_DISCONNECTED, // Pour eviter d'avoir a changer le handling pour le prototype. Mettre 2 enums separes pour la version finale
-    CONNECTION_CANCELED,
-    RECONNECTION_TIMEOUT,
-    RECONNECTION_IN_PROGRESS,
-    WRONG_PASSWORD,
-    CHAT_MESSAGE_RECEIVED,
-    SERVER_USER_CONNECTED,
-    SERVER_USER_DISCONNECTED,
-    SERVER_USER_CONNECTING,
-    NB_EVENT_CODES // Must be always last !
-};
 
 enum PacketTypes {
     CONN_AUTOMATIQUE,

@@ -54,7 +54,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\Externe\FreeImage\include;.;..\..\Sources\C++\Sons;..\Externe\FMOD\include;../Externe/GLEW/include/GL;../Externe;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Externe\FreeImage\include;.;..\..\Sources\C++\Sons;..\Externe\FMOD\include;../Externe/GLEW/include/GL;../Externe;..\..\Sources\C#\UIHeavyClient\UIHeavyClient\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -76,7 +76,7 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\Externe\FreeImage\include;.;..\..\Sources\C++\Sons;..\Externe\FMOD\include;../Externe/GLEW/include/GL;..\Externe\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Externe\FreeImage\include;.;..\..\Sources\C++\Sons;..\Externe\FMOD\include;../Externe/GLEW/include/GL;..\Externe\;..\..\Sources\C#\UIHeavyClient\UIHeavyClient\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>
@@ -176,6 +176,7 @@
   <ItemGroup>
     <None Include="..\..\Exe\nuanceurFragments.glsl" />
     <None Include="..\..\Exe\nuanceurSommets.glsl" />
+    <None Include="..\..\Sources\C#\UIHeavyClient\UIHeavyClient\Enum_Declarations.cs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

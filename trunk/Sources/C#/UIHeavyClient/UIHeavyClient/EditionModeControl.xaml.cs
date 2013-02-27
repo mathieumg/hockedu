@@ -26,7 +26,7 @@ namespace UIHeavyClient
 
         Dictionary<object, string> mGuidanceMessages;
         Dictionary<object, string> mGuidanceInstructions;
-        Dictionary<object, string> mActionPerformedStrings;
+        Dictionary<object, ActionType> mActionPerformedStrings;
 
         public EditionModeControl(WindowsFormsHost pWindowsFormsHost)
         {
@@ -85,37 +85,37 @@ namespace UIHeavyClient
                 {mSkyCameraRadio, "Sky camera activated! This camera is fixed, choose another one if you want to move it!"},
             };
 
-            mActionPerformedStrings = new Dictionary<object,string>()
+            mActionPerformedStrings = new Dictionary<object, ActionType>()
             {
-                {mDeleteButton, "SUPPRIMER"},
-                {mCopyButton, "DUPLIQUER"},
-                //{mUndoButton, ""},
-                //{mRedoButton, ""},
+                {mDeleteButton, ActionType.ACTION_SUPPRIMER},
+                {mCopyButton, ActionType.ACTION_DUPLIQUER},
+                //{mUndoButton, ActionType.ACTION_},
+                //{mRedoButton, ActionType.ACTION_},
 
-                {mPuckButton, "INSERER_RONDELLE"},
-                {mStickButton, "INSERER_MAILLET"},
-                {mWallButton, "INSERER_MURET"},
-                {mBoosterButton, "INSERER_ACCELERATEUR"},
-                {mPortalButton, "INSERER_PORTAIL"},
-                //{mBonusButton, ""},
+                {mPuckButton, ActionType.ACTION_INSERER_RONDELLE},
+                {mStickButton, ActionType.ACTION_INSERER_MAILLET},
+                {mWallButton, ActionType.ACTION_INSERER_MURET},
+                {mBoosterButton, ActionType.ACTION_INSERER_ACCELERATEUR},
+                {mPortalButton, ActionType.ACTION_INSERER_PORTAIL},
+                //{mBonusButton, ActionType.ACTION_},
 
-                {mFreeStateRadio, "ORBIT"}, // "CAMERA"
-                {mMoveStateRadio, "EDITEUR_DEPLACER"},
-                {mRotateStateRadio, "EDITEUR_ROTATION"},
-                {mScaleStateRadio, "EDITEUR_ECHELLE"},
-                {mSelectStateRadio, "EDITEUR_SELECTION"},
-                {mZoomStateRadio, "ZOOM_ELASTIQUE"},
+                {mFreeStateRadio, ActionType.ACTION_ORBIT}, // ActionType.ACTION_CAMERAActionType.ACTION_
+                {mMoveStateRadio, ActionType.ACTION_EDITEUR_DEPLACER},
+                {mRotateStateRadio, ActionType.ACTION_EDITEUR_ROTATION},
+                {mScaleStateRadio, ActionType.ACTION_EDITEUR_ECHELLE},
+                {mSelectStateRadio, ActionType.ACTION_EDITEUR_SELECTION},
+                {mZoomStateRadio, ActionType.ACTION_ZOOM_ELASTIQUE},
 
-                {mFreeCameraRadio, "CAMERA_LIBRE"},
-                {mOrbitalCameraRadio, "CAMERA_ORBITE"},
-                {mSkyCameraRadio, "CAMERA_FIXE"},
+                {mFreeCameraRadio, ActionType.ACTION_CAMERA_LIBRE},
+                {mOrbitalCameraRadio, ActionType.ACTION_CAMERA_ORBITE},
+                {mSkyCameraRadio, ActionType.ACTION_CAMERA_FIXE},
             };
         }
 
         #region Edition Tool Events
 
         [DllImport(@"RazerGame.dll")]
-        static extern bool ActionPerformed(string action);
+        static extern bool ActionPerformed(ActionType action);
         [DllImport(@"RazerGame.dll")]
         static extern bool IsGamePaused();
         [DllImport(@"RazerGame.dll")]

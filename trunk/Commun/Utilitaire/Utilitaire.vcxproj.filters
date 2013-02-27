@@ -257,5 +257,8 @@
     <None Include="..\..\Exe\nuanceurSommets.glsl">
       <Filter>Sources Files</Filter>
     </None>
+    <None Include="..\..\Sources\C#\UIHeavyClient\UIHeavyClient\Enum_Declarations.cs">
+      <Filter>Sources Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

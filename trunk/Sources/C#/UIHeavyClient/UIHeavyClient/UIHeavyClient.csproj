@@ -93,6 +93,9 @@
       <DependentUpon>AIOptionControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Chat.cs" />
+    <Compile Include="Enum_Declarations.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="KeyboardOptionControl.xaml.cs">
       <DependentUpon>KeyboardOptionControl.xaml</DependentUpon>
     </Compile>

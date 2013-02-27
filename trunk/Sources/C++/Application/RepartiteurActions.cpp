@@ -27,7 +27,10 @@
 // Initialisations automatiques
 SINGLETON_DECLARATION_CPP(RepartiteurActions);
 
-////////////////////////////////////////////////////////////////////////
+
+
+
+///////////////////////////////////////////////////////////////////
 ///
 /// @fn  RepartiteurActions::RepartiteurActions(  )
 ///
@@ -39,43 +42,43 @@ SINGLETON_DECLARATION_CPP(RepartiteurActions);
 ////////////////////////////////////////////////////////////////////////
 RepartiteurActions::RepartiteurActions()
 {
-	banqueActions_["EDITEUR_NOUVEAU"] = &RepartiteurActions::actionBoutonEditionNouveau;
-	banqueActions_["REINITIALISER_PARTIE"] = &RepartiteurActions::actionReinitialiserPartie;
-	banqueActions_["PAUSE_JEU"] = &RepartiteurActions::actionTogglePauseJeu;
-	banqueActions_["REPLAY"] = &RepartiteurActions::actionReplay;
+	banqueActions_[ACTION_EDITEUR_NOUVEAU] = &RepartiteurActions::actionBoutonEditionNouveau;
+	banqueActions_[ACTION_REINITIALISER_PARTIE] = &RepartiteurActions::actionReinitialiserPartie;
+	banqueActions_[ACTION_PAUSE_JEU] = &RepartiteurActions::actionTogglePauseJeu;
+	banqueActions_[ACTION_REPLAY] = &RepartiteurActions::actionReplay;
 
 	// Fonctions de zoom
-	banqueActions_["CAMERA"] = &RepartiteurActions::actionBoutonCamera;
-	banqueActions_["ORBIT"] = &RepartiteurActions::actionBoutonOrbit;
-	banqueActions_["ZOOM_ELASTIQUE"] = &RepartiteurActions::actionBoutonZoomElastique;
-	banqueActions_["ZOOM_PROPORTIONNEL"] = &RepartiteurActions::actionBoutonZoomProportionnel;
+	banqueActions_[ACTION_CAMERA] = &RepartiteurActions::actionBoutonCamera;
+	banqueActions_[ACTION_ORBIT] = &RepartiteurActions::actionBoutonOrbit;
+	banqueActions_[ACTION_ZOOM_ELASTIQUE] = &RepartiteurActions::actionBoutonZoomElastique;
+	banqueActions_[ACTION_ZOOM_PROPORTIONNEL] = &RepartiteurActions::actionBoutonZoomProportionnel;
 
 	// Fonctions d'édition
-	banqueActions_["EDITEUR_SELECTION"] = &RepartiteurActions::actionBoutonSelection;
-	banqueActions_["EDITEUR_DEPLACER"] = &RepartiteurActions::actionBoutonTransformationDeplacement;
-	banqueActions_["EDITEUR_ROTATION"] = &RepartiteurActions::actionBoutonTransformationRotation;
-	banqueActions_["EDITEUR_ECHELLE"] = &RepartiteurActions::actionBoutonTransformationEchelle;
-	banqueActions_["SUPPRIMER"] = &RepartiteurActions::actionBoutonSupprimer;
-	banqueActions_["DUPLIQUER"] = &RepartiteurActions::actionBoutonDupliquer;
+	banqueActions_[ACTION_EDITEUR_SELECTION] = &RepartiteurActions::actionBoutonSelection;
+	banqueActions_[ACTION_EDITEUR_DEPLACER] = &RepartiteurActions::actionBoutonTransformationDeplacement;
+	banqueActions_[ACTION_EDITEUR_ROTATION] = &RepartiteurActions::actionBoutonTransformationRotation;
+	banqueActions_[ACTION_EDITEUR_ECHELLE] = &RepartiteurActions::actionBoutonTransformationEchelle;
+	banqueActions_[ACTION_SUPPRIMER] = &RepartiteurActions::actionBoutonSupprimer;
+	banqueActions_[ACTION_DUPLIQUER] = &RepartiteurActions::actionBoutonDupliquer;
 
 	// Fonctions d'insertions.
-	banqueActions_["INSERER_PORTAIL"] = &RepartiteurActions::actionBoutonInsererPortail;
-	banqueActions_["INSERER_MURET"] = &RepartiteurActions::actionBoutonInsererMuret;
-	banqueActions_["INSERER_MAILLET"] = &RepartiteurActions::actionBoutonInsererMaillet;
-	banqueActions_["INSERER_RONDELLE"] = &RepartiteurActions::actionBoutonInsererRondelle;
-	banqueActions_["INSERER_ACCELERATEUR"] = &RepartiteurActions::actionBoutonInsererAccelerateur;
+	banqueActions_[ACTION_INSERER_PORTAIL] = &RepartiteurActions::actionBoutonInsererPortail;
+	banqueActions_[ACTION_INSERER_MURET] = &RepartiteurActions::actionBoutonInsererMuret;
+	banqueActions_[ACTION_INSERER_MAILLET] = &RepartiteurActions::actionBoutonInsererMaillet;
+	banqueActions_[ACTION_INSERER_RONDELLE] = &RepartiteurActions::actionBoutonInsererRondelle;
+	banqueActions_[ACTION_INSERER_ACCELERATEUR] = &RepartiteurActions::actionBoutonInsererAccelerateur;
 
 	// Fonctions de changement de mode
-	banqueActions_["ALLER_MODE_EDITION"] = &RepartiteurActions::actionBoutonAllerModeEdition;
-	banqueActions_["ALLER_MODE_JEU"] = &RepartiteurActions::actionBoutonAllerModeJeu;
-    banqueActions_["ALLER_MODE_TOURNOI"] = &RepartiteurActions::actionBoutonAllerModeTournoi;
-    banqueActions_["ALLER_MENU_PRINCIPAL"] = &RepartiteurActions::actionBoutonAllerMenuPrincipal;
+	banqueActions_[ACTION_ALLER_MODE_EDITION] = &RepartiteurActions::actionBoutonAllerModeEdition;
+	banqueActions_[ACTION_ALLER_MODE_JEU] = &RepartiteurActions::actionBoutonAllerModeJeu;
+    banqueActions_[ACTION_ALLER_MODE_TOURNOI] = &RepartiteurActions::actionBoutonAllerModeTournoi;
+    banqueActions_[ACTION_ALLER_MENU_PRINCIPAL] = &RepartiteurActions::actionBoutonAllerMenuPrincipal;
 
 	// Fonctions de changement de camera
-	banqueActions_["CAMERA_FIXE"] = &RepartiteurActions::actionChangerModeCameraFixe;
-	banqueActions_["CAMERA_ORBITE"] = &RepartiteurActions::actionChangerModeCameraOrbite;
-	banqueActions_["CAMERA_LIBRE"] = &RepartiteurActions::actionChangerModeCameraLibre;
-	banqueActions_["CAMERA_SPLIT"] = &RepartiteurActions::actionChangerModeCameraSplit;
+	banqueActions_[ACTION_CAMERA_FIXE] = &RepartiteurActions::actionChangerModeCameraFixe;
+	banqueActions_[ACTION_CAMERA_ORBITE] = &RepartiteurActions::actionChangerModeCameraOrbite;
+	banqueActions_[ACTION_CAMERA_LIBRE] = &RepartiteurActions::actionChangerModeCameraLibre;
+	banqueActions_[ACTION_CAMERA_SPLIT] = &RepartiteurActions::actionChangerModeCameraSplit;
 
 }
 
@@ -105,7 +108,7 @@ RepartiteurActions::~RepartiteurActions()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool RepartiteurActions::appelerMethodeAction( std::string& action )
+bool RepartiteurActions::appelerMethodeAction( ActionType action )
 {
 	if(banqueActions_.find(action) != banqueActions_.end())
 		return (this ->*(banqueActions_[action]))();

@@ -1,3 +1,25 @@
+/// Il ne pose pas de probleme de faire les includes das le .h car uniquement le .cpp inclut ce fichier
+/// ce qui facilite les declarations des fonctions.
+
+#include "BancTests.h"
+#include "QueueThreadSafe.h"
+#include <ctime>
+#include "FacadeModele.h"
+#include "Vue.h"
+#include "GestionnaireEvenements.h"
+#include "..\Application\RepartiteurActions.h"
+#include "..\Jeu\JoueurHumain.h"
+#include "..\Reseau\GestionnaireReseauClientLourd.h"
+#include "..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h"
+#include "..\Reseau\PaquetHandlers\PacketHandlerUserStatus.h"
+#include "..\Reseau\UsinePaquets\UsinePaquetChatMessage.h"
+#include "..\Reseau\UsinePaquets\UsinePaquetUserStatus.h"
+#include "..\Reseau\Paquets\PaquetChatMessage.h"
+#include "..\Reseau\Paquets\PaquetTest.h"
+#include "..\Reseau\ControllerCSharp.h"
+#include "UsineNoeud.h"
+
+
 // Summary:
 //     Specifies constants that define which mouse button was pressed.
 enum MouseButtons
@@ -40,7 +62,7 @@ extern "C"
     __declspec(dllexport) void CancelConnection( char* pUsername );
     __declspec(dllexport) void SendMessageDLL( char* pUsername, char * pMessage );
 
-    __declspec(dllexport) bool ActionPerformed( char* action );
+    __declspec(dllexport) bool ActionPerformed( ActionType action );
     __declspec(dllexport) bool IsGamePaused();
     __declspec(dllexport) void PauseGame(bool doPause);
     __declspec(dllexport) void GenerateDefaultField();

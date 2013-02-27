@@ -1,21 +1,5 @@
-#include "BancTests.h"
-#include "QueueThreadSafe.h"
-#include <ctime>
 #include "FacadeCSharp.h"
-#include "FacadeModele.h"
-#include "Vue.h"
-#include "GestionnaireEvenements.h"
-#include "..\Application\RepartiteurActions.h"
-#include "..\Jeu\JoueurHumain.h"
-#include "..\Reseau\GestionnaireReseauClientLourd.h"
-#include "..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h"
-#include "..\Reseau\PaquetHandlers\PacketHandlerUserStatus.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetChatMessage.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetUserStatus.h"
-#include "..\Reseau\Paquets\PaquetChatMessage.h"
-#include "..\Reseau\Paquets\PaquetTest.h"
-#include "..\Reseau\ControllerCSharp.h"
-#include "UsineNoeud.h"
+
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -308,19 +292,18 @@ void OnMouseWheelMoved( int deltaRotation )
     GestionnaireEvenements::rouletteSouris(EvenementRouletteSouris(-deltaRotation));
 }
 
-bool ActionPerformed( char* action )
+bool ActionPerformed( ActionType action )
 {
-    std::string actionString = action;
-    if(actionString == "SUPPRIMER" || actionString == "EDITEUR_NOUVEAU" || actionString == "REINITIALISER_PARTIE")
+    if(action == ACTION_SUPPRIMER || action == ACTION_EDITEUR_NOUVEAU || action == ACTION_REINITIALISER_PARTIE)
     {
         // Si on est dans le cas de suppression et qu'il n'y a pas de sélection.
-        if(actionString == "SUPPRIMER"  && !FacadeModele::getInstance()->possedeSelection())
+        if(action == ACTION_SUPPRIMER  && !FacadeModele::getInstance()->possedeSelection())
             return false;
 
         checkf(0,"Enleve le check pour les cas une fois que la fenetre de validation est géré par le C#");
     }
 
-    return RepartiteurActions::obtenirInstance()->appelerMethodeAction(actionString);
+    return RepartiteurActions::obtenirInstance()->appelerMethodeAction(action);
 }
 
 ////////////////////////////////////////////////////////////////////////

@@ -157,28 +157,6 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void RequestLogin(string pUsername, string pIpAdress);
 
-        ////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////
-        // Keep synch with C++ in GestionnaireReseau
-        enum EventType
-        {
-            USER_ALREADY_CONNECTED,
-            USER_DID_NOT_SEND_NAME_ON_CONNECTION,
-            USER_CONNECTED,
-            USER_DISCONNECTED,
-            CONNECTION_CANCELED,
-            RECONNECTION_TIMEOUT,
-            RECONNECTION_IN_PROGRESS,
-            WRONG_PASSWORD,
-            CHAT_MESSAGE_RECEIVED,
-            SERVER_USER_CONNECTED,
-            SERVER_USER_DISCONNECTED,
-            NB_EVENT_CODES // Must be always last !
-        };
-        ////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////
-
-
         delegate bool EventReceivedCallBack(int id, IntPtr message);
         [DllImport(@"RazerGame.dll")]
         static extern void SetEventCallback(EventReceivedCallBack callback);
@@ -200,13 +178,13 @@ namespace UIHeavyClient
         static LoginWindow mLoginWindow = null;
         static bool LoginWindowEventReceived(int id, IntPtr pMessage)
         {
-            if (mLoginWindow != null && id >= 0 && (int)EventType.NB_EVENT_CODES > id)
+            if (mLoginWindow != null && id >= 0 && (int)EventCodes.NB_EVENT_CODES > id)
             {
                 string message = Marshal.PtrToStringAnsi(pMessage);
-                EventType type = (EventType)id;
+                EventCodes type = (EventCodes)id;
                 switch (type)
                 {
-                    case EventType.USER_CONNECTED:
+                    case EventCodes.USER_CONNECTED:
                         // La fenetre principale doit maintenant ecouter les evenement pour mettre a jour le chat
                         SetEventCallback(mMainWindowEventCallback);
                         SetMessageCallback(mMessageCallback);
@@ -218,7 +196,7 @@ namespace UIHeavyClient
                         });
                         mLoginWindow = null;
                         break;
-                    case EventType.USER_ALREADY_CONNECTED:
+                    case EventCodes.USER_ALREADY_CONNECTED:
                         // On n'écoute plus les événements
                         SetEventCallback(null);
                         // Signal à la fenetre l'événement
@@ -228,7 +206,7 @@ namespace UIHeavyClient
                         });
                         mLoginWindow = null;
                         break;
-                    case EventType.USER_DID_NOT_SEND_NAME_ON_CONNECTION:
+                    case EventCodes.USER_DID_NOT_SEND_NAME_ON_CONNECTION:
                         // On n'écoute plus les événements
                         SetEventCallback(null);
                         // Signal à la fenetre l'événement
@@ -239,7 +217,7 @@ namespace UIHeavyClient
                         });
                         mLoginWindow = null;
                         break;
-                    case EventType.USER_DISCONNECTED:
+                    case EventCodes.USER_DISCONNECTED:
                         // On n'écoute plus les événements
                         SetEventCallback(null);
                         // Signal à la fenetre l'événement
@@ -250,7 +228,7 @@ namespace UIHeavyClient
                         });
                         mLoginWindow = null;
                         break;
-                    case EventType.CONNECTION_CANCELED:
+                    case EventCodes.CONNECTION_CANCELED:
                         // On n'écoute plus les événements
                         SetEventCallback(null);
                         // Signal à la fenetre l'événement
@@ -261,7 +239,7 @@ namespace UIHeavyClient
                         });
                         mLoginWindow = null;
                         break;
-                    case EventType.RECONNECTION_TIMEOUT:
+                    case EventCodes.RECONNECTION_TIMEOUT:
                         // On n'écoute plus les événements
                         SetEventCallback(null);
                         // Signal à la fenetre l'événement
@@ -272,8 +250,8 @@ namespace UIHeavyClient
                         });
                         mLoginWindow = null;
                         break;
-                    case EventType.RECONNECTION_IN_PROGRESS: break;
-                    case EventType.WRONG_PASSWORD: break;
+                    case EventCodes.RECONNECTION_IN_PROGRESS: break;
+                    case EventCodes.WRONG_PASSWORD: break;
                     default: break;
                 }
             }
@@ -297,12 +275,12 @@ namespace UIHeavyClient
         static bool MainWindowEventReceived(int id, IntPtr pMessage)
         {
             /*string message = Marshal.PtrToStringAnsi(pMessage);
-            if (id >= 0 && (int)EventType.NB_EVENT_CODES > id)
+            if (id >= 0 && (int)EventCodes.NB_EVENT_CODES > id)
             {
-                EventType type = (EventType)id;
+                EventCodes type = (EventCodes)id;
                 switch (type)
                 {
-                    case EventType.USER_CONNECTED:
+                    case EventCodes.USER_CONNECTED:
                         AddServerEventMessage("Connection successful !");
                         if (mMainWindow != null)
                         {
@@ -313,7 +291,7 @@ namespace UIHeavyClient
                             });
                         }
                         break;
-                    case EventType.USER_ALREADY_CONNECTED:
+                    case EventCodes.USER_ALREADY_CONNECTED:
                         MessageBoxResult dialogResult1 = MessageBox.Show("User with same name already connected\nDo you want to retry connection?", "Connection Error", MessageBoxButton.YesNo);
                         if (dialogResult1 == MessageBoxResult.Yes)
                         {
@@ -337,7 +315,7 @@ namespace UIHeavyClient
                             }
                         }
                         break;
-                    case EventType.USER_DISCONNECTED:
+                    case EventCodes.USER_DISCONNECTED:
                         MessageBoxResult dialogResult2 = MessageBox.Show("Error trying to reach server\nDo you want to retry connection?", "Connection Error", MessageBoxButton.YesNo);
                         if (dialogResult2 == MessageBoxResult.Yes)
                         {
@@ -361,7 +339,7 @@ namespace UIHeavyClient
                             }
                         }
                         break;
-                    case EventType.RECONNECTION_TIMEOUT:
+                    case EventCodes.RECONNECTION_TIMEOUT:
                         MessageBoxResult dialogResult3 = MessageBox.Show("Connection to server timed out\nDo you want to retry connection?", "Connection Lost", MessageBoxButton.YesNo);
                         if (dialogResult3 == MessageBoxResult.Yes)
                         {
@@ -385,7 +363,7 @@ namespace UIHeavyClient
                             }
                         }
                         break;
-                    case EventType.RECONNECTION_IN_PROGRESS:
+                    case EventCodes.RECONNECTION_IN_PROGRESS:
                         AddServerEventMessage("Connection lost, attempting reconnection");
                         if (mMainWindow != null)
                         {
@@ -396,7 +374,7 @@ namespace UIHeavyClient
                             });
                         }
                         break;
-                    case EventType.SERVER_USER_DISCONNECTED:
+                    case EventCodes.SERVER_USER_DISCONNECTED:
                         // on enleve le user de la liste
                         ConnectedUsers.Remove(message);
 
@@ -411,7 +389,7 @@ namespace UIHeavyClient
                             });
                         }
                         break;
-                    case EventType.SERVER_USER_CONNECTED:
+                    case EventCodes.SERVER_USER_CONNECTED:
                         // on ajoute le user de la liste
                         ConnectedUsers.Add(message);
 
