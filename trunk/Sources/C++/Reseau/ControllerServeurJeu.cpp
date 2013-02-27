@@ -1,6 +1,7 @@
 #include "ControllerServeurJeu.h"
 #include "../Reseau/GestionnaireReseau.h"
 #include "../Reseau/PaquetRunnable.h"
+#include "ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -42,25 +43,21 @@ ControllerServeurJeu::ControllerServeurJeu()
 ////////////////////////////////////////////////////////////////////////
 void ControllerServeurJeu::handleEvent( int pEventCode, va_list pListeElems )
 {
-//     switch(pEventCode) {
-//     case USER_DISCONNECTED:
-//         {
-//             std::string wPlayerName = va_arg(pListeElems,std::string);
-//             if(wPlayerName.length() != 0 )
-//             {
-//                 // Handle deconnection
-//             }
-//             break;
-//         }
-//     case SERVER_USER_CONNECTING:
-//         {
-//             std::cout << "Event: Tentative de connexion de " << va_arg(pListeElems,std::string) << std::endl;
-//             break;
-//         }
-//     default:
-//         std::cout << "EventCode: " << pEventCode << std::endl;
-//         break;
-//     };
+    switch(pEventCode) {
+    case USER_DISCONNECTED:
+        {
+            std::string wPlayerName = va_arg(pListeElems,std::string);
+            if(wPlayerName.length() != 0 )
+            {
+                // Handle deconnection
+                throw ExceptionReseauSocketDeconnecte("Socket deconnecte");
+            }
+            break;
+        }
+    default:
+        std::cout << "EventCode: " << pEventCode << std::endl;
+        break;
+    };
 }
 
 void ControllerServeurJeu::handleDisconnectDetection( SPSocket pSocket )

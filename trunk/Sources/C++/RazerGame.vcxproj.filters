@@ -488,6 +488,9 @@
     <ClCompile Include="Arbre\Noeuds\NodePolygone.cpp">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\FacadeServeurJeu.cpp">
+      <Filter>Sources Files\Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -924,6 +927,9 @@
     </ClInclude>
     <ClInclude Include="Reseau\Network_Defines.h">
       <Filter>Sources Files\Reseau\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\FacadeServeurJeu.h">
+      <Filter>Sources Files\Interface</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

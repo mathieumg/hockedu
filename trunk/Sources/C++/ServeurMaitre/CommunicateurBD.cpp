@@ -93,15 +93,7 @@ bool CommunicateurBD::validerConnectiviter() const
 void CommunicateurBD::init()
 {
 
-	/*mDriver = get_driver_instance();
-
-	mConnection = mDriver -> connect(DBHOST, USER, PASSWORD);
-	mConnection -> setAutoCommit(0);
-	mConnection -> setSchema(DATABASE);
-
-
-	*/
-
+	
 
 }
 

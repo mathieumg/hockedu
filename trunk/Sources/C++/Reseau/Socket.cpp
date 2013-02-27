@@ -668,7 +668,7 @@ ConnectionState Socket::initServer()
 ////////////////////////////////////////////////////////////////////////
 bool Socket::attendreSocket( const int& pTimeout ) const
 {
-    checkf(pTimeout>=0);
+    //checkf(pTimeout>=0);
     fd_set readfds;
     FD_ZERO(&readfds);
     FD_SET(mSocket, &readfds); // Set the File Descriptor to the one of the socket
@@ -721,7 +721,7 @@ void Socket::cancelConnection()
 
 void Socket::setSocketInfo( sockaddr_in* pSockInfo )
 {
-    checkf(pSockInfo);
+    //checkf(pSockInfo);
     // delete the old socketInfo
     delete mSocketInfo;
     mSocketInfo = pSockInfo;

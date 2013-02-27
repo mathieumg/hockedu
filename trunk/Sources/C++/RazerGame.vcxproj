@@ -255,6 +255,7 @@
     <ClCompile Include="Arbre\RazerGameTree.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudAbstrait.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudComposite.cpp" />
+    <ClCompile Include="Interface\FacadeServeurJeu.cpp" />
     <ClCompile Include="Interface\GestionEtat\GestionnaireEtatAbstrait.cpp" />
     <ClCompile Include="Interface\GestionEtat\GestionnaireEtatMenuPrincipal.cpp" />
     <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeEdition.cpp" />
@@ -395,6 +396,7 @@
     <ClInclude Include="Arbre\Usines\UsineNoeud.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudAbstrait.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudComposite.h" />
+    <ClInclude Include="Interface\FacadeServeurJeu.h" />
     <ClInclude Include="Interface\GestionEtat\GestionnaireEtatAbstrait.h" />
     <ClInclude Include="Interface\GestionEtat\GestionnaireEtatMenuPrincipal.h" />
     <ClInclude Include="Interface\GestionEtat\GestionnaireEtatModeEdition.h" />
