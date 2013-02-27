@@ -1,4 +1,4 @@
-#if !WIN32
+#if !WIN32 && !LINUX
 namespace UIHeavyClient
 {
 #else
