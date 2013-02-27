@@ -42,7 +42,7 @@ ControllerServeurMaitre::ControllerServeurMaitre()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void ControllerServeurMaitre::handleEvent( int pEventCode, va_list pListeElems )
+void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListeElems )
 {
     switch(pEventCode) {
     case USER_DISCONNECTED:

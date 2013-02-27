@@ -150,6 +150,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_OpenGL_initialiserOpenGL
       return;
 
 	FacadeModele::getInstance()->initialiserOpenGL(hWnd);
+    RepartiteurActions::obtenirInstance()->appelerMethodeAction(ACTION_ALLER_MENU_PRINCIPAL);
 }
 
 

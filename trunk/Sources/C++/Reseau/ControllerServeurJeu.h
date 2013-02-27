@@ -25,7 +25,7 @@ class ControllerServeurJeu : public ControllerInterface
 {
 public:
     ControllerServeurJeu();
-    virtual void handleEvent(int pEventCode,  va_list pListeElems);
+    virtual void handleEvent(EventCodes pEventCode,  va_list pListeElems);
 
     virtual void handleDisconnectDetection( SPSocket pSocket );
 

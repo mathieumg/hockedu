@@ -559,7 +559,7 @@ ConnectionState Socket::initClient()
                     // probleme lors de la confirmation de la connection, on envoi l'événement et on arrete d'essayer de ce connecter
                     attemptReconnect = NOT_CONNECTED;
                     disconnect();
-                    GestionnaireReseau::obtenirInstance()->transmitEvent(wConfirmation);
+                    GestionnaireReseau::obtenirInstance()->transmitEvent(EventCodes(wConfirmation));
                     GestionnaireReseau::obtenirInstance()->sendMessageToLog("Connection refusee. Type: TCP CLIENT. Adresse: " + getAdresseDestination());
                 }
                 else
