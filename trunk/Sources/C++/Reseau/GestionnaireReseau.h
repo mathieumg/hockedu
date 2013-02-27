@@ -168,7 +168,7 @@ public:
     void cancelNewConnection(const std::string& pPlayerName, ConnectionType pConnectionType = TCP);
 
     // Methode pour envoyer des events au Controlleur
-    void transmitEvent(int pMessageCode, ...) const;
+    void transmitEvent(EventCodes pMessageCode, ...) const;
 
 	void gererExceptionReseau(ExceptionReseau* pException) const;
 

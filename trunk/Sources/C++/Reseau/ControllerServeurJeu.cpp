@@ -40,7 +40,7 @@ ControllerServeurJeu::ControllerServeurJeu()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void ControllerServeurJeu::handleEvent( int pEventCode, va_list pListeElems )
+void ControllerServeurJeu::handleEvent( EventCodes pEventCode, va_list pListeElems )
 {
 //     switch(pEventCode) {
 //     case USER_DISCONNECTED:

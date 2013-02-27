@@ -512,7 +512,7 @@ void GestionnaireReseau::cancelNewConnection(const std::string& pPlayerName, Con
 /// @return     void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireReseau::transmitEvent( int pMessageCode, ... ) const
+void GestionnaireReseau::transmitEvent( EventCodes pMessageCode, ... ) const
 {
     if(mControlleur)
     {

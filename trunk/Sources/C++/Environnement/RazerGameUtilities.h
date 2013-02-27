@@ -13,6 +13,7 @@
 
 #include <string>
 #include "XMLUtils.h"
+#include "Enum_Declarations.cs"
 
 // Macro permettant de localiser la signature des fonctions et éviter des gros replace all en cas de changement
 #define CreateListDelegateSignature(name) static unsigned int CreateListDelegate##name##(class Modele3D* pModel)

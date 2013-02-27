@@ -25,7 +25,7 @@ class ControllerServeurMaitre : public ControllerInterface
 {
 public:
     ControllerServeurMaitre();
-    virtual void handleEvent(int pEventCode,  va_list pListeElems);
+    virtual void handleEvent(EventCodes pEventCode,  va_list pListeElems);
 
     virtual void handleDisconnectDetection(SPSocket pSocket);
 
