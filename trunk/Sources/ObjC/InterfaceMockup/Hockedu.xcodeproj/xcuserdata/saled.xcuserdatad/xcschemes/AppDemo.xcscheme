@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "96378D751472C71100F543EA"
                BuildableName = "AppDemo.app"
-               BlueprintName = "AppDemo"
-               ReferencedContainer = "container:AppDemo.xcodeproj">
+               BlueprintName = "Hockedu"
+               ReferencedContainer = "container:Hockedu.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "96378D751472C71100F543EA"
             BuildableName = "AppDemo.app"
-            BlueprintName = "AppDemo"
-            ReferencedContainer = "container:AppDemo.xcodeproj">
+            BlueprintName = "Hockedu"
+            ReferencedContainer = "container:Hockedu.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -53,8 +53,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "96378D751472C71100F543EA"
             BuildableName = "AppDemo.app"
-            BlueprintName = "AppDemo"
-            ReferencedContainer = "container:AppDemo.xcodeproj">
+            BlueprintName = "Hockedu"
+            ReferencedContainer = "container:Hockedu.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -71,8 +71,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "96378D751472C71100F543EA"
             BuildableName = "AppDemo.app"
-            BlueprintName = "AppDemo"
-            ReferencedContainer = "container:AppDemo.xcodeproj">
+            BlueprintName = "Hockedu"
+            ReferencedContainer = "container:Hockedu.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

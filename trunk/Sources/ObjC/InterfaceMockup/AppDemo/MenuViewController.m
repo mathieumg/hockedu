@@ -4,7 +4,7 @@
 //
 
 #import "MenuViewController.h"
-#import "AppDemoAppDelegate.h"
+#import "HockeduAppDelegate.h"
 
 @implementation MenuViewController
 
