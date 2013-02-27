@@ -19,7 +19,7 @@
 #include <fstream>
 #include <set>
 #include "ControllerInterface.h"
-#include "..\..\Sources\C#\UIHeavyClient\UIHeavyClient\Enum_Declarations.cs"
+#include "../../Sources/C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.cs"
 
 #ifdef LINUX
 #include <sys/socket.h>

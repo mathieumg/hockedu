@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "CommunicateurBD.h"
-#include "ExceptionsReseau\ExceptionReseauBD.h"
+#include "ExceptionsReseau/ExceptionReseauBD.h"
 
 SINGLETON_DECLARATION_CPP(CommunicateurBD);
 
@@ -59,13 +59,13 @@ bool CommunicateurBD::authenticate( const std::string& pPlayerName, const std::s
 
 
 
-	// retrieve the row count in the result set 
+	// retrieve the row count in the result set
 	std::cout << "\nRetrieved " << rs -> rowsCount() << " row(s)." << std::endl;
 
 	std::cout << "\nUsernames" << std::endl;
 	std::cout << "--------" << std::endl;
 
-	// fetch the data : retrieve all the rows in the result set 
+	// fetch the data : retrieve all the rows in the result set
 	while (rs->next()) {
 		std::cout << rs -> getString("username") << std::endl;
 	} // while

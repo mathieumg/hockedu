@@ -147,6 +147,9 @@
     <ClCompile Include="ExceptionsReseau\ExceptionReseauBD.cpp">
       <Filter>Source Files\ExceptionsReseau</Filter>
     </ClCompile>
+    <ClCompile Include="..\Reseau\Network_Defines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControllerServeurMaitre.h">

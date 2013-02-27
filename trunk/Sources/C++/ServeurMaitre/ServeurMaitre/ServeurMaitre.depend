@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/CommunicateurReseau.cpp
+1361992636 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/CommunicateurReseau.cpp
 	"CommunicateurReseau.h"
 	"ExceptionsReseau/ExceptionReseau.h"
 	<iostream>
@@ -40,13 +40,16 @@
 	<stdexcept>
 	"Network_Defines.h"
 
-1361312809 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Network_Defines.h
+1361997834 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Network_Defines.h
+	<WinSock2.h>
+	<windows.h>
 	<pthread.h>
 	<semaphore.h>
 	<stdlib.h>
 	<unistd.h>
-	<WinSock2.h>
-	<windows.h>
+	<sys/socket.h>
+	<list>
+	<string>
 
 1361301092 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Commun/Utilitaire/QueueThreadSafe.h
 	<queue>
@@ -57,7 +60,7 @@
 	<exception>
 	<stdexcept>
 
-1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseau.h
+1361984545 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseau.h
 	<string>
 	"ExceptionsReseau/ExceptionReseau.h"
 	"Network_Defines.h"
@@ -68,6 +71,7 @@
 	<fstream>
 	<set>
 	"ControllerInterface.h"
+	"../../Sources/C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.cs"
 	<sys/socket.h>
 	<netinet/in.h>
 	<arpa/inet.h>
@@ -158,7 +162,7 @@
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauTimeout.cpp
 	"ExceptionReseauTimeout.h"
 
-1361314085 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseau.cpp
+1361994793 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseau.cpp
 	<WinSock2.h>
 	"GestionnaireReseau.h"
 	<strstream>
@@ -296,10 +300,11 @@
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerGameStatus.h
 	"PacketHandler.h"
 
-1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Network_Defines.cpp
+1361997488 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Network_Defines.cpp
 	"Network_Defines.h"
-	<stdlib.h>
-	<unistd.h>
+	<ifaddrs.h>
+	<netinet/in.h>
+	<arpa/inet.h>
 
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/ObjetsGlobaux/JoueurServeurs.cpp
 	"JoueurServeurs.h"
@@ -437,7 +442,7 @@
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/RelayeurMessage.cpp
 	"RelayeurMessage.h"
 
-1361315816 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Socket.cpp
+1361997718 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Socket.cpp
 	<winsock2.h>
 	<Mswsock.h>
 	"Socket.h"
@@ -468,10 +473,11 @@
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.h
 	"../Reseau/PaquetRunnable.h"
 
-1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/ServeurMaitre/FacadeServeurMaitre.cpp
+1361983321 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/ServeurMaitre/FacadeServeurMaitre.cpp
 	"FacadeServeurMaitre.h"
+	"CommunicateurBD.h"
 
-1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.cpp
+1361317235 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.cpp
 	"PaquetRunnableServeurMaitre.h"
 	"../ServeurMaitre/FacadeServeurMaitre.h"
 	"../Reseau/Paquets/PaquetLoginInfo.h"
@@ -512,4 +518,17 @@
 
 1361303302 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Commun/Utilitaire/XMLUtils.h
 	"tinyxml\include\tinyxml.h"
+
+1361984626 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.cs
+
+1361984732 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/ServeurMaitre/CommunicateurBD.cpp
+	"CommunicateurBD.h"
+	"ExceptionsReseau/ExceptionReseauBD.h"
+
+1361983321 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/ServeurMaitre/CommunicateurBD.h
+	<string>
+	"Singleton.h"
+
+1361984887 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/ServeurMaitre/ExceptionsReseau/ExceptionReseauBD.h
+	"../../Reseau/ExceptionsReseau/ExceptionReseau.h"
 

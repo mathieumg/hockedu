@@ -488,6 +488,7 @@
     <ClCompile Include="Arbre\Noeuds\NodePolygone.cpp">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClCompile>
+    <ClCompile Include="Reseau\Network_Defines.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">

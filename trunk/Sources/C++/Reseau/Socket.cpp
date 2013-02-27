@@ -161,15 +161,15 @@ void Socket::bind()
         wStructServer->sin_family = mSocketInfo->sin_family;
         wStructServer->sin_addr.s_addr = inet_addr(getAdresseSource().c_str());
         wStructServer->sin_port = mSocketInfo->sin_port; // Deja en format reseau
-        std::cout << getAdresseSource() << std::endl;
-        std::cout << mSocketInfo->sin_port << std::endl;
-        std::cout << mSocketInfo->sin_family << std::endl;
     }
     else
     {
         // Sinon on utilise le socketInfo directement
         wStructServer = mSocketInfo;
     }
+    std::cout << "BIND " << (mConnectionType == TCP ? "TCP" : "UDP") << " SUR" << std::endl;
+    std::cout << "IP  : " << inet_ntoa(wStructServer->sin_addr) << std::endl;
+    std::cout << "PORT: "<<ntohs(mSocketInfo->sin_port) << std::endl;
 
     int ret;
 
@@ -673,7 +673,7 @@ bool Socket::attendreSocket( const int& pTimeout ) const
     FD_ZERO(&readfds);
     FD_SET(mSocket, &readfds); // Set the File Descriptor to the one of the socket
     timeval tv = { pTimeout }; // Set timeout
-    return select(0, &readfds, NULL, NULL, &tv) > 0; // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
+    return select(mSocket+1, &readfds, NULL, NULL, &tv) > 0; // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
 }
 
 
@@ -681,7 +681,6 @@ void Socket::disconnect()
 {
     try
     {
-        shutdown(mSocket, SD_BOTH);
         FacadePortability::closeSocket(mSocket);
     }
     catch(...){}

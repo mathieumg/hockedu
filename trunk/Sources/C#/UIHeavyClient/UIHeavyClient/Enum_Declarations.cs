@@ -1,4 +1,4 @@
-#if !WIN32
+#if !WIN32 && !LINUX
 namespace UIHeavyClient
 {
 #else
@@ -54,6 +54,6 @@ namespace UIHeavyClient
         NB_EVENT_CODES // Must be always last !
     };
 
-#if !WIN32
+#if !WIN32 && !LINUX
 }
 #endif

@@ -43,14 +43,15 @@
 			<Add directory="../../../../Commun/Utilitaire" />
 			<Add directory="../../Reseau/PaquetHandlers" />
 		</Compiler>
+		<Linker>
+			<Add option="-pthread" />
+		</Linker>
 		<Unit filename="../../Reseau/CommunicateurReseau.cpp" />
 		<Unit filename="../../Reseau/CommunicateurReseau.h" />
 		<Unit filename="../../Reseau/ControllerCPP.h" />
-		<Unit filename="../../Reseau/ControllerCSharp.cpp" />
 		<Unit filename="../../Reseau/ControllerCSharp.h" />
 		<Unit filename="../../Reseau/ControllerInterface.cpp" />
 		<Unit filename="../../Reseau/ControllerInterface.h" />
-		<Unit filename="../../Reseau/ControllerServeurJeu.cpp" />
 		<Unit filename="../../Reseau/ControllerServeurJeu.h" />
 		<Unit filename="../../Reseau/ExceptionsReseau/ExceptionReseau.cpp" />
 		<Unit filename="../../Reseau/ExceptionsReseau/ExceptionReseau.h" />
@@ -124,13 +125,14 @@
 		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetLoginInfo.h" />
 		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetTest.h" />
 		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetUserStatus.h" />
+		<Unit filename="../CommunicateurBD.cpp" />
+		<Unit filename="../CommunicateurBD.h" />
 		<Unit filename="../ControllerServeurMaitre.cpp" />
 		<Unit filename="../ControllerServeurMaitre.h" />
 		<Unit filename="../FacadeServeurMaitre.cpp" />
 		<Unit filename="../FacadeServeurMaitre.h" />
 		<Unit filename="../PaquetRunnableServeurMaitre.cpp" />
 		<Unit filename="../PaquetRunnableServeurMaitre.h" />
-		<Unit filename="../ServeurMaitre.vcxproj.filters" />
 		<Unit filename="../mainServeurMaitre.cpp" />
 		<Extensions>
 			<code_completion />
