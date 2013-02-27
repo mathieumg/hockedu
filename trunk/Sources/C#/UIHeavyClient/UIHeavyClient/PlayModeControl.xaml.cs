@@ -33,6 +33,7 @@ namespace UIHeavyClient
             playControlGrid.Children.Add(mWindowsFormsHost);
             Grid.SetColumn(mWindowsFormsHost, 0);
             Grid.SetRow(mWindowsFormsHost, 0);
+            Grid.SetColumnSpan(mWindowsFormsHost, 2);
         }
 
         public void RemoveOpenGL()

@@ -70,7 +70,6 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud)
         direction_[i] = false;
     }
     velocite_.remetAZero();
-    FacadeModele::getInstance()->ajouterElementSurTable(this);
 
     updatePhysicBody();
 
@@ -87,7 +86,6 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud)
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet::~NoeudMaillet()
 {
-	FacadeModele::getInstance()->supprimerElementSurTable(this);
 	NoeudMaillet::mailletExistant--;
 
 #if BOX2D_INTEGRATED
@@ -197,7 +195,7 @@ void NoeudMaillet::gestionCollision( const float& temps )
 
 	NoeudRondelle* rondelle;
 	// Si le maillet n'est pas sur un table, il n'y a pas de physique appliquee
-	if(!GetTerrain() || !( rondelle = GetTerrain()->getRondelle() ) )
+	if(!GetTerrain() || !( rondelle = GetTerrain()->getPuck() ) )
 		return;
 	// Reinitialisation du vecteur d'enfoncement
 	enfoncement_.remetAZero();
@@ -518,7 +516,7 @@ void NoeudMaillet::buildMouseJoint()
     {
         if(!estControleParOrdinateur_ && !estControleParClavier_)
         {
-            GestionnaireEvenements::obtenirInstance()->attach(this);
+            GestionnaireEvenements::mMouseMoveSubject.attach(this);
         }
 
         b2Body* body = getPhysicBody();
@@ -550,7 +548,7 @@ void NoeudMaillet::destroyMouseJoint()
 #if BOX2D_INTEGRATED
     if(mMouseJoint)
     {
-        GestionnaireEvenements::obtenirInstance()->detach(this);
+        GestionnaireEvenements::mMouseMoveSubject.detach(this);
         mWorld->DestroyJoint(mMouseJoint);
         mMouseJoint = NULL;
     }
@@ -559,7 +557,7 @@ void NoeudMaillet::destroyMouseJoint()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudMaillet::updateObserver( class MouseMoveSubject& pSubject )
+/// @fn void NoeudMaillet::updateObserver( const  class MouseMoveSubject& pSubject )
 ///
 /// /*Description*/
 ///
@@ -568,14 +566,14 @@ void NoeudMaillet::destroyMouseJoint()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::updateObserver( MouseMoveSubject* pSubject )
+void NoeudMaillet::updateObserver( const  MouseMoveSubject* pSubject )
 {
 #if BOX2D_INTEGRATED
     if(mMouseJoint)
     {
         Vecteur3 virtualMousePos;
         b2Vec2 virtualMousePosB2;
-        FacadeModele::getInstance()->convertirClotureAVirtuelle(pSubject->getEvent().obtenirPosition()[VX],pSubject->getEvent().obtenirPosition()[VY],virtualMousePos);
+        FacadeModele::getInstance()->convertirClotureAVirtuelle(pSubject->mEvent.obtenirPosition()[VX],pSubject->mEvent.obtenirPosition()[VY],virtualMousePos);
         utilitaire::VEC3_TO_B2VEC(virtualMousePos,virtualMousePosB2);
         mMouseJoint->SetTarget(virtualMousePosB2);
     }

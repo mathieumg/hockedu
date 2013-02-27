@@ -14,17 +14,11 @@
 #include "SourisEtatOrbit.h"
 #include "SourisEtatZoomElastique.h"
 #include "SourisEtatZoomProportionnel.h"
-#include "SourisEtatTransformationRotation.h"
-#include "SourisEtatTransformationEchelle.h"
-#include "SourisEtatTransformationDeplacement.h"
-#include "SourisEtatSelection.h"
-#include "SourisEtatAjoutMuret.h"
-#include "SourisEtatAjout.h"
 #include "GestionnaireAnimations.h"
 #include "Partie.h"
 #include "NoeudRondelle.h"
 #include "NoeudMaillet.h"
-#include "SourisEtatAjoutControlPointMutable.h"
+#include "Terrain.h"
 
 HANDLE mutexMouseState;
 
@@ -39,7 +33,7 @@ HANDLE mutexMouseState;
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-GestionnaireEtatAbstrait::GestionnaireEtatAbstrait(GestionnaireEvenements* contexte) :etatSouris_(0),contexte_(contexte)
+GestionnaireEtatAbstrait::GestionnaireEtatAbstrait() :etatSouris_(0)
 {
 }
 
@@ -59,6 +53,32 @@ GestionnaireEtatAbstrait::~GestionnaireEtatAbstrait()
 	etatSouris_ = NULL;
 }
 
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void GestionnaireEtatAbstrait::clearMouseState( NomEtatSouris newState )
+///
+/// clear mouse state memory if the newState is different from current
+///
+/// @param[in] NomEtatSouris newState
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void GestionnaireEtatAbstrait::clearMouseState( NomEtatSouris newState )
+{
+    if((unsigned int)newState < NB_ETATS_SOURIS)
+    {
+        // S'il existe déjà un état de souris on vérifie si on le remplace
+        if(etatSouris_ != NULL)
+            if(etatSouris_->obtenirNomEtatSouris() == newState)
+                return;
+            else
+                delete etatSouris_;
+        etatSouris_ = NULL;
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void GestionnaireEtatAbstrait::modifierEtatSouris( NomEtatSouris etatSouris )
@@ -72,35 +92,17 @@ GestionnaireEtatAbstrait::~GestionnaireEtatAbstrait()
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatAbstrait::modifierEtatSouris( NomEtatSouris etatSouris )
 {
-	if(etatSouris < 0 || etatSouris >= NB_ETATS_SOURIS)
-		return;
-
-	// S'il existe déjà un état de souris on vérifie si on le remplace
-	if(etatSouris_ != NULL)
-		if(etatSouris_->obtenirNomEtatSouris() == etatSouris)
-			return;
-		else
-			delete etatSouris_;
-    etatSouris_ = NULL;
-
-    // petit hack pour pouvoir ajouter des polygones
-    /*static */int i=0;
-	switch(etatSouris)
-	{
-		case ETAT_SOURIS_DEPLACER_FENETRE			: etatSouris_ = new SourisEtatDeplacerFenetre			();	break;
-		case ETAT_SOURIS_ZOOM_ELASTIQUE				: etatSouris_ = new SourisEtatZoomElastique				();	break;
-		case ETAT_SOURIS_ZOOM_PROPORTIONNEL			: etatSouris_ = new SourisEtatZoomProportionnel			();	break;
-		case ETAT_SOURIS_TRANSFORMATION_ROTATION	: etatSouris_ = new SourisEtatTransformationRotation	();	break;
-		case ETAT_SOURIS_TRANSFORMATION_ECHELLE		: etatSouris_ = new SourisEtatTransformationEchelle		();	break;
-		case ETAT_SOURIS_TRANSFORMATION_DEPLACEMENT	: etatSouris_ = new SourisEtatTransformationDeplacement	();	break;
-		case ETAT_SOURIS_SELECTION					: etatSouris_ = new SourisEtatSelection					();	break;
-		case ETAT_SOURIS_AJOUTER_PORTAIL			: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_PORTAIL);	break;
-        case ETAT_SOURIS_AJOUTER_MURET				: etatSouris_ = new SourisEtatAjoutControlPointMutable  ( (i++)&0 ? RazerGameUtilities::NAME_RELATIVE_WALL : RazerGameUtilities::NAME_POLYGONE);	break;
-		case ETAT_SOURIS_AJOUTER_MAILLET			: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_MAILLET);	break;
-		case ETAT_SOURIS_AJOUTER_RONDELLE			: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_RONDELLE);	break;
-		case ETAT_SOURIS_AJOUTER_ACCELERATEUR		: etatSouris_ = new SourisEtatAjout						(RazerGameUtilities::NOM_ACCELERATEUR);	break;
-		case ETAT_SOURIS_ORBIT						: etatSouris_ = new SourisEtatOrbit                     ();	break;
-	}
+	clearMouseState(etatSouris);
+    if(!etatSouris_)
+    {
+        switch(etatSouris)
+        {
+        case ETAT_SOURIS_DEPLACER_FENETRE			: etatSouris_ = new SourisEtatDeplacerFenetre			();	break;
+        case ETAT_SOURIS_ZOOM_ELASTIQUE				: etatSouris_ = new SourisEtatZoomElastique				();	break;
+        case ETAT_SOURIS_ZOOM_PROPORTIONNEL			: etatSouris_ = new SourisEtatZoomProportionnel			();	break;
+        case ETAT_SOURIS_ORBIT						: etatSouris_ = new SourisEtatOrbit                     ();	break;
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -168,11 +170,10 @@ void GestionnaireEtatAbstrait::gestionAnimationEnJeu( Partie* partieCourante, co
 {
 	if(!GestionnaireAnimations::obtenirInstance()->estJouerReplay())
 	{
-
 		vue::Camera* camera = &FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
-		NoeudMaillet* maillet1 = FacadeModele::getInstance()->obtenirMailletJoueurGauche();
-		NoeudMaillet* maillet2 = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
-		NoeudRondelle* rondelle = FacadeModele::getInstance()->obtenirRondelle();
+		NoeudMaillet* maillet1 = partieCourante->getField()->getLeftMallet();
+		NoeudMaillet* maillet2 = partieCourante->getField()->getRightMallet();
+		NoeudRondelle* rondelle = partieCourante->getField()->getPuck();
 
 		GestionnaireAnimations* gestionnaire = GestionnaireAnimations::obtenirInstance();
 		if(GestionnaireAnimations::obtenirInstance()->replayEstTermine())
@@ -233,6 +234,8 @@ void GestionnaireEtatAbstrait::gestionAnimationEnJeu( Partie* partieCourante, co
 		GestionnaireAnimations::obtenirInstance()->saveReplayFrame(iterationReplay);
 	}
 }
+
+
 
 
 

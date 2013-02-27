@@ -32,7 +32,7 @@ const std::string Tournoi::tounoiNonJoue = "Aucun Gagnant de ce tournoi!";
 ////////////////////////////////////////////////////////////////////////
 Tournoi::Tournoi(): estEnCours_(false)
 {
-	terrain_ = "";
+	mFieldName = "";
 }
 
 
@@ -52,33 +52,6 @@ Tournoi::~Tournoi(void)
 	libererMemoire();
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn std::string Tournoi::obtenirTerrain() const
-///
-/// Accesseur du nom du terrain.
-///
-/// @return Le nom du terrain.
-///
-////////////////////////////////////////////////////////////////////////
-std::string Tournoi::obtenirTerrain() const
-{
-	return terrain_;
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void Tournoi::modifierTerrain( const std::string terrain )
-///
-/// Modificateur du nom du terrain.
-///
-/// @return Le nom du terrain.
-///
-////////////////////////////////////////////////////////////////////////
-void Tournoi::modifierTerrain( const std::string terrain )
-{
-	terrain_ = terrain;
-}
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -119,7 +92,7 @@ void Tournoi::modifierNom( const std::string nom )
 /// @return bool vrai si le tournoi a bien été créer, false si le nombre de joueurIter est insuffisant
 ///
 ////////////////////////////////////////////////////////////////////////
-bool Tournoi::initialisation( const JoueursParticipant& joueurs, const std::string terrain )
+bool Tournoi::initialisation( const JoueursParticipant& joueurs, const std::string& pFieldName)
 {
 	libererMemoire();
 
@@ -130,7 +103,7 @@ bool Tournoi::initialisation( const JoueursParticipant& joueurs, const std::stri
 		return false;
 	}
 
-	terrain_ = terrain;
+	mFieldName = pFieldName;
 
 	unsigned int index = 14;
 	indexPartieCourante_ = 14;
@@ -146,7 +119,7 @@ bool Tournoi::initialisation( const JoueursParticipant& joueurs, const std::stri
 	// On assigne le terrain au parties
 	for (unsigned int i = 0; i < nbrParties_ ; i++)
 	{
-		parties_[i].setFieldName(terrain);
+		parties_[i].setFieldName(mFieldName);
 		parties_[i].modifierFaitPartieDunTournoi(true);
 	}
 	return true;
@@ -201,7 +174,7 @@ bool Tournoi::initialisationXML( XmlElement* element, ConteneurJoueur* profilsVi
 	const char* mapPath = map->Attribute("chemin");
 	if(mapPath == 0)
 		return false;
-	terrain_ = mapPath;
+	mFieldName = mapPath;
 
 	// Lecture a savoir si la derniere instance du tournoi etati termine
 	int termine;
@@ -303,7 +276,7 @@ XmlElement* Tournoi::creerTournoiXML() const
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	XmlElement* map = XMLUtils::createNode("Terrain");
-	map->SetAttribute("chemin", obtenirTerrain().c_str());
+	map->SetAttribute("chemin", GetFieldName().c_str());
 	elementNoeud->LinkEndChild(map);
 
 	// Creation du tournoi de facon linéaire

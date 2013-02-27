@@ -58,5 +58,10 @@ namespace UIHeavyClient
         {
             mGuidanceLabel.Content = "";
         }
+
+        private void mKeyboardOptionButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowHandler.GoToKeyboardOption();
+        }
     }
 }

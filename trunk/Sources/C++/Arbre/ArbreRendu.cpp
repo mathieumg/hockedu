@@ -24,11 +24,12 @@
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-ArbreRendu::ArbreRendu()
+ArbreRendu::ArbreRendu(Terrain* pField)
 	: NoeudComposite("racine")
 {
 	// On ne veut pas que ce noeud soit sélectionnable.
 	assignerEstSelectionnable(false);
+    modifierTerrain(pField);
 }
 
 

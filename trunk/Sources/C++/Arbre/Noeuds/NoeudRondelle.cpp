@@ -54,20 +54,19 @@ CreateListDelegateImplementation(Puck)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudRondelle::NoeudRondelle(const std::string& typeNoeud)
-	: NoeudAbstrait(typeNoeud),puissanceVent_(0.05f)
+    : NoeudAbstrait(typeNoeud),puissanceVent_(0.05f)
 {
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
 
     NoeudRondelle::rondellesPresentes++;
 
-	mCoefFriction = 2.5f;
-	mVelocite = Vecteur3(0.0f,0.0f,0.0f);
-	mAngle = 0.0f;
-	mVitesseRotation = 0.0f;
+    mCoefFriction = 2.5f;
+    mVelocite = Vecteur3(0.0f,0.0f,0.0f);
+    mAngle = 0.0f;
+    mVitesseRotation = 0.0f;
 
 
-	FacadeModele::getInstance()->ajouterElementSurTable(this);
     updatePhysicBody();
 }
 
@@ -83,8 +82,7 @@ NoeudRondelle::NoeudRondelle(const std::string& typeNoeud)
 ////////////////////////////////////////////////////////////////////////
 NoeudRondelle::~NoeudRondelle()
 {
-	FacadeModele::getInstance()->supprimerElementSurTable(this);
-	NoeudRondelle::rondellesPresentes--;
+    NoeudRondelle::rondellesPresentes--;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -98,8 +96,8 @@ NoeudRondelle::~NoeudRondelle()
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::afficherConcret() const
 {
-	// Appel à la version de la classe de base pour l'affichage des enfants.
-	NoeudAbstrait::afficherConcret();
+    // Appel à la version de la classe de base pour l'affichage des enfants.
+    NoeudAbstrait::afficherConcret();
 }
 
 
@@ -117,10 +115,10 @@ void NoeudRondelle::afficherConcret() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::animer( const float& temps)
 {
-	//A mettre dans majPosition();
-	//mPosition += mVelocite*temps;
-	// Appel à la version de la classe de base pour l'animation des enfants.
-	NoeudAbstrait::animer(temps);
+    //A mettre dans majPosition();
+    //mPosition += mVelocite*temps;
+    // Appel à la version de la classe de base pour l'animation des enfants.
+    NoeudAbstrait::animer(temps);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -136,7 +134,7 @@ void NoeudRondelle::animer( const float& temps)
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::acceptVisitor( VisiteurNoeud& v )
 {
-	v.visiterNoeudRondelle(this);
+    v.visiterNoeudRondelle(this);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -165,180 +163,180 @@ void NoeudRondelle::gestionCollision( const float& temps )
     }
     
     // Reinitialisation du vecteur d'enfoncement
-	enfoncement_.remetAZero();
-	vitesseResultante_.remetAZero();
-	bonusAccelResultant_ = 1;
+    enfoncement_.remetAZero();
+    vitesseResultante_.remetAZero();
+    bonusAccelResultant_ = 1;
 
-	mPosition = anciennePos_;
-	//const float cycles = 10;
-	//float dt = temps/cycles;
-	//for(int i=0; i<cycles;i++)
-	{
-		
-		mPosition+=mVelocite*temps;
+    mPosition = anciennePos_;
+    //const float cycles = 10;
+    //float dt = temps/cycles;
+    //for(int i=0; i<cycles;i++)
+    {
+        
+        mPosition+=mVelocite*temps;
 
-		Vecteur2 vecteurDirecteur(mPosition-anciennePos_);
-		vecteurDirecteur.normaliser();
-		Vecteur2 normale(vecteurDirecteur[VY],-vecteurDirecteur[VX]);	// Pointe vers la droite
+        Vecteur2 vecteurDirecteur(mPosition-anciennePos_);
+        vecteurDirecteur.normaliser();
+        Vecteur2 normale(vecteurDirecteur[VY],-vecteurDirecteur[VX]);   // Pointe vers la droite
 
-		const Vecteur2 NormaleLongueurRayon = normale*obtenirRayon();
-		const Vecteur2 DirecteurLongueurRayon = vecteurDirecteur*obtenirRayon();
-		collision_ = false;
+        const Vecteur2 NormaleLongueurRayon = normale*obtenirRayon();
+        const Vecteur2 DirecteurLongueurRayon = vecteurDirecteur*obtenirRayon();
+        collision_ = false;
 
-		// Collision avec un portail et téléportation
-		NoeudGroupe*  groupe = table_->obtenirGroupe(RazerGameUtilities::NOM_PORTAIL);
-		if(groupe)
-		{
-			// Parcours de la liste des portails
-			unsigned int nbEnfant = groupe->obtenirNombreEnfants();
-			for(unsigned int i = 0; i < nbEnfant; ++i)
-			{
-				NoeudPortail* portail = dynamic_cast<NoeudPortail*>(groupe->chercher(i));
-				if(portail)
-				{
-					float sommeRayon = (portail->obtenirRayon())/5 + obtenirRayon();
-					Vecteur3 distance(portail->getPosition()-getPosition());
+        // Collision avec un portail et téléportation
+        NoeudGroupe*  groupe = table_->obtenirGroupe(RazerGameUtilities::NOM_PORTAIL);
+        if(groupe)
+        {
+            // Parcours de la liste des portails
+            unsigned int nbEnfant = groupe->obtenirNombreEnfants();
+            for(unsigned int i = 0; i < nbEnfant; ++i)
+            {
+                NoeudPortail* portail = dynamic_cast<NoeudPortail*>(groupe->chercher(i));
+                if(portail)
+                {
+                    float sommeRayon = (portail->obtenirRayon())/5 + obtenirRayon();
+                    Vecteur3 distance(portail->getPosition()-getPosition());
 
-					// Collision
-					if(portail->isAttractionFieldActive() && distance.norme() <= sommeRayon && nbEnfant > 1 )
-					{
-						// Choix aléatoire du portail de sortie
-						int noPortailDeSortie = 0;
-						while((noPortailDeSortie = rand()%nbEnfant) == i);
+                    // Collision
+                    if(portail->isAttractionFieldActive() && distance.norme() <= sommeRayon && nbEnfant > 1 )
+                    {
+                        // Choix aléatoire du portail de sortie
+                        int noPortailDeSortie = 0;
+                        while((noPortailDeSortie = rand()%nbEnfant) == i);
 
-						NoeudPortail* portailDeSortie = dynamic_cast<NoeudPortail*>(groupe->chercher(noPortailDeSortie));
-						portailDeSortie->setIsAttractionFieldActive(false);
-						anciennePos_ = mPosition = portailDeSortie->getPosition();
-						enfoncement_.remetAZero();
-						collision_ = false;
-						SoundFMOD::obtenirInstance()->playEffect(effect(PORTAL_EFFECT));
-						return;
-					}
-				}
-			}
-		}
+                        NoeudPortail* portailDeSortie = dynamic_cast<NoeudPortail*>(groupe->chercher(noPortailDeSortie));
+                        portailDeSortie->setIsAttractionFieldActive(false);
+                        anciennePos_ = mPosition = portailDeSortie->getPosition();
+                        enfoncement_.remetAZero();
+                        collision_ = false;
+                        SoundFMOD::obtenirInstance()->playEffect(effect(PORTAL_EFFECT));
+                        return;
+                    }
+                }
+            }
+        }
 
 
-		/// Collisions sur les maillets
-		NoeudMaillet* maillet = FacadeModele::getInstance()->obtenirMailletJoueurGauche();
-		
-		for (int i = 0; i < 2 ; i++)
-		{
-			if(maillet)
-			{
-				aidecollision::DetailsCollision details = aidecollision::calculerCollisionCercle(
-					maillet->getPosition().convertir<2>(),maillet->obtenirRayon(),
-					getPosition().convertir<2>(),obtenirRayon());
-				if(details.type != aidecollision::COLLISION_AUCUNE)
-				{
-					Vecteur3 droiteEntreCentres = maillet->getPosition()-getPosition();
-					bool collisionMaillet = false;
-					float time = aidecollision::TimeOfClosestApproach(
-						anciennePos_.convertir<2>(),
-						maillet->obtenirAnciennePos().convertir<2>(),
-						mVelocite.convertir<2>(),
-						maillet->obtenirVelocite().convertir<2>(),
-						obtenirRayon(),
-						maillet->obtenirRayon(),
-						collisionMaillet);
-					if(collisionMaillet && time <= temps)
-					{
-						Vecteur3 nouvellePosTOIRondelle = anciennePos_+mVelocite*time;
-						Vecteur3 nouvellePosTOIMaillet = maillet->obtenirAnciennePos()+maillet->obtenirVelocite()*time;
-						droiteEntreCentres = nouvellePosTOIRondelle-nouvellePosTOIMaillet;
-						droiteEntreCentres.normaliser();
-					}
-					details.direction.normaliser();
-					enfoncement_ -= details.direction*details.enfoncement;
+        /// Collisions sur les maillets
+        NoeudMaillet* maillet = FacadeModele::getInstance()->obtenirMailletJoueurGauche();
+        
+        for (int i = 0; i < 2 ; i++)
+        {
+            if(maillet)
+            {
+                aidecollision::DetailsCollision details = aidecollision::calculerCollisionCercle(
+                    maillet->getPosition().convertir<2>(),maillet->obtenirRayon(),
+                    getPosition().convertir<2>(),obtenirRayon());
+                if(details.type != aidecollision::COLLISION_AUCUNE)
+                {
+                    Vecteur3 droiteEntreCentres = maillet->getPosition()-getPosition();
+                    bool collisionMaillet = false;
+                    float time = aidecollision::TimeOfClosestApproach(
+                        anciennePos_.convertir<2>(),
+                        maillet->obtenirAnciennePos().convertir<2>(),
+                        mVelocite.convertir<2>(),
+                        maillet->obtenirVelocite().convertir<2>(),
+                        obtenirRayon(),
+                        maillet->obtenirRayon(),
+                        collisionMaillet);
+                    if(collisionMaillet && time <= temps)
+                    {
+                        Vecteur3 nouvellePosTOIRondelle = anciennePos_+mVelocite*time;
+                        Vecteur3 nouvellePosTOIMaillet = maillet->obtenirAnciennePos()+maillet->obtenirVelocite()*time;
+                        droiteEntreCentres = nouvellePosTOIRondelle-nouvellePosTOIMaillet;
+                        droiteEntreCentres.normaliser();
+                    }
+                    details.direction.normaliser();
+                    enfoncement_ -= details.direction*details.enfoncement;
 
-					droiteEntreCentres.normaliser();
-					Vecteur3 normale(droiteEntreCentres[VY],-droiteEntreCentres[VX]);
+                    droiteEntreCentres.normaliser();
+                    Vecteur3 normale(droiteEntreCentres[VY],-droiteEntreCentres[VX]);
 
-					Vecteur3 reflexion = calculerReflexion(mVelocite,droiteEntreCentres);
-					vitesseResultante_ += reflexion;
+                    Vecteur3 reflexion = calculerReflexion(mVelocite,droiteEntreCentres);
+                    vitesseResultante_ += reflexion;
 
-					Vecteur3 projectionTemp = calculerProjectionDroite(maillet->obtenirVelocite(),droiteEntreCentres);
-					vitesseResultante_ += projectionTemp*1.3f;
+                    Vecteur3 projectionTemp = calculerProjectionDroite(maillet->obtenirVelocite(),droiteEntreCentres);
+                    vitesseResultante_ += projectionTemp*1.3f;
 
-					SoundFMOD::obtenirInstance()->playEffect(effect(COLLISION_MAILLET_EFFECT1+(rand()%5)));			
-					collision_ = true;
-				}
-			}
-			
-			maillet = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
-		}
+                    SoundFMOD::obtenirInstance()->playEffect(effect(COLLISION_MAILLET_EFFECT1+(rand()%5)));         
+                    collision_ = true;
+                }
+            }
+            
+            maillet = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
+        }
 
-		// Collision avec un accelerateur
-		groupe = table_->obtenirGroupe(RazerGameUtilities::NOM_ACCELERATEUR);
-		if(groupe)
-		{
-			unsigned int nbEnfant = groupe->obtenirNombreEnfants();
-			for(unsigned int i=0; i<nbEnfant; ++i)
-			{
-				NoeudAccelerateur* accel = dynamic_cast<NoeudAccelerateur*>(groupe->chercher(i));
-				if(accel)
-				{
-					float sommeRayon = accel->obtenirRayon()+obtenirRayon();
-					Vecteur3 distance(accel->getPosition()-getPosition());
-					// Collision
-					if(distance.norme2() <= sommeRayon*sommeRayon)
-					{
-						if(accel->estActiver())
-						{
-							bonusAccelResultant_ *= accel->obtenirBonusAccel();
-							accel->modifierActiver(false);
-							SoundFMOD::obtenirInstance()->playEffect(effect(ACCELERATOR_EFFECT));
-						}
-					}
-				}
-			}
-		}
+        // Collision avec un accelerateur
+        groupe = table_->obtenirGroupe(RazerGameUtilities::NOM_ACCELERATEUR);
+        if(groupe)
+        {
+            unsigned int nbEnfant = groupe->obtenirNombreEnfants();
+            for(unsigned int i=0; i<nbEnfant; ++i)
+            {
+                NoeudAccelerateur* accel = dynamic_cast<NoeudAccelerateur*>(groupe->chercher(i));
+                if(accel)
+                {
+                    float sommeRayon = accel->obtenirRayon()+obtenirRayon();
+                    Vecteur3 distance(accel->getPosition()-getPosition());
+                    // Collision
+                    if(distance.norme2() <= sommeRayon*sommeRayon)
+                    {
+                        if(accel->estActiver())
+                        {
+                            bonusAccelResultant_ *= accel->obtenirBonusAccel();
+                            accel->modifierActiver(false);
+                            SoundFMOD::obtenirInstance()->playEffect(effect(ACCELERATOR_EFFECT));
+                        }
+                    }
+                }
+            }
+        }
 
-		
+        
 
-		// TODO:::  Pas faire les tests avec les objets statique lorsque la velocite est nul 
-		groupe = table_->obtenirGroupe(RazerGameUtilities::NOM_MURET);
-		/// Collision les murets
-		if(groupe)
-		{
-			VisiteurCollision v(this,false);
-		
-			v.reinitialiser();
-			groupe->acceptVisitor(v);
-			if(v.collisionPresente())
-			{
-				ConteneurNoeuds liste;
-				v.obtenirListeCollision(liste);
-				ConteneurNoeuds::iterator iter = liste.begin();
-				ConteneurDetailsCollision details = v.obtenirConteneurDetailsCollision();
-				aidecollision::DetailsCollision detailsRes;
-				detailsRes.type = aidecollision::COLLISION_SEGMENT;
-				detailsRes.enfoncement = 0;
-				detailsRes.direction.remetAZero();
-				float rebond = 1;
-				int i=0;
-				for(; iter != liste.end(); iter++, ++i)
-				{
-					NodeWallAbstract *muret = dynamic_cast<NodeWallAbstract *>((*iter));
-					if (muret)
-					{
-						rebond *= muret->getReboundRatio();
-						enfoncement_ -= details[i].direction*details[i].enfoncement*1.05f;
-						detailsRes.enfoncement += details[i].enfoncement;
-						detailsRes.direction += details[i].direction;
-					}
-				}
-				detailsRes.direction.normaliser();
-				Vecteur3 normale(-detailsRes.direction[VY],detailsRes.direction[VX]);
+        // TODO:::  Pas faire les tests avec les objets statique lorsque la velocite est nul 
+        groupe = table_->obtenirGroupe(RazerGameUtilities::NOM_MURET);
+        /// Collision les murets
+        if(groupe)
+        {
+            VisiteurCollision v(this,false);
+        
+            v.reinitialiser();
+            groupe->acceptVisitor(v);
+            if(v.collisionPresente())
+            {
+                ConteneurNoeuds liste;
+                v.obtenirListeCollision(liste);
+                ConteneurNoeuds::iterator iter = liste.begin();
+                ConteneurDetailsCollision details = v.obtenirConteneurDetailsCollision();
+                aidecollision::DetailsCollision detailsRes;
+                detailsRes.type = aidecollision::COLLISION_SEGMENT;
+                detailsRes.enfoncement = 0;
+                detailsRes.direction.remetAZero();
+                float rebond = 1;
+                int i=0;
+                for(; iter != liste.end(); iter++, ++i)
+                {
+                    NodeWallAbstract *muret = dynamic_cast<NodeWallAbstract *>((*iter));
+                    if (muret)
+                    {
+                        rebond *= muret->getReboundRatio();
+                        enfoncement_ -= details[i].direction*details[i].enfoncement*1.05f;
+                        detailsRes.enfoncement += details[i].enfoncement;
+                        detailsRes.direction += details[i].direction;
+                    }
+                }
+                detailsRes.direction.normaliser();
+                Vecteur3 normale(-detailsRes.direction[VY],detailsRes.direction[VX]);
 
-				vitesseResultante_ += calculerReflexion(mVelocite,normale)*-1*rebond;
-				
-				collision_ = true;
-				if(mVelocite.norme2() > 200)
-					SoundFMOD::obtenirInstance()->playEffect(COLLISION_MURET_EFFECT);
-			}
-		}
-	}
+                vitesseResultante_ += calculerReflexion(mVelocite,normale)*-1*rebond;
+                
+                collision_ = true;
+                if(mVelocite.norme2() > 200)
+                    SoundFMOD::obtenirInstance()->playEffect(COLLISION_MURET_EFFECT);
+            }
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -354,10 +352,10 @@ void NoeudRondelle::gestionCollision( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::majPosition( const float& temps )
 {
-	anciennePos_ = mPosition;
-	mPosition += mVelocite*temps;
-	mAngle = (float)((int)(mAngle + 5*mVitesseRotation)%360);
-	updateMatrice();
+    anciennePos_ = mPosition;
+    mPosition += mVelocite*temps;
+    mAngle = (float)((int)(mAngle + 5*mVitesseRotation)%360);
+    updateMatrice();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -384,55 +382,48 @@ void NoeudRondelle::ajusterEnfoncement()
         }
     }
 
-	mPosition -= enfoncement_*1.1f;
-	// Initialisation d'un vecteur pour l'intersection
-	Vecteur2 intersection;
-	// Inversion du vecteur de direction de la rondelle
-	//////// La methode doit retourne le muret pas juste ces point pour le coef de rebond
-	NodeWallAbstract* muret = table_->detectionCollisionGrandeVitesseMuret(anciennePos_.convertir<2>(),mPosition.convertir<2>(),intersection);
-	if(muret)
-	{
-		Vecteur2 directeur(muret->obtenirCoin2()-muret->obtenirCoin1());
-		directeur.normaliser();
-		Vecteur2 normale(-directeur[VY],directeur[VX]);
-		Vecteur2 direction(anciennePos_-mPosition);
-		if(produitScalaire(normale,direction) < 0)
-			normale*=-1;
-		// La normale de la normale est la droite elle meme
-		mVelocite = calculerReflexion(mVelocite,directeur.convertir<3>())*-1*1.10f;//muret->getReboundRatio();
-		normale*= obtenirRayon();
-		mPosition = intersection.convertir<3>()+normale;
-	}
+    mPosition -= enfoncement_*1.1f;
+    // Initialisation d'un vecteur pour l'intersection
+    Vecteur2 intersection;
+    // Inversion du vecteur de direction de la rondelle
+    //////// La methode doit retourne le muret pas juste ces point pour le coef de rebond
+    NodeWallAbstract* muret = table_->detectionCollisionGrandeVitesseMuret(anciennePos_.convertir<2>(),mPosition.convertir<2>(),intersection);
+    if(muret)
+    {
+        Vecteur2 directeur(muret->obtenirCoin2()-muret->obtenirCoin1());
+        directeur.normaliser();
+        Vecteur2 normale(-directeur[VY],directeur[VX]);
+        Vecteur2 direction(anciennePos_-mPosition);
+        if(produitScalaire(normale,direction) < 0)
+            normale*=-1;
+        // La normale de la normale est la droite elle meme
+        mVelocite = calculerReflexion(mVelocite,directeur.convertir<3>())*-1*1.10f;//muret->getReboundRatio();
+        normale*= obtenirRayon();
+        mPosition = intersection.convertir<3>()+normale;
+    }
 
-	if(!table_->estSurTable(this) )
-	{
-		Partie* partie = FacadeModele::getInstance()->obtenirPartieCourante();
-		if(partie != 0)
-		{
-			if(mPosition[VX] < 0)
-			{
-				partie->incrementerPointsJoueurDroit();
-				
-			}
-			else
-			{
-				partie->incrementerPointsJoueurGauche();
-			}
-			SoundFMOD::obtenirInstance()->playEffect(GOAL_EFFECT);
-			partie->afficherScore();
-			// RENDU DANS afficherScore() de Partie
-// 			FacadeModele::getInstance()->togglePause();
-// 			utilitaire::afficherErreur("Pointage: "+DecodeString::toString(partie->obtenirPointsJoueurGauche() )+"\t"+DecodeString::toString(partie->obtenirPointsJoueurDroit() ) );
-// 			FacadeModele::getInstance()->togglePause();
-		}
-		partie->miseAuJeu();
-		// Rendu dans miseAuJeu de Partie
-// 		mPosition = positionOriginale_;
- 		mVelocite.remetAZero();
-		
-		
-	}
-	mPosition[VZ] = 0;
+    if(!table_->estSurTable(this) )
+    {
+        Partie* partie = FacadeModele::getInstance()->obtenirPartieCourante();
+        if(partie != 0)
+        {
+            if(mPosition[VX] < 0)
+            {
+                partie->incrementerPointsJoueurDroit();
+                
+            }
+            else
+            {
+                partie->incrementerPointsJoueurGauche();
+            }
+            SoundFMOD::obtenirInstance()->playEffect(GOAL_EFFECT);
+        }
+        partie->miseAuJeu();
+        mVelocite.remetAZero();
+        
+        
+    }
+    mPosition[VZ] = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -460,98 +451,98 @@ void NoeudRondelle::ajusterVitesse( const float& temps )
         }
     }
 
-	// Ajustement de la vitesse par les portails
-	NoeudAbstrait* groupe = (NoeudAbstrait*)table_->obtenirGroupe(RazerGameUtilities::NOM_PORTAIL);
-	if(groupe)
-	{
-		// Parcours de la liste des portails
-		unsigned int nbEnfant = groupe->obtenirNombreEnfants();
-		for(unsigned int i = 0; i < nbEnfant; ++i)
-		{
-			// Le portail à traiter
-			NoeudPortail* portail = dynamic_cast<NoeudPortail*>(groupe->chercher(i));
-			if(portail)
-			{
-				// Distance entre le centre du portail et le centre de la rondelle
-				Vecteur3 distance(portail->getPosition()-getPosition());
-				
-				// La vitesse sera affectée seulement si la distance est plus petite que 50
-				if(distance.norme() <= 50)
-				{
-					if(portail->isAttractionFieldActive())
-					{
-						Vecteur3 ajustement = distance;
-						ajustement.normaliser();
+    // Ajustement de la vitesse par les portails
+    NoeudAbstrait* groupe = (NoeudAbstrait*)table_->obtenirGroupe(RazerGameUtilities::NOM_PORTAIL);
+    if(groupe)
+    {
+        // Parcours de la liste des portails
+        unsigned int nbEnfant = groupe->obtenirNombreEnfants();
+        for(unsigned int i = 0; i < nbEnfant; ++i)
+        {
+            // Le portail à traiter
+            NoeudPortail* portail = dynamic_cast<NoeudPortail*>(groupe->chercher(i));
+            if(portail)
+            {
+                // Distance entre le centre du portail et le centre de la rondelle
+                Vecteur3 distance(portail->getPosition()-getPosition());
+                
+                // La vitesse sera affectée seulement si la distance est plus petite que 50
+                if(distance.norme() <= 50)
+                {
+                    if(portail->isAttractionFieldActive())
+                    {
+                        Vecteur3 ajustement = distance;
+                        ajustement.normaliser();
 
-						// Ajustement de la vitesse
-						if(distance.norme2() != 0)
-							ajustement *= 37*portail->obtenirRayon()/(distance.norme2());
+                        // Ajustement de la vitesse
+                        if(distance.norme2() != 0)
+                            ajustement *= 37*portail->obtenirRayon()/(distance.norme2());
 
-						mVelocite+= ajustement;
-					}
-				}
-				else if(!portail->isAttractionFieldActive())
-				{
-					portail->setIsAttractionFieldActive(true);
-				}
-					
-			}
-		}
-	}
-	
-
-
-	// Algorithme pour calculer le vent !!!!!
-	Vecteur3 directeur;
-	if(mPosition[VX] == 0 && mPosition[VY] == 0)
-	{
-		// si la rondelle est au centre du terrain on lui donne une direction aleatoire pour commencer le mouvement
-		directeur = Vecteur3((rand()&1) == 0 ? 1.0f : -1.0f, (rand()&1) == 0 ? 1.0f : -1.0f);
-	}
-	else
-	{
-		directeur = Vecteur3(2*coeffDirectVent_*sqrt(abs(mPosition[VX])/coeffDirectVent_)*(mPosition[VX] <0.0f?-1.0f:1.0f),mPosition[VY] <0.0f?-1.0f:1.0f);
-	}
-	directeur.normaliser();
-	directeur *= -coeffVent_*mPosition[VX]*mPosition[VX]+puissanceVent_;
-	mVelocite += directeur;
-	
-	///////////////////////////////////////////////
+                        mVelocite+= ajustement;
+                    }
+                }
+                else if(!portail->isAttractionFieldActive())
+                {
+                    portail->setIsAttractionFieldActive(true);
+                }
+                    
+            }
+        }
+    }
+    
 
 
-	// Algo pour rotation !!
-	if(collision_)
-	{
-		Vecteur3 vitesseAvant( -1 * mVelocite );
-		vitesseAvant.normaliser();
-		Vecteur3 vitesseApres(vitesseResultante_);
-		vitesseApres.normaliser();
+    // Algorithme pour calculer le vent !!!!!
+    Vecteur3 directeur;
+    if(mPosition[VX] == 0 && mPosition[VY] == 0)
+    {
+        // si la rondelle est au centre du terrain on lui donne une direction aleatoire pour commencer le mouvement
+        directeur = Vecteur3((rand()&1) == 0 ? 1.0f : -1.0f, (rand()&1) == 0 ? 1.0f : -1.0f);
+    }
+    else
+    {
+        directeur = Vecteur3(2*coeffDirectVent_*sqrt(abs(mPosition[VX])/coeffDirectVent_)*(mPosition[VX] <0.0f?-1.0f:1.0f),mPosition[VY] <0.0f?-1.0f:1.0f);
+    }
+    directeur.normaliser();
+    directeur *= -coeffVent_*mPosition[VX]*mPosition[VX]+puissanceVent_;
+    mVelocite += directeur;
+    
+    ///////////////////////////////////////////////
 
-		if((vitesseAvant[VX] < 0 && vitesseApres[VX] < 0 && vitesseAvant[VY] < 0 && vitesseApres[VY] > 0) ||
-			(vitesseAvant[VX] > 0 && vitesseApres[VX] < 0 && vitesseAvant[VY] < 0 && vitesseApres[VY] < 0) ||
-			(vitesseAvant[VX] > 0 && vitesseApres[VX] > 0 && vitesseAvant[VY] > 0 && vitesseApres[VY] < 0) ||
-			(vitesseAvant[VX] < 0 && vitesseApres[VX] > 0 && vitesseAvant[VY] > 0 && vitesseApres[VY] > 0))
-			mVitesseRotation = -1 * acos(produitScalaire(vitesseAvant, vitesseApres));
-		else
-			mVitesseRotation = acos(produitScalaire(vitesseAvant, vitesseApres));
 
-		mVelocite = vitesseResultante_;
-	}
+    // Algo pour rotation !!
+    if(collision_)
+    {
+        Vecteur3 vitesseAvant( -1 * mVelocite );
+        vitesseAvant.normaliser();
+        Vecteur3 vitesseApres(vitesseResultante_);
+        vitesseApres.normaliser();
 
-	// Diminution de la vitesse par la friction
-	mVelocite *= (1.0f-mCoefFriction*temps);
-	// Modification de la vitesse selon les bonus accel
-	mVelocite *= bonusAccelResultant_;
+        if((vitesseAvant[VX] < 0 && vitesseApres[VX] < 0 && vitesseAvant[VY] < 0 && vitesseApres[VY] > 0) ||
+            (vitesseAvant[VX] > 0 && vitesseApres[VX] < 0 && vitesseAvant[VY] < 0 && vitesseApres[VY] < 0) ||
+            (vitesseAvant[VX] > 0 && vitesseApres[VX] > 0 && vitesseAvant[VY] > 0 && vitesseApres[VY] < 0) ||
+            (vitesseAvant[VX] < 0 && vitesseApres[VX] > 0 && vitesseAvant[VY] > 0 && vitesseApres[VY] > 0))
+            mVitesseRotation = -1 * acos(produitScalaire(vitesseAvant, vitesseApres));
+        else
+            mVitesseRotation = acos(produitScalaire(vitesseAvant, vitesseApres));
 
-	// Cap de vitesse
-	if(mVelocite.norme2() > 1000000)
-	{
-		mVelocite.normaliser();
-		mVelocite*= 1000;
-	}
+        mVelocite = vitesseResultante_;
+    }
 
-	mVelocite[VZ] = 0;
-	mVitesseRotation *= 0.99f;
+    // Diminution de la vitesse par la friction
+    mVelocite *= (1.0f-mCoefFriction*temps);
+    // Modification de la vitesse selon les bonus accel
+    mVelocite *= bonusAccelResultant_;
+
+    // Cap de vitesse
+    if(mVelocite.norme2() > 1000000)
+    {
+        mVelocite.normaliser();
+        mVelocite*= 1000;
+    }
+
+    mVelocite[VZ] = 0;
+    mVitesseRotation *= 0.99f;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -566,28 +557,28 @@ void NoeudRondelle::ajusterVitesse( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::validerPropriteteTablePourJeu() throw(std::logic_error)
 {
-	if(GetTerrain())
-	{
-		table_ = GetTerrain()->getTable();
-		if(table_ != NULL)
-		{
-			positionOriginale_ = mPosition;
-			// CoeffVent _ = puissanceMax/ x^2
-			float x = table_->obtenirPoint(POSITION_MILIEU_DROITE)->getPosition()[VX]*0.50f;
-			coeffVent_ = puissanceVent_/(x*x);
+    if(GetTerrain())
+    {
+        table_ = GetTerrain()->getTable();
+        if(table_ != NULL)
+        {
+            positionOriginale_ = mPosition;
+            // CoeffVent _ = puissanceMax/ x^2
+            float x = table_->obtenirPoint(POSITION_MILIEU_DROITE)->getPosition()[VX]*0.50f;
+            coeffVent_ = puissanceVent_/(x*x);
 
 
-			//coeffDirectVent_ = X/Y^2
-			Vecteur3 ref = rand()&1 ? table_->obtenirPoint(POSITION_HAUT_DROITE)->getPosition() : table_->obtenirPoint(POSITION_BAS_DROITE)->getPosition();
-			coeffDirectVent_ = ref[VX]/ref[VY]/ref[VY];
+            //coeffDirectVent_ = X/Y^2
+            Vecteur3 ref = rand()&1 ? table_->obtenirPoint(POSITION_HAUT_DROITE)->getPosition() : table_->obtenirPoint(POSITION_BAS_DROITE)->getPosition();
+            coeffDirectVent_ = ref[VX]/ref[VY]/ref[VY];
 
-			mCoefFriction = table_->obtenirCoefFriction()/10;
-		}
-		else
-			throw std::logic_error("Aucune table sur le terrain de la rondelle");
-	}
-	else
-		throw std::logic_error("Aucun terrain pour la rondelle qui tente de ce valider");
+            mCoefFriction = table_->obtenirCoefFriction()/10;
+        }
+        else
+            throw std::logic_error("Aucune table sur le terrain de la rondelle");
+    }
+    else
+        throw std::logic_error("Aucun terrain pour la rondelle qui tente de ce valider");
 }
 
 ////////////////////////////////////////////////////////////////////////

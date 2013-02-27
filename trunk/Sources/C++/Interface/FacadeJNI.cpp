@@ -226,7 +226,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_keyTyped( 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_keyPressed(JNIEnv * env, jobject, jobject keyEvent)
 {
-	GestionnaireEvenements::obtenirInstance()->toucheEnfoncee(EvenementClavier(env, keyEvent));
+	GestionnaireEvenements::toucheEnfoncee(EvenementClavier(env, keyEvent));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -242,7 +242,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_keyPressed
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_keyReleased( JNIEnv * env, jobject, jobject keyEvent)
 {
-	GestionnaireEvenements::obtenirInstance()->toucheRelachee(EvenementClavier(env, keyEvent));
+	GestionnaireEvenements::toucheRelachee(EvenementClavier(env, keyEvent));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -274,7 +274,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseClick
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mousePressed( JNIEnv * env, jobject, jobject evenementSouris)
 {
-	GestionnaireEvenements::obtenirInstance()->sourisEnfoncee(EvenementSouris(env, &evenementSouris));
+	GestionnaireEvenements::sourisEnfoncee(EvenementSouris(env, &evenementSouris));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -290,7 +290,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mousePress
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseReleased( JNIEnv * env, jobject, jobject evenementSouris)
 {
-	GestionnaireEvenements::obtenirInstance()->sourisRelachee(EvenementSouris(env, &evenementSouris));
+	GestionnaireEvenements::sourisRelachee(EvenementSouris(env, &evenementSouris));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -338,7 +338,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseExite
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseDragged( JNIEnv * env, jobject, jobject evenementSouris)
 {
-	GestionnaireEvenements::obtenirInstance()->sourisDeplacee(EvenementSouris(env, &evenementSouris));
+	GestionnaireEvenements::sourisDeplacee(EvenementSouris(env, &evenementSouris));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -354,7 +354,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseDragg
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseMoved( JNIEnv * env, jobject, jobject evenementSouris)
 {
-	GestionnaireEvenements::obtenirInstance()->sourisDeplacee(EvenementSouris(env, &evenementSouris));
+	GestionnaireEvenements::sourisDeplacee(EvenementSouris(env, &evenementSouris));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -370,8 +370,11 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseMoved
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseWheelMoved( JNIEnv * env, jobject, jobject mouseWheelEvent)
 {
-	GestionnaireEvenements::obtenirInstance()->rouletteSouris(EvenementRouletteSouris(env, mouseWheelEvent));
+	GestionnaireEvenements::rouletteSouris(EvenementRouletteSouris(env, mouseWheelEvent));
 }
+
+std::hash_map<std::string,ActionType> mappingAction;
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
@@ -386,6 +389,36 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseWheel
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_actionPerformed( JNIEnv * env, jobject, jobject evenementAction)
 {
+    if(!mappingAction.size())
+    {
+        mappingAction["EDITEUR_NOUVEAU"     ] = ACTION_EDITEUR_NOUVEAU     ;
+        mappingAction["REINITIALISER_PARTIE"] = ACTION_REINITIALISER_PARTIE;
+        mappingAction["PAUSE_JEU"           ] = ACTION_PAUSE_JEU           ;
+        mappingAction["REPLAY"              ] = ACTION_REPLAY              ;
+        mappingAction["CAMERA"              ] = ACTION_CAMERA              ;
+        mappingAction["ORBIT"               ] = ACTION_ORBIT               ;
+        mappingAction["ZOOM_ELASTIQUE"      ] = ACTION_ZOOM_ELASTIQUE      ;
+        mappingAction["ZOOM_PROPORTIONNEL"  ] = ACTION_ZOOM_PROPORTIONNEL  ;
+        mappingAction["EDITEUR_SELECTION"   ] = ACTION_EDITEUR_SELECTION   ;
+        mappingAction["EDITEUR_DEPLACER"    ] = ACTION_EDITEUR_DEPLACER    ;
+        mappingAction["EDITEUR_ROTATION"    ] = ACTION_EDITEUR_ROTATION    ;
+        mappingAction["EDITEUR_ECHELLE"     ] = ACTION_EDITEUR_ECHELLE     ;
+        mappingAction["SUPPRIMER"           ] = ACTION_SUPPRIMER           ;
+        mappingAction["DUPLIQUER"           ] = ACTION_DUPLIQUER           ;
+        mappingAction["INSERER_PORTAIL"     ] = ACTION_INSERER_PORTAIL     ;
+        mappingAction["INSERER_MURET"       ] = ACTION_INSERER_MURET       ;
+        mappingAction["INSERER_MAILLET"     ] = ACTION_INSERER_MAILLET     ;
+        mappingAction["INSERER_RONDELLE"    ] = ACTION_INSERER_RONDELLE    ;
+        mappingAction["INSERER_ACCELERATEUR"] = ACTION_INSERER_ACCELERATEUR;
+        mappingAction["ALLER_MODE_EDITION"  ] = ACTION_ALLER_MODE_EDITION  ;
+        mappingAction["ALLER_MODE_JEU"      ] = ACTION_ALLER_MODE_JEU      ;
+        mappingAction["ALLER_MODE_TOURNOI"  ] = ACTION_ALLER_MODE_TOURNOI  ;
+        mappingAction["ALLER_MENU_PRINCIPAL"] = ACTION_ALLER_MENU_PRINCIPAL;
+        mappingAction["CAMERA_FIXE"         ] = ACTION_CAMERA_FIXE         ;
+        mappingAction["CAMERA_ORBITE"       ] = ACTION_CAMERA_ORBITE       ;
+        mappingAction["CAMERA_LIBRE"        ] = ACTION_CAMERA_LIBRE        ;
+        mappingAction["CAMERA_SPLIT"        ] = ACTION_CAMERA_SPLIT        ;
+    }
 	jclass classe = env->GetObjectClass(evenementAction);
 
 	// Appel de getActionCommand()
@@ -393,26 +426,31 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_actionPerf
 	jstring chaine = (jstring)(env ->CallObjectMethod(evenementAction, getActionCommand));
 
 	std::string chaineCpp = RazerGameUtilities::obtenirChaineISO(env,&chaine);
-	if(chaineCpp == "SUPPRIMER" || chaineCpp == "EDITEUR_NOUVEAU" || chaineCpp == "REINITIALISER_PARTIE")
-	{
-		// Si on est dans le cas de suppression et qu'il n'y a pas de sélection.
-		if(chaineCpp == "SUPPRIMER"  && !FacadeModele::getInstance()->possedeSelection())
-			return;
-		
-		bool pause = FacadeModele::getInstance()->estEnPause();
-		FacadeModele::getInstance()->modifierEnPause(true);
-		//Appel de Fenetre.validerAction(chaine). Quitte la méthode si il reçoit "false".
-		jclass classe = env -> FindClass("ca/polymtl/inf2990/Fenetre");
-		jmethodID methode = env -> GetStaticMethodID(classe, "validerAction", "(Ljava/lang/String;)Z");
-		if(!env->CallStaticBooleanMethod(classe, methode, chaine))
-		{
-			FacadeModele::getInstance()->modifierEnPause(pause);
-			return;
-		}
-		FacadeModele::getInstance()->modifierEnPause(pause);
-	}
+    auto it = mappingAction.find(chaineCpp);
+    if(it != mappingAction.end())
+    {
+        ActionType type = it->second;
+        if(type == ACTION_SUPPRIMER || type == ACTION_EDITEUR_NOUVEAU || type == ACTION_REINITIALISER_PARTIE)
+        {
+            // Si on est dans le cas de suppression et qu'il n'y a pas de sélection.
+            if(type == ACTION_SUPPRIMER  && !FacadeModele::getInstance()->possedeSelection())
+                return;
 
-	RepartiteurActions::obtenirInstance()->appelerMethodeAction(chaineCpp);
+            bool pause = FacadeModele::getInstance()->estEnPause();
+            FacadeModele::getInstance()->modifierEnPause(true);
+            //Appel de Fenetre.validerAction(chaine). Quitte la méthode si il reçoit "false".
+            jclass classe = env -> FindClass("ca/polymtl/inf2990/Fenetre");
+            jmethodID methode = env -> GetStaticMethodID(classe, "validerAction", "(Ljava/lang/String;)Z");
+            if(!env->CallStaticBooleanMethod(classe, methode, chaine))
+            {
+                FacadeModele::getInstance()->modifierEnPause(pause);
+                return;
+            }
+            FacadeModele::getInstance()->modifierEnPause(pause);
+        }
+
+        RepartiteurActions::obtenirInstance()->appelerMethodeAction(type);
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -430,8 +468,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_BarresOutils_EvenementsSelectionn
 {
 
 	std::string nomFichier = RazerGameUtilities::obtenirChaineISO(env, &chaine);
-	FacadeModele::getInstance() -> enregistrerTerrain(nomFichier);
-
+    RazerGameUtilities::SaveFieldToFile(nomFichier, *FacadeModele::getInstance()->getEditionField());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -448,7 +485,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_BarresOutils_EvenementsSelectionn
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_BarresOutils_EvenementsSelectionneurFichier_chargerFichier(JNIEnv * env, jobject, jstring chaine)
 {
 	std::string nomFichier = RazerGameUtilities::obtenirChaineISO(env, &chaine);
-	FacadeModele::getInstance() -> chargerTerrain(nomFichier);
+    RazerGameUtilities::LoadFieldFromFile(nomFichier, *FacadeModele::getInstance()->getEditionField());
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1265,8 +1302,8 @@ JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationTournoiJNI_obteni
 	jmethodID modifierListeGagnants = env->GetMethodID(jTournoi, "modifierVainqueurs", "(Ljava/util/ArrayList;)V");
 	env->CallVoidMethod(tournoiJava, modifierListeGagnants, arraylist);
 	// placer les points de la table
-	FacadeModele::getInstance()->chargerTerrain(tournoi->obtenirTerrain());
-	NoeudTable* table=FacadeModele::getInstance()->getTerrain()->getTable();
+    RazerGameUtilities::LoadFieldFromFile(tournoi->GetFieldName(), *FacadeModele::getInstance()->getEditionField());
+	NoeudTable* table=FacadeModele::getInstance()->getEditionField()->getTable();
 
 	jclass point = env->FindClass("java/awt/Point");
 	jmethodID creerPoint=env->GetMethodID(point,"<init>","()V");
@@ -1359,7 +1396,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Panneaux_PanneauGestionTournoi_re
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_pointButEstSelectionne (JNIEnv *, jclass)
 {
-	Terrain* terrain = FacadeModele::getInstance()->getTerrain();
+	Terrain* terrain = FacadeModele::getInstance()->getEditionField();
 	if(!terrain)
 		return false;
 
@@ -1384,7 +1421,7 @@ JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_pointBu
 ////////////////////////////////////////////////////////////////////////
 JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_pointPasButEstSelectionne (JNIEnv *, jclass)
 {
-	Terrain* terrain = FacadeModele::getInstance()->getTerrain();
+	Terrain* terrain = FacadeModele::getInstance()->getEditionField();
 	if(!terrain)
 		return false;
 

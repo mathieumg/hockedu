@@ -50,7 +50,7 @@ public:
 	friend GestionnaireEvenementsTest;
 
 	/// Constructeur par paramètre.
-	GestionnaireEtatAbstrait(GestionnaireEvenements* contexte);
+	GestionnaireEtatAbstrait();
 
 	/// Destructeur
 	virtual ~GestionnaireEtatAbstrait();
@@ -74,14 +74,13 @@ public:
 
 
 	/// Modifier l'état de la souris
-	void modifierEtatSouris(NomEtatSouris etatSouris);
+	virtual void modifierEtatSouris(NomEtatSouris etatSouris);
+    /// clear mouse state memory if the newState is different from current
+    void clearMouseState(NomEtatSouris newState);
 	/// Met a jour les evenements clavier pour la repetition
 	virtual void miseAJourEvenementsRepetitifs(float deltaTemps);
 
-	/// Pour les tests
-	GestionnaireEvenements* obtenirContexte() const { return contexte_; }
-
-	/// Gere les animations communes pour les modes tounoir et partie rapide
+	/// Gere les animations communes pour les modes tournoi et partie rapide
 	void gestionAnimationEnJeu( Partie* partieCourante, const float& temps );
 
 	SourisEtatAbstrait* obtenirEtatSouris(){return etatSouris_;}
@@ -94,8 +93,6 @@ protected:
 	SourisEtatAbstrait* etatSouris_;
 
 	ToucheClavier toucheSauvegardee_;
-	/// Référence sur le gestionnaire d'événements qui contient l'état du programme 
-	GestionnaireEvenements* contexte_;
 	
 };
 

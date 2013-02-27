@@ -5,7 +5,7 @@
 ///////////////////////////////////////////////////////////////////////////
 /// @class Observer
 /// @brief Classe abstraite représentant un observateur. Doit être templaté avec
-///        le type concret du sujet. La méthode updateObserver() doit absolument 
+///        le type concret du sujet. La méthode updateObserver( const ) doit absolument 
 ///        être surchargée
 ///
 /// @author Michael Ferris
@@ -15,7 +15,7 @@ template<class T>
 class Observer{
 public:       
     virtual ~Observer();                                         
-    virtual void updateObserver(T* pSubject) = 0;
+    virtual void updateObserver( const  T* pSubject) = 0;
     void addSubject(T* pSubject, void* orig=NULL);                
     void removeSubject( T* pSubject, void* orig=NULL);             
     std::set<T*> mSubjects;                      
@@ -38,7 +38,7 @@ public:
     virtual ~Subject();             
     void attach(class Observer<T>* o, void* orig=NULL);     
     void detach(class Observer<T>* o, void* orig=NULL);     
-    void signalObservers();
+    void signalObservers()const;
     std::set<class Observer<T>*> mObservers;   
 };
 
@@ -200,13 +200,13 @@ void Subject<T>::detach( Observer<T>* pObserver, void* orig/* = NULL */ )
 ///
 ////////////////////////////////////////////////////////////////////////
 template<class T>
-void Subject<T>::signalObservers()            
+void Subject<T>::signalObservers() const           
 {                                    
     for ( std::set<class Observer<T>*>::iterator     
         it = mObservers.begin();     
         it != mObservers.end();      
     ++it )                           
     {                                
-        (*it)->updateObserver((T*)this);
+        (*it)->updateObserver( (const T*)this);
     }                                
 }                                    

@@ -43,13 +43,14 @@ private:
 	float limiteIntLargeur_;
 	float limiteExtLargeur_; 
 	float limiteExtLongueur_;
-	static const float DEFAUT_LIMITE_INT_LONGUEUR;
-	static const float DEFAUT_LIMITE_INT_LARGEUR;
-	static const float DEFAUT_LIMITE_EXT_LARGEUR; 
-	static const float DEFAUT_LIMITE_EXT_LONGUEUR;
 
 /// Accesseurs
 public:
+    static const float DEFAUT_LIMITE_INT_LONGUEUR;
+    static const float DEFAUT_LIMITE_INT_LARGEUR;
+    static const float DEFAUT_LIMITE_EXT_LARGEUR; 
+    static const float DEFAUT_LIMITE_EXT_LONGUEUR;
+
 	/// Accesseur de limiteIntLongueur_
 	float obtenirLimiteIntLongueur() const { return limiteIntLongueur_; }
 	/// Modificateur de limiteIntLongueur_

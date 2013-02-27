@@ -11,6 +11,7 @@
 #include "SourisEtatTransformationRotation.h"
 #include "FacadeModele.h"
 #include "VisiteurRotation.h"
+#include "Terrain.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -83,16 +84,21 @@ void SourisEtatTransformationRotation::toucheRelachee( EvenementClavier& eveneme
 		ignoreCollision_ = false;
 		if(estEnfoncee_)
 		{
-			for(int i=0; i<noeudsSelectionnes_.size(); i++)
+            Terrain* field = NULL;
+            for(int i=0; i<noeudsSelectionnes_.size(); i++)
 			{
-				if(rotationInverse_[i] != 0)
+                field = noeudsSelectionnes_[i]->GetTerrain();
+                if(rotationInverse_[i] != 0)
 				{
 					VisiteurRotation visiteurRotationInverse((float)rotationInverse_[i],centreRot_);
 					noeudsSelectionnes_[i]->acceptVisitor(visiteurRotationInverse);
 					rotationInverse_[i] = 0;
 				}
 			}
-			FacadeModele::getInstance()->ajusterElementSurTableEnCollision();
+            if(field)
+            {
+                field->FixCollidingObjects();
+            }
 		}
 	}
 }
@@ -154,16 +160,21 @@ void SourisEtatTransformationRotation::sourisRelachee( EvenementSouris& evenemen
 		centreRot_ = NULL;
 		estEnfoncee_ = false;
 
-		for(int i=0; i<noeudsSelectionnes_.size(); i++)
+        Terrain* field = NULL;
+        for(int i=0; i<noeudsSelectionnes_.size(); i++)
 		{
-			if(rotationInverse_[i] != 0)
+            field = noeudsSelectionnes_[i]->GetTerrain();
+            if(rotationInverse_[i] != 0)
 			{
 				VisiteurRotation visiteurRotationInverse((float)rotationInverse_[i],centreRot_);
 				noeudsSelectionnes_[i]->acceptVisitor(visiteurRotationInverse);
 				rotationInverse_[i] = 0;
 			}
 		}
-		FacadeModele::getInstance()->ajusterElementSurTableEnCollision();
+        if(field)
+        {
+            field->FixCollidingObjects();
+        }
 
 		delete[] rotationInverse_;
 		rotationInverse_ = 0;

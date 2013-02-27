@@ -1,21 +1,5 @@
-#include "BancTests.h"
-#include "QueueThreadSafe.h"
-#include <ctime>
 #include "FacadeCSharp.h"
-#include "FacadeModele.h"
-#include "Vue.h"
-#include "GestionnaireEvenements.h"
-#include "..\Application\RepartiteurActions.h"
-#include "..\Jeu\JoueurHumain.h"
-#include "..\Reseau\GestionnaireReseauClientLourd.h"
-#include "..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h"
-#include "..\Reseau\PaquetHandlers\PacketHandlerUserStatus.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetChatMessage.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetUserStatus.h"
-#include "..\Reseau\Paquets\PaquetChatMessage.h"
-#include "..\Reseau\Paquets\PaquetTest.h"
-#include "..\Reseau\ControllerCSharp.h"
-#include "UsineNoeud.h"
+
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -250,13 +234,13 @@ void LogicUpdate( float time )
 
 void OnKeyPressed(int key)
 {
-    GestionnaireEvenements::obtenirInstance()->toucheEnfoncee(EvenementClavier(key));
+    GestionnaireEvenements::toucheEnfoncee(EvenementClavier(key));
 }
 
 
 void OnKeyReleased(int key)
 {
-    GestionnaireEvenements::obtenirInstance()->toucheRelachee(EvenementClavier(key));
+    GestionnaireEvenements::toucheRelachee(EvenementClavier(key));
 }
 
 
@@ -271,7 +255,7 @@ void OnMousePressed( int x, int y, MouseButtons button)
     case Middle: type = BOUTON_SOURIS_MILIEU; break;
     default:break;
     }
-    GestionnaireEvenements::obtenirInstance()->sourisEnfoncee(EvenementSouris(Vecteur2i(x,y),type));
+    GestionnaireEvenements::sourisEnfoncee(EvenementSouris(Vecteur2i(x,y),type));
 }
 
 
@@ -285,7 +269,7 @@ void OnMouseReleased( int x, int y, MouseButtons button)
     case Middle: type = BOUTON_SOURIS_MILIEU; break;
     default:break;
     }
-    GestionnaireEvenements::obtenirInstance()->sourisRelachee(EvenementSouris(Vecteur2i(x,y), type));
+    GestionnaireEvenements::sourisRelachee(EvenementSouris(Vecteur2i(x,y), type));
 }
 
 
@@ -300,27 +284,26 @@ void OnMouseMoved( int x, int y, MouseButtons button )
     case Middle: type = BOUTON_SOURIS_MILIEU; break;
     default:break;
     }
-    GestionnaireEvenements::obtenirInstance()->sourisDeplacee(EvenementSouris(Vecteur2i(x,y), type));
+    GestionnaireEvenements::sourisDeplacee(EvenementSouris(Vecteur2i(x,y), type));
 }
 
 void OnMouseWheelMoved( int deltaRotation )
 {
-    GestionnaireEvenements::obtenirInstance()->rouletteSouris(EvenementRouletteSouris(-deltaRotation));
+    GestionnaireEvenements::rouletteSouris(EvenementRouletteSouris(-deltaRotation));
 }
 
-bool ActionPerformed( char* action )
+bool ActionPerformed( ActionType action )
 {
-    std::string actionString = action;
-    if(actionString == "SUPPRIMER" || actionString == "EDITEUR_NOUVEAU" || actionString == "REINITIALISER_PARTIE")
+    if(action == ACTION_SUPPRIMER || action == ACTION_EDITEUR_NOUVEAU || action == ACTION_REINITIALISER_PARTIE)
     {
         // Si on est dans le cas de suppression et qu'il n'y a pas de sélection.
-        if(actionString == "SUPPRIMER"  && !FacadeModele::getInstance()->possedeSelection())
+        if(action == ACTION_SUPPRIMER  && !FacadeModele::getInstance()->possedeSelection())
             return false;
 
         checkf(0,"Enleve le check pour les cas une fois que la fenetre de validation est géré par le C#");
     }
 
-    return RepartiteurActions::obtenirInstance()->appelerMethodeAction(actionString);
+    return RepartiteurActions::obtenirInstance()->appelerMethodeAction(action);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -358,7 +341,7 @@ void PauseGame( bool doPause )
 ///
 /// @fn void GenerateDefaultField()
 ///
-/// /*Description*/
+/// permet de creer un terrain par defaut pour le mode edition
 ///
 ///
 /// @return void

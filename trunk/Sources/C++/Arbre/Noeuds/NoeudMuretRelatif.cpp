@@ -59,7 +59,7 @@ const Vecteur3& NoeudMuretRelatif::obtenirCoin2() const
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMuretRelatif::updateObserver( PositionSubject* pSubject )
+void NoeudMuretRelatif::updateObserver( const  PositionSubject* pSubject )
 {
     updateWallProperties();
 }

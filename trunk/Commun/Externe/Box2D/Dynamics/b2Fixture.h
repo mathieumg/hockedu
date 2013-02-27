@@ -195,6 +195,8 @@ public:
 	/// Dump this fixture to the log file.
 	void Dump(int32 bodyIndex);
 
+    /// Accessors of m_proxyCount
+    inline int32 getProxyCount() const { return m_proxyCount; }
 protected:
 
 	friend class b2Body;
@@ -227,6 +229,8 @@ protected:
 
 	b2FixtureProxy* m_proxies;
 	int32 m_proxyCount;
+
+    
 
 	b2Filter m_filter;
 

@@ -228,7 +228,7 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 			for(; iter != liste.end(); iter++)
 			{
 				VisiteurSelectionOpenGL visiteur(&iter->second,ctrlEnfoncee_);
-				NoeudGroupe* groupe = FacadeModele::getInstance()->getTerrain()->getTable()->obtenirGroupe(iter->first);
+				NoeudGroupe* groupe = FacadeModele::getInstance()->getEditionField()->getTable()->obtenirGroupe(iter->first);
 				if(groupe)
 				{
 					groupe->acceptVisitor(visiteur);

@@ -115,9 +115,6 @@
     <ClCompile Include="XMLUtils.cpp">
       <Filter>Sources Files</Filter>
     </ClCompile>
-    <ClCompile Include="BoundingBox.cpp">
-      <Filter>Sources Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AideCollision.h">
@@ -258,6 +255,9 @@
       <Filter>Sources Files</Filter>
     </None>
     <None Include="..\..\Exe\nuanceurSommets.glsl">
+      <Filter>Sources Files</Filter>
+    </None>
+    <None Include="..\..\Sources\C#\UIHeavyClient\UIHeavyClient\Enum_Declarations.cs">
       <Filter>Sources Files</Filter>
     </None>
   </ItemGroup>

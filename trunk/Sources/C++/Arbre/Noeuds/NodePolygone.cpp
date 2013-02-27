@@ -22,7 +22,7 @@ T sign(T val)
     {
         return 0;
     }
-    return val > 0 ? 1 : -1;
+    return (T)(val > 0 ? 1 : -1);
 }
 
 #ifdef MIKE_DEBUG
@@ -159,7 +159,7 @@ void NodePolygone::afficherConcret() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NodePolygone::updateObserver( PositionSubject* pSubject )
+/// @fn void NodePolygone::updateObserver( const  PositionSubject* pSubject )
 ///
 /// /*Description*/
 ///
@@ -168,7 +168,7 @@ void NodePolygone::afficherConcret() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NodePolygone::updateObserver( PositionSubject* pSubject )
+void NodePolygone::updateObserver( const  PositionSubject* pSubject )
 {
     updatePhysicBody();
 }
@@ -374,7 +374,7 @@ void NodePolygone::divideIntoTriangles() const
     // draw the original polygon
 
     std::vector<int> working_set;
-    for(size_t i = 0, n = my_polygon.size(); i < n; ++ i)
+    for(int i = 0, n = (int)my_polygon.size(); i < n; ++ i)
         working_set.push_back(i);
     _ASSERTE(working_set.size() == my_polygon.size());
     // add vertex indices to the list (could be done using iota)
@@ -389,7 +389,7 @@ void NodePolygone::divideIntoTriangles() const
     for(;;) {
         std::vector<int> sorted_vertex_list;
         {
-            for(size_t i = 0, n = working_set.size(); i < n; ++ i)
+            for(int i = 0, n = (int)working_set.size(); i < n; ++ i)
                 sorted_vertex_list.push_back(i);
             _ASSERTE(working_set.size() == working_set.size());
             // add vertex indices to the list (could be done using iota)
@@ -397,7 +397,7 @@ void NodePolygone::divideIntoTriangles() const
             for(;;) {
                 bool b_change = false;
 
-                for(size_t i = 1, n = sorted_vertex_list.size(); i < n; ++ i) {
+                for(int i = 1, n = (int)sorted_vertex_list.size(); i < n; ++ i) {
                     int a = sorted_vertex_list[i - 1];
                     int b = sorted_vertex_list[i];
                     if(my_polygon[working_set[a]][VY] < my_polygon[working_set[b]][VY]) {
@@ -524,7 +524,7 @@ void NodePolygone::divideIntoTriangles() const
         // draw the sliced part of the polygon
 
         int n_top = 0;
-        for(size_t i = 0, n = r_mono_poly.size(); i < n; ++ i) {
+        for(int i = 0, n = (int)r_mono_poly.size(); i < n; ++ i) {
             if(my_polygon[r_mono_poly[i]][VY] < my_polygon[r_mono_poly[n_top]][VY])
                 n_top = i;
         }
@@ -534,7 +534,7 @@ void NodePolygone::divideIntoTriangles() const
         glColor3f(0, 1, 0);
         glBegin(GL_LINE_STRIP);
         glVertex2f(my_polygon[r_mono_poly[n_top]][VX], my_polygon[r_mono_poly[n_top]][VY]);
-        for(size_t i = 1, n = r_mono_poly.size(); i <= n; ++ i) {
+        for(int i = 1, n = (int)r_mono_poly.size(); i <= n; ++ i) {
             int n_which = (n_top + ((i & 1)? n - i / 2 : i / 2)) % n;
             glVertex2f(my_polygon[r_mono_poly[n_which]][VX], my_polygon[r_mono_poly[n_which]][VY]);
         }

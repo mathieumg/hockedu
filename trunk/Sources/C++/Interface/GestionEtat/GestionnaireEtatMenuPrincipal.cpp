@@ -22,7 +22,7 @@
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-GestionnaireEtatMenuPrincipal::GestionnaireEtatMenuPrincipal(GestionnaireEvenements* contexte) : GestionnaireEtatAbstrait(contexte)
+GestionnaireEtatMenuPrincipal::GestionnaireEtatMenuPrincipal() : GestionnaireEtatAbstrait()
 {
 }
 

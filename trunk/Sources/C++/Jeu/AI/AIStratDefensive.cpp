@@ -59,7 +59,7 @@ AIStratDefensive::~AIStratDefensive()
 Vecteur2 AIStratDefensive::appliquerStrategie( NoeudMaillet* maillet )
 {
 	NoeudRondelle* rondelle;
-	if(!maillet->GetTerrain() || !( rondelle = maillet->GetTerrain()->getRondelle() ) )
+	if(!maillet->GetTerrain() || !( rondelle = maillet->GetTerrain()->getPuck() ) )
 		return Vecteur2();
 
 	// On obtient le but du JV

@@ -35,7 +35,7 @@ public:
 	/// Accesseur du coin2
 	virtual const Vecteur3& obtenirCoin2() const;
 
-    virtual void updateObserver( PositionSubject* pSubject );
+    virtual void updateObserver( const  PositionSubject* pSubject );
 
 protected:
     void init( const Vecteur3& pCorner1, const Vecteur3& pCorner2,PositionSubject* s1,PositionSubject* s2);

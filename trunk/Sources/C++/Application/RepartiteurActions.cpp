@@ -27,7 +27,10 @@
 // Initialisations automatiques
 SINGLETON_DECLARATION_CPP(RepartiteurActions);
 
-////////////////////////////////////////////////////////////////////////
+
+
+
+///////////////////////////////////////////////////////////////////
 ///
 /// @fn  RepartiteurActions::RepartiteurActions(  )
 ///
@@ -39,43 +42,43 @@ SINGLETON_DECLARATION_CPP(RepartiteurActions);
 ////////////////////////////////////////////////////////////////////////
 RepartiteurActions::RepartiteurActions()
 {
-	banqueActions_["EDITEUR_NOUVEAU"] = &RepartiteurActions::actionBoutonEditionNouveau;
-	banqueActions_["REINITIALISER_PARTIE"] = &RepartiteurActions::actionReinitialiserPartie;
-	banqueActions_["PAUSE_JEU"] = &RepartiteurActions::actionTogglePauseJeu;
-	banqueActions_["REPLAY"] = &RepartiteurActions::actionReplay;
+	banqueActions_[ACTION_EDITEUR_NOUVEAU] = &RepartiteurActions::actionBoutonEditionNouveau;
+	banqueActions_[ACTION_REINITIALISER_PARTIE] = &RepartiteurActions::actionReinitialiserPartie;
+	banqueActions_[ACTION_PAUSE_JEU] = &RepartiteurActions::actionTogglePauseJeu;
+	banqueActions_[ACTION_REPLAY] = &RepartiteurActions::actionReplay;
 
 	// Fonctions de zoom
-	banqueActions_["CAMERA"] = &RepartiteurActions::actionBoutonCamera;
-	banqueActions_["ORBIT"] = &RepartiteurActions::actionBoutonOrbit;
-	banqueActions_["ZOOM_ELASTIQUE"] = &RepartiteurActions::actionBoutonZoomElastique;
-	banqueActions_["ZOOM_PROPORTIONNEL"] = &RepartiteurActions::actionBoutonZoomProportionnel;
+	banqueActions_[ACTION_CAMERA] = &RepartiteurActions::actionBoutonCamera;
+	banqueActions_[ACTION_ORBIT] = &RepartiteurActions::actionBoutonOrbit;
+	banqueActions_[ACTION_ZOOM_ELASTIQUE] = &RepartiteurActions::actionBoutonZoomElastique;
+	banqueActions_[ACTION_ZOOM_PROPORTIONNEL] = &RepartiteurActions::actionBoutonZoomProportionnel;
 
 	// Fonctions d'édition
-	banqueActions_["EDITEUR_SELECTION"] = &RepartiteurActions::actionBoutonSelection;
-	banqueActions_["EDITEUR_DEPLACER"] = &RepartiteurActions::actionBoutonTransformationDeplacement;
-	banqueActions_["EDITEUR_ROTATION"] = &RepartiteurActions::actionBoutonTransformationRotation;
-	banqueActions_["EDITEUR_ECHELLE"] = &RepartiteurActions::actionBoutonTransformationEchelle;
-	banqueActions_["SUPPRIMER"] = &RepartiteurActions::actionBoutonSupprimer;
-	banqueActions_["DUPLIQUER"] = &RepartiteurActions::actionBoutonDupliquer;
+	banqueActions_[ACTION_EDITEUR_SELECTION] = &RepartiteurActions::actionBoutonSelection;
+	banqueActions_[ACTION_EDITEUR_DEPLACER] = &RepartiteurActions::actionBoutonTransformationDeplacement;
+	banqueActions_[ACTION_EDITEUR_ROTATION] = &RepartiteurActions::actionBoutonTransformationRotation;
+	banqueActions_[ACTION_EDITEUR_ECHELLE] = &RepartiteurActions::actionBoutonTransformationEchelle;
+	banqueActions_[ACTION_SUPPRIMER] = &RepartiteurActions::actionBoutonSupprimer;
+	banqueActions_[ACTION_DUPLIQUER] = &RepartiteurActions::actionBoutonDupliquer;
 
 	// Fonctions d'insertions.
-	banqueActions_["INSERER_PORTAIL"] = &RepartiteurActions::actionBoutonInsererPortail;
-	banqueActions_["INSERER_MURET"] = &RepartiteurActions::actionBoutonInsererMuret;
-	banqueActions_["INSERER_MAILLET"] = &RepartiteurActions::actionBoutonInsererMaillet;
-	banqueActions_["INSERER_RONDELLE"] = &RepartiteurActions::actionBoutonInsererRondelle;
-	banqueActions_["INSERER_ACCELERATEUR"] = &RepartiteurActions::actionBoutonInsererAccelerateur;
+	banqueActions_[ACTION_INSERER_PORTAIL] = &RepartiteurActions::actionBoutonInsererPortail;
+	banqueActions_[ACTION_INSERER_MURET] = &RepartiteurActions::actionBoutonInsererMuret;
+	banqueActions_[ACTION_INSERER_MAILLET] = &RepartiteurActions::actionBoutonInsererMaillet;
+	banqueActions_[ACTION_INSERER_RONDELLE] = &RepartiteurActions::actionBoutonInsererRondelle;
+	banqueActions_[ACTION_INSERER_ACCELERATEUR] = &RepartiteurActions::actionBoutonInsererAccelerateur;
 
 	// Fonctions de changement de mode
-	banqueActions_["ALLER_MODE_EDITION"] = &RepartiteurActions::actionBoutonAllerModeEdition;
-	banqueActions_["ALLER_MODE_JEU"] = &RepartiteurActions::actionBoutonAllerModeJeu;
-    banqueActions_["ALLER_MODE_TOURNOI"] = &RepartiteurActions::actionBoutonAllerModeTournoi;
-    banqueActions_["ALLER_MENU_PRINCIPAL"] = &RepartiteurActions::actionBoutonAllerMenuPrincipal;
+	banqueActions_[ACTION_ALLER_MODE_EDITION] = &RepartiteurActions::actionBoutonAllerModeEdition;
+	banqueActions_[ACTION_ALLER_MODE_JEU] = &RepartiteurActions::actionBoutonAllerModeJeu;
+    banqueActions_[ACTION_ALLER_MODE_TOURNOI] = &RepartiteurActions::actionBoutonAllerModeTournoi;
+    banqueActions_[ACTION_ALLER_MENU_PRINCIPAL] = &RepartiteurActions::actionBoutonAllerMenuPrincipal;
 
 	// Fonctions de changement de camera
-	banqueActions_["CAMERA_FIXE"] = &RepartiteurActions::actionChangerModeCameraFixe;
-	banqueActions_["CAMERA_ORBITE"] = &RepartiteurActions::actionChangerModeCameraOrbite;
-	banqueActions_["CAMERA_LIBRE"] = &RepartiteurActions::actionChangerModeCameraLibre;
-	banqueActions_["CAMERA_SPLIT"] = &RepartiteurActions::actionChangerModeCameraSplit;
+	banqueActions_[ACTION_CAMERA_FIXE] = &RepartiteurActions::actionChangerModeCameraFixe;
+	banqueActions_[ACTION_CAMERA_ORBITE] = &RepartiteurActions::actionChangerModeCameraOrbite;
+	banqueActions_[ACTION_CAMERA_LIBRE] = &RepartiteurActions::actionChangerModeCameraLibre;
+	banqueActions_[ACTION_CAMERA_SPLIT] = &RepartiteurActions::actionChangerModeCameraSplit;
 
 }
 
@@ -105,7 +108,7 @@ RepartiteurActions::~RepartiteurActions()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool RepartiteurActions::appelerMethodeAction( std::string& action )
+bool RepartiteurActions::appelerMethodeAction( ActionType action )
 {
 	if(banqueActions_.find(action) != banqueActions_.end())
 		return (this ->*(banqueActions_[action]))();
@@ -125,7 +128,7 @@ bool RepartiteurActions::appelerMethodeAction( std::string& action )
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonCamera()
 {
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
 	return true;
 }
 
@@ -141,7 +144,7 @@ bool RepartiteurActions::actionBoutonCamera()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonOrbit()
 {
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_ORBIT);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_ORBIT);
 	return true;
 }
 
@@ -159,7 +162,7 @@ bool RepartiteurActions::actionBoutonOrbit()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonZoomElastique()
 {
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_ZOOM_ELASTIQUE);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_ZOOM_ELASTIQUE);
 	return true;
 }
 
@@ -175,7 +178,7 @@ bool RepartiteurActions::actionBoutonZoomElastique()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonZoomProportionnel()
 {
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_ZOOM_PROPORTIONNEL);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_ZOOM_PROPORTIONNEL);
 	return true;
 }
 
@@ -191,7 +194,7 @@ bool RepartiteurActions::actionBoutonZoomProportionnel()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonSelection()
 {
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_SELECTION);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_SELECTION);
 	return true; 
 }
 
@@ -207,7 +210,7 @@ bool RepartiteurActions::actionBoutonSelection()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonTransformationDeplacement()
 {
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_DEPLACEMENT);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_DEPLACEMENT);
 	return true; 
 }
 
@@ -223,7 +226,7 @@ bool RepartiteurActions::actionBoutonTransformationDeplacement()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonTransformationRotation()
 {
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_ROTATION);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_ROTATION);
 	return true; 
 }
 
@@ -239,7 +242,7 @@ bool RepartiteurActions::actionBoutonTransformationRotation()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonTransformationEchelle()
 {
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_ECHELLE);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_ECHELLE);
 	return true; 
 }
 
@@ -271,7 +274,7 @@ bool RepartiteurActions::actionBoutonSupprimer()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonEditionNouveau()
 {
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_ORBIT);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_ORBIT);
 	FacadeModele::getInstance()->reinitialiserTerrain();	
 	return true; 
 }
@@ -306,7 +309,7 @@ bool RepartiteurActions::actionReinitialiserPartie()
 bool RepartiteurActions::actionBoutonInsererPortail()
 {
 	FacadeModele::getInstance()->selectionArbre(false);
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_AJOUTER_PORTAIL);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_AJOUTER_PORTAIL);
 	return true; 
 }
 
@@ -323,7 +326,7 @@ bool RepartiteurActions::actionBoutonInsererPortail()
 bool RepartiteurActions::actionBoutonInsererMuret()
 {
     FacadeModele::getInstance()->selectionArbre(false);
-    GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_AJOUTER_MURET);
+    GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_AJOUTER_MURET);
 	return true; 
 }
 
@@ -340,7 +343,7 @@ bool RepartiteurActions::actionBoutonInsererMuret()
 bool RepartiteurActions::actionBoutonInsererMaillet()
 {
     FacadeModele::getInstance()->selectionArbre(false);
-    GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_AJOUTER_MAILLET);
+    GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_AJOUTER_MAILLET);
 	return true; 
 }
 
@@ -357,7 +360,7 @@ bool RepartiteurActions::actionBoutonInsererMaillet()
 bool RepartiteurActions::actionBoutonInsererRondelle()
 {
     FacadeModele::getInstance()->selectionArbre(false);
-    GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_AJOUTER_RONDELLE);
+    GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_AJOUTER_RONDELLE);
 	return true; 
 }
 
@@ -374,7 +377,7 @@ bool RepartiteurActions::actionBoutonInsererRondelle()
 bool RepartiteurActions::actionBoutonInsererAccelerateur()
 {
     FacadeModele::getInstance()->selectionArbre(false);
-    GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_AJOUTER_ACCELERATEUR);
+    GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_AJOUTER_ACCELERATEUR);
 	return true; 
 }
 
@@ -406,9 +409,11 @@ bool RepartiteurActions::actionBoutonDupliquer()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonAllerModeJeu()
 {
+    // important de signaler le modele avant de faire le changement d'état, car
+    // celui-ci utilise des informations du modèle pour s'initialiser
 	bool retour = FacadeModele::getInstance()->passageModeJeu();
 	if(retour)
-		GestionnaireEvenements::obtenirInstance()->modifierEtat(ETAT_MODE_JEU);
+		GestionnaireEvenements::modifierEtat(ETAT_MODE_JEU);
 	return retour;
 }
 
@@ -424,10 +429,12 @@ bool RepartiteurActions::actionBoutonAllerModeJeu()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonAllerModeEdition()
 {
+    // important de signaler le modele avant de faire le changement d'état, car
+    // celui-ci utilise des informations du modèle pour s'initialiser
 	bool retour =  FacadeModele::getInstance()->passageModeEdition();
 	if(retour)
 	{
-		GestionnaireEvenements::obtenirInstance()->modifierEtat(ETAT_MODE_EDITION);
+		GestionnaireEvenements::modifierEtat(ETAT_MODE_EDITION);
 		SoundFMOD::obtenirInstance()->playApplicationSong(EDITION_MODE_SONG);
 	}
 	return retour;
@@ -445,10 +452,12 @@ bool RepartiteurActions::actionBoutonAllerModeEdition()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonAllerModeTournoi()
 {
+    // important de signaler le modele avant de faire le changement d'état, car
+    // celui-ci utilise des informations du modèle pour s'initialiser
 	bool retour =  FacadeModele::getInstance()->passageModeTournoi();
 	if(retour)
 	{
-		GestionnaireEvenements::obtenirInstance()->modifierEtat(ETAT_MODE_TOURNOI);
+		GestionnaireEvenements::modifierEtat(ETAT_MODE_TOURNOI);
 	}
 	return retour;
 }
@@ -468,8 +477,14 @@ bool RepartiteurActions::actionBoutonAllerModeTournoi()
 bool RepartiteurActions::actionBoutonAllerMenuPrincipal()
 {
 	SoundFMOD::obtenirInstance()->playApplicationSong(MENU_MODE_SONG);
-	GestionnaireEvenements::obtenirInstance()->modifierEtat(ETAT_MENU_PRINCIPAL);
-	return FacadeModele::getInstance()->passageMenuPrincipal();
+    // important de signaler le modele avant de faire le changement d'état, car
+    // celui-ci utilise des informations du modèle pour s'initialiser
+    bool retour = FacadeModele::getInstance()->passageMenuPrincipal();
+    if(retour)
+    {
+	    GestionnaireEvenements::modifierEtat(ETAT_MENU_PRINCIPAL);
+    }
+	return retour;
 }
 
 
@@ -569,7 +584,7 @@ bool RepartiteurActions::actionChangerModeCameraFixe()
 		0, 400, 0, 400,
 		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
 		-150, 150, -150, 150);
-	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->obtenirLargeurZoneEdition());
+	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
 
@@ -600,7 +615,7 @@ bool RepartiteurActions::actionChangerModeCameraOrbite()
 		0, 400, 0, 400,
 		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
 		-150, 150, -150, 150);
-	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->obtenirLargeurZoneEdition());
+	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
 	FacadeModele::getInstance()->modifierVue(nouvelleVue);
@@ -631,7 +646,7 @@ bool RepartiteurActions::actionChangerModeCameraLibre()
 		0, 300, 0, 400,
 		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
 		-150, 150, -150, 150);
-	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->obtenirLargeurZoneEdition());
+	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
 	FacadeModele::getInstance()->modifierVue(nouvelleVue);
@@ -659,7 +674,7 @@ bool RepartiteurActions::actionChangerModeCameraSplit()
 		0, 400, 0, 400,
 		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
 		-150, 150, -150, 150);
-	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->obtenirLargeurZoneEdition());
+	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
 

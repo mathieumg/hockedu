@@ -41,7 +41,7 @@ class ArbreRendu : public NoeudComposite
 public:
     friend TerrainTest;
    /// Constructeur par défaut.
-   ArbreRendu();
+   ArbreRendu(class Terrain* pField);
    /// Destructeur.
    virtual ~ArbreRendu();
 
@@ -71,7 +71,6 @@ private:
    typedef std::map< std::string, const UsineNoeud* > RegistreUsines;
    /// Association du nom d'un type vers l'usine correspondante.
    RegistreUsines usines_;
-
 };
 
 

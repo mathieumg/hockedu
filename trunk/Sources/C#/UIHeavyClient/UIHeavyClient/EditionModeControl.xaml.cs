@@ -23,7 +23,10 @@ namespace UIHeavyClient
     public partial class EditionModeControl : UserControl
     {
         private WindowsFormsHost mWindowsFormsHost;
+
         Dictionary<object, string> mGuidanceMessages;
+        Dictionary<object, string> mGuidanceInstructions;
+        Dictionary<object, ActionType> mActionPerformedStrings;
 
         public EditionModeControl(WindowsFormsHost pWindowsFormsHost)
         {
@@ -35,31 +38,84 @@ namespace UIHeavyClient
                 {mDeleteButton, "Delete selected objects"},
                 {mCopyButton, "Copy selected objects"},
                 {mUndoButton, "Cancel your last action"},
-                {mRedoButton, "Cancel your cancel"},
+                {mRedoButton, "Redo the action you just cancelled"},
 
                 {mPuckButton, "The puck for the hockey game (you can only create one)"},
-                {mStickButton, "The sticks for the hockey game (you can only create two)"},
+                {mStickButton, "The mallets for the hockey game (you can only create two)"},
                 {mWallButton, "A wall that will block the puck"},
                 {mBoosterButton, "A booster that will give an acceleration to the puck"},
                 {mPortalButton, "Will warp the puck to another portal on the map"},
                 {mBonusButton, "A random bonus that will sometime appear"},
 
-                {mFreeStateRadio, "Use the mouse to move the camera"},
-                {mMoveStateRadio, "Use the mouse to move selected objects"},
-                {mRotateStateRadio, "Use the mouse to rotate selected objects"},
-                {mScaleStateRadio, "Use the mouse to rotate selected objects"},
-                {mSelectStateRadio, "Use the mouse to select objects"},
-                {mZoomStateRadio, "Use the mouse to zoom with the camera"},
+                {mFreeStateRadio, "Move the camera"},
+                {mMoveStateRadio, "Move selected objects"},
+                {mRotateStateRadio, "Rotate selected objects"},
+                {mScaleStateRadio, "Scale selected objects"},
+                {mSelectStateRadio, "Select objects"},
+                {mZoomStateRadio, "Zoom with the camera"},
 
                 {mFreeCameraRadio, "Free camera that can move anywhere in the 3D map"},
-                {mOrbitalCameraRadio, "Camera that can only turn around the map center"},
+                {mOrbitalCameraRadio, "Camera that can only turn around a fixed point"},
                 {mSkyCameraRadio, "Fixed camera above the map"},
+            };
+
+            mGuidanceInstructions = new Dictionary<object, string>()
+            {
+                {mDeleteButton, "Objects deleted! Use the Undo button if you want those objects back."},
+                {mCopyButton, "Objects copied!"},
+                {mUndoButton, "Action undid!"},
+                {mRedoButton, "Action redid!"},
+
+                {mPuckButton, "Click on the map to place the puck. You may only place one."},
+                {mStickButton, "Click on the map to place the mallets. You may only place two."},
+                {mWallButton, "Click on two points on the map to create a wall linking them. A wall will block the puck."},
+                {mBoosterButton, "Click on the map to place a booster. A booster will accelerate the puck."},
+                {mPortalButton, "Click on the map to place a portal. The puck will warp between the placed portals. You must place at least two of them to experiment their effect."},
+                {mBonusButton, "Click on the map to choose a spot where a random bonus could appear. A random bonus can ???"},
+
+                {mFreeStateRadio, "Drag the mouse to move tha camera."},
+                {mMoveStateRadio, "Drag the mouse to move the selected objects."},
+                {mRotateStateRadio, "Drag the mouse to rotate selected objects."},
+                {mScaleStateRadio, "Drag the mouse to scale selected objects."},
+                {mSelectStateRadio, "Click on objects to select them."},
+                {mZoomStateRadio, "Drag the mouse to zoom. Draw a smaller rectangle to make a bigger zoom!"},
+
+                {mFreeCameraRadio, "Free camera activated! Use the mouse and the arrow keys to move wherever you want."},
+                {mOrbitalCameraRadio, "Orbital camera activated! Use the mouse to turn the camera around the fixed point."},
+                {mSkyCameraRadio, "Sky camera activated! This camera is fixed, choose another one if you want to move it!"},
+            };
+
+            mActionPerformedStrings = new Dictionary<object, ActionType>()
+            {
+                {mDeleteButton, ActionType.ACTION_SUPPRIMER},
+                {mCopyButton, ActionType.ACTION_DUPLIQUER},
+                //{mUndoButton, ActionType.ACTION_},
+                //{mRedoButton, ActionType.ACTION_},
+
+                {mPuckButton, ActionType.ACTION_INSERER_RONDELLE},
+                {mStickButton, ActionType.ACTION_INSERER_MAILLET},
+                {mWallButton, ActionType.ACTION_INSERER_MURET},
+                {mBoosterButton, ActionType.ACTION_INSERER_ACCELERATEUR},
+                {mPortalButton, ActionType.ACTION_INSERER_PORTAIL},
+                //{mBonusButton, ActionType.ACTION_},
+
+                {mFreeStateRadio, ActionType.ACTION_ORBIT}, // ActionType.ACTION_CAMERAActionType.ACTION_
+                {mMoveStateRadio, ActionType.ACTION_EDITEUR_DEPLACER},
+                {mRotateStateRadio, ActionType.ACTION_EDITEUR_ROTATION},
+                {mScaleStateRadio, ActionType.ACTION_EDITEUR_ECHELLE},
+                {mSelectStateRadio, ActionType.ACTION_EDITEUR_SELECTION},
+                {mZoomStateRadio, ActionType.ACTION_ZOOM_ELASTIQUE},
+
+                {mFreeCameraRadio, ActionType.ACTION_CAMERA_LIBRE},
+                {mOrbitalCameraRadio, ActionType.ACTION_CAMERA_ORBITE},
+                {mSkyCameraRadio, ActionType.ACTION_CAMERA_FIXE},
             };
         }
 
         #region Edition Tool Events
-        /*[DllImport(@"RazerGame.dll")]
-        static extern bool ActionPerformed(string action);
+
+        [DllImport(@"RazerGame.dll")]
+        static extern bool ActionPerformed(ActionType action);
         [DllImport(@"RazerGame.dll")]
         static extern bool IsGamePaused();
         [DllImport(@"RazerGame.dll")]
@@ -70,128 +126,21 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll")]
         static extern bool ValidateField();
 
-        private void SetCameraFixe(object sender, RoutedEventArgs e)
+        private void CallActionPerformed(object sender, RoutedEventArgs e)
         {
-            ActionPerformed("CAMERA_FIXE");
-        }
-
-        private void SetCameraOrbite(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("CAMERA_ORBITE");
-        }
-
-        private void SetCameraLibre(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("CAMERA_LIBRE");
-        }
-
-        private void CameraToolMove(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("CAMERA");
-        }
-
-        private void CameraToolRotation(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("ORBIT");
-        }
-
-        private void CameraToolZoom(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("ZOOM_ELASTIQUE");
-        }
-
-        private void EditToolSelection(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("EDITEUR_SELECTION");
-        }
-
-        private void EditToolMove(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("EDITEUR_DEPLACER");
-        }
-
-        private void EditToolRotation(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("EDITEUR_ROTATION");
-        }
-
-        private void EditToolScale(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("EDITEUR_ECHELLE");
-        }
-
-        private void EditToolDuplicate(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("DUPLIQUER");
-        }
-
-        private void EditToolDelete(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("SUPPRIMER");
-        }
-
-        private void AddObjectWall(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("INSERER_MURET");
-        }
-
-        private void AddObjectPortal(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("INSERER_PORTAIL");
-        }
-
-        private void AddObjectBoost(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("INSERER_ACCELERATEUR");
-        }
-
-        private void AddObjectPuck(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("INSERER_RONDELLE");
-        }
-
-        private void AddObjectMallet(object sender, RoutedEventArgs e)
-        {
-            ActionPerformed("INSERER_MAILLET");
-        }
-
-        private void GoToEditionMode(object sender, RoutedEventArgs e)
-        {
-            if (ActionPerformed("ALLER_MODE_EDITION"))
+            if (mActionPerformedStrings != null)
             {
-                mEditionModeButton.IsEnabled = false;
-                mGameModeButton.IsEnabled = true;
-                mDefaultFieldButton.IsEnabled = true;
-                mAddObjectCombo.IsEnabled = true;
-                mEditObjectCombo.IsEnabled = true;
+                ActionPerformed(mActionPerformedStrings[sender]);
             }
-        }
 
-        private void GoToGameMode(object sender, RoutedEventArgs e)
-        {
-            if (ValidateField())
-            {
-                if (ActionPerformed("ALLER_MODE_JEU"))
-                {
-                    mEditionModeButton.IsEnabled = true;
-                    mGameModeButton.IsEnabled = false;
-                    mDefaultFieldButton.IsEnabled = false;
-                    mAddObjectCombo.IsEnabled = false;
-                    mEditObjectCombo.IsEnabled = false;
-                }
-            }
-        }
-
-        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            System.Windows.Controls.ComboBox box = sender as System.Windows.Controls.ComboBox;
-            box.SelectedIndex = -1;
+            DisplayGuidanceInstructions(sender, e);
         }
 
         private void OnGenerateField(object sender, RoutedEventArgs e)
         {
             GenerateDefaultField();
-        }*/
+        }
+
         #endregion
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -202,6 +151,8 @@ namespace UIHeavyClient
         public void AppendOpenGL()
         {
             editionControlGrid.Children.Add(mWindowsFormsHost);
+            Grid.SetColumnSpan(mWindowsFormsHost, 3);
+            Grid.SetRowSpan(mWindowsFormsHost, 2);
             Grid.SetColumn(mWindowsFormsHost, 1);
             Grid.SetRow(mWindowsFormsHost, 1);
         }
@@ -214,6 +165,14 @@ namespace UIHeavyClient
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToMainMenu();
+        }
+
+        private void DisplayGuidanceInstructions(object sender, RoutedEventArgs e)
+        {
+            if (mGuidanceInstructions != null && mGuidanceTextBlock != null)
+            {
+                mGuidanceTextBlock.Text = mGuidanceInstructions[sender];
+            }
         }
 
         private void DisplayGuidanceMessages(object sender, MouseEventArgs e)

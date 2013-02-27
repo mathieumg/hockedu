@@ -22,7 +22,7 @@ class GestionnaireEtatModeTournoi : public GestionnaireEtatAbstrait
 {
 public:
 	/// Constructeur par paramètre.
-	GestionnaireEtatModeTournoi(GestionnaireEvenements* contexte);
+	GestionnaireEtatModeTournoi();
 
 	/// Comportement pour une touche enfoncée
 	virtual void toucheEnfoncee( EvenementClavier& evenementClavier );

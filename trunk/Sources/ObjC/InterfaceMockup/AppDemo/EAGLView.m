@@ -29,16 +29,6 @@
 - (id)initWithCoder:(NSCoder*)coder
 {
     self = [super initWithCoder:coder];
-	/*if (self) {
-        CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
-        
-        eaglLayer.opaque = TRUE;
-        eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        [NSNumber numberWithBool:FALSE], kEAGLDrawablePropertyRetainedBacking,
-                                        kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat,
-                                        nil];
-    }
-    */
     return self;
 }
 
@@ -69,31 +59,6 @@
     }
     return self;
 }
-
-
-/*- (id)initWithCoder:(NSCoder*)coder {
-    if (self = [super initWithFrame:CGRectMake(30.0f, 30.0f,
-                                               90.0f, 70.0f)]) {
-        // get the layer
-        CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
-        eaglLayer.opaque = NO;
-        eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        [NSNumber numberWithBool:NO],
-    									kEAGLDrawablePropertyRetainedBacking,
-    									kEAGLColorFormatRGBA8,
-    									kEAGLDrawablePropertyColorFormat,
-    									nil];
-        context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
-        if (!context || ![EAGLContext setCurrentContext:context]) {
-            [self release];
-            return nil;
-        }
-    	[EAGLContext setCurrentContext:context];
-    	[self deleteFramebuffer];
-    	[self createFramebuffer];
-    }
-    return self;
-}*/
 
 - (void)dealloc
 {

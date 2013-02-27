@@ -31,7 +31,7 @@ public:
     virtual bool ajouter( NoeudAbstrait* enfant );
     virtual void detacherEnfant( const NoeudAbstrait* enfant );
 
-    virtual void updateObserver( PositionSubject* pSubject );
+    virtual void updateObserver( const  PositionSubject* pSubject );
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody();
 

@@ -673,7 +673,7 @@ bool Socket::attendreSocket( const int& pTimeout ) const
     FD_ZERO(&readfds);
     FD_SET(mSocket, &readfds); // Set the File Descriptor to the one of the socket
     timeval tv = { pTimeout }; // Set timeout
-    return select(0, &readfds, NULL, NULL, &tv) > 0; // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
+    return select(mSocket+1, &readfds, NULL, NULL, &tv) > 0; // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
 }
 
 

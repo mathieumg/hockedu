@@ -7,68 +7,106 @@
              d:DesignHeight="674" d:DesignWidth="1058" Background="Black" Foreground="White">
     <Grid Background="Black" Name="editionControlGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="224*" />
-            <ColumnDefinition Width="687*" />
+            <ColumnDefinition Width="260*" MaxWidth="300" />
+            <ColumnDefinition Width="269*" />
+            <ColumnDefinition Width="348*" />
+            <ColumnDefinition Width="181*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="127*" />
-            <RowDefinition Height="433*" />
-            <RowDefinition Height="38*" />
+            <RowDefinition Height="143*" MaxHeight="150" />
+            <RowDefinition Height="142*" />
+            <RowDefinition Height="346*" />
+            <RowDefinition Height="43*" />
         </Grid.RowDefinitions>
-        <Label Content="" FontFamily="Times New Roman" FontSize="24" Foreground="#FF00D500" Height="41" HorizontalAlignment="Right" Margin="0,1,12,1" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" Grid.Row="2" Grid.Column="1" />
-        <Button Content="Main Menu" Grid.Row="2" Height="23" HorizontalAlignment="Left" Margin="10,7,0,0" Name="button1" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" Click="button1_Click" />
-        <GroupBox Header="Actions" Height="100" HorizontalAlignment="Left" Margin="22,12,0,0" Name="mActionGroupBox" VerticalAlignment="Top" Width="198" Grid.Column="1">
+        <Label Content="" FontFamily="Times New Roman" FontSize="24" Foreground="#FF00D500" Height="41" HorizontalAlignment="Right" Margin="2" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" />
+        <Button Content="Main Menu" Grid.Row="3" Margin="10" Name="button1" Background="Black" Foreground="White" Click="button1_Click" HorizontalAlignment="Left" Width="75" />
+        <GroupBox Header="Actions" Margin="15" Name="mActionGroupBox" Grid.Column="1">
             <Grid>
-                <Button Content="Copy" Height="23" HorizontalAlignment="Left" Margin="5,5,0,0" Name="mCopyButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
-                <Button Content="Delete" Height="23" HorizontalAlignment="Left" Margin="97,6,0,0" Name="mDeleteButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
-                <Button Content="Undo" Height="23" HorizontalAlignment="Left" Margin="6,43,0,0" Name="mUndoButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
-                <Button Content="Redo" Height="23" HorizontalAlignment="Left" Margin="97,43,0,0" Name="mRedoButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Button Content="Copy" Margin="5" Name="mCopyButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Click="CallActionPerformed" />
+                <Button Content="Delete" Margin="5" Name="mDeleteButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" Click="CallActionPerformed" />
+                <Button Content="Undo" Margin="5" Name="mUndoButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="1" />
+                <Button Content="Redo" Margin="5" Name="mRedoButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" Grid.Row="1" />
             </Grid>
         </GroupBox>
-        <GroupBox Header="Edition State" Height="100" HorizontalAlignment="Left" Margin="258,12,0,0" Name="mEditionStateGroupBox" VerticalAlignment="Top" Width="262" Grid.Column="1">
+        <GroupBox Header="Edition State" Margin="15" Name="mEditionStateGroupBox" Grid.Column="2">
             <Grid>
-                <RadioButton Content="Free" Height="16" HorizontalAlignment="Left" Margin="9,14,0,0" Name="mFreeStateRadio" VerticalAlignment="Top" Background="Black" Foreground="White" GroupName="rgEditionStates" IsChecked="True" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
-                <RadioButton Content="Move" Height="16" HorizontalAlignment="Left" Margin="9,41,0,0" Name="mMoveStateRadio" VerticalAlignment="Top" Background="Black" Foreground="White" GroupName="rgEditionStates" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
-                <RadioButton Content="Select" Height="16" HorizontalAlignment="Left" Margin="97,14,0,0" Name="mSelectStateRadio" VerticalAlignment="Top" Background="Black" Foreground="White" GroupName="rgEditionStates" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
-                <RadioButton Content="Rotate" Height="16" HorizontalAlignment="Left" Margin="97,41,0,0" Name="mRotateStateRadio" VerticalAlignment="Top" Background="Black" Foreground="White" GroupName="rgEditionStates" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
-                <RadioButton Content="Scale" Height="16" HorizontalAlignment="Left" Margin="174,14,0,0" Name="mScaleStateRadio" VerticalAlignment="Top" Background="Black" Foreground="White" GroupName="rgEditionStates" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
-                <RadioButton Content="Zoom" Height="16" HorizontalAlignment="Left" Margin="174,41,0,0" Name="mZoomStateRadio" VerticalAlignment="Top" Background="Black" Foreground="White" GroupName="rgEditionStates" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <RadioButton Content="Free" Margin="5" Name="mFreeStateRadio" Background="Black" Foreground="White" GroupName="rgEditionStates" IsChecked="True" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Checked="CallActionPerformed" />
+                <RadioButton Content="Move" Margin="5" Name="mMoveStateRadio" Background="Black" Foreground="White" GroupName="rgEditionStates" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="1" Checked="CallActionPerformed" />
+                <RadioButton Content="Select" Margin="5" Name="mSelectStateRadio" Background="Black" Foreground="White" GroupName="rgEditionStates" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" Checked="CallActionPerformed" />
+                <RadioButton Content="Rotate" Margin="5" Name="mRotateStateRadio" Background="Black" Foreground="White" GroupName="rgEditionStates" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" Grid.Row="1" Checked="CallActionPerformed" />
+                <RadioButton Content="Scale" Margin="5" Name="mScaleStateRadio" Background="Black" Foreground="White" GroupName="rgEditionStates" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="2" Checked="CallActionPerformed" />
+                <RadioButton Content="Zoom" Margin="5" Name="mZoomStateRadio" Background="Black" Foreground="White" GroupName="rgEditionStates" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="2" Grid.Row="1" Checked="CallActionPerformed" />
             </Grid>
         </GroupBox>
-        <GroupBox Header="Camera Mode" Height="100" HorizontalAlignment="Left" Margin="559,12,0,0" Name="mCameraModeGroupBox" VerticalAlignment="Top" Width="113" Grid.Column="1">
+        <GroupBox Header="Camera Mode" Margin="15" Name="mCameraModeGroupBox" Grid.Column="3">
             <Grid>
-                <RadioButton Content="Free" Height="16" HorizontalAlignment="Left" Margin="6,5,0,0" Name="mFreeCameraRadio" VerticalAlignment="Top" Background="Black" Foreground="White" GroupName="rgCameraModes" IsChecked="True" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
-                <RadioButton Content="Orbital" Height="16" HorizontalAlignment="Left" Margin="6,27,0,0" Name="mOrbitalCameraRadio" VerticalAlignment="Top" Background="Black" Foreground="White" GroupName="rgCameraModes" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
-                <RadioButton Content="Sky" Height="16" HorizontalAlignment="Left" Margin="6,50,0,0" Name="mSkyCameraRadio" VerticalAlignment="Top" Background="Black" Foreground="White" GroupName="rgCameraModes" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <RadioButton Content="Free" Margin="5" Name="mFreeCameraRadio" Background="Black" Foreground="White" GroupName="rgCameraModes" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Checked="CallActionPerformed" />
+                <RadioButton Content="Orbital" Margin="5" Name="mOrbitalCameraRadio" Background="Black" Foreground="White" GroupName="rgCameraModes" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="1" Checked="CallActionPerformed" IsChecked="True" />
+                <RadioButton Content="Sky" Margin="5" Name="mSkyCameraRadio" Background="Black" Foreground="White" GroupName="rgCameraModes" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="2" Checked="CallActionPerformed" />
             </Grid>
         </GroupBox>
-        <GroupBox Grid.Row="1" Header="Tools" Height="122" HorizontalAlignment="Left" Margin="10,14,0,0" Name="mToolsGroupBox" VerticalAlignment="Top" Width="235">
+        <GroupBox Grid.Row="1" Header="Tools" Margin="15" Name="mToolsGroupBox">
             <Grid>
-                <Button Content="Puck" Height="23" HorizontalAlignment="Left" Margin="8,6,0,0" Name="mPuckButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
-                <Button Content="Stick" Height="23" HorizontalAlignment="Left" Margin="7,35,0,0" Name="mStickButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
-                <Button Content="Wall" Height="23" HorizontalAlignment="Left" Margin="8,64,0,0" Name="mWallButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
-                <Button Content="Booster" Height="23" HorizontalAlignment="Left" Margin="99,6,0,0" Name="mBoosterButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
-                <Button Content="Portal" Height="23" HorizontalAlignment="Left" Margin="99,35,0,0" Name="mPortalButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
-                <Button Content="Random bonus" Height="23" HorizontalAlignment="Left" Margin="99,64,0,0" Name="mBonusButton" VerticalAlignment="Top" Width="92" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Button Content="Puck" Margin="1" Name="mPuckButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Click="CallActionPerformed" />
+                <Button Content="Mallet" Margin="1" Name="mStickButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="1" Click="CallActionPerformed" />
+                <Button Content="Wall" Margin="1" Name="mWallButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="2" Click="CallActionPerformed" />
+                <Button Content="Booster" Margin="1" Name="mBoosterButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" Click="CallActionPerformed" />
+                <Button Content="Portal" Margin="1" Name="mPortalButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" Grid.Row="1" Click="CallActionPerformed" />
+                <Button Content="Random bonus" Margin="1" Name="mBonusButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" Grid.Row="2" />
             </Grid>
         </GroupBox>
-        <GroupBox Header="Special Properties" Height="320" HorizontalAlignment="Left" Margin="10,142,0,0" Name="mPropertiesGroupBox" VerticalAlignment="Top" Width="235" Grid.Row="1">
+        <GroupBox Header="Special Properties" Margin="15" Name="mPropertiesGroupBox" Grid.Row="2">
             <Grid>
-                <Slider Height="23" HorizontalAlignment="Left" Margin="8,31,0,0" Name="slider1" VerticalAlignment="Top" Width="166" />
-                <Slider Height="23" HorizontalAlignment="Left" Margin="8,83,0,0" Name="slider2" VerticalAlignment="Top" Width="166" />
-                <Slider Height="23" HorizontalAlignment="Left" Margin="8,137,0,0" Name="slider3" VerticalAlignment="Top" Width="166" />
-                <Label Content="Scale" Height="Auto" HorizontalAlignment="Left" Margin="8,6,0,0" Name="label1" VerticalAlignment="Top" Width="Auto" Background="Black" Foreground="White" />
-                <Label Content="Acceleration coefficient" Height="Auto" HorizontalAlignment="Left" Margin="8,60,0,0" Name="label2" VerticalAlignment="Top" Width="Auto" Background="Black" Foreground="White" />
-                <Label Content="Bouncing coefficient" Height="Auto" HorizontalAlignment="Left" Margin="8,112,0,0" Name="label3" VerticalAlignment="Top" Width="Auto" Background="Black" Foreground="White" />
-                <Label Content="Angle :" Height="Auto" HorizontalAlignment="Left" Margin="0,165,0,0" Name="label4" VerticalAlignment="Top" Width="Auto" Background="Black" Foreground="White" />
-                <TextBox Height="23" HorizontalAlignment="Right" Margin="0,168,148,0" Name="textBox1" VerticalAlignment="Top" Width="32" Background="Black" Foreground="White" />
-                <Label Content="Attraction Radius :" Height="Auto" HorizontalAlignment="Left" Margin="75,166,0,0" Name="label5" VerticalAlignment="Top" Width="Auto" Background="Black" Foreground="White" />
-                <TextBox Height="23" HorizontalAlignment="Right" Margin="0,168,13,0" Name="textBox2" VerticalAlignment="Top" Width="32" Background="Black" Foreground="White" />
+                <Slider Height="23" HorizontalAlignment="Left" Margin="8,31,0,0" Name="mScaleSlider" VerticalAlignment="Top" Width="166" IsSnapToTickEnabled="True" />
+                <Slider Height="23" HorizontalAlignment="Left" Margin="8,83,0,0" Name="mAccelerationSlider" VerticalAlignment="Top" Width="166" IsSnapToTickEnabled="True" />
+                <Slider Height="23" HorizontalAlignment="Left" Margin="8,137,0,0" Name="mBounceSlider" VerticalAlignment="Top" Width="166" IsSnapToTickEnabled="True" />
+                <Label Content="Scale" Height="Auto" HorizontalAlignment="Left" Margin="8,6,0,0" Name="mScaleTitleLabel" VerticalAlignment="Top" Width="Auto" Background="Black" Foreground="White" />
+                <Label Content="Acceleration coefficient" Height="Auto" HorizontalAlignment="Left" Margin="8,60,0,0" Name="mAccelerationTitleLabel" VerticalAlignment="Top" Width="Auto" Background="Black" Foreground="White" />
+                <Label Content="Bouncing coefficient" Height="Auto" HorizontalAlignment="Left" Margin="8,112,0,0" Name="mBounceTitleLabel" VerticalAlignment="Top" Width="Auto" Background="Black" Foreground="White" />
+                <Label Content="Angle :" Height="Auto" HorizontalAlignment="Left" Margin="0,165,0,0" Name="mAngleTitleLabel" VerticalAlignment="Top" Width="Auto" Background="Black" Foreground="White" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="44,168,0,0" Name="mAngleTextBox" VerticalAlignment="Top" Width="32" Background="Black" Foreground="White" />
+                <Label Content="Attraction Radius :" Height="Auto" HorizontalAlignment="Left" Margin="78,166,0,0" Name="mAttractionTitleLabel" VerticalAlignment="Top" Width="Auto" Background="Black" Foreground="White" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="181,168,0,0" Name="mAttractionTextBox" VerticalAlignment="Top" Width="32" Background="Black" Foreground="White" />
                 <Label Content="COMING SOON." Height="26" HorizontalAlignment="Left" Margin="6,231,0,0" Name="label6" VerticalAlignment="Top" Width="196" Background="Black" Foreground="White" />
                 <Label Content="Apparition probability of special bonus" Height="26" HorizontalAlignment="Left" Margin="0,250,0,0" Name="label123" VerticalAlignment="Top" Width="217" Background="Black" Foreground="White" />
+                <Label Content="{Binding ElementName=mScaleSlider, Path=Value}" Foreground="#FF00D500" HorizontalAlignment="Left" Margin="178,31,0,0" Name="mScaleDisplayLabel" Width="32" Height="28" VerticalAlignment="Top" />
+                <Label Content="{Binding ElementName=mAccelerationSlider, Path=Value}" Foreground="#FF00D500" Height="28" HorizontalAlignment="Left" Margin="178,83,0,0" Name="mAccelerationDisplayLabel" VerticalAlignment="Top" Width="32" />
+                <Label Content="{Binding ElementName=mBounceSlider, Path=Value}" Foreground="#FF00D500" Height="28" HorizontalAlignment="Left" Margin="178,132,0,0" Name="mBounceDisplayLabel" VerticalAlignment="Top" Width="32" />
             </Grid>
         </GroupBox>
-        <Label Content="Welcome to the edition mode!" Height="Auto" HorizontalAlignment="Left" Margin="8,12,0,0" Name="label7" VerticalAlignment="Top" Background="Black" Foreground="#FF00D500" />
+        <TextBlock Margin="12" Name="mGuidanceTextBlock" Text="Welcome to edition mode! Have fun!!!" Foreground="#FF00D500" Background="Black" TextWrapping="Wrap" FontSize="16" />
+        <Button Content="Default Map" Grid.Row="3" HorizontalAlignment="Left" Margin="99,8,0,12" Name="mDefaultFieldButton" Width="75" Background="Black" Foreground="White" Click="OnGenerateField" />
     </Grid>
 
 </UserControl>

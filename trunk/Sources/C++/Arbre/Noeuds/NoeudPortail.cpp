@@ -40,7 +40,6 @@ NoeudPortail::NoeudPortail(const std::string& typeNoeud)
 {   
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
-    FacadeModele::getInstance()->ajouterElementSurTable(this);
 
     updatePhysicBody();
 
@@ -58,7 +57,6 @@ NoeudPortail::NoeudPortail(const std::string& typeNoeud)
 ////////////////////////////////////////////////////////////////////////
 NoeudPortail::~NoeudPortail()
 {
-	FacadeModele::getInstance()->supprimerElementSurTable(this);
 }
 
 

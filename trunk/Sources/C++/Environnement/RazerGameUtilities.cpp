@@ -11,6 +11,10 @@
 
 #include <jni.h>
 #include "GestionnaireModeles.h"
+#include "GestionnaireEvenements.h"
+#include "GestionnaireEtatAbstrait.h"
+#include "Utilitaire.h"
+#include "Terrain.h"
 
    ////////////////////////////////////////////////////////////////////////
    ///
@@ -63,6 +67,95 @@
        float ratio = radius / rayon;
        pModel->assignerFacteurAgrandissement(Vecteur3(ratio,ratio,ratio));
        return GestionnaireModeles::CreerListe(pModel);
+   }
+
+   ////////////////////////////////////////////////////////////////////////
+   ///
+   /// @fn void RazerGameUtilities::LoadFieldFromFile( const std::string& pFilePath, Terrain& pField )
+   ///
+   /// Effectue le chargement XML d'un terrain
+   ///
+   /// @param[in] const std::string & pFilePath
+   /// @param[in] Terrain & pField
+   ///
+   /// @return void
+   ///
+   ////////////////////////////////////////////////////////////////////////
+   void RazerGameUtilities::LoadFieldFromFile( const std::string& pFilePath, Terrain& pField )
+   {
+       // Todo:: ajouter de la valider sur le path du fichier
+//        if(pFilePath.size() < 4 )
+//        {
+// 
+//        }
+//        strcmp((pFilePath.c_str() + pFilePath.size()-4),".xml");
+// 
+       // En place pour eviter des cas speciaux avec la souris (soit des ajout d'objets liberer 2 fois)
+       GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
+
+       // Vérification de l'existence du ficher
+       if ( !utilitaire::fichierExiste(pFilePath) ) 
+       {
+           // Si on est en jeu on s'assure d'avoir une table valide
+           if(pField.IsGameField())
+               pField.creerTerrainParDefaut(pFilePath);
+           else
+               pField.initialiser(pFilePath);
+           // Si le fichier n'existe pas, on le crée.
+           SaveFieldToFile(pFilePath,pField);
+       }
+       // si le fichier existe on le lit
+       else 
+       {
+           XmlDocument* document = XMLUtils::LoadDocument(pFilePath.c_str());
+
+           // Lire à partir du fichier de configuration
+           if( !document )
+           {
+               utilitaire::afficherErreur("Erreur : chargement XML : erreur de lecture du fichier");
+               // Si on est en jeu on s'assure d'avoir une table valide
+               if(pField.IsGameField())
+                   pField.creerTerrainParDefaut(pFilePath);
+               else
+                   pField.initialiser(pFilePath);
+               // Si le fichier n'existe pas, on le crée.
+               SaveFieldToFile(pFilePath,pField);
+           }
+           else
+           {
+               if(!pField.initialiserXml((XmlElement*)document))
+               {
+                   // Erreur dans l'initialisation avec le xml, donc on laisse un terrain vide
+                   pField.initialiser(pFilePath);
+               }
+               pField.FixCollidingObjects();
+
+               XMLUtils::FreeDocument(document);
+           }
+       }
+   }
+
+   ////////////////////////////////////////////////////////////////////////
+   ///
+   /// @fn void RazerGameUtilities::SaveFieldToFile( const std::string& nomFichier )
+   ///
+   /// /*Description*/
+   ///
+   /// @param[in] const std::string & nomFichier
+   ///
+   /// @return void
+   ///
+   ////////////////////////////////////////////////////////////////////////
+   void RazerGameUtilities::SaveFieldToFile( const std::string& nomFichier, Terrain& pField  )
+   {
+       XmlDocument* document = XMLUtils::CreateDocument("1.0", "", "");
+
+       // Creation du noeud du terrain
+       XMLUtils::LinkEndChild((XmlElement*)document,pField.creerNoeudXML());
+
+       // Écrire dans le fichier
+       XMLUtils::SaveDocument(document,nomFichier.c_str());
+       XMLUtils::FreeDocument(document);
    }
 
    /// La chaîne représentant le dossier.

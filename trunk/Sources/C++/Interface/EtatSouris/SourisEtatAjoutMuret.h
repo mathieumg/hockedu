@@ -26,7 +26,7 @@ class SourisEtatAjoutMuret :
 {
 public:
 	/// Constructeur par paramètre
-	SourisEtatAjoutMuret();
+	SourisEtatAjoutMuret(Terrain* pField);
 	/// Destructeur virtuel
 	virtual ~SourisEtatAjoutMuret(void);
 

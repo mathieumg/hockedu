@@ -11,8 +11,15 @@
 #include <map>
 #include <string>
 #include "Singleton.h"
-
+#include "Enum_Declarations.cs"
 enum ModesCamera {CAMERA_FIXE, CAMERA_ORBIT, CAMERA_LIBRE};
+
+/* Pour toute modification, veuillez mettre a jour la map dans
+Java_ca_polymtl_inf2990_GestionnaireEvenements_actionPerformed()   pour la compatibilité java
+et dans 
+.cs
+*/
+
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class FacadeModele
@@ -31,7 +38,7 @@ public:
 	~RepartiteurActions();
 
 	/// Fonction qui appelle les fonctions de la banque d'actions
-	bool appelerMethodeAction(std::string& action);
+	bool appelerMethodeAction(ActionType action);
 	///Fonction d'action pour changer l'état de la souris sur Déplacer Fenêtre
 	bool actionBoutonCamera();
 	/// Fonction d'action pour changer l'état de la souris sur tourner la camera Fenêtre
@@ -90,7 +97,7 @@ private:
 	/// typedef pour une adresse de fonction de RepartiteurActions
 	typedef bool (RepartiteurActions::*ObtenirFonction)();
 	/// Typedef pour la map qui va appeler les fonctions à partir de la commande d'un événement.
-	typedef std::map<std::string, ObtenirFonction> BanqueFonctions;
+	typedef std::map<ActionType, ObtenirFonction> BanqueFonctions;
 	/// Variable pour la traduction clé -> fonction pour les actions d'événement
 	BanqueFonctions banqueActions_;
 
