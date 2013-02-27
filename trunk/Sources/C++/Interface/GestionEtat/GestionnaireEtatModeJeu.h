@@ -24,7 +24,7 @@ class GestionnaireEtatModeJeu : public GestionnaireEtatAbstrait
 {
 public:
 	/// Constructeur par paramètre.
-	GestionnaireEtatModeJeu(GestionnaireEvenements* contexte, Partie* pGame);
+	GestionnaireEtatModeJeu(Partie* pGame);
 	/// Destructeur virtuel
 	virtual ~GestionnaireEtatModeJeu();
 

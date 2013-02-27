@@ -20,36 +20,9 @@
 #include "GestionnaireEtatPartieRapideTerminee.h"
 #include "GestionnaireEtatPartieTournoiTerminee.h"
 
-// Initialisations automatiques
-SINGLETON_DECLARATION_CPP(GestionnaireEvenements);
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @fn GestionnaireEvenements::GestionnaireEvenements()
-///
-/// Constructeur qui initialise l'état
-///
-/// @return Aucune.
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-GestionnaireEvenements::GestionnaireEvenements():etatCourant_(0)
-{
-	modifierEtat(ETAT_MODE_EDITION);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///
-/// @fn GestionnaireEvenements::~GestionnaireEvenements()
-///
-/// Destructeur de la classe; désalloue la mémoire allouée pour l'état courant.
-///
-/// @return Aucune.
-///
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-GestionnaireEvenements::~GestionnaireEvenements()
-{
-	if(etatCourant_ != 0)
-		delete etatCourant_;
-	etatCourant_ = 0;
-}
+GestionnaireEtatAbstrait* GestionnaireEvenements::etatCourant_ = NULL; 
+MouseMoveSubject GestionnaireEvenements::mMouseMoveSubject;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
@@ -66,30 +39,17 @@ void GestionnaireEvenements::modifierEtat(const EtatGestion &nouvelEtat)
 {
 	if(etatCourant_ != 0)
 		delete etatCourant_;
+    etatCourant_ = NULL;
 	switch(nouvelEtat)
 	{
-		case ETAT_MENU_PRINCIPAL: etatCourant_ = new GestionnaireEtatMenuPrincipal(this); break;
-		case ETAT_MODE_EDITION: etatCourant_ = new GestionnaireEtatModeEdition(this,FacadeModele::getInstance()->getEditionField()); break;
-        case ETAT_MODE_JEU: etatCourant_ = new GestionnaireEtatModeJeu(this,FacadeModele::getInstance()->obtenirPartieCourante()); break;
-		case ETAT_MODE_TOURNOI: etatCourant_ = new GestionnaireEtatModeTournoi(this); break;
-		case ETAT_PARTIE_RAPIDE_TERMINEE: etatCourant_ = new GestionnaireEtatPartieRapideTerminee(this); break;
-		case ETAT_PARTIE_TOURNOI_TERMINEE: etatCourant_ = new GestionnaireEtatPartieTournoiTerminee(this); break;
+		case ETAT_MENU_PRINCIPAL: etatCourant_ = new GestionnaireEtatMenuPrincipal(); break;
+		case ETAT_MODE_EDITION: etatCourant_ = new GestionnaireEtatModeEdition(FacadeModele::getInstance()->getEditionField()); break;
+        case ETAT_MODE_JEU: etatCourant_ = new GestionnaireEtatModeJeu(FacadeModele::getInstance()->obtenirPartieCourante()); break;
+		case ETAT_MODE_TOURNOI: etatCourant_ = new GestionnaireEtatModeTournoi(); break;
+		case ETAT_PARTIE_RAPIDE_TERMINEE: etatCourant_ = new GestionnaireEtatPartieRapideTerminee(); break;
+		case ETAT_PARTIE_TOURNOI_TERMINEE: etatCourant_ = new GestionnaireEtatPartieTournoiTerminee(); break;
 	}
 	
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///
-/// @fn GestionnaireEtatAbstrait* GestionnaireEvenements::obtenirEtat()
-///
-/// Fonction qui retourne l'état courant.
-///
-/// @return etatCourant_ : L'état courant.
-///
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-GestionnaireEtatAbstrait* GestionnaireEvenements::obtenirEtat()
-{
-	return etatCourant_;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -113,7 +73,7 @@ void GestionnaireEvenements::toucheEnfoncee(EvenementClavier& evenementClavier)
 	{
 		FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 	}
-	etatCourant_->toucheEnfoncee(evenementClavier);
+    if(etatCourant_)etatCourant_->toucheEnfoncee(evenementClavier);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -129,7 +89,7 @@ void GestionnaireEvenements::toucheEnfoncee(EvenementClavier& evenementClavier)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEvenements::toucheRelachee( EvenementClavier& evenementClavier )
 {
-	etatCourant_->toucheRelachee(evenementClavier);
+	if(etatCourant_)etatCourant_->toucheRelachee(evenementClavier);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -145,7 +105,7 @@ void GestionnaireEvenements::toucheRelachee( EvenementClavier& evenementClavier 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEvenements::sourisEnfoncee( EvenementSouris& evenementSouris )
 {
-	etatCourant_->sourisEnfoncee(evenementSouris);
+	if(etatCourant_)etatCourant_->sourisEnfoncee(evenementSouris);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -161,7 +121,7 @@ void GestionnaireEvenements::sourisEnfoncee( EvenementSouris& evenementSouris )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEvenements::sourisRelachee( EvenementSouris& evenementSouris )
 {
-	etatCourant_->sourisRelachee(evenementSouris);
+	if(etatCourant_)etatCourant_->sourisRelachee(evenementSouris);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -177,9 +137,9 @@ void GestionnaireEvenements::sourisRelachee( EvenementSouris& evenementSouris )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEvenements::sourisDeplacee( EvenementSouris& evenementSouris )
 {
-	etatCourant_->sourisDeplacee(evenementSouris);
-    mEvent = evenementSouris;
-    MouseMoveSubject::signalObservers();
+	if(etatCourant_)etatCourant_->sourisDeplacee(evenementSouris);
+    mMouseMoveSubject.mEvent = evenementSouris;
+    mMouseMoveSubject.signalObservers();
     FacadeModele::getInstance()->MouseMove(evenementSouris);
 }
 
@@ -196,7 +156,7 @@ void GestionnaireEvenements::sourisDeplacee( EvenementSouris& evenementSouris )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEvenements::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
 {
-	etatCourant_->rouletteSouris(evenementRouletteSouris);
+	if(etatCourant_)etatCourant_->rouletteSouris(evenementRouletteSouris);
 }
 
 
@@ -214,7 +174,54 @@ void GestionnaireEvenements::rouletteSouris( EvenementRouletteSouris& evenementR
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEvenements::miseAJourEvenementsRepetitifs( float detlaTemps )
 {
-	etatCourant_->miseAJourEvenementsRepetitifs(detlaTemps);
+	if(etatCourant_)etatCourant_->miseAJourEvenementsRepetitifs(detlaTemps);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void GestionnaireEvenements::modifierEtatSouris( NomEtatSouris etatSouris )
+///
+/// Modifier l'état de la souris
+///
+/// @param[in] NomEtatSouris etatSouris
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void GestionnaireEvenements::modifierEtatSouris( NomEtatSouris etatSouris )
+{
+    if(etatCourant_)etatCourant_->modifierEtatSouris(etatSouris);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void GestionnaireEvenements::afficher()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void GestionnaireEvenements::afficher()
+{
+    if(etatCourant_)etatCourant_->afficher();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void GestionnaireEvenements::animer( float temps )
+///
+/// /*Description*/
+///
+/// @param[in] float temps
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void GestionnaireEvenements::animer( float temps )
+{
+    if(etatCourant_)etatCourant_->animer(temps);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

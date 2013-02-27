@@ -164,7 +164,7 @@ void GestionnaireHUD::creerHUDEdition()
 	{
 		HUDElementComparatif* panneauDeFond = new HUDElementComparatif([=]() -> bool {
             NomEtatSouris indexOutilSelectionne;
-            if(!GestionnaireEvenements::obtenirInstance()->obtenirEtat()->GetMouseStateName(indexOutilSelectionne))
+            if(!GestionnaireEvenements::etatCourant_ || !GestionnaireEvenements::etatCourant_->GetMouseStateName(indexOutilSelectionne))
 				return false;
 			return indexOutilSelectionne==etats[i];
 		});

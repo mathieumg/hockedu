@@ -26,7 +26,7 @@ class GestionnaireEtatPartieRapideTerminee :
 {
 public:
 	/// Constructeur
-	GestionnaireEtatPartieRapideTerminee(GestionnaireEvenements* contexte);
+	GestionnaireEtatPartieRapideTerminee();
 	/// Destructeur
 	virtual ~GestionnaireEtatPartieRapideTerminee(void);
 

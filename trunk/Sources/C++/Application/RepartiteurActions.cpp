@@ -125,7 +125,7 @@ bool RepartiteurActions::appelerMethodeAction( std::string& action )
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonCamera()
 {
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
 	return true;
 }
 
@@ -141,7 +141,7 @@ bool RepartiteurActions::actionBoutonCamera()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonOrbit()
 {
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_ORBIT);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_ORBIT);
 	return true;
 }
 
@@ -159,7 +159,7 @@ bool RepartiteurActions::actionBoutonOrbit()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonZoomElastique()
 {
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_ZOOM_ELASTIQUE);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_ZOOM_ELASTIQUE);
 	return true;
 }
 
@@ -175,7 +175,7 @@ bool RepartiteurActions::actionBoutonZoomElastique()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonZoomProportionnel()
 {
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_ZOOM_PROPORTIONNEL);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_ZOOM_PROPORTIONNEL);
 	return true;
 }
 
@@ -191,7 +191,7 @@ bool RepartiteurActions::actionBoutonZoomProportionnel()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonSelection()
 {
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_SELECTION);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_SELECTION);
 	return true; 
 }
 
@@ -207,7 +207,7 @@ bool RepartiteurActions::actionBoutonSelection()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonTransformationDeplacement()
 {
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_DEPLACEMENT);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_DEPLACEMENT);
 	return true; 
 }
 
@@ -223,7 +223,7 @@ bool RepartiteurActions::actionBoutonTransformationDeplacement()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonTransformationRotation()
 {
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_ROTATION);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_ROTATION);
 	return true; 
 }
 
@@ -239,7 +239,7 @@ bool RepartiteurActions::actionBoutonTransformationRotation()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonTransformationEchelle()
 {
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_ECHELLE);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_ECHELLE);
 	return true; 
 }
 
@@ -271,7 +271,7 @@ bool RepartiteurActions::actionBoutonSupprimer()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonEditionNouveau()
 {
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_ORBIT);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_ORBIT);
 	FacadeModele::getInstance()->reinitialiserTerrain();	
 	return true; 
 }
@@ -306,7 +306,7 @@ bool RepartiteurActions::actionReinitialiserPartie()
 bool RepartiteurActions::actionBoutonInsererPortail()
 {
 	FacadeModele::getInstance()->selectionArbre(false);
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_AJOUTER_PORTAIL);
+	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_AJOUTER_PORTAIL);
 	return true; 
 }
 
@@ -323,7 +323,7 @@ bool RepartiteurActions::actionBoutonInsererPortail()
 bool RepartiteurActions::actionBoutonInsererMuret()
 {
     FacadeModele::getInstance()->selectionArbre(false);
-    GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_AJOUTER_MURET);
+    GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_AJOUTER_MURET);
 	return true; 
 }
 
@@ -340,7 +340,7 @@ bool RepartiteurActions::actionBoutonInsererMuret()
 bool RepartiteurActions::actionBoutonInsererMaillet()
 {
     FacadeModele::getInstance()->selectionArbre(false);
-    GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_AJOUTER_MAILLET);
+    GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_AJOUTER_MAILLET);
 	return true; 
 }
 
@@ -357,7 +357,7 @@ bool RepartiteurActions::actionBoutonInsererMaillet()
 bool RepartiteurActions::actionBoutonInsererRondelle()
 {
     FacadeModele::getInstance()->selectionArbre(false);
-    GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_AJOUTER_RONDELLE);
+    GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_AJOUTER_RONDELLE);
 	return true; 
 }
 
@@ -374,7 +374,7 @@ bool RepartiteurActions::actionBoutonInsererRondelle()
 bool RepartiteurActions::actionBoutonInsererAccelerateur()
 {
     FacadeModele::getInstance()->selectionArbre(false);
-    GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_AJOUTER_ACCELERATEUR);
+    GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_AJOUTER_ACCELERATEUR);
 	return true; 
 }
 
@@ -410,7 +410,7 @@ bool RepartiteurActions::actionBoutonAllerModeJeu()
     // celui-ci utilise des informations du modèle pour s'initialiser
 	bool retour = FacadeModele::getInstance()->passageModeJeu();
 	if(retour)
-		GestionnaireEvenements::obtenirInstance()->modifierEtat(ETAT_MODE_JEU);
+		GestionnaireEvenements::modifierEtat(ETAT_MODE_JEU);
 	return retour;
 }
 
@@ -431,7 +431,7 @@ bool RepartiteurActions::actionBoutonAllerModeEdition()
 	bool retour =  FacadeModele::getInstance()->passageModeEdition();
 	if(retour)
 	{
-		GestionnaireEvenements::obtenirInstance()->modifierEtat(ETAT_MODE_EDITION);
+		GestionnaireEvenements::modifierEtat(ETAT_MODE_EDITION);
 		SoundFMOD::obtenirInstance()->playApplicationSong(EDITION_MODE_SONG);
 	}
 	return retour;
@@ -454,7 +454,7 @@ bool RepartiteurActions::actionBoutonAllerModeTournoi()
 	bool retour =  FacadeModele::getInstance()->passageModeTournoi();
 	if(retour)
 	{
-		GestionnaireEvenements::obtenirInstance()->modifierEtat(ETAT_MODE_TOURNOI);
+		GestionnaireEvenements::modifierEtat(ETAT_MODE_TOURNOI);
 	}
 	return retour;
 }
@@ -479,7 +479,7 @@ bool RepartiteurActions::actionBoutonAllerMenuPrincipal()
     bool retour = FacadeModele::getInstance()->passageMenuPrincipal();
     if(retour)
     {
-	    GestionnaireEvenements::obtenirInstance()->modifierEtat(ETAT_MENU_PRINCIPAL);
+	    GestionnaireEvenements::modifierEtat(ETAT_MENU_PRINCIPAL);
     }
 	return retour;
 }

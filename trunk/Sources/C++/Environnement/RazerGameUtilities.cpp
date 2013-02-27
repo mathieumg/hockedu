@@ -91,7 +91,7 @@
 //        strcmp((pFilePath.c_str() + pFilePath.size()-4),".xml");
 // 
        // En place pour eviter des cas speciaux avec la souris (soit des ajout d'objets liberer 2 fois)
-       GestionnaireEvenements::obtenirInstance()->obtenirEtat()->modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
+       GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
 
        // Vérification de l'existence du ficher
        if ( !utilitaire::fichierExiste(pFilePath) ) 

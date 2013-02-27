@@ -30,7 +30,7 @@ public:
 	friend GestionnaireEvenementsTest;
 
 	/// Constructeur par paramètre.
-	GestionnaireEtatModeEdition(GestionnaireEvenements* contexte, Terrain* pField);
+	GestionnaireEtatModeEdition(Terrain* pField);
 
     virtual void modifierEtatSouris(NomEtatSouris etatSouris);
 

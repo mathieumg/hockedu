@@ -11,7 +11,6 @@
 #ifndef GESTIONNAIREEVENEMENTS_H
 #define GESTIONNAIREEVENEMENTS_H
 
-#include "Singleton.h"
 #include "EvenementClavier.h"
 #include "EvenementRouletteSouris.h"
 #include "EvenementSouris.h"
@@ -30,15 +29,17 @@ enum EtatGestion{
 	ETAT_PARTIE_TOURNOI_TERMINEE
 };
 
+
+
 ////////////////////////////////////////////////////////////////////////////
 /// @class GestionnaireEvenements
 /// @brief Classe qui redirige les événements au gestionnaire appropié selon
-///	l'état courant.
+///         l'état courant du client.
 ///
 /// @author Vincent Lemire
 /// @date 2012-01-20
 ////////////////////////////////////////////////////////////////////////////
-class GestionnaireEvenements:public Singleton<GestionnaireEvenements>, public MouseMoveSubject
+class GestionnaireEvenements
 {
 	
 public:
@@ -46,33 +47,36 @@ public:
 	friend GestionnaireEvenementsTest;
 
 	/// Modifie l'état
-	void modifierEtat(const EtatGestion &nouvelEtat);
+	static void modifierEtat(const EtatGestion &nouvelEtat);
 
 	/// Redirige l'événement d'une touche enfoncée
-	void toucheEnfoncee(EvenementClavier& evenementClavier);
+	static void toucheEnfoncee(EvenementClavier& evenementClavier);
 	/// Redirige l'événement d'une touche relachée
-	void toucheRelachee(EvenementClavier& evenementClavier);
+	static void toucheRelachee(EvenementClavier& evenementClavier);
 	/// Redirige l'événement d'un bouton de souris enfoncé
-	void sourisEnfoncee(EvenementSouris& evenementSouris);
+	static void sourisEnfoncee(EvenementSouris& evenementSouris);
 	/// Redirige l'événement d'un bouton de souris relâché
-	void sourisRelachee(EvenementSouris& evenementSouris);
+	static void sourisRelachee(EvenementSouris& evenementSouris);
 	/// Redirige l'événement de deplacement de la souris
-	void sourisDeplacee(EvenementSouris& evenementSouris);
+	static void sourisDeplacee(EvenementSouris& evenementSouris);
 	/// Redirige l'événement de roulette de souris
-	void rouletteSouris(EvenementRouletteSouris& evenementRouletteSouris);
+	static void rouletteSouris(EvenementRouletteSouris& evenementRouletteSouris);
 
-	void miseAJourEvenementsRepetitifs(float detlaTemps);
+	static void miseAJourEvenementsRepetitifs(float detlaTemps);
 	/// Renvoie l'état courant
 	GestionnaireEtatAbstrait* obtenirEtat();
 
-private:
-	SINGLETON_DECLARATION_CLASSE_SANS_CONSTRUCTEUR(GestionnaireEvenements);
-	/// Contructeur
-	GestionnaireEvenements();
-	/// Destructeur
-	~GestionnaireEvenements();
+    /// Modifier l'état de la souris
+    static void modifierEtatSouris(enum NomEtatSouris etatSouris);
+    static void afficher();
+    static void animer(float temps);
+
 	/// Ceci est un pointeur vers le gestionnaire d'événement auquel renvoyer les différents événements, comme le clavier ou la souris, selon l'état courant
-	GestionnaireEtatAbstrait* etatCourant_; 
+	static GestionnaireEtatAbstrait* etatCourant_; 
+    static MouseMoveSubject mMouseMoveSubject;
+
+private:
+    GestionnaireEvenements(){}
 };
 
 #endif

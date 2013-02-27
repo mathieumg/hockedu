@@ -159,7 +159,7 @@ void NodePolygone::afficherConcret() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NodePolygone::updateObserver( PositionSubject* pSubject )
+/// @fn void NodePolygone::updateObserver( const  PositionSubject* pSubject )
 ///
 /// /*Description*/
 ///
@@ -168,7 +168,7 @@ void NodePolygone::afficherConcret() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NodePolygone::updateObserver( PositionSubject* pSubject )
+void NodePolygone::updateObserver( const  PositionSubject* pSubject )
 {
     updatePhysicBody();
 }

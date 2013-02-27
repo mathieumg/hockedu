@@ -81,7 +81,7 @@ public:
    virtual void updatePhysicBody();
 
    /// update the table when a modification is done on either middle control points
-   virtual void updateObserver( class PositionSubject* pSubject );
+   virtual void updateObserver( const  class PositionSubject* pSubject );
 
    /// retrieves the max width of the table
    float GetWidth() const;

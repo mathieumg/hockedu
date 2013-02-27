@@ -23,7 +23,7 @@ class GestionnaireEtatMenuPrincipal : public GestionnaireEtatAbstrait
 public:
 
 	/// Constructeur par paramètre.
-	GestionnaireEtatMenuPrincipal(GestionnaireEvenements* contexte);
+	GestionnaireEtatMenuPrincipal();
 
 	/// Comportement pour une touche enfoncée
 	virtual void toucheEnfoncee( EvenementClavier& evenementClavier );

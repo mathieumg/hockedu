@@ -93,7 +93,7 @@ void TerrainTest::testInitialiser()
 	CPPUNIT_ASSERT(terrain_->mNewNodeTree->obtenirNombreEnfants() == 0);
 	CPPUNIT_ASSERT(terrain_->mLogicTree);
 	CPPUNIT_ASSERT(terrain_->mTable);
-	CPPUNIT_ASSERT(terrain_->mTable->obtenirNombreEnfants() == 13);
+	CPPUNIT_ASSERT(terrain_->mTable->obtenirNombreEnfants() == 21);
 	NoeudGroupe* gAccel = terrain_->mTable->obtenirGroupe(RazerGameUtilities::NOM_ACCELERATEUR);
 	CPPUNIT_ASSERT(gAccel);
 	CPPUNIT_ASSERT(gAccel->obtenirNombreEnfants() == 0);

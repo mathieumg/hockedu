@@ -57,7 +57,7 @@ public:
     /// Free memory of the mouse joint when game is done
     void destroyMouseJoint();
     /// updates mouse joint when receiving a mousemove event
-    virtual void updateObserver( class MouseMoveSubject* pSubject );
+    virtual void updateObserver( const  class MouseMoveSubject* pSubject );
     /// applies physics behavior on b2Body before simulation
     void preSimulationActions();
 

@@ -33,7 +33,7 @@ HANDLE mutexMouseState;
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-GestionnaireEtatAbstrait::GestionnaireEtatAbstrait(GestionnaireEvenements* contexte) :etatSouris_(0),contexte_(contexte)
+GestionnaireEtatAbstrait::GestionnaireEtatAbstrait() :etatSouris_(0)
 {
 }
 

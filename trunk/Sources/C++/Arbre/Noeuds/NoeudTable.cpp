@@ -1003,7 +1003,7 @@ void NoeudTable::updatePhysicBody()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudTable::updateObserver( PositionSubject* pSubject )
+void NoeudTable::updateObserver( const  PositionSubject* pSubject )
 {
     updatePhysicBody();
 }

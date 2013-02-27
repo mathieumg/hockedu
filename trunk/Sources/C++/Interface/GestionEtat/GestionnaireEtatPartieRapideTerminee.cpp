@@ -27,7 +27,7 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-GestionnaireEtatPartieRapideTerminee::GestionnaireEtatPartieRapideTerminee(GestionnaireEvenements* contexte): GestionnaireEtatAbstrait(contexte)
+GestionnaireEtatPartieRapideTerminee::GestionnaireEtatPartieRapideTerminee(): GestionnaireEtatAbstrait()
 {
 	Partie* partie = FacadeModele::getInstance()->obtenirPartieCourante();
 	if(partie)
@@ -106,7 +106,7 @@ void GestionnaireEtatPartieRapideTerminee::toucheEnfoncee( EvenementClavier& eve
 	GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
 	FacadeModele::getInstance()->reinitialiserPartie();
 	FacadeModele::getInstance()->obtenirPartieCourante()->modifierEnPause(false);
-	contexte_->modifierEtat(ETAT_MODE_JEU);
+	GestionnaireEvenements::modifierEtat(ETAT_MODE_JEU);
 }
 
 ////////////////////////////////////////////////////////////////////////

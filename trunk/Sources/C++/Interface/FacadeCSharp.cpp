@@ -250,13 +250,13 @@ void LogicUpdate( float time )
 
 void OnKeyPressed(int key)
 {
-    GestionnaireEvenements::obtenirInstance()->toucheEnfoncee(EvenementClavier(key));
+    GestionnaireEvenements::toucheEnfoncee(EvenementClavier(key));
 }
 
 
 void OnKeyReleased(int key)
 {
-    GestionnaireEvenements::obtenirInstance()->toucheRelachee(EvenementClavier(key));
+    GestionnaireEvenements::toucheRelachee(EvenementClavier(key));
 }
 
 
@@ -271,7 +271,7 @@ void OnMousePressed( int x, int y, MouseButtons button)
     case Middle: type = BOUTON_SOURIS_MILIEU; break;
     default:break;
     }
-    GestionnaireEvenements::obtenirInstance()->sourisEnfoncee(EvenementSouris(Vecteur2i(x,y),type));
+    GestionnaireEvenements::sourisEnfoncee(EvenementSouris(Vecteur2i(x,y),type));
 }
 
 
@@ -285,7 +285,7 @@ void OnMouseReleased( int x, int y, MouseButtons button)
     case Middle: type = BOUTON_SOURIS_MILIEU; break;
     default:break;
     }
-    GestionnaireEvenements::obtenirInstance()->sourisRelachee(EvenementSouris(Vecteur2i(x,y), type));
+    GestionnaireEvenements::sourisRelachee(EvenementSouris(Vecteur2i(x,y), type));
 }
 
 
@@ -300,12 +300,12 @@ void OnMouseMoved( int x, int y, MouseButtons button )
     case Middle: type = BOUTON_SOURIS_MILIEU; break;
     default:break;
     }
-    GestionnaireEvenements::obtenirInstance()->sourisDeplacee(EvenementSouris(Vecteur2i(x,y), type));
+    GestionnaireEvenements::sourisDeplacee(EvenementSouris(Vecteur2i(x,y), type));
 }
 
 void OnMouseWheelMoved( int deltaRotation )
 {
-    GestionnaireEvenements::obtenirInstance()->rouletteSouris(EvenementRouletteSouris(-deltaRotation));
+    GestionnaireEvenements::rouletteSouris(EvenementRouletteSouris(-deltaRotation));
 }
 
 bool ActionPerformed( char* action )

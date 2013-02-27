@@ -33,8 +33,8 @@
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-GestionnaireEtatModeEdition::GestionnaireEtatModeEdition(GestionnaireEvenements* contexte, Terrain* pField):
-GestionnaireEtatAbstrait(contexte),mField(pField)
+GestionnaireEtatModeEdition::GestionnaireEtatModeEdition(Terrain* pField):
+GestionnaireEtatAbstrait(),mField(pField)
 {
     shiftEnfonce_ = false;
     enfonce_ = false;

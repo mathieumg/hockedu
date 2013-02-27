@@ -226,7 +226,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_keyTyped( 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_keyPressed(JNIEnv * env, jobject, jobject keyEvent)
 {
-	GestionnaireEvenements::obtenirInstance()->toucheEnfoncee(EvenementClavier(env, keyEvent));
+	GestionnaireEvenements::toucheEnfoncee(EvenementClavier(env, keyEvent));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -242,7 +242,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_keyPressed
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_keyReleased( JNIEnv * env, jobject, jobject keyEvent)
 {
-	GestionnaireEvenements::obtenirInstance()->toucheRelachee(EvenementClavier(env, keyEvent));
+	GestionnaireEvenements::toucheRelachee(EvenementClavier(env, keyEvent));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -274,7 +274,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseClick
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mousePressed( JNIEnv * env, jobject, jobject evenementSouris)
 {
-	GestionnaireEvenements::obtenirInstance()->sourisEnfoncee(EvenementSouris(env, &evenementSouris));
+	GestionnaireEvenements::sourisEnfoncee(EvenementSouris(env, &evenementSouris));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -290,7 +290,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mousePress
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseReleased( JNIEnv * env, jobject, jobject evenementSouris)
 {
-	GestionnaireEvenements::obtenirInstance()->sourisRelachee(EvenementSouris(env, &evenementSouris));
+	GestionnaireEvenements::sourisRelachee(EvenementSouris(env, &evenementSouris));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -338,7 +338,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseExite
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseDragged( JNIEnv * env, jobject, jobject evenementSouris)
 {
-	GestionnaireEvenements::obtenirInstance()->sourisDeplacee(EvenementSouris(env, &evenementSouris));
+	GestionnaireEvenements::sourisDeplacee(EvenementSouris(env, &evenementSouris));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -354,7 +354,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseDragg
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseMoved( JNIEnv * env, jobject, jobject evenementSouris)
 {
-	GestionnaireEvenements::obtenirInstance()->sourisDeplacee(EvenementSouris(env, &evenementSouris));
+	GestionnaireEvenements::sourisDeplacee(EvenementSouris(env, &evenementSouris));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -370,7 +370,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseMoved
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseWheelMoved( JNIEnv * env, jobject, jobject mouseWheelEvent)
 {
-	GestionnaireEvenements::obtenirInstance()->rouletteSouris(EvenementRouletteSouris(env, mouseWheelEvent));
+	GestionnaireEvenements::rouletteSouris(EvenementRouletteSouris(env, mouseWheelEvent));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

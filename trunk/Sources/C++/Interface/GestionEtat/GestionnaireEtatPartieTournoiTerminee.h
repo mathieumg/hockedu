@@ -6,7 +6,7 @@ class GestionnaireEtatPartieTournoiTerminee :
 {
 public:
 	/// Constructeur
-	GestionnaireEtatPartieTournoiTerminee(GestionnaireEvenements* contexte);
+	GestionnaireEtatPartieTournoiTerminee();
 
 	/// On vise la camera sur le tableau
 	void pointerCameraSurScoreBoard();

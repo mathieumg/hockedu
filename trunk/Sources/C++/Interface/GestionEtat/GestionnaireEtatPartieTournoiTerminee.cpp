@@ -28,7 +28,7 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-GestionnaireEtatPartieTournoiTerminee::GestionnaireEtatPartieTournoiTerminee(GestionnaireEvenements* contexte): GestionnaireEtatAbstrait(contexte)
+GestionnaireEtatPartieTournoiTerminee::GestionnaireEtatPartieTournoiTerminee(): GestionnaireEtatAbstrait()
 {
 	pointerCameraSurScoreBoard();
 	Partie* partie = FacadeModele::getInstance()->obtenirPartieCourante();
@@ -84,7 +84,7 @@ void GestionnaireEtatPartieTournoiTerminee::toucheEnfoncee( EvenementClavier& ev
 		FacadeModele::getInstance()->passageModeTournoi();
 	}
 	tournoi->obtenirPartieCourante()->modifierEnPause(false);
-	contexte_->modifierEtat(ETAT_MODE_TOURNOI);
+	GestionnaireEvenements::modifierEtat(ETAT_MODE_TOURNOI);
 }
 
 ////////////////////////////////////////////////////////////////////////

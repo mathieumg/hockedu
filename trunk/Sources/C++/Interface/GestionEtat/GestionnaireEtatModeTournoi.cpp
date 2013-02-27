@@ -30,7 +30,7 @@
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-GestionnaireEtatModeTournoi::GestionnaireEtatModeTournoi(GestionnaireEvenements* contexte) : GestionnaireEtatAbstrait(contexte)
+GestionnaireEtatModeTournoi::GestionnaireEtatModeTournoi() : GestionnaireEtatAbstrait()
 {
 	modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
 }
@@ -189,7 +189,7 @@ void GestionnaireEtatModeTournoi::animer( const float& temps )
 			Tournoi* tournoi = FacadeModele::getInstance()->obtenirTournoi();
 			if(tournoi->miseAJour())
 			{
-				contexte_->modifierEtat(ETAT_PARTIE_TOURNOI_TERMINEE);
+				GestionnaireEvenements::modifierEtat(ETAT_PARTIE_TOURNOI_TERMINEE);
 				return;
 			}
 			Terrain* terrain = FacadeModele::getInstance()->getEditionField();

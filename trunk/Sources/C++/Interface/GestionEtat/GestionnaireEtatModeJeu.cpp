@@ -34,8 +34,8 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-GestionnaireEtatModeJeu::GestionnaireEtatModeJeu( GestionnaireEvenements* contexte, Partie* pGame ):
-GestionnaireEtatAbstrait(contexte),mGame(pGame)
+GestionnaireEtatModeJeu::GestionnaireEtatModeJeu( Partie* pGame ):
+GestionnaireEtatAbstrait(),mGame(pGame)
 {
 	modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
 	shiftEnfonce_ = false;
@@ -293,7 +293,7 @@ void GestionnaireEtatModeJeu::animer( const float& temps )
 		{
 			if(partieCourante->partieTerminee())
 			{
-				contexte_->modifierEtat(ETAT_PARTIE_RAPIDE_TERMINEE);
+				GestionnaireEvenements::modifierEtat(ETAT_PARTIE_RAPIDE_TERMINEE);
 				return;
 			}
 			Terrain* terrain = FacadeModele::getInstance()->getEditionField();

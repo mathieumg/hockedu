@@ -756,7 +756,7 @@ void FacadeModele::afficher( )
 
 	}
 	// Affichage specifique aux etats
-	GestionnaireEvenements::obtenirInstance()->obtenirEtat()->afficher();
+	GestionnaireEvenements::afficher();
 	
 	appliquerVue(1);
 
@@ -867,13 +867,13 @@ void FacadeModele::animer( const float& temps)
         }
     }
 
-    GestionnaireEvenements::obtenirInstance()->miseAJourEvenementsRepetitifs(tempsReel);
+    GestionnaireEvenements::miseAJourEvenementsRepetitifs(tempsReel);
     // Mise à jour des objets
     if(getEditionField())
     {
         getEditionField()->animerTerrain(tempsReel);
     }
-    GestionnaireEvenements::obtenirInstance()->obtenirEtat()->animer(tempsReel);
+    GestionnaireEvenements::animer(tempsReel);
     bool replaying = false;
     if(GestionnaireAnimations::obtenirInstance()->estJouerReplay())
         replaying = true;
