@@ -27,8 +27,12 @@ namespace UIHeavyClient
             set { mContext = value; }
         }
 
+        [DllImport(@"RazerGame.dll")]
+        static extern bool ActionPerformed(string action);
+        
         public static void GoToEditionMode()
         {
+            ActionPerformed("ALLER_MODE_EDITION");
             Context.WindowContentControl.Content = Context.EditionModeControl;
             Context.PlayModeControl.RemoveOpenGL();
             Context.EditionModeControl.AppendOpenGL();
@@ -36,6 +40,7 @@ namespace UIHeavyClient
 
         public static void GoToPlayMode()
         {
+            ActionPerformed("ALLER_MODE_JEU");
             Context.WindowContentControl.Content = Context.PlayModeControl;
             Context.EditionModeControl.RemoveOpenGL();
             Context.PlayModeControl.AppendOpenGL();
@@ -43,6 +48,7 @@ namespace UIHeavyClient
 
         public static void GoToMainMenu()
         {
+            ActionPerformed("ALLER_MENU_PRINCIPAL");
             Context.WindowContentControl.Content = Context.MainMenuControl;
             Context.MainMenuControl.InitOperations();
 

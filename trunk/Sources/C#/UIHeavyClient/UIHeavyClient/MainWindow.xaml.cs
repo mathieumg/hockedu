@@ -113,6 +113,7 @@ namespace UIHeavyClient
             mKeyboardOptionControl = new KeyboardOptionControl();
 
             this.WindowContentControl.Content = mMainMenuControl;
+            MainWindowHandler.GoToMainMenu();
         }
             
         public MainWindow()
