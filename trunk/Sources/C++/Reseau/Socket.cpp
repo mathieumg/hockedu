@@ -167,9 +167,11 @@ void Socket::bind()
         // Sinon on utilise le socketInfo directement
         wStructServer = mSocketInfo;
     }
+#if !SHIPPING
     std::cout << "BIND " << (mConnectionType == TCP ? "TCP" : "UDP") << " SUR" << std::endl;
     std::cout << "IP  : " << inet_ntoa(wStructServer->sin_addr) << std::endl;
     std::cout << "PORT: "<<ntohs(mSocketInfo->sin_port) << std::endl;
+#endif
 
     int ret;
 

@@ -90,20 +90,19 @@ bool CommunicateurBD::validerConnectiviter() const
 
 
 
-
 void CommunicateurBD::init()
 {
-
-	try 
-	{
-		mConnection.connect(DB_DATABASE, DB_DBHOST, DB_USER, DB_PASSWORD);
-	}
-	catch(...)
-	{
-		throw ExceptionReseauBD("Connexion impossible a la BD");
-	}
-	
-
+    try 
+    {
+        mConnection.connect(DB_DATABASE, DB_DBHOST, DB_USER, DB_PASSWORD);
+#if !SHIPPING
+        std::cout << "Connected? " << mConnection.connected();
+#endif
+    }
+    catch(...)
+    {
+        throw ExceptionReseauBD("Connexion impossible a la BD");
+    }
 }
 
 

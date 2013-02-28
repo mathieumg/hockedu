@@ -1,5 +1,5 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RazerGame", "RazerGame.vcxproj", "{67188F6B-27BE-4E93-A7EF-C512656343A1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utilitaire", "..\..\Commun\Utilitaire\Utilitaire.vcxproj", "{BB8C9C8A-3B65-4599-B4FE-CA965EE76D2A}"
@@ -157,22 +157,22 @@ Global
 		{2469C5D8-015A-4862-AAEE-1E861D06DEE1}.WithJava|Mixed Platforms.Build.0 = Release|x64
 		{2469C5D8-015A-4862-AAEE-1E861D06DEE1}.WithJava|x64.ActiveCfg = Debug|x64
 		{2469C5D8-015A-4862-AAEE-1E861D06DEE1}.WithJava|x64.Build.0 = Debug|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.C++Client|Mixed Platforms.ActiveCfg = C++Client|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.C++Client|Mixed Platforms.Build.0 = C++Client|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.C++Client|Mixed Platforms.ActiveCfg = Release|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.C++Client|Mixed Platforms.Build.0 = Release|x64
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.C++Client|x64.ActiveCfg = Debug|x64
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.C++Client|x64.Build.0 = Debug|x64
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Debug|Mixed Platforms.Build.0 = Debug|x64
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Debug|x64.ActiveCfg = Debug|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.DebugPrototype|Mixed Platforms.ActiveCfg = DebugPrototype|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.DebugPrototype|Mixed Platforms.Build.0 = DebugPrototype|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.DebugPrototype|Mixed Platforms.ActiveCfg = Debug|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.DebugPrototype|Mixed Platforms.Build.0 = Debug|x64
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.DebugPrototype|x64.ActiveCfg = Debug|x64
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.DebugPrototype|x64.Build.0 = Debug|x64
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Release|Mixed Platforms.ActiveCfg = Release|x64
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Release|Mixed Platforms.Build.0 = Release|x64
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.Release|x64.ActiveCfg = Release|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.WithJava|Mixed Platforms.ActiveCfg = C++Client|x64
-		{E81776B6-F065-4629-BF4E-0182B9548EA2}.WithJava|Mixed Platforms.Build.0 = C++Client|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.WithJava|Mixed Platforms.ActiveCfg = Release|x64
+		{E81776B6-F065-4629-BF4E-0182B9548EA2}.WithJava|Mixed Platforms.Build.0 = Release|x64
 		{E81776B6-F065-4629-BF4E-0182B9548EA2}.WithJava|x64.ActiveCfg = Debug|x64
 		{2DAE6437-6594-5B8A-B969-BBF287043EE4}.C++Client|Mixed Platforms.ActiveCfg = Release|Win32
 		{2DAE6437-6594-5B8A-B969-BBF287043EE4}.C++Client|Mixed Platforms.Build.0 = Release|Win32
