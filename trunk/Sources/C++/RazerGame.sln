@@ -180,12 +180,15 @@ Global
 		{2DAE6437-6594-5B8A-B969-BBF287043EE4}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{2DAE6437-6594-5B8A-B969-BBF287043EE4}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{2DAE6437-6594-5B8A-B969-BBF287043EE4}.Debug|x64.ActiveCfg = Debug|Win32
+		{2DAE6437-6594-5B8A-B969-BBF287043EE4}.Debug|x64.Build.0 = Debug|Win32
 		{2DAE6437-6594-5B8A-B969-BBF287043EE4}.DebugPrototype|Mixed Platforms.ActiveCfg = Debug|Win32
 		{2DAE6437-6594-5B8A-B969-BBF287043EE4}.DebugPrototype|Mixed Platforms.Build.0 = Debug|Win32
 		{2DAE6437-6594-5B8A-B969-BBF287043EE4}.DebugPrototype|x64.ActiveCfg = Debug|Win32
+		{2DAE6437-6594-5B8A-B969-BBF287043EE4}.DebugPrototype|x64.Build.0 = Debug|Win32
 		{2DAE6437-6594-5B8A-B969-BBF287043EE4}.Release|Mixed Platforms.ActiveCfg = Release|Win32
 		{2DAE6437-6594-5B8A-B969-BBF287043EE4}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{2DAE6437-6594-5B8A-B969-BBF287043EE4}.Release|x64.ActiveCfg = Release|Win32
+		{2DAE6437-6594-5B8A-B969-BBF287043EE4}.Release|x64.Build.0 = Release|Win32
 		{2DAE6437-6594-5B8A-B969-BBF287043EE4}.WithJava|Mixed Platforms.ActiveCfg = Release|Win32
 		{2DAE6437-6594-5B8A-B969-BBF287043EE4}.WithJava|Mixed Platforms.Build.0 = Release|Win32
 		{2DAE6437-6594-5B8A-B969-BBF287043EE4}.WithJava|x64.ActiveCfg = Debug|Win32
