@@ -2287,6 +2287,23 @@ int FacadeModele::transmitEvent( EventCodes pCode, ... )
     return true;
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn unsigned int FacadeModele::obtenirNbNoeudSelect()
+///
+/// /*Description*/
+///
+///
+/// @return unsigned int
+///
+////////////////////////////////////////////////////////////////////////
+unsigned int FacadeModele::obtenirNbNoeudSelect()
+{
+    VisiteurEstSelectione v;
+    acceptVisitor(v);
+    return (unsigned int)v.obtenirListeNoeuds()->size();
+}
+
 
 
 

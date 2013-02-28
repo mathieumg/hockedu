@@ -246,7 +246,6 @@ void VisiteurEstSelectione::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
 ////////////////////////////////////////////////////////////////////////
 ConteneurNoeuds* VisiteurEstSelectione::obtenirListeNoeuds() const
 {
-	FacadeModele::getInstance()->modifierNbNoeudSelect((unsigned int)listeNoeuds_->size());
 	return listeNoeuds_;
 }
 
