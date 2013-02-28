@@ -12,12 +12,12 @@
 
 #include <string>
 #include "Singleton.h"
-//#include "mysql++.h"
+#include "mysql++.h"
 
-#define DBHOST "tcp://hockedu.com:3306"
-#define USER "mapary"
-#define PASSWORD "mz41wo13"
-#define DATABASE "poly_hockedu"
+#define DB_DBHOST "173.231.120.124:3306" // hockedu.com:3306
+#define DB_USER "mapary"
+#define DB_PASSWORD "mz41wo13"
+#define DB_DATABASE "poly_hockedu"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ public:
 
 private:
 
-	//mysqlpp::Connection mConnection;
+	mysqlpp::Connection mConnection;
 
 };
 
