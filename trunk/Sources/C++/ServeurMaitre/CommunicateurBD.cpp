@@ -10,6 +10,7 @@
 
 #include "CommunicateurBD.h"
 #include "ExceptionsReseau/ExceptionReseauBD.h"
+#include "query.h"
 
 SINGLETON_DECLARATION_CPP(CommunicateurBD);
 
@@ -52,27 +53,20 @@ bool CommunicateurBD::authenticate( const std::string& pPlayerName, const std::s
 {
 
 	validerConnectiviter();
-	/*
+    
+    mysqlpp::Connection conn = mConnection;
+    mysqlpp::Query query = conn.query("select username from users");
+    
+    if (mysqlpp::StoreQueryResult res = query.store()) {
+        std::cout << "We have:" << std::endl;
+        mysqlpp::StoreQueryResult::const_iterator it;
+        for (it = res.begin(); it != res.end(); ++it) {
+            mysqlpp::Row row = *it;
+            std::cout << '\t' << row[0] << std::endl;
+        }
+    }
 
-	Statement* wStatement = mConnection -> createStatement();
-	ResultSet* rs = wStatement -> executeQuery ("select * from users");
-
-
-
-	// retrieve the row count in the result set
-	std::cout << "\nRetrieved " << rs -> rowsCount() << " row(s)." << std::endl;
-
-	std::cout << "\nUsernames" << std::endl;
-	std::cout << "--------" << std::endl;
-
-	// fetch the data : retrieve all the rows in the result set
-	while (rs->next()) {
-		std::cout << rs -> getString("username") << std::endl;
-	} // while
-
-	std::cout << std::endl;
-
-	*/
+    
 	return false;
 }
 
@@ -96,7 +90,8 @@ void CommunicateurBD::init()
     {
         mConnection.connect(DB_DATABASE, DB_DBHOST, DB_USER, DB_PASSWORD);
 #if !SHIPPING
-        std::cout << "Connected? " << mConnection.connected();
+        std::cout << "Connected? " << mConnection.connected() << std::endl;
+        validerConnectiviter();
 #endif
     }
     catch(...)
