@@ -59,7 +59,7 @@
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>../../MySQL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>MYSQLPP_NO_DLL;_USRDLL;DLL_EXPORTS;_DEBUG;UNICODE;_UNICODE;MYSQLPP_MAKING_DLL;HAVE_MYSQL_SSL_SET;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>MYSQLPP_NO_DLL;_USRDLL;DLL_EXPORTS;_DEBUG;UNICODE;_UNICODE;HAVE_MYSQL_SSL_SET;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -103,7 +103,7 @@
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>../../MySQL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>MYSQLPP_NO_DLL;_USRDLL;DLL_EXPORTS;_DEBUG;UNICODE;_UNICODE;MYSQLPP_MAKING_DLL;HAVE_MYSQL_SSL_SET;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>MYSQLPP_NO_DLL;_USRDLL;DLL_EXPORTS;_DEBUG;UNICODE;_UNICODE;HAVE_MYSQL_SSL_SET;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -173,6 +173,51 @@
     <ClCompile Include="..\lib\utility.cpp" />
     <ClCompile Include="..\lib\vallist.cpp" />
     <ClCompile Include="..\lib\wnp_connection.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\lib\autoflag.h" />
+    <ClInclude Include="..\lib\beemutex.h" />
+    <ClInclude Include="..\lib\cmdline.h" />
+    <ClInclude Include="..\lib\common.h" />
+    <ClInclude Include="..\lib\comparable.h" />
+    <ClInclude Include="..\lib\connection.h" />
+    <ClInclude Include="..\lib\cpool.h" />
+    <ClInclude Include="..\lib\datetime.h" />
+    <ClInclude Include="..\lib\dbdriver.h" />
+    <ClInclude Include="..\lib\exceptions.h" />
+    <ClInclude Include="..\lib\field.h" />
+    <ClInclude Include="..\lib\field_names.h" />
+    <ClInclude Include="..\lib\field_types.h" />
+    <ClInclude Include="..\lib\insertpolicy.h" />
+    <ClInclude Include="..\lib\manip.h" />
+    <ClInclude Include="..\lib\myset.h" />
+    <ClInclude Include="..\lib\mysql++.h" />
+    <ClInclude Include="..\lib\mystring.h" />
+    <ClInclude Include="..\lib\noexceptions.h" />
+    <ClInclude Include="..\lib\null.h" />
+    <ClInclude Include="..\lib\options.h" />
+    <ClInclude Include="..\lib\qparms.h" />
+    <ClInclude Include="..\lib\query.h" />
+    <ClInclude Include="..\lib\querydef.h" />
+    <ClInclude Include="..\lib\refcounted.h" />
+    <ClInclude Include="..\lib\result.h" />
+    <ClInclude Include="..\lib\row.h" />
+    <ClInclude Include="..\lib\scopedconnection.h" />
+    <ClInclude Include="..\lib\sqlstream.h" />
+    <ClInclude Include="..\lib\sql_buffer.h" />
+    <ClInclude Include="..\lib\sql_types.h" />
+    <ClInclude Include="..\lib\ssqls.h" />
+    <ClInclude Include="..\lib\ssqls2.h" />
+    <ClInclude Include="..\lib\stadapter.h" />
+    <ClInclude Include="..\lib\stream2string.h" />
+    <ClInclude Include="..\lib\tcp_connection.h" />
+    <ClInclude Include="..\lib\tiny_int.h" />
+    <ClInclude Include="..\lib\transaction.h" />
+    <ClInclude Include="..\lib\type_info.h" />
+    <ClInclude Include="..\lib\uds_connection.h" />
+    <ClInclude Include="..\lib\utility.h" />
+    <ClInclude Include="..\lib\vallist.h" />
+    <ClInclude Include="..\lib\wnp_connection.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
