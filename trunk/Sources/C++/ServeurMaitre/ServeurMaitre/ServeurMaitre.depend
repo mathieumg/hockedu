@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/CommunicateurReseau.cpp
+1361992636 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/CommunicateurReseau.cpp
 	"CommunicateurReseau.h"
 	"ExceptionsReseau/ExceptionReseau.h"
 	<iostream>
@@ -18,8 +18,6 @@
 	<sstream>
 	<time.h>
 
-1361301094 
-
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/CommunicateurReseau.h
 	<string>
 	<queue>
@@ -28,8 +26,6 @@
 	<map>
 	"QueueThreadSafe.h"
 	"Network_Defines.h"
-
-1361301094 efines.h"
 
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Socket.h
 	<memory>
@@ -44,28 +40,27 @@
 	<stdexcept>
 	"Network_Defines.h"
 
-1361312809 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Network_Defines.h
+1361997834 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Network_Defines.h
+	<WinSock2.h>
+	<windows.h>
 	<pthread.h>
 	<semaphore.h>
 	<stdlib.h>
 	<unistd.h>
-	<WinSock2.h>
-	<windows.h>
-
-1361305764 >
+	<sys/socket.h>
+	<list>
+	<string>
 
 1361301092 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Commun/Utilitaire/QueueThreadSafe.h
 	<queue>
 	"../../Sources/C++/Reseau/Network_Defines.h"
-
-1361301092 rces/C++/Reseau/Network_Defines.h"
 
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseau.h
 	<string>
 	<exception>
 	<stdexcept>
 
-1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseau.h
+1361984545 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseau.h
 	<string>
 	"ExceptionsReseau/ExceptionReseau.h"
 	"Network_Defines.h"
@@ -76,6 +71,7 @@
 	<fstream>
 	<set>
 	"ControllerInterface.h"
+	"../../Sources/C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.cs"
 	<sys/socket.h>
 	<netinet/in.h>
 	<arpa/inet.h>
@@ -92,12 +88,8 @@
 	<string>
 	"../GestionnaireReseau.h"
 
-1361301094 nnaireReseau.h"
-
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauSocketDeconnecte.h
 	"ExceptionReseau.h"
-
-1361301094 Reseau.h"
 
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauTimeout.h
 	"ExceptionReseau.h"
@@ -143,8 +135,6 @@
 	"Utilitaire.h"
 	"ControllerInterface.h"
 
-1361301094 rInterface.h"
-
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/PaquetRunnable.h
 
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/ControllerInterface.cpp
@@ -160,27 +150,19 @@
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauGlobale.cpp
 	"ExceptionReseauGlobale.h"
 
-1361301094 ReseauGlobale.h"
-
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauGlobale.h
 	"ExceptionReseau.h"
 
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauParametreInvalide.cpp
 	"ExceptionReseauParametreInvalide.h"
 
-1361301094 ReseauParametreInvalide.h"
-
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauSocketDeconnecte.cpp
 	"ExceptionReseauSocketDeconnecte.h"
-
-1361301094 ReseauSocketDeconnecte.h"
 
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauTimeout.cpp
 	"ExceptionReseauTimeout.h"
 
-1361301094 ReseauTimeout.h"
-
-1361314085 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseau.cpp
+1361994793 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseau.cpp
 	<WinSock2.h>
 	"GestionnaireReseau.h"
 	<strstream>
@@ -207,25 +189,17 @@
 	"PaquetHandlers/PacketHandlerEvent.h"
 	"UsinePaquets/UsinePaquetEvent.h"
 
-1361314085 ets/UsinePaquetEvent.h"
-
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquet.h
 	<string>
 	<map>
 	"../Paquets/Paquet.h"
 
-1361301094 s/Paquet.h"
-
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerConnAutomatique.h
 	"PacketHandler.h"
-
-1361301094 dler.h"
 
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetConnAutomatique.h
 	"UsinePaquet.h"
 	"Paquets/PaquetConnAutomatique.h"
-
-1361301094 aquetConnAutomatique.h"
 
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetConnAutomatique.h
 	"Paquet.h"
@@ -233,8 +207,6 @@
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetTest.h
 	"UsinePaquet.h"
 	"../Paquets/PaquetTest.h"
-
-1361301094 s/PaquetTest.h"
 
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetTest.h
 	"Paquet.h"
@@ -249,8 +221,6 @@
 	"UsinePaquets/UsinePaquet.h"
 	"../Paquets/PaquetEvent.h"
 
-1361301094 s/PaquetEvent.h"
-
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetEvent.h
 	"Paquet.h"
 
@@ -261,12 +231,8 @@
 	"PaquetHandlers/PacketHandlerUserStatus.h"
 	"UsinePaquets/UsinePaquetUserStatus.h"
 
-1361301900 ets/UsinePaquetUserStatus.h"
-
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseauClientLourd.h
 	"GestionnaireReseau.h"
-
-1361301094 ireReseau.h"
 
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerChatMessage.h
 	"PacketHandler.h"
@@ -274,8 +240,6 @@
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetChatMessage.h
 	"UsinePaquet.h"
 	"../Paquets/PaquetChatMessage.h"
-
-1361301094 s/PaquetChatMessage.h"
 
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetChatMessage.h
 	"Paquet.h"
@@ -287,8 +251,6 @@
 	"UsinePaquet.h"
 	"../Paquets/PaquetUserStatus.h"
 
-1361301094 s/PaquetUserStatus.h"
-
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetUserStatus.h
 	"Paquet.h"
 
@@ -297,14 +259,10 @@
 	"../Reseau/GestionnaireReseau.h"
 	"../Reseau/PaquetRunnable.h"
 
-1361301094 /PaquetRunnable.h"
-
 1361302040 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/ControllerServeurJeu.h
 	<iostream>
 	"Utilitaire.h"
 	"../Reseau/ControllerInterface.h"
-
-1361302040 /ControllerInterface.h"
 
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseauServeurMaitre.cpp
 	"GestionnaireReseauServeurMaitre.h"
@@ -318,8 +276,6 @@
 	"UsinePaquets/UsinePaquetGameStatus.h"
 	"PaquetHandlers/PacketHandlerGameStatus.h"
 
-1361301094 dlers/PacketHandlerGameStatus.h"
-
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseauServeurMaitre.h
 	"Singleton.h"
 	"GestionnaireReseau.h"
@@ -329,19 +285,13 @@
 	<string>
 	"Paquets/Paquet.h"
 
-1361301094 aquet.h"
-
 1361302349 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetGameStatus.h
 	"UsinePaquet.h"
 	"../Paquets/PaquetGameStatus.h"
 
-1361301094 s/PaquetGameStatus.h"
-
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetGameStatus.h
 	"Paquet.h"
 	"../ObjetsGlobaux/PartieServeurs.h"
-
-1361301094 Globaux/PartieServeurs.h"
 
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/ObjetsGlobaux/PartieServeurs.h
 	<time.h>
@@ -350,15 +300,14 @@
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerGameStatus.h
 	"PacketHandler.h"
 
-1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Network_Defines.cpp
+1361997488 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Network_Defines.cpp
 	"Network_Defines.h"
-	<stdlib.h>
-	<unistd.h>
+	<ifaddrs.h>
+	<netinet/in.h>
+	<arpa/inet.h>
 
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/ObjetsGlobaux/JoueurServeurs.cpp
 	"JoueurServeurs.h"
-
-1361301094 veurs.h"
 
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/ObjetsGlobaux/JoueurServeurs.h
 	<string>
@@ -391,8 +340,6 @@
 	<iomanip>
 	"../GestionnaireReseauClientLourd.h"
 
-1361301094 nnaireReseauClientLourd.h"
-
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerConnAutomatique.cpp
 	"PacketHandlerConnAutomatique.h"
 	<iostream>
@@ -418,8 +365,6 @@
 	"../ObjetsGlobaux/JoueurServeurs.h"
 	"../ServeurMaitre/FacadeServeurMaitre.h"
 
-1361301094 rMaitre/FacadeServeurMaitre.h"
-
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerLoginInfo.h
 	"PacketHandler.h"
 
@@ -431,8 +376,6 @@
 	<map>
 	"../Reseau/ObjetsGlobaux/JoueurServeurs.h"
 	"../Reseau/ObjetsGlobaux/PartieServeurs.h"
-
-1361301094 /ObjetsGlobaux/PartieServeurs.h"
 
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerTest.cpp
 	"PacketHandlerTest.h"
@@ -452,8 +395,6 @@
 	<iomanip>
 	"../PacketReader.h"
 
-1361301094 Reader.h"
-
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/PaquetRunnable.cpp
 	"PaquetRunnable.h"
 	"GestionnaireReseau.h"
@@ -470,8 +411,6 @@
 	"Paquets/PaquetTest.h"
 	"Paquets/PaquetGameStatus.h"
 
-1361301094 aquetGameStatus.h"
-
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Paquets/Paquet.cpp
 	"Paquet.h"
 	<sstream>
@@ -482,44 +421,28 @@
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetChatMessage.cpp
 	"PaquetChatMessage.h"
 
-1361301094 tMessage.h"
-
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetConnAutomatique.cpp
 	"PaquetConnAutomatique.h"
-
-1361301094 nAutomatique.h"
 
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetEvent.cpp
 	"PaquetEvent.h"
 
-1361301094 nt.h"
-
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetGameStatus.cpp
 	"PaquetGameStatus.h"
-
-1361301094 eStatus.h"
 
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetLoginInfo.cpp
 	"PaquetLoginInfo.h"
 
-1361301094 inInfo.h"
-
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetTest.cpp
 	"PaquetTest.h"
-
-1361301094 t.h"
 
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetUserStatus.cpp
 	"PaquetUserStatus.h"
 
-1361301094 rStatus.h"
-
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/RelayeurMessage.cpp
 	"RelayeurMessage.h"
 
-1361301094 essage.h"
-
-1361315816 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Socket.cpp
+1361997718 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/Socket.cpp
 	<winsock2.h>
 	<Mswsock.h>
 	"Socket.h"
@@ -528,8 +451,6 @@
 	"ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
 	"Utilitaire.h"
 	"PacketBuilder.h"
-
-1361315816 lder.h"
 
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/Reseau/SocketTCPServeur.cpp
 	"SocketTCPServeur.h"
@@ -543,25 +464,20 @@
 	"PaquetRunnableServeurMaitre.h"
 	"../Reseau/ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
 
-1361301094 /ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
-
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/ServeurMaitre/ControllerServeurMaitre.h
 	"Utilitaire.h"
 	<iostream>
 	"../Reseau/ControllerInterface.h"
 	"../Reseau/Socket.h"
 
-1361301094 /Socket.h"
-
 1361301094 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.h
 	"../Reseau/PaquetRunnable.h"
 
-1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/ServeurMaitre/FacadeServeurMaitre.cpp
+1361983321 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/ServeurMaitre/FacadeServeurMaitre.cpp
 	"FacadeServeurMaitre.h"
+	"CommunicateurBD.h"
 
-1361301094 veurMaitre.h"
-
-1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.cpp
+1361317235 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.cpp
 	"PaquetRunnableServeurMaitre.h"
 	"../ServeurMaitre/FacadeServeurMaitre.h"
 	"../Reseau/Paquets/PaquetLoginInfo.h"
@@ -575,8 +491,6 @@
 	<iomanip>
 	<stdexcept>
 	"../Reseau/Paquets/PaquetGameStatus.h"
-
-1361301094 /Paquets/PaquetGameStatus.h"
 
 1361301094 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/ServeurMaitre/mainServeurMaitre.cpp
 	<iostream>
@@ -602,458 +516,19 @@
 	<string>
 	"XMLUtils.h"
 
-1361301094 h"
-
 1361303302 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Commun/Utilitaire/XMLUtils.h
 	"tinyxml\include\tinyxml.h"
 
-1361303302 nclude\tinyxml.h"
+1361984626 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.cs
 
-1361375595 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/CommunicateurReseau.cpp
-	"CommunicateurReseau.h"
-	"ExceptionsReseau/ExceptionReseau.h"
-	<iostream>
-	"GestionnaireReseau.h"
-	"Paquets/Paquet.h"
-	"ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
-	"ExceptionsReseau/ExceptionReseauTimeout.h"
-	"ExceptionsReseau/ExceptionReseauParametreInvalide.h"
-	"SocketTCPServeur.h"
-	"PacketBuilder.h"
-	"PaquetHandlers/PacketHandler.h"
-	"Paquets/Paquet.h"
-	"PacketReader.h"
-	"GestionnaireReseau.h"
-	"Utilitaire.h"
-	<sstream>
-	<time.h>
+1361984732 source:/home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/ServeurMaitre/CommunicateurBD.cpp
+	"CommunicateurBD.h"
+	"ExceptionsReseau/ExceptionReseauBD.h"
 
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/CommunicateurReseau.h
+1361983321 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/ServeurMaitre/CommunicateurBD.h
 	<string>
-	<queue>
-	"Socket.h"
-	<list>
-	<map>
-	"QueueThreadSafe.h"
-	"Network_Defines.h"
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/Socket.h
-	<memory>
-	<winsock2.h>
-	<ws2tcpip.h>
-	<sys/types.h>
-	<sys/socket.h>
-	<netdb.h>
-	<iostream>
-	<stdio.h>
-	<stdint.h>
-	<stdexcept>
-	"Network_Defines.h"
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/Network_Defines.h
-	<pthread.h>
-	<semaphore.h>
-	<stdlib.h>
-	<unistd.h>
-	<WinSock2.h>
-	<windows.h>
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Commun/Utilitaire/QueueThreadSafe.h
-	<queue>
-	"../../Sources/C++/Reseau/Network_Defines.h"
-
-1360693630 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseau.h
-	<string>
-	<exception>
-	<stdexcept>
-
-1361981550 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/GestionnaireReseau.h
-	<string>
-	"ExceptionsReseau/ExceptionReseau.h"
-	"Network_Defines.h"
 	"Singleton.h"
-	<map>
-	"Socket.h"
-	"CommunicateurReseau.h"
-	<fstream>
-	<set>
-	"ControllerInterface.h"
-	"..\..\Sources\C#\UIHeavyClient\UIHeavyClient\Enum_Declarations.cs"
-	<sys/socket.h>
-	<netinet/in.h>
-	<arpa/inet.h>
-	<stdarg.h>
 
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Commun/Utilitaire/Singleton.h
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/ControllerInterface.h
-	<hash_map>
-	<ext/hash_map>
-	"Socket.h"
-
-1361026073 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/Paquets/Paquet.h
-	<string>
-	"../GestionnaireReseau.h"
-
-1360472556 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauSocketDeconnecte.h
-	"ExceptionReseau.h"
-
-1360472556 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauTimeout.h
-	"ExceptionReseau.h"
-
-1360472556 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauParametreInvalide.h
-	"ExceptionReseau.h"
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/SocketTCPServeur.h
-	"Socket.h"
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PacketBuilder.h
-	<stdint.h>
-	<iostream>
-	<stdio.h>
-	<string.h>
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandler.h
-	"../PacketBuilder.h"
-	"../PacketReader.h"
-	"../GestionnaireReseau.h"
-	<string>
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PacketReader.h
-	<stdint.h>
-	<iostream>
-	<stdio.h>
-	<string.h>
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Commun/Utilitaire/Utilitaire.h
-	"Vecteur.h"
-	<sstream>
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Commun/Utilitaire/Vecteur.h
-	<string>
-
-1361375595 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/ControllerCSharp.cpp
-	"ControllerCSharp.h"
-	"GestionnaireReseau.h"
-	"PaquetRunnable.h"
-	<stdarg.h>
-
-1361127612 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/ControllerCSharp.h
-	"Utilitaire.h"
-	"ControllerInterface.h"
-
-1361117760 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PaquetRunnable.h
-
-1361127366 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/ControllerInterface.cpp
-	"ControllerInterface.h"
-
-1361375595 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseau.cpp
-	"../GestionnaireReseau.h"
-	<strstream>
-	<algorithm>
-	<sstream>
-	<ctime>
-
-1360472556 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauGlobale.cpp
-	"ExceptionReseauGlobale.h"
-
-1360472556 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauGlobale.h
-	"ExceptionReseau.h"
-
-1360472556 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauParametreInvalide.cpp
-	"ExceptionReseauParametreInvalide.h"
-
-1360472556 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauSocketDeconnecte.cpp
-	"ExceptionReseauSocketDeconnecte.h"
-
-1360472556 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauTimeout.cpp
-	"ExceptionReseauTimeout.h"
-
-1361981682 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/GestionnaireReseau.cpp
-	<WinSock2.h>
-	"GestionnaireReseau.h"
-	<strstream>
-	<algorithm>
-	<exception>
-	<map>
-	"UsinePaquets/UsinePaquet.h"
-	<iostream>
-	<ctime>
-	<sstream>
-	"ExceptionsReseau/ExceptionReseau.h"
-	"ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
-	"ExceptionsReseau/ExceptionReseauTimeout.h"
-	"ExceptionsReseau/ExceptionReseauParametreInvalide.h"
-	"ExceptionsReseau/ExceptionReseauGlobale.h"
-	<stdexcept>
-	"CommunicateurReseau.h"
-	"PaquetHandlers/PacketHandler.h"
-	"PaquetHandlers/PacketHandlerConnAutomatique.h"
-	"UsinePaquets/UsinePaquetConnAutomatique.h"
-	"UsinePaquets/UsinePaquetTest.h"
-	"PaquetHandlers/PacketHandlerTest.h"
-	<utility>
-	"PaquetHandlers/PacketHandlerEvent.h"
-	"UsinePaquets/UsinePaquetEvent.h"
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquet.h
-	<string>
-	<map>
-	"../Paquets/Paquet.h"
-
-1361026073 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerConnAutomatique.h
-	"PacketHandler.h"
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetConnAutomatique.h
-	"UsinePaquet.h"
-	"Paquets/PaquetConnAutomatique.h"
-
-1360710562 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/Paquets/PaquetConnAutomatique.h
-	"Paquet.h"
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetTest.h
-	"UsinePaquet.h"
-	"../Paquets/PaquetTest.h"
-
-1361026073 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/Paquets/PaquetTest.h
-	"Paquet.h"
-
-1361026073 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerTest.h
-	"PacketHandler.h"
-
-1361026073 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerEvent.h
-	"PacketHandler.h"
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetEvent.h
-	"UsinePaquets/UsinePaquet.h"
-	"../Paquets/PaquetEvent.h"
-
-1361026073 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/Paquets/PaquetEvent.h
-	"Paquet.h"
-
-1361375595 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/GestionnaireReseauServeurMaitre.cpp
-	"GestionnaireReseauServeurMaitre.h"
-	"GestionnaireReseau.h"
-	"Paquets/PaquetUserStatus.h"
-	"PaquetHandlers/PacketHandlerUserStatus.h"
-	"UsinePaquets/UsinePaquetUserStatus.h"
-	"RelayeurMessage.h"
-	"PaquetHandlers/PacketHandlerChatMessage.h"
-	"UsinePaquets/UsinePaquetChatMessage.h"
-	"UsinePaquets/UsinePaquetGameStatus.h"
-	"PaquetHandlers/PacketHandlerGameStatus.h"
-
-1360691935 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/GestionnaireReseauServeurMaitre.h
-	"Singleton.h"
-	"GestionnaireReseau.h"
-
-1361026073 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/Paquets/PaquetUserStatus.h
-	"Paquet.h"
-
-1361026073 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerUserStatus.h
-	"PacketHandler.h"
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetUserStatus.h
-	"UsinePaquet.h"
-	"../Paquets/PaquetUserStatus.h"
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/RelayeurMessage.h
-	"Singleton.h"
-	<string>
-	"Paquets/Paquet.h"
-
-1361026073 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerChatMessage.h
-	"PacketHandler.h"
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetChatMessage.h
-	"UsinePaquet.h"
-	"../Paquets/PaquetChatMessage.h"
-
-1361026073 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/Paquets/PaquetChatMessage.h
-	"Paquet.h"
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetGameStatus.h
-	"UsinePaquet.h"
-	"../Paquets/PaquetGameStatus.h"
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/Paquets/PaquetGameStatus.h
-	"Paquet.h"
-	"../ObjetsGlobaux/PartieServeurs.h"
-
-1361119884 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/ObjetsGlobaux/PartieServeurs.h
-	<time.h>
-	<string>
-
-1361115837 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerGameStatus.h
-	"PacketHandler.h"
-
-1360689333 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/ObjetsGlobaux/JoueurServeurs.cpp
-	"JoueurServeurs.h"
-
-1361123588 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/ObjetsGlobaux/JoueurServeurs.h
-	<string>
-
-1361375595 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/ObjetsGlobaux/PartieServeurs.cpp
-	"PartieServeurs.h"
-
-1361375595 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PacketBuilder.cpp
-	"PacketBuilder.h"
-	"GestionnaireReseau.h"
-
-1361375595 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PacketReader.cpp
-	"PacketReader.h"
-	"GestionnaireReseau.h"
-
-1361375595 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandler.cpp
-	"PacketHandler.h"
-	"../PacketReader.h"
-	"../PacketBuilder.h"
-	"../Paquets/Paquet.h"
-
-1361375595 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerChatMessage.cpp
-	<iostream>
-	<sstream>
-	"PacketHandlerChatMessage.h"
-	"../Paquets/PaquetChatMessage.h"
-	"../RelayeurMessage.h"
-	<time.h>
-	<sstream>
-	<iomanip>
-	"../GestionnaireReseauClientLourd.h"
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/GestionnaireReseauClientLourd.h
-	"GestionnaireReseau.h"
-
-1361375595 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerConnAutomatique.cpp
-	"PacketHandlerConnAutomatique.h"
-	<iostream>
-	<sstream>
-	"../Paquets/PaquetConnAutomatique.h"
-	<sstream>
-	"../GestionnaireReseau.h"
-
-1361375595 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerEvent.cpp
-	"PacketHandlerEvent.h"
-	"../Paquets/PaquetEvent.h"
-
-1361375595 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerGameStatus.cpp
-	"PacketHandlerGameStatus.h"
-	"../Paquets/PaquetGameStatus.h"
-
-1361375595 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerLoginInfo.cpp
-	<iostream>
-	<sstream>
-	"PacketHandlerLoginInfo.h"
-	"../Paquets/PaquetLoginInfo.h"
-	"Utilitaire.h"
-	"../ObjetsGlobaux/JoueurServeurs.h"
-	"../ServeurMaitre/FacadeServeurMaitre.h"
-
-1361026073 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerLoginInfo.h
-	"PacketHandler.h"
-
-1361026073 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/Paquets/PaquetLoginInfo.h
-	"Paquet.h"
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/ServeurMaitre/FacadeServeurMaitre.h
-	"Singleton.h"
-	<map>
-	"../Reseau/ObjetsGlobaux/JoueurServeurs.h"
-	"../Reseau/ObjetsGlobaux/PartieServeurs.h"
-
-1361375595 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerTest.cpp
-	"PacketHandlerTest.h"
-	<iostream>
-	<sstream>
-	"../GestionnaireReseau.h"
-	"../Paquets/PaquetTest.h"
-
-1361375595 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerUserStatus.cpp
-	"../Paquets/PaquetUserStatus.h"
-	"../PacketBuilder.h"
-	"PacketHandlerUserStatus.h"
-	<time.h>
-	<stdlib.h>
-	<stdio.h>
-	<sstream>
-	<iomanip>
-	"../PacketReader.h"
-
-1361375595 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/PaquetRunnable.cpp
-	"PaquetRunnable.h"
-	"GestionnaireReseau.h"
-	"Paquets/PaquetEvent.h"
-	"Paquets/PaquetLoginInfo.h"
-	"Paquets/PaquetChatMessage.h"
-	"Paquets/PaquetConnAutomatique.h"
-	"Paquets/PaquetUserStatus.h"
-	"RelayeurMessage.h"
-	<time.h>
-	<sstream>
-	<iomanip>
-	"ObjetsGlobaux/JoueurServeurs.h"
-	"Paquets/PaquetTest.h"
-	"Paquets/PaquetGameStatus.h"
-
-1361375595 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/Paquets/Paquet.cpp
-	"Paquet.h"
-	<sstream>
-	<iostream>
-	<time.h>
-	<limits.h>
-
-1360710562 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/Paquets/PaquetChatMessage.cpp
-	"PaquetChatMessage.h"
-
-1360710562 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/Paquets/PaquetConnAutomatique.cpp
-	"PaquetConnAutomatique.h"
-
-1360710562 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/Paquets/PaquetEvent.cpp
-	"PaquetEvent.h"
-
-1361119398 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/Paquets/PaquetGameStatus.cpp
-	"PaquetGameStatus.h"
-
-1360710562 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/Paquets/PaquetLoginInfo.cpp
-	"PaquetLoginInfo.h"
-
-1360710562 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/Paquets/PaquetTest.cpp
-	"PaquetTest.h"
-
-1360710562 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/Paquets/PaquetUserStatus.cpp
-	"PaquetUserStatus.h"
-
-1360472558 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/RelayeurMessage.cpp
-	"RelayeurMessage.h"
-
-1361399222 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/Socket.cpp
-	<winsock2.h>
-	<Mswsock.h>
-	"Socket.h"
-	"ExceptionsReseau/ExceptionReseau.h"
-	"GestionnaireReseau.h"
-	"ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
-	"Utilitaire.h"
-	"PacketBuilder.h"
-
-1361375595 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/Reseau/SocketTCPServeur.cpp
-	"SocketTCPServeur.h"
-	"ExceptionsReseau/ExceptionReseau.h"
-	<string.h>
-
-1361388241 source:/run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/ServeurMaitre/ControllerServeurMaitre.cpp
-	"ControllerServeurMaitre.h"
-	"../Reseau/GestionnaireReseau.h"
-	"../Reseau/PaquetRunnable.h"
-	"PaquetRunnableServeurMaitre.h"
-	"../Reseau/ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/ServeurMaitre/ControllerServeurMaitre.h
-	"Utilitaire.h"
-	<iostream>
-	"../Reseau/ControllerInterface.h"
-	"../Reseau/Socket.h"
-
-1361375595 /run/user/mathieu/gvfs/smb-share:server=192.168.56.1,share=e,user=Mathieu/AirHockeyGit/NewBranch2/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.h
-	"../Reseau/PaquetRunnable.h"
+1361984887 /home/mathieu/Documents/ProjetCharles/log3900-04/trunk/Sources/C++/ServeurMaitre/ExceptionsReseau/ExceptionReseauBD.h
+	"../../Reseau/ExceptionsReseau/ExceptionReseau.h"
 

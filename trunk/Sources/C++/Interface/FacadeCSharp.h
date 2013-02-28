@@ -92,7 +92,7 @@ extern "C"
     __declspec(dllexport) void SetMessageCallback( MessageReceivedCallBack callback );
 
     /// declare the callback prototype
-    typedef BOOL (__stdcall *EventReceivedCallBack)( int pId, char* pMessage );
+    typedef BOOL (__stdcall *EventReceivedCallBack)( EventCodes pId, char* pMessage );
     /// Enregistre la callback pour mettre a jour la vue lors d'événement
     __declspec(dllexport) void SetEventCallback( EventReceivedCallBack callback );
 

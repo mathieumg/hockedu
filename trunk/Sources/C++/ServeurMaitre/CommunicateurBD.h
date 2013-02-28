@@ -12,7 +12,7 @@
 
 #include <string>
 #include "Singleton.h"
-#include "mysql++.h"
+//#include "mysql++.h"
 
 #define DBHOST "tcp://hockedu.com:3306"
 #define USER "mapary"
@@ -47,7 +47,7 @@ public:
 
 private:
 
-	mysqlpp::Connection mConnection;
+	//mysqlpp::Connection mConnection;
 
 };
 

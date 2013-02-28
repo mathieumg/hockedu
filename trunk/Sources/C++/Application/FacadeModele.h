@@ -15,6 +15,7 @@
 #include <windows.h>
 #include "Vecteur.h"
 #include "RazerGameTypeDef.h"
+#include "RazerGameUtilities.h"
 #include "jni.h"
 #include "GameTime.h"
 #include <queue>
@@ -239,6 +240,9 @@ public:
     /// Permet d'exécuter du code sur un thread spécifique au moment opportun
     void RunOnRenderThread(Runnable* run, bool pForceQueue = false);
     void RunOnUpdateThread(Runnable* run, bool pForceQueue = false);
+
+    /// Send event to the controller
+    int transmitEvent( EventCodes pCode, ... );
 
     /// Nom du fichier XML dans lequel doit se trouver le terrain par defaut
     static const std::string FICHIER_TERRAIN_EN_COURS;

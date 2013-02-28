@@ -161,15 +161,15 @@ void Socket::bind()
         wStructServer->sin_family = mSocketInfo->sin_family;
         wStructServer->sin_addr.s_addr = inet_addr(getAdresseSource().c_str());
         wStructServer->sin_port = mSocketInfo->sin_port; // Deja en format reseau
-        std::cout << getAdresseSource() << std::endl;
-        std::cout << mSocketInfo->sin_port << std::endl;
-        std::cout << mSocketInfo->sin_family << std::endl;
     }
     else
     {
         // Sinon on utilise le socketInfo directement
         wStructServer = mSocketInfo;
     }
+    std::cout << "BIND " << (mConnectionType == TCP ? "TCP" : "UDP") << " SUR" << std::endl;
+    std::cout << "IP  : " << inet_ntoa(wStructServer->sin_addr) << std::endl;
+    std::cout << "PORT: "<<ntohs(mSocketInfo->sin_port) << std::endl;
 
     int ret;
 
@@ -559,7 +559,7 @@ ConnectionState Socket::initClient()
                     // probleme lors de la confirmation de la connection, on envoi l'événement et on arrete d'essayer de ce connecter
                     attemptReconnect = NOT_CONNECTED;
                     disconnect();
-                    GestionnaireReseau::obtenirInstance()->transmitEvent(wConfirmation);
+                    GestionnaireReseau::obtenirInstance()->transmitEvent(EventCodes(wConfirmation));
                     GestionnaireReseau::obtenirInstance()->sendMessageToLog("Connection refusee. Type: TCP CLIENT. Adresse: " + getAdresseDestination());
                 }
                 else
@@ -681,7 +681,6 @@ void Socket::disconnect()
 {
     try
     {
-        shutdown(mSocket, SD_BOTH);
         FacadePortability::closeSocket(mSocket);
     }
     catch(...){}

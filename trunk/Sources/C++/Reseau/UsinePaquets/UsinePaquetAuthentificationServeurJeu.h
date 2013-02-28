@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file UsinePaquetLoginInfo.h
+/// @file UsinePaquetAuthentificationServeurJeu.h
 /// @author Mathieu Parent
 /// @date 2013-02-11
 /// @version 1.0
@@ -10,7 +10,7 @@
 
 #pragma once
 #include "UsinePaquets\UsinePaquet.h"
-#include "..\Paquets\PaquetLoginInfo.h"
+#include "..\Paquets\PaquetAuthentificationServeurJeu.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -20,11 +20,11 @@
 /// @author Mathieu Parent
 /// @date 2013-02-11
 ///////////////////////////////////////////////////////////////////////////
-class UsinePaquetLoginInfo : public UsinePaquet
+class UsinePaquetAuthentificationServeurJeu : public UsinePaquet
 {
 public:
     /// Constructeur par paramètres.
-    inline UsinePaquetLoginInfo();
+    inline UsinePaquetAuthentificationServeurJeu();
 
 	/// Fonction à surcharger pour la création d'un noeud.
 	inline virtual Paquet* creerPaquet() const;
@@ -45,7 +45,7 @@ public:
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-inline UsinePaquetLoginInfo::UsinePaquetLoginInfo()
+inline UsinePaquetAuthentificationServeurJeu::UsinePaquetAuthentificationServeurJeu()
 	: UsinePaquet()
 {
 }
@@ -61,7 +61,7 @@ inline UsinePaquetLoginInfo::UsinePaquetLoginInfo()
 /// @return Le noeud nouvellement créé.
 ///
 ////////////////////////////////////////////////////////////////////////
-Paquet* UsinePaquetLoginInfo::creerPaquet() const
+Paquet* UsinePaquetAuthentificationServeurJeu::creerPaquet() const
 {
 	return new PaquetLoginInfo();
 }

@@ -60,7 +60,10 @@ NoeudRondelle::NoeudRondelle(const std::string& typeNoeud)
     setDefaultRadius(DEFAULT_RADIUS);
 
     NoeudRondelle::rondellesPresentes++;
-
+    if(NoeudRondelle::rondellesPresentes >= 1)
+    {
+        FacadeModele::getInstance()->transmitEvent(DISABLE_PUCK_CREATION);
+    }
     mCoefFriction = 2.5f;
     mVelocite = Vecteur3(0.0f,0.0f,0.0f);
     mAngle = 0.0f;
@@ -83,6 +86,10 @@ NoeudRondelle::NoeudRondelle(const std::string& typeNoeud)
 NoeudRondelle::~NoeudRondelle()
 {
     NoeudRondelle::rondellesPresentes--;
+    if(NoeudRondelle::rondellesPresentes == 0)
+    {
+        FacadeModele::getInstance()->transmitEvent(ENABLE_PUCK_CREATION);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////

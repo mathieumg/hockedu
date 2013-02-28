@@ -17,6 +17,7 @@ using System.Windows.Forms;
 
 namespace UIHeavyClient
 {
+    public delegate bool EventReceivedCallBack(EventCodes id, IntPtr message);
     static class MainWindowHandler
     {
         static MainWindow mContext;
@@ -26,12 +27,18 @@ namespace UIHeavyClient
             get { return mContext; }
             set { mContext = value; }
         }
+        public static TaskManager mTaskManager = new TaskManager();
 
         [DllImport(@"RazerGame.dll")]
         static extern bool ActionPerformed(ActionType action);
+
+        [DllImport(@"RazerGame.dll")]
+        static extern void SetEventCallback(EventReceivedCallBack callback);
         
+
         public static void GoToEditionMode()
         {
+            SetEventCallback(Context.EditionModeControl.EventCallBack);
             ActionPerformed(ActionType.ACTION_ALLER_MODE_EDITION);
             Context.WindowContentControl.Content = Context.EditionModeControl;
             Context.PlayModeControl.RemoveOpenGL();

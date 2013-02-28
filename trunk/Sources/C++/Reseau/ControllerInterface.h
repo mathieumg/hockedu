@@ -16,6 +16,7 @@
 namespace std {using namespace __gnu_cxx; }
 #endif
 #include "Socket.h"
+#include "../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.cs"
 
 typedef int PaquetTypes;
 typedef int (*PaquetRunnableFunc) (class Paquet*);
@@ -33,7 +34,7 @@ public:
     PaquetRunnableFunc getRunnable(PaquetTypes pType) const;
 
 
-    virtual void handleEvent(int pEventCode,  va_list pListeElems) = 0;
+    virtual void handleEvent(EventCodes pEventCode,  va_list pListeElems) = 0;
     virtual void handleDisconnectDetection(SPSocket pSocket);
 
 protected:

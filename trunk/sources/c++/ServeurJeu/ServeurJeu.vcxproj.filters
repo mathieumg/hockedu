@@ -19,15 +19,6 @@
     <Filter Include="Source Files\Reseau\ObjetsGlobauxServeurs">
       <UniqueIdentifier>{17266f37-0167-4698-bc81-c9a116006fa1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Reseau\Paquets">
-      <UniqueIdentifier>{92af99de-cf58-4ced-bc62-11e41ce0b350}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Reseau\PacketHandlers">
-      <UniqueIdentifier>{590fd2c1-0511-425f-8d29-a69e4b73eb72}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Reseau\UsinePaquets">
-      <UniqueIdentifier>{e5b5480c-8bd1-4a99-9f53-dd33f457be3b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mainServeurJeu.cpp">
@@ -39,12 +30,6 @@
     <ClCompile Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.cpp">
       <Filter>Source Files\Reseau\ObjetsGlobauxServeurs</Filter>
     </ClCompile>
-    <ClCompile Include="..\Reseau\Paquets\PaquetAuthentificationServeurJeu.cpp">
-      <Filter>Source Files\Reseau\Paquets</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerAuthentificationServeurJeu.cpp">
-      <Filter>Source Files\Reseau\PacketHandlers</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.h">
@@ -52,15 +37,6 @@
     </ClInclude>
     <ClInclude Include="..\Reseau\ObjetsGlobaux\PartieServeurs.h">
       <Filter>Source Files\Reseau\ObjetsGlobauxServeurs</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\Paquets\PaquetAuthentificationServeurJeu.h">
-      <Filter>Source Files\Reseau\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetAuthentificationServeurJeu.h">
-      <Filter>Source Files\Reseau\UsinePaquets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerAuthentificationServeurJeu.h">
-      <Filter>Source Files\Reseau\PacketHandlers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

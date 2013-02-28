@@ -1,28 +1,31 @@
 #ifndef NETWORK_DEFINES_INCLUDED
 #define NETWORK_DEFINES_INCLUDED
-#ifdef LINUX
-#include <pthread.h>
-#include <semaphore.h>
-#include <stdlib.h>
-#include <unistd.h>
-#endif
 #ifdef WINDOWS
 #include <WinSock2.h>
 #include <windows.h>
-#endif
-#ifdef WINDOWS
 typedef HANDLE HANDLE_MUTEX;
 typedef HANDLE HANDLE_THREAD;
 typedef HANDLE HANDLE_SEMAPHORE;
 typedef SOCKET HANDLE_SOCKET;
 #elif defined(LINUX)
+#include <pthread.h>
+#include <semaphore.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/socket.h>
 typedef pthread_mutex_t HANDLE_MUTEX;
 typedef pthread_t       HANDLE_THREAD;
 typedef sem_t           HANDLE_SEMAPHORE;
 typedef int             HANDLE_SOCKET;
 #endif
+#include <list>
+#include <string>
 
 namespace FacadePortability {
+#ifdef WINDOWS
+    static const int TAILLE_BUFFER_HOSTNAME = 512;
+#endif
+
     inline void createMutex  (HANDLE_MUTEX& pMutex)
     {
 #ifdef WINDOWS
@@ -104,11 +107,14 @@ namespace FacadePortability {
 #endif
     }
 
+
     inline void closeSocket (HANDLE_SOCKET& pSocket)
     {
 #ifdef WINDOWS
+        shutdown(pSocket, SD_BOTH);
         closesocket(pSocket);
 #elif defined(LINUX)
+        shutdown(pSocket, SHUT_RDWR);
         close(pSocket);
 #endif
     }
@@ -118,8 +124,11 @@ namespace FacadePortability {
 #ifdef WINDOWS
         Sleep(pTimeInMs);
 #elif defined(LINUX)
-        ::sleep(pTimeInMs);
+        usleep(pTimeInMs*1000);
 #endif
     }
+
+
+    void getLocalIPAddresses(std::list<std::string>& pOut);
 };
 #endif // NETWORK_DEFINES_INCLUDED

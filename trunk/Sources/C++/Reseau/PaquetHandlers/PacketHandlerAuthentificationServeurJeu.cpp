@@ -1,8 +1,8 @@
 
 #include <iostream>
 #include <sstream>
-#include "PacketHandlerLoginInfo.h"
-#include "../Paquets/PaquetLoginInfo.h"
+#include "PacketHandlerAuthentificationServeurJeu.h"
+#include "../Paquets/PaquetAuthentificationServeurJeu.h"
 #include "Utilitaire.h"
 #include "../ObjetsGlobaux/JoueurServeurs.h"
 #ifdef SERVER
@@ -10,65 +10,52 @@
 #endif
 
 
-void PacketHandlerLoginInfo::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)
+void PacketHandlerAuthentificationServeurJeu::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)
 {
 
     if(pRunnable)
     {
-        PaquetLoginInfo* wPaquet = (PaquetLoginInfo*) GestionnaireReseau::obtenirInstance()->creerPaquet(LOGIN_INFO);
+        //PaquetAuthentificationServeurJeu* wPaquet = (PaquetAuthentificationServeurJeu*) GestionnaireReseau::obtenirInstance()->creerPaquet(AUTHENTIFICATION_SERVEUR_JEU);
+// 
+//         int wArraySize = pPacketReader.readInteger();
+//         uint8_t* wBuffer = new uint8_t[wArraySize];
+//         pPacketReader.readString(wBuffer, wArraySize);
+//         wPaquet->setUsername((char*) wBuffer);
+//         delete wBuffer;
+// 
+// 
+//         wArraySize = pPacketReader.readInteger();
+//         wBuffer = new uint8_t[wArraySize];
+//         pPacketReader.readString(wBuffer, wArraySize);
+//         wPaquet->setPassword((char*) wBuffer);
+//         delete wBuffer;
+// 
+//         wPaquet->setRunnable(pRunnable);
+//         wPaquet->run();
+// 
 
-        int wArraySize = pPacketReader.readInteger();
-        uint8_t* wBuffer = new uint8_t[wArraySize];
-        pPacketReader.readString(wBuffer, wArraySize);
-        wPaquet->setUsername((char*) wBuffer);
-        delete wBuffer;
-
-
-        wArraySize = pPacketReader.readInteger();
-        wBuffer = new uint8_t[wArraySize];
-        pPacketReader.readString(wBuffer, wArraySize);
-        wPaquet->setPassword((char*) wBuffer);
-        delete wBuffer;
-
-        wPaquet->setRunnable(pRunnable);
-        wPaquet->run();
-
-
-//     #ifdef SERVER
-//
-//         // On envoie un event au gestionnaire reseau
-//         GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_CONNECTING, wPaquet->getUsername());
-//
-//         // On sauvearde le joueur
-//         JoueurServeurs* wJoueur = new JoueurServeurs(wPaquet->getUsername());
-//         FacadeServeurMaitre::obtenirInstance()->saveJoueurConnecting(wJoueur);
-//
-//         // On traite la demande avec la BD
-//
-//
-//     #endif
     }
 
 }
 
-void PacketHandlerLoginInfo::handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder)
+void PacketHandlerAuthentificationServeurJeu::handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder)
 {
-    PaquetLoginInfo* wPaquet = (PaquetLoginInfo*) pPaquet;
+    PaquetAuthentificationServeurJeu* wPaquet = (PaquetAuthentificationServeurJeu*) pPaquet;
 
 
-    pPacketBuilder << wPaquet->getUsername()
-        << wPaquet->getPassword();
+//     pPacketBuilder << wPaquet->getUsername()
+//         << wPaquet->getPassword();
 
 }
 
 
 
-int PacketHandlerLoginInfo::getPacketSize( Paquet* pPaquet ) const
+int PacketHandlerAuthentificationServeurJeu::getPacketSize( Paquet* pPaquet ) const
 {
-    PaquetLoginInfo* wPaquet = (PaquetLoginInfo*) pPaquet;
-
-
-    return PacketBuilder::getSizeForString(wPaquet->getUsername())
-        + PacketBuilder::getSizeForString(wPaquet->getPassword());
+    PaquetAuthentificationServeurJeu* wPaquet = (PaquetAuthentificationServeurJeu*) pPaquet;
+    return 0;
+// 
+//     return PacketBuilder::getSizeForString(wPaquet->getUsername())
+//         + PacketBuilder::getSizeForString(wPaquet->getPassword());
 
 }

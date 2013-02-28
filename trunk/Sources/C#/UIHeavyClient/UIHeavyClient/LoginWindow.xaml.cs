@@ -62,6 +62,7 @@ namespace UIHeavyClient
         public static extern void CancelConnection(string pUsername);
 
 
+        /// DEPRECATED DO NOT USE ANYMORE, USE TaskManager in MainWindowHandler
         public TaskManager mTaskManager = new TaskManager();
 
         // The user name input

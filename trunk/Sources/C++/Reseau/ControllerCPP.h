@@ -12,6 +12,7 @@
 #include "ControllerInterface.h"
 #include "Utilitaire.h"
 #include <iostream>
+#include "Enum_Declarations.cs"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -24,7 +25,7 @@
 class ControllerCPP : public ControllerInterface
 {
 public:
-    virtual void handleEvent(int pEventCode,  va_list pListeElems);
+    virtual void handleEvent(EventCodes pEventCode,  va_list pListeElems);
 
 private:
     
@@ -32,7 +33,7 @@ private:
 
 
 
-void ControllerCPP::handleEvent( int pEventCode, va_list pListeElems )
+void ControllerCPP::handleEvent( EventCodes pEventCode, va_list pListeElems )
 {
     std::stringstream wSS;
     wSS << ":::EVENT:::";

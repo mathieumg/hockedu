@@ -1,16 +1,14 @@
-#include "PaquetLoginInfo.h"
+#include "PaquetAuthentificationServeurJeu.h"
 
 
-PaquetLoginInfo::PaquetLoginInfo(  )
+PaquetAuthentificationServeurJeu::PaquetAuthentificationServeurJeu(  )
 {
-    mUsername = "";
-    mPassword = "";
 }
 
 
 
 
-PaquetLoginInfo::~PaquetLoginInfo()
+PaquetAuthentificationServeurJeu::~PaquetAuthentificationServeurJeu()
 {
 	
 }

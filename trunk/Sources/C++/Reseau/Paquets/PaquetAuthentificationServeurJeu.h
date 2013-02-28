@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file PaquetLoginInfo.h
+/// @file PaquetAuthentificationServeurJeu.h
 /// @author Mathieu Parent
 /// @date 2013-02-11
 /// @version 1.0
@@ -11,36 +11,27 @@
 #pragma once
 #include "Paquet.h"
 
-class UsinePaquetLoginInfo;
+class UsinePaquetAuthentificationServeurJeu;
 
 ///////////////////////////////////////////////////////////////////////////
-/// @class PaquetLoginInfo
-/// @brief Classe qui represente un paquet pour l'authentification des utilisateurs
+/// @class PaquetAuthentificationServeurJeu
+/// @brief Classe qui represente un paquet pour l'authentification du serveur Jeu au serveur Maitre
 ///
 /// @author Mathieu Parent
 /// @date 2013-02-11
 ///////////////////////////////////////////////////////////////////////////
-class PaquetLoginInfo : public Paquet {
+class PaquetAuthentificationServeurJeu : public Paquet {
 private:
-    friend UsinePaquetLoginInfo;
+    friend UsinePaquetAuthentificationServeurJeu;
 
-    std::string mUsername; // Nom d'utilisateur
-    std::string mPassword; // Mot de passe
-	
-    
 protected:
-	PaquetLoginInfo();
+	PaquetAuthentificationServeurJeu();
 
 public:
-    virtual PacketTypes getOperation() const { return LOGIN_INFO; }
+    virtual PacketTypes getOperation() const { return AUTHENTIFICATION_SERVEUR_JEU; }
 
-    inline std::string getUsername() const { return mUsername; }
-    inline void setUsername(const std::string& val) { mUsername = val; }
 
-    inline std::string getPassword() const { return mPassword; }
-	inline void setPassword(const std::string& val) { mPassword = val; }
-
-	~PaquetLoginInfo();
+	~PaquetAuthentificationServeurJeu();
 
 };
 
