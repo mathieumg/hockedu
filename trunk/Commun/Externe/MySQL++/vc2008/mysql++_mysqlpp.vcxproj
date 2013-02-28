@@ -93,6 +93,9 @@
       <OutputFile>$(SolutionDir)$(Configuration)\mysql++_mysqlpp.bsc</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Bscmake>
+    <Lib>
+      <AdditionalDependencies>..\..\MySQL\lib\libmysqld.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
