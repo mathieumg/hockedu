@@ -108,7 +108,7 @@ void TerrainTest::testInitialiser()
 	CPPUNIT_ASSERT(gMaillet->obtenirNombreEnfants() == 0);
 	NoeudGroupe* gMuret = terrain_->mTable->obtenirGroupe(RazerGameUtilities::NOM_MURET);
 	CPPUNIT_ASSERT(gMuret);
-	CPPUNIT_ASSERT(gMuret->obtenirNombreEnfants() == 8);
+	CPPUNIT_ASSERT(gMuret->obtenirNombreEnfants() == 0);
 	CPPUNIT_ASSERT(terrain_->mFieldName == "terrainTest");
 
 }

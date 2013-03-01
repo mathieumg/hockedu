@@ -31,7 +31,7 @@ class RazerGameTree : public ArbreRendu
 public:
     typedef ArbreRendu Super;
    /// Constructeur par défaut.
-   RazerGameTree(class Terrain* pField);
+   RazerGameTree(class Terrain* pField,unsigned int limitMallet = 2, unsigned int limitPuck = 1);
    /// Destructeur.
    virtual ~RazerGameTree();
 

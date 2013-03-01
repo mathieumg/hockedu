@@ -83,7 +83,7 @@ void GestionnaireEvenementsTest::tearDown()
 void GestionnaireEvenementsTest::testChangementEtat()
 {
 	// Modification de l'état
-	GestionnaireEvenements::modifierEtat( ETAT_MODE_EDITION );
+	GestionnaireEvenements::modifierEtat( ETAT_MENU_PRINCIPAL );
     CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatMenuPrincipal*>(GestionnaireEvenements::etatCourant_));
     GestionnaireEvenements::modifierEtat( ETAT_MODE_EDITION           );
     CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatModeEdition*>(GestionnaireEvenements::etatCourant_));

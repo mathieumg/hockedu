@@ -2277,14 +2277,12 @@ void FacadeModele::getSelectedNodes(ConteneurNoeuds& pSelectedNodes) const
 /// @return int
 ///
 ////////////////////////////////////////////////////////////////////////
-int FacadeModele::transmitEvent( EventCodes pCode, ... )
+void FacadeModele::transmitEvent( EventCodes pCode, ... )
 {
     va_list args;
     va_start(args, pCode);
     GestionnaireReseau::obtenirInstance()->transmitEvent(pCode,args);
     va_end(args);
-
-    return true;
 }
 
 ////////////////////////////////////////////////////////////////////////

@@ -214,6 +214,7 @@
     <ClCompile Include="Arbre\Noeuds\NoeudRondelle.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudTable.cpp" />
     <ClCompile Include="Arbre\Terrain.cpp" />
+    <ClCompile Include="Arbre\Usines\UsineNoeud.cpp" />
     <ClCompile Include="Arbre\Visiteur\VisiteurCollision.cpp" />
     <ClCompile Include="Arbre\Visiteur\VisiteurDeplacement.cpp" />
     <ClCompile Include="Arbre\Visiteur\VisiteurDupliquer.cpp" />

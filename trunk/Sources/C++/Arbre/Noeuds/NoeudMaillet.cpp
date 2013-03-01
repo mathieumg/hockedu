@@ -25,10 +25,7 @@
 #include "Utilitaire.h"
 #include "DebugRenderBox2D.h"
 #include "GestionnaireEvenements.h"
-#include "UsineNoeud.h"
 
-unsigned int NoeudMaillet::mailletExistant = 0;
-bool UsineNoeudMaillet::bypassLimitePourTest = false;
 b2Body* mMouseBody;
 
 const float NoeudMaillet::DEFAULT_RADIUS = 10;
@@ -50,13 +47,12 @@ CreateListDelegateImplementation(Mallet)
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudMaillet::NoeudMaillet(const std::string& typeNoeud)
-   : NoeudAbstrait(typeNoeud), vitesse_(300.0),estControleParClavier_(false), joueur_(0), mMouseJoint(NULL)
+NoeudMaillet::NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCreated, unsigned int malletLimit)
+   : NoeudAbstrait(typeNoeud), vitesse_(300.0),estControleParClavier_(false), joueur_(0), mMouseJoint(NULL),mNbMalletCreated(malletCreated)
 {
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
-    NoeudMaillet::mailletExistant++;
-   
+
 #if BOX2D_INTEGRATED
     if(!mMouseBody)
     {
@@ -73,6 +69,12 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud)
 
     updatePhysicBody();
 
+    ++mNbMalletCreated;
+    if(mNbMalletCreated >= malletLimit)
+    {
+        FacadeModele::transmitEvent(DISABLE_MALLET_CREATION);
+    }
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -86,7 +88,8 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud)
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet::~NoeudMaillet()
 {
-	NoeudMaillet::mailletExistant--;
+	--mNbMalletCreated;
+    FacadeModele::transmitEvent(ENABLE_MALLET_CREATION);
 
 #if BOX2D_INTEGRATED
     checkf(!mMouseJoint, "Le mouse joint a mal ete liberé");

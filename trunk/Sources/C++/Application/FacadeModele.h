@@ -242,7 +242,7 @@ public:
     void RunOnUpdateThread(Runnable* run, bool pForceQueue = false);
 
     /// Send event to the controller
-    int transmitEvent( EventCodes pCode, ... );
+    static void transmitEvent( EventCodes pCode, ... );
 
     /// Nom du fichier XML dans lequel doit se trouver le terrain par defaut
     static const std::string FICHIER_TERRAIN_EN_COURS;

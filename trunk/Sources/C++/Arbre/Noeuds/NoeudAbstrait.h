@@ -60,6 +60,8 @@ public:
 	/// Destructeur.
 	virtual ~NoeudAbstrait();
 
+    virtual const class ArbreRendu* GetTreeRoot() const;
+
 	/// Obtient le parent de ce noeud.
 	inline NoeudComposite* obtenirParent();
 

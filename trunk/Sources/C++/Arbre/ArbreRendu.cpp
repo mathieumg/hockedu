@@ -44,6 +44,11 @@ ArbreRendu::ArbreRendu(Terrain* pField)
 ////////////////////////////////////////////////////////////////////////
 ArbreRendu::~ArbreRendu()
 {
+    for(auto it = usines_.begin(); it != usines_.end(); ++it)
+    {
+        delete (it->second);
+    }
+    usines_.clear();
 }
 
 

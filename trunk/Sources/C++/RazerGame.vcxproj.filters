@@ -494,6 +494,7 @@
     </ClCompile>
     <ClCompile Include="Reseau\Paquets\PaquetAuthentificationServeurJeu.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerAuthentificationServeurJeu.cpp" />
+    <ClCompile Include="Arbre\Usines\UsineNoeud.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">

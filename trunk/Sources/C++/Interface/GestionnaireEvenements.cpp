@@ -21,7 +21,7 @@
 #include "GestionnaireEtatPartieTournoiTerminee.h"
 
 
-GestionnaireEtatAbstrait* GestionnaireEvenements::etatCourant_ = NULL; 
+GestionnaireEtatAbstrait* GestionnaireEvenements::etatCourant_ = new GestionnaireEtatMenuPrincipal(); 
 MouseMoveSubject GestionnaireEvenements::mMouseMoveSubject;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -31,8 +31,12 @@ class NoeudMaillet : public NoeudAbstrait, public MouseMoveObserver, public Obje
 {
 public:
     typedef NoeudAbstrait Super;
+    friend class UsineNoeudMaillet;
+private:
+    /// Constructeur privé pour forcer a passer par l'usine
     /// Constructeur à partir du type du noeud.
-    NoeudMaillet(const std::string& typeNoeud);
+    NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCreated, unsigned int malletLimit);
+public:
     /// Destructeur.
     ~NoeudMaillet();
 
@@ -65,8 +69,6 @@ public:
     /// Objet Animable interface
     virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
     //////////////////////////////////////////////////////////////////////////
-
-    static unsigned int mailletExistant;
 
     static const float DEFAULT_RADIUS;
     /// Attributs
@@ -103,6 +105,9 @@ private:
 	
     /// joint controlling the mallet
     class b2MouseJoint* mMouseJoint;
+
+    /// reference to the factory's counter of mallet instances
+    unsigned int& mNbMalletCreated;
 
 /// Accesseurs
 public:

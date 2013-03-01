@@ -27,7 +27,8 @@
 #include "VisiteurRotation.h"
 #include "VisiteurDupliquer.h"
 #include "FacadeModele.h"
-#include "..\Arbre\RazerGameTree.h"
+#include "ArbreRendu.h"
+#include "RazerGameTree.h"
 
 // Enregistrement de la suite de tests au sein du registre
 CPPUNIT_TEST_SUITE_REGISTRATION( VisiteurNoeudTest );
@@ -47,7 +48,6 @@ CPPUNIT_TEST_SUITE_REGISTRATION( VisiteurNoeudTest );
 ////////////////////////////////////////////////////////////////////////
 void VisiteurNoeudTest::setUp()
 {
-	// Nous pourrions initialiser l'objet.
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -65,7 +65,6 @@ void VisiteurNoeudTest::setUp()
 ////////////////////////////////////////////////////////////////////////
 void VisiteurNoeudTest::tearDown()
 {
-	// Nous pourrions libérer l'objet.
 }
 
 
@@ -81,7 +80,7 @@ void VisiteurNoeudTest::tearDown()
 void VisiteurNoeudTest::testDeplacerObjet()
 {
 
-	NoeudAbstrait* n = new NoeudMaillet(RazerGameUtilities::NOM_MAILLET);
+	NoeudAbstrait* n = new NoeudAbstrait("");
 	n->setPosition(Vecteur3(0.0,0.0));
 	n->assignerSelection(true);
 	VisiteurDeplacement v(Vecteur2(25.0,-10.0));
@@ -104,7 +103,7 @@ void VisiteurNoeudTest::testDeplacerObjet()
 ////////////////////////////////////////////////////////////////////////
 void VisiteurNoeudTest::testSelectionObjet()
 {
-	RazerGameTree* arbre = new RazerGameTree(NULL);
+	RazerGameTree* arbre = new RazerGameTree(NULL,999,999);
 	NoeudAbstrait	*noeud1 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET),
 					*noeud2 = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL),
 					*noeud3 = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL),
@@ -176,7 +175,7 @@ void VisiteurNoeudTest::testSelectionObjet()
 void VisiteurNoeudTest::testSuppressionObjet()
 {
 	// Construction d'un arbre de test
-	RazerGameTree* arbre = new RazerGameTree(NULL);
+	RazerGameTree* arbre = new RazerGameTree(NULL,999,999);
 	NoeudAbstrait* n1 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
 	NoeudAbstrait* n2 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
 	NoeudAbstrait* n3 = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL);

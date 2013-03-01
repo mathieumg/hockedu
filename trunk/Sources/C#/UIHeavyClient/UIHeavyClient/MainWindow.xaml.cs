@@ -123,8 +123,11 @@ namespace UIHeavyClient
         public MainWindow()
         {
             InitializeComponent();
-            InitDLL();
+            // make sure to show console before any call to the dll or we wont
+            // see output
             ConsoleManager.Show();
+
+            InitDLL();
             this.Loaded += CreateUserControl;
             this.KeyDown += MainWindow_KeyDown;
             this.KeyUp += MainWindow_KeyUp;

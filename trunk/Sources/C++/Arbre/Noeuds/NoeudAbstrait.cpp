@@ -989,6 +989,26 @@ void NoeudAbstrait::acceptVisitor( class VisiteurNoeud& v )
     v.visiterNoeudAbstrait(this);
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn class ArbreRendu* NoeudAbstrait::GetTreeRoot()
+///
+/// Search for the tree root of the node
+///
+///
+/// @return class ArbreRendu*
+///
+////////////////////////////////////////////////////////////////////////
+const class ArbreRendu* NoeudAbstrait::GetTreeRoot() const
+{
+    if(parent_)
+    {
+        return parent_->GetTreeRoot();
+    }
+    // tree root not found
+    return NULL;
+}
+
 
 
 ////////////////////////////////////////////////

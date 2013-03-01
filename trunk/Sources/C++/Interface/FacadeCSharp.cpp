@@ -1,6 +1,6 @@
 #include "FacadeCSharp.h"
 
-
+#include <iostream>
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -14,12 +14,7 @@
 ////////////////////////////////////////////////////////////////////////
 int ExecuteUnitTest()
 {
-    UsineNoeudMaillet::bypassLimitePourTest = true;
-    UsineNoeudRondelle::bypassLimitePourTest = true;
     bool reussite = BancTests::obtenirInstance()->executer();
-
-    UsineNoeudMaillet::bypassLimitePourTest = false;
-    UsineNoeudRondelle::bypassLimitePourTest = false;
     // Visual Studio interprète le code de retour 0 comme une réussite et le code
     // de retour 1 comme un échec. Nous transmettons le code de retour à Java
     // qui le transmet directement comme code de sortie du programme.
@@ -67,6 +62,9 @@ void InitDLL()
     // On doit ajouter une nouvelle operation reseau pour que le systeme le connaisse (1 par type de paquet)
     wGestionnaireReseau->ajouterOperationReseau(CHAT_MESSAGE, new PacketHandlerChatMessage, new UsinePaquetChatMessage);
     wGestionnaireReseau->ajouterOperationReseau(USER_STATUS, new PacketHandlerUserStatus, new UsinePaquetUserStatus);
+
+    std::cout << "testing\n";
+    std::cerr << "testing23\n";
 }
 
 
@@ -183,11 +181,11 @@ void CancelConnection( char* pUsername )
 ////////////////////////////////////////////////////////////////////////
 void InitOpenGL( HWND hWnd )
 {
+    CheckTime(
     FacadeModele::getInstance()->initialiserOpenGL(hWnd);
-
     SPJoueurAbstrait joueurHumain = SPJoueurAbstrait(new JoueurHumain("Joueur 2"));
     FacadeModele::getInstance()->modifierAdversaire(joueurHumain);
-    //FacadeModele::getInstance()->passageModeEdition();
+    );
 }
 
 ////////////////////////////////////////////////////////////////////////

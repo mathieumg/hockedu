@@ -22,7 +22,7 @@
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-RazerGameTree::RazerGameTree(class Terrain* pField):
+RazerGameTree::RazerGameTree(class Terrain* pField,unsigned int limitMallet, unsigned int limitPuck):
     Super(pField)
 {
 	// Construction des usines
@@ -30,8 +30,8 @@ RazerGameTree::RazerGameTree(class Terrain* pField):
     ajouterUsine(RazerGameUtilities::NAME_RELATIVE_WALL , new UsineNodeWallEdition(RazerGameUtilities::NAME_RELATIVE_WALL));
 	ajouterUsine(RazerGameUtilities::NOM_TABLE , new UsineNoeudTable(RazerGameUtilities::NOM_TABLE));
 	ajouterUsine(RazerGameUtilities::NOM_PORTAIL , new UsineNoeudPortail(RazerGameUtilities::NOM_PORTAIL));
-	ajouterUsine(RazerGameUtilities::NOM_RONDELLE , new UsineNoeudRondelle(RazerGameUtilities::NOM_RONDELLE));
-	ajouterUsine(RazerGameUtilities::NOM_MAILLET , new UsineNoeudMaillet(RazerGameUtilities::NOM_MAILLET));
+	ajouterUsine(RazerGameUtilities::NOM_RONDELLE , new UsineNoeudRondelle(RazerGameUtilities::NOM_RONDELLE,limitPuck));
+	ajouterUsine(RazerGameUtilities::NOM_MAILLET , new UsineNoeudMaillet(RazerGameUtilities::NOM_MAILLET,limitMallet));
 	ajouterUsine(RazerGameUtilities::NOM_ACCELERATEUR, new UsineNoeudAccelerateur(RazerGameUtilities::NOM_ACCELERATEUR));
     ajouterUsine(RazerGameUtilities::NOM_GROUPE, new UsineNoeudGroupe(RazerGameUtilities::NOM_GROUPE));
     ajouterUsine(RazerGameUtilities::NAME_CONTROL_POINT, new UsineNoeudGroupe(RazerGameUtilities::NAME_CONTROL_POINT));

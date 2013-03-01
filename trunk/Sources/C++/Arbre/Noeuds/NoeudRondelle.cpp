@@ -30,10 +30,6 @@
 #include "NoeudBut.h"
 #include "UsineNoeud.h"
 
-unsigned int NoeudRondelle::rondellesPresentes=0;
-bool UsineNoeudRondelle::bypassLimitePourTest = false;
-
-
 const float NoeudRondelle::DEFAULT_RADIUS = 8;
 
 CreateListDelegateImplementation(Puck)
@@ -53,17 +49,12 @@ CreateListDelegateImplementation(Puck)
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudRondelle::NoeudRondelle(const std::string& typeNoeud)
-    : NoeudAbstrait(typeNoeud),puissanceVent_(0.05f)
+NoeudRondelle::NoeudRondelle(const std::string& typeNoeud, unsigned int& puckCreated, unsigned int puckLimit)
+    : NoeudAbstrait(typeNoeud),puissanceVent_(0.05f),mNbPuckCreated(puckCreated)
 {
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
 
-    NoeudRondelle::rondellesPresentes++;
-    if(NoeudRondelle::rondellesPresentes >= 1)
-    {
-        FacadeModele::getInstance()->transmitEvent(DISABLE_PUCK_CREATION);
-    }
     mCoefFriction = 2.5f;
     mVelocite = Vecteur3(0.0f,0.0f,0.0f);
     mAngle = 0.0f;
@@ -71,6 +62,12 @@ NoeudRondelle::NoeudRondelle(const std::string& typeNoeud)
 
 
     updatePhysicBody();
+
+    ++mNbPuckCreated;
+    if(mNbPuckCreated >= puckLimit)
+    {
+        FacadeModele::transmitEvent(DISABLE_PUCK_CREATION);
+    }
 }
 
 
@@ -85,11 +82,8 @@ NoeudRondelle::NoeudRondelle(const std::string& typeNoeud)
 ////////////////////////////////////////////////////////////////////////
 NoeudRondelle::~NoeudRondelle()
 {
-    NoeudRondelle::rondellesPresentes--;
-    if(NoeudRondelle::rondellesPresentes == 0)
-    {
-        FacadeModele::getInstance()->transmitEvent(ENABLE_PUCK_CREATION);
-    }
+    --mNbPuckCreated;
+    FacadeModele::transmitEvent(ENABLE_PUCK_CREATION);
 }
 
 ////////////////////////////////////////////////////////////////////////

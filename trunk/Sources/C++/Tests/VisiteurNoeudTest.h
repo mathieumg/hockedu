@@ -52,6 +52,7 @@ public:
 	void testSelectionObjet();
 	/// Test de suppression de noeuds
 	void testSuppressionObjet();
+
 };
 
 #endif

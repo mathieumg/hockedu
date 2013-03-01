@@ -29,7 +29,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( NoeudAbstraitTest );
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstraitTest::setUp()
 {
-	noeud = new NoeudMaillet(RazerGameUtilities::NOM_MAILLET);
+	noeud = new NoeudAbstrait("TestingNode");
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -81,7 +81,7 @@ void NoeudAbstraitTest::testPositionRelative()
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstraitTest::testType()
 {
-	CPPUNIT_ASSERT( noeud->obtenirType() == RazerGameUtilities::NOM_MAILLET );
+	CPPUNIT_ASSERT( noeud->obtenirType() == "TestingNode");
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -186,6 +186,48 @@ void NoeudAbstraitTest::testAjout()
 // 
 // 	// Nettoyage
 // 	delete nouveauNoeud;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudAbstraitTest::testGetTreeRoot()
+///
+/// Cas de test: s'assurer de bien retrouver la racine du noeud si elle existe
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAbstraitTest::testGetTreeRoot()
+{
+    RazerGameTree tree(NULL);
+
+    NoeudComposite* c1 = new NoeudComposite(""),
+        * c2 = new NoeudComposite(""),
+        * c3 = new NoeudComposite(""),
+        * c4 = new NoeudComposite(""),
+        * c5 = new NoeudComposite("");
+
+    c1->ajouter(c2);
+    c2->ajouter(c3);
+    c3->ajouter(c4);
+    c4->ajouter(c5);
+    c5->ajouter(noeud);
+
+    const ArbreRendu* root = noeud->GetTreeRoot();
+
+    // arbre pas encore ajouter
+    CPPUNIT_ASSERT( root == NULL );
+
+    tree.ajouter(c1);
+    root = noeud->GetTreeRoot();
+    CPPUNIT_ASSERT( root == &tree );
+
+
+    // pour ne pas liberer 2 fois la memoire
+    c5->detacherEnfant(noeud);
+
+    
 }
 
 

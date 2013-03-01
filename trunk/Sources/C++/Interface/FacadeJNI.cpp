@@ -77,12 +77,8 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Lancement_fctC_1animer
 JNIEXPORT jint JNICALL Java_ca_polymtl_inf2990_Lancement_fctC_1executerTests
 	(JNIEnv *, jclass)
 {
-	UsineNoeudMaillet::bypassLimitePourTest = true;
-	UsineNoeudRondelle::bypassLimitePourTest = true;
 	bool reussite = BancTests::obtenirInstance()->executer();
 
-	UsineNoeudMaillet::bypassLimitePourTest = false;
-	UsineNoeudRondelle::bypassLimitePourTest = false;
 	// Visual Studio interprète le code de retour 0 comme une réussite et le code
 	// de retour 1 comme un échec. Nous transmettons le code de retour à Java
 	// qui le transmet directement comme code de sortie du programme.

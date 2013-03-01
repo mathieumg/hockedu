@@ -14,7 +14,6 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "RazerGameTree.h"
-#include "NoeudMaillet.h"
 ///////////////////////////////////////////////////////////////////////////
 /// @class NoeudAbstraitTest
 /// @brief Classe de test cppunit pour tester le bon fonctionnement des
@@ -39,6 +38,7 @@ class NoeudAbstraitTest : public CppUnit::TestFixture
   CPPUNIT_TEST( testSelection );
   CPPUNIT_TEST( testEnfants );
   CPPUNIT_TEST( testAjout );
+  CPPUNIT_TEST( testGetTreeRoot );
   CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -76,9 +76,12 @@ public:
 	/// Cas de test: s'assurer qu'il est impossible d'ajouter un enfant
 	void testAjout();
 
+    /// Cas de test: s'assurer de bien retrouver la racine du noeud si elle existe
+    void testGetTreeRoot();
+
 private:
 	/// Instance d'un noeud abstrait
-	NoeudMaillet* noeud;
+	NoeudAbstrait* noeud;
 };
 
 #endif // _TESTS_NOEUDABSTRAITTEST_H

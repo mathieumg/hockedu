@@ -13,7 +13,7 @@
 
 #include "NoeudComposite.h"
 
-#include <map>
+#include <hash_map>
 
 
 class NoeudAbstrait;
@@ -64,11 +64,12 @@ public:
    /// Calcule la profondeur maximale possible pour l'arbre de rendu.
    static unsigned int calculerProfondeurMaximale();
 
+   virtual const ArbreRendu* GetTreeRoot() const {return this;}
 
 private:
    /// Définition du type pour l'association du nom d'un type vers l'usine
    /// correspondante.
-   typedef std::map< std::string, const UsineNoeud* > RegistreUsines;
+   typedef std::hash_map< std::string, const UsineNoeud* > RegistreUsines;
    /// Association du nom d'un type vers l'usine correspondante.
    RegistreUsines usines_;
 };

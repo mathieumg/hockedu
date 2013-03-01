@@ -88,6 +88,7 @@ public:
     /// La chaîne représentant le type des Groupes.
     static const std::string NOM_GROUPE;
 
+    /// La chaîne représentant le type des Polygones.
     static const std::string NAME_POLYGONE;
 
 };

@@ -35,7 +35,7 @@
     content;\
     t = clock() - t;\
 {int ms = t, s = ms/1000, m = s/60;\
-    printf("%d:%d:%d\n", m, s%60, ms%1000);}}\
+    printf(#content"\n[%d:%d:%d]\n", m, s%60, ms%1000);}}\
 
 // Permet de faire un breakpoint avec du code
 //#define appDebugBreak()     ( *((int*)3) = 13 )

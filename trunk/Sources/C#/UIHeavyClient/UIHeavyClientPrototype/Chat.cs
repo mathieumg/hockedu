@@ -186,6 +186,8 @@ namespace UIHeavyClientPrototype
 
             ENABLE_PUCK_CREATION,
             DISABLE_PUCK_CREATION,
+            ENABLE_MALLET_CREATION,
+            DISABLE_MALLET_CREATION,
 
             MODEL_EVENT_END,
             /// Model event category : end

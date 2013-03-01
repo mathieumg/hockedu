@@ -39,6 +39,11 @@
 #include <stdexcept>
 #include "VisiteurEcrireXML.h"
 
+const unsigned int MAX_PUCKS = 1;
+const unsigned int MAX_MALLETS = 2;
+
+
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn  Terrain::Terrain()
@@ -193,7 +198,7 @@ void Terrain::initialiserArbreRendu()
     // Initialisation des arbres de rendus
     if(mLogicTree == NULL)
     {
-		mLogicTree = new RazerGameTree(this);
+		mLogicTree = new RazerGameTree(this,MAX_MALLETS,MAX_PUCKS);
     }
 	else
     {
@@ -276,7 +281,7 @@ bool Terrain::initialiserXml( XmlElement* element )
         }
         mNewNodeTree->modifierTerrain(this);
     }
-	mLogicTree = new RazerGameTree(this);
+	mLogicTree = new RazerGameTree(this,MAX_MALLETS,MAX_PUCKS);
 
 	XmlElement* racine = XMLUtils::FirstChildElement(element,"Terrain");
 	if(!racine)

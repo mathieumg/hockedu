@@ -10,21 +10,9 @@
 #ifndef __ARBRE_USINES_USINENOEUD_H__
 #define __ARBRE_USINES_USINENOEUD_H__
 
-
 #include <string>
-#include "NoeudGroupe.h"
-#include "NoeudAccelerateur.h"
-#include "NoeudMaillet.h"
-#include "NoeudMuret.h"
-#include "NoeudPortail.h"
-#include "NoeudRondelle.h"
-#include "NoeudTable.h"
-#include "NodeWallEdition.h"
-#include "NodeControlPoint.h"
-#include "..\Noeuds\NodePolygone.h"
 
 class NoeudAbstrait;
-
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class UsineNoeud
@@ -38,96 +26,75 @@ class UsineNoeud
 {
 public:
    /// Destructeur vide déclaré virtuel pour les classes dérivées.
-   inline virtual ~UsineNoeud() {}
+   virtual ~UsineNoeud() {}
 
    /// Fonction à surcharger pour la création d'un noeud.
    virtual NoeudAbstrait* creerNoeud() const = 0;
 
    /// Retourne le nom associé à l'usine
-   inline const std::string& obtenirNom() const;
-
-
+   inline const std::string& obtenirNom() const
+   {
+       return nom_;
+   }
 protected:
    /// Constructeur qui prend le nom associé à l'usine.
    UsineNoeud(const std::string& nom) : nom_(nom) {}
-
 
 private:
    /// Le nom associé à l'usine
    std::string nom_;
 };
 
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn inline const std::string& UsineNoeud::obtenirNom() const
-///
-/// Cette fonction retourne une chaîne représentante le nom associé à
-/// l'usine.
-///
-/// @return Le nom associé à l'usine.
-///
-////////////////////////////////////////////////////////////////////////
-inline const std::string& UsineNoeud::obtenirNom() const
-{
-   return nom_;
-}
-
-#define CreateNodeFactory(FactoryName)                                       \
-class Usine##FactoryName## : public UsineNoeud                               \
-{                                                                            \
-public:                                                                      \
-    inline Usine##FactoryName##(const std::string& nom):UsineNoeud(nom){}    \
-    virtual NoeudAbstrait* creerNoeud() const                                \
-    {  return new FactoryName##(obtenirNom());  }                            \
-};                                                                           \
-
-CreateNodeFactory(NoeudGroupe);
-CreateNodeFactory(NoeudAccelerateur);
-CreateNodeFactory(NoeudMuret);
-CreateNodeFactory(NoeudPortail);
-CreateNodeFactory(NoeudTable);
-CreateNodeFactory(NodeWallEdition);
-CreateNodeFactory(NodeControlPoint);
-CreateNodeFactory(NodePolygone);
-
-class UsineNoeudMaillet : public UsineNoeud
-{
-public:
-    /// Constructeur par paramètres.
-    inline UsineNoeudMaillet(const std::string& nom):UsineNoeud(nom){}
-
-    /// Fonction à surcharger pour la création d'un noeud.
-    inline virtual NoeudAbstrait* creerNoeud() const
-    {
-        if(UsineNoeudMaillet::bypassLimitePourTest || NoeudMaillet::mailletExistant < 2)
-        {
-            return new NoeudMaillet(obtenirNom());
-        }
-        return 0;
-    }
-
-    static bool bypassLimitePourTest; //Définie dans NoeudMaillet.cpp
+#define DEFAULT_NODE_FACTORY_DECLARATION(FactoryName)       \
+class Usine##FactoryName## : public UsineNoeud              \
+{                                                           \
+public:                                                     \
+    Usine##FactoryName##(const std::string& nom);    \
+    virtual NoeudAbstrait* creerNoeud() const;              \
 };
 
-class UsineNoeudRondelle : public UsineNoeud
-{
-public:
-    /// Constructeur par paramètres.
-    inline UsineNoeudRondelle(const std::string& nom):UsineNoeud(nom){}
+#define DEFAULT_NODE_FACTORY_IMPLEMENTATION(FactoryName)                                   \
+    Usine##FactoryName##::Usine##FactoryName##(const std::string& nom):                    \
+    UsineNoeud(nom){}                                                                      \
+\
+    NoeudAbstrait* Usine##FactoryName##::creerNoeud() const                                \
+    {  return new FactoryName##(obtenirNom());  }
 
-    /// Fonction à surcharger pour la création d'un noeud.
-    inline virtual NoeudAbstrait* creerNoeud() const
-    {
-        if(UsineNoeudRondelle::bypassLimitePourTest || NoeudRondelle::rondellesPresentes < 1)
-        {
-            return new NoeudRondelle(obtenirNom());
-        }
-        return 0;
-    }
 
-    static bool bypassLimitePourTest; //Définie dans NoeudMaillet.cpp
+#define NODE_FACTORY_WITH_LIMIT_DECLARATION(FactoryName,limit) \
+class Usine##FactoryName## : public UsineNoeud                 \
+{                                                              \
+public:                                                        \
+    Usine##FactoryName##(const std::string& nom,unsigned int maxNode = limit);              \
+    virtual NoeudAbstrait* creerNoeud() const;                 \
+private:                                                       \
+    mutable unsigned int mNbNodeCreated;                       \
+    const unsigned int MAX_NODE;                               \
 };
+
+#define NODE_FACTORY_WITH_LIMIT_IMPLEMENTATION(FactoryName)                  \
+    Usine##FactoryName##::Usine##FactoryName##(const std::string& nom,unsigned int maxNode):      \
+    UsineNoeud(nom),mNbNodeCreated(0),MAX_NODE(maxNode){}                    \
+                                                                             \
+    NoeudAbstrait* Usine##FactoryName##::creerNoeud() const                  \
+    {                                                                        \
+        if(mNbNodeCreated < MAX_NODE)                                        \
+        {                                                                    \
+            return new FactoryName##(obtenirNom(),mNbNodeCreated,MAX_NODE);  \
+        }                                                                    \
+        return NULL;                                                         \
+    }                                                                        \
+
+DEFAULT_NODE_FACTORY_DECLARATION(NoeudGroupe);
+DEFAULT_NODE_FACTORY_DECLARATION(NoeudAccelerateur);
+DEFAULT_NODE_FACTORY_DECLARATION(NoeudMuret);
+DEFAULT_NODE_FACTORY_DECLARATION(NoeudPortail);
+DEFAULT_NODE_FACTORY_DECLARATION(NoeudTable);
+DEFAULT_NODE_FACTORY_DECLARATION(NodeWallEdition);
+DEFAULT_NODE_FACTORY_DECLARATION(NodeControlPoint);
+DEFAULT_NODE_FACTORY_DECLARATION(NodePolygone);
+NODE_FACTORY_WITH_LIMIT_DECLARATION(NoeudMaillet,2);
+NODE_FACTORY_WITH_LIMIT_DECLARATION(NoeudRondelle,1);
 
 
 #endif // __ARBRE_USINES_USINENOEUD_H__
