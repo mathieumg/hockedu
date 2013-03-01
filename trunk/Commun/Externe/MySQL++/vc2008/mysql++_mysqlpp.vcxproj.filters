@@ -5,6 +5,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{24036093-24b1-4f08-a63d-cb3e7292a6ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\lib\beemutex.cpp">
@@ -97,5 +100,136 @@
     <ClCompile Include="..\lib\wnp_connection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\lib\ssqls.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\ssqls2.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\stadapter.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\stream2string.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\tcp_connection.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\tiny_int.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\transaction.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\type_info.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\uds_connection.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\utility.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\vallist.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\wnp_connection.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\autoflag.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\beemutex.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\cmdline.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\common.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\comparable.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\connection.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\cpool.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\datetime.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\dbdriver.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\exceptions.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\field.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\field_names.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\field_types.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\insertpolicy.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\manip.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\myset.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\mysql++.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\mystring.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\noexceptions.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\null.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\options.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\qparms.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\query.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\querydef.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\refcounted.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\result.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\row.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\scopedconnection.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\sql_buffer.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\sql_types.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\sqlstream.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

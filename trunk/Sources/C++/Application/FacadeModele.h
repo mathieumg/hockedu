@@ -15,6 +15,7 @@
 #include <windows.h>
 #include "Vecteur.h"
 #include "RazerGameTypeDef.h"
+#include "RazerGameUtilities.h"
 #include "jni.h"
 #include "GameTime.h"
 #include <queue>
@@ -240,6 +241,9 @@ public:
     void RunOnRenderThread(Runnable* run, bool pForceQueue = false);
     void RunOnUpdateThread(Runnable* run, bool pForceQueue = false);
 
+    /// Send event to the controller
+    int transmitEvent( EventCodes pCode, ... );
+
     /// Nom du fichier XML dans lequel doit se trouver le terrain par defaut
     static const std::string FICHIER_TERRAIN_EN_COURS;
 
@@ -303,10 +307,7 @@ private:
 
 	/// Objet contenant le temps ecouler en temps reel
 	GameTime temps_;
-
-	/// Nombre de noeuds selectionne depuis la derniere verification
-	unsigned int nbNoeudSelect_;
-
+    
 	static int anglePause_;
 	SPJoueurAbstrait adversaire_;
 	utilitaire::BoiteEnvironnement* boiteEnvironnement;
@@ -370,9 +371,7 @@ public:
 	/// Accesseur de rondelle_
 	NoeudRondelle* obtenirRondelle() const;
 	/// Accesseur de nbNoeudSelect_
-	unsigned int obtenirNbNoeudSelect() const { return nbNoeudSelect_; }
-	/// Modificateur de nbNoeudSelect_
-	void modifierNbNoeudSelect(unsigned int val) { nbNoeudSelect_ = val; }
+	unsigned int obtenirNbNoeudSelect();
 
 	/// Accesseurs de adversaire_
 	SPJoueurAbstrait obtenirAdversaire() { return adversaire_; }

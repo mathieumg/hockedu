@@ -1,11 +1,14 @@
-#if !WIN32
+#if !WIN32 && !LINUX
 namespace UIHeavyClient
 {
 #else
 #pragma once
 #endif
 
-    enum ActionType
+#if !WIN32 && !LINUX
+    public
+#endif
+ enum ActionType
     {
         ACTION_EDITEUR_NOUVEAU     ,
         ACTION_REINITIALISER_PARTIE,
@@ -36,8 +39,13 @@ namespace UIHeavyClient
         ACTION_CAMERA_SPLIT        ,
     };
 
+#if !WIN32 && !LINUX
+    public
+#endif
     enum EventCodes
     {
+        /// Network event category : begin
+        SERVER_EVENT_BEGIN,
         USER_ALREADY_CONNECTED,
         USER_DID_NOT_SEND_NAME_ON_CONNECTION,
         USER_CONNECTED,
@@ -51,9 +59,29 @@ namespace UIHeavyClient
         SERVER_USER_CONNECTED,
         SERVER_USER_DISCONNECTED,
         SERVER_USER_CONNECTING,
+        SERVER_EVENT_END,
+        /// Network event category : end
+
+
+        /// Model event category : begin
+        MODEL_EVENT_BEGIN,
+
+        ENABLE_PUCK_CREATION,
+        DISABLE_PUCK_CREATION,
+
+        MODEL_EVENT_END,
+        /// Model event category : end
+
+
+
+
+
+
+
+
         NB_EVENT_CODES // Must be always last !
     };
 
-#if !WIN32
+#if !WIN32 && !LINUX
 }
 #endif

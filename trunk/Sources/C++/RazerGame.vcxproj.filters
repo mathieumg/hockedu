@@ -488,6 +488,12 @@
     <ClCompile Include="Arbre\Noeuds\NodePolygone.cpp">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClCompile>
+    <ClCompile Include="Reseau\Network_Defines.cpp" />
+    <ClCompile Include="Interface\FacadeServeurJeu.cpp">
+      <Filter>Sources Files\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Reseau\Paquets\PaquetAuthentificationServeurJeu.cpp" />
+    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerAuthentificationServeurJeu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -924,6 +930,18 @@
     </ClInclude>
     <ClInclude Include="Reseau\Network_Defines.h">
       <Filter>Sources Files\Reseau\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\FacadeServeurJeu.h">
+      <Filter>Sources Files\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetAuthentificationServeurJeu.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\Paquets\PaquetAuthentificationServeurJeu.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerAuthentificationServeurJeu.h">
+      <Filter>Sources Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

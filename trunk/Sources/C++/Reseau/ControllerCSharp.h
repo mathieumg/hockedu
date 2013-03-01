@@ -13,7 +13,8 @@
 #include "ControllerInterface.h"
 
 typedef int (__stdcall *MessageReceivedCallBack)( char* pUsername, char* pMessage );
-typedef int (__stdcall *EventReceivedCallBack)( int pId, char* pMessage );
+typedef int (__stdcall *EventReceivedCallBack)( EventCodes pId, char* pMessage );
+typedef int (*EventTypeHandler)(class ControllerCSharp*, EventCodes, va_list);
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -27,7 +28,7 @@ class ControllerCSharp : public ControllerInterface
 {
 public:
     ControllerCSharp();
-    virtual void handleEvent(int pEventCode,  va_list pListeElems);
+    virtual void handleEvent(EventCodes pEventCode,  va_list pListeElems);
     inline void setMessageReceivedCallBack(MessageReceivedCallBack pVal) { mMessageReceivedCallBack = pVal; }
     inline void setEventReceivedCallBack(EventReceivedCallBack pVal) { mEventReceivedCallback = pVal; }
 
@@ -37,8 +38,10 @@ private:
     MessageReceivedCallBack mMessageReceivedCallBack;
     EventReceivedCallBack   mEventReceivedCallback;
 
-    
+    static int HandleEvent(ControllerCSharp*, EventCodes,  va_list pListeElems);
+    static int HandleMessage(ControllerCSharp*, EventCodes,  va_list pListeElems);
 
+    std::hash_map<EventCodes, EventTypeHandler> mEventTypeHandlers;
 };
 
 

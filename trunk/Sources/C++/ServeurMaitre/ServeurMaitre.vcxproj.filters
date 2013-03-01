@@ -16,9 +16,6 @@
     <Filter Include="Source Files\Paquets">
       <UniqueIdentifier>{41b6ccb6-84d6-4e43-bd0b-895ac59c47c5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\PaquetHandlers">
-      <UniqueIdentifier>{67b55d99-d516-4b93-aff6-95a87e09091e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\UsinePaquets">
       <UniqueIdentifier>{3fd4b753-bd14-4e38-b994-50547049153b}</UniqueIdentifier>
     </Filter>
@@ -27,6 +24,9 @@
     </Filter>
     <Filter Include="Source Files\ExceptionsReseau">
       <UniqueIdentifier>{8cca456a-be0c-4c44-829f-350f186d9d34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PacketHandlers">
+      <UniqueIdentifier>{67b55d99-d516-4b93-aff6-95a87e09091e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -40,13 +40,13 @@
       <Filter>Source Files\Paquets</Filter>
     </ClCompile>
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp">
-      <Filter>Source Files\PaquetHandlers</Filter>
+      <Filter>Source Files\PacketHandlers</Filter>
     </ClCompile>
     <ClCompile Include="..\Reseau\RelayeurMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp">
-      <Filter>Source Files\PaquetHandlers</Filter>
+      <Filter>Source Files\PacketHandlers</Filter>
     </ClCompile>
     <ClCompile Include="..\Reseau\Paquets\PaquetUserStatus.cpp">
       <Filter>Source Files\Paquets</Filter>
@@ -64,19 +64,19 @@
       <Filter>Source Files\Paquets</Filter>
     </ClCompile>
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerLoginInfo.cpp">
-      <Filter>Source Files\PaquetHandlers</Filter>
+      <Filter>Source Files\PacketHandlers</Filter>
     </ClCompile>
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandler.cpp">
-      <Filter>Source Files\PaquetHandlers</Filter>
+      <Filter>Source Files\PacketHandlers</Filter>
     </ClCompile>
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerConnAutomatique.cpp">
-      <Filter>Source Files\PaquetHandlers</Filter>
+      <Filter>Source Files\PacketHandlers</Filter>
     </ClCompile>
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerEvent.cpp">
-      <Filter>Source Files\PaquetHandlers</Filter>
+      <Filter>Source Files\PacketHandlers</Filter>
     </ClCompile>
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerTest.cpp">
-      <Filter>Source Files\PaquetHandlers</Filter>
+      <Filter>Source Files\PacketHandlers</Filter>
     </ClCompile>
     <ClCompile Include="..\Reseau\Paquets\PaquetTest.cpp">
       <Filter>Source Files\Paquets</Filter>
@@ -139,13 +139,16 @@
       <Filter>Source Files\Paquets</Filter>
     </ClCompile>
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameStatus.cpp">
-      <Filter>Source Files\PaquetHandlers</Filter>
+      <Filter>Source Files\PacketHandlers</Filter>
     </ClCompile>
     <ClCompile Include="CommunicateurBD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ExceptionsReseau\ExceptionReseauBD.cpp">
       <Filter>Source Files\ExceptionsReseau</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\Network_Defines.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -162,13 +165,13 @@
       <Filter>Source Files\Paquets</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h">
-      <Filter>Source Files\PaquetHandlers</Filter>
+      <Filter>Source Files\PacketHandlers</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\RelayeurMessage.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.h">
-      <Filter>Source Files\PaquetHandlers</Filter>
+      <Filter>Source Files\PacketHandlers</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetUserStatus.h">
       <Filter>Source Files\UsinePaquets</Filter>
@@ -192,19 +195,19 @@
       <Filter>Source Files\Paquets</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerLoginInfo.h">
-      <Filter>Source Files\PaquetHandlers</Filter>
+      <Filter>Source Files\PacketHandlers</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandler.h">
-      <Filter>Source Files\PaquetHandlers</Filter>
+      <Filter>Source Files\PacketHandlers</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerConnAutomatique.h">
-      <Filter>Source Files\PaquetHandlers</Filter>
+      <Filter>Source Files\PacketHandlers</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerEvent.h">
-      <Filter>Source Files\PaquetHandlers</Filter>
+      <Filter>Source Files\PacketHandlers</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerTest.h">
-      <Filter>Source Files\PaquetHandlers</Filter>
+      <Filter>Source Files\PacketHandlers</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\Paquets\PaquetTest.h">
       <Filter>Source Files\Paquets</Filter>
@@ -276,7 +279,7 @@
       <Filter>Source Files\Paquets</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerGameStatus.h">
-      <Filter>Source Files\PaquetHandlers</Filter>
+      <Filter>Source Files\PacketHandlers</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetGameStatus.h">
       <Filter>Source Files\UsinePaquets</Filter>

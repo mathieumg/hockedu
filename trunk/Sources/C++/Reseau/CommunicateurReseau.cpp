@@ -656,6 +656,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                 catch(ExceptionReseauSocketDeconnecte&)
                 {
                     wSocket->disconnect();
+                    wCommunicateurReseau->terminerIterationListeSocketEcoute();
                     GestionnaireReseau::obtenirInstance()->getController()->handleDisconnectDetection(wSocket);
                     breakLoop = true;
                 }
@@ -692,8 +693,8 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
             ++it;
         }
 
-        FacadePortability::sleep(10);
         wCommunicateurReseau->terminerIterationListeSocketEcoute();
+        FacadePortability::sleep(10);
 	}
 
 

@@ -19,7 +19,7 @@
 #include <fstream>
 #include <set>
 #include "ControllerInterface.h"
-#include "..\..\Sources\C#\UIHeavyClient\UIHeavyClient\Enum_Declarations.cs"
+#include "../../Sources/C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.cs"
 
 #ifdef LINUX
 #include <sys/socket.h>
@@ -52,7 +52,8 @@ enum PacketTypes {
     USER_STATUS,
     TEST,
     BASE,
-    GAME_STATUS
+    GAME_STATUS,
+    AUTHENTIFICATION_SERVEUR_JEU
 };
 
 struct ConnectionStateEvent
@@ -168,7 +169,7 @@ public:
     void cancelNewConnection(const std::string& pPlayerName, ConnectionType pConnectionType = TCP);
 
     // Methode pour envoyer des events au Controlleur
-    void transmitEvent(int pMessageCode, ...) const;
+    void transmitEvent(EventCodes pMessageCode, ...) const;
 
 	void gererExceptionReseau(ExceptionReseau* pException) const;
 

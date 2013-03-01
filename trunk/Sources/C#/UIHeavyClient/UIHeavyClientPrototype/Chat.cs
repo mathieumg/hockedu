@@ -162,10 +162,13 @@ namespace UIHeavyClientPrototype
         // Keep synch with C++ in GestionnaireReseau
         enum EventType
         {
+            /// Network event category : begin
+            SERVER_EVENT_BEGIN,
             USER_ALREADY_CONNECTED,
             USER_DID_NOT_SEND_NAME_ON_CONNECTION,
             USER_CONNECTED,
             USER_DISCONNECTED,
+            INVALID_USERNAME = USER_DISCONNECTED, // Pour eviter d'avoir a changer le handling pour le prototype. Mettre 2 enums separes pour la version finale
             CONNECTION_CANCELED,
             RECONNECTION_TIMEOUT,
             RECONNECTION_IN_PROGRESS,
@@ -173,6 +176,21 @@ namespace UIHeavyClientPrototype
             CHAT_MESSAGE_RECEIVED,
             SERVER_USER_CONNECTED,
             SERVER_USER_DISCONNECTED,
+            SERVER_USER_CONNECTING,
+            SERVER_EVENT_END,
+            /// Network event category : end
+
+
+            /// Model event category : begin
+            MODEL_EVENT_BEGIN,
+
+            ENABLE_PUCK_CREATION,
+            DISABLE_PUCK_CREATION,
+
+            MODEL_EVENT_END,
+            /// Model event category : end
+
+
             NB_EVENT_CODES // Must be always last !
         };
         ////////////////////////////////////////////////////////////////////////////////////

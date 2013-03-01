@@ -24,7 +24,7 @@ class UsinePaquet;
 class Paquet
 {
 public:
-	friend UsinePaquet;
+	friend class UsinePaquet;
 
 	virtual ~Paquet() = 0;
 
@@ -46,12 +46,12 @@ public:
 
     int getNumeroPaquet() const;
 
-protected: 
+protected:
 	Paquet();
 private:
 	int mNbAssociatedQueries; // Nb de fois que le paquet doit etre envoyer (different de 1 si on fait un envoie de masse)
     int mNumeroPaquet;
-    
+
 	PaquetRunnableFunc mRunnableFunction;
 };
 

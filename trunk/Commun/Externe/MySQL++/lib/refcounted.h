@@ -29,6 +29,7 @@
 #define MYSQLPP_REFCOUNTED_H
 
 #include <memory>
+#include <stddef.h>
 
 namespace mysqlpp {
 
@@ -89,7 +90,7 @@ public:
 	refs_(0)
 	{
 	}
-	
+
 	/// \brief Standard constructor
 	///
 	/// \param c A pointer to the object to be managed.  If you pass 0,
@@ -184,13 +185,13 @@ public:
 	T* operator ->() const
 	{
 		return counted_;
-	}	
+	}
 
 	/// \brief Dereference the smart pointer
 	T& operator *() const
 	{
 		return *counted_;
-	}	
+	}
 
 	/// \brief Returns the internal raw pointer converted to void*
 	///
@@ -244,7 +245,7 @@ public:
 	{
 		std::swap(counted_, other.counted_);
 		std::swap(refs_, other.refs_);
-	}	
+	}
 
 private:
 	/// \brief Pointer to the reference-counted object

@@ -13,10 +13,30 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Reseau">
+      <UniqueIdentifier>{c724b0c3-7f94-4e8f-9c81-4658ec4cd7c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Reseau\ObjetsGlobauxServeurs">
+      <UniqueIdentifier>{17266f37-0167-4698-bc81-c9a116006fa1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mainServeurJeu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Reseau\ObjetsGlobaux\PartieServeurs.cpp">
+      <Filter>Source Files\Reseau\ObjetsGlobauxServeurs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.cpp">
+      <Filter>Source Files\Reseau\ObjetsGlobauxServeurs</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.h">
+      <Filter>Source Files\Reseau\ObjetsGlobauxServeurs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\ObjetsGlobaux\PartieServeurs.h">
+      <Filter>Source Files\Reseau\ObjetsGlobauxServeurs</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

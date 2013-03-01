@@ -22,12 +22,12 @@ class UsinePaquetLoginInfo;
 ///////////////////////////////////////////////////////////////////////////
 class PaquetLoginInfo : public Paquet {
 private:
-    friend UsinePaquetLoginInfo;
+    friend class UsinePaquetLoginInfo;
 
     std::string mUsername; // Nom d'utilisateur
     std::string mPassword; // Mot de passe
-	
-    
+
+
 protected:
 	PaquetLoginInfo();
 

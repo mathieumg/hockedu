@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="MySQLpp" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="libMySQLpp_d" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Debug/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="libMySQLpp_r" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Release/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wall" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-m32" />
+			<Add option="-MD" />
+			<Add option="-v" />
+			<Add option="-DMYSQLPP_NO_DLL" />
+			<Add option="-DHAVE_MYSQL_SSL_SET" />
+			<Add directory="../../MySQL/include" />
+			<Add directory="../" />
+		</Compiler>
+		<Linker>
+			<Add option="-v" />
+			<Add library="libmysqld.a" />
+			<Add directory="../../MySQL/lib/" />
+		</Linker>
+		<Unit filename="../config.h" />
+		<Unit filename="../lib/autoflag.h" />
+		<Unit filename="../lib/beemutex.cpp" />
+		<Unit filename="../lib/beemutex.h" />
+		<Unit filename="../lib/cmdline.cpp" />
+		<Unit filename="../lib/cmdline.h" />
+		<Unit filename="../lib/common.h" />
+		<Unit filename="../lib/comparable.h" />
+		<Unit filename="../lib/connection.cpp" />
+		<Unit filename="../lib/connection.h" />
+		<Unit filename="../lib/cpool.cpp" />
+		<Unit filename="../lib/cpool.h" />
+		<Unit filename="../lib/datetime.cpp" />
+		<Unit filename="../lib/datetime.h" />
+		<Unit filename="../lib/dbdriver.cpp" />
+		<Unit filename="../lib/dbdriver.h" />
+		<Unit filename="../lib/exceptions.h" />
+		<Unit filename="../lib/field.h" />
+		<Unit filename="../lib/field_names.cpp" />
+		<Unit filename="../lib/field_names.h" />
+		<Unit filename="../lib/field_types.cpp" />
+		<Unit filename="../lib/field_types.h" />
+		<Unit filename="../lib/insertpolicy.h" />
+		<Unit filename="../lib/manip.cpp" />
+		<Unit filename="../lib/manip.h" />
+		<Unit filename="../lib/myset.cpp" />
+		<Unit filename="../lib/myset.h" />
+		<Unit filename="../lib/mysql++.cpp" />
+		<Unit filename="../lib/mysql++.h" />
+		<Unit filename="../lib/mystring.cpp" />
+		<Unit filename="../lib/mystring.h" />
+		<Unit filename="../lib/noexceptions.h" />
+		<Unit filename="../lib/null.cpp" />
+		<Unit filename="../lib/null.h" />
+		<Unit filename="../lib/options.cpp" />
+		<Unit filename="../lib/options.h" />
+		<Unit filename="../lib/qparms.cpp" />
+		<Unit filename="../lib/qparms.h" />
+		<Unit filename="../lib/query.cpp" />
+		<Unit filename="../lib/query.h" />
+		<Unit filename="../lib/querydef.h" />
+		<Unit filename="../lib/refcounted.h" />
+		<Unit filename="../lib/result.cpp" />
+		<Unit filename="../lib/result.h" />
+		<Unit filename="../lib/row.cpp" />
+		<Unit filename="../lib/row.h" />
+		<Unit filename="../lib/scopedconnection.cpp" />
+		<Unit filename="../lib/scopedconnection.h" />
+		<Unit filename="../lib/sql_buffer.cpp" />
+		<Unit filename="../lib/sql_buffer.h" />
+		<Unit filename="../lib/sql_types.h" />
+		<Unit filename="../lib/sqlstream.cpp" />
+		<Unit filename="../lib/sqlstream.h" />
+		<Unit filename="../lib/ssqls.h" />
+		<Unit filename="../lib/ssqls2.cpp" />
+		<Unit filename="../lib/ssqls2.h" />
+		<Unit filename="../lib/stadapter.cpp" />
+		<Unit filename="../lib/stadapter.h" />
+		<Unit filename="../lib/stream2string.h" />
+		<Unit filename="../lib/tcp_connection.cpp" />
+		<Unit filename="../lib/tcp_connection.h" />
+		<Unit filename="../lib/tiny_int.h" />
+		<Unit filename="../lib/transaction.cpp" />
+		<Unit filename="../lib/transaction.h" />
+		<Unit filename="../lib/type_info.cpp" />
+		<Unit filename="../lib/type_info.h" />
+		<Unit filename="../lib/uds_connection.cpp" />
+		<Unit filename="../lib/uds_connection.h" />
+		<Unit filename="../lib/utility.cpp" />
+		<Unit filename="../lib/utility.h" />
+		<Unit filename="../lib/vallist.cpp" />
+		<Unit filename="../lib/vallist.h" />
+		<Unit filename="../lib/wnp_connection.cpp" />
+		<Unit filename="../lib/wnp_connection.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

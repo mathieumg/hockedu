@@ -28,6 +28,41 @@ namespace UIHeavyClient
         Dictionary<object, string> mGuidanceInstructions;
         Dictionary<object, ActionType> mActionPerformedStrings;
 
+        EventReceivedCallBack mEventCallBack = EditionModeEventReceived;
+        public EventReceivedCallBack EventCallBack
+        {
+            get{return mEventCallBack;}
+        }
+
+        static bool EditionModeEventReceived(EventCodes id, IntPtr pMessage)
+        {
+            EditionModeControl control = MainWindowHandler.Context.EditionModeControl;
+            if (control != null)
+            {
+                string message = Marshal.PtrToStringAnsi(pMessage);
+                switch (id)
+                {
+                    case EventCodes.ENABLE_PUCK_CREATION:
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                            control.mPuckButton.IsEnabled = true;
+                        });
+
+                        break;
+                    case EventCodes.DISABLE_PUCK_CREATION:
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                            control.mPuckButton.IsEnabled = false;
+                        });
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return true;
+        }
+
+
         public EditionModeControl(WindowsFormsHost pWindowsFormsHost)
         {
             InitializeComponent();

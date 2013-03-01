@@ -216,7 +216,7 @@ void GestionnaireReseau::init()
 ///
 /// @fn void GestionnaireReseau::getAdresseIPLocaleAssociee( const std::string& pDestinationIP )
 ///
-/// Permet d'obtenir l'adresse IP locale qui correspond aune adresse IP externe.
+/// Permet d'obtenir l'adresse IP locale qui correspond a une adresse IP externe.
 /// Ex:     Externe: 192.168.9.45
 ///         -> L'adresse retournee par la fonction sera celle sur l'adapteur reseau qui debute par 192.XXX.XXX.XXX
 ///
@@ -228,36 +228,22 @@ void GestionnaireReseau::init()
 std::string GestionnaireReseau::getAdresseIPLocaleAssociee( const std::string& pDestinationIP )
 {
 	std::string wIpLocaleFinale = "";
-	 char addrName[TAILLE_BUFFER_HOSTNAME];
-    if(gethostname(addrName, TAILLE_BUFFER_HOSTNAME))
-    {
-        GestionnaireReseau::obtenirInstance()->throwExceptionReseau("Erreur lors de la lecture du nom de l'hôte");
-        return "";
-    }
+    std::list<std::string> wIPs;
+    FacadePortability::getLocalIPAddresses(wIPs);
 
-    hostent *hostCourant;
-    hostCourant=gethostbyname(addrName);
-
-	int wNbCount = 0;
-	int wNbBadCount = 0;
-	while(hostCourant->h_addr_list[wNbCount])
+	for(auto it = wIPs.begin(); it != wIPs.end(); ++it)
 	{
-		wIpLocaleFinale = inet_ntoa(*(struct in_addr *)hostCourant->h_addr_list[wNbCount]);
-		wNbCount++;
-		if(wIpLocaleFinale.substr(0, wIpLocaleFinale.find_first_of(".")) == pDestinationIP.substr(0, pDestinationIP.find_first_of("."))) {
+		std::string& wIPAddr = *it;
+		if(wIPAddr.substr(0, wIPAddr.find_first_of(".")) == pDestinationIP.substr(0, pDestinationIP.find_first_of(".")))
+		{
 			// Good network interface
+			wIpLocaleFinale = *it;
 			break;
 		}
-		wNbBadCount++;
 	}
-
 	// IP not found in the spcified subnet
-	if(wNbCount == wNbBadCount)
+	if(wIpLocaleFinale.length() == 0)
 	{
-        if(pDestinationIP == "127.0.0.1") // For debug (using localhost)
-        {
-            return pDestinationIP;
-        }
 		throw ExceptionReseau("Impossible de trouver l'adresse locale associee a " + pDestinationIP);
 	}
 	// IP found
@@ -512,7 +498,7 @@ void GestionnaireReseau::cancelNewConnection(const std::string& pPlayerName, Con
 /// @return     void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireReseau::transmitEvent( int pMessageCode, ... ) const
+void GestionnaireReseau::transmitEvent( EventCodes pMessageCode, ... ) const
 {
     if(mControlleur)
     {
@@ -608,7 +594,7 @@ SPSocket GestionnaireReseau::getSocket( const std::string& pNomJoueur, Connectio
 void GestionnaireReseau::removeSocket( const std::string& pNomJoueur, ConnectionType pConnectionType )
 {
     FacadePortability::takeMutex(mMutexListeSockets);
-	ListeSockets::iterator itMap = mListeSockets.find(std::pair<std::string, ConnectionType>(pNomJoueur, pConnectionType));
+	auto itMap = mListeSockets.find(std::pair<std::string, ConnectionType>(pNomJoueur, pConnectionType));
 	if(itMap == mListeSockets.end())
 	{
         // Le socket n'est pas dans la liste de sockets sauvegardes
@@ -636,7 +622,10 @@ void GestionnaireReseau::removeSocket( const std::string& pNomJoueur, Connection
 	mCommunicateurReseau.terminerIterationListeSocketEcoute();
 
     // Changer le connection state (a pour effet d'envoyer un event de deconnection)
+    FacadePortability::releaseMutex(mMutexListeSockets);
     wSocketASupprimer->setConnectionState(NOT_CONNECTED);
+    FacadePortability::takeMutex(mMutexListeSockets);
+
 	// Le supprimer de la liste dans cette classe
 	mListeSockets.erase(itMap);
 
@@ -674,10 +663,10 @@ void GestionnaireReseau::removeSocket( SPSocket pSocket )
         {
             FacadePortability::releaseMutex(mMutexListeSockets);
             removeSocket(it->first.first,it->first.second); // On laisse l'autre methode faire le retrait
-            break;
+            return;
         }
     }
-
+    FacadePortability::releaseMutex(mMutexListeSockets);
 }
 
 
@@ -941,31 +930,7 @@ void GestionnaireReseau::disconnectClient( const std::string& pPlayerName, Conne
 
 void GestionnaireReseau::getListeAdressesIPLocales(std::list<std::string>& pOut) const
 {
-    char addrName[TAILLE_BUFFER_HOSTNAME];
-    if(gethostname(addrName, TAILLE_BUFFER_HOSTNAME))
-    {
-        GestionnaireReseau::obtenirInstance()->throwExceptionReseau("Erreur lors de la lecture du nom de l'hôte");
-        return;
-    }
-
-    hostent *hostCourant;
-    hostCourant=gethostbyname(addrName);
-    if(hostCourant == NULL)
-    {
-        // Probleme au get des valeurs reseau locales
-        GestionnaireReseau::obtenirInstance()->throwExceptionReseau("Erreur lors de la lecture des adresses reseau locales");
-        return;
-    }
-
-    pOut.push_back("127.0.0.1");
-
-    int wNbCount = 0;
-    while(hostCourant->h_addr_list[wNbCount])
-    {
-        std::string wIP = inet_ntoa(*(struct in_addr *)hostCourant->h_addr_list[wNbCount]);
-        pOut.push_back(wIP);
-        ++wNbCount;
-    }
+    FacadePortability::getLocalIPAddresses(pOut);
 }
 
 

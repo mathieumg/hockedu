@@ -92,10 +92,11 @@ Connection::connect(const char* db, const char* server,
 	// the connection.
 	error_message_.clear();
 	string host, socket_name;
-	copacetic_ = parse_ipc_method(server, host, port, socket_name) &&
-			driver_->connect(host.c_str(),
-			(socket_name.empty() ? 0 : socket_name.c_str()), port, db,
-			user, password);
+	bool param1 = parse_ipc_method(server, host, port, socket_name);
+	bool param2 = driver_->connect(host.c_str(),
+		(socket_name.empty() ? 0 : socket_name.c_str()), port, db,
+		user, password); 
+	copacetic_ = param1 && param2;
 
 	// If it failed, decide how to tell the user
 	if (!copacetic_ && throw_exceptions()) {

@@ -24,6 +24,17 @@ ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceiv
     mPaquetRunnables[CHAT_MESSAGE] = PaquetRunnable::RunnableChatMessageClient;
     mPaquetRunnables[TEST] = PaquetRunnable::RunnableTest;
 
+    for(EventCodes e = EventCodes(SERVER_EVENT_BEGIN+1); e<SERVER_EVENT_END; e = EventCodes(e+1))
+    {
+        mEventTypeHandlers[e] = ControllerCSharp::HandleEvent;
+    }
+
+    mEventTypeHandlers[CHAT_MESSAGE_RECEIVED] = ControllerCSharp::HandleMessage;
+
+    for(EventCodes e = EventCodes(MODEL_EVENT_BEGIN+1); e<MODEL_EVENT_END; e = EventCodes(e+1))
+    {
+        mEventTypeHandlers[e] = ControllerCSharp::HandleEvent;
+    }
 }
 
 
@@ -39,31 +50,13 @@ ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceiv
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void ControllerCSharp::handleEvent( int pEventCode, va_list pListeElems )
+void ControllerCSharp::handleEvent( EventCodes pEventCode, va_list pListeElems )
 {
     int wEventHandled = false;
-    if(pEventCode >= 0 && pEventCode < NB_EVENT_CODES)
+    auto it = mEventTypeHandlers.find(EventCodes(pEventCode));
+    if(it != mEventTypeHandlers.end())
     {
-        std::string message;
-        switch(EventCodes(pEventCode))
-        {
-        case CHAT_MESSAGE_RECEIVED:
-            if(mMessageReceivedCallBack)
-            {
-                std::string username = va_arg(pListeElems,char*);
-                std::string message = va_arg(pListeElems,char*);
-                wEventHandled = mMessageReceivedCallBack((char*)username.c_str(),(char*)message.c_str());
-            }
-            break;
-        case SERVER_USER_CONNECTED:
-        case SERVER_USER_DISCONNECTED:
-            message = va_arg(pListeElems,char*);
-        default:
-            if(mEventReceivedCallback)
-            {
-                wEventHandled = mEventReceivedCallback(pEventCode,(char*)message.c_str());
-            }
-        }
+        wEventHandled = (it->second)(this,pEventCode,pListeElems);
     }
     if(!wEventHandled)
     {
@@ -76,4 +69,53 @@ void ControllerCSharp::handleDisconnectDetection( SPSocket pSocket )
 {
     GestionnaireReseau::obtenirInstance()->demarrerConnectionThread(pSocket);
     GestionnaireReseau::obtenirInstance()->supprimerEcouteSocket(pSocket);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void ControllerCSharp::HandleEvent( EventCodes, va_list pListeElems )
+///
+/// /*Description*/
+///
+/// @param[in] EventCodes
+/// @param[in] va_list pListeElems
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+int ControllerCSharp::HandleEvent(ControllerCSharp* pContext, EventCodes pEventCode, va_list pListeElems )
+{
+    EventReceivedCallBack c = pContext->mEventReceivedCallback;
+    if(c)
+    {
+        std::string message;
+        if(pEventCode == SERVER_USER_DISCONNECTED)message = va_arg(pListeElems,char*);
+        return c(pEventCode,(char*)message.c_str());
+    }
+    return 0;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn int ControllerCSharp::HandleMessage( void*, EventCodes, va_list pListeElems )
+///
+/// /*Description*/
+///
+/// @param[in] void *
+/// @param[in] EventCodes
+/// @param[in] va_list pListeElems
+///
+/// @return int
+///
+////////////////////////////////////////////////////////////////////////
+int ControllerCSharp::HandleMessage( ControllerCSharp* pContext, EventCodes pEventCode, va_list pListeElems )
+{
+    MessageReceivedCallBack c = pContext->mMessageReceivedCallBack;
+    if(c)
+    {
+        std::string username = va_arg(pListeElems,char*);
+        std::string message = va_arg(pListeElems,char*);
+        return c((char*)username.c_str(),(char*)message.c_str());
+    }
+    return 0;
 }

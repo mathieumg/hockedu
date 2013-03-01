@@ -90,6 +90,10 @@ namespace UIHeavyClient
             get { return mKeyboardOptionControl; }
         }
 
+        // C++ function to initialise C# controller on that side
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void InitDLL();
+
         public void CreateUserControl(object sender, EventArgs e)
         {
             MainWindowHandler.Context = this;
@@ -119,6 +123,7 @@ namespace UIHeavyClient
         public MainWindow()
         {
             InitializeComponent();
+            InitDLL();
             ConsoleManager.Show();
             this.Loaded += CreateUserControl;
             this.KeyDown += MainWindow_KeyDown;

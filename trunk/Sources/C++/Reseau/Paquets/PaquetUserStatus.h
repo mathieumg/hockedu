@@ -22,7 +22,7 @@ class UsinePaquetUserStatus;
 ///////////////////////////////////////////////////////////////////////////
 class PaquetUserStatus : public Paquet {
 private:
-    friend UsinePaquetUserStatus;
+    friend class UsinePaquetUserStatus;
 
     std::string mUserName;
 	ConnectionState mConnectionState;
