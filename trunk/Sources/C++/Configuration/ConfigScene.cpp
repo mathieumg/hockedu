@@ -293,38 +293,6 @@ void ConfigScene::chargerConfiguration( )
 	
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void ConfigScene::creerDOM( XmlNode& node, RazerGameTree* arbre ) const
-///
-/// Cette fonction écrit les valeurs de la configuration dans un élément XML.
-///
-/// @param[in] XmlNode & node : racine pour la création, généralement le document lui-meme
-/// @param[in] RazerGameTree * arbre : pointeur vers l'arbre à créer
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void ConfigScene::creerDOM( XmlNode& node, RazerGameTree* arbre ) const
-{
-	if(arbre == 0)
-		return;
-
-	// Créer le noeud 
-	XmlElement* racine = XMLUtils::createNode(ETIQUETTE_ARBRE);
-	node.LinkEndChild(racine);
-
-	VisiteurEcrireXML v;
-	for( unsigned int i = 0; i < arbre->obtenirNombreEnfants(); i++)
-	{
-		arbre->chercher(i)->acceptVisitor(v);
-		XmlElement* racineSousArbre = v.obtenirRacine();
-		if(racineSousArbre != 0)
-			racine->LinkEndChild(racineSousArbre);
-		v.reinitialiserRacine();
-	}
-}
-
 
 ////////////////////////////////////////////////////////////////////////
 ///

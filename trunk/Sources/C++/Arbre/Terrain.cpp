@@ -19,7 +19,6 @@
 #include "NoeudTable.h"
 #include "NoeudGroupe.h"
 #include "ZoneEdition.h"
-#include "ConfigScene.h"
 #include "AideCollision.h"
 #include "NoeudBut.h"
 #include "utilitaire.h"
@@ -37,6 +36,8 @@
 #include "SoundFMOD.h"
 #include "VisiteurCollision.h"
 #include "VisiteurDeplacement.h"
+#include <stdexcept>
+#include "VisiteurEcrireXML.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -285,7 +286,18 @@ bool Terrain::initialiserXml( XmlElement* element )
 
 	try
 	{
-		ConfigScene::obtenirInstance()->lireDOM(*racine,mLogicTree);
+        // Tenter d'obtenir le noeud 'Arbre'
+        const XmlNode* elementConfiguration = XMLUtils::FirstChild(racine, "Arbre"), *child;
+        if (elementConfiguration != NULL)
+        {
+            for( child = elementConfiguration->FirstChild(); child/*Vérifie si child est non-null*/; child = child->NextSibling() )
+            {
+                ecrireArbre(mLogicTree,child);
+            }
+        }
+        else
+            throw std::runtime_error("Etiquette de l'arbre manquant");
+
 		mTable = mLogicTree->obtenirTable();
 		if(mTable == NULL)
 			throw std::runtime_error("Il ny a pas de table sur le terrain");
@@ -310,6 +322,78 @@ bool Terrain::initialiserXml( XmlElement* element )
 	
 	return true;
 }
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn Terrain::ecrireArbre()
+///
+/// Méthode pour faire l'arbre de rendu à partir d'un noeud XML
+///
+/// @param[in] NoeudAbstrait * parentNoeud
+/// @param[in] XmlNode * node
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::ecrireArbre(NoeudAbstrait* parentNoeud, const XmlNode* node)
+{
+    XmlElement* elem = (XmlElement*)node;
+    TiXmlString nom = elem->ValueTStr();
+    NoeudAbstrait* noeudCourant;
+
+    // Si le noeud est un point, on doit retrouver ce noeud à partir de la table et non en instancier un nouveau
+    if(nom.c_str() == RazerGameUtilities::NAME_TABLE_CONTROL_POINT)
+    {
+        int typeNoeud;
+        if( unsigned short result = elem->QueryIntAttribute("typePosNoeud", &typeNoeud) != TIXML_SUCCESS )
+        {
+            throw std::runtime_error("Erreur de lecture d'attribut");
+        }
+        NoeudTable* table = dynamic_cast<NoeudTable*>(parentNoeud);
+        if(table == 0)
+        {
+            throw std::runtime_error("Parent du point n'est pas une table");
+        }
+        noeudCourant = table->obtenirPoint(typeNoeud);
+    }
+    // Si le noeud est un but, on doit retrouver ce noeud à partir de la table et non en instancier un nouveau
+    else if(nom.c_str() == RazerGameUtilities::NOM_BUT)
+    {
+        NoeudPoint* pointMilieu = dynamic_cast<NoeudPoint*>(parentNoeud);
+        if(pointMilieu == 0)
+        {
+            throw std::runtime_error("Parent du but n'est pas un point");
+        }
+        noeudCourant = pointMilieu->chercher(0);
+    }
+    // Sinon on instancie une nouvelle instance du noeud
+    else
+    {
+        noeudCourant = mLogicTree->creerNoeud(nom.c_str());
+        if(noeudCourant == 0)
+        {
+            throw std::runtime_error("Type de noeud inexistant");
+        }
+        if(!parentNoeud->ajouter(noeudCourant))
+        {
+            throw std::runtime_error("Incapable d'ajouter le noeud au parent");
+        }
+    }
+    if(!noeudCourant->initialiser(elem))
+    {
+        throw std::runtime_error("Erreur de lecture d'attribut");
+    }
+    if(!elem->NoChildren())
+    {
+        const XmlNode *child;
+        for( child = node->FirstChild(); child; child = child->NextSibling() )
+        {
+            ecrireArbre(noeudCourant,child);
+        }
+    }
+}
+
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -345,12 +429,11 @@ XmlElement* Terrain::creerNoeudXML()
 	XmlElement* racine = XMLUtils::createNode("Terrain");
     XMLUtils::writeAttribute(racine,"nom",getNom());
 
-	if(getLogicTree())
-	{
-		getLogicTree()->deselectionnerTout();
-		// Creation du domaine de l'arbre de rendu
-		ConfigScene::obtenirInstance()->creerDOM(*racine,getLogicTree());
-	}
+    VisiteurEcrireXML v;
+    acceptVisitor(v);
+
+    XmlElement* elem = v.obtenirRacine();
+    XMLUtils::LinkEndChild(racine,elem);
 
     checkf(getZoneEdition(), "Tentative de sauvegarder la zone édition qui n'existe pas. S'assurer qu'on est pas en train d'essaye de save un terrain pour le mode jeu");
     if(getZoneEdition())

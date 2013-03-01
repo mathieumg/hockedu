@@ -80,9 +80,9 @@ namespace XMLUtils
     /// Search an element with the tag
     XmlElement* FirstChildElement( XmlElement* element, const char* childName);
     /// first child of the element
-    const XmlNode* FirstChild( const XmlElement* element );
+    const XmlNode* FirstChild( const XmlElement* element, const char* childName = NULL );
     /// first child of the element
-    XmlNode* FirstChild( XmlElement* element );
+    XmlNode* FirstChild( XmlElement* element, const char* childName = NULL );
 
     /// creates an xml document
     XmlDocument* CreateDocument(const char* _version,const char* _encoding,const char* _standalone);

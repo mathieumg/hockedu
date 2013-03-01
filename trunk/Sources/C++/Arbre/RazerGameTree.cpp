@@ -9,7 +9,6 @@
 ///////////////////////////////////////////////////////////////////////////
 #include "RazerGameTree.h"
 #include "UsineNoeud.h"
-#include "NoeudGroupe.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -76,6 +75,25 @@ NoeudTable* RazerGameTree::obtenirTable()
 		
 	}
 	return NULL;
+}
+
+const char ETIQUETTE_ARBRE[] = "Arbre";
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn XmlElement* RazerGameTree::creerNoeudXML()
+///
+/// /*Description*/
+///
+///
+/// @return XmlElement*
+///
+////////////////////////////////////////////////////////////////////////
+XmlElement* RazerGameTree::creerNoeudXML()
+{
+    XmlElement* racine = XMLUtils::createNode(ETIQUETTE_ARBRE);
+
+    return racine;
 }
 
 

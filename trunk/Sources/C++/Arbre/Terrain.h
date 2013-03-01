@@ -145,6 +145,7 @@ public:
 private:
 	/// Methode pour initialiser l'arbre de rendu
 	void initialiserArbreRendu();
+    void ecrireArbre(NoeudAbstrait* parentNoeud, const XmlNode* node);
 
 	/// Fields
 private:
@@ -191,7 +192,6 @@ public:
 
     NoeudMaillet* getLeftMallet() const;
     NoeudMaillet* getRightMallet() const;
-
 public:
 
 };

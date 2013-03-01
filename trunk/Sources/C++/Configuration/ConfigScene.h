@@ -41,9 +41,6 @@ public:
 	/// Lire les valeurs du DOM.
 	void chargerConfiguration();
 
-	/// Créer le DOM avec les valeurs d'un arbre de rendu.
-	void creerDOM( XmlNode& node, RazerGameTree* arbre ) const;
-
 	/// Lire les valeurs du DOM d'un arbre de rendu.
 	void lireDOM( const XmlNode& node, RazerGameTree* arbre );
 	

@@ -479,8 +479,9 @@ namespace XMLUtils
     /// @return const XmlElement*
     ///
     ////////////////////////////////////////////////////////////////////////
-    const XmlNode* FirstChild( const XmlElement* element )
+    const XmlNode* FirstChild( const XmlElement* element, const char* childName )
     {
+        if(childName) return (const XmlNode*)element->FirstChild(childName);
         return (const XmlNode*)element->FirstChild();
     }
 
@@ -495,8 +496,9 @@ namespace XMLUtils
     /// @return XmlElement*
     ///
     ////////////////////////////////////////////////////////////////////////
-    XmlNode* FirstChild( XmlElement* element )
+    XmlNode* FirstChild( XmlElement* element, const char* childName )
     {
+        if(childName) return (XmlNode*)element->FirstChild(childName);
         return (XmlNode*)element->FirstChild();
     }
 
