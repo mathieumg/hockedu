@@ -23,7 +23,7 @@ class UsinePaquetGameStatus;
 ///////////////////////////////////////////////////////////////////////////
 class PaquetGameStatus : public Paquet {
 private:
-    friend UsinePaquetGameStatus;
+    friend class UsinePaquetGameStatus;
 
     PartieServeurs mGame;
 

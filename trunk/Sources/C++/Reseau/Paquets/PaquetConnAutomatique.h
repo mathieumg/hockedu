@@ -24,8 +24,8 @@ enum BroadcastType {CONNECTION_REQUEST, CONNECTION_RESPONSE};
 ///////////////////////////////////////////////////////////////////////////
 class PaquetConnAutomatique : public Paquet {
 private:
-	friend UsinePaquetConnAutomatique;
-	
+	friend class UsinePaquetConnAutomatique;
+
 	std::string mRequestIP;
 	std::string mResponseIP;
 	std::string mRequestHostname;
@@ -33,7 +33,7 @@ private:
 	ConnectionType mNewConnectionType;
 	BroadcastType mBroadcastType;
 	int mPortNumber;
-	
+
 
 
 protected:

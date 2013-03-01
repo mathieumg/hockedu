@@ -22,15 +22,15 @@ class UsinePaquetChatMessage;
 ///////////////////////////////////////////////////////////////////////////
 class PaquetChatMessage : public Paquet {
 private:
-    friend UsinePaquetChatMessage;
+    friend class UsinePaquetChatMessage;
 
     int64_t mTimestamp; // Timestamp (should be the same as __int64)
     std::string mMessage; // Message a envoyer
     bool mIsTargetGroup; // True means the target is a group, false means it's only one player
     std::string mGroupName; // Or player name if mIsTragetGroup == false
     std::string mOrigin; // Mettre le nom du PC local pour eviter les loop infinies sur le network et eviter de recevoir ses propres messages
-	
-    
+
+
 protected:
 	PaquetChatMessage();
 

@@ -22,7 +22,7 @@ class UsinePaquetTest;
 ///////////////////////////////////////////////////////////////////////////
 class PaquetTest : public Paquet {
 private:
-	friend UsinePaquetTest;
+	friend class UsinePaquetTest;
 	std::string message;
     int mInt;
     float mFloat;

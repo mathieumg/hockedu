@@ -1,5 +1,11 @@
 #pragma once
 
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#define WINDOWS
+#else
+#define LINUX 1
+#endif
+
 // Set to 1 when testing for shipping game
 #define SHIPPING 0
 
@@ -9,24 +15,17 @@
 // Optimization macros (uses __pragma to enable inside a #define).
 #if !SHIPPING
 #define PRAGMA_DISABLE_OPTIMIZATION __pragma(optimize("",off))
-#pragma warning(disable:4748)
 #else
 #define PRAGMA_DISABLE_OPTIMIZATION __pragma(optimize("",on))
 #endif
 
 #ifdef _DEBUG
-#pragma warning(default:4748)
 #define PRAGMA_ENABLE_OPTIMIZATION __pragma(optimize("",off))
 #else
-#pragma warning(default:4748)
 #define PRAGMA_ENABLE_OPTIMIZATION __pragma(optimize("",on))
 #endif
 
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-#define WINDOWS
-#else
-#define LINUX 1
-#endif
+
 
 /// Solution utilities
 #ifdef WINDOWS

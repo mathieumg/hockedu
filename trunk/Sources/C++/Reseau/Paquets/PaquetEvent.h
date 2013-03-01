@@ -22,11 +22,11 @@ class UsinePaquetEvent;
 ///////////////////////////////////////////////////////////////////////////
 class PaquetEvent : public Paquet {
 private:
-    friend UsinePaquetEvent;
+    friend class UsinePaquetEvent;
 
     std::string mMessage; // Message a envoyer
     int mErrorCode; // Code d'erreur
-    
+
 
 protected:
 	PaquetEvent();
