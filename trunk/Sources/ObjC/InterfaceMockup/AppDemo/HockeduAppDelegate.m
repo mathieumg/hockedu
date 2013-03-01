@@ -3,7 +3,7 @@
 //  AppDemo
 //
 
-#import "AppDemoAppDelegate.h"
+#import "HockeduAppDelegate.h"
 #import "MenuViewController.h"
 #import "EAGLViewController.h"
 

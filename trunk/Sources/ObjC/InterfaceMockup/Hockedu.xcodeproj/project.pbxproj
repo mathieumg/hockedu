@@ -12,7 +12,7 @@
 		96378D7F1472C71100F543EA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96378D7E1472C71100F543EA /* CoreGraphics.framework */; };
 		96378D851472C71200F543EA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96378D831472C71200F543EA /* InfoPlist.strings */; };
 		96378D871472C71200F543EA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 96378D861472C71200F543EA /* main.m */; };
-		96378D8B1472C71200F543EA /* AppDemoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96378D8A1472C71200F543EA /* AppDemoAppDelegate.m */; };
+		96378D8B1472C71200F543EA /* HockeduAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96378D8A1472C71200F543EA /* HockeduAppDelegate.m */; };
 		96378D8E1472C71200F543EA /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96378D8C1472C71200F543EA /* MainWindow.xib */; };
 		96378D971472C7CC00F543EA /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96378D961472C7CC00F543EA /* MenuViewController.m */; };
 		96378D9A1472C80A00F543EA /* MenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96378D991472C80A00F543EA /* MenuViewController.xib */; };
@@ -31,16 +31,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		96378D761472C71100F543EA /* AppDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		96378D761472C71100F543EA /* Hockedu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hockedu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96378D7A1472C71100F543EA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		96378D7C1472C71100F543EA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		96378D7E1472C71100F543EA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		96378D821472C71200F543EA /* AppDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppDemo-Info.plist"; sourceTree = "<group>"; };
+		96378D821472C71200F543EA /* Hockedu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Hockedu-Info.plist"; sourceTree = "<group>"; };
 		96378D841472C71200F543EA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		96378D861472C71200F543EA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		96378D881472C71200F543EA /* AppDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppDemo-Prefix.pch"; sourceTree = "<group>"; };
-		96378D891472C71200F543EA /* AppDemoAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDemoAppDelegate.h; sourceTree = "<group>"; };
-		96378D8A1472C71200F543EA /* AppDemoAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDemoAppDelegate.m; sourceTree = "<group>"; };
+		96378D881472C71200F543EA /* Hockedu-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hockedu-Prefix.pch"; sourceTree = "<group>"; };
+		96378D891472C71200F543EA /* HockeduAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HockeduAppDelegate.h; sourceTree = "<group>"; };
+		96378D8A1472C71200F543EA /* HockeduAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HockeduAppDelegate.m; sourceTree = "<group>"; };
 		96378D8D1472C71200F543EA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		96378D951472C7CC00F543EA /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
 		96378D961472C7CC00F543EA /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
@@ -85,7 +85,7 @@
 		96378D6B1472C71100F543EA = {
 			isa = PBXGroup;
 			children = (
-				96378D801472C71100F543EA /* AppDemo */,
+				96378D801472C71100F543EA /* Hockedu */,
 				96378D791472C71100F543EA /* Frameworks */,
 				96378D771472C71100F543EA /* Products */,
 			);
@@ -94,7 +94,7 @@
 		96378D771472C71100F543EA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				96378D761472C71100F543EA /* AppDemo.app */,
+				96378D761472C71100F543EA /* Hockedu.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -111,11 +111,11 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		96378D801472C71100F543EA /* AppDemo */ = {
+		96378D801472C71100F543EA /* Hockedu */ = {
 			isa = PBXGroup;
 			children = (
-				96378D891472C71200F543EA /* AppDemoAppDelegate.h */,
-				96378D8A1472C71200F543EA /* AppDemoAppDelegate.m */,
+				96378D891472C71200F543EA /* HockeduAppDelegate.h */,
+				96378D8A1472C71200F543EA /* HockeduAppDelegate.m */,
 				968DACC11472ED46007D15A3 /* Utilitaires */,
 				969DDEDC1472CF6000ED5DC8 /* Vues */,
 				96378D981472C7F200F543EA /* Interface Builder */,
@@ -123,16 +123,17 @@
 				96378D811472C71200F543EA /* Supporting Files */,
 				968DACBA1472EAFF007D15A3 /* Modèles 3D */,
 			);
+			name = Hockedu;
 			path = AppDemo;
 			sourceTree = "<group>";
 		};
 		96378D811472C71200F543EA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				96378D821472C71200F543EA /* AppDemo-Info.plist */,
+				96378D821472C71200F543EA /* Hockedu-Info.plist */,
 				96378D831472C71200F543EA /* InfoPlist.strings */,
 				96378D861472C71200F543EA /* main.m */,
-				96378D881472C71200F543EA /* AppDemo-Prefix.pch */,
+				96378D881472C71200F543EA /* Hockedu-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -196,9 +197,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		96378D751472C71100F543EA /* AppDemo */ = {
+		96378D751472C71100F543EA /* Hockedu */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 96378D911472C71200F543EA /* Build configuration list for PBXNativeTarget "AppDemo" */;
+			buildConfigurationList = 96378D911472C71200F543EA /* Build configuration list for PBXNativeTarget "Hockedu" */;
 			buildPhases = (
 				96378D721472C71100F543EA /* Sources */,
 				96378D731472C71100F543EA /* Frameworks */,
@@ -208,9 +209,9 @@
 			);
 			dependencies = (
 			);
-			name = AppDemo;
+			name = Hockedu;
 			productName = AppDemo;
-			productReference = 96378D761472C71100F543EA /* AppDemo.app */;
+			productReference = 96378D761472C71100F543EA /* Hockedu.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -221,7 +222,7 @@
 			attributes = {
 				LastUpgradeCheck = 0450;
 			};
-			buildConfigurationList = 96378D701472C71100F543EA /* Build configuration list for PBXProject "AppDemo" */;
+			buildConfigurationList = 96378D701472C71100F543EA /* Build configuration list for PBXProject "Hockedu" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -233,7 +234,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				96378D751472C71100F543EA /* AppDemo */,
+				96378D751472C71100F543EA /* Hockedu */,
 			);
 		};
 /* End PBXProject section */
@@ -261,7 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96378D871472C71200F543EA /* main.m in Sources */,
-				96378D8B1472C71200F543EA /* AppDemoAppDelegate.m in Sources */,
+				96378D8B1472C71200F543EA /* HockeduAppDelegate.m in Sources */,
 				96378D971472C7CC00F543EA /* MenuViewController.m in Sources */,
 				969DDEE01472CF8C00ED5DC8 /* EAGLView.m in Sources */,
 				969DDF901472E15900ED5DC8 /* EAGLViewController.m in Sources */,
@@ -343,11 +344,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "AppDemo/AppDemo-Prefix.pch";
+				GCC_PREFIX_HEADER = "AppDemo/Hockedu-Prefix.pch";
 				GCC_VERSION = "";
-				INFOPLIST_FILE = "AppDemo/AppDemo-Info.plist";
+				INFOPLIST_FILE = "AppDemo/Hockedu-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Hockedu;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -356,11 +357,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "AppDemo/AppDemo-Prefix.pch";
+				GCC_PREFIX_HEADER = "AppDemo/Hockedu-Prefix.pch";
 				GCC_VERSION = "";
-				INFOPLIST_FILE = "AppDemo/AppDemo-Info.plist";
+				INFOPLIST_FILE = "AppDemo/Hockedu-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Hockedu;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -368,7 +369,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		96378D701472C71100F543EA /* Build configuration list for PBXProject "AppDemo" */ = {
+		96378D701472C71100F543EA /* Build configuration list for PBXProject "Hockedu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				96378D8F1472C71200F543EA /* Debug */,
@@ -377,7 +378,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		96378D911472C71200F543EA /* Build configuration list for PBXNativeTarget "AppDemo" */ = {
+		96378D911472C71200F543EA /* Build configuration list for PBXNativeTarget "Hockedu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				96378D921472C71200F543EA /* Debug */,
