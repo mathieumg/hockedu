@@ -85,7 +85,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\INF3900 - Projet d%27evolution d%27un logiciel\log3900-04\trunk\Sources\C++\ServeurMaitre\sha1.cpp" />
     <ClCompile Include="..\Reseau\CommunicateurReseau.cpp" />
     <ClCompile Include="..\Reseau\ControllerInterface.cpp" />
     <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseau.cpp" />
@@ -126,9 +125,9 @@
     <ClCompile Include="FacadeServeurMaitre.cpp" />
     <ClCompile Include="mainServeurMaitre.cpp" />
     <ClCompile Include="PaquetRunnableServeurMaitre.cpp" />
+    <ClCompile Include="sha1.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\INF3900 - Projet d%27evolution d%27un logiciel\log3900-04\trunk\Sources\C++\ServeurMaitre\sha1.h" />
     <ClInclude Include="..\Reseau\CommunicateurReseau.h" />
     <ClInclude Include="..\Reseau\ControllerInterface.h" />
     <ClInclude Include="..\Reseau\ExceptionsReseau\ExceptionReseau.h" />
@@ -176,6 +175,7 @@
     <ClInclude Include="ExceptionsReseau\ExceptionReseauBD.h" />
     <ClInclude Include="FacadeServeurMaitre.h" />
     <ClInclude Include="PaquetRunnableServeurMaitre.h" />
+    <ClInclude Include="sha1.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Commun\Externe\MySQL++\vc2008\mysql++_mysqlpp.vcxproj">
