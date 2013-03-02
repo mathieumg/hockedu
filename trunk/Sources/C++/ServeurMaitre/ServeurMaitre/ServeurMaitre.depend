@@ -1365,7 +1365,7 @@
 	"../Reseau/UsinePaquets/UsinePaquetChatMessage.h"
 	"FacadeServeurMaitre.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/CommunicateurReseau.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/CommunicateurReseau.cpp
 	"CommunicateurReseau.h"
 	"ExceptionsReseau/ExceptionReseau.h"
 	<iostream>
@@ -1384,7 +1384,7 @@
 	<sstream>
 	<time.h>
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/CommunicateurReseau.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/CommunicateurReseau.h
 	<string>
 	<queue>
 	"Socket.h"
@@ -1393,7 +1393,7 @@
 	"QueueThreadSafe.h"
 	"Network_Defines.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Socket.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Socket.h
 	<memory>
 	<winsock2.h>
 	<ws2tcpip.h>
@@ -1406,7 +1406,7 @@
 	<stdexcept>
 	"Network_Defines.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Network_Defines.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Network_Defines.h
 	<WinSock2.h>
 	<windows.h>
 	<pthread.h>
@@ -1417,16 +1417,16 @@
 	<list>
 	<string>
 
-1362180375 /home/charles/Desktop/log3900-04/trunk/Commun/Utilitaire/QueueThreadSafe.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Utilitaire/QueueThreadSafe.h
 	<queue>
 	"../../Sources/C++/Reseau/Network_Defines.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseau.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseau.h
 	<string>
 	<exception>
 	<stdexcept>
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseau.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseau.h
 	<string>
 	"ExceptionsReseau/ExceptionReseau.h"
 	"Network_Defines.h"
@@ -1443,83 +1443,83 @@
 	<arpa/inet.h>
 	<stdarg.h>
 
-1362180375 /home/charles/Desktop/log3900-04/trunk/Commun/Utilitaire/Singleton.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Utilitaire/Singleton.h
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ControllerInterface.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ControllerInterface.h
 	<hash_map>
 	<ext/hash_map>
 	"Socket.h"
 	"../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.cs"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.cs
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.cs
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/Paquet.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/Paquet.h
 	<string>
 	"../GestionnaireReseau.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauSocketDeconnecte.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauSocketDeconnecte.h
 	"ExceptionReseau.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauTimeout.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauTimeout.h
 	"ExceptionReseau.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauParametreInvalide.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauParametreInvalide.h
 	"ExceptionReseau.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/SocketTCPServeur.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/SocketTCPServeur.h
 	"Socket.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PacketBuilder.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PacketBuilder.h
 	<stdint.h>
 	<iostream>
 	<stdio.h>
 	<string.h>
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandler.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandler.h
 	"../PacketBuilder.h"
 	"../PacketReader.h"
 	"../GestionnaireReseau.h"
 	<string>
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PacketReader.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PacketReader.h
 	<stdint.h>
 	<iostream>
 	<stdio.h>
 	<string.h>
 
-1362180375 /home/charles/Desktop/log3900-04/trunk/Commun/Utilitaire/Utilitaire.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Utilitaire/Utilitaire.h
 	"Vecteur.h"
 	<sstream>
 
-1362180375 /home/charles/Desktop/log3900-04/trunk/Commun/Utilitaire/Vecteur.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Utilitaire/Vecteur.h
 	<string>
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ControllerInterface.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ControllerInterface.cpp
 	"ControllerInterface.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseau.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseau.cpp
 	"../GestionnaireReseau.h"
 	<strstream>
 	<algorithm>
 	<sstream>
 	<ctime>
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauGlobale.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauGlobale.cpp
 	"ExceptionReseauGlobale.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauGlobale.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauGlobale.h
 	"ExceptionReseau.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauParametreInvalide.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauParametreInvalide.cpp
 	"ExceptionReseauParametreInvalide.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauSocketDeconnecte.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauSocketDeconnecte.cpp
 	"ExceptionReseauSocketDeconnecte.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauTimeout.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauTimeout.cpp
 	"ExceptionReseauTimeout.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseau.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseau.cpp
 	<WinSock2.h>
 	"GestionnaireReseau.h"
 	<strstream>
@@ -1546,42 +1546,42 @@
 	"PaquetHandlers/PacketHandlerEvent.h"
 	"UsinePaquets/UsinePaquetEvent.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquet.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquet.h
 	<string>
 	<map>
 	"../Paquets/Paquet.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerConnAutomatique.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerConnAutomatique.h
 	"PacketHandler.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetConnAutomatique.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetConnAutomatique.h
 	"UsinePaquet.h"
 	"Paquets/PaquetConnAutomatique.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetConnAutomatique.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetConnAutomatique.h
 	"Paquet.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetTest.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetTest.h
 	"UsinePaquet.h"
 	"../Paquets/PaquetTest.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetTest.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetTest.h
 	"Paquet.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerTest.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerTest.h
 	"PacketHandler.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerEvent.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerEvent.h
 	"PacketHandler.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetEvent.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetEvent.h
 	"UsinePaquets/UsinePaquet.h"
 	"../Paquets/PaquetEvent.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetEvent.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetEvent.h
 	"Paquet.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseauServeurMaitre.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseauServeurMaitre.cpp
 	"GestionnaireReseauServeurMaitre.h"
 	"GestionnaireReseau.h"
 	"Paquets/PaquetUserStatus.h"
@@ -1593,74 +1593,74 @@
 	"UsinePaquets/UsinePaquetGameStatus.h"
 	"PaquetHandlers/PacketHandlerGameStatus.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseauServeurMaitre.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseauServeurMaitre.h
 	"Singleton.h"
 	"GestionnaireReseau.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetUserStatus.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetUserStatus.h
 	"Paquet.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerUserStatus.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerUserStatus.h
 	"PacketHandler.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetUserStatus.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetUserStatus.h
 	"UsinePaquet.h"
 	"../Paquets/PaquetUserStatus.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/RelayeurMessage.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/RelayeurMessage.h
 	"Singleton.h"
 	<string>
 	"Paquets/Paquet.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerChatMessage.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerChatMessage.h
 	"PacketHandler.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetChatMessage.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetChatMessage.h
 	"UsinePaquet.h"
 	"../Paquets/PaquetChatMessage.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetChatMessage.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetChatMessage.h
 	"Paquet.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetGameStatus.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetGameStatus.h
 	"UsinePaquet.h"
 	"../Paquets/PaquetGameStatus.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetGameStatus.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetGameStatus.h
 	"Paquet.h"
 	"../ObjetsGlobaux/PartieServeurs.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ObjetsGlobaux/PartieServeurs.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ObjetsGlobaux/PartieServeurs.h
 	<time.h>
 	<string>
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerGameStatus.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerGameStatus.h
 	"PacketHandler.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ObjetsGlobaux/JoueurServeurs.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ObjetsGlobaux/JoueurServeurs.cpp
 	"JoueurServeurs.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ObjetsGlobaux/JoueurServeurs.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ObjetsGlobaux/JoueurServeurs.h
 	<string>
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ObjetsGlobaux/PartieServeurs.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/ObjetsGlobaux/PartieServeurs.cpp
 	"PartieServeurs.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PacketBuilder.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PacketBuilder.cpp
 	"PacketBuilder.h"
 	"GestionnaireReseau.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PacketReader.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PacketReader.cpp
 	"PacketReader.h"
 	"GestionnaireReseau.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandler.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandler.cpp
 	"PacketHandler.h"
 	"../PacketReader.h"
 	"../PacketBuilder.h"
 	"../Paquets/Paquet.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerChatMessage.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerChatMessage.cpp
 	<iostream>
 	<sstream>
 	"PacketHandlerChatMessage.h"
@@ -1671,10 +1671,10 @@
 	<iomanip>
 	"../GestionnaireReseauClientLourd.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseauClientLourd.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseauClientLourd.h
 	"GestionnaireReseau.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerConnAutomatique.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerConnAutomatique.cpp
 	"PacketHandlerConnAutomatique.h"
 	<iostream>
 	<sstream>
@@ -1682,15 +1682,15 @@
 	<sstream>
 	"../GestionnaireReseau.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerEvent.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerEvent.cpp
 	"PacketHandlerEvent.h"
 	"../Paquets/PaquetEvent.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerGameStatus.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerGameStatus.cpp
 	"PacketHandlerGameStatus.h"
 	"../Paquets/PaquetGameStatus.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerLoginInfo.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerLoginInfo.cpp
 	<iostream>
 	<sstream>
 	"PacketHandlerLoginInfo.h"
@@ -1699,26 +1699,26 @@
 	"../ObjetsGlobaux/JoueurServeurs.h"
 	"../ServeurMaitre/FacadeServeurMaitre.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerLoginInfo.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerLoginInfo.h
 	"PacketHandler.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetLoginInfo.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetLoginInfo.h
 	"Paquet.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/FacadeServeurMaitre.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/FacadeServeurMaitre.h
 	"Singleton.h"
 	<map>
 	"../Reseau/ObjetsGlobaux/JoueurServeurs.h"
 	"../Reseau/ObjetsGlobaux/PartieServeurs.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerTest.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerTest.cpp
 	"PacketHandlerTest.h"
 	<iostream>
 	<sstream>
 	"../GestionnaireReseau.h"
 	"../Paquets/PaquetTest.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerUserStatus.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerUserStatus.cpp
 	"../Paquets/PaquetUserStatus.h"
 	"../PacketBuilder.h"
 	"PacketHandlerUserStatus.h"
@@ -1729,7 +1729,7 @@
 	<iomanip>
 	"../PacketReader.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetRunnable.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetRunnable.cpp
 	"PaquetRunnable.h"
 	"GestionnaireReseau.h"
 	"Paquets/PaquetEvent.h"
@@ -1745,40 +1745,40 @@
 	"Paquets/PaquetTest.h"
 	"Paquets/PaquetGameStatus.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetRunnable.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/PaquetRunnable.h
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/Paquet.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/Paquet.cpp
 	"Paquet.h"
 	<sstream>
 	<iostream>
 	<time.h>
 	<limits.h>
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetChatMessage.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetChatMessage.cpp
 	"PaquetChatMessage.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetConnAutomatique.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetConnAutomatique.cpp
 	"PaquetConnAutomatique.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetEvent.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetEvent.cpp
 	"PaquetEvent.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetGameStatus.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetGameStatus.cpp
 	"PaquetGameStatus.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetLoginInfo.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetLoginInfo.cpp
 	"PaquetLoginInfo.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetTest.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetTest.cpp
 	"PaquetTest.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetUserStatus.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetUserStatus.cpp
 	"PaquetUserStatus.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/RelayeurMessage.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/RelayeurMessage.cpp
 	"RelayeurMessage.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Socket.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Socket.cpp
 	<winsock2.h>
 	<Mswsock.h>
 	"Socket.h"
@@ -1788,22 +1788,22 @@
 	"Utilitaire.h"
 	"PacketBuilder.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/SocketTCPServeur.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/SocketTCPServeur.cpp
 	"SocketTCPServeur.h"
 	"ExceptionsReseau/ExceptionReseau.h"
 	<string.h>
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/CommunicateurBD.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/CommunicateurBD.cpp
 	"CommunicateurBD.h"
 	"ExceptionsReseau/ExceptionReseauBD.h"
 	"query.h"
 
-1362198294 /home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/CommunicateurBD.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/CommunicateurBD.h
 	<string>
 	"Singleton.h"
 	"mysql++.h"
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/mysql++.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/mysql++.h
 	"connection.h"
 	"cpool.h"
 	"query.h"
@@ -1811,7 +1811,7 @@
 	"sql_types.h"
 	"transaction.h"
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/connection.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/connection.h
 	"common.h"
 	"noexceptions.h"
 	"options.h"
@@ -1820,7 +1820,7 @@
 	"uds_connection.h"
 	"wnp_connection.h"
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/common.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/common.h
 	<winsock.h>
 	"config.h"
 	<mysql/mysql_version.h>
@@ -1828,10 +1828,10 @@
 	<mysql/mysql.h>
 	<mysql.h>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL/include/mysql_version.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL/include/mysql_version.h
 	<custom_conf.h>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL/include/mysql.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL/include/mysql.h
 	<standards.h>
 	<sys/types.h>
 	<winsock2.h>
@@ -1842,51 +1842,51 @@
 	"typelib.h"
 	"my_alloc.h"
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL/include/mysql_com.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL/include/mysql_com.h
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL/include/mysql_time.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL/include/mysql_time.h
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL/include/my_list.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL/include/my_list.h
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL/include/typelib.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL/include/typelib.h
 	"my_alloc.h"
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL/include/my_alloc.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL/include/my_alloc.h
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/noexceptions.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/noexceptions.h
 	"common.h"
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/options.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/options.h
 	"common.h"
 	<deque>
 	<string>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/tcp_connection.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/tcp_connection.h
 	"connection.h"
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/uds_connection.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/uds_connection.h
 	"connection.h"
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/wnp_connection.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/wnp_connection.h
 	"connection.h"
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/cpool.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/cpool.h
 	"beemutex.h"
 	<list>
 	<assert.h>
 	<time.h>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/beemutex.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/beemutex.h
 	"exceptions.h"
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/exceptions.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/exceptions.h
 	"options.h"
 	<exception>
 	<string>
 	<sstream>
 	<typeinfo>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/query.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/query.h
 	"common.h"
 	"exceptions.h"
 	"noexceptions.h"
@@ -1907,11 +1907,11 @@
 	<slist>
 	"insertpolicy.h"
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/qparms.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/qparms.h
 	"stadapter.h"
 	<vector>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/stadapter.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/stadapter.h
 	"common.h"
 	"datetime.h"
 	"null.h"
@@ -1920,42 +1920,42 @@
 	<stdexcept>
 	<string>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/datetime.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/datetime.h
 	"common.h"
 	"comparable.h"
 	<string>
 	<iostream>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/comparable.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/comparable.h
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/null.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/null.h
 	"exceptions.h"
 	<iostream>
 	<string>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/sql_buffer.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/sql_buffer.h
 	"refcounted.h"
 	"type_info.h"
 	<string>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/refcounted.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/refcounted.h
 	<memory>
 	<stddef.h>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/type_info.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/type_info.h
 	"common.h"
 	"exceptions.h"
 	<map>
 	<sstream>
 	<typeinfo>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/tiny_int.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/tiny_int.h
 	"common.h"
 	<ostream>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/querydef.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/querydef.h
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/result.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/result.h
 	"common.h"
 	"exceptions.h"
 	"field.h"
@@ -1965,20 +1965,20 @@
 	"refcounted.h"
 	"row.h"
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/field.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/field.h
 	"common.h"
 	"type_info.h"
 	<vector>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/field_names.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/field_names.h
 	<string>
 	<vector>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/field_types.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/field_types.h
 	"type_info.h"
 	<vector>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/row.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/row.h
 	"common.h"
 	"mystring.h"
 	"noexceptions.h"
@@ -1987,7 +1987,7 @@
 	<vector>
 	<string>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/mystring.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/mystring.h
 	"common.h"
 	"datetime.h"
 	"exceptions.h"
@@ -1999,73 +1999,73 @@
 	<stdlib.h>
 	<string.h>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/vallist.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/vallist.h
 	"manip.h"
 	<string>
 	<vector>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/manip.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/manip.h
 	"common.h"
 	"myset.h"
 	"stadapter.h"
 	<iostream>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/myset.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/myset.h
 	"common.h"
 	"mystring.h"
 	"stream2string.h"
 	<iostream>
 	<set>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/stream2string.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/stream2string.h
 	<sstream>
 	<string>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/sqlstream.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/sqlstream.h
 	"common.h"
 	<sstream>
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/transaction.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/transaction.h
 	"common.h"
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/insertpolicy.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/insertpolicy.h
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/scopedconnection.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/scopedconnection.h
 	"common.h"
 
-1362180373 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/sql_types.h
+1362205261 /home/charles/Desktop/log3900-04/trunk/Commun/Externe/MySQL++/lib/sql_types.h
 	"common.h"
 	"tiny_int.h"
 	<string>
 	<stdint.h>
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/ExceptionsReseau/ExceptionReseauBD.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/ExceptionsReseau/ExceptionReseauBD.h
 	"../../Reseau/ExceptionsReseau/ExceptionReseau.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/ControllerServeurMaitre.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/ControllerServeurMaitre.cpp
 	"ControllerServeurMaitre.h"
 	"../Reseau/GestionnaireReseau.h"
 	"../Reseau/PaquetRunnable.h"
 	"PaquetRunnableServeurMaitre.h"
 	"../Reseau/ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/ControllerServeurMaitre.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/ControllerServeurMaitre.h
 	"Utilitaire.h"
 	<iostream>
 	"../Reseau/ControllerInterface.h"
 	"../Reseau/Socket.h"
 
-1362180377 /home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.h
+1362205263 /home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.h
 	"../Reseau/PaquetRunnable.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/ExceptionsReseau/ExceptionReseauBD.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/ExceptionsReseau/ExceptionReseauBD.cpp
 	"ExceptionReseauBD.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/FacadeServeurMaitre.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/FacadeServeurMaitre.cpp
 	"FacadeServeurMaitre.h"
 	"CommunicateurBD.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.cpp
 	"PaquetRunnableServeurMaitre.h"
 	"../ServeurMaitre/FacadeServeurMaitre.h"
 	"../Reseau/Paquets/PaquetLoginInfo.h"
@@ -2080,14 +2080,14 @@
 	<stdexcept>
 	"../Reseau/Paquets/PaquetGameStatus.h"
 
-1362180377 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Network_Defines.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/Reseau/Network_Defines.cpp
 	"Network_Defines.h"
 	<ifaddrs.h>
 	<netinet/in.h>
 	<arpa/inet.h>
 	"GestionnaireReseau.h"
 
-1362181233 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/mainServeurMaitre.cpp
+1362205263 source:/home/charles/Desktop/log3900-04/trunk/Sources/C++/ServeurMaitre/mainServeurMaitre.cpp
 	<iostream>
 	"../Reseau/GestionnaireReseauServeurMaitre.h"
 	"ControllerServeurMaitre.h"

@@ -2,6 +2,8 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
 		<Project filename="../../Commun/Externe/MySQL++/CodeBlocks/MySQLpp.cbp" />
-		<Project filename="ServeurMaitre/ServeurMaitre/ServeurMaitre.cbp" active="1" />
+		<Project filename="ServeurMaitre/ServeurMaitre/ServeurMaitre.cbp" active="1">
+			<Depends filename="../../Commun/Externe/MySQL++/CodeBlocks/MySQLpp.cbp" />
+		</Project>
 	</Workspace>
 </CodeBlocks_workspace_file>
