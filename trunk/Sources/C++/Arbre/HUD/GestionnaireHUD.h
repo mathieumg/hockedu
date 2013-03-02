@@ -34,6 +34,7 @@ public:
 	/// Visibilité
 	void visible(bool& estVisible);
 
+
 private:
 	/// Contructeur
 	GestionnaireHUD();

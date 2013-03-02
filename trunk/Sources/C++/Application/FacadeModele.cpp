@@ -352,17 +352,13 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
     // FreeImage, utilisée par le chargeur, doit être initialisée
     FreeImage_Initialise();
 
-	// Initialisation des modèles
-    CheckTime(GestionnaireModeles::obtenirInstance()->initialiser(););
-	ConfigScene::obtenirInstance();
-	SoundFMOD::obtenirInstance();
-
-	//ConfigScene::obtenirInstance()->obtenirLumiere(0)->allumerLumiere();
- 	//ConfigScene::obtenirInstance()->obtenirLumiere(1)->allumerLumiere();
- 	//ConfigScene::obtenirInstance()->obtenirLumiere(2)->allumerLumiere();
+    // Initialisation des modèles
+    GestionnaireModeles::obtenirInstance()->initialiser();
+    ConfigScene::obtenirInstance();
+    SoundFMOD::obtenirInstance();
+    GestionnaireHUD::obtenirInstance();
 
 #if !SHIPPING
-    GestionnaireHUD::obtenirInstance();
     debugInfo = new HUDTexte("",Vecteur4f(0,1,1,1));
     debugInfo->modifierVisibilite(true);
     debugInfo->modifierPosition(0.15f,0.15f);

@@ -182,12 +182,10 @@ void CancelConnection( char* pUsername )
 ////////////////////////////////////////////////////////////////////////
 void InitOpenGL( HWND hWnd )
 {
-
-    CheckTime(
     FacadeModele::getInstance()->initialiserOpenGL(hWnd);
     SPJoueurAbstrait joueurHumain = SPJoueurAbstrait(new JoueurHumain("Joueur 2"));
     FacadeModele::getInstance()->modifierAdversaire(joueurHumain);
-    );
+    
 }
 
 ////////////////////////////////////////////////////////////////////////
