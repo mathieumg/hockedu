@@ -26,8 +26,28 @@ SINGLETON_DECLARATION_CPP(FacadeServeurMaitre);
 ////////////////////////////////////////////////////////////////////////
 FacadeServeurMaitre::FacadeServeurMaitre()
 {
-    CommunicateurBD::obtenirInstance()->authenticate("bob", "sdsd");
+    std::list<std::pair<std::string, std::string>> wUsersToTest;
+    wUsersToTest.push_back(std::pair<std::string, std::string>("bob", "sdsd"));
+    wUsersToTest.push_back(std::pair<std::string, std::string>("testing", "testing"));
+    wUsersToTest.push_back(std::pair<std::string, std::string>("testing", "yolo"));
 
+    for(auto it = wUsersToTest.begin(); it != wUsersToTest.end(); ++it)
+    {
+        std::string& wUsername = (*it).first;
+        std::string& wPassword = (*it).second;
+        std::ostringstream oss;
+        oss << "Testing connection with user " << wUsername << " and password " << wPassword << ":" << std::endl;
+        int wUserId;
+        if((wUserId = CommunicateurBD::obtenirInstance()->authenticate(wUsername, wPassword)) == -1)
+        {
+            oss << "Combination of user " << wUsername << " and password " << wPassword << " not found." << std::endl;
+        }
+        else
+        {
+            oss << "User " << wUsername << " connected successfully! User ID: " << wUserId << std::endl;
+        }
+        std::cout << oss.str() << std::endl;
+    }
 }
 
 

@@ -150,6 +150,9 @@
     <ClCompile Include="..\Reseau\Network_Defines.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\INF3900 - Projet d%27evolution d%27un logiciel\log3900-04\trunk\Sources\C++\ServeurMaitre\sha1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControllerServeurMaitre.h">
@@ -292,6 +295,9 @@
     </ClInclude>
     <ClInclude Include="ExceptionsReseau\ExceptionReseauBD.h">
       <Filter>Source Files\ExceptionsReseau</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\INF3900 - Projet d%27evolution d%27un logiciel\log3900-04\trunk\Sources\C++\ServeurMaitre\sha1.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -14,7 +14,7 @@
 #include "Singleton.h"
 #include "mysql++.h"
 
-#define DB_DBHOST "173.231.120.124:3306" // hockedu.com:3306
+#define DB_DBHOST "hockedu.com:3306" // hockedu.com:3306
 #define DB_USER "mapary"
 #define DB_PASSWORD "mz41wo13"
 #define DB_DATABASE "poly_hockedu"
@@ -37,15 +37,13 @@ public:
 	// Destructeur
 	~CommunicateurBD();
 
-	bool authenticate(const std::string& pPlayerName, const std::string& pPassword) const;
-
-
-	// Methode a appeler avant chaque methode qui doit appeler la BD
-	bool validerConnectiviter() const;
+	int authenticate(const std::string& pPlayerName, const std::string& pPassword);
 
 	void init();
 
 private:
+    // Methode a appeler avant chaque methode qui doit appeler la BD
+    bool validateConnection() const;
 
 	mysqlpp::Connection mConnection;
 

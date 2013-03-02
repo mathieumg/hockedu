@@ -85,6 +85,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\..\INF3900 - Projet d%27evolution d%27un logiciel\log3900-04\trunk\Sources\C++\ServeurMaitre\sha1.cpp" />
     <ClCompile Include="..\Reseau\CommunicateurReseau.cpp" />
     <ClCompile Include="..\Reseau\ControllerInterface.cpp" />
     <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseau.cpp" />
@@ -127,6 +128,7 @@
     <ClCompile Include="PaquetRunnableServeurMaitre.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\..\INF3900 - Projet d%27evolution d%27un logiciel\log3900-04\trunk\Sources\C++\ServeurMaitre\sha1.h" />
     <ClInclude Include="..\Reseau\CommunicateurReseau.h" />
     <ClInclude Include="..\Reseau\ControllerInterface.h" />
     <ClInclude Include="..\Reseau\ExceptionsReseau\ExceptionReseau.h" />

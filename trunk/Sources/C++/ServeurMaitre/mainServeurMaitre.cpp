@@ -19,14 +19,6 @@ int main(void)  {
 
     FacadeServeurMaitre::obtenirInstance();
 
-
-
-
-
-
-
-
-
     // To prevend the server to exit without killing it
     while(true)
     {
