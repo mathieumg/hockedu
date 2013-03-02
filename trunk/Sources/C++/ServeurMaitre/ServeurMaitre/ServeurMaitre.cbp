@@ -151,6 +151,8 @@
 		<Unit filename="../PaquetRunnableServeurMaitre.cpp" />
 		<Unit filename="../PaquetRunnableServeurMaitre.h" />
 		<Unit filename="../mainServeurMaitre.cpp" />
+		<Unit filename="../sha1.cpp" />
+		<Unit filename="../sha1.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
