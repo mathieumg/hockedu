@@ -10,10 +10,9 @@
 #include "ArbreRendu.h"
 #include "UsineNoeud.h"
 #include "NoeudAbstrait.h"
-
 #include <GL/glu.h>
-#include <stdexcept>
 #include "Utilitaire.h"
+#include "ExceptionJeu.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -86,7 +85,7 @@ NoeudAbstrait* ArbreRendu::creerNoeud(
 	{
 		noeud = usine->second->creerNoeud();
 	}
-	catch (std::logic_error& e)
+	catch (ExceptionJeu& e)
 	{
         utilitaire::afficherErreur(e.what());
 		return 0;
@@ -156,6 +155,66 @@ unsigned int ArbreRendu::calculerProfondeurMaximale()
 
 	return (profondeurPileMatrice < profondeurPileNoms) ?
 profondeurPileMatrice : profondeurPileNoms;
+}
+
+
+const char ETIQUETTE_ARBRE[] = "Arbre";
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn XmlElement* RazerGameTree::creerNoeudXML()
+///
+/// Creation du noeud XML du Noeud
+///
+///
+/// @return XmlElement*
+///
+////////////////////////////////////////////////////////////////////////
+XmlElement* ArbreRendu::creerNoeudXML()
+{
+    XmlElement* racine = XMLUtils::createNode(ETIQUETTE_ARBRE);
+
+    return racine;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool ArbreRendu::initialiser( const XmlElement* element )
+///
+/// Initialisation du NoeudAbstrait à partir d'un element XML
+///
+/// @param[in] const XmlElement * element
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool ArbreRendu::initialiser( const XmlElement* element )
+{
+    // Tenter d'obtenir le noeud 'Arbre'
+    const XmlElement* racine = XMLUtils::FirstChildElement(element, ETIQUETTE_ARBRE);
+    if (racine)
+    {
+        for( auto child = XMLUtils::FirstChildElement(racine); child; child = XMLUtils::NextSibling(child) )
+        {
+            auto name = XMLUtils::GetNodeTag(child);
+            auto node = creerNoeud(name);
+            if(node)
+            {
+                node->initialiser(child);
+            }
+            else
+            {
+                throw ExceptionJeu("Impossible de creer le noeud : %s",name);
+            }
+        }
+    }
+    else
+    {
+        throw ExceptionJeu("Etiquette de l'arbre manquant");
+        return false;
+    }
+
+    return true;
 }
 
 

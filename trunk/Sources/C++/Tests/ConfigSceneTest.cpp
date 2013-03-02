@@ -301,7 +301,7 @@ void ConfigSceneTest::testLectureArbreRenduXMLInvalide()
 		ConfigScene::obtenirInstance()->lireDOM(document, arbre);
 		CPPUNIT_ASSERT(false);
 	}
-	catch (std::runtime_error&)	
+	catch (ExceptionJeu&)	
 	{
 		// La méthode doit lancer une exception
 		CPPUNIT_ASSERT(true);
@@ -314,7 +314,7 @@ void ConfigSceneTest::testLectureArbreRenduXMLInvalide()
 		ConfigScene::obtenirInstance()->lireDOM(document, arbre);
 		CPPUNIT_ASSERT(false);
 	}
-	catch (std::runtime_error&)	
+	catch (ExceptionJeu&)	
 	{
 		CPPUNIT_ASSERT(true);
 	}

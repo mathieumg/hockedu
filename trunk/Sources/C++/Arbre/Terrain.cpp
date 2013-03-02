@@ -36,8 +36,8 @@
 #include "SoundFMOD.h"
 #include "VisiteurCollision.h"
 #include "VisiteurDeplacement.h"
-#include <stdexcept>
 #include "VisiteurEcrireXML.h"
+#include "ExceptionJeu.h"
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
@@ -301,15 +301,15 @@ bool Terrain::initialiserXml( XmlElement* element )
             }
         }
         else
-            throw std::runtime_error("Etiquette de l'arbre manquant");
+            throw ExceptionJeu("Etiquette de l'arbre manquant");
 
 		mTable = mLogicTree->obtenirTable();
 		if(mTable == NULL)
-			throw std::runtime_error("Il ny a pas de table sur le terrain");
+			throw ExceptionJeu("Il ny a pas de table sur le terrain");
 		//mTable->reassignerParentBandeExt();
         fullRebuild();
 	}
-	catch(std::runtime_error& e)
+	catch(ExceptionJeu& e)
 	{
 		// Erreur dans le fichier XML, on remet l'arbre de base
 		initialiserArbreRendu();
@@ -353,12 +353,12 @@ void Terrain::ecrireArbre(NoeudAbstrait* parentNoeud, const XmlNode* node)
         int typeNoeud;
         if( unsigned short result = elem->QueryIntAttribute("typePosNoeud", &typeNoeud) != TIXML_SUCCESS )
         {
-            throw std::runtime_error("Erreur de lecture d'attribut");
+            throw ExceptionJeu("Erreur de lecture d'attribut");
         }
         NoeudTable* table = dynamic_cast<NoeudTable*>(parentNoeud);
         if(table == 0)
         {
-            throw std::runtime_error("Parent du point n'est pas une table");
+            throw ExceptionJeu("Parent du point n'est pas une table");
         }
         noeudCourant = table->obtenirPoint(typeNoeud);
     }
@@ -368,7 +368,7 @@ void Terrain::ecrireArbre(NoeudAbstrait* parentNoeud, const XmlNode* node)
         NoeudPoint* pointMilieu = dynamic_cast<NoeudPoint*>(parentNoeud);
         if(pointMilieu == 0)
         {
-            throw std::runtime_error("Parent du but n'est pas un point");
+            throw ExceptionJeu("Parent du but n'est pas un point");
         }
         noeudCourant = pointMilieu->chercher(0);
     }
@@ -378,16 +378,16 @@ void Terrain::ecrireArbre(NoeudAbstrait* parentNoeud, const XmlNode* node)
         noeudCourant = mLogicTree->creerNoeud(nom.c_str());
         if(noeudCourant == 0)
         {
-            throw std::runtime_error("Type de noeud inexistant");
+            throw ExceptionJeu("Type de noeud inexistant");
         }
         if(!parentNoeud->ajouter(noeudCourant))
         {
-            throw std::runtime_error("Incapable d'ajouter le noeud au parent");
+            throw ExceptionJeu("Incapable d'ajouter le noeud au parent");
         }
     }
     if(!noeudCourant->initialiser(elem))
     {
-        throw std::runtime_error("Erreur de lecture d'attribut");
+        throw ExceptionJeu("Erreur de lecture d'attribut");
     }
     if(!elem->NoChildren())
     {

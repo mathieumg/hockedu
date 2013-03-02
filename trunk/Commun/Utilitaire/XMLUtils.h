@@ -73,16 +73,21 @@ namespace XMLUtils
     template<class T> void writeAttribute(XmlElement* element, const char* name, const T& attribute);
     /// Read an attribute from the xml element with the given name tag
     template<class T> bool readAttribute(const XmlElement* element, const char* name, T& attribute);
+    /// retrieve the text for this node's tag
+    const char* GetNodeTag(const XmlElement* element);
+
     /// Appends an element to another element
     void LinkEndChild(XmlElement* parent, XmlElement* child);
     /// Search an element with the tag
-    const XmlElement* FirstChildElement( const XmlElement* element, const char* childName);
+    const XmlElement* FirstChildElement( const XmlElement* element, const char* childName = NULL);
     /// Search an element with the tag
-    XmlElement* FirstChildElement( XmlElement* element, const char* childName);
+    XmlElement* FirstChildElement( XmlElement* element, const char* childName = NULL);
     /// first child of the element
     const XmlNode* FirstChild( const XmlElement* element, const char* childName = NULL );
     /// first child of the element
     XmlNode* FirstChild( XmlElement* element, const char* childName = NULL );
+    /// retrieves the sibling of the current node
+    const XmlElement* NextSibling( const XmlElement* child );
 
     /// creates an xml document
     XmlDocument* CreateDocument(const char* _version,const char* _encoding,const char* _standalone);
@@ -95,6 +100,7 @@ namespace XMLUtils
 ///private use
     const char* MakeName(const char* name, int index);
     void FreeName(const char* createdName);
+
 }
 
 

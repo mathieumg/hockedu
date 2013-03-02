@@ -22,6 +22,7 @@
 #include "GestionnaireAnimations.h"
 #include "XMLUtils.h"
 #include "Terrain.h"
+#include "ExceptionJeu.h"
 
 
 GLuint Partie::listePause_ = 0;
@@ -334,7 +335,7 @@ void Partie::reinitialiserPartie()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle ) throw(std::logic_error)
+void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle ) throw(ExceptionJeu)
 {
     if(joueurDroit_ && joueurGauche_)
     {
@@ -370,11 +371,11 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
             mailletDroit->buildMouseJoint();
         }
         else
-            throw std::logic_error("Tente d'assigner les controles a des maillets et/ou rondelle non valides");
+            throw ExceptionJeu("Tente d'assigner les controles a des maillets et/ou rondelle non valides");
     }
     else
     {
-        throw std::logic_error("Tente d'assigner les controles a des maillets lorsqu'il manque encore des joueurs dans la partie");
+        throw ExceptionJeu("Tente d'assigner les controles a des maillets lorsqu'il manque encore des joueurs dans la partie");
     }
 }
 
@@ -723,7 +724,7 @@ bool Partie::getReadyToPlay()
     {
         assignerControlesMaillet(mField->getLeftMallet(),mField->getRightMallet(),mField->getPuck());
     }
-    catch(std::logic_error& e)
+    catch(ExceptionJeu& e)
     {
         utilitaire::afficherErreur(e.what());
         return false;

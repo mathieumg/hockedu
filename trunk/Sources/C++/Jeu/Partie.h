@@ -14,6 +14,9 @@
 #include "RazerGameTypeDef.h"
 #include "NoeudAffichage.h"
 #include "GameTime.h"
+#include "ExceptionJeu.h"
+
+
 class NoeudMaillet;
 class NoeudRondelle;
 
@@ -55,7 +58,7 @@ public:
 	static const int POINTAGE_GAGNANT;
 
 	/// Methode pour indiquer au maillet par qui ils sont controlles
-	void assignerControlesMaillet(NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle) throw(std::logic_error);
+	void assignerControlesMaillet(NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle) throw(ExceptionJeu);
 
 	/// Permet de savoir si la partie est terminee
 	inline bool partieTerminee() const {return pointsJoueurGauche_>=POINTAGE_GAGNANT || pointsJoueurDroit_>= POINTAGE_GAGNANT ;}

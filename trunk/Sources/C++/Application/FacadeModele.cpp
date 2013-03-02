@@ -81,6 +81,7 @@
 #include "HUDTexte.h"
 #include "VisiteurFunction.h"
 #include "..\Reseau\GestionnaireReseau.h"
+#include "ExceptionJeu.h"
 
 /// Pointeur vers l'instance unique de la classe.
 FacadeModele* FacadeModele::instance_ = 0;
@@ -1693,7 +1694,7 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
         
 		NoeudTable* table = getEditionField()->getTable();
 		if(!table)
-			throw std::runtime_error("Impossible de trouver la table de jeu");
+			throw ExceptionJeu("Impossible de trouver la table de jeu");
 
 		friction = table->obtenirCoefFriction();
 

@@ -24,6 +24,7 @@
 #include "Utilitaire.h"
 #include "NodeRinkBoards.h"
 #include "BoundingBox.h"
+#include "ExceptionJeu.h"
 
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
 const Vecteur3 NoeudTable::DEFAULT_SIZE = Vecteur3(300,150);
@@ -536,7 +537,7 @@ NoeudBut* NoeudTable::obtenirBut( int joueur ) const
     {
     case 1: return butJoueur1_;
     case 2: return butJoueur2_;
-    default : throw std::logic_error("numero de joueur invalide");
+    default : throw ExceptionJeu("numero [%d] de joueur invalide", joueur);
     }
 }
 

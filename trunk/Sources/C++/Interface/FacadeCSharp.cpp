@@ -1,6 +1,8 @@
 #include "FacadeCSharp.h"
 
 #include <iostream>
+#include "ExceptionJeu.h"
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -47,7 +49,6 @@ void TestGestionnaireReseau()
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("bob", wPaquet,TCP);
 
 }
-
 
 void InitDLL()
 {
@@ -181,6 +182,7 @@ void CancelConnection( char* pUsername )
 ////////////////////////////////////////////////////////////////////////
 void InitOpenGL( HWND hWnd )
 {
+
     CheckTime(
     FacadeModele::getInstance()->initialiserOpenGL(hWnd);
     SPJoueurAbstrait joueurHumain = SPJoueurAbstrait(new JoueurHumain("Joueur 2"));
