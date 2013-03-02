@@ -37,15 +37,13 @@ public:
 	// Destructeur
 	~CommunicateurBD();
 
-	bool authenticate(const std::string& pPlayerName, const std::string& pPassword) const;
-
-
-	// Methode a appeler avant chaque methode qui doit appeler la BD
-	bool validerConnectiviter() const;
+	int authenticate(const std::string& pPlayerName, const std::string& pPassword);
 
 	void init();
 
 private:
+    // Methode a appeler avant chaque methode qui doit appeler la BD
+    bool validateConnection() const;
 
 	mysqlpp::Connection mConnection;
 
