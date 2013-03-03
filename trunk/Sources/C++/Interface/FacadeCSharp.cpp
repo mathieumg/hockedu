@@ -70,7 +70,7 @@ void InitDLL()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void RequestLogin( char* pUsername, char* pIpAdress )
+/// @fn void RequestLogin( char* pUsername, char* pPassword, char* pIpAdress )
 ///
 /// Envoi une demande pour ce connecter
 ///
@@ -79,13 +79,14 @@ void InitDLL()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void RequestLogin( char* pUsername, char* pIpAdress )
+void RequestLogin( char* pUsername, char* pPassword, char* pIpAdress )
 {
     GestionnaireReseauClientLourd::obtenirInstance();
-    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection(pUsername,pIpAdress,TCP);
+    GestionnaireReseau::obtenirInstance()->setUser(pUsername, pPassword);
+    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("MasterServer",pIpAdress,TCP);
 }
 
-void SendMessageDLL(char * pUsername, char * pMessage)
+void SendMessageDLL(char * pConnectionId, char* pUsername, char * pMessage)
 {
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet(CHAT_MESSAGE);
     wPaquet->setMessage(pMessage);
@@ -96,7 +97,7 @@ void SendMessageDLL(char * pUsername, char * pMessage)
 
     try
     {
-        GestionnaireReseau::obtenirInstance()->envoyerPaquet(pUsername, wPaquet,TCP);
+        GestionnaireReseau::obtenirInstance()->envoyerPaquet(pConnectionId, wPaquet,TCP);
     }
     catch(...)
     {
@@ -151,11 +152,11 @@ void SetEventCallback( EventReceivedCallBack callback )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void DisconnectUser( char* pUsername )
+void DisconnectUser( char* pConnectionId )
 {
     try
     {
-        GestionnaireReseau::obtenirInstance()->disconnectClient(pUsername);
+        GestionnaireReseau::obtenirInstance()->disconnectClient(pConnectionId);
     }
     catch(...)
     {
@@ -163,9 +164,9 @@ void DisconnectUser( char* pUsername )
     }
 }
 
-void CancelConnection( char* pUsername )
+void CancelConnection( char* pConnectionId )
 {
-    GestionnaireReseau::obtenirInstance()->cancelNewConnection(pUsername);
+    GestionnaireReseau::obtenirInstance()->cancelNewConnection(pConnectionId);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -375,6 +376,17 @@ void initNetwork( ControllerInterface* pController )
 {
     GestionnaireReseau::obtenirInstance()->setController(pController);
 
+
+
+
+}
+
+
+
+void connectServerGame( char* pServerIP )
+{
+
+    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer", pServerIP, TCP);
 
 
 

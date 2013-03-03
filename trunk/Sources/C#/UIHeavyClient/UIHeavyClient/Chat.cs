@@ -25,12 +25,14 @@ namespace UIHeavyClient
     struct ChatUser
     {
         public string mUserName;
+        public string mPassword;
         public string mUserState;
     }
 
     struct LoginWindowSavedInfo
     {
         public string mUserName;
+        public string mPassword;
         public string mIpAddress;
     }
 
@@ -151,11 +153,11 @@ namespace UIHeavyClient
         }
 
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SendMessageDLL(string pUsername, string pMessage);
+        public static extern void SendMessageDLL(string pUsername, string pUsername, string pMessage);
         // sends a request to connect the user. Will not be necessarly connected when exiting this function
         // must wait for a callback indicating the status of this user's connection
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void RequestLogin(string pUsername, string pIpAdress);
+        public static extern void RequestLogin(string pUsername, string pPassword, string pIpAdress);
 
         delegate bool EventReceivedCallBack(int id, IntPtr message);
         [DllImport(@"RazerGame.dll")]

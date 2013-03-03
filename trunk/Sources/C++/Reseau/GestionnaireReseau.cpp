@@ -448,19 +448,19 @@ Paquet* GestionnaireReseau::creerPaquet( const PacketTypes pOperation )
 ///
 /// // Methode pour creer une nouvelle connection (un nouveau Socket) et le sauvegarder a la liste des Sockets actifs
 ///
-/// @param[in] const std::string& pPlayerName,	: Nom du joueur (local) qui doit etre associe a cette connection
+/// @param[in] const std::string& pConnectionId : Id de la connexion
 /// @param[in] const std::string& pIP			: Adresse IP du Socket a creer
 /// @param[in] ConnectionType pConnectionType	: Type de connectiona  demarrer (TCP ou UDP)
 ///
 /// @return     : Socket*	: Pointeur vers le socket qui vient d'être créer
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireReseau::demarrerNouvelleConnection(const std::string& pPlayerName, const std::string& pIP, ConnectionType pConnectionType)
+void GestionnaireReseau::demarrerNouvelleConnection(const std::string& pConnectionId, const std::string& pIP, ConnectionType pConnectionType)
 {
-    if(pPlayerName != "")
+    if(pConnectionId != "")
     {
         SPSocket wNewSocket = SPSocket(new Socket(pIP, GestionnaireReseau::communicationPort, pConnectionType));
-        saveSocket(pPlayerName, wNewSocket);
+        saveSocket(pConnectionId, wNewSocket);
     }
 }
 
@@ -528,16 +528,23 @@ void GestionnaireReseau::transmitEvent( EventCodes pMessageCode, ... ) const
 void GestionnaireReseau::saveSocket( const std::string& pNomJoueur, SPSocket pSocket )
 {
     FacadePortability::takeMutex(mMutexListeSockets);
-//     try
-//     {
-//         std::map<std::pair<std::string, ConnectionType>, SPSocket>::iterator it = mListeSockets.find(std::pair<std::string, ConnectionType>(pNomJoueur, pSocket->getConnectionType()));
-//         if(it != mListeSockets.end())
-//         {
-//             delete (*it).second;
-//         }
-//
-//     }
-//     catch(...){} // Pour etre certain de ne pas planter pour rien
+    // On compte le nb de connexions qui ne sont pas des connexions de gestion (ex: serveurJeu-serveurMaitre est une connexion de gestion)
+    int compte = 0;
+    for(auto it = mListeSockets.begin(); it != mListeSockets.end(); ++it)
+    {
+        if((*it).first.first != "GameServer" && (*it).first.first != "MasterServer")
+        {
+            ++compte;
+        }
+    }
+
+
+    if(getController()->getNbConnectionMax() == compte)
+    {
+        FacadePortability::releaseMutex(mMutexListeSockets);
+        throw ExceptionReseau("Trop de users connectes");
+    }
+
 
 	// On ecrase le dernier socket qui etait associe a ce nom de joueur et a ce type de socket
 	mListeSockets[std::pair<std::string, ConnectionType>(pNomJoueur, pSocket->getConnectionType())] = pSocket;
@@ -853,10 +860,32 @@ void GestionnaireReseau::throwExceptionReseau(const std::string& pMessagePrefix 
 /// @return std::string : Nom du joueur
 ///
 ////////////////////////////////////////////////////////////////////////
-std::string GestionnaireReseau::getPlayerName( SPSocket pSocket )
+std::string GestionnaireReseau::getPlayerName()
+{
+    return mUsername;
+}
+
+std::string GestionnaireReseau::getPlayerPassword()
+{
+    return mPassword;
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn std::string GestionnaireReseau::getConnectionId( Socket* pSocket )
+///
+/// Methode pour obtenir le nom d'une connexion selon le socket
+///
+/// @param[in] Socket* pSocket  : Socketdont on veut trouver l'id
+///
+/// @return std::string : Id de la connexion
+///
+////////////////////////////////////////////////////////////////////////
+std::string GestionnaireReseau::getConnectionId(SPSocket pSocket)
 {
     FacadePortability::takeMutex(mMutexListeSockets);
-	std::string name;
+    std::string name;
     for (auto it = mListeSockets.begin(); it!=mListeSockets.end(); ++it)
     {
         if((*it).second == pSocket)
@@ -870,16 +899,19 @@ std::string GestionnaireReseau::getPlayerName( SPSocket pSocket )
 }
 
 
+
+
+
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn std::set<std::string> GestionnaireReseau::getPlayerNameList() const
+/// @fn std::set<std::string> GestionnaireReseau::getConnectionIdList() const
 ///
 /// Methode pour obtenir la liste des noms des joueurs connectes
 ///
 /// @return std::set<std::string>   : Liste des noms
 ///
 ////////////////////////////////////////////////////////////////////////
-std::set<std::string> GestionnaireReseau::getPlayerNameList(ConnectionType pConnectionType) const
+std::set<std::string> GestionnaireReseau::getConnectionIdList(ConnectionType pConnectionType) const
 {
     std::set<std::string> wReturnSet;
     for (std::map<std::pair<std::string, ConnectionType>, SPSocket>::const_iterator it = mListeSockets.begin(); it!=mListeSockets.end(); ++it)
@@ -896,19 +928,19 @@ void GestionnaireReseau::socketConnectionStateEvent( SPSocket pSocket, Connectio
 {
 	if(mSocketStateCallback)
 	{
-		pEvent.mPlayerName = getPlayerName(pSocket);
+		pEvent.mPlayerName = getConnectionId(pSocket);
 		mSocketStateCallback(pEvent);
 	}
 }
 
 
 
-void GestionnaireReseau::disconnectClient( const std::string& pPlayerName, ConnectionType pConnectionType /*= TCP*/ )
+void GestionnaireReseau::disconnectClient( const std::string& pConnectionId, ConnectionType pConnectionType /*= TCP*/ )
 {
-    SPSocket wSocket = getSocket(pPlayerName, pConnectionType);
+    SPSocket wSocket = getSocket(pConnectionId, pConnectionType);
     PaquetEvent* wPaquet = (PaquetEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(EVENT);
     wPaquet->setErrorCode(USER_DISCONNECTED);
-    wPaquet->setMessage(pPlayerName);
+    wPaquet->setMessage(GestionnaireReseau::obtenirInstance()->getPlayerName());
     CommunicateurReseau::envoyerPaquetSync(wPaquet, wSocket);
 }
 
@@ -955,8 +987,10 @@ bool GestionnaireReseau::validerUsername( const std::string& pUsername ) const
 
 
 
-void GestionnaireReseau::initClient()
+void GestionnaireReseau::initClient(const std::string& pUsername/* = ""*/, const std::string& pPassword/* = ""*/)
 {
+    mUsername = pUsername;
+    mPassword = pPassword;
     init();
 }
 
@@ -989,8 +1023,11 @@ void GestionnaireReseau::supprimerEcouteSocket( SPSocket pSocket )
 
 
 
-
-
+void GestionnaireReseau::setUser( const std::string& pUsername, const std::string& pPassword )
+{
+    mUsername = pUsername;
+    mPassword = pPassword;
+}
 
 
 

@@ -25,12 +25,14 @@ namespace UIHeavyClientPrototype
     struct ChatUser
     {
         public string mUserName;
+        public string mPassword;
         public string mUserState;
     }
 
     struct LoginWindowSavedInfo
     {
         public string mUserName;
+        public string mPassword;
         public string mIpAddress;
     }
 
@@ -151,11 +153,11 @@ namespace UIHeavyClientPrototype
         }
 
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SendMessageDLL(string pUsername, string pMessage);
+        public static extern void SendMessageDLL(string pConnectionId, string pUsername, string pMessage);
         // sends a request to connect the user. Will not be necessarly connected when exiting this function
         // must wait for a callback indicating the status of this user's connection
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void RequestLogin( string pUsername, string pIpAdress );
+        public static extern void RequestLogin( string pUsername, string pPassword, string pIpAdress );
 
         ////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////
@@ -170,6 +172,7 @@ namespace UIHeavyClientPrototype
             USER_DISCONNECTED,
             INVALID_USERNAME = USER_DISCONNECTED, // Pour eviter d'avoir a changer le handling pour le prototype. Mettre 2 enums separes pour la version finale
             CONNECTION_CANCELED,
+            SEND_PASSWORD_REQUEST,
             RECONNECTION_TIMEOUT,
             RECONNECTION_IN_PROGRESS,
             WRONG_PASSWORD,
@@ -191,6 +194,12 @@ namespace UIHeavyClientPrototype
 
             MODEL_EVENT_END,
             /// Model event category : end
+
+
+
+
+
+
 
 
             NB_EVENT_CODES // Must be always last !
@@ -293,7 +302,17 @@ namespace UIHeavyClientPrototype
                         mLoginWindow = null;
                         break;
                     case EventType.RECONNECTION_IN_PROGRESS: break;
-                    case EventType.WRONG_PASSWORD: break;
+                    case EventType.WRONG_PASSWORD:
+                        // On n'écoute plus les événements
+                        SetEventCallback(null);
+                        // Signal à la fenetre l'événement
+                        mLoginWindow.mTaskManager.ExecuteTask(() =>
+                        {
+                            mLoginWindow.SetUserMessageFeedBack("Invalid User + Password", true);
+                            mLoginWindow.UnBlockUIContent();
+                        });
+                        mLoginWindow = null;
+                        break;
                     default: break;
                 }
             }
@@ -342,7 +361,7 @@ namespace UIHeavyClientPrototype
                                 mMainWindow.mTaskManager.ExecuteTask(() =>
                                 {
                                     mMainWindow.BlockUIContent();
-                                    RequestLogin(mLoginInfo.mUserName, mLoginInfo.mIpAddress);
+                                    RequestLogin(mLoginInfo.mUserName, mLoginInfo.mPassword, mLoginInfo.mIpAddress);
                                 });
                             }
                         }
@@ -366,7 +385,7 @@ namespace UIHeavyClientPrototype
                                 mMainWindow.mTaskManager.ExecuteTask(() =>
                                 {
                                     mMainWindow.BlockUIContent();
-                                    RequestLogin(mLoginInfo.mUserName, mLoginInfo.mIpAddress);
+                                    RequestLogin(mLoginInfo.mUserName, mLoginInfo.mPassword, mLoginInfo.mIpAddress);
                                 });
                             }
                         }
@@ -390,7 +409,7 @@ namespace UIHeavyClientPrototype
                                 mMainWindow.mTaskManager.ExecuteTask(() =>
                                 {
                                     mMainWindow.BlockUIContent();
-                                    RequestLogin(mLoginInfo.mUserName, mLoginInfo.mIpAddress);
+                                    RequestLogin(mLoginInfo.mUserName, mLoginInfo.mPassword, mLoginInfo.mIpAddress);
                                 });
                             }
                         }

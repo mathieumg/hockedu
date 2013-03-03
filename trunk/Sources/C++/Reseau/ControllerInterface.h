@@ -37,6 +37,14 @@ public:
     virtual void handleEvent(EventCodes pEventCode,  va_list pListeElems) = 0;
     virtual void handleDisconnectDetection(SPSocket pSocket);
 
+    virtual int getNbConnectionMax() const {return 1000;}
+
+    // Pas d'authentification par defaut, retourne toujours false
+    virtual bool requireAuthentification() const {return false;}
+
+    // Pas d'authentification par defaut, retourne toujours true
+    virtual bool authenticate(const std::string& pUsername, const std::string& pPassword) {return true;}
+
 protected:
     std::hash_map<PaquetTypes, PaquetRunnableFunc> mPaquetRunnables;
 };

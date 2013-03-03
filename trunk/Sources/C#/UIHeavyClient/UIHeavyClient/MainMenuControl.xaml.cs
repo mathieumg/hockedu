@@ -71,9 +71,23 @@ namespace UIHeavyClient
             MainWindowHandler.GoToTournamentMenu();
         }
 
+        // Tests pour connection serveur jeu et client
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void connectServerGame(string pServerIP);
+
         private void onlineModeButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToOnlineLobby();
+
+            // Tests pour connection serveur jeu et client
+            connectServerGame("127.0.0.1");
+
+            // I know this is bad
+            System.Threading.Thread.Sleep(1000);
+
+
+
+
         }
 
         private void optionButton_Click(object sender, RoutedEventArgs e)

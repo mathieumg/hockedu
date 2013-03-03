@@ -38,6 +38,7 @@ void PacketHandlerAuthentificationServeurJeu::handlePacketReceptionSpecific(Pack
 
 }
 
+
 void PacketHandlerAuthentificationServeurJeu::handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder)
 {
     PaquetAuthentificationServeurJeu* wPaquet = (PaquetAuthentificationServeurJeu*) pPaquet;
@@ -50,7 +51,8 @@ void PacketHandlerAuthentificationServeurJeu::handlePacketPreparationSpecific(Pa
 
 
 
-int PacketHandlerAuthentificationServeurJeu::getPacketSize( Paquet* pPaquet ) const
+
+int PacketHandlerAuthentificationServeurJeu::getPacketSizeSpecific( Paquet* pPaquet ) const
 {
     PaquetAuthentificationServeurJeu* wPaquet = (PaquetAuthentificationServeurJeu*) pPaquet;
     return 0;

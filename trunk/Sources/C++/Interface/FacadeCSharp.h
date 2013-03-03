@@ -58,9 +58,9 @@ extern "C"
     __declspec(dllexport) void LogicUpdate(float time);
     __declspec(dllexport) int ExecuteUnitTest();
     __declspec(dllexport) void InitDLL();
-    __declspec(dllexport) void RequestLogin( char* pUsername, char* pIpAdress );
-    __declspec(dllexport) void CancelConnection( char* pUsername );
-    __declspec(dllexport) void SendMessageDLL( char* pUsername, char * pMessage );
+    __declspec(dllexport) void RequestLogin( char* pUsername, char* pPassword, char* pIpAdress );
+    __declspec(dllexport) void CancelConnection( char* pConnectionId );
+    __declspec(dllexport) void SendMessageDLL( char* pConnectionId, char* pUsername, char * pMessage );
 
     __declspec(dllexport) bool ActionPerformed( ActionType action );
     __declspec(dllexport) bool IsGamePaused();
@@ -108,6 +108,7 @@ extern "C"
     /// Network functions
     __declspec(dllexport) void initNetwork( ControllerInterface* pController );
     __declspec(dllexport) void envoyerPaquet( Paquet* pPaquet );
+    __declspec(dllexport) void connectServerGame( char* pServerIP );
     //__declspec(dllexport) void recevoirPaquet( Paquet* pPaquet );
     /// 
     //////////////////////////////////////////////////////////////////////////

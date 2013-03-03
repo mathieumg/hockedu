@@ -8,6 +8,8 @@
 #include "..\Reseau\UsinePaquets\UsinePaquetUserStatus.h"
 #include "..\Reseau\PaquetHandlers\PacketHandlerGameStatus.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetGameStatus.h"
+#include "..\Reseau\PaquetHandlers\PacketHandlerAuthentificationServeurJeu.h"
+#include "..\Reseau\UsinePaquets\UsinePaquetAuthentificationServeurJeu.h"
 
 void InitDLLServeurJeu()
 {
@@ -21,5 +23,12 @@ void InitDLLServeurJeu()
     wGestionnaireReseau->ajouterOperationReseau(CHAT_MESSAGE, new PacketHandlerChatMessage, new UsinePaquetChatMessage);
     wGestionnaireReseau->ajouterOperationReseau(USER_STATUS, new PacketHandlerUserStatus, new UsinePaquetUserStatus);
     wGestionnaireReseau->ajouterOperationReseau(GAME_STATUS, new PacketHandlerGameStatus, new UsinePaquetGameStatus);
+    wGestionnaireReseau->ajouterOperationReseau(AUTHENTIFICATION_SERVEUR_JEU, new PacketHandlerAuthentificationServeurJeu, new UsinePaquetAuthentificationServeurJeu);
+
+
+    
 }
+
+
+
 

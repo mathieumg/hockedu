@@ -2,6 +2,7 @@
 #include "../Reseau/GestionnaireReseau.h"
 #include "../Reseau/PaquetRunnable.h"
 #include "ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
+#include "PaquetRunnableServeurJeu.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -17,13 +18,11 @@
 ControllerServeurJeu::ControllerServeurJeu()
 {
     // Ajouter tous les Runnables dependant de ce qui est handled selon le type de controlleur
-    mPaquetRunnables[EVENT] = PaquetRunnable::RunnableEvent;
-    //mPaquetRunnables[LOGIN_INFO] = PaquetRunnable::RunnableLoginInfoServer;
-    mPaquetRunnables[CONN_AUTOMATIQUE] = PaquetRunnable::RunnableConnAutomatiqueServer;
-    mPaquetRunnables[USER_STATUS] = PaquetRunnable::RunnableUserStatusServer;
-    mPaquetRunnables[CHAT_MESSAGE] = PaquetRunnable::RunnableChatMessageServer;
-    mPaquetRunnables[TEST] = PaquetRunnable::RunnableTest;
-    mPaquetRunnables[GAME_STATUS] = PaquetRunnable::RunnableGameStatusServer;
+    mPaquetRunnables[EVENT]                         = PaquetRunnable::RunnableEvent;
+    mPaquetRunnables[USER_STATUS]                   = PaquetRunnable::RunnableUserStatusServerGame;
+    mPaquetRunnables[CHAT_MESSAGE]                  = PaquetRunnable::RunnableChatMessageServerGame;
+    mPaquetRunnables[GAME_STATUS]                   = PaquetRunnable::RunnableGameStatusServerGame;
+    mPaquetRunnables[AUTHENTIFICATION_SERVEUR_JEU]  = PaquetRunnable::RunnableAuthentificationServeurJeuServerGame;
 
 
 }

@@ -93,9 +93,11 @@ public:
     static int connectionUDPPort;
 
     // Initialise le GestionnaireReseau
-    void initClient();
+    void initClient(const std::string& pUsername = "", const std::string& pPassword = "");
     // Initialise le GestionnaireReseau avec des fonctionnalites de serveur (listen de ports, etc.)
     void initServer();
+
+    void setUser(const std::string& pUsername, const std::string& pPassword);
 
     // Demarre la connection d'un socket TCP dans un thread separe
     void demarrerConnectionThread(SPSocket pSocket);
@@ -151,11 +153,18 @@ public:
     void removeSocket(SPSocket pSocket); // Pas optimal, mais necessaire dans certains cas
 
 
-    // Methode (PAS OPTIMALE) pour retourner le nom du player associee a un socket
-    std::string getPlayerName(SPSocket pSocket);
+    // Methode pour retourner l'id d'une connexion
+    std::string getConnectionId(SPSocket pSocket);
+
+
+    // Methode pour retourner le nom du player (ne devrait pas etre utilisee par le serveur)
+    std::string getPlayerName();
+
+    // Methode pour retourner le mot de passe du joueur
+    std::string getPlayerPassword();
 
     // Retourne la liste des joueurs connectes
-    std::set<std::string> getPlayerNameList(ConnectionType pConnectionType) const;
+    std::set<std::string> getConnectionIdList(ConnectionType pConnectionType) const;
 
     // Retourne la liste des adresses IP disponibles sur la machine courante
     void getListeAdressesIPLocales(std::list<std::string>& pOut) const;
@@ -164,7 +173,7 @@ public:
 	Paquet* creerPaquet(const PacketTypes pOperation);
 
 	// Methode pour creer une nouvelle connection (un nouveau Socket) et le sauvegarder a la liste des Sockets actifs
-	void demarrerNouvelleConnection(const std::string& pPlayerName, const std::string& pIP, ConnectionType pConnectionType);
+	void demarrerNouvelleConnection(const std::string& pConnectionId, const std::string& pIP, ConnectionType pConnectionType);
     /// Permet d'arreter d'essayer de connecter un socket
     void cancelNewConnection(const std::string& pPlayerName, ConnectionType pConnectionType = TCP);
 
@@ -186,6 +195,11 @@ public:
     void throwExceptionReseau(const std::string& pMessagePrefix = "") const;
 
 
+    inline bool requireAuthentification() const {return mControlleur->requireAuthentification();}
+
+    inline bool authenticate(const std::string& pUsername, const std::string& pPassword) const {return mControlleur->authenticate(pUsername, pPassword);}
+
+
     //Contains the operating system's byte order.
 	static ByteOrder NATIVE_BYTE_ORDER;
 private:
@@ -195,6 +209,11 @@ private:
 
     // Methode de nettoyage
 	void supprimerPacketHandlersEtUsines();
+
+    // Userinfo
+    std::string mUsername;
+    std::string mPassword;
+
 
     // Controlleur associe au modele
     ControllerInterface* mControlleur;
