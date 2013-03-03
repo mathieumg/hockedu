@@ -55,6 +55,19 @@ namespace UIHeavyClient
                             control.mPuckButton.IsEnabled = false;
                         });
                         break;
+                    case EventCodes.ENABLE_MALLET_CREATION:
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                            control.mMalletButton.IsEnabled = true;
+                        });
+
+                        break;
+                    case EventCodes.DISABLE_MALLET_CREATION:
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                            control.mMalletButton.IsEnabled = false;
+                        });
+                        break;
                     default:
                         break;
                 }
@@ -76,7 +89,7 @@ namespace UIHeavyClient
                 {mRedoButton, "Redo the action you just cancelled"},
 
                 {mPuckButton, "The puck for the hockey game (you can only create one)"},
-                {mStickButton, "The mallets for the hockey game (you can only create two)"},
+                {mMalletButton, "The mallets for the hockey game (you can only create two)"},
                 {mWallButton, "A wall that will block the puck"},
                 {mBoosterButton, "A booster that will give an acceleration to the puck"},
                 {mPortalButton, "Will warp the puck to another portal on the map"},
@@ -102,7 +115,7 @@ namespace UIHeavyClient
                 {mRedoButton, "Action redid!"},
 
                 {mPuckButton, "Click on the map to place the puck. You may only place one."},
-                {mStickButton, "Click on the map to place the mallets. You may only place two."},
+                {mMalletButton, "Click on the map to place the mallets. You may only place two."},
                 {mWallButton, "Click on two points on the map to create a wall linking them. A wall will block the puck."},
                 {mBoosterButton, "Click on the map to place a booster. A booster will accelerate the puck."},
                 {mPortalButton, "Click on the map to place a portal. The puck will warp between the placed portals. You must place at least two of them to experiment their effect."},
@@ -128,7 +141,7 @@ namespace UIHeavyClient
                 //{mRedoButton, ActionType.ACTION_},
 
                 {mPuckButton, ActionType.ACTION_INSERER_RONDELLE},
-                {mStickButton, ActionType.ACTION_INSERER_MAILLET},
+                {mMalletButton, ActionType.ACTION_INSERER_MAILLET},
                 {mWallButton, ActionType.ACTION_INSERER_MURET},
                 {mBoosterButton, ActionType.ACTION_INSERER_ACCELERATEUR},
                 {mPortalButton, ActionType.ACTION_INSERER_PORTAIL},

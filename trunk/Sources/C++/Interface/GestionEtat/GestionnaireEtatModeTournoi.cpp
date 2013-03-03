@@ -219,14 +219,22 @@ void GestionnaireEtatModeTournoi::animer( const float& temps )
 void GestionnaireEtatModeTournoi::afficher()
 {
 	Tournoi* tournoi = FacadeModele::getInstance()->obtenirTournoi();
-	if(tournoi && tournoi->obtenirPartieCourante() && tournoi->obtenirPartieCourante()->partieTerminee())
-	{
-		GestionnaireHUD::obtenirInstance()->dessinerHUDTournoi();
-	}
-	else
-	{
-		GestionnaireHUD::obtenirInstance()->dessinerHUDJeu();
-	}
+    if(tournoi)
+    {
+        Partie* game = tournoi->obtenirPartieCourante();
+        if(game)
+        {
+            renderBase(game->getField(),[&]()->void{game->afficher();});
+            if(game->partieTerminee())
+            {
+                GestionnaireHUD::obtenirInstance()->dessinerHUDTournoi();
+            }
+            else
+            {
+                GestionnaireHUD::obtenirInstance()->dessinerHUDJeu();
+            }
+        }
+    }
 }
 
 

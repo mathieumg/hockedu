@@ -307,6 +307,8 @@ private:
 	SPJoueurAbstrait adversaire_;
 	utilitaire::BoiteEnvironnement* boiteEnvironnement;
 
+
+
 	// Lien vers le programme de SHADER
 	GLuint progPhong_;
 
@@ -314,7 +316,8 @@ private:
     bool mUpdating, mRendering;
 	/// Accesseurs
 public:
-
+    /// Accessors of boiteEnvironnement
+    inline utilitaire::BoiteEnvironnement* getBoiteEnvironnement() const { return boiteEnvironnement; }
 
     inline bool IsInGame() const { return enJeu_; }
     /// Accessors of hGLRC_

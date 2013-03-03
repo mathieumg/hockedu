@@ -199,6 +199,11 @@ void GestionnaireEtatPartieTournoiTerminee::animer( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatPartieTournoiTerminee::afficher()
 {
+    auto game = FacadeModele::getInstance()->obtenirPartieCourante();
+    if(game)
+    {
+        renderBase(game->getField(),[&]() -> void{game->afficher();});
+    }
 	if( GestionnaireAnimations::obtenirInstance()->estJouerReplay() )
 		GestionnaireHUD::obtenirInstance()->dessinerHUDJeu();
 	else

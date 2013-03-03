@@ -16,6 +16,7 @@
 #include "Droite3D.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include "Projection.h"
 
 
 namespace vue {
@@ -190,6 +191,36 @@ namespace vue {
 
 	   animation->ajouterObjet(cameraCourante);
 	   GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
+   }
+
+   ////////////////////////////////////////////////////////////////////////
+   ///
+   /// @fn void Vue::appliquerVue( int pViewPortNumber )
+   ///
+   /// /*Description*/
+   ///
+   /// @param[in] int pViewPortNumber
+   ///
+   /// @return void
+   ///
+   ////////////////////////////////////////////////////////////////////////
+   void Vue::appliquerVue( int pViewPortNumber )
+   {
+       checkf((unsigned int)(pViewPortNumber-1) < nbViewports_);
+       // Positionne la caméra
+       glMatrixMode( GL_MODELVIEW );
+       appliquerViewport(pViewPortNumber);
+       glLoadIdentity();
+       appliquerCamera(pViewPortNumber); // gluLookAt
+
+       glMatrixMode( GL_PROJECTION );
+       glLoadIdentity();
+       GLint viewport[4];
+       glGetIntegerv(GL_VIEWPORT, viewport);
+       Vecteur2i dimCloture = Vecteur2i(viewport[2], viewport[3]);
+       Vecteur2 dimFenetre = obtenirProjection().obtenirDimensionFenetre();
+       obtenirProjection().ajusterRapportAspect(dimCloture, dimFenetre); // APPLIQUE AUSSI LA PERSPECTIVE
+       glMatrixMode (GL_MODELVIEW);   
    }
 
 

@@ -640,8 +640,6 @@ void FacadeModele::SignalRender()
     }
 }
 
-int currentCam = 1;
-
 void FacadeModele::ActivateShaders()
 {
 #if GLSHADERS
@@ -673,53 +671,9 @@ void FacadeModele::afficher( )
 {
     utilitaire::CompteurAffichage::obtenirInstance()->signalerAffichage();
     mRendering = true;
-    // Efface l'ancien rendu
-
-    for(currentCam=1; currentCam<=obtenirVue()->obtenirNbViewports(); currentCam++)
-    {
-        glEnable(GL_LIGHTING);
-        appliquerVue(currentCam);
-        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
-
-        // ICI APPLIQUER LES PATENTE DE SHADER
-        ActivateShaders();
-        boiteEnvironnement->afficher(vue_->obtenirCamera(currentCam).obtenirPosition(),5000.0);
-
-        // On rafraichi la lumière
-        ConfigScene::obtenirInstance()->rafraichirLumiere();
-
-        afficherBase();
-
-        DeActivateShaders();
-        glDisable(GL_LIGHTING);
-
-#if BOX2D_DEBUG
-        const b2Vec2 pos[] = {
-            b2Vec2(30,30),
-            b2Vec2(30,-30),
-            b2Vec2(-30,-30),
-            b2Vec2(-30,30),
-            b2Vec2(30,30),
-        };
-        b2Color color(1,1,1);
-
-        glPushMatrix();
-        glPushAttrib(GL_ALL_ATTRIB_BITS);
-
-        if(partieCourante_)
-        {
-            partieCourante_->getField()->GetWorld()->DrawDebugData();
-        }
-        else
-        {
-            mEditionField->GetWorld()->DrawDebugData();
-        }
-        // Restauration de la matrice.
-        glPopAttrib();
-        glPopMatrix();
-#endif
-    }
-
+ 
+    // Affichage specifique aux etats
+    GestionnaireEvenements::afficher();
     DrawSelectionRectangle();
 
     for(int i=(int)mUIRunnables.size()-1; i>=0; --i)
@@ -736,16 +690,7 @@ void FacadeModele::afficher( )
             delete pRun;
         }
     }
-
-    if(vue_->obtenirNbViewports()>1)
-    {
-        // Il faut remettre le viewport full pour le hud
-        obtenirVue()->obtenirProjection().mettreAJourCloture();
-    }
-    // Affichage specifique aux etats
-    GestionnaireEvenements::afficher();
     
-
     // Compte de l'affichage
     utilitaire::CompteurAffichage::obtenirInstance()->signalerAffichage();
 
@@ -773,7 +718,7 @@ void FacadeModele::afficherBase() const
     // Afficher la scène
     else if(getEditionField())
     {
-        getEditionField()->afficherTerrain();
+        getEditionField()->renderField();
     }
 }
 
@@ -855,11 +800,6 @@ void FacadeModele::animer( const float& temps)
     }
 
     GestionnaireEvenements::miseAJourEvenementsRepetitifs(tempsReel);
-    if(partieCourante_)
-    {
-        partieCourante_->animer(temps);
-    }
-    
     GestionnaireEvenements::animer(tempsReel);
     bool replaying = false;
     if(GestionnaireAnimations::obtenirInstance()->estJouerReplay())
@@ -1864,21 +1804,7 @@ void FacadeModele::resetHighlightFlags()
 void FacadeModele::appliquerVue(int quelViewport/* = 1*/)
 {
     vue::Vue* vueCourante = obtenirVue();
-
-    // Positionne la caméra
-    glMatrixMode( GL_MODELVIEW );
-    vueCourante->appliquerViewport(quelViewport);
-    glLoadIdentity();
-    vueCourante->appliquerCamera(quelViewport); // gluLookAt
-    
-    glMatrixMode( GL_PROJECTION );
-    glLoadIdentity();
-    GLint viewport[4];
-    glGetIntegerv(GL_VIEWPORT, viewport);
-    Vecteur2i dimCloture = Vecteur2i(viewport[2], viewport[3]);
-    Vecteur2 dimFenetre = vueCourante->obtenirProjection().obtenirDimensionFenetre();
-    vueCourante->obtenirProjection().ajusterRapportAspect(dimCloture, dimFenetre); // APPLIQUE AUSSI LA PERSPECTIVE
-    glMatrixMode (GL_MODELVIEW);            
+    vueCourante->appliquerVue(quelViewport);
 }
 
 ////////////////////////////////////////////////////////////////////////

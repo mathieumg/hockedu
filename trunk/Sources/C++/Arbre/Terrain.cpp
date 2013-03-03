@@ -150,7 +150,7 @@ void Terrain::libererMemoire()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void Terrain::afficherTerrain()
+/// @fn void Terrain::renderField()
 ///
 /// Permet d'effectuer le rendu des arbres du terrain
 ///
@@ -158,7 +158,7 @@ void Terrain::libererMemoire()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Terrain::afficherTerrain()
+void Terrain::renderField()
 {
 	if(mLogicTree)
 		mLogicTree->afficher();

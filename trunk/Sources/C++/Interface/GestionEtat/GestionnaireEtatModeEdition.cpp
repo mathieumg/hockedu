@@ -21,7 +21,13 @@
 #include "SourisEtatAjout.h"
 #include "SourisEtatAjoutControlPointMutable.h"
 #include "Terrain.h"
-
+#include "Vue.h"
+#include "Projection.h"
+#include "ConfigScene.h"
+#include "BoiteEnvironnement.h"
+#if BOX2D_DEBUG
+#include "Box2D\Dynamics\b2World.h"
+#endif
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
@@ -269,8 +275,9 @@ void GestionnaireEtatModeEdition::animer( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeEdition::afficher()
 {
+    renderBase(mField);
     GestionnaireHUD::obtenirInstance()->dessinerHUDEdition();
-    }
+}
 
 ////////////////////////////////////////////////////////////////////////
 ///

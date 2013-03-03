@@ -20,7 +20,13 @@
 #include "NoeudMaillet.h"
 #include "Terrain.h"
 
-HANDLE mutexMouseState;
+#include "Vue.h"
+#include "Projection.h"
+#include "ConfigScene.h"
+#include "BoiteEnvironnement.h"
+#if BOX2D_DEBUG
+#include "Box2D\Dynamics\b2World.h"
+#endif
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
@@ -233,6 +239,70 @@ void GestionnaireEtatAbstrait::gestionAnimationEnJeu( Partie* partieCourante, co
 		IterationReplay* iterationReplay = new IterationReplay(temps*1000, listeAnimationFrame);
 		GestionnaireAnimations::obtenirInstance()->saveReplayFrame(iterationReplay);
 	}
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void GestionnaireEtatAbstrait::renderBase( class Terrain* pField, RenderSpecific /*= NULL*/ )
+///
+/// /*Description*/
+///
+/// @param[in] class Terrain * pField
+/// @param[in] RenderSpecific
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void GestionnaireEtatAbstrait::renderBase( Terrain* pField, RenderSpecific pSpecificRender/*= NULL*/ )
+{
+    auto vue = FacadeModele::getInstance()->obtenirVue();
+    if(vue)
+    {
+        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
+        const int nbViewPort = vue->obtenirNbViewports();
+        for(int currentCam=1; currentCam <= nbViewPort; currentCam++)
+        {
+            glEnable(GL_LIGHTING);
+            vue->appliquerVue(currentCam);
+
+            // ICI APPLIQUER LES PATENTE DE SHADER
+            FacadeModele::getInstance()->ActivateShaders();
+            FacadeModele::getInstance()->getBoiteEnvironnement()->afficher(vue->obtenirCamera(currentCam).obtenirPosition(),5000.0);
+
+            // On rafraichi la lumière
+            ConfigScene::obtenirInstance()->rafraichirLumiere();
+
+            if(pSpecificRender)
+            {
+                pSpecificRender();
+            }
+            else
+            {
+                pField->renderField();
+            }
+
+            FacadeModele::getInstance()->DeActivateShaders();
+            glDisable(GL_LIGHTING);
+
+#if BOX2D_DEBUG
+            glPushMatrix();
+            glPushAttrib(GL_ALL_ATTRIB_BITS);
+
+            auto world = pField->GetWorld();
+            if(world)
+            {
+                world->DrawDebugData();
+            }
+            // Restauration de la matrice.
+            glPopAttrib();
+            glPopMatrix();
+#endif
+        }
+        if(nbViewPort>1)
+        {
+            vue->obtenirProjection().mettreAJourCloture();
+        }
+    }
 }
 
 

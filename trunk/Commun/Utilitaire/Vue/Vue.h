@@ -75,6 +75,7 @@ namespace vue {
       virtual void appliquerCamera(int laquelle = 1) const = 0;
 
 	  virtual void appliquerViewport(int lequel) {}
+      virtual void appliquerVue(int pViewPortNumber);
 
       /// Modification de la clotûre
       virtual void redimensionnerFenetre( const Vecteur2i& coinMin,
