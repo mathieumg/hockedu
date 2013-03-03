@@ -85,6 +85,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Application\GameManager.cpp" />
     <ClCompile Include="..\Reseau\CommunicateurReseau.cpp" />
     <ClCompile Include="..\Reseau\ControllerInterface.cpp" />
     <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseau.cpp" />
@@ -128,6 +129,7 @@
     <ClCompile Include="sha1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Application\GameManager.h" />
     <ClInclude Include="..\Reseau\CommunicateurReseau.h" />
     <ClInclude Include="..\Reseau\ControllerInterface.h" />
     <ClInclude Include="..\Reseau\ExceptionsReseau\ExceptionReseau.h" />
