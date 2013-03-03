@@ -14,10 +14,6 @@
 #include "Singleton.h"
 #include "mysql++.h"
 
-#define DB_DBHOST "hockedu.com:3306" // hockedu.com:3306
-#define DB_USER "mapary"
-#define DB_PASSWORD "mz41wo13"
-#define DB_DATABASE "poly_hockedu"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -41,12 +37,21 @@ public:
 
 	void init();
 
+    // Methode pour sauvegarder les infos de connexion
+    static void setup(const std::string& pHostname, const std::string pName, const std::string& pUser, const std::string& pPassword);
+
 private:
     // Methode a appeler avant chaque methode qui doit appeler la BD
     bool validateConnection() const;
 
 	mysqlpp::Connection mConnection;
 
+    static std::string mBDHost;
+    static std::string mBDUser;
+    static std::string mDBPassword;
+    static std::string mDBName;
+
+    static bool setupDone;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

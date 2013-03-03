@@ -14,6 +14,13 @@
 
 SINGLETON_DECLARATION_CPP(CommunicateurBD);
 
+bool CommunicateurBD::setupDone             = false;
+std::string CommunicateurBD::mDBName        = "";
+std::string CommunicateurBD::mDBPassword    = "";
+std::string CommunicateurBD::mBDUser        = "";
+std::string CommunicateurBD::mBDHost        = "";
+
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn CommunicateurBD::CommunicateurBD()
@@ -107,9 +114,15 @@ bool CommunicateurBD::validateConnection() const
 
 void CommunicateurBD::init()
 {
+    if(!CommunicateurBD::setupDone)
+    {
+        throw ExceptionReseauBD("Appel a init avant setup");
+    }
+
+
     try 
     {
-        mConnection.connect(DB_DATABASE, DB_DBHOST, DB_USER, DB_PASSWORD);
+        mConnection.connect(CommunicateurBD::mDBName.c_str(), CommunicateurBD::mBDHost.c_str(), CommunicateurBD::mBDUser.c_str(), CommunicateurBD::mDBPassword.c_str());
 #if !SHIPPING
         std::cout << "Connected? " << validateConnection() << std::endl;
 #endif
@@ -119,6 +132,37 @@ void CommunicateurBD::init()
         throw ExceptionReseauBD("Connexion impossible a la BD");
     }
 }
+
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn CommunicateurBD::setup( const std::string& pHostname, const std::string pName, const std::string& pUser, const std::string& pPassword )
+///
+/// Methode pour sauvegarder les infos de connexion
+///
+/// @param[in]  pHostname:  Adresse de la BD (ex: hockedu.com:3306)
+/// @param[in]  pName:      Nom de la base de donnee a utiliser
+/// @param[in]  pUser:      Username a utiliser pour la connexion
+/// @param[in]  pPassword   Password a utiliser pour la connexion
+///
+/// @return
+///
+////////////////////////////////////////////////////////////////////////
+void CommunicateurBD::setup( const std::string& pHostname, const std::string pName, const std::string& pUser, const std::string& pPassword )
+{
+    CommunicateurBD::mBDHost        = pHostname;
+    CommunicateurBD::mDBName        = pName;
+    CommunicateurBD::mBDUser        = pUser;
+    CommunicateurBD::mDBPassword    = pPassword;
+
+    // Met le flag de setup seulement si tous les parametres ont au moins 1 caractere et le hostname definit le port
+    CommunicateurBD::setupDone = pName.length() && pUser.length() && pPassword.length() && pHostname.find(':') != std::string::npos;
+
+}
+
+
+
 
 
 
