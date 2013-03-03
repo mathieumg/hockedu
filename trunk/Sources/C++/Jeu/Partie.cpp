@@ -407,27 +407,6 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 
     if(debutDePartie)
     {
-        dureeAnimationIntro = 3500;
-
-
-        AnimationFrame* frame[7];
-        frame[0] = new AnimationFrame(0, Vecteur3(-300, -150, 200), Vecteur3(0, 0, 0), Vecteur3(0, 0, 1));
-        frame[1] = new AnimationFrame(500, Vecteur3(300, -150, 200), Vecteur3(0, 0, 0), Vecteur3(0, 0, 1));
-        frame[2] = new AnimationFrame(1000, Vecteur3(300, 150, 200), Vecteur3(0, 0, 0), Vecteur3(0, 0, 1));
-        frame[3] = new AnimationFrame(1700, Vecteur3(-300, 150, 200), Vecteur3(0, 0, 0), Vecteur3(0, 0, 1));
-        frame[4] = new AnimationFrame(2000, Vecteur3(-300, -150, 200), Vecteur3(0, 0, 0), Vecteur3(0, 0, 1));
-        frame[5] = new AnimationFrame(2500, Vecteur3(300, 0, 0), Vecteur3(150, 0, 0), Vecteur3(0, 0, 1));
-        frame[6] = new AnimationFrame((float)dureeAnimationIntro, Vecteur3(0, -0.0001f, 300), Vecteur3(0, 0, 0), Vecteur3(0, 1, 0));
-
-
-        Animation* animation = new Animation(BEZIER, true, true, true);
-        for(int i=0; i<7; i++)
-            animation->ajouterFrame(frame[i]);
-
-        vue::Camera* cameraCourante = &FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
-        animation->ajouterObjet(cameraCourante);
-        GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
-    
         tempsJeu_.reset_Time();
     }
     delais(4100+dureeAnimationIntro);

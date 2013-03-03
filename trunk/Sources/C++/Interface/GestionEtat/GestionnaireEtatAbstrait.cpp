@@ -107,6 +107,7 @@ void GestionnaireEtatAbstrait::modifierEtatSouris( NomEtatSouris etatSouris )
         case ETAT_SOURIS_ZOOM_ELASTIQUE				: etatSouris_ = new SourisEtatZoomElastique				();	break;
         case ETAT_SOURIS_ZOOM_PROPORTIONNEL			: etatSouris_ = new SourisEtatZoomProportionnel			();	break;
         case ETAT_SOURIS_ORBIT						: etatSouris_ = new SourisEtatOrbit                     ();	break;
+        default: break;
         }
     }
 }

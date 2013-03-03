@@ -21,13 +21,7 @@
 #include "SourisEtatAjout.h"
 #include "SourisEtatAjoutControlPointMutable.h"
 #include "Terrain.h"
-#include "Vue.h"
-#include "Projection.h"
-#include "ConfigScene.h"
-#include "BoiteEnvironnement.h"
-#if BOX2D_DEBUG
-#include "Box2D\Dynamics\b2World.h"
-#endif
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///

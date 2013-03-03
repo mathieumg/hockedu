@@ -19,6 +19,7 @@
 #include "GestionnaireEtatModeTournoi.h"
 #include "GestionnaireEtatPartieRapideTerminee.h"
 #include "GestionnaireEtatPartieTournoiTerminee.h"
+#include "GestionnaireEtatModeSimulation.h"
 
 
 GestionnaireEtatAbstrait* GestionnaireEvenements::etatCourant_ = new GestionnaireEtatMenuPrincipal(); 
@@ -47,7 +48,8 @@ void GestionnaireEvenements::modifierEtat(const EtatGestion &nouvelEtat)
         case ETAT_MODE_JEU: etatCourant_ = new GestionnaireEtatModeJeu(FacadeModele::getInstance()->obtenirPartieCourante()); break;
 		case ETAT_MODE_TOURNOI: etatCourant_ = new GestionnaireEtatModeTournoi(); break;
 		case ETAT_PARTIE_RAPIDE_TERMINEE: etatCourant_ = new GestionnaireEtatPartieRapideTerminee(); break;
-		case ETAT_PARTIE_TOURNOI_TERMINEE: etatCourant_ = new GestionnaireEtatPartieTournoiTerminee(); break;
+        case ETAT_PARTIE_TOURNOI_TERMINEE: etatCourant_ = new GestionnaireEtatPartieTournoiTerminee(); break;
+        case ETAT_MODE_SIMULATION: etatCourant_ = new GestionnaireEtatModeSimulation(); break;
 	}
 	checkf(etatCourant_);
 }
@@ -73,7 +75,7 @@ void GestionnaireEvenements::toucheEnfoncee(EvenementClavier& evenementClavier)
 	{
 		FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 	}
-    checkf(etatCourant_);etatCourant_->toucheEnfoncee(evenementClavier);
+    if(etatCourant_)etatCourant_->toucheEnfoncee(evenementClavier);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,7 +91,7 @@ void GestionnaireEvenements::toucheEnfoncee(EvenementClavier& evenementClavier)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEvenements::toucheRelachee( EvenementClavier& evenementClavier )
 {
-	checkf(etatCourant_);etatCourant_->toucheRelachee(evenementClavier);
+	if(etatCourant_)etatCourant_->toucheRelachee(evenementClavier);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,7 +107,7 @@ void GestionnaireEvenements::toucheRelachee( EvenementClavier& evenementClavier 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEvenements::sourisEnfoncee( EvenementSouris& evenementSouris )
 {
-	checkf(etatCourant_);etatCourant_->sourisEnfoncee(evenementSouris);
+	if(etatCourant_)etatCourant_->sourisEnfoncee(evenementSouris);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -121,7 +123,7 @@ void GestionnaireEvenements::sourisEnfoncee( EvenementSouris& evenementSouris )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEvenements::sourisRelachee( EvenementSouris& evenementSouris )
 {
-	checkf(etatCourant_);etatCourant_->sourisRelachee(evenementSouris);
+	if(etatCourant_)etatCourant_->sourisRelachee(evenementSouris);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -137,7 +139,7 @@ void GestionnaireEvenements::sourisRelachee( EvenementSouris& evenementSouris )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEvenements::sourisDeplacee( EvenementSouris& evenementSouris )
 {
-	checkf(etatCourant_);etatCourant_->sourisDeplacee(evenementSouris);
+	if(etatCourant_)etatCourant_->sourisDeplacee(evenementSouris);
     mMouseMoveSubject.mEvent = evenementSouris;
     mMouseMoveSubject.signalObservers();
 }
@@ -155,7 +157,7 @@ void GestionnaireEvenements::sourisDeplacee( EvenementSouris& evenementSouris )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEvenements::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
 {
-	checkf(etatCourant_);etatCourant_->rouletteSouris(evenementRouletteSouris);
+	if(etatCourant_)etatCourant_->rouletteSouris(evenementRouletteSouris);
 }
 
 
@@ -173,7 +175,7 @@ void GestionnaireEvenements::rouletteSouris( EvenementRouletteSouris& evenementR
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEvenements::miseAJourEvenementsRepetitifs( float detlaTemps )
 {
-	checkf(etatCourant_);etatCourant_->miseAJourEvenementsRepetitifs(detlaTemps);
+	if(etatCourant_)etatCourant_->miseAJourEvenementsRepetitifs(detlaTemps);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -189,7 +191,7 @@ void GestionnaireEvenements::miseAJourEvenementsRepetitifs( float detlaTemps )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEvenements::modifierEtatSouris( NomEtatSouris etatSouris )
 {
-    checkf(etatCourant_);etatCourant_->modifierEtatSouris(etatSouris);
+    if(etatCourant_)etatCourant_->modifierEtatSouris(etatSouris);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -204,7 +206,7 @@ void GestionnaireEvenements::modifierEtatSouris( NomEtatSouris etatSouris )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEvenements::afficher()
 {
-    checkf(etatCourant_);etatCourant_->afficher();
+    if(etatCourant_)etatCourant_->afficher();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -220,7 +222,7 @@ void GestionnaireEvenements::afficher()
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEvenements::animer( float temps )
 {
-    checkf(etatCourant_);etatCourant_->animer(temps);
+    if(etatCourant_)etatCourant_->animer(temps);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

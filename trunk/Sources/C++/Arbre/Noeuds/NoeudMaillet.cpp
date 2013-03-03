@@ -653,7 +653,7 @@ void NoeudMaillet::preSimulationActions()
         }
 
         direction.normaliser();
-        direction *= 10;
+        direction *= 5;
         direction += getPosition();
 
         b2Vec2 velocite;

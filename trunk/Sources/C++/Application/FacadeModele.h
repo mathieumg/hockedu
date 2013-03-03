@@ -130,8 +130,6 @@ public:
     void DrawSelectionRectangle() const;
     /// Indique qu'il est temps de faire un rendu
     void SignalRender();
-    /// Affiche la base du contenu du modèle.
-	void afficherBase() const;
 	/// Indique que la fenêtre doit être réaffichée sans le faire directement.
 	void rafraichirFenetre() const;
 
@@ -173,6 +171,9 @@ public:
 	bool passageModeJeu();
 	bool passageModeTournoi();
 	bool passageMenuPrincipal();
+    bool passageModeSimulation();
+    /// Ends tournament and clear current game's memory
+    void ClearCurrentGame();
 
 	/// Launch a visitor on the field
     void acceptVisitor(VisiteurNoeud& visiteur);
@@ -297,9 +298,6 @@ private:
 	Partie* partieCourante_;
     //std::hash_map<PartieId,Partie*> mGames;
 
-	/// Indique si on applique la physique du jeu 
-	bool enJeu_;	
-
 	/// Objet contenant le temps ecouler en temps reel
 	GameTime temps_;
     
@@ -319,7 +317,6 @@ public:
     /// Accessors of boiteEnvironnement
     inline utilitaire::BoiteEnvironnement* getBoiteEnvironnement() const { return boiteEnvironnement; }
 
-    inline bool IsInGame() const { return enJeu_; }
     /// Accessors of hGLRC_
     HGLRC GetHGLRC() const { return hGLRC_; }
 	/// Accesseur de hDC_

@@ -80,7 +80,9 @@ public:
 	///Fonction pour aller en mode tournoi
 	bool actionBoutonAllerModeTournoi();
 	///Fonction pour aller au menu principal
-	bool actionBoutonAllerMenuPrincipal();
+    bool actionBoutonAllerMenuPrincipal();
+    ///Fonction pour aller au mode simulation
+    bool actionBoutonAllerModeSimulation();
 	///Fonction pour mettre le jeu en pause
 	bool actionTogglePauseJeu();
 	///Fonction pour jouer un replay

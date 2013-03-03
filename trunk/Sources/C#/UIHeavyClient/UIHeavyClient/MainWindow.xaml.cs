@@ -139,12 +139,26 @@ namespace UIHeavyClient
             SplitView.Header = "Split View";
             SplitView.Click += SplitView_Click;
             debugMenu.Items.Add(SplitView);
+
+            System.Windows.Controls.MenuItem simulationMode = new System.Windows.Controls.MenuItem();
+            simulationMode.Header = "Mode Simulation";
+            simulationMode.Click += simulationMode_Click;
+            debugMenu.Items.Add(simulationMode);
 #endif
 
             InitDLL();
             this.Loaded += CreateUserControl;
             this.KeyDown += MainWindow_KeyDown;
             this.KeyUp += MainWindow_KeyUp;
+        }
+
+        void simulationMode_Click(object sender, RoutedEventArgs e)
+        {
+            // temp
+            WindowContentControl.Content = PlayModeControl;
+            EditionModeControl.RemoveOpenGL();
+            PlayModeControl.AppendOpenGL();
+            MainWindowHandler.ActionPerformed(ActionType.ACTION_ALLER_MODE_SIMULATION);
         }
 
         void SplitView_Click(object sender, RoutedEventArgs e)

@@ -168,7 +168,7 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 			glMatrixMode( GL_MODELVIEW );
 			glLoadIdentity();
 			FacadeModele::getInstance()->obtenirVue()->appliquerCamera();
-			FacadeModele::getInstance()->afficherBase();
+			FacadeModele::getInstance()->getEditionField()->renderField();
 
 			int nbObjets = glRenderMode(GL_RENDER);
 			

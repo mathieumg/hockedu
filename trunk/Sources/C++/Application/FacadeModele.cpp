@@ -228,7 +228,7 @@ void FacadeModele::libererInstance()
 ///
 ////////////////////////////////////////////////////////////////////////
 FacadeModele::FacadeModele()
-    : hGLRC_(0), hDC_(0), hWnd_(0), vue_(0),zoomElastique_(false),tournoi_(0),cheminTournoi_(""),enJeu_(false),
+    : hGLRC_(0), hDC_(0), hWnd_(0), vue_(0),zoomElastique_(false),tournoi_(0),cheminTournoi_(""),
     partieCourante_(0), /*adversaire_(0),*/ mEditionField(0), mUpdating(false), mRendering(false)
 {
     // Il ne faut pas faire d'initialisation de Noeud ici, car le contexte OpenGl n'est pas encore creer
@@ -378,7 +378,6 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
 //     bRendering = true;
 //     //RenderWorkerData* data = (RenderWorkerData*)malloc(sizeof(RenderWorkerData));
 //     renderWorkerData.terrain = &mFieldName;
-//     renderWorkerData.enjeu = &enJeu_;
 //     renderWorkerData.dc = hDC_;
 //     renderWorkerData.glrc = wglCreateContext(hDC_);
 // 
@@ -701,30 +700,6 @@ void FacadeModele::afficher( )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void FacadeModele::afficherBase() const
-///
-/// Cette fonction affiche la base du contenu de la scène, c'est-à-dire
-/// qu'elle met en place l'éclairage et affiche les objets.
-///
-/// @return Aucune.
-///
-////////////////////////////////////////////////////////////////////////
-void FacadeModele::afficherBase() const
-{
-    if(partieCourante_)
-    {
-        partieCourante_->afficher();
-    }
-    // Afficher la scène
-    else if(getEditionField())
-    {
-        getEditionField()->renderField();
-    }
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
 /// @fn void FacadeModele::rafraichirFenetre() const
 ///
 /// Cette fonction rafraîchit le contenu de la fenêtre, c'est-à-dire
@@ -930,6 +905,32 @@ void FacadeModele::modifierVariableZoomElastique(bool actif, Vecteur2i coin1, Ve
 
 ////////////////////////////////////////////////////////////////////////
 ///
+/// @fn void FacadeModele::ClearCurrentGame()
+///
+/// Ends tournament and clear current game's memory
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void FacadeModele::ClearCurrentGame()
+{
+    // Indique que nous ne somme plus en train de jouer le tournoi
+    if(tournoi_)
+        tournoi_->modifierEstEnCours(false);
+
+    if(partieCourante_)
+    {
+        if(!partieCourante_->faitPartieDunTournoi())
+        {
+            delete partieCourante_;
+        }
+    }
+    partieCourante_ = 0;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
 /// @fn bool FacadeModele::passageModeEdition()
 ///
 /// Passage au mode édition.
@@ -940,25 +941,32 @@ void FacadeModele::modifierVariableZoomElastique(bool actif, Vecteur2i coin1, Ve
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageModeEdition()
 {
-    // Indique que nous ne somme plus en train de jouer le tournoi
-    if(tournoi_)
-        tournoi_->modifierEstEnCours(false);
-    if(partieCourante_)
-    {
-        if(!partieCourante_->faitPartieDunTournoi())
-        {
-            delete partieCourante_;
-        }
-    }
-    partieCourante_ = 0;
-
-    enJeu_ = false;
+    ClearCurrentGame();
     RazerGameUtilities::LoadFieldFromFile(FICHIER_TERRAIN_EN_COURS,*mEditionField);
     getEditionField()->setTableControlPointVisible(true);
 
+    GestionnaireEvenements::modifierEtat(ETAT_MODE_EDITION);
+    SoundFMOD::obtenirInstance()->playApplicationSong(EDITION_MODE_SONG);
     return true;
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool FacadeModele::passageModeSimulation()
+///
+/// Passage au mode simulation.
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool FacadeModele::passageModeSimulation()
+{
+    ClearCurrentGame();
+
+    GestionnaireEvenements::modifierEtat(ETAT_MODE_SIMULATION);
+    return true;
+}
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -985,30 +993,18 @@ bool FacadeModele::passageModeTournoi()
     SetCursor(NormalCursor);
 #endif
 
-
     if(!tournoi_)
     {
         utilitaire::afficherErreur("Le modele ne contient pas de tournoi a jouer");
         return false;
     }
-    if(partieCourante_)
-    {
-        if(!partieCourante_->faitPartieDunTournoi())
-        {
-            delete partieCourante_;
-        }
-        else
-        {
-            checkf(0, "TODO::Enlever la partie de la hash_map de partie courantes");
-        }
-    }
+    ClearCurrentGame();
 
     GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
     partieCourante_ = tournoi_->obtenirPartieCourante();
     partieCourante_->getReadyToPlay();
 
     partieCourante_->miseAuJeu(true);
-    enJeu_ = true;
 
     obtenirVue()->centrerCamera(partieCourante_->getField()->GetTableWidth());
     
@@ -1025,6 +1021,7 @@ bool FacadeModele::passageModeTournoi()
     partieCourante_->terminerSi2AI();
 #endif
     
+    GestionnaireEvenements::modifierEtat(ETAT_MODE_TOURNOI);
     return true;
 }
 
@@ -1041,28 +1038,21 @@ bool FacadeModele::passageModeTournoi()
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageModeJeu()
 {
-    // Le java fait la demande pour valider la map pour que ce soit fait avant de demander contre kel joueur jouer
-//  if(!verifierValiditeMap())
-//  {
-//      return false;
-//  }
 
-#ifdef WIN32
-    static auto loadingCursor = LoadCursor(NULL,IDC_WAIT);
-    auto NormalCursor = GetCursor();
-    SetCursor(loadingCursor);
-#endif
+// #ifdef WIN32
+//     static auto loadingCursor = LoadCursor(NULL,IDC_WAIT);
+//     auto NormalCursor = GetCursor();
+//     SetCursor(loadingCursor);
+// #endif
+// 
+//     // Attend que tous les modeles soit charger
+//     while(GestionnaireModeles::obtenirInstance()->isStillLoadingModel()){}
+// 
+// #ifdef WIN32
+//     SetCursor(NormalCursor);
+// #endif
 
-    // Attend que tous les modeles soit charger
-    while(GestionnaireModeles::obtenirInstance()->isStillLoadingModel()){}
-
-#ifdef WIN32
-    SetCursor(NormalCursor);
-#endif
-
-    // Indique que nous ne somme plus en train de jouer le tournoi
-    if(tournoi_)
-        tournoi_->modifierEstEnCours(false);
+    ClearCurrentGame();
 
     GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
     if(!adversaire_)
@@ -1072,10 +1062,10 @@ bool FacadeModele::passageModeJeu()
     partieCourante_->setFieldName(FICHIER_TERRAIN_EN_COURS);
     partieCourante_->getReadyToPlay();
     partieCourante_->miseAuJeu(true);
-    enJeu_ = true;
     // On enregistre apres avoir desactiver les points pour ne pas les voir si on reinitialise la partie
     obtenirVue()->centrerCamera(partieCourante_->getField()->GetTableWidth());
 
+    GestionnaireEvenements::modifierEtat(ETAT_MODE_JEU);
     return true;
 }
 
@@ -1090,21 +1080,12 @@ bool FacadeModele::passageModeJeu()
 ////////////////////////////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageMenuPrincipal()
 {
-    // Indique que nous ne somme plus en train de jouer le tournoi
-    if(tournoi_)
-        tournoi_->modifierEstEnCours(false);
+    ClearCurrentGame();
 
-    if(partieCourante_)
-    {
-        if(!partieCourante_->faitPartieDunTournoi())
-        {
-            delete partieCourante_;
-        }
-    }
-    partieCourante_ = 0;
-
-    enJeu_ = false;
     selectionArbre(false);
+
+    SoundFMOD::obtenirInstance()->playApplicationSong(MENU_MODE_SONG);
+    GestionnaireEvenements::modifierEtat(ETAT_MENU_PRINCIPAL);
     return true;
 }
 
@@ -2163,6 +2144,8 @@ unsigned int FacadeModele::obtenirNbNoeudSelect()
     acceptVisitor(v);
     return (unsigned int)v.obtenirListeNoeuds()->size();
 }
+
+
 
 
 

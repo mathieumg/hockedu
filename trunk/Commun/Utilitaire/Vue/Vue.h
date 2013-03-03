@@ -116,7 +116,7 @@ namespace vue {
       /// Animation de la vue en fonction du temps
       virtual void animer(float temps);
 	  /// Centre la camera a l'origine pour voir la largeur du parametre
-	  virtual void centrerCamera(float largeurVue);
+	  virtual void centrerCamera(float largeurVue,int pViewportNumber=1);
 
 	  virtual float obtenirAngleOuvertureProjection() {return 0.0;}
 	  /// Retourne le nombre de viewports utilises par la vue

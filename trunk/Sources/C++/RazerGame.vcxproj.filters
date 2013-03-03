@@ -497,6 +497,7 @@
     <ClCompile Include="Arbre\Usines\UsineNoeud.cpp" />
     <ClCompile Include="Environnement\ExceptionJeu.cpp" />
     <ClCompile Include="Tests\XMLTests.cpp" />
+    <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeSimulation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -950,6 +951,9 @@
       <Filter>Sources Files</Filter>
     </ClInclude>
     <ClInclude Include="Tests\XMLTests.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\GestionEtat\GestionnaireEtatModeSimulation.h">
       <Filter>Sources Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -163,7 +163,7 @@ namespace vue {
 
 
 
-   void Vue::centrerCamera(float largeurVue)
+   void Vue::centrerCamera(float largeurVue,int pViewportNumber)
    {
 	   GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
 	   float angleOuverture = obtenirAngleOuvertureProjection();
@@ -176,7 +176,7 @@ namespace vue {
 		   positionOptimale[VZ] = distance;
 	   }
 
-	   vue::Camera* cameraCourante = &obtenirCamera();
+	   vue::Camera* cameraCourante = &obtenirCamera(pViewportNumber);
 
 	   AnimationFrame* frame[4];
 	   frame[0] = new AnimationFrame(0, cameraCourante->obtenirPosition(), cameraCourante->obtenirPointVise(), cameraCourante->obtenirDirectionHaut());
@@ -206,7 +206,7 @@ namespace vue {
    ////////////////////////////////////////////////////////////////////////
    void Vue::appliquerVue( int pViewPortNumber )
    {
-       checkf((unsigned int)(pViewPortNumber-1) < nbViewports_);
+       checkf((unsigned int)(pViewPortNumber-1) < (unsigned int)nbViewports_);
        // Positionne la caméra
        glMatrixMode( GL_MODELVIEW );
        appliquerViewport(pViewPortNumber);

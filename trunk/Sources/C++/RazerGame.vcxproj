@@ -262,6 +262,7 @@
     <ClCompile Include="Interface\GestionEtat\GestionnaireEtatMenuPrincipal.cpp" />
     <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeEdition.cpp" />
     <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeJeu.cpp" />
+    <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeSimulation.cpp" />
     <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeTournoi.cpp" />
     <ClCompile Include="Interface\GestionEtat\GestionnaireEtatPartieRapideTerminee.cpp" />
     <ClCompile Include="Interface\GestionEtat\GestionnaireEtatPartieTournoiTerminee.cpp" />
@@ -408,6 +409,7 @@
     <ClInclude Include="Interface\GestionEtat\GestionnaireEtatMenuPrincipal.h" />
     <ClInclude Include="Interface\GestionEtat\GestionnaireEtatModeEdition.h" />
     <ClInclude Include="Interface\GestionEtat\GestionnaireEtatModeJeu.h" />
+    <ClInclude Include="Interface\GestionEtat\GestionnaireEtatModeSimulation.h" />
     <ClInclude Include="Interface\GestionEtat\GestionnaireEtatModeTournoi.h" />
     <ClInclude Include="Interface\GestionEtat\GestionnaireEtatPartieRapideTerminee.h" />
     <ClInclude Include="Interface\GestionEtat\GestionnaireEtatPartieTournoiTerminee.h" />
