@@ -248,7 +248,7 @@ void GestionnaireEtatModeSimulation::afficher()
     auto vue = FacadeModele::getInstance()->obtenirVue();
     if(vue)
     {
-        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
+        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT  );
         const int nbViewPort = vue->obtenirNbViewports();
         auto it = games.begin();
         for(int currentCam=1; currentCam <= nbViewPort && it != games.end(); ++currentCam, ++it)
