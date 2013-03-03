@@ -59,7 +59,7 @@ namespace UIHeavyClient
     {
 
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void CancelConnection(string pUsername);
+        public static extern void CancelConnection(string pConnectionId);
 
 
         /// DEPRECATED DO NOT USE ANYMORE, USE TaskManager in MainWindowHandler
@@ -190,7 +190,7 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public void TryConnecting()
         {
-            if (userNameInput.Text != "")
+            if (userNameInput.Text != "" && passwordInput.Text != "")
             {
 
                 // Block everything while connecting
@@ -210,13 +210,14 @@ namespace UIHeavyClient
                 if (Chat.IsIPv4(ipAdress))
                 {
                     Chat.mLoginInfo.mUserName = userNameInput.Text;
+                    Chat.mLoginInfo.mPassword = passwordInput.Text;
                     Chat.mLoginInfo.mIpAddress = ipAdress;
                     BlockUIContent();
                     // Setup to be ready to receive events
                     Chat.SetupLoginCallBackEvents(this);
 
                     SetUserMessageFeedBack(String.Format("Connecting to server {0}\nPlease wait...", serverName), false);
-                    Chat.RequestLogin(userNameInput.Text, ipAdress);
+                    Chat.RequestLogin(userNameInput.Text, passwordInput.Text, ipAdress);
                 }
                 else
                 {
@@ -225,7 +226,7 @@ namespace UIHeavyClient
             }
             else
             {
-                SetUserMessageFeedBack("Please enter a user name", true);
+                SetUserMessageFeedBack("Please enter a user name and a password", true);
             }
         }
 
@@ -308,7 +309,7 @@ namespace UIHeavyClient
         {
             if (mConnecting)
             {
-                CancelConnection(userNameInput.Text);
+                CancelConnection("ServerMaster");
                 SetUserMessageFeedBack("Cancel requested", false);
             }
             else

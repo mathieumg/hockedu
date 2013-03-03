@@ -853,7 +853,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
                 wMessageConfirmation = INVALID_USERNAME;
                 // Send connection state message
                 ss << wMessageConfirmation;
-                wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
+                wNewSocket->send((uint8_t*)ss.str().c_str(), ss.str().length(), true);
 
                 wNewSocket->disconnect();
                 wNewSocket = 0;
@@ -863,6 +863,40 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
                 // On verifie que le user n'est pas deja connecte
                 if(GestionnaireReseau::obtenirInstance()->getSocket(wPlayerName, TCP) == NULL)
                 {
+                    // On verifie finalement l'authentification
+                    if(GestionnaireReseau::obtenirInstance()->requireAuthentification())
+                    {
+                        // Si il y a une authentification a faire, il faut demander au client d'envoyer le mot de passe
+                        char wPassword[50];
+                        std::stringstream ssAuth;
+                        ssAuth << SEND_PASSWORD_REQUEST;
+                        wNewSocket->send((uint8_t*)ssAuth.str().c_str(), ssAuth.str().length(), true);
+
+                        if(!wNewSocket->attendreSocket(5)) // On donne 5 sec au client pour envoyer son password, sinon on le rejette
+                        {
+                            throw ExceptionReseauTimeout("Blocage prevenu a la reception du Password lors de la connection");
+                        }
+                        wNewSocket->recv((uint8_t*) &wPassword, 50, true);
+
+                        if(!GestionnaireReseau::obtenirInstance()->authenticate(wPlayerName, wPassword))
+                        {
+                            // Connexion rejetee
+                            wMessageConfirmation = WRONG_PASSWORD;
+                            ss.str(std::string());
+                            ss.clear();
+
+                            ss << wMessageConfirmation;
+                            wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
+
+                            wNewSocket->disconnect();
+                            wNewSocket = 0;
+                            continue; // On ne veut pas retourner un status connected alors on skip le reste de la boucle
+
+                        }
+
+                    }
+
+
                     // On envoit un message de confirmation pour dire que la conenction est acceptee
                     wMessageConfirmation = USER_CONNECTED;
                     // Send connection state message

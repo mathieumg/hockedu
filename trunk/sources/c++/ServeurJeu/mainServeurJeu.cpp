@@ -34,16 +34,12 @@ int main(int argc, char* argv[])  {
 
     std::cout << "--------- Serveur Jeu ---------" << std::endl << std::endl;
 
-    
-
     std::string wMasterServerIP = "173.177.0.193"; // Adresse par defaut du serveur maitre
 
     
     //********** Liste des flags
     // -mIP     Adresse IPv4 du serveur Maitre
     //**********
-
-
     try
     {
         for(int i = 0; i < argc; i++) 
@@ -72,8 +68,6 @@ int main(int argc, char* argv[])  {
     }
 
 
-
-    // On utilise les params de flag
 
 
 

@@ -9,8 +9,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "UsinePaquets\UsinePaquet.h"
 #include "..\Paquets\PaquetAuthentificationServeurJeu.h"
+#include "UsinePaquet.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -63,7 +63,7 @@ inline UsinePaquetAuthentificationServeurJeu::UsinePaquetAuthentificationServeur
 ////////////////////////////////////////////////////////////////////////
 Paquet* UsinePaquetAuthentificationServeurJeu::creerPaquet() const
 {
-	return new PaquetLoginInfo();
+	return new PaquetAuthentificationServeurJeu();
 }
 
 

@@ -53,6 +53,7 @@ namespace UIHeavyClient
         USER_DISCONNECTED,
         INVALID_USERNAME = USER_DISCONNECTED, // Pour eviter d'avoir a changer le handling pour le prototype. Mettre 2 enums separes pour la version finale
         CONNECTION_CANCELED,
+        SEND_PASSWORD_REQUEST,
         RECONNECTION_TIMEOUT,
         RECONNECTION_IN_PROGRESS,
         WRONG_PASSWORD,

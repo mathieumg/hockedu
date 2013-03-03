@@ -75,7 +75,7 @@ void GestionnaireReseauServeurMaitre::SocketStateCallback( const ConnectionState
 
 	if(wConnState == CONNECTED) // Si le socket vient de se connecter, on lui envoie la liste de tous les players connectes
 	{
-		std::set<std::string> wListe = GestionnaireReseau::obtenirInstance()->getPlayerNameList(TCP);
+		std::set<std::string> wListe = GestionnaireReseau::obtenirInstance()->getConnectionIdList(TCP);
 		SPSocket wSocketVientConnecter = GestionnaireReseau::obtenirInstance()->getSocket(wPlayerName, TCP);
 		for(std::set<std::string>::iterator it = wListe.begin(); it!=wListe.end(); ++it)
 		{

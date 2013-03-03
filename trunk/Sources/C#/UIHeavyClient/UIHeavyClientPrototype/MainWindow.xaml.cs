@@ -143,7 +143,7 @@ namespace UIHeavyClientPrototype
         {
             if (messageTextBox.Text != "" && mIsUserConnected)
             {
-                Chat.SendMessageDLL(mUserName, messageTextBox.Text);
+                Chat.SendMessageDLL("MasterServer", mUserName, messageTextBox.Text);
                 messageTextBox.Clear();
             }
         }
@@ -223,7 +223,7 @@ namespace UIHeavyClientPrototype
         {
             if (mUserName != "")
             {
-                DisconnectUser(mUserName);
+                DisconnectUser("MasterServer");
             }
             // Make sure the login window is closed
             mLoginWindow.Close();
@@ -236,7 +236,7 @@ namespace UIHeavyClientPrototype
 
         public void OnDisconnect(object sender, RoutedEventArgs e)
         {
-            DisconnectUser(mUserName);
+            DisconnectUser("MasterServer");
             Chat.ClearContent();
             Chat.MainWindow = null;
             mUserName = "";

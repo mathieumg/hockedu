@@ -3,6 +3,8 @@
 #include "../Reseau/PaquetRunnable.h"
 #include "PaquetRunnableServeurMaitre.h"
 #include "../Reseau/ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
+#include "CommunicateurBD.h"
+#include "ExceptionsReseau/ExceptionReseauBD.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -72,4 +74,18 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
 void ControllerServeurMaitre::handleDisconnectDetection(SPSocket pSocket)
 {
     GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
+}
+
+
+// Retourne -1 si authentification fail
+bool ControllerServeurMaitre::authenticate( const std::string& pUsername, const std::string& pPassword )
+{
+    try
+    {
+        return CommunicateurBD::obtenirInstance()->authenticate(pUsername, pPassword) != -1;
+    }
+    catch(ExceptionReseauBD&)
+    {
+        return false;
+    }
 }

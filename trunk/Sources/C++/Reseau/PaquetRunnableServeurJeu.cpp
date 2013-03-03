@@ -1,13 +1,6 @@
 
 
-#include "PaquetRunnableServeurMaitre.h"
-#include "../ServeurMaitre/FacadeServeurMaitre.h"
-#include "../Reseau/Paquets/PaquetLoginInfo.h"
-#include "../Reseau/GestionnaireReseau.h"
-#include "../Reseau/ObjetsGlobaux/JoueurServeurs.h"
-#include "../Reseau/RelayeurMessage.h"
-#include "../Reseau/Paquets/PaquetUserStatus.h"
-#include "../Reseau/Paquets/PaquetChatMessage.h"
+#include "PaquetRunnableServeurJeu.h"
 
 #ifdef LINUX
 #define _LARGE_TIME_API
@@ -17,28 +10,25 @@
 #include <sstream>
 #include <iomanip>
 #include <stdexcept>
-#include "../Reseau/Paquets/PaquetGameStatus.h"
+
+#include "Paquets\PaquetAuthentificationServeurJeu.h"
+#include "Paquets\PaquetChatMessage.h"
+#include "RelayeurMessage.h"
+#include "Paquets\PaquetUserStatus.h"
+#include "Paquets\PaquetGameStatus.h"
 
 
-/// ***** PAR CONVENTION, METTRE Master A LA FIN DU NOM DES DELEGATES
+/// ***** PAR CONVENTION, METTRE Game A LA FIN DU NOM DES DELEGATES
 
 
-int PaquetRunnable::RunnableLoginInfoServerMaster( Paquet* pPaquet )
+int PaquetRunnable::RunnableAuthentificationServeurJeuServerGame( Paquet* pPaquet )
 {
-    PaquetLoginInfo* wPaquet = (PaquetLoginInfo*) pPaquet;
+    // Paquet utilise pour la connection entre le serveur Maitre et le serveur Jeu
+    // Donc ici on devrait handle la reponse du serveur Maitre
 
-    // Code pour l'authentification des users du cote du serveur maitre
+    PaquetAuthentificationServeurJeu* wPaquet = (PaquetAuthentificationServeurJeu*) pPaquet;
 
-
-    // On envoie un event au gestionnaire reseau
-    GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_CONNECTING, wPaquet->getUsername().c_str());
-
-    // On sauvearde le joueur
-    JoueurServeurs* wJoueur = new JoueurServeurs(wPaquet->getUsername());
-    FacadeServeurMaitre::obtenirInstance()->savePlayerConnecting(wJoueur);
-
-    // On traite la demande avec la BD
-
+    throw std::runtime_error("Not yet implemented");
 
 
     return 0;
@@ -48,9 +38,10 @@ int PaquetRunnable::RunnableLoginInfoServerMaster( Paquet* pPaquet )
 
 
 
-int PaquetRunnable::RunnableChatMessageServerMaster( Paquet* pPaquet )
+int PaquetRunnable::RunnableChatMessageServerGame( Paquet* pPaquet )
 {
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) pPaquet;
+
 
     std::ostringstream wTimeOutput;
     time_t wT = time(0);
@@ -66,13 +57,13 @@ int PaquetRunnable::RunnableChatMessageServerMaster( Paquet* pPaquet )
     {
 #endif
 
-		// If time == NULL
+        // If time == NULL
         std::cout << "[00:00:00]";
     }
     else
     {
 #ifdef WINDOWS
-		wTime = &wTimeWin;
+        wTime = &wTimeWin;
 #endif
         wTimeOutput << std::setfill('0') << "["
             << std::setw(2) << wTime->tm_hour
@@ -105,7 +96,7 @@ int PaquetRunnable::RunnableChatMessageServerMaster( Paquet* pPaquet )
 
 
 
-int PaquetRunnable::RunnableUserStatusServerMaster( Paquet* pPaquet )
+int PaquetRunnable::RunnableUserStatusServerGame( Paquet* pPaquet )
 {
     PaquetUserStatus* wPaquet = (PaquetUserStatus*) pPaquet;
     throw std::runtime_error("Not yet implemented");
@@ -116,15 +107,11 @@ int PaquetRunnable::RunnableUserStatusServerMaster( Paquet* pPaquet )
 
 
 
-int PaquetRunnable::RunnableGameStatusServerMaster( Paquet* pPaquet )
+int PaquetRunnable::RunnableGameStatusServerGame( Paquet* pPaquet )
 {
     PaquetGameStatus* wPaquet = (PaquetGameStatus*) pPaquet;
 
-    // *****On doit faire une copie du PartieServeurs avant de le propager car il sera detruit a la destruction du PaquetGameStatus
-    PartieServeurs* wPartie = new PartieServeurs(wPaquet->getGameInfos());
 
-
-    FacadeServeurMaitre::obtenirInstance()->updateGameStatus(wPartie);
 
 
     return 0;

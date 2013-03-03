@@ -29,6 +29,10 @@ public:
 
     virtual void handleDisconnectDetection(SPSocket pSocket);
 
+    virtual bool requireAuthentification() const {return true;}
+
+    virtual bool authenticate( const std::string& pUsername, const std::string& pPassword );
+
 private:
 
 };

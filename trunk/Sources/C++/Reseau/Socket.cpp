@@ -531,7 +531,7 @@ ConnectionState Socket::initClient()
                 int wConfirmation = USER_DISCONNECTED;
                 connect();
                 // Si connect fonctionne, il faut envoyer notre nom de player au serveur
-                std::string wPlayerName = GestionnaireReseau::obtenirInstance()->getPlayerName(shared_from_this()); // C'est plate, mais on ne veut pas garder le nom du joueur dans le socket lui-meme
+                std::string wPlayerName = GestionnaireReseau::obtenirInstance()->getPlayerName();
                 send((uint8_t*) wPlayerName.c_str(), (uint32_t) (wPlayerName.length()+1), true); // +1 pour avoir le caractere de fin de string
 
                 // On recoit le message de confirmation, ne pas bloquer
@@ -548,6 +548,26 @@ ConnectionState Socket::initClient()
                         // sscanf ne fonctionne pas
                         wConfirmation = USER_DISCONNECTED;
                     }
+
+                    if(wConfirmation == SEND_PASSWORD_REQUEST)
+                    {
+                        // On doit envoyer le mot de passe 
+                        std::string wPassword = GestionnaireReseau::obtenirInstance()->getPlayerPassword();
+                        send((uint8_t*) wPassword.c_str(), (uint32_t) (wPassword.length()+1), true); // +1 pour avoir le caractere de fin de string
+                        char wReceptionValue2[3];
+                        recv((uint8_t*) &wReceptionValue2, 3, true);
+#ifdef WINDOWS
+                        if(sscanf_s(wReceptionValue2,"%i",&wConfirmation) == 0)
+#elif defined(LINUX)
+                        if(sscanf(wReceptionValue2,"%i",&wConfirmation) == 0)
+#endif
+                        {
+                            // sscanf ne fonctionne pas
+                            wConfirmation = USER_DISCONNECTED;
+                        }
+
+                    }
+
                 }
                 else
                 {

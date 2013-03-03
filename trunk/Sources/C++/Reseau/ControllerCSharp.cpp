@@ -18,11 +18,11 @@
 ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceivedCallBack(NULL)
 {
     // Ajouter tous les Runnables dependant de ce qui est handled selon le type de controlleur
-    mPaquetRunnables[EVENT] = PaquetRunnable::RunnableEvent;
-    mPaquetRunnables[CONN_AUTOMATIQUE] = PaquetRunnable::RunnableConnAutomatiqueClient;
-    mPaquetRunnables[USER_STATUS] = PaquetRunnable::RunnableUserStatusClient;
-    mPaquetRunnables[CHAT_MESSAGE] = PaquetRunnable::RunnableChatMessageClient;
-    mPaquetRunnables[TEST] = PaquetRunnable::RunnableTest;
+    mPaquetRunnables[EVENT]             = PaquetRunnable::RunnableEvent;
+    mPaquetRunnables[CONN_AUTOMATIQUE]  = PaquetRunnable::RunnableConnAutomatiqueClient;
+    mPaquetRunnables[USER_STATUS]       = PaquetRunnable::RunnableUserStatusClient;
+    mPaquetRunnables[CHAT_MESSAGE]      = PaquetRunnable::RunnableChatMessageClient;
+    mPaquetRunnables[TEST]              = PaquetRunnable::RunnableTest;
 
     for(EventCodes e = EventCodes(SERVER_EVENT_BEGIN+1); e<SERVER_EVENT_END; e = EventCodes(e+1))
     {
@@ -89,7 +89,10 @@ int ControllerCSharp::HandleEvent(ControllerCSharp* pContext, EventCodes pEventC
     if(c)
     {
         std::string message;
-        if(pEventCode == SERVER_USER_DISCONNECTED)message = va_arg(pListeElems,char*);
+        if(pEventCode == SERVER_USER_DISCONNECTED || pEventCode == SERVER_USER_CONNECTED)
+        {
+            message = va_arg(pListeElems,char*);
+        }
         return c(pEventCode,(char*)message.c_str());
     }
     return 0;
@@ -113,8 +116,8 @@ int ControllerCSharp::HandleMessage( ControllerCSharp* pContext, EventCodes pEve
     MessageReceivedCallBack c = pContext->mMessageReceivedCallBack;
     if(c)
     {
-        std::string username = va_arg(pListeElems,char*);
-        std::string message = va_arg(pListeElems,char*);
+        std::string username    = va_arg(pListeElems,char*);
+        std::string message     = va_arg(pListeElems,char*);
         return c((char*)username.c_str(),(char*)message.c_str());
     }
     return 0;
