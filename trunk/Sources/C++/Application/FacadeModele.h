@@ -57,32 +57,6 @@ struct RenderWorkerData
 
 DWORD WINAPI RenderSceneWorker(LPVOID arg);
 
-#include <functional>
-class Runnable
-{
-public:
-    Runnable(std::function<void (Runnable*)> function, bool keepAlive = false):
-      mFunction(function), mbKeepAlive(keepAlive)
-      {
-
-      }
-    inline void Run()
-    {
-        mFunction(this);
-    }
-
-    /// Accessors of mbKeepAlive
-    inline bool KeepAlive() const { return mbKeepAlive; }
-    inline void setKeepAlive(bool val) { mbKeepAlive = val; }
-private:
-    std::function<void (Runnable*)> mFunction;
-    bool mbKeepAlive;
-
-    
-
-};
-
-
 ///////////////////////////////////////////////////////////////////////////
 /// @class FacadeModele
 /// @brief Classe qui constitue une interface (une façade) sur l'ensemble
@@ -236,11 +210,6 @@ public:
     void afficherProgramInfoLog( GLuint obj, const char* message );
     void afficherShaderInfoLog( GLuint obj, const char* message );
 
-    // va surement necessité des mutex
-    /// Permet d'exécuter du code sur un thread spécifique au moment opportun
-    void RunOnRenderThread(Runnable* run, bool pForceQueue = false);
-    void RunOnUpdateThread(Runnable* run, bool pForceQueue = false);
-
     /// Send event to the controller
     static void transmitEvent( EventCodes pCode, ... );
 
@@ -310,8 +279,6 @@ private:
 	// Lien vers le programme de SHADER
 	GLuint progPhong_;
 
-    std::queue<Runnable*> mUIRunnables, mUpdateRunnables;
-    bool mUpdating, mRendering;
 	/// Accesseurs
 public:
     /// Accessors of boiteEnvironnement

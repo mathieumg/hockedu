@@ -729,6 +729,7 @@ bool Partie::getReadyToPlay()
 void Partie::animer( const float& temps )
 {
     chiffres_->animer(temps);
+    mField->animerTerrain(temps);
     if(estPret() && !estEnPause() && !partieTerminee() && !GestionnaireAnimations::obtenirInstance()->estJouerReplay())
     {
         // Gestion de la physique du jeu

@@ -15,6 +15,15 @@
 #include "GestionnaireEtatAbstrait.h"
 #include "Utilitaire.h"
 #include "Terrain.h"
+#include "Runnable.h"
+#include "QueueThreadSafe.h"
+
+/// File scope Variables for runnables///////////////////////////////////
+QueueThreadSafe<Runnable*> mUIRunnables;
+QueueThreadSafe<Runnable*> mUpdateRunnables;
+bool mUpdating = false, mRendering=false;
+//////////////////////////////////////////////////////////////////////////
+
 
    ////////////////////////////////////////////////////////////////////////
    ///
@@ -46,6 +55,123 @@
       return std::string((const char*)env->GetByteArrayElements(
          byteArray, 0), env->GetArrayLength(byteArray)
          );
+   }
+
+   void RazerGameUtilities::Rendering(bool isRendering)
+   {
+       mRendering = isRendering;
+   }
+   void RazerGameUtilities::Updating(bool isUpdating)
+   {
+       mUpdating = isUpdating;
+   }
+
+   void RazerGameUtilities::ExecuteRenderRunnables()
+   {
+       // on obtient sa taille au depart pour s'assurer de parcourir
+       // tous les éléments une seul fois, car il est possibled e les remettre sur la pile
+       for(int i=mUIRunnables.size()-1; i>=0; --i)
+       {
+           Runnable* pRun = NULL;
+           mUIRunnables.pop(pRun);
+           if(pRun)
+           {
+               pRun->Run();
+               if(pRun->KeepAlive())
+               {
+                   mUIRunnables.push(pRun);
+               }
+               else
+               {
+                   delete pRun;
+               }
+           }
+       }
+   }
+
+   void RazerGameUtilities::ExecuteUpdateRunnables()
+   {
+       // on obtient sa taille au depart pour s'assurer de parcourir
+       // tous les éléments une seul fois, car il est possibled e les remettre sur la pile
+       for(int i=mUpdateRunnables.size()-1; i>=0; --i)
+       {
+           Runnable* pRun = NULL;
+           mUpdateRunnables.pop(pRun);
+           if(pRun)
+           {
+               pRun->Run();
+               if(pRun->KeepAlive())
+               {
+                   mUIRunnables.push(pRun);
+               }
+               else
+               {
+                   delete pRun;
+               }
+           }
+       }
+   }
+
+   ////////////////////////////////////////////////////////////////////////
+   ///
+   /// @fn void FacadeModele::RunOnRenderThread( Runnable* run )
+   ///
+   /// /*Description*/
+   ///
+   /// @param[in] Runnable * run
+   ///
+   /// @return void
+   ///
+   ////////////////////////////////////////////////////////////////////////
+   void RazerGameUtilities::RunOnRenderThread( Runnable* run, bool pForceQueue /*= false*/ )
+   {
+       if(mUpdating || pForceQueue)
+       {
+           mUIRunnables.push(run);
+       }
+       else
+       {
+           run->Run();
+           if(run->KeepAlive())
+           {
+               mUIRunnables.push(run);
+           }
+           else
+           {
+               delete run;
+           }
+       }
+   }
+
+   ////////////////////////////////////////////////////////////////////////
+   ///
+   /// @fn void FacadeModele::RunOnUpdateThread( Runnable* run )
+   ///
+   /// /*Description*/
+   ///
+   /// @param[in] Runnable * run
+   ///
+   /// @return void
+   ///
+   ////////////////////////////////////////////////////////////////////////
+   void RazerGameUtilities::RunOnUpdateThread( Runnable* run, bool pForceQueue /*= false*/ )
+   {
+       if(mRendering || pForceQueue)
+       {
+           mUpdateRunnables.push(run);
+       }
+       else
+       {
+           run->Run();
+           if(run->KeepAlive())
+           {
+               mUpdateRunnables.push(run);
+           }
+           else
+           {
+               delete run;
+           }
+       }
    }
 
    ////////////////////////////////////////////////////////////////////////

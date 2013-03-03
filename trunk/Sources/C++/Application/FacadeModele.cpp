@@ -229,7 +229,7 @@ void FacadeModele::libererInstance()
 ////////////////////////////////////////////////////////////////////////
 FacadeModele::FacadeModele()
     : hGLRC_(0), hDC_(0), hWnd_(0), vue_(0),zoomElastique_(false),tournoi_(0),cheminTournoi_(""),
-    partieCourante_(0), /*adversaire_(0),*/ mEditionField(0), mUpdating(false), mRendering(false)
+    partieCourante_(0), /*adversaire_(0),*/ mEditionField(0)
 {
     // Il ne faut pas faire d'initialisation de Noeud ici, car le contexte OpenGl n'est pas encore creer
 
@@ -669,33 +669,20 @@ void FacadeModele::DeActivateShaders()
 void FacadeModele::afficher( )
 {
     utilitaire::CompteurAffichage::obtenirInstance()->signalerAffichage();
-    mRendering = true;
+    RazerGameUtilities::Rendering(true);
  
     // Affichage specifique aux etats
     GestionnaireEvenements::afficher();
     DrawSelectionRectangle();
 
-    for(int i=(int)mUIRunnables.size()-1; i>=0; --i)
-    {
-        Runnable* pRun = mUIRunnables.front();
-        mUIRunnables.pop();
-        pRun->Run();
-        if(pRun->KeepAlive())
-        {
-            mUIRunnables.push(pRun);
-        }
-        else
-        {
-            delete pRun;
-        }
-    }
+    RazerGameUtilities::ExecuteRenderRunnables();
     
     // Compte de l'affichage
     utilitaire::CompteurAffichage::obtenirInstance()->signalerAffichage();
 
     // Échange les tampons pour que le résultat du rendu soit visible.
     ::SwapBuffers( hDC_ );
-    mRendering = false;
+    RazerGameUtilities::Rendering(false);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -755,24 +742,11 @@ void FacadeModele::reinitialiserTerrain()
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::animer( const float& temps)
 {
-    mUpdating = true;
+    RazerGameUtilities::Updating(true);
     
     float tempsReel = temps;
 
-    for(int i=(int)mUpdateRunnables.size()-1; i>=0; --i)
-    {
-        Runnable* pRun = mUpdateRunnables.front();
-        mUpdateRunnables.pop();
-        pRun->Run();
-        if(pRun->KeepAlive())
-        {
-            mUpdateRunnables.push(pRun);
-        }
-        else
-        {
-            delete pRun;
-        }
-    }
+    RazerGameUtilities::ExecuteUpdateRunnables();
 
     GestionnaireEvenements::miseAJourEvenementsRepetitifs(tempsReel);
     GestionnaireEvenements::animer(tempsReel);
@@ -787,7 +761,7 @@ void FacadeModele::animer( const float& temps)
         obtenirPartieCourante()->obtenirGameTime()->unPause();
     }
 
-    mUpdating = false;
+    RazerGameUtilities::Updating(false);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2009,68 +1983,6 @@ float FacadeModele::getTableWidth()
 NoeudAffichage* FacadeModele::obtenirDecompte()
 {
     return obtenirPartieCourante()->obtenirDecompte();
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void FacadeModele::RunOnRenderThread( Runnable* run )
-///
-/// /*Description*/
-///
-/// @param[in] Runnable * run
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void FacadeModele::RunOnRenderThread( Runnable* run, bool pForceQueue /*= false*/ )
-{
-    if(mUpdating || pForceQueue)
-    {
-        mUIRunnables.push(run);
-    }
-    else
-    {
-        run->Run();
-        if(run->KeepAlive())
-        {
-            mUIRunnables.push(run);
-        }
-        else
-        {
-            delete run;
-        }
-    }
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void FacadeModele::RunOnUpdateThread( Runnable* run )
-///
-/// /*Description*/
-///
-/// @param[in] Runnable * run
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void FacadeModele::RunOnUpdateThread( Runnable* run, bool pForceQueue /*= false*/ )
-{
-    if(mRendering || pForceQueue)
-    {
-        mUpdateRunnables.push(run);
-    }
-    else
-    {
-        run->Run();
-        if(run->KeepAlive())
-        {
-            mUpdateRunnables.push(run);
-        }
-        else
-        {
-            delete run;
-        }
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////

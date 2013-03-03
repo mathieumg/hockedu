@@ -28,7 +28,7 @@ public:
 	bool push(T element);
 
 	inline bool empty()const{return mFile.empty();}
-
+    inline unsigned int size()const{return (unsigned int)mFile.size();}
 private:
 	void getMutex();
 	void releaseMutex();

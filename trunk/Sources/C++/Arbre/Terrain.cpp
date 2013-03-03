@@ -29,7 +29,6 @@
 #include "NoeudBut.h"
 #include "NoeudPiece.h"
 #include "XMLUtils.h"
-#include "FacadeModele.h"
 #include "NoeudAccelerateur.h"
 #include "NoeudPortail.h"
 #include "VisiteurFunction.h"
@@ -40,6 +39,7 @@
 #include "VisiteurDeplacement.h"
 #include "VisiteurEcrireXML.h"
 #include "ExceptionJeu.h"
+#include "Runnable.h"
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
@@ -473,7 +473,7 @@ XmlElement* Terrain::creerNoeudXML()
 ///
 /// @fn void Terrain::animerTerrain( const float& temps )
 ///
-/// Permet d'animer les noeuds des arbres du terrain, la physique reste géré par FacadeModele
+/// Permet d'animer les noeuds des arbres du terrain, la physique reste géré par
 ///
 /// @param[in] const float & temps
 ///
@@ -901,7 +901,7 @@ void Terrain::BeginContact( b2Contact* contact )
                 {
                     b2Body* rondelleBody = bodies[0];
                     NoeudRondelle* rondelle = (NoeudRondelle*)(rondelleBody->GetUserData());
-                    FacadeModele::getInstance()->RunOnUpdateThread(new Runnable([=](Runnable*){
+                    RazerGameUtilities::RunOnUpdateThread(new Runnable([=](Runnable*){
                         if(mGame)
                         {
                             auto position = rondelle->getPosition();
@@ -957,7 +957,7 @@ void Terrain::BeginContact( b2Contact* contact )
                             NoeudRondelle* rondelle = (NoeudRondelle*)bodies[0]->GetUserData();
 
                             // The new pos can only be assigned outside of the world's step, so we queue it
-                            FacadeModele::getInstance()->RunOnUpdateThread(new Runnable([=](Runnable*)
+                            RazerGameUtilities::RunOnUpdateThread(new Runnable([=](Runnable*)
                             {
                                 portailDeSortie->setIsAttractionFieldActive(false);
                                 auto newPos = portailDeSortie->getPosition();
