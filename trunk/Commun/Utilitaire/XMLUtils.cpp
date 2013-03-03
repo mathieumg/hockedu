@@ -328,7 +328,8 @@ namespace XMLUtils
     ////////////////////////////////////////////////////////////////////////
     const XmlElement* FirstChildElement( const XmlElement* element, const char* childName )
     {
-        return element->FirstChildElement(childName);
+        if(childName)return element->FirstChildElement(childName);
+        return element->FirstChildElement();
     }
 
     ////////////////////////////////////////////////////////////////////////
@@ -345,7 +346,7 @@ namespace XMLUtils
     ////////////////////////////////////////////////////////////////////////
     XmlElement* FirstChildElement( XmlElement* element, const char* childName )
     {
-        return element->FirstChildElement(childName);
+        return const_cast<XmlElement*>(FirstChildElement((const XmlElement*)element,childName));
     }
 
     ////////////////////////////////////////////////////////////////////////
@@ -500,6 +501,38 @@ namespace XMLUtils
     {
         if(childName) return (XmlNode*)element->FirstChild(childName);
         return (XmlNode*)element->FirstChild();
+    }
+
+    ////////////////////////////////////////////////////////////////////////
+    ///
+    /// @fn const XmlElement* NextSibling( const XmlElement* child )
+    ///
+    /// retrieves the sibling of the current node
+    ///
+    /// @param[in] const XmlElement * child
+    ///
+    /// @return const XmlElement*
+    ///
+    ////////////////////////////////////////////////////////////////////////
+    const XmlElement* NextSibling( const XmlElement* child )
+    {
+        return child->NextSiblingElement();
+    }
+
+    ////////////////////////////////////////////////////////////////////////
+    ///
+    /// @fn const char* GetNodeTag( const XmlElement* element )
+    ///
+    /// retrieve the text for this node's tag
+    ///
+    /// @param[in] const XmlElement * element
+    ///
+    /// @return const char*
+    ///
+    ////////////////////////////////////////////////////////////////////////
+    const char* GetNodeTag( const XmlElement* element )
+    {
+        return element->Value();
     }
 
 }

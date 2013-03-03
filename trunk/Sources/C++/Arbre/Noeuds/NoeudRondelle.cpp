@@ -29,6 +29,7 @@
 #include "Utilitaire.h"
 #include "NoeudBut.h"
 #include "UsineNoeud.h"
+#include "ExceptionJeu.h"
 
 const float NoeudRondelle::DEFAULT_RADIUS = 8;
 
@@ -556,7 +557,7 @@ void NoeudRondelle::ajusterVitesse( const float& temps )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudRondelle::validerPropriteteTablePourJeu() throw(std::logic_error)
+void NoeudRondelle::validerPropriteteTablePourJeu() throw(ExceptionJeu)
 {
     if(GetTerrain())
     {
@@ -576,10 +577,10 @@ void NoeudRondelle::validerPropriteteTablePourJeu() throw(std::logic_error)
             mCoefFriction = table_->obtenirCoefFriction()/10;
         }
         else
-            throw std::logic_error("Aucune table sur le terrain de la rondelle");
+            throw ExceptionJeu("Aucune table sur le terrain de la rondelle");
     }
     else
-        throw std::logic_error("Aucun terrain pour la rondelle qui tente de ce valider");
+        throw ExceptionJeu("Aucun terrain pour la rondelle qui tente de ce valider");
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -596,7 +597,8 @@ void NoeudRondelle::updatePhysicBody()
 {
 #if BOX2D_INTEGRATED
 
-    if(getWorld())
+    auto world = getWorld();
+    if(world)
     {
         clearPhysicsBody();
 
@@ -612,7 +614,7 @@ void NoeudRondelle::updatePhysicBody()
         myBodyDef.angle = 0; //set the starting angle
         myBodyDef.linearDamping = 0.5f;
         myBodyDef.angularDamping = 0.1f;
-        mPhysicBody = getWorld()->CreateBody(&myBodyDef);
+        mPhysicBody = world->CreateBody(&myBodyDef);
         b2CircleShape circleShape;
         circleShape.m_p.Set(0, 0); //position, relative to body position
         circleShape.m_radius = puckRadius*utilitaire::ratioWorldToBox2D; //radius

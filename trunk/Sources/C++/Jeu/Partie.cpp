@@ -22,6 +22,7 @@
 #include "GestionnaireAnimations.h"
 #include "XMLUtils.h"
 #include "Terrain.h"
+#include "ExceptionJeu.h"
 
 
 GLuint Partie::listePause_ = 0;
@@ -44,7 +45,7 @@ Partie::Partie(SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDro
 pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), enPause_(false), estPret_(false), faitPartieDunTournoi_(false)
 {
     chiffres_ = new NoeudAffichage("3");
-    mField = new Terrain(true);
+    mField = new Terrain(this);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -334,7 +335,7 @@ void Partie::reinitialiserPartie()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle ) throw(std::logic_error)
+void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle ) throw(ExceptionJeu)
 {
     if(joueurDroit_ && joueurGauche_)
     {
@@ -370,11 +371,11 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
             mailletDroit->buildMouseJoint();
         }
         else
-            throw std::logic_error("Tente d'assigner les controles a des maillets et/ou rondelle non valides");
+            throw ExceptionJeu("Tente d'assigner les controles a des maillets et/ou rondelle non valides");
     }
     else
     {
-        throw std::logic_error("Tente d'assigner les controles a des maillets lorsqu'il manque encore des joueurs dans la partie");
+        throw ExceptionJeu("Tente d'assigner les controles a des maillets lorsqu'il manque encore des joueurs dans la partie");
     }
 }
 
@@ -504,7 +505,7 @@ void Partie::updateMinuterie( int time )
 
             chiffres_->resetEchelle();
             if(lequel == 2)
-                FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
+                FacadeModele::getInstance()->obtenirVue()->centrerCamera(mField->GetTableWidth());
         }
     }
 }
@@ -557,9 +558,7 @@ void Partie::modifierJoueurGauche( SPJoueurAbstrait val )
 ////////////////////////////////////////////////////////////////////////
 void Partie::afficher()
 {
-    
-    
-
+    mField->afficherTerrain();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -714,6 +713,8 @@ bool Partie::getReadyToPlay()
         RazerGameUtilities::LoadFieldFromFile(getFieldName(),*mField);
     }
 
+    mField->fullRebuild();
+
     if(!mField->verifierValidite())
     {
         return false;
@@ -723,7 +724,7 @@ bool Partie::getReadyToPlay()
     {
         assignerControlesMaillet(mField->getLeftMallet(),mField->getRightMallet(),mField->getPuck());
     }
-    catch(std::logic_error& e)
+    catch(ExceptionJeu& e)
     {
         utilitaire::afficherErreur(e.what());
         return false;
@@ -733,6 +734,27 @@ bool Partie::getReadyToPlay()
     mField->setTableControlPointVisible(false);
 
     return true;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Partie::animer( const float& temps )
+///
+/// /*Description*/
+///
+/// @param[in] const float & temps
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Partie::animer( const float& temps )
+{
+    chiffres_->animer(temps);
+    if(estPret() && !estEnPause() && !partieTerminee() && !GestionnaireAnimations::obtenirInstance()->estJouerReplay())
+    {
+        // Gestion de la physique du jeu
+        mField->appliquerPhysique(temps);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

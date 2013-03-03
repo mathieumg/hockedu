@@ -26,7 +26,6 @@
 #include "DebugRenderBox2D.h"
 #include "GestionnaireEvenements.h"
 
-b2Body* mMouseBody;
 
 const float NoeudMaillet::DEFAULT_RADIUS = 10;
 
@@ -48,18 +47,10 @@ CreateListDelegateImplementation(Mallet)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet::NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCreated, unsigned int malletLimit)
-   : NoeudAbstrait(typeNoeud), vitesse_(300.0),estControleParClavier_(false), joueur_(0), mMouseJoint(NULL),mNbMalletCreated(malletCreated)
+   : NoeudAbstrait(typeNoeud), vitesse_(300.0),estControleParClavier_(false), joueur_(0), mMouseJoint(NULL),mMouseBody(NULL),mNbMalletCreated(malletCreated)
 {
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
-
-#if BOX2D_INTEGRATED
-    if(!mMouseBody)
-    {
-        b2BodyDef bodyDef;
-        mMouseBody = mWorld->CreateBody(&bodyDef);
-    }
-#endif
 
     for (int i = 0; i < NB_DIR ; i++)
     {
@@ -111,8 +102,16 @@ NoeudMaillet::~NoeudMaillet()
 ////////////////////////////////////////////////////////////////////////
 void NoeudMaillet::afficherConcret() const
 {
+    // Sauvegarde de la matrice.
+    glPushMatrix();
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
+
     // Appel à la version de la classe de base pour l'affichage des enfants.
     NoeudAbstrait::afficherConcret();
+
+    // Restauration de la matrice.
+    glPopAttrib();
+    glPopMatrix();
 
 #if BOX2D_DEBUG
     // Sauvegarde de la matrice.
@@ -120,7 +119,7 @@ void NoeudMaillet::afficherConcret() const
     glPushAttrib(GL_ALL_ATTRIB_BITS);
     if (mMouseJoint)
     {
-        DebugRenderBox2D* debugRender = FacadeModele::getInstance()->getDebugRenderBox2D();
+        DebugRenderBox2D* debugRender = DebugRenderBox2D::mInstance;
         if(debugRender)
         {
             b2Vec2 p1 = mMouseJoint->GetAnchorB();
@@ -470,7 +469,8 @@ void NoeudMaillet::ajusterVitesse( const float& temps )
 void NoeudMaillet::updatePhysicBody()
 {
 #if BOX2D_INTEGRATED
-    if(getWorld())
+    auto world = getWorld();
+    if(world)
     {
         clearPhysicsBody();
 
@@ -483,7 +483,7 @@ void NoeudMaillet::updatePhysicBody()
         myBodyDef.angle = 0; //set the starting angle
         myBodyDef.fixedRotation = true;
 
-        mPhysicBody = getWorld()->CreateBody(&myBodyDef);
+        mPhysicBody = world->CreateBody(&myBodyDef);
         b2CircleShape circleShape;
         circleShape.m_p.Set(0, 0); //position, relative to body position
         circleShape.m_radius = (float32)obtenirRayon()*utilitaire::ratioWorldToBox2D; //radius
@@ -522,16 +522,26 @@ void NoeudMaillet::buildMouseJoint()
             GestionnaireEvenements::mMouseMoveSubject.attach(this);
         }
 
-        b2Body* body = getPhysicBody();
-        b2MouseJointDef md;
-        md.bodyA = mMouseBody;
-        md.bodyB = body;
-        const Vecteur3& pos = getPosition();
-        utilitaire::VEC3_TO_B2VEC(pos,md.target);
-        md.maxForce = 10000.0f * body->GetMass();
-        md.dampingRatio = 0;
-        md.frequencyHz = 100;
-        mMouseJoint = (b2MouseJoint*)mWorld->CreateJoint(&md);
+        auto world = getWorld();
+        if(world)
+        {
+            if(!mMouseBody)
+            {
+                b2BodyDef bodyDef;
+                mMouseBody = world->CreateBody(&bodyDef);
+            }
+
+            b2Body* body = getPhysicBody();
+            b2MouseJointDef md;
+            md.bodyA = mMouseBody;
+            md.bodyB = body;
+            const Vecteur3& pos = getPosition();
+            utilitaire::VEC3_TO_B2VEC(pos,md.target);
+            md.maxForce = 10000.0f * body->GetMass();
+            md.dampingRatio = 0;
+            md.frequencyHz = 100;
+            mMouseJoint = (b2MouseJoint*)world->CreateJoint(&md);
+        }
     }
 #endif
 }
@@ -552,8 +562,14 @@ void NoeudMaillet::destroyMouseJoint()
     if(mMouseJoint)
     {
         GestionnaireEvenements::mMouseMoveSubject.detach(this);
-        mWorld->DestroyJoint(mMouseJoint);
+        auto world = getWorld();
+        if(world)
+        {
+            world->DestroyJoint(mMouseJoint);
+            world->DestroyBody(mMouseBody);
+        }
         mMouseJoint = NULL;
+        mMouseBody = NULL;
     }
 #endif
 }

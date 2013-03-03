@@ -21,6 +21,7 @@
 #include "aiScene.h"
 #include "Modele3D.h"
 #include "..\Noeuds\NodeControlPoint.h"
+#include "ExceptionJeu.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -286,7 +287,7 @@ void VisiteurDeplacement::visiterNoeudPoint( NoeudPoint* noeud )
 	// Recalcul de la longueur des buts 
 	NoeudTable* table = dynamic_cast<NoeudTable*>(noeud->obtenirParent());
 	if(table == 0)
-		throw std::runtime_error("Parent d'un point n'est pas une table, arbre invalide");
+		throw ExceptionJeu("Parent d'un point n'est pas une table, arbre invalide");
 	table->obtenirBut(1)->updateLongueur();
 	table->obtenirBut(2)->updateLongueur();
 	

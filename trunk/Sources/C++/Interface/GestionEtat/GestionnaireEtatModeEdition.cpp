@@ -20,6 +20,7 @@
 #include "SourisEtatSelection.h"
 #include "SourisEtatAjout.h"
 #include "SourisEtatAjoutControlPointMutable.h"
+#include "Terrain.h"
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -249,6 +250,11 @@ void GestionnaireEtatModeEdition::miseAJourEvenementsRepetitifs( float deltaTemp
 void GestionnaireEtatModeEdition::animer( const float& temps )
 {
     SoundFMOD::obtenirInstance()->repeatAppSong();
+    // Mise à jour des objets
+    if(FacadeModele::getInstance()->getEditionField())
+    {
+        FacadeModele::getInstance()->getEditionField()->animerTerrain(temps);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -264,7 +270,7 @@ void GestionnaireEtatModeEdition::animer( const float& temps )
 void GestionnaireEtatModeEdition::afficher()
 {
     GestionnaireHUD::obtenirInstance()->dessinerHUDEdition();
-}
+    }
 
 ////////////////////////////////////////////////////////////////////////
 ///

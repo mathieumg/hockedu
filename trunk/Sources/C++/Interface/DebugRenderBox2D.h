@@ -47,6 +47,12 @@ public:
     void DrawString(int x, int y, const char* string, ...); 
 
     void DrawAABB(b2AABB* aabb, const b2Color& color);
+
+    // singleton because it only offers fonctionality functions,
+    // but an instance is required by b2World to do the rendering
+    static DebugRenderBox2D* mInstance;
+private:
+    DebugRenderBox2D(){};
 };
 #endif
 

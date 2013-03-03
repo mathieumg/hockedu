@@ -103,8 +103,11 @@ private:
 	/// Le joueur qui possède ce maillet
 	JoueurVirtuel* joueur_;
 	
+#if BOX2D_INTEGRATED
     /// joint controlling the mallet
     class b2MouseJoint* mMouseJoint;
+    b2Body* mMouseBody;
+#endif
 
     /// reference to the factory's counter of mallet instances
     unsigned int& mNbMalletCreated;

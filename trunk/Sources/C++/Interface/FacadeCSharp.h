@@ -53,6 +53,7 @@ enum MouseButtons
 extern "C" 
 {
     __declspec(dllexport) void InitOpenGL(HWND hWnd);
+    __declspec(dllexport) void FreeApplicationMemory( );
     __declspec(dllexport) void RenderOpenGL();
     __declspec(dllexport) void WindowResized(int largeur, int hauteur);
     __declspec(dllexport) void LogicUpdate(float time);

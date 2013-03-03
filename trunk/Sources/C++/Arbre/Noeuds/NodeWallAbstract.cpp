@@ -85,7 +85,8 @@ void NodeWallAbstract::updatePhysicBody()
 {
 #if BOX2D_INTEGRATED
 
-    if(getWorld())
+    auto world = getWorld();
+    if(world)
     {
         clearPhysicsBody();
 
@@ -97,7 +98,7 @@ void NodeWallAbstract::updatePhysicBody()
         myBodyDef.position.Set(0, 0); //set the starting position
         myBodyDef.angle = 0; //set the starting angle
 
-        mPhysicBody = getWorld()->CreateBody(&myBodyDef);
+        mPhysicBody = world->CreateBody(&myBodyDef);
         b2PolygonShape shape;
         const Vecteur3& pos = getPosition();
         b2Vec2 posB2;

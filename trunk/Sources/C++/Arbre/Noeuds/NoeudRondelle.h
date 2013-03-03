@@ -13,6 +13,7 @@
 
 #include "NoeudComposite.h"
 #include "ObjetAnimable.h"
+#include "ExceptionJeu.h"
 
 class NoeudTable;
 ///////////////////////////////////////////////////////////////////////////
@@ -64,7 +65,7 @@ public:
     //void modifierAngle(const float angle) {angle_ = angle;}
     void modifierVitesseRotation(const float vitesse) {mVitesseRotation = vitesse;}
 
-    void validerPropriteteTablePourJeu() throw(std::logic_error);
+    void validerPropriteteTablePourJeu() throw(ExceptionJeu);
 
     /// Accesseur et mutateur de positionOriginale
     Vecteur3 obtenirPositionOriginale() const { return positionOriginale_; }

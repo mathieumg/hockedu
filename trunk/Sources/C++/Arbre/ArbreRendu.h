@@ -66,6 +66,11 @@ public:
 
    virtual const ArbreRendu* GetTreeRoot() const {return this;}
 
+   /// Initialisation du NoeudAbstrait à partir d'un element XML
+   virtual bool initialiser(const XmlElement* element);
+   /// Creation du noeud XML du Noeud
+   virtual XmlElement* creerNoeudXML();
+
 private:
    /// Définition du type pour l'association du nom d'un type vers l'usine
    /// correspondante.

@@ -232,6 +232,7 @@
     <ClCompile Include="Environnement\Evenements\EvenementClavier.cpp" />
     <ClCompile Include="Environnement\Evenements\EvenementRouletteSouris.cpp" />
     <ClCompile Include="Environnement\Evenements\EvenementSouris.cpp" />
+    <ClCompile Include="Environnement\ExceptionJeu.cpp" />
     <ClCompile Include="Environnement\RazerGameUtilities.cpp" />
     <ClCompile Include="Interface\DebugRenderBox2D.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatAbstrait.cpp" />
@@ -324,6 +325,7 @@
     <ClCompile Include="Tests\TerrainTest.cpp" />
     <ClCompile Include="Tests\TournoiTest.cpp" />
     <ClCompile Include="Tests\VisiteurNoeudTest.cpp" />
+    <ClCompile Include="Tests\XMLTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h" />
@@ -375,6 +377,7 @@
     <ClInclude Include="Environnement\Evenements\EvenementClavier.h" />
     <ClInclude Include="Environnement\Evenements\EvenementRouletteSouris.h" />
     <ClInclude Include="Environnement\Evenements\EvenementSouris.h" />
+    <ClInclude Include="Environnement\ExceptionJeu.h" />
     <ClInclude Include="Environnement\RazerGameUtilities.h" />
     <ClInclude Include="Interface\CodesEvenements.h" />
     <ClInclude Include="Interface\DebugRenderBox2D.h" />
@@ -479,6 +482,7 @@
     <ClInclude Include="Tests\TerrainTest.h" />
     <ClInclude Include="Tests\TournoiTest.h" />
     <ClInclude Include="Tests\VisiteurNoeudTest.h" />
+    <ClInclude Include="Tests\XMLTests.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Commun\Externe\BuildBox2D\vs2010\Box2D.vcxproj">

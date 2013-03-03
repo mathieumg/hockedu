@@ -1,6 +1,8 @@
 #include "FacadeCSharp.h"
 
 #include <iostream>
+#include "ExceptionJeu.h"
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -47,7 +49,6 @@ void TestGestionnaireReseau()
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("bob", wPaquet,TCP);
 
 }
-
 
 void InitDLL()
 {
@@ -182,11 +183,22 @@ void CancelConnection( char* pConnectionId )
 ////////////////////////////////////////////////////////////////////////
 void InitOpenGL( HWND hWnd )
 {
-    CheckTime(
     FacadeModele::getInstance()->initialiserOpenGL(hWnd);
     SPJoueurAbstrait joueurHumain = SPJoueurAbstrait(new JoueurHumain("Joueur 2"));
     FacadeModele::getInstance()->modifierAdversaire(joueurHumain);
-    );
+    
+}
+
+
+void FreeApplicationMemory(  )
+{
+    FacadeModele::getInstance()->libererOpenGL();
+
+    // Désinitialisation de la façade.  Le fait de le faire après la
+    // désinitialisation du contexte OpenGL aura pour conséquence que la
+    // libération des listes d'affichages, par exemple, sera faite une fois que
+    // le contexte n'existera plus, et sera donc sans effet.
+    FacadeModele::libererInstance();
 }
 
 ////////////////////////////////////////////////////////////////////////

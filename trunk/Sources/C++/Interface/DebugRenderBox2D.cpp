@@ -32,6 +32,7 @@ using namespace std;
 const float DebugZ = 25.f;
 
 const float& ratio = utilitaire::ratioWorldToBox2D;
+DebugRenderBox2D* DebugRenderBox2D::mInstance = new DebugRenderBox2D();
 
 void DebugRenderBox2D::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
 {

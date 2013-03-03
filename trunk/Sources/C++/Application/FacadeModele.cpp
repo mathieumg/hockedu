@@ -81,6 +81,7 @@
 #include "HUDTexte.h"
 #include "VisiteurFunction.h"
 #include "..\Reseau\GestionnaireReseau.h"
+#include "ExceptionJeu.h"
 
 /// Pointeur vers l'instance unique de la classe.
 FacadeModele* FacadeModele::instance_ = 0;
@@ -235,7 +236,7 @@ FacadeModele::FacadeModele()
 	// Initialisation de la randomisation
 	srand( (unsigned int) clock()+(unsigned int) time);
 
-    mEditionField = new Terrain(false);
+    mEditionField = new Terrain(NULL);
 
 #ifdef WIN32
 	CreateDirectoryA(
@@ -245,14 +246,7 @@ FacadeModele::FacadeModele()
 #else
 	// creation d'un dossier avec un autre API, dunno which yet
 #endif
-#if BOX2D_INTEGRATED
-    b2Vec2 gravity(0,0);
-    mWorld = new b2World(gravity);
-    mDebugRenderBox2D = new DebugRenderBox2D();
-    mWorld->SetDebugDraw(mDebugRenderBox2D);
-    mDebugRenderBox2D->AppendFlags(b2Draw::e_shapeBit);
-    NoeudAbstrait::setWorld(mWorld);
-#endif
+
 
 }
 
@@ -278,15 +272,6 @@ FacadeModele::~FacadeModele()
 		delete boiteEnvironnement;
 		boiteEnvironnement=0;
 	}
-#if BOX2D_INTEGRATED  
-    if(mWorld)
-    {
-        delete mWorld;
-        mWorld = NULL;
-    }
-    delete mDebugRenderBox2D;
-    mDebugRenderBox2D = NULL;
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -351,17 +336,13 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
     // FreeImage, utilisée par le chargeur, doit être initialisée
     FreeImage_Initialise();
 
-	// Initialisation des modèles
-    CheckTime(GestionnaireModeles::obtenirInstance()->initialiser(););
-	ConfigScene::obtenirInstance();
-	SoundFMOD::obtenirInstance();
-
-	//ConfigScene::obtenirInstance()->obtenirLumiere(0)->allumerLumiere();
- 	//ConfigScene::obtenirInstance()->obtenirLumiere(1)->allumerLumiere();
- 	//ConfigScene::obtenirInstance()->obtenirLumiere(2)->allumerLumiere();
+    // Initialisation des modèles
+    GestionnaireModeles::obtenirInstance()->initialiser();
+    ConfigScene::obtenirInstance();
+    SoundFMOD::obtenirInstance();
+    GestionnaireHUD::obtenirInstance();
 
 #if !SHIPPING
-    GestionnaireHUD::obtenirInstance();
     debugInfo = new HUDTexte("",Vecteur4f(0,1,1,1));
     debugInfo->modifierVisibilite(true);
     debugInfo->modifierPosition(0.15f,0.15f);
@@ -618,6 +599,13 @@ void FacadeModele::libererMemoire()
 		delete tournoi_;
 	if(partieCourante_ && !partieCourante_->faitPartieDunTournoi())
 		delete partieCourante_;	
+
+#if BOX2D_INTEGRATED  
+    if(DebugRenderBox2D::mInstance)delete DebugRenderBox2D::mInstance;
+    DebugRenderBox2D::mInstance = NULL;
+#endif
+    if(GestionnaireEvenements::etatCourant_) delete GestionnaireEvenements::etatCourant_;
+    GestionnaireEvenements::etatCourant_ = NULL;
 }
 
 
@@ -663,6 +651,7 @@ void FacadeModele::SignalRender()
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::afficher( )
 {
+    utilitaire::CompteurAffichage::obtenirInstance()->signalerAffichage();
     mRendering = true;
 	// Efface l'ancien rendu
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
@@ -710,7 +699,15 @@ void FacadeModele::afficher( )
 
     glPushMatrix();
     glPushAttrib(GL_ALL_ATTRIB_BITS);
-    mWorld->DrawDebugData(); 
+
+    if(partieCourante_)
+    {
+        partieCourante_->getField()->GetWorld()->DrawDebugData();
+    }
+    else
+    {
+        mEditionField->GetWorld()->DrawDebugData();
+    }
     
     const float32 k_segments = 16.0f;
     const float32 k_increment = 2.0f * b2_pi / k_segments;
@@ -783,8 +780,12 @@ void FacadeModele::afficher( )
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::afficherBase() const
 {
+    if(partieCourante_)
+    {
+        partieCourante_->afficher();
+    }
     // Afficher la scène
-    if(getEditionField())
+    else if(getEditionField())
     {
         getEditionField()->afficherTerrain();
     }
@@ -849,7 +850,6 @@ void FacadeModele::reinitialiserTerrain()
 void FacadeModele::animer( const float& temps)
 {
     mUpdating = true;
-	utilitaire::CompteurAffichage::obtenirInstance()->signalerAffichage();
 	
 	float tempsReel = temps;
 
@@ -869,11 +869,11 @@ void FacadeModele::animer( const float& temps)
     }
 
     GestionnaireEvenements::miseAJourEvenementsRepetitifs(tempsReel);
-    // Mise à jour des objets
-    if(getEditionField())
+    if(partieCourante_)
     {
-        getEditionField()->animerTerrain(tempsReel);
+        partieCourante_->animer(temps);
     }
+    
     GestionnaireEvenements::animer(tempsReel);
     bool replaying = false;
     if(GestionnaireAnimations::obtenirInstance()->estJouerReplay())
@@ -1014,9 +1014,6 @@ void FacadeModele::modifierVariableZoomElastique(bool actif, Vecteur2i coin1, Ve
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageModeEdition()
 {
-#if BOX2D_INTEGRATED  
-    mWorld->SetContactListener(NULL);
-#endif
 	// Indique que nous ne somme plus en train de jouer le tournoi
 	if(tournoi_)
 		tournoi_->modifierEstEnCours(false);
@@ -1062,11 +1059,6 @@ bool FacadeModele::passageModeTournoi()
     SetCursor(NormalCursor);
 #endif
 
-#if BOX2D_INTEGRATED  
-    mWorld->SetContactListener(getEditionField());
-#endif
-
-    FullRebuild();
 
 	if(!tournoi_)
 	{
@@ -1142,12 +1134,6 @@ bool FacadeModele::passageModeJeu()
     SetCursor(NormalCursor);
 #endif
 
-#if BOX2D_INTEGRATED  
-    mWorld->SetContactListener(getEditionField());
-#endif
-
-    FullRebuild();
-
 	// Indique que nous ne somme plus en train de jouer le tournoi
 	if(tournoi_)
 		tournoi_->modifierEstEnCours(false);
@@ -1159,7 +1145,6 @@ bool FacadeModele::passageModeJeu()
 	//partieCourante_ = new Partie(new JoueurVirtuel("Joueur Gauche",225),new JoueurVirtuel("Joueur Droit",225));
 	partieCourante_->setFieldName(FICHIER_TERRAIN_EN_COURS);
     partieCourante_->getReadyToPlay();
-
     partieCourante_->miseAuJeu(true);
     enJeu_ = true;
     // On enregistre apres avoir desactiver les points pour ne pas les voir si on reinitialise la partie
@@ -1179,9 +1164,6 @@ bool FacadeModele::passageModeJeu()
 ////////////////////////////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageMenuPrincipal()
 {
-#if BOX2D_INTEGRATED  
-    mWorld->SetContactListener(NULL);
-#endif
 	// Indique que nous ne somme plus en train de jouer le tournoi
 	if(tournoi_)
 		tournoi_->modifierEstEnCours(false);
@@ -1693,7 +1675,7 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
         
 		NoeudTable* table = getEditionField()->getTable();
 		if(!table)
-			throw std::runtime_error("Impossible de trouver la table de jeu");
+			throw ExceptionJeu("Impossible de trouver la table de jeu");
 
 		friction = table->obtenirCoefFriction();
 
@@ -2133,39 +2115,6 @@ float FacadeModele::getTableWidth()
 NoeudAffichage* FacadeModele::obtenirDecompte()
 {
     return obtenirPartieCourante()->obtenirDecompte();
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void FacadeModele::MouseMove( EvenementSouris& evenementSouris )
-///
-/// /*Description*/
-///
-/// @param[in] EvenementSouris & evenementSouris
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void FacadeModele::MouseMove( EvenementSouris& evenementSouris )
-{
-#if BOX2D_INTEGRATED
-
-#endif
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void FacadeModele::FullRebuild()
-///
-/// Updates the content of the game to be ready to play
-///
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void FacadeModele::FullRebuild()
-{
-    getEditionField()->fullRebuild();
 }
 
 ////////////////////////////////////////////////////////////////////////

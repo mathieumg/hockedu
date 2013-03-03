@@ -47,6 +47,7 @@ namespace UIHeavyClient
         }
         private void Window_Closed(object sender, EventArgs e)
         {
+            FreeApplicationMemory();
             ConsoleManager.Hide();
         }
         public EditionModeControl EditionModeControl
@@ -93,6 +94,8 @@ namespace UIHeavyClient
         // C++ function to initialise C# controller on that side
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void InitDLL();
+        [DllImport(@"RazerGame.dll")]
+        static extern void FreeApplicationMemory();
 
         public void CreateUserControl(object sender, EventArgs e)
         {

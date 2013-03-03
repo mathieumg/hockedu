@@ -128,7 +128,7 @@
                    // Erreur dans l'initialisation avec le xml, donc on laisse un terrain vide
                    pField.initialiser(pFilePath);
                }
-               pField.FixCollidingObjects();
+               //pField.FixCollidingObjects();
 
                XMLUtils::FreeDocument(document);
            }

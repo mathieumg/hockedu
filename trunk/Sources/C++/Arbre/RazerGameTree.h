@@ -37,8 +37,6 @@ public:
 
    /// Retourne le noeud représentant la table elle-même
    NoeudTable* obtenirTable();
-   /// Creation du noeud XML du Noeud
-   virtual XmlElement* creerNoeudXML();
 };
 
 

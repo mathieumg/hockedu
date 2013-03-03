@@ -140,7 +140,6 @@ void GestionnaireEvenements::sourisDeplacee( EvenementSouris& evenementSouris )
 	checkf(etatCourant_);etatCourant_->sourisDeplacee(evenementSouris);
     mMouseMoveSubject.mEvent = evenementSouris;
     mMouseMoveSubject.signalObservers();
-    FacadeModele::getInstance()->MouseMove(evenementSouris);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
