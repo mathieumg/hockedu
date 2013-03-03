@@ -153,7 +153,7 @@ namespace UIHeavyClient
         }
 
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SendMessageDLL(string pUsername, string pUsername, string pMessage);
+        public static extern void SendMessageDLL(string pConnectionId, string pUsername, string pMessage);
         // sends a request to connect the user. Will not be necessarly connected when exiting this function
         // must wait for a callback indicating the status of this user's connection
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
