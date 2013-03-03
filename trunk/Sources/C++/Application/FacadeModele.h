@@ -231,11 +231,6 @@ public:
     void afficherProgramInfoLog( GLuint obj, const char* message );
     void afficherShaderInfoLog( GLuint obj, const char* message );
 
-    void MouseMove( class EvenementSouris& evenementSouris );
-
-    /// Updates the content of the game to be ready to play
-    void FullRebuild();
-
     // va surement necessité des mutex
     /// Permet d'exécuter du code sur un thread spécifique au moment opportun
     void RunOnRenderThread(Runnable* run, bool pForceQueue = false);
@@ -274,10 +269,6 @@ private:
 	HDC   hDC_;
     HANDLE renderThread_;
 
-#if BOX2D_INTEGRATED  
-    class DebugRenderBox2D* mDebugRenderBox2D;
-    class b2World* mWorld;
-#endif
 
 	/// Vue courante de la scène.
 	vue::Vue* vue_;	
@@ -319,12 +310,7 @@ private:
     bool mUpdating, mRendering;
 	/// Accesseurs
 public:
-#if BOX2D_INTEGRATED  
-    /// Accessors of mWorld
-    inline class b2World* getWorld() const { return mWorld; }
-    /// Accessors of mDebugRenderBox2D
-    inline class DebugRenderBox2D* getDebugRenderBox2D() const { return mDebugRenderBox2D; }
-#endif
+
 
     inline bool IsInGame() const { return enJeu_; }
     /// Accessors of hGLRC_

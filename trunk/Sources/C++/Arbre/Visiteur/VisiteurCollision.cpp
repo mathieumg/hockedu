@@ -70,30 +70,30 @@ VisiteurCollision::VisiteurCollision( NoeudAbstrait* noeudAVerifier , bool flag 
 	positionAVerifier_ = noeudAVerifier->getPosition().convertir<2>();
 
 
-#if BOX2D_INTEGRATED  
-    if(noeudAVerifier_)
-    {
-        b2Body* body = noeudAVerifier_->getPhysicBody();
-        b2World* world = noeudAVerifier_->getWorld();
-        if(world && body)
-        {
-            
-            b2AABB aabb;
-            aabb.lowerBound = b2Vec2(FLT_MAX,FLT_MAX);
-            aabb.upperBound = b2Vec2(-FLT_MAX,-FLT_MAX); 
-            for(b2Fixture* fixture = body->GetFixtureList(); fixture; fixture = fixture->GetNext())
-            {
-                for(int32 i = fixture->getProxyCount()-1; i>=0; --i)
-                {
-                    aabb.Combine(aabb,fixture->GetAABB(i));
-                }
-            }
-            VisitorQueryCallBack callback(*this,noeudAVerifier_);
-            world->QueryAABB(&callback,aabb);
-        }
-    }
-
-#endif
+// #if BOX2D_INTEGRATED  
+//     if(noeudAVerifier_)
+//     {
+//         b2Body* body = noeudAVerifier_->getPhysicBody();
+//         b2World* world = noeudAVerifier_->getWorld();
+//         if(world && body)
+//         {
+//             
+//             b2AABB aabb;
+//             aabb.lowerBound = b2Vec2(FLT_MAX,FLT_MAX);
+//             aabb.upperBound = b2Vec2(-FLT_MAX,-FLT_MAX); 
+//             for(b2Fixture* fixture = body->GetFixtureList(); fixture; fixture = fixture->GetNext())
+//             {
+//                 for(int32 i = fixture->getProxyCount()-1; i>=0; --i)
+//                 {
+//                     aabb.Combine(aabb,fixture->GetAABB(i));
+//                 }
+//             }
+//             VisitorQueryCallBack callback(*this,noeudAVerifier_);
+//             world->QueryAABB(&callback,aabb);
+//         }
+//     }
+// 
+// #endif
 
 
 	/// PAS OUBLIER DE REINITIALISER LES NOUVELLES VARIABLE DANS LA METHODE REINITIALISER

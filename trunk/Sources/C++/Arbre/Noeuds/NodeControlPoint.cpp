@@ -12,9 +12,10 @@
 #include "NodeControlPoint.h"
 #include "VisiteurNoeud.h"
 #include <algorithm>
-#include "..\..\Interface\DebugRenderBox2D.h"
-#include "..\..\Application\FacadeModele.h"
-#include "..\..\..\..\Commun\Utilitaire\Utilitaire.h"
+#if BOX2D_INTEGRATED
+#include "DebugRenderBox2D.h"
+#endif
+#include "Utilitaire.h"
 
 #ifdef MIKE_DEBUG
 PRAGMA_DISABLE_OPTIMIZATION
@@ -26,7 +27,7 @@ CreateListDelegateImplementation(ControlPoint)
     liste = glGenLists(1);
     glNewList(liste, GL_COMPILE);
 #if BOX2D_INTEGRATED
-        DebugRenderBox2D* debugRender = FacadeModele::getInstance()->getDebugRenderBox2D();
+        DebugRenderBox2D* debugRender = DebugRenderBox2D::mInstance;
         debugRender->DrawSolidCircle(b2Vec2(0,0),0.5,b2Vec2(0,0),b2Color(1,0,1));
 #endif
     glEndList();
@@ -71,17 +72,6 @@ void NodeControlPoint::afficherConcret() const
 {
     // Appel à la version de la classe de base pour l'affichage des enfants.
     NoeudAbstrait::afficherConcret();
-
-#if BOX2D_INTEGRATED  
-//     if(estAffiche())
-//     {
-//         DebugRenderBox2D* debugRender = FacadeModele::getInstance()->getDebugRenderBox2D();
-//         b2Vec2 v;
-//         utilitaire::VEC3_TO_B2VEC(getPosition(),v);
-//         debugRender->DrawSolidCircle(v,0.5,b2Vec2(0,0),b2Color(1,0,1));
-//     }
-#endif
-
 }
 
 ////////////////////////////////////////////////////////////////////////

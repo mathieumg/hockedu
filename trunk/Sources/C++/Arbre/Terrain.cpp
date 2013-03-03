@@ -11,7 +11,9 @@
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
-
+#if BOX2D_DEBUG
+#include "DebugRenderBox2D.h"
+#endif
 #include "Terrain.h"
 #include "RazerGameTree.h"
 #include "ArbreNoeudLibre.h"
@@ -54,13 +56,23 @@ const unsigned int MAX_MALLETS = 2;
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-Terrain::Terrain(bool pIsGameField): mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mIsGameField(pIsGameField)
+Terrain::Terrain(Partie* pGame): mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame)
 {
     mEditionZone = NULL;
-    if(!mIsGameField)
+    if(!mGame)
     {
         mEditionZone = new ZoneEdition();
     }
+#if BOX2D_INTEGRATED
+    b2Vec2 gravity(0,0);
+    mWorld = new b2World(gravity);
+    mWorld->SetContactListener(this);
+#if BOX2D_DEBUG
+    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_shapeBit);
+    mWorld->SetDebugDraw(DebugRenderBox2D::mInstance);
+#endif
+
+#endif
 }
 
 
@@ -82,6 +94,14 @@ Terrain::~Terrain()
     {
         delete mEditionZone;
     }
+
+#if BOX2D_INTEGRATED
+    if(mWorld)
+    {
+        delete mWorld;
+        mWorld = NULL;
+    }
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -211,7 +231,7 @@ void Terrain::initialiserArbreRendu()
         NoeudAbstrait* piece = new NoeudPiece(RazerGameUtilities::NOM_HOUSE);
         mRenderTree->ajouter(piece);
     }
-    if(!mIsGameField)
+    if(!mGame)
     {
         if(!mNewNodeTree)
         {
@@ -269,7 +289,7 @@ bool Terrain::initialiserXml( XmlElement* element )
         NoeudAbstrait* piece = new NoeudPiece(RazerGameUtilities::NOM_HOUSE);
         mRenderTree->ajouter(piece);
     }
-    if(!mIsGameField)
+    if(!mGame)
     {
         if(!mNewNodeTree)
         {
@@ -813,10 +833,10 @@ void Terrain::appliquerPhysique( float temps )
             mailletGauche->preSimulationActions();
         }
 
-        FacadeModele::getInstance()->getWorld()->SetWarmStarting(true);
-        FacadeModele::getInstance()->getWorld()->SetContinuousPhysics(true);
-        FacadeModele::getInstance()->getWorld()->SetSubStepping(true);
-        FacadeModele::getInstance()->getWorld()->Step(temps, 8, 8);
+        mWorld->SetWarmStarting(true);
+        mWorld->SetContinuousPhysics(true);
+        mWorld->SetSubStepping(true);
+        mWorld->Step(temps, 8, 8);
 #else
 		mLogicTree->majPosition(temps);
 		mLogicTree->gestionCollision(temps);
@@ -880,21 +900,20 @@ void Terrain::BeginContact( b2Contact* contact )
                     b2Body* rondelleBody = bodies[0];
                     NoeudRondelle* rondelle = (NoeudRondelle*)(rondelleBody->GetUserData());
                     FacadeModele::getInstance()->RunOnUpdateThread(new Runnable([=](Runnable*){
-                        Partie* partie = FacadeModele::getInstance()->obtenirPartieCourante();
-                        if(partie)
+                        if(mGame)
                         {
                             auto position = rondelle->getPosition();
                             if(position[VX] < 0)
                             {
-                                partie->incrementerPointsJoueurDroit();
+                                mGame->incrementerPointsJoueurDroit();
                             }
                             else
                             {
-                                partie->incrementerPointsJoueurGauche();
+                                mGame->incrementerPointsJoueurGauche();
                             }
                             SoundFMOD::obtenirInstance()->playEffect(GOAL_EFFECT);
                         }
-                        partie->miseAuJeu();
+                        mGame->miseAuJeu();
                         rondelleBody->SetLinearVelocity(b2Vec2(0,0));
                     }),true);
                 }

@@ -125,7 +125,8 @@ void NoeudPortail::acceptVisitor( VisiteurNoeud& v )
 void NoeudPortail::updatePhysicBody()
 {
 #if BOX2D_INTEGRATED
-    if(getWorld())
+    auto world = getWorld();
+    if(world)
     {
         clearPhysicsBody();
 
@@ -137,7 +138,7 @@ void NoeudPortail::updatePhysicBody()
         myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
         myBodyDef.angle = 0; //set the starting angle
 
-        mPhysicBody = getWorld()->CreateBody(&myBodyDef);
+        mPhysicBody = world->CreateBody(&myBodyDef);
         b2CircleShape circleShape;
         circleShape.m_p.Set(0, 0); //position, relative to body position
         circleShape.m_radius = (float32)obtenirRayon()*utilitaire::ratioWorldToBox2D; //radius

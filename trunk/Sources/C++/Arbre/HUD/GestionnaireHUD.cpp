@@ -38,9 +38,9 @@ SINGLETON_DECLARATION_CPP(GestionnaireHUD);
 ////////////////////////////////////////////////////////////////////////
 GestionnaireHUD::GestionnaireHUD()
 {
-    CheckTime(creerHUDJeu(););
-    CheckTime(creerHUDTournoi(););
-    CheckTime(creerHUDEdition(););
+    creerHUDJeu();
+    creerHUDTournoi();
+    creerHUDEdition();
 
     GestionnaireModeles::obtenirInstance()->obtenirListe("pause",listePause_);
 }

@@ -217,10 +217,8 @@ public:
 	/// Libere la memoire de l'objet Box2D
     virtual void clearPhysicsBody();
     /// Accessors of mWorld
-    inline static class b2World* getWorld() { return mWorld; }
-    inline static void setWorld(class b2World* pVal) { mWorld = pVal; }
+    class b2World* getWorld();
 protected:
-    static class b2World* mWorld;
     class b2Body* mPhysicBody;
 
     /// Type du noeud.

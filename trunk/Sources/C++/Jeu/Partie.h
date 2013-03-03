@@ -74,7 +74,7 @@ public:
 	
 	/// Gestion de l'affichage du décompte de mise au jeu
 	void afficher();
-	void animer( const float& temps){chiffres_->animer(temps);}
+	void animer( const float& temps);
 
 	void vider();
 
@@ -135,7 +135,7 @@ public:
 	/// Modificateur de enPause_
 	void modifierEnPause(bool val) { enPause_ = val; if(enPause_) tempsJeu_.pause(); else tempsJeu_.unPause(); }
 	/// Accesseur de enPause_
-	bool estEnPause() const { return enPause_; }
+	inline bool estEnPause() const { return enPause_; }
 	/// Accesseurs des points des joueurs
 	int obtenirPointsJoueurGauche() const;
 	int obtenirPointsJoueurDroit() const;

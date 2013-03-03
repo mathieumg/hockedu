@@ -963,31 +963,34 @@ void NoeudTable::updatePhysicBody()
 #if BOX2D_INTEGRATED
 
     clearPhysicsBody();
-
-    auto pHaut = obtenirPoint(POSITION_HAUT_MILIEU), pBas = obtenirPoint(POSITION_BAS_MILIEU);
-    if(pHaut && pBas)
+    auto world = getWorld();
+    if(world)
     {
-        b2BodyDef myBodyDef;
-        myBodyDef.type = b2_staticBody; //this will be a dynamic body
-        myBodyDef.position.Set(0, 0); //set the starting position
-        myBodyDef.angle = 0; //set the starting angle
+        auto pHaut = obtenirPoint(POSITION_HAUT_MILIEU), pBas = obtenirPoint(POSITION_BAS_MILIEU);
+        if(pHaut && pBas)
+        {
+            b2BodyDef myBodyDef;
+            myBodyDef.type = b2_staticBody; //this will be a dynamic body
+            myBodyDef.position.Set(0, 0); //set the starting position
+            myBodyDef.angle = 0; //set the starting angle
 
-        mPhysicBody = getWorld()->CreateBody(&myBodyDef);
+            mPhysicBody = world->CreateBody(&myBodyDef);
 
-        b2Vec2 topPosB2,bottomPosB2 ;
-        utilitaire::VEC3_TO_B2VEC(pHaut->getPosition(),topPosB2);
-        utilitaire::VEC3_TO_B2VEC(pBas->getPosition(),bottomPosB2);
-        b2EdgeShape shape;
-        shape.Set(bottomPosB2,topPosB2);
+            b2Vec2 topPosB2,bottomPosB2 ;
+            utilitaire::VEC3_TO_B2VEC(pHaut->getPosition(),topPosB2);
+            utilitaire::VEC3_TO_B2VEC(pBas->getPosition(),bottomPosB2);
+            b2EdgeShape shape;
+            shape.Set(bottomPosB2,topPosB2);
 
-        b2FixtureDef myFixtureDef;
-        myFixtureDef.shape = &shape; //this is a pointer to the shapeHaut above
-        myFixtureDef.density = 1;
-        myFixtureDef.filter.categoryBits = CATEGORY_NONE;
-        myFixtureDef.filter.maskBits = CATEGORY_NONE;
-        myFixtureDef.filter.groupIndex = 1;
+            b2FixtureDef myFixtureDef;
+            myFixtureDef.shape = &shape; //this is a pointer to the shapeHaut above
+            myFixtureDef.density = 1;
+            myFixtureDef.filter.categoryBits = CATEGORY_NONE;
+            myFixtureDef.filter.maskBits = CATEGORY_NONE;
+            myFixtureDef.filter.groupIndex = 1;
 
-        mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+            mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+        }
     }
 #endif
 

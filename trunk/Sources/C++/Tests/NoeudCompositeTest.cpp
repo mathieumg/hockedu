@@ -296,7 +296,7 @@ void NoeudCompositeTest::deselectionTousTest()
 ////////////////////////////////////////////////////////////////////////
 void NoeudCompositeTest::modificationTerrain()
 {
-	Terrain* terrain = new Terrain(false);
+	Terrain* terrain = new Terrain(NULL);
 
 	NoeudAbstrait* n = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
     
@@ -320,7 +320,7 @@ void NoeudCompositeTest::modificationTerrain()
 	}
 	enfants[3]->ajouter(n);
 
-	Terrain* terrain2 = new Terrain(false);
+	Terrain* terrain2 = new Terrain(NULL);
 	enfants[2]->modifierTerrain(terrain2);
 	// S'assure que les noeuds qui ne devrait pas etre affecté pointe toujours sur le bon terrain
 	for (int i = 0; i < 2 ; i++)

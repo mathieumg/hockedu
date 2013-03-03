@@ -52,7 +52,6 @@ public:
 	// =================================================================
 
 	/// Cas de test: écriture/lecture de la position relative
-
 };
 
 #endif // _TESTS_XML_H

@@ -45,7 +45,7 @@ Partie::Partie(SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDro
 pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), enPause_(false), estPret_(false), faitPartieDunTournoi_(false)
 {
     chiffres_ = new NoeudAffichage("3");
-    mField = new Terrain(true);
+    mField = new Terrain(this);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -505,7 +505,7 @@ void Partie::updateMinuterie( int time )
 
             chiffres_->resetEchelle();
             if(lequel == 2)
-                FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
+                FacadeModele::getInstance()->obtenirVue()->centrerCamera(mField->GetTableWidth());
         }
     }
 }
@@ -558,9 +558,7 @@ void Partie::modifierJoueurGauche( SPJoueurAbstrait val )
 ////////////////////////////////////////////////////////////////////////
 void Partie::afficher()
 {
-    
-    
-
+    mField->afficherTerrain();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -715,6 +713,8 @@ bool Partie::getReadyToPlay()
         RazerGameUtilities::LoadFieldFromFile(getFieldName(),*mField);
     }
 
+    mField->fullRebuild();
+
     if(!mField->verifierValidite())
     {
         return false;
@@ -734,6 +734,27 @@ bool Partie::getReadyToPlay()
     mField->setTableControlPointVisible(false);
 
     return true;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Partie::animer( const float& temps )
+///
+/// /*Description*/
+///
+/// @param[in] const float & temps
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Partie::animer( const float& temps )
+{
+    chiffres_->animer(temps);
+    if(estPret() && !estEnPause() && !partieTerminee() && !GestionnaireAnimations::obtenirInstance()->estJouerReplay())
+    {
+        // Gestion de la physique du jeu
+        mField->appliquerPhysique(temps);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

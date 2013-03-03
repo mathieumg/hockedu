@@ -14,14 +14,13 @@
 #include "DecodeString.h"
 #include "Singleton.h"
 #include "XMLUtils.h"
+#include "Terrain.h"
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
 #include "Utilitaire.h"
 
 GLuint NoeudAbstrait::compteurIdGl_ = 1;
-b2World* NoeudAbstrait::mWorld = NULL;
-
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -906,9 +905,10 @@ Modele3D* NoeudAbstrait::obtenirModele() const
 void NoeudAbstrait::clearPhysicsBody()
 {
 #if BOX2D_INTEGRATED  
-    if(mPhysicBody && getWorld())
+    auto world = getWorld();
+    if(mPhysicBody && world)
     {
-        getWorld()->DestroyBody(mPhysicBody);
+        world->DestroyBody(mPhysicBody);
     }
     mPhysicBody = NULL;
 #endif
@@ -1007,6 +1007,21 @@ const class ArbreRendu* NoeudAbstrait::GetTreeRoot() const
     }
     // tree root not found
     return NULL;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn class b2World* NoeudAbstrait::getWorld()
+///
+/// /*Description*/
+///
+///
+/// @return class b2World*
+///
+////////////////////////////////////////////////////////////////////////
+class b2World* NoeudAbstrait::getWorld()
+{
+    return GetTerrain() ? GetTerrain()->GetWorld() : NULL;
 }
 
 

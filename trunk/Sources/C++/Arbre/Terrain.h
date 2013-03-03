@@ -22,6 +22,7 @@ class NoeudMaillet;
 class NoeudRondelle;
 class NoeudAbstrait;
 class TerrainTest;
+class Partie;
 
 #if BOX2D_INTEGRATED
 #include "Box2D\Dynamics\b2WorldCallbacks.h"
@@ -47,7 +48,7 @@ class Terrain
 {
 public:
 	friend TerrainTest;
-	Terrain(bool pIsGameField);
+	Terrain(Partie* pGame);
 	virtual ~Terrain();
 
 	/// Permet d'effectuer le rendu des arbres du terrain
@@ -166,9 +167,11 @@ private:
 	ZoneEdition* mEditionZone;
 	
     /// Indique si ce terrain est utilisé pour jouer ou pour l'édition
-    const bool mIsGameField;
+    Partie* mGame;
 
-
+#if BOX2D_INTEGRATED  
+    class b2World* mWorld;
+#endif
 
 /// Accesseurs
 public:
@@ -187,11 +190,15 @@ public:
     /// Accesseur des buts, l'argument DOIT etre un array de 2 pointeur sur des but
     void getGoals(class NoeudBut** pOutGoals);
 
-    /// Accessors of mIsGameField
-    inline const bool IsGameField() const { return mIsGameField; }
+    /// Accessors of mGame
+    inline const bool IsGameField() const { return !!mGame; }
 
     NoeudMaillet* getLeftMallet() const;
     NoeudMaillet* getRightMallet() const;
+#if BOX2D_INTEGRATED  
+    inline class b2World* GetWorld() {return mWorld;}
+#endif
+
 public:
 
 };

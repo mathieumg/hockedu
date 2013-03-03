@@ -432,7 +432,8 @@ void NoeudBut::updatePhysicBody()
 {
 #if BOX2D_INTEGRATED
 
-    if(getWorld())
+    auto world = getWorld();
+    if(world)
     {
         clearPhysicsBody();
 
@@ -443,7 +444,7 @@ void NoeudBut::updatePhysicBody()
         myBodyDef.position.Set(0, 0); //set the starting position
         myBodyDef.angle = 0; //set the starting angle
 
-        mPhysicBody = getWorld()->CreateBody(&myBodyDef);
+        mPhysicBody = world->CreateBody(&myBodyDef);
         const Vecteur3& anchorPointPos = parent_->getPosition();
         b2Vec2 anchorPointPosB2, topPosB2,BottomPosB2 ;
         utilitaire::VEC3_TO_B2VEC(anchorPointPos,anchorPointPosB2);
@@ -485,11 +486,12 @@ void NoeudBut::updatePhysicBody()
 void NoeudBut::updatePuckCatcher( float puckRadius )
 {
 #if BOX2D_INTEGRATED  
-    if(getWorld() && (!mPuckCatcher || mCachedPuckRadius != puckRadius) )
+    auto world = getWorld();
+    if(world && (!mPuckCatcher || mCachedPuckRadius != puckRadius) )
     {
         if(mPuckCatcher)
         {
-            getWorld()->DestroyBody(mPuckCatcher);
+            world->DestroyBody(mPuckCatcher);
             mPuckCatcher = NULL;
         }
 
@@ -506,7 +508,7 @@ void NoeudBut::updatePuckCatcher( float puckRadius )
         myBodyDef.position.Set(0, 0); //set the starting position
         myBodyDef.angle = 0; //set the starting angle
 
-        mPuckCatcher = getWorld()->CreateBody(&myBodyDef);
+        mPuckCatcher = world->CreateBody(&myBodyDef);
 
         b2Vec2 anchorPointPosShiftedB2, topPosB2,bottomPosB2, topPosShiftedB2, bottomPosShiftedB2;
         utilitaire::VEC3_TO_B2VEC(anchorPointPosShifted,anchorPointPosShiftedB2);
@@ -553,9 +555,10 @@ void NoeudBut::clearPhysicsBody()
 {
     NoeudAbstrait::clearPhysicsBody();
 #if BOX2D_INTEGRATED  
-    if(getWorld() && mPuckCatcher)
+    auto world = getWorld();
+    if(world && mPuckCatcher)
     {
-        getWorld()->DestroyBody(mPuckCatcher);
+        world->DestroyBody(mPuckCatcher);
         mPuckCatcher = NULL;
     }
 #endif

@@ -187,7 +187,8 @@ void NodePolygone::updatePhysicBody()
 {
 #if BOX2D_INTEGRATED && 0
 
-    if(getWorld() && getNBControlPoint() > 2)
+    auto world = getWorld();
+    if(world && getNBControlPoint() > 2)
     {
         clearPhysicsBody();
 
@@ -196,7 +197,7 @@ void NodePolygone::updatePhysicBody()
         myBodyDef.position.Set(0, 0); //set the starting position
         myBodyDef.angle = 0; //set the starting angle
 
-        mPhysicBody = getWorld()->CreateBody(&myBodyDef);
+        mPhysicBody = world->CreateBody(&myBodyDef);
         b2PolygonShape shape;
         std::vector<Vecteur2> vertices,vertices2;
         vertices.resize(getNBControlPoint());

@@ -289,20 +289,11 @@ void GestionnaireEtatModeJeu::animer( const float& temps )
 	{
 		partieCourante->animer(temps);
 		partieCourante->updateMinuterie((int)(temps*1000));
-		if(!partieCourante->estEnPause() && !GestionnaireAnimations::obtenirInstance()->estJouerReplay())
-		{
-			if(partieCourante->partieTerminee())
-			{
-				GestionnaireEvenements::modifierEtat(ETAT_PARTIE_RAPIDE_TERMINEE);
-				return;
-			}
-			Terrain* terrain = FacadeModele::getInstance()->getEditionField();
-			if(partieCourante->estPret() && terrain)
-			{
-				// Gestion de la physique du jeu
-				terrain->appliquerPhysique(temps);
-			}
-		}
+        if(partieCourante->partieTerminee())
+        {
+            GestionnaireEvenements::modifierEtat(ETAT_PARTIE_RAPIDE_TERMINEE);
+            return;
+        }
 	}
 	gestionAnimationEnJeu(partieCourante, temps);
 }
