@@ -292,7 +292,7 @@ void FacadeModele::InitOpenGLContext()
     glShadeModel( GL_SMOOTH );
 
     // Initialisation des shaders
-#ifdef GLSHADERS
+#if GLSHADERS
     initialiserNuanceurs();
 #endif
     // couleur de l'arrière-plan
@@ -644,7 +644,7 @@ int currentCam = 1;
 
 void FacadeModele::ActivateShaders()
 {
-#ifdef GLSHADERS
+#if GLSHADERS
     glUseProgram( progPhong_ );
     //glActiveTexture( GL_TEXTURE0 );
     //Vecteur3f positionCamera = vue_->obtenirCamera(currentCam).obtenirPosition();
@@ -655,7 +655,7 @@ void FacadeModele::ActivateShaders()
 
 void FacadeModele::DeActivateShaders()
 {
-#ifdef GLSHADERS
+#if GLSHADERS
     glUseProgram(0);
 #endif
 }
@@ -674,7 +674,6 @@ void FacadeModele::afficher( )
     utilitaire::CompteurAffichage::obtenirInstance()->signalerAffichage();
     mRendering = true;
     // Efface l'ancien rendu
-
 
     for(currentCam=1; currentCam<=obtenirVue()->obtenirNbViewports(); currentCam++)
     {

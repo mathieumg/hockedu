@@ -4,7 +4,7 @@
         Title="Hockedu" Height="532" Width="759"
         Closed="Window_Closed" MinWidth="1200" MinHeight="850" Background="#FF555555" Foreground="#FFD4D2D2" BorderBrush="#FF666B89" OpacityMask="#FF646464" WindowStyle="ThreeDBorderWindow">
     <DockPanel Background="#FF323232">
-        <Menu DockPanel.Dock="Top">
+        <Menu Name="MenuBar" DockPanel.Dock="Top">
             <MenuItem Header="File">
                 
             </MenuItem>

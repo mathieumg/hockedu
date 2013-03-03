@@ -95,7 +95,7 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void InitDLL();
         [DllImport(@"RazerGame.dll")]
-        static extern void FreeApplicationMemory();
+        public static extern void FreeApplicationMemory();
 
         public void CreateUserControl(object sender, EventArgs e)
         {
@@ -130,10 +130,26 @@ namespace UIHeavyClient
             // see output
             ConsoleManager.Show();
 
+#if DEBUG
+            System.Windows.Controls.MenuItem debugMenu = new System.Windows.Controls.MenuItem();
+            debugMenu.Header = "Debug";
+            MenuBar.Items.Add(debugMenu);
+
+            System.Windows.Controls.MenuItem SplitView = new System.Windows.Controls.MenuItem();
+            SplitView.Header = "Split View";
+            SplitView.Click += SplitView_Click;
+            debugMenu.Items.Add(SplitView);
+#endif
+
             InitDLL();
             this.Loaded += CreateUserControl;
             this.KeyDown += MainWindow_KeyDown;
             this.KeyUp += MainWindow_KeyUp;
+        }
+
+        void SplitView_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowHandler.ActionPerformed(ActionType.ACTION_CAMERA_SPLIT);
         }
         
         private void BackToMainMenu(object sender, RoutedEventArgs e)
