@@ -6,7 +6,7 @@
         <TextBox  Name="userNameInput"                          Width="296" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,31,0,0"   Background="Black"     Foreground="White"  SelectionBrush="#FFD1E8FF" CaretBrush="White" />
         <Label    Name="label1"            Content="User name" Width="182" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"                                             Foreground="White" />
         <Label    Name="label3" Content="Password" Foreground="White" Height="25" HorizontalAlignment="Left" Margin="0,65,0,0" VerticalAlignment="Top" Width="182" />
-        <TextBox  Name="passwordInput" Background="Black" CaretBrush="White" Foreground="White" Height="28" HorizontalAlignment="Left" Margin="12,96,0,0" SelectionBrush="#FFD1E8FF" VerticalAlignment="Top" Width="296" />
+        <PasswordBox  Name="passwordInput" PasswordChar="*" Background="Black" CaretBrush="White" Foreground="White" Height="28" HorizontalAlignment="Left" Margin="12,96,0,0" SelectionBrush="#FFD1E8FF" VerticalAlignment="Top" Width="296" />
         <Button   Name="loginButton"       Content="Connect"  Width="104" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="147,265,0,0" Background="Black"     Foreground="White" Click="loginButton_Click" IsDefault="True"/>
         <Label    Name="errorMessageLabel" Content=""           Width="346" HorizontalAlignment="Left" Margin="12,200,0,42"                         Foreground="Red" BorderThickness="1" />
         <Label    Name="label2"            Content="Server"    Width="64"  Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,130,0,0"                           Foreground="White" />
