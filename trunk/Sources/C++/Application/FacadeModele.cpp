@@ -155,7 +155,7 @@ DWORD WINAPI RenderSceneWorker(LPVOID arg)
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::changerFond(int r, int g, int b, float a)
 {
-	glClearColor((float)(r/255.0), (float)(g/255.0), (float)(b/255.0), a);
+    glClearColor((float)(r/255.0), (float)(g/255.0), (float)(b/255.0), a);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -169,7 +169,7 @@ void FacadeModele::changerFond(int r, int g, int b, float a)
 ////////////////////////////////////////////////////////////////////////
 Tournoi* FacadeModele::obtenirTournoi()
 {
-	return tournoi_;
+    return tournoi_;
 }
 
 
@@ -206,14 +206,14 @@ FacadeModele* FacadeModele::getInstance()
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::libererInstance()
 {
-	ConfigScene::obtenirInstance()->enregistrerConfiguration();
-	// On libère les instances des différentes configurations.
-	SoundFMOD::libererInstance();
-	ConfigScene::libererInstance();
-	GestionnaireHUD::libererInstance();
-	instance_->libererMemoire();
-	delete instance_;
-	instance_ = 0;
+    ConfigScene::obtenirInstance()->enregistrerConfiguration();
+    // On libère les instances des différentes configurations.
+    SoundFMOD::libererInstance();
+    ConfigScene::libererInstance();
+    GestionnaireHUD::libererInstance();
+    instance_->libererMemoire();
+    delete instance_;
+    instance_ = 0;
 }
 
 
@@ -228,23 +228,23 @@ void FacadeModele::libererInstance()
 ///
 ////////////////////////////////////////////////////////////////////////
 FacadeModele::FacadeModele()
-	: hGLRC_(0), hDC_(0), hWnd_(0), vue_(0),zoomElastique_(false),tournoi_(0),cheminTournoi_(""),enJeu_(false),
-	partieCourante_(0), /*adversaire_(0),*/ mEditionField(0), mUpdating(false), mRendering(false)
+    : hGLRC_(0), hDC_(0), hWnd_(0), vue_(0),zoomElastique_(false),tournoi_(0),cheminTournoi_(""),enJeu_(false),
+    partieCourante_(0), /*adversaire_(0),*/ mEditionField(0), mUpdating(false), mRendering(false)
 {
-	// Il ne faut pas faire d'initialisation de Noeud ici, car le contexte OpenGl n'est pas encore creer
+    // Il ne faut pas faire d'initialisation de Noeud ici, car le contexte OpenGl n'est pas encore creer
 
-	// Initialisation de la randomisation
-	srand( (unsigned int) clock()+(unsigned int) time);
+    // Initialisation de la randomisation
+    srand( (unsigned int) clock()+(unsigned int) time);
 
     mEditionField = new Terrain(NULL);
 
 #ifdef WIN32
-	CreateDirectoryA(
-		"tournoi",
-		NULL
-		);
+    CreateDirectoryA(
+        "tournoi",
+        NULL
+        );
 #else
-	// creation d'un dossier avec un autre API, dunno which yet
+    // creation d'un dossier avec un autre API, dunno which yet
 #endif
 
 
@@ -263,15 +263,15 @@ FacadeModele::FacadeModele()
 ////////////////////////////////////////////////////////////////////////
 FacadeModele::~FacadeModele()
 {
-	if(vue_)
-		delete vue_;
-	if(mEditionField)
-		delete mEditionField;
-	if(boiteEnvironnement!=0)
-	{
-		delete boiteEnvironnement;
-		boiteEnvironnement=0;
-	}
+    if(vue_)
+        delete vue_;
+    if(mEditionField)
+        delete mEditionField;
+    if(boiteEnvironnement!=0)
+    {
+        delete boiteEnvironnement;
+        boiteEnvironnement=0;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -327,9 +327,9 @@ void FacadeModele::InitOpenGLContext()
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::initialiserOpenGL(HWND hWnd)
 {
-	hWnd_ = hWnd;
-	bool succes = aidegl::creerContexteGL(hWnd_, hDC_, hGLRC_);
-	checkf(succes);
+    hWnd_ = hWnd;
+    bool succes = aidegl::creerContexteGL(hWnd_, hDC_, hGLRC_);
+    checkf(succes);
 
     InitOpenGLContext();
 
@@ -349,20 +349,20 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
     GestionnaireHUD::obtenirInstance()->obtenirRacine(RACINE_JEU)->add(debugInfo);
 #endif
 
-	// On crée une vue par défaut.
-	initialiserVue();
+    // On crée une vue par défaut.
+    initialiserVue();
 
-	// Initialisation du skybox
-	const std::string xpos = RazerGameUtilities::NOM_DOSSIER_MEDIA + "sb2_xpos.png";
+    // Initialisation du skybox
+    const std::string xpos = RazerGameUtilities::NOM_DOSSIER_MEDIA + "sb2_xpos.png";
     const std::string xneg = RazerGameUtilities::NOM_DOSSIER_MEDIA + "sb2_xneg.png";
     const std::string ypos = RazerGameUtilities::NOM_DOSSIER_MEDIA + "sb2_ypos.png";
     const std::string yneg = RazerGameUtilities::NOM_DOSSIER_MEDIA + "sb2_yneg.png";
     const std::string zpos = RazerGameUtilities::NOM_DOSSIER_MEDIA + "sb2_zpos.png";
     const std::string zneg = RazerGameUtilities::NOM_DOSSIER_MEDIA + "sb2_zneg.png";
-	boiteEnvironnement= new utilitaire::BoiteEnvironnement(xpos,xneg,ypos,yneg,zpos,zneg);
+    boiteEnvironnement= new utilitaire::BoiteEnvironnement(xpos,xneg,ypos,yneg,zpos,zneg);
 
-	SoundFMOD::obtenirInstance()->playApplicationSong(STARTUP_SONG);
-	chargerJoueurs();
+    SoundFMOD::obtenirInstance()->playApplicationSong(STARTUP_SONG);
+    chargerJoueurs();
 
     renderThread_ = NULL;
     
@@ -420,31 +420,31 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::chargerJoueurs( const std::string& nomFichier /*= ""*/, ConteneurJoueur* joueurs /*= 0*/ )
 {
-	std::string fichierACharger;
+    std::string fichierACharger;
 
-	// Si le nom du fichier est vide, on utilise celui par défaut.
-	if(nomFichier == "")
-		fichierACharger = FICHIER_JOUEURS;
-	else
-		fichierACharger = nomFichier;
+    // Si le nom du fichier est vide, on utilise celui par défaut.
+    if(nomFichier == "")
+        fichierACharger = FICHIER_JOUEURS;
+    else
+        fichierACharger = nomFichier;
 
-	if(joueurs == 0)
-		joueurs = &profilsVirtuels_;
+    if(joueurs == 0)
+        joueurs = &profilsVirtuels_;
 
-	if(!utilitaire::fichierExiste(fichierACharger))
-	{
-		enregistrerJoueurs();
-		return;
-	}
+    if(!utilitaire::fichierExiste(fichierACharger))
+    {
+        enregistrerJoueurs();
+        return;
+    }
     XmlDocument* document = XMLUtils::LoadDocument(fichierACharger.c_str());
     if( !document )
-	{
-		utilitaire::afficherErreur("Erreur : chargement XML : erreur de lecture du fichier");
-		return;
-	}
+    {
+        utilitaire::afficherErreur("Erreur : chargement XML : erreur de lecture du fichier");
+        return;
+    }
 
-	// On enregistre les différentes configurations.
-	ConfigScene::obtenirInstance()->lireDOM((XmlNode&)*document,*joueurs);
+    // On enregistre les différentes configurations.
+    ConfigScene::obtenirInstance()->lireDOM((XmlNode&)*document,*joueurs);
 
     XMLUtils::FreeDocument(document);
 }
@@ -464,16 +464,16 @@ void FacadeModele::chargerJoueurs( const std::string& nomFichier /*= ""*/, Conte
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::enregistrerJoueurs( const std::string& nomFichier /*= ""*/, ConteneurJoueur* joueurs /*= 0*/ )
 {
-	std::string fichierAEnregistrer;
+    std::string fichierAEnregistrer;
 
-	// Si le nom du fichier est vide, on utilise celui par défaut.
-	if(nomFichier == "")
-		fichierAEnregistrer = FICHIER_JOUEURS;
-	else
-		fichierAEnregistrer = nomFichier;
+    // Si le nom du fichier est vide, on utilise celui par défaut.
+    if(nomFichier == "")
+        fichierAEnregistrer = FICHIER_JOUEURS;
+    else
+        fichierAEnregistrer = nomFichier;
 
-	if(joueurs == 0)
-		joueurs = &profilsVirtuels_;
+    if(joueurs == 0)
+        joueurs = &profilsVirtuels_;
 
     XmlDocument* document = XMLUtils::CreateDocument("1.0", "", "");
 
@@ -499,30 +499,30 @@ void FacadeModele::enregistrerJoueurs( const std::string& nomFichier /*= ""*/, C
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::chargerTournoi(std::string nomFichier)
 {
-	if(utilitaire::fichierExiste(nomFichier))
-	{
-	    XmlDocument* document = XMLUtils::LoadDocument(nomFichier.c_str());
-		if( !document )
-		{
-			utilitaire::afficherErreur("Erreur : chargement XML : erreur de lecture du fichier de tournoi");
-			return;
-		}
-		Tournoi* tournoi = new Tournoi();
+    if(utilitaire::fichierExiste(nomFichier))
+    {
+        XmlDocument* document = XMLUtils::LoadDocument(nomFichier.c_str());
+        if( !document )
+        {
+            utilitaire::afficherErreur("Erreur : chargement XML : erreur de lecture du fichier de tournoi");
+            return;
+        }
+        Tournoi* tournoi = new Tournoi();
         
-		XmlElement* elem = XMLUtils::FirstChildElement((XmlElement*)document,"Tournoi");
-		if(elem && tournoi->initialisationXML(elem,&profilsVirtuels_))
-		{
-			if(tournoi_ != 0)
-				delete tournoi_;
-			tournoi_ = tournoi;
-			cheminTournoi_ = nomFichier;
-		}
-		else
-		{
-			delete tournoi;
-			tournoi_ = 0;
-		}
-	}
+        XmlElement* elem = XMLUtils::FirstChildElement((XmlElement*)document,"Tournoi");
+        if(elem && tournoi->initialisationXML(elem,&profilsVirtuels_))
+        {
+            if(tournoi_ != 0)
+                delete tournoi_;
+            tournoi_ = tournoi;
+            cheminTournoi_ = nomFichier;
+        }
+        else
+        {
+            delete tournoi;
+            tournoi_ = 0;
+        }
+    }
 }
 
 
@@ -539,17 +539,17 @@ void FacadeModele::chargerTournoi(std::string nomFichier)
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::enregistrerTournoi( Tournoi* tournoi )
 {
-	if(tournoi == 0)
-		tournoi = tournoi_;
+    if(tournoi == 0)
+        tournoi = tournoi_;
 
-	TiXmlDocument document;
-	// Écrire la déclaration XML standard...
-	TiXmlDeclaration* declaration = new TiXmlDeclaration( "1.0", "", "" );
-	document.LinkEndChild(declaration);
-	// On enregistre les différentes configurations.
-	document.LinkEndChild(tournoi->creerTournoiXML());
-	// Écrire dans le fichier
-	document.SaveFile( (("tournoi/" + tournoi->obtenirNom()) + ".xml").c_str() );
+    TiXmlDocument document;
+    // Écrire la déclaration XML standard...
+    TiXmlDeclaration* declaration = new TiXmlDeclaration( "1.0", "", "" );
+    document.LinkEndChild(declaration);
+    // On enregistre les différentes configurations.
+    document.LinkEndChild(tournoi->creerTournoiXML());
+    // Écrire dans le fichier
+    document.SaveFile( (("tournoi/" + tournoi->obtenirNom()) + ".xml").c_str() );
 }
 
 
@@ -564,7 +564,7 @@ void FacadeModele::enregistrerTournoi( Tournoi* tournoi )
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::libererOpenGL()
 {
-	utilitaire::CompteurAffichage::libererInstance();
+    utilitaire::CompteurAffichage::libererInstance();
     
     bRendering = false;
     if(renderThread_)
@@ -575,10 +575,10 @@ void FacadeModele::libererOpenGL()
         CloseHandle(mutexRender);
     }
 
-	bool succes = aidegl::detruireContexteGL(hWnd_, hDC_, hGLRC_);
-	assert(succes);
+    bool succes = aidegl::detruireContexteGL(hWnd_, hDC_, hGLRC_);
+    assert(succes);
 
-	FreeImage_DeInitialise();
+    FreeImage_DeInitialise();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -593,12 +593,12 @@ void FacadeModele::libererOpenGL()
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::libererMemoire()
 {
-	// Pointeur Intelligent, on ne libere plus leur memoire
-	//for_each(joueurs_.begin(),joueurs_.end(),utilitaire::LibererMappe());
-	if(tournoi_ != 0)
-		delete tournoi_;
-	if(partieCourante_ && !partieCourante_->faitPartieDunTournoi())
-		delete partieCourante_;	
+    // Pointeur Intelligent, on ne libere plus leur memoire
+    //for_each(joueurs_.begin(),joueurs_.end(),utilitaire::LibererMappe());
+    if(tournoi_ != 0)
+        delete tournoi_;
+    if(partieCourante_ && !partieCourante_->faitPartieDunTournoi())
+        delete partieCourante_; 
 
 #if BOX2D_INTEGRATED  
     if(DebugRenderBox2D::mInstance)delete DebugRenderBox2D::mInstance;
@@ -640,6 +640,26 @@ void FacadeModele::SignalRender()
     }
 }
 
+int currentCam = 1;
+
+void FacadeModele::ActivateShaders()
+{
+#ifdef GLSHADERS
+    glUseProgram( progPhong_ );
+    //glActiveTexture( GL_TEXTURE0 );
+    //Vecteur3f positionCamera = vue_->obtenirCamera(currentCam).obtenirPosition();
+    //glUniform3fARB( glGetUniformLocationARB( progPhong_, "eyeVec" ), positionCamera[VX], positionCamera[VY], positionCamera[VZ] );
+    //glUniform1i( glGetUniformLocation( progPhong_, "colorMap" ), 0 );
+#endif
+}
+
+void FacadeModele::DeActivateShaders()
+{
+#ifdef GLSHADERS
+    glUseProgram(0);
+#endif
+}
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void FacadeModele::afficher() const
@@ -653,81 +673,53 @@ void FacadeModele::afficher( )
 {
     utilitaire::CompteurAffichage::obtenirInstance()->signalerAffichage();
     mRendering = true;
-	// Efface l'ancien rendu
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
+    // Efface l'ancien rendu
 
-	for(int i=1; i<=obtenirVue()->obtenirNbViewports(); i++)
-	{
-		appliquerVue(i);
 
-		glClear( GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
+    for(currentCam=1; currentCam<=obtenirVue()->obtenirNbViewports(); currentCam++)
+    {
+        glEnable(GL_LIGHTING);
+        appliquerVue(currentCam);
+        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
 
-		// ICI APPLIQUER LES PATENTE DE SHADER
-		//glUniform1i( glGetUniformLocation( progPhong_, "colorMap" ), 0 );
-		//glMatrixMode( GL_MODELVIEW );
-		boiteEnvironnement->afficher(vue_->obtenirCamera(i).obtenirPosition(),5000.0);
+        // ICI APPLIQUER LES PATENTE DE SHADER
+        ActivateShaders();
+        boiteEnvironnement->afficher(vue_->obtenirCamera(currentCam).obtenirPosition(),5000.0);
 
-#ifdef GLSHADERS
-		glUseProgram( progPhong_ );
-		glActiveTexture( GL_TEXTURE0 );
-		Vecteur3f positionCamera = vue_->obtenirCamera(i).obtenirPosition();
-		glUniform3fARB( glGetUniformLocationARB( progPhong_, "eyeVec" ), positionCamera[VX], positionCamera[VY], positionCamera[VZ] );
-		glUniform1i( glGetUniformLocation( progPhong_, "colorMap" ), 0 );
-#endif
+        // On rafraichi la lumière
+        ConfigScene::obtenirInstance()->rafraichirLumiere();
 
-		// On rafraichi la lumière
-		ConfigScene::obtenirInstance()->rafraichirLumiere();
+        afficherBase();
 
-		afficherBase();
-
-#ifdef GLSHADERS
-		glUseProgram(0);
-#endif
-	}
-
-    glDisable(GL_LIGHTING);
+        DeActivateShaders();
+        glDisable(GL_LIGHTING);
 
 #if BOX2D_DEBUG
-    const b2Vec2 pos[] = {
-        b2Vec2(30,30),
-        b2Vec2(30,-30),
-        b2Vec2(-30,-30),
-        b2Vec2(-30,30),
-        b2Vec2(30,30),
-    };
-    b2Color color(1,1,1);
+        const b2Vec2 pos[] = {
+            b2Vec2(30,30),
+            b2Vec2(30,-30),
+            b2Vec2(-30,-30),
+            b2Vec2(-30,30),
+            b2Vec2(30,30),
+        };
+        b2Color color(1,1,1);
 
-    glPushMatrix();
-    glPushAttrib(GL_ALL_ATTRIB_BITS);
+        glPushMatrix();
+        glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-    if(partieCourante_)
-    {
-        partieCourante_->getField()->GetWorld()->DrawDebugData();
-    }
-    else
-    {
-        mEditionField->GetWorld()->DrawDebugData();
-    }
-    
-    const float32 k_segments = 16.0f;
-    const float32 k_increment = 2.0f * b2_pi / k_segments;
-    float32 theta = 0.0f;
-    float32 radius = 300.f;
-//     glColor4f(color.r, color.g, color.b, 1.f);
-//     glBegin(GL_TRIANGLE_FAN);
-//     for (int32 i = 0; i < k_segments; ++i)
-//     {
-//         b2Vec2 v = radius * b2Vec2(cosf(theta), sinf(theta));
-//         glVertex3f(v.x, v.y,20);
-//         theta += k_increment;
-//     }
-//     glEnd();
-
-
-    // Restauration de la matrice.
-    glPopAttrib();
-    glPopMatrix();
+        if(partieCourante_)
+        {
+            partieCourante_->getField()->GetWorld()->DrawDebugData();
+        }
+        else
+        {
+            mEditionField->GetWorld()->DrawDebugData();
+        }
+        // Restauration de la matrice.
+        glPopAttrib();
+        glPopMatrix();
 #endif
+    }
 
     DrawSelectionRectangle();
 
@@ -746,25 +738,20 @@ void FacadeModele::afficher( )
         }
     }
 
-	if(vue_->obtenirNbViewports()>1)
-	{
-		// Il faut remettre le viewport full pour le hud
+    if(vue_->obtenirNbViewports()>1)
+    {
+        // Il faut remettre le viewport full pour le hud
+        obtenirVue()->obtenirProjection().mettreAJourCloture();
+    }
+    // Affichage specifique aux etats
+    GestionnaireEvenements::afficher();
+    
 
-		obtenirVue()->obtenirProjection().mettreAJourCloture();
+    // Compte de l'affichage
+    utilitaire::CompteurAffichage::obtenirInstance()->signalerAffichage();
 
-	}
-	// Affichage specifique aux etats
-	GestionnaireEvenements::afficher();
-	
-	appliquerVue(1);
-
-	glEnable(GL_LIGHTING);
-
-	// Compte de l'affichage
-	utilitaire::CompteurAffichage::obtenirInstance()->signalerAffichage();
-
-	// Échange les tampons pour que le résultat du rendu soit visible.
-	::SwapBuffers( hDC_ );
+    // Échange les tampons pour que le résultat du rendu soit visible.
+    ::SwapBuffers( hDC_ );
     mRendering = false;
 }
 
@@ -806,16 +793,16 @@ void FacadeModele::afficherBase() const
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::rafraichirFenetre() const
 {
-	// Indique à Windows que la fenêtre doit être rafraîchie.
-	//::InvalidateRect(hWnd_, 0, FALSE);
+    // Indique à Windows que la fenêtre doit être rafraîchie.
+    //::InvalidateRect(hWnd_, 0, FALSE);
 
-	// Finalement, on choisit de simplement appeler afficher() pour éviter
-	// que le fond ne soit redessiné par Windows ou Java.
+    // Finalement, on choisit de simplement appeler afficher() pour éviter
+    // que le fond ne soit redessiné par Windows ou Java.
 
-	// Or, comme il y a en permanence une boucle qui réaffiche, on ne fait
-	// rien.
+    // Or, comme il y a en permanence une boucle qui réaffiche, on ne fait
+    // rien.
 
-	//afficher();
+    //afficher();
 }
 
 
@@ -830,7 +817,7 @@ void FacadeModele::rafraichirFenetre() const
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::reinitialiserTerrain()
 {
-	getEditionField()->reinitialiser();
+    getEditionField()->reinitialiser();
 }
 
 
@@ -850,8 +837,8 @@ void FacadeModele::reinitialiserTerrain()
 void FacadeModele::animer( const float& temps)
 {
     mUpdating = true;
-	
-	float tempsReel = temps;
+    
+    float tempsReel = temps;
 
     for(int i=(int)mUpdateRunnables.size()-1; i>=0; --i)
     {
@@ -903,7 +890,7 @@ void FacadeModele::animer( const float& temps)
 void FacadeModele::deplacerSouris( Vecteur2i deplacement )
 {
 
-	obtenirVue()->deplacerXYSouris(deplacement);
+    obtenirVue()->deplacerXYSouris(deplacement);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -919,7 +906,7 @@ void FacadeModele::deplacerSouris( Vecteur2i deplacement )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void FacadeModele::deplacerFleches( Vecteur2i deplacement )
 {
-	obtenirVue()->deplacerXYFleches(deplacement);
+    obtenirVue()->deplacerXYFleches(deplacement);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -935,7 +922,7 @@ void FacadeModele::deplacerFleches( Vecteur2i deplacement )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void FacadeModele::orbit( Vecteur2i deplacement )
 {
-	obtenirVue()->rotaterXY(deplacement);
+    obtenirVue()->rotaterXY(deplacement);
 }
 
 
@@ -952,11 +939,11 @@ void FacadeModele::orbit( Vecteur2i deplacement )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void FacadeModele::zoom(int nbCoches)
 {
-	// Si le nombre de coche est négatif, c'est qu'on roule vers l'avant.
-	if(nbCoches < 0)
-		obtenirVue() -> zoomerIn();
-	else if(nbCoches > 0)
-		obtenirVue() -> zoomerOut();
+    // Si le nombre de coche est négatif, c'est qu'on roule vers l'avant.
+    if(nbCoches < 0)
+        obtenirVue() -> zoomerIn();
+    else if(nbCoches > 0)
+        obtenirVue() -> zoomerOut();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -972,13 +959,13 @@ void FacadeModele::zoom(int nbCoches)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void FacadeModele::zoomDoux(int nbCoches)
 {
-	// Si le nombre de coche est négatif, c'est qu'on roule vers l'avant.
-	if(nbCoches > 0)
-		for(int i=0; i<nbCoches; i++)
-			obtenirVue() -> zoomerInSmooth();
-	else if(nbCoches < 0)
-		for(int i=0; i>nbCoches; i--)
-			obtenirVue() -> zoomerOutSmooth();
+    // Si le nombre de coche est négatif, c'est qu'on roule vers l'avant.
+    if(nbCoches > 0)
+        for(int i=0; i<nbCoches; i++)
+            obtenirVue() -> zoomerInSmooth();
+    else if(nbCoches < 0)
+        for(int i=0; i>nbCoches; i--)
+            obtenirVue() -> zoomerOutSmooth();
 }
 
 
@@ -997,9 +984,9 @@ void FacadeModele::zoomDoux(int nbCoches)
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::modifierVariableZoomElastique(bool actif, Vecteur2i coin1, Vecteur2i coin2)
 {
-	coinElastique1_ = coin1;
-	coinElastique2_ = coin2;
-	zoomElastique_ = actif;
+    coinElastique1_ = coin1;
+    coinElastique2_ = coin2;
+    zoomElastique_ = actif;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1014,9 +1001,9 @@ void FacadeModele::modifierVariableZoomElastique(bool actif, Vecteur2i coin1, Ve
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageModeEdition()
 {
-	// Indique que nous ne somme plus en train de jouer le tournoi
-	if(tournoi_)
-		tournoi_->modifierEstEnCours(false);
+    // Indique que nous ne somme plus en train de jouer le tournoi
+    if(tournoi_)
+        tournoi_->modifierEstEnCours(false);
     if(partieCourante_)
     {
         if(!partieCourante_->faitPartieDunTournoi())
@@ -1030,7 +1017,7 @@ bool FacadeModele::passageModeEdition()
     RazerGameUtilities::LoadFieldFromFile(FICHIER_TERRAIN_EN_COURS,*mEditionField);
     getEditionField()->setTableControlPointVisible(true);
 
-	return true;
+    return true;
 }
 
 
@@ -1060,11 +1047,11 @@ bool FacadeModele::passageModeTournoi()
 #endif
 
 
-	if(!tournoi_)
-	{
-		utilitaire::afficherErreur("Le modele ne contient pas de tournoi a jouer");
-		return false;
-	}
+    if(!tournoi_)
+    {
+        utilitaire::afficherErreur("Le modele ne contient pas de tournoi a jouer");
+        return false;
+    }
     if(partieCourante_)
     {
         if(!partieCourante_->faitPartieDunTournoi())
@@ -1077,29 +1064,29 @@ bool FacadeModele::passageModeTournoi()
         }
     }
 
-	GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
-	partieCourante_ = tournoi_->obtenirPartieCourante();
+    GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
+    partieCourante_ = tournoi_->obtenirPartieCourante();
     partieCourante_->getReadyToPlay();
 
-	partieCourante_->miseAuJeu(true);
-	enJeu_ = true;
+    partieCourante_->miseAuJeu(true);
+    enJeu_ = true;
 
-	obtenirVue()->centrerCamera(partieCourante_->getField()->GetTableWidth());
-	
-	tournoi_->modifierEstEnCours(true);
+    obtenirVue()->centrerCamera(partieCourante_->getField()->GetTableWidth());
+    
+    tournoi_->modifierEstEnCours(true);
 #ifdef WIN32
-	// If the no button was pressed ...
-	if (partieCourante_->partieVirtuelle() && MessageBoxA(0,
-		"Voulez-vous observer la partie entre les 2 joueurs virtuels?", 
-		"Simulation de partie", MB_YESNO | MB_ICONQUESTION | MB_SYSTEMMODAL) == IDNO )
-	{
-		partieCourante_->terminerSi2AI();
-	}
+    // If the no button was pressed ...
+    if (partieCourante_->partieVirtuelle() && MessageBoxA(0,
+        "Voulez-vous observer la partie entre les 2 joueurs virtuels?", 
+        "Simulation de partie", MB_YESNO | MB_ICONQUESTION | MB_SYSTEMMODAL) == IDNO )
+    {
+        partieCourante_->terminerSi2AI();
+    }
 #else
-	partieCourante_->terminerSi2AI();
+    partieCourante_->terminerSi2AI();
 #endif
-	
-	return true;
+    
+    return true;
 }
 
 
@@ -1115,11 +1102,11 @@ bool FacadeModele::passageModeTournoi()
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageModeJeu()
 {
-	// Le java fait la demande pour valider la map pour que ce soit fait avant de demander contre kel joueur jouer
-// 	if(!verifierValiditeMap())
-// 	{
-// 		return false;
-// 	}
+    // Le java fait la demande pour valider la map pour que ce soit fait avant de demander contre kel joueur jouer
+//  if(!verifierValiditeMap())
+//  {
+//      return false;
+//  }
 
 #ifdef WIN32
     static auto loadingCursor = LoadCursor(NULL,IDC_WAIT);
@@ -1134,23 +1121,23 @@ bool FacadeModele::passageModeJeu()
     SetCursor(NormalCursor);
 #endif
 
-	// Indique que nous ne somme plus en train de jouer le tournoi
-	if(tournoi_)
-		tournoi_->modifierEstEnCours(false);
+    // Indique que nous ne somme plus en train de jouer le tournoi
+    if(tournoi_)
+        tournoi_->modifierEstEnCours(false);
 
-	GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
-	if(!adversaire_)
-		adversaire_ = SPJoueurAbstrait(new JoueurHumain("Joueur Droit"));
-	partieCourante_ = new Partie(SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")),adversaire_);
-	//partieCourante_ = new Partie(new JoueurVirtuel("Joueur Gauche",225),new JoueurVirtuel("Joueur Droit",225));
-	partieCourante_->setFieldName(FICHIER_TERRAIN_EN_COURS);
+    GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
+    if(!adversaire_)
+        adversaire_ = SPJoueurAbstrait(new JoueurHumain("Joueur Droit"));
+    partieCourante_ = new Partie(SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")),adversaire_);
+    //partieCourante_ = new Partie(new JoueurVirtuel("Joueur Gauche",225),new JoueurVirtuel("Joueur Droit",225));
+    partieCourante_->setFieldName(FICHIER_TERRAIN_EN_COURS);
     partieCourante_->getReadyToPlay();
     partieCourante_->miseAuJeu(true);
     enJeu_ = true;
     // On enregistre apres avoir desactiver les points pour ne pas les voir si on reinitialise la partie
     obtenirVue()->centrerCamera(partieCourante_->getField()->GetTableWidth());
 
-	return true;
+    return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1164,9 +1151,9 @@ bool FacadeModele::passageModeJeu()
 ////////////////////////////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageMenuPrincipal()
 {
-	// Indique que nous ne somme plus en train de jouer le tournoi
-	if(tournoi_)
-		tournoi_->modifierEstEnCours(false);
+    // Indique que nous ne somme plus en train de jouer le tournoi
+    if(tournoi_)
+        tournoi_->modifierEstEnCours(false);
 
     if(partieCourante_)
     {
@@ -1175,9 +1162,9 @@ bool FacadeModele::passageMenuPrincipal()
             delete partieCourante_;
         }
     }
-	partieCourante_ = 0;
+    partieCourante_ = 0;
 
-	enJeu_ = false;
+    enJeu_ = false;
     selectionArbre(false);
     return true;
 }
@@ -1195,11 +1182,11 @@ bool FacadeModele::passageMenuPrincipal()
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::reinitialiserPartie()
 {
-	if(partieCourante_)
-	{
-		partieCourante_->reinitialiserPartie();
-		partieCourante_->miseAuJeu(true);
-	}
+    if(partieCourante_)
+    {
+        partieCourante_->reinitialiserPartie();
+        partieCourante_->miseAuJeu(true);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1217,59 +1204,59 @@ void FacadeModele::initialiserVue()
 
 
 
-// 	vue_ = new vue::VueOrtho(
-// 		vue::Camera(
+//  vue_ = new vue::VueOrtho(
+//      vue::Camera(
 //         Vecteur3(0, 0, 150), Vecteur3(0, 0, 0),
-// 		Vecteur3(0, 1, 0)  , Vecteur3(0, 1, 0)),
-// 		0, 500, 0, 500,
-// 		-1000, 10000, /*ZoomInMax*/60, /*ZoomOutMax*/1500, 1.25,
-// 		-100, 100, -100, 100
-// 		);
-	
-	
-// 	vue_ = new vue::VuePerspectiveLibre(
-// 		vue::Camera(Vecteur3(0, -0.0001, 200), Vecteur3(0, 0, 0),
-// 		Vecteur3(0, 1, 0)  , Vecteur3(0, 1, 0)),
-// 		0, 400, 0, 400,
-// 		180, 10000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
-// 		-150, 150, -150, 150);
+//      Vecteur3(0, 1, 0)  , Vecteur3(0, 1, 0)),
+//      0, 500, 0, 500,
+//      -1000, 10000, /*ZoomInMax*/60, /*ZoomOutMax*/1500, 1.25,
+//      -100, 100, -100, 100
+//      );
+    
+    
+//  vue_ = new vue::VuePerspectiveLibre(
+//      vue::Camera(Vecteur3(0, -0.0001, 200), Vecteur3(0, 0, 0),
+//      Vecteur3(0, 1, 0)  , Vecteur3(0, 1, 0)),
+//      0, 400, 0, 400,
+//      180, 10000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
+//      -150, 150, -150, 150);
 
-// 	vue_ = new vue::VuePerspectiveCiel(
-// 		vue::Camera(Vecteur3(0, -100, 200), Vecteur3(0, 0, 0),
-// 		Vecteur3(0, 1, 0)  , Vecteur3(0, 1, 0)),
-// 		0, 400, 0, 400,
-// 		180, 10000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
-// 		-150, 150, -150, 150);
-
-
-	vue_ = new vue::VuePerspectiveOrbit(
-		vue::Camera(Vecteur3(0, -0.0001f, 300), Vecteur3(0, 0, 0),
-		Vecteur3(0, 1, 0)  , Vecteur3(0, 1, 0)),
-		0, 400, 0, 400,
-		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25f,
-		-150, 150, -150, 150);
-
-	
-
-	/*AnimationFrame* frame[6];
-	frame[0] = new AnimationFrame(0, Vecteur3(-150, -75, 100));
-	frame[1] = new AnimationFrame(1000, Vecteur3(150, -75, 100));
-	frame[2] = new AnimationFrame(2000, Vecteur3(150, 75, 100));
-	frame[3] = new AnimationFrame(3000, Vecteur3(-150, 75, 100));
-	frame[4] = new AnimationFrame(4000, Vecteur3(-150, -75, 100));
-	frame[5] = new AnimationFrame(5000, Vecteur3(150, 0, 0));
+//  vue_ = new vue::VuePerspectiveCiel(
+//      vue::Camera(Vecteur3(0, -100, 200), Vecteur3(0, 0, 0),
+//      Vecteur3(0, 1, 0)  , Vecteur3(0, 1, 0)),
+//      0, 400, 0, 400,
+//      180, 10000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
+//      -150, 150, -150, 150);
 
 
-	Animation* animation = new Animation(CAMERALIBRE, BEZIER);
-	for(int i=0; i<6; i++)
-		animation->ajouterFrame(frame[i]);
+    vue_ = new vue::VuePerspectiveOrbit(
+        vue::Camera(Vecteur3(0, -0.0001f, 300), Vecteur3(0, 0, 0),
+        Vecteur3(0, 1, 0)  , Vecteur3(0, 1, 0)),
+        0, 400, 0, 400,
+        180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25f,
+        -150, 150, -150, 150);
+
+    
+
+    /*AnimationFrame* frame[6];
+    frame[0] = new AnimationFrame(0, Vecteur3(-150, -75, 100));
+    frame[1] = new AnimationFrame(1000, Vecteur3(150, -75, 100));
+    frame[2] = new AnimationFrame(2000, Vecteur3(150, 75, 100));
+    frame[3] = new AnimationFrame(3000, Vecteur3(-150, 75, 100));
+    frame[4] = new AnimationFrame(4000, Vecteur3(-150, -75, 100));
+    frame[5] = new AnimationFrame(5000, Vecteur3(150, 0, 0));
 
 
-	animation->ajouterObjet((ObjetAnimable*)&(vue_->obtenirCamera()));
-	GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
-	*/
+    Animation* animation = new Animation(CAMERALIBRE, BEZIER);
+    for(int i=0; i<6; i++)
+        animation->ajouterFrame(frame[i]);
 
-	
+
+    animation->ajouterObjet((ObjetAnimable*)&(vue_->obtenirCamera()));
+    GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
+    */
+
+    
 
 
 }
@@ -1309,7 +1296,7 @@ void FacadeModele::acceptVisitor( VisiteurNoeud& visitor )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool FacadeModele::convertirClotureAVirtuelle( int x, int y, Vecteur3& point ) const
 {
-	return vue_->convertirClotureAVirtuelle(x, y, point);
+    return vue_->convertirClotureAVirtuelle(x, y, point);
 }
 
 
@@ -1319,7 +1306,7 @@ bool FacadeModele::convertirClotureAVirtuelle( int x, int y, Vecteur3& point ) c
 ///
 /// Permet de selectionner ou de deselectionner l'arbre de rendu en entier
 ///
-/// @param[in]      selectionner	: true = selection, false = deselection
+/// @param[in]      selectionner    : true = selection, false = deselection
 /// 
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1335,14 +1322,14 @@ void FacadeModele::selectionArbre( bool selectionner )
 ///
 /// Effectue les tests sur les collisions
 ///
-/// @param[in]	void
+/// @param[in]  void
 ///
-/// @return bool	: position valide si true
+/// @return bool    : position valide si true
 ///
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::validerPositionNoeud(NoeudAbstrait* noeudAValider, bool flag /* = false*/)
 {
-	return getEditionField() && getEditionField()->IsNodeAtValidEditionPosition(noeudAValider,flag);
+    return getEditionField() && getEditionField()->IsNodeAtValidEditionPosition(noeudAValider,flag);
 }
 
 
@@ -1352,19 +1339,19 @@ bool FacadeModele::validerPositionNoeud(NoeudAbstrait* noeudAValider, bool flag 
 ///
 /// Effectue les tests sur les collisions
 ///
-/// @param[in]	void
+/// @param[in]  void
 ///
-/// @return bool	: position valide si true
+/// @return bool    : position valide si true
 ///
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::pointOccupe( Vecteur2 positionSouris )
 {
-	Vecteur3 positionVirt;
-	FacadeModele::convertirClotureAVirtuelle((int)positionSouris[VX], (int)positionSouris[VY], positionVirt);
-	VisiteurCollision visiteurColision(Vecteur2(positionVirt[VX], positionVirt[VY]), false);
-	acceptVisitor(visiteurColision);
-	// Retourne true s'il y a un objet a la position cliquee
-	return visiteurColision.collisionPresente();
+    Vecteur3 positionVirt;
+    FacadeModele::convertirClotureAVirtuelle((int)positionSouris[VX], (int)positionSouris[VY], positionVirt);
+    VisiteurCollision visiteurColision(Vecteur2(positionVirt[VX], positionVirt[VY]), false);
+    acceptVisitor(visiteurColision);
+    // Retourne true s'il y a un objet a la position cliquee
+    return visiteurColision.collisionPresente();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1373,14 +1360,14 @@ bool FacadeModele::pointOccupe( Vecteur2 positionSouris )
 ///
 /// Conversion d'une distance de coordonnees cloture a virtuelle
 ///
-/// @param[in]	v	: vecteur contenant la distance (x,y) en coordonnees cloture
+/// @param[in]  v   : vecteur contenant la distance (x,y) en coordonnees cloture
 ///
-/// @return bool	: conversion reussie
+/// @return bool    : conversion reussie
 ///
 ////////////////////////////////////////////////////////////////////////
 Vecteur2 FacadeModele::convertirDeplacementClotureAVirtuelle( const Vecteur2i& v, const Vecteur2i& v2  ) const
 {
-	return vue_->convertirDeplacementClotureAVirtuelle(v, v2);
+    return vue_->convertirDeplacementClotureAVirtuelle(v, v2);
 
 }
 
@@ -1391,14 +1378,14 @@ Vecteur2 FacadeModele::convertirDeplacementClotureAVirtuelle( const Vecteur2i& v
 ///
 /// Retourne true si un noeud est selectionne dans l'arbre de rendu
 ///
-/// @param[in]	void
+/// @param[in]  void
 ///
-/// @return bool	: un noeud est selectionne
+/// @return bool    : un noeud est selectionne
 ///
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::possedeSelection()
 {
-	return getEditionField() && getEditionField()->IsAnyNodeSelected();
+    return getEditionField() && getEditionField()->IsAnyNodeSelected();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1414,7 +1401,7 @@ bool FacadeModele::possedeSelection()
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::insideLimits( NoeudAbstrait* noeud )
 {
-	return !!getEditionField() && getEditionField()->insideLimits(noeud);
+    return !!getEditionField() && getEditionField()->insideLimits(noeud);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1429,23 +1416,23 @@ bool FacadeModele::insideLimits( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 std::string FacadeModele::obtenirTypeNoeudSelectionne()
 {
-	VisiteurEstSelectione visiteur;
-	acceptVisitor(visiteur);
-	ConteneurNoeuds* noeudsSelectionnes = visiteur.obtenirListeNoeuds();
-	std::string typeRetour;
-	if(!noeudsSelectionnes->empty())
-		typeRetour = (*noeudsSelectionnes)[0]->obtenirType();
-	else
-		return "";
-	for(unsigned int i = 0; i < noeudsSelectionnes->size(); i++)
-	{
-		if((*noeudsSelectionnes)[i]->obtenirType() != typeRetour)
-		{
-			typeRetour = "";
-			break;
-		}
-	}
-	return typeRetour;
+    VisiteurEstSelectione visiteur;
+    acceptVisitor(visiteur);
+    ConteneurNoeuds* noeudsSelectionnes = visiteur.obtenirListeNoeuds();
+    std::string typeRetour;
+    if(!noeudsSelectionnes->empty())
+        typeRetour = (*noeudsSelectionnes)[0]->obtenirType();
+    else
+        return "";
+    for(unsigned int i = 0; i < noeudsSelectionnes->size(); i++)
+    {
+        if((*noeudsSelectionnes)[i]->obtenirType() != typeRetour)
+        {
+            typeRetour = "";
+            break;
+        }
+    }
+    return typeRetour;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1461,20 +1448,20 @@ std::string FacadeModele::obtenirTypeNoeudSelectionne()
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::ajouterJoueur( SPJoueurAbstrait joueur )
 {
-	if(joueur != 0)
-	{
-// 		if((joueurs_.find(joueur->obtenirNom())) != joueurs_.end())
-// 		{
-// 			//delete joueurs_[joueur->obtenirNom()];
-// 			joueurs_[joueur->obtenirNom()] = joueur;
-// 		}
-// 		else
-		{
-			// Si le joueur existait deja, il sera ecraser et liberer si personne pointe dessus
-			profilsVirtuels_[joueur->obtenirNom()] = joueur;
-		}
-		enregistrerJoueurs();
-	}
+    if(joueur != 0)
+    {
+//      if((joueurs_.find(joueur->obtenirNom())) != joueurs_.end())
+//      {
+//          //delete joueurs_[joueur->obtenirNom()];
+//          joueurs_[joueur->obtenirNom()] = joueur;
+//      }
+//      else
+        {
+            // Si le joueur existait deja, il sera ecraser et liberer si personne pointe dessus
+            profilsVirtuels_[joueur->obtenirNom()] = joueur;
+        }
+        enregistrerJoueurs();
+    }
 }
 
 
@@ -1491,13 +1478,13 @@ void FacadeModele::ajouterJoueur( SPJoueurAbstrait joueur )
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::supprimerJoueur(std::string nom)
 {
-	ConteneurJoueur::iterator iter;
-	if((iter = profilsVirtuels_.find(nom) ) != profilsVirtuels_.end())
-	{
-		//delete joueurs_[nom];
-		profilsVirtuels_.erase(iter);
-	}
-	enregistrerJoueurs();
+    ConteneurJoueur::iterator iter;
+    if((iter = profilsVirtuels_.find(nom) ) != profilsVirtuels_.end())
+    {
+        //delete joueurs_[nom];
+        profilsVirtuels_.erase(iter);
+    }
+    enregistrerJoueurs();
 }
 
 
@@ -1514,10 +1501,10 @@ void FacadeModele::supprimerJoueur(std::string nom)
 ////////////////////////////////////////////////////////////////////////
 SPJoueurAbstrait FacadeModele::obtenirJoueur( std::string nom )
 {
-	if(profilsVirtuels_.find(nom) != profilsVirtuels_.end())
-		return profilsVirtuels_[nom];
+    if(profilsVirtuels_.find(nom) != profilsVirtuels_.end())
+        return profilsVirtuels_[nom];
 
-	return 0;
+    return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1531,15 +1518,15 @@ SPJoueurAbstrait FacadeModele::obtenirJoueur( std::string nom )
 ////////////////////////////////////////////////////////////////////////
 ConteneurJoueursTries FacadeModele::obtenirListeNomsJoueurs()
 {
-	ConteneurJoueur::iterator iter;
-	ConteneurJoueursTries listeJoueurs;
+    ConteneurJoueur::iterator iter;
+    ConteneurJoueursTries listeJoueurs;
 
-	for(iter = profilsVirtuels_.begin(); iter != profilsVirtuels_.end(); iter++)
-	{
-		listeJoueurs.insert(iter->first);
-	}
+    for(iter = profilsVirtuels_.begin(); iter != profilsVirtuels_.end(); iter++)
+    {
+        listeJoueurs.insert(iter->first);
+    }
 
-	return listeJoueurs;
+    return listeJoueurs;
 }
 
 
@@ -1557,14 +1544,14 @@ ConteneurJoueursTries FacadeModele::obtenirListeNomsJoueurs()
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::verifierValiditeMap( Terrain* terrain/*= 0 */ )
 {
-	/// Si le parametre est egal a 0, on assigne l'arbre du Modele
+    /// Si le parametre est egal a 0, on assigne l'arbre du Modele
     if(!terrain)
     {
         terrain = getEditionField();
         if(!terrain)
             return false;
     }
-	return terrain->verifierValidite();
+    return terrain->verifierValidite();
 }
 
 
@@ -1580,7 +1567,8 @@ bool FacadeModele::verifierValiditeMap( Terrain* terrain/*= 0 */ )
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::creerTerrainParDefaut( )
 {
-	mEditionField->creerTerrainParDefaut(FICHIER_TERRAIN_EN_COURS);	
+    GestionnaireEvenements::modifierEtat(ETAT_MODE_EDITION);
+    mEditionField->creerTerrainParDefaut(FICHIER_TERRAIN_EN_COURS);
 }
 
 
@@ -1595,25 +1583,25 @@ void FacadeModele::creerTerrainParDefaut( )
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet* FacadeModele::obtenirMailletJoueurGauche() const
 {
-	NoeudMaillet* maillet = 0;
-	if(getEditionField())
-	{
-		if(getEditionField()->getTable())
-		{
-			NoeudComposite* g = (NoeudComposite*)getEditionField()->getTable()->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
-			if(g)
-			{
-				for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
-				{
-					NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->chercher(i));
-					if(m->getPosition()[VX]<=0)
-						maillet = m;
-				}
+    NoeudMaillet* maillet = 0;
+    if(getEditionField())
+    {
+        if(getEditionField()->getTable())
+        {
+            NoeudComposite* g = (NoeudComposite*)getEditionField()->getTable()->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
+            if(g)
+            {
+                for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
+                {
+                    NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->chercher(i));
+                    if(m->getPosition()[VX]<=0)
+                        maillet = m;
+                }
 
-			}
-		}
-	}
-	return maillet;
+            }
+        }
+    }
+    return maillet;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1627,25 +1615,25 @@ NoeudMaillet* FacadeModele::obtenirMailletJoueurGauche() const
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet* FacadeModele::obtenirMailletJoueurDroit() const
 {
-	NoeudMaillet* maillet = 0;
-	if(getEditionField())
-	{
-		if(getEditionField()->getTable())
-		{
-			NoeudComposite* g = (NoeudComposite*)getEditionField()->getTable()->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
-			if(g)
-			{
-				for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
-				{
-					NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->chercher(i));
-					if(m->getPosition()[VX]>0)
-						maillet = m;
-				}
-				
-			}
-		}
-	}
-	return maillet;
+    NoeudMaillet* maillet = 0;
+    if(getEditionField())
+    {
+        if(getEditionField()->getTable())
+        {
+            NoeudComposite* g = (NoeudComposite*)getEditionField()->getTable()->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
+            if(g)
+            {
+                for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
+                {
+                    NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->chercher(i));
+                    if(m->getPosition()[VX]>0)
+                        maillet = m;
+                }
+                
+            }
+        }
+    }
+    return maillet;
 }
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -1658,154 +1646,154 @@ NoeudMaillet* FacadeModele::obtenirMailletJoueurDroit() const
 ////////////////////////////////////////////////////////////////////////
 jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
 {
-	VisiteurEstSelectione visiteur;
-	acceptVisitor(visiteur);
-	ConteneurNoeuds* listeNoeud = visiteur.obtenirListeNoeuds();
+    VisiteurEstSelectione visiteur;
+    acceptVisitor(visiteur);
+    ConteneurNoeuds* listeNoeud = visiteur.obtenirListeNoeuds();
 
 
-	float coeffRebondBandes[8];
-	float largeurTable;
-	float longueurTable;
-	float friction;
-	if(getEditionField())
-	{
+    float coeffRebondBandes[8];
+    float largeurTable;
+    float longueurTable;
+    float friction;
+    if(getEditionField())
+    {
         checkf(getEditionField()->getZoneEdition(),"terrain sans zone édition");
         longueurTable = getEditionField()->getZoneEdition()->obtenirLimiteExtLongueur();
         largeurTable  = getEditionField()->getZoneEdition()->obtenirLimiteExtLargeur();
         
-		NoeudTable* table = getEditionField()->getTable();
-		if(!table)
-			throw ExceptionJeu("Impossible de trouver la table de jeu");
+        NoeudTable* table = getEditionField()->getTable();
+        if(!table)
+            throw ExceptionJeu("Impossible de trouver la table de jeu");
 
-		friction = table->obtenirCoefFriction();
+        friction = table->obtenirCoefFriction();
 
-		for(int i=0; i<8; i++)
-		{
-			coeffRebondBandes[i] = table->obtenirCoefRebond(i);
-		}
-	}
+        for(int i=0; i<8; i++)
+        {
+            coeffRebondBandes[i] = table->obtenirCoefRebond(i);
+        }
+    }
 
-	jclass classe = env->FindClass("ca/polymtl/inf2990/Jeu/ModificateurProprieteNoeud");
-	jmethodID constructeur = env->GetMethodID(classe, "<init>", "()V"); // Obtient l'id du constructeur
-	jmethodID modifierFrictionId = env->GetMethodID(classe, "modifierCoefFriction", "(D)V");
-	jmethodID modifierRebondId = env->GetMethodID(classe, "modifierCoefRebond", "(D)V");
-	jmethodID modifierAccellerationId = env->GetMethodID(classe, "modifierBonusAccel", "(D)V");
-	jmethodID modifierPositionXId = env->GetMethodID(classe, "modifierPositionX", "(D)V");
-	jmethodID modifierPositionYId = env->GetMethodID(classe, "modifierPositionY", "(D)V");
-	jmethodID modifierEchelleId = env->GetMethodID(classe, "modifierEchelle", "(D)V");
-	jmethodID modifierRotationId = env->GetMethodID(classe, "modifierRotation", "(I)V");
-	jmethodID modifierZoneEditionXId = env->GetMethodID(classe, "modifierZoneEditionX", "(D)V");
-	jmethodID modifierZoneEditionYId = env->GetMethodID(classe, "modifierZoneEditionY", "(D)V");
-	jmethodID modifierCoefRebondBandesId = env->GetMethodID(classe, "modifierCoefRebondBandes", "(ID)V");
-	
+    jclass classe = env->FindClass("ca/polymtl/inf2990/Jeu/ModificateurProprieteNoeud");
+    jmethodID constructeur = env->GetMethodID(classe, "<init>", "()V"); // Obtient l'id du constructeur
+    jmethodID modifierFrictionId = env->GetMethodID(classe, "modifierCoefFriction", "(D)V");
+    jmethodID modifierRebondId = env->GetMethodID(classe, "modifierCoefRebond", "(D)V");
+    jmethodID modifierAccellerationId = env->GetMethodID(classe, "modifierBonusAccel", "(D)V");
+    jmethodID modifierPositionXId = env->GetMethodID(classe, "modifierPositionX", "(D)V");
+    jmethodID modifierPositionYId = env->GetMethodID(classe, "modifierPositionY", "(D)V");
+    jmethodID modifierEchelleId = env->GetMethodID(classe, "modifierEchelle", "(D)V");
+    jmethodID modifierRotationId = env->GetMethodID(classe, "modifierRotation", "(I)V");
+    jmethodID modifierZoneEditionXId = env->GetMethodID(classe, "modifierZoneEditionX", "(D)V");
+    jmethodID modifierZoneEditionYId = env->GetMethodID(classe, "modifierZoneEditionY", "(D)V");
+    jmethodID modifierCoefRebondBandesId = env->GetMethodID(classe, "modifierCoefRebondBandes", "(ID)V");
+    
 
-	jobject modificateurAEnvoyer = env->NewObject(classe, constructeur);
+    jobject modificateurAEnvoyer = env->NewObject(classe, constructeur);
 
-	//Vecteur3 pos((float)DBL_MAX, (float)DBL_MAX, (float)DBL_MAX);
-	Vecteur3 pos(0,0,0);
-	int rotation = -1;
-	Vecteur3 echelleTotale(0, 0, 0);
-	float echelle = -1;
-	float rebond = -1;
-	float acceleration = -1;
+    //Vecteur3 pos((float)DBL_MAX, (float)DBL_MAX, (float)DBL_MAX);
+    Vecteur3 pos(0,0,0);
+    int rotation = -1;
+    Vecteur3 echelleTotale(0, 0, 0);
+    float echelle = -1;
+    float rebond = -1;
+    float acceleration = -1;
 
-	std::string type;
-	bool trouve = false,ok = true;
-	ConteneurNoeuds::iterator iter = listeNoeud->begin();
-	for (; iter != listeNoeud->end() ; iter++)
-	{
-		std::string type2 = (*iter)->obtenirType();
-		if(type2!="but_milieu")
-		{
-			if(!trouve)
-			{
-				type = (*iter)->obtenirType();
-				trouve = true;
-			}
-			else
-			{
-				if(type2 != type)
-					ok = false;
-			}
-		}
-	}
+    std::string type;
+    bool trouve = false,ok = true;
+    ConteneurNoeuds::iterator iter = listeNoeud->begin();
+    for (; iter != listeNoeud->end() ; iter++)
+    {
+        std::string type2 = (*iter)->obtenirType();
+        if(type2!="but_milieu")
+        {
+            if(!trouve)
+            {
+                type = (*iter)->obtenirType();
+                trouve = true;
+            }
+            else
+            {
+                if(type2 != type)
+                    ok = false;
+            }
+        }
+    }
 
-	// On laisse les valeurs par defaut s'il y a plus ou moins qu'un noeud de selectionner
-	// Java va l'interpreter comme si le champ en question doit etre desactive s'il recoit les valeurs par defaut
-	if(trouve && ok)
-	{
-		// On accede uniquement le premier element de la liste
-		NoeudAbstrait* noeudATraiter = (*listeNoeud)[0];
+    // On laisse les valeurs par defaut s'il y a plus ou moins qu'un noeud de selectionner
+    // Java va l'interpreter comme si le champ en question doit etre desactive s'il recoit les valeurs par defaut
+    if(trouve && ok)
+    {
+        // On accede uniquement le premier element de la liste
+        NoeudAbstrait* noeudATraiter = (*listeNoeud)[0];
 
-		pos = noeudATraiter->getPosition();
-		rotation = (int)noeudATraiter->obtenirAngle();
-		if(rotation<0)
-			rotation+=360;
+        pos = noeudATraiter->getPosition();
+        rotation = (int)noeudATraiter->obtenirAngle();
+        if(rotation<0)
+            rotation+=360;
 
-		noeudATraiter->obtenirEchelleCourante(echelleTotale);
-		echelle = max(max(echelleTotale[VX], echelleTotale[VY]), echelleTotale[VZ]);
+        noeudATraiter->obtenirEchelleCourante(echelleTotale);
+        echelle = max(max(echelleTotale[VX], echelleTotale[VY]), echelleTotale[VZ]);
 
-		if(type=="muret")
-			echelle = echelleTotale[VX]/10.0f;
-		if(type=="point")
-		{
-			if(noeudATraiter->obtenirNombreEnfants()>0)
-			{
-				NoeudAbstrait* enfant = noeudATraiter->chercher(0);
-				if(enfant->obtenirType()=="but_milieu")
-				{
-					Vecteur3 echelleCouranteBut;
-					enfant->obtenirEchelleCourante(echelleCouranteBut);
-					echelle = echelleCouranteBut[VX]/10.0f;
-				}
-				else
-				{
-					echelle = -1.0;
-				}
-			}
-			else
-			{
-				echelle = -1.0;
-			}
-			rotation = -1;
-		}
+        if(type=="muret")
+            echelle = echelleTotale[VX]/10.0f;
+        if(type=="point")
+        {
+            if(noeudATraiter->obtenirNombreEnfants()>0)
+            {
+                NoeudAbstrait* enfant = noeudATraiter->chercher(0);
+                if(enfant->obtenirType()=="but_milieu")
+                {
+                    Vecteur3 echelleCouranteBut;
+                    enfant->obtenirEchelleCourante(echelleCouranteBut);
+                    echelle = echelleCouranteBut[VX]/10.0f;
+                }
+                else
+                {
+                    echelle = -1.0;
+                }
+            }
+            else
+            {
+                echelle = -1.0;
+            }
+            rotation = -1;
+        }
 
-		NodeWallAbstract* muret = dynamic_cast<NodeWallAbstract*>(noeudATraiter);
-		if (muret)
-		{
-			rebond = muret->getReboundRatio();
-		}
-		else
-		{
-			rebond = -1;
-		}
+        NodeWallAbstract* muret = dynamic_cast<NodeWallAbstract*>(noeudATraiter);
+        if (muret)
+        {
+            rebond = muret->getReboundRatio();
+        }
+        else
+        {
+            rebond = -1;
+        }
 
-		NoeudAccelerateur* accelerateur = dynamic_cast<NoeudAccelerateur*>(noeudATraiter);
-		if (accelerateur)
-		{
-			acceleration = accelerateur->obtenirBonusAccel();
-		}
-		else
-		{
-			acceleration = -1;
-		}
-	}
+        NoeudAccelerateur* accelerateur = dynamic_cast<NoeudAccelerateur*>(noeudATraiter);
+        if (accelerateur)
+        {
+            acceleration = accelerateur->obtenirBonusAccel();
+        }
+        else
+        {
+            acceleration = -1;
+        }
+    }
 
-	env->CallVoidMethod(modificateurAEnvoyer,modifierFrictionId,friction);
-	env->CallVoidMethod(modificateurAEnvoyer,modifierRebondId,rebond);
-	env->CallVoidMethod(modificateurAEnvoyer,modifierAccellerationId,acceleration);
-	env->CallVoidMethod(modificateurAEnvoyer,modifierEchelleId,echelle);
-	env->CallVoidMethod(modificateurAEnvoyer,modifierRotationId,rotation);
-	env->CallVoidMethod(modificateurAEnvoyer,modifierPositionXId,pos[VX]);
-	env->CallVoidMethod(modificateurAEnvoyer,modifierPositionYId,pos[VY]);
-	env->CallVoidMethod(modificateurAEnvoyer,modifierZoneEditionXId,longueurTable);
-	env->CallVoidMethod(modificateurAEnvoyer,modifierZoneEditionYId,largeurTable);
-	for(int i=0; i<8; i++)
-	{
-		env->CallVoidMethod(modificateurAEnvoyer,modifierCoefRebondBandesId,i,coeffRebondBandes[i]);
-	}
+    env->CallVoidMethod(modificateurAEnvoyer,modifierFrictionId,friction);
+    env->CallVoidMethod(modificateurAEnvoyer,modifierRebondId,rebond);
+    env->CallVoidMethod(modificateurAEnvoyer,modifierAccellerationId,acceleration);
+    env->CallVoidMethod(modificateurAEnvoyer,modifierEchelleId,echelle);
+    env->CallVoidMethod(modificateurAEnvoyer,modifierRotationId,rotation);
+    env->CallVoidMethod(modificateurAEnvoyer,modifierPositionXId,pos[VX]);
+    env->CallVoidMethod(modificateurAEnvoyer,modifierPositionYId,pos[VY]);
+    env->CallVoidMethod(modificateurAEnvoyer,modifierZoneEditionXId,longueurTable);
+    env->CallVoidMethod(modificateurAEnvoyer,modifierZoneEditionYId,largeurTable);
+    for(int i=0; i<8; i++)
+    {
+        env->CallVoidMethod(modificateurAEnvoyer,modifierCoefRebondBandesId,i,coeffRebondBandes[i]);
+    }
 
-	return modificateurAEnvoyer;
+    return modificateurAEnvoyer;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1821,9 +1809,9 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::initialiserTournoi( JoueursParticipant joueurs, std::string terrain )
 {
-	if(tournoi_ == NULL)
-		tournoi_ = new Tournoi();
-	tournoi_->initialisation(joueurs,terrain);
+    if(tournoi_ == NULL)
+        tournoi_ = new Tournoi();
+    tournoi_->initialisation(joueurs,terrain);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1839,9 +1827,9 @@ void FacadeModele::initialiserTournoi( JoueursParticipant joueurs, std::string t
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::modifierAdversaire(SPJoueurAbstrait val) 
 { 
-// 	if(adversaire_ != NULL) 
-// 		delete adversaire_; 
-	adversaire_ = val; 
+//  if(adversaire_ != NULL) 
+//      delete adversaire_; 
+    adversaire_ = val; 
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1869,29 +1857,29 @@ void FacadeModele::resetHighlightFlags()
 ///
 /// Application de la projection et la camera
 ///
-/// @param[in]	quelViewport :	index du viewport a utiliser
+/// @param[in]  quelViewport :  index du viewport a utiliser
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::appliquerVue(int quelViewport/* = 1*/)
 {
-	vue::Vue* vueCourante = obtenirVue();
+    vue::Vue* vueCourante = obtenirVue();
 
-	// Positionne la caméra
-	glMatrixMode( GL_MODELVIEW );
-	vueCourante->appliquerViewport(quelViewport);
-	glLoadIdentity();
-	vueCourante->appliquerCamera(quelViewport); // gluLookAt
-	
-	glMatrixMode( GL_PROJECTION );
-	glLoadIdentity();
-	GLint viewport[4];
-	glGetIntegerv(GL_VIEWPORT, viewport);
-	Vecteur2i dimCloture = Vecteur2i(viewport[2], viewport[3]);
-	Vecteur2 dimFenetre = vueCourante->obtenirProjection().obtenirDimensionFenetre();
-	vueCourante->obtenirProjection().ajusterRapportAspect(dimCloture, dimFenetre); // APPLIQUE AUSSI LA PERSPECTIVE
-	glMatrixMode (GL_MODELVIEW);			
+    // Positionne la caméra
+    glMatrixMode( GL_MODELVIEW );
+    vueCourante->appliquerViewport(quelViewport);
+    glLoadIdentity();
+    vueCourante->appliquerCamera(quelViewport); // gluLookAt
+    
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    GLint viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    Vecteur2i dimCloture = Vecteur2i(viewport[2], viewport[3]);
+    Vecteur2 dimFenetre = vueCourante->obtenirProjection().obtenirDimensionFenetre();
+    vueCourante->obtenirProjection().ajusterRapportAspect(dimCloture, dimFenetre); // APPLIQUE AUSSI LA PERSPECTIVE
+    glMatrixMode (GL_MODELVIEW);            
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1906,8 +1894,8 @@ void FacadeModele::appliquerVue(int quelViewport/* = 1*/)
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::togglePause()
 {
-	if(partieCourante_ && !GestionnaireAnimations::obtenirInstance()->estJouerReplay())
-		partieCourante_->modifierEnPause(!partieCourante_->estEnPause());
+    if(partieCourante_ && !GestionnaireAnimations::obtenirInstance()->estJouerReplay())
+        partieCourante_->modifierEnPause(!partieCourante_->estEnPause());
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1923,8 +1911,8 @@ void FacadeModele::togglePause()
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::modifierEnPause( bool val )
 {
-	if(partieCourante_)
-		partieCourante_->modifierEnPause(val);
+    if(partieCourante_)
+        partieCourante_->modifierEnPause(val);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1939,10 +1927,10 @@ void FacadeModele::modifierEnPause( bool val )
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::estEnPause() const
 {
-	if(partieCourante_)
-		return partieCourante_->estEnPause(); 
-	// S'il n'y a pas de partie courante, alors on ne peut etre en pause
-	return false;
+    if(partieCourante_)
+        return partieCourante_->estEnPause(); 
+    // S'il n'y a pas de partie courante, alors on ne peut etre en pause
+    return false;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1957,11 +1945,11 @@ bool FacadeModele::estEnPause() const
 ////////////////////////////////////////////////////////////////////////
 NoeudRondelle* FacadeModele::obtenirRondelle() const
 {
-	if(getEditionField())
-	{
-		return getEditionField()->getPuck();
-	}
-	return 0;
+    if(getEditionField())
+    {
+        return getEditionField()->getPuck();
+    }
+    return 0;
 }
 
 
@@ -1977,56 +1965,56 @@ NoeudRondelle* FacadeModele::obtenirRondelle() const
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::modifierVue( vue::Vue* nouvelleVue )
 {
-	delete vue_;
-	vue_ = nouvelleVue;
+    delete vue_;
+    vue_ = nouvelleVue;
 }
 void FacadeModele::afficherProgramInfoLog( GLuint obj, const char* message )
 {
 #if !SHIPPING 
-	// afficher le message d'en-tête
-	cout << message << endl;
+    // afficher le message d'en-tête
+    cout << message << endl;
 
-	// afficher le message d'erreur, le cas échéant
-	int infologLength = 0;
-	glGetProgramiv( obj, GL_INFO_LOG_LENGTH, &infologLength );
+    // afficher le message d'erreur, le cas échéant
+    int infologLength = 0;
+    glGetProgramiv( obj, GL_INFO_LOG_LENGTH, &infologLength );
 
-	if ( infologLength > 1 )
-	{
-		char* infoLog = new char[infologLength+1];
-		int charsWritten  = 0;
-		glGetShaderInfoLog( obj, infologLength, &charsWritten, infoLog );
-		//glGetProgramInfoLog( obj, infologLength, &charsWritten, infoLog );
-		cout << infoLog << endl;
-		delete[] infoLog;
-	}
-	else
-	{
-		cout << "Aucune erreur :-)" << endl;
-	}
+    if ( infologLength > 1 )
+    {
+        char* infoLog = new char[infologLength+1];
+        int charsWritten  = 0;
+        glGetShaderInfoLog( obj, infologLength, &charsWritten, infoLog );
+        //glGetProgramInfoLog( obj, infologLength, &charsWritten, infoLog );
+        cout << infoLog << endl;
+        delete[] infoLog;
+    }
+    else
+    {
+        cout << "Aucune erreur :-)" << endl;
+    }
 #endif
 }
 void FacadeModele::afficherShaderInfoLog( GLuint obj, const char* message )
 {
 #if !SHIPPING 
     // afficher le message d'en-tête
-	cout << message << endl;
+    cout << message << endl;
 
-	// afficher le message d'erreur, le cas échéant
-	int infologLength = 0;
-	glGetShaderiv( obj, GL_INFO_LOG_LENGTH, &infologLength );
+    // afficher le message d'erreur, le cas échéant
+    int infologLength = 0;
+    glGetShaderiv( obj, GL_INFO_LOG_LENGTH, &infologLength );
 
-	if ( infologLength > 1 )
-	{
-		char* infoLog = new char[infologLength+1];
-		int charsWritten  = 0;
-		glGetShaderInfoLog( obj, infologLength, &charsWritten, infoLog );
-		cout << infoLog << endl;
-		delete[] infoLog;
-	}
-	else
-	{
-		cout << "Aucune erreur :-)" << endl;
-	}
+    if ( infologLength > 1 )
+    {
+        char* infoLog = new char[infologLength+1];
+        int charsWritten  = 0;
+        glGetShaderInfoLog( obj, infologLength, &charsWritten, infoLog );
+        cout << infoLog << endl;
+        delete[] infoLog;
+    }
+    else
+    {
+        cout << "Aucune erreur :-)" << endl;
+    }
 #endif
 }
 ////////////////////////////////////////////////////////////////////////
@@ -2041,33 +2029,33 @@ void FacadeModele::afficherShaderInfoLog( GLuint obj, const char* message )
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::initialiserNuanceurs()
 {
-	// déclaration des chaînes qui devront recevoir le code des nuanceurs
-	// lire les fichiers de nuanceurs de sommets et de fragments
-	const char *ns = textFileRead( "nuanceurSommets.glsl" );
-	const char *nf = textFileRead( "nuanceurFragments.glsl" );
+    // déclaration des chaînes qui devront recevoir le code des nuanceurs
+    // lire les fichiers de nuanceurs de sommets et de fragments
+    const char *ns = textFileRead( "nuanceurSommets.glsl" );
+    const char *nf = textFileRead( "nuanceurFragments.glsl" );
 
-	// créer le programme
-	progPhong_ = glCreateProgram();
+    // créer le programme
+    progPhong_ = glCreateProgram();
 
-	// créer les nuanceurs de sommets et de fragments
-	GLuint nuanceurSommets = glCreateShader( GL_VERTEX_SHADER );
-	GLuint nuanceurFragments = glCreateShader( GL_FRAGMENT_SHADER );
+    // créer les nuanceurs de sommets et de fragments
+    GLuint nuanceurSommets = glCreateShader( GL_VERTEX_SHADER );
+    GLuint nuanceurFragments = glCreateShader( GL_FRAGMENT_SHADER );
 
-	// associer le fichier de sommets au nuanceur de sommets
-	glShaderSource( nuanceurSommets, 1, &ns, NULL );
-	glCompileShader( nuanceurSommets );
-	glAttachShader( progPhong_, nuanceurSommets );
-	afficherShaderInfoLog( nuanceurSommets, "nuanceurSommets" );
+    // associer le fichier de sommets au nuanceur de sommets
+    glShaderSource( nuanceurSommets, 1, &ns, NULL );
+    glCompileShader( nuanceurSommets );
+    glAttachShader( progPhong_, nuanceurSommets );
+    afficherShaderInfoLog( nuanceurSommets, "nuanceurSommets" );
 
-	// associer le fichier de fragments au nuanceur de fragments
-	glShaderSource( nuanceurFragments, 1, &nf, NULL );
-	glCompileShader( nuanceurFragments );
-	glAttachShader( progPhong_, nuanceurFragments );
-	afficherShaderInfoLog( nuanceurFragments, "nuanceurFragments" );
+    // associer le fichier de fragments au nuanceur de fragments
+    glShaderSource( nuanceurFragments, 1, &nf, NULL );
+    glCompileShader( nuanceurFragments );
+    glAttachShader( progPhong_, nuanceurFragments );
+    afficherShaderInfoLog( nuanceurFragments, "nuanceurFragments" );
 
-	// linker le programme
-	glLinkProgram( progPhong_ );
-	afficherProgramInfoLog( progPhong_, "progPhong_" );
+    // linker le programme
+    glLinkProgram( progPhong_ );
+    afficherProgramInfoLog( progPhong_, "progPhong_" );
 }
 
 ////////////////////////////////////////////////////////////////////////

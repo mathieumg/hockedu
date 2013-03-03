@@ -119,6 +119,10 @@ public:
 	void enregistrerTournoi( Tournoi* tournoi = 0 );
 	/// Libère le contexte OpenGL.
 	void libererOpenGL();
+    /// Utilities for shaders activation
+    void ActivateShaders();
+    void DeActivateShaders();
+
 	/// Affiche le contenu du modèle.
 	void afficher();
     /// Affiche le rectangle elastique
@@ -362,7 +366,6 @@ public:
 	/// Accesseurs de adversaire_
 	SPJoueurAbstrait obtenirAdversaire() { return adversaire_; }
 
-    
 
 
 };

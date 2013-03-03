@@ -634,6 +634,8 @@ void Terrain::creerTerrainParDefaut(std::string nom)
 	mTable->ajouter(maillet1);
 	mTable->ajouter(maillet2);
 	mTable->ajouter(rondelle);
+
+    fullRebuild();
 }
 
 ////////////////////////////////////////////////////////////////////////
