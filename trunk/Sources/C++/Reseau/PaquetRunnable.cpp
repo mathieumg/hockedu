@@ -17,6 +17,7 @@
 #include "ObjetsGlobaux/JoueurServeurs.h"
 #include "Paquets/PaquetTest.h"
 #include "Paquets/PaquetGameStatus.h"
+#include "Paquets/PaquetMaillet.h"
 
 
 // Meme pour le client et les serveurs.
@@ -145,6 +146,33 @@ int PaquetRunnable::RunnableGameStatusServer( Paquet* pPaquet )
 
     return 0;
 }
+
+
+
+int PaquetRunnable::RunnableMailletClient( Paquet* pPaquet )
+{
+    PaquetMaillet* wPaquet = (PaquetMaillet*) pPaquet;
+    // Modification de la pos du maillet
+    throw std::runtime_error("Not yet implemented");
+
+
+
+    return 0;
+}
+
+int PaquetRunnable::RunnableMailletServer( Paquet* pPaquet )
+{
+    PaquetMaillet* wPaquet = (PaquetMaillet*) pPaquet;
+    // Affichage de la position du maillet
+
+    std::cout << "Maillet:\t" << wPaquet->getPosition() << std::endl; 
+
+
+
+
+    return 0;
+}
+
 
 
 

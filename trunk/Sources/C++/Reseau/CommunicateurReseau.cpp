@@ -896,7 +896,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
 
                     }
 
-
+                    std::cout << wPlayerName << " Connected" << std::endl;
                     // On envoit un message de confirmation pour dire que la conenction est acceptee
                     wMessageConfirmation = USER_CONNECTED;
                     // Send connection state message

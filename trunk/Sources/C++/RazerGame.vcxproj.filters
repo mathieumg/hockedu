@@ -500,6 +500,10 @@
     <ClCompile Include="Tests\XMLTests.cpp" />
     <ClCompile Include="Application\GameManager.cpp" />
     <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeSimulation.cpp" />
+    <ClCompile Include="Reseau\Paquets\PaquetMaillet.cpp" />
+    <ClCompile Include="Reseau\Paquets\PaquetRondelle.cpp" />
+    <ClCompile Include="reseau\PaquetHandlers\PacketHandlerRondelle.cpp" />
+    <ClCompile Include="reseau\PaquetHandlers\PacketHandlerMaillet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -962,6 +966,24 @@
       <Filter>Sources Files</Filter>
     </ClInclude>
     <ClInclude Include="Interface\GestionEtat\GestionnaireEtatModeSimulation.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\Paquets\PaquetMaillet.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\Paquets\PaquetRondelle.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="reseau\PaquetHandlers\PacketHandlerMaillet.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="reseau\PaquetHandlers\PacketHandlerRondelle.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="reseau\UsinePaquets\UsinePaquetMaillet.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="reseau\UsinePaquets\UsinePaquetRondelle.h">
       <Filter>Sources Files</Filter>
     </ClInclude>
   </ItemGroup>

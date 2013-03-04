@@ -619,7 +619,7 @@ public:
 	{
 		for ( int i = 0; i < N; i++ ) {
 			out << v[i];
-			if ( i < N - 1 ) out << std::string(' ');
+			if ( i < N - 1 ) out << " ";
 		}
 		return out;
 	}

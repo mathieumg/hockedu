@@ -40,6 +40,8 @@
 #include "VisiteurEcrireXML.h"
 #include "ExceptionJeu.h"
 #include "Runnable.h"
+#include "../Reseau/Paquets/PaquetMaillet.h"
+#include "../Reseau/GestionnaireReseau.h"
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
@@ -821,10 +823,11 @@ void Terrain::appliquerPhysique( float temps )
 {
 	if(mLogicTree)
 	{
-#if BOX2D_INTEGRATED
         /// TODO:: cache pointer to mallet for field to access directly
         NoeudMaillet* mailletGauche = getLeftMallet();
         NoeudMaillet* mailletDroit = getRightMallet();
+#if BOX2D_INTEGRATED
+        
 
         if(mailletDroit)
         {
@@ -845,6 +848,12 @@ void Terrain::appliquerPhysique( float temps )
 		mLogicTree->ajusterVitesse(temps);
 		mLogicTree->ajusterEnfoncement();
 #endif
+        if(mailletGauche)
+        {
+            PaquetMaillet* wPaquet = (PaquetMaillet*) GestionnaireReseau::obtenirInstance()->creerPaquet(MAILLET);
+            wPaquet->setPosition(mailletGauche->getPosition());
+            GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
+        }
 	}
 }
 

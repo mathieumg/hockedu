@@ -22,6 +22,9 @@ namespace PaquetRunnable
 
     int RunnableGameStatusClient(Paquet* pPaquet);
     int RunnableGameStatusServer(Paquet* pPaquet);
+
+    int RunnableMailletClient(Paquet* pPaquet);
+    int RunnableMailletServer(Paquet* pPaquet);
 };
 
 

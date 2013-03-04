@@ -23,7 +23,7 @@ ControllerServeurJeu::ControllerServeurJeu()
     mPaquetRunnables[CHAT_MESSAGE]                  = PaquetRunnable::RunnableChatMessageServerGame;
     mPaquetRunnables[GAME_STATUS]                   = PaquetRunnable::RunnableGameStatusServerGame;
     mPaquetRunnables[AUTHENTIFICATION_SERVEUR_JEU]  = PaquetRunnable::RunnableAuthentificationServeurJeuServerGame;
-
+    mPaquetRunnables[MAILLET]                       = PaquetRunnable::RunnableMailletServer;
 
 }
 

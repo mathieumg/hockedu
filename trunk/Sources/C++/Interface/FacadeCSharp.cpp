@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include "ExceptionJeu.h"
+#include "..\reseau\UsinePaquets\UsinePaquetMaillet.h"
+#include "..\reseau\PaquetHandlers\PacketHandlerMaillet.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -63,6 +65,7 @@ void InitDLL()
     // On doit ajouter une nouvelle operation reseau pour que le systeme le connaisse (1 par type de paquet)
     wGestionnaireReseau->ajouterOperationReseau(CHAT_MESSAGE, new PacketHandlerChatMessage, new UsinePaquetChatMessage);
     wGestionnaireReseau->ajouterOperationReseau(USER_STATUS, new PacketHandlerUserStatus, new UsinePaquetUserStatus);
+    wGestionnaireReseau->ajouterOperationReseau(MAILLET, new PacketHandlerMaillet, new UsinePaquetMaillet);
 
     std::cout << "testing\n";
     std::cerr << "testing23\n";

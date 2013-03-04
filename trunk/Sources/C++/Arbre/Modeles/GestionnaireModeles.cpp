@@ -341,7 +341,7 @@ GLuint GestionnaireModeles::obtenirTypeIdFromName( const std::string& name ) con
 void GestionnaireModeles::initialiser()
 {
     // La piece en premier pour qu'elle soit loader en dernier
-    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_HOUSE));
+    //tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_HOUSE));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_TABLE,RazerGameUtilities::CreateListDelegateTable));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_BUT,RazerGameUtilities::CreateListDelegateGoal));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_MURET,RazerGameUtilities::CreateListDelegateWall));

@@ -23,6 +23,7 @@ ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceiv
     mPaquetRunnables[USER_STATUS]       = PaquetRunnable::RunnableUserStatusClient;
     mPaquetRunnables[CHAT_MESSAGE]      = PaquetRunnable::RunnableChatMessageClient;
     mPaquetRunnables[TEST]              = PaquetRunnable::RunnableTest;
+    mPaquetRunnables[MAILLET]           = PaquetRunnable::RunnableMailletClient;
 
     for(EventCodes e = EventCodes(SERVER_EVENT_BEGIN+1); e<SERVER_EVENT_END; e = EventCodes(e+1))
     {

@@ -356,15 +356,15 @@ void GestionnaireReseau::envoyerPaquet( SPSocket pSocketAUtiliser, Paquet* pPaqu
 ///
 /// Methode pour envoyer un paquet par un joueur en particulier
 ///
-/// @param[in] const std::string & pPlayerName : Nom du joueur qui désire envoyer le paque
-/// @param[in] Paquet* pPaquet                 : Paquet a envoyer (sera delete par le CommunicateurReseau une fois que le paquet sera envoye)
+/// @param[in] const std::string & pConnectionId    : Id de la connexion
+/// @param[in] Paquet* pPaquet                      : Paquet a envoyer (sera delete par le CommunicateurReseau une fois que le paquet sera envoye)
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireReseau::envoyerPaquet( const std::string& pPlayerName, Paquet* pPaquet, ConnectionType pConnectionType )
+void GestionnaireReseau::envoyerPaquet( const std::string& pConnectionId, Paquet* pPaquet, ConnectionType pConnectionType )
 {
-    SPSocket pSocket = getSocket(pPlayerName,pConnectionType);
+    SPSocket pSocket = getSocket(pConnectionId,pConnectionType);
     if(pSocket)
     {
         envoyerPaquet(pSocket,pPaquet);

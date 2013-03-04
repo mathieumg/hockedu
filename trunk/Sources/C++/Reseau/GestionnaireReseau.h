@@ -53,7 +53,9 @@ enum PacketTypes {
     TEST,
     BASE,
     GAME_STATUS,
-    AUTHENTIFICATION_SERVEUR_JEU
+    AUTHENTIFICATION_SERVEUR_JEU,
+    MAILLET,
+    RONDELLE
 };
 
 struct ConnectionStateEvent
