@@ -12,6 +12,7 @@
 #include <time.h>
 #include <string>
 
+typedef int (*PartieServeursCallback) ();
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class PartieServeurs
@@ -40,6 +41,11 @@ private:
     
     static int compteurGameId;
 
+    // Callback appelee quand le score change
+    PartieServeursCallback mUpdateCallback;
+
+    void callUpdateCallbackFunction() {if(mUpdateCallback) mUpdateCallback();}
+
 public:
 	PartieServeurs(const std::string& pPlayer1Name, const std::string& pPlayer2Name);
     PartieServeurs();
@@ -48,22 +54,23 @@ public:
 
     int getUniqueGameId() const { return mUniqueGameId; }
 
-    void setPlayerName1( const std::string& pPlayerName1 );
-    void setPlayerName2( const std::string& pPlayerName2 );
+    inline void setPlayerName1( const std::string& pPlayerName1 );
+    inline void setPlayerName2( const std::string& pPlayerName2 );
 
     std::string getPlayer1Name() const { return mPlayer1Name; }
     std::string getPlayer2Name() const { return mPlayer2Name; }
 
     int getPlayer1Score() const { return mPlayer1Score; }
-    void setPlayer1Score(int val) { mPlayer1Score = val; }
+    void setPlayer1Score(int val) { mPlayer1Score = val; callUpdateCallbackFunction();}
 
     int getPlayer2Score() const { return mPlayer2Score; }
-    void setPlayer2Score(int val) { mPlayer2Score = val; }
+    void setPlayer2Score(int val) { mPlayer2Score = val; callUpdateCallbackFunction();}
 
     time_t getTime() const { return mTime; }
-    void setTime(time_t val) { mTime = val; }
+    inline void setTime(time_t val) { mTime = val; }
     void setTime(int pHours, int pMins, int pSec);
 
+    inline void setUpdateCallback(PartieServeursCallback pCallback) {mUpdateCallback = pCallback;}
 };
 
 ///////////////////////////////////////////////////////////////////////////////

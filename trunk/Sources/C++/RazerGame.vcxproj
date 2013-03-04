@@ -185,6 +185,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application\FacadeModele.cpp" />
+    <ClCompile Include="Application\GameManager.cpp" />
     <ClCompile Include="Application\RepartiteurActions.cpp" />
     <ClCompile Include="Arbre\ArbreNoeudLibre.cpp" />
     <ClCompile Include="Arbre\HUD\GestionnaireHUD.cpp" />
@@ -329,6 +330,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h" />
+    <ClInclude Include="Application\GameManager.h" />
     <ClInclude Include="Application\RepartiteurActions.h" />
     <ClInclude Include="Arbre\ArbreNoeudLibre.h" />
     <ClInclude Include="Arbre\HUD\GestionnaireHUD.h" />
