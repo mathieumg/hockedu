@@ -33,6 +33,7 @@ namespace UIHeavyClient
         ACTION_ALLER_MODE_JEU      ,
         ACTION_ALLER_MODE_TOURNOI  ,
         ACTION_ALLER_MENU_PRINCIPAL,
+        ACTION_ALLER_MODE_SIMULATION,
         ACTION_CAMERA_FIXE         ,
         ACTION_CAMERA_ORBITE       ,
         ACTION_CAMERA_LIBRE        ,

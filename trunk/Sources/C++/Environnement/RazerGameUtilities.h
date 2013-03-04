@@ -21,6 +21,7 @@
 typedef unsigned int (*CreateListDelegate)(class Modele3D*);
 
 class Terrain;
+class Runnable;
 
 class RazerGameUtilities {
 public:
@@ -32,6 +33,15 @@ public:
 
     /// Effectue une conversion entre une chaîne Java et une chaîne C++.
     static std::string obtenirChaineISO(void* env, void* chaine);
+
+    /// Permet d'exécuter du code sur un thread spécifique au moment opportun
+    static void RunOnRenderThread(Runnable* run, bool pForceQueue = false);
+    static void ExecuteRenderRunnables();
+    static void Rendering(bool isRendering);
+    static void RunOnUpdateThread(Runnable* run, bool pForceQueue = false);
+    static void ExecuteUpdateRunnables();
+    static void Updating(bool isUpdating);
+    //////////////////////////////////////////////////////////////////////////
 
     /// La chaîne représentant un accelerateur.
     static const std::string NOM_ACCELERATEUR;
@@ -90,7 +100,7 @@ public:
 
     /// La chaîne représentant le type des Polygones.
     static const std::string NAME_POLYGONE;
-
+    
 };
 
 

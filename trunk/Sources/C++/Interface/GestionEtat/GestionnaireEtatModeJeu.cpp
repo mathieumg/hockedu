@@ -22,6 +22,7 @@
 
 
 
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn  GestionnaireEtatModeJeu::GestionnaireEtatModeJeu( GestionnaireEvenements* contexte )
@@ -310,7 +311,11 @@ void GestionnaireEtatModeJeu::animer( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeJeu::afficher()
 {
-	GestionnaireHUD::obtenirInstance()->dessinerHUDJeu();
+    if(mGame)
+    {
+        renderBase(mGame->getField(),[&]() -> void{mGame->afficher();});
+    }
+    GestionnaireHUD::obtenirInstance()->dessinerHUDJeu();
 }
 
 void GestionnaireEtatModeJeu::miseAJourEvenementsRepetitifs( float deltaTemps )

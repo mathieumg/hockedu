@@ -52,7 +52,7 @@ public:
 	virtual ~Terrain();
 
 	/// Permet d'effectuer le rendu des arbres du terrain
-    void afficherTerrain();
+    void renderField();
 
 	/// Permet d'animer les noeuds des arbres du terrain, la physique reste géré par FacadeModele
 	void animerTerrain( const float& temps );

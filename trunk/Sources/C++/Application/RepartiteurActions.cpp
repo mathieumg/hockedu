@@ -73,6 +73,7 @@ RepartiteurActions::RepartiteurActions()
 	banqueActions_[ACTION_ALLER_MODE_JEU] = &RepartiteurActions::actionBoutonAllerModeJeu;
     banqueActions_[ACTION_ALLER_MODE_TOURNOI] = &RepartiteurActions::actionBoutonAllerModeTournoi;
     banqueActions_[ACTION_ALLER_MENU_PRINCIPAL] = &RepartiteurActions::actionBoutonAllerMenuPrincipal;
+    banqueActions_[ACTION_ALLER_MODE_SIMULATION] = &RepartiteurActions::actionBoutonAllerModeSimulation;
 
 	// Fonctions de changement de camera
 	banqueActions_[ACTION_CAMERA_FIXE] = &RepartiteurActions::actionChangerModeCameraFixe;
@@ -412,8 +413,6 @@ bool RepartiteurActions::actionBoutonAllerModeJeu()
     // important de signaler le modele avant de faire le changement d'état, car
     // celui-ci utilise des informations du modèle pour s'initialiser
 	bool retour = FacadeModele::getInstance()->passageModeJeu();
-	if(retour)
-		GestionnaireEvenements::modifierEtat(ETAT_MODE_JEU);
 	return retour;
 }
 
@@ -432,11 +431,6 @@ bool RepartiteurActions::actionBoutonAllerModeEdition()
     // important de signaler le modele avant de faire le changement d'état, car
     // celui-ci utilise des informations du modèle pour s'initialiser
 	bool retour =  FacadeModele::getInstance()->passageModeEdition();
-	if(retour)
-	{
-		GestionnaireEvenements::modifierEtat(ETAT_MODE_EDITION);
-		SoundFMOD::obtenirInstance()->playApplicationSong(EDITION_MODE_SONG);
-	}
 	return retour;
 }
 
@@ -455,10 +449,6 @@ bool RepartiteurActions::actionBoutonAllerModeTournoi()
     // important de signaler le modele avant de faire le changement d'état, car
     // celui-ci utilise des informations du modèle pour s'initialiser
 	bool retour =  FacadeModele::getInstance()->passageModeTournoi();
-	if(retour)
-	{
-		GestionnaireEvenements::modifierEtat(ETAT_MODE_TOURNOI);
-	}
 	return retour;
 }
 
@@ -476,16 +466,30 @@ bool RepartiteurActions::actionBoutonAllerModeTournoi()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonAllerMenuPrincipal()
 {
-	SoundFMOD::obtenirInstance()->playApplicationSong(MENU_MODE_SONG);
     // important de signaler le modele avant de faire le changement d'état, car
     // celui-ci utilise des informations du modèle pour s'initialiser
     bool retour = FacadeModele::getInstance()->passageMenuPrincipal();
-    if(retour)
-    {
-	    GestionnaireEvenements::modifierEtat(ETAT_MENU_PRINCIPAL);
-    }
 	return retour;
 }
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool RepartiteurActions::actionBoutonAllerMenuPrincipal()
+///
+///Fonction pour aller au mode simulation
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool RepartiteurActions::actionBoutonAllerModeSimulation()
+{
+    // important de signaler le modele avant de faire le changement d'état, car
+    // celui-ci utilise des informations du modèle pour s'initialiser
+    bool retour = FacadeModele::getInstance()->passageModeSimulation();
+    return retour;
+}
+
 
 
 ////////////////////////////////////////////////////////////////////////

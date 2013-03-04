@@ -57,32 +57,6 @@ struct RenderWorkerData
 
 DWORD WINAPI RenderSceneWorker(LPVOID arg);
 
-#include <functional>
-class Runnable
-{
-public:
-    Runnable(std::function<void (Runnable*)> function, bool keepAlive = false):
-      mFunction(function), mbKeepAlive(keepAlive)
-      {
-
-      }
-    inline void Run()
-    {
-        mFunction(this);
-    }
-
-    /// Accessors of mbKeepAlive
-    inline bool KeepAlive() const { return mbKeepAlive; }
-    inline void setKeepAlive(bool val) { mbKeepAlive = val; }
-private:
-    std::function<void (Runnable*)> mFunction;
-    bool mbKeepAlive;
-
-    
-
-};
-
-
 ///////////////////////////////////////////////////////////////////////////
 /// @class FacadeModele
 /// @brief Classe qui constitue une interface (une façade) sur l'ensemble
@@ -119,6 +93,10 @@ public:
 	void enregistrerTournoi( Tournoi* tournoi = 0 );
 	/// Libère le contexte OpenGL.
 	void libererOpenGL();
+    /// Utilities for shaders activation
+    void ActivateShaders();
+    void DeActivateShaders();
+
 	/// Affiche le contenu du modèle.
 	void afficher();
     /// Affiche le rectangle elastique
@@ -126,8 +104,6 @@ public:
     void DrawSelectionRectangle() const;
     /// Indique qu'il est temps de faire un rendu
     void SignalRender();
-    /// Affiche la base du contenu du modèle.
-	void afficherBase() const;
 	/// Indique que la fenêtre doit être réaffichée sans le faire directement.
 	void rafraichirFenetre() const;
 
@@ -169,6 +145,9 @@ public:
 	bool passageModeJeu();
 	bool passageModeTournoi();
 	bool passageMenuPrincipal();
+    bool passageModeSimulation();
+    /// Ends tournament and clear current game's memory
+    void ClearCurrentGame();
 
 	/// Launch a visitor on the field
     void acceptVisitor(VisiteurNoeud& visiteur);
@@ -231,11 +210,6 @@ public:
     void afficherProgramInfoLog( GLuint obj, const char* message );
     void afficherShaderInfoLog( GLuint obj, const char* message );
 
-    // va surement necessité des mutex
-    /// Permet d'exécuter du code sur un thread spécifique au moment opportun
-    void RunOnRenderThread(Runnable* run, bool pForceQueue = false);
-    void RunOnUpdateThread(Runnable* run, bool pForceQueue = false);
-
     /// Send event to the controller
     static void transmitEvent( EventCodes pCode, ... );
 
@@ -293,9 +267,6 @@ private:
 	Partie* partieCourante_;
     //std::hash_map<PartieId,Partie*> mGames;
 
-	/// Indique si on applique la physique du jeu 
-	bool enJeu_;	
-
 	/// Objet contenant le temps ecouler en temps reel
 	GameTime temps_;
     
@@ -303,16 +274,16 @@ private:
 	SPJoueurAbstrait adversaire_;
 	utilitaire::BoiteEnvironnement* boiteEnvironnement;
 
+
+
 	// Lien vers le programme de SHADER
 	GLuint progPhong_;
 
-    std::queue<Runnable*> mUIRunnables, mUpdateRunnables;
-    bool mUpdating, mRendering;
 	/// Accesseurs
 public:
+    /// Accessors of boiteEnvironnement
+    inline utilitaire::BoiteEnvironnement* getBoiteEnvironnement() const { return boiteEnvironnement; }
 
-
-    inline bool IsInGame() const { return enJeu_; }
     /// Accessors of hGLRC_
     HGLRC GetHGLRC() const { return hGLRC_; }
 	/// Accesseur de hDC_
@@ -362,7 +333,6 @@ public:
 	/// Accesseurs de adversaire_
 	SPJoueurAbstrait obtenirAdversaire() { return adversaire_; }
 
-    
 
 
 };

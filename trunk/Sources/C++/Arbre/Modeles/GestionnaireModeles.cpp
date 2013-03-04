@@ -13,6 +13,7 @@
 #include "NoeudTable.h"
 #include "FacadeModele.h"
 #include "AideGL.h"
+#include "Runnable.h"
 
 // pour le warning sur getenv();
 #pragma warning(disable:4996)
@@ -367,7 +368,7 @@ void GestionnaireModeles::initialiser()
     if(dataWorkerModel->glrc != NULL && wglShareLists(baseGlrc , dataWorkerModel->glrc))
     {
         mLoadingThread = CreateThread(NULL, 0, WorkerLoadModel, dataWorkerModel,NULL,&thId1);
-        FacadeModele::getInstance()->RunOnRenderThread(new Runnable([=](Runnable* pRun){
+        RazerGameUtilities::RunOnRenderThread(new Runnable([=](Runnable* pRun){
             DWORD exitCode;
             if(!IsThreadAlive(mLoadingThread,exitCode))
             {
@@ -480,7 +481,7 @@ DWORD WINAPI WorkerLoadModel( LPVOID arg )
         }
 
         const string& key = modelInfo.mKey;
-        FacadeModele::getInstance()->RunOnUpdateThread(new Runnable([=](Runnable*) -> void {
+        RazerGameUtilities::RunOnUpdateThread(new Runnable([=](Runnable*) -> void {
             // les ajouter direct dans ce thread n'est pas bon car ca peut crasher si un read&write ce fait en meme temps
             GestionnaireModeles::obtenirInstance()->ajoutModele(key,modele);
             if(liste)

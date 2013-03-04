@@ -13,6 +13,7 @@
 #include <windows.h>
 #include "glew.h"
 #include "XMLUtils.h"
+#include "FacadeModele.h"
 
 const float ZoneEdition::DEFAUT_LIMITE_INT_LONGUEUR = 75;
 const float ZoneEdition::DEFAUT_LIMITE_INT_LARGEUR = 50;
@@ -156,6 +157,13 @@ void ZoneEdition::reinitialiser()
 ////////////////////////////////////////////////////////////////////////
 void ZoneEdition::afficher()
 {
+    // États de la lumière 
+    GLboolean lighting_state;
+    // Désactiver l'éclairage
+    glGetBooleanv(GL_LIGHTING, &lighting_state);
+    glDisable(GL_LIGHTING);
+    FacadeModele::getInstance()->DeActivateShaders();
+
 	// Dessin de la zone d'édition
     glPushMatrix();
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -168,6 +176,12 @@ void ZoneEdition::afficher()
 	glEnd();
 	glPopAttrib();
     glPopMatrix();
+    FacadeModele::getInstance()->ActivateShaders();
+
+    // Réactiver l'éclairage et (s'il y a lieu)
+    if (lighting_state == GL_TRUE) {
+        glEnable(GL_LIGHTING);
+    }
 }
 
 

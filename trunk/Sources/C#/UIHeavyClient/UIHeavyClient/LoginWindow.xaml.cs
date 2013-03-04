@@ -190,7 +190,7 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public void TryConnecting()
         {
-            if (userNameInput.Text != "" && passwordInput.Text != "")
+            if (userNameInput.Text != "" && passwordInput.Password != "")
             {
 
                 // Block everything while connecting
@@ -210,14 +210,14 @@ namespace UIHeavyClient
                 if (Chat.IsIPv4(ipAdress))
                 {
                     Chat.mLoginInfo.mUserName = userNameInput.Text;
-                    Chat.mLoginInfo.mPassword = passwordInput.Text;
+                    Chat.mLoginInfo.mPassword = passwordInput.Password;
                     Chat.mLoginInfo.mIpAddress = ipAdress;
                     BlockUIContent();
                     // Setup to be ready to receive events
                     Chat.SetupLoginCallBackEvents(this);
 
                     SetUserMessageFeedBack(String.Format("Connecting to server {0}\nPlease wait...", serverName), false);
-                    Chat.RequestLogin(userNameInput.Text, passwordInput.Text, ipAdress);
+                    Chat.RequestLogin(userNameInput.Text, passwordInput.Password, ipAdress);
                 }
                 else
                 {

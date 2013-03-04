@@ -79,7 +79,7 @@
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
                 <Button Content="Puck" Margin="1" Name="mPuckButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Click="CallActionPerformed" />
-                <Button Content="Mallet" Margin="1" Name="mStickButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="1" Click="CallActionPerformed" />
+                <Button Content="Mallet" Margin="1" Name="mMalletButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="1" Click="CallActionPerformed" />
                 <Button Content="Wall" Margin="1" Name="mWallButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="2" Click="CallActionPerformed" />
                 <Button Content="Booster" Margin="1" Name="mBoosterButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" Click="CallActionPerformed" />
                 <Button Content="Portal" Margin="1" Name="mPortalButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" Grid.Row="1" Click="CallActionPerformed" />

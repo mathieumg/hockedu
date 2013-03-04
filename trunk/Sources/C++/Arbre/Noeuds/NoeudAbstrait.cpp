@@ -451,18 +451,10 @@ void NoeudAbstrait::afficherConcret() const
         // Push du id du type du noeud sur la pile de nom
         glPushName(glTypeId_);
 
-        // Efface le stencil et l'active
-        glClearStencil(0);
-        glClear( GL_STENCIL_BUFFER_BIT );
-        glEnable( GL_STENCIL_TEST );
-        // A chaque fois qu'un pixel est dessine a l'ecran, le stencil met le bit a 1
-        glStencilFunc( GL_ALWAYS, 1, 0xFFFF );
-        glStencilOp( GL_KEEP, GL_KEEP, GL_REPLACE );
         glCallList(liste); // Dessin de l'objet avec les textures
         glPopName();
         glPopName();
 
-        glDisable(GL_STENCIL_TEST);
         // Restauration des attributs
         glPopAttrib();
 

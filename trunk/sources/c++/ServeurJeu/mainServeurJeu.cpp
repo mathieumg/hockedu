@@ -4,9 +4,10 @@
 #include <sstream>
 #include <wtypes.h>
 #include <stdexcept>
+#include "../Interface/FacadeServeurJeu.h"
 
 typedef void (*FunctionFunc)();
-char flagChar = '-';
+const char flagChar = '-';
 
 
 
@@ -31,7 +32,7 @@ void parseParamWithArg(std::string& pOutParam, int pLoopCounter, int argc, char*
 
 
 int main(int argc, char* argv[])  {
-
+    
     std::cout << "--------- Serveur Jeu ---------" << std::endl << std::endl;
 
     std::string wMasterServerIP = "173.177.0.193"; // Adresse par defaut du serveur maitre
@@ -71,20 +72,6 @@ int main(int argc, char* argv[])  {
 
 
 
-
-
-    HINSTANCE wDLL = LoadLibrary(TEXT("RazerGame.dll"));
-
-    if (!wDLL)
-    {
-        std::cout << "Erreur a l'ouverture de la DLL (RazerGame.dll)." << std::endl;
-        system("pause");
-        return -1;
-    }
-
-
-    FunctionFunc InitDLLServeurJeu = (FunctionFunc)GetProcAddress(wDLL, "InitDLLServeurJeu");
-
     // Appel a la fonction d'initialisation
     InitDLLServeurJeu();
 
@@ -106,7 +93,6 @@ int main(int argc, char* argv[])  {
         getchar(); // Pause until enter is pressed
     }
 
-    FreeLibrary(wDLL);
-
+    
     return 0;
 }

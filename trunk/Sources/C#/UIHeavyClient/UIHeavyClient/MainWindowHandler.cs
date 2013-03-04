@@ -30,7 +30,7 @@ namespace UIHeavyClient
         public static TaskManager mTaskManager = new TaskManager();
 
         [DllImport(@"RazerGame.dll")]
-        static extern bool ActionPerformed(ActionType action);
+        public static extern bool ActionPerformed(ActionType action);
 
         [DllImport(@"RazerGame.dll")]
         static extern void SetEventCallback(EventReceivedCallBack callback);

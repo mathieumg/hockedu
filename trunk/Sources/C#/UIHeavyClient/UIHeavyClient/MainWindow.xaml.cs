@@ -95,7 +95,7 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void InitDLL();
         [DllImport(@"RazerGame.dll")]
-        static extern void FreeApplicationMemory();
+        public static extern void FreeApplicationMemory();
 
         public void CreateUserControl(object sender, EventArgs e)
         {
@@ -130,10 +130,58 @@ namespace UIHeavyClient
             // see output
             ConsoleManager.Show();
 
+#if DEBUG
+            System.Windows.Controls.MenuItem debugMenu = new System.Windows.Controls.MenuItem();
+            debugMenu.Header = "Debug";
+            MenuBar.Items.Add(debugMenu);
+
+            System.Windows.Controls.MenuItem SplitView = new System.Windows.Controls.MenuItem();
+            SplitView.Header = "Split View";
+            SplitView.Click += SplitView_Click;
+            debugMenu.Items.Add(SplitView);
+
+            System.Windows.Controls.MenuItem simulationMode = new System.Windows.Controls.MenuItem();
+            simulationMode.Header = "Mode Simulation";
+            simulationMode.Click += simulationMode_Click;
+            debugMenu.Items.Add(simulationMode);
+
+            System.Windows.Controls.MenuItem connexionServeurJeu = new System.Windows.Controls.MenuItem();
+            connexionServeurJeu.Header = "Connexion Serveur Jeu";
+            connexionServeurJeu.Click += connexionServeurJeu_Click;
+            debugMenu.Items.Add(connexionServeurJeu);
+
+#endif
+
             InitDLL();
             this.Loaded += CreateUserControl;
             this.KeyDown += MainWindow_KeyDown;
             this.KeyUp += MainWindow_KeyUp;
+        }
+
+        // Tests pour connection serveur jeu et client
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void connectServerGame(string pServerIP);
+
+        private void connexionServeurJeu_Click(object sender, RoutedEventArgs e)
+        {
+            // Tests pour connection serveur jeu et client
+            connectServerGame("127.0.0.1");
+
+        }
+
+
+        void simulationMode_Click(object sender, RoutedEventArgs e)
+        {
+            // temp
+            WindowContentControl.Content = PlayModeControl;
+            EditionModeControl.RemoveOpenGL();
+            PlayModeControl.AppendOpenGL();
+            MainWindowHandler.ActionPerformed(ActionType.ACTION_ALLER_MODE_SIMULATION);
+        }
+
+        void SplitView_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowHandler.ActionPerformed(ActionType.ACTION_CAMERA_SPLIT);
         }
         
         private void BackToMainMenu(object sender, RoutedEventArgs e)

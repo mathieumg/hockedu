@@ -397,6 +397,8 @@ void initNetwork( ControllerInterface* pController )
 
 void connectServerGame( char* pServerIP )
 {
+    // Temporary
+    GestionnaireReseau::obtenirInstance()->setUser("bob", "");
 
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer", pServerIP, TCP);
 

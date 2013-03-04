@@ -107,15 +107,8 @@ void NoeudBut::afficherConcret() const
             glScalef(1, -1, 1);
         }
         glPushAttrib( GL_ALL_ATTRIB_BITS );
-        // Efface le stencil et l'active
-        glClearStencil(0);
-        glClear( GL_STENCIL_BUFFER_BIT );
-        glEnable( GL_STENCIL_TEST );
-        // A chaque fois qu'un pixel est dessine a l'ecran, le stencil met le bit a 1
-        glStencilFunc( GL_ALWAYS, 1, 0xFFFF );
-        glStencilOp( GL_KEEP, GL_KEEP, GL_REPLACE );
+
         glCallList(liste);
-        glDisable(GL_STENCIL_TEST);
         glPopAttrib();
         glPopMatrix();
 
@@ -129,16 +122,7 @@ void NoeudBut::afficherConcret() const
             glScalef(1., -1., 1.);
         }
         glPushAttrib( GL_ALL_ATTRIB_BITS );
-        // Efface le stencil et l'active
-        glClearStencil(0);
-        glClear( GL_STENCIL_BUFFER_BIT );
-        glEnable( GL_STENCIL_TEST );
-        // A chaque fois qu'un pixel est dessine a l'ecran, le stencil met le bit a 1
-        glStencilFunc( GL_ALWAYS, 1, 0xFFFF );
-        glStencilOp( GL_KEEP, GL_KEEP, GL_REPLACE );
         glCallList(liste); 
-
-        glDisable(GL_STENCIL_TEST);
 
         glPopAttrib();
         glPopMatrix();

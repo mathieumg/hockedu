@@ -12,6 +12,7 @@
 
 #include "GestionnaireEvenements.h"
 #include "CodesEvenements.h"
+#include <functional>
 
 class GestionnaireEvenementsTest;
 class GestionnaireEvenements;
@@ -31,10 +32,14 @@ enum NomEtatSouris{
 	,ETAT_SOURIS_AJOUTER_MAILLET			
 	,ETAT_SOURIS_AJOUTER_RONDELLE			
 	,ETAT_SOURIS_AJOUTER_ACCELERATEUR
-	,ETAT_SOURIS_ORBIT
+    ,ETAT_SOURIS_ORBIT
+    ,ETAT_SOURIS_AUCUN
 	,NB_ETATS_SOURIS
 	,ETAT_SOURIS_INCONNU
 };
+
+//typedef void(*RenderSpecific)();
+typedef std::function<void()> RenderSpecific;
 ////////////////////////////////////////////////////////////////////////////
 /// @class GestionnaireEtatAbstrait
 /// @brief Classe abstraite dont les héritières gereront les états selon le
@@ -71,7 +76,7 @@ public:
 	virtual void animer( const float& temps ) = 0;
 	/// Permet d'effectuer l'affichage specifique a l'etat
 	virtual void afficher(){}
-
+    void renderBase(class Terrain* pField, RenderSpecific = NULL);
 
 	/// Modifier l'état de la souris
 	virtual void modifierEtatSouris(NomEtatSouris etatSouris);

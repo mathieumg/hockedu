@@ -499,6 +499,7 @@
     <ClCompile Include="Environnement\ExceptionJeu.cpp" />
     <ClCompile Include="Tests\XMLTests.cpp" />
     <ClCompile Include="Application\GameManager.cpp" />
+    <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeSimulation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -958,6 +959,9 @@
       <Filter>Sources Files</Filter>
     </ClInclude>
     <ClInclude Include="Application\GameManager.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\GestionEtat\GestionnaireEtatModeSimulation.h">
       <Filter>Sources Files</Filter>
     </ClInclude>
   </ItemGroup>

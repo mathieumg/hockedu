@@ -54,8 +54,8 @@ public:
 
     int getUniqueGameId() const { return mUniqueGameId; }
 
-    inline void setPlayerName1( const std::string& pPlayerName1 );
-    inline void setPlayerName2( const std::string& pPlayerName2 );
+    inline void setPlayerName1( const std::string& pPlayerName1 ) {mPlayer1Name = pPlayerName1;}
+    inline void setPlayerName2( const std::string& pPlayerName2 ) {mPlayer2Name = pPlayerName2;}
 
     std::string getPlayer1Name() const { return mPlayer1Name; }
     std::string getPlayer2Name() const { return mPlayer2Name; }

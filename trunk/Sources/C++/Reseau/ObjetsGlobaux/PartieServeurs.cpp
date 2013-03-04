@@ -45,18 +45,6 @@ PartieServeurs::~PartieServeurs()
 
 
 
-// Plus simple de faire des tailles fixes avec 2 joueurs pour l'envoie sur le reseau
-void PartieServeurs::setPlayerName1( const std::string& pPlayerName1 )
-{
-    mPlayer1Name = pPlayerName1;
-}
-
-void PartieServeurs::setPlayerName2( const std::string& pPlayerName2 )
-{
-    mPlayer2Name = pPlayerName2;
-}
-
-
 
 
 

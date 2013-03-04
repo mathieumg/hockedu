@@ -222,5 +222,10 @@ void GestionnaireEtatPartieRapideTerminee::animer( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatPartieRapideTerminee::afficher()
 {
+    auto game = FacadeModele::getInstance()->obtenirPartieCourante();
+    if(game)
+    {
+        renderBase(game->getField(),[&]()->void{game->afficher();});
+    }
 	GestionnaireHUD::obtenirInstance()->dessinerHUDJeu();
 }

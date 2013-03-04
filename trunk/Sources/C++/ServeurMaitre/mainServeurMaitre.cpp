@@ -8,7 +8,7 @@
 #include "FacadeServeurMaitre.h"
 #include "CommunicateurBD.h"
 
-char flagChar = '-';
+const char flagChar = '-';
 
 
 

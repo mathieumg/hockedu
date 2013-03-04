@@ -30,7 +30,10 @@ namespace UIHeavyClient
 
         public void AppendOpenGL()
         {
-            playControlGrid.Children.Add(mWindowsFormsHost);
+            if (!playControlGrid.Children.Contains(mWindowsFormsHost))
+            {
+                playControlGrid.Children.Add(mWindowsFormsHost);
+            }
             Grid.SetColumn(mWindowsFormsHost, 0);
             Grid.SetRow(mWindowsFormsHost, 0);
             Grid.SetColumnSpan(mWindowsFormsHost, 2);

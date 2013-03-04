@@ -25,6 +25,7 @@
 #include "NodeRinkBoards.h"
 #include "BoundingBox.h"
 #include "ExceptionJeu.h"
+#include "FacadeModele.h"
 
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
 const Vecteur3 NoeudTable::DEFAULT_SIZE = Vecteur3(300,150);
@@ -340,75 +341,90 @@ void NoeudTable::afficherConcret() const
     Vecteur3 pointcentreLigneDroite2 = vecteurPoint_[POSITION_MILIEU_DROITE]->getPosition() * 0.66f;
     Vecteur3 pointBasLigneDroite2 = vecteurPoint_[POSITION_BAS_MILIEU]->getPosition()+ (vecteurPoint_[POSITION_BAS_DROITE]->getPosition() - vecteurPoint_[POSITION_BAS_MILIEU]->getPosition())*2.0f/3.0f;
 
-    const float hauteurLigne = 0;
-    float moitieLargeurLigne = 1.0f;
-    glPushAttrib(GL_ALL_ATTRIB_BITS);
-    glPushMatrix();
-    glColor3f(0.0,0.0,1.0);
-    glBegin(GL_QUADS);
-    // Ligne bleu de gauche 1/3
-    glVertex3d(pointHautLigneGauche1[VX]+moitieLargeurLigne,pointHautLigneGauche1[VY],hauteurLigne);////////
-    glVertex3d(pointHautLigneGauche1[VX]-moitieLargeurLigne,pointHautLigneGauche1[VY],hauteurLigne);//////// top part de la 2re ligne.
-    glVertex3d(pointcentreLigneGauche1[VX]-moitieLargeurLigne,pointcentreLigneGauche1[VY],hauteurLigne);//
-    glVertex3d(pointcentreLigneGauche1[VX]+moitieLargeurLigne,pointcentreLigneGauche1[VY],hauteurLigne);
 
-    glVertex3d(pointcentreLigneGauche1[VX]+moitieLargeurLigne,pointcentreLigneGauche1[VY],hauteurLigne);
-    glVertex3d(pointcentreLigneGauche1[VX]-moitieLargeurLigne,pointcentreLigneGauche1[VY],hauteurLigne);
-    glVertex3d(pointBasLigneGauche1[VX]-moitieLargeurLigne,pointBasLigneGauche1[VY],hauteurLigne);
-    glVertex3d(pointBasLigneGauche1[VX]+moitieLargeurLigne,pointBasLigneGauche1[VY],hauteurLigne);
+    // États de la lumière 
+    GLboolean lighting_state;
+    // Désactiver l'éclairage
+    glGetBooleanv(GL_LIGHTING, &lighting_state);
+    glDisable(GL_LIGHTING);
 
-    // Ligne bleu de gauche 2/3
-    glVertex3d(pointHautLigneGauche2[VX]+moitieLargeurLigne,pointHautLigneGauche2[VY],hauteurLigne);
-    glVertex3d(pointHautLigneGauche2[VX]-moitieLargeurLigne,pointHautLigneGauche2[VY],hauteurLigne);
-    glVertex3d(pointcentreLigneGauche2[VX]-moitieLargeurLigne,pointcentreLigneGauche2[VY],hauteurLigne);
-    glVertex3d(pointcentreLigneGauche2[VX]+moitieLargeurLigne,pointcentreLigneGauche2[VY],hauteurLigne);
+    FacadeModele::getInstance()->DeActivateShaders();
+    {
+        const float hauteurLigne = 0;
+        float moitieLargeurLigne = 1.0f;
+        glPushAttrib(GL_ALL_ATTRIB_BITS);
+        glPushMatrix();
+        glColor3f(0.0,0.0,1.0);
+        glBegin(GL_QUADS);
+        // Ligne bleu de gauche 1/3
+        glVertex3d(pointHautLigneGauche1[VX]+moitieLargeurLigne,pointHautLigneGauche1[VY],hauteurLigne);////////
+        glVertex3d(pointHautLigneGauche1[VX]-moitieLargeurLigne,pointHautLigneGauche1[VY],hauteurLigne);//////// top part de la 2re ligne.
+        glVertex3d(pointcentreLigneGauche1[VX]-moitieLargeurLigne,pointcentreLigneGauche1[VY],hauteurLigne);//
+        glVertex3d(pointcentreLigneGauche1[VX]+moitieLargeurLigne,pointcentreLigneGauche1[VY],hauteurLigne);
 
-    
-    glVertex3d(pointcentreLigneGauche2[VX]+moitieLargeurLigne,pointcentreLigneGauche2[VY],hauteurLigne);
-    glVertex3d(pointcentreLigneGauche2[VX]-moitieLargeurLigne,pointcentreLigneGauche2[VY],hauteurLigne);
-    glVertex3d(pointBasLigneGauche2[VX]-moitieLargeurLigne,pointBasLigneGauche2[VY],hauteurLigne);
-    glVertex3d(pointBasLigneGauche2[VX]+moitieLargeurLigne,pointBasLigneGauche2[VY],hauteurLigne);
-    // Ligne bleu de Droite 1/3
-    glVertex3d(pointHautLigneDroite1[VX]+moitieLargeurLigne,pointHautLigneDroite1[VY],hauteurLigne);
-    glVertex3d(pointHautLigneDroite1[VX]-moitieLargeurLigne,pointHautLigneDroite1[VY],hauteurLigne);
-    glVertex3d(pointcentreLigneDroite1[VX]-moitieLargeurLigne,pointcentreLigneDroite1[VY],hauteurLigne);
-    glVertex3d(pointcentreLigneDroite1[VX]+moitieLargeurLigne,pointcentreLigneDroite1[VY],hauteurLigne);
+        glVertex3d(pointcentreLigneGauche1[VX]+moitieLargeurLigne,pointcentreLigneGauche1[VY],hauteurLigne);
+        glVertex3d(pointcentreLigneGauche1[VX]-moitieLargeurLigne,pointcentreLigneGauche1[VY],hauteurLigne);
+        glVertex3d(pointBasLigneGauche1[VX]-moitieLargeurLigne,pointBasLigneGauche1[VY],hauteurLigne);
+        glVertex3d(pointBasLigneGauche1[VX]+moitieLargeurLigne,pointBasLigneGauche1[VY],hauteurLigne);
 
-    
-    glVertex3d(pointcentreLigneDroite1[VX]+moitieLargeurLigne,pointcentreLigneDroite1[VY],hauteurLigne);
-    glVertex3d(pointcentreLigneDroite1[VX]-moitieLargeurLigne,pointcentreLigneDroite1[VY],hauteurLigne);
-    glVertex3d(pointBasLigneDroite1[VX]-moitieLargeurLigne,pointBasLigneDroite1[VY],hauteurLigne);
-    glVertex3d(pointBasLigneDroite1[VX]+moitieLargeurLigne,pointBasLigneDroite1[VY],hauteurLigne);
-    // Ligne bleu de Droite 2/3
+        // Ligne bleu de gauche 2/3
+        glVertex3d(pointHautLigneGauche2[VX]+moitieLargeurLigne,pointHautLigneGauche2[VY],hauteurLigne);
+        glVertex3d(pointHautLigneGauche2[VX]-moitieLargeurLigne,pointHautLigneGauche2[VY],hauteurLigne);
+        glVertex3d(pointcentreLigneGauche2[VX]-moitieLargeurLigne,pointcentreLigneGauche2[VY],hauteurLigne);
+        glVertex3d(pointcentreLigneGauche2[VX]+moitieLargeurLigne,pointcentreLigneGauche2[VY],hauteurLigne);
 
 
-    glVertex3d(pointHautLigneDroite2[VX]+moitieLargeurLigne,pointHautLigneDroite2[VY],hauteurLigne);
-    glVertex3d(pointHautLigneDroite2[VX]-moitieLargeurLigne,pointHautLigneDroite2[VY],hauteurLigne);
-    glVertex3d(pointcentreLigneDroite2[VX]-moitieLargeurLigne,pointcentreLigneDroite2[VY],hauteurLigne);
-    glVertex3d(pointcentreLigneDroite2[VX]+moitieLargeurLigne,pointcentreLigneDroite2[VY],hauteurLigne);
+        glVertex3d(pointcentreLigneGauche2[VX]+moitieLargeurLigne,pointcentreLigneGauche2[VY],hauteurLigne);
+        glVertex3d(pointcentreLigneGauche2[VX]-moitieLargeurLigne,pointcentreLigneGauche2[VY],hauteurLigne);
+        glVertex3d(pointBasLigneGauche2[VX]-moitieLargeurLigne,pointBasLigneGauche2[VY],hauteurLigne);
+        glVertex3d(pointBasLigneGauche2[VX]+moitieLargeurLigne,pointBasLigneGauche2[VY],hauteurLigne);
+        // Ligne bleu de Droite 1/3
+        glVertex3d(pointHautLigneDroite1[VX]+moitieLargeurLigne,pointHautLigneDroite1[VY],hauteurLigne);
+        glVertex3d(pointHautLigneDroite1[VX]-moitieLargeurLigne,pointHautLigneDroite1[VY],hauteurLigne);
+        glVertex3d(pointcentreLigneDroite1[VX]-moitieLargeurLigne,pointcentreLigneDroite1[VY],hauteurLigne);
+        glVertex3d(pointcentreLigneDroite1[VX]+moitieLargeurLigne,pointcentreLigneDroite1[VY],hauteurLigne);
 
-    
-    glVertex3d(pointcentreLigneDroite2[VX]+moitieLargeurLigne,pointcentreLigneDroite2[VY],hauteurLigne);
-    glVertex3d(pointcentreLigneDroite2[VX]-moitieLargeurLigne,pointcentreLigneDroite2[VY],hauteurLigne);
-    glVertex3d(pointBasLigneDroite2[VX]-moitieLargeurLigne,pointBasLigneDroite2[VY],hauteurLigne);
-    glVertex3d(pointBasLigneDroite2[VX]+moitieLargeurLigne,pointBasLigneDroite2[VY],hauteurLigne);
-    
-    glEnd();
-    glPopMatrix();
-    GLUquadric* cercleCentre_ = gluNewQuadric();
-    GLUquadric* centre_ = gluNewQuadric();
-    // Dessin du cercle au centre de la table
-    
-    glPushMatrix();
-    glColor3f(1.0,0.0,0.0);
-    gluDisk(cercleCentre_,rayonCercleCentre_-1,rayonCercleCentre_+1,32,32);
-    gluDisk(centre_,0,2,32,32);
-    glPopMatrix();
 
-    glPopAttrib();
-    gluDeleteQuadric(centre_);
-    gluDeleteQuadric(cercleCentre_);
+        glVertex3d(pointcentreLigneDroite1[VX]+moitieLargeurLigne,pointcentreLigneDroite1[VY],hauteurLigne);
+        glVertex3d(pointcentreLigneDroite1[VX]-moitieLargeurLigne,pointcentreLigneDroite1[VY],hauteurLigne);
+        glVertex3d(pointBasLigneDroite1[VX]-moitieLargeurLigne,pointBasLigneDroite1[VY],hauteurLigne);
+        glVertex3d(pointBasLigneDroite1[VX]+moitieLargeurLigne,pointBasLigneDroite1[VY],hauteurLigne);
+        // Ligne bleu de Droite 2/3
 
+
+        glVertex3d(pointHautLigneDroite2[VX]+moitieLargeurLigne,pointHautLigneDroite2[VY],hauteurLigne);
+        glVertex3d(pointHautLigneDroite2[VX]-moitieLargeurLigne,pointHautLigneDroite2[VY],hauteurLigne);
+        glVertex3d(pointcentreLigneDroite2[VX]-moitieLargeurLigne,pointcentreLigneDroite2[VY],hauteurLigne);
+        glVertex3d(pointcentreLigneDroite2[VX]+moitieLargeurLigne,pointcentreLigneDroite2[VY],hauteurLigne);
+
+
+        glVertex3d(pointcentreLigneDroite2[VX]+moitieLargeurLigne,pointcentreLigneDroite2[VY],hauteurLigne);
+        glVertex3d(pointcentreLigneDroite2[VX]-moitieLargeurLigne,pointcentreLigneDroite2[VY],hauteurLigne);
+        glVertex3d(pointBasLigneDroite2[VX]-moitieLargeurLigne,pointBasLigneDroite2[VY],hauteurLigne);
+        glVertex3d(pointBasLigneDroite2[VX]+moitieLargeurLigne,pointBasLigneDroite2[VY],hauteurLigne);
+
+        glEnd();
+        glPopMatrix();
+        GLUquadric* cercleCentre_ = gluNewQuadric();
+        GLUquadric* centre_ = gluNewQuadric();
+        // Dessin du cercle au centre de la table
+
+        glPushMatrix();
+        glColor3f(1.0,0.0,0.0);
+        gluDisk(cercleCentre_,rayonCercleCentre_-1,rayonCercleCentre_+1,32,32);
+        gluDisk(centre_,0,2,32,32);
+        glPopMatrix();
+
+        glPopAttrib();
+        gluDeleteQuadric(centre_);
+        gluDeleteQuadric(cercleCentre_);
+    }
+    FacadeModele::getInstance()->ActivateShaders();
+
+    // Réactiver l'éclairage et (s'il y a lieu)
+    if (lighting_state == GL_TRUE) {
+        glEnable(GL_LIGHTING);
+    }
 }
 
 
