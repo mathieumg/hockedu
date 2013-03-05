@@ -15,6 +15,8 @@ typedef unsigned char byte;
 enum ByteOrder;
 #elif defined(LINUX)
 enum ByteOrder : uint8_t;
+#else
+typedef uint8_t ByteOrder;
 #endif
 
 class PacketReader

@@ -28,6 +28,7 @@ public:
 
 	virtual ~Paquet() = 0;
 
+    static const int sequenceIdentificationLength = 16;
 	static const std::string sequenceIdentification;
     static int CompteurNumeroPaquet;
 
@@ -44,7 +45,7 @@ public:
 
     inline void setRunnable(PaquetRunnableFunc pRunnable) { mRunnableFunction = pRunnable; }
 
-    int getNumeroPaquet() const;
+    inline int getNumeroPaquet() const {return mNumeroPaquet;}
 
 protected:
 	Paquet();

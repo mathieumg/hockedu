@@ -38,6 +38,6 @@ int PacketHandlerMaillet::getPacketSizeSpecific( Paquet* pPaquet ) const
 {
     PaquetMaillet* wPaquet = (PaquetMaillet*) pPaquet;
 
-    return 2* PacketBuilder::getSizeForFloat();
+    return 2* getSizeForFloat();
 
 }

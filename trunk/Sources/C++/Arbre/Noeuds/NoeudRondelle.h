@@ -54,7 +54,7 @@ public:
     virtual void ajusterVitesse( const float& temps );
 
     /// Accesseur de mVelocite
-    Vecteur3 obtenirVelocite() const { return mVelocite; }
+    Vecteur3 obtenirVelocite() const;
     void modifierVelocite(Vecteur3 val) { mVelocite = val; }
 
     /// Accesseurs pour la modification

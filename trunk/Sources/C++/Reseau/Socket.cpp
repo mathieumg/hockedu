@@ -391,10 +391,11 @@ void Socket::connect( )
 ////////////////////////////////////////////////////////////////////////
 uint32_t Socket::send( const uint8_t* msg, uint32_t msglen, bool pBlock /* = false */ )
 {
+    uint32_t lenSent = -1;
     if(mConnectionType == UDP)
     {
         // Si udp, on appelle la methode sendto
-        return sendto(msg, msglen, (sockaddr*)mSocketInfo, pBlock);
+        lenSent = sendto(msg, msglen, (sockaddr*)mSocketInfo, pBlock);
     }
     else
     {
@@ -406,16 +407,13 @@ uint32_t Socket::send( const uint8_t* msg, uint32_t msglen, bool pBlock /* = fal
                 return 0;
             }
         }
-
-
-        if(::send(mSocket, (const char*)msg, msglen, 0) == -1)
-        {
-            GestionnaireReseau::obtenirInstance()->throwExceptionReseau("Erreur lors du send");
-        }
-        return msglen;
+        lenSent = ::send(mSocket, (const char*)msg, msglen, 0);
     }
-
-
+    if(lenSent == -1)
+    {
+        GestionnaireReseau::obtenirInstance()->throwExceptionReseau("Erreur lors du send");
+    }
+    return lenSent;
 }
 
 ////////////////////////////////////////////////////////////////////////

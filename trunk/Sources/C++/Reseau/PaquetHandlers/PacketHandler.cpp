@@ -6,12 +6,10 @@
 
 HeaderPaquet PacketHandler::handlePacketHeaderReception( PacketReader& pPacketReader )
 {
-    int wArraySize = (uint32_t) (Paquet::sequenceIdentification.size()+1);
-    uint8_t* wBuffer = new uint8_t[wArraySize];
-    pPacketReader.readString(wBuffer, wArraySize);
-    std::string wStringIdentification = std::string((char*)wBuffer);
-    delete wBuffer;
-    if (wStringIdentification != Paquet::sequenceIdentification)
+    char wStringIdentification[Paquet::sequenceIdentificationLength];
+    pPacketReader.readString((uint8_t*)wStringIdentification, Paquet::sequenceIdentificationLength);
+
+    if ( Paquet::sequenceIdentification != wStringIdentification)
         return HeaderPaquet();
     HeaderPaquet wHeaderPaquet;
     wHeaderPaquet.type = (PacketTypes)pPacketReader.readInteger();
@@ -24,7 +22,7 @@ void PacketHandler::handlePacketPreparation( Paquet* pPaquet, PacketBuilder& pPa
 {
     pPacketBuilder.includeStringLength(false);
     PacketTypes wType = pPaquet->getOperation();
-    pPacketBuilder << pPaquet->sequenceIdentification << wType;
+    pPacketBuilder << Paquet::sequenceIdentification << wType;
     // Size du paquet courant
     pPacketBuilder << pPaquet->getNumeroPaquet() << getPacketSize(pPaquet);
     pPacketBuilder.includeStringLength(true);
@@ -34,17 +32,9 @@ void PacketHandler::handlePacketPreparation( Paquet* pPaquet, PacketBuilder& pPa
 int PacketHandler::getPacketSize( Paquet* pPaquet ) const
 {
     // Size de Paquet
-    int wTaillePaquet = getPacketHeaderSize();
-    wTaillePaquet += getPacketSizeSpecific(pPaquet);
-    return wTaillePaquet;
+    return getPacketHeaderSize() + getPacketSizeSpecific(pPaquet);
 }
 
-int PacketHandler::getPacketHeaderSize()
-{
-    int wTailleHeader = (int)(Paquet::sequenceIdentification.length()+1 + sizeof(BASE));
-    wTailleHeader += sizeof(Paquet::CompteurNumeroPaquet) + sizeof(wTailleHeader);
-    return wTailleHeader;
-}
 
 
 

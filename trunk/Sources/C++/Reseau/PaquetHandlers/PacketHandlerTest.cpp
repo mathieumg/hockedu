@@ -38,7 +38,7 @@ int PacketHandlerTest::getPacketSizeSpecific( Paquet* pPaquet ) const
 {
     PaquetTest* wPaquet = (PaquetTest*) pPaquet;
 
-    return PacketBuilder::getSizeForString(wPaquet->getMessage()) +
-        PacketBuilder::getSizeForInt() +
-        PacketBuilder::getSizeForFloat();
+    return  getSizeForString(wPaquet->getMessage()) +
+        getSizeForInt() +
+        getSizeForFloat();
 }

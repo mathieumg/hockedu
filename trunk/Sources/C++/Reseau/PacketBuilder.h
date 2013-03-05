@@ -13,7 +13,34 @@ typedef unsigned char byte;
 enum ByteOrder;
 #elif defined(LINUX)
 enum ByteOrder : uint8_t;
+#else
+typedef uint8_t ByteOrder;
 #endif
+
+namespace
+{
+    // Methode pour avoir la taille d'un string qui doit etre envoye par le network
+#define getSizeForString(pString) ((int) (5 + pString.length() )) // 5 = 4 pour le int et 1 pour caractere de fin
+#define getSizeForStringNoStringSize(pString) ((int) (1 + pString.length() )) // 1 pour caractere de fin
+
+    // Methode pour avoir la taille d'un int qui doit etre envoye par le network
+#define getSizeForInt() (sizeof(int))
+
+    // Methode pour avoir la taille d'un float qui doit etre envoye par le network
+#define getSizeForFloat() (sizeof(float))
+
+    // Methode pour avoir la taille d'un double qui doit etre envoye par le network
+#define getSizeForDouble() (sizeof(double))
+
+    //Methode pour avoir la taille d'un char qui doit etre envoye par le network
+#define getSizeForChar() (sizeof(char))
+
+    //Methode pour avoir la taille d'un bool qui doit etre envoye par le network
+#define getSizeForBool() (sizeof(bool))
+
+    //Methode pour avoir la taille d'un int64_t qui doit etre envoye par le network
+#define getSizeFor64bInteger() (sizeof(int64_t))
+};
 
 class PacketBuilder
 {
@@ -156,26 +183,7 @@ public:
 
     void clearBuffer();
 
-    // Methode pour avoir la taille d'un string qui doit etre envoye par le network
-    static int getSizeForString(const std::string& pString, const bool& pIncludeStringLength = true) {return (int) ((pIncludeStringLength ? 5 : 1) + pString.length());} // 5 = 4 pour le int et 1 pour caractere de fin
 
-    // Methode pour avoir la taille d'un int qui doit etre envoye par le network
-    static int getSizeForInt() {return sizeof(int);}
-
-    // Methode pour avoir la taille d'un float qui doit etre envoye par le network
-    static int getSizeForFloat() {return sizeof(float);}
-
-    // Methode pour avoir la taille d'un double qui doit etre envoye par le network
-    static int getSizeForDouble() {return sizeof(double);}
-
-    //Methode pour avoir la taille d'un char qui doit etre envoye par le network
-    static int getSizeForChar() {return sizeof(char);}
-
-    //Methode pour avoir la taille d'un bool qui doit etre envoye par le network
-    static int getSizeForBool() {return sizeof(bool);}
-
-    //Methode pour avoir la taille d'un int64_t qui doit etre envoye par le network
-    static int getSizeFor64bInteger() {return sizeof(int64_t);}
 
 private:
 	//Boolean which determines whether data's bytes should be switched or not.

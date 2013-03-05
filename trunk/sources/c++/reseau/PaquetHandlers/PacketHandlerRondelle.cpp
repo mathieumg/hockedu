@@ -71,11 +71,11 @@ int PacketHandlerRondelle::getPacketSizeSpecific( Paquet* pPaquet ) const
     PaquetRondelle* wPaquet = (PaquetRondelle*) pPaquet;
 
 
-//     return PacketBuilder::getSizeForString(wPaquet->getMessage())
-//         + PacketBuilder::getSizeFor64bInteger()
-//         + PacketBuilder::getSizeForBool()
-//         + PacketBuilder::getSizeForString(wPaquet->getGroupName())
-//         + PacketBuilder::getSizeForString(wPaquet->getOrigin());
+//     return  getSizeForString(wPaquet->getMessage())
+//         + getSizeFor64bInteger()
+//         + getSizeForBool()
+//         +  getSizeForString(wPaquet->getGroupName())
+//         +  getSizeForString(wPaquet->getOrigin());
     return 0;
 
 }

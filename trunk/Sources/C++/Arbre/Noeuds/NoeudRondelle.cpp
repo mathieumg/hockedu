@@ -678,6 +678,30 @@ void NoeudRondelle::appliquerAnimation( const ObjectAnimationParameters& pAnimat
     updateMatrice();
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn Vecteur3 NoeudRondelle::obtenirVelocite()
+///
+/// /*Description*/
+///
+///
+/// @return Vecteur3
+///
+////////////////////////////////////////////////////////////////////////
+Vecteur3 NoeudRondelle::obtenirVelocite() const
+{
+#if BOX2D_INTEGRATED
+    Vecteur3 v;
+    if(mPhysicBody)
+    {
+        utilitaire::B2VEC_TO_VEC3(v,mPhysicBody->GetLinearVelocity());
+    }
+    return v;
+#else
+    return mVelocite;
+#endif
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

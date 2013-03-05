@@ -611,10 +611,10 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                         }
                     case TCP:
                         {
-                            size_t wReceivedBytes = -1;
+                            int wReceivedBytes = -1;
                             while(wReceivedBytes!=0) // On lit tant que le buffer contient quelque chose et qu'on a pas atteint la taille du paquet a recevoir
                             {
-                                wReceivedBytes = wSocket->recv(readBuffer, PacketHandler::getPacketHeaderSize()); // Pas besoin de lui passer d'arguments
+                                wReceivedBytes = wSocket->recv(readBuffer, getPacketHeaderSize()); // Pas besoin de lui passer d'arguments
                                 if (wReceivedBytes != 0)
                                 {
 
@@ -850,10 +850,10 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
             if(!GestionnaireReseau::obtenirInstance()->validerUsername(std::string(wPlayerName)))
             {
                 // On envoit un message de confirmation pour dire que la conenction est refusee
-                wMessageConfirmation = INVALID_USERNAME;
                 // Send connection state message
-                ss << wMessageConfirmation;
-                wNewSocket->send((uint8_t*)ss.str().c_str(), ss.str().length(), true);
+                char ssAuth[4];
+                uint32_t len = sprintf_s(ssAuth,"%d",INVALID_USERNAME);
+                wNewSocket->send((uint8_t*)ssAuth, len, true);
 
                 wNewSocket->disconnect();
                 wNewSocket = 0;
@@ -868,9 +868,9 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
                     {
                         // Si il y a une authentification a faire, il faut demander au client d'envoyer le mot de passe
                         char wPassword[50];
-                        std::stringstream ssAuth;
-                        ssAuth << SEND_PASSWORD_REQUEST;
-                        wNewSocket->send((uint8_t*)ssAuth.str().c_str(), ssAuth.str().length(), true);
+                        char ssAuth[4];
+                        uint32_t len = sprintf_s(ssAuth,"%d",SEND_PASSWORD_REQUEST);
+                        wNewSocket->send((uint8_t*)ssAuth, len, true);
 
                         if(!wNewSocket->attendreSocket(5)) // On donne 5 sec au client pour envoyer son password, sinon on le rejette
                         {
@@ -898,10 +898,10 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
 
                     std::cout << wPlayerName << " Connected" << std::endl;
                     // On envoit un message de confirmation pour dire que la conenction est acceptee
-                    wMessageConfirmation = USER_CONNECTED;
-                    // Send connection state message
-                    ss << wMessageConfirmation;
-                    wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
+
+                    char wMessageConfirmation[4];
+                    uint32_t len = sprintf_s(wMessageConfirmation,"%d",USER_CONNECTED);
+                    wNewSocket->send((uint8_t*)wMessageConfirmation, len, true);
 
                     // On ajoute le nouveau socket au gestionnaire reseau (avec son nom obtenu dans le paquet)
                     GestionnaireReseau::obtenirInstance()->saveSocket(std::string(wPlayerName), wNewSocket);
@@ -913,10 +913,9 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
                 {
                     // Sinon on ne connecte pas et on delete le socket
                     // On envoit un message de confirmation pour dire que la conenction est refusee
-                    wMessageConfirmation = USER_ALREADY_CONNECTED;
-                    // Send connection state message
-                    ss << wMessageConfirmation;
-                    wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
+                    char wMessageConfirmation[4];
+                    uint32_t len = sprintf_s(wMessageConfirmation,"%d",USER_ALREADY_CONNECTED);
+                    wNewSocket->send((uint8_t*)wMessageConfirmation, len, true);
 
                     wNewSocket->disconnect();
                     wNewSocket = 0;

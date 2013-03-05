@@ -21,13 +21,13 @@ struct HeaderPaquet
 {
     PacketTypes type;
     int numeroPaquet;
-    size_t taillePaquet;
+    int taillePaquet;
 };
 
 class PacketHandler {
 
 public:
-    static int getPacketHeaderSize();
+#define getPacketHeaderSize() (Paquet::sequenceIdentificationLength + sizeof(PacketTypes) + sizeof(int) + sizeof(int))
     static HeaderPaquet handlePacketHeaderReception(PacketReader& pPacketReader); // Méthode pour lire le header d'un paquet
     virtual void handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable = NULL) = 0; // Méthode pour lire les données d'un paquet pour un paquet de base
     void handlePacketPreparation(Paquet* pPaquet, PacketBuilder& pPacketBuilder); // Methode pour la construction du paquet pour l'envoie sur le reseau

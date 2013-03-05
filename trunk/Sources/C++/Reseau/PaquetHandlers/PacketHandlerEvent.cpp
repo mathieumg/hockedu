@@ -43,6 +43,6 @@ int PacketHandlerEvent::getPacketSizeSpecific( Paquet* pPaquet ) const
 {
     PaquetEvent* wPaquet = (PaquetEvent*) pPaquet;
 
-    return PacketBuilder::getSizeForString(wPaquet->getMessage())
-        + PacketBuilder::getSizeForInt();
+    return  getSizeForString(wPaquet->getMessage())
+        + getSizeForInt();
 }
