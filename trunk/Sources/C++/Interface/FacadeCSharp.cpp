@@ -3,7 +3,7 @@
 #include <iostream>
 #include "ExceptionJeu.h"
 #include "..\reseau\UsinePaquets\UsinePaquetMaillet.h"
-#include "..\reseau\PaquetHandlers\PacketHandlerMaillet.h"
+#include "..\reseau\PaquetHandlers\PacketHandler.h"
 
 
 ////////////////////////////////////////////////////////////////////////

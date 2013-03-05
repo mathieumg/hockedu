@@ -1,7 +1,7 @@
 
 #include <iostream>
 #include <sstream>
-#include "PacketHandlerLoginInfo.h"
+#include "PacketHandler.h"
 #include "../Paquets/PaquetLoginInfo.h"
 #include "Utilitaire.h"
 #include "../ObjetsGlobaux/JoueurServeurs.h"
@@ -63,7 +63,7 @@ void PacketHandlerLoginInfo::handlePacketPreparationSpecific(Paquet* pPaquet, Pa
 
 
 
-int PacketHandlerLoginInfo::getPacketSize( Paquet* pPaquet ) const
+int PacketHandlerLoginInfo::getPacketSizeSpecific( Paquet* pPaquet ) const
 {
     PaquetLoginInfo* wPaquet = (PaquetLoginInfo*) pPaquet;
 

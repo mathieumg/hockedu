@@ -1,7 +1,7 @@
 
 #include <iostream>
 #include <sstream>
-#include "PacketHandlerAuthentificationServeurJeu.h"
+#include "PacketHandler.h"
 #include "../Paquets/PaquetAuthentificationServeurJeu.h"
 #include "Utilitaire.h"
 #include "../ObjetsGlobaux/JoueurServeurs.h"
