@@ -14,7 +14,6 @@
 #include "NoeudComposite.h"
 #include "ObjetAnimable.h"
 #include "ExceptionJeu.h"
-
 class NoeudTable;
 ///////////////////////////////////////////////////////////////////////////
 /// @class NoeudRondelle

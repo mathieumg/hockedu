@@ -252,6 +252,9 @@
     <ClInclude Include="Runnable.h">
       <Filter>Sources Files</Filter>
     </ClInclude>
+    <ClInclude Include="RunnableBreaker.h">
+      <Filter>Sources Files\Observer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Exe\nuanceurFragments.glsl">

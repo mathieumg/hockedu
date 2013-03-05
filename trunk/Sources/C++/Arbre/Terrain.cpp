@@ -90,6 +90,7 @@ Terrain::Terrain(Partie* pGame): mLogicTree(NULL), mNewNodeTree(NULL), mTable(NU
 ////////////////////////////////////////////////////////////////////////
 Terrain::~Terrain()
 {
+    RunnableBreaker::signalObservers();
 	libererMemoire();
 
     if(mEditionZone)
@@ -910,7 +911,7 @@ void Terrain::BeginContact( b2Contact* contact )
                 {
                     b2Body* rondelleBody = bodies[0];
                     NoeudRondelle* rondelle = (NoeudRondelle*)(rondelleBody->GetUserData());
-                    RazerGameUtilities::RunOnUpdateThread(new Runnable([=](Runnable*){
+                    Runnable* r = new Runnable([=](Runnable*){
                         if(mGame)
                         {
                             auto position = rondelle->getPosition();
@@ -926,7 +927,9 @@ void Terrain::BeginContact( b2Contact* contact )
                         }
                         mGame->miseAuJeu();
                         rondelleBody->SetLinearVelocity(b2Vec2(0,0));
-                    }),true);
+                    });
+                    RunnableBreaker::attach(r);
+                    RazerGameUtilities::RunOnUpdateThread(r,true);
                 }
                 else
                 {
@@ -966,13 +969,15 @@ void Terrain::BeginContact( b2Contact* contact )
                             NoeudRondelle* rondelle = (NoeudRondelle*)bodies[0]->GetUserData();
 
                             // The new pos can only be assigned outside of the world's step, so we queue it
-                            RazerGameUtilities::RunOnUpdateThread(new Runnable([=](Runnable*)
+                            Runnable* r = new Runnable([=](Runnable*)
                             {
                                 portailDeSortie->setIsAttractionFieldActive(false);
                                 auto newPos = portailDeSortie->getPosition();
                                 rondelle->setPosition(newPos);
                                 SoundFMOD::obtenirInstance()->playEffect(effect(PORTAL_EFFECT));
-                            }),true);
+                            });
+                            RunnableBreaker::attach(r);
+                            RazerGameUtilities::RunOnUpdateThread(r,true);
                             return;
                         }
                     }

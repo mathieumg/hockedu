@@ -330,6 +330,7 @@
     <ClCompile Include="Tests\ProjectionOrthoTest.cpp" />
     <ClCompile Include="Tests\TerrainTest.cpp" />
     <ClCompile Include="Tests\TournoiTest.cpp" />
+    <ClCompile Include="Tests\UtilitaireTests.cpp" />
     <ClCompile Include="Tests\VisiteurNoeudTest.cpp" />
     <ClCompile Include="Tests\XMLTests.cpp" />
   </ItemGroup>
@@ -495,6 +496,7 @@
     <ClInclude Include="Tests\ProjectionOrthoTest.h" />
     <ClInclude Include="Tests\TerrainTest.h" />
     <ClInclude Include="Tests\TournoiTest.h" />
+    <ClInclude Include="Tests\UtilitaireTests.h" />
     <ClInclude Include="Tests\VisiteurNoeudTest.h" />
     <ClInclude Include="Tests\XMLTests.h" />
   </ItemGroup>

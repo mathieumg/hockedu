@@ -163,6 +163,7 @@
     <ClInclude Include="Plan3D.h" />
     <ClInclude Include="QueueThreadSafe.h" />
     <ClInclude Include="Runnable.h" />
+    <ClInclude Include="RunnableBreaker.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Solution_Defines.h" />
     <ClInclude Include="textfile.h" />
