@@ -1,7 +1,7 @@
 #pragma once
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-#define WINDOWS
+#define WINDOWS 1
 #else
 #define LINUX 1
 #endif
