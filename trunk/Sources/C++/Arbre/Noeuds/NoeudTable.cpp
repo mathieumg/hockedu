@@ -8,15 +8,14 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudTable.h"
-#include "aideGL.h"
 #include "NoeudPoint.h"
 #include "NoeudBut.h"
 #include "AideCollision.h"
 #include "NoeudGroupe.h"
-#include "GestionnaireModeles.h"
+
 #include <math.h>
 #include "VisiteurDeplacement.h"
-#include <GL\glu.h>
+
 #include "XMLUtils.h"
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
@@ -26,6 +25,11 @@
 #include "BoundingBox.h"
 #include "ExceptionJeu.h"
 #include "FacadeModele.h"
+
+#if WIN32
+#include "GestionnaireModeles.h"
+#include <GL\glu.h>
+#endif
 
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
 const Vecteur3 NoeudTable::DEFAULT_SIZE = Vecteur3(300,150);
@@ -186,7 +190,7 @@ void NoeudTable::initialiserListeIndexPoints( Modele3D* modele )
 {
     if(!modele)
         return;
-
+#if WIN32
     const aiScene* scene = modele->obtenirScene();
     const aiNode* rootNode = scene->mRootNode;
 
@@ -294,6 +298,7 @@ void NoeudTable::initialiserListeIndexPoints( Modele3D* modele )
     listeIndexPointsModeleTable_[POSITION_BAS_GAUCHE]  = trouverVertex(scene, rootNode, vertexBasGauche);
     listeIndexPointsModeleTable_[POSITION_HAUT_DROITE]  = trouverVertex(scene, rootNode, vertexHautDroit);
     listeIndexPointsModeleTable_[POSITION_BAS_DROITE]  = trouverVertex(scene, rootNode, vertexBasDroit);
+#endif
 }
 
 
@@ -309,9 +314,12 @@ void NoeudTable::initialiserListeIndexPoints( Modele3D* modele )
 ////////////////////////////////////////////////////////////////////////
 void NoeudTable::afficherConcret() const
 {
+    
     // Appel à la version de la classe de base pour l'affichage des enfants.
     //NoeudComposite::afficherConcret();
     DrawChild();
+    
+#if WIN32
     Modele3D* pModel = obtenirModele();
     if(pModel)
     {
@@ -425,6 +433,7 @@ void NoeudTable::afficherConcret() const
     if (lighting_state == GL_TRUE) {
         glEnable(GL_LIGHTING);
     }
+#endif
 }
 
 
@@ -555,6 +564,7 @@ NoeudBut* NoeudTable::obtenirBut( int joueur ) const
     case 2: return butJoueur2_;
     default : throw ExceptionJeu("numero [%d] de joueur invalide", joueur);
     }
+    return NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -830,7 +840,10 @@ NoeudGroupe* NoeudTable::obtenirGroupe(std::string typeEnfant)
 ////////////////////////////////////////////////////////////////////////
 NoeudGroupe* NoeudTable::obtenirGroupe( unsigned int typeIdEnfant )
 {
+#if WIN32
     return obtenirGroupe(GestionnaireModeles::obtenirInstance()->obtenirNameFromTypeId(typeIdEnfant));
+#endif
+    return NULL;
 }
 
 
@@ -881,7 +894,9 @@ void NoeudTable::reassignerParentBandeExt()
 ////////////////////////////////////////////////////////////////////////
 GroupeTripleAdresseFloat NoeudTable::trouverVertex( const aiScene* scene, const aiNode* noeud, const GroupeCoord& listePoints )
 {
+    
     GroupeTripleAdresseFloat retour; // Liste a retourner
+#if WIN32
     for (unsigned int i=0; i<noeud->mNumMeshes; i++)
     {
         const aiMesh* mesh = scene->mMeshes[noeud->mMeshes[i]];
@@ -913,7 +928,7 @@ GroupeTripleAdresseFloat NoeudTable::trouverVertex( const aiScene* scene, const 
         }
         
     }
-    
+#endif
     
     return retour;
 }

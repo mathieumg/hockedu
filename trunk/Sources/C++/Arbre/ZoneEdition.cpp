@@ -9,11 +9,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "ZoneEdition.h"
+
+#if WIN32
 #define _WINSOCKAPI_
 #include <windows.h>
 #include "glew.h"
-#include "XMLUtils.h"
 #include "FacadeModele.h"
+#endif
+
+#include "XMLUtils.h"
 
 const float ZoneEdition::DEFAUT_LIMITE_INT_LONGUEUR = 75;
 const float ZoneEdition::DEFAUT_LIMITE_INT_LARGEUR = 50;
@@ -157,6 +161,7 @@ void ZoneEdition::reinitialiser()
 ////////////////////////////////////////////////////////////////////////
 void ZoneEdition::afficher()
 {
+#if WIN32
     // États de la lumière 
     GLboolean lighting_state;
     // Désactiver l'éclairage
@@ -182,6 +187,7 @@ void ZoneEdition::afficher()
     if (lighting_state == GL_TRUE) {
         glEnable(GL_LIGHTING);
     }
+#endif
 }
 
 

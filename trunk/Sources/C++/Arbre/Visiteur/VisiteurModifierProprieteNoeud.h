@@ -10,8 +10,10 @@
 
 #pragma once
 #include "VisiteurNoeud.h"
-#include <jni.h>
 
+#if WITH_JAVA
+#include <jni.h>
+#endif
 
 enum Panneaux{POSITION, ROTATION, ECHELLE, REBOND, ACCELERATION, FRICTION, NBPANNEAUX};
 
@@ -26,8 +28,10 @@ class VisiteurModifierProprieteNoeud :
 	public VisiteurNoeud
 {
 public:
+#if WITH_JAVA
 	/// Constructeur par paramètre
 	VisiteurModifierProprieteNoeud(JNIEnv* env, jobject& modificateur);
+#endif
 	/// Destructeur
 	~VisiteurModifierProprieteNoeud(void);
 

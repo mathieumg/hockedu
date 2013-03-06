@@ -53,7 +53,7 @@ public:
 
    /// Recreates the physics body according to current attributes
    virtual void updatePhysicBody();
-   static const Vecteur3 NodeWallAbstract::DEFAULT_SIZE;
+   static const Vecteur3 DEFAULT_SIZE;
 protected:
 private:
    /// Coefficient different different pour chaque muret, sauvegarde en XML

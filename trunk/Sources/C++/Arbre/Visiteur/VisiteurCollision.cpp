@@ -17,7 +17,7 @@
 #include "NoeudTable.h"
 #include "NoeudPoint.h"
 #include "NoeudAccelerateur.h"
-#include "Noeuds\NodeControlPoint.h"
+#include "NodeControlPoint.h"
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
@@ -205,12 +205,13 @@ void VisiteurCollision::visiterNoeudMuret( NodeWallAbstract* noeud )
 	{
 	case SEGMENT:
 		{
+            Vecteur2 intersection;
 			aidecollision::DetailsCollision detailsCollision =aidecollision::calculerCollisionSegmentSegment(
 				noeud->obtenirCoin1().convertir<2>(),
 				noeud->obtenirCoin2().convertir<2>(),
 				coin1_.convertir<2>(),
 				coin2_.convertir<2>(),
-				Vecteur2()	// Pas besoin de connaitre le point d'intersection des segments
+				intersection	// Pas besoin de connaitre le point d'intersection des segments
 				);
 			if(detailsCollision.type != aidecollision::COLLISION_AUCUNE)
 			{
@@ -260,19 +261,20 @@ void VisiteurCollision::visiterNoeudBut( NoeudBut* noeud )
 	{
 	case SEGMENT:
 		{
+            Vecteur2 intersection;
 			aidecollision::DetailsCollision detailsCollision1 =aidecollision::calculerCollisionSegmentSegment(
 				noeud->obtenirParent()->getPosition().convertir<2>(),
 				noeud->obtenirPositionHaut().convertir<2>(),
 				coin1_.convertir<2>(),
 				coin2_.convertir<2>(),
-				Vecteur2()	// Pas besoin de connaitre le point d'intersection des segments
+				intersection	// Pas besoin de connaitre le point d'intersection des segments
 				);
 			aidecollision::DetailsCollision detailsCollision2 =aidecollision::calculerCollisionSegmentSegment(
 				noeud->obtenirParent()->getPosition().convertir<2>(),
 				noeud->obtenirPositionBas().convertir<2>(),
 				coin1_.convertir<2>(),
 				coin2_.convertir<2>(),
-				Vecteur2()	// Pas besoin de connaitre le point d'intersection des segments
+				intersection	// Pas besoin de connaitre le point d'intersection des segments
 				);
 			if(detailsCollision1.type == aidecollision::COLLISION_AUCUNE && detailsCollision2.type == aidecollision::COLLISION_AUCUNE)
 				break;
@@ -634,7 +636,7 @@ void VisiteurCollision::reinitialiser()
 void VisiteurCollision::visiterNodeControlPoint( NodeControlPoint* noeud )
 {
     // do not do collision detection with control points
-    VisitParent(NodeControlPoint);
+    noeud->NodeControlPoint::Super::acceptVisitor(*this);
 }
 
 

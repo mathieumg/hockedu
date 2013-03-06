@@ -20,11 +20,12 @@
 #include "NoeudPoint.h"
 #include "NoeudAccelerateur.h"
 #include "NoeudPortail.h"
-#include "FacadeModele.h"
 #include "ZoneEdition.h"
 #include "Terrain.h"
 #include "Utilitaire.h"
 
+#if WITH_JAVA
+#include "FacadeModele.h"
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn  VisiteurModifierProprieteNoeud::VisiteurModifierProprieteNoeud( JNIEnv* env, jobject& evenementSouris )
@@ -86,6 +87,7 @@ VisiteurModifierProprieteNoeud::VisiteurModifierProprieteNoeud( JNIEnv* env, job
 	}
 	
 }
+#endif
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -345,33 +347,33 @@ void VisiteurModifierProprieteNoeud::visiterNoeudPoint( NoeudPoint* noeud )
                 if(noeud->obtenirTypePosNoeud() == POSITION_HAUT_MILIEU || noeud->obtenirTypePosNoeud() == POSITION_BAS_MILIEU)
                 {
 
-                    if(abs(position_[VY])>zone->obtenirLimiteExtLargeur())
+                    if(utilitaire::ABS(position_[VY])>zone->obtenirLimiteExtLargeur())
                         position_[VY] = signe[VY]*zone->obtenirLimiteExtLargeur();
-                    if(abs(position_[VY])<zone->obtenirLimiteIntLargeur())
+                    if(utilitaire::ABS(position_[VY])<zone->obtenirLimiteIntLargeur())
                         position_[VY] = signe[VY]*zone->obtenirLimiteIntLargeur();
                 }
                 else if(noeud->obtenirTypePosNoeud() == POSITION_MILIEU_GAUCHE || noeud->obtenirTypePosNoeud() == POSITION_MILIEU_DROITE)
                 {
-                    if(abs(position_[VX])>zone->obtenirLimiteExtLongueur())
+                    if(utilitaire::ABS(position_[VX])>zone->obtenirLimiteExtLongueur())
                         position_[VX] = signe[VX]*zone->obtenirLimiteExtLongueur();
-                    if(abs(position_[VX])<zone->obtenirLimiteIntLongueur())
+                    if(utilitaire::ABS(position_[VX])<zone->obtenirLimiteIntLongueur())
                         position_[VX] = signe[VX]*zone->obtenirLimiteIntLongueur();
                 }
                 else if(noeud->obtenirTypePosNoeud() == POSITION_HAUT_GAUCHE || noeud->obtenirTypePosNoeud() == POSITION_HAUT_DROITE || noeud->obtenirTypePosNoeud() == POSITION_BAS_DROITE || noeud->obtenirTypePosNoeud() == POSITION_BAS_GAUCHE)
                 {
-                    if(abs(position_[VY])>zone->obtenirLimiteExtLargeur())
+                    if(utilitaire::ABS(position_[VY])>zone->obtenirLimiteExtLargeur())
                         position_[VY] = signe[VY]*zone->obtenirLimiteExtLargeur();
-                    if(abs(position_[VY])<zone->obtenirLimiteIntLargeur())
+                    if(utilitaire::ABS(position_[VY])<zone->obtenirLimiteIntLargeur())
                         position_[VY] = signe[VY]*zone->obtenirLimiteIntLargeur();
-                    if(abs(position_[VX])>zone->obtenirLimiteExtLongueur())
+                    if(utilitaire::ABS(position_[VX])>zone->obtenirLimiteExtLongueur())
                         position_[VX] = signe[VX]*zone->obtenirLimiteExtLongueur();
-                    if(abs(position_[VX])<zone->obtenirLimiteIntLongueur())
+                    if(utilitaire::ABS(position_[VX])<zone->obtenirLimiteIntLongueur())
                         position_[VX] = signe[VX]*zone->obtenirLimiteIntLongueur();
                 }
             }
 		}
 		// Le visiteur permet de mettre a jour les buts en meme temps
-		Vecteur3 deplacement = position_-positionCourante;
+		Vecteur3 deplacement = position_.convertir<3>()-positionCourante;
 		deplacement[VX]*=-1;
 		VisiteurDeplacement visiteur(deplacement);
 		noeud->acceptVisitor(visiteur);

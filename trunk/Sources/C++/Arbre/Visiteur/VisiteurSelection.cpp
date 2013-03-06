@@ -16,9 +16,9 @@
 #include "NoeudRondelle.h"
 #include "NoeudTable.h"
 #include "NoeudPoint.h"
-#include "FacadeModele.h"
 #include "NoeudAccelerateur.h"
 #include "VisiteurCollision.h"
+#include "Terrain.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -124,7 +124,7 @@ void VisiteurSelection::visiterNoeudMuret( NodeWallAbstract* noeud )
 		else
 		{
 			VisiteurCollision visiteurCollision(positionClicMin_, false);
-			FacadeModele::getInstance()->acceptVisitor(visiteurCollision);
+            noeud->GetTerrain()->acceptVisitor(visiteurCollision);
 			if(visiteurCollision.collisionPresente())
 			{
 				ConteneurNoeuds listeNoeuds;

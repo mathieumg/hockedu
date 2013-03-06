@@ -8,15 +8,18 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudAccelerateur.h"
-#include "FacadeModele.h"
 #include "NoeudRondelle.h"
-#include "GestionnaireAnimations.h"
+
 #include "XMLUtils.h"
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
 #include "Utilitaire.h"
 #include "VisiteurNoeud.h"
+
+#if WIN32
+#include "GestionnaireAnimations.h"
+#endif
 
 const float NoeudAccelerateur::DEFAULT_RADIUS = 7;
 
@@ -41,7 +44,7 @@ NoeudAccelerateur::NoeudAccelerateur(const std::string& typeNoeud)
 {
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
-
+#if WIN32
 	AnimationFrame* frame[5];
 	frame[0] = new AnimationFrame(0, Vecteur3(50, 0, 0), Vecteur3(0, 0, 0), Vecteur3(1, 1, 1));
 	frame[1] = new AnimationFrame(200, Vecteur3(0, 50, 0), Vecteur3(0, 0, 0), Vecteur3(1, 1, 1));
@@ -55,7 +58,7 @@ NoeudAccelerateur::NoeudAccelerateur(const std::string& typeNoeud)
 
 
 	animation->ajouterObjet(this);
-
+#endif
     updatePhysicBody();
 
 	//GestionnaireAnimations::getInstance()->ajouterAnimation(animation);
@@ -179,13 +182,13 @@ bool NoeudAccelerateur::initialiser( const XmlElement* element )
 ////////////////////////////////////////////////////////////////////////
 void NoeudAccelerateur::gestionCollision( const float& temps )
 {
-	NoeudRondelle* rondelle = FacadeModele::getInstance()->obtenirRondelle();
+/*	NoeudRondelle* rondelle = FacadeModele::getInstance()->obtenirRondelle();
 	Vecteur3 distance = getPosition()- rondelle->getPosition();
 	float rayon = obtenirRayon()+rondelle->obtenirRayon();
 	if(distance.norme2() > rayon*rayon+25)
 	{
 		modifierActiver(true);
-	}
+	}*/
 }
 
 ////////////////////////////////////////////////////////////////////////

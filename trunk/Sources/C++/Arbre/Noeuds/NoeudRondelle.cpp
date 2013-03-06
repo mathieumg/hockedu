@@ -8,18 +8,15 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudRondelle.h"
-#include "FacadeModele.h"
 #include "VisiteurCollision.h"
 #include "NoeudMuret.h"
 #include "AideCollision.h"
 #include "NoeudTable.h"
 #include "NoeudMaillet.h"
 #include "NoeudPoint.h"
-#include "Partie.h"
 #include "NoeudAccelerateur.h"
 #include "DecodeString.h"
 #include <iostream>
-#include "SoundFMOD.h"
 #include "NoeudGroupe.h"
 #include "Terrain.h"
 #include "NoeudPortail.h"
@@ -30,6 +27,7 @@
 #include "NoeudBut.h"
 #include "UsineNoeud.h"
 #include "ExceptionJeu.h"
+#include "FacadeModele.h"
 
 const float NoeudRondelle::DEFAULT_RADIUS = 8;
 
@@ -151,7 +149,7 @@ void NoeudRondelle::acceptVisitor( VisiteurNoeud& v )
 ///
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::gestionCollision( const float& temps )
-{
+{/*
     if(!table_)
     {
         if(GetTerrain())
@@ -338,7 +336,7 @@ void NoeudRondelle::gestionCollision( const float& temps )
                     SoundFMOD::obtenirInstance()->playEffect(COLLISION_MURET_EFFECT);
             }
         }
-    }
+    }*/
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -372,7 +370,7 @@ void NoeudRondelle::majPosition( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::ajusterEnfoncement()
 {
-    if(!table_)
+    /*if(!table_)
     {
         if(GetTerrain())
         {
@@ -425,7 +423,7 @@ void NoeudRondelle::ajusterEnfoncement()
         
         
     }
-    mPosition[VZ] = 0;
+    mPosition[VZ] = 0;*/
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -441,7 +439,7 @@ void NoeudRondelle::ajusterEnfoncement()
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::ajusterVitesse( const float& temps )
 {
-    if(!table_)
+  /*  if(!table_)
     {
         if(GetTerrain())
         {
@@ -544,7 +542,7 @@ void NoeudRondelle::ajusterVitesse( const float& temps )
     }
 
     mVelocite[VZ] = 0;
-    mVitesseRotation *= 0.99f;
+    mVitesseRotation *= 0.99f;*/
 }
 
 ////////////////////////////////////////////////////////////////////////

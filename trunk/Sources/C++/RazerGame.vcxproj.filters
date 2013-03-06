@@ -957,9 +957,6 @@
     <ClInclude Include="Reseau\PaquetRunnableServeurJeu.h">
       <Filter>Sources Files</Filter>
     </ClInclude>
-    <ClInclude Include="Environnement\ExceptionJeu.h">
-      <Filter>Sources Files</Filter>
-    </ClInclude>
     <ClInclude Include="Tests\XMLTests.h">
       <Filter>Sources Files</Filter>
     </ClInclude>

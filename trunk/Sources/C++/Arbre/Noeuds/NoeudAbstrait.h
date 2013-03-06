@@ -14,8 +14,18 @@
 #include "RazerGameUtilities.h"
 #include <math.h>
 #define _WINSOCKAPI_
+#if WIN32
 #include <windows.h>
 #include "glew.h"
+#else
+//#include <OpenGLES/EAGL.h>
+//#include <OpenGLES/ES1/gl.h>
+//#include <OpenGLES/ES1/glext.h>
+typedef float GLdouble;
+typedef unsigned int GLuint;
+#define GLenum unsigned int
+#endif 
+
 #include "Vecteur.h"
 
 //Foward Declaration

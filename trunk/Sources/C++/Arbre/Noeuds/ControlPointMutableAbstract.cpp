@@ -7,7 +7,6 @@
 /// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////
-#pragma once
 
 #include "ControlPointMutableAbstract.h"
 #include "NodeControlPoint.h"
@@ -64,11 +63,13 @@ bool ControlPointMutableAbstract::addControlPoint( NodeControlPoint* point )
     {
         point->setLinkedObject(this);
         // ajout tous les points dejà existant comme point associé
-        std::for_each(mPoints.begin(),mPoints.end(),[&](NodeControlPoint* associatedPoint)
+        for(int i=0; i<(int)mPoints.size();++i)
         {
+            NodeControlPoint* associatedPoint = mPoints[i];
+        
             point->addAssociatedPoint(associatedPoint);
             associatedPoint->addAssociatedPoint(point);
-        });
+        }
         mPoints.push_back(point);
 
         // doing call after so the node can use the new info to update itself
@@ -120,10 +121,13 @@ void ControlPointMutableAbstract::removeControlPointInner( NodeControlPoint* poi
         mPoints.erase(it);
     }
 
-    std::for_each(mPoints.begin(),mPoints.end(),[&](NodeControlPoint* associatedPoint)
+    for(int i=0; i<(int)mPoints.size();++i)
     {
+        NodeControlPoint* associatedPoint = mPoints[i];
+        
         point->removeAssociatedPoint(associatedPoint);
         associatedPoint->removeAssociatedPoint(point);
-    });
+    }
+    
     point->setLinkedObject(NULL);
 }

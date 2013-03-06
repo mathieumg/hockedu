@@ -12,6 +12,7 @@
 #include "ObjetAnimable.h"
 #include "AnimationFrame.h"
 #include <iostream>
+#include "ExceptionJeu.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 ///
@@ -37,7 +38,7 @@ Animation::Animation( int typeInterpolation,bool modParam1 /*= true*/, bool modP
 	}
 	else
 	{
-		throw std::exception("Type pas supporte");
+		throw ExceptionJeu("Type pas supporte");
 	}
 }
 
