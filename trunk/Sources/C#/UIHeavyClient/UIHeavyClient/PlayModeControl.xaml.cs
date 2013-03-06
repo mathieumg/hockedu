@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Forms.Integration;
+using System.Runtime.InteropServices;
 
 namespace UIHeavyClient
 {
@@ -21,11 +22,31 @@ namespace UIHeavyClient
     public partial class PlayModeControl : UserControl
     {
         private WindowsFormsHost mWindowsFormsHost;
+        private bool mIsRadioPlaying;
+
+        // C++ Radio functions
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void PlayRadioSong();
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void PauseRadioSong();
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void StopRadioSong();
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void NextRadioSong();
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void PreviousRadioSong();
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void SetRadioVolume(int pVolume);
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void SetCurrentRadioPlaylist(string pPlaylist);
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void GetCurrentRadioPlaylist(string pPlaylist);
 
         public PlayModeControl(WindowsFormsHost pWindowsFormsHost)
         {
             InitializeComponent();
             mWindowsFormsHost = pWindowsFormsHost;
+            mIsRadioPlaying = true;
         }
 
         public void AppendOpenGL()
@@ -42,6 +63,48 @@ namespace UIHeavyClient
         public void RemoveOpenGL()
         {
             playControlGrid.Children.Remove(mWindowsFormsHost);
+        }
+
+        private void mPeviousButton_Click(object sender, RoutedEventArgs e)
+        {
+            PreviousRadioSong();
+        }
+
+        private void mNextButton_Click(object sender, RoutedEventArgs e)
+        {
+            NextRadioSong();
+        }
+
+        private void mStopButton_Click(object sender, RoutedEventArgs e)
+        {
+            StopRadioSong();
+            mIsRadioPlaying = false;
+        }
+
+        private void mVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            SetRadioVolume((int)(sender as Slider).Value);
+        }
+
+        private void mPlaylistComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SetCurrentRadioPlaylist((sender as ComboBox).SelectedItem.ToString());
+        }
+
+        private void mPlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (mIsRadioPlaying)
+            {
+                PauseRadioSong();
+                mIsRadioPlaying = false;
+                (sender as Button).Content = "||";
+            }
+            else
+            {
+                PlayRadioSong();
+                mIsRadioPlaying = true;
+                (sender as Button).Content = "|>";
+            }
         }
     }
 }

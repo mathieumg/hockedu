@@ -162,6 +162,7 @@ namespace UIHeavyClient
 
         #region Edition Tool Events
 
+        // Event
         [DllImport(@"RazerGame.dll")]
         static extern bool ActionPerformed(ActionType action);
         [DllImport(@"RazerGame.dll")]
@@ -169,10 +170,20 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll")]
         static extern void PauseGame(bool doPause);
 
+        // Field
         [DllImport(@"RazerGame.dll")]
         static extern void GenerateDefaultField();
         [DllImport(@"RazerGame.dll")]
         static extern bool ValidateField();
+
+        // Save/Load
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void SaveMap(string pFileName);
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void LoadMap(string pFileName);
+        // TODO
+        // Save to server
+        // Load to server
 
         private void CallActionPerformed(object sender, RoutedEventArgs e)
         {

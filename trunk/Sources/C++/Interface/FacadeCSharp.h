@@ -17,6 +17,9 @@
 #include "..\Reseau\Paquets\PaquetTest.h"
 #include "..\Reseau\ControllerCSharp.h"
 #include "UsineNoeud.h"
+#include "..\Jeu\JoueurVirtuel.h"
+#include "..\Configuration\ConfigScene.h"
+#include "..\Sons\SoundFMOD.h"
 
 
 // Summary:
@@ -51,6 +54,14 @@ enum MouseButtons
 // Test pour l'appel de la DLL depuis le C#
 extern "C" 
 {
+    struct AIProfile
+    {
+        char* Name;
+        char* OriginName;
+        int Speed;
+        int FailProb;
+    };
+
     __declspec(dllexport) void InitOpenGL(HWND hWnd);
     __declspec(dllexport) void FreeApplicationMemory( );
     __declspec(dllexport) void RenderOpenGL();
@@ -69,8 +80,34 @@ extern "C"
     __declspec(dllexport) bool ValidateField();
 
     
+	// Edition mode calls
+    __declspec(dllexport) void SaveMap(char* pFileName);
+    __declspec(dllexport) void LoadMap(char* pFileName);
 
-    
+	// AI configuration calls
+    __declspec(dllexport) void AddPlayer(char* pName, int pSpeed, int pFailProb);
+    __declspec(dllexport) void RemovePlayer(char* pName);
+	__declspec(dllexport) int GetNbrPlayers();
+	__declspec(dllexport) void GetPlayers(AIProfile* pProfiles, int pNbrProfiles);
+
+	// Control calls
+    __declspec(dllexport) void GetKeyboardControl(int* pControls);
+    __declspec(dllexport) void SetKeyboardControl(int pUp, int pDown, int pLeft, int pRight);
+		
+
+	// Radio calls
+    __declspec(dllexport) void PlayRadioSong();
+    __declspec(dllexport) void PauseRadioSong();
+    __declspec(dllexport) void StopRadioSong();
+    __declspec(dllexport) void NextRadioSong();
+    __declspec(dllexport) void PreviousRadioSong();
+    __declspec(dllexport) void SetRadioVolume(int pVolume);
+    __declspec(dllexport) void SetCurrentRadioPlaylist(char* pPlaylist);
+    __declspec(dllexport) void GetCurrentRadioPlaylist(char* pPlaylist);
+    __declspec(dllexport) void GetRadioPlaylists();
+    __declspec(dllexport) void GetPlaylistSongs(char* pPlaylist);
+    __declspec(dllexport) void RemoveRadioPlaylist(char* pPlaylist);
+
 
     ///////////////////////////////////////////////////////////////////////////////
     // User mouse and keyboard events

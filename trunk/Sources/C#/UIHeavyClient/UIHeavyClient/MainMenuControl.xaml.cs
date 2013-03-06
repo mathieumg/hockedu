@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace UIHeavyClient
 {
@@ -21,6 +22,8 @@ namespace UIHeavyClient
     public partial class MainMenuControl : UserControl
     {
         Dictionary<object, string> mGuidanceMessages;
+
+        OpenFileDialog mOpenFileDialog;
 
         public MainMenuControl()
         {
@@ -94,6 +97,7 @@ namespace UIHeavyClient
         public void InitOperations()
         {
             mQuickPlayGroupBox.Visibility = Visibility.Hidden;
+            mOpenFileDialog = new OpenFileDialog();
         }
 
         private void mQuickPlayCancelButton_Click(object sender, RoutedEventArgs e)

@@ -6,7 +6,13 @@
     <DockPanel Background="#FF323232">
         <Menu Name="MenuBar" DockPanel.Dock="Top">
             <MenuItem Header="File">
-                
+                <MenuItem Header="Load Map"/>
+                <MenuItem Header="Load Map From Server"/>
+                <MenuItem Header="Save Map"/>
+                <MenuItem Header="Save Map To Server"/>
+                <MenuItem Header="Reset to Default Map"/>
+                <MenuItem Header="Test Map"/>
+                <MenuItem Header="Exit Hockedu"/>
             </MenuItem>
             <MenuItem Header="Option">
                 <MenuItem Header="Keyboard Control"/>

@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Runtime.InteropServices;
 
 namespace UIHeavyClient
 {
@@ -20,6 +21,14 @@ namespace UIHeavyClient
     public partial class RadioOptionControl : UserControl
     {
         Dictionary<object, string> mGuidanceMessages;
+
+        // C++ functions
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void GetRadioPlaylists();
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void GetPlaylistSongs(string pPlaylist);
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void RemoveRadioPlaylist(string pPlaylist);
 
         public RadioOptionControl()
         {
@@ -54,6 +63,16 @@ namespace UIHeavyClient
         private void ClearGuidanceMessages(object sender, MouseEventArgs e)
         {
             mGuidanceLabel.Content = "";
+        }
+
+        private void mPlaylistAddButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void mPlaylistDeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            RemoveRadioPlaylist("..."); // TODO
         }
     }
 }

@@ -86,6 +86,7 @@ namespace UIHeavyClient
         public static void GoToAIOptions()
         {
             Context.WindowContentControl.Content = Context.AIOptionControl;
+            Context.AIOptionControl.DisplayAIProfiles();
         }
 
         public static void GoToKeyboardOption()
