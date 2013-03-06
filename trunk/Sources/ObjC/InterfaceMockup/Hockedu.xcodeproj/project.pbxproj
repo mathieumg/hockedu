@@ -45,7 +45,7 @@
 		0C04E08516DE7835002B0EE2 /* zoom_elastique.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C04E05F16DE7835002B0EE2 /* zoom_elastique.png */; };
 		0C04E08616DE7835002B0EE2 /* zoom_proportionnel.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C04E06016DE7835002B0EE2 /* zoom_proportionnel.png */; };
 		0C04E08716DE7835002B0EE2 /* santa-piggy-bank-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C04E06116DE7835002B0EE2 /* santa-piggy-bank-icon.png */; };
-		0C04E09116DE85CF002B0EE2 /* TestNoeudAbstrait.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E09016DE85CE002B0EE2 /* TestNoeudAbstrait.mm */; };
+		0C04E09116DE85CF002B0EE2 /* TestNoeudAbstrait.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E09016DE85CE002B0EE2 /* TestNoeudAbstrait.m */; };
 		0C04E0EC16DE8B7B002B0EE2 /* RazerGameUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E0EA16DE8B7B002B0EE2 /* RazerGameUtilities.cpp */; };
 		0C04E0EE16DE8EBD002B0EE2 /* NoeudAbstrait.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E0ED16DE8EBD002B0EE2 /* NoeudAbstrait.cpp */; };
 		0C04E15616DE960B002B0EE2 /* ArbreNoeudLibre.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E0F116DE960A002B0EE2 /* ArbreNoeudLibre.cpp */; };
@@ -56,7 +56,6 @@
 		0C04E16416DE960B002B0EE2 /* NodeRinkBoards.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E11016DE960B002B0EE2 /* NodeRinkBoards.cpp */; };
 		0C04E16516DE960B002B0EE2 /* NodeWallAbstract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E11216DE960B002B0EE2 /* NodeWallAbstract.cpp */; };
 		0C04E16616DE960B002B0EE2 /* NodeWallEdition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E11416DE960B002B0EE2 /* NodeWallEdition.cpp */; };
-		0C04E16716DE960B002B0EE2 /* NoeudAbstrait.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E11616DE960B002B0EE2 /* NoeudAbstrait.cpp */; };
 		0C04E16816DE960B002B0EE2 /* NoeudAccelerateur.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E11716DE960B002B0EE2 /* NoeudAccelerateur.cpp */; };
 		0C04E16A16DE960B002B0EE2 /* NoeudBut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E11B16DE960B002B0EE2 /* NoeudBut.cpp */; };
 		0C04E16B16DE960B002B0EE2 /* NoeudComposite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E11D16DE960B002B0EE2 /* NoeudComposite.cpp */; };
@@ -97,6 +96,7 @@
 		0C04E1EE16DE964F002B0EE2 /* Utilitaire.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E1BA16DE964F002B0EE2 /* Utilitaire.cpp */; };
 		0C04E1FB16DE964F002B0EE2 /* XMLUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E1D316DE964F002B0EE2 /* XMLUtils.cpp */; };
 		0C04E1FF16DEA0AC002B0EE2 /* EvenementSouris.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E1FD16DEA0AB002B0EE2 /* EvenementSouris.cpp */; };
+		0C1832E916E7E86D000F1DE2 /* Enum_Declarations.cs in Resources */ = {isa = PBXBuildFile; fileRef = 0C1832E816E7E86D000F1DE2 /* Enum_Declarations.cs */; };
 		96378D7B1472C71100F543EA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96378D7A1472C71100F543EA /* UIKit.framework */; };
 		96378D7D1472C71100F543EA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96378D7C1472C71100F543EA /* Foundation.framework */; };
 		96378D7F1472C71100F543EA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96378D7E1472C71100F543EA /* CoreGraphics.framework */; };
@@ -161,7 +161,7 @@
 		0C04E06116DE7835002B0EE2 /* santa-piggy-bank-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "santa-piggy-bank-icon.png"; sourceTree = "<group>"; };
 		0C04E08816DE8032002B0EE2 /* TestNoeudAbstrait.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestNoeudAbstrait.h; sourceTree = "<group>"; };
 		0C04E08F16DE81DC002B0EE2 /* Vecteur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vecteur.h; path = ../../../Commun/Utilitaire/Vecteur.h; sourceTree = "<group>"; };
-		0C04E09016DE85CE002B0EE2 /* TestNoeudAbstrait.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TestNoeudAbstrait.mm; sourceTree = "<group>"; };
+		0C04E09016DE85CE002B0EE2 /* TestNoeudAbstrait.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestNoeudAbstrait.m; sourceTree = "<group>"; };
 		0C04E09216DE88A2002B0EE2 /* NoeudAbstrait.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoeudAbstrait.h; path = "../../C++/Arbre/Noeuds/NoeudAbstrait.h"; sourceTree = "<group>"; };
 		0C04E0EA16DE8B7B002B0EE2 /* RazerGameUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RazerGameUtilities.cpp; path = "../../C++/Environnement/RazerGameUtilities.cpp"; sourceTree = "<group>"; };
 		0C04E0EB16DE8B7B002B0EE2 /* RazerGameUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RazerGameUtilities.h; path = "../../C++/Environnement/RazerGameUtilities.h"; sourceTree = "<group>"; };
@@ -277,6 +277,7 @@
 		0C04E1FD16DEA0AB002B0EE2 /* EvenementSouris.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EvenementSouris.cpp; path = "../../C++/Environnement/Evenements/EvenementSouris.cpp"; sourceTree = "<group>"; };
 		0C04E1FE16DEA0AB002B0EE2 /* EvenementSouris.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EvenementSouris.h; path = "../../C++/Environnement/Evenements/EvenementSouris.h"; sourceTree = "<group>"; };
 		0C04E20316DEB841002B0EE2 /* CodesEvenements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CodesEvenements.h; path = "../../C++/Interface/CodesEvenements.h"; sourceTree = "<group>"; };
+		0C1832E816E7E86D000F1DE2 /* Enum_Declarations.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Enum_Declarations.cs; path = "../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.cs"; sourceTree = "<group>"; };
 		96378D761472C71100F543EA /* Hockedu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hockedu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96378D7A1472C71100F543EA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		96378D7C1472C71100F543EA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -382,6 +383,7 @@
 				0C04E0F016DE960A002B0EE2 /* Arbre */,
 				0C04E0EF16DE917C002B0EE2 /* RazerGameTypeDef.h */,
 				0C04E0ED16DE8EBD002B0EE2 /* NoeudAbstrait.cpp */,
+				0C1832E816E7E86D000F1DE2 /* Enum_Declarations.cs */,
 				0C04E0EA16DE8B7B002B0EE2 /* RazerGameUtilities.cpp */,
 				0C04E0EB16DE8B7B002B0EE2 /* RazerGameUtilities.h */,
 				0C04E09216DE88A2002B0EE2 /* NoeudAbstrait.h */,
@@ -648,7 +650,7 @@
 				968DACCA1472EDA4007D15A3 /* OpenGLWaveFrontObject.h */,
 				968DACCB1472EDA4007D15A3 /* OpenGLWaveFrontObject.m */,
 				0C04E08816DE8032002B0EE2 /* TestNoeudAbstrait.h */,
-				0C04E09016DE85CE002B0EE2 /* TestNoeudAbstrait.mm */,
+				0C04E09016DE85CE002B0EE2 /* TestNoeudAbstrait.m */,
 			);
 			name = Utilitaires;
 			sourceTree = "<group>";
@@ -688,7 +690,7 @@
 		96378D6D1472C71100F543EA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = 96378D701472C71100F543EA /* Build configuration list for PBXProject "Hockedu" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -757,6 +759,7 @@
 				0C04E08516DE7835002B0EE2 /* zoom_elastique.png in Resources */,
 				0C04E08616DE7835002B0EE2 /* zoom_proportionnel.png in Resources */,
 				0C04E08716DE7835002B0EE2 /* santa-piggy-bank-icon.png in Resources */,
+				0C1832E916E7E86D000F1DE2 /* Enum_Declarations.cs in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -776,7 +779,7 @@
 				968DACCD1472EDA4007D15A3 /* OpenGLWaveFrontGroup.m in Sources */,
 				968DACCE1472EDA4007D15A3 /* OpenGLWaveFrontMaterial.m in Sources */,
 				968DACCF1472EDA4007D15A3 /* OpenGLWaveFrontObject.m in Sources */,
-				0C04E09116DE85CF002B0EE2 /* TestNoeudAbstrait.mm in Sources */,
+				0C04E09116DE85CF002B0EE2 /* TestNoeudAbstrait.m in Sources */,
 				0C04E0EC16DE8B7B002B0EE2 /* RazerGameUtilities.cpp in Sources */,
 				0C04E0EE16DE8EBD002B0EE2 /* NoeudAbstrait.cpp in Sources */,
 				0C04E15616DE960B002B0EE2 /* ArbreNoeudLibre.cpp in Sources */,
@@ -787,7 +790,6 @@
 				0C04E16416DE960B002B0EE2 /* NodeRinkBoards.cpp in Sources */,
 				0C04E16516DE960B002B0EE2 /* NodeWallAbstract.cpp in Sources */,
 				0C04E16616DE960B002B0EE2 /* NodeWallEdition.cpp in Sources */,
-				0C04E16716DE960B002B0EE2 /* NoeudAbstrait.cpp in Sources */,
 				0C04E16816DE960B002B0EE2 /* NoeudAccelerateur.cpp in Sources */,
 				0C04E16A16DE960B002B0EE2 /* NoeudBut.cpp in Sources */,
 				0C04E16B16DE960B002B0EE2 /* NoeudComposite.cpp in Sources */,

@@ -23,7 +23,6 @@ class TiXmlDocument;
 typedef TiXmlDocument XmlDocument;
 
 #else
-
 typedef void* XmlElement;
 
 typedef void* XmlText;
@@ -36,6 +35,14 @@ typedef void* XmlDocument;
 
 namespace XMLUtils
 {
+    
+    
+    ///private use
+    const char* MakeName(const char* name, int index);
+    void FreeName(const char* createdName);
+    
+    
+    
     /// Creates an xml element with the given name
     XmlElement* createNode(const char* name);
     /// Creates a text node with the given name
@@ -106,9 +113,7 @@ namespace XMLUtils
     /// Free the document's memory
     void FreeDocument(XmlDocument* document);
 
-///private use
-    const char* MakeName(const char* name, int index);
-    void FreeName(const char* createdName);
+
 
 }
 
