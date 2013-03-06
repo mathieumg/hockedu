@@ -409,3 +409,144 @@ void connectServerGame( char* pServerIP )
 
 }
 
+void SaveMap(char* pFileName)
+{
+    RazerGameUtilities::SaveFieldToFile(std::string(pFileName), *FacadeModele::getInstance()->getEditionField());
+}
+
+void LoadMap(char* pFileName)
+{
+    RazerGameUtilities::LoadFieldFromFile(std::string(pFileName), *FacadeModele::getInstance()->getEditionField());
+}
+
+void SetPlayMap(char* pFileName)
+{
+    FacadeModele::getInstance()->setCurrentMap(std::string(pFileName));
+}
+
+void AddPlayer(char* pName, int pSpeed, int pFailProb)
+{
+    SPJoueurAbstrait joueurVirtuel(new JoueurVirtuel(pName, pSpeed, pFailProb));
+    FacadeModele::getInstance()->ajouterJoueur(joueurVirtuel);
+}
+
+void RemovePlayer(char* pName)
+{
+    FacadeModele::getInstance()->supprimerJoueur(std::string(pName));
+}
+
+int GetNbrPlayers()
+{
+    return FacadeModele::getInstance()->obtenirListeNomsJoueurs().size();
+}
+
+void GetPlayers(AIProfile* pProfiles, int pNbrProfiles)
+{
+    ConteneurJoueursTries listeJoueursTries;
+
+    listeJoueursTries = FacadeModele::getInstance()->obtenirListeNomsJoueurs();
+
+    SPJoueurAbstrait joueur;
+
+    int i = 0;
+
+
+    for(auto iter = listeJoueursTries.begin(); iter != listeJoueursTries.end() && i < pNbrProfiles; ++iter)
+	{
+        joueur = FacadeModele::getInstance()->obtenirJoueur(*iter);
+
+        if(joueur->obtenirType()==JOUEUR_VIRTUEL)
+	    {
+		    SPJoueurVirtuel joueurVirtuel = std::dynamic_pointer_cast<JoueurVirtuel>(joueur);
+
+            //char* nameBuffer = new char[50];
+
+            //strcpy(nameBuffer, joueurVirtuel->obtenirNom().c_str());
+
+            strcpy_s(pProfiles[i].Name, 50, joueurVirtuel->obtenirNom().c_str());
+            strcpy_s(pProfiles[i].OriginName, 50, joueurVirtuel->obtenirNom().c_str());
+
+            pProfiles[i].Speed = joueurVirtuel->obtenirVitesse()*100.0;
+            pProfiles[i].FailProb = joueurVirtuel->obtenirProbabiliteEchec();
+            ++i;
+	    }
+	}
+}
+
+void GetKeyboardControl(int* pControls)
+{
+    pControls[0] = ConfigScene::obtenirInstance()->obtenirToucheHaut();
+	pControls[1] = ConfigScene::obtenirInstance()->obtenirToucheBas();
+	pControls[2] = ConfigScene::obtenirInstance()->obtenirToucheGauche();
+	pControls[3] = ConfigScene::obtenirInstance()->obtenirToucheDroite();
+}
+
+void SetKeyboardControl(int* pControls)
+{
+    ConfigScene::obtenirInstance()->modifierToucheHaut(pControls[0]);
+	ConfigScene::obtenirInstance()->modifierToucheBas(pControls[1]);
+	ConfigScene::obtenirInstance()->modifierToucheGauche(pControls[2]);
+	ConfigScene::obtenirInstance()->modifierToucheDroite(pControls[3]);
+}
+
+void PlayRadioSong()
+{
+    if(SoundFMOD::obtenirInstance()->estEnPause())
+	{
+		SoundFMOD::obtenirInstance()->togglePlaying();
+	}
+	else
+	{
+		SoundFMOD::obtenirInstance()->restartSong();
+	}
+}
+
+void PauseRadioSong()
+{
+	SoundFMOD::obtenirInstance()->togglePlaying();
+}
+
+void StopRadioSong()
+{
+	SoundFMOD::obtenirInstance()->stop();
+}
+
+void NextRadioSong()
+{
+	SoundFMOD::obtenirInstance()->next_Song();
+}
+
+void PreviousRadioSong()
+{
+	SoundFMOD::obtenirInstance()->previous_Song();
+}
+
+void SetRadioVolume(int pVolume)
+{
+	SoundFMOD::obtenirInstance()->setPlaylistVolume(pVolume/100.0f);
+}
+
+void SetCurrentRadioPlaylist(char* pPlaylist)
+{
+	SoundFMOD::obtenirInstance()->modifierPlaylistActuelle(std::string(pPlaylist));
+}
+
+void GetCurrentRadioPlaylist(char* pPlaylist)
+{
+	//pPlaylist = SoundFMOD::obtenirInstance()->obtenirNomCanalCourant().c_str();
+}
+
+void GetRadioPlaylists()
+{
+	// ???
+}
+
+void GetPlaylistSongs(char* pPlaylist)
+{
+	// ???
+}
+
+void RemoveRadioPlaylist(char* pPlaylist)
+{
+	ConfigScene::obtenirInstance()->supprimerCanal(std::string(pPlaylist));
+}

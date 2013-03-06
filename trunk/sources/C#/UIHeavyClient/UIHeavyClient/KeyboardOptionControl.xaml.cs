@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Runtime.InteropServices;
 
 namespace UIHeavyClient
 {
@@ -20,6 +21,12 @@ namespace UIHeavyClient
     public partial class KeyboardOptionControl : UserControl
     {
         Dictionary<object, string> mGuidanceMessages;
+
+        // C++ functions
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void GetKeyboardControl(int[] pControls);
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void SetKeyboardControl(int pUp, int pDown, int pLeft, int pRight);
 
         public KeyboardOptionControl()
         {

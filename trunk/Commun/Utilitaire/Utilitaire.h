@@ -13,6 +13,16 @@
 #include "Vecteur.h"
 #include <sstream>
 
+<<<<<<< HEAD
+=======
+#if !defined(max) && !defined(WIN32) && !defined(LINUX)
+#define max(x,y) ((x<y)?y:x)
+#endif
+#if !defined(abs) && !defined(WIN32) && !defined(LINUX)
+#define abs(x) (x<0?-x:x)
+#endif
+
+>>>>>>> 5962b71085808dc0defcc61bec10930fb8e3709e
 namespace utilitaire {
 	/// Définition d'un type d'entier non signé.
 	typedef unsigned int uint;
