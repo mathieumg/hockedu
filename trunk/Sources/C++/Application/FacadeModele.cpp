@@ -1033,7 +1033,7 @@ bool FacadeModele::passageModeJeu()
         adversaire_ = SPJoueurAbstrait(new JoueurHumain("Joueur Droit"));
     partieCourante_ = new Partie(SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")),adversaire_);
     //partieCourante_ = new Partie(new JoueurVirtuel("Joueur Gauche",225),new JoueurVirtuel("Joueur Droit",225));
-    partieCourante_->setFieldName(FICHIER_TERRAIN_EN_COURS);
+    partieCourante_->setFieldName(getCurrentMap());
     partieCourante_->getReadyToPlay();
     partieCourante_->miseAuJeu(true);
     // On enregistre apres avoir desactiver les points pour ne pas les voir si on reinitialise la partie

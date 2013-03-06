@@ -419,6 +419,11 @@ void LoadMap(char* pFileName)
     RazerGameUtilities::LoadFieldFromFile(std::string(pFileName), *FacadeModele::getInstance()->getEditionField());
 }
 
+void SetPlayMap(char* pFileName)
+{
+    FacadeModele::getInstance()->setCurrentMap(std::string(pFileName));
+}
+
 void AddPlayer(char* pName, int pSpeed, int pFailProb)
 {
     SPJoueurAbstrait joueurVirtuel(new JoueurVirtuel(pName, pSpeed, pFailProb));

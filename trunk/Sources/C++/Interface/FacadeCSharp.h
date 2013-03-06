@@ -80,9 +80,10 @@ extern "C"
     __declspec(dllexport) bool ValidateField();
 
     
-	// Edition mode calls
+	// Load/Save calls
     __declspec(dllexport) void SaveMap(char* pFileName);
     __declspec(dllexport) void LoadMap(char* pFileName);
+    __declspec(dllexport) void SetPlayMap(char* pFileName);
 
 	// AI configuration calls
     __declspec(dllexport) void AddPlayer(char* pName, int pSpeed, int pFailProb);

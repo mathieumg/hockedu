@@ -23,6 +23,7 @@ namespace UIHeavyClient
     {
         Dictionary<object, string> mGuidanceMessages;
 
+        // To load the map for quick play
         OpenFileDialog mOpenFileDialog;
 
         public MainMenuControl()
@@ -98,6 +99,8 @@ namespace UIHeavyClient
         {
             mQuickPlayGroupBox.Visibility = Visibility.Hidden;
             mOpenFileDialog = new OpenFileDialog();
+            mOpenFileDialog.Multiselect = false;
+            mOpenFileDialog.Title = "Choose a map";
         }
 
         private void mQuickPlayCancelButton_Click(object sender, RoutedEventArgs e)
@@ -107,7 +110,16 @@ namespace UIHeavyClient
 
         private void mQuickPlayGoButton_Click(object sender, RoutedEventArgs e)
         {
+            MainWindowHandler.LoadPlayingMap(mMapTextBox.Text);
             MainWindowHandler.GoToPlayMode();
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            if (mOpenFileDialog.ShowDialog().Value)
+            {
+                mMapTextBox.Text = mOpenFileDialog.FileName;
+            }
         }
     }
 }

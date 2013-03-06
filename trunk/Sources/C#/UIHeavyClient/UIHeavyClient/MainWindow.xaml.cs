@@ -39,6 +39,7 @@ namespace UIHeavyClient
 
         private OpenGLControl mOpenGLControl;
         private WindowsFormsHost mWindowFormsHost;
+        
 
         // Properties
         public OpenGLControl OpenGLControl
@@ -244,5 +245,19 @@ namespace UIHeavyClient
             }
         }
 
+        void LoadMapFromLocal(object sender, RoutedEventArgs e)
+        {
+            MainWindowHandler.DialogLoadMapFromLocal();
+        }
+
+        void SaveMapToLocal(object sender, RoutedEventArgs e)
+        {
+            MainWindowHandler.DialogSaveMapToLocal();
+        }
+
+        void QuickSaveMapToLocal(object sender, RoutedEventArgs e)
+        {
+            MainWindowHandler.QuickSaveMapToLocal();
+        }
     }
 }
