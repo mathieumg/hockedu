@@ -496,7 +496,6 @@
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerAuthentificationServeurJeu.cpp" />
     <ClCompile Include="Arbre\Usines\UsineNoeud.cpp" />
     <ClCompile Include="Reseau\PaquetRunnableServeurJeu.cpp" />
-    <ClCompile Include="Environnement\ExceptionJeu.cpp" />
     <ClCompile Include="Tests\XMLTests.cpp" />
     <ClCompile Include="Application\GameManager.cpp" />
     <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeSimulation.cpp" />

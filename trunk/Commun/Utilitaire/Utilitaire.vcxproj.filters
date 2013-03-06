@@ -115,6 +115,7 @@
     <ClCompile Include="XMLUtils.cpp">
       <Filter>Sources Files</Filter>
     </ClCompile>
+    <ClCompile Include="ExceptionJeu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AideCollision.h">

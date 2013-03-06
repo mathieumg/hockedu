@@ -233,7 +233,6 @@
     <ClCompile Include="Environnement\Evenements\EvenementClavier.cpp" />
     <ClCompile Include="Environnement\Evenements\EvenementRouletteSouris.cpp" />
     <ClCompile Include="Environnement\Evenements\EvenementSouris.cpp" />
-    <ClCompile Include="Environnement\ExceptionJeu.cpp" />
     <ClCompile Include="Environnement\RazerGameUtilities.cpp" />
     <ClCompile Include="Interface\DebugRenderBox2D.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatAbstrait.cpp" />
