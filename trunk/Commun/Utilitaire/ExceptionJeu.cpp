@@ -10,6 +10,7 @@
 
 #include "ExceptionJeu.h"
 #include "stdarg.h"
+#ifndef __APPLE__
 
 char* hackBuffer = new char[256];
 ////////////////////////////////////////////////////////////////////////
@@ -50,13 +51,21 @@ ExceptionJeu::ExceptionJeu( const char* pMessage, ... ):
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-ExceptionJeu::~ExceptionJeu()
+ExceptionJeu::~ExceptionJeu() throw()
 {
     if(mErrorMessage)
     {
         free(const_cast<char *>(mErrorMessage));
     }
 }
+
+#else
+ExceptionJeu::ExceptionJeu( const char* pMessage, ... ):
+Super()
+{}
+ExceptionJeu::~ExceptionJeu() throw(){}
+
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

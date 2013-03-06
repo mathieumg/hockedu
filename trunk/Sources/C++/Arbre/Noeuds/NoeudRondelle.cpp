@@ -27,7 +27,10 @@
 #include "NoeudBut.h"
 #include "UsineNoeud.h"
 #include "ExceptionJeu.h"
+
+#ifndef __APPLE__
 #include "FacadeModele.h"
+#endif
 
 const float NoeudRondelle::DEFAULT_RADIUS = 8;
 
@@ -63,10 +66,12 @@ NoeudRondelle::NoeudRondelle(const std::string& typeNoeud, unsigned int& puckCre
     updatePhysicBody();
 
     ++mNbPuckCreated;
+#ifndef __APPLE__
     if(mNbPuckCreated >= puckLimit)
     {
         FacadeModele::transmitEvent(DISABLE_PUCK_CREATION);
     }
+#endif
 }
 
 
@@ -82,7 +87,9 @@ NoeudRondelle::NoeudRondelle(const std::string& typeNoeud, unsigned int& puckCre
 NoeudRondelle::~NoeudRondelle()
 {
     --mNbPuckCreated;
+#ifndef __APPLE__
     FacadeModele::transmitEvent(ENABLE_PUCK_CREATION);
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////

@@ -225,11 +225,11 @@ bool NoeudPoint::validerDeplacement( const Vecteur3& pos, const Vecteur2& deplac
             Vecteur3 deplace2(deplace[VX],deplace[VY],0);
             Vecteur3 cible=pos+deplace2;
             float valeurLimiteInt = (axe == VX) ? zone->obtenirLimiteIntLongueur() : zone->obtenirLimiteIntLargeur();
-            if(abs(cible[axe]) < valeurLimiteInt)
+            if(utilitaire::ABS(cible[axe]) < valeurLimiteInt)
                 return false;
 
             float valeurLimiteExt = (axe == VX) ? zone->obtenirLimiteExtLongueur() : zone->obtenirLimiteExtLargeur();
-            if(abs(cible[axe]) > valeurLimiteExt)
+            if(utilitaire::ABS(cible[axe]) > valeurLimiteExt)
                 return false;
 
             if(pos[axe]*cible[axe]<0)

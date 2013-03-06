@@ -76,7 +76,6 @@
 		0C04E17A16DE960B002B0EE2 /* VisiteurEchelle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E14016DE960B002B0EE2 /* VisiteurEchelle.cpp */; };
 		0C04E17B16DE960B002B0EE2 /* VisiteurEcrireXML.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E14216DE960B002B0EE2 /* VisiteurEcrireXML.cpp */; };
 		0C04E17C16DE960B002B0EE2 /* VisiteurEstSelectione.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E14416DE960B002B0EE2 /* VisiteurEstSelectione.cpp */; };
-		0C04E17D16DE960B002B0EE2 /* VisiteurFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E14616DE960B002B0EE2 /* VisiteurFunction.cpp */; };
 		0C04E17E16DE960B002B0EE2 /* VisiteurModifierProprieteNoeud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E14816DE960B002B0EE2 /* VisiteurModifierProprieteNoeud.cpp */; };
 		0C04E17F16DE960B002B0EE2 /* VisiteurNoeud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E14A16DE960B002B0EE2 /* VisiteurNoeud.cpp */; };
 		0C04E18016DE960B002B0EE2 /* VisiteurRotation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E14C16DE960B002B0EE2 /* VisiteurRotation.cpp */; };
@@ -97,6 +96,8 @@
 		0C04E1FB16DE964F002B0EE2 /* XMLUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E1D316DE964F002B0EE2 /* XMLUtils.cpp */; };
 		0C04E1FF16DEA0AC002B0EE2 /* EvenementSouris.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E1FD16DEA0AB002B0EE2 /* EvenementSouris.cpp */; };
 		0C1832E916E7E86D000F1DE2 /* Enum_Declarations.cs in Resources */ = {isa = PBXBuildFile; fileRef = 0C1832E816E7E86D000F1DE2 /* Enum_Declarations.cs */; };
+		0C49614216E7F37F00D13713 /* ExceptionJeu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C49614016E7F37F00D13713 /* ExceptionJeu.cpp */; };
+		0C49614616E80AC600D13713 /* UsineNoeud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C49614516E80AC600D13713 /* UsineNoeud.cpp */; };
 		96378D7B1472C71100F543EA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96378D7A1472C71100F543EA /* UIKit.framework */; };
 		96378D7D1472C71100F543EA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96378D7C1472C71100F543EA /* Foundation.framework */; };
 		96378D7F1472C71100F543EA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96378D7E1472C71100F543EA /* CoreGraphics.framework */; };
@@ -227,8 +228,6 @@
 		0C04E14316DE960B002B0EE2 /* VisiteurEcrireXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisiteurEcrireXML.h; sourceTree = "<group>"; };
 		0C04E14416DE960B002B0EE2 /* VisiteurEstSelectione.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisiteurEstSelectione.cpp; sourceTree = "<group>"; };
 		0C04E14516DE960B002B0EE2 /* VisiteurEstSelectione.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisiteurEstSelectione.h; sourceTree = "<group>"; };
-		0C04E14616DE960B002B0EE2 /* VisiteurFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisiteurFunction.cpp; sourceTree = "<group>"; };
-		0C04E14716DE960B002B0EE2 /* VisiteurFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisiteurFunction.h; sourceTree = "<group>"; };
 		0C04E14816DE960B002B0EE2 /* VisiteurModifierProprieteNoeud.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisiteurModifierProprieteNoeud.cpp; sourceTree = "<group>"; };
 		0C04E14916DE960B002B0EE2 /* VisiteurModifierProprieteNoeud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisiteurModifierProprieteNoeud.h; sourceTree = "<group>"; };
 		0C04E14A16DE960B002B0EE2 /* VisiteurNoeud.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisiteurNoeud.cpp; sourceTree = "<group>"; };
@@ -278,6 +277,9 @@
 		0C04E1FE16DEA0AB002B0EE2 /* EvenementSouris.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EvenementSouris.h; path = "../../C++/Environnement/Evenements/EvenementSouris.h"; sourceTree = "<group>"; };
 		0C04E20316DEB841002B0EE2 /* CodesEvenements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CodesEvenements.h; path = "../../C++/Interface/CodesEvenements.h"; sourceTree = "<group>"; };
 		0C1832E816E7E86D000F1DE2 /* Enum_Declarations.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Enum_Declarations.cs; path = "../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.cs"; sourceTree = "<group>"; };
+		0C49614016E7F37F00D13713 /* ExceptionJeu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ExceptionJeu.cpp; path = ../../../Commun/Utilitaire/ExceptionJeu.cpp; sourceTree = "<group>"; };
+		0C49614116E7F37F00D13713 /* ExceptionJeu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExceptionJeu.h; path = ../../../Commun/Utilitaire/ExceptionJeu.h; sourceTree = "<group>"; };
+		0C49614516E80AC600D13713 /* UsineNoeud.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UsineNoeud.cpp; path = "../../C++/Arbre/Usines/UsineNoeud.cpp"; sourceTree = "<group>"; };
 		96378D761472C71100F543EA /* Hockedu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hockedu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96378D7A1472C71100F543EA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		96378D7C1472C71100F543EA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -482,8 +484,6 @@
 				0C04E14316DE960B002B0EE2 /* VisiteurEcrireXML.h */,
 				0C04E14416DE960B002B0EE2 /* VisiteurEstSelectione.cpp */,
 				0C04E14516DE960B002B0EE2 /* VisiteurEstSelectione.h */,
-				0C04E14616DE960B002B0EE2 /* VisiteurFunction.cpp */,
-				0C04E14716DE960B002B0EE2 /* VisiteurFunction.h */,
 				0C04E14816DE960B002B0EE2 /* VisiteurModifierProprieteNoeud.cpp */,
 				0C04E14916DE960B002B0EE2 /* VisiteurModifierProprieteNoeud.h */,
 				0C04E14A16DE960B002B0EE2 /* VisiteurNoeud.cpp */,
@@ -550,6 +550,9 @@
 		96378D6B1472C71100F543EA = {
 			isa = PBXGroup;
 			children = (
+				0C49614516E80AC600D13713 /* UsineNoeud.cpp */,
+				0C49614016E7F37F00D13713 /* ExceptionJeu.cpp */,
+				0C49614116E7F37F00D13713 /* ExceptionJeu.h */,
 				0C04E20316DEB841002B0EE2 /* CodesEvenements.h */,
 				0C04E09316DE88ED002B0EE2 /* C++Files */,
 				96378D801472C71100F543EA /* Hockedu */,
@@ -810,7 +813,6 @@
 				0C04E17A16DE960B002B0EE2 /* VisiteurEchelle.cpp in Sources */,
 				0C04E17B16DE960B002B0EE2 /* VisiteurEcrireXML.cpp in Sources */,
 				0C04E17C16DE960B002B0EE2 /* VisiteurEstSelectione.cpp in Sources */,
-				0C04E17D16DE960B002B0EE2 /* VisiteurFunction.cpp in Sources */,
 				0C04E17E16DE960B002B0EE2 /* VisiteurModifierProprieteNoeud.cpp in Sources */,
 				0C04E17F16DE960B002B0EE2 /* VisiteurNoeud.cpp in Sources */,
 				0C04E18016DE960B002B0EE2 /* VisiteurRotation.cpp in Sources */,
@@ -830,6 +832,8 @@
 				0C04E1EE16DE964F002B0EE2 /* Utilitaire.cpp in Sources */,
 				0C04E1FB16DE964F002B0EE2 /* XMLUtils.cpp in Sources */,
 				0C04E1FF16DEA0AC002B0EE2 /* EvenementSouris.cpp in Sources */,
+				0C49614216E7F37F00D13713 /* ExceptionJeu.cpp in Sources */,
+				0C49614616E80AC600D13713 /* UsineNoeud.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -875,6 +879,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -894,6 +899,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;

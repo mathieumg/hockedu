@@ -13,7 +13,10 @@
 #include <vector>
 #include "RazerGameTypeDef.h"
 #include "XMLUtils.h"
+
+#ifndef __APPLE__
 #include "RunnableBreaker.h"
+#endif
 
 class RazerGameTree;
 class ArbreNoeudLibre;
@@ -42,9 +45,17 @@ struct b2Manifold;
 /// @author Michael Ferris
 /// @date 2012-03-19
 ///////////////////////////////////////////////////////////////////////////
-class Terrain: public RunnableBreaker
-#if BOX2D_INTEGRATED 
-    , public b2ContactListener 
+class Terrain
+#ifndef __APPLE__
+    : public RunnableBreaker
+#endif
+#if BOX2D_INTEGRATED
+#ifndef __APPLE__
+,
+#else
+:
+#endif
+    public b2ContactListener
 #endif
 {
 public:
