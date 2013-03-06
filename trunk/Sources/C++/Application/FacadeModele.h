@@ -20,6 +20,7 @@
 #include "GameTime.h"
 #include <queue>
 #include <hash_map>
+#include "Enum_Declarations.cs"
 
 
 class VisiteurNoeud;

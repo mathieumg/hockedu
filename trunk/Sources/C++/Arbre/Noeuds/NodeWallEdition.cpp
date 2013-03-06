@@ -127,6 +127,7 @@ void NodeWallEdition::modifierEchelle( float facteur )
 ////////////////////////////////////////////////////////////////////////
 void NodeWallEdition::afficherConcret() const
 {
+#if WIN32
     const Vecteur3& corner1 = obtenirCoin1(), corner2 = obtenirCoin2();
     Vecteur2 vecteurEntre(corner1-corner2);
     vecteurEntre = vecteurEntre.tournerMoinsPiSur2();
@@ -143,7 +144,8 @@ void NodeWallEdition::afficherConcret() const
     // Restauration
     glPopAttrib();
     glPopMatrix();
-
+#endif
+    
     DrawChild();
 //     vecteurEntre.tourner(90,Vecteur3(0,0,1));
 //     vecteurEntre.

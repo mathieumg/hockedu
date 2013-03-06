@@ -8,23 +8,22 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudMaillet.h"
-#include "FacadeModele.h"
 #include "VisiteurCollision.h"
 #include "NoeudMuret.h"
 #include "NoeudTable.h"
 #include "NoeudRondelle.h"
 #include "NoeudGroupe.h"
-#include "Partie.h"
 #include "NoeudBut.h"
-#include <iostream>
-#include "JoueurVirtuel.h"
 #include "Terrain.h"
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
+#include "JoueurVirtuel.h"
+#include "DebugRenderBox2D.h"
+#include "FacadeModele.h"
+#include "GestionnaireEvenements.h"
 #endif
 #include "Utilitaire.h"
-#include "DebugRenderBox2D.h"
-#include "GestionnaireEvenements.h"
+
 
 
 const float NoeudMaillet::DEFAULT_RADIUS = 10;
@@ -398,7 +397,7 @@ void NoeudMaillet::ajusterEnfoncement()
 ////////////////////////////////////////////////////////////////////////
 void NoeudMaillet::ajusterVitesse( const float& temps )
 {
-	Vecteur2 direction;
+/*	Vecteur2 direction;
 	if(!estControleParOrdinateur_)
 	{
 		if(!estControleParClavier_)
@@ -452,7 +451,7 @@ void NoeudMaillet::ajusterVitesse( const float& temps )
 	
 	velocite_ += direction.convertir<3>();
 	velocite_ *= 0.50;
-	//velocite_[VZ] = 0;
+	//velocite_[VZ] = 0;*/
 	
 }
 

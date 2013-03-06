@@ -18,7 +18,7 @@
 #include "NoeudMaillet.h"
 #include "NoeudBut.h"
 #include "NodeWallAbstract.h"
-#include "..\Noeuds\NodeControlPoint.h"
+#include "NodeControlPoint.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -86,7 +86,7 @@ void VisiteurNoeud::visiterNoeudComposite( NoeudComposite* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurNoeud::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
-    VisitParent(NodeWallAbstract);
+    noeud->NodeWallAbstract::Super::acceptVisitor(*this);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -102,7 +102,7 @@ void VisiteurNoeud::visiterNoeudMuret( NodeWallAbstract* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurNoeud::visiterNoeudBut( NoeudBut* noeud )
 {
-    VisitParent(NoeudBut);
+    noeud->NoeudBut::Super::acceptVisitor(*this);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -118,7 +118,7 @@ void VisiteurNoeud::visiterNoeudBut( NoeudBut* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurNoeud::visiterNoeudMaillet( NoeudMaillet* noeud )
 {
-    VisitParent(NoeudMaillet);
+    noeud->NoeudMaillet::Super::acceptVisitor(*this);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -134,7 +134,7 @@ void VisiteurNoeud::visiterNoeudMaillet( NoeudMaillet* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurNoeud::visiterNoeudPortail( NoeudPortail* noeud )
 {
-    VisitParent(NoeudPortail);
+    noeud->NoeudPortail::Super::acceptVisitor(*this);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -150,7 +150,7 @@ void VisiteurNoeud::visiterNoeudPortail( NoeudPortail* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurNoeud::visiterNoeudRondelle( NoeudRondelle* noeud )
 {
-    VisitParent(NoeudRondelle);
+    noeud->NoeudRondelle::Super::acceptVisitor(*this);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -166,7 +166,7 @@ void VisiteurNoeud::visiterNoeudRondelle( NoeudRondelle* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurNoeud::visiterNoeudTable( NoeudTable* noeud )
 {
-    VisitParent(NoeudTable);
+    noeud->NoeudTable::Super::acceptVisitor(*this);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -182,7 +182,7 @@ void VisiteurNoeud::visiterNoeudTable( NoeudTable* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurNoeud::visiterNoeudPoint( NoeudPoint* noeud )
 {
-    VisitParent(NoeudPoint);
+    noeud->NoeudPoint::Super::acceptVisitor(*this);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -198,7 +198,7 @@ void VisiteurNoeud::visiterNoeudPoint( NoeudPoint* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurNoeud::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
 {
-    VisitParent(NoeudAccelerateur);
+    noeud->NoeudAccelerateur::Super::acceptVisitor(*this);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -214,7 +214,7 @@ void VisiteurNoeud::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurNoeud::visiterNodeControlPoint( NodeControlPoint* noeud )
 {
-    VisitParent(NodeControlPoint);
+    noeud->NodeControlPoint::Super::acceptVisitor(*this);
 }
 
 

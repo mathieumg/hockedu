@@ -10,6 +10,9 @@
 #include "RazerGameUtilities.h"
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
+#include "FacadeModele.h"
+#include "Partie.h"
+#include "SoundFMOD.h"
 #endif
 #if BOX2D_DEBUG
 #include "DebugRenderBox2D.h"
@@ -32,9 +35,7 @@
 #include "NoeudAccelerateur.h"
 #include "NoeudPortail.h"
 #include "VisiteurFunction.h"
-#include "Partie.h"
 #include "VisiteurDupliquer.h"
-#include "SoundFMOD.h"
 #include "VisiteurCollision.h"
 #include "VisiteurDeplacement.h"
 #include "VisiteurEcrireXML.h"
@@ -325,10 +326,11 @@ bool Terrain::initialiserXml( XmlElement* element )
         }
         else
             throw ExceptionJeu("Etiquette de l'arbre manquant");
-
 		mTable = mLogicTree->obtenirTable();
 		if(mTable == NULL)
+        {
 			throw ExceptionJeu("Il ny a pas de table sur le terrain");
+        }
 		//mTable->reassignerParentBandeExt();
         fullRebuild();
 	}
@@ -562,6 +564,7 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 	// Cas particulier pour des muret puisque ce sont des segment et non des cercles
 	if(getZoneEdition() && noeud->obtenirType() == RazerGameUtilities::NOM_MURET)
 	{
+        Vecteur2 intersection;
 		NodeWallAbstract *muret = (NodeWallAbstract *)noeud;
 		if (muret)
 		{
@@ -571,7 +574,7 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 				muret->obtenirCoin2().convertir<2>(),
 				Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
 				Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
-				Vecteur2()	// pas besoin du point dintersection
+				intersection	// pas besoin du point dintersection
 				).type != aidecollision::COLLISION_AUCUNE)
 				return false;
 			// Ligne de droite
@@ -580,7 +583,7 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 				muret->obtenirCoin2().convertir<2>(),
 				Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
 				Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
-				Vecteur2()	// pas besoin du point dintersection
+				intersection	// pas besoin du point dintersection
 				).type != aidecollision::COLLISION_AUCUNE)
 				return false;
 			// Ligne du bas
@@ -589,7 +592,7 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 				muret->obtenirCoin2().convertir<2>(),
 				Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
 				Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
-				Vecteur2()	// pas besoin du point dintersection
+				intersection	// pas besoin du point dintersection
 				).type != aidecollision::COLLISION_AUCUNE)
 				return false;
 			// Ligne de Gauche
@@ -598,7 +601,7 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 				muret->obtenirCoin2().convertir<2>(),
 				Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
 				Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
-				Vecteur2()	// pas besoin du point dintersection
+				intersection	// pas besoin du point dintersection
 				).type != aidecollision::COLLISION_AUCUNE)
 				return false;
 		}
@@ -1233,7 +1236,8 @@ void Terrain::duplicateSelection()
 {
     if(mLogicTree)
     {
-        acceptVisitor(VisiteurDupliquer(mLogicTree));
+        VisiteurDupliquer v(mLogicTree);
+        acceptVisitor(v);
     }
 }
 
@@ -1456,6 +1460,7 @@ float Terrain::GetTableWidth() const
     }
     return ZoneEdition::DEFAUT_LIMITE_EXT_LARGEUR*2.f;
 }
+
 
 ///////////////////////////////////////////////////////////////////////////
 /// @}

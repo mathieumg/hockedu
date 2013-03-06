@@ -13,10 +13,9 @@
 #endif
 #include "Utilitaire.h"
 #include "VisiteurCollision.h"
-#include "FacadeModele.h"
-#include "Modele3D.h"
+
 #include "XMLUtils.h"
-#include "GestionnaireModeles.h"
+
 
 #ifdef MIKE_DEBUG
 PRAGMA_DISABLE_OPTIMIZATION
@@ -24,6 +23,9 @@ PRAGMA_DISABLE_OPTIMIZATION
 
 const Vecteur3 NodeWallAbstract::DEFAULT_SIZE = Vecteur3(1, 5, 15);
 
+#if WIN32
+#include "Modele3D.h"
+#include "GestionnaireModeles.h"
 CreateListDelegateImplementation(Wall)
 {
     Vecteur3 coinMin,coinMax;
@@ -34,6 +36,7 @@ CreateListDelegateImplementation(Wall)
     pModel->assignerFacteurAgrandissement(delta);
     return GestionnaireModeles::CreerListe(pModel);
 }
+#endif
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -131,8 +134,9 @@ void NodeWallAbstract::updatePhysicBody()
 ////////////////////////////////////////////////////////////////////////
 void NodeWallAbstract::afficherConcret() const
 {
+#if WIN32
 	glColor3f(0.76f, 0.64f, 0.31f);
-
+#endif
 	// Appel à la version de la classe de base pour l'affichage des enfants.
 	Super::afficherConcret();
 }

@@ -73,8 +73,6 @@ void VisiteurRotation::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 	if(!noeud->estSelectionne())
 		return;
 	
-	glPushMatrix(); // Sauvegarde de la matrice d'origine
-	
 	const Vecteur3& positionNoeud = noeud->getPosition();
 
 	float	deltaX = positionNoeud[VX]-centreRot_[VX],
@@ -115,10 +113,6 @@ void VisiteurRotation::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 	// Il faut recalculer la matrice de transformation
 	noeud->updateMatrice();
 	
-	
-	glPopMatrix(); // Recuperation de la matrice d'origine
-
-
 }
 
 

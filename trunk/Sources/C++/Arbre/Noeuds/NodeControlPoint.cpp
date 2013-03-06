@@ -7,15 +7,17 @@
 /// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////
-#pragma once
 
 #include "NodeControlPoint.h"
 #include "VisiteurNoeud.h"
 #include <algorithm>
+
+#include "Utilitaire.h"
+
 #if BOX2D_INTEGRATED
 #include "DebugRenderBox2D.h"
+#include "FacadeModele.h"
 #endif
-#include "Utilitaire.h"
 
 #ifdef MIKE_DEBUG
 PRAGMA_DISABLE_OPTIMIZATION
@@ -23,7 +25,9 @@ PRAGMA_DISABLE_OPTIMIZATION
 
 CreateListDelegateImplementation(ControlPoint)
 {
+
     GLuint liste = NULL;
+#if WIN32
     liste = glGenLists(1);
     glNewList(liste, GL_COMPILE);
 #if BOX2D_INTEGRATED
@@ -31,7 +35,7 @@ CreateListDelegateImplementation(ControlPoint)
         debugRender->DrawSolidCircle(b2Vec2(0,0),0.5,b2Vec2(0,0),b2Color(1,0,1));
 #endif
     glEndList();
-
+#endif
     return liste;
 }
 
@@ -126,6 +130,11 @@ void NodeControlPoint::acceptVisitor( VisiteurNoeud& v )
 ////////////////////////////////////////////////////////////////////////
 void NodeControlPoint::flagSelectedAssociatedPoints() const
 {
+    /*for(auto i = mAssociatedPoints.begin(); i!= mAssociatedPoints.end(); ++i)
+        {
+            NodeControlPoint* point = *i;
+            point->flagVisitationIfSelected();
+        }*/
     std::for_each(
         mAssociatedPoints.begin(),
         mAssociatedPoints.end(), 

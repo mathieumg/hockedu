@@ -73,7 +73,6 @@ public:
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody();
 
-    //////////////////////////////////////////////////////////////////////////
     /// Objet Animable interface
     virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
     //////////////////////////////////////////////////////////////////////////

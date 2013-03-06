@@ -12,17 +12,19 @@
 #include <Box2D/Box2D.h>
 #endif
 #include "VisiteurCollision.h"
-#include "GestionnaireModeles.h"
+
 #include "NoeudPoint.h"
-#include "FacadeModele.h"
 #include "XMLUtils.h"
 #include "Utilitaire.h"
 #include "NoeudRondelle.h"
 
 const Vecteur3 NoeudBut::DEFAULT_SIZE = Vecteur3(30, 10, 5);
-
+#if WIN32
+#include "GestionnaireModeles.h"
+#endif
 CreateListDelegateImplementation(Goal)
 {
+#if WIN32
     Vecteur3 coinMin,coinMax;
     pModel->calculerBoiteEnglobante(coinMin,coinMax);
     Vecteur3 delta = coinMax - coinMin;
@@ -30,6 +32,9 @@ CreateListDelegateImplementation(Goal)
 
     pModel->assignerFacteurAgrandissement(delta);
     return GestionnaireModeles::CreerListe(pModel);
+#else
+    return 0;
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -86,6 +91,7 @@ NoeudBut::~NoeudBut()
 ////////////////////////////////////////////////////////////////////////
 void NoeudBut::afficherConcret() const
 {
+#if WIN32
     GLuint liste = NULL;
     GestionnaireModeles::obtenirInstance()->obtenirListe(type_,liste);
 
@@ -128,7 +134,7 @@ void NoeudBut::afficherConcret() const
         glPopMatrix();
     }
 
-
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////

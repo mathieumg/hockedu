@@ -1,9 +1,10 @@
 #pragma once
 // Evitez le plus possible de mettre des includes ici
 
+#if WIN32
 // a enlever dès que le wrapper est terminé
 #include "tinyxml\include\tinyxml.h"
-
+#endif
 
 template<class T>
 class Vecteur3D;
@@ -22,6 +23,14 @@ class TiXmlDocument;
 typedef TiXmlDocument XmlDocument;
 
 #else
+
+typedef void* XmlElement;
+
+typedef void* XmlText;
+
+typedef void* XmlNode;
+
+typedef void* XmlDocument;
 // mettre les typedef et class pour une librairie xml dans MAC
 #endif
 

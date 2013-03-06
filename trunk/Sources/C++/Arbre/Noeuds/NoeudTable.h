@@ -11,7 +11,6 @@
 #define __ARBRE_NOEUDS_NOEUDTABLE_H__
 
 #include "NoeudComposite.h"
-#include "aiScene.h"
 #include "NoeudPoint.h"
 #include "NoeudMuret.h"
 #include "PositionSubject.h"
@@ -62,7 +61,7 @@ public:
    NodeWallAbstract* detectionCollisionGrandeVitesseMuret(const Vecteur2& anciennePos,const Vecteur2& nouvellePos, Vecteur2 &intersectionRetour);
    
    /// Permet de trouver les vertex correspondants dans les modeles 3D
-   static GroupeTripleAdresseFloat trouverVertex(const aiScene* scene, const aiNode* noeud, const GroupeCoord& listePoints);
+   static GroupeTripleAdresseFloat trouverVertex(const struct aiScene* scene, const struct aiNode* noeud, const GroupeCoord& listePoints);
 
 
    /// Ajoute les bande exterieur comme enfant au groupe de Muret pour les traiter pareil

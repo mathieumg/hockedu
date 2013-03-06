@@ -21,7 +21,7 @@
 // Nous pouvons charger la librairie OpenGL (GLU) en indiquant cette directive
 // au précompilateur
 #pragma comment ( lib, "glu32.lib" )
-#endif
+
 
 #include "FreeImage.h"
 #include "glew.h"
@@ -743,6 +743,7 @@ namespace aidegl {
 
 } // Fin de l'espace de nom aidegl.
 
+#endif
 
 ///////////////////////////////////////////////////////////////////////////
 /// @}

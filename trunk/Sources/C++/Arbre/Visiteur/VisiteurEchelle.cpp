@@ -19,8 +19,8 @@
 #include "NoeudTable.h"
 #include "NoeudPoint.h"
 #include "NoeudAccelerateur.h"
-#include "..\Noeuds\NodeControlPoint.h"
-#include "..\Noeuds\ControlPointMutableAbstract.h"
+#include "NodeControlPoint.h"
+#include "ControlPointMutableAbstract.h"
 
 
 const float VisiteurEchelle::FACTEUR_ECHELLE = 1.005f;

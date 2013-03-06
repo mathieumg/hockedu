@@ -7,6 +7,7 @@
 
 #import "EAGLViewController.h"
 #import "EAGLView.h"
+#import "TestNoeudAbstrait.h"
 #define degreesToRadian(x) (M_PI * (x) / 180.0)
 
 float const LARGEUR_FENETRE = 1024;
@@ -47,9 +48,12 @@ enum {
 
 - (void)awakeFromNib
 {
+    
+    TestNoeudAbstrait *noeud = [TestNoeudAbstrait alloc];
+    [noeud initWithFilename];
+    
     [self.view init];    
     theEAGLView = [[EAGLView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.mGLView.bounds.size.height, self.mGLView.bounds.size.width)];
-
     
     if (!theEAGLView)
         NSLog(@"Failed to create ES view");

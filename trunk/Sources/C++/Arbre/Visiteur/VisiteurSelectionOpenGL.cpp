@@ -16,7 +16,6 @@
 #include "NoeudRondelle.h"
 #include "NoeudTable.h"
 #include "NoeudPoint.h"
-#include "FacadeModele.h"
 #include "NoeudAccelerateur.h"
 
 

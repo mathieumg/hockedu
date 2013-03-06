@@ -11,9 +11,6 @@
 #include <algorithm>
 #include "VisiteurNoeud.h"
 
-extern HANDLE mutexNoeuds;
-
-
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn  NoeudComposite::NoeudComposite( const std::string& type /*= std::string( "" ) */ )
@@ -454,6 +451,7 @@ void NoeudComposite::assignerModePolygones( GLenum modePolygones )
 ////////////////////////////////////////////////////////////////////////
 void NoeudComposite::afficherConcret() const
 {
+#if WIN32
     glPushMatrix();
     glPushAttrib(GL_CURRENT_BIT | GL_POLYGON_BIT);
 
@@ -466,7 +464,7 @@ void NoeudComposite::afficherConcret() const
     // Restauration
     glPopAttrib();
     glPopMatrix();
-
+#endif
     DrawChild();
 }
 

@@ -11,6 +11,7 @@
 
 #include "NoeudComposite.h"
 #include "PositionSubject.h"
+#include "Solution_Defines.h"
 #include <list>
 
 class ControlPointMutableAbstract;

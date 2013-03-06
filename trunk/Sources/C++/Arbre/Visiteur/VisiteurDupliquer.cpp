@@ -16,9 +16,8 @@
 #include "NoeudTable.h"
 #include "NoeudPoint.h"
 #include "NoeudAccelerateur.h"
-#include "FacadeModele.h"
 #include "RazerGameTree.h"
-
+#include "Terrain.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -82,7 +81,8 @@ void VisiteurDupliquer::visiterNoeudComposite( NoeudComposite* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurDupliquer::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
-	if(noeud -> estSelectionne())
+    Terrain* terrain = noeud->GetTerrain();
+	if(terrain && noeud -> estSelectionne())
 	{
         // assume ici qu'un muret relatif ne peut etre selectionné
 		NoeudMuret* nouveauNoeud = (NoeudMuret*)(arbre_->ajouterNouveauNoeud(RazerGameUtilities::NOM_TABLE, noeud->obtenirType()));
@@ -104,7 +104,7 @@ void VisiteurDupliquer::visiterNoeudMuret( NodeWallAbstract* noeud )
 					nouveauNoeud->assignerAngle(angle);
 					nouveauNoeud->updateMatrice();
 				}
-				if(FacadeModele::getInstance()->validerPositionNoeud(nouveauNoeud))
+				if(terrain->IsNodeAtValidEditionPosition(nouveauNoeud))
 				{
 					
 					return;
@@ -259,40 +259,41 @@ void VisiteurDupliquer::visiterEnfants( NoeudComposite* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurDupliquer::dupliquerNoeud( NoeudAbstrait* noeud )
 {
-	if(noeud -> estSelectionne())
+    Terrain* terrain = noeud->GetTerrain();
+	if(terrain && noeud -> estSelectionne())
 	{
 		NoeudAbstrait* nouveauNoeud = arbre_->ajouterNouveauNoeud(RazerGameUtilities::NOM_TABLE, noeud->obtenirType());
 		if(nouveauNoeud != 0)
 		{
 
 			Vecteur2 position;
-			bool posValide = FacadeModele::getInstance()->validerPositionNoeud(nouveauNoeud);
+			bool posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
 			for(int i = 1; i <= 2; ++i)
 			{
 				position = noeud->getPosition().convertir<2>() + Vecteur2(2*i*noeud->obtenirRayon(), 2*i*noeud->obtenirRayon());
 				nouveauNoeud->setPosition(position.convertir<3>());
-				posValide = FacadeModele::getInstance()->validerPositionNoeud(nouveauNoeud);
+				posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
 
 				if(posValide)
 					break;
 
 				position = noeud->getPosition().convertir<2>() + Vecteur2(-2*i*noeud->obtenirRayon(), 2*i*noeud->obtenirRayon());
 				nouveauNoeud->setPosition(position.convertir<3>());
-				posValide = FacadeModele::getInstance()->validerPositionNoeud(nouveauNoeud);
+				posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
 
 				if(posValide)
 					break;
 
 				position = noeud->getPosition().convertir<2>() + Vecteur2(-2*i*noeud->obtenirRayon(), -2*i*noeud->obtenirRayon());
 				nouveauNoeud->setPosition(position.convertir<3>());
-				posValide = FacadeModele::getInstance()->validerPositionNoeud(nouveauNoeud);
+				posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
 
 				if(posValide)
 					break;
 
 				position = noeud->getPosition().convertir<2>() + Vecteur2(2*i*noeud->obtenirRayon(), -2*i*noeud->obtenirRayon());
 				nouveauNoeud->setPosition(position.convertir<3>());
-				posValide = FacadeModele::getInstance()->validerPositionNoeud(nouveauNoeud);
+				posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
 
 				if(posValide)
 					break;

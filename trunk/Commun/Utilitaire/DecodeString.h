@@ -204,7 +204,7 @@ public:
 		temp2 = temp2%10;
 		if(temp2 >= 5)
 		{
-			result.pop_back();
+			result.resize(result.size()-1);
 			result += toString(temp+1);
 		}
 

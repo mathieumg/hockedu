@@ -76,7 +76,7 @@ public:
 	////////////////////////////////////////////////////////////////////////
 	void erase(const T& elem)
 	{
-		vector<T>::iterator pos = find(vec.begin(),vec.end(),elem);
+		auto pos = find(vec.begin(),vec.end(),elem);
 		if(pos != vec.end())
 		{
 			vec.erase(pos);

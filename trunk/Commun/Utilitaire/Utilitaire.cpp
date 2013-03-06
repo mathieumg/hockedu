@@ -7,7 +7,7 @@
 /// @addtogroup utilitaire Utilitaire
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
-#include "../Environnement/RazerGameUtilities.h"
+
 #if BOX2D_INTEGRATED
 #include <Box2D/Box2D.h>
 #endif
@@ -18,8 +18,11 @@
 #include <vector>
 #include <algorithm>
 #include <stdarg.h>
+
+#if WIN32
 #define _WINSOCKAPI_
 #include <Windows.h>
+
 
 /**
 * Helper function to write formatted output using an argument list
@@ -135,6 +138,7 @@ AssertHandleMode __cdecl DisplayAssertMessage( const char *message)
     }
     return HandleMode;
 }
+#endif
 
 namespace utilitaire {
 
