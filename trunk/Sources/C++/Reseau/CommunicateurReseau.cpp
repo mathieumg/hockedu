@@ -26,6 +26,11 @@
 #include <sstream>
 #include <time.h>
 
+#if !WINDOWS
+#define sprintf_s sprintf
+#endif
+
+
 // Taille maximale des buffers pour l<envoie et la reception
 unsigned int CommunicateurReseau::maxBufferSize = 5000;
 
