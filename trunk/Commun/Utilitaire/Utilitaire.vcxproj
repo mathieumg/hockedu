@@ -110,6 +110,7 @@
     <ClCompile Include="ConteneurAttribut.cpp" />
     <ClCompile Include="Droite3D.cpp" />
     <ClCompile Include="EtatOpenGL.cpp" />
+    <ClCompile Include="ExceptionJeu.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="GestionnaireAnimations.cpp" />
     <ClCompile Include="LumiereAbstraite.cpp" />
