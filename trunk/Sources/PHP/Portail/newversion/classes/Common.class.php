@@ -317,6 +317,24 @@ class Common
         return true;
     }
 	
+    public function getUserList()
+    { 
+        $sql = 'SELECT %s, %s
+                FROM %s 
+                ORDER BY %s DESC';
+        $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'username' ),
+                        $this->db->quoteIdentifier( 'registration_time' ),
+                        
+                        $this->db->quoteIdentifier( 'users'),
+                        
+                        $this->db->quoteIdentifier( 'registration_time' )
+                       );
+        $userInformation = $this->db->queryAll( $sql );
+        
+        return $userInformation;
+    }
+	
 	/**
      * Indicates whether a user with the specified email exists.
      * @access public

@@ -2,12 +2,13 @@
 /**
  * AJAX handler.
  * 
- * This file handles all the AJAX requests.
+ * This file handles all the AJAX requests, and other requests that require JSON output.
  * @author Mathieu M-Gosselin <mathieumg@gmail.com>
- * @since 13/07/2011
- * @package Cloud
+ * @since 20/02/2013
+ * @package Hockedu
  */
 
+header('Content-Type: application/json');
 
 $ajaxModule = $Website->getModules( 1 );
 
@@ -40,19 +41,22 @@ if( !$commonAjaxModule )
     // Requests that require the user to be logged in.
     if( $Website->isLoggedIn() )
     {    
-        $ajaxPath = $Website->getCurrentSubsiteAjaxPath();
+        /*
+		$ajaxPath = $Website->getCurrentSubsiteAjaxPath();
         
         if( file_exists( $ajaxPath ) )
         {
             require_once( $ajaxPath );
         }
+		*/
     }
     // Requests that do not require the user to be logged in.
     else
     {
         switch( $ajaxModule )
         {
-            case 'login':
+            /*
+			case 'login':
                 //$Common->getDb()->query( 'SELECT * FROM comm_settings' );
                 
                 // Some sanitizing.
@@ -139,6 +143,19 @@ if( !$commonAjaxModule )
                 }
                 
                 break;
+			*/
+				
+			case 'listusers':
+				$finalUsersArray = array();
+				$Common = Common::getInstance();
+				$usersArray = $Common->getUserList();
+				
+				foreach( $usersArray as $user )
+				{
+					$finalUsersArray[] = array( 'text' => 'Registered on the ' . date('jS \of F Y \a\t g:i A', $user['registration_time']) , 'user' => array( 'username' => $user['username'] ) );
+				}
+				
+				$ajaxResponse['data'] = $finalUsersArray;
         }
     }
 }
