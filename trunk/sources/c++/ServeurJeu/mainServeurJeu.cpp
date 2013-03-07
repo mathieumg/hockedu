@@ -6,7 +6,6 @@
 #include <stdexcept>
 #include "../Interface/FacadeServeurJeu.h"
 
-typedef void (*FunctionFunc)();
 const char flagChar = '-';
 
 

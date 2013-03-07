@@ -158,7 +158,7 @@ public:
 private:
 	/// Methode pour initialiser l'arbre de rendu
 	void initialiserArbreRendu();
-    void ecrireArbre(NoeudAbstrait* parentNoeud, const XmlNode* node);
+    void ecrireArbre(NoeudAbstrait* parentNoeud, const XmlElement* node);
 
 	/// Fields
 private:

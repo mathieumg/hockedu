@@ -322,18 +322,18 @@ bool Terrain::initialiserXml( XmlElement* element )
 	try
 	{
         // Tenter d'obtenir le noeud 'Arbre'
-        const XmlNode* elementConfiguration = XMLUtils::FirstChild(racine, "Arbre"), *child;
-        if (elementConfiguration != NULL)
+        const XmlElement* elementConfiguration = XMLUtils::FirstChildElement(racine, "Arbre"), *child;
+        if (elementConfiguration)
         {
-#ifndef __APPLE__
-            for( child = elementConfiguration->FirstChild(); child/*Vérifie si child est non-null*/; child = child->NextSibling() )
+            for( child = XMLUtils::FirstChildElement(elementConfiguration); child; child = XMLUtils::NextSibling(child) )
             {
                 ecrireArbre(mLogicTree,child);
             }
-#endif
         }
         else
+        {
             throw ExceptionJeu("Etiquette de l'arbre manquant");
+        }
 		mTable = mLogicTree->obtenirTable();
 		if(mTable == NULL)
         {
@@ -374,17 +374,16 @@ bool Terrain::initialiserXml( XmlElement* element )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Terrain::ecrireArbre(NoeudAbstrait* parentNoeud, const XmlNode* node)
+void Terrain::ecrireArbre(NoeudAbstrait* parentNoeud, const XmlElement* node)
 {
-    XmlElement* elem = (XmlElement*)node;
-    std::string nom = XMLUtils::GetNodeTag(elem);
+    std::string nom = XMLUtils::GetNodeTag(node);
     NoeudAbstrait* noeudCourant;
 
     // Si le noeud est un point, on doit retrouver ce noeud à partir de la table et non en instancier un nouveau
     if(nom.c_str() == RazerGameUtilities::NAME_TABLE_CONTROL_POINT)
     {
         int typeNoeud;
-        if( !XMLUtils::readAttribute(elem,"typePosNoeud", typeNoeud) )
+        if( !XMLUtils::readAttribute(node,"typePosNoeud", typeNoeud) )
         {
             throw ExceptionJeu("Erreur de lecture d'attribut");
         }
@@ -418,21 +417,15 @@ void Terrain::ecrireArbre(NoeudAbstrait* parentNoeud, const XmlNode* node)
             throw ExceptionJeu("Incapable d'ajouter le noeud au parent");
         }
     }
-    if(!noeudCourant->initialiser(elem))
+    if(!noeudCourant->initialiser(node))
     {
         throw ExceptionJeu("Erreur de lecture d'attribut");
     }
-#ifndef __APPLE__
-    if(!elem->NoChildren())
+
+    for( auto child = XMLUtils::FirstChildElement(node); child; child = XMLUtils::NextSibling(child) )
     {
-        const XmlNode *child;
-        for( child = node->FirstChild(); child; child = child->NextSibling() )
-        {
-            ecrireArbre(noeudCourant,child);
-        }
+        ecrireArbre(noeudCourant,child);
     }
-#endif
-    
 }
 
 

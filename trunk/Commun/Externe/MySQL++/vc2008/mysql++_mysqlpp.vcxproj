@@ -96,6 +96,7 @@
     <Lib>
       <AdditionalDependencies>libmysql.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\MySQL\lib\</AdditionalLibraryDirectories>
+      <OutputFile>$(SolutionDir)\lib\$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -140,6 +141,7 @@
     <Lib>
       <AdditionalDependencies>libmysql.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\MySQL\lib\</AdditionalLibraryDirectories>
+      <OutputFile>$(SolutionDir)\lib\$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

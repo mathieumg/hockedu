@@ -75,6 +75,7 @@
     <Lib>
       <AdditionalDependencies>FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\Externe\FreeImage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <OutputFile>$(SolutionDir)\lib\$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -95,6 +96,7 @@
     <Lib>
       <AdditionalDependencies>FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\Externe\FreeImage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <OutputFile>$(SolutionDir)\lib\$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -184,8 +186,8 @@
     <ClInclude Include="XMLUtils.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Exe\nuanceurFragments.glsl" />
-    <None Include="..\..\Exe\nuanceurSommets.glsl" />
+    <None Include="..\..\Content\Exe\nuanceurFragments.glsl" />
+    <None Include="..\..\Content\Exe\nuanceurSommets.glsl" />
     <None Include="..\..\Sources\C#\UIHeavyClient\UIHeavyClient\Enum_Declarations.cs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
