@@ -20,9 +20,8 @@
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
-#include "Utilitaire.h"
 #endif
-
+#include "Utilitaire.h"
 
 GLuint NoeudAbstrait::compteurIdGl_ = 1;
 
@@ -716,7 +715,7 @@ float NoeudAbstrait::obtenirRayon() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::updateRayon()
 {
-	rayon_ = getDefaultRadius()*max(echelleCourante_[VX], echelleCourante_[VY]);
+	rayon_ = getDefaultRadius()*utilitaire::borneSuperieure(echelleCourante_[VX], echelleCourante_[VY]);
 }
 
 
@@ -1021,6 +1020,7 @@ const class ArbreRendu* NoeudAbstrait::GetTreeRoot() const
     return NULL;
 }
 
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn class b2World* NoeudAbstrait::getWorld()
@@ -1033,7 +1033,10 @@ const class ArbreRendu* NoeudAbstrait::GetTreeRoot() const
 ////////////////////////////////////////////////////////////////////////
 class b2World* NoeudAbstrait::getWorld()
 {
+#if BOX2D_INTEGRATED
     return GetTerrain() ? GetTerrain()->GetWorld() : NULL;
+#endif
+    return NULL;
 }
 
 

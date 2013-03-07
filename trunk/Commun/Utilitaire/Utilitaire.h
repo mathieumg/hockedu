@@ -13,13 +13,6 @@
 #include "Vecteur.h"
 #include <sstream>
 
-#if !defined(max) && !defined(WIN32) && !defined(LINUX)
-#define max(x,y) ((x<y)?y:x)
-#endif
-#if !defined(abs) && !defined(WIN32) && !defined(LINUX)
-#define abs(x) (x<0?-x:x)
-#endif
-
 namespace utilitaire {
 	/// Définition d'un type d'entier non signé.
 	typedef unsigned int uint;
@@ -126,10 +119,11 @@ namespace utilitaire {
 	///
 	////////////////////////////////////////////////////////////////////////
 	template <class T>
-	void borneSuperieure( T& valeur, const T& borne )
+	inline T borneSuperieure( const T& valeur, const T& borne )
 	{
 		if ( valeur > borne )
-			valeur = borne;
+			return valeur;
+        return borne;
 	}
 
 	////////////////////////////////////////////////////////////////////////
@@ -145,10 +139,11 @@ namespace utilitaire {
 	///
 	////////////////////////////////////////////////////////////////////////
 	template <class T>
-	void borneInferieure( T& valeur, const T& borne )
+	inline T borneInferieure( const T& valeur, const T& borne )
 	{
 		if ( valeur < borne )
-			valeur = borne;
+			return valeur;
+        return borne;
 	}
 
 

@@ -130,19 +130,11 @@ void NodeControlPoint::acceptVisitor( VisiteurNoeud& v )
 ////////////////////////////////////////////////////////////////////////
 void NodeControlPoint::flagSelectedAssociatedPoints() const
 {
-    /*for(auto i = mAssociatedPoints.begin(); i!= mAssociatedPoints.end(); ++i)
+    for(auto i = mAssociatedPoints.begin(); i!= mAssociatedPoints.end(); ++i)
         {
             NodeControlPoint* point = *i;
             point->flagVisitationIfSelected();
-        }*/
-    std::for_each(
-        mAssociatedPoints.begin(),
-        mAssociatedPoints.end(), 
-        [](NodeControlPoint* point)
-        {
-            point->flagVisitationIfSelected();
         }
-    );
 }
 
 // permet d'empecher d'appeler assignerPositionAbsolue a partir de setPosition

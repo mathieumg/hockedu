@@ -17,14 +17,9 @@
 
 #include "Utilitaire.h"
 #include "Terrain.h"
-#include "Runnable.h"
-#include "QueueThreadSafe.h"
 
-/// File scope Variables for runnables///////////////////////////////////
-QueueThreadSafe<Runnable*> mUIRunnables;
-QueueThreadSafe<Runnable*> mUpdateRunnables;
-bool mUpdating = false, mRendering=false;
-//////////////////////////////////////////////////////////////////////////
+
+
 
 
 
@@ -65,6 +60,15 @@ bool mUpdating = false, mRendering=false;
 #endif
       return "";
    }
+
+#ifndef __APPLE__
+#include "Runnable.h"
+#include "QueueThreadSafe.h"
+/// File scope Variables for runnables///////////////////////////////////
+QueueThreadSafe<Runnable*> mUIRunnables;
+QueueThreadSafe<Runnable*> mUpdateRunnables;
+bool mUpdating = false, mRendering=false;
+//////////////////////////////////////////////////////////////////////////
 
    void RazerGameUtilities::Rendering(bool isRendering)
    {
@@ -182,6 +186,7 @@ bool mUpdating = false, mRendering=false;
            }
        }
    }
+#endif
 
    ////////////////////////////////////////////////////////////////////////
    ///

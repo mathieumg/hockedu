@@ -2,8 +2,10 @@
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #define WINDOWS 1
-#else
+#elif __linux__
 #define LINUX 1
+#else
+#define MACLOL 1
 #endif
 
 // Set to 1 when testing for shipping game

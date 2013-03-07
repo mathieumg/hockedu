@@ -505,9 +505,9 @@ namespace XMLUtils
     /// Search an element with the tag
     XmlElement* FirstChildElement( XmlElement* element, const char* childName){return NULL;}
     /// first child of the element
-    const XmlNode* FirstChild( const XmlElement* element ){return NULL;}
+    const XmlNode* FirstChild( const XmlElement* element, const char* childName ){return NULL;}
     /// first child of the element
-    XmlNode* FirstChild( XmlElement* element ){return NULL;}
+    XmlNode* FirstChild( XmlElement* element, const char* childName ){return NULL;}
     
     /// creates an xml document
     XmlDocument* CreateDocument(const char* _version,const char* _encoding,const char* _standalone){return NULL;}
@@ -517,8 +517,10 @@ namespace XMLUtils
     /// Free the document's memory
     void FreeDocument(XmlDocument* document){}
 
-    
-    
+    /// retrieve the text for this node's tag
+    const char* GetNodeTag(const XmlElement* element){return NULL;}
+    /// retrieves the sibling of the current node
+    const XmlElement* NextSibling( const XmlElement* child ) {return NULL;}
     
 #endif
     

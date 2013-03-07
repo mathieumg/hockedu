@@ -23,61 +23,35 @@ class TiXmlDocument;
 typedef TiXmlDocument XmlDocument;
 
 #else
+typedef int XmlElement;
 
-typedef void* XmlElement;
+typedef int XmlText;
 
-typedef void* XmlText;
+typedef int XmlNode;
 
-typedef void* XmlNode;
-
-typedef void* XmlDocument;
+typedef int XmlDocument;
+#ifndef NULL
+#define NULL 0
+#endif
 // mettre les typedef et class pour une librairie xml dans MAC
 #endif
 
 namespace XMLUtils
 {
+    
+    
+    ///private use
+    const char* MakeName(const char* name, int index);
+    void FreeName(const char* createdName);
+    
+    
+    
     /// Creates an xml element with the given name
     XmlElement* createNode(const char* name);
     /// Creates a text node with the given name
     XmlText* createTextNode(const char* name);
 
-    /// writes an array of element
-    template<class T>
-    void writeArray(const T* pArray, int size, XmlElement* element, const char* name)
-    {
-        for(int i=0; i<size; ++i)
-        {
-            const char* createdName = MakeName(name,i);
-            if(createdName)
-            {
-                writeAttribute(element,createdName,pArray[i]);
-                FreeName(createdName);
-            }
-        }
-    }
-
-    /// reads an array of element
-    template<class T>
-    bool readArray(T* pArray, int size, const XmlElement* element, const char* name)
-    {
-        for(int i=0; i<size; ++i)
-        {
-            const char* createdName = MakeName(name,i);
-            if(!createdName)
-            {
-                return false;
-            }
-
-            if(!readAttribute(element,createdName,pArray[i]))
-            {
-                FreeName(createdName);
-                return false;
-            }
-            FreeName(createdName);
-        }
-        return true;
-    }
-
+    
     /// Writes an attribute in the xml element with the given name tag
     template<class T> void writeAttribute(XmlElement* element, const char* name, const T& attribute);
     /// Read an attribute from the xml element with the given name tag
@@ -106,9 +80,43 @@ namespace XMLUtils
     /// Free the document's memory
     void FreeDocument(XmlDocument* document);
 
-///private use
-    const char* MakeName(const char* name, int index);
-    void FreeName(const char* createdName);
+    /// writes an array of element
+    template<class T>
+    void writeArray(const T* pArray, int size, XmlElement* element, const char* name)
+    {
+        for(int i=0; i<size; ++i)
+        {
+            const char* createdName = MakeName(name,i);
+            if(createdName)
+            {
+                writeAttribute(element,createdName,pArray[i]);
+                FreeName(createdName);
+            }
+        }
+    }
+    
+    /// reads an array of element
+    template<class T>
+    bool readArray(T* pArray, int size, const XmlElement* element, const char* name)
+    {
+        for(int i=0; i<size; ++i)
+        {
+            const char* createdName = MakeName(name,i);
+            if(!createdName)
+            {
+                return false;
+            }
+            
+            if(!readAttribute(element,createdName,pArray[i]))
+            {
+                FreeName(createdName);
+                return false;
+            }
+            FreeName(createdName);
+        }
+        return true;
+    }
+
 
 }
 
