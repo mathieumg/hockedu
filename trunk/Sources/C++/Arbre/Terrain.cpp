@@ -329,7 +329,7 @@ bool Terrain::initialiserXml( XmlElement* element )
             for( child = elementConfiguration->FirstChild(); child/*Vérifie si child est non-null*/; child = child->NextSibling() )
             {
                 ecrireArbre(mLogicTree,child);
-            }WRAP IT MIKE!!!
+            }
 #endif
         }
         else
@@ -423,14 +423,14 @@ void Terrain::ecrireArbre(NoeudAbstrait* parentNoeud, const XmlNode* node)
         throw ExceptionJeu("Erreur de lecture d'attribut");
     }
 #ifndef __APPLE__
-    if(!elem->NoChildren() XMLUtils::)
+    if(!elem->NoChildren())
     {
         const XmlNode *child;
         for( child = node->FirstChild(); child; child = child->NextSibling() )
         {
             ecrireArbre(noeudCourant,child);
         }
-    }WRAP IT MIKE !!!!
+    }
 #endif
     
 }
