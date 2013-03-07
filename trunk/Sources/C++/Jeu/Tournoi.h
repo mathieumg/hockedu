@@ -11,6 +11,7 @@
 #pragma once
 #include "Partie.h"
 #include "RazerGameTypeDef.h"
+#include "GameManager.h"
 
 typedef std::vector<Partie*> ConteneurPartie;
 typedef std::pair<unsigned int, PositionJoueur> Vainqueur;
@@ -55,7 +56,7 @@ public:
 	// Permet de recommencer un tournoi
 	void reinitialiserTournoi();
 
-	bool estTermine() const { return indexPartieCourante_==0 && parties_[0].partieTerminee();}
+    bool estTermine() const { return indexPartieCourante_==0 && obtenirPartie(0)->partieTerminee();}
 
 	bool miseAJour( bool save = true );
 
@@ -64,7 +65,7 @@ private:
 	static const std::string tounoiNonJoue;
 
 	/// Conteneur de parties
-	Partie parties_[nbrParties_];
+	int parties_[nbrParties_];
 
 	/// Indique si le tournoi est jouer en ce moment bien present
 	bool estEnCours_;
@@ -106,9 +107,9 @@ public:
 	inline const std::string& GetFieldName() const {return mFieldName;}
 
 	/// Obtient un pointeur sur la partie courante. Objet statique donc pas besoin de vérifier la validité du pointeur
-	Partie* obtenirPartieCourante(){return &parties_[indexPartieCourante_];}
+	Partie* obtenirPartieCourante(){return GameManager::obtenirInstance()->getGame(parties_[indexPartieCourante_]);}
 	/// Accesseurs et modificateurs
-	Partie* obtenirPartie(const unsigned int& index) {return &parties_[index];}
+	Partie* obtenirPartie(const unsigned int& index) const {return GameManager::obtenirInstance()->getGame(parties_[index]);}
 	/// Obtention de la liste des joueurs du tournoi
 	JoueursParticipant obtenirListeJoueursInitiaux();
 };

@@ -41,11 +41,15 @@ const int Partie::POINTAGE_GAGNANT = 7;
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-Partie::Partie(SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/ ):
-pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), enPause_(false), estPret_(false), faitPartieDunTournoi_(false)
+Partie::Partie(SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, GameUpdateCallback updateCallback /*= 0*/ ):
+pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), estPret_(false), faitPartieDunTournoi_(false)
 {
     chiffres_ = new NoeudAffichage("3");
     mField = new Terrain(this);
+	mUniqueGameId_ = uniqueGameId;
+	mUpdateCallback = updateCallback;
+    mGameStatus = GAME_NOT_STARTED;
+    mLastGameStatus = GAME_NOT_STARTED;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -59,6 +63,7 @@ pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurD
 ////////////////////////////////////////////////////////////////////////
 Partie::~Partie( void )
 {
+    mGameStatus = GAME_ENDED;
     SignalGameOver();
     delete mField;
     joueurGauche_.reset();
@@ -169,6 +174,7 @@ void Partie::setFieldName( const std::string& terrain )
 void Partie::incrementerPointsJoueurGauche()
 {
     pointsJoueurGauche_++;
+	callGameUpdate(GAME_SCORE);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -183,6 +189,7 @@ void Partie::incrementerPointsJoueurGauche()
 void Partie::incrementerPointsJoueurDroit()
 {
     pointsJoueurDroit_++;
+	callGameUpdate(GAME_SCORE);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -390,6 +397,7 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
 ////////////////////////////////////////////////////////////////////////
 void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 {
+    mGameStatus = GAME_STARTED;
     // Obtention des éléments
     NoeudRondelle* rondelle = mField->getPuck();
     NoeudMaillet* maillet1 = mField->getLeftMallet();
@@ -558,7 +566,8 @@ void Partie::vider()
     joueurDroit_.reset();
 //  modifierJoueurGauche(0);
 //  modifierJoueurDroit(0);
-    enPause_ = false;
+    //enPause_ = false;
+    mGameStatus = mLastGameStatus = GAME_NOT_STARTED;
     estPret_ = false;
     faitPartieDunTournoi_ = false;
 }
@@ -647,6 +656,9 @@ PositionJoueur Partie::obtenirPositionGagant()
 ////////////////////////////////////////////////////////////////////////
 void Partie::SignalGameOver()
 {
+    mGameStatus = GAME_ENDED;
+	// On appelle le callback avant de remettre les informations a 0
+	callGameUpdate(GAME_ENDED);
     if(joueurGauche_)
     {
         NoeudMaillet* mailletGauche = joueurGauche_->getControlingMallet();
@@ -712,6 +724,8 @@ bool Partie::getReadyToPlay()
     mField->setTableItemsSelection(false);
     mField->setTableControlPointVisible(false);
 
+	// On appelle le callback pour dire que la partie va commencer
+	callGameUpdate(GAME_STARTED);
     return true;
 }
 
@@ -734,6 +748,45 @@ void Partie::animer( const float& temps )
     {
         // Gestion de la physique du jeu
         mField->appliquerPhysique(temps);
+    }
+}
+
+
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Partie::callGameUpdate()
+///
+/// Methode qui appelle le callback de la partie s'il est valide
+///
+/// @param[in] :	Status a envoyer
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Partie::callGameUpdate(GameStatus pGameStatus) const
+{
+	if(mUpdateCallback)
+	{
+		mUpdateCallback(mUniqueGameId_, pGameStatus);
+	}
+}
+
+
+
+void Partie::modifierEnPause( bool val )
+{
+    checkf(mGameStatus == GAME_PAUSED, "On ne doit pas mettre en pause une partie qui l'est deja");
+    if(val)
+    {
+        tempsJeu_.pause();
+        setGameStatus(GAME_PAUSED);
+    }
+    else
+    {
+        tempsJeu_.unPause();
+        setGameStatus(mLastGameStatus); // Utilise le dernier etat de partie pour unpause
     }
 }
 

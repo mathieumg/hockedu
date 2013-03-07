@@ -12,6 +12,10 @@
 #define GESTIONNAIREETATMODESIMULATION_H
 
 #include "GestionnaireEtatAbstrait.h"
+#include <vector>
+
+typedef int IDPartie;
+typedef std::vector<IDPartie> GamesContainer;
 
 ////////////////////////////////////////////////////////////////////////////
 /// @class GestionnaireEtatModeSimulation
@@ -47,6 +51,10 @@ public:
 	/// Permet d'effectuer l'affichage specifique a l'etat
 	virtual void afficher();
 	virtual void miseAJourEvenementsRepetitifs( float deltaTemps );
+
+private:
+
+    GamesContainer games;
 };
 
 #endif

@@ -153,9 +153,6 @@
     <ClCompile Include="sha1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Application\GameManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControllerServeurMaitre.h">
@@ -300,9 +297,6 @@
       <Filter>Source Files\ExceptionsReseau</Filter>
     </ClInclude>
     <ClInclude Include="sha1.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Application\GameManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -54,10 +54,10 @@ void TournoiTest::setUp()
 		p1.push_back(joueurs[i]);
 	}
 	tournoi_->initialisation(p1,"D:/test_terrain.xml");
-	tournoi_->parties_[0].assignerJoueur(joueurs[0]);
+	GameManager::obtenirInstance()->getGame(tournoi_->parties_[0])->assignerJoueur(joueurs[0]);
 	for (int i = 0; i < 7 ; i++)
 	{
-		tournoi_->parties_[0].incrementerPointsJoueurGauche();		
+		GameManager::obtenirInstance()->getGame(tournoi_->parties_[0])->incrementerPointsJoueurGauche();		
 	}
 	tournoi_->modifierNom("awesomeness tournament");
 	tournoi_->listeGagnants_.push_back("Roger");
@@ -138,19 +138,19 @@ void TournoiTest::testReinitialisationTournoi()
 	}
 	for(int i= 0; i< Tournoi::nbrParties_; ++i)
 	{
-		CPPUNIT_ASSERT(tournoi_->parties_[i].partieTerminee());
+		CPPUNIT_ASSERT(GameManager::obtenirInstance()->getGame(tournoi_->parties_[i])->partieTerminee());
 	}
 	tournoi_->reinitialiserTournoi();
 	for(int i= 0; i< Tournoi::nbrParties_; ++i)
 	{
-		CPPUNIT_ASSERT(!tournoi_->parties_[i].partieTerminee());
-		CPPUNIT_ASSERT(tournoi_->parties_[i].obtenirPointsJoueurDroit() == 0);
-		CPPUNIT_ASSERT(tournoi_->parties_[i].obtenirPointsJoueurGauche() == 0);
+		CPPUNIT_ASSERT(!GameManager::obtenirInstance()->getGame(tournoi_->parties_[i])->partieTerminee());
+		CPPUNIT_ASSERT(GameManager::obtenirInstance()->getGame(tournoi_->parties_[i])->obtenirPointsJoueurDroit() == 0);
+		CPPUNIT_ASSERT(GameManager::obtenirInstance()->getGame(tournoi_->parties_[i])->obtenirPointsJoueurGauche() == 0);
 	}
 	for(int i= 0; i< (Tournoi::nbrParties_>>1)-1; ++i)
 	{
-		CPPUNIT_ASSERT(!tournoi_->parties_[i].obtenirJoueurDroit());
-		CPPUNIT_ASSERT(!tournoi_->parties_[i].obtenirJoueurGauche());
+		CPPUNIT_ASSERT(!GameManager::obtenirInstance()->getGame(tournoi_->parties_[i])->obtenirJoueurDroit());
+		CPPUNIT_ASSERT(!GameManager::obtenirInstance()->getGame(tournoi_->parties_[i])->obtenirJoueurGauche());
 	}
 
 }
