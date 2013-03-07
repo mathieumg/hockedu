@@ -24,11 +24,11 @@
 #include "NodeRinkBoards.h"
 #include "BoundingBox.h"
 #include "ExceptionJeu.h"
-#include "FacadeModele.h"
 
 #if WIN32
 #include "GestionnaireModeles.h"
 #include <GL\glu.h>
+#include "FacadeModele.h"
 #endif
 
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();

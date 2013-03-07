@@ -10,7 +10,9 @@
 #include "ArbreRendu.h"
 #include "UsineNoeud.h"
 #include "NoeudAbstrait.h"
+#if WIN32
 #include <GL/glu.h>
+#endif
 #include "Utilitaire.h"
 #include "ExceptionJeu.h"
 #include "XMLUtils.h"

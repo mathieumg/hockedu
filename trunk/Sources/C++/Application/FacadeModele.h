@@ -275,7 +275,8 @@ private:
 	SPJoueurAbstrait adversaire_;
 	utilitaire::BoiteEnvironnement* boiteEnvironnement;
 
-
+    // Map to play with
+    std::string mCurrentMapFile;
 
 	// Lien vers le programme de SHADER
 	GLuint progPhong_;
@@ -334,7 +335,8 @@ public:
 	/// Accesseurs de adversaire_
 	SPJoueurAbstrait obtenirAdversaire() { return adversaire_; }
 
-
+    inline std::string getCurrentMap() {return mCurrentMapFile;}
+    inline void setCurrentMap(std::string pCurrentMap) {mCurrentMapFile = pCurrentMap;}
 
 };
 

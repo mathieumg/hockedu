@@ -34,7 +34,7 @@
 				<Linker>
 					<Add option="-s" />
 					<Add library="libMySQLpp_r.a" />
-					<Add library="libmysqlclient_r.a" />
+					<Add library="libmysqlclient.a" />
 				</Linker>
 			</Target>
 		</Build>
@@ -54,7 +54,6 @@
 		</Compiler>
 		<Linker>
 			<Add option="-pthread" />
-			<Add option="-v" />
 			<Add library="libdl.a" />
 			<Add directory="../../../../Commun/Utilitaire" />
 			<Add directory="../../Reseau/ExceptionsReseau" />

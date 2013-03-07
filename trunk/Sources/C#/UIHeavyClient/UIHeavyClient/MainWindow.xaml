@@ -2,13 +2,14 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Hockedu" Height="532" Width="759"
-        Closed="Window_Closed" MinWidth="1200" MinHeight="850" Background="#FF555555" Foreground="#FFD4D2D2" BorderBrush="#FF666B89" OpacityMask="#FF646464" WindowStyle="ThreeDBorderWindow">
+        Closed="Window_Closed" MinWidth="1000" MinHeight="700" Background="#FF555555" Foreground="#FFD4D2D2" BorderBrush="#FF666B89" OpacityMask="#FF646464" WindowStyle="ThreeDBorderWindow">
     <DockPanel Background="#FF323232">
         <Menu Name="MenuBar" DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <MenuItem Header="Load Map"/>
+                <MenuItem Header="Load Map" Click="LoadMapFromLocal"/>
                 <MenuItem Header="Load Map From Server"/>
-                <MenuItem Header="Save Map"/>
+                <MenuItem Header="Save Map As" Click="SaveMapToLocal"/>
+                <MenuItem Header="Save Map" Click="QuickSaveMapToLocal"/>
                 <MenuItem Header="Save Map To Server"/>
                 <MenuItem Header="Reset to Default Map"/>
                 <MenuItem Header="Test Map"/>

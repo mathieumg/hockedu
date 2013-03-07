@@ -15,12 +15,16 @@
 #include "NoeudGroupe.h"
 #include "NoeudBut.h"
 #include "Terrain.h"
+
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #include "JoueurVirtuel.h"
 #include "DebugRenderBox2D.h"
-#include "FacadeModele.h"
 #include "GestionnaireEvenements.h"
+#endif
+
+#ifndef __APPLE__
+#include "FacadeModele.h"
 #endif
 #include "Utilitaire.h"
 
@@ -46,7 +50,10 @@ CreateListDelegateImplementation(Mallet)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet::NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCreated, unsigned int malletLimit)
-   : NoeudAbstrait(typeNoeud), vitesse_(300.0),estControleParClavier_(false), joueur_(0), mMouseJoint(NULL),mMouseBody(NULL),mNbMalletCreated(malletCreated)
+   : NoeudAbstrait(typeNoeud), vitesse_(300.0),estControleParClavier_(false), joueur_(0),mNbMalletCreated(malletCreated)
+#if BOX2D_INTEGRATED
+, mMouseJoint(NULL),mMouseBody(NULL)
+#endif
 {
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
@@ -60,11 +67,12 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCre
     updatePhysicBody();
 
     ++mNbMalletCreated;
+#ifndef __APPLE__
     if(mNbMalletCreated >= malletLimit)
     {
         FacadeModele::transmitEvent(DISABLE_MALLET_CREATION);
     }
-
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -79,8 +87,9 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCre
 NoeudMaillet::~NoeudMaillet()
 {
 	--mNbMalletCreated;
+#ifndef __APPLE__
     FacadeModele::transmitEvent(ENABLE_MALLET_CREATION);
-
+#endif
 #if BOX2D_INTEGRATED
     checkf(!mMouseJoint, "Le mouse joint a mal ete liberé");
     destroyMouseJoint();
@@ -101,6 +110,7 @@ NoeudMaillet::~NoeudMaillet()
 ////////////////////////////////////////////////////////////////////////
 void NoeudMaillet::afficherConcret() const
 {
+#if WIN32
     // Sauvegarde de la matrice.
     glPushMatrix();
     glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -136,6 +146,8 @@ void NoeudMaillet::afficherConcret() const
     // Restauration de la matrice.
     glPopAttrib();
     glPopMatrix();
+#endif
+    
 #endif
 
 }

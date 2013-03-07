@@ -2319,7 +2319,7 @@
 	"../GestionnaireReseau.h"
 	<string>
 
-1362605820 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/Utilitaire.h
+1362614122 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/Utilitaire.h
 	"Vecteur.h"
 	<sstream>
 
@@ -2328,7 +2328,7 @@
 	"Solution_Defines.h"
 	<math.h>
 
-1362604505 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/Solution_Defines.h
+1362614048 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/Solution_Defines.h
 	<cstdio>
 
 1362296705 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/ControllerInterface.cpp
@@ -2786,4 +2786,56 @@
 	"../../Reseau/ExceptionsReseau/ExceptionReseau.h"
 
 1362245572 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/sha1.h
+
+1362296705 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/ControllerServeurMaitre.cpp
+	"ControllerServeurMaitre.h"
+	"../Reseau/GestionnaireReseau.h"
+	"../Reseau/PaquetRunnable.h"
+	"PaquetRunnableServeurMaitre.h"
+	"../Reseau/ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
+	"CommunicateurBD.h"
+	"ExceptionsReseau/ExceptionReseauBD.h"
+
+1362296705 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/ControllerServeurMaitre.h
+	"Utilitaire.h"
+	<iostream>
+	"../Reseau/ControllerInterface.h"
+	"../Reseau/Socket.h"
+
+1361289956 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.h
+	"../Reseau/PaquetRunnable.h"
+
+1361917902 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/ExceptionsReseau/ExceptionReseauBD.cpp
+	"ExceptionReseauBD.h"
+
+1362245572 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/FacadeServeurMaitre.cpp
+	"FacadeServeurMaitre.h"
+	"CommunicateurBD.h"
+
+1362296705 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.cpp
+	"PaquetRunnableServeurMaitre.h"
+	"../ServeurMaitre/FacadeServeurMaitre.h"
+	"../Reseau/Paquets/PaquetLoginInfo.h"
+	"../Reseau/GestionnaireReseau.h"
+	"../Reseau/ObjetsGlobaux/JoueurServeurs.h"
+	"../Reseau/RelayeurMessage.h"
+	"../Reseau/Paquets/PaquetUserStatus.h"
+	"../Reseau/Paquets/PaquetChatMessage.h"
+	<time.h>
+	<sstream>
+	<iomanip>
+	<stdexcept>
+	"../Reseau/Paquets/PaquetGameStatus.h"
+
+1362515867 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/mainServeurMaitre.cpp
+	<iostream>
+	"../Reseau/GestionnaireReseauServeurMaitre.h"
+	"ControllerServeurMaitre.h"
+	"../Reseau/PaquetHandlers/PacketHandler.h"
+	"../Reseau/UsinePaquets/UsinePaquetChatMessage.h"
+	"FacadeServeurMaitre.h"
+	"CommunicateurBD.h"
+
+1362245572 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/sha1.cpp
+	"sha1.h"
 

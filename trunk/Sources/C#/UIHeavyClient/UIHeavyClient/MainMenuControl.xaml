@@ -38,8 +38,8 @@
                 <RadioButton Content="Human Player" Height="16" HorizontalAlignment="Left" Margin="16,42,0,0" Name="mHumanRadio" VerticalAlignment="Top" GroupName="rgOpponentRadios" Foreground="White" IsChecked="True" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
                 <RadioButton Content="AI" Height="16" HorizontalAlignment="Left" Margin="16,57,0,0" Name="mAIRadio" VerticalAlignment="Top" GroupName="rgOpponentRadios" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
                 <ComboBox Height="23" HorizontalAlignment="Left" Margin="115,57,0,0" Name="mAIComboBox" VerticalAlignment="Top" Width="120" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" IsEnabled="{Binding ElementName=mAIRadio, Path=IsChecked}" />
-                <TextBox Height="23" HorizontalAlignment="Left" Margin="6,122,0,0" Name="mMapComboBox" VerticalAlignment="Top" Width="120" Background="Black" Foreground="White" />
-                <Button Content="Browse" Height="23" HorizontalAlignment="Left" Margin="141,122,0,0" Name="button1" VerticalAlignment="Top" Width="75" Foreground="White" Background="Black" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="6,122,0,0" Name="mMapTextBox" VerticalAlignment="Top" Width="120" Background="Black" Foreground="White" />
+                <Button Content="Browse" Height="23" HorizontalAlignment="Right" Margin="0,122,64,0" Name="button1" VerticalAlignment="Top" Width="75" Foreground="White" Background="Black" Click="button1_Click" />
             </Grid>
         </GroupBox>
     </Grid>

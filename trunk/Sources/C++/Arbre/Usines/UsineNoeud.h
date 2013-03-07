@@ -46,26 +46,26 @@ private:
 };
 
 #define DEFAULT_NODE_FACTORY_DECLARATION(FactoryName)       \
-class Usine##FactoryName## : public UsineNoeud              \
+class Usine## FactoryName : public UsineNoeud              \
 {                                                           \
 public:                                                     \
-    Usine##FactoryName##(const std::string& nom);    \
+    Usine## FactoryName(const std::string& nom);    \
     virtual NoeudAbstrait* creerNoeud() const;              \
 };
 
 #define DEFAULT_NODE_FACTORY_IMPLEMENTATION(FactoryName)                                   \
-    Usine##FactoryName##::Usine##FactoryName##(const std::string& nom):                    \
+    Usine## FactoryName::Usine## FactoryName(const std::string& nom):                    \
     UsineNoeud(nom){}                                                                      \
 \
-    NoeudAbstrait* Usine##FactoryName##::creerNoeud() const                                \
-    {  return new FactoryName##(obtenirNom());  }
+    NoeudAbstrait* Usine## FactoryName::creerNoeud() const                                \
+    {  return new FactoryName(obtenirNom());  }
 
 
 #define NODE_FACTORY_WITH_LIMIT_DECLARATION(FactoryName,limit) \
-class Usine##FactoryName## : public UsineNoeud                 \
+class Usine## FactoryName : public UsineNoeud                 \
 {                                                              \
 public:                                                        \
-    Usine##FactoryName##(const std::string& nom,unsigned int maxNode = limit);              \
+    Usine## FactoryName(const std::string& nom,unsigned int maxNode = limit);              \
     virtual NoeudAbstrait* creerNoeud() const;                 \
 private:                                                       \
     mutable unsigned int mNbNodeCreated;                       \
@@ -73,14 +73,14 @@ private:                                                       \
 };
 
 #define NODE_FACTORY_WITH_LIMIT_IMPLEMENTATION(FactoryName)                  \
-    Usine##FactoryName##::Usine##FactoryName##(const std::string& nom,unsigned int maxNode):      \
+    Usine## FactoryName::Usine## FactoryName(const std::string& nom,unsigned int maxNode):      \
     UsineNoeud(nom),mNbNodeCreated(0),MAX_NODE(maxNode){}                    \
                                                                              \
-    NoeudAbstrait* Usine##FactoryName##::creerNoeud() const                  \
+    NoeudAbstrait* Usine## FactoryName::creerNoeud() const                  \
     {                                                                        \
         if(mNbNodeCreated < MAX_NODE)                                        \
         {                                                                    \
-            return new FactoryName##(obtenirNom(),mNbNodeCreated,MAX_NODE);  \
+            return new FactoryName(obtenirNom(),mNbNodeCreated,MAX_NODE);  \
         }                                                                    \
         return NULL;                                                         \
     }                                                                        \

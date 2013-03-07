@@ -13,8 +13,26 @@
 
 #include "NoeudComposite.h"
 
-#include <hash_map>
 
+#ifndef __APPLE__
+#include <hash_map>
+#define HashMap std::hash_map
+
+#else
+
+#include <ext/hash_map>
+#define HashMap __gnu_cxx::hash_map
+namespace __gnu_cxx
+{
+    template<> struct hash< std::string >
+    {
+        size_t operator()( const std::string& x ) const
+        {
+            return hash< const char* >()( x.c_str() );
+        }
+    };
+}
+#endif
 
 class NoeudAbstrait;
 class UsineNoeud;
@@ -74,7 +92,7 @@ public:
 private:
    /// Définition du type pour l'association du nom d'un type vers l'usine
    /// correspondante.
-   typedef std::hash_map< std::string, const UsineNoeud* > RegistreUsines;
+    typedef HashMap< std::string, const UsineNoeud* > RegistreUsines;
    /// Association du nom d'un type vers l'usine correspondante.
    RegistreUsines usines_;
 };
