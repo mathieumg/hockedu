@@ -55,6 +55,8 @@ enum {
     
     theEAGLView.opaque = YES;
     
+    mModel = [[Model alloc]init];
+    
     [self.mGLView addSubview:theEAGLView];
     [self.mGLView addSubview:mSideBarView];
     [self.mGLView addSubview:mTopBarView];
@@ -267,7 +269,9 @@ enum {
 	glColor4f(1.0, 1.0, 1.0, 1.0);
     
     //[cube drawSelf];
-    
+    glEnableClientState(GL_VERTEX_ARRAY);
+    [mModel render];
+    glDisableClientState(GL_VERTEX_ARRAY);
     
     // Dessiner les shit ici
     Vertex3D    vertex1 = Vertex3DMake(0.0, 50.0, -50.0);
@@ -275,6 +279,7 @@ enum {
     Vertex3D    vertex3 = Vertex3DMake(-50.0, 0.0, -50.0);
     Triangle3D  triangle = Triangle3DMake(vertex1, vertex2, vertex3);
     
+    /*
     glLoadIdentity();
     glClearColor(0.7, 0.7, 0.7, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -283,8 +288,22 @@ enum {
     glVertexPointer(3, GL_FLOAT, 0, &triangle);
     glDrawArrays(GL_TRIANGLES, 0, 9);
     glDisableClientState(GL_VERTEX_ARRAY);
+    */
+    /*glClearColor(0, 0, 0, 0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glPushMatrix();
+    glLoadIdentity();
+    glColor(0.0f,1.0f,0.0f);
+    glBegin(GL_LINE_LOOP);
     
+    static const float jump = 3.1415926535/10.f;
+    const float radius = 50;
+    for (float i=0; i < 3.1415926535; i+=jump)
+    {
+        glVertex2f(cos(i)*radius,sin(i)*radius);
+    }
     
+    glEnd();*/
     
 	static NSTimeInterval lastDrawTime;
 	if (lastDrawTime)

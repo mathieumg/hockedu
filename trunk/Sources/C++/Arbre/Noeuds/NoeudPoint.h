@@ -14,6 +14,8 @@
 #include <set>
 #include "PositionSubject.h"
 
+// Surtout ne pas toucher a la position des elements dans l'enum
+/// ils représentent des positions dans un array
 enum TypePosPoint{
     POSITION_HAUT_GAUCHE   , 
     POSITION_HAUT_MILIEU   , 
@@ -54,6 +56,10 @@ public:
 
 	/// Affiche le cube.
 	virtual void afficherConcret() const;
+    /// Fonction appeler dans afficher concret pour faire le
+    /// rendu OpenGL, uniquement utilisé sous APPLE.
+    /// utiliser les liste d'affichage pour windows
+    virtual void renderOpenGLES() const;
 	/// Effectue l'animation
 	virtual void animer( const float& temps );
 	/// Accueil un visiteur

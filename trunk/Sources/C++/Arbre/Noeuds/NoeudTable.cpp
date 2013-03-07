@@ -35,6 +35,9 @@ ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
 const Vecteur3 NoeudTable::DEFAULT_SIZE = Vecteur3(300,150);
 const float NoeudTable::rayonCercleCentre_ = 25;
 
+const int nodeHeight[3] = {0,NoeudTable::NB_VERTICAL_VERTICES>>1,NoeudTable::NB_VERTICAL_VERTICES-1};
+const int nodeWidth[3] = {0,NoeudTable::NB_HORIZONTAL_VERTICES>>1,NoeudTable::NB_HORIZONTAL_VERTICES-1};
+
 CreateListDelegateImplementation(Table)
 {
     NoeudTable::initialiserListeIndexPoints(pModel);
@@ -86,8 +89,14 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
     basMilieu_->modifierPointSym(hautMilieu_);
     basDroite_->modifierPointSym(basGauche_);
 
-    hautMilieu_->attach(this);
-    basMilieu_->attach(this);
+    hautGauche_->  attach(this);
+    hautMilieu_->  attach(this);
+    hautDroite_->  attach(this);
+    milieuGauche_->attach(this);
+    milieuDroite_->attach(this);
+    basGauche_->   attach(this);
+    basMilieu_->   attach(this);
+    basDroite_->   attach(this);
 
     /// Ajout dans le vecteur contenant les points pour la sauvegarde
     vecteurPoint_.push_back(hautGauche_);
@@ -329,26 +338,7 @@ void NoeudTable::afficherConcret() const
         glPopAttrib();
         glPopMatrix();
     }
-
-    // TODO:: cache the values when modifying / loading the control points
-    // Dessin des lignes sur la table et des zones de but
-    // Ligne bleu de gauche 1/3
-    Vecteur3 pointHautLigneGauche1 = vecteurPoint_[POSITION_HAUT_MILIEU]->getPosition()+ (vecteurPoint_[POSITION_HAUT_GAUCHE]->getPosition() - vecteurPoint_[POSITION_HAUT_MILIEU]->getPosition())/3.0f;
-    Vecteur3 pointcentreLigneGauche1 = vecteurPoint_[POSITION_MILIEU_GAUCHE]->getPosition()*0.33f;
-    Vecteur3 pointBasLigneGauche1 = vecteurPoint_[POSITION_BAS_MILIEU]->getPosition()+ (vecteurPoint_[POSITION_BAS_GAUCHE]->getPosition() - vecteurPoint_[POSITION_BAS_MILIEU]->getPosition())/3.0f;
-    // Ligne bleu de gauche 2/3
-    Vecteur3 pointHautLigneGauche2 = vecteurPoint_[POSITION_HAUT_MILIEU]->getPosition()+ (vecteurPoint_[POSITION_HAUT_GAUCHE]->getPosition() - vecteurPoint_[POSITION_HAUT_MILIEU]->getPosition())*2.0f/3.0f;
-    Vecteur3 pointcentreLigneGauche2 = vecteurPoint_[POSITION_MILIEU_GAUCHE]->getPosition()*0.66f;
-    Vecteur3 pointBasLigneGauche2 = vecteurPoint_[POSITION_BAS_MILIEU]->getPosition()+ (vecteurPoint_[POSITION_BAS_GAUCHE]->getPosition() - vecteurPoint_[POSITION_BAS_MILIEU]->getPosition())*2.0f/3.0f;
-    // Ligne bleu de Droite 1/3
-    Vecteur3 pointHautLigneDroite1 = vecteurPoint_[POSITION_HAUT_MILIEU]->getPosition()+ (vecteurPoint_[POSITION_HAUT_DROITE]->getPosition() - vecteurPoint_[POSITION_HAUT_MILIEU]->getPosition())/3.0f;
-    Vecteur3 pointcentreLigneDroite1 = vecteurPoint_[POSITION_MILIEU_DROITE]->getPosition() * 0.33f;
-    Vecteur3 pointBasLigneDroite1 = vecteurPoint_[POSITION_BAS_MILIEU]->getPosition()+ (vecteurPoint_[POSITION_BAS_DROITE]->getPosition() - vecteurPoint_[POSITION_BAS_MILIEU]->getPosition())/3.0f;
-    // Ligne bleu de Droite 2/3
-    Vecteur3 pointHautLigneDroite2 = vecteurPoint_[POSITION_HAUT_MILIEU]->getPosition()+ (vecteurPoint_[POSITION_HAUT_DROITE]->getPosition() - vecteurPoint_[POSITION_HAUT_MILIEU]->getPosition())*2.0f/3.0f;
-    Vecteur3 pointcentreLigneDroite2 = vecteurPoint_[POSITION_MILIEU_DROITE]->getPosition() * 0.66f;
-    Vecteur3 pointBasLigneDroite2 = vecteurPoint_[POSITION_BAS_MILIEU]->getPosition()+ (vecteurPoint_[POSITION_BAS_DROITE]->getPosition() - vecteurPoint_[POSITION_BAS_MILIEU]->getPosition())*2.0f/3.0f;
-
+    glColor4f(1.0f,0.0f,1.0f,1.0f);
 
     // États de la lumière 
     GLboolean lighting_state;
@@ -358,58 +348,27 @@ void NoeudTable::afficherConcret() const
 
     FacadeModele::getInstance()->DeActivateShaders();
     {
-        const float hauteurLigne = 0;
-        float moitieLargeurLigne = 1.0f;
+        static const float hauteurLigne = 0.f;
+        static const float moitieLargeurLigne = 1.0f;
         glPushAttrib(GL_ALL_ATTRIB_BITS);
         glPushMatrix();
         glColor3f(0.0,0.0,1.0);
         glBegin(GL_QUADS);
-        // Ligne bleu de gauche 1/3
-        glVertex3d(pointHautLigneGauche1[VX]+moitieLargeurLigne,pointHautLigneGauche1[VY],hauteurLigne);////////
-        glVertex3d(pointHautLigneGauche1[VX]-moitieLargeurLigne,pointHautLigneGauche1[VY],hauteurLigne);//////// top part de la 2re ligne.
-        glVertex3d(pointcentreLigneGauche1[VX]-moitieLargeurLigne,pointcentreLigneGauche1[VY],hauteurLigne);//
-        glVertex3d(pointcentreLigneGauche1[VX]+moitieLargeurLigne,pointcentreLigneGauche1[VY],hauteurLigne);
 
-        glVertex3d(pointcentreLigneGauche1[VX]+moitieLargeurLigne,pointcentreLigneGauche1[VY],hauteurLigne);
-        glVertex3d(pointcentreLigneGauche1[VX]-moitieLargeurLigne,pointcentreLigneGauche1[VY],hauteurLigne);
-        glVertex3d(pointBasLigneGauche1[VX]-moitieLargeurLigne,pointBasLigneGauche1[VY],hauteurLigne);
-        glVertex3d(pointBasLigneGauche1[VX]+moitieLargeurLigne,pointBasLigneGauche1[VY],hauteurLigne);
-
-        // Ligne bleu de gauche 2/3
-        glVertex3d(pointHautLigneGauche2[VX]+moitieLargeurLigne,pointHautLigneGauche2[VY],hauteurLigne);
-        glVertex3d(pointHautLigneGauche2[VX]-moitieLargeurLigne,pointHautLigneGauche2[VY],hauteurLigne);
-        glVertex3d(pointcentreLigneGauche2[VX]-moitieLargeurLigne,pointcentreLigneGauche2[VY],hauteurLigne);
-        glVertex3d(pointcentreLigneGauche2[VX]+moitieLargeurLigne,pointcentreLigneGauche2[VY],hauteurLigne);
-
-
-        glVertex3d(pointcentreLigneGauche2[VX]+moitieLargeurLigne,pointcentreLigneGauche2[VY],hauteurLigne);
-        glVertex3d(pointcentreLigneGauche2[VX]-moitieLargeurLigne,pointcentreLigneGauche2[VY],hauteurLigne);
-        glVertex3d(pointBasLigneGauche2[VX]-moitieLargeurLigne,pointBasLigneGauche2[VY],hauteurLigne);
-        glVertex3d(pointBasLigneGauche2[VX]+moitieLargeurLigne,pointBasLigneGauche2[VY],hauteurLigne);
-        // Ligne bleu de Droite 1/3
-        glVertex3d(pointHautLigneDroite1[VX]+moitieLargeurLigne,pointHautLigneDroite1[VY],hauteurLigne);
-        glVertex3d(pointHautLigneDroite1[VX]-moitieLargeurLigne,pointHautLigneDroite1[VY],hauteurLigne);
-        glVertex3d(pointcentreLigneDroite1[VX]-moitieLargeurLigne,pointcentreLigneDroite1[VY],hauteurLigne);
-        glVertex3d(pointcentreLigneDroite1[VX]+moitieLargeurLigne,pointcentreLigneDroite1[VY],hauteurLigne);
-
-
-        glVertex3d(pointcentreLigneDroite1[VX]+moitieLargeurLigne,pointcentreLigneDroite1[VY],hauteurLigne);
-        glVertex3d(pointcentreLigneDroite1[VX]-moitieLargeurLigne,pointcentreLigneDroite1[VY],hauteurLigne);
-        glVertex3d(pointBasLigneDroite1[VX]-moitieLargeurLigne,pointBasLigneDroite1[VY],hauteurLigne);
-        glVertex3d(pointBasLigneDroite1[VX]+moitieLargeurLigne,pointBasLigneDroite1[VY],hauteurLigne);
-        // Ligne bleu de Droite 2/3
-
-
-        glVertex3d(pointHautLigneDroite2[VX]+moitieLargeurLigne,pointHautLigneDroite2[VY],hauteurLigne);
-        glVertex3d(pointHautLigneDroite2[VX]-moitieLargeurLigne,pointHautLigneDroite2[VY],hauteurLigne);
-        glVertex3d(pointcentreLigneDroite2[VX]-moitieLargeurLigne,pointcentreLigneDroite2[VY],hauteurLigne);
-        glVertex3d(pointcentreLigneDroite2[VX]+moitieLargeurLigne,pointcentreLigneDroite2[VY],hauteurLigne);
-
-
-        glVertex3d(pointcentreLigneDroite2[VX]+moitieLargeurLigne,pointcentreLigneDroite2[VY],hauteurLigne);
-        glVertex3d(pointcentreLigneDroite2[VX]-moitieLargeurLigne,pointcentreLigneDroite2[VY],hauteurLigne);
-        glVertex3d(pointBasLigneDroite2[VX]-moitieLargeurLigne,pointBasLigneDroite2[VY],hauteurLigne);
-        glVertex3d(pointBasLigneDroite2[VX]+moitieLargeurLigne,pointBasLigneDroite2[VY],hauteurLigne);
+        // dessin des lignes verticals dans la table
+        for(int i=1; i<NB_HORIZONTAL_VERTICES-1; ++i)
+        {
+            for(int j=0; j<NB_VERTICAL_VERTICES-1; ++j)
+            {
+                // Dessin des lignes verticales de la table
+                const Vecteur3& cur = mTableVertices[i][j];
+                const Vecteur3& down = mTableVertices[i][j+1];
+                glVertex3d(cur[VX]+moitieLargeurLigne,cur[VY],hauteurLigne);
+                glVertex3d(cur[VX]-moitieLargeurLigne,cur[VY],hauteurLigne);
+                glVertex3d(down[VX]-moitieLargeurLigne,down[VY],hauteurLigne);
+                glVertex3d(down[VX]+moitieLargeurLigne,down[VY],hauteurLigne);
+            }
+        }
 
         glEnd();
         glPopMatrix();
@@ -433,7 +392,102 @@ void NoeudTable::afficherConcret() const
     if (lighting_state == GL_TRUE) {
         glEnable(GL_LIGHTING);
     }
+#else
+    NoeudAbstrait::afficherConcret();
 #endif
+
+    
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudTable::renderOpenGLES()
+///
+/// Fonction appeler dans afficher concret pour faire le
+/// rendu OpenGL, uniquement utilisé sous APPLE.
+/// utiliser les liste d'affichage pour windows
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudTable::renderOpenGLES() const
+{
+    // dessin de la table
+    {
+        const int nbVertices = (NB_HORIZONTAL_VERTICES*2+(NB_VERTICAL_VERTICES-2)*2);
+        GLfloat vertices[nbVertices*3];
+        int count = 0;
+
+        // La partie du haut
+        for(int i=0; i<NB_HORIZONTAL_VERTICES; ++i)
+        {
+            vertices[count++] = mTableVertices[i][0][VX];
+            vertices[count++] = mTableVertices[i][0][VY];
+            vertices[count++] = -1;
+        }
+        // La partie de droite
+        for(int i=1; i<NB_VERTICAL_VERTICES-1; ++i)
+        {
+            vertices[count++] = mTableVertices[NB_HORIZONTAL_VERTICES-1][i][VX];
+            vertices[count++] = mTableVertices[NB_HORIZONTAL_VERTICES-1][i][VY];
+            vertices[count++] = -1;
+        }
+        // La partie du bas
+        for(int i=NB_HORIZONTAL_VERTICES-1; i>=0; --i)
+        {
+            vertices[count++] = mTableVertices[i][NB_VERTICAL_VERTICES-1][VX];
+            vertices[count++] = mTableVertices[i][NB_VERTICAL_VERTICES-1][VY];
+            vertices[count++] = -1;
+        }
+        // La partie de gauche
+        for(int i=NB_VERTICAL_VERTICES-2; i>=1; --i)
+        {
+            vertices[count++] = mTableVertices[0][i][VX];
+            vertices[count++] = mTableVertices[0][i][VY];
+            vertices[count++] = -1;
+        }
+
+        glColor4f(1.0f,1.0f,1.0f,1.0f);
+        glVertexPointer (3, GL_FLOAT , 0, vertices); 
+        glDrawArrays (GL_TRIANGLE_FAN, 0, nbVertices);
+    }
+
+    // dessin des lignes verticales
+    {
+        const float moitieLargeurLigne = 1.0f;
+        const float hauteurLigne = -0.5f;
+        // 
+        const int nbVertices = 4;
+        GLfloat vertices[nbVertices*3];
+
+        for(int i=1; i<NB_HORIZONTAL_VERTICES-1; ++i)
+        {
+            for(int j=0; j<NB_VERTICAL_VERTICES-1; ++j)
+            {
+                // Dessin des lignes verticales de la table
+                const Vecteur3& cur = mTableVertices[i][j];
+                const Vecteur3& down = mTableVertices[i][j+1];
+
+                vertices[0] = cur[VX]+moitieLargeurLigne;
+                vertices[1] = cur[VY];
+                vertices[2] = hauteurLigne;
+                vertices[3] = cur[VX]-moitieLargeurLigne;
+                vertices[4] = cur[VY];
+                vertices[5] = hauteurLigne;
+                vertices[6] = down[VX]-moitieLargeurLigne;
+                vertices[7] = down[VY];
+                vertices[8] = hauteurLigne;
+                vertices[9] = down[VX]+moitieLargeurLigne;
+                vertices[10] = down[VY];
+                vertices[11] = hauteurLigne;
+
+                glColor4f(0.0f,0.0f,1.0f,1.0f);
+                glVertexPointer (3, GL_FLOAT , 0, vertices); 
+                glDrawArrays (GL_TRIANGLE_FAN, 0, nbVertices);
+            }
+        }
+    }
 }
 
 
@@ -991,6 +1045,76 @@ void NoeudTable::assignerCoefRebond( int index, float coefRebond )
 ////////////////////////////////////////////////////////////////////////
 void NoeudTable::updatePhysicBody()
 {
+    /// Mise a jour de la cache des vertex
+    
+    static const TypePosPoint nodes[3][3] = 
+    {
+        {POSITION_HAUT_GAUCHE,POSITION_HAUT_MILIEU,POSITION_HAUT_DROITE},
+        {POSITION_MILIEU_GAUCHE,TypePosPoint(666),POSITION_MILIEU_DROITE},
+        {POSITION_BAS_GAUCHE,POSITION_BAS_MILIEU,POSITION_BAS_DROITE}
+    };
+
+    // contour de la table
+    for(int i=0; i<3; ++i)
+    {
+        for(int j=0; j<3; ++j)
+        {
+            if(i==1 && j==1)
+            {
+                mTableVertices[nodeWidth[j]][nodeHeight[i]] = Vecteur3(0,0,0);
+            }
+            else
+            {
+                mTableVertices[nodeWidth[j]][nodeHeight[i]] = obtenirPoint(nodes[i][j])->getPosition();
+            }
+        }
+    }
+
+
+    for(int i=0; i<3; ++i)
+    {
+        for(int j=0; j<3; ++j)
+        {
+            // ligne intermediaire verticale
+            if(i<2)
+            {
+                auto nbIntermediate = nodeWidth[i+1]-nodeWidth[i]-1;
+                if(nbIntermediate != 0)
+                {
+                    auto w = mTableVertices[nodeWidth[i+1]][nodeHeight[j]] - mTableVertices[nodeWidth[i]][nodeHeight[j]];
+                    w /= (float)nbIntermediate+1;
+                    auto pos = mTableVertices[nodeWidth[i]][nodeHeight[j]];
+                    for(int l=nodeWidth[i]+1; l<nodeWidth[i+1]; ++l)
+                    {
+                        pos += w;
+                        mTableVertices[l][nodeHeight[j]] = pos;
+                    }
+                }
+            }
+
+            // ligne intermediaire horizontale, pas utilisé pour l'instant
+//             if(j<3)
+//             {
+//                 auto nbIntermediate = nodeHeight[j+1]-nodeHeight[j]-1;
+//                 if(nbIntermediate != 0)
+//                 {
+//                     auto w = mTableVertices[nodeWidth[i]][nodeHeight[j+1]] - mTableVertices[nodeWidth[i]][nodeHeight[j]];
+//                     w /= (float)nbIntermediate+1;
+//                     auto pos = mTableVertices[nodeWidth[i]][nodeHeight[j]];
+//                     for(int l=nodeHeight[j]+1; l<nodeHeight[j+1]; ++l)
+//                     {
+//                         pos += w;
+//                         mTableVertices[nodeWidth[i]][l] = pos;
+//                     }
+//                 }
+//             }
+        }
+    }
+
+
+
+
+
 #if BOX2D_INTEGRATED
 
     clearPhysicsBody();

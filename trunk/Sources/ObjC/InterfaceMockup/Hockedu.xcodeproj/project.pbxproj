@@ -25,7 +25,6 @@
 		0C04E07116DE7835002B0EE2 /* dupliquer.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C04E04B16DE7835002B0EE2 /* dupliquer.png */; };
 		0C04E07216DE7835002B0EE2 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C04E04C16DE7835002B0EE2 /* menu.png */; };
 		0C04E0EC16DE8B7B002B0EE2 /* RazerGameUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E0EA16DE8B7B002B0EE2 /* RazerGameUtilities.cpp */; };
-		0C04E0EE16DE8EBD002B0EE2 /* NoeudAbstrait.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E0ED16DE8EBD002B0EE2 /* NoeudAbstrait.cpp */; };
 		0C04E15616DE960B002B0EE2 /* ArbreNoeudLibre.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E0F116DE960A002B0EE2 /* ArbreNoeudLibre.cpp */; };
 		0C04E15716DE960B002B0EE2 /* ArbreRendu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E0F316DE960A002B0EE2 /* ArbreRendu.cpp */; };
 		0C04E16116DE960B002B0EE2 /* ControlPointMutableAbstract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E10A16DE960B002B0EE2 /* ControlPointMutableAbstract.cpp */; };
@@ -76,6 +75,8 @@
 		0C1832E916E7E86D000F1DE2 /* Enum_Declarations.cs in Resources */ = {isa = PBXBuildFile; fileRef = 0C1832E816E7E86D000F1DE2 /* Enum_Declarations.cs */; };
 		0C49614216E7F37F00D13713 /* ExceptionJeu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C49614016E7F37F00D13713 /* ExceptionJeu.cpp */; };
 		0C49614616E80AC600D13713 /* UsineNoeud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C49614516E80AC600D13713 /* UsineNoeud.cpp */; };
+		4EEBBF9A16E86E5B00017127 /* Model.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBF9916E86E5B00017127 /* Model.mm */; };
+		4EEBBFA316E8832900017127 /* NoeudAbstrait.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBFA216E8832900017127 /* NoeudAbstrait.cpp */; };
 		96378D7B1472C71100F543EA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96378D7A1472C71100F543EA /* UIKit.framework */; };
 		96378D7D1472C71100F543EA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96378D7C1472C71100F543EA /* Foundation.framework */; };
 		96378D7F1472C71100F543EA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96378D7E1472C71100F543EA /* CoreGraphics.framework */; };
@@ -118,10 +119,9 @@
 		0C04E04B16DE7835002B0EE2 /* dupliquer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dupliquer.png; sourceTree = "<group>"; };
 		0C04E04C16DE7835002B0EE2 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
 		0C04E08F16DE81DC002B0EE2 /* Vecteur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vecteur.h; path = ../../../Commun/Utilitaire/Vecteur.h; sourceTree = "<group>"; };
-		0C04E09216DE88A2002B0EE2 /* NoeudAbstrait.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoeudAbstrait.h; path = "../../C++/Arbre/Noeuds/NoeudAbstrait.h"; sourceTree = "<group>"; };
+		0C04E09216DE88A2002B0EE2 /* NoeudAbstrait.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoeudAbstrait.h; sourceTree = "<group>"; };
 		0C04E0EA16DE8B7B002B0EE2 /* RazerGameUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RazerGameUtilities.cpp; path = "../../C++/Environnement/RazerGameUtilities.cpp"; sourceTree = "<group>"; };
 		0C04E0EB16DE8B7B002B0EE2 /* RazerGameUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RazerGameUtilities.h; path = "../../C++/Environnement/RazerGameUtilities.h"; sourceTree = "<group>"; };
-		0C04E0ED16DE8EBD002B0EE2 /* NoeudAbstrait.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NoeudAbstrait.cpp; path = "../../C++/Arbre/Noeuds/NoeudAbstrait.cpp"; sourceTree = "<group>"; };
 		0C04E0EF16DE917C002B0EE2 /* RazerGameTypeDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RazerGameTypeDef.h; path = "../../C++/Configuration/RazerGameTypeDef.h"; sourceTree = "<group>"; };
 		0C04E0F116DE960A002B0EE2 /* ArbreNoeudLibre.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArbreNoeudLibre.cpp; sourceTree = "<group>"; };
 		0C04E0F216DE960A002B0EE2 /* ArbreNoeudLibre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArbreNoeudLibre.h; sourceTree = "<group>"; };
@@ -139,7 +139,6 @@
 		0C04E11316DE960B002B0EE2 /* NodeWallAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeWallAbstract.h; sourceTree = "<group>"; };
 		0C04E11416DE960B002B0EE2 /* NodeWallEdition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NodeWallEdition.cpp; sourceTree = "<group>"; };
 		0C04E11516DE960B002B0EE2 /* NodeWallEdition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeWallEdition.h; sourceTree = "<group>"; };
-		0C04E11616DE960B002B0EE2 /* NoeudAbstrait.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoeudAbstrait.cpp; sourceTree = "<group>"; };
 		0C04E11716DE960B002B0EE2 /* NoeudAccelerateur.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoeudAccelerateur.cpp; sourceTree = "<group>"; };
 		0C04E11816DE960B002B0EE2 /* NoeudAccelerateur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoeudAccelerateur.h; sourceTree = "<group>"; };
 		0C04E11B16DE960B002B0EE2 /* NoeudBut.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoeudBut.cpp; sourceTree = "<group>"; };
@@ -235,6 +234,9 @@
 		0C49614016E7F37F00D13713 /* ExceptionJeu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ExceptionJeu.cpp; path = ../../../Commun/Utilitaire/ExceptionJeu.cpp; sourceTree = "<group>"; };
 		0C49614116E7F37F00D13713 /* ExceptionJeu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExceptionJeu.h; path = ../../../Commun/Utilitaire/ExceptionJeu.h; sourceTree = "<group>"; };
 		0C49614516E80AC600D13713 /* UsineNoeud.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UsineNoeud.cpp; path = "../../C++/Arbre/Usines/UsineNoeud.cpp"; sourceTree = "<group>"; };
+		4EEBBF9816E86E5B00017127 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
+		4EEBBF9916E86E5B00017127 /* Model.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Model.mm; sourceTree = "<group>"; };
+		4EEBBFA216E8832900017127 /* NoeudAbstrait.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoeudAbstrait.cpp; sourceTree = "<group>"; };
 		96378D761472C71100F543EA /* Hockedu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hockedu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96378D7A1472C71100F543EA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		96378D7C1472C71100F543EA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -322,11 +324,9 @@
 				0C04E18516DE964E002B0EE2 /* Utilitaire */,
 				0C04E0F016DE960A002B0EE2 /* Arbre */,
 				0C04E0EF16DE917C002B0EE2 /* RazerGameTypeDef.h */,
-				0C04E0ED16DE8EBD002B0EE2 /* NoeudAbstrait.cpp */,
 				0C1832E816E7E86D000F1DE2 /* Enum_Declarations.cs */,
 				0C04E0EA16DE8B7B002B0EE2 /* RazerGameUtilities.cpp */,
 				0C04E0EB16DE8B7B002B0EE2 /* RazerGameUtilities.h */,
-				0C04E09216DE88A2002B0EE2 /* NoeudAbstrait.h */,
 				0C04E08F16DE81DC002B0EE2 /* Vecteur.h */,
 			);
 			name = "C++Files";
@@ -368,7 +368,8 @@
 				0C04E11316DE960B002B0EE2 /* NodeWallAbstract.h */,
 				0C04E11416DE960B002B0EE2 /* NodeWallEdition.cpp */,
 				0C04E11516DE960B002B0EE2 /* NodeWallEdition.h */,
-				0C04E11616DE960B002B0EE2 /* NoeudAbstrait.cpp */,
+				4EEBBFA216E8832900017127 /* NoeudAbstrait.cpp */,
+				0C04E09216DE88A2002B0EE2 /* NoeudAbstrait.h */,
 				0C04E11716DE960B002B0EE2 /* NoeudAccelerateur.cpp */,
 				0C04E11816DE960B002B0EE2 /* NoeudAccelerateur.h */,
 				0C04E11B16DE960B002B0EE2 /* NoeudBut.cpp */,
@@ -527,6 +528,8 @@
 				96378D941472C78200F543EA /* Controleurs */,
 				96378D811472C71200F543EA /* Supporting Files */,
 				968DACBA1472EAFF007D15A3 /* Modèles 3D */,
+				4EEBBF9816E86E5B00017127 /* Model.h */,
+				4EEBBF9916E86E5B00017127 /* Model.mm */,
 			);
 			name = Hockedu;
 			path = AppDemo;
@@ -694,7 +697,6 @@
 				968DACCE1472EDA4007D15A3 /* OpenGLWaveFrontMaterial.m in Sources */,
 				968DACCF1472EDA4007D15A3 /* OpenGLWaveFrontObject.m in Sources */,
 				0C04E0EC16DE8B7B002B0EE2 /* RazerGameUtilities.cpp in Sources */,
-				0C04E0EE16DE8EBD002B0EE2 /* NoeudAbstrait.cpp in Sources */,
 				0C04E15616DE960B002B0EE2 /* ArbreNoeudLibre.cpp in Sources */,
 				0C04E15716DE960B002B0EE2 /* ArbreRendu.cpp in Sources */,
 				0C04E16116DE960B002B0EE2 /* ControlPointMutableAbstract.cpp in Sources */,
@@ -744,6 +746,8 @@
 				0C04E1FF16DEA0AC002B0EE2 /* EvenementSouris.cpp in Sources */,
 				0C49614216E7F37F00D13713 /* ExceptionJeu.cpp in Sources */,
 				0C49614616E80AC600D13713 /* UsineNoeud.cpp in Sources */,
+				4EEBBF9A16E86E5B00017127 /* Model.mm in Sources */,
+				4EEBBFA316E8832900017127 /* NoeudAbstrait.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

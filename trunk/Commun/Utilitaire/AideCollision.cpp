@@ -911,7 +911,6 @@ namespace aidecollision {
 				distance = distTemp;
 			}
 		}
-		float distanceDeplacement = produitScalaire(nouvellePos-anciennePos,directeurObjet);
 
 		if(calculerCollisionSegmentSegment(anciennePos,coinHautMilieu,coinMuret1,coinMuret2,intersectionTemp).type != COLLISION_AUCUNE)
 		{

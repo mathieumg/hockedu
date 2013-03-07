@@ -20,7 +20,7 @@ namespace utilitaire {
 	/// Constante pour la différence entre deux nombres réels.
 	static const float EPSILON( 0.00000001f );
 	/// Constante PI.
-	static const double PI( 3.1415926535897932384626433832795 );
+	static const float PI( 3.1415926535897932384626433832795f );
 
 	/// Le vecteur i (dirigé vers l'axe des X positifs et unitaire).
 	static Vecteur3 vi = Vecteur3( 1.0, 0.0, 0.0 );
