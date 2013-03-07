@@ -533,20 +533,64 @@ void SetCurrentRadioPlaylist(char* pPlaylist)
 
 void GetCurrentRadioPlaylist(char* pPlaylist)
 {
-	//pPlaylist = SoundFMOD::obtenirInstance()->obtenirNomCanalCourant().c_str();
+    strcpy(pPlaylist, SoundFMOD::obtenirInstance()->obtenirNomCanalCourant().c_str());
 }
 
-void GetRadioPlaylists()
+
+
+int GetNbrPlaylists()
 {
-	// ???
+    std::vector<std::string> nomsCanaux =  ConfigScene::obtenirInstance()->obtenirListeCanaux();
+
+    return nomsCanaux.size();
 }
 
-void GetPlaylistSongs(char* pPlaylist)
+void GetRadioPlaylists(char** pPlaylists, int pNbrPlaylists)
 {
-	// ???
+	std::vector<std::string> nomsCanaux =  ConfigScene::obtenirInstance()->obtenirListeCanaux();
+
+    int i = 0;
+	for(auto iter = nomsCanaux.begin(); iter != nomsCanaux.end() && i < pNbrPlaylists; ++iter)
+	{
+		strcpy(pPlaylists[i], (*iter).c_str());
+        ++i;
+	}
+}
+
+int GetNbrSongs(char* pPlaylist)
+{
+    NomsPlaylists canal = ConfigScene::obtenirInstance()->obtenirCanal(std::string(pPlaylist));
+
+    return canal.size();
+}
+
+void GetPlaylistSongs(char* pPlaylist, char** pSongs, int pNbrSongs)
+{
+	NomsPlaylists canal = ConfigScene::obtenirInstance()->obtenirCanal(std::string(pPlaylist));
+
+    int i = 0;
+    for(auto iter = canal.begin(); iter != canal.end() && i < pNbrSongs; iter++)
+	{
+		strcpy(pSongs[i], (*iter).c_str());
+	}
 }
 
 void RemoveRadioPlaylist(char* pPlaylist)
 {
 	ConfigScene::obtenirInstance()->supprimerCanal(std::string(pPlaylist));
 }
+
+void AddRadioPlaylist(char* pPlaylist, char** pSongs, int pNbrSongs)
+{
+    std::string nomPlaylist = std::string(pPlaylist);
+
+	ConfigScene::obtenirInstance()->ajouterCanal(nomPlaylist);
+
+    for(int i = 0; i < pNbrSongs; ++i)
+    {
+        ConfigScene::obtenirInstance()->ajouterChanson(nomPlaylist, std::string(pSongs[i]));
+    }
+}
+
+
+
