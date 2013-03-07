@@ -105,9 +105,12 @@ extern "C"
     __declspec(dllexport) void SetRadioVolume(int pVolume);
     __declspec(dllexport) void SetCurrentRadioPlaylist(char* pPlaylist);
     __declspec(dllexport) void GetCurrentRadioPlaylist(char* pPlaylist);
-    __declspec(dllexport) void GetRadioPlaylists();
-    __declspec(dllexport) void GetPlaylistSongs(char* pPlaylist);
+    __declspec(dllexport) int GetNbrPlaylists();
+    __declspec(dllexport) void GetRadioPlaylists(char** pPlaylists, int pNbrPlaylists);
+    __declspec(dllexport) int GetNbrSongs(char* pPlaylist);
+    __declspec(dllexport) void GetPlaylistSongs(char* pPlaylist, char** pSongs, int pNbrSongs);
     __declspec(dllexport) void RemoveRadioPlaylist(char* pPlaylist);
+    __declspec(dllexport) void AddRadioPlaylist(char* pPlaylist, char** pSongs, int pNbrSongs);
 
 
     ///////////////////////////////////////////////////////////////////////////////
