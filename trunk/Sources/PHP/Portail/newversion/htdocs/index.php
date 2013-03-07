@@ -39,7 +39,7 @@ $Website = Website::getInstance();
 
 if( $Website->isLoggedIn() )
 {
-	// Pages that do not require authentication.
+	// Pages that require authentication.
 	switch( $Website->getModules( 0 ) )
     {
 		case 'logoff':
@@ -51,7 +51,7 @@ if( $Website->isLoggedIn() )
 }
 else
 {    
-    // Pages that do require authentication.
+    // Pages that do not require authentication.
 	switch( $Website->getModules( 0 ) )
     {
 		case 'register':
