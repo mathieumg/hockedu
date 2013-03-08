@@ -17,14 +17,24 @@
 #if WIN32
 #include <windows.h>
 #include "glew.h"
+#elif __APPLE__
+#import <OpenGLES/ES1/gl.h>
+#import <OpenGLES/ES1/glext.h>
+#import <OpenGLES/ES2/gl.h>
+#import <OpenGLES/ES2/glext.h>
+typedef GLfloat GLdouble;
+
+#define glPushAttrib(x)
+#define glPopAttrib()
+#define glPolygonMode(x,y)
+#define glGetDoublev glGetFloatv
+#define glMultMatrixd glMultMatrixf
+
 #else
-//#include <OpenGLES/EAGL.h>
-//#include <OpenGLES/ES1/gl.h>
-//#include <OpenGLES/ES1/glext.h>
 typedef float GLdouble;
 typedef unsigned int GLuint;
 #define GLenum unsigned int
-#endif 
+#endif
 
 #include "Vecteur.h"
 
@@ -153,6 +163,10 @@ public:
 	virtual void afficher() const;
 	/// Affiche le noeud de manière concrète.
 	virtual void afficherConcret() const;
+    /// Fonction appeler dans afficher concret pour faire le
+    /// rendu OpenGL, uniquement utilisé sous APPLE.
+    /// utiliser les liste d'affichage pour windows
+    virtual void renderOpenGLES() const {}
 	/// Anime le noeud.
 	virtual void animer( const float& dt );
 

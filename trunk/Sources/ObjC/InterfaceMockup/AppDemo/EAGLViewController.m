@@ -7,7 +7,6 @@
 
 #import "EAGLViewController.h"
 #import "EAGLView.h"
-#import "TestNoeudAbstrait.h"
 #define degreesToRadian(x) (M_PI * (x) / 180.0)
 
 float const LARGEUR_FENETRE = 1024;
@@ -48,10 +47,6 @@ enum {
 
 - (void)awakeFromNib
 {
-    
-    TestNoeudAbstrait *noeud = [TestNoeudAbstrait alloc];
-    [noeud initWithFilename];
-    
     [self.view init];    
     theEAGLView = [[EAGLView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.mGLView.bounds.size.height, self.mGLView.bounds.size.width)];
     
@@ -59,6 +54,8 @@ enum {
         NSLog(@"Failed to create ES view");
     
     theEAGLView.opaque = YES;
+    
+    mModel = [[Model alloc]init];
     
     [self.mGLView addSubview:theEAGLView];
     [self.mGLView addSubview:mSideBarView];
@@ -247,7 +244,7 @@ enum {
 	glMatrixMode(GL_MODELVIEW);
 
 	glLoadIdentity(); 
-	glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+	glClearColor(0.7, 0.7, 0.7, 1.0);
 		
 	glGetError(); // Clear error codes
 	
@@ -271,7 +268,42 @@ enum {
 	glLoadIdentity(); 
 	glColor4f(1.0, 1.0, 1.0, 1.0);
     
-    [cube drawSelf];
+    //[cube drawSelf];
+    glEnableClientState(GL_VERTEX_ARRAY);
+    [mModel render];
+    glDisableClientState(GL_VERTEX_ARRAY);
+    
+    // Dessiner les shit ici
+    Vertex3D    vertex1 = Vertex3DMake(0.0, 50.0, -50.0);
+    Vertex3D    vertex2 = Vertex3DMake(50.0, 0.0, -50.0);
+    Vertex3D    vertex3 = Vertex3DMake(-50.0, 0.0, -50.0);
+    Triangle3D  triangle = Triangle3DMake(vertex1, vertex2, vertex3);
+    
+    /*
+    glLoadIdentity();
+    glClearColor(0.7, 0.7, 0.7, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glColor4f(1.0, 0.0, 0.0, 1.0);
+    glVertexPointer(3, GL_FLOAT, 0, &triangle);
+    glDrawArrays(GL_TRIANGLES, 0, 9);
+    glDisableClientState(GL_VERTEX_ARRAY);
+    */
+    /*glClearColor(0, 0, 0, 0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glPushMatrix();
+    glLoadIdentity();
+    glColor(0.0f,1.0f,0.0f);
+    glBegin(GL_LINE_LOOP);
+    
+    static const float jump = 3.1415926535/10.f;
+    const float radius = 50;
+    for (float i=0; i < 3.1415926535; i+=jump)
+    {
+        glVertex2f(cos(i)*radius,sin(i)*radius);
+    }
+    
+    glEnd();*/
     
 	static NSTimeInterval lastDrawTime;
 	if (lastDrawTime)

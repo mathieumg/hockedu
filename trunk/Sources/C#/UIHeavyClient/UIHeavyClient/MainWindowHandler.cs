@@ -108,6 +108,7 @@ namespace UIHeavyClient
         public static void GoToRadioOptions()
         {
             Context.WindowContentControl.Content = Context.RadioOptionControl;
+            Context.RadioOptionControl.DisplayPlaylists();
         }
 
         public static void GoToAIOptions()

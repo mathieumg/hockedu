@@ -41,6 +41,10 @@ public:
 
    /// Affiche le cube.
    virtual void afficherConcret() const;
+   /// Fonction appeler dans afficher concret pour faire le
+   /// rendu OpenGL, uniquement utilisé sous APPLE.
+   /// utiliser les liste d'affichage pour windows
+   virtual void renderOpenGLES() const;
    /// Effectue l'animation
    virtual void animer( const float& temps );
    /// Accueil un visiteur
@@ -88,6 +92,10 @@ public:
    static const unsigned int NB_CONTROL_POINTS = 8;
    /// taille par défaut de table
    static const Vecteur3 DEFAULT_SIZE;
+   /// 3 pour les NoeudPoint et Centre, 2 pour les 2 ligne de 1/3 field
+   static const int NB_HORIZONTAL_VERTICES = 3 + 2;
+   /// 3 pour les NoeudPoint
+   static const int NB_VERTICAL_VERTICES = 3;
 private:
    
       
@@ -110,7 +118,9 @@ private:
    CouplePoint droiteMuret_[NB_BANDES];
    NodeWallAbstract* bande_[NB_BANDES];
 
-   
+
+   Vecteur3 mTableVertices[NB_HORIZONTAL_VERTICES][NB_VERTICAL_VERTICES];
+
    static ListeIndexPoints listeIndexPointsModeleTable_;
    
    /// Variable pour stocker les murets de la zone d'edition

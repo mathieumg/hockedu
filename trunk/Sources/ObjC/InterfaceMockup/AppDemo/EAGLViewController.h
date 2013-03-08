@@ -12,7 +12,7 @@
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 #import "OpenGLWaveFrontObject.h"
-
+#import "Model.h"
 extern float const LARGEUR_FENETRE;
 extern float const HAUTEUR_FENETRE;
 
@@ -31,6 +31,7 @@ extern float const HAUTEUR_FENETRE;
     CADisplayLink *displayLink;
     
     OpenGLWaveFrontObject *cube;
+    Model* mModel;
 }
 
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;

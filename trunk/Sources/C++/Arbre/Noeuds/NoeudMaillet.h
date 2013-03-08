@@ -46,6 +46,10 @@ public:
     virtual void acceptVisitor( VisiteurNoeud& v);
     /// Cette fonction effectue le véritable rendu de l'objet.
     virtual void afficherConcret() const;
+    /// Fonction appeler dans afficher concret pour faire le
+    /// rendu OpenGL, uniquement utilisé sous APPLE.
+    /// utiliser les liste d'affichage pour windows
+    virtual void renderOpenGLES() const;
     /// Physique
     virtual void gestionCollision( const float& temps);
     /// Mise a Jour de la position de ce noeud

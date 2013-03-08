@@ -57,6 +57,7 @@ namespace UIHeavyClient
             }
             Grid.SetColumn(mWindowsFormsHost, 0);
             Grid.SetRow(mWindowsFormsHost, 0);
+            Grid.SetRowSpan(mWindowsFormsHost, 1);
             Grid.SetColumnSpan(mWindowsFormsHost, 2);
         }
 

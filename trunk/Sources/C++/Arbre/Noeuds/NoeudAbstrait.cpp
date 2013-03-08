@@ -58,6 +58,8 @@ NoeudAbstrait::NoeudAbstrait(
 
 #if WIN32
     modePolygones_ = GL_FILL;
+    glTypeId_ = GestionnaireModeles::obtenirInstance()->obtenirTypeIdFromName(type_);
+#endif
 	// On charge la matrice identitee lors de la construction
 	// On garde en memoire la matrice d'origine (devrait etre NULL)
 	glPushMatrix();
@@ -66,8 +68,8 @@ NoeudAbstrait::NoeudAbstrait(
 	// On remet en memoire la matrice d'origine
 	glPopMatrix();
 
-    glTypeId_ = GestionnaireModeles::obtenirInstance()->obtenirTypeIdFromName(type_);
-#endif
+    
+
     
 	updateRayon();
 
@@ -404,7 +406,6 @@ void NoeudAbstrait::assignerModePolygones( GLenum modePolygones )
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::afficher() const
 {
-#if WIN32
     glPushMatrix();
     glPushAttrib(GL_CURRENT_BIT | GL_POLYGON_BIT);
       
@@ -417,7 +418,6 @@ void NoeudAbstrait::afficher() const
     // Restauration
     glPopAttrib();
     glPopMatrix();
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -436,16 +436,17 @@ void NoeudAbstrait::afficher() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::afficherConcret() const
 {
-#if WIN32
     if(estAffiche())
     {
-        GLuint liste;
+#if !__APPLE__
+        GLuint liste;	
         GestionnaireModeles::obtenirInstance()->obtenirListe(get3DModelKey(),liste);
         // Si aucune liste n'est trouvé, on sort de la fonction.
         if(liste==NULL)
             return;
+#endif
         
-        glTranslated(mPosition[0], mPosition[1], mPosition[2]);
+        glTranslatef(mPosition[0], mPosition[1], mPosition[2]);
         glPushMatrix();
 
         // Effectue les mise a l'echelle et les rotations
@@ -458,21 +459,24 @@ void NoeudAbstrait::afficherConcret() const
             glLogicOp(GL_COPY_INVERTED);
         }
 
+#if !__APPLE__
         // Push du id du noeud sur la pile de nom
         glPushName(glId_);
         // Push du id du type du noeud sur la pile de nom
         glPushName(glTypeId_);
 
         glCallList(liste); // Dessin de l'objet avec les textures
-        glPopName();
-        glPopName();
 
+        glPopName();
+        glPopName();
+#else
+        renderOpenGLES();
+#endif
         // Restauration des attributs
         glPopAttrib();
 
         glPopMatrix();
     }
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
