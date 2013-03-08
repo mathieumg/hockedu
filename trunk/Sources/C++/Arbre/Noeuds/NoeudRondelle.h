@@ -14,7 +14,6 @@
 #include "NoeudComposite.h"
 #include "ObjetAnimable.h"
 #include "ExceptionJeu.h"
-
 class NoeudTable;
 ///////////////////////////////////////////////////////////////////////////
 /// @class NoeudRondelle
@@ -54,7 +53,7 @@ public:
     virtual void ajusterVitesse( const float& temps );
 
     /// Accesseur de mVelocite
-    Vecteur3 obtenirVelocite() const { return mVelocite; }
+    Vecteur3 obtenirVelocite() const;
     void modifierVelocite(Vecteur3 val) { mVelocite = val; }
 
     /// Accesseurs pour la modification
@@ -74,7 +73,6 @@ public:
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody();
 
-    //////////////////////////////////////////////////////////////////////////
     /// Objet Animable interface
     virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
     //////////////////////////////////////////////////////////////////////////

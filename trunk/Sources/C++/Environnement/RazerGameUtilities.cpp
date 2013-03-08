@@ -9,22 +9,23 @@
 //////////////////////////////////////////////////////////////////////////////
 #include "RazerGameUtilities.h"
 
-#include <jni.h>
+#if WIN32
 #include "GestionnaireModeles.h"
 #include "GestionnaireEvenements.h"
 #include "GestionnaireEtatAbstrait.h"
+#endif
+
 #include "Utilitaire.h"
 #include "Terrain.h"
-#include "Runnable.h"
-#include "QueueThreadSafe.h"
-
-/// File scope Variables for runnables///////////////////////////////////
-QueueThreadSafe<Runnable*> mUIRunnables;
-QueueThreadSafe<Runnable*> mUpdateRunnables;
-bool mUpdating = false, mRendering=false;
-//////////////////////////////////////////////////////////////////////////
 
 
+
+
+
+
+#if WITH_JAVA
+#include <jni.h>
+#endif
    ////////////////////////////////////////////////////////////////////////
    ///
    /// @fn string obtenirChaineISO(JNIEnv* env, jstring chaine)
@@ -41,6 +42,7 @@ bool mUpdating = false, mRendering=false;
    ////////////////////////////////////////////////////////////////////////
    std::string RazerGameUtilities::obtenirChaineISO(void* envVoid, void* chaineVoid)
    {
+#if WITH_JAVA
        JNIEnv* env = (JNIEnv*)envVoid;
        jstring chaine = *(jstring*)chaineVoid;
       jclass classeString = env->FindClass("java/lang/String");
@@ -55,7 +57,18 @@ bool mUpdating = false, mRendering=false;
       return std::string((const char*)env->GetByteArrayElements(
          byteArray, 0), env->GetArrayLength(byteArray)
          );
+#endif
+      return "";
    }
+
+#ifndef __APPLE__
+#include "Runnable.h"
+#include "QueueThreadSafe.h"
+/// File scope Variables for runnables///////////////////////////////////
+QueueThreadSafe<Runnable*> mUIRunnables;
+QueueThreadSafe<Runnable*> mUpdateRunnables;
+bool mUpdating = false, mRendering=false;
+//////////////////////////////////////////////////////////////////////////
 
    void RazerGameUtilities::Rendering(bool isRendering)
    {
@@ -173,6 +186,7 @@ bool mUpdating = false, mRendering=false;
            }
        }
    }
+#endif
 
    ////////////////////////////////////////////////////////////////////////
    ///
@@ -188,11 +202,14 @@ bool mUpdating = false, mRendering=false;
    ////////////////////////////////////////////////////////////////////////
    unsigned int RazerGameUtilities::CreateListSphereDefault( Modele3D* pModel, float radius )
    {
+#if WIN32
        float rayon,haut,bas;
        pModel->calculerCylindreEnglobant(rayon,bas,haut);
        float ratio = radius / rayon;
        pModel->assignerFacteurAgrandissement(Vecteur3(ratio,ratio,ratio));
        return GestionnaireModeles::CreerListe(pModel);
+#endif
+       return NULL;
    }
 
    ////////////////////////////////////////////////////////////////////////
@@ -216,8 +233,10 @@ bool mUpdating = false, mRendering=false;
 //        }
 //        strcmp((pFilePath.c_str() + pFilePath.size()-4),".xml");
 // 
+#if WIN32
        // En place pour eviter des cas speciaux avec la souris (soit des ajout d'objets liberer 2 fois)
        GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
+#endif
 
        // Vérification de l'existence du ficher
        if ( !utilitaire::fichierExiste(pFilePath) ) 
@@ -283,6 +302,8 @@ bool mUpdating = false, mRendering=false;
        XMLUtils::SaveDocument(document,nomFichier.c_str());
        XMLUtils::FreeDocument(document);
    }
+
+
 
    /// La chaîne représentant le dossier.
    const std::string RazerGameUtilities::NOM_DOSSIER_MEDIA = "../media/";

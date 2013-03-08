@@ -30,8 +30,8 @@
                     <ColumnDefinition Width="140*" />
                     <ColumnDefinition Width="159*" />
                 </Grid.ColumnDefinitions>
-                <Button Content="Add New" Margin="12,5" Name="mPlaylistAddButton" Background="Black" Foreground="White" FontSize="16" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" Grid.Row="1" />
-                <Button Content="Delete" Margin="12,5" Name="mPlaylistDeleteButton" Background="Black" Foreground="White" FontSize="16" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="1" />
+                <Button Content="Add New" Margin="12,5" Name="mPlaylistAddButton" Background="Black" Foreground="White" FontSize="16" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" Grid.Row="1" Click="mPlaylistAddButton_Click" />
+                <Button Content="Delete" Margin="12,5" Name="mPlaylistDeleteButton" Background="Black" Foreground="White" FontSize="16" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="1" Click="mPlaylistDeleteButton_Click" />
                 <ListBox Margin="12" Name="mCurrentPlaylistsList" Background="Black" Foreground="White" Grid.ColumnSpan="2" />
             </Grid>
         </GroupBox>

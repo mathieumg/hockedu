@@ -49,7 +49,7 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
     switch(pEventCode) {
     case USER_DISCONNECTED:
         {
-            std::string wPlayerName = va_arg(pListeElems,char*);
+            std::string& wPlayerName = va_arg(pListeElems,std::string);
             if(wPlayerName.length() != 0 )
             {
                 // Handle deconnection (throw une exception qui sera catch dans le thread de reception et qui fera la deconnexion)

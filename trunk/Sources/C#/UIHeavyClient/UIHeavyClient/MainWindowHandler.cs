@@ -18,15 +18,26 @@ using System.Windows.Forms;
 namespace UIHeavyClient
 {
     public delegate bool EventReceivedCallBack(EventCodes id, IntPtr message);
+    //declare the callback prototype
+    public delegate bool MessageReceivedCallBack(IntPtr username, IntPtr message);
     static class MainWindowHandler
     {
-        static MainWindow mContext;
+        private static MainWindow mContext;
+        private static string mCurrentMap = "";
+        private static OpenFileDialog mOpenFileDialog = new OpenFileDialog();
+        private static Microsoft.Win32.SaveFileDialog mSaveFileDialog = new Microsoft.Win32.SaveFileDialog();
 
         public static MainWindow Context
         {
             get { return mContext; }
             set { mContext = value; }
         }
+        public static string CurrentMap
+        {
+            get { return mCurrentMap; }
+            set { mCurrentMap = value; }
+        }
+
         public static TaskManager mTaskManager = new TaskManager();
 
         [DllImport(@"RazerGame.dll")]
@@ -34,6 +45,21 @@ namespace UIHeavyClient
 
         [DllImport(@"RazerGame.dll")]
         static extern void SetEventCallback(EventReceivedCallBack callback);
+
+        //Callback to received user messages from C++
+        [DllImport(@"RazerGame.dll")]
+        static extern void SetMessageCallback(MessageReceivedCallBack callback);
+
+        // Save/Load
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void SaveMap(string pFileName);
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void LoadMap(string pFileName);
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void SetPlayMap(string pFileName);
+        // TODO
+        // Save to server
+        // Load to server
         
 
         public static void GoToEditionMode()
@@ -51,6 +77,7 @@ namespace UIHeavyClient
             Context.WindowContentControl.Content = Context.PlayModeControl;
             Context.EditionModeControl.RemoveOpenGL();
             Context.PlayModeControl.AppendOpenGL();
+            SetMessageCallback(PlayModeControl.mMessageCallback);
         }
 
         public static void GoToMainMenu()
@@ -86,11 +113,51 @@ namespace UIHeavyClient
         public static void GoToAIOptions()
         {
             Context.WindowContentControl.Content = Context.AIOptionControl;
+            Context.AIOptionControl.DisplayAIProfiles();
         }
 
         public static void GoToKeyboardOption()
         {
             Context.WindowContentControl.Content = Context.KeyboardOptionControl;
+        }
+
+        public static void LoadMapFromLocal(string pMapName)
+        {
+            LoadMap(pMapName);
+        }
+
+        public static void SaveMapToLocal(string pMapName)
+        {
+            SaveMap(pMapName);
+        }
+
+        public static void DialogLoadMapFromLocal()
+        {
+            mOpenFileDialog.Title = "Choose a map file";
+            if (mOpenFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                LoadMapFromLocal(mOpenFileDialog.FileName);
+                mCurrentMap = mOpenFileDialog.FileName;
+            }
+        }
+
+        public static void DialogSaveMapToLocal()
+        {
+            mSaveFileDialog.Title = "Enter the name of your map file";
+            if (mSaveFileDialog.ShowDialog().Value)
+            {
+                SaveMapToLocal(mSaveFileDialog.FileName);
+            }
+        }
+
+        public static void QuickSaveMapToLocal()
+        {
+            SaveMapToLocal(mCurrentMap);
+        }
+
+        public static void LoadPlayingMap(string pMapFile)
+        {
+            SetPlayMap(pMapFile);
         }
     }
 }

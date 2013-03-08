@@ -10,9 +10,12 @@
 #include "ArbreRendu.h"
 #include "UsineNoeud.h"
 #include "NoeudAbstrait.h"
+#if WIN32
 #include <GL/glu.h>
+#endif
 #include "Utilitaire.h"
 #include "ExceptionJeu.h"
+#include "XMLUtils.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -148,13 +151,14 @@ NoeudAbstrait* ArbreRendu::ajouterNouveauNoeud(
 ////////////////////////////////////////////////////////////////////////
 unsigned int ArbreRendu::calculerProfondeurMaximale()
 {
-	GLint profondeurPileMatrice, profondeurPileNoms;
+/*	GLint profondeurPileMatrice, profondeurPileNoms;
 
 	glGetIntegerv(GL_MAX_MODELVIEW_STACK_DEPTH , &profondeurPileMatrice);
 	glGetIntegerv(GL_MAX_NAME_STACK_DEPTH      , &profondeurPileNoms);
 
 	return (profondeurPileMatrice < profondeurPileNoms) ?
-profondeurPileMatrice : profondeurPileNoms;
+profondeurPileMatrice : profondeurPileNoms;*/
+    return 10;
 }
 
 

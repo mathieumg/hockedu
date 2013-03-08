@@ -27,7 +27,7 @@
             <Label Content="Chat with your opponent!" Height="28" HorizontalAlignment="Left" Margin="6,6,0,0" Name="mChatTitleLabel" VerticalAlignment="Top" Width="Auto" Foreground="White" Grid.RowSpan="2" />
             <TextBox Margin="6,4,16,6" Name="mChatOutputTextBox" Text="" Background="Black" Foreground="White" IsReadOnly="True" Grid.Row="1" Grid.ColumnSpan="2" />
             <TextBox Margin="6,5,10,11" Name="mChatInputTextbox" Background="Black" Foreground="White" Grid.Row="2" />
-            <Button Content="Send" Margin="7,5,5,10" Name="mChatButton" Background="Black" Foreground="White" Grid.Row="2" Grid.Column="1" />
+            <Button Content="Send" Margin="7,5,5,10" Name="mChatButton" Background="Black" Foreground="White" Grid.Row="2" Grid.Column="1" Click="submitButton_Click" />
         </Grid>
         <Grid Name="mRadioGrid" MinHeight="120" MinWidth="240" MaxHeight="120" MaxWidth="240" HorizontalAlignment="Stretch" Width="Auto" Panel.ZIndex="5" Height="Auto" VerticalAlignment="Stretch" Grid.Row="1">
             <Grid.RowDefinitions>
@@ -38,14 +38,14 @@
             </Grid.RowDefinitions>
             <Label Content="Hockedu Radio" Name="mRadioTitleLabel" Width="Auto" Foreground="White" FontSize="16" Margin="-3,-3,0,0" Height="29" VerticalAlignment="Top" />
             <Label Content="Select a playlist :" Name="mPlaylistSelectLabel" HorizontalAlignment="Left" Width="118" Margin="-2,2,0,0" Foreground="White" Grid.Row="1" Height="27" VerticalAlignment="Top" />
-            <ComboBox Height="21" Name="mPlaylistComboBox" Width="120" Margin="100,7,0,0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <ComboBox Height="21" Name="mPlaylistComboBox" Width="120" Margin="100,7,0,0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" SelectionChanged="mPlaylistComboBox_SelectionChanged" />
             <Label Content="Volume : " Height="28" HorizontalAlignment="Left" Name="mVolumeLabel" VerticalAlignment="Top" Foreground="White" Grid.Row="1" Margin="-2,28,0,0" Grid.RowSpan="2" />
-            <Slider Height="23" HorizontalAlignment="Left" Margin="47,2,0,0" Name="mVolumeSlider" VerticalAlignment="Top" Width="140" IsSnapToTickEnabled="True" Value="2" Grid.Row="2" />
+            <Slider Height="23" HorizontalAlignment="Left" Margin="47,2,0,0" Name="mVolumeSlider" VerticalAlignment="Top" Width="140" IsSnapToTickEnabled="True" Value="2" Grid.Row="2" ValueChanged="mVolumeSlider_ValueChanged" />
             <Label Content="{Binding ElementName=mVolumeSlider, Path=Value}" Height="23" HorizontalAlignment="Left" Margin="191,2,0,0" Name="mVolumeDisplayLabel" VerticalAlignment="Top" Foreground="#FF00D500" Grid.Row="2" />
-            <Button Content="&lt;" Height="23" HorizontalAlignment="Left" Margin="6,3,0,0" Name="mPeviousButton" VerticalAlignment="Top" Width="24" Background="Black" Foreground="White" Grid.Row="3" />
-            <Button Content=">" Height="23" HorizontalAlignment="Left" Margin="100,3,0,0" Name="mNextButton" VerticalAlignment="Top" Width="21" Background="Black" Foreground="White" Grid.Row="3" />
-            <Button Content="|-|" Height="23" HorizontalAlignment="Left" Margin="70,3,0,0" Name="mStopButton" VerticalAlignment="Top" Width="22" Background="Black" Foreground="White" Grid.Row="3" />
-            <Button Content="|>" Height="23" HorizontalAlignment="Left" Margin="36,3,0,0" Name="mPlayButton" VerticalAlignment="Top" Width="28" Background="Black" Foreground="White" Grid.Row="3" />
+            <Button Content="&lt;" Height="23" HorizontalAlignment="Left" Margin="6,3,0,0" Name="mPeviousButton" VerticalAlignment="Top" Width="24" Background="Black" Foreground="White" Grid.Row="3" Click="mPeviousButton_Click" />
+            <Button Content=">" Height="23" HorizontalAlignment="Left" Margin="100,3,0,0" Name="mNextButton" VerticalAlignment="Top" Width="21" Background="Black" Foreground="White" Grid.Row="3" Click="mNextButton_Click" />
+            <Button Content="|-|" Height="23" HorizontalAlignment="Left" Margin="70,3,0,0" Name="mStopButton" VerticalAlignment="Top" Width="22" Background="Black" Foreground="White" Grid.Row="3" Click="mStopButton_Click" />
+            <Button Content="|>" Height="23" HorizontalAlignment="Left" Margin="36,3,0,0" Name="mPlayButton" VerticalAlignment="Top" Width="28" Background="Black" Foreground="White" Grid.Row="3" Click="mPlayButton_Click" />
         </Grid>
     </Grid>
 </UserControl>

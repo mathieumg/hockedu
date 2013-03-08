@@ -8,18 +8,15 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudRondelle.h"
-#include "FacadeModele.h"
 #include "VisiteurCollision.h"
 #include "NoeudMuret.h"
 #include "AideCollision.h"
 #include "NoeudTable.h"
 #include "NoeudMaillet.h"
 #include "NoeudPoint.h"
-#include "Partie.h"
 #include "NoeudAccelerateur.h"
 #include "DecodeString.h"
 #include <iostream>
-#include "SoundFMOD.h"
 #include "NoeudGroupe.h"
 #include "Terrain.h"
 #include "NoeudPortail.h"
@@ -30,6 +27,10 @@
 #include "NoeudBut.h"
 #include "UsineNoeud.h"
 #include "ExceptionJeu.h"
+
+#ifndef __APPLE__
+#include "FacadeModele.h"
+#endif
 
 const float NoeudRondelle::DEFAULT_RADIUS = 8;
 
@@ -65,10 +66,12 @@ NoeudRondelle::NoeudRondelle(const std::string& typeNoeud, unsigned int& puckCre
     updatePhysicBody();
 
     ++mNbPuckCreated;
+#ifndef __APPLE__
     if(mNbPuckCreated >= puckLimit)
     {
         FacadeModele::transmitEvent(DISABLE_PUCK_CREATION);
     }
+#endif
 }
 
 
@@ -84,7 +87,9 @@ NoeudRondelle::NoeudRondelle(const std::string& typeNoeud, unsigned int& puckCre
 NoeudRondelle::~NoeudRondelle()
 {
     --mNbPuckCreated;
+#ifndef __APPLE__
     FacadeModele::transmitEvent(ENABLE_PUCK_CREATION);
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -151,7 +156,7 @@ void NoeudRondelle::acceptVisitor( VisiteurNoeud& v )
 ///
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::gestionCollision( const float& temps )
-{
+{/*
     if(!table_)
     {
         if(GetTerrain())
@@ -338,7 +343,7 @@ void NoeudRondelle::gestionCollision( const float& temps )
                     SoundFMOD::obtenirInstance()->playEffect(COLLISION_MURET_EFFECT);
             }
         }
-    }
+    }*/
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -372,7 +377,7 @@ void NoeudRondelle::majPosition( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::ajusterEnfoncement()
 {
-    if(!table_)
+    /*if(!table_)
     {
         if(GetTerrain())
         {
@@ -425,7 +430,7 @@ void NoeudRondelle::ajusterEnfoncement()
         
         
     }
-    mPosition[VZ] = 0;
+    mPosition[VZ] = 0;*/
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -441,7 +446,7 @@ void NoeudRondelle::ajusterEnfoncement()
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::ajusterVitesse( const float& temps )
 {
-    if(!table_)
+  /*  if(!table_)
     {
         if(GetTerrain())
         {
@@ -544,7 +549,7 @@ void NoeudRondelle::ajusterVitesse( const float& temps )
     }
 
     mVelocite[VZ] = 0;
-    mVitesseRotation *= 0.99f;
+    mVitesseRotation *= 0.99f;*/
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -676,6 +681,30 @@ void NoeudRondelle::appliquerAnimation( const ObjectAnimationParameters& pAnimat
     if(pAnimationResult.CanUpdatedScale())
         echelleCourante_ = pAnimationResult.mScale;
     updateMatrice();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn Vecteur3 NoeudRondelle::obtenirVelocite()
+///
+/// /*Description*/
+///
+///
+/// @return Vecteur3
+///
+////////////////////////////////////////////////////////////////////////
+Vecteur3 NoeudRondelle::obtenirVelocite() const
+{
+#if BOX2D_INTEGRATED
+    Vecteur3 v;
+    if(mPhysicBody)
+    {
+        utilitaire::B2VEC_TO_VEC3(v,mPhysicBody->GetLinearVelocity());
+    }
+    return v;
+#else
+    return mVelocite;
+#endif
 }
 
 

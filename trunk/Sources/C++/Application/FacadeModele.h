@@ -21,6 +21,7 @@
 #include <queue>
 #include <hash_map>
 #include "GameManager.h"
+#include "Enum_Declarations.cs"
 
 
 class VisiteurNoeud;
@@ -275,7 +276,8 @@ private:
 	//SPJoueurAbstrait adversaire_; (maintenant dans le GameManager)
 	utilitaire::BoiteEnvironnement* boiteEnvironnement;
 
-
+    // Map to play with
+    std::string mCurrentMapFile;
 
 	// Lien vers le programme de SHADER
 	GLuint progPhong_;
@@ -337,6 +339,8 @@ public:
 	// SPJoueurAbstrait obtenirAdversaire() { return adversaire_; }
     // (maintenant dans GameManager)
 
+    inline std::string getCurrentMap() {return mCurrentMapFile;}
+    inline void setCurrentMap(std::string pCurrentMap) {mCurrentMapFile = pCurrentMap;}
 
 };
 

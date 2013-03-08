@@ -11,13 +11,13 @@
 #include "GestionnaireReseauServeurMaitre.h"
 #include "GestionnaireReseau.h"
 #include "Paquets/PaquetUserStatus.h"
-#include "PaquetHandlers/PacketHandlerUserStatus.h"
+#include "PaquetHandlers/PacketHandler.h"
 #include "UsinePaquets/UsinePaquetUserStatus.h"
 #include "RelayeurMessage.h"
-#include "PaquetHandlers/PacketHandlerChatMessage.h"
+#include "PaquetHandlers/PacketHandler.h"
 #include "UsinePaquets/UsinePaquetChatMessage.h"
 #include "UsinePaquets/UsinePaquetGameStatus.h"
-#include "PaquetHandlers/PacketHandlerGameStatus.h"
+#include "PaquetHandlers/PacketHandler.h"
 
 // Initialisations automatiques
 SINGLETON_DECLARATION_CPP(GestionnaireReseauServeurMaitre);

@@ -13,11 +13,15 @@
 
 #include <string>
 #include "XMLUtils.h"
-#include "Enum_Declarations.cs"
 
+//#if WIN32
 // Macro permettant de localiser la signature des fonctions et éviter des gros replace all en cas de changement
-#define CreateListDelegateSignature(name) static unsigned int CreateListDelegate##name##(class Modele3D* pModel)
-#define CreateListDelegateImplementation(name) unsigned int RazerGameUtilities::CreateListDelegate##name##(Modele3D* pModel)
+#define CreateListDelegateSignature(name) static unsigned int CreateListDelegate## name(class Modele3D* pModel)
+#define CreateListDelegateImplementation(name) unsigned int RazerGameUtilities::CreateListDelegate## name(class Modele3D* pModel)
+/*#else
+#define CreateListDelegateSignature(name) 
+#define CreateListDelegateImplementation(name) unsigned int bidon##name(class Modele3D* pModel)
+#endif*/
 typedef unsigned int (*CreateListDelegate)(class Modele3D*);
 
 class Terrain;

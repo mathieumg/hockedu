@@ -117,7 +117,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;../../Commun/Externe/;..\C#\UIHeavyClient\UIHeavyClient</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;RazerGame_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;WITH_JAVA;RazerGame_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -233,7 +233,6 @@
     <ClCompile Include="Environnement\Evenements\EvenementClavier.cpp" />
     <ClCompile Include="Environnement\Evenements\EvenementRouletteSouris.cpp" />
     <ClCompile Include="Environnement\Evenements\EvenementSouris.cpp" />
-    <ClCompile Include="Environnement\ExceptionJeu.cpp" />
     <ClCompile Include="Environnement\RazerGameUtilities.cpp" />
     <ClCompile Include="Interface\DebugRenderBox2D.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatAbstrait.cpp" />
@@ -330,6 +329,7 @@
     <ClCompile Include="Tests\ProjectionOrthoTest.cpp" />
     <ClCompile Include="Tests\TerrainTest.cpp" />
     <ClCompile Include="Tests\TournoiTest.cpp" />
+    <ClCompile Include="Tests\UtilitaireTests.cpp" />
     <ClCompile Include="Tests\VisiteurNoeudTest.cpp" />
     <ClCompile Include="Tests\XMLTests.cpp" />
   </ItemGroup>
@@ -384,7 +384,6 @@
     <ClInclude Include="Environnement\Evenements\EvenementClavier.h" />
     <ClInclude Include="Environnement\Evenements\EvenementRouletteSouris.h" />
     <ClInclude Include="Environnement\Evenements\EvenementSouris.h" />
-    <ClInclude Include="Environnement\ExceptionJeu.h" />
     <ClInclude Include="Environnement\RazerGameUtilities.h" />
     <ClInclude Include="Interface\CodesEvenements.h" />
     <ClInclude Include="Interface\DebugRenderBox2D.h" />
@@ -495,6 +494,7 @@
     <ClInclude Include="Tests\ProjectionOrthoTest.h" />
     <ClInclude Include="Tests\TerrainTest.h" />
     <ClInclude Include="Tests\TournoiTest.h" />
+    <ClInclude Include="Tests\UtilitaireTests.h" />
     <ClInclude Include="Tests\VisiteurNoeudTest.h" />
     <ClInclude Include="Tests\XMLTests.h" />
   </ItemGroup>

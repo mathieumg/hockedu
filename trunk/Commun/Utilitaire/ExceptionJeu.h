@@ -25,12 +25,12 @@ public:
     typedef std::exception Super;
 
     ExceptionJeu(const char* pMessage, ...);
-    virtual ~ExceptionJeu();
+    ~ExceptionJeu() throw();
 private:
     const char* mErrorMessage;
+    
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}
 ///////////////////////////////////////////////////////////////////////////////
-

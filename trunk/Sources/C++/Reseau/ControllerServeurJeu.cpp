@@ -45,7 +45,7 @@ void ControllerServeurJeu::handleEvent( EventCodes pEventCode, va_list pListeEle
     switch(pEventCode) {
     case USER_DISCONNECTED:
         {
-            std::string wPlayerName = va_arg(pListeElems,std::string);
+            std::string& wPlayerName = va_arg(pListeElems,std::string);
             if(wPlayerName.length() != 0 )
             {
                 // Handle deconnection

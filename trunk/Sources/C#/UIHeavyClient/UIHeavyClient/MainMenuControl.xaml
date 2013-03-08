@@ -29,16 +29,17 @@
         <Button Content="Unit Tests" Margin="12" Name="mUnitTestButton" Grid.Row="6" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
         <Label Content="HOCKEDU" HorizontalAlignment="Stretch" Margin="0,0,8,14" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="72" Grid.ColumnSpan="3" />
         <Label Content="" Grid.Row="7" Height="Auto" HorizontalAlignment="Right" Margin="0,14,0,12" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" Grid.Column="0" Grid.ColumnSpan="3" />
-        <GroupBox Grid.Row="1" Header="Quick Play" Margin="18,33,0,0" Name="mQuickPlayGroupBox" Foreground="White" Height="190" VerticalAlignment="Top" Grid.Column="2" HorizontalAlignment="Left" Width="292" Grid.RowSpan="4">
+        <GroupBox Grid.Row="1" Header="Quick Play" Margin="18,33,0,0" Name="mQuickPlayGroupBox" Foreground="White" Height="217" VerticalAlignment="Top" Grid.Column="2" HorizontalAlignment="Left" Width="292" Grid.RowSpan="4">
             <Grid Height="Auto" Width="Auto" Name="mQuickPlayGrid">
-                <Button Content="Go!" Height="23" HorizontalAlignment="Left" Margin="231,138,0,0" Name="mQuickPlayGoButton" VerticalAlignment="Top" Width="43" Background="Black" Foreground="White" Click="mQuickPlayGoButton_Click" />
-                <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="182,138,0,0" Name="mQuickPlayCancelButton" VerticalAlignment="Top" Width="43" Background="Black" Foreground="White" Click="mQuickPlayCancelButton_Click" />
+                <Button Content="Go!" Height="23" HorizontalAlignment="Left" Margin="233,167,0,0" Name="mQuickPlayGoButton" VerticalAlignment="Top" Width="43" Background="Black" Foreground="White" Click="mQuickPlayGoButton_Click" />
+                <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="182,167,0,0" Name="mQuickPlayCancelButton" VerticalAlignment="Top" Width="43" Background="Black" Foreground="White" Click="mQuickPlayCancelButton_Click" />
                 <Label Content="Choose your opponent" Height="Auto" HorizontalAlignment="Left" Margin="6,6,0,0" Name="mOpponentLabel" VerticalAlignment="Top" Foreground="White" />
-                <Label Content="Choose a map" Height="Auto" HorizontalAlignment="Left" Margin="6,78,0,0" Name="mMapLabel" VerticalAlignment="Top" Width="Auto" Foreground="White" />
+                <Label Content="Choose a map" Height="Auto" HorizontalAlignment="Left" Margin="6,95,0,0" Name="mMapLabel" VerticalAlignment="Top" Width="Auto" Foreground="White" />
                 <RadioButton Content="Human Player" Height="16" HorizontalAlignment="Left" Margin="16,42,0,0" Name="mHumanRadio" VerticalAlignment="Top" GroupName="rgOpponentRadios" Foreground="White" IsChecked="True" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
                 <RadioButton Content="AI" Height="16" HorizontalAlignment="Left" Margin="16,57,0,0" Name="mAIRadio" VerticalAlignment="Top" GroupName="rgOpponentRadios" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
                 <ComboBox Height="23" HorizontalAlignment="Left" Margin="115,57,0,0" Name="mAIComboBox" VerticalAlignment="Top" Width="120" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" IsEnabled="{Binding ElementName=mAIRadio, Path=IsChecked}" />
-                <ComboBox Height="23" HorizontalAlignment="Left" Margin="6,105,0,0" Name="mMapComboBox" VerticalAlignment="Top" Width="120" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="6,122,0,0" Name="mMapTextBox" VerticalAlignment="Top" Width="120" Background="Black" Foreground="White" />
+                <Button Content="Browse" Height="23" HorizontalAlignment="Right" Margin="0,122,64,0" Name="button1" VerticalAlignment="Top" Width="75" Foreground="White" Background="Black" Click="button1_Click" />
             </Grid>
         </GroupBox>
     </Grid>

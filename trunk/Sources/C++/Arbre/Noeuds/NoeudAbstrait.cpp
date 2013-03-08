@@ -10,13 +10,16 @@
 #include "NoeudAbstrait.h"
 #include "NoeudComposite.h"
 #include "VisiteurCollision.h"
+#if WIN32
 #include "GestionnaireModeles.h"
 #include "DecodeString.h"
 #include "Singleton.h"
 #include "XMLUtils.h"
 #include "Terrain.h"
+
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
+#endif
 #endif
 #include "Utilitaire.h"
 
@@ -38,7 +41,6 @@ NoeudAbstrait::NoeudAbstrait(
    ) :
     mPhysicBody(NULL),
     type_(type) ,
-    modePolygones_(GL_FILL) ,
     mPosition(0) ,
     affiche_(true) ,
     selectionne_(false) ,
@@ -54,6 +56,8 @@ NoeudAbstrait::NoeudAbstrait(
 	echelleCourante_[VY] = 1;
 	echelleCourante_[VZ] = 1;
 
+#if WIN32
+    modePolygones_ = GL_FILL;
 	// On charge la matrice identitee lors de la construction
 	// On garde en memoire la matrice d'origine (devrait etre NULL)
 	glPushMatrix();
@@ -63,7 +67,8 @@ NoeudAbstrait::NoeudAbstrait(
 	glPopMatrix();
 
     glTypeId_ = GestionnaireModeles::obtenirInstance()->obtenirTypeIdFromName(type_);
-
+#endif
+    
 	updateRayon();
 
 }
@@ -338,6 +343,7 @@ bool NoeudAbstrait::selectionExiste() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::changerModePolygones( bool estForce )
 {
+#if WIN32
    if ( ( estForce ) || ( estSelectionne() ) ) {
       if ( modePolygones_ == GL_FILL )
          modePolygones_ =  GL_LINE;
@@ -346,6 +352,7 @@ void NoeudAbstrait::changerModePolygones( bool estForce )
       else
          modePolygones_ = GL_FILL;
    }
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -362,6 +369,7 @@ void NoeudAbstrait::changerModePolygones( bool estForce )
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::assignerModePolygones( GLenum modePolygones )
 {
+#if WIN32
    // Le mode par défaut si on passe une mauvaise valeur est GL_FILL
    if ( (modePolygones != GL_FILL) &&
         (modePolygones != GL_LINE) &&
@@ -370,6 +378,7 @@ void NoeudAbstrait::assignerModePolygones( GLenum modePolygones )
    }
 
    modePolygones_ = modePolygones;
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -395,6 +404,7 @@ void NoeudAbstrait::assignerModePolygones( GLenum modePolygones )
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::afficher() const
 {
+#if WIN32
     glPushMatrix();
     glPushAttrib(GL_CURRENT_BIT | GL_POLYGON_BIT);
       
@@ -407,6 +417,7 @@ void NoeudAbstrait::afficher() const
     // Restauration
     glPopAttrib();
     glPopMatrix();
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -425,6 +436,7 @@ void NoeudAbstrait::afficher() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::afficherConcret() const
 {
+#if WIN32
     if(estAffiche())
     {
         GLuint liste;
@@ -460,6 +472,7 @@ void NoeudAbstrait::afficherConcret() const
 
         glPopMatrix();
     }
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -621,6 +634,7 @@ float NoeudAbstrait::obtenirAngle() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::updateMatrice()
 {
+#if WIN32
 	glPushMatrix();
 	glLoadIdentity();
 
@@ -630,6 +644,7 @@ void NoeudAbstrait::updateMatrice()
 	glGetDoublev(GL_MODELVIEW_MATRIX, matrice_); // Savegarde de la matrice courante dans le noeud
 
 	glPopMatrix();
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -644,8 +659,9 @@ void NoeudAbstrait::updateMatrice()
 ////////////////////////////////////////////////////////////////////////
 NoeudAbstrait::PaireVect3 NoeudAbstrait::obtenirZoneOccupee() const
 {
-	
+
 	Vecteur3 minimum, maximum;
+#if WIN32
 	float largeur, hauteur;
     Modele3D* pModel = obtenirModele();
     if(pModel)
@@ -668,7 +684,7 @@ NoeudAbstrait::PaireVect3 NoeudAbstrait::obtenirZoneOccupee() const
 
         }
     }
-
+#endif
 	return PaireVect3(minimum, maximum);
 }
 
@@ -687,7 +703,6 @@ float NoeudAbstrait::obtenirRayon() const
 	return rayon_;
 }
 
-
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn float NoeudAbstrait::updateRayon(  )
@@ -700,7 +715,7 @@ float NoeudAbstrait::obtenirRayon() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::updateRayon()
 {
-	rayon_ = getDefaultRadius()*max(echelleCourante_[VX], echelleCourante_[VY]);
+	rayon_ = getDefaultRadius()*utilitaire::borneSuperieure(echelleCourante_[VX], echelleCourante_[VY]);
 }
 
 
@@ -715,7 +730,7 @@ void NoeudAbstrait::updateRayon()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::assignerAttributVisiteurCollision( VisiteurCollision* v )
+void NoeudAbstrait::assignerAttributVisiteurCollision( class VisiteurCollision* v )
 {
 	v->modifierTypeCollision(CERCLE);
 	v->modifierRayonAVerifier(obtenirRayon());
@@ -881,7 +896,11 @@ void NoeudAbstrait::setPosition( const Vecteur3& positionRelative )
 ////////////////////////////////////////////////////////////////////////
 Modele3D* NoeudAbstrait::obtenirModele() const
 {
+#if WIN32
     return GestionnaireModeles::obtenirInstance()->obtenirModele(get3DModelKey());
+#else
+    return NULL;
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1001,6 +1020,7 @@ const class ArbreRendu* NoeudAbstrait::GetTreeRoot() const
     return NULL;
 }
 
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn class b2World* NoeudAbstrait::getWorld()
@@ -1013,7 +1033,10 @@ const class ArbreRendu* NoeudAbstrait::GetTreeRoot() const
 ////////////////////////////////////////////////////////////////////////
 class b2World* NoeudAbstrait::getWorld()
 {
+#if BOX2D_INTEGRATED
     return GetTerrain() ? GetTerrain()->GetWorld() : NULL;
+#endif
+    return NULL;
 }
 
 

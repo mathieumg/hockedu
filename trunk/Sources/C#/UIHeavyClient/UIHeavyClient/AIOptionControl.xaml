@@ -30,9 +30,9 @@
                     <ColumnDefinition Width="100*" />
                     <ColumnDefinition Width="116*" />
                 </Grid.ColumnDefinitions>
-                <Button Content="Add New" Margin="12" Name="mAddButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" Grid.Column="1" Grid.Row="1" />
-                <Button Content="Delete" Margin="12" Name="mDeleteButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" Grid.Row="1" />
-                <ListBox Margin="12" Name="mCurrentAIList" Background="Black" Foreground="White" Grid.ColumnSpan="2" />
+                <Button Content="Add New" Margin="12" Name="mAddButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" Grid.Column="1" Grid.Row="1" Click="mAddButton_Click" />
+                <Button Content="Delete" Margin="12" Name="mDeleteButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" Grid.Row="1" Click="mDeleteButton_Click" />
+                <ListView Margin="12" Name="mCurrentAIList" Background="Black" Foreground="White" Grid.ColumnSpan="2" SelectionChanged="mCurrentAIList_SelectionChanged" />
             </Grid>
         </GroupBox>
         <GroupBox Grid.Column="2" Grid.Row="1" Header="Profile Edition" Margin="21,88,12,108" Name="mCurrentEditGroupBox" Foreground="White">
@@ -43,7 +43,7 @@
                     <RowDefinition Height="50*" />
                     <RowDefinition Height="53*" />
                 </Grid.RowDefinitions>
-                <Button Content="Save" Margin="12,12,0,12" Name="mSaveButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" Grid.Row="3" HorizontalAlignment="Left" Width="62" />
+                <Button Content="Save" Margin="12,12,0,12" Name="mSaveButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" Grid.Row="3" HorizontalAlignment="Left" Width="62" Click="mSaveButton_Click" />
                 <Label Content="Profile's Name :" Foreground="White" HorizontalAlignment="Left" Margin="12" Name="mProfileNameLabel" />
                 <Label Content="Speed : " Foreground="White" HorizontalAlignment="Left" Margin="12" Name="mProfileSpeedLabel" Grid.Row="1" />
                 <Label Content="Reflexes : " Foreground="White" HorizontalAlignment="Left" Margin="12" Name="mProfileReflexLabel" Grid.Row="2" />

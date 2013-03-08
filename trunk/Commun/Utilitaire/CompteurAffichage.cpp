@@ -9,9 +9,10 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "CompteurAffichage.h"
+#if WIN32
 #define _WINSOCKAPI_
 #include <windows.h>
-
+#endif
 
 namespace utilitaire {
 

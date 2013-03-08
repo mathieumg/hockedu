@@ -27,12 +27,9 @@
 #include <stdexcept>
 #include "CommunicateurReseau.h"
 #include "PaquetHandlers/PacketHandler.h"
-#include "PaquetHandlers/PacketHandlerConnAutomatique.h"
 #include "UsinePaquets/UsinePaquetConnAutomatique.h"
 #include "UsinePaquets/UsinePaquetTest.h"
-#include "PaquetHandlers/PacketHandlerTest.h"
 #include <utility>
-#include "PaquetHandlers/PacketHandlerEvent.h"
 #include "UsinePaquets/UsinePaquetEvent.h"
 
 #ifdef WINDOWS

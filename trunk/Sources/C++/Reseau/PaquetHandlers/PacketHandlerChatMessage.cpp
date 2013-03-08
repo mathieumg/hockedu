@@ -1,7 +1,7 @@
 
 #include <iostream>
 #include <sstream>
-#include "PacketHandlerChatMessage.h"
+#include "PacketHandler.h"
 #include "../Paquets/PaquetChatMessage.h"
 #include "../RelayeurMessage.h"
 #include <time.h>
@@ -122,10 +122,10 @@ int PacketHandlerChatMessage::getPacketSizeSpecific( Paquet* pPaquet ) const
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) pPaquet;
 
 
-    return PacketBuilder::getSizeForString(wPaquet->getMessage())
-        + PacketBuilder::getSizeFor64bInteger()
-        + PacketBuilder::getSizeForBool()
-        + PacketBuilder::getSizeForString(wPaquet->getGroupName())
-        + PacketBuilder::getSizeForString(wPaquet->getOrigin());
+    return  getSizeForString(wPaquet->getMessage())
+        + getSizeFor64bInteger()
+        + getSizeForBool()
+        +  getSizeForString(wPaquet->getGroupName())
+        +  getSizeForString(wPaquet->getOrigin());
 
 }

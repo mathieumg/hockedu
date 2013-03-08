@@ -1,15 +1,22 @@
 #pragma once
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-#define WINDOWS
-#else
+#define WINDOWS 1
+#elif __linux__
 #define LINUX 1
+#else
+#define MACLOL 1
 #endif
 
 // Set to 1 when testing for shipping game
 #define SHIPPING 0
 
+#if WIN32
 #define BOX2D_INTEGRATED 1
+#else
+#define BOX2D_INTEGRATED 0
+#endif
+
 #define BOX2D_DEBUG BOX2D_INTEGRATED && !SHIPPING && 1
 
 // Optimization macros (uses __pragma to enable inside a #define).
@@ -77,7 +84,7 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
 #endif
 
 // Fonction pour faire la verification
-#ifdef LINUX
+#ifndef WIN32
 #define checkf(expr, ...)
 #elif !SHIPPING
 #define checkf(expr, ...)   { if(!(expr)) appFailAssert( #expr, __FILE__, __LINE__, ##__VA_ARGS__ ); }

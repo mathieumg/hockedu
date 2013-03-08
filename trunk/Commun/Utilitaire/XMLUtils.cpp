@@ -11,67 +11,7 @@
 
 namespace XMLUtils
 {
-
-    ////////////////////////////////////////////////////////////////////////
-    ///
-    /// @fn void utilitaire::writeArray( Vecteur* pFloatArray, XmlElement* element, const std::string* nom )
-    ///
-    /// Permet d'ecrire un pFloatArray dans un element XML
-    ///
-    /// @param[in] Vecteur3D<float> * pFloatArray : pFloatArray à écrire dans le noeud xml
-    /// @param[in] XmlElement * element : noeud xml
-    /// @param[in] const char* name : nom de ce pFloatArray a etre ecrit dans le fichier XML, s'assurer qu'il soit unique
-    ///
-    /// @return void
-    ///
-    ////////////////////////////////////////////////////////////////////////
-//     template<float>
-//     void writeArray( const float* pFloatArray, int size, XmlElement* element, const char* name )
-//     {
-//         if(pFloatArray && element)
-//         {
-//             for ( int i = 0; i < size; i++ ) 
-//             {
-//                 std::ostringstream nameAttribute;
-//                 nameAttribute << name;
-//                 nameAttribute << i;
-//                 element->SetDoubleAttribute(nameAttribute.str().c_str(),pFloatArray[i]);
-//             }
-//         }
-//     }
-
-    ////////////////////////////////////////////////////////////////////////
-    ///
-    /// @fn void utilitaire::readArray( Vecteur3D<float>* vecteur, const XmlElement* element, const std::string& nom )
-    ///
-    /// Permet de lire un element XML dans un vecteur 
-    ///
-    /// @param[in] Vecteur3D<float> * vecteur : vecteur à écrire dans le noeud xml
-    /// @param[in] XmlElement * element : noeud xml
-    /// @param[in] const char* name : nom de ce vecteur a etre ecrit dans le fichier XML, s'assurer qu'il soit unique
-    ///
-    /// @return void
-    ///
-    ////////////////////////////////////////////////////////////////////////
-    bool readArray( float* pFloatArray, int size, const XmlElement* element, const char* name )
-    {
-        if(pFloatArray && element)
-        {
-            for ( int i = 0; i < 3; i++ ) 
-            {
-                float item;
-                std::ostringstream nameAttribute;
-                nameAttribute << name;
-                nameAttribute << i;
-                if( element->QueryFloatAttribute(nameAttribute.str().c_str(),&item) != TIXML_SUCCESS)
-                    return false;
-                pFloatArray[i] = item;
-            }
-            return true;
-        }
-        return false;
-    }
-
+#if WIN32
     ////////////////////////////////////////////////////////////////////////
     ///
     /// @fn writeAttribute<double>( XmlElement* element, const double* attribute )
@@ -503,6 +443,7 @@ namespace XMLUtils
         return (XmlNode*)element->FirstChild();
     }
 
+
     ////////////////////////////////////////////////////////////////////////
     ///
     /// @fn const XmlElement* NextSibling( const XmlElement* child )
@@ -535,4 +476,52 @@ namespace XMLUtils
         return element->Value();
     }
 
+
+#else
+    ///private use
+    const char* MakeName(const char* name, int index){return NULL;}
+    void FreeName(const char* createdName){}
+    
+    /// Creates an xml element with the given name
+    XmlElement* createNode(const char* name){return NULL;}
+    /// Creates a text node with the given name
+    XmlText* createTextNode(const char* name){return NULL;}
+    
+    /// Writes an attribute in the xml element with the given name tag
+    template<> void writeAttribute<bool>(XmlElement* element, const char* name, const bool& attribute){}
+    template<> void writeAttribute<int>(XmlElement* element, const char* name, const int& attribute){}
+    template<> void writeAttribute<float>(XmlElement* element, const char* name, const float& attribute){}
+    template<> void writeAttribute<std::string>(XmlElement* element, const char* name, const std::string& attribute){}
+    /// Read an attribute from the xml element with the given name tag
+    template<> bool readAttribute<bool>(const XmlElement* element, const char* name, bool& attribute){return false;}
+    template<> bool readAttribute<int>(const XmlElement* element, const char* name, int& attribute){return false;}
+    template<> bool readAttribute<float>(const XmlElement* element, const char* name, float& attribute){return false;}
+    template<> bool readAttribute<std::string>(const XmlElement* element, const char* name, std::string& attribute){return false;}
+    template<> bool readAttribute<char*>(const XmlElement* element, const char* name, char*& attribute){return false;}
+    /// Appends an element to another element
+    void LinkEndChild(XmlElement* parent, XmlElement* child){}
+    /// Search an element with the tag
+    const XmlElement* FirstChildElement( const XmlElement* element, const char* childName){return NULL;}
+    /// Search an element with the tag
+    XmlElement* FirstChildElement( XmlElement* element, const char* childName){return NULL;}
+    /// first child of the element
+    const XmlNode* FirstChild( const XmlElement* element, const char* childName ){return NULL;}
+    /// first child of the element
+    XmlNode* FirstChild( XmlElement* element, const char* childName ){return NULL;}
+    
+    /// creates an xml document
+    XmlDocument* CreateDocument(const char* _version,const char* _encoding,const char* _standalone){return NULL;}
+    /// Loads a document from the file, returns null if not found
+    XmlDocument* LoadDocument(const char* fileName){return NULL;}
+    void SaveDocument(XmlDocument* document, const char* fileName){}
+    /// Free the document's memory
+    void FreeDocument(XmlDocument* document){}
+
+    /// retrieve the text for this node's tag
+    const char* GetNodeTag(const XmlElement* element){return NULL;}
+    /// retrieves the sibling of the current node
+    const XmlElement* NextSibling( const XmlElement* child ) {return NULL;}
+    
+#endif
+    
 }

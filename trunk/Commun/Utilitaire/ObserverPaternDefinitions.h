@@ -55,7 +55,7 @@ public:
 template<class T>
 Observer<T>::~Observer()                                   
 {                                         
-    for ( std::set<T*>::iterator          
+    for ( auto
         it = mSubjects.begin();           
         it != mSubjects.end();            
     ++it )                                
@@ -84,7 +84,7 @@ void Observer<T>::removeSubject( T* pSubject, void* orig/* = NULL */ )
     {
         if(orig == NULL)
             orig = this;
-        std::set<T*>::iterator it = mSubjects.find( pSubject );
+        auto it = mSubjects.find( pSubject );
         if(it != mSubjects.end())       
             mSubjects.erase(it);        
         pSubject->detach(this, orig);
@@ -128,7 +128,7 @@ void Observer<T>::addSubject( T* pSubject, void* orig/* = NULL */ )
 template<class T>
 Subject<T>::~Subject()                              
 {                                    
-    for ( std::set<Observer<T>*>::iterator     
+    for ( auto
         it = mObservers.begin();     
         it != mObservers.end();      
     ++it )                           
@@ -182,7 +182,7 @@ void Subject<T>::detach( Observer<T>* pObserver, void* orig/* = NULL */ )
     {
         if(orig == NULL)
             orig = this;
-        std::set<class Observer<T>*>::iterator it = mObservers.find( pObserver );
+        auto it = mObservers.find( pObserver );
         if(it != mObservers.end())       
             mObservers.erase(it);
         pObserver->removeSubject((T*)this,orig);
@@ -202,7 +202,7 @@ void Subject<T>::detach( Observer<T>* pObserver, void* orig/* = NULL */ )
 template<class T>
 void Subject<T>::signalObservers() const           
 {                                    
-    for ( std::set<class Observer<T>*>::iterator     
+    for ( auto
         it = mObservers.begin();     
         it != mObservers.end();      
     ++it )                           

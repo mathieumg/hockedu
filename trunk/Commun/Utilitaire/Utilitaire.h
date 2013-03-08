@@ -13,7 +13,6 @@
 #include "Vecteur.h"
 #include <sstream>
 
-
 namespace utilitaire {
 	/// Définition d'un type d'entier non signé.
 	typedef unsigned int uint;
@@ -120,10 +119,11 @@ namespace utilitaire {
 	///
 	////////////////////////////////////////////////////////////////////////
 	template <class T>
-	void borneSuperieure( T& valeur, const T& borne )
+	inline T borneSuperieure( const T& valeur, const T& borne )
 	{
 		if ( valeur > borne )
-			valeur = borne;
+			return valeur;
+        return borne;
 	}
 
 	////////////////////////////////////////////////////////////////////////
@@ -139,10 +139,11 @@ namespace utilitaire {
 	///
 	////////////////////////////////////////////////////////////////////////
 	template <class T>
-	void borneInferieure( T& valeur, const T& borne )
+	inline T borneInferieure( const T& valeur, const T& borne )
 	{
 		if ( valeur < borne )
-			valeur = borne;
+			return valeur;
+        return borne;
 	}
 
 

@@ -25,11 +25,23 @@ class NoeudAbstrait;
 /////////////////////////////////////////////////////////////////////////////
 /// Ce fichier contient différents type def utilisées dans plusieurs classes.
 /////////////////////////////////////////////////////////////////////////////
+#if WIN32
 
-/// Pointeur Intelligent sur les Joueurs
 typedef std::shared_ptr<JoueurAbstrait> SPJoueurAbstrait;
 typedef std::shared_ptr<JoueurVirtuel> SPJoueurVirtuel;
 typedef std::shared_ptr<JoueurHumain> SPJoueurHumain;
+
+#else
+
+typedef JoueurAbstrait* SPJoueurAbstrait;
+typedef JoueurVirtuel* SPJoueurVirtuel;
+typedef JoueurHumain* SPJoueurHumain;
+
+#endif
+
+
+/// Pointeur Intelligent sur les Joueurs
+
 /// Typedef pour le conteneur des joueurs participant à un tournoi
 typedef std::vector<SPJoueurAbstrait> JoueursParticipant;
 /// Typedef pour le conteneurdes joueurs existant

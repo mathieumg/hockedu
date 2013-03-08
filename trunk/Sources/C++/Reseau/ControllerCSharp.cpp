@@ -59,10 +59,10 @@ void ControllerCSharp::handleEvent( EventCodes pEventCode, va_list pListeElems )
     {
         wEventHandled = (it->second)(this,pEventCode,pListeElems);
     }
-    if(!wEventHandled)
-    {
-        std::cerr << "UnHandled event\n";
-    }
+//     if(!wEventHandled)
+//     {
+//         std::cerr << "UnHandled event\n";
+//     }
 }
 
 
@@ -92,7 +92,7 @@ int ControllerCSharp::HandleEvent(ControllerCSharp* pContext, EventCodes pEventC
         std::string message;
         if(pEventCode == SERVER_USER_DISCONNECTED || pEventCode == SERVER_USER_CONNECTED)
         {
-            message = va_arg(pListeElems,char*);
+            message = va_arg(pListeElems,std::string);
         }
         return c(pEventCode,(char*)message.c_str());
     }

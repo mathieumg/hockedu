@@ -139,6 +139,7 @@ void NodePolygone::modifierEchelle( float facteur )
 ////////////////////////////////////////////////////////////////////////
 void NodePolygone::afficherConcret() const
 {
+#if WIN32
     glPushMatrix();
     glPushAttrib(GL_CURRENT_BIT | GL_POLYGON_BIT);
     // Assignation du mode d'affichage des polygones
@@ -150,7 +151,7 @@ void NodePolygone::afficherConcret() const
     // Restauration
     glPopAttrib();
     glPopMatrix();
-
+#endif
 
     DrawChild();
 //     vecteurEntre.tourner(90,Vecteur3(0,0,1));
@@ -332,6 +333,7 @@ void NodePolygone::onRemoveControlPoint( NodeControlPoint* point )
 
 void NodePolygone::divideIntoTriangles() const
 {
+#if WIN32
     if(getNBControlPoint() < 3)
         return ;
     std::vector<Vecteur2> my_polygon;
@@ -542,6 +544,7 @@ void NodePolygone::divideIntoTriangles() const
         glEnd();
         // draw as if triangle strip
     }
+#endif
 }
 
 

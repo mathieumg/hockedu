@@ -8,7 +8,6 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudPortail.h"
-#include "FacadeModele.h"
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif

@@ -14,9 +14,11 @@
 #ifndef __UTILITAIRE_AIDEGL_H__
 #define __UTILITAIRE_AIDEGL_H__
 
+#if WIN32
 #define _WINSOCKAPI_
 #include <windows.h>
 #include "glew.h"
+#endif
 #include <string>
 
 #include "Vecteur.h"

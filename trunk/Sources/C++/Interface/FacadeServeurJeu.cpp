@@ -3,14 +3,10 @@
 #include "..\Reseau\GestionnaireReseau.h"
 #include "..\Reseau\ControllerServeurJeu.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetChatMessage.h"
-#include "..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h"
-#include "..\Reseau\PaquetHandlers\PacketHandlerUserStatus.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetUserStatus.h"
-#include "..\Reseau\PaquetHandlers\PacketHandlerGameStatus.h"
+#include "..\Reseau\PaquetHandlers\PacketHandler.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetGameStatus.h"
-#include "..\Reseau\PaquetHandlers\PacketHandlerAuthentificationServeurJeu.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetAuthentificationServeurJeu.h"
-#include "..\reseau\PaquetHandlers\PacketHandlerMaillet.h"
 #include "..\reseau\UsinePaquets\UsinePaquetMaillet.h"
 
 void InitDLLServeurJeu()

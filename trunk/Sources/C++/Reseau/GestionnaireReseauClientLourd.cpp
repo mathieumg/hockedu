@@ -9,9 +9,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "GestionnaireReseauClientLourd.h"
-#include "PaquetHandlers/PacketHandlerChatMessage.h"
 #include "UsinePaquets/UsinePaquetChatMessage.h"
-#include "PaquetHandlers/PacketHandlerUserStatus.h"
+#include "PaquetHandlers/PacketHandler.h"
 #include "UsinePaquets/UsinePaquetUserStatus.h"
 
 // Initialisations automatiques

@@ -5,7 +5,7 @@ PaquetChatMessage::PaquetChatMessage(  )
 {
     mMessage = "";
     mOrigin = "";
-    mIsTargetGroup = true;
+    mIsTargetGroup = false;
     mTimestamp = 0;
     mGroupName = "";
 }

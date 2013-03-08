@@ -1,5 +1,5 @@
 
-#include "PacketHandlerGameStatus.h"
+#include "PacketHandler.h"
 #include "../Paquets/PaquetGameStatus.h"
 
 
@@ -68,12 +68,12 @@ int PacketHandlerGameStatus::getPacketSizeSpecific( Paquet* pPaquet ) const
     PaquetGameStatus* wPaquet = (PaquetGameStatus*) pPaquet;
     PartieServeurs* wGameInfos = wPaquet->getGameInfos();
 
-    return PacketBuilder::getSizeForInt() // GameId
-        + PacketBuilder::getSizeForString(wGameInfos->getPlayer1Name()) // Player1 Name
-        + PacketBuilder::getSizeForString(wGameInfos->getPlayer2Name()) // Player2 Name
-        + PacketBuilder::getSizeForInt() // Player1 Score
-        + PacketBuilder::getSizeForInt() // Player2 Score
-        + PacketBuilder::getSizeForInt() // Time
+    return getSizeForInt() // GameId
+        +  getSizeForString(wGameInfos->getPlayer1Name()) // Player1 Name
+        +  getSizeForString(wGameInfos->getPlayer2Name()) // Player2 Name
+        + getSizeForInt() // Player1 Score
+        + getSizeForInt() // Player2 Score
+        + getSizeForInt() // Time
         ;
 
 }

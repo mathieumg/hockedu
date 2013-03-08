@@ -1,7 +1,7 @@
 
 #include <iostream>
 #include <sstream>
-#include "PacketHandlerAuthentificationServeurJeu.h"
+#include "PacketHandler.h"
 #include "../Paquets/PaquetAuthentificationServeurJeu.h"
 #include "Utilitaire.h"
 #include "../ObjetsGlobaux/JoueurServeurs.h"
@@ -57,7 +57,7 @@ int PacketHandlerAuthentificationServeurJeu::getPacketSizeSpecific( Paquet* pPaq
     PaquetAuthentificationServeurJeu* wPaquet = (PaquetAuthentificationServeurJeu*) pPaquet;
     return 0;
 // 
-//     return PacketBuilder::getSizeForString(wPaquet->getUsername())
-//         + PacketBuilder::getSizeForString(wPaquet->getPassword());
+//     return  getSizeForString(wPaquet->getUsername())
+//         +  getSizeForString(wPaquet->getPassword());
 
 }

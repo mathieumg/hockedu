@@ -10,10 +10,20 @@
 #include "RazerGameUtilities.h"
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
+#include "FacadeModele.h"
+#include "Partie.h"
+#include "SoundFMOD.h"
 #endif
 #if BOX2D_DEBUG
 #include "DebugRenderBox2D.h"
+#include "Runnable.h"
 #endif
+#ifndef __APPLE__
+#include "../Reseau/Paquets/PaquetMaillet.h"
+#include "../Reseau/GestionnaireReseau.h"
+#include "VisiteurFunction.h"
+#endif
+
 #include "Terrain.h"
 #include "RazerGameTree.h"
 #include "ArbreNoeudLibre.h"
@@ -31,17 +41,12 @@
 #include "XMLUtils.h"
 #include "NoeudAccelerateur.h"
 #include "NoeudPortail.h"
-#include "VisiteurFunction.h"
-#include "Partie.h"
 #include "VisiteurDupliquer.h"
-#include "SoundFMOD.h"
 #include "VisiteurCollision.h"
 #include "VisiteurDeplacement.h"
 #include "VisiteurEcrireXML.h"
 #include "ExceptionJeu.h"
-#include "Runnable.h"
-#include "../Reseau/Paquets/PaquetMaillet.h"
-#include "../Reseau/GestionnaireReseau.h"
+
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
@@ -90,6 +95,9 @@ Terrain::Terrain(Partie* pGame): mLogicTree(NULL), mNewNodeTree(NULL), mTable(NU
 ////////////////////////////////////////////////////////////////////////
 Terrain::~Terrain()
 {
+#ifndef __APPLE__
+    RunnableBreaker::signalObservers();
+#endif
 	libererMemoire();
 
     if(mEditionZone)
@@ -317,17 +325,20 @@ bool Terrain::initialiserXml( XmlElement* element )
         const XmlNode* elementConfiguration = XMLUtils::FirstChild(racine, "Arbre"), *child;
         if (elementConfiguration != NULL)
         {
+#ifndef __APPLE__
             for( child = elementConfiguration->FirstChild(); child/*Vérifie si child est non-null*/; child = child->NextSibling() )
             {
                 ecrireArbre(mLogicTree,child);
             }
+#endif
         }
         else
             throw ExceptionJeu("Etiquette de l'arbre manquant");
-
 		mTable = mLogicTree->obtenirTable();
 		if(mTable == NULL)
+        {
 			throw ExceptionJeu("Il ny a pas de table sur le terrain");
+        }
 		//mTable->reassignerParentBandeExt();
         fullRebuild();
 	}
@@ -366,14 +377,14 @@ bool Terrain::initialiserXml( XmlElement* element )
 void Terrain::ecrireArbre(NoeudAbstrait* parentNoeud, const XmlNode* node)
 {
     XmlElement* elem = (XmlElement*)node;
-    TiXmlString nom = elem->ValueTStr();
+    std::string nom = XMLUtils::GetNodeTag(elem);
     NoeudAbstrait* noeudCourant;
 
     // Si le noeud est un point, on doit retrouver ce noeud à partir de la table et non en instancier un nouveau
     if(nom.c_str() == RazerGameUtilities::NAME_TABLE_CONTROL_POINT)
     {
         int typeNoeud;
-        if( unsigned short result = elem->QueryIntAttribute("typePosNoeud", &typeNoeud) != TIXML_SUCCESS )
+        if( !XMLUtils::readAttribute(elem,"typePosNoeud", typeNoeud) )
         {
             throw ExceptionJeu("Erreur de lecture d'attribut");
         }
@@ -411,6 +422,7 @@ void Terrain::ecrireArbre(NoeudAbstrait* parentNoeud, const XmlNode* node)
     {
         throw ExceptionJeu("Erreur de lecture d'attribut");
     }
+#ifndef __APPLE__
     if(!elem->NoChildren())
     {
         const XmlNode *child;
@@ -419,6 +431,8 @@ void Terrain::ecrireArbre(NoeudAbstrait* parentNoeud, const XmlNode* node)
             ecrireArbre(noeudCourant,child);
         }
     }
+#endif
+    
 }
 
 
@@ -561,6 +575,7 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 	// Cas particulier pour des muret puisque ce sont des segment et non des cercles
 	if(getZoneEdition() && noeud->obtenirType() == RazerGameUtilities::NOM_MURET)
 	{
+        Vecteur2 intersection;
 		NodeWallAbstract *muret = (NodeWallAbstract *)noeud;
 		if (muret)
 		{
@@ -570,7 +585,7 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 				muret->obtenirCoin2().convertir<2>(),
 				Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
 				Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
-				Vecteur2()	// pas besoin du point dintersection
+				intersection	// pas besoin du point dintersection
 				).type != aidecollision::COLLISION_AUCUNE)
 				return false;
 			// Ligne de droite
@@ -579,7 +594,7 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 				muret->obtenirCoin2().convertir<2>(),
 				Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
 				Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
-				Vecteur2()	// pas besoin du point dintersection
+				intersection	// pas besoin du point dintersection
 				).type != aidecollision::COLLISION_AUCUNE)
 				return false;
 			// Ligne du bas
@@ -588,7 +603,7 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 				muret->obtenirCoin2().convertir<2>(),
 				Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
 				Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
-				Vecteur2()	// pas besoin du point dintersection
+				intersection	// pas besoin du point dintersection
 				).type != aidecollision::COLLISION_AUCUNE)
 				return false;
 			// Ligne de Gauche
@@ -597,7 +612,7 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 				muret->obtenirCoin2().convertir<2>(),
 				Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
 				Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
-				Vecteur2()	// pas besoin du point dintersection
+				intersection	// pas besoin du point dintersection
 				).type != aidecollision::COLLISION_AUCUNE)
 				return false;
 		}
@@ -848,12 +863,15 @@ void Terrain::appliquerPhysique( float temps )
 		mLogicTree->ajusterVitesse(temps);
 		mLogicTree->ajusterEnfoncement();
 #endif
+        
+#ifndef __APPLE__
         if(mailletGauche)
         {
             PaquetMaillet* wPaquet = (PaquetMaillet*) GestionnaireReseau::obtenirInstance()->creerPaquet(MAILLET);
             wPaquet->setPosition(mailletGauche->getPosition());
             GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
         }
+#endif
 	}
 }
 
@@ -910,7 +928,7 @@ void Terrain::BeginContact( b2Contact* contact )
                 {
                     b2Body* rondelleBody = bodies[0];
                     NoeudRondelle* rondelle = (NoeudRondelle*)(rondelleBody->GetUserData());
-                    RazerGameUtilities::RunOnUpdateThread(new Runnable([=](Runnable*){
+                    Runnable* r = new Runnable([=](Runnable*){
                         if(mGame)
                         {
                             auto position = rondelle->getPosition();
@@ -926,7 +944,9 @@ void Terrain::BeginContact( b2Contact* contact )
                         }
                         mGame->miseAuJeu();
                         rondelleBody->SetLinearVelocity(b2Vec2(0,0));
-                    }),true);
+                    });
+                    RunnableBreaker::attach(r);
+                    RazerGameUtilities::RunOnUpdateThread(r,true);
                 }
                 else
                 {
@@ -966,13 +986,15 @@ void Terrain::BeginContact( b2Contact* contact )
                             NoeudRondelle* rondelle = (NoeudRondelle*)bodies[0]->GetUserData();
 
                             // The new pos can only be assigned outside of the world's step, so we queue it
-                            RazerGameUtilities::RunOnUpdateThread(new Runnable([=](Runnable*)
+                            Runnable* r = new Runnable([=](Runnable*)
                             {
                                 portailDeSortie->setIsAttractionFieldActive(false);
                                 auto newPos = portailDeSortie->getPosition();
                                 rondelle->setPosition(newPos);
                                 SoundFMOD::obtenirInstance()->playEffect(effect(PORTAL_EFFECT));
-                            }),true);
+                            });
+                            RunnableBreaker::attach(r);
+                            RazerGameUtilities::RunOnUpdateThread(r,true);
                             return;
                         }
                     }
@@ -1121,6 +1143,7 @@ void Terrain::getGoals( NoeudBut** pOutGoals )
 ////////////////////////////////////////////////////////////////////////
 void Terrain::fullRebuild()
 {
+#ifndef __APPLE__
     checkf(mLogicTree,"Requete pour un full rebuild d'un terrain sans arbre");
     if(mLogicTree)
     {
@@ -1130,6 +1153,7 @@ void Terrain::fullRebuild()
         });
         mLogicTree->acceptVisitor(v);
     }
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1228,7 +1252,8 @@ void Terrain::duplicateSelection()
 {
     if(mLogicTree)
     {
-        acceptVisitor(VisiteurDupliquer(mLogicTree));
+        VisiteurDupliquer v(mLogicTree);
+        acceptVisitor(v);
     }
 }
 
@@ -1451,6 +1476,7 @@ float Terrain::GetTableWidth() const
     }
     return ZoneEdition::DEFAUT_LIMITE_EXT_LARGEUR*2.f;
 }
+
 
 ///////////////////////////////////////////////////////////////////////////
 /// @}

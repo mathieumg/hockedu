@@ -2,7 +2,7 @@
 
 #include "../Paquets/PaquetUserStatus.h"
 #include "../PacketBuilder.h"
-#include "PacketHandlerUserStatus.h"
+#include "PacketHandler.h"
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -104,7 +104,7 @@ int PacketHandlerUserStatus::getPacketSizeSpecific( Paquet* pPaquet ) const
     PaquetUserStatus* wPaquet = (PaquetUserStatus*) pPaquet;
 
 
-    return PacketBuilder::getSizeForString(wPaquet->getUserName())
-        + PacketBuilder::getSizeForInt();
+    return  getSizeForString(wPaquet->getUserName())
+        + getSizeForInt();
 
 }

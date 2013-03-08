@@ -3,7 +3,7 @@
 #include <iostream>
 #include "../Reseau/GestionnaireReseauServeurMaitre.h"
 #include "ControllerServeurMaitre.h"
-#include "../Reseau/PaquetHandlers/PacketHandlerChatMessage.h"
+#include "../Reseau/PaquetHandlers/PacketHandler.h"
 #include "../Reseau/UsinePaquets/UsinePaquetChatMessage.h"
 #include "FacadeServeurMaitre.h"
 #include "CommunicateurBD.h"
