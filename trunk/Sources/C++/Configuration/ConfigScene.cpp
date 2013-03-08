@@ -217,7 +217,8 @@ ConfigScene::~ConfigScene()
 ////////////////////////////////////////////////////////////////////////
 void ConfigScene::enregistrerConfiguration () const
 {
-	XmlDocument* document = XMLUtils::CreateDocument("1.0", "", "");
+    XmlDocument document ;
+    XMLUtils::CreateDocument(document,"1.0","","");
 
 	// On enregistre les différentes configurations.
 	// Créer le noeud 'configuration'
@@ -240,7 +241,7 @@ void ConfigScene::enregistrerConfiguration () const
 	// Adjoindre le noeud 'configuration' au noeud principal
 	// (Rappel : pas besoin de libérer la mémoire de elementConfiguration
 	// puisque toutes les fonctions Link... le font pour nous)
-    XMLUtils::LinkEndChild((XmlElement*)document,elementConfiguration);
+    XMLUtils::LinkEndChild(document,elementConfiguration);
 
 	// Écrire dans le fichier
     XMLUtils::SaveDocument(document,FICHIER_CONFIGURATION.c_str());
@@ -267,12 +268,11 @@ void ConfigScene::chargerConfiguration( )
 	}
 	// si le fichier existe on le lit
 	else {
-		XmlDocument* document = XMLUtils::LoadDocument(FICHIER_CONFIGURATION.c_str());
-
-        if(document)
+		XmlDocument document; 
+        if(XMLUtils::LoadDocument(document,FICHIER_CONFIGURATION.c_str()))
         {
             // Tenter d'obtenir le noeud 'Configuration'
-            const XmlElement* elementConfiguration = XMLUtils::FirstChildElement((XmlElement*)document,"configuration");
+            const XmlElement* elementConfiguration = XMLUtils::FirstChildElement(document,"configuration");
             if (elementConfiguration) {
                 // Tenter d'obtenir l'élément CScene, puis l'attribut CALCULS_PAR_IMAGE
                 const XmlElement* elementScene =  XMLUtils::FirstChildElement(elementConfiguration,"CScene");
@@ -287,7 +287,6 @@ void ConfigScene::chargerConfiguration( )
                     if(XMLUtils::readAttribute(elementScene,"volEffect", vol))SoundFMOD::obtenirInstance()->setEffectVolume(vol);
                 }
             }
-            XMLUtils::FreeDocument(document);
         }
 	}
 
@@ -311,7 +310,7 @@ void ConfigScene::creerDOM( XmlNode& node, const ConteneurJoueur& joueurs ) cons
 {
 	// Créer le noeud 
 	XmlElement* racine = XMLUtils::createNode("ProfileJoueurs");
-	node.LinkEndChild(racine);
+    XMLUtils::LinkEndChild((XmlElement*)&node,racine);
 
 	// Parcour du conteneur et création des noeud XML de chacun des joueurs
 	ConteneurJoueur::const_iterator i = joueurs.begin();

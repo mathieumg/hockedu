@@ -49,7 +49,7 @@ public:
 	/// Creation du noeud XML de la partie
 	XmlElement* creerNoeudXML() const;
 	/// Initialisation d'une partie a partir d'un noeud XML
-	bool initialiserXML(XmlElement* elem, ConteneurJoueur* profilsVirtuelsExistants = 0);
+	bool initialiserXML(const XmlElement* elem, ConteneurJoueur* profilsVirtuelsExistants = 0);
 
 	/// Permet de reinitialiser la partie courante
 	void reinitialiserPartie();

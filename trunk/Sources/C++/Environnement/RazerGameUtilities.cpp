@@ -252,10 +252,9 @@ bool mUpdating = false, mRendering=false;
        // si le fichier existe on le lit
        else 
        {
-           XmlDocument* document = XMLUtils::LoadDocument(pFilePath.c_str());
-
            // Lire à partir du fichier de configuration
-           if( !document )
+           XmlDocument document; 
+           if(!XMLUtils::LoadDocument(document,pFilePath.c_str()))
            {
                utilitaire::afficherErreur("Erreur : chargement XML : erreur de lecture du fichier");
                // Si on est en jeu on s'assure d'avoir une table valide
@@ -268,14 +267,12 @@ bool mUpdating = false, mRendering=false;
            }
            else
            {
-               if(!pField.initialiserXml((XmlElement*)document))
+               if(!pField.initialiserXml(document.GetElem()))
                {
                    // Erreur dans l'initialisation avec le xml, donc on laisse un terrain vide
                    pField.initialiser(pFilePath);
                }
                //pField.FixCollidingObjects();
-
-               XMLUtils::FreeDocument(document);
            }
        }
    }
@@ -293,14 +290,14 @@ bool mUpdating = false, mRendering=false;
    ////////////////////////////////////////////////////////////////////////
    void RazerGameUtilities::SaveFieldToFile( const std::string& nomFichier, Terrain& pField  )
    {
-       XmlDocument* document = XMLUtils::CreateDocument("1.0", "", "");
+       XmlDocument document ;
+       XMLUtils::CreateDocument(document,"1.0","","");
 
        // Creation du noeud du terrain
-       XMLUtils::LinkEndChild((XmlElement*)document,pField.creerNoeudXML());
+       XMLUtils::LinkEndChild(document,pField.creerNoeudXML());
 
        // Écrire dans le fichier
        XMLUtils::SaveDocument(document,nomFichier.c_str());
-       XMLUtils::FreeDocument(document);
    }
 
 
