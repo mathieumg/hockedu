@@ -15,6 +15,7 @@
 #include "NoeudTable.h"
 #include "XMLUtils.h"
 #include "VisiteurNoeud.h"
+#include "NoeudBut.h"
 
 
 const float NoeudPoint::DEFAULT_RADIUS = 22;
@@ -317,10 +318,11 @@ Vecteur3 NoeudPoint::calculerDeplacementMax( Vecteur3 posAbsActuel, Vecteur3 dep
 ////////////////////////////////////////////////////////////////////////
 XmlElement* NoeudPoint::creerNoeudXML()
 {
-	XmlElement* elementNoeud = NoeudComposite::creerNoeudXML();
+    XmlElement* elementNoeud = XMLUtils::createNode(type_.c_str());
 
+    XmlWriteNodePosition(elementNoeud);
     XMLUtils::writeAttribute<int>(elementNoeud,"typePosNoeud",typePosNoeud_);
-
+    
 	return elementNoeud;
 }
 
@@ -338,13 +340,35 @@ XmlElement* NoeudPoint::creerNoeudXML()
 bool NoeudPoint::initialiser( const XmlElement* element )
 {
     // faire l'initialisaiton des attribut concernant le point en premier pour que la suite puisse les utiliser
-	int intElem;
-    if(!XMLUtils::readAttribute(element,"typePosNoeud",intElem))
-		return false;
-	typePosNoeud_ = TypePosPoint(intElem);
+    Vecteur3 pos;
+    if( !XmlReadNodePosition(pos,element) )
+        throw ExceptionJeu("%s: Error reading node's position", type_);
+    setPosition(pos);
 
-    if(!NoeudComposite::initialiser(element))
-        return false;
+    int intElem;
+    if(!XMLUtils::readAttribute(element,"typePosNoeud",intElem))
+        throw ExceptionJeu("Error reading attribute typePosNoeud");
+    typePosNoeud_ = TypePosPoint(intElem);
+
+
+    /// Those node need a goal node under them
+    if(typePosNoeud_ == POSITION_MILIEU_DROITE || typePosNoeud_ == POSITION_MILIEU_GAUCHE)
+    {
+        auto child = XMLUtils::FirstChildElement(element);
+        auto name = XMLUtils::GetNodeTag(child);
+        if(name != RazerGameUtilities::NOM_BUT)
+        {
+            throw ExceptionJeu("XML node not representing a goal after a table control point");
+        }
+        NoeudBut* but = dynamic_cast<NoeudBut*>(chercher(0));
+        checkf(but,"but manquant sur le point, regardez constructeur table");
+        if(but)
+        {
+            but->initialiser(child);
+        }
+    }
+    auto terrain = GetTerrain();
+    assignerAffiche(!terrain || !terrain->IsGameField());
 
 	return true;
 }
@@ -369,7 +393,7 @@ const GroupeTripleAdresseFloat* NoeudPoint::obtenirListePointsAChanger() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudPoint::assignerPositionRelative( const Vecteur3& positionRelative )
+/// @fn void NoeudPoint::setPosition( const Vecteur3& positionRelative )
 ///
 /// Assigne la position relative du noeud et deplace le modele 3D de la table
 ///
@@ -378,7 +402,7 @@ const GroupeTripleAdresseFloat* NoeudPoint::obtenirListePointsAChanger() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudPoint::assignerPositionRelative( const Vecteur3& positionRelative )
+void NoeudPoint::setPosition( const Vecteur3& positionRelative )
 {
 	const GroupeTripleAdresseFloat* liste = obtenirListePointsAChanger();
 	if(liste)

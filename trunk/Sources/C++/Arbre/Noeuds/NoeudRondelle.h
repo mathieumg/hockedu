@@ -36,6 +36,13 @@ public:
     /// Destructeur.
     ~NoeudRondelle();
 
+
+    /// fonction de comparaison de 2 noeuds
+    virtual bool equals(NoeudAbstrait* n)
+    {
+        auto n2 = dynamic_cast<NoeudRondelle*>(n);
+        return !!n2 && Super::equals(n);
+    }
     /// Affiche le cube.
     virtual void afficherConcret() const;
     /// Fonction appeler dans afficher concret pour faire le
@@ -68,7 +75,7 @@ public:
     //void modifierAngle(const float angle) {angle_ = angle;}
     void modifierVitesseRotation(const float vitesse) {mVitesseRotation = vitesse;}
 
-    void validerPropriteteTablePourJeu() throw(ExceptionJeu);
+    void validerPropriteteTablePourJeu() ;
 
     /// Accesseur et mutateur de positionOriginale
     Vecteur3 obtenirPositionOriginale() const { return positionOriginale_; }

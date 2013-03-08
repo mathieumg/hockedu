@@ -357,18 +357,7 @@ void ConfigScene::creerDOM( XmlNode& node, const Tournoi& tournoi ) const
 void ConfigScene::lireDOM( const XmlNode& node, RazerGameTree* arbre )
 {
 	arbre->vider();
-	arbre_ = arbre;
-	// Tenter d'obtenir le noeud 'Arbre'
-	const XmlNode* elementConfiguration = node.FirstChild("Arbre"), *child;
-	if (elementConfiguration != NULL)
-	{
-		for( child = elementConfiguration->FirstChild(); child/*Vérifie si child est non-null*/; child = child->NextSibling() )
-		{
-			ecrireArbre(arbre_,child);
-		}
-	}
-	else
-		throw ExceptionJeu("Etiquette de l'arbre manquant");
+    arbre->initialiser((XmlElement*)&node);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -397,76 +386,6 @@ void ConfigScene::lireDOM( const XmlNode& node, ConteneurJoueur& Joueurs )
 			{
 				Joueurs[joueur->obtenirNom()] = joueur;
 			}
-		}
-	}
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn ConfigScene::ecrireArbre()
-///
-/// Méthode pour faire l'arbre de rendu à partir d'un noeud XML
-///
-/// @param[in] NoeudAbstrait * parentNoeud
-/// @param[in] XmlNode * node
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void ConfigScene::ecrireArbre(NoeudAbstrait* parentNoeud, const XmlNode* node)
-{
-	XmlElement* elem = (XmlElement*)node;
-	TiXmlString nom = elem->ValueTStr();
-	NoeudAbstrait* noeudCourant;
-
-	// Si le noeud est un point, on doit retrouver ce noeud à partir de la table et non en instancier un nouveau
-	if(nom.c_str() == RazerGameUtilities::NAME_TABLE_CONTROL_POINT)
-	{
-		int typeNoeud;
-		if( unsigned short result = elem->QueryIntAttribute("typePosNoeud", &typeNoeud) != TIXML_SUCCESS )
-		{
-			throw ExceptionJeu("Erreur de lecture d'attribut");
-		}
-		NoeudTable* table = dynamic_cast<NoeudTable*>(parentNoeud);
-		if(table == 0)
-		{
-			throw ExceptionJeu("Parent du point n'est pas une table");
-		}
-		noeudCourant = table->obtenirPoint(typeNoeud);
-	}
-	// Si le noeud est un but, on doit retrouver ce noeud à partir de la table et non en instancier un nouveau
-	else if(nom.c_str() == RazerGameUtilities::NOM_BUT)
-	{
-		NoeudPoint* pointMilieu = dynamic_cast<NoeudPoint*>(parentNoeud);
-		if(pointMilieu == 0)
-		{
-			throw ExceptionJeu("Parent du but n'est pas un point");
-		}
-		noeudCourant = pointMilieu->chercher(0);
-	}
-	// Sinon on instancie une nouvelle instance du noeud
-	else
-	{
-		noeudCourant = arbre_->creerNoeud(nom.c_str());
-		if(noeudCourant == 0)
-		{
-			throw ExceptionJeu("Type de noeud inexistant");
-		}
-		if(!parentNoeud->ajouter(noeudCourant))
-        {
-            throw ExceptionJeu("Incapable d'ajouter le noeud au parent");
-        }
-	}
-	if(!noeudCourant->initialiser(elem))
-	{
-		throw ExceptionJeu("Erreur de lecture d'attribut");
-	}
-	if(!elem->NoChildren())
-	{
-		const XmlNode *child;
-		for( child = node->FirstChild(); child; child = child->NextSibling() )
-		{
-			ecrireArbre(noeudCourant,child);
 		}
 	}
 }

@@ -236,8 +236,9 @@ void SourisEtatTransformationDeplacement::sourisDeplacee( EvenementSouris& evene
 		for(int i=0; i<noeudsSelectionnes_.size(); i++)
 		{
 			noeudsSelectionnes_[i]->acceptVisitor(visiteurDeplacement);
+            auto terrain = noeudsSelectionnes_[i]->GetTerrain();
 			// On verifie qu'elle n'a pas engendre de nouvelles collisions
-			if(!FacadeModele::getInstance()->validerPositionNoeud(noeudsSelectionnes_[i]))
+			if(terrain && !terrain->IsNodeAtValidEditionPosition(noeudsSelectionnes_[i]))
 			{
 				if(ignoreCollision_)
 				{

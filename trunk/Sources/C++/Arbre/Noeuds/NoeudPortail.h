@@ -28,6 +28,12 @@ public:
    /// Destructeur.
    ~NoeudPortail();
 
+   /// fonction de comparaison de 2 noeuds
+   virtual bool equals(NoeudAbstrait* n)
+   {
+       auto n2 = dynamic_cast<NoeudPortail*>(n);
+       return !!n2 && mIsAttractionFieldActive == n2->mIsAttractionFieldActive && Super::equals(n);
+   }
    /// Affiche le cube.
    virtual void afficherConcret() const;
    /// Effectue l'animation

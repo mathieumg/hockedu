@@ -267,7 +267,27 @@ bool mUpdating = false, mRendering=false;
            }
            else
            {
-               if(!pField.initialiserXml(document.GetElem()))
+               bool initField = true;
+               auto version = XMLUtils::GetVersion(document);
+               if(version)
+               {
+                   if(version != XMLUtils::XmlFieldVersion)
+                   {
+#if WIN32
+                       char MessageStr[256];
+                       sprintf_s(MessageStr,"%s\nMap version #%s do not match application's version #%s"\
+                           "\n\nDo you want to try loading it anyway ?",pFilePath.c_str(),version,XMLUtils::XmlFieldVersion);
+                       int Result = MessageBoxA( NULL, MessageStr, "Version mismatch", MB_ICONERROR | MB_YESNO | MB_TOPMOST );
+                       if( Result == IDNO )
+                       {
+                           initField = false;
+                       }
+#else
+                       initField = false;
+#endif
+                   }
+               }
+               if(!initField || !pField.initialiserXml(document.GetElem()))
                {
                    // Erreur dans l'initialisation avec le xml, donc on laisse un terrain vide
                    pField.initialiser(pFilePath);
@@ -291,7 +311,7 @@ bool mUpdating = false, mRendering=false;
    void RazerGameUtilities::SaveFieldToFile( const std::string& nomFichier, Terrain& pField  )
    {
        XmlDocument document ;
-       XMLUtils::CreateDocument(document,"1.0","","");
+       XMLUtils::CreateDocument(document,XMLUtils::XmlFieldVersion,"","");
 
        // Creation du noeud du terrain
        XMLUtils::LinkEndChild(document,pField.creerNoeudXML());
@@ -320,9 +340,6 @@ bool mUpdating = false, mRendering=false;
    /// La chaîne représentant le type des murets.
    const std::string RazerGameUtilities::NAME_RINK_BOARD = "rink_board";
    
-   /// La chaîne représentant le type de muret relatif pour l'édition
-   const std::string RazerGameUtilities::NAME_RELATIVE_WALL = "muret_relatif";
-
    /// La chaîne représentant le type de la table de jeu.
    const std::string RazerGameUtilities::NOM_TABLE = "table";
 

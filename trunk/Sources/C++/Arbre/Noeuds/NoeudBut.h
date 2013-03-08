@@ -33,6 +33,19 @@ public:
 	/// Destructeur.
 	~NoeudBut();
 
+    /// fonction de comparaison de 2 noeuds
+    virtual bool equals(NoeudAbstrait* n)
+    {
+        auto n2 = dynamic_cast<NoeudBut*>(n);
+        return !!n2 && 
+            mBottomAngle == n2->mBottomAngle && 
+            mTopAngle == n2->mTopAngle && 
+            mBottomPosition == n2->mBottomPosition && 
+            mTopPosition == n2->mTopPosition && 
+            mGoalLength == n2->mGoalLength && 
+            joueur_ == n2->joueur_ && 
+            Super::equals(n);
+    }
 	/// Affiche le cube.
 	virtual void afficherConcret() const;
 	/// Effectue l'animation

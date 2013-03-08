@@ -30,6 +30,7 @@
 #include <GL\glu.h>
 #include "FacadeModele.h"
 #endif
+#include "..\ArbreRendu.h"
 
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
 const Vecteur3 NoeudTable::DEFAULT_SIZE = Vecteur3(300,150);
@@ -817,41 +818,65 @@ XmlElement* NoeudTable::creerNoeudXML()
 ////////////////////////////////////////////////////////////////////////
 bool NoeudTable::initialiser( const XmlElement* element )
 {
-    if(!NoeudComposite::initialiser(element))
+    if(!Super::initialiser(element))
         return false;
     if(!XMLUtils::readAttribute(element,"coefFriction",coefFriction_))
-        return false;
+        throw ExceptionJeu("Error reading table's fricition coefficient");
 
     // On assigne le coefficient de rebon des bandes exterieurs
-    
+    float rebond[NB_BANDES];
+    if(!XMLUtils::readArray(rebond,NB_BANDES,element,"rebondBande"))
+        throw ExceptionJeu("Error reading rink boards rebound coefficient");
+
     for(unsigned int i=0; i<NB_BANDES; ++i)
     {
-        float tempElem;
-        std::ostringstream name;
-        name << "rebondBande";
-        name << i;
+        assignerCoefRebond(i,rebond[i]);
+    }
 
-        if(!XMLUtils::readAttribute(element,name.str().c_str(),tempElem))
-            return false;
-        assignerCoefRebond(i,tempElem);
+    int controlPointVisited = 0;
+
+    const ArbreRendu* treeRoot = GetTreeRoot();
+    if(treeRoot)
+    {
+        for( auto child = XMLUtils::FirstChildElement(element); child; child = XMLUtils::NextSibling(child) )
+        {
+            auto name = XMLUtils::GetNodeTag(child);
+            if(name == RazerGameUtilities::NAME_TABLE_CONTROL_POINT)
+            {
+                int typeNoeud;
+                if( !XMLUtils::readAttribute(child,"typePosNoeud", typeNoeud) || ((unsigned int)typeNoeud) >= NB_CONTROL_POINTS )
+                {
+                    throw ExceptionJeu("Erreur de lecture d'attribut");
+                }
+                obtenirPoint(typeNoeud)->initialiser(child);
+                controlPointVisited |= 1<<typeNoeud;
+            }
+            else
+            {
+                auto node = treeRoot->creerNoeud(name);
+                if(node)
+                {
+                    ajouter(node);
+                    node->initialiser(child);
+                }
+                else
+                {
+                    throw ExceptionJeu("Error creating node : %s",name);
+                }
+            }
+        }
+    }
+    else
+    {
+        throw ExceptionJeu("%s : Missing tree root",type_);
+    }
+
+    if(controlPointVisited != (1<<NB_CONTROL_POINTS)-1 )
+    {
+        throw ExceptionJeu("%s : control points missing in the file",type_);
     }
 
     return true;
-}
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn NodeWallAbstract* NoeudTable::obtenirMuretZoneEdition( TypePosMuretEdition type ) const
-///
-/// Retourne le muret de la zone d'edition associe au numero donne selon l'enum
-///
-/// @param[in] TypePosMuretEdition type : le numero du muret
-///
-/// @return NodeWallAbstract* : un pointeur sur le muret en question
-///
-////////////////////////////////////////////////////////////////////////
-NodeWallAbstract* NoeudTable::obtenirMuretZoneEdition( TypePosMuretEdition type ) const
-{
-    return muretZoneEdition_[type];
 }
 
 

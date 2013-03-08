@@ -29,6 +29,15 @@ public:
    /// Destructeur.
    ~NodeWallAbstract();
 
+
+   /// fonction de comparaison de 2 noeuds
+   virtual bool equals(NoeudAbstrait* n)
+   {
+       auto n2 = dynamic_cast<NodeWallAbstract*>(n);
+       return !!n2 && 
+           coefRebond_ == n2->coefRebond_ && 
+           Super::equals(n);
+   }
    /// accessor to the key to retrieve the list and/or 3D Model
    virtual const std::string& get3DModelKey() const;
 

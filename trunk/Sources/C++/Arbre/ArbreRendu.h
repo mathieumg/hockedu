@@ -86,6 +86,7 @@ public:
 
    /// Initialisation du NoeudAbstrait à partir d'un element XML
    virtual bool initialiser(const XmlElement* element);
+
    /// Creation du noeud XML du Noeud
    virtual XmlElement* creerNoeudXML();
 

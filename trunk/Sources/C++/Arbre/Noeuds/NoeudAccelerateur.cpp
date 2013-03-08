@@ -163,7 +163,7 @@ bool NoeudAccelerateur::initialiser( const XmlElement* element )
 		return false;
 	auto doubleElem = bonusAccel_;
 	if( !XMLUtils::readAttribute(element,"bonusAccel",doubleElem) )
-		return false;
+        throw ExceptionJeu("Node Boost: Error reading attribute bonusAccel");
 	bonusAccel_ = doubleElem;
 
 	return true;

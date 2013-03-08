@@ -46,6 +46,8 @@
 #include "VisiteurDeplacement.h"
 #include "VisiteurEcrireXML.h"
 #include "ExceptionJeu.h"
+#include "NodeWallEdition.h"
+#include "NodeControlPoint.h"
 
 
 const unsigned int MAX_PUCKS = 1;
@@ -263,7 +265,7 @@ void Terrain::initialiserArbreRendu()
 	NoeudGroupe* 	gMaillet =	new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_MAILLET),
 		*gRondelle =	new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_RONDELLE),
 		*gAccel =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_ACCELERATEUR),
-		*gMuret =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_MURET),
+        *gMuret =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_MURET),
         *gPortail =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_PORTAIL);
 
 	// La table contient ces groupes.
@@ -321,25 +323,12 @@ bool Terrain::initialiserXml( XmlElement* element )
 
 	try
 	{
-        // Tenter d'obtenir le noeud 'Arbre'
-        const XmlElement* elementConfiguration = XMLUtils::FirstChildElement(racine, "Arbre"), *child;
-        if (elementConfiguration)
-        {
-            for( child = XMLUtils::FirstChildElement(elementConfiguration); child; child = XMLUtils::NextSibling(child) )
-            {
-                ecrireArbre(mLogicTree,child);
-            }
-        }
-        else
-        {
-            throw ExceptionJeu("Etiquette de l'arbre manquant");
-        }
+        mLogicTree->initialiser(racine);
 		mTable = mLogicTree->obtenirTable();
 		if(mTable == NULL)
         {
 			throw ExceptionJeu("Il ny a pas de table sur le terrain");
         }
-		//mTable->reassignerParentBandeExt();
         fullRebuild();
 	}
 	catch(ExceptionJeu& e)
@@ -360,74 +349,6 @@ bool Terrain::initialiserXml( XmlElement* element )
 	
 	return true;
 }
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn Terrain::ecrireArbre()
-///
-/// Méthode pour faire l'arbre de rendu à partir d'un noeud XML
-///
-/// @param[in] NoeudAbstrait * parentNoeud
-/// @param[in] XmlNode * node
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void Terrain::ecrireArbre(NoeudAbstrait* parentNoeud, const XmlElement* node)
-{
-    std::string nom = XMLUtils::GetNodeTag(node);
-    NoeudAbstrait* noeudCourant;
-
-    // Si le noeud est un point, on doit retrouver ce noeud à partir de la table et non en instancier un nouveau
-    if(nom.c_str() == RazerGameUtilities::NAME_TABLE_CONTROL_POINT)
-    {
-        int typeNoeud;
-        if( !XMLUtils::readAttribute(node,"typePosNoeud", typeNoeud) )
-        {
-            throw ExceptionJeu("Erreur de lecture d'attribut");
-        }
-        NoeudTable* table = dynamic_cast<NoeudTable*>(parentNoeud);
-        if(table == 0)
-        {
-            throw ExceptionJeu("Parent du point n'est pas une table");
-        }
-        noeudCourant = table->obtenirPoint(typeNoeud);
-    }
-    // Si le noeud est un but, on doit retrouver ce noeud à partir de la table et non en instancier un nouveau
-    else if(nom.c_str() == RazerGameUtilities::NOM_BUT)
-    {
-        NoeudPoint* pointMilieu = dynamic_cast<NoeudPoint*>(parentNoeud);
-        if(pointMilieu == 0)
-        {
-            throw ExceptionJeu("Parent du but n'est pas un point");
-        }
-        noeudCourant = pointMilieu->chercher(0);
-    }
-    // Sinon on instancie une nouvelle instance du noeud
-    else
-    {
-        noeudCourant = mLogicTree->creerNoeud(nom.c_str());
-        if(noeudCourant == 0)
-        {
-            throw ExceptionJeu("Type de noeud inexistant");
-        }
-        if(!parentNoeud->ajouter(noeudCourant))
-        {
-            throw ExceptionJeu("Incapable d'ajouter le noeud au parent");
-        }
-    }
-    if(!noeudCourant->initialiser(node))
-    {
-        throw ExceptionJeu("Erreur de lecture d'attribut");
-    }
-
-    for( auto child = XMLUtils::FirstChildElement(node); child; child = XMLUtils::NextSibling(child) )
-    {
-        ecrireArbre(noeudCourant,child);
-    }
-}
-
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -630,7 +551,7 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Terrain::creerTerrainParDefaut(std::string nom)
+void Terrain::creerTerrainParDefaut(const std::string& nom)
 {
 	initialiser(nom);
 	NoeudAbstrait* maillet1 = getLogicTree()->creerNoeud(RazerGameUtilities::NOM_MAILLET);
@@ -647,6 +568,101 @@ void Terrain::creerTerrainParDefaut(std::string nom)
 
     fullRebuild();
 }
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void createRandomField( const std::string& )
+///
+/// Creation d'un terrain 
+///
+/// @param[in] const std::string &
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::createRandomField(const std::string& nom)
+{
+    creerTerrainParDefaut(nom);
+
+    VisiteurDeplacement d1(Vecteur2((float)(-rand()%50),(float)(rand()%50)),true);
+    VisiteurDeplacement d2(Vecteur2((float)(-rand()%50),(float)(rand()%50)),true);
+    VisiteurDeplacement d3(Vecteur2((float)(-rand()%50),(float)(-rand()%50)),true);
+
+    // shuffle it a bit
+    mTable->obtenirPoint(POSITION_MILIEU_DROITE)->acceptVisitor(d1);
+    mTable->obtenirPoint(POSITION_HAUT_DROITE)->acceptVisitor(d2);
+    mTable->obtenirPoint(POSITION_BAS_DROITE)->acceptVisitor(d3);
+
+#define AddAccel(x,y,acc,e)                                                             \
+    if(rand()&1)                                                                        \
+    {                                                                                   \
+    NoeudAccelerateur* a = new NoeudAccelerateur(RazerGameUtilities::NOM_ACCELERATEUR); \
+    a->setPosition(Vecteur3((float)x,(float)y));                                        \
+    a->modifierBonusAccel((float)acc);                                                  \
+    a->modifierEchelleCourante(Vecteur3((float)e,(float)e,1));                          \
+    mTable->ajouter(a);                                                                 \
+    }                                                                                 
+    AddAccel(-40,0,1.7,1);
+    AddAccel(45,0,0.8,1);
+    AddAccel(50,50,1.5,1.2);
+    AddAccel(-50,50,1.6,1);
+    AddAccel(-50,-50,1.5,1);
+    AddAccel(50,-50,1.5,1);
+    AddAccel(115,0,1.3,1);
+    AddAccel(-115,0,1.5,0.6);
+
+#define AddPortal(x,y,e)                                                              \
+    if(rand()&1)                                                                      \
+    {                                                                                 \
+    NoeudPortail* a = new NoeudPortail(RazerGameUtilities::NOM_PORTAIL);              \
+    a->setPosition(Vecteur3((float)x,(float)y));                                      \
+    a->modifierEchelleCourante(Vecteur3((float)e,(float)e,1));                        \
+    mTable->ajouter(a);                                                               \
+    }  
+    AddPortal(-90,30,1);
+    AddPortal(-95,-30,1);
+    AddPortal(0,-50,0.55);
+    AddPortal(80,-40,1.55);
+    AddPortal(80,30,1);
+    AddPortal(0,55,0.65);
+
+#define AddWall(x1,y1,x2,y2,e,rebond)                                                           \
+    if(rand()&1)                                                                                \
+    {                                                                                           \
+        if(IsGameField())                                                                       \
+        {                                                                                       \
+            NoeudMuret* muret = new NoeudMuret(RazerGameUtilities::NOM_MURET);                  \
+            muret->modifierEchelleCourante(Vecteur3(1,(float)e,1));                             \
+            muret->assignerPositionCoin(1,Vecteur3((float)x1,(float)y1));                       \
+            muret->assignerPositionCoin(2,Vecteur3((float)x2,(float)y2));                       \
+            muret->setReboundRatio((float)rebond);                                              \
+            mTable->ajouter(muret);                                                             \
+        }                                                                                       \
+        else                                                                                    \
+        {                                                                                       \
+            NodeWallEdition* wall = new NodeWallEdition(RazerGameUtilities::NOM_MURET);         \
+            NodeControlPoint* p1 = new NodeControlPoint(RazerGameUtilities::NAME_CONTROL_POINT);\
+            NodeControlPoint* p2 = new NodeControlPoint(RazerGameUtilities::NAME_CONTROL_POINT);\
+            wall->ajouter(p1);                                                                  \
+            wall->ajouter(p2);                                                                  \
+            p1->setPosition(Vecteur3((float)x1,(float)y1));                                     \
+            p2->setPosition(Vecteur3((float)x2,(float)y2));                                     \
+            wall->setReboundRatio((float)rebond);                                               \
+            wall->modifierEchelle(e);                                                           \
+            mTable->ajouter(wall);                                                              \
+        }                                                                                       \
+    }                                                                                           
+
+    AddWall(65,65,130,35,1,1);
+    AddWall(130,-35,75,-66,1,0.8);
+    AddWall(-80,-65,-130,-40,1,0.75);
+    AddWall(-125,35,-75,60,2.5,1);
+    AddWall(-35,30,30,30,0.5,1.2);
+    AddWall(40,-30,-25,-30,2,0.4);
+
+    fullRebuild();
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 ///

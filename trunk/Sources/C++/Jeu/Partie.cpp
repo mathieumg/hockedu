@@ -335,7 +335,7 @@ void Partie::reinitialiserPartie()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle ) throw(ExceptionJeu)
+void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle ) 
 {
     if(joueurDroit_ && joueurGauche_)
     {

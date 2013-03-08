@@ -294,7 +294,7 @@ namespace XMLUtils
         parent->LinkEndChild(child);
     }
 
-    void LinkEndChild(XmlDocument parent, XmlNode* child)
+    void LinkEndChild(XmlDocument& parent, XmlNode* child)
     {
         LinkEndChild(parent.mNode,child);
     }
@@ -334,7 +334,7 @@ namespace XMLUtils
     {
         return const_cast<XmlElement*>(FirstChildElement((const XmlElement*)element,childName));
     }
-    const XmlElement* FirstChildElement( const XmlDocument document, const char* childName)
+    const XmlElement* FirstChildElement( const XmlDocument& document, const char* childName)
     {
         return FirstChildElement(document.GetElem(),childName);
     }
@@ -458,7 +458,27 @@ namespace XMLUtils
     {
         return element->Value();
     }
-
+    ////////////////////////////////////////////////////////////////////////
+    ///
+    /// @fn const char* GetVersion( XmlDocument document )
+    ///
+    /// Retrieves the version from the document
+    ///
+    /// @param[in] XmlDocument document
+    ///
+    /// @return const char*
+    ///
+    ////////////////////////////////////////////////////////////////////////
+    const char* GetVersion( XmlDocument document )
+    {
+        XmlNode* n = document.mNode->FirstChild();
+        TiXmlDeclaration* dec = n->ToDeclaration();
+        if(dec)
+        {
+            return dec->Version();
+        }
+        return NULL;
+    }
 
 #else
 ////////////////////////////////////////////////////////////////////////
@@ -690,7 +710,7 @@ void LinkEndChild( XmlNode* parent, XmlNode* child )
 {
 }
 
-void LinkEndChild(XmlDocument parent, XmlNode* child)
+void LinkEndChild(XmlDocument parent&, XmlNode* child)
 {
 }
 
@@ -728,7 +748,7 @@ XmlElement* FirstChildElement( XmlElement* element, const char* childName )
 {
     return NULL;
 }
-const XmlElement* FirstChildElement( const XmlDocument document, const char* childName)
+const XmlElement* FirstChildElement( const XmlDocument& document, const char* childName)
 {
     return NULL;
 }
@@ -846,6 +866,22 @@ const XmlElement* NextSibling( const XmlElement* child )
 const char* GetNodeTag( const XmlElement* element )
 {
     return "";
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn const char* GetVersion( XmlDocument document )
+///
+/// Retrieves the version from the document
+///
+/// @param[in] XmlDocument document
+///
+/// @return const char*
+///
+////////////////////////////////////////////////////////////////////////
+const char* GetVersion( XmlDocument document )
+{
+    return NULL;
 }
 
 

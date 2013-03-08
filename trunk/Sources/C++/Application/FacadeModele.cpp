@@ -229,7 +229,7 @@ void FacadeModele::libererInstance()
 ////////////////////////////////////////////////////////////////////////
 FacadeModele::FacadeModele()
     : hGLRC_(0), hDC_(0), hWnd_(0), vue_(0),zoomElastique_(false),tournoi_(0),cheminTournoi_(""),
-    partieCourante_(0), /*adversaire_(0),*/ mEditionField(0)
+    partieCourante_(0), /*adversaire_(0),*/ mEditionField(0),renderThread_(NULL)
 {
     // Il ne faut pas faire d'initialisation de Noeud ici, car le contexte OpenGl n'est pas encore creer
 
@@ -1459,7 +1459,7 @@ bool FacadeModele::verifierValiditeMap( Terrain* terrain/*= 0 */ )
 void FacadeModele::creerTerrainParDefaut( )
 {
     GestionnaireEvenements::modifierEtat(ETAT_MODE_EDITION);
-    mEditionField->creerTerrainParDefaut(FICHIER_TERRAIN_EN_COURS);
+    mEditionField->createRandomField(FICHIER_TERRAIN_EN_COURS);
 }
 
 

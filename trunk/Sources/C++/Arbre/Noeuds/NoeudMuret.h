@@ -29,6 +29,15 @@ public:
    /// Destructeur.
    ~NoeudMuret();
    
+   /// fonction de comparaison de 2 noeuds
+   virtual bool equals(NoeudAbstrait* n)
+   {
+       auto n2 = dynamic_cast<NoeudMuret*>(n);
+       return !!n2 && 
+           positionCoin1_ == n2->positionCoin1_ && 
+           positionCoin2_ == n2->positionCoin2_ && 
+           Super::equals(n);
+   }
    /// Accesseur du coin1
    virtual const Vecteur3& obtenirCoin1() const;
    /// Accesseur du coin2
@@ -48,7 +57,7 @@ public:
    /// Mutateur des facteurs d'echelle et conserve les coins a jour
    virtual void modifierEchelleCourante(const Vecteur3& echelleCourante);
    /// Assigne la position relative du noeud et conserve les coins a jour
-   inline virtual void assignerPositionRelative( const Vecteur3& positionRelative);
+   inline virtual void setPosition( const Vecteur3& positionRelative);
 
 protected:
 private:

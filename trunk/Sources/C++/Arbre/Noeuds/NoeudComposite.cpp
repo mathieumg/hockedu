@@ -214,7 +214,7 @@ NoeudAbstrait* NoeudComposite::chercher(const std::string& typeNoeud)
 ////////////////////////////////////////////////////////////////////////
 const NoeudAbstrait* NoeudComposite::chercher( unsigned int indice ) const
 {
-	if ( (indice >= 0) && (indice < enfants_.size()) ) {
+    if ( indice < (unsigned int)enfants_.size() ) {
 		return enfants_[indice];
 	}
 	else {
@@ -704,6 +704,48 @@ void NoeudComposite::DrawChild() const
     {
         (*it)->afficher();
     }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool NoeudComposite::equals( NoeudAbstrait* )
+///
+/// fonction de comparaison de 2 noeuds
+///
+/// @param[in] NoeudAbstrait *
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool NoeudComposite::equals( NoeudAbstrait* n)
+{
+    NoeudComposite* nc = dynamic_cast<NoeudComposite*>(n);
+    if(!nc || !Super::equals(n))
+        return false;
+
+    if(enfants_.size() != nc->enfants_.size())
+    {
+        return false;
+    }
+
+    for(int i=0; i<(int)enfants_.size(); ++i)
+    {
+        auto child1 = enfants_[i];
+        auto child2 = nc->enfants_[i];
+        if(child1)
+        {
+            if(!child1->equals(child2))
+            {
+                return false;
+            }
+        }
+        // les 2 enfants doivent etre null si un l'est
+        else if(!!child2)
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 

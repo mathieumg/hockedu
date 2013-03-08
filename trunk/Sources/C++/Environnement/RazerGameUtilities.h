@@ -72,9 +72,6 @@ public:
     /// La chaîne représentant le type des bande exterieur de la patinoire.
     static const std::string NAME_RINK_BOARD;
 
-    /// La chaîne représentant le type de muret relatif pour l'édition
-    static const std::string NAME_RELATIVE_WALL;
-
     /// La chaîne représentant le type de la table de jeu.
     static const std::string NOM_TABLE;
     CreateListDelegateSignature(Table);

@@ -32,9 +32,15 @@ public:
     virtual void detacherEnfant( const NoeudAbstrait* enfant );
     virtual void afficherConcret()const;
 
+    /// Creation du noeud XML du muret
+    virtual XmlElement* creerNoeudXML();
+    /// Initialisation du NoeudMuret à partir d'un element XML
+    virtual bool initialiser(const XmlElement* element);
+
+
+    virtual void modifierEchelle( float facteur );
     ///////////////////////////////////////////////////////////////////////////
     /// Implementation interface ControlPointMutableAbstract
-    virtual void modifierEchelle( float facteur );
 protected:
     virtual bool onAddControlPoint(NodeControlPoint* point);
     virtual void onRemoveControlPoint(NodeControlPoint* point);

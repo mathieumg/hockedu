@@ -198,19 +198,7 @@ bool ArbreRendu::initialiser( const XmlElement* element )
     const XmlElement* racine = XMLUtils::FirstChildElement(element, ETIQUETTE_ARBRE);
     if (racine)
     {
-        for( auto child = XMLUtils::FirstChildElement(racine); child; child = XMLUtils::NextSibling(child) )
-        {
-            auto name = XMLUtils::GetNodeTag(child);
-            auto node = creerNoeud(name);
-            if(node)
-            {
-                node->initialiser(child);
-            }
-            else
-            {
-                throw ExceptionJeu("Impossible de creer le noeud : %s",name);
-            }
-        }
+        CreateAndInitNodesFromXml(racine);
     }
     else
     {
@@ -219,6 +207,43 @@ bool ArbreRendu::initialiser( const XmlElement* element )
     }
 
     return true;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void ArbreRendu::CreateAndInitNodesFromXml( const XmlElement* racine )
+///
+/// Allows to create and initialize nodes from an xml element, default behavior
+///
+/// @param[in] const XmlElement * racine
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudComposite::CreateAndInitNodesFromXml( const XmlElement* racine )
+{
+    const ArbreRendu* treeRoot = GetTreeRoot();
+    if(treeRoot)
+    {
+        for( auto child = XMLUtils::FirstChildElement(racine); child; child = XMLUtils::NextSibling(child) )
+        {
+            auto name = XMLUtils::GetNodeTag(child);
+            auto node = treeRoot->creerNoeud(name);
+            if(node)
+            {
+                ajouter(node);
+                node->initialiser(child);
+            }
+            else
+            {
+                throw ExceptionJeu("Error creating node : %s",name);
+            }
+        }
+    }
+    else
+    {
+        throw ExceptionJeu("Tree root not found");
+    }
 }
 
 

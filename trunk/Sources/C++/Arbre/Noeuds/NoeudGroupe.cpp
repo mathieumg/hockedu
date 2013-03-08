@@ -10,6 +10,7 @@
 
 #include "NoeudGroupe.h"
 #include "XMLUtils.h"
+#include "..\ArbreRendu.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -78,6 +79,30 @@ bool NoeudGroupe::initialiser( const XmlElement* element )
 {
     if(!XMLUtils::readAttribute(element,"TypeEnfants",typeEnfants_))
         return false;
+
+    const ArbreRendu* treeRoot = GetTreeRoot();
+    if(treeRoot)
+    {
+        for( auto child = XMLUtils::FirstChildElement(element); child; child = XMLUtils::NextSibling(child) )
+        {
+            auto name = XMLUtils::GetNodeTag(child);
+            if(name != typeEnfants_)
+            {
+                throw ExceptionJeu("Attempting to create a node in a group that it doesn't belong",name);
+            }
+            auto node = treeRoot->creerNoeud(name);
+            ajouter(node);
+            if(!node)
+            {
+                throw ExceptionJeu("Error creating node : %s",name);
+            }
+            node->initialiser(child);
+        }
+    }
+    else
+    {
+        throw ExceptionJeu("%s : Missing tree root",type_);
+    }
 
 	return true;
 }

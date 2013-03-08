@@ -593,7 +593,7 @@ void NoeudRondelle::ajusterVitesse( const float& temps )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudRondelle::validerPropriteteTablePourJeu() throw(ExceptionJeu)
+void NoeudRondelle::validerPropriteteTablePourJeu() 
 {
     if(GetTerrain())
     {

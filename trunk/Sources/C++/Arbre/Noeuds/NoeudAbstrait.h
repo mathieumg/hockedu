@@ -37,6 +37,7 @@ typedef unsigned int GLuint;
 #endif
 
 #include "Vecteur.h"
+#include "ExceptionJeu.h"
 
 //Foward Declaration
 class NoeudComposite;
@@ -121,7 +122,8 @@ public:
 
 
 	// Interface d'un noeud
-
+    /// fonction de comparaison de 2 noeuds
+    virtual bool equals(NoeudAbstrait*);
 	/// Calcule la profondeur de l'arbre sous le noeud courant.
 	virtual unsigned int calculerProfondeur() const;
 
@@ -215,8 +217,13 @@ public:
 
 	/// Creation du noeud XML du Noeud
 	virtual XmlElement* creerNoeudXML();
-	/// Initialisation du NoeudAbstrait à partir d'un element XML
+    /// Initialisation du NoeudAbstrait à partir d'un element XML
 	virtual bool initialiser(const XmlElement* element);
+
+    /// Utilities pour la lecture/ecriture de la position du noeud
+    void XmlWriteNodePosition( XmlElement* elementNoeud );
+    static bool XmlReadNodePosition( Vecteur3& pos, const XmlElement* element );
+    
 
 	/// Retourne le modele 3D representant le noeud ( !!! peut etre NULL )
 	Modele3D* obtenirModele() const;

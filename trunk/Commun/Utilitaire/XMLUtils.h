@@ -50,7 +50,7 @@ public:
 
 namespace XMLUtils
 {
-    
+    const char XmlFieldVersion[] = "2.0";
     
     ///private use
     const char* MakeName(const char* name, int index);
@@ -73,10 +73,10 @@ namespace XMLUtils
 
     /// Appends an element to another element
     void LinkEndChild(XmlNode* parent, XmlNode* child);
-    void LinkEndChild(XmlDocument parent, XmlNode* child);
+    void LinkEndChild(XmlDocument& parent, XmlNode* child);
     /// Search an element with the tag
     const XmlElement* FirstChildElement( const XmlElement* element, const char* childName = NULL);
-    const XmlElement* FirstChildElement( const XmlDocument document, const char* childName = NULL);
+    const XmlElement* FirstChildElement( const XmlDocument& document, const char* childName = NULL);
     /// Search an element with the tag
     XmlElement* FirstChildElement( XmlElement* element, const char* childName = NULL);
     /// first child of the element
@@ -128,7 +128,8 @@ namespace XMLUtils
         }
         return true;
     }
-
+    /// Retrieves the version from the document
+    const char* GetVersion( XmlDocument document );
 
 }
 

@@ -15,6 +15,8 @@
 #include <algorithm>
 #include "RazerGameTree.h"
 #include "VisiteurEcrireXML.h"
+#include "Terrain.h"
+#include "NoeudMaillet.h"
 
 // Enregistrement de la suite de tests au sein du registre
 CPPUNIT_TEST_SUITE_REGISTRATION( ConfigSceneTest );
@@ -221,31 +223,31 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
 ////////////////////////////////////////////////////////////////////////
 void ConfigSceneTest::testLectureArbreRenduXML() 
 {
-    // Écriture initiale du document
-    XmlDocument document ;
-    XMLUtils::CreateDocument(document,"","","");
-    VisiteurEcrireXML v;
-    arbre->acceptVisitor(v);
+    Terrain terrainWrite(NULL),terrainRead(NULL);
+    terrainWrite.createRandomField("test");
+    XmlElement* racine = XMLUtils::createNode("racine");
+    XmlElement* elem = terrainWrite.creerNoeudXML();
+    XMLUtils::LinkEndChild(racine,elem);
+    try
+    {
+        terrainRead.initialiserXml(racine);
+    }
+    catch (ExceptionJeu& e)
+    {
+    	CPPUNIT_ASSERT(false);
+    }
 
-    XmlElement* elem = v.obtenirRacine();
-    XMLUtils::LinkEndChild(document,elem);
+    CPPUNIT_ASSERT(terrainRead.getLogicTree()->equals(terrainWrite.getLogicTree()));
+    auto m = terrainWrite.getLeftMallet();
+    CPPUNIT_ASSERT(!!m);
+    if(m)
+    {
+        m->obtenirParent()->vider();
+    }
+    CPPUNIT_ASSERT(!terrainRead.getLogicTree()->equals(terrainWrite.getLogicTree()));
 
-	XMLUtils::SaveDocument(document, "tests_xml\\TestLecture.xml" );
 
-	// Chargement et lecture du document
-    XMLUtils::LoadDocument(document,"tests_xml\\TestLecture.xml" );
-	RazerGameTree* arbre2 = new RazerGameTree(NULL,999,999);
-
-	ConfigScene::obtenirInstance()->lireDOM((XmlNode&)*document.GetElem(), arbre2);
-
-	// Comparaison entre le document lu et l'arbre écrit dedans au départ
-	CPPUNIT_ASSERT(arbre->calculerProfondeur() == arbre2->calculerProfondeur());
-	CPPUNIT_ASSERT(arbre->obtenirNombreEnfants() == arbre2->obtenirNombreEnfants());
-
-	arbre2->vider();
-	delete arbre2;
-
-    remove("tests_xml\\TestLecture.xml");
+    delete racine;
 }
 
 

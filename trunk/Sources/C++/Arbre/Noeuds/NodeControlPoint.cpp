@@ -104,6 +104,46 @@ void NodeControlPoint::animer( const float& temps )
 
 ////////////////////////////////////////////////////////////////////////
 ///
+/// @fn XmlElement* NoeudPoint::creerNoeudXML()
+///
+/// Creation du noeud XML d'un point
+///
+///
+/// @return XmlElement*
+///
+////////////////////////////////////////////////////////////////////////
+XmlElement* NodeControlPoint::creerNoeudXML()
+{
+    XmlElement* elementNoeud = XMLUtils::createNode(type_.c_str());
+
+    XmlWriteNodePosition(elementNoeud);
+
+    return elementNoeud;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool NoeudPoint::initialiser( const XmlElement* element )
+///
+/// Initialisation du NoeudPoint à partir d'un element XML
+///
+/// @param[in] const XmlElement * element
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool NodeControlPoint::initialiser( const XmlElement* element )
+{
+    // faire l'initialisaiton des attribut concernant le point en premier pour que la suite puisse les utiliser
+    Vecteur3 pos;
+    if( !XmlReadNodePosition(pos,element) )
+        throw ExceptionJeu("%s: Error reading node's position", type_);
+    setPosition(pos);
+    return true;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
 /// @fn void NodeControlPoint::acceptVisitor( VisiteurNoeud& v )
 ///
 /// /*Description*/

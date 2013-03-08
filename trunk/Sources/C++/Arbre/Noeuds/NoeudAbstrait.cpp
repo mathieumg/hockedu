@@ -22,6 +22,7 @@
 #endif
 #endif
 #include "Utilitaire.h"
+#include "../../../../Commun/Utilitaire/ExceptionJeu.h"
 
 GLuint NoeudAbstrait::compteurIdGl_ = 1;
 
@@ -801,13 +802,47 @@ bool NoeudAbstrait::possedeSelection()
 XmlElement* NoeudAbstrait::creerNoeudXML()
 {
 	XmlElement* elementNoeud = XMLUtils::createNode(type_.c_str());
-    XMLUtils::writeArray(mPosition.c_arr(),3,elementNoeud,"pos");
+    XmlWriteNodePosition(elementNoeud);
     XMLUtils::writeArray(echelleCourante_.c_arr(),3,elementNoeud,"echelle");
     XMLUtils::writeAttribute(elementNoeud,"angle",mAngle);
     XMLUtils::writeAttribute(elementNoeud,"affiche",affiche_);
     XMLUtils::writeAttribute(elementNoeud,"selectionnable",selectionnable_);
 
 	return elementNoeud;
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudAbstrait::XmlWriteNodePosition( XmlElement* elementNoeud )
+///
+/// /*Description*/
+///
+/// @param[in] XmlElement * elementNoeud
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAbstrait::XmlWriteNodePosition( XmlElement* elementNoeud )
+{
+    XMLUtils::writeArray(mPosition.c_arr(),3,elementNoeud,"pos");
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool NoeudAbstrait::XmlReadNodePosition( const XmlElement* element )
+///
+/// /*Description*/
+///
+/// @param[in] const XmlElement * element
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool NoeudAbstrait::XmlReadNodePosition( Vecteur3& pos, const XmlElement* element )
+{
+    return XMLUtils::readArray(pos.c_arr(),3,element,"pos");
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -825,24 +860,23 @@ bool NoeudAbstrait::initialiser( const XmlElement* element )
 {
 	int intElem;
 	float floatElem;
-	Vecteur3 pos;
-    
-	if( !XMLUtils::readArray(pos.c_arr(),3,element,"pos") )
-		return false;
+    Vecteur3 pos;
+    if(!XmlReadNodePosition(pos,element))
+		throw ExceptionJeu("%s: Error reading node's position", type_);
 	setPosition(pos);
     if( !XMLUtils::readArray(echelleCourante_.c_arr(),3,element,"echelle") )
-        return false;
+        throw ExceptionJeu("%s: Error reading node's scale", type_);
 
     if( !XMLUtils::readAttribute(element,"angle",floatElem) )
-        return false;
+        throw ExceptionJeu("%s: Error reading node's angle", type_);
     assignerAngle(floatElem);
-
+    
 	if( !XMLUtils::readAttribute(element,"affiche",intElem) )
-		return false;
+        throw ExceptionJeu("%s: Error reading node's visibility flag", type_);
     assignerAffiche(intElem==1);
 
     if( !XMLUtils::readAttribute(element,"selectionnable",intElem) )
-		return false;
+        throw ExceptionJeu("%s: Error reading node's selection flag", type_);
     assignerEstSelectionnable(intElem==1);
 	
 	return true;
@@ -1042,6 +1076,31 @@ class b2World* NoeudAbstrait::getWorld()
 #endif
     return NULL;
 }
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool NoeudAbstrait::equals( NoeudAbstrait* )
+///
+/// fonction de comparaison de 2 noeuds
+///
+/// @param[in] NoeudAbstrait *
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool NoeudAbstrait::equals( NoeudAbstrait* n)
+{
+    return !!n &&
+    type_ == n->type_ &&
+    modePolygones_ == n->modePolygones_ &&
+    mPosition == n->mPosition &&
+    affiche_ == n->affiche_ &&
+    selectionnable_ == n->selectionnable_ &&
+    enregistrable_ == n->enregistrable_ &&
+    echelleCourante_ == n->echelleCourante_ &&
+    rayon_ == n->rayon_;
+}
+
 
 
 
