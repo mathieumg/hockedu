@@ -862,21 +862,21 @@ bool NoeudAbstrait::initialiser( const XmlElement* element )
 	float floatElem;
     Vecteur3 pos;
     if(!XmlReadNodePosition(pos,element))
-		throw ExceptionJeu("%s: Error reading node's position", type_);
+		throw ExceptionJeu("%s: Error reading node's position", type_.c_str());
 	setPosition(pos);
     if( !XMLUtils::readArray(echelleCourante_.c_arr(),3,element,"echelle") )
-        throw ExceptionJeu("%s: Error reading node's scale", type_);
+        throw ExceptionJeu("%s: Error reading node's scale", type_.c_str());
 
     if( !XMLUtils::readAttribute(element,"angle",floatElem) )
-        throw ExceptionJeu("%s: Error reading node's angle", type_);
+        throw ExceptionJeu("%s: Error reading node's angle", type_.c_str());
     assignerAngle(floatElem);
     
 	if( !XMLUtils::readAttribute(element,"affiche",intElem) )
-        throw ExceptionJeu("%s: Error reading node's visibility flag", type_);
+        throw ExceptionJeu("%s: Error reading node's visibility flag", type_.c_str());
     assignerAffiche(intElem==1);
 
     if( !XMLUtils::readAttribute(element,"selectionnable",intElem) )
-        throw ExceptionJeu("%s: Error reading node's selection flag", type_);
+        throw ExceptionJeu("%s: Error reading node's selection flag", type_.c_str());
     assignerEstSelectionnable(intElem==1);
 	
 	return true;

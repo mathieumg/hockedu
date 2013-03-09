@@ -137,7 +137,7 @@ bool NodeControlPoint::initialiser( const XmlElement* element )
     // faire l'initialisaiton des attribut concernant le point en premier pour que la suite puisse les utiliser
     Vecteur3 pos;
     if( !XmlReadNodePosition(pos,element) )
-        throw ExceptionJeu("%s: Error reading node's position", type_);
+        throw ExceptionJeu("%s: Error reading node's position", type_.c_str());
     setPosition(pos);
     return true;
 }

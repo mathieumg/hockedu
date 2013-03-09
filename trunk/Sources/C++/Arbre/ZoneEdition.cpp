@@ -162,6 +162,7 @@ void ZoneEdition::reinitialiser()
 void ZoneEdition::afficher()
 {
 #if WIN32
+    return;
     // États de la lumière 
     GLboolean lighting_state;
     // Désactiver l'éclairage

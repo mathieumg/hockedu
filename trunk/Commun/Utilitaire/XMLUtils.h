@@ -5,7 +5,7 @@
 #define NULL 0
 #endif
 
-#include <memory>
+#include <string>
 
 template<class T>
 class Vecteur3D;
@@ -23,7 +23,7 @@ typedef int XmlText;
 
 typedef int XmlNode;
 
-typedef int XmlDocument;
+typedef int XmlDocumentNode;
 
 // mettre les typedef et class pour une librairie xml dans MAC
 #endif
@@ -129,7 +129,7 @@ namespace XMLUtils
         return true;
     }
     /// Retrieves the version from the document
-    const char* GetVersion( XmlDocument document );
+    const char* GetVersion( XmlDocument& document );
 
 }
 

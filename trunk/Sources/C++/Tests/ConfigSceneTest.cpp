@@ -234,7 +234,7 @@ void ConfigSceneTest::testLectureArbreRenduXML()
     }
     catch (ExceptionJeu& e)
     {
-    	CPPUNIT_ASSERT(false);
+    	CPPUNIT_ASSERT(false && e.what());
     }
 
     CPPUNIT_ASSERT(terrainRead.getLogicTree()->equals(terrainWrite.getLogicTree()));

@@ -10,7 +10,7 @@
 
 #include "NoeudGroupe.h"
 #include "XMLUtils.h"
-#include "..\ArbreRendu.h"
+#include "ArbreRendu.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -101,7 +101,7 @@ bool NoeudGroupe::initialiser( const XmlElement* element )
     }
     else
     {
-        throw ExceptionJeu("%s : Missing tree root",type_);
+        throw ExceptionJeu("%s : Missing tree root",type_.c_str());
     }
 
 	return true;

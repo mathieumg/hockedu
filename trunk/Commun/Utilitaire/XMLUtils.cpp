@@ -11,6 +11,7 @@
 
 namespace XMLUtils
 {
+#if WIN32
     ////////////////////////////////////////////////////////////////////////
     ///
     /// @fn const char* MakeName( const char* name, int index )
@@ -51,7 +52,7 @@ namespace XMLUtils
     }
 
 
-#if WIN32
+
     ////////////////////////////////////////////////////////////////////////
     ///
     /// @fn writeAttribute<double>( XmlElement* element, const double* attribute )
@@ -469,13 +470,16 @@ namespace XMLUtils
     /// @return const char*
     ///
     ////////////////////////////////////////////////////////////////////////
-    const char* GetVersion( XmlDocument document )
+    const char* GetVersion( XmlDocument& document )
     {
         XmlNode* n = document.mNode->FirstChild();
-        TiXmlDeclaration* dec = n->ToDeclaration();
-        if(dec)
+        if(n)
         {
-            return dec->Version();
+            TiXmlDeclaration* dec = n->ToDeclaration();
+            if(dec)
+            {
+                return dec->Version();
+            }
         }
         return NULL;
     }
@@ -710,7 +714,7 @@ void LinkEndChild( XmlNode* parent, XmlNode* child )
 {
 }
 
-void LinkEndChild(XmlDocument parent&, XmlNode* child)
+void LinkEndChild(XmlDocument& parent, XmlNode* child)
 {
 }
 
@@ -800,7 +804,7 @@ void CreateDocument( XmlDocument& document, const char* _version,const char* _en
 ////////////////////////////////////////////////////////////////////////
 bool SaveDocument( XmlDocument& document, const char* fileName )
 {
-    return false
+    return false;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -879,12 +883,31 @@ const char* GetNodeTag( const XmlElement* element )
 /// @return const char*
 ///
 ////////////////////////////////////////////////////////////////////////
-const char* GetVersion( XmlDocument document )
+const char* GetVersion( XmlDocument& document )
 {
     return NULL;
 }
 
-
+    const char* MakeName( const char* name, int index )
+    {
+        return NULL;
+    }
+    
+    ////////////////////////////////////////////////////////////////////////
+    ///
+    /// @fn void FreeName( const char* createdName )
+    ///
+    /// /*Description*/
+    ///
+    /// @param[in] const char * createdName
+    ///
+    /// @return void
+    ///
+    ////////////////////////////////////////////////////////////////////////
+    void FreeName( const char* createdName )
+    {
+        
+    }
 
 #endif
     
