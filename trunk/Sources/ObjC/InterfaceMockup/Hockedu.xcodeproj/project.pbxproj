@@ -77,6 +77,8 @@
 		0C49614616E80AC600D13713 /* UsineNoeud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C49614516E80AC600D13713 /* UsineNoeud.cpp */; };
 		4EEBBF9A16E86E5B00017127 /* Model.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBF9916E86E5B00017127 /* Model.mm */; };
 		4EEBBFA316E8832900017127 /* NoeudAbstrait.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBFA216E8832900017127 /* NoeudAbstrait.cpp */; };
+		6D951C3F16EE753600894B44 /* LeftBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D951C3E16EE753600894B44 /* LeftBar.png */; };
+		6D951C4116EE767B00894B44 /* BottomBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D951C4016EE767B00894B44 /* BottomBar.png */; };
 		96378D7B1472C71100F543EA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96378D7A1472C71100F543EA /* UIKit.framework */; };
 		96378D7D1472C71100F543EA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96378D7C1472C71100F543EA /* Foundation.framework */; };
 		96378D7F1472C71100F543EA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96378D7E1472C71100F543EA /* CoreGraphics.framework */; };
@@ -237,6 +239,8 @@
 		4EEBBF9816E86E5B00017127 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		4EEBBF9916E86E5B00017127 /* Model.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Model.mm; sourceTree = "<group>"; };
 		4EEBBFA216E8832900017127 /* NoeudAbstrait.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoeudAbstrait.cpp; sourceTree = "<group>"; };
+		6D951C3E16EE753600894B44 /* LeftBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LeftBar.png; sourceTree = "<group>"; };
+		6D951C4016EE767B00894B44 /* BottomBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBar.png; sourceTree = "<group>"; };
 		96378D761472C71100F543EA /* Hockedu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hockedu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96378D7A1472C71100F543EA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		96378D7C1472C71100F543EA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -481,6 +485,8 @@
 		0CC6367816DE731600D05BBE /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6D951C4016EE767B00894B44 /* BottomBar.png */,
+				6D951C3E16EE753600894B44 /* LeftBar.png */,
 				0C04E03B16DE7835002B0EE2 /* Icones */,
 			);
 			name = Images;
@@ -677,6 +683,8 @@
 				0C04E07116DE7835002B0EE2 /* dupliquer.png in Resources */,
 				0C04E07216DE7835002B0EE2 /* menu.png in Resources */,
 				0C1832E916E7E86D000F1DE2 /* Enum_Declarations.cs in Resources */,
+				6D951C3F16EE753600894B44 /* LeftBar.png in Resources */,
+				6D951C4116EE767B00894B44 /* BottomBar.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
