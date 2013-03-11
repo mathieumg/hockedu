@@ -18,7 +18,7 @@
 #include "NoeudBut.h"
 
 
-const float NoeudPoint::DEFAULT_RADIUS = 22;
+const float NoeudPoint::DEFAULT_RADIUS = 10;
 
 CreateListDelegateImplementation(TableControlPoint)
 {
@@ -78,8 +78,22 @@ NoeudPoint::~NoeudPoint()
 ////////////////////////////////////////////////////////////////////////
 void NoeudPoint::afficherConcret() const
 {
-	// Appel à la version de la classe de base pour l'affichage des enfants.
-	NoeudComposite::afficherConcret();
+    glPushMatrix();
+    glPushAttrib(GL_CURRENT_BIT | GL_POLYGON_BIT);
+
+    // Assignation du mode d'affichage des polygones
+    glPolygonMode( GL_FRONT_AND_BACK, modePolygones_ );
+#if !__APPLE__
+    glTranslatef(0,0,25.f);
+#endif
+    // Affichage concret
+    NoeudAbstrait::afficherConcret();
+
+    // Restauration
+    glPopAttrib();
+    glPopMatrix();
+
+    DrawChild();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -97,20 +111,7 @@ void NoeudPoint::afficherConcret() const
 void NoeudPoint::renderOpenGLES() const
 {
     glColor4f(1.0f,0.0f,1.0f,1.0f);
-
-    const int segments = 10;
-    static const float jump = 2*utilitaire::PI/(float)segments;
-    const float radius = obtenirRayon();
-    const int count=segments*2;
-    GLfloat vertices[count];
-    int i = 0;
-    for (float deg=0; i < count; i+=2, deg+=jump)
-    {
-        vertices[i] = (cos(deg)*radius);
-        vertices[i+1] = (sin(deg)*radius);
-    }
-    glVertexPointer (2, GL_FLOAT , 0, vertices); 
-    glDrawArrays (GL_TRIANGLE_FAN, 0, segments);
+    Super::renderOpenGLES();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -129,13 +130,13 @@ void NoeudPoint::animer( const float& temps )
 	mAngle = (float)((int)(mAngle+temps*500.0f)%360);
 	updateMatrice();
 
-#if WIN32
-	glPushMatrix();
-	glLoadMatrixd(matrice_); // Chargement de la matrice du noeud
-	glRotated(90, 1.0, 0.0, 0.0);
-	glGetDoublev(GL_MODELVIEW_MATRIX, matrice_); // Savegarde de la matrice courante dans le noeud
-	glPopMatrix(); // Recuperation de la matrice d'origine
-#endif
+// #if WIN32
+// 	glPushMatrix();
+// 	glLoadMatrixd(matrice_); // Chargement de la matrice du noeud
+// 	glRotated(90, 1.0, 0.0, 0.0);
+// 	glGetDoublev(GL_MODELVIEW_MATRIX, matrice_); // Savegarde de la matrice courante dans le noeud
+// 	glPopMatrix(); // Recuperation de la matrice d'origine
+// #endif
 
 }
 
@@ -154,21 +155,6 @@ void NoeudPoint::animer( const float& temps )
 void NoeudPoint::acceptVisitor( VisiteurNoeud& v )
 {
 	v.visiterNoeudPoint(this);
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn NoeudPoint::obtenirLongueur() const
-///
-/// Retourne la longueur d'un cote du carre représentant le point.
-///
-///
-/// @return float : la longueur du cote d'un point.
-///
-////////////////////////////////////////////////////////////////////////
-float NoeudPoint::obtenirLongueur() const
-{
-	return longueurCote_;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -271,22 +257,6 @@ bool NoeudPoint::validerDeplacement( const Vecteur3& pos, const Vecteur2& deplac
 	return true;
 }
 
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn NoeudPoint::obtenirRayon() const
-///
-/// Retourne le rayon du noeud.
-///
-/// @param[in]	void
-///
-/// @return float : rayon du noeud.
-///
-////////////////////////////////////////////////////////////////////////
-float NoeudPoint::obtenirRayon() const
-{
-	return longueurCote_;
-}
 
 ////////////////////////////////////////////////////////////////////////
 ///

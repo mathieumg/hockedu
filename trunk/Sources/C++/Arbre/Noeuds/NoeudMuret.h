@@ -38,6 +38,8 @@ public:
            positionCoin2_ == n2->positionCoin2_ && 
            Super::equals(n);
    }
+
+
    /// Accesseur du coin1
    virtual const Vecteur3& obtenirCoin1() const;
    /// Accesseur du coin2

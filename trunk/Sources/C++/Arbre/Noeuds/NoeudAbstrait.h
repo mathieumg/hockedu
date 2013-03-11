@@ -22,18 +22,6 @@
 #import <OpenGLES/ES1/glext.h>
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
-typedef GLfloat GLdouble;
-
-#define glPushAttrib(x)
-#define glPopAttrib()
-#define glPolygonMode(x,y)
-#define glGetDoublev glGetFloatv
-#define glMultMatrixd glMultMatrixf
-
-#else
-typedef float GLdouble;
-typedef unsigned int GLuint;
-#define GLenum unsigned int
 #endif
 
 #include "Vecteur.h"
@@ -168,7 +156,7 @@ public:
     /// Fonction appeler dans afficher concret pour faire le
     /// rendu OpenGL, uniquement utilisé sous APPLE.
     /// utiliser les liste d'affichage pour windows
-    virtual void renderOpenGLES() const {}
+    virtual void renderOpenGLES() const;
 	/// Anime le noeud.
 	virtual void animer( const float& dt );
 

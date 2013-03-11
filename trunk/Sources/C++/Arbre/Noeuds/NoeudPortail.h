@@ -36,6 +36,10 @@ public:
    }
    /// Affiche le cube.
    virtual void afficherConcret() const;
+   /// Fonction appeler dans afficher concret pour faire le
+   /// rendu OpenGL, uniquement utilisé sous APPLE.
+   /// utiliser les liste d'affichage pour windows
+   virtual void renderOpenGLES() const;
    /// Effectue l'animation
    virtual void animer( const float& temps );
    /// Accueil un visiteur

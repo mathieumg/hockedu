@@ -1101,6 +1101,33 @@ bool NoeudAbstrait::equals( NoeudAbstrait* n)
     rayon_ == n->rayon_;
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudAbstrait::renderOpenGLES()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAbstrait::renderOpenGLES() const
+{
+    const int segments = 10;
+    static const float jump = 2*utilitaire::PI/(float)segments;
+    const float radius = obtenirRayon();
+    const int count=segments*2;
+    GLfloat vertices[count];
+    int i = 0;
+    for (float deg=0; i < count; i+=2, deg+=jump)
+    {
+        vertices[i] = (cos(deg)*radius);
+        vertices[i+1] = (sin(deg)*radius);
+    }
+    glVertexPointer (2, GL_FLOAT , 0, vertices); 
+    glDrawArrays (GL_TRIANGLE_FAN, 0, segments);
+}
+
 
 
 

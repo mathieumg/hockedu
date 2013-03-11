@@ -45,7 +45,8 @@ public:
     virtual bool initialiser(const XmlElement* element);
 
     void afficherConcret() const;
-
+    /// Permet d'assigner les attribut nécessaire à la collision
+    virtual void assignerAttributVisiteurCollision(VisiteurCollision* v);
 private:
 	/// list of other control points linked to the same object, they must
     /// all have the same life scope

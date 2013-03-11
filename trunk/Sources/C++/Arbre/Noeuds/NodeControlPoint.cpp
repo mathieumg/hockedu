@@ -13,11 +13,13 @@
 #include <algorithm>
 
 #include "Utilitaire.h"
+#include "ControlPointMutableAbstract.h"
 
 #if BOX2D_INTEGRATED
 #include "DebugRenderBox2D.h"
 #include "FacadeModele.h"
 #endif
+#include "VisiteurCollision.h"
 
 #ifdef MIKE_DEBUG
 PRAGMA_DISABLE_OPTIMIZATION
@@ -54,7 +56,7 @@ CreateListDelegateImplementation(ControlPoint)
 NodeControlPoint::NodeControlPoint( const std::string& typeNoeud ):
 Super(typeNoeud),mCanBeVisited(true)
 {
-
+    setDefaultRadius(8);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -196,6 +198,32 @@ void NodeControlPoint::setPosition( const Vecteur3& positionRelative )
 {
     Super::setPosition(positionRelative);
     signalObservers();
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NodeControlPoint::assignerAttributVisiteurCollision( VisiteurCollision* v )
+///
+/// Permet d'assigner les attribut nécessaire à la collision.
+///
+/// @param[in] VisiteurCollision * v : Visiteur ayant besoin d'avoir ses paramètres assigne.
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NodeControlPoint::assignerAttributVisiteurCollision( class VisiteurCollision* v )
+{
+    auto n = dynamic_cast<NoeudAbstrait*>(mLinkedObject);
+    if(n)
+    {
+        v->setNoeudAVerifier(n);
+        n->assignerAttributVisiteurCollision(v);
+    }
+    else
+    {
+        Super::assignerAttributVisiteurCollision(v);
+    }
 }
 
 

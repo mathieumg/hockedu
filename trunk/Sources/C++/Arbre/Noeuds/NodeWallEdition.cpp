@@ -127,28 +127,7 @@ void NodeWallEdition::modifierEchelle( float facteur )
 ////////////////////////////////////////////////////////////////////////
 void NodeWallEdition::afficherConcret() const
 {
-#if WIN32
-    const Vecteur3& corner1 = obtenirCoin1(), corner2 = obtenirCoin2();
-    Vecteur2 vecteurEntre(corner1-corner2);
-    vecteurEntre = vecteurEntre.tournerMoinsPiSur2();
-    vecteurEntre.normaliser();
-    float halfHeight = echelleCourante_[VY]*DEFAULT_SIZE[VY]/2.f;
-    vecteurEntre *= halfHeight;
-    glPushMatrix();
-    glPushAttrib(GL_CURRENT_BIT | GL_POLYGON_BIT);
-    // Assignation du mode d'affichage des polygones
-    glPolygonMode( GL_FRONT_AND_BACK, modePolygones_ );
-    glTranslatef(vecteurEntre[VX],vecteurEntre[VY],0);
-    NoeudAbstrait::afficherConcret();
-
-    // Restauration
-    glPopAttrib();
-    glPopMatrix();
-#endif
-    
-    DrawChild();
-//     vecteurEntre.tourner(90,Vecteur3(0,0,1));
-//     vecteurEntre.
+    Super::afficherConcret();
 }
 
 ////////////////////////////////////////////////////////////////////////

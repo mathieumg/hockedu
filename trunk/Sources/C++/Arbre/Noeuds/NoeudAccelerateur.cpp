@@ -279,6 +279,22 @@ void NoeudAccelerateur::appliquerAnimation( const ObjectAnimationParameters& pAn
     updateMatrice();
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudAccelerateur::renderOpenGLES()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAccelerateur::renderOpenGLES() const
+{
+    glColor4f(0.0f,1.0f,0.0f,1.0f);
+    Super::renderOpenGLES();
+}
+
 
 
 

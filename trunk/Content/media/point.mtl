@@ -1,9 +1,9 @@
 # Blender MTL File: 'point.blend'
 # Material Count: 1
-newmtl Material_Flames.jpg_Flames.jpg
+newmtl Material
 Ns 96.078431
 Ka 0.000000 0.000000 0.000000
-Kd 0.640000 0.640000 0.640000
+Kd 0.275104 0.169303 0.353846
 Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
