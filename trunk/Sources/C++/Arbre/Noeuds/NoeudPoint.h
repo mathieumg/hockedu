@@ -64,8 +64,6 @@ public:
 	virtual void animer( const float& temps );
 	/// Accueil un visiteur
 	virtual void acceptVisitor( VisiteurNoeud& v);
-	/// Accesseur de la longueur d'un cote du carre
-	float obtenirLongueur() const;
 	/// Accesseur du typePosNoeud
     TypePosPoint obtenirTypePosNoeud() const;
 	/// Retourne la coordonee puisque la table est toujours a (0, 0, 0)
@@ -81,8 +79,6 @@ public:
 	/// Méthode de validation des déplacements
     bool validerDeplacement(const Vecteur3& pos, const Vecteur2& deplace, int axe);
 	
-	/// Retourne le rayon du noeud
-	virtual float obtenirRayon() const;
 	/// Méthode calculant le deplacement maximale d'un point de contrôle
 	Vecteur3 calculerDeplacementMax(Vecteur3 posAbsActuel, Vecteur3 deplacement);
 

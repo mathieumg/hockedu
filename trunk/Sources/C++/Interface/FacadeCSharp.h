@@ -20,6 +20,7 @@
 #include "..\Jeu\JoueurVirtuel.h"
 #include "..\Configuration\ConfigScene.h"
 #include "..\Sons\SoundFMOD.h"
+#include "GestionnaireModeles.h"
 
 
 // Summary:
@@ -72,6 +73,7 @@ extern "C"
     __declspec(dllexport) void RequestLogin( char* pUsername, char* pPassword, char* pIpAdress );
     __declspec(dllexport) void CancelConnection( char* pConnectionId );
     __declspec(dllexport) void SendMessageDLL( char* pConnectionId, char* pUsername, char * pMessage );
+    __declspec(dllexport) void ReloadModels(){GestionnaireModeles::obtenirInstance()->ReloadModels();}
 
     __declspec(dllexport) bool ActionPerformed( ActionType action );
     __declspec(dllexport) bool IsGamePaused();

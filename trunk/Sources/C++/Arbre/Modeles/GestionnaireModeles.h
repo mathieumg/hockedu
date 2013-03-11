@@ -45,6 +45,9 @@ public:
 
     bool isStillLoadingModel() const;
 
+    /// Debug usage, do not call unless certain.
+    void ReloadModels();
+
 private:
 	typedef std::map<std::string,GLuint> NameToTypeId;
 	typedef std::map<GLuint,std::string> TypeIdToName;

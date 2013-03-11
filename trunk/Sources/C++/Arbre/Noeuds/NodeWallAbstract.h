@@ -43,6 +43,10 @@ public:
 
    /// Affiche le muret.
    virtual void afficherConcret() const;
+   /// Fonction appeler dans afficher concret pour faire le
+   /// rendu OpenGL, uniquement utilisé sous APPLE.
+   /// utiliser les liste d'affichage pour windows
+   virtual void renderOpenGLES() const;
    /// Accesseur du coin1
    virtual const Vecteur3& obtenirCoin1() const = 0;
    /// Accesseur du coin2

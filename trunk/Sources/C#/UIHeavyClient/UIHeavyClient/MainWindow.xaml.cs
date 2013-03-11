@@ -136,20 +136,33 @@ namespace UIHeavyClient
             debugMenu.Header = "Debug";
             MenuBar.Items.Add(debugMenu);
 
-            System.Windows.Controls.MenuItem SplitView = new System.Windows.Controls.MenuItem();
-            SplitView.Header = "Split View";
-            SplitView.Click += SplitView_Click;
-            debugMenu.Items.Add(SplitView);
+            {
+                System.Windows.Controls.MenuItem SplitView = new System.Windows.Controls.MenuItem();
+                SplitView.Header = "Split View";
+                SplitView.Click += SplitView_Click;
+                debugMenu.Items.Add(SplitView);
+            }
 
-            System.Windows.Controls.MenuItem simulationMode = new System.Windows.Controls.MenuItem();
-            simulationMode.Header = "Mode Simulation";
-            simulationMode.Click += simulationMode_Click;
-            debugMenu.Items.Add(simulationMode);
+            {
+                System.Windows.Controls.MenuItem simulationMode = new System.Windows.Controls.MenuItem();
+                simulationMode.Header = "Mode Simulation";
+                simulationMode.Click += simulationMode_Click;
+                debugMenu.Items.Add(simulationMode);
+            }
 
-            System.Windows.Controls.MenuItem connexionServeurJeu = new System.Windows.Controls.MenuItem();
-            connexionServeurJeu.Header = "Connexion Serveur Jeu";
-            connexionServeurJeu.Click += connexionServeurJeu_Click;
-            debugMenu.Items.Add(connexionServeurJeu);
+            {
+                System.Windows.Controls.MenuItem connexionServeurJeu = new System.Windows.Controls.MenuItem();
+                connexionServeurJeu.Header = "Connexion Serveur Jeu";
+                connexionServeurJeu.Click += connexionServeurJeu_Click;
+                debugMenu.Items.Add(connexionServeurJeu);
+            }
+
+            {
+                System.Windows.Controls.MenuItem debugItem = new System.Windows.Controls.MenuItem();
+                debugItem.Header = "Reload Models";
+                debugItem.Click += ReloadModels_Click;
+                debugMenu.Items.Add(debugItem);
+            }
 
 #endif
 
@@ -157,6 +170,12 @@ namespace UIHeavyClient
             this.Loaded += CreateUserControl;
             this.KeyDown += MainWindow_KeyDown;
             this.KeyUp += MainWindow_KeyUp;
+        }
+        [DllImport(@"RazerGame.dll")]
+        public static extern void ReloadModels();
+        void ReloadModels_Click(object sender, RoutedEventArgs e)
+        {
+            ReloadModels();
         }
 
         // Tests pour connection serveur jeu et client

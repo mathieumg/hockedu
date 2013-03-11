@@ -289,6 +289,33 @@ void NodeWallAbstract::updateWallProperties()
     updatePhysicBody();
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudMuret::renderOpenGLES()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NodeWallAbstract::renderOpenGLES() const
+{
+    GLfloat lineWidth;
+    glGetFloatv(GL_LINE_WIDTH,&lineWidth);
+    glLineWidth(echelleCourante_[VY]);
+    glColor4f(1,1,0,1);
+
+    auto c1 = obtenirCoin1(), c2 = obtenirCoin2();
+    c1 -= mPosition;
+    c2 -= mPosition;
+    GLfloat vertices[4] = {c1[VX],c1[VY],c2[VX],c2[VY]};
+    glVertexPointer (2, GL_FLOAT , 0, vertices); 
+    glDrawArrays (GL_LINES, 0, 2);
+
+    glLineWidth(lineWidth);
+}
+
 
 #ifdef MIKE_DEBUG
 PRAGMA_ENABLE_OPTIMIZATION
