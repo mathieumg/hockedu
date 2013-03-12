@@ -424,6 +424,22 @@ void SetPlayMap(char* pFileName)
     FacadeModele::getInstance()->setCurrentMap(std::string(pFileName));
 }
 
+void SetSecondPlayer(bool pIsHuman, char* pName)
+{
+    SPJoueurAbstrait player;
+
+    if(pIsHuman)
+    {
+        player = SPJoueurHumain();
+    }
+    else
+    {
+        player = FacadeModele::getInstance()->obtenirJoueur(std::string(pName));
+    }
+
+    GameManager::obtenirInstance()->setAdversaire(player);
+}
+
 void AddPlayer(char* pName, int pSpeed, int pFailProb)
 {
     SPJoueurAbstrait joueurVirtuel(new JoueurVirtuel(pName, pSpeed, pFailProb));
@@ -459,14 +475,9 @@ void GetPlayers(AIProfile* pProfiles, int pNbrProfiles)
 	    {
 		    SPJoueurVirtuel joueurVirtuel = std::dynamic_pointer_cast<JoueurVirtuel>(joueur);
 
-            //char* nameBuffer = new char[50];
+            strcpy(pProfiles[i].Name, joueurVirtuel->obtenirNom().c_str());
 
-            //strcpy(nameBuffer, joueurVirtuel->obtenirNom().c_str());
-
-            strcpy_s(pProfiles[i].Name, 50, joueurVirtuel->obtenirNom().c_str());
-            strcpy_s(pProfiles[i].OriginName, 50, joueurVirtuel->obtenirNom().c_str());
-
-            pProfiles[i].Speed = joueurVirtuel->obtenirVitesse()*100.0;
+            pProfiles[i].Speed = joueurVirtuel->obtenirVitesse();
             pProfiles[i].FailProb = joueurVirtuel->obtenirProbabiliteEchec();
             ++i;
 	    }
@@ -552,8 +563,7 @@ void GetRadioPlaylists(char** pPlaylists, int pNbrPlaylists)
     int i = 0;
 	for(auto iter = nomsCanaux.begin(); iter != nomsCanaux.end() && i < pNbrPlaylists; ++iter)
 	{
-		strcpy(pPlaylists[i], (*iter).c_str());
-        ++i;
+		strcpy(pPlaylists[i++], (*iter).c_str());
 	}
 }
 
@@ -571,7 +581,7 @@ void GetPlaylistSongs(char* pPlaylist, char** pSongs, int pNbrSongs)
     int i = 0;
     for(auto iter = canal.begin(); iter != canal.end() && i < pNbrSongs; iter++)
 	{
-		strcpy(pSongs[i], (*iter).c_str());
+		strcpy(pSongs[i++], (*iter).c_str());
 	}
 }
 
