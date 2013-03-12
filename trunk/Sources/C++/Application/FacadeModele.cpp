@@ -211,10 +211,18 @@ void FacadeModele::libererInstance()
     // On libère les instances des différentes configurations.
     SoundFMOD::libererInstance();
     ConfigScene::libererInstance();
-    GestionnaireHUD::libererInstance();
     instance_->libererMemoire();
     delete instance_;
     instance_ = 0;
+
+    // temp fix, on libère le hud a la fin, car certain 
+    // destructeur manipule le HUD
+    GestionnaireHUD::libererInstance();
+
+    checkf(!!ConfigScene::Exists());
+    checkf(!!SoundFMOD::Exists());
+    checkf(!!GestionnaireHUD::Exists());
+    checkf(!!FacadeModele::Exists());
 }
 
 
@@ -1756,12 +1764,13 @@ void FacadeModele::modifierAdversaire(SPJoueurAbstrait val)
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
+VISITEUR_FUNC_FUNC_DECLARATION(resetHighlightFlagsFunc)
+{
+    pNoeud->modifierSurligner(false);
+}
 void FacadeModele::resetHighlightFlags()
 {
-    VisiteurFunction visitor([](NoeudAbstrait* n)
-    {
-        n->modifierSurligner(false);
-    });
+    VisiteurFunction visitor(resetHighlightFlagsFunc);
     mEditionField->acceptVisitor(visitor);
 }
 
