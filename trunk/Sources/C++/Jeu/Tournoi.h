@@ -46,7 +46,7 @@ public:
 	/// Initialisation d'un tournoi
 	bool initialisation(const JoueursParticipant& joueurs, const std::string& pFieldName);
 	/// Initialisation d'un tournoi avec un noeud XML
-	bool initialisationXML( XmlElement* element, ConteneurJoueur* profilsVirtuelsExistant = 0 );
+	bool initialisationXML( const XmlElement* element, ConteneurJoueur* profilsVirtuelsExistant = 0 );
 	/// Liberation de la mémoire
 	void libererMemoire();
 	/// Enregistrement du tournoi dans le fichier XML

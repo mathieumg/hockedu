@@ -60,6 +60,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Utilitaire_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -80,6 +82,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Utilitaire_R.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -88,17 +92,14 @@
     <ClCompile Include="mainServeurJeu.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Commun\Utilitaire\Utilitaire.vcxproj">
-      <Project>{bb8c9c8a-3b65-4599-b4fe-ca965ee76d2a}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\RazerGame.vcxproj">
-      <Project>{67188f6b-27be-4e93-a7ef-c512656343a1}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\Interface\FacadeServeurJeu.h" />
     <ClInclude Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.h" />
     <ClInclude Include="..\Reseau\ObjetsGlobaux\PartieServeurs.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RazerGame.vcxproj">
+      <Project>{67188f6b-27be-4e93-a7ef-c512656343a1}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

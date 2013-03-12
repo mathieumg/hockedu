@@ -158,10 +158,31 @@ bool NoeudMuret::initialiser( const XmlElement* element )
 {
 	if(!Super::initialiser(element))
 		return false;
-    if( !XMLUtils::readArray(positionCoin1_.c_arr(),3,element,"coinA") )
-		return false;
-    if( !XMLUtils::readArray(positionCoin2_.c_arr(),3,element,"coinB") )
-		return false;
+
+    // Lecture des position a partir de point de control
+    int cornerNumber=0;
+    Vecteur3* cornerPos[2] = {&positionCoin1_,&positionCoin2_};
+    for( auto child = XMLUtils::FirstChildElement(element); child; child = XMLUtils::NextSibling(child) )
+    {
+        auto name = XMLUtils::GetNodeTag(child);
+        if( cornerNumber>1 || name != RazerGameUtilities::NAME_CONTROL_POINT)
+        {
+            throw ExceptionJeu("Wall Node: unrecognized xml node: %s",name);
+        }
+        Vecteur3 pos;
+        if(!XmlReadNodePosition(pos,child))
+            throw ExceptionJeu("Error reading wall's position",name);
+        *cornerPos[cornerNumber++] = pos;
+    }
+
+    // Lecture normal des positions si les points de control ne sont pas present
+    if(cornerNumber != 2)
+    {
+        if( !XMLUtils::readArray(positionCoin1_.c_arr(),3,element,"coinA") )
+            return false;
+        if( !XMLUtils::readArray(positionCoin2_.c_arr(),3,element,"coinB") )
+            return false;
+    }
     updateWallProperties();
 	return true;
 }
@@ -203,7 +224,7 @@ void NoeudMuret::modifierEchelleCourante( const Vecteur3& echelleCourante )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudMuret::assignerPositionRelative( const Vecteur3& positionRelative )
+/// @fn void NoeudMuret::setPosition( const Vecteur3& positionRelative )
 ///
 /// /*Description*/
 ///
@@ -212,11 +233,13 @@ void NoeudMuret::modifierEchelleCourante( const Vecteur3& echelleCourante )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMuret::assignerPositionRelative( const Vecteur3& positionRelative )
+void NoeudMuret::setPosition( const Vecteur3& positionRelative )
 {
 	Super::setPosition(positionRelative);
 	majPosCoins();
 }
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////

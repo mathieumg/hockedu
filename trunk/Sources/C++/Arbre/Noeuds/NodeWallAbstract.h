@@ -29,11 +29,24 @@ public:
    /// Destructeur.
    ~NodeWallAbstract();
 
+
+   /// fonction de comparaison de 2 noeuds
+   virtual bool equals(NoeudAbstrait* n)
+   {
+       auto n2 = dynamic_cast<NodeWallAbstract*>(n);
+       return !!n2 && 
+           coefRebond_ == n2->coefRebond_ && 
+           Super::equals(n);
+   }
    /// accessor to the key to retrieve the list and/or 3D Model
    virtual const std::string& get3DModelKey() const;
 
    /// Affiche le muret.
    virtual void afficherConcret() const;
+   /// Fonction appeler dans afficher concret pour faire le
+   /// rendu OpenGL, uniquement utilisé sous APPLE.
+   /// utiliser les liste d'affichage pour windows
+   virtual void renderOpenGLES() const;
    /// Accesseur du coin1
    virtual const Vecteur3& obtenirCoin1() const = 0;
    /// Accesseur du coin2

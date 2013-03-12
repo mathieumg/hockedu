@@ -324,6 +324,11 @@ void NoeudBut::assignerAttributVisiteurCollision( VisiteurCollision* v )
 	v->modifierRayonAVerifier(mGoalLength);
 }
 
+const char xmlTag_length[] = "longueurBut";
+const char xmlTag_player[] = "joueur";
+const char xmlTag_topCorner[] = "coinHaut";
+const char xmlTag_botCorner[] = "coinBas";
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn XmlElement* NoeudBut::creerNoeudXML()
@@ -338,10 +343,10 @@ XmlElement* NoeudBut::creerNoeudXML()
 {
 	XmlElement* elementNoeud = NoeudComposite::creerNoeudXML();
 
-    XMLUtils::writeAttribute(elementNoeud,"longueurBut",mGoalLength);
-    XMLUtils::writeAttribute(elementNoeud,"joueur",joueur_);
-    XMLUtils::writeArray(mTopPosition.c_arr(),3,elementNoeud,"coinHaut");
-    XMLUtils::writeArray(mBottomPosition.c_arr(),3,elementNoeud,"coinBas");
+    XMLUtils::writeAttribute(elementNoeud,xmlTag_length,mGoalLength);
+    XMLUtils::writeAttribute(elementNoeud,xmlTag_player,joueur_);
+    XMLUtils::writeArray(mTopPosition.c_arr(),3,elementNoeud,xmlTag_topCorner);
+    XMLUtils::writeArray(mBottomPosition.c_arr(),3,elementNoeud,xmlTag_botCorner);
 	return elementNoeud;
 }
 
@@ -361,19 +366,19 @@ bool NoeudBut::initialiser( const XmlElement* element )
 	if(!NoeudComposite::initialiser(element))
 		return false;
 	auto floatElem = mGoalLength;
-    if(!XMLUtils::readAttribute(element,"longueurBut",floatElem))
-		return false;
+    if(!XMLUtils::readAttribute(element,xmlTag_length,floatElem))
+        throw ExceptionJeu("Error reading attribute %s",xmlTag_length);
 	mGoalLength = floatElem;
 
 	auto intElem = joueur_;
-    if(!XMLUtils::readAttribute(element,"joueur",intElem))
-		return false;
+    if(!XMLUtils::readAttribute(element,xmlTag_player,intElem))
+        throw ExceptionJeu("Error reading attribute %s",xmlTag_player);
 	joueur_ = intElem;
 
-    if( !XMLUtils::readArray(mTopPosition.c_arr(),3,element,"coinHaut") )
-		return false;
-    if( !XMLUtils::readArray(mBottomPosition.c_arr(),3,element,"coinBas") )
-		return false;
+    if( !XMLUtils::readArray(mTopPosition.c_arr(),3,element,xmlTag_topCorner) )
+        throw ExceptionJeu("Error reading attribute %s",xmlTag_topCorner);
+    if( !XMLUtils::readArray(mBottomPosition.c_arr(),3,element,xmlTag_botCorner) )
+        throw ExceptionJeu("Error reading attribute %s",xmlTag_botCorner);
 
 	return true;
 }

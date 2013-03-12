@@ -13,11 +13,13 @@
 #include <algorithm>
 
 #include "Utilitaire.h"
+#include "ControlPointMutableAbstract.h"
 
 #if BOX2D_INTEGRATED
 #include "DebugRenderBox2D.h"
 #include "FacadeModele.h"
 #endif
+#include "VisiteurCollision.h"
 
 #ifdef MIKE_DEBUG
 PRAGMA_DISABLE_OPTIMIZATION
@@ -54,7 +56,7 @@ CreateListDelegateImplementation(ControlPoint)
 NodeControlPoint::NodeControlPoint( const std::string& typeNoeud ):
 Super(typeNoeud),mCanBeVisited(true)
 {
-
+    setDefaultRadius(8);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -100,6 +102,46 @@ void NodeControlPoint::animer( const float& temps )
 //     glRotated(90, 1.0, 0.0, 0.0);
 //     glGetDoublev(GL_MODELVIEW_MATRIX, matrice_); // Savegarde de la matrice courante dans le noeud
 //     glPopMatrix(); // Recuperation de la matrice d'origine
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn XmlElement* NoeudPoint::creerNoeudXML()
+///
+/// Creation du noeud XML d'un point
+///
+///
+/// @return XmlElement*
+///
+////////////////////////////////////////////////////////////////////////
+XmlElement* NodeControlPoint::creerNoeudXML()
+{
+    XmlElement* elementNoeud = XMLUtils::createNode(type_.c_str());
+
+    XmlWriteNodePosition(elementNoeud);
+
+    return elementNoeud;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool NoeudPoint::initialiser( const XmlElement* element )
+///
+/// Initialisation du NoeudPoint à partir d'un element XML
+///
+/// @param[in] const XmlElement * element
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool NodeControlPoint::initialiser( const XmlElement* element )
+{
+    // faire l'initialisaiton des attribut concernant le point en premier pour que la suite puisse les utiliser
+    Vecteur3 pos;
+    if( !XmlReadNodePosition(pos,element) )
+        throw ExceptionJeu("%s: Error reading node's position", type_.c_str());
+    setPosition(pos);
+    return true;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -156,6 +198,32 @@ void NodeControlPoint::setPosition( const Vecteur3& positionRelative )
 {
     Super::setPosition(positionRelative);
     signalObservers();
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NodeControlPoint::assignerAttributVisiteurCollision( VisiteurCollision* v )
+///
+/// Permet d'assigner les attribut nécessaire à la collision.
+///
+/// @param[in] VisiteurCollision * v : Visiteur ayant besoin d'avoir ses paramètres assigne.
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NodeControlPoint::assignerAttributVisiteurCollision( class VisiteurCollision* v )
+{
+    auto n = dynamic_cast<NoeudAbstrait*>(mLinkedObject);
+    if(n)
+    {
+        v->setNoeudAVerifier(n);
+        n->assignerAttributVisiteurCollision(v);
+    }
+    else
+    {
+        Super::assignerAttributVisiteurCollision(v);
+    }
 }
 
 

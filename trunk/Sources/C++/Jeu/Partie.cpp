@@ -266,7 +266,7 @@ XmlElement* Partie::creerNoeudXML() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-bool Partie::initialiserXML( XmlElement* elem, ConteneurJoueur* profilsVirtuelsExistants /*= 0*/ )
+bool Partie::initialiserXML( const XmlElement* elem, ConteneurJoueur* profilsVirtuelsExistants /*= 0*/ )
 {
     if(elem->QueryIntAttribute("ptsG", &pointsJoueurGauche_) != TIXML_SUCCESS)
         pointsJoueurGauche_ = 0;        //Probleme pour le chargement des points, on assigne un pointage nul
@@ -342,7 +342,7 @@ void Partie::reinitialiserPartie()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle ) throw(ExceptionJeu)
+void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle ) 
 {
     if(joueurDroit_ && joueurGauche_)
     {

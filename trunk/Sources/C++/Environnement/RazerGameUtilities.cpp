@@ -19,6 +19,7 @@
 #include "Terrain.h"
 
 
+PRAGMA_DISABLE_OPTIMIZATION;
 
 
 
@@ -252,10 +253,9 @@ bool mUpdating = false, mRendering=false;
        // si le fichier existe on le lit
        else 
        {
-           XmlDocument* document = XMLUtils::LoadDocument(pFilePath.c_str());
-
            // Lire à partir du fichier de configuration
-           if( !document )
+           XmlDocument document; 
+           if(!XMLUtils::LoadDocument(document,pFilePath.c_str()))
            {
                utilitaire::afficherErreur("Erreur : chargement XML : erreur de lecture du fichier");
                // Si on est en jeu on s'assure d'avoir une table valide
@@ -268,14 +268,29 @@ bool mUpdating = false, mRendering=false;
            }
            else
            {
-               if(!pField.initialiserXml((XmlElement*)document))
+               bool initField = true;
+//                auto version = XMLUtils::GetVersion(document);
+//                 if(version && version != XMLUtils::XmlFieldVersion)
+//                 {
+//         #if WIN32
+//                     char MessageStr[256];
+//                     sprintf_s(MessageStr,"%s\nMap version #%s do not match application's version #%s"\
+//                         "\n\nDo you want to try loading it anyway ?",pFilePath.c_str(),version,XMLUtils::XmlFieldVersion);
+//                     int Result = MessageBoxA( NULL, MessageStr, "Version mismatch", MB_ICONERROR | MB_YESNO | MB_TOPMOST );
+//                     if( Result == IDNO )
+//                     {
+//                         initField = false;
+//                     }
+//         #else
+//                     initField = false;
+//         #endif
+//                 }
+               if(!initField || !pField.initialiserXml(document.GetElem()))
                {
                    // Erreur dans l'initialisation avec le xml, donc on laisse un terrain vide
                    pField.initialiser(pFilePath);
                }
                //pField.FixCollidingObjects();
-
-               XMLUtils::FreeDocument(document);
            }
        }
    }
@@ -293,14 +308,14 @@ bool mUpdating = false, mRendering=false;
    ////////////////////////////////////////////////////////////////////////
    void RazerGameUtilities::SaveFieldToFile( const std::string& nomFichier, Terrain& pField  )
    {
-       XmlDocument* document = XMLUtils::CreateDocument("1.0", "", "");
+       XmlDocument document ;
+       XMLUtils::CreateDocument(document,XMLUtils::XmlFieldVersion,"","");
 
        // Creation du noeud du terrain
-       XMLUtils::LinkEndChild((XmlElement*)document,pField.creerNoeudXML());
+       XMLUtils::LinkEndChild(document,pField.creerNoeudXML());
 
        // Écrire dans le fichier
        XMLUtils::SaveDocument(document,nomFichier.c_str());
-       XMLUtils::FreeDocument(document);
    }
 
 
@@ -323,9 +338,6 @@ bool mUpdating = false, mRendering=false;
    /// La chaîne représentant le type des murets.
    const std::string RazerGameUtilities::NAME_RINK_BOARD = "rink_board";
    
-   /// La chaîne représentant le type de muret relatif pour l'édition
-   const std::string RazerGameUtilities::NAME_RELATIVE_WALL = "muret_relatif";
-
    /// La chaîne représentant le type de la table de jeu.
    const std::string RazerGameUtilities::NOM_TABLE = "table";
 
@@ -356,3 +368,6 @@ bool mUpdating = false, mRendering=false;
 ///////////////////////////////////////////////////////////////////////////////
 /// @}
 ///////////////////////////////////////////////////////////////////////////////
+
+
+PRAGMA_ENABLE_OPTIMIZATION;

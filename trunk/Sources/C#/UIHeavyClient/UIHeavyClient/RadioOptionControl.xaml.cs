@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -22,19 +23,23 @@ namespace UIHeavyClient
     {
         private Dictionary<object, string> mGuidanceMessages;
 
-        private Dictionary<string, List<string>> mPlaylists;
+        // Playlist Handling
+        private ObservableCollection<string> mPlaylistNames;
+        private ObservableCollection<string> mSelectedPlaylistContent;
+        private Dictionary<string, ObservableCollection<string>> mPlaylistsContent;
         private string mSelectedPlaylist;
-        
+
+        private Microsoft.Win32.OpenFileDialog mOpenFileDialog;
 
         // C++ functions
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern int GetNbrPlaylists();
-        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void GetRadioPlaylists(string[] pPlaylists, int pNbrPlaylists);
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        private static extern void GetRadioPlaylists([In, Out] string[] pPlaylists, int pNbrPlaylists);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern int GetNbrSongs(string pPlaylist);
-        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void GetPlaylistSongs(string pPlaylist, string[] pSongs, int pNbrSongs);
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        private static extern void GetPlaylistSongs(string pPlaylist, [In, Out] string[] pSongs, int pNbrSongs);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void RemoveRadioPlaylist(string pPlaylist);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -54,7 +59,10 @@ namespace UIHeavyClient
                 {mBackToMainButton, "Return to main menu"},
             };
 
-            mPlaylists = new Dictionary<string, List<string>>();
+            mPlaylistNames = new ObservableCollection<string>();
+            mPlaylistsContent = new Dictionary<string, ObservableCollection<string>>();
+
+            mOpenFileDialog = new Microsoft.Win32.OpenFileDialog();
         }
 
         private void mBackToOptionButton_Click(object sender, RoutedEventArgs e)
@@ -79,6 +87,13 @@ namespace UIHeavyClient
 
         public void DisplayPlaylists()
         {
+            // Clear what's on screen
+            ClearPlaylistInfo();
+            mPlaylistsListView.Items.Clear();
+            mPlaylistNames.Clear();
+            mPlaylistsContent.Clear();
+
+            // Get playlists count and names
             int nbrPlaylists = GetNbrPlaylists();
 
             string[] playlists = new string[nbrPlaylists];
@@ -89,11 +104,15 @@ namespace UIHeavyClient
 
             GetRadioPlaylists(playlists, nbrPlaylists);
 
+            // For each playlist...
             foreach (string s in playlists)
-            { 
-                mPlaylists.Add(s, new List<string>());
-                mCurrentPlaylistsList.Items.Add(s);
+            {
+                // Add it to collections and UI
+                mPlaylistNames.Add(s);
+                mPlaylistsContent.Add(s, new ObservableCollection<string>());
+                mPlaylistsListView.Items.Add(s);
 
+                // Get songs count and names
                 int nbrSongs = GetNbrSongs(s);
 
                 string[] songs = new string[nbrSongs];
@@ -106,29 +125,90 @@ namespace UIHeavyClient
 
                 foreach (string s2 in songs)
                 {
-                    mPlaylists[s].Add(s2);
+                    mPlaylistsContent[s].Add(s2);
                 }
             }
         }
 
         private void mPlaylistAddButton_Click(object sender, RoutedEventArgs e)
         {
-            AddRadioPlaylist("New PLaylist", new string[0], 0);
+            // Make sure that the new name doesn't exist
+            string newName = "New Playlist";
+            int i = 1;
+            while(mPlaylistNames.Contains(newName))
+            {
+                newName = "New Playlist " + (++i);
+            }
+
+            AddRadioPlaylist(newName, new string[0], 0);
+            DisplayPlaylists();
         }
 
         private void mPlaylistDeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            RemoveRadioPlaylist(mCurrentPlaylistsList.SelectedItem.ToString());
+            RemoveRadioPlaylist(mSelectedPlaylist);
+            DisplayPlaylists();
         }
 
         private void mCurrentPlaylistsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            mSelectedPlaylist = (sender as ListView).SelectedItems.ToString();
+            //mSongsEditGroupBox.IsEnabled = true;
+            ClearPlaylistInfo();
 
-            foreach (string s in mPlaylists[mSelectedPlaylist])
+            mSelectedPlaylist = (sender as ListView).SelectedItem.ToString();
+            mSelectedPlaylistContent = mPlaylistsContent[mSelectedPlaylist];
+
+            mPlaylistNameTextBox.Text = mSelectedPlaylist;
+
+            foreach (string s in mSelectedPlaylistContent)
             {
-                mSongsList.Items.Add(s);
+                mSongsListView.Items.Add(s);
             }
+        }
+
+        private void mSongDeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (System.Collections.IList l in mSongsListView.SelectedItems)
+            {
+                mSelectedPlaylistContent.Remove(l.ToString());
+            }
+
+            mSongsListView.SelectedItems.Clear();
+        }
+
+        private void mSongAddButton_Click(object sender, RoutedEventArgs e)
+        {
+            mOpenFileDialog.Title = "Select a song file";
+
+            if (mOpenFileDialog.ShowDialog().Value)
+            {
+                mSelectedPlaylistContent.Add(mOpenFileDialog.FileName);
+                mSongsListView.Items.Add(mOpenFileDialog.FileName);
+            }
+        }
+
+        private void mSaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Is there a name?
+            if (mPlaylistNameTextBox.Text != "")
+            {
+                // If we change the name, delete old playlist
+                if (mPlaylistNameTextBox.Text != mSelectedPlaylist)
+                {
+                    RemoveRadioPlaylist(mSelectedPlaylist);
+                }
+
+                AddRadioPlaylist(mPlaylistNameTextBox.Text, mSelectedPlaylistContent.ToArray(), mSelectedPlaylistContent.Count);
+
+                DisplayPlaylists();
+            }
+        }
+
+        private void ClearPlaylistInfo()
+        {
+            mPlaylistNameTextBox.Text = "";
+            mSelectedPlaylistContent = null;
+            mSongsListView.Items.Clear();
         }
     }
 }

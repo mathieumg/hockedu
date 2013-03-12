@@ -15,6 +15,8 @@
 #include <algorithm>
 #include "RazerGameTree.h"
 #include "VisiteurEcrireXML.h"
+#include "Terrain.h"
+#include "NoeudMaillet.h"
 
 // Enregistrement de la suite de tests au sein du registre
 CPPUNIT_TEST_SUITE_REGISTRATION( ConfigSceneTest );
@@ -125,17 +127,18 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
 	nC4->assignerEstEnregistrable(false);
 
 	// Écriture initiale du document
-	auto document = XMLUtils::CreateDocument("","","");
+	XmlDocument document ;
+    XMLUtils::CreateDocument(document,"","","");
     VisiteurEcrireXML v;
     arbre->acceptVisitor(v);
 
     XmlElement* elem = v.obtenirRacine();
-    XMLUtils::LinkEndChild((XmlElement*)document,elem);
+    XMLUtils::LinkEndChild(document,elem);
 
     XMLUtils::SaveDocument(document,"tests_xml\\TestEnregistrement.xml" );
 	
 	// Lecture manuelle du document et vérification des noeuds lus (et de la non-existence de noeuds qui ne sont pas supposer exister
-	const XmlNode* elementConfiguration = XMLUtils::FirstChild((XmlElement*)document,ConfigScene::ETIQUETTE_ARBRE), *child, *grantChild, *grantGrantChild;//, *grantGrantGrantChild;
+	const XmlNode* elementConfiguration = XMLUtils::FirstChild(document.GetElem(),ConfigScene::ETIQUETTE_ARBRE), *child, *grantChild, *grantGrantChild;//, *grantGrantGrantChild;
 	CPPUNIT_ASSERT (elementConfiguration != NULL);
 
 	// n1
@@ -207,7 +210,6 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
 	// Parcours de l'arbre complet
 
     remove("tests_xml\\TestEnregistrement.xml");
-    XMLUtils::FreeDocument(document);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -221,33 +223,31 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
 ////////////////////////////////////////////////////////////////////////
 void ConfigSceneTest::testLectureArbreRenduXML() 
 {
-    // Écriture initiale du document
-    auto document = XMLUtils::CreateDocument("","","");
-    VisiteurEcrireXML v;
-    arbre->acceptVisitor(v);
+    Terrain terrainWrite(NULL),terrainRead(NULL);
+    terrainWrite.createRandomField("test");
+    XmlElement* racine = XMLUtils::createNode("racine");
+    XmlElement* elem = terrainWrite.creerNoeudXML();
+    XMLUtils::LinkEndChild(racine,elem);
+    try
+    {
+        terrainRead.initialiserXml(racine);
+    }
+    catch (ExceptionJeu& e)
+    {
+    	CPPUNIT_ASSERT(false && e.what());
+    }
 
-    XmlElement* elem = v.obtenirRacine();
-    XMLUtils::LinkEndChild((XmlElement*)document,elem);
+    CPPUNIT_ASSERT(terrainRead.getLogicTree()->equals(terrainWrite.getLogicTree()));
+    auto m = terrainWrite.getLeftMallet();
+    CPPUNIT_ASSERT(!!m);
+    if(m)
+    {
+        m->obtenirParent()->vider();
+    }
+    CPPUNIT_ASSERT(!terrainRead.getLogicTree()->equals(terrainWrite.getLogicTree()));
 
-	XMLUtils::SaveDocument(document, "tests_xml\\TestLecture.xml" );
-    XMLUtils::FreeDocument(document);
 
-	// Chargement et lecture du document
-    document = XMLUtils::LoadDocument("tests_xml\\TestLecture.xml" );
-	RazerGameTree* arbre2 = new RazerGameTree(NULL,999,999);
-
-	ConfigScene::obtenirInstance()->lireDOM((XmlNode&)*document, arbre2);
-
-	// Comparaison entre le document lu et l'arbre écrit dedans au départ
-	CPPUNIT_ASSERT(arbre->calculerProfondeur() == arbre2->calculerProfondeur());
-	CPPUNIT_ASSERT(arbre->obtenirNombreEnfants() == arbre2->obtenirNombreEnfants());
-
-	arbre2->vider();
-	delete arbre2;
-
-    remove("tests_xml\\TestLecture.xml");
-    XMLUtils::FreeDocument(document);
-
+    delete racine;
 }
 
 

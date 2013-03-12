@@ -30,6 +30,7 @@ class NoeudCompositeTest;
 class NoeudComposite : public NoeudAbstrait
 {
 public:
+    typedef NoeudAbstrait Super;
 	/// Pour les tests unitaires
 	friend NoeudCompositeTest;
 
@@ -42,7 +43,8 @@ public:
 
 
 	// Interface d'un noeud
-
+    /// fonction de comparaison de 2 noeuds
+    virtual bool equals(NoeudAbstrait*);
 	/// Calcule la profondeur de l'arbre sous le noeud courant.
 	virtual unsigned int calculerProfondeur() const;
 
@@ -110,6 +112,9 @@ public:
 	virtual bool possedeSelection();
 	/// Modificateur de terrain_
 	virtual void modifierTerrain(Terrain* val);
+
+    /// Allows to create and initialize nodes from an xml element, default behavior
+    void CreateAndInitNodesFromXml( const XmlElement* racine );
 
 protected:
 

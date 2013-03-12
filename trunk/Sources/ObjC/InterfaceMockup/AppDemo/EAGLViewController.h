@@ -30,8 +30,10 @@ extern float const HAUTEUR_FENETRE;
     NSInteger animationFrameInterval;
     CADisplayLink *displayLink;
     
-    OpenGLWaveFrontObject *cube;
+    //OpenGLWaveFrontObject *cube;
     Model* mModel;
+    float translationX;
+    float translationY;
 }
 
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;

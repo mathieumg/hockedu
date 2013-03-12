@@ -22,21 +22,10 @@
 #import <OpenGLES/ES1/glext.h>
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
-typedef GLfloat GLdouble;
-
-#define glPushAttrib(x)
-#define glPopAttrib()
-#define glPolygonMode(x,y)
-#define glGetDoublev glGetFloatv
-#define glMultMatrixd glMultMatrixf
-
-#else
-typedef float GLdouble;
-typedef unsigned int GLuint;
-#define GLenum unsigned int
 #endif
 
 #include "Vecteur.h"
+#include "ExceptionJeu.h"
 
 //Foward Declaration
 class NoeudComposite;
@@ -121,7 +110,8 @@ public:
 
 
 	// Interface d'un noeud
-
+    /// fonction de comparaison de 2 noeuds
+    virtual bool equals(NoeudAbstrait*);
 	/// Calcule la profondeur de l'arbre sous le noeud courant.
 	virtual unsigned int calculerProfondeur() const;
 
@@ -166,7 +156,7 @@ public:
     /// Fonction appeler dans afficher concret pour faire le
     /// rendu OpenGL, uniquement utilisé sous APPLE.
     /// utiliser les liste d'affichage pour windows
-    virtual void renderOpenGLES() const {}
+    virtual void renderOpenGLES() const;
 	/// Anime le noeud.
 	virtual void animer( const float& dt );
 
@@ -215,8 +205,13 @@ public:
 
 	/// Creation du noeud XML du Noeud
 	virtual XmlElement* creerNoeudXML();
-	/// Initialisation du NoeudAbstrait à partir d'un element XML
+    /// Initialisation du NoeudAbstrait à partir d'un element XML
 	virtual bool initialiser(const XmlElement* element);
+
+    /// Utilities pour la lecture/ecriture de la position du noeud
+    void XmlWriteNodePosition( XmlElement* elementNoeud );
+    static bool XmlReadNodePosition( Vecteur3& pos, const XmlElement* element );
+    
 
 	/// Retourne le modele 3D representant le noeud ( !!! peut etre NULL )
 	Modele3D* obtenirModele() const;

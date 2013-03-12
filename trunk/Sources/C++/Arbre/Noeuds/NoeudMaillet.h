@@ -40,6 +40,16 @@ public:
     /// Destructeur.
     ~NoeudMaillet();
 
+    /// fonction de comparaison de 2 noeuds
+    virtual bool equals(NoeudAbstrait* n)
+    {
+        auto n2 = dynamic_cast<NoeudMaillet*>(n);
+        return !!n2 && 
+            estControleParClavier_ == n2->estControleParClavier_ && 
+            estControleParOrdinateur_ == n2->estControleParOrdinateur_ && 
+            estAGauche_ == n2->estAGauche_ && 
+            Super::equals(n);
+    }
     /// Effectue l'animation
     virtual void animer( const float& temps );
     /// Accueil un visiteur

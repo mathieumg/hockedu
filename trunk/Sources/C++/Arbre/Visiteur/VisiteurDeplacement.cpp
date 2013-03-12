@@ -258,16 +258,16 @@ void VisiteurDeplacement::visiterNoeudPoint( NoeudPoint* noeud )
 	{
 		if(noeud->validerDeplacement(posRelative, deplacement_,VY))
 		{
-			noeud->assignerPositionRelative(posRelative+Vecteur3(0, deplacement_[VY], 0));
-			noeud->obtenirPointSym()->assignerPositionRelative(noeud->obtenirPointSym()->getPosition()+Vecteur3(0, -deplacement_[VY], 0));
+			noeud->setPosition(posRelative+Vecteur3(0, deplacement_[VY], 0));
+			noeud->obtenirPointSym()->setPosition(noeud->obtenirPointSym()->getPosition()+Vecteur3(0, -deplacement_[VY], 0));
 		}
 	}
 	else if(type == POSITION_MILIEU_GAUCHE || type == POSITION_MILIEU_DROITE)
 	{
 		if(noeud->validerDeplacement(posRelative, -deplacement_,VX))
 		{
-			noeud->assignerPositionRelative(posRelative+Vecteur3(-deplacement_[VX], 0, 0));
-			noeud->obtenirPointSym()->assignerPositionRelative(noeud->obtenirPointSym()->getPosition()+Vecteur3(deplacement_[VX],0, 0));			
+			noeud->setPosition(posRelative+Vecteur3(-deplacement_[VX], 0, 0));
+			noeud->obtenirPointSym()->setPosition(noeud->obtenirPointSym()->getPosition()+Vecteur3(deplacement_[VX],0, 0));			
 		}
 	}
 
@@ -275,8 +275,8 @@ void VisiteurDeplacement::visiterNoeudPoint( NoeudPoint* noeud )
 	{
 		if(noeud->validerDeplacement(posRelative, deplacement_,VY) && noeud->validerDeplacement(posRelative, -deplacement_,VX))
 		{
-			noeud->assignerPositionRelative(posRelative+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
-			noeud->obtenirPointSym()->assignerPositionRelative(noeud->obtenirPointSym()->getPosition()+deplacement_.convertir<3>());
+			noeud->setPosition(posRelative+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
+			noeud->obtenirPointSym()->setPosition(noeud->obtenirPointSym()->getPosition()+deplacement_.convertir<3>());
 		}
 	}
 

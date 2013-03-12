@@ -163,7 +163,7 @@ bool NoeudAccelerateur::initialiser( const XmlElement* element )
 		return false;
 	auto doubleElem = bonusAccel_;
 	if( !XMLUtils::readAttribute(element,"bonusAccel",doubleElem) )
-		return false;
+        throw ExceptionJeu("Node Boost: Error reading attribute bonusAccel");
 	bonusAccel_ = doubleElem;
 
 	return true;
@@ -277,6 +277,22 @@ void NoeudAccelerateur::appliquerAnimation( const ObjectAnimationParameters& pAn
     if(pAnimationResult.CanUpdatedScale())
         echelleCourante_ = pAnimationResult.mScale;
     updateMatrice();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudAccelerateur::renderOpenGLES()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAccelerateur::renderOpenGLES() const
+{
+    glColor4f(0.0f,1.0f,0.0f,1.0f);
+    Super::renderOpenGLES();
 }
 
 

@@ -30,6 +30,7 @@
 #include <GL\glu.h>
 #include "FacadeModele.h"
 #endif
+#include "ArbreRendu.h"
 
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
 const Vecteur3 NoeudTable::DEFAULT_SIZE = Vecteur3(300,150);
@@ -327,74 +328,75 @@ void NoeudTable::afficherConcret() const
     // Appel à la version de la classe de base pour l'affichage des enfants.
     //NoeudComposite::afficherConcret();
     DrawChild();
-    
+    {
 #if WIN32
-    Modele3D* pModel = obtenirModele();
-    if(pModel)
-    {
-        glPushMatrix();
-        glPushAttrib(GL_ALL_ATTRIB_BITS);
-        pModel->dessiner(true);
-        glPopAttrib();
-        glPopMatrix();
-    }
-    glColor4f(1.0f,0.0f,1.0f,1.0f);
-
-    // États de la lumière 
-    GLboolean lighting_state;
-    // Désactiver l'éclairage
-    glGetBooleanv(GL_LIGHTING, &lighting_state);
-    glDisable(GL_LIGHTING);
-
-    FacadeModele::getInstance()->DeActivateShaders();
-    {
-        static const float hauteurLigne = 0.f;
-        static const float moitieLargeurLigne = 1.0f;
-        glPushAttrib(GL_ALL_ATTRIB_BITS);
-        glPushMatrix();
-        glColor3f(0.0,0.0,1.0);
-        glBegin(GL_QUADS);
-
-        // dessin des lignes verticals dans la table
-        for(int i=1; i<NB_HORIZONTAL_VERTICES-1; ++i)
+        Modele3D* pModel = obtenirModele();
+        if(pModel)
         {
-            for(int j=0; j<NB_VERTICAL_VERTICES-1; ++j)
-            {
-                // Dessin des lignes verticales de la table
-                const Vecteur3& cur = mTableVertices[i][j];
-                const Vecteur3& down = mTableVertices[i][j+1];
-                glVertex3d(cur[VX]+moitieLargeurLigne,cur[VY],hauteurLigne);
-                glVertex3d(cur[VX]-moitieLargeurLigne,cur[VY],hauteurLigne);
-                glVertex3d(down[VX]-moitieLargeurLigne,down[VY],hauteurLigne);
-                glVertex3d(down[VX]+moitieLargeurLigne,down[VY],hauteurLigne);
-            }
+            glPushMatrix();
+            glPushAttrib(GL_ALL_ATTRIB_BITS);
+            pModel->dessiner(true);
+            glPopAttrib();
+            glPopMatrix();
         }
+        glColor4f(1.0f,0.0f,1.0f,1.0f);
 
-        glEnd();
-        glPopMatrix();
-        GLUquadric* cercleCentre_ = gluNewQuadric();
-        GLUquadric* centre_ = gluNewQuadric();
-        // Dessin du cercle au centre de la table
+        // États de la lumière 
+        GLboolean lighting_state;
+        // Désactiver l'éclairage
+        glGetBooleanv(GL_LIGHTING, &lighting_state);
+        glDisable(GL_LIGHTING);
 
-        glPushMatrix();
-        glColor3f(1.0,0.0,0.0);
-        gluDisk(cercleCentre_,rayonCercleCentre_-1,rayonCercleCentre_+1,32,32);
-        gluDisk(centre_,0,2,32,32);
-        glPopMatrix();
+        FacadeModele::getInstance()->DeActivateShaders();
+        {
+            static const float hauteurLigne = 0.f;
+            static const float moitieLargeurLigne = 1.0f;
+            glPushAttrib(GL_ALL_ATTRIB_BITS);
+            glPushMatrix();
+            glColor3f(0.0,0.0,1.0);
+            glBegin(GL_QUADS);
 
-        glPopAttrib();
-        gluDeleteQuadric(centre_);
-        gluDeleteQuadric(cercleCentre_);
-    }
-    FacadeModele::getInstance()->ActivateShaders();
+            // dessin des lignes verticals dans la table
+            for(int i=1; i<NB_HORIZONTAL_VERTICES-1; ++i)
+            {
+                for(int j=0; j<NB_VERTICAL_VERTICES-1; ++j)
+                {
+                    // Dessin des lignes verticales de la table
+                    const Vecteur3& cur = mTableVertices[i][j];
+                    const Vecteur3& down = mTableVertices[i][j+1];
+                    glVertex3d(cur[VX]+moitieLargeurLigne,cur[VY],hauteurLigne);
+                    glVertex3d(cur[VX]-moitieLargeurLigne,cur[VY],hauteurLigne);
+                    glVertex3d(down[VX]-moitieLargeurLigne,down[VY],hauteurLigne);
+                    glVertex3d(down[VX]+moitieLargeurLigne,down[VY],hauteurLigne);
+                }
+            }
 
-    // Réactiver l'éclairage et (s'il y a lieu)
-    if (lighting_state == GL_TRUE) {
-        glEnable(GL_LIGHTING);
-    }
+            glEnd();
+            glPopMatrix();
+            GLUquadric* cercleCentre_ = gluNewQuadric();
+            GLUquadric* centre_ = gluNewQuadric();
+            // Dessin du cercle au centre de la table
+
+            glPushMatrix();
+            glColor3f(1.0,0.0,0.0);
+            gluDisk(cercleCentre_,rayonCercleCentre_-1,rayonCercleCentre_+1,32,32);
+            gluDisk(centre_,0,2,32,32);
+            glPopMatrix();
+
+            glPopAttrib();
+            gluDeleteQuadric(centre_);
+            gluDeleteQuadric(cercleCentre_);
+        }
+        FacadeModele::getInstance()->ActivateShaders();
+
+        // Réactiver l'éclairage et (s'il y a lieu)
+        if (lighting_state == GL_TRUE) {
+            glEnable(GL_LIGHTING);
+        }
 #else
     NoeudAbstrait::afficherConcret();
 #endif
+    }
 
     
 }
@@ -413,38 +415,41 @@ void NoeudTable::afficherConcret() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudTable::renderOpenGLES() const
 {
+    glEnableClientState(GL_VERTEX_ARRAY);
     // dessin de la table
     {
         const int nbVertices = (NB_HORIZONTAL_VERTICES*2+(NB_VERTICAL_VERTICES-2)*2);
         GLfloat vertices[nbVertices*3];
         int count = 0;
 
-        // La partie du haut
-        for(int i=0; i<NB_HORIZONTAL_VERTICES; ++i)
+
+        // La partie de gauche
+        for(int i=1;i<NB_VERTICAL_VERTICES-1; ++i)
         {
-            vertices[count++] = mTableVertices[i][0][VX];
-            vertices[count++] = mTableVertices[i][0][VY];
-            vertices[count++] = -1;
-        }
-        // La partie de droite
-        for(int i=1; i<NB_VERTICAL_VERTICES-1; ++i)
-        {
-            vertices[count++] = mTableVertices[NB_HORIZONTAL_VERTICES-1][i][VX];
-            vertices[count++] = mTableVertices[NB_HORIZONTAL_VERTICES-1][i][VY];
+            vertices[count++] = mTableVertices[0][i][VX];
+            vertices[count++] = mTableVertices[0][i][VY];
             vertices[count++] = -1;
         }
         // La partie du bas
-        for(int i=NB_HORIZONTAL_VERTICES-1; i>=0; --i)
+        for(int i=0; i<NB_HORIZONTAL_VERTICES; ++i)
         {
             vertices[count++] = mTableVertices[i][NB_VERTICAL_VERTICES-1][VX];
             vertices[count++] = mTableVertices[i][NB_VERTICAL_VERTICES-1][VY];
             vertices[count++] = -1;
         }
-        // La partie de gauche
-        for(int i=NB_VERTICAL_VERTICES-2; i>=1; --i)
+        // La partie de droite
+        for(int i=NB_VERTICAL_VERTICES-2; i>0; --i)
         {
-            vertices[count++] = mTableVertices[0][i][VX];
-            vertices[count++] = mTableVertices[0][i][VY];
+            vertices[count++] = mTableVertices[NB_HORIZONTAL_VERTICES-1][i][VX];
+            vertices[count++] = mTableVertices[NB_HORIZONTAL_VERTICES-1][i][VY];
+            vertices[count++] = -1;
+        }
+
+        // La partie du haut
+        for(int i=NB_HORIZONTAL_VERTICES-1; i>=0; --i)
+        {
+            vertices[count++] = mTableVertices[i][0][VX];
+            vertices[count++] = mTableVertices[i][0][VY];
             vertices[count++] = -1;
         }
 
@@ -488,6 +493,7 @@ void NoeudTable::renderOpenGLES() const
             }
         }
     }
+    glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 
@@ -817,41 +823,65 @@ XmlElement* NoeudTable::creerNoeudXML()
 ////////////////////////////////////////////////////////////////////////
 bool NoeudTable::initialiser( const XmlElement* element )
 {
-    if(!NoeudComposite::initialiser(element))
+    if(!Super::initialiser(element))
         return false;
     if(!XMLUtils::readAttribute(element,"coefFriction",coefFriction_))
-        return false;
+        throw ExceptionJeu("Error reading table's fricition coefficient");
 
     // On assigne le coefficient de rebon des bandes exterieurs
-    
+    float rebond[NB_BANDES];
+    if(!XMLUtils::readArray(rebond,NB_BANDES,element,"rebondBande"))
+        throw ExceptionJeu("Error reading rink boards rebound coefficient");
+
     for(unsigned int i=0; i<NB_BANDES; ++i)
     {
-        float tempElem;
-        std::ostringstream name;
-        name << "rebondBande";
-        name << i;
+        assignerCoefRebond(i,rebond[i]);
+    }
 
-        if(!XMLUtils::readAttribute(element,name.str().c_str(),tempElem))
-            return false;
-        assignerCoefRebond(i,tempElem);
+    int controlPointVisited = 0;
+
+    const ArbreRendu* treeRoot = GetTreeRoot();
+    if(treeRoot)
+    {
+        for( auto child = XMLUtils::FirstChildElement(element); child; child = XMLUtils::NextSibling(child) )
+        {
+            auto name = XMLUtils::GetNodeTag(child);
+            if(name == RazerGameUtilities::NAME_TABLE_CONTROL_POINT)
+            {
+                int typeNoeud;
+                if( !XMLUtils::readAttribute(child,"typePosNoeud", typeNoeud) || ((unsigned int)typeNoeud) >= NB_CONTROL_POINTS )
+                {
+                    throw ExceptionJeu("Erreur de lecture d'attribut");
+                }
+                obtenirPoint(typeNoeud)->initialiser(child);
+                controlPointVisited |= 1<<typeNoeud;
+            }
+            else
+            {
+                auto node = treeRoot->creerNoeud(name);
+                if(node)
+                {
+                    ajouter(node);
+                    node->initialiser(child);
+                }
+                else
+                {
+                    throw ExceptionJeu("Error creating node : %s",name);
+                }
+            }
+        }
+    }
+    else
+    {
+        throw ExceptionJeu("%s : Missing tree root",type_.c_str());
+    }
+
+    if(controlPointVisited != (1<<NB_CONTROL_POINTS)-1 )
+    {
+        throw ExceptionJeu("%s : control points missing in the file",type_.c_str());
     }
 
     return true;
-}
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn NodeWallAbstract* NoeudTable::obtenirMuretZoneEdition( TypePosMuretEdition type ) const
-///
-/// Retourne le muret de la zone d'edition associe au numero donne selon l'enum
-///
-/// @param[in] TypePosMuretEdition type : le numero du muret
-///
-/// @return NodeWallAbstract* : un pointeur sur le muret en question
-///
-////////////////////////////////////////////////////////////////////////
-NodeWallAbstract* NoeudTable::obtenirMuretZoneEdition( TypePosMuretEdition type ) const
-{
-    return muretZoneEdition_[type];
 }
 
 

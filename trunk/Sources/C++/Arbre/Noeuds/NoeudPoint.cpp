@@ -15,9 +15,10 @@
 #include "NoeudTable.h"
 #include "XMLUtils.h"
 #include "VisiteurNoeud.h"
+#include "NoeudBut.h"
 
 
-const float NoeudPoint::DEFAULT_RADIUS = 22;
+const float NoeudPoint::DEFAULT_RADIUS = 10;
 
 CreateListDelegateImplementation(TableControlPoint)
 {
@@ -77,8 +78,22 @@ NoeudPoint::~NoeudPoint()
 ////////////////////////////////////////////////////////////////////////
 void NoeudPoint::afficherConcret() const
 {
-	// Appel à la version de la classe de base pour l'affichage des enfants.
-	NoeudComposite::afficherConcret();
+    glPushMatrix();
+    glPushAttrib(GL_CURRENT_BIT | GL_POLYGON_BIT);
+
+    // Assignation du mode d'affichage des polygones
+    glPolygonMode( GL_FRONT_AND_BACK, modePolygones_ );
+#if !__APPLE__
+    glTranslatef(0,0,25.f);
+#endif
+    // Affichage concret
+    NoeudAbstrait::afficherConcret();
+
+    // Restauration
+    glPopAttrib();
+    glPopMatrix();
+
+    DrawChild();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -96,20 +111,7 @@ void NoeudPoint::afficherConcret() const
 void NoeudPoint::renderOpenGLES() const
 {
     glColor4f(1.0f,0.0f,1.0f,1.0f);
-
-    const int segments = 10;
-    static const float jump = 2*utilitaire::PI/(float)segments;
-    const float radius = obtenirRayon();
-    const int count=segments*2;
-    GLfloat vertices[count];
-    int i = 0;
-    for (float deg=0; i < count; i+=2, deg+=jump)
-    {
-        vertices[i] = (cos(deg)*radius);
-        vertices[i+1] = (sin(deg)*radius);
-    }
-    glVertexPointer (2, GL_FLOAT , 0, vertices); 
-    glDrawArrays (GL_TRIANGLE_FAN, 0, segments);
+    Super::renderOpenGLES();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -128,13 +130,13 @@ void NoeudPoint::animer( const float& temps )
 	mAngle = (float)((int)(mAngle+temps*500.0f)%360);
 	updateMatrice();
 
-#if WIN32
-	glPushMatrix();
-	glLoadMatrixd(matrice_); // Chargement de la matrice du noeud
-	glRotated(90, 1.0, 0.0, 0.0);
-	glGetDoublev(GL_MODELVIEW_MATRIX, matrice_); // Savegarde de la matrice courante dans le noeud
-	glPopMatrix(); // Recuperation de la matrice d'origine
-#endif
+// #if WIN32
+// 	glPushMatrix();
+// 	glLoadMatrixd(matrice_); // Chargement de la matrice du noeud
+// 	glRotated(90, 1.0, 0.0, 0.0);
+// 	glGetDoublev(GL_MODELVIEW_MATRIX, matrice_); // Savegarde de la matrice courante dans le noeud
+// 	glPopMatrix(); // Recuperation de la matrice d'origine
+// #endif
 
 }
 
@@ -153,21 +155,6 @@ void NoeudPoint::animer( const float& temps )
 void NoeudPoint::acceptVisitor( VisiteurNoeud& v )
 {
 	v.visiterNoeudPoint(this);
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn NoeudPoint::obtenirLongueur() const
-///
-/// Retourne la longueur d'un cote du carre représentant le point.
-///
-///
-/// @return float : la longueur du cote d'un point.
-///
-////////////////////////////////////////////////////////////////////////
-float NoeudPoint::obtenirLongueur() const
-{
-	return longueurCote_;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -273,22 +260,6 @@ bool NoeudPoint::validerDeplacement( const Vecteur3& pos, const Vecteur2& deplac
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudPoint::obtenirRayon() const
-///
-/// Retourne le rayon du noeud.
-///
-/// @param[in]	void
-///
-/// @return float : rayon du noeud.
-///
-////////////////////////////////////////////////////////////////////////
-float NoeudPoint::obtenirRayon() const
-{
-	return longueurCote_;
-}
-
-////////////////////////////////////////////////////////////////////////
-///
 /// @fn Vecteur3 NoeudPoint::calculerDeplacementMax( Vecteur3 posAbsActuel, Vecteur3 deplacement )
 ///
 /// Calcule et retourne le deplacement maximal d'un point de contrôle dans la direction du vecteur de déplacement
@@ -317,10 +288,11 @@ Vecteur3 NoeudPoint::calculerDeplacementMax( Vecteur3 posAbsActuel, Vecteur3 dep
 ////////////////////////////////////////////////////////////////////////
 XmlElement* NoeudPoint::creerNoeudXML()
 {
-	XmlElement* elementNoeud = NoeudComposite::creerNoeudXML();
+    XmlElement* elementNoeud = XMLUtils::createNode(type_.c_str());
 
+    XmlWriteNodePosition(elementNoeud);
     XMLUtils::writeAttribute<int>(elementNoeud,"typePosNoeud",typePosNoeud_);
-
+    
 	return elementNoeud;
 }
 
@@ -338,13 +310,35 @@ XmlElement* NoeudPoint::creerNoeudXML()
 bool NoeudPoint::initialiser( const XmlElement* element )
 {
     // faire l'initialisaiton des attribut concernant le point en premier pour que la suite puisse les utiliser
-	int intElem;
-    if(!XMLUtils::readAttribute(element,"typePosNoeud",intElem))
-		return false;
-	typePosNoeud_ = TypePosPoint(intElem);
+    Vecteur3 pos;
+    if( !XmlReadNodePosition(pos,element) )
+        throw ExceptionJeu("%s: Error reading node's position", type_.c_str());
+    setPosition(pos);
 
-    if(!NoeudComposite::initialiser(element))
-        return false;
+    int intElem;
+    if(!XMLUtils::readAttribute(element,"typePosNoeud",intElem))
+        throw ExceptionJeu("Error reading attribute typePosNoeud");
+    typePosNoeud_ = TypePosPoint(intElem);
+
+
+    /// Those node need a goal node under them
+    if(typePosNoeud_ == POSITION_MILIEU_DROITE || typePosNoeud_ == POSITION_MILIEU_GAUCHE)
+    {
+        auto child = XMLUtils::FirstChildElement(element);
+        auto name = XMLUtils::GetNodeTag(child);
+        if(name != RazerGameUtilities::NOM_BUT)
+        {
+            throw ExceptionJeu("XML node not representing a goal after a table control point");
+        }
+        NoeudBut* but = dynamic_cast<NoeudBut*>(chercher(0));
+        checkf(but,"but manquant sur le point, regardez constructeur table");
+        if(but)
+        {
+            but->initialiser(child);
+        }
+    }
+    auto terrain = GetTerrain();
+    assignerAffiche(!terrain || !terrain->IsGameField());
 
 	return true;
 }
@@ -369,7 +363,7 @@ const GroupeTripleAdresseFloat* NoeudPoint::obtenirListePointsAChanger() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudPoint::assignerPositionRelative( const Vecteur3& positionRelative )
+/// @fn void NoeudPoint::setPosition( const Vecteur3& positionRelative )
 ///
 /// Assigne la position relative du noeud et deplace le modele 3D de la table
 ///
@@ -378,7 +372,7 @@ const GroupeTripleAdresseFloat* NoeudPoint::obtenirListePointsAChanger() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudPoint::assignerPositionRelative( const Vecteur3& positionRelative )
+void NoeudPoint::setPosition( const Vecteur3& positionRelative )
 {
 	const GroupeTripleAdresseFloat* liste = obtenirListePointsAChanger();
 	if(liste)

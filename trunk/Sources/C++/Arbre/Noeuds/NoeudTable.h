@@ -21,7 +21,6 @@ class NoeudGroupe;
 enum TypePosPoint;
 
 typedef std::map<TypePosPoint,GroupeTripleAdresseFloat> ListeIndexPoints;
-enum TypePosMuretEdition{HAUT,GAUCHE,DROITE,BAS};
 ///////////////////////////////////////////////////////////////////////////
 /// @class NoeudTable
 /// @brief Classe qui représente la table de jeu (surface simple).
@@ -39,6 +38,13 @@ public:
    /// Destructeur.
    ~NoeudTable();
 
+
+   /// fonction de comparaison de 2 noeuds
+   virtual bool equals(NoeudAbstrait* n)
+   {
+       auto t = dynamic_cast<NoeudTable*>(n);
+       return !!t && coefFriction_==t->coefFriction_&& Super::equals(n);
+   }
    /// Affiche le cube.
    virtual void afficherConcret() const;
    /// Fonction appeler dans afficher concret pour faire le
@@ -92,8 +98,8 @@ public:
    static const unsigned int NB_CONTROL_POINTS = 8;
    /// taille par défaut de table
    static const Vecteur3 DEFAULT_SIZE;
-   /// 3 pour les NoeudPoint et Centre, 2 pour les 2 ligne de 1/3 field
-   static const int NB_HORIZONTAL_VERTICES = 3 + 2;
+   /// 3 pour les NoeudPoint et Centre, 2 pour les 4 ligne de 1/3 field
+   static const int NB_HORIZONTAL_VERTICES = 3 + 4;
    /// 3 pour les NoeudPoint
    static const int NB_VERTICAL_VERTICES = 3;
 private:
@@ -123,9 +129,6 @@ private:
 
    static ListeIndexPoints listeIndexPointsModeleTable_;
    
-   /// Variable pour stocker les murets de la zone d'edition
-   NodeWallAbstract* muretZoneEdition_[4];
-
 
 /// Accesseurs
 public:
@@ -141,8 +144,7 @@ public:
 	virtual PaireVect3 obtenirZoneOccupee() const;
 	/// Retourne le rayon du noeud
 	virtual float obtenirRayon() const;
-	/// Retourne le muret de la zone d'edition correspondant a son enum
-	NodeWallAbstract* obtenirMuretZoneEdition(TypePosMuretEdition type) const;
+    /// Retourne le muret de la zone d'edition correspondant a son enum
 
 	/// Accesseur de coefFriction_
 	float obtenirCoefFriction() const { return coefFriction_; }

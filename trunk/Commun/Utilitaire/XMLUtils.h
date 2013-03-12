@@ -1,27 +1,21 @@
 #pragma once
 // Evitez le plus possible de mettre des includes ici
 
-#if WIN32
-// a enlever dès que le wrapper est terminé
-#include "tinyxml\include\tinyxml.h"
+#ifndef NULL
+#define NULL 0
 #endif
+
+#include <string>
 
 template<class T>
 class Vecteur3D;
 
 #ifdef WIN32
-class TiXmlElement;
+#include "tinyxml\include\tinyxml.h"
 typedef TiXmlElement XmlElement;
-
-class TiXmlText;
 typedef TiXmlText XmlText;
-
-class TiXmlNode;
 typedef TiXmlNode XmlNode;
-
-class TiXmlDocument;
-typedef TiXmlDocument XmlDocument;
-
+typedef TiXmlDocument XmlDocumentNode;
 #else
 typedef int XmlElement;
 
@@ -29,16 +23,34 @@ typedef int XmlText;
 
 typedef int XmlNode;
 
-typedef int XmlDocument;
-#ifndef NULL
-#define NULL 0
-#endif
+typedef int XmlDocumentNode;
+
 // mettre les typedef et class pour une librairie xml dans MAC
 #endif
 
+// Permet de s'assurer que la memoire est bien liberé lorsqu'une
+// variable document sort du scope.
+class XmlDocument
+{
+public:
+    XmlDocument()
+    {
+        mNode = new XmlDocumentNode();
+    }
+    ~XmlDocument()
+    {
+        delete mNode;
+    }
+    XmlElement* GetElem() const
+    {
+        return (XmlElement*)mNode;
+    }
+    XmlDocumentNode* mNode;
+};
+
 namespace XMLUtils
 {
-    
+    const char XmlFieldVersion[] = "2.0";
     
     ///private use
     const char* MakeName(const char* name, int index);
@@ -60,9 +72,11 @@ namespace XMLUtils
     const char* GetNodeTag(const XmlElement* element);
 
     /// Appends an element to another element
-    void LinkEndChild(XmlElement* parent, XmlElement* child);
+    void LinkEndChild(XmlNode* parent, XmlNode* child);
+    void LinkEndChild(XmlDocument& parent, XmlNode* child);
     /// Search an element with the tag
     const XmlElement* FirstChildElement( const XmlElement* element, const char* childName = NULL);
+    const XmlElement* FirstChildElement( const XmlDocument& document, const char* childName = NULL);
     /// Search an element with the tag
     XmlElement* FirstChildElement( XmlElement* element, const char* childName = NULL);
     /// first child of the element
@@ -73,12 +87,10 @@ namespace XMLUtils
     const XmlElement* NextSibling( const XmlElement* child );
 
     /// creates an xml document
-    XmlDocument* CreateDocument(const char* _version,const char* _encoding,const char* _standalone);
+    void CreateDocument(XmlDocument& document, const char* _version,const char* _encoding,const char* _standalone);
     /// Loads a document from the file, returns null if not found
-    XmlDocument* LoadDocument(const char* fileName);
-    void SaveDocument(XmlDocument* document, const char* fileName);
-    /// Free the document's memory
-    void FreeDocument(XmlDocument* document);
+    bool LoadDocument(XmlDocument& document, const char* fileName);
+    bool SaveDocument(XmlDocument& document, const char* fileName);
 
     /// writes an array of element
     template<class T>
@@ -116,7 +128,8 @@ namespace XMLUtils
         }
         return true;
     }
-
+    /// Retrieves the version from the document
+    const char* GetVersion( XmlDocument& document );
 
 }
 

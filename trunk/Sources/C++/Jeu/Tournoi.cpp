@@ -157,12 +157,12 @@ bool Tournoi::initialisation( const JoueursParticipant& joueurs, const std::stri
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool Tournoi::initialisationXML( XmlElement* element, ConteneurJoueur* profilsVirtuelsExistant /*= 0 */ )
+bool Tournoi::initialisationXML( const XmlElement* element, ConteneurJoueur* profilsVirtuelsExistant /*= 0 */ )
 {
 	libererMemoire();
 
 	// Lecture du nom du tournoi
-	XmlElement* etiquetteNom = element->FirstChildElement("Nom");
+	const XmlElement* etiquetteNom = element->FirstChildElement("Nom");
 	if(etiquetteNom == 0)
 		return false;
 	const char* nom = etiquetteNom->Attribute("nom");
@@ -173,15 +173,15 @@ bool Tournoi::initialisationXML( XmlElement* element, ConteneurJoueur* profilsVi
 	
 	
 	// Lecture de la liste des gagnants
-	XmlElement* gagnants = element->FirstChildElement("Gagnants");
+	const XmlElement* gagnants = element->FirstChildElement("Gagnants");
 	if(!gagnants)
 		return false;
-	XmlElement* gagnant = gagnants->FirstChildElement("Gagnant");
+	const XmlElement* gagnant = gagnants->FirstChildElement("Gagnant");
 	if(!gagnant)
 		return false;
 	for(; gagnant; gagnant = gagnant->NextSiblingElement())
 	{
-		XmlNode* child = gagnant->FirstChild();
+		const XmlNode* child = gagnant->FirstChild();
 		if(!child || !child->ToText())
 			return false;
 		if(child->ToText()->Value() != tounoiNonJoue)
@@ -189,7 +189,7 @@ bool Tournoi::initialisationXML( XmlElement* element, ConteneurJoueur* profilsVi
 	}
 
 	// Lecture du chemin pour le terrain a jouer
-	XmlElement* map = element->FirstChildElement("Terrain");
+	const XmlElement* map = element->FirstChildElement("Terrain");
 	if(map == 0)
 		return false;
 	const char* mapPath = map->Attribute("chemin");
@@ -206,7 +206,7 @@ bool Tournoi::initialisationXML( XmlElement* element, ConteneurJoueur* profilsVi
 		return false;
 
 	// Lecture des parties du tournoi
-	XmlElement* partie = element->FirstChildElement("Partie");
+	const XmlElement* partie = element->FirstChildElement("Partie");
     GameManager* wGameManager = GameManager::obtenirInstance();
 	for(int i=0; i<nbrParties_; i++)
 	{

@@ -18,7 +18,7 @@
 - (id)init
 {
     mField = new Terrain(NULL);
-    ((Terrain*)mField)->creerTerrainParDefaut("test");
+    ((Terrain*)mField)->createRandomField("test");
     return self;
 }
 

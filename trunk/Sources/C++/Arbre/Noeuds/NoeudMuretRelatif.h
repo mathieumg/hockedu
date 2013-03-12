@@ -30,6 +30,15 @@ public:
     NoeudMuretRelatif(const std::string& type);
     virtual ~NoeudMuretRelatif() = 0;
 
+    /// fonction de comparaison de 2 noeuds
+    virtual bool equals(NoeudAbstrait* n)
+    {
+        auto n2 = dynamic_cast<NoeudMuretRelatif*>(n);
+        return !!n2 && 
+            *coins_[0] == *n2->coins_[0] && 
+            *coins_[1] == *n2->coins_[1] && 
+            Super::equals(n);
+    }
 	/// Accesseur du coin1
 	virtual const Vecteur3& obtenirCoin1() const;
 	/// Accesseur du coin2

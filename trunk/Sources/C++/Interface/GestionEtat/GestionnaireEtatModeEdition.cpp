@@ -92,7 +92,6 @@ void GestionnaireEtatModeEdition::toucheRelachee( EvenementClavier& evenementCla
     if(toucheSauvegardee_==touche)
         toucheSauvegardee_ = 0;
 }
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void GestionnaireEtatModeEdition::sourisEnfoncee(EvenementSouris& evenementSouris)
@@ -298,7 +297,7 @@ void GestionnaireEtatModeEdition::modifierEtatSouris( NomEtatSouris etatSouris )
         case ETAT_SOURIS_TRANSFORMATION_DEPLACEMENT : etatSouris_ = new SourisEtatTransformationDeplacement (); break;
         case ETAT_SOURIS_SELECTION                  : etatSouris_ = new SourisEtatSelection                 (); break;
         case ETAT_SOURIS_AJOUTER_PORTAIL            : etatSouris_ = new SourisEtatAjout                     (mField,RazerGameUtilities::NOM_PORTAIL);  break;
-        case ETAT_SOURIS_AJOUTER_MURET              : etatSouris_ = new SourisEtatAjoutControlPointMutable  (mField, ((i++)&1) == 0 ? RazerGameUtilities::NAME_RELATIVE_WALL : RazerGameUtilities::NAME_POLYGONE); break;
+        case ETAT_SOURIS_AJOUTER_MURET              : etatSouris_ = new SourisEtatAjoutControlPointMutable  (mField, ((i++)&1) == 0 ? RazerGameUtilities::NOM_MURET : RazerGameUtilities::NAME_POLYGONE); break;
         case ETAT_SOURIS_AJOUTER_MAILLET            : etatSouris_ = new SourisEtatAjout                     (mField,RazerGameUtilities::NOM_MAILLET);  break;
         case ETAT_SOURIS_AJOUTER_RONDELLE           : etatSouris_ = new SourisEtatAjout                     (mField,RazerGameUtilities::NOM_RONDELLE); break;
         case ETAT_SOURIS_AJOUTER_ACCELERATEUR       : etatSouris_ = new SourisEtatAjout                     (mField,RazerGameUtilities::NOM_ACCELERATEUR); break;
