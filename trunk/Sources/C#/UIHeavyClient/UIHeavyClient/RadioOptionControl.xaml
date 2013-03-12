@@ -32,10 +32,10 @@
                 </Grid.ColumnDefinitions>
                 <Button Content="Add New" Margin="12,5" Name="mPlaylistAddButton" Background="Black" Foreground="White" FontSize="16" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" Grid.Row="1" Click="mPlaylistAddButton_Click" />
                 <Button Content="Delete" Margin="12,5" Name="mPlaylistDeleteButton" Background="Black" Foreground="White" FontSize="16" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="1" Click="mPlaylistDeleteButton_Click" />
-                <ListView Margin="12" Name="mCurrentPlaylistsList" Background="Black" Foreground="White" Grid.ColumnSpan="2" SelectionChanged="mCurrentPlaylistsList_SelectionChanged" />
+                <ListView Margin="12" Name="mPlaylistsListView" Background="Black" Foreground="White" Grid.ColumnSpan="2" SelectionChanged="mCurrentPlaylistsList_SelectionChanged" />
             </Grid>
         </GroupBox>
-        <GroupBox Grid.Column="2" Grid.Row="1" Header="Playlist Edition" Margin="12" Name="mCurrentEditGroupBox" Foreground="White">
+        <GroupBox Grid.Column="2" Grid.Row="1" Header="Playlist Edition" Margin="12" Name="mSongsEditGroupBox" Foreground="White" >
             <Grid Height="Auto">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="98*" />
@@ -49,10 +49,11 @@
                 </Grid.RowDefinitions>
                 <Label Content="Playlist's Name :" Foreground="White" HorizontalAlignment="Left" Margin="5,5,0,5" Name="mPlaylistNameLabel" Grid.ColumnSpan="2" />
                 <TextBox HorizontalAlignment="Left" Margin="5,5,0,5" Name="mPlaylistNameTextBox" Width="216" Background="Black" Foreground="White" Grid.Column="1" />
-                <Button Background="Black" Content="Add New" FontSize="16" Foreground="White" HorizontalAlignment="Left" Margin="5,5,0,5" Name="mSongAddButton" Width="111" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="3" Grid.Column="1" />
-                <Button Background="Black" Content="Delete" FontSize="16" Foreground="White" Margin="5" Name="mSongDeleteButton" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="3" />
-                <ListView Background="Black" Foreground="White" HorizontalAlignment="Left" Margin="5,5,0,5" Name="mSongsList" Width="336" Grid.Row="2" Grid.ColumnSpan="2" />
+                <Button Background="Black" Content="Add New" FontSize="16" Foreground="White" HorizontalAlignment="Left" Margin="5,5,0,5" Name="mSongAddButton" Width="111" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="3" Grid.Column="1" Click="mSongAddButton_Click" />
+                <Button Background="Black" Content="Delete" FontSize="16" Foreground="White" Margin="5" Name="mSongDeleteButton" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="3" Click="mSongDeleteButton_Click" />
+                <ListView Background="Black" Foreground="White" HorizontalAlignment="Left" Margin="5,5,0,5" Name="mSongsListView" Width="336" Grid.Row="2" Grid.ColumnSpan="2"/>
                 <Label Content="Playlist's Songs :" Foreground="White" HorizontalAlignment="Left" Margin="5,5,0,5" Name="mSongsListLabel" Grid.ColumnSpan="2" Grid.Row="1" />
+                <Button Background="Black" Content="Save" FontSize="16" Foreground="White" HorizontalAlignment="Left" Margin="122,6,0,4" Name="mSaveButton" Width="110" Grid.Row="3" Grid.Column="1" Click="mSaveButton_Click" />
             </Grid>
         </GroupBox>
     </Grid>
