@@ -38,12 +38,15 @@ public:
 	virtual void acceptVisitor( VisiteurNoeud& v);
 	/// Assigne la position relative du noeud et alerte ses observers
     virtual void setPosition( const Vecteur3& positionRelative);
+    
+    /// Creation du noeud XML d'un point
+    virtual XmlElement* creerNoeudXML();
+    /// Initialisation du NoeudPoint à partir d'un element XML
+    virtual bool initialiser(const XmlElement* element);
 
-    //virtual const std::string& get3DModelKey()const { return RazerGameUtilities::NAME_TABLE_CONTROL_POINT; }
-
-    /// hack les control point ne connaissent pas leur parent, mais les parent les connaissent
     void afficherConcret() const;
-
+    /// Permet d'assigner les attribut nécessaire à la collision
+    virtual void assignerAttributVisiteurCollision(VisiteurCollision* v);
 private:
 	/// list of other control points linked to the same object, they must
     /// all have the same life scope

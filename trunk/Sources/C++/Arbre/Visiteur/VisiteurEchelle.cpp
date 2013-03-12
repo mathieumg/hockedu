@@ -267,7 +267,10 @@ void VisiteurEchelle::visiterNoeudPoint( NoeudPoint* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurEchelle::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
 {
-	visiterNoeudAbstrait(noeud);
+    Vecteur3 echelleCourante;
+    noeud->obtenirEchelleCourante(echelleCourante);
+    noeud->modifierEchelleCourante(Vecteur3(echelleCourante[VX]*facteur_, echelleCourante[VY]*facteur_, 1));
+    noeud->updateMatrice();
 }
 
 ////////////////////////////////////////////////////////////////////////

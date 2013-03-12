@@ -88,10 +88,15 @@ public:
 	inline ConteneurDetailsCollision obtenirConteneurDetailsCollision() const { return conteneurDetailsCollision; }
 	/// Permet de connaitre le nombre de noeud en collision detecter par le visiteur
 	unsigned int obtenirNbrNoeudEncollision();
+
+    /// Accessors of noeudAVerifier_
+    inline void setNoeudAVerifier(NoeudAbstrait* pVal) { noeudAVerifier_ = pVal; }
 private:
 	/// Attributs
 	NoeudAbstrait* noeudAVerifier_;
-	/// Position de l'élément à vérifier
+
+
+    /// Position de l'élément à vérifier
 	Vecteur2 positionAVerifier_;
 	/// Rayon du cercle à vérifier
 	float rayonAVerifier_;

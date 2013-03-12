@@ -14,14 +14,23 @@
 #include <string>
 #include "XMLUtils.h"
 
-//#if WIN32
+#if WIN32
+#elif __APPLE__
+#define GLdouble GLfloat
+#define glPushAttrib(x)
+#define glPopAttrib()
+#define glPolygonMode(x,y)
+#define glGetDoublev glGetFloatv
+#define glMultMatrixd glMultMatrixf
+#else
+typedef float GLdouble;
+typedef unsigned int GLuint;
+#define GLenum unsigned int
+#endif
+
 // Macro permettant de localiser la signature des fonctions et éviter des gros replace all en cas de changement
 #define CreateListDelegateSignature(name) static unsigned int CreateListDelegate## name(class Modele3D* pModel)
 #define CreateListDelegateImplementation(name) unsigned int RazerGameUtilities::CreateListDelegate## name(class Modele3D* pModel)
-/*#else
-#define CreateListDelegateSignature(name) 
-#define CreateListDelegateImplementation(name) unsigned int bidon##name(class Modele3D* pModel)
-#endif*/
 typedef unsigned int (*CreateListDelegate)(class Modele3D*);
 
 class Terrain;
@@ -71,9 +80,6 @@ public:
 
     /// La chaîne représentant le type des bande exterieur de la patinoire.
     static const std::string NAME_RINK_BOARD;
-
-    /// La chaîne représentant le type de muret relatif pour l'édition
-    static const std::string NAME_RELATIVE_WALL;
 
     /// La chaîne représentant le type de la table de jeu.
     static const std::string NOM_TABLE;

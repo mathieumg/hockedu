@@ -229,7 +229,7 @@ void FacadeModele::libererInstance()
 ////////////////////////////////////////////////////////////////////////
 FacadeModele::FacadeModele()
     : hGLRC_(0), hDC_(0), hWnd_(0), vue_(0),zoomElastique_(false),tournoi_(0),cheminTournoi_(""),
-    partieCourante_(0), /*adversaire_(0),*/ mEditionField(0)
+    partieCourante_(0), /*adversaire_(0),*/ mEditionField(0),renderThread_(NULL)
 {
     // Il ne faut pas faire d'initialisation de Noeud ici, car le contexte OpenGl n'est pas encore creer
 
@@ -435,17 +435,16 @@ void FacadeModele::chargerJoueurs( const std::string& nomFichier /*= ""*/, Conte
         enregistrerJoueurs();
         return;
     }
-    XmlDocument* document = XMLUtils::LoadDocument(fichierACharger.c_str());
-    if( !document )
+    XmlDocument document; 
+    if(!XMLUtils::LoadDocument(document,fichierACharger.c_str()))
     {
         utilitaire::afficherErreur("Erreur : chargement XML : erreur de lecture du fichier");
         return;
     }
 
     // On enregistre les différentes configurations.
-    ConfigScene::obtenirInstance()->lireDOM((XmlNode&)*document,*joueurs);
+    ConfigScene::obtenirInstance()->lireDOM((XmlNode&)*document.GetElem(),*joueurs);
 
-    XMLUtils::FreeDocument(document);
 }
 
 
@@ -474,14 +473,14 @@ void FacadeModele::enregistrerJoueurs( const std::string& nomFichier /*= ""*/, C
     if(joueurs == 0)
         joueurs = &profilsVirtuels_;
 
-    XmlDocument* document = XMLUtils::CreateDocument("1.0", "", "");
+    XmlDocument document ;
+    XMLUtils::CreateDocument(document,"1.0","","");
 
     // Creation du noeud du terrain
-    ConfigScene::obtenirInstance()->creerDOM((XmlNode&)*document,*joueurs);
+    ConfigScene::obtenirInstance()->creerDOM((XmlNode&)*document.GetElem(),*joueurs);
 
     // Écrire dans le fichier
     XMLUtils::SaveDocument(document,fichierAEnregistrer.c_str());
-    XMLUtils::FreeDocument(document);
 }
 
 
@@ -500,15 +499,15 @@ void FacadeModele::chargerTournoi(std::string nomFichier)
 {
     if(utilitaire::fichierExiste(nomFichier))
     {
-        XmlDocument* document = XMLUtils::LoadDocument(nomFichier.c_str());
-        if( !document )
+        XmlDocument document; 
+        if(!XMLUtils::LoadDocument(document,nomFichier.c_str()))
         {
             utilitaire::afficherErreur("Erreur : chargement XML : erreur de lecture du fichier de tournoi");
             return;
         }
         Tournoi* tournoi = new Tournoi();
         
-        XmlElement* elem = XMLUtils::FirstChildElement((XmlElement*)document,"Tournoi");
+        const XmlElement* elem = XMLUtils::FirstChildElement(document,"Tournoi");
         if(elem && tournoi->initialisationXML(elem,&profilsVirtuels_))
         {
             if(tournoi_ != 0)
@@ -540,15 +539,13 @@ void FacadeModele::enregistrerTournoi( Tournoi* tournoi )
 {
     if(tournoi == 0)
         tournoi = tournoi_;
-
-    TiXmlDocument document;
+    XmlDocument document ;
+    XMLUtils::CreateDocument(document,"1.0","","");
     // Écrire la déclaration XML standard...
-    TiXmlDeclaration* declaration = new TiXmlDeclaration( "1.0", "", "" );
-    document.LinkEndChild(declaration);
     // On enregistre les différentes configurations.
-    document.LinkEndChild(tournoi->creerTournoiXML());
+    XMLUtils::LinkEndChild(document,tournoi->creerTournoiXML());
     // Écrire dans le fichier
-    document.SaveFile( (("tournoi/" + tournoi->obtenirNom()) + ".xml").c_str() );
+    XMLUtils::SaveDocument(document,(("tournoi/" + tournoi->obtenirNom()) + ".xml").c_str() );
 }
 
 
@@ -1462,7 +1459,7 @@ bool FacadeModele::verifierValiditeMap( Terrain* terrain/*= 0 */ )
 void FacadeModele::creerTerrainParDefaut( )
 {
     GestionnaireEvenements::modifierEtat(ETAT_MODE_EDITION);
-    mEditionField->creerTerrainParDefaut(FICHIER_TERRAIN_EN_COURS);
+    mEditionField->createRandomField(FICHIER_TERRAIN_EN_COURS);
 }
 
 

@@ -99,7 +99,8 @@ public:
 
 	/// Création d'un terrain par défaut.
 	/// Celui-ci a les dimemsions de base, 2 maillets et une rondelle
-	void creerTerrainParDefaut(std::string);
+	void creerTerrainParDefaut(const std::string&);
+    void createRandomField(const std::string&);
 
 	/// Verifie si le terrain respecte les conditions de jeu
 	bool verifierValidite( bool afficherErreur = true);
@@ -158,7 +159,6 @@ public:
 private:
 	/// Methode pour initialiser l'arbre de rendu
 	void initialiserArbreRendu();
-    void ecrireArbre(NoeudAbstrait* parentNoeud, const XmlNode* node);
 
 	/// Fields
 private:

@@ -127,29 +127,61 @@ void NodeWallEdition::modifierEchelle( float facteur )
 ////////////////////////////////////////////////////////////////////////
 void NodeWallEdition::afficherConcret() const
 {
-#if WIN32
-    const Vecteur3& corner1 = obtenirCoin1(), corner2 = obtenirCoin2();
-    Vecteur2 vecteurEntre(corner1-corner2);
-    vecteurEntre = vecteurEntre.tournerMoinsPiSur2();
-    vecteurEntre.normaliser();
-    float halfHeight = echelleCourante_[VY]*DEFAULT_SIZE[VY]/2.f;
-    vecteurEntre *= halfHeight;
-    glPushMatrix();
-    glPushAttrib(GL_CURRENT_BIT | GL_POLYGON_BIT);
-    // Assignation du mode d'affichage des polygones
-    glPolygonMode( GL_FRONT_AND_BACK, modePolygones_ );
-    glTranslatef(vecteurEntre[VX],vecteurEntre[VY],0);
-    NoeudAbstrait::afficherConcret();
-
-    // Restauration
-    glPopAttrib();
-    glPopMatrix();
-#endif
-    
-    DrawChild();
-//     vecteurEntre.tourner(90,Vecteur3(0,0,1));
-//     vecteurEntre.
+    Super::afficherConcret();
 }
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn XmlElement* NoeudMuret::creerNoeudXML()
+///
+/// /*Description*/
+///
+///
+/// @return XmlElement*
+///
+////////////////////////////////////////////////////////////////////////
+XmlElement* NodeWallEdition::creerNoeudXML()
+{
+    XmlElement* elementNoeud = Super::creerNoeudXML();
+    return elementNoeud;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool NoeudMuret::initialiser( const XmlElement* element )
+///
+/// Initialisation du NoeudMuret à partir d'un element XML
+///
+/// @param[in] const XmlElement * element
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool NodeWallEdition::initialiser( const XmlElement* element )
+{
+    if(!Super::initialiser(element))
+        return false;
+
+    // Lecture des position a partir de point de control
+    for( auto child = XMLUtils::FirstChildElement(element); child; child = XMLUtils::NextSibling(child) )
+    {
+        auto name = XMLUtils::GetNodeTag(child);
+        if( name != RazerGameUtilities::NAME_CONTROL_POINT)
+        {
+            throw ExceptionJeu("Wall Node: unrecognized xml node: %s",name);
+        }
+        NodeControlPoint* point = new NodeControlPoint(name);
+        point->initialiser(child);
+        // on fait l'ajout apres pour mettre a jour limité le nombre de fois qu'on mets a jour les propriétés du noeud.
+        if(!addControlPoint(point))
+        {
+            delete point;
+        }
+    }
+    return true;
+}
+
+
 
 ////////////////////////////////////////////////////////////////////////
 ///

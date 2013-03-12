@@ -20,16 +20,27 @@
 #define BOX2D_DEBUG BOX2D_INTEGRATED && !SHIPPING && 1
 
 // Optimization macros (uses __pragma to enable inside a #define).
+#if WIN32
+
 #if !SHIPPING
 #define PRAGMA_DISABLE_OPTIMIZATION __pragma(optimize("",off))
 #else
 #define PRAGMA_DISABLE_OPTIMIZATION __pragma(optimize("",on))
 #endif
 
+#else
+#define PRAGMA_DISABLE_OPTIMIZATION 
+#endif
+
+#if WIN32
 #ifdef _DEBUG
 #define PRAGMA_ENABLE_OPTIMIZATION __pragma(optimize("",off))
 #else
 #define PRAGMA_ENABLE_OPTIMIZATION __pragma(optimize("",on))
+#endif
+
+#else
+#define PRAGMA_ENABLE_OPTIMIZATION
 #endif
 
 

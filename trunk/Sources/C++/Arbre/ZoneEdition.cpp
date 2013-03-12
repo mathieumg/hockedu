@@ -15,6 +15,12 @@
 #include <windows.h>
 #include "glew.h"
 #include "FacadeModele.h"
+#elif __APPLE__
+#import <OpenGLES/ES1/gl.h>
+#import <OpenGLES/ES1/glext.h>
+#import <OpenGLES/ES2/gl.h>
+#import <OpenGLES/ES2/glext.h>
+#include "RazerGameUtilities.h"
 #endif
 
 #include "XMLUtils.h"
@@ -168,19 +174,27 @@ void ZoneEdition::afficher()
     glGetBooleanv(GL_LIGHTING, &lighting_state);
     glDisable(GL_LIGHTING);
     FacadeModele::getInstance()->DeActivateShaders();
+    glEnableClientState(GL_VERTEX_ARRAY);
+#endif
 
 	// Dessin de la zone d'édition
     glPushMatrix();
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 	glColor4f(0,0.749f,1,1);
-	glBegin(GL_QUADS);
-	glVertex3d(limiteExtLongueur_, limiteExtLargeur_, -2);
-	glVertex3d(-limiteExtLongueur_, limiteExtLargeur_, -2);
-	glVertex3d(-limiteExtLongueur_, -limiteExtLargeur_, -2);
-	glVertex3d(limiteExtLongueur_, -limiteExtLargeur_, -2);
-	glEnd();
+    GLfloat vertices[12] =
+    {
+        limiteExtLongueur_, limiteExtLargeur_,-3,
+        -limiteExtLongueur_, limiteExtLargeur_, -3,
+        -limiteExtLongueur_, -limiteExtLargeur_, -3,
+        limiteExtLongueur_, -limiteExtLargeur_, -3
+    };
+    glVertexPointer (3, GL_FLOAT , 0, vertices); 
+    glDrawArrays (GL_TRIANGLE_FAN, 0, 4);
+
 	glPopAttrib();
     glPopMatrix();
+#if WIN32
+    glDisableClientState(GL_VERTEX_ARRAY);
     FacadeModele::getInstance()->ActivateShaders();
 
     // Réactiver l'éclairage et (s'il y a lieu)

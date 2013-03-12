@@ -53,9 +53,6 @@ public:
 	/// Creer le DOM pour un tournoi
 	void creerDOM( XmlNode& node, const Tournoi& tournoi ) const;
 
-	/// Méthode pour faire l'arbre de rendu à partir d'un noeud XML
-	void ecrireArbre(NoeudAbstrait* parentNoeud,const XmlNode* node);
-	
 	/// Accesseurs des touches de déplacement
 	int obtenirToucheHaut() const {return toucheHaut_;}
 	int obtenirToucheBas() const {return toucheBas_;}
@@ -95,8 +92,6 @@ private:
 	
 	// Lumieres 0-7
 	std::vector<LumiereAbstraite*> conteneurLumiere_;
-	/// Arbre de rendu
-	RazerGameTree* arbre_;
 
 public:
 

@@ -261,10 +261,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Exe\nuanceurFragments.glsl">
+    <None Include="..\..\Content\Exe\nuanceurFragments.glsl">
       <Filter>Sources Files</Filter>
     </None>
-    <None Include="..\..\Exe\nuanceurSommets.glsl">
+    <None Include="..\..\Content\Exe\nuanceurSommets.glsl">
       <Filter>Sources Files</Filter>
     </None>
     <None Include="..\..\Sources\C#\UIHeavyClient\UIHeavyClient\Enum_Declarations.cs">

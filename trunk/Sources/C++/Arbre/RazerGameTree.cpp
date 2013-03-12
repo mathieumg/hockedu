@@ -9,6 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////
 #include "RazerGameTree.h"
 #include "UsineNoeud.h"
+#include "Terrain.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -26,15 +27,22 @@ RazerGameTree::RazerGameTree(class Terrain* pField,unsigned int limitMallet, uns
     Super(pField)
 {
 	// Construction des usines
-    ajouterUsine(RazerGameUtilities::NOM_MURET , new UsineNoeudMuret(RazerGameUtilities::NOM_MURET));
-    ajouterUsine(RazerGameUtilities::NAME_RELATIVE_WALL , new UsineNodeWallEdition(RazerGameUtilities::NAME_RELATIVE_WALL));
+    if(pField && pField->IsGameField())
+    {
+        ajouterUsine(RazerGameUtilities::NOM_MURET , new UsineNoeudMuret(RazerGameUtilities::NOM_MURET));
+    }
+    else
+    {
+        ajouterUsine(RazerGameUtilities::NOM_MURET , new UsineNodeWallEdition(RazerGameUtilities::NOM_MURET));
+    }
+
+
 	ajouterUsine(RazerGameUtilities::NOM_TABLE , new UsineNoeudTable(RazerGameUtilities::NOM_TABLE));
 	ajouterUsine(RazerGameUtilities::NOM_PORTAIL , new UsineNoeudPortail(RazerGameUtilities::NOM_PORTAIL));
 	ajouterUsine(RazerGameUtilities::NOM_RONDELLE , new UsineNoeudRondelle(RazerGameUtilities::NOM_RONDELLE,limitPuck));
 	ajouterUsine(RazerGameUtilities::NOM_MAILLET , new UsineNoeudMaillet(RazerGameUtilities::NOM_MAILLET,limitMallet));
 	ajouterUsine(RazerGameUtilities::NOM_ACCELERATEUR, new UsineNoeudAccelerateur(RazerGameUtilities::NOM_ACCELERATEUR));
     ajouterUsine(RazerGameUtilities::NOM_GROUPE, new UsineNoeudGroupe(RazerGameUtilities::NOM_GROUPE));
-    ajouterUsine(RazerGameUtilities::NAME_CONTROL_POINT, new UsineNoeudGroupe(RazerGameUtilities::NAME_CONTROL_POINT));
     //ajouterUsine(RazerGameUtilities::NAME_POLYGONE, new UsineNodePolygone(RazerGameUtilities::NAME_POLYGONE));
 }
 

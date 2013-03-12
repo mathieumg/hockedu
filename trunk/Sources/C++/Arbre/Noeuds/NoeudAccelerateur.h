@@ -29,8 +29,21 @@ public:
 	/// Destructeur.
 	~NoeudAccelerateur();
 
+    /// fonction de comparaison de 2 noeuds
+    virtual bool equals(NoeudAbstrait* n)
+    {
+        auto n2 = dynamic_cast<NoeudAccelerateur*>(n);
+        return !!n2 && 
+            bonusAccel_ == n2->bonusAccel_ && 
+            activer_ == n2->activer_ && 
+            Super::equals(n);
+    }
 	/// Affiche l'accelerateur.
 	virtual void afficherConcret() const;
+    /// Fonction appeler dans afficher concret pour faire le
+    /// rendu OpenGL, uniquement utilisé sous APPLE.
+    /// utiliser les liste d'affichage pour windows
+    virtual void renderOpenGLES() const;
 	/// Effectue l'animation de l'accelerateur.
 	virtual void animer( const float& temps );
 

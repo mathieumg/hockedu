@@ -49,7 +49,7 @@ public:
 	/// Creation du noeud XML de la partie
 	XmlElement* creerNoeudXML() const;
 	/// Initialisation d'une partie a partir d'un noeud XML
-	bool initialiserXML(XmlElement* elem, ConteneurJoueur* profilsVirtuelsExistants = 0);
+	bool initialiserXML(const XmlElement* elem, ConteneurJoueur* profilsVirtuelsExistants = 0);
 
 	/// Permet de reinitialiser la partie courante
 	void reinitialiserPartie();
@@ -58,7 +58,7 @@ public:
 	static const int POINTAGE_GAGNANT;
 
 	/// Methode pour indiquer au maillet par qui ils sont controlles
-	void assignerControlesMaillet(NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle) throw(ExceptionJeu);
+	void assignerControlesMaillet(NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle) ;
 
 	/// Permet de savoir si la partie est terminee
 	inline bool partieTerminee() const {return pointsJoueurGauche_>=POINTAGE_GAGNANT || pointsJoueurDroit_>= POINTAGE_GAGNANT ;}

@@ -56,6 +56,8 @@ enum {
     theEAGLView.opaque = YES;
     
     mModel = [[Model alloc]init];
+    translationX = 0.0;
+    translationY = 0.0;
     
     [self.mGLView addSubview:theEAGLView];
     [self.mGLView addSubview:mSideBarView];
@@ -208,9 +210,39 @@ enum {
         UITouch *touch = [[event allTouches] anyObject];
         CGPoint positionCourante = [touch locationInView:theEAGLView];
         CGPoint positionPrecedente = [touch previousLocationInView:theEAGLView];
-        cube.currentPosition = Vertex3DMake(cube.currentPosition.x + (((positionCourante.x - positionPrecedente.x) / theEAGLView.bounds.size.width) * LARGEUR_FENETRE), 
+        /*
+        cube.currentPosition = Vertex3DMake(cube.currentPosition.x + (((positionCourante.x - positionPrecedente.x) / theEAGLView.bounds.size.width) * LARGEUR_FENETRE),
                                             cube.currentPosition.y - (((positionCourante.y - positionPrecedente.y) / theEAGLView.bounds.size.height) * HAUTEUR_FENETRE), 
                                             cube.currentPosition.z);
+        */
+        
+        translationX -= (positionCourante.x - positionPrecedente.x);
+        translationY += (positionCourante.y - positionPrecedente.y);
+        
+        if( translationX < -500 )
+        {
+            translationX = -500;
+        }
+        else if( translationX > 500 )
+        {
+            translationX = 500;
+        }
+        
+        if( translationY < -500 )
+        {
+            translationY = -500;
+        }
+        else if( translationY > 500 )
+        {
+            translationY = 500;
+        }
+        
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrthof(-( LARGEUR_FENETRE / 2) + translationX , (LARGEUR_FENETRE / 2) + translationX, -(HAUTEUR_FENETRE / 2) + translationY, (HAUTEUR_FENETRE / 2) + translationY, 0, 100);
+        
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
     }
 
 }
@@ -244,16 +276,18 @@ enum {
 	glMatrixMode(GL_MODELVIEW);
 
 	glLoadIdentity(); 
-	glClearColor(0.7, 0.7, 0.7, 1.0);
+	glClearColor(0.3765, 0.4039, 0.4862, 1.0); //Background color for the editing area.
 		
 	glGetError(); // Clear error codes
 	
+    /*
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"cube" ofType:@"obj"];
 	OpenGLWaveFrontObject *theObject = [[OpenGLWaveFrontObject alloc] initWithPath:path];
 	Vertex3D position = Vertex3DMake(0.0, 0.0, -50.0);
 	theObject.currentPosition = position;
 	self.cube = theObject;
-	[theObject release];
+	//[theObject release];
+    */
 }
 
 
@@ -263,10 +297,71 @@ enum {
     
 	static GLfloat rotation = 0.0;
 
-    
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity(); 
-	glColor4f(1.0, 1.0, 1.0, 1.0);
+	//glLoadIdentity();
+    
+    // Draw the background grid.
+    glColor4f( 1.0, 1.0, 1.0, 1.0 );
+
+    
+    int x1 = translationX - LARGEUR_FENETRE / 2.0;
+    int x2 = translationX + LARGEUR_FENETRE / 2.0;
+    int y1 = translationY - HAUTEUR_FENETRE / 2.0;
+    int y2 = translationY + HAUTEUR_FENETRE / 2.0;
+    
+    const int intervalle = 50;
+    const int size = ( ( ( LARGEUR_FENETRE + HAUTEUR_FENETRE ) / intervalle ) + 5 ) * 3 * 2;
+    GLfloat vertices[ size ];
+    
+    int count = 0;
+    for( int a = x1 - x1 % intervalle; a < x2; a += intervalle )
+    {
+        vertices[ count++ ] = a;
+        vertices[ count++ ] = y1;
+        vertices[ count++ ] = -5;
+        
+        vertices[ count++ ] = a;
+        vertices[ count++ ] = y2;
+        vertices[ count++ ] = -5;
+    }
+    
+    for( int a = y1 - y1 % intervalle; a < y2; a += intervalle )
+    {
+        vertices[ count++ ] = x1;
+        vertices[ count++ ] = a;
+        vertices[ count++ ] = -5;
+        
+        vertices[ count++ ] = x2;
+        vertices[ count++ ] = a;
+        vertices[ count++ ] = -5;
+    }
+    
+    /*
+    for( int count = 0, i = 0; i < 16; i++ ) {
+        // Vertical lines.
+        vertices[count++] = 400 - i * 50;
+        vertices[count++] = -400;
+        vertices[count++] = -5;
+        
+        vertices[count++] = 400 - i * 50;
+        vertices[count++] = 400;
+        vertices[count++] = -5;
+        
+        // Horizontal lines.
+        vertices[count++] = -400;
+        vertices[count++] = 400 - i * 50;
+        vertices[count++] = -5;
+        
+        vertices[count++] = 400;
+        vertices[count++] = 400 - i * 50;
+        vertices[count++] = -5;
+    }
+    */
+    
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(3, GL_FLOAT, 0, vertices);
+    glDrawArrays(GL_LINES, 0, count / 3);
+    glDisableClientState(GL_VERTEX_ARRAY);
     
     //[cube drawSelf];
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -274,10 +369,10 @@ enum {
     glDisableClientState(GL_VERTEX_ARRAY);
     
     // Dessiner les shit ici
-    Vertex3D    vertex1 = Vertex3DMake(0.0, 50.0, -50.0);
-    Vertex3D    vertex2 = Vertex3DMake(50.0, 0.0, -50.0);
-    Vertex3D    vertex3 = Vertex3DMake(-50.0, 0.0, -50.0);
-    Triangle3D  triangle = Triangle3DMake(vertex1, vertex2, vertex3);
+    //Vertex3D    vertex1 = Vertex3DMake(0.0, 50.0, -50.0);
+    //Vertex3D    vertex2 = Vertex3DMake(50.0, 0.0, -50.0);
+    //Vertex3D    vertex3 = Vertex3DMake(-50.0, 0.0, -50.0);
+    //Triangle3D  triangle = Triangle3DMake(vertex1, vertex2, vertex3);
     
     /*
     glLoadIdentity();
