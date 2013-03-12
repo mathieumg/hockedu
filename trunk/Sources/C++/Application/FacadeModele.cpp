@@ -211,10 +211,13 @@ void FacadeModele::libererInstance()
     // On libère les instances des différentes configurations.
     SoundFMOD::libererInstance();
     ConfigScene::libererInstance();
-    GestionnaireHUD::libererInstance();
     instance_->libererMemoire();
     delete instance_;
     instance_ = 0;
+
+    // temp fix, on libère le hud a la fin, car certain 
+    // destructeur manipule le HUD
+    GestionnaireHUD::libererInstance();
 }
 
 
