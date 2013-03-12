@@ -28,8 +28,30 @@ namespace UIHeavyClient
         // the method is done executing.
         public void ExecuteTask(Action action)
         {
-            Task task = this.factory.StartNew(action);
-            task.Wait();
+            if(action != null)
+            {
+                try
+                {
+                    Task task = this.factory.StartNew(action);
+                    // pour l'instant on n'attend pas que la task ce termine, car 
+                    // le wait ne prend pas en compte le fait que la task peut etre deja
+                    // terminé...
+                    //task.Wait();
+                }
+                catch (System.ObjectDisposedException ex)
+                {
+
+                    System.Console.Out.WriteLine("ObjectDisposedException" + ex.Message);
+                }
+                catch (System.AggregateException ex)
+                {
+                    System.Console.Out.WriteLine("AggregateException" + ex.Message);
+                }
+                catch (System.InvalidOperationException ex)
+                {
+                    System.Console.Out.WriteLine("InvalidOperationException" + ex.Message);
+                }
+            }
         }
     }
 
