@@ -219,10 +219,10 @@ void FacadeModele::libererInstance()
     // destructeur manipule le HUD
     GestionnaireHUD::libererInstance();
 
-    checkf(!!ConfigScene::Exists());
-    checkf(!!SoundFMOD::Exists());
-    checkf(!!GestionnaireHUD::Exists());
-    checkf(!!FacadeModele::Exists());
+    checkf(!ConfigScene::Exists());
+    checkf(!SoundFMOD::Exists());
+    checkf(!GestionnaireHUD::Exists());
+    checkf(!FacadeModele::Exists());
 }
 
 

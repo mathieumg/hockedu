@@ -145,6 +145,32 @@ void NoeudAbstrait::effacer( const NoeudAbstrait* noeud )
 
 ////////////////////////////////////////////////////////////////////////
 ///
+/// @fn void NoeudAbstrait::deleteThis()
+///
+/// correctly delete a node and removes it form its parent.
+/// do not call in destructor because the parent might be initialising the
+// destruction.
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAbstrait::deleteThis()
+{
+    // On enleve les noeud selectionné et tous ces enfants.
+    // Si on ne veut pas enlever les enfants il faudrait modifier
+    // la méthode effacer() pour que les enfants soit relié au parent
+    if(obtenirParent() != 0)
+        obtenirParent()->effacer(this);
+    else
+    {
+        vider();
+        delete this;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
 /// @fn const NoeudAbstrait* NoeudAbstrait::chercher( const std::string& typeNoeud )
 ///
 /// Cette fonction cherche un noeud d'un type donné parmi le noeud
@@ -1127,6 +1153,8 @@ void NoeudAbstrait::renderOpenGLES() const
     glVertexPointer (2, GL_FLOAT , 0, vertices); 
     glDrawArrays (GL_TRIANGLE_FAN, 0, segments);
 }
+
+
 
 
 

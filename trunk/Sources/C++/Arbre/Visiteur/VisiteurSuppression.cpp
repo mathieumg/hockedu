@@ -16,6 +16,8 @@
 #include "NoeudTable.h"
 #include "NoeudPoint.h"
 #include "NoeudAccelerateur.h"
+#include "NodeWallEdition.h"
+#include "NodeControlPoint.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -241,14 +243,7 @@ bool VisiteurSuppression::effacerSiSelectionne( NoeudAbstrait* noeud )
 		// On enleve les noeud selectionné et tous ces enfants.
 		// Si on ne veut pas enlever les enfants il faudrait modifier
 		// la méthode effacer() pour que les enfants soit relié au parent
-		if(noeud->obtenirParent() != 0)
-			noeud->obtenirParent()->effacer(noeud);
-		else
-		{
-			noeud->vider();
-			delete noeud;
-			noeud = 0;
-		}
+        noeud->deleteThis();
 		return true;
 	}
 	return false;
@@ -289,4 +284,34 @@ void VisiteurSuppression::visiterEnfants( NoeudComposite* noeud )
 		if(--i<noeud->obtenirNombreEnfants())
 			noeud->chercher(i)->acceptVisitor(*this);
 	}
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void VisiteurSuppression::visiterNoeudMuretEdition( NodeWallEdition* noeud )
+///
+/// /*Description*/
+///
+/// @param[in] NodeWallEdition * noeud
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void VisiteurSuppression::visiterNoeudMuretEdition( NodeWallEdition* noeud )
+{
+    bool doDelete = false;
+    for(unsigned int i=0; i<noeud->getNBControlPoint(); ++i)
+    {
+        auto point = noeud->getControlPoint(i);
+        if(point->estSelectionne())
+        {
+            doDelete = true;
+            break;
+        }
+    }
+
+    if(doDelete)
+    {
+        noeud->deleteThis();
+    }
 }

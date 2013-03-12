@@ -119,6 +119,10 @@ public:
 	virtual void vider();
 	/// Efface le noeud passé en paramètre.
 	virtual void effacer( const NoeudAbstrait* noeud );
+    /// correctly delete a node and removes it form its parent.
+    /// do not call in destructor because the parent might be initialising the
+    // destruction.
+    void deleteThis();
 
 	/// Cherche un noeud par le type (sur un noeud constant).
 	virtual const NoeudAbstrait* chercher( const std::string& typeNoeud ) const;
