@@ -1748,12 +1748,13 @@ void FacadeModele::modifierAdversaire(SPJoueurAbstrait val)
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
+VISITEUR_FUNC_FUNC_DECLARATION(resetHighlightFlagsFunc)
+{
+    pNoeud->modifierSurligner(false);
+}
 void FacadeModele::resetHighlightFlags()
 {
-    VisiteurFunction visitor([](NoeudAbstrait* n)
-    {
-        n->modifierSurligner(false);
-    });
+    VisiteurFunction visitor(resetHighlightFlagsFunc);
     mEditionField->acceptVisitor(visitor);
 }
 
