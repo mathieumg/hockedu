@@ -13,8 +13,8 @@
 #import <OpenGLES/ES2/glext.h>
 #import "OpenGLWaveFrontObject.h"
 #import "Model.h"
-extern float const LARGEUR_FENETRE;
-extern float const HAUTEUR_FENETRE;
+extern int const LARGEUR_FENETRE;
+extern int const HAUTEUR_FENETRE;
 
 @class EAGLView;
 
@@ -34,6 +34,7 @@ extern float const HAUTEUR_FENETRE;
     Model* mModel;
     float translationX;
     float translationY;
+    float zoomFactor;
 }
 
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;

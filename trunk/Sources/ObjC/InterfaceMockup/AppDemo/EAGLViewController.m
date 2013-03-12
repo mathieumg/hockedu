@@ -9,8 +9,8 @@
 #import "EAGLView.h"
 #define degreesToRadian(x) (M_PI * (x) / 180.0)
 
-float const LARGEUR_FENETRE = 1024;
-float const HAUTEUR_FENETRE = 768;
+int const LARGEUR_FENETRE = 1024;
+int const HAUTEUR_FENETRE = 768;
 // Uniform index.
 enum {
     UNIFORM_TRANSLATE,
@@ -58,6 +58,7 @@ enum {
     mModel = [[Model alloc]init];
     translationX = 0.0;
     translationY = 0.0;
+    zoomFactor = 0.5;
     
     [self.mGLView addSubview:theEAGLView];
     [self.mGLView addSubview:mSideBarView];
@@ -186,6 +187,16 @@ enum {
     }
 }
 
+- (void)updateOrtho
+{
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrthof( ( -( LARGEUR_FENETRE / 2) + translationX ) * zoomFactor, ( (LARGEUR_FENETRE / 2) + translationX) * zoomFactor, ( -(HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor, ( (HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor, 0, 100);
+    
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+}
+
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");            
@@ -210,15 +221,17 @@ enum {
         UITouch *touch = [[event allTouches] anyObject];
         CGPoint positionCourante = [touch locationInView:theEAGLView];
         CGPoint positionPrecedente = [touch previousLocationInView:theEAGLView];
-        /*
-        cube.currentPosition = Vertex3DMake(cube.currentPosition.x + (((positionCourante.x - positionPrecedente.x) / theEAGLView.bounds.size.width) * LARGEUR_FENETRE),
-                                            cube.currentPosition.y - (((positionCourante.y - positionPrecedente.y) / theEAGLView.bounds.size.height) * HAUTEUR_FENETRE), 
-                                            cube.currentPosition.z);
-        */
         
         translationX -= (positionCourante.x - positionPrecedente.x);
         translationY += (positionCourante.y - positionPrecedente.y);
         
+        // Set boundaries for the editing grid, currently 1000x1000, centered at 0,0.
+        /*
+         if( translationX < ( -500 / zoomFactor ) )
+         {
+         translationX = (int)( -500 / zoomFactor );
+         }
+         */
         if( translationX < -500 )
         {
             translationX = -500;
@@ -237,14 +250,43 @@ enum {
             translationY = 500;
         }
         
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrthof(-( LARGEUR_FENETRE / 2) + translationX , (LARGEUR_FENETRE / 2) + translationX, -(HAUTEUR_FENETRE / 2) + translationY, (HAUTEUR_FENETRE / 2) + translationY, 0, 100);
-        
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
+        [self updateOrtho];
     }
+    else if([[event allTouches] count] == 2) {
+        // Poor man's pinch, perhaps implement as a UIGesture later on.
+        
+        // Acquire the position of the two fingers.
+        NSSet *allTouches = [event allTouches];
+        CGPoint positionFingers[4];
+        int index = 0;
+        for(UITouch* touch in allTouches) {            
+            positionFingers[ index++ ] = [touch locationInView:theEAGLView];
+            positionFingers[ index++ ] = [touch previousLocationInView:theEAGLView];
+        }
+        
+        float deltaX = positionFingers[2].x - positionFingers[0].x;
+        float deltaY = positionFingers[2].y - positionFingers[0].y;
 
+        float distance1 = sqrtf( ( pow( deltaX, 2 ) + pow( deltaY, 2 ) ) );
+        
+        deltaX = positionFingers[3].x - positionFingers[1].x;
+        deltaY = positionFingers[3].y - positionFingers[1].y;
+        
+        float distance2 = sqrtf( ( pow( deltaX, 2 ) + pow( deltaY, 2 ) ) );
+        
+        zoomFactor += ( distance2 - distance1 ) * 0.001;
+        
+        if( zoomFactor < 0.2 )
+        {
+            zoomFactor = 0.2;
+        }
+        else if( zoomFactor > 5.0 )
+        {
+            zoomFactor = 5.0;
+        }
+        
+        [self updateOrtho];
+    }
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -268,26 +310,20 @@ enum {
 	glMatrixMode(GL_PROJECTION);
 
     
-	CGRect rect = theEAGLView.bounds; 
+	CGRect rect = theEAGLView.bounds;
     
-    glOrthof(-(LARGEUR_FENETRE / 2), (LARGEUR_FENETRE / 2), -(HAUTEUR_FENETRE / 2), (HAUTEUR_FENETRE / 2), 0, 100);
-    
-	glViewport(0, 0, rect.size.width, rect.size.height);  
-	glMatrixMode(GL_MODELVIEW);
+    glOrthof( ( -( LARGEUR_FENETRE / 2) + translationX ) * zoomFactor, ( (LARGEUR_FENETRE / 2) + translationX) * zoomFactor, ( -(HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor, ( (HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor, 0, 100);
 
-	glLoadIdentity(); 
+    
+	glViewport(0, 0, rect.size.width, rect.size.height);
+    
+    
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
 	glClearColor(0.3765, 0.4039, 0.4862, 1.0); //Background color for the editing area.
 		
 	glGetError(); // Clear error codes
-	
-    /*
-	NSString *path = [[NSBundle mainBundle] pathForResource:@"cube" ofType:@"obj"];
-	OpenGLWaveFrontObject *theObject = [[OpenGLWaveFrontObject alloc] initWithPath:path];
-	Vertex3D position = Vertex3DMake(0.0, 0.0, -50.0);
-	theObject.currentPosition = position;
-	self.cube = theObject;
-	//[theObject release];
-    */
 }
 
 
@@ -298,107 +334,54 @@ enum {
 	static GLfloat rotation = 0.0;
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glLoadIdentity();
     
     // Draw the background grid.
     glColor4f( 1.0, 1.0, 1.0, 1.0 );
-
     
-    int x1 = translationX - LARGEUR_FENETRE / 2.0;
-    int x2 = translationX + LARGEUR_FENETRE / 2.0;
-    int y1 = translationY - HAUTEUR_FENETRE / 2.0;
-    int y2 = translationY + HAUTEUR_FENETRE / 2.0;
+    int x1 = translationX - LARGEUR_FENETRE / 2;
+    int x2 = translationX + LARGEUR_FENETRE / 2;
+    int y1 = translationY - HAUTEUR_FENETRE / 2;
+    int y2 = translationY + HAUTEUR_FENETRE / 2;
     
     const int intervalle = 50;
+    const int zValue = -5;
     const int size = ( ( ( LARGEUR_FENETRE + HAUTEUR_FENETRE ) / intervalle ) + 5 ) * 3 * 2;
     GLfloat vertices[ size ];
     
     int count = 0;
+    // Vertical lines.
     for( int a = x1 - x1 % intervalle; a < x2; a += intervalle )
     {
         vertices[ count++ ] = a;
         vertices[ count++ ] = y1;
-        vertices[ count++ ] = -5;
+        vertices[ count++ ] = zValue;
         
         vertices[ count++ ] = a;
         vertices[ count++ ] = y2;
-        vertices[ count++ ] = -5;
+        vertices[ count++ ] = zValue;
     }
     
+    // Horizontal lines.
     for( int a = y1 - y1 % intervalle; a < y2; a += intervalle )
     {
         vertices[ count++ ] = x1;
         vertices[ count++ ] = a;
-        vertices[ count++ ] = -5;
+        vertices[ count++ ] = zValue;
         
         vertices[ count++ ] = x2;
         vertices[ count++ ] = a;
-        vertices[ count++ ] = -5;
+        vertices[ count++ ] = zValue;
     }
-    
-    /*
-    for( int count = 0, i = 0; i < 16; i++ ) {
-        // Vertical lines.
-        vertices[count++] = 400 - i * 50;
-        vertices[count++] = -400;
-        vertices[count++] = -5;
-        
-        vertices[count++] = 400 - i * 50;
-        vertices[count++] = 400;
-        vertices[count++] = -5;
-        
-        // Horizontal lines.
-        vertices[count++] = -400;
-        vertices[count++] = 400 - i * 50;
-        vertices[count++] = -5;
-        
-        vertices[count++] = 400;
-        vertices[count++] = 400 - i * 50;
-        vertices[count++] = -5;
-    }
-    */
     
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, vertices);
     glDrawArrays(GL_LINES, 0, count / 3);
     glDisableClientState(GL_VERTEX_ARRAY);
     
-    //[cube drawSelf];
+    
     glEnableClientState(GL_VERTEX_ARRAY);
     [mModel render];
     glDisableClientState(GL_VERTEX_ARRAY);
-    
-    // Dessiner les shit ici
-    //Vertex3D    vertex1 = Vertex3DMake(0.0, 50.0, -50.0);
-    //Vertex3D    vertex2 = Vertex3DMake(50.0, 0.0, -50.0);
-    //Vertex3D    vertex3 = Vertex3DMake(-50.0, 0.0, -50.0);
-    //Triangle3D  triangle = Triangle3DMake(vertex1, vertex2, vertex3);
-    
-    /*
-    glLoadIdentity();
-    glClearColor(0.7, 0.7, 0.7, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glColor4f(1.0, 0.0, 0.0, 1.0);
-    glVertexPointer(3, GL_FLOAT, 0, &triangle);
-    glDrawArrays(GL_TRIANGLES, 0, 9);
-    glDisableClientState(GL_VERTEX_ARRAY);
-    */
-    /*glClearColor(0, 0, 0, 0);
-    glClear(GL_COLOR_BUFFER_BIT);
-    glPushMatrix();
-    glLoadIdentity();
-    glColor(0.0f,1.0f,0.0f);
-    glBegin(GL_LINE_LOOP);
-    
-    static const float jump = 3.1415926535/10.f;
-    const float radius = 50;
-    for (float i=0; i < 3.1415926535; i+=jump)
-    {
-        glVertex2f(cos(i)*radius,sin(i)*radius);
-    }
-    
-    glEnd();*/
     
 	static NSTimeInterval lastDrawTime;
 	if (lastDrawTime)
