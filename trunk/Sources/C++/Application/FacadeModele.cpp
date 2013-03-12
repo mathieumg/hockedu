@@ -218,6 +218,11 @@ void FacadeModele::libererInstance()
     // temp fix, on libère le hud a la fin, car certain 
     // destructeur manipule le HUD
     GestionnaireHUD::libererInstance();
+
+    checkf(!!ConfigScene::Exists());
+    checkf(!!SoundFMOD::Exists());
+    checkf(!!GestionnaireHUD::Exists());
+    checkf(!!FacadeModele::Exists());
 }
 
 
