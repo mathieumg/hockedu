@@ -43,7 +43,7 @@ public:
     virtual bool requireAuthentification() const {return false;}
 
     // Pas d'authentification par defaut, retourne toujours true
-    virtual bool authenticate(const std::string& pUsername, const std::string& pPassword) {return true;}
+    virtual std::string authenticate(const std::string& pUsername, const std::string& pPassword) {return "";}
 
 protected:
     std::hash_map<PaquetTypes, PaquetRunnableFunc> mPaquetRunnables;

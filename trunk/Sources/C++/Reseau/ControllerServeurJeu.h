@@ -32,7 +32,7 @@ public:
     virtual int getNbConnectionMax() const {return 2;} // Max de 2 personnes connectees pour le serveur jeu
 
 private:
-
+    unsigned int mServerId;
 };
 
 

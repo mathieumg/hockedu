@@ -25,7 +25,7 @@
 int PaquetRunnable::RunnableEvent( Paquet* pPaquet )
 {
     PaquetEvent* wPaquet = (PaquetEvent*) pPaquet;
-    GestionnaireReseau::obtenirInstance()->transmitEvent(EventCodes(wPaquet->getErrorCode()), wPaquet->getMessage());
+    GestionnaireReseau::obtenirInstance()->transmitEvent(EventCodes(wPaquet->getEventCode()), wPaquet->getMessage().c_str());
 
     wPaquet->removeAssociatedQuery(); // delete
     return 0;

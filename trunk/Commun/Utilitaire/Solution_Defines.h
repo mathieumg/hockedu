@@ -19,6 +19,8 @@
 
 #define BOX2D_DEBUG BOX2D_INTEGRATED && !SHIPPING && 1
 
+#define HANDLE_CHARACTERE_0 0
+
 // Optimization macros (uses __pragma to enable inside a #define).
 #if WIN32
 
@@ -42,7 +44,12 @@
 #else
 #define PRAGMA_ENABLE_OPTIMIZATION
 #endif
-
+// Méthode utilitaire
+#ifdef WINDOWS
+typedef char *  va_list;
+#elif defined(LINUX)
+#include <cstdio>
+#endif
 
 
 /// Solution utilities
@@ -64,12 +71,6 @@ void appDebugBreak();
 #define ARRAY_COUNT( array ) \
     ( sizeof(array) / sizeof((array)[0]) )
 
-// Méthode utilitaire
-#ifdef WINDOWS
-typedef char *  va_list;
-#elif defined(LINUX)
-#include <cstdio>
-#endif
 int GetVarArgs( char* Dest, int DestSize, int Count, const char*& Fmt, va_list ArgPtr );
 #define GET_VARARGS(msg,msgsize,len,lastarg,fmt) { va_list ap; va_start(ap,lastarg);GetVarArgs(msg,msgsize,len,fmt,ap); }
 

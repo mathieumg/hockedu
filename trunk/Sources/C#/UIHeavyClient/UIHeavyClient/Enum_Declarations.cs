@@ -75,13 +75,9 @@ namespace UIHeavyClient
 
         MODEL_EVENT_END,
         /// Model event category : end
-
-
-
-
-
-
-
+        
+        GAME_SERVER_AUTHENTICATION_REQUEST,
+        GAME_SERVER_AUTHENTICATION_REPLY,
 
         NB_EVENT_CODES // Must be always last !
     };

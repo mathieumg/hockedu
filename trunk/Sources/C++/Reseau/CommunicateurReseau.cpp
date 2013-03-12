@@ -25,6 +25,7 @@
 #include "Utilitaire.h"
 #include <sstream>
 #include <time.h>
+#include "../ServeurMaitre/ControllerServeurMaitre.h"
 
 #if !WINDOWS
 #define sprintf_s sprintf
@@ -627,7 +628,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                                     HeaderPaquet wPacketHeader = PacketHandler::handlePacketHeaderReception(wPacketReader);
                                     wPacketReader.setSize(wReceivedBytes);
                                     bool wTaillePaquetValide = wPacketHeader.taillePaquet > wReceivedBytes;
-									// Ne devrait pas planter, mais laisser une trace dans le log
+                                    // Ne devrait pas planter, mais laisser une trace dans le log
                                     //checkf(wTaillePaquetValide, "Probleme avec lecture du header du paquet"); // Si trigger, probleme avec lecture du header du paquet (big trouble)
                                     if( !wTaillePaquetValide )
                                     {
@@ -641,7 +642,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                                         wPacketReader.append(wReceivedBytes, readBuffer);
                                         wTailleRestanteALire = (int) (wPacketHeader.taillePaquet - wReceivedBytes);
                                         ++wNbTries;
-                                        if(wNbTries > 10000) // Prevent infinite loop
+                                        if(wNbTries > 100) // Prevent infinite loop
                                         {
                                             throw ExceptionReseau("Erreur de reception du message. Loop infinie");
                                         }
@@ -651,8 +652,6 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                                 }
                                 wPacketReader.clearBuffer();
                             }
-
-
                             break;
                         }
                     }
@@ -868,6 +867,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
                 // On verifie que le user n'est pas deja connecte
                 if(GestionnaireReseau::obtenirInstance()->getSocket(wPlayerName, TCP) == NULL)
                 {
+                    std::string pSocketIdentifier;
                     // On verifie finalement l'authentification
                     if(GestionnaireReseau::obtenirInstance()->requireAuthentification())
                     {
@@ -883,7 +883,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
                         }
                         wNewSocket->recv((uint8_t*) &wPassword, 50, true);
 
-                        if(!GestionnaireReseau::obtenirInstance()->authenticate(wPlayerName, wPassword))
+                        if((pSocketIdentifier = GestionnaireReseau::obtenirInstance()->authenticate(wPlayerName, wPassword)) == "")
                         {
                             // Connexion rejetee
                             wMessageConfirmation = WRONG_PASSWORD;
@@ -901,7 +901,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
 
                     }
 
-                    std::cout << wPlayerName << " Connected" << std::endl;
+                    std::cout << pSocketIdentifier << " Connected" << std::endl;
                     // On envoit un message de confirmation pour dire que la conenction est acceptee
 
                     char wMessageConfirmation[4];
@@ -909,10 +909,8 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
                     wNewSocket->send((uint8_t*)wMessageConfirmation, len, true);
 
                     // On ajoute le nouveau socket au gestionnaire reseau (avec son nom obtenu dans le paquet)
-                    GestionnaireReseau::obtenirInstance()->saveSocket(std::string(wPlayerName), wNewSocket);
+                    GestionnaireReseau::obtenirInstance()->saveSocket(pSocketIdentifier, wNewSocket);
                     wNewSocket->setConnectionState(CONNECTED);
-
-
                 }
                 else
                 {
@@ -926,11 +924,6 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
                     wNewSocket = 0;
                 }
             }
-
-
-
-
-
         }
         catch(ExceptionReseauTimeout&)
         {
