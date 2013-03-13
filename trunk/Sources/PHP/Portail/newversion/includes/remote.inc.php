@@ -33,7 +33,7 @@ switch( $remoteModule )
         break;
         
     default:
-        $commonAjaxModule = false;
+        $commonRemoteModule = false;
 }
 
 if( !$commonRemoteModule )
@@ -77,10 +77,11 @@ if( !$commonRemoteModule )
                     }
                     else
                     {
-                        $authenticationData = $Common->getAuthenticationData( $_POST['username'], $_POST['password'] );
                         
-                        $jsonResponse['auth_key'] = $authenticationData['auth_key'];
-                        $jsonResponse['auth_key_expiration'] = $authenticationData['auth_key_expiration'];
+						$authenticationData = $Common->getCurrentAuthenticationData();
+                        
+                        $jsonResponse['auth_key'] = $authenticationData['key'];
+                        $jsonResponse['auth_key_expiration'] = (int)$authenticationData['expiration'];
                     }
                 }
         }
