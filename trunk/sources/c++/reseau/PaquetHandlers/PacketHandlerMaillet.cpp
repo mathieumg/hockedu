@@ -11,9 +11,14 @@ void PacketHandlerMaillet::handlePacketReceptionSpecific(PacketReader& pPacketRe
     {
         PaquetMaillet* wPaquet = (PaquetMaillet*) GestionnaireReseau::obtenirInstance()->creerPaquet(MAILLET);
 
+        wPaquet->setGameId(pPacketReader.readInteger());
+
         float wX = pPacketReader.readFloat();
         float wY = pPacketReader.readFloat();
         wPaquet->setPosition(Vecteur3(wX, wY, 0));
+
+        wPaquet->setEstAGauche(pPacketReader.readBool());
+
 
         wPaquet->setRunnable(pRunnable);
         wPaquet->run();
@@ -27,8 +32,11 @@ void PacketHandlerMaillet::handlePacketPreparationSpecific(Paquet* pPaquet, Pack
 {
     PaquetMaillet* wPaquet = (PaquetMaillet*) pPaquet;
 
-    pPacketBuilder  << wPaquet->getPosition()[VX]
-                    << wPaquet->getPosition()[VY];
+
+    pPacketBuilder  << wPaquet->getGameId()
+                    << wPaquet->getPosition()[VX]
+                    << wPaquet->getPosition()[VY]
+                    << wPaquet->getEstAGauche();
 
 }
 
@@ -38,6 +46,6 @@ int PacketHandlerMaillet::getPacketSizeSpecific( Paquet* pPaquet ) const
 {
     PaquetMaillet* wPaquet = (PaquetMaillet*) pPaquet;
 
-    return 2* getSizeForFloat();
+    return getSizeForInt() + 2* getSizeForFloat() + getSizeForBool();
 
 }

@@ -10,6 +10,7 @@
 
 #include "RelayeurMessage.h"
 
+
 // Initialisations automatiques
 SINGLETON_DECLARATION_CPP(RelayeurMessage);
 
@@ -102,6 +103,36 @@ void RelayeurMessage::relayerPaquet( const std::string& pPlayerName, Paquet* pPa
         pPaquet->removeAssociatedQuery();
     }
     
+}
+
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void RelayeurMessage::relayerPaquetGame( int pGameId, Paquet* pPaquet, ConnectionType /*= TCP*/ )
+///
+/// Methode pour relayer un Paquet a tous les clients connectes a une certaine partie
+///
+/// @param[in] int                              : Id de la partie ou le paquet doit etre relaye
+/// @param[in] Paquet* pPaquet                  : Paquet a relayer
+/// @param[in] ConnectionType pConnectionType   : Type de connection
+/// 
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void RelayeurMessage::relayerPaquetGame( int pGameId, Paquet* pPaquet, ConnectionType pConnectionType /*= TCP*/ )
+{
+    // Va chercher la liste des joueurs
+    std::vector<const std::string*> wPlayersList;
+    GestionnaireReseau::obtenirInstance()->getController()->getPlayersInGame(pGameId, wPlayersList);
+    pPaquet->setNbAssociatedQueries(wPlayersList.size());
+
+    for(auto it = wPlayersList.begin(); it != wPlayersList.end(); ++it)
+    {
+        relayerPaquet(*(*it), pPaquet, pConnectionType);
+    }
+    
+
 }
 
 

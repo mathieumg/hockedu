@@ -33,6 +33,9 @@ public:
     virtual bool requireAuthentification() const {return true;}
 
     virtual std::string authenticate( const std::string& pUsername, const std::string& pPassword );
+
+    virtual void getPlayersInGame( int pGameId, std::vector<const std::string*>& pPlayerList );
+
 private:
     std::hash_map<unsigned int, std::string> mGameServersList;
     static unsigned int mNewGameServerId;
