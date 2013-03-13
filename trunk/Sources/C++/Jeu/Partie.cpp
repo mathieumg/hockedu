@@ -763,10 +763,32 @@ void Partie::animer( const float& temps )
 {
     chiffres_->animer(temps);
     mField->animerTerrain(temps);
-    if(estPret() && !estEnPause() && !partieTerminee() && !GestionnaireAnimations::obtenirInstance()->estJouerReplay())
+    if(!GestionnaireAnimations::obtenirInstance()->estJouerReplay())
     {
-        // Gestion de la physique du jeu
-        mField->appliquerPhysique(temps);
+        auto zamboni = mField->getZamboni();
+        if(estPret() && !estEnPause() && !partieTerminee())
+        {
+            if(zamboni)
+            {
+                zamboni->assignerAffiche(false);
+                zamboni->setPosition(Vecteur3());
+            }
+            // Gestion de la physique du jeu
+            mField->appliquerPhysique(temps);
+        }
+        else
+        {
+            if(zamboni)
+            {
+                zamboni->assignerAffiche(true);
+            }
+            Vecteur3 pos = zamboni->getPosition();
+            auto angle = utilitaire::DEG_TO_RAD(zamboni->obtenirAngle());
+            Vecteur3 direction;
+            direction[VX] = cos(angle);
+            direction[VY] = sin(angle);
+            zamboni->setPosition(pos+direction);
+        }
     }
 }
 

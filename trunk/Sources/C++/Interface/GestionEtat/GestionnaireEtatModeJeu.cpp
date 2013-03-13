@@ -98,10 +98,21 @@ void GestionnaireEtatModeJeu::toucheEnfoncee(EvenementClavier& evenementClavier)
 	
 	// VERIF ETAT PAUSE
 	if(touche==VJAK_SHIFT)
+    {
 		shiftEnfonce_ = true;
+    }
+    else if(touche == VJAK_SPACE)
+    {
+        if(mGame)
+        {
+            mGame->modifierEnPause(!mGame->estEnPause());
+        }
+    }
 	else
+    {
 		toucheSauvegardee_ = touche;
-
+    }
+    
 }
 
 

@@ -72,6 +72,7 @@ Terrain::Terrain(Partie* pGame): mLogicTree(NULL), mNewNodeTree(NULL), mTable(NU
     {
         mEditionZone = new ZoneEdition();
     }
+    mZamboni = new NoeudAffichage(RazerGameUtilities::NAME_ZAMBONI);
 #if BOX2D_INTEGRATED
     b2Vec2 gravity(0,0);
     mWorld = new b2World(gravity);
@@ -114,6 +115,11 @@ Terrain::~Terrain()
         mWorld = NULL;
     }
 #endif
+    if(mZamboni)
+    {
+        delete mZamboni;
+    }
+    mZamboni = NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -242,6 +248,7 @@ void Terrain::initialiserArbreRendu()
         mRenderTree = new ArbreRendu(this);
         NoeudAbstrait* piece = new NoeudPiece(RazerGameUtilities::NOM_HOUSE);
         mRenderTree->ajouter(piece);
+        mRenderTree->ajouter(mZamboni);
     }
     if(!mGame)
     {
@@ -300,6 +307,7 @@ bool Terrain::initialiserXml( XmlElement* element )
         mRenderTree = new ArbreRendu(this);
         NoeudAbstrait* piece = new NoeudPiece(RazerGameUtilities::NOM_HOUSE);
         mRenderTree->ajouter(piece);
+        mRenderTree->ajouter(mZamboni);
     }
     if(!mGame)
     {
