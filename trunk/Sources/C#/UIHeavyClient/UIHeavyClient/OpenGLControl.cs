@@ -13,8 +13,8 @@ namespace UIHeavyClient
 {
     public partial class OpenGLControl : UserControl
     {
-        static System.Windows.Forms.Timer mRenderTimer = new System.Windows.Forms.Timer();
-        static System.Windows.Forms.Timer mLogicalTimer = new System.Windows.Forms.Timer();
+        public static System.Windows.Forms.Timer mRenderTimer = new System.Windows.Forms.Timer();
+        public static System.Windows.Forms.Timer mLogicalTimer = new System.Windows.Forms.Timer();
 
         [DllImport(@"RazerGame.dll")]
         static extern void InitOpenGL(IntPtr hWnd);

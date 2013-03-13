@@ -141,7 +141,7 @@ int PaquetRunnable::RunnableChatMessageServerGame( Paquet* pPaquet )
 int PaquetRunnable::RunnableUserStatusServerGame( Paquet* pPaquet )
 {
     PaquetUserStatus* wPaquet = (PaquetUserStatus*) pPaquet;
-    throw std::runtime_error("Not yet implemented");
+    //throw std::runtime_error("Not yet implemented");
 
     return 0;
 }

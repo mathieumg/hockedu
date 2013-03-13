@@ -61,6 +61,8 @@ namespace UIHeavyClient
         SERVER_USER_CONNECTED,
         SERVER_USER_DISCONNECTED,
         SERVER_USER_CONNECTING,
+        GAME_SERVER_AUTHENTICATION_REQUEST,
+        GAME_SERVER_AUTHENTICATION_REPLY,
         SERVER_EVENT_END,
         /// Network event category : end
 
@@ -78,7 +80,8 @@ namespace UIHeavyClient
 
         MODEL_EVENT_END,
         /// Model event category : end
-
+        
+        
 
         NB_EVENT_CODES // Must be always last !
     };

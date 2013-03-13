@@ -858,16 +858,7 @@ bool NoeudTable::initialiser( const XmlElement* element )
             }
             else
             {
-                auto node = treeRoot->creerNoeud(name);
-                if(node)
-                {
-                    ajouter(node);
-                    node->initialiser(child);
-                }
-                else
-                {
-                    throw ExceptionJeu("Error creating node : %s",name);
-                }
+                CreateAndInitNodesFromXml(child);
             }
         }
     }

@@ -240,15 +240,6 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
                 selected += visiteur.getNbSelected();
 			}
 
-            if(selected > 0)
-            {
-                FacadeModele::transmitEvent(THERE_ARE_NODES_SELECTED);
-            }
-            else
-            {
-                FacadeModele::transmitEvent(THERE_ARE_NO_NODE_SELECTED);
-            }
-
 			//glMatrixMode( GL_PROJECTION );
 		//	glPopMatrix();
 		//	glMatrixMode( GL_MODELVIEW );

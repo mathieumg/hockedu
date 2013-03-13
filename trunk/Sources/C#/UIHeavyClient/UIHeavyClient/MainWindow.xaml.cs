@@ -48,11 +48,7 @@ namespace UIHeavyClient
         {
             get { return mOpenGLControl; }
         }
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            FreeApplicationMemory();
-            ConsoleManager.Hide();
-        }
+
         public EditionModeControl EditionModeControl
         {
             get { return mEditionModeControl; }
@@ -99,6 +95,14 @@ namespace UIHeavyClient
         public static extern void InitDLL();
         [DllImport(@"RazerGame.dll")]
         public static extern void FreeApplicationMemory();
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            OpenGLControl.mRenderTimer.Stop();
+            OpenGLControl.mLogicalTimer.Stop();
+            FreeApplicationMemory();
+            ConsoleManager.Hide();
+        }
 
         public void CreateUserControl(object sender, EventArgs e)
         {

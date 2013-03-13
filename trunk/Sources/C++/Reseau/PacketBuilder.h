@@ -20,8 +20,13 @@ typedef uint8_t ByteOrder;
 namespace
 {
     // Methode pour avoir la taille d'un string qui doit etre envoye par le network
+#if HANDLE_CHARACTERE_0
+#define getSizeForString(pString) ((int) (4 + pString.length())) // 5 = 4 pour le int et 1 pour caractere de fin
+#define getSizeForStringNoStringSize(pString) ((int) (pString.length() )) // 1 pour caractere de fin
+#else
 #define getSizeForString(pString) ((int) (5 + pString.length() )) // 5 = 4 pour le int et 1 pour caractere de fin
 #define getSizeForStringNoStringSize(pString) ((int) (1 + pString.length() )) // 1 pour caractere de fin
+#endif
 
     // Methode pour avoir la taille d'un int qui doit etre envoye par le network
 #define getSizeForInt() (sizeof(int))

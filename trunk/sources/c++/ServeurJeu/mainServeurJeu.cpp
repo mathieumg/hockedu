@@ -34,7 +34,7 @@ int main(int argc, char* argv[])  {
     
     std::cout << "--------- Serveur Jeu ---------" << std::endl << std::endl;
 
-    std::string wMasterServerIP = "173.177.0.193"; // Adresse par defaut du serveur maitre
+    std::string wMasterServerIP = "127.0.0.1"; // Adresse par defaut du serveur maitre
 
     
     //********** Liste des flags
@@ -67,23 +67,12 @@ int main(int argc, char* argv[])  {
         return -1;
     }
 
-
-
-
-
     // Appel a la fonction d'initialisation
-    InitDLLServeurJeu();
+    InitDLLServeurJeu(wMasterServerIP);
 
     
     // On s'authentifie au serveur maitre (localhost opur l'instant)
     // Connexion au serveur maitre
-
-
-
-
-
-
-
 
 
     // To prevend the server to exit without killing it

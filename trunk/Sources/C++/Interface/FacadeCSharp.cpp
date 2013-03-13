@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include "ExceptionJeu.h"
+#include "Terrain.h"
 #include "..\reseau\UsinePaquets\UsinePaquetMaillet.h"
 #include "..\reseau\PaquetHandlers\PacketHandler.h"
 
@@ -604,7 +605,7 @@ void AddRadioPlaylist(char* pPlaylist, char** pSongs, int pNbrSongs)
 
 bool TerrainHasDeletable()
 {
-    return true;
+    return FacadeModele::getInstance()->getEditionField()->CanSelectedNodeBeDeleted();
 }
 
 

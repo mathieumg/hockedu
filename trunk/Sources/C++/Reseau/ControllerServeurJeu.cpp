@@ -22,7 +22,7 @@ ControllerServeurJeu::ControllerServeurJeu()
     mPaquetRunnables[USER_STATUS]                   = PaquetRunnable::RunnableUserStatusServerGame;
     mPaquetRunnables[CHAT_MESSAGE]                  = PaquetRunnable::RunnableChatMessageServerGame;
     mPaquetRunnables[GAME_STATUS]                   = PaquetRunnable::RunnableGameStatusServerGame;
-    mPaquetRunnables[AUTHENTIFICATION_SERVEUR_JEU]  = PaquetRunnable::RunnableAuthentificationServeurJeuServerGame;
+    //mPaquetRunnables[AUTHENTIFICATION_SERVEUR_JEU]  = PaquetRunnable::RunnableAuthentificationServeurJeuServerGame;
     mPaquetRunnables[MAILLET]                       = PaquetRunnable::RunnableMailletServer;
 
 }
@@ -51,6 +51,16 @@ void ControllerServeurJeu::handleEvent( EventCodes pEventCode, va_list pListeEle
                 // Handle deconnection
                 throw ExceptionReseauSocketDeconnecte("Socket deconnecte");
             }
+            break;
+        }
+    case GAME_SERVER_AUTHENTICATION_REPLY:
+        {
+            char* mes = va_arg(pListeElems, char*);
+            mServerId = atoi(mes);
+            //mServerId = *((unsigned int*)wTempServerId.c_str());
+#if !SHIPPING
+            std::cout << "Game server registered successfully - ID: " << mServerId << std::endl;
+#endif
             break;
         }
     default:

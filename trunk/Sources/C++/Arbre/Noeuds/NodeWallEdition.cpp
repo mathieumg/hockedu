@@ -11,6 +11,7 @@
 #include "NodeWallEdition.h"
 #include "Utilitaire.h"
 #include "NodeControlPoint.h"
+#include "VisiteurNoeud.h"
 
 #ifdef MIKE_DEBUG
 PRAGMA_DISABLE_OPTIMIZATION
@@ -162,6 +163,7 @@ bool NodeWallEdition::initialiser( const XmlElement* element )
     if(!Super::initialiser(element))
         return false;
 
+    int count = 0;
     // Lecture des position a partir de point de control
     for( auto child = XMLUtils::FirstChildElement(element); child; child = XMLUtils::NextSibling(child) )
     {
@@ -177,7 +179,17 @@ bool NodeWallEdition::initialiser( const XmlElement* element )
         {
             delete point;
         }
+        else
+        {
+            ++count;
+        }
     }
+
+    if(count != 2)
+    {
+        throw ExceptionJeu("Wall Node: missing control node to initialise");
+    }
+
     return true;
 }
 
@@ -225,6 +237,22 @@ void NodeWallEdition::onRemoveControlPoint( NodeControlPoint* point )
     updateWallProperties();
 }
 
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn NoeudMuret::acceptVisitor( const VisiteurNoeud& v )
+///
+/// Permet d'indiquer au visiteur le type concret du noeud courant
+///
+/// @param[in] VisiteurNoeud & v : Le visiteur du noeud
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NodeWallEdition::acceptVisitor( VisiteurNoeud& v )
+{
+    v.visiterNoeudMuretEdition(this);
+}
 
 #ifdef MIKE_BUILD
 PRAGMA_ENABLE_OPTIMIZATION

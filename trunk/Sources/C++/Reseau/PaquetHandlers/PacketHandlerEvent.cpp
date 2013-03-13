@@ -14,7 +14,7 @@ void PacketHandlerEvent::handlePacketReceptionSpecific(PacketReader& pPacketRead
         pPacketReader.readString(wBuffer, wArraySize);
         wPaquet->setMessage((char*)wBuffer);
         delete wBuffer;
-        wPaquet->setErrorCode(pPacketReader.readInteger());
+        wPaquet->setEventCode(pPacketReader.readInteger());
 
         wPaquet->setRunnable(pRunnable);
         wPaquet->run();
@@ -33,7 +33,7 @@ void PacketHandlerEvent::handlePacketPreparationSpecific(Paquet* pPaquet, Packet
     PaquetEvent* wPaquet = (PaquetEvent*) pPaquet;
 
     pPacketBuilder << wPaquet->getMessage()
-        << wPaquet->getErrorCode();
+        << wPaquet->getEventCode();
 
 }
 
