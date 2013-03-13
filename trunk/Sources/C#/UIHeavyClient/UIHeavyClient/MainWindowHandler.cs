@@ -69,6 +69,7 @@ namespace UIHeavyClient
             Context.WindowContentControl.Content = Context.EditionModeControl;
             Context.PlayModeControl.RemoveOpenGL();
             Context.EditionModeControl.AppendOpenGL();
+            Context.EditionModeControl.InitButtons();
         }
 
         public static void GoToPlayMode()

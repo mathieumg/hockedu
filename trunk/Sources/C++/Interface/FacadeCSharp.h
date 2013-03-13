@@ -80,6 +80,8 @@ extern "C"
     __declspec(dllexport) void GenerateDefaultField();
     __declspec(dllexport) bool ValidateField();
 
+
+    __declspec(dllexport) bool TerrainHasDeletable();
     
 	// Load/Save calls
     __declspec(dllexport) void SaveMap(char* pFileName);

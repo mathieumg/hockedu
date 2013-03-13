@@ -20,7 +20,7 @@
                 <MenuItem Header="Keyboard Control"/>
             </MenuItem>
             <MenuItem Header="Online Mode">
-                <MenuItem Header="Connect"/>
+                <MenuItem Header="Connect" Click="ConnectToServer"/>
                 <MenuItem Header="Disconnect"/>
                 <MenuItem Header="Web Site" Click="OpenWebSite"/>
             </MenuItem>

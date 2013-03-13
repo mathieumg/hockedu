@@ -1508,7 +1508,7 @@ float Terrain::GetTableWidth() const
 ////////////////////////////////////////////////////////////////////////
 void Terrain::NodeSelectionNotification( NoeudAbstrait* node, bool selected )
 {
-    int nbSelectedOld = mSelectedNodes.size();
+    int nbSelectedOld = (int)mSelectedNodes.size();
     if(selected)
     {
         mSelectedNodes.insert(node);
@@ -1521,18 +1521,18 @@ void Terrain::NodeSelectionNotification( NoeudAbstrait* node, bool selected )
             mSelectedNodes.erase(it);
         }
     }
-    int nbSelectedNew = mSelectedNodes.size();
+    int nbSelectedNew = (int)mSelectedNodes.size();
     if(nbSelectedOld != nbSelectedNew)
     {
-        if(nbSelectedOld == 0)
-        {
-            // selection present
-            //FacadeModele::transmitEvent();
-        }
-        else if( nbSelectedNew == 0 )
+        if( nbSelectedNew == 0 )
         {
             // no more item selected
-            //FacadeModele::transmitEvent();
+            FacadeModele::transmitEvent(THERE_ARE_NO_NODE_SELECTED);
+        }
+        else
+        {
+            // selection present
+            FacadeModele::transmitEvent(THERE_ARE_NODES_SELECTED);
         }
     }
 }

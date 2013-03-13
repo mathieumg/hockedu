@@ -37,6 +37,8 @@ namespace UIHeavyClient
         private AIOptionControl mAIOptionControl;
         private KeyboardOptionControl mKeyboardOptionControl;
 
+        private LoginWindow mLoginWindow;
+
         private OpenGLControl mOpenGLControl;
         private WindowsFormsHost mWindowFormsHost;
         
@@ -123,6 +125,8 @@ namespace UIHeavyClient
             mRadioOptionControl = new RadioOptionControl();
             mAIOptionControl = new AIOptionControl();
             mKeyboardOptionControl = new KeyboardOptionControl();
+
+            mLoginWindow = new LoginWindow();
 
             this.WindowContentControl.Content = mMainMenuControl;
             MainWindowHandler.GoToMainMenu();
@@ -217,7 +221,12 @@ namespace UIHeavyClient
         {
             System.Diagnostics.Process.Start("http://www.hockedu.com");
         }
-      
+
+
+        private void ConnectToServer(object sender, RoutedEventArgs e)
+        {
+            mLoginWindow.ShowDialog();
+        }
 
         void MainWindow_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {

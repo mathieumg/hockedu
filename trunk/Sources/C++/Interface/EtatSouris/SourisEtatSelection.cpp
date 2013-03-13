@@ -224,6 +224,7 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 				}
 			}
 			
+            int selected = 0;
 			ConteneurIdNoeuds::const_iterator iter = liste.begin();
 			for(; iter != liste.end(); iter++)
 			{
@@ -235,9 +236,9 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 				}
 				else
 					FacadeModele::getInstance()->acceptVisitor(visiteur);
+
+                selected += visiteur.getNbSelected();
 			}
-
-
 
 			//glMatrixMode( GL_PROJECTION );
 		//	glPopMatrix();

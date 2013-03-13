@@ -28,6 +28,8 @@ namespace UIHeavyClient
         Dictionary<object, string> mGuidanceInstructions;
         Dictionary<object, ActionType> mActionPerformedStrings;
 
+        Button mLastClickedButton;
+
         EventReceivedCallBack mEventCallBack = EditionModeEventReceived;
         public EventReceivedCallBack EventCallBack
         {
@@ -68,6 +70,25 @@ namespace UIHeavyClient
                             control.mMalletButton.IsEnabled = false;
                         });
                         break;
+                    case EventCodes.THERE_ARE_NODES_SELECTED:
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                            if (TerrainHasDeletable())
+                            {
+                                control.mDeleteButton.IsEnabled = true;
+                            }
+                            else
+                            {
+                                control.mDeleteButton.IsEnabled = false;
+                            }
+                        });
+                        break;
+                    case EventCodes.THERE_ARE_NO_NODE_SELECTED:
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                            control.mDeleteButton.IsEnabled = false;
+                        });
+                        break;
                     default:
                         break;
                 }
@@ -95,12 +116,12 @@ namespace UIHeavyClient
                 {mPortalButton, "Will warp the puck to another portal on the map"},
                 {mBonusButton, "A random bonus that will sometime appear"},
 
-                {mFreeStateRadio, "Move the camera"},
-                {mMoveStateRadio, "Move selected objects"},
-                {mRotateStateRadio, "Rotate selected objects"},
-                {mScaleStateRadio, "Scale selected objects"},
-                {mSelectStateRadio, "Select objects"},
-                {mZoomStateRadio, "Zoom with the camera"},
+                {mFreeStateButton, "Move the camera"},
+                {mMoveStateButton, "Move selected objects"},
+                {mRotateStateButton, "Rotate selected objects"},
+                {mScaleStateButton, "Scale selected objects"},
+                {mSelectStateButton, "Select objects"},
+                {mZoomStateButton, "Zoom with the camera"},
 
                 {mFreeCameraRadio, "Free camera that can move anywhere in the 3D map"},
                 {mOrbitalCameraRadio, "Camera that can only turn around a fixed point"},
@@ -121,12 +142,12 @@ namespace UIHeavyClient
                 {mPortalButton, "Click on the map to place a portal. The puck will warp between the placed portals. You must place at least two of them to experiment their effect."},
                 {mBonusButton, "Click on the map to choose a spot where a random bonus could appear. A random bonus can ???"},
 
-                {mFreeStateRadio, "Drag the mouse to move tha camera."},
-                {mMoveStateRadio, "Drag the mouse to move the selected objects."},
-                {mRotateStateRadio, "Drag the mouse to rotate selected objects."},
-                {mScaleStateRadio, "Drag the mouse to scale selected objects."},
-                {mSelectStateRadio, "Click on objects to select them."},
-                {mZoomStateRadio, "Drag the mouse to zoom. Draw a smaller rectangle to make a bigger zoom!"},
+                {mFreeStateButton, "Drag the mouse to move tha camera."},
+                {mMoveStateButton, "Drag the mouse to move the selected objects."},
+                {mRotateStateButton, "Drag the mouse to rotate selected objects."},
+                {mScaleStateButton, "Drag the mouse to scale selected objects."},
+                {mSelectStateButton, "Click on objects to select them."},
+                {mZoomStateButton, "Drag the mouse to zoom. Draw a smaller rectangle to make a bigger zoom!"},
 
                 {mFreeCameraRadio, "Free camera activated! Use the mouse and the arrow keys to move wherever you want."},
                 {mOrbitalCameraRadio, "Orbital camera activated! Use the mouse to turn the camera around the fixed point."},
@@ -147,12 +168,12 @@ namespace UIHeavyClient
                 {mPortalButton, ActionType.ACTION_INSERER_PORTAIL},
                 //{mBonusButton, ActionType.ACTION_},
 
-                {mFreeStateRadio, ActionType.ACTION_ORBIT}, // ActionType.ACTION_CAMERAActionType.ACTION_
-                {mMoveStateRadio, ActionType.ACTION_EDITEUR_DEPLACER},
-                {mRotateStateRadio, ActionType.ACTION_EDITEUR_ROTATION},
-                {mScaleStateRadio, ActionType.ACTION_EDITEUR_ECHELLE},
-                {mSelectStateRadio, ActionType.ACTION_EDITEUR_SELECTION},
-                {mZoomStateRadio, ActionType.ACTION_ZOOM_ELASTIQUE},
+                {mFreeStateButton, ActionType.ACTION_ORBIT}, // ActionType.ACTION_CAMERAActionType.ACTION_
+                {mMoveStateButton, ActionType.ACTION_EDITEUR_DEPLACER},
+                {mRotateStateButton, ActionType.ACTION_EDITEUR_ROTATION},
+                {mScaleStateButton, ActionType.ACTION_EDITEUR_ECHELLE},
+                {mSelectStateButton, ActionType.ACTION_EDITEUR_SELECTION},
+                {mZoomStateButton, ActionType.ACTION_ZOOM_ELASTIQUE},
 
                 {mFreeCameraRadio, ActionType.ACTION_CAMERA_LIBRE},
                 {mOrbitalCameraRadio, ActionType.ACTION_CAMERA_ORBITE},
@@ -169,6 +190,8 @@ namespace UIHeavyClient
         static extern bool IsGamePaused();
         [DllImport(@"RazerGame.dll")]
         static extern void PauseGame(bool doPause);
+        [DllImport(@"RazerGame.dll")]
+        static extern bool TerrainHasDeletable();
 
         // Field
         [DllImport(@"RazerGame.dll")]
@@ -176,7 +199,24 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll")]
         static extern bool ValidateField();
 
-        
+
+        private void HandleDeleteButton(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult dr = MessageBox.Show("Are you sure?", "Delete", MessageBoxButton.YesNo);
+
+            if (dr == MessageBoxResult.Yes)
+            {
+                CallActionPerformed(sender, e);
+            }
+        }
+
+        private void HandleStateButton(object sender, RoutedEventArgs e)
+        {
+            if(sender is Button)
+                ChangeClickedButton((sender as Button));
+
+            CallActionPerformed(sender, e);
+        }
 
         private void CallActionPerformed(object sender, RoutedEventArgs e)
         {
@@ -190,7 +230,12 @@ namespace UIHeavyClient
 
         private void OnGenerateField(object sender, RoutedEventArgs e)
         {
-            GenerateDefaultField();
+            MessageBoxResult dr = MessageBox.Show("Are you sure?", "Default Map", MessageBoxButton.YesNo);
+
+            if (dr == MessageBoxResult.Yes)
+            {            
+                GenerateDefaultField();
+            }
         }
 
         #endregion
@@ -238,6 +283,22 @@ namespace UIHeavyClient
         private void ClearGuidanceMessages(object sender, MouseEventArgs e)
         {
             mGuidanceLabel.Content = "";
+        }
+
+        public void InitButtons()
+        {
+            ChangeClickedButton(mFreeStateButton);
+        }
+
+        private void ChangeClickedButton(Button pButton)
+        {
+            if (mLastClickedButton != null)
+            {
+                mLastClickedButton.Background = Brushes.Black;
+            }
+
+            pButton.Background = new SolidColorBrush(Color.FromRgb(0x00, 0xD5, 0x00));
+            mLastClickedButton = pButton;
         }
     }
 }

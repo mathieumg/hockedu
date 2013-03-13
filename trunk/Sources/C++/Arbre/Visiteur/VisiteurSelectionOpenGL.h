@@ -16,10 +16,10 @@ public:
 	virtual void visiterNoeudComposite( NoeudComposite* noeud );
 	/// Algortihme de selection des noeuds
 	void visiterNoeudAffichable( NoeudAbstrait* noeud );
-
+    inline int getNbSelected() const{return mNbSelected;}
 private:
 	const IdNoeuds* noeudsAselectioner_;
 	bool ctrlOn_;
-
+    int mNbSelected;
 };
 
