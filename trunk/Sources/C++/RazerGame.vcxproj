@@ -273,6 +273,7 @@
     <ClCompile Include="Jeu\AI\AIStratOffensive.cpp" />
     <ClCompile Include="Jeu\JoueurAbstrait.cpp" />
     <ClCompile Include="Jeu\JoueurHumain.cpp" />
+    <ClCompile Include="Jeu\JoueurNetwork.cpp" />
     <ClCompile Include="Jeu\JoueurVirtuel.cpp" />
     <ClCompile Include="Jeu\Partie.cpp" />
     <ClCompile Include="Jeu\Tournoi.cpp" />
@@ -427,6 +428,7 @@
     <ClInclude Include="Jeu\AI\AIStratOffensive.h" />
     <ClInclude Include="Jeu\JoueurAbstrait.h" />
     <ClInclude Include="Jeu\JoueurHumain.h" />
+    <ClInclude Include="Jeu\JoueurNetwork.h" />
     <ClInclude Include="Jeu\JoueurVirtuel.h" />
     <ClInclude Include="Jeu\Partie.h" />
     <ClInclude Include="Jeu\Tournoi.h" />

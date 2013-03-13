@@ -352,30 +352,49 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
             joueurDroit_->setControlingMallet(mailletDroit);
             mailletGauche->setIsLeft(true);
             mailletDroit->setIsLeft(false);
-            mailletGauche->setKeyboardControlled(false);
-            if(joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
+
+            if(joueurGauche_->obtenirType() == JOUEUR_NETWORK)
             {
                 mailletGauche->setIsAI(false);
+                mailletGauche->buildMouseJoint(true);
             }
             else
             {
-                mailletGauche->setIsAI(true);
+                mailletGauche->setKeyboardControlled(false);
                 
-                mailletGauche->setAIPlayer((JoueurVirtuel*)joueurGauche_.get());
+                if(joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
+                {
+                    mailletGauche->setIsAI(false);
+                }
+                else
+                {
+                    mailletGauche->setIsAI(true);
+                    mailletGauche->setAIPlayer((JoueurVirtuel*)joueurGauche_.get());
+                }
+                mailletGauche->buildMouseJoint();
             }
-            if(joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
+
+            if(joueurDroit_->obtenirType() == JOUEUR_NETWORK)
             {
                 mailletDroit->setIsAI(false);
-                // Si le maillet gauche est controller par lordinateur alors le maillet droit est controle par la souris
-                mailletDroit->setKeyboardControlled(!mailletGauche->obtenirEstControleParOrdinateur());
+                mailletDroit->buildMouseJoint(true);
             }
             else
             {
-                mailletDroit->setIsAI(true);
-                mailletDroit->setAIPlayer((JoueurVirtuel*)joueurDroit_.get());
+                if(joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
+                {
+                    mailletDroit->setIsAI(false);
+                    // Si le maillet gauche est controller par lordinateur alors le maillet droit est controle par la souris
+                    mailletDroit->setKeyboardControlled(!mailletGauche->obtenirEstControleParOrdinateur());
+                }
+                else
+                {
+                    mailletDroit->setIsAI(true);
+                    mailletDroit->setAIPlayer((JoueurVirtuel*)joueurDroit_.get());
+                }
+                mailletDroit->buildMouseJoint();
             }
-            mailletGauche->buildMouseJoint();
-            mailletDroit->buildMouseJoint();
+
         }
         else
             throw ExceptionJeu("Tente d'assigner les controles a des maillets et/ou rondelle non valides");

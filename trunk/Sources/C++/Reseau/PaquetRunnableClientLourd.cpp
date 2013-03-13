@@ -30,7 +30,8 @@ int PaquetRunnable::RunnableMailletClient( Paquet* pPaquet )
         Vecteur3 wPos = wPaquet->getPosition();
         wPos[VX] *= -1;
         // Mettre la position du maillet
-        wGame->obtenirJoueurDroit()->getControlingMallet()->setPosition(wPos);
+        wGame->obtenirJoueurDroit()->getControlingMallet()->assignerPosSouris(wPos);
+        wGame->obtenirJoueurDroit()->getControlingMallet()->updateObserver();
         std::cout << "PositionMaillet" << wPos << std::endl;
 
     }

@@ -20,6 +20,7 @@
 class JoueurAbstrait;
 class JoueurVirtuel;
 class JoueurHumain;
+class JoueurNetwork;
 class NoeudAbstrait;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -30,12 +31,14 @@ class NoeudAbstrait;
 typedef std::shared_ptr<JoueurAbstrait> SPJoueurAbstrait;
 typedef std::shared_ptr<JoueurVirtuel> SPJoueurVirtuel;
 typedef std::shared_ptr<JoueurHumain> SPJoueurHumain;
+typedef std::shared_ptr<JoueurNetwork> SPJoueurNetwork;
 
 #else
 
 typedef JoueurAbstrait* SPJoueurAbstrait;
 typedef JoueurVirtuel* SPJoueurVirtuel;
 typedef JoueurHumain* SPJoueurHumain;
+typedef JoueurNetwork* SPJoueurNetwork;
 
 #endif
 

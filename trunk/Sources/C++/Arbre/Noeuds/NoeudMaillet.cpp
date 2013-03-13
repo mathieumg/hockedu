@@ -538,12 +538,12 @@ void NoeudMaillet::updatePhysicBody()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::buildMouseJoint()
+void NoeudMaillet::buildMouseJoint(bool pIsNetworkControlled /*=false*/)
 {
 #if BOX2D_INTEGRATED
     if(!mMouseJoint)
     {
-        if(!estControleParOrdinateur_ && !estControleParClavier_)
+        if(!estControleParOrdinateur_ && !estControleParClavier_ && !pIsNetworkControlled)
         {
             GestionnaireEvenements::mMouseMoveSubject.attach(this);
         }

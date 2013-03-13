@@ -877,9 +877,10 @@ void Terrain::appliquerPhysique( float temps )
         if(mailletGauche && mGame)
         {
             PaquetMaillet* wPaquet = (PaquetMaillet*) GestionnaireReseau::obtenirInstance()->creerPaquet(MAILLET);
-            wPaquet->setPosition(mailletGauche->getPosition());
+            wPaquet->setPosition(mailletGauche->getPosSouris());
             wPaquet->setGameId(mGame->getUniqueGameId());
             GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
+            
         }
 #endif
 	}

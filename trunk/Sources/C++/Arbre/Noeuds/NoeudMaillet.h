@@ -71,7 +71,7 @@ public:
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody();
     /// Builds the mouse joint when starting to play
-    void buildMouseJoint();
+    void buildMouseJoint(bool pIsNetworkControlled = false);
     /// Free memory of the mouse joint when game is done
     void destroyMouseJoint();
     /// updates mouse joint when receiving a mousemove event
@@ -163,7 +163,8 @@ public:
 	JoueurVirtuel* obtenirJoueur() const { return joueur_; }
 	/// Modificateur de joueur_
 	void setAIPlayer(JoueurVirtuel* val) { joueur_ = val; }
-
+    /// Obtenir pos souris
+    inline Vecteur3 getPosSouris() {return posSouris_;}
 
 
 };
