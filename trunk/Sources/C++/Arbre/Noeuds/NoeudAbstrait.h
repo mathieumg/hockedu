@@ -95,7 +95,7 @@ public:
 	inline bool estAffiche() const;
 
 	/// Écrit l'état de la sélection du noeud.
-	inline void assignerSelection( const bool& selectionne );
+	void assignerSelection( const bool& selectionne );
 	/// Vérifie si le noeud est sélectionné.
 	inline bool estSelectionne() const;
 	/// Écrit si le noeud peut être sélectionné ou non.
@@ -406,22 +406,6 @@ inline bool NoeudAbstrait::estAffiche() const
 	return affiche_;
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn inline void NoeudAbstrait::assignerSelection( bool selectionne )
-///
-/// Cette fonction permet d'assigner l'état d'être sélectionné ou non du noeud.
-///
-/// @param[in] bool selectionne : L'état sélectionné ou non.
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-inline void NoeudAbstrait::assignerSelection( const bool& selectionne )
-{
-	// Un objet non sélectionnable n'est jamais sélectionné.
-	selectionne_ = (selectionne && selectionnable_);
-}
 
 ////////////////////////////////////////////////////////////////////////
 ///

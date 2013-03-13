@@ -90,6 +90,7 @@ NoeudAbstrait::NoeudAbstrait(
 NoeudAbstrait::~NoeudAbstrait()
 {
 	clearPhysicsBody();
+    modifierTerrain(NULL);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -921,7 +922,15 @@ bool NoeudAbstrait::initialiser( const XmlElement* element )
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::modifierTerrain( Terrain* val )
 {
+    if(terrain_)
+    {
+        terrain_->NodeSelectionNotification(this,false);
+    }
 	terrain_ = val;
+    if(terrain_)
+    {
+        terrain_->NodeSelectionNotification(this,estSelectionne());
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1154,7 +1163,27 @@ void NoeudAbstrait::renderOpenGLES() const
     glDrawArrays (GL_TRIANGLE_FAN, 0, segments);
 }
 
-
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn inline void NoeudAbstrait::assignerSelection( bool selectionne )
+///
+/// Cette fonction permet d'assigner l'état d'être sélectionné ou non du noeud.
+///
+/// @param[in] bool selectionne : L'état sélectionné ou non.
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAbstrait::assignerSelection( const bool& selectionne )
+{
+    // Un objet non sélectionnable n'est jamais sélectionné.
+    selectionne_ = (selectionne && selectionnable_);
+    auto terrain = GetTerrain();
+    if(terrain)
+    {
+        terrain->NodeSelectionNotification(this,selectionne_);
+    }
+}
 
 
 
