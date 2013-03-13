@@ -155,8 +155,6 @@ public:
     virtual void PostSolve( b2Contact* contact, const b2ContactImpulse* impulse );
 #endif
 
-
-
 /// Private Methods
 private:
 	/// Methode pour initialiser l'arbre de rendu
@@ -183,6 +181,8 @@ private:
     /// Indique si ce terrain est utilisé pour jouer ou pour l'édition
     Partie* mGame;
 
+    class NoeudAffichage* mZamboni;
+
 #if BOX2D_INTEGRATED  
     class b2World* mWorld;
 #endif
@@ -191,6 +191,8 @@ private:
 
 /// Accesseurs
 public:
+    /// Accessors of mZamboni
+    inline class NoeudAffichage* getZamboni() const { return mZamboni; }
 	/// Accesseur de arbreRendu_
 	inline RazerGameTree* getLogicTree() const { return mLogicTree; }
 	/// Accesseur de zoneEdition_

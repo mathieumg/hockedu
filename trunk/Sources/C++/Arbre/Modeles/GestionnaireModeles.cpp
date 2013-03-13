@@ -351,6 +351,7 @@ void GestionnaireModeles::initialiser()
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_MAILLET,RazerGameUtilities::CreateListDelegateMallet));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,"point",RazerGameUtilities::CreateListDelegateTableControlPoint));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_CONTROL_POINT,"",RazerGameUtilities::CreateListDelegateControlPoint));
+    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_ZAMBONI,"zamboni",RazerGameUtilities::CreateListDelegateZamboni));
     tamponGlobal.vec.push_back(ModelToLoad("pause"));
     tamponGlobal.vec.push_back(ModelToLoad("1"));
     tamponGlobal.vec.push_back(ModelToLoad("2"));
@@ -496,7 +497,7 @@ DWORD WINAPI WorkerLoadModel( LPVOID arg )
         }
 
         const string& key = modelInfo.mKey;
-        RazerGameUtilities::RunOnUpdateThread(new Runnable([=](Runnable*) -> void {
+        RazerGameUtilities::RunOnRenderThread(new Runnable([=](Runnable*) -> void {
             // les ajouter direct dans ce thread n'est pas bon car ca peut crasher si un read&write ce fait en meme temps
             GestionnaireModeles::obtenirInstance()->ajoutModele(key,modele);
             if(liste)

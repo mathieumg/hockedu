@@ -359,6 +359,9 @@ bool mUpdating = false, mRendering=false;
    /// La chaîne représentant le type des points de controle d'objet.
    const std::string RazerGameUtilities::NAME_CONTROL_POINT = "control_point";
 
+   /// La chaîne représentant le type des Zamboni.
+   const std::string RazerGameUtilities::NAME_ZAMBONI = "zamboni";
+
    /// La chaîne représentant le type des groupes
    const std::string RazerGameUtilities::NOM_GROUPE = "Groupe";
 
