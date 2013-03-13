@@ -21,7 +21,7 @@
 #ifndef __APPLE__
 #include "../Reseau/Paquets/PaquetMaillet.h"
 #include "../Reseau/GestionnaireReseau.h"
-#include "VisiteurFunction.h"
+
 #endif
 
 #include "Terrain.h"
@@ -48,7 +48,7 @@
 #include "ExceptionJeu.h"
 #include "NodeWallEdition.h"
 #include "NodeControlPoint.h"
-
+#include "VisiteurFunction.h"
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
@@ -1150,19 +1150,18 @@ void Terrain::getGoals( NoeudBut** pOutGoals )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
+VISITEUR_FUNC_FUNC_DECLARATION(ForceFullRebuildFunc)
+{
+    pNoeud->forceFullUpdate();
+}
 void Terrain::fullRebuild()
 {
-#ifndef __APPLE__
     checkf(mLogicTree,"Requete pour un full rebuild d'un terrain sans arbre");
     if(mLogicTree)
     {
-        VisiteurFunction v([](NoeudAbstrait* n)
-        {
-            n->forceFullUpdate();
-        });
+        VisiteurFunction v(ForceFullRebuildFunc);
         mLogicTree->acceptVisitor(v);
     }
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////

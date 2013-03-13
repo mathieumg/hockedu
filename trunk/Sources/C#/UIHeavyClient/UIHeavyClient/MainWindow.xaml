@@ -13,11 +13,11 @@
                 <MenuItem Header="Save Map To Server"/>
                 <MenuItem Header="Reset to Default Map"/>
                 <MenuItem Header="Test Map"/>
+                <MenuItem Header="Main Menu" Click="BackToMainMenu" />
                 <MenuItem Header="Exit Hockedu"/>
             </MenuItem>
             <MenuItem Header="Option">
                 <MenuItem Header="Keyboard Control"/>
-                <MenuItem Header="Main Menu" Click="BackToMainMenu" />
             </MenuItem>
             <MenuItem Header="Online Mode">
                 <MenuItem Header="Connect"/>
