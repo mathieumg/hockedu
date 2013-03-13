@@ -73,14 +73,11 @@ namespace UIHeavyClient
         ENABLE_MALLET_CREATION,
         DISABLE_MALLET_CREATION,
 
+        THERE_ARE_NODES_SELECTED,
+        THERE_ARE_NO_NODE_SELECTED,
+
         MODEL_EVENT_END,
         /// Model event category : end
-
-
-
-
-
-
 
 
         NB_EVENT_CODES // Must be always last !

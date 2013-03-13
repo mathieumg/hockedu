@@ -224,6 +224,7 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 				}
 			}
 			
+            int selected = 0;
 			ConteneurIdNoeuds::const_iterator iter = liste.begin();
 			for(; iter != liste.end(); iter++)
 			{
@@ -235,9 +236,18 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 				}
 				else
 					FacadeModele::getInstance()->acceptVisitor(visiteur);
+
+                selected += visiteur.getNbSelected();
 			}
 
-
+            if(selected > 0)
+            {
+                FacadeModele::transmitEvent(THERE_ARE_NODES_SELECTED);
+            }
+            else
+            {
+                FacadeModele::transmitEvent(THERE_ARE_NO_NODE_SELECTED);
+            }
 
 			//glMatrixMode( GL_PROJECTION );
 		//	glPopMatrix();

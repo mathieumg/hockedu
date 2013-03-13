@@ -314,7 +314,7 @@ bool ActionPerformed( ActionType action )
         if(action == ACTION_SUPPRIMER  && !FacadeModele::getInstance()->possedeSelection())
             return false;
 
-        checkf(0,"Enleve le check pour les cas une fois que la fenetre de validation est géré par le C#");
+        //checkf(0,"Enleve le check pour les cas une fois que la fenetre de validation est géré par le C#");
     }
 
     return RepartiteurActions::obtenirInstance()->appelerMethodeAction(action);
@@ -453,7 +453,7 @@ void RemovePlayer(char* pName)
 
 int GetNbrPlayers()
 {
-    return FacadeModele::getInstance()->obtenirListeNomsJoueurs().size();
+    return (int)FacadeModele::getInstance()->obtenirListeNomsJoueurs().size();
 }
 
 void GetPlayers(AIProfile* pProfiles, int pNbrProfiles)
@@ -475,7 +475,7 @@ void GetPlayers(AIProfile* pProfiles, int pNbrProfiles)
 	    {
 		    SPJoueurVirtuel joueurVirtuel = std::dynamic_pointer_cast<JoueurVirtuel>(joueur);
 
-            strcpy(pProfiles[i].Name, joueurVirtuel->obtenirNom().c_str());
+            strcpy_s(pProfiles[i].Name, 255, joueurVirtuel->obtenirNom().c_str());
 
             pProfiles[i].Speed = joueurVirtuel->obtenirVitesse();
             pProfiles[i].FailProb = joueurVirtuel->obtenirProbabiliteEchec();
@@ -544,7 +544,7 @@ void SetCurrentRadioPlaylist(char* pPlaylist)
 
 void GetCurrentRadioPlaylist(char* pPlaylist)
 {
-    strcpy(pPlaylist, SoundFMOD::obtenirInstance()->obtenirNomCanalCourant().c_str());
+    strcpy_s(pPlaylist, 255, SoundFMOD::obtenirInstance()->obtenirNomCanalCourant().c_str());
 }
 
 
@@ -553,7 +553,7 @@ int GetNbrPlaylists()
 {
     std::vector<std::string> nomsCanaux =  ConfigScene::obtenirInstance()->obtenirListeCanaux();
 
-    return nomsCanaux.size();
+    return (int)nomsCanaux.size();
 }
 
 void GetRadioPlaylists(char** pPlaylists, int pNbrPlaylists)
@@ -563,7 +563,7 @@ void GetRadioPlaylists(char** pPlaylists, int pNbrPlaylists)
     int i = 0;
 	for(auto iter = nomsCanaux.begin(); iter != nomsCanaux.end() && i < pNbrPlaylists; ++iter)
 	{
-		strcpy(pPlaylists[i++], (*iter).c_str());
+        strcpy_s(pPlaylists[i++], 255, (*iter).c_str());
 	}
 }
 
@@ -571,7 +571,7 @@ int GetNbrSongs(char* pPlaylist)
 {
     NomsPlaylists canal = ConfigScene::obtenirInstance()->obtenirCanal(std::string(pPlaylist));
 
-    return canal.size();
+    return (int)canal.size();
 }
 
 void GetPlaylistSongs(char* pPlaylist, char** pSongs, int pNbrSongs)
@@ -581,7 +581,7 @@ void GetPlaylistSongs(char* pPlaylist, char** pSongs, int pNbrSongs)
     int i = 0;
     for(auto iter = canal.begin(); iter != canal.end() && i < pNbrSongs; iter++)
 	{
-		strcpy(pSongs[i++], (*iter).c_str());
+        strcpy_s(pSongs[i++], 255, (*iter).c_str());
 	}
 }
 
@@ -600,6 +600,11 @@ void AddRadioPlaylist(char* pPlaylist, char** pSongs, int pNbrSongs)
     {
         ConfigScene::obtenirInstance()->ajouterChanson(nomPlaylist, std::string(pSongs[i]));
     }
+}
+
+bool TerrainHasDeletable()
+{
+    return true;
 }
 
 

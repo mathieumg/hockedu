@@ -31,7 +31,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 VisiteurSelectionOpenGL::VisiteurSelectionOpenGL( const IdNoeuds* liste, bool ctrlOn ):
-noeudsAselectioner_(liste), ctrlOn_(ctrlOn)
+noeudsAselectioner_(liste), ctrlOn_(ctrlOn),mNbSelected(0)
 {
 	
 }
@@ -115,16 +115,19 @@ void VisiteurSelectionOpenGL::visiterNoeudAffichable( NoeudAbstrait* noeud )
 		if(!ctrlOn_)
 		{
 			noeud->assignerSelection(true);
+            ++mNbSelected;
 		}
 		else
 		{
 			if(noeud->estSelectionne())
 			{
 				noeud->assignerSelection(false);
+                --mNbSelected;
 			}
 			else
 			{
 				noeud->assignerSelection(true);
+                ++mNbSelected;
 			}
 		}
 		
