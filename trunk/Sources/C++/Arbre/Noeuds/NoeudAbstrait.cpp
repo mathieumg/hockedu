@@ -90,6 +90,7 @@ NoeudAbstrait::NoeudAbstrait(
 NoeudAbstrait::~NoeudAbstrait()
 {
 	clearPhysicsBody();
+    modifierTerrain(NULL);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -141,6 +142,32 @@ void NoeudAbstrait::vider()
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::effacer( const NoeudAbstrait* noeud )
 {
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudAbstrait::deleteThis()
+///
+/// correctly delete a node and removes it form its parent.
+/// do not call in destructor because the parent might be initialising the
+// destruction.
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAbstrait::deleteThis()
+{
+    // On enleve les noeud selectionné et tous ces enfants.
+    // Si on ne veut pas enlever les enfants il faudrait modifier
+    // la méthode effacer() pour que les enfants soit relié au parent
+    if(obtenirParent() != 0)
+        obtenirParent()->effacer(this);
+    else
+    {
+        vider();
+        delete this;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -273,7 +300,7 @@ unsigned int NoeudAbstrait::obtenirNombreEnfants() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::inverserSelection()
 {
-   selectionne_ = !selectionne_;
+    assignerSelection(!estSelectionne());
 }
 
 
@@ -308,7 +335,7 @@ void NoeudAbstrait::selectionnerTout()
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::deselectionnerTout()
 {
-   selectionne_ = false;
+    assignerSelection(false);
 }
 
 
@@ -895,7 +922,15 @@ bool NoeudAbstrait::initialiser( const XmlElement* element )
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::modifierTerrain( Terrain* val )
 {
+    if(terrain_)
+    {
+        terrain_->NodeSelectionNotification(this,false);
+    }
 	terrain_ = val;
+    if(terrain_)
+    {
+        terrain_->NodeSelectionNotification(this,estSelectionne());
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1126,6 +1161,29 @@ void NoeudAbstrait::renderOpenGLES() const
     }
     glVertexPointer (2, GL_FLOAT , 0, vertices); 
     glDrawArrays (GL_TRIANGLE_FAN, 0, segments);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn inline void NoeudAbstrait::assignerSelection( bool selectionne )
+///
+/// Cette fonction permet d'assigner l'état d'être sélectionné ou non du noeud.
+///
+/// @param[in] bool selectionne : L'état sélectionné ou non.
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAbstrait::assignerSelection( const bool& selectionne )
+{
+    bool oldSelection = selectionne_;
+    // Un objet non sélectionnable n'est jamais sélectionné.
+    selectionne_ = (selectionne && selectionnable_);
+    auto terrain = GetTerrain();
+    if(terrain && oldSelection != selectionne_)
+    {
+        terrain->NodeSelectionNotification(this,selectionne_);
+    }
 }
 
 

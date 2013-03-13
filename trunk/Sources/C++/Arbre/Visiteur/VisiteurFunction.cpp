@@ -4,18 +4,18 @@
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn  VisiteurFunction::VisiteurFunction( std::function<void (NoeudAbstrait*)> )
+/// @fn  VisiteurFunction::VisiteurFunction( VisiteurFunctionFunction pFunction )
 ///
 /// constructor
 ///
-/// @param[in] std::function<void NoeudAbstrait *> : function à executer sur chaque noeud
+/// @param[in] VisiteurFunctionFunction : function à executer sur chaque noeud
 ///
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-VisiteurFunction::VisiteurFunction( std::function<void (NoeudAbstrait*)> pFunction)
+VisiteurFunction::VisiteurFunction( VisiteurFunctionFunction pFunction, void * pUserData /*= NULL*/):
+    mFunction(pFunction),mUserData(pUserData)
 {
-    mFunction = pFunction;
 }
 
 
@@ -47,5 +47,5 @@ VisiteurFunction::~VisiteurFunction(void)
 ////////////////////////////////////////////////////////////////////////
 void VisiteurFunction::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 {
-    mFunction(noeud);
+    mFunction(noeud,mUserData);
 }

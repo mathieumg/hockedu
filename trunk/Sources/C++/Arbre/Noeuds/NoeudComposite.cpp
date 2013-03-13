@@ -327,7 +327,7 @@ void NoeudComposite::selectionnerTout()
 ////////////////////////////////////////////////////////////////////////
 void NoeudComposite::deselectionnerTout()
 {
-	selectionne_ = false;
+    assignerSelection(false);
 
 	for (ConteneurNoeuds::iterator it = enfants_.begin();
 		it != enfants_.end();

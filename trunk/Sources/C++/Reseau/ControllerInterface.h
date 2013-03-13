@@ -21,6 +21,8 @@ namespace std {using namespace __gnu_cxx; }
 typedef int PaquetTypes;
 typedef int (*PaquetRunnableFunc) (class Paquet*);
 
+class Partie;
+
 ///////////////////////////////////////////////////////////////////////////
 /// @class ControllerInterface
 /// @brief Interface a implementer pour un controlleur a associer au modele pour les callbacks
@@ -43,7 +45,12 @@ public:
     virtual bool requireAuthentification() const {return false;}
 
     // Pas d'authentification par defaut, retourne toujours true
-    virtual bool authenticate(const std::string& pUsername, const std::string& pPassword) {return true;}
+    virtual std::string authenticate(const std::string& pUsername, const std::string& pPassword) {return "";}
+
+    // Retourne la liste des joueurs connectes qui sont assicies a cette partie
+    virtual void getPlayersInGame(int pGameId, std::vector<const std::string*>& pPlayerList);
+
+    virtual Partie* getGame(int pGameId);
 
 protected:
     std::hash_map<PaquetTypes, PaquetRunnableFunc> mPaquetRunnables;

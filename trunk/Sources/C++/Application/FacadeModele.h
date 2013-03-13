@@ -20,6 +20,7 @@
 #include "GameTime.h"
 #include <queue>
 #include <hash_map>
+#include "GameManager.h"
 #include "Enum_Declarations.cs"
 
 
@@ -77,6 +78,8 @@ public:
 	static FacadeModele* getInstance();
 	/// Libère l'instance unique de la classe.
 	static void libererInstance();
+    /// Checks if the instance exists
+    static bool Exists(){return !!instance_;}
 
 	/// Crée un contexte OpenGL et initialise celui-ci.
 	void initialiserOpenGL(HWND hWnd);
@@ -265,14 +268,14 @@ private:
 	std::string cheminTournoi_;
 
 	/// Pointeur sur la partie courante
-	Partie* partieCourante_;
+	int partieCourante_;
     //std::hash_map<PartieId,Partie*> mGames;
 
 	/// Objet contenant le temps ecouler en temps reel
 	GameTime temps_;
     
 	static int anglePause_;
-	SPJoueurAbstrait adversaire_;
+	//SPJoueurAbstrait adversaire_; (maintenant dans le GameManager)
 	utilitaire::BoiteEnvironnement* boiteEnvironnement;
 
     // Map to play with
@@ -316,8 +319,10 @@ public:
 	/// Obtention de la largeur de la zone d'edition
 	float getTableWidth();
 
-	/// Accesseur de partieCourante_
-	Partie* obtenirPartieCourante() const { return partieCourante_; }
+	/// Accesseur pour la partie courante
+	Partie* obtenirPartieCourante() const { return GameManager::obtenirInstance()->getGame(partieCourante_); }
+    /// Accesseur de partieCourante_ (id de la partie)
+    int obtenirPartieCouranteId() const { return partieCourante_; }
 	/// Fonction changer l'etat de pause
 	void togglePause();
 	/// Modificateur de pause de la partie
@@ -333,7 +338,8 @@ public:
 	unsigned int obtenirNbNoeudSelect();
 
 	/// Accesseurs de adversaire_
-	SPJoueurAbstrait obtenirAdversaire() { return adversaire_; }
+	// SPJoueurAbstrait obtenirAdversaire() { return adversaire_; }
+    // (maintenant dans GameManager)
 
     inline std::string getCurrentMap() {return mCurrentMapFile;}
     inline void setCurrentMap(std::string pCurrentMap) {mCurrentMapFile = pCurrentMap;}

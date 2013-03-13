@@ -18,6 +18,8 @@ using System.Windows.Forms;
 namespace UIHeavyClient
 {
     public delegate bool EventReceivedCallBack(EventCodes id, IntPtr message);
+    //declare the callback prototype
+    public delegate bool MessageReceivedCallBack(IntPtr username, IntPtr message);
     static class MainWindowHandler
     {
         private static MainWindow mContext;
@@ -43,6 +45,10 @@ namespace UIHeavyClient
 
         [DllImport(@"RazerGame.dll")]
         static extern void SetEventCallback(EventReceivedCallBack callback);
+
+        //Callback to received user messages from C++
+        [DllImport(@"RazerGame.dll")]
+        static extern void SetMessageCallback(MessageReceivedCallBack callback);
 
         // Save/Load
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -71,6 +77,8 @@ namespace UIHeavyClient
             Context.WindowContentControl.Content = Context.PlayModeControl;
             Context.EditionModeControl.RemoveOpenGL();
             Context.PlayModeControl.AppendOpenGL();
+            Context.PlayModeControl.DisplayRadioPlaylists();
+            SetMessageCallback(PlayModeControl.mMessageCallback);
         }
 
         public static void GoToMainMenu()
@@ -81,6 +89,8 @@ namespace UIHeavyClient
 
             Context.EditionModeControl.RemoveOpenGL();
             Context.PlayModeControl.RemoveOpenGL();
+
+            Context.MainMenuControl.DisplayProfileNames();
         }
 
         public static void GoToTournamentMenu()

@@ -82,6 +82,7 @@
 #include "VisiteurFunction.h"
 #include "..\Reseau\GestionnaireReseau.h"
 #include "ExceptionJeu.h"
+#include "GameManager.h"
 
 /// Pointeur vers l'instance unique de la classe.
 FacadeModele* FacadeModele::instance_ = 0;
@@ -210,10 +211,18 @@ void FacadeModele::libererInstance()
     // On libère les instances des différentes configurations.
     SoundFMOD::libererInstance();
     ConfigScene::libererInstance();
-    GestionnaireHUD::libererInstance();
     instance_->libererMemoire();
     delete instance_;
     instance_ = 0;
+
+    // temp fix, on libère le hud a la fin, car certain 
+    // destructeur manipule le HUD
+    GestionnaireHUD::libererInstance();
+
+    checkf(!ConfigScene::Exists());
+    checkf(!SoundFMOD::Exists());
+    checkf(!GestionnaireHUD::Exists());
+    checkf(!FacadeModele::Exists());
 }
 
 
@@ -593,8 +602,9 @@ void FacadeModele::libererMemoire()
     //for_each(joueurs_.begin(),joueurs_.end(),utilitaire::LibererMappe());
     if(tournoi_ != 0)
         delete tournoi_;
-    if(partieCourante_ && !partieCourante_->faitPartieDunTournoi())
-        delete partieCourante_; 
+    
+    if(obtenirPartieCourante() && !obtenirPartieCourante()->faitPartieDunTournoi())
+        GameManager::obtenirInstance()->removeGame(partieCourante_);
 
 #if BOX2D_INTEGRATED  
     if(DebugRenderBox2D::mInstance)delete DebugRenderBox2D::mInstance;
@@ -890,14 +900,14 @@ void FacadeModele::ClearCurrentGame()
     if(tournoi_)
         tournoi_->modifierEstEnCours(false);
 
-    if(partieCourante_)
+    Partie* wGame = GameManager::obtenirInstance()->getGame(partieCourante_);
+    if(wGame)
     {
-        if(!partieCourante_->faitPartieDunTournoi())
+        if(!wGame->faitPartieDunTournoi())
         {
-            delete partieCourante_;
+            GameManager::obtenirInstance()->removeGame(partieCourante_);
         }
     }
-    partieCourante_ = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -972,21 +982,26 @@ bool FacadeModele::passageModeTournoi()
     ClearCurrentGame();
 
     GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
-    partieCourante_ = tournoi_->obtenirPartieCourante();
-    partieCourante_->getReadyToPlay();
+    Partie* wGame = tournoi_->obtenirPartieCourante();
+    partieCourante_ = wGame->getUniqueGameId();
 
-    partieCourante_->miseAuJeu(true);
+    if(!wGame->getReadyToPlay())
+    {
+        return false;
+    }
 
-    obtenirVue()->centrerCamera(partieCourante_->getField()->GetTableWidth());
+    wGame->miseAuJeu(true);
+
+    obtenirVue()->centrerCamera(wGame->getField()->GetTableWidth());
     
     tournoi_->modifierEstEnCours(true);
 #ifdef WIN32
     // If the no button was pressed ...
-    if (partieCourante_->partieVirtuelle() && MessageBoxA(0,
+    if (wGame->partieVirtuelle() && MessageBoxA(0,
         "Voulez-vous observer la partie entre les 2 joueurs virtuels?", 
         "Simulation de partie", MB_YESNO | MB_ICONQUESTION | MB_SYSTEMMODAL) == IDNO )
     {
-        partieCourante_->terminerSi2AI();
+        wGame->terminerSi2AI();
     }
 #else
     partieCourante_->terminerSi2AI();
@@ -1026,15 +1041,30 @@ bool FacadeModele::passageModeJeu()
     ClearCurrentGame();
 
     GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
-    if(!adversaire_)
-        adversaire_ = SPJoueurAbstrait(new JoueurHumain("Joueur Droit"));
-    partieCourante_ = new Partie(SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")),adversaire_);
-    //partieCourante_ = new Partie(new JoueurVirtuel("Joueur Gauche",225),new JoueurVirtuel("Joueur Droit",225));
-    partieCourante_->setFieldName(getCurrentMap());
-    partieCourante_->getReadyToPlay();
-    partieCourante_->miseAuJeu(true);
+    //if(!adversaire_)
+    //    adversaire_ = SPJoueurAbstrait(new JoueurHumain("Joueur Droit"));
+
+
+
+
+    partieCourante_ = GameManager::obtenirInstance()->addNewGame(SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")));
+
+    if(!GameManager::obtenirInstance()->startGame(partieCourante_, getCurrentMap()))
+    {
+        return false;
+    }
+
     // On enregistre apres avoir desactiver les points pour ne pas les voir si on reinitialise la partie
-    obtenirVue()->centrerCamera(partieCourante_->getField()->GetTableWidth());
+	Partie* wGame = GameManager::obtenirInstance()->getGame(partieCourante_);
+	if(wGame)
+	{
+		obtenirVue()->centrerCamera(wGame->getField()->GetTableWidth());
+	}
+	else
+	{
+		obtenirVue()->centrerCamera(500); // Valeur par defaut ??
+	}
+    
 
     GestionnaireEvenements::modifierEtat(ETAT_MODE_JEU);
     return true;
@@ -1073,10 +1103,11 @@ bool FacadeModele::passageMenuPrincipal()
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::reinitialiserPartie()
 {
-    if(partieCourante_)
+    Partie* wGame = GameManager::obtenirInstance()->getGame(partieCourante_);
+    if(wGame)
     {
-        partieCourante_->reinitialiserPartie();
-        partieCourante_->miseAuJeu(true);
+        wGame->reinitialiserPartie();
+        wGame->miseAuJeu(true);
     }
 }
 
@@ -1720,7 +1751,7 @@ void FacadeModele::modifierAdversaire(SPJoueurAbstrait val)
 { 
 //  if(adversaire_ != NULL) 
 //      delete adversaire_; 
-    adversaire_ = val; 
+    GameManager::obtenirInstance()->setAdversaire(val);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1733,12 +1764,13 @@ void FacadeModele::modifierAdversaire(SPJoueurAbstrait val)
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
+VISITEUR_FUNC_FUNC_DECLARATION(resetHighlightFlagsFunc)
+{
+    pNoeud->modifierSurligner(false);
+}
 void FacadeModele::resetHighlightFlags()
 {
-    VisiteurFunction visitor([](NoeudAbstrait* n)
-    {
-        n->modifierSurligner(false);
-    });
+    VisiteurFunction visitor(resetHighlightFlagsFunc);
     mEditionField->acceptVisitor(visitor);
 }
 
@@ -1771,8 +1803,9 @@ void FacadeModele::appliquerVue(int quelViewport/* = 1*/)
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::togglePause()
 {
-    if(partieCourante_ && !GestionnaireAnimations::obtenirInstance()->estJouerReplay())
-        partieCourante_->modifierEnPause(!partieCourante_->estEnPause());
+    Partie* wGame = obtenirPartieCourante();
+    if(wGame && !GestionnaireAnimations::obtenirInstance()->estJouerReplay())
+        wGame->modifierEnPause(!wGame->estEnPause());
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1788,8 +1821,9 @@ void FacadeModele::togglePause()
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::modifierEnPause( bool val )
 {
-    if(partieCourante_)
-        partieCourante_->modifierEnPause(val);
+    Partie* wGame = obtenirPartieCourante();
+    if(wGame)
+        wGame->modifierEnPause(val);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1804,8 +1838,9 @@ void FacadeModele::modifierEnPause( bool val )
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::estEnPause() const
 {
-    if(partieCourante_)
-        return partieCourante_->estEnPause(); 
+    Partie* wGame = obtenirPartieCourante();
+    if(wGame)
+        return wGame->estEnPause(); 
     // S'il n'y a pas de partie courante, alors on ne peut etre en pause
     return false;
 }

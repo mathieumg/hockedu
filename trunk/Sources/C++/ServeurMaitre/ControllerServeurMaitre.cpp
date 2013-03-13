@@ -5,7 +5,9 @@
 #include "../Reseau/ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
 #include "CommunicateurBD.h"
 #include "ExceptionsReseau/ExceptionReseauBD.h"
+#include "../Reseau/Paquets/PaquetEvent.h"
 
+unsigned int ControllerServeurMaitre::mNewGameServerId = 1;
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -49,11 +51,34 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
     switch(pEventCode) {
     case USER_DISCONNECTED:
         {
-            std::string wPlayerName = va_arg(pListeElems,char*);
+            std::string& wPlayerName = va_arg(pListeElems,std::string);
             if(wPlayerName.length() != 0 )
             {
                 // Handle deconnection (throw une exception qui sera catch dans le thread de reception et qui fera la deconnexion)
                 throw ExceptionReseauSocketDeconnecte("Message de deconnection recu par le client " + wPlayerName);
+            }
+            break;
+        }
+    case GAME_SERVER_AUTHENTICATION_REQUEST:
+        {
+#if !SHIPPING
+            std::cout << "Game server authentication request" << std::endl;
+#endif
+            for(unsigned int i = mGameServersList.size()+1; i < mNewGameServerId; ++i)
+            {
+                std::string wIdentificationString("GameServer");
+                wIdentificationString += i;
+                SPSocket wAssociatedSocket = GestionnaireReseau::obtenirInstance()->getSocket(wIdentificationString, TCP);
+                mGameServersList[i] = wAssociatedSocket->getAdresseDestination();
+                PaquetEvent* wReplyPacket = (PaquetEvent*)GestionnaireReseau::obtenirInstance()->creerPaquet(EVENT);
+                wReplyPacket->setEventCode(GAME_SERVER_AUTHENTICATION_REPLY);
+                std::stringstream message;
+                message << i;
+                wReplyPacket->setMessage(message.str());
+#if !SHIPPING
+                std::cout << "Replying to server id " << i << std::endl;
+#endif
+                GestionnaireReseau::obtenirInstance()->envoyerPaquet(wAssociatedSocket, wReplyPacket);
             }
             break;
         }
@@ -77,15 +102,34 @@ void ControllerServeurMaitre::handleDisconnectDetection(SPSocket pSocket)
 }
 
 
-// Retourne -1 si authentification fail
-bool ControllerServeurMaitre::authenticate( const std::string& pUsername, const std::string& pPassword )
+// Retourne l'identifiant du serveur
+std::string ControllerServeurMaitre::authenticate( const std::string& pUsername, const std::string& pPassword )
 {
     try
     {
-        return CommunicateurBD::obtenirInstance()->authenticate(pUsername, pPassword) != -1;
+        if(pUsername == "GameServer" && pPassword == "HockeduSuperProtectedPassword")
+        {
+            std::string wTempUser = pUsername;
+            wTempUser += mNewGameServerId++;
+            return wTempUser;
+        }
+        else if (CommunicateurBD::obtenirInstance()->authenticate(pUsername, pPassword) != -1)
+        {
+            return pUsername;
+        }
+        else
+        {
+            return "";
+        }
     }
     catch(ExceptionReseauBD&)
     {
-        return false;
+        return "";
     }
+}
+
+// A implementer une fois que la structure de parties va etre faire dans le serveur maitre
+void ControllerServeurMaitre::getPlayersInGame( int pGameId, std::vector<const std::string*>& pPlayerList )
+{
+    throw std::exception("The method or operation is not implemented.");
 }

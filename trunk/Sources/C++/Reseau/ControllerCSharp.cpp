@@ -1,6 +1,7 @@
 #include "ControllerCSharp.h"
 #include "GestionnaireReseau.h"
 #include "PaquetRunnable.h"
+#include "PaquetRunnableClientLourd.h"
 #ifdef LINUX
 #include <stdarg.h>
 #endif
@@ -92,7 +93,7 @@ int ControllerCSharp::HandleEvent(ControllerCSharp* pContext, EventCodes pEventC
         std::string message;
         if(pEventCode == SERVER_USER_DISCONNECTED || pEventCode == SERVER_USER_CONNECTED)
         {
-            message = va_arg(pListeElems,char*);
+            message = va_arg(pListeElems,std::string);
         }
         return c(pEventCode,(char*)message.c_str());
     }

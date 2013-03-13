@@ -91,13 +91,13 @@ int PaquetRunnable::RunnableChatMessageServerMaster( Paquet* pPaquet )
     // On ne call donc pas delete dessus tout suite
     if(wPaquet->IsTargetGroup())
     {
-        // On envoie a tout le monde
-        RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, NULL, TCP);
+        // On l'envoie a la personne dans groupName seulement
+        RelayeurMessage::obtenirInstance()->relayerPaquet(wPaquet->getGroupName(), wPaquet, TCP);
     }
     else
     {
-        // On l'envoie a la personne dans groupName seulement
-        RelayeurMessage::obtenirInstance()->relayerPaquet(wPaquet->getGroupName(), wPaquet, TCP);
+        // On envoie a tout le monde
+        RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, NULL, TCP);
     }
 
     return 0;
@@ -129,3 +129,5 @@ int PaquetRunnable::RunnableGameStatusServerMaster( Paquet* pPaquet )
 
     return 0;
 }
+
+

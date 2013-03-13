@@ -198,12 +198,14 @@ bool ArbreRendu::initialiser( const XmlElement* element )
     const XmlElement* racine = XMLUtils::FirstChildElement(element, ETIQUETTE_ARBRE);
     if (racine)
     {
-        CreateAndInitNodesFromXml(racine);
+        for( auto child = XMLUtils::FirstChildElement(racine); child; child = XMLUtils::NextSibling(child) )
+        {
+            CreateAndInitNodesFromXml(child);
+        }
     }
     else
     {
         throw ExceptionJeu("Etiquette de l'arbre manquant");
-        return false;
     }
 
     return true;
@@ -220,29 +222,29 @@ bool ArbreRendu::initialiser( const XmlElement* element )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudComposite::CreateAndInitNodesFromXml( const XmlElement* racine )
+void NoeudComposite::CreateAndInitNodesFromXml( const XmlElement* child )
 {
     const ArbreRendu* treeRoot = GetTreeRoot();
     if(treeRoot)
     {
-        for( auto child = XMLUtils::FirstChildElement(racine); child; child = XMLUtils::NextSibling(child) )
+        auto name = XMLUtils::GetNodeTag(child);
+        auto node = treeRoot->creerNoeud(name);
+        checkf(node,"Error creating node : %s",name );
+        if(node)
         {
-            auto name = XMLUtils::GetNodeTag(child);
-            auto node = treeRoot->creerNoeud(name);
-            if(node)
+            ajouter(node);
+            try
             {
-                ajouter(node);
-                node->initialiser(child);
+                if(!node->initialiser(child))
+                {
+                    throw ExceptionJeu("Initialisation error in node");
+                }
             }
-            else
+            catch(ExceptionJeu& e)
             {
-                throw ExceptionJeu("Error creating node : %s",name);
+                effacer(node);
             }
         }
-    }
-    else
-    {
-        throw ExceptionJeu("Tree root not found");
     }
 }
 

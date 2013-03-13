@@ -33,6 +33,11 @@ const std::string Tournoi::tounoiNonJoue = "Aucun Gagnant de ce tournoi!";
 Tournoi::Tournoi(): estEnCours_(false)
 {
 	mFieldName = "";
+
+    for(int i=0; i<nbrParties_; ++i)
+    {
+        parties_[i] = GameManager::obtenirInstance()->addNewGame(NULL, NULL, true);
+    }
 }
 
 
@@ -50,6 +55,15 @@ Tournoi::Tournoi(): estEnCours_(false)
 Tournoi::~Tournoi(void)
 {
 	libererMemoire();
+
+    for(int i = 0; i < nbrParties_; ++i)
+    {
+        Partie* wGame = GameManager::obtenirInstance()->getGame(parties_[i]);
+        if(wGame)
+        {
+            GameManager::obtenirInstance()->removeGame(parties_[i]);
+        }
+    }
 }
 
 
@@ -103,24 +117,31 @@ bool Tournoi::initialisation( const JoueursParticipant& joueurs, const std::stri
 		return false;
 	}
 
+
+
+
 	mFieldName = pFieldName;
 
 	unsigned int index = 14;
 	indexPartieCourante_ = 14;
-
+    Partie* wGames[nbrJoueurs_];
+    for (unsigned int j = 0; j < nbrJoueurs_ ; j++)
+    {
+        wGames[j] = GameManager::obtenirInstance()->getGame(parties_[j]);
+    }
 	// Assignation des joueurs aux parties
 	for (unsigned int j = 0; j < nbrJoueurs_ ; j++)
 	{
 		// Assignation d'un joueurIter à la partie, la partie peut avoir 2 joueurIter assignés
-		parties_[index].assignerJoueur(joueurs[j]);
+		wGames[index]->assignerJoueur(joueurs[j]);
 		// Passage à la partie suivante si on a assigner 2 joueurs à la partie courante
 		index -= j&1; /// Équivalent à j%2
 	}
 	// On assigne le terrain au parties
 	for (unsigned int i = 0; i < nbrParties_ ; i++)
 	{
-		parties_[i].setFieldName(mFieldName);
-		parties_[i].modifierFaitPartieDunTournoi(true);
+		wGames[i]->setFieldName(mFieldName);
+		wGames[i]->modifierFaitPartieDunTournoi(true);
 	}
 	return true;
 }
@@ -186,14 +207,16 @@ bool Tournoi::initialisationXML( const XmlElement* element, ConteneurJoueur* pro
 
 	// Lecture des parties du tournoi
 	const XmlElement* partie = element->FirstChildElement("Partie");
+    GameManager* wGameManager = GameManager::obtenirInstance();
 	for(int i=0; i<nbrParties_; i++)
 	{
 		if(partie == 0)
 			return false;
-		if(!parties_[i].initialiserXML(partie, profilsVirtuelsExistant))
+        Partie* wGame = wGameManager->getGame(parties_[i]);
+		if(!wGame->initialiserXML(partie, profilsVirtuelsExistant))
 			return false;
 		partie = partie->NextSiblingElement();
-		parties_[i].modifierFaitPartieDunTournoi(true);
+		wGame->modifierFaitPartieDunTournoi(true);
 	}
 
 	if(termine)
@@ -219,7 +242,13 @@ bool Tournoi::initialisationXML( const XmlElement* element, ConteneurJoueur* pro
 void Tournoi::libererMemoire()
 {
 	for(int i = 0; i < nbrParties_; ++i)
-		parties_[i].vider();
+    {
+        Partie* wGame = GameManager::obtenirInstance()->getGame(parties_[i]);
+        if(wGame)
+        {
+            wGame->vider();
+        }
+    }
 
 	listeGagnants_.clear();
 }
@@ -280,9 +309,10 @@ XmlElement* Tournoi::creerTournoiXML() const
 	elementNoeud->LinkEndChild(map);
 
 	// Creation du tournoi de facon linéaire
+    GameManager* wManager = GameManager::obtenirInstance();
 	for (unsigned int i = 0; i < nbrParties_ ; i++)
 	{
-		elementNoeud->LinkEndChild(parties_[i].creerNoeudXML());		
+		elementNoeud->LinkEndChild(wManager->getGame(parties_[i])->creerNoeudXML());		
 	}
 	
 	return elementNoeud;
@@ -340,7 +370,8 @@ XmlElement* Tournoi::creerArbreXML( unsigned int index  )
 {
 	if(index >= nbrParties_)
 		return 0;
-	XmlElement* elementNoeud  = parties_[index].creerNoeudXML();
+
+	XmlElement* elementNoeud  = GameManager::obtenirInstance()->getGame(parties_[index])->creerNoeudXML();
 	XmlElement* gauche = creerArbreXML(obtenirPartieRondePrecedente(index,true) );
 	XmlElement* droite = creerArbreXML(obtenirPartieRondePrecedente(index,false) );
 
@@ -365,15 +396,21 @@ XmlElement* Tournoi::creerArbreXML( unsigned int index  )
 void Tournoi::reinitialiserTournoi()
 {
 	indexPartieCourante_ = 14;
+    Partie* wGames[nbrParties_];
+    for(int i = 0; i < nbrParties_; ++i)
+    {
+        wGames[i] = GameManager::obtenirInstance()->getGame(parties_[i]);
+    }
+
 	for(int i = 0; i < (nbrParties_>>1); ++i)
 	{
-		parties_[i].vider();
-		parties_[i].modifierFaitPartieDunTournoi(true);
+		wGames[i]->vider();
+		wGames[i]->modifierFaitPartieDunTournoi(true);
 	}
 	for(int i = nbrParties_>>1; i < nbrParties_; ++i)
 	{
-		parties_[i].reinitialiserPartie();
-		parties_[i].modifierFaitPartieDunTournoi(true);
+		wGames[i]->reinitialiserPartie();
+		wGames[i]->modifierFaitPartieDunTournoi(true);
 	}
 }
 
@@ -395,7 +432,7 @@ bool Tournoi::miseAJour( bool save /*= true */ )
 		if(joueur)
 		{
 			if(indexPartieCourante_ > 0)
-				parties_[obtenirPartieRondeSuivante(indexPartieCourante_)].assignerJoueur(joueur);
+				GameManager::obtenirInstance()->getGame(parties_[obtenirPartieRondeSuivante(indexPartieCourante_)])->assignerJoueur(joueur);
 			else
 				/// Sauvegarde le gagnant
 				listeGagnants_.push_back(joueur->obtenirNom());
@@ -422,10 +459,12 @@ bool Tournoi::miseAJour( bool save /*= true */ )
 JoueursParticipant Tournoi::obtenirListeJoueursInitiaux()
 {
 	JoueursParticipant ret;
+    GameManager* wManager = GameManager::obtenirInstance();
 	for(int i = nbrParties_>>1; i < nbrParties_; ++i)
 	{
-		ret.push_back(parties_[i].obtenirJoueurGauche());
-		ret.push_back(parties_[i].obtenirJoueurDroit());
+        Partie* wGame = wManager->getGame(parties_[i]);
+		ret.push_back(wGame->obtenirJoueurGauche());
+		ret.push_back(wGame->obtenirJoueurDroit());
 	}
 	return ret;
 }
@@ -447,12 +486,12 @@ void Tournoi::majCheminVainqueur()
 	PositionJoueur pos;
 	unsigned int index = indexPartieCourante_;
 	
-	pos = parties_[index].obtenirPositionGagant();
+	pos = GameManager::obtenirInstance()->getGame(parties_[index])->obtenirPositionGagant();
 	cheminDernierVainqueur_.push_back(Vainqueur(index,pos));
 	index = obtenirPartieRondePrecedente(index, pos == GAGNANT_GAUCHE);
 	while(index < nbrParties_)
 	{
-		pos = parties_[index].obtenirPositionGagant();
+		pos = GameManager::obtenirInstance()->getGame(parties_[index])->obtenirPositionGagant();
 		cheminDernierVainqueur_.push_back(Vainqueur(index,pos));
 		index = obtenirPartieRondePrecedente(index, pos == GAGNANT_GAUCHE);
 	}

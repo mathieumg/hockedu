@@ -7,7 +7,6 @@
 /// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
-
 #include "GestionnaireEtatModeSimulation.h"
 #include "FacadeModele.h"
 #include "NoeudMaillet.h"
@@ -29,10 +28,10 @@
 #include "Box2D\Dynamics\b2World.h"
 #endif
 #include "VuePerspectiveSplit.h"
+#include "GameManager.h"
 
-typedef int IDPartie;
-typedef std::hash_map<IDPartie,Partie*> GamesContainer;
-GamesContainer games;
+
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -67,12 +66,16 @@ GestionnaireEtatAbstrait()
 
     for(int i=0; i<2; ++i)
     {
-        auto partieCourante = new Partie(SPJoueurAbstrait(new JoueurVirtuel("Joueur Gauche",225,50)),SPJoueurAbstrait(new JoueurVirtuel("Joueur Droit",225,50)));
-        if(i==0)partieCourante->setFieldName(FacadeModele::FICHIER_TERRAIN_EN_COURS);
-        partieCourante->getReadyToPlay();
-        partieCourante->miseAuJeu(true);
+        int partieCourante = GameManager::obtenirInstance()->addNewGame(SPJoueurAbstrait(new JoueurVirtuel("Joueur Gauche",225,50)),SPJoueurAbstrait(new JoueurVirtuel("Joueur Droit",225,50)));
+        auto pointeurPartie = GameManager::obtenirInstance()->getGame(partieCourante);
+        if(i==0)
+        {
+            pointeurPartie->setFieldName(FacadeModele::FICHIER_TERRAIN_EN_COURS);
+        }
+        pointeurPartie->getReadyToPlay();
+        pointeurPartie->miseAuJeu(true);
 
-        FacadeModele::getInstance()->obtenirVue()->centrerCamera(partieCourante->getField()->GetTableWidth(),i+1);
+        FacadeModele::getInstance()->obtenirVue()->centrerCamera(pointeurPartie->getField()->GetTableWidth(),i+1);
         games[i] = partieCourante;
     }
 
@@ -92,10 +95,10 @@ GestionnaireEtatModeSimulation::~GestionnaireEtatModeSimulation()
 {
     // remettre la vue par defaut
     FacadeModele::getInstance()->initialiserVue();
-
+    
     for(auto it = games.begin();it != games.end(); ++it)
     {
-        delete (it->second);
+        GameManager::obtenirInstance()->removeGame(*it);
     }
     games.clear();
 }
@@ -223,7 +226,7 @@ void GestionnaireEtatModeSimulation::animer( const float& temps )
 
     for(auto it = games.begin();it != games.end(); ++it)
     {
-        Partie* partieCourante = it->second;
+        Partie* partieCourante = GameManager::obtenirInstance()->getGame(*it);
         if(partieCourante)
         {
             partieCourante->animer(temps);
@@ -253,7 +256,7 @@ void GestionnaireEtatModeSimulation::afficher()
         auto it = games.begin();
         for(int currentCam=1; currentCam <= nbViewPort && it != games.end(); ++currentCam, ++it)
         {
-            Partie* partieCourante = it->second;
+            Partie* partieCourante = GameManager::obtenirInstance()->getGame(*it);
             if(partieCourante)
             {
                 glEnable(GL_LIGHTING);

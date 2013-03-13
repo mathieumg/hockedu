@@ -1,5 +1,5 @@
-#include "PacketBuilder.h"
 #include "GestionnaireReseau.h"
+#include "PacketBuilder.h"
 
 PacketBuilder::PacketBuilder()
 :mCurrentByteOrder(NATIVE), mSwapBytes(false), mAddStringLength(true)
@@ -101,10 +101,14 @@ PacketBuilder& PacketBuilder::operator=( PacketBuilder& pPacket )
 ////////////////////////////////////////////////////////////////////////
 void PacketBuilder::addString( const uint8_t* pStringToAdd, uint32_t pStringLength )
 {
+#if !HANDLE_CHARACTERE_0
     ++pStringLength;
-	if(mAddStringLength)
-		addInteger(pStringLength);
-	mArrStart = (uint8_t*)realloc(mArrStart, *mArrSize + pStringLength);
+#endif
+    if(mAddStringLength)
+    {
+        addInteger(pStringLength);
+    }
+    mArrStart = (uint8_t*)realloc(mArrStart, *mArrSize + pStringLength);
 #ifdef WINDOWS
 	memcpy_s(mArrStart + *mArrSize, pStringLength, pStringToAdd, pStringLength);
 #elif defined(LINUX)

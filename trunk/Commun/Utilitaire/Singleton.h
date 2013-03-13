@@ -33,6 +33,8 @@ public:
    /// Libère l'instance unique de la classe.
    static void libererInstance();
 
+   /// Checks if the instance exists
+   static bool Exists(){return !!instance_;}
 protected:
    /// Constructeur vide déclaré protected.
    Singleton() {}

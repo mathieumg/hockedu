@@ -99,7 +99,7 @@ namespace UIHeavyClient
             string[] playlists = new string[nbrPlaylists];
             for (int i = 0; i < nbrPlaylists; ++i)
             {
-                playlists[i] = "";
+                playlists[i] = new string('s', 255);
             }
 
             GetRadioPlaylists(playlists, nbrPlaylists);
@@ -118,7 +118,7 @@ namespace UIHeavyClient
                 string[] songs = new string[nbrSongs];
                 for (int i = 0; i < nbrSongs; ++i)
                 {
-                    songs[i] = "";
+                    songs[i] = new string('r', 255);
                 }
 
                 GetPlaylistSongs(s, songs, nbrSongs);
@@ -146,58 +146,64 @@ namespace UIHeavyClient
 
         private void mPlaylistDeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            RemoveRadioPlaylist(mSelectedPlaylist);
-            DisplayPlaylists();
+            if (mSelectedPlaylist != "")
+            {
+                RemoveRadioPlaylist(mSelectedPlaylist);
+                DisplayPlaylists();
+            }
         }
 
         private void mCurrentPlaylistsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //mSongsEditGroupBox.IsEnabled = true;
             ClearPlaylistInfo();
-
-            mSelectedPlaylist = (sender as ListView).SelectedItem.ToString();
-            mSelectedPlaylistContent = mPlaylistsContent[mSelectedPlaylist];
-
-            mPlaylistNameTextBox.Text = mSelectedPlaylist;
-
-            foreach (string s in mSelectedPlaylistContent)
+            if ((sender as ListView).SelectedItems.Count > 0)
             {
-                mSongsListView.Items.Add(s);
+                mSelectedPlaylist = (sender as ListView).SelectedItem.ToString();
+                mSelectedPlaylistContent = mPlaylistsContent[mSelectedPlaylist];
+
+                mPlaylistNameTextBox.Text = mSelectedPlaylist;
+
+                foreach (string s in mSelectedPlaylistContent)
+                {
+                    mSongsListView.Items.Add(s);
+                }
             }
         }
 
         private void mSongDeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (System.Collections.IList l in mSongsListView.SelectedItems)
+            if (mSelectedPlaylistContent != null)
             {
-                mSelectedPlaylistContent.Remove(l.ToString());
+                string buffer;
+                for (int i = 0; i < mSongsListView.SelectedItems.Count; ++i )
+                {
+                    buffer = (mSongsListView.SelectedItems[i] as string);
+                    mSelectedPlaylistContent.Remove(buffer);
+                    mSongsListView.Items.Remove((buffer as string));
+                }
             }
-
-            mSongsListView.SelectedItems.Clear();
         }
 
         private void mSongAddButton_Click(object sender, RoutedEventArgs e)
         {
-            mOpenFileDialog.Title = "Select a song file";
-
-            if (mOpenFileDialog.ShowDialog().Value)
+            if (mSelectedPlaylistContent != null)
             {
-                mSelectedPlaylistContent.Add(mOpenFileDialog.FileName);
-                mSongsListView.Items.Add(mOpenFileDialog.FileName);
+                mOpenFileDialog.Title = "Select a song file";
+
+                if (mOpenFileDialog.ShowDialog().Value)
+                {
+                    mSelectedPlaylistContent.Add(mOpenFileDialog.FileName);
+                    mSongsListView.Items.Add(mOpenFileDialog.FileName);
+                }
             }
         }
 
         private void mSaveButton_Click(object sender, RoutedEventArgs e)
         {
             // Is there a name?
-            if (mPlaylistNameTextBox.Text != "")
+            if (mSelectedPlaylistContent != null && mPlaylistNameTextBox.Text != "")
             {
-                // If we change the name, delete old playlist
-                if (mPlaylistNameTextBox.Text != mSelectedPlaylist)
-                {
-                    RemoveRadioPlaylist(mSelectedPlaylist);
-                }
-
+                RemoveRadioPlaylist(mSelectedPlaylist);
                 AddRadioPlaylist(mPlaylistNameTextBox.Text, mSelectedPlaylistContent.ToArray(), mSelectedPlaylistContent.Count);
 
                 DisplayPlaylists();

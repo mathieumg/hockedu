@@ -36,7 +36,8 @@ public:
     virtual XmlElement* creerNoeudXML();
     /// Initialisation du NoeudMuret à partir d'un element XML
     virtual bool initialiser(const XmlElement* element);
-
+    /// Accueil un visiteur
+    virtual void acceptVisitor( VisiteurNoeud& v );
 
     virtual void modifierEchelle( float facteur );
     ///////////////////////////////////////////////////////////////////////////

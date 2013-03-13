@@ -63,6 +63,9 @@ else
         case 'ajax':
             $Website->setIncludeModule( 'ajax' );
             break;
+		case 'remote':
+            $Website->setIncludeModule( 'remote' );
+            break;
         default:
             $Website->setIncludeModule( 'homepage' );
     }

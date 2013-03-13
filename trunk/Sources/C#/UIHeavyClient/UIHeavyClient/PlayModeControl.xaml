@@ -27,7 +27,7 @@
             <Label Content="Chat with your opponent!" Height="28" HorizontalAlignment="Left" Margin="6,6,0,0" Name="mChatTitleLabel" VerticalAlignment="Top" Width="Auto" Foreground="White" Grid.RowSpan="2" />
             <TextBox Margin="6,4,16,6" Name="mChatOutputTextBox" Text="" Background="Black" Foreground="White" IsReadOnly="True" Grid.Row="1" Grid.ColumnSpan="2" />
             <TextBox Margin="6,5,10,11" Name="mChatInputTextbox" Background="Black" Foreground="White" Grid.Row="2" />
-            <Button Content="Send" Margin="7,5,5,10" Name="mChatButton" Background="Black" Foreground="White" Grid.Row="2" Grid.Column="1" />
+            <Button Content="Send" Margin="7,5,5,10" Name="mChatButton" Background="Black" Foreground="White" Grid.Row="2" Grid.Column="1" Click="submitButton_Click" />
         </Grid>
         <Grid Name="mRadioGrid" MinHeight="120" MinWidth="240" MaxHeight="120" MaxWidth="240" HorizontalAlignment="Stretch" Width="Auto" Panel.ZIndex="5" Height="Auto" VerticalAlignment="Stretch" Grid.Row="1">
             <Grid.RowDefinitions>

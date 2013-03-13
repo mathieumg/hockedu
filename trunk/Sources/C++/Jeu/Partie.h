@@ -20,6 +20,10 @@
 class NoeudMaillet;
 class NoeudRondelle;
 
+enum GameStatus {GAME_NOT_STARTED, GAME_SCORE, GAME_STARTED, GAME_ENDED, GAME_RUNNING, GAME_PAUSED};
+typedef int (*GameUpdateCallback) (int, GameStatus); // Param1 = GameID, Param2 = UpdateStatus
+
+
 enum PositionJoueur{GAGNANT_GAUCHE,GAGNANT_DROITE,GAGNANT_AUCUN};
 
 ///////////////////////////////////////////////////////////////////////////
@@ -33,9 +37,7 @@ class Partie
 {
 public:
 
-	/// Constructeur par paramètres
-	Partie(SPJoueurAbstrait joueurGauche = 0, SPJoueurAbstrait joueurDroit = 0);
-
+	friend class GameManager;
 	/// Destructeur
 	~Partie(void);
 
@@ -88,10 +90,18 @@ public:
     void SignalGameOver();
     bool getReadyToPlay();
 
+	inline void setUpdateCallback(GameUpdateCallback pCallback) {mUpdateCallback = pCallback;}
+
 /// Methode Privee
 private:
+
+    /// Constructeur par paramètres
+	Partie(SPJoueurAbstrait joueurGauche = 0, SPJoueurAbstrait joueurDroit = 0, int uniqueGameId = 0, GameUpdateCallback updateCallback = 0);
+    
 	/// Modificateur de estPret_
 	inline void modifierEstPret(bool val) { estPret_ = val; if(estPret_) tempsJeu_.unPause(); else tempsJeu_.pause(); }
+
+    inline void setGameStatus(GameStatus pStatus) {mLastGameStatus = mGameStatus; mGameStatus = pStatus;}
 
 /// Attributs
 private:
@@ -106,7 +116,7 @@ private:
 	/// Indique si la partie peut debuter/continuer
 	bool estPret_;
 	/// Indique si la partie est en pause
-	bool enPause_;
+	//bool enPause_;
 
 	/// Temps restant a etre inactif
 	int minuterie_;
@@ -124,6 +134,17 @@ private:
     /// Terrain associé à la partie, son scope est le meme que la partie
     Terrain* mField;
 
+	// ID unique de la partie
+	int mUniqueGameId_;
+
+	// Callback pour les mise a jour de la partie
+	GameUpdateCallback mUpdateCallback;
+
+	void callGameUpdate(GameStatus pUpdateStatus) const;
+
+    GameStatus mGameStatus;
+    GameStatus mLastGameStatus;
+    
 /// Accesseurs
 public:
 	/// Indique si les 2 joueurs de la partie sont virtuels
@@ -133,9 +154,9 @@ public:
 	/// Modificateur de faitPartieDunTournoi_
 	void modifierFaitPartieDunTournoi(bool val) { faitPartieDunTournoi_ = val; }
 	/// Modificateur de enPause_
-	void modifierEnPause(bool val) { enPause_ = val; if(enPause_) tempsJeu_.pause(); else tempsJeu_.unPause(); }
+    void modifierEnPause(bool val);
 	/// Accesseur de enPause_
-	inline bool estEnPause() const { return enPause_; }
+	inline bool estEnPause() const { return mGameStatus == GAME_PAUSED; }
 	/// Accesseurs des points des joueurs
 	int obtenirPointsJoueurGauche() const;
 	int obtenirPointsJoueurDroit() const;
@@ -168,6 +189,10 @@ public:
 	bool estPret() const {return estPret_;}
     /// Accessors of mField
     inline Terrain* getField() const { return mField; }
+
+	inline const int getUniqueGameId() {return mUniqueGameId_;}
+
+    inline GameStatus getGameStatus() const { return mGameStatus; }
 };
 
 ///////////////////////////////////////////////////////////////////////////////
