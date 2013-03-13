@@ -142,9 +142,11 @@ void GestionnaireEtatModeTournoi::sourisDeplacee( EvenementSouris& evenementSour
 	Vecteur3 coordonneesSouris, anciennePos;
 	FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX], evenementSouris.obtenirPosition()[VY], coordonneesSouris);
 	NoeudMaillet* maillet = FacadeModele::getInstance()->obtenirMailletJoueurGauche();
-	maillet->assignerPosSouris(coordonneesSouris);
+	if(maillet->estControleParNetwork())
+        maillet->assignerPosSouris(coordonneesSouris);
 	maillet = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
-	maillet->assignerPosSouris(coordonneesSouris);	
+    if(maillet->estControleParNetwork())
+	    maillet->assignerPosSouris(coordonneesSouris);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

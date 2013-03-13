@@ -510,6 +510,9 @@
     <ClCompile Include="Jeu\JoueurNetwork.cpp">
       <Filter>Sources Files\Jeu</Filter>
     </ClCompile>
+    <ClCompile Include="Jeu\PartieSyncer.cpp">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -996,6 +999,9 @@
       <Filter>Sources Files\Reseau</Filter>
     </ClInclude>
     <ClInclude Include="Jeu\JoueurNetwork.h">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClInclude>
+    <ClInclude Include="Jeu\PartieSyncer.h">
       <Filter>Sources Files\Jeu</Filter>
     </ClInclude>
   </ItemGroup>

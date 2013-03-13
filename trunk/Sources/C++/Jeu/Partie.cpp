@@ -42,7 +42,7 @@ const int Partie::POINTAGE_GAGNANT = 7;
 ///
 ////////////////////////////////////////////////////////////////////////
 Partie::Partie(SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, GameUpdateCallback updateCallback /*= 0*/ ):
-pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), estPret_(false), faitPartieDunTournoi_(false)
+pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), estPret_(false), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 30, joueurGauche, joueurDroit)
 {
     chiffres_ = new NoeudAffichage("3");
     mField = new Terrain(this);
@@ -225,6 +225,8 @@ void Partie::assignerJoueur( SPJoueurAbstrait joueur )
         modifierJoueurGauche(joueur);
     else if(joueurDroit_ == 0)
         modifierJoueurDroit(joueur);
+
+    mPartieSyncer.setPlayers(joueurGauche_, joueurDroit_);
 //  else
 //      delete joueur;
 }
@@ -356,12 +358,13 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
             if(joueurGauche_->obtenirType() == JOUEUR_NETWORK)
             {
                 mailletGauche->setIsAI(false);
+                mailletGauche->setIsNetworkPlayer(true);
                 mailletGauche->buildMouseJoint(true);
             }
             else
             {
                 mailletGauche->setKeyboardControlled(false);
-                
+                mailletGauche->setIsNetworkPlayer(false);
                 if(joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
                 {
                     mailletGauche->setIsAI(false);
@@ -377,10 +380,12 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
             if(joueurDroit_->obtenirType() == JOUEUR_NETWORK)
             {
                 mailletDroit->setIsAI(false);
+                mailletDroit->setIsNetworkPlayer(true);
                 mailletDroit->buildMouseJoint(true);
             }
             else
             {
+                mailletDroit->setIsNetworkPlayer(false);
                 if(joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
                 {
                     mailletDroit->setIsAI(false);

@@ -47,6 +47,7 @@ public:
         return !!n2 && 
             estControleParClavier_ == n2->estControleParClavier_ && 
             estControleParOrdinateur_ == n2->estControleParOrdinateur_ && 
+            estControleParNetwork_ == n2->estControleParNetwork_ && 
             estAGauche_ == n2->estAGauche_ && 
             Super::equals(n);
     }
@@ -79,6 +80,8 @@ public:
     /// applies physics behavior on b2Body before simulation
     void preSimulationActions();
 
+    inline bool estControleParNetwork() const { return estControleParNetwork_; }
+
     //////////////////////////////////////////////////////////////////////////
     /// Objet Animable interface
     virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
@@ -96,6 +99,8 @@ private:
 	/// Flag pour savoir qui a le controle de ce maillet
 	bool estControleParClavier_;
 	bool estControleParOrdinateur_;
+    bool estControleParNetwork_;
+    
 
 	/// Conservation en memoire de la position de la osuris
 	Vecteur3 posSouris_;
@@ -165,7 +170,7 @@ public:
 	void setAIPlayer(JoueurVirtuel* val) { joueur_ = val; }
     /// Obtenir pos souris
     inline Vecteur3 getPosSouris() {return posSouris_;}
-
+    inline void setIsNetworkPlayer(const bool pIsNetworkPlayer) {estControleParNetwork_ = pIsNetworkPlayer;}
 
 };
 
