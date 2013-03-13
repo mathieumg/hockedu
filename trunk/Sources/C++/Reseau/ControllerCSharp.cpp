@@ -1,6 +1,7 @@
 #include "ControllerCSharp.h"
 #include "GestionnaireReseau.h"
 #include "PaquetRunnable.h"
+#include "PaquetRunnableClientLourd.h"
 #ifdef LINUX
 #include <stdarg.h>
 #endif

@@ -300,7 +300,7 @@ unsigned int NoeudAbstrait::obtenirNombreEnfants() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::inverserSelection()
 {
-   selectionne_ = !selectionne_;
+    assignerSelection(!estSelectionne());
 }
 
 
@@ -335,7 +335,7 @@ void NoeudAbstrait::selectionnerTout()
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::deselectionnerTout()
 {
-   selectionne_ = false;
+    assignerSelection(false);
 }
 
 
@@ -1176,10 +1176,11 @@ void NoeudAbstrait::renderOpenGLES() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::assignerSelection( const bool& selectionne )
 {
+    bool oldSelection = selectionne_;
     // Un objet non sélectionnable n'est jamais sélectionné.
     selectionne_ = (selectionne && selectionnable_);
     auto terrain = GetTerrain();
-    if(terrain)
+    if(terrain && oldSelection != selectionne_)
     {
         terrain->NodeSelectionNotification(this,selectionne_);
     }

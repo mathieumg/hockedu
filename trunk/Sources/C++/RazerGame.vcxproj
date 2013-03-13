@@ -304,6 +304,7 @@
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerTest.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp" />
     <ClCompile Include="Reseau\PaquetRunnable.cpp" />
+    <ClCompile Include="Reseau\PaquetRunnableClientLourd.cpp" />
     <ClCompile Include="Reseau\PaquetRunnableServeurJeu.cpp" />
     <ClCompile Include="Reseau\Paquets\Paquet.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetAuthentificationServeurJeu.cpp" />
@@ -458,6 +459,7 @@
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerTest.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerUserStatus.h" />
     <ClInclude Include="Reseau\PaquetRunnable.h" />
+    <ClInclude Include="Reseau\PaquetRunnableClientLourd.h" />
     <ClInclude Include="Reseau\PaquetRunnableServeurJeu.h" />
     <ClInclude Include="Reseau\Paquets\Paquet.h" />
     <ClInclude Include="Reseau\Paquets\PaquetAuthentificationServeurJeu.h" />

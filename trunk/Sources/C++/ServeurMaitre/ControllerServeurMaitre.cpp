@@ -127,3 +127,9 @@ std::string ControllerServeurMaitre::authenticate( const std::string& pUsername,
         return "";
     }
 }
+
+// A implementer une fois que la structure de parties va etre faire dans le serveur maitre
+void ControllerServeurMaitre::getPlayersInGame( int pGameId, std::vector<const std::string*>& pPlayerList )
+{
+    throw std::exception("The method or operation is not implemented.");
+}

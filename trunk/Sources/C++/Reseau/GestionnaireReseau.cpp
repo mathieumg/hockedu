@@ -1030,6 +1030,22 @@ void GestionnaireReseau::setUser( const std::string& pUsername, const std::strin
 
 
 
+void GestionnaireReseau::getEveryoneConnected( std::vector<const std::string*>& pList )
+{
+    FacadePortability::takeMutex(mMutexListeSockets);
+
+    for(auto it = mListeSockets.begin(); it!=mListeSockets.end(); ++it)
+    {
+        pList.push_back((&(*it).first.first));
+    }
+
+    FacadePortability::releaseMutex(mMutexListeSockets);
+}
+
+
+
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////

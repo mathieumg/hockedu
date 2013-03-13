@@ -504,6 +504,9 @@
     <ClCompile Include="reseau\PaquetHandlers\PacketHandlerRondelle.cpp" />
     <ClCompile Include="reseau\PaquetHandlers\PacketHandlerMaillet.cpp" />
     <ClCompile Include="Tests\UtilitaireTests.cpp" />
+    <ClCompile Include="Reseau\PaquetRunnableClientLourd.cpp">
+      <Filter>Sources Files\Reseau</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -985,6 +988,9 @@
     </ClInclude>
     <ClInclude Include="Tests\UtilitaireTests.h">
       <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\PaquetRunnableClientLourd.h">
+      <Filter>Sources Files\Reseau</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

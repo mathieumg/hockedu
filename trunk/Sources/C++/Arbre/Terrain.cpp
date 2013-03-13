@@ -874,10 +874,11 @@ void Terrain::appliquerPhysique( float temps )
 #endif
         
 #ifndef __APPLE__
-        if(mailletGauche)
+        if(mailletGauche && mGame)
         {
             PaquetMaillet* wPaquet = (PaquetMaillet*) GestionnaireReseau::obtenirInstance()->creerPaquet(MAILLET);
             wPaquet->setPosition(mailletGauche->getPosition());
+            wPaquet->setGameId(mGame->getUniqueGameId());
             GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
         }
 #endif
