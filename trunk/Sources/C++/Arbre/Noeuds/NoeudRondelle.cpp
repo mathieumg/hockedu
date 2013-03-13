@@ -52,7 +52,7 @@ CreateListDelegateImplementation(Puck)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudRondelle::NoeudRondelle(const std::string& typeNoeud, unsigned int& puckCreated, unsigned int puckLimit)
-    : NoeudAbstrait(typeNoeud),puissanceVent_(0.05f),mNbPuckCreated(puckCreated)
+    : NoeudAbstrait(typeNoeud),puissanceVent_(0.05f),mNbPuckCreated(puckCreated),mLastHittingMallet(NULL)
 {
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);

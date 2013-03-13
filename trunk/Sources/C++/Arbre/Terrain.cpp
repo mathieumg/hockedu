@@ -65,14 +65,14 @@ const unsigned int MAX_MALLETS = 2;
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-Terrain::Terrain(Partie* pGame): mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame)
+Terrain::Terrain(Partie* pGame): 
+    mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame),mZamboni(NULL)
 {
     mEditionZone = NULL;
     if(!mGame)
     {
         mEditionZone = new ZoneEdition();
     }
-    mZamboni = new NodeModelRender(RazerGameUtilities::NAME_ZAMBONI);
 #if BOX2D_INTEGRATED
     b2Vec2 gravity(0,0);
     mWorld = new b2World(gravity);
@@ -115,11 +115,6 @@ Terrain::~Terrain()
         mWorld = NULL;
     }
 #endif
-    if(mZamboni)
-    {
-        delete mZamboni;
-    }
-    mZamboni = NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -247,6 +242,7 @@ void Terrain::initialiserArbreRendu()
     {
         mRenderTree = new ArbreRendu(this);
         NoeudAbstrait* piece = new NodeModelRender(RazerGameUtilities::NOM_HOUSE);
+        mZamboni = new NodeModelRender(RazerGameUtilities::NAME_ZAMBONI);
         mRenderTree->ajouter(piece);
         mRenderTree->ajouter(mZamboni);
     }
@@ -307,6 +303,7 @@ bool Terrain::initialiserXml( XmlElement* element )
         mRenderTree = new ArbreRendu(this);
         NoeudAbstrait* piece = new NodeModelRender(RazerGameUtilities::NOM_HOUSE);
         mRenderTree->ajouter(piece);
+        mZamboni = new NodeModelRender(RazerGameUtilities::NAME_ZAMBONI);
         mRenderTree->ajouter(mZamboni);
     }
     if(!mGame)
@@ -924,6 +921,7 @@ void Terrain::BeginContact( b2Contact* contact )
         // on ne conserve que l'autre categorie
         category &= ~CATEGORY_PUCK;
         b2Body* bodies[2];
+        // l'index 0 contient le body pointant sur la rondelle
         if(filterA.categoryBits & CATEGORY_PUCK)
         {
             bodies[0] = bodyA;
@@ -976,7 +974,12 @@ void Terrain::BeginContact( b2Contact* contact )
             //     case CATEGORY_PUCK    : // impossible case
             //         break;
         case CATEGORY_MALLET  :
-            SoundFMOD::obtenirInstance()->playEffect(effect(COLLISION_MAILLET_EFFECT1+(rand()%5)));			
+            {
+                SoundFMOD::obtenirInstance()->playEffect(effect(COLLISION_MAILLET_EFFECT1+(rand()%5)));
+                NoeudMaillet* maillet = (NoeudMaillet*)(bodies[1]->GetUserData());
+                NoeudRondelle* rondelle = (NoeudRondelle*)(bodies[0]->GetUserData());
+                rondelle->setLastHittingMallet(maillet);
+            }
             break;
         case CATEGORY_PORTAL  :
             {

@@ -15,6 +15,7 @@
 #include "ObjetAnimable.h"
 #include "ExceptionJeu.h"
 class NoeudTable;
+class NoeudMaillet;
 ///////////////////////////////////////////////////////////////////////////
 /// @class NoeudRondelle
 /// @brief Classe qui représente une rondelle du jeu.
@@ -118,6 +119,13 @@ private:
 
     /// reference to the factory's counter of puck instances
     unsigned int& mNbPuckCreated;
+    NoeudMaillet* mLastHittingMallet;
+
+public:
+    /// Accessors of mLastHittingMallet
+    inline NoeudMaillet* getLastHittingMallet() const { return mLastHittingMallet; }
+    inline void setLastHittingMallet(NoeudMaillet* pVal) { mLastHittingMallet = pVal; }
+
 };
 
 
