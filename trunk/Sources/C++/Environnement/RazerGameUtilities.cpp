@@ -270,7 +270,7 @@ bool mUpdating = false, mRendering=false;
            {
                bool initField = true;
                auto version = XMLUtils::GetVersion(document);
-                if(version && version != XMLUtils::XmlFieldVersion)
+                if(version && strcmp(version,XMLUtils::XmlFieldVersion) != 0)
                 {
         #if WIN32
                     char MessageStr[256];

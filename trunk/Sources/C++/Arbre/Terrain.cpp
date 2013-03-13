@@ -1507,7 +1507,10 @@ void Terrain::NodeSelectionNotification( NoeudAbstrait* node, bool selected )
     else
     {
         auto it = mSelectedNodes.find(node);
-        mSelectedNodes.erase(it);
+        if(it != mSelectedNodes.end())
+        {
+            mSelectedNodes.erase(it);
+        }
     }
     int nbSelectedNew = mSelectedNodes.size();
     if(nbSelectedOld != nbSelectedNew)
