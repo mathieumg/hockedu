@@ -3,6 +3,7 @@
 #include "../Reseau/PaquetRunnable.h"
 #include "ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
 #include "PaquetRunnableServeurJeu.h"
+#include "../Application/GameManager.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -23,7 +24,7 @@ ControllerServeurJeu::ControllerServeurJeu()
     mPaquetRunnables[CHAT_MESSAGE]                  = PaquetRunnable::RunnableChatMessageServerGame;
     mPaquetRunnables[GAME_STATUS]                   = PaquetRunnable::RunnableGameStatusServerGame;
     mPaquetRunnables[AUTHENTIFICATION_SERVEUR_JEU]  = PaquetRunnable::RunnableAuthentificationServeurJeuServerGame;
-    mPaquetRunnables[MAILLET]                       = PaquetRunnable::RunnableMailletServer;
+    mPaquetRunnables[MAILLET]                       = PaquetRunnable::RunnableMailletServerGame;
 
 }
 
@@ -62,4 +63,27 @@ void ControllerServeurJeu::handleEvent( EventCodes pEventCode, va_list pListeEle
 void ControllerServeurJeu::handleDisconnectDetection( SPSocket pSocket )
 {
     GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
+}
+
+void ControllerServeurJeu::getPlayersInGame( int pGameId, std::vector<const std::string*>& pPlayerList )
+{
+    // Code une fois que les parties vont etre sync dans les serveurs jeu
+    /*Partie* wGame = GameManager::obtenirInstance()->getGame(pGameId);
+    if(wGame)
+    {
+        pPlayerList.push_back(&wGame->obtenirNomJoueurGauche());
+        pPlayerList.push_back(&wGame->obtenirNomJoueurDroit());
+    }*/
+    GestionnaireReseau::obtenirInstance()->getEveryoneConnected(pPlayerList);
+}
+
+
+Partie* ControllerServeurJeu::getGame( int pGameId )
+{
+    Partie* wGame = GameManager::obtenirInstance()->getGame(pGameId);
+    if(wGame)
+    {
+
+    }
+    return NULL;
 }

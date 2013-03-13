@@ -492,6 +492,28 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 			// Aller chercher le Paquet et l'envoyer
 			if(listeAEnvoyer->pop(wPaquetAEnvoyer) && wPaquetAEnvoyer)
 			{
+                Paquet* wPaquet = wPaquetAEnvoyer->paquet;
+
+                // If permet d'eviter ce code 99% du temps
+                if(wPaquet->getLatency()!=0)
+                {
+                    clock_t wElapsed = clock()-wPaquet->getLastTick();
+                    clock_t wTotalLatency = wPaquet->getLatency();
+                    if(wElapsed < wTotalLatency)
+                    {
+                        // Latence pas encore atteinte
+                        wPaquet->setLatency(wTotalLatency-wElapsed);
+                        wPaquet->setLastTick(clock());
+                        // On remet dans la queue
+                        if(listeAEnvoyer->push(wPaquetAEnvoyer))
+                        {
+                            FacadePortability::releaseSemaphore(wCommunicateurReseau->mHandleSemaphoreContentSend);
+                        }
+                        continue;
+                    }
+                    // Sinon on continue car le temps est atteint et on envoie le paquet
+                }
+                
 				SPSocket wSocket = wPaquetAEnvoyer->socket;
 				ConnectionState wConnectionState = wSocket->getConnectionState();
 				if(wConnectionState == CONNECTING || wConnectionState == NOT_CONNECTED)
@@ -513,7 +535,7 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
 
 					// On utilise le handler pour convertir le paquet en suite de char et l'envoyer
 					wPacketBuilder.clearBuffer(); // On s'assure que le buffer est vide
-					wPacketHandler->handlePacketPreparation(wPaquetAEnvoyer->paquet, wPacketBuilder);
+					wPacketHandler->handlePacketPreparation(wPaquet, wPacketBuilder);
 
 
 					// On essaie d'envoyer la chaine, envoi bloquant

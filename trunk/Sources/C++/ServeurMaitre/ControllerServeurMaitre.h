@@ -33,6 +33,8 @@ public:
 
     virtual bool authenticate( const std::string& pUsername, const std::string& pPassword );
 
+    virtual void getPlayersInGame( int pGameId, std::vector<const std::string*>& pPlayerList );
+
 private:
 
 };

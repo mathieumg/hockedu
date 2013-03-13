@@ -16,6 +16,7 @@
 #include "RelayeurMessage.h"
 #include "Paquets\PaquetUserStatus.h"
 #include "Paquets\PaquetGameStatus.h"
+#include "Paquets\PaquetMaillet.h"
 
 
 /// ***** PAR CONVENTION, METTRE Game A LA FIN DU NOM DES DELEGATES
@@ -146,12 +147,29 @@ int PaquetRunnable::RunnableUserStatusServerGame( Paquet* pPaquet )
     return 0;
 }
 
-
-
-
 int PaquetRunnable::RunnableGameStatusServerGame( Paquet* pPaquet )
 {
     PaquetGameStatus* wPaquet = (PaquetGameStatus*) pPaquet;
+
+
+
+
+    return 0;
+}
+
+
+int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
+{
+    PaquetMaillet* wPaquet = (PaquetMaillet*) pPaquet;
+    wPaquet->setLatency(50);
+    std::cout << "Maillet:\t" << wPaquet->getPosition() << std::endl; 
+
+    // Relayer le message aux clients connectes qui font parti de cette partie
+    // Plus tard, on ne devrait pas relayer directement, mais valider que les positions fonctionnent
+    RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), pPaquet);
+
+
+    
 
 
 

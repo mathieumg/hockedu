@@ -212,9 +212,15 @@ bool GameManager::startGame(int pGameId, const std::string& pMapFilename)
 {
 	Partie* wPartie = getGame(pGameId);
 	wPartie->setFieldName(pMapFilename);
-	wPartie->getReadyToPlay(); // Appelle le updateCallback avec GAME_START
-	wPartie->miseAuJeu(true);
-    return true;
+	if(wPartie->getReadyToPlay()) // Appelle le updateCallback avec GAME_START
+    {
+        wPartie->miseAuJeu(true);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 

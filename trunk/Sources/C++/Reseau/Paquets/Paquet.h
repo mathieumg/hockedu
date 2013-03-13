@@ -11,6 +11,7 @@
 #pragma once
 #include <string>
 #include "../GestionnaireReseau.h"
+#include <time.h>
 class UsinePaquet;
 
 
@@ -36,7 +37,7 @@ public:
 
     inline int getNbAssociatedQueries() const { return mNbAssociatedQueries; }
     // Attention, si la mauvaise valeur est mise, cela peut causer des GROS problemes
-    inline void setNbAssociatedQueries(int pNbAssociatedQueries) { mNbAssociatedQueries = pNbAssociatedQueries; }
+    inline void setNbAssociatedQueries(int pNbAssociatedQueries) { if(pNbAssociatedQueries == 0) {delete this;} else{ mNbAssociatedQueries = pNbAssociatedQueries;} }
     // Fonction qui decremente le compteur de queries associees a ce Paquet, Si compteur = 0, on appelle le destructeur
     void removeAssociatedQuery();
 
@@ -47,11 +48,21 @@ public:
 
     inline int getNumeroPaquet() const {return mNumeroPaquet;}
 
+    inline int getLatency() const { return mLatency; }
+    inline void setLatency(int val) { mLatency = val; mLastTick = clock(); }
+
+    inline clock_t getLastTick() const { return mLastTick; }
+    inline void setLastTick(clock_t val) { mLastTick = val; }
+
 protected:
 	Paquet();
 private:
 	int mNbAssociatedQueries; // Nb de fois que le paquet doit etre envoyer (different de 1 si on fait un envoie de masse)
     int mNumeroPaquet;
+
+    int mLatency;
+    clock_t mLastTick;
+    
 
 	PaquetRunnableFunc mRunnableFunction;
 };
