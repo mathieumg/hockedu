@@ -56,6 +56,7 @@ Paquet::Paquet()
 {
     mNbAssociatedQueries = 1; // Par defaut, on envoie le paquet qu'une seule fois
     mNumeroPaquet = ++CompteurNumeroPaquet;
+    mLatency = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////

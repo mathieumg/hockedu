@@ -538,12 +538,12 @@ void NoeudMaillet::updatePhysicBody()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::buildMouseJoint()
+void NoeudMaillet::buildMouseJoint(bool pIsNetworkControlled /*=false*/)
 {
 #if BOX2D_INTEGRATED
     if(!mMouseJoint)
     {
-        if(!estControleParOrdinateur_ && !estControleParClavier_)
+        if(!estControleParOrdinateur_ && !estControleParClavier_ && !pIsNetworkControlled)
         {
             GestionnaireEvenements::mMouseMoveSubject.attach(this);
         }
@@ -640,7 +640,17 @@ void NoeudMaillet::preSimulationActions()
 {
 #if BOX2D_INTEGRATED  
     Vecteur2 direction(0,0);
-    if(estControleParClavier_ || estControleParOrdinateur_)
+    if(estControleParNetwork_)
+    {
+        // Cas pour le joueur network
+        if(mMouseJoint)
+        {
+            b2Vec2 wPosSouris;
+            utilitaire::VEC3_TO_B2VEC(posSouris_,wPosSouris);
+            mMouseJoint->SetTarget(wPosSouris);
+        }
+    }
+    else if(estControleParClavier_ || estControleParOrdinateur_ )
     {
         if(!estControleParOrdinateur_)
         {
@@ -689,6 +699,17 @@ void NoeudMaillet::preSimulationActions()
             mMouseJoint->SetTarget(velocite);
         }
     }
+    /*else if(this->obtenirJoueur()->obtenirType() == JOUEUR_NETWORK)
+    {
+        // Cas pour le joueur network
+        if(mMouseJoint)
+        {
+            b2Vec2 wPosSouris;
+            utilitaire::VEC3_TO_B2VEC(posSouris_,wPosSouris);
+            mMouseJoint->SetTarget(wPosSouris);
+        }
+
+    }*/
 #endif
 }
 

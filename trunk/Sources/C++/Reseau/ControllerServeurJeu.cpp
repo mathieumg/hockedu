@@ -84,7 +84,6 @@ void ControllerServeurJeu::getPlayersInGame( int pGameId, std::vector<const std:
         pPlayerList.push_back(&wGame->obtenirNomJoueurGauche());
         pPlayerList.push_back(&wGame->obtenirNomJoueurDroit());
     }*/
-    GestionnaireReseau::obtenirInstance()->getEveryoneConnected(pPlayerList);
 }
 
 

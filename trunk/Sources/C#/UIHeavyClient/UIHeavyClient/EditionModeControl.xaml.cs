@@ -230,7 +230,12 @@ namespace UIHeavyClient
 
         private void OnGenerateField(object sender, RoutedEventArgs e)
         {
-            GenerateDefaultField();
+            MessageBoxResult dr = MessageBox.Show("Are you sure?", "Default Map", MessageBoxButton.YesNo);
+
+            if (dr == MessageBoxResult.Yes)
+            {            
+                GenerateDefaultField();
+            }
         }
 
         #endregion

@@ -12,6 +12,20 @@
 #include "GestionnaireModeles.h"
 #include "Utilitaire.h"
 
+const Vecteur3 ZamboniDefaultSize(40,20,20);
+
+CreateListDelegateImplementation(Zamboni)
+{
+    Vecteur3 coinMin,coinMax;
+    pModel->calculerBoiteEnglobante(coinMin,coinMax);
+    Vecteur3 delta = coinMax - coinMin;
+    delta = ZamboniDefaultSize / delta;
+
+    pModel->assignerFacteurAgrandissement(delta);
+    return GestionnaireModeles::CreerListe(pModel);
+}
+
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn NoeudAffichage::NoeudAffichage(const std::string& typeNoeud)
@@ -28,7 +42,7 @@ NoeudAffichage::NoeudAffichage(const std::string& typeNoeud)
    : NoeudAbstrait(typeNoeud),mModelKey(typeNoeud)
 {   
 	affiche_ = false;
-	echelleCourante_ = Vecteur3(5, 5, 5);
+	echelleCourante_ = Vecteur3(1, 1, 1);
 	echelleBase_ = echelleCourante_;
 	updateMatrice();
 }
@@ -80,13 +94,13 @@ void NoeudAffichage::afficherConcret() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAffichage::animer( const float& temps)
 {
-	if(estAffiche())
+/*	if(estAffiche())
 	{
 		echelleCourante_[VX]*=(1.0f-(temps*4));
 		echelleCourante_[VY]*=(1.0f-(temps*4));
 		echelleCourante_[VZ]*=(1.0f-(temps*4));
 		updateMatrice();
-	}
+	}*/
 	
 }
 

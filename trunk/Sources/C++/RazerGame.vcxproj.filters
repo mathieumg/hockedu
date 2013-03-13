@@ -507,6 +507,12 @@
     <ClCompile Include="Reseau\PaquetRunnableClientLourd.cpp">
       <Filter>Sources Files\Reseau</Filter>
     </ClCompile>
+    <ClCompile Include="Jeu\JoueurNetwork.cpp">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClCompile>
+    <ClCompile Include="Jeu\PartieSyncer.cpp">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClCompile>
     <ClCompile Include="Reseau\Paquets\PaquetGameCreation.cpp">
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClCompile>
@@ -997,6 +1003,12 @@
     </ClInclude>
     <ClInclude Include="Reseau\PaquetRunnableClientLourd.h">
       <Filter>Sources Files\Reseau</Filter>
+    </ClInclude>
+    <ClInclude Include="Jeu\JoueurNetwork.h">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClInclude>
+    <ClInclude Include="Jeu\PartieSyncer.h">
+      <Filter>Sources Files\Jeu</Filter>
     </ClInclude>
     <ClInclude Include="Reseau\Paquets\PaquetGameCreation.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>

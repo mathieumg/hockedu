@@ -18,6 +18,7 @@
 #include "..\Reseau\ControllerCSharp.h"
 #include "UsineNoeud.h"
 #include "..\Jeu\JoueurVirtuel.h"
+#include "..\Jeu\JoueurNetwork.h"
 #include "..\Configuration\ConfigScene.h"
 #include "..\Sons\SoundFMOD.h"
 #include "GestionnaireModeles.h"

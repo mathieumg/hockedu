@@ -111,6 +111,10 @@ public:
     /// La chaîne représentant le type des Polygones.
     static const std::string NAME_POLYGONE;
     
+    /// La chaîne représentant le type des Zamboni.
+    static const std::string NAME_ZAMBONI;
+    CreateListDelegateSignature(Zamboni);
+
 };
 
 

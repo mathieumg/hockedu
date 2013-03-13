@@ -516,6 +516,12 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
                 }
                 
 				SPSocket wSocket = wPaquetAEnvoyer->socket;
+
+                // Fix crash
+                if(!wSocket)
+                {
+                    continue; // Si le socket est invalide, on drop le paquet
+                }
 				ConnectionState wConnectionState = wSocket->getConnectionState();
 				if(wConnectionState == CONNECTING || wConnectionState == NOT_CONNECTED)
                 {
@@ -873,7 +879,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
             wNewSocket->recv((uint8_t*) &wPlayerName, 50, true);
 
             // On verifie que le nom ne contient pas d'espaces et n'est pas vide
-            if(!GestionnaireReseau::obtenirInstance()->validerUsername(std::string(wPlayerName)))
+            if(strlen(wPlayerName) == 0 || !GestionnaireReseau::obtenirInstance()->validerUsername(std::string(wPlayerName)))
             {
                 // On envoit un message de confirmation pour dire que la conenction est refusee
                 // Send connection state message
@@ -889,7 +895,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
                 // On verifie que le user n'est pas deja connecte
                 if(GestionnaireReseau::obtenirInstance()->getSocket(wPlayerName, TCP) == NULL)
                 {
-                    std::string pSocketIdentifier;
+                    std::string pSocketIdentifier = wPlayerName;
                     // On verifie finalement l'authentification
                     if(GestionnaireReseau::obtenirInstance()->requireAuthentification())
                     {
