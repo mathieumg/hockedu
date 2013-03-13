@@ -431,15 +431,16 @@ void SetSecondPlayer(bool pIsHuman, char* pName)
 
     if(pIsHuman)
     {
-        player = SPJoueurHumain(new JoueurHumain);
+        //player = SPJoueurHumain(new JoueurHumain);
+
+        // Test seulement
+        player = SPJoueurNetwork(new JoueurNetwork);
     }
     else
     {
         player = FacadeModele::getInstance()->obtenirJoueur(std::string(pName));
     }
 
-    // Test seulement
-    player = SPJoueurNetwork(new JoueurNetwork);
 
     GameManager::obtenirInstance()->setAdversaire(player);
 }
