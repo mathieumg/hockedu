@@ -198,6 +198,7 @@
     <ClCompile Include="Arbre\Modeles\Modele3D.cpp" />
     <ClCompile Include="Arbre\Noeuds\ControlPointMutableAbstract.cpp" />
     <ClCompile Include="Arbre\Noeuds\NodeControlPoint.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NodeModelRender.cpp" />
     <ClCompile Include="Arbre\Noeuds\NodePolygone.cpp" />
     <ClCompile Include="Arbre\Noeuds\NodeRinkBoards.cpp" />
     <ClCompile Include="Arbre\Noeuds\NodeWallAbstract.cpp" />
@@ -209,7 +210,6 @@
     <ClCompile Include="Arbre\Noeuds\NoeudBut.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudMaillet.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudMuretRelatif.cpp" />
-    <ClCompile Include="Arbre\Noeuds\NoeudPiece.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudPoint.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudPortail.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudRondelle.cpp" />
@@ -349,6 +349,7 @@
     <ClInclude Include="Arbre\Modeles\Modele3D.h" />
     <ClInclude Include="Arbre\Noeuds\ControlPointMutableAbstract.h" />
     <ClInclude Include="Arbre\Noeuds\NodeControlPoint.h" />
+    <ClInclude Include="Arbre\Noeuds\NodeModelRender.h" />
     <ClInclude Include="Arbre\Noeuds\NodePolygone.h" />
     <ClInclude Include="Arbre\Noeuds\NodeRinkBoards.h" />
     <ClInclude Include="Arbre\Noeuds\NodeWallAbstract.h" />
@@ -360,7 +361,6 @@
     <ClInclude Include="Arbre\Noeuds\NoeudBut.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudMaillet.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudMuretRelatif.h" />
-    <ClInclude Include="Arbre\Noeuds\NoeudPiece.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudPoint.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudPortail.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudRondelle.h" />

@@ -329,9 +329,6 @@
     <ClCompile Include="Interface\EtatSouris\SourisEtatOrbit.cpp">
       <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClCompile>
-    <ClCompile Include="Arbre\Noeuds\NoeudPiece.cpp">
-      <Filter>Sources Files\Arbre\Noeuds</Filter>
-    </ClCompile>
     <ClCompile Include="Interface\GestionEtat\GestionnaireEtatPartieTournoiTerminee.cpp">
       <Filter>Sources Files\Interface\GestionEtat</Filter>
     </ClCompile>
@@ -506,6 +503,9 @@
     <ClCompile Include="Tests\UtilitaireTests.cpp" />
     <ClCompile Include="Reseau\PaquetRunnableClientLourd.cpp">
       <Filter>Sources Files\Reseau</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbre\Noeuds\NodeModelRender.cpp">
+      <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -749,9 +749,6 @@
     <ClInclude Include="Interface\EtatSouris\SourisEtatOrbit.h">
       <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClInclude>
-    <ClInclude Include="Arbre\Noeuds\NoeudPiece.h">
-      <Filter>Sources Files\Arbre\Noeuds</Filter>
-    </ClInclude>
     <ClInclude Include="Interface\GestionEtat\GestionnaireEtatPartieRapideTerminee.h">
       <Filter>Sources Files\Interface\GestionEtat</Filter>
     </ClInclude>
@@ -991,6 +988,9 @@
     </ClInclude>
     <ClInclude Include="Reseau\PaquetRunnableClientLourd.h">
       <Filter>Sources Files\Reseau</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Noeuds\NodeModelRender.h">
+      <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

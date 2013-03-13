@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-/// @file NoeudPiece.cpp
+/// @file NodeModelRender.cpp
 /// @author Michael Ferris
 /// @date 2012-04-12
 /// @version 1.0
@@ -7,11 +7,27 @@
 /// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////
-#include "NoeudPiece.h"
+#include "NodeModelRender.h"
+#include "GestionnaireModeles.h"
+
+
+const Vecteur3 ZamboniDefaultSize(40,20,20);
+
+CreateListDelegateImplementation(Zamboni)
+{
+    Vecteur3 coinMin,coinMax;
+    pModel->calculerBoiteEnglobante(coinMin,coinMax);
+    Vecteur3 delta = coinMax - coinMin;
+    delta = ZamboniDefaultSize / delta;
+
+    pModel->assignerFacteurAgrandissement(delta);
+    return GestionnaireModeles::CreerListe(pModel);
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudPiece::NoeudPiece(const std::string& typeNoeud)
+/// @fn NodeModelRender::NodeModelRender(const std::string& typeNoeud)
 ///
 /// Ce constructeur ne fait qu'appeler la version de la classe et base
 /// et donner des valeurs par défaut aux variables membres.
@@ -21,7 +37,7 @@
 /// @return void.
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudPiece::NoeudPiece(const std::string& typeNoeud)
+NodeModelRender::NodeModelRender(const std::string& typeNoeud)
    : NoeudComposite(typeNoeud)
 {
 
@@ -30,20 +46,20 @@ NoeudPiece::NoeudPiece(const std::string& typeNoeud)
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudPiece::~NoeudPiece()
+/// @fn NodeModelRender::~NodeModelRender()
 ///
 /// Ce destructeur désallouee la liste d'affichage du cube.
 ///
 /// @return void.
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudPiece::~NoeudPiece()
+NodeModelRender::~NodeModelRender()
 {
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudPiece::afficherConcret(  )
+/// @fn void NodeModelRender::afficherConcret(  )
 ///
 /// Cette fonction effectue le véritable rendu de l'objet.
 ///
@@ -51,7 +67,7 @@ NoeudPiece::~NoeudPiece()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudPiece::afficherConcret() const
+void NodeModelRender::afficherConcret() const
 {
 	// Appel à la version de la classe de base pour l'affichage des enfants.
 	NoeudComposite::afficherConcret();
@@ -70,7 +86,7 @@ void NoeudPiece::afficherConcret() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudPiece::animer( const float& temps)
+void NodeModelRender::animer( const float& temps)
 {
    
 }

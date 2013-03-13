@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////
-/// @file NoeudPiece.h
+/// @file NodeModelRender.h
 /// @author Michael Ferris
-/// @date 2012-04-12
-/// @version 1.0
+/// @date 2013-03-13
+/// @version 2.0
 ///
 /// @addtogroup razergame RazerGame
 /// @{
@@ -13,19 +13,21 @@
 #include "NoeudComposite.h"
 
 ///////////////////////////////////////////////////////////////////////////
-/// @class NoeudPiece
-/// @brief Classe qui représente un NoeudPiece.
+/// @class NodeModelRender
+/// @brief Classe qui représente un noeud permettant de faire de l'affichage
+///         version légère d'un noeud.
+///         La logique de modification des noeuds doit être fait de l'extérieur
 ///
 /// @author Michael Ferris
-/// @date 2012-04-12
+/// @date 2013-03-13
 ///////////////////////////////////////////////////////////////////////////
-class NoeudPiece : public NoeudComposite
+class NodeModelRender : public NoeudComposite
 {
 public:
 	/// Constructeur à partir du type du noeud.
-	NoeudPiece(const std::string& typeNoeud);
+	NodeModelRender(const std::string& typeNoeud);
 	/// Destructeur.
-	~NoeudPiece();
+	~NodeModelRender();
 
 	/// Affiche le cube.
 	virtual void afficherConcret() const;

@@ -15,7 +15,7 @@
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class NoeudAffichage
-/// @brief Classe qui représente un portail.
+/// @brief Classe qui représente un Noeud a etre afficher dans le HUD.
 ///
 /// @author Mathieu Parent
 /// @date 2012-01-25

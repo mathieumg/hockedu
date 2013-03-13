@@ -23,6 +23,7 @@
 #include "XMLUtils.h"
 #include "Terrain.h"
 #include "ExceptionJeu.h"
+#include "NodeModelRender.h"
 
 
 GLuint Partie::listePause_ = 0;

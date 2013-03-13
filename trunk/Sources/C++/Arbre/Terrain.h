@@ -181,7 +181,8 @@ private:
     /// Indique si ce terrain est utilisé pour jouer ou pour l'édition
     Partie* mGame;
 
-    class NoeudAffichage* mZamboni;
+    /// pointeur sur la zamboni
+    class NodeModelRender* mZamboni;
 
 #if BOX2D_INTEGRATED  
     class b2World* mWorld;
@@ -192,7 +193,7 @@ private:
 /// Accesseurs
 public:
     /// Accessors of mZamboni
-    inline class NoeudAffichage* getZamboni() const { return mZamboni; }
+    inline class NodeModelRender* getZamboni() const { return mZamboni; }
 	/// Accesseur de arbreRendu_
 	inline RazerGameTree* getLogicTree() const { return mLogicTree; }
 	/// Accesseur de zoneEdition_

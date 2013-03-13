@@ -37,7 +37,7 @@
 #include "NoeudMaillet.h"
 #include "NoeudRondelle.h"
 #include "NoeudBut.h"
-#include "NoeudPiece.h"
+#include "NodeModelRender.h"
 #include "XMLUtils.h"
 #include "NoeudAccelerateur.h"
 #include "NoeudPortail.h"
@@ -72,7 +72,7 @@ Terrain::Terrain(Partie* pGame): mLogicTree(NULL), mNewNodeTree(NULL), mTable(NU
     {
         mEditionZone = new ZoneEdition();
     }
-    mZamboni = new NoeudAffichage(RazerGameUtilities::NAME_ZAMBONI);
+    mZamboni = new NodeModelRender(RazerGameUtilities::NAME_ZAMBONI);
 #if BOX2D_INTEGRATED
     b2Vec2 gravity(0,0);
     mWorld = new b2World(gravity);
@@ -246,7 +246,7 @@ void Terrain::initialiserArbreRendu()
     if(!mRenderTree)
     {
         mRenderTree = new ArbreRendu(this);
-        NoeudAbstrait* piece = new NoeudPiece(RazerGameUtilities::NOM_HOUSE);
+        NoeudAbstrait* piece = new NodeModelRender(RazerGameUtilities::NOM_HOUSE);
         mRenderTree->ajouter(piece);
         mRenderTree->ajouter(mZamboni);
     }
@@ -305,7 +305,7 @@ bool Terrain::initialiserXml( XmlElement* element )
     if(!mRenderTree)
     {
         mRenderTree = new ArbreRendu(this);
-        NoeudAbstrait* piece = new NoeudPiece(RazerGameUtilities::NOM_HOUSE);
+        NoeudAbstrait* piece = new NodeModelRender(RazerGameUtilities::NOM_HOUSE);
         mRenderTree->ajouter(piece);
         mRenderTree->ajouter(mZamboni);
     }
