@@ -25,7 +25,7 @@
 int PaquetRunnable::RunnableEvent( Paquet* pPaquet )
 {
     PaquetEvent* wPaquet = (PaquetEvent*) pPaquet;
-    GestionnaireReseau::obtenirInstance()->transmitEvent(EventCodes(wPaquet->getErrorCode()), wPaquet->getMessage());
+    GestionnaireReseau::obtenirInstance()->transmitEvent(EventCodes(wPaquet->getEventCode()), wPaquet->getMessage().c_str());
 
     wPaquet->removeAssociatedQuery(); // delete
     return 0;
@@ -149,29 +149,6 @@ int PaquetRunnable::RunnableGameStatusServer( Paquet* pPaquet )
 
 
 
-int PaquetRunnable::RunnableMailletClient( Paquet* pPaquet )
-{
-    PaquetMaillet* wPaquet = (PaquetMaillet*) pPaquet;
-    // Modification de la pos du maillet
-    throw std::runtime_error("Not yet implemented");
-
-
-
-    return 0;
-}
-
-int PaquetRunnable::RunnableMailletServer( Paquet* pPaquet )
-{
-    PaquetMaillet* wPaquet = (PaquetMaillet*) pPaquet;
-    // Affichage de la position du maillet
-
-    std::cout << "Maillet:\t" << wPaquet->getPosition() << std::endl; 
-
-
-
-
-    return 0;
-}
 
 
 

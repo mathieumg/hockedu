@@ -41,6 +41,10 @@ namespace UIHeavyClient
         private static extern void SetCurrentRadioPlaylist(string pPlaylist);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void GetCurrentRadioPlaylist(string pPlaylist);
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int GetNbrPlaylists();
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        private static extern void GetRadioPlaylists([In, Out] string[] pPlaylists, int pNbrPlaylists);
 
         public PlayModeControl(WindowsFormsHost pWindowsFormsHost)
         {
@@ -89,7 +93,10 @@ namespace UIHeavyClient
 
         private void mPlaylistComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SetCurrentRadioPlaylist((sender as ComboBox).SelectedItem.ToString());
+            if ((sender as ComboBox).SelectedItem != null)
+            {
+                SetCurrentRadioPlaylist((sender as ComboBox).SelectedItem.ToString());
+            }
         }
 
         private void mPlayButton_Click(object sender, RoutedEventArgs e)
@@ -108,6 +115,29 @@ namespace UIHeavyClient
             }
         }
 
+        public void DisplayRadioPlaylists()
+        {
+            // Clear what's on screen
+            mPlaylistComboBox.Items.Clear();
+
+            // Get playlists count and names
+            int nbrPlaylists = GetNbrPlaylists();
+
+            string[] playlists = new string[nbrPlaylists];
+            for (int i = 0; i < nbrPlaylists; ++i)
+            {
+                playlists[i] = new string('s', 255);
+            }
+
+            GetRadioPlaylists(playlists, nbrPlaylists);
+
+            // For each playlist...
+            foreach (string s in playlists)
+            {
+                // Add it to combo box
+                mPlaylistComboBox.Items.Add(s);
+            }
+        }
 
         ////////////////////////////////////////////////////////////////////////
         /// @fn void PlayModeControl.submitButton_Click()

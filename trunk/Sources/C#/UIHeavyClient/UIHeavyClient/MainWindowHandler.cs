@@ -77,6 +77,7 @@ namespace UIHeavyClient
             Context.WindowContentControl.Content = Context.PlayModeControl;
             Context.EditionModeControl.RemoveOpenGL();
             Context.PlayModeControl.AppendOpenGL();
+            Context.PlayModeControl.DisplayRadioPlaylists();
             SetMessageCallback(PlayModeControl.mMessageCallback);
         }
 
@@ -88,6 +89,8 @@ namespace UIHeavyClient
 
             Context.EditionModeControl.RemoveOpenGL();
             Context.PlayModeControl.RemoveOpenGL();
+
+            Context.MainMenuControl.DisplayProfileNames();
         }
 
         public static void GoToTournamentMenu()

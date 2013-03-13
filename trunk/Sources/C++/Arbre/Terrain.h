@@ -138,7 +138,9 @@ public:
     bool FixCollindingNode(NoeudAbstrait* node, unsigned int nbIterations);
 
     float GetTableWidth()const;
+    void NodeSelectionNotification( NoeudAbstrait* node, bool selectionne );
 
+    bool CanSelectedNodeBeDeleted() const;
 #if BOX2D_INTEGRATED
     /// Callback before the contact between 2 fixtures
     virtual void BeginContact( b2Contact* contact );
@@ -185,6 +187,8 @@ private:
     class b2World* mWorld;
 #endif
 
+    std::set<NoeudAbstrait*> mSelectedNodes;
+
 /// Accesseurs
 public:
 	/// Accesseur de arbreRendu_
@@ -209,6 +213,7 @@ public:
     NoeudMaillet* getRightMallet() const;
 #if BOX2D_INTEGRATED  
     inline class b2World* GetWorld() {return mWorld;}
+
 #endif
 
 public:

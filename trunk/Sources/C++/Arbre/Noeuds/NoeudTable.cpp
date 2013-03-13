@@ -68,7 +68,8 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
     const float longueurTable = DEFAULT_SIZE[VX];
     const float hauteurTable = DEFAULT_SIZE[VY];
     selectionnable_ = false;
-    selectionne_ = false;
+    assignerSelection(false);
+
 
     /// Création des 8 points de la table
     NoeudPoint* hautGauche_= new NoeudPoint(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,-longueurTable/2,hauteurTable/2, POSITION_HAUT_GAUCHE);
@@ -858,16 +859,7 @@ bool NoeudTable::initialiser( const XmlElement* element )
             }
             else
             {
-                auto node = treeRoot->creerNoeud(name);
-                if(node)
-                {
-                    ajouter(node);
-                    node->initialiser(child);
-                }
-                else
-                {
-                    throw ExceptionJeu("Error creating node : %s",name);
-                }
+                CreateAndInitNodesFromXml(child);
             }
         }
     }

@@ -95,7 +95,7 @@ public:
 	inline bool estAffiche() const;
 
 	/// Écrit l'état de la sélection du noeud.
-	inline void assignerSelection( const bool& selectionne );
+	void assignerSelection( const bool& selectionne );
 	/// Vérifie si le noeud est sélectionné.
 	inline bool estSelectionne() const;
 	/// Écrit si le noeud peut être sélectionné ou non.
@@ -119,6 +119,10 @@ public:
 	virtual void vider();
 	/// Efface le noeud passé en paramètre.
 	virtual void effacer( const NoeudAbstrait* noeud );
+    /// correctly delete a node and removes it form its parent.
+    /// do not call in destructor because the parent might be initialising the
+    // destruction.
+    void deleteThis();
 
 	/// Cherche un noeud par le type (sur un noeud constant).
 	virtual const NoeudAbstrait* chercher( const std::string& typeNoeud ) const;
@@ -402,22 +406,6 @@ inline bool NoeudAbstrait::estAffiche() const
 	return affiche_;
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn inline void NoeudAbstrait::assignerSelection( bool selectionne )
-///
-/// Cette fonction permet d'assigner l'état d'être sélectionné ou non du noeud.
-///
-/// @param[in] bool selectionne : L'état sélectionné ou non.
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-inline void NoeudAbstrait::assignerSelection( const bool& selectionne )
-{
-	// Un objet non sélectionnable n'est jamais sélectionné.
-	selectionne_ = (selectionne && selectionnable_);
-}
 
 ////////////////////////////////////////////////////////////////////////
 ///

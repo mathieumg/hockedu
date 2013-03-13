@@ -31,8 +31,12 @@ public:
 
     virtual int getNbConnectionMax() const {return 2;} // Max de 2 personnes connectees pour le serveur jeu
 
-private:
+    virtual void getPlayersInGame( int pGameId, std::vector<const std::string*>& pPlayerList );
 
+    virtual Partie* getGame( int pGameId );
+
+private:
+    unsigned int mServerId;
 };
 
 

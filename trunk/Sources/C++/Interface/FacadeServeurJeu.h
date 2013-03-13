@@ -7,10 +7,11 @@
 #define DLLEXPORT_SERVEUR_JEU
 #endif
 
+#include <string>
 // Test pour l'appel de la DLL depuis le C#
 extern "C" 
 {
-    DLLEXPORT_SERVEUR_JEU void InitDLLServeurJeu();
+    DLLEXPORT_SERVEUR_JEU void InitDLLServeurJeu(std::string& pMasterServerIP);
 
     class ControllerInterface;
     class Paquet;

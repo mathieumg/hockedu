@@ -78,6 +78,8 @@ public:
 	static FacadeModele* getInstance();
 	/// Libère l'instance unique de la classe.
 	static void libererInstance();
+    /// Checks if the instance exists
+    static bool Exists(){return !!instance_;}
 
 	/// Crée un contexte OpenGL et initialise celui-ci.
 	void initialiserOpenGL(HWND hWnd);

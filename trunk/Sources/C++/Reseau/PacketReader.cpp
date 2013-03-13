@@ -84,13 +84,22 @@ void PacketReader::clearBuffer()
 
 void PacketReader::readString(uint8_t* pReturnString, uint32_t pStringLength)
 {
+#if HANDLE_CHARACTERE_0
+    memset(pReturnString, 0, pStringLength+1);
+#else
     memset(pReturnString, 0, pStringLength);
+#endif
+
 #ifdef WINDOWS
     memcpy_s(pReturnString, pStringLength, mArrStart+mCurrentPosition, pStringLength);
 #elif defined(LINUX)
     memcpy(pReturnString, mArrStart + mCurrentPosition, pStringLength);
 #endif
     mCurrentPosition += pStringLength;
+#if HANDLE_CHARACTERE_0
+    // Ajout du caractère 0.
+    pReturnString[pStringLength] = 0x00;
+#endif
 }
 
 /*

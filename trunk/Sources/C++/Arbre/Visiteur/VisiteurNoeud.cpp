@@ -19,6 +19,7 @@
 #include "NoeudBut.h"
 #include "NodeWallAbstract.h"
 #include "NodeControlPoint.h"
+#include "NodeWallEdition.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -215,6 +216,22 @@ void VisiteurNoeud::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
 void VisiteurNoeud::visiterNodeControlPoint( NodeControlPoint* noeud )
 {
     noeud->NodeControlPoint::Super::acceptVisitor(*this);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void VisiteurNoeud::visiterNoeudMuretEdition( NodeWallEdition* noeud )
+///
+/// Visitation d'un noeud muret d'edition ( avec point de controle)
+///
+/// @param[in] NodeWallEdition * noeud
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void VisiteurNoeud::visiterNoeudMuretEdition( NodeWallEdition* noeud )
+{
+    VisitParentClass(NodeWallEdition);
 }
 
 

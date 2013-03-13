@@ -15,6 +15,8 @@ namespace PaquetRunnable
 
     int RunnableGameStatusServerGame(Paquet* pPaquet);
 
+    int RunnableMailletServerGame(Paquet* pPaquet);
+
 
 };
 

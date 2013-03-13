@@ -29,7 +29,7 @@ public:
     // Relaie le Paquet a tous les clients connectes
 	void relayerPaquetGlobalement(Paquet* pPaquet, const std::set<std::string>* pListeNomsAIgnorer = NULL, ConnectionType pConnectionType = TCP );
     void relayerPaquet(const std::string& pPlayerName, Paquet* pPaquet, ConnectionType pConnectionType = TCP );
-
+    void relayerPaquetGame(int pGameId, Paquet* pPaquet, ConnectionType pConnectionType = TCP);
 
 private:
     /// Constructeur par defaut

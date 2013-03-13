@@ -211,10 +211,18 @@ void FacadeModele::libererInstance()
     // On libère les instances des différentes configurations.
     SoundFMOD::libererInstance();
     ConfigScene::libererInstance();
-    GestionnaireHUD::libererInstance();
     instance_->libererMemoire();
     delete instance_;
     instance_ = 0;
+
+    // temp fix, on libère le hud a la fin, car certain 
+    // destructeur manipule le HUD
+    GestionnaireHUD::libererInstance();
+
+    checkf(!ConfigScene::Exists());
+    checkf(!SoundFMOD::Exists());
+    checkf(!GestionnaireHUD::Exists());
+    checkf(!FacadeModele::Exists());
 }
 
 
@@ -976,7 +984,11 @@ bool FacadeModele::passageModeTournoi()
     GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
     Partie* wGame = tournoi_->obtenirPartieCourante();
     partieCourante_ = wGame->getUniqueGameId();
-    wGame->getReadyToPlay();
+
+    if(!wGame->getReadyToPlay())
+    {
+        return false;
+    }
 
     wGame->miseAuJeu(true);
 
@@ -1036,7 +1048,11 @@ bool FacadeModele::passageModeJeu()
 
 
     partieCourante_ = GameManager::obtenirInstance()->addNewGame(SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")));
-	GameManager::obtenirInstance()->startGame(partieCourante_, FICHIER_TERRAIN_EN_COURS);
+
+    if(!GameManager::obtenirInstance()->startGame(partieCourante_, getCurrentMap()))
+    {
+        return false;
+    }
 
     // On enregistre apres avoir desactiver les points pour ne pas les voir si on reinitialise la partie
 	Partie* wGame = GameManager::obtenirInstance()->getGame(partieCourante_);

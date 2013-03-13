@@ -58,7 +58,6 @@ extern "C"
     struct AIProfile
     {
         char* Name;
-        char* OriginName;
         int Speed;
         int FailProb;
     };
@@ -86,6 +85,7 @@ extern "C"
     __declspec(dllexport) void SaveMap(char* pFileName);
     __declspec(dllexport) void LoadMap(char* pFileName);
     __declspec(dllexport) void SetPlayMap(char* pFileName);
+    __declspec(dllexport) void SetSecondPlayer(bool pIsHuman, char* pName);
 
 	// AI configuration calls
     __declspec(dllexport) void AddPlayer(char* pName, int pSpeed, int pFailProb);

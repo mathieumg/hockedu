@@ -874,10 +874,11 @@ void Terrain::appliquerPhysique( float temps )
 #endif
         
 #ifndef __APPLE__
-        if(mailletGauche)
+        if(mailletGauche && mGame)
         {
             PaquetMaillet* wPaquet = (PaquetMaillet*) GestionnaireReseau::obtenirInstance()->creerPaquet(MAILLET);
             wPaquet->setPosition(mailletGauche->getPosition());
+            wPaquet->setGameId(mGame->getUniqueGameId());
             GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
         }
 #endif
@@ -1483,6 +1484,74 @@ float Terrain::GetTableWidth() const
         return mEditionZone->obtenirLimiteExtLargeur()*2.f;
     }
     return ZoneEdition::DEFAUT_LIMITE_EXT_LARGEUR*2.f;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::NodeSelectionNotification( NoeudAbstrait* node, bool selectionne_ )
+///
+/// /*Description*/
+///
+/// @param[in] NoeudAbstrait * node
+/// @param[in] bool selectionne_
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::NodeSelectionNotification( NoeudAbstrait* node, bool selected )
+{
+    int nbSelectedOld = mSelectedNodes.size();
+    if(selected)
+    {
+        mSelectedNodes.insert(node);
+    }
+    else
+    {
+        auto it = mSelectedNodes.find(node);
+        if(it != mSelectedNodes.end())
+        {
+            mSelectedNodes.erase(it);
+        }
+    }
+    int nbSelectedNew = mSelectedNodes.size();
+    if(nbSelectedOld != nbSelectedNew)
+    {
+        if(nbSelectedOld == 0)
+        {
+            // selection present
+            //FacadeModele::transmitEvent();
+        }
+        else if( nbSelectedNew == 0 )
+        {
+            // no more item selected
+            //FacadeModele::transmitEvent();
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool Terrain::CanSelectedNodeBeDeleted()
+///
+/// /*Description*/
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool Terrain::CanSelectedNodeBeDeleted() const
+{
+    for(auto it=mSelectedNodes.begin(); it != mSelectedNodes.end(); ++it)
+    {
+        NoeudPoint *point = dynamic_cast<NoeudPoint *>(*it);
+        if (!point)
+        {
+            // seulement les noeud point sont selectionnable et ne peuvent etre deleted so haha
+            // dont ask dont tell....
+            return true;
+        }
+    }
+    return false;
 }
 
 
