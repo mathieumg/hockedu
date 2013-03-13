@@ -38,7 +38,7 @@ SourisEtatAjout::SourisEtatAjout(Terrain* pField,const std::string& nomNoeudAjou
     showInvalidText(false);
     hudTextPosInvalide->modifierPosition(0.45f,0.5f);
 
-    GestionnaireHUD::obtenirInstance()->obtenirRacine(RACINE_EDITION)->add(hudTextPosInvalide);
+    //GestionnaireHUD::obtenirInstance()->obtenirRacine(RACINE_EDITION)->add(hudTextPosInvalide);
     genererNoeud();
 }
 
@@ -61,7 +61,7 @@ SourisEtatAjout::~SourisEtatAjout(void)
         mField->retirerNoeudTemp(noeud_);
         delete noeud_;
     }
-    GestionnaireHUD::obtenirInstance()->obtenirRacine(RACINE_EDITION)->supprimerElement(hudTextPosInvalide);
+    //GestionnaireHUD::obtenirInstance()->obtenirRacine(RACINE_EDITION)->supprimerElement(hudTextPosInvalide);
 }
 
 

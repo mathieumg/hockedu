@@ -40,7 +40,7 @@ GestionnaireHUD::GestionnaireHUD()
 {
     creerHUDJeu();
     creerHUDTournoi();
-    creerHUDEdition();
+    //creerHUDEdition();
 
     GestionnaireModeles::obtenirInstance()->obtenirListe("pause",listePause_);
 }
@@ -58,8 +58,8 @@ GestionnaireHUD::~GestionnaireHUD()
 {
     racineJeu_->vider();
     delete racineJeu_;
-    racineEdition_->vider();
-    delete racineEdition_;
+    //racineEdition_->vider();
+    //delete racineEdition_;
     racineTournoi_->vider();
     delete racineTournoi_;
 }
@@ -628,7 +628,7 @@ HUDElement* GestionnaireHUD::obtenirRacine( RacineHUD racine )
     switch(racine)
     {
     case RACINE_JEU: return racineJeu_;
-    case RACINE_EDITION: return racineEdition_;
+    //case RACINE_EDITION: return racineEdition_;
     case RACINE_TOURNOI: return racineTournoi_;
     };
     return 0;

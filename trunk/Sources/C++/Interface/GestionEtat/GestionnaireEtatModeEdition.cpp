@@ -269,7 +269,7 @@ void GestionnaireEtatModeEdition::animer( const float& temps )
 void GestionnaireEtatModeEdition::afficher()
 {
     renderBase(mField);
-    GestionnaireHUD::obtenirInstance()->dessinerHUDEdition();
+    //GestionnaireHUD::obtenirInstance()->dessinerHUDEdition();
 }
 
 ////////////////////////////////////////////////////////////////////////
