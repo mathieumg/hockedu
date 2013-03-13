@@ -53,7 +53,7 @@ enum PacketTypes {
     TEST,
     BASE,
     GAME_STATUS,
-    AUTHENTIFICATION_SERVEUR_JEU,
+    GAME_CREATION_REQUEST,
     MAILLET,
     RONDELLE
 };

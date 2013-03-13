@@ -31,7 +31,7 @@ protected:
 	PaquetGameStatus();
 
 public:
-	virtual PacketTypes getOperation() const { return GAME_STATUS; }
+    virtual PacketTypes getOperation() const { return GAME_STATUS; }
 
     inline PartieServeurs* getGameInfos() {return &mGame;}
 
