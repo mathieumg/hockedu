@@ -76,6 +76,8 @@ NodeControlPoint::~NodeControlPoint()
 
 void NodeControlPoint::afficherConcret() const
 {
+    glTranslatef(0, 0, 0.5);
+    glColor4f(1.0f,0.84f,0.0f,1.0f);
     // Appel à la version de la classe de base pour l'affichage des enfants.
     NoeudAbstrait::afficherConcret();
 }

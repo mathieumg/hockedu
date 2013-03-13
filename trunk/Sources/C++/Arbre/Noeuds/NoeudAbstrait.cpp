@@ -922,6 +922,7 @@ bool NoeudAbstrait::initialiser( const XmlElement* element )
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::modifierTerrain( Terrain* val )
 {
+#ifdef WIN32
     if(terrain_)
     {
         terrain_->NodeSelectionNotification(this,false);
@@ -931,6 +932,7 @@ void NoeudAbstrait::modifierTerrain( Terrain* val )
     {
         terrain_->NodeSelectionNotification(this,estSelectionne());
     }
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1182,7 +1184,9 @@ void NoeudAbstrait::assignerSelection( const bool& selectionne )
     auto terrain = GetTerrain();
     if(terrain && oldSelection != selectionne_)
     {
+#ifdef WIN32
         terrain->NodeSelectionNotification(this,selectionne_);
+#endif
     }
 }
 

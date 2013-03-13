@@ -72,7 +72,7 @@ Terrain::Terrain(Partie* pGame): mLogicTree(NULL), mNewNodeTree(NULL), mTable(NU
     {
         mEditionZone = new ZoneEdition();
     }
-    mZamboni = new NoeudAffichage(RazerGameUtilities::NAME_ZAMBONI);
+    //mZamboni = new NoeudAffichage(RazerGameUtilities::NAME_ZAMBONI);
 #if BOX2D_INTEGRATED
     b2Vec2 gravity(0,0);
     mWorld = new b2World(gravity);
@@ -115,11 +115,11 @@ Terrain::~Terrain()
         mWorld = NULL;
     }
 #endif
-    if(mZamboni)
-    {
-        delete mZamboni;
-    }
-    mZamboni = NULL;
+    //if(mZamboni)
+    //{
+    //    delete mZamboni;
+    //}
+    //mZamboni = NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -248,7 +248,7 @@ void Terrain::initialiserArbreRendu()
         mRenderTree = new ArbreRendu(this);
         NoeudAbstrait* piece = new NoeudPiece(RazerGameUtilities::NOM_HOUSE);
         mRenderTree->ajouter(piece);
-        mRenderTree->ajouter(mZamboni);
+        //mRenderTree->ajouter(mZamboni);
     }
     if(!mGame)
     {
@@ -307,7 +307,7 @@ bool Terrain::initialiserXml( XmlElement* element )
         mRenderTree = new ArbreRendu(this);
         NoeudAbstrait* piece = new NoeudPiece(RazerGameUtilities::NOM_HOUSE);
         mRenderTree->ajouter(piece);
-        mRenderTree->ajouter(mZamboni);
+        //mRenderTree->ajouter(mZamboni);
     }
     if(!mGame)
     {
@@ -882,18 +882,13 @@ void Terrain::appliquerPhysique( float temps )
 #endif
         
 #ifndef __APPLE__
-        if(mGame)
-        {
-            mGame->sendNetworkInfos();
-        }
-        /*if(mailletGauche && mGame)
+        if(mailletGauche && mGame)
         {
             PaquetMaillet* wPaquet = (PaquetMaillet*) GestionnaireReseau::obtenirInstance()->creerPaquet(MAILLET);
             wPaquet->setPosition(mailletGauche->getPosition());
             wPaquet->setGameId(mGame->getUniqueGameId());
             GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
-            
-        }*/
+        }
 #endif
 	}
 }
@@ -1529,16 +1524,19 @@ void Terrain::NodeSelectionNotification( NoeudAbstrait* node, bool selected )
     int nbSelectedNew = (int)mSelectedNodes.size();
     if(nbSelectedOld != nbSelectedNew)
     {
+#ifdef WIN32
         if( nbSelectedNew == 0 )
         {
             // no more item selected
             FacadeModele::transmitEvent(THERE_ARE_NO_NODE_SELECTED);
+            
         }
         else
         {
             // selection present
             FacadeModele::transmitEvent(THERE_ARE_NODES_SELECTED);
         }
+#endif
     }
 }
 
