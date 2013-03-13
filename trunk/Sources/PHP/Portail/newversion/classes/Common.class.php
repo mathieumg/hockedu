@@ -26,6 +26,8 @@ class Common
     private static $instance;
     
     private $db;
+	
+	private $currentAuthenticationData;
     
     /**
      * Constructor that initializes the database.
@@ -35,6 +37,7 @@ class Common
         $this->db = MDB2::singleton( $dbDsn, $dbOptions );
         $this->db->setFetchMode(MDB2_FETCHMODE_ASSOC);
         $this->db->query("SET NAMES 'utf8'");
+		$this->currentAuthenticationData = false;
     }
     
     private function recordLogin( $userId, $username, $password, $subsite, $success, &$Website )
@@ -237,8 +240,8 @@ class Common
                         $this->db->quote( $username, 'text' ),
                         
                         $this->db->quoteIdentifier( 'password' ),
-                        $this->db->quoteIdentifier( 'password_salt' ),
-                        $this->db->quote( $password, 'text' )
+                        $this->db->quote( $password, 'text' ),
+                        $this->db->quoteIdentifier( 'password_salt' )
                        );
         $this->db->setLimit( 1 );
         $userInformation = $this->db->queryRow( $sql );
@@ -274,7 +277,15 @@ class Common
             if( $isRemote )
             {
                 // Manage remote client authentication data.
-                
+				$this->currentAuthenticationData = $this->getValidAuthenticationData( $userInformation['id'] );				
+				
+				if( $this->currentAuthenticationData === false )
+				{
+					// No valid authentication data was found, create it.
+					$this->createAuthenticationData( $userInformation['id'] );
+					
+					$this->currentAuthenticationData = $this->getValidAuthenticationData( $userInformation['id'] );
+				}
             }
             else
             {
@@ -298,6 +309,67 @@ class Common
             return false;
         }
     }
+	
+	public function getCurrentAuthenticationData()
+	{
+		return $this->currentAuthenticationData;
+	}
+	
+	public function getValidAuthenticationData( $userId )
+	{
+		$sql = 'SELECT %s, %s
+				FROM %s 
+				WHERE %s=%d AND %s>=%d
+				ORDER BY %s DESC';
+		$sql = sprintf( $sql,
+						$this->db->quoteIdentifier( 'key' ),
+						$this->db->quoteIdentifier( 'expiration' ),
+						
+						$this->db->quoteIdentifier( 'remote_authentication'),
+						
+						$this->db->quoteIdentifier( 'id_user' ),
+						$this->db->quote( $userId, 'integer' ),
+						
+						$this->db->quoteIdentifier( 'expiration' ),
+						$this->db->quote( time(), 'integer' ),
+						
+						$this->db->quoteIdentifier( 'creation' )
+					   );
+		$this->db->setLimit( 1 );
+		$userInformation = $this->db->queryRow( $sql );
+		
+		if( !empty( $userInformation ) )
+		{
+			return $userInformation;
+		}
+		
+		return false;
+	}
+	
+	public function createAuthenticationData( $userId )
+	{
+		// Ticket creation time.
+		$creation = time();
+		$expiration = $creation + 3600;
+		
+		$sql = 'INSERT INTO %s
+                ( %s, %s, %s, %s )
+                VALUES( UUID(), %d, %d, %d )';
+        $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'remote_authentication' ),
+                        
+                        $this->db->quoteIdentifier( 'key' ),
+                        $this->db->quoteIdentifier( 'id_user' ),
+                        $this->db->quoteIdentifier( 'creation' ),
+                        $this->db->quoteIdentifier( 'expiration' ),                                                                           
+                        
+                        $this->db->quote( $userId , 'integer' ),
+                        $this->db->quote( $creation , 'integer' ),
+                        $this->db->quote( $expiration, 'integer' )
+                       );
+        
+        $this->db->query( $sql );
+	}
     
     public function logout()
     {
