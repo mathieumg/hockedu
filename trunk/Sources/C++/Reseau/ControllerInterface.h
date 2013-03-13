@@ -45,7 +45,7 @@ public:
     virtual bool requireAuthentification() const {return false;}
 
     // Pas d'authentification par defaut, retourne toujours true
-    virtual bool authenticate(const std::string& pUsername, const std::string& pPassword) {return true;}
+    virtual std::string authenticate(const std::string& pUsername, const std::string& pPassword) {return "";}
 
     // Retourne la liste des joueurs connectes qui sont assicies a cette partie
     virtual void getPlayersInGame(int pGameId, std::vector<const std::string*>& pPlayerList);

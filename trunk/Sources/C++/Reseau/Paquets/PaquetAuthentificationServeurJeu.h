@@ -25,13 +25,13 @@ private:
     friend UsinePaquetAuthentificationServeurJeu;
 
 protected:
-	PaquetAuthentificationServeurJeu();
+    PaquetAuthentificationServeurJeu();
 
 public:
     virtual PacketTypes getOperation() const { return AUTHENTIFICATION_SERVEUR_JEU; }
 
 
-	~PaquetAuthentificationServeurJeu();
+    ~PaquetAuthentificationServeurJeu();
 
 };
 

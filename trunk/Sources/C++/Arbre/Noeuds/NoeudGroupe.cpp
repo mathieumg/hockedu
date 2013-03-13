@@ -90,13 +90,7 @@ bool NoeudGroupe::initialiser( const XmlElement* element )
             {
                 throw ExceptionJeu("Attempting to create a node in a group that it doesn't belong",name);
             }
-            auto node = treeRoot->creerNoeud(name);
-            ajouter(node);
-            if(!node)
-            {
-                throw ExceptionJeu("Error creating node : %s",name);
-            }
-            node->initialiser(child);
+            CreateAndInitNodesFromXml(child);
         }
     }
     else

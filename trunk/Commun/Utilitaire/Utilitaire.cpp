@@ -119,7 +119,7 @@ AssertHandleMode __cdecl DisplayAssertMessage( const char *message)
 {
     enum AssertHandleMode HandleMode = ASSERT_Break;
     //char TempStr[4096];
-    std::string MessageStr = "Press [Abort] to exit and create crash report\nPress [Retry] to ignore the assertion and continue\nPress [Ignore] to *always* ignore this assertion\n\n";
+    std::string MessageStr = "Press [Abort] Dynamic Breakpoint\nPress [Retry] to ignore the assertion and continue\nPress [Ignore] to *always* ignore this assertion\n\n";
 
 //     // Prepare assert AssertMsg
 //     GET_VARARGS( TempStr, ARRAY_COUNT(TempStr), ARRAY_COUNT(TempStr)-1, Fmt, Fmt );

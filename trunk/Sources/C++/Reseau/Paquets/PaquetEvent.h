@@ -25,7 +25,7 @@ private:
     friend class UsinePaquetEvent;
 
     std::string mMessage; // Message a envoyer
-    int mErrorCode; // Code d'erreur
+    int mEventCode; // Code d'erreur
 
 
 protected:
@@ -37,10 +37,10 @@ public:
     inline std::string getMessage() const { return mMessage; }
     inline void setMessage(const std::string& val) { mMessage = val; }
 
-    int getErrorCode() const { return mErrorCode; }
-    void setErrorCode(int val) { mErrorCode = val; }
+    int getEventCode() const { return mEventCode; }
+    void setEventCode(int val) { mEventCode = val; }
 
-	~PaquetEvent();
+    ~PaquetEvent();
 
 };
 

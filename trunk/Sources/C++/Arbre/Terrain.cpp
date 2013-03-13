@@ -21,7 +21,7 @@
 #ifndef __APPLE__
 #include "../Reseau/Paquets/PaquetMaillet.h"
 #include "../Reseau/GestionnaireReseau.h"
-#include "VisiteurFunction.h"
+
 #endif
 
 #include "Terrain.h"
@@ -48,7 +48,7 @@
 #include "ExceptionJeu.h"
 #include "NodeWallEdition.h"
 #include "NodeControlPoint.h"
-
+#include "VisiteurFunction.h"
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
@@ -1151,19 +1151,18 @@ void Terrain::getGoals( NoeudBut** pOutGoals )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
+VISITEUR_FUNC_FUNC_DECLARATION(ForceFullRebuildFunc)
+{
+    pNoeud->forceFullUpdate();
+}
 void Terrain::fullRebuild()
 {
-#ifndef __APPLE__
     checkf(mLogicTree,"Requete pour un full rebuild d'un terrain sans arbre");
     if(mLogicTree)
     {
-        VisiteurFunction v([](NoeudAbstrait* n)
-        {
-            n->forceFullUpdate();
-        });
+        VisiteurFunction v(ForceFullRebuildFunc);
         mLogicTree->acceptVisitor(v);
     }
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1485,6 +1484,71 @@ float Terrain::GetTableWidth() const
         return mEditionZone->obtenirLimiteExtLargeur()*2.f;
     }
     return ZoneEdition::DEFAUT_LIMITE_EXT_LARGEUR*2.f;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::NodeSelectionNotification( NoeudAbstrait* node, bool selectionne_ )
+///
+/// /*Description*/
+///
+/// @param[in] NoeudAbstrait * node
+/// @param[in] bool selectionne_
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::NodeSelectionNotification( NoeudAbstrait* node, bool selected )
+{
+    int nbSelectedOld = mSelectedNodes.size();
+    if(selected)
+    {
+        mSelectedNodes.insert(node);
+    }
+    else
+    {
+        auto it = mSelectedNodes.find(node);
+        mSelectedNodes.erase(it);
+    }
+    int nbSelectedNew = mSelectedNodes.size();
+    if(nbSelectedOld != nbSelectedNew)
+    {
+        if(nbSelectedOld == 0)
+        {
+            // selection present
+            //FacadeModele::transmitEvent();
+        }
+        else if( nbSelectedNew == 0 )
+        {
+            // no more item selected
+            //FacadeModele::transmitEvent();
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool Terrain::CanSelectedNodeBeDeleted()
+///
+/// /*Description*/
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool Terrain::CanSelectedNodeBeDeleted() const
+{
+    for(auto it=mSelectedNodes.begin(); it != mSelectedNodes.end(); ++it)
+    {
+        NoeudPoint *point = dynamic_cast<NoeudPoint *>(*it);
+        if (!point)
+        {
+            // seulement les noeud point sont selectionnable et ne peuvent etre deleted so haha
+            // dont ask dont tell....
+            return true;
+        }
+    }
+    return false;
 }
 
 

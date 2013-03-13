@@ -36,7 +36,7 @@ public:
     virtual Partie* getGame( int pGameId );
 
 private:
-
+    unsigned int mServerId;
 };
 
 

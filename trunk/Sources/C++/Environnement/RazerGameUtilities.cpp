@@ -269,22 +269,22 @@ bool mUpdating = false, mRendering=false;
            else
            {
                bool initField = true;
-//                auto version = XMLUtils::GetVersion(document);
-//                 if(version && version != XMLUtils::XmlFieldVersion)
-//                 {
-//         #if WIN32
-//                     char MessageStr[256];
-//                     sprintf_s(MessageStr,"%s\nMap version #%s do not match application's version #%s"\
-//                         "\n\nDo you want to try loading it anyway ?",pFilePath.c_str(),version,XMLUtils::XmlFieldVersion);
-//                     int Result = MessageBoxA( NULL, MessageStr, "Version mismatch", MB_ICONERROR | MB_YESNO | MB_TOPMOST );
-//                     if( Result == IDNO )
-//                     {
-//                         initField = false;
-//                     }
-//         #else
-//                     initField = false;
-//         #endif
-//                 }
+               auto version = XMLUtils::GetVersion(document);
+                if(version && version != XMLUtils::XmlFieldVersion)
+                {
+        #if WIN32
+                    char MessageStr[256];
+                    sprintf_s(MessageStr,"%s\nMap version #%s do not match application's version #%s"\
+                        "\n\nDo you want to try loading it anyway ?",pFilePath.c_str(),version,XMLUtils::XmlFieldVersion);
+                    int Result = MessageBoxA( NULL, MessageStr, "Version mismatch", MB_ICONERROR | MB_YESNO | MB_TOPMOST );
+                    if( Result == IDNO )
+                    {
+                        initField = false;
+                    }
+        #else
+                    initField = false;
+        #endif
+                }
                if(!initField || !pField.initialiserXml(document.GetElem()))
                {
                    // Erreur dans l'initialisation avec le xml, donc on laisse un terrain vide

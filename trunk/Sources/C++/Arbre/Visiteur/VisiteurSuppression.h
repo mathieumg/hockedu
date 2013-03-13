@@ -46,6 +46,8 @@ public:
 	virtual void visiterNoeudPoint( NoeudPoint* noeud );
 	/// Visitation d'un noeud accélérateur
 	virtual void visiterNoeudAccelerateur( NoeudAccelerateur* noeud );
+    /// Visitation d'un noeud muret d'edition ( avec point de controle)
+    virtual void visiterNoeudMuretEdition( NodeWallEdition* noeud );
 
 	/// Algorithme de suppression des noeuds
 	bool effacerSiSelectionne(NoeudAbstrait* noeud);
