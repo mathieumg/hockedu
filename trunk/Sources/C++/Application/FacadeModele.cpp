@@ -984,7 +984,11 @@ bool FacadeModele::passageModeTournoi()
     GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
     Partie* wGame = tournoi_->obtenirPartieCourante();
     partieCourante_ = wGame->getUniqueGameId();
-    wGame->getReadyToPlay();
+
+    if(!wGame->getReadyToPlay())
+    {
+        return false;
+    }
 
     wGame->miseAuJeu(true);
 
@@ -1044,7 +1048,11 @@ bool FacadeModele::passageModeJeu()
 
 
     partieCourante_ = GameManager::obtenirInstance()->addNewGame(SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")));
-	GameManager::obtenirInstance()->startGame(partieCourante_, FICHIER_TERRAIN_EN_COURS);
+
+    if(!GameManager::obtenirInstance()->startGame(partieCourante_, getCurrentMap()))
+    {
+        return false;
+    }
 
     // On enregistre apres avoir desactiver les points pour ne pas les voir si on reinitialise la partie
 	Partie* wGame = GameManager::obtenirInstance()->getGame(partieCourante_);

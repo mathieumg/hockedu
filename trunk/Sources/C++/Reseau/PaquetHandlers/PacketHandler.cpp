@@ -7,7 +7,11 @@
 HeaderPaquet PacketHandler::handlePacketHeaderReception( PacketReader& pPacketReader )
 {
     char wStringIdentification[Paquet::sequenceIdentificationLength];
+#if HANDLE_CHARACTERE_0
+    pPacketReader.readString((uint8_t*)wStringIdentification, Paquet::sequenceIdentificationLength - 1);
+#else
     pPacketReader.readString((uint8_t*)wStringIdentification, Paquet::sequenceIdentificationLength);
+#endif
 
     if ( Paquet::sequenceIdentification != wStringIdentification)
         return HeaderPaquet();

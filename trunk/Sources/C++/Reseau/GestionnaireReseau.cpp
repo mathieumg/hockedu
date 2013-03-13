@@ -332,19 +332,19 @@ void GestionnaireReseau::supprimerPacketHandlersEtUsines()
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireReseau::envoyerPaquet( SPSocket pSocketAUtiliser, Paquet* pPaquet )
 {
-	if(this->validerOperation(pPaquet->getOperation()))
-	{
-		if(!mCommunicateurReseau.ajouterPaquetEnvoie(pSocketAUtiliser, pPaquet))
+    if(this->validerOperation(pPaquet->getOperation()))
+    {
+        if(!mCommunicateurReseau.ajouterPaquetEnvoie(pSocketAUtiliser, pPaquet))
         {
             // Le paquet ne peut pas etre ajouter
             pPaquet->removeAssociatedQuery();
             throw ExceptionReseau("Buffer d'envoie plein");
         }
-	}
-	else
-	{
-		throw ExceptionReseau("Operation invalide a l'envoie d'un Paquet dans GestionnaireReseau.");
-	}
+    }
+    else
+    {
+        throw ExceptionReseau("Operation invalide a l'envoie d'un Paquet dans GestionnaireReseau.");
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -409,7 +409,7 @@ PacketHandler* GestionnaireReseau::getPacketHandler( const PacketTypes pOperatio
     {
         throw ExceptionReseau("Operation invalide lors de l'appel a getPacketHandler");
     }
-	return (*it).second;
+    return (*it).second;
 }
 
 
@@ -635,7 +635,6 @@ void GestionnaireReseau::removeSocket( const std::string& pNomJoueur, Connection
 
 	// Liberer la memoire et invalider le pointeur
     wSocketASupprimer->flagToDelete();
-
 	wSocketASupprimer = 0;
 
     FacadePortability::releaseMutex(wMutex); // On relache le mutex sur le socket
@@ -936,7 +935,7 @@ void GestionnaireReseau::disconnectClient( const std::string& pConnectionId, Con
 {
     SPSocket wSocket = getSocket(pConnectionId, pConnectionType);
     PaquetEvent* wPaquet = (PaquetEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(EVENT);
-    wPaquet->setErrorCode(USER_DISCONNECTED);
+    wPaquet->setEventCode(USER_DISCONNECTED);
     wPaquet->setMessage(GestionnaireReseau::obtenirInstance()->getPlayerName());
     CommunicateurReseau::envoyerPaquetSync(wPaquet, wSocket);
 }
@@ -1000,11 +999,14 @@ void GestionnaireReseau::initServer()
     mCommunicateurReseau.demarrerThreadsConnectionServeur();
 
     // Demarrer Thread connexion automatique
-
-
 }
 
-
+void GestionnaireReseau::initGameServer()
+{
+    mUsername = "GameServer";
+    mPassword = "HockeduSuperProtectedPassword";
+    initServer();
+}
 
 void GestionnaireReseau::demarrerConnectionThread( SPSocket pSocket )
 {

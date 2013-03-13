@@ -98,6 +98,8 @@ public:
     void initClient(const std::string& pUsername = "", const std::string& pPassword = "");
     // Initialise le GestionnaireReseau avec des fonctionnalites de serveur (listen de ports, etc.)
     void initServer();
+    // Initialise le GestionnaireReseau pour des GameServers
+    void initGameServer();
 
     void setUser(const std::string& pUsername, const std::string& pPassword);
 
@@ -147,11 +149,11 @@ public:
 	// Methode pour sauvegarder un socket en fonction d'un nom de joueur
 	void saveSocket(const std::string& pNomJoueur, SPSocket pSocket);
 
-	// Methode pour obtenir le socket associe a un nom de joueur
-	SPSocket getSocket(const std::string& pNomJoueur, ConnectionType pConnectionType);
+    // Methode pour obtenir le socket associe a un nom de joueur
+    SPSocket getSocket(const std::string& pNomJoueur, ConnectionType pConnectionType);
 
-	// Methode pour enlever le Socket de la liste de sockets valides
-	void removeSocket(const std::string& pNomJoueur, ConnectionType pConnectionType);
+    // Methode pour enlever le Socket de la liste de sockets valides
+    void removeSocket(const std::string& pNomJoueur, ConnectionType pConnectionType);
     void removeSocket(SPSocket pSocket); // Pas optimal, mais necessaire dans certains cas
 
 
@@ -199,7 +201,7 @@ public:
 
     inline bool requireAuthentification() const {return mControlleur->requireAuthentification();}
 
-    inline bool authenticate(const std::string& pUsername, const std::string& pPassword) const {return mControlleur->authenticate(pUsername, pPassword);}
+    inline std::string authenticate(const std::string& pUsername, const std::string& pPassword) const {return mControlleur->authenticate(pUsername, pPassword);}
 
 
     //Contains the operating system's byte order.

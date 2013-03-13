@@ -6,7 +6,7 @@
 PaquetEvent::PaquetEvent(  )
 {
     mMessage = "";
-    mErrorCode = 0;
+    mEventCode = 0;
 }
 
 

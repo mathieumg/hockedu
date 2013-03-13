@@ -15,20 +15,19 @@ using System.Runtime.InteropServices;
 
 namespace UIHeavyClient
 {
+    /// <summary>
+    /// Struct for AI profiles
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     struct AIProfile
     {
-        [MarshalAs(UnmanagedType.LPStr)]
         public string Name;
-        [MarshalAs(UnmanagedType.LPStr)]
-        public string OriginName;
         public int Speed;
         public int FailProb;
 
         public AIProfile(string pName, int pSpeed, int pFailProb)
         {
             Name = pName;
-            OriginName = pName;
             Speed = pSpeed;
             FailProb = pFailProb;
         }
@@ -41,17 +40,17 @@ namespace UIHeavyClient
     {
         Dictionary<object, string> mGuidanceMessages;
         Dictionary<string, AIProfile> mProfiles;
-        AIProfile? mCurrentEdition;
+        string mSelectedProfile;
 
         // C++ functions
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void AddPlayer(string pName, int pSpeed, int pFailProb);
-        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl, CharSet=CharSet.Auto)]
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void RemovePlayer(string pName);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern int GetNbrPlayers();
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void GetPlayers(AIProfile[] pProfiles, int pNbrProfiles);
+        private static extern void GetPlayers([In, Out] AIProfile[] pProfiles, int pNbrProfiles);
 
         public AIOptionControl()
         {
@@ -69,7 +68,7 @@ namespace UIHeavyClient
             };
 
             mProfiles = new Dictionary<string, AIProfile>();
-            mCurrentEdition = null;
+            mSelectedProfile = "";
         }
 
         private void mBackToOptionButton_Click(object sender, RoutedEventArgs e)
@@ -94,16 +93,24 @@ namespace UIHeavyClient
 
         private void mAddButton_Click(object sender, RoutedEventArgs e)
         {
-            AddPlayer("New AI", 1, 0);
+            string newName = "New AI";
+            int i = 1;
+
+            while (mProfiles.ContainsKey(newName))
+            {
+                newName = "New AI " + (++i); 
+            }
+
+            AddPlayer(newName, 1, 0);
 
             DisplayAIProfiles();
         }
 
         private void mDeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            if (mCurrentEdition != null)
+            if (mSelectedProfile != "")
             {
-                RemovePlayer(mCurrentEdition.Value.OriginName);
+                RemovePlayer(mSelectedProfile);
             }
 
             DisplayAIProfiles();
@@ -111,53 +118,63 @@ namespace UIHeavyClient
 
         private void mSaveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (mCurrentEdition != null)
+            if (mSelectedProfile != "" && mProfileNameTextBox.Text != "")
             {
-                if (mProfileNameTextBox.Text != mCurrentEdition.Value.OriginName)
-                    RemovePlayer(mCurrentEdition.Value.OriginName);
+                RemovePlayer(mSelectedProfile);
 
                 AddPlayer(mProfileNameTextBox.Text, (int)mSpeedSlider.Value, (int)mReflexSlider.Value);
             }
+
+            DisplayAIProfiles();
         }
 
         public void DisplayAIProfiles()
         {
+            ClearProfileInfo();
+            mProfiles.Clear();
+            mProfilesListView.Items.Clear();
+
             int nbrProfiles = GetNbrPlayers();
             AIProfile[] profiles = new AIProfile[nbrProfiles];
 
             for (int i = 0; i < nbrProfiles; ++i)
             {
-                profiles[i] = new AIProfile("ouin ouin...", 1, 0);
+                profiles[i] = new AIProfile(new string('s', 255), 1, 0);
             }
 
-            GetPlayers(profiles, nbrProfiles); // PROBLEM HERE, le string ne change pas
+            GetPlayers(profiles, nbrProfiles);
 
-            mProfiles.Clear();
-            mCurrentAIList.Items.Clear();
-
+            
             foreach (AIProfile p in profiles)
             {
                 if (!mProfiles.ContainsKey(p.Name))
                 {
                     mProfiles.Add(p.Name, p);
-                    mCurrentAIList.Items.Add(p.Name);
+                    mProfilesListView.Items.Add(p.Name);
                 }
             }
         }
 
         private void mCurrentAIList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (mProfiles.Count > 0)
+            if ((sender as ListView).SelectedItems.Count > 0)
             {
-                mCurrentEdition = mProfiles[(sender as ListView).SelectedItem.ToString()];
-            }
+                mSelectedProfile = (sender as ListView).SelectedItem.ToString();
+                AIProfile selectedProfile = mProfiles[mSelectedProfile];
 
-            if (mCurrentEdition != null)
-            {
-                mProfileNameTextBox.Text = mCurrentEdition.Value.OriginName;
-                mSpeedSlider.Value = mCurrentEdition.Value.Speed;
-                mReflexSlider.Value = mCurrentEdition.Value.FailProb;
+                mProfileNameTextBox.Text = selectedProfile.Name;
+                mSpeedSlider.Value = selectedProfile.Speed;
+                mReflexSlider.Value = selectedProfile.FailProb;
             }
+        }
+
+        private void ClearProfileInfo()
+        {
+            mProfileNameTextBox.Text = "";
+            mSpeedSlider.Value = 0;
+            mReflexSlider.Value = 0;
+
+            mSelectedProfile = "";
         }
     }
 }

@@ -52,8 +52,15 @@ namespace UIHeavyClient
 #endif
         }
 
+        // C++ function
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int ExecuteUnitTest();
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void SetSecondPlayer(bool pIsHuman, string pName);
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int GetNbrPlayers();
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void GetPlayers([In, Out] AIProfile[] pProfiles, int pNbrProfiles);
 
         void mUnitTestButton_Click(object sender, RoutedEventArgs e)
         {
@@ -63,6 +70,7 @@ namespace UIHeavyClient
         private void quickPlayButton_Click(object sender, RoutedEventArgs e)
         {
             mQuickPlayGroupBox.Visibility = Visibility.Visible;
+            DisplayProfileNames();
         }
 
         private void editionModeButton_Click(object sender, RoutedEventArgs e)
@@ -110,6 +118,18 @@ namespace UIHeavyClient
 
         private void mQuickPlayGoButton_Click(object sender, RoutedEventArgs e)
         {
+            bool isHuman = mHumanRadio.IsChecked.Value;
+            string name = "";
+
+            if (!isHuman)
+            {
+                if (mAIComboBox.SelectedItem == null)
+                    return;
+
+                name = mAIComboBox.SelectedItem.ToString();
+            }
+
+            SetSecondPlayer(isHuman, name);
             MainWindowHandler.LoadPlayingMap(mMapTextBox.Text);
             MainWindowHandler.GoToPlayMode();
         }
@@ -119,6 +139,27 @@ namespace UIHeavyClient
             if (mOpenFileDialog.ShowDialog().Value)
             {
                 mMapTextBox.Text = mOpenFileDialog.FileName;
+            }
+        }
+
+        public void DisplayProfileNames()
+        {
+            mAIComboBox.Items.Clear();
+
+            int nbrProfiles = GetNbrPlayers();
+            AIProfile[] profiles = new AIProfile[nbrProfiles];
+
+            for (int i = 0; i < nbrProfiles; ++i)
+            {
+                profiles[i] = new AIProfile(new string('s', 255), 1, 0);
+            }
+
+            GetPlayers(profiles, nbrProfiles);
+
+
+            foreach (AIProfile p in profiles)
+            {
+                mAIComboBox.Items.Add(p.Name);
             }
         }
     }
