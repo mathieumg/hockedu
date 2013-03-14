@@ -107,7 +107,7 @@ void SourisEtatAjoutMuret::sourisRelachee( EvenementSouris& evenementSouris )
 			FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX], evenementSouris.obtenirPosition()[VY], positionClic1_);
 			VisiteurCollision collisionVisitor(positionClic1_.convertir<2>());
 			FacadeModele::getInstance()->acceptVisitor(collisionVisitor);
-			noeud_->modifierSurligner(false);
+			noeud_->setHighlight(false);
 
 			if(collisionVisitor.collisionPresente() && collisionVisitor.obtenirNbrNoeudEncollision() > 1)
 				return;
@@ -173,7 +173,7 @@ void SourisEtatAjoutMuret::sourisDeplacee( EvenementSouris& evenementSouris )
 		if(rayon>1)
 		{
 			((NoeudMuret*)noeud_)->assignerPositionCoin(2, positionVirtuelle);
-			noeud_->modifierEchelleCourante(Vecteur3(rayon, 1, 1));
+			noeud_->setScale(Vecteur3(rayon, 1, 1));
 			//muretConcerne_->assignerAngle((int)angle);
 			//muretConcerne_->updateMatrice();
 		}

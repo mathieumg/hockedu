@@ -1343,12 +1343,12 @@ std::string FacadeModele::obtenirTypeNoeudSelectionne()
     ConteneurNoeuds* noeudsSelectionnes = visiteur.obtenirListeNoeuds();
     std::string typeRetour;
     if(!noeudsSelectionnes->empty())
-        typeRetour = (*noeudsSelectionnes)[0]->obtenirType();
+        typeRetour = (*noeudsSelectionnes)[0]->getType();
     else
         return "";
     for(unsigned int i = 0; i < noeudsSelectionnes->size(); i++)
     {
-        if((*noeudsSelectionnes)[i]->obtenirType() != typeRetour)
+        if((*noeudsSelectionnes)[i]->getType() != typeRetour)
         {
             typeRetour = "";
             break;
@@ -1513,9 +1513,9 @@ NoeudMaillet* FacadeModele::obtenirMailletJoueurGauche() const
             NoeudComposite* g = (NoeudComposite*)getEditionField()->getTable()->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
             if(g)
             {
-                for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
+                for(unsigned int i=0; i<g->childCount(); ++i)
                 {
-                    NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->chercher(i));
+                    NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->find(i));
                     if(m->getPosition()[VX]<=0)
                         maillet = m;
                 }
@@ -1545,9 +1545,9 @@ NoeudMaillet* FacadeModele::obtenirMailletJoueurDroit() const
             NoeudComposite* g = (NoeudComposite*)getEditionField()->getTable()->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
             if(g)
             {
-                for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
+                for(unsigned int i=0; i<g->childCount(); ++i)
                 {
-                    NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->chercher(i));
+                    NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->find(i));
                     if(m->getPosition()[VX]>0)
                         maillet = m;
                 }
@@ -1624,12 +1624,12 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
     ConteneurNoeuds::iterator iter = listeNoeud->begin();
     for (; iter != listeNoeud->end() ; iter++)
     {
-        std::string type2 = (*iter)->obtenirType();
+        std::string type2 = (*iter)->getType();
         if(type2!="but_milieu")
         {
             if(!trouve)
             {
-                type = (*iter)->obtenirType();
+                type = (*iter)->getType();
                 trouve = true;
             }
             else
@@ -1648,24 +1648,24 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
         NoeudAbstrait* noeudATraiter = (*listeNoeud)[0];
 
         pos = noeudATraiter->getPosition();
-        rotation = (int)noeudATraiter->obtenirAngle();
+        rotation = (int)noeudATraiter->getAngle();
         if(rotation<0)
             rotation+=360;
 
-        noeudATraiter->obtenirEchelleCourante(echelleTotale);
+        noeudATraiter->getScale(echelleTotale);
         echelle = max(max(echelleTotale[VX], echelleTotale[VY]), echelleTotale[VZ]);
 
         if(type=="muret")
             echelle = echelleTotale[VX]/10.0f;
         if(type=="point")
         {
-            if(noeudATraiter->obtenirNombreEnfants()>0)
+            if(noeudATraiter->childCount()>0)
             {
-                NoeudAbstrait* enfant = noeudATraiter->chercher(0);
-                if(enfant->obtenirType()=="but_milieu")
+                NoeudAbstrait* enfant = noeudATraiter->find(0);
+                if(enfant->getType()=="but_milieu")
                 {
                     Vecteur3 echelleCouranteBut;
-                    enfant->obtenirEchelleCourante(echelleCouranteBut);
+                    enfant->getScale(echelleCouranteBut);
                     echelle = echelleCouranteBut[VX]/10.0f;
                 }
                 else
@@ -1766,7 +1766,7 @@ void FacadeModele::modifierAdversaire(SPJoueurAbstrait val)
 ////////////////////////////////////////////////////////////////////////
 VISITEUR_FUNC_FUNC_DECLARATION(resetHighlightFlagsFunc)
 {
-    pNoeud->modifierSurligner(false);
+    pNoeud->setHighlight(false);
 }
 void FacadeModele::resetHighlightFlags()
 {

@@ -218,21 +218,21 @@ void GestionnaireEtatAbstrait::gestionAnimationEnJeu( Partie* partieCourante, co
 		}
 		if(maillet1)
 		{
-			AnimationFrame* animationFrameMaillet1 = new AnimationFrame(temps*1000, maillet1->getPosition(), Vecteur3(0, 0, maillet1->obtenirAngle()));
+			AnimationFrame* animationFrameMaillet1 = new AnimationFrame(temps*1000, maillet1->getPosition(), Vecteur3(0, 0, maillet1->getAngle()));
 			AnimationRepriseFrame* animationRepriseFrameMaillet1 = new AnimationRepriseFrame(animationFrameMaillet1, maillet1);
 
 			listeAnimationFrame.push_back(animationRepriseFrameMaillet1);
 		}
 		if(maillet2)
 		{
-			AnimationFrame* animationFrameMaillet2 = new AnimationFrame(temps*1000, maillet2->getPosition(), Vecteur3(0, 0, maillet2->obtenirAngle()));
+			AnimationFrame* animationFrameMaillet2 = new AnimationFrame(temps*1000, maillet2->getPosition(), Vecteur3(0, 0, maillet2->getAngle()));
 			AnimationRepriseFrame* animationRepriseFrameMaillet2 = new AnimationRepriseFrame(animationFrameMaillet2, maillet2);
 
 			listeAnimationFrame.push_back(animationRepriseFrameMaillet2);
 		}
 		if(rondelle)
 		{
-			AnimationFrame* animationFrameRondelle = new AnimationFrame(temps*1000, rondelle->getPosition(), Vecteur3(0, 0, rondelle->obtenirAngle()));
+			AnimationFrame* animationFrameRondelle = new AnimationFrame(temps*1000, rondelle->getPosition(), Vecteur3(0, 0, rondelle->getAngle()));
 			AnimationRepriseFrame* animationRepriseFrameRondelle = new AnimationRepriseFrame(animationFrameRondelle, rondelle);
 
 			listeAnimationFrame.push_back(animationRepriseFrameRondelle);

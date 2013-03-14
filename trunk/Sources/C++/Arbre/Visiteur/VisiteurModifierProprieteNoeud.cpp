@@ -137,9 +137,9 @@ void VisiteurModifierProprieteNoeud::visiterNoeudAbstrait( NoeudAbstrait* noeud 
 ////////////////////////////////////////////////////////////////////////
 void VisiteurModifierProprieteNoeud::visiterNoeudComposite( NoeudComposite* noeud )
 {
-	for (unsigned int i=0; i<noeud->obtenirNombreEnfants(); i++)
+	for (unsigned int i=0; i<noeud->childCount(); i++)
 	{
-		noeud->chercher(i)->acceptVisitor(*this);
+		noeud->find(i)->acceptVisitor(*this);
 	}
 }
 
@@ -159,7 +159,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NodeWallAbstract* noeud 
 {
 
 	/// On applique le nouveau coefficient de rebond
-	if(noeud->estSelectionne())
+	if(noeud->IsSelected())
 	{
 		if(coefRebond_!=-1)
 			noeud->setReboundRatio(coefRebond_);		
@@ -167,17 +167,17 @@ void VisiteurModifierProprieteNoeud::visiterNoeudMuret( NodeWallAbstract* noeud 
 		{
 			const Vecteur3& oldPos = noeud->getPosition();
 			noeud->setPosition(position_);
-			float oldAngle = noeud->obtenirAngle();
-			noeud->assignerAngle((float)rotation_);
-			Vecteur3 oldEchelle; noeud->obtenirEchelleCourante(oldEchelle);
-			noeud->modifierEchelleCourante(Vecteur3(echelle_*10, oldEchelle[VY], oldEchelle[VZ]));
-            Terrain* field = noeud->GetTerrain();
+			float oldAngle = noeud->getAngle();
+			noeud->setAngle((float)rotation_);
+			Vecteur3 oldEchelle; noeud->getScale(oldEchelle);
+			noeud->setScale(Vecteur3(echelle_*10, oldEchelle[VY], oldEchelle[VZ]));
+            Terrain* field = noeud->getField();
 			// Si on arrive pas à assigner les nouvelles positions on annule les modifications et l'indique à l'usager
 			if(!field || !field->FixCollindingNode(noeud,20))
 			{
 				noeud->setPosition(oldPos);
-				noeud->assignerAngle(oldAngle);
-				noeud->modifierEchelleCourante(oldEchelle);
+				noeud->setAngle(oldAngle);
+				noeud->setScale(oldEchelle);
 				utilitaire::afficherErreur("Nouvelles propriétés du Muret ne sont pas valides");
 			}
 		}
@@ -277,7 +277,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudTable( NoeudTable* noeud )
 	noeud->modifierCoefFriction(coefFriction_);
 
 	ZoneEdition* zone;
-	if(noeud->GetTerrain() && (zone = noeud->GetTerrain()->getZoneEdition()) )
+	if(noeud->getField() && (zone = noeud->getField()->getZoneEdition()) )
 	{
 		// On déclare un pointeur sur un float qui servira a contenir la longueur et hauteur max de la table
 		float boiteEnglobantTable[2];
@@ -325,14 +325,14 @@ void VisiteurModifierProprieteNoeud::visiterNoeudTable( NoeudTable* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurModifierProprieteNoeud::visiterNoeudPoint( NoeudPoint* noeud )
 {
-	if(noeud->estSelectionne())
+	if(noeud->IsSelected())
 	{
 		// Assigner la position avant pour que le calcul de la longueur max des buts soit mise a jour
 		const Vecteur3& positionCourante = noeud->getPosition();
 		
-		if(noeud->GetTerrain() )
+		if(noeud->getField() )
 		{
-			ZoneEdition* zone = noeud->GetTerrain()->getZoneEdition();
+			ZoneEdition* zone = noeud->getField()->getZoneEdition();
             checkf(zone,"Tentative de modifier un noeud qui n'est pas dans un terrain pour le mode édition");
             if(zone)
             {
@@ -378,7 +378,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudPoint( NoeudPoint* noeud )
 		VisiteurDeplacement visiteur(deplacement);
 		noeud->acceptVisitor(visiteur);
 
-        Terrain* field = noeud->GetTerrain();
+        Terrain* field = noeud->getField();
 		if(!field || !field->FixCollidingObjects())
 		{
 			VisiteurDeplacement visiteur(deplacement*-1);
@@ -408,14 +408,14 @@ void VisiteurModifierProprieteNoeud::visiterNoeudAccelerateur( NoeudAccelerateur
 	visiterNoeudNeutre(noeud);
 
 	/// On applique le nouveau bonus d'acceleration des accelerateurs
-	if(noeud->estSelectionne() && bonusAccel_!=-1)
+	if(noeud->IsSelected() && bonusAccel_!=-1)
 		noeud->modifierBonusAccel(bonusAccel_);
 }
 
 
 void VisiteurModifierProprieteNoeud::visiterNoeudNeutre( NoeudAbstrait* noeud )
 {
-	if(unSeulSelect_ && noeud->estSelectionne())
+	if(unSeulSelect_ && noeud->IsSelected())
 	{
 		/// On fait le deplacement contenu dans position_ par rapport à l'origine
 		/*Vecteur3 deplacement = ((position_.convertir<3>())-(noeud->getPosition()));
@@ -424,28 +424,28 @@ void VisiteurModifierProprieteNoeud::visiterNoeudNeutre( NoeudAbstrait* noeud )
 		const Vecteur3& oldPos = noeud->getPosition();
 		noeud->setPosition(position_);
 
-		float oldAngle = noeud->obtenirAngle();
+		float oldAngle = noeud->getAngle();
 		/// On applique la nouvelle rotation
 		VisiteurRotation rotationAFaire((float)rotation_,position_);
 		noeud->acceptVisitor(rotationAFaire);
 
-		Vecteur3 oldEchelle; noeud->obtenirEchelleCourante(oldEchelle);
+		Vecteur3 oldEchelle; noeud->getScale(oldEchelle);
 
 
-		if(noeud->obtenirType() == "portail")
-			noeud->modifierEchelleCourante(Vecteur3(echelle_, echelle_, 1));
+		if(noeud->getType() == "portail")
+			noeud->setScale(Vecteur3(echelle_, echelle_, 1));
 		else
-			noeud->modifierEchelleCourante(Vecteur3(echelle_, echelle_, echelle_));
+			noeud->setScale(Vecteur3(echelle_, echelle_, echelle_));
 
 
 		noeud->updateMatrice();
-        Terrain* field = noeud->GetTerrain();
+        Terrain* field = noeud->getField();
 		/// On regle les nouvelles collision créé
         if(!field || !field->FixCollindingNode(noeud,20))
 		{
 			noeud->setPosition(oldPos);
-			noeud->assignerAngle(oldAngle);
-			noeud->modifierEchelleCourante(oldEchelle);
+			noeud->setAngle(oldAngle);
+			noeud->setScale(oldEchelle);
 			noeud->updateMatrice();
 			utilitaire::afficherErreur("Nouvelles propriétés du noeud ne sont pas valides");
 		}

@@ -27,7 +27,7 @@
 NoeudGroupe::NoeudGroupe(std::string type, std::string typeEnfants):
 NoeudComposite(type),typeEnfants_(typeEnfants)
 {
-	assignerEstSelectionnable(false);
+	setCanBeSelected(false);
 }
 
 
@@ -48,16 +48,16 @@ NoeudGroupe::~NoeudGroupe(void)
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn XmlElement* NoeudGroupe::creerNoeudXML()
+/// @fn XmlElement* NoeudGroupe::createXmlNode()
 ///
 /// Retourne un élément XML pour le groupe de noeuds.
 ///
 /// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-XmlElement* NoeudGroupe::creerNoeudXML()
+XmlElement* NoeudGroupe::createXmlNode()
 {
-	XmlElement* element = XMLUtils::createNode(type_.c_str());
+	XmlElement* element = XMLUtils::createNode(mType.c_str());
 
     XMLUtils::writeAttribute(element,"TypeEnfants",typeEnfants_);
 	
@@ -66,7 +66,7 @@ XmlElement* NoeudGroupe::creerNoeudXML()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NoeudGroupe::initialiser( const XmlElement* element )
+/// @fn bool NoeudGroupe::initFromXml( const XmlElement* element )
 ///
 /// Initialisation du NoeudGroupe à partir d'un element XML
 ///
@@ -75,7 +75,7 @@ XmlElement* NoeudGroupe::creerNoeudXML()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NoeudGroupe::initialiser( const XmlElement* element )
+bool NoeudGroupe::initFromXml( const XmlElement* element )
 {
     if(!XMLUtils::readAttribute(element,"TypeEnfants",typeEnfants_))
         return false;
@@ -95,7 +95,7 @@ bool NoeudGroupe::initialiser( const XmlElement* element )
     }
     else
     {
-        throw ExceptionJeu("%s : Missing tree root",type_.c_str());
+        throw ExceptionJeu("%s : Missing tree root",mType.c_str());
     }
 
 	return true;

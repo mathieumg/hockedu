@@ -52,7 +52,7 @@ NodeWallEdition::~NodeWallEdition()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NodeWallEdition::ajouter( NoeudAbstrait* enfant )
+/// @fn bool NodeWallEdition::add( NoeudAbstrait* enfant )
 ///
 /// Ajoute un noeud enfant.
 ///
@@ -61,20 +61,20 @@ NodeWallEdition::~NodeWallEdition()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NodeWallEdition::ajouter( NoeudAbstrait* enfant )
+bool NodeWallEdition::add( NoeudAbstrait* enfant )
 {
     NodeControlPoint* controlPoint = dynamic_cast<NodeControlPoint*>(enfant);
     if(controlPoint)
     {
         return addControlPoint(controlPoint);
     }
-    return Super::ajouter(enfant);
+    return Super::add(enfant);
 }
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NodeWallEdition::detacherEnfant( const NoeudAbstrait* enfant )
+/// @fn bool NodeWallEdition::unlinkChild( const NoeudAbstrait* enfant )
 ///
 /// /*Description*/
 ///
@@ -83,7 +83,7 @@ bool NodeWallEdition::ajouter( NoeudAbstrait* enfant )
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-void NodeWallEdition::detacherEnfant( const NoeudAbstrait* enfant )
+void NodeWallEdition::unlinkChild( const NoeudAbstrait* enfant )
 {
     NodeControlPoint* controlPoint = const_cast<NodeControlPoint*>(dynamic_cast<const NodeControlPoint*>(enfant));
     if(controlPoint)
@@ -92,7 +92,7 @@ void NodeWallEdition::detacherEnfant( const NoeudAbstrait* enfant )
     }
     else
     {
-        Super::detacherEnfant(enfant);
+        Super::unlinkChild(enfant);
     }
 }
 
@@ -111,14 +111,14 @@ void NodeWallEdition::detacherEnfant( const NoeudAbstrait* enfant )
 void NodeWallEdition::modifierEchelle( float facteur )
 {
     Vecteur3 echelle;
-    obtenirEchelleCourante(echelle);
+    getScale(echelle);
     echelle[VY] *= facteur;
-    modifierEchelleCourante(echelle);
+    setScale(echelle);
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NodeWallEdition::afficherConcret()
+/// @fn void NodeWallEdition::renderReal()
 ///
 /// /*Description*/
 ///
@@ -126,14 +126,14 @@ void NodeWallEdition::modifierEchelle( float facteur )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NodeWallEdition::afficherConcret() const
+void NodeWallEdition::renderReal() const
 {
-    Super::afficherConcret();
+    Super::renderReal();
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn XmlElement* NoeudMuret::creerNoeudXML()
+/// @fn XmlElement* NoeudMuret::createXmlNode()
 ///
 /// /*Description*/
 ///
@@ -141,15 +141,15 @@ void NodeWallEdition::afficherConcret() const
 /// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-XmlElement* NodeWallEdition::creerNoeudXML()
+XmlElement* NodeWallEdition::createXmlNode()
 {
-    XmlElement* elementNoeud = Super::creerNoeudXML();
+    XmlElement* elementNoeud = Super::createXmlNode();
     return elementNoeud;
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NoeudMuret::initialiser( const XmlElement* element )
+/// @fn bool NoeudMuret::initFromXml( const XmlElement* element )
 ///
 /// Initialisation du NoeudMuret à partir d'un element XML
 ///
@@ -158,9 +158,9 @@ XmlElement* NodeWallEdition::creerNoeudXML()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NodeWallEdition::initialiser( const XmlElement* element )
+bool NodeWallEdition::initFromXml( const XmlElement* element )
 {
-    if(!Super::initialiser(element))
+    if(!Super::initFromXml(element))
         return false;
 
     int count = 0;
@@ -173,7 +173,7 @@ bool NodeWallEdition::initialiser( const XmlElement* element )
             throw ExceptionJeu("Wall Node: unrecognized xml node: %s",name);
         }
         NodeControlPoint* point = new NodeControlPoint(name);
-        point->initialiser(child);
+        point->initFromXml(child);
         // on fait l'ajout apres pour mettre a jour limité le nombre de fois qu'on mets a jour les propriétés du noeud.
         if(!addControlPoint(point))
         {
@@ -208,7 +208,7 @@ bool NodeWallEdition::initialiser( const XmlElement* element )
 ////////////////////////////////////////////////////////////////////////
 bool NodeWallEdition::onAddControlPoint( NodeControlPoint* point )
 {
-    if(Super::ajouter(point))
+    if(Super::add(point))
     {
         point->attach(this);
         coins_[getNBControlPoint()-1] = &point->getPosition();
@@ -231,7 +231,7 @@ bool NodeWallEdition::onAddControlPoint( NodeControlPoint* point )
 ////////////////////////////////////////////////////////////////////////
 void NodeWallEdition::onRemoveControlPoint( NodeControlPoint* point )
 {
-    Super::detacherEnfant(point);
+    Super::unlinkChild(point);
     point->detach(this);
     coins_[getNBControlPoint()] = NULL;
     updateWallProperties();

@@ -35,13 +35,13 @@ public:
        return !!n2 && mIsAttractionFieldActive == n2->mIsAttractionFieldActive && Super::equals(n);
    }
    /// Affiche le cube.
-   virtual void afficherConcret() const;
+   virtual void renderReal() const;
    /// Fonction appeler dans afficher concret pour faire le
    /// rendu OpenGL, uniquement utilisé sous APPLE.
    /// utiliser les liste d'affichage pour windows
    virtual void renderOpenGLES() const;
    /// Effectue l'animation
-   virtual void animer( const float& temps );
+   virtual void tick( const float& temps );
    /// Accueil un visiteur
    virtual void acceptVisitor( VisiteurNoeud& v);
 

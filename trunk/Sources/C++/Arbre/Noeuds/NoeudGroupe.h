@@ -36,9 +36,9 @@ public:
             Super::equals(n);
     }
 	/// Creation du noeud XML du Groupe
-	virtual XmlElement* creerNoeudXML();
+	virtual XmlElement* createXmlNode();
 	/// Initialisation du NoeudGroupe à partir d'un element XML
-	virtual bool initialiser(const XmlElement* element);
+	virtual bool initFromXml(const XmlElement* element);
 	/// Accesseur de typeEnfants_
 	std::string obtenirTypeEnfants() const { return typeEnfants_; }
 private:

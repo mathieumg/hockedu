@@ -68,7 +68,7 @@ NoeudPoint::~NoeudPoint()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudPoint::afficherConcret() const
+/// @fn NoeudPoint::renderReal() const
 ///
 /// Fait le reel rendu de l'objet.
 ///
@@ -76,18 +76,18 @@ NoeudPoint::~NoeudPoint()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudPoint::afficherConcret() const
+void NoeudPoint::renderReal() const
 {
     glPushMatrix();
     glPushAttrib(GL_CURRENT_BIT | GL_POLYGON_BIT);
 
     // Assignation du mode d'affichage des polygones
-    glPolygonMode( GL_FRONT_AND_BACK, modePolygones_ );
+    glPolygonMode( GL_FRONT_AND_BACK, mModePolygones );
 #if !__APPLE__
     glTranslatef(0,0,25.f);
 #endif
     // Affichage concret
-    NoeudAbstrait::afficherConcret();
+    NoeudAbstrait::renderReal();
 
     // Restauration
     glPopAttrib();
@@ -116,7 +116,7 @@ void NoeudPoint::renderOpenGLES() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudPoint::animer( const float& temps)
+/// @fn NoeudPoint::tick( const float& temps)
 ///
 /// Permet l'animation du point.
 ///
@@ -125,7 +125,7 @@ void NoeudPoint::renderOpenGLES() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudPoint::animer( const float& temps )
+void NoeudPoint::tick( const float& temps )
 {
 	mAngle = (float)((int)(mAngle+temps*500.0f)%360);
 	updateMatrice();
@@ -233,7 +233,7 @@ void NoeudPoint::modifierPointSym( NoeudPoint* pointSym )
 ////////////////////////////////////////////////////////////////////////
 bool NoeudPoint::validerDeplacement( const Vecteur3& pos, const Vecteur2& deplace, int axe )
 {
-	Terrain* t = GetTerrain();
+	Terrain* t = getField();
 	if( t )
 	{
 		ZoneEdition* zone = t->getZoneEdition();
@@ -278,7 +278,7 @@ Vecteur3 NoeudPoint::calculerDeplacementMax( Vecteur3 posAbsActuel, Vecteur3 dep
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn XmlElement* NoeudPoint::creerNoeudXML()
+/// @fn XmlElement* NoeudPoint::createXmlNode()
 ///
 /// Creation du noeud XML d'un point
 ///
@@ -286,9 +286,9 @@ Vecteur3 NoeudPoint::calculerDeplacementMax( Vecteur3 posAbsActuel, Vecteur3 dep
 /// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-XmlElement* NoeudPoint::creerNoeudXML()
+XmlElement* NoeudPoint::createXmlNode()
 {
-    XmlElement* elementNoeud = XMLUtils::createNode(type_.c_str());
+    XmlElement* elementNoeud = XMLUtils::createNode(mType.c_str());
 
     XmlWriteNodePosition(elementNoeud);
     XMLUtils::writeAttribute<int>(elementNoeud,"typePosNoeud",typePosNoeud_);
@@ -298,7 +298,7 @@ XmlElement* NoeudPoint::creerNoeudXML()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NoeudPoint::initialiser( const XmlElement* element )
+/// @fn bool NoeudPoint::initFromXml( const XmlElement* element )
 ///
 /// Initialisation du NoeudPoint à partir d'un element XML
 ///
@@ -307,12 +307,12 @@ XmlElement* NoeudPoint::creerNoeudXML()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NoeudPoint::initialiser( const XmlElement* element )
+bool NoeudPoint::initFromXml( const XmlElement* element )
 {
     // faire l'initialisaiton des attribut concernant le point en premier pour que la suite puisse les utiliser
     Vecteur3 pos;
     if( !XmlReadNodePosition(pos,element) )
-        throw ExceptionJeu("%s: Error reading node's position", type_.c_str());
+        throw ExceptionJeu("%s: Error reading node's position", mType.c_str());
     setPosition(pos);
 
     int intElem;
@@ -330,15 +330,15 @@ bool NoeudPoint::initialiser( const XmlElement* element )
         {
             throw ExceptionJeu("XML node not representing a goal after a table control point");
         }
-        NoeudBut* but = dynamic_cast<NoeudBut*>(chercher(0));
+        NoeudBut* but = dynamic_cast<NoeudBut*>(find(0));
         checkf(but,"but manquant sur le point, regardez constructeur table");
         if(but)
         {
-            but->initialiser(child);
+            but->initFromXml(child);
         }
     }
-    auto terrain = GetTerrain();
-    assignerAffiche(!terrain || !terrain->IsGameField());
+    auto terrain = getField();
+    setVisible(!terrain || !terrain->IsGameField());
 
 	return true;
 }

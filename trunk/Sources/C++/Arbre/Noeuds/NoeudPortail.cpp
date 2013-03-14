@@ -61,23 +61,23 @@ NoeudPortail::~NoeudPortail()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudPortail::afficherConcret() const
+/// @fn void NoeudPortail::renderReal() const
 ///
 /// Cette fonction effectue le véritable rendu de l'objet.
 ///
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudPortail::afficherConcret() const
+void NoeudPortail::renderReal() const
 {
 	// Appel à la version de la classe de base pour l'affichage des enfants.
-	NoeudAbstrait::afficherConcret();
+	NoeudAbstrait::renderReal();
 }
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudCube::animer( const float& temps)
+/// @fn void NoeudCube::tick( const float& temps)
 ///
 /// Cette fonction effectue l'animation du noeud pour un certain
 /// intervalle de temps.
@@ -87,12 +87,12 @@ void NoeudPortail::afficherConcret() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudPortail::animer( const float& temps)
+void NoeudPortail::tick( const float& temps)
 {
 	mAngle = (float)((int)(mAngle+temps*1000.0f)%360);
 	updateMatrice();
    // Appel à la version de la classe de base pour l'animation des enfants.
-   NoeudAbstrait::animer(temps);
+   NoeudAbstrait::tick(temps);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -140,7 +140,7 @@ void NoeudPortail::updatePhysicBody()
         mPhysicBody = world->CreateBody(&myBodyDef);
         b2CircleShape circleShape;
         circleShape.m_p.Set(0, 0); //position, relative to body position
-        circleShape.m_radius = (float32)obtenirRayon()*utilitaire::ratioWorldToBox2D; //radius
+        circleShape.m_radius = (float32)getRadius()*utilitaire::ratioWorldToBox2D; //radius
 
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &circleShape; //this is a pointer to the shape above

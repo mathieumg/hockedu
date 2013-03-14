@@ -29,9 +29,9 @@
 NoeudAffichage::NoeudAffichage(const std::string& typeNoeud)
    : NoeudAbstrait(typeNoeud),mModelKey(typeNoeud)
 {   
-	assignerAffiche(false);
-	echelleCourante_ = Vecteur3(5, 5, 5);
-	echelleBase_ = echelleCourante_;
+	setVisible(false);
+	mScale = Vecteur3(5, 5, 5);
+	echelleBase_ = mScale;
 	updateMatrice();
 }
 
@@ -52,25 +52,25 @@ NoeudAffichage::~NoeudAffichage()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAffichage::afficherConcret() const
+/// @fn void NoeudAffichage::renderReal() const
 ///
 /// Cette fonction effectue le véritable rendu de l'objet.
 ///
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAffichage::afficherConcret() const
+void NoeudAffichage::renderReal() const
 {
 	glColor3f(1, 0, 0);
 
 	// Appel à la version de la classe de base pour l'affichage des enfants.
-	NoeudAbstrait::afficherConcret();
+	NoeudAbstrait::renderReal();
 }
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudCube::animer( const float& temps)
+/// @fn void NoeudCube::tick( const float& temps)
 ///
 /// Cette fonction effectue l'animation du noeud pour un certain
 /// intervalle de temps.
@@ -80,13 +80,13 @@ void NoeudAffichage::afficherConcret() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAffichage::animer( const float& temps)
+void NoeudAffichage::tick( const float& temps)
 {
-	if(estAffiche())
+	if(isVisible())
 	{
-		echelleCourante_[VX]*=(1.0f-(temps*4));
-		echelleCourante_[VY]*=(1.0f-(temps*4));
-		echelleCourante_[VZ]*=(1.0f-(temps*4));
+		mScale[VX]*=(1.0f-(temps*4));
+		mScale[VY]*=(1.0f-(temps*4));
+		mScale[VZ]*=(1.0f-(temps*4));
 		updateMatrice();
 	}
 	
@@ -137,7 +137,7 @@ void NoeudAffichage::modifierListes( const std::string& nomListe )
 ////////////////////////////////////////////////////////////////////////
 void NoeudAffichage::peindreElement()
 {
-	afficher();
+	render();
 }
 
 

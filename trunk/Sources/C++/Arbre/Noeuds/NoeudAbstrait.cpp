@@ -25,13 +25,13 @@
 #include "Utilitaire.h"
 #include "../../../../Commun/Utilitaire/ExceptionJeu.h"
 
-GLuint NoeudAbstrait::compteurIdGl_ = 1;
+GLuint NoeudAbstrait::mIdGlCounter = 1;
 
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn  NoeudAbstrait::NoeudAbstrait( const std::string& type /*= std::string( "" ) */ )
 ///
-/// Ne fait qu'initialiser les variables membres de la classe.
+/// Ne fait qu'initFromXml les variables membres de la classe.
 ///
 /// @param[in] const std::string & type : Le type du noeud.
 ///
@@ -42,31 +42,31 @@ NoeudAbstrait::NoeudAbstrait(
    const std::string& type //= std::string( "" )
    ) :
     mPhysicBody(NULL),
-    type_(type) ,
+    mType(type) ,
     mPosition(0) ,
     mFlags(1<<NODEFLAGS_AFFICHE|1<<NODEFLAGS_SELECTIONNABLE|1<<NODEFLAGS_ENREGISTRABLE),
-    parent_(0) , 
+    mParent(0) , 
     mAngle(0) ,
-    glId_(compteurIdGl_++),
-    terrain_(NULL)
+    mGlId(mIdGlCounter++),
+    mField(NULL)
 {
-	echelleCourante_[VX] = 1;
-	echelleCourante_[VY] = 1;
-	echelleCourante_[VZ] = 1;
+	mScale[VX] = 1;
+	mScale[VY] = 1;
+	mScale[VZ] = 1;
 
 #if WIN32
-    modePolygones_ = GL_FILL;
-    glTypeId_ = GestionnaireModeles::obtenirInstance()->obtenirTypeIdFromName(type_);
+    mModePolygones = GL_FILL;
+    mGlTypeId = GestionnaireModeles::obtenirInstance()->obtenirTypeIdFromName(mType);
 #endif
 	// On charge la matrice identitee lors de la construction
 	// On garde en memoire la matrice d'origine (devrait etre NULL)
 	glPushMatrix();
 	glLoadIdentity();
-	glGetFloatv(GL_MODELVIEW_MATRIX, matrice_);
+	glGetFloatv(GL_MODELVIEW_MATRIX, mTransformationMatrix);
 	// On remet en memoire la matrice d'origine
 	glPopMatrix();
 
-	updateRayon();
+	updateRadius();
 
 }
 
@@ -84,7 +84,7 @@ NoeudAbstrait::NoeudAbstrait(
 NoeudAbstrait::~NoeudAbstrait()
 {
 	clearPhysicsBody();
-    modifierTerrain(NULL);
+    setField(NULL);
 
     // clean remaining modifiers in the node
     for(auto it = mModifiers.begin(); it != mModifiers.end(); ++it)
@@ -95,7 +95,7 @@ NoeudAbstrait::~NoeudAbstrait()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn unsigned int NoeudAbstrait::calculerProfondeur(  )
+/// @fn unsigned int NoeudAbstrait::treeDepth(  )
 ///
 /// Cette fonction calcule la profondeur de l'arbre incluant le noeud
 /// courant ainsi que tous ses enfants.
@@ -103,14 +103,14 @@ NoeudAbstrait::~NoeudAbstrait()
 /// @return unsigned int : Cette fonction retourne toujours 1 pour un noeud sans enfant.
 ///
 ////////////////////////////////////////////////////////////////////////
-unsigned int NoeudAbstrait::calculerProfondeur() const
+unsigned int NoeudAbstrait::treeDepth() const
 {
    return 1;
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::vider(  )
+/// @fn void NoeudAbstrait::empty(  )
 ///
 /// Cette fonction vide le noeud de tous ses enfants.
 ///
@@ -120,14 +120,14 @@ unsigned int NoeudAbstrait::calculerProfondeur() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::vider()
+void NoeudAbstrait::empty()
 {
 
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::effacer( const NoeudAbstrait* noeud )
+/// @fn void NoeudAbstrait::erase( const NoeudAbstrait* noeud )
 ///
 /// Cette fonction efface le noeud s'il fait partie des enfants de
 /// ce noeud.
@@ -135,12 +135,12 @@ void NoeudAbstrait::vider()
 /// Cette fonction ne fait rien pour un noeud sans enfant, elle ne fait
 /// donc rien dans cette implantation par défaut de la classe de base.
 ///
-/// @param[in] const NoeudAbstrait * noeud : Le noeud à effacer.
+/// @param[in] const NoeudAbstrait * noeud : Le noeud à erase.
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::effacer( const NoeudAbstrait* noeud )
+void NoeudAbstrait::erase( const NoeudAbstrait* noeud )
 {
 }
 
@@ -160,19 +160,19 @@ void NoeudAbstrait::deleteThis()
 {
     // On enleve les noeud selectionné et tous ces enfants.
     // Si on ne veut pas enlever les enfants il faudrait modifier
-    // la méthode effacer() pour que les enfants soit relié au parent
-    if(obtenirParent() != 0)
-        obtenirParent()->effacer(this);
+    // la méthode erase() pour que les enfants soit relié au parent
+    if(getParent() != 0)
+        getParent()->erase(this);
     else
     {
-        vider();
+        empty();
         delete this;
     }
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn const NoeudAbstrait* NoeudAbstrait::chercher( const std::string& typeNoeud )
+/// @fn const NoeudAbstrait* NoeudAbstrait::find( const std::string& typeNoeud )
 ///
 /// Cette fonction cherche un noeud d'un type donné parmi le noeud
 /// lui-même et ses enfants.
@@ -185,9 +185,9 @@ void NoeudAbstrait::deleteThis()
 /// @return const NoeudAbstrait* : Le pointeur vers le noeud s'il est trouvé.
 ///
 ////////////////////////////////////////////////////////////////////////
-const NoeudAbstrait* NoeudAbstrait::chercher( const std::string& typeNoeud ) const
+const NoeudAbstrait* NoeudAbstrait::find( const std::string& typeNoeud ) const
 {
-   if (typeNoeud == type_)
+   if (typeNoeud == mType)
       return this;
    else
       return 0;
@@ -195,7 +195,7 @@ const NoeudAbstrait* NoeudAbstrait::chercher( const std::string& typeNoeud ) con
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudAbstrait* NoeudAbstrait::chercher( const std::string& typeNoeud )
+/// @fn NoeudAbstrait* NoeudAbstrait::find( const std::string& typeNoeud )
 ///
 /// Cette fonction cherche un noeud d'un type donné parmi le noeud
 /// lui-même et ses enfants.
@@ -208,9 +208,9 @@ const NoeudAbstrait* NoeudAbstrait::chercher( const std::string& typeNoeud ) con
 /// @return NoeudAbstrait* : Le pointeur vers le noeud s'il est trouvé.
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudAbstrait* NoeudAbstrait::chercher( const std::string& typeNoeud )
+NoeudAbstrait* NoeudAbstrait::find( const std::string& typeNoeud )
 {
-   if (typeNoeud == type_)
+   if (typeNoeud == mType)
       return this;
    else
       return 0;
@@ -218,7 +218,7 @@ NoeudAbstrait* NoeudAbstrait::chercher( const std::string& typeNoeud )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn const NoeudAbstrait* NoeudAbstrait::chercher( unsigned int indice )
+/// @fn const NoeudAbstrait* NoeudAbstrait::find( unsigned int indice )
 ///
 /// Cette fonction cherche le i-ème enfant d'un noeud.
 ///
@@ -230,14 +230,14 @@ NoeudAbstrait* NoeudAbstrait::chercher( const std::string& typeNoeud )
 /// @return const NoeudAbstrait* : Le pointeur vers le noeud s'il est trouvé.
 ///
 ////////////////////////////////////////////////////////////////////////
-const NoeudAbstrait* NoeudAbstrait::chercher( unsigned int indice ) const
+const NoeudAbstrait* NoeudAbstrait::find( unsigned int indice ) const
 {
    return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudAbstrait* NoeudAbstrait::chercher( unsigned int indice )
+/// @fn NoeudAbstrait* NoeudAbstrait::find( unsigned int indice )
 ///
 /// Cette fonction cherche le i-ème enfant d'un noeud.
 ///
@@ -249,31 +249,31 @@ const NoeudAbstrait* NoeudAbstrait::chercher( unsigned int indice ) const
 /// @return NoeudAbstrait* : Le pointeur vers le noeud s'il est trouvé.
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudAbstrait* NoeudAbstrait::chercher( unsigned int indice )
+NoeudAbstrait* NoeudAbstrait::find( unsigned int indice )
 {
    return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NoeudAbstrait::ajouter( NoeudAbstrait* enfant )
+/// @fn bool NoeudAbstrait::add( NoeudAbstrait* enfant )
 ///
 /// Elle retourne toujours faux et ne fait rien, car ce type de noeud
 /// abstrait ne peut pas avoir d'enfant.
 ///
-/// @param[in] NoeudAbstrait * enfant : Le noeud à ajouter.
+/// @param[in] NoeudAbstrait * enfant : Le noeud à add.
 ///
 /// @return bool : Vrai si l'ajout a bien été effectué, faux autrement.
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NoeudAbstrait::ajouter(NoeudAbstrait* enfant)
+bool NoeudAbstrait::add(NoeudAbstrait* enfant)
 {
    return false;
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn unsigned int NoeudAbstrait::obtenirNombreEnfants(  )
+/// @fn unsigned int NoeudAbstrait::childCount(  )
 ///
 /// Cette fonction retourne le nombre d'enfants de ce noeud.
 ///
@@ -283,14 +283,14 @@ bool NoeudAbstrait::ajouter(NoeudAbstrait* enfant)
 /// @return unsigned int : Vrai si l'ajout a bien été effectué, faux autrement.
 ///
 ////////////////////////////////////////////////////////////////////////
-unsigned int NoeudAbstrait::obtenirNombreEnfants() const
+unsigned int NoeudAbstrait::childCount() const
 {
    return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::inverserSelection(  )
+/// @fn void NoeudAbstrait::toggleSelection(  )
 ///
 /// Cette fonction inverse l'état de sélection de ce noeud.
 ///
@@ -298,15 +298,15 @@ unsigned int NoeudAbstrait::obtenirNombreEnfants() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::inverserSelection()
+void NoeudAbstrait::toggleSelection()
 {
-    assignerSelection(!estSelectionne());
+    setSelection(!IsSelected());
 }
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::selectionnerTout(  )
+/// @fn void NoeudAbstrait::selectAll(  )
 ///
 /// Cette fonction sélectionne le noeud et ses enfants.
 ///
@@ -316,14 +316,14 @@ void NoeudAbstrait::inverserSelection()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::selectionnerTout()
+void NoeudAbstrait::selectAll()
 {
-   assignerSelection(true);
+   setSelection(true);
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::deselectionnerTout(  )
+/// @fn void NoeudAbstrait::deselectAll(  )
 ///
 /// Cette fonction désélectionne le noeud et ses enfants.
 ///
@@ -333,15 +333,15 @@ void NoeudAbstrait::selectionnerTout()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::deselectionnerTout()
+void NoeudAbstrait::deselectAll()
 {
-    assignerSelection(false);
+    setSelection(false);
 }
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NoeudAbstrait::selectionExiste(  )
+/// @fn bool NoeudAbstrait::selectionPresent(  )
 ///
 /// Cette fonction vérifie si le noeud ou un de ses enfants est
 /// sélectionné.
@@ -353,14 +353,14 @@ void NoeudAbstrait::deselectionnerTout()
 /// @return bool : Vrai s'il existe un noeud sélectionné, faux autrement.
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NoeudAbstrait::selectionExiste() const
+bool NoeudAbstrait::selectionPresent() const
 {
-   return estSelectionne();
+   return IsSelected();
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::changerModePolygones( bool estForce )
+/// @fn void NoeudAbstrait::cyclePolygonMode( bool estForce )
 ///
 /// Cette fonction change le mode de rendu des polygones du noeud s'il
 /// est sélectionné ou si on le force.
@@ -371,23 +371,23 @@ bool NoeudAbstrait::selectionExiste() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::changerModePolygones( bool estForce )
+void NoeudAbstrait::cyclePolygonMode( bool estForce )
 {
 #if WIN32
-   if ( ( estForce ) || ( estSelectionne() ) ) {
-      if ( modePolygones_ == GL_FILL )
-         modePolygones_ =  GL_LINE;
-      else if ( modePolygones_ == GL_LINE )
-         modePolygones_ = GL_POINT;
+   if ( ( estForce ) || ( IsSelected() ) ) {
+      if ( mModePolygones == GL_FILL )
+         mModePolygones =  GL_LINE;
+      else if ( mModePolygones == GL_LINE )
+         mModePolygones = GL_POINT;
       else
-         modePolygones_ = GL_FILL;
+         mModePolygones = GL_FILL;
    }
 #endif
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::assignerModePolygones( GLenum modePolygones )
+/// @fn void NoeudAbstrait::setPolygonMode( GLenum modePolygones )
 ///
 /// Cette fonction assigne le mode de rendu des polygones du noeud.
 ///
@@ -397,7 +397,7 @@ void NoeudAbstrait::changerModePolygones( bool estForce )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::assignerModePolygones( GLenum modePolygones )
+void NoeudAbstrait::setPolygonMode( GLenum modePolygones )
 {
 #if WIN32
    // Le mode par défaut si on passe une mauvaise valeur est GL_FILL
@@ -407,13 +407,13 @@ void NoeudAbstrait::assignerModePolygones( GLenum modePolygones )
       modePolygones = GL_FILL;
    }
 
-   modePolygones_ = modePolygones;
+   mModePolygones = modePolygones;
 #endif
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::afficher(  )
+/// @fn void NoeudAbstrait::render(  )
 ///
 /// Cette fonction affiche le noeud comme tel.
 ///
@@ -426,22 +426,22 @@ void NoeudAbstrait::assignerModePolygones( GLenum modePolygones )
 /// - ...
 /// - Restauration de l'état.
 ///
-/// L'affichage comme tel est confié à la fonction afficherConcret(),
-/// appelée par la fonction afficher().
+/// L'affichage comme tel est confié à la fonction renderReal(),
+/// appelée par la fonction render().
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::afficher() const
+void NoeudAbstrait::render() const
 {
     glPushMatrix();
     glPushAttrib(GL_CURRENT_BIT | GL_POLYGON_BIT);
       
     // Assignation du mode d'affichage des polygones
-    glPolygonMode( GL_FRONT_AND_BACK, modePolygones_ );
+    glPolygonMode( GL_FRONT_AND_BACK, mModePolygones );
       
     // Affichage concret
-    afficherConcret();
+    renderReal();
       
     // Restauration
     glPopAttrib();
@@ -450,11 +450,11 @@ void NoeudAbstrait::afficher() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::afficherConcret()
+/// @fn void NoeudAbstrait::renderReal()
 ///
 /// Cette fonction effectue le véritable rendu de l'objet.  Elle est
 /// appelée par la template method (dans le sens du patron de conception,
-/// et non des template C++) afficher() de la classe de base.
+/// et non des template C++) render() de la classe de base.
 ///
 /// @param[in] GLuint liste : liste d'affichage
 /// @param[in] GLuint listeSelection : liste d'affichage sans texture
@@ -462,9 +462,9 @@ void NoeudAbstrait::afficher() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::afficherConcret() const
+void NoeudAbstrait::renderReal() const
 {
-    if(estAffiche())
+    if(isVisible())
     {
 #if !__APPLE__
         GLuint liste;	
@@ -478,10 +478,10 @@ void NoeudAbstrait::afficherConcret() const
         glPushMatrix();
 
         // Effectue les mise a l'echelle et les rotations
-        glMultMatrixf(matrice_);
+        glMultMatrixf(mTransformationMatrix);
 
         glPushAttrib( GL_ALL_ATTRIB_BITS );
-        if(estSurligne() || estSelectionne())
+        if(isHightlighted() || IsSelected())
         {
             glEnable(GL_COLOR_LOGIC_OP);
             glLogicOp(GL_COPY_INVERTED);
@@ -489,9 +489,9 @@ void NoeudAbstrait::afficherConcret() const
 
 #if !__APPLE__
         // Push du id du noeud sur la pile de nom
-        glPushName(glId_);
+        glPushName(mGlId);
         // Push du id du type du noeud sur la pile de nom
-        glPushName(glTypeId_);
+        glPushName(mGlTypeId);
 
         glCallList(liste); // Dessin de l'objet avec les textures
 
@@ -509,7 +509,7 @@ void NoeudAbstrait::afficherConcret() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::animer( const float& dt )
+/// @fn void NoeudAbstrait::tick( const float& dt )
 ///
 /// Cette fonction effectue l'animation du noeud pour un certain
 /// intervalle de temps.
@@ -522,13 +522,13 @@ void NoeudAbstrait::afficherConcret() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::animer( const float& dt )
+void NoeudAbstrait::tick( const float& dt )
 {
 
 }
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::obtenirEchelleCourante( Vecteur3& echelleCourante )
+/// @fn void NoeudAbstrait::getScale( Vecteur3& echelleCourante )
 ///
 /// Retourne l'echelle courante du noeud.
 ///
@@ -537,16 +537,16 @@ void NoeudAbstrait::animer( const float& dt )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::obtenirEchelleCourante( Vecteur3& echelleCourante ) const
+void NoeudAbstrait::getScale( Vecteur3& echelleCourante ) const
 {
-	echelleCourante[VX] = echelleCourante_[VX];
-	echelleCourante[VY] = echelleCourante_[VY];
-	echelleCourante[VZ] = echelleCourante_[VZ];
+	echelleCourante[VX] = mScale[VX];
+	echelleCourante[VY] = mScale[VY];
+	echelleCourante[VZ] = mScale[VZ];
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::modifierEchelleCourante( Vecteur3 echelleCourante )
+/// @fn void NoeudAbstrait::setScale( Vecteur3 echelleCourante )
 ///
 /// Assigne la nouvelle echelle.
 ///
@@ -555,18 +555,18 @@ void NoeudAbstrait::obtenirEchelleCourante( Vecteur3& echelleCourante ) const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::modifierEchelleCourante( const Vecteur3& echelleCourante )
+void NoeudAbstrait::setScale( const Vecteur3& echelleCourante )
 {
-	echelleCourante_[VX] = echelleCourante[VX];
-	echelleCourante_[VY] = echelleCourante[VY];
-	echelleCourante_[VZ] = echelleCourante[VZ];
+	mScale[VX] = echelleCourante[VX];
+	mScale[VY] = echelleCourante[VY];
+	mScale[VZ] = echelleCourante[VZ];
 	updateMatrice();
     updatePhysicBody();
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::assignerParent( NoeudComposite* parent )
+/// @fn void NoeudAbstrait::setParent( NoeudComposite* parent )
 ///
 /// Cette fonction assigne le parent du noeud afin qu'il soit possible
 /// de remonter dans l'arbre.
@@ -576,15 +576,15 @@ void NoeudAbstrait::modifierEchelleCourante( const Vecteur3& echelleCourante )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::assignerParent( NoeudComposite* parent )
+void NoeudAbstrait::setParent( NoeudComposite* parent )
 {
-	parent_ = parent;
+	mParent = parent;
 }
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::assignerAngle( int angle )
+/// @fn void NoeudAbstrait::setAngle( float angle )
 ///
 /// Assigne l'angle de rotation.
 ///
@@ -593,7 +593,7 @@ void NoeudAbstrait::assignerParent( NoeudComposite* parent )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::assignerAngle( const float& angle )
+void NoeudAbstrait::setAngle( float angle )
 {
 	mAngle = angle;
 #if BOX2D_INTEGRATED  
@@ -607,14 +607,14 @@ void NoeudAbstrait::assignerAngle( const float& angle )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn float NoeudAbstrait::obtenirAngle(  )
+/// @fn float NoeudAbstrait::getAngle(  )
 ///
 /// retourne l'angle de rotation.
 ///
 /// @return float : l'angle en degree
 ///
 ////////////////////////////////////////////////////////////////////////
-float NoeudAbstrait::obtenirAngle() const
+float NoeudAbstrait::getAngle() const
 {
 	return mAngle;
 }
@@ -635,9 +635,9 @@ void NoeudAbstrait::updateMatrice()
 	glLoadIdentity();
 
 	glRotatef(mAngle, 0.0, 0.0, 1.0);
-	glScalef(echelleCourante_[VX], echelleCourante_[VY], echelleCourante_[VZ]);
+	glScalef(mScale[VX], mScale[VY], mScale[VZ]);
 	
-	glGetFloatv(GL_MODELVIEW_MATRIX, matrice_); // Savegarde de la matrice courante dans le noeud
+	glGetFloatv(GL_MODELVIEW_MATRIX, mTransformationMatrix); // Savegarde de la matrice courante dans le noeud
 
 	glPopMatrix();
 #endif
@@ -659,12 +659,12 @@ NoeudAbstrait::PaireVect3 NoeudAbstrait::obtenirZoneOccupee() const
 	Vecteur3 minimum, maximum;
 #if WIN32
 	float largeur, hauteur;
-    Modele3D* pModel = obtenirModele();
+    Modele3D* pModel = getModel();
     if(pModel)
     {
         pModel->calculerBoiteEnglobante(minimum, maximum);
-        largeur = echelleCourante_[VX]*(maximum[VX]-minimum[VX]);
-        hauteur = echelleCourante_[VY]*(maximum[VY]-minimum[VY]);
+        largeur = mScale[VX]*(maximum[VX]-minimum[VX]);
+        hauteur = mScale[VY]*(maximum[VY]-minimum[VY]);
 
         // On multiplie par l'echelle maximale
         minimum[VX] = getPosition()[VX]-(largeur*cos(((int)mAngle%90)*(float)M_PI/180))/2;
@@ -686,7 +686,7 @@ NoeudAbstrait::PaireVect3 NoeudAbstrait::obtenirZoneOccupee() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn float NoeudAbstrait::obtenirRayon(  )
+/// @fn float NoeudAbstrait::getRadius(  )
 ///
 /// Retourne le rayon du noeud
 ///
@@ -694,14 +694,14 @@ NoeudAbstrait::PaireVect3 NoeudAbstrait::obtenirZoneOccupee() const
 /// @return float : Le rayon du noeud.
 ///
 ////////////////////////////////////////////////////////////////////////
-float NoeudAbstrait::obtenirRayon() const
+float NoeudAbstrait::getRadius() const
 {
-	return rayon_;
+	return mRadius;
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn float NoeudAbstrait::updateRayon(  )
+/// @fn float NoeudAbstrait::updateRadius(  )
 ///
 /// Recalcule le rayon
 ///
@@ -709,15 +709,15 @@ float NoeudAbstrait::obtenirRayon() const
 /// @return float : Le rayon du noeud.
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::updateRayon()
+void NoeudAbstrait::updateRadius()
 {
-	rayon_ = getDefaultRadius()*utilitaire::borneSuperieure(echelleCourante_[VX], echelleCourante_[VY]);
+	mRadius = getDefaultRadius()*utilitaire::borneSuperieure(mScale[VX], mScale[VY]);
 }
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::assignerAttributVisiteurCollision( VisiteurCollision* v )
+/// @fn void NoeudAbstrait::setCollisionVisitorAttributes( VisiteurCollision* v )
 ///
 /// Permet d'assigner les attribut nécessaire à la collision.
 ///
@@ -726,16 +726,16 @@ void NoeudAbstrait::updateRayon()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::assignerAttributVisiteurCollision( class VisiteurCollision* v )
+void NoeudAbstrait::setCollisionVisitorAttributes( class VisiteurCollision* v )
 {
 	v->modifierTypeCollision(CERCLE);
-	v->modifierRayonAVerifier(obtenirRayon());
+	v->modifierRayonAVerifier(getRadius());
 }
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn XmlElement* NoeudAbstrait::creerNoeudXML(  )
+/// @fn XmlElement* NoeudAbstrait::createXmlNode(  )
 ///
 /// Creation du noeud XML d'un noeud abstrait
 ///
@@ -743,14 +743,14 @@ void NoeudAbstrait::assignerAttributVisiteurCollision( class VisiteurCollision* 
 /// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-XmlElement* NoeudAbstrait::creerNoeudXML()
+XmlElement* NoeudAbstrait::createXmlNode()
 {
-	XmlElement* elementNoeud = XMLUtils::createNode(type_.c_str());
+	XmlElement* elementNoeud = XMLUtils::createNode(mType.c_str());
     XmlWriteNodePosition(elementNoeud);
-    XMLUtils::writeArray(echelleCourante_.c_arr(),3,elementNoeud,"echelle");
+    XMLUtils::writeArray(mScale.c_arr(),3,elementNoeud,"echelle");
     XMLUtils::writeAttribute(elementNoeud,"angle",mAngle);
-    XMLUtils::writeAttribute(elementNoeud,"affiche",estAffiche());
-    XMLUtils::writeAttribute(elementNoeud,"selectionnable",estSelectionnable());
+    XMLUtils::writeAttribute(elementNoeud,"affiche",isVisible());
+    XMLUtils::writeAttribute(elementNoeud,"selectionnable",canBeSelected());
 
 	return elementNoeud;
 }
@@ -791,7 +791,7 @@ bool NoeudAbstrait::XmlReadNodePosition( Vecteur3& pos, const XmlElement* elemen
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NoeudAbstrait::initialiser( const XmlElement* element )
+/// @fn bool NoeudAbstrait::initFromXml( const XmlElement* element )
 ///
 /// Initialisation du NoeudAbstrait à partir d'un element XML
 ///
@@ -800,55 +800,55 @@ bool NoeudAbstrait::XmlReadNodePosition( Vecteur3& pos, const XmlElement* elemen
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NoeudAbstrait::initialiser( const XmlElement* element )
+bool NoeudAbstrait::initFromXml( const XmlElement* element )
 {
 	int intElem;
 	float floatElem;
     Vecteur3 pos;
     if(!XmlReadNodePosition(pos,element))
-		throw ExceptionJeu("%s: Error reading node's position", type_.c_str());
+		throw ExceptionJeu("%s: Error reading node's position", mType.c_str());
 	setPosition(pos);
-    if( !XMLUtils::readArray(echelleCourante_.c_arr(),3,element,"echelle") )
-        throw ExceptionJeu("%s: Error reading node's scale", type_.c_str());
+    if( !XMLUtils::readArray(mScale.c_arr(),3,element,"echelle") )
+        throw ExceptionJeu("%s: Error reading node's scale", mType.c_str());
 
     if( !XMLUtils::readAttribute(element,"angle",floatElem) )
-        throw ExceptionJeu("%s: Error reading node's angle", type_.c_str());
-    assignerAngle(floatElem);
+        throw ExceptionJeu("%s: Error reading node's angle", mType.c_str());
+    setAngle(floatElem);
     
 	if( !XMLUtils::readAttribute(element,"affiche",intElem) )
-        throw ExceptionJeu("%s: Error reading node's visibility flag", type_.c_str());
-    assignerAffiche(intElem==1);
+        throw ExceptionJeu("%s: Error reading node's visibility flag", mType.c_str());
+    setVisible(intElem==1);
 
     if( !XMLUtils::readAttribute(element,"selectionnable",intElem) )
-        throw ExceptionJeu("%s: Error reading node's selection flag", type_.c_str());
-    assignerEstSelectionnable(intElem==1);
+        throw ExceptionJeu("%s: Error reading node's selection flag", mType.c_str());
+    setCanBeSelected(intElem==1);
 	
 	return true;
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::modifierTerrain( Terrain* val )
+/// @fn void NoeudAbstrait::setField( Terrain* val )
 ///
-/// Modificateur de terrain_
+/// Modificateur de mField
 ///
 /// @param[in] Terrain * val : nouvelle valeur du terrain
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::modifierTerrain( Terrain* val )
+void NoeudAbstrait::setField( Terrain* val )
 {
-    if(terrain_)
+    if(mField)
     {
-        terrain_->NodeSelectionNotification(this,false);
+        mField->NodeSelectionNotification(this,false);
     }
-	terrain_ = val;
-    if(terrain_)
+	mField = val;
+    if(mField)
     {
-        terrain_->NodeSelectionNotification(this,estSelectionne());
+        mField->NodeSelectionNotification(this,IsSelected());
     }
-    SetIsInGame(terrain_ && terrain_->IsGameField());
+    SetIsInGame(mField && mField->IsGameField());
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -877,7 +877,7 @@ void NoeudAbstrait::setPosition( const Vecteur3& positionRelative )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn Modele3D* NoeudAbstrait::obtenirModele()
+/// @fn Modele3D* NoeudAbstrait::getModel()
 ///
 /// /*Description*/
 ///
@@ -885,7 +885,7 @@ void NoeudAbstrait::setPosition( const Vecteur3& positionRelative )
 /// @return Modele3D*
 ///
 ////////////////////////////////////////////////////////////////////////
-Modele3D* NoeudAbstrait::obtenirModele() const
+Modele3D* NoeudAbstrait::getModel() const
 {
 #if WIN32
     return GestionnaireModeles::obtenirInstance()->obtenirModele(get3DModelKey());
@@ -928,14 +928,14 @@ void NoeudAbstrait::clearPhysicsBody()
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::forceFullUpdate()
 {
-    updateRayon();
+    updateRadius();
     updateMatrice();
     updatePhysicBody();
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::SynchroniseTransformFromB2CallBack( void* , const struct b2Transform& )
+/// @fn void NoeudAbstrait::synchroniseTransformFromB2CallBack( void* , const struct b2Transform& )
 ///
 /// /*Description*/
 ///
@@ -945,19 +945,19 @@ void NoeudAbstrait::forceFullUpdate()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::SynchroniseTransformFromB2CallBack( void* node, const b2Transform& transform)
+void NoeudAbstrait::synchroniseTransformFromB2CallBack( void* node, const b2Transform& transform)
 {
 #if BOX2D_INTEGRATED 
     if(node)
     {
-        ((NoeudAbstrait*)node)->SynchroniseTransformFromB2(transform);
+        ((NoeudAbstrait*)node)->synchroniseTransformFromB2(transform);
     }
 #endif
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::SynchroniseTransformFromB2( const struct b2Transform& )
+/// @fn void NoeudAbstrait::synchroniseTransformFromB2( const struct b2Transform& )
 ///
 /// /*Description*/
 ///
@@ -966,7 +966,7 @@ void NoeudAbstrait::SynchroniseTransformFromB2CallBack( void* node, const b2Tran
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::SynchroniseTransformFromB2( const b2Transform& transform)
+void NoeudAbstrait::synchroniseTransformFromB2( const b2Transform& transform)
 {
 #if BOX2D_INTEGRATED 
     // TODO:: a verifier avec la position du parent
@@ -1003,9 +1003,9 @@ void NoeudAbstrait::acceptVisitor( class VisiteurNoeud& v )
 ////////////////////////////////////////////////////////////////////////
 const class ArbreRendu* NoeudAbstrait::GetTreeRoot() const
 {
-    if(parent_)
+    if(mParent)
     {
-        return parent_->GetTreeRoot();
+        return mParent->GetTreeRoot();
     }
     // tree root not found
     return NULL;
@@ -1025,7 +1025,7 @@ const class ArbreRendu* NoeudAbstrait::GetTreeRoot() const
 class b2World* NoeudAbstrait::getWorld()
 {
 #if BOX2D_INTEGRATED
-    return GetTerrain() ? GetTerrain()->GetWorld() : NULL;
+    return getField() ? getField()->GetWorld() : NULL;
 #endif
     return NULL;
 }
@@ -1044,12 +1044,12 @@ class b2World* NoeudAbstrait::getWorld()
 bool NoeudAbstrait::equals( NoeudAbstrait* n)
 {
     return !!n &&
-    type_ == n->type_ &&
-    modePolygones_ == n->modePolygones_ &&
+    mType == n->mType &&
+    mModePolygones == n->mModePolygones &&
     mPosition == n->mPosition &&
     mFlags == n->mFlags &&
-    echelleCourante_ == n->echelleCourante_ &&
-    rayon_ == n->rayon_;
+    mScale == n->mScale &&
+    mRadius == n->mRadius;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1066,7 +1066,7 @@ void NoeudAbstrait::renderOpenGLES() const
 {
     const int segments = 10;
     static const float jump = 2*utilitaire::PI/(float)segments;
-    const float radius = obtenirRayon();
+    const float radius = getRadius();
     const int count=segments*2;
     GLfloat vertices[count];
     int i = 0;
@@ -1081,7 +1081,7 @@ void NoeudAbstrait::renderOpenGLES() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn inline void NoeudAbstrait::assignerSelection( bool selectionne )
+/// @fn inline void NoeudAbstrait::setSelection( bool selectionne )
 ///
 /// Cette fonction permet d'assigner l'état d'être sélectionné ou non du noeud.
 ///
@@ -1090,13 +1090,13 @@ void NoeudAbstrait::renderOpenGLES() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::assignerSelection( bool selectionne )
+void NoeudAbstrait::setSelection( bool selectionne )
 {
-    bool oldSelection = estSelectionne();
+    bool oldSelection = IsSelected();
     // Un objet non sélectionnable n'est jamais sélectionné.
-    mFlags.SetFlag(selectionne && estSelectionnable(),NODEFLAGS_SELECTIONNE);
-    auto terrain = GetTerrain();
-    if(terrain && oldSelection != estSelectionne())
+    mFlags.SetFlag(selectionne && canBeSelected(),NODEFLAGS_SELECTIONNE);
+    auto terrain = getField();
+    if(terrain && oldSelection != IsSelected())
     {
         terrain->NodeSelectionNotification(this,!oldSelection);
     }
@@ -1104,7 +1104,7 @@ void NoeudAbstrait::assignerSelection( bool selectionne )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::Activate( bool activate )
+/// @fn void NoeudAbstrait::activate( bool activate )
 ///
 /// determines if this node is active in the simulation
 ///
@@ -1113,7 +1113,7 @@ void NoeudAbstrait::assignerSelection( bool selectionne )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::Activate( bool activate )
+void NoeudAbstrait::activate( bool activate )
 {
 #if BOX2D_INTEGRATED  
     if(mPhysicBody)
@@ -1125,7 +1125,7 @@ void NoeudAbstrait::Activate( bool activate )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAbstrait::PlayTick( float temps )
+/// @fn void NoeudAbstrait::playTick( float temps )
 ///
 /// /*Description*/
 ///
@@ -1134,7 +1134,7 @@ void NoeudAbstrait::Activate( bool activate )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::PlayTick( float temps )
+void NoeudAbstrait::playTick( float temps )
 {
     // recherche pour un bonus déjà présent
     for(auto it = mModifiers.begin(); it != mModifiers.end(); ++it)

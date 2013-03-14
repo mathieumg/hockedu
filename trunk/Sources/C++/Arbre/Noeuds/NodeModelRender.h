@@ -30,9 +30,9 @@ public:
 	~NodeModelRender();
 
 	/// Affiche le cube.
-	virtual void afficherConcret() const;
+	virtual void renderReal() const;
 	/// Effectue l'animation du cube.
-	virtual void animer( const float& temps );
+	virtual void tick( const float& temps );
 	
 private:
 

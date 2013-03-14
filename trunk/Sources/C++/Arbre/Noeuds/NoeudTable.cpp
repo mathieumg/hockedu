@@ -67,8 +67,8 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
     //aidegl::glLoadTexture(RazerGameUtilities::NOM_DOSSIER+"table_hockey.png",textureId_,true);
     const float longueurTable = DEFAULT_SIZE[VX];
     const float hauteurTable = DEFAULT_SIZE[VY];
-    assignerEstSelectionnable(false);
-    assignerSelection(false);
+    setCanBeSelected(false);
+    setSelection(false);
 
 
     /// Création des 8 points de la table
@@ -111,14 +111,14 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
     vecteurPoint_.push_back(basDroite_);
 
     /// Ajout de chacun des points comme enfant de la table
-    ajouter(hautGauche_);
-    ajouter(hautMilieu_);
-    ajouter(hautDroite_);
-    ajouter(milieuGauche_);
-    ajouter(milieuDroite_);
-    ajouter(basGauche_);
-    ajouter(basMilieu_);
-    ajouter(basDroite_);
+    add(hautGauche_);
+    add(hautMilieu_);
+    add(hautDroite_);
+    add(milieuGauche_);
+    add(milieuDroite_);
+    add(basGauche_);
+    add(basMilieu_);
+    add(basDroite_);
 
 
     /// enregistrement des position des point associe entre eux
@@ -149,14 +149,14 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
                         *mr6 = new NodeRinkBoards(butJoueur2_,basDroite_,false),
                         *mr7 = new NodeRinkBoards(basGauche_,butJoueur1_,false),//ok
                         *mr8 = new NodeRinkBoards(butJoueur1_,hautGauche_,true);
-    ajouter(mr1);
-    ajouter(mr2);
-    ajouter(mr3);
-    ajouter(mr4);
-    ajouter(mr5);
-    ajouter(mr6);
-    ajouter(mr7);
-    ajouter(mr8);
+    add(mr1);
+    add(mr2);
+    add(mr3);
+    add(mr4);
+    add(mr5);
+    add(mr6);
+    add(mr7);
+    add(mr8);
     bande_[0] = mr8;//mr1;
     bande_[1] = mr1;//mr2;
     bande_[2] = mr2;//mr3;
@@ -316,22 +316,22 @@ void NoeudTable::initialiserListeIndexPoints( Modele3D* modele )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudTable::afficherConcret() const
+/// @fn void NoeudTable::renderReal() const
 ///
 /// Cette fonction effectue le véritable rendu de l'objet.
 ///
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudTable::afficherConcret() const
+void NoeudTable::renderReal() const
 {
     
     // Appel à la version de la classe de base pour l'affichage des enfants.
-    //NoeudComposite::afficherConcret();
+    //NoeudComposite::renderReal();
     DrawChild();
     {
 #if WIN32
-        Modele3D* pModel = obtenirModele();
+        Modele3D* pModel = getModel();
         if(pModel)
         {
             glPushMatrix();
@@ -395,7 +395,7 @@ void NoeudTable::afficherConcret() const
             glEnable(GL_LIGHTING);
         }
 #else
-    NoeudAbstrait::afficherConcret();
+    NoeudAbstrait::renderReal();
 #endif
     }
 
@@ -500,7 +500,7 @@ void NoeudTable::renderOpenGLES() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudTable::animer( const float& temps)
+/// @fn void NoeudTable::tick( const float& temps)
 ///
 /// Cette fonction effectue l'animation du noeud pour un certain
 /// intervalle de temps.
@@ -510,10 +510,10 @@ void NoeudTable::renderOpenGLES() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudTable::animer( const float& temps)
+void NoeudTable::tick( const float& temps)
 {
    // Appel à la version de la classe de base pour l'animation des enfants.
-   NoeudComposite::animer(temps);
+   NoeudComposite::tick(temps);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -535,7 +535,7 @@ void NoeudTable::acceptVisitor( VisiteurNoeud& v )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NoeudTable::ajouter( NoeudAbstrait* enfant )
+/// @fn bool NoeudTable::add( NoeudAbstrait* enfant )
 ///
 /// /*Description*/
 ///
@@ -544,16 +544,16 @@ void NoeudTable::acceptVisitor( VisiteurNoeud& v )
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NoeudTable::ajouter( NoeudAbstrait* enfant )
+bool NoeudTable::add( NoeudAbstrait* enfant )
 {
     // si un groupe existe pour ce type de noeud on lui assigne
-    NoeudGroupe* g = obtenirGroupe(enfant->obtenirType());
+    NoeudGroupe* g = obtenirGroupe(enfant->getType());
     if(g)
     {
-        return g->ajouter(enfant);
+        return g->add(enfant);
     }
     // sinon la table prend le noeud comme enfant normalement
-    return NoeudComposite::ajouter(enfant);
+    return NoeudComposite::add(enfant);
 }
 
 
@@ -592,7 +592,7 @@ NoeudAbstrait::PaireVect3 NoeudTable::obtenirZoneOccupee() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn float NoeudTable::obtenirRayon(  )
+/// @fn float NoeudTable::getRadius(  )
 ///
 /// Retourne le rayon du noeud.
 ///
@@ -600,7 +600,7 @@ NoeudAbstrait::PaireVect3 NoeudTable::obtenirZoneOccupee() const
 /// @return float : rayon du noeud.
 ///
 ////////////////////////////////////////////////////////////////////////
-float NoeudTable::obtenirRayon() const
+float NoeudTable::getRadius() const
 {
     return 0;
     // A COMPLETER
@@ -721,9 +721,9 @@ NodeWallAbstract* NoeudTable::detectionCollisionGrandeVitesseMuret( const Vecteu
     NoeudGroupe* groupe = obtenirGroupe(RazerGameUtilities::NOM_MURET);
     if(groupe)
     {
-        for(unsigned int i=0; i<groupe->obtenirNombreEnfants(); ++i)
+        for(unsigned int i=0; i<groupe->childCount(); ++i)
         {
-            NodeWallAbstract* muret = dynamic_cast<NodeWallAbstract*>(groupe->chercher(i));
+            NodeWallAbstract* muret = dynamic_cast<NodeWallAbstract*>(groupe->find(i));
             if(muret)
             {
                 Vecteur2 point1 = muret->obtenirCoin1().convertir<2>();
@@ -785,7 +785,7 @@ bool NoeudTable::estSurTable(Vecteur2 position)
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn XmlElement* NoeudTable::creerNoeudXML()
+/// @fn XmlElement* NoeudTable::createXmlNode()
 ///
 /// /*Description*/
 ///
@@ -793,9 +793,9 @@ bool NoeudTable::estSurTable(Vecteur2 position)
 /// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-XmlElement* NoeudTable::creerNoeudXML()
+XmlElement* NoeudTable::createXmlNode()
 {
-    XmlElement* elementNoeud = NoeudComposite::creerNoeudXML();
+    XmlElement* elementNoeud = NoeudComposite::createXmlNode();
     
     XMLUtils::writeAttribute<float>(elementNoeud,"coefFriction",coefFriction_);
     
@@ -813,7 +813,7 @@ XmlElement* NoeudTable::creerNoeudXML()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NoeudTable::initialiser( const XmlElement* element )
+/// @fn bool NoeudTable::initFromXml( const XmlElement* element )
 ///
 /// Initialisation du NoeudTable à partir d'un element XML
 ///
@@ -822,9 +822,9 @@ XmlElement* NoeudTable::creerNoeudXML()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NoeudTable::initialiser( const XmlElement* element )
+bool NoeudTable::initFromXml( const XmlElement* element )
 {
-    if(!Super::initialiser(element))
+    if(!Super::initFromXml(element))
         return false;
     if(!XMLUtils::readAttribute(element,"coefFriction",coefFriction_))
         throw ExceptionJeu("Error reading table's fricition coefficient");
@@ -854,7 +854,7 @@ bool NoeudTable::initialiser( const XmlElement* element )
                 {
                     throw ExceptionJeu("Erreur de lecture d'attribut");
                 }
-                obtenirPoint(typeNoeud)->initialiser(child);
+                obtenirPoint(typeNoeud)->initFromXml(child);
                 controlPointVisited |= 1<<typeNoeud;
             }
             else
@@ -865,12 +865,12 @@ bool NoeudTable::initialiser( const XmlElement* element )
     }
     else
     {
-        throw ExceptionJeu("%s : Missing tree root",type_.c_str());
+        throw ExceptionJeu("%s : Missing tree root",mType.c_str());
     }
 
     if(controlPointVisited != (1<<NB_CONTROL_POINTS)-1 )
     {
-        throw ExceptionJeu("%s : control points missing in the file",type_.c_str());
+        throw ExceptionJeu("%s : control points missing in the file",mType.c_str());
     }
 
     return true;
@@ -890,10 +890,10 @@ bool NoeudTable::initialiser( const XmlElement* element )
 ////////////////////////////////////////////////////////////////////////
 NoeudGroupe* NoeudTable::obtenirGroupe(std::string typeEnfant)
 {
-    unsigned int nbEnfants = obtenirNombreEnfants();
+    unsigned int nbEnfants = childCount();
     for(unsigned int i=0; i<nbEnfants; i++)
     {
-        NoeudGroupe *g = dynamic_cast<NoeudGroupe *>(chercher(i));
+        NoeudGroupe *g = dynamic_cast<NoeudGroupe *>(find(i));
         if (g)
         {
             if(g->obtenirTypeEnfants() == typeEnfant)
@@ -947,7 +947,7 @@ void NoeudTable::reassignerParentBandeExt()
         {
             //la table va perdre ce muret comme enfants et le groupe le recevra.
             // La bande aura maintenant le groupe comme parent.
-            groupe->ajouter(bande_[i]);
+            groupe->add(bande_[i]);
         }
     }
     else

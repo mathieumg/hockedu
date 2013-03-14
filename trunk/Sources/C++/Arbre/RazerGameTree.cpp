@@ -73,13 +73,13 @@ RazerGameTree::~RazerGameTree()
 ////////////////////////////////////////////////////////////////////////
 NoeudTable* RazerGameTree::obtenirTable()
 {
-	int nbrEnfants = obtenirNombreEnfants();
+	int nbrEnfants = childCount();
 	const NoeudAbstrait* n;
 
 	for (int i = 0; i < nbrEnfants ; ++i)
 	{
-		n = chercher(i);
-		if(n->obtenirType() == RazerGameUtilities::NOM_TABLE)
+		n = find(i);
+		if(n->getType() == RazerGameUtilities::NOM_TABLE)
 			return (NoeudTable*)n;
 		
 	}

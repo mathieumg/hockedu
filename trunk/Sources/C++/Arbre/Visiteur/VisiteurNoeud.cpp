@@ -67,10 +67,10 @@ VisiteurNoeud::~VisiteurNoeud(void)
 void VisiteurNoeud::visiterNoeudComposite( NoeudComposite* noeud )
 {
     visiterNoeudAbstrait(noeud);
-    unsigned int nbrEnfant = noeud->obtenirNombreEnfants();
+    unsigned int nbrEnfant = noeud->childCount();
     for (unsigned int i=0; i<nbrEnfant; ++i)
     {
-        noeud->chercher(i)->acceptVisitor(*this);
+        noeud->find(i)->acceptVisitor(*this);
     }
 }
 

@@ -100,7 +100,7 @@ NoeudMaillet::~NoeudMaillet()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudMaillet::afficherConcret(  )
+/// @fn void NoeudMaillet::renderReal(  )
 ///
 /// Cette fonction effectue le véritable rendu de l'objet.
 ///
@@ -108,14 +108,14 @@ NoeudMaillet::~NoeudMaillet()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::afficherConcret() const
+void NoeudMaillet::renderReal() const
 {
     // Sauvegarde de la matrice.
     glPushMatrix();
     glPushAttrib(GL_ALL_ATTRIB_BITS);
 
     // Appel à la version de la classe de base pour l'affichage des enfants.
-    NoeudAbstrait::afficherConcret();
+    NoeudAbstrait::renderReal();
 
     // Restauration de la matrice.
     glPopAttrib();
@@ -169,7 +169,7 @@ void NoeudMaillet::renderOpenGLES() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudCube::animer(float temps)
+/// @fn void NoeudCube::tick(float temps)
 ///
 /// Cette fonction effectue l'animation du noeud pour un certain
 /// intervalle de temps.
@@ -179,10 +179,10 @@ void NoeudMaillet::renderOpenGLES() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::animer( const float& temps)
+void NoeudMaillet::tick( const float& temps)
 {
    // Appel à la version de la classe de base pour l'animation des enfants.
-   NoeudAbstrait::animer(temps);
+   NoeudAbstrait::tick(temps);
    
 
 }
@@ -207,7 +207,7 @@ void NoeudMaillet::acceptVisitor( VisiteurNoeud& v )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudMaillet::gestionCollision( float temps )
+/// @fn void NoeudMaillet::collisionDetection( float temps )
 ///
 /// Application des lois de la physique
 ///
@@ -216,14 +216,14 @@ void NoeudMaillet::acceptVisitor( VisiteurNoeud& v )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::gestionCollision( const float& temps )
+void NoeudMaillet::collisionDetection( const float& temps )
 {
 	// Pour linstant on ne fait rien
 	return;
 
 	NoeudRondelle* rondelle;
 	// Si le maillet n'est pas sur un table, il n'y a pas de physique appliquee
-	if(!GetTerrain() || !( rondelle = GetTerrain()->getPuck() ) )
+	if(!getField() || !( rondelle = getField()->getPuck() ) )
 		return;
 	// Reinitialisation du vecteur d'enfoncement
 	enfoncement_.remetAZero();
@@ -247,7 +247,7 @@ void NoeudMaillet::gestionCollision( const float& temps )
 			if( (*iter) == rondelle)
 			{
 				Vecteur3 dir = rondelle->getPosition() - getPosition();
-				float enf = (rondelle->obtenirRayon()+obtenirRayon())-dir.norme();
+				float enf = (rondelle->getRadius()+getRadius())-dir.norme();
 				dir.normaliser();
 				enfoncement_ += dir*enf;
 				collisionAvecRondelle_ = true;
@@ -308,7 +308,7 @@ void NoeudMaillet::assignerPosSouris( Vecteur3 pos )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudMaillet::majPosition( float temps )
+/// @fn void NoeudMaillet::positionUpdate( float temps )
 ///
 /// /*Description*/
 ///
@@ -317,18 +317,18 @@ void NoeudMaillet::assignerPosSouris( Vecteur3 pos )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::majPosition( const float& temps )
+void NoeudMaillet::positionUpdate( const float& temps )
 {
 	// Si le maillet n'est pas sur une table, il n'y a pas de physique appliquee
-	if(!GetTerrain() || !GetTerrain()->getTable())
+	if(!getField() || !getField()->getTable())
 		return;
 	anciennePos_ = mPosition;
 	mPosition += velocite_*temps;
 	mPosition[VZ] = 0;
 
 
-	NoeudGroupe* groupe = GetTerrain()->getTable()->obtenirGroupe(RazerGameUtilities::NOM_MURET);
-	NoeudBut* but = GetTerrain()->getTable()->obtenirBut(anciennePos_[VX] < 0 ? 1:2);
+	NoeudGroupe* groupe = getField()->getTable()->obtenirGroupe(RazerGameUtilities::NOM_MURET);
+	NoeudBut* but = getField()->getTable()->obtenirBut(anciennePos_[VX] < 0 ? 1:2);
 	VisiteurCollision v(this,false);
 	groupe->acceptVisitor(v);
 
@@ -369,17 +369,17 @@ void NoeudMaillet::majPosition( const float& temps )
 	}
 	if(estAGauche_)
 	{
-		if(mPosition[VX] + obtenirRayon() > 0)
+		if(mPosition[VX] + getRadius() > 0)
 		{
-			mPosition[VX] = -obtenirRayon();
+			mPosition[VX] = -getRadius();
 			velocite_[VX] = 0;
 		}
 	}
 	else
 	{
-		if(mPosition[VX] - obtenirRayon() < 0)
+		if(mPosition[VX] - getRadius() < 0)
 		{
-			mPosition[VX] = obtenirRayon();
+			mPosition[VX] = getRadius();
 			velocite_[VX] = 0;
 		}
 	}
@@ -387,7 +387,7 @@ void NoeudMaillet::majPosition( const float& temps )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudMaillet::ajusterEnfoncement()
+/// @fn void NoeudMaillet::fixOverlap()
 ///
 /// /*Description*/
 ///
@@ -395,15 +395,15 @@ void NoeudMaillet::majPosition( const float& temps )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::ajusterEnfoncement()
+void NoeudMaillet::fixOverlap()
 {
 	// Si le maillet n'est pas sur une table, il n'y a pas de physique appliquee
-	if(!GetTerrain() || !GetTerrain()->getTable())
+	if(!getField() || !getField()->getTable())
 		return;
 	// il faudrait regarder si le maillet a ete mis en situation ou il est en collision avec qqc
 
 
-	if(!GetTerrain()->getTable()->estSurTable(this) )
+	if(!getField()->getTable()->estSurTable(this) )
 	{
 		mPosition = anciennePos_;
 	}
@@ -413,7 +413,7 @@ void NoeudMaillet::ajusterEnfoncement()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudMaillet::ajusterVitesse( float temps )
+/// @fn void NoeudMaillet::fixSpeed( float temps )
 ///
 /// /*Description*/
 ///
@@ -422,7 +422,7 @@ void NoeudMaillet::ajusterEnfoncement()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::ajusterVitesse( const float& temps )
+void NoeudMaillet::fixSpeed( const float& temps )
 {
 /*	Vecteur2 direction;
 	if(!estControleParOrdinateur_)
@@ -512,7 +512,7 @@ void NoeudMaillet::updatePhysicBody()
         mPhysicBody = world->CreateBody(&myBodyDef);
         b2CircleShape circleShape;
         circleShape.m_p.Set(0, 0); //position, relative to body position
-        circleShape.m_radius = (float32)obtenirRayon()*utilitaire::ratioWorldToBox2D; //radius
+        circleShape.m_radius = (float32)getRadius()*utilitaire::ratioWorldToBox2D; //radius
 
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
@@ -523,7 +523,7 @@ void NoeudMaillet::updatePhysicBody()
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         mPhysicBody->SetUserData(this);
-        mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
+        mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::synchroniseTransformFromB2CallBack;
     }
 #endif
 }
@@ -628,7 +628,7 @@ void NoeudMaillet::updateObserver( const  MouseMoveSubject* pSubject )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudMaillet::PlayTick()
+/// @fn void NoeudMaillet::playTick()
 ///
 /// node tick received when actually playing the game (simulation running)
 ///
@@ -636,9 +636,9 @@ void NoeudMaillet::updateObserver( const  MouseMoveSubject* pSubject )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::PlayTick(float temps)
+void NoeudMaillet::playTick(float temps)
 {
-    Super::PlayTick(temps);
+    Super::playTick(temps);
 #if BOX2D_INTEGRATED  
     Vecteur2 direction(0,0);
     if(estControleParClavier_ || estControleParOrdinateur_)
@@ -711,7 +711,7 @@ void NoeudMaillet::appliquerAnimation( const ObjectAnimationParameters& pAnimati
     if(pAnimationResult.CanUpdatedAngle())
         mAngle = pAnimationResult.mAngle[VZ];
     if(pAnimationResult.CanUpdatedScale())
-        echelleCourante_ = pAnimationResult.mScale;
+        mScale = pAnimationResult.mScale;
     updateMatrice();
 }
 

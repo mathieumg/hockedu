@@ -135,21 +135,21 @@ void Terrain::libererMemoire()
 	if(mLogicTree)
 	{
 		// Libération de l'arbre de rendu complet
-		mLogicTree->vider();
+		mLogicTree->empty();
 		delete mLogicTree;
 		mLogicTree = NULL;
 	}
 	if(mNewNodeTree)
 	{
 		// Ses enfants ne seront pas libérés, mais le terrain n'en n'est pas responsable
-		mNewNodeTree->vider();
+		mNewNodeTree->empty();
 		delete mNewNodeTree;
 		mNewNodeTree = NULL;
 	}
     // Libère l'arbre de rendu servant à l'affichage seulement
     if(mRenderTree)
     {
-        mRenderTree->vider();
+        mRenderTree->empty();
         delete mRenderTree;
         mRenderTree = NULL;
     }
@@ -175,13 +175,13 @@ void Terrain::libererMemoire()
 void Terrain::renderField()
 {
 	if(mLogicTree)
-		mLogicTree->afficher();
+		mLogicTree->render();
 	if(mNewNodeTree)
-		mNewNodeTree->afficher();
+		mNewNodeTree->render();
 	if(getZoneEdition())
 		getZoneEdition()->afficher();
 	if(mRenderTree)
-		mRenderTree->afficher();
+		mRenderTree->render();
 }
 
 
@@ -221,7 +221,7 @@ void Terrain::initialiser( std::string nom )
 ///
 /// @fn void Terrain::initialiserArbreRendu()
 ///
-/// Methode pour initialiser l'arbre de rendu
+/// Methode pour initFromXml l'arbre de rendu
 ///
 ///
 /// @return void
@@ -236,16 +236,19 @@ void Terrain::initialiserArbreRendu()
     }
 	else
     {
-		mLogicTree->vider();
+		mLogicTree->empty();
     }
 
     if(!mRenderTree)
     {
         mRenderTree = new ArbreRendu(this);
         NoeudAbstrait* piece = new NodeModelRender(RazerGameUtilities::NOM_HOUSE);
-        mZamboni = new NodeModelRender(RazerGameUtilities::NAME_ZAMBONI);
-        mRenderTree->ajouter(piece);
-        mRenderTree->ajouter(mZamboni);
+        mRenderTree->add(piece);
+        if(IsGameField())
+        {
+            mZamboni = new NodeModelRender(RazerGameUtilities::NAME_ZAMBONI);
+            mRenderTree->add(mZamboni);
+        }
     }
     if(!mGame)
     {
@@ -255,14 +258,14 @@ void Terrain::initialiserArbreRendu()
         }
         else
         {
-            mNewNodeTree->vider();
+            mNewNodeTree->empty();
         }
-        mNewNodeTree->modifierTerrain(this);
+        mNewNodeTree->setField(this);
     }
 
 	// Ajout d'une table de base au terrain
 	mTable = new NoeudTable(RazerGameUtilities::NOM_TABLE);
-	mLogicTree->ajouter(mTable);
+	mLogicTree->add(mTable);
 
 
 	/// Groupe destine a contenir les noeud concret pour un meilleur parcours d'arbre
@@ -273,11 +276,11 @@ void Terrain::initialiserArbreRendu()
         *gPortail =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_PORTAIL);
 
 	// La table contient ces groupes.
-	mTable->ajouter(gRondelle);
-	mTable->ajouter(gMaillet);
-	mTable->ajouter(gAccel);
-	mTable->ajouter(gMuret);
-    mTable->ajouter(gPortail);
+	mTable->add(gRondelle);
+	mTable->add(gMaillet);
+	mTable->add(gAccel);
+	mTable->add(gMuret);
+    mTable->add(gPortail);
 
 	// Permet de rediriger les bandes extérieur de la table vers le groupe  gMuret
 	//mTable->reassignerParentBandeExt();
@@ -287,7 +290,7 @@ void Terrain::initialiserArbreRendu()
 ///
 /// @fn void Terrain::initialiserXml( XmlElement* element )
 ///
-/// Permet d'initialiser le terrain avec ces éléments a partir d'un noeud XML
+/// Permet d'initFromXml le terrain avec ces éléments a partir d'un noeud XML
 ///
 /// @param[in] XmlElement * element
 ///
@@ -303,9 +306,12 @@ bool Terrain::initialiserXml( XmlElement* element )
     {
         mRenderTree = new ArbreRendu(this);
         NoeudAbstrait* piece = new NodeModelRender(RazerGameUtilities::NOM_HOUSE);
-        mRenderTree->ajouter(piece);
-        mZamboni = new NodeModelRender(RazerGameUtilities::NAME_ZAMBONI);
-        mRenderTree->ajouter(mZamboni);
+        mRenderTree->add(piece);
+        if(IsGameField())
+        {
+            mZamboni = new NodeModelRender(RazerGameUtilities::NAME_ZAMBONI);
+            mRenderTree->add(mZamboni);
+        }
     }
     if(!mGame)
     {
@@ -315,9 +321,9 @@ bool Terrain::initialiserXml( XmlElement* element )
         }
         else
         {
-            mNewNodeTree->vider();
+            mNewNodeTree->empty();
         }
-        mNewNodeTree->modifierTerrain(this);
+        mNewNodeTree->setField(this);
     }
 	mLogicTree = new RazerGameTree(this,MAX_MALLETS,MAX_PUCKS);
 
@@ -329,7 +335,7 @@ bool Terrain::initialiserXml( XmlElement* element )
 
 	try
 	{
-        mLogicTree->initialiser(racine);
+        mLogicTree->initFromXml(racine);
 		mTable = mLogicTree->obtenirTable();
 		if(mTable == NULL)
         {
@@ -409,7 +415,7 @@ XmlElement* Terrain::creerNoeudXML()
 ///
 /// @fn void Terrain::animerTerrain( const float& temps )
 ///
-/// Permet d'animer les noeuds des arbres du terrain, la physique reste géré par
+/// Permet d'tick les noeuds des arbres du terrain, la physique reste géré par
 ///
 /// @param[in] const float & temps
 ///
@@ -419,11 +425,11 @@ XmlElement* Terrain::creerNoeudXML()
 void Terrain::animerTerrain( const float& temps )
 {
 	if(mLogicTree)
-		mLogicTree->animer(temps);
+		mLogicTree->tick(temps);
 	if(mNewNodeTree)
-		mNewNodeTree->animer(temps);
+		mNewNodeTree->tick(temps);
 	if(mRenderTree)
-		mRenderTree->animer(temps);
+		mRenderTree->tick(temps);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -439,7 +445,7 @@ void Terrain::animerTerrain( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void Terrain::ajouterNoeudTemp( NoeudAbstrait* noeud )
 {
-	mNewNodeTree->ajouter(noeud);
+	mNewNodeTree->add(noeud);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -455,8 +461,8 @@ void Terrain::ajouterNoeudTemp( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 void Terrain::transfererNoeud( NoeudAbstrait* noeud )
 {
-	mNewNodeTree->detacherEnfant(noeud);
-	mTable->ajouter(noeud);
+	mNewNodeTree->unlinkChild(noeud);
+	mTable->add(noeud);
     noeud->forceFullUpdate();
 }
 
@@ -473,7 +479,7 @@ void Terrain::transfererNoeud( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 void Terrain::retirerNoeudTemp( NoeudAbstrait* noeud )
 {
-	mNewNodeTree->detacherEnfant(noeud);
+	mNewNodeTree->unlinkChild(noeud);
 }
 
 
@@ -493,7 +499,7 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 	const Vecteur3& pos = noeud->getPosition();
     checkf(getZoneEdition(),"call illégal à InsideLimits, doit seulement etre utiliser pour le mode édition");
 	// Cas particulier pour des muret puisque ce sont des segment et non des cercles
-	if(getZoneEdition() && noeud->obtenirType() == RazerGameUtilities::NOM_MURET)
+	if(getZoneEdition() && noeud->getType() == RazerGameUtilities::NOM_MURET)
 	{
         Vecteur2 intersection;
 		NodeWallAbstract *muret = (NodeWallAbstract *)noeud;
@@ -539,9 +545,9 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 	}
 	// Tests sur les positions avec leurs rayons beaucoup plus simple
 	// sert aussi de float check pour les murets car leur rayon est nulle
-	if(pos[VX]+noeud->obtenirRayon() > getZoneEdition()->obtenirLimiteExtLongueur() || pos[VX]-noeud->obtenirRayon() < -getZoneEdition()->obtenirLimiteExtLongueur())
+	if(pos[VX]+noeud->getRadius() > getZoneEdition()->obtenirLimiteExtLongueur() || pos[VX]-noeud->getRadius() < -getZoneEdition()->obtenirLimiteExtLongueur())
 		return false;
-	if(pos[VY]+noeud->obtenirRayon() > getZoneEdition()->obtenirLimiteExtLargeur() || pos[VY]-noeud->obtenirRayon() < -getZoneEdition()->obtenirLimiteExtLargeur())
+	if(pos[VY]+noeud->getRadius() > getZoneEdition()->obtenirLimiteExtLargeur() || pos[VY]-noeud->getRadius() < -getZoneEdition()->obtenirLimiteExtLargeur())
 		return false;
 	return true;
 }
@@ -568,9 +574,9 @@ void Terrain::creerTerrainParDefaut(const std::string& nom)
 	maillet2->setPosition(mTable->obtenirPoint(POSITION_MILIEU_DROITE)->getPosition()/2.0);
 	rondelle->setPosition(Vecteur3(0.0,0.0,0.0));
 
-	mTable->ajouter(maillet1);
-	mTable->ajouter(maillet2);
-	mTable->ajouter(rondelle);
+	mTable->add(maillet1);
+	mTable->add(maillet2);
+	mTable->add(rondelle);
 
     fullRebuild();
 }
@@ -605,8 +611,8 @@ void Terrain::createRandomField(const std::string& nom)
     NoeudAccelerateur* a = new NoeudAccelerateur(RazerGameUtilities::NOM_ACCELERATEUR); \
     a->setPosition(Vecteur3((float)x,(float)y));                                        \
     a->modifierBonusAccel((float)acc);                                                  \
-    a->modifierEchelleCourante(Vecteur3((float)e,(float)e,1));                          \
-    mTable->ajouter(a);                                                                 \
+    a->setScale(Vecteur3((float)e,(float)e,1));                          \
+    mTable->add(a);                                                                 \
     }                                                                                 
     AddAccel(-40,0,1.7,1);
     AddAccel(45,0,0.8,1);
@@ -622,8 +628,8 @@ void Terrain::createRandomField(const std::string& nom)
     {                                                                                 \
     NoeudPortail* a = new NoeudPortail(RazerGameUtilities::NOM_PORTAIL);              \
     a->setPosition(Vecteur3((float)x,(float)y));                                      \
-    a->modifierEchelleCourante(Vecteur3((float)e,(float)e,1));                        \
-    mTable->ajouter(a);                                                               \
+    a->setScale(Vecteur3((float)e,(float)e,1));                        \
+    mTable->add(a);                                                               \
     }  
     AddPortal(-90,30,1);
     AddPortal(-95,-30,1);
@@ -638,24 +644,24 @@ void Terrain::createRandomField(const std::string& nom)
         if(IsGameField())                                                                       \
         {                                                                                       \
             NoeudMuret* muret = new NoeudMuret(RazerGameUtilities::NOM_MURET);                  \
-            muret->modifierEchelleCourante(Vecteur3(1,(float)e,1));                             \
+            muret->setScale(Vecteur3(1,(float)e,1));                             \
             muret->assignerPositionCoin(1,Vecteur3((float)x1,(float)y1));                       \
             muret->assignerPositionCoin(2,Vecteur3((float)x2,(float)y2));                       \
             muret->setReboundRatio((float)rebond);                                              \
-            mTable->ajouter(muret);                                                             \
+            mTable->add(muret);                                                             \
         }                                                                                       \
         else                                                                                    \
         {                                                                                       \
             NodeWallEdition* wall = new NodeWallEdition(RazerGameUtilities::NOM_MURET);         \
             NodeControlPoint* p1 = new NodeControlPoint(RazerGameUtilities::NAME_CONTROL_POINT);\
             NodeControlPoint* p2 = new NodeControlPoint(RazerGameUtilities::NAME_CONTROL_POINT);\
-            wall->ajouter(p1);                                                                  \
-            wall->ajouter(p2);                                                                  \
+            wall->add(p1);                                                                  \
+            wall->add(p2);                                                                  \
             p1->setPosition(Vecteur3((float)x1,(float)y1));                                     \
             p2->setPosition(Vecteur3((float)x2,(float)y2));                                     \
             wall->setReboundRatio((float)rebond);                                               \
             wall->modifierEchelle(e);                                                           \
-            mTable->ajouter(wall);                                                              \
+            mTable->add(wall);                                                              \
         }                                                                                       \
     }                                                                                           
 
@@ -715,16 +721,16 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 		NoeudComposite* g = (NoeudComposite*)mTable->obtenirGroupe(typeNoeudModifiable[i]);
 		if(g)
 		{
-			for(unsigned int j=0; j<g->obtenirNombreEnfants(); ++j)
+			for(unsigned int j=0; j<g->childCount(); ++j)
 			{
-				NoeudAbstrait* n = g->chercher(j);
+				NoeudAbstrait* n = g->find(j);
 				// On verifie que le type est bon, surtout utile pour les bande exterieur qui ont un nom different et doivent etre ignorer par cette methode
-				if(n->obtenirType() == typeNoeudModifiable[i])
+				if(n->getType() == typeNoeudModifiable[i])
 				{
 					if(!mTable->estSurTable(n) )
 					{
 						// La suppression du pNode l'enlevera du groupe
-						g->effacer(n);
+						g->erase(n);
 						// Repositionnement de i pour pointer au bon endroit a la prochaine iteration
 						j--; 
 					}
@@ -737,9 +743,9 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 	NoeudComposite* g = (NoeudComposite*)mTable->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
 	if(!g)
 		return false;
-	for(unsigned int j=0; j<g->obtenirNombreEnfants(); ++j)
+	for(unsigned int j=0; j<g->childCount(); ++j)
 	{
-		NoeudMaillet *maillet = dynamic_cast<NoeudMaillet *>(g->chercher(j));
+		NoeudMaillet *maillet = dynamic_cast<NoeudMaillet *>(g->find(j));
 		if (maillet)
 		{
 			// verification des maillets
@@ -770,9 +776,9 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 	g = (NoeudComposite*)mTable->obtenirGroupe(RazerGameUtilities::NOM_RONDELLE);
 	if(!g)
 		return false;
-	for(unsigned int j=0; j<g->obtenirNombreEnfants(); ++j)
+	for(unsigned int j=0; j<g->childCount(); ++j)
 	{
-		NoeudRondelle *rondelle = dynamic_cast<NoeudRondelle *>(g->chercher(j));
+		NoeudRondelle *rondelle = dynamic_cast<NoeudRondelle *>(g->find(j));
 		if (rondelle)
 		{
 			if(rondelleOk)
@@ -784,13 +790,13 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 			rondelleOk = true;
 			rondelle->validerPropriteteTablePourJeu();
 			// On multiplie le rayon par 3 pour avoir une distance supplementaire proportionnel a la taille de la rondelle
-			if(hauteurBut <= rondelle->obtenirRayon()*3)
+			if(hauteurBut <= rondelle->getRadius()*3)
 			{
 				if(afficherErreur)
                 {
                     std::ostringstream mess;
                     mess << "Erreur: table invalide\nbuts trop petits pour jouer.\nDistance manquante = ";
-                    mess << (float)rondelle->obtenirRayon()*2+20-hauteurBut;
+                    mess << (float)rondelle->getRadius()*2+20-hauteurBut;
                     mess << " pixels";
 					utilitaire::afficherErreur(mess.str());
                 }
@@ -829,9 +835,9 @@ NoeudRondelle* Terrain::getPuck() const
 		NoeudComposite* g = (NoeudComposite*)getTable()->obtenirGroupe(RazerGameUtilities::NOM_RONDELLE);
 		if(g)
 		{
-			for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
+			for(unsigned int i=0; i<g->childCount(); ++i)
 			{
-				NoeudRondelle* r = dynamic_cast<NoeudRondelle *>(g->chercher(i));
+				NoeudRondelle* r = dynamic_cast<NoeudRondelle *>(g->find(i));
 				if(r)
 					return r;
 			}
@@ -851,7 +857,7 @@ NoeudRondelle* Terrain::getPuck() const
 ////////////////////////////////////////////////////////////////////////
 VISITEUR_FUNC_FUNC_DECLARATION(PlayTickNode)
 {
-    pNoeud->PlayTick(*(float*)pUserData);
+    pNoeud->playTick(*(float*)pUserData);
 }
 void Terrain::appliquerPhysique( float temps )
 {
@@ -865,10 +871,10 @@ void Terrain::appliquerPhysique( float temps )
         mWorld->SetSubStepping(true);
         mWorld->Step(temps, 8, 8);
 #else
-		mLogicTree->majPosition(temps);
-		mLogicTree->gestionCollision(temps);
-		mLogicTree->ajusterVitesse(temps);
-		mLogicTree->ajusterEnfoncement();
+		mLogicTree->positionUpdate(temps);
+		mLogicTree->collisionDetection(temps);
+		mLogicTree->fixSpeed(temps);
+		mLogicTree->fixOverlap();
 #endif
         
 #ifndef __APPLE__
@@ -983,10 +989,10 @@ void Terrain::BeginContact( b2Contact* contact )
                 if(portail->isAttractionFieldActive())
                 {
                     // Collision avec un portail et téléportation
-                    NoeudGroupe *groupe = dynamic_cast<NoeudGroupe *>(portail->obtenirParent());
+                    NoeudGroupe *groupe = dynamic_cast<NoeudGroupe *>(portail->getParent());
                     if(groupe)
                     {
-                        unsigned int nbEnfant = groupe->obtenirNombreEnfants();
+                        unsigned int nbEnfant = groupe->childCount();
 
                         if( nbEnfant > 1 )
                         {
@@ -995,7 +1001,7 @@ void Terrain::BeginContact( b2Contact* contact )
                             while(!portailDeSortie || portailDeSortie == portail)
                             {
                                 int noPortailDeSortie = rand()%nbEnfant;
-                                portailDeSortie = dynamic_cast<NoeudPortail*>(groupe->chercher(noPortailDeSortie));
+                                portailDeSortie = dynamic_cast<NoeudPortail*>(groupe->find(noPortailDeSortie));
                             }
 
                             NoeudRondelle* rondelle = (NoeudRondelle*)bodies[0]->GetUserData();
@@ -1202,7 +1208,7 @@ void Terrain::setTableControlPointVisible( bool pVisible )
         for (int i = 0; i < NoeudTable::NB_CONTROL_POINTS ; ++i)
         {
             // the control points always exists with the table
-            mTable->obtenirPoint(i)->assignerAffiche(pVisible);
+            mTable->obtenirPoint(i)->setVisible(pVisible);
         }
     }
 }
@@ -1223,11 +1229,11 @@ void Terrain::setTableItemsSelection( bool pSelect )
     {
         if(pSelect)
         {
-            mLogicTree->selectionnerTout();
+            mLogicTree->selectAll();
         }
         else
         {
-            mLogicTree->deselectionnerTout();
+            mLogicTree->deselectAll();
         }
     }
 }
@@ -1244,7 +1250,7 @@ void Terrain::setTableItemsSelection( bool pSelect )
 ////////////////////////////////////////////////////////////////////////
 bool Terrain::IsAnyNodeSelected() const
 {
-    return mLogicTree && mLogicTree->selectionExiste();
+    return mLogicTree && mLogicTree->selectionPresent();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1323,9 +1329,9 @@ NoeudMaillet* Terrain::getLeftMallet() const
         checkf(g, "Groupe pour les maillets manquant");
         if(g)
         {
-            for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
+            for(unsigned int i=0; i<g->childCount(); ++i)
             {
-                NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->chercher(i));
+                NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->find(i));
                 if( m->getPosition()[VX] <= 0 )
                     maillet = m;
             }
@@ -1354,9 +1360,9 @@ NoeudMaillet* Terrain::getRightMallet() const
         checkf(g, "Groupe pour les maillets manquant");
         if(g)
         {
-            for(unsigned int i=0; i<g->obtenirNombreEnfants(); ++i)
+            for(unsigned int i=0; i<g->childCount(); ++i)
             {
-                NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->chercher(i));
+                NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->find(i));
                 if(m->getPosition()[VX]>0)
                     maillet = m;
             }

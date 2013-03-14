@@ -32,9 +32,9 @@ PRAGMA_DISABLE_OPTIMIZATION
 NodeRinkBoards::NodeRinkBoards( NoeudPoint* n1, NoeudPoint* n2 ):
     Super(RazerGameUtilities::NAME_RINK_BOARD)
 {
-    modifierEchelleCourante(Vecteur3(1,0,0));
-    assignerEstEnregistrable(false);
-    assignerAffiche(false);
+    setScale(Vecteur3(1,0,0));
+    setRecordable(false);
+    setVisible(false);
 
     init(n1->mPosition,n2->mPosition,n1,n2);
 }
@@ -55,9 +55,9 @@ NodeRinkBoards::NodeRinkBoards( NoeudPoint* n1, NoeudPoint* n2 ):
 NodeRinkBoards::NodeRinkBoards( NoeudPoint* n, NoeudBut* but, bool haut ):
     Super(RazerGameUtilities::NAME_RINK_BOARD)
 {
-    modifierEchelleCourante(Vecteur3(1,0,0));
-    assignerEstEnregistrable(false);
-    assignerAffiche(false);
+    setScale(Vecteur3(1,0,0));
+    setRecordable(false);
+    setVisible(false);
 
     init(n->mPosition,
         haut? but->mTopPosition : but->mBottomPosition,
@@ -82,9 +82,9 @@ NodeRinkBoards::NodeRinkBoards( NoeudPoint* n, NoeudBut* but, bool haut ):
 NodeRinkBoards::NodeRinkBoards( NoeudBut* but, NoeudPoint* n, bool haut ):
     Super(RazerGameUtilities::NAME_RINK_BOARD)
 {
-    modifierEchelleCourante(Vecteur3(1,0,0));
-    assignerEstEnregistrable(false);
-    assignerAffiche(false);
+    setScale(Vecteur3(1,0,0));
+    setRecordable(false);
+    setVisible(false);
 
     init(haut? but->mTopPosition : but->mBottomPosition,
         n->mPosition,

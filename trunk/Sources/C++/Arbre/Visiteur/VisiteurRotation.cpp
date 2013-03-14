@@ -70,7 +70,7 @@ void VisiteurRotation::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 {
 	
 	// N'applique pas la rotation si le noeud n'est pas selectionne
-	if(!noeud->estSelectionne())
+	if(!noeud->IsSelected())
 		return;
 	
 	const Vecteur3& positionNoeud = noeud->getPosition();
@@ -84,7 +84,7 @@ void VisiteurRotation::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 
 
 	float centreRotRel[2];
-	NoeudAbstrait* parent = noeud->obtenirParent();
+	NoeudAbstrait* parent = noeud->getParent();
 	if(parent!=0)
 	{
 		centreRotRel[VX] = centreRot_[VX];
@@ -98,7 +98,7 @@ void VisiteurRotation::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 
 	
 
-	noeud->assignerAngle(noeud->obtenirAngle()-angleRot_);
+	noeud->setAngle(noeud->getAngle()-angleRot_);
 
 	Vecteur2 varDeplacement;
 	varDeplacement[VX] = centreRotRel[VX]+rayon*cos((angleCourantRad-(angleRot_*(float)M_PI/180)));
@@ -132,9 +132,9 @@ void VisiteurRotation::visiterNoeudComposite( NoeudComposite* noeud )
 {
 	// On effectue la rotation sur les enfants egalement
 	
-	for (unsigned int i=0; i<noeud->obtenirNombreEnfants(); i++)
+	for (unsigned int i=0; i<noeud->childCount(); i++)
 	{
-		noeud->chercher(i)->acceptVisitor(*this);
+		noeud->find(i)->acceptVisitor(*this);
 	}
 
 	
@@ -155,7 +155,7 @@ void VisiteurRotation::visiterNoeudComposite( NoeudComposite* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurRotation::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
-	noeud->assignerAngle(noeud->obtenirAngle()-angleRot_);
+	noeud->setAngle(noeud->getAngle()-angleRot_);
 	visiterNoeudAbstrait(noeud);
     visiterNoeudComposite(noeud);
 }

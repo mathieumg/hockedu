@@ -74,15 +74,15 @@ NodeControlPoint::~NodeControlPoint()
 
 }
 
-void NodeControlPoint::afficherConcret() const
+void NodeControlPoint::renderReal() const
 {
     // Appel à la version de la classe de base pour l'affichage des enfants.
-    NoeudAbstrait::afficherConcret();
+    NoeudAbstrait::renderReal();
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NodeControlPoint::animer( const float& temps )
+/// @fn void NodeControlPoint::tick( const float& temps )
 ///
 /// /*Description*/
 ///
@@ -91,9 +91,9 @@ void NodeControlPoint::afficherConcret() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NodeControlPoint::animer( const float& temps )
+void NodeControlPoint::tick( const float& temps )
 {
-    Super::animer(temps);
+    Super::tick(temps);
 //     mAngle = (float)((int)(mAngle+temps*500.0f)%360);
 //     updateMatrice();
 // 
@@ -106,7 +106,7 @@ void NodeControlPoint::animer( const float& temps )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn XmlElement* NoeudPoint::creerNoeudXML()
+/// @fn XmlElement* NoeudPoint::createXmlNode()
 ///
 /// Creation du noeud XML d'un point
 ///
@@ -114,9 +114,9 @@ void NodeControlPoint::animer( const float& temps )
 /// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-XmlElement* NodeControlPoint::creerNoeudXML()
+XmlElement* NodeControlPoint::createXmlNode()
 {
-    XmlElement* elementNoeud = XMLUtils::createNode(type_.c_str());
+    XmlElement* elementNoeud = XMLUtils::createNode(mType.c_str());
 
     XmlWriteNodePosition(elementNoeud);
 
@@ -125,7 +125,7 @@ XmlElement* NodeControlPoint::creerNoeudXML()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NoeudPoint::initialiser( const XmlElement* element )
+/// @fn bool NoeudPoint::initFromXml( const XmlElement* element )
 ///
 /// Initialisation du NoeudPoint à partir d'un element XML
 ///
@@ -134,12 +134,12 @@ XmlElement* NodeControlPoint::creerNoeudXML()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NodeControlPoint::initialiser( const XmlElement* element )
+bool NodeControlPoint::initFromXml( const XmlElement* element )
 {
     // faire l'initialisaiton des attribut concernant le point en premier pour que la suite puisse les utiliser
     Vecteur3 pos;
     if( !XmlReadNodePosition(pos,element) )
-        throw ExceptionJeu("%s: Error reading node's position", type_.c_str());
+        throw ExceptionJeu("%s: Error reading node's position", mType.c_str());
     setPosition(pos);
     return true;
 }
@@ -203,7 +203,7 @@ void NodeControlPoint::setPosition( const Vecteur3& positionRelative )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NodeControlPoint::assignerAttributVisiteurCollision( VisiteurCollision* v )
+/// @fn void NodeControlPoint::setCollisionVisitorAttributes( VisiteurCollision* v )
 ///
 /// Permet d'assigner les attribut nécessaire à la collision.
 ///
@@ -212,17 +212,17 @@ void NodeControlPoint::setPosition( const Vecteur3& positionRelative )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NodeControlPoint::assignerAttributVisiteurCollision( class VisiteurCollision* v )
+void NodeControlPoint::setCollisionVisitorAttributes( class VisiteurCollision* v )
 {
     auto n = dynamic_cast<NoeudAbstrait*>(mLinkedObject);
     if(n)
     {
         v->setNoeudAVerifier(n);
-        n->assignerAttributVisiteurCollision(v);
+        n->setCollisionVisitorAttributes(v);
     }
     else
     {
-        Super::assignerAttributVisiteurCollision(v);
+        Super::setCollisionVisitorAttributes(v);
     }
 }
 

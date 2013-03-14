@@ -13,7 +13,7 @@
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void ArbreNoeudLibre::vider()
+/// @fn void ArbreNoeudLibre::empty()
 ///
 /// Vide le conteneur d'enfants, mais ne les libèrent pas
 ///
@@ -21,17 +21,17 @@
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void ArbreNoeudLibre::vider()
+void ArbreNoeudLibre::empty()
 {
 	while (!enfants_.empty()) {
 		NoeudAbstrait* enfantAEffacer = enfants_.front();
-		detacherEnfant(enfantAEffacer);
+		unlinkChild(enfantAEffacer);
 	}
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void ArbreNoeudLibre::effacer( const NoeudAbstrait* noeud )
+/// @fn void ArbreNoeudLibre::erase( const NoeudAbstrait* noeud )
 ///
 /// Efface le noeud du conteneur de noeud, le noeud n'est pas libéré
 ///
@@ -40,9 +40,9 @@ void ArbreNoeudLibre::vider()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void ArbreNoeudLibre::effacer( const NoeudAbstrait* noeud )
+void ArbreNoeudLibre::erase( const NoeudAbstrait* noeud )
 {
-	detacherEnfant(noeud);
+	unlinkChild(noeud);
 }
 
 

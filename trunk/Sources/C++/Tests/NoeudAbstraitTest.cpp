@@ -81,7 +81,7 @@ void NoeudAbstraitTest::testPositionRelative()
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstraitTest::testType()
 {
-	CPPUNIT_ASSERT( noeud->obtenirType() == "TestingNode");
+	CPPUNIT_ASSERT( noeud->getType() == "TestingNode");
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -96,20 +96,20 @@ void NoeudAbstraitTest::testType()
 void NoeudAbstraitTest::testEtat()
 {
 	// Régler tous les états (booléens) à faux
-	noeud->assignerAffiche(false);
-	noeud->assignerEstEnregistrable(false);
+	noeud->setVisible(false);
+	noeud->setRecordable(false);
 
 	// Vérifier que la valeur attribuée est fausse
-	CPPUNIT_ASSERT( noeud->estAffiche() == false );
-	CPPUNIT_ASSERT( noeud->estEnregistrable() == false );
+	CPPUNIT_ASSERT( noeud->isVisible() == false );
+	CPPUNIT_ASSERT( noeud->isRecordable() == false );
 
 	// Régler tous les états (booléens) à true
-	noeud->assignerAffiche(true);
-	noeud->assignerEstEnregistrable(true);
+	noeud->setVisible(true);
+	noeud->setRecordable(true);
 
 	// Vérifier que la valeur attribuée est fausse
-	CPPUNIT_ASSERT( noeud->estAffiche() == true );
-	CPPUNIT_ASSERT( noeud->estEnregistrable() == true );
+	CPPUNIT_ASSERT( noeud->isVisible() == true );
+	CPPUNIT_ASSERT( noeud->isRecordable() == true );
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -124,28 +124,28 @@ void NoeudAbstraitTest::testEtat()
 void NoeudAbstraitTest::testSelection()
 {
 	// Cas 1 : non sélectionnable, non sélectionné
-	noeud->assignerEstSelectionnable(false);
-	noeud->assignerSelection(false);
-	CPPUNIT_ASSERT( noeud->estSelectionnable() == false );
-	CPPUNIT_ASSERT( noeud->estSelectionne() == false );
+	noeud->setCanBeSelected(false);
+	noeud->setSelection(false);
+	CPPUNIT_ASSERT( noeud->canBeSelected() == false );
+	CPPUNIT_ASSERT( noeud->IsSelected() == false );
 
 	// Cas 2 : non sélectionnable, sélectionné
-	noeud->assignerEstSelectionnable(false);
-	noeud->assignerSelection(true);
-	CPPUNIT_ASSERT( noeud->estSelectionnable() == false );
-	CPPUNIT_ASSERT( noeud->estSelectionne() == false );
+	noeud->setCanBeSelected(false);
+	noeud->setSelection(true);
+	CPPUNIT_ASSERT( noeud->canBeSelected() == false );
+	CPPUNIT_ASSERT( noeud->IsSelected() == false );
 
 	// Cas 3 : sélectionnable, non sélectionné
-	noeud->assignerEstSelectionnable(true);
-	noeud->assignerSelection(false);
-	CPPUNIT_ASSERT( noeud->estSelectionnable() == true );
-	CPPUNIT_ASSERT( noeud->estSelectionne() == false );
+	noeud->setCanBeSelected(true);
+	noeud->setSelection(false);
+	CPPUNIT_ASSERT( noeud->canBeSelected() == true );
+	CPPUNIT_ASSERT( noeud->IsSelected() == false );
 
 	// Cas 4 : non sélectionnable, sélectionné
-	noeud->assignerEstSelectionnable(true);
-	noeud->assignerSelection(true);
-	CPPUNIT_ASSERT( noeud->estSelectionnable() == true );
-	CPPUNIT_ASSERT( noeud->estSelectionne() == true );
+	noeud->setCanBeSelected(true);
+	noeud->setSelection(true);
+	CPPUNIT_ASSERT( noeud->canBeSelected() == true );
+	CPPUNIT_ASSERT( noeud->IsSelected() == true );
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -159,30 +159,30 @@ void NoeudAbstraitTest::testSelection()
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstraitTest::testEnfants()
 {
-	CPPUNIT_ASSERT( noeud->obtenirNombreEnfants() == 0);
-	CPPUNIT_ASSERT( noeud->calculerProfondeur() == 1);
+	CPPUNIT_ASSERT( noeud->childCount() == 0);
+	CPPUNIT_ASSERT( noeud->treeDepth() == 1);
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void NoeudAbstraitTest::testAjout()
 ///
-/// Cas de test: s'assurer qu'il est impossible d'ajouter un enfant
+/// Cas de test: s'assurer qu'il est impossible d'add un enfant
 ///
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstraitTest::testAjout()
 {
-// 	// Essaie d'ajouter un noeud
+// 	// Essaie d'add un noeud
 // 	NoeudAbstrait* nouveauNoeud = new NoeudConeCube(RazerGameUtilities::NOM_CUBECONE);
-// 	bool ajout = noeud->ajouter(nouveauNoeud);
+// 	bool ajout = noeud->add(nouveauNoeud);
 // 
 // 	// L'ajout devrait avoir échoué puisqu'il s'agit d'un noeud abstrait...
 // 	CPPUNIT_ASSERT( ajout==false );
 // 
 // 	// Assurons-nous que le noeud ne possède pas d'enfant...
-// 	CPPUNIT_ASSERT( noeud->obtenirNombreEnfants() == 0 );
+// 	CPPUNIT_ASSERT( noeud->childCount() == 0 );
 // 
 // 	// Nettoyage
 // 	delete nouveauNoeud;
@@ -208,24 +208,24 @@ void NoeudAbstraitTest::testGetTreeRoot()
         * c4 = new NoeudComposite(""),
         * c5 = new NoeudComposite("");
 
-    c1->ajouter(c2);
-    c2->ajouter(c3);
-    c3->ajouter(c4);
-    c4->ajouter(c5);
-    c5->ajouter(noeud);
+    c1->add(c2);
+    c2->add(c3);
+    c3->add(c4);
+    c4->add(c5);
+    c5->add(noeud);
 
     const ArbreRendu* root = noeud->GetTreeRoot();
 
-    // arbre pas encore ajouter
+    // arbre pas encore add
     CPPUNIT_ASSERT( root == NULL );
 
-    tree.ajouter(c1);
+    tree.add(c1);
     root = noeud->GetTreeRoot();
     CPPUNIT_ASSERT( root == &tree );
 
 
     // pour ne pas liberer 2 fois la memoire
-    c5->detacherEnfant(noeud);
+    c5->unlinkChild(noeud);
 
     
 }

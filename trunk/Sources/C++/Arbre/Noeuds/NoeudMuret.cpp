@@ -89,7 +89,7 @@ const Vecteur3& NoeudMuret::obtenirCoin2() const
 void NoeudMuret::majPosCoins()
 {
 	Vecteur3 deplacement( cos(utilitaire::DEG_TO_RAD(mAngle) ), sin(utilitaire::DEG_TO_RAD(mAngle) ) );
-	deplacement*= echelleCourante_[VX];
+	deplacement*= mScale[VX];
 	deplacement /= 2.0;
 	positionCoin1_ = mPosition+deplacement;
 	positionCoin2_ = mPosition-deplacement;
@@ -126,7 +126,7 @@ void NoeudMuret::assignerPositionCoin( int lequel, Vecteur3 position )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn XmlElement* NoeudMuret::creerNoeudXML()
+/// @fn XmlElement* NoeudMuret::createXmlNode()
 ///
 /// /*Description*/
 ///
@@ -134,9 +134,9 @@ void NoeudMuret::assignerPositionCoin( int lequel, Vecteur3 position )
 /// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-XmlElement* NoeudMuret::creerNoeudXML()
+XmlElement* NoeudMuret::createXmlNode()
 {
-	XmlElement* elementNoeud = Super::creerNoeudXML();
+	XmlElement* elementNoeud = Super::createXmlNode();
 	// Ajouter la position des coins des murets
     XMLUtils::writeArray(positionCoin1_.c_arr(),3,elementNoeud,"coinA");
     XMLUtils::writeArray(positionCoin2_.c_arr(),3,elementNoeud,"coinB");
@@ -145,7 +145,7 @@ XmlElement* NoeudMuret::creerNoeudXML()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NoeudMuret::initialiser( const XmlElement* element )
+/// @fn bool NoeudMuret::initFromXml( const XmlElement* element )
 ///
 /// Initialisation du NoeudMuret à partir d'un element XML
 ///
@@ -154,9 +154,9 @@ XmlElement* NoeudMuret::creerNoeudXML()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NoeudMuret::initialiser( const XmlElement* element )
+bool NoeudMuret::initFromXml( const XmlElement* element )
 {
-	if(!Super::initialiser(element))
+	if(!Super::initFromXml(element))
 		return false;
 
     // Lecture des position a partir de point de control
@@ -189,7 +189,7 @@ bool NoeudMuret::initialiser( const XmlElement* element )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudMuret::assignerAngle( float angle )
+/// @fn void NoeudMuret::setAngle( float angle )
 ///
 /// Permet de modifier l'angle du muret et garde les coins a jour
 ///
@@ -198,16 +198,16 @@ bool NoeudMuret::initialiser( const XmlElement* element )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMuret::assignerAngle( const float& angle )
+void NoeudMuret::setAngle( float angle )
 {
-	Super::assignerAngle(angle);
+	Super::setAngle(angle);
 	majPosCoins();
 }
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudMuret::modifierEchelleCourante( const Vecteur3& echelleCourante )
+/// @fn void NoeudMuret::setScale( const Vecteur3& echelleCourante )
 ///
 /// Mutateur des facteurs d'echelle et conserve les coins a jour
 ///
@@ -216,9 +216,9 @@ void NoeudMuret::assignerAngle( const float& angle )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMuret::modifierEchelleCourante( const Vecteur3& echelleCourante )
+void NoeudMuret::setScale( const Vecteur3& echelleCourante )
 {
-	Super::modifierEchelleCourante(echelleCourante);
+	Super::setScale(echelleCourante);
 	majPosCoins();
 }
 

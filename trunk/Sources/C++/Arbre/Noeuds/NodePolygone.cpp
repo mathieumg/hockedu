@@ -64,7 +64,7 @@ NodePolygone::~NodePolygone()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NodeWallEdition::ajouter( NoeudAbstrait* enfant )
+/// @fn bool NodeWallEdition::add( NoeudAbstrait* enfant )
 ///
 /// Ajoute un noeud enfant.
 ///
@@ -73,20 +73,20 @@ NodePolygone::~NodePolygone()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NodePolygone::ajouter( NoeudAbstrait* enfant )
+bool NodePolygone::add( NoeudAbstrait* enfant )
 {
     NodeControlPoint* controlPoint = dynamic_cast<NodeControlPoint*>(enfant);
     if(controlPoint)
     {
         return addControlPoint(controlPoint);
     }
-    return Super::ajouter(enfant);
+    return Super::add(enfant);
 }
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NodeWallEdition::detacherEnfant( const NoeudAbstrait* enfant )
+/// @fn bool NodeWallEdition::unlinkChild( const NoeudAbstrait* enfant )
 ///
 /// /*Description*/
 ///
@@ -95,7 +95,7 @@ bool NodePolygone::ajouter( NoeudAbstrait* enfant )
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-void NodePolygone::detacherEnfant( const NoeudAbstrait* enfant )
+void NodePolygone::unlinkChild( const NoeudAbstrait* enfant )
 {
     NodeControlPoint* controlPoint = const_cast<NodeControlPoint*>(dynamic_cast<const NodeControlPoint*>(enfant));
     if(controlPoint)
@@ -104,7 +104,7 @@ void NodePolygone::detacherEnfant( const NoeudAbstrait* enfant )
     }
     else
     {
-        Super::detacherEnfant(enfant);
+        Super::unlinkChild(enfant);
     }
 }
 
@@ -129,7 +129,7 @@ void NodePolygone::modifierEchelle( float facteur )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NodePolygone::afficherConcret()
+/// @fn void NodePolygone::renderReal()
 ///
 /// /*Description*/
 ///
@@ -137,13 +137,13 @@ void NodePolygone::modifierEchelle( float facteur )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NodePolygone::afficherConcret() const
+void NodePolygone::renderReal() const
 {
 #if WIN32
     glPushMatrix();
     glPushAttrib(GL_CURRENT_BIT | GL_POLYGON_BIT);
     // Assignation du mode d'affichage des polygones
-    glPolygonMode( GL_FRONT_AND_BACK, modePolygones_ );
+    glPolygonMode( GL_FRONT_AND_BACK, mModePolygones );
     glTranslatef(0,0,5);
 
     divideIntoTriangles();
@@ -303,7 +303,7 @@ void NodePolygone::updatePhysicBody()
 ////////////////////////////////////////////////////////////////////////
 bool NodePolygone::onAddControlPoint( NodeControlPoint* point )
 {
-    if(Super::ajouter(point))
+    if(Super::add(point))
     {
         point->attach(this);
         updatePhysicBody();
@@ -325,7 +325,7 @@ bool NodePolygone::onAddControlPoint( NodeControlPoint* point )
 ////////////////////////////////////////////////////////////////////////
 void NodePolygone::onRemoveControlPoint( NodeControlPoint* point )
 {
-    Super::detacherEnfant(point);
+    Super::unlinkChild(point);
     point->detach(this);
     updatePhysicBody();
 }

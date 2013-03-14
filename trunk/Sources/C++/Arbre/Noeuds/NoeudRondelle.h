@@ -45,24 +45,24 @@ public:
         return !!n2 && Super::equals(n);
     }
     /// Affiche le cube.
-    virtual void afficherConcret() const;
+    virtual void renderReal() const;
     /// Fonction appeler dans afficher concret pour faire le
     /// rendu OpenGL, uniquement utilisé sous APPLE.
     /// utiliser les liste d'affichage pour windows
     virtual void renderOpenGLES() const;
     /// Effectue l'animation
-    virtual void animer( const float& temps );
+    virtual void tick( const float& temps );
     /// Accueil un visiteur
     virtual void acceptVisitor( VisiteurNoeud& v);
 
     /// Application de la physique de la rondelle
-    virtual void gestionCollision( const float& temps );
+    virtual void collisionDetection( const float& temps );
     /// Mise a Jour de la position de ce noeud
-    virtual void majPosition( const float& temps );
+    virtual void positionUpdate( const float& temps );
     /// Repositionnement des modele pour enlever la penetration entre les noeuds
-    virtual void ajusterEnfoncement();
+    virtual void fixOverlap();
     /// Ajustement de la vitesse des noeuds
-    virtual void ajusterVitesse( const float& temps );
+    virtual void fixSpeed( const float& temps );
 
     /// Accesseur de mVelocite
     Vecteur3 obtenirVelocite() const;

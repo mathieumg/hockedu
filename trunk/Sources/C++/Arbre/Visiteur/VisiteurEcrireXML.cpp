@@ -66,11 +66,11 @@ VisiteurEcrireXML::~VisiteurEcrireXML(void)
 ////////////////////////////////////////////////////////////////////////
 void VisiteurEcrireXML::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 {
-	if(!noeud->estEnregistrable())
+	if(!noeud->isRecordable())
 		return;
 
 	// Créer le noeud 
-	XmlElement* elementNoeud = noeud->creerNoeudXML();
+	XmlElement* elementNoeud = noeud->createXmlNode();
 
 	if(racine_ == 0)
 	{
@@ -98,11 +98,11 @@ void VisiteurEcrireXML::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurEcrireXML::visiterNoeudComposite( NoeudComposite* noeud )
 {
-	if(!noeud->estEnregistrable())
+	if(!noeud->isRecordable())
 		return;
 
 	// Créer le noeud 
-	XmlElement* elementNoeud = noeud->creerNoeudXML();//obtenirElement(noeud);
+	XmlElement* elementNoeud = noeud->createXmlNode();//obtenirElement(noeud);
 
 	if(racine_ == 0)
 	{
@@ -116,9 +116,9 @@ void VisiteurEcrireXML::visiterNoeudComposite( NoeudComposite* noeud )
 
 	XmlElement* ancienParent = parent_;
 	parent_ = elementNoeud;
-	for( unsigned int i = 0; i < noeud->obtenirNombreEnfants(); i++)
+	for( unsigned int i = 0; i < noeud->childCount(); i++)
 	{
-		noeud->chercher(i)->acceptVisitor(*this);
+		noeud->find(i)->acceptVisitor(*this);
 	}
 	parent_ = ancienParent;
 	

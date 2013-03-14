@@ -95,9 +95,9 @@ void VisiteurSelection::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurSelection::visiterNoeudComposite( NoeudComposite* noeud )
 {
-	for (unsigned int i=0; i<noeud->obtenirNombreEnfants(); i++)
+	for (unsigned int i=0; i<noeud->childCount(); i++)
 	{
-		noeud->chercher(i)->acceptVisitor(*this);
+		noeud->find(i)->acceptVisitor(*this);
 	}
 }
 
@@ -115,7 +115,7 @@ void VisiteurSelection::visiterNoeudComposite( NoeudComposite* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurSelection::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
-	if(noeud->estSelectionnable())
+	if(noeud->canBeSelected())
 	{
 		if(avecRectangle)
 		{
@@ -124,7 +124,7 @@ void VisiteurSelection::visiterNoeudMuret( NodeWallAbstract* noeud )
 		else
 		{
 			VisiteurCollision visiteurCollision(positionClicMin_, false);
-            noeud->GetTerrain()->acceptVisitor(visiteurCollision);
+            noeud->getField()->acceptVisitor(visiteurCollision);
 			if(visiteurCollision.collisionPresente())
 			{
 				ConteneurNoeuds listeNoeuds;
@@ -264,7 +264,7 @@ void VisiteurSelection::visiterNoeudAffichable( NoeudAbstrait* noeud )
 {
 	
 	// Quitte si le noeud n'est pas selectionnable
-	if(!noeud->estSelectionnable())
+	if(!noeud->canBeSelected())
 		return;
 
 	NoeudAbstrait::PaireVect3 zoneOccuppee = noeud->obtenirZoneOccupee();
@@ -280,7 +280,7 @@ void VisiteurSelection::visiterNoeudAffichable( NoeudAbstrait* noeud )
 			pos[VX]<positionClicMax_[VX] &&
 			pos[VY]<positionClicMax_[VY])
 		{
-			noeud->selectionnerTout();
+			noeud->selectAll();
 		}
 	}
 	else
@@ -307,7 +307,7 @@ void VisiteurSelection::visiterNoeudAffichable( NoeudAbstrait* noeud )
 		if(zoneOccuppee.second[VZ]>aSelectionner_.second || avecRectangle)
 		{
 			if(avecRectangle)
-				noeud->selectionnerTout(); // On selectionne si le noeud n'est pas selectionne
+				noeud->selectAll(); // On selectionne si le noeud n'est pas selectionne
 			else
 				aSelectionner_ = NoeudZBuf(noeud, zoneOccuppee.second[VZ]);
 		}
@@ -328,10 +328,10 @@ void VisiteurSelection::visiterNoeudAffichable( NoeudAbstrait* noeud )
 		for(int i=1; i<conteneur.size(); i++)
 		{
 			float posZCourante = conteneur[i]->getPosition()[VZ];
-			if(posZCourante>=aSelectionner_.second && conteneur[i]->estSelectionnable() || avecRectangle)
+			if(posZCourante>=aSelectionner_.second && conteneur[i]->canBeSelected() || avecRectangle)
 			{
 				if(avecRectangle)
-	 				noeud->selectionnerTout(); // On selectionne si le noeud n'est pas selectionne
+	 				noeud->selectAll(); // On selectionne si le noeud n'est pas selectionne
 		 		else
 		 			aSelectionner_ = NoeudZBuf(noeud, posZCourante);
 			}
@@ -350,7 +350,7 @@ void VisiteurSelection::visiterNoeudAffichable( NoeudAbstrait* noeud )
 // // 		if(zoneOccuppee.second[VZ]>aSelectionner_.second || avecRectangle)
 // // 		{
 // // 			if(avecRectangle)
-// 				noeud->selectionnerTout(); // On selectionne si le noeud n'est pas selectionne
+// 				noeud->selectAll(); // On selectionne si le noeud n'est pas selectionne
 // // 			else
 // // 				aSelectionner_ = NoeudZBuf(noeud, zoneOccuppee.second[VZ]);
 // // 		}
@@ -389,10 +389,10 @@ void VisiteurSelection::faireSelection()
 	if(aSelectionner_.first!=NULL)
 	{
 		NoeudAbstrait* aSel = aSelectionner_.first;
-		if(aSel->estSelectionne() && !avecRectangle)
-			aSel->deselectionnerTout(); // On deselectionne si le noeud est deja selectionne
+		if(aSel->IsSelected() && !avecRectangle)
+			aSel->deselectAll(); // On deselectionne si le noeud est deja selectionne
 		else
-			aSel->selectionnerTout(); // On selectionne si le noeud n'est pas selectionne
+			aSel->selectAll(); // On selectionne si le noeud n'est pas selectionne
 	}
 }
 

@@ -28,14 +28,14 @@ public:
 	NodeWallEdition(const std::string& type);
     ~NodeWallEdition();
     /// Ajoute un noeud enfant.
-    virtual bool ajouter( NoeudAbstrait* enfant );
-    virtual void detacherEnfant( const NoeudAbstrait* enfant );
-    virtual void afficherConcret()const;
+    virtual bool add( NoeudAbstrait* enfant );
+    virtual void unlinkChild( const NoeudAbstrait* enfant );
+    virtual void renderReal()const;
 
     /// Creation du noeud XML du muret
-    virtual XmlElement* creerNoeudXML();
+    virtual XmlElement* createXmlNode();
     /// Initialisation du NoeudMuret à partir d'un element XML
-    virtual bool initialiser(const XmlElement* element);
+    virtual bool initFromXml(const XmlElement* element);
     /// Accueil un visiteur
     virtual void acceptVisitor( VisiteurNoeud& v );
 

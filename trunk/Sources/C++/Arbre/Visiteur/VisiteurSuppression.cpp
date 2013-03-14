@@ -238,7 +238,7 @@ void VisiteurSuppression::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
 ////////////////////////////////////////////////////////////////////////
 bool VisiteurSuppression::effacerSiSelectionne( NoeudAbstrait* noeud )
 {
-	if(noeud->estSelectionne())
+	if(noeud->IsSelected())
 	{
 		// On enleve les noeud selectionné et tous ces enfants.
 		// Si on ne veut pas enlever les enfants il faudrait modifier
@@ -263,26 +263,26 @@ bool VisiteurSuppression::effacerSiSelectionne( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurSuppression::visiterEnfants( NoeudComposite* noeud )
 {
-	unsigned int nbrEnfant = noeud->obtenirNombreEnfants();
+	unsigned int nbrEnfant = noeud->childCount();
 	unsigned int i=0;
-	for (; i<noeud->obtenirNombreEnfants(); i++)
+	for (; i<noeud->childCount(); i++)
 	{
-		if(nbrEnfant > noeud->obtenirNombreEnfants())
+		if(nbrEnfant > noeud->childCount())
 		{
 			// il y a eu un enfant de supprimé au dernier passage
 			i--;
-			nbrEnfant = noeud->obtenirNombreEnfants();
+			nbrEnfant = noeud->childCount();
 		}
-		noeud->chercher(i)->acceptVisitor(*this);
+		noeud->find(i)->acceptVisitor(*this);
 	}
 
 	// Il faut faire la vérification une fois sorti de la boucle, car le test de la boucle for peut faire sortir
 	// Pensant qu'il a fait tous les enfants, mais si l'avant dernier fut supprimer, le dernier serait ignoré.
-	if(nbrEnfant > noeud->obtenirNombreEnfants())
+	if(nbrEnfant > noeud->childCount())
 	{
 		// il y a eu un enfant de supprimé au dernier passage
-		if(--i<noeud->obtenirNombreEnfants())
-			noeud->chercher(i)->acceptVisitor(*this);
+		if(--i<noeud->childCount())
+			noeud->find(i)->acceptVisitor(*this);
 	}
 }
 
@@ -303,7 +303,7 @@ void VisiteurSuppression::visiterNoeudMuretEdition( NodeWallEdition* noeud )
     for(unsigned int i=0; i<noeud->getNBControlPoint(); ++i)
     {
         auto point = noeud->getControlPoint(i);
-        if(point->estSelectionne())
+        if(point->IsSelected())
         {
             doDelete = true;
             break;

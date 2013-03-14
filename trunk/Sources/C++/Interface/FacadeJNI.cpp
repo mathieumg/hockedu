@@ -1401,7 +1401,7 @@ JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_pointBu
 	if(!table)
 		return false;
 
-	return (table -> obtenirPoint(POSITION_MILIEU_GAUCHE))->estSelectionne() || (table -> obtenirPoint(POSITION_MILIEU_DROITE))->estSelectionne();
+	return (table -> obtenirPoint(POSITION_MILIEU_GAUCHE))->IsSelected() || (table -> obtenirPoint(POSITION_MILIEU_DROITE))->IsSelected();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1426,12 +1426,12 @@ JNIEXPORT jboolean JNICALL Java_ca_polymtl_inf2990_Etats_EtatModeEdition_pointPa
 	if(!table)
 		return false;
 
-	return (table -> obtenirPoint(POSITION_HAUT_GAUCHE))->estSelectionne() 
-		|| (table -> obtenirPoint(POSITION_HAUT_MILIEU))->estSelectionne()
-		|| (table -> obtenirPoint(POSITION_HAUT_DROITE))->estSelectionne()
-		|| (table -> obtenirPoint(POSITION_BAS_GAUCHE))->estSelectionne()
-		|| (table -> obtenirPoint(POSITION_BAS_MILIEU))->estSelectionne()
-		|| (table -> obtenirPoint(POSITION_BAS_DROITE))->estSelectionne();
+	return (table -> obtenirPoint(POSITION_HAUT_GAUCHE))->IsSelected() 
+		|| (table -> obtenirPoint(POSITION_HAUT_MILIEU))->IsSelected()
+		|| (table -> obtenirPoint(POSITION_HAUT_DROITE))->IsSelected()
+		|| (table -> obtenirPoint(POSITION_BAS_GAUCHE))->IsSelected()
+		|| (table -> obtenirPoint(POSITION_BAS_MILIEU))->IsSelected()
+		|| (table -> obtenirPoint(POSITION_BAS_DROITE))->IsSelected();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -82,7 +82,7 @@ void VisiteurNoeudTest::testDeplacerObjet()
 
 	NoeudAbstrait* n = new NoeudAbstrait("");
 	n->setPosition(Vecteur3(0.0,0.0));
-	n->assignerSelection(true);
+	n->setSelection(true);
 	VisiteurDeplacement v(Vecteur2(25.0,-10.0));
 	n->acceptVisitor(v);
 	CPPUNIT_ASSERT(n->getPosition() == Vecteur3(-25.0,-10.0));
@@ -109,22 +109,22 @@ void VisiteurNoeudTest::testSelectionObjet()
 					*noeud3 = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL),
 					*noeud4 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET),
 					*noeud5 = arbre->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
-	arbre->ajouter(noeud1);
-	arbre->ajouter(noeud2);
-	arbre->ajouter(noeud3);
-	arbre->ajouter(noeud4);
-	arbre->ajouter(noeud5);
-	arbre->assignerEstSelectionnable(false);
-	noeud1->assignerEstSelectionnable(true);
-	noeud2->assignerEstSelectionnable(true);
-	noeud3->assignerEstSelectionnable(true);
-	noeud4->assignerEstSelectionnable(true);
-	noeud5->assignerEstSelectionnable(true);
-	noeud1->assignerSelection(false);
-	noeud2->assignerSelection(false);
-	noeud3->assignerSelection(false);
-	noeud4->assignerSelection(false);
-	noeud5->assignerSelection(false);
+	arbre->add(noeud1);
+	arbre->add(noeud2);
+	arbre->add(noeud3);
+	arbre->add(noeud4);
+	arbre->add(noeud5);
+	arbre->setCanBeSelected(false);
+	noeud1->setCanBeSelected(true);
+	noeud2->setCanBeSelected(true);
+	noeud3->setCanBeSelected(true);
+	noeud4->setCanBeSelected(true);
+	noeud5->setCanBeSelected(true);
+	noeud1->setSelection(false);
+	noeud2->setSelection(false);
+	noeud3->setSelection(false);
+	noeud4->setSelection(false);
+	noeud5->setSelection(false);
 
 	// assignation de position tres eloigné pour éviter que les boites de collisions se touchent
 	noeud1->setPosition(Vecteur3(-500.0,500.0,0.0));
@@ -139,25 +139,25 @@ void VisiteurNoeudTest::testSelectionObjet()
 	arbre->acceptVisitor(v);
 	v.faireSelection();
 
-	//CPPUNIT_ASSERT(noeud1->estSelectionne() == true);
-	CPPUNIT_ASSERT(noeud2->estSelectionne() == false);
-	CPPUNIT_ASSERT(noeud3->estSelectionne() == false);
-	CPPUNIT_ASSERT(noeud4->estSelectionne() == false);
-	CPPUNIT_ASSERT(noeud5->estSelectionne() == false);
-	noeud1->assignerSelection(false);
+	//CPPUNIT_ASSERT(noeud1->IsSelected() == true);
+	CPPUNIT_ASSERT(noeud2->IsSelected() == false);
+	CPPUNIT_ASSERT(noeud3->IsSelected() == false);
+	CPPUNIT_ASSERT(noeud4->IsSelected() == false);
+	CPPUNIT_ASSERT(noeud5->IsSelected() == false);
+	noeud1->setSelection(false);
 
 	VisiteurSelection v2(Vecteur2(-550.0,450.0),Vecteur2(550.0,550.0));
 	CPPUNIT_ASSERT(v2.avecRectangle == true);
 
 	arbre->acceptVisitor(v2);
 	v2.faireSelection();
-	CPPUNIT_ASSERT(noeud1->estSelectionne() == true);
-	CPPUNIT_ASSERT(noeud2->estSelectionne() == true);
-	CPPUNIT_ASSERT(noeud3->estSelectionne() == false);
-	CPPUNIT_ASSERT(noeud4->estSelectionne() == false);
-	CPPUNIT_ASSERT(noeud5->estSelectionne() == false);
+	CPPUNIT_ASSERT(noeud1->IsSelected() == true);
+	CPPUNIT_ASSERT(noeud2->IsSelected() == true);
+	CPPUNIT_ASSERT(noeud3->IsSelected() == false);
+	CPPUNIT_ASSERT(noeud4->IsSelected() == false);
+	CPPUNIT_ASSERT(noeud5->IsSelected() == false);
 
-	arbre->vider();
+	arbre->empty();
 	delete arbre;
 }
 
@@ -187,37 +187,37 @@ void VisiteurNoeudTest::testSuppressionObjet()
 	NoeudComposite* nC2 = new NoeudComposite("groupe2");
 	NoeudComposite* nC3 = new NoeudComposite("groupe3");
 
-	arbre->ajouter(n1);
-	arbre->ajouter(n2);
-	arbre->ajouter(nC1);
-	arbre->ajouter(nC2);
-	nC1->ajouter(n3);
-	nC1->ajouter(n4);
-	nC2->ajouter(n5);
-	nC2->ajouter(n6);
-	nC2->ajouter(nC3);
-	nC3->ajouter(n7);
+	arbre->add(n1);
+	arbre->add(n2);
+	arbre->add(nC1);
+	arbre->add(nC2);
+	nC1->add(n3);
+	nC1->add(n4);
+	nC2->add(n5);
+	nC2->add(n6);
+	nC2->add(nC3);
+	nC3->add(n7);
 
 	// S'assure que tous est déselectionné
-	arbre->deselectionnerTout();
+	arbre->deselectAll();
 
 	// On selectionne 2 noeud
-	n2->assignerSelection(true);
-	n3->assignerSelection(true);
-	nC3->assignerSelection(true);
+	n2->setSelection(true);
+	n3->setSelection(true);
+	nC3->setSelection(true);
 
 
 	VisiteurSuppression v;
 	arbre->acceptVisitor(v);
 
-	CPPUNIT_ASSERT(arbre->obtenirNombreEnfants() == 3);
-	CPPUNIT_ASSERT(arbre->calculerProfondeur() == 3);
-	CPPUNIT_ASSERT(nC1->calculerProfondeur() == 2);
-	CPPUNIT_ASSERT(nC1->obtenirNombreEnfants() == 1);
-	CPPUNIT_ASSERT(nC2->calculerProfondeur() == 2);
-	CPPUNIT_ASSERT(nC2->obtenirNombreEnfants() == 2);
+	CPPUNIT_ASSERT(arbre->childCount() == 3);
+	CPPUNIT_ASSERT(arbre->treeDepth() == 3);
+	CPPUNIT_ASSERT(nC1->treeDepth() == 2);
+	CPPUNIT_ASSERT(nC1->childCount() == 1);
+	CPPUNIT_ASSERT(nC2->treeDepth() == 2);
+	CPPUNIT_ASSERT(nC2->childCount() == 2);
 
-	arbre->vider();
+	arbre->empty();
 	delete arbre;
 
 }

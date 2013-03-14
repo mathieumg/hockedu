@@ -39,13 +39,13 @@ public:
             Super::equals(n);
     }
 	/// Affiche l'accelerateur.
-	virtual void afficherConcret() const;
+	virtual void renderReal() const;
     /// Fonction appeler dans afficher concret pour faire le
     /// rendu OpenGL, uniquement utilisé sous APPLE.
     /// utiliser les liste d'affichage pour windows
     virtual void renderOpenGLES() const;
 	/// Effectue l'animation de l'accelerateur.
-	virtual void animer( const float& temps );
+	virtual void tick( const float& temps );
 
 	virtual void acceptVisitor( VisiteurNoeud& v );
 
@@ -54,9 +54,9 @@ public:
 	void modifierBonusAccel(float val) { bonusAccel_ = val; }
 
 	/// Creation du noeud XML de l'accelerateur
-	virtual XmlElement* creerNoeudXML();
+	virtual XmlElement* createXmlNode();
 	/// Initialisation du NoeudAccelerateur à partir d'un element XML
-	virtual bool initialiser(const XmlElement* element);
+	virtual bool initFromXml(const XmlElement* element);
 
 	/// Accesseur de activer_
 	bool IsBoostActive() const { return activer_; }
@@ -64,7 +64,7 @@ public:
 	void ActivateBoost(bool val);
 
 	/// Application de la physique de la rondelle
-	virtual void gestionCollision( const float& temps );
+	virtual void collisionDetection( const float& temps );
 
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody();

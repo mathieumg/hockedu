@@ -47,9 +47,9 @@ public:
             Super::equals(n);
     }
 	/// Affiche le cube.
-	virtual void afficherConcret() const;
+	virtual void renderReal() const;
 	/// Effectue l'animation
-	virtual void animer( const float& temps );
+	virtual void tick( const float& temps );
 	/// Accueil un visiteur
 	virtual void acceptVisitor( VisiteurNoeud& v);
 	/// Pour savoir à quel joueur le but appartient
@@ -66,15 +66,15 @@ public:
 	float obtenirHauteurBut();
 
 	/// Permet d'assigner les attribut nécessaire à la collision
-	virtual void assignerAttributVisiteurCollision(VisiteurCollision* v);
+	virtual void setCollisionVisitorAttributes(VisiteurCollision* v);
 
 	/// Permet d'obtenir le rayon du but
-	virtual float obtenirRayon();
+	virtual float getRadius();
 
 	/// Creation du noeud XML du but
-	virtual XmlElement* creerNoeudXML();
+	virtual XmlElement* createXmlNode();
 	/// Initialisation du But à partir d'un element XML
-	virtual bool initialiser(const XmlElement* element);
+	virtual bool initFromXml(const XmlElement* element);
 
 	/// Accesseur de mBottomPosition
 	inline Vecteur3 obtenirPositionBas() const { return mBottomPosition; }
@@ -88,7 +88,7 @@ public:
 
     /// Update the physics body for the puck catcher according with the radius of the puck
     void updatePuckCatcher(float puckRadius);
-    virtual const Vecteur3& getPosition() const {return parent_->getPosition();}
+    virtual const Vecteur3& getPosition() const {return mParent->getPosition();}
 
     /// Libere la memoire de l'objet Box2D
     virtual void clearPhysicsBody();

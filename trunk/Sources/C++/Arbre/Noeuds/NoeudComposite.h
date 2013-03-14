@@ -46,50 +46,50 @@ public:
     /// fonction de comparaison de 2 noeuds
     virtual bool equals(NoeudAbstrait*);
 	/// Calcule la profondeur de l'arbre sous le noeud courant.
-	virtual unsigned int calculerProfondeur() const;
+	virtual unsigned int treeDepth() const;
 
 	/// Vide le noeud de ses enfants.
-	virtual void vider();
+	virtual void empty();
 	/// Permet d'enlever l'enfant de la liste interne, sans libérer la mémoire de celui-ci
-	void detacherEnfant( const NoeudAbstrait* noeud );
+	void unlinkChild( const NoeudAbstrait* noeud );
 	/// Efface le noeud passé en paramètre.
-	virtual void effacer( const NoeudAbstrait* noeud );
+	virtual void erase( const NoeudAbstrait* noeud );
 
 	/// Cherche un noeud par le type (sur un noeud constant).
-	virtual const NoeudAbstrait* chercher( const std::string& typeNoeud ) const;
+	virtual const NoeudAbstrait* find( const std::string& typeNoeud ) const;
 	/// Cherche un noeud par le type.
-	virtual NoeudAbstrait* chercher( const std::string& typeNoeud );
+	virtual NoeudAbstrait* find( const std::string& typeNoeud );
 	/// Cherche un noeud enfant selon l'indice (sur un noeud constant).
-	virtual const NoeudAbstrait* chercher( unsigned int indice ) const;
+	virtual const NoeudAbstrait* find( unsigned int indice ) const;
 	/// Cherche un noeud enfant selon l'indice.
-	virtual NoeudAbstrait* chercher( unsigned int indice );
+	virtual NoeudAbstrait* find( unsigned int indice );
 
 	/// Ajoute un noeud enfant.
-	virtual bool ajouter( NoeudAbstrait* enfant );
+	virtual bool add( NoeudAbstrait* enfant );
 	/// Obtient le nombre d'enfants du noeud.
-	virtual unsigned int obtenirNombreEnfants() const;
+	virtual unsigned int childCount() const;
 
 	/// Sélectionne tous les enfants de même que le noeud.
-	virtual void selectionnerTout();
+	virtual void selectAll();
 	/// Désélectionne tous les enfants de même que le noeud.
-	virtual void deselectionnerTout();
+	virtual void deselectAll();
 	/// Vérifier si le noeud ou un de ses enfants est sélectionné.
-	virtual bool selectionExiste() const;
+	virtual bool selectionPresent() const;
 	/// Inverse la selection du noeud et de ses enfants
 	virtual void inverserSelectionTout();
 
 
 	/// Change le mode d'affichage des polygones.
-	virtual void changerModePolygones( bool estForce );
+	virtual void cyclePolygonMode( bool estForce );
 	/// Assigne le mode d'affichage des polygones.
-	virtual void assignerModePolygones( GLenum modePolygones );
+	virtual void setPolygonMode( GLenum modePolygones );
 	/// Affiche le noeud de manière concrète.
-	virtual void afficherConcret() const;
+	virtual void renderReal() const;
 
     void DrawChild() const;
 
     /// Anime le noeud.
-	virtual void animer( const float& dt );
+	virtual void tick( const float& dt );
 	/// Accueil un visiteur
 	virtual void acceptVisitor( VisiteurNoeud& v);
 
@@ -97,19 +97,19 @@ public:
 	ConteneurNoeuds& obtenirEnfants() { return enfants_; }
 
 	/// Application de la physique des noeuds la ou applicable
-	virtual void gestionCollision( const float& temps );
+	virtual void collisionDetection( const float& temps );
 	/// Mise a Jour de la position de ce noeud
-	virtual void majPosition( const float& temps );
+	virtual void positionUpdate( const float& temps );
 	/// Repositionnement des modele pour enlever la penetration entre les noeuds
-	virtual void ajusterEnfoncement();
+	virtual void fixOverlap();
 	/// Ajustement de la vitesse des noeuds
 
-	virtual void ajusterVitesse( const float& temps );
+	virtual void fixSpeed( const float& temps );
 	
 	/// Retourne les racines des sous-arbres selectionnees
     void getSelectedNodes(ConteneurNoeuds& pSelectedNodes) const;
 	/// Modificateur de terrain_
-	virtual void modifierTerrain(Terrain* val);
+	virtual void setField(Terrain* val);
 
     /// Allows to create and initialize nodes from an xml element, default behavior
     void CreateAndInitNodesFromXml( const XmlElement* child );

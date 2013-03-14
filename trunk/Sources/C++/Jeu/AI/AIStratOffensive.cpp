@@ -61,7 +61,7 @@ AIStratOffensive::~AIStratOffensive()
 Vecteur2 AIStratOffensive::appliquerStrategie( NoeudMaillet* maillet )
 {
 	NoeudRondelle* rondelle; NoeudTable* table;
-	if(!maillet->GetTerrain() || !( rondelle = maillet->GetTerrain()->getPuck() ) || !( table = maillet->GetTerrain()->getTable() ) )
+	if(!maillet->getField() || !( rondelle = maillet->getField()->getPuck() ) || !( table = maillet->getField()->getTable() ) )
 		return Vecteur2();
 
 	// Direction du deplacement de la rondelle

@@ -66,7 +66,7 @@ VisiteurCollision::VisiteurCollision( NoeudAbstrait* noeudAVerifier , bool flag 
 	flag_ = flag;
 	collision_ = false;
 	noeudAVerifier_ = noeudAVerifier;
-	noeudAVerifier->assignerAttributVisiteurCollision(this);
+	noeudAVerifier->setCollisionVisitorAttributes(this);
 	positionAVerifier_ = noeudAVerifier->getPosition().convertir<2>();
 
 
@@ -172,9 +172,9 @@ void VisiteurCollision::visiterNoeudComposite( NoeudComposite* noeud )
 {
 	
 	
-	for (unsigned int i=0; i<noeud->obtenirNombreEnfants(); i++)
+	for (unsigned int i=0; i<noeud->childCount(); i++)
 	{
-		noeud->chercher(i)->acceptVisitor(*this);
+		noeud->find(i)->acceptVisitor(*this);
 	}
 
 	
@@ -199,7 +199,7 @@ void VisiteurCollision::visiterNoeudMuret( NodeWallAbstract* noeud )
 		return;
 
 	if(flag_)
-		noeud->modifierSurligner(false);
+		noeud->setHighlight(false);
 
 	switch(typeCollision_)
 	{
@@ -219,7 +219,7 @@ void VisiteurCollision::visiterNoeudMuret( NodeWallAbstract* noeud )
 				conteneurDetailsCollision.push_back(detailsCollision);
 				noeudsCollision_.push_back(noeud);
 				if(flag_)
-					noeud->modifierSurligner(true);
+					noeud->setHighlight(true);
 			}
 			break;
 		}
@@ -231,7 +231,7 @@ void VisiteurCollision::visiterNoeudMuret( NodeWallAbstract* noeud )
 			noeudsCollision_.push_back(noeud);
 			conteneurDetailsCollision.push_back(detailsCollision);
 			if(flag_)
-				noeud->modifierSurligner(true);
+				noeud->setHighlight(true);
 		}
 		break;
 	}
@@ -255,7 +255,7 @@ void VisiteurCollision::visiterNoeudBut( NoeudBut* noeud )
 		return;
 
 	if(flag_)
-		noeud->modifierSurligner(false);
+		noeud->setHighlight(false);
 
 	switch(typeCollision_)
 	{
@@ -263,14 +263,14 @@ void VisiteurCollision::visiterNoeudBut( NoeudBut* noeud )
 		{
             Vecteur2 intersection;
 			aidecollision::DetailsCollision detailsCollision1 =aidecollision::calculerCollisionSegmentSegment(
-				noeud->obtenirParent()->getPosition().convertir<2>(),
+				noeud->getParent()->getPosition().convertir<2>(),
 				noeud->obtenirPositionHaut().convertir<2>(),
 				coin1_.convertir<2>(),
 				coin2_.convertir<2>(),
 				intersection	// Pas besoin de connaitre le point d'intersection des segments
 				);
 			aidecollision::DetailsCollision detailsCollision2 =aidecollision::calculerCollisionSegmentSegment(
-				noeud->obtenirParent()->getPosition().convertir<2>(),
+				noeud->getParent()->getPosition().convertir<2>(),
 				noeud->obtenirPositionBas().convertir<2>(),
 				coin1_.convertir<2>(),
 				coin2_.convertir<2>(),
@@ -299,13 +299,13 @@ void VisiteurCollision::visiterNoeudBut( NoeudBut* noeud )
 				conteneurDetailsCollision.push_back(detailsCollision);
 				noeudsCollision_.push_back(noeud);
 				if(flag_)
-					noeud->modifierSurligner(true);
+					noeud->setHighlight(true);
 			}
 			break;
 		}
 	default: // Aussi pour cercle
-		aidecollision::DetailsCollision detailsCollision1 = aidecollision::calculerCollisionSegment(noeud->obtenirParent()->getPosition(), noeud->obtenirPositionHaut(), positionAVerifier_.convertir<3>(), rayonAVerifier_);
-		aidecollision::DetailsCollision detailsCollision2 = aidecollision::calculerCollisionSegment(noeud->obtenirParent()->getPosition(), noeud->obtenirPositionBas(), positionAVerifier_.convertir<3>(), rayonAVerifier_);
+		aidecollision::DetailsCollision detailsCollision1 = aidecollision::calculerCollisionSegment(noeud->getParent()->getPosition(), noeud->obtenirPositionHaut(), positionAVerifier_.convertir<3>(), rayonAVerifier_);
+		aidecollision::DetailsCollision detailsCollision2 = aidecollision::calculerCollisionSegment(noeud->getParent()->getPosition(), noeud->obtenirPositionBas(), positionAVerifier_.convertir<3>(), rayonAVerifier_);
 		
 		if(detailsCollision1.type == aidecollision::COLLISION_AUCUNE && detailsCollision2.type == aidecollision::COLLISION_AUCUNE)
 			break;
@@ -331,7 +331,7 @@ void VisiteurCollision::visiterNoeudBut( NoeudBut* noeud )
 			conteneurDetailsCollision.push_back(detailsCollision);
 			noeudsCollision_.push_back(noeud);
 			if(flag_)
-				noeud->modifierSurligner(true);
+				noeud->setHighlight(true);
 		}
 		break;
 	}
@@ -502,7 +502,7 @@ void VisiteurCollision::detectionCollisionCercleCercle( NoeudAbstrait* noeud )
 	if(noeud == noeudAVerifier_)
 		return;
 
-	aidecollision::DetailsCollision detailsCollision = aidecollision::calculerCollisionSphere(positionAVerifier_.convertir<3>(),rayonAVerifier_,noeud->getPosition(),noeud->obtenirRayon());
+	aidecollision::DetailsCollision detailsCollision = aidecollision::calculerCollisionSphere(positionAVerifier_.convertir<3>(),rayonAVerifier_,noeud->getPosition(),noeud->getRadius());
 
 	if(detailsCollision.type != aidecollision::COLLISION_AUCUNE)
 	{
@@ -510,11 +510,11 @@ void VisiteurCollision::detectionCollisionCercleCercle( NoeudAbstrait* noeud )
 		conteneurDetailsCollision.push_back(detailsCollision);
 		noeudsCollision_.push_back(noeud);
 		if(flag_)
-			noeud->modifierSurligner(true);
+			noeud->setHighlight(true);
 	}
 	else if(flag_)
 	{
-		noeud->modifierSurligner(false);
+		noeud->setHighlight(false);
 	}
 
 }
@@ -553,18 +553,18 @@ void VisiteurCollision::detectionCollisionCercleSegment( NoeudAbstrait* noeud )
 
 	const Vecteur3& positionNoeudCercle = noeud->getPosition();
 
-	aidecollision::DetailsCollision detailsCollision = aidecollision::calculerCollisionSegment(coin1_, coin2_, noeud->getPosition(), noeud->obtenirRayon());
+	aidecollision::DetailsCollision detailsCollision = aidecollision::calculerCollisionSegment(coin1_, coin2_, noeud->getPosition(), noeud->getRadius());
 	if(detailsCollision.type!=aidecollision::COLLISION_AUCUNE)
 	{
 		collision_ = true;
 		conteneurDetailsCollision.push_back(detailsCollision);
 		noeudsCollision_.push_back(noeud);
 		if(flag_)
-			noeud->modifierSurligner(true);
+			noeud->setHighlight(true);
 	}
 	else if(flag_)
 	{
-		noeud->modifierSurligner(false);
+		noeud->setHighlight(false);
 	}
 
 }
@@ -582,7 +582,7 @@ void VisiteurCollision::detectionCollisionCercleSegment( NoeudAbstrait* noeud )
 bool VisiteurCollision::collisionPresente() const
 {
 	if(noeudAVerifier_!=NULL)
-		if(noeudAVerifier_->obtenirType() == RazerGameUtilities::NAME_TABLE_CONTROL_POINT)
+		if(noeudAVerifier_->getType() == RazerGameUtilities::NAME_TABLE_CONTROL_POINT)
 			return false;
 	return collision_;
 }
@@ -618,7 +618,7 @@ void VisiteurCollision::reinitialiser()
 	collision_ = false;
 	noeudsCollision_.clear();
 	conteneurDetailsCollision.clear();
-	noeudAVerifier_->assignerAttributVisiteurCollision(this);
+	noeudAVerifier_->setCollisionVisitorAttributes(this);
 	positionAVerifier_ = noeudAVerifier_->getPosition().convertir<2>();
 }
 

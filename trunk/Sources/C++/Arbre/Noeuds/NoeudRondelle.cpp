@@ -94,17 +94,17 @@ NoeudRondelle::~NoeudRondelle()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudRondelle::afficherConcret() const
+/// @fn void NoeudRondelle::renderReal() const
 ///
 /// Cette fonction effectue le véritable rendu de l'objet.
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudRondelle::afficherConcret() const
+void NoeudRondelle::renderReal() const
 {
     // Appel à la version de la classe de base pour l'affichage des enfants.
-    NoeudAbstrait::afficherConcret();
+    NoeudAbstrait::renderReal();
 }
 
 
@@ -128,7 +128,7 @@ void NoeudRondelle::renderOpenGLES() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudCube::animer(float temps)
+/// @fn void NoeudCube::tick(float temps)
 ///
 /// Cette fonction effectue l'animation du noeud pour un certain
 /// intervalle de temps.
@@ -138,12 +138,12 @@ void NoeudRondelle::renderOpenGLES() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudRondelle::animer( const float& temps)
+void NoeudRondelle::tick( const float& temps)
 {
-    //A mettre dans majPosition();
+    //A mettre dans positionUpdate();
     //mPosition += mVelocite*temps;
     // Appel à la version de la classe de base pour l'animation des enfants.
-    NoeudAbstrait::animer(temps);
+    NoeudAbstrait::tick(temps);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -164,7 +164,7 @@ void NoeudRondelle::acceptVisitor( VisiteurNoeud& v )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudRondelle::gestionCollision( float temps )
+/// @fn void NoeudRondelle::collisionDetection( float temps )
 ///
 /// Application des lois de la physique
 ///
@@ -173,13 +173,13 @@ void NoeudRondelle::acceptVisitor( VisiteurNoeud& v )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudRondelle::gestionCollision( const float& temps )
+void NoeudRondelle::collisionDetection( const float& temps )
 {/*
     if(!table_)
     {
-        if(GetTerrain())
+        if(getField())
         {
-            table_ = GetTerrain()->getTable();
+            table_ = getField()->getTable();
         }
         if(!table_)
         {
@@ -204,8 +204,8 @@ void NoeudRondelle::gestionCollision( const float& temps )
         vecteurDirecteur.normaliser();
         Vecteur2 normale(vecteurDirecteur[VY],-vecteurDirecteur[VX]);   // Pointe vers la droite
 
-        const Vecteur2 NormaleLongueurRayon = normale*obtenirRayon();
-        const Vecteur2 DirecteurLongueurRayon = vecteurDirecteur*obtenirRayon();
+        const Vecteur2 NormaleLongueurRayon = normale*getRadius();
+        const Vecteur2 DirecteurLongueurRayon = vecteurDirecteur*getRadius();
         collision_ = false;
 
         // Collision avec un portail et téléportation
@@ -219,7 +219,7 @@ void NoeudRondelle::gestionCollision( const float& temps )
                 NoeudPortail* portail = dynamic_cast<NoeudPortail*>(groupe->chercher(i));
                 if(portail)
                 {
-                    float sommeRayon = (portail->obtenirRayon())/5 + obtenirRayon();
+                    float sommeRayon = (portail->getRadius())/5 + getRadius();
                     Vecteur3 distance(portail->getPosition()-getPosition());
 
                     // Collision
@@ -250,8 +250,8 @@ void NoeudRondelle::gestionCollision( const float& temps )
             if(maillet)
             {
                 aidecollision::DetailsCollision details = aidecollision::calculerCollisionCercle(
-                    maillet->getPosition().convertir<2>(),maillet->obtenirRayon(),
-                    getPosition().convertir<2>(),obtenirRayon());
+                    maillet->getPosition().convertir<2>(),maillet->getRadius(),
+                    getPosition().convertir<2>(),getRadius());
                 if(details.type != aidecollision::COLLISION_AUCUNE)
                 {
                     Vecteur3 droiteEntreCentres = maillet->getPosition()-getPosition();
@@ -261,8 +261,8 @@ void NoeudRondelle::gestionCollision( const float& temps )
                         maillet->obtenirAnciennePos().convertir<2>(),
                         mVelocite.convertir<2>(),
                         maillet->obtenirVelocite().convertir<2>(),
-                        obtenirRayon(),
-                        maillet->obtenirRayon(),
+                        getRadius(),
+                        maillet->getRadius(),
                         collisionMaillet);
                     if(collisionMaillet && time <= temps)
                     {
@@ -301,7 +301,7 @@ void NoeudRondelle::gestionCollision( const float& temps )
                 NoeudAccelerateur* accel = dynamic_cast<NoeudAccelerateur*>(groupe->chercher(i));
                 if(accel)
                 {
-                    float sommeRayon = accel->obtenirRayon()+obtenirRayon();
+                    float sommeRayon = accel->getRadius()+getRadius();
                     Vecteur3 distance(accel->getPosition()-getPosition());
                     // Collision
                     if(distance.norme2() <= sommeRayon*sommeRayon)
@@ -366,7 +366,7 @@ void NoeudRondelle::gestionCollision( const float& temps )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudRondelle::majPosition( float temps )
+/// @fn void NoeudRondelle::positionUpdate( float temps )
 ///
 /// Permet de faire un tick d'avancement sur cet objet
 ///
@@ -375,7 +375,7 @@ void NoeudRondelle::gestionCollision( const float& temps )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudRondelle::majPosition( const float& temps )
+void NoeudRondelle::positionUpdate( const float& temps )
 {
     anciennePos_ = mPosition;
     mPosition += mVelocite*temps;
@@ -385,7 +385,7 @@ void NoeudRondelle::majPosition( const float& temps )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudRondelle::ajusterEnfoncement()
+/// @fn void NoeudRondelle::fixOverlap()
 ///
 /// Gestion de l'enfoncement de la rondelle dans les obstacles.
 ///
@@ -393,13 +393,13 @@ void NoeudRondelle::majPosition( const float& temps )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudRondelle::ajusterEnfoncement()
+void NoeudRondelle::fixOverlap()
 {
     /*if(!table_)
     {
-        if(GetTerrain())
+        if(getField())
         {
-            table_ = GetTerrain()->getTable();
+            table_ = getField()->getTable();
         }
         if(!table_)
         {
@@ -423,7 +423,7 @@ void NoeudRondelle::ajusterEnfoncement()
             normale*=-1;
         // La normale de la normale est la droite elle meme
         mVelocite = calculerReflexion(mVelocite,directeur.convertir<3>())*-1*1.10f;//muret->getReboundRatio();
-        normale*= obtenirRayon();
+        normale*= getRadius();
         mPosition = intersection.convertir<3>()+normale;
     }
 
@@ -453,7 +453,7 @@ void NoeudRondelle::ajusterEnfoncement()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudRondelle::ajusterVitesse( float temps )
+/// @fn void NoeudRondelle::fixSpeed( float temps )
 ///
 /// Mise à jour de la vitesse et de la vitesse de rotation de la rondelle.
 ///
@@ -462,13 +462,13 @@ void NoeudRondelle::ajusterEnfoncement()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudRondelle::ajusterVitesse( const float& temps )
+void NoeudRondelle::fixSpeed( const float& temps )
 {
   /*  if(!table_)
     {
-        if(GetTerrain())
+        if(getField())
         {
-            table_ = GetTerrain()->getTable();
+            table_ = getField()->getTable();
         }
         if(!table_)
         {
@@ -501,7 +501,7 @@ void NoeudRondelle::ajusterVitesse( const float& temps )
 
                         // Ajustement de la vitesse
                         if(distance.norme2() != 0)
-                            ajustement *= 37*portail->obtenirRayon()/(distance.norme2());
+                            ajustement *= 37*portail->getRadius()/(distance.norme2());
 
                         mVelocite+= ajustement;
                     }
@@ -582,9 +582,9 @@ void NoeudRondelle::ajusterVitesse( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::validerPropriteteTablePourJeu() 
 {
-    if(GetTerrain())
+    if(getField())
     {
-        table_ = GetTerrain()->getTable();
+        table_ = getField()->getTable();
         if(table_ != NULL)
         {
             positionOriginale_ = mPosition;
@@ -628,7 +628,7 @@ void NoeudRondelle::updatePhysicBody()
         b2BodyDef myBodyDef;
         myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
 
-        float puckRadius = obtenirRayon();
+        float puckRadius = getRadius();
 
         const Vecteur3& pos = getPosition();
         b2Vec2 posB2;
@@ -655,10 +655,10 @@ void NoeudRondelle::updatePhysicBody()
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         mPhysicBody->SetUserData(this);
-        mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
+        mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::synchroniseTransformFromB2CallBack;
 
         /// Update Goals physics body accordingly with puck radius
-        Terrain* terrain = GetTerrain();
+        Terrain* terrain = getField();
         if(terrain)
         {
             NoeudBut* goals[2];
@@ -697,7 +697,7 @@ void NoeudRondelle::appliquerAnimation( const ObjectAnimationParameters& pAnimat
     if(pAnimationResult.CanUpdatedAngle())
         mAngle = pAnimationResult.mAngle[VZ];
     if(pAnimationResult.CanUpdatedScale())
-        echelleCourante_ = pAnimationResult.mScale;
+        mScale = pAnimationResult.mScale;
     updateMatrice();
 }
 

@@ -87,7 +87,7 @@ void VisiteurDeplacement::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 {
 	
 	// N'applique pas le deplacement si le noeud n'est pas selectionne
-	if(!ignoreSelection_ && !noeud->estSelectionne())
+	if(!ignoreSelection_ && !noeud->IsSelected())
 		return;
 
 	noeud->setPosition(noeud->getPosition()+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
@@ -110,9 +110,9 @@ void VisiteurDeplacement::visiterNoeudComposite( NoeudComposite* noeud )
 	// On effectue le deplacement sur les enfants egalement
 	
 	//visiterNoeudAbstrait(noeud);
-	if(!ignoreSelection_ && !noeud->estSelectionne())
+	if(!ignoreSelection_ && !noeud->IsSelected())
 	{
-		if(noeud->obtenirNombreEnfants() != 0)
+		if(noeud->childCount() != 0)
 		{
 			for (ConteneurNoeuds::iterator it = noeud->obtenirEnfants().begin(); it != noeud->obtenirEnfants().end(); it++)
             {
@@ -138,7 +138,7 @@ void VisiteurDeplacement::visiterNoeudComposite( NoeudComposite* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurDeplacement::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
-    if(!ignoreSelection_ && !noeud->estSelectionne())
+    if(!ignoreSelection_ && !noeud->IsSelected())
         return;
     // assume ici qu'un muret relatif ne peut etre selectionné
     NoeudMuret* muret = (NoeudMuret*)noeud;
@@ -242,7 +242,7 @@ void VisiteurDeplacement::visiterNoeudTable( NoeudTable* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurDeplacement::visiterNoeudPoint( NoeudPoint* noeud )
 {
-	if(!ignoreSelection_ && !noeud->estSelectionne())
+	if(!ignoreSelection_ && !noeud->IsSelected())
 		return;
 	
 	//const GroupeTripleAdresseFloat* liste = noeud->obtenirListePointsAChanger();
@@ -281,7 +281,7 @@ void VisiteurDeplacement::visiterNoeudPoint( NoeudPoint* noeud )
 	}
 
 	// Recalcul de la longueur des buts 
-	NoeudTable* table = dynamic_cast<NoeudTable*>(noeud->obtenirParent());
+	NoeudTable* table = dynamic_cast<NoeudTable*>(noeud->getParent());
 
     if(table == 0)
     {

@@ -46,17 +46,17 @@ void ConfigSceneTest::setUp()
 	{
 		if(noeuds_[1] != 0)
 		{
-			noeuds_[0]->ajouter(noeuds_[1]);
+			noeuds_[0]->add(noeuds_[1]);
 			if(noeuds_[3] != 0)
 			{
-				noeuds_[1]->ajouter(noeuds_[3]); //ne s'ajoutera pas car un portail est un noeudAbstrait
+				noeuds_[1]->add(noeuds_[3]); //ne s'ajoutera pas car un portail est un noeudAbstrait
 			}
 		}
 		if(noeuds_[2] != 0)
 		{
-			noeuds_[0]->ajouter(noeuds_[2]);
+			noeuds_[0]->add(noeuds_[2]);
 		}
-		arbre->ajouter(noeuds_[0]);
+		arbre->add(noeuds_[0]);
 	}
 
 #ifdef WIN32
@@ -82,7 +82,7 @@ void ConfigSceneTest::setUp()
 ////////////////////////////////////////////////////////////////////////
 void ConfigSceneTest::tearDown()
 {
-	arbre->vider();
+	arbre->empty();
 	delete arbre;
 
 }
@@ -98,7 +98,7 @@ void ConfigSceneTest::tearDown()
 ////////////////////////////////////////////////////////////////////////
 void ConfigSceneTest::testEcritureArbreRenduXML() 
 {
-	arbre->vider();
+	arbre->empty();
 
 	NoeudAbstrait* n1 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
 	NoeudAbstrait* n2 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
@@ -112,19 +112,19 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
 	NoeudComposite* nC3 = new NoeudComposite("groupe3");
 	NoeudComposite* nC4 = new NoeudComposite("groupe4");
 
-	arbre->ajouter(n1);
-	arbre->ajouter(n2);
-	arbre->ajouter(nC1);
-	arbre->ajouter(nC2);
-	nC1->ajouter(n3);
-	nC1->ajouter(n4);
-	nC2->ajouter(nC4);
-	nC2->ajouter(n6);
-	nC2->ajouter(nC3);
-	nC3->ajouter(n7);
-	nC4->ajouter(n5);
+	arbre->add(n1);
+	arbre->add(n2);
+	arbre->add(nC1);
+	arbre->add(nC2);
+	nC1->add(n3);
+	nC1->add(n4);
+	nC2->add(nC4);
+	nC2->add(n6);
+	nC2->add(nC3);
+	nC3->add(n7);
+	nC4->add(n5);
 
-	nC4->assignerEstEnregistrable(false);
+	nC4->setRecordable(false);
 
 	// Écriture initiale du document
 	XmlDocument document ;
@@ -242,7 +242,7 @@ void ConfigSceneTest::testLectureArbreRenduXML()
     CPPUNIT_ASSERT(!!m);
     if(m)
     {
-        m->obtenirParent()->vider();
+        m->getParent()->empty();
     }
     CPPUNIT_ASSERT(!terrainRead.getLogicTree()->equals(terrainWrite.getLogicTree()));
 

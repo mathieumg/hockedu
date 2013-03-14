@@ -93,8 +93,8 @@ void NodeWallAbstract::updatePhysicBody()
     {
         clearPhysicsBody();
 
-        float halfLength = echelleCourante_[VX]*DEFAULT_SIZE[VX]/2.f*utilitaire::ratioWorldToBox2D;
-        float halfHeight = echelleCourante_[VY]*DEFAULT_SIZE[VY]/2.f*utilitaire::ratioWorldToBox2D;
+        float halfLength = mScale[VX]*DEFAULT_SIZE[VX]/2.f*utilitaire::ratioWorldToBox2D;
+        float halfHeight = mScale[VY]*DEFAULT_SIZE[VY]/2.f*utilitaire::ratioWorldToBox2D;
 
         b2BodyDef myBodyDef;
         myBodyDef.type = b2_staticBody; //this will be a dynamic body
@@ -125,25 +125,25 @@ void NodeWallAbstract::updatePhysicBody()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NodeWallAbstract::afficherConcret() const
+/// @fn void NodeWallAbstract::renderReal() const
 ///
 /// Cette fonction effectue le véritable rendu de l'objet.
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NodeWallAbstract::afficherConcret() const
+void NodeWallAbstract::renderReal() const
 {
 #if WIN32
 	glColor3f(0.76f, 0.64f, 0.31f);
 #endif
 	// Appel à la version de la classe de base pour l'affichage des enfants.
-	Super::afficherConcret();
+	Super::renderReal();
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NodeWallAbstract::assignerAttributVisiteurCollision( VisiteurCollision* v )
+/// @fn void NodeWallAbstract::setCollisionVisitorAttributes( VisiteurCollision* v )
 ///
 /// Permet d'assigner les attribut nécessaire à la collision.
 ///
@@ -152,7 +152,7 @@ void NodeWallAbstract::afficherConcret() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NodeWallAbstract::assignerAttributVisiteurCollision( VisiteurCollision* v )
+void NodeWallAbstract::setCollisionVisitorAttributes( VisiteurCollision* v )
 {
 	v->modifierTypeCollision(SEGMENT);
 	v->modifierCoin1(obtenirCoin1());
@@ -177,7 +177,7 @@ void NodeWallAbstract::acceptVisitor( VisiteurNoeud& v )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn XmlElement* NodeWallAbstract::creerNoeudXML()
+/// @fn XmlElement* NodeWallAbstract::createXmlNode()
 ///
 /// /*Description*/
 ///
@@ -185,9 +185,9 @@ void NodeWallAbstract::acceptVisitor( VisiteurNoeud& v )
 /// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-XmlElement* NodeWallAbstract::creerNoeudXML()
+XmlElement* NodeWallAbstract::createXmlNode()
 {
-	XmlElement* elementNoeud = Super::creerNoeudXML();
+	XmlElement* elementNoeud = Super::createXmlNode();
 	// Ajouter la position des coins des murets
 	XMLUtils::writeAttribute(elementNoeud,"coefRebond",coefRebond_);
 	return elementNoeud;
@@ -195,7 +195,7 @@ XmlElement* NodeWallAbstract::creerNoeudXML()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NodeWallAbstract::initialiser( const XmlElement* element )
+/// @fn bool NodeWallAbstract::initFromXml( const XmlElement* element )
 ///
 /// Initialisation du NodeWallAbstract à partir d'un element XML
 ///
@@ -204,9 +204,9 @@ XmlElement* NodeWallAbstract::creerNoeudXML()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NodeWallAbstract::initialiser( const XmlElement* element )
+bool NodeWallAbstract::initFromXml( const XmlElement* element )
 {
-	if(!Super::initialiser(element))
+	if(!Super::initFromXml(element))
 		return false;
 	float floatElem;
 	if( !XMLUtils::readAttribute(element,"coefRebond",floatElem) )
@@ -252,7 +252,7 @@ void NodeWallAbstract::updateWallProperties()
     if(vecteurEntre.estNul())
     {
         mAngle = 0;
-        echelleCourante_[VX] = 0;
+        mScale[VX] = 0;
         mPosition = corner1;
     }
     else
@@ -267,7 +267,7 @@ void NodeWallAbstract::updateWallProperties()
 
         // pour conserver l'echelle en Y et Z
         Vecteur3 echelle;
-        obtenirEchelleCourante(echelle);
+        getScale(echelle);
         float distance = vecteurEntre.norme();
         echelle[VX] = distance / DEFAULT_SIZE[VX];
 
@@ -280,7 +280,7 @@ void NodeWallAbstract::updateWallProperties()
         * le body box2d plusieurs fois pour rien
         */
         mPosition = corner2+(vecteurEntre/2.0f);
-        echelleCourante_ = echelle;
+        mScale = echelle;
         mAngle = angle;
     }
     // necessaire pour s'assurer de l'integrite des proprietes
@@ -303,7 +303,7 @@ void NodeWallAbstract::renderOpenGLES() const
 {
     GLfloat lineWidth;
     glGetFloatv(GL_LINE_WIDTH,&lineWidth);
-    glLineWidth(echelleCourante_[VY]);
+    glLineWidth(mScale[VY]);
     glColor4f(1,1,0,1);
 
     auto c1 = obtenirCoin1(), c2 = obtenirCoin2();

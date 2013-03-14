@@ -38,11 +38,11 @@ void NoeudCompositeTest::setUp()
 	enfants[3] = new NoeudComposite();
 	enfants[4] = new NoeudComposite();
 
-	arbre->ajouter(enfants[0]);
-	arbre->ajouter(enfants[1]);
-	enfants[0]->ajouter(enfants[2]);
-	enfants[2]->ajouter(enfants[3]);
-	enfants[2]->ajouter(enfants[4]);
+	arbre->add(enfants[0]);
+	arbre->add(enfants[1]);
+	enfants[0]->add(enfants[2]);
+	enfants[2]->add(enfants[3]);
+	enfants[2]->add(enfants[4]);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -60,7 +60,7 @@ void NoeudCompositeTest::setUp()
 ////////////////////////////////////////////////////////////////////////
 void NoeudCompositeTest::tearDown()
 {
-	arbre->vider();
+	arbre->empty();
 	delete arbre;
 }
 
@@ -76,23 +76,23 @@ void NoeudCompositeTest::tearDown()
 ////////////////////////////////////////////////////////////////////////
 void NoeudCompositeTest::ajoutEnfantTest()
 {
-	CPPUNIT_ASSERT(arbre->obtenirNombreEnfants() == 2);
-	CPPUNIT_ASSERT(enfants[0]->obtenirNombreEnfants() == 1);
-	CPPUNIT_ASSERT(enfants[1]->obtenirNombreEnfants() == 0);
-	CPPUNIT_ASSERT(enfants[2]->obtenirNombreEnfants() == 2);
-	CPPUNIT_ASSERT(enfants[3]->obtenirNombreEnfants() == 0);
-	CPPUNIT_ASSERT(enfants[4]->obtenirNombreEnfants() == 0);
+	CPPUNIT_ASSERT(arbre->childCount() == 2);
+	CPPUNIT_ASSERT(enfants[0]->childCount() == 1);
+	CPPUNIT_ASSERT(enfants[1]->childCount() == 0);
+	CPPUNIT_ASSERT(enfants[2]->childCount() == 2);
+	CPPUNIT_ASSERT(enfants[3]->childCount() == 0);
+	CPPUNIT_ASSERT(enfants[4]->childCount() == 0);
 
-	CPPUNIT_ASSERT( arbre->calculerProfondeur() == 4);
-	CPPUNIT_ASSERT( enfants[0]->calculerProfondeur() == 3);
-	CPPUNIT_ASSERT( enfants[2]->calculerProfondeur() == 2);
-	CPPUNIT_ASSERT( enfants[3]->calculerProfondeur() == 1);
+	CPPUNIT_ASSERT( arbre->treeDepth() == 4);
+	CPPUNIT_ASSERT( enfants[0]->treeDepth() == 3);
+	CPPUNIT_ASSERT( enfants[2]->treeDepth() == 2);
+	CPPUNIT_ASSERT( enfants[3]->treeDepth() == 1);
 
-	// Test pour s'assurer qu'un noeud ne peut s'ajouter lui-même
+	// Test pour s'assurer qu'un noeud ne peut s'add lui-même
 	NoeudComposite* n = new NoeudComposite();
-	n->ajouter(n);
-	CPPUNIT_ASSERT( n->obtenirNombreEnfants() == 0);
-	CPPUNIT_ASSERT( n->calculerProfondeur() == 1);
+	n->add(n);
+	CPPUNIT_ASSERT( n->childCount() == 0);
+	CPPUNIT_ASSERT( n->treeDepth() == 1);
 
 }
 
@@ -100,7 +100,7 @@ void NoeudCompositeTest::ajoutEnfantTest()
 ///
 /// @fn NoeudCompositeTest::viderArbreTest()
 ///
-/// S'assure que l'arbre est vider et que les enfants sont invalidés
+/// S'assure que l'arbre est empty et que les enfants sont invalidés
 ///
 ///
 /// @return void
@@ -109,14 +109,14 @@ void NoeudCompositeTest::ajoutEnfantTest()
 void NoeudCompositeTest::viderArbreTest()
 {
 	//On vide l'arbre et s'assure qu'il n'a plus d'enfant
-	arbre->vider();
-	CPPUNIT_ASSERT( arbre->obtenirNombreEnfants() == 0);
+	arbre->empty();
+	CPPUNIT_ASSERT( arbre->childCount() == 0);
 
 	for(int i=0; i<5; i++)
 	{
 		try
 		{
-			enfants[i]->obtenirParent();
+			enfants[i]->getParent();
 			CPPUNIT_ASSERT(false); // L'enfant existe toujours
 		}
 		catch(...)
@@ -138,20 +138,20 @@ void NoeudCompositeTest::viderArbreTest()
 ////////////////////////////////////////////////////////////////////////
 void NoeudCompositeTest::ajoutRecursifTest()
 {
-	arbre->vider();
+	arbre->empty();
 	enfants[0] = new NoeudComposite();
 	enfants[1] = new NoeudComposite();
 
-	arbre->ajouter(enfants[0]);
+	arbre->add(enfants[0]);
 
-	CPPUNIT_ASSERT( arbre->obtenirNombreEnfants() == 1);
-	CPPUNIT_ASSERT( arbre->calculerProfondeur() == 2);
+	CPPUNIT_ASSERT( arbre->childCount() == 1);
+	CPPUNIT_ASSERT( arbre->treeDepth() == 2);
 
-	enfants[1]->ajouter(enfants[0]);
-	CPPUNIT_ASSERT( arbre->obtenirNombreEnfants() == 0);
-	CPPUNIT_ASSERT( arbre->calculerProfondeur() == 1);
-	CPPUNIT_ASSERT( enfants[1]->obtenirNombreEnfants() == 1);
-	CPPUNIT_ASSERT( enfants[0]->obtenirParent() == enfants[1]);
+	enfants[1]->add(enfants[0]);
+	CPPUNIT_ASSERT( arbre->childCount() == 0);
+	CPPUNIT_ASSERT( arbre->treeDepth() == 1);
+	CPPUNIT_ASSERT( enfants[1]->childCount() == 1);
+	CPPUNIT_ASSERT( enfants[0]->getParent() == enfants[1]);
 
 }
 
@@ -168,13 +168,13 @@ void NoeudCompositeTest::ajoutRecursifTest()
 ////////////////////////////////////////////////////////////////////////
 void NoeudCompositeTest::effacerEnfantsTest()
 {
-	arbre->effacer(enfants[1]);
-	CPPUNIT_ASSERT(arbre->obtenirNombreEnfants() == 1);
+	arbre->erase(enfants[1]);
+	CPPUNIT_ASSERT(arbre->childCount() == 1);
 	for(int i=1; i<5; i++)
 	{
 		try
 		{
-			enfants[i]->obtenirParent();
+			enfants[i]->getParent();
 			CPPUNIT_ASSERT(false); // L'enfant existe toujours
 		}
 		catch(...)
@@ -186,12 +186,12 @@ void NoeudCompositeTest::effacerEnfantsTest()
 	{
 		enfants[i] = new NoeudComposite();
 	}
-	arbre->effacer(enfants[1]);
+	arbre->erase(enfants[1]);
 	// Rien ne devrait ce passer puisque enfant[1] n'est pas un enfant de arbre
-	CPPUNIT_ASSERT(arbre->obtenirNombreEnfants() == 1);
+	CPPUNIT_ASSERT(arbre->childCount() == 1);
 	try
 	{
-		enfants[1]->obtenirParent();
+		enfants[1]->getParent();
 		CPPUNIT_ASSERT(true); // L'enfant existe toujours
 	}
 	catch(...)
@@ -213,23 +213,23 @@ void NoeudCompositeTest::effacerEnfantsTest()
 ////////////////////////////////////////////////////////////////////////
 void NoeudCompositeTest::chercherEnfantTest()
 {
-	CPPUNIT_ASSERT(arbre->chercher(0) == enfants[0]);
-	CPPUNIT_ASSERT(arbre->chercher(1) == enfants[1]);
+	CPPUNIT_ASSERT(arbre->find(0) == enfants[0]);
+	CPPUNIT_ASSERT(arbre->find(1) == enfants[1]);
 	// Test pour la recherche avec un index hors de l'intervalle
-	CPPUNIT_ASSERT(arbre->chercher(2) == 0);
-	CPPUNIT_ASSERT(enfants[0]->chercher(0) == enfants[2]);
-	CPPUNIT_ASSERT(enfants[2]->chercher(0) == enfants[3]);
-	CPPUNIT_ASSERT(enfants[2]->chercher(1) == enfants[4]);
+	CPPUNIT_ASSERT(arbre->find(2) == 0);
+	CPPUNIT_ASSERT(enfants[0]->find(0) == enfants[2]);
+	CPPUNIT_ASSERT(enfants[2]->find(0) == enfants[3]);
+	CPPUNIT_ASSERT(enfants[2]->find(1) == enfants[4]);
 
-	arbre->vider();
+	arbre->empty();
 	enfants[0] = new NoeudComposite("maillet");
 	enfants[1] = new NoeudComposite("maillet");
 	enfants[2] = new NoeudComposite("portail");
-	arbre->ajouter(enfants[0]);
-	arbre->ajouter(enfants[1]);
-	enfants[0]->ajouter(enfants[2]);
-	CPPUNIT_ASSERT(arbre->chercher("maillet") == enfants[0]);
-	CPPUNIT_ASSERT(arbre->chercher("portail") == enfants[2]);
+	arbre->add(enfants[0]);
+	arbre->add(enfants[1]);
+	enfants[0]->add(enfants[2]);
+	CPPUNIT_ASSERT(arbre->find("maillet") == enfants[0]);
+	CPPUNIT_ASSERT(arbre->find("portail") == enfants[2]);
 
 }
 
@@ -246,16 +246,16 @@ void NoeudCompositeTest::chercherEnfantTest()
 ////////////////////////////////////////////////////////////////////////
 void NoeudCompositeTest::selectionTousTest()
 {
-	arbre->assignerSelection(false);
+	arbre->setSelection(false);
 	for(int i=0; i<5; i++)
 	{
-		enfants[i]->assignerSelection(false);
+		enfants[i]->setSelection(false);
 	}
-	arbre->selectionnerTout();
-	CPPUNIT_ASSERT(!arbre->estSelectionne()); // False car 
+	arbre->selectAll();
+	CPPUNIT_ASSERT(!arbre->IsSelected()); // False car 
 	for(int i=0; i<5; i++)
 	{
-		CPPUNIT_ASSERT(enfants[i]->estSelectionne());
+		CPPUNIT_ASSERT(enfants[i]->IsSelected());
 	}
 }
 
@@ -271,16 +271,16 @@ void NoeudCompositeTest::selectionTousTest()
 ////////////////////////////////////////////////////////////////////////
 void NoeudCompositeTest::deselectionTousTest()
 {
-    arbre->assignerSelection(true);
+    arbre->setSelection(true);
     for(int i=0; i<5; i++)
     {
-        enfants[i]->assignerSelection(true);
+        enfants[i]->setSelection(true);
     }
-    arbre->deselectionnerTout();
-    CPPUNIT_ASSERT(!arbre->estSelectionne()); // False car 
+    arbre->deselectAll();
+    CPPUNIT_ASSERT(!arbre->IsSelected()); // False car 
     for(int i=0; i<5; i++)
     {
-        CPPUNIT_ASSERT(!enfants[i]->estSelectionne());
+        CPPUNIT_ASSERT(!enfants[i]->IsSelected());
     }
 }
 
@@ -301,56 +301,56 @@ void NoeudCompositeTest::modificationTerrain()
 	NoeudAbstrait* n = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
     
 	// Assignation d'un terrain a la racine d'un arbre
-	arbre->modifierTerrain(terrain);
-	CPPUNIT_ASSERT(arbre->GetTerrain() == terrain);
+	arbre->setField(terrain);
+	CPPUNIT_ASSERT(arbre->getField() == terrain);
 	for (int i = 0; i < 5 ; i++)
 	{
-		CPPUNIT_ASSERT(enfants[i]->GetTerrain() == terrain);
+		CPPUNIT_ASSERT(enfants[i]->getField() == terrain);
 	}
-	CPPUNIT_ASSERT(n->GetTerrain() == NULL);
+	CPPUNIT_ASSERT(n->getField() == NULL);
 	// Verificaiton du terrain apres un ajout
-	arbre->ajouter(n);
-	CPPUNIT_ASSERT(n->GetTerrain() == terrain);
+	arbre->add(n);
+	CPPUNIT_ASSERT(n->getField() == terrain);
 
 	// Verificaiton du terrain apres un detachement d'enfant
-	enfants[0]->detacherEnfant(enfants[2]);
+	enfants[0]->unlinkChild(enfants[2]);
 	for (int i = 2; i < 5 ; i++)
 	{
-		CPPUNIT_ASSERT(enfants[i]->GetTerrain() == NULL);
+		CPPUNIT_ASSERT(enfants[i]->getField() == NULL);
 	}
-	enfants[3]->ajouter(n);
+	enfants[3]->add(n);
 
 	Terrain* terrain2 = new Terrain(NULL);
-	enfants[2]->modifierTerrain(terrain2);
+	enfants[2]->setField(terrain2);
 	// S'assure que les noeuds qui ne devrait pas etre affecté pointe toujours sur le bon terrain
 	for (int i = 0; i < 2 ; i++)
 	{
-		CPPUNIT_ASSERT(enfants[i]->GetTerrain() == terrain);
+		CPPUNIT_ASSERT(enfants[i]->getField() == terrain);
 	}
-	CPPUNIT_ASSERT(arbre->GetTerrain() == terrain);
+	CPPUNIT_ASSERT(arbre->getField() == terrain);
 	
 	for (int i = 2; i < 5 ; i++)
 	{
-		CPPUNIT_ASSERT(enfants[i]->GetTerrain() == terrain2);
+		CPPUNIT_ASSERT(enfants[i]->getField() == terrain2);
 	}
-	CPPUNIT_ASSERT(n->GetTerrain() == terrain2);
+	CPPUNIT_ASSERT(n->getField() == terrain2);
 
 	// Verificaiton du terrain apres un ajout d'un noeud composé
-	enfants[0]->ajouter(enfants[2]);
+	enfants[0]->add(enfants[2]);
 	for (int i = 2; i < 5 ; i++)
 	{
-		CPPUNIT_ASSERT(enfants[i]->GetTerrain() == terrain);
+		CPPUNIT_ASSERT(enfants[i]->getField() == terrain);
 	}
-	CPPUNIT_ASSERT(n->GetTerrain() == terrain);
+	CPPUNIT_ASSERT(n->getField() == terrain);
 
 	// Mise a null du terrain de la racine
-	arbre->modifierTerrain(NULL);
-	CPPUNIT_ASSERT(arbre->GetTerrain() == NULL);
+	arbre->setField(NULL);
+	CPPUNIT_ASSERT(arbre->getField() == NULL);
 	for (int i = 0; i < 5 ; i++)
 	{
-		CPPUNIT_ASSERT(enfants[i]->GetTerrain() == NULL);
+		CPPUNIT_ASSERT(enfants[i]->getField() == NULL);
 	}
-	CPPUNIT_ASSERT(n->GetTerrain() == NULL);
+	CPPUNIT_ASSERT(n->getField() == NULL);
 
 
 	// On ne supprime pas n puisqu'il fait partie de l'arbre principal

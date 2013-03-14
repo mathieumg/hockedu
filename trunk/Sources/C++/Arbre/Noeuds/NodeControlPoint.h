@@ -33,20 +33,20 @@ public:
 	~NodeControlPoint();
 
 	/// Effectue l'animation
-	virtual void animer( const float& temps );
+	virtual void tick( const float& temps );
 	/// Accueil un visiteur
 	virtual void acceptVisitor( VisiteurNoeud& v);
 	/// Assigne la position relative du noeud et alerte ses observers
     virtual void setPosition( const Vecteur3& positionRelative);
     
     /// Creation du noeud XML d'un point
-    virtual XmlElement* creerNoeudXML();
+    virtual XmlElement* createXmlNode();
     /// Initialisation du NoeudPoint à partir d'un element XML
-    virtual bool initialiser(const XmlElement* element);
+    virtual bool initFromXml(const XmlElement* element);
 
-    void afficherConcret() const;
+    void renderReal() const;
     /// Permet d'assigner les attribut nécessaire à la collision
-    virtual void assignerAttributVisiteurCollision(VisiteurCollision* v);
+    virtual void setCollisionVisitorAttributes(VisiteurCollision* v);
 private:
 	/// list of other control points linked to the same object, they must
     /// all have the same life scope
@@ -86,7 +86,7 @@ public:
         return mCanBeVisited++; 
     }
 private:
-    inline void flagVisitationIfSelected() { if(estSelectionne()) mCanBeVisited = false;}
+    inline void flagVisitationIfSelected() { if(IsSelected()) mCanBeVisited = false;}
 };
 
 

@@ -81,11 +81,11 @@ void VisiteurDupliquer::visiterNoeudComposite( NoeudComposite* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurDupliquer::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
-    Terrain* terrain = noeud->GetTerrain();
-	if(terrain && noeud -> estSelectionne())
+    Terrain* terrain = noeud->getField();
+	if(terrain && noeud -> IsSelected())
 	{
         // assume ici qu'un muret relatif ne peut etre selectionné
-		NoeudMuret* nouveauNoeud = (NoeudMuret*)(arbre_->ajouterNouveauNoeud(RazerGameUtilities::NOM_TABLE, noeud->obtenirType()));
+		NoeudMuret* nouveauNoeud = (NoeudMuret*)(arbre_->ajouterNouveauNoeud(RazerGameUtilities::NOM_TABLE, noeud->getType()));
 		if(nouveauNoeud != 0)
 		{
 			for (int i=1; i<10; i++)
@@ -100,8 +100,8 @@ void VisiteurDupliquer::visiterNoeudMuret( NodeWallAbstract* noeud )
 				if(rayon>1)
 				{
 					nouveauNoeud->assignerPositionCoin(2, positionVirtuelle);
-					nouveauNoeud->modifierEchelleCourante(Vecteur3(rayon, 1, 1));
-					nouveauNoeud->assignerAngle(angle);
+					nouveauNoeud->setScale(Vecteur3(rayon, 1, 1));
+					nouveauNoeud->setAngle(angle);
 					nouveauNoeud->updateMatrice();
 				}
 				if(terrain->IsNodeAtValidEditionPosition(nouveauNoeud))
@@ -110,7 +110,7 @@ void VisiteurDupliquer::visiterNoeudMuret( NodeWallAbstract* noeud )
 					return;
 				}
 			}
-			arbre_->effacer(nouveauNoeud);
+			arbre_->erase(nouveauNoeud);
 		}
 	}
     visiterNoeudComposite(noeud);
@@ -239,10 +239,10 @@ void VisiteurDupliquer::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurDupliquer::visiterEnfants( NoeudComposite* noeud )
 {
-	unsigned int nbrEnfant = noeud->obtenirNombreEnfants();
+	unsigned int nbrEnfant = noeud->childCount();
 	for (unsigned int i=0; i<nbrEnfant; ++i)
 	{
-		noeud->chercher(i)->acceptVisitor(*this);
+		noeud->find(i)->acceptVisitor(*this);
 	}
 }
 
@@ -259,10 +259,10 @@ void VisiteurDupliquer::visiterEnfants( NoeudComposite* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurDupliquer::dupliquerNoeud( NoeudAbstrait* noeud )
 {
-    Terrain* terrain = noeud->GetTerrain();
-	if(terrain && noeud -> estSelectionne())
+    Terrain* terrain = noeud->getField();
+	if(terrain && noeud -> IsSelected())
 	{
-		NoeudAbstrait* nouveauNoeud = arbre_->ajouterNouveauNoeud(RazerGameUtilities::NOM_TABLE, noeud->obtenirType());
+		NoeudAbstrait* nouveauNoeud = arbre_->ajouterNouveauNoeud(RazerGameUtilities::NOM_TABLE, noeud->getType());
 		if(nouveauNoeud != 0)
 		{
 
@@ -270,28 +270,28 @@ void VisiteurDupliquer::dupliquerNoeud( NoeudAbstrait* noeud )
 			bool posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
 			for(int i = 1; i <= 2; ++i)
 			{
-				position = noeud->getPosition().convertir<2>() + Vecteur2(2*i*noeud->obtenirRayon(), 2*i*noeud->obtenirRayon());
+				position = noeud->getPosition().convertir<2>() + Vecteur2(2*i*noeud->getRadius(), 2*i*noeud->getRadius());
 				nouveauNoeud->setPosition(position.convertir<3>());
 				posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
 
 				if(posValide)
 					break;
 
-				position = noeud->getPosition().convertir<2>() + Vecteur2(-2*i*noeud->obtenirRayon(), 2*i*noeud->obtenirRayon());
+				position = noeud->getPosition().convertir<2>() + Vecteur2(-2*i*noeud->getRadius(), 2*i*noeud->getRadius());
 				nouveauNoeud->setPosition(position.convertir<3>());
 				posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
 
 				if(posValide)
 					break;
 
-				position = noeud->getPosition().convertir<2>() + Vecteur2(-2*i*noeud->obtenirRayon(), -2*i*noeud->obtenirRayon());
+				position = noeud->getPosition().convertir<2>() + Vecteur2(-2*i*noeud->getRadius(), -2*i*noeud->getRadius());
 				nouveauNoeud->setPosition(position.convertir<3>());
 				posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
 
 				if(posValide)
 					break;
 
-				position = noeud->getPosition().convertir<2>() + Vecteur2(2*i*noeud->obtenirRayon(), -2*i*noeud->obtenirRayon());
+				position = noeud->getPosition().convertir<2>() + Vecteur2(2*i*noeud->getRadius(), -2*i*noeud->getRadius());
 				nouveauNoeud->setPosition(position.convertir<3>());
 				posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
 
@@ -301,7 +301,7 @@ void VisiteurDupliquer::dupliquerNoeud( NoeudAbstrait* noeud )
 
 			if(!posValide)
 			{
-				arbre_->effacer(nouveauNoeud);
+				arbre_->erase(nouveauNoeud);
 			}
 		}
 	}

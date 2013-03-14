@@ -64,7 +64,7 @@ VisiteurEstSelectione::~VisiteurEstSelectione(void)
 ////////////////////////////////////////////////////////////////////////
 void VisiteurEstSelectione::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 {
-	if(noeud->estSelectionnable() && noeud->estSelectionne())
+	if(noeud->canBeSelected() && noeud->IsSelected())
 	{
 		listeNoeuds_->push_back(noeud);
 	}
@@ -85,9 +85,9 @@ void VisiteurEstSelectione::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurEstSelectione::visiterNoeudComposite( NoeudComposite* noeud )
 {
-	for (unsigned int i=0; i<noeud->obtenirNombreEnfants(); i++)
+	for (unsigned int i=0; i<noeud->childCount(); i++)
 	{
-		noeud->chercher(i)->acceptVisitor(*this);
+		noeud->find(i)->acceptVisitor(*this);
 	}
 }
 

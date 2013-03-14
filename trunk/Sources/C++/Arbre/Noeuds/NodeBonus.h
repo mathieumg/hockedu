@@ -29,13 +29,13 @@ public:
     ~NodeBonus();
 
     /// Affiche le bonus.
-    virtual void afficherConcret() const;
+    virtual void renderReal() const;
     /// accessor to the key to retrieve the list and/or 3D Model
     virtual const std::string& get3DModelKey() const;
     /// Recreates everything needed for the game
     virtual void forceFullUpdate();
     /// node tick received when actually playing the game (simulation running)
-    virtual void PlayTick(float temps);
+    virtual void playTick(float temps);
     void ExecuteBonus(class NoeudRondelle*);
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody();

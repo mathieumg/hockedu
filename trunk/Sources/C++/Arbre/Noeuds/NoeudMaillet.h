@@ -51,23 +51,23 @@ public:
             Super::equals(n);
     }
     /// Effectue l'animation
-    virtual void animer( const float& temps );
+    virtual void tick( const float& temps );
     /// Accueil un visiteur
     virtual void acceptVisitor( VisiteurNoeud& v);
     /// Cette fonction effectue le véritable rendu de l'objet.
-    virtual void afficherConcret() const;
+    virtual void renderReal() const;
     /// Fonction appeler dans afficher concret pour faire le
     /// rendu OpenGL, uniquement utilisé sous APPLE.
     /// utiliser les liste d'affichage pour windows
     virtual void renderOpenGLES() const;
     /// Physique
-    virtual void gestionCollision( const float& temps);
+    virtual void collisionDetection( const float& temps);
     /// Mise a Jour de la position de ce noeud
-    virtual void majPosition( const float& temps );
+    virtual void positionUpdate( const float& temps );
     /// Repositionnement des modele pour enlever la penetration entre les noeuds
-    virtual void ajusterEnfoncement();
+    virtual void fixOverlap();
     /// Ajustement de la vitesse des noeuds
-    virtual void ajusterVitesse( const float& temps );
+    virtual void fixSpeed( const float& temps );
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody();
     /// Builds the mouse joint when starting to play
@@ -77,7 +77,7 @@ public:
     /// updates mouse joint when receiving a mousemove event
     virtual void updateObserver( const  class MouseMoveSubject* pSubject );
     /// node tick received when actually playing the game (simulation running)
-    virtual void PlayTick(float temps);
+    virtual void playTick(float temps);
 
     //////////////////////////////////////////////////////////////////////////
     /// Objet Animable interface

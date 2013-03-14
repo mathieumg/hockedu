@@ -73,7 +73,7 @@ NodeBonus::~NodeBonus()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NodeBonus::afficherConcret(  )
+/// @fn void NodeBonus::renderReal(  )
 ///
 /// Cette fonction effectue le véritable rendu de l'objet.
 ///
@@ -81,17 +81,17 @@ NodeBonus::~NodeBonus()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NodeBonus::afficherConcret() const
+void NodeBonus::renderReal() const
 {
 	// Appel à la version de la classe de base pour l'affichage des enfants.
-	Super::afficherConcret();
+	Super::renderReal();
 }
 
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NodeBonus::PlayTick( float temps )
+/// @fn void NodeBonus::playTick( float temps )
 ///
 /// node tick received when actually playing the game (simulation running)
 ///
@@ -100,16 +100,16 @@ void NodeBonus::afficherConcret() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NodeBonus::PlayTick( float temps)
+void NodeBonus::playTick( float temps)
 {
-    Super::PlayTick(temps);
+    Super::playTick(temps);
     if(mStrat)
     {
         mStrat->Tick(temps);
     }
     else
     {
-        auto terrain = GetTerrain();
+        auto terrain = getField();
         if(terrain && terrain->IsGameField())
         {
             // game tick
@@ -118,9 +118,9 @@ void NodeBonus::PlayTick( float temps)
             {
                 ResetTimeLeft();
                 mStrat = new BonusStratGoThroughWall();
-                assignerAffiche(true);
+                setVisible(true);
                 // activate collision on strat creation
-                Activate(true);
+                activate(true);
             }
 
         }
@@ -149,8 +149,8 @@ void NodeBonus::ExecuteBonus( class NoeudRondelle* rondelle )
         delete mStrat;
         mStrat = NULL;
     }
-    assignerAffiche(false);
-    Activate(false);
+    setVisible(false);
+    activate(false);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -193,7 +193,7 @@ void NodeBonus::forceFullUpdate()
     Super::forceFullUpdate();
     if(IsInGame())
     {
-        assignerAffiche(!!mStrat);
+        setVisible(!!mStrat);
 #if BOX2D_INTEGRATED
         if(mPhysicBody)
         {
@@ -221,8 +221,8 @@ void NodeBonus::updatePhysicBody()
     {
         clearPhysicsBody();
 
-        float halfLength = echelleCourante_[VX]*DEFAULT_SIZE[VX]/2.f*utilitaire::ratioWorldToBox2D;
-        float halfHeight = echelleCourante_[VY]*DEFAULT_SIZE[VY]/2.f*utilitaire::ratioWorldToBox2D;
+        float halfLength = mScale[VX]*DEFAULT_SIZE[VX]/2.f*utilitaire::ratioWorldToBox2D;
+        float halfHeight = mScale[VY]*DEFAULT_SIZE[VY]/2.f*utilitaire::ratioWorldToBox2D;
 
         b2BodyDef myBodyDef;
         myBodyDef.type = b2_staticBody; //this will be a dynamic body

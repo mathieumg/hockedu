@@ -42,7 +42,7 @@ public:
    virtual const std::string& get3DModelKey() const;
 
    /// Affiche le muret.
-   virtual void afficherConcret() const;
+   virtual void renderReal() const;
    /// Fonction appeler dans afficher concret pour faire le
    /// rendu OpenGL, uniquement utilisé sous APPLE.
    /// utiliser les liste d'affichage pour windows
@@ -55,12 +55,12 @@ public:
    virtual void updateWallProperties();
 
    /// Permet d'assigner les attribut nécessaire à la collision
-   virtual void assignerAttributVisiteurCollision(VisiteurCollision* v);
+   virtual void setCollisionVisitorAttributes(VisiteurCollision* v);
 
    /// Creation du noeud XML du muret
-   virtual XmlElement* creerNoeudXML();
+   virtual XmlElement* createXmlNode();
    /// Initialisation du NodeWallAbstract à partir d'un element XML
-   virtual bool initialiser(const XmlElement* element);
+   virtual bool initFromXml(const XmlElement* element);
    /// Accueil un visiteur
    virtual void acceptVisitor( VisiteurNoeud& v );
 

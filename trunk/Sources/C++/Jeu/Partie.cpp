@@ -324,7 +324,7 @@ void Partie::reinitialiserPartie()
     pointsJoueurDroit_ = 0;
     // Reinitialisation du noeudAffichage Chiffre
     chiffres_->modifierListes("3");
-    chiffres_->assignerAffiche(false);
+    chiffres_->setVisible(false);
     modifierEstPret(true);
     tempsJeu_.reset_Time();
     // Mise au jeu
@@ -469,7 +469,7 @@ void Partie::updateMinuterie( int time )
     {
         minuterie_ = 0;
         chiffres_->modifierListes("3");
-        chiffres_->assignerAffiche(false);
+        chiffres_->setVisible(false);
         modifierEstPret(true);
         return;
     }
@@ -482,7 +482,7 @@ void Partie::updateMinuterie( int time )
             int lequel = (minuterie_/1000+1);
             if(lequel!=1 && lequel!=2 && lequel!=3)
                 return;
-            chiffres_->assignerAffiche(true);
+            chiffres_->setVisible(true);
             SoundFMOD::obtenirInstance()->playEffect(BEEP_EFFECT);
 
             // Creation d'une chaine avec le charactère 0
@@ -743,7 +743,7 @@ bool Partie::getReadyToPlay()
 ////////////////////////////////////////////////////////////////////////
 void Partie::animer( const float& temps )
 {
-    chiffres_->animer(temps);
+    chiffres_->tick(temps);
     mField->animerTerrain(temps);
     if(!GestionnaireAnimations::obtenirInstance()->estJouerReplay())
     {
@@ -752,7 +752,7 @@ void Partie::animer( const float& temps )
         {
             if(zamboni)
             {
-                zamboni->assignerAffiche(false);
+                zamboni->setVisible(false);
                 zamboni->setPosition(Vecteur3());
             }
             // Gestion de la physique du jeu
@@ -762,10 +762,10 @@ void Partie::animer( const float& temps )
         {
             if(zamboni)
             {
-                zamboni->assignerAffiche(true);
+                zamboni->setVisible(true);
             }
             Vecteur3 pos = zamboni->getPosition();
-            auto angle = utilitaire::DEG_TO_RAD(zamboni->obtenirAngle());
+            auto angle = utilitaire::DEG_TO_RAD(zamboni->getAngle());
             Vecteur3 direction;
             direction[VX] = cos(angle);
             direction[VY] = sin(angle);

@@ -87,7 +87,7 @@ void SourisEtatTransformationRotation::toucheRelachee( EvenementClavier& eveneme
             Terrain* field = NULL;
             for(int i=0; i<noeudsSelectionnes_.size(); i++)
 			{
-                field = noeudsSelectionnes_[i]->GetTerrain();
+                field = noeudsSelectionnes_[i]->getField();
                 if(rotationInverse_[i] != 0)
 				{
 					VisiteurRotation visiteurRotationInverse((float)rotationInverse_[i],centreRot_);
@@ -163,7 +163,7 @@ void SourisEtatTransformationRotation::sourisRelachee( EvenementSouris& evenemen
         Terrain* field = NULL;
         for(int i=0; i<noeudsSelectionnes_.size(); i++)
 		{
-            field = noeudsSelectionnes_[i]->GetTerrain();
+            field = noeudsSelectionnes_[i]->getField();
             if(rotationInverse_[i] != 0)
 			{
 				VisiteurRotation visiteurRotationInverse((float)rotationInverse_[i],centreRot_);

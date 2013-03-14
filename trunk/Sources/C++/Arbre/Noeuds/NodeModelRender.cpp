@@ -59,7 +59,7 @@ NodeModelRender::~NodeModelRender()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NodeModelRender::afficherConcret(  )
+/// @fn void NodeModelRender::renderReal(  )
 ///
 /// Cette fonction effectue le véritable rendu de l'objet.
 ///
@@ -67,16 +67,16 @@ NodeModelRender::~NodeModelRender()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NodeModelRender::afficherConcret() const
+void NodeModelRender::renderReal() const
 {
 	// Appel à la version de la classe de base pour l'affichage des enfants.
-	NoeudComposite::afficherConcret();
+	NoeudComposite::renderReal();
 }
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudCube::animer( const float& temps)
+/// @fn void NoeudCube::tick( const float& temps)
 ///
 /// Cette fonction effectue l'animation du noeud pour un certain
 /// intervalle de temps. L'animation est laisser au parent.
@@ -86,7 +86,7 @@ void NodeModelRender::afficherConcret() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NodeModelRender::animer( const float& temps)
+void NodeModelRender::tick( const float& temps)
 {
    
 }

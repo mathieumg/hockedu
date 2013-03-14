@@ -588,7 +588,7 @@ void GestionnaireHUD::effectuerDecompte()
     glPushMatrix();
     glTranslatef(0.5f, 0.5f, 0.0f);
     glScalef(0.005f, -0.005f, 0.001f);
-    decompte->afficher();
+    decompte->render();
     glPopMatrix();
 
     static int anglePause_ = 0;

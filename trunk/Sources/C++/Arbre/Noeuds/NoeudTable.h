@@ -46,17 +46,17 @@ public:
        return !!t && coefFriction_==t->coefFriction_&& Super::equals(n);
    }
    /// Affiche le cube.
-   virtual void afficherConcret() const;
+   virtual void renderReal() const;
    /// Fonction appeler dans afficher concret pour faire le
    /// rendu OpenGL, uniquement utilisé sous APPLE.
    /// utiliser les liste d'affichage pour windows
    virtual void renderOpenGLES() const;
    /// Effectue l'animation
-   virtual void animer( const float& temps );
+   virtual void tick( const float& temps );
    /// Accueil un visiteur
    virtual void acceptVisitor( VisiteurNoeud& v);
    /// Ajoute un noeud enfant.
-   virtual bool ajouter( NoeudAbstrait* enfant );
+   virtual bool add( NoeudAbstrait* enfant );
    /// Calcule la hauteur max en y plus et y moins et la longueur max de la table
    void calculerHautLongMax(float reponse[]);
    /// Algorithme pour savoir si l'element est sur la table
@@ -64,9 +64,9 @@ public:
    bool estSurTable(Vecteur2 position);
 
    /// Creation du noeud XML d'un point
-   virtual XmlElement* creerNoeudXML();
+   virtual XmlElement* createXmlNode();
    /// Initialisation du NoeudTable à partir d'un element XML
-   virtual bool initialiser(const XmlElement* element);
+   virtual bool initFromXml(const XmlElement* element);
    /// Permet de detecter si la rondelle entre en collision avec les muret exterieur malgre la grande vitesse
    NodeWallAbstract* detectionCollisionGrandeVitesseMuret(const Vecteur2& anciennePos,const Vecteur2& nouvellePos, Vecteur2 &intersectionRetour);
    
@@ -143,7 +143,7 @@ public:
 	/// Retourne la zone occupee par la table
 	virtual PaireVect3 obtenirZoneOccupee() const;
 	/// Retourne le rayon du noeud
-	virtual float obtenirRayon() const;
+	virtual float getRadius() const;
     /// Retourne le muret de la zone d'edition correspondant a son enum
 
 	/// Accesseur de coefFriction_

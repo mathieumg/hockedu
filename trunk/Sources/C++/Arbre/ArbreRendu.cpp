@@ -30,8 +30,8 @@ ArbreRendu::ArbreRendu(Terrain* pField)
 	: NoeudComposite("racine")
 {
 	// On ne veut pas que ce noeud soit sélectionnable.
-	assignerEstSelectionnable(false);
-    modifierTerrain(pField);
+	setCanBeSelected(false);
+    setField(pField);
 }
 
 
@@ -58,7 +58,7 @@ ArbreRendu::~ArbreRendu()
 ///
 /// @fn NoeudAbstrait* ArbreRendu::creerNoeud(const std::string& typeNouveauNoeud) const
 ///
-/// Cette fonction permet de créer un nouveau noeud, sans l'ajouter
+/// Cette fonction permet de créer un nouveau noeud, sans l'add
 /// directement à l'arbre de rendu.
 ///
 /// @param[in] typeNouveauNoeud : Le type du nouveau noeud.
@@ -102,7 +102,7 @@ NoeudAbstrait* ArbreRendu::creerNoeud(
 ///
 /// @fn NoeudAbstrait* ArbreRendu::ajouterNouveauNoeud(const std::string& typeParent, const std::string& typeNouveauNoeud)
 ///
-/// Cette fonction permet d'ajouter un nouveau noeud dans l'arbre de
+/// Cette fonction permet d'add un nouveau noeud dans l'arbre de
 /// rendu.
 ///
 /// @param[in] typeParent       : Le type du parent du nouveau noeud.
@@ -116,7 +116,7 @@ NoeudAbstrait* ArbreRendu::ajouterNouveauNoeud(
 	const std::string& typeNouveauNoeud
 	)
 {
-	NoeudAbstrait* parent = chercher(typeParent);
+	NoeudAbstrait* parent = find(typeParent);
 	if (parent == 0) {
 		// Incapable de trouver le parent
 		return 0;
@@ -124,7 +124,7 @@ NoeudAbstrait* ArbreRendu::ajouterNouveauNoeud(
 
 	NoeudAbstrait* nouveauNoeud = creerNoeud(typeNouveauNoeud);
 	if (nouveauNoeud)
-		parent->ajouter(nouveauNoeud);
+		parent->add(nouveauNoeud);
 	/*if(nouveauNoeud!=0)
 		nouveauNoeud->selectionnerTout();*/
 
@@ -138,7 +138,7 @@ NoeudAbstrait* ArbreRendu::ajouterNouveauNoeud(
 ///
 /// Cette fonction retourne la profondeur maximale possible de l'arbre.
 /// Comme lors du rendu, on effectue un glPushMatrix() pour sauvegarder
-/// les transformations, ainsi qu'un glPushName() pour ajouter un nom
+/// les transformations, ainsi qu'un glPushName() pour add un nom
 /// sur la pile des noms pour la sélection, la profondeur maximale de
 /// l'arbre est limitée par la taille de la pile des matrices ainsi que
 /// par celle de la pile des noms pour la sélection.
@@ -166,7 +166,7 @@ const char ETIQUETTE_ARBRE[] = "Arbre";
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn XmlElement* RazerGameTree::creerNoeudXML()
+/// @fn XmlElement* RazerGameTree::createXmlNode()
 ///
 /// Creation du noeud XML du Noeud
 ///
@@ -174,7 +174,7 @@ const char ETIQUETTE_ARBRE[] = "Arbre";
 /// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-XmlElement* ArbreRendu::creerNoeudXML()
+XmlElement* ArbreRendu::createXmlNode()
 {
     XmlElement* racine = XMLUtils::createNode(ETIQUETTE_ARBRE);
 
@@ -183,7 +183,7 @@ XmlElement* ArbreRendu::creerNoeudXML()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool ArbreRendu::initialiser( const XmlElement* element )
+/// @fn bool ArbreRendu::initFromXml( const XmlElement* element )
 ///
 /// Initialisation du NoeudAbstrait à partir d'un element XML
 ///
@@ -192,7 +192,7 @@ XmlElement* ArbreRendu::creerNoeudXML()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool ArbreRendu::initialiser( const XmlElement* element )
+bool ArbreRendu::initFromXml( const XmlElement* element )
 {
     // Tenter d'obtenir le noeud 'Arbre'
     const XmlElement* racine = XMLUtils::FirstChildElement(element, ETIQUETTE_ARBRE);
@@ -232,17 +232,17 @@ void NoeudComposite::CreateAndInitNodesFromXml( const XmlElement* child )
         checkf(node,"Error creating node : %s",name );
         if(node)
         {
-            ajouter(node);
+            add(node);
             try
             {
-                if(!node->initialiser(child))
+                if(!node->initFromXml(child))
                 {
                     throw ExceptionJeu("Initialisation error in node");
                 }
             }
             catch(ExceptionJeu&)
             {
-                effacer(node);
+                erase(node);
             }
         }
     }

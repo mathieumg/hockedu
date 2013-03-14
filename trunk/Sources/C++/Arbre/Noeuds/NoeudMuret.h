@@ -50,14 +50,14 @@ public:
    /// Permet de recalculer la position des coin des muret suite a une rotation ou une mise a l'échelle
    void majPosCoins();
    /// Creation du noeud XML du muret
-   virtual XmlElement* creerNoeudXML();
+   virtual XmlElement* createXmlNode();
    /// Initialisation du NoeudMuret à partir d'un element XML
-   virtual bool initialiser(const XmlElement* element);
+   virtual bool initFromXml(const XmlElement* element);
 
    /// Permet de modifier l'angle du muret et garde les coins a jour
-   virtual void assignerAngle(const float& angle);
+   virtual void setAngle(float angle);
    /// Mutateur des facteurs d'echelle et conserve les coins a jour
-   virtual void modifierEchelleCourante(const Vecteur3& echelleCourante);
+   virtual void setScale(const Vecteur3& echelleCourante);
    /// Assigne la position relative du noeud et conserve les coins a jour
    inline virtual void setPosition( const Vecteur3& positionRelative);
 

@@ -80,7 +80,7 @@ NoeudAccelerateur::~NoeudAccelerateur()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAccelerateur::afficherConcret(  )
+/// @fn void NoeudAccelerateur::renderReal(  )
 ///
 /// Cette fonction effectue le véritable rendu de l'objet.
 ///
@@ -88,15 +88,15 @@ NoeudAccelerateur::~NoeudAccelerateur()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAccelerateur::afficherConcret() const
+void NoeudAccelerateur::renderReal() const
 {
 	// Appel à la version de la classe de base pour l'affichage des enfants.
-	NoeudAbstrait::afficherConcret();
+	NoeudAbstrait::renderReal();
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAccelerateur::animer( const float& temps )
+/// @fn void NoeudAccelerateur::tick( const float& temps )
 ///
 /// Cette fonction effectue l'animation du noeud pour un certain
 /// intervalle de temps.
@@ -106,7 +106,7 @@ void NoeudAccelerateur::afficherConcret() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAccelerateur::animer( const float& temps)
+void NoeudAccelerateur::tick( const float& temps)
 {
 	mAngle = (float)((int)(mAngle+temps*500.0f)%360);
 	updateMatrice();
@@ -130,16 +130,16 @@ void NoeudAccelerateur::acceptVisitor( VisiteurNoeud& v )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn XmlElement* NoeudAccelerateur::creerNoeudXML()
+/// @fn XmlElement* NoeudAccelerateur::createXmlNode()
 ///
 /// Creation du noeud XML du joueur
 ///
 /// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-XmlElement* NoeudAccelerateur::creerNoeudXML()
+XmlElement* NoeudAccelerateur::createXmlNode()
 {
-	XmlElement* elementNoeud = NoeudAbstrait::creerNoeudXML();
+	XmlElement* elementNoeud = NoeudAbstrait::createXmlNode();
 
     XMLUtils::writeAttribute(elementNoeud,"bonusAccel",bonusAccel_);
 	
@@ -148,7 +148,7 @@ XmlElement* NoeudAccelerateur::creerNoeudXML()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NoeudAccelerateur::initialiser( const XmlElement* element )
+/// @fn bool NoeudAccelerateur::initFromXml( const XmlElement* element )
 ///
 /// Initialisation du NoeudAccelerateur à partir d'un element XML
 ///
@@ -157,9 +157,9 @@ XmlElement* NoeudAccelerateur::creerNoeudXML()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NoeudAccelerateur::initialiser( const XmlElement* element )
+bool NoeudAccelerateur::initFromXml( const XmlElement* element )
 {
-	if(!NoeudAbstrait::initialiser(element))
+	if(!NoeudAbstrait::initFromXml(element))
 		return false;
 	auto doubleElem = bonusAccel_;
 	if( !XMLUtils::readAttribute(element,"bonusAccel",doubleElem) )
@@ -171,7 +171,7 @@ bool NoeudAccelerateur::initialiser( const XmlElement* element )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAccelerateur::gestionCollision( const float& temps )
+/// @fn void NoeudAccelerateur::collisionDetection( const float& temps )
 ///
 /// /*Description*/
 ///
@@ -180,11 +180,11 @@ bool NoeudAccelerateur::initialiser( const XmlElement* element )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAccelerateur::gestionCollision( const float& temps )
+void NoeudAccelerateur::collisionDetection( const float& temps )
 {
 /*	NoeudRondelle* rondelle = FacadeModele::getInstance()->obtenirRondelle();
 	Vecteur3 distance = getPosition()- rondelle->getPosition();
-	float rayon = obtenirRayon()+rondelle->obtenirRayon();
+	float rayon = getRadius()+rondelle->getRadius();
 	if(distance.norme2() > rayon*rayon+25)
 	{
 		ActivateBoost(true);
@@ -205,7 +205,7 @@ void NoeudAccelerateur::gestionCollision( const float& temps )
 void NoeudAccelerateur::ActivateBoost( bool val )
 {
 	activer_ = val;
-	modifierSurligner(!val);
+	setHighlight(!val);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -237,7 +237,7 @@ void NoeudAccelerateur::updatePhysicBody()
         mPhysicBody = world->CreateBody(&myBodyDef);
         b2CircleShape circleShape;
         circleShape.m_p.Set(0, 0); //position, relative to body position
-        circleShape.m_radius = (float32)obtenirRayon()*utilitaire::ratioWorldToBox2D; //radius
+        circleShape.m_radius = (float32)getRadius()*utilitaire::ratioWorldToBox2D; //radius
 
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
@@ -275,7 +275,7 @@ void NoeudAccelerateur::appliquerAnimation( const ObjectAnimationParameters& pAn
     if(pAnimationResult.CanUpdatedAngle())
         mAngle = pAnimationResult.mAngle[VZ];
     if(pAnimationResult.CanUpdatedScale())
-        echelleCourante_ = pAnimationResult.mScale;
+        mScale = pAnimationResult.mScale;
     updateMatrice();
 }
 

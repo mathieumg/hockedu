@@ -29,9 +29,9 @@ public:
    ~NoeudAffichage();
 
    /// Affiche le cube.
-   virtual void afficherConcret() const;
+   virtual void renderReal() const;
    /// Effectue l'animation
-   virtual void animer( const float& temps );
+   virtual void tick( const float& temps );
    /// Accueil un visiteur
    virtual void acceptVisitor( VisiteurNoeud& v);
 
@@ -42,7 +42,7 @@ public:
    void modifierListes(const std::string& nomListe);
 
    /// Reset l'echele a l'origine
-   virtual void resetEchelle() {echelleCourante_ = echelleBase_;}
+   virtual void resetEchelle() {mScale = echelleBase_;}
 
    virtual void peindreElement();
 

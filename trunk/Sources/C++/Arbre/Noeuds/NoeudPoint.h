@@ -55,13 +55,13 @@ public:
 	~NoeudPoint();
 
 	/// Affiche le cube.
-	virtual void afficherConcret() const;
+	virtual void renderReal() const;
     /// Fonction appeler dans afficher concret pour faire le
     /// rendu OpenGL, uniquement utilisé sous APPLE.
     /// utiliser les liste d'affichage pour windows
     virtual void renderOpenGLES() const;
 	/// Effectue l'animation
-	virtual void animer( const float& temps );
+	virtual void tick( const float& temps );
 	/// Accueil un visiteur
 	virtual void acceptVisitor( VisiteurNoeud& v);
 	/// Accesseur du typePosNoeud
@@ -83,9 +83,9 @@ public:
 	Vecteur3 calculerDeplacementMax(Vecteur3 posAbsActuel, Vecteur3 deplacement);
 
 	/// Creation du noeud XML d'un point
-	virtual XmlElement* creerNoeudXML();
+	virtual XmlElement* createXmlNode();
 	/// Initialisation du NoeudPoint à partir d'un element XML
-	virtual bool initialiser(const XmlElement* element);
+	virtual bool initFromXml(const XmlElement* element);
 
 	/// Retourne la liste
 	const GroupeTripleAdresseFloat* obtenirListePointsAChanger() const;

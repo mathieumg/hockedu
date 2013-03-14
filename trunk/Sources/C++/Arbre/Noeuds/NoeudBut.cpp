@@ -58,7 +58,7 @@ NoeudBut::NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHa
 {
     if(pParent)
     {
-        pParent->ajouter(this);
+        pParent->add(this);
     }
 
 	mGoalLength = DEFAULT_SIZE[VX];
@@ -82,20 +82,20 @@ NoeudBut::~NoeudBut()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudBut::afficherConcret() const
+/// @fn void NoeudBut::renderReal() const
 ///
 /// Cette fonction effectue le véritable rendu de l'objet.
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudBut::afficherConcret() const
+void NoeudBut::renderReal() const
 {
 #if WIN32
     GLuint liste = NULL;
-    GestionnaireModeles::obtenirInstance()->obtenirListe(type_,liste);
+    GestionnaireModeles::obtenirInstance()->obtenirListe(mType,liste);
 
-    if(liste != 0 && estAffiche())
+    if(liste != 0 && isVisible())
     {
         const Vecteur3& positionPoint = getPosition();
         glTranslatef(positionPoint[VX], positionPoint[VY], 0);
@@ -107,7 +107,7 @@ void NoeudBut::afficherConcret() const
         glPushMatrix();
         glTranslatef(posBas[VX], posBas[VY], 0);
         glRotatef(mBottomAngle, 0, 0, 1);
-        glMultMatrixf(matrice_);
+        glMultMatrixf(mTransformationMatrix);
         if(joueur_==1)
         {
             glScalef(1, -1, 1);
@@ -122,7 +122,7 @@ void NoeudBut::afficherConcret() const
         glPushMatrix();
         glTranslatef(posHaut[VX], posHaut[VY], 0);
         glRotatef(mTopAngle, 0, 0, 1);
-        glMultMatrixf(matrice_);
+        glMultMatrixf(mTransformationMatrix);
         if(joueur_==2)
         {
             glScalef(1., -1., 1.);
@@ -139,7 +139,7 @@ void NoeudBut::afficherConcret() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudBut::animer( const float& temps )
+/// @fn void NoeudBut::tick( const float& temps )
 ///
 /// Cette fonction effectue l'animation du noeud pour un certain
 /// intervalle de temps.
@@ -149,7 +149,7 @@ void NoeudBut::afficherConcret() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudBut::animer( const float& temps)
+void NoeudBut::tick( const float& temps)
 {
 	
 }
@@ -214,7 +214,7 @@ NoeudAbstrait::PaireVect3 NoeudBut::obtenirZoneOccupee() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudBut::updateLongueur(float facteurModificationEchelle)
 {
-	echelleCourante_[VX]*=facteurModificationEchelle;
+	mScale[VX]*=facteurModificationEchelle;
 
 	const Vecteur3& pos = getPosition();
 
@@ -222,16 +222,16 @@ void NoeudBut::updateLongueur(float facteurModificationEchelle)
 	float longueurHaut = deltaHaut.norme(); // Valeur pour ne pas que les but empiete sur les bandes
 	Vecteur3 deltaBas=(coinBas_->getPosition()-pos)*0.85f;
 	float longueurBas = deltaBas.norme();	// Valeur pour ne pas que les but empiete sur les bandes
-	float longueur=echelleCourante_[VX]*DEFAULT_SIZE[VX];
+	float longueur=mScale[VX]*DEFAULT_SIZE[VX];
 	if(longueur>longueurHaut)
 	{
 		longueur=longueurHaut;
-		echelleCourante_[VX] = longueur/DEFAULT_SIZE[VX];
+		mScale[VX] = longueur/DEFAULT_SIZE[VX];
 	}
 	if(longueur>longueurBas)
 	{
 		longueur=longueurBas;
-		echelleCourante_[VX] = longueur/DEFAULT_SIZE[VX];
+		mScale[VX] = longueur/DEFAULT_SIZE[VX];
 	}
 
 	float ratioHaut = longueur/longueurHaut;
@@ -292,7 +292,7 @@ NoeudBut* NoeudBut::obtenirButAdverse()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn float NoeudBut::obtenirRayon(  )
+/// @fn float NoeudBut::getRadius(  )
 ///
 /// obtention du rayon
 ///
@@ -300,14 +300,14 @@ NoeudBut* NoeudBut::obtenirButAdverse()
 /// @return float
 ///
 ////////////////////////////////////////////////////////////////////////
-float NoeudBut::obtenirRayon()
+float NoeudBut::getRadius()
 {
 	return 1;
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudBut::assignerAttributVisiteurCollision( VisiteurCollision* v )
+/// @fn void NoeudBut::setCollisionVisitorAttributes( VisiteurCollision* v )
 ///
 /// permet d'indiquer au visiteur de collision les attribut specifique a ce noeud
 ///
@@ -316,7 +316,7 @@ float NoeudBut::obtenirRayon()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudBut::assignerAttributVisiteurCollision( VisiteurCollision* v )
+void NoeudBut::setCollisionVisitorAttributes( VisiteurCollision* v )
 {
 	v->modifierTypeCollision(SEGMENT);
 	v->modifierCoin1(coinBas_->getPosition());
@@ -331,7 +331,7 @@ const char xmlTag_botCorner[] = "coinBas";
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn XmlElement* NoeudBut::creerNoeudXML()
+/// @fn XmlElement* NoeudBut::createXmlNode()
 ///
 /// Creation du noeud XML d'un but
 ///
@@ -339,9 +339,9 @@ const char xmlTag_botCorner[] = "coinBas";
 /// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-XmlElement* NoeudBut::creerNoeudXML()
+XmlElement* NoeudBut::createXmlNode()
 {
-	XmlElement* elementNoeud = NoeudComposite::creerNoeudXML();
+	XmlElement* elementNoeud = NoeudComposite::createXmlNode();
 
     XMLUtils::writeAttribute(elementNoeud,xmlTag_length,mGoalLength);
     XMLUtils::writeAttribute(elementNoeud,xmlTag_player,joueur_);
@@ -352,7 +352,7 @@ XmlElement* NoeudBut::creerNoeudXML()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool NoeudBut::initialiser( const XmlElement* element )
+/// @fn bool NoeudBut::initFromXml( const XmlElement* element )
 ///
 /// Initialisation du But à partir d'un element XML
 ///
@@ -361,9 +361,9 @@ XmlElement* NoeudBut::creerNoeudXML()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NoeudBut::initialiser( const XmlElement* element )
+bool NoeudBut::initFromXml( const XmlElement* element )
 {
-	if(!NoeudComposite::initialiser(element))
+	if(!NoeudComposite::initFromXml(element))
 		return false;
 	auto floatElem = mGoalLength;
     if(!XMLUtils::readAttribute(element,xmlTag_length,floatElem))
@@ -440,7 +440,7 @@ void NoeudBut::updatePhysicBody()
         myBodyDef.angle = 0; //set the starting angle
 
         mPhysicBody = world->CreateBody(&myBodyDef);
-        const Vecteur3& anchorPointPos = parent_->getPosition();
+        const Vecteur3& anchorPointPos = mParent->getPosition();
         b2Vec2 anchorPointPosB2, topPosB2,BottomPosB2 ;
         utilitaire::VEC3_TO_B2VEC(anchorPointPos,anchorPointPosB2);
         utilitaire::VEC3_TO_B2VEC(mTopPosition,topPosB2);

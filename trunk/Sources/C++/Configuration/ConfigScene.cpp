@@ -356,8 +356,8 @@ void ConfigScene::creerDOM( XmlNode& node, const Tournoi& tournoi ) const
 ////////////////////////////////////////////////////////////////////////
 void ConfigScene::lireDOM( const XmlNode& node, RazerGameTree* arbre )
 {
-	arbre->vider();
-    arbre->initialiser((XmlElement*)&node);
+	arbre->empty();
+    arbre->initFromXml((XmlElement*)&node);
 }
 
 ////////////////////////////////////////////////////////////////////////

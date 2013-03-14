@@ -59,20 +59,20 @@ AIStratDefensive::~AIStratDefensive()
 Vecteur2 AIStratDefensive::appliquerStrategie( NoeudMaillet* maillet )
 {
 	NoeudRondelle* rondelle;
-	if(!maillet->GetTerrain() || !( rondelle = maillet->GetTerrain()->getPuck() ) )
+	if(!maillet->getField() || !( rondelle = maillet->getField()->getPuck() ) )
 		return Vecteur2();
 
 	// On obtient le but du JV
 	NoeudBut* butJV;
 	// joueur gauche
 	int i = maillet->estAGauche() ? 1 : 2;
-	butJV =  maillet->GetTerrain()->getTable()->obtenirBut(i);
+	butJV =  maillet->getField()->getTable()->obtenirBut(i);
 
 	// On determine la direction a prendre entre le but et le maillet
 	Vecteur2 dir= butJV->getPosition() - maillet->getPosition();
 
 	// On senligne avec la rondelle si on est deja dans la zone de but
-	if (abs(dir[VX]) < maillet->obtenirRayon()*2+10)
+	if (abs(dir[VX]) < maillet->getRadius()*2+10)
 	{
 		dir = rondelle->getPosition() - maillet->getPosition();
 		dir.normaliser();

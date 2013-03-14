@@ -107,7 +107,7 @@ NoeudMuretRelatif::NoeudMuretRelatif( const std::string& type ):
 {
     coins_[0] = NULL;
     coins_[1] = NULL;
-    assignerEstSelectionnable(false);
+    setCanBeSelected(false);
 }
 
 ////////////////////////////////////////////////////////////////////////

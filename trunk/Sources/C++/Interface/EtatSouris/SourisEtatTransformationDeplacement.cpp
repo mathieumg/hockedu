@@ -91,7 +91,7 @@ void SourisEtatTransformationDeplacement::toucheRelachee( EvenementClavier& even
             Terrain* field = NULL;
 			for(int i=0; i<noeudsSelectionnes_.size(); i++)
 			{
-                field = noeudsSelectionnes_[i]->GetTerrain();
+                field = noeudsSelectionnes_[i]->getField();
 				if(!deplacementInverse_[i].estNul())
 				{
 					VisiteurDeplacement visiteurDeplacementInverse(deplacementInverse_[i]);
@@ -189,7 +189,7 @@ void SourisEtatTransformationDeplacement::sourisRelachee( EvenementSouris& evene
         Terrain* field = NULL;
 		for(int i=0; i<noeudsSelectionnes_.size(); i++)
 		{
-            field = noeudsSelectionnes_[i]->GetTerrain();
+            field = noeudsSelectionnes_[i]->getField();
             if(!deplacementInverse_[i].estNul())
 			{
 				VisiteurDeplacement visiteurDeplacementInverse(deplacementInverse_[i]);
@@ -236,7 +236,7 @@ void SourisEtatTransformationDeplacement::sourisDeplacee( EvenementSouris& evene
 		for(int i=0; i<noeudsSelectionnes_.size(); i++)
 		{
 			noeudsSelectionnes_[i]->acceptVisitor(visiteurDeplacement);
-            auto terrain = noeudsSelectionnes_[i]->GetTerrain();
+            auto terrain = noeudsSelectionnes_[i]->getField();
 			// On verifie qu'elle n'a pas engendre de nouvelles collisions
 			if(terrain && !terrain->IsNodeAtValidEditionPosition(noeudsSelectionnes_[i]))
 			{

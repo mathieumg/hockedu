@@ -176,9 +176,9 @@ bool SourisEtatAjoutControlPointMutable::createNextControlPoint()
     {
         if(controlNode->getMaxControlPoints() == 0)
         {
-            if(noeud_->GetTerrain())
+            if(noeud_->getField())
             {
-                noeud_->GetTerrain()->retirerNoeudTemp(noeud_);
+                noeud_->getField()->retirerNoeudTemp(noeud_);
                 delete noeud_;
                 noeud_  = NULL;
                 return false;
@@ -195,7 +195,7 @@ bool SourisEtatAjoutControlPointMutable::createNextControlPoint()
             }
             mCurrentPoint = new NodeControlPoint(RazerGameUtilities::NAME_CONTROL_POINT);
             mCurrentPoint->setPosition(pos);
-            bool res = noeud_->ajouter(mCurrentPoint);
+            bool res = noeud_->add(mCurrentPoint);
             checkf(res);
             return res;
         }
@@ -236,19 +236,19 @@ void SourisEtatAjoutControlPointMutable::toucheEnfoncee( EvenementClavier& evene
         ControlPointMutableAbstract* controlNode = dynamic_cast<ControlPointMutableAbstract*>(noeud_);
         if(controlNode && controlNode->getNBControlPoint() > 3 )
         {
-            noeud_->detacherEnfant(mCurrentPoint);
+            noeud_->unlinkChild(mCurrentPoint);
             if(FacadeModele::getInstance()->validerPositionNoeud(noeud_))
             {
                 delete mCurrentPoint;
-                noeud_->GetTerrain()->transfererNoeud(noeud_);
+                noeud_->getField()->transfererNoeud(noeud_);
                 genererNoeud();
                 if(!createNextControlPoint())
                 {
                     if(noeud_)
                     {
-                        if(noeud_->GetTerrain())
+                        if(noeud_->getField())
                         {
-                            noeud_->GetTerrain()->retirerNoeudTemp(noeud_);
+                            noeud_->getField()->retirerNoeudTemp(noeud_);
                         }
                         delete noeud_;
                         noeud_ = NULL;
@@ -262,7 +262,7 @@ void SourisEtatAjoutControlPointMutable::toucheEnfoncee( EvenementClavier& evene
             }
             else
             {
-                noeud_->ajouter(mCurrentPoint);
+                noeud_->add(mCurrentPoint);
             }
         }
     }

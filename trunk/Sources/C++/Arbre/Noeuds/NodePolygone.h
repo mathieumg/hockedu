@@ -26,10 +26,10 @@ public:
 	/// Constructeurs par paramètres
 	NodePolygone(const std::string& type);
     ~NodePolygone();
-    virtual void afficherConcret()const;
+    virtual void renderReal()const;
     /// Ajoute un noeud enfant.
-    virtual bool ajouter( NoeudAbstrait* enfant );
-    virtual void detacherEnfant( const NoeudAbstrait* enfant );
+    virtual bool add( NoeudAbstrait* enfant );
+    virtual void unlinkChild( const NoeudAbstrait* enfant );
 
     virtual void updateObserver( const  PositionSubject* pSubject );
     /// Recreates the physics body according to current attributes

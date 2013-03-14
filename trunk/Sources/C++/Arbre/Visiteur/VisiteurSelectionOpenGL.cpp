@@ -85,9 +85,9 @@ void VisiteurSelectionOpenGL::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 void VisiteurSelectionOpenGL::visiterNoeudComposite( NoeudComposite* noeud )
 {
     visiterNoeudAffichable(noeud);
-    for (unsigned int i=0; i<noeud->obtenirNombreEnfants(); i++)
+    for (unsigned int i=0; i<noeud->childCount(); i++)
 	{
-		noeud->chercher(i)->acceptVisitor(*this);
+		noeud->find(i)->acceptVisitor(*this);
 	}
 }
 
@@ -107,26 +107,26 @@ void VisiteurSelectionOpenGL::visiterNoeudAffichable( NoeudAbstrait* noeud )
 {
 	
 	// Quitte si le noeud n'est pas selectionnable
-	if(!noeud->estSelectionnable())
+	if(!noeud->canBeSelected())
 		return;
-    GLuint id = noeud->obtenirGlId();
+    GLuint id = noeud->getGlId();
 	if(noeudsAselectioner_->find(id) != noeudsAselectioner_->end())
 	{
 		if(!ctrlOn_)
 		{
-			noeud->assignerSelection(true);
+			noeud->setSelection(true);
             ++mNbSelected;
 		}
 		else
 		{
-			if(noeud->estSelectionne())
+			if(noeud->IsSelected())
 			{
-				noeud->assignerSelection(false);
+				noeud->setSelection(false);
                 --mNbSelected;
 			}
 			else
 			{
-				noeud->assignerSelection(true);
+				noeud->setSelection(true);
                 ++mNbSelected;
 			}
 		}
