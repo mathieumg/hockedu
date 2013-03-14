@@ -10,6 +10,9 @@
 #include "NoeudAbstrait.h"
 #include "NoeudComposite.h"
 #include "VisiteurCollision.h"
+#include "ExceptionJeu.h"
+#include "Utilitaire.h"
+
 #if WIN32
 #include "GestionnaireModeles.h"
 #include "DecodeString.h"
@@ -22,8 +25,6 @@
 #include <Box2D/Box2D.h>
 #endif
 #endif
-#include "Utilitaire.h"
-#include "../../../../Commun/Utilitaire/ExceptionJeu.h"
 
 GLuint NoeudAbstrait::mIdGlCounter = 1;
 
@@ -44,7 +45,7 @@ NoeudAbstrait::NoeudAbstrait(
     mPhysicBody(NULL),
     mType(type) ,
     mPosition(0) ,
-    mFlags(1<<NODEFLAGS_AFFICHE|1<<NODEFLAGS_SELECTIONNABLE|1<<NODEFLAGS_ENREGISTRABLE),
+    mFlags(1<<NODEFLAGS_VISIBLE|1<<NODEFLAGS_CAN_BE_SELECTED|1<<NODEFLAGS_RECORDABLE),
     mParent(0) , 
     mAngle(0) ,
     mGlId(mIdGlCounter++),
@@ -1094,7 +1095,7 @@ void NoeudAbstrait::setSelection( bool selectionne )
 {
     bool oldSelection = IsSelected();
     // Un objet non sélectionnable n'est jamais sélectionné.
-    mFlags.SetFlag(selectionne && canBeSelected(),NODEFLAGS_SELECTIONNE);
+    mFlags.SetFlag(selectionne && canBeSelected(),NODEFLAGS_SELECTED);
     auto terrain = getField();
     if(terrain && oldSelection != IsSelected())
     {

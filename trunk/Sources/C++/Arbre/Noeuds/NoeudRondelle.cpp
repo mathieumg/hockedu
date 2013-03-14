@@ -20,10 +20,10 @@
 #include "NoeudGroupe.h"
 #include "Terrain.h"
 #include "NoeudPortail.h"
+#include "Utilitaire.h"
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
-#include "Utilitaire.h"
 #include "NoeudBut.h"
 #include "UsineNoeud.h"
 #include "ExceptionJeu.h"

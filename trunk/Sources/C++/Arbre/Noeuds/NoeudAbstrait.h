@@ -53,10 +53,10 @@ enum PhysicsCategory
 
 enum NodeFlags
 {
-    NODEFLAGS_AFFICHE,
-    NODEFLAGS_SELECTIONNE,
-    NODEFLAGS_SELECTIONNABLE,
-    NODEFLAGS_ENREGISTRABLE,
+    NODEFLAGS_VISIBLE,
+    NODEFLAGS_SELECTED,
+    NODEFLAGS_CAN_BE_SELECTED,
+    NODEFLAGS_RECORDABLE,
     NODEFLAGS_HIGHTLIGHT,
     NODEFLAGS_IS_IN_GAME,
     NB_NODEFLAGS
@@ -394,7 +394,7 @@ inline const std::string& NoeudAbstrait::getType() const
 ////////////////////////////////////////////////////////////////////////
 inline void NoeudAbstrait::setVisible( bool affiche )
 {
-    mFlags.SetFlag(affiche,NODEFLAGS_AFFICHE);
+    mFlags.SetFlag(affiche,NODEFLAGS_VISIBLE);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -409,7 +409,7 @@ inline void NoeudAbstrait::setVisible( bool affiche )
 ////////////////////////////////////////////////////////////////////////
 inline bool NoeudAbstrait::isVisible() const
 {
-    return mFlags.IsFlagSet(NODEFLAGS_AFFICHE);
+    return mFlags.IsFlagSet(NODEFLAGS_VISIBLE);
 }
 
 
@@ -426,7 +426,7 @@ inline bool NoeudAbstrait::isVisible() const
 inline bool NoeudAbstrait::IsSelected() const
 {
 	// Un objet non sélectionnable n'est jamais sélectionné.
-	return (mFlags.IsFlagSet(NODEFLAGS_SELECTIONNE) && mFlags.IsFlagSet(NODEFLAGS_SELECTIONNABLE));
+	return (mFlags.IsFlagSet(NODEFLAGS_SELECTED) && mFlags.IsFlagSet(NODEFLAGS_CAN_BE_SELECTED));
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -442,7 +442,7 @@ inline bool NoeudAbstrait::IsSelected() const
 ////////////////////////////////////////////////////////////////////////
 inline void NoeudAbstrait::setCanBeSelected( bool selectionnable )
 {
-    mFlags.SetFlag(selectionnable,NODEFLAGS_SELECTIONNABLE);
+    mFlags.SetFlag(selectionnable,NODEFLAGS_CAN_BE_SELECTED);
     setSelection(IsSelected() && selectionnable);
 }
 
@@ -458,7 +458,7 @@ inline void NoeudAbstrait::setCanBeSelected( bool selectionnable )
 ////////////////////////////////////////////////////////////////////////
 inline bool NoeudAbstrait::canBeSelected() const
 {
-    return mFlags.IsFlagSet(NODEFLAGS_SELECTIONNABLE);
+    return mFlags.IsFlagSet(NODEFLAGS_CAN_BE_SELECTED);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -474,7 +474,7 @@ inline bool NoeudAbstrait::canBeSelected() const
 ////////////////////////////////////////////////////////////////////////
 inline void NoeudAbstrait::setRecordable( bool enregistrable )
 {
-    mFlags.SetFlag(enregistrable,NODEFLAGS_ENREGISTRABLE);
+    mFlags.SetFlag(enregistrable,NODEFLAGS_RECORDABLE);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -490,7 +490,7 @@ inline void NoeudAbstrait::setRecordable( bool enregistrable )
 ////////////////////////////////////////////////////////////////////////
 inline bool NoeudAbstrait::isRecordable() const
 {
-    return mFlags.IsFlagSet(NODEFLAGS_ENREGISTRABLE);
+    return mFlags.IsFlagSet(NODEFLAGS_RECORDABLE);
 }
 
 

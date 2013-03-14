@@ -13,6 +13,8 @@
 #include "Vecteur.h"
 #include <sstream>
 
+struct b2Vec2;
+
 namespace utilitaire {
 	/// Définition d'un type d'entier non signé.
 	typedef unsigned int uint;
@@ -39,8 +41,8 @@ namespace utilitaire {
 	float DEG_TO_RAD( float AngleDeg );
 #if BOX2D_INTEGRATED
     /// Pour convertir un vecteur de jeu en un vecteur pour Box2D
-    void VEC3_TO_B2VEC( const Vecteur3& pVector, struct b2Vec2& pB2vector);
-    void B2VEC_TO_VEC3( Vecteur3& pVector, const struct b2Vec2& pB2vector);
+    void VEC3_TO_B2VEC( const Vecteur3& pVector, b2Vec2& pB2vector);
+    void B2VEC_TO_VEC3( Vecteur3& pVector, const b2Vec2& pB2vector);
 #endif
 
 	/// Pour convertir les km/h en m/s.
