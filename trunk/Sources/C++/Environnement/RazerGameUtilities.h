@@ -36,6 +36,7 @@ typedef unsigned int (*CreateListDelegate)(class Modele3D*);
 class Terrain;
 class Runnable;
 
+
 class RazerGameUtilities {
 public:
     static unsigned int CreateListSphereDefault(class Modele3D*, float radius);
@@ -114,6 +115,12 @@ public:
     /// La chaîne représentant le type des Zamboni.
     static const std::string NAME_ZAMBONI;
     CreateListDelegateSignature(Zamboni);
+
+    /// La chaîne représentant le type des bonus.
+    static const std::string NAME_BONUS;
+    static const std::string NAME_BONUS_GO_THROUGH_WALL;
+    CreateListDelegateSignature(EmptyBonus);
+
 
 };
 

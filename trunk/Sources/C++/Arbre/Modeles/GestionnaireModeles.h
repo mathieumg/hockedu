@@ -12,7 +12,6 @@
 
 #include "Modele3D.h"
 #include "Singleton.h"
-
 ///////////////////////////////////////////////////////////////////////////
 /// @class GestionnaireModeles
 /// @brief Classe qui initialise la banque de modele et permet l'accès à 

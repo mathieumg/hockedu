@@ -246,16 +246,16 @@ void NoeudCompositeTest::chercherEnfantTest()
 ////////////////////////////////////////////////////////////////////////
 void NoeudCompositeTest::selectionTousTest()
 {
-	arbre->selectionne_ = false;
+	arbre->assignerSelection(false);
 	for(int i=0; i<5; i++)
 	{
-		enfants[i]->selectionne_ = false;
+		enfants[i]->assignerSelection(false);
 	}
 	arbre->selectionnerTout();
-	CPPUNIT_ASSERT(arbre->selectionne_ == false); // False car 
+	CPPUNIT_ASSERT(!arbre->estSelectionne()); // False car 
 	for(int i=0; i<5; i++)
 	{
-		CPPUNIT_ASSERT(enfants[i]->selectionne_ == true);
+		CPPUNIT_ASSERT(enfants[i]->estSelectionne());
 	}
 }
 
@@ -271,17 +271,17 @@ void NoeudCompositeTest::selectionTousTest()
 ////////////////////////////////////////////////////////////////////////
 void NoeudCompositeTest::deselectionTousTest()
 {
-	arbre->selectionne_ = true;
-	for(int i=0; i<5; i++)
-	{
-		enfants[i]->selectionne_ = true;
-	}
-	arbre->deselectionnerTout();
-	CPPUNIT_ASSERT(arbre->selectionne_ == false);
-	for(int i=0; i<5; i++)
-	{
-		CPPUNIT_ASSERT(enfants[i]->selectionne_ == false);
-	}
+    arbre->assignerSelection(true);
+    for(int i=0; i<5; i++)
+    {
+        enfants[i]->assignerSelection(true);
+    }
+    arbre->deselectionnerTout();
+    CPPUNIT_ASSERT(!arbre->estSelectionne()); // False car 
+    for(int i=0; i<5; i++)
+    {
+        CPPUNIT_ASSERT(!enfants[i]->estSelectionne());
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////

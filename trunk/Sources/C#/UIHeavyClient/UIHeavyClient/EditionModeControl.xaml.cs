@@ -166,7 +166,7 @@ namespace UIHeavyClient
                 {mWallButton, ActionType.ACTION_INSERER_MURET},
                 {mBoosterButton, ActionType.ACTION_INSERER_ACCELERATEUR},
                 {mPortalButton, ActionType.ACTION_INSERER_PORTAIL},
-                //{mBonusButton, ActionType.ACTION_},
+                {mBonusButton, ActionType.ACTION_INSERER_BONUS},
 
                 {mFreeStateButton, ActionType.ACTION_ORBIT}, // ActionType.ACTION_CAMERAActionType.ACTION_
                 {mMoveStateButton, ActionType.ACTION_EDITEUR_DEPLACER},

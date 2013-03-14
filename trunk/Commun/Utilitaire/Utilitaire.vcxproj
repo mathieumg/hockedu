@@ -152,6 +152,7 @@
     <ClInclude Include="Droite3D.h" />
     <ClInclude Include="EtatOpenGL.h" />
     <ClInclude Include="ExceptionJeu.h" />
+    <ClInclude Include="Flags.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="GestionnaireAnimations.h" />
     <ClInclude Include="LignePointillee.h" />

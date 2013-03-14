@@ -67,6 +67,7 @@ public:
    /// Recreates the physics body according to current attributes
    virtual void updatePhysicBody();
    static const Vecteur3 DEFAULT_SIZE;
+   virtual PhysicsCategory GetCategory() {return CATEGORY_WALL;}
 protected:
 private:
    /// Coefficient different different pour chaque muret, sauvegarde en XML

@@ -95,10 +95,10 @@ void HUDSurfaceGL::peindreElement()
 	glTranslatef(obtenirX(), obtenirY(), 0);
 
 	/*glBegin(GL_QUADS);
-	glVertex2d(0,0);
-	glVertex2d(0,obtenirHauteur());
-	glVertex2d(obtenirLargeur(), obtenirHauteur());
-	glVertex2d(obtenirLargeur(), 0);
+	glVertex2f(0,0);
+	glVertex2f(0,obtenirHauteur());
+	glVertex2f(obtenirLargeur(), obtenirHauteur());
+	glVertex2f(obtenirLargeur(), 0);
 	glEnd();*/
 
 	if(texture)

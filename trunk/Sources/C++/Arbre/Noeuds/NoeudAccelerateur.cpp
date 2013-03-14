@@ -187,13 +187,13 @@ void NoeudAccelerateur::gestionCollision( const float& temps )
 	float rayon = obtenirRayon()+rondelle->obtenirRayon();
 	if(distance.norme2() > rayon*rayon+25)
 	{
-		modifierActiver(true);
+		ActivateBoost(true);
 	}*/
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAccelerateur::modifierActiver( bool val )
+/// @fn void NoeudAccelerateur::ActivateBoost( bool val )
 ///
 /// /*Description*/
 ///
@@ -202,10 +202,10 @@ void NoeudAccelerateur::gestionCollision( const float& temps )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAccelerateur::modifierActiver( bool val )
+void NoeudAccelerateur::ActivateBoost( bool val )
 {
 	activer_ = val;
-	surligne_ = !val;
+	modifierSurligner(!val);
 }
 
 ////////////////////////////////////////////////////////////////////////

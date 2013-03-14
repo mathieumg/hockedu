@@ -259,6 +259,9 @@
     <ClInclude Include="ExceptionJeu.h">
       <Filter>Sources Files</Filter>
     </ClInclude>
+    <ClInclude Include="Flags.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Content\Exe\nuanceurFragments.glsl">

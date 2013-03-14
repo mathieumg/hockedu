@@ -98,16 +98,16 @@ void NoeudBut::afficherConcret() const
     if(liste != 0 && estAffiche())
     {
         const Vecteur3& positionPoint = getPosition();
-        glTranslated(positionPoint[VX], positionPoint[VY], 0);
+        glTranslatef(positionPoint[VX], positionPoint[VY], 0);
 
         Vecteur3 posBas = mBottomPosition - positionPoint;
         Vecteur3 posHaut = mTopPosition - positionPoint;
 
         // Dessin de la partie ajustable en bas
         glPushMatrix();
-        glTranslated(posBas[VX], posBas[VY], 0);
-        glRotated(mBottomAngle, 0, 0, 1);
-        glMultMatrixd(matrice_);
+        glTranslatef(posBas[VX], posBas[VY], 0);
+        glRotatef(mBottomAngle, 0, 0, 1);
+        glMultMatrixf(matrice_);
         if(joueur_==1)
         {
             glScalef(1, -1, 1);
@@ -120,9 +120,9 @@ void NoeudBut::afficherConcret() const
 
         // Dessin de la partie ajustable en haut
         glPushMatrix();
-        glTranslated(posHaut[VX], posHaut[VY], 0);
-        glRotated(mTopAngle, 0, 0, 1);
-        glMultMatrixd(matrice_);
+        glTranslatef(posHaut[VX], posHaut[VY], 0);
+        glRotatef(mTopAngle, 0, 0, 1);
+        glMultMatrixf(matrice_);
         if(joueur_==2)
         {
             glScalef(1., -1., 1.);

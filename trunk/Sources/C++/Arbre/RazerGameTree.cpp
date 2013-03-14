@@ -43,6 +43,7 @@ RazerGameTree::RazerGameTree(class Terrain* pField,unsigned int limitMallet, uns
 	ajouterUsine(RazerGameUtilities::NOM_MAILLET , new UsineNoeudMaillet(RazerGameUtilities::NOM_MAILLET,limitMallet));
 	ajouterUsine(RazerGameUtilities::NOM_ACCELERATEUR, new UsineNoeudAccelerateur(RazerGameUtilities::NOM_ACCELERATEUR));
     ajouterUsine(RazerGameUtilities::NOM_GROUPE, new UsineNoeudGroupe(RazerGameUtilities::NOM_GROUPE));
+    ajouterUsine(RazerGameUtilities::NAME_BONUS, new UsineNodeBonus(RazerGameUtilities::NAME_BONUS));
     //ajouterUsine(RazerGameUtilities::NAME_POLYGONE, new UsineNodePolygone(RazerGameUtilities::NAME_POLYGONE));
 }
 

@@ -76,8 +76,8 @@ public:
     void destroyMouseJoint();
     /// updates mouse joint when receiving a mousemove event
     virtual void updateObserver( const  class MouseMoveSubject* pSubject );
-    /// applies physics behavior on b2Body before simulation
-    void preSimulationActions();
+    /// node tick received when actually playing the game (simulation running)
+    virtual void PlayTick(float temps);
 
     //////////////////////////////////////////////////////////////////////////
     /// Objet Animable interface

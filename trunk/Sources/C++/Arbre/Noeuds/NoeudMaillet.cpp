@@ -518,7 +518,7 @@ void NoeudMaillet::updatePhysicBody()
         myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
         myFixtureDef.density = 0.02f;
         myFixtureDef.filter.categoryBits = CATEGORY_MALLET;
-        myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_BOUNDARY;
+        myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_BOUNDARY | CATEGORY_WALL;
         myFixtureDef.filter.groupIndex = 1;
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
@@ -628,16 +628,17 @@ void NoeudMaillet::updateObserver( const  MouseMoveSubject* pSubject )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudMaillet::preSimulationActions()
+/// @fn void NoeudMaillet::PlayTick()
 ///
-/// /*Description*/
+/// node tick received when actually playing the game (simulation running)
 ///
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::preSimulationActions()
+void NoeudMaillet::PlayTick(float temps)
 {
+    Super::PlayTick(temps);
 #if BOX2D_INTEGRATED  
     Vecteur2 direction(0,0);
     if(estControleParClavier_ || estControleParOrdinateur_)

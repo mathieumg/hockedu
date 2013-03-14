@@ -38,6 +38,7 @@
 #include "NoeudRondelle.h"
 #include "NoeudBut.h"
 #include "NodeModelRender.h"
+#include "NodeBonus.h"
 #include "XMLUtils.h"
 #include "NoeudAccelerateur.h"
 #include "NoeudPortail.h"
@@ -848,25 +849,17 @@ NoeudRondelle* Terrain::getPuck() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
+VISITEUR_FUNC_FUNC_DECLARATION(PlayTickNode)
+{
+    pNoeud->PlayTick(*(float*)pUserData);
+}
 void Terrain::appliquerPhysique( float temps )
 {
 	if(mLogicTree)
 	{
-        /// TODO:: cache pointer to mallet for field to access directly
-        NoeudMaillet* mailletGauche = getLeftMallet();
-        NoeudMaillet* mailletDroit = getRightMallet();
+        VisiteurFunction tick(PlayTickNode,&temps);
+        mLogicTree->acceptVisitor(tick);
 #if BOX2D_INTEGRATED
-        
-
-        if(mailletDroit)
-        {
-            mailletDroit->preSimulationActions();
-        }
-        if(mailletGauche)
-        {
-            mailletGauche->preSimulationActions();
-        }
-
         mWorld->SetWarmStarting(true);
         mWorld->SetContinuousPhysics(true);
         mWorld->SetSubStepping(true);
@@ -879,6 +872,7 @@ void Terrain::appliquerPhysique( float temps )
 #endif
         
 #ifndef __APPLE__
+        NoeudMaillet* mailletGauche = getLeftMallet();
         if(mailletGauche && mGame)
         {
             PaquetMaillet* wPaquet = (PaquetMaillet*) GestionnaireReseau::obtenirInstance()->creerPaquet(MAILLET);
@@ -1036,6 +1030,20 @@ void Terrain::BeginContact( b2Contact* contact )
                 SoundFMOD::obtenirInstance()->playEffect(effect(ACCELERATOR_EFFECT));
             }
             break;
+        case CATEGORY_BONUS:
+            {
+                NodeBonus* bonus = (NodeBonus*)(bodies[1]->GetUserData());
+                NoeudRondelle* rondelle = (NoeudRondelle*)(bodies[0]->GetUserData());
+
+                // The execution ca modify box2D so we queue it
+                Runnable* r = new Runnable([bonus,rondelle](Runnable*)
+                {
+                    bonus->ExecuteBonus(rondelle); 
+                });
+                RunnableBreaker::attach(r);
+                RazerGameUtilities::RunOnUpdateThread(r,true);
+                break;
+            }
         default:
             break;
         }
@@ -1236,7 +1244,7 @@ void Terrain::setTableItemsSelection( bool pSelect )
 ////////////////////////////////////////////////////////////////////////
 bool Terrain::IsAnyNodeSelected() const
 {
-    return mLogicTree && mLogicTree->possedeSelection();
+    return mLogicTree && mLogicTree->selectionExiste();
 }
 
 ////////////////////////////////////////////////////////////////////////

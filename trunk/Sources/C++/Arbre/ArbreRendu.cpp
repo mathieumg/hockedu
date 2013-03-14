@@ -240,7 +240,7 @@ void NoeudComposite::CreateAndInitNodesFromXml( const XmlElement* child )
                     throw ExceptionJeu("Initialisation error in node");
                 }
             }
-            catch(ExceptionJeu& e)
+            catch(ExceptionJeu&)
             {
                 effacer(node);
             }

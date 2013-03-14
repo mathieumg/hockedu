@@ -507,10 +507,10 @@ namespace vue {
 		glLogicOp(GL_XOR);
 		glLineWidth(1.0f);
 		glBegin(GL_LINES);
-		glVertex3d(0.0,yMaxFenetre_,100.0);
-		glVertex3d(0.0,yMinFenetre_,100.0);
-		glVertex3d(xMaxFenetre_,0.0,100.0);
-		glVertex3d(xMinFenetre_,0.0,100.0);
+        glVertex3f(0.0,yMaxFenetre_,100.0);
+        glVertex3f(0.0,yMinFenetre_,100.0);
+        glVertex3f(xMaxFenetre_,0.0,100.0);
+        glVertex3f(xMinFenetre_,0.0,100.0);
 		glEnd();
 		glDisable(GL_COLOR_LOGIC_OP);
 

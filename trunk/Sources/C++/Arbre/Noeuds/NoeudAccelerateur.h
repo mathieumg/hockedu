@@ -59,9 +59,9 @@ public:
 	virtual bool initialiser(const XmlElement* element);
 
 	/// Accesseur de activer_
-	bool estActiver() const { return activer_; }
+	bool IsBoostActive() const { return activer_; }
 	/// Modificateur de activer_
-	void modifierActiver(bool val);
+	void ActivateBoost(bool val);
 
 	/// Application de la physique de la rondelle
 	virtual void gestionCollision( const float& temps );

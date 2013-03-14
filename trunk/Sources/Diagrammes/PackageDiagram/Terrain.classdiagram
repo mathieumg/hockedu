@@ -3,6 +3,12 @@
   <packagedElements>
     <logicalClassDesignerModelHasPackages>
       <package Id="b0b0c171-00a5-4acc-9ce2-ab03edc0ae64" name="Terrain">
+        <ownedCommentsInternal>
+          <comment Id="d359fe58-b469-4798-837e-f62d41a4fc69">
+            <elementDefinition Id="27914859-fbc8-4477-aada-eeefdedd8ac7" />
+            <body>StartBonus() creates the modifier and appends it to the targeted node</body>
+          </comment>
+        </ownedCommentsInternal>
         <elementDefinition Id="1f8f1e2b-1ceb-4f62-bb23-4d434c6036cb" />
         <packagedElements>
           <packageHasNamedElement>
@@ -24,6 +30,32 @@
                     </associationHasOwnedEnds>
                   </relationshipOwnedElementsInternal>
                   <elementDefinition Id="1b4bf2cd-eb1f-4140-be5e-8ee16fd7b7df" />
+                </association>
+                <association Id="b3867223-48fe-4596-9c3f-012029eb384b" isDerived="false" sourceEndRoleName="NoeudAbstrait" targetEndRoleName="BonusModifierAbstract" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="4ea6270e-ae26-484f-bccd-9cd4aa36ea78" LastKnownName="BonusModifierAbstract" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="8910d0c8-3cfc-49db-868c-206d99a325f6" name="NoeudAbstrait" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <lowerValueInternal>
+                          <literalString Id="7eb973e5-bf9f-4f59-88e5-bfe030198654" name="Lower" value="*">
+                            <elementDefinition Id="db13a3ce-e3d0-46f7-9e6a-37bba9785c5c" />
+                          </literalString>
+                        </lowerValueInternal>
+                        <upperValueInternal>
+                          <literalString Id="413628af-2076-45fe-bb6d-5bf6a9c09e20" name="Upper" value="*">
+                            <elementDefinition Id="6cfe5dd2-174c-4148-ae8a-cc3c14d27561" />
+                          </literalString>
+                        </upperValueInternal>
+                        <elementDefinition Id="404cb9a8-3132-4e5f-9bd0-3546e88b4043" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="f06f777c-c343-4adb-95fe-d0be38b702ec" name="BonusModifierAbstract" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="6ca00b06-8e7e-4742-aba7-e62929a9d914" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="77879909-6052-4eb8-8cdf-9a6486666f7b" />
                 </association>
               </targetEnds>
             </class>
@@ -402,9 +434,317 @@
               <elementDefinition Id="759475fb-5a9b-4f77-a320-8936048f6b02" />
             </class>
           </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="7213b0b4-4ee2-463f-a33e-d997dd9b1e70" name="NodeBonus" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="68b9f07a-df0e-4b9b-a3b4-b5337bfce8df" />
+              <generalsInternal>
+                <generalization Id="e08ef95c-bce6-44c2-a9a7-f98c4a2a8d96" isSubstitutable="false">
+                  <classMoniker Id="a6c4d9e4-8199-4bc0-b077-7515ffabe372" LastKnownName="NoeudAbstrait" />
+                  <elementDefinition Id="0b9f7c7f-48b7-49ad-af90-5c284ab85794" />
+                </generalization>
+              </generalsInternal>
+              <targetEnds>
+                <association Id="8b158abc-ed6f-4654-9c7a-70927889c4b0" isDerived="false" sourceEndRoleName="NodeBonusAbstract" targetEndRoleName="NoeudRondelle" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="2ea26647-79cb-4086-9f62-ccf28e3c19ba" LastKnownName="NoeudRondelle" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="4c3645a1-24d2-4d70-9fdd-2e4e2064f497" name="NodeBonusAbstract" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <lowerValueInternal>
+                          <literalString Id="0d4809e9-4aec-49ea-9f79-85014cc96403" name="Lower" value="*">
+                            <elementDefinition Id="4faaf6f2-a28b-4225-b071-9d28a9860e45" />
+                          </literalString>
+                        </lowerValueInternal>
+                        <upperValueInternal>
+                          <literalString Id="4979a2a3-9764-404f-805e-1014d21575f5" name="Upper" value="*">
+                            <elementDefinition Id="cd9853c7-7223-41d6-961f-bff2a48c64d8" />
+                          </literalString>
+                        </upperValueInternal>
+                        <elementDefinition Id="6e1aeab4-a8eb-46cc-8049-7883c18cb7bc" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="65117a3e-99e0-468e-a337-c29c9d17e79c" name="NoeudRondelle" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="03f35f60-ce47-410a-93e4-b602919fc788" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="9d931f27-28c6-485b-9abf-af52ccc815fb" />
+                </association>
+                <association Id="cd2d0d48-a517-4420-815f-c3853d76ab81" isDerived="false" sourceEndRoleName="NodeBonus" targetEndRoleName="BonusStrat" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="aa3023dc-889b-49ff-b183-06a213a56686" LastKnownName="BonusStratAbstract" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="d9551e66-1215-43f4-adeb-d20734ce9d38" name="NodeBonus" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="06409253-995d-4db7-bc37-8aec4c99c191" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="8cac9289-4ce3-4ba6-8a52-2e6f3e8e7b05" name="BonusStrat" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="35ca6990-7dee-44a7-85bc-4ab21ca4f8f9" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="36e67dd9-f096-4e29-85f3-d70d7ac433cc" />
+                </association>
+              </targetEnds>
+              <ownedAttributesInternal>
+                <property Id="77c08a1a-e38a-40f3-8f95-5a174fe3f2e2" name="mStrat" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="6a080093-0191-4f1f-933e-bee17ed5891a" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="98ac74a1-03ce-41bf-8d1c-f35a3b7072e1" LastKnownName="BonusStratAbstract*" />
+                  </type_NamedElement>
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="6adbe038-6498-40b6-a35a-a6e8661dec69" name="StartBonus" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="98af072d-1f2c-4203-afdd-873c3abbf135" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="acb076ab-7093-457c-bb45-c05d87933c3c" direction="Return" isUnique="false">
+                        <elementDefinition Id="0d9c526c-57a7-4611-bdff-d09ea99f79e6" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="341a2f39-d874-4bf0-a794-f4d7ce79a3ae" LastKnownName="bool" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="2f56d92f-b4ff-4bb3-9728-bcfadceae819" name="NoeudRondelle*" direction="In" isUnique="false">
+                        <elementDefinition Id="cac92524-0e1e-4e85-a043-a4e331e5969b" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="4ea6270e-ae26-484f-bccd-9cd4aa36ea78" name="BonusModifierAbstract" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="ac5da738-c568-4506-8bba-11d2f8d1f71a" />
+              <ownedAttributesInternal>
+                <property Id="ebca7b6e-67cb-4c4f-bd07-326d8610051e" name="mOwner" visibility="Protected" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="7680d27d-d720-4ed4-a8f6-f08c97c8389d" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="7c98bb1e-12d1-4c06-a2a1-877a33cc21aa" LastKnownName="NoeudAbstrait*" />
+                  </type_NamedElement>
+                </property>
+                <property Id="e1012e73-341c-4045-a56d-3de36c1761be" name="mIsFinished" visibility="Private" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="ffd61a70-b050-4ff0-87cc-245be67a91b2" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="341a2f39-d874-4bf0-a794-f4d7ce79a3ae" LastKnownName="bool" />
+                  </type_NamedElement>
+                </property>
+              </ownedAttributesInternal>
+              <ownedOperationsInternal>
+                <operation Id="3f4ccb4c-584d-4a09-bc71-ee0d3e19de45" name="Tick" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="97528219-4e4e-428d-b649-c72b9180a9dc" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="bcf0575c-d389-4267-a7a0-cd86c304a3dd" name="float) = 0" direction="In" isUnique="false">
+                        <elementDefinition Id="f91b73f1-918f-4fca-b586-ba3ee306262c" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="11d4bd33-04b6-4e0e-8051-b3cae29b62d5" LastKnownName="void(" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+                <operation Id="1441bed3-60d6-4977-97d6-6ea67af8515e" name="Apply" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="74acece0-0067-41a4-8efa-437051d4e144" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="acbba22f-efd0-448a-89e5-53d0db7e256a" direction="Return" isUnique="false">
+                        <elementDefinition Id="a09e9248-a869-4430-a6eb-0cfc97833a27" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="341a2f39-d874-4bf0-a794-f4d7ce79a3ae" LastKnownName="bool" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+                <operation Id="92269b7d-871b-4eb2-9dec-48feb1244954" name="Revert" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="28f14dba-8832-460d-b821-ed2027fe7d9d" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="12ab07cf-92a8-4688-bec8-193d7f1b504b" direction="Return" isUnique="false">
+                        <elementDefinition Id="b3216368-9992-41c3-b982-8c2bc7433233" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="341a2f39-d874-4bf0-a794-f4d7ce79a3ae" LastKnownName="bool" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+                <operation Id="2c10c46f-8e23-471c-9626-3ff4f7a2ace3" name="Attach" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="832061bd-7791-4e40-8464-42ec56204ad6" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="e4bf485d-3a9a-47b0-9c43-ddc8ea32fc8e" name="NoeudAbstrait*" direction="In" isUnique="false">
+                        <elementDefinition Id="e32aa847-4e3c-4f6e-ae2f-c8d693b57e24" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="578bc06f-1f1a-49f7-abe8-50a2d745fd72" direction="Return" isUnique="false">
+                        <elementDefinition Id="001fea8c-4adb-4f71-833e-e87c9aeef968" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="341a2f39-d874-4bf0-a794-f4d7ce79a3ae" LastKnownName="bool" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+                <operation Id="b78f8cb1-f8fc-4152-811c-810d1ede3f2e" name="IsFinished" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="50b96aca-20e5-40aa-916a-c7ed9694c09e" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="af79e074-4ad1-4d93-b33f-d3fd1aa82105" direction="Return" isUnique="false">
+                        <elementDefinition Id="3a9fb471-8654-42d6-90bb-18df789be7d8" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="341a2f39-d874-4bf0-a794-f4d7ce79a3ae" LastKnownName="bool" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+                <operation Id="0201d15c-851f-48f7-b13b-a4b4a99a7140" name="Complete" visibility="Protected" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="a9ead4f1-a131-44aa-b588-03bd0f458196" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="0a591d08-8712-4531-87f5-9433602df493" direction="Return" isUnique="false">
+                        <elementDefinition Id="c2ae7f83-75fe-45d9-bbc8-ea16d445b051" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="6cd673f9-9555-4e0f-9aad-f36be608f548" LastKnownName="void" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="c2861c36-8a92-4568-95ca-8d4d12d93f8a" name="BonusModifierConcrete" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="2facbd93-2b61-457e-992a-20497693dfcd" />
+              <generalsInternal>
+                <generalization Id="e26ea2df-50a7-4e7b-ba78-9c19d6f3cd02" isSubstitutable="false">
+                  <classMoniker Id="4ea6270e-ae26-484f-bccd-9cd4aa36ea78" LastKnownName="BonusModifierAbstract" />
+                  <elementDefinition Id="76fe6168-2dcf-42b6-ba4d-1e672596de9b" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="aa3023dc-889b-49ff-b183-06a213a56686" name="BonusStratAbstract" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="c4ac9b25-d2a2-4579-8f4c-01f25fd7eeb4" />
+              <targetEnds>
+                <association Id="cfb0198d-37bd-489b-ad0f-691185b2c022" isDerived="false" sourceEndRoleName="BonusStrat Creates" targetEndRoleName="BonusModifierConcrete" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="c2861c36-8a92-4568-95ca-8d4d12d93f8a" LastKnownName="BonusModifierConcrete" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="cdce3bad-90ac-40e3-9bd3-6c91a9901c76" name="BonusStrat Creates" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="2d66a1a2-ebe9-43d7-9cc9-ca478d4988f6" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="20cbabca-a118-42e8-a59c-d0b9f61ff30a" name="BonusModifierConcrete" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="974cd671-0900-4df9-95c3-6d0a4fd8e7e2" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="02597dad-5071-413c-86ea-d92457f01da8" />
+                </association>
+              </targetEnds>
+              <ownedOperationsInternal>
+                <operation Id="3a61be09-9d58-4f9f-9594-33b90ce47b1c" name="tick" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="ddc8248a-8c8f-49cd-8bf3-3d43307772ee" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="86f2a02b-30f7-47ae-b1d5-d147b1376781" name="float" direction="In" isUnique="false">
+                        <elementDefinition Id="cfc6cccc-86d1-4a01-9f60-5c1e77a173a4" />
+                      </parameter>
+                    </operationHasOwnedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="4abf249b-b44f-4b20-9f56-76476f5cb88c" direction="Return" isUnique="false">
+                        <elementDefinition Id="54136add-f156-4b11-903c-abce21aa2e58" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="6cd673f9-9555-4e0f-9aad-f36be608f548" LastKnownName="void" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+                <operation Id="f3f55155-89da-4832-a5e5-07a019167878" name="render" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="7ca3b10c-154f-4e20-af95-f3c62bc6ddeb" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="764bcb95-0cc4-4b0d-a124-c32e751496ea" name=") = 0" direction="In" isUnique="false">
+                        <elementDefinition Id="07337e0d-c599-4ba2-bf55-5ebda958f272" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="11d4bd33-04b6-4e0e-8051-b3cae29b62d5" LastKnownName="void(" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+                <operation Id="db7b05a6-60d2-4caa-95d4-595b0508a4b3" name="execute" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                  <elementDefinition Id="3fd2f960-6885-4be6-ba36-5f7936472f26" />
+                  <ownedParameters>
+                    <operationHasOwnedParameters>
+                      <parameter Id="1318241b-c69d-4b66-927f-fa07b4e067b1" name="NoeudRondelle*) = 0" direction="In" isUnique="false">
+                        <elementDefinition Id="010095be-67f7-4f54-a0de-3e290c185efd" />
+                        <type_NamedElement>
+                          <referencedTypeMoniker Id="0221e9dc-ccc9-43fa-8ded-dd07825b4577" LastKnownName="bool(" />
+                        </type_NamedElement>
+                      </parameter>
+                    </operationHasOwnedParameters>
+                  </ownedParameters>
+                </operation>
+              </ownedOperationsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="3aaa151d-8c99-4ada-af6e-1416e7afe88a" name="BonusStratConcrete" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="e873cc01-1fa4-43a4-8fc0-2185aaf906a0" />
+              <generalsInternal>
+                <generalization Id="79b2818a-53ac-4f3c-8aa7-ee6c02719d6b" isSubstitutable="false">
+                  <classMoniker Id="aa3023dc-889b-49ff-b183-06a213a56686" LastKnownName="BonusStratAbstract" />
+                  <elementDefinition Id="93c8bd0e-c2a3-4433-a7b1-bba12c6ceb1d" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
         </packagedElements>
       </package>
     </logicalClassDesignerModelHasPackages>
+    <packageHasNamedElement>
+      <referencedType Id="341a2f39-d874-4bf0-a794-f4d7ce79a3ae" name="bool" isAbstract="false" isLeaf="false" cachedFullName="bool">
+        <elementDefinition Id="cc2c0eb0-8ea4-4f59-bf70-e2c1109bf014" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="6cd673f9-9555-4e0f-9aad-f36be608f548" name="void" isAbstract="false" isLeaf="false" cachedFullName="void">
+        <elementDefinition Id="19bcc452-a8fe-4d45-872c-c19fd4ca064f" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="11d4bd33-04b6-4e0e-8051-b3cae29b62d5" name="void(" isAbstract="false" isLeaf="false" cachedFullName="void(">
+        <elementDefinition Id="b7bc54d8-1d72-4dc4-9cf0-f1030ec44e8e" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="0221e9dc-ccc9-43fa-8ded-dd07825b4577" name="bool(" isAbstract="false" isLeaf="false" cachedFullName="bool(">
+        <elementDefinition Id="13ff891d-68f0-4b50-ab95-5d0f7438d0de" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="98ac74a1-03ce-41bf-8d1c-f35a3b7072e1" name="BonusStratAbstract*" isAbstract="false" isLeaf="false" cachedFullName="BonusStratAbstract*">
+        <elementDefinition Id="c755ceef-3a2c-42c2-988d-9bcea1fe6c23" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="7c98bb1e-12d1-4c06-a2a1-877a33cc21aa" name="NoeudAbstrait*" isAbstract="false" isLeaf="false" cachedFullName="NoeudAbstrait*">
+        <elementDefinition Id="83b73a17-7bd6-484f-a490-f88ddbd805da" />
+      </referencedType>
+    </packageHasNamedElement>
   </packagedElements>
   <package Id="c4dd6f29-a348-4cfb-8da5-04f6b865b7a4" name="PackageDiagram">
     <elementDefinition Id="e3be6b7a-c594-4cdf-a79e-a902a52468de" />

@@ -650,7 +650,7 @@ void NoeudRondelle::updatePhysicBody()
 
         // Il s'agit ici d'une rondelle qui peut entre en collision avec un maillet, un mur, un portail ou un boost
         myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
-        myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY | CATEGORY_PORTAL | CATEGORY_BOOST;
+        myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY | CATEGORY_WALL | CATEGORY_PORTAL | CATEGORY_BOOST | CATEGORY_BONUS;
 
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body

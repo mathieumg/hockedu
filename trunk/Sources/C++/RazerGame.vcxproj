@@ -79,7 +79,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;..\C#\UIHeavyClient\UIHeavyClient;../../Commun/Externe/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Bonus;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;..\C#\UIHeavyClient\UIHeavyClient;../../Commun/Externe/</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CREATING_DLL;WIN32;_DEBUG;_WINDOWS;_USRDLL;RazerGame_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -116,7 +116,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;../../Commun/Externe/;..\C#\UIHeavyClient\UIHeavyClient</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Bonus;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;../../Commun/Externe/;..\C#\UIHeavyClient\UIHeavyClient</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;WITH_JAVA;RazerGame_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -152,7 +152,7 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/;..\C#\UIHeavyClient\UIHeavyClient</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/Noeuds;Arbre/Usines;Arbre/Bonus;Arbre/Visiteur;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/;..\C#\UIHeavyClient\UIHeavyClient</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CREATING_DLL;WIN32;NDEBUG;_WINDOWS;_USRDLL;RazerGame_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
@@ -188,6 +188,8 @@
     <ClCompile Include="Application\GameManager.cpp" />
     <ClCompile Include="Application\RepartiteurActions.cpp" />
     <ClCompile Include="Arbre\ArbreNoeudLibre.cpp" />
+    <ClCompile Include="Arbre\Bonus\BonusModifierGoThorughWall.cpp" />
+    <ClCompile Include="Arbre\Bonus\BonusStratGoThroughWall.cpp" />
     <ClCompile Include="Arbre\HUD\GestionnaireHUD.cpp" />
     <ClCompile Include="Arbre\HUD\HUDElement.cpp" />
     <ClCompile Include="Arbre\HUD\HUDElementComparatif.cpp" />
@@ -197,6 +199,7 @@
     <ClCompile Include="Arbre\Modeles\GestionnaireModeles.cpp" />
     <ClCompile Include="Arbre\Modeles\Modele3D.cpp" />
     <ClCompile Include="Arbre\Noeuds\ControlPointMutableAbstract.cpp" />
+    <ClCompile Include="Arbre\Noeuds\NodeBonus.cpp" />
     <ClCompile Include="Arbre\Noeuds\NodeControlPoint.cpp" />
     <ClCompile Include="Arbre\Noeuds\NodeModelRender.cpp" />
     <ClCompile Include="Arbre\Noeuds\NodePolygone.cpp" />
@@ -339,6 +342,10 @@
     <ClInclude Include="Application\GameManager.h" />
     <ClInclude Include="Application\RepartiteurActions.h" />
     <ClInclude Include="Arbre\ArbreNoeudLibre.h" />
+    <ClInclude Include="Arbre\Bonus\BonusModifierAbstract.h" />
+    <ClInclude Include="Arbre\Bonus\BonusModifierGoThorughWall.h" />
+    <ClInclude Include="Arbre\Bonus\BonusStratAbstract.h" />
+    <ClInclude Include="Arbre\Bonus\BonusStratGoThroughWall.h" />
     <ClInclude Include="Arbre\HUD\GestionnaireHUD.h" />
     <ClInclude Include="Arbre\HUD\HUDElement.h" />
     <ClInclude Include="Arbre\HUD\HUDElementComparatif.h" />
@@ -348,6 +355,7 @@
     <ClInclude Include="Arbre\Modeles\GestionnaireModeles.h" />
     <ClInclude Include="Arbre\Modeles\Modele3D.h" />
     <ClInclude Include="Arbre\Noeuds\ControlPointMutableAbstract.h" />
+    <ClInclude Include="Arbre\Noeuds\NodeBonus.h" />
     <ClInclude Include="Arbre\Noeuds\NodeControlPoint.h" />
     <ClInclude Include="Arbre\Noeuds\NodeModelRender.h" />
     <ClInclude Include="Arbre\Noeuds\NodePolygone.h" />

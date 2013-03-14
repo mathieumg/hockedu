@@ -26,6 +26,8 @@
 
 #include "Vecteur.h"
 #include "ExceptionJeu.h"
+#include "Flags.h"
+#include <set>
 
 //Foward Declaration
 class NoeudComposite;
@@ -34,6 +36,7 @@ class VisiteurCollision;
 class VisiteurNoeudTest;
 class Modele3D;
 class Terrain;
+class BonusModifierAbstract;
 
 // max of 16 categories because box2D flag have only 16 bits
 enum PhysicsCategory
@@ -44,6 +47,19 @@ enum PhysicsCategory
     CATEGORY_MALLET   = 0x0004,
     CATEGORY_PORTAL   = 0x0008,
     CATEGORY_BOOST    = 0x0010,
+    CATEGORY_BONUS    = 0x0020,
+    CATEGORY_WALL     = 0x0040,
+};
+
+enum NodeFlags
+{
+    NODEFLAGS_AFFICHE,
+    NODEFLAGS_SELECTIONNE,
+    NODEFLAGS_SELECTIONNABLE,
+    NODEFLAGS_ENREGISTRABLE,
+    NODEFLAGS_SURLIGNE,
+    NODEFLAGS_IS_IN_GAME,
+    NB_NODEFLAGS
 };
 
 ///////////////////////////////////////////////////////////////////////////
@@ -95,15 +111,15 @@ public:
 	inline bool estAffiche() const;
 
 	/// Écrit l'état de la sélection du noeud.
-	void assignerSelection( const bool& selectionne );
+    void assignerSelection( bool selectionne );
 	/// Vérifie si le noeud est sélectionné.
 	inline bool estSelectionne() const;
 	/// Écrit si le noeud peut être sélectionné ou non.
-	inline void assignerEstSelectionnable( const bool& selectionnable );
+    inline void assignerEstSelectionnable( bool selectionnable );
 	/// Vérifie si le noeud est sélectionnable.
 	inline bool estSelectionnable() const;
 	/// Écrit si le noeud peut être enregistré ou non.
-	inline void assignerEstEnregistrable( const bool& enregistrable );
+    inline void assignerEstEnregistrable( bool enregistrable );
 	/// Vérifie si le noeud est enregistrable.
 	inline bool estEnregistrable() const;
 
@@ -163,17 +179,15 @@ public:
     virtual void renderOpenGLES() const;
 	/// Anime le noeud.
 	virtual void animer( const float& dt );
+    /// node tick received when actually playing the game (simulation running)
+    virtual void PlayTick(float temps);
 
 	/// Accueil un visiteur
 	virtual void acceptVisitor( class VisiteurNoeud& v);   
-	/// Accesseur de la matrice de transformation
-	virtual void obtenirMatrice(GLdouble* matriceRetour) const;
 	/// Accesseur des facteurs d'echelle
 	virtual void obtenirEchelleCourante(Vecteur3& echelleCourante) const;
 	/// Mutateur des facteurs d'echelle
 	virtual void modifierEchelleCourante(const Vecteur3& echelleCourante);
-	/// Mutateur de la matrice de transformation
-	virtual void modifierMatrice(GLdouble *matrice);
 	/// Acces et modification de l'angle de rotation
 	virtual void assignerAngle(const float& angle);
 	virtual float obtenirAngle() const;
@@ -181,12 +195,9 @@ public:
 	/// Met a jour la matrice de transformations
 	virtual void updateMatrice();
 	/// Modifie la valeur de la collision
-	virtual void modifierSurligner(const bool& estEnCollision);
+	inline void modifierSurligner(bool estEnCollision) {mFlags.SetFlag(estEnCollision,NODEFLAGS_SURLIGNE);}
 	/// Retourne la valeur de collision_
-	virtual bool estSurligne();
-	/// Retourne true si le noeud est selectionne
-	virtual bool possedeSelection();
-
+	inline bool estSurligne() const {return mFlags.IsFlagSet(NODEFLAGS_SURLIGNE);}
 	typedef std::pair<Vecteur3, Vecteur3> PaireVect3;
 	/// Retourne la zone occupee par le noeud (coord virtuelles)
 	virtual PaireVect3 obtenirZoneOccupee() const;
@@ -229,6 +240,8 @@ public:
 
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody() {}
+    /// determines if this node is active in the simulation
+    void Activate(bool activate);
 
     /// Allows to keep this node in sync with box2D
     static void SynchroniseTransformFromB2CallBack(void* , const struct b2Transform&);
@@ -239,10 +252,15 @@ public:
 
 	/// Libere la memoire de l'objet Box2D
     virtual void clearPhysicsBody();
+#if BOX2D_INTEGRATED  
     /// Accessors of mWorld
     class b2World* getWorld();
+#endif
+
 protected:
+#if BOX2D_INTEGRATED  
     class b2Body* mPhysicBody;
+#endif
 
     /// Type du noeud.
 	std::string      type_;
@@ -253,23 +271,14 @@ protected:
 	/// Position relative du noeud.
 	mutable Vecteur3  mPosition;
 
-	/// Vrai si on doit afficher le noeud.
-	bool             affiche_;
-
-	/// Sélection du noeud.
-	bool             selectionne_;
-
-	/// Vrai si le noeud est sélectionnable.
-	bool             selectionnable_;
-
-	/// Détermine si l'objet peut être sauvegardé en XML.
-	bool             enregistrable_;
+    /// flags of a node;
+    Flags<char,NB_NODEFLAGS> mFlags;
 
 	/// Pointeur vers le parent.
 	NoeudComposite*   parent_;
 
 	/// Matrice de transformation.
-	GLdouble matrice_[16];
+	GLfloat matrice_[16];
 
 	/// Echelle courante (afin de limiter la mise a l'echelle).
 	Vecteur3 echelleCourante_;
@@ -283,11 +292,6 @@ protected:
     /// les noeuds concrets doivent assigner cette valeur
     float mDefaultRadius;
 
-    
-
-	/// Est en collision
-	bool surligne_;
-	
 	/// id unique dans openGL
     GLuint glId_;
     /// id unique dans openGL pour le type du noeud
@@ -296,9 +300,11 @@ private:
 	/// Compteur pour les id unique dans openGL
 	static GLuint compteurIdGl_;
 	
-	
 	/// Pointeur sur le terrain que le noeud est inclu dedans, Null si le noeud n'est pas sur un terrain
 	Terrain* terrain_;
+    typedef std::set<BonusModifierAbstract*> ModifiersContainer;
+    ModifiersContainer mModifiers;
+
 
 
 	/// Accesseurs
@@ -311,6 +317,18 @@ public:
     /// Accessors of mDefaultRadius
     inline float getDefaultRadius() const { return mDefaultRadius; }
     inline void setDefaultRadius(const float& pVal) { mDefaultRadius = pVal; updateRayon(); }
+    inline bool IsInGame() const { return mFlags.IsFlagSet(NODEFLAGS_IS_IN_GAME);}
+    inline void SetIsInGame(bool val) { mFlags.SetFlag(val,NODEFLAGS_IS_IN_GAME);}
+
+    inline bool AddModifier(BonusModifierAbstract* pModifier)
+    {
+        auto res = mModifiers.insert(pModifier);
+        return res.second;
+    }
+    inline const ModifiersContainer& GetModifiers()const
+    {
+        return mModifiers;
+    }
 };
 
 ////////////////////////////////////////////////////////////////////////
@@ -343,21 +361,6 @@ inline const NoeudComposite* NoeudAbstrait::obtenirParent() const
 	return parent_;
 }
 
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn inline void NoeudAbstrait::setPosition( const Vecteur3& positionRelative )
-///
-/// Cette fonction permet d'assigner la position relative du noeud par
-/// rapport à son parent.
-///
-/// @param[in] const Vecteur3 & positionRelative : La position relative.
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn inline const std::string& NoeudAbstrait::obtenirType(  )
@@ -388,7 +391,7 @@ inline const std::string& NoeudAbstrait::obtenirType() const
 ////////////////////////////////////////////////////////////////////////
 inline void NoeudAbstrait::assignerAffiche( bool affiche )
 {
-	affiche_ = affiche;
+    mFlags.SetFlag(affiche,NODEFLAGS_AFFICHE);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -403,7 +406,7 @@ inline void NoeudAbstrait::assignerAffiche( bool affiche )
 ////////////////////////////////////////////////////////////////////////
 inline bool NoeudAbstrait::estAffiche() const
 {
-	return affiche_;
+    return mFlags.IsFlagSet(NODEFLAGS_AFFICHE);
 }
 
 
@@ -420,7 +423,7 @@ inline bool NoeudAbstrait::estAffiche() const
 inline bool NoeudAbstrait::estSelectionne() const
 {
 	// Un objet non sélectionnable n'est jamais sélectionné.
-	return (selectionne_ && selectionnable_);
+	return (mFlags.IsFlagSet(NODEFLAGS_SELECTIONNE) && mFlags.IsFlagSet(NODEFLAGS_SELECTIONNABLE));
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -434,10 +437,10 @@ inline bool NoeudAbstrait::estSelectionne() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-inline void NoeudAbstrait::assignerEstSelectionnable( const bool& selectionnable )
+inline void NoeudAbstrait::assignerEstSelectionnable( bool selectionnable )
 {
-	selectionnable_ = selectionnable;
-	selectionne_    = selectionne_ && selectionnable_;
+    mFlags.SetFlag(selectionnable,NODEFLAGS_SELECTIONNABLE);
+    assignerSelection(estSelectionne() && selectionnable);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -452,7 +455,7 @@ inline void NoeudAbstrait::assignerEstSelectionnable( const bool& selectionnable
 ////////////////////////////////////////////////////////////////////////
 inline bool NoeudAbstrait::estSelectionnable() const
 {
-	return selectionnable_;
+    return mFlags.IsFlagSet(NODEFLAGS_SELECTIONNABLE);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -466,9 +469,9 @@ inline bool NoeudAbstrait::estSelectionnable() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-inline void NoeudAbstrait::assignerEstEnregistrable( const bool& enregistrable )
+inline void NoeudAbstrait::assignerEstEnregistrable( bool enregistrable )
 {
-	enregistrable_ = enregistrable;
+    mFlags.SetFlag(enregistrable,NODEFLAGS_ENREGISTRABLE);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -484,7 +487,7 @@ inline void NoeudAbstrait::assignerEstEnregistrable( const bool& enregistrable )
 ////////////////////////////////////////////////////////////////////////
 inline bool NoeudAbstrait::estEnregistrable() const
 {
-	return enregistrable_;
+    return mFlags.IsFlagSet(NODEFLAGS_ENREGISTRABLE);
 }
 
 

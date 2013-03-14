@@ -342,7 +342,7 @@ void Modele3D::couleurVersFloat4(const struct aiColor4D *c, float f[4])
 void Modele3D::dessiner(bool avecTexture)
 {
     glPushMatrix();
-    glScaled(facteurAgrandissement_[VX], facteurAgrandissement_[VY], facteurAgrandissement_[VZ]);
+    glScalef(facteurAgrandissement_[VX], facteurAgrandissement_[VY], facteurAgrandissement_[VZ]);
 
 	dessinerNoeud(scene_, scene_->mRootNode, avecTexture);
 

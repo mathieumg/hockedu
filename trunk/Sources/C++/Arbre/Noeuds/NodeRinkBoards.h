@@ -29,7 +29,9 @@ public:
 	NodeRinkBoards(NoeudPoint* n1, NoeudPoint* n2);
 	NodeRinkBoards(NoeudPoint* n, NoeudBut* but, bool haut);
 	NodeRinkBoards(NoeudBut* but, NoeudPoint* n, bool haut);
-
     ~NodeRinkBoards();
+
+    virtual PhysicsCategory GetCategory() {return CATEGORY_BOUNDARY;}
+
 };
 

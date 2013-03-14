@@ -108,8 +108,6 @@ public:
 	
 	/// Retourne les racines des sous-arbres selectionnees
     void getSelectedNodes(ConteneurNoeuds& pSelectedNodes) const;
-	/// Retourne true si un enfant possede un noeid selectionne
-	virtual bool possedeSelection();
 	/// Modificateur de terrain_
 	virtual void modifierTerrain(Terrain* val);
 

@@ -156,8 +156,8 @@ bool Phont::print(GLfloat vp_x, GLfloat vp_y, bool keep_gl, const char* format, 
 	
 	// Viewport et matrices à sauvegarder s'il y a lieu
 	GLint viewport [4];
-	GLdouble modelview [16];
-	GLdouble projection [16];
+	GLfloat modelview [16];
+	GLfloat projection [16];
 	
 	// États de la lumière et de la profondeur
 	GLboolean lighting_state, depth_test_state;
@@ -167,8 +167,8 @@ bool Phont::print(GLfloat vp_x, GLfloat vp_y, bool keep_gl, const char* format, 
 
 	// Conserver les matrices précédentes s'il y a lieu
 	if (keep_gl) {
-		glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
-		glGetDoublev(GL_PROJECTION_MATRIX, projection);
+		glGetFloatv(GL_MODELVIEW_MATRIX, modelview);
+		glGetFloatv(GL_PROJECTION_MATRIX, projection);
 	}
 
 	// Matrice de projection orthogonale 2D de même dimensions virtuelles que le viewport
@@ -188,8 +188,8 @@ bool Phont::print(GLfloat vp_x, GLfloat vp_y, bool keep_gl, const char* format, 
 	
 	// Imprimer la chaine
 	glPushMatrix();
-		glTranslated(0.0, (GLfloat) common_.line_height, 0.0);
-		glTranslated((GLfloat) vp_x * (viewport[2] - 1.0), (GLfloat) vp_y * (viewport[3] - 1.0), 0.0);
+		glTranslatef(0.0, (GLfloat) common_.line_height, 0.0);
+		glTranslatef((GLfloat) vp_x * (viewport[2] - 1.0), (GLfloat) vp_y * (viewport[3] - 1.0), 0.0);
 		glScalef(scale_,scale_,1);
 		glListBase(cl_base_);
 		glCallLists((GLsizei)strlen(buf), GL_UNSIGNED_BYTE, buf);
@@ -206,10 +206,10 @@ bool Phont::print(GLfloat vp_x, GLfloat vp_y, bool keep_gl, const char* format, 
 	// Recharger les matrices précédentes s'il y a lieu
 	if (keep_gl) {
 		glMatrixMode(GL_PROJECTION);
-		glLoadMatrixd(projection);
+		glLoadMatrixf(projection);
 
 		glMatrixMode(GL_MODELVIEW);
-		glLoadMatrixd(modelview);
+		glLoadMatrixf(modelview);
 	}
 	
 	return true;
@@ -450,12 +450,12 @@ bool Phont::create_cl(const char* filename) {
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 4); // Appelé chaque fois par précaution
 		glNewList(cl_base_ + i, GL_COMPILE);
 			glPushMatrix();
-				glTranslated((GLfloat) x_off, (GLfloat) -y_off, 0.0);
+				glTranslatef((GLfloat) x_off, (GLfloat) -y_off, 0.0);
 				glRasterPos2i(0, 0);
 				glBitmap((GLsizei) w, (GLsizei) h, 0.0f, (GLfloat) h,
 					0.0f, 0.0f, bitmap);
 			glPopMatrix();
-			glTranslated((GLfloat) x_adv, 0.0, 0.0);
+			glTranslatef((GLfloat) x_adv, 0.0, 0.0);
 		glEndList();
 
 		// Désallouer les pixels et le bitmap

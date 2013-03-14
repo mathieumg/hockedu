@@ -16,6 +16,7 @@
 #include "Singleton.h"
 #include "XMLUtils.h"
 #include "Terrain.h"
+#include "BonusModifierAbstract.h"
 
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
@@ -43,13 +44,9 @@ NoeudAbstrait::NoeudAbstrait(
     mPhysicBody(NULL),
     type_(type) ,
     mPosition(0) ,
-    affiche_(true) ,
-    selectionne_(false) ,
-    selectionnable_(true) ,
-    enregistrable_(true) ,
+    mFlags(1<<NODEFLAGS_AFFICHE|1<<NODEFLAGS_SELECTIONNABLE|1<<NODEFLAGS_ENREGISTRABLE),
     parent_(0) , 
     mAngle(0) ,
-    surligne_(false),
     glId_(compteurIdGl_++),
     terrain_(NULL)
 {
@@ -65,13 +62,10 @@ NoeudAbstrait::NoeudAbstrait(
 	// On garde en memoire la matrice d'origine (devrait etre NULL)
 	glPushMatrix();
 	glLoadIdentity();
-	glGetDoublev(GL_MODELVIEW_MATRIX, matrice_);
+	glGetFloatv(GL_MODELVIEW_MATRIX, matrice_);
 	// On remet en memoire la matrice d'origine
 	glPopMatrix();
 
-    
-
-    
 	updateRayon();
 
 }
@@ -91,6 +85,12 @@ NoeudAbstrait::~NoeudAbstrait()
 {
 	clearPhysicsBody();
     modifierTerrain(NULL);
+
+    // clean remaining modifiers in the node
+    for(auto it = mModifiers.begin(); it != mModifiers.end(); ++it)
+    {
+        delete *it;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -355,7 +355,7 @@ void NoeudAbstrait::deselectionnerTout()
 ////////////////////////////////////////////////////////////////////////
 bool NoeudAbstrait::selectionExiste() const
 {
-   return selectionne_;
+   return estSelectionne();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -478,10 +478,10 @@ void NoeudAbstrait::afficherConcret() const
         glPushMatrix();
 
         // Effectue les mise a l'echelle et les rotations
-        glMultMatrixd(matrice_);
+        glMultMatrixf(matrice_);
 
         glPushAttrib( GL_ALL_ATTRIB_BITS );
-        if(surligne_ || selectionne_)
+        if(estSurligne() || estSelectionne())
         {
             glEnable(GL_COLOR_LOGIC_OP);
             glLogicOp(GL_COPY_INVERTED);
@@ -526,42 +526,6 @@ void NoeudAbstrait::animer( const float& dt )
 {
 
 }
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudAbstrait::obtenirMatrice( GLdouble* matriceRetour )
-///
-/// Cette fonction met la matrice dans la matrice donne en parametre.
-///
-/// @param[in] GLdouble * matriceRetour : matrice de retour dans 
-/// laquelle la matrice du noeud va etre copiee.
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::obtenirMatrice(GLdouble* matriceRetour) const
-{
-	for(int i=0; i<16; i++)
-		matriceRetour[i] = matrice_[i];
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudAbstrait::modifierMatrice( GLdouble *matrice )
-///
-/// Cette fonction modifie la matrice de transformation du noeud.
-///
-/// @param[in] GLdouble * matrice : matrice a copier dans la matrice du noeud.
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::modifierMatrice(GLdouble *matrice)
-{
-	for(int i=0; i<16; i++)
-		matrice_[i] = matrice[i];
-}
-
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void NoeudAbstrait::obtenirEchelleCourante( Vecteur3& echelleCourante )
@@ -670,10 +634,10 @@ void NoeudAbstrait::updateMatrice()
 	glPushMatrix();
 	glLoadIdentity();
 
-	glRotated(mAngle, 0.0, 0.0, 1.0);
-	glScaled(echelleCourante_[VX], echelleCourante_[VY], echelleCourante_[VZ]);
+	glRotatef(mAngle, 0.0, 0.0, 1.0);
+	glScalef(echelleCourante_[VX], echelleCourante_[VY], echelleCourante_[VZ]);
 	
-	glGetDoublev(GL_MODELVIEW_MATRIX, matrice_); // Savegarde de la matrice courante dans le noeud
+	glGetFloatv(GL_MODELVIEW_MATRIX, matrice_); // Savegarde de la matrice courante dans le noeud
 
 	glPopMatrix();
 #endif
@@ -768,53 +732,6 @@ void NoeudAbstrait::assignerAttributVisiteurCollision( class VisiteurCollision* 
 	v->modifierRayonAVerifier(obtenirRayon());
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudAbstrait::modifierSurligner( bool estSurligner )
-///
-/// Modifie la surbrillance.
-///
-/// @param[in] bool estSurligner : true si le noeud est en collision.
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::modifierSurligner( const bool& estSurligner )
-{
-	surligne_ = estSurligner;
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn bool NoeudAbstrait::estSurligne(  )
-///
-/// Retourne true si le noeud est en collision.
-///
-///
-/// @return bool : true si collision.
-///
-////////////////////////////////////////////////////////////////////////
-bool NoeudAbstrait::estSurligne()
-{
-	return surligne_;
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn bool NoeudAbstrait::possedeSelection(  )
-///
-/// Retourne true si le noeud est selectionne.
-///
-///
-/// @return bool : true si la noeud est selectionne.
-///
-////////////////////////////////////////////////////////////////////////
-bool NoeudAbstrait::possedeSelection()
-{
-	return selectionne_;
-}
-
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -832,8 +749,8 @@ XmlElement* NoeudAbstrait::creerNoeudXML()
     XmlWriteNodePosition(elementNoeud);
     XMLUtils::writeArray(echelleCourante_.c_arr(),3,elementNoeud,"echelle");
     XMLUtils::writeAttribute(elementNoeud,"angle",mAngle);
-    XMLUtils::writeAttribute(elementNoeud,"affiche",affiche_);
-    XMLUtils::writeAttribute(elementNoeud,"selectionnable",selectionnable_);
+    XMLUtils::writeAttribute(elementNoeud,"affiche",estAffiche());
+    XMLUtils::writeAttribute(elementNoeud,"selectionnable",estSelectionnable());
 
 	return elementNoeud;
 }
@@ -931,6 +848,7 @@ void NoeudAbstrait::modifierTerrain( Terrain* val )
     {
         terrain_->NodeSelectionNotification(this,estSelectionne());
     }
+    SetIsInGame(terrain_ && terrain_->IsGameField());
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1129,9 +1047,7 @@ bool NoeudAbstrait::equals( NoeudAbstrait* n)
     type_ == n->type_ &&
     modePolygones_ == n->modePolygones_ &&
     mPosition == n->mPosition &&
-    affiche_ == n->affiche_ &&
-    selectionnable_ == n->selectionnable_ &&
-    enregistrable_ == n->enregistrable_ &&
+    mFlags == n->mFlags &&
     echelleCourante_ == n->echelleCourante_ &&
     rayon_ == n->rayon_;
 }
@@ -1174,16 +1090,73 @@ void NoeudAbstrait::renderOpenGLES() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::assignerSelection( const bool& selectionne )
+void NoeudAbstrait::assignerSelection( bool selectionne )
 {
-    bool oldSelection = selectionne_;
+    bool oldSelection = estSelectionne();
     // Un objet non sélectionnable n'est jamais sélectionné.
-    selectionne_ = (selectionne && selectionnable_);
+    mFlags.SetFlag(selectionne && estSelectionnable(),NODEFLAGS_SELECTIONNE);
     auto terrain = GetTerrain();
-    if(terrain && oldSelection != selectionne_)
+    if(terrain && oldSelection != estSelectionne())
     {
-        terrain->NodeSelectionNotification(this,selectionne_);
+        terrain->NodeSelectionNotification(this,!oldSelection);
     }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudAbstrait::Activate( bool activate )
+///
+/// determines if this node is active in the simulation
+///
+/// @param[in] bool activate
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAbstrait::Activate( bool activate )
+{
+#if BOX2D_INTEGRATED  
+    if(mPhysicBody)
+    {
+        mPhysicBody->SetActive(activate);
+    }
+#endif
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudAbstrait::PlayTick( float temps )
+///
+/// /*Description*/
+///
+/// @param[in] float temps
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAbstrait::PlayTick( float temps )
+{
+    // recherche pour un bonus déjà présent
+    for(auto it = mModifiers.begin(); it != mModifiers.end(); ++it)
+    {
+        (*it)->Tick(temps);
+    }
+
+    // remove all modifiers that have completed their jobs
+    // Clean way to remove items in a set while iterating
+    for (auto it = mModifiers.begin(); it != mModifiers.end(); ) 
+    {
+        if ((*it)->IsFinished()) 
+        {
+            delete *it;
+            mModifiers.erase(it++);
+        }
+        else 
+        {
+            ++it;
+        }
+    }
+
 }
 
 

@@ -601,7 +601,7 @@ void GestionnaireHUD::effectuerDecompte()
 
         glTranslatef(0.8f, 0.8f, 0.0f);
         glScalef(0.002f, -0.002f, 0.0001f);
-        glRotated(anglePause_, 0, 0, 1);
+        glRotatef((GLfloat)anglePause_, 0, 0, 1);
 
         glCallList(listePause_);
 
@@ -609,7 +609,8 @@ void GestionnaireHUD::effectuerDecompte()
         glPopMatrix();
     }
     else
-        anglePause_ = 0;    glMatrixMode(GL_MODELVIEW);
+        anglePause_ = 0;    
+    glMatrixMode(GL_MODELVIEW);
 }
 
 ////////////////////////////////////////////////////////////////////////

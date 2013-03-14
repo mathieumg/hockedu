@@ -119,8 +119,8 @@ namespace utilitaire {
       glEnable(GL_TEXTURE_2D);
 
       glPushMatrix();
-      glTranslated(centre[0], centre[1], centre[2]);
-      glScaled(demiLargeur, demiLargeur, demiLargeur);
+      glTranslatef(centre[0], centre[1], centre[2]);
+      glScalef(demiLargeur, demiLargeur, demiLargeur);
 
       // L'orientation des images est celle de CubeMapGen, de ATI.
 

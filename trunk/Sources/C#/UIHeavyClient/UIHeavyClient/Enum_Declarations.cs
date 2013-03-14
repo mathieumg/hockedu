@@ -25,6 +25,7 @@ namespace UIHeavyClient
         ACTION_SUPPRIMER           ,
         ACTION_DUPLIQUER           ,
         ACTION_INSERER_PORTAIL     ,
+        ACTION_INSERER_BONUS       ,
         ACTION_INSERER_MURET       ,
         ACTION_INSERER_MAILLET     ,
         ACTION_INSERER_RONDELLE    ,

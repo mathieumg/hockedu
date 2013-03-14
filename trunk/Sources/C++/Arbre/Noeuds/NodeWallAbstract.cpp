@@ -112,7 +112,7 @@ void NodeWallAbstract::updatePhysicBody()
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &shape; //this is a pointer to the shape above
         myFixtureDef.density = 1;
-        myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
+        myFixtureDef.filter.categoryBits = GetCategory();
         myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_MALLET;
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body

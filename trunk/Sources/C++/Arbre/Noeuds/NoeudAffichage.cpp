@@ -29,7 +29,7 @@
 NoeudAffichage::NoeudAffichage(const std::string& typeNoeud)
    : NoeudAbstrait(typeNoeud),mModelKey(typeNoeud)
 {   
-	affiche_ = false;
+	assignerAffiche(false);
 	echelleCourante_ = Vecteur3(5, 5, 5);
 	echelleBase_ = echelleCourante_;
 	updateMatrice();

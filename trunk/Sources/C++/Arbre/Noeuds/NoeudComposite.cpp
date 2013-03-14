@@ -369,7 +369,7 @@ void NoeudComposite::inverserSelectionTout()
 ////////////////////////////////////////////////////////////////////////
 bool NoeudComposite::selectionExiste() const
 {
-	if ( selectionne_ ) {
+	if ( estSelectionne()) {
 		return true;
 	}
 
@@ -559,33 +559,6 @@ void NoeudComposite::getSelectedNodes( ConteneurNoeuds& pSelectedNodes ) const
 	}
 }
 
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn NoeudComposite::possedeSelection()
-///
-/// Retourne true si un des enfants du noeud est selectionne
-///
-/// @param[in]	void
-///
-/// @return bool	: un enfant est selectionne
-///
-////////////////////////////////////////////////////////////////////////
-bool NoeudComposite::possedeSelection()
-{
-	if(NoeudAbstrait::possedeSelection())
-		return true;
-	else
-	{
-		bool retour = false;
-		for(unsigned int i=0; i<obtenirNombreEnfants(); i++)
-		{
-			retour = retour | chercher(i)->possedeSelection();
-		}
-		return retour;
-	}
-	return false;
-}
 
 ////////////////////////////////////////////////////////////////////////
 ///

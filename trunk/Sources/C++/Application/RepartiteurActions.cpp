@@ -42,44 +42,45 @@ SINGLETON_DECLARATION_CPP(RepartiteurActions);
 ////////////////////////////////////////////////////////////////////////
 RepartiteurActions::RepartiteurActions()
 {
-	banqueActions_[ACTION_EDITEUR_NOUVEAU] = &RepartiteurActions::actionBoutonEditionNouveau;
-	banqueActions_[ACTION_REINITIALISER_PARTIE] = &RepartiteurActions::actionReinitialiserPartie;
-	banqueActions_[ACTION_PAUSE_JEU] = &RepartiteurActions::actionTogglePauseJeu;
-	banqueActions_[ACTION_REPLAY] = &RepartiteurActions::actionReplay;
+    banqueActions_[ACTION_EDITEUR_NOUVEAU]       = &RepartiteurActions::actionBoutonEditionNouveau;
+    banqueActions_[ACTION_REINITIALISER_PARTIE]  = &RepartiteurActions::actionReinitialiserPartie;
+    banqueActions_[ACTION_PAUSE_JEU]             = &RepartiteurActions::actionTogglePauseJeu;
+    banqueActions_[ACTION_REPLAY]                = &RepartiteurActions::actionReplay;
 
-	// Fonctions de zoom
-	banqueActions_[ACTION_CAMERA] = &RepartiteurActions::actionBoutonCamera;
-	banqueActions_[ACTION_ORBIT] = &RepartiteurActions::actionBoutonOrbit;
-	banqueActions_[ACTION_ZOOM_ELASTIQUE] = &RepartiteurActions::actionBoutonZoomElastique;
-	banqueActions_[ACTION_ZOOM_PROPORTIONNEL] = &RepartiteurActions::actionBoutonZoomProportionnel;
+    //Fonctions de zoom
+    banqueActions_[ACTION_CAMERA]                = &RepartiteurActions::actionBoutonCamera;
+    banqueActions_[ACTION_ORBIT]                 = &RepartiteurActions::actionBoutonOrbit;
+    banqueActions_[ACTION_ZOOM_ELASTIQUE]        = &RepartiteurActions::actionBoutonZoomElastique;
+    banqueActions_[ACTION_ZOOM_PROPORTIONNEL]    = &RepartiteurActions::actionBoutonZoomProportionnel;
 
-	// Fonctions d'édition
-	banqueActions_[ACTION_EDITEUR_SELECTION] = &RepartiteurActions::actionBoutonSelection;
-	banqueActions_[ACTION_EDITEUR_DEPLACER] = &RepartiteurActions::actionBoutonTransformationDeplacement;
-	banqueActions_[ACTION_EDITEUR_ROTATION] = &RepartiteurActions::actionBoutonTransformationRotation;
-	banqueActions_[ACTION_EDITEUR_ECHELLE] = &RepartiteurActions::actionBoutonTransformationEchelle;
-	banqueActions_[ACTION_SUPPRIMER] = &RepartiteurActions::actionBoutonSupprimer;
-	banqueActions_[ACTION_DUPLIQUER] = &RepartiteurActions::actionBoutonDupliquer;
+    //Fonctions d'édition
+    banqueActions_[ACTION_EDITEUR_SELECTION]     = &RepartiteurActions::actionBoutonSelection;
+    banqueActions_[ACTION_EDITEUR_DEPLACER]      = &RepartiteurActions::actionBoutonTransformationDeplacement;
+    banqueActions_[ACTION_EDITEUR_ROTATION]      = &RepartiteurActions::actionBoutonTransformationRotation;
+    banqueActions_[ACTION_EDITEUR_ECHELLE]       = &RepartiteurActions::actionBoutonTransformationEchelle;
+    banqueActions_[ACTION_SUPPRIMER]             = &RepartiteurActions::actionBoutonSupprimer;
+    banqueActions_[ACTION_DUPLIQUER]             = &RepartiteurActions::actionBoutonDupliquer;
 
-	// Fonctions d'insertions.
-	banqueActions_[ACTION_INSERER_PORTAIL] = &RepartiteurActions::actionBoutonInsererPortail;
-	banqueActions_[ACTION_INSERER_MURET] = &RepartiteurActions::actionBoutonInsererMuret;
-	banqueActions_[ACTION_INSERER_MAILLET] = &RepartiteurActions::actionBoutonInsererMaillet;
-	banqueActions_[ACTION_INSERER_RONDELLE] = &RepartiteurActions::actionBoutonInsererRondelle;
-	banqueActions_[ACTION_INSERER_ACCELERATEUR] = &RepartiteurActions::actionBoutonInsererAccelerateur;
+    //Fonctions d'insertions.
+    banqueActions_[ACTION_INSERER_PORTAIL]       = &RepartiteurActions::actionBoutonInsererPortail;
+    banqueActions_[ACTION_INSERER_MURET]         = &RepartiteurActions::actionBoutonInsererMuret;
+    banqueActions_[ACTION_INSERER_MAILLET]       = &RepartiteurActions::actionBoutonInsererMaillet;
+    banqueActions_[ACTION_INSERER_RONDELLE]      = &RepartiteurActions::actionBoutonInsererRondelle;
+    banqueActions_[ACTION_INSERER_ACCELERATEUR]  = &RepartiteurActions::actionBoutonInsererAccelerateur;
+    banqueActions_[ACTION_INSERER_BONUS]         = &RepartiteurActions::actionBoutonInsererBonus;
 
-	// Fonctions de changement de mode
-	banqueActions_[ACTION_ALLER_MODE_EDITION] = &RepartiteurActions::actionBoutonAllerModeEdition;
-	banqueActions_[ACTION_ALLER_MODE_JEU] = &RepartiteurActions::actionBoutonAllerModeJeu;
-    banqueActions_[ACTION_ALLER_MODE_TOURNOI] = &RepartiteurActions::actionBoutonAllerModeTournoi;
-    banqueActions_[ACTION_ALLER_MENU_PRINCIPAL] = &RepartiteurActions::actionBoutonAllerMenuPrincipal;
+    //Fonctions de changement de mode
+    banqueActions_[ACTION_ALLER_MODE_EDITION]    = &RepartiteurActions::actionBoutonAllerModeEdition;
+    banqueActions_[ACTION_ALLER_MODE_JEU]        = &RepartiteurActions::actionBoutonAllerModeJeu;
+    banqueActions_[ACTION_ALLER_MODE_TOURNOI]    = &RepartiteurActions::actionBoutonAllerModeTournoi;
+    banqueActions_[ACTION_ALLER_MENU_PRINCIPAL]  = &RepartiteurActions::actionBoutonAllerMenuPrincipal;
     banqueActions_[ACTION_ALLER_MODE_SIMULATION] = &RepartiteurActions::actionBoutonAllerModeSimulation;
 
-	// Fonctions de changement de camera
-	banqueActions_[ACTION_CAMERA_FIXE] = &RepartiteurActions::actionChangerModeCameraFixe;
-	banqueActions_[ACTION_CAMERA_ORBITE] = &RepartiteurActions::actionChangerModeCameraOrbite;
-	banqueActions_[ACTION_CAMERA_LIBRE] = &RepartiteurActions::actionChangerModeCameraLibre;
-	banqueActions_[ACTION_CAMERA_SPLIT] = &RepartiteurActions::actionChangerModeCameraSplit;
+    //Fonctions de changement de camera
+    banqueActions_[ACTION_CAMERA_FIXE]           = &RepartiteurActions::actionChangerModeCameraFixe;
+    banqueActions_[ACTION_CAMERA_ORBITE]         = &RepartiteurActions::actionChangerModeCameraOrbite;
+    banqueActions_[ACTION_CAMERA_LIBRE]          = &RepartiteurActions::actionChangerModeCameraLibre;
+    banqueActions_[ACTION_CAMERA_SPLIT]          = &RepartiteurActions::actionChangerModeCameraSplit;
 
 }
 
@@ -380,6 +381,23 @@ bool RepartiteurActions::actionBoutonInsererAccelerateur()
     FacadeModele::getInstance()->selectionArbre(false);
     GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_AJOUTER_ACCELERATEUR);
 	return true; 
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool RepartiteurActions::actionBoutonInsererBonus()
+///
+///Fonction d'action pour inserer un bonus.
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool RepartiteurActions::actionBoutonInsererBonus()
+{
+    FacadeModele::getInstance()->selectionArbre(false);
+    GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_AJOUTER_BONUS);
+    return true; 
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -686,6 +704,8 @@ bool RepartiteurActions::actionChangerModeCameraSplit()
 
 	return true; 
 }
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////

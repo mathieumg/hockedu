@@ -13,6 +13,9 @@
 #include "GestionnaireModeles.h"
 #include "GestionnaireEvenements.h"
 #include "GestionnaireEtatAbstrait.h"
+#include <hash_map>
+#elif __APPLE__
+#include <ext/hash_map>
 #endif
 
 #include "Utilitaire.h"
@@ -20,9 +23,6 @@
 
 
 PRAGMA_DISABLE_OPTIMIZATION;
-
-
-
 
 #if WITH_JAVA
 #include <jni.h>
@@ -366,6 +366,8 @@ bool mUpdating = false, mRendering=false;
    const std::string RazerGameUtilities::NOM_GROUPE = "Groupe";
 
    const std::string RazerGameUtilities::NAME_POLYGONE = "polygone";
+   const std::string RazerGameUtilities::NAME_BONUS = "bonus";
+   const std::string RazerGameUtilities::NAME_BONUS_GO_THROUGH_WALL = "bonus_gtw";
 
 
 ///////////////////////////////////////////////////////////////////////////////

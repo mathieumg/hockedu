@@ -70,7 +70,9 @@ public:
 	///Fonction pour inserer les rondelles.
 	bool actionBoutonInsererRondelle();
 	///Fonction d'action pour inserer un accelerateur.
-	bool actionBoutonInsererAccelerateur();
+    bool actionBoutonInsererAccelerateur();
+    ///Fonction d'action pour inserer un bonus.
+    bool actionBoutonInsererBonus();
 	///Fonction d'action pour dupliquer
 	bool actionBoutonDupliquer();
 	///Fonction pour aller en mode jeu

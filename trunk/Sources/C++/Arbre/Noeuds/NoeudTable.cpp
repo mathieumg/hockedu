@@ -67,7 +67,7 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
     //aidegl::glLoadTexture(RazerGameUtilities::NOM_DOSSIER+"table_hockey.png",textureId_,true);
     const float longueurTable = DEFAULT_SIZE[VX];
     const float hauteurTable = DEFAULT_SIZE[VY];
-    selectionnable_ = false;
+    assignerEstSelectionnable(false);
     assignerSelection(false);
 
 
@@ -365,10 +365,10 @@ void NoeudTable::afficherConcret() const
                     // Dessin des lignes verticales de la table
                     const Vecteur3& cur = mTableVertices[i][j];
                     const Vecteur3& down = mTableVertices[i][j+1];
-                    glVertex3d(cur[VX]+moitieLargeurLigne,cur[VY],hauteurLigne);
-                    glVertex3d(cur[VX]-moitieLargeurLigne,cur[VY],hauteurLigne);
-                    glVertex3d(down[VX]-moitieLargeurLigne,down[VY],hauteurLigne);
-                    glVertex3d(down[VX]+moitieLargeurLigne,down[VY],hauteurLigne);
+                    glVertex3f(cur[VX]+moitieLargeurLigne,cur[VY],hauteurLigne);
+                    glVertex3f(cur[VX]-moitieLargeurLigne,cur[VY],hauteurLigne);
+                    glVertex3f(down[VX]-moitieLargeurLigne,down[VY],hauteurLigne);
+                    glVertex3f(down[VX]+moitieLargeurLigne,down[VY],hauteurLigne);
                 }
             }
 
