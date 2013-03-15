@@ -188,8 +188,8 @@
     <ClCompile Include="Application\GameManager.cpp" />
     <ClCompile Include="Application\RepartiteurActions.cpp" />
     <ClCompile Include="Arbre\ArbreNoeudLibre.cpp" />
+    <ClCompile Include="Arbre\Bonus\BonusModifierAbstract.cpp" />
     <ClCompile Include="Arbre\Bonus\BonusModifierGoThorughWall.cpp" />
-    <ClCompile Include="Arbre\Bonus\BonusStratGoThroughWall.cpp" />
     <ClCompile Include="Arbre\HUD\GestionnaireHUD.cpp" />
     <ClCompile Include="Arbre\HUD\HUDElement.cpp" />
     <ClCompile Include="Arbre\HUD\HUDElementComparatif.cpp" />
@@ -218,6 +218,7 @@
     <ClCompile Include="Arbre\Noeuds\NoeudRondelle.cpp" />
     <ClCompile Include="Arbre\Noeuds\NoeudTable.cpp" />
     <ClCompile Include="Arbre\Terrain.cpp" />
+    <ClCompile Include="Arbre\Usines\BonusModifierFactory.cpp" />
     <ClCompile Include="Arbre\Usines\UsineNoeud.cpp" />
     <ClCompile Include="Arbre\Visiteur\VisiteurCollision.cpp" />
     <ClCompile Include="Arbre\Visiteur\VisiteurDeplacement.cpp" />
@@ -344,8 +345,6 @@
     <ClInclude Include="Arbre\ArbreNoeudLibre.h" />
     <ClInclude Include="Arbre\Bonus\BonusModifierAbstract.h" />
     <ClInclude Include="Arbre\Bonus\BonusModifierGoThorughWall.h" />
-    <ClInclude Include="Arbre\Bonus\BonusStratAbstract.h" />
-    <ClInclude Include="Arbre\Bonus\BonusStratGoThroughWall.h" />
     <ClInclude Include="Arbre\HUD\GestionnaireHUD.h" />
     <ClInclude Include="Arbre\HUD\HUDElement.h" />
     <ClInclude Include="Arbre\HUD\HUDElementComparatif.h" />
@@ -375,6 +374,7 @@
     <ClInclude Include="Arbre\Noeuds\NoeudTable.h" />
     <ClInclude Include="Arbre\Noeuds\PositionSubject.h" />
     <ClInclude Include="Arbre\Terrain.h" />
+    <ClInclude Include="Arbre\Usines\BonusModifierFactory.h" />
     <ClInclude Include="Arbre\Visiteur\VisiteurCollision.h" />
     <ClInclude Include="Arbre\Visiteur\VisiteurDeplacement.h" />
     <ClInclude Include="Arbre\Visiteur\VisiteurDupliquer.h" />

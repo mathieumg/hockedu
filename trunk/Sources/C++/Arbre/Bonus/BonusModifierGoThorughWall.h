@@ -24,11 +24,23 @@ class BonusModifierGoThroughWall : public BonusModifierAbstract
 {
 public:
     BonusModifierGoThroughWall();
-    virtual bool Attach(NoeudAbstrait* pNode);
+
+    /// Attach a modifier on a node, receiving the puck as entry point,
+    /// but from it, the modifier can apply itself on anything in the map
+    ///
+    /// returns true if the modifier is attached on a node
+    /// returns false otherwise
+    /// note, returning false doesn't mean the bonus was not applied or refreshed
+    virtual bool Attach(NoeudRondelle* pPuck);
+
+    /// Applies the real effect on the node
+    /// returns false if the bonus finished the execution (no time to live)
+    /// in case it returns false, complete its execution
     virtual bool Apply();
+
+    /// Reverts the effect on the node,
+    /// return unsed for now
     virtual bool Revert();
-    virtual void Tick(float temps);
 private:
-    float mTimeToLive;
     std::vector<class b2Fixture*> mFixtures;
 };

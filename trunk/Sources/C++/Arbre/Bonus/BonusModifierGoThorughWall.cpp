@@ -8,10 +8,10 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "BonusModifierGoThorughWall.h"
-#include "NoeudAbstrait.h"
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
+#include "NoeudAbstrait.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -23,58 +23,39 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-BonusModifierGoThroughWall::BonusModifierGoThroughWall():
-    mTimeToLive(10.f)
+BonusModifierGoThroughWall::BonusModifierGoThroughWall()
 {
-
+    mTimeToLive = 10.f;
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool BonusModifierGoThroughWall::Attach( NoeudAbstrait* pNode )
+/// @fn bool BonusModifierGoThroughWall::Attach( NoeudAbstrait* pPuck )
 ///
-/// /*Description*/
+/// Attach a modifier on a node, receiving the puck as entry point,
+/// but from it, the modifier can apply itself on anything in the map
 ///
-/// @param[in] NoeudAbstrait * pNode
+/// returns true if the modifier is attached on a node
+/// returns false otherwise
+/// note, returning false doesn't mean the bonus was not applied or refreshed
+///
+/// @param[in] NoeudAbstrait * pPuck
 ///
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool BonusModifierGoThroughWall::Attach( NoeudAbstrait* pNode )
+bool BonusModifierGoThroughWall::Attach( NoeudRondelle* pPuck )
 {
-    mOwner = pNode;
-    if(mOwner)
-    {
-        auto existingModifiers = mOwner->GetModifiers();
-        // recherche pour un bonus déjà présent
-        for(auto it = existingModifiers.begin(); it != existingModifiers.end(); ++it)
-        {
-            BonusModifierGoThroughWall* modifier = dynamic_cast<BonusModifierGoThroughWall*>(*it);
-            if(modifier)
-            {
-                // resets time to live on the modifier
-                modifier->mTimeToLive = mTimeToLive;
-                /// return false to indicate that the bonus was not added to the node, even though the 
-                /// bonus itself was applied.
-                return false;
-            }
-        }
-
-        /// if the bonus isn't already present
-        if(mOwner->AddModifier(this))
-        {
-            /// apply the modification on the owner
-            return Apply();
-        }
-    }
-    return false;
+    return AttachToLastHittingMallet(pPuck);
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn bool BonusModifierGoThroughWall::Apply()
 ///
-/// /*Description*/
+/// Applies the real effect on the node
+/// returns false if the bonus finished the execution (no time to live)
+/// in case it returns false, complete its execution
 ///
 ///
 /// @return bool
@@ -84,7 +65,22 @@ bool BonusModifierGoThroughWall::Apply()
 {
     if(mOwner)
     {
-#if BOX2D_INTEGRATED  
+        auto existingModifiers = mOwner->GetModifiers();
+        // recherche pour un bonus déjà présent
+        for(auto it = existingModifiers.begin(); it != existingModifiers.end(); ++it)
+        {
+            BonusModifierGoThroughWall* modifier = dynamic_cast<BonusModifierGoThroughWall*>(*it);
+            if(modifier && modifier != this)
+            {
+                // resets time to live on the modifier
+                modifier->mTimeToLive = mTimeToLive;
+                /// return false to indicate that the bonus was not added to the node, even though the 
+                /// bonus itself was applied.
+                return false;
+            }
+        }
+#if BOX2D_INTEGRATED 
+
         auto body = mOwner->getPhysicBody();
         if(body)
         {
@@ -111,7 +107,8 @@ bool BonusModifierGoThroughWall::Apply()
 ///
 /// @fn bool BonusModifierGoThroughWall::Revert()
 ///
-/// /*Description*/
+/// Reverts the effect on the node,
+/// return unsed for now
 ///
 ///
 /// @return bool
@@ -130,25 +127,4 @@ bool BonusModifierGoThroughWall::Revert()
     }
 #endif
     return true;
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void BonusModifierGoThroughWall::Tick( float temps )
-///
-/// /*Description*/
-///
-/// @param[in] float temps
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void BonusModifierGoThroughWall::Tick( float temps )
-{
-    mTimeToLive -= temps;
-    if(mTimeToLive < 0)
-    {
-        Revert();
-        Complete();
-    }
 }

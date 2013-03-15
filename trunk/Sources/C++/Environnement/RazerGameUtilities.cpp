@@ -366,8 +366,8 @@ bool mUpdating = false, mRendering=false;
    const std::string RazerGameUtilities::NOM_GROUPE = "Groupe";
 
    const std::string RazerGameUtilities::NAME_POLYGONE = "polygone";
+   const std::string RazerGameUtilities::NAME_EMPTY_BONUS = "EmptyBonus";
    const std::string RazerGameUtilities::NAME_BONUS = "bonus";
-   const std::string RazerGameUtilities::NAME_BONUS_GO_THROUGH_WALL = "bonus_gtw";
 
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -352,7 +352,8 @@ void GestionnaireModeles::initialiser()
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,"point",RazerGameUtilities::CreateListDelegateTableControlPoint));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_CONTROL_POINT,"",RazerGameUtilities::CreateListDelegateControlPoint));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_ZAMBONI,"zamboni",RazerGameUtilities::CreateListDelegateZamboni));
-    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_BONUS,"EmptyBonus",RazerGameUtilities::CreateListDelegateEmptyBonus));
+    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_EMPTY_BONUS,"EmptyBonus",RazerGameUtilities::CreateListDelegateEmptyBonus));
+    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_BONUS,"",RazerGameUtilities::CreateListDelegateBonus));
     tamponGlobal.vec.push_back(ModelToLoad("pause"));
     tamponGlobal.vec.push_back(ModelToLoad("1"));
     tamponGlobal.vec.push_back(ModelToLoad("2"));

@@ -542,7 +542,10 @@
     <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeSimulation.cpp">
       <Filter>Sources Files\Interface\GestionEtat</Filter>
     </ClCompile>
-    <ClCompile Include="Arbre\Bonus\BonusStratGoThroughWall.cpp">
+    <ClCompile Include="Arbre\Usines\BonusModifierFactory.cpp">
+      <Filter>Sources Files\Arbre\Bonus</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbre\Bonus\BonusModifierAbstract.cpp">
       <Filter>Sources Files\Arbre\Bonus</Filter>
     </ClCompile>
   </ItemGroup>
@@ -997,9 +1000,6 @@
     <ClInclude Include="Arbre\Bonus\BonusModifierGoThorughWall.h">
       <Filter>Sources Files\Arbre\Bonus</Filter>
     </ClInclude>
-    <ClInclude Include="Arbre\Bonus\BonusStratAbstract.h">
-      <Filter>Sources Files\Arbre\Bonus</Filter>
-    </ClInclude>
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerAuthentificationServeurJeu.h">
       <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
     </ClInclude>
@@ -1042,7 +1042,7 @@
     <ClInclude Include="Interface\GestionEtat\GestionnaireEtatModeSimulation.h">
       <Filter>Sources Files\Interface\GestionEtat</Filter>
     </ClInclude>
-    <ClInclude Include="Arbre\Bonus\BonusStratGoThroughWall.h">
+    <ClInclude Include="Arbre\Usines\BonusModifierFactory.h">
       <Filter>Sources Files\Arbre\Bonus</Filter>
     </ClInclude>
   </ItemGroup>

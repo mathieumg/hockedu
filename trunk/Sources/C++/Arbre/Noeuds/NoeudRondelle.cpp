@@ -725,6 +725,21 @@ Vecteur3 NoeudRondelle::obtenirVelocite() const
 #endif
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn const std::string& NoeudRondelle::get3DModelKey()
+///
+/// /*Description*/
+///
+///
+/// @return const std::string&
+///
+////////////////////////////////////////////////////////////////////////
+const std::string& NoeudRondelle::get3DModelKey() const
+{
+    return Super::get3DModelKey();
+}
+
 
 
 

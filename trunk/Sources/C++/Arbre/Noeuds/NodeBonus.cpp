@@ -16,7 +16,8 @@
 #include "VisiteurNoeud.h"
 #include "BonusStratAbstract.h"
 
-const Vecteur3 DEFAULT_SIZE = Vecteur3(15, 15, 3);
+const Vecteur3 DEFAULT_SIZE = Vecteur3(15, 15, 1);
+const float DEFAULT_RADIUS = 10;
 
 #if WIN32
 #include "Modele3D.h"
@@ -31,7 +32,62 @@ CreateListDelegateImplementation(EmptyBonus)
     pModel->assignerFacteurAgrandissement(delta);
     return GestionnaireModeles::CreerListe(pModel);
 }
+
+CreateListDelegateImplementation(Bonus)
+{
+    const float height = 15;
+    GLuint liste = glGenLists(1);
+
+
+    glNewList(liste, GL_COMPILE);
+
+    glRotatef(45,1,0,0);
+    glRotatef(35,0,1,0);
+    glScalef(DEFAULT_RADIUS,DEFAULT_RADIUS,DEFAULT_RADIUS);
+    glBegin(GL_QUADS);
+
+    GLfloat vertex[3];
+    GLfloat alternance[2][4][2] =
+    {{
+        {0,0},
+        {0,1},
+        {1,1},
+        {1,0},
+    },
+    {
+        {0,0},
+        {1,0},
+        {1,1},
+        {0,1},
+    }};
+    for(int axe=0; axe<3; ++axe)
+    {
+        for(int fixedValue=0; fixedValue<2; ++fixedValue)
+        {
+            vertex[axe] = fixedValue-0.5f;
+            for(int it=0; it<4; ++it)
+            {
+                for(int pos=1; pos<3; ++pos)
+                {
+                    vertex[(axe+pos)%3] = alternance[fixedValue][it][pos-1]-0.5f;
+                }
+                glColor3f(vertex[0],vertex[1],vertex[2]);
+                glVertex3f(vertex[0],vertex[1],vertex[2]);
+            }
+        }
+    }
+    glEnd();
+
+
+    glEndList();
+    return liste;
+
+    return RazerGameUtilities::CreateListSphereDefault(pModel,DEFAULT_RADIUS);
+}
 #endif
+#include "BonusModifierAbstract.h"
+#include "BonusModifierFactory.h"
+#include "FacadeModele.h"
 #include "BonusStratGoThroughWall.h"
 
 ////////////////////////////////////////////////////////////////////////
@@ -47,7 +103,7 @@ CreateListDelegateImplementation(EmptyBonus)
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeBonus::NodeBonus(const std::string& typeNoeud)
-   : Super(typeNoeud),mMinTimeSpawn(10.5f), mMaxTimeSpawn(30.f),mStrat(NULL)
+   : Super(typeNoeud),mMinTimeSpawn(10.5f), mMaxTimeSpawn(30.f),mHeightAngle(0)
 {
     // temp workaround, l'édition va le considérer comme un cercle pour un moment
     setDefaultRadius(DEFAULT_SIZE[VX]);
@@ -70,7 +126,6 @@ NodeBonus::NodeBonus(const std::string& typeNoeud)
 NodeBonus::~NodeBonus()
 {
 }
-
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void NodeBonus::renderReal(  )
@@ -83,11 +138,61 @@ NodeBonus::~NodeBonus()
 ////////////////////////////////////////////////////////////////////////
 void NodeBonus::renderReal() const
 {
+#if WIN32
+    glDisable(GL_LIGHTING);
+    FacadeModele::getInstance()->DeActivateShaders();
 	// Appel à la version de la classe de base pour l'affichage des enfants.
-	Super::renderReal();
+
+    // static to make all bonus hover at the same height
+    const float zTranslated = DEFAULT_RADIUS*1.2f+sin(mHeightAngle)*3.f;
+    glPushMatrix();
+    glTranslatef( 0,0,zTranslated);
+#endif
+
+    Super::renderReal();
+#if WIN32
+    glPopMatrix();
+    glEnable(GL_LIGHTING);
+    FacadeModele::getInstance()->ActivateShaders();
+
+    GLuint liste;	
+    GestionnaireModeles::obtenirInstance()->obtenirListe(RazerGameUtilities::NAME_EMPTY_BONUS,liste);
+    // Si aucune liste n'est trouvé, on sort de la fonction.
+    if(liste==NULL)
+        return;
+
+    glPushMatrix();
+    glPushAttrib( GL_ALL_ATTRIB_BITS );
+
+    // permet de s'assurer de bien le positionner si le bonus n'est pas affiché
+    glTranslatef(mPosition[0], mPosition[1], mPosition[2]-DEFAULT_SIZE[VZ]);
+    glCallList(liste);
+
+    glPopAttrib();
+    glPopMatrix();
+#endif
 }
 
-
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NodeBonus::tick( const float& dt )
+///
+/// Anime le noeud.
+///
+/// @param[in] const float & dt
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NodeBonus::tick( const float& dt )
+{
+    if(isVisible())
+    {
+        mAngle = (float)((int)(mAngle+dt*500.0f)%360);
+        mHeightAngle += dt*3;
+        updateMatrice();
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -103,26 +208,16 @@ void NodeBonus::renderReal() const
 void NodeBonus::playTick( float temps)
 {
     Super::playTick(temps);
-    if(mStrat)
+    if(!isActive())
     {
-        mStrat->Tick(temps);
-    }
-    else
-    {
-        auto terrain = getField();
-        if(terrain && terrain->IsGameField())
+        // game tick
+        mSpawnTimeLeft -= temps;
+        if(mSpawnTimeLeft < 0)
         {
-            // game tick
-            mSpawnTimeLeft -= temps;
-            if(mSpawnTimeLeft < 0)
-            {
-                ResetTimeLeft();
-                mStrat = new BonusStratGoThroughWall();
-                setVisible(true);
-                // activate collision on strat creation
-                activate(true);
-            }
-
+            ResetTimeLeft();
+            setVisible(true);
+            // activate collision on strat creation
+            activate(true);
         }
     }
 }
@@ -131,7 +226,7 @@ void NodeBonus::playTick( float temps)
 ///
 /// @fn void NodeBonus::ExecuteBonus( class NoeudRondelle* )
 ///
-/// /*Description*/
+/// Creates and apply a bonus from the puck
 ///
 /// @param[in] class NoeudRondelle *
 ///
@@ -140,15 +235,24 @@ void NodeBonus::playTick( float temps)
 ////////////////////////////////////////////////////////////////////////
 void NodeBonus::ExecuteBonus( class NoeudRondelle* rondelle )
 {
-    if(mStrat)
+    if(isActive())
     {
-        // execute the strategie
-        mStrat->Execute(rondelle);
-
-        // then remove it since it can only be used once
-        delete mStrat;
-        mStrat = NULL;
+        int b = rand()%NB_BONUS_TYPE;
+        auto factory = FactoryBonusModifier::getFactory(BonusType(b));
+        auto bonus = factory->createBonus();
+        if(!bonus->Attach(rondelle))
+        {
+            // the modifier couldn't attach itself on the node so we delete it
+            delete bonus;
+        }
+        else if(!bonus->Apply())
+        {
+            /// the bonus doesn't need more time to execute
+            // so we finish it now
+            bonus->Complete();
+        }
     }
+    // deactivate the bonus, the timer will resume
     setVisible(false);
     activate(false);
 }
@@ -165,18 +269,8 @@ void NodeBonus::ExecuteBonus( class NoeudRondelle* rondelle )
 ////////////////////////////////////////////////////////////////////////
 const std::string& NodeBonus::get3DModelKey() const
 {
-    if(mStrat)
-    {
-        return mStrat->get3DModelKey();
-    }
     return RazerGameUtilities::NAME_BONUS;
 }
-
-const std::string& BonusStratAbstract::get3DModelKey()
-{
-    return RazerGameUtilities::NAME_BONUS;
-}
-
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -193,11 +287,11 @@ void NodeBonus::forceFullUpdate()
     Super::forceFullUpdate();
     if(IsInGame())
     {
-        setVisible(!!mStrat);
+        setVisible(false);
 #if BOX2D_INTEGRATED
         if(mPhysicBody)
         {
-            mPhysicBody->SetActive(!!mStrat);
+            mPhysicBody->SetActive(false);
         }
 #endif
     }
@@ -278,8 +372,9 @@ void NodeBonus::ResetTimeLeft()
     int max = (int)(mMaxTimeSpawn*100.f);
 
     mSpawnTimeLeft = (rand()%(max-min)+min)/100.f;
-
 }
+
+
 
 
 

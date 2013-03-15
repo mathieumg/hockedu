@@ -89,6 +89,8 @@ public:
     virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
     //////////////////////////////////////////////////////////////////////////
 
+    virtual const std::string& get3DModelKey() const;
+
     static const float DEFAULT_RADIUS;
 private:
     /// Velocite courante de la rondelle

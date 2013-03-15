@@ -83,6 +83,7 @@
 #include "..\Reseau\GestionnaireReseau.h"
 #include "ExceptionJeu.h"
 #include "GameManager.h"
+#include "BonusModifierFactory.h"
 
 /// Pointeur vers l'instance unique de la classe.
 FacadeModele* FacadeModele::instance_ = 0;
@@ -211,6 +212,7 @@ void FacadeModele::libererInstance()
     // On libère les instances des différentes configurations.
     SoundFMOD::libererInstance();
     ConfigScene::libererInstance();
+    FactoryBonusModifier::ClearFactories();
     instance_->libererMemoire();
     delete instance_;
     instance_ = 0;

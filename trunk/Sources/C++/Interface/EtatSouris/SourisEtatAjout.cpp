@@ -192,7 +192,7 @@ NomEtatSouris SourisEtatAjout::obtenirNomEtatSouris()
         return ETAT_SOURIS_AJOUTER_RONDELLE;
     if(nom_ == RazerGameUtilities::NOM_MURET)
         return ETAT_SOURIS_AJOUTER_MURET;
-    if(nom_ == RazerGameUtilities::NAME_BONUS)
+    if(nom_ == RazerGameUtilities::NAME_EMPTY_BONUS)
         return ETAT_SOURIS_AJOUTER_BONUS;
     return ETAT_SOURIS_INCONNU;
 }

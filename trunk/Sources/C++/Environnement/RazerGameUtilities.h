@@ -117,9 +117,10 @@ public:
     CreateListDelegateSignature(Zamboni);
 
     /// La chaîne représentant le type des bonus.
+    static const std::string NAME_EMPTY_BONUS;
     static const std::string NAME_BONUS;
-    static const std::string NAME_BONUS_GO_THROUGH_WALL;
     CreateListDelegateSignature(EmptyBonus);
+    CreateListDelegateSignature(Bonus);
 
 
 };

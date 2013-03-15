@@ -59,6 +59,7 @@ enum NodeFlags
     NODEFLAGS_RECORDABLE,
     NODEFLAGS_HIGHTLIGHT,
     NODEFLAGS_IS_IN_GAME,
+    NODEFLAGS_ACTIVE,
     NB_NODEFLAGS
 };
 
@@ -332,6 +333,8 @@ public:
 	virtual void cyclePolygonMode( bool estForce );
 	/// Assigne le mode d'affichage des polygones.
 	virtual void setPolygonMode( GLenum modePolygones );
+
+    inline bool isActive()const{return mFlags.IsFlagSet(NODEFLAGS_ACTIVE);}
 };
 
 ////////////////////////////////////////////////////////////////////////

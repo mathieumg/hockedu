@@ -1116,6 +1116,7 @@ void NoeudAbstrait::setSelection( bool selectionne )
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::activate( bool activate )
 {
+    mFlags.SetFlag(activate,NODEFLAGS_ACTIVE);
 #if BOX2D_INTEGRATED  
     if(mPhysicBody)
     {
@@ -1137,11 +1138,9 @@ void NoeudAbstrait::activate( bool activate )
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::playTick( float temps )
 {
-    // recherche pour un bonus déjà présent
-    for(auto it = mModifiers.begin(); it != mModifiers.end(); ++it)
-    {
-        (*it)->Tick(temps);
-    }
+    // Some modifier might not need any tick so we clean
+    // finished modifier first
+    // ie. instant action or refreshing bonuses
 
     // remove all modifiers that have completed their jobs
     // Clean way to remove items in a set while iterating
@@ -1156,6 +1155,12 @@ void NoeudAbstrait::playTick( float temps )
         {
             ++it;
         }
+    }
+
+    // Tick all the modifiers present on the node
+    for(auto it = mModifiers.begin(); it != mModifiers.end(); ++it)
+    {
+        (*it)->Tick(temps);
     }
 
 }

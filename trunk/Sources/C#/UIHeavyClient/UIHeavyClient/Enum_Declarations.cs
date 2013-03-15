@@ -88,5 +88,16 @@ namespace UIHeavyClient
     };
 
 #if !WIN32 && !LINUX
+    public
+#endif
+    enum BonusType
+    {
+        BONUS_TYPE_GO_THROUGH_WALL,
+
+        NB_BONUS_TYPE
+    };
+
+
+#if !WIN32 && !LINUX
 }
 #endif

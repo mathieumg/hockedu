@@ -11,7 +11,7 @@
 
 
 #include "NoeudComposite.h"
-
+class FactoryBonusModifier;
 ///////////////////////////////////////////////////////////////////////////
 /// @class NodeBonus
 /// @brief Classe qui représente un bonus aléatoire permettant d'affecter la partie
@@ -36,18 +36,21 @@ public:
     virtual void forceFullUpdate();
     /// node tick received when actually playing the game (simulation running)
     virtual void playTick(float temps);
+    /// Anime le noeud.
+    virtual void tick( const float& dt );
+
+    /// Creates and apply a bonus from the puck
     void ExecuteBonus(class NoeudRondelle*);
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody();
     virtual void renderOpenGLES() const;
     void ResetTimeLeft();
-
 private:
-    class BonusStratAbstract* mStrat;
     float mSpawnTimeLeft;// in sec
     float mMinTimeSpawn;
     float mMaxTimeSpawn;
 
+    float mHeightAngle;
 };
 
 
