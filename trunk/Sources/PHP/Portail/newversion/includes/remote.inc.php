@@ -42,13 +42,13 @@ if( !$commonRemoteModule )
     if( $Website->isLoggedIn() )
     {    
         /*
-		$ajaxPath = $Website->getCurrentSubsiteAjaxPath();
+        $ajaxPath = $Website->getCurrentSubsiteAjaxPath();
         
         if( file_exists( $ajaxPath ) )
         {
             require_once( $ajaxPath );
         }
-		*/
+        */
     }
     // Requests that do not require the user to be logged in.
     else
@@ -78,11 +78,19 @@ if( !$commonRemoteModule )
                     else
                     {
                         
-						$authenticationData = $Common->getCurrentAuthenticationData();
+                        $authenticationData = $Common->getCurrentAuthenticationData();
                         
                         $jsonResponse['auth_key'] = $authenticationData['key'];
                         $jsonResponse['auth_key_expiration'] = (int)$authenticationData['expiration'];
                     }
+                }
+                
+                break;
+                
+            case 'listmaps':
+                if( empty( $_POST['auth_key'] ) )
+                {
+                    $jsonResponse['error'] = 'AuthKeyMissing';
                 }
         }
     }
