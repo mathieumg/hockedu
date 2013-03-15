@@ -9,6 +9,7 @@
 #include "JoueurAbstrait.h"
 #include "NoeudMaillet.h"
 #include <iostream>
+#include <intrin.h>
 
 #ifdef LINUX
 #define _LARGE_TIME_API
@@ -29,9 +30,12 @@ int PaquetRunnable::RunnableMailletClient( Paquet* pPaquet )
     {
         Vecteur3 wPos = wPaquet->getPosition();
         wPos[VX] *= -1;
-        // Mettre la position du maillet
-        wGame->obtenirJoueurDroit()->getControlingMallet()->setPosition(wPos);
-        std::cout << "PositionMaillet" << wPos << std::endl;
+        if(abs(wPos[VX]) > 0.01)
+        {
+            // Mettre la position du maillet
+            wGame->obtenirJoueurDroit()->getControlingMallet()->assignerPosSouris(wPos);
+        }
+        
 
     }
 

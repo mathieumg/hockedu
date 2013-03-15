@@ -254,8 +254,10 @@ void GestionnaireEtatModeJeu::sourisDeplacee( EvenementSouris& evenementSouris )
             checkf(mailletGauche && mailletDroit);
             if(mailletGauche && mailletDroit)
             {
-                mailletGauche->assignerPosSouris(coordonneesSouris);
-                mailletDroit->assignerPosSouris(coordonneesSouris);	
+                if(mailletGauche->estControleParNetwork())
+                    mailletGauche->assignerPosSouris(coordonneesSouris);
+                if(!mailletDroit->estControleParNetwork())
+                    mailletDroit->assignerPosSouris(coordonneesSouris);
             }
         }
 	}

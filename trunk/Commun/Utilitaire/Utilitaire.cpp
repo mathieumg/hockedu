@@ -464,7 +464,9 @@ namespace utilitaire {
 ////////////////////////////////////////////////////////////////////////
 void appDebugBreak()
 {
+#ifndef __APPLE__
     __debugbreak();
+#endif
 }
 
 

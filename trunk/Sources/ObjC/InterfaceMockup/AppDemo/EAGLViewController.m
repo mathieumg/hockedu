@@ -191,7 +191,7 @@ enum {
 {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrthof( ( -( LARGEUR_FENETRE / 2) + translationX ) * zoomFactor, ( (LARGEUR_FENETRE / 2) + translationX) * zoomFactor, ( -(HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor, ( (HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor, 0, 100);
+    glOrthof( ( -( LARGEUR_FENETRE / 2) + translationX ) * zoomFactor, ( (LARGEUR_FENETRE / 2) + translationX) * zoomFactor, ( -(HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor, ( (HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor, -5, 100);
     
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -312,7 +312,7 @@ enum {
     
 	CGRect rect = theEAGLView.bounds;
     
-    glOrthof( ( -( LARGEUR_FENETRE / 2) + translationX ) * zoomFactor, ( (LARGEUR_FENETRE / 2) + translationX) * zoomFactor, ( -(HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor, ( (HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor, 0, 100);
+    [self updateOrtho];
 
     
 	glViewport(0, 0, rect.size.width, rect.size.height);

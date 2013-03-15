@@ -15,6 +15,7 @@
 #include "NoeudAffichage.h"
 #include "GameTime.h"
 #include "ExceptionJeu.h"
+#include "PartieSyncer.h"
 
 
 class NoeudMaillet;
@@ -92,6 +93,8 @@ public:
 
 	inline void setUpdateCallback(GameUpdateCallback pCallback) {mUpdateCallback = pCallback;}
 
+    inline void sendNetworkInfos() {mPartieSyncer.tick();}
+
 /// Methode Privee
 private:
 
@@ -144,6 +147,8 @@ private:
 
     GameStatus mGameStatus;
     GameStatus mLastGameStatus;
+
+    PartieSyncer mPartieSyncer;
     
 /// Accesseurs
 public:
@@ -193,6 +198,8 @@ public:
 	inline const int getUniqueGameId() {return mUniqueGameId_;}
 
     inline GameStatus getGameStatus() const { return mGameStatus; }
+
+    
 };
 
 ///////////////////////////////////////////////////////////////////////////////

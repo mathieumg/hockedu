@@ -309,9 +309,20 @@ void NodeWallAbstract::renderOpenGLES() const
     auto c1 = obtenirCoin1(), c2 = obtenirCoin2();
     c1 -= mPosition;
     c2 -= mPosition;
-    GLfloat vertices[4] = {c1[VX],c1[VY],c2[VX],c2[VY]};
+    
+    // Find the 4 corners of the wall and draw a triangle fan with it
+    float deltaX = c2[VX] - c1[VX];
+    float deltaY = c2[VY] - c1[VY];
+    Vecteur2 vecteurDir = Vecteur2(deltaX,deltaY);
+    vecteurDir.normaliser();
+    float distFromMiddlePoint = mScale[VY] * DEFAULT_SIZE[VY]/2;
+    Vecteur2 cornerUpLeft = Vecteur2(c1[VX],c1[VY]) + (distFromMiddlePoint * vecteurDir.tournerMoinsPiSur2());
+    Vecteur2 cornerBotLeft = Vecteur2(c1[VX],c1[VY]) + (distFromMiddlePoint * vecteurDir.tournerPiSur2());
+    Vecteur2 cornerUpRight = Vecteur2(c2[VX],c2[VY]) + (distFromMiddlePoint * vecteurDir.tournerPiSur2());
+    Vecteur2 cornerBotRight = Vecteur2(c2[VX],c2[VY]) + (distFromMiddlePoint * vecteurDir.tournerMoinsPiSur2());
+    GLfloat vertices[8] = {cornerUpLeft[VX],cornerUpLeft[VY],cornerBotLeft[VX],cornerBotLeft[VY],cornerUpRight[VX],cornerUpRight[VY],cornerBotRight[VX],cornerBotRight[VY]};
     glVertexPointer (2, GL_FLOAT , 0, vertices); 
-    glDrawArrays (GL_LINES, 0, 2);
+    glDrawArrays (GL_TRIANGLE_FAN, 0, 4);
 
     glLineWidth(lineWidth);
 }

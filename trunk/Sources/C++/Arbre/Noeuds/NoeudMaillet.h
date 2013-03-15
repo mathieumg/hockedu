@@ -47,6 +47,7 @@ public:
         return !!n2 && 
             estControleParClavier_ == n2->estControleParClavier_ && 
             estControleParOrdinateur_ == n2->estControleParOrdinateur_ && 
+            estControleParNetwork_ == n2->estControleParNetwork_ && 
             estAGauche_ == n2->estAGauche_ && 
             Super::equals(n);
     }
@@ -71,13 +72,15 @@ public:
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody();
     /// Builds the mouse joint when starting to play
-    void buildMouseJoint();
+    void buildMouseJoint(bool pIsNetworkControlled = false);
     /// Free memory of the mouse joint when game is done
     void destroyMouseJoint();
     /// updates mouse joint when receiving a mousemove event
     virtual void updateObserver( const  class MouseMoveSubject* pSubject );
     /// node tick received when actually playing the game (simulation running)
     virtual void playTick(float temps);
+
+    inline bool estControleParNetwork() const { return estControleParNetwork_; }
 
     //////////////////////////////////////////////////////////////////////////
     /// Objet Animable interface
@@ -96,6 +99,8 @@ private:
 	/// Flag pour savoir qui a le controle de ce maillet
 	bool estControleParClavier_;
 	bool estControleParOrdinateur_;
+    bool estControleParNetwork_;
+    
 
 	/// Conservation en memoire de la position de la osuris
 	Vecteur3 posSouris_;
@@ -163,8 +168,9 @@ public:
 	JoueurVirtuel* obtenirJoueur() const { return joueur_; }
 	/// Modificateur de joueur_
 	void setAIPlayer(JoueurVirtuel* val) { joueur_ = val; }
-
-
+    /// Obtenir pos souris
+    inline Vecteur3 getPosSouris() {return posSouris_;}
+    inline void setIsNetworkPlayer(const bool pIsNetworkPlayer) {estControleParNetwork_ = pIsNetworkPlayer;}
 
 };
 

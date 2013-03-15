@@ -189,7 +189,6 @@
   <ItemGroup>
     <None Include="..\..\Content\Exe\nuanceurFragments.glsl" />
     <None Include="..\..\Content\Exe\nuanceurSommets.glsl" />
-    <None Include="..\..\Sources\C#\UIHeavyClient\UIHeavyClient\Enum_Declarations.cs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

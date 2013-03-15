@@ -76,7 +76,7 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
                 message << i;
                 wReplyPacket->setMessage(message.str());
 #if !SHIPPING
-                std::cout << "Replying to server id " << i << std::endl;
+                std::cout << "Replying to server id " << i << ". The server's IP is: " << mGameServersList[i] << std::endl;
 #endif
                 GestionnaireReseau::obtenirInstance()->envoyerPaquet(wAssociatedSocket, wReplyPacket);
             }

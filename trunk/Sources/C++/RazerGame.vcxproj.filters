@@ -494,6 +494,15 @@
     <ClCompile Include="Reseau\PaquetRunnableClientLourd.cpp">
       <Filter>Sources Files\Reseau</Filter>
     </ClCompile>
+    <ClCompile Include="Jeu\JoueurNetwork.cpp">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClCompile>
+    <ClCompile Include="Jeu\PartieSyncer.cpp">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClCompile>
+    <ClCompile Include="Reseau\Paquets\PaquetGameCreation.cpp">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClCompile>
     <ClCompile Include="Arbre\Noeuds\NodeModelRender.cpp">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClCompile>
@@ -1044,6 +1053,18 @@
     </ClInclude>
     <ClInclude Include="Arbre\Usines\BonusModifierFactory.h">
       <Filter>Sources Files\Arbre\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="Jeu\JoueurNetwork.h">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClInclude>
+    <ClInclude Include="Jeu\PartieSyncer.h">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\Paquets\PaquetGameCreation.h">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameCreation.h">
+      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

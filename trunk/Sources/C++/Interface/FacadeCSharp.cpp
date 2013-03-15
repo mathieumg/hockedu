@@ -67,9 +67,6 @@ void InitDLL()
     wGestionnaireReseau->ajouterOperationReseau(CHAT_MESSAGE, new PacketHandlerChatMessage, new UsinePaquetChatMessage);
     wGestionnaireReseau->ajouterOperationReseau(USER_STATUS, new PacketHandlerUserStatus, new UsinePaquetUserStatus);
     wGestionnaireReseau->ajouterOperationReseau(MAILLET, new PacketHandlerMaillet, new UsinePaquetMaillet);
-
-    std::cout << "testing\n";
-    std::cerr << "testing23\n";
 }
 
 
@@ -431,12 +428,16 @@ void SetSecondPlayer(bool pIsHuman, char* pName)
 
     if(pIsHuman)
     {
-        player = SPJoueurHumain();
+        player = SPJoueurHumain(new JoueurHumain);
+
+        // Test seulement
+        //player = SPJoueurNetwork(new JoueurNetwork);
     }
     else
     {
         player = FacadeModele::getInstance()->obtenirJoueur(std::string(pName));
     }
+
 
     GameManager::obtenirInstance()->setAdversaire(player);
 }

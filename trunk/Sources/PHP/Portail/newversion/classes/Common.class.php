@@ -277,15 +277,15 @@ class Common
             if( $isRemote )
             {
                 // Manage remote client authentication data.
-				$this->currentAuthenticationData = $this->getValidAuthenticationData( $userInformation['id'] );				
-				
-				if( $this->currentAuthenticationData === false )
-				{
-					// No valid authentication data was found, create it.
-					$this->createAuthenticationData( $userInformation['id'] );
-					
-					$this->currentAuthenticationData = $this->getValidAuthenticationData( $userInformation['id'] );
-				}
+                $this->currentAuthenticationData = $this->getValidAuthenticationData( $userInformation['id'] );                
+                
+                while( $this->currentAuthenticationData === false )
+                {
+                    // No valid authentication data was found, create it.
+                    $this->createAuthenticationData( $userInformation['id'] );
+                    
+                    $this->currentAuthenticationData = $this->getValidAuthenticationData( $userInformation['id'] );
+                }
             }
             else
             {
@@ -309,50 +309,50 @@ class Common
             return false;
         }
     }
-	
-	public function getCurrentAuthenticationData()
-	{
-		return $this->currentAuthenticationData;
-	}
-	
-	public function getValidAuthenticationData( $userId )
-	{
-		$sql = 'SELECT %s, %s
-				FROM %s 
-				WHERE %s=%d AND %s>=%d
-				ORDER BY %s DESC';
-		$sql = sprintf( $sql,
-						$this->db->quoteIdentifier( 'key' ),
-						$this->db->quoteIdentifier( 'expiration' ),
-						
-						$this->db->quoteIdentifier( 'remote_authentication'),
-						
-						$this->db->quoteIdentifier( 'id_user' ),
-						$this->db->quote( $userId, 'integer' ),
-						
-						$this->db->quoteIdentifier( 'expiration' ),
-						$this->db->quote( time(), 'integer' ),
-						
-						$this->db->quoteIdentifier( 'creation' )
-					   );
-		$this->db->setLimit( 1 );
-		$userInformation = $this->db->queryRow( $sql );
-		
-		if( !empty( $userInformation ) )
-		{
-			return $userInformation;
-		}
-		
-		return false;
-	}
-	
-	public function createAuthenticationData( $userId )
-	{
-		// Ticket creation time.
-		$creation = time();
-		$expiration = $creation + 3600;
-		
-		$sql = 'INSERT INTO %s
+    
+    public function getCurrentAuthenticationData()
+    {
+        return $this->currentAuthenticationData;
+    }
+    
+    public function getValidAuthenticationData( $userId )
+    {
+        $sql = 'SELECT %s, %s
+                FROM %s 
+                WHERE %s=%d AND %s>=%d
+                ORDER BY %s DESC';
+        $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'key' ),
+                        $this->db->quoteIdentifier( 'expiration' ),
+                        
+                        $this->db->quoteIdentifier( 'remote_authentication'),
+                        
+                        $this->db->quoteIdentifier( 'id_user' ),
+                        $this->db->quote( $userId, 'integer' ),
+                        
+                        $this->db->quoteIdentifier( 'expiration' ),
+                        $this->db->quote( time(), 'integer' ),
+                        
+                        $this->db->quoteIdentifier( 'creation' )
+                       );
+        $this->db->setLimit( 1 );
+        $userInformation = $this->db->queryRow( $sql );
+        
+        if( !empty( $userInformation ) )
+        {
+            return $userInformation;
+        }
+        
+        return false;
+    }
+    
+    public function createAuthenticationData( $userId )
+    {
+        // Ticket creation time.
+        $creation = time();
+        $expiration = $creation + 3600;
+        
+        $sql = 'INSERT INTO %s
                 ( %s, %s, %s, %s )
                 VALUES( UUID(), %d, %d, %d )';
         $sql = sprintf( $sql,
@@ -369,7 +369,7 @@ class Common
                        );
         
         $this->db->query( $sql );
-	}
+    }
     
     public function logout()
     {

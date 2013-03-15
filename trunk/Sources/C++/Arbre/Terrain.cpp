@@ -1547,6 +1547,7 @@ void Terrain::NodeSelectionNotification( NoeudAbstrait* node, bool selected )
             // no more item selected
 
             FacadeModele::transmitEvent(THERE_ARE_NO_NODE_SELECTED);
+            
         }
         else
         {

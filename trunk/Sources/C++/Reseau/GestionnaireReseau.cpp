@@ -524,6 +524,11 @@ void GestionnaireReseau::transmitEvent( EventCodes pMessageCode, ... ) const
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireReseau::saveSocket( const std::string& pNomJoueur, SPSocket pSocket )
 {
+    if(pNomJoueur == mUsername)
+    {
+        return;
+    }
+
     FacadePortability::takeMutex(mMutexListeSockets);
     // On compte le nb de connexions qui ne sont pas des connexions de gestion (ex: serveurJeu-serveurMaitre est une connexion de gestion)
     int compte = 0;
@@ -541,6 +546,7 @@ void GestionnaireReseau::saveSocket( const std::string& pNomJoueur, SPSocket pSo
         FacadePortability::releaseMutex(mMutexListeSockets);
         throw ExceptionReseau("Trop de users connectes");
     }
+
 
 
 	// On ecrase le dernier socket qui etait associe a ce nom de joueur et a ce type de socket
