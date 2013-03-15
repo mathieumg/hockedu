@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
   dslVersion="1.0.0.0"
   Id="1f8f1e2b-1ceb-4f62-bb23-4d434c6036cb"
   name="Terrain" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
@@ -15,7 +15,7 @@
     </comment>
     <comment
       Id="27914859-fbc8-4477-aada-eeefdedd8ac7">
-      <body>StartBonus() creates the modifier and appends it to the targeted node</body>
+      <body>ExecuteBonus() creates the modifier with a factory and starts it from the puck</body>
     </comment>
   </ownedCommentsInternal>
   <suppliersInternal>
@@ -909,7 +909,7 @@
             isAbstract="false">
             <classMoniker
               Id="c4ac9b25-d2a2-4579-8f4c-01f25fd7eeb4"
-              LastKnownName="BonusStratAbstract"
+              LastKnownName="FactoryBonus"
               LastKnownLocation="Package_1357.uml" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
@@ -943,7 +943,7 @@
         <ownedAttributesInternal>
           <property
             Id="6a080093-0191-4f1f-933e-bee17ed5891a"
-            name="mStrat"
+            name="mSpawnTimeLeft"
             isLeaf="false"
             isStatic="false"
             isReadOnly="false"
@@ -954,8 +954,8 @@
             isComposite="false">
             <type_NamedElement>
               <undefinedTypeMoniker
-                Id="c755ceef-3a2c-42c2-988d-9bcea1fe6c23"
-                LastKnownName="BonusStratAbstract*"
+                Id="13735d54-6366-498a-b4e9-0c313560d6e3"
+                LastKnownName="float"
                 LastKnownLocation="Package_1357.uml" />
             </type_NamedElement>
           </property>
@@ -963,7 +963,7 @@
         <ownedOperationsInternal>
           <operation
             Id="98af072d-1f2c-4203-afdd-873c3abbf135"
-            name="StartBonus"
+            name="ExecuteBonus"
             isLeaf="false"
             isStatic="false"
             isAbstract="false"
@@ -985,10 +985,34 @@
               </operationHasOwnedParameters>
               <operationHasOwnedParameters>
                 <parameter
-                  Id="cac92524-0e1e-4e85-a043-a4e331e5969b"
+                  Id="76ecb83b-40b8-4064-a1e4-c4bc633eb64a"
                   name="NoeudRondelle*"
                   direction="In"
                   isUnique="false" />
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="47e864ef-faeb-48c3-9547-7df5504fdd02"
+            name="ResetTimeLeft"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="266ad3e6-6be1-4e41-bbaf-31889fb26a71"
+                  direction="Return"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="19bcc452-a8fe-4d45-872c-c19fd4ca064f"
+                      LastKnownName="void"
+                      LastKnownLocation="Package_1357.uml" />
+                  </type_NamedElement>
+                </parameter>
               </operationHasOwnedParameters>
             </ownedParameters>
           </operation>
@@ -1002,6 +1026,47 @@
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="7e6b6c7e-4066-46ba-bf40-a0d129a5801d"
+            isDerived="false"
+            sourceEndRoleName="BonusModifierAbstract"
+            targetEndRoleName="NoeudRondelle"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="58f1f987-0d8b-4790-8298-ecf60f07a006"
+              LastKnownName="NoeudRondelle"
+              LastKnownLocation="Package_1357.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="91a620d3-4fdd-4904-83b1-20b87474a2f3"
+                  name="BonusModifierAbstract"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="9b2e4e81-bf1a-4916-90d2-175badd90478"
+                  name="NoeudRondelle"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
         <ownedAttributesInternal>
           <property
             Id="7680d27d-d720-4ed4-a8f6-f08c97c8389d"
@@ -1041,6 +1106,18 @@
                 LastKnownLocation="Package_1357.uml" />
             </type_NamedElement>
           </property>
+          <property
+            Id="96656656-8f75-4b2b-b1ca-787df813f98f"
+            name="mTimeToLive"
+            visibility="Protected"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
         </ownedAttributesInternal>
         <ownedOperationsInternal>
           <operation
@@ -1070,83 +1147,28 @@
           </operation>
           <operation
             Id="74acece0-0067-41a4-8efa-437051d4e144"
-            name="Apply"
+            name="+ Apply() = 0: bool"
             isLeaf="false"
             isStatic="false"
             isAbstract="false"
             concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="a09e9248-a869-4430-a6eb-0cfc97833a27"
-                  direction="Return"
-                  isUnique="false">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="cc2c0eb0-8ea4-4f59-bf70-e2c1109bf014"
-                      LastKnownName="bool"
-                      LastKnownLocation="Package_1357.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
+            isQuery="false" />
           <operation
             Id="28f14dba-8832-460d-b821-ed2027fe7d9d"
-            name="Revert"
+            name="+ Revert() = 0: bool"
             isLeaf="false"
             isStatic="false"
             isAbstract="false"
             concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="b3216368-9992-41c3-b982-8c2bc7433233"
-                  direction="Return"
-                  isUnique="false">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="cc2c0eb0-8ea4-4f59-bf70-e2c1109bf014"
-                      LastKnownName="bool"
-                      LastKnownLocation="Package_1357.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
+            isQuery="false" />
           <operation
             Id="832061bd-7791-4e40-8464-42ec56204ad6"
-            name="Attach"
+            name="+ Attach(NoeudRondelle*) = 0: bool"
             isLeaf="false"
             isStatic="false"
             isAbstract="false"
             concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="e32aa847-4e3c-4f6e-ae2f-c8d693b57e24"
-                  name="NoeudAbstrait*"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="001fea8c-4adb-4f71-833e-e87c9aeef968"
-                  direction="Return"
-                  isUnique="false">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="cc2c0eb0-8ea4-4f59-bf70-e2c1109bf014"
-                      LastKnownName="bool"
-                      LastKnownLocation="Package_1357.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
+            isQuery="false" />
           <operation
             Id="50b96aca-20e5-40aa-916a-c7ed9694c09e"
             name="IsFinished"
@@ -1174,7 +1196,6 @@
           <operation
             Id="a9ead4f1-a131-44aa-b588-03bd0f458196"
             name="Complete"
-            visibility="Protected"
             isLeaf="false"
             isStatic="false"
             isAbstract="false"
@@ -1231,7 +1252,7 @@
     <packageHasNamedElement>
       <class
         Id="c4ac9b25-d2a2-4579-8f4c-01f25fd7eeb4"
-        name="BonusStratAbstract"
+        name="FactoryBonus"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
@@ -1239,7 +1260,7 @@
           <association
             Id="02597dad-5071-413c-86ea-d92457f01da8"
             isDerived="false"
-            sourceEndRoleName="BonusStrat Creates"
+            sourceEndRoleName="Factory Creates"
             targetEndRoleName="BonusModifierConcrete"
             isLeaf="false"
             isAbstract="false">
@@ -1251,7 +1272,7 @@
               <associationHasOwnedEnds>
                 <memberEnd
                   Id="2d66a1a2-ebe9-43d7-9cc9-ca478d4988f6"
-                  name="BonusStrat Creates"
+                  name="Factory Creates"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
@@ -1279,20 +1300,13 @@
         <ownedOperationsInternal>
           <operation
             Id="ddc8248a-8c8f-49cd-8bf3-3d43307772ee"
-            name="tick"
+            name="createBonus"
             isLeaf="false"
             isStatic="false"
             isAbstract="false"
             concurrency="Sequential"
             isQuery="false">
             <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="cfc6cccc-86d1-4a01-9f60-5c1e77a173a4"
-                  name="float"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
               <operationHasOwnedParameters>
                 <parameter
                   Id="54136add-f156-4b11-903c-abce21aa2e58"
@@ -1300,58 +1314,8 @@
                   isUnique="false">
                   <type_NamedElement>
                     <undefinedTypeMoniker
-                      Id="19bcc452-a8fe-4d45-872c-c19fd4ca064f"
-                      LastKnownName="void"
-                      LastKnownLocation="Package_1357.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="7ca3b10c-154f-4e20-af95-f3c62bc6ddeb"
-            name="render"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="07337e0d-c599-4ba2-bf55-5ebda958f272"
-                  name=") = 0"
-                  direction="In"
-                  isUnique="false">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="b7bc54d8-1d72-4dc4-9cf0-f1030ec44e8e"
-                      LastKnownName="void("
-                      LastKnownLocation="Package_1357.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="3fd2f960-6885-4be6-ba36-5f7936472f26"
-            name="execute"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="010095be-67f7-4f54-a0de-3e290c185efd"
-                  name="NoeudRondelle*) = 0"
-                  direction="In"
-                  isUnique="false">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="13ff891d-68f0-4b50-ab95-5d0f7438d0de"
-                      LastKnownName="bool("
+                      Id="c89c4287-1dcb-4c83-975a-ddaf66fdfa3e"
+                      LastKnownName="BonusModifierAbstract*"
                       LastKnownLocation="Package_1357.uml" />
                   </type_NamedElement>
                 </parameter>
@@ -1379,7 +1343,7 @@
     <packageHasNamedElement>
       <class
         Id="e873cc01-1fa4-43a4-8fc0-2185aaf906a0"
-        name="BonusStratConcrete"
+        name="FactoryBonusConcrete"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
@@ -1389,7 +1353,7 @@
             isSubstitutable="false">
             <classMoniker
               Id="c4ac9b25-d2a2-4579-8f4c-01f25fd7eeb4"
-              LastKnownName="BonusStratAbstract"
+              LastKnownName="FactoryBonus"
               LastKnownLocation="Package_1357.uml" />
           </generalization>
         </generalsInternal>
@@ -1404,6 +1368,16 @@
       <undefinedType
         Id="83b73a17-7bd6-484f-a490-f88ddbd805da"
         name="NoeudAbstrait*" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="c89c4287-1dcb-4c83-975a-ddaf66fdfa3e"
+        name="BonusModifierAbstract*" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="13735d54-6366-498a-b4e9-0c313560d6e3"
+        name="float" />
     </packageHasNamedElement>
   </packagedElements>
 </package>
