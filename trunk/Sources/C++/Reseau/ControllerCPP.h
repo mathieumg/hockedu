@@ -12,7 +12,7 @@
 #include "ControllerInterface.h"
 #include "Utilitaire.h"
 #include <iostream>
-#include "Enum_Declarations.cs"
+#include "Enum_Declarations.h"
 
 
 ///////////////////////////////////////////////////////////////////////////

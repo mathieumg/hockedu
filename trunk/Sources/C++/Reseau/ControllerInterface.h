@@ -16,7 +16,7 @@
 namespace std {using namespace __gnu_cxx; }
 #endif
 #include "Socket.h"
-#include "../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.cs"
+#include "../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"
 
 typedef int PaquetTypes;
 typedef int (*PaquetRunnableFunc) (class Paquet*);

@@ -8,11 +8,11 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////
 #include "NodeModelRender.h"
-#include "GestionnaireModeles.h"
-
 
 const Vecteur3 ZamboniDefaultSize(40,20,20);
 
+#if WIN32
+#include "GestionnaireModeles.h"
 CreateListDelegateImplementation(Zamboni)
 {
     Vecteur3 coinMin,coinMax;
@@ -23,6 +23,7 @@ CreateListDelegateImplementation(Zamboni)
     pModel->assignerFacteurAgrandissement(delta);
     return GestionnaireModeles::CreerListe(pModel);
 }
+#endif
 
 
 ////////////////////////////////////////////////////////////////////////

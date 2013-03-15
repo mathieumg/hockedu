@@ -189,15 +189,10 @@ public:
 
 	/// Libere la memoire de l'objet Box2D
     virtual void clearPhysicsBody();
-#if BOX2D_INTEGRATED  
-    /// Accessors of mWorld
-    class b2World* getWorld();
-#endif
+
 
 protected:
-#if BOX2D_INTEGRATED  
     class b2Body* mPhysicBody;
-#endif
 
     /// Type du noeud.
 	std::string      mType;
@@ -248,9 +243,9 @@ public:
     virtual const class ArbreRendu* GetTreeRoot() const;
 
     /// Obtient le parent de ce noeud.
-    inline NoeudComposite* getParent();
+    inline NoeudComposite* getParent(){return mParent;}
     /// Obtient le parent de ce noeud (version constante).
-    inline const NoeudComposite* getParent() const;
+    inline const NoeudComposite* getParent() const{return mParent;}
     /// Assigne le parent de ce noeud.
     virtual void setParent( NoeudComposite* parent );
 
@@ -307,6 +302,8 @@ public:
 	/// Modificateur de mField
 	virtual void setField(Terrain* val);
 
+    /// Accessors of mWorld
+    class b2World* getWorld();
     /// Accessors of mPhysicBody
     inline class b2Body* getPhysicBody() const { return mPhysicBody; }
 
@@ -336,36 +333,6 @@ public:
 
     inline bool isActive()const{return mFlags.IsFlagSet(NODEFLAGS_ACTIVE);}
 };
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn inline NoeudComposite* NoeudAbstrait::getParent(  )
-///
-/// Cette fonction retourne le pointeur vers le parent de ce noeud.
-///
-///
-/// @return NoeudComposite* : Le pointeur vers le parent.
-///
-////////////////////////////////////////////////////////////////////////
-inline NoeudComposite* NoeudAbstrait::getParent()
-{
-	return mParent;
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn inline const NoeudComposite* NoeudAbstrait::getParent(  )
-///
-/// Cette fonction retourne le pointeur constant vers le parent de ce noeud.
-///
-///
-/// @return const NoeudComposite* : Le pointeur constant vers le parent.
-///
-////////////////////////////////////////////////////////////////////////
-inline const NoeudComposite* NoeudAbstrait::getParent() const
-{
-	return mParent;
-}
 
 ////////////////////////////////////////////////////////////////////////
 ///

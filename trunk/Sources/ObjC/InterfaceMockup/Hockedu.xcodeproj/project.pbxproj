@@ -40,7 +40,6 @@
 		0C04E16D16DE960B002B0EE2 /* NoeudMaillet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E12116DE960B002B0EE2 /* NoeudMaillet.cpp */; };
 		0C04E16E16DE960B002B0EE2 /* NoeudMuret.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E12316DE960B002B0EE2 /* NoeudMuret.cpp */; };
 		0C04E16F16DE960B002B0EE2 /* NoeudMuretRelatif.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E12516DE960B002B0EE2 /* NoeudMuretRelatif.cpp */; };
-		0C04E17016DE960B002B0EE2 /* NoeudPiece.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E12716DE960B002B0EE2 /* NoeudPiece.cpp */; };
 		0C04E17116DE960B002B0EE2 /* NoeudPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E12916DE960B002B0EE2 /* NoeudPoint.cpp */; };
 		0C04E17216DE960B002B0EE2 /* NoeudPortail.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E12B16DE960B002B0EE2 /* NoeudPortail.cpp */; };
 		0C04E17316DE960B002B0EE2 /* NoeudRondelle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E12D16DE960B002B0EE2 /* NoeudRondelle.cpp */; };
@@ -72,9 +71,13 @@
 		0C04E1EE16DE964F002B0EE2 /* Utilitaire.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E1BA16DE964F002B0EE2 /* Utilitaire.cpp */; };
 		0C04E1FB16DE964F002B0EE2 /* XMLUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E1D316DE964F002B0EE2 /* XMLUtils.cpp */; };
 		0C04E1FF16DEA0AC002B0EE2 /* EvenementSouris.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E1FD16DEA0AB002B0EE2 /* EvenementSouris.cpp */; };
-		0C1832E916E7E86D000F1DE2 /* Enum_Declarations.cs in Resources */ = {isa = PBXBuildFile; fileRef = 0C1832E816E7E86D000F1DE2 /* Enum_Declarations.cs */; };
 		0C49614216E7F37F00D13713 /* ExceptionJeu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C49614016E7F37F00D13713 /* ExceptionJeu.cpp */; };
 		0C49614616E80AC600D13713 /* UsineNoeud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C49614516E80AC600D13713 /* UsineNoeud.cpp */; };
+		4E2A595716F2E48C002160AE /* BonusModifierAbstract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595316F2E48C002160AE /* BonusModifierAbstract.cpp */; };
+		4E2A595816F2E48C002160AE /* BonusModifierGoThorughWall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595516F2E48C002160AE /* BonusModifierGoThorughWall.cpp */; };
+		4E2A595D16F2E558002160AE /* NodeBonus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595916F2E558002160AE /* NodeBonus.cpp */; };
+		4E2A595E16F2E558002160AE /* NodeModelRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595B16F2E558002160AE /* NodeModelRender.cpp */; };
+		4E2A596116F2E658002160AE /* BonusModifierFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */; };
 		4EB7EA7916EFBE4100493722 /* VisiteurFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */; };
 		4EEBBF9A16E86E5B00017127 /* Model.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBF9916E86E5B00017127 /* Model.mm */; };
 		4EEBBFA316E8832900017127 /* NoeudAbstrait.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBFA216E8832900017127 /* NoeudAbstrait.cpp */; };
@@ -126,10 +129,10 @@
 		0C04E0EA16DE8B7B002B0EE2 /* RazerGameUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RazerGameUtilities.cpp; path = "../../C++/Environnement/RazerGameUtilities.cpp"; sourceTree = "<group>"; };
 		0C04E0EB16DE8B7B002B0EE2 /* RazerGameUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RazerGameUtilities.h; path = "../../C++/Environnement/RazerGameUtilities.h"; sourceTree = "<group>"; };
 		0C04E0EF16DE917C002B0EE2 /* RazerGameTypeDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RazerGameTypeDef.h; path = "../../C++/Configuration/RazerGameTypeDef.h"; sourceTree = "<group>"; };
-		0C04E0F116DE960A002B0EE2 /* ArbreNoeudLibre.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArbreNoeudLibre.cpp; sourceTree = "<group>"; };
-		0C04E0F216DE960A002B0EE2 /* ArbreNoeudLibre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArbreNoeudLibre.h; sourceTree = "<group>"; };
-		0C04E0F316DE960A002B0EE2 /* ArbreRendu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArbreRendu.cpp; sourceTree = "<group>"; };
-		0C04E0F416DE960A002B0EE2 /* ArbreRendu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArbreRendu.h; sourceTree = "<group>"; };
+		0C04E0F116DE960A002B0EE2 /* ArbreNoeudLibre.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ArbreNoeudLibre.cpp; path = ../ArbreNoeudLibre.cpp; sourceTree = "<group>"; };
+		0C04E0F216DE960A002B0EE2 /* ArbreNoeudLibre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArbreNoeudLibre.h; path = ../ArbreNoeudLibre.h; sourceTree = "<group>"; };
+		0C04E0F316DE960A002B0EE2 /* ArbreRendu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ArbreRendu.cpp; path = ../ArbreRendu.cpp; sourceTree = "<group>"; };
+		0C04E0F416DE960A002B0EE2 /* ArbreRendu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArbreRendu.h; path = ../ArbreRendu.h; sourceTree = "<group>"; };
 		0C04E10A16DE960B002B0EE2 /* ControlPointMutableAbstract.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControlPointMutableAbstract.cpp; sourceTree = "<group>"; };
 		0C04E10B16DE960B002B0EE2 /* ControlPointMutableAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlPointMutableAbstract.h; sourceTree = "<group>"; };
 		0C04E10C16DE960B002B0EE2 /* NodeControlPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NodeControlPoint.cpp; sourceTree = "<group>"; };
@@ -156,8 +159,6 @@
 		0C04E12416DE960B002B0EE2 /* NoeudMuret.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoeudMuret.h; sourceTree = "<group>"; };
 		0C04E12516DE960B002B0EE2 /* NoeudMuretRelatif.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoeudMuretRelatif.cpp; sourceTree = "<group>"; };
 		0C04E12616DE960B002B0EE2 /* NoeudMuretRelatif.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoeudMuretRelatif.h; sourceTree = "<group>"; };
-		0C04E12716DE960B002B0EE2 /* NoeudPiece.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoeudPiece.cpp; sourceTree = "<group>"; };
-		0C04E12816DE960B002B0EE2 /* NoeudPiece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoeudPiece.h; sourceTree = "<group>"; };
 		0C04E12916DE960B002B0EE2 /* NoeudPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoeudPoint.cpp; sourceTree = "<group>"; };
 		0C04E12A16DE960B002B0EE2 /* NoeudPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoeudPoint.h; sourceTree = "<group>"; };
 		0C04E12B16DE960B002B0EE2 /* NoeudPortail.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoeudPortail.cpp; sourceTree = "<group>"; };
@@ -233,10 +234,21 @@
 		0C04E1FD16DEA0AB002B0EE2 /* EvenementSouris.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EvenementSouris.cpp; path = "../../C++/Environnement/Evenements/EvenementSouris.cpp"; sourceTree = "<group>"; };
 		0C04E1FE16DEA0AB002B0EE2 /* EvenementSouris.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EvenementSouris.h; path = "../../C++/Environnement/Evenements/EvenementSouris.h"; sourceTree = "<group>"; };
 		0C04E20316DEB841002B0EE2 /* CodesEvenements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CodesEvenements.h; path = "../../C++/Interface/CodesEvenements.h"; sourceTree = "<group>"; };
-		0C1832E816E7E86D000F1DE2 /* Enum_Declarations.cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Enum_Declarations.cs; path = "../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.cs"; sourceTree = "<group>"; };
 		0C49614016E7F37F00D13713 /* ExceptionJeu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ExceptionJeu.cpp; path = ../../../Commun/Utilitaire/ExceptionJeu.cpp; sourceTree = "<group>"; };
 		0C49614116E7F37F00D13713 /* ExceptionJeu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExceptionJeu.h; path = ../../../Commun/Utilitaire/ExceptionJeu.h; sourceTree = "<group>"; };
 		0C49614516E80AC600D13713 /* UsineNoeud.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UsineNoeud.cpp; path = "../../C++/Arbre/Usines/UsineNoeud.cpp"; sourceTree = "<group>"; };
+		4E2A595116F2E455002160AE /* Flags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Flags.h; path = ../../../Commun/Utilitaire/Flags.h; sourceTree = "<group>"; };
+		4E2A595316F2E48C002160AE /* BonusModifierAbstract.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierAbstract.cpp; sourceTree = "<group>"; };
+		4E2A595416F2E48C002160AE /* BonusModifierAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusModifierAbstract.h; sourceTree = "<group>"; };
+		4E2A595516F2E48C002160AE /* BonusModifierGoThorughWall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierGoThorughWall.cpp; sourceTree = "<group>"; };
+		4E2A595616F2E48C002160AE /* BonusModifierGoThorughWall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusModifierGoThorughWall.h; sourceTree = "<group>"; };
+		4E2A595916F2E558002160AE /* NodeBonus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NodeBonus.cpp; sourceTree = "<group>"; };
+		4E2A595A16F2E558002160AE /* NodeBonus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeBonus.h; sourceTree = "<group>"; };
+		4E2A595B16F2E558002160AE /* NodeModelRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NodeModelRender.cpp; sourceTree = "<group>"; };
+		4E2A595C16F2E558002160AE /* NodeModelRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeModelRender.h; sourceTree = "<group>"; };
+		4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierFactory.cpp; path = "../../C++/Arbre/Usines/BonusModifierFactory.cpp"; sourceTree = "<group>"; };
+		4E2A596016F2E658002160AE /* BonusModifierFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierFactory.h; path = "../../C++/Arbre/Usines/BonusModifierFactory.h"; sourceTree = "<group>"; };
+		4E2A596216F2E84B002160AE /* Enum_Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enum_Declarations.h; path = "../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"; sourceTree = "<group>"; };
 		4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisiteurFunction.cpp; sourceTree = "<group>"; };
 		4EB7EA7816EFBE4100493722 /* VisiteurFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisiteurFunction.h; sourceTree = "<group>"; };
 		4EEBBF9816E86E5B00017127 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
@@ -323,6 +335,8 @@
 			isa = PBXGroup;
 			children = (
 				0C49614516E80AC600D13713 /* UsineNoeud.cpp */,
+				4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */,
+				4E2A596016F2E658002160AE /* BonusModifierFactory.h */,
 				0C49614016E7F37F00D13713 /* ExceptionJeu.cpp */,
 				0C49614116E7F37F00D13713 /* ExceptionJeu.h */,
 				0C04E20316DEB841002B0EE2 /* CodesEvenements.h */,
@@ -331,7 +345,6 @@
 				0C04E18516DE964E002B0EE2 /* Utilitaire */,
 				0C04E0F016DE960A002B0EE2 /* Arbre */,
 				0C04E0EF16DE917C002B0EE2 /* RazerGameTypeDef.h */,
-				0C1832E816E7E86D000F1DE2 /* Enum_Declarations.cs */,
 				0C04E0EA16DE8B7B002B0EE2 /* RazerGameUtilities.cpp */,
 				0C04E0EB16DE8B7B002B0EE2 /* RazerGameUtilities.h */,
 				0C04E08F16DE81DC002B0EE2 /* Vecteur.h */,
@@ -342,10 +355,7 @@
 		0C04E0F016DE960A002B0EE2 /* Arbre */ = {
 			isa = PBXGroup;
 			children = (
-				0C04E0F116DE960A002B0EE2 /* ArbreNoeudLibre.cpp */,
-				0C04E0F216DE960A002B0EE2 /* ArbreNoeudLibre.h */,
-				0C04E0F316DE960A002B0EE2 /* ArbreRendu.cpp */,
-				0C04E0F416DE960A002B0EE2 /* ArbreRendu.h */,
+				4E2A595216F2E48C002160AE /* Bonus */,
 				0C04E10916DE960B002B0EE2 /* Noeuds */,
 				0C04E13316DE960B002B0EE2 /* RazerGameTree.cpp */,
 				0C04E13416DE960B002B0EE2 /* RazerGameTree.h */,
@@ -363,6 +373,14 @@
 		0C04E10916DE960B002B0EE2 /* Noeuds */ = {
 			isa = PBXGroup;
 			children = (
+				4E2A595916F2E558002160AE /* NodeBonus.cpp */,
+				4E2A595A16F2E558002160AE /* NodeBonus.h */,
+				4E2A595B16F2E558002160AE /* NodeModelRender.cpp */,
+				4E2A595C16F2E558002160AE /* NodeModelRender.h */,
+				0C04E0F116DE960A002B0EE2 /* ArbreNoeudLibre.cpp */,
+				0C04E0F216DE960A002B0EE2 /* ArbreNoeudLibre.h */,
+				0C04E0F316DE960A002B0EE2 /* ArbreRendu.cpp */,
+				0C04E0F416DE960A002B0EE2 /* ArbreRendu.h */,
 				0C04E10A16DE960B002B0EE2 /* ControlPointMutableAbstract.cpp */,
 				0C04E10B16DE960B002B0EE2 /* ControlPointMutableAbstract.h */,
 				0C04E10C16DE960B002B0EE2 /* NodeControlPoint.cpp */,
@@ -391,8 +409,6 @@
 				0C04E12416DE960B002B0EE2 /* NoeudMuret.h */,
 				0C04E12516DE960B002B0EE2 /* NoeudMuretRelatif.cpp */,
 				0C04E12616DE960B002B0EE2 /* NoeudMuretRelatif.h */,
-				0C04E12716DE960B002B0EE2 /* NoeudPiece.cpp */,
-				0C04E12816DE960B002B0EE2 /* NoeudPiece.h */,
 				0C04E12916DE960B002B0EE2 /* NoeudPoint.cpp */,
 				0C04E12A16DE960B002B0EE2 /* NoeudPoint.h */,
 				0C04E12B16DE960B002B0EE2 /* NoeudPortail.cpp */,
@@ -497,9 +513,22 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		4E2A595216F2E48C002160AE /* Bonus */ = {
+			isa = PBXGroup;
+			children = (
+				4E2A595316F2E48C002160AE /* BonusModifierAbstract.cpp */,
+				4E2A595416F2E48C002160AE /* BonusModifierAbstract.h */,
+				4E2A595516F2E48C002160AE /* BonusModifierGoThorughWall.cpp */,
+				4E2A595616F2E48C002160AE /* BonusModifierGoThorughWall.h */,
+			);
+			path = Bonus;
+			sourceTree = "<group>";
+		};
 		96378D6B1472C71100F543EA = {
 			isa = PBXGroup;
 			children = (
+				4E2A596216F2E84B002160AE /* Enum_Declarations.h */,
+				4E2A595116F2E455002160AE /* Flags.h */,
 				0C04E09316DE88ED002B0EE2 /* C++Files */,
 				96378D801472C71100F543EA /* Hockedu */,
 				0CC6367816DE731600D05BBE /* Images */,
@@ -687,7 +716,6 @@
 				0C04E07016DE7835002B0EE2 /* deplacer.png in Resources */,
 				0C04E07116DE7835002B0EE2 /* dupliquer.png in Resources */,
 				0C04E07216DE7835002B0EE2 /* menu.png in Resources */,
-				0C1832E916E7E86D000F1DE2 /* Enum_Declarations.cs in Resources */,
 				6D951C3F16EE753600894B44 /* LeftBar.png in Resources */,
 				6D951C4116EE767B00894B44 /* BottomBar.png in Resources */,
 			);
@@ -725,7 +753,6 @@
 				0C04E16D16DE960B002B0EE2 /* NoeudMaillet.cpp in Sources */,
 				0C04E16E16DE960B002B0EE2 /* NoeudMuret.cpp in Sources */,
 				0C04E16F16DE960B002B0EE2 /* NoeudMuretRelatif.cpp in Sources */,
-				0C04E17016DE960B002B0EE2 /* NoeudPiece.cpp in Sources */,
 				0C04E17116DE960B002B0EE2 /* NoeudPoint.cpp in Sources */,
 				0C04E17216DE960B002B0EE2 /* NoeudPortail.cpp in Sources */,
 				0C04E17316DE960B002B0EE2 /* NoeudRondelle.cpp in Sources */,
@@ -762,6 +789,11 @@
 				4EEBBF9A16E86E5B00017127 /* Model.mm in Sources */,
 				4EEBBFA316E8832900017127 /* NoeudAbstrait.cpp in Sources */,
 				4EB7EA7916EFBE4100493722 /* VisiteurFunction.cpp in Sources */,
+				4E2A595716F2E48C002160AE /* BonusModifierAbstract.cpp in Sources */,
+				4E2A595816F2E48C002160AE /* BonusModifierGoThorughWall.cpp in Sources */,
+				4E2A595D16F2E558002160AE /* NodeBonus.cpp in Sources */,
+				4E2A595E16F2E558002160AE /* NodeModelRender.cpp in Sources */,
+				4E2A596116F2E658002160AE /* BonusModifierFactory.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

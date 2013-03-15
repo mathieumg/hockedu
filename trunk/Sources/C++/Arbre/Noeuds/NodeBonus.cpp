@@ -14,7 +14,8 @@
 #endif
 #include "Utilitaire.h"
 #include "VisiteurNoeud.h"
-#include "BonusStratAbstract.h"
+#include "BonusModifierAbstract.h"
+#include "BonusModifierFactory.h"
 
 const Vecteur3 DEFAULT_SIZE = Vecteur3(15, 15, 1);
 const float DEFAULT_RADIUS = 10;
@@ -22,6 +23,8 @@ const float DEFAULT_RADIUS = 10;
 #if WIN32
 #include "Modele3D.h"
 #include "GestionnaireModeles.h"
+#include "FacadeModele.h"
+
 CreateListDelegateImplementation(EmptyBonus)
 {
     Vecteur3 coinMin,coinMax;
@@ -85,10 +88,7 @@ CreateListDelegateImplementation(Bonus)
     return RazerGameUtilities::CreateListSphereDefault(pModel,DEFAULT_RADIUS);
 }
 #endif
-#include "BonusModifierAbstract.h"
-#include "BonusModifierFactory.h"
-#include "FacadeModele.h"
-#include "BonusStratGoThroughWall.h"
+
 
 ////////////////////////////////////////////////////////////////////////
 ///

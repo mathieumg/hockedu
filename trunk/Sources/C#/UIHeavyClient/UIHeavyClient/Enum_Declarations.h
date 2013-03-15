@@ -1,11 +1,11 @@
-#if !WIN32 && !LINUX
+#if !WIN32 && !__linux__ && !__APPLE__
 namespace UIHeavyClient
 {
 #else
 #pragma once
 #endif
 
-#if !WIN32 && !LINUX
+#if !WIN32 && !__linux__ && !__APPLE__
     public
 #endif
  enum ActionType
@@ -41,7 +41,7 @@ namespace UIHeavyClient
         ACTION_CAMERA_SPLIT        ,
     };
 
-#if !WIN32 && !LINUX
+#if !WIN32 && !__linux__ && !__APPLE__
     public
 #endif
     enum EventCodes
@@ -87,7 +87,7 @@ namespace UIHeavyClient
         NB_EVENT_CODES // Must be always last !
     };
 
-#if !WIN32 && !LINUX
+#if !WIN32 && !__linux__ && !__APPLE__
     public
 #endif
     enum BonusType
@@ -98,6 +98,6 @@ namespace UIHeavyClient
     };
 
 
-#if !WIN32 && !LINUX
+#if !WIN32 && !__linux__ && !__APPLE__
 }
 #endif

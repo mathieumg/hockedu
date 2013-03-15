@@ -21,7 +21,7 @@
 #include <queue>
 #include <hash_map>
 #include "GameManager.h"
-#include "Enum_Declarations.cs"
+#include "Enum_Declarations.h"
 
 
 class VisiteurNoeud;

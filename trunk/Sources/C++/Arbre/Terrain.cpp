@@ -1538,12 +1538,14 @@ void Terrain::NodeSelectionNotification( NoeudAbstrait* node, bool selected )
             mSelectedNodes.erase(it);
         }
     }
+#if WIN32
     int nbSelectedNew = (int)mSelectedNodes.size();
     if(nbSelectedOld != nbSelectedNew)
     {
         if( nbSelectedNew == 0 )
         {
             // no more item selected
+
             FacadeModele::transmitEvent(THERE_ARE_NO_NODE_SELECTED);
         }
         else
@@ -1552,6 +1554,7 @@ void Terrain::NodeSelectionNotification( NoeudAbstrait* node, bool selected )
             FacadeModele::transmitEvent(THERE_ARE_NODES_SELECTED);
         }
     }
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////

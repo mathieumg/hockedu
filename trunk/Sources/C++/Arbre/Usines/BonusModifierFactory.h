@@ -12,7 +12,7 @@
 
 class BonusModifierAbstract;
 
-#include "Enum_Declarations.cs"
+#include "Enum_Declarations.h"
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class BonusModifierFactory

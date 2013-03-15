@@ -7,24 +7,26 @@
 /// @{
 ////////////////////////////////////////////////
 
-#include "NoeudAbstrait.h"
-#include "NoeudComposite.h"
-#include "VisiteurCollision.h"
-#include "ExceptionJeu.h"
-#include "Utilitaire.h"
-
 #if WIN32
 #include "GestionnaireModeles.h"
 #include "DecodeString.h"
 #include "Singleton.h"
 #include "XMLUtils.h"
-#include "Terrain.h"
-#include "BonusModifierAbstract.h"
 
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
 #endif
+
+#include "NoeudAbstrait.h"
+#include "NoeudComposite.h"
+#include "VisiteurCollision.h"
+#include "ExceptionJeu.h"
+#include "Utilitaire.h"
+#include "Terrain.h"
+#include "BonusModifierAbstract.h"
+
+
 
 GLuint NoeudAbstrait::mIdGlCounter = 1;
 

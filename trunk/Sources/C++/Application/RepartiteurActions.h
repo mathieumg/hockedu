@@ -11,7 +11,7 @@
 #include <map>
 #include <string>
 #include "Singleton.h"
-#include "Enum_Declarations.cs"
+#include "Enum_Declarations.h"
 enum ModesCamera {CAMERA_FIXE, CAMERA_ORBIT, CAMERA_LIBRE};
 
 /* Pour toute modification, veuillez mettre a jour la map dans
