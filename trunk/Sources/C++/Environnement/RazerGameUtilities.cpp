@@ -263,8 +263,6 @@ bool mUpdating = false, mRendering=false;
                    pField.creerTerrainParDefaut(pFilePath);
                else
                    pField.initialiser(pFilePath);
-               // Si le fichier n'existe pas, on le crée.
-               SaveFieldToFile(pFilePath,pField);
            }
            else
            {

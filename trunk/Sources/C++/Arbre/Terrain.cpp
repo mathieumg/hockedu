@@ -222,7 +222,7 @@ void Terrain::initialiser( std::string nom )
     }
 
 	initialiserArbreRendu();
-	
+	fullRebuild();
 }
 
 ////////////////////////////////////////////////////////////////////////
