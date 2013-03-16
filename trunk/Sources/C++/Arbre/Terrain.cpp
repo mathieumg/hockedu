@@ -176,6 +176,14 @@ void Terrain::renderField()
 {
 	if(mLogicTree)
 		mLogicTree->render();
+    GLint renderMode;
+    glGetIntegerv(GL_RENDER_MODE,&renderMode);
+    if(renderMode == GL_SELECT)
+    {
+        // dont draw anything else when selecting
+        return;
+    }
+
 	if(mNewNodeTree)
 		mNewNodeTree->render();
 	if(getZoneEdition())
@@ -265,22 +273,7 @@ void Terrain::initialiserArbreRendu()
 
 	// Ajout d'une table de base au terrain
 	mTable = new NoeudTable(RazerGameUtilities::NOM_TABLE);
-	mLogicTree->add(mTable);
-
-
-	/// Groupe destine a contenir les noeud concret pour un meilleur parcours d'arbre
-	NoeudGroupe* 	gMaillet =	new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_MAILLET),
-		*gRondelle =	new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_RONDELLE),
-		*gAccel =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_ACCELERATEUR),
-        *gMuret =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_MURET),
-        *gPortail =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_PORTAIL);
-
-	// La table contient ces groupes.
-	mTable->add(gRondelle);
-	mTable->add(gMaillet);
-	mTable->add(gAccel);
-	mTable->add(gMuret);
-    mTable->add(gPortail);
+    mLogicTree->add(mTable);
 
 	// Permet de rediriger les bandes extérieur de la table vers le groupe  gMuret
 	//mTable->reassignerParentBandeExt();
@@ -341,7 +334,6 @@ bool Terrain::initialiserXml( XmlElement* element )
         {
 			throw ExceptionJeu("Il ny a pas de table sur le terrain");
         }
-        fullRebuild();
 	}
 	catch(ExceptionJeu& e)
 	{
@@ -358,7 +350,7 @@ bool Terrain::initialiserXml( XmlElement* element )
 	if(getZoneEdition() && !getZoneEdition()->initialisationXML(racine))
 		return false;
 
-	
+    fullRebuild();
 	return true;
 }
 

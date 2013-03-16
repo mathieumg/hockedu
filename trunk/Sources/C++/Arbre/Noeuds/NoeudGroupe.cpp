@@ -28,6 +28,8 @@ NoeudGroupe::NoeudGroupe(std::string type, std::string typeEnfants):
 NoeudComposite(type),typeEnfants_(typeEnfants)
 {
 	setCanBeSelected(false);
+    setRecordable(false);
+    setVisible(false);
 }
 
 

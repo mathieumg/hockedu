@@ -95,6 +95,14 @@ void NoeudBut::renderReal() const
     GLuint liste = NULL;
     GestionnaireModeles::obtenirInstance()->obtenirListe(mType,liste);
 
+    GLint renderMode;
+    glGetIntegerv(GL_RENDER_MODE,&renderMode);
+    if(renderMode == GL_SELECT)
+    {
+        // dont draw goals model when selecting
+        return;
+    }
+
     if(liste != 0 && isVisible())
     {
         const Vecteur3& positionPoint = getPosition();

@@ -27,6 +27,8 @@ public:
     {
     }
 
+    virtual ~BonusModifierAbstract(){}
+
     /// Attach a modifier on a node, receiving the puck as entry point,
     /// but from it, the modifier can apply itself on anything in the map
     ///

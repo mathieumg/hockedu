@@ -66,14 +66,14 @@ void PartieSyncer::tick()
 void PartieSyncer::setPlayers( SPJoueurAbstrait pPlayer1, SPJoueurAbstrait pPlayer2 )
 {
     // On trouve le joueur network
-    if(pPlayer1->obtenirType() != JOUEUR_NETWORK)
+    if(pPlayer1 && pPlayer1->obtenirType() != JOUEUR_NETWORK)
     {
         // Trouve
         mPlayerToSync = pPlayer1;
     }
     else
     {
-        if(pPlayer2->obtenirType() != JOUEUR_NETWORK)
+        if(pPlayer2 && pPlayer2->obtenirType() != JOUEUR_NETWORK)
         {
             // Trouve
             mPlayerToSync = pPlayer2;

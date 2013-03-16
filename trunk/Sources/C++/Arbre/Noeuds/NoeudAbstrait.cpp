@@ -491,15 +491,22 @@ void NoeudAbstrait::renderReal() const
         }
 
 #if !__APPLE__
-        // Push du id du noeud sur la pile de nom
-        glPushName(mGlId);
-        // Push du id du type du noeud sur la pile de nom
-        glPushName(mGlTypeId);
-
-        glCallList(liste); // Dessin de l'objet avec les textures
-
-        glPopName();
-        glPopName();
+        GLint renderMode;
+        glGetIntegerv(GL_RENDER_MODE,&renderMode);
+        if(renderMode == GL_SELECT && canBeSelected())
+        {
+            // Push du id du noeud sur la pile de nom
+            glPushName(mGlId);
+            // Push du id du type du noeud sur la pile de nom
+            glPushName(mGlTypeId);
+            glCallList(liste); // Dessin de l'objet avec les textures
+            glPopName();
+            glPopName();
+        }
+        else
+        {
+            glCallList(liste); // Dessin de l'objet avec les textures
+        }
 #else
         renderOpenGLES();
 #endif

@@ -39,6 +39,7 @@ class NoeudAbstraitTest : public CppUnit::TestFixture
   CPPUNIT_TEST( testEnfants );
   CPPUNIT_TEST( testAjout );
   CPPUNIT_TEST( testGetTreeRoot );
+  CPPUNIT_TEST( testInsideTable );
   CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -78,6 +79,9 @@ public:
 
     /// Cas de test: s'assurer de bien retrouver la racine du noeud si elle existe
     void testGetTreeRoot();
+
+    /// Cas de test: s'assurer de bien detecter si un noeud est a lexterieur de la table
+    void testInsideTable();
 
 private:
 	/// Instance d'un noeud abstrait

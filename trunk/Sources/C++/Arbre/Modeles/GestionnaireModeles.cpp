@@ -125,6 +125,9 @@ GestionnaireModeles::GestionnaireModeles()
 
     nameToTypeId_[RazerGameUtilities::NAME_CONTROL_POINT] = ++compteurTypeID;
     typeIdToName_[compteurTypeID] = RazerGameUtilities::NAME_CONTROL_POINT;
+
+    nameToTypeId_[RazerGameUtilities::NAME_BONUS] = ++compteurTypeID;
+    typeIdToName_[compteurTypeID] = RazerGameUtilities::NAME_BONUS;
 }
 
 ////////////////////////////////////////////////////////////////////////

@@ -98,167 +98,38 @@ void VisiteurEcrireXML::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurEcrireXML::visiterNoeudComposite( NoeudComposite* noeud )
 {
-	if(!noeud->isRecordable())
-		return;
+    XmlElement* elementNoeud = parent_;
 
-	// Créer le noeud 
-	XmlElement* elementNoeud = noeud->createXmlNode();//obtenirElement(noeud);
+    // permet d'enregistrer les enfants d'un noeud qui n'est pas enregistrable
+	if(noeud->isRecordable())
+    {
+        // Créer le noeud 
+        elementNoeud = noeud->createXmlNode();
 
-	if(racine_ == 0)
-	{
-		racine_ = elementNoeud;
-		parent_ = racine_;
-	}
-	else
-	{
-        XMLUtils::LinkEndChild(parent_,elementNoeud);
-	}
+        if(racine_ == 0)
+        {
+            racine_ = elementNoeud;
+            parent_ = racine_;
+        }
+        else
+        {
+            XMLUtils::LinkEndChild(parent_,elementNoeud);
+        }
+    }
 
 	XmlElement* ancienParent = parent_;
 	parent_ = elementNoeud;
+
+
 	for( unsigned int i = 0; i < noeud->childCount(); i++)
 	{
 		noeud->find(i)->acceptVisitor(*this);
 	}
+
+
 	parent_ = ancienParent;
 	
 }
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void VisiteurEcrireXML::visiterNoeudMuret( NodeWallAbstract* noeud )
-///
-/// Écriture d'un noeud représentant un muret.
-///
-/// @param[in] NodeWallAbstract * noeud : noeud à vérifier
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void VisiteurEcrireXML::visiterNoeudMuret( NodeWallAbstract* noeud )
-{
-    visiterNoeudComposite(noeud);
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void VisiteurEcrireXML::visiterNoeudBut( NoeudBut* noeud )
-///
-/// Écriture d'un noeud représentant un but.
-///
-/// @param[in] NoeudBut * noeud : noeud à vérifier
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void VisiteurEcrireXML::visiterNoeudBut( NoeudBut* noeud )
-{
-	visiterNoeudAbstrait(noeud);
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void VisiteurEcrireXML::visiterNoeudMaillet( NoeudMaillet* noeud )
-///
-/// Écriture d'un noeud représentant un maillet.
-///
-/// @param[in] NoeudMaillet * noeud : noeud à vérifier
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void VisiteurEcrireXML::visiterNoeudMaillet( NoeudMaillet* noeud )
-{
-	visiterNoeudAbstrait(noeud);
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void VisiteurEcrireXML::visiterNoeudPortail( NoeudPortail* noeud )
-///
-/// Écriture d'un noeud représentant un portail.
-///
-/// @param[in] NoeudPortail * noeud : noeud à vérifier
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void VisiteurEcrireXML::visiterNoeudPortail( NoeudPortail* noeud )
-{
-	visiterNoeudAbstrait(noeud);
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void VisiteurEcrireXML::visiterNoeudRondelle( NoeudRondelle* noeud )
-///
-/// Écriture d'un noeud représentant une rondelle.
-///
-/// @param[in] NoeudRondelle * noeud : noeud à vérifier
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void VisiteurEcrireXML::visiterNoeudRondelle( NoeudRondelle* noeud )
-{
-	visiterNoeudAbstrait(noeud);
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void VisiteurEcrireXML::visiterNoeudTable( NoeudTable* noeud )
-///
-/// Écriture d'un noeud représentant une table.
-///
-/// @param[in] NoeudTable * noeud : noeud à vérifier
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void VisiteurEcrireXML::visiterNoeudTable( NoeudTable* noeud )
-{
-	visiterNoeudComposite(noeud);
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void VisiteurEcrireXML::visiterNoeudPoint( NoeudPoint* noeud )
-///
-/// Écriture d'un noeud représentant un point. Ne fais rien puisque la table s'en occupe
-///
-/// @param[in] NoeudPoint * noeud : noeud à vérifier
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void VisiteurEcrireXML::visiterNoeudPoint( NoeudPoint* noeud )
-{
-	visiterNoeudComposite(noeud);
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn VisiteurEcrireXML::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
-///
-/// Écriture d'un noeud représentant un accelérateur.
-///
-/// @param[in] NoeudAccelerateur * noeud : noeud à vérifier
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void VisiteurEcrireXML::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
-{
-	visiterNoeudAbstrait(noeud);
-}
-
 
 
 ////////////////////////////////////////////////////////////////////////

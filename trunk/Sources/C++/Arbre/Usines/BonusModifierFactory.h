@@ -27,6 +27,7 @@ class FactoryBonusModifier
 public:
     /// Function to overload
     virtual BonusModifierAbstract* createBonus() const = 0;
+    virtual ~FactoryBonusModifier(){}
 
     static void ClearFactories();
     static inline const FactoryBonusModifier* getFactory(BonusType type)

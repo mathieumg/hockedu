@@ -144,7 +144,7 @@ void NodeBonus::renderReal() const
 	// Appel à la version de la classe de base pour l'affichage des enfants.
 
     // static to make all bonus hover at the same height
-    const float zTranslated = DEFAULT_RADIUS*1.2f+sin(mHeightAngle)*3.f;
+    const float zTranslated = getRadius()*1.2f+sin(mHeightAngle)*3.f;
     glPushMatrix();
     glTranslatef( 0,0,zTranslated);
 #endif
@@ -155,6 +155,15 @@ void NodeBonus::renderReal() const
     glEnable(GL_LIGHTING);
     FacadeModele::getInstance()->ActivateShaders();
 
+    GLint renderMode;
+    glGetIntegerv(GL_RENDER_MODE,&renderMode);
+    if(renderMode == GL_SELECT)
+    {
+        // dont draw emptyBonus model when selecting
+        return;
+    }
+
+    /// retrait de la platforme pour le moment, bug la selection
     GLuint liste;	
     GestionnaireModeles::obtenirInstance()->obtenirListe(RazerGameUtilities::NAME_EMPTY_BONUS,liste);
     // Si aucune liste n'est trouvé, on sort de la fonction.
