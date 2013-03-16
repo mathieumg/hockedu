@@ -25,6 +25,8 @@ ControllerServeurJeu::ControllerServeurJeu()
     mPaquetRunnables[GAME_STATUS]                   = PaquetRunnable::RunnableGameStatusServerGame;
     //mPaquetRunnables[AUTHENTIFICATION_SERVEUR_JEU]  = PaquetRunnable::RunnableAuthentificationServeurJeuServerGame;
     mPaquetRunnables[MAILLET]                       = PaquetRunnable::RunnableMailletServerGame;
+    mPaquetRunnables[GAME_CREATION_REQUEST]         = PaquetRunnable::RunnableGameCreationServerGame;
+
 
 }
 

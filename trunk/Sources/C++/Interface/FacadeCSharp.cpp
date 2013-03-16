@@ -5,6 +5,8 @@
 #include "Terrain.h"
 #include "..\reseau\UsinePaquets\UsinePaquetMaillet.h"
 #include "..\reseau\PaquetHandlers\PacketHandler.h"
+#include "..\Reseau\Paquets\PaquetGameCreation.h"
+#include "..\Reseau\UsinePaquets\UsinePaquetGameCreation.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -67,6 +69,8 @@ void InitDLL()
     wGestionnaireReseau->ajouterOperationReseau(CHAT_MESSAGE, new PacketHandlerChatMessage, new UsinePaquetChatMessage);
     wGestionnaireReseau->ajouterOperationReseau(USER_STATUS, new PacketHandlerUserStatus, new UsinePaquetUserStatus);
     wGestionnaireReseau->ajouterOperationReseau(MAILLET, new PacketHandlerMaillet, new UsinePaquetMaillet);
+    wGestionnaireReseau->ajouterOperationReseau(GAME_CREATION_REQUEST, new PacketHandlerGameCreation, new UsinePaquetGameCreation);
+
 }
 
 
@@ -405,6 +409,13 @@ void connectServerGame( char* pServerIP )
 
 
 
+}
+
+void requestGameCreationServerGame( char* pGameName )
+{
+    PaquetGameCreation* wPaquet = (PaquetGameCreation*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CREATION_REQUEST);
+    wPaquet->setGameName(pGameName);
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
 }
 
 void SaveMap(char* pFileName)

@@ -157,6 +157,7 @@ extern "C"
     __declspec(dllexport) void initNetwork( ControllerInterface* pController );
     __declspec(dllexport) void envoyerPaquet( Paquet* pPaquet );
     __declspec(dllexport) void connectServerGame( char* pServerIP );
+    __declspec(dllexport) void requestGameCreationServerGame( char* pGameName );
     //__declspec(dllexport) void recevoirPaquet( Paquet* pPaquet );
     /// 
     //////////////////////////////////////////////////////////////////////////

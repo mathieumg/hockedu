@@ -101,6 +101,7 @@
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerConnAutomatique.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerEvent.cpp" />
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameCreation.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameStatus.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerLoginInfo.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerTest.cpp" />
@@ -110,6 +111,7 @@
     <ClCompile Include="..\Reseau\Paquets\PaquetChatMessage.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetConnAutomatique.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetEvent.cpp" />
+    <ClCompile Include="..\Reseau\Paquets\PaquetGameCreation.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetGameStatus.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetLoginInfo.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetTest.cpp" />
@@ -141,18 +143,12 @@
     <ClInclude Include="..\Reseau\PacketBuilder.h" />
     <ClInclude Include="..\Reseau\PacketReader.h" />
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandler.h" />
-    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.h" />
-    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerConnAutomatique.h" />
-    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerEvent.h" />
-    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerGameStatus.h" />
-    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerLoginInfo.h" />
-    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerTest.h" />
-    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.h" />
     <ClInclude Include="..\Reseau\PaquetRunnable.h" />
     <ClInclude Include="..\Reseau\Paquets\Paquet.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetChatMessage.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetConnAutomatique.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetEvent.h" />
+    <ClInclude Include="..\Reseau\Paquets\PaquetGameCreation.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetGameStatus.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetLoginInfo.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetTest.h" />

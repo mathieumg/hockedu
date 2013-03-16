@@ -41,6 +41,9 @@ public:
 
 	Partie* getGame(int pGameId);
 
+    // Methode qui cherche une partie avec ce nom (ATTENTION, lent et Ne permet pas de savoir si plusieurs parties avec le meme nom existe. Retourne la premiere trouvee)
+    Partie* getGame(const std::string& pGameName);
+
 
 	// Ajoute une nouvelle partie contre l'adversaire precedemment ajuste, 
 	// Si les 2 parametres sont nulles, une partie AI contre AI sera cree

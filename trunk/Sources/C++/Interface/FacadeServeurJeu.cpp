@@ -9,6 +9,7 @@
 #include "..\Reseau\UsinePaquets\UsinePaquetGameStatus.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetAuthentificationServeurJeu.h"
 #include "..\reseau\UsinePaquets\UsinePaquetMaillet.h"
+#include "..\Reseau\UsinePaquets\UsinePaquetGameCreation.h"
 
 void InitDLLServeurJeu(std::string& wMasterServerIP)
 {
@@ -24,6 +25,7 @@ void InitDLLServeurJeu(std::string& wMasterServerIP)
     wGestionnaireReseau->ajouterOperationReseau(GAME_STATUS, new PacketHandlerGameStatus, new UsinePaquetGameStatus);
     //wGestionnaireReseau->ajouterOperationReseau(AUTHENTIFICATION_SERVEUR_JEU, new PacketHandlerAuthentificationServeurJeu, new UsinePaquetAuthentificationServeurJeu);
     wGestionnaireReseau->ajouterOperationReseau(MAILLET, new PacketHandlerMaillet, new UsinePaquetMaillet);
+    wGestionnaireReseau->ajouterOperationReseau(GAME_CREATION_REQUEST, new PacketHandlerGameCreation, new UsinePaquetGameCreation);
 
     wGestionnaireReseau->demarrerNouvelleConnection("MasterServer", wMasterServerIP, TCP);
 

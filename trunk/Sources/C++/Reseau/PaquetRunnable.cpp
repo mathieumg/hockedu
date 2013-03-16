@@ -18,6 +18,8 @@
 #include "Paquets/PaquetTest.h"
 #include "Paquets/PaquetGameStatus.h"
 #include "Paquets/PaquetMaillet.h"
+#include "Paquets/PaquetGameCreation.h"
+#include <iostream>
 
 
 // Meme pour le client et les serveurs.
@@ -143,6 +145,30 @@ int PaquetRunnable::RunnableGameStatusServer( Paquet* pPaquet )
 {
     PaquetGameStatus* wPaquet = (PaquetGameStatus*) pPaquet;
     throw std::runtime_error("Not yet implemented");
+
+    return 0;
+}
+
+
+
+int PaquetRunnable::RunnableGameCreationClient( Paquet* pPaquet )
+{
+    PaquetGameCreation* wPaquet = (PaquetGameCreation*) pPaquet;
+    
+    if(wPaquet->getGameId() == -1)
+    {
+        // Creation a echouee
+        std::cout << "Creation de partie echouee" << std::endl;
+    }
+    else
+    {
+        // Creation reussie
+        std::cout << "Creation de partie reussie" << std::endl;
+
+        // On se connecte a la partie
+        
+
+    }
 
     return 0;
 }

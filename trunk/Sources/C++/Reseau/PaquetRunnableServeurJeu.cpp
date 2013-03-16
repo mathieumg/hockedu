@@ -17,6 +17,8 @@
 #include "Paquets\PaquetUserStatus.h"
 #include "Paquets\PaquetGameStatus.h"
 #include "Paquets\PaquetMaillet.h"
+#include "Paquets\PaquetGameCreation.h"
+#include "GameManager.h"
 
 
 /// ***** PAR CONVENTION, METTRE Game A LA FIN DU NOM DES DELEGATES
@@ -171,6 +173,45 @@ int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
 
 
 
+
+    return 0;
+}
+
+
+
+int PaquetRunnable::RunnableGameCreationServerGame( Paquet* pPaquet )
+{
+    PaquetGameCreation* wPaquet = (PaquetGameCreation*) pPaquet;
+    
+    // Demande de creation d'une nouvelle partie.
+
+    // On regarde d'abord si une partie avec ce nom existe deja
+    if(!GameManager::obtenirInstance()->getGame(wPaquet->getGameName()))
+    {
+        // On peut creer la partie
+        int wGameId = GameManager::obtenirInstance()->addNewGame(SPJoueurAbstrait(0), SPJoueurAbstrait(0), true);
+        GameManager::obtenirInstance()->getGame(wGameId)->setName(wPaquet->getGameName());
+
+        // On peut meme utiliser le meme paquet pour renvoyer le message de confirmation
+        wPaquet->setGameId(wGameId);
+        
+
+        // En envoie le message de confirmation
+        GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
+
+    }
+    else
+    {
+        // Une partie avec ce nom existe deja, on renvoie un message pour dire que la creation a echouee
+        // Si creation a ecouee, id = -1
+
+        // On peut meme utiliser le meme paquet pour renvoyer le message de confirmation
+        wPaquet->setGameId(-1);
+
+        // En envoie le message de confirmation
+        GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
+
+    }
 
     return 0;
 }

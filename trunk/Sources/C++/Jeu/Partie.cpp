@@ -47,7 +47,7 @@ pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurD
 {
     chiffres_ = new NoeudAffichage("3");
     mField = new Terrain(this);
-	mUniqueGameId_ = uniqueGameId;
+	mUniqueGameId = uniqueGameId;
 	mUpdateCallback = updateCallback;
     mGameStatus = GAME_NOT_STARTED;
     mLastGameStatus = GAME_NOT_STARTED;
@@ -816,7 +816,7 @@ void Partie::callGameUpdate(GameStatus pGameStatus) const
 {
 	if(mUpdateCallback)
 	{
-		mUpdateCallback(mUniqueGameId_, pGameStatus);
+		mUpdateCallback(mUniqueGameId, pGameStatus);
 	}
 }
 

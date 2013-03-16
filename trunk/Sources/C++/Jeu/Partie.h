@@ -138,8 +138,11 @@ private:
     Terrain* mField;
 
 	// ID unique de la partie
-	int mUniqueGameId_;
+	int mUniqueGameId;
 
+    // Nom associe a la partie (peut etre vide si on joue en local par exemple)
+    std::string mName;
+    
 	// Callback pour les mise a jour de la partie
 	GameUpdateCallback mUpdateCallback;
 
@@ -195,9 +198,12 @@ public:
     /// Accessors of mField
     inline Terrain* getField() const { return mField; }
 
-	inline const int getUniqueGameId() {return mUniqueGameId_;}
+	inline const int getUniqueGameId() {return mUniqueGameId;}
 
     inline GameStatus getGameStatus() const { return mGameStatus; }
+
+    inline std::string getName() const { return mName; }
+    inline void setName(std::string val) { mName = val; }
 
     
 };

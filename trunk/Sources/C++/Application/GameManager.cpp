@@ -240,6 +240,24 @@ Partie* GameManager::getGame( int pGameId )
 }
 
 
+
+Partie* GameManager::getGame( const std::string& pGameName )
+{
+    auto it = mListePartiesParId.begin();
+    for(it; it!=mListePartiesParId.end(); ++it)
+    {
+        Partie* wPartie = (*it).second;
+        if(wPartie)
+        {
+            if(pGameName == wPartie->getName()) {
+                return wPartie;
+            }
+        }
+    }
+    return NULL;
+}
+
+
 int GameManager::getNewUniqueGameId()
 {
     return GameManager::uniqueIdCount++;
