@@ -243,10 +243,7 @@ bool mUpdating = false, mRendering=false;
        if ( !utilitaire::fichierExiste(pFilePath) ) 
        {
            // Si on est en jeu on s'assure d'avoir une table valide
-           if(pField.IsGameField())
-               pField.creerTerrainParDefaut(pFilePath);
-           else
-               pField.initialiser(pFilePath);
+            pField.creerTerrainParDefaut(pFilePath);
            // Si le fichier n'existe pas, on le crée.
            SaveFieldToFile(pFilePath,pField);
        }
@@ -259,10 +256,7 @@ bool mUpdating = false, mRendering=false;
            {
                utilitaire::afficherErreur("Erreur : chargement XML : erreur de lecture du fichier");
                // Si on est en jeu on s'assure d'avoir une table valide
-               if(pField.IsGameField())
-                   pField.creerTerrainParDefaut(pFilePath);
-               else
-                   pField.initialiser(pFilePath);
+                pField.creerTerrainParDefaut(pFilePath);
            }
            else
            {
@@ -286,7 +280,7 @@ bool mUpdating = false, mRendering=false;
                if(!initField || !pField.initialiserXml(document.GetElem()))
                {
                    // Erreur dans l'initialisation avec le xml, donc on laisse un terrain vide
-                   pField.initialiser(pFilePath);
+                   pField.creerTerrainParDefaut(pFilePath);
                }
                //pField.FixCollidingObjects();
            }

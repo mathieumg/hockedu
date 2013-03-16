@@ -160,6 +160,12 @@ private:
 	/// Methode pour initialiser l'arbre de rendu
 	void initialiserArbreRendu();
 
+    /// Assigne les pointeurs sur les maillets et la rondelle pour la partie
+    /// Lance une exception si quelque chose manque
+    /// ie : mode édition => check table seulement  
+    /// mode Jeu => check table, rondelle, maillets
+    void initNecessaryPointersForGame();
+
 	/// Fields
 private:
 	/// Le nom du terrain est en fait le chemin pour la sauvegarde en XML
@@ -175,6 +181,13 @@ private:
 	/// Conservation d'un pointeur vers la table
 	NoeudTable* mTable;
 	
+    //////////////////////////////////////////////////////////////////////////
+    /// Cache de pointeurs sur les maillets et rondelle durant une partie.
+    /// pointeur NULL dans le mode édition
+    NoeudMaillet* mLeftMallet,*mRightMallet;
+    NoeudRondelle* mPuck;
+    //////////////////////////////////////////////////////////////////////////
+
 	/// Contient la zone d'édition du terrain
 	ZoneEdition* mEditionZone;
 	

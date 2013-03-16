@@ -67,7 +67,8 @@ const unsigned int MAX_MALLETS = 2;
 ///
 ////////////////////////////////////////////////////////////////////////
 Terrain::Terrain(Partie* pGame): 
-    mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame),mZamboni(NULL)
+    mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame),mZamboni(NULL),
+    mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL)
 {
     mEditionZone = NULL;
     if(!mGame)
@@ -329,28 +330,27 @@ bool Terrain::initialiserXml( XmlElement* element )
 	try
 	{
         mLogicTree->initFromXml(racine);
-		mTable = mLogicTree->obtenirTable();
-		if(mTable == NULL)
-        {
-			throw ExceptionJeu("Il ny a pas de table sur le terrain");
-        }
+        initNecessaryPointersForGame();
 	}
 	catch(ExceptionJeu& e)
 	{
-		// Erreur dans le fichier XML, on remet l'arbre de base
-		initialiserArbreRendu();
+		// Erreur dans le fichier XML, on remet un terrain par defaut
+		creerTerrainParDefaut(mFieldName);
         utilitaire::afficherErreur(e.what());
+        return true;
 	}
 	catch(...)
 	{
-		// Erreur dans le fichier XML, on remet l'arbre de base
-		initialiserArbreRendu();
+		// Erreur dans le fichier XML, on remet un terrain par defaut
+        creerTerrainParDefaut(mFieldName);
+        return true;
 	}
 
 	if(getZoneEdition() && !getZoneEdition()->initialisationXML(racine))
 		return false;
 
     fullRebuild();
+
 	return true;
 }
 
@@ -571,6 +571,14 @@ void Terrain::creerTerrainParDefaut(const std::string& nom)
 	mTable->add(rondelle);
 
     fullRebuild();
+    try
+    {
+        initNecessaryPointersForGame();
+    }
+    catch(ExceptionJeu& e)
+    {
+        checkf(0,"%s", e.what());
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -822,7 +830,14 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 ////////////////////////////////////////////////////////////////////////
 NoeudRondelle* Terrain::getPuck() const
 {
-	if(getTable())
+    if(mPuck)
+    {
+        checkf(IsGameField(), "Dans le mode édition on ne conserve pas de pointeur sur la puck");
+        return mPuck;
+    }
+    checkf(!IsGameField(), "Dans le mode jeu on doit avoir un pointeur sur la puck");
+
+    if(getTable())
 	{
 		NoeudComposite* g = (NoeudComposite*)getTable()->obtenirGroupe(RazerGameUtilities::NOM_RONDELLE);
 		if(g)
@@ -1314,6 +1329,13 @@ void Terrain::getSelectedNodes( ConteneurNoeuds& pSelectedNodes ) const
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet* Terrain::getLeftMallet() const
 {
+    if(mLeftMallet)
+    {
+        checkf(IsGameField(), "Dans le mode édition on ne conserve pas de pointeur sur le maillet");
+        return mLeftMallet;
+    }
+    checkf(!IsGameField(), "Dans le mode jeu on doit avoir un pointeur sur le maillet");
+
     NoeudMaillet* maillet = NULL;
     if(getTable())
     {
@@ -1345,6 +1367,13 @@ NoeudMaillet* Terrain::getLeftMallet() const
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet* Terrain::getRightMallet() const
 {
+    if(mRightMallet)
+    {
+        checkf(IsGameField(), "Dans le mode édition on ne conserve pas de pointeur sur le maillet");
+        return mRightMallet;
+    }
+    checkf(!IsGameField(), "Dans le mode jeu on doit avoir un pointeur sur le maillet");
+
     NoeudMaillet* maillet = NULL;
     if(getTable())
     {
@@ -1573,6 +1602,84 @@ bool Terrain::CanSelectedNodeBeDeleted() const
         }
     }
     return false;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool Terrain::initNecessaryPointersForGame()
+///
+/// Assigne les pointeurs sur les maillets et la rondelle pour la partie
+/// Lance une exception si quelque chose manque
+/// ie : mode édition => check table seulement  
+/// mode Jeu => check table, rondelle, maillets
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::initNecessaryPointersForGame()
+{
+    mLeftMallet = NULL;
+    mRightMallet = NULL;
+    mPuck = NULL;
+
+    mTable = mLogicTree->obtenirTable();
+    if(mTable == NULL)
+    {
+        throw ExceptionJeu("Missing Table on field");
+    }
+
+    if(IsGameField())
+    {
+        NoeudMaillet* mailletFound[2] = {NULL,NULL};
+        {
+            NoeudGroupe* g = mTable->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
+            checkf(g, "Groupe pour les maillets manquant");
+            if(g)
+            {
+                for(unsigned int i=0; i<g->childCount() && i<2; ++i)
+                {
+                    NoeudMaillet* m = (NoeudMaillet*)(g->find(i));
+                    mailletFound[i] = m;
+                }
+            }
+        }
+        {
+            NoeudGroupe* g = mTable->obtenirGroupe(RazerGameUtilities::NOM_RONDELLE);
+            checkf(g, "Groupe pour la rondelle manquante");
+            if(g)
+            {
+                for(unsigned int i=0; i<g->childCount(); ++i)
+                {
+                    NoeudRondelle* r = dynamic_cast<NoeudRondelle *>(g->find(i));
+                    if(r)
+                    {
+                        mPuck = r;
+                    }
+                }
+            }
+        }
+
+        if(!mPuck)
+        {
+            throw ExceptionJeu("Missing puck on table");
+        }
+        if(!mailletFound[0] || !mailletFound[1])
+        {
+            throw ExceptionJeu("Missing mallet on table");
+        }
+
+        if(mailletFound[1]->getPosition()[VX] < mailletFound[0]->getPosition()[VX])
+        {
+            mLeftMallet = mailletFound[1];
+            mRightMallet = mailletFound[0];
+        }
+        else
+        {
+            mLeftMallet = mailletFound[0];
+            mRightMallet = mailletFound[1];
+        }
+    }
 }
 
 

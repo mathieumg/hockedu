@@ -64,34 +64,40 @@ namespace UIHeavyClient
 
         public static void GoToEditionMode()
         {
-            SetEventCallback(Context.EditionModeControl.EventCallBack);
-            ActionPerformed(ActionType.ACTION_ALLER_MODE_EDITION);
-            Context.WindowContentControl.Content = Context.EditionModeControl;
-            Context.PlayModeControl.RemoveOpenGL();
-            Context.EditionModeControl.AppendOpenGL();
-            Context.EditionModeControl.InitButtons();
+            if(ActionPerformed(ActionType.ACTION_ALLER_MODE_EDITION))
+            {
+                SetEventCallback(Context.EditionModeControl.EventCallBack);
+                Context.WindowContentControl.Content = Context.EditionModeControl;
+                Context.PlayModeControl.RemoveOpenGL();
+                Context.EditionModeControl.AppendOpenGL();
+                Context.EditionModeControl.InitButtons();
+            }
         }
 
         public static void GoToPlayMode()
         {
-            ActionPerformed(ActionType.ACTION_ALLER_MODE_JEU);
-            Context.WindowContentControl.Content = Context.PlayModeControl;
-            Context.EditionModeControl.RemoveOpenGL();
-            Context.PlayModeControl.AppendOpenGL();
-            Context.PlayModeControl.DisplayRadioPlaylists();
-            SetMessageCallback(PlayModeControl.mMessageCallback);
+            if(ActionPerformed(ActionType.ACTION_ALLER_MODE_JEU))
+            {
+                Context.WindowContentControl.Content = Context.PlayModeControl;
+                Context.EditionModeControl.RemoveOpenGL();
+                Context.PlayModeControl.AppendOpenGL();
+                Context.PlayModeControl.DisplayRadioPlaylists();
+                SetMessageCallback(PlayModeControl.mMessageCallback);
+            }
         }
 
         public static void GoToMainMenu()
         {
-            ActionPerformed(ActionType.ACTION_ALLER_MENU_PRINCIPAL);
-            Context.WindowContentControl.Content = Context.MainMenuControl;
-            Context.MainMenuControl.InitOperations();
+            if(ActionPerformed(ActionType.ACTION_ALLER_MENU_PRINCIPAL))
+            {
+                Context.WindowContentControl.Content = Context.MainMenuControl;
+                Context.MainMenuControl.InitOperations();
 
-            Context.EditionModeControl.RemoveOpenGL();
-            Context.PlayModeControl.RemoveOpenGL();
+                Context.EditionModeControl.RemoveOpenGL();
+                Context.PlayModeControl.RemoveOpenGL();
 
-            Context.MainMenuControl.DisplayProfileNames();
+                Context.MainMenuControl.DisplayProfileNames();
+            }
         }
 
         public static void GoToTournamentMenu()
