@@ -551,7 +551,8 @@ void VisiteurCollision::detectionCollisionCercleSegment( NoeudAbstrait* noeud )
 	if(noeud == noeudAVerifier_)
 		return;
 
-	const Vecteur3& positionNoeudCercle = noeud->getPosition();
+	// Non utilise, decommenter si utile
+    //const Vecteur3& positionNoeudCercle = noeud->getPosition();
 
 	aidecollision::DetailsCollision detailsCollision = aidecollision::calculerCollisionSegment(coin1_, coin2_, noeud->getPosition(), noeud->getRadius());
 	if(detailsCollision.type!=aidecollision::COLLISION_AUCUNE)

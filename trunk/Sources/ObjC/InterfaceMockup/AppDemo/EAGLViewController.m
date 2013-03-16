@@ -44,6 +44,7 @@ enum {
 @synthesize context;
 @synthesize displayLink;
 @synthesize cube;
+@synthesize mSelectionMode;
 
 - (void)awakeFromNib
 {
@@ -197,20 +198,45 @@ enum {
     glLoadIdentity();
 }
 
+-(void) selectionModeButtonTouched:(UIButton *)sender
+{
+    if([sender isSelected])
+    {
+        [sender setSelected:NO];
+        [sender setTitle:@"Selection Mode : ON" forState:UIControlStateNormal];
+        mSelectionMode = FALSE;
+    }
+    else
+    {
+        [sender setSelected:YES];
+        [sender setTitle:@"Selection Mode : OFF" forState:UIControlStateSelected];
+        mSelectionMode = TRUE;
+    }
+}
+
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");            
-    for(UITouch* touch in touches) {
-        CGPoint positionCourante = [touch locationInView:theEAGLView];
-        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);        
-    }        
-    NSLog(@"Position de tous les doigts sur l'écran");            
-    NSSet *allTouches = [event allTouches];
-    for(UITouch* touch in allTouches) {
-        CGPoint positionCourante = [touch locationInView:theEAGLView];
-        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);        
+    if(mSelectionMode)
+    {
+        // On a un clique et on est en mode selection
+        
     }
-    NSLog(@"\n\n");
+    else
+    {
+    
+        NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");
+        for(UITouch* touch in touches) {
+            CGPoint positionCourante = [touch locationInView:theEAGLView];
+            NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);        
+        }        
+        NSLog(@"Position de tous les doigts sur l'écran");            
+        NSSet *allTouches = [event allTouches];
+        for(UITouch* touch in allTouches) {
+            CGPoint positionCourante = [touch locationInView:theEAGLView];
+            NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);        
+        }
+        NSLog(@"\n\n");
+    }
 }
 
 
