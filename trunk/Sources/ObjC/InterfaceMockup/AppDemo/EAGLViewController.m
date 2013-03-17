@@ -44,7 +44,6 @@ enum {
 @synthesize context;
 @synthesize displayLink;
 @synthesize cube;
-@synthesize mSelectionMode;
 
 - (void)awakeFromNib
 {
@@ -203,13 +202,13 @@ enum {
     if([sender isSelected])
     {
         [sender setSelected:NO];
-        [sender setTitle:@"Selection Mode : ON" forState:UIControlStateNormal];
+        [sender setTitle:@"Selection Mode : OFF" forState:UIControlStateNormal];
         mSelectionMode = FALSE;
     }
     else
     {
         [sender setSelected:YES];
-        [sender setTitle:@"Selection Mode : OFF" forState:UIControlStateSelected];
+        [sender setTitle:@"Selection Mode : ON" forState:UIControlStateSelected];
         mSelectionMode = TRUE;
     }
 }
@@ -218,8 +217,14 @@ enum {
 {
     if(mSelectionMode)
     {
-        // On a un clique et on est en mode selection
-        
+        if ([[event allTouches] count] == 1)
+        {
+            UITouch *touch = [[event allTouches] anyObject];
+            CGPoint positionCourante = [touch locationInView:theEAGLView];
+            CGPoint positionPrecedente = [touch previousLocationInView:theEAGLView];
+            // On a un clique et on est en mode selection
+            [mModel acceptSelectionVisitor:positionCourante.x:positionCourante.y:positionCourante.x:positionCourante.y];
+        }
     }
     else
     {
@@ -247,7 +252,12 @@ enum {
         UITouch *touch = [[event allTouches] anyObject];
         CGPoint positionCourante = [touch locationInView:theEAGLView];
         CGPoint positionPrecedente = [touch previousLocationInView:theEAGLView];
-        
+        if(mSelectionMode)
+        {
+            [mModel acceptSelectionVisitor:positionPrecedente.x:positionPrecedente.y:positionCourante.x:positionCourante.y];
+        }
+        else
+        {
         translationX -= (positionCourante.x - positionPrecedente.x);
         translationY += (positionCourante.y - positionPrecedente.y);
         
@@ -277,6 +287,7 @@ enum {
         }
         
         [self updateOrtho];
+        }
     }
     else if([[event allTouches] count] == 2) {
         // Poor man's pinch, perhaps implement as a UIGesture later on.

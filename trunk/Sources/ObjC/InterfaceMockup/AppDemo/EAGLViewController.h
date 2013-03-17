@@ -26,7 +26,7 @@ extern int const HAUTEUR_FENETRE;
     IBOutlet UIView *mSideBarView;
     IBOutlet UIView *mTopBarView;
     
-    
+    BOOL mSelectionMode;
     BOOL animating;
     NSInteger animationFrameInterval;
     CADisplayLink *displayLink;
@@ -41,7 +41,7 @@ extern int const HAUTEUR_FENETRE;
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;
 @property (nonatomic) NSInteger animationFrameInterval;
 @property (nonatomic, retain) OpenGLWaveFrontObject *cube;
-@property (nonatomic) Boolean mSelectionMode;
+
 
 - (IBAction)selectionModeButtonTouched:(UIButton *)sender;
 - (void)startAnimation;

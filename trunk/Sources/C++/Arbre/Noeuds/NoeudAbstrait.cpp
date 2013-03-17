@@ -503,6 +503,10 @@ void NoeudAbstrait::renderReal() const
 #else
         renderOpenGLES();
 #endif
+        if(isHightlighted() || IsSelected())
+        {
+            glDisable(GL_COLOR_LOGIC_OP);
+        }
         // Restauration des attributs
         glPopAttrib();
 

@@ -73,7 +73,6 @@
 		0C04E1FF16DEA0AC002B0EE2 /* EvenementSouris.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E1FD16DEA0AB002B0EE2 /* EvenementSouris.cpp */; };
 		0C49614216E7F37F00D13713 /* ExceptionJeu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C49614016E7F37F00D13713 /* ExceptionJeu.cpp */; };
 		0C49614616E80AC600D13713 /* UsineNoeud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C49614516E80AC600D13713 /* UsineNoeud.cpp */; };
-		4E025F6716F5058300B711DF /* Selection.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4E025F6616F5058300B711DF /* Selection.mm */; };
 		4E2A595716F2E48C002160AE /* BonusModifierAbstract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595316F2E48C002160AE /* BonusModifierAbstract.cpp */; };
 		4E2A595816F2E48C002160AE /* BonusModifierGoThorughWall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595516F2E48C002160AE /* BonusModifierGoThorughWall.cpp */; };
 		4E2A595D16F2E558002160AE /* NodeBonus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595916F2E558002160AE /* NodeBonus.cpp */; };
@@ -238,8 +237,6 @@
 		0C49614016E7F37F00D13713 /* ExceptionJeu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ExceptionJeu.cpp; path = ../../../Commun/Utilitaire/ExceptionJeu.cpp; sourceTree = "<group>"; };
 		0C49614116E7F37F00D13713 /* ExceptionJeu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExceptionJeu.h; path = ../../../Commun/Utilitaire/ExceptionJeu.h; sourceTree = "<group>"; };
 		0C49614516E80AC600D13713 /* UsineNoeud.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UsineNoeud.cpp; path = "../../C++/Arbre/Usines/UsineNoeud.cpp"; sourceTree = "<group>"; };
-		4E025F6516F5058200B711DF /* Selection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Selection.h; sourceTree = "<group>"; };
-		4E025F6616F5058300B711DF /* Selection.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Selection.mm; sourceTree = "<group>"; };
 		4E2A595116F2E455002160AE /* Flags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Flags.h; path = ../../../Commun/Utilitaire/Flags.h; sourceTree = "<group>"; };
 		4E2A595316F2E48C002160AE /* BonusModifierAbstract.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierAbstract.cpp; sourceTree = "<group>"; };
 		4E2A595416F2E48C002160AE /* BonusModifierAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusModifierAbstract.h; sourceTree = "<group>"; };
@@ -563,8 +560,6 @@
 		96378D801472C71100F543EA /* Hockedu */ = {
 			isa = PBXGroup;
 			children = (
-				4E025F6516F5058200B711DF /* Selection.h */,
-				4E025F6616F5058300B711DF /* Selection.mm */,
 				96378D891472C71200F543EA /* HockeduAppDelegate.h */,
 				96378D8A1472C71200F543EA /* HockeduAppDelegate.m */,
 				968DACC11472ED46007D15A3 /* Utilitaires */,
@@ -799,7 +794,6 @@
 				4E2A595D16F2E558002160AE /* NodeBonus.cpp in Sources */,
 				4E2A595E16F2E558002160AE /* NodeModelRender.cpp in Sources */,
 				4E2A596116F2E658002160AE /* BonusModifierFactory.cpp in Sources */,
-				4E025F6716F5058300B711DF /* Selection.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
