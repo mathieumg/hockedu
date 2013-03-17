@@ -10,8 +10,7 @@
 
 #include "SoundFMOD.h"
 #include "GestionnaireAnimations.h"
-#include "Utilitaire.h"
-#include "DecodeString.h"
+#include <iostream>
 #include "RazerGameUtilities.h"
 
 const std::string SOUND_PATH = RazerGameUtilities::NOM_DOSSIER_MEDIA + "Sons/";
@@ -69,14 +68,18 @@ SINGLETON_DECLARATION_CPP(SoundFMOD);
 /// @return : Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-void SoundFMOD::ERRCHECK( FMOD_RESULT result )
-{
-	if (result != FMOD_OK)
-	{
-		utilitaire::afficherErreur("FMOD error! "+ DecodeString::toString(result)+" "+FMOD_ErrorString(result) );
-		exit(-1);
-	}
+
+#define ERRCHECK(r, retour,...) \
+if (r != FMOD_OK)\
+{\
+    checkf(0);\
+    std::cerr << "FMOD error! " << result <<" " << FMOD_ErrorString(result)<<std::endl;\
+    {__VA_ARGS__;}\
+    return retour;\
 }
+
+
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -91,18 +94,18 @@ void SoundFMOD::init()
 {
     // Create a System object and initialize.
     result = FMOD::System_Create(&systemFmod);
-    ERRCHECK(result);
+    ERRCHECK(result,);
 
 	unsigned int version;
     result = systemFmod->getVersion(&version);
-    ERRCHECK(result);
+    ERRCHECK(result,);
 
 	result = systemFmod->createSoundGroup("songs",&songs_group);
-	ERRCHECK(result);
+	ERRCHECK(result,);
 	result = systemFmod->createSoundGroup("effects",&effects_group);
-	ERRCHECK(result);
+	ERRCHECK(result,);
 	result = systemFmod->createSoundGroup("voices",&voices_group);
-	ERRCHECK(result);
+	ERRCHECK(result,);
 
     if (version < FMOD_VERSION)
     {
@@ -110,7 +113,7 @@ void SoundFMOD::init()
         return;
     }
     result = systemFmod->init(32, FMOD_INIT_NORMAL, 0);
-    ERRCHECK(result);
+    ERRCHECK(result,);
 
 	// Sons par défaut de l'application 
 	create_sound("hockey.mp3", FMOD_SOFTWARE, 0, songs_group);
@@ -157,7 +160,7 @@ void SoundFMOD::clear()
 	for(ListeMusique::iterator iter = musiques_.begin(); iter != musiques_.end(); ++iter)
 	{
 		result = iter->second->release();
-		ERRCHECK(result);
+		ERRCHECK(result,);
 	}
 
 	// Vidage des canaux
@@ -183,7 +186,7 @@ void SoundFMOD::clear()
 		// On prend la chanson a lindex 0, car suite au release, elle est supprime
 		songs_group->getSound(0,&current_sound);
 		result = current_sound->release();
-		ERRCHECK(result);
+		ERRCHECK(result,);
 	}
 	songs_group->release();
 
@@ -193,7 +196,7 @@ void SoundFMOD::clear()
 		// On prend la chanson a lindex 0, car suite au release, elle est supprime
 		voices_group->getSound(0,&current_sound);
 		result = current_sound->release();
-		ERRCHECK(result);
+		ERRCHECK(result,);
 	}
 	voices_group->release();
 
@@ -203,14 +206,14 @@ void SoundFMOD::clear()
 		// On prend la chanson a lindex 0, car suite au release, elle est supprime
 		effects_group->getSound(0,&current_sound);
 		result = current_sound->release();
-		ERRCHECK(result);
+		ERRCHECK(result,);
 	}
 	effects_group->release();
 
 	result = systemFmod->close();
-	ERRCHECK(result);
+	ERRCHECK(result,);
 	result = systemFmod->release();
-	ERRCHECK(result);
+	ERRCHECK(result,);
 	initialised_ = false;
 }
 
@@ -233,11 +236,7 @@ void SoundFMOD::create_sound(std::string name_or_data, FMOD_MODE mode, FMOD_CREA
 	if((iter = musiques_.find(name_or_data)) == musiques_.end())
 	{
 		result = systemFmod->createSound(name_or_data.c_str(), mode, exinfo, &sound);
-		if (result != FMOD_OK)
-		{
-			utilitaire::afficherErreur("Erreur dans le chargement de la chanson " + name_or_data);
-			return;
-		}
+        ERRCHECK(result,,std::cerr << "Error loading song : " << name_or_data << std::endl;);
 		sound->setSoundGroup(songs_group);
 		musiques_[name_or_data] =  sound;
 	}
@@ -248,7 +247,7 @@ void SoundFMOD::create_sound(std::string name_or_data, FMOD_MODE mode, FMOD_CREA
 	creerPlaylist(nomPlaylist);
 	ajouterChanson(nomPlaylist, sound);
 
-	ERRCHECK(result);
+	ERRCHECK(result,);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -262,11 +261,14 @@ void SoundFMOD::create_sound(std::string name_or_data, FMOD_MODE mode, FMOD_CREA
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::creerPlaylist(std::string nom)
 {
+    if(!initialised_)
+        return;
+
 	if(playlists_.find(nom) == playlists_.end())
 	{
 		playlists_[nom] = 0;
 		result = systemFmod->createSoundGroup(nom.c_str(),&playlists_[nom]);
-		ERRCHECK(result);
+		ERRCHECK(result,);
 	}
 
 	if(playlistActuelle_ == NULL)
@@ -289,6 +291,9 @@ void SoundFMOD::creerPlaylist(std::string nom)
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::ajouterChanson( std::string nomPlaylist, FMOD::Sound* sound )
 {
+    if(!initialised_)
+        return;
+
 	sound->setSoundGroup(playlists_[nomPlaylist]);
 }
 
@@ -314,7 +319,7 @@ void SoundFMOD::create_sound(std::string name_or_data, FMOD_MODE mode, FMOD_CREA
 	result = systemFmod->createSound(name_or_data.c_str(), mode, exinfo, &sound);
 	sound->setSoundGroup(group);
 
-	ERRCHECK(result);
+	ERRCHECK(result,);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -330,6 +335,9 @@ void SoundFMOD::create_sound(std::string name_or_data, FMOD_MODE mode, FMOD_CREA
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::playApplicationSong(ApplicationSong choice)
 {
+    if(!initialised_)
+        return;
+
 	if((songIsPlaying() && get_Song_Playing() == choice))
 		return;
 
@@ -338,7 +346,7 @@ void SoundFMOD::playApplicationSong(ApplicationSong choice)
 	FMOD::Sound* cur;
 	songs_group->getSound(song_playing_,&cur);
 	result = systemFmod->playSound(FMOD_CHANNEL_REUSE, cur, false, &song_channel);
-	ERRCHECK(result);
+	ERRCHECK(result,);
 	systemFmod->update();
 }
 
@@ -355,6 +363,9 @@ void SoundFMOD::playApplicationSong(ApplicationSong choice)
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::playSongInPlaylist( Song choice )
 {
+    if(!initialised_)
+        return;
+
 	int nbSong;
 	playlistActuelle_->getNumSounds(&nbSong);
 	if((songIsPlaying() && get_Song_Playing() == choice) || playlistActuelle_ == NULL || nbSong == 0 )
@@ -368,7 +379,7 @@ void SoundFMOD::playSongInPlaylist( Song choice )
 	FMOD::Sound* cur;
 	playlistActuelle_->getSound(song_playing_,&cur);
 	result = systemFmod->playSound(FMOD_CHANNEL_REUSE, cur, false, &song_channel);
-	ERRCHECK(result);
+	ERRCHECK(result,);
 	systemFmod->update();
 	stopped_ = false;
 }
@@ -384,6 +395,9 @@ void SoundFMOD::playSongInPlaylist( Song choice )
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::next_Song()
 {
+    if(!initialised_)
+        return;
+
 // 	if(playlistActuelle_== NULL || playlistActuelle_.second->size() == 0)
 // 		return;
 // 	++pisteCourante_;
@@ -404,6 +418,9 @@ void SoundFMOD::next_Song()
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::previous_Song()
 {
+    if(!initialised_)
+        return;
+
 	playSongInPlaylist(song_playing_-1);
 // 	if(playlistActuelle_.second == NULL || playlistActuelle_.second->size() == 0)
 // 		return;
@@ -427,10 +444,13 @@ void SoundFMOD::previous_Song()
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::playVoice( voices choice )
 {
+    if(!initialised_)
+        return;
+
 	FMOD::Sound* current_song;
 	voices_group->getSound(choice,&current_song);
 	result = systemFmod->playSound(FMOD_CHANNEL_REUSE, current_song, false, &voices_channel);
-	ERRCHECK(result);
+	ERRCHECK(result,);
 	systemFmod->update();
 }
 
@@ -447,11 +467,14 @@ void SoundFMOD::playVoice( voices choice )
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::playEffect( effect choice )
 {
+    if(!initialised_)
+        return;
+
 	FMOD::Sound* current_song;
 	effects_group->getSound(choice,&current_song);
 	result = systemFmod->playSound(FMOD_CHANNEL_FREE, current_song, false, &effect_channel);
 	GestionnaireAnimations::obtenirInstance()->saveReplaySound(choice);
-	ERRCHECK(result);
+	ERRCHECK(result,);
 	systemFmod->update();
 }
 
@@ -468,6 +491,9 @@ void SoundFMOD::playEffect( effect choice )
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::setEffectVolume(float new_volume)
 {
+    if(!initialised_)
+        return;
+
 	effect_Volume = new_volume;
 	effects_group->setVolume(new_volume);
 	voices_group->setVolume(new_volume);
@@ -486,6 +512,9 @@ void SoundFMOD::setEffectVolume(float new_volume)
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::setPlaylistVolume(float new_volume)
 {
+    if(!initialised_)
+        return;
+
 	if(playlistActuelle_)
 		playlistActuelle_->setVolume(new_volume);
 }
@@ -503,6 +532,9 @@ void SoundFMOD::setPlaylistVolume(float new_volume)
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::setAppVolume(float new_volume)
 {
+    if(!initialised_)
+        return;
+
 	songs_group->setVolume(new_volume);
 }
 
@@ -518,6 +550,9 @@ void SoundFMOD::setAppVolume(float new_volume)
 //Pas besoin pour le moment, les .XM ont un loop embeded qui les rendent interminables
 void SoundFMOD::change_song_if_end()
 {
+    if(!initialised_)
+        return;
+
 	bool playing;
 	song_channel->isPlaying(&playing);
 	if(!playing && !stopped_)
@@ -539,6 +574,9 @@ void SoundFMOD::change_song_if_end()
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::repeatAppSong()
 {
+    if(!initialised_)
+        return;
+
 	if(!songIsPlaying())
 	{	
 		if(song_playing_ == STARTUP_SONG)
@@ -565,6 +603,9 @@ void SoundFMOD::repeatAppSong()
 ////////////////////////////////////////////////////////////////////////
 float SoundFMOD::getSongVolume()
 {
+    if(!initialised_)
+        return 0;
+
 	if(playlistActuelle_)
 	{
 		playlistActuelle_->getVolume(&song_Volume);
@@ -585,6 +626,9 @@ float SoundFMOD::getSongVolume()
 ////////////////////////////////////////////////////////////////////////
 float SoundFMOD::getAppSongVolume()
 {
+    if(!initialised_)
+        return 0;
+
 	songs_group->getVolume(&song_Volume);
 	return song_Volume;
 }
@@ -600,6 +644,9 @@ float SoundFMOD::getAppSongVolume()
 ////////////////////////////////////////////////////////////////////////
 float SoundFMOD::getEffectVolume()
 {
+    if(!initialised_)
+        return 0;
+
 	return effect_Volume;
 }
 
@@ -614,6 +661,9 @@ float SoundFMOD::getEffectVolume()
 ////////////////////////////////////////////////////////////////////////
 Song SoundFMOD::get_Song_Playing()
 {
+    if(!initialised_)
+        return 0;
+
 	return song_playing_;
 }
 
@@ -628,6 +678,9 @@ Song SoundFMOD::get_Song_Playing()
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::togglePlaying()
 {
+    if(!initialised_)
+        return;
+
 	bool p;
 	song_channel->getPaused(&p);
 	song_channel->setPaused(!p);
@@ -645,6 +698,9 @@ void SoundFMOD::togglePlaying()
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::restartSong()
 {
+    if(!initialised_)
+        return;
+
 	playSongInPlaylist(song_playing_);
 }
 
@@ -659,6 +715,9 @@ void SoundFMOD::restartSong()
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::stop()
 {
+    if(!initialised_)
+        return;
+
 	song_channel->setPaused(false);
 	song_channel->stop();
 	stopped_ = true;
@@ -675,6 +734,9 @@ void SoundFMOD::stop()
 ////////////////////////////////////////////////////////////////////////
 bool SoundFMOD::estEnPause()
 {
+    if(!initialised_)
+        return false;
+
 	bool p;
 	song_channel->getPaused(&p);
 	return p;
@@ -695,13 +757,16 @@ std::vector<std::string> SoundFMOD::obtenirCanaux()
 	Playlist::iterator iter;
 	std::vector<std::string> valeurDeRetour;
 
-	for(iter = playlists_.begin(); iter != playlists_.end(); iter++)
-	{
-		char name[500];
-		result = iter->second->getName(name,500);
-		ERRCHECK(result);
-		valeurDeRetour.push_back(name);
-	}
+    if(initialised_)
+    {
+        for(iter = playlists_.begin(); iter != playlists_.end(); iter++)
+        {
+            char name[500];
+            result = iter->second->getName(name,500);
+            ERRCHECK(result,valeurDeRetour);
+            valeurDeRetour.push_back(name);
+        }
+    }
 		
 	return valeurDeRetour;
 }
@@ -717,6 +782,9 @@ std::vector<std::string> SoundFMOD::obtenirCanaux()
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::next_playlist()
 {
+    if(!initialised_)
+        return;
+
 	Playlist::iterator iter;
 	iter = playlists_.find(obtenirNomCanalCourant());
 	++iter;
@@ -765,6 +833,9 @@ void SoundFMOD::previous_playlist()
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::modifierPlaylistActuelle(std::string nomCanal)
 {
+    if(!initialised_)
+        return;
+
 	if(playlists_.find(nomCanal) != playlists_.end())
 		playlistActuelle_ = playlists_[nomCanal];
 }
@@ -780,11 +851,11 @@ void SoundFMOD::modifierPlaylistActuelle(std::string nomCanal)
 ////////////////////////////////////////////////////////////////////////
 std::string SoundFMOD::obtenirNomCanalCourant() 
 { 
-	if(playlistActuelle_)
+	if(initialised_ && playlistActuelle_)
 	{
 		char name[500];
 		result = playlistActuelle_->getName(name,500);
-		ERRCHECK(result);
+		ERRCHECK(result,"");
 		return name;
 	}
 	return "";
@@ -802,6 +873,9 @@ std::string SoundFMOD::obtenirNomCanalCourant()
 ////////////////////////////////////////////////////////////////////////
 bool SoundFMOD::songIsPlaying()
 {
+    if(!initialised_)
+        return false;
+
 	bool playing;
 	song_channel->isPlaying(&playing);
 	return playing;
@@ -820,6 +894,9 @@ bool SoundFMOD::songIsPlaying()
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::supprimerPlaylist( std::string nom )
 {
+    if(!initialised_)
+        return;
+
 	Playlist::iterator iter = playlists_.find(nom);
 	if(iter != playlists_.end())
 	{
@@ -835,7 +912,7 @@ void SoundFMOD::supprimerPlaylist( std::string nom )
 			}
 		}
 		result = iter->second->release();
-		ERRCHECK(result);
+		ERRCHECK(result,);
 		playlists_.erase(iter);
 	}
 }
@@ -854,6 +931,9 @@ void SoundFMOD::supprimerPlaylist( std::string nom )
 ////////////////////////////////////////////////////////////////////////
 void SoundFMOD::supprimerChanson( std::string nomPlaylist, std::string nomChanson )
 {
+    if(!initialised_)
+        return;
+
 	Playlist::iterator iter = playlists_.find(nomPlaylist);
 	if(iter != playlists_.end())
 	{
@@ -866,7 +946,7 @@ void SoundFMOD::supprimerChanson( std::string nomPlaylist, std::string nomChanso
 			if(obtenirNomChanson(current_sound) == nomChanson)
 			{
 				result = current_sound->release();
-				ERRCHECK(result);
+				ERRCHECK(result,);
 				return;
 			}
 		}
@@ -886,11 +966,11 @@ void SoundFMOD::supprimerChanson( std::string nomPlaylist, std::string nomChanso
 ////////////////////////////////////////////////////////////////////////
 std::string SoundFMOD::obtenirNomChanson( FMOD::Sound* sound )
 {
-	if(sound)
+	if(initialised_ && sound)
 	{
 		char name[500];
 		result = sound->getName(name,500);
-		ERRCHECK(result);
+		ERRCHECK(result,"");
 		return name;
 	}
 	return "";
