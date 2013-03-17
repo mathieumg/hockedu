@@ -9,7 +9,9 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
+#if WITH_JAVA  
 #include "jni.h"
+#endif //WITH_JAVA  
 
 typedef int ToucheClavier;
 
@@ -23,8 +25,10 @@ typedef int ToucheClavier;
 class EvenementClavier
 {
 public:
+#if WITH_JAVA  
 	/// Constructeurs par objet Java
 	EvenementClavier(JNIEnv* env, jobject& evenementClavier);
+#endif //WITH_JAVA  
 
 	/// Constructeur par paramètres
 	EvenementClavier(ToucheClavier touche);

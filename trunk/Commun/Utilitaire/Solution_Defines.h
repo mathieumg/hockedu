@@ -53,6 +53,9 @@ typedef char *  va_list;
 #include <cstdio>
 #endif
 
+// permet de connaitre la longueur d'un array
+#define ARRAY_COUNT( array ) \
+    ( sizeof(array) / sizeof((array)[0]) )
 
 /// Solution utilities
 #ifdef WINDOWS
@@ -67,11 +70,6 @@ typedef char *  va_list;
 // Permet de faire un breakpoint avec du code
 //#define appDebugBreak()     ( *((int*)3) = 13 )
 void appDebugBreak();
-
-
-// permet de connaitre la longueur d'un array
-#define ARRAY_COUNT( array ) \
-    ( sizeof(array) / sizeof((array)[0]) )
 
 int GetVarArgs( char* Dest, int DestSize, int Count, const char*& Fmt, va_list ArgPtr );
 #define GET_VARARGS(msg,msgsize,len,lastarg,fmt) { va_list ap; va_start(ap,lastarg);GetVarArgs(msg,msgsize,len,fmt,ap); }

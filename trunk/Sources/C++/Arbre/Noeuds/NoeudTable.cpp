@@ -32,6 +32,7 @@
 #endif
 #include "ArbreRendu.h"
 #include "Terrain.h"
+#include "Solution_Defines.h"
 
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
 const Vecteur3 NoeudTable::DEFAULT_SIZE = Vecteur3(300,150);

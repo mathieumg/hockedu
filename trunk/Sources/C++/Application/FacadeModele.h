@@ -16,13 +16,16 @@
 #include "Vecteur.h"
 #include "RazerGameTypeDef.h"
 #include "RazerGameUtilities.h"
-#include "jni.h"
+
 #include "GameTime.h"
 #include <queue>
 #include <hash_map>
 #include "GameManager.h"
 #include "Enum_Declarations.h"
 
+#if WITH_JAVA
+#include "jni.h"
+#endif
 
 class VisiteurNoeud;
 class NoeudMaillet;
@@ -170,8 +173,10 @@ public:
 	/// Verifie si la position du noeud est valide (dans l'aire de jeu et pas sur un autre noeud)
 	bool positionNoeudValide(NoeudAbstrait* noeudAVerifier);
 
+#if WITH_JAVA  
 	/// Retourne les informations sur le noeud selectionne
 	jobject obtenirAttributsNoeudSelectionne(JNIEnv* env);
+#endif
 
 	/// Verifie si la position n'entre pas en collision
 	bool validerPositionNoeud(NoeudAbstrait* noeudAValider, bool flag = false);

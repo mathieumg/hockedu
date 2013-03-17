@@ -177,6 +177,8 @@ void Terrain::renderField()
 {
     if(mLogicTree)
         mLogicTree->render();
+
+#if WIN32
     GLint renderMode;
     glGetIntegerv(GL_RENDER_MODE,&renderMode);
     if(renderMode == GL_SELECT)
@@ -184,6 +186,7 @@ void Terrain::renderField()
         // dont draw anything else when selecting
         return;
     }
+#endif
 
     if(mNewNodeTree)
         mNewNodeTree->render();
