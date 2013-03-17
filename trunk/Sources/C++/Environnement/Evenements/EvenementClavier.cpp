@@ -10,6 +10,7 @@
 
 #include "EvenementClavier.h"
 
+#ifdef WITH_JAVA
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn EvenementClavier::EvenementClavier(JNIEnv* env, jobject& evenementClavier)
@@ -31,6 +32,7 @@ EvenementClavier::EvenementClavier(JNIEnv* env, jobject& evenementClavier)
 	touche_ = env->CallIntMethod(evenementClavier, getKeyCode);
 }
 
+#endif // WITH_JAVA
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn EvenementClavier::EvenementClavier( ToucheClavier touche ) :touche_(touche)

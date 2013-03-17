@@ -33,6 +33,7 @@ JoueurVirtuel::JoueurVirtuel(std::string nom, unsigned int vitesse, unsigned int
 	aiMaillet_ = new AIMaillet(*this);
 }
 
+#ifdef WITH_JAVA
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn JoueurVirtuel::JoueurVirtuel( JNIEnv* env, jobject& joueurVirtuel )
@@ -73,6 +74,7 @@ JoueurVirtuel::JoueurVirtuel( JNIEnv* env, jobject& joueurVirtuel ) : JoueurAbst
 }
 
 
+#endif // WITH_JAVA
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn JoueurVirtuel::~JoueurVirtuel( )

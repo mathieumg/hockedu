@@ -67,7 +67,8 @@ const unsigned int MAX_MALLETS = 2;
 ///
 ////////////////////////////////////////////////////////////////////////
 Terrain::Terrain(Partie* pGame): 
-    mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame),mZamboni(NULL)
+    mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame),mZamboni(NULL),
+    mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL)
 {
     mEditionZone = NULL;
     if(!mGame)
@@ -102,7 +103,7 @@ Terrain::~Terrain()
 #ifndef __APPLE__
     RunnableBreaker::signalObservers();
 #endif
-	libererMemoire();
+    libererMemoire();
 
     if(mEditionZone)
     {
@@ -130,22 +131,22 @@ Terrain::~Terrain()
 ////////////////////////////////////////////////////////////////////////
 void Terrain::libererMemoire()
 {
-	// S'assurer de remettre tous les pointeurs a NULL car la comparaison est utiliser 
-	// partout dans le terrain pour savoir si le pointeur est valide
-	if(mLogicTree)
-	{
-		// Libération de l'arbre de rendu complet
-		mLogicTree->empty();
-		delete mLogicTree;
-		mLogicTree = NULL;
-	}
-	if(mNewNodeTree)
-	{
-		// Ses enfants ne seront pas libérés, mais le terrain n'en n'est pas responsable
-		mNewNodeTree->empty();
-		delete mNewNodeTree;
-		mNewNodeTree = NULL;
-	}
+    // S'assurer de remettre tous les pointeurs a NULL car la comparaison est utiliser 
+    // partout dans le terrain pour savoir si le pointeur est valide
+    if(mLogicTree)
+    {
+        // Libération de l'arbre de rendu complet
+        mLogicTree->empty();
+        delete mLogicTree;
+        mLogicTree = NULL;
+    }
+    if(mNewNodeTree)
+    {
+        // Ses enfants ne seront pas libérés, mais le terrain n'en n'est pas responsable
+        mNewNodeTree->empty();
+        delete mNewNodeTree;
+        mNewNodeTree = NULL;
+    }
     // Libère l'arbre de rendu servant à l'affichage seulement
     if(mRenderTree)
     {
@@ -153,10 +154,10 @@ void Terrain::libererMemoire()
         delete mRenderTree;
         mRenderTree = NULL;
     }
-	// On ne libère pas la table, car elle est un enfant de l'arbre de rendu
-	mTable = NULL;
-	
-	mFieldName = "";
+    // On ne libère pas la table, car elle est un enfant de l'arbre de rendu
+    mTable = NULL;
+    
+    mFieldName = "";
 }
 
 
@@ -174,14 +175,25 @@ void Terrain::libererMemoire()
 ////////////////////////////////////////////////////////////////////////
 void Terrain::renderField()
 {
-	if(mLogicTree)
-		mLogicTree->render();
-	if(mNewNodeTree)
-		mNewNodeTree->render();
-	if(getZoneEdition())
-		getZoneEdition()->afficher();
-	if(mRenderTree)
-		mRenderTree->render();
+    if(mLogicTree)
+        mLogicTree->render();
+
+#if WIN32
+    GLint renderMode;
+    glGetIntegerv(GL_RENDER_MODE,&renderMode);
+    if(renderMode == GL_SELECT)
+    {
+        // dont draw anything else when selecting
+        return;
+    }
+#endif
+
+    if(mNewNodeTree)
+        mNewNodeTree->render();
+    if(getZoneEdition())
+        getZoneEdition()->afficher();
+    if(mRenderTree)
+        mRenderTree->render();
 }
 
 
@@ -200,21 +212,21 @@ void Terrain::renderField()
 ////////////////////////////////////////////////////////////////////////
 void Terrain::initialiser( std::string nom )
 {
-	// On s'assure que les éléments du terrain sont libéré avant de les écraser
-	libererMemoire();
-	// Doit rester la premiere chose que l'on fait dans cette méthode sinon on pourrait invalider des pointeurs
-	///////////////////////////////////////////////////////////////////////////
+    // On s'assure que les éléments du terrain sont libéré avant de les écraser
+    libererMemoire();
+    // Doit rester la premiere chose que l'on fait dans cette méthode sinon on pourrait invalider des pointeurs
+    ///////////////////////////////////////////////////////////////////////////
 
-	// Assignation du nom du terrain
-	mFieldName = nom;
-	// Initialisation de la Zone d'edition
+    // Assignation du nom du terrain
+    mFieldName = nom;
+    // Initialisation de la Zone d'edition
     if(getZoneEdition())
     {
         getZoneEdition()->reinitialiser();
     }
 
-	initialiserArbreRendu();
-	
+    initialiserArbreRendu();
+    fullRebuild();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -232,11 +244,11 @@ void Terrain::initialiserArbreRendu()
     // Initialisation des arbres de rendus
     if(mLogicTree == NULL)
     {
-		mLogicTree = new RazerGameTree(this,MAX_MALLETS,MAX_PUCKS);
+        mLogicTree = new RazerGameTree(this,MAX_MALLETS,MAX_PUCKS);
     }
-	else
+    else
     {
-		mLogicTree->empty();
+        mLogicTree->empty();
     }
 
     if(!mRenderTree)
@@ -263,27 +275,12 @@ void Terrain::initialiserArbreRendu()
         mNewNodeTree->setField(this);
     }
 
-	// Ajout d'une table de base au terrain
-	mTable = new NoeudTable(RazerGameUtilities::NOM_TABLE);
-	mLogicTree->add(mTable);
+    // Ajout d'une table de base au terrain
+    mTable = new NoeudTable(RazerGameUtilities::NOM_TABLE);
+    mLogicTree->add(mTable);
 
-
-	/// Groupe destine a contenir les noeud concret pour un meilleur parcours d'arbre
-	NoeudGroupe* 	gMaillet =	new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_MAILLET),
-		*gRondelle =	new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_RONDELLE),
-		*gAccel =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_ACCELERATEUR),
-        *gMuret =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_MURET),
-        *gPortail =		new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,RazerGameUtilities::NOM_PORTAIL);
-
-	// La table contient ces groupes.
-	mTable->add(gRondelle);
-	mTable->add(gMaillet);
-	mTable->add(gAccel);
-	mTable->add(gMuret);
-    mTable->add(gPortail);
-
-	// Permet de rediriger les bandes extérieur de la table vers le groupe  gMuret
-	//mTable->reassignerParentBandeExt();
+    // Permet de rediriger les bandes extérieur de la table vers le groupe  gMuret
+    //mTable->reassignerParentBandeExt();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -299,9 +296,9 @@ void Terrain::initialiserArbreRendu()
 ////////////////////////////////////////////////////////////////////////
 bool Terrain::initialiserXml( XmlElement* element )
 {
-	libererMemoire();
-	
-	// Initialisation des arbres de rendus
+    libererMemoire();
+    
+    // Initialisation des arbres de rendus
     if(!mRenderTree)
     {
         mRenderTree = new ArbreRendu(this);
@@ -325,41 +322,39 @@ bool Terrain::initialiserXml( XmlElement* element )
         }
         mNewNodeTree->setField(this);
     }
-	mLogicTree = new RazerGameTree(this,MAX_MALLETS,MAX_PUCKS);
+    mLogicTree = new RazerGameTree(this,MAX_MALLETS,MAX_PUCKS);
 
-	XmlElement* racine = XMLUtils::FirstChildElement(element,"Terrain");
-	if(!racine)
-		return false;
+    XmlElement* racine = XMLUtils::FirstChildElement(element,"Terrain");
+    if(!racine)
+        return false;
     if(!XMLUtils::readAttribute(racine,"nom",mFieldName))
-		return false;
+        return false;
 
-	try
-	{
+    try
+    {
         mLogicTree->initFromXml(racine);
-		mTable = mLogicTree->obtenirTable();
-		if(mTable == NULL)
-        {
-			throw ExceptionJeu("Il ny a pas de table sur le terrain");
-        }
-        fullRebuild();
-	}
-	catch(ExceptionJeu& e)
-	{
-		// Erreur dans le fichier XML, on remet l'arbre de base
-		initialiserArbreRendu();
+        initNecessaryPointersForGame();
+    }
+    catch(ExceptionJeu& e)
+    {
+        // Erreur dans le fichier XML, on remet un terrain par defaut
+        creerTerrainParDefaut(mFieldName);
         utilitaire::afficherErreur(e.what());
-	}
-	catch(...)
-	{
-		// Erreur dans le fichier XML, on remet l'arbre de base
-		initialiserArbreRendu();
-	}
+        return true;
+    }
+    catch(...)
+    {
+        // Erreur dans le fichier XML, on remet un terrain par defaut
+        creerTerrainParDefaut(mFieldName);
+        return true;
+    }
 
-	if(getZoneEdition() && !getZoneEdition()->initialisationXML(racine))
-		return false;
+    if(getZoneEdition() && !getZoneEdition()->initialisationXML(racine))
+        return false;
 
-	
-	return true;
+    fullRebuild();
+
+    return true;
 }
 
 
@@ -375,8 +370,8 @@ bool Terrain::initialiserXml( XmlElement* element )
 ////////////////////////////////////////////////////////////////////////
 void Terrain::reinitialiser()
 {
-	initialiserArbreRendu();
-	getZoneEdition()->reinitialiser();
+    initialiserArbreRendu();
+    getZoneEdition()->reinitialiser();
 }
 
 
@@ -392,8 +387,8 @@ void Terrain::reinitialiser()
 ////////////////////////////////////////////////////////////////////////
 XmlElement* Terrain::creerNoeudXML()
 {
-	// Créer le noeud 
-	XmlElement* racine = XMLUtils::createNode("Terrain");
+    // Créer le noeud 
+    XmlElement* racine = XMLUtils::createNode("Terrain");
     XMLUtils::writeAttribute(racine,"nom",getNom());
 
     VisiteurEcrireXML v;
@@ -408,7 +403,7 @@ XmlElement* Terrain::creerNoeudXML()
         XMLUtils::LinkEndChild(racine,getZoneEdition()->creerNoeudXML());
     }
 
-	return racine;
+    return racine;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -424,12 +419,12 @@ XmlElement* Terrain::creerNoeudXML()
 ////////////////////////////////////////////////////////////////////////
 void Terrain::animerTerrain( const float& temps )
 {
-	if(mLogicTree)
-		mLogicTree->tick(temps);
-	if(mNewNodeTree)
-		mNewNodeTree->tick(temps);
-	if(mRenderTree)
-		mRenderTree->tick(temps);
+    if(mLogicTree)
+        mLogicTree->tick(temps);
+    if(mNewNodeTree)
+        mNewNodeTree->tick(temps);
+    if(mRenderTree)
+        mRenderTree->tick(temps);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -445,7 +440,7 @@ void Terrain::animerTerrain( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void Terrain::ajouterNoeudTemp( NoeudAbstrait* noeud )
 {
-	mNewNodeTree->add(noeud);
+    mNewNodeTree->add(noeud);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -461,8 +456,8 @@ void Terrain::ajouterNoeudTemp( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 void Terrain::transfererNoeud( NoeudAbstrait* noeud )
 {
-	mNewNodeTree->unlinkChild(noeud);
-	mTable->add(noeud);
+    mNewNodeTree->unlinkChild(noeud);
+    mTable->add(noeud);
     noeud->forceFullUpdate();
 }
 
@@ -479,7 +474,7 @@ void Terrain::transfererNoeud( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 void Terrain::retirerNoeudTemp( NoeudAbstrait* noeud )
 {
-	mNewNodeTree->unlinkChild(noeud);
+    mNewNodeTree->unlinkChild(noeud);
 }
 
 
@@ -496,60 +491,60 @@ void Terrain::retirerNoeudTemp( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 bool Terrain::insideLimits( NoeudAbstrait* noeud )
 {
-	const Vecteur3& pos = noeud->getPosition();
+    const Vecteur3& pos = noeud->getPosition();
     checkf(getZoneEdition(),"call illégal à InsideLimits, doit seulement etre utiliser pour le mode édition");
-	// Cas particulier pour des muret puisque ce sont des segment et non des cercles
-	if(getZoneEdition() && noeud->getType() == RazerGameUtilities::NOM_MURET)
-	{
+    // Cas particulier pour des muret puisque ce sont des segment et non des cercles
+    if(getZoneEdition() && noeud->getType() == RazerGameUtilities::NOM_MURET)
+    {
         Vecteur2 intersection;
-		NodeWallAbstract *muret = (NodeWallAbstract *)noeud;
-		if (muret)
-		{
-			// Ligne du haut
-			if(aidecollision::calculerCollisionSegmentSegment(
-				muret->obtenirCoin1().convertir<2>(),
-				muret->obtenirCoin2().convertir<2>(),
-				Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
-				Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
-				intersection	// pas besoin du point dintersection
-				).type != aidecollision::COLLISION_AUCUNE)
-				return false;
-			// Ligne de droite
-			if(aidecollision::calculerCollisionSegmentSegment(
-				muret->obtenirCoin1().convertir<2>(),
-				muret->obtenirCoin2().convertir<2>(),
-				Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
-				Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
-				intersection	// pas besoin du point dintersection
-				).type != aidecollision::COLLISION_AUCUNE)
-				return false;
-			// Ligne du bas
-			if(aidecollision::calculerCollisionSegmentSegment(
-				muret->obtenirCoin1().convertir<2>(),
-				muret->obtenirCoin2().convertir<2>(),
-				Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
-				Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
-				intersection	// pas besoin du point dintersection
-				).type != aidecollision::COLLISION_AUCUNE)
-				return false;
-			// Ligne de Gauche
-			if(aidecollision::calculerCollisionSegmentSegment(
-				muret->obtenirCoin1().convertir<2>(),
-				muret->obtenirCoin2().convertir<2>(),
-				Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
-				Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
-				intersection	// pas besoin du point dintersection
-				).type != aidecollision::COLLISION_AUCUNE)
-				return false;
-		}
-	}
-	// Tests sur les positions avec leurs rayons beaucoup plus simple
-	// sert aussi de float check pour les murets car leur rayon est nulle
-	if(pos[VX]+noeud->getRadius() > getZoneEdition()->obtenirLimiteExtLongueur() || pos[VX]-noeud->getRadius() < -getZoneEdition()->obtenirLimiteExtLongueur())
-		return false;
-	if(pos[VY]+noeud->getRadius() > getZoneEdition()->obtenirLimiteExtLargeur() || pos[VY]-noeud->getRadius() < -getZoneEdition()->obtenirLimiteExtLargeur())
-		return false;
-	return true;
+        NodeWallAbstract *muret = (NodeWallAbstract *)noeud;
+        if (muret)
+        {
+            // Ligne du haut
+            if(aidecollision::calculerCollisionSegmentSegment(
+                muret->obtenirCoin1().convertir<2>(),
+                muret->obtenirCoin2().convertir<2>(),
+                Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
+                Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
+                intersection    // pas besoin du point dintersection
+                ).type != aidecollision::COLLISION_AUCUNE)
+                return false;
+            // Ligne de droite
+            if(aidecollision::calculerCollisionSegmentSegment(
+                muret->obtenirCoin1().convertir<2>(),
+                muret->obtenirCoin2().convertir<2>(),
+                Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
+                Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
+                intersection    // pas besoin du point dintersection
+                ).type != aidecollision::COLLISION_AUCUNE)
+                return false;
+            // Ligne du bas
+            if(aidecollision::calculerCollisionSegmentSegment(
+                muret->obtenirCoin1().convertir<2>(),
+                muret->obtenirCoin2().convertir<2>(),
+                Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
+                Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
+                intersection    // pas besoin du point dintersection
+                ).type != aidecollision::COLLISION_AUCUNE)
+                return false;
+            // Ligne de Gauche
+            if(aidecollision::calculerCollisionSegmentSegment(
+                muret->obtenirCoin1().convertir<2>(),
+                muret->obtenirCoin2().convertir<2>(),
+                Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
+                Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
+                intersection    // pas besoin du point dintersection
+                ).type != aidecollision::COLLISION_AUCUNE)
+                return false;
+        }
+    }
+    // Tests sur les positions avec leurs rayons beaucoup plus simple
+    // sert aussi de float check pour les murets car leur rayon est nulle
+    if(pos[VX]+noeud->getRadius() > getZoneEdition()->obtenirLimiteExtLongueur() || pos[VX]-noeud->getRadius() < -getZoneEdition()->obtenirLimiteExtLongueur())
+        return false;
+    if(pos[VY]+noeud->getRadius() > getZoneEdition()->obtenirLimiteExtLargeur() || pos[VY]-noeud->getRadius() < -getZoneEdition()->obtenirLimiteExtLargeur())
+        return false;
+    return true;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -565,21 +560,29 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 void Terrain::creerTerrainParDefaut(const std::string& nom)
 {
-	initialiser(nom);
-	NoeudAbstrait* maillet1 = getLogicTree()->creerNoeud(RazerGameUtilities::NOM_MAILLET);
-	NoeudAbstrait* maillet2 = getLogicTree()->creerNoeud(RazerGameUtilities::NOM_MAILLET);
-	NoeudAbstrait* rondelle = getLogicTree()->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
+    initialiser(nom);
+    NoeudAbstrait* maillet1 = getLogicTree()->creerNoeud(RazerGameUtilities::NOM_MAILLET);
+    NoeudAbstrait* maillet2 = getLogicTree()->creerNoeud(RazerGameUtilities::NOM_MAILLET);
+    NoeudAbstrait* rondelle = getLogicTree()->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
 
-	maillet1->setPosition(mTable->obtenirPoint(POSITION_MILIEU_GAUCHE)->getPosition()/2.0);
-	maillet2->setPosition(mTable->obtenirPoint(POSITION_MILIEU_DROITE)->getPosition()/2.0);
-	rondelle->setPosition(Vecteur3(0.0,0.0,0.0));
+    maillet1->setPosition(mTable->obtenirPoint(POSITION_MILIEU_GAUCHE)->getPosition()/2.0);
+    maillet2->setPosition(mTable->obtenirPoint(POSITION_MILIEU_DROITE)->getPosition()/2.0);
+    rondelle->setPosition(Vecteur3(0.0,0.0,0.0));
 
-	mTable->add(maillet1);
-	mTable->add(maillet2);
-	mTable->add(rondelle);
+    mTable->add(maillet1);
+    mTable->add(maillet2);
+    mTable->add(rondelle);
 
     rondelle->setSelection(true);
     fullRebuild();
+    try
+    {
+        initNecessaryPointersForGame();
+    }
+    catch(ExceptionJeu& e)
+    {
+        checkf(0,"%s", e.what());
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -688,135 +691,170 @@ void Terrain::createRandomField(const std::string& nom)
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
+bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExternNodes /*= true*/ )
 {
-	if(!mTable)
-	{
-		if(afficherErreur)
-			utilitaire::afficherErreur("Erreur: table invalide\naucune table presente sur le terrain");
-		return false;
-	}
-	bool mailletGaucheOk = false, mailletDroiteOk = false, rondelleOk = false;
+    if(!mTable)
+    {
+        if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\naucune table presente sur le terrain");
+        return false;
+    }
 
-	// on prend un des 2 buts
-	if(!mTable->obtenirBut(1))
-	{
-		if(afficherErreur)
-			utilitaire::afficherErreur("Erreur: table invalide\naucun buts presents sur le terrain");
-		return false;
-	}
-	float hauteurBut = mTable->obtenirBut(1)->obtenirHauteurBut();
+    // on prend un des 2 buts
+    if(!mTable->obtenirBut(1))
+    {
+        if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\naucun buts presents sur le terrain");
+        return false;
+    }
+    float hauteurBut = mTable->obtenirBut(1)->obtenirHauteurBut();
 
-	const unsigned int nbTypeModifiable = 5;
-	std::string typeNoeudModifiable[] = {
-		RazerGameUtilities::NOM_RONDELLE,
-		RazerGameUtilities::NOM_MAILLET,
-		RazerGameUtilities::NOM_ACCELERATEUR,
-		RazerGameUtilities::NOM_PORTAIL,
-		RazerGameUtilities::NOM_MURET,
-	};
-	
-	// Suppression des noeuds qui ne sont pas sur la table
-	for(unsigned int i=0; i<nbTypeModifiable; ++i)
-	{
-		NoeudComposite* g = (NoeudComposite*)mTable->obtenirGroupe(typeNoeudModifiable[i]);
-		if(g)
-		{
-			for(unsigned int j=0; j<g->childCount(); ++j)
-			{
-				NoeudAbstrait* n = g->find(j);
-				// On verifie que le type est bon, surtout utile pour les bande exterieur qui ont un nom different et doivent etre ignorer par cette methode
-				if(n->getType() == typeNoeudModifiable[i])
-				{
-					if(!mTable->estSurTable(n) )
-					{
-						// La suppression du pNode l'enlevera du groupe
-						g->erase(n);
-						// Repositionnement de i pour pointer au bon endroit a la prochaine iteration
-						j--; 
-					}
-				}
-			}
-		}
-	}
+    static const std::string typeNoeudModifiable[] = {
+        RazerGameUtilities::NOM_RONDELLE,
+        RazerGameUtilities::NOM_MAILLET,
+        RazerGameUtilities::NOM_ACCELERATEUR,
+        RazerGameUtilities::NOM_PORTAIL,
+        RazerGameUtilities::NOM_MURET,
+        RazerGameUtilities::NAME_BONUS,
+        RazerGameUtilities::NAME_POLYGONE,
+    };
+    const unsigned int nbTypeModifiable = ARRAY_COUNT(typeNoeudModifiable);
 
-	// Verification des maillets
-	NoeudComposite* g = (NoeudComposite*)mTable->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
-	if(!g)
-		return false;
-	for(unsigned int j=0; j<g->childCount(); ++j)
-	{
-		NoeudMaillet *maillet = dynamic_cast<NoeudMaillet *>(g->find(j));
-		if (maillet)
-		{
-			// verification des maillets
-			if(maillet->getPosition()[VX] <= 0)
-			{
-				if(mailletGaucheOk)
-				{
-					if(afficherErreur)
-						utilitaire::afficherErreur("Erreur: table invalide\n2 Maillets sur le cote gauche de la table");
-					return false;
-				}
-				mailletGaucheOk = true;
-				maillet->modifierPositionOriginale(maillet->getPosition());
-			}
-			else
-			{
-				if(mailletDroiteOk)
-				{
-					if(afficherErreur)
-						utilitaire::afficherErreur("Erreur: table invalide\n2 Maillets sur le cote droite de la table");
-					return false;
-				}
-				mailletDroiteOk = true;
-				maillet->modifierPositionOriginale(maillet->getPosition());
-			}
-		}
-	}
-	g = (NoeudComposite*)mTable->obtenirGroupe(RazerGameUtilities::NOM_RONDELLE);
-	if(!g)
-		return false;
-	for(unsigned int j=0; j<g->childCount(); ++j)
-	{
-		NoeudRondelle *rondelle = dynamic_cast<NoeudRondelle *>(g->find(j));
-		if (rondelle)
-		{
-			if(rondelleOk)
-			{
-				if(afficherErreur)
-					utilitaire::afficherErreur("Erreur: table invalide\n2 rondelles presente sur la table");
-				return false;
-			}
-			rondelleOk = true;
-			rondelle->validerPropriteteTablePourJeu();
-			// On multiplie le rayon par 3 pour avoir une distance supplementaire proportionnel a la taille de la rondelle
-			if(hauteurBut <= rondelle->getRadius()*3)
-			{
-				if(afficherErreur)
+    bool nodeOutsideNotDeleted = false;
+    // Suppression des noeuds qui ne sont pas sur la table
+    for(unsigned int i=0; i<nbTypeModifiable; ++i)
+    {
+        NoeudGroupe* g = mTable->obtenirGroupe(typeNoeudModifiable[i]);
+        checkf(g);
+        if(g)
+        {
+            for(unsigned int j=0; j<g->childCount(); ++j)
+            {
+                NoeudAbstrait* n = g->find(j);
+                // On verifie que le type est bon, surtout utile pour les bande exterieur qui ont un nom different et doivent etre ignorer par cette methode
+                if(n->getType() == typeNoeudModifiable[i])
                 {
-                    std::ostringstream mess;
-                    mess << "Erreur: table invalide\nbuts trop petits pour jouer.\nDistance manquante = ";
-                    mess << (float)rondelle->getRadius()*2+20-hauteurBut;
-                    mess << " pixels";
-					utilitaire::afficherErreur(mess.str());
+                    if(!mTable->estSurTable(n) )
+                    {
+                        if(deleteExternNodes)
+                        {
+                            // La suppression du pNode l'enlevera du groupe
+                            g->erase(n);
+                            // Repositionnement de i pour pointer au bon endroit a la prochaine iteration
+                            j--; 
+                        }
+                        else
+                        {
+                            nodeOutsideNotDeleted = true;
+                        }
+                    }
                 }
-				return false;
-			}
-		}
+            }
+        }
+    }
 
-	}
-	if(!rondelleOk)
-		if(afficherErreur)
-			utilitaire::afficherErreur("Erreur: table invalide\nil n'y a pas de rondelle presente sur la table");
-	if(!mailletGaucheOk)
-		if(afficherErreur)
-			utilitaire::afficherErreur("Erreur: table invalide\nil n'y a pas de maillet present sur le cote gauche de la table");
-	if(!mailletDroiteOk)
-		if(afficherErreur)
-			utilitaire::afficherErreur("Erreur: table invalide\nil n'y a pas de maillet present sur le cote droit de la table");
+    if(nodeOutsideNotDeleted && afficherErreur)
+    {
+        utilitaire::afficherErreur("Warning : Items present outside the table\nmight invalidate when trying to play.");
+    }
 
-	return rondelleOk && mailletDroiteOk && mailletGaucheOk;
+    // Verification des maillets
+    auto leftMallet  = getLeftMallet();
+    auto rightMallet = getRightMallet();
+    auto puck        = getPuck();
+
+    if(!puck)
+    {
+        if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\nil n'y a pas de rondelle presente sur la table");
+        return false;
+    }
+    if(!leftMallet)
+    {
+        if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\nil n'y a pas de maillet present sur le cote gauche de la table");
+        return false;
+    }
+    if(!rightMallet)
+    {
+        if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\nil n'y a pas de maillet present sur le cote droit de la table");
+        return false;
+    }
+
+    // On multiplie le rayon par 3 pour avoir une distance supplementaire proportionnel a la taille de la rondelle
+    if(hauteurBut <= puck->getRadius()*3)
+    {
+        if(afficherErreur)
+        {
+            std::ostringstream mess;
+            mess << "Erreur: table invalide\nbuts trop petits pour jouer.\nDistance manquante = ";
+            mess << (float)puck->getRadius()*2+20-hauteurBut;
+            mess << " pixels";
+            utilitaire::afficherErreur(mess.str());
+        }
+        return false;
+    }
+
+
+    Vecteur3 point1 = mTable->obtenirPoint(POSITION_HAUT_MILIEU)->getPosition();
+    Vecteur3 point2 = mTable->obtenirPoint(POSITION_BAS_MILIEU)->getPosition();
+    NoeudAbstrait* nodes[2] =
+    {
+        leftMallet,
+        rightMallet
+    };
+#if BOX2D_INTEGRATED
+    b2RayCastInput input;
+    utilitaire::VEC3_TO_B2VEC(point1,input.p1);
+    utilitaire::VEC3_TO_B2VEC(point2,input.p2);
+    input.maxFraction = 1;
+
+    for(unsigned int i=0; i<2; ++i)
+    {
+        auto body = nodes[i]->getPhysicBody();
+        checkf(body);
+        if(body)
+        {
+            for (b2Fixture* f = body->GetFixtureList(); f; f = f->GetNext()) {
+
+                const int nbChild = f->GetShape()->GetChildCount();
+                for(int childindex=0; childindex<nbChild; ++childindex)
+                {
+                    b2RayCastOutput output;
+                    if ( f->RayCast( &output, input,childindex) )
+                    {
+                        // collision detected
+                        if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\nUn maillet touche a la ligne du milieu");
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+#else
+    for(unsigned int i=0; i<2; ++i)
+    {
+        auto node = nodes[i];
+        Vecteur2 intersection;
+        if(aidecollision::calculerCollisionSegment(point1,point2,node->getPosition(),node->getRadius()).type != aidecollision::COLLISION_AUCUNE )
+        {
+            if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\nUn maillet touche a la ligne du milieu");
+            return false;
+        }
+    }
+#endif
+
+
+    auto posleft = leftMallet->getPosition();
+    auto posright = rightMallet->getPosition();
+    if(posleft[VX] > 0)
+    {
+        if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\n2 Maillets sur le cote droite de la table");
+        return false;
+    }
+    if(posright[VX] < 0)
+    {
+        if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\n2 Maillets sur le cote gauche de la table");
+        return false;
+    }
+
+    return !!leftMallet && !!rightMallet && !!puck;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -831,20 +869,27 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
 ////////////////////////////////////////////////////////////////////////
 NoeudRondelle* Terrain::getPuck() const
 {
-	if(getTable())
-	{
-		NoeudComposite* g = (NoeudComposite*)getTable()->obtenirGroupe(RazerGameUtilities::NOM_RONDELLE);
-		if(g)
-		{
-			for(unsigned int i=0; i<g->childCount(); ++i)
-			{
-				NoeudRondelle* r = dynamic_cast<NoeudRondelle *>(g->find(i));
-				if(r)
-					return r;
-			}
-		}
-	}
-	return 0;
+    if(mPuck)
+    {
+        checkf(IsGameField(), "Dans le mode édition on ne conserve pas de pointeur sur la puck");
+        return mPuck;
+    }
+    checkf(!IsGameField(), "Dans le mode jeu on doit avoir un pointeur sur la puck");
+
+    if(getTable())
+    {
+        NoeudComposite* g = (NoeudComposite*)getTable()->obtenirGroupe(RazerGameUtilities::NOM_RONDELLE);
+        if(g)
+        {
+            for(unsigned int i=0; i<g->childCount(); ++i)
+            {
+                NoeudRondelle* r = dynamic_cast<NoeudRondelle *>(g->find(i));
+                if(r)
+                    return r;
+            }
+        }
+    }
+    return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -862,8 +907,8 @@ VISITEUR_FUNC_FUNC_DECLARATION(PlayTickNode)
 }
 void Terrain::appliquerPhysique( float temps )
 {
-	if(mLogicTree)
-	{
+    if(mLogicTree)
+    {
         VisiteurFunction tick(PlayTickNode,&temps);
         mLogicTree->acceptVisitor(tick);
 #if BOX2D_INTEGRATED
@@ -872,10 +917,10 @@ void Terrain::appliquerPhysique( float temps )
         mWorld->SetSubStepping(true);
         mWorld->Step(temps, 8, 8);
 #else
-		mLogicTree->positionUpdate(temps);
-		mLogicTree->collisionDetection(temps);
-		mLogicTree->fixSpeed(temps);
-		mLogicTree->fixOverlap();
+        mLogicTree->positionUpdate(temps);
+        mLogicTree->collisionDetection(temps);
+        mLogicTree->fixSpeed(temps);
+        mLogicTree->fixOverlap();
 #endif
         
 #ifndef __APPLE__
@@ -888,7 +933,7 @@ void Terrain::appliquerPhysique( float temps )
             GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
         }
 #endif
-	}
+    }
 }
 
 #if BOX2D_INTEGRATED
@@ -1323,6 +1368,13 @@ void Terrain::getSelectedNodes( ConteneurNoeuds& pSelectedNodes ) const
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet* Terrain::getLeftMallet() const
 {
+    if(mLeftMallet)
+    {
+        checkf(IsGameField(), "Dans le mode édition on ne conserve pas de pointeur sur le maillet");
+        return mLeftMallet;
+    }
+    checkf(!IsGameField(), "Dans le mode jeu on doit avoir un pointeur sur le maillet");
+
     NoeudMaillet* maillet = NULL;
     if(getTable())
     {
@@ -1354,6 +1406,13 @@ NoeudMaillet* Terrain::getLeftMallet() const
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet* Terrain::getRightMallet() const
 {
+    if(mRightMallet)
+    {
+        checkf(IsGameField(), "Dans le mode édition on ne conserve pas de pointeur sur le maillet");
+        return mRightMallet;
+    }
+    checkf(!IsGameField(), "Dans le mode jeu on doit avoir un pointeur sur le maillet");
+
     NoeudMaillet* maillet = NULL;
     if(getTable())
     {
@@ -1582,6 +1641,90 @@ bool Terrain::CanSelectedNodeBeDeleted() const
         }
     }
     return false;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool Terrain::initNecessaryPointersForGame()
+///
+/// Assigne les pointeurs sur les maillets et la rondelle pour la partie
+/// Lance une exception si quelque chose manque
+/// ie : mode édition => check table seulement  
+/// mode Jeu => check table, rondelle, maillets
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::initNecessaryPointersForGame()
+{
+    mLeftMallet = NULL;
+    mRightMallet = NULL;
+    mPuck = NULL;
+
+    mTable = mLogicTree->obtenirTable();
+    if(mTable == NULL)
+    {
+        throw ExceptionJeu("Missing Table on field");
+    }
+
+    if(IsGameField())
+    {
+        NoeudMaillet* mailletFound[2] = {NULL,NULL};
+        {
+            NoeudGroupe* g = mTable->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
+            checkf(g, "Groupe pour les maillets manquant");
+            if(g)
+            {
+                for(unsigned int i=0; i<g->childCount() && i<2; ++i)
+                {
+                    NoeudMaillet* m = (NoeudMaillet*)(g->find(i));
+                    mailletFound[i] = m;
+                }
+            }
+        }
+        {
+            NoeudGroupe* g = mTable->obtenirGroupe(RazerGameUtilities::NOM_RONDELLE);
+            checkf(g, "Groupe pour la rondelle manquante");
+            if(g)
+            {
+                for(unsigned int i=0; i<g->childCount(); ++i)
+                {
+                    NoeudRondelle* r = dynamic_cast<NoeudRondelle *>(g->find(i));
+                    if(r)
+                    {
+                        mPuck = r;
+                    }
+                }
+            }
+        }
+
+        if(!mPuck)
+        {
+            throw ExceptionJeu("Missing puck on table");
+        }
+        if(!mailletFound[0] || !mailletFound[1])
+        {
+            throw ExceptionJeu("Missing mallet on table");
+        }
+
+        if(mailletFound[1]->getPosition()[VX] < mailletFound[0]->getPosition()[VX])
+        {
+            mLeftMallet = mailletFound[1];
+            mRightMallet = mailletFound[0];
+        }
+        else
+        {
+            mLeftMallet = mailletFound[0];
+            mRightMallet = mailletFound[1];
+        }
+
+        // Assignation des position de base des elements pour la reinitialisation suite a un but
+        mLeftMallet->modifierPositionOriginale(mLeftMallet->getPosition());
+        mRightMallet->modifierPositionOriginale(mRightMallet->getPosition());
+        mPuck->validerPropriteteTablePourJeu();
+        mPuck->modifierPositionOriginale(mPuck->getPosition());
+    }
 }
 
 

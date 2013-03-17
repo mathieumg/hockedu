@@ -174,7 +174,8 @@ void NoeudRondelle::acceptVisitor( VisiteurNoeud& v )
 ///
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::collisionDetection( const float& temps )
-{/*
+{
+#if !BOX2D_INTEGRATED && WIN32
     if(!table_)
     {
         if(getField())
@@ -361,7 +362,8 @@ void NoeudRondelle::collisionDetection( const float& temps )
                     SoundFMOD::obtenirInstance()->playEffect(COLLISION_MURET_EFFECT);
             }
         }
-    }*/
+    }
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -377,10 +379,12 @@ void NoeudRondelle::collisionDetection( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::positionUpdate( const float& temps )
 {
+#if !BOX2D_INTEGRATED && WIN32
     anciennePos_ = mPosition;
     mPosition += mVelocite*temps;
     mAngle = (float)((int)(mAngle + 5*mVitesseRotation)%360);
     updateMatrice();
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -395,7 +399,8 @@ void NoeudRondelle::positionUpdate( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::fixOverlap()
 {
-    /*if(!table_)
+#if !BOX2D_INTEGRATED && WIN32
+    if(!table_)
     {
         if(getField())
         {
@@ -448,7 +453,8 @@ void NoeudRondelle::fixOverlap()
         
         
     }
-    mPosition[VZ] = 0;*/
+    mPosition[VZ] = 0;
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -464,7 +470,8 @@ void NoeudRondelle::fixOverlap()
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::fixSpeed( const float& temps )
 {
-  /*  if(!table_)
+#if !BOX2D_INTEGRATED && WIN32
+    if(!table_)
     {
         if(getField())
         {
@@ -567,7 +574,8 @@ void NoeudRondelle::fixSpeed( const float& temps )
     }
 
     mVelocite[VZ] = 0;
-    mVitesseRotation *= 0.99f;*/
+    mVitesseRotation *= 0.99f;
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -582,6 +590,7 @@ void NoeudRondelle::fixSpeed( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::validerPropriteteTablePourJeu() 
 {
+#if !BOX2D_INTEGRATED && WIN32
     if(getField())
     {
         table_ = getField()->getTable();
@@ -604,6 +613,7 @@ void NoeudRondelle::validerPropriteteTablePourJeu()
     }
     else
         throw ExceptionJeu("Aucun terrain pour la rondelle qui tente de ce valider");
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////

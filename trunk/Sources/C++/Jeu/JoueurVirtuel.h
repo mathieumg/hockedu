@@ -10,7 +10,9 @@
 
 #pragma once
 #include "joueurabstrait.h"
+#if WITH_JAVA  
 #include <jni.h>
+#endif //WITH_JAVA  
 #include "NoeudRondelle.h"
 
 class AIMaillet;
@@ -29,8 +31,10 @@ public:
 	/// Constructeur par paramètres
 	JoueurVirtuel(std::string nom = "", unsigned int vitesse = 0, unsigned int probabiliteEchec = 0);
 
+#if WITH_JAVA  
 	/// Constructeur par objet Java
 	JoueurVirtuel(JNIEnv* env, jobject& joueurVirtuel);
+#endif //WITH_JAVA  
 
 	/// Destructeur virtuel
 	virtual ~JoueurVirtuel(void);

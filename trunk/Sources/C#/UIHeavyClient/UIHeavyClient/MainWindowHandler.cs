@@ -60,38 +60,84 @@ namespace UIHeavyClient
         // TODO
         // Save to server
         // Load to server
-        
+
+        static EventReceivedCallBack mCurrentEventCallBack;
+        static MessageReceivedCallBack mCurrentMessageCallback;
 
         public static void GoToEditionMode()
         {
-            SetEventCallback(Context.EditionModeControl.EventCallBack);
-            ActionPerformed(ActionType.ACTION_ALLER_MODE_EDITION);
-            Context.WindowContentControl.Content = Context.EditionModeControl;
-            Context.PlayModeControl.RemoveOpenGL();
-            Context.EditionModeControl.AppendOpenGL();
-            Context.EditionModeControl.InitButtons();
+            MessageReceivedCallBack messageCallBack = null;
+            EventReceivedCallBack eventCallBack = Context.EditionModeControl.EventCallBack;
+            SetMessageCallback(messageCallBack);
+            SetEventCallback(eventCallBack);
+
+            if (ActionPerformed(ActionType.ACTION_ALLER_MODE_EDITION))
+            {
+                mCurrentEventCallBack = eventCallBack;
+                mCurrentMessageCallback = messageCallBack;
+
+                Context.WindowContentControl.Content = Context.EditionModeControl;
+                Context.PlayModeControl.RemoveOpenGL();
+                Context.EditionModeControl.AppendOpenGL();
+                Context.EditionModeControl.InitButtons();
+            }
+            else
+            {
+                SetMessageCallback(mCurrentMessageCallback);
+                SetEventCallback(mCurrentEventCallBack);
+            }
         }
 
         public static void GoToPlayMode()
         {
-            ActionPerformed(ActionType.ACTION_ALLER_MODE_JEU);
-            Context.WindowContentControl.Content = Context.PlayModeControl;
-            Context.EditionModeControl.RemoveOpenGL();
-            Context.PlayModeControl.AppendOpenGL();
-            Context.PlayModeControl.DisplayRadioPlaylists();
-            SetMessageCallback(PlayModeControl.mMessageCallback);
+            MessageReceivedCallBack messageCallBack = PlayModeControl.mMessageCallback;
+            EventReceivedCallBack eventCallBack = null;
+            SetMessageCallback(messageCallBack);
+            SetEventCallback(eventCallBack);
+
+            if (ActionPerformed(ActionType.ACTION_ALLER_MODE_JEU))
+            {
+                mCurrentMessageCallback = messageCallBack;
+                mCurrentEventCallBack = eventCallBack;
+
+
+                Context.WindowContentControl.Content = Context.PlayModeControl;
+                Context.EditionModeControl.RemoveOpenGL();
+                Context.PlayModeControl.AppendOpenGL();
+                Context.PlayModeControl.DisplayRadioPlaylists();
+            }
+            else
+            {
+                SetMessageCallback(mCurrentMessageCallback);
+                SetEventCallback(mCurrentEventCallBack);
+            }
         }
 
         public static void GoToMainMenu()
         {
-            ActionPerformed(ActionType.ACTION_ALLER_MENU_PRINCIPAL);
-            Context.WindowContentControl.Content = Context.MainMenuControl;
-            Context.MainMenuControl.InitOperations();
+            MessageReceivedCallBack messageCallBack = null;
+            EventReceivedCallBack eventCallBack = null;
+            SetMessageCallback(messageCallBack);
+            SetEventCallback(eventCallBack);
 
-            Context.EditionModeControl.RemoveOpenGL();
-            Context.PlayModeControl.RemoveOpenGL();
+            if (ActionPerformed(ActionType.ACTION_ALLER_MENU_PRINCIPAL))
+            {
+                mCurrentMessageCallback = messageCallBack;
+                mCurrentEventCallBack = eventCallBack;
 
-            Context.MainMenuControl.DisplayProfileNames();
+                Context.WindowContentControl.Content = Context.MainMenuControl;
+                Context.MainMenuControl.InitOperations();
+
+                Context.EditionModeControl.RemoveOpenGL();
+                Context.PlayModeControl.RemoveOpenGL();
+
+                Context.MainMenuControl.DisplayProfileNames();
+            }
+            else
+            {
+                SetMessageCallback(mCurrentMessageCallback);
+                SetEventCallback(mCurrentEventCallBack);
+            }
         }
 
         public static void GoToTournamentMenu()
@@ -101,6 +147,8 @@ namespace UIHeavyClient
 
         public static void GoToOnlineLobby()
         {
+            // set callback events and messages
+
             Context.WindowContentControl.Content = Context.OnlineLobbyControl;
         }
 
@@ -164,5 +212,12 @@ namespace UIHeavyClient
         {
             SetPlayMap(pMapFile);
         }
+
+        public static void Cleanup()
+        {
+            SetEventCallback(null);
+            SetMessageCallback(null);
+        }
+
     }
 }

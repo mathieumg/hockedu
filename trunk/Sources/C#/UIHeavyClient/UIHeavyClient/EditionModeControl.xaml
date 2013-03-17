@@ -19,7 +19,6 @@
             <RowDefinition Height="43*" />
         </Grid.RowDefinitions>
         <Label Content="" FontFamily="Times New Roman" FontSize="24" Foreground="#FF00D500" Height="41" HorizontalAlignment="Right" Margin="2" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" />
-        <Button Content="Main Menu" Grid.Row="3" Margin="10" Name="button1" Background="Black" Foreground="White" Click="button1_Click" HorizontalAlignment="Left" Width="75" />
         <GroupBox Header="Actions" Margin="15" Name="mActionGroupBox" Grid.Row="1">
             <Grid>
                 <Grid.RowDefinitions>
@@ -106,7 +105,9 @@
             </Grid>
         </GroupBox>
         <TextBlock Margin="12" Name="mGuidanceTextBlock" Text="Welcome to edition mode! Have fun!!!" Foreground="#FF00D500" Background="Black" TextWrapping="Wrap" FontSize="16" />
-        <Button Content="Default Map" Grid.Row="3" HorizontalAlignment="Left" Margin="99,8,0,12" Name="mDefaultFieldButton" Width="75" Background="Black" Foreground="White" Click="OnGenerateField" />
+        <Button Content="Main Menu" Grid.Row="3" Margin="15,10,0,10" Name="button1" Background="Black" Foreground="White" Click="MainMenuBtnClick" HorizontalAlignment="Left" Width="75" />
+        <Button Content="Default Map" Grid.Row="3" HorizontalAlignment="Left" Margin="95,10,0,10" Name="mDefaultFieldButton" Width="75" Background="Black" Foreground="White" Click="OnGenerateField" />
+        <Button Content="Validate" Grid.Row="3" Margin="175,10,10,10" Name="mValidateFieldButton" Background="Black" Foreground="White" Click="OnValidateField" />
     </Grid>
 
 </UserControl>

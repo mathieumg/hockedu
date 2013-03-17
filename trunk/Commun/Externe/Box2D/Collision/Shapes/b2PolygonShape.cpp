@@ -240,7 +240,7 @@ bool b2PolygonShape::RayCast(b2RayCastOutput* output, const b2RayCastInput& inpu
 		// in some cases. Apparently the use of epsilon was to make edge
 		// shapes work, but now those are handled separately.
 		//if (upper < lower - b2_epsilon)
-		if (upper < lower)
+		if (upper < lower - b2_epsilon)
 		{
 			return false;
 		}

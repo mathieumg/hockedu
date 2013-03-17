@@ -79,6 +79,8 @@ public:
     /// Cas de test: s'assurer de bien retrouver la racine du noeud si elle existe
     void testGetTreeRoot();
 
+
+
 private:
 	/// Instance d'un noeud abstrait
 	NoeudAbstrait* noeud;

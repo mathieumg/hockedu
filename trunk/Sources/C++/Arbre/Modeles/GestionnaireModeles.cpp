@@ -125,6 +125,9 @@ GestionnaireModeles::GestionnaireModeles()
 
     nameToTypeId_[RazerGameUtilities::NAME_CONTROL_POINT] = ++compteurTypeID;
     typeIdToName_[compteurTypeID] = RazerGameUtilities::NAME_CONTROL_POINT;
+
+    nameToTypeId_[RazerGameUtilities::NAME_BONUS] = ++compteurTypeID;
+    typeIdToName_[compteurTypeID] = RazerGameUtilities::NAME_BONUS;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -481,10 +484,8 @@ DWORD WINAPI WorkerLoadModel( LPVOID arg )
             modele = new Modele3D();
             if(!modele->charger(RazerGameUtilities::NOM_DOSSIER_MEDIA+modelName+RazerGameUtilities::NOM_EXTENSION))
             {
-                // pop plus tard car on garde une reference sur l'item
-                tampon->vec.pop_back();
                 delete modele;
-                continue;
+                modele = NULL;
             }
         }
         
@@ -499,9 +500,12 @@ DWORD WINAPI WorkerLoadModel( LPVOID arg )
         }
 
         const string& key = modelInfo.mKey;
-        RazerGameUtilities::RunOnUpdateThread(new Runnable([=](Runnable*) -> void {
+        RazerGameUtilities::RunOnUpdateThread(new Runnable([key,modele,liste](Runnable*) -> void {
             // les ajouter direct dans ce thread n'est pas bon car ca peut crasher si un read&write ce fait en meme temps
-            GestionnaireModeles::obtenirInstance()->ajoutModele(key,modele);
+            if(modele)
+            {
+                GestionnaireModeles::obtenirInstance()->ajoutModele(key,modele);
+            }
             if(liste)
             {
                 GestionnaireModeles::obtenirInstance()->AjouterListe(key, liste);
@@ -512,7 +516,6 @@ DWORD WINAPI WorkerLoadModel( LPVOID arg )
         tampon->vec.pop_back();
     }
 	
-    //wglDeleteContext(data->glrc);
     delete data;
 
 	return TRUE;

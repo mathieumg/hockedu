@@ -238,9 +238,17 @@ namespace UIHeavyClient
             }
         }
 
+        private void OnValidateField(object sender, RoutedEventArgs e)
+        {
+            if (ValidateField())
+            {
+                MessageBoxResult dr = MessageBox.Show("Map is valid to play", "Map Validation", MessageBoxButton.OK);
+            }
+        }
+        
         #endregion
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void MainMenuBtnClick(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToMainMenu();
         }

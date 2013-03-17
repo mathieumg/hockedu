@@ -1559,6 +1559,7 @@ NoeudMaillet* FacadeModele::obtenirMailletJoueurDroit() const
     }
     return maillet;
 }
+#ifdef WITH_JAVA
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void FacadeModele::obtenirAttributsNoeudSelectionne()
@@ -1720,6 +1721,7 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
     return modificateurAEnvoyer;
 }
 
+#endif // WITHJAVA
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void FacadeModele::initialiserTournoi( JoueursParticipant joueurs )

@@ -50,7 +50,7 @@ public:
 
 namespace XMLUtils
 {
-    const char XmlFieldVersion[] = "2.0";
+    const char XmlFieldVersion[] = "2.1";
     
     ///private use
     const char* MakeName(const char* name, int index);

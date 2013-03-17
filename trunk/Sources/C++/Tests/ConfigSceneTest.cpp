@@ -115,14 +115,22 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
 	arbre->add(n1);
 	arbre->add(n2);
 	arbre->add(nC1);
-	arbre->add(nC2);
-	nC1->add(n3);
-	nC1->add(n4);
-	nC2->add(nC4);
-	nC2->add(n6);
-	nC2->add(nC3);
-	nC3->add(n7);
-	nC4->add(n5);
+    {
+        nC1->add(n3);
+        nC1->add(n4);
+    }
+    arbre->add(nC2);
+    {
+        nC2->add(nC4);
+        {
+            nC4->add(n5);
+        }
+        nC2->add(n6);
+        nC2->add(nC3);
+        {
+            nC3->add(n7);
+        }
+    }
 
 	nC4->setRecordable(false);
 
@@ -140,73 +148,86 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
 	// Lecture manuelle du document et vérification des noeuds lus (et de la non-existence de noeuds qui ne sont pas supposer exister
 	const XmlNode* elementConfiguration = XMLUtils::FirstChild(document.GetElem(),ConfigScene::ETIQUETTE_ARBRE), *child, *grantChild, *grantGrantChild;//, *grantGrantGrantChild;
 	CPPUNIT_ASSERT (elementConfiguration != NULL);
+    std::string name;
+    {
+        // n1
+        child = elementConfiguration->FirstChild();
+        CPPUNIT_ASSERT (child != NULL);
+        name = child->Value();
+        CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_MAILLET);
 
-	// n1
-	child = elementConfiguration->FirstChild();
-	CPPUNIT_ASSERT (child != NULL);
-	std::string name = child->Value();
-	CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_MAILLET);
+        // n2
+        child = child->NextSibling();
+        CPPUNIT_ASSERT (child != NULL);
+        name = child->Value();
+        CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_MAILLET);
 
-	// n2
-	child = child->NextSibling();
-	CPPUNIT_ASSERT (child != NULL);
-	name = child->Value();
-	CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_MAILLET);
+        // nC1
+        child = child->NextSibling();
+        CPPUNIT_ASSERT (child != NULL);
+        name = child->Value();
+        CPPUNIT_ASSERT(name == "groupe1");
+        {
+            // n3
+            grantChild = child->FirstChild();
+            CPPUNIT_ASSERT (grantChild != NULL);
+            name = grantChild->Value();
+            CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_PORTAIL);
 
-	// nC1
-	child = child->NextSibling();
-	CPPUNIT_ASSERT (child != NULL);
-	name = child->Value();
-	CPPUNIT_ASSERT(name == "groupe1");
+            // n4
+            grantChild = grantChild->NextSibling();
+            CPPUNIT_ASSERT (grantChild != NULL);
+            name = grantChild->Value();
+            CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_PORTAIL);
 
-	// n3
-	grantChild = child->FirstChild();
-	CPPUNIT_ASSERT (grantChild != NULL);
-	name = grantChild->Value();
-	CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_PORTAIL);
+            // n'existe pas
+            grantChild = grantChild->NextSibling();
+            CPPUNIT_ASSERT (grantChild == NULL);
+        }
+        // nC2
+        child = child->NextSibling();
+        CPPUNIT_ASSERT (child != NULL);
+        name = child->Value();
+        CPPUNIT_ASSERT(name == "groupe2");
+        {
+            {
+                // n5, car nC4 n'est pas enregistrable
+                grantChild = child->FirstChild();
+                CPPUNIT_ASSERT (grantChild != NULL);
+                name = grantChild->Value();
+                CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_RONDELLE);
+            }
 
-	// n4
-	grantChild = grantChild->NextSibling();
-	CPPUNIT_ASSERT (grantChild != NULL);
-	name = grantChild->Value();
-	CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_PORTAIL);
+            // n6
+            grantChild = grantChild->NextSibling();
+            CPPUNIT_ASSERT (grantChild != NULL);
+            name = grantChild->Value();
+            CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_RONDELLE);
 
-	// n'existe pas
-	grantChild = grantChild->NextSibling();
-	CPPUNIT_ASSERT (grantChild == NULL);
+            // nC3
+            grantChild = grantChild->NextSibling();
+            CPPUNIT_ASSERT (grantChild != NULL);
+            name = grantChild->Value();
+            CPPUNIT_ASSERT(name == "groupe3");
+            {
+                // n7
+                grantGrantChild = grantChild->FirstChild();
+                CPPUNIT_ASSERT (grantGrantChild != NULL);
+                name = grantGrantChild->Value();
+                CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_ACCELERATEUR);
 
-	// nC2
-	child = child->NextSibling();
-	CPPUNIT_ASSERT (child != NULL);
-	name = child->Value();
-	CPPUNIT_ASSERT(name == "groupe2");
+                // n'existe pas
+                grantGrantChild = grantGrantChild->NextSibling();
+                CPPUNIT_ASSERT (grantGrantChild == NULL);
+            }
 
-	// n6, car nC4 n'est pas enregistrable
-	grantChild = child->FirstChild();
-	CPPUNIT_ASSERT (grantChild != NULL);
-	name = grantChild->Value();
-	CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_RONDELLE);
-
-	// nC3
-	grantChild = grantChild->NextSibling();
-	CPPUNIT_ASSERT (grantChild != NULL);
-	name = grantChild->Value();
-	CPPUNIT_ASSERT(name == "groupe3");
-
-	// n7
-	grantGrantChild = grantChild->FirstChild();
-	CPPUNIT_ASSERT (grantGrantChild != NULL);
-	name = grantGrantChild->Value();
-	CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_ACCELERATEUR);
-
-	// n'existe pas
-	grantGrantChild = grantGrantChild->NextSibling();
-	CPPUNIT_ASSERT (grantGrantChild == NULL);
-
-	// n'existe pas
-	grantChild = grantChild->NextSibling();
-	CPPUNIT_ASSERT (grantChild == NULL);
-
+            // n'existe pas
+            grantChild = grantChild->NextSibling();
+            CPPUNIT_ASSERT (grantChild == NULL);
+        }
+        child = child->NextSibling();
+        CPPUNIT_ASSERT (child == NULL);
+    }
 	// Parcours de l'arbre complet
 
     remove("tests_xml\\TestEnregistrement.xml");

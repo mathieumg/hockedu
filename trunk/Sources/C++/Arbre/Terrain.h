@@ -103,7 +103,7 @@ public:
     void createRandomField(const std::string&);
 
 	/// Verifie si le terrain respecte les conditions de jeu
-	bool verifierValidite( bool afficherErreur = true);
+    bool verifierValidite( bool afficherErreur = true, bool deleteExternNodes = true);
 
 	/// Applique la physique sur l'arbre de rendu contenant les noeuds de la table
 	void appliquerPhysique( float temps );
@@ -160,6 +160,12 @@ private:
 	/// Methode pour initialiser l'arbre de rendu
 	void initialiserArbreRendu();
 
+    /// Assigne les pointeurs sur les maillets et la rondelle pour la partie
+    /// Lance une exception si quelque chose manque
+    /// ie : mode édition => check table seulement  
+    /// mode Jeu => check table, rondelle, maillets
+    void initNecessaryPointersForGame();
+
 	/// Fields
 private:
 	/// Le nom du terrain est en fait le chemin pour la sauvegarde en XML
@@ -175,6 +181,13 @@ private:
 	/// Conservation d'un pointeur vers la table
 	NoeudTable* mTable;
 	
+    //////////////////////////////////////////////////////////////////////////
+    /// Cache de pointeurs sur les maillets et rondelle durant une partie.
+    /// pointeur NULL dans le mode édition
+    NoeudMaillet* mLeftMallet,*mRightMallet;
+    NoeudRondelle* mPuck;
+    //////////////////////////////////////////////////////////////////////////
+
 	/// Contient la zone d'édition du terrain
 	ZoneEdition* mEditionZone;
 	
@@ -204,6 +217,7 @@ public:
     void modifierNom(const std::string& val) { mFieldName = val; }
 	/// Accesseur de table_
 	inline NoeudTable* getTable() const { return mTable; }
+    inline void setTable(NoeudTable* table){mTable=table;}
 	/// Accesseur de la rondelle sur le terrain.
 	NoeudRondelle* getPuck() const ;
     /// Accesseur des buts, l'argument DOIT etre un array de 2 pointeur sur des but

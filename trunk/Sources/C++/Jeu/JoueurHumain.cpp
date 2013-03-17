@@ -27,6 +27,7 @@ JoueurHumain::JoueurHumain(std::string nom) : JoueurAbstrait(nom)
 	type_ = JOUEUR_HUMAIN;
 }
 
+#if WITH_JAVA  
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn JoueurHumain::JoueurHumain( JNIEnv* env, jobject& joueurHumain )
@@ -53,6 +54,7 @@ JoueurHumain::JoueurHumain( JNIEnv* env, jobject& joueurHumain ) : JoueurAbstrai
 	type_ = JOUEUR_HUMAIN;
 
 }
+#endif //WITH_JAVA  
 
 ////////////////////////////////////////////////////////////////////////
 ///

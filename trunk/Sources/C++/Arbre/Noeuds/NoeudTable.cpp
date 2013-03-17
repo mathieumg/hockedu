@@ -31,6 +31,8 @@
 #include "FacadeModele.h"
 #endif
 #include "ArbreRendu.h"
+#include "Terrain.h"
+#include "Solution_Defines.h"
 
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
 const Vecteur3 NoeudTable::DEFAULT_SIZE = Vecteur3(300,150);
@@ -41,10 +43,44 @@ const int nodeWidth[3] = {0,NoeudTable::NB_HORIZONTAL_VERTICES>>1,NoeudTable::NB
 
 CreateListDelegateImplementation(Table)
 {
+#if WIN32  
     NoeudTable::initialiserListeIndexPoints(pModel);
+#endif
     // dont make a list for table
     return 0;
 }
+
+const std::string* GroupTypes[] =
+{
+    &RazerGameUtilities::NAME_TABLE_CONTROL_POINT ,
+    &RazerGameUtilities::NAME_RINK_BOARD          ,
+    &RazerGameUtilities::NOM_MAILLET              ,
+    &RazerGameUtilities::NOM_RONDELLE             ,
+    &RazerGameUtilities::NOM_ACCELERATEUR         ,
+    &RazerGameUtilities::NOM_MURET                ,
+    &RazerGameUtilities::NOM_PORTAIL              ,
+    &RazerGameUtilities::NAME_BONUS               ,
+    &RazerGameUtilities::NAME_POLYGONE            ,
+};
+const int NB_GROUP_TYPES = ARRAY_COUNT(GroupTypes);
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn int NoeudTable::expectedChildCount()
+///
+/// /*Description*/
+///
+///
+/// @return int
+///
+////////////////////////////////////////////////////////////////////////
+int NoeudTable::expectedChildCount()
+{
+    return NB_GROUP_TYPES;
+}
+
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -61,7 +97,12 @@ CreateListDelegateImplementation(Table)
 NoeudTable::NoeudTable(const std::string& typeNoeud)
    : NoeudComposite(typeNoeud) , coefFriction_(5)
 {
-    
+    for(int i=0; i<NB_GROUP_TYPES; ++i)
+    {
+        /// Groupe destine a contenir les noeud concret pour un meilleur parcours d'arbre
+        NoeudGroupe* group = new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,*GroupTypes[i]);
+        add(group);
+    }
 
     //GestionnaireModeles::obtenirInstance()->recharger(RazerGameUtilities::NOM_TABLE);
     //aidegl::glLoadTexture(RazerGameUtilities::NOM_DOSSIER+"table_hockey.png",textureId_,true);
@@ -186,6 +227,79 @@ NoeudTable::~NoeudTable()
 
 
 
+#if WIN32  
+
+enum ListePointState
+{
+    LISTEPOINTSTATE_OK,
+    LISTEPOINTSTATE_PENDING,
+    LISTEPOINTSTATE_ERROR,
+};
+ListePointState listePointInit = LISTEPOINTSTATE_PENDING;
+struct queuedMove
+{
+    TypePosPoint type;
+    Vecteur3 move;
+};
+std::vector<queuedMove> moveQueue;
+#include "..\Reseau\Network_Defines.h"
+HANDLE_MUTEX mutex = NULL;
+
+void emptyQueue()
+{
+    while(!moveQueue.empty())
+    {
+        queuedMove& q = moveQueue.back();
+        auto iter = NoeudTable::obtenirListeIndexPointsModeleTable().find(q.type);
+        if(iter != NoeudTable::obtenirListeIndexPointsModeleTable().end())
+        {
+            // si on ne trouve pas la liste ici, c'est que le modele n'existe pas
+            auto liste = &iter->second;
+            for(unsigned int i=0; i<liste->size(); i++)
+            {
+                *(liste->get(i)[VX]) += q.move[VX];
+                *(liste->get(i)[VY]) += q.move[VY];
+            }
+        }
+        moveQueue.pop_back();
+    }
+    FacadePortability::releaseMutex(mutex);
+    CloseHandle(mutex);
+    mutex = NULL;
+}
+
+
+void NoeudTable::queueTableModelMove(TypePosPoint type,const Vecteur3& move)
+{
+    if(listePointInit != LISTEPOINTSTATE_ERROR)
+    {
+        if(!mutex)
+        {
+            FacadePortability::createMutex(mutex);
+        }
+        FacadePortability::takeMutex(mutex);
+        // queue the move
+        queuedMove qmove;
+        qmove.type = type;
+        qmove.move = move;
+        moveQueue.push_back(qmove);
+
+        // if it finish initialise since then, apply the modifs
+        if(listePointInit == LISTEPOINTSTATE_OK)
+        {
+            emptyQueue();
+        }
+        if(mutex)FacadePortability::releaseMutex(mutex);
+
+    }
+    else
+    {
+        moveQueue.clear();
+    }
+}
+
+
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -199,9 +313,20 @@ NoeudTable::~NoeudTable()
 ////////////////////////////////////////////////////////////////////////
 void NoeudTable::initialiserListeIndexPoints( Modele3D* modele )
 {
+    if(!mutex)
+    {
+        FacadePortability::createMutex(mutex);
+    }
     if(!modele)
+    {
+        FacadePortability::takeMutex(mutex);
+        listePointInit = LISTEPOINTSTATE_ERROR;
+        FacadePortability::releaseMutex(mutex);
+        CloseHandle(mutex);
+        mutex = NULL;
         return;
-#if WIN32
+    }
+
     const aiScene* scene = modele->obtenirScene();
     const aiNode* rootNode = scene->mRootNode;
 
@@ -309,8 +434,12 @@ void NoeudTable::initialiserListeIndexPoints( Modele3D* modele )
     listeIndexPointsModeleTable_[POSITION_BAS_GAUCHE]  = trouverVertex(scene, rootNode, vertexBasGauche);
     listeIndexPointsModeleTable_[POSITION_HAUT_DROITE]  = trouverVertex(scene, rootNode, vertexHautDroit);
     listeIndexPointsModeleTable_[POSITION_BAS_DROITE]  = trouverVertex(scene, rootNode, vertexBasDroit);
-#endif
+
+    FacadePortability::takeMutex(mutex);
+    listePointInit = LISTEPOINTSTATE_OK;
+    emptyQueue();
 }
+#endif
 
 
 
@@ -331,6 +460,14 @@ void NoeudTable::renderReal() const
     DrawChild();
     {
 #if WIN32
+        GLint renderMode;
+        glGetIntegerv(GL_RENDER_MODE,&renderMode);
+        if(renderMode == GL_SELECT)
+        {
+            // dont draw table when selecting
+            return;
+        }
+
         Modele3D* pModel = getModel();
         if(pModel)
         {
@@ -632,7 +769,7 @@ NoeudBut* NoeudTable::obtenirBut( int joueur ) const
 ///
 /// @fn void NoeudTable::calculerHautLongMax( float* reponse )
 ///
-/// Calcule et retourne la hauteur et longueur 
+/// Calcule et retourne la hauteur et longueur (half length)
 /// maximale de la table, donc le rectangle englobant
 ///
 /// @param[in] float * reponse : le pointeur ou mettre la reponse
@@ -681,24 +818,7 @@ bool NoeudTable::estSurTable(NoeudAbstrait* noeud)
         return false;
 
     Vecteur2 posNoeud = noeud->getPosition().convertir<2>();
-
-    // Le noeud est a la position 0 alors il est certainement sur la table
-    if(posNoeud.estNul())
-        return true;
-
-    for(unsigned int i=0; i<NB_BANDES; ++i)
-    {
-        Vecteur2 point1 = obtenirPoint(droiteMuret_[i].first)->getPosition().convertir<2>();
-        Vecteur2 point2 = obtenirPoint(droiteMuret_[i].second)->getPosition().convertir<2>();
-        Vecteur2 intersection;
-        if(aidecollision::calculerCollisionSegmentSegment(Vecteur2(),posNoeud,point1,point2,intersection).type != aidecollision::COLLISION_AUCUNE )
-        {
-            if(posNoeud.norme2() < intersection.norme2())
-                    return true;
-            return false;
-        }
-    }
-    return true;
+    return estSurTable(posNoeud);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -768,6 +888,49 @@ bool NoeudTable::estSurTable(Vecteur2 position)
     if(position.estNul())
         return true;
 
+#if BOX2D_INTEGRATED  
+    b2RayCastInput input;
+    input.p1 = b2Vec2(0,0);
+    utilitaire::VEC3_TO_B2VEC(position,input.p2);
+    input.maxFraction = 1;
+
+
+    const int nbNodes = NB_BANDES+2;
+    NoeudAbstrait* nodes[nbNodes];
+    memcpy(nodes,bande_,NB_BANDES*sizeof(NoeudAbstrait*));
+    nodes[nbNodes-2] = butJoueur1_;
+    nodes[nbNodes-1] = butJoueur2_;
+
+    for(unsigned int i=0; i<nbNodes; ++i)
+    {
+        auto node = nodes[i];
+        checkf(node);
+        if(node)
+        {
+            auto body = node->getPhysicBody();
+            checkf(body);
+            if(body)
+            {
+                for (b2Fixture* f = body->GetFixtureList(); f; f = f->GetNext()) {
+
+                    const int nbChild = f->GetShape()->GetChildCount();
+                    for(int childindex=0; childindex<nbChild; ++childindex)
+                    {
+                        b2RayCastOutput output;
+                        if ( f->RayCast( &output, input,childindex) )
+                        {
+                            // collision detected
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return true;
+
+
+#else
     for(unsigned int i=0; i<NB_BANDES; ++i)
     {
         Vecteur2 point1 = obtenirPoint(droiteMuret_[i].first)->getPosition().convertir<2>();
@@ -781,6 +944,7 @@ bool NoeudTable::estSurTable(Vecteur2 position)
         }
     }
     return true;
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -824,6 +988,13 @@ XmlElement* NoeudTable::createXmlNode()
 ////////////////////////////////////////////////////////////////////////
 bool NoeudTable::initFromXml( const XmlElement* element )
 {
+    auto field = getField();
+    if(field)
+    {
+        field->setTable(this);
+    }
+
+
     if(!Super::initFromXml(element))
         return false;
     if(!XMLUtils::readAttribute(element,"coefFriction",coefFriction_))
@@ -857,6 +1028,18 @@ bool NoeudTable::initFromXml( const XmlElement* element )
                 obtenirPoint(typeNoeud)->initFromXml(child);
                 controlPointVisited |= 1<<typeNoeud;
             }
+            else if(name == RazerGameUtilities::NOM_GROUPE)
+            {
+                // compatibilité ancienne version
+                for( auto groupChild = XMLUtils::FirstChildElement(child); groupChild; groupChild = XMLUtils::NextSibling(groupChild) )
+                {
+                    CreateAndInitNodesFromXml(groupChild);
+                }
+            }
+            else if(name == RazerGameUtilities::NAME_CONTROL_POINT)
+            {
+                checkf(0,"invalid position for a control point, ignoring node");
+            }
             else
             {
                 CreateAndInitNodesFromXml(child);
@@ -871,6 +1054,19 @@ bool NoeudTable::initFromXml( const XmlElement* element )
     if(controlPointVisited != (1<<NB_CONTROL_POINTS)-1 )
     {
         throw ExceptionJeu("%s : control points missing in the file",mType.c_str());
+    }
+
+    const float l1 = butJoueur1_->getLength(), l2 =  butJoueur2_->getLength();
+    if( l1 != l2 )
+    {
+        if(l1>l2)
+        {
+            butJoueur1_->updateLongueur(l2/l1);
+        }
+        else
+        {
+            butJoueur2_->updateLongueur(l1/l2);
+        }
     }
 
     return true;
