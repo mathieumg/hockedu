@@ -957,6 +957,19 @@ bool NoeudTable::initFromXml( const XmlElement* element )
         throw ExceptionJeu("%s : control points missing in the file",mType.c_str());
     }
 
+    const float l1 = butJoueur1_->getLength(), l2 =  butJoueur2_->getLength();
+    if( l1 != l2 )
+    {
+        if(l1>l2)
+        {
+            butJoueur1_->updateLongueur(l2/l1);
+        }
+        else
+        {
+            butJoueur2_->updateLongueur(l1/l2);
+        }
+    }
+
     return true;
 }
 

@@ -332,7 +332,6 @@ void NoeudBut::setCollisionVisitorAttributes( VisiteurCollision* v )
 	v->modifierRayonAVerifier(mGoalLength);
 }
 
-const char xmlTag_length[] = "longueurBut";
 const char xmlTag_player[] = "joueur";
 const char xmlTag_topCorner[] = "coinHaut";
 const char xmlTag_botCorner[] = "coinBas";
@@ -351,7 +350,6 @@ XmlElement* NoeudBut::createXmlNode()
 {
 	XmlElement* elementNoeud = NoeudComposite::createXmlNode();
 
-    XMLUtils::writeAttribute(elementNoeud,xmlTag_length,mGoalLength);
     XMLUtils::writeAttribute(elementNoeud,xmlTag_player,joueur_);
     XMLUtils::writeArray(mTopPosition.c_arr(),3,elementNoeud,xmlTag_topCorner);
     XMLUtils::writeArray(mBottomPosition.c_arr(),3,elementNoeud,xmlTag_botCorner);
@@ -373,11 +371,6 @@ bool NoeudBut::initFromXml( const XmlElement* element )
 {
 	if(!NoeudComposite::initFromXml(element))
 		return false;
-	auto floatElem = mGoalLength;
-    if(!XMLUtils::readAttribute(element,xmlTag_length,floatElem))
-        throw ExceptionJeu("Error reading attribute %s",xmlTag_length);
-	mGoalLength = floatElem;
-
 	auto intElem = joueur_;
     if(!XMLUtils::readAttribute(element,xmlTag_player,intElem))
         throw ExceptionJeu("Error reading attribute %s",xmlTag_player);
@@ -388,6 +381,7 @@ bool NoeudBut::initFromXml( const XmlElement* element )
     if( !XMLUtils::readArray(mBottomPosition.c_arr(),3,element,xmlTag_botCorner) )
         throw ExceptionJeu("Error reading attribute %s",xmlTag_botCorner);
 
+    updateLongueur();
 	return true;
 }
 
