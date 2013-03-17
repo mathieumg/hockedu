@@ -247,44 +247,7 @@ VISITEUR_FUNC_FUNC_DECLARATION(rebuild)
 {
     pNoeud->forceFullUpdate();
 }
-void NoeudAbstraitTest::testInsideTable()
-{
-    Terrain terrain(NULL);
-    terrain.creerTerrainParDefaut("testTable");
-    // on assume ici que la table est rectangulaire pour les tests
-    // les tests pour une table de forme différente seront fait
-    // avec l'interface
 
-    auto table = terrain.getTable();
-    CPPUNIT_ASSERT(table);
-    if(table)
-    {
-        float dim[2];
-        table->calculerHautLongMax(dim);
-        
-        for(float i=-0.5f; i<=0.5f; i+=0.5f)
-        {
-            for(float j=-0.5f; j<=0.5f; j+=0.5f)
-            {
-                Vecteur2 pos(dim[1]*i,dim[0]*j);
-                CPPUNIT_ASSERT(table->estSurTable(pos));
-            }
-        }
-
-        for(int i=-2; i<=2; i+=2)
-        {
-            for(int j=-2; j<=2; j+=2)
-            {
-                if(i!=0 && j!=0)
-                {
-                    Vecteur2 pos(dim[1]*i,dim[0]*j);
-                    CPPUNIT_ASSERT(!table->estSurTable(pos));
-                }
-            }
-        }
-    }
-
-}
 
 
 ///////////////////////////////////////////////////////////////////////////////

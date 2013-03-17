@@ -13,6 +13,7 @@
 #include "NoeudGroupe.h"
 #include "NoeudTable.h"
 #include "RazerGameTree.h"
+#include "Utilitaire.h"
 
 // Enregistrement de la suite de tests au sein du registre
 CPPUNIT_TEST_SUITE_REGISTRATION( TerrainTest );
@@ -93,7 +94,7 @@ void TerrainTest::testInitialiser()
 	CPPUNIT_ASSERT(terrain_->mNewNodeTree->childCount() == 0);
 	CPPUNIT_ASSERT(terrain_->mLogicTree);
 	CPPUNIT_ASSERT(terrain_->mTable);
-	CPPUNIT_ASSERT(terrain_->mTable->childCount() == 21);
+	CPPUNIT_ASSERT(terrain_->mTable->childCount() == NoeudTable::expectedChildCount());
 	NoeudGroupe* gAccel = terrain_->mTable->obtenirGroupe(RazerGameUtilities::NOM_ACCELERATEUR);
 	CPPUNIT_ASSERT(gAccel);
 	CPPUNIT_ASSERT(gAccel->childCount() == 0);
@@ -113,6 +114,34 @@ void TerrainTest::testInitialiser()
 
 }
 
+
+void TerrainTest::testInsideTable()
+{
+    terrain_->creerTerrainParDefaut("testTable");
+    // on assume ici que la table est rectangulaire pour les tests
+    // les tests pour une table de forme différente seront fait
+    // avec l'interface
+
+    auto table = terrain_->getTable();
+    CPPUNIT_ASSERT(table);
+    if(table)
+    {
+        float dim[2];
+        table->calculerHautLongMax(dim);
+
+        for(float i=-2; i<=2; i+=0.5f)
+        {
+            for(float j=-2; j<=2; j+=0.5f)
+            {
+                Vecteur2 pos(dim[1]*i,dim[0]*j);
+                bool res = table->estSurTable(pos);
+                bool expectedRes = (utilitaire::ABS(i)<1 && utilitaire::ABS(j)<1);
+                checkf(res == expectedRes);
+                CPPUNIT_ASSERT(res == expectedRes);
+            }
+        }
+    }
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

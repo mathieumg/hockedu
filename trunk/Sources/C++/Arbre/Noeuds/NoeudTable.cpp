@@ -63,6 +63,23 @@ const int NB_GROUP_TYPES = ARRAY_COUNT(GroupTypes);
 
 ////////////////////////////////////////////////////////////////////////
 ///
+/// @fn int NoeudTable::expectedChildCount()
+///
+/// /*Description*/
+///
+///
+/// @return int
+///
+////////////////////////////////////////////////////////////////////////
+int NoeudTable::expectedChildCount()
+{
+    return NB_GROUP_TYPES;
+}
+
+
+
+////////////////////////////////////////////////////////////////////////
+///
 /// @fn NoeudTable::NoeudTable(const std::string& typeNoeud)
 ///
 /// Ce constructeur cree tout les points necessaire au jeu et assigne 

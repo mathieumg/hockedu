@@ -687,7 +687,7 @@ void Terrain::createRandomField(const std::string& nom)
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
+bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExternNodes /*= true*/ )
 {
     if(!mTable)
     {
@@ -703,7 +703,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
     }
     float hauteurBut = mTable->obtenirBut(1)->obtenirHauteurBut();
 
-    std::string typeNoeudModifiable[] = {
+    static const std::string typeNoeudModifiable[] = {
         RazerGameUtilities::NOM_RONDELLE,
         RazerGameUtilities::NOM_MAILLET,
         RazerGameUtilities::NOM_ACCELERATEUR,
@@ -714,6 +714,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
     };
     const unsigned int nbTypeModifiable = ARRAY_COUNT(typeNoeudModifiable);
 
+    bool nodeOutsideNotDeleted = false;
     // Suppression des noeuds qui ne sont pas sur la table
     for(unsigned int i=0; i<nbTypeModifiable; ++i)
     {
@@ -729,14 +730,26 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
                 {
                     if(!mTable->estSurTable(n) )
                     {
-                        // La suppression du pNode l'enlevera du groupe
-                        g->erase(n);
-                        // Repositionnement de i pour pointer au bon endroit a la prochaine iteration
-                        j--; 
+                        if(deleteExternNodes)
+                        {
+                            // La suppression du pNode l'enlevera du groupe
+                            g->erase(n);
+                            // Repositionnement de i pour pointer au bon endroit a la prochaine iteration
+                            j--; 
+                        }
+                        else
+                        {
+                            nodeOutsideNotDeleted = true;
+                        }
                     }
                 }
             }
         }
+    }
+
+    if(nodeOutsideNotDeleted && afficherErreur)
+    {
+        utilitaire::afficherErreur("Warning : Items present outside the table\nmight invalidate when trying to play.");
     }
 
     // Verification des maillets
@@ -780,7 +793,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/ )
     NoeudAbstrait* nodes[2] =
     {
         leftMallet,
-        mRightMallet
+        rightMallet
     };
 #if BOX2D_INTEGRATED
     b2RayCastInput input;

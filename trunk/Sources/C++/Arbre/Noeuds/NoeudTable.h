@@ -38,7 +38,7 @@ public:
    /// Destructeur.
    ~NoeudTable();
 
-
+   static int expectedChildCount();
    /// fonction de comparaison de 2 noeuds
    virtual bool equals(NoeudAbstrait* n)
    {

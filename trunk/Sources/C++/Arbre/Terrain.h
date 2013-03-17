@@ -103,7 +103,7 @@ public:
     void createRandomField(const std::string&);
 
 	/// Verifie si le terrain respecte les conditions de jeu
-	bool verifierValidite( bool afficherErreur = true);
+    bool verifierValidite( bool afficherErreur = true, bool deleteExternNodes = true);
 
 	/// Applique la physique sur l'arbre de rendu contenant les noeuds de la table
 	void appliquerPhysique( float temps );

@@ -376,22 +376,13 @@ void GenerateDefaultField()
 ////////////////////////////////////////////////////////////////////////
 bool ValidateField()
 {
-    return FacadeModele::getInstance()->verifierValiditeMap();
+    return FacadeModele::getInstance()->getEditionField()->verifierValidite(true,false);
 }
-
-
-
-
-
 
 
 void initNetwork( ControllerInterface* pController )
 {
     GestionnaireReseau::obtenirInstance()->setController(pController);
-
-
-
-
 }
 
 
