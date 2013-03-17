@@ -560,6 +560,12 @@
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameCreation.cpp">
       <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
     </ClCompile>
+    <ClCompile Include="reseau\PaquetHandlers\PacketHandlerGameConnection.cpp">
+      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="reseau\Paquets\PaquetGameConnection.cpp">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1049,6 +1055,12 @@
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClInclude>
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameCreation.h">
+      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="reseau\Paquets\PaquetGameConnection.h">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="reseau\UsinePaquets\UsinePaquetGameConnection.h">
       <Filter>Sources Files\Reseau\UsinePaquets</Filter>
     </ClInclude>
   </ItemGroup>

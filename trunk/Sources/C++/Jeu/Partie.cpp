@@ -51,6 +51,8 @@ pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurD
 	mUpdateCallback = updateCallback;
     mGameStatus = GAME_NOT_STARTED;
     mLastGameStatus = GAME_NOT_STARTED;
+    mRequirePassword = false;
+    mPassword = "";
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -834,6 +836,25 @@ void Partie::modifierEnPause( bool val )
     {
         tempsJeu_.unPause();
         setGameStatus(mLastGameStatus); // Utilise le dernier etat de partie pour unpause
+    }
+}
+
+
+
+// Le mot de passe ne doit pas sortir de l'objet
+bool Partie::validatePassword( const std::string& pPasswordToValidate ) const
+{
+    return mPassword == pPasswordToValidate;
+}
+
+
+
+void Partie::setPassword( const std::string& pPassword )
+{
+    mPassword = pPassword;
+    if(pPassword.length() == 0)
+    {
+        mRequirePassword = false;
     }
 }
 

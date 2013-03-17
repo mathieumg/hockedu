@@ -20,6 +20,7 @@
 #include "Paquets/PaquetMaillet.h"
 #include "Paquets/PaquetGameCreation.h"
 #include <iostream>
+#include "Paquets/PaquetGameConnection.h"
 
 
 // Meme pour le client et les serveurs.
@@ -166,9 +167,81 @@ int PaquetRunnable::RunnableGameCreationClient( Paquet* pPaquet )
         std::cout << "Creation de partie reussie" << std::endl;
 
         // On se connecte a la partie
-        
-
+        PaquetGameConnection* wPaquetConnexion = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);
+        wPaquetConnexion->setGameId(wPaquet->getGameId());
+        GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquetConnexion, TCP);
     }
+
+    return 0;
+}
+
+
+
+
+int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
+{
+    PaquetGameConnection* wPaquet = (PaquetGameConnection*) pPaquet;
+    
+    // Reception de la reponse de connection, handling different dependant du state de retour
+    switch(wPaquet->getConnectionState())
+    {
+    case GAME_CONNECTION_ACCEPTED_LEFT:
+        {
+            // Accepted, on est maintenant dans la partie demandee sur le serveur jeu a gauche
+
+
+
+
+            break;
+        }
+    case GAME_CONNECTION_ACCEPTED_RIGHT:
+        {
+            // Accepted, on est maintenant dans la partie demandee sur le serveur jeu a droite
+
+            break;
+        }
+    case GAME_CONNECTION_ALREADY_CONNECTED:
+        {
+            // User with this name already connected
+
+
+
+            break;
+        }
+    case GAME_CONNECTION_GAME_FULL:
+        {
+            // Partie comporte deja 2 joueurs
+
+
+        }
+        // Dans tous les autres cas, la connection a echouee
+    case GAME_CONNECTION_GAME_NOT_FOUND:
+        {
+            std::cout << "Game not found with id: " << wPaquet->getGameId() << std::endl;
+            break;
+        }
+    case GAME_CONNECTION_WRONG_PASSWORD:
+        {
+            std::cout << "Wrong Password: " << std::endl;
+            break;
+        }
+    case GAME_CONNECTION_REJECTED:
+        {
+            std::cout << "Connection rejected. No more info. Game: " << wPaquet->getGameId() << std::endl;
+            break;
+        }
+    case GAME_CONNECTION_PENDING:
+        {
+            // Pas de break, meme comportement que default
+        }
+
+    default:
+        std::cout << "Error occured connecting to game: " << wPaquet->getGameId() << std::endl;
+        // State invalide, on ne fait rien
+        break;
+    }
+
+
 
     return 0;
 }

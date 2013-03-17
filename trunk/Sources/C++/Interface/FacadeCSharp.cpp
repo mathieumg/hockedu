@@ -7,6 +7,8 @@
 #include "..\reseau\PaquetHandlers\PacketHandler.h"
 #include "..\Reseau\Paquets\PaquetGameCreation.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetGameCreation.h"
+#include "..\reseau\Paquets\PaquetGameConnection.h"
+#include "..\reseau\UsinePaquets\UsinePaquetGameConnection.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -70,6 +72,7 @@ void InitDLL()
     wGestionnaireReseau->ajouterOperationReseau(USER_STATUS, new PacketHandlerUserStatus, new UsinePaquetUserStatus);
     wGestionnaireReseau->ajouterOperationReseau(MAILLET, new PacketHandlerMaillet, new UsinePaquetMaillet);
     wGestionnaireReseau->ajouterOperationReseau(GAME_CREATION_REQUEST, new PacketHandlerGameCreation, new UsinePaquetGameCreation);
+    wGestionnaireReseau->ajouterOperationReseau(GAME_CONNECTION, new PacketHandlerGameConnection, new UsinePaquetGameConnection);
 
 }
 
@@ -407,6 +410,15 @@ void connectServerGame( char* pServerIP )
 
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer", pServerIP, TCP);
 
+
+
+}
+
+void connectPartieServerGame( int pGameId )
+{
+    PaquetGameConnection* wPaquet = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);
+    wPaquet->setGameId(pGameId);
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
 
 
 }

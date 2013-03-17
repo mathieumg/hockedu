@@ -19,6 +19,9 @@
 #include "Paquets\PaquetMaillet.h"
 #include "Paquets\PaquetGameCreation.h"
 #include "GameManager.h"
+#include "Paquets\PaquetGameConnection.h"
+#include "RazerGameTypeDef.h"
+#include "JoueurNetwork.h"
 
 
 /// ***** PAR CONVENTION, METTRE Game A LA FIN DU NOM DES DELEGATES
@@ -212,6 +215,90 @@ int PaquetRunnable::RunnableGameCreationServerGame( Paquet* pPaquet )
         GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
 
     }
+
+    return 0;
+}
+
+
+
+GameConnectionState connectPlayer(const std::string& pPlayerName, Partie* pGame)
+{
+    if(pGame)
+    {
+        if(!pGame->obtenirJoueurGauche())
+        {
+            // Pas de joueur gauche. On assigne le joueur la
+            pGame->assignerJoueur(SPJoueurNetwork(new JoueurNetwork(pPlayerName)));
+            return GAME_CONNECTION_ACCEPTED_LEFT;
+        }
+        else if(pGame->obtenirNomJoueurGauche() == pPlayerName)
+        {
+            return GAME_CONNECTION_ALREADY_CONNECTED;
+        }
+        else if(!pGame->obtenirJoueurDroit())
+        {
+            // Pas de joueur droit. On assigne le joueur la
+            pGame->assignerJoueur(SPJoueurNetwork(new JoueurNetwork(pPlayerName)));
+            return GAME_CONNECTION_ACCEPTED_RIGHT;
+        }
+        else if(pGame->obtenirNomJoueurDroit() == pPlayerName)
+        {
+            return GAME_CONNECTION_ALREADY_CONNECTED;
+        }
+        else
+        {
+            return GAME_CONNECTION_GAME_FULL;
+        }
+
+    }
+    else
+    {
+        return GAME_CONNECTION_REJECTED;
+    }
+}
+
+
+
+int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
+{
+    PaquetGameConnection* wPaquet = (PaquetGameConnection*) pPaquet;
+
+    // Reception de requete de connection a une partie deja cree
+
+    // On va chercher la partie demandee
+    Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
+    if(wGame)
+    {
+        if(wGame->requirePassword())
+        {
+            // Valider le mot de passe
+            if(wGame->validatePassword(wPaquet->getPassword()))
+            {
+                // Mot de passe valide
+                wPaquet->setConnectionState(connectPlayer(wPaquet->getUsername(), wGame));
+            }
+            else
+            {
+                wPaquet->setConnectionState(GAME_CONNECTION_WRONG_PASSWORD);
+            }
+
+        }
+        else
+        {
+            // Pas besoin de mot de passe
+            wPaquet->setConnectionState(connectPlayer(wPaquet->getUsername(), wGame));
+        }
+
+
+
+    }
+    else
+    {
+        wPaquet->setConnectionState(GAME_CONNECTION_GAME_NOT_FOUND);
+    }
+
+
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
 
     return 0;
 }

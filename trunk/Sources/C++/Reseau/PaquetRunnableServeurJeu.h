@@ -19,6 +19,9 @@ namespace PaquetRunnable
 
     int RunnableGameCreationServerGame(Paquet* pPaquet);
 
+    int RunnableGameConnectionServerGame(Paquet* pPaquet);
+
+
 };
 
 

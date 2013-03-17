@@ -95,6 +95,10 @@ public:
 
     inline void sendNetworkInfos() {mPartieSyncer.tick();}
 
+    bool validatePassword(const std::string& pPasswordToValidate) const;
+    void setPassword(const std::string& pPassword);
+    inline bool requirePassword() const {return mRequirePassword;}
+
 /// Methode Privee
 private:
 
@@ -152,7 +156,11 @@ private:
     GameStatus mLastGameStatus;
 
     PartieSyncer mPartieSyncer;
+
+    bool mRequirePassword;
+    std::string mPassword;
     
+
 /// Accesseurs
 public:
 	/// Indique si les 2 joueurs de la partie sont virtuels

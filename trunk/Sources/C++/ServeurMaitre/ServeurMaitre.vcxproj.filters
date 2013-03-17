@@ -159,6 +159,12 @@
     <ClCompile Include="..\Reseau\Paquets\PaquetGameCreation.cpp">
       <Filter>Source Files\Paquets</Filter>
     </ClCompile>
+    <ClCompile Include="..\reseau\PaquetHandlers\PacketHandlerGameConnection.cpp">
+      <Filter>Source Files\PacketHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\reseau\Paquets\PaquetGameConnection.cpp">
+      <Filter>Source Files\Paquets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControllerServeurMaitre.h">
@@ -286,6 +292,12 @@
     </ClInclude>
     <ClInclude Include="..\Reseau\Paquets\PaquetGameCreation.h">
       <Filter>Source Files\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\reseau\Paquets\PaquetGameConnection.h">
+      <Filter>Source Files\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\reseau\UsinePaquets\UsinePaquetGameConnection.h">
+      <Filter>Source Files\UsinePaquets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
