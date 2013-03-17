@@ -31,6 +31,7 @@
 #include "FacadeModele.h"
 #endif
 #include "ArbreRendu.h"
+#include "Terrain.h"
 
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
 const Vecteur3 NoeudTable::DEFAULT_SIZE = Vecteur3(300,150);
@@ -41,7 +42,9 @@ const int nodeWidth[3] = {0,NoeudTable::NB_HORIZONTAL_VERTICES>>1,NoeudTable::NB
 
 CreateListDelegateImplementation(Table)
 {
+#if WIN32  
     NoeudTable::initialiserListeIndexPoints(pModel);
+#endif
     // dont make a list for table
     return 0;
 }
@@ -223,6 +226,79 @@ NoeudTable::~NoeudTable()
 
 
 
+#if WIN32  
+
+enum ListePointState
+{
+    LISTEPOINTSTATE_OK,
+    LISTEPOINTSTATE_PENDING,
+    LISTEPOINTSTATE_ERROR,
+};
+ListePointState listePointInit = LISTEPOINTSTATE_PENDING;
+struct queuedMove
+{
+    TypePosPoint type;
+    Vecteur3 move;
+};
+std::vector<queuedMove> moveQueue;
+#include "..\Reseau\Network_Defines.h"
+HANDLE_MUTEX mutex = NULL;
+
+void emptyQueue()
+{
+    while(!moveQueue.empty())
+    {
+        queuedMove& q = moveQueue.back();
+        auto iter = NoeudTable::obtenirListeIndexPointsModeleTable().find(q.type);
+        if(iter != NoeudTable::obtenirListeIndexPointsModeleTable().end())
+        {
+            // si on ne trouve pas la liste ici, c'est que le modele n'existe pas
+            auto liste = &iter->second;
+            for(unsigned int i=0; i<liste->size(); i++)
+            {
+                *(liste->get(i)[VX]) += q.move[VX];
+                *(liste->get(i)[VY]) += q.move[VY];
+            }
+        }
+        moveQueue.pop_back();
+    }
+    FacadePortability::releaseMutex(mutex);
+    CloseHandle(mutex);
+    mutex = NULL;
+}
+
+
+void NoeudTable::queueTableModelMove(TypePosPoint type,const Vecteur3& move)
+{
+    if(listePointInit != LISTEPOINTSTATE_ERROR)
+    {
+        if(!mutex)
+        {
+            FacadePortability::createMutex(mutex);
+        }
+        FacadePortability::takeMutex(mutex);
+        // queue the move
+        queuedMove qmove;
+        qmove.type = type;
+        qmove.move = move;
+        moveQueue.push_back(qmove);
+
+        // if it finish initialise since then, apply the modifs
+        if(listePointInit == LISTEPOINTSTATE_OK)
+        {
+            emptyQueue();
+        }
+        if(mutex)FacadePortability::releaseMutex(mutex);
+
+    }
+    else
+    {
+        moveQueue.clear();
+    }
+}
+
+
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -236,9 +312,20 @@ NoeudTable::~NoeudTable()
 ////////////////////////////////////////////////////////////////////////
 void NoeudTable::initialiserListeIndexPoints( Modele3D* modele )
 {
+    if(!mutex)
+    {
+        FacadePortability::createMutex(mutex);
+    }
     if(!modele)
+    {
+        FacadePortability::takeMutex(mutex);
+        listePointInit = LISTEPOINTSTATE_ERROR;
+        FacadePortability::releaseMutex(mutex);
+        CloseHandle(mutex);
+        mutex = NULL;
         return;
-#if WIN32
+    }
+
     const aiScene* scene = modele->obtenirScene();
     const aiNode* rootNode = scene->mRootNode;
 
@@ -346,8 +433,12 @@ void NoeudTable::initialiserListeIndexPoints( Modele3D* modele )
     listeIndexPointsModeleTable_[POSITION_BAS_GAUCHE]  = trouverVertex(scene, rootNode, vertexBasGauche);
     listeIndexPointsModeleTable_[POSITION_HAUT_DROITE]  = trouverVertex(scene, rootNode, vertexHautDroit);
     listeIndexPointsModeleTable_[POSITION_BAS_DROITE]  = trouverVertex(scene, rootNode, vertexBasDroit);
-#endif
+
+    FacadePortability::takeMutex(mutex);
+    listePointInit = LISTEPOINTSTATE_OK;
+    emptyQueue();
 }
+#endif
 
 
 
@@ -896,6 +987,13 @@ XmlElement* NoeudTable::createXmlNode()
 ////////////////////////////////////////////////////////////////////////
 bool NoeudTable::initFromXml( const XmlElement* element )
 {
+    auto field = getField();
+    if(field)
+    {
+        field->setTable(this);
+    }
+
+
     if(!Super::initFromXml(element))
         return false;
     if(!XMLUtils::readAttribute(element,"coefFriction",coefFriction_))

@@ -217,6 +217,7 @@ public:
     void modifierNom(const std::string& val) { mFieldName = val; }
 	/// Accesseur de table_
 	inline NoeudTable* getTable() const { return mTable; }
+    inline void setTable(NoeudTable* table){mTable=table;}
 	/// Accesseur de la rondelle sur le terrain.
 	NoeudRondelle* getPuck() const ;
     /// Accesseur des buts, l'argument DOIT etre un array de 2 pointeur sur des but

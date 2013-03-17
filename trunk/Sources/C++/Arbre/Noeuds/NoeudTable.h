@@ -83,8 +83,12 @@ public:
    /// Assigner le coefficient de rebond a la bande voulu a lindex voulu
    void assignerCoefRebond(int index, float coefRebond);
 
-
+   /// Accesseur de listeIndexPointsModeleTable_
+   static ListeIndexPoints& obtenirListeIndexPointsModeleTable() { return listeIndexPointsModeleTable_; }
+#if WIN32  
    static void initialiserListeIndexPoints(Modele3D* modele);
+   static void queueTableModelMove(TypePosPoint type,const Vecteur3& move);
+#endif
 
    /// Recreates the physics body according to current attributes
    virtual void updatePhysicBody();
@@ -133,8 +137,7 @@ private:
 /// Accesseurs
 public:
 
-	/// Accesseur de listeIndexPointsModeleTable_
-	static ListeIndexPoints& obtenirListeIndexPointsModeleTable() { return listeIndexPointsModeleTable_; }
+
 
 	/// Accesseur de point dans le vecteurPoint
 	NoeudPoint* obtenirPoint( int typePosPoint);
