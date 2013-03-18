@@ -270,7 +270,6 @@ void VisiteurSelection::visiterNoeudAffichable( NoeudAbstrait* noeud )
 	NoeudAbstrait::PaireVect3 zoneOccuppee = noeud->obtenirZoneOccupee();
 	Vecteur3 pos = noeud->getPosition();
 
-	
 	bool selection = false;
 	if(avecRectangle)
 	{

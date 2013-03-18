@@ -10,6 +10,8 @@
 #include "Terrain.h"
 #include "VisiteurSelection.h"
 #include "NoeudAbstrait.h"
+#include <Box2D/Box2D.h>
+
 @implementation Model
 
 - (void)render
@@ -19,6 +21,7 @@
 }
 - (id)init
 {
+    b2World* world = new b2World(b2Vec2(0,0));
     mField = new Terrain(NULL);
     ((Terrain*)mField)->createRandomField("test");
     return self;
@@ -30,7 +33,7 @@
     Vecteur2 posMax = Vecteur2(positionMaxX,positionMaxY);
     VisiteurSelection visitor = VisiteurSelection(posMin,posMax);
     ((Terrain*)mField)->acceptVisitor(visitor);
-    ConteneurNoeuds pConteneurNoeuds;
+    visitor.faireSelection();
     
 }
 

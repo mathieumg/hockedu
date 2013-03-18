@@ -416,7 +416,7 @@ void GestionnaireHUD::dessinerHUDJeu()
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
-    gluOrtho2D(0,1,1,0);
+    gluOrtho2D(-mDeltaXOrtho,1+mDeltaXOrtho,1,0);
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glLoadIdentity();

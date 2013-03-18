@@ -42,7 +42,7 @@
 #include "Terrain.h"
 #include "NoeudTable.h"
 #include "RepartiteurActions.h"
-
+#include "GestionnaireHUD.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -506,6 +506,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Fenetre_redimensionnerFenetre(JNI
 		Vecteur2i(largeur, hauteur)
 		);
 	FacadeModele::getInstance()->rafraichirFenetre();
+    GestionnaireHUD::obtenirInstance()->setRatio(largeur/(float)hauteur);
 }
 
 ////////////////////////////////////////////////////////////////////////

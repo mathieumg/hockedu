@@ -5,6 +5,7 @@
 #include "Terrain.h"
 #include "..\reseau\UsinePaquets\UsinePaquetMaillet.h"
 #include "..\reseau\PaquetHandlers\PacketHandler.h"
+#include "GestionnaireHUD.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -225,6 +226,7 @@ void WindowResized(int largeur, int hauteur)
         Vecteur2i(largeur, hauteur)
         );
     FacadeModele::getInstance()->rafraichirFenetre();
+    GestionnaireHUD::obtenirInstance()->setRatio(largeur/(float)hauteur);
 }
 
 ////////////////////////////////////////////////////////////////////////

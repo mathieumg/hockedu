@@ -78,6 +78,7 @@
 		4E2A595D16F2E558002160AE /* NodeBonus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595916F2E558002160AE /* NodeBonus.cpp */; };
 		4E2A595E16F2E558002160AE /* NodeModelRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595B16F2E558002160AE /* NodeModelRender.cpp */; };
 		4E2A596116F2E658002160AE /* BonusModifierFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */; };
+		4E96DF0416F64C4700588998 /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E96DC6716F63D2100588998 /* libBox2D.a */; };
 		4EB7EA7916EFBE4100493722 /* VisiteurFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */; };
 		4EEBBF9A16E86E5B00017127 /* Model.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBF9916E86E5B00017127 /* Model.mm */; };
 		4EEBBFA316E8832900017127 /* NoeudAbstrait.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBFA216E8832900017127 /* NoeudAbstrait.cpp */; };
@@ -105,6 +106,23 @@
 		969DDF901472E15900ED5DC8 /* EAGLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969DDF8E1472E15900ED5DC8 /* EAGLViewController.m */; };
 		969DDF911472E15900ED5DC8 /* EAGLViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 969DDF8F1472E15900ED5DC8 /* EAGLViewController.xib */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4E96DC6616F63D2100588998 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4E96DC6216F63D1D00588998 /* Box2D.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4E96DC5116F63D1C00588998;
+			remoteInfo = Box2D;
+		};
+		4E96DF0116F641E600588998 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4E96DC6216F63D1D00588998 /* Box2D.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 4E96DC5016F63D1C00588998;
+			remoteInfo = Box2D;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0C04E03C16DE7835002B0EE2 /* aide32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aide32x32.png; sourceTree = "<group>"; };
@@ -249,6 +267,7 @@
 		4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierFactory.cpp; path = "../../C++/Arbre/Usines/BonusModifierFactory.cpp"; sourceTree = "<group>"; };
 		4E2A596016F2E658002160AE /* BonusModifierFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierFactory.h; path = "../../C++/Arbre/Usines/BonusModifierFactory.h"; sourceTree = "<group>"; };
 		4E2A596216F2E84B002160AE /* Enum_Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enum_Declarations.h; path = "../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"; sourceTree = "<group>"; };
+		4E96DC6216F63D1D00588998 /* Box2D.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Box2D.xcodeproj; path = Box2D/Box2D.xcodeproj; sourceTree = "<group>"; };
 		4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisiteurFunction.cpp; sourceTree = "<group>"; };
 		4EB7EA7816EFBE4100493722 /* VisiteurFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisiteurFunction.h; sourceTree = "<group>"; };
 		4EEBBF9816E86E5B00017127 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
@@ -298,6 +317,7 @@
 			files = (
 				969DDF8B1472E05400ED5DC8 /* QuartzCore.framework in Frameworks */,
 				969DDF891472E03500ED5DC8 /* OpenGLES.framework in Frameworks */,
+				4E96DF0416F64C4700588998 /* libBox2D.a in Frameworks */,
 				96378D7B1472C71100F543EA /* UIKit.framework in Frameworks */,
 				96378D7D1472C71100F543EA /* Foundation.framework in Frameworks */,
 				96378D7F1472C71100F543EA /* CoreGraphics.framework in Frameworks */,
@@ -524,9 +544,18 @@
 			path = Bonus;
 			sourceTree = "<group>";
 		};
+		4E96DC6316F63D1D00588998 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4E96DC6716F63D2100588998 /* libBox2D.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		96378D6B1472C71100F543EA = {
 			isa = PBXGroup;
 			children = (
+				4E96DC6216F63D1D00588998 /* Box2D.xcodeproj */,
 				4E2A596216F2E84B002160AE /* Enum_Declarations.h */,
 				4E2A595116F2E455002160AE /* Flags.h */,
 				0C04E09316DE88ED002B0EE2 /* C++Files */,
@@ -656,6 +685,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				4E96DF0216F641E600588998 /* PBXTargetDependency */,
 			);
 			name = Hockedu;
 			productName = AppDemo;
@@ -680,12 +710,28 @@
 			mainGroup = 96378D6B1472C71100F543EA;
 			productRefGroup = 96378D771472C71100F543EA /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 4E96DC6316F63D1D00588998 /* Products */;
+					ProjectRef = 4E96DC6216F63D1D00588998 /* Box2D.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				96378D751472C71100F543EA /* Hockedu */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		4E96DC6716F63D2100588998 /* libBox2D.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBox2D.a;
+			remoteRef = 4E96DC6616F63D2100588998 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		96378D741472C71100F543EA /* Resources */ = {
@@ -799,6 +845,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		4E96DF0216F641E600588998 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Box2D;
+			targetProxy = 4E96DF0116F641E600588998 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		96378D831472C71200F543EA /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -872,9 +926,15 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AppDemo/Hockedu-Prefix.pch";
 				GCC_VERSION = "";
+				"HEADER_SEARCH_PATHS[arch=*]" = "../../../Commun/Externe/**";
 				INFOPLIST_FILE = "AppDemo/Hockedu-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Commun/Externe/Box2D/Libs\"",
+				);
 				PRODUCT_NAME = Hockedu;
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "../../../Commun/Externe/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -887,6 +947,10 @@
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "AppDemo/Hockedu-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Commun/Externe/Box2D/Libs\"",
+				);
 				PRODUCT_NAME = Hockedu;
 				WRAPPER_EXTENSION = app;
 			};

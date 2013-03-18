@@ -498,6 +498,8 @@ namespace vue {
 			//angleOuverture_ = 360.0*atan((yMaxFenetre_-yMinFenetre_)/(2.0*zAvant_))/3.141592;
 
 		}
+
+
 		mettreAJourProjection();
 
 	}
