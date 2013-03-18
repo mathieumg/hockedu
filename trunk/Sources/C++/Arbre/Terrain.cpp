@@ -21,7 +21,8 @@
 #ifndef __APPLE__
 #include "../Reseau/Paquets/PaquetMaillet.h"
 #include "../Reseau/GestionnaireReseau.h"
-
+#include "GestionnaireHUD.h"
+#include "HUDBonus.h"
 #endif
 
 #include "Terrain.h"
@@ -1724,6 +1725,12 @@ void Terrain::initNecessaryPointersForGame()
         mRightMallet->modifierPositionOriginale(mRightMallet->getPosition());
         mPuck->validerPropriteteTablePourJeu();
         mPuck->modifierPositionOriginale(mPuck->getPosition());
+
+#if WIN32
+        auto leftBonuses = GestionnaireHUD::obtenirInstance()->getLeftPlayerBonuses();
+        leftBonuses->setModifiers(&mLeftMallet->GetModifiers());
+#endif
+
     }
 }
 

@@ -9,6 +9,8 @@
 ///////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Enum_Declarations.h"
+
 class NoeudAbstrait;
 class NoeudRondelle;
 ///////////////////////////////////////////////////////////////////////////
@@ -53,6 +55,10 @@ public:
 
     /// Completes the modifiers execution 
     void Complete(){mIsFinished = true;}
+
+    virtual BonusType getType()const = 0;
+    /// Accessors of mTimeToLive
+    inline float getTimeToLive() const { return mTimeToLive; }
 protected:
 
     /// utility functions, attachs the modifier to the last hitting mallet
@@ -64,6 +70,7 @@ protected:
 
     NoeudAbstrait* mOwner;
     float mTimeToLive;
+
 private:
     bool mIsFinished;
 };

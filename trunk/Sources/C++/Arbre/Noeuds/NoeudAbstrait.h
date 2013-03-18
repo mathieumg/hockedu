@@ -27,7 +27,7 @@
 #include "Vecteur.h"
 #include "ExceptionJeu.h"
 #include "Flags.h"
-#include <set>
+#include "RazerGameTypeDef.h"
 
 //Foward Declaration
 class NoeudComposite;
@@ -234,7 +234,7 @@ private:
 	
 	/// Pointeur sur le terrain que le noeud est inclu dedans, Null si le noeud n'est pas sur un terrain
 	Terrain* mField;
-    typedef std::set<BonusModifierAbstract*> ModifiersContainer;
+    
     ModifiersContainer mModifiers;
 
 

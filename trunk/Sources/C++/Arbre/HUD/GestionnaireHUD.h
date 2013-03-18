@@ -59,10 +59,15 @@ private:
 	HUDElement* decompte_;
 	GLuint listePause_;
 
+    class HUDBonus* mLeftPlayerBonuses;
+
+
+
 /// Accesseurs
 public:
 	HUDElement* obtenirRacine(RacineHUD racine);
-
+    /// Accessors of mLeftPlayerBonuses
+    inline class HUDBonus* getLeftPlayerBonuses() const { return mLeftPlayerBonuses; }
 
 };
 
