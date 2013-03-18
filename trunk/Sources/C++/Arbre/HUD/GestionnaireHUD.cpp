@@ -289,6 +289,7 @@ void GestionnaireHUD::creerHUDJeu()
 
     panneauScores->add(surfaceJoueurGauche);
 
+    /// Bonus HUD left player
     mLeftPlayerBonuses = new HUDBonus();
     mLeftPlayerBonuses->modifierPosition(0,1);
     mLeftPlayerBonuses->modifierTaille(0.5,1);
@@ -317,6 +318,12 @@ void GestionnaireHUD::creerHUDJeu()
     surfaceJoueurDroit->add(scoreJoueurDroit);
 
     panneauScores->add(surfaceJoueurDroit);
+
+    /// Bonus HUD right player
+    mRightPlayerBonuses = new HUDBonus();
+    mRightPlayerBonuses->modifierPosition(0.7f,1);
+    mRightPlayerBonuses->modifierTaille(0.3f,0.1);
+    panneauScores->add(mRightPlayerBonuses);
 
     // Symbole au milieu.
     listeDesVertexes01 = new ConteneurVertex2D;

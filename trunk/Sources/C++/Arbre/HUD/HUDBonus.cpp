@@ -33,6 +33,7 @@ void HUDBonus::initSurfaces()
     const std::string iconPath = RazerGameUtilities::NOM_DOSSIER_MEDIA+"BonusIcons/";
     memset(mTextures,0,NB_BONUS_TYPE*sizeof(mTextures));
     aidegl::glLoadTexture(iconPath+"God.jpg", mTextures[BONUS_TYPE_GO_THROUGH_WALL]);
+    aidegl::glLoadTexture(iconPath+"Goaler.png", mTextures[BONUS_TYPE_BLOCK_GOAL]);
 
     ConteneurVertex2D* vertex = new ConteneurVertex2D();
     vertex->push_back(Vecteur2f(0,0));
@@ -40,7 +41,7 @@ void HUDBonus::initSurfaces()
     vertex->push_back(Vecteur2f(1,1));
     vertex->push_back(Vecteur2f(1,0));
     mSurface = new HUDSurfaceGL(GL_QUADS,vertex,Vecteur4f(1,1,1,1));
-    mSurface->modifierTaille(0.05,0.05);
+    mSurface->modifierTaille(0.05f,0.05f);
     mTimerElement = new HUDTexte(TEXTE,Vecteur4f(1,1,1,1));
 }
 

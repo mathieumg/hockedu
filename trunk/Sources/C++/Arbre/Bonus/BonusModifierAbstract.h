@@ -25,7 +25,7 @@ class BonusModifierAbstract
 {
 public:
     // Default constructor
-    BonusModifierAbstract():mIsFinished(false),mOwner(0),mTimeToLive(10.f)
+    BonusModifierAbstract(float timeToLive):mIsFinished(false),mOwner(0),mTimeToLive(timeToLive)
     {
     }
 
@@ -33,6 +33,8 @@ public:
 
     /// Attach a modifier on a node, receiving the puck as entry point,
     /// but from it, the modifier can apply itself on anything in the map
+    ///
+    /// Don't forget to set the owner!
     ///
     /// returns true if the modifier is attached on a node
     /// returns false otherwise
@@ -52,6 +54,10 @@ public:
 
     /// Default tick behavior for time based modifiers
     virtual void Tick(float temps);
+
+    /// Render specific content for this modifier
+    /// translation to the node will already be applied
+    virtual void render() const {}
 
     /// Completes the modifiers execution 
     void Complete(){mIsFinished = true;}

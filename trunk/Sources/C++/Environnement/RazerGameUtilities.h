@@ -122,7 +122,8 @@ public:
     CreateListDelegateSignature(EmptyBonus);
     CreateListDelegateSignature(Bonus);
 
-
+    static const std::string NAME_GOALER;
+    CreateListDelegateSignature(Goaler);
 };
 
 

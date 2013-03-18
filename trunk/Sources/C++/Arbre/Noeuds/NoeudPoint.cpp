@@ -183,9 +183,9 @@ TypePosPoint NoeudPoint::obtenirTypePosNoeud() const
 /// @return Vecteur3 : position du noeud.
 ///
 ////////////////////////////////////////////////////////////////////////
-Vecteur3 NoeudPoint::getPosition() const 
+const Vecteur3& NoeudPoint::getPosition() const 
 {
-	return Vecteur3(mPosition);
+	return mPosition;
 }
 
 ////////////////////////////////////////////////////////////////////////

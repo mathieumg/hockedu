@@ -67,7 +67,7 @@ public:
 	/// Accesseur du typePosNoeud
     TypePosPoint obtenirTypePosNoeud() const;
 	/// Retourne la coordonee puisque la table est toujours a (0, 0, 0)
-	Vecteur3 getPosition() const;
+	const Vecteur3&  getPosition() const;
 	/// Assigne la position relative du noeud et deplace le modele 3D de la table
 	virtual void setPosition( const Vecteur3& positionRelative);
 

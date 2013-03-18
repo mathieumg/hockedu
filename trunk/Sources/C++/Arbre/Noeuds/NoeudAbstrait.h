@@ -49,6 +49,7 @@ enum PhysicsCategory
     CATEGORY_BOOST    = 0x0010,
     CATEGORY_BONUS    = 0x0020,
     CATEGORY_WALL     = 0x0040,
+    CATEGORY_GOALIE     = 0x0080,
 };
 
 enum NodeFlags
@@ -228,14 +229,15 @@ protected:
     GLuint mGlId;
     /// id unique dans openGL pour le type du noeud
 	GLuint mGlTypeId;
+
+    ModifiersContainer mModifiers;
 private:
 	/// Compteur pour les id unique dans openGL
 	static GLuint mIdGlCounter;
 	
 	/// Pointeur sur le terrain que le noeud est inclu dedans, Null si le noeud n'est pas sur un terrain
 	Terrain* mField;
-    
-    ModifiersContainer mModifiers;
+
 
 
 	/// Accesseurs
@@ -250,7 +252,7 @@ public:
     virtual void setParent( NoeudComposite* parent );
 
     /// Obtient la position relative du noeud.
-    inline const Vecteur3& getPosition() const {return mPosition;}
+    inline virtual const Vecteur3& getPosition() const {return mPosition;}
     /// Assigne la position relative du noeud.
     virtual void setPosition( const Vecteur3& positionRelative );
 

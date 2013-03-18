@@ -60,6 +60,9 @@ private:
 	GLuint listePause_;
 
     class HUDBonus* mLeftPlayerBonuses;
+    class HUDBonus* mRightPlayerBonuses;
+
+
 
     float mDeltaXOrtho;
 
@@ -71,6 +74,8 @@ public:
 	HUDElement* obtenirRacine(RacineHUD racine);
     /// Accessors of mLeftPlayerBonuses
     inline class HUDBonus* getLeftPlayerBonuses() const { return mLeftPlayerBonuses; }
+    /// Accessors of mRightPlayerBonuses
+    inline class HUDBonus* getRightPlayerBonuses() const { return mRightPlayerBonuses; }
     /// Sets the ratio  X/Y of the window to keep hud at correct size
     inline void setRatio(float windowRatio)
     {

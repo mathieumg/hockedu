@@ -189,6 +189,7 @@
     <ClCompile Include="Application\RepartiteurActions.cpp" />
     <ClCompile Include="Arbre\ArbreNoeudLibre.cpp" />
     <ClCompile Include="Arbre\Bonus\BonusModifierAbstract.cpp" />
+    <ClCompile Include="Arbre\Bonus\BonusModifierBlockGoal.cpp" />
     <ClCompile Include="Arbre\Bonus\BonusModifierGoThorughWall.cpp" />
     <ClCompile Include="Arbre\HUD\GestionnaireHUD.cpp" />
     <ClCompile Include="Arbre\HUD\HUDBonus.cpp" />
@@ -348,6 +349,7 @@
     <ClInclude Include="Application\RepartiteurActions.h" />
     <ClInclude Include="Arbre\ArbreNoeudLibre.h" />
     <ClInclude Include="Arbre\Bonus\BonusModifierAbstract.h" />
+    <ClInclude Include="Arbre\Bonus\BonusModifierBlockGoal.h" />
     <ClInclude Include="Arbre\Bonus\BonusModifierGoThorughWall.h" />
     <ClInclude Include="Arbre\HUD\GestionnaireHUD.h" />
     <ClInclude Include="Arbre\HUD\HUDBonus.h" />

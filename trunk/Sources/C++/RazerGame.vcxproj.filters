@@ -560,6 +560,9 @@
     <ClCompile Include="Arbre\HUD\HUDBonus.cpp">
       <Filter>Sources Files\Arbre\Hud</Filter>
     </ClCompile>
+    <ClCompile Include="Arbre\Bonus\BonusModifierBlockGoal.cpp">
+      <Filter>Sources Files\Arbre\Bonus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1071,6 +1074,9 @@
     </ClInclude>
     <ClInclude Include="Arbre\HUD\HUDBonus.h">
       <Filter>Sources Files\Arbre\Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Bonus\BonusModifierBlockGoal.h">
+      <Filter>Sources Files\Arbre\Bonus</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
