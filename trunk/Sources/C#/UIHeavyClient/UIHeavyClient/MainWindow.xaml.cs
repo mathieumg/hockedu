@@ -293,5 +293,16 @@ namespace UIHeavyClient
         {
             MainWindowHandler.QuickSaveMapToLocal();
         }
+
+        public void HandleEditionMenuItem(bool pMustBeEnabled)
+        {
+            mLoadMapItem.IsEnabled = pMustBeEnabled;
+            mServerLoadMapItem.IsEnabled = pMustBeEnabled;
+            mQuickSaveMapItem.IsEnabled = pMustBeEnabled;
+            mSaveMapItem.IsEnabled = pMustBeEnabled;
+            mServerSaveMapItem.IsEnabled = pMustBeEnabled;
+            mResetMapItem.IsEnabled = pMustBeEnabled;
+            mTestMapItem.IsEnabled = pMustBeEnabled;
+        }
     }
 }

@@ -265,6 +265,7 @@ namespace UIHeavyClient
             if (!editionControlGrid.Children.Contains(mWindowsFormsHost))
             {
                 editionControlGrid.Children.Add(mWindowsFormsHost);
+                mWindowsFormsHost.Focus();
             }
             Grid.SetColumnSpan(mWindowsFormsHost, 3);
             Grid.SetRowSpan(mWindowsFormsHost, 2);
@@ -319,6 +320,11 @@ namespace UIHeavyClient
         private void mCamareResetButton_Click(object sender, RoutedEventArgs e)
         {
             ResetCamera();
+        }
+
+        public void SetGuidanceInstuction(string pInstruction)
+        {
+            mGuidanceTextBlock.Text = pInstruction;
         }
     }
 }

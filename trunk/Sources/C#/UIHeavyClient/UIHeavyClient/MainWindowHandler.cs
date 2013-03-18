@@ -86,6 +86,9 @@ namespace UIHeavyClient
                 SetMessageCallback(mCurrentMessageCallback);
                 SetEventCallback(mCurrentEventCallBack);
             }
+
+            Context.HandleEditionMenuItem(true);
+            Context.EditionModeControl.SetGuidanceInstuction("");
         }
 
         public static void GoToPlayMode()
@@ -111,6 +114,8 @@ namespace UIHeavyClient
                 SetMessageCallback(mCurrentMessageCallback);
                 SetEventCallback(mCurrentEventCallBack);
             }
+
+            Context.HandleEditionMenuItem(false);
         }
 
         public static void GoToMainMenu()
@@ -138,6 +143,8 @@ namespace UIHeavyClient
                 SetMessageCallback(mCurrentMessageCallback);
                 SetEventCallback(mCurrentEventCallBack);
             }
+
+            Context.HandleEditionMenuItem(false);
         }
 
         public static void GoToTournamentMenu()
@@ -182,6 +189,7 @@ namespace UIHeavyClient
         public static void SaveMapToLocal(string pMapName)
         {
             SaveMap(pMapName);
+            Context.EditionModeControl.SetGuidanceInstuction("Map saved to file \"" + pMapName + "\".");
         }
 
         public static void DialogLoadMapFromLocal()
@@ -205,7 +213,14 @@ namespace UIHeavyClient
 
         public static void QuickSaveMapToLocal()
         {
-            SaveMapToLocal(mCurrentMap);
+            if (mCurrentMap == "")
+            {
+                DialogSaveMapToLocal();
+            }
+            else
+            {
+                SaveMapToLocal(mCurrentMap);
+            }
         }
 
         public static void LoadPlayingMap(string pMapFile)
@@ -218,6 +233,5 @@ namespace UIHeavyClient
             SetEventCallback(null);
             SetMessageCallback(null);
         }
-
     }
 }
