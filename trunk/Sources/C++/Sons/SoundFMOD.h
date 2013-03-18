@@ -131,7 +131,7 @@ public:
 
 private:
 	/// Vérifications des erreurs
-	void ERRCHECK(FMOD_RESULT result);
+	//void ERRCHECK(FMOD_RESULT result);
 
 	/// Méthode de création de sons
 	void create_sound(std::string name_or_data, FMOD_MODE mode, FMOD_CREATESOUNDEXINFO *exinfo, FMOD::SoundGroup* group);

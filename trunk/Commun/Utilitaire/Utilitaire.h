@@ -121,7 +121,7 @@ namespace utilitaire {
 	///
 	////////////////////////////////////////////////////////////////////////
 	template <class T>
-	inline T borneSuperieure( const T& valeur, const T& borne )
+	inline T borneSuperieure( T valeur, T borne )
 	{
 		if ( valeur > borne )
 			return valeur;
@@ -141,7 +141,7 @@ namespace utilitaire {
 	///
 	////////////////////////////////////////////////////////////////////////
 	template <class T>
-	inline T borneInferieure( const T& valeur, const T& borne )
+	inline T borneInferieure( T valeur, T borne )
 	{
 		if ( valeur < borne )
 			return valeur;

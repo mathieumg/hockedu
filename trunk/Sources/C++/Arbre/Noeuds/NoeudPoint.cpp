@@ -16,6 +16,7 @@
 #include "XMLUtils.h"
 #include "VisiteurNoeud.h"
 #include "NoeudBut.h"
+#include "VisiteurDeplacement.h"
 
 
 const float NoeudPoint::DEFAULT_RADIUS = 10;
@@ -313,7 +314,9 @@ bool NoeudPoint::initFromXml( const XmlElement* element )
     Vecteur3 pos;
     if( !XmlReadNodePosition(pos,element) )
         throw ExceptionJeu("%s: Error reading node's position", mType.c_str());
-    setPosition(pos);
+    auto deplacement = pos - mPosition;
+    VisiteurDeplacement v(deplacement,true);
+    v.visiterNoeudPoint(this);
 
     int intElem;
     if(!XMLUtils::readAttribute(element,"typePosNoeud",intElem))
@@ -374,16 +377,22 @@ const GroupeTripleAdresseFloat* NoeudPoint::obtenirListePointsAChanger() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudPoint::setPosition( const Vecteur3& positionRelative )
 {
+#if WIN32  
 	const GroupeTripleAdresseFloat* liste = obtenirListePointsAChanger();
-	if(liste)
+    Vecteur3 deplacement(positionRelative-mPosition);
+    if(liste)
 	{
-		Vecteur3 deplacement(positionRelative-mPosition);
 		for(unsigned int i=0; i<liste->size(); i++)
 		{
 			*(liste->get(i)[VX]) += (float)deplacement[VX];
 			*(liste->get(i)[VY]) += (float)deplacement[VY];
 		}
 	}
+    else
+    {
+        NoeudTable::queueTableModelMove(typePosNoeud_,deplacement);
+    }
+#endif
 
     // assigner la position du point en premier pour que la table puisse l'utiliser à sa mise a jour
     NoeudAbstrait::setPosition(positionRelative);

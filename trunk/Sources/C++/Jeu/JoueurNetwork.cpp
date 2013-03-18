@@ -27,6 +27,7 @@ JoueurNetwork::JoueurNetwork(std::string nom) : JoueurAbstrait(nom)
 	type_ = JOUEUR_NETWORK;
 }
 
+#if WITH_JAVA  
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn JoueurNetwork::JoueurNetwork( JNIEnv* env, jobject& joueurHumain )
@@ -56,6 +57,7 @@ JoueurNetwork::JoueurNetwork( JNIEnv* env, jobject& joueurHumain ) : JoueurAbstr
 	type_ = JOUEUR_NETWORK;
 
 }
+#endif //WITH_JAVA  
 
 ////////////////////////////////////////////////////////////////////////
 ///

@@ -18,7 +18,7 @@
 #include "NoeudPoint.h"
 #include "NoeudAccelerateur.h"
 #include "NodeControlPoint.h"
-#include "ExceptionJeu.h"
+#include "Terrain.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -281,15 +281,18 @@ void VisiteurDeplacement::visiterNoeudPoint( NoeudPoint* noeud )
 	}
 
 	// Recalcul de la longueur des buts 
-	NoeudTable* table = dynamic_cast<NoeudTable*>(noeud->getParent());
-
-    if(table == 0)
+    auto field = noeud->getField();
+    checkf(field);
+    if(field)
     {
-		throw ExceptionJeu("Parent d'un point n'est pas une table, arbre invalide");
+        NoeudTable* table = field->getTable();
+        checkf(table);
+        if(table)
+        {
+            table->obtenirBut(1)->updateLongueur();
+            table->obtenirBut(2)->updateLongueur();
+        }
     }
-	table->obtenirBut(1)->updateLongueur();
-	table->obtenirBut(2)->updateLongueur();
-	
 }
 
 

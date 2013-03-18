@@ -236,7 +236,7 @@ const NoeudAbstrait* NoeudComposite::find( unsigned int indice ) const
 ////////////////////////////////////////////////////////////////////////
 NoeudAbstrait* NoeudComposite::find( unsigned int indice )
 {
-	if ( (indice >= 0) && (indice < enfants_.size()) ) {
+	if ( (indice < enfants_.size()) ) {
 		return enfants_[indice];
 	}
 	else {

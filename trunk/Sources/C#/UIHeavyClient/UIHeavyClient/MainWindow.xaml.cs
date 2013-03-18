@@ -100,8 +100,10 @@ namespace UIHeavyClient
         {
             OpenGLControl.mRenderTimer.Stop();
             OpenGLControl.mLogicalTimer.Stop();
+            MainWindowHandler.Cleanup();
             FreeApplicationMemory();
             ConsoleManager.Hide();
+            System.Windows.Application.Current.Shutdown();
         }
 
         public void CreateUserControl(object sender, EventArgs e)
@@ -138,7 +140,7 @@ namespace UIHeavyClient
             // make sure to show console before any call to the dll or we wont
             // see output
             ConsoleManager.Show();
-
+            System.Windows.Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 #if DEBUG
             System.Windows.Controls.MenuItem debugMenu = new System.Windows.Controls.MenuItem();
             debugMenu.Header = "Debug";
@@ -326,6 +328,17 @@ namespace UIHeavyClient
         void QuickSaveMapToLocal(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.QuickSaveMapToLocal();
+        }
+
+        public void HandleEditionMenuItem(bool pMustBeEnabled)
+        {
+            mLoadMapItem.IsEnabled = pMustBeEnabled;
+            mServerLoadMapItem.IsEnabled = pMustBeEnabled;
+            mQuickSaveMapItem.IsEnabled = pMustBeEnabled;
+            mSaveMapItem.IsEnabled = pMustBeEnabled;
+            mServerSaveMapItem.IsEnabled = pMustBeEnabled;
+            mResetMapItem.IsEnabled = pMustBeEnabled;
+            mTestMapItem.IsEnabled = pMustBeEnabled;
         }
     }
 }

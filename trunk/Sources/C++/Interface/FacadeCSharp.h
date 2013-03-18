@@ -80,6 +80,7 @@ extern "C"
     __declspec(dllexport) void PauseGame(bool doPause);
     __declspec(dllexport) void GenerateDefaultField();
     __declspec(dllexport) bool ValidateField();
+    __declspec(dllexport) void ResetCamera();
 
 
     __declspec(dllexport) bool TerrainHasDeletable();

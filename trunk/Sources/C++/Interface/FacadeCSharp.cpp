@@ -375,7 +375,7 @@ void GenerateDefaultField()
 ///
 /// @fn bool ValidateField()
 ///
-/// /*Description*/
+/// Perform field validation
 ///
 ///
 /// @return bool
@@ -383,25 +383,27 @@ void GenerateDefaultField()
 ////////////////////////////////////////////////////////////////////////
 bool ValidateField()
 {
-    return FacadeModele::getInstance()->verifierValiditeMap();
+    return FacadeModele::getInstance()->getEditionField()->verifierValidite(true,false);
 }
 
-
-
-
-
-
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void ResetCamera()
+///
+/// Position the camera at table center
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void ResetCamera()
+{
+    FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
+}
 
 void initNetwork( ControllerInterface* pController )
 {
     GestionnaireReseau::obtenirInstance()->setController(pController);
-
-
-
-
 }
-
-
 
 void connectServerGame( char* pServerIP )
 {

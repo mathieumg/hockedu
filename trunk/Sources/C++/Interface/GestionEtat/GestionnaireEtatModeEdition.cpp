@@ -301,7 +301,7 @@ void GestionnaireEtatModeEdition::modifierEtatSouris( NomEtatSouris etatSouris )
         case ETAT_SOURIS_AJOUTER_MAILLET            : etatSouris_ = new SourisEtatAjout                     (mField,RazerGameUtilities::NOM_MAILLET);  break;
         case ETAT_SOURIS_AJOUTER_RONDELLE           : etatSouris_ = new SourisEtatAjout                     (mField,RazerGameUtilities::NOM_RONDELLE); break;
         case ETAT_SOURIS_AJOUTER_ACCELERATEUR       : etatSouris_ = new SourisEtatAjout                     (mField,RazerGameUtilities::NOM_ACCELERATEUR); break;
-        case ETAT_SOURIS_AJOUTER_BONUS              : etatSouris_ = new SourisEtatAjout                     (mField,RazerGameUtilities::NAME_EMPTY_BONUS); break;
+        case ETAT_SOURIS_AJOUTER_BONUS              : etatSouris_ = new SourisEtatAjout                     (mField,RazerGameUtilities::NAME_BONUS); break;
         default: Super::modifierEtatSouris(etatSouris);
         }
     }

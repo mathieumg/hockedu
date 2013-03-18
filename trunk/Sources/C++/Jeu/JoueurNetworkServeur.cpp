@@ -29,36 +29,6 @@ JoueurNetworkServeur::JoueurNetworkServeur(std::string nom) : JoueurAbstrait(nom
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn JoueurNetworkServeur::JoueurNetworkServeur( JNIEnv* env, jobject& joueurHumain )
-///
-/// Constructeur qui initialisela le joueur network à partir d'un objet Java.
-///
-/// @param[in] env : l'environnement Java.
-/// @param[in] joueurHumain : un joueur humain précédement déclaré en Java
-///
-/// @return
-///
-////////////////////////////////////////////////////////////////////////
-JoueurNetworkServeur::JoueurNetworkServeur( JNIEnv* env, jobject& joueurHumain ) : JoueurAbstrait("")
-{
-    // NE DEVRAIT PAS ETRE UTILISE
-
-
-	// Obtention de la classe
-	jclass classe = env->GetObjectClass(joueurHumain);
-
-	// Obtention du nom
-	jmethodID obtenirNom = env->GetMethodID(classe, "obtenirNom", "()Ljava/lang/String;");
-	jstring nom = (jstring)env->CallObjectMethod(joueurHumain, obtenirNom);
-
-	// Modification des attributs
-	modifierNom(RazerGameUtilities::obtenirChaineISO(env, &nom));
-	type_ = JOUEUR_NETWORK_SERVEUR;
-
-}
-
-////////////////////////////////////////////////////////////////////////
-///
 /// @fn JoueurNetworkServeur::~JoueurNetworkServeur( )
 ///
 /// Destructeur

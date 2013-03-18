@@ -9,7 +9,9 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
+#if WITH_JAVA  
 #include "jni.h"
+#endif //WITH_JAVA  
 #include "Vecteur.h"
 
 
@@ -23,8 +25,10 @@
 class EvenementRouletteSouris
 {
 public:
+#if WITH_JAVA  
 	/// Constructeurs par paramètre
 	EvenementRouletteSouris(JNIEnv* env, jobject& evenementRouletteSouris);
+#endif //WITH_JAVA  
 	EvenementRouletteSouris(int nbCoche):nbCoches_(nbCoche){}
 
 	/// Retourne le nombre de coches de la roulette de la souris

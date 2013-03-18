@@ -10,6 +10,9 @@
 
 #include "NoeudAbstraitTest.h"
 #include "Utilitaire.h"
+#include "NoeudTable.h"
+#include "VisiteurFunction.h"
+#include "Terrain.h"
 
 // Enregistrement de la suite de tests au sein du registre
 CPPUNIT_TEST_SUITE_REGISTRATION( NoeudAbstraitTest );
@@ -229,6 +232,22 @@ void NoeudAbstraitTest::testGetTreeRoot()
 
     
 }
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudAbstraitTest::testInsideTable()
+///
+/// Cas de test: s'assurer de bien detecter si un noeud est a lexterieur de la table
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+VISITEUR_FUNC_FUNC_DECLARATION(rebuild)
+{
+    pNoeud->forceFullUpdate();
+}
+
 
 
 ///////////////////////////////////////////////////////////////////////////////

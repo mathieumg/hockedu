@@ -10,7 +10,7 @@
 
 #pragma once
 #include "joueurabstrait.h"
-#include <jni.h>
+
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class JoueurNetworkServeur
@@ -24,8 +24,6 @@ class JoueurNetworkServeur : public JoueurAbstrait
 public:
 	/// Constructeur par paramètres
 	JoueurNetworkServeur(std::string nom = "");
-	/// Constructeur par objet Java
-	JoueurNetworkServeur(JNIEnv* env, jobject& joueurHumain);
 	/// Destructeur virtuel
 	virtual ~JoueurNetworkServeur(void);
 

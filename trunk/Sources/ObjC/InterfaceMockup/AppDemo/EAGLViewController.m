@@ -197,20 +197,51 @@ enum {
     glLoadIdentity();
 }
 
+-(void) selectionModeButtonTouched:(UIButton *)sender
+{
+    if([sender isSelected])
+    {
+        [sender setSelected:NO];
+        [sender setTitle:@"Selection Mode : OFF" forState:UIControlStateNormal];
+        mSelectionMode = FALSE;
+    }
+    else
+    {
+        [sender setSelected:YES];
+        [sender setTitle:@"Selection Mode : ON" forState:UIControlStateSelected];
+        mSelectionMode = TRUE;
+    }
+}
+
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");            
-    for(UITouch* touch in touches) {
-        CGPoint positionCourante = [touch locationInView:theEAGLView];
-        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);        
-    }        
-    NSLog(@"Position de tous les doigts sur l'écran");            
-    NSSet *allTouches = [event allTouches];
-    for(UITouch* touch in allTouches) {
-        CGPoint positionCourante = [touch locationInView:theEAGLView];
-        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);        
+    if(mSelectionMode)
+    {
+        if ([[event allTouches] count] == 1)
+        {
+            UITouch *touch = [[event allTouches] anyObject];
+            CGPoint positionCourante = [touch locationInView:theEAGLView];
+            CGPoint positionPrecedente = [touch previousLocationInView:theEAGLView];
+            // On a un clique et on est en mode selection
+            [mModel acceptSelectionVisitor:positionCourante.x:positionCourante.y:positionCourante.x:positionCourante.y];
+        }
     }
-    NSLog(@"\n\n");
+    else
+    {
+    
+        NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");
+        for(UITouch* touch in touches) {
+            CGPoint positionCourante = [touch locationInView:theEAGLView];
+            NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);        
+        }        
+        NSLog(@"Position de tous les doigts sur l'écran");            
+        NSSet *allTouches = [event allTouches];
+        for(UITouch* touch in allTouches) {
+            CGPoint positionCourante = [touch locationInView:theEAGLView];
+            NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);        
+        }
+        NSLog(@"\n\n");
+    }
 }
 
 
@@ -221,7 +252,12 @@ enum {
         UITouch *touch = [[event allTouches] anyObject];
         CGPoint positionCourante = [touch locationInView:theEAGLView];
         CGPoint positionPrecedente = [touch previousLocationInView:theEAGLView];
-        
+        if(mSelectionMode)
+        {
+            [mModel acceptSelectionVisitor:positionPrecedente.x:positionPrecedente.y:positionCourante.x:positionCourante.y];
+        }
+        else
+        {
         translationX -= (positionCourante.x - positionPrecedente.x);
         translationY += (positionCourante.y - positionPrecedente.y);
         
@@ -251,6 +287,7 @@ enum {
         }
         
         [self updateOrtho];
+        }
     }
     else if([[event allTouches] count] == 2) {
         // Poor man's pinch, perhaps implement as a UIGesture later on.
