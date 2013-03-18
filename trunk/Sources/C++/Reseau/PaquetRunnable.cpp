@@ -166,10 +166,14 @@ int PaquetRunnable::RunnableGameCreationClient( Paquet* pPaquet )
         // Creation reussie
         std::cout << "Creation de partie reussie" << std::endl;
 
-        // On se connecte a la partie
-        PaquetGameConnection* wPaquetConnexion = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);
-        wPaquetConnexion->setGameId(wPaquet->getGameId());
-        GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquetConnexion, TCP);
+        // On se connecte a la partie si c'est bien une de not partie
+        if(GestionnaireReseau::obtenirInstance()->getPlayerName() == wPaquet->getUsername())
+        {
+            PaquetGameConnection* wPaquetConnexion = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);
+            wPaquetConnexion->setGameId(wPaquet->getGameId());
+            GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquetConnexion, TCP);
+        }
+        
     }
 
     return 0;

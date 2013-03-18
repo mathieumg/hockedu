@@ -10,6 +10,10 @@
 #include "NoeudMaillet.h"
 #include <iostream>
 #include <intrin.h>
+#include "Paquets\PaquetRondelle.h"
+#include "Runnable.h"
+#include "NoeudRondelle.h"
+#include "Terrain.h"
 
 #ifdef LINUX
 #define _LARGE_TIME_API
@@ -23,20 +27,62 @@ int PaquetRunnable::RunnableMailletClient( Paquet* pPaquet )
     // Modification de la pos du maillet
 
 
-    // Test
     Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
 
     if(wGame)
     {
         Vecteur3 wPos = wPaquet->getPosition();
-        wPos[VX] *= -1;
-        if(abs(wPos[VX]) > 0.01)
+        NoeudMaillet* maillet;
+        if(wPaquet->getEstAGauche())
         {
-            // Mettre la position du maillet
-            wGame->obtenirJoueurDroit()->getControlingMallet()->assignerPosSouris(wPos);
+            maillet = wGame->obtenirJoueurGauche()->getControlingMallet();
         }
-        
+        else
+        {
+            maillet = wGame->obtenirJoueurDroit()->getControlingMallet();
+        }
 
+        Runnable* r = new Runnable([maillet,wPos](Runnable*){
+                
+            // Mettre la position du maillet
+            maillet->assignerPosSouris(wPos);
+
+        });
+        maillet->attach(r);
+        RazerGameUtilities::RunOnUpdateThread(r,true);
+        
+    }
+
+    return 0;
+}
+
+
+
+int PaquetRunnable::RunnableRondelleClient( Paquet* pPaquet )
+{
+    PaquetRondelle* wPaquet = (PaquetRondelle*) pPaquet;
+    // Modification des infos de la rondelle
+
+
+    Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
+
+    if(wGame)
+    {
+        NoeudRondelle* wPuck = wGame->getField()->getPuck();
+        Vecteur3 wPos = wPaquet->getPosition();
+        Vecteur3 wVelocite = wPaquet->getVelocite();
+        float wVitesseRot = wPaquet->getVitesseRotation();
+
+        Runnable* r = new Runnable([wPuck, wPos, wVelocite, wVitesseRot](Runnable*){
+            if(wPuck)
+            {
+                wPuck->modifierVitesseRotation(wVitesseRot);
+                wPuck->setPosition(wPos);
+                wPuck->modifierVelocite(wVelocite);
+            }
+        });
+        wPuck->attach(r);
+        RazerGameUtilities::RunOnUpdateThread(r,true);
     }
 
     return 0;

@@ -29,7 +29,7 @@ private:
     // Position du maillet
     Vecteur3 mPosition;
     
-    // I de la game dans lequel le maillet est
+    // Id de la game dans lequel le maillet est
     int mGameId;
     
     // Dit s'il s'agit du joueur gauche ou du joueur droit

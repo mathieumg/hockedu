@@ -92,6 +92,8 @@ public:
 	// Port a utiliser pour les comminications de base
 	static int communicationPort;
     // Port a utiliser pour les comminications de base
+    static int communicationPortMasterServer;
+    // Port a utiliser pour les comminications de base
     static int communicationUDPPort;
     // Port a utiliser pour les comminications de base
     static int connectionUDPPort;
@@ -207,6 +209,9 @@ public:
 
     inline std::string authenticate(const std::string& pUsername, const std::string& pPassword) const {return mControlleur->authenticate(pUsername, pPassword);}
 
+    bool isMasterServerConnected() const;
+
+    bool isAGameServerConnected() const;
 
     //Contains the operating system's byte order.
 	static ByteOrder NATIVE_BYTE_ORDER;

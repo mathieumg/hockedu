@@ -13,6 +13,7 @@
 #include "Singleton.h"
 #include <hash_map>
 #include "../Jeu/Partie.h"
+#include <vector>
 
 
 typedef int (*GameAddedCallback) (int); // Param1 = GameID
@@ -45,6 +46,8 @@ public:
     Partie* getGame(const std::string& pGameName);
 
 
+    void animer(const float& pTemps);
+
 	// Ajoute une nouvelle partie contre l'adversaire precedemment ajuste, 
 	// Si les 2 parametres sont nulles, une partie AI contre AI sera cree
 	// Si un seul parametre est utilise, une partie contre l'adversaire sera cree
@@ -53,9 +56,9 @@ public:
 
 
 	// Methodes pour sauvegarder des fonctions de callback qui seront appelees lors d'ajout de parties ou lors de la modification des parties
-    inline void setGameAddedCallback(GameAddedCallback pCallback) {mGameAddedCallback = pCallback;}
+    inline void addGameAddedCallback(GameAddedCallback pCallback) {mGameAddedCallbacks.push_back(pCallback);}
 	// ATTENTION, le updateCallback utilise pour une partie depend uniquement de celui defini a la creation de la partie. Une modification n'a pas d'impact sur les parties deja crees
-    inline void setGameUpdateCallback(GameUpdateCallback pCallback) {mGameUpdatedCallback = pCallback;}
+    inline void addGameUpdateCallback(GameUpdateCallback pCallback) {mGameUpdatedCallbacks.push_back(pCallback);}
 
 	inline void setAdversaire(SPJoueurAbstrait val) {mAdversaire = val;}
 private:
@@ -63,8 +66,8 @@ private:
 
     std::hash_map<int, Partie*> mListePartiesParId;
 
-    GameAddedCallback mGameAddedCallback;
-    GameUpdateCallback mGameUpdatedCallback;
+    std::vector<GameAddedCallback> mGameAddedCallbacks;
+    std::vector<GameUpdateCallback> mGameUpdatedCallbacks;
 
 
 	// Ajout d'une partie deja creee

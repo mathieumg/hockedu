@@ -5,6 +5,22 @@
 #ifdef LINUX
 #include <stdarg.h>
 #endif
+#include "GameManager.h"
+#include "Partie.h"
+#include "PartieSyncer.h"
+
+
+int CallbackSetPatieSyncerClientLourd(int pGameId, GameStatus)
+{
+    Partie* wGame = GameManager::obtenirInstance()->getGame(pGameId);
+    if(wGame)
+    {
+        wGame->getPartieSyncer()->addDestinationIdentifier("GameServer");
+    }
+    return 0;
+}
+
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -41,6 +57,9 @@ ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceiv
     {
         mEventTypeHandlers[e] = ControllerCSharp::HandleEvent;
     }
+
+
+    GameManager::obtenirInstance()->addGameUpdateCallback(CallbackSetPatieSyncerClientLourd);
 }
 
 
@@ -97,7 +116,7 @@ int ControllerCSharp::HandleEvent(ControllerCSharp* pContext, EventCodes pEventC
         std::string message;
         if(pEventCode == SERVER_USER_DISCONNECTED || pEventCode == SERVER_USER_CONNECTED)
         {
-            message = va_arg(pListeElems,std::string);
+            message = va_arg(pListeElems,char*);
         }
         return c(pEventCode,(char*)message.c_str());
     }

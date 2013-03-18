@@ -2,14 +2,6 @@
 #include <iostream>
 #include <sstream>
 #include "PacketHandler.h"
-// #include "../Paquets/PaquetChatMessage.h"
-// #include "../RelayeurMessage.h"
-// #include <time.h>
-// #include <sstream>
-// #include <iomanip>
-// #ifndef _SERVER
-// #include "../GestionnaireReseauClientLourd.h"
-// #endif
 #include "..\Paquets\PaquetRondelle.h"
 
 
@@ -18,25 +10,18 @@ void PacketHandlerRondelle::handlePacketReceptionSpecific(PacketReader& pPacketR
     if(pRunnable)
     {
         PaquetRondelle* wPaquet = (PaquetRondelle*) GestionnaireReseau::obtenirInstance()->creerPaquet(RONDELLE);
-//         int wArraySize = pPacketReader.readInteger();
-//         uint8_t* wBuffer = new uint8_t[wArraySize];
-//         pPacketReader.readString(wBuffer, wArraySize);
-//         wPaquet->setMessage((char*) wBuffer);
-//         delete wBuffer;
-//         wPaquet->setTimestamp( pPacketReader.read64bInteger());
-//         wPaquet->setIsTargetGroup(pPacketReader.readBool());
-// 
-//         wArraySize = pPacketReader.readInteger();
-//         wBuffer = new uint8_t[wArraySize];
-//         pPacketReader.readString(wBuffer, wArraySize);
-//         wPaquet->setGroupName((char*) wBuffer);
-//         delete wBuffer;
-// 
-//         wArraySize = pPacketReader.readInteger();
-//         wBuffer = new uint8_t[wArraySize];
-//         pPacketReader.readString(wBuffer, wArraySize);
-//         wPaquet->setOrigin((char*) wBuffer);
-//         delete wBuffer;
+
+
+        wPaquet->setGameId(pPacketReader.readInteger());
+        float wX = pPacketReader.readFloat();
+        float wY = pPacketReader.readFloat();
+        wPaquet->setPosition(Vecteur3(wX, wY, 0));
+
+        wX = pPacketReader.readFloat();
+        wY = pPacketReader.readFloat();
+        wPaquet->setVelocite(Vecteur3(wX, wY, 0));
+
+        wPaquet->setVitesseRotation(pPacketReader.readFloat());
 
         wPaquet->setRunnable(pRunnable);
         wPaquet->run();
@@ -51,16 +36,13 @@ void PacketHandlerRondelle::handlePacketPreparationSpecific(Paquet* pPaquet, Pac
 {
     PaquetRondelle* wPaquet = (PaquetRondelle*) pPaquet;
 
-//     if("" == wPaquet->getOrigin())
-//     {
-//         throw ExceptionReseau("Le champ origine du PaquetChatMessage est necessaire.");
-//     }
-// 
-//     pPacketBuilder << wPaquet->getMessage()
-//         << wPaquet->getTimestamp()
-//         << wPaquet->IsTargetGroup()
-//         << wPaquet->getGroupName()
-//         <<wPaquet->getOrigin();
+    
+    pPacketBuilder << wPaquet->getGameId()
+        << wPaquet->getPosition()[VX]
+        << wPaquet->getPosition()[VY]
+        << wPaquet->getVelocite()[VX]
+        << wPaquet->getVelocite()[VY]
+        <<wPaquet->getVitesseRotation();
 
 }
 
@@ -71,11 +53,7 @@ int PacketHandlerRondelle::getPacketSizeSpecific( Paquet* pPaquet ) const
     PaquetRondelle* wPaquet = (PaquetRondelle*) pPaquet;
 
 
-//     return  getSizeForString(wPaquet->getMessage())
-//         + getSizeFor64bInteger()
-//         + getSizeForBool()
-//         +  getSizeForString(wPaquet->getGroupName())
-//         +  getSizeForString(wPaquet->getOrigin());
-    return 0;
+    return  getSizeForInt()
+            + 5* getSizeForFloat();
 
 }

@@ -4,7 +4,3 @@
 class RunnableBreaker : public Subject<RunnableBreaker>
 {
 };
-
-class RunnableBreakerObserver : public Observer<RunnableBreaker>
-{
-};

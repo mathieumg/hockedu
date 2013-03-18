@@ -21,7 +21,9 @@
 #include "GameManager.h"
 #include "Paquets\PaquetGameConnection.h"
 #include "RazerGameTypeDef.h"
-#include "JoueurNetwork.h"
+#include "JoueurNetworkServeur.h"
+#include "Runnable.h"
+#include "NoeudMaillet.h"
 
 
 /// ***** PAR CONVENTION, METTRE Game A LA FIN DU NOM DES DELEGATES
@@ -171,11 +173,30 @@ int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
     // Plus tard, on ne devrait pas relayer directement, mais valider que les positions fonctionnent
     RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), pPaquet);
 
+    Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
 
-    
+    if(wGame)
+    {
+        Vecteur3 wPos = wPaquet->getPosition();
+        NoeudMaillet* maillet;
+        if(wPaquet->getEstAGauche())
+        {
+            maillet = wGame->obtenirJoueurGauche()->getControlingMallet();
+        }
+        else
+        {
+            maillet = wGame->obtenirJoueurDroit()->getControlingMallet();
+        }
 
+        Runnable* r = new Runnable([maillet,wPos](Runnable*){
 
+            // Mettre la position du maillet
+            maillet->assignerPosSouris(wPos);
 
+        });
+        maillet->attach(r);
+        RazerGameUtilities::RunOnUpdateThread(r,true);
+    }
 
     return 0;
 }
@@ -228,7 +249,7 @@ GameConnectionState connectPlayer(const std::string& pPlayerName, Partie* pGame)
         if(!pGame->obtenirJoueurGauche())
         {
             // Pas de joueur gauche. On assigne le joueur la
-            pGame->assignerJoueur(SPJoueurNetwork(new JoueurNetwork(pPlayerName)));
+            pGame->assignerJoueur(SPJoueurNetworkServeur(new JoueurNetworkServeur(pPlayerName)));
             return GAME_CONNECTION_ACCEPTED_LEFT;
         }
         else if(pGame->obtenirNomJoueurGauche() == pPlayerName)
@@ -238,7 +259,7 @@ GameConnectionState connectPlayer(const std::string& pPlayerName, Partie* pGame)
         else if(!pGame->obtenirJoueurDroit())
         {
             // Pas de joueur droit. On assigne le joueur la
-            pGame->assignerJoueur(SPJoueurNetwork(new JoueurNetwork(pPlayerName)));
+            pGame->assignerJoueur(SPJoueurNetworkServeur(new JoueurNetworkServeur(pPlayerName)));
             return GAME_CONNECTION_ACCEPTED_RIGHT;
         }
         else if(pGame->obtenirNomJoueurDroit() == pPlayerName)

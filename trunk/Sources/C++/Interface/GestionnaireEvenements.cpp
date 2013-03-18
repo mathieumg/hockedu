@@ -222,7 +222,10 @@ void GestionnaireEvenements::afficher()
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEvenements::animer( float temps )
 {
-    if(etatCourant_)etatCourant_->animer(temps);
+    if(etatCourant_)
+    {
+        etatCourant_->animer(temps);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

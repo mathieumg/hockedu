@@ -4,6 +4,18 @@
 #include "ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
 #include "PaquetRunnableServeurJeu.h"
 #include "../Application/GameManager.h"
+#include "Partie.h"
+
+int CallbackSetPatieSyncerServeurJeu(int pGameId, GameStatus)
+{
+    Partie* wGame = GameManager::obtenirInstance()->getGame(pGameId);
+    if(wGame)
+    {
+        wGame->getPartieSyncer()->addDestinationIdentifier(wGame->obtenirNomJoueurGauche());
+        wGame->getPartieSyncer()->addDestinationIdentifier(wGame->obtenirNomJoueurDroit());
+    }
+    return 0;
+}
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -28,7 +40,7 @@ ControllerServeurJeu::ControllerServeurJeu()
     mPaquetRunnables[GAME_CREATION_REQUEST]         = PaquetRunnable::RunnableGameCreationServerGame;
     mPaquetRunnables[GAME_CONNECTION]               = PaquetRunnable::RunnableGameConnectionServerGame;
 
-
+    GameManager::obtenirInstance()->addGameUpdateCallback(CallbackSetPatieSyncerServeurJeu);
 }
 
 

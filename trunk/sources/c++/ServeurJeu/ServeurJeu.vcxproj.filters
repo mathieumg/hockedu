@@ -30,6 +30,15 @@
     <ClCompile Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.cpp">
       <Filter>Source Files\Reseau\ObjetsGlobauxServeurs</Filter>
     </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuOption.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuOptionCallVoid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.h">
@@ -39,6 +48,15 @@
       <Filter>Source Files\Reseau\ObjetsGlobauxServeurs</Filter>
     </ClInclude>
     <ClInclude Include="..\Interface\FacadeServeurJeu.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuOption.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuOptionCallVoid.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,6 +5,8 @@
 #include <wtypes.h>
 #include <stdexcept>
 #include "../Interface/FacadeServeurJeu.h"
+#include "Menu.h"
+#include "MenuOptionCallVoid.h"
 
 const char flagChar = '-';
 
@@ -27,6 +29,24 @@ void parseParamWithArg(std::string& pOutParam, int pLoopCounter, int argc, char*
         throw std::runtime_error("Valeur manquante pour le flag " + std::string(argv[pLoopCounter]));
     }
 }
+
+
+
+
+
+
+
+
+void TerminateServer()
+{
+    exit(0);
+}
+
+void DoNothing()
+{
+
+}
+
 
 
 
@@ -70,15 +90,15 @@ int main(int argc, char* argv[])  {
     // Appel a la fonction d'initialisation
     InitDLLServeurJeu(wMasterServerIP);
 
-    
-    // On s'authentifie au serveur maitre (localhost opur l'instant)
-    // Connexion au serveur maitre
 
+    // Affichage du menu
+    Menu wMenu("Choose an option");
+    wMenu.addMenuOption(0, new MenuOptionCallVoid("Do Nothing", DoNothing));
+    wMenu.addMenuOption(1, new MenuOptionCallVoid("Exit Server", TerminateServer));
 
-    // To prevend the server to exit without killing it
     while(true)
     {
-        getchar(); // Pause until enter is pressed
+        wMenu.displayAndPick();
     }
 
     

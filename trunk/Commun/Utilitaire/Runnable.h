@@ -4,7 +4,6 @@
 #include <functional>
 #include "RunnableBreaker.h"
 
-
 ///////////////////////////////////////////////////////////////////////////
 /// @class Runnable
 /// @brief Objet conservant du code a executer plus tard ou sur un autre thread
@@ -16,7 +15,7 @@
 /// @author Michael Ferris
 /// @date 2013-02-15
 ///////////////////////////////////////////////////////////////////////////
-class Runnable : public RunnableBreakerObserver
+class Runnable : public Observer<RunnableBreaker>
 {
 public:
     Runnable(std::function<void (Runnable*)> function, bool keepAlive = false):
