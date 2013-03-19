@@ -15,7 +15,6 @@
 #include "NoeudMaillet.h"
 #include "NoeudPoint.h"
 #include "NoeudAccelerateur.h"
-#include "DecodeString.h"
 #include <iostream>
 #include "NoeudGroupe.h"
 #include "Terrain.h"

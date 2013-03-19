@@ -80,6 +80,7 @@
 		4E2A596116F2E658002160AE /* BonusModifierFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */; };
 		4E96DF0416F64C4700588998 /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E96DC6716F63D2100588998 /* libBox2D.a */; };
 		4EB7EA7916EFBE4100493722 /* VisiteurFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */; };
+		4EC1626E16F81A8C00577704 /* BonusModifierBlockGoal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */; };
 		4EEBBF9A16E86E5B00017127 /* Model.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBF9916E86E5B00017127 /* Model.mm */; };
 		4EEBBFA316E8832900017127 /* NoeudAbstrait.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBFA216E8832900017127 /* NoeudAbstrait.cpp */; };
 		6D951C3F16EE753600894B44 /* LeftBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D951C3E16EE753600894B44 /* LeftBar.png */; };
@@ -270,6 +271,8 @@
 		4E96DC6216F63D1D00588998 /* Box2D.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Box2D.xcodeproj; path = Box2D/Box2D.xcodeproj; sourceTree = "<group>"; };
 		4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisiteurFunction.cpp; sourceTree = "<group>"; };
 		4EB7EA7816EFBE4100493722 /* VisiteurFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisiteurFunction.h; sourceTree = "<group>"; };
+		4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierBlockGoal.cpp; path = "../../C++/Arbre/Bonus/BonusModifierBlockGoal.cpp"; sourceTree = "<group>"; };
+		4EC1626D16F81A8C00577704 /* BonusModifierBlockGoal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierBlockGoal.h; path = "../../C++/Arbre/Bonus/BonusModifierBlockGoal.h"; sourceTree = "<group>"; };
 		4EEBBF9816E86E5B00017127 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		4EEBBF9916E86E5B00017127 /* Model.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Model.mm; sourceTree = "<group>"; };
 		4EEBBFA216E8832900017127 /* NoeudAbstrait.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoeudAbstrait.cpp; sourceTree = "<group>"; };
@@ -555,6 +558,8 @@
 		96378D6B1472C71100F543EA = {
 			isa = PBXGroup;
 			children = (
+				4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */,
+				4EC1626D16F81A8C00577704 /* BonusModifierBlockGoal.h */,
 				4E96DC6216F63D1D00588998 /* Box2D.xcodeproj */,
 				4E2A596216F2E84B002160AE /* Enum_Declarations.h */,
 				4E2A595116F2E455002160AE /* Flags.h */,
@@ -840,6 +845,7 @@
 				4E2A595D16F2E558002160AE /* NodeBonus.cpp in Sources */,
 				4E2A595E16F2E558002160AE /* NodeModelRender.cpp in Sources */,
 				4E2A596116F2E658002160AE /* BonusModifierFactory.cpp in Sources */,
+				4EC1626E16F81A8C00577704 /* BonusModifierBlockGoal.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

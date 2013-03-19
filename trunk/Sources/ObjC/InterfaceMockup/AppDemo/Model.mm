@@ -10,7 +10,7 @@
 #include "Terrain.h"
 #include "VisiteurSelection.h"
 #include "NoeudAbstrait.h"
-#include <Box2D/Box2D.h>
+//#include <Box2D/Box2D.h>
 
 @implementation Model
 
@@ -21,7 +21,7 @@
 }
 - (id)init
 {
-    b2World* world = new b2World(b2Vec2(0,0));
+    //b2World* world = new b2World(b2Vec2(0,0));
     mField = new Terrain(NULL);
     ((Terrain*)mField)->createRandomField("test");
     return self;

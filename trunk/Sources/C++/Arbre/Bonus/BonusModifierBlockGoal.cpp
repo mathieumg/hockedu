@@ -243,9 +243,11 @@ void BonusModifierBlockGoal::Tick( float temps )
     Vecteur3 pos;
     float angle;
     getGoalPosition(pos,angle);
+#if BOX2D_INTEGRATED
     b2Vec2 posB2;
     utilitaire::VEC3_TO_B2VEC(pos,posB2);
     mPhysicBody->SetTransform(posB2,angle);
+#endif
     BonusModifierAbstract::Tick(temps);
 }
 
