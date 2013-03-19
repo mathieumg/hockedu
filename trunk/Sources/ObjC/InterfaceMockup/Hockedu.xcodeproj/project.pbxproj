@@ -273,6 +273,7 @@
 		4EB7EA7816EFBE4100493722 /* VisiteurFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisiteurFunction.h; sourceTree = "<group>"; };
 		4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierBlockGoal.cpp; path = "../../C++/Arbre/Bonus/BonusModifierBlockGoal.cpp"; sourceTree = "<group>"; };
 		4EC1626D16F81A8C00577704 /* BonusModifierBlockGoal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierBlockGoal.h; path = "../../C++/Arbre/Bonus/BonusModifierBlockGoal.h"; sourceTree = "<group>"; };
+		4EC1626F16F81F8000577704 /* RunnableBreaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunnableBreaker.h; path = ../../../Commun/Utilitaire/RunnableBreaker.h; sourceTree = "<group>"; };
 		4EEBBF9816E86E5B00017127 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		4EEBBF9916E86E5B00017127 /* Model.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Model.mm; sourceTree = "<group>"; };
 		4EEBBFA216E8832900017127 /* NoeudAbstrait.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoeudAbstrait.cpp; sourceTree = "<group>"; };
@@ -558,6 +559,7 @@
 		96378D6B1472C71100F543EA = {
 			isa = PBXGroup;
 			children = (
+				4EC1626F16F81F8000577704 /* RunnableBreaker.h */,
 				4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */,
 				4EC1626D16F81A8C00577704 /* BonusModifierBlockGoal.h */,
 				4E96DC6216F63D1D00588998 /* Box2D.xcodeproj */,
