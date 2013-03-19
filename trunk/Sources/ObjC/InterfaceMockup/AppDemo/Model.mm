@@ -32,6 +32,7 @@
     Vecteur2 posMin = Vecteur2(positionMinX,positionMinY);
     Vecteur2 posMax = Vecteur2(positionMaxX,positionMaxY);
     VisiteurSelection visitor = VisiteurSelection(posMin,posMax);
+    ((Terrain*)mField)->setTableItemsSelection(false);
     ((Terrain*)mField)->acceptVisitor(visitor);
     visitor.faireSelection();
     
