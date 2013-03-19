@@ -3,8 +3,14 @@
 #include <iostream>
 #include "ExceptionJeu.h"
 #include "Terrain.h"
+#include "Tournoi.h"
+#include "GestionnaireHUD.h"
 #include "..\reseau\UsinePaquets\UsinePaquetMaillet.h"
 #include "..\reseau\PaquetHandlers\PacketHandler.h"
+#include "..\Reseau\Paquets\PaquetGameCreation.h"
+#include "..\Reseau\UsinePaquets\UsinePaquetGameCreation.h"
+#include "..\reseau\Paquets\PaquetGameConnection.h"
+#include "..\reseau\UsinePaquets\UsinePaquetGameConnection.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -67,6 +73,9 @@ void InitDLL()
     wGestionnaireReseau->ajouterOperationReseau(CHAT_MESSAGE, new PacketHandlerChatMessage, new UsinePaquetChatMessage);
     wGestionnaireReseau->ajouterOperationReseau(USER_STATUS, new PacketHandlerUserStatus, new UsinePaquetUserStatus);
     wGestionnaireReseau->ajouterOperationReseau(MAILLET, new PacketHandlerMaillet, new UsinePaquetMaillet);
+    wGestionnaireReseau->ajouterOperationReseau(GAME_CREATION_REQUEST, new PacketHandlerGameCreation, new UsinePaquetGameCreation);
+    wGestionnaireReseau->ajouterOperationReseau(GAME_CONNECTION, new PacketHandlerGameConnection, new UsinePaquetGameConnection);
+
 }
 
 
@@ -225,6 +234,7 @@ void WindowResized(int largeur, int hauteur)
         Vecteur2i(largeur, hauteur)
         );
     FacadeModele::getInstance()->rafraichirFenetre();
+    GestionnaireHUD::obtenirInstance()->setRatio(largeur/(float)hauteur);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -368,7 +378,7 @@ void GenerateDefaultField()
 ///
 /// @fn bool ValidateField()
 ///
-/// /*Description*/
+/// Perform field validation
 ///
 ///
 /// @return bool
@@ -379,13 +389,24 @@ bool ValidateField()
     return FacadeModele::getInstance()->getEditionField()->verifierValidite(true,false);
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void ResetCamera()
+///
+/// Position the camera at table center
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void ResetCamera()
+{
+    FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
+}
 
 void initNetwork( ControllerInterface* pController )
 {
     GestionnaireReseau::obtenirInstance()->setController(pController);
 }
-
-
 
 void connectServerGame( char* pServerIP )
 {
@@ -396,6 +417,22 @@ void connectServerGame( char* pServerIP )
 
 
 
+}
+
+void connectPartieServerGame( int pGameId )
+{
+    PaquetGameConnection* wPaquet = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);
+    wPaquet->setGameId(pGameId);
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
+
+
+}
+
+void requestGameCreationServerGame( char* pGameName )
+{
+    PaquetGameCreation* wPaquet = (PaquetGameCreation*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CREATION_REQUEST);
+    wPaquet->setGameName(pGameName);
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
 }
 
 void SaveMap(char* pFileName)
@@ -600,5 +637,46 @@ bool TerrainHasDeletable()
     return FacadeModele::getInstance()->getEditionField()->CanSelectedNodeBeDeleted();
 }
 
+
+void BeginNewTournament(char* pTournamentName, char* pMapName, char** pPlayerNames, int pNbrPlayers)
+{
+	// Players list
+	JoueursParticipant players;
+
+	// Fill the players list
+	for(int i = 0; i < pNbrPlayers; ++i)
+	{
+		// Empty name means human player
+		if(strlen(pPlayerNames[i]) == 0)
+        {
+            players.push_back(SPJoueurAbstrait(new JoueurHumain()));
+        }
+		else // AI player
+		{	
+			SPJoueurAbstrait jv = FacadeModele::getInstance()->obtenirJoueur(std::string(pPlayerNames[i]));
+			if(jv)
+			{
+				players.push_back(jv);
+			}
+			else
+            {
+				players.push_back(SPJoueurAbstrait(new JoueurVirtuel(pPlayerNames[i], 1, 0)));
+            }
+		}
+	}
+
+	// Init tournament
+	FacadeModele::getInstance()->initialiserTournoi(players, std::string(pMapName));
+	Tournoi* tournoiCpp = FacadeModele::getInstance()->obtenirTournoi();
+	tournoiCpp->modifierNom(std::string(pTournamentName));
+
+	// Enregistrement du tournoi
+	FacadeModele::getInstance()->enregistrerTournoi(tournoiCpp);
+}
+
+void ContinueExistingTournament(char* pTournamentName)
+{
+    FacadeModele::getInstance()->chargerTournoi(std::string(pTournamentName));
+}
 
 

@@ -15,7 +15,6 @@
 #include "NoeudMaillet.h"
 #include "NoeudPoint.h"
 #include "NoeudAccelerateur.h"
-#include "DecodeString.h"
 #include <iostream>
 #include "NoeudGroupe.h"
 #include "Terrain.h"
@@ -87,6 +86,7 @@ NoeudRondelle::NoeudRondelle(const std::string& typeNoeud, unsigned int& puckCre
 NoeudRondelle::~NoeudRondelle()
 {
     --mNbPuckCreated;
+    RunnableBreaker::signalObservers();
 #ifndef __APPLE__
     FacadeModele::transmitEvent(ENABLE_PUCK_CREATION);
 #endif
@@ -660,7 +660,7 @@ void NoeudRondelle::updatePhysicBody()
 
         // Il s'agit ici d'une rondelle qui peut entre en collision avec un maillet, un mur, un portail ou un boost
         myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
-        myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY | CATEGORY_WALL | CATEGORY_PORTAL | CATEGORY_BOOST | CATEGORY_BONUS;
+        myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY | CATEGORY_WALL | CATEGORY_PORTAL | CATEGORY_BOOST | CATEGORY_BONUS | CATEGORY_GOALIE;
 
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body

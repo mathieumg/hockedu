@@ -726,7 +726,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
         }
 
         wCommunicateurReseau->terminerIterationListeSocketEcoute();
-        FacadePortability::sleep(10);
+        FacadePortability::sleep(1);
 	}
 
 
@@ -879,7 +879,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
             wNewSocket->recv((uint8_t*) &wPlayerName, 50, true);
 
             // On verifie que le nom ne contient pas d'espaces et n'est pas vide
-            if(strlen(wPlayerName) == 0 || !GestionnaireReseau::obtenirInstance()->validerUsername(std::string(wPlayerName)))
+            if(strlen(wPlayerName) == 0 || GestionnaireReseau::obtenirInstance()->getPlayerName() == wPlayerName || !GestionnaireReseau::obtenirInstance()->validerUsername(std::string(wPlayerName)))
             {
                 // On envoit un message de confirmation pour dire que la conenction est refusee
                 // Send connection state message

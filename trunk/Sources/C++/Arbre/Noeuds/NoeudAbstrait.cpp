@@ -470,13 +470,18 @@ void NoeudAbstrait::renderReal() const
     if(isVisible())
     {
 #if !__APPLE__
+        // Renders all the modifiers present on the node
+        for(auto it = mModifiers.begin(); it != mModifiers.end(); ++it)
+        {
+            (*it)->render();
+        }
+
         GLuint liste;	
         GestionnaireModeles::obtenirInstance()->obtenirListe(get3DModelKey(),liste);
         // Si aucune liste n'est trouvé, on sort de la fonction.
         if(liste==NULL)
             return;
 #endif
-        
         glTranslatef(mPosition[0], mPosition[1], mPosition[2]);
         glPushMatrix();
 
@@ -507,6 +512,8 @@ void NoeudAbstrait::renderReal() const
         {
             glCallList(liste); // Dessin de l'objet avec les textures
         }
+
+
 #else
         renderOpenGLES();
 #endif

@@ -360,6 +360,7 @@ bool mUpdating = false, mRendering=false;
    const std::string RazerGameUtilities::NAME_POLYGONE = "polygone";
    const std::string RazerGameUtilities::NAME_EMPTY_BONUS = "EmptyBonus";
    const std::string RazerGameUtilities::NAME_BONUS = "bonus";
+   const std::string RazerGameUtilities::NAME_GOALER = "goaler";
 
 
 ///////////////////////////////////////////////////////////////////////////////

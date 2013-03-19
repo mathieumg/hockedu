@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:user="clr-namespace:UIHeavyClient"
              mc:Ignorable="d" 
              d:DesignHeight="674" d:DesignWidth="1058" Background="Black" Foreground="White">
     <Grid Background="Black" Name="editionControlGrid">
@@ -35,7 +36,7 @@
                 <Button Content="Redo" Margin="5" Name="mRedoButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" Grid.Row="1" />
             </Grid>
         </GroupBox>
-        <GroupBox Header="Edition State" Margin="15" Name="mEditionStateGroupBox" Grid.Column="2">
+        <GroupBox Header="Edition State" Margin="3" Name="mEditionStateGroupBox" Grid.Column="2">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*" />
@@ -54,19 +55,21 @@
                 <Button Content="Zoom" Margin="1" Name="mZoomStateButton" Background="Black" Foreground="White"  MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="2" Grid.Row="1" Click="HandleStateButton" />
             </Grid>
         </GroupBox>
-        <GroupBox Header="Camera Mode" Margin="15" Name="mCameraModeGroupBox" Grid.Column="3">
+        <GroupBox Header="Camera Mode" Margin="3" Name="mCameraModeGroupBox" Grid.Column="3">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
-                <RadioButton Content="Free" Margin="5" Name="mFreeCameraRadio" Background="Black" Foreground="White" GroupName="rgCameraModes" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Checked="CallActionPerformed" />
-                <RadioButton Content="Orbital" Margin="5" Name="mOrbitalCameraRadio" Background="Black" Foreground="White" GroupName="rgCameraModes" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="1" Checked="CallActionPerformed" IsChecked="True" />
-                <RadioButton Content="Sky" Margin="5" Name="mSkyCameraRadio" Background="Black" Foreground="White" GroupName="rgCameraModes" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="2" Checked="CallActionPerformed" />
+                <RadioButton Content="Free" Margin="1" Name="mFreeCameraRadio" Background="Black" Foreground="White" GroupName="rgCameraModes" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Checked="CallActionPerformed" />
+                <RadioButton Content="Orbital" Margin="1" Name="mOrbitalCameraRadio" Background="Black" Foreground="White" GroupName="rgCameraModes" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="1" Checked="CallActionPerformed" IsChecked="True" />
+                <RadioButton Content="Sky" Margin="1" Name="mSkyCameraRadio" Background="Black" Foreground="White" GroupName="rgCameraModes" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="2" Checked="CallActionPerformed" />
+                <Button Content="Reset Camera" Margin="1" Name="mCamareResetButton" Grid.Row="3" Background="Black" Foreground="White" Click="mCamareResetButton_Click" />
             </Grid>
         </GroupBox>
-        <GroupBox Header="Tools" Margin="15" Name="mToolsGroupBox" Grid.Column="1">
+        <GroupBox Header="Tools" Margin="3" Name="mToolsGroupBox" Grid.Column="1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*" />
@@ -85,27 +88,61 @@
                 <Button Content="Random bonus" Margin="1" Name="mBonusButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" Grid.Row="2" Click="HandleStateButton" />
             </Grid>
         </GroupBox>
-        <GroupBox Header="Special Properties" Margin="15" Name="mPropertiesGroupBox" Grid.Row="2">
-            <Grid>
-                <Slider Height="23" HorizontalAlignment="Left" Margin="8,31,0,0" Name="mScaleSlider" VerticalAlignment="Top" Width="166" IsSnapToTickEnabled="True" />
-                <Slider Height="23" HorizontalAlignment="Left" Margin="8,83,0,0" Name="mAccelerationSlider" VerticalAlignment="Top" Width="166" IsSnapToTickEnabled="True" />
-                <Slider Height="23" HorizontalAlignment="Left" Margin="8,137,0,0" Name="mBounceSlider" VerticalAlignment="Top" Width="166" IsSnapToTickEnabled="True" />
-                <Label Content="Scale" Height="Auto" HorizontalAlignment="Left" Margin="8,6,0,0" Name="mScaleTitleLabel" VerticalAlignment="Top" Width="Auto" Background="Black" Foreground="White" />
-                <Label Content="Acceleration coefficient" Height="Auto" HorizontalAlignment="Left" Margin="8,60,0,0" Name="mAccelerationTitleLabel" VerticalAlignment="Top" Width="Auto" Background="Black" Foreground="White" />
-                <Label Content="Bouncing coefficient" Height="Auto" HorizontalAlignment="Left" Margin="8,112,0,0" Name="mBounceTitleLabel" VerticalAlignment="Top" Width="Auto" Background="Black" Foreground="White" />
-                <Label Content="Angle :" Height="Auto" HorizontalAlignment="Left" Margin="0,165,0,0" Name="mAngleTitleLabel" VerticalAlignment="Top" Width="Auto" Background="Black" Foreground="White" />
-                <TextBox Height="23" HorizontalAlignment="Left" Margin="44,168,0,0" Name="mAngleTextBox" VerticalAlignment="Top" Width="32" Background="Black" Foreground="White" />
-                <Label Content="Attraction Radius :" Height="Auto" HorizontalAlignment="Left" Margin="78,166,0,0" Name="mAttractionTitleLabel" VerticalAlignment="Top" Width="Auto" Background="Black" Foreground="White" />
-                <TextBox Height="23" HorizontalAlignment="Left" Margin="181,168,0,0" Name="mAttractionTextBox" VerticalAlignment="Top" Width="32" Background="Black" Foreground="White" />
-                <Label Content="COMING SOON." Height="26" HorizontalAlignment="Left" Margin="6,231,0,0" Name="label6" VerticalAlignment="Top" Width="196" Background="Black" Foreground="White" />
-                <Label Content="Apparition probability of special bonus" Height="26" HorizontalAlignment="Left" Margin="0,250,0,0" Name="label123" VerticalAlignment="Top" Width="217" Background="Black" Foreground="White" />
-                <Label Content="{Binding ElementName=mScaleSlider, Path=Value}" Foreground="#FF00D500" HorizontalAlignment="Left" Margin="178,31,0,0" Name="mScaleDisplayLabel" Width="32" Height="28" VerticalAlignment="Top" />
-                <Label Content="{Binding ElementName=mAccelerationSlider, Path=Value}" Foreground="#FF00D500" Height="28" HorizontalAlignment="Left" Margin="178,83,0,0" Name="mAccelerationDisplayLabel" VerticalAlignment="Top" Width="32" />
-                <Label Content="{Binding ElementName=mBounceSlider, Path=Value}" Foreground="#FF00D500" Height="28" HorizontalAlignment="Left" Margin="178,132,0,0" Name="mBounceDisplayLabel" VerticalAlignment="Top" Width="32" />
-            </Grid>
+        <GroupBox Header="Special Properties" Margin="15" Name="mPropertiesGroupBox" Grid.Row="2" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!--  Par défaut tous les items sont invisibles   -->
+                <Grid Margin="10,10,0,0" Name="ScaleProperties" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="85*"/>
+                        <ColumnDefinition Width="19*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Scale" HorizontalAlignment="Left" x:Name="mScaleTitleLabel" Background="Black" Foreground="White" />
+                    <Slider x:Name="mScaleSlider" IsSnapToTickEnabled="True" Grid.Row="1" />
+                    <Label Content="{Binding Value, ElementName=mScaleSlider}"  Grid.Column ="1" Foreground="#FF00D500" x:Name="mScaleDisplayLabel" Grid.Row="1" />
+                </Grid>
+                <Grid Margin="10,10,0,0" Name="BouncingProperties" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="85*"/>
+                        <ColumnDefinition Width="19*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Bouncing coefficient" HorizontalAlignment="Left" x:Name="mBounceTitleLabel" Background="Black" Foreground="White" />
+                    <Slider x:Name="mBounceSlider" IsSnapToTickEnabled="True" Grid.Row="1" />
+                    <Label Content="{Binding Value, ElementName=mBounceSlider}"  Grid.Column ="1" Foreground="#FF00D500" x:Name="mBounceDisplayLabel" Grid.Row="1" />
+                </Grid>
+                <Grid Margin="10,10,0,0" Name="AccelerationProperties" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="85*"/>
+                        <ColumnDefinition Width="19*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Acceleration coefficient" HorizontalAlignment="Left" x:Name="mAccelerationTitleLabel" Background="Black" Foreground="White" />
+                    <Slider x:Name="mAccelerationSlider" IsSnapToTickEnabled="True" Grid.Row="1" />
+                    <Label Content="{Binding Value, ElementName=mAccelerationSlider}"  Grid.Column ="1" Foreground="#FF00D500" x:Name="mAccelerationDisplayLabel" Grid.Row="1" />
+                </Grid>
+                <StackPanel Margin="10,10,0,0" Name="AngleProperty" Orientation="Horizontal" Visibility="Collapsed">
+                    <Label Content="Angle :" HorizontalAlignment="Left" x:Name="mAngleTitleLabel" VerticalAlignment="Top" Background="Black" Foreground="White" />
+                    <TextBox HorizontalAlignment="Left" x:Name="mAngleTextBox" VerticalAlignment="Top" Width="32" Background="Black" Foreground="White" />
+                </StackPanel>
+                <StackPanel Margin="10,0,0,0" Name="AttractionProperty" Orientation="Horizontal" Visibility="Collapsed">
+                    <Label Content="Attraction Radius :" HorizontalAlignment="Left" x:Name="mAttractionTitleLabel" VerticalAlignment="Top" Background="Black" Foreground="White" />
+                    <TextBox HorizontalAlignment="Left" x:Name="mAttractionTextBox" VerticalAlignment="Top" Width="32" Background="Black" Foreground="White" />
+                </StackPanel>
+                <user:BonusEditionControl/>
+            </StackPanel>
         </GroupBox>
         <TextBlock Margin="12" Name="mGuidanceTextBlock" Text="Welcome to edition mode! Have fun!!!" Foreground="#FF00D500" Background="Black" TextWrapping="Wrap" FontSize="16" />
-        <Button Content="Main Menu" Grid.Row="3" Margin="15,10,0,10" Name="button1" Background="Black" Foreground="White" Click="MainMenuBtnClick" HorizontalAlignment="Left" Width="75" />
+        <Button Content="Main Menu" Grid.Row="3" Margin="15,10,0,10" Name="mMainMenuButton" Background="Black" Foreground="White" Click="MainMenuBtnClick" HorizontalAlignment="Left" Width="75" />
         <Button Content="Default Map" Grid.Row="3" HorizontalAlignment="Left" Margin="95,10,0,10" Name="mDefaultFieldButton" Width="75" Background="Black" Foreground="White" Click="OnGenerateField" />
         <Button Content="Validate" Grid.Row="3" Margin="175,10,10,10" Name="mValidateFieldButton" Background="Black" Foreground="White" Click="OnValidateField" />
     </Grid>

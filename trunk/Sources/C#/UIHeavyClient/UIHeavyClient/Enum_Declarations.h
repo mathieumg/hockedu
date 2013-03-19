@@ -93,6 +93,7 @@ namespace UIHeavyClient
     enum BonusType
     {
         BONUS_TYPE_GO_THROUGH_WALL,
+        BONUS_TYPE_BLOCK_GOAL,
 
         NB_BONUS_TYPE
     };

@@ -168,6 +168,20 @@ namespace UIHeavyClient
             }
 
             {
+                System.Windows.Controls.MenuItem requestGameCreationServeurJeu = new System.Windows.Controls.MenuItem();
+                requestGameCreationServeurJeu.Header = "Demarrer Nouvelle Partie Serveur Jeu";
+                requestGameCreationServeurJeu.Click += requestGameCreationServeurJeu_Click;
+                debugMenu.Items.Add(requestGameCreationServeurJeu);
+            }
+
+            {
+                System.Windows.Controls.MenuItem connexionPartieBidonServeurJeu = new System.Windows.Controls.MenuItem();
+                connexionPartieBidonServeurJeu.Header = "Connexion Partie Serveur Jeu";
+                connexionPartieBidonServeurJeu.Click += connexionPartieServeurJeu_Click;
+                debugMenu.Items.Add(connexionPartieBidonServeurJeu);
+            }
+
+            {
                 System.Windows.Controls.MenuItem debugItem = new System.Windows.Controls.MenuItem();
                 debugItem.Header = "Reload Models";
                 debugItem.Click += ReloadModels_Click;
@@ -192,6 +206,14 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void connectServerGame(string pServerIP);
 
+        // Tests pour connection sur une partie du serveur jeu
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void connectPartieServerGame(int pGameId);
+
+        // Tests pour demande de creation d'une partie sur le serveur jeu
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void requestGameCreationServerGame(string pGameName);
+
         private void connexionServeurJeu_Click(object sender, RoutedEventArgs e)
         {
             // Tests pour connection serveur jeu et client
@@ -199,6 +221,20 @@ namespace UIHeavyClient
 
         }
 
+        private void connexionPartieServeurJeu_Click(object sender, RoutedEventArgs e)
+        {
+            // Tests pour connection serveur jeu et client
+            connectPartieServerGame(0);
+
+        }
+
+        private void requestGameCreationServeurJeu_Click(object sender, RoutedEventArgs e)
+        {
+            // Tests pour la creation d'une partie sur le serveur jeu
+            requestGameCreationServerGame("Bob's Game");
+
+        }
+        
 
         void simulationMode_Click(object sender, RoutedEventArgs e)
         {
@@ -292,6 +328,17 @@ namespace UIHeavyClient
         void QuickSaveMapToLocal(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.QuickSaveMapToLocal();
+        }
+
+        public void HandleEditionMenuItem(bool pMustBeEnabled)
+        {
+            mLoadMapItem.IsEnabled = pMustBeEnabled;
+            mServerLoadMapItem.IsEnabled = pMustBeEnabled;
+            mQuickSaveMapItem.IsEnabled = pMustBeEnabled;
+            mSaveMapItem.IsEnabled = pMustBeEnabled;
+            mServerSaveMapItem.IsEnabled = pMustBeEnabled;
+            mResetMapItem.IsEnabled = pMustBeEnabled;
+            mTestMapItem.IsEnabled = pMustBeEnabled;
         }
     }
 }

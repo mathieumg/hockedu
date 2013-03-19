@@ -9,14 +9,16 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "BonusModifierFactory.h"
 #include "BonusModifierGoThorughWall.h"
-#include "NodeBonus.h"
+#include "BonusModifierBlockGoal.h"
 
 DEFAULT_BONUS_FACTORY_IMPLEMENTATION(BonusModifierGoThroughWall);
+DEFAULT_BONUS_FACTORY_IMPLEMENTATION(BonusModifierBlockGoal);
 
 
 FactoryBonusModifier* FactoryBonusModifier::mFactories[NB_BONUS_TYPE] =
 {
-    new FactoryBonusModifierGoThroughWall()
+    new FactoryBonusModifierGoThroughWall(),
+    new FactoryBonusModifierBlockGoal(),
 };
 
 ////////////////////////////////////////////////////////////////////////

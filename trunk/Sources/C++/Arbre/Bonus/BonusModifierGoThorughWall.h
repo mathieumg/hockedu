@@ -41,6 +41,8 @@ public:
     /// Reverts the effect on the node,
     /// return unsed for now
     virtual bool Revert();
+
+    virtual BonusType getType()const{return BONUS_TYPE_GO_THROUGH_WALL;}
 private:
     std::vector<class b2Fixture*> mFixtures;
 };

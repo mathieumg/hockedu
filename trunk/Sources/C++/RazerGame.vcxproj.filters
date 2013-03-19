@@ -557,6 +557,24 @@
     <ClCompile Include="Arbre\Bonus\BonusModifierAbstract.cpp">
       <Filter>Sources Files\Arbre\Bonus</Filter>
     </ClCompile>
+    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameCreation.cpp">
+      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="reseau\PaquetHandlers\PacketHandlerGameConnection.cpp">
+      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="reseau\Paquets\PaquetGameConnection.cpp">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="Jeu\JoueurNetworkServeur.cpp">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbre\HUD\HUDBonus.cpp">
+      <Filter>Sources Files\Arbre\Hud</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbre\Bonus\BonusModifierBlockGoal.cpp">
+      <Filter>Sources Files\Arbre\Bonus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -829,9 +847,6 @@
     <ClInclude Include="Reseau\GestionnaireReseauClientLourd.h">
       <Filter>Sources Files\Reseau</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerChatMessage.h">
-      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
-    </ClInclude>
     <ClInclude Include="Reseau\Paquets\PaquetChatMessage.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClInclude>
@@ -852,9 +867,6 @@
     </ClInclude>
     <ClInclude Include="Reseau\Paquets\PaquetUserStatus.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerUserStatus.h">
-      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
     </ClInclude>
     <ClInclude Include="Reseau\CommunicateurReseau.h">
       <Filter>Sources Files\Reseau\Global</Filter>
@@ -967,9 +979,6 @@
     <ClInclude Include="Reseau\Paquets\PaquetGameStatus.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerGameStatus.h">
-      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
-    </ClInclude>
     <ClInclude Include="Arbre\Noeuds\NodeRinkBoards.h">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClInclude>
@@ -1008,15 +1017,6 @@
     </ClInclude>
     <ClInclude Include="Arbre\Bonus\BonusModifierGoThorughWall.h">
       <Filter>Sources Files\Arbre\Bonus</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerAuthentificationServeurJeu.h">
-      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
-    </ClInclude>
-    <ClInclude Include="reseau\PaquetHandlers\PacketHandlerMaillet.h">
-      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
-    </ClInclude>
-    <ClInclude Include="reseau\PaquetHandlers\PacketHandlerRondelle.h">
-      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
     </ClInclude>
     <ClInclude Include="Reseau\Paquets\PaquetAuthentificationServeurJeu.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
@@ -1065,6 +1065,21 @@
     </ClInclude>
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameCreation.h">
       <Filter>Sources Files\Reseau\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="reseau\Paquets\PaquetGameConnection.h">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="reseau\UsinePaquets\UsinePaquetGameConnection.h">
+      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="Jeu\JoueurNetworkServeur.h">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\HUD\HUDBonus.h">
+      <Filter>Sources Files\Arbre\Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Bonus\BonusModifierBlockGoal.h">
+      <Filter>Sources Files\Arbre\Bonus</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

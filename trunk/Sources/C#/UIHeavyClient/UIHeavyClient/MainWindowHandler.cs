@@ -86,16 +86,24 @@ namespace UIHeavyClient
                 SetMessageCallback(mCurrentMessageCallback);
                 SetEventCallback(mCurrentEventCallBack);
             }
+
+            Context.HandleEditionMenuItem(true);
+            Context.EditionModeControl.SetGuidanceInstuction("");
         }
 
-        public static void GoToPlayMode()
+        public static void GoToPlayMode(ActionType pAction)
         {
+            if (pAction != ActionType.ACTION_ALLER_MODE_JEU && pAction != ActionType.ACTION_ALLER_MODE_TOURNOI)
+            {
+                return;
+            }
+
             MessageReceivedCallBack messageCallBack = PlayModeControl.mMessageCallback;
             EventReceivedCallBack eventCallBack = null;
             SetMessageCallback(messageCallBack);
             SetEventCallback(eventCallBack);
 
-            if (ActionPerformed(ActionType.ACTION_ALLER_MODE_JEU))
+            if (ActionPerformed(pAction))
             {
                 mCurrentMessageCallback = messageCallBack;
                 mCurrentEventCallBack = eventCallBack;
@@ -111,6 +119,8 @@ namespace UIHeavyClient
                 SetMessageCallback(mCurrentMessageCallback);
                 SetEventCallback(mCurrentEventCallBack);
             }
+
+            Context.HandleEditionMenuItem(false);
         }
 
         public static void GoToMainMenu()
@@ -138,11 +148,14 @@ namespace UIHeavyClient
                 SetMessageCallback(mCurrentMessageCallback);
                 SetEventCallback(mCurrentEventCallBack);
             }
+
+            Context.HandleEditionMenuItem(false);
         }
 
         public static void GoToTournamentMenu()
         {
             Context.WindowContentControl.Content = Context.TournamentControl;
+            Context.TournamentControl.DisplayProfileNames();
         }
 
         public static void GoToOnlineLobby()
@@ -182,6 +195,7 @@ namespace UIHeavyClient
         public static void SaveMapToLocal(string pMapName)
         {
             SaveMap(pMapName);
+            Context.EditionModeControl.SetGuidanceInstuction("Map saved to file \"" + pMapName + "\".");
         }
 
         public static void DialogLoadMapFromLocal()
@@ -205,7 +219,14 @@ namespace UIHeavyClient
 
         public static void QuickSaveMapToLocal()
         {
-            SaveMapToLocal(mCurrentMap);
+            if (mCurrentMap == "")
+            {
+                DialogSaveMapToLocal();
+            }
+            else
+            {
+                SaveMapToLocal(mCurrentMap);
+            }
         }
 
         public static void LoadPlayingMap(string pMapFile)
@@ -218,6 +239,5 @@ namespace UIHeavyClient
             SetEventCallback(null);
             SetMessageCallback(null);
         }
-
     }
 }

@@ -39,7 +39,6 @@ GameManager::GameManager()
 {
 	mMaximumGameCount = 100000; // Simule pas de limite
 	mAdversaire = 0;
-    mGameAddedCallback = 0;
 }
 
 
@@ -162,11 +161,11 @@ void GameManager::addGame( Partie* pGame )
 
 	
 
-	// Appelle le callback de gameAdded
-	if(mGameAddedCallback)
-	{
-		mGameAddedCallback(pGame->getUniqueGameId());
-	}
+	// Appelle les callbacks de gameAdded
+    for(auto it = mGameAddedCallbacks.begin(); it!=mGameAddedCallbacks.end(); ++it)
+    {
+        (*it)(pGame->getUniqueGameId());
+    }
 }
 
 
@@ -240,9 +239,43 @@ Partie* GameManager::getGame( int pGameId )
 }
 
 
+
+Partie* GameManager::getGame( const std::string& pGameName )
+{
+    auto it = mListePartiesParId.begin();
+    for(it; it!=mListePartiesParId.end(); ++it)
+    {
+        Partie* wPartie = (*it).second;
+        if(wPartie)
+        {
+            if(pGameName == wPartie->getName()) {
+                return wPartie;
+            }
+        }
+    }
+    return NULL;
+}
+
+
 int GameManager::getNewUniqueGameId()
 {
     return GameManager::uniqueIdCount++;
+}
+
+
+
+
+void GameManager::animer( const float& pTemps )
+{
+    // On anime toutes les parties
+    for(auto it = mListePartiesParId.begin(); it!=mListePartiesParId.end(); ++it)
+    {
+        if((*it).second->getGameStatus() >= GAME_STARTED)
+        {
+            // Anime si la partie est en cours (n'animera pas si la partie n'est pas encore commencee)
+            (*it).second->animerBase(pTemps);
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

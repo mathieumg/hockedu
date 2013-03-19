@@ -21,6 +21,7 @@ class JoueurAbstrait;
 class JoueurVirtuel;
 class JoueurHumain;
 class JoueurNetwork;
+class JoueurNetworkServeur;
 class NoeudAbstrait;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -32,6 +33,7 @@ typedef std::shared_ptr<JoueurAbstrait> SPJoueurAbstrait;
 typedef std::shared_ptr<JoueurVirtuel> SPJoueurVirtuel;
 typedef std::shared_ptr<JoueurHumain> SPJoueurHumain;
 typedef std::shared_ptr<JoueurNetwork> SPJoueurNetwork;
+typedef std::shared_ptr<JoueurNetworkServeur> SPJoueurNetworkServeur;
 
 #else
 
@@ -39,6 +41,7 @@ typedef JoueurAbstrait* SPJoueurAbstrait;
 typedef JoueurVirtuel* SPJoueurVirtuel;
 typedef JoueurHumain* SPJoueurHumain;
 typedef JoueurNetwork* SPJoueurNetwork;
+typedef JoueurNetworkServeur* SPJoueurNetworkServeur;
 
 #endif
 
@@ -57,6 +60,8 @@ typedef std::vector<NoeudAbstrait*> ConteneurNoeuds;
 typedef std::set<unsigned int> IdNoeuds;
 /// Conteneur pour les IDs des noeuds pour la selection openGL
 typedef std::map<unsigned int, IdNoeuds> ConteneurIdNoeuds;
+/// Conteneur pour les Bonus des noeuds
+typedef std::set<class BonusModifierAbstract*> ModifiersContainer;
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

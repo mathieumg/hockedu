@@ -1,13 +1,10 @@
 #include "PaquetRondelle.h"
 
 
-PaquetRondelle::PaquetRondelle(  )
+PaquetRondelle::PaquetRondelle()
 {
-//     mMessage = "";
-//     mOrigin = "";
-//     mIsTargetGroup = true;
-//     mTimestamp = 0;
-//     mGroupName = "";
+    mVitesseRotation = 0;
+
 }
 
 

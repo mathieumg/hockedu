@@ -18,6 +18,7 @@
 #include <iomanip>
 #include <stdexcept>
 #include "../Reseau/Paquets/PaquetGameStatus.h"
+#include "../Reseau/Paquets/PaquetGameCreation.h"
 
 
 /// ***** PAR CONVENTION, METTRE Master A LA FIN DU NOM DES DELEGATES
@@ -126,6 +127,15 @@ int PaquetRunnable::RunnableGameStatusServerMaster( Paquet* pPaquet )
 
     FacadeServeurMaitre::obtenirInstance()->updateGameStatus(wPartie);
 
+
+    return 0;
+}
+
+
+int PaquetRunnable::RunnableGameCreationServerMaster( Paquet* pPaquet )
+{
+    PaquetGameCreation* wPaquet = (PaquetGameCreation*) pPaquet;
+    throw std::runtime_error("Not yet implemented");
 
     return 0;
 }

@@ -112,27 +112,27 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 		if(!ctrlEnfoncee_)
 			FacadeModele::getInstance()->selectionArbre(false);
 
-		//if(drag_)
+//		if(drag_)
 		{
 			// DRAG
-			//FacadeModele::getInstance()->modifierVariableZoomElastique(false);
-
-			//Vecteur3 posCurVirt, posPrecedentVirt;
-			//FacadeModele::getInstance()->convertirClotureAVirtuelle(positionEnfoncee_[VX], positionEnfoncee_[VY], posCurVirt);
-			//FacadeModele::getInstance()->convertirClotureAVirtuelle(positionPrecedente_[VX], positionPrecedente_[VY], posPrecedentVirt);
-
+//             FacadeModele::getInstance()->modifierVariableZoomElastique(false);
+// 
+//             Vecteur3 posCurVirt, posPrecedentVirt;
+//             FacadeModele::getInstance()->convertirClotureAVirtuelle(positionEnfoncee_[VX], positionEnfoncee_[VY], posCurVirt);
+//             FacadeModele::getInstance()->convertirClotureAVirtuelle(positionPrecedente_[VX], positionPrecedente_[VY], posPrecedentVirt);
+// 
 // 			glMatrixMode( GL_PROJECTION );
 // 			glLoadIdentity();
 // 			GLint viewport[4];
 // 			glGetIntegerv(GL_VIEWPORT,viewport);
 // 			gluPickMatrix(lastx,viewport[3]-lasty,50,50,viewport);
-
-
+// 
+// 
 // 			VisiteurSelection visiteur(positionEnfonce, positionPrecedente);
 // 			FacadeModele::getInstance()->visiterArbre(&visiteur);
-//			visiteur.faireSelection();
+// 			visiteur.faireSelection();
 		}
-		//else
+//		else
 		{
 			Vecteur2i centreSelection(positionPrecedente_);
 			Vecteur2i tailleSelection(1,1);

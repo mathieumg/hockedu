@@ -182,6 +182,46 @@ class Common
         return $userInformation;
     }
     
+    public function getUserMaps( $userId, $showPrivateMaps = false )
+    { 
+        $sql = 'SELECT %s, %s, %s, %s, %s, %s, %s, %s
+                FROM %s 
+                WHERE %s=%d';
+
+        if( !$showPrivateMaps )
+        {
+            $extraSql = 'AND %s=%d
+            ';
+            $extraSql = sprintf( $extraSql,              
+                            $this->db->quoteIdentifier( 'is_public' ),
+                            $this->db->quote( 1, 'integer' )
+                           );
+            $sql .= $extraSql;
+        }  
+
+        $sql .= 'ORDER BY %s DESC';
+        $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'id' ),
+                        $this->db->quoteIdentifier( 'name' ),
+                        $this->db->quoteIdentifier( 'description' ),
+                        $this->db->quoteIdentifier( 'rating_average' ),
+                        $this->db->quoteIdentifier( 'rating_count' ),
+                        $this->db->quoteIdentifier( 'is_public' ),
+                        $this->db->quoteIdentifier( 'creation_time' ),
+                        $this->db->quoteIdentifier( 'last_modified_time' ),
+                        
+                        $this->db->quoteIdentifier( 'maps' ),
+                        
+                        $this->db->quoteIdentifier( 'id_user' ),
+                        $this->db->quote( $userId, 'text' ),
+                        
+                        $this->db->quoteIdentifier( 'last_modified_time' )
+                       );
+        $userMaps = $this->db->queryAll( $sql );
+        
+        return $userMaps;
+    }
+    
     /**
      * Indicates whether a user with the specified email exists.
      * @access public
@@ -369,6 +409,39 @@ class Common
                        );
         
         $this->db->query( $sql );
+    }
+    
+    public function validateAuthenticationKey( $authenticationKey, $userId )
+    {
+        $sql = 'SELECT %s
+                FROM %s 
+                WHERE %s=%d AND %s=%s AND %s>=%d
+                ORDER BY %s ASC';
+        $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'id_user' ),
+                        
+                        $this->db->quoteIdentifier( 'remote_authentication'),
+                        
+                        $this->db->quoteIdentifier( 'id_user' ),
+                        $this->db->quote( $userId, 'integer' ),
+                        
+                        $this->db->quoteIdentifier( 'key' ),
+                        $this->db->quote( $authenticationKey, 'text' ),
+                        
+                        $this->db->quoteIdentifier( 'expiration' ),
+                        $this->db->quote( time(), 'integer' ),
+                        
+                        $this->db->quoteIdentifier( 'id_user' )
+                       );
+        $this->db->setLimit( 1 );
+        $keyInformation = $this->db->queryRow( $sql );
+        
+        if( !empty( $keyInformation ) )
+        {
+            return true;
+        }
+        
+        return false;
     }
     
     public function logout()

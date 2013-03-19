@@ -87,11 +87,50 @@ if( !$commonRemoteModule )
                 
                 break;
                 
-            case 'listmaps':
-                if( empty( $_POST['auth_key'] ) )
+            case 'listmaps':                
+                if( empty( $_POST['user_id'] ) )
                 {
-                    $jsonResponse['error'] = 'AuthKeyMissing';
+                    $jsonResponse['error'] = 'UserIdMissing';
                 }
+                else
+                {
+                    // Get DB connection.
+                    $Common = Common::getInstance();
+                
+                    $showPrivateMaps = false;
+                    if( !empty( $_POST['auth_key'] ) )
+                    {
+                        // We have a auth key, is it valid?       
+                        $validKey = $Common->validateAuthenticationKey( $_POST['auth_key'], $_POST['user_id'] );                  
+                        
+                        if( !$validKey )
+                        {
+                            $jsonResponse['error'] = 'InvalidAuthKey';
+                        }
+                        else
+                        {
+                            // Valid auth key. Allow to list the user's private maps.                        
+                            $showPrivateMaps = true;
+                        }
+                    }
+
+                    // List the user's maps.                        
+                    $jsonResponse['user_maps'] = $Common->getUserMaps( $_POST['user_id'], $showPrivateMaps );
+                }
+                
+                break;
+                
+            case 'getmap':
+            
+                break;
+                
+            case 'newmap':
+            
+                break;    
+                
+            case 'updatemap':
+            
+                break;  
         }
     }
 }

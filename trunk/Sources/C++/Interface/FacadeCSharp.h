@@ -80,6 +80,7 @@ extern "C"
     __declspec(dllexport) void PauseGame(bool doPause);
     __declspec(dllexport) void GenerateDefaultField();
     __declspec(dllexport) bool ValidateField();
+    __declspec(dllexport) void ResetCamera();
 
 
     __declspec(dllexport) bool TerrainHasDeletable();
@@ -120,6 +121,11 @@ extern "C"
     __declspec(dllexport) void AddRadioPlaylist(char* pPlaylist, char** pSongs, int pNbrSongs);
 
 
+    // Tournaments calls
+    __declspec(dllexport) void BeginNewTournament(char* pTournamentName, char* pMapName, char** pPlayerNames, int pNbrPlayers);
+    __declspec(dllexport) void ContinueExistingTournament(char* pTournamentName);
+
+
     ///////////////////////////////////////////////////////////////////////////////
     // User mouse and keyboard events
     __declspec(dllexport) void OnKeyPressed(int key);
@@ -157,6 +163,8 @@ extern "C"
     __declspec(dllexport) void initNetwork( ControllerInterface* pController );
     __declspec(dllexport) void envoyerPaquet( Paquet* pPaquet );
     __declspec(dllexport) void connectServerGame( char* pServerIP );
+    __declspec(dllexport) void connectPartieServerGame( int pGameId );
+    __declspec(dllexport) void requestGameCreationServerGame( char* pGameName );
     //__declspec(dllexport) void recevoirPaquet( Paquet* pPaquet );
     /// 
     //////////////////////////////////////////////////////////////////////////

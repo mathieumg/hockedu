@@ -9,6 +9,9 @@ namespace PaquetRunnable
 
     int RunnableMailletClient(Paquet* pPaquet);
 
+    int RunnableRondelleClient(Paquet* pPaquet);
+
+
 
 };
 

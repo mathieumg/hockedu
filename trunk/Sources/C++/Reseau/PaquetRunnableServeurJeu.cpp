@@ -17,6 +17,13 @@
 #include "Paquets\PaquetUserStatus.h"
 #include "Paquets\PaquetGameStatus.h"
 #include "Paquets\PaquetMaillet.h"
+#include "Paquets\PaquetGameCreation.h"
+#include "GameManager.h"
+#include "Paquets\PaquetGameConnection.h"
+#include "RazerGameTypeDef.h"
+#include "JoueurNetworkServeur.h"
+#include "Runnable.h"
+#include "NoeudMaillet.h"
 
 
 /// ***** PAR CONVENTION, METTRE Game A LA FIN DU NOM DES DELEGATES
@@ -166,11 +173,153 @@ int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
     // Plus tard, on ne devrait pas relayer directement, mais valider que les positions fonctionnent
     RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), pPaquet);
 
+    Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
 
+    if(wGame)
+    {
+        Vecteur3 wPos = wPaquet->getPosition();
+        NoeudMaillet* maillet;
+        if(wPaquet->getEstAGauche())
+        {
+            maillet = wGame->obtenirJoueurGauche()->getControlingMallet();
+        }
+        else
+        {
+            maillet = wGame->obtenirJoueurDroit()->getControlingMallet();
+        }
+
+        Runnable* r = new Runnable([maillet,wPos](Runnable*){
+
+            // Mettre la position du maillet
+            maillet->assignerPosSouris(wPos);
+
+        });
+        maillet->attach(r);
+        RazerGameUtilities::RunOnUpdateThread(r,true);
+    }
+
+    return 0;
+}
+
+
+
+int PaquetRunnable::RunnableGameCreationServerGame( Paquet* pPaquet )
+{
+    PaquetGameCreation* wPaquet = (PaquetGameCreation*) pPaquet;
     
+    // Demande de creation d'une nouvelle partie.
+
+    // On regarde d'abord si une partie avec ce nom existe deja
+    if(!GameManager::obtenirInstance()->getGame(wPaquet->getGameName()))
+    {
+        // On peut creer la partie
+        int wGameId = GameManager::obtenirInstance()->addNewGame(SPJoueurAbstrait(0), SPJoueurAbstrait(0), true);
+        GameManager::obtenirInstance()->getGame(wGameId)->setName(wPaquet->getGameName());
+
+        // On peut meme utiliser le meme paquet pour renvoyer le message de confirmation
+        wPaquet->setGameId(wGameId);
+        
+
+        // En envoie le message de confirmation
+        GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
+
+    }
+    else
+    {
+        // Une partie avec ce nom existe deja, on renvoie un message pour dire que la creation a echouee
+        // Si creation a ecouee, id = -1
+
+        // On peut meme utiliser le meme paquet pour renvoyer le message de confirmation
+        wPaquet->setGameId(-1);
+
+        // En envoie le message de confirmation
+        GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
+
+    }
+
+    return 0;
+}
 
 
 
+GameConnectionState connectPlayer(const std::string& pPlayerName, Partie* pGame)
+{
+    if(pGame)
+    {
+        if(!pGame->obtenirJoueurGauche())
+        {
+            // Pas de joueur gauche. On assigne le joueur la
+            pGame->assignerJoueur(SPJoueurNetworkServeur(new JoueurNetworkServeur(pPlayerName)));
+            return GAME_CONNECTION_ACCEPTED_LEFT;
+        }
+        else if(pGame->obtenirNomJoueurGauche() == pPlayerName)
+        {
+            return GAME_CONNECTION_ALREADY_CONNECTED;
+        }
+        else if(!pGame->obtenirJoueurDroit())
+        {
+            // Pas de joueur droit. On assigne le joueur la
+            pGame->assignerJoueur(SPJoueurNetworkServeur(new JoueurNetworkServeur(pPlayerName)));
+            return GAME_CONNECTION_ACCEPTED_RIGHT;
+        }
+        else if(pGame->obtenirNomJoueurDroit() == pPlayerName)
+        {
+            return GAME_CONNECTION_ALREADY_CONNECTED;
+        }
+        else
+        {
+            return GAME_CONNECTION_GAME_FULL;
+        }
+
+    }
+    else
+    {
+        return GAME_CONNECTION_REJECTED;
+    }
+}
+
+
+
+int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
+{
+    PaquetGameConnection* wPaquet = (PaquetGameConnection*) pPaquet;
+
+    // Reception de requete de connection a une partie deja cree
+
+    // On va chercher la partie demandee
+    Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
+    if(wGame)
+    {
+        if(wGame->requirePassword())
+        {
+            // Valider le mot de passe
+            if(wGame->validatePassword(wPaquet->getPassword()))
+            {
+                // Mot de passe valide
+                wPaquet->setConnectionState(connectPlayer(wPaquet->getUsername(), wGame));
+            }
+            else
+            {
+                wPaquet->setConnectionState(GAME_CONNECTION_WRONG_PASSWORD);
+            }
+
+        }
+        else
+        {
+            // Pas besoin de mot de passe
+            wPaquet->setConnectionState(connectPlayer(wPaquet->getUsername(), wGame));
+        }
+
+
+
+    }
+    else
+    {
+        wPaquet->setConnectionState(GAME_CONNECTION_GAME_NOT_FOUND);
+    }
+
+
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
 
     return 0;
 }

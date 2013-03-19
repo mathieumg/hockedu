@@ -53,6 +53,7 @@ public:                                                     \
 
 // don't forget to update enum and array when creating a new factory
 DEFAULT_BONUS_FACTORY_DECLARATION(BonusModifierGoThroughWall);
+DEFAULT_BONUS_FACTORY_DECLARATION(BonusModifierBlockGoal);
 
 
 
