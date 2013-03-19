@@ -21,7 +21,8 @@
 class NoeudMaillet;
 class NoeudRondelle;
 
-enum GameStatus {GAME_NOT_STARTED, GAME_SCORE, GAME_STARTED, GAME_ENDED, GAME_RUNNING, GAME_PAUSED};
+// ATTENTION, ORDRE IMPORTANT DANS L'ENUM. SI UNE VAL EST APRES GAME_STARTED, ELLE EST CONSIDEREE COMME ENCORE EN COURS
+enum GameStatus {GAME_NOT_STARTED, GAME_ENDED, GAME_STARTED, GAME_SCORE, GAME_RUNNING, GAME_PAUSED};
 typedef int (*GameUpdateCallback) (int, GameStatus); // Param1 = GameID, Param2 = UpdateStatus
 
 
@@ -78,6 +79,7 @@ public:
 	/// Gestion de l'affichage du décompte de mise au jeu
 	void afficher();
 	void animer( const float& temps);
+    void animerBase( const float& temps );
 
 	void vider();
 
@@ -91,15 +93,19 @@ public:
     void SignalGameOver();
     bool getReadyToPlay();
 
-	inline void setUpdateCallback(GameUpdateCallback pCallback) {mUpdateCallback = pCallback;}
+	inline void setUpdateCallback(const std::vector<GameUpdateCallback>& pCallback) {mUpdateCallbacks = pCallback;}
 
     inline void sendNetworkInfos() {mPartieSyncer.tick();}
+
+    bool validatePassword(const std::string& pPasswordToValidate) const;
+    void setPassword(const std::string& pPassword);
+    inline bool requirePassword() const {return mRequirePassword;}
 
 /// Methode Privee
 private:
 
     /// Constructeur par paramètres
-	Partie(SPJoueurAbstrait joueurGauche = 0, SPJoueurAbstrait joueurDroit = 0, int uniqueGameId = 0, GameUpdateCallback updateCallback = 0);
+	Partie(SPJoueurAbstrait joueurGauche = 0, SPJoueurAbstrait joueurDroit = 0, int uniqueGameId = 0, const std::vector<GameUpdateCallback>& updateCallback = std::vector<GameUpdateCallback>());
     
 	/// Modificateur de estPret_
 	inline void modifierEstPret(bool val) { estPret_ = val; if(estPret_) tempsJeu_.unPause(); else tempsJeu_.pause(); }
@@ -138,10 +144,13 @@ private:
     Terrain* mField;
 
 	// ID unique de la partie
-	int mUniqueGameId_;
+	int mUniqueGameId;
 
+    // Nom associe a la partie (peut etre vide si on joue en local par exemple)
+    std::string mName;
+    
 	// Callback pour les mise a jour de la partie
-	GameUpdateCallback mUpdateCallback;
+	std::vector<GameUpdateCallback> mUpdateCallbacks;
 
 	void callGameUpdate(GameStatus pUpdateStatus) const;
 
@@ -149,7 +158,11 @@ private:
     GameStatus mLastGameStatus;
 
     PartieSyncer mPartieSyncer;
+	
+    bool mRequirePassword;
+    std::string mPassword;
     
+
 /// Accesseurs
 public:
 	/// Indique si les 2 joueurs de la partie sont virtuels
@@ -195,10 +208,14 @@ public:
     /// Accessors of mField
     inline Terrain* getField() const { return mField; }
 
-	inline const int getUniqueGameId() {return mUniqueGameId_;}
+	inline const int getUniqueGameId() {return mUniqueGameId;}
 
     inline GameStatus getGameStatus() const { return mGameStatus; }
 
+    inline std::string getName() const { return mName; }
+    inline void setName(std::string val) { mName = val; }
+
+    inline PartieSyncer* getPartieSyncer() { return &mPartieSyncer; }
     
 };
 

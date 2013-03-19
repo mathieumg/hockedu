@@ -1,25 +1,28 @@
 #include "PacketHandler.h"
 #include "../Paquets/PaquetGameCreation.h"
 
-void PacketHandlerGameStatus::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)
+void PacketHandlerGameCreation::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)
 {
     if(pRunnable)
     {
         PaquetGameCreation* wPaquet = (PaquetGameCreation*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CREATION_REQUEST);
 
-        // Player1Name
+        // Username
         int wArraySize      = pPacketReader.readInteger();
         uint8_t* wBuffer    = new uint8_t[wArraySize];
         pPacketReader.readString(wBuffer, wArraySize);
         wPaquet->setUsername(std::string((char*) wBuffer));
         delete wBuffer;
 
-        // Player2Name
+        // GameName
         wArraySize  = pPacketReader.readInteger();
         wBuffer     = new uint8_t[wArraySize];
         pPacketReader.readString(wBuffer, wArraySize);
         wPaquet->setGameName(std::string((char*) wBuffer));
         delete wBuffer;
+
+        // GameId
+        wPaquet->setGameId(pPacketReader.readInteger());
 
         wPaquet->setRunnable(pRunnable);
         wPaquet->run();
@@ -29,28 +32,25 @@ void PacketHandlerGameStatus::handlePacketReceptionSpecific(PacketReader& pPacke
 
 }
 
-void PacketHandlerGameStatus::handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder)
+void PacketHandlerGameCreation::handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder)
 {
     PaquetGameCreation* wPaquet   = (PaquetGameCreation*) pPaquet;
 
-    pPacketBuilder << wPaquet->getUsername()
-        << wPaquet->getGameName();
+    pPacketBuilder  << wPaquet->getUsername()
+                    << wPaquet->getGameName()
+                    << wPaquet->getGameId();
 
 }
 
 
 
-int PacketHandlerGameStatus::getPacketSizeSpecific( Paquet* pPaquet ) const
+int PacketHandlerGameCreation::getPacketSizeSpecific( Paquet* pPaquet ) const
 {
-    PaquetGameStatus* wPaquet = (PaquetGameStatus*) pPaquet;
-    PartieServeurs* wGameInfos = wPaquet->getGameInfos();
+    PaquetGameCreation* wPaquet = (PaquetGameCreation*) pPaquet;
 
-    return getSizeForInt() // GameId
-        +  getSizeForString(wGameInfos->getPlayer1Name()) // Player1 Name
-        +  getSizeForString(wGameInfos->getPlayer2Name()) // Player2 Name
-        + getSizeForInt() // Player1 Score
-        + getSizeForInt() // Player2 Score
-        + getSizeForInt() // Time
+    return getSizeForString(wPaquet->getUsername()) // Username
+        +  getSizeForString(wPaquet->getGameName()) // GameName
+        + getSizeForInt() // GameId
         ;
 
 }

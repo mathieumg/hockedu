@@ -11,6 +11,7 @@
 #pragma once
 #include <time.h>
 #include "RazerGameTypeDef.h"
+#include <vector>
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -34,17 +35,24 @@ public:
 
     void setPlayers(SPJoueurAbstrait pPlayer1, SPJoueurAbstrait pPlayer2);
 
+    void addDestinationIdentifier(const std::string& pIdentifier);
+
 private:
 
     // Returns true if the elapsed time is enough from last clock
     bool isReadyToUpdate();
 
-    SPJoueurAbstrait mPlayerToSync;
+    SPJoueurAbstrait mPlayer1;
+    SPJoueurAbstrait mPlayer2;
     
     clock_t mLastTick; // Last tick time
     clock_t mInterval; // Interval between ticks
 
     int mGameId;
+
+    // String qui represente le destinataire ex: GameServer ou le playername d'un joueur dans le cas du serveur jeu
+    std::vector<std::string> mDestinationIdentifiers;
+    
 
 };
 

@@ -89,7 +89,7 @@ int main(int argc, char* argv[])  {
     CommunicateurBD::setup(wBDHost, wDBName, wBDUser, wDBPassword);
 
 
-
+    GestionnaireReseau::communicationPort = GestionnaireReseau::communicationPortMasterServer;
     GestionnaireReseauServeurMaitre::obtenirInstance();
 	GestionnaireReseau* wGestReseau = GestionnaireReseau::obtenirInstance();
 

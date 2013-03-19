@@ -86,6 +86,7 @@ NoeudRondelle::NoeudRondelle(const std::string& typeNoeud, unsigned int& puckCre
 NoeudRondelle::~NoeudRondelle()
 {
     --mNbPuckCreated;
+    RunnableBreaker::signalObservers();
 #ifndef __APPLE__
     FacadeModele::transmitEvent(ENABLE_PUCK_CREATION);
 #endif

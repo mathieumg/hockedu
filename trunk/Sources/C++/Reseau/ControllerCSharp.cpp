@@ -5,6 +5,22 @@
 #ifdef LINUX
 #include <stdarg.h>
 #endif
+#include "GameManager.h"
+#include "Partie.h"
+#include "PartieSyncer.h"
+
+
+int CallbackSetPatieSyncerClientLourd(int pGameId, GameStatus)
+{
+    Partie* wGame = GameManager::obtenirInstance()->getGame(pGameId);
+    if(wGame)
+    {
+        wGame->getPartieSyncer()->addDestinationIdentifier("GameServer");
+    }
+    return 0;
+}
+
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -19,12 +35,16 @@
 ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceivedCallBack(NULL)
 {
     // Ajouter tous les Runnables dependant de ce qui est handled selon le type de controlleur
-    mPaquetRunnables[EVENT]             = PaquetRunnable::RunnableEvent;
-    mPaquetRunnables[CONN_AUTOMATIQUE]  = PaquetRunnable::RunnableConnAutomatiqueClient;
-    mPaquetRunnables[USER_STATUS]       = PaquetRunnable::RunnableUserStatusClient;
-    mPaquetRunnables[CHAT_MESSAGE]      = PaquetRunnable::RunnableChatMessageClient;
-    mPaquetRunnables[TEST]              = PaquetRunnable::RunnableTest;
-    mPaquetRunnables[MAILLET]           = PaquetRunnable::RunnableMailletClient;
+    mPaquetRunnables[EVENT]                 = PaquetRunnable::RunnableEvent;
+    mPaquetRunnables[CONN_AUTOMATIQUE]      = PaquetRunnable::RunnableConnAutomatiqueClient;
+    mPaquetRunnables[USER_STATUS]           = PaquetRunnable::RunnableUserStatusClient;
+    mPaquetRunnables[CHAT_MESSAGE]          = PaquetRunnable::RunnableChatMessageClient;
+    mPaquetRunnables[TEST]                  = PaquetRunnable::RunnableTest;
+    mPaquetRunnables[MAILLET]               = PaquetRunnable::RunnableMailletClient;
+    mPaquetRunnables[GAME_CREATION_REQUEST] = PaquetRunnable::RunnableGameCreationClient;
+    mPaquetRunnables[GAME_CONNECTION]       = PaquetRunnable::RunnableGameConnectionClient;
+
+
 
     for(EventCodes e = EventCodes(SERVER_EVENT_BEGIN+1); e<SERVER_EVENT_END; e = EventCodes(e+1))
     {
@@ -37,6 +57,9 @@ ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceiv
     {
         mEventTypeHandlers[e] = ControllerCSharp::HandleEvent;
     }
+
+
+    GameManager::obtenirInstance()->addGameUpdateCallback(CallbackSetPatieSyncerClientLourd);
 }
 
 
@@ -93,7 +116,7 @@ int ControllerCSharp::HandleEvent(ControllerCSharp* pContext, EventCodes pEventC
         std::string message;
         if(pEventCode == SERVER_USER_DISCONNECTED || pEventCode == SERVER_USER_CONNECTED)
         {
-            message = va_arg(pListeElems,std::string);
+            message = va_arg(pListeElems,char*);
         }
         return c(pEventCode,(char*)message.c_str());
     }

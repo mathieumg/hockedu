@@ -12,6 +12,7 @@
 #include "UsinePaquets/UsinePaquetChatMessage.h"
 #include "PaquetHandlers/PacketHandler.h"
 #include "UsinePaquets/UsinePaquetUserStatus.h"
+#include "UsinePaquets/UsinePaquetGameCreation.h"
 
 // Initialisations automatiques
 SINGLETON_DECLARATION_CPP(GestionnaireReseauClientLourd);

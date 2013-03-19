@@ -280,6 +280,7 @@
     <ClCompile Include="Jeu\JoueurAbstrait.cpp" />
     <ClCompile Include="Jeu\JoueurHumain.cpp" />
     <ClCompile Include="Jeu\JoueurNetwork.cpp" />
+    <ClCompile Include="Jeu\JoueurNetworkServeur.cpp" />
     <ClCompile Include="Jeu\JoueurVirtuel.cpp" />
     <ClCompile Include="Jeu\Partie.cpp" />
     <ClCompile Include="Jeu\PartieSyncer.cpp" />
@@ -305,6 +306,8 @@
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerConnAutomatique.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerEvent.cpp" />
+    <ClCompile Include="reseau\PaquetHandlers\PacketHandlerGameConnection.cpp" />
+    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameCreation.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameStatus.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerLoginInfo.cpp" />
     <ClCompile Include="reseau\PaquetHandlers\PacketHandlerMaillet.cpp" />
@@ -318,6 +321,7 @@
     <ClCompile Include="Reseau\Paquets\PaquetAuthentificationServeurJeu.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetChatMessage.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetConnAutomatique.cpp" />
+    <ClCompile Include="reseau\Paquets\PaquetGameConnection.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetGameCreation.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetEvent.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetGameStatus.cpp" />
@@ -443,6 +447,7 @@
     <ClInclude Include="Jeu\JoueurAbstrait.h" />
     <ClInclude Include="Jeu\JoueurHumain.h" />
     <ClInclude Include="Jeu\JoueurNetwork.h" />
+    <ClInclude Include="Jeu\JoueurNetworkServeur.h" />
     <ClInclude Include="Jeu\JoueurVirtuel.h" />
     <ClInclude Include="Jeu\Partie.h" />
     <ClInclude Include="Jeu\PartieSyncer.h" />
@@ -465,16 +470,10 @@
     <ClInclude Include="Reseau\PacketBuilder.h" />
     <ClInclude Include="Reseau\PacketReader.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandler.h" />
-    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerAuthentificationServeurJeu.h" />
-    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerChatMessage.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerConnAutomatique.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerEvent.h" />
-    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerGameStatus.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerLoginInfo.h" />
-    <ClInclude Include="reseau\PaquetHandlers\PacketHandlerMaillet.h" />
-    <ClInclude Include="reseau\PaquetHandlers\PacketHandlerRondelle.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerTest.h" />
-    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerUserStatus.h" />
     <ClInclude Include="Reseau\PaquetRunnable.h" />
     <ClInclude Include="Reseau\PaquetRunnableClientLourd.h" />
     <ClInclude Include="Reseau\PaquetRunnableServeurJeu.h" />
@@ -482,6 +481,7 @@
     <ClInclude Include="Reseau\Paquets\PaquetAuthentificationServeurJeu.h" />
     <ClInclude Include="Reseau\Paquets\PaquetChatMessage.h" />
     <ClInclude Include="Reseau\Paquets\PaquetConnAutomatique.h" />
+    <ClInclude Include="reseau\Paquets\PaquetGameConnection.h" />
     <ClInclude Include="Reseau\Paquets\PaquetGameCreation.h" />
     <ClInclude Include="Reseau\Paquets\PaquetEvent.h" />
     <ClInclude Include="Reseau\Paquets\PaquetGameStatus.h" />
@@ -498,6 +498,7 @@
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetChatMessage.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetConnAutomatique.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetEvent.h" />
+    <ClInclude Include="reseau\UsinePaquets\UsinePaquetGameConnection.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameCreation.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameStatus.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetLoginInfo.h" />

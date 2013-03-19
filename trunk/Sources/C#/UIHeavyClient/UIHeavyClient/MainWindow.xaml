@@ -6,13 +6,13 @@
     <DockPanel Background="#FF323232">
         <Menu Name="MenuBar" DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <MenuItem Header="Load Map" Click="LoadMapFromLocal"/>
-                <MenuItem Header="Load Map From Server"/>
-                <MenuItem Header="Save Map As" Click="SaveMapToLocal"/>
-                <MenuItem Header="Save Map" Click="QuickSaveMapToLocal"/>
-                <MenuItem Header="Save Map To Server"/>
-                <MenuItem Header="Reset to Default Map"/>
-                <MenuItem Header="Test Map"/>
+                <MenuItem Header="Load Map" Click="LoadMapFromLocal" IsEnabled="False" Name="mLoadMapItem"/>
+                <MenuItem Header="Load Map From Server" IsEnabled="False" Name="mServerLoadMapItem"/>
+                <MenuItem Header="Save Map As" Click="SaveMapToLocal" IsEnabled="False" Name="mSaveMapItem"/>
+                <MenuItem Header="Save Map" Click="QuickSaveMapToLocal" IsEnabled="False" Name="mQuickSaveMapItem"/>
+                <MenuItem Header="Save Map To Server" IsEnabled="False" Name="mServerSaveMapItem"/>
+                <MenuItem Header="Reset to Default Map" IsEnabled="False" Name="mResetMapItem"/>
+                <MenuItem Header="Test Map" IsEnabled="False" Name="mTestMapItem"/>
                 <MenuItem Header="Main Menu" Click="BackToMainMenu" />
                 <MenuItem Header="Exit Hockedu"/>
             </MenuItem>

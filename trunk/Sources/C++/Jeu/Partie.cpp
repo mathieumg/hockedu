@@ -24,6 +24,7 @@
 #include "Terrain.h"
 #include "ExceptionJeu.h"
 #include "NodeModelRender.h"
+#include "RazerGameTree.h"
 
 
 GLuint Partie::listePause_ = 0;
@@ -42,15 +43,17 @@ const int Partie::POINTAGE_GAGNANT = 7;
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-Partie::Partie(SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, GameUpdateCallback updateCallback /*= 0*/ ):
-pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), estPret_(false), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 30, joueurGauche, joueurDroit)
+Partie::Partie(SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, const std::vector<GameUpdateCallback>& updateCallback /*= 0*/ ):
+pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), estPret_(false), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 60, joueurGauche, joueurDroit)
 {
     chiffres_ = new NoeudAffichage("3");
     mField = new Terrain(this);
-	mUniqueGameId_ = uniqueGameId;
-	mUpdateCallback = updateCallback;
+	mUniqueGameId = uniqueGameId;
+	mUpdateCallbacks = updateCallback;
     mGameStatus = GAME_NOT_STARTED;
     mLastGameStatus = GAME_NOT_STARTED;
+    mRequirePassword = false;
+    mPassword = "";
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -226,7 +229,7 @@ void Partie::assignerJoueur( SPJoueurAbstrait joueur )
         modifierJoueurGauche(joueur);
     else if(joueurDroit_ == 0)
         modifierJoueurDroit(joueur);
-
+    callGameUpdate(mGameStatus);
     mPartieSyncer.setPlayers(joueurGauche_, joueurDroit_);
 //  else
 //      delete joueur;
@@ -538,6 +541,8 @@ void Partie::modifierJoueurDroit( SPJoueurAbstrait val )
 //  if(joueurDroit_)
 //      delete joueurDroit_;
     joueurDroit_ = val;
+    callGameUpdate(mGameStatus);
+    mPartieSyncer.setPlayers(NULL, joueurDroit_);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -556,6 +561,8 @@ void Partie::modifierJoueurGauche( SPJoueurAbstrait val )
 //  if(joueurGauche_)
 //      delete joueurGauche_;
     joueurGauche_ = val;
+    callGameUpdate(mGameStatus);
+    mPartieSyncer.setPlayers(joueurGauche_, NULL);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -799,6 +806,35 @@ void Partie::animer( const float& temps )
 }
 
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Partie::animerBase( const float& temps )
+///
+/// Animation de base sans replay ni rien de ca (utile pour le serveur de jeu)
+///
+/// @param[in] const float & temps
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Partie::animerBase( const float& temps )
+{
+    // On va plus deep pour ne pas render d'items d'affichage
+    if(mField)
+    {
+        auto wLogicTree = mField->getLogicTree();
+        if(wLogicTree)
+        {
+            wLogicTree->tick(temps);
+        }
+    }
+    if(estPret() && !estEnPause() && !partieTerminee())
+    {
+        // Gestion de la physique du jeu
+        mField->appliquerPhysique(temps);
+    }
+}
+
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -814,9 +850,9 @@ void Partie::animer( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void Partie::callGameUpdate(GameStatus pGameStatus) const
 {
-	if(mUpdateCallback)
-	{
-		mUpdateCallback(mUniqueGameId_, pGameStatus);
+    for(auto it = mUpdateCallbacks.begin(); it!=mUpdateCallbacks.end(); ++it)
+    {
+		(*it)(mUniqueGameId, pGameStatus);
 	}
 }
 
@@ -834,6 +870,25 @@ void Partie::modifierEnPause( bool val )
     {
         tempsJeu_.unPause();
         setGameStatus(mLastGameStatus); // Utilise le dernier etat de partie pour unpause
+    }
+}
+
+
+
+// Le mot de passe ne doit pas sortir de l'objet
+bool Partie::validatePassword( const std::string& pPasswordToValidate ) const
+{
+    return mPassword == pPasswordToValidate;
+}
+
+
+
+void Partie::setPassword( const std::string& pPassword )
+{
+    mPassword = pPassword;
+    if(pPassword.length() == 0)
+    {
+        mRequirePassword = false;
     }
 }
 

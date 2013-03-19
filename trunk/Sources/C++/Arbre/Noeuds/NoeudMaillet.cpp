@@ -87,6 +87,8 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCre
 NoeudMaillet::~NoeudMaillet()
 {
 	--mNbMalletCreated;
+    // indique aux runnables qui lui sont associé de s'invalidé
+    RunnableBreaker::signalObservers();
 #ifndef __APPLE__
     FacadeModele::transmitEvent(ENABLE_MALLET_CREATION);
 #endif

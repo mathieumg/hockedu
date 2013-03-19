@@ -14,6 +14,7 @@
 #include "NoeudComposite.h"
 #include "ObjetAnimable.h"
 #include "ExceptionJeu.h"
+#include "RunnableBreaker.h"
 class NoeudTable;
 class NoeudMaillet;
 ///////////////////////////////////////////////////////////////////////////
@@ -24,7 +25,7 @@ class NoeudMaillet;
 /// @date 2012-01-25
 ///////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////// 
-class NoeudRondelle : public NoeudAbstrait , public ObjetAnimable
+class NoeudRondelle : public NoeudAbstrait , public ObjetAnimable, public RunnableBreaker
 {
 public:
     typedef NoeudAbstrait Super;

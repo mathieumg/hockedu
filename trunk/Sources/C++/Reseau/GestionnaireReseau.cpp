@@ -50,6 +50,9 @@ int GestionnaireReseau::multicastPort = 1001;
 int GestionnaireReseau::communicationPort = 5010;
 
 // Port a utiliser pour les communications de base
+int GestionnaireReseau::communicationPortMasterServer = 5013;
+
+// Port a utiliser pour les communications de base
 int GestionnaireReseau::communicationUDPPort = 5011;
 
 // Port a utiliser pour les communications de base
@@ -456,7 +459,15 @@ void GestionnaireReseau::demarrerNouvelleConnection(const std::string& pConnecti
 {
     if(pConnectionId != "")
     {
-        SPSocket wNewSocket = SPSocket(new Socket(pIP, GestionnaireReseau::communicationPort, pConnectionType));
+        SPSocket wNewSocket;
+        if(pConnectionId == "MasterServer")
+        {
+            wNewSocket = SPSocket(new Socket(pIP, GestionnaireReseau::communicationPortMasterServer, pConnectionType));
+        }
+        else
+        {
+            wNewSocket = SPSocket(new Socket(pIP, GestionnaireReseau::communicationPort, pConnectionType));
+        }
         saveSocket(pConnectionId, wNewSocket);
     }
 }
@@ -997,12 +1008,16 @@ void GestionnaireReseau::initClient(const std::string& pUsername/* = ""*/, const
 }
 
 
+
+
 void GestionnaireReseau::initServer()
 {
     init();
 
     // Demarrer le thread de connexion TCP
     mCommunicateurReseau.demarrerThreadsConnectionServeur();
+
+    
 
     // Demarrer Thread connexion automatique
 }
@@ -1046,6 +1061,30 @@ void GestionnaireReseau::getEveryoneConnected( std::vector<const std::string*>& 
     }
 
     FacadePortability::releaseMutex(mMutexListeSockets);
+}
+
+
+
+bool GestionnaireReseau::isMasterServerConnected() const
+{
+    auto it = mListeSockets.find(std::pair<std::string, ConnectionType>("MasterServer", TCP));
+    if(it!=mListeSockets.end())
+    {
+        return (*it).second->getConnectionState() == CONNECTED;
+    }
+    return false;
+}
+
+
+
+bool GestionnaireReseau::isAGameServerConnected() const
+{
+    auto it = mListeSockets.find(std::pair<std::string, ConnectionType>("GameServer", TCP));
+    if(it!=mListeSockets.end())
+    {
+        return (*it).second->getConnectionState() == CONNECTED;
+    }
+    return false;
 }
 
 

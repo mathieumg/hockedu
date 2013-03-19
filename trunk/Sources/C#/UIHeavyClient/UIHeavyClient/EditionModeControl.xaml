@@ -36,7 +36,7 @@
                 <Button Content="Redo" Margin="5" Name="mRedoButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" Grid.Row="1" />
             </Grid>
         </GroupBox>
-        <GroupBox Header="Edition State" Margin="15" Name="mEditionStateGroupBox" Grid.Column="2">
+        <GroupBox Header="Edition State" Margin="3" Name="mEditionStateGroupBox" Grid.Column="2">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*" />
@@ -55,19 +55,21 @@
                 <Button Content="Zoom" Margin="1" Name="mZoomStateButton" Background="Black" Foreground="White"  MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="2" Grid.Row="1" Click="HandleStateButton" />
             </Grid>
         </GroupBox>
-        <GroupBox Header="Camera Mode" Margin="15" Name="mCameraModeGroupBox" Grid.Column="3">
+        <GroupBox Header="Camera Mode" Margin="3" Name="mCameraModeGroupBox" Grid.Column="3">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
-                <RadioButton Content="Free" Margin="5" Name="mFreeCameraRadio" Background="Black" Foreground="White" GroupName="rgCameraModes" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Checked="CallActionPerformed" />
-                <RadioButton Content="Orbital" Margin="5" Name="mOrbitalCameraRadio" Background="Black" Foreground="White" GroupName="rgCameraModes" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="1" Checked="CallActionPerformed" IsChecked="True" />
-                <RadioButton Content="Sky" Margin="5" Name="mSkyCameraRadio" Background="Black" Foreground="White" GroupName="rgCameraModes" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="2" Checked="CallActionPerformed" />
+                <RadioButton Content="Free" Margin="1" Name="mFreeCameraRadio" Background="Black" Foreground="White" GroupName="rgCameraModes" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Checked="CallActionPerformed" />
+                <RadioButton Content="Orbital" Margin="1" Name="mOrbitalCameraRadio" Background="Black" Foreground="White" GroupName="rgCameraModes" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="1" Checked="CallActionPerformed" IsChecked="True" />
+                <RadioButton Content="Sky" Margin="1" Name="mSkyCameraRadio" Background="Black" Foreground="White" GroupName="rgCameraModes" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="2" Checked="CallActionPerformed" />
+                <Button Content="Reset Camera" Margin="1" Name="mCamareResetButton" Grid.Row="3" Background="Black" Foreground="White" Click="mCamareResetButton_Click" />
             </Grid>
         </GroupBox>
-        <GroupBox Header="Tools" Margin="15" Name="mToolsGroupBox" Grid.Column="1">
+        <GroupBox Header="Tools" Margin="3" Name="mToolsGroupBox" Grid.Column="1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*" />
@@ -140,7 +142,7 @@
             </StackPanel>
         </GroupBox>
         <TextBlock Margin="12" Name="mGuidanceTextBlock" Text="Welcome to edition mode! Have fun!!!" Foreground="#FF00D500" Background="Black" TextWrapping="Wrap" FontSize="16" />
-        <Button Content="Main Menu" Grid.Row="3" Margin="15,10,0,10" Name="button1" Background="Black" Foreground="White" Click="MainMenuBtnClick" HorizontalAlignment="Left" Width="75" />
+        <Button Content="Main Menu" Grid.Row="3" Margin="15,10,0,10" Name="mMainMenuButton" Background="Black" Foreground="White" Click="MainMenuBtnClick" HorizontalAlignment="Left" Width="75" />
         <Button Content="Default Map" Grid.Row="3" HorizontalAlignment="Left" Margin="95,10,0,10" Name="mDefaultFieldButton" Width="75" Background="Black" Foreground="White" Click="OnGenerateField" />
         <Button Content="Validate" Grid.Row="3" Margin="175,10,10,10" Name="mValidateFieldButton" Background="Black" Foreground="White" Click="OnValidateField" />
     </Grid>

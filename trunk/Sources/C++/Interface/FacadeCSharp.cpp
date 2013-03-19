@@ -3,9 +3,13 @@
 #include <iostream>
 #include "ExceptionJeu.h"
 #include "Terrain.h"
+#include "GestionnaireHUD.h"
 #include "..\reseau\UsinePaquets\UsinePaquetMaillet.h"
 #include "..\reseau\PaquetHandlers\PacketHandler.h"
-#include "GestionnaireHUD.h"
+#include "..\Reseau\Paquets\PaquetGameCreation.h"
+#include "..\Reseau\UsinePaquets\UsinePaquetGameCreation.h"
+#include "..\reseau\Paquets\PaquetGameConnection.h"
+#include "..\reseau\UsinePaquets\UsinePaquetGameConnection.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -68,6 +72,9 @@ void InitDLL()
     wGestionnaireReseau->ajouterOperationReseau(CHAT_MESSAGE, new PacketHandlerChatMessage, new UsinePaquetChatMessage);
     wGestionnaireReseau->ajouterOperationReseau(USER_STATUS, new PacketHandlerUserStatus, new UsinePaquetUserStatus);
     wGestionnaireReseau->ajouterOperationReseau(MAILLET, new PacketHandlerMaillet, new UsinePaquetMaillet);
+    wGestionnaireReseau->ajouterOperationReseau(GAME_CREATION_REQUEST, new PacketHandlerGameCreation, new UsinePaquetGameCreation);
+    wGestionnaireReseau->ajouterOperationReseau(GAME_CONNECTION, new PacketHandlerGameConnection, new UsinePaquetGameConnection);
+
 }
 
 
@@ -370,7 +377,7 @@ void GenerateDefaultField()
 ///
 /// @fn bool ValidateField()
 ///
-/// /*Description*/
+/// Perform field validation
 ///
 ///
 /// @return bool
@@ -381,13 +388,24 @@ bool ValidateField()
     return FacadeModele::getInstance()->getEditionField()->verifierValidite(true,false);
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void ResetCamera()
+///
+/// Position the camera at table center
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void ResetCamera()
+{
+    FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
+}
 
 void initNetwork( ControllerInterface* pController )
 {
     GestionnaireReseau::obtenirInstance()->setController(pController);
 }
-
-
 
 void connectServerGame( char* pServerIP )
 {
@@ -398,6 +416,22 @@ void connectServerGame( char* pServerIP )
 
 
 
+}
+
+void connectPartieServerGame( int pGameId )
+{
+    PaquetGameConnection* wPaquet = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);
+    wPaquet->setGameId(pGameId);
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
+
+
+}
+
+void requestGameCreationServerGame( char* pGameName )
+{
+    PaquetGameCreation* wPaquet = (PaquetGameCreation*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CREATION_REQUEST);
+    wPaquet->setGameName(pGameName);
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
 }
 
 void SaveMap(char* pFileName)

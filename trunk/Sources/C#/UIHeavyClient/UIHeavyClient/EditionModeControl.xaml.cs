@@ -128,6 +128,11 @@ namespace UIHeavyClient
                 {mFreeCameraRadio, "Free camera that can move anywhere in the 3D map"},
                 {mOrbitalCameraRadio, "Camera that can only turn around a fixed point"},
                 {mSkyCameraRadio, "Fixed camera above the map"},
+                {mCamareResetButton, "Re-center the camera on the map"},
+
+                {mMainMenuButton, "Return to main menu"},
+                {mDefaultFieldButton, "Reset the map to default"},
+                {mValidateFieldButton, "Will validate if your map is certified to be played on"},
             };
 
             mGuidanceInstructions = new Dictionary<object, string>()
@@ -194,6 +199,8 @@ namespace UIHeavyClient
         static extern void PauseGame(bool doPause);
         [DllImport(@"RazerGame.dll")]
         static extern bool TerrainHasDeletable();
+        [DllImport(@"RazerGame.dll")]
+        static extern void ResetCamera();
 
         // Field
         [DllImport(@"RazerGame.dll")]
@@ -260,6 +267,7 @@ namespace UIHeavyClient
             if (!editionControlGrid.Children.Contains(mWindowsFormsHost))
             {
                 editionControlGrid.Children.Add(mWindowsFormsHost);
+                mWindowsFormsHost.Focus();
             }
             Grid.SetColumnSpan(mWindowsFormsHost, 3);
             Grid.SetRowSpan(mWindowsFormsHost, 2);
@@ -309,6 +317,16 @@ namespace UIHeavyClient
 
             pButton.Background = new SolidColorBrush(Color.FromRgb(0x00, 0xD5, 0x00));
             mLastClickedButton = pButton;
+        }
+
+        private void mCamareResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetCamera();
+        }
+
+        public void SetGuidanceInstuction(string pInstruction)
+        {
+            mGuidanceTextBlock.Text = pInstruction;
         }
     }
 }

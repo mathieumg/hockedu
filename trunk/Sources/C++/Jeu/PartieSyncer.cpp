@@ -14,6 +14,11 @@
 #include "RazerGameTypeDef.h"
 #include "JoueurAbstrait.h"
 #include "NoeudMaillet.h"
+#include "NoeudRondelle.h"
+#include "Partie.h"
+#include "Terrain.h"
+#include "GameManager.h"
+#include "..\Reseau\Paquets\PaquetRondelle.h"
 
 
 PartieSyncer::PartieSyncer( int pGameId, clock_t pFrequencyPerSec, SPJoueurAbstrait pPlayer1, SPJoueurAbstrait pPlayer2 )
@@ -54,11 +59,63 @@ void PartieSyncer::tick()
 {
     if(isReadyToUpdate())
     {
-        PaquetMaillet* wPaquet = (PaquetMaillet*) GestionnaireReseau::obtenirInstance()->creerPaquet(MAILLET);
-        wPaquet->setPosition(mPlayerToSync->getControlingMallet()->getPosition());
-        wPaquet->setGameId(mGameId);
-        GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
+        // Envoie des infos de maillet
+        if(mPlayer1)
+        {
+            PaquetMaillet* wPaquet = (PaquetMaillet*) GestionnaireReseau::obtenirInstance()->creerPaquet(MAILLET);
+            wPaquet->setPosition(mPlayer1->getControlingMallet()->getPosition());
+            wPaquet->setEstAGauche(mPlayer1->getControlingMallet()->estAGauche());
+            wPaquet->setGameId(mGameId);
+
+            wPaquet->setNbAssociatedQueries(mDestinationIdentifiers.size());
+            for(auto it=mDestinationIdentifiers.begin(); it!=mDestinationIdentifiers.end(); ++it)
+            {
+                GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
+            }
+        }
+
+        if(mPlayer2)
+        {
+            PaquetMaillet* wPaquet = (PaquetMaillet*) GestionnaireReseau::obtenirInstance()->creerPaquet(MAILLET);
+            wPaquet->setPosition(mPlayer2->getControlingMallet()->getPosition());
+            wPaquet->setEstAGauche(mPlayer2->getControlingMallet()->estAGauche());
+            wPaquet->setGameId(mGameId);
+
+            wPaquet->setNbAssociatedQueries(mDestinationIdentifiers.size());
+            for(auto it=mDestinationIdentifiers.begin(); it!=mDestinationIdentifiers.end(); ++it)
+            {
+                GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
+            }
+        }
+
+
+        // Envoie des infos de rondelle
+
+        Partie* wGame = GameManager::obtenirInstance()->getGame(mGameId);
+        if(wGame)
+        {
+            NoeudRondelle* wPuck = wGame->getField()->getPuck();
+            if(wPuck)
+            {
+                PaquetRondelle* wPaquet = (PaquetRondelle*) GestionnaireReseau::obtenirInstance()->creerPaquet(RONDELLE);
+
+                wPaquet->setGameId(mGameId);
+                wPaquet->setPosition(wPuck->getPosition());
+                wPaquet->setVelocite(wPuck->obtenirVelocite());
+                wPaquet->setVitesseRotation(wPuck->obtenirVitesseRotation());
+
+                wPaquet->setNbAssociatedQueries(mDestinationIdentifiers.size());
+                for(auto it=mDestinationIdentifiers.begin(); it!=mDestinationIdentifiers.end(); ++it)
+                {
+                    GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
+                }
+            }
+        }
+        
     }
+
+
+
 }
 
 
@@ -69,26 +126,24 @@ void PartieSyncer::setPlayers( SPJoueurAbstrait pPlayer1, SPJoueurAbstrait pPlay
     if(pPlayer1 && pPlayer1->obtenirType() != JOUEUR_NETWORK)
     {
         // Trouve
-        mPlayerToSync = pPlayer1;
+        mPlayer1 = pPlayer1;
     }
-    else
+
+    if(pPlayer2 && pPlayer2->obtenirType() != JOUEUR_NETWORK)
     {
-        if(pPlayer2 && pPlayer2->obtenirType() != JOUEUR_NETWORK)
-        {
-            // Trouve
-            mPlayerToSync = pPlayer2;
-
-        }
-        else
-        {
-            // Pas la, on ne fait rien
-            mPlayerToSync = NULL;
-        }
+        // Trouve
+        mPlayer2 = pPlayer2;
     }
 
 
 
+}
 
+
+
+void PartieSyncer::addDestinationIdentifier( const std::string& pIdentifier )
+{
+    mDestinationIdentifiers.push_back(pIdentifier);
 }
 
 
