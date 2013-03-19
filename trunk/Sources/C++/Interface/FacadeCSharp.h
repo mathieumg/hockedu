@@ -121,6 +121,11 @@ extern "C"
     __declspec(dllexport) void AddRadioPlaylist(char* pPlaylist, char** pSongs, int pNbrSongs);
 
 
+    // Tournaments calls
+    __declspec(dllexport) void BeginNewTournament(char* pTournamentName, char* pMapName, char** pPlayerNames, int pNbrPlayers);
+    __declspec(dllexport) void ContinueExistingTournament(char* pTournamentName);
+
+
     ///////////////////////////////////////////////////////////////////////////////
     // User mouse and keyboard events
     __declspec(dllexport) void OnKeyPressed(int key);

@@ -91,14 +91,19 @@ namespace UIHeavyClient
             Context.EditionModeControl.SetGuidanceInstuction("");
         }
 
-        public static void GoToPlayMode()
+        public static void GoToPlayMode(ActionType pAction)
         {
+            if (pAction != ActionType.ACTION_ALLER_MODE_JEU && pAction != ActionType.ACTION_ALLER_MODE_TOURNOI)
+            {
+                return;
+            }
+
             MessageReceivedCallBack messageCallBack = PlayModeControl.mMessageCallback;
             EventReceivedCallBack eventCallBack = null;
             SetMessageCallback(messageCallBack);
             SetEventCallback(eventCallBack);
 
-            if (ActionPerformed(ActionType.ACTION_ALLER_MODE_JEU))
+            if (ActionPerformed(pAction))
             {
                 mCurrentMessageCallback = messageCallBack;
                 mCurrentEventCallBack = eventCallBack;
@@ -150,6 +155,7 @@ namespace UIHeavyClient
         public static void GoToTournamentMenu()
         {
             Context.WindowContentControl.Content = Context.TournamentControl;
+            Context.TournamentControl.DisplayProfileNames();
         }
 
         public static void GoToOnlineLobby()
