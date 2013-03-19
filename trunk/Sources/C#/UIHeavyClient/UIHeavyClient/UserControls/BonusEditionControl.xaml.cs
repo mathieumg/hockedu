@@ -71,10 +71,14 @@ namespace UIHeavyClient
 
             InitializeComponent();
 
+
+            mMinSpawnTime.LabelName = "Min Spawn Time:";
+            mMaxSpawnTime.LabelName = "Max Spawn Time:";
+
             // delegate adding by code because the callback will be done
             // before both items have been initialised
-            mMaxSpawnTime.ValueChanged += SpawnTime_ValueChanged;
-            mMinSpawnTime.ValueChanged += SpawnTime_ValueChanged;
+            mMaxSpawnTime.InputBox.ValueChanged += SpawnTime_ValueChanged;
+            mMinSpawnTime.InputBox.ValueChanged += SpawnTime_ValueChanged;
 
             mDataGrid.ItemsSource = Bonuses;
         }
@@ -111,8 +115,8 @@ namespace UIHeavyClient
         {
             var top = Math.Max((float)mMinSpawnTime.Value, (float)mMaxSpawnTime.Value);
             var bot = Math.Min((float)mMinSpawnTime.Value, (float)mMaxSpawnTime.Value);
-            mMaxSpawnTime.Value = new decimal(top);
-            mMinSpawnTime.Value = new decimal(bot);
+            mMaxSpawnTime.Value = top;
+            mMinSpawnTime.Value = bot;
         }
     }
 }

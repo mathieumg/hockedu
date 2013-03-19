@@ -132,27 +132,50 @@ namespace UIHeavyClient
                 }
             }
         }
-
         
-
         public EditionModeControl(WindowsFormsHost pWindowsFormsHost)
         {
             InitializeComponent();
 
+            mWindowsFormsHost = pWindowsFormsHost;
+            mWindowsFormsHost.Focus();
 
             mPropertyPanels = new List<UIElement>(FindTypedChildren<UIElement>(mPropertiesStackPanel, false));
-//             foreach (var panel in mPropertyPanels)
-//             {
-//                 panel.Visibility = Visibility.Visible;
-//             }
 
-            mWindowsFormsHost = pWindowsFormsHost;
+            // Initialise properties
+            {
+                mScaleProperties.LabelName = "Scale:";
+                mScaleProperties.MinValue = 0.2f;
+                mScaleProperties.MaxValue = 5;
+                mScaleProperties.Increment = 0.1f;
+                mScaleProperties.Value = 1;
+
+                mBouncingProperties.LabelName = "Wall rebound ratio:";
+                mBouncingProperties.MaxValue = 3;
+                mBouncingProperties.Increment = 0.1f;
+                mBouncingProperties.Value = 1;
+
+                mAccelerationProperties.LabelName = "Acceleration ratio";
+                mAccelerationProperties.MaxValue = 3;
+                mAccelerationProperties.Increment = 0.1f;
+                mAccelerationProperties.Value = 1;
+
+                mAngleProperty.LabelName = "Angle:";
+                mAngleProperty.MaxValue = 360;
+                mAngleProperty.Increment = 5;
+                mAngleProperty.Value = 0;
+
+                mAttractionProperty.LabelName = "Attraction force:";
+                mAttractionProperty.MaxValue = 3;
+                mAttractionProperty.Increment = 0.1f;
+                mAttractionProperty.Value = 1;
+            }
 
             mPropertiesByKey = new Dictionary<RazerKey, Property>()
             {
                 {RazerKey.RAZER_KEY_NONE,new Property("Table",new List<UIElement>()
                 {  
-                    mBonusProperties
+                    mBonusProperties,
                 })},
                 {RazerKey.RAZER_KEY_BOOST,new Property("Boost",new List<UIElement>()
                 {  

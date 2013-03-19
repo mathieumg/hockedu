@@ -91,55 +91,12 @@
         <GroupBox Header="Special Properties" Margin="15" Name="mPropertiesGroupBox" Grid.Row="2">
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" CanContentScroll="True">
                 <StackPanel Name="mPropertiesStackPanel" >
-                    <!--  Par défaut tous les items sont invisibles   -->
-                    <Grid Margin="10,10,0,0" Name="mScaleProperties" Visibility="Collapsed">
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="85*"/>
-                            <ColumnDefinition Width="19*"/>
-                        </Grid.ColumnDefinitions>
-                        <Label Content="Scale" HorizontalAlignment="Left" x:Name="mScaleTitleLabel" Background="Black" Foreground="White" />
-                        <Slider x:Name="mScaleSlider" IsSnapToTickEnabled="True" Grid.Row="1" />
-                        <Label Content="{Binding Value, ElementName=mScaleSlider}"  Grid.Column ="1" Foreground="#FF00D500" x:Name="mScaleDisplayLabel" Grid.Row="1" />
-                    </Grid>
-                    <Grid Margin="10,10,0,0" Name="mBouncingProperties" Visibility="Collapsed">
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="85*"/>
-                            <ColumnDefinition Width="19*"/>
-                        </Grid.ColumnDefinitions>
-                        <Label Content="Wall rebound ratio" HorizontalAlignment="Left" x:Name="mBounceTitleLabel" Background="Black" Foreground="White" />
-                        <Slider x:Name="mBounceSlider" IsSnapToTickEnabled="True" Grid.Row="1" />
-                        <Label Content="{Binding Value, ElementName=mBounceSlider}"  Grid.Column ="1" Foreground="#FF00D500" x:Name="mBounceDisplayLabel" Grid.Row="1" />
-                    </Grid>
-                    <Grid Margin="10,10,0,0" Name="mAccelerationProperties" Visibility="Collapsed">
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="85*"/>
-                            <ColumnDefinition Width="19*"/>
-                        </Grid.ColumnDefinitions>
-                        <Label Content="Acceleration coefficient" HorizontalAlignment="Left" x:Name="mAccelerationTitleLabel" Background="Black" Foreground="White" />
-                        <Slider x:Name="mAccelerationSlider" IsSnapToTickEnabled="True" Grid.Row="1" />
-                        <Label Content="{Binding Value, ElementName=mAccelerationSlider}"  Grid.Column ="1" Foreground="#FF00D500" x:Name="mAccelerationDisplayLabel" Grid.Row="1" />
-                    </Grid>
-                    <StackPanel Margin="10,10,0,0" Name="mAngleProperty" Orientation="Horizontal" Visibility="Collapsed">
-                        <Label Content="Angle :" HorizontalAlignment="Left" x:Name="mAngleTitleLabel" VerticalAlignment="Top" Background="Black" Foreground="White" />
-                        <TextBox HorizontalAlignment="Left" x:Name="mAngleTextBox" VerticalAlignment="Top" Width="32" Background="Black" Foreground="White" />
-                    </StackPanel>
-                    <StackPanel Margin="10,0,0,0" Name="mAttractionProperty" Orientation="Horizontal" Visibility="Collapsed">
-                        <Label Content="Attraction Radius :" HorizontalAlignment="Left" x:Name="mAttractionTitleLabel" VerticalAlignment="Top" Background="Black" Foreground="White" />
-                        <TextBox HorizontalAlignment="Left" x:Name="mAttractionTextBox" VerticalAlignment="Top" Width="32" Background="Black" Foreground="White" />
-                    </StackPanel>
-                    <user:BonusEditionControl x:Name="mBonusProperties"/>
+                    <user:NumericalInputBox   x:Name="mScaleProperties"       />
+                    <user:NumericalInputBox   x:Name="mBouncingProperties"    />
+                    <user:NumericalInputBox   x:Name="mAccelerationProperties"/>
+                    <user:NumericalInputBox   x:Name="mAngleProperty"         />
+                    <user:NumericalInputBox   x:Name="mAttractionProperty"    />
+                    <user:BonusEditionControl x:Name="mBonusProperties"       />
                 </StackPanel>
             </ScrollViewer>
         </GroupBox>

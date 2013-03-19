@@ -4,19 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid">
+             xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
+             xmlns:user="clr-namespace:UIHeavyClient">
     <StackPanel Background="Black" >
         <Label Content="Bonus" Foreground="White"/>
-        <StackPanel Orientation="Horizontal">
+        <!--<StackPanel Orientation="Horizontal">
             <Label Content="Min Spawn Time:" Foreground="White"/>
-            <!--<TextBox HorizontalAlignment="Left" x:Name="mMinTextBox" VerticalAlignment="Top" Width="32" PreviewTextInput="mMinTextBox_PreviewTextInput_1" DataObject.Pasting="TextBoxPasting"/>-->
             <xctk:DecimalUpDown Name="mMinSpawnTime" Margin="0,0,5,5" FormatString="F1" Value="10.000" Increment=".5" Maximum="200000" Minimum="0"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
+        </StackPanel>-->
+        <!--<StackPanel Orientation="Horizontal">
             <Label Content="Max Spawn Time:" Foreground="White"/>
-            <!--<TextBox HorizontalAlignment="Left" x:Name="mMaxTextBox" VerticalAlignment="Top" Width="32" PreviewTextInput="mMinTextBox_PreviewTextInput_1" DataObject.Pasting="TextBoxPasting" />-->
             <xctk:DecimalUpDown Name="mMaxSpawnTime" Margin="0,0,5,5" FormatString="F1" Value="30.000" Increment=".5" Maximum="200000" Minimum="0"/>
-        </StackPanel>
+        </StackPanel>-->
+        <user:NumericalInputBox x:Name="mMinSpawnTime"/>
+        <user:NumericalInputBox x:Name="mMaxSpawnTime"/>
         <StackPanel>
             <Label Foreground="White">Type</Label>
             <DataGrid Name="mDataGrid"/>

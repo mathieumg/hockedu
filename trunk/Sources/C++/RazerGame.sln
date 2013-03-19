@@ -35,8 +35,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mysqlpp", "..\..\Commun\Ext
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ObjC", "..\ObjC\ObjC.vcxproj", "{71A6DF31-5425-429D-AA60-E18EE4F6E757}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RazerGameCLR", "..\C++CLR\RazerGameCLR\RazerGameCLR.vcxproj", "{F4E7FD6D-B86D-40E1-980E-98C261B34F35}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -91,9 +89,6 @@ Global
 		{71A6DF31-5425-429D-AA60-E18EE4F6E757}.Debug|x64.ActiveCfg = Debug|Win32
 		{71A6DF31-5425-429D-AA60-E18EE4F6E757}.Release|x64.ActiveCfg = Debug|Win32
 		{71A6DF31-5425-429D-AA60-E18EE4F6E757}.WithJava|x64.ActiveCfg = Debug|Win32
-		{F4E7FD6D-B86D-40E1-980E-98C261B34F35}.Debug|x64.ActiveCfg = Debug|x64
-		{F4E7FD6D-B86D-40E1-980E-98C261B34F35}.Release|x64.ActiveCfg = Release|x64
-		{F4E7FD6D-B86D-40E1-980E-98C261B34F35}.WithJava|x64.ActiveCfg = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
