@@ -13,7 +13,7 @@
 #include "NodeControlPoint.h"
 #include "VisiteurNoeud.h"
 
-#ifdef MIKE_DEBUG
+#if MIKE_DEBUG_
 PRAGMA_DISABLE_OPTIMIZATION
 #endif
 
@@ -254,7 +254,7 @@ void NodeWallEdition::acceptVisitor( VisiteurNoeud& v )
     v.visiterNoeudMuretEdition(this);
 }
 
-#ifdef MIKE_BUILD
+#if MIKE_DEBUG_
 PRAGMA_ENABLE_OPTIMIZATION
 #endif
 

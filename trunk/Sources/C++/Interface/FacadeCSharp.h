@@ -84,6 +84,9 @@ extern "C"
 
 
     __declspec(dllexport) bool TerrainHasDeletable();
+    /// checks if selected nodes are the same type and returns that type
+    /// if not, return NODE_KEY_NONE
+    __declspec(dllexport) RazerKey GetSelectedNodeUniqueKey();
     
 	// Load/Save calls
     __declspec(dllexport) void SaveMap(char* pFileName);

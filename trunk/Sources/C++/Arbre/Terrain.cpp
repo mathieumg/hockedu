@@ -1737,6 +1737,33 @@ void Terrain::initNecessaryPointersForGame()
     }
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn RazerKey Terrain::getSelectedNodeUniqueKey()
+///
+/// checks if selected nodes are the same type and returns that type
+/// if not, return RAZER_KEY_NONE
+///
+///
+/// @return RazerKey
+///
+////////////////////////////////////////////////////////////////////////
+RazerKey Terrain::getSelectedNodeUniqueKey() const
+{
+    RazerKey key = RAZER_KEY_NONE;
+    for(auto node = mSelectedNodes.begin(); node != mSelectedNodes.end();++node)
+    {
+        RazerKey nodeKey = (*node)->getKey();
+        if(key != RAZER_KEY_NONE && key != nodeKey)
+        {
+            /// found 2 nodes of different type
+            return RAZER_KEY_NONE;
+        }
+        key = nodeKey;
+    }
+    return key;
+}
+
 
 ///////////////////////////////////////////////////////////////////////////
 /// @}

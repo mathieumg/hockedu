@@ -17,7 +17,7 @@
 #include "XMLUtils.h"
 
 
-#ifdef MIKE_DEBUG
+#if MIKE_DEBUG_
 PRAGMA_DISABLE_OPTIMIZATION
 #endif
 
@@ -328,7 +328,7 @@ void NodeWallAbstract::renderOpenGLES() const
 }
 
 
-#ifdef MIKE_DEBUG
+#if MIKE_DEBUG_
 PRAGMA_ENABLE_OPTIMIZATION
 #endif
 

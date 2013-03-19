@@ -99,6 +99,32 @@ namespace UIHeavyClient
     };
 
 
+    // Enum to differentiate nodes and allows to find 3D models/Lists
+#if !WIN32 && !__linux__ && !__APPLE__
+    public
+#endif
+    enum RazerKey
+    {
+        RAZER_KEY_NONE                ,
+        RAZER_KEY_BOOST               ,
+        RAZER_KEY_HOUSE               ,
+        RAZER_KEY_GOAL                 ,
+        RAZER_KEY_WALL                ,
+        RAZER_KEY_RINK_BOARD          ,
+        RAZER_KEY_TABLE               ,
+        RAZER_KEY_PORTAL              ,
+        RAZER_KEY_PUCK                ,
+        RAZER_KEY_MALLET              ,
+        RAZER_KEY_TABLE_CONTROL_POINT ,
+        RAZER_KEY_CONTROL_POINT       ,
+        RAZER_KEY_GROUP               ,
+        RAZER_KEY_POLYGON             ,
+        RAZER_KEY_ZAMBONI             ,
+        RAZER_KEY_EMPTY_BONUS         ,
+        RAZER_KEY_BONUS               ,
+        RAZER_KEY_GOALER              ,
+    };
+
 #if !WIN32 && !__linux__ && !__APPLE__
 }
 #endif

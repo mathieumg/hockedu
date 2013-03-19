@@ -636,5 +636,18 @@ bool TerrainHasDeletable()
     return FacadeModele::getInstance()->getEditionField()->CanSelectedNodeBeDeleted();
 }
 
-
-
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn RazerKey GetSelectedNodeUniqueKey()
+///
+/// checks if selected nodes are the same type and returns that type
+/// if not, return NODE_KEY_NONE
+///
+///
+/// @return RazerKey
+///
+////////////////////////////////////////////////////////////////////////
+RazerKey GetSelectedNodeUniqueKey()
+{
+    return FacadeModele::getInstance()->getEditionField()->getSelectedNodeUniqueKey();
+}

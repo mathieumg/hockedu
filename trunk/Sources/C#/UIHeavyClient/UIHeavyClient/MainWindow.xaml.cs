@@ -132,7 +132,10 @@ namespace UIHeavyClient
 
             this.WindowContentControl.Content = mMainMenuControl;
             MainWindowHandler.GoToMainMenu();
+
         }
+
+
             
         public MainWindow()
         {

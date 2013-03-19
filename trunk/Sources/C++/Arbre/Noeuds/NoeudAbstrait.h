@@ -267,6 +267,7 @@ public:
 
     /// Obtient le type du noeud.
     inline const std::string& getType() const;
+    inline const RazerKey getKey()const {return RazerGameUtilities::StringToKey(mType);}
 
     /// Écrit l'état de l'affichage du du noeud.
     inline void setVisible( bool affiche );

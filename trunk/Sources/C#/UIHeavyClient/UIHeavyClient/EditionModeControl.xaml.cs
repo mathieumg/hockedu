@@ -23,10 +23,21 @@ namespace UIHeavyClient
     public partial class EditionModeControl : UserControl
     {
         private WindowsFormsHost mWindowsFormsHost;
-
+        struct Property
+        {
+            public Property(string name, List<UIElement> boxes)
+            {
+                mName = name;
+                mPropertyBoxes = boxes;
+            }
+            public List<UIElement> mPropertyBoxes;
+            public string mName;
+        }
         Dictionary<object, string> mGuidanceMessages;
         Dictionary<object, string> mGuidanceInstructions;
         Dictionary<object, ActionType> mActionPerformedStrings;
+        Dictionary<RazerKey, Property> mPropertiesByKey;
+        List<UIElement> mPropertyPanels;
 
         Button mLastClickedButton;
 
@@ -71,6 +82,7 @@ namespace UIHeavyClient
                         });
                         break;
                     case EventCodes.THERE_ARE_NODES_SELECTED:
+                        RazerKey key = GetSelectedNodeUniqueKey();
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             if (TerrainHasDeletable())
@@ -81,12 +93,14 @@ namespace UIHeavyClient
                             {
                                 control.mDeleteButton.IsEnabled = false;
                             }
+                            control.DisplayProperties(key);
                         });
                         break;
                     case EventCodes.THERE_ARE_NO_NODE_SELECTED:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             control.mDeleteButton.IsEnabled = false;
+                            control.DisplayProperties(RazerKey.RAZER_KEY_NONE);
                         });
                         break;
                     default:
@@ -95,14 +109,84 @@ namespace UIHeavyClient
             }
             return true;
         }
+        
+        public static IEnumerable<T> FindTypedChildren<T>(DependencyObject depObj, bool recursive) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                foreach(var child in LogicalTreeHelper.GetChildren(depObj))
+                {
+                    //DependencyObject child = LogicalTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T)
+                    {
+                        yield return (T)child;
+                    }
 
+                    if (recursive)
+                    {
+                        foreach (T childOfChild in FindTypedChildren<T>(child as DependencyObject,true))
+                        {
+                            yield return childOfChild;
+                        }
+                    }
+                }
+            }
+        }
+
+        
 
         public EditionModeControl(WindowsFormsHost pWindowsFormsHost)
         {
             InitializeComponent();
 
 
+            mPropertyPanels = new List<UIElement>(FindTypedChildren<UIElement>(mPropertiesStackPanel, false));
+//             foreach (var panel in mPropertyPanels)
+//             {
+//                 panel.Visibility = Visibility.Visible;
+//             }
+
             mWindowsFormsHost = pWindowsFormsHost;
+
+            mPropertiesByKey = new Dictionary<RazerKey, Property>()
+            {
+                {RazerKey.RAZER_KEY_NONE,new Property("Table",new List<UIElement>()
+                {  
+                    mBonusProperties
+                })},
+                {RazerKey.RAZER_KEY_BOOST,new Property("Boost",new List<UIElement>()
+                {  
+                    mScaleProperties,
+                    mAccelerationProperties
+                })},
+                {RazerKey.RAZER_KEY_PORTAL,new Property("Portal",new List<UIElement>()
+                {  
+                    mScaleProperties,
+                    mAttractionProperty
+                })},
+                {RazerKey.RAZER_KEY_PUCK,new Property("Puck",new List<UIElement>()
+                {  
+                    mScaleProperties
+                })},
+                {RazerKey.RAZER_KEY_MALLET,new Property("Mallet",new List<UIElement>()
+                {  
+                    mScaleProperties
+                })},
+                {RazerKey.RAZER_KEY_BONUS,new Property("Bonus",new List<UIElement>()
+                {  
+                    mBonusProperties,
+                    mScaleProperties
+                })},
+                /// Abuse le fait que ce type est utilisé uniquement pour les murets
+                {RazerKey.RAZER_KEY_CONTROL_POINT,new Property("Wall",new List<UIElement>()
+                {  
+                    mScaleProperties,
+                    mBouncingProperties,
+                    mAngleProperty
+                })},
+            };
+
+            DisplayProperties(RazerKey.RAZER_KEY_NONE);
 
             mGuidanceMessages = new Dictionary<object, string>() 
             { 
@@ -188,6 +272,41 @@ namespace UIHeavyClient
             };
         }
 
+        void button_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            Control control = sender as Control;
+            if ((bool)e.NewValue)
+            {
+                control.Foreground = Brushes.White;
+            }
+            else
+            {
+                control.Foreground = Brushes.Black;
+            }
+        }
+
+        void DisplayProperties(RazerKey key)
+        {
+            foreach (var panel in mPropertyPanels)
+            {
+                panel.Visibility = Visibility.Collapsed;
+            }
+            if (!mPropertiesByKey.ContainsKey(key))
+            {
+                key = RazerKey.RAZER_KEY_NONE;
+            }
+            Property p = new Property();
+            if (mPropertiesByKey.TryGetValue(key, out p))
+            {
+                mPropertiesGroupBox.Header = "Special Properties : " + p.mName;
+                foreach (var panel in p.mPropertyBoxes)
+                {
+                    panel.Visibility = Visibility.Visible;
+                }
+            }
+        }
+
+
         #region Edition Tool Events
 
         // Event
@@ -199,6 +318,8 @@ namespace UIHeavyClient
         static extern void PauseGame(bool doPause);
         [DllImport(@"RazerGame.dll")]
         static extern bool TerrainHasDeletable();
+        [DllImport(@"RazerGame.dll")]
+        static extern RazerKey GetSelectedNodeUniqueKey();
         [DllImport(@"RazerGame.dll")]
         static extern void ResetCamera();
 
@@ -280,11 +401,6 @@ namespace UIHeavyClient
             editionControlGrid.Children.Remove(mWindowsFormsHost);
         }
 
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindowHandler.GoToMainMenu();
-        }
-
         private void DisplayGuidanceInstructions(object sender, RoutedEventArgs e)
         {
             if (mGuidanceInstructions != null && mGuidanceTextBlock != null)
@@ -305,6 +421,22 @@ namespace UIHeavyClient
 
         public void InitButtons()
         {
+            var buttons = FindTypedChildren<Button>(this, true);
+            // delete button is disabled by default and it is assigned before the callback can be seted
+            mDeleteButton.Foreground = Brushes.Black;
+            foreach (var button in buttons)
+            {
+                button.Background = Brushes.Black;
+                button.Foreground = Brushes.White;
+
+                button.IsEnabledChanged += button_IsEnabledChanged;
+                button.MouseEnter += DisplayGuidanceMessages;
+                button.MouseLeave += ClearGuidanceMessages;
+
+                /// the button will no longer flash after a click
+                button.Focusable = false;
+            }
+
             ChangeClickedButton(mFreeStateButton);
         }
 

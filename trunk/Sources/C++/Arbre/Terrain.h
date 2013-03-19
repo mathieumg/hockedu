@@ -13,6 +13,7 @@
 #include <vector>
 #include "RazerGameTypeDef.h"
 #include "XMLUtils.h"
+#include "Enum_Declarations.h"
 
 #ifndef __APPLE__
 #include "RunnableBreaker.h"
@@ -140,7 +141,11 @@ public:
     float GetTableWidth()const;
     void NodeSelectionNotification( NoeudAbstrait* node, bool selectionne );
 
+    // tells if there are selected node on the field that can be deleted
     bool CanSelectedNodeBeDeleted() const;
+    /// checks if selected nodes are the same type and returns that type
+    /// if not, return NODE_KEY_NONE
+    RazerKey getSelectedNodeUniqueKey() const;
 #if BOX2D_INTEGRATED
     /// Callback before the contact between 2 fixtures
     virtual void BeginContact( b2Contact* contact );
