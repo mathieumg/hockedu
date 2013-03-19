@@ -99,7 +99,7 @@ extern "C"
 
 	// Control calls
     __declspec(dllexport) void GetKeyboardControl(int* pControls);
-    __declspec(dllexport) void SetKeyboardControl(int pUp, int pDown, int pLeft, int pRight);
+    __declspec(dllexport) void SetKeyboardControl(int* pControls);
 		
 
 	// Radio calls

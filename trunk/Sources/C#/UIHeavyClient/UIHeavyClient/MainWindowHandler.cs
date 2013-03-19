@@ -185,6 +185,7 @@ namespace UIHeavyClient
         public static void GoToKeyboardOption()
         {
             Context.WindowContentControl.Content = Context.KeyboardOptionControl;
+            Context.KeyboardOptionControl.DisplayPlayerTwoKeys();
         }
 
         public static void LoadMapFromLocal(string pMapName)
