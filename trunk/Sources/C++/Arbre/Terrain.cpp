@@ -567,8 +567,9 @@ void Terrain::creerTerrainParDefaut(const std::string& nom)
 
     maillet1->setPosition(mTable->obtenirPoint(POSITION_MILIEU_GAUCHE)->getPosition()/2.0);
     maillet2->setPosition(mTable->obtenirPoint(POSITION_MILIEU_DROITE)->getPosition()/2.0);
-    rondelle->setPosition(Vecteur3(0.0,0.0,0.0));
-
+    //rondelle->setPosition(Vecteur3(0.0,0.0,0.0));
+    rondelle->setPosition(Vecteur3(-150.0,150.0,0.0));
+    
     mTable->add(maillet1);
     mTable->add(maillet2);
     mTable->add(rondelle);
