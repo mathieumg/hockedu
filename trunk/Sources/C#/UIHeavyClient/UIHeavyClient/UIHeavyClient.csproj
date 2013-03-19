@@ -92,6 +92,9 @@
     <Compile Include="AIOptionControl.xaml.cs">
       <DependentUpon>AIOptionControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BonusEditionControl.xaml.cs">
+      <DependentUpon>BonusEditionControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Chat.cs" />
     <Compile Include="KeyboardOptionControl.xaml.cs">
       <DependentUpon>KeyboardOptionControl.xaml</DependentUpon>
@@ -116,6 +119,10 @@
       <DependentUpon>TournamentControl.xaml</DependentUpon>
     </Compile>
     <Page Include="AIOptionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BonusEditionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
