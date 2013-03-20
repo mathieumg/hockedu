@@ -146,6 +146,7 @@ public:
     /// checks if selected nodes are the same type and returns that type
     /// if not, return NODE_KEY_NONE
     RazerKey getSelectedNodeUniqueKey() const;
+    int gatherSelectedNodeProperties(class FullProperties* properties);
 #if BOX2D_INTEGRATED
     /// Callback before the contact between 2 fixtures
     virtual void BeginContact( b2Contact* contact );

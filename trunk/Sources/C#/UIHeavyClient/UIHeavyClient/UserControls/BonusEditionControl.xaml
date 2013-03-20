@@ -8,19 +8,11 @@
              xmlns:user="clr-namespace:UIHeavyClient">
     <StackPanel Background="Black" >
         <Label Content="Bonus" Foreground="White"/>
-        <!--<StackPanel Orientation="Horizontal">
-            <Label Content="Min Spawn Time:" Foreground="White"/>
-            <xctk:DecimalUpDown Name="mMinSpawnTime" Margin="0,0,5,5" FormatString="F1" Value="10.000" Increment=".5" Maximum="200000" Minimum="0"/>
-        </StackPanel>-->
-        <!--<StackPanel Orientation="Horizontal">
-            <Label Content="Max Spawn Time:" Foreground="White"/>
-            <xctk:DecimalUpDown Name="mMaxSpawnTime" Margin="0,0,5,5" FormatString="F1" Value="30.000" Increment=".5" Maximum="200000" Minimum="0"/>
-        </StackPanel>-->
         <user:NumericalInputBox x:Name="mMinSpawnTime"/>
         <user:NumericalInputBox x:Name="mMaxSpawnTime"/>
         <StackPanel>
             <Label Foreground="White">Type</Label>
-            <DataGrid Name="mDataGrid"/>
+            <DataGrid Name="mDataGrid" ItemsSource="{Binding}"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

@@ -125,6 +125,47 @@ namespace UIHeavyClient
         RAZER_KEY_GOALER              ,
     };
 
+
+    /// Enum to check if a property has already been assigned
+    /// and to verify if the value is the same for all the nodes
+    /// Typically
+    /// Node1 sets a value X in Scale and set the flag ASSIGNED_SCALE
+    /// Node2 sees the flag ASSIGNED_SCALE and checks the current value
+    /// if it doesn't match it sets the flag INVALID_SCALE to indicate not to use it
+    ///
+#if !WIN32 && !__linux__ && !__APPLE__
+    public
+#endif
+    enum PropertyAssignmentValidation
+    {
+        ASSIGNED_FRICTION        ,
+        INVALID_FRICTION         ,
+        ASSIGNED_SCALE        ,
+        INVALID_SCALE         ,
+        ASSIGNED_ACCELERATION ,
+        INVALID_ACCELERATION  ,
+        ASSIGNED_POSITIONX     ,
+        INVALID_POSITIONX      ,
+        ASSIGNED_POSITIONY     ,
+        INVALID_POSITIONY      ,
+        ASSIGNED_ATTRACTION   ,
+        INVALID_ATTRACTION    ,
+        ASSIGNED_ANGLE        ,
+        INVALID_ANGLE         ,
+        ASSIGNED_REBOUND      ,
+        INVALID_REBOUND       ,
+        ASSIGNED_ZONE_X      ,
+        INVALID_ZONE_X       ,
+        ASSIGNED_ZONE_Y      ,
+        INVALID_ZONE_Y       ,
+        ASSIGNED_BONUS_MIN      ,
+        INVALID_BONUS_MIN       ,
+        ASSIGNED_BONUS_MAX      ,
+        INVALID_BONUS_MAX       ,
+        NB_PROPERTYASSIGNMENTVALIDATION
+    };
+    
+
 #if !WIN32 && !__linux__ && !__APPLE__
 }
 #endif

@@ -575,6 +575,9 @@
     <ClCompile Include="Arbre\Bonus\BonusModifierBlockGoal.cpp">
       <Filter>Sources Files\Arbre\Bonus</Filter>
     </ClCompile>
+    <ClCompile Include="Arbre\Visiteur\VisitorGatherProperties.cpp">
+      <Filter>Sources Files\Arbre\Visiteur</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1080,6 +1083,9 @@
     </ClInclude>
     <ClInclude Include="Arbre\Bonus\BonusModifierBlockGoal.h">
       <Filter>Sources Files\Arbre\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Visiteur\VisitorGatherProperties.h">
+      <Filter>Sources Files\Arbre\Visiteur</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

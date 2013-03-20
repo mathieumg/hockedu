@@ -51,6 +51,7 @@
 #include "NodeWallEdition.h"
 #include "NodeControlPoint.h"
 #include "VisiteurFunction.h"
+#include "VisitorGatherProperties.h"
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
@@ -1762,6 +1763,44 @@ RazerKey Terrain::getSelectedNodeUniqueKey() const
         key = nodeKey;
     }
     return key;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn int Terrain::gatherSelectedNodeProperties( FullProperties* properties )
+///
+/// /*Description*/
+///
+/// @param[in] FullProperties * properties
+///
+/// @return int
+///
+////////////////////////////////////////////////////////////////////////
+int Terrain::gatherSelectedNodeProperties( FullProperties* properties )
+{
+    if(properties)
+    {
+        VisitorGatherProperties v(properties);
+        RazerKey key = getSelectedNodeUniqueKey();
+        if(key == RAZER_KEY_NONE)
+        {
+            if(mTable)
+            {
+                mTable->acceptVisitor(v);
+            }
+        }
+        else
+        {
+            for(auto it=mSelectedNodes.begin(); it != mSelectedNodes.end(); ++it)
+            {
+                (*it)->acceptVisitor(v);
+            }
+        }
+
+        // permet de savoir si quelque chose a ete assigné
+        return properties->mPropertyFlagAssignment != 0;
+    }
+    return 0;
 }
 
 

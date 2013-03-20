@@ -318,13 +318,21 @@ namespace UIHeavyClient
         {
             if (mGuidanceInstructions != null && mGuidanceTextBlock != null)
             {
-                mGuidanceTextBlock.Text = mGuidanceInstructions[sender];
+                string m;
+                if (mGuidanceInstructions.TryGetValue(sender, out m))
+                {
+                    SetGuidanceInstuction(m);
+                }
             }
         }
 
         private void DisplayGuidanceMessages(object sender, MouseEventArgs e)
         {
-            mGuidanceLabel.Content = mGuidanceMessages[sender];
+            string m;
+            if (mGuidanceMessages.TryGetValue(sender,out m))
+            {
+                mGuidanceLabel.Content = m;
+            }
         }
 
         private void ClearGuidanceMessages(object sender, MouseEventArgs e)

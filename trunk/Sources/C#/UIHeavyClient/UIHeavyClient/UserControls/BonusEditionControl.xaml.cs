@@ -17,35 +17,32 @@ using System.Windows.Shapes;
 namespace UIHeavyClient
 {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-    public struct BonusProperties
+    public class BonusProperties
     {
-        public BonusProperties(string n, bool e, float d, BonusType type)
+        public BonusProperties(string name)
         {
-            mName = n;
-            mEnabled = e;
-            mDuration = d;
-            mType = type;
+            this.Name = name;
         }
-        
-        private string mName;
-        private bool mEnabled;
-        private float mDuration;
-        private BonusType mType;
 
         public string Name
         {
-            get { return mName; }
-            private set { mName = value; }
+            get;
+            private set;
         }
         public bool Enabled
         {
-            get { return mEnabled; }
-            set { mEnabled = value; }
+            get;
+            set;
         }
         public float Duration
         {
-            get { return mDuration; }
-            set { mDuration = value; }
+            get;
+            set;
+        }
+        public int Type
+        {
+            get;
+            set;
         }
     }
 
@@ -66,11 +63,11 @@ namespace UIHeavyClient
                     break;
                 var NameFull = type.ToString();
                 var name = NameFull.Substring(11, NameFull.Length-11).Replace('_', ' ').ToLowerInvariant();
-                Bonuses[i++] = (new BonusProperties(name, true, 10,type));
+                Bonuses[i++] = (new BonusProperties(name) { Enabled=true, Duration=10, Type=(int)type });
             }
 
             InitializeComponent();
-
+            
 
             mMinSpawnTime.LabelName = "Min Spawn Time:";
             mMaxSpawnTime.LabelName = "Max Spawn Time:";
@@ -80,6 +77,8 @@ namespace UIHeavyClient
             mMaxSpawnTime.InputBox.ValueChanged += SpawnTime_ValueChanged;
             mMinSpawnTime.InputBox.ValueChanged += SpawnTime_ValueChanged;
 
+            ///// Desactivation de la grille pour le moment car je n'arrive pas a envoyé les données
+            mDataGrid.Visibility = Visibility.Collapsed;
             mDataGrid.ItemsSource = Bonuses;
         }
 

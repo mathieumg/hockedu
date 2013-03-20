@@ -387,6 +387,22 @@ void NodeBonus::ResetTimeLeft()
     mSpawnTimeLeft = (rand()%(max-min)+min)/100.f;
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NodeBonus::acceptVisitor( VisiteurNoeud& v )
+///
+/// /*Description*/
+///
+/// @param[in] VisiteurNoeud & v
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NodeBonus::acceptVisitor( VisiteurNoeud& v )
+{
+    v.visiterNodeBonus(this);
+}
+
 
 
 

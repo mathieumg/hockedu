@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,14 +15,32 @@ using System.Windows.Shapes;
 
 namespace UIHeavyClient.UserControls
 {
-    
-
     /// <summary>
     /// Interaction logic for FieldPropertiesControl.xaml
     /// </summary>
     public partial class FieldPropertiesControl : UserControl
     {
         List<UIElement> mPropertyPanels;
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+        class FullProperties
+        {
+            public float mFriction;
+            public float mZoneEditionX;
+            public float mZoneEditionY;
+            public float mScale;
+            public float mAcceleration;
+            public float mPositionX;
+            public float mPositionY;
+            public float mAttraction;
+            public float mAngle;
+            public float mRebound;
+            public float mMinBonusSpawnTime;
+            public float mMaxBonusSpawnTime;
+            //public BonusProperties[] mBonusProperties;  // retirer pour le moment
+            public int mPropertyFlagAssignment;
+        }
+
 
         struct Property
         {
@@ -34,12 +53,18 @@ namespace UIHeavyClient.UserControls
             public string mName;
         }
         Dictionary<RazerKey, Property> mPropertiesByKey;
+        FullProperties mFullProperties = new FullProperties();
 
         public FieldPropertiesControl()
         {
             InitializeComponent();
 
             mPropertyPanels = new List<UIElement>(RazerUtilities.FindTypedChildren<UIElement>(mPropertiesStackPanel, false));
+
+            // hack pour ne pas prendre le save button dans cette liste
+            mPropertyPanels.RemoveAt(mPropertyPanels.Count-1);
+            // Permet que notre structure pointe sur les meme données que le control de Bonus
+            //mFullProperties.mBonusProperties = (BonusProperties[])mBonusProperties.mDataGrid.ItemsSource;
 
             // Initialise properties
             {
@@ -106,6 +131,7 @@ namespace UIHeavyClient.UserControls
                     mBonusProperties,
                     mFrictionProperty,
                     mEditionZoneProperty,
+                    mBouncingProperty,
                 })},
                 {RazerKey.RAZER_KEY_BOOST,new Property("Boost",new List<UIElement>()
                 {  
@@ -171,8 +197,83 @@ namespace UIHeavyClient.UserControls
                     panel.Visibility = Visibility.Visible;
                 }
             }
+            GetData();
         }
 
-        
+        [DllImport(@"RazerGame.dll")]
+        static extern bool GetFieldProperties( [In,Out] FullProperties fullProperties);
+        [DllImport(@"RazerGame.dll")]
+        static extern bool SendFieldProperties( [In,Out] FullProperties fullProperties);
+
+        /// Pas capable d'envoyer l'array de bonus. Too bad for now
+        [DllImport(@"RazerGame.dll")]
+        static extern bool SendTest( [In,Out] BonusProperties[] fullProperties);
+
+
+        /*
+         * ex mFullProperties.mPropertyFlagAssignment = 
+         *     ???? ???? ???? ??YX ???? ???? ???? ????
+         * YX : bits désiré
+         * X:Assigné, Y:Invalide
+         * X = property
+         * 
+         * (mFullProperties.mPropertyFlagAssignment >> (int)property ) = 
+         *  0000 0000 0000 0000 ???? ???? ???? ??YX
+         * 
+         * & 3  = 0000 0000 0000 0000 0000 0000 0000 00YX
+         * 
+         * == 1   =>  true if   X == 1 && Y == 0 
+         */
+        public bool IsPropertyValid(PropertyAssignmentValidation property)
+        {
+            return ((mFullProperties.mPropertyFlagAssignment >> (int)property )& 3 ) == 1;
+        }
+
+        public void GetData()
+        {
+            // resets the flags
+            mFullProperties.mPropertyFlagAssignment = 0;
+
+            var b = GetFieldProperties(mFullProperties);
+            if (b)
+            {
+                if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_SCALE       ))  mScaleProperty.Value = mFullProperties.mScale;
+                if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_REBOUND     ))  mBouncingProperty.Value = mFullProperties.mRebound;
+                if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_ACCELERATION))  mAccelerationProperty.Value = mFullProperties.mAcceleration;
+                if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_ANGLE       ))  mAngleProperty.Value = mFullProperties.mAngle;
+                if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_ATTRACTION  ))  mAttractionProperty.Value = mFullProperties.mAttraction;
+                if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_FRICTION    ))  mFrictionProperty.Value = mFullProperties.mFriction;
+                if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_ZONE_X      ))  mZoneEditionX.Value = mFullProperties.mZoneEditionX;
+                if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_ZONE_Y      ))  mZoneEditionY.Value = mFullProperties.mZoneEditionY;
+                if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_POSITIONX   ))  mPositionX.Value = mFullProperties.mPositionX;
+                if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_POSITIONY   ))  mPositionY.Value = mFullProperties.mPositionY;
+                if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_BONUS_MIN   ))  mBonusProperties.mMinSpawnTime.Value = mFullProperties.mMinBonusSpawnTime;
+                if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_BONUS_MAX    ))  mBonusProperties.mMaxSpawnTime.Value = mFullProperties.mMaxBonusSpawnTime;
+            }
+            // resets the flags
+            mFullProperties.mPropertyFlagAssignment = 0;
+        }
+
+        public void SendData(object sender, RoutedEventArgs e)
+        {
+
+            mFullProperties.mScale        = mScaleProperty.Value        ;
+            mFullProperties.mRebound      = mBouncingProperty.Value     ;
+            mFullProperties.mAcceleration = mAccelerationProperty.Value ;
+            mFullProperties.mAngle        = mAngleProperty.Value        ;
+            mFullProperties.mAttraction   = mAttractionProperty.Value   ;
+            mFullProperties.mFriction     = mFrictionProperty.Value     ;
+            mFullProperties.mZoneEditionX = mZoneEditionX.Value         ;
+            mFullProperties.mZoneEditionY = mZoneEditionY.Value         ;
+            mFullProperties.mPositionX    = mPositionX.Value            ;
+            mFullProperties.mPositionY    = mPositionY.Value            ;
+            mFullProperties.mMinBonusSpawnTime = mBonusProperties.mMinSpawnTime.Value;
+            mFullProperties.mMaxBonusSpawnTime = mBonusProperties.mMaxSpawnTime.Value;
+
+            SendFieldProperties(mFullProperties);
+
+            // resets the flags
+            mFullProperties.mPropertyFlagAssignment = 0;
+        }
     }
 }

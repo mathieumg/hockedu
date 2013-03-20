@@ -61,6 +61,9 @@ public:
 	virtual void visiterNoeudAccelerateur( NoeudAccelerateur* noeud );
     /// Visitation d'un noeud point de control
     virtual void visiterNodeControlPoint( NodeControlPoint* noeud );
+    virtual void visiterNodeBonus( NodeBonus* noeud );
+
+
 
 	/// Algorithme de détection de collision entre 2 cercle
 	void detectionCollisionCercleCercle( NoeudAbstrait* noeud );

@@ -10,6 +10,7 @@
 #include "..\Reseau\UsinePaquets\UsinePaquetGameCreation.h"
 #include "..\reseau\Paquets\PaquetGameConnection.h"
 #include "..\reseau\UsinePaquets\UsinePaquetGameConnection.h"
+#include "VisitorGatherProperties.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -650,4 +651,52 @@ bool TerrainHasDeletable()
 RazerKey GetSelectedNodeUniqueKey()
 {
     return FacadeModele::getInstance()->getEditionField()->getSelectedNodeUniqueKey();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool GetFieldProperties( FullProperties* fullProperties )
+///
+/// /*Description*/
+///
+/// @param[in] FullProperties * fullProperties
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+int GetFieldProperties( FullProperties* fullProperties )
+{
+    return FacadeModele::getInstance()->getEditionField()->gatherSelectedNodeProperties(fullProperties);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool SendFieldProperties( FullProperties* fullProperties )
+///
+/// /*Description*/
+///
+/// @param[in] FullProperties * fullProperties
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+int SendFieldProperties( FullProperties* fullProperties )
+{
+    return 0;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool SendTest( BonusProperties* fullProperties )
+///
+/// /*Description*/
+///
+/// @param[in] BonusProperties * fullProperties
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+int SendTest( BonusProperties* fullProperties )
+{
+    return 0;
 }

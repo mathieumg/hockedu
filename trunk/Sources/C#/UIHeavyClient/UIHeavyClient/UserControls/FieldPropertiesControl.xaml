@@ -28,6 +28,7 @@
                     </StackPanel>
                 </StackPanel>
                 <user:BonusEditionControl x:Name="mBonusProperties"       />
+                <Button Content="Save" Click="SendData" Focusable="False" Foreground="White" Background="Black"/>
             </StackPanel>
         </ScrollViewer>
     </GroupBox>
