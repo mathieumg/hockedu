@@ -104,7 +104,7 @@ extern "C"
 
 	// Control calls
     __declspec(dllexport) void GetKeyboardControl(int* pControls);
-    __declspec(dllexport) void SetKeyboardControl(int pUp, int pDown, int pLeft, int pRight);
+    __declspec(dllexport) void SetKeyboardControl(int* pControls);
 		
 
 	// Radio calls
@@ -124,6 +124,11 @@ extern "C"
     __declspec(dllexport) void GetPlaylistSongs(char* pPlaylist, char** pSongs, int pNbrSongs);
     __declspec(dllexport) void RemoveRadioPlaylist(char* pPlaylist);
     __declspec(dllexport) void AddRadioPlaylist(char* pPlaylist, char** pSongs, int pNbrSongs);
+
+
+    // Tournaments calls
+    __declspec(dllexport) void BeginNewTournament(char* pTournamentName, char* pMapName, char** pPlayerNames, int pNbrPlayers);
+    __declspec(dllexport) void ContinueExistingTournament(char* pTournamentName);
 
 
     ///////////////////////////////////////////////////////////////////////////////

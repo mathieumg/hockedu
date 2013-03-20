@@ -137,34 +137,34 @@ namespace UIHeavyClient.UserControls
                 {  
                     mScaleProperty,
                     mAccelerationProperty,
-                    mPositionProperty,
+                    //mPositionProperty,
                 })},
                 {RazerKey.RAZER_KEY_PORTAL,new Property("Portal",new List<UIElement>()
                 {  
-                    mPositionProperty,
+                    //mPositionProperty,
                     mScaleProperty,
                     mAttractionProperty,
                 })},
                 {RazerKey.RAZER_KEY_PUCK,new Property("Puck",new List<UIElement>()
                 {  
-                    mPositionProperty,
+                    //mPositionProperty,
                     mScaleProperty,
                 })},
                 {RazerKey.RAZER_KEY_MALLET,new Property("Mallet",new List<UIElement>()
                 {  
-                    mPositionProperty,
+                    //mPositionProperty,
                     mScaleProperty,
                 })},
                 {RazerKey.RAZER_KEY_BONUS,new Property("Bonus",new List<UIElement>()
                 {  
-                    mPositionProperty,
+                    //mPositionProperty,
                     //mBonusProperties, // risque de ne pas faire la modification specifique des bonus
                     mScaleProperty,
                 })},
                 /// Abuse le fait que ce type est utilisé uniquement pour les murets
                 {RazerKey.RAZER_KEY_CONTROL_POINT,new Property("Wall",new List<UIElement>()
                 {  
-                    mPositionProperty,
+                    //mPositionProperty,
                     mScaleProperty,
                     mBouncingProperty,
                     mAngleProperty,
@@ -213,9 +213,10 @@ namespace UIHeavyClient.UserControls
         /*
          * ex mFullProperties.mPropertyFlagAssignment = 
          *     ???? ???? ???? ??YX ???? ???? ???? ????
+         *     
          * YX : bits désiré
          * X:Assigné, Y:Invalide
-         * X = property
+         * property = index of X
          * 
          * (mFullProperties.mPropertyFlagAssignment >> (int)property ) = 
          *  0000 0000 0000 0000 ???? ???? ???? ??YX
@@ -245,8 +246,8 @@ namespace UIHeavyClient.UserControls
                 if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_FRICTION    ))  mFrictionProperty.Value = mFullProperties.mFriction;
                 if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_ZONE_X      ))  mZoneEditionX.Value = mFullProperties.mZoneEditionX;
                 if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_ZONE_Y      ))  mZoneEditionY.Value = mFullProperties.mZoneEditionY;
-                if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_POSITIONX   ))  mPositionX.Value = mFullProperties.mPositionX;
-                if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_POSITIONY   ))  mPositionY.Value = mFullProperties.mPositionY;
+                //if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_POSITIONX   ))  mPositionX.Value = mFullProperties.mPositionX;
+                //if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_POSITIONY   ))  mPositionY.Value = mFullProperties.mPositionY;
                 if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_BONUS_MIN   ))  mBonusProperties.mMinSpawnTime.Value = mFullProperties.mMinBonusSpawnTime;
                 if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_BONUS_MAX    ))  mBonusProperties.mMaxSpawnTime.Value = mFullProperties.mMaxBonusSpawnTime;
             }

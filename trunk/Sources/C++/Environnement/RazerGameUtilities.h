@@ -14,11 +14,11 @@
 #include <string>
 #include "XMLUtils.h"
 #include "Enum_Declarations.h"
-
+#include <map>
+#define Map std::map
 #if WIN32
-#include <hash_map>
+
 #elif __APPLE__
-#include <ext/hash_map>
 #define GLdouble GLfloat
 #define glPushAttrib(x)
 #define glPopAttrib()
@@ -130,37 +130,45 @@ public:
     static const std::string NAME_GOALER;
     CreateListDelegateSignature(Goaler);
 
-    typedef std::hash_map<std::string,RazerKey> StringToKeyMap;
-    static const StringToKeyMap createStringToKeyMap()
+    typedef Map<std::string,RazerKey> StringToKeyMap;
+    /// Memory leak !! but wth
+    static const StringToKeyMap* createStringToKeyMap()
     {
-        StringToKeyMap map;
-        map[""]                       = RAZER_KEY_NONE                 ;
-        map[NOM_ACCELERATEUR]         = RAZER_KEY_BOOST                ;
-        map[NOM_HOUSE]                = RAZER_KEY_HOUSE                ;
-        map[NOM_BUT]                  = RAZER_KEY_GOAL                 ;
-        map[NOM_MURET]                = RAZER_KEY_WALL                 ;
-        map[NAME_RINK_BOARD]          = RAZER_KEY_RINK_BOARD           ;
-        map[NOM_TABLE]                = RAZER_KEY_TABLE                ;
-        map[NOM_PORTAIL]              = RAZER_KEY_PORTAL               ;
-        map[NOM_RONDELLE]             = RAZER_KEY_PUCK                 ;
-        map[NOM_MAILLET]              = RAZER_KEY_MALLET               ;
-        map[NAME_TABLE_CONTROL_POINT] = RAZER_KEY_TABLE_CONTROL_POINT  ;
-        map[NAME_CONTROL_POINT]       = RAZER_KEY_CONTROL_POINT        ;
-        map[NOM_GROUPE]               = RAZER_KEY_GROUP                ;
-        map[NAME_POLYGONE]            = RAZER_KEY_POLYGON              ;
-        map[NAME_ZAMBONI]             = RAZER_KEY_ZAMBONI              ;
-        map[NAME_EMPTY_BONUS]         = RAZER_KEY_EMPTY_BONUS          ;
-        map[NAME_BONUS]               = RAZER_KEY_BONUS                ;
-        map[NAME_GOALER]              = RAZER_KEY_GOALER               ;
+        StringToKeyMap* map = new StringToKeyMap();
+        (*map)[""]                       = RAZER_KEY_NONE                 ;
+        (*map)[NOM_ACCELERATEUR]         = RAZER_KEY_BOOST                ;
+        (*map)[NOM_HOUSE]                = RAZER_KEY_HOUSE                ;
+        (*map)[NOM_BUT]                  = RAZER_KEY_GOAL                 ;
+        (*map)[NOM_MURET]                = RAZER_KEY_WALL                 ;
+        (*map)[NAME_RINK_BOARD]          = RAZER_KEY_RINK_BOARD           ;
+        (*map)[NOM_TABLE]                = RAZER_KEY_TABLE                ;
+        (*map)[NOM_PORTAIL]              = RAZER_KEY_PORTAL               ;
+        (*map)[NOM_RONDELLE]             = RAZER_KEY_PUCK                 ;
+        (*map)[NOM_MAILLET]              = RAZER_KEY_MALLET               ;
+        (*map)[NAME_TABLE_CONTROL_POINT] = RAZER_KEY_TABLE_CONTROL_POINT  ;
+        (*map)[NAME_CONTROL_POINT]       = RAZER_KEY_CONTROL_POINT        ;
+        (*map)[NOM_GROUPE]               = RAZER_KEY_GROUP                ;
+        (*map)[NAME_POLYGONE]            = RAZER_KEY_POLYGON              ;
+        (*map)[NAME_ZAMBONI]             = RAZER_KEY_ZAMBONI              ;
+        (*map)[NAME_EMPTY_BONUS]         = RAZER_KEY_EMPTY_BONUS          ;
+        (*map)[NAME_BONUS]               = RAZER_KEY_BONUS                ;
+        (*map)[NAME_GOALER]              = RAZER_KEY_GOALER               ;
         return map;
     }
-    static const StringToKeyMap StringTypeToEnum;
+    static const StringToKeyMap* StringTypeToEnum;
+
+
+
     // Converts an Key to its string representation, slow O(n) complexity
     // used for compatibility, avoid usage as much as possible.
     static const std::string& KeyToString(RazerKey key)
     {
+        if(!StringTypeToEnum)
+        {
+            StringTypeToEnum  = createStringToKeyMap();
+        }
         static const std::string EMPTYSTRING = "";
-        for(auto it=StringTypeToEnum.begin(); it != StringTypeToEnum.end(); ++it)
+        for(auto it=StringTypeToEnum->begin(); it != StringTypeToEnum->end(); ++it)
         {
             if(it->second == key)
                 return it->first;
@@ -170,8 +178,12 @@ public:
     // Converts a string 
     static RazerKey StringToKey(const std::string& s)
     {
-        auto it = StringTypeToEnum.find(s);
-        if(it != StringTypeToEnum.end())
+        if(!StringTypeToEnum)
+        {
+            StringTypeToEnum  = createStringToKeyMap();
+        }
+        auto it = StringTypeToEnum->find(s);
+        if(it != StringTypeToEnum->end())
         {
             return it->second;
         }

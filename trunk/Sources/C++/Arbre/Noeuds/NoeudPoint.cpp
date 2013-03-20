@@ -317,9 +317,7 @@ bool NoeudPoint::initFromXml( const XmlElement* element )
     Vecteur3 pos;
     if( !XmlReadNodePosition(pos,element) )
         throw ExceptionJeu("%s: Error reading node's position", mType.c_str());
-    auto deplacement = pos - mPosition;
-    VisiteurDeplacement v(deplacement,true);
-    v.visiterNoeudPoint(this);
+    setPosition(pos);
 
     int intElem;
     if(!XMLUtils::readAttribute(element,"typePosNoeud",intElem))

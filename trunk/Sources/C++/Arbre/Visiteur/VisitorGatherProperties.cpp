@@ -9,8 +9,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "VisitorGatherProperties.h"
-#include "VisiteurDeplacement.h"
-#include "VisiteurRotation.h"
 #include "NoeudMuret.h"
 #include "NoeudBut.h"
 #include "NoeudMaillet.h"
@@ -23,12 +21,11 @@
 #include "ZoneEdition.h"
 #include "Terrain.h"
 #include "Utilitaire.h"
-#include "FacadeModele.h"
 #include "NodeControlPoint.h"
 #include "ControlPointMutableAbstract.h"
 #include "NodeBonus.h"
 
-#define GET_VALUE(Flag,src,dest)                                          \
+#define SET_PROPERTY(Flag,src,dest)                                          \
     if(!mFlags.IsFlagSet(INVALID_##Flag))                                 \
     {                                                                     \
         if(mFlags.IsFlagSet(ASSIGNED_##Flag) && src != dest)              \
@@ -159,9 +156,9 @@ void VisitorGatherProperties::visiterNoeudMuret( NodeWallAbstract* noeud )
     float angle = noeud->getAngle();
     float rebound = noeud->getReboundRatio();
 
-    GET_VALUE(SCALE,scale[VY],mProperties->mScale);
-    GET_VALUE(ANGLE,angle,mProperties->mAngle);
-    GET_VALUE(REBOUND,rebound,mProperties->mRebound);
+    SET_PROPERTY(SCALE,scale[VY],mProperties->mScale);
+    SET_PROPERTY(ANGLE,angle,mProperties->mAngle);
+    SET_PROPERTY(REBOUND,rebound,mProperties->mRebound);
 }
 
 
@@ -197,7 +194,7 @@ void VisitorGatherProperties::visiterNoeudMaillet( NoeudMaillet* noeud )
 {
     Vecteur3 scale;
     noeud->getScale(scale);
-    GET_VALUE(SCALE,scale[VY],mProperties->mScale);
+    SET_PROPERTY(SCALE,scale[VY],mProperties->mScale);
     GetPos(noeud);
 }
 
@@ -217,10 +214,10 @@ void VisitorGatherProperties::visiterNoeudPortail( NoeudPortail* noeud )
 {
     Vecteur3 scale;
     noeud->getScale(scale);
-    GET_VALUE(SCALE,scale[VY],mProperties->mScale);
+    SET_PROPERTY(SCALE,scale[VY],mProperties->mScale);
     GetPos(noeud);
     auto force = noeud->getAttractionForce();
-    GET_VALUE(ATTRACTION,force,mProperties->mAttraction);
+    SET_PROPERTY(ATTRACTION,force,mProperties->mAttraction);
 }
 
 
@@ -239,7 +236,7 @@ void VisitorGatherProperties::visiterNoeudRondelle( NoeudRondelle* noeud )
 {
     Vecteur3 scale;
     noeud->getScale(scale);
-    GET_VALUE(SCALE,scale[VY],mProperties->mScale);
+    SET_PROPERTY(SCALE,scale[VY],mProperties->mScale);
     GetPos(noeud);
 }
 
@@ -258,7 +255,7 @@ void VisitorGatherProperties::visiterNoeudRondelle( NoeudRondelle* noeud )
 void VisitorGatherProperties::visiterNoeudTable( NoeudTable* noeud )
 {
     auto friction = noeud->obtenirCoefFriction();
-    GET_VALUE(FRICTION,friction,mProperties->mFriction);
+    SET_PROPERTY(FRICTION,friction,mProperties->mFriction);
     auto field = noeud->getField();
     if(field)
     {
@@ -267,15 +264,15 @@ void VisitorGatherProperties::visiterNoeudTable( NoeudTable* noeud )
         {
             auto y = zone->obtenirLimiteExtLargeur();
             auto x = zone->obtenirLimiteExtLongueur();
-            GET_VALUE(ZONE_X,x,mProperties->mZoneEditionX);
-            GET_VALUE(ZONE_Y,y,mProperties->mZoneEditionY);
+            SET_PROPERTY(ZONE_X,x,mProperties->mZoneEditionX);
+            SET_PROPERTY(ZONE_Y,y,mProperties->mZoneEditionY);
         }
         // todo:::
-        GET_VALUE(BONUS_MIN,0,mProperties->mMinBonusSpawnTime);
-        GET_VALUE(BONUS_MAX,0,mProperties->mMaxBonusSpawnTime);
+        SET_PROPERTY(BONUS_MIN,0,mProperties->mMinBonusSpawnTime);
+        SET_PROPERTY(BONUS_MAX,0,mProperties->mMaxBonusSpawnTime);
     }
     float rebond = noeud->obtenirCoefRebond(0);
-    GET_VALUE(REBOUND,rebond,mProperties->mRebound);
+    SET_PROPERTY(REBOUND,rebond,mProperties->mRebound);
 }
 
 
@@ -311,10 +308,10 @@ void VisitorGatherProperties::visiterNoeudAccelerateur( NoeudAccelerateur* noeud
 {
     Vecteur3 scale;
     noeud->getScale(scale);
-    GET_VALUE(SCALE,scale[VY],mProperties->mScale);
+    SET_PROPERTY(SCALE,scale[VY],mProperties->mScale);
     GetPos(noeud);
     auto accel = noeud->obtenirBonusAccel();
-    GET_VALUE(ACCELERATION,accel,mProperties->mAcceleration);
+    SET_PROPERTY(ACCELERATION,accel,mProperties->mAcceleration);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -353,7 +350,7 @@ void VisitorGatherProperties::visiterNodeBonus( NodeBonus* noeud )
 {
     Vecteur3 scale;
     noeud->getScale(scale);
-    GET_VALUE(SCALE,scale[VY],mProperties->mScale);
+    SET_PROPERTY(SCALE,scale[VY],mProperties->mScale);
     GetPos(noeud);
 }
 

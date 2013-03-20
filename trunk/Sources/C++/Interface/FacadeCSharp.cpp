@@ -3,6 +3,7 @@
 #include <iostream>
 #include "ExceptionJeu.h"
 #include "Terrain.h"
+#include "Tournoi.h"
 #include "GestionnaireHUD.h"
 #include "..\reseau\UsinePaquets\UsinePaquetMaillet.h"
 #include "..\reseau\PaquetHandlers\PacketHandler.h"
@@ -635,6 +636,48 @@ void AddRadioPlaylist(char* pPlaylist, char** pSongs, int pNbrSongs)
 bool TerrainHasDeletable()
 {
     return FacadeModele::getInstance()->getEditionField()->CanSelectedNodeBeDeleted();
+}
+
+
+void BeginNewTournament(char* pTournamentName, char* pMapName, char** pPlayerNames, int pNbrPlayers)
+{
+	// Players list
+	JoueursParticipant players;
+
+	// Fill the players list
+	for(int i = 0; i < pNbrPlayers; ++i)
+	{
+		// Empty name means human player
+		if(strlen(pPlayerNames[i]) == 0)
+        {
+            players.push_back(SPJoueurAbstrait(new JoueurHumain()));
+        }
+		else // AI player
+		{	
+			SPJoueurAbstrait jv = FacadeModele::getInstance()->obtenirJoueur(std::string(pPlayerNames[i]));
+			if(jv)
+			{
+				players.push_back(jv);
+			}
+			else
+            {
+				players.push_back(SPJoueurAbstrait(new JoueurVirtuel(pPlayerNames[i], 1, 0)));
+            }
+		}
+	}
+
+	// Init tournament
+	FacadeModele::getInstance()->initialiserTournoi(players, std::string(pMapName));
+	Tournoi* tournoiCpp = FacadeModele::getInstance()->obtenirTournoi();
+	tournoiCpp->modifierNom(std::string(pTournamentName));
+
+	// Enregistrement du tournoi
+	FacadeModele::getInstance()->enregistrerTournoi(tournoiCpp);
+}
+
+void ContinueExistingTournament(char* pTournamentName)
+{
+    FacadeModele::getInstance()->chargerTournoi(std::string(pTournamentName));
 }
 
 ////////////////////////////////////////////////////////////////////////

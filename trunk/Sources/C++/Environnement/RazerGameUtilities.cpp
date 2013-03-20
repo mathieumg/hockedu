@@ -13,9 +13,7 @@
 #include "GestionnaireModeles.h"
 #include "GestionnaireEvenements.h"
 #include "GestionnaireEtatAbstrait.h"
-#include <hash_map>
 #elif __APPLE__
-#include <ext/hash_map>
 #endif
 
 #include "Utilitaire.h"
@@ -363,7 +361,7 @@ bool mUpdating = false, mRendering=false;
    const std::string RazerGameUtilities::NAME_BONUS = "bonus";
    const std::string RazerGameUtilities::NAME_GOALER = "goaler";
 
-   const RazerGameUtilities::StringToKeyMap RazerGameUtilities::StringTypeToEnum  = createStringToKeyMap();
+   const RazerGameUtilities::StringToKeyMap* RazerGameUtilities::StringTypeToEnum = NULL;
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

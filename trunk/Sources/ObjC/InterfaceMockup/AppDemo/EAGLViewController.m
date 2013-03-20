@@ -215,49 +215,34 @@ enum {
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if(mSelectionMode)
-    {
-        if ([[event allTouches] count] == 1)
-        {
-            UITouch *touch = [[event allTouches] anyObject];
-            CGPoint positionCourante = [touch locationInView:theEAGLView];
-            CGPoint positionPrecedente = [touch previousLocationInView:theEAGLView];
-            // On a un clique et on est en mode selection
-            [mModel acceptSelectionVisitor:positionCourante.x:positionCourante.y:positionCourante.x:positionCourante.y];
-        }
+    touchMoved = false;
+    UITouch *touch = [[event allTouches] anyObject];
+    firstCorner = [touch locationInView:theEAGLView];
+    NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");
+    for(UITouch* touch in touches) {
+        CGPoint positionCourante = [touch locationInView:theEAGLView];
+        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);
     }
-    else
-    {
-    
-        NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");
-        for(UITouch* touch in touches) {
-            CGPoint positionCourante = [touch locationInView:theEAGLView];
-            NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);        
-        }        
-        NSLog(@"Position de tous les doigts sur l'écran");            
-        NSSet *allTouches = [event allTouches];
-        for(UITouch* touch in allTouches) {
-            CGPoint positionCourante = [touch locationInView:theEAGLView];
-            NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);        
-        }
-        NSLog(@"\n\n");
+    NSLog(@"Position de tous les doigts sur l'écran");
+    NSSet *allTouches = [event allTouches];
+    for(UITouch* touch in allTouches) {
+        CGPoint positionCourante = [touch locationInView:theEAGLView];
+        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);
     }
+    NSLog(@"\n\n");
 }
 
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    
     if ([[event allTouches] count] == 1)
     {
+        if (!mSelectionMode)
+        {
         UITouch *touch = [[event allTouches] anyObject];
         CGPoint positionCourante = [touch locationInView:theEAGLView];
         CGPoint positionPrecedente = [touch previousLocationInView:theEAGLView];
-        if(mSelectionMode)
-        {
-            [mModel acceptSelectionVisitor:positionPrecedente.x:positionPrecedente.y:positionCourante.x:positionCourante.y];
-        }
-        else
-        {
         translationX -= (positionCourante.x - positionPrecedente.x);
         translationY += (positionCourante.y - positionPrecedente.y);
         
@@ -287,6 +272,11 @@ enum {
         }
         
         [self updateOrtho];
+    
+        }
+        else
+        {
+            touchMoved = true;
         }
     }
     else if([[event allTouches] count] == 2) {
@@ -328,7 +318,51 @@ enum {
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    //glOrthof( ( -( LARGEUR_FENETRE / 2) + translationX ) * zoomFactor, ( (LARGEUR_FENETRE / 2) + translationX) * zoomFactor, ( -(HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor, ( (HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor, -5, 100);
     
+    if ([[event allTouches] count] == 1)
+    {
+        
+        if(mSelectionMode)
+        {
+            UITouch *touch = [[event allTouches] anyObject];
+            CGPoint positionCourante = [touch locationInView:theEAGLView];
+            
+            int AXIS_X_MIN = ( -( LARGEUR_FENETRE / 2) + translationX ) * zoomFactor;
+            int AXIS_X_MAX = ( (LARGEUR_FENETRE / 2) + translationX) * zoomFactor;
+            int AXIS_Y_MIN = ( -(HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor;
+            int AXIS_Y_MAX = ( (HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor;
+            
+            int CV_X_NOW = positionCourante.x / (double) LARGEUR_FENETRE * (AXIS_X_MAX-AXIS_X_MIN) + AXIS_X_MIN;
+            //(clotureXmin + ( positionCourante.x / fenetreVirtuelleX )*LARGEUR_FENETRE);
+            int CV_Y_NOW = AXIS_Y_MAX - (positionCourante.y / (double) HAUTEUR_FENETRE * (AXIS_Y_MAX-AXIS_Y_MIN));
+            //(clotureYmax - ( positionCourante.y / fenetreVirtuelleY )*HAUTEUR_FENETRE );
+            
+            //int fenetreVirtuelleX = clotureXmax - clotureXmin;
+            //int fenetreVirtuelleY = clotureYmax - clotureYmin;
+            int CV_X_OLD;
+            int CV_Y_OLD;
+            if(touchMoved)
+            {
+            CV_X_OLD = firstCorner.x / (double) LARGEUR_FENETRE * (AXIS_X_MAX-AXIS_X_MIN) + AXIS_X_MIN;
+            //(clotureXmin + ( positionPrecedente.x / fenetreVirtuelleX )*LARGEUR_FENETRE);
+            CV_Y_OLD = AXIS_Y_MAX - (firstCorner.y / (double) HAUTEUR_FENETRE * (AXIS_Y_MAX-AXIS_Y_MIN));
+            }
+            else
+            {
+            CV_X_OLD = CV_X_NOW-2;
+                CV_X_NOW += 2;
+                //(clotureXmin + ( positionPrecedente.x / fenetreVirtuelleX )*LARGEUR_FENETRE);
+            CV_Y_OLD = CV_Y_NOW+2;
+                CV_Y_NOW-=2;
+            }
+            //(clotureYmax - ( positionPrecedente.y / fenetreVirtuelleY )*HAUTEUR_FENETRE );
+            
+            
+            [mModel acceptSelectionVisitor:CV_X_OLD:CV_Y_OLD:CV_X_NOW:CV_Y_NOW];
+            //[self drawFrame];
+        }
+    }
 }
 
 -(void)rotationDetectee:(UIGestureRecognizer *)gestureRecognizer 
