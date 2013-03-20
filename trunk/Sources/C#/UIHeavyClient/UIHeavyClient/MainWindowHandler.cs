@@ -27,6 +27,8 @@ namespace UIHeavyClient
         private static OpenFileDialog mOpenFileDialog = new OpenFileDialog();
         private static Microsoft.Win32.SaveFileDialog mSaveFileDialog = new Microsoft.Win32.SaveFileDialog();
 
+        private static LoginControl mLoginControl = new LoginControl();
+
         public static MainWindow Context
         {
             get { return mContext; }
@@ -36,6 +38,10 @@ namespace UIHeavyClient
         {
             get { return mCurrentMap; }
             set { mCurrentMap = value; }
+        }
+        public static LoginControl LoginUI
+        {
+            get { return mLoginControl; }
         }
 
         public static TaskManager mTaskManager = new TaskManager();
