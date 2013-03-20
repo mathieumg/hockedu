@@ -477,7 +477,10 @@ void Terrain::transfererNoeud( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 void Terrain::retirerNoeudTemp( NoeudAbstrait* noeud )
 {
-    mNewNodeTree->unlinkChild(noeud);
+    if(mNewNodeTree)
+    {
+        mNewNodeTree->unlinkChild(noeud);
+    }
 }
 
 
