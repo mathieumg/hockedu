@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="UIHeavyClient.UserControls.FieldPropertiesControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:user="clr-namespace:UIHeavyClient">
+    <GroupBox Header="Special Properties" Margin="15" Name="mPropertiesGroupBox" Grid.Row="2">
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" CanContentScroll="True">
+            <StackPanel Name="mPropertiesStackPanel" >
+                <StackPanel Orientation="Vertical" Name="mPositionProperty">
+                    <Label Foreground="White">Position</Label>
+                    <StackPanel Orientation="Horizontal">
+                        <user:NumericalInputBox   x:Name="mPositionX"    />
+                        <user:NumericalInputBox   x:Name="mPositionY"    />
+                    </StackPanel>
+                </StackPanel>
+                <user:NumericalInputBox   x:Name="mScaleProperty"       />
+                <user:NumericalInputBox   x:Name="mFrictionProperty"    />
+                <user:NumericalInputBox   x:Name="mBouncingProperty"    />
+                <user:NumericalInputBox   x:Name="mAccelerationProperty"/>
+                <user:NumericalInputBox   x:Name="mAngleProperty"         />
+                <user:NumericalInputBox   x:Name="mAttractionProperty"    />
+                <StackPanel Orientation="Vertical" Name="mEditionZoneProperty">
+                    <Label Foreground="White">Edition Zone</Label>
+                    <StackPanel Orientation="Horizontal">
+                        <user:NumericalInputBox   x:Name="mZoneEditionX"    />
+                        <user:NumericalInputBox   x:Name="mZoneEditionY"    />
+                    </StackPanel>
+                </StackPanel>
+                <user:BonusEditionControl x:Name="mBonusProperties"       />
+            </StackPanel>
+        </ScrollViewer>
+    </GroupBox>
+</UserControl>

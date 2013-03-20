@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:user="clr-namespace:UIHeavyClient"
+             xmlns:userControls="clr-namespace:UIHeavyClient.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="674" d:DesignWidth="1058" Background="Black" Foreground="White">
     <Grid Background="Black" Name="editionControlGrid">
@@ -88,18 +89,34 @@
                 <Button Content="Random bonus" Margin="1" Name="mBonusButton"    Grid.Column="1" Grid.Row="2" Click="HandleStateButton" />
             </Grid>
         </GroupBox>
-        <GroupBox Header="Special Properties" Margin="15" Name="mPropertiesGroupBox" Grid.Row="2">
+        <userControls:FieldPropertiesControl x:Name="mPropertiesGroupBox" Grid.Row="2"/>
+        <!--<GroupBox Header="Special Properties" Margin="15" Name="mPropertiesGroupBox" Grid.Row="2">
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" CanContentScroll="True">
                 <StackPanel Name="mPropertiesStackPanel" >
-                    <user:NumericalInputBox   x:Name="mScaleProperties"       />
-                    <user:NumericalInputBox   x:Name="mBouncingProperties"    />
-                    <user:NumericalInputBox   x:Name="mAccelerationProperties"/>
+                    <StackPanel Orientation="Vertical" Name="mPositionProperty">
+                        <Label Foreground="White">Position</Label>
+                        <StackPanel Orientation="Horizontal">
+                            <user:NumericalInputBox   x:Name="mPositionX"    />
+                            <user:NumericalInputBox   x:Name="mPositionY"    />
+                        </StackPanel>
+                    </StackPanel>
+                    <user:NumericalInputBox   x:Name="mScaleProperty"       />
+                    <user:NumericalInputBox   x:Name="mFrictionProperty"    />
+                    <user:NumericalInputBox   x:Name="mBouncingProperty"    />
+                    <user:NumericalInputBox   x:Name="mAccelerationProperty"/>
                     <user:NumericalInputBox   x:Name="mAngleProperty"         />
                     <user:NumericalInputBox   x:Name="mAttractionProperty"    />
+                    <StackPanel Orientation="Vertical" Name="mEditionZoneProperty">
+                        <Label Foreground="White">Edition Zone</Label>
+                        <StackPanel Orientation="Horizontal">
+                            <user:NumericalInputBox   x:Name="mZoneEditionX"    />
+                            <user:NumericalInputBox   x:Name="mZoneEditionY"    />
+                        </StackPanel>
+                    </StackPanel>
                     <user:BonusEditionControl x:Name="mBonusProperties"       />
                 </StackPanel>
             </ScrollViewer>
-        </GroupBox>
+        </GroupBox>-->
         <TextBlock Margin="12" Name="mGuidanceTextBlock" Text="Welcome to edition mode! Have fun!!!" Foreground="#FF00D500" Background="Black" TextWrapping="Wrap" FontSize="16" />
         <Button Content="Main Menu" Grid.Row="3" Margin="15,10,0,10" Name="mMainMenuButton"  Click="MainMenuBtnClick" HorizontalAlignment="Left" Width="75" />
         <Button Content="Default Map" Grid.Row="3" HorizontalAlignment="Left" Margin="95,10,0,10" Name="mDefaultFieldButton" Width="75"  Click="OnGenerateField" />

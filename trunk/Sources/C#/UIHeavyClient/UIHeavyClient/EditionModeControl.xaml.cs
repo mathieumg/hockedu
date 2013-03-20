@@ -23,21 +23,10 @@ namespace UIHeavyClient
     public partial class EditionModeControl : UserControl
     {
         private WindowsFormsHost mWindowsFormsHost;
-        struct Property
-        {
-            public Property(string name, List<UIElement> boxes)
-            {
-                mName = name;
-                mPropertyBoxes = boxes;
-            }
-            public List<UIElement> mPropertyBoxes;
-            public string mName;
-        }
+        
         Dictionary<object, string> mGuidanceMessages;
         Dictionary<object, string> mGuidanceInstructions;
         Dictionary<object, ActionType> mActionPerformedStrings;
-        Dictionary<RazerKey, Property> mPropertiesByKey;
-        List<UIElement> mPropertyPanels;
 
         Button mLastClickedButton;
 
@@ -93,14 +82,14 @@ namespace UIHeavyClient
                             {
                                 control.mDeleteButton.IsEnabled = false;
                             }
-                            control.DisplayProperties(key);
+                            control.mPropertiesGroupBox.DisplayProperties(key);
                         });
                         break;
                     case EventCodes.THERE_ARE_NO_NODE_SELECTED:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             control.mDeleteButton.IsEnabled = false;
-                            control.DisplayProperties(RazerKey.RAZER_KEY_NONE);
+                            control.mPropertiesGroupBox.DisplayProperties(RazerKey.RAZER_KEY_NONE);
                         });
                         break;
                     default:
@@ -110,28 +99,6 @@ namespace UIHeavyClient
             return true;
         }
         
-        public static IEnumerable<T> FindTypedChildren<T>(DependencyObject depObj, bool recursive) where T : DependencyObject
-        {
-            if (depObj != null)
-            {
-                foreach(var child in LogicalTreeHelper.GetChildren(depObj))
-                {
-                    //DependencyObject child = LogicalTreeHelper.GetChild(depObj, i);
-                    if (child != null && child is T)
-                    {
-                        yield return (T)child;
-                    }
-
-                    if (recursive)
-                    {
-                        foreach (T childOfChild in FindTypedChildren<T>(child as DependencyObject,true))
-                        {
-                            yield return childOfChild;
-                        }
-                    }
-                }
-            }
-        }
         
         public EditionModeControl(WindowsFormsHost pWindowsFormsHost)
         {
@@ -139,77 +106,6 @@ namespace UIHeavyClient
 
             mWindowsFormsHost = pWindowsFormsHost;
             mWindowsFormsHost.Focus();
-
-            mPropertyPanels = new List<UIElement>(FindTypedChildren<UIElement>(mPropertiesStackPanel, false));
-
-            // Initialise properties
-            {
-                mScaleProperties.LabelName = "Scale:";
-                mScaleProperties.MinValue = 0.2f;
-                mScaleProperties.MaxValue = 5;
-                mScaleProperties.Increment = 0.1f;
-                mScaleProperties.Value = 1;
-
-                mBouncingProperties.LabelName = "Wall rebound ratio:";
-                mBouncingProperties.MaxValue = 3;
-                mBouncingProperties.Increment = 0.1f;
-                mBouncingProperties.Value = 1;
-
-                mAccelerationProperties.LabelName = "Acceleration ratio";
-                mAccelerationProperties.MaxValue = 3;
-                mAccelerationProperties.Increment = 0.1f;
-                mAccelerationProperties.Value = 1;
-
-                mAngleProperty.LabelName = "Angle:";
-                mAngleProperty.MaxValue = 360;
-                mAngleProperty.Increment = 5;
-                mAngleProperty.Value = 0;
-
-                mAttractionProperty.LabelName = "Attraction force:";
-                mAttractionProperty.MaxValue = 3;
-                mAttractionProperty.Increment = 0.1f;
-                mAttractionProperty.Value = 1;
-            }
-
-            mPropertiesByKey = new Dictionary<RazerKey, Property>()
-            {
-                {RazerKey.RAZER_KEY_NONE,new Property("Table",new List<UIElement>()
-                {  
-                    mBonusProperties,
-                })},
-                {RazerKey.RAZER_KEY_BOOST,new Property("Boost",new List<UIElement>()
-                {  
-                    mScaleProperties,
-                    mAccelerationProperties
-                })},
-                {RazerKey.RAZER_KEY_PORTAL,new Property("Portal",new List<UIElement>()
-                {  
-                    mScaleProperties,
-                    mAttractionProperty
-                })},
-                {RazerKey.RAZER_KEY_PUCK,new Property("Puck",new List<UIElement>()
-                {  
-                    mScaleProperties
-                })},
-                {RazerKey.RAZER_KEY_MALLET,new Property("Mallet",new List<UIElement>()
-                {  
-                    mScaleProperties
-                })},
-                {RazerKey.RAZER_KEY_BONUS,new Property("Bonus",new List<UIElement>()
-                {  
-                    mBonusProperties,
-                    mScaleProperties
-                })},
-                /// Abuse le fait que ce type est utilisé uniquement pour les murets
-                {RazerKey.RAZER_KEY_CONTROL_POINT,new Property("Wall",new List<UIElement>()
-                {  
-                    mScaleProperties,
-                    mBouncingProperties,
-                    mAngleProperty
-                })},
-            };
-
-            DisplayProperties(RazerKey.RAZER_KEY_NONE);
 
             mGuidanceMessages = new Dictionary<object, string>() 
             { 
@@ -293,6 +189,22 @@ namespace UIHeavyClient
                 {mOrbitalCameraRadio, ActionType.ACTION_CAMERA_ORBITE},
                 {mSkyCameraRadio, ActionType.ACTION_CAMERA_FIXE},
             };
+
+            var buttons = RazerUtilities.FindTypedChildren<Button>(this, true);
+            // delete button is disabled by default and it is assigned before the callback can be seted
+            mDeleteButton.Foreground = Brushes.Black;
+            foreach (var button in buttons)
+            {
+                button.Background = Brushes.Black;
+                button.Foreground = Brushes.White;
+
+                button.IsEnabledChanged += button_IsEnabledChanged;
+                button.MouseEnter += DisplayGuidanceMessages;
+                button.MouseLeave += ClearGuidanceMessages;
+
+                /// the button will no longer flash after a click
+                button.Focusable = false;
+            }
         }
 
         void button_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -307,28 +219,6 @@ namespace UIHeavyClient
                 control.Foreground = Brushes.Black;
             }
         }
-
-        void DisplayProperties(RazerKey key)
-        {
-            foreach (var panel in mPropertyPanels)
-            {
-                panel.Visibility = Visibility.Collapsed;
-            }
-            if (!mPropertiesByKey.ContainsKey(key))
-            {
-                key = RazerKey.RAZER_KEY_NONE;
-            }
-            Property p = new Property();
-            if (mPropertiesByKey.TryGetValue(key, out p))
-            {
-                mPropertiesGroupBox.Header = "Special Properties : " + p.mName;
-                foreach (var panel in p.mPropertyBoxes)
-                {
-                    panel.Visibility = Visibility.Visible;
-                }
-            }
-        }
-
 
         #region Edition Tool Events
 
@@ -444,23 +334,7 @@ namespace UIHeavyClient
 
         public void InitButtons()
         {
-            var buttons = FindTypedChildren<Button>(this, true);
-            // delete button is disabled by default and it is assigned before the callback can be seted
-            mDeleteButton.Foreground = Brushes.Black;
-            foreach (var button in buttons)
-            {
-                button.Background = Brushes.Black;
-                button.Foreground = Brushes.White;
-
-                button.IsEnabledChanged += button_IsEnabledChanged;
-                button.MouseEnter += DisplayGuidanceMessages;
-                button.MouseLeave += ClearGuidanceMessages;
-
-                /// the button will no longer flash after a click
-                button.Focusable = false;
-            }
-
-            ChangeClickedButton(mFreeStateButton);
+            HandleStateButton(mFreeStateButton, new RoutedEventArgs());
         }
 
         private void ChangeClickedButton(Button pButton)

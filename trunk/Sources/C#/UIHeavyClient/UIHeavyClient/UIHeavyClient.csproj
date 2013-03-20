@@ -98,6 +98,7 @@
     <Compile Include="AIOptionControl.xaml.cs">
       <DependentUpon>AIOptionControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RazerUtilities.cs" />
     <Compile Include="UserControls\BonusEditionControl.xaml.cs">
       <DependentUpon>BonusEditionControl.xaml</DependentUpon>
     </Compile>
@@ -110,6 +111,9 @@
     </Compile>
     <Compile Include="EditionModeControl.xaml.cs">
       <DependentUpon>EditionModeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FieldPropertiesControl.xaml.cs">
+      <DependentUpon>FieldPropertiesControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\NumericalInputBox.xaml.cs">
       <DependentUpon>NumericalInputBox.xaml</DependentUpon>
@@ -164,6 +168,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="EditionModeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FieldPropertiesControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
