@@ -11,7 +11,7 @@
 
 namespace XMLUtils
 {
-#if WIN32
+#if WIN32 || __APPLE__
     ////////////////////////////////////////////////////////////////////////
     ///
     /// @fn const char* MakeName( const char* name, int index )
@@ -27,8 +27,9 @@ namespace XMLUtils
     const char* MakeName( const char* name, int index )
     {
         char* createdName = new char[64];
-        if(sprintf_s(createdName,64,"%s%d",name,index) == -1)
+        if(sprintf(createdName,"%s%d",name,index) == -1)
         {
+            
             delete[] createdName;
             return NULL;
         }

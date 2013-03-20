@@ -16,6 +16,8 @@
 #include "NoeudRondelle.h"
 #include "NoeudTable.h"
 #include "NoeudPoint.h"
+#include "NodeControlPoint.h"
+#include "NodeBonus.h"
 #include "NoeudAccelerateur.h"
 #include "VisiteurCollision.h"
 #include "Terrain.h"
@@ -157,6 +159,18 @@ void VisiteurSelection::visiterNoeudMuret( NodeWallAbstract* noeud )
 void VisiteurSelection::visiterNoeudBut( NoeudBut* noeud )
 {
 	visiterNoeudAbstrait(noeud);
+}
+
+void VisiteurSelection::visiterNodeControlPoint( NodeControlPoint* noeud )
+{
+    
+    visiterNoeudAffichable(noeud);
+}
+
+void VisiteurSelection::visiterNodeBonus( class NodeBonus* noeud )
+{
+    visiterNoeudAffichable(noeud);
+    
 }
 
 

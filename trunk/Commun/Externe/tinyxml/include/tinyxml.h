@@ -84,7 +84,7 @@ class TiXmlDocument;
 class TiXmlElement;
 class TiXmlComment;
 class TiXmlUnknown;
-class TiXmlAttribute;
+class TiXmlAttribute;¬
 class TiXmlText;
 class TiXmlDeclaration;
 class TiXmlParsingData;

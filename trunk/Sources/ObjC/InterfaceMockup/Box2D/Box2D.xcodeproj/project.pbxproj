@@ -1587,6 +1587,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Box2D/Box2D-Prefix.pch";
 				"HEADER_SEARCH_PATHS[arch=*]" = ../../../../Commun/Externe;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../Commun/Externe/Box2D/Libs\"",
@@ -1608,6 +1609,7 @@
 				DSTROOT = /tmp/Box2D.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Box2D/Box2D-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../Commun/Externe/Box2D/Libs\"",
@@ -1640,6 +1642,7 @@
 				4E96DC6116F63D1D00588998 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
