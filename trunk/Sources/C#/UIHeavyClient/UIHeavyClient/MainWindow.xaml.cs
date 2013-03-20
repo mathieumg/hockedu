@@ -227,7 +227,7 @@ namespace UIHeavyClient
         private void connexionPartieServeurJeu_Click(object sender, RoutedEventArgs e)
         {
             // Tests pour connection serveur jeu et client
-            connectPartieServerGame(0);
+            connectPartieServerGame(1);
 
         }
 

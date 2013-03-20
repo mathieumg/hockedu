@@ -95,7 +95,6 @@
     <ClCompile Include="MenuOptionCallVoid.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Interface\FacadeServeurJeu.h" />
     <ClInclude Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.h" />
     <ClInclude Include="..\Reseau\ObjetsGlobaux\PartieServeurs.h" />
     <ClInclude Include="Menu.h" />

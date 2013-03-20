@@ -79,6 +79,7 @@
 		4E2A595E16F2E558002160AE /* NodeModelRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595B16F2E558002160AE /* NodeModelRender.cpp */; };
 		4E2A596116F2E658002160AE /* BonusModifierFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */; };
 		4E93754616FA1E40006A9C39 /* VisitorGatherProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E93754416FA1E40006A9C39 /* VisitorGatherProperties.cpp */; };
+		4E8C11B916FA31AE003D61E8 /* libTinyXml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EF216A316FA2AC0005FB093 /* libTinyXml.a */; };
 		4E96DF0416F64C4700588998 /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E96DC6716F63D2100588998 /* libBox2D.a */; };
 		4EB7EA7916EFBE4100493722 /* VisiteurFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */; };
 		4EC1626E16F81A8C00577704 /* BonusModifierBlockGoal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */; };
@@ -123,6 +124,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 4E96DC5016F63D1C00588998;
 			remoteInfo = Box2D;
+		};
+		4EF216A216FA2AC0005FB093 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4EF2169E16FA2ABE005FB093 /* TinyXml.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4EF2169716FA2ABE005FB093;
+			remoteInfo = TinyXml;
+		};
+		4EF216B516FA2CAF005FB093 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4EF2169E16FA2ABE005FB093 /* TinyXml.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 4EF2169616FA2ABE005FB093;
+			remoteInfo = TinyXml;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -280,6 +295,7 @@
 		4EEBBF9816E86E5B00017127 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		4EEBBF9916E86E5B00017127 /* Model.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Model.mm; sourceTree = "<group>"; };
 		4EEBBFA216E8832900017127 /* NoeudAbstrait.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoeudAbstrait.cpp; sourceTree = "<group>"; };
+		4EF2169E16FA2ABE005FB093 /* TinyXml.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TinyXml.xcodeproj; path = TinyXml/TinyXml.xcodeproj; sourceTree = "<group>"; };
 		6D951C3E16EE753600894B44 /* LeftBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LeftBar.png; sourceTree = "<group>"; };
 		6D951C4016EE767B00894B44 /* BottomBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBar.png; sourceTree = "<group>"; };
 		96378D761472C71100F543EA /* Hockedu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hockedu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -322,6 +338,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E8C11B916FA31AE003D61E8 /* libTinyXml.a in Frameworks */,
 				969DDF8B1472E05400ED5DC8 /* QuartzCore.framework in Frameworks */,
 				969DDF891472E03500ED5DC8 /* OpenGLES.framework in Frameworks */,
 				4E96DF0416F64C4700588998 /* libBox2D.a in Frameworks */,
@@ -559,11 +576,20 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		4EF2169F16FA2ABE005FB093 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4EF216A316FA2AC0005FB093 /* libTinyXml.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		96378D6B1472C71100F543EA = {
 			isa = PBXGroup;
 			children = (
 				4E93754416FA1E40006A9C39 /* VisitorGatherProperties.cpp */,
 				4E93754516FA1E40006A9C39 /* VisitorGatherProperties.h */,
+				4EF2169E16FA2ABE005FB093 /* TinyXml.xcodeproj */,
 				4EC1626F16F81F8000577704 /* RunnableBreaker.h */,
 				4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */,
 				4EC1626D16F81A8C00577704 /* BonusModifierBlockGoal.h */,
@@ -697,6 +723,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				4EF216B616FA2CAF005FB093 /* PBXTargetDependency */,
 				4E96DF0216F641E600588998 /* PBXTargetDependency */,
 			);
 			name = Hockedu;
@@ -727,6 +754,10 @@
 					ProductGroup = 4E96DC6316F63D1D00588998 /* Products */;
 					ProjectRef = 4E96DC6216F63D1D00588998 /* Box2D.xcodeproj */;
 				},
+				{
+					ProductGroup = 4EF2169F16FA2ABE005FB093 /* Products */;
+					ProjectRef = 4EF2169E16FA2ABE005FB093 /* TinyXml.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -741,6 +772,13 @@
 			fileType = archive.ar;
 			path = libBox2D.a;
 			remoteRef = 4E96DC6616F63D2100588998 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4EF216A316FA2AC0005FB093 /* libTinyXml.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libTinyXml.a;
+			remoteRef = 4EF216A216FA2AC0005FB093 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -865,6 +903,11 @@
 			name = Box2D;
 			targetProxy = 4E96DF0116F641E600588998 /* PBXContainerItemProxy */;
 		};
+		4EF216B616FA2CAF005FB093 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TinyXml;
+			targetProxy = 4EF216B516FA2CAF005FB093 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -940,7 +983,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AppDemo/Hockedu-Prefix.pch";
 				GCC_VERSION = "";
-				"HEADER_SEARCH_PATHS[arch=*]" = "../../../Commun/Externe/**";
+				"HEADER_SEARCH_PATHS[arch=*]" = ../../../Commun/Externe/;
 				INFOPLIST_FILE = "AppDemo/Hockedu-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (

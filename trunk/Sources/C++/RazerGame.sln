@@ -35,6 +35,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mysqlpp", "..\..\Commun\Ext
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ObjC", "..\ObjC\ObjC.vcxproj", "{71A6DF31-5425-429D-AA60-E18EE4F6E757}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dummy", "Dummy\Dummy.vcxproj", "{05374C38-58BC-4E45-BD22-DBF455467628}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -89,6 +91,9 @@ Global
 		{71A6DF31-5425-429D-AA60-E18EE4F6E757}.Debug|x64.ActiveCfg = Debug|Win32
 		{71A6DF31-5425-429D-AA60-E18EE4F6E757}.Release|x64.ActiveCfg = Debug|Win32
 		{71A6DF31-5425-429D-AA60-E18EE4F6E757}.WithJava|x64.ActiveCfg = Debug|Win32
+		{05374C38-58BC-4E45-BD22-DBF455467628}.Debug|x64.ActiveCfg = Debug|Win32
+		{05374C38-58BC-4E45-BD22-DBF455467628}.Release|x64.ActiveCfg = Release|Win32
+		{05374C38-58BC-4E45-BD22-DBF455467628}.WithJava|x64.ActiveCfg = Debug|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

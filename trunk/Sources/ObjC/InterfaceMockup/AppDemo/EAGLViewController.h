@@ -46,6 +46,7 @@ extern int const HAUTEUR_FENETRE;
 
 
 - (IBAction)selectionModeButtonTouched:(UIButton *)sender;
+- (IBAction)saveAndExitButtonTouched:(UIButton *)sender;
 - (void)startAnimation;
 - (void)stopAnimation;
 - (void)setupView;

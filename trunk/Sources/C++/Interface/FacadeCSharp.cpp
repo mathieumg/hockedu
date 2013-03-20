@@ -11,8 +11,8 @@
 #include "..\Reseau\UsinePaquets\UsinePaquetGameCreation.h"
 #include "..\reseau\Paquets\PaquetGameConnection.h"
 #include "..\reseau\UsinePaquets\UsinePaquetGameConnection.h"
+#include "..\reseau\UsinePaquets\UsinePaquetRondelle.h"
 #include "VisitorGatherProperties.h"
-
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -76,6 +76,7 @@ void InitDLL()
     wGestionnaireReseau->ajouterOperationReseau(MAILLET, new PacketHandlerMaillet, new UsinePaquetMaillet);
     wGestionnaireReseau->ajouterOperationReseau(GAME_CREATION_REQUEST, new PacketHandlerGameCreation, new UsinePaquetGameCreation);
     wGestionnaireReseau->ajouterOperationReseau(GAME_CONNECTION, new PacketHandlerGameConnection, new UsinePaquetGameConnection);
+    wGestionnaireReseau->ajouterOperationReseau(RONDELLE, new PacketHandlerRondelle, new UsinePaquetRondelle);
 
 }
 
@@ -96,6 +97,9 @@ void RequestLogin( char* pUsername, char* pPassword, char* pIpAdress )
     GestionnaireReseauClientLourd::obtenirInstance();
     GestionnaireReseau::obtenirInstance()->setUser(pUsername, pPassword);
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("MasterServer",pIpAdress,TCP);
+#if MAT_DEBUG_
+    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer",pIpAdress,TCP);
+#endif
 }
 
 void SendMessageDLL(char * pConnectionId, char* pUsername, char * pMessage)
@@ -412,7 +416,7 @@ void initNetwork( ControllerInterface* pController )
 void connectServerGame( char* pServerIP )
 {
     // Temporary
-    GestionnaireReseau::obtenirInstance()->setUser("bob", "");
+    GestionnaireReseau::obtenirInstance()->setUser("bob2", "");
 
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer", pServerIP, TCP);
 

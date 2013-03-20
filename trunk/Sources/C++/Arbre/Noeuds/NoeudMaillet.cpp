@@ -688,7 +688,12 @@ void NoeudMaillet::playTick(float temps)
         }
         else
         {
-            direction = joueur_->obtenirDirectionAI(this);
+            if(joueur_->obtenirType() == JOUEUR_VIRTUEL)
+            {
+                JoueurVirtuel* wJoueur = (JoueurVirtuel*) joueur_;
+                direction = wJoueur->obtenirDirectionAI(this);
+            }
+            
         }
 
         direction.normaliser();

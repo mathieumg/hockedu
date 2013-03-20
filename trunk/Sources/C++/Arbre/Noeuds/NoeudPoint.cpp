@@ -318,7 +318,6 @@ bool NoeudPoint::initFromXml( const XmlElement* element )
     if( !XmlReadNodePosition(pos,element) )
         throw ExceptionJeu("%s: Error reading node's position", mType.c_str());
     setPosition(pos);
-
     int intElem;
     if(!XMLUtils::readAttribute(element,"typePosNoeud",intElem))
         throw ExceptionJeu("Error reading attribute typePosNoeud");

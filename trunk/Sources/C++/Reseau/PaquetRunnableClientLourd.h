@@ -11,6 +11,7 @@ namespace PaquetRunnable
 
     int RunnableRondelleClient(Paquet* pPaquet);
 
+    int RunnableGameConnectionClient(Paquet* pPaquet);
 
 
 };

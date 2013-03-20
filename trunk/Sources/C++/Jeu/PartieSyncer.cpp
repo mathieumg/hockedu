@@ -27,6 +27,29 @@ PartieSyncer::PartieSyncer( int pGameId, clock_t pFrequencyPerSec, SPJoueurAbstr
     mInterval = 1000/pFrequencyPerSec; // Arrondi au ms pres
     setPlayers(pPlayer1, pPlayer2);
     mGameId = pGameId;
+
+    if(GestionnaireReseau::obtenirInstance()->getPlayerName() == "GameServer")
+    {
+        // Game server, on doit envoyer le paquet aux 2 joueurs
+        if(pPlayer1)
+        {
+            if(pPlayer1->obtenirNom().length() != 0)
+            {
+                addDestinationIdentifier(pPlayer1->obtenirNom());
+            }
+
+            if(pPlayer2->obtenirNom().length() != 0)
+            {
+                addDestinationIdentifier(pPlayer2->obtenirNom());
+            }
+        }
+
+    }
+    else
+    {
+        // Client, on doit envoyer le paquet au GameServer uniquement
+        addDestinationIdentifier("GameServer");
+    }
 }
 
 PartieSyncer::~PartieSyncer( void )
@@ -103,7 +126,7 @@ void PartieSyncer::tick()
                 wPaquet->setPosition(wPuck->getPosition());
                 wPaquet->setVelocite(wPuck->obtenirVelocite());
                 wPaquet->setVitesseRotation(wPuck->obtenirVitesseRotation());
-
+                
                 wPaquet->setNbAssociatedQueries(mDestinationIdentifiers.size());
                 for(auto it=mDestinationIdentifiers.begin(); it!=mDestinationIdentifiers.end(); ++it)
                 {
@@ -126,13 +149,49 @@ void PartieSyncer::setPlayers( SPJoueurAbstrait pPlayer1, SPJoueurAbstrait pPlay
     if(pPlayer1 && pPlayer1->obtenirType() != JOUEUR_NETWORK)
     {
         // Trouve
+        // On le retire de la liste des destinationIdentifiers pour eviter a tout prix d'envoyer plusieurs fois le meme paquet
+        if(mPlayer1)
+        {
+            for(auto it = mDestinationIdentifiers.begin(); it!=mDestinationIdentifiers.end(); ++it)
+            {
+                if((*it) == mPlayer1->obtenirNom())
+                {
+                    mDestinationIdentifiers.erase(it);
+                    break;
+                }
+            }
+        }
+
+
         mPlayer1 = pPlayer1;
+        if(GestionnaireReseau::obtenirInstance()->getPlayerName() == "GameServer")
+        {
+            addDestinationIdentifier(pPlayer1->obtenirNom());
+        }
+
     }
 
     if(pPlayer2 && pPlayer2->obtenirType() != JOUEUR_NETWORK)
     {
         // Trouve
+
+        if(mPlayer2)
+        {
+            for(auto it = mDestinationIdentifiers.begin(); it!=mDestinationIdentifiers.end(); ++it)
+            {
+                if((*it) == mPlayer2->obtenirNom())
+                {
+                    mDestinationIdentifiers.erase(it);
+                    break;
+                }
+            }
+        }
+
         mPlayer2 = pPlayer2;
+        if(GestionnaireReseau::obtenirInstance()->getPlayerName() == "GameServer")
+        {
+            addDestinationIdentifier(pPlayer2->obtenirNom());
+        }
     }
 
 

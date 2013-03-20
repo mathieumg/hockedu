@@ -39,6 +39,8 @@ GameManager::GameManager()
 {
 	mMaximumGameCount = 100000; // Simule pas de limite
 	mAdversaire = 0;
+    // Ne pas mettre a 0, trop dangereux
+    GameManager::uniqueIdCount = 1;// = rand() % INT_MAX/2;
 }
 
 
@@ -85,7 +87,7 @@ int GameManager::addNewGame(SPJoueurAbstrait pJoueur1 /*= 0*/, SPJoueurAbstrait 
 {
 	Partie* wGame;
     int wId = pGameId;
-    if(pGameId = -1)
+    if(pGameId == -1)
     {
         wId = GameManager::getNewUniqueGameId();
     }
@@ -230,7 +232,7 @@ Partie* GameManager::getGame( int pGameId )
     auto it = mListePartiesParId.find(pGameId);
     if(it!=mListePartiesParId.end())
     {
-        return (*it).second;
+        return it->second;
     }
     else
     {

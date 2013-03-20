@@ -73,9 +73,7 @@ public:
 	/// Libère la mémoire du terrain et le retourne à son état de base
 	void libererMemoire();
 
-	/// Permet d'initialiser le terrain avec ces éléments de bases pour le terrain
-	/// Permet de reintialiser en meme temps
-	void initialiser(std::string nom);
+	
 
 	/// Permet d'initialiser le terrain avec ces éléments a partir d'un noeud XML
 	bool initialiserXml( XmlElement* element );
@@ -172,6 +170,10 @@ private:
     /// mode Jeu => check table, rondelle, maillets
     void initNecessaryPointersForGame();
 
+    /// Permet d'initialiser le terrain avec ces éléments de bases pour le terrain
+    /// Permet de reintialiser en meme temps
+    void initialiser(std::string nom);
+
 	/// Fields
 private:
 	/// Le nom du terrain est en fait le chemin pour la sauvegarde en XML
@@ -209,6 +211,9 @@ private:
 
     std::set<NoeudAbstrait*> mSelectedNodes;
 
+    // Terrain initialized
+    bool mIsInit;
+    
 /// Accesseurs
 public:
     /// Accessors of mZamboni
@@ -238,7 +243,7 @@ public:
     inline class b2World* GetWorld() {return mWorld;}
 
 #endif
-
+    inline bool isInit() const { return mIsInit; }
 public:
 
 };

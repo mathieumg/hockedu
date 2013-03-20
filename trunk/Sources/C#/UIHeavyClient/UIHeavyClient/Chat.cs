@@ -167,7 +167,7 @@ namespace UIHeavyClient
         // Callback to received event messages from C++
         // declare the callback prototype
         // 
-        public static bool SetupLoginCallBackEvents(LoginWindow pLoginWindow)
+        public static bool SetupLoginCallBackEvents(LoginControl pLoginWindow)
         {
             mLoginWindow = pLoginWindow;
             if (mLoginWindow != null)
@@ -177,7 +177,7 @@ namespace UIHeavyClient
             }
             return false;
         }
-        static LoginWindow mLoginWindow = null;
+        static LoginControl mLoginWindow = null;
         static bool LoginWindowEventReceived(int id, IntPtr pMessage)
         {
             if (mLoginWindow != null && id >= 0 && (int)EventCodes.NB_EVENT_CODES > id)
