@@ -10,6 +10,7 @@
 #include "Terrain.h"
 #include "VisiteurSelection.h"
 #include "NoeudAbstrait.h"
+#include "AFJSONRequestOperation.h"
 //#include <Box2D/Box2D.h>
 
 @implementation Model
@@ -77,6 +78,15 @@
     RazerGameUtilities::SaveFieldToFile(targetPath, *((Terrain*)mField));
     ((Terrain*)mField)->libererMemoire();
     RazerGameUtilities::LoadFieldFromFile(targetPath, *((Terrain*)mField));
+    
+    NSURL *url = [NSURL URLWithString:@"http://httpbin.org/ip"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        NSLog(@"IP Address: %@", [JSON valueForKeyPath:@"origin"]);
+    } failure:nil];
+    
+    [operation start];
     
 }
 

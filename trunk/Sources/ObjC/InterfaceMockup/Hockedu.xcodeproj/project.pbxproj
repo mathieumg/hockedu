@@ -73,6 +73,7 @@
 		0C04E1FF16DEA0AC002B0EE2 /* EvenementSouris.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C04E1FD16DEA0AB002B0EE2 /* EvenementSouris.cpp */; };
 		0C49614216E7F37F00D13713 /* ExceptionJeu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C49614016E7F37F00D13713 /* ExceptionJeu.cpp */; };
 		0C49614616E80AC600D13713 /* UsineNoeud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C49614516E80AC600D13713 /* UsineNoeud.cpp */; };
+		4E058F2E16FA5D0800A68C40 /* libAFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E058F0D16FA5C2B00A68C40 /* libAFNetworking.a */; };
 		4E2A595716F2E48C002160AE /* BonusModifierAbstract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595316F2E48C002160AE /* BonusModifierAbstract.cpp */; };
 		4E2A595816F2E48C002160AE /* BonusModifierGoThorughWall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595516F2E48C002160AE /* BonusModifierGoThorughWall.cpp */; };
 		4E2A595D16F2E558002160AE /* NodeBonus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595916F2E558002160AE /* NodeBonus.cpp */; };
@@ -110,6 +111,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4E058F0C16FA5C2B00A68C40 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4E058F0816FA5C2A00A68C40 /* AFNetworking.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4E058EF716FA5C2A00A68C40;
+			remoteInfo = AFNetworking;
+		};
+		4E058F2C16FA5CFD00A68C40 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4E058F0816FA5C2A00A68C40 /* AFNetworking.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 4E058EF616FA5C2A00A68C40;
+			remoteInfo = AFNetworking;
+		};
 		4E96DC6616F63D2100588998 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4E96DC6216F63D1D00588998 /* Box2D.xcodeproj */;
@@ -271,6 +286,7 @@
 		0C49614016E7F37F00D13713 /* ExceptionJeu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ExceptionJeu.cpp; path = ../../../Commun/Utilitaire/ExceptionJeu.cpp; sourceTree = "<group>"; };
 		0C49614116E7F37F00D13713 /* ExceptionJeu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExceptionJeu.h; path = ../../../Commun/Utilitaire/ExceptionJeu.h; sourceTree = "<group>"; };
 		0C49614516E80AC600D13713 /* UsineNoeud.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UsineNoeud.cpp; path = "../../C++/Arbre/Usines/UsineNoeud.cpp"; sourceTree = "<group>"; };
+		4E058F0816FA5C2A00A68C40 /* AFNetworking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AFNetworking.xcodeproj; path = AFNetworking/AFNetworking.xcodeproj; sourceTree = "<group>"; };
 		4E2A595116F2E455002160AE /* Flags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Flags.h; path = ../../../Commun/Utilitaire/Flags.h; sourceTree = "<group>"; };
 		4E2A595316F2E48C002160AE /* BonusModifierAbstract.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierAbstract.cpp; sourceTree = "<group>"; };
 		4E2A595416F2E48C002160AE /* BonusModifierAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusModifierAbstract.h; sourceTree = "<group>"; };
@@ -335,6 +351,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E058F2E16FA5D0800A68C40 /* libAFNetworking.a in Frameworks */,
 				4E8C11B916FA31AE003D61E8 /* libTinyXml.a in Frameworks */,
 				969DDF8B1472E05400ED5DC8 /* QuartzCore.framework in Frameworks */,
 				969DDF891472E03500ED5DC8 /* OpenGLES.framework in Frameworks */,
@@ -554,6 +571,14 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		4E058F0916FA5C2A00A68C40 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4E058F0D16FA5C2B00A68C40 /* libAFNetworking.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		4E2A595216F2E48C002160AE /* Bonus */ = {
 			isa = PBXGroup;
 			children = (
@@ -584,6 +609,7 @@
 		96378D6B1472C71100F543EA = {
 			isa = PBXGroup;
 			children = (
+				4E058F0816FA5C2A00A68C40 /* AFNetworking.xcodeproj */,
 				4EF2169E16FA2ABE005FB093 /* TinyXml.xcodeproj */,
 				4EC1626F16F81F8000577704 /* RunnableBreaker.h */,
 				4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */,
@@ -718,6 +744,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				4E058F2D16FA5CFD00A68C40 /* PBXTargetDependency */,
 				4EF216B616FA2CAF005FB093 /* PBXTargetDependency */,
 				4E96DF0216F641E600588998 /* PBXTargetDependency */,
 			);
@@ -746,6 +773,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 4E058F0916FA5C2A00A68C40 /* Products */;
+					ProjectRef = 4E058F0816FA5C2A00A68C40 /* AFNetworking.xcodeproj */;
+				},
+				{
 					ProductGroup = 4E96DC6316F63D1D00588998 /* Products */;
 					ProjectRef = 4E96DC6216F63D1D00588998 /* Box2D.xcodeproj */;
 				},
@@ -762,6 +793,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		4E058F0D16FA5C2B00A68C40 /* libAFNetworking.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAFNetworking.a;
+			remoteRef = 4E058F0C16FA5C2B00A68C40 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		4E96DC6716F63D2100588998 /* libBox2D.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -892,6 +930,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4E058F2D16FA5CFD00A68C40 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AFNetworking;
+			targetProxy = 4E058F2C16FA5CFD00A68C40 /* PBXContainerItemProxy */;
+		};
 		4E96DF0216F641E600588998 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Box2D;
@@ -974,10 +1017,14 @@
 		96378D921472C71200F543EA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AppDemo/Hockedu-Prefix.pch";
 				GCC_VERSION = "";
-				"HEADER_SEARCH_PATHS[arch=*]" = ../../../Commun/Externe/;
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					../../../Commun/Externe/,
+					AFNetworking/AFNetworking/,
+				);
 				INFOPLIST_FILE = "AppDemo/Hockedu-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -985,7 +1032,7 @@
 					"\"$(SRCROOT)/../../../Commun/Externe/Box2D/Libs\"",
 				);
 				PRODUCT_NAME = Hockedu;
-				"USER_HEADER_SEARCH_PATHS[arch=*]" = "../../../Commun/Externe/**";
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "../../../Commun/Externe/** AFNetworking/AFNetworking/";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -993,6 +1040,7 @@
 		96378D931472C71200F543EA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AppDemo/Hockedu-Prefix.pch";
 				GCC_VERSION = "";
