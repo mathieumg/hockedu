@@ -23,6 +23,7 @@
 #include "SourisEtatAbstrait.h"
 #include "GestionnaireEtatAbstrait.h"
 #include "GestionnaireAnimations.h"
+#include "HUDBonus.h"
 
 // Déclarations de base pour le singleton
 SINGLETON_DECLARATION_CPP(GestionnaireHUD);
@@ -38,9 +39,11 @@ SINGLETON_DECLARATION_CPP(GestionnaireHUD);
 ////////////////////////////////////////////////////////////////////////
 GestionnaireHUD::GestionnaireHUD()
 {
+    HUDBonus::initSurfaces();
     creerHUDJeu();
     creerHUDTournoi();
     //creerHUDEdition();
+
 
     GestionnaireModeles::obtenirInstance()->obtenirListe("pause",listePause_);
 }
@@ -56,6 +59,8 @@ GestionnaireHUD::GestionnaireHUD()
 ////////////////////////////////////////////////////////////////////////
 GestionnaireHUD::~GestionnaireHUD()
 {
+    HUDBonus::clearSurfaces();
+
     racineJeu_->vider();
     delete racineJeu_;
     //racineEdition_->vider();
@@ -284,6 +289,12 @@ void GestionnaireHUD::creerHUDJeu()
 
     panneauScores->add(surfaceJoueurGauche);
 
+    /// Bonus HUD left player
+    mLeftPlayerBonuses = new HUDBonus();
+    mLeftPlayerBonuses->modifierPosition(0,1);
+    mLeftPlayerBonuses->modifierTaille(0.5,1);
+    panneauScores->add(mLeftPlayerBonuses);
+
     // Surface pour le joueur de droite
     listeDesVertexes01=new ConteneurVertex2D;
     listeDesVertexes01->push_back(Vecteur2f(0.0f,1.0f));
@@ -308,10 +319,16 @@ void GestionnaireHUD::creerHUDJeu()
 
     panneauScores->add(surfaceJoueurDroit);
 
+    /// Bonus HUD right player
+    mRightPlayerBonuses = new HUDBonus();
+    mRightPlayerBonuses->modifierPosition(0.7f,1);
+    mRightPlayerBonuses->modifierTaille(0.3f,0.1);
+    panneauScores->add(mRightPlayerBonuses);
+
     // Symbole au milieu.
     listeDesVertexes01 = new ConteneurVertex2D;
     listeDesVertexes01->push_back(Vecteur2f(0.5f, 0.5f));
-    for(int i=360;i>=0;--i)
+    for(int i=360;i>=0;i-=36)
         listeDesVertexes01->push_back(Vecteur2f((float)(0.5f+0.5f*cos(utilitaire::DEG_TO_RAD((float)i))),(float)(0.5f+0.5f*sin(utilitaire::DEG_TO_RAD((float)i)))));
     HUDSurfaceGL *cercleDuCentre = new HUDSurfaceGL(GL_TRIANGLE_FAN, listeDesVertexes01,Vecteur4f(1.0f,1.0f,1.0f,1.0f));
     cercleDuCentre->modifierPosition(0.47f,0.0f);
@@ -406,7 +423,7 @@ void GestionnaireHUD::dessinerHUDJeu()
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
-    gluOrtho2D(0,1,1,0);
+    gluOrtho2D(-mDeltaXOrtho,1+mDeltaXOrtho,1,0);
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glLoadIdentity();

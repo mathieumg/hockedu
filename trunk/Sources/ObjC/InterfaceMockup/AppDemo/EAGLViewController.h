@@ -36,6 +36,8 @@ extern int const HAUTEUR_FENETRE;
     float translationX;
     float translationY;
     float zoomFactor;
+    CGPoint firstCorner;
+    BOOL touchMoved;
 }
 
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;

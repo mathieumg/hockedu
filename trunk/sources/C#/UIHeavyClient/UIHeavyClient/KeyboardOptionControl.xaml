@@ -25,10 +25,18 @@
                 <ListBox Margin="12" Name="mCurrentAIList" Background="Black" Foreground="White"  />
             </Grid>
         </GroupBox>
-        <GroupBox Grid.Column="2" Grid.Row="1" Header="Action Edition" Margin="21,88,12,108" Name="mCurrentEditGroupBox" Foreground="White">
+        <GroupBox Grid.Column="2" Grid.Row="1" Header="Keyboard Edition" Margin="21,41,12,71" Name="mCurrentEditGroupBox" Foreground="White">
             <Grid Height="Auto">
 
-                <Button Content="Save" Margin="12,0,0,12" Name="mSaveButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" HorizontalAlignment="Left" Width="62" Height="32" VerticalAlignment="Bottom" />
+                <Button Content="Save" Margin="12,0,0,12" Name="mSaveButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" HorizontalAlignment="Left" Width="62" Height="32" VerticalAlignment="Bottom" Click="mSaveButton_Click" />
+                <Label Content="Up : " Height="28" HorizontalAlignment="Left" Margin="6,6,0,0" Name="mUpKeyLabel" VerticalAlignment="Top" Foreground="White" />
+                <Label Content="Down : " Height="28" HorizontalAlignment="Left" Margin="6,32,0,0" Name="mDownKeyLabel" VerticalAlignment="Top" Foreground="White" />
+                <Label Content="Left : " Height="28" HorizontalAlignment="Left" Margin="12,66,0,0" Name="mLeftKeyLabel" VerticalAlignment="Top" Foreground="White" />
+                <Label Content="Right : " Height="28" HorizontalAlignment="Left" Margin="12,100,0,0" Name="mRightKeyLabel" VerticalAlignment="Top" Foreground="White" />
+                <TextBox Height="19" HorizontalAlignment="Left" Margin="46,8,0,0" Name="mUpKeyTextBox" VerticalAlignment="Top" Width="62" Background="Black" Foreground="White" KeyDown="UpKeyInput" />
+                <TextBox Background="Black" Foreground="White" Height="19" HorizontalAlignment="Left" Margin="65,34,0,0" Name="mDownKeyTextBox" VerticalAlignment="Top" Width="62" KeyDown="DownKeyInput" />
+                <TextBox Background="Black" Foreground="White" Height="19" HorizontalAlignment="Left" Margin="65,68,0,0" Name="mLeftKeyTextBox" VerticalAlignment="Top" Width="62" KeyDown="LeftKeyInput" />
+                <TextBox Background="Black" Foreground="White" Height="19" HorizontalAlignment="Left" Margin="65,100,0,0" Name="mRightKeyTextBox" VerticalAlignment="Top" Width="62" KeyDown="RightKeyInput" />
             </Grid>
         </GroupBox>
     </Grid>

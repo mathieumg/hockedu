@@ -50,6 +50,10 @@ namespace UIHeavyClient
 #else
             mUnitTestButton.Visibility = Visibility.Hidden;
 #endif
+
+            mOpenFileDialog = new OpenFileDialog();
+            mOpenFileDialog.Multiselect = false;
+            mOpenFileDialog.Title = "Choose a map";
         }
 
         // C++ function
@@ -70,6 +74,7 @@ namespace UIHeavyClient
         private void quickPlayButton_Click(object sender, RoutedEventArgs e)
         {
             mQuickPlayGroupBox.Visibility = Visibility.Visible;
+            mOnlineGroupBox.Visibility = Visibility.Hidden;
             DisplayProfileNames();
         }
 
@@ -85,7 +90,9 @@ namespace UIHeavyClient
 
         private void onlineModeButton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindowHandler.GoToOnlineLobby();
+            mOnlineGroupBox.Visibility = Visibility.Visible;
+            mQuickPlayGroupBox.Visibility = Visibility.Hidden;
+            MainWindowHandler.LoginUI.SetFocusToUserName();
         }
 
         private void optionButton_Click(object sender, RoutedEventArgs e)
@@ -106,9 +113,8 @@ namespace UIHeavyClient
         public void InitOperations()
         {
             mQuickPlayGroupBox.Visibility = Visibility.Hidden;
-            mOpenFileDialog = new OpenFileDialog();
-            mOpenFileDialog.Multiselect = false;
-            mOpenFileDialog.Title = "Choose a map";
+            mOnlineGroupBox.Visibility = Visibility.Hidden;
+            mOnlineContentControl.Content = MainWindowHandler.LoginUI;
         }
 
         private void mQuickPlayCancelButton_Click(object sender, RoutedEventArgs e)
@@ -131,7 +137,7 @@ namespace UIHeavyClient
 
             SetSecondPlayer(isHuman, name);
             MainWindowHandler.LoadPlayingMap(mMapTextBox.Text);
-            MainWindowHandler.GoToPlayMode();
+            MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_JEU);
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)

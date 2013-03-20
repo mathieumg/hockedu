@@ -945,6 +945,7 @@ bool FacadeModele::passageModeEdition()
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageModeSimulation()
 {
+    mEditionField->libererMemoire();
     ClearCurrentGame();
 
     GestionnaireEvenements::modifierEtat(ETAT_MODE_SIMULATION);
@@ -963,6 +964,7 @@ bool FacadeModele::passageModeSimulation()
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageModeTournoi()
 {
+    mEditionField->libererMemoire();
 #ifdef WIN32
     static auto loadingCursor = LoadCursor(NULL,IDC_WAIT);
     auto NormalCursor = GetCursor();
@@ -1028,6 +1030,7 @@ bool FacadeModele::passageModeTournoi()
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageModeJeu()
 {
+    mEditionField->libererMemoire();
 
 // #ifdef WIN32
 //     static auto loadingCursor = LoadCursor(NULL,IDC_WAIT);
@@ -1092,6 +1095,7 @@ bool FacadeModele::passageModeJeu()
 ////////////////////////////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageMenuPrincipal()
 {
+    mEditionField->libererMemoire();
     ClearCurrentGame();
 
     selectionArbre(false);

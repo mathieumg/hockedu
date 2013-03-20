@@ -100,6 +100,8 @@ namespace UIHeavyClient
         public EditionModeControl(WindowsFormsHost pWindowsFormsHost)
         {
             InitializeComponent();
+
+
             mWindowsFormsHost = pWindowsFormsHost;
 
             mGuidanceMessages = new Dictionary<object, string>() 

@@ -59,11 +59,30 @@ private:
 	HUDElement* decompte_;
 	GLuint listePause_;
 
+    class HUDBonus* mLeftPlayerBonuses;
+    class HUDBonus* mRightPlayerBonuses;
+
+
+
+    float mDeltaXOrtho;
+
+
+
+
 /// Accesseurs
 public:
 	HUDElement* obtenirRacine(RacineHUD racine);
-
-
+    /// Accessors of mLeftPlayerBonuses
+    inline class HUDBonus* getLeftPlayerBonuses() const { return mLeftPlayerBonuses; }
+    /// Accessors of mRightPlayerBonuses
+    inline class HUDBonus* getRightPlayerBonuses() const { return mRightPlayerBonuses; }
+    /// Sets the ratio  X/Y of the window to keep hud at correct size
+    inline void setRatio(float windowRatio)
+    {
+        mDeltaXOrtho = 0;//(windowRatio-1.f)/2.f;
+    }
+    /// Accessors of mDeltaXOrtho
+    inline float getDeltaXOrtho() const { return mDeltaXOrtho; }
 };
 
 ///////////////////////////////////////////////////////////////////////////

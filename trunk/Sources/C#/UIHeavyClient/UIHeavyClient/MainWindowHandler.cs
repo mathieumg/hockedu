@@ -27,6 +27,8 @@ namespace UIHeavyClient
         private static OpenFileDialog mOpenFileDialog = new OpenFileDialog();
         private static Microsoft.Win32.SaveFileDialog mSaveFileDialog = new Microsoft.Win32.SaveFileDialog();
 
+        private static LoginControl mLoginControl = new LoginControl();
+
         public static MainWindow Context
         {
             get { return mContext; }
@@ -36,6 +38,10 @@ namespace UIHeavyClient
         {
             get { return mCurrentMap; }
             set { mCurrentMap = value; }
+        }
+        public static LoginControl LoginUI
+        {
+            get { return mLoginControl; }
         }
 
         public static TaskManager mTaskManager = new TaskManager();
@@ -91,14 +97,19 @@ namespace UIHeavyClient
             Context.EditionModeControl.SetGuidanceInstuction("");
         }
 
-        public static void GoToPlayMode()
+        public static void GoToPlayMode(ActionType pAction)
         {
+            if (pAction != ActionType.ACTION_ALLER_MODE_JEU && pAction != ActionType.ACTION_ALLER_MODE_TOURNOI)
+            {
+                return;
+            }
+
             MessageReceivedCallBack messageCallBack = PlayModeControl.mMessageCallback;
             EventReceivedCallBack eventCallBack = null;
             SetMessageCallback(messageCallBack);
             SetEventCallback(eventCallBack);
 
-            if (ActionPerformed(ActionType.ACTION_ALLER_MODE_JEU))
+            if (ActionPerformed(pAction))
             {
                 mCurrentMessageCallback = messageCallBack;
                 mCurrentEventCallBack = eventCallBack;
@@ -150,6 +161,7 @@ namespace UIHeavyClient
         public static void GoToTournamentMenu()
         {
             Context.WindowContentControl.Content = Context.TournamentControl;
+            Context.TournamentControl.DisplayProfileNames();
         }
 
         public static void GoToOnlineLobby()
@@ -179,6 +191,7 @@ namespace UIHeavyClient
         public static void GoToKeyboardOption()
         {
             Context.WindowContentControl.Content = Context.KeyboardOptionControl;
+            Context.KeyboardOptionControl.DisplayPlayerTwoKeys();
         }
 
         public static void LoadMapFromLocal(string pMapName)

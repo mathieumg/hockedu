@@ -103,7 +103,7 @@ CreateListDelegateImplementation(Bonus)
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeBonus::NodeBonus(const std::string& typeNoeud)
-   : Super(typeNoeud),mMinTimeSpawn(10.5f), mMaxTimeSpawn(30.f),mHeightAngle(0)
+   : Super(typeNoeud),mMinTimeSpawn(5.5f), mMaxTimeSpawn(10.f),mHeightAngle(0)
 {
     // temp workaround, l'édition va le considérer comme un cercle pour un moment
     setDefaultRadius(DEFAULT_SIZE[VX]);
@@ -247,18 +247,22 @@ void NodeBonus::ExecuteBonus( class NoeudRondelle* rondelle )
     if(isActive())
     {
         int b = rand()%NB_BONUS_TYPE;
+        b = BONUS_TYPE_BLOCK_GOAL; // testing value
         auto factory = FactoryBonusModifier::getFactory(BonusType(b));
-        auto bonus = factory->createBonus();
-        if(!bonus->Attach(rondelle))
+        if(factory)
         {
-            // the modifier couldn't attach itself on the node so we delete it
-            delete bonus;
-        }
-        else if(!bonus->Apply())
-        {
-            /// the bonus doesn't need more time to execute
-            // so we finish it now
-            bonus->Complete();
+            auto bonus = factory->createBonus();
+            if(!bonus->Attach(rondelle))
+            {
+                // the modifier couldn't attach itself on the node so we delete it
+                delete bonus;
+            }
+            else if(!bonus->Apply())
+            {
+                /// the bonus doesn't need more time to execute
+                // so we finish it now
+                bonus->Complete();
+            }
         }
     }
     // deactivate the bonus, the timer will resume

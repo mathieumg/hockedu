@@ -21,7 +21,8 @@
 #ifndef __APPLE__
 #include "../Reseau/Paquets/PaquetMaillet.h"
 #include "../Reseau/GestionnaireReseau.h"
-
+#include "GestionnaireHUD.h"
+#include "HUDBonus.h"
 #endif
 
 #include "Terrain.h"
@@ -568,7 +569,7 @@ void Terrain::creerTerrainParDefaut(const std::string& nom)
     maillet1->setPosition(mTable->obtenirPoint(POSITION_MILIEU_GAUCHE)->getPosition()/2.0);
     maillet2->setPosition(mTable->obtenirPoint(POSITION_MILIEU_DROITE)->getPosition()/2.0);
     rondelle->setPosition(Vecteur3(0.0,0.0,0.0));
-
+    
     mTable->add(maillet1);
     mTable->add(maillet2);
     mTable->add(rondelle);
@@ -912,9 +913,9 @@ void Terrain::appliquerPhysique( float temps )
         VisiteurFunction tick(PlayTickNode,&temps);
         mLogicTree->acceptVisitor(tick);
 #if BOX2D_INTEGRATED
-        mWorld->SetWarmStarting(true);
+        //mWorld->SetWarmStarting(true);
         mWorld->SetContinuousPhysics(true);
-        mWorld->SetSubStepping(true);
+        //mWorld->SetSubStepping(true);
         mWorld->Step(temps, 8, 8);
 #else
         mLogicTree->positionUpdate(temps);
@@ -1715,6 +1716,15 @@ void Terrain::initNecessaryPointersForGame()
         mRightMallet->modifierPositionOriginale(mRightMallet->getPosition());
         mPuck->validerPropriteteTablePourJeu();
         mPuck->modifierPositionOriginale(mPuck->getPosition());
+
+#if WIN32
+        auto leftBonuses = GestionnaireHUD::obtenirInstance()->getLeftPlayerBonuses();
+        leftBonuses->setModifiers(&mLeftMallet->GetModifiers());
+
+        auto rightBonuses = GestionnaireHUD::obtenirInstance()->getRightPlayerBonuses();
+        rightBonuses->setModifiers(&mRightMallet->GetModifiers());
+#endif
+
     }
 }
 

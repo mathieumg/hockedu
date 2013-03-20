@@ -60,6 +60,8 @@ typedef std::vector<NoeudAbstrait*> ConteneurNoeuds;
 typedef std::set<unsigned int> IdNoeuds;
 /// Conteneur pour les IDs des noeuds pour la selection openGL
 typedef std::map<unsigned int, IdNoeuds> ConteneurIdNoeuds;
+/// Conteneur pour les Bonus des noeuds
+typedef std::set<class BonusModifierAbstract*> ModifiersContainer;
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

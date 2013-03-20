@@ -21,6 +21,7 @@
 const Vecteur3 NoeudBut::DEFAULT_SIZE = Vecteur3(30, 10, 5);
 #if WIN32
 #include "GestionnaireModeles.h"
+#include "BonusModifierAbstract.h"
 #endif
 CreateListDelegateImplementation(Goal)
 {
@@ -110,6 +111,27 @@ void NoeudBut::renderReal() const
 
         Vecteur3 posBas = mBottomPosition - positionPoint;
         Vecteur3 posHaut = mTopPosition - positionPoint;
+
+#if WIN32
+        float translateX = 0;
+        if(joueur_ == 1)
+        {
+            translateX = utilitaire::borneSuperieure(posBas[VX],posHaut[VX]);
+        }
+        else
+        {
+            translateX = utilitaire::borneInferieure(posBas[VX],posHaut[VX]);
+        }
+        glPushMatrix();
+        glTranslatef(translateX,0,0);
+        // Renders all the modifiers present on the node
+        for(auto it = mModifiers.begin(); it != mModifiers.end(); ++it)
+        {
+            (*it)->render();
+        }
+
+        glPopMatrix();
+#endif
 
         // Dessin de la partie ajustable en bas
         glPushMatrix();
@@ -527,14 +549,14 @@ void NoeudBut::updatePuckCatcher( float puckRadius )
         myFixtureDef.filter.maskBits = CATEGORY_PUCK;
         myFixtureDef.filter.groupIndex = 0;
 
-        shape.Set(topPosB2,topPosShiftedB2);
-        mPuckCatcher->CreateFixture(&myFixtureDef); //add a fixture to the body
+//         shape.Set(topPosB2,topPosShiftedB2);
+//         mPuckCatcher->CreateFixture(&myFixtureDef); //add a fixture to the body
         shape.Set(topPosShiftedB2,anchorPointPosShiftedB2);
         mPuckCatcher->CreateFixture(&myFixtureDef); //add a fixture to the body
         shape.Set(anchorPointPosShiftedB2,bottomPosShiftedB2);
         mPuckCatcher->CreateFixture(&myFixtureDef); //add a fixture to the body
-        shape.Set(bottomPosShiftedB2,bottomPosB2);
-        mPuckCatcher->CreateFixture(&myFixtureDef); //add a fixture to the body
+//         shape.Set(bottomPosShiftedB2,bottomPosB2);
+//         mPuckCatcher->CreateFixture(&myFixtureDef); //add a fixture to the body
 
         mPuckCatcher->SetUserData(this);
 

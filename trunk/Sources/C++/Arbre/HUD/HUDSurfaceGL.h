@@ -32,6 +32,8 @@ public:
 	ConteneurVertex2D* obtenirVertexes();
 	/// Assignation d'une texture
 	void assignerTexture(std::string &nomTexture);
+    /// Accessors of texture
+    inline void setTexture(const unsigned int& pVal) { texture = pVal; }
 protected:
 	/// Appliquer la couleur
 	virtual void peindreElement();
@@ -42,7 +44,10 @@ private:
 	int typeSurface_;
 	/// La texture à appliquer
 	unsigned int texture;
-	/// La couleur à appliquer
+
+
+
+    /// La couleur à appliquer
 	Vecteur4f couleur_;
 };
 
