@@ -213,6 +213,13 @@ enum {
     }
 }
 
+-(void) saveAndExitButtonTouched:(UIButton *)sender
+{
+    // On sauvegarde la map
+    [mModel saveField];
+    
+}
+
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     touchMoved = false;
@@ -357,16 +364,17 @@ enum {
             if(nbNoeudsSelectionnes==1)
             {
                 // Si on a un seul noeud selectionne, on ouvre un popovercontroller contenant les proprietes modifiables du noeud
-                UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
                 
-                UITabBarController *tabController = [[UITabBarController alloc] init];
+                //UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
                 
-                UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tableController];
+                //UITabBarController *tabController = [[UITabBarController alloc] init];
                 
-                UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:navController];
+                //UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tableController];
+                
+                //UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:navController];
                 //navController.tabBarController = tabController;
 
-                [popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+                //[popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
                 
             }
         }

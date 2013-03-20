@@ -56,6 +56,8 @@ public:
 	virtual void visiterNoeudPoint( NoeudPoint* noeud );
 	/// Visitation d'un noeud accélérateur
 	virtual void visiterNoeudAccelerateur( NoeudAccelerateur* noeud );
+    virtual void visiterNodeControlPoint( NodeControlPoint* noeud );
+    virtual void visiterNodeBonus( class NodeBonus* noeud );
 	/// Algortihme de selection des noeuds
 	void visiterNoeudAffichable( NoeudAbstrait* noeud );
 

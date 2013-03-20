@@ -56,7 +56,6 @@
 										<string key="NSFrameSize">{194, 768}</string>
 										<reference key="NSSuperview" ref="1031136972"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -82,7 +81,7 @@
 										<double key="IBUIContentEdgeInsets.left">0.0</double>
 										<double key="IBUIContentEdgeInsets.right">0.0</double>
 										<string key="IBUINormalTitle">Selection Mode : OFF</string>
-										<object class="NSColor" key="IBUIHighlightedTitleColor">
+										<object class="NSColor" key="IBUIHighlightedTitleColor" id="631714026">
 											<int key="NSColorSpace">3</int>
 											<bytes key="NSWhite">MQA</bytes>
 										</object>
@@ -90,7 +89,7 @@
 											<int key="NSColorSpace">2</int>
 											<bytes key="NSRGB">MC4xMjU0OTAyMDM1IDAuNDIzNTI5NDQ2MSAwLjkwNTg4MjQxODIAA</bytes>
 										</object>
-										<object class="NSColor" key="IBUINormalTitleShadowColor">
+										<object class="NSColor" key="IBUINormalTitleShadowColor" id="721629208">
 											<int key="NSColorSpace">3</int>
 											<bytes key="NSWhite">MC41AA</bytes>
 										</object>
@@ -101,6 +100,35 @@
 										<object class="NSFont" key="IBUIFont">
 											<string key="NSName">Helvetica-Bold</string>
 											<double key="NSSize">14</double>
+											<int key="NSfFlags">16</int>
+										</object>
+									</object>
+									<object class="IBUIButton" id="623130732">
+										<reference key="NSNextResponder" ref="1031136972"/>
+										<int key="NSvFlags">292</int>
+										<string key="NSFrame">{{16, 597}, {158, 96}}</string>
+										<reference key="NSSuperview" ref="1031136972"/>
+										<reference key="NSWindow"/>
+										<string key="NSReuseIdentifierKey">_NS:9</string>
+										<bool key="IBUIOpaque">NO</bool>
+										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+										<int key="IBUIContentHorizontalAlignment">0</int>
+										<int key="IBUIContentVerticalAlignment">0</int>
+										<int key="IBUIButtonType">1</int>
+										<string key="IBUINormalTitle">Save &amp; Exit</string>
+										<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
+										<object class="NSColor" key="IBUINormalTitleColor">
+											<int key="NSColorSpace">2</int>
+											<bytes key="NSRGB">MC4xMjU0OTAyMDM1IDAuNDIzNTI5NDQ2MSAwLjkwNTg4MjQxODIAA</bytes>
+										</object>
+										<reference key="IBUINormalTitleShadowColor" ref="721629208"/>
+										<object class="IBUIFontDescription" key="IBUIFontDescription">
+											<int key="type">2</int>
+											<double key="pointSize">15</double>
+										</object>
+										<object class="NSFont" key="IBUIFont">
+											<string key="NSName">Helvetica-Bold</string>
+											<double key="NSSize">15</double>
 											<int key="NSfFlags">16</int>
 										</object>
 									</object>
@@ -242,6 +270,15 @@
 					</object>
 					<int key="connectionID">43</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">saveAndExitButtonTouched:</string>
+						<reference key="source" ref="623130732"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">45</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -291,6 +328,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="580090840"/>
 							<reference ref="644876442"/>
+							<reference ref="623130732"/>
 						</object>
 						<reference key="parent" ref="8160408"/>
 						<string key="objectName">SideBarView</string>
@@ -320,6 +358,11 @@
 						<reference key="object" ref="644876442"/>
 						<reference key="parent" ref="1031136972"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">44</int>
+						<reference key="object" ref="623130732"/>
+						<reference key="parent" ref="1031136972"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -339,6 +382,7 @@
 					<string>41.IBPluginDependency</string>
 					<string>41.IBUIButtonInspectorSelectedEdgeInsetMetadataKey</string>
 					<string>41.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
+					<string>44.IBPluginDependency</string>
 				</object>
 				<object class="NSArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -355,6 +399,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="0.0"/>
 					<real value="0.0"/>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -369,7 +414,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">43</int>
+			<int key="maxID">45</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -378,14 +423,35 @@
 					<string key="className">EAGLViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">selectionModeButtonTouched:</string>
-						<string key="NS.object.0">UIButton</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>saveAndExitButtonTouched:</string>
+							<string>selectionModeButtonTouched:</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIButton</string>
+							<string>UIButton</string>
+						</object>
 					</object>
 					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">selectionModeButtonTouched:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">selectionModeButtonTouched:</string>
-							<string key="candidateClassName">UIButton</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>saveAndExitButtonTouched:</string>
+							<string>selectionModeButtonTouched:</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">saveAndExitButtonTouched:</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">selectionModeButtonTouched:</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">

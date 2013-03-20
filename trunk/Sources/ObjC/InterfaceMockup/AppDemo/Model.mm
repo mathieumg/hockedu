@@ -14,6 +14,7 @@
 
 @implementation Model
 
+
 - (void)render
 {
     ((Terrain*)mField)->renderField();
@@ -40,6 +41,42 @@
     ConteneurNoeuds *selectedNodes = new ConteneurNoeuds;
     ((Terrain*)mField)->getSelectedNodes(*selectedNodes);
     return selectedNodes->size();
+    
+}
+
+-(void) saveField
+{
+    NSError* error;
+
+    
+    
+    NSString *path;
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	path = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Hockedu"];
+	if (![[NSFileManager defaultManager] fileExistsAtPath:path])	//Does directory already exist?
+	{
+		if (![[NSFileManager defaultManager] createDirectoryAtPath:path
+									   withIntermediateDirectories:NO
+														attributes:nil
+															 error:&error])
+		{
+			NSLog(@"Create directory error: %@", error);
+		}
+	}
+    
+    NSLog(@"Documents directory: %@", [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error]);
+    
+    
+    const char* cPath = [path cString];
+    std::string targetPath = cPath;
+    targetPath += "/test.xml";
+    
+    
+    //FacadeModele::saveField();
+    //((Terrain*)mField)
+    RazerGameUtilities::SaveFieldToFile(targetPath, *((Terrain*)mField));
+    ((Terrain*)mField)->libererMemoire();
+    RazerGameUtilities::LoadFieldFromFile(targetPath, *((Terrain*)mField));
     
 }
 
