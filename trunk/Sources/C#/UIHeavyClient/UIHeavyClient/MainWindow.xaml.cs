@@ -144,7 +144,7 @@ namespace UIHeavyClient
             // see output
             ConsoleManager.Show();
             System.Windows.Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-#if DEBUG
+//#if DEBUG
             System.Windows.Controls.MenuItem debugMenu = new System.Windows.Controls.MenuItem();
             debugMenu.Header = "Debug";
             MenuBar.Items.Add(debugMenu);
@@ -191,7 +191,7 @@ namespace UIHeavyClient
                 debugMenu.Items.Add(debugItem);
             }
 
-#endif
+//#endif
 
             InitDLL();
             this.Loaded += CreateUserControl;
