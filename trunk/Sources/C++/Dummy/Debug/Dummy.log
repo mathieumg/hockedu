@@ -1,0 +1,12 @@
+﻿Build started 2013-03-20 13:10:44.
+     1>Project "E:\AirHockeyGit\NewBranch3\trunk\Sources\C++\Dummy\Dummy.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\Dummy.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       FinalizeBuildStatus:
+         Deleting file "Debug\Dummy.unsuccessfulbuild".
+         Touching "Debug\Dummy.lastbuildstate".
+     1>Done Building Project "E:\AirHockeyGit\NewBranch3\trunk\Sources\C++\Dummy\Dummy.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.07

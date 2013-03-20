@@ -191,7 +191,7 @@ int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
         if(maillet)
         {
             JoueurAbstrait* wJoueur = maillet->obtenirJoueur();
-            if(wJoueur && wJoueur->obtenirType() == JOUEUR_NETWORK)
+            if(wJoueur && wJoueur->obtenirType() == JOUEUR_NETWORK_SERVEUR)
             {
                 Runnable* r = new Runnable([maillet,wPos](Runnable*){
 
@@ -199,7 +199,7 @@ int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
                     maillet->assignerPosSouris(wPos);
 
                 });
-                maillet->attach(r);
+                //maillet->attach(r);
                 RazerGameUtilities::RunOnUpdateThread(r,true);
             }
         }

@@ -69,7 +69,7 @@ const unsigned int MAX_MALLETS = 2;
 ////////////////////////////////////////////////////////////////////////
 Terrain::Terrain(Partie* pGame): 
     mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame),mZamboni(NULL),
-    mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL)
+    mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL), mIsInit(false)
 {
     mEditionZone = NULL;
     if(!mGame)
@@ -132,6 +132,7 @@ Terrain::~Terrain()
 ////////////////////////////////////////////////////////////////////////
 void Terrain::libererMemoire()
 {
+    mIsInit = false;
     // S'assurer de remettre tous les pointeurs a NULL car la comparaison est utiliser 
     // partout dans le terrain pour savoir si le pointeur est valide
     if(mLogicTree)
@@ -354,7 +355,7 @@ bool Terrain::initialiserXml( XmlElement* element )
         return false;
 
     fullRebuild();
-
+    mIsInit = true;
     return true;
 }
 
@@ -584,6 +585,7 @@ void Terrain::creerTerrainParDefaut(const std::string& nom)
     {
         checkf(0,"%s", e.what());
     }
+    mIsInit = true;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -678,6 +680,7 @@ void Terrain::createRandomField(const std::string& nom)
     AddWall(40,-30,-25,-30,2,0.4);
 
     fullRebuild();
+    mIsInit = true;
 }
 
 
@@ -1718,11 +1721,14 @@ void Terrain::initNecessaryPointersForGame()
         mPuck->modifierPositionOriginale(mPuck->getPosition());
 
 #if WIN32
-        auto leftBonuses = GestionnaireHUD::obtenirInstance()->getLeftPlayerBonuses();
-        leftBonuses->setModifiers(&mLeftMallet->GetModifiers());
-
-        auto rightBonuses = GestionnaireHUD::obtenirInstance()->getRightPlayerBonuses();
-        rightBonuses->setModifiers(&mRightMallet->GetModifiers());
+        if (GestionnaireHUD::Exists())
+        {
+	        auto leftBonuses = GestionnaireHUD::obtenirInstance()->getLeftPlayerBonuses();
+	        leftBonuses->setModifiers(&mLeftMallet->GetModifiers());
+	
+	        auto rightBonuses = GestionnaireHUD::obtenirInstance()->getRightPlayerBonuses();
+	        rightBonuses->setModifiers(&mRightMallet->GetModifiers());
+        }
 #endif
 
     }

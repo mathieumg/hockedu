@@ -121,7 +121,7 @@ private:
 	bool collisionAvecRondelle_;
 
 	/// Le joueur qui possède ce maillet
-	JoueurVirtuel* joueur_;
+	JoueurAbstrait* joueur_;
 	
     /// reference to the factory's counter of mallet instances
     unsigned int& mNbMalletCreated;
@@ -166,9 +166,9 @@ public:
 	/// Accesseur de joueurGauche_
 	bool estAGauche() const { return estAGauche_; }
 	/// Accesseur de joueur_
-	JoueurVirtuel* obtenirJoueur() const { return joueur_; }
+	JoueurAbstrait* obtenirJoueur() const { return joueur_; }
 	/// Modificateur de joueur_
-	void setAIPlayer(JoueurVirtuel* val) { joueur_ = val; }
+	void setPlayer(JoueurAbstrait* val) { joueur_ = val; }
     /// Obtenir pos souris
     inline Vecteur3 getPosSouris() {return posSouris_;}
     inline void setIsNetworkPlayer(const bool pIsNetworkPlayer) {estControleParNetwork_ = pIsNetworkPlayer;}

@@ -389,13 +389,14 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
                     {
                         wMaillets[i]->setIsNetworkPlayer(false);
                         wMaillets[i]->setIsAI(true);
-                        wMaillets[i]->setAIPlayer((JoueurVirtuel*)wJoueurs[i].get());
+                        //wMaillets[i]->setPlayer((JoueurVirtuel*)wJoueurs[i].get());
                         break;
                     }
                 default:
                     throw ExceptionJeu("Combinaison de joueurs invalides");
                     break;
                 }
+                wMaillets[i]->setPlayer(wJoueurs[i].get());
                 wMaillets[i]->buildMouseJoint();
             }
 // 

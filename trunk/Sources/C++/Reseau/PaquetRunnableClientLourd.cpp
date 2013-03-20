@@ -49,14 +49,19 @@ int PaquetRunnable::RunnableMailletClient( Paquet* pPaquet )
         // Si maillet pas encore cree (ex: transition vers le mode jeu en cours et deja reception de paquets)
         if(maillet)
         {
-            Runnable* r = new Runnable([maillet,wPos](Runnable*){
+            JoueurAbstrait* wJoueur = maillet->obtenirJoueur();
+            if(wJoueur->obtenirType() == JOUEUR_NETWORK)
+            {
 
-                // Mettre la position du maillet
-                maillet->assignerPosSouris(wPos);
+                Runnable* r = new Runnable([maillet,wPos](Runnable*){
 
-            });
-            maillet->attach(r);
-            RazerGameUtilities::RunOnUpdateThread(r,true);
+                    // Mettre la position du maillet
+                    maillet->assignerPosSouris(wPos);
+
+                });
+                //maillet->attach(r);
+                RazerGameUtilities::RunOnUpdateThread(r,true);
+            }
         }
         
     }
@@ -76,21 +81,28 @@ int PaquetRunnable::RunnableRondelleClient( Paquet* pPaquet )
 
     if(wGame)
     {
-        NoeudRondelle* wPuck = wGame->getField()->getPuck();
-        Vecteur3 wPos = wPaquet->getPosition();
-        Vecteur3 wVelocite = wPaquet->getVelocite();
-        float wVitesseRot = wPaquet->getVitesseRotation();
-
-        Runnable* r = new Runnable([wPuck, wPos, wVelocite, wVitesseRot](Runnable*){
+        Terrain* wField = wGame->getField();
+        if(wField && wField->isInit())
+        {
+            NoeudRondelle* wPuck = wGame->getField()->getPuck();
             if(wPuck)
             {
-                wPuck->modifierVitesseRotation(wVitesseRot);
-                wPuck->setPosition(wPos);
-                wPuck->modifierVelocite(wVelocite);
+                Vecteur3 wPos = wPaquet->getPosition();
+                Vecteur3 wVelocite = wPaquet->getVelocite();
+                float wVitesseRot = wPaquet->getVitesseRotation();
+
+                Runnable* r = new Runnable([wPuck, wPos, wVelocite, wVitesseRot](Runnable*){
+                    if(wPuck)
+                    {
+                        wPuck->modifierVitesseRotation(wVitesseRot);
+                        wPuck->setPosition(wPos);
+                        wPuck->modifierVelocite(wVelocite);
+                    }
+                });
+                //wPuck->attach(r);
+                RazerGameUtilities::RunOnUpdateThread(r,true);
             }
-        });
-        wPuck->attach(r);
-        RazerGameUtilities::RunOnUpdateThread(r,true);
+        }
     }
 
     return 0;
