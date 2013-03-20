@@ -126,7 +126,7 @@ void PartieSyncer::tick()
                 wPaquet->setPosition(wPuck->getPosition());
                 wPaquet->setVelocite(wPuck->obtenirVelocite());
                 wPaquet->setVitesseRotation(wPuck->obtenirVitesseRotation());
-                wPaquet->setLatency(50);
+                
                 wPaquet->setNbAssociatedQueries(mDestinationIdentifiers.size());
                 for(auto it=mDestinationIdentifiers.begin(); it!=mDestinationIdentifiers.end(); ++it)
                 {
