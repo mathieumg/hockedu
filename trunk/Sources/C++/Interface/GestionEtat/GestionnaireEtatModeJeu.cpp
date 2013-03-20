@@ -19,10 +19,6 @@
 #include "GestionnaireEtatAbstrait.h"
 #include "SourisEtatAbstrait.h"
 #include "SoundFMOD.h"
-//#if MAT_DEBUG_
-#include "NoeudRondelle.h"
-#include "Box2D\Dynamics\b2Body.h"
-//#endif
 
 
 
@@ -44,12 +40,6 @@ GestionnaireEtatAbstrait(),mGame(pGame)
 	modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
 	shiftEnfonce_ = false;
 	enfonce_ = false;
-// #if MAT_DEBUG_
-//     if(mGame)
-//     {
-//         mGame->getField()->getPuck()->getPhysicBody()->SetActive(false);
-//     }
-// #endif
 	
 }
 
