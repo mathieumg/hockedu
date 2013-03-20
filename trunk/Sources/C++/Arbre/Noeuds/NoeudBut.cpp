@@ -453,8 +453,13 @@ void NoeudBut::updatePhysicBody()
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &shape; //this is a pointer to the shapeHaut above
         myFixtureDef.density = 1;
+#if MAT_DEBUG_
+        myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
+        myFixtureDef.filter.maskBits = CATEGORY_PUCK;
+#else
         myFixtureDef.filter.categoryBits = CATEGORY_NONE;
         myFixtureDef.filter.maskBits = CATEGORY_NONE;
+#endif
         myFixtureDef.filter.groupIndex = 1;
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body

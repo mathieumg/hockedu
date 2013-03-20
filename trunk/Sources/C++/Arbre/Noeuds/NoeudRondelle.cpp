@@ -144,6 +144,8 @@ void NoeudRondelle::tick( const float& temps)
     //A mettre dans positionUpdate();
     //mPosition += mVelocite*temps;
     // Appel à la version de la classe de base pour l'animation des enfants.
+
+
     NoeudAbstrait::tick(temps);
 }
 

@@ -240,7 +240,7 @@ void FacadeModele::libererInstance()
 ////////////////////////////////////////////////////////////////////////
 FacadeModele::FacadeModele()
     : hGLRC_(0), hDC_(0), hWnd_(0), vue_(0),zoomElastique_(false),tournoi_(0),cheminTournoi_(""),
-    partieCourante_(0), /*adversaire_(0),*/ mEditionField(0),renderThread_(NULL)
+    partieCourante_(0), /*adversaire_(0),*/ mEditionField(0),renderThread_(NULL), prochainePartie_(-1)
 {
     // Il ne faut pas faire d'initialisation de Noeud ici, car le contexte OpenGl n'est pas encore creer
 
@@ -1019,6 +1019,8 @@ bool FacadeModele::passageModeTournoi()
 /// @fn bool FacadeModele::passageModeJeu()
 ///
 /// Passage au mode jeu.
+/// 
+/// @param[in] pGameId: I de la partie si elle est deja creee, sinon laisser valeur par defaut et elle sera creee
 ///
 ///
 /// @return bool
@@ -1048,8 +1050,15 @@ bool FacadeModele::passageModeJeu()
 
 
 
-
-    partieCourante_ = GameManager::obtenirInstance()->addNewGame(SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")));
+    if(prochainePartie_ == -1)
+    {
+        partieCourante_ = GameManager::obtenirInstance()->addNewGame(SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")));
+    }
+    else
+    {
+        partieCourante_ = prochainePartie_;
+        prochainePartie_ = -1;
+    }
 
     if(!GameManager::obtenirInstance()->startGame(partieCourante_, getCurrentMap()))
     {

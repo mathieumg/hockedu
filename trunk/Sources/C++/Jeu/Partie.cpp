@@ -54,6 +54,7 @@ pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurD
     mLastGameStatus = GAME_NOT_STARTED;
     mRequirePassword = false;
     mPassword = "";
+    mPartieSyncer.setPlayers(joueurGauche, joueurDroit);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -352,61 +353,103 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
 {
     if(joueurDroit_ && joueurGauche_)
     {
+        // Si joueur 2 humain aussi
+
         if(mailletGauche && mailletDroit && rondelle)
         {
+
             joueurGauche_->setControlingMallet(mailletGauche);
             joueurDroit_->setControlingMallet(mailletDroit);
             mailletGauche->setIsLeft(true);
             mailletDroit->setIsLeft(false);
 
-            if(joueurGauche_->obtenirType() == JOUEUR_NETWORK)
-            {
-                mailletGauche->setIsAI(false);
-                mailletGauche->setIsNetworkPlayer(true);
-                mailletGauche->buildMouseJoint(true);
-            }
-            else
-            {
-                mailletGauche->setKeyboardControlled(false);
-                mailletGauche->setIsNetworkPlayer(false);
-                if(joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
-                {
-                    mailletGauche->setIsAI(false);
-                }
-                else
-                {
-                    mailletGauche->setIsAI(true);
-                    mailletGauche->setAIPlayer((JoueurVirtuel*)joueurGauche_.get());
-                }
-                mailletGauche->buildMouseJoint();
-            }
+            SPJoueurAbstrait wJoueurs[2] = {joueurGauche_, joueurDroit_};
+            NoeudMaillet* wMaillets[2] = {mailletGauche, mailletDroit};
 
-            if(joueurDroit_->obtenirType() == JOUEUR_NETWORK)
+            for(int i=0; i<2; ++i)
             {
-                mailletDroit->setIsAI(false);
-                mailletDroit->setIsNetworkPlayer(true);
-                mailletDroit->buildMouseJoint(true);
-            }
-            else
-            {
-                mailletDroit->setIsNetworkPlayer(false);
-                if(joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
+                switch(wJoueurs[i]->obtenirType())
                 {
-                    mailletDroit->setIsAI(false);
-                    // Si le maillet gauche est controller par lordinateur alors le maillet droit est controle par la souris
-                    mailletDroit->setKeyboardControlled(!mailletGauche->obtenirEstControleParOrdinateur());
+                case JOUEUR_HUMAIN:
+                    {
+                        wMaillets[i]->setIsAI(false);
+                        // Si le maillet gauche est controller par lordinateur alors le maillet droit est controle par la souris
+                        wMaillets[i]->setKeyboardControlled(i==1 && !wMaillets[0]->obtenirEstControleParOrdinateur());
+                        wMaillets[i]->setIsNetworkPlayer(false);
+                        break;
+                    }
+                case JOUEUR_NETWORK:
+                case JOUEUR_NETWORK_SERVEUR:
+                    {
+                        wMaillets[i]->setIsAI(false);
+                        wMaillets[i]->setIsNetworkPlayer(true);
+                        break;
+                    }
+                case JOUEUR_VIRTUEL:
+                    {
+                        wMaillets[i]->setIsNetworkPlayer(false);
+                        wMaillets[i]->setIsAI(true);
+                        wMaillets[i]->setAIPlayer((JoueurVirtuel*)wJoueurs[i].get());
+                        break;
+                    }
+                default:
+                    throw ExceptionJeu("Combinaison de joueurs invalides");
+                    break;
                 }
-                else
-                {
-                    mailletDroit->setIsAI(true);
-                    mailletDroit->setAIPlayer((JoueurVirtuel*)joueurDroit_.get());
-                }
-                mailletDroit->buildMouseJoint();
+                wMaillets[i]->buildMouseJoint();
             }
+// 
+//             // Ancien code
+//             if(joueurGauche_->obtenirType() == JOUEUR_NETWORK)
+//             {
+//                 mailletGauche->setIsAI(false);
+//                 mailletGauche->setIsNetworkPlayer(true);
+//                 mailletGauche->buildMouseJoint(true);
+//             }
+//             else
+//             {
+//                 mailletGauche->setKeyboardControlled(false);
+//                 mailletGauche->setIsNetworkPlayer(false);
+//                 if(joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
+//                 {
+//                     mailletGauche->setIsAI(false);
+//                 }
+//                 else
+//                 {
+//                     mailletGauche->setIsAI(true);
+//                     mailletGauche->setAIPlayer((JoueurVirtuel*)joueurGauche_.get());
+//                 }
+//                 mailletGauche->buildMouseJoint();
+//             }
+// 
+//             if(joueurDroit_->obtenirType() == JOUEUR_NETWORK)
+//             {
+//                 mailletDroit->setIsAI(false);
+//                 mailletDroit->setIsNetworkPlayer(true);
+//                 mailletDroit->buildMouseJoint(true);
+//             }
+//             else
+//             {
+//                 mailletDroit->setIsNetworkPlayer(false);
+//                 if(joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
+//                 {
+//                     mailletDroit->setIsAI(false);
+//                     // Si le maillet gauche est controller par lordinateur alors le maillet droit est controle par la souris
+//                     mailletDroit->setKeyboardControlled(!mailletGauche->obtenirEstControleParOrdinateur());
+//                 }
+//                 else
+//                 {
+//                     mailletDroit->setIsAI(true);
+//                     mailletDroit->setAIPlayer((JoueurVirtuel*)joueurDroit_.get());
+//                 }
+//                 mailletDroit->buildMouseJoint();
+//             }
 
         }
         else
+        {
             throw ExceptionJeu("Tente d'assigner les controles a des maillets et/ou rondelle non valides");
+        }
     }
     else
     {
@@ -774,6 +817,7 @@ bool Partie::getReadyToPlay()
 ////////////////////////////////////////////////////////////////////////
 void Partie::animer( const float& temps )
 {
+    updateMinuterie((int)(temps*1000));
     chiffres_->tick(temps);
     mField->animerTerrain(temps);
     if(!GestionnaireAnimations::obtenirInstance()->estJouerReplay())
@@ -803,6 +847,7 @@ void Partie::animer( const float& temps )
             zamboni->setPosition(pos+direction);
         }
     }
+    mPartieSyncer.tick();
 }
 
 
@@ -819,6 +864,7 @@ void Partie::animer( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void Partie::animerBase( const float& temps )
 {
+    updateMinuterie((int)(temps*1000));
     // On va plus deep pour ne pas render d'items d'affichage
     if(mField)
     {
@@ -833,6 +879,7 @@ void Partie::animerBase( const float& temps )
         // Gestion de la physique du jeu
         mField->appliquerPhysique(temps);
     }
+    mPartieSyncer.tick();
 }
 
 

@@ -24,6 +24,8 @@
 #include "JoueurNetworkServeur.h"
 #include "Runnable.h"
 #include "NoeudMaillet.h"
+#include "GestionnaireReseau.h"
+#include "JoueurVirtuel.h"
 
 
 /// ***** PAR CONVENTION, METTRE Game A LA FIN DU NOM DES DELEGATES
@@ -169,9 +171,6 @@ int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
 {
     PaquetMaillet* wPaquet = (PaquetMaillet*) pPaquet;
 
-    // Relayer le message aux clients connectes qui font parti de cette partie
-    // Plus tard, on ne devrait pas relayer directement, mais valider que les positions fonctionnent
-    RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), pPaquet);
 
     Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
 
@@ -188,14 +187,26 @@ int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
             maillet = wGame->obtenirJoueurDroit()->getControlingMallet();
         }
 
-        Runnable* r = new Runnable([maillet,wPos](Runnable*){
+        // On ne met pas a jour si c'est nous
+        if(maillet)
+        {
+            JoueurAbstrait* wJoueur = maillet->obtenirJoueur();
+            if(wJoueur && wJoueur->obtenirType() == JOUEUR_NETWORK)
+            {
+                Runnable* r = new Runnable([maillet,wPos](Runnable*){
 
-            // Mettre la position du maillet
-            maillet->assignerPosSouris(wPos);
+                    // Mettre la position du maillet
+                    maillet->assignerPosSouris(wPos);
 
-        });
-        maillet->attach(r);
-        RazerGameUtilities::RunOnUpdateThread(r,true);
+                });
+                maillet->attach(r);
+                RazerGameUtilities::RunOnUpdateThread(r,true);
+            }
+        }
+        
+        
+
+        
     }
 
     return 0;
@@ -310,7 +321,11 @@ int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
             wPaquet->setConnectionState(connectPlayer(wPaquet->getUsername(), wGame));
         }
 
-
+        // Si tout le monde connecte, on demarre la partie
+        if(wGame->getGameStatus() == GAME_NOT_STARTED && wGame->obtenirJoueurGauche() && wGame->obtenirJoueurDroit())
+        {
+            GameManager::obtenirInstance()->startGame(wGame->getUniqueGameId(), "");
+        }
 
     }
     else
@@ -318,8 +333,11 @@ int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
         wPaquet->setConnectionState(GAME_CONNECTION_GAME_NOT_FOUND);
     }
 
+    
 
     GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
 
     return 0;
 }
+
+
