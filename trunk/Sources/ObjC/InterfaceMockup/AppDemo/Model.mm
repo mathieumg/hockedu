@@ -17,7 +17,7 @@
 - (void)render
 {
     ((Terrain*)mField)->renderField();
-
+    
 }
 - (id)init
 {
@@ -27,7 +27,7 @@
     return self;
 }
 
--(void)acceptSelectionVisitor:(float)positionMinX: (float)positionMinY:(float) positionMaxX:(float) positionMaxY
+-(int)acceptSelectionVisitor:(float)positionMinX: (float)positionMinY:(float) positionMaxX:(float) positionMaxY
 {
     Vecteur2 posMin = Vecteur2(positionMinX,positionMinY);
     Vecteur2 posMax = Vecteur2(positionMaxX,positionMaxY);
@@ -35,6 +35,11 @@
     ((Terrain*)mField)->setTableItemsSelection(false);
     ((Terrain*)mField)->acceptVisitor(visitor);
     visitor.faireSelection();
+    
+    // Pop over controller pour modifier les proprietes
+    ConteneurNoeuds *selectedNodes = new ConteneurNoeuds;
+    ((Terrain*)mField)->getSelectedNodes(*selectedNodes);
+    return selectedNodes->size();
     
 }
 

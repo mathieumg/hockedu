@@ -16,5 +16,5 @@ void* mField;
 
 - (void)render;
 - (id)init;
--(void)acceptSelectionVisitor:(float)positionMinX: (float)positionMinY:(float) positionMaxX:(float) positionMaxY;
+-(int)acceptSelectionVisitor:(float)positionMinX: (float)positionMinY:(float) positionMaxX:(float) positionMaxY;
 @end

@@ -47,7 +47,7 @@ enum {
 
 - (void)awakeFromNib
 {
-    [self.view init];    
+    [self.view init];
     theEAGLView = [[EAGLView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.mGLView.bounds.size.height, self.mGLView.bounds.size.width)];
     
     if (!theEAGLView)
@@ -91,7 +91,7 @@ enum {
 }
 
 
- //With this and the next method, we only allow the landscaperight orientation when on this view
+//With this and the next method, we only allow the landscaperight orientation when on this view
 -(BOOL)shouldAutorotate {
     return YES;
 }
@@ -137,11 +137,11 @@ enum {
         glDeleteProgram(program);
         program = 0;
     }
-
+    
     // Tear down context.
     if ([EAGLContext currentContext] == context)
         [EAGLContext setCurrentContext:nil];
-	self.context = nil;	
+	self.context = nil;
 }
 
 - (NSInteger)animationFrameInterval
@@ -240,39 +240,39 @@ enum {
     {
         if (!mSelectionMode)
         {
-        UITouch *touch = [[event allTouches] anyObject];
-        CGPoint positionCourante = [touch locationInView:theEAGLView];
-        CGPoint positionPrecedente = [touch previousLocationInView:theEAGLView];
-        translationX -= (positionCourante.x - positionPrecedente.x);
-        translationY += (positionCourante.y - positionPrecedente.y);
-        
-        // Set boundaries for the editing grid, currently 1000x1000, centered at 0,0.
-        /*
-         if( translationX < ( -500 / zoomFactor ) )
-         {
-         translationX = (int)( -500 / zoomFactor );
-         }
-         */
-        if( translationX < -500 )
-        {
-            translationX = -500;
-        }
-        else if( translationX > 500 )
-        {
-            translationX = 500;
-        }
-        
-        if( translationY < -500 )
-        {
-            translationY = -500;
-        }
-        else if( translationY > 500 )
-        {
-            translationY = 500;
-        }
-        
-        [self updateOrtho];
-    
+            UITouch *touch = [[event allTouches] anyObject];
+            CGPoint positionCourante = [touch locationInView:theEAGLView];
+            CGPoint positionPrecedente = [touch previousLocationInView:theEAGLView];
+            translationX -= (positionCourante.x - positionPrecedente.x);
+            translationY += (positionCourante.y - positionPrecedente.y);
+            
+            // Set boundaries for the editing grid, currently 1000x1000, centered at 0,0.
+            /*
+             if( translationX < ( -500 / zoomFactor ) )
+             {
+             translationX = (int)( -500 / zoomFactor );
+             }
+             */
+            if( translationX < -500 )
+            {
+                translationX = -500;
+            }
+            else if( translationX > 500 )
+            {
+                translationX = 500;
+            }
+            
+            if( translationY < -500 )
+            {
+                translationY = -500;
+            }
+            else if( translationY > 500 )
+            {
+                translationY = 500;
+            }
+            
+            [self updateOrtho];
+            
         }
         else
         {
@@ -286,14 +286,14 @@ enum {
         NSSet *allTouches = [event allTouches];
         CGPoint positionFingers[4];
         int index = 0;
-        for(UITouch* touch in allTouches) {            
+        for(UITouch* touch in allTouches) {
             positionFingers[ index++ ] = [touch locationInView:theEAGLView];
             positionFingers[ index++ ] = [touch previousLocationInView:theEAGLView];
         }
         
         float deltaX = positionFingers[2].x - positionFingers[0].x;
         float deltaY = positionFingers[2].y - positionFingers[0].y;
-
+        
         float distance1 = sqrtf( ( pow( deltaX, 2 ) + pow( deltaY, 2 ) ) );
         
         deltaX = positionFingers[3].x - positionFingers[1].x;
@@ -338,62 +338,70 @@ enum {
             int CV_Y_NOW = AXIS_Y_MAX - (positionCourante.y / (double) HAUTEUR_FENETRE * (AXIS_Y_MAX-AXIS_Y_MIN));
             //(clotureYmax - ( positionCourante.y / fenetreVirtuelleY )*HAUTEUR_FENETRE );
             
-            //int fenetreVirtuelleX = clotureXmax - clotureXmin;
-            //int fenetreVirtuelleY = clotureYmax - clotureYmin;
+            
             int CV_X_OLD;
             int CV_Y_OLD;
             if(touchMoved)
             {
-            CV_X_OLD = firstCorner.x / (double) LARGEUR_FENETRE * (AXIS_X_MAX-AXIS_X_MIN) + AXIS_X_MIN;
-            //(clotureXmin + ( positionPrecedente.x / fenetreVirtuelleX )*LARGEUR_FENETRE);
-            CV_Y_OLD = AXIS_Y_MAX - (firstCorner.y / (double) HAUTEUR_FENETRE * (AXIS_Y_MAX-AXIS_Y_MIN));
+                CV_X_OLD = firstCorner.x / (double) LARGEUR_FENETRE * (AXIS_X_MAX-AXIS_X_MIN) + AXIS_X_MIN;
+                CV_Y_OLD = AXIS_Y_MAX - (firstCorner.y / (double) HAUTEUR_FENETRE * (AXIS_Y_MAX-AXIS_Y_MIN));
             }
             else
             {
-            CV_X_OLD = CV_X_NOW-2;
+                CV_X_OLD = CV_X_NOW-2;
                 CV_X_NOW += 2;
-                //(clotureXmin + ( positionPrecedente.x / fenetreVirtuelleX )*LARGEUR_FENETRE);
-            CV_Y_OLD = CV_Y_NOW+2;
+                CV_Y_OLD = CV_Y_NOW+2;
                 CV_Y_NOW-=2;
             }
-            //(clotureYmax - ( positionPrecedente.y / fenetreVirtuelleY )*HAUTEUR_FENETRE );
-            
-            
-            [mModel acceptSelectionVisitor:CV_X_OLD:CV_Y_OLD:CV_X_NOW:CV_Y_NOW];
-            //[self drawFrame];
+            int nbNoeudsSelectionnes = [mModel acceptSelectionVisitor:CV_X_OLD:CV_Y_OLD:CV_X_NOW:CV_Y_NOW];
+            if(nbNoeudsSelectionnes==1)
+            {
+                // Si on a un seul noeud selectionne, on ouvre un popovercontroller contenant les proprietes modifiables du noeud
+                UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
+                
+                UITabBarController *tabController = [[UITabBarController alloc] init];
+                
+                UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tableController];
+                
+                UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:navController];
+                //navController.tabBarController = tabController;
+
+                [popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+                
+            }
         }
     }
 }
 
--(void)rotationDetectee:(UIGestureRecognizer *)gestureRecognizer 
+-(void)rotationDetectee:(UIGestureRecognizer *)gestureRecognizer
 {
     if ([gestureRecognizer numberOfTouches] == 2)
     {
         CGPoint position = [gestureRecognizer locationInView:theEAGLView];
-        NSLog(@"Centre de rotation x: %f y: %f",position.x, position.y);        
+        NSLog(@"Centre de rotation x: %f y: %f",position.x, position.y);
     }
 }
 
 
 -(void)setupView
-{		
+{
     glEnable(GL_DEPTH_TEST);
 	glMatrixMode(GL_PROJECTION);
-
+    
     
 	CGRect rect = theEAGLView.bounds;
     
     [self updateOrtho];
-
+    
     
 	glViewport(0, 0, rect.size.width, rect.size.height);
     
     
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
+    
 	glClearColor(0.3765, 0.4039, 0.4862, 1.0); //Background color for the editing area.
-		
+    
 	glGetError(); // Clear error codes
 }
 
@@ -403,7 +411,7 @@ enum {
     [(EAGLView *)theEAGLView setFramebuffer];
     
 	static GLfloat rotation = 0.0;
-
+    
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // Draw the background grid.
@@ -458,7 +466,7 @@ enum {
 	if (lastDrawTime)
 	{
 		NSTimeInterval timeSinceLastDraw = [NSDate timeIntervalSinceReferenceDate] - lastDrawTime;
-		rotation+=50 * timeSinceLastDraw;				
+		rotation+=50 * timeSinceLastDraw;
 		Rotation3D rot;
 		rot.x = rotation;
 		rot.y = rotation;
