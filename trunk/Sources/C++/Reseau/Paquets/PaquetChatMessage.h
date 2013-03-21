@@ -35,7 +35,7 @@ protected:
 	PaquetChatMessage();
 
 public:
-	virtual PacketTypes getOperation() const { return CHAT_MESSAGE; }
+    virtual PacketTypes getOperation() const { return CHAT_MESSAGE; }
 
     inline std::string getMessage() const { return mMessage; }
     inline void setMessage(const std::string& val) { mMessage = val; }
@@ -50,9 +50,9 @@ public:
     inline void setGroupName(const std::string& val) { mGroupName = val; }
 
     inline std::string getOrigin() const { return mOrigin; }
-	inline void setOrigin(const std::string& val) { mOrigin = val; }
+    inline void setOrigin(const std::string& val) { mOrigin = val; }
 
-	~PaquetChatMessage();
+    ~PaquetChatMessage();
 
 };
 

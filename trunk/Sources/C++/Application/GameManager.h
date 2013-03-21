@@ -29,18 +29,14 @@ class GameManager:public Singleton<GameManager>
 {
 	SINGLETON_DECLARATION_CLASSE_SANS_CONSTRUCTEUR(GameManager);
 public:
-	/// Constructeur par defaut
-	GameManager();
-	/// Destructeur
-	~GameManager();
 
     inline void setMaximumGameCount(int pGameCount) {mMaximumGameCount = pGameCount;}
 
-	void removeGame(int pGameId);
+    void removeGame(int pGameId);
 
-	bool startGame(int pGameId, const std::string& pMapFilename);
+    bool startGame(int pGameId, const std::string& pMapFilename);
 
-	Partie* getGame(int pGameId);
+    Partie* getGame(int pGameId);
 
     // Methode qui cherche une partie avec ce nom (ATTENTION, lent et Ne permet pas de savoir si plusieurs parties avec le meme nom existe. Retourne la premiere trouvee)
     Partie* getGame(const std::string& pGameName);
@@ -48,19 +44,18 @@ public:
 
     void animer(const float& pTemps);
 
-	// Ajoute une nouvelle partie contre l'adversaire precedemment ajuste, 
-	// Si les 2 parametres sont nulles, une partie AI contre AI sera cree
-	// Si un seul parametre est utilise, une partie contre l'adversaire sera cree
-	// Dans le cas ou l'adversaire n'a pas ete modifie, on joue contre un joueur humain
-	int addNewGame(SPJoueurAbstrait pJoueur1 = 0, SPJoueurAbstrait pJoueur2 = 0, bool pForceParameters = false, int pGameId = -1);
+    // Ajoute une nouvelle partie contre l'adversaire precedemment ajuste, 
+    // Si les 2 parametres sont nulles, une partie AI contre AI sera cree
+    // Si un seul parametre est utilise, une partie contre l'adversaire sera cree
+    // Dans le cas ou l'adversaire n'a pas ete modifie, on joue contre un joueur humain
+    int addNewGame(SPJoueurAbstrait pJoueur1 = 0, SPJoueurAbstrait pJoueur2 = 0, bool pForceParameters = false, int pGameId = -1);
 
-
-	// Methodes pour sauvegarder des fonctions de callback qui seront appelees lors d'ajout de parties ou lors de la modification des parties
+    // Methodes pour sauvegarder des fonctions de callback qui seront appelees lors d'ajout de parties ou lors de la modification des parties
     inline void addGameAddedCallback(GameAddedCallback pCallback) {mGameAddedCallbacks.push_back(pCallback);}
-	// ATTENTION, le updateCallback utilise pour une partie depend uniquement de celui defini a la creation de la partie. Une modification n'a pas d'impact sur les parties deja crees
+    // ATTENTION, le updateCallback utilise pour une partie depend uniquement de celui defini a la creation de la partie. Une modification n'a pas d'impact sur les parties deja crees
     inline void addGameUpdateCallback(GameUpdateCallback pCallback) {mGameUpdatedCallbacks.push_back(pCallback);}
 
-	inline void setAdversaire(SPJoueurAbstrait val) {mAdversaire = val;}
+    inline void setAdversaire(SPJoueurAbstrait val) {mAdversaire = val;}
 private:
     int mMaximumGameCount;
 
@@ -69,6 +64,11 @@ private:
     std::vector<GameAddedCallback> mGameAddedCallbacks;
     std::vector<GameUpdateCallback> mGameUpdatedCallbacks;
 
+    /// Constructeur par defaut
+    GameManager();
+
+    /// Destructeur
+    ~GameManager();
 
 	// Ajout d'une partie deja creee
 	void addGame(Partie* pGame);

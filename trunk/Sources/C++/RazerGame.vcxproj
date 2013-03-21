@@ -308,6 +308,7 @@
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerEvent.cpp" />
     <ClCompile Include="reseau\PaquetHandlers\PacketHandlerGameConnection.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameCreation.cpp" />
+    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameRegistration.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameStatus.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerLoginInfo.cpp" />
     <ClCompile Include="reseau\PaquetHandlers\PacketHandlerMaillet.cpp" />
@@ -324,6 +325,7 @@
     <ClCompile Include="reseau\Paquets\PaquetGameConnection.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetGameCreation.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetEvent.cpp" />
+    <ClCompile Include="Reseau\Paquets\PaquetGameRegistration.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetGameStatus.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetLoginInfo.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetMaillet.cpp" />
@@ -484,6 +486,7 @@
     <ClInclude Include="reseau\Paquets\PaquetGameConnection.h" />
     <ClInclude Include="Reseau\Paquets\PaquetGameCreation.h" />
     <ClInclude Include="Reseau\Paquets\PaquetEvent.h" />
+    <ClInclude Include="Reseau\Paquets\PaquetGameRegistration.h" />
     <ClInclude Include="Reseau\Paquets\PaquetGameStatus.h" />
     <ClInclude Include="Reseau\Paquets\PaquetLoginInfo.h" />
     <ClInclude Include="Reseau\Paquets\PaquetMaillet.h" />
@@ -500,6 +503,7 @@
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetEvent.h" />
     <ClInclude Include="reseau\UsinePaquets\UsinePaquetGameConnection.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameCreation.h" />
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameRegistration.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameStatus.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetLoginInfo.h" />
     <ClInclude Include="reseau\UsinePaquets\UsinePaquetMaillet.h" />

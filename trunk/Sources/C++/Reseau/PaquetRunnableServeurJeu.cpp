@@ -24,6 +24,9 @@
 #include "JoueurNetworkServeur.h"
 #include "Runnable.h"
 #include "NoeudMaillet.h"
+#include "Paquets\PaquetGameRegistration.h"
+#include "GestionnaireReseau.h"
+#include "ControllerServeurJeu.h"
 
 
 /// ***** PAR CONVENTION, METTRE Game A LA FIN DU NOM DES DELEGATES
@@ -219,10 +222,20 @@ int PaquetRunnable::RunnableGameCreationServerGame( Paquet* pPaquet )
         // On peut meme utiliser le meme paquet pour renvoyer le message de confirmation
         wPaquet->setGameId(wGameId);
         
-
         // En envoie le message de confirmation
         GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
 
+        if(!ControllerServeurJeu::isLocalServer())
+        {
+            PaquetGameRegistration* wPaquetRegistration = (PaquetGameRegistration*)GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_REGISTRATION);
+            wPaquetRegistration->setServerId(((ControllerServeurJeu*)GestionnaireReseau::obtenirInstance()->getController())->getServerId());
+            wPaquetRegistration->setGameId(wGameId);
+            wPaquetRegistration->setGameName(wPaquet->getGameName());
+            wPaquetRegistration->setMapName(wPaquet->getMapName());
+            wPaquetRegistration->setUsername(wPaquet->getUsername());
+
+            GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquetRegistration, TCP);
+        }
     }
     else
     {

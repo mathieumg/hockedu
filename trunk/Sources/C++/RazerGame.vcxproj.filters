@@ -575,6 +575,12 @@
     <ClCompile Include="Arbre\Bonus\BonusModifierBlockGoal.cpp">
       <Filter>Sources Files\Arbre\Bonus</Filter>
     </ClCompile>
+    <ClCompile Include="Reseau\Paquets\PaquetGameRegistration.cpp">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameRegistration.cpp">
+      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1080,6 +1086,12 @@
     </ClInclude>
     <ClInclude Include="Arbre\Bonus\BonusModifierBlockGoal.h">
       <Filter>Sources Files\Arbre\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\Paquets\PaquetGameRegistration.h">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameRegistration.h">
+      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
