@@ -15,7 +15,7 @@
 #include <list>
 #include <map>
 #include "QueueThreadSafe.h"
-#include "Network_Defines.h"
+#include "FacadePortability.h"
 
 class Paquet;
 struct PaquetAEnvoyer {

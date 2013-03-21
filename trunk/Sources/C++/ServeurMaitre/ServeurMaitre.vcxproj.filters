@@ -147,23 +147,29 @@
     <ClCompile Include="ExceptionsReseau\ExceptionReseauBD.cpp">
       <Filter>Source Files\ExceptionsReseau</Filter>
     </ClCompile>
-    <ClCompile Include="..\Reseau\Network_Defines.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sha1.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameCreation.cpp">
-      <Filter>Source Files\PacketHandlers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Reseau\Paquets\PaquetGameCreation.cpp">
-      <Filter>Source Files\Paquets</Filter>
     </ClCompile>
     <ClCompile Include="..\reseau\PaquetHandlers\PacketHandlerGameConnection.cpp">
       <Filter>Source Files\PacketHandlers</Filter>
     </ClCompile>
     <ClCompile Include="..\reseau\Paquets\PaquetGameConnection.cpp">
       <Filter>Source Files\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameRegistration.cpp">
+      <Filter>Source Files\PacketHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\Paquets\PaquetGameRegistration.cpp">
+      <Filter>Source Files\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="GameServerManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\FacadePortability.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -278,9 +284,6 @@
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetGameStatus.h">
       <Filter>Source Files\UsinePaquets</Filter>
     </ClInclude>
-    <ClInclude Include="..\Reseau\Network_Defines.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="CommunicateurBD.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -290,14 +293,26 @@
     <ClInclude Include="sha1.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Reseau\Paquets\PaquetGameCreation.h">
-      <Filter>Source Files\Paquets</Filter>
-    </ClInclude>
     <ClInclude Include="..\reseau\Paquets\PaquetGameConnection.h">
       <Filter>Source Files\Paquets</Filter>
     </ClInclude>
     <ClInclude Include="..\reseau\UsinePaquets\UsinePaquetGameConnection.h">
       <Filter>Source Files\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\Paquets\PaquetGameRegistration.h">
+      <Filter>Source Files\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetGameRegistration.h">
+      <Filter>Source Files\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServerManager.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\FacadePortability.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -10,6 +10,8 @@
 #include "Terrain.h"
 #include "VisiteurSelection.h"
 #include "NoeudAbstrait.h"
+#include "AFJSONRequestOperation.h"
+#include "AFHTTPClient.h"
 //#include <Box2D/Box2D.h>
 
 @implementation Model
@@ -77,6 +79,23 @@
     RazerGameUtilities::SaveFieldToFile(targetPath, *((Terrain*)mField));
     ((Terrain*)mField)->libererMemoire();
     RazerGameUtilities::LoadFieldFromFile(targetPath, *((Terrain*)mField));
+    
+    
+    NSURL *url = [NSURL URLWithString:@"http://hockedu.com"];
+    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
+    [httpClient setDefaultHeader:@"Accept" value:@"application/json"];
+    [httpClient registerHTTPOperationClass:[AFJSONRequestOperation class]];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            @"testies", @"username",
+                            @"608b9a09de61fea254bbebdcadc0fe8c38ae2ccb", @"password",
+                            nil];
+    
+    [httpClient postPath:@"/remote/authenticate" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Error: %@", [responseObject valueForKeyPath:@"error"]);
+        NSLog(@"Auth key: %@", [responseObject valueForKeyPath:@"auth_key"]);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
+    }];
     
 }
 

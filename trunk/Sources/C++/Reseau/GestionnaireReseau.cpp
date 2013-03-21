@@ -70,12 +70,7 @@ void logSetup()
     {
         time_t wTime = time(0);
         struct tm wTimeNow;
-#ifdef WINDOWS
         localtime_s( &wTimeNow, &wTime );
-#elif defined(LINUX)
-        time(&wTime);
-        wTimeNow = *localtime(&wTime);
-#endif
         std::stringstream wFilename;
         wFilename << "NETWORK_LOG_" << wTimeNow.tm_mon << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec << ".txt";
 
@@ -768,12 +763,7 @@ void GestionnaireReseau::sendMessageToLog( const std::string& pMessage )
 	{
         time_t wTime = time(0);
         struct tm wTimeNow;
-#ifdef WINDOWS
         localtime_s( &wTimeNow, &wTime );
-#elif defined(LINUX)
-        time(&wTime);
-        wTimeNow = *localtime(&wTime);
-#endif
         errorLogHandle << "[" << wTimeNow.tm_hour << ":" << wTimeNow.tm_min << ":" << wTimeNow.tm_sec << "] ";
 #ifdef WINDOWS
         errorLogHandle << ExceptionReseau::getLastErrorMessage("", WSAGetLastError());

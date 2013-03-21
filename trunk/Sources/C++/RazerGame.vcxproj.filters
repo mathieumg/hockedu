@@ -536,9 +536,6 @@
     <ClCompile Include="Reseau\Paquets\PaquetRondelle.cpp">
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClCompile>
-    <ClCompile Include="Reseau\Network_Defines.cpp">
-      <Filter>Sources Files\Reseau</Filter>
-    </ClCompile>
     <ClCompile Include="Reseau\PaquetRunnableServeurJeu.cpp">
       <Filter>Sources Files\Reseau</Filter>
     </ClCompile>
@@ -580,6 +577,15 @@
     </ClCompile>
     <ClCompile Include="Arbre\Visiteur\VisitorGatherProperties.cpp">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
+    </ClCompile>
+    <ClCompile Include="Reseau\Paquets\PaquetGameRegistration.cpp">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameRegistration.cpp">
+      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="Reseau\FacadePortability.cpp">
+      <Filter>Sources Files\Reseau\Global</Filter>
     </ClCompile>
     <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyMove.cpp">
       <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
@@ -1006,9 +1012,6 @@
     <ClInclude Include="Arbre\Noeuds\NodePolygone.h">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\Network_Defines.h">
-      <Filter>Sources Files\Reseau\Global</Filter>
-    </ClInclude>
     <ClInclude Include="Interface\FacadeServeurJeu.h">
       <Filter>Sources Files\Interface</Filter>
     </ClInclude>
@@ -1092,6 +1095,15 @@
     </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisitorGatherProperties.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\Paquets\PaquetGameRegistration.h">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameRegistration.h">
+      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\FacadePortability.h">
+      <Filter>Sources Files\Reseau\Global</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyMove.h">
       <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>

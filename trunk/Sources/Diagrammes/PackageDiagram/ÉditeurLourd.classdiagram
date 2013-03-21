@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="272570a4-a3df-4c33-90de-23b2e0523060" name="ÉditeurLourd" linkedPackageId="5d3a3a45-de05-478b-b0f3-f16cb9b6a4e8" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <packagedElements>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="c7307c39-d5d1-4a69-8b17-fe80fa1d1e91" name="Éditeur Lourd">
+        <elementDefinition Id="878f9358-c4ee-4dec-bff3-164777cc84a4" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="fc25d4bf-2f82-4252-858f-0bffd08db72a" name="GestionnaireEtatModeEdition" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="4e001a42-236d-4dea-a789-4c71f02f541c" />
+              <generalsInternal>
+                <generalization Id="7f95ad92-0327-4e56-a458-33404c363e3e" isSubstitutable="false">
+                  <classMoniker Id="38d3672d-1c62-491b-a1ec-8b9c5aff82ba" LastKnownName="GestionnaireEtat" />
+                  <elementDefinition Id="242be5b0-4c52-42eb-b8f5-9c0af6c9da33" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="d50f6251-be7c-4888-b5ca-fe37f88b7ab5" name="EtatSourisAjout" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="afc1efe5-6d6d-41f6-9de5-a486d706dd37" />
+              <generalsInternal>
+                <generalization Id="2965ac1f-e47f-418f-945a-f8837dcb880c" isSubstitutable="false">
+                  <classMoniker Id="2a3a457e-1a84-4a57-bb97-ba10a410fe46" LastKnownName="EtatSouris &lt;Abstract&gt;" />
+                  <elementDefinition Id="551fe985-897a-49aa-a6ba-e744f7b6dd22" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="49879248-5bc9-44fc-88c0-44a71b7bce47" name="EtatSourisSelection" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="62821597-d5a7-4add-821f-f10e3cdd5591" />
+              <generalsInternal>
+                <generalization Id="e84d707d-2d93-4c8f-9d53-45321cb0d96b" isSubstitutable="false">
+                  <classMoniker Id="2a3a457e-1a84-4a57-bb97-ba10a410fe46" LastKnownName="EtatSouris &lt;Abstract&gt;" />
+                  <elementDefinition Id="ea1630bf-14c0-44d7-92a8-50dcf0da572d" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="41cd6473-8a46-45a5-a336-09f413ad7d6c" name="EtatSourisDeplacement" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="2a28e8d6-a2d1-4d9c-b4d3-0dbf0c39960b" />
+              <generalsInternal>
+                <generalization Id="f293e850-9a2b-40b6-b54c-fd8dbb8fab6f" isSubstitutable="false">
+                  <classMoniker Id="2a3a457e-1a84-4a57-bb97-ba10a410fe46" LastKnownName="EtatSouris &lt;Abstract&gt;" />
+                  <elementDefinition Id="0a9778c1-aafe-4b52-be81-dd4ea8e09b25" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="d509caa4-507e-4b71-ac0a-9bc16b9545e4" name="EtatSourisEchelle" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="5773597f-3281-4bb4-ba9c-f43331f9cf2c" />
+              <generalsInternal>
+                <generalization Id="eafbb49e-e43e-48ed-86ca-259496489209" isSubstitutable="false">
+                  <classMoniker Id="2a3a457e-1a84-4a57-bb97-ba10a410fe46" LastKnownName="EtatSouris &lt;Abstract&gt;" />
+                  <elementDefinition Id="5c9ef4a7-5417-4899-9638-8cef4bd9e07d" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="378d8deb-fe05-457b-bc6b-dd9404bf905c" name="EtatSourisRotation" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="6acb13d3-ce1d-4548-bca5-aa22485cf40f" />
+              <generalsInternal>
+                <generalization Id="fd746a6c-ef29-446d-9f24-9fb879c1755e" isSubstitutable="false">
+                  <classMoniker Id="2a3a457e-1a84-4a57-bb97-ba10a410fe46" LastKnownName="EtatSouris &lt;Abstract&gt;" />
+                  <elementDefinition Id="745d44e6-fd23-4635-8180-15265ef3512d" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="b77b1960-26d1-41b1-bcea-3acee2406f4f" name="Camera" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="2f47684a-fdaf-4430-85ee-100a5d57b979" />
+              <generalsInternal>
+                <generalization Id="b627dd71-369d-4668-ba0b-f81c11ff59e5" isSubstitutable="false">
+                  <classMoniker Id="ba808d86-2d2f-40f4-8606-c74308a48204" LastKnownName="ObjetAnimable" />
+                  <elementDefinition Id="76b643ad-f6e0-4727-bf06-e3f3e022f9dd" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="2a3a457e-1a84-4a57-bb97-ba10a410fe46" name="EtatSouris &lt;Abstract&gt;" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="921ba588-eac3-468e-bddb-bbb7b46eb5b3" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="38d3672d-1c62-491b-a1ec-8b9c5aff82ba" name="GestionnaireEtat" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="57863826-75cf-49d2-971d-403dd61e7fd6" />
+              <targetEnds>
+                <association Id="eaad39c8-78f1-43c9-ac40-28f528fac335" isDerived="false" sourceEndRoleName="GestionnaireEtats" targetEndRoleName="EtatSouris &lt;Abstract&gt;" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="2a3a457e-1a84-4a57-bb97-ba10a410fe46" LastKnownName="EtatSouris &lt;Abstract&gt;" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="46d7b202-cf52-4c73-93c4-392b95e892d5" name="GestionnaireEtats" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="b8580da5-9815-467f-b727-c692b446a165" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="11ce7f6a-fa54-491d-b815-9a3aaf2fc2c2" name="EtatSouris &lt;Abstract&gt;" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="6fe5b4df-8657-4eb6-9887-1d5103ec123b" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="fdf40844-eaac-45ff-b5f7-f191c9671dbd" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="ba808d86-2d2f-40f4-8606-c74308a48204" name="ObjetAnimable" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="b3c050fe-44ea-40b2-8f12-19ecf0279906" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="a858bc35-d6c4-4c93-a889-df2820986d59" name="LumiereAbstraite" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="05e07bba-6ea5-4ba0-a386-8ca50f554e40" />
+              <generalsInternal>
+                <generalization Id="2b022997-183b-44e0-a479-9fd2a386746a" isSubstitutable="false">
+                  <classMoniker Id="ba808d86-2d2f-40f4-8606-c74308a48204" LastKnownName="ObjetAnimable" />
+                  <elementDefinition Id="b73eaad4-07ad-4241-b30e-f9c74b22adce" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="817a86b4-8f2a-4e69-b7b3-ce7ab967c94d" name="LumiereAmbiante" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="a3753cac-fd9c-4354-a6a4-c57f2a79b102" />
+              <generalsInternal>
+                <generalization Id="b284bf68-52d2-409d-8918-c39e49dfc3b1" isSubstitutable="false">
+                  <classMoniker Id="a858bc35-d6c4-4c93-a889-df2820986d59" LastKnownName="LumiereAbstraite" />
+                  <elementDefinition Id="2eb6cbb6-9fe6-4121-824a-4dcccf4e8bd8" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="cb824767-0c13-4df1-b226-a5f811b4f012" name="LumiereSpot" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="b3ff0f44-e37d-44fa-97b6-78dac79c1bd6" />
+              <generalsInternal>
+                <generalization Id="8a99d5bc-cc1e-431e-8fc1-fc1316a89b39" isSubstitutable="false">
+                  <classMoniker Id="a858bc35-d6c4-4c93-a889-df2820986d59" LastKnownName="LumiereAbstraite" />
+                  <elementDefinition Id="ec25257e-f3a1-4be6-b716-c516811da097" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="ac2f4de2-6333-4568-8124-e2aafd95062e" name="LumiereDirectionnelle" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="0e167bd2-d44a-4450-aa2c-c62203c787c1" />
+              <generalsInternal>
+                <generalization Id="28b1b712-c9b4-4d1a-bc5f-cfd4034ae9d3" isSubstitutable="false">
+                  <classMoniker Id="a858bc35-d6c4-4c93-a889-df2820986d59" LastKnownName="LumiereAbstraite" />
+                  <elementDefinition Id="b9eb8991-10b5-43f0-994c-4efb4ac12c79" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+  </packagedElements>
+  <package Id="5d3a3a45-de05-478b-b0f3-f16cb9b6a4e8" name="PackageDiagram">
+    <elementDefinition Id="e3be6b7a-c594-4cdf-a79e-a902a52468de" />
+    <profileInstances>
+      <packageHasProfileInstances Id="a8079dd0-470e-49c3-b02a-6c5699fd9e73">
+        <profileInstance Id="a3ad2086-1fab-4fd2-9761-1fff28ca5bbf" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="6e026333-5e8a-4794-8d62-19d6d85f4669">
+        <profileInstance Id="dd6e29e5-d55b-4ad8-b4c5-fcac6b9423a4" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</logicalClassDesignerModel>

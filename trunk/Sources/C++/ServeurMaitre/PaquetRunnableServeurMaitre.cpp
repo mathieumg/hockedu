@@ -19,12 +19,15 @@
 #include <stdexcept>
 #include "../Reseau/Paquets/PaquetGameStatus.h"
 #include "../Reseau/Paquets/PaquetGameCreation.h"
+#include "../Reseau/Paquets/PaquetGameRegistration.h"
+#include "GameServerManager.h"
+#include "GameServer.h"
 
 
 /// ***** PAR CONVENTION, METTRE Master A LA FIN DU NOM DES DELEGATES
 
 
-int PaquetRunnable::RunnableLoginInfoServerMaster( Paquet* pPaquet )
+int PaquetRunnable::RunnableLoginInfoMasterServer( Paquet* pPaquet )
 {
     PaquetLoginInfo* wPaquet = (PaquetLoginInfo*) pPaquet;
 
@@ -49,7 +52,7 @@ int PaquetRunnable::RunnableLoginInfoServerMaster( Paquet* pPaquet )
 
 
 
-int PaquetRunnable::RunnableChatMessageServerMaster( Paquet* pPaquet )
+int PaquetRunnable::RunnableChatMessageMasterServer( Paquet* pPaquet )
 {
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) pPaquet;
 
@@ -106,7 +109,7 @@ int PaquetRunnable::RunnableChatMessageServerMaster( Paquet* pPaquet )
 
 
 
-int PaquetRunnable::RunnableUserStatusServerMaster( Paquet* pPaquet )
+int PaquetRunnable::RunnableUserStatusMasterServer( Paquet* pPaquet )
 {
     PaquetUserStatus* wPaquet = (PaquetUserStatus*) pPaquet;
     throw std::runtime_error("Not yet implemented");
@@ -117,7 +120,7 @@ int PaquetRunnable::RunnableUserStatusServerMaster( Paquet* pPaquet )
 
 
 
-int PaquetRunnable::RunnableGameStatusServerMaster( Paquet* pPaquet )
+int PaquetRunnable::RunnableGameStatusMasterServer( Paquet* pPaquet )
 {
     PaquetGameStatus* wPaquet = (PaquetGameStatus*) pPaquet;
 
@@ -132,10 +135,16 @@ int PaquetRunnable::RunnableGameStatusServerMaster( Paquet* pPaquet )
 }
 
 
-int PaquetRunnable::RunnableGameCreationServerMaster( Paquet* pPaquet )
+int PaquetRunnable::RunnableGameRegistrationMasterServer( Paquet* pPaquet )
 {
-    PaquetGameCreation* wPaquet = (PaquetGameCreation*) pPaquet;
-    throw std::runtime_error("Not yet implemented");
+    PaquetGameRegistration* wPaquet = (PaquetGameRegistration*) pPaquet;
+    
+    const int wGameId = wPaquet->getGameId();
+    const unsigned int wServerId = wPaquet->getServerId();
+#if !SHIPPING
+    std::cout << "Creating game id " << wGameId << " on server " << wServerId;
+#endif
+    GameServerManager::obtenirInstance()->getGameServer(wServerId)->addGame(wGameId, wPaquet->getGameName(), wPaquet->getMapName(), wPaquet->getUsername());
 
     return 0;
 }
