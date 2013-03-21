@@ -242,7 +242,7 @@ struct queuedMove
     Vecteur3 move;
 };
 std::vector<queuedMove> moveQueue;
-#include "..\Reseau\Network_Defines.h"
+#include "..\Reseau\FacadePortability.h"
 HANDLE_MUTEX mutex = NULL;
 
 void emptyQueue()

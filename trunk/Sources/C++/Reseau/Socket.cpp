@@ -335,11 +335,9 @@ uint32_t Socket::recv( uint8_t* buf, uint32_t bufLen, bool pBlock /* = false*/ )
 void Socket::getaddrinfo( uint8_t* addr, uint16_t port, addrinfo* result )
 {
 	char portString[5];
-#ifdef WINDOWS
+
 	sprintf_s(portString, "%d", port);
-#elif defined(LINUX)
-    sprintf(portString, "%d", port);
-#endif
+
 	//std::cout << (char*)addr << std::endl;
 	struct addrinfo hints;
 	memset(&hints, 0, sizeof(hints));
@@ -549,11 +547,7 @@ ConnectionState Socket::initClient()
                 if(attendreSocket(15)) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
                 {
                     recv((uint8_t*) &wReceptionValue, 3, true);
-#ifdef WINDOWS
                     if(sscanf_s(wReceptionValue,"%i",&wConfirmation) == 0)
-#elif defined(LINUX)
-                    if(sscanf(wReceptionValue,"%i",&wConfirmation) == 0)
-#endif
                     {
                         // sscanf ne fonctionne pas
                         wConfirmation = USER_DISCONNECTED;
@@ -566,11 +560,7 @@ ConnectionState Socket::initClient()
                         send((uint8_t*) wPassword.c_str(), (uint32_t) (wPassword.length()+1), true); // +1 pour avoir le caractere de fin de string
                         char wReceptionValue2[3];
                         recv((uint8_t*) &wReceptionValue2, 3, true);
-#ifdef WINDOWS
                         if(sscanf_s(wReceptionValue2,"%i",&wConfirmation) == 0)
-#elif defined(LINUX)
-                        if(sscanf(wReceptionValue2,"%i",&wConfirmation) == 0)
-#endif
                         {
                             // sscanf ne fonctionne pas
                             wConfirmation = USER_DISCONNECTED;

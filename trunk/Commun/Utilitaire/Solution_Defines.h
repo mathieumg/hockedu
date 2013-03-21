@@ -32,7 +32,7 @@
 #endif
 
 #else
-#define PRAGMA_DISABLE_OPTIMIZATION 
+#define PRAGMA_DISABLE_OPTIMIZATION
 #endif
 
 #if WIN32
@@ -101,4 +101,13 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
 #define checkf(expr, ...)   { if(!(expr)) appFailAssert( #expr, __FILE__, __LINE__, ##__VA_ARGS__ ); }
 #else
 #define checkf(expr, ...)
+#endif
+
+#ifndef WINDOWS
+#define sprintf_s sprintf
+#define strcpy_s(buf, bufLen, arrToCopy) { strcpy(buf, arrToCopy); }
+#define localtime_s(tmStructReference, time_tReference) { time(time_tReference); *tmStructReference = *localtime(time_tReference); }
+#define memcpy_s(dstArray, dstArrayLen, srcArray, srcArrayLen) { memcpy(dstArray, srcArray, srcArrayLen); }
+#define sscanf_s sscanf
+#define _localtime64_s(tmStructReference, time_tReference) { time(time_tReference); tmStructReference = localtime(time_tReference); return (tMStructReference == NULL); }
 #endif

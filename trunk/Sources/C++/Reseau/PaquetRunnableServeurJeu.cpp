@@ -24,10 +24,11 @@
 #include "JoueurNetworkServeur.h"
 #include "Runnable.h"
 #include "NoeudMaillet.h"
+#include "Paquets\PaquetGameRegistration.h"
 #include "GestionnaireReseau.h"
+#include "ControllerServeurJeu.h"
 #include "JoueurVirtuel.h"
 #include "Paquets\PaquetGameEvent.h"
-
 
 /// ***** PAR CONVENTION, METTRE Game A LA FIN DU NOM DES DELEGATES
 
@@ -38,32 +39,20 @@ int PaquetRunnable::RunnableAuthentificationServeurJeuServerGame( Paquet* pPaque
 
     std::ostringstream wTimeOutput;
     time_t wT = time(0);
-    struct tm* wTime = NULL;
-#ifdef WINDOWS
-    struct tm wTimeWin;
-    if(_localtime64_s(&wTimeWin, &wT))
+    struct tm wTime;
+    if(_localtime64_s(&wTime, &wT))
     {
-#elif defined(LINUX)
-    time(&wT);
-    wTime = localtime(&wT);
-    if(wTime == NULL)
-    {
-#endif
-
         // If time == NULL
         std::cout << "[00:00:00]";
     }
     else
     {
-#ifdef WINDOWS
-        wTime = &wTimeWin;
-#endif
         wTimeOutput << std::setfill('0') << "["
-            << std::setw(2) << wTime->tm_hour
+            << std::setw(2) << wTime.tm_hour
             << std::setw(1) << ":"
-            << std::setw(2) << wTime->tm_min
+            << std::setw(2) << wTime.tm_min
             << std::setw(1) << ":"
-            << std::setw(2) << wTime->tm_sec
+            << std::setw(2) << wTime.tm_sec
             << std::setw(1) << "]";
     }
 
@@ -98,32 +87,20 @@ int PaquetRunnable::RunnableChatMessageServerGame( Paquet* pPaquet )
 
     std::ostringstream wTimeOutput;
     time_t wT = time(0);
-    struct tm* wTime = NULL;
-#ifdef WINDOWS
-    struct tm wTimeWin;
-    if(_localtime64_s(&wTimeWin, &wT))
+    struct tm wTime;
+    if(_localtime64_s(&wTime, &wT))
     {
-#elif defined(LINUX)
-    time(&wT);
-    wTime = localtime(&wT);
-    if(wTime == NULL)
-    {
-#endif
-
         // If time == NULL
         std::cout << "[00:00:00]";
     }
     else
     {
-#ifdef WINDOWS
-        wTime = &wTimeWin;
-#endif
         wTimeOutput << std::setfill('0') << "["
-            << std::setw(2) << wTime->tm_hour
+            << std::setw(2) << wTime.tm_hour
             << std::setw(1) << ":"
-            << std::setw(2) << wTime->tm_min
+            << std::setw(2) << wTime.tm_min
             << std::setw(1) << ":"
-            << std::setw(2) << wTime->tm_sec
+            << std::setw(2) << wTime.tm_sec
             << std::setw(1) << "]";
     }
 
@@ -231,10 +208,20 @@ int PaquetRunnable::RunnableGameCreationServerGame( Paquet* pPaquet )
         // On peut meme utiliser le meme paquet pour renvoyer le message de confirmation
         wPaquet->setGameId(wGameId);
         
-
         // En envoie le message de confirmation
         GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
 
+        if(!ControllerServeurJeu::isLocalServer())
+        {
+            PaquetGameRegistration* wPaquetRegistration = (PaquetGameRegistration*)GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_REGISTRATION);
+            wPaquetRegistration->setServerId(((ControllerServeurJeu*)GestionnaireReseau::obtenirInstance()->getController())->getServerId());
+            wPaquetRegistration->setGameId(wGameId);
+            wPaquetRegistration->setGameName(wPaquet->getGameName());
+            wPaquetRegistration->setMapName(wPaquet->getMapName());
+            wPaquetRegistration->setUsername(wPaquet->getUsername());
+
+            GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquetRegistration, TCP);
+        }
     }
     else
     {

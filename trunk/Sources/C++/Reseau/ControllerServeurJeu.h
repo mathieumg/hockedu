@@ -35,8 +35,13 @@ public:
 
     virtual Partie* getGame( int pGameId );
 
+    unsigned int getServerId() { return mServerId; }
+
+    static bool isLocalServer() { return mIsLocalServer;}
+    static void setIsLocalServer(bool pIsLocalServer) { mIsLocalServer = pIsLocalServer; }
 private:
     unsigned int mServerId;
+    static bool mIsLocalServer;
 };
 
 

@@ -51,12 +51,13 @@ HANDLER_DECLARATION(Rondelle);
 HANDLER_DECLARATION(Maillet);
 HANDLER_DECLARATION(LoginInfo);
 HANDLER_DECLARATION(GameStatus);
+HANDLER_DECLARATION(GameCreation);
+HANDLER_DECLARATION(GameConnection);
+HANDLER_DECLARATION(GameRegistration);
 HANDLER_DECLARATION(Event);
 HANDLER_DECLARATION(ConnAutomatique);
 HANDLER_DECLARATION(AuthentificationServeurJeu);
 HANDLER_DECLARATION(ChatMessage);
-HANDLER_DECLARATION(GameCreation);
-HANDLER_DECLARATION(GameConnection);
 HANDLER_DECLARATION(GameEvent);
 
 ///////////////////////////////////////////////////////////////////////////////

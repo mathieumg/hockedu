@@ -11,7 +11,7 @@
 #pragma once
 #include <string>
 #include "ExceptionsReseau/ExceptionReseau.h"
-#include "Network_Defines.h"
+#include "FacadePortability.h"
 #include "Singleton.h"
 #include <map>
 #include "Socket.h"
@@ -54,12 +54,12 @@ enum PacketTypes {
     BASE,
     GAME_STATUS,
     GAME_CREATION_REQUEST,
+    GAME_CONNECTION,
+    GAME_REGISTRATION,
     AUTHENTIFICATION_SERVEUR_JEU,
     MAILLET,
     RONDELLE,
-    GAME_CONNECTION,
-    GAME_EVENT
-};
+    GAME_EVENT};
 
 struct ConnectionStateEvent
 {
