@@ -7,6 +7,6 @@
 
 @interface MenuViewController : UIViewController
 
--(IBAction) afficherVueAnimee;
-
+-(IBAction) showEditor;
+-(IBAction) openMapList;
 @end

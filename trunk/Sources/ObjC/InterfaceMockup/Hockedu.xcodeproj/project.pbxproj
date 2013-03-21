@@ -82,6 +82,9 @@
 		4E8C11B916FA31AE003D61E8 /* libTinyXml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EF216A316FA2AC0005FB093 /* libTinyXml.a */; };
 		4E93754616FA1E40006A9C39 /* VisitorGatherProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E93754416FA1E40006A9C39 /* VisitorGatherProperties.cpp */; };
 		4E96DF0416F64C4700588998 /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E96DC6716F63D2100588998 /* libBox2D.a */; };
+		4E9CE9FA16FBB74100B04A12 /* Login.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E9CE9F916FBB74100B04A12 /* Login.xib */; };
+		4E9CE9FE16FBBA4B00B04A12 /* LoadMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E9CE9FC16FBBA4B00B04A12 /* LoadMapViewController.m */; };
+		4E9CE9FF16FBBA4B00B04A12 /* LoadMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E9CE9FD16FBBA4B00B04A12 /* LoadMapViewController.xib */; };
 		4EB7EA7916EFBE4100493722 /* VisiteurFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */; };
 		4EC1626E16F81A8C00577704 /* BonusModifierBlockGoal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */; };
 		4EEBBF9A16E86E5B00017127 /* Model.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBF9916E86E5B00017127 /* Model.mm */; };
@@ -303,6 +306,10 @@
 		4E93754416FA1E40006A9C39 /* VisitorGatherProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VisitorGatherProperties.cpp; path = "../../C++/Arbre/Visiteur/VisitorGatherProperties.cpp"; sourceTree = "<group>"; };
 		4E93754516FA1E40006A9C39 /* VisitorGatherProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VisitorGatherProperties.h; path = "../../C++/Arbre/Visiteur/VisitorGatherProperties.h"; sourceTree = "<group>"; };
 		4E96DC6216F63D1D00588998 /* Box2D.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Box2D.xcodeproj; path = Box2D/Box2D.xcodeproj; sourceTree = "<group>"; };
+		4E9CE9F916FBB74100B04A12 /* Login.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Login.xib; sourceTree = "<group>"; };
+		4E9CE9FB16FBBA4B00B04A12 /* LoadMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMapViewController.h; sourceTree = "<group>"; };
+		4E9CE9FC16FBBA4B00B04A12 /* LoadMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadMapViewController.m; sourceTree = "<group>"; };
+		4E9CE9FD16FBBA4B00B04A12 /* LoadMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadMapViewController.xib; sourceTree = "<group>"; };
 		4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisiteurFunction.cpp; sourceTree = "<group>"; };
 		4EB7EA7816EFBE4100493722 /* VisiteurFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisiteurFunction.h; sourceTree = "<group>"; };
 		4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierBlockGoal.cpp; path = "../../C++/Arbre/Bonus/BonusModifierBlockGoal.cpp"; sourceTree = "<group>"; };
@@ -686,6 +693,8 @@
 				96378D961472C7CC00F543EA /* MenuViewController.m */,
 				969DDF8D1472E15900ED5DC8 /* EAGLViewController.h */,
 				969DDF8E1472E15900ED5DC8 /* EAGLViewController.m */,
+				4E9CE9FB16FBBA4B00B04A12 /* LoadMapViewController.h */,
+				4E9CE9FC16FBBA4B00B04A12 /* LoadMapViewController.m */,
 			);
 			name = Controleurs;
 			sourceTree = "<group>";
@@ -696,6 +705,8 @@
 				96378D8C1472C71200F543EA /* MainWindow.xib */,
 				96378D991472C80A00F543EA /* MenuViewController.xib */,
 				969DDF8F1472E15900ED5DC8 /* EAGLViewController.xib */,
+				4E9CE9FD16FBBA4B00B04A12 /* LoadMapViewController.xib */,
+				4E9CE9F916FBB74100B04A12 /* Login.xib */,
 			);
 			name = "Interface Builder";
 			sourceTree = "<group>";
@@ -852,6 +863,8 @@
 				0C04E07216DE7835002B0EE2 /* menu.png in Resources */,
 				6D951C3F16EE753600894B44 /* LeftBar.png in Resources */,
 				6D951C4116EE767B00894B44 /* BottomBar.png in Resources */,
+				4E9CE9FA16FBB74100B04A12 /* Login.xib in Resources */,
+				4E9CE9FF16FBBA4B00B04A12 /* LoadMapViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -930,6 +943,7 @@
 				4E2A596116F2E658002160AE /* BonusModifierFactory.cpp in Sources */,
 				4EC1626E16F81A8C00577704 /* BonusModifierBlockGoal.cpp in Sources */,
 				4E93754616FA1E40006A9C39 /* VisitorGatherProperties.cpp in Sources */,
+				4E9CE9FE16FBBA4B00B04A12 /* LoadMapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
