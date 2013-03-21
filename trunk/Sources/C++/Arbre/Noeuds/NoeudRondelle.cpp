@@ -637,7 +637,7 @@ void NoeudRondelle::updatePhysicBody()
         b2BodyDef myBodyDef;
         myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
 
-        float puckRadius = getRadius();
+        float puckRadius = getRadius()*mScale[VX];
 
         const Vecteur3& pos = getPosition();
         b2Vec2 posB2;
@@ -658,9 +658,12 @@ void NoeudRondelle::updatePhysicBody()
         myFixtureDef.restitution = 0.95f;
 
         // Il s'agit ici d'une rondelle qui peut entre en collision avec un maillet, un mur, un portail ou un boost
-        myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
-        /// La puck entre en collision avec tout !
-        myFixtureDef.filter.maskBits = 0xFFFF;
+        if(IsInGame())
+        {
+            myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
+            /// La puck entre en collision avec tout !
+            myFixtureDef.filter.maskBits = 0xFFFF;
+        }
 
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body

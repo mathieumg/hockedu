@@ -991,8 +991,10 @@ void NoeudAbstrait::synchroniseTransformFromB2( const b2Transform& transform)
 {
 #if BOX2D_INTEGRATED 
     // TODO:: a verifier avec la position du parent
-    utilitaire::B2VEC_TO_VEC3(mPosition,transform.p);
-    mAngle = utilitaire::RAD_TO_DEG(transform.q.GetAngle());
+    Vecteur3 pos;
+    utilitaire::B2VEC_TO_VEC3(pos,transform.p);
+    setPosition(pos);
+    setAngle(utilitaire::RAD_TO_DEG(transform.q.GetAngle()));
 #endif
 }
 

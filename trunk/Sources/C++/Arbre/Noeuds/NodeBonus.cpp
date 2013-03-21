@@ -203,7 +203,7 @@ void NodeBonus::tick( const float& dt )
 {
     if(isVisible())
     {
-        mAngle = (float)((int)(mAngle+dt*500.0f)%360);
+        setAngle((float)((int)(mAngle+dt*500.0f)%360));
         mHeightAngle += dt*3;
         updateMatrice();
     }
@@ -347,7 +347,7 @@ void NodeBonus::updatePhysicBody()
 
         mPhysicBody = world->CreateBody(&myBodyDef);
         b2CircleShape shape;
-        auto radius = getRadius();
+        auto radius = getRadius()*mScale[VX];
         shape.m_p.Set(0, 0); //position, relative to body position
         shape.m_radius = radius*utilitaire::ratioWorldToBox2D; //radius
 
@@ -355,15 +355,18 @@ void NodeBonus::updatePhysicBody()
         myFixtureDef.shape = &shape; //this is a pointer to the shape above
         myFixtureDef.density = 1;
         // Il s'agit ici d'un bonus qui peut entré en collision avec une rondelle
-        myFixtureDef.filter.categoryBits = CATEGORY_BONUS;
-        myFixtureDef.filter.maskBits = CATEGORY_PUCK;
+        if(IsInGame())
+        {
+            myFixtureDef.filter.categoryBits = CATEGORY_BONUS;
+            myFixtureDef.filter.maskBits = CATEGORY_PUCK;
 
-        // Le sensor indique qu'on va recevoir la callback de collision avec la rondelle sans vraiment avoir de collision
-        myFixtureDef.isSensor = true;
+            // Le sensor indique qu'on va recevoir la callback de collision avec la rondelle sans vraiment avoir de collision
+            myFixtureDef.isSensor = true;
+        }
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         mPhysicBody->SetUserData(this);
-        //mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
+        mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::synchroniseTransformFromB2CallBack;
         mPhysicBody->SetActive(!IsInGame());
     }
 #endif

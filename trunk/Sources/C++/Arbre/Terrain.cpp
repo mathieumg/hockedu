@@ -1014,6 +1014,8 @@ void Terrain::BeginContact( b2Contact* contact )
                         }
                         mGame->miseAuJeu();
                         rondelleBody->SetLinearVelocity(b2Vec2(0,0));
+                        rondelleBody->SetAngularVelocity(0);
+                        rondelle->setAngle(0);
                     });
                     RunnableBreaker::attach(r);
                     RazerGameUtilities::RunOnUpdateThread(r,true);
@@ -1470,8 +1472,10 @@ bool Terrain::IsNodeAtValidEditionPosition( NoeudAbstrait* pNode, bool pDoHightl
 ////////////////////////////////////////////////////////////////////////
 bool Terrain::FixCollidingObjects()
 {
+#if BOX2D_INTEGRATED  
     mWorld->Step(0.001f,0,50);
     return true;
+#endif //BOX2D_INTEGRATED
 
     bool tableValide = false;
 

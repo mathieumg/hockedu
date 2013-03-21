@@ -1358,6 +1358,7 @@ void NoeudTable::updatePhysicBody()
             b2FixtureDef myFixtureDef;
             myFixtureDef.shape = &shape; //this is a pointer to the shapeHaut above
             myFixtureDef.density = 1;
+
             myFixtureDef.filter.categoryBits = CATEGORY_NONE;
             myFixtureDef.filter.maskBits = CATEGORY_NONE;
             myFixtureDef.filter.groupIndex = 1;

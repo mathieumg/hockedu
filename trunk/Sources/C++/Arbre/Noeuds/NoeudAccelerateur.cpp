@@ -108,7 +108,7 @@ void NoeudAccelerateur::renderReal() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAccelerateur::tick( const float& temps)
 {
-	mAngle = (float)((int)(mAngle+temps*500.0f)%360);
+	setAngle((float)((int)(mAngle+temps*500.0f)%360));
 	updateMatrice();
 }
 
@@ -239,22 +239,25 @@ void NoeudAccelerateur::updatePhysicBody()
         mPhysicBody = world->CreateBody(&myBodyDef);
         b2CircleShape circleShape;
         circleShape.m_p.Set(0, 0); //position, relative to body position
-        circleShape.m_radius = (float32)getRadius()*utilitaire::ratioWorldToBox2D; //radius
+        circleShape.m_radius = (float32)getRadius()*mScale[VX]*utilitaire::ratioWorldToBox2D; //radius
 
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
         myFixtureDef.density = 1;
 
         // Il s'agit ici d'un boost qui peut entré en collision avec une rondell
-        myFixtureDef.filter.categoryBits = CATEGORY_BOOST;
-        myFixtureDef.filter.maskBits = CATEGORY_PUCK;
+        if(IsInGame())
+        {
+            myFixtureDef.filter.categoryBits = CATEGORY_BOOST;
+            myFixtureDef.filter.maskBits = CATEGORY_PUCK;
 
-        // Le sensor indique qu'on va recevoir la callback de collision avec la rondelle sans vraiment avoir de collision
-        myFixtureDef.isSensor = true;
+            // Le sensor indique qu'on va recevoir la callback de collision avec la rondelle sans vraiment avoir de collision
+            myFixtureDef.isSensor = true;
+        }
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         mPhysicBody->SetUserData(this);
-        //     mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
+        mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::synchroniseTransformFromB2CallBack;
     }
 #endif
 

@@ -111,21 +111,24 @@ void NodeWallAbstract::updatePhysicBody()
         b2Vec2 posB2;
         utilitaire::VEC3_TO_B2VEC(pos,posB2);
         myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
-        myBodyDef.angle = 0; //set the starting angle
+        myBodyDef.angle = utilitaire::DEG_TO_RAD(mAngle); //set the starting angle
 
         mPhysicBody = world->CreateBody(&myBodyDef);
         b2PolygonShape shape;
-        shape.SetAsBox(halfLength,halfHeight,b2Vec2(0,0),utilitaire::DEG_TO_RAD(mAngle));
+        shape.SetAsBox(halfLength,halfHeight,b2Vec2(0,0),0);
 
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &shape; //this is a pointer to the shape above
         myFixtureDef.density = 1;
-        myFixtureDef.filter.categoryBits = CATEGORY_WALL;
-        myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_MALLET;
+        if(IsInGame())
+        {
+            myFixtureDef.filter.categoryBits = CATEGORY_WALL;
+            myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_MALLET;
+        }
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
-//     mPhysicBody->SetUserData(this);
-//     mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
+        mPhysicBody->SetUserData(this);
+        mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::synchroniseTransformFromB2CallBack;
     }
 #endif
 
