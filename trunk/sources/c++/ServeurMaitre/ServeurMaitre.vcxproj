@@ -102,7 +102,7 @@
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerConnAutomatique.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerEvent.cpp" />
     <ClCompile Include="..\reseau\PaquetHandlers\PacketHandlerGameConnection.cpp" />
-    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameCreation.cpp" />
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameRegistration.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameStatus.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerLoginInfo.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerTest.cpp" />
@@ -113,7 +113,7 @@
     <ClCompile Include="..\Reseau\Paquets\PaquetConnAutomatique.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetEvent.cpp" />
     <ClCompile Include="..\reseau\Paquets\PaquetGameConnection.cpp" />
-    <ClCompile Include="..\Reseau\Paquets\PaquetGameCreation.cpp" />
+    <ClCompile Include="..\Reseau\Paquets\PaquetGameRegistration.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetGameStatus.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetLoginInfo.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetTest.cpp" />
@@ -125,6 +125,8 @@
     <ClCompile Include="ControllerServeurMaitre.cpp" />
     <ClCompile Include="ExceptionsReseau\ExceptionReseauBD.cpp" />
     <ClCompile Include="FacadeServeurMaitre.cpp" />
+    <ClCompile Include="GameServer.cpp" />
+    <ClCompile Include="GameServerManager.cpp" />
     <ClCompile Include="mainServeurMaitre.cpp" />
     <ClCompile Include="PaquetRunnableServeurMaitre.cpp" />
     <ClCompile Include="sha1.cpp" />
@@ -151,7 +153,7 @@
     <ClInclude Include="..\Reseau\Paquets\PaquetConnAutomatique.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetEvent.h" />
     <ClInclude Include="..\reseau\Paquets\PaquetGameConnection.h" />
-    <ClInclude Include="..\Reseau\Paquets\PaquetGameCreation.h" />
+    <ClInclude Include="..\Reseau\Paquets\PaquetGameRegistration.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetGameStatus.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetLoginInfo.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetTest.h" />
@@ -164,6 +166,7 @@
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetConnAutomatique.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetEvent.h" />
     <ClInclude Include="..\reseau\UsinePaquets\UsinePaquetGameConnection.h" />
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetGameRegistration.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetGameStatus.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetLoginInfo.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetTest.h" />
@@ -172,6 +175,8 @@
     <ClInclude Include="ControllerServeurMaitre.h" />
     <ClInclude Include="ExceptionsReseau\ExceptionReseauBD.h" />
     <ClInclude Include="FacadeServeurMaitre.h" />
+    <ClInclude Include="GameServer.h" />
+    <ClInclude Include="GameServerManager.h" />
     <ClInclude Include="PaquetRunnableServeurMaitre.h" />
     <ClInclude Include="sha1.h" />
   </ItemGroup>
