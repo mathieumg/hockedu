@@ -28,10 +28,6 @@
 #include "Projection.h"
 #include "LignePointillee.h"
 #include "RazerGameUtilities.h"
-
-#if BOX2D_INTEGRATED  
-#include <Box2D/Box2D.h>
-#endif
 #include "Utilitaire.h"
 #include "AideGL.h"
 #include "CompteurAffichage.h"
@@ -608,7 +604,7 @@ void FacadeModele::libererMemoire()
     if(obtenirPartieCourante() && !obtenirPartieCourante()->faitPartieDunTournoi())
         GameManager::obtenirInstance()->removeGame(partieCourante_);
 
-#if BOX2D_INTEGRATED  
+#if BOX2D_DEBUG
     if(DebugRenderBox2D::mInstance)delete DebugRenderBox2D::mInstance;
     DebugRenderBox2D::mInstance = NULL;
 #endif

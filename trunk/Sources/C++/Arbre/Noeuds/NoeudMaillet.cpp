@@ -18,10 +18,16 @@
 
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
-#include "JoueurVirtuel.h"
-#include "DebugRenderBox2D.h"
-#include "GestionnaireEvenements.h"
 #endif
+#if BOX2D_PLAY
+#include "JoueurVirtuel.h"
+#endif
+
+#if BOX2D_DEBUG
+#include "DebugRenderBox2D.h"
+#endif
+
+
 
 #ifndef __APPLE__
 #include "FacadeModele.h"
@@ -51,7 +57,7 @@ CreateListDelegateImplementation(Mallet)
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet::NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCreated, unsigned int malletLimit)
    : NoeudAbstrait(typeNoeud), vitesse_(300.0),estControleParClavier_(false), joueur_(0),mNbMalletCreated(malletCreated)
-#if BOX2D_INTEGRATED
+#if BOX2D_PLAY
 , mMouseJoint(NULL),mMouseBody(NULL)
 #endif
 {
@@ -207,56 +213,7 @@ void NoeudMaillet::acceptVisitor( VisiteurNoeud& v )
 
 
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudMaillet::collisionDetection( float temps )
-///
-/// Application des lois de la physique
-///
-/// @param[in] float temps
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::collisionDetection( const float& temps )
-{
-	// Pour linstant on ne fait rien
-	return;
 
-	NoeudRondelle* rondelle;
-	// Si le maillet n'est pas sur un table, il n'y a pas de physique appliquee
-	if(!getField() || !( rondelle = getField()->getPuck() ) )
-		return;
-	// Reinitialisation du vecteur d'enfoncement
-	enfoncement_.remetAZero();
-	collisionAvecRondelle_ = false;
-	
-	
-	// On se crée un visiteur de collision
-	VisiteurCollision v(this,false);
-	rondelle->acceptVisitor(v);
-
-	// Si il y a collision
-	if(v.collisionPresente())
-	{
-		// On se crée un conteneur de noeud pour contenir les noeud en collision
-		ConteneurNoeuds liste;
-		v.obtenirListeCollision(liste);
-		ConteneurNoeuds::iterator iter = liste.begin();
-
-		for(; iter != liste.end(); iter++)
-		{
-			if( (*iter) == rondelle)
-			{
-				Vecteur3 dir = rondelle->getPosition() - getPosition();
-				float enf = (rondelle->getRadius()+getRadius())-dir.norme();
-				dir.normaliser();
-				enfoncement_ += dir*enf;
-				collisionAvecRondelle_ = true;
-			}
-		}
-	}
-}
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -294,7 +251,7 @@ void NoeudMaillet::modifierDirection( bool active, DirectionMaillet dir )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudMaillet::assignerPosSouris( Vecteur3 pos )
+/// @fn void NoeudMaillet::setTargetDestination( Vecteur3 pos )
 ///
 /// Assignation de la position de la souris pour que le maillet puisse la suivre
 ///
@@ -303,11 +260,63 @@ void NoeudMaillet::modifierDirection( bool active, DirectionMaillet dir )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::assignerPosSouris( Vecteur3 pos )
+void NoeudMaillet::setTargetDestination( Vecteur3 pos )
 {
-	posSouris_ = pos;
+	mTargetDestination = pos;
 }
 
+
+#if MANUAL_PHYSICS_DETECTION
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudMaillet::collisionDetection( float temps )
+///
+/// Application des lois de la physique
+///
+/// @param[in] float temps
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudMaillet::collisionDetection( const float& temps )
+{
+    // Pour linstant on ne fait rien
+    return;
+
+    NoeudRondelle* rondelle;
+    // Si le maillet n'est pas sur un table, il n'y a pas de physique appliquee
+    if(!getField() || !( rondelle = getField()->getPuck() ) )
+        return;
+    // Reinitialisation du vecteur d'enfoncement
+    enfoncement_.remetAZero();
+    collisionAvecRondelle_ = false;
+
+
+    // On se crée un visiteur de collision
+    VisiteurCollision v(this,false);
+    rondelle->acceptVisitor(v);
+
+    // Si il y a collision
+    if(v.collisionPresente())
+    {
+        // On se crée un conteneur de noeud pour contenir les noeud en collision
+        ConteneurNoeuds liste;
+        v.obtenirListeCollision(liste);
+        ConteneurNoeuds::iterator iter = liste.begin();
+
+        for(; iter != liste.end(); iter++)
+        {
+            if( (*iter) == rondelle)
+            {
+                Vecteur3 dir = rondelle->getPosition() - getPosition();
+                float enf = (rondelle->getRadius()+getRadius())-dir.norme();
+                dir.normaliser();
+                enfoncement_ += dir*enf;
+                collisionAvecRondelle_ = true;
+            }
+        }
+    }
+}
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void NoeudMaillet::positionUpdate( float temps )
@@ -426,12 +435,12 @@ void NoeudMaillet::fixOverlap()
 ////////////////////////////////////////////////////////////////////////
 void NoeudMaillet::fixSpeed( const float& temps )
 {
-/*	Vecteur2 direction;
+	Vecteur2 direction;
 	if(!estControleParOrdinateur_)
 	{
 		if(!estControleParClavier_)
 		{
-			direction = posSouris_-getPosition();
+			direction = mTargetDestination-getPosition();
 			// Pour arreter le maillet s'il est pres de la souris
 			if(direction.norme2() <= 10)
 			{
@@ -480,9 +489,9 @@ void NoeudMaillet::fixSpeed( const float& temps )
 	
 	velocite_ += direction.convertir<3>();
 	velocite_ *= 0.50;
-	//velocite_[VZ] = 0;*/
-	
+	//velocite_[VZ] = 0;
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -542,14 +551,9 @@ void NoeudMaillet::updatePhysicBody()
 ////////////////////////////////////////////////////////////////////////
 void NoeudMaillet::buildMouseJoint(bool pIsNetworkControlled /*=false*/)
 {
-#if BOX2D_INTEGRATED
+#if BOX2D_PLAY
     if(!mMouseJoint)
     {
-        if(!estControleParOrdinateur_ && !estControleParClavier_ && !pIsNetworkControlled)
-        {
-            GestionnaireEvenements::mMouseMoveSubject.attach(this);
-        }
-
         auto world = getWorld();
         if(world)
         {
@@ -586,10 +590,9 @@ void NoeudMaillet::buildMouseJoint(bool pIsNetworkControlled /*=false*/)
 ////////////////////////////////////////////////////////////////////////
 void NoeudMaillet::destroyMouseJoint()
 {
-#if BOX2D_INTEGRATED
+#if BOX2D_PLAY
     if(mMouseJoint)
     {
-        GestionnaireEvenements::mMouseMoveSubject.detach(this);
         auto world = getWorld();
         if(world)
         {
@@ -604,32 +607,6 @@ void NoeudMaillet::destroyMouseJoint()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudMaillet::updateObserver( const  class MouseMoveSubject& pSubject )
-///
-/// /*Description*/
-///
-/// @param[in] class MouseMoveSubject & pSubject
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::updateObserver( const  MouseMoveSubject* pSubject )
-{
-#if BOX2D_INTEGRATED
-    if(mMouseJoint)
-    {
-        Vecteur3 virtualMousePos;
-        b2Vec2 virtualMousePosB2;
-        FacadeModele::getInstance()->convertirClotureAVirtuelle(pSubject->mEvent.obtenirPosition()[VX],pSubject->mEvent.obtenirPosition()[VY],virtualMousePos);
-        utilitaire::VEC3_TO_B2VEC(virtualMousePos,virtualMousePosB2);
-        mMouseJoint->SetTarget(virtualMousePosB2);
-    }
-#endif
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
 /// @fn void NoeudMaillet::playTick()
 ///
 /// node tick received when actually playing the game (simulation running)
@@ -641,83 +618,47 @@ void NoeudMaillet::updateObserver( const  MouseMoveSubject* pSubject )
 void NoeudMaillet::playTick(float temps)
 {
     Super::playTick(temps);
-#if BOX2D_INTEGRATED  
-    Vecteur2 direction(0,0);
-    if(estControleParNetwork_)
+#if BOX2D_PLAY  
+    if(joueur_)
     {
-        // Cas pour le joueur network
-        if(mMouseJoint)
+        auto type = joueur_->obtenirType();
+        switch(type)
         {
-            b2Vec2 wPosSouris;
-            utilitaire::VEC3_TO_B2VEC(posSouris_,wPosSouris);
-            mMouseJoint->SetTarget(wPosSouris);
-        }
-    }
-    else if(estControleParClavier_ || estControleParOrdinateur_ )
-    {
-        if(!estControleParOrdinateur_)
-        {
+        case JOUEUR_HUMAIN: 
             if(estControleParClavier_)
             {
-                for (int i = 0; i < NB_DIR ; i++)
-                {
-                    if(direction_[i])
-                    {
-                        switch(i)
-                        {
-                        case DIR_HAUT:
-                            direction[VY] += 1;
-                            break;
-                        case DIR_BAS:
-                            direction[VY] -= 1;
-                            break;
-                        case DIR_GAUCHE:
-                            direction[VX] -= 1;
-                            break;
-                        case DIR_DROITE:
-                            direction[VX] += 1;
-                            break;
-                        default:
-                            break;
-                        }
-                    }
-                }
+                mTargetDestination.remetAZero();
+                if(direction_[DIR_HAUT]  )mTargetDestination[VY] += 1;
+                if(direction_[DIR_BAS]   )mTargetDestination[VY] -= 1;
+                if(direction_[DIR_GAUCHE])mTargetDestination[VX] -= 1;
+                if(direction_[DIR_DROITE])mTargetDestination[VX] += 1;
+
+                mTargetDestination.normaliser();
+                mTargetDestination *= 5;
+                mTargetDestination += getPosition();
             }
-            direction.normaliser();
-            direction *= obtenirVitesse();
-        }
-        else
-        {
-            if(joueur_->obtenirType() == JOUEUR_VIRTUEL)
+            break;
+        case JOUEUR_VIRTUEL:
             {
                 JoueurVirtuel* wJoueur = (JoueurVirtuel*) joueur_;
-                direction = wJoueur->obtenirDirectionAI(this);
+                mTargetDestination = wJoueur->obtenirDirectionAI(this);
+                mTargetDestination += getPosition();
             }
-            
-        }
 
-        direction.normaliser();
-        direction *= 5;
-        direction += getPosition();
-
-        b2Vec2 velocite;
-        utilitaire::VEC3_TO_B2VEC(direction,velocite);
-        if(mMouseJoint)
-        {
-            mMouseJoint->SetTarget(velocite);
+            break;
+        case JOUEUR_NETWORK:
+        case JOUEUR_NETWORK_SERVEUR:
+            break;
+        default:checkf(0, "Nouveau type de joueur pas gerer");
         }
     }
-    /*else if(this->obtenirJoueur()->obtenirType() == JOUEUR_NETWORK)
-    {
-        // Cas pour le joueur network
-        if(mMouseJoint)
-        {
-            b2Vec2 wPosSouris;
-            utilitaire::VEC3_TO_B2VEC(posSouris_,wPosSouris);
-            mMouseJoint->SetTarget(wPosSouris);
-        }
 
-    }*/
+    b2Vec2 targetPointB2;
+    utilitaire::VEC3_TO_B2VEC(mTargetDestination,targetPointB2);
+    if(mMouseJoint)
+    {
+        mMouseJoint->SetTarget(targetPointB2);
+    }
 #endif
 }
 

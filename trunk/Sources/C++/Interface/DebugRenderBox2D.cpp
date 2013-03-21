@@ -18,7 +18,7 @@
 
 #include "DebugRenderBox2D.h"
 
-#if BOX2D_INTEGRATED
+#if BOX2D_DEBUG
 
 #include "glew.h"
 

@@ -194,7 +194,7 @@ void NodePolygone::updatePhysicBody()
         clearPhysicsBody();
 
         b2BodyDef myBodyDef;
-        myBodyDef.type = b2_staticBody; //this will be a dynamic body
+        myBodyDef.type = IsInGame() ? b2_staticBody : b2_dynamicBody;; //this will be a dynamic body
         myBodyDef.position.Set(0, 0); //set the starting position
         myBodyDef.angle = 0; //set the starting angle
 

@@ -29,7 +29,7 @@ class NoeudAbstrait;
 class TerrainTest;
 class Partie;
 
-#if BOX2D_INTEGRATED
+#if BOX2D_PLAY
 #include "Box2D\Dynamics\b2WorldCallbacks.h"
 class b2Contact;
 struct b2ContactImpulse;
@@ -46,17 +46,9 @@ struct b2Manifold;
 /// @author Michael Ferris
 /// @date 2012-03-19
 ///////////////////////////////////////////////////////////////////////////
-class Terrain
-#ifndef __APPLE__
-    : public RunnableBreaker
-#endif
-#if BOX2D_INTEGRATED
-#ifndef __APPLE__
-,
-#else
-:
-#endif
-    public b2ContactListener
+class Terrain : public RunnableBreaker
+#if BOX2D_PLAY
+, public b2ContactListener
 #endif
 {
 public:
@@ -145,7 +137,8 @@ public:
     /// if not, return NODE_KEY_NONE
     RazerKey getSelectedNodeUniqueKey() const;
     int gatherSelectedNodeProperties(class FullProperties* properties);
-#if BOX2D_INTEGRATED
+    int applySelectedNodeProperties(class FullProperties* properties);
+#if BOX2D_PLAY
     /// Callback before the contact between 2 fixtures
     virtual void BeginContact( b2Contact* contact );
 
@@ -241,7 +234,6 @@ public:
     NoeudMaillet* getRightMallet() const;
 #if BOX2D_INTEGRATED  
     inline class b2World* GetWorld() {return mWorld;}
-
 #endif
     inline bool isInit() const { return mIsInit; }
 public:

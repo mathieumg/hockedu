@@ -33,6 +33,12 @@ CreateListDelegateImplementation(EmptyBonus)
     delta = DEFAULT_SIZE / delta;
 
     pModel->assignerFacteurAgrandissement(delta);
+    GLuint liste = glGenLists(1);
+    glNewList(liste, GL_COMPILE);
+    glTranslatef(0, 0, -DEFAULT_SIZE[VZ]);
+    pModel->dessiner(true);	
+    glEndList();
+    return liste;
     return GestionnaireModeles::CreerListe(pModel);
 }
 
@@ -46,7 +52,7 @@ CreateListDelegateImplementation(Bonus)
 
     glRotatef(45,1,0,0);
     glRotatef(35,0,1,0);
-    glScalef(DEFAULT_RADIUS*1.5,DEFAULT_RADIUS*1.5,DEFAULT_RADIUS*1.5);
+    glScalef(DEFAULT_RADIUS*1.5f,DEFAULT_RADIUS*1.5f,DEFAULT_RADIUS*1.5f);
     glBegin(GL_QUADS);
 
     GLfloat vertex[3];
@@ -174,7 +180,7 @@ void NodeBonus::renderReal() const
     glPushAttrib( GL_ALL_ATTRIB_BITS );
 
     // Descend la platforme pour ne voir que la surface
-    glTranslatef(mPosition[0], mPosition[1], mPosition[2]-DEFAULT_SIZE[VZ]);
+    glTranslatef(mPosition[0], mPosition[1], mPosition[2]);
     glCallList(liste);
 
     glPopAttrib();
@@ -332,7 +338,7 @@ void NodeBonus::updatePhysicBody()
         float halfHeight = mScale[VY]*DEFAULT_SIZE[VY]/2.f*utilitaire::ratioWorldToBox2D;
 
         b2BodyDef myBodyDef;
-        myBodyDef.type = b2_staticBody; //this will be a dynamic body
+        myBodyDef.type = IsInGame() ? b2_staticBody : b2_dynamicBody; //this will be a dynamic body
         myBodyDef.angle = 0; //set the starting angle
         const Vecteur3& pos = getPosition();
         b2Vec2 posB2;

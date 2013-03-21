@@ -56,6 +56,7 @@ public:
     /// Accueil un visiteur
     virtual void acceptVisitor( VisiteurNoeud& v);
 
+#if MANUAL_PHYSICS_DETECTION
     /// Application de la physique de la rondelle
     virtual void collisionDetection( const float& temps );
     /// Mise a Jour de la position de ce noeud
@@ -64,6 +65,7 @@ public:
     virtual void fixOverlap();
     /// Ajustement de la vitesse des noeuds
     virtual void fixSpeed( const float& temps );
+#endif
 
     /// Accesseur de mVelocite
     Vecteur3 obtenirVelocite() const;

@@ -729,7 +729,7 @@ int GetFieldProperties( FullProperties* fullProperties )
 ////////////////////////////////////////////////////////////////////////
 int SendFieldProperties( FullProperties* fullProperties )
 {
-    return 0;
+    return FacadeModele::getInstance()->getEditionField()->applySelectedNodeProperties(fullProperties);
 }
 
 ////////////////////////////////////////////////////////////////////////

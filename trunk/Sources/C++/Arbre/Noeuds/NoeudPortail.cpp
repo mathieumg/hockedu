@@ -130,7 +130,7 @@ void NoeudPortail::updatePhysicBody()
         clearPhysicsBody();
 
         b2BodyDef myBodyDef;
-        myBodyDef.type = b2_staticBody; //this will be a static body
+        myBodyDef.type = IsInGame() ? b2_staticBody : b2_dynamicBody;; //this will be a static body
         const Vecteur3& pos = getPosition();
         b2Vec2 posB2;
         utilitaire::VEC3_TO_B2VEC(pos,posB2);

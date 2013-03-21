@@ -164,6 +164,10 @@ void NoeudRondelle::acceptVisitor( VisiteurNoeud& v )
     v.visiterNoeudRondelle(this);
 }
 
+
+
+
+#if MANUAL_PHYSICS_DETECTION
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void NoeudRondelle::collisionDetection( float temps )
@@ -177,7 +181,6 @@ void NoeudRondelle::acceptVisitor( VisiteurNoeud& v )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::collisionDetection( const float& temps )
 {
-#if !BOX2D_INTEGRATED && WIN32
     if(!table_)
     {
         if(getField())
@@ -365,7 +368,6 @@ void NoeudRondelle::collisionDetection( const float& temps )
             }
         }
     }
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -381,12 +383,10 @@ void NoeudRondelle::collisionDetection( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::positionUpdate( const float& temps )
 {
-#if !BOX2D_INTEGRATED && WIN32
     anciennePos_ = mPosition;
     mPosition += mVelocite*temps;
     mAngle = (float)((int)(mAngle + 5*mVitesseRotation)%360);
     updateMatrice();
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -401,7 +401,6 @@ void NoeudRondelle::positionUpdate( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::fixOverlap()
 {
-#if !BOX2D_INTEGRATED && WIN32
     if(!table_)
     {
         if(getField())
@@ -456,7 +455,6 @@ void NoeudRondelle::fixOverlap()
         
     }
     mPosition[VZ] = 0;
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -472,7 +470,6 @@ void NoeudRondelle::fixOverlap()
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::fixSpeed( const float& temps )
 {
-#if !BOX2D_INTEGRATED && WIN32
     if(!table_)
     {
         if(getField())
@@ -577,8 +574,8 @@ void NoeudRondelle::fixSpeed( const float& temps )
 
     mVelocite[VZ] = 0;
     mVitesseRotation *= 0.99f;
-#endif
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -662,7 +659,8 @@ void NoeudRondelle::updatePhysicBody()
 
         // Il s'agit ici d'une rondelle qui peut entre en collision avec un maillet, un mur, un portail ou un boost
         myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
-        myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY | CATEGORY_WALL | CATEGORY_PORTAL | CATEGORY_BOOST | CATEGORY_BONUS | CATEGORY_GOALIE;
+        /// La puck entre en collision avec tout !
+        myFixtureDef.filter.maskBits = 0xFFFF;
 
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body

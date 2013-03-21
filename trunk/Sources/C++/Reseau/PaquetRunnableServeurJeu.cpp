@@ -196,7 +196,7 @@ int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
                 Runnable* r = new Runnable([maillet,wPos](Runnable*){
 
                     // Mettre la position du maillet
-                    maillet->assignerPosSouris(wPos);
+                    maillet->setTargetDestination(wPos);
 
                 });
                 //maillet->attach(r);

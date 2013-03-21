@@ -240,7 +240,6 @@ bool NoeudPoint::validerDeplacement( const Vecteur3& pos, const Vecteur2& deplac
         if( t )
         {
             ZoneEdition* zone = t->getZoneEdition();
-            checkf(zone,"Tentative de déplacer un point sans zone édition, s'assurer qu'on est en mode édition");
             if(zone)
             {
                 Vecteur3 deplace2(deplace[VX],deplace[VY],0);

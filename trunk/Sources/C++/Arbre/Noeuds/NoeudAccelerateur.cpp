@@ -169,6 +169,7 @@ bool NoeudAccelerateur::initFromXml( const XmlElement* element )
 	return true;
 }
 
+#if MANUAL_PHYSICS_DETECTION
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void NoeudAccelerateur::collisionDetection( const float& temps )
@@ -182,14 +183,15 @@ bool NoeudAccelerateur::initFromXml( const XmlElement* element )
 ////////////////////////////////////////////////////////////////////////
 void NoeudAccelerateur::collisionDetection( const float& temps )
 {
-/*	NoeudRondelle* rondelle = FacadeModele::getInstance()->obtenirRondelle();
+	NoeudRondelle* rondelle = FacadeModele::getInstance()->obtenirRondelle();
 	Vecteur3 distance = getPosition()- rondelle->getPosition();
 	float rayon = getRadius()+rondelle->getRadius();
 	if(distance.norme2() > rayon*rayon+25)
 	{
 		ActivateBoost(true);
-	}*/
+	}
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -227,7 +229,7 @@ void NoeudAccelerateur::updatePhysicBody()
         clearPhysicsBody();
 
         b2BodyDef myBodyDef;
-        myBodyDef.type = b2_staticBody; //this will be a dynamic body
+        myBodyDef.type = IsInGame() ? b2_staticBody : b2_dynamicBody; //this will be a dynamic body
         const Vecteur3& pos = getPosition();
         b2Vec2 posB2;
         utilitaire::VEC3_TO_B2VEC(pos,posB2);

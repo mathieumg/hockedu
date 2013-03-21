@@ -8,16 +8,22 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "RazerGameUtilities.h"
+
+
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
+#endif
+#if BOX2D_PLAY
 #include "FacadeModele.h"
 #include "Partie.h"
 #include "SoundFMOD.h"
+#include "Runnable.h"
 #endif
 #if BOX2D_DEBUG
 #include "DebugRenderBox2D.h"
-#include "Runnable.h"
 #endif
+
+
 #ifndef __APPLE__
 #include "../Reseau/Paquets/PaquetMaillet.h"
 #include "../Reseau/GestionnaireReseau.h"
@@ -80,7 +86,15 @@ Terrain::Terrain(Partie* pGame):
 #if BOX2D_INTEGRATED
     b2Vec2 gravity(0,0);
     mWorld = new b2World(gravity);
-    mWorld->SetContactListener(this);
+
+    //mWorld->SetWarmStarting(true);
+    mWorld->SetContinuousPhysics(true);
+    //mWorld->SetSubStepping(true);
+
+    if(IsGameField())
+    {
+        mWorld->SetContactListener(this);
+    }
 #if BOX2D_DEBUG
     DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_shapeBit);
     mWorld->SetDebugDraw(DebugRenderBox2D::mInstance);
@@ -919,23 +933,18 @@ void Terrain::appliquerPhysique( float temps )
     {
         VisiteurFunction tick(PlayTickNode,&temps);
         mLogicTree->acceptVisitor(tick);
-#if BOX2D_INTEGRATED
-        //mWorld->SetWarmStarting(true);
-        mWorld->SetContinuousPhysics(true);
-        //mWorld->SetSubStepping(true);
+#if BOX2D_PLAY
         mWorld->Step(temps, 8, 8);
-#else
+#elif MANUAL_PHYSICS_DETECTION
         mLogicTree->positionUpdate(temps);
         mLogicTree->collisionDetection(temps);
         mLogicTree->fixSpeed(temps);
         mLogicTree->fixOverlap();
 #endif
-        
-
     }
 }
 
-#if BOX2D_INTEGRATED
+#if BOX2D_PLAY
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void NoeudRondelle::BeginContact( b2Contact* contact )
@@ -1461,6 +1470,9 @@ bool Terrain::IsNodeAtValidEditionPosition( NoeudAbstrait* pNode, bool pDoHightl
 ////////////////////////////////////////////////////////////////////////
 bool Terrain::FixCollidingObjects()
 {
+    mWorld->Step(0.001f,0,50);
+    return true;
+
     bool tableValide = false;
 
     static const int n = 5;
@@ -1801,6 +1813,41 @@ int Terrain::gatherSelectedNodeProperties( FullProperties* properties )
         return properties->mPropertyFlagAssignment != 0;
     }
     return 0;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn int Terrain::applySelectedNodeProperties( class FullProperties* properties )
+///
+/// /*Description*/
+///
+/// @param[in] class FullProperties * properties
+///
+/// @return int
+///
+////////////////////////////////////////////////////////////////////////
+int Terrain::applySelectedNodeProperties( class FullProperties* properties )
+{
+    if(properties)
+    {
+//         VisitorGatherProperties v(properties);
+//         RazerKey key = getSelectedNodeUniqueKey();
+//         if(key == RAZER_KEY_NONE)
+//         {
+//             if(mTable)
+//             {
+//                 mTable->acceptVisitor(v);
+//             }
+//         }
+//         else
+//         {
+//             for(auto it=mSelectedNodes.begin(); it != mSelectedNodes.end(); ++it)
+//             {
+//                 (*it)->acceptVisitor(v);
+//             }
+//         }
+    }
+    return 1;
 }
 
 
