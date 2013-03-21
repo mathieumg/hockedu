@@ -27,6 +27,7 @@ PartieSyncer::PartieSyncer( int pGameId, clock_t pFrequencyPerSec, SPJoueurAbstr
     mInterval = 1000/pFrequencyPerSec; // Arrondi au ms pres
     setPlayers(pPlayer1, pPlayer2);
     mGameId = pGameId;
+    mIsGameServer = false;
 
     if(GestionnaireReseau::obtenirInstance()->getPlayerName() == "GameServer")
     {
@@ -113,28 +114,29 @@ void PartieSyncer::tick()
 
 
         // Envoie des infos de rondelle
-
-        Partie* wGame = GameManager::obtenirInstance()->getGame(mGameId);
-        if(wGame)
+        if(mIsGameServer)
         {
-            NoeudRondelle* wPuck = wGame->getField()->getPuck();
-            if(wPuck)
+            Partie* wGame = GameManager::obtenirInstance()->getGame(mGameId);
+            if(wGame)
             {
-                PaquetRondelle* wPaquet = (PaquetRondelle*) GestionnaireReseau::obtenirInstance()->creerPaquet(RONDELLE);
-
-                wPaquet->setGameId(mGameId);
-                wPaquet->setPosition(wPuck->getPosition());
-                wPaquet->setVelocite(wPuck->obtenirVelocite());
-                wPaquet->setVitesseRotation(wPuck->obtenirVitesseRotation());
-                
-                wPaquet->setNbAssociatedQueries(mDestinationIdentifiers.size());
-                for(auto it=mDestinationIdentifiers.begin(); it!=mDestinationIdentifiers.end(); ++it)
+                NoeudRondelle* wPuck = wGame->getField()->getPuck();
+                if(wPuck)
                 {
-                    GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
+                    PaquetRondelle* wPaquet = (PaquetRondelle*) GestionnaireReseau::obtenirInstance()->creerPaquet(RONDELLE);
+
+                    wPaquet->setGameId(mGameId);
+                    wPaquet->setPosition(wPuck->getPosition());
+                    wPaquet->setVelocite(wPuck->obtenirVelocite());
+                    wPaquet->setVitesseRotation(wPuck->obtenirVitesseRotation());
+
+                    wPaquet->setNbAssociatedQueries(mDestinationIdentifiers.size());
+                    for(auto it=mDestinationIdentifiers.begin(); it!=mDestinationIdentifiers.end(); ++it)
+                    {
+                        GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
+                    }
                 }
             }
         }
-        
     }
 
 
@@ -156,6 +158,7 @@ void PartieSyncer::setPlayers( SPJoueurAbstrait pPlayer1, SPJoueurAbstrait pPlay
             {
                 if((*it) == mPlayer1->obtenirNom())
                 {
+                    mIsGameServer &= !(mPlayer1->obtenirNom() == "GameServer");
                     mDestinationIdentifiers.erase(it);
                     break;
                 }
@@ -167,6 +170,7 @@ void PartieSyncer::setPlayers( SPJoueurAbstrait pPlayer1, SPJoueurAbstrait pPlay
         if(GestionnaireReseau::obtenirInstance()->getPlayerName() == "GameServer")
         {
             addDestinationIdentifier(pPlayer1->obtenirNom());
+            mIsGameServer = true;
         }
 
     }
@@ -181,6 +185,7 @@ void PartieSyncer::setPlayers( SPJoueurAbstrait pPlayer1, SPJoueurAbstrait pPlay
             {
                 if((*it) == mPlayer2->obtenirNom())
                 {
+                    mIsGameServer &= !(mPlayer1->obtenirNom() == "GameServer");
                     mDestinationIdentifiers.erase(it);
                     break;
                 }
@@ -191,6 +196,7 @@ void PartieSyncer::setPlayers( SPJoueurAbstrait pPlayer1, SPJoueurAbstrait pPlay
         if(GestionnaireReseau::obtenirInstance()->getPlayerName() == "GameServer")
         {
             addDestinationIdentifier(pPlayer2->obtenirNom());
+            mIsGameServer = true;
         }
     }
 

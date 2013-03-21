@@ -42,6 +42,8 @@ private:
     // Returns true if the elapsed time is enough from last clock
     bool isReadyToUpdate();
 
+    bool mIsGameServer;
+
     SPJoueurAbstrait mPlayer1;
     SPJoueurAbstrait mPlayer2;
     

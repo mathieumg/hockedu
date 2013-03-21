@@ -44,7 +44,7 @@ const int Partie::POINTAGE_GAGNANT = 7;
 ///
 ////////////////////////////////////////////////////////////////////////
 Partie::Partie(SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, const std::vector<GameUpdateCallback>& updateCallback /*= 0*/ ):
-pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), estPret_(false), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 60, joueurGauche, joueurDroit)
+pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), estPret_(false), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 200, joueurGauche, joueurDroit)
 {
     chiffres_ = new NoeudAffichage("3");
     mField = new Terrain(this);
@@ -374,7 +374,7 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
                     {
                         wMaillets[i]->setIsAI(false);
                         // Si le maillet gauche est controller par lordinateur alors le maillet droit est controle par la souris
-                        wMaillets[i]->setKeyboardControlled(i==1 && !wMaillets[0]->obtenirEstControleParOrdinateur());
+                        wMaillets[i]->setKeyboardControlled(i==1 && wJoueurs[0]->obtenirType() == JOUEUR_HUMAIN);
                         wMaillets[i]->setIsNetworkPlayer(false);
                         break;
                     }

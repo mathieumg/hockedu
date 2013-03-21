@@ -97,9 +97,9 @@ void RequestLogin( char* pUsername, char* pPassword, char* pIpAdress )
     GestionnaireReseauClientLourd::obtenirInstance();
     GestionnaireReseau::obtenirInstance()->setUser(pUsername, pPassword);
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("MasterServer",pIpAdress,TCP);
-#if MAT_DEBUG_
+//#if MAT_DEBUG_
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer",pIpAdress,TCP);
-#endif
+//#endif
 }
 
 void SendMessageDLL(char * pConnectionId, char* pUsername, char * pMessage)
