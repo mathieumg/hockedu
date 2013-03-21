@@ -9,17 +9,22 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudAccelerateur.h"
 #include "NoeudRondelle.h"
-
+#include "Utilitaire.h"
+#include "VisiteurNoeud.h"
 #include "XMLUtils.h"
+
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
-#include "Utilitaire.h"
-#include "VisiteurNoeud.h"
+
+#if MANUAL_PHYSICS_DETECTION
+#include "Terrain.h"
+#endif
 
 #if WIN32
 #include "GestionnaireAnimations.h"
 #endif
+
 
 const float NoeudAccelerateur::DEFAULT_RADIUS = 7;
 
@@ -183,13 +188,20 @@ bool NoeudAccelerateur::initFromXml( const XmlElement* element )
 ////////////////////////////////////////////////////////////////////////
 void NoeudAccelerateur::collisionDetection( const float& temps )
 {
-	NoeudRondelle* rondelle = FacadeModele::getInstance()->obtenirRondelle();
-	Vecteur3 distance = getPosition()- rondelle->getPosition();
-	float rayon = getRadius()+rondelle->getRadius();
-	if(distance.norme2() > rayon*rayon+25)
-	{
-		ActivateBoost(true);
-	}
+    auto field = getField();
+    if(field)
+    {
+        NoeudRondelle* rondelle = field->getPuck();
+        if(rondelle)
+        {
+            Vecteur3 distance = getPosition()- rondelle->getPosition();
+            float rayon = getRadius()+rondelle->getRadius();
+            if(distance.norme2() > rayon*rayon+25)
+            {
+                ActivateBoost(true);
+            }
+        }
+    }
 }
 #endif
 

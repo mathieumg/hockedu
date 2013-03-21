@@ -512,7 +512,7 @@ void NoeudBut::updatePhysicBody()
 ////////////////////////////////////////////////////////////////////////
 void NoeudBut::updatePuckCatcher( float puckRadius )
 {
-#if BOX2D_INTEGRATED  
+#if BOX2D_PLAY 
     auto world = getWorld();
     if(world && (!mPuckCatcher || mCachedPuckRadius != puckRadius) )
     {
@@ -584,7 +584,7 @@ void NoeudBut::updatePuckCatcher( float puckRadius )
 void NoeudBut::clearPhysicsBody()
 {
     NoeudAbstrait::clearPhysicsBody();
-#if BOX2D_INTEGRATED  
+#if BOX2D_PLAY  
     auto world = getWorld();
     if(world && mPuckCatcher)
     {

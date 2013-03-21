@@ -21,7 +21,7 @@
 
 #include "RazerGameUtilities.h"
 
-#if BOX2D_DEBUG
+#if BOX2D_DEBUG 
 #include <Box2D/Box2D.h>
 struct b2AABB;
 

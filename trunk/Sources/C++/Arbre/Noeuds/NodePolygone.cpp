@@ -14,6 +14,7 @@
 #include <Box2D/Box2D.h>
 #endif
 #include "Utilitaire.h"
+#include <algorithm>
 
 template<typename T>
 T sign(T val)

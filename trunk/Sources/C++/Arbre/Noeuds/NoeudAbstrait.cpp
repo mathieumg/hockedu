@@ -13,9 +13,10 @@
 #include "Singleton.h"
 #include "XMLUtils.h"
 
+#endif
+
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
-#endif
 #endif
 
 #include "NoeudAbstrait.h"

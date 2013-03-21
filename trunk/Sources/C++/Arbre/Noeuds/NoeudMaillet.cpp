@@ -19,7 +19,7 @@
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
-#if BOX2D_PLAY
+#if PLAY_GAME
 #include "JoueurVirtuel.h"
 #endif
 
@@ -98,7 +98,7 @@ NoeudMaillet::~NoeudMaillet()
 #ifndef __APPLE__
     FacadeModele::transmitEvent(ENABLE_MALLET_CREATION);
 #endif
-#if BOX2D_INTEGRATED
+#if BOX2D_PLAY
     checkf(!mMouseJoint, "Le mouse joint a mal ete liberé");
     destroyMouseJoint();
 #endif
@@ -435,61 +435,53 @@ void NoeudMaillet::fixOverlap()
 ////////////////////////////////////////////////////////////////////////
 void NoeudMaillet::fixSpeed( const float& temps )
 {
-	Vecteur2 direction;
-	if(!estControleParOrdinateur_)
-	{
-		if(!estControleParClavier_)
-		{
-			direction = mTargetDestination-getPosition();
-			// Pour arreter le maillet s'il est pres de la souris
-			if(direction.norme2() <= 10)
-			{
-				direction.remetAZero();
-				//velocite_.remetAZero();
-				velocite_*=0.5;
-			}
-		}
-		else
-		{
-			for (int i = 0; i < NB_DIR ; i++)
-			{
-				if(direction_[i])
-				{
-					switch(i)
-					{
-					case DIR_HAUT:
-						direction[VY] += 1;
-						//velocite_[VY] += vitesse_;
-						break;
-					case DIR_BAS:
-						direction[VY] -= 1;
-						//velocite_[VY] -= vitesse_;
-						break;
-					case DIR_GAUCHE:
-						direction[VX] -= 1;
-						//velocite_[VX] -= vitesse_;
-						break;
-					case DIR_DROITE:
-						direction[VX] += 1;
-						//velocite_[VX] += vitesse_;
-						break;
-					default:
-						break;
-					}
-				}
-			}
-		}
-		direction.normaliser();
-		direction *= obtenirVitesse();
-	}
-	else
-	{
-		direction = joueur_->obtenirDirectionAI(this);
-	}
+    Vecteur2 direction;
+    if(joueur_)
+    {
+        auto type = joueur_->obtenirType();
+        switch(type)
+        {
+        case JOUEUR_HUMAIN: 
+            if(estControleParClavier_)
+            {
+                mTargetDestination.remetAZero();
+                if(direction_[DIR_HAUT]  )mTargetDestination[VY] += 1;
+                if(direction_[DIR_BAS]   )mTargetDestination[VY] -= 1;
+                if(direction_[DIR_GAUCHE])mTargetDestination[VX] -= 1;
+                if(direction_[DIR_DROITE])mTargetDestination[VX] += 1;
+
+                mTargetDestination.normaliser();
+                mTargetDestination *= obtenirVitesse();
+            }
+            else
+            {
+                direction = mTargetDestination-getPosition();
+                // Pour arreter le maillet s'il est pres de la souris
+                if(direction.norme2() <= 10)
+                {
+                    direction.remetAZero();
+                    //velocite_.remetAZero();
+                    velocite_*=0.5;
+                }
+            }
+            break;
+        case JOUEUR_VIRTUEL:
+            {
+                JoueurVirtuel* wJoueur = (JoueurVirtuel*) joueur_;
+                direction = wJoueur->obtenirDirectionAI(this);
+            }
+            break;
+        case JOUEUR_NETWORK:
+        case JOUEUR_NETWORK_SERVEUR:
+            setPosition(mTargetDestination);
+            return;
+            break;
+        default:checkf(0, "Nouveau type de joueur pas gerer");
+        }
+    }
 	
 	velocite_ += direction.convertir<3>();
 	velocite_ *= 0.50;
-	//velocite_[VZ] = 0;
 }
 #endif
 

@@ -27,6 +27,12 @@
 #include "UsineNoeud.h"
 #include "ExceptionJeu.h"
 
+#if MANUAL_PHYSICS_DETECTION
+#include "SoundFMOD.h"
+
+#endif
+
+
 #ifndef __APPLE__
 #include "FacadeModele.h"
 #endif
@@ -219,10 +225,10 @@ void NoeudRondelle::collisionDetection( const float& temps )
         if(groupe)
         {
             // Parcours de la liste des portails
-            unsigned int nbEnfant = groupe->obtenirNombreEnfants();
+            unsigned int nbEnfant = groupe->childCount();
             for(unsigned int i = 0; i < nbEnfant; ++i)
             {
-                NoeudPortail* portail = dynamic_cast<NoeudPortail*>(groupe->chercher(i));
+                NoeudPortail* portail = dynamic_cast<NoeudPortail*>(groupe->find(i));
                 if(portail)
                 {
                     float sommeRayon = (portail->getRadius())/5 + getRadius();
@@ -235,7 +241,7 @@ void NoeudRondelle::collisionDetection( const float& temps )
                         int noPortailDeSortie = 0;
                         while((noPortailDeSortie = rand()%nbEnfant) == i);
 
-                        NoeudPortail* portailDeSortie = dynamic_cast<NoeudPortail*>(groupe->chercher(noPortailDeSortie));
+                        NoeudPortail* portailDeSortie = dynamic_cast<NoeudPortail*>(groupe->find(noPortailDeSortie));
                         portailDeSortie->setIsAttractionFieldActive(false);
                         anciennePos_ = mPosition = portailDeSortie->getPosition();
                         enfoncement_.remetAZero();
@@ -301,10 +307,10 @@ void NoeudRondelle::collisionDetection( const float& temps )
         groupe = table_->obtenirGroupe(RazerGameUtilities::NOM_ACCELERATEUR);
         if(groupe)
         {
-            unsigned int nbEnfant = groupe->obtenirNombreEnfants();
+            unsigned int nbEnfant = groupe->childCount();
             for(unsigned int i=0; i<nbEnfant; ++i)
             {
-                NoeudAccelerateur* accel = dynamic_cast<NoeudAccelerateur*>(groupe->chercher(i));
+                NoeudAccelerateur* accel = dynamic_cast<NoeudAccelerateur*>(groupe->find(i));
                 if(accel)
                 {
                     float sommeRayon = accel->getRadius()+getRadius();
@@ -312,10 +318,10 @@ void NoeudRondelle::collisionDetection( const float& temps )
                     // Collision
                     if(distance.norme2() <= sommeRayon*sommeRayon)
                     {
-                        if(accel->estActiver())
+                        if(accel->IsBoostActive())
                         {
                             bonusAccelResultant_ *= accel->obtenirBonusAccel();
-                            accel->modifierActiver(false);
+                            accel->ActivateBoost(false);
                             SoundFMOD::obtenirInstance()->playEffect(effect(ACCELERATOR_EFFECT));
                         }
                     }
@@ -487,11 +493,11 @@ void NoeudRondelle::fixSpeed( const float& temps )
     if(groupe)
     {
         // Parcours de la liste des portails
-        unsigned int nbEnfant = groupe->obtenirNombreEnfants();
+        unsigned int nbEnfant = groupe->childCount();
         for(unsigned int i = 0; i < nbEnfant; ++i)
         {
             // Le portail à traiter
-            NoeudPortail* portail = dynamic_cast<NoeudPortail*>(groupe->chercher(i));
+            NoeudPortail* portail = dynamic_cast<NoeudPortail*>(groupe->find(i));
             if(portail)
             {
                 // Distance entre le centre du portail et le centre de la rondelle
@@ -589,7 +595,7 @@ void NoeudRondelle::fixSpeed( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::validerPropriteteTablePourJeu() 
 {
-#if !BOX2D_INTEGRATED && WIN32
+#if MANUAL_PHYSICS_DETECTION
     if(getField())
     {
         table_ = getField()->getTable();

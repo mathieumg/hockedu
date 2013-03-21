@@ -9,12 +9,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "RazerGameUtilities.h"
 
-
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
 #if BOX2D_PLAY
-#include "FacadeModele.h"
 #include "Partie.h"
 #include "SoundFMOD.h"
 #include "Runnable.h"
@@ -23,12 +21,12 @@
 #include "DebugRenderBox2D.h"
 #endif
 
-
 #ifndef __APPLE__
 #include "../Reseau/Paquets/PaquetMaillet.h"
 #include "../Reseau/GestionnaireReseau.h"
 #include "GestionnaireHUD.h"
 #include "HUDBonus.h"
+#include "FacadeModele.h"
 #endif
 
 #include "Terrain.h"
@@ -1620,9 +1618,7 @@ void Terrain::NodeSelectionNotification( NoeudAbstrait* node, bool selected )
         if( nbSelectedNew == 0 )
         {
             // no more item selected
-
             FacadeModele::transmitEvent(THERE_ARE_NO_NODE_SELECTED);
-            
         }
         else
         {

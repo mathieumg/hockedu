@@ -14,10 +14,7 @@
 #include "RazerGameTypeDef.h"
 #include "XMLUtils.h"
 #include "Enum_Declarations.h"
-
-#ifndef __APPLE__
 #include "RunnableBreaker.h"
-#endif
 
 class RazerGameTree;
 class ArbreNoeudLibre;
