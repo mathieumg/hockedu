@@ -21,6 +21,7 @@
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
+#include "NodeBonus.h"
 
 
 #if BOX2D_INTEGRATED  
@@ -459,6 +460,30 @@ void VisiteurCollision::visiterNoeudPoint( NoeudPoint* noeud )
 }
 
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void VisiteurCollision::visiterNodeBonus( NodeBonus* noeud )
+///
+/// /*Description*/
+///
+/// @param[in] NodeBonus * noeud
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void VisiteurCollision::visiterNodeBonus( NodeBonus* noeud )
+{
+    switch(typeCollision_)
+    {
+    case SEGMENT: // Collision Cercle-Segment
+        detectionCollisionCercleSegment(noeud);
+        break;
+    default: // Collision Cercle-Cercle
+        detectionCollisionCercleCercle(noeud);
+        break;
+    }
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -639,6 +664,8 @@ void VisiteurCollision::visiterNodeControlPoint( NodeControlPoint* noeud )
     // do not do collision detection with control points
     noeud->NodeControlPoint::Super::acceptVisitor(*this);
 }
+
+
 
 
 

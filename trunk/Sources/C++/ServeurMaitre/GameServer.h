@@ -1,6 +1,11 @@
 #pragma once
 #include <string>
+#ifdef __linux__
+#include <ext/hash_map>
+namespace std {using namespace __gnu_cxx; }
+#elif defined(WIN32)
 #include <hash_map>
+#endif
 
 class PartieServeurs;
 

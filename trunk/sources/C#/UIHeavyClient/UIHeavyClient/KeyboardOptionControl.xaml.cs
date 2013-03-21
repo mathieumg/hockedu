@@ -26,7 +26,9 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void GetKeyboardControl(int[] pControls);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void SetKeyboardControl(int pUp, int pDown, int pLeft, int pRight);
+        private static extern void SetKeyboardControl(int[] pControls);
+
+        private int[] mPlayerTwoKeys;
 
         public KeyboardOptionControl()
         {
@@ -38,6 +40,8 @@ namespace UIHeavyClient
                 {mBackToOptionButton, "Return to option menu"},
                 {mSaveButton, "Save configuration"},
             };
+
+            mPlayerTwoKeys = new int[4];
         }
 
         private void mBackToOptionButton_Click(object sender, RoutedEventArgs e)
@@ -58,6 +62,45 @@ namespace UIHeavyClient
         private void ClearGuidanceMessages(object sender, MouseEventArgs e)
         {
             mGuidanceLabel.Content = "";
+        }
+
+        public void DisplayPlayerTwoKeys()
+        {
+            GetKeyboardControl(mPlayerTwoKeys);
+
+            mUpKeyTextBox.Text = ""+(Key)mPlayerTwoKeys[0];
+            mDownKeyTextBox.Text = "" + (Key)mPlayerTwoKeys[1];
+            mLeftKeyTextBox.Text = "" + (Key)mPlayerTwoKeys[2];
+            mRightKeyTextBox.Text = "" + (Key)mPlayerTwoKeys[3];
+        }
+
+        private void UpKeyInput(object sender, KeyEventArgs e)
+        {
+            mPlayerTwoKeys[0] = (int)e.Key;
+            (sender as TextBox).Text = e.ToString();
+        }
+
+        private void DownKeyInput(object sender, KeyEventArgs e)
+        {
+            mPlayerTwoKeys[1] = (int)e.Key;
+            (sender as TextBox).Text = e.ToString();
+        }
+
+        private void LeftKeyInput(object sender, KeyEventArgs e)
+        {
+            mPlayerTwoKeys[2] = (int)e.Key;
+            (sender as TextBox).Text = e.ToString();
+        }
+
+        private void RightKeyInput(object sender, KeyEventArgs e)
+        {
+            mPlayerTwoKeys[3] = (int)e.Key;
+            (sender as TextBox).Text = e.ToString();
+        }
+
+        private void mSaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetKeyboardControl(mPlayerTwoKeys);
         }
     }
 }

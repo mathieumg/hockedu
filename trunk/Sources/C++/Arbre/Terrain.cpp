@@ -51,6 +51,7 @@
 #include "NodeWallEdition.h"
 #include "NodeControlPoint.h"
 #include "VisiteurFunction.h"
+#include "VisitorGatherProperties.h"
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
@@ -69,7 +70,7 @@ const unsigned int MAX_MALLETS = 2;
 ////////////////////////////////////////////////////////////////////////
 Terrain::Terrain(Partie* pGame): 
     mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame),mZamboni(NULL),
-    mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL)
+    mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL), mIsInit(false)
 {
     mEditionZone = NULL;
     if(!mGame)
@@ -132,6 +133,7 @@ Terrain::~Terrain()
 ////////////////////////////////////////////////////////////////////////
 void Terrain::libererMemoire()
 {
+    mIsInit = false;
     // S'assurer de remettre tous les pointeurs a NULL car la comparaison est utiliser 
     // partout dans le terrain pour savoir si le pointeur est valide
     if(mLogicTree)
@@ -354,7 +356,7 @@ bool Terrain::initialiserXml( XmlElement* element )
         return false;
 
     fullRebuild();
-
+    mIsInit = true;
     return true;
 }
 
@@ -475,7 +477,10 @@ void Terrain::transfererNoeud( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 void Terrain::retirerNoeudTemp( NoeudAbstrait* noeud )
 {
-    mNewNodeTree->unlinkChild(noeud);
+    if(mNewNodeTree)
+    {
+        mNewNodeTree->unlinkChild(noeud);
+    }
 }
 
 
@@ -569,7 +574,7 @@ void Terrain::creerTerrainParDefaut(const std::string& nom)
     maillet1->setPosition(mTable->obtenirPoint(POSITION_MILIEU_GAUCHE)->getPosition()/2.0);
     maillet2->setPosition(mTable->obtenirPoint(POSITION_MILIEU_DROITE)->getPosition()/2.0);
     rondelle->setPosition(Vecteur3(0.0,0.0,0.0));
-
+    
     mTable->add(maillet1);
     mTable->add(maillet2);
     mTable->add(rondelle);
@@ -584,6 +589,7 @@ void Terrain::creerTerrainParDefaut(const std::string& nom)
     {
         checkf(0,"%s", e.what());
     }
+    mIsInit = true;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -678,6 +684,7 @@ void Terrain::createRandomField(const std::string& nom)
     AddWall(40,-30,-25,-30,2,0.4);
 
     fullRebuild();
+    mIsInit = true;
 }
 
 
@@ -924,16 +931,7 @@ void Terrain::appliquerPhysique( float temps )
         mLogicTree->fixOverlap();
 #endif
         
-#ifndef __APPLE__
-        NoeudMaillet* mailletGauche = getLeftMallet();
-        if(mailletGauche && mGame)
-        {
-            PaquetMaillet* wPaquet = (PaquetMaillet*) GestionnaireReseau::obtenirInstance()->creerPaquet(MAILLET);
-            wPaquet->setPosition(mailletGauche->getPosition());
-            wPaquet->setGameId(mGame->getUniqueGameId());
-            GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
-        }
-#endif
+
     }
 }
 
@@ -1727,14 +1725,82 @@ void Terrain::initNecessaryPointersForGame()
         mPuck->modifierPositionOriginale(mPuck->getPosition());
 
 #if WIN32
-        auto leftBonuses = GestionnaireHUD::obtenirInstance()->getLeftPlayerBonuses();
-        leftBonuses->setModifiers(&mLeftMallet->GetModifiers());
-
-        auto rightBonuses = GestionnaireHUD::obtenirInstance()->getRightPlayerBonuses();
-        rightBonuses->setModifiers(&mRightMallet->GetModifiers());
+        if (GestionnaireHUD::Exists())
+        {
+	        auto leftBonuses = GestionnaireHUD::obtenirInstance()->getLeftPlayerBonuses();
+	        leftBonuses->setModifiers(&mLeftMallet->GetModifiers());
+	
+	        auto rightBonuses = GestionnaireHUD::obtenirInstance()->getRightPlayerBonuses();
+	        rightBonuses->setModifiers(&mRightMallet->GetModifiers());
+        }
 #endif
 
     }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn RazerKey Terrain::getSelectedNodeUniqueKey()
+///
+/// checks if selected nodes are the same type and returns that type
+/// if not, return RAZER_KEY_NONE
+///
+///
+/// @return RazerKey
+///
+////////////////////////////////////////////////////////////////////////
+RazerKey Terrain::getSelectedNodeUniqueKey() const
+{
+    RazerKey key = RAZER_KEY_NONE;
+    for(auto node = mSelectedNodes.begin(); node != mSelectedNodes.end();++node)
+    {
+        RazerKey nodeKey = (*node)->getKey();
+        if(key != RAZER_KEY_NONE && key != nodeKey)
+        {
+            /// found 2 nodes of different type
+            return RAZER_KEY_NONE;
+        }
+        key = nodeKey;
+    }
+    return key;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn int Terrain::gatherSelectedNodeProperties( FullProperties* properties )
+///
+/// /*Description*/
+///
+/// @param[in] FullProperties * properties
+///
+/// @return int
+///
+////////////////////////////////////////////////////////////////////////
+int Terrain::gatherSelectedNodeProperties( FullProperties* properties )
+{
+    if(properties)
+    {
+        VisitorGatherProperties v(properties);
+        RazerKey key = getSelectedNodeUniqueKey();
+        if(key == RAZER_KEY_NONE)
+        {
+            if(mTable)
+            {
+                mTable->acceptVisitor(v);
+            }
+        }
+        else
+        {
+            for(auto it=mSelectedNodes.begin(); it != mSelectedNodes.end(); ++it)
+            {
+                (*it)->acceptVisitor(v);
+            }
+        }
+
+        // permet de savoir si quelque chose a ete assigné
+        return properties->mPropertyFlagAssignment != 0;
+    }
+    return 0;
 }
 
 

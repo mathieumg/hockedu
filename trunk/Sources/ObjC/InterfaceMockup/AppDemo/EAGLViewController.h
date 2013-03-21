@@ -36,6 +36,8 @@ extern int const HAUTEUR_FENETRE;
     float translationX;
     float translationY;
     float zoomFactor;
+    CGPoint firstCorner;
+    BOOL touchMoved;
 }
 
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;
@@ -44,6 +46,7 @@ extern int const HAUTEUR_FENETRE;
 
 
 - (IBAction)selectionModeButtonTouched:(UIButton *)sender;
+- (IBAction)saveAndExitButtonTouched:(UIButton *)sender;
 - (void)startAnimation;
 - (void)stopAnimation;
 - (void)setupView;

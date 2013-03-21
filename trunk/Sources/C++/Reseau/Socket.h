@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdexcept>
-#include "Network_Defines.h"
+#include "FacadePortability.h"
 
 #ifdef LINUX
 #define INVALID_SOCKET -1
@@ -63,7 +63,7 @@ public:
 
     // Methode pour initialiser le Socket en mode Server
     ConnectionState initServer();
-    
+
     void cancelConnection();
 
     // Methode pour deconnecter le socket (s'il est brise par exemple)

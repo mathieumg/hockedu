@@ -23,7 +23,7 @@ class NoeudPoint;
 class NoeudAccelerateur;
 class NodeControlPoint;
 class NodeWallEdition;
-
+class NodeBonus;
 class VisiteurNoeudTest;
 
 #define VisitParentClass(NodeClass) noeud->NodeClass::Super::acceptVisitor(*this);
@@ -67,6 +67,7 @@ public:
     virtual void visiterNodeControlPoint( NodeControlPoint* noeud );
     /// Visitation d'un noeud muret d'edition ( avec point de controle)
     virtual void visiterNoeudMuretEdition( NodeWallEdition* noeud );
+    virtual void visiterNodeBonus( NodeBonus* noeud );
 
 };
 

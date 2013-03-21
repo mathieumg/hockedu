@@ -13,6 +13,7 @@
 #include <vector>
 #include "RazerGameTypeDef.h"
 #include "XMLUtils.h"
+#include "Enum_Declarations.h"
 
 #ifndef __APPLE__
 #include "RunnableBreaker.h"
@@ -72,9 +73,7 @@ public:
 	/// Libère la mémoire du terrain et le retourne à son état de base
 	void libererMemoire();
 
-	/// Permet d'initialiser le terrain avec ces éléments de bases pour le terrain
-	/// Permet de reintialiser en meme temps
-	void initialiser(std::string nom);
+	
 
 	/// Permet d'initialiser le terrain avec ces éléments a partir d'un noeud XML
 	bool initialiserXml( XmlElement* element );
@@ -140,7 +139,12 @@ public:
     float GetTableWidth()const;
     void NodeSelectionNotification( NoeudAbstrait* node, bool selectionne );
 
+    // tells if there are selected node on the field that can be deleted
     bool CanSelectedNodeBeDeleted() const;
+    /// checks if selected nodes are the same type and returns that type
+    /// if not, return NODE_KEY_NONE
+    RazerKey getSelectedNodeUniqueKey() const;
+    int gatherSelectedNodeProperties(class FullProperties* properties);
 #if BOX2D_INTEGRATED
     /// Callback before the contact between 2 fixtures
     virtual void BeginContact( b2Contact* contact );
@@ -165,6 +169,10 @@ private:
     /// ie : mode édition => check table seulement  
     /// mode Jeu => check table, rondelle, maillets
     void initNecessaryPointersForGame();
+
+    /// Permet d'initialiser le terrain avec ces éléments de bases pour le terrain
+    /// Permet de reintialiser en meme temps
+    void initialiser(std::string nom);
 
 	/// Fields
 private:
@@ -203,6 +211,9 @@ private:
 
     std::set<NoeudAbstrait*> mSelectedNodes;
 
+    // Terrain initialized
+    bool mIsInit;
+    
 /// Accesseurs
 public:
     /// Accessors of mZamboni
@@ -232,7 +243,7 @@ public:
     inline class b2World* GetWorld() {return mWorld;}
 
 #endif
-
+    inline bool isInit() const { return mIsInit; }
 public:
 
 };

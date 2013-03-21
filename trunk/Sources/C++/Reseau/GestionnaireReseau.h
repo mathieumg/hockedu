@@ -11,7 +11,7 @@
 #pragma once
 #include <string>
 #include "ExceptionsReseau/ExceptionReseau.h"
-#include "Network_Defines.h"
+#include "FacadePortability.h"
 #include "Singleton.h"
 #include <map>
 #include "Socket.h"

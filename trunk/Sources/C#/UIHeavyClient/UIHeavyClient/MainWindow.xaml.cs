@@ -132,7 +132,10 @@ namespace UIHeavyClient
 
             this.WindowContentControl.Content = mMainMenuControl;
             MainWindowHandler.GoToMainMenu();
+
         }
+
+
             
         public MainWindow()
         {
@@ -141,7 +144,7 @@ namespace UIHeavyClient
             // see output
             ConsoleManager.Show();
             System.Windows.Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-#if DEBUG
+//#if DEBUG
             System.Windows.Controls.MenuItem debugMenu = new System.Windows.Controls.MenuItem();
             debugMenu.Header = "Debug";
             MenuBar.Items.Add(debugMenu);
@@ -188,7 +191,7 @@ namespace UIHeavyClient
                 debugMenu.Items.Add(debugItem);
             }
 
-#endif
+//#endif
 
             InitDLL();
             this.Loaded += CreateUserControl;
@@ -224,7 +227,7 @@ namespace UIHeavyClient
         private void connexionPartieServeurJeu_Click(object sender, RoutedEventArgs e)
         {
             // Tests pour connection serveur jeu et client
-            connectPartieServerGame(0);
+            connectPartieServerGame(1);
 
         }
 

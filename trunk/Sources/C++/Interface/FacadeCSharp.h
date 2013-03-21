@@ -84,7 +84,12 @@ extern "C"
 
 
     __declspec(dllexport) bool TerrainHasDeletable();
-    
+    /// checks if selected nodes are the same type and returns that type
+    /// if not, return NODE_KEY_NONE
+    __declspec(dllexport) RazerKey GetSelectedNodeUniqueKey();
+    __declspec(dllexport) int GetFieldProperties(class FullProperties* fullProperties);
+    __declspec(dllexport) int SendFieldProperties(class FullProperties* fullProperties);
+    __declspec(dllexport) int SendTest( class BonusProperties* fullProperties);
 	// Load/Save calls
     __declspec(dllexport) void SaveMap(char* pFileName);
     __declspec(dllexport) void LoadMap(char* pFileName);
@@ -99,7 +104,7 @@ extern "C"
 
 	// Control calls
     __declspec(dllexport) void GetKeyboardControl(int* pControls);
-    __declspec(dllexport) void SetKeyboardControl(int pUp, int pDown, int pLeft, int pRight);
+    __declspec(dllexport) void SetKeyboardControl(int* pControls);
 		
 
 	// Radio calls
@@ -119,6 +124,11 @@ extern "C"
     __declspec(dllexport) void GetPlaylistSongs(char* pPlaylist, char** pSongs, int pNbrSongs);
     __declspec(dllexport) void RemoveRadioPlaylist(char* pPlaylist);
     __declspec(dllexport) void AddRadioPlaylist(char* pPlaylist, char** pSongs, int pNbrSongs);
+
+
+    // Tournaments calls
+    __declspec(dllexport) void BeginNewTournament(char* pTournamentName, char* pMapName, char** pPlayerNames, int pNbrPlayers);
+    __declspec(dllexport) void ContinueExistingTournament(char* pTournamentName);
 
 
     ///////////////////////////////////////////////////////////////////////////////

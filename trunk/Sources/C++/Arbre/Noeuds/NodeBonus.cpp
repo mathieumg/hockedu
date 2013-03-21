@@ -18,7 +18,7 @@
 #include "BonusModifierFactory.h"
 
 const Vecteur3 DEFAULT_SIZE = Vecteur3(15, 15, 1);
-const float DEFAULT_RADIUS = 10;
+const float DEFAULT_RADIUS = 8;
 
 #if WIN32
 #include "Modele3D.h"
@@ -46,7 +46,7 @@ CreateListDelegateImplementation(Bonus)
 
     glRotatef(45,1,0,0);
     glRotatef(35,0,1,0);
-    glScalef(DEFAULT_RADIUS,DEFAULT_RADIUS,DEFAULT_RADIUS);
+    glScalef(DEFAULT_RADIUS*1.5,DEFAULT_RADIUS*1.5,DEFAULT_RADIUS*1.5);
     glBegin(GL_QUADS);
 
     GLfloat vertex[3];
@@ -85,7 +85,7 @@ CreateListDelegateImplementation(Bonus)
     glEndList();
     return liste;
 
-    return RazerGameUtilities::CreateListSphereDefault(pModel,DEFAULT_RADIUS);
+    //return RazerGameUtilities::CreateListSphereDefault(pModel,DEFAULT_RADIUS);
 }
 #endif
 
@@ -106,7 +106,7 @@ NodeBonus::NodeBonus(const std::string& typeNoeud)
    : Super(typeNoeud),mMinTimeSpawn(5.5f), mMaxTimeSpawn(10.f),mHeightAngle(0)
 {
     // temp workaround, l'édition va le considérer comme un cercle pour un moment
-    setDefaultRadius(DEFAULT_SIZE[VX]);
+    setDefaultRadius(DEFAULT_RADIUS);
 
 
     forceFullUpdate();
@@ -173,7 +173,7 @@ void NodeBonus::renderReal() const
     glPushMatrix();
     glPushAttrib( GL_ALL_ATTRIB_BITS );
 
-    // permet de s'assurer de bien le positionner si le bonus n'est pas affiché
+    // Descend la platforme pour ne voir que la surface
     glTranslatef(mPosition[0], mPosition[1], mPosition[2]-DEFAULT_SIZE[VZ]);
     glCallList(liste);
 
@@ -333,16 +333,17 @@ void NodeBonus::updatePhysicBody()
 
         b2BodyDef myBodyDef;
         myBodyDef.type = b2_staticBody; //this will be a dynamic body
-        myBodyDef.position.Set(0, 0); //set the starting position
         myBodyDef.angle = 0; //set the starting angle
-
-        mPhysicBody = world->CreateBody(&myBodyDef);
-        b2PolygonShape shape;
         const Vecteur3& pos = getPosition();
         b2Vec2 posB2;
         utilitaire::VEC3_TO_B2VEC(pos,posB2);
         myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
-        shape.SetAsBox(halfLength,halfHeight,b2Vec2(posB2.x,posB2.y),utilitaire::DEG_TO_RAD(mAngle));
+
+        mPhysicBody = world->CreateBody(&myBodyDef);
+        b2CircleShape shape;
+        auto radius = getRadius();
+        shape.m_p.Set(0, 0); //position, relative to body position
+        shape.m_radius = radius*utilitaire::ratioWorldToBox2D; //radius
 
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &shape; //this is a pointer to the shape above
@@ -385,6 +386,22 @@ void NodeBonus::ResetTimeLeft()
     int max = (int)(mMaxTimeSpawn*100.f);
 
     mSpawnTimeLeft = (rand()%(max-min)+min)/100.f;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NodeBonus::acceptVisitor( VisiteurNoeud& v )
+///
+/// /*Description*/
+///
+/// @param[in] VisiteurNoeud & v
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NodeBonus::acceptVisitor( VisiteurNoeud& v )
+{
+    v.visiterNodeBonus(this);
 }
 
 

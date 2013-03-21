@@ -52,10 +52,19 @@ public:
    /// Recreates the physics body according to current attributes
    virtual void updatePhysicBody();
 
+   /// Accessors of mAttractionForce
+   inline float getAttractionForce() const { return mAttractionForce; }
+   inline void setAttractionForce(const float& pVal) { mAttractionForce = pVal; }
+
+
    static const float DEFAULT_RADIUS;
 private:
 	bool mIsAttractionFieldActive;
-	
+
+    /// Not USED Yet
+	float mAttractionForce;
+
+
 };
 
 

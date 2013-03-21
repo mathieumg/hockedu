@@ -41,6 +41,7 @@ ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceiv
     mPaquetRunnables[CHAT_MESSAGE]          = PaquetRunnable::RunnableChatMessageClient;
     mPaquetRunnables[TEST]                  = PaquetRunnable::RunnableTest;
     mPaquetRunnables[MAILLET]               = PaquetRunnable::RunnableMailletClient;
+    mPaquetRunnables[RONDELLE]              = PaquetRunnable::RunnableRondelleClient;
     mPaquetRunnables[GAME_CREATION_REQUEST] = PaquetRunnable::RunnableGameCreationClient;
     mPaquetRunnables[GAME_CONNECTION]       = PaquetRunnable::RunnableGameConnectionClient;
 

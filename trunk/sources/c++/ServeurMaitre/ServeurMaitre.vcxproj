@@ -50,7 +50,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_SERVER;_DEBUG;_CONSOLE;MYSQLPP_NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;WIN32;_SERVER;_DEBUG;_CONSOLE;MYSQLPP_NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire\;..\..\..\Commun\Externe\MySQL++\lib;..\..\..\Commun\Externe\MySQL\include</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>Solution_Defines.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -69,7 +69,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_SERVER;_DEBUG;_CONSOLE;MYSQLPP_NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;WIN32;_SERVER;_DEBUG;_CONSOLE;MYSQLPP_NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire\;..\..\..\Commun\Externe\MySQL++\lib;..\..\..\Commun\Externe\MySQL\include</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>Solution_Defines.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -90,9 +90,9 @@
     <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseauParametreInvalide.cpp" />
     <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseauSocketDeconnecte.cpp" />
     <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseauTimeout.cpp" />
+    <ClCompile Include="..\Reseau\FacadePortability.cpp" />
     <ClCompile Include="..\Reseau\GestionnaireReseau.cpp" />
     <ClCompile Include="..\Reseau\GestionnaireReseauServeurMaitre.cpp" />
-    <ClCompile Include="..\Reseau\Network_Defines.cpp" />
     <ClCompile Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.cpp" />
     <ClCompile Include="..\Reseau\ObjetsGlobaux\PartieServeurs.cpp" />
     <ClCompile Include="..\Reseau\PacketBuilder.cpp" />
@@ -139,9 +139,9 @@
     <ClInclude Include="..\Reseau\ExceptionsReseau\ExceptionReseauParametreInvalide.h" />
     <ClInclude Include="..\Reseau\ExceptionsReseau\ExceptionReseauSocketDeconnecte.h" />
     <ClInclude Include="..\Reseau\ExceptionsReseau\ExceptionReseauTimeout.h" />
+    <ClInclude Include="..\Reseau\FacadePortability.h" />
     <ClInclude Include="..\Reseau\GestionnaireReseau.h" />
     <ClInclude Include="..\Reseau\GestionnaireReseauServeurMaitre.h" />
-    <ClInclude Include="..\Reseau\Network_Defines.h" />
     <ClInclude Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.h" />
     <ClInclude Include="..\Reseau\ObjetsGlobaux\PartieServeurs.h" />
     <ClInclude Include="..\Reseau\PacketBuilder.h" />

@@ -22,7 +22,6 @@
 
 
 
-
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn  GestionnaireEtatModeJeu::GestionnaireEtatModeJeu( GestionnaireEvenements* contexte )
@@ -254,7 +253,7 @@ void GestionnaireEtatModeJeu::sourisDeplacee( EvenementSouris& evenementSouris )
             checkf(mailletGauche && mailletDroit);
             if(mailletGauche && mailletDroit)
             {
-                if(mailletGauche->estControleParNetwork())
+                if(!mailletGauche->estControleParNetwork())
                     mailletGauche->assignerPosSouris(coordonneesSouris);
                 if(!mailletDroit->estControleParNetwork())
                     mailletDroit->assignerPosSouris(coordonneesSouris);
@@ -302,7 +301,7 @@ void GestionnaireEtatModeJeu::animer( const float& temps )
 	if(partieCourante)
 	{
 		partieCourante->animer(temps);
-		partieCourante->updateMinuterie((int)(temps*1000));
+		
         if(partieCourante->partieTerminee())
         {
             GestionnaireEvenements::modifierEtat(ETAT_PARTIE_RAPIDE_TERMINEE);

@@ -8,10 +8,10 @@ public:
 
     virtual PacketTypes getOperation() const { return GAME_REGISTRATION; }
 
-    inline void setGameName ( std::string& pGameName ) { mGameName = pGameName; }
+    inline void setGameName ( std::string pGameName ) { mGameName = pGameName; }
     inline std::string getGameName () const { return mGameName; }
 
-    inline void setUsername ( std::string& pUsername ) { mUsername = pUsername; }
+    inline void setUsername ( std::string pUsername ) { mUsername = pUsername; }
     inline std::string getUsername () const { return mUsername; }
 
     inline void setMapName(std::string val) { mMapName = val; }

@@ -26,6 +26,11 @@ public:
     {
         return mFlag == f.mFlag;
     }
+    __forceinline ContainerType GetValue()const
+    {
+        return mFlag;
+    }
+
 private:
     ContainerType mFlag;
 };
