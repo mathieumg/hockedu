@@ -170,6 +170,7 @@ extern "C"
     __declspec(dllexport) void connectServerGame( char* pServerIP );
     __declspec(dllexport) void connectPartieServerGame( int pGameId );
     __declspec(dllexport) void requestGameCreationServerGame( char* pGameName );
+    __declspec(dllexport) void testConnexionUDPCSharp();
     //__declspec(dllexport) void recevoirPaquet( Paquet* pPaquet );
     /// 
     //////////////////////////////////////////////////////////////////////////

@@ -691,6 +691,38 @@ void NoeudRondelle::updatePhysicBody()
 
 }
 
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn const std::string& NoeudRondelle::get3DModelKey()
+///
+/// /*Description*/
+///
+///
+/// @return const std::string&
+///
+////////////////////////////////////////////////////////////////////////
+const std::string& NoeudRondelle::get3DModelKey() const
+{
+    return Super::get3DModelKey();
+}
+
+void NoeudRondelle::modifierVelocite( const Vecteur3& val )
+{
+#if BOX2D_INTEGRATED
+    auto body = getPhysicBody();
+    if(body)
+    {
+        b2Vec2 velocity;
+        utilitaire::VEC3_TO_B2VEC(val,velocity);
+        body->SetLinearVelocity(velocity);
+    }
+#else
+    mVelocite = val;
+#endif
+}
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void NoeudRondelle::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
@@ -727,9 +759,10 @@ Vecteur3 NoeudRondelle::obtenirVelocite() const
 {
 #if BOX2D_INTEGRATED
     Vecteur3 v;
-    if(mPhysicBody)
+    auto body = getPhysicBody();
+    if(body)
     {
-        utilitaire::B2VEC_TO_VEC3(v,mPhysicBody->GetLinearVelocity());
+        utilitaire::B2VEC_TO_VEC3(v,body->GetLinearVelocity());
     }
     return v;
 #else
@@ -737,19 +770,32 @@ Vecteur3 NoeudRondelle::obtenirVelocite() const
 #endif
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn const std::string& NoeudRondelle::get3DModelKey()
-///
-/// /*Description*/
-///
-///
-/// @return const std::string&
-///
-////////////////////////////////////////////////////////////////////////
-const std::string& NoeudRondelle::get3DModelKey() const
+void NoeudRondelle::modifierVitesseRotation( const float vitesse )
 {
-    return Super::get3DModelKey();
+#if BOX2D_INTEGRATED
+    auto body = getPhysicBody();
+    if(body)
+    {
+        body->SetAngularVelocity(vitesse);
+    }
+#else
+    mVitesseRotation = vitesse;
+#endif
+}
+
+float NoeudRondelle::obtenirVitesseRotation() const
+{
+#if BOX2D_INTEGRATED
+    auto body = getPhysicBody();
+    float speed = 0;
+    if(body)
+    {
+        speed = body->GetAngularVelocity();
+    }
+    return speed;
+#else
+    return mVelocite;
+#endif
 }
 
 

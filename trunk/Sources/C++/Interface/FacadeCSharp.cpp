@@ -99,6 +99,7 @@ void RequestLogin( char* pUsername, char* pPassword, char* pIpAdress )
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("MasterServer",pIpAdress,TCP);
 //#if MAT_DEBUG_
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer",pIpAdress,TCP);
+    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer",pIpAdress,UDP);
 //#endif
 }
 
@@ -419,6 +420,7 @@ void connectServerGame( char* pServerIP )
     GestionnaireReseau::obtenirInstance()->setUser("bob2", "");
 
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer", pServerIP, TCP);
+    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer", pServerIP, UDP);
 
 
 
@@ -746,4 +748,22 @@ int SendFieldProperties( FullProperties* fullProperties )
 int SendTest( BonusProperties* fullProperties )
 {
     return 0;
+}
+
+
+
+
+void testConnexionUDPCSharp()
+{
+    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("Test", "127.0.0.1", UDP);
+
+    FacadePortability::sleep(1000);
+
+    PaquetRondelle* wPaquet = (PaquetRondelle*) GestionnaireReseau::obtenirInstance()->creerPaquet(RONDELLE);
+    wPaquet->setGameId(9000);
+    wPaquet->setPosition(Vecteur3(0.0f,1.0f,2.0f));
+    wPaquet->setVelocite(Vecteur3(3.0f,4.0f,5.0f));
+    wPaquet->setVitesseRotation(6.5556f);
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet("Test", wPaquet, UDP);
+
 }

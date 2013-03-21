@@ -224,20 +224,19 @@ void CommunicateurReseau::demarrerThreadsConnectionServeur()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void CommunicateurReseau::demarrerThreadsReceptionUDP()
+/// @fn void CommunicateurReseau::demarrerThreadsReceptionUDPClientLourd()
 ///
-/// Methode qui demarre plusieurs threads (1 par interface reseau) pour ecouter toutes les communications
-/// entrantes sur cette interface et au port global
+/// Methode qui demarre 1 thread pour la reception des messages UDP du client lourd
 ///
 /// @return void*
 ///
 ////////////////////////////////////////////////////////////////////////
-void CommunicateurReseau::demarrerThreadsReceptionUDP()
+void CommunicateurReseau::demarrerThreadsReceptionUDPClientLourd()
 {
 
     ArgsConnectionThread* wArgs = new ArgsConnectionThread;
     wArgs->communicateurReseau = this;
-    wArgs->socketAConnecter = SPSocket(new Socket("0.0.0.0", GestionnaireReseau::connectionUDPPort, UDP));
+    wArgs->socketAConnecter = SPSocket(new Socket("0.0.0.0", GestionnaireReseau::communicationUDPPortClientLourd, UDP));
 
     HANDLE_THREAD wThread;
     FacadePortability::createThread(wThread, receivingUDPThreadRoutine, wArgs);
@@ -253,6 +252,36 @@ void CommunicateurReseau::demarrerThreadsReceptionUDP()
 
 }
 
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void CommunicateurReseau::demarrerThreadsReceptionUDPServeurJeu()
+///
+/// Methode qui demarre 1 thread pour la reception des messages UDP du serveur jeu
+///
+/// @return void*
+///
+////////////////////////////////////////////////////////////////////////
+void CommunicateurReseau::demarrerThreadsReceptionUDPServeurJeu()
+{
+
+    ArgsConnectionThread* wArgs = new ArgsConnectionThread;
+    wArgs->communicateurReseau = this;
+    wArgs->socketAConnecter = SPSocket(new Socket("0.0.0.0", GestionnaireReseau::communicationUDPPortServeurJeu, UDP));
+
+    HANDLE_THREAD wThread;
+    FacadePortability::createThread(wThread, receivingUDPThreadRoutine, wArgs);
+    if(wThread==NULL)
+    {
+        throw ExceptionReseau("Erreur lors de la creation du thread de reception UDP", NULL);
+    }
+    else
+    {
+        // On ajoute le handle a la liste
+        mHandleThreadReceptionUDP = wThread;
+    }
+
+}
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -938,6 +967,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
 
                     // On ajoute le nouveau socket au gestionnaire reseau (avec son nom obtenu dans le paquet)
                     GestionnaireReseau::obtenirInstance()->saveSocket(pSocketIdentifier, wNewSocket);
+                    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection(pSocketIdentifier, inet_ntoa(sinRemote.sin_addr), UDP);
                     wNewSocket->setConnectionState(CONNECTED);
                 }
                 else
@@ -1012,8 +1042,11 @@ void * CommunicateurReseau::receivingUDPThreadRoutine( void *arg )
 
     CommunicateurReseau* wCommunicateurReseau = wArgs->communicateurReseau;
     SPSocket wSocket = (SPSocket)wArgs->socketAConnecter;
-
     delete arg;
+    uint8_t readBuffer[GestionnaireReseau::TAILLE_BUFFER_RECEPTION_ENVOI];
+    PacketReader wPacketReader;
+
+    std::hash_map<std::string, int> wMapNoSequence;
 
 
 
@@ -1026,46 +1059,59 @@ void * CommunicateurReseau::receivingUDPThreadRoutine( void *arg )
         GestionnaireReseau::obtenirInstance()->throwExceptionReseau("Bind du socket de reception UDP impossible");
     }
 
-    char wBuffer[10000];
     while(true)
     {
 
         try
         {
-            // recv bloquant
-            sockaddr_in wTemp;
-            wSocket->recvfrom((uint8_t*)wBuffer, 10000, (sockaddr*)&wTemp, true);
-
-            // Data received
+            wPacketReader.clearBuffer();
 
 
+            sockaddr_in wInAddr;
+            int wReceivedBytes = wSocket->recvfrom((uint8_t*)readBuffer, GestionnaireReseau::TAILLE_BUFFER_RECEPTION_ENVOI/*getPacketHeaderSize()*/, (sockaddr*)&wInAddr, true);
 
+            if(wReceivedBytes <= getPacketHeaderSize())
+            {
+                throw ExceptionReseau("Taille UDP recu inferieure a la taille du header");
+            }
+
+            wPacketReader.setArrayStart(readBuffer, getPacketHeaderSize());
+            HeaderPaquet wPacketHeader = PacketHandler::handlePacketHeaderReception(wPacketReader);
+            wPacketReader.setSize(getPacketHeaderSize());
+            
+            std::string wIP = inet_ntoa(wInAddr.sin_addr);
+            if(wPacketHeader.numeroPaquet > wMapNoSequence[wIP])
+            {
+                wPacketReader.append(wReceivedBytes, readBuffer+(sizeof(uint8_t)*getPacketHeaderSize()));
+
+                PacketHandler* wPacketHandler = GestionnaireReseau::obtenirInstance()->getPacketHandler(wPacketHeader.type);
+                wPacketHandler->handlePacketReceptionSpecific( wPacketReader , GestionnaireReseau::obtenirInstance()->getController()->getRunnable(wPacketHeader.type) );
+
+                wMapNoSequence[wIP] = wPacketHeader.numeroPaquet;
+            }
+
+            
+
+            
+
+        }
+        catch(ExceptionReseauTimeout&)
+        {
+            // Timeout
+            // Just wait and skip this iteration (should not happend here)
+            // Va etre utile pour la detection de connection en UDP
+            GestionnaireReseau::sendMessageToLog("Timeout survenue a la reception UDP ");
         }
         catch(ExceptionReseau&)
         {
-            throw;
+            // Erreur inconnue
+            GestionnaireReseau::sendMessageToLog("Erreur inconnue survenue a la reception UDP");
+
         }
-
-
-
-
-
-
     }
-
-
-
-
-
-
 
     return 0;
 }
-
-
-
-
-
 
 
 

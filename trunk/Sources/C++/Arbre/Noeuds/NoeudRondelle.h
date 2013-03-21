@@ -67,15 +67,15 @@ public:
 
     /// Accesseur de mVelocite
     Vecteur3 obtenirVelocite() const;
-    void modifierVelocite(Vecteur3 val) { mVelocite = val; }
+    void modifierVelocite(const Vecteur3& val);
 
     /// Accesseurs pour la modification
     //float obtenirAngle() const {return angle_;}
-    float obtenirVitesseRotation() const {return mVitesseRotation;}
+    float obtenirVitesseRotation() const;
 
     /// Modificateurs pour la rotation
     //void modifierAngle(const float angle) {angle_ = angle;}
-    void modifierVitesseRotation(const float vitesse) {mVitesseRotation = vitesse;}
+    void modifierVitesseRotation(const float vitesse);
 
     void validerPropriteteTablePourJeu() ;
 

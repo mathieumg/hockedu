@@ -169,7 +169,7 @@ void FacadeServeurJeu::libererInstance()
 ///
 ////////////////////////////////////////////////////////////////////////
 FacadeServeurJeu::FacadeServeurJeu()
-    :mTickInterval(5)
+    :mTickInterval(10)
 {
 
     // Initialisation de la randomisation

@@ -34,11 +34,13 @@ Socket::Socket(const std::string& pDestinationIP, const int& pPortNumber, Connec
 	mSocketInfo->sin_family = pIpProtocol;
     mSocketInfo->sin_port = htons(pPortNumber);
     mConnectionState = NOT_CONNECTED;
+    mIndexPaquet = -1;
 
 	if(pConType == UDP)
 	{
 		//UDP datagram
 		mSocket = socket(pIpProtocol, SOCK_DGRAM, IPPROTO_UDP);
+        mConnectionState = CONNECTED;
 	}
 	else if(pConType == TCP)
 	{
@@ -78,7 +80,15 @@ Socket::Socket( HANDLE_SOCKET socket, sockaddr_in* socketInfo, ConnectionType pC
     mConnectionType = pConnectionType;
     mSocketInfo = socketInfo;
     mSocket = socket;
-	mConnectionState = CONNECTING;
+    mIndexPaquet = -1;
+    if(pConnectionType = TCP)
+    {
+	    mConnectionState = CONNECTING;
+    }
+    else
+    {
+        mConnectionState = CONNECTED;
+    }
 
     FacadePortability::createMutex(mMutexActiviteSocket);
 
@@ -695,7 +705,8 @@ bool Socket::attendreSocket( const int& pTimeout ) const
     FD_ZERO(&readfds);
     FD_SET(mSocket, &readfds); // Set the File Descriptor to the one of the socket
     timeval tv = { pTimeout }; // Set timeout
-    return select(mSocket+1, &readfds, NULL, NULL, &tv) > 0; // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
+    return select((int)mSocket+1, &readfds, NULL, NULL, &tv) > 0; // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
+    // Premier parametre pour linux seulement, ignore en Windows
 }
 
 
@@ -716,6 +727,12 @@ void Socket::disconnect()
 
 void Socket::setConnectionState( ConnectionState pConnectionState )
 {
+    // On ne peut pas changer le state d'un socket UDP
+    if(mConnectionType == UDP)
+    {
+        return;
+    }
+
 	mConnectionState = pConnectionState;
 
 	ConnectionStateEvent event;

@@ -52,11 +52,11 @@ int GestionnaireReseau::communicationPort = 25565;
 // Port a utiliser pour les communications de base
 int GestionnaireReseau::communicationPortMasterServer = 25566;
 
-// Port a utiliser pour les communications de base
-int GestionnaireReseau::communicationUDPPort = 5011;
+// Port a utiliser pour les communications UDP sur le client Lourd
+int GestionnaireReseau::communicationUDPPortClientLourd = GestionnaireReseau::communicationPort;
 
-// Port a utiliser pour les communications de base
-int GestionnaireReseau::connectionUDPPort = 5012;
+// Port a utiliser pour les communications UDP sur le serveur jeu
+int GestionnaireReseau::communicationUDPPortServeurJeu = GestionnaireReseau::communicationPortMasterServer;
 
 std::ofstream errorLogHandle;
 bool bLogCreated = false;
@@ -198,8 +198,7 @@ void GestionnaireReseau::init()
 	int iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
 #endif
 
-    // Demarre les threads de reception UDP (pour serveur et client)
-    mCommunicateurReseau.demarrerThreadsReceptionUDP();
+    
 
 
 #ifdef WINDOWS
@@ -463,6 +462,14 @@ void GestionnaireReseau::demarrerNouvelleConnection(const std::string& pConnecti
         if(pConnectionId == "MasterServer")
         {
             wNewSocket = SPSocket(new Socket(pIP, GestionnaireReseau::communicationPortMasterServer, pConnectionType));
+        }
+        else if(pConnectionId == "GameServer" && pConnectionType == UDP)
+        {
+            wNewSocket = SPSocket(new Socket(pIP, GestionnaireReseau::communicationUDPPortServeurJeu, pConnectionType));
+        }
+        else if(pConnectionType == UDP)
+        {
+            wNewSocket = SPSocket(new Socket(pIP, GestionnaireReseau::communicationUDPPortClientLourd, pConnectionType));
         }
         else
         {
@@ -1005,6 +1012,9 @@ void GestionnaireReseau::initClient(const std::string& pUsername/* = ""*/, const
     mUsername = pUsername;
     mPassword = pPassword;
     init();
+
+    // Demarre les threads de reception UDP (pour serveur et client)
+    mCommunicateurReseau.demarrerThreadsReceptionUDPClientLourd();
 }
 
 
@@ -1016,6 +1026,9 @@ void GestionnaireReseau::initServer()
 
     // Demarrer le thread de connexion TCP
     mCommunicateurReseau.demarrerThreadsConnectionServeur();
+
+    // Demarre les threads de reception UDP (pour serveur et client)
+    mCommunicateurReseau.demarrerThreadsReceptionUDPServeurJeu();
 
     
 

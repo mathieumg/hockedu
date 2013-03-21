@@ -94,9 +94,9 @@ public:
     // Port a utiliser pour les comminications de base
     static int communicationPortMasterServer;
     // Port a utiliser pour les comminications de base
-    static int communicationUDPPort;
+    static int communicationUDPPortClientLourd;
     // Port a utiliser pour les comminications de base
-    static int connectionUDPPort;
+    static int communicationUDPPortServeurJeu;
 
     // Initialise le GestionnaireReseau
     void initClient(const std::string& pUsername = "", const std::string& pPassword = "");

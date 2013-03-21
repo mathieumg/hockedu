@@ -78,6 +78,10 @@ public:
     inline bool isPendingCancel() const { return !!(mFlags & SOCKET_FLAGS_PENDING_CANCEL); }
     inline void flagToCancel() { mFlags |= SOCKET_FLAGS_PENDING_CANCEL; }
     inline void removeCancelFlag(){  mFlags &= ~SOCKET_FLAGS_PENDING_CANCEL; }
+
+    inline int getIndexPaquet() const { return mIndexPaquet; }
+    inline void setIndexPaquet(int val) { mIndexPaquet = val; }
+
 private:
 
     HANDLE_MUTEX mMutexActiviteSocket;
@@ -91,7 +95,8 @@ private:
 	ConnectionState mConnectionState;
 	//Will stock the information of the socket
 	sockaddr_in* mSocketInfo;
-
+    int mIndexPaquet;
+    
 protected:
 
 
