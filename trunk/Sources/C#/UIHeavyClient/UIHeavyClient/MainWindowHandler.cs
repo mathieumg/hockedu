@@ -86,6 +86,7 @@ namespace UIHeavyClient
                 Context.PlayModeControl.RemoveOpenGL();
                 Context.EditionModeControl.AppendOpenGL();
                 Context.EditionModeControl.InitButtons();
+                Context.EditionModeControl.mPropertiesGroupBox.DisplayProperties(RazerKey.RAZER_KEY_NONE);
             }
             else
             {

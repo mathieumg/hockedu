@@ -45,6 +45,9 @@ public:
     virtual void updatePhysicBody();
     virtual void renderOpenGLES() const;
     void ResetTimeLeft();
+
+    /// Accueil un visiteur
+    virtual void acceptVisitor( VisiteurNoeud& v);
 private:
     float mSpawnTimeLeft;// in sec
     float mMinTimeSpawn;

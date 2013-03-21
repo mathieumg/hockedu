@@ -149,7 +149,7 @@ public:
 
 	/// Changements d'états
 	bool passageModeEdition();
-	bool passageModeJeu();
+	bool passageModeJeu(); 
 	bool passageModeTournoi();
 	bool passageMenuPrincipal();
     bool passageModeSimulation();
@@ -274,6 +274,10 @@ private:
 
 	/// Pointeur sur la partie courante
 	int partieCourante_;
+
+    /// Pointeur sur la prochaine partie
+    int prochainePartie_;
+    
     //std::hash_map<PartieId,Partie*> mGames;
 
 	/// Objet contenant le temps ecouler en temps reel
@@ -348,6 +352,8 @@ public:
 
     inline std::string getCurrentMap() {return mCurrentMapFile;}
     inline void setCurrentMap(std::string pCurrentMap) {mCurrentMapFile = pCurrentMap;}
+
+    inline void setProchainePartie(int val) { prochainePartie_ = val; }
 
 };
 

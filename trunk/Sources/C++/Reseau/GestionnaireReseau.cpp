@@ -47,10 +47,10 @@ SINGLETON_DECLARATION_CPP(GestionnaireReseau);
 int GestionnaireReseau::multicastPort = 1001;
 
 // Port a utiliser pour les communications de base
-int GestionnaireReseau::communicationPort = 5010;
+int GestionnaireReseau::communicationPort = 25565;
 
 // Port a utiliser pour les communications de base
-int GestionnaireReseau::communicationPortMasterServer = 5013;
+int GestionnaireReseau::communicationPortMasterServer = 25566;
 
 // Port a utiliser pour les communications de base
 int GestionnaireReseau::communicationUDPPort = 5011;

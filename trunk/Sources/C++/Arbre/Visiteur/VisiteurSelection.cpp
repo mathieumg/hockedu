@@ -79,7 +79,7 @@ VisiteurSelection::~VisiteurSelection(void)
 ////////////////////////////////////////////////////////////////////////
 void VisiteurSelection::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 {
-	
+	visiterNoeudAffichable(noeud);
 }
 
 

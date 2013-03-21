@@ -25,7 +25,7 @@ T sign(T val)
     return (T)(val > 0 ? 1 : -1);
 }
 
-#ifdef MIKE_DEBUG
+#if MIKE_DEBUG_
 PRAGMA_DISABLE_OPTIMIZATION
 #endif
 
@@ -549,7 +549,7 @@ void NodePolygone::divideIntoTriangles() const
 
 
 
-#ifdef MIKE_BUILD
+#if MIKE_DEBUG_
 PRAGMA_ENABLE_OPTIMIZATION
 #endif
 

@@ -23,7 +23,7 @@ namespace UIHeavyClient
     public partial class EditionModeControl : UserControl
     {
         private WindowsFormsHost mWindowsFormsHost;
-
+        
         Dictionary<object, string> mGuidanceMessages;
         Dictionary<object, string> mGuidanceInstructions;
         Dictionary<object, ActionType> mActionPerformedStrings;
@@ -71,6 +71,7 @@ namespace UIHeavyClient
                         });
                         break;
                     case EventCodes.THERE_ARE_NODES_SELECTED:
+                        RazerKey key = GetSelectedNodeUniqueKey();
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             if (TerrainHasDeletable())
@@ -81,12 +82,14 @@ namespace UIHeavyClient
                             {
                                 control.mDeleteButton.IsEnabled = false;
                             }
+                            control.mPropertiesGroupBox.DisplayProperties(key);
                         });
                         break;
                     case EventCodes.THERE_ARE_NO_NODE_SELECTED:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             control.mDeleteButton.IsEnabled = false;
+                            control.mPropertiesGroupBox.DisplayProperties(RazerKey.RAZER_KEY_NONE);
                         });
                         break;
                     default:
@@ -95,14 +98,14 @@ namespace UIHeavyClient
             }
             return true;
         }
-
-
+        
+        
         public EditionModeControl(WindowsFormsHost pWindowsFormsHost)
         {
             InitializeComponent();
 
-
             mWindowsFormsHost = pWindowsFormsHost;
+            mWindowsFormsHost.Focus();
 
             mGuidanceMessages = new Dictionary<object, string>() 
             { 
@@ -186,6 +189,35 @@ namespace UIHeavyClient
                 {mOrbitalCameraRadio, ActionType.ACTION_CAMERA_ORBITE},
                 {mSkyCameraRadio, ActionType.ACTION_CAMERA_FIXE},
             };
+
+            var buttons = RazerUtilities.FindTypedChildren<Button>(this, true);
+            // delete button is disabled by default and it is assigned before the callback can be seted
+            mDeleteButton.Foreground = Brushes.Black;
+            foreach (var button in buttons)
+            {
+                button.Background = Brushes.Black;
+                button.Foreground = Brushes.White;
+
+                button.IsEnabledChanged += button_IsEnabledChanged;
+                button.MouseEnter += DisplayGuidanceMessages;
+                button.MouseLeave += ClearGuidanceMessages;
+
+                /// the button will no longer flash after a click
+                button.Focusable = false;
+            }
+        }
+
+        void button_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            Control control = sender as Control;
+            if ((bool)e.NewValue)
+            {
+                control.Foreground = Brushes.White;
+            }
+            else
+            {
+                control.Foreground = Brushes.Black;
+            }
         }
 
         #region Edition Tool Events
@@ -199,6 +231,8 @@ namespace UIHeavyClient
         static extern void PauseGame(bool doPause);
         [DllImport(@"RazerGame.dll")]
         static extern bool TerrainHasDeletable();
+        [DllImport(@"RazerGame.dll")]
+        static extern RazerKey GetSelectedNodeUniqueKey();
         [DllImport(@"RazerGame.dll")]
         static extern void ResetCamera();
 
@@ -280,22 +314,25 @@ namespace UIHeavyClient
             editionControlGrid.Children.Remove(mWindowsFormsHost);
         }
 
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindowHandler.GoToMainMenu();
-        }
-
         private void DisplayGuidanceInstructions(object sender, RoutedEventArgs e)
         {
             if (mGuidanceInstructions != null && mGuidanceTextBlock != null)
             {
-                mGuidanceTextBlock.Text = mGuidanceInstructions[sender];
+                string m;
+                if (mGuidanceInstructions.TryGetValue(sender, out m))
+                {
+                    SetGuidanceInstuction(m);
+                }
             }
         }
 
         private void DisplayGuidanceMessages(object sender, MouseEventArgs e)
         {
-            mGuidanceLabel.Content = mGuidanceMessages[sender];
+            string m;
+            if (mGuidanceMessages.TryGetValue(sender,out m))
+            {
+                mGuidanceLabel.Content = m;
+            }
         }
 
         private void ClearGuidanceMessages(object sender, MouseEventArgs e)
@@ -305,7 +342,7 @@ namespace UIHeavyClient
 
         public void InitButtons()
         {
-            ChangeClickedButton(mFreeStateButton);
+            HandleStateButton(mFreeStateButton, new RoutedEventArgs());
         }
 
         private void ChangeClickedButton(Button pButton)
