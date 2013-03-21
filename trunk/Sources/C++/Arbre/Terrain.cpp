@@ -91,15 +91,16 @@ Terrain::Terrain(Partie* pGame):
     mWorld->SetContinuousPhysics(true);
     //mWorld->SetSubStepping(true);
 
+#if BOX2D_PLAY
     if(IsGameField())
     {
         mWorld->SetContactListener(this);
     }
+#endif
 #if BOX2D_DEBUG
     DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_shapeBit);
     mWorld->SetDebugDraw(DebugRenderBox2D::mInstance);
 #endif
-
 #endif
 }
 

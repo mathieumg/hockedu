@@ -2594,10 +2594,10 @@
 	<sstream>
 	<ctime>
 
-1363666045 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/GestionnaireReseau.h
+1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/GestionnaireReseau.h
 	<string>
 	"ExceptionsReseau/ExceptionReseau.h"
-	"Network_Defines.h"
+	"FacadePortability.h"
 	"Singleton.h"
 	<map>
 	"Socket.h"
@@ -2629,7 +2629,7 @@
 
 1363120102 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/Singleton.h
 
-1362726745 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Socket.h
+1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Socket.h
 	<memory>
 	<winsock2.h>
 	<ws2tcpip.h>
@@ -2640,20 +2640,20 @@
 	<stdio.h>
 	<stdint.h>
 	<stdexcept>
-	"Network_Defines.h"
+	"FacadePortability.h"
 
-1361292674 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/CommunicateurReseau.h
+1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/CommunicateurReseau.h
 	<string>
 	<queue>
 	"Socket.h"
 	<list>
 	<map>
 	"QueueThreadSafe.h"
-	"Network_Defines.h"
+	"FacadePortability.h"
 
-1363040400 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/QueueThreadSafe.h
+1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/QueueThreadSafe.h
 	<queue>
-	"../../Sources/C++/Reseau/Network_Defines.h"
+	"../../Sources/C++/Reseau/FacadePortability.h"
 
 1363325062 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/ControllerInterface.h
 	<hash_map>
@@ -2661,7 +2661,7 @@
 	"Socket.h"
 	"../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"
 
-1363753657 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h
+1363848953 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h
 
 1360770230 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauGlobale.cpp
 	"ExceptionReseauGlobale.h"
@@ -2703,7 +2703,7 @@
 1363040401 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/ObjetsGlobaux/PartieServeurs.cpp
 	"PartieServeurs.h"
 
-1363040401 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/ObjetsGlobaux/PartieServeurs.h
+1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/ObjetsGlobaux/PartieServeurs.h
 	<time.h>
 	<string>
 
@@ -2718,25 +2718,25 @@
 	<iomanip>
 	"../GestionnaireReseauClientLourd.h"
 
-1363666045 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandler.h
+1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandler.h
 	"../PacketBuilder.h"
 	"../PacketReader.h"
 	"../GestionnaireReseau.h"
 	<string>
 
-1363133808 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PacketBuilder.h
+1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PacketBuilder.h
 	<stdint.h>
 	<iostream>
 	<stdio.h>
 	<string.h>
 
-1363040401 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PacketReader.h
+1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PacketReader.h
 	<stdint.h>
 	<iostream>
 	<stdio.h>
 	<string.h>
 
-1363040401 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetChatMessage.h
+1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetChatMessage.h
 	"Paquet.h"
 
 1363134832 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/Paquet.h
@@ -2780,19 +2780,19 @@
 	"../ObjetsGlobaux/JoueurServeurs.h"
 	"../ServeurMaitre/FacadeServeurMaitre.h"
 
-1363040401 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetLoginInfo.h
+1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetLoginInfo.h
 	"Paquet.h"
 
 1363487138 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/Utilitaire.h
 	"Vecteur.h"
 	<sstream>
 
-1363040400 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/Vecteur.h
+1363888877 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/Vecteur.h
 	<string>
 	"Solution_Defines.h"
 	<math.h>
 
-1363716775 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/Solution_Defines.h
+1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/Solution_Defines.h
 	<cstdio>
 
 1361289956 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/FacadeServeurMaitre.h
@@ -2848,12 +2848,13 @@
 1361289956 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/SocketTCPServeur.h
 	"Socket.h"
 
-1363134832 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/ControllerServeurMaitre.h
+1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/ControllerServeurMaitre.h
 	"Utilitaire.h"
 	<iostream>
 	"../Reseau/ControllerInterface.h"
 	"../Reseau/Socket.h"
 	<hash_map>
+	<map>
 
 1363134832 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/ControllerInterface.cpp
 	"ControllerInterface.h"
@@ -4078,4 +4079,15 @@
 	<netinet/in.h>
 	<arpa/inet.h>
 	"GestionnaireReseau.h"
+
+1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/FacadePortability.h
+	<WinSock2.h>
+	<windows.h>
+	<pthread.h>
+	<semaphore.h>
+	<stdlib.h>
+	<unistd.h>
+	<sys/socket.h>
+	<list>
+	<string>
 
