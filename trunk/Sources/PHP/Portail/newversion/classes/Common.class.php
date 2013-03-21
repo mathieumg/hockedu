@@ -380,6 +380,23 @@ class Common
         
         if( !empty( $userInformation ) )
         {
+            // Renew the expiration, then return it.
+            $userInformation['expiration'] = time() + 3600;
+            
+            $sql = 'UPDATE %s
+                    SET %s=%d
+                    WHERE %s=%s';
+            $sql = sprintf( $sql,
+                            $this->db->quoteIdentifier( 'remote_authentication'),
+                            
+                            $this->db->quoteIdentifier( 'expiration' ),
+                            $this->db->quote( $userInformation['expiration'], 'integer' ),
+                            
+                            $this->db->quoteIdentifier( 'key' ),
+                            $this->db->quote( $userInformation['key'], 'text' )
+                           );
+            $this->db->query( $sql );
+            
             return $userInformation;
         }
         
