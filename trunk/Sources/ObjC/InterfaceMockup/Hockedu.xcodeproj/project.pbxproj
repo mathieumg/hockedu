@@ -79,8 +79,8 @@
 		4E2A595D16F2E558002160AE /* NodeBonus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595916F2E558002160AE /* NodeBonus.cpp */; };
 		4E2A595E16F2E558002160AE /* NodeModelRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595B16F2E558002160AE /* NodeModelRender.cpp */; };
 		4E2A596116F2E658002160AE /* BonusModifierFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */; };
-		4E93754616FA1E40006A9C39 /* VisitorGatherProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E93754416FA1E40006A9C39 /* VisitorGatherProperties.cpp */; };
 		4E8C11B916FA31AE003D61E8 /* libTinyXml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EF216A316FA2AC0005FB093 /* libTinyXml.a */; };
+		4E93754616FA1E40006A9C39 /* VisitorGatherProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E93754416FA1E40006A9C39 /* VisitorGatherProperties.cpp */; };
 		4E96DF0416F64C4700588998 /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E96DC6716F63D2100588998 /* libBox2D.a */; };
 		4EB7EA7916EFBE4100493722 /* VisiteurFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */; };
 		4EC1626E16F81A8C00577704 /* BonusModifierBlockGoal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */; };
@@ -612,12 +612,9 @@
 		96378D6B1472C71100F543EA = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
 				4E058F0816FA5C2A00A68C40 /* AFNetworking.xcodeproj */,
-=======
 				4E93754416FA1E40006A9C39 /* VisitorGatherProperties.cpp */,
 				4E93754516FA1E40006A9C39 /* VisitorGatherProperties.h */,
->>>>>>> e314b1d883b737b9e95eb980ad24d6b7c739cb97
 				4EF2169E16FA2ABE005FB093 /* TinyXml.xcodeproj */,
 				4EC1626F16F81F8000577704 /* RunnableBreaker.h */,
 				4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */,
