@@ -1,5 +1,5 @@
-#ifndef NETWORK_DEFINES_INCLUDED
-#define NETWORK_DEFINES_INCLUDED
+#ifndef FACADEPORTABILITY_INCLUDED
+#define FACADEPORTABILITY_INCLUDED
 #ifdef WINDOWS
 #include <WinSock2.h>
 #include <windows.h>
@@ -130,4 +130,4 @@ namespace FacadePortability {
 
     void getLocalIPAddresses(std::list<std::string>& pOut);
 };
-#endif // NETWORK_DEFINES_INCLUDED
+#endif // FACADEPORTABILITY_INCLUDED
