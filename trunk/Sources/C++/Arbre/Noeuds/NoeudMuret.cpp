@@ -201,7 +201,10 @@ bool NoeudMuret::initFromXml( const XmlElement* element )
 void NoeudMuret::setAngle( float angle )
 {
 	Super::setAngle(angle);
-	majPosCoins();
+    if(!IsInGame())
+    {
+        majPosCoins();
+    }
 }
 
 
@@ -219,7 +222,10 @@ void NoeudMuret::setAngle( float angle )
 void NoeudMuret::setScale( const Vecteur3& echelleCourante )
 {
 	Super::setScale(echelleCourante);
-	majPosCoins();
+    if(!IsInGame())
+    {
+        majPosCoins();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -236,7 +242,10 @@ void NoeudMuret::setScale( const Vecteur3& echelleCourante )
 void NoeudMuret::setPosition( const Vecteur3& positionRelative )
 {
 	Super::setPosition(positionRelative);
-	majPosCoins();
+    if(!IsInGame())
+    {
+        majPosCoins();
+    }
 }
 
 
