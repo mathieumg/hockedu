@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="b2ae5b7f-5f0b-4a8b-829d-2901629b8c32" name="InterfaceLéger" linkedPackageId="e9c046bc-0acb-412b-8d31-534be969820b" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <packagedElements>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="a874958e-06f5-4aaf-95e3-e9d52eaf348e" name="Interface Léger">
+        <elementDefinition Id="d45c7dd2-dc24-499d-b4ba-03163b890226" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="86d7dae0-cc30-4b9f-bef2-005b7cc698b5" name="Login" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="7e118528-fda5-435b-8cd8-9818620f8926" />
+              <targetEnds>
+                <association Id="b01793e3-72e7-4519-8cc8-967ebd0eda06" isDerived="false" sourceEndRoleName="Login" targetEndRoleName="MenuPrincipal" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="fc51035a-d927-4c34-b416-8a49ce071e7d" LastKnownName="MenuPrincipal" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="1f2749dc-0945-4bdf-89ba-a6e214eab488" name="Login" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="fc394abe-efb3-4fe8-91fa-617b094bdbc2" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="8f91fd73-85f8-400c-8838-6c1392b862c1" name="MenuPrincipal" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="d770c58b-4a84-4b32-a96c-d0044f0b91b9" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="045158f6-93fa-4975-a83b-c40b1d44c255" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="fc51035a-d927-4c34-b416-8a49ce071e7d" name="MenuPrincipal" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="5f0f0740-c7e9-461f-9baf-ca0251e19536" />
+              <targetEnds>
+                <association Id="9f85c1bd-5274-442c-b261-34c7eabe6a36" isDerived="false" sourceEndRoleName="MenuPrincipal" targetEndRoleName="Editeur" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="03accf17-83c7-407d-b74b-12dac6de3adf" LastKnownName="Editeur" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="7a84cb59-ae73-4567-b87a-053adad183ad" name="MenuPrincipal" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="f3c81c56-0fda-4531-ad8a-d7976c31ce57" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="1589b4b7-ee85-4f34-baa7-a451f1dc37b5" name="Editeur" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="0f41a50d-66bb-4325-bbc6-684eeb6595ce" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="dcd606e1-5855-4dbd-8eec-b94b9ea704a3" />
+                </association>
+                <association Id="68e93d82-5642-49b9-a853-5f2bc443110a" isDerived="false" sourceEndRoleName="MenuPrincipal" targetEndRoleName="Options" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="eb6248e6-c336-4399-8145-48e9ad1cd874" LastKnownName="Options" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="9c657925-8a44-4058-91f6-7ac73313643f" name="MenuPrincipal" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="e2f82bb3-6d95-472c-9228-300203acdacc" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="200a5649-dfc1-4121-bb6b-9925351c336d" name="Options" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="6334eeb4-a4e6-43c8-8956-dea7d5b1c055" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="cf8cb1d4-689a-4196-900d-a0d57db089ed" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="03accf17-83c7-407d-b74b-12dac6de3adf" name="Editeur" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="e010c74b-090f-4d4f-b859-a9ae795ec846" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="eb6248e6-c336-4399-8145-48e9ad1cd874" name="Options" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="1b640df6-3700-41f4-b094-00aa65d8980e" />
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+  </packagedElements>
+  <package Id="e9c046bc-0acb-412b-8d31-534be969820b" name="PackageDiagram">
+    <elementDefinition Id="e3be6b7a-c594-4cdf-a79e-a902a52468de" />
+    <profileInstances>
+      <packageHasProfileInstances Id="05beb0c4-ff68-442e-9277-0b3f5d1325c2">
+        <profileInstance Id="2748d421-99db-4e94-844f-6ae1d1e3d390" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="4e151b29-507e-4fe4-b7d9-84139d6f0422">
+        <profileInstance Id="6f4d2810-8c12-4b27-bc2e-1b21494b1c22" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</logicalClassDesignerModel>
