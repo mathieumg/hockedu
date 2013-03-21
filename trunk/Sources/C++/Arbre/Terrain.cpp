@@ -56,6 +56,7 @@
 #include "NodeControlPoint.h"
 #include "VisiteurFunction.h"
 #include "VisitorGatherProperties.h"
+#include "FieldModificationStrategyMove.h"
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
@@ -74,13 +75,14 @@ const unsigned int MAX_MALLETS = 2;
 ////////////////////////////////////////////////////////////////////////
 Terrain::Terrain(Partie* pGame): 
     mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame),mZamboni(NULL),
-    mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL), mIsInit(false)
+    mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL), mIsInit(false), mModifStrategy(NULL)
 {
     mEditionZone = NULL;
     if(!mGame)
     {
         mEditionZone = new ZoneEdition();
     }
+    mRedoBuffer.reserve(UNDO_BUFFERSIZE);
 #if BOX2D_INTEGRATED
     b2Vec2 gravity(0,0);
     mWorld = new b2World(gravity);
@@ -309,7 +311,7 @@ void Terrain::initialiserArbreRendu()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool Terrain::initialiserXml( XmlElement* element )
+bool Terrain::initialiserXml( XmlElement* element, bool fromDocument /*= true */ )
 {
     libererMemoire();
     
@@ -339,9 +341,15 @@ bool Terrain::initialiserXml( XmlElement* element )
     }
     mLogicTree = new RazerGameTree(this,MAX_MALLETS,MAX_PUCKS);
 
-    XmlElement* racine = XMLUtils::FirstChildElement(element,"Terrain");
-    if(!racine)
-        return false;
+    XmlElement* racine = element;
+    /// si ce noeud xml vient d'un document, il faut retrouver la node Terrain
+    if(fromDocument)
+    {
+        racine = XMLUtils::FirstChildElement(element,"Terrain");
+        if(!racine)
+            return false;
+    }
+
     if(!XMLUtils::readAttribute(racine,"nom",mFieldName))
         return false;
 
@@ -369,6 +377,12 @@ bool Terrain::initialiserXml( XmlElement* element )
 
     fullRebuild();
     mIsInit = true;
+
+    if(!IsGameField())
+    {
+      //  mUndoBuffer.push_back(creerNoeudXML());
+    }
+
     return true;
 }
 
@@ -619,9 +633,9 @@ void Terrain::createRandomField(const std::string& nom)
 {
     creerTerrainParDefaut(nom);
 
-    VisiteurDeplacement d1(Vecteur2((float)(-rand()%50),(float)(rand()%50)),true);
-    VisiteurDeplacement d2(Vecteur2((float)(-rand()%50),(float)(rand()%50)),true);
-    VisiteurDeplacement d3(Vecteur2((float)(-rand()%50),(float)(-rand()%50)),true);
+    VisiteurDeplacement d1(Vecteur2((float)(rand()%50),(float)(rand()%50)),true);
+    VisiteurDeplacement d2(Vecteur2((float)(rand()%50),(float)(rand()%50)),true);
+    VisiteurDeplacement d3(Vecteur2((float)(rand()%50),(float)(-rand()%50)),true);
 
     // shuffle it a bit
     mTable->obtenirPoint(POSITION_MILIEU_DROITE)->acceptVisitor(d1);
@@ -874,7 +888,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
         return false;
     }
 
-    return !!leftMallet && !!rightMallet && !!puck;
+    return !!leftMallet && !!rightMallet && !!puck && !nodeOutsideNotDeleted;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1471,7 +1485,9 @@ bool Terrain::IsNodeAtValidEditionPosition( NoeudAbstrait* pNode, bool pDoHightl
 bool Terrain::FixCollidingObjects()
 {
 #if BOX2D_INTEGRATED  
-    mWorld->Step(0.001f,0,50);
+    mWorld->Step(0.001f,0,1000);
+    mWorld->Step(0.001f,0,1000);
+    mWorld->Step(0.001f,0,1000);
     return true;
 #endif //BOX2D_INTEGRATED
 
@@ -1540,7 +1556,7 @@ bool Terrain::FixCollindingNode( NoeudAbstrait* pNode, unsigned int nbIterations
         for (int j = 0; j < liste.size()  ; j++)
         {
             //Vecteur3 deplacement(elementSurTable_[i]->getPosition() - liste[j]->getPosition());
-            Vecteur3 deplacement((details[j].direction*details[j].enfoncement)*-1);
+            Vecteur3 deplacement( details[j].direction*details[j].enfoncement );
             if(deplacement.norme() == 0)
                 deplacement = Vecteur3(1.0,1.0);
             //deplacement.normaliser();
@@ -1848,6 +1864,101 @@ int Terrain::applySelectedNodeProperties( class FullProperties* properties )
 //         }
     }
     return 1;
+}
+
+int Terrain::BeginModification(FieldModificationStrategyType type, const FieldModificationStrategyEvent& beginEvent)
+{
+    if(mModifStrategy)
+    {
+        delete mModifStrategy;
+    }
+    mModifStrategy = NULL;
+
+    switch(type)
+    {
+    case FIELD_MODIFICATION_STRATEGY_TYPE_MOVE_NODES: 
+        {
+            FieldModificationStrategyMove* moveModif = new FieldModificationStrategyMove(this,beginEvent);
+            mModifStrategy = moveModif;
+        }
+    }
+    return 1;
+}
+int Terrain::ReceiveModificationEvent(const FieldModificationStrategyEvent& pEvent)
+{
+    int r = 0;
+    if(mModifStrategy)
+    {
+        r = mModifStrategy->receivedEvent(pEvent);
+    }
+    return r;
+}
+int Terrain::EndModification()
+{
+    int r = 0;
+    if(mModifStrategy)
+    {
+        r = mModifStrategy->endStrategy();
+        delete mModifStrategy;
+    }
+    mModifStrategy = NULL;
+    return r;
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool Terrain::equals( Terrain* terrain )
+///
+/// checks if both field are the same
+///
+/// @param[in] Terrain * terrain
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool Terrain::equals( Terrain* terrain )
+{
+    if(!terrain)
+    {
+        return false;
+    }
+    if(terrain == this)
+    {
+        return true;
+    }
+
+
+    if(IsGameField() != terrain->IsGameField())
+    {
+        return false;
+    }
+
+    auto tree1 = getLogicTree();
+    auto tree2 = terrain->getLogicTree();
+    if( (!tree1 && tree2 )|| (tree1 && !tree2 ) )
+    {
+         return false;
+    }
+    if(tree1)
+    {
+        if(!tree1->equals(tree2))
+        {
+            return false;
+        }
+    }
+
+    auto zone1 = getZoneEdition();
+    auto zone2 = terrain->getZoneEdition();
+    if(zone1)
+    {
+        if(!zone1->equals(zone2))
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 

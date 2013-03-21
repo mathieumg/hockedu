@@ -67,6 +67,9 @@ public:
 	float obtenirLimiteExtLongueur() const { return limiteExtLongueur_; }
 	/// Modificateur de limiteExtLongueur_
 	void modifierLimiteExtLongueur(float val) { limiteExtLongueur_ = val; }
+
+    /// checks if both zone are the same
+    bool equals( ZoneEdition * zone );
 };
 
 ///////////////////////////////////////////////////////////////////////////

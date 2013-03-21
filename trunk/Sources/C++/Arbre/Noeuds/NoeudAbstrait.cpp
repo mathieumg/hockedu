@@ -619,7 +619,7 @@ void NoeudAbstrait::setAngle( float angle )
 {
 	mAngle = angle;
 #if BOX2D_INTEGRATED  
-    if(mPhysicBody)
+    if(!mFlags.IsFlagSet(NODEFLAGS_B2_TRANSFORM_CALLBACK) && mPhysicBody)
     {
         mPhysicBody->SetTransform(mPhysicBody->GetPosition(),(float32)utilitaire::DEG_TO_RAD(mAngle));
     }
@@ -771,8 +771,10 @@ XmlElement* NoeudAbstrait::createXmlNode()
     XmlWriteNodePosition(elementNoeud);
     XMLUtils::writeArray(mScale.c_arr(),3,elementNoeud,"echelle");
     XMLUtils::writeAttribute(elementNoeud,"angle",mAngle);
+
     XMLUtils::writeAttribute(elementNoeud,"affiche",isVisible());
     XMLUtils::writeAttribute(elementNoeud,"selectionnable",canBeSelected());
+    XMLUtils::writeAttribute(elementNoeud,"selected",IsSelected());
 
 	return elementNoeud;
 }
@@ -836,14 +838,17 @@ bool NoeudAbstrait::initFromXml( const XmlElement* element )
     if( !XMLUtils::readAttribute(element,"angle",floatElem) )
         throw ExceptionJeu("%s: Error reading node's angle", mType.c_str());
     setAngle(floatElem);
-    
-	if( !XMLUtils::readAttribute(element,"affiche",intElem) )
+    if( !XMLUtils::readAttribute(element,"affiche",intElem) )
         throw ExceptionJeu("%s: Error reading node's visibility flag", mType.c_str());
     setVisible(intElem==1);
 
     if( !XMLUtils::readAttribute(element,"selectionnable",intElem) )
         throw ExceptionJeu("%s: Error reading node's selection flag", mType.c_str());
     setCanBeSelected(intElem==1);
+    
+    if( !XMLUtils::readAttribute(element,"selected",intElem) )
+        intElem = 0; // backward compatibility
+    setSelection(intElem==1);
 	
 	return true;
 }
@@ -888,7 +893,7 @@ void NoeudAbstrait::setPosition( const Vecteur3& positionRelative )
 {
     mPosition = positionRelative;
 #if BOX2D_INTEGRATED  
-    if(mPhysicBody)
+    if(!mFlags.IsFlagSet(NODEFLAGS_B2_TRANSFORM_CALLBACK) && mPhysicBody)
     {
         b2Vec2 pos;
         utilitaire::VEC3_TO_B2VEC(mPosition,pos);
@@ -991,11 +996,16 @@ void NoeudAbstrait::synchroniseTransformFromB2CallBack( void* node, const b2Tran
 void NoeudAbstrait::synchroniseTransformFromB2( const b2Transform& transform)
 {
 #if BOX2D_INTEGRATED 
+    /// permet d'éviter la recursion suite aux appels de setPosition et setAngle
+    mFlags.SetFlag(true,NODEFLAGS_B2_TRANSFORM_CALLBACK);
+
     // TODO:: a verifier avec la position du parent
     Vecteur3 pos;
     utilitaire::B2VEC_TO_VEC3(pos,transform.p);
     setPosition(pos);
     setAngle(utilitaire::RAD_TO_DEG(transform.q.GetAngle()));
+
+    mFlags.SetFlag(false,NODEFLAGS_B2_TRANSFORM_CALLBACK);
 #endif
 }
 

@@ -41,18 +41,6 @@ public:
 
 	/// Retourne l'état courant
 	virtual NomEtatSouris obtenirNomEtatSouris();
-
-private:
-	/// Indique si un bouton de la souris a été enfoncé
-	bool estEnfoncee_;
-	/// Conserve en mémoire la position de la souris depuis le dernier appel
-	Vecteur2i positionPrecedente_;
-	/// Attribut indiquant si les déplacement ignore les collisions
-	bool ignoreCollision_;
-	/// Vecteur de noeuds sélectionnés
-	ConteneurNoeuds noeudsSelectionnes_;
-	/// Contient l'inverse du déplacement effectué (en cas d'annulation)
-	Vecteur2* deplacementInverse_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

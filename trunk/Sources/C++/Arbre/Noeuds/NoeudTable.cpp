@@ -7,16 +7,7 @@
 /// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
-#include "NoeudTable.h"
-#include "NoeudPoint.h"
-#include "NoeudBut.h"
-#include "AideCollision.h"
-#include "NoeudGroupe.h"
 
-#include <math.h>
-#include "VisiteurDeplacement.h"
-
-#include "XMLUtils.h"
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
@@ -30,9 +21,18 @@
 #include <GL\glu.h>
 #include "FacadeModele.h"
 #endif
+
+#include "NoeudTable.h"
+#include "NoeudPoint.h"
+#include "NoeudBut.h"
+#include "AideCollision.h"
+#include "NoeudGroupe.h"
+#include <math.h>
+#include "XMLUtils.h"
 #include "ArbreRendu.h"
 #include "Terrain.h"
 #include "Solution_Defines.h"
+#include "VisiteurNoeud.h"
 
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
 const Vecteur3 NoeudTable::DEFAULT_SIZE = Vecteur3(300,150);
@@ -175,7 +175,6 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
     
     // Allocation de l'espace mémoire pour les but et on donne les paramètre nécessaire à l'affichage
     butJoueur1_ = new NoeudBut(RazerGameUtilities::NOM_BUT,1,hautGauche_,basGauche_,milieuGauche_);
-
     butJoueur2_ = new NoeudBut(RazerGameUtilities::NOM_BUT,2,hautDroite_,basDroite_,milieuDroite_);
     butJoueur1_->modifierButAdverse(butJoueur2_);
     butJoueur2_->modifierButAdverse(butJoueur1_);
@@ -1218,19 +1217,19 @@ GroupeTripleAdresseFloat NoeudTable::trouverVertex( const aiScene* scene, const 
 ////////////////////////////////////////////////////////////////////////
 void NoeudTable::replacerModele()
 {
-    for(int i=0; i<vecteurPoint_.size(); i++)
-    {
-        Vecteur3 deplacement(vecteurPoint_[i]->obtenirPositionInitiale()-vecteurPoint_[i]->getPosition());
-        const GroupeTripleAdresseFloat* liste = vecteurPoint_[i]->obtenirListePointsAChanger();
-        if(liste)
-        {
-            for(unsigned int j=0; j<liste->size(); j++)
-            {
-                *(liste->get(j)[VX]) += (float)deplacement[VX];
-                *(liste->get(j)[VY]) += (float)deplacement[VY];
-            }
-        }
-    }
+//     for(int i=0; i<vecteurPoint_.size(); i++)
+//     {
+//         Vecteur3 deplacement(vecteurPoint_[i]->obtenirPositionInitiale()-vecteurPoint_[i]->getPosition());
+//         const GroupeTripleAdresseFloat* liste = vecteurPoint_[i]->obtenirListePointsAChanger();
+//         if(liste)
+//         {
+//             for(unsigned int j=0; j<liste->size(); j++)
+//             {
+//                 *(liste->get(j)[VX]) += (float)deplacement[VX];
+//                 *(liste->get(j)[VY]) += (float)deplacement[VY];
+//             }
+//         }
+//     }
 
 
 }

@@ -10,8 +10,6 @@
 
 #include "SourisEtatTransformationDeplacement.h"
 #include "FacadeModele.h"
-#include "VisiteurDeplacement.h"
-#include "VisiteurCollision.h"
 #include "Terrain.h"
 
 ////////////////////////////////////////////////////////////////////////
@@ -25,12 +23,8 @@
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-SourisEtatTransformationDeplacement::SourisEtatTransformationDeplacement(  ):
-ignoreCollision_(false),deplacementInverse_(0)
+SourisEtatTransformationDeplacement::SourisEtatTransformationDeplacement(  )
 {
-	estEnfoncee_ = false;
-	positionPrecedente_ = NULL;
-
 	
 }
 
@@ -46,9 +40,7 @@ ignoreCollision_(false),deplacementInverse_(0)
 ////////////////////////////////////////////////////////////////////////
 SourisEtatTransformationDeplacement::~SourisEtatTransformationDeplacement(void)
 {
-	if(deplacementInverse_ != 0)
-		delete[] deplacementInverse_;
-	deplacementInverse_ = 0;
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -64,8 +56,7 @@ SourisEtatTransformationDeplacement::~SourisEtatTransformationDeplacement(void)
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatTransformationDeplacement::toucheEnfoncee( EvenementClavier& evenementClavier )
 {
-	if(evenementClavier.obtenirTouche() == VJAK_CONTROL)
-		ignoreCollision_ = true;
+
 }
 
 
@@ -83,30 +74,8 @@ void SourisEtatTransformationDeplacement::toucheEnfoncee( EvenementClavier& even
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatTransformationDeplacement::toucheRelachee( EvenementClavier& evenementClavier )
 {
-	if(evenementClavier.obtenirTouche() == VJAK_CONTROL)
-	{
-		ignoreCollision_ = false;
-		if(estEnfoncee_)
-		{
-            Terrain* field = NULL;
-			for(int i=0; i<noeudsSelectionnes_.size(); i++)
-			{
-                field = noeudsSelectionnes_[i]->getField();
-				if(!deplacementInverse_[i].estNul())
-				{
-					VisiteurDeplacement visiteurDeplacementInverse(deplacementInverse_[i]);
-					noeudsSelectionnes_[i]->acceptVisitor(visiteurDeplacementInverse);
-					deplacementInverse_[i].remetAZero();
-				}
-			}
-            if(field)
-            {
-                field->FixCollidingObjects();
-            }
-		}
-	}
-}
 
+}
 
 
 
@@ -123,23 +92,17 @@ void SourisEtatTransformationDeplacement::toucheRelachee( EvenementClavier& even
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatTransformationDeplacement::sourisEnfoncee( EvenementSouris& evenementSouris )
 {
-	if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_GAUCHE)
-	{
+    if(evenementSouris.obtenirBouton() == BOUTON_SOURIS_GAUCHE)
+    {
+        Vecteur3 position;
+        FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX],evenementSouris.obtenirPosition()[VY],position);
+        FieldModificationStrategyEvent event;
+        event.mPosition = position;
+        event.mType = FIELD_MODIFICATION_STRATEGY_EVENT_TYPE_CLICK;
 
-        {
-            noeudsSelectionnes_.clear();
-            FacadeModele::getInstance()->getSelectedNodes(noeudsSelectionnes_);
-			//delete visiteurCollision;
-			// Vérifie si le bouton enfoncé est le bouton de gauche et qu'il y a un objet selectionne sous la souris
-			if(!noeudsSelectionnes_.empty())
-			{
-				// Assigne les attributs concernés
-				estEnfoncee_ = true;
-				positionPrecedente_ = evenementSouris.obtenirPosition();
-				deplacementInverse_ = new Vecteur2[noeudsSelectionnes_.size()];
-			}
-		}
-	}
+        FacadeModele::getInstance()->getEditionField()->BeginModification(FIELD_MODIFICATION_STRATEGY_TYPE_MOVE_NODES,event);
+    }
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -155,30 +118,10 @@ void SourisEtatTransformationDeplacement::sourisEnfoncee( EvenementSouris& evene
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatTransformationDeplacement::sourisRelachee( EvenementSouris& evenementSouris )
 {
-	// Vérifie si le bouton enfoncé est le bouton de gauche
-	if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_GAUCHE && estEnfoncee_)
-	{
-		// Assigne les attributs concernés
-		positionPrecedente_ = NULL;
-		estEnfoncee_ = false;
-        Terrain* field = NULL;
-		for(int i=0; i<noeudsSelectionnes_.size(); i++)
-		{
-            field = noeudsSelectionnes_[i]->getField();
-            if(!deplacementInverse_[i].estNul())
-			{
-				VisiteurDeplacement visiteurDeplacementInverse(deplacementInverse_[i]);
-				noeudsSelectionnes_[i]->acceptVisitor(visiteurDeplacementInverse);
-				deplacementInverse_[i].remetAZero();
-			}
-		}
-        if(field)
-        {
-            field->FixCollidingObjects();
-        }
-		delete[] deplacementInverse_;
-		deplacementInverse_ = 0;
-	}
+    if(evenementSouris.obtenirBouton() == BOUTON_SOURIS_GAUCHE)
+    {
+        FacadeModele::getInstance()->getEditionField()->EndModification();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -194,42 +137,15 @@ void SourisEtatTransformationDeplacement::sourisRelachee( EvenementSouris& evene
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatTransformationDeplacement::sourisDeplacee( EvenementSouris& evenementSouris )
 {
-	// Verifie si le bouton est enfoncé
-	if(estEnfoncee_ && evenementSouris.obtenirPosition()!=positionPrecedente_)
-	{
-		// Calcul le déplacement relatif entre depuis le dernier appel de la méthode
-		int deplacementX = positionPrecedente_[VX]-evenementSouris.obtenirPosition()[VX];
-		int deplacementY = positionPrecedente_[VY]-evenementSouris.obtenirPosition()[VY];
-
-		Vecteur2 deplacementCloture((float)deplacementX, (float)deplacementY);
-		Vecteur2 deplacementVirt = FacadeModele::getInstance()->convertirDeplacementClotureAVirtuelle(positionPrecedente_, evenementSouris.obtenirPosition());
-		Vecteur2 deplacementVirtInverse = Vecteur2(-deplacementVirt[VX], -deplacementVirt[VY]);
-
-		VisiteurDeplacement visiteurDeplacement(deplacementVirt);
-		VisiteurDeplacement visiteurDeplacementInverse(deplacementVirtInverse);
-
-		for(int i=0; i<noeudsSelectionnes_.size(); i++)
-		{
-			noeudsSelectionnes_[i]->acceptVisitor(visiteurDeplacement);
-            auto terrain = noeudsSelectionnes_[i]->getField();
-			// On verifie qu'elle n'a pas engendre de nouvelles collisions
-			if(terrain && !terrain->IsNodeAtValidEditionPosition(noeudsSelectionnes_[i]))
-			{
-				if(ignoreCollision_)
-				{
-					deplacementInverse_[i] += deplacementVirtInverse;
-				}
-				else
-					noeudsSelectionnes_[i]->acceptVisitor(visiteurDeplacementInverse);
-			}
-			else
-				deplacementInverse_[i].remetAZero();
-		}
-
-		// Mise à jour de la position
-		positionPrecedente_ = evenementSouris.obtenirPosition();
-		
-	}
+    if(evenementSouris.obtenirBouton() == BOUTON_SOURIS_GAUCHE)
+    {
+        Vecteur3 position;
+        FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX],evenementSouris.obtenirPosition()[VY],position);
+        FieldModificationStrategyEvent event;
+        event.mPosition = position;
+        event.mType = FIELD_MODIFICATION_STRATEGY_EVENT_TYPE_MOVE;
+        FacadeModele::getInstance()->getEditionField()->ReceiveModificationEvent(event);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////

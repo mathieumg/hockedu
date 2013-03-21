@@ -37,7 +37,7 @@
             dest = src;                                                   \
             mFlags.SetFlag(true,ASSIGNED_##Flag);                         \
         }                                                                 \
-        mProperties->mPropertyFlagAssignment = mFlags.GetValue();         \
+        mProperties->mPropertyFlagAssignment = mFlags.mValue;         \
     }
 
 void VisitorGatherProperties::GetPos(NoeudAbstrait* noeud)
@@ -65,7 +65,7 @@ void VisitorGatherProperties::GetPos(NoeudAbstrait* noeud)
     }
     mFlags.SetFlag(true,ASSIGNED_POSITIONX);
     mFlags.SetFlag(true,ASSIGNED_POSITIONY);
-    mProperties->mPropertyFlagAssignment = mFlags.GetValue();
+    mProperties->mPropertyFlagAssignment = mFlags.mValue;
 }
 
 

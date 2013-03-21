@@ -204,6 +204,34 @@ void ZoneEdition::afficher()
 #endif
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool ZoneEdition::equals( ZoneEdition * zone )
+///
+/// /*Description*/
+///
+/// @param[in] ZoneEdition * zone
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool ZoneEdition::equals( ZoneEdition * zone )
+{
+    if(!zone)
+    {
+        return false;
+    }
+    if(zone == this)
+    {
+        return true;
+    }
+
+    return
+    limiteIntLongueur_ == zone->limiteIntLongueur_ &&
+    limiteIntLargeur_  == zone->limiteIntLargeur_  &&
+    limiteExtLargeur_  == zone->limiteExtLargeur_  &&
+    limiteExtLongueur_ == zone->limiteExtLongueur_ ;
+}
 
 ///////////////////////////////////////////////////////////////////////////
 /// @}

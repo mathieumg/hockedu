@@ -40,7 +40,6 @@
 #include "SourisEtatDeplacerFenetre.h"
 #include "VisiteurCollision.h"
 #include "VisiteurSuppression.h"
-#include "VisiteurDeplacement.h"
 #include "SoundFMOD.h"
 #include <algorithm>
 #include "DecodeString.h"

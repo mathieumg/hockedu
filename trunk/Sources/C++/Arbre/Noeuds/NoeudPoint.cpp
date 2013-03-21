@@ -16,7 +16,6 @@
 #include "XMLUtils.h"
 #include "VisiteurNoeud.h"
 #include "NoeudBut.h"
-#include "VisiteurDeplacement.h"
 
 
 const float NoeudPoint::DEFAULT_RADIUS = 10;
@@ -65,6 +64,7 @@ NoeudPoint::NoeudPoint( const std::string& typeNoeud, float coordX, float coordY
 ////////////////////////////////////////////////////////////////////////
 NoeudPoint::~NoeudPoint()
 {
+    move3DModel(positionInitiale_);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -363,6 +363,9 @@ const GroupeTripleAdresseFloat* NoeudPoint::obtenirListePointsAChanger() const
 	return 0;
 }
 
+
+
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void NoeudPoint::setPosition( const Vecteur3& positionRelative )
@@ -376,26 +379,45 @@ const GroupeTripleAdresseFloat* NoeudPoint::obtenirListePointsAChanger() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudPoint::setPosition( const Vecteur3& positionRelative )
 {
-#if WIN32  
-	const GroupeTripleAdresseFloat* liste = obtenirListePointsAChanger();
-    Vecteur3 deplacement(positionRelative-mPosition);
-    if(liste)
-	{
-		for(unsigned int i=0; i<liste->size(); i++)
-		{
-			*(liste->get(i)[VX]) += (float)deplacement[VX];
-			*(liste->get(i)[VY]) += (float)deplacement[VY];
-		}
-	}
-    else
-    {
-        NoeudTable::queueTableModelMove(typePosNoeud_,deplacement);
-    }
-#endif
-
+    move3DModel(positionRelative);
     // assigner la position du point en premier pour que la table puisse l'utiliser à sa mise a jour
     NoeudAbstrait::setPosition(positionRelative);
     PositionSubject::signalObservers();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudPoint::move3DModel( const Vecteur3& targetPosition )
+///
+/// /*Description*/
+///
+/// @param[in] const Vecteur3 & targetPosition
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudPoint::move3DModel( const Vecteur3& targetPosition )
+{
+#if WIN32  
+    // onlny edit model if the table is present
+    if(getField() && getField()->getTable())
+    {
+        const GroupeTripleAdresseFloat* liste = obtenirListePointsAChanger();
+        Vecteur3 deplacement(targetPosition-mPosition);
+        if(liste)
+        {
+            for(unsigned int i=0; i<liste->size(); i++)
+            {
+                *(liste->get(i)[VX]) += (float)deplacement[VX];
+                *(liste->get(i)[VY]) += (float)deplacement[VY];
+            }
+        }
+        else
+        {
+            NoeudTable::queueTableModelMove(typePosNoeud_,deplacement);
+        }
+    }
+#endif
 }
 
 

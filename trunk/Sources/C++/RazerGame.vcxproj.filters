@@ -96,6 +96,9 @@
     <Filter Include="Sources Files\Arbre\Bonus">
       <UniqueIdentifier>{df564af7-932a-4e50-9943-1528050503eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources Files\Arbre\FieldModificationStrategy">
+      <UniqueIdentifier>{ea9119c6-a85a-4d09-a9fa-d74a27e8814f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application\FacadeModele.cpp">
@@ -577,6 +580,9 @@
     </ClCompile>
     <ClCompile Include="Arbre\Visiteur\VisitorGatherProperties.cpp">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyMove.cpp">
+      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1086,6 +1092,12 @@
     </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisitorGatherProperties.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyMove.h">
+      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAbstract.h">
+      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
