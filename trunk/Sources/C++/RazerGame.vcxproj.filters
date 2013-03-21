@@ -96,6 +96,9 @@
     <Filter Include="Sources Files\Arbre\Bonus">
       <UniqueIdentifier>{df564af7-932a-4e50-9943-1528050503eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources Files\Arbre\FieldModificationStrategy">
+      <UniqueIdentifier>{ea9119c6-a85a-4d09-a9fa-d74a27e8814f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application\FacadeModele.cpp">
@@ -589,7 +592,11 @@
     </ClCompile>
     <ClCompile Include="Reseau\FacadePortability.cpp">
       <Filter>Sources Files\Reseau\Global</Filter>
-    </ClCompile>  </ItemGroup>
+    </ClCompile>
+    <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyMove.cpp">
+      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
+    </ClCompile>
+  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
       <Filter>Sources Files\Application</Filter>
@@ -1106,7 +1113,11 @@
     </ClInclude>    <ClInclude Include="Reseau\Paquets\PaquetGameEvent.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameEvent.h">
-      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
-    </ClInclude>  </ItemGroup>
+    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyMove.h">
+      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAbstract.h">
+      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

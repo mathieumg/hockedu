@@ -63,8 +63,10 @@ public:
 	/// Modificateur de activer_
 	void ActivateBoost(bool val);
 
-	/// Application de la physique de la rondelle
+#if MANUAL_PHYSICS_DETECTION
+    /// Application de la physique de la rondelle
 	virtual void collisionDetection( const float& temps );
+#endif
 
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody();

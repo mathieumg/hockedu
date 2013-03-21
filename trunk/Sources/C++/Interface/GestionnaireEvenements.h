@@ -14,7 +14,6 @@
 #include "EvenementClavier.h"
 #include "EvenementRouletteSouris.h"
 #include "EvenementSouris.h"
-#include "MouseMoveObserver.h"
 
 class GestionnaireEvenementsTest;
 class GestionnaireEtatAbstrait;
@@ -74,7 +73,6 @@ public:
 
 	/// Ceci est un pointeur vers le gestionnaire d'événement auquel renvoyer les différents événements, comme le clavier ou la souris, selon l'état courant
 	static GestionnaireEtatAbstrait* etatCourant_; 
-    static MouseMoveSubject mMouseMoveSubject;
 
 private:
     GestionnaireEvenements(){}

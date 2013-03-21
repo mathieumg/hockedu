@@ -119,6 +119,11 @@ namespace XMLUtils
     {
         element->SetAttribute(name,attribute);
     }
+    template<>
+    void writeAttribute<char>( XmlElement* element, const char* name, const char& attribute )
+    {
+        element->SetAttribute(name,attribute);
+    }
 
     ////////////////////////////////////////////////////////////////////////
     ///
@@ -199,6 +204,14 @@ namespace XMLUtils
     bool readAttribute<int>( const XmlElement* element, const char* name, int& attribute )
     {
         return element->QueryIntAttribute(name, &attribute) == TIXML_SUCCESS;
+    }
+    template<>
+    bool readAttribute<char>( const XmlElement* element, const char* name, char& attribute )
+    {
+        int temp;
+        auto res = element->QueryIntAttribute(name, &temp);
+        attribute = (char)temp;
+        return res == TIXML_SUCCESS;
     }
 
     ////////////////////////////////////////////////////////////////////////

@@ -5,6 +5,17 @@ namespace UIHeavyClient
 #pragma once
 #endif
 
+
+#if !WIN32 && !__linux__ && !__APPLE__
+public
+#endif
+enum BoutonSouris{
+    AUCUN_BOUTON_SOURIS	,
+    BOUTON_SOURIS_GAUCHE,
+    BOUTON_SOURIS_MILIEU,
+    BOUTON_SOURIS_DROIT	,
+    NB_BOUTON_SOURIS	};
+
 #if !WIN32 && !__linux__ && !__APPLE__
     public
 #endif

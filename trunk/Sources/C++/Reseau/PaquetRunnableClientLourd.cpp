@@ -58,7 +58,7 @@ int PaquetRunnable::RunnableMailletClient( Paquet* pPaquet )
                     if(GameManager::obtenirInstance()->getGame(wGameId))
                     {
                         // Mettre la position du maillet
-                        maillet->assignerPosSouris(wPos);
+                        maillet->setTargetDestination(wPos);
                     }
                     
 

@@ -908,6 +908,16 @@ public:
 		Vecteur<T, 2>::operator= ( v );
 		return *this;
 	}
+    inline const Vecteur2D& operator= ( const Vecteur<T, 3>& v )
+    {
+        Vecteur<T, 2>::operator= ( v );
+        return *this;
+    }
+    inline const Vecteur2D& operator= ( const Vecteur<T, 4>& v )
+    {
+        Vecteur<T, 2>::operator= ( v );
+        return *this;
+    }
 
 
 	////////////////////////////////////////////////////////////////////////////
@@ -1109,6 +1119,16 @@ public:
 		Vecteur<T, 3>::operator= ( v );
 		return *this;
 	}
+    inline const Vecteur3D& operator= ( const Vecteur<T, 2>& v )
+    {
+        Vecteur<T, 3>::operator= ( v );
+        return *this;
+    }
+    inline const Vecteur3D& operator= ( const Vecteur<T, 4>& v )
+    {
+        Vecteur<T, 3>::operator= ( v );
+        return *this;
+    }
 
 
 	////////////////////////////////////////////////////////////////////////////

@@ -61,6 +61,7 @@ enum NodeFlags
     NODEFLAGS_HIGHTLIGHT,
     NODEFLAGS_IS_IN_GAME,
     NODEFLAGS_ACTIVE,
+    NODEFLAGS_B2_TRANSFORM_CALLBACK,
     NB_NODEFLAGS
 };
 
@@ -154,6 +155,7 @@ public:
 	/// Permet d'assigner les attribut nécessaire à la collision
 	virtual void setCollisionVisitorAttributes(VisiteurCollision* v);
 
+#if MANUAL_PHYSICS_DETECTION
 	/// Application de la physique des noeuds la ou applicable
 	virtual void collisionDetection( const float& temps ){}
 	/// Misae a Jour de la position de ce noeud
@@ -162,6 +164,7 @@ public:
 	virtual void fixOverlap(){}
 	/// Ajustement de la vitesse des noeuds
 	virtual void fixSpeed( const float& temps ) {}
+#endif
 
 	/// Creation du noeud XML du Noeud
 	virtual XmlElement* createXmlNode();
