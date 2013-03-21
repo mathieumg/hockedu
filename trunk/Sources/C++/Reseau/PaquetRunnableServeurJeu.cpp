@@ -26,6 +26,7 @@
 #include "NoeudMaillet.h"
 #include "GestionnaireReseau.h"
 #include "JoueurVirtuel.h"
+#include "Paquets\PaquetGameEvent.h"
 
 
 /// ***** PAR CONVENTION, METTRE Game A LA FIN DU NOM DES DELEGATES
@@ -313,7 +314,6 @@ int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
             {
                 wPaquet->setConnectionState(GAME_CONNECTION_WRONG_PASSWORD);
             }
-
         }
         else
         {
@@ -321,21 +321,91 @@ int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
             wPaquet->setConnectionState(connectPlayer(wPaquet->getUsername(), wGame));
         }
 
-        // Si tout le monde connecte, on demarre la partie
-        if(wGame->getGameStatus() == GAME_NOT_STARTED && wGame->obtenirJoueurGauche() && wGame->obtenirJoueurDroit())
-        {
-            GameManager::obtenirInstance()->startGame(wGame->getUniqueGameId(), "");
-        }
 
+        // Si tout le monde connecte, on demarre la partie
+        if(wGame->getGameStatus() == GAME_NOT_READY && wGame->obtenirJoueurGauche() && wGame->obtenirJoueurDroit())
+        {
+            GameManager::obtenirInstance()->getGameReady(wGame->getUniqueGameId(), "");
+        }
     }
     else
     {
         wPaquet->setConnectionState(GAME_CONNECTION_GAME_NOT_FOUND);
     }
-
     
-
     GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
+
+    return 0;
+}
+
+
+
+int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
+{
+    PaquetGameEvent* wPaquet = (PaquetGameEvent*) pPaquet;
+
+    Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
+    if(wGame)
+    {
+        switch(wPaquet->getEvent())
+        {
+        case GAME_EVENT_READY:
+            {
+                // Envoyer par un client pour signaler qu'il est pret a demarrer la partie
+                JoueurNetworkServeur* wPlayerVise;
+                JoueurNetworkServeur* wPlayer2;
+                if(wPaquet->getEventOnPlayerLeft())
+                {
+                    wPlayerVise = (JoueurNetworkServeur*) wGame->obtenirJoueurGauche().get();
+                    wPlayer2    = (JoueurNetworkServeur*) wGame->obtenirJoueurDroit().get();
+                }
+                else
+                {
+                    wPlayerVise = (JoueurNetworkServeur*) wGame->obtenirJoueurDroit().get();
+                    wPlayer2    = (JoueurNetworkServeur*) wGame->obtenirJoueurGauche().get();
+                }
+
+                if(wPlayerVise)
+                {
+                    wPlayerVise->setReady(true);
+                }
+                
+                // Verifier si les 2 joueurs sont connectes, si oui, on envoie le paquet de debut de partie
+                if(wPlayerVise && wPlayer2)
+                {
+                    if(wPlayer2->isReady())
+                    {
+                        // On envoie le paquet
+                        PaquetGameEvent* wPaquetEventGameStart = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+                        wPaquetEventGameStart->setGameId(wPaquet->getGameId());
+                        wPaquetEventGameStart->setEvent(GAME_EVENT_START_GAME);
+                        wPaquetEventGameStart->setPlayer1Name(wGame->obtenirNomJoueurGauche());
+                        wPaquetEventGameStart->setPlayer2Name(wGame->obtenirNomJoueurDroit());
+
+                        RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquetEventGameStart, TCP);
+
+                        // On demarre aussi la partie localement
+                        GameManager::obtenirInstance()->startGame(wGame->getUniqueGameId(), "");
+                    }
+                }
+
+
+
+                break;
+            }
+        case GAME_EVENT_PAUSE_GAME_REQUESTED:
+            {
+                // Client demande une pause
+
+
+
+
+                break;
+            }
+        }
+    }
+
+
 
     return 0;
 }

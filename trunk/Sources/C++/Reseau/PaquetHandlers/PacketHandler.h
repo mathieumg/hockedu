@@ -57,6 +57,7 @@ HANDLER_DECLARATION(AuthentificationServeurJeu);
 HANDLER_DECLARATION(ChatMessage);
 HANDLER_DECLARATION(GameCreation);
 HANDLER_DECLARATION(GameConnection);
+HANDLER_DECLARATION(GameEvent);
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

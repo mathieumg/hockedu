@@ -50,8 +50,8 @@ pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurD
     mField = new Terrain(this);
 	mUniqueGameId = uniqueGameId;
 	mUpdateCallbacks = updateCallback;
-    mGameStatus = GAME_NOT_STARTED;
-    mLastGameStatus = GAME_NOT_STARTED;
+    mGameStatus = GAME_NOT_READY;
+    mLastGameStatus = GAME_NOT_READY;
     mRequirePassword = false;
     mPassword = "";
     mPartieSyncer.setPlayers(joueurGauche, joueurDroit);
@@ -643,7 +643,7 @@ void Partie::vider()
 //  modifierJoueurGauche(0);
 //  modifierJoueurDroit(0);
     //enPause_ = false;
-    mGameStatus = mLastGameStatus = GAME_NOT_STARTED;
+    mGameStatus = mLastGameStatus = GAME_NOT_READY;
     estPret_ = false;
     faitPartieDunTournoi_ = false;
 }
@@ -818,37 +818,40 @@ bool Partie::getReadyToPlay()
 ////////////////////////////////////////////////////////////////////////
 void Partie::animer( const float& temps )
 {
-    updateMinuterie((int)(temps*1000));
-    chiffres_->tick(temps);
-    mField->animerTerrain(temps);
-    if(!GestionnaireAnimations::obtenirInstance()->estJouerReplay())
+    if(getGameStatus() >= GAME_STARTED)
     {
-        auto zamboni = mField->getZamboni();
-        if(estPret() && !estEnPause() && !partieTerminee())
+        updateMinuterie((int)(temps*1000));
+        chiffres_->tick(temps);
+        mField->animerTerrain(temps);
+        if(!GestionnaireAnimations::obtenirInstance()->estJouerReplay())
         {
-            if(zamboni)
+            auto zamboni = mField->getZamboni();
+            if(estPret() && !estEnPause() && !partieTerminee())
             {
-                zamboni->setVisible(false);
-                zamboni->setPosition(Vecteur3());
+                if(zamboni)
+                {
+                    zamboni->setVisible(false);
+                    zamboni->setPosition(Vecteur3());
+                }
+                // Gestion de la physique du jeu
+                mField->appliquerPhysique(temps);
             }
-            // Gestion de la physique du jeu
-            mField->appliquerPhysique(temps);
-        }
-        else
-        {
-            if(zamboni)
+            else
             {
-                zamboni->setVisible(true);
+                if(zamboni)
+                {
+                    zamboni->setVisible(true);
+                }
+                Vecteur3 pos = zamboni->getPosition();
+                auto angle = utilitaire::DEG_TO_RAD(zamboni->getAngle());
+                Vecteur3 direction;
+                direction[VX] = cos(angle);
+                direction[VY] = sin(angle);
+                zamboni->setPosition(pos+direction);
             }
-            Vecteur3 pos = zamboni->getPosition();
-            auto angle = utilitaire::DEG_TO_RAD(zamboni->getAngle());
-            Vecteur3 direction;
-            direction[VX] = cos(angle);
-            direction[VY] = sin(angle);
-            zamboni->setPosition(pos+direction);
         }
+        mPartieSyncer.tick();
     }
-    mPartieSyncer.tick();
 }
 
 
@@ -938,6 +941,22 @@ void Partie::setPassword( const std::string& pPassword )
     {
         mRequirePassword = false;
     }
+}
+
+
+
+bool Partie::isNetworkClientGame() const
+{
+    // Est une partie network point de vue du client si un joueur network y est connecte
+    SPJoueurAbstrait wJoueurGauche = obtenirJoueurGauche();
+    SPJoueurAbstrait wJoueurDroit = obtenirJoueurDroit();
+
+    if(wJoueurGauche && wJoueurDroit)
+    {
+        return wJoueurGauche->obtenirType() == JOUEUR_NETWORK || wJoueurDroit->obtenirType() == JOUEUR_NETWORK;
+    }
+
+    return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

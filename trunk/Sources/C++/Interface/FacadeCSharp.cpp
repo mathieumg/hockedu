@@ -13,6 +13,7 @@
 #include "..\reseau\UsinePaquets\UsinePaquetGameConnection.h"
 #include "..\reseau\UsinePaquets\UsinePaquetRondelle.h"
 #include "VisitorGatherProperties.h"
+#include "..\Reseau\UsinePaquets\UsinePaquetGameEvent.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -77,6 +78,7 @@ void InitDLL()
     wGestionnaireReseau->ajouterOperationReseau(GAME_CREATION_REQUEST, new PacketHandlerGameCreation, new UsinePaquetGameCreation);
     wGestionnaireReseau->ajouterOperationReseau(GAME_CONNECTION, new PacketHandlerGameConnection, new UsinePaquetGameConnection);
     wGestionnaireReseau->ajouterOperationReseau(RONDELLE, new PacketHandlerRondelle, new UsinePaquetRondelle);
+    wGestionnaireReseau->ajouterOperationReseau(GAME_EVENT, new PacketHandlerGameEvent, new UsinePaquetGameEvent);
 
 }
 
@@ -118,9 +120,27 @@ void SendMessageDLL(char * pConnectionId, char* pUsername, char * pMessage)
     }
     catch(...)
     {
-        wPaquet->removeAssociatedQuery();
     }
 }
+
+void SendMessageGameDLL( char * pMessage )
+{
+    PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet(CHAT_MESSAGE);
+    wPaquet->setMessage(pMessage);
+    wPaquet->setIsTargetGroup(true);
+    wPaquet->setGroupName("groupe");
+    wPaquet->setTimestamp(time(0));
+    wPaquet->setOrigin(GestionnaireReseau::obtenirInstance()->getPlayerName());
+
+    try
+    {
+        GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet,TCP);
+    }
+    catch(...)
+    {
+    }
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -767,3 +787,7 @@ void testConnexionUDPCSharp()
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("Test", wPaquet, UDP);
 
 }
+
+
+
+

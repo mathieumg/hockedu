@@ -19,6 +19,7 @@
 #include "JoueurHumain.h"
 #include "JoueurNetwork.h"
 #include "FacadeModele.h"
+#include "Paquets\PaquetGameEvent.h"
 
 #ifdef LINUX
 #define _LARGE_TIME_API
@@ -52,11 +53,14 @@ int PaquetRunnable::RunnableMailletClient( Paquet* pPaquet )
             JoueurAbstrait* wJoueur = maillet->obtenirJoueur();
             if(wJoueur->obtenirType() == JOUEUR_NETWORK)
             {
-
-                Runnable* r = new Runnable([maillet,wPos](Runnable*){
-
-                    // Mettre la position du maillet
-                    maillet->assignerPosSouris(wPos);
+                int wGameId = wPaquet->getGameId();
+                Runnable* r = new Runnable([wGameId,maillet,wPos](Runnable*){
+                    if(GameManager::obtenirInstance()->getGame(wGameId))
+                    {
+                        // Mettre la position du maillet
+                        maillet->assignerPosSouris(wPos);
+                    }
+                    
 
                 });
                 //maillet->attach(r);
@@ -90,9 +94,9 @@ int PaquetRunnable::RunnableRondelleClient( Paquet* pPaquet )
                 Vecteur3 wPos = wPaquet->getPosition();
                 Vecteur3 wVelocite = wPaquet->getVelocite();
                 float wVitesseRot = wPaquet->getVitesseRotation();
-
-                Runnable* r = new Runnable([wPuck, wPos, wVelocite, wVitesseRot](Runnable*){
-                    if(wPuck)
+                int wGameId = wPaquet->getGameId();
+                Runnable* r = new Runnable([wGameId, wPuck, wPos, wVelocite, wVitesseRot](Runnable*){
+                    if(wPuck && GameManager::obtenirInstance()->getGame(wGameId))
                     {
                         wPuck->modifierVitesseRotation(wVitesseRot);
                         wPuck->setPosition(wPos);
@@ -173,6 +177,72 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
         std::cout << "Error occured connecting to game: " << wPaquet->getGameId() << std::endl;
         // State invalide, on ne fait rien
         break;
+    }
+
+
+
+    return 0;
+}
+
+
+
+int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
+{
+    PaquetGameEvent* wPaquet = (PaquetGameEvent*) pPaquet;
+
+    Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
+
+    if(wGame)
+    {
+        switch(wPaquet->getEvent())
+        {
+        case GAME_EVENT_START_GAME:
+            {
+                // Serveur dit de commencer la partie (les 2 clients sont prets)
+                // Aussi utilise pour unpause
+
+                if(wGame->getGameStatus() == GAME_PAUSED)
+                {
+                    // Resume game only
+
+                }
+                else if(wGame->getGameStatus() == GAME_READY)
+                {
+                    // Start game
+                    // On utilise les noms de joueurs du paquet pour initialiser la partie
+
+                    wGame->obtenirJoueurGauche()->modifierNom(wPaquet->getPlayer1Name());
+                    wGame->obtenirJoueurDroit()->modifierNom(wPaquet->getPlayer2Name());
+
+                    GameManager::obtenirInstance()->startGame(wPaquet->getGameId(), ""); // La map n'a pas d'importance car deja chargee
+                }
+
+
+
+                break;
+            }
+        case GAME_EVENT_PAUSE_GAME_USER_DISCONNECTED:
+            {
+                // L'autre joueur s'est deconnecte
+
+                break;
+            }
+        case GAME_EVENT_PLAYER_SCORED:
+            {
+                // Pour s'assurer de bien compter les points meme avec des problemes de reseau. Annonce les buts
+                // Attention de ne pas les faire compter par le client quand la physique detecte un but, sinon buts en double
+
+
+                break;
+            }
+        case GAME_EVENT_GAME_ENDED:
+            {
+                // Fin de la partie
+
+
+                break;
+            }
+        }
     }
 
 

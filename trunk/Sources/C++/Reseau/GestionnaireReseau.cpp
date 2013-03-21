@@ -550,16 +550,17 @@ void GestionnaireReseau::saveSocket( const std::string& pNomJoueur, SPSocket pSo
     FacadePortability::takeMutex(mMutexListeSockets);
     // On compte le nb de connexions qui ne sont pas des connexions de gestion (ex: serveurJeu-serveurMaitre est une connexion de gestion)
     int compte = 0;
+    std::set<std::string> wListeUsers;
     for(auto it = mListeSockets.begin(); it != mListeSockets.end(); ++it)
     {
         if((*it).first.first != "GameServer" && (*it).first.first != "MasterServer")
         {
-            ++compte;
+            wListeUsers.insert((*it).first.first);
         }
     }
 
 
-    if(getController()->getNbConnectionMax() == compte)
+    if(getController()->getNbConnectionMax() == wListeUsers.size() && wListeUsers.find(pNomJoueur) == wListeUsers.end())
     {
         FacadePortability::releaseMutex(mMutexListeSockets);
         throw ExceptionReseau("Trop de users connectes");

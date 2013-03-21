@@ -14,8 +14,6 @@ public:
     virtual PacketTypes getOperation() const { return GAME_CONNECTION; }
 
 
-
-
     inline int getGameId() const { return mGameId; }
     inline void setGameId(int val) { mGameId = val; }
 
@@ -29,6 +27,7 @@ public:
     inline void setConnectionState(GameConnectionState val) { mConnectionState = val; }
 
 
+
 protected:
     PaquetGameConnection(void);
 
@@ -39,7 +38,9 @@ private:
     std::string mUsername; // User of the player connecting
     std::string mPassword; // For future modifications
     GameConnectionState mConnectionState; // Flag for return message
+
     
+
 
 };
 

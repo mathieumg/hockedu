@@ -20,7 +20,7 @@ void ControllerInterface::handleDisconnectDetection( SPSocket pSocket )
 
 
 // Par defaut, ne fait rien
-void ControllerInterface::getPlayersInGame( int pGameId, std::vector<const std::string*>& pPlayerList )
+void ControllerInterface::getPlayersInGame( int pGameId, std::vector<const std::string>& pPlayerList )
 {
 
 }

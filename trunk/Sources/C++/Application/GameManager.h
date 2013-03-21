@@ -38,6 +38,10 @@ public:
 
 	void removeGame(int pGameId);
 
+    // Rend la partie prete a etre demarree
+    bool getGameReady(int pGameId, const std::string& pMapFilename);
+
+    // Rend la partie prete a etre jouee et la demarre
 	bool startGame(int pGameId, const std::string& pMapFilename);
 
 	Partie* getGame(int pGameId);

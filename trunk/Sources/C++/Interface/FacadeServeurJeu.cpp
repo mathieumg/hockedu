@@ -26,6 +26,7 @@
 #include "GameManager.h"
 #include "RazerGameUtilities.h"
 #include "..\reseau\UsinePaquets\UsinePaquetRondelle.h"
+#include "..\Reseau\UsinePaquets\UsinePaquetGameEvent.h"
 
 void InitDLLServeurJeu(std::string& wMasterServerIP)
 {
@@ -44,6 +45,7 @@ void InitDLLServeurJeu(std::string& wMasterServerIP)
     wGestionnaireReseau->ajouterOperationReseau(RONDELLE, new PacketHandlerRondelle, new UsinePaquetRondelle);
     wGestionnaireReseau->ajouterOperationReseau(GAME_CREATION_REQUEST, new PacketHandlerGameCreation, new UsinePaquetGameCreation);
     wGestionnaireReseau->ajouterOperationReseau(GAME_CONNECTION, new PacketHandlerGameConnection, new UsinePaquetGameConnection);
+    wGestionnaireReseau->ajouterOperationReseau(GAME_EVENT, new PacketHandlerGameEvent, new UsinePaquetGameEvent);
 
     wGestionnaireReseau->demarrerNouvelleConnection("MasterServer", wMasterServerIP, TCP);
 

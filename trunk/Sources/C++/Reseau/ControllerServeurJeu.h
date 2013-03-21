@@ -29,9 +29,9 @@ public:
 
     virtual void handleDisconnectDetection( SPSocket pSocket );
 
-    virtual int getNbConnectionMax() const {return 4;} // Max de 2 personnes connectees pour le serveur jeu (UDP+TCP)
+    virtual int getNbConnectionMax() const {return 2;}
 
-    virtual void getPlayersInGame( int pGameId, std::vector<const std::string*>& pPlayerList );
+    virtual void getPlayersInGame( int pGameId, std::vector<const std::string>& pPlayerList );
 
     virtual Partie* getGame( int pGameId );
 

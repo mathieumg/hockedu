@@ -578,6 +578,12 @@
     <ClCompile Include="Arbre\Visiteur\VisitorGatherProperties.cpp">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
     </ClCompile>
+    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameEvent.cpp">
+      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="Reseau\Paquets\PaquetGameEvent.cpp">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1086,6 +1092,12 @@
     </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisitorGatherProperties.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\Paquets\PaquetGameEvent.h">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameEvent.h">
+      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

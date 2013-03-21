@@ -281,7 +281,7 @@ private:
     //std::hash_map<PartieId,Partie*> mGames;
 
 	/// Objet contenant le temps ecouler en temps reel
-	GameTime temps_;
+	//GameTime temps_;
     
 	static int anglePause_;
 	//SPJoueurAbstrait adversaire_; (maintenant dans le GameManager)

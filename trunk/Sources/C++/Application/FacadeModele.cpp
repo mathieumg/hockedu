@@ -84,6 +84,7 @@
 #include "ExceptionJeu.h"
 #include "GameManager.h"
 #include "BonusModifierFactory.h"
+#include "SoundFMOD.h"
 
 /// Pointeur vers l'instance unique de la classe.
 FacadeModele* FacadeModele::instance_ = 0;
@@ -350,7 +351,7 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
     // Initialisation des modèles
     GestionnaireModeles::obtenirInstance()->initialiser();
     ConfigScene::obtenirInstance();
-    SoundFMOD::obtenirInstance();
+    SoundFMOD::obtenirInstance()->init();
     GestionnaireHUD::obtenirInstance();
 
 #if !SHIPPING
@@ -1052,21 +1053,29 @@ bool FacadeModele::passageModeJeu()
     //    adversaire_ = SPJoueurAbstrait(new JoueurHumain("Joueur Droit"));
 
 
-
+    // Jeu local
     if(prochainePartie_ == -1)
     {
         partieCourante_ = GameManager::obtenirInstance()->addNewGame(SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")));
+
+        if(!GameManager::obtenirInstance()->startGame(partieCourante_, getCurrentMap()))
+        {
+            return false;
+        }
     }
+    // Jeu en reseau
     else
     {
         partieCourante_ = prochainePartie_;
         prochainePartie_ = -1;
+
+        if(!GameManager::obtenirInstance()->getGameReady(partieCourante_, getCurrentMap()))
+        {
+            return false;
+        }
     }
 
-    if(!GameManager::obtenirInstance()->startGame(partieCourante_, getCurrentMap()))
-    {
-        return false;
-    }
+    
 
     // On enregistre apres avoir desactiver les points pour ne pas les voir si on reinitialise la partie
 	Partie* wGame = GameManager::obtenirInstance()->getGame(partieCourante_);
