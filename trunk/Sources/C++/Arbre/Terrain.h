@@ -36,6 +36,10 @@ class NoeudRondelle;
 class NoeudAbstrait;
 class TerrainTest;
 class Partie;
+class VisiteurNoeud;
+
+typedef std::set<NoeudAbstrait*> NodeSet;
+
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class Terrain
@@ -113,14 +117,17 @@ public:
     /// Indicates if any node in the logic tree is selected
     bool IsAnyNodeSelected() const;
 
-    /// Launch a visitor on the field
-    void acceptVisitor(class VisiteurNoeud& visitor);
+    /// Launch a visitor on the field's logicTree
+    void acceptVisitor(VisiteurNoeud& visitor);
 
     /// duplicate nodes selected that can be duplicated
     void duplicateSelection();
 
     /// gets the list of node selected
-    void getSelectedNodes(ConteneurNoeuds& pSelectedNodes) const;
+    inline const NodeSet& getSelectedNodes() const
+    {
+        return mSelectedNodes;
+    }
 
     /// indicate if the node can be released at that position safely
     bool IsNodeAtValidEditionPosition(NoeudAbstrait* pNode, bool pDoHightlightNodeInCollision = false);
@@ -144,6 +151,8 @@ public:
     RazerKey getSelectedNodeUniqueKey() const;
     int gatherSelectedNodeProperties(class FullProperties* properties);
     int applySelectedNodeProperties(class FullProperties* properties);
+
+    void visitSelectedNodes(VisiteurNoeud& visitor);
 
     int BeginModification(FieldModificationStrategyType type, const FieldModificationStrategyEvent& beginEvent);
     int ReceiveModificationEvent(const FieldModificationStrategyEvent& pEvent);

@@ -49,15 +49,6 @@ namespace aidecollision {
    DetailsCollision calculerCollisionSegmentSegment( const Vecteur2& d1P1, const Vecteur2& d1P2, const Vecteur2& d2P1, const Vecteur2& d2P2, Vecteur2& intersection );
 
 
-   /// Calcule la collision d'un objet circulaire avec un segment de droite.
-   DetailsCollision calculerCollisionSegment(
-      const Vecteur2& point1,
-      const Vecteur2& point2,
-      const Vecteur2& position,
-      float          rayon,
-      bool            collisionAvecPoints = true
-      );
-
    /// Calcule la collision d'un objet sphérique avec un segment de droite.
    DetailsCollision calculerCollisionSegment(
       const Vecteur3& point1,
@@ -118,20 +109,6 @@ namespace aidecollision {
       const DetailsCollision& details,
       const Vecteur3& vitesse,
       float constanteAmortissement
-      );
-
-   /// Calcule la force en deux dimensions causée par la collision d'un objet
-   /// circulaire avec un segment de droite.
-   Vecteur2 calculerCollisionSegment(
-      const Vecteur2&   point1,
-      const Vecteur2&   point2,
-      const Vecteur2&   position,
-      float            rayon,
-      bool              collisionAvecPoints,
-      float            constanteRebondissement,
-      float            constanteAmortissement,
-      const Vecteur2&   vitesse,
-      DetailsCollision* retourDetails = 0
       );
 
    /// Calcule la force en trois dimensions causée par la collision d'un objet

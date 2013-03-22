@@ -345,8 +345,9 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
 
     // Initialisation des modèles
     GestionnaireModeles::obtenirInstance()->initialiser();
-    ConfigScene::obtenirInstance();
+    // init fmod first because config scene will need to modify it
     SoundFMOD::obtenirInstance()->init();
+    ConfigScene::obtenirInstance();
     GestionnaireHUD::obtenirInstance();
 
 #if !SHIPPING
@@ -2070,7 +2071,12 @@ void FacadeModele::getSelectedNodes(ConteneurNoeuds& pSelectedNodes) const
 {
     if(getEditionField())
     {
-        getEditionField()->getSelectedNodes(pSelectedNodes);
+        auto nodes = getEditionField()->getSelectedNodes();
+        pSelectedNodes.reserve(nodes.size());
+        for(auto it= nodes.begin(); it != nodes.end(); ++it)
+        {
+            pSelectedNodes.push_back(*it);
+        }
     }
 }
 

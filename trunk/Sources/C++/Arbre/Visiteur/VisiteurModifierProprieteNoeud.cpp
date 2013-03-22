@@ -373,7 +373,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudPoint( NoeudPoint* noeud )
             }
 		}
 		// Le visiteur permet de mettre a jour les buts en meme temps
-		Vecteur3 deplacement = position_.convertir<3>()-positionCourante;
+		Vecteur2 deplacement = position_-positionCourante;
 		VisiteurDeplacement visiteur(deplacement);
 		noeud->acceptVisitor(visiteur);
 

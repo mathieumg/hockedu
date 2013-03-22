@@ -7,13 +7,15 @@
 /// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
-#include "FieldModificationStrategyMove.h"
+#include "FieldModificationStrategyRotate.h"
 #include "Terrain.h"
-#include "VisiteurDeplacement.h"
+#include "VisiteurRotation.h"
+#include "BoundingBox.h"
+#include "NoeudAbstrait.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn int FieldModificationStrategyMove::receivedEventSpecific( const FieldModificationStrategyEvent& pEvent )
+/// @fn int FieldModificationStrategyRotate::receivedEventSpecific( const FieldModificationStrategyEvent& pEvent )
 ///
 /// /*Description*/
 ///
@@ -22,20 +24,20 @@
 /// @return int
 ///
 ////////////////////////////////////////////////////////////////////////
-int FieldModificationStrategyMove::receivedEventSpecific( const FieldModificationStrategyEvent& pEvent )
+int FieldModificationStrategyRotate::receivedEventSpecific( const FieldModificationStrategyEvent& pEvent )
 {
     Vecteur2 deplacement = pEvent.mPosition - mOldPosition;
     if(!deplacement.estNul())
     {
-        VisiteurDeplacement visiteurDeplacement(deplacement);
-        mField->visitSelectedNodes(visiteurDeplacement);
+        VisiteurRotation v(deplacement[VY],mCenter);
+        mField->visitSelectedNodes(v);
     }
     return 1;
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void FieldModificationStrategyMove::endStrategy()
+/// @fn void FieldModificationStrategyRotate::endStrategy()
 ///
 /// /*Description*/
 ///
@@ -43,9 +45,30 @@ int FieldModificationStrategyMove::receivedEventSpecific( const FieldModificatio
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-int FieldModificationStrategyMove::endStrategy()
+int FieldModificationStrategyRotate::endStrategy()
 {
     return mField->FixCollidingObjects();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void FieldModificationStrategyRotate::findRotationCenter()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void FieldModificationStrategyRotate::findRotationCenter()
+{
+    BoundingBox aabb;
+    auto selectedNodes = mField->getSelectedNodes();
+    for(auto it = selectedNodes.begin(); it != selectedNodes.end(); ++it)
+    {
+        aabb += (*it)->getPosition();
+    }
+    mCenter = aabb.GetCenter();
 }
 
 

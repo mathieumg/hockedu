@@ -14,13 +14,14 @@ class Terrain;
 
 enum FieldModificationStrategyEventType
 {
-    FIELD_MODIFICATION_STRATEGY_EVENT_TYPE_CLICK,
-    FIELD_MODIFICATION_STRATEGY_EVENT_TYPE_MOVE,
+    FIELD_MODIFICATION_EVENT_CLICK,
+    FIELD_MODIFICATION_EVENT_MOVE,
 };
 
 enum FieldModificationStrategyType
 {
-    FIELD_MODIFICATION_STRATEGY_TYPE_MOVE_NODES,
+    FIELD_MODIFICATION_MOVE,
+    FIELD_MODIFICATION_ROTATE,
 };
 
 struct FieldModificationStrategyEvent
@@ -48,7 +49,7 @@ public:
         mOldPosition = pEvent.mPosition;
         mField = field;
 
-        checkf(pEvent.mType == FIELD_MODIFICATION_STRATEGY_EVENT_TYPE_CLICK, "Not starting a strategy from a click event");
+        checkf(pEvent.mType == FIELD_MODIFICATION_EVENT_CLICK, "Not starting a strategy from a click event");
         checkf(mField);
     }
     /// Entry point when an event is sent to this strategy, return not used

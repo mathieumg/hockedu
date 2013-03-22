@@ -29,7 +29,8 @@ public:
 
 	/// Visitation d'un noeud abstrait
 	virtual void visiterNoeudAbstrait( NoeudAbstrait* noeud );
-	/// Visitation d'un noeud composite
+
+    /// Visitation d'un noeud composite
 	virtual void visiterNoeudComposite( NoeudComposite* noeud );
 	/// Visitation d'un noeud muret
 	virtual void visiterNoeudMuret( NodeWallAbstract* noeud );
@@ -47,7 +48,13 @@ public:
 	virtual void visiterNoeudPoint( NoeudPoint* noeud );
 	/// Visitation d'un noeud accélérateur
 	virtual void visiterNoeudAccelerateur( NoeudAccelerateur* noeud );
-	
+    virtual void visiterNoeudMuretEdition( NodeWallEdition* noeud );
+    virtual void visiterNodeControlPoint( NodeControlPoint* noeud );
+
+    /// Applies the rotation algorithm
+    void rotateNode( NoeudAbstrait* noeud );
+
+
 
 private:
 	/// Angle de rotation des éléments

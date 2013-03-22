@@ -24,7 +24,6 @@
 #include "NoeudPoint.h"
 #include "NoeudTable.h"
 #include "NoeudAbstrait.h"
-#include "VisiteurRotation.h"
 #include "VisiteurDupliquer.h"
 #include "FacadeModele.h"
 #include "ArbreRendu.h"

@@ -34,6 +34,7 @@ public:
         }
         return 0;
     }
+    bool isAnyPointSelected() const;
 
     virtual void modifierEchelle( float facteur ) = 0;
 protected:

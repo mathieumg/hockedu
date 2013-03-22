@@ -57,6 +57,7 @@
 #include "VisiteurFunction.h"
 #include "VisitorGatherProperties.h"
 #include "FieldModificationStrategyMove.h"
+#include "FieldModificationStrategyRotate.h"
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
@@ -634,9 +635,9 @@ void Terrain::createRandomField(const std::string& nom)
 {
     creerTerrainParDefaut(nom);
 
-    VisiteurDeplacement d1(Vecteur2((float)(rand()%50),(float)(rand()%50)),true);
-    VisiteurDeplacement d2(Vecteur2((float)(rand()%50),(float)(rand()%50)),true);
-    VisiteurDeplacement d3(Vecteur2((float)(rand()%50),(float)(-rand()%50)),true);
+    VisiteurDeplacement d1(Vecteur2((float)(rand()%50),(float)(rand()%50)));
+    VisiteurDeplacement d2(Vecteur2((float)(rand()%50),(float)(rand()%50)));
+    VisiteurDeplacement d3(Vecteur2((float)(rand()%50),(float)(-rand()%50)));
 
     // shuffle it a bit
     mTable->obtenirPoint(POSITION_MILIEU_DROITE)->acceptVisitor(d1);
@@ -1362,25 +1363,6 @@ void Terrain::duplicateSelection()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void Terrain::getSelectedNodes( ConteneurNoeuds& pSelectedNodes )
-///
-/// gets the list of node selected
-///
-/// @param[in] ConteneurNoeuds & pSelectedNodes
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void Terrain::getSelectedNodes( ConteneurNoeuds& pSelectedNodes ) const
-{
-    if(mLogicTree)
-    {
-        mLogicTree->getSelectedNodes(pSelectedNodes);
-    }
-}
-
-////////////////////////////////////////////////////////////////////////
-///
 /// @fn NoeudMaillet* Terrain::getLeftMallet()
 ///
 /// accesseur du maillet de gauche
@@ -1557,11 +1539,11 @@ bool Terrain::FixCollindingNode( NoeudAbstrait* pNode, unsigned int nbIterations
         for (int j = 0; j < liste.size()  ; j++)
         {
             //Vecteur3 deplacement(elementSurTable_[i]->getPosition() - liste[j]->getPosition());
-            Vecteur3 deplacement( details[j].direction*details[j].enfoncement );
+            Vecteur2 deplacement( details[j].direction*details[j].enfoncement );
             if(deplacement.norme() == 0)
                 deplacement = Vecteur3(1.0,1.0);
             //deplacement.normaliser();
-            VisiteurDeplacement vDeplacement(deplacement,true);
+            VisiteurDeplacement vDeplacement(deplacement);
             pNode->acceptVisitor(vDeplacement);
         }
         if(!insideLimits(pNode))
@@ -1820,10 +1802,7 @@ int Terrain::gatherSelectedNodeProperties( FullProperties* properties )
         }
         else
         {
-            for(auto it=mSelectedNodes.begin(); it != mSelectedNodes.end(); ++it)
-            {
-                (*it)->acceptVisitor(v);
-            }
+            visitSelectedNodes(v);
         }
 
         // permet de savoir si quelque chose a ete assigné
@@ -1877,11 +1856,20 @@ int Terrain::BeginModification(FieldModificationStrategyType type, const FieldMo
 
     switch(type)
     {
-    case FIELD_MODIFICATION_STRATEGY_TYPE_MOVE_NODES: 
+    case FIELD_MODIFICATION_MOVE: 
         {
             FieldModificationStrategyMove* moveModif = new FieldModificationStrategyMove(this,beginEvent);
             mModifStrategy = moveModif;
         }
+        break;
+    case FIELD_MODIFICATION_ROTATE: 
+        {
+            FieldModificationStrategyRotate* rotateModif = new FieldModificationStrategyRotate(this,beginEvent);
+            mModifStrategy = rotateModif;
+        }
+        break;
+    default:
+        checkf(0,"Unknown modification type");
     }
     return 1;
 }
@@ -1960,6 +1948,25 @@ bool Terrain::equals( Terrain* terrain )
     }
 
     return true;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::visitSelectedNodes( VisiteurNoeud& visitor )
+///
+/// /*Description*/
+///
+/// @param[in] VisiteurNoeud & visitor
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::visitSelectedNodes( VisiteurNoeud& visitor )
+{
+    for(auto it=mSelectedNodes.begin(); it != mSelectedNodes.end(); ++it)
+    {
+        (*it)->acceptVisitor(visitor);
+    }
 }
 
 
