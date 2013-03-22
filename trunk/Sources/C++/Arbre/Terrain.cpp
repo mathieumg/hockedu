@@ -97,9 +97,9 @@ Terrain::Terrain(Partie* pGame):
     b2Vec2 gravity(0,0);
     mWorld = new b2World(gravity);
 
-    //mWorld->SetWarmStarting(true);
+    mWorld->SetWarmStarting(false);
     mWorld->SetContinuousPhysics(true);
-    //mWorld->SetSubStepping(true);
+    mWorld->SetSubStepping(false);
 
 #if BOX2D_PLAY
     if(IsGameField())

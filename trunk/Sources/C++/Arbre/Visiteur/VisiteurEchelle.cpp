@@ -24,7 +24,7 @@
 
 
 const float VisiteurEchelle::FACTEUR_ECHELLE = 1.005f;
-const float VisiteurEchelle::FACTEUR_ECHELLE_MAX = 20;
+const float VisiteurEchelle::FACTEUR_ECHELLE_MAX = 5;
 const float VisiteurEchelle::FACTEUR_ECHELLE_MIN = 0.20f;
 
 
@@ -81,23 +81,17 @@ void VisiteurEchelle::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 	Vecteur3 echelleCourante;
 	noeud->getScale(echelleCourante);
 	
-	switch(axe_)
-	{
-	case VX:
-		echelleCourante[VX]*=facteur_;
-		break;
-	case VY:
-		echelleCourante[VY]*=facteur_;
-		break;
-	case VZ:
-		echelleCourante[VZ]*=facteur_;
-		break;
-	default:
-		echelleCourante[VX]*=facteur_;
-		echelleCourante[VY]*=facteur_;
-		echelleCourante[VZ]*=facteur_;
-		break;
-	}
+    for(int i=0; i<3; ++i)
+    {
+        const float newVal = echelleCourante[i]*facteur_;
+        if(axe_ & 1<<i  &&
+            newVal <= FACTEUR_ECHELLE_MAX &&
+            newVal >= FACTEUR_ECHELLE_MIN 
+            )
+        {
+            echelleCourante[i] = newVal;
+        }
+    }
 
 	noeud->setScale(echelleCourante);
 }
@@ -133,7 +127,7 @@ void VisiteurEchelle::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
 	int oldAxe = axe_;
 	// Push
-	axe_ = VX;
+	axe_ = 1<<VY;
 	visiterNoeudAbstrait(noeud);
 	// pop
 	axe_ = oldAxe;
@@ -187,9 +181,12 @@ void VisiteurEchelle::visiterNoeudMaillet( NoeudMaillet* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurEchelle::visiterNoeudPortail( NoeudPortail* noeud )
 {
-	Vecteur3 echelleCourante;
-	noeud->getScale(echelleCourante);
-	noeud->setScale(Vecteur3(echelleCourante[VX]*facteur_, echelleCourante[VY]*facteur_, 1));
+    int oldAxe = axe_;
+    // Push
+    axe_ = 1<<VX | 1<<VY;
+    visiterNoeudAbstrait(noeud);
+    // pop
+    axe_ = oldAxe;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -260,9 +257,12 @@ void VisiteurEchelle::visiterNoeudPoint( NoeudPoint* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurEchelle::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
 {
-    Vecteur3 echelleCourante;
-    noeud->getScale(echelleCourante);
-    noeud->setScale(Vecteur3(echelleCourante[VX]*facteur_, echelleCourante[VY]*facteur_, 1));
+    int oldAxe = axe_;
+    // Push
+    axe_ = 1<<VX | 1<<VY;
+    visiterNoeudAbstrait(noeud);
+    // pop
+    axe_ = oldAxe;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -278,10 +278,10 @@ void VisiteurEchelle::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurEchelle::visiterNodeControlPoint( NodeControlPoint* noeud )
 {
-    ControlPointMutableAbstract* obj = noeud->getLinkedObject();
+    NoeudAbstrait* obj = dynamic_cast<NoeudAbstrait*>(noeud->getLinkedObject());
     if(obj)
     {
-        obj->modifierEchelle(facteur_);
+        obj->acceptVisitor(*this);
     }
 }
 
