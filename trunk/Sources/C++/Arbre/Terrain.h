@@ -73,7 +73,7 @@ public:
 	
 
 	/// Permet d'initialiser le terrain avec ces éléments a partir d'un noeud XML
-    bool initialiserXml( XmlElement* element, bool fromDocument = true );
+    bool initialiserXml( const XmlElement* element, bool fromDocument = true );
 
 
 	/// Remet le terrain a son etat de base
@@ -223,7 +223,7 @@ private:
 
     FieldModificationStrategyAbstract* mModifStrategy;
 
-    static const int UNDO_BUFFERSIZE = 10;
+    static const int UNDO_BUFFERSIZE = 50;
     typedef XmlElement FieldState;
     std::deque<FieldState*> mUndoBuffer;
     std::vector<FieldState*> mRedoBuffer;

@@ -92,6 +92,11 @@ enum BoutonSouris{
         THERE_ARE_NODES_SELECTED,
         THERE_ARE_NO_NODE_SELECTED,
 
+        CAN_UNDO,
+        CANNOT_UNDO,
+        CAN_REDO,
+        CANNOT_REDO,
+
         MODEL_EVENT_END,
         /// Model event category : end
         

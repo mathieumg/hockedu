@@ -27,6 +27,10 @@
 #include "GestionnaireHUD.h"
 #include "HUDBonus.h"
 #include "FacadeModele.h"
+
+#define TransmitEvent(e) FacadeModele::transmitEvent(e)
+#else
+#define TransmitEvent(e)
 #endif
 
 #include "Terrain.h"
@@ -83,6 +87,10 @@ Terrain::Terrain(Partie* pGame):
     if(!mGame)
     {
         mEditionZone = new ZoneEdition();
+
+        // cant do undo/redo action by default
+        TransmitEvent(CANNOT_UNDO);
+        TransmitEvent(CANNOT_REDO);
     }
     mRedoBuffer.reserve(UNDO_BUFFERSIZE);
 #if BOX2D_INTEGRATED
@@ -197,6 +205,10 @@ void Terrain::libererMemoire()
             delete mCurrentState;
         }
         mCurrentState = NULL;
+
+        // cant do undo/redo action by default
+        TransmitEvent(CANNOT_UNDO);
+        TransmitEvent(CANNOT_REDO);
     }
 
 }
@@ -335,7 +347,7 @@ void Terrain::initialiserArbreRendu()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool Terrain::initialiserXml( XmlElement* element, bool fromDocument /*= true */ )
+bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= true */ )
 {
     libererMemoire();
     
@@ -365,7 +377,7 @@ bool Terrain::initialiserXml( XmlElement* element, bool fromDocument /*= true */
     }
     mLogicTree = new RazerGameTree(this,MAX_MALLETS,MAX_PUCKS);
 
-    XmlElement* racine = element;
+    const XmlElement* racine = element;
     /// si ce noeud xml vient d'un document, il faut retrouver la node Terrain
     if(fromDocument)
     {
@@ -476,8 +488,8 @@ void Terrain::createRandomField(const std::string& nom)
     NoeudAccelerateur* a = new NoeudAccelerateur(RazerGameUtilities::NOM_ACCELERATEUR); \
     a->setPosition(Vecteur3((float)x,(float)y));                                        \
     a->modifierBonusAccel((float)acc);                                                  \
-    a->setScale(Vecteur3((float)e,(float)e,1));                          \
-    mTable->add(a);                                                                 \
+    a->setScale(Vecteur3((float)e,(float)e,1));                                         \
+    mTable->add(a);                                                                     \
     }                                                                                 
     AddAccel(-40,0,1.7,1);
     AddAccel(45,0,0.8,1);
@@ -493,8 +505,8 @@ void Terrain::createRandomField(const std::string& nom)
     {                                                                                 \
     NoeudPortail* a = new NoeudPortail(RazerGameUtilities::NOM_PORTAIL);              \
     a->setPosition(Vecteur3((float)x,(float)y));                                      \
-    a->setScale(Vecteur3((float)e,(float)e,1));                        \
-    mTable->add(a);                                                               \
+    a->setScale(Vecteur3((float)e,(float)e,1));                                       \
+    mTable->add(a);                                                                   \
     }  
     AddPortal(-90,30,1);
     AddPortal(-95,-30,1);
@@ -509,24 +521,24 @@ void Terrain::createRandomField(const std::string& nom)
         if(IsGameField())                                                                       \
         {                                                                                       \
             NoeudMuret* muret = new NoeudMuret(RazerGameUtilities::NOM_MURET);                  \
-            muret->setScale(Vecteur3(1,(float)e,1));                             \
+            muret->setScale(Vecteur3(1,(float)e,1));                                            \
             muret->assignerPositionCoin(1,Vecteur3((float)x1,(float)y1));                       \
             muret->assignerPositionCoin(2,Vecteur3((float)x2,(float)y2));                       \
             muret->setReboundRatio((float)rebond);                                              \
-            mTable->add(muret);                                                             \
+            mTable->add(muret);                                                                 \
         }                                                                                       \
         else                                                                                    \
         {                                                                                       \
             NodeWallEdition* wall = new NodeWallEdition(RazerGameUtilities::NOM_MURET);         \
             NodeControlPoint* p1 = new NodeControlPoint(RazerGameUtilities::NAME_CONTROL_POINT);\
             NodeControlPoint* p2 = new NodeControlPoint(RazerGameUtilities::NAME_CONTROL_POINT);\
-            wall->add(p1);                                                                  \
-            wall->add(p2);                                                                  \
+            wall->add(p1);                                                                      \
+            wall->add(p2);                                                                      \
             p1->setPosition(Vecteur3((float)x1,(float)y1));                                     \
             p2->setPosition(Vecteur3((float)x2,(float)y2));                                     \
             wall->setReboundRatio((float)rebond);                                               \
             wall->modifierEchelle(e);                                                           \
-            mTable->add(wall);                                                              \
+            mTable->add(wall);                                                                  \
         }                                                                                       \
     }                                                                                           
 
@@ -536,6 +548,24 @@ void Terrain::createRandomField(const std::string& nom)
     AddWall(-125,35,-75,60,2.5,1);
     AddWall(-35,30,30,30,0.5,1.2);
     AddWall(40,-30,-25,-30,2,0.4);
+
+#define AddBonus(x,y,e)                                             \
+    if(rand()&1)                                                    \
+    {                                                               \
+    NodeBonus* b = new NodeBonus(RazerGameUtilities::NAME_BONUS);   \
+    b->setPosition(Vecteur3((float)x,(float)y));                    \
+    b->setScale(Vecteur3((float)e,(float)e,1));                     \
+    mTable->add(b);                                                 \
+    }  
+
+    AddBonus(-22.1519,57.4857 ,1);
+    AddBonus(26.619  ,60.1458 ,1.2);
+    AddBonus(23.1852 ,-59.9112,1);
+    AddBonus(-22.3497,-59.9112,1);
+    AddBonus(-57.5803,-23.4159,0.7);
+    AddBonus(-62.3496,29.808  ,0.6);
+    AddBonus(54.1487 ,26.8466 ,1.1);
+    AddBonus(53.2077 ,-19.4675,1);
 
     fullRebuild();
 
@@ -810,6 +840,15 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
     {
         utilitaire::afficherErreur("Warning : Items present outside the table\nmight invalidate when trying to play.");
     }
+
+    auto g = mTable->obtenirGroupe(RazerGameUtilities::NOM_PORTAIL);
+    checkf(g);
+    if(g && g->childCount() == 1)
+    {
+        if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\nil n'y a qu'un seul portail sur le terrain");
+        return false;
+    }
+
 
     // Verification des maillets
     auto leftMallet  = getLeftMallet();
@@ -1629,22 +1668,20 @@ void Terrain::NodeSelectionNotification( NoeudAbstrait* node, bool selected )
             mSelectedNodes.erase(it);
         }
     }
-#if WIN32
     int nbSelectedNew = (int)mSelectedNodes.size();
     if(nbSelectedOld != nbSelectedNew)
     {
         if( nbSelectedNew == 0 )
         {
             // no more item selected
-            FacadeModele::transmitEvent(THERE_ARE_NO_NODE_SELECTED);
+            TransmitEvent(THERE_ARE_NO_NODE_SELECTED);
         }
         else
         {
             // selection present
-            FacadeModele::transmitEvent(THERE_ARE_NODES_SELECTED);
+            TransmitEvent(THERE_ARE_NODES_SELECTED);
         }
     }
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1939,6 +1976,9 @@ int Terrain::EndModification()
             delete (*it);
         }
         mRedoBuffer.clear();
+
+        TransmitEvent(CAN_UNDO);
+        TransmitEvent(CANNOT_REDO);
     }
     mModifStrategy = NULL;
     return r;
@@ -2045,6 +2085,12 @@ int Terrain::undoModification()
 
         initialiserXml(elem,false);
         mDoingUndoRedo = false;
+        if(mUndoBuffer.empty())
+        {
+            TransmitEvent(CANNOT_UNDO);
+        }
+        TransmitEvent(CAN_REDO);
+
         return 1;
     }
     return 0;
@@ -2073,6 +2119,13 @@ int Terrain::redoModification()
 
         initialiserXml(elem,false);
         mDoingUndoRedo = false;
+
+        if(mRedoBuffer.empty())
+        {
+            TransmitEvent(CANNOT_REDO);
+        }
+        TransmitEvent(CAN_UNDO);
+
         return 1;
     }
     return 0;

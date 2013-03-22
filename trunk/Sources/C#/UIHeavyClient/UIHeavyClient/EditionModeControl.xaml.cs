@@ -92,6 +92,31 @@ namespace UIHeavyClient
                             control.mPropertiesGroupBox.DisplayProperties(RazerKey.RAZER_KEY_NONE);
                         });
                         break;
+                    case EventCodes.CAN_UNDO:
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                        control.mUndoButton.IsEnabled = true;
+                        });
+                        break;
+                    case EventCodes.CANNOT_UNDO:
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                        control.mUndoButton.IsEnabled = false;
+                        });
+                        break;
+                    case EventCodes.CAN_REDO:
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                        control.mRedoButton.IsEnabled = true;
+                        });
+                        break;
+                    case EventCodes.CANNOT_REDO:
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                        control.mRedoButton.IsEnabled = false;
+                        });
+                        break;
+
                     default:
                         break;
                 }
