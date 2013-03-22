@@ -193,6 +193,7 @@
     <ClCompile Include="Arbre\Bonus\BonusModifierGoThorughWall.cpp" />
     <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyMove.cpp" />
     <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyRotate.cpp" />
+    <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyScale.cpp" />
     <ClCompile Include="Arbre\HUD\GestionnaireHUD.cpp" />
     <ClCompile Include="Arbre\HUD\HUDBonus.cpp" />
     <ClCompile Include="Arbre\HUD\HUDElement.cpp" />
@@ -365,6 +366,7 @@
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAbstract.h" />
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyMove.h" />
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyRotate.h" />
+    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyScale.h" />
     <ClInclude Include="Arbre\HUD\GestionnaireHUD.h" />
     <ClInclude Include="Arbre\HUD\HUDBonus.h" />
     <ClInclude Include="Arbre\HUD\HUDElement.h" />

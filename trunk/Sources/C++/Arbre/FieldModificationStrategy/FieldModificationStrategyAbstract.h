@@ -22,6 +22,7 @@ enum FieldModificationStrategyType
 {
     FIELD_MODIFICATION_MOVE,
     FIELD_MODIFICATION_ROTATE,
+    FIELD_MODIFICATION_SCALE,
 };
 
 struct FieldModificationStrategyEvent

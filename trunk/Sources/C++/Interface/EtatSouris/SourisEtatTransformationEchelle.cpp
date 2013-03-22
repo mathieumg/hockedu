@@ -12,6 +12,7 @@
 #include "FacadeModele.h"
 #include "VisiteurEchelle.h"
 #include "VisiteurCollision.h"
+#include "Terrain.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -26,10 +27,6 @@
 ////////////////////////////////////////////////////////////////////////
 SourisEtatTransformationEchelle::SourisEtatTransformationEchelle(  )
 {
-	estEnfoncee_ = false;
-	positionPrecedente_ = NULL;
-    noeudSelectionnes_.clear(); 
-    FacadeModele::getInstance()->getSelectedNodes(noeudSelectionnes_);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -60,14 +57,17 @@ SourisEtatTransformationEchelle::~SourisEtatTransformationEchelle(void)
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatTransformationEchelle::sourisEnfoncee( EvenementSouris& evenementSouris )
 {
-	// Vérifie si le bouton enfoncé est le bouton de gauche
-	if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_GAUCHE)
-	{
-		// Assigne les attributs concernés
-		estEnfoncee_ = true;
-		positionPrecedente_ = evenementSouris.obtenirPosition();
-	}
-	
+    if(evenementSouris.obtenirBouton() == BOUTON_SOURIS_GAUCHE)
+    {
+        Vecteur3 position;
+        FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX],evenementSouris.obtenirPosition()[VY],position);
+        FieldModificationStrategyEvent event;
+        event.mPosition = position;
+        event.mType = FIELD_MODIFICATION_EVENT_CLICK;
+
+        FacadeModele::getInstance()->getEditionField()->BeginModification(FIELD_MODIFICATION_SCALE,event);
+    }
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -83,20 +83,17 @@ void SourisEtatTransformationEchelle::sourisEnfoncee( EvenementSouris& evenement
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatTransformationEchelle::sourisRelachee( EvenementSouris& evenementSouris )
 {
-	// Vérifie si le bouton enfoncé est le bouton de gauche
-	if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_GAUCHE)
-	{
-		// Assigne les attributs concernés
-		positionPrecedente_ = NULL;
-		estEnfoncee_ = false;
-	}
+    if(evenementSouris.obtenirBouton() == BOUTON_SOURIS_GAUCHE)
+    {
+        FacadeModele::getInstance()->getEditionField()->EndModification();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void SourisEtatTransformationEchelle::sourisDeplacee( EvenementSouris& evenementSouris )
 ///
-/// Comportement lorsque la souris est deplacée
+/// Comportement lorsqu'un bouton de la souris est deplacée
 ///
 /// @param[in] evenementSouris : contient les informations de la souris
 ///
@@ -105,59 +102,15 @@ void SourisEtatTransformationEchelle::sourisRelachee( EvenementSouris& evenement
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatTransformationEchelle::sourisDeplacee( EvenementSouris& evenementSouris )
 {
-	// Verifie si le bouton est enfoncé
-	if(estEnfoncee_)
-	{
-		// Calcul le déplacement relatif entre depuis le dernier appel de la méthode
-		int deplacementY = positionPrecedente_[VY]-evenementSouris.obtenirPosition()[VY];
-
-		float facteur;
-		// Effectue la mise a l'echelle
-		if(deplacementY>0)
-		{
-			//FacadeModele::getInstance()->modifierEchelle(1.05);
-			facteur = 1.05f;
-		}
-		else if (deplacementY<0)
-		{
-			//FacadeModele::getInstance()->modifierEchelle(0.95);
-			facteur = 0.95f;
-		}
-		else
-			return;
-		
-		VisiteurEchelle visiteurEchelle(facteur, -1);
-		VisiteurEchelle visiteurEchelleInverse(1.0f/facteur, -1);
-
-		bool echelleValide = true;
-		int i=0; 
-		for(; i<noeudSelectionnes_.size(); i++)
-		{
-
-			noeudSelectionnes_[i]->acceptVisitor(visiteurEchelle);
-			// On verifie qu'elle n'a pas engendre de nouvelles collisions
-			if(!FacadeModele::getInstance()->validerPositionNoeud(noeudSelectionnes_[i]))
-			{
-				echelleValide = false;
-				i++;
-				break;
-			}
-
-		}
-		if(!echelleValide)
-		{
-			for(int j=0; j<i; j++)
-			{
-				// S'il y a une collision, on fait l'operation inverse
-				noeudSelectionnes_[j]->acceptVisitor(visiteurEchelleInverse);
-			}
-		}
-
-
-		// Mise à jour de la position
-		positionPrecedente_ = evenementSouris.obtenirPosition();
-		
-	}
+    if(evenementSouris.obtenirBouton() == BOUTON_SOURIS_GAUCHE)
+    {
+        Vecteur3 position;
+        FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX],evenementSouris.obtenirPosition()[VY],position);
+        FieldModificationStrategyEvent event;
+        event.mPosition = position;
+        event.mType = FIELD_MODIFICATION_EVENT_MOVE;
+        FacadeModele::getInstance()->getEditionField()->ReceiveModificationEvent(event);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////

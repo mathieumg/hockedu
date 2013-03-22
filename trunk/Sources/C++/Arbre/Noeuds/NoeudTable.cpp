@@ -1328,10 +1328,6 @@ void NoeudTable::updatePhysicBody()
         }
     }
 
-
-
-
-
 #if BOX2D_INTEGRATED
 
     clearPhysicsBody();

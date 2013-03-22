@@ -58,6 +58,7 @@
 #include "VisitorGatherProperties.h"
 #include "FieldModificationStrategyMove.h"
 #include "FieldModificationStrategyRotate.h"
+#include "FieldModificationStrategyScale.h"
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
@@ -1866,6 +1867,12 @@ int Terrain::BeginModification(FieldModificationStrategyType type, const FieldMo
         {
             FieldModificationStrategyRotate* rotateModif = new FieldModificationStrategyRotate(this,beginEvent);
             mModifStrategy = rotateModif;
+        }
+        break;
+    case FIELD_MODIFICATION_SCALE: 
+        {
+            FieldModificationStrategyScale* scaleModif = new FieldModificationStrategyScale(this,beginEvent);
+            mModifStrategy = scaleModif;
         }
         break;
     default:
