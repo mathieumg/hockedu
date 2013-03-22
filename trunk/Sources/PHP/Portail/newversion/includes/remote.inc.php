@@ -81,7 +81,7 @@ if( !$commonRemoteModule )
                         $authenticationData = $Common->getCurrentAuthenticationData();
                         
                         $jsonResponse['auth_key'] = $authenticationData['key'];
-                        $jsonResponse['auth_key_expiration'] = (int)$authenticationData['expiration'];
+                        $jsonResponse['auth_key_expiration'] = $authenticationData['expiration'];
                     }
                 }
                 
@@ -105,7 +105,7 @@ if( !$commonRemoteModule )
                         
                         if( !$validKey )
                         {
-                            $jsonResponse['error'] = 'InvalidAuthKey';
+                            $jsonResponse['error'] = 'AuthKeyInvalid';
                         }
                         else
                         {
@@ -114,18 +114,107 @@ if( !$commonRemoteModule )
                         }
                     }
 
-                    // List the user's maps.                        
-                    $jsonResponse['user_maps'] = $Common->getUserMaps( $_POST['user_id'], $showPrivateMaps );
+                    // List the user's maps.
+                    if( empty( $jsonResponse['error'] ) )
+                    {
+                        $jsonResponse['user_maps'] = $Common->getUserMaps( $_POST['user_id'], $showPrivateMaps );
+                    }
                 }
                 
                 break;
                 
             case 'getmap':
-            
+                if( empty( $_POST['map_id'] ) )
+                {
+                    $jsonResponse['error'] = 'MapIdMissing';
+                }
+                
                 break;
                 
-            case 'newmap':
-            
+            case 'newmap':                
+                //print_r( $_FILES['mapfile'] );
+                //die;
+                
+                //print_r( $_POST );
+                //die;
+                
+                if( empty( $_POST['user_id'] ) )
+                {
+                    $jsonResponse['error'] = 'UserIdMissing';
+                }
+                else if( empty( $_POST['auth_key'] ) )
+                {
+                    $jsonResponse['error'] = 'AuthKeyMissing';
+                }
+                else if( empty( $_POST['name'] ) )
+                {
+                    $jsonResponse['error'] = 'MapNameMissing';
+                }
+                else if( !isset( $_FILES['mapfile'] ) || $_FILES['mapfile']['size'] == 0 )
+                {
+                    $jsonResponse['error'] = 'MapFileMissing';
+                }
+                else if( $_FILES['mapfile']['error'] !== 0 )
+                {
+                    $jsonResponse['error'] = 'MapFileUploadError';
+                }
+                else if( $_FILES['mapfile']['type'] !== 'text/xml' )
+                {
+                    $jsonResponse['error'] = 'MapFileInvalidType';
+                }
+                else
+                {
+                    // Get DB connection.
+                    $Common = Common::getInstance();
+                    
+                    // Is the authentication key valid?
+                    if( $Common->validateAuthenticationKey( $_POST['auth_key'], $_POST['user_id'] ) )
+                    {
+                        $userId = $_POST['user_id'];
+                        $mapName = $_POST['name'];
+                        $mapDescription = empty( $_POST['description'] ) ? '' : $_POST['description'];
+                        $mapIsPublic = empty( $_POST['public'] ) ? 0 : 1;
+                        $mapCacheFileName = sha1( $userId . $mapName . microtime() );
+                        $mapCacheFilePath = '/var/www/hockedu.com/maps/'; //TOREMOVE: Use code below to get maps path from settings cache.
+                        
+                        /*
+                        $website = Website::getInstance();
+                        $mapCacheFilePath = $website->getBasePath() . $website->getSetting( 'mapsDirectory' ) . '/' . $mapCacheFileName;
+                        */
+                        
+                        if( file_exists( $mapCacheFilePath . $mapCacheFileName ) )
+                        {
+                            $jsonResponse['error'] = 'MapFileCacheError';
+                        }
+                        else
+                        {
+                            if( move_uploaded_file( $_FILES['mapfile']['tmp_name'], $mapCacheFilePath . $mapCacheFileName ) )
+                            {
+                                $mapContent = file_get_contents( $mapCacheFilePath . $mapCacheFileName );
+                                
+                                $mapId = $Common->addUserMap( $userId, $mapName,  $mapDescription, $mapIsPublic, $mapCacheFileName );
+                                
+                                if( $mapId )
+                                {
+                                    $jsonResponse['map_id'] = $mapId;
+                                }
+                                else
+                                {
+                                    $jsonResponse['error'] = 'UnableToAddMap';
+                                }
+                            }
+                            else
+                            {
+                                $jsonResponse['error'] = 'MapFileMoveError';
+                            }
+                        }
+                    }
+                    else
+                    {
+                        $jsonResponse['error'] = 'AuthKeyInvalid';
+                    }
+                }
+                
                 break;    
                 
             case 'updatemap':
