@@ -195,7 +195,15 @@ void Partie::incrementerPointsJoueurGauche(bool pForceUpdate /*= false*/)
     {
         // Dans le cas du client en reseau, on ne fait rien puisque c'est le serveur qui va nous envoyer l'evenement du but
         pointsJoueurGauche_++;
-        callGameUpdate(GAME_SCORE);
+        if(partieTerminee())
+        {
+            setGameStatus(GAME_ENDED);
+            callGameUpdate(GAME_ENDED);
+        }
+        else
+        {
+            callGameUpdate(GAME_SCORE);
+        }
     }
     
 }
@@ -220,11 +228,19 @@ void Partie::incrementerPointsJoueurDroit(bool pForceUpdate /*= false*/)
         wPaquet->setEvent(GAME_EVENT_PLAYER_SCORED);
         RelayeurMessage::obtenirInstance()->relayerPaquetGame(mUniqueGameId, wPaquet);
     }
-    else if(pForceUpdate || !isNetworkClientGame())
+    else if(pForceUpdate || !isNetworkClientGame()) // forceUpdate si on a recu le message du serveur et il faut incrementer
     {
         // Dans le cas du client en reseau, on ne fait rien puisque c'est le serveur qui va nous envoyer l'evenement du but
         pointsJoueurDroit_++;
-        callGameUpdate(GAME_SCORE);
+        if(partieTerminee())
+        {
+            setGameStatus(GAME_ENDED);
+            callGameUpdate(GAME_ENDED);
+        }
+        else
+        {
+            callGameUpdate(GAME_SCORE);
+        }
     }
 }
 

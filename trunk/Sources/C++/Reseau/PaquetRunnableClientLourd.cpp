@@ -274,7 +274,7 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
         case GAME_EVENT_GAME_ENDED:
             {
                 // Fin de la partie
-
+                // Pas utilise en ce moment car le nb de points est fixe et le client va le detecter anyways
 
                 break;
             }
