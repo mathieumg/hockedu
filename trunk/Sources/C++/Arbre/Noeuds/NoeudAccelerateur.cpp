@@ -292,7 +292,10 @@ void NoeudAccelerateur::appliquerAnimation( const ObjectAnimationParameters& pAn
     if(pAnimationResult.CanUpdatedAngle())
         mAngle = pAnimationResult.mAngle[VZ];
     if(pAnimationResult.CanUpdatedScale())
+    {
         mScale = pAnimationResult.mScale;
+        updateRadius();
+    }
     updateMatrice();
 }
 

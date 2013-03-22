@@ -42,7 +42,10 @@ public:
    void modifierListes(const std::string& nomListe);
 
    /// Reset l'echele a l'origine
-   virtual void resetEchelle() {mScale = echelleBase_;}
+   virtual void resetEchelle() 
+   {
+       mScale = echelleBase_;
+   }
 
    virtual void peindreElement();
 

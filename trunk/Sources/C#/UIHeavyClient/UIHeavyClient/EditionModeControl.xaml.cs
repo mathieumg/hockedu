@@ -168,8 +168,8 @@ namespace UIHeavyClient
             {
                 {mDeleteButton, ActionType.ACTION_SUPPRIMER},
                 {mCopyButton, ActionType.ACTION_DUPLIQUER},
-                //{mUndoButton, ActionType.ACTION_},
-                //{mRedoButton, ActionType.ACTION_},
+                {mUndoButton, ActionType.ACTION_EDITEUR_UNDO},
+                {mRedoButton, ActionType.ACTION_EDITEUR_REDO},
 
                 {mPuckButton, ActionType.ACTION_INSERER_RONDELLE},
                 {mMalletButton, ActionType.ACTION_INSERER_MAILLET},

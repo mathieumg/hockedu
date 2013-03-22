@@ -140,7 +140,7 @@ void NoeudPortail::updatePhysicBody()
         mPhysicBody = world->CreateBody(&myBodyDef);
         b2CircleShape circleShape;
         circleShape.m_p.Set(0, 0); //position, relative to body position
-        circleShape.m_radius = (float32)getRadius()*mScale[VX]*utilitaire::ratioWorldToBox2D; //radius
+        circleShape.m_radius = (float32)getRadius()*utilitaire::ratioWorldToBox2D; //radius
 
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &circleShape; //this is a pointer to the shape above

@@ -643,7 +643,7 @@ void NoeudRondelle::updatePhysicBody()
         b2BodyDef myBodyDef;
         myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
 
-        float puckRadius = getRadius()*mScale[VX];
+        float puckRadius = getRadius();
 
         const Vecteur3& pos = getPosition();
         b2Vec2 posB2;
@@ -748,7 +748,10 @@ void NoeudRondelle::appliquerAnimation( const ObjectAnimationParameters& pAnimat
     if(pAnimationResult.CanUpdatedAngle())
         mAngle = pAnimationResult.mAngle[VZ];
     if(pAnimationResult.CanUpdatedScale())
+    {
         mScale = pAnimationResult.mScale;
+        updateRadius();
+    }
     updateMatrice();
 }
 

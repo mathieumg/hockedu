@@ -347,7 +347,7 @@ void NodeBonus::updatePhysicBody()
 
         mPhysicBody = world->CreateBody(&myBodyDef);
         b2CircleShape shape;
-        auto radius = getRadius()*mScale[VX];
+        auto radius = getRadius();
         shape.m_p.Set(0, 0); //position, relative to body position
         shape.m_radius = radius*utilitaire::ratioWorldToBox2D; //radius
 

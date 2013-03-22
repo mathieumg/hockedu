@@ -158,6 +158,9 @@ public:
     int ReceiveModificationEvent(const FieldModificationStrategyEvent& pEvent);
     int EndModification();
 
+    int undoModification();
+    int redoModification();
+
 #if BOX2D_PLAY
     /// Callback before the contact between 2 fixtures
     virtual void BeginContact( b2Contact* contact );
@@ -221,9 +224,11 @@ private:
     FieldModificationStrategyAbstract* mModifStrategy;
 
     static const int UNDO_BUFFERSIZE = 10;
-    typedef XmlElement UndoElement;
-    std::deque<UndoElement*> mUndoBuffer;
-    std::vector<UndoElement*> mRedoBuffer;
+    typedef XmlElement FieldState;
+    std::deque<FieldState*> mUndoBuffer;
+    std::vector<FieldState*> mRedoBuffer;
+    FieldState* mCurrentState;
+    bool mDoingUndoRedo;
 
 
 #if BOX2D_INTEGRATED  

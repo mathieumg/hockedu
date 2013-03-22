@@ -582,7 +582,8 @@ void NoeudAbstrait::setScale( const Vecteur3& echelleCourante )
 	mScale[VX] = echelleCourante[VX];
 	mScale[VY] = echelleCourante[VY];
 	mScale[VZ] = echelleCourante[VZ];
-	updateMatrice();
+    updateRadius();
+    updateMatrice();
     updatePhysicBody();
 }
 

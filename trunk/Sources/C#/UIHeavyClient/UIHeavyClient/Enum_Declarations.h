@@ -33,6 +33,8 @@ enum BoutonSouris{
         ACTION_EDITEUR_DEPLACER    ,
         ACTION_EDITEUR_ROTATION    ,
         ACTION_EDITEUR_ECHELLE     ,
+        ACTION_EDITEUR_UNDO        ,
+        ACTION_EDITEUR_REDO        ,
         ACTION_SUPPRIMER           ,
         ACTION_DUPLIQUER           ,
         ACTION_INSERER_PORTAIL     ,
