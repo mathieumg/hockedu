@@ -85,10 +85,10 @@ void TerrainTest::testVerifierValiditer()
 void TerrainTest::testInitialiser()
 {
 	terrain_->initialiser("terrainTest");
-    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteExtLargeur() == ZoneEdition::DEFAUT_LIMITE_EXT_LARGEUR);
-    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteExtLongueur() == ZoneEdition::DEFAUT_LIMITE_EXT_LONGUEUR);
-    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteIntLargeur() == ZoneEdition::DEFAUT_LIMITE_INT_LARGEUR);
-    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteIntLongueur() == ZoneEdition::DEFAUT_LIMITE_INT_LONGUEUR);
+    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteExtLargeur() == ZoneEdition::DEFAUT_LIMITE_EXT_Y);
+    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteExtLongueur() == ZoneEdition::DEFAUT_LIMITE_EXT_X);
+    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteIntLargeur() == ZoneEdition::DEFAUT_LIMITE_INT_Y);
+    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteIntLongueur() == ZoneEdition::DEFAUT_LIMITE_INT_X);
 
 	CPPUNIT_ASSERT(terrain_->mNewNodeTree);
 	CPPUNIT_ASSERT(terrain_->mNewNodeTree->childCount() == 0);

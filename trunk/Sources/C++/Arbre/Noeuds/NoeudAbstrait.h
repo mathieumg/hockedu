@@ -39,6 +39,7 @@ class Terrain;
 class BonusModifierAbstract;
 
 // max of 16 categories because box2D flag have only 16 bits
+/// Group 1 used to collide mallet with middle separation and goals
 enum PhysicsCategory
 {
     CATEGORY_NONE     = 0x0000,

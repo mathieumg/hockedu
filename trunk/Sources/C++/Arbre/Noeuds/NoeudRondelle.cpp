@@ -670,6 +670,12 @@ void NoeudRondelle::updatePhysicBody()
             /// La puck entre en collision avec tout !
             myFixtureDef.filter.maskBits = 0xFFFF;
         }
+        else
+        {
+            /// En edition la rondelle et les mailet pourront etre par-dessus des bonus, boost, portals
+            myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
+            myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY | CATEGORY_WALL;
+        }
 
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body

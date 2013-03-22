@@ -145,6 +145,11 @@ void NodeRinkBoards::updatePhysicBody()
             myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
             myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_MALLET;
         }
+        else
+        {
+            myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
+            myFixtureDef.filter.maskBits = 0xFFFF;
+        }
         
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         //     mPhysicBody->SetUserData(this);

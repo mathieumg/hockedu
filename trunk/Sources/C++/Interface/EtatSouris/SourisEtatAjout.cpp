@@ -59,6 +59,9 @@ SourisEtatAjout::~SourisEtatAjout(void)
     if(mField && noeud_)
     {
         mField->retirerNoeudTemp(noeud_);
+
+        // etre sur que le noeud a ce quil faut pour bien ce clean
+        noeud_->setField(mField);
         delete noeud_;
     }
     //GestionnaireHUD::obtenirInstance()->obtenirRacine(RACINE_EDITION)->supprimerElement(hudTextPosInvalide);

@@ -125,6 +125,11 @@ void NodeWallAbstract::updatePhysicBody()
             myFixtureDef.filter.categoryBits = CATEGORY_WALL;
             myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_MALLET;
         }
+        else
+        {
+            myFixtureDef.filter.categoryBits = CATEGORY_WALL;
+            myFixtureDef.filter.maskBits = 0xFFFF;
+        }
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         mPhysicBody->SetUserData(this);

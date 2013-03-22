@@ -520,7 +520,6 @@ void NoeudMaillet::updatePhysicBody()
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
         myFixtureDef.density = 0.02f;
-        if(IsInGame())
         {
             myFixtureDef.filter.categoryBits = CATEGORY_MALLET;
             myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_BOUNDARY | CATEGORY_WALL;

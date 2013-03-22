@@ -155,6 +155,11 @@ void NoeudPortail::updatePhysicBody()
             // Le sensor indique qu'on va recevoir la callback de collision avec la rondelle sans vraiment avoir de collision
             myFixtureDef.isSensor = true;
         }
+        else
+        {
+            myFixtureDef.filter.categoryBits = CATEGORY_PORTAL;
+            myFixtureDef.filter.maskBits = 0xFFFF;
+        }
 
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body

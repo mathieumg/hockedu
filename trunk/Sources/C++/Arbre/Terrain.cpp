@@ -83,15 +83,7 @@ Terrain::Terrain(Partie* pGame):
     mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame),mZamboni(NULL),
     mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL), mIsInit(false), mModifStrategy(NULL),mDoingUndoRedo(false),mCurrentState(NULL)
 {
-    mEditionZone = NULL;
-    if(!mGame)
-    {
-        mEditionZone = new ZoneEdition();
 
-        // cant do undo/redo action by default
-        TransmitEvent(CANNOT_UNDO);
-        TransmitEvent(CANNOT_REDO);
-    }
     mRedoBuffer.reserve(UNDO_BUFFERSIZE);
 #if BOX2D_INTEGRATED
     b2Vec2 gravity(0,0);
@@ -112,6 +104,17 @@ Terrain::Terrain(Partie* pGame):
     mWorld->SetDebugDraw(DebugRenderBox2D::mInstance);
 #endif
 #endif
+
+    /// Cree la zone edition apres le world, car celle-ci va en avoir besoin
+    mEditionZone = NULL;
+    if(!mGame)
+    {
+        mEditionZone = new ZoneEdition(this);
+
+        // cant do undo/redo action by default
+        TransmitEvent(CANNOT_UNDO);
+        TransmitEvent(CANNOT_REDO);
+    }
 }
 
 
@@ -1530,8 +1533,7 @@ bool Terrain::FixCollidingObjects()
     mWorld->Step(0.001f,0,1000);
     mWorld->Step(0.001f,0,1000);
     return true;
-#endif //BOX2D_INTEGRATED
-
+#else
     bool tableValide = false;
 
     static const int n = 5;
@@ -1559,6 +1561,7 @@ bool Terrain::FixCollidingObjects()
         }
     }
     return tableValide;
+#endif //BOX2D_INTEGRATED
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1638,7 +1641,7 @@ float Terrain::GetTableWidth() const
     {
         return mEditionZone->obtenirLimiteExtLargeur()*2.f;
     }
-    return ZoneEdition::DEFAUT_LIMITE_EXT_LARGEUR*2.f;
+    return ZoneEdition::DEFAUT_LIMITE_EXT_Y*2.f;
 }
 
 ////////////////////////////////////////////////////////////////////////
