@@ -25,6 +25,9 @@
 #include "ExceptionJeu.h"
 #include "NodeModelRender.h"
 #include "RazerGameTree.h"
+#include "..\Reseau\GestionnaireReseau.h"
+#include "..\Reseau\Paquets\PaquetGameEvent.h"
+#include "..\Reseau\RelayeurMessage.h"
 
 
 GLuint Partie::listePause_ = 0;
@@ -176,10 +179,25 @@ void Partie::setFieldName( const std::string& terrain )
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-void Partie::incrementerPointsJoueurGauche()
+void Partie::incrementerPointsJoueurGauche(bool pForceUpdate /*= false*/)
 {
-    pointsJoueurGauche_++;
-	callGameUpdate(GAME_SCORE);
+    
+    if(isNetworkServerGame())
+    {
+        // Dans le cas, il faut envoyer un paquet aux 2 clients
+        PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+        wPaquet->setEventOnPlayerLeft(true);
+        wPaquet->setGameId(mUniqueGameId);
+        wPaquet->setEvent(GAME_EVENT_PLAYER_SCORED);
+        RelayeurMessage::obtenirInstance()->relayerPaquetGame(mUniqueGameId, wPaquet);
+    }
+    else if(pForceUpdate || !isNetworkClientGame())
+    {
+        // Dans le cas du client en reseau, on ne fait rien puisque c'est le serveur qui va nous envoyer l'evenement du but
+        pointsJoueurGauche_++;
+        callGameUpdate(GAME_SCORE);
+    }
+    
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -191,10 +209,23 @@ void Partie::incrementerPointsJoueurGauche()
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-void Partie::incrementerPointsJoueurDroit()
+void Partie::incrementerPointsJoueurDroit(bool pForceUpdate /*= false*/)
 {
-    pointsJoueurDroit_++;
-	callGameUpdate(GAME_SCORE);
+    if(isNetworkServerGame())
+    {
+        // Dans le cas, il faut envoyer un paquet aux 2 clients
+        PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+        wPaquet->setEventOnPlayerLeft(false);
+        wPaquet->setGameId(mUniqueGameId);
+        wPaquet->setEvent(GAME_EVENT_PLAYER_SCORED);
+        RelayeurMessage::obtenirInstance()->relayerPaquetGame(mUniqueGameId, wPaquet);
+    }
+    else if(pForceUpdate || !isNetworkClientGame())
+    {
+        // Dans le cas du client en reseau, on ne fait rien puisque c'est le serveur qui va nous envoyer l'evenement du but
+        pointsJoueurDroit_++;
+        callGameUpdate(GAME_SCORE);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -954,6 +985,22 @@ bool Partie::isNetworkClientGame() const
     if(wJoueurGauche && wJoueurDroit)
     {
         return wJoueurGauche->obtenirType() == JOUEUR_NETWORK || wJoueurDroit->obtenirType() == JOUEUR_NETWORK;
+    }
+
+    return false;
+}
+
+
+
+bool Partie::isNetworkServerGame() const
+{
+    // Est une partie network point de vue du client si les 2 joueurs sont des joueurs network_server
+    SPJoueurAbstrait wJoueurGauche = obtenirJoueurGauche();
+    SPJoueurAbstrait wJoueurDroit = obtenirJoueurDroit();
+
+    if(wJoueurGauche && wJoueurDroit)
+    {
+        return wJoueurGauche->obtenirType() == JOUEUR_NETWORK_SERVEUR && wJoueurDroit->obtenirType() == JOUEUR_NETWORK_SERVEUR;
     }
 
     return false;

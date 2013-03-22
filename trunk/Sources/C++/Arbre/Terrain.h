@@ -149,6 +149,8 @@ public:
     int ReceiveModificationEvent(const FieldModificationStrategyEvent& pEvent);
     int EndModification();
 
+
+
 #if BOX2D_PLAY
     /// Callback before the contact between 2 fixtures
     virtual void BeginContact( b2Contact* contact );
@@ -225,6 +227,9 @@ private:
 
     // Terrain initialized
     bool mIsInit;
+
+    // Flag pour dire de ne pas compter de buts pour eviter que plusieurs buts soient attribuer au joueur
+    bool mBesoinMiseAuJeu;
     
 /// Accesseurs
 public:

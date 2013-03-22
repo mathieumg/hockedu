@@ -44,8 +44,8 @@ public:
 	~Partie(void);
 
 	/// Modificateur des points des joueurs
-	void incrementerPointsJoueurGauche();
-	void incrementerPointsJoueurDroit();
+	void incrementerPointsJoueurGauche(bool pForceUpdate = false);
+	void incrementerPointsJoueurDroit(bool pForceUpdate = false);
 
 	/// Assignation d'un joueur à la partie, S'assurer que le pointeur est unique !!!
 	void assignerJoueur( SPJoueurAbstrait joueur );
@@ -102,6 +102,8 @@ public:
     inline bool requirePassword() const {return mRequirePassword;}
 
     bool isNetworkClientGame() const;
+
+    bool isNetworkServerGame() const;
 
 /// Methode Privee
 private:

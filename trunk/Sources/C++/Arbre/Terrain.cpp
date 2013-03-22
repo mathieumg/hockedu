@@ -75,7 +75,7 @@ const unsigned int MAX_MALLETS = 2;
 ////////////////////////////////////////////////////////////////////////
 Terrain::Terrain(Partie* pGame): 
     mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame),mZamboni(NULL),
-    mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL), mIsInit(false), mModifStrategy(NULL)
+    mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL), mIsInit(false), mModifStrategy(NULL), mBesoinMiseAuJeu(false)
 {
     mEditionZone = NULL;
     if(!mGame)
@@ -1007,7 +1007,7 @@ void Terrain::BeginContact( b2Contact* contact )
             // TODO:: à tester
             {
                 NoeudBut *but = dynamic_cast<NoeudBut *>((NoeudAbstrait*)bodies[1]->GetUserData());
-                if (but)
+                if (but && mGame && !mGame->isNetworkClientGame())
                 {
                     b2Body* rondelleBody = bodies[0];
                     NoeudRondelle* rondelle = (NoeudRondelle*)(rondelleBody->GetUserData());
@@ -1961,6 +1961,8 @@ bool Terrain::equals( Terrain* terrain )
 
     return true;
 }
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////

@@ -95,7 +95,7 @@ void PartieSyncer::tick()
             for(auto it=mDestinationIdentifiers.begin(); it!=mDestinationIdentifiers.end(); ++it)
             {
 #if MAT_DEBUG_
-                GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, UDP);
+                GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
 #else
                 GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
 #endif
@@ -113,7 +113,7 @@ void PartieSyncer::tick()
             for(auto it=mDestinationIdentifiers.begin(); it!=mDestinationIdentifiers.end(); ++it)
             {
 #if MAT_DEBUG_
-                GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, UDP);
+                GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
 #else
                 GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
 #endif
@@ -141,7 +141,7 @@ void PartieSyncer::tick()
                     for(auto it=mDestinationIdentifiers.begin(); it!=mDestinationIdentifiers.end(); ++it)
                     {
 #if MAT_DEBUG_
-                        GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, UDP);
+                        GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
 #else
                         GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
 #endif
