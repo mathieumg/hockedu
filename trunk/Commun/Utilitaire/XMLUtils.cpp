@@ -211,6 +211,14 @@ namespace XMLUtils
         return element->QueryIntAttribute(name, &attribute) == TIXML_SUCCESS;
     }
     template<>
+    bool readAttribute<bool>( const XmlElement* element, const char* name, bool& attribute )
+    {
+        int temp;
+        auto res = element->QueryIntAttribute(name, &temp);
+        attribute = !!temp;
+        return res == TIXML_SUCCESS;
+    }
+    template<>
     bool readAttribute<char>( const XmlElement* element, const char* name, char& attribute )
     {
         int temp;

@@ -21,6 +21,7 @@
 #include "SourisEtatAjout.h"
 #include "SourisEtatAjoutControlPointMutable.h"
 #include "Terrain.h"
+#include "ConfigScene.h"
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,6 +38,7 @@
 GestionnaireEtatModeEdition::GestionnaireEtatModeEdition(Terrain* pField):
 GestionnaireEtatAbstrait(),mField(pField)
 {
+    mAutoSaveTimer.unPause();
     shiftEnfonce_ = false;
     enfonce_ = false;
     boutonEnfonce_ = NULL;
@@ -250,9 +252,17 @@ void GestionnaireEtatModeEdition::animer( const float& temps )
 {
     SoundFMOD::obtenirInstance()->repeatAppSong();
     // Mise à jour des objets
-    if(FacadeModele::getInstance()->getEditionField())
+    if(mField)
     {
-        FacadeModele::getInstance()->getEditionField()->animerTerrain(temps);
+        mField->animerTerrain(temps);
+    }
+    if(mField && ConfigScene::obtenirInstance()->IsAutoSaveEnable())
+    {
+        if(mAutoSaveTimer.Elapsed_Time_sec() > ConfigScene::obtenirInstance()->getAutoSaveDelai())
+        {
+            mAutoSaveTimer.reset_Time();
+            RazerGameUtilities::SaveFieldToFile(FacadeModele::FICHIER_TERRAIN_EN_COURS,*mField);
+        }
     }
 }
 

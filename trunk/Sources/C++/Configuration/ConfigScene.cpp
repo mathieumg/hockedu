@@ -47,7 +47,7 @@ const char ConfigScene::ETIQUETTE_ARBRE[] = {"Arbre"};
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-ConfigScene::ConfigScene(): toucheHaut_(VJAK_W), toucheBas_(VJAK_S), toucheGauche_(VJAK_A), toucheDroite_(VJAK_D)
+ConfigScene::ConfigScene(): toucheHaut_(VJAK_W), toucheBas_(VJAK_S), toucheGauche_(VJAK_A), toucheDroite_(VJAK_D), mAutoSaveEnable(true), mAutoSaveDelai(30)
 {
 
 	// Lumiere 0 qui est la lumiere ambiante
@@ -230,6 +230,8 @@ void ConfigScene::enregistrerConfiguration () const
     XMLUtils::writeAttribute(elementScene,"toucheBas",	   toucheBas_);
     XMLUtils::writeAttribute(elementScene,"toucheGauche", toucheGauche_);
     XMLUtils::writeAttribute(elementScene,"toucheDroite", toucheDroite_);
+    XMLUtils::writeAttribute(elementScene,"AutoSave", IsAutoSaveEnable());
+    XMLUtils::writeAttribute(elementScene,"AutoSaveDelai", getAutoSaveDelai());
 	
 	// Enregistrement du volumes de la musique et des effets
     XMLUtils::writeAttribute(elementScene,"volSong", SoundFMOD::obtenirInstance()->getAppSongVolume());
@@ -285,6 +287,9 @@ void ConfigScene::chargerConfiguration( )
                     float vol;                             
                     if(XMLUtils::readAttribute(elementScene,"volSong", vol)  )SoundFMOD::obtenirInstance()->setAppVolume(vol);
                     if(XMLUtils::readAttribute(elementScene,"volEffect", vol))SoundFMOD::obtenirInstance()->setEffectVolume(vol);
+
+                    XMLUtils::readAttribute(elementScene,"AutoSave", mAutoSaveEnable);
+                    XMLUtils::readAttribute(elementScene,"AutoSaveDelai", mAutoSaveDelai);
                 }
             }
         }
