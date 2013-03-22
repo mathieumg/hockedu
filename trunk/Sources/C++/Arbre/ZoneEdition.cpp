@@ -275,6 +275,8 @@ bool ZoneEdition::equals( ZoneEdition * zone )
 ////////////////////////////////////////////////////////////////////////
 void ZoneEdition::rebuild()
 {
+    mAABB = BoundingBox::BuildAABB(Vecteur3(),Vecteur3(mLimitExtX,mLimitExtY));
+
 #if BOX2D_INTEGRATED  
     clearPhysicsBody();
     if(mOwner)

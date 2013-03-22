@@ -34,7 +34,7 @@ PRAGMA_DISABLE_OPTIMIZATION
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeRinkBoards::NodeRinkBoards( NoeudPoint* n1, NoeudPoint* n2 ):
-    Super(RazerGameUtilities::NAME_RINK_BOARD)
+    Super(RazerGameUtilities::NAME_RINK_BOARD), mPoint1(n1),mPoint2(n2)
 {
     setScale(Vecteur3(1,0,0));
     setRecordable(false);
@@ -57,7 +57,7 @@ NodeRinkBoards::NodeRinkBoards( NoeudPoint* n1, NoeudPoint* n2 ):
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeRinkBoards::NodeRinkBoards( NoeudPoint* n, NoeudBut* but, bool haut ):
-    Super(RazerGameUtilities::NAME_RINK_BOARD)
+    Super(RazerGameUtilities::NAME_RINK_BOARD), mPoint1(n),mPoint2(NULL)
 {
     setScale(Vecteur3(1,0,0));
     setRecordable(false);
@@ -84,7 +84,7 @@ NodeRinkBoards::NodeRinkBoards( NoeudPoint* n, NoeudBut* but, bool haut ):
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeRinkBoards::NodeRinkBoards( NoeudBut* but, NoeudPoint* n, bool haut ):
-    Super(RazerGameUtilities::NAME_RINK_BOARD)
+    Super(RazerGameUtilities::NAME_RINK_BOARD), mPoint1(NULL),mPoint2(n)
 {
     setScale(Vecteur3(1,0,0));
     setRecordable(false);
@@ -127,15 +127,54 @@ void NodeRinkBoards::updatePhysicBody()
         myBodyDef.type = b2_staticBody; //this will be a dynamic body
         myBodyDef.angle = 0; //set the starting angle
 
-        const Vecteur3& pos = getPosition();
-        b2Vec2 posB2;
-        utilitaire::VEC3_TO_B2VEC(pos,posB2);
-        myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
+//         const Vecteur3& pos = getPosition();
+//         b2Vec2 posB2;
+//         utilitaire::VEC3_TO_B2VEC(pos,posB2);
+//         myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
 
         mPhysicBody = world->CreateBody(&myBodyDef);
 
-        b2PolygonShape shape;
-        shape.SetAsBox(halfLength,halfHeight,b2Vec2(0,0),utilitaire::DEG_TO_RAD(mAngle));
+
+        auto pos1 = obtenirCoin1();
+        auto pos2 = obtenirCoin2();
+        
+
+        if(mPoint1)
+        {
+            auto type = mPoint1->obtenirTypePosNoeud();
+            switch (type)
+            {
+            case POSITION_HAUT_GAUCHE:
+            case POSITION_HAUT_DROITE:
+            case POSITION_BAS_GAUCHE:
+            case POSITION_BAS_DROITE:
+                pos1 += (pos1-pos2)/5.f;
+            default:
+                break;
+            }
+        }
+        if(mPoint2)
+        {
+            auto type = mPoint2->obtenirTypePosNoeud();
+            switch (type)
+            {
+            case POSITION_HAUT_GAUCHE:
+            case POSITION_HAUT_DROITE:
+            case POSITION_BAS_GAUCHE:
+            case POSITION_BAS_DROITE:
+                pos2 += (pos2-pos1)/5.f;
+            default:
+                break;
+            }
+        }
+
+        b2Vec2 pos1B2,pos2B2;
+        utilitaire::VEC3_TO_B2VEC(pos1,pos1B2);
+        utilitaire::VEC3_TO_B2VEC(pos2,pos2B2);
+
+        b2EdgeShape shape;
+        shape.Set(pos1B2,pos2B2);
+        //shape.SetAsBox(halfLength,halfHeight,b2Vec2(0,0),utilitaire::DEG_TO_RAD(mAngle));
 
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &shape; //this is a pointer to the shape above

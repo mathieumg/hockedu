@@ -9,6 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "XMLUtils.h"
+#include "BoundingBox.h"
 
 class TerrainTest;
 class Terrain;
@@ -47,6 +48,9 @@ private:
 	float mLimitIntY;
 	float mLimitExtY; 
 
+    /// Aligned-Axis bounding box
+    BoundingBox mAABB;
+
     Terrain* mOwner;
 
 #if BOX2D_INTEGRATED
@@ -78,6 +82,9 @@ public:
 	inline float obtenirLimiteExtLongueur() const { return mLimitExtX; }
 	/// Modificateur de mLimitExtX
 	inline void modifierLimiteExtLongueur(float val) { mLimitExtX = val; rebuild(); }
+
+    /// Accessors of mAABB
+    inline const BoundingBox& getAABB() const { return mAABB; }
 
     /// checks if both zone are the same
     bool equals( ZoneEdition * zone );

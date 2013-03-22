@@ -33,5 +33,9 @@ public:
 
     virtual void updatePhysicBody();
 
+private:
+    /// un des pointeurs peut etre null s'il est ratacher a un but
+    NoeudPoint* mPoint1,*mPoint2;
+
 };
 

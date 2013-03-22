@@ -65,7 +65,21 @@ VisiteurDeplacement::~VisiteurDeplacement(void)
 ////////////////////////////////////////////////////////////////////////
 void VisiteurDeplacement::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 {
-    noeud->setPosition(noeud->getPosition()+deplacement_);
+    Vecteur3 pos = noeud->getPosition() + deplacement_;
+    auto field = noeud->getField();
+    if(field)
+    {
+        auto zone = field->getZoneEdition();
+        if(zone)
+        {
+            auto aabb = zone->getAABB();
+            if(!aabb.IsInside(pos))
+            {
+                pos = aabb.GetClosestPointTo(pos);
+            }
+        }
+    }
+    noeud->setPosition(pos);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -83,8 +97,27 @@ void VisiteurDeplacement::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
     // assume ici qu'un muret relatif ne peut etre selectionné
     NoeudMuret* muret = (NoeudMuret*)noeud;
-    muret->assignerPositionCoin(1, noeud->obtenirCoin1()+Vecteur3(deplacement_[VX], deplacement_[VY], 0));
-    muret->assignerPositionCoin(2, noeud->obtenirCoin2()+Vecteur3(deplacement_[VX], deplacement_[VY], 0));
+    Vecteur3 pos1 = noeud->obtenirCoin1() + deplacement_;
+    Vecteur3 pos2 = noeud->obtenirCoin2() + deplacement_;
+    auto field = noeud->getField();
+    if(field)
+    {
+        auto zone = field->getZoneEdition();
+        if(zone)
+        {
+            auto aabb = zone->getAABB();
+            if(!aabb.IsInside(pos1))
+            {
+                pos1 = aabb.GetClosestPointTo(pos1);
+            }
+            if(!aabb.IsInside(pos2))
+            {
+                pos2 = aabb.GetClosestPointTo(pos2);
+            }
+        }
+    }
+    muret->assignerPositionCoin(1, pos1);
+    muret->assignerPositionCoin(2, pos2);
 }
 
 ////////////////////////////////////////////////////////////////////////
