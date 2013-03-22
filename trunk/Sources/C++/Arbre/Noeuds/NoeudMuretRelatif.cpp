@@ -13,7 +13,7 @@
 #include "NoeudBut.h"
 #include "Utilitaire.h"
 
-#ifdef MIKE_DEBUG
+#if MIKE_DEBUG_
 PRAGMA_DISABLE_OPTIMIZATION
 #endif
 
@@ -125,7 +125,7 @@ NoeudMuretRelatif::~NoeudMuretRelatif()
 
 }
 
-#ifdef MIKE_DEBUG
+#if MIKE_DEBUG_
 PRAGMA_ENABLE_OPTIMIZATION
 #endif
 

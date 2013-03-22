@@ -8,15 +8,24 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
+
+#if BOX2D_PLAY
+#include "Box2D\Dynamics\b2WorldCallbacks.h"
+class b2Contact;
+struct b2ContactImpulse;
+struct b2Manifold;
+#endif
+
 #include <string>
 #include "ZoneEdition.h"
 #include <vector>
 #include "RazerGameTypeDef.h"
 #include "XMLUtils.h"
-
-#ifndef __APPLE__
+#include "Enum_Declarations.h"
 #include "RunnableBreaker.h"
-#endif
+#include <deque>
+#include "FieldModificationStrategyAbstract.h"
+
 
 class RazerGameTree;
 class ArbreNoeudLibre;
@@ -28,13 +37,6 @@ class NoeudAbstrait;
 class TerrainTest;
 class Partie;
 
-#if BOX2D_INTEGRATED
-#include "Box2D\Dynamics\b2WorldCallbacks.h"
-class b2Contact;
-struct b2ContactImpulse;
-struct b2Manifold;
-#endif
-
 ///////////////////////////////////////////////////////////////////////////
 /// @class Terrain
 /// @brief Objet contenant les éléments d'un terrain de jeu permettant de l'afficher,
@@ -45,17 +47,9 @@ struct b2Manifold;
 /// @author Michael Ferris
 /// @date 2012-03-19
 ///////////////////////////////////////////////////////////////////////////
-class Terrain
-#ifndef __APPLE__
-    : public RunnableBreaker
-#endif
-#if BOX2D_INTEGRATED
-#ifndef __APPLE__
-,
-#else
-:
-#endif
-    public b2ContactListener
+class Terrain : public RunnableBreaker
+#if BOX2D_PLAY
+, public b2ContactListener
 #endif
 {
 public:
@@ -72,12 +66,11 @@ public:
 	/// Libère la mémoire du terrain et le retourne à son état de base
 	void libererMemoire();
 
-	/// Permet d'initialiser le terrain avec ces éléments de bases pour le terrain
-	/// Permet de reintialiser en meme temps
-	void initialiser(std::string nom);
+	
 
 	/// Permet d'initialiser le terrain avec ces éléments a partir d'un noeud XML
-	bool initialiserXml( XmlElement* element );
+    bool initialiserXml( XmlElement* element, bool fromDocument = true );
+
 
 	/// Remet le terrain a son etat de base
 	void reinitialiser();
@@ -137,11 +130,26 @@ public:
     /// tente de repositionner 1 noeud pour enlver l'overlapping
     bool FixCollindingNode(NoeudAbstrait* node, unsigned int nbIterations);
 
+    /// checks if both field are the same
+    bool equals(Terrain* terrain);
+
+
     float GetTableWidth()const;
     void NodeSelectionNotification( NoeudAbstrait* node, bool selectionne );
 
+    // tells if there are selected node on the field that can be deleted
     bool CanSelectedNodeBeDeleted() const;
-#if BOX2D_INTEGRATED
+    /// checks if selected nodes are the same type and returns that type
+    /// if not, return NODE_KEY_NONE
+    RazerKey getSelectedNodeUniqueKey() const;
+    int gatherSelectedNodeProperties(class FullProperties* properties);
+    int applySelectedNodeProperties(class FullProperties* properties);
+
+    int BeginModification(FieldModificationStrategyType type, const FieldModificationStrategyEvent& beginEvent);
+    int ReceiveModificationEvent(const FieldModificationStrategyEvent& pEvent);
+    int EndModification();
+
+#if BOX2D_PLAY
     /// Callback before the contact between 2 fixtures
     virtual void BeginContact( b2Contact* contact );
 
@@ -165,6 +173,10 @@ private:
     /// ie : mode édition => check table seulement  
     /// mode Jeu => check table, rondelle, maillets
     void initNecessaryPointersForGame();
+
+    /// Permet d'initialiser le terrain avec ces éléments de bases pour le terrain
+    /// Permet de reintialiser en meme temps
+    void initialiser(std::string nom);
 
 	/// Fields
 private:
@@ -197,12 +209,23 @@ private:
     /// pointeur sur la zamboni
     class NodeModelRender* mZamboni;
 
+    FieldModificationStrategyAbstract* mModifStrategy;
+
+    static const int UNDO_BUFFERSIZE = 10;
+    typedef XmlElement UndoElement;
+    std::deque<UndoElement*> mUndoBuffer;
+    std::vector<UndoElement*> mRedoBuffer;
+
+
 #if BOX2D_INTEGRATED  
     class b2World* mWorld;
 #endif
 
     std::set<NoeudAbstrait*> mSelectedNodes;
 
+    // Terrain initialized
+    bool mIsInit;
+    
 /// Accesseurs
 public:
     /// Accessors of mZamboni
@@ -230,9 +253,8 @@ public:
     NoeudMaillet* getRightMallet() const;
 #if BOX2D_INTEGRATED  
     inline class b2World* GetWorld() {return mWorld;}
-
 #endif
-
+    inline bool isInit() const { return mIsInit; }
 public:
 
 };

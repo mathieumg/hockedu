@@ -20,6 +20,7 @@
 #include "NodeWallAbstract.h"
 #include "NodeControlPoint.h"
 #include "NodeWallEdition.h"
+#include "NodeBonus.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -232,6 +233,22 @@ void VisiteurNoeud::visiterNodeControlPoint( NodeControlPoint* noeud )
 void VisiteurNoeud::visiterNoeudMuretEdition( NodeWallEdition* noeud )
 {
     VisitParentClass(NodeWallEdition);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void VisiteurNoeud::visiterNodeBonus( NodeBonus* noeud )
+///
+/// /*Description*/
+///
+/// @param[in] NodeBonus * noeud
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void VisiteurNoeud::visiterNodeBonus( NodeBonus* noeud )
+{
+    VisitParentClass(NodeBonus);
 }
 
 

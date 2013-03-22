@@ -18,7 +18,6 @@
 #include "NoeudTable.h"
 #include "NoeudPoint.h"
 #include "NoeudAccelerateur.h"
-#include "VisiteurDeplacement.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -104,10 +103,10 @@ void VisiteurRotation::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 	varDeplacement[VX] = centreRotRel[VX]+rayon*cos((angleCourantRad-(angleRot_*(float)M_PI/180)));
 	varDeplacement[VY] = centreRotRel[VY]+rayon*sin((angleCourantRad-(angleRot_*(float)M_PI/180)));
 	
-	Vecteur2 posInverse(-noeud->getPosition()[VX], -noeud->getPosition()[VY]);
-	VisiteurDeplacement visiteurDeplacement(posInverse);
-	noeud->acceptVisitor(visiteurDeplacement);
-	noeud->setPosition(Vecteur3(varDeplacement[VX], varDeplacement[VY], 0));
+// 	Vecteur2 posInverse(noeud->getPosition()[VX], -noeud->getPosition()[VY]);
+// 	VisiteurDeplacement visiteurDeplacement(posInverse);
+// 	noeud->acceptVisitor(visiteurDeplacement);
+	noeud->setPosition(varDeplacement);
 
 
 	// Il faut recalculer la matrice de transformation

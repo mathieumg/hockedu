@@ -13,16 +13,15 @@
 #include "GestionnaireModeles.h"
 #include "GestionnaireEvenements.h"
 #include "GestionnaireEtatAbstrait.h"
-#include <hash_map>
 #elif __APPLE__
-#include <ext/hash_map>
 #endif
 
 #include "Utilitaire.h"
 #include "Terrain.h"
 
-
+#if MIKE_DEBUG_
 PRAGMA_DISABLE_OPTIMIZATION;
+#endif
 
 #if WITH_JAVA
 #include <jni.h>
@@ -362,10 +361,12 @@ bool mUpdating = false, mRendering=false;
    const std::string RazerGameUtilities::NAME_BONUS = "bonus";
    const std::string RazerGameUtilities::NAME_GOALER = "goaler";
 
+   const RazerGameUtilities::StringToKeyMap* RazerGameUtilities::StringTypeToEnum = NULL;
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}
 ///////////////////////////////////////////////////////////////////////////////
 
-
+#if MIKE_DEBUG_
 PRAGMA_ENABLE_OPTIMIZATION;
+#endif

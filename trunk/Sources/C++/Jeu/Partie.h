@@ -22,7 +22,7 @@ class NoeudMaillet;
 class NoeudRondelle;
 
 // ATTENTION, ORDRE IMPORTANT DANS L'ENUM. SI UNE VAL EST APRES GAME_STARTED, ELLE EST CONSIDEREE COMME ENCORE EN COURS
-enum GameStatus {GAME_NOT_STARTED, GAME_ENDED, GAME_STARTED, GAME_SCORE, GAME_RUNNING, GAME_PAUSED};
+enum GameStatus {GAME_NOT_READY, GAME_READY, GAME_ENDED, GAME_STARTED, GAME_SCORE, GAME_RUNNING, GAME_PAUSED};
 typedef int (*GameUpdateCallback) (int, GameStatus); // Param1 = GameID, Param2 = UpdateStatus
 
 
@@ -100,6 +100,8 @@ public:
     bool validatePassword(const std::string& pPasswordToValidate) const;
     void setPassword(const std::string& pPassword);
     inline bool requirePassword() const {return mRequirePassword;}
+
+    bool isNetworkClientGame() const;
 
 /// Methode Privee
 private:

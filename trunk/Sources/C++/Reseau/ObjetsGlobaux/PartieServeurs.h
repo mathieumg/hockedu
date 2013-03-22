@@ -32,6 +32,12 @@ private:
     std::string mPlayer1Name;
     std::string mPlayer2Name;
 
+    //Terrain associé à la partie
+    std::string mMapName;
+
+    // Nom de la partie
+    std::string mGameName;
+
     // Score des joueurs
     int mPlayer1Score;
     int mPlayer2Score;
@@ -59,6 +65,12 @@ public:
 
     std::string getPlayer1Name() const { return mPlayer1Name; }
     std::string getPlayer2Name() const { return mPlayer2Name; }
+
+    std::string getMapName() const { return mMapName; }
+    void setMapName(std::string pMapName) { mMapName = pMapName; }
+
+    std::string getGameName() const { return mGameName; }
+    void setGameName(std::string pGameName) { mGameName = pGameName; }
 
     int getPlayer1Score() const { return mPlayer1Score; }
     void setPlayer1Score(int val) { mPlayer1Score = val; callUpdateCallbackFunction();}

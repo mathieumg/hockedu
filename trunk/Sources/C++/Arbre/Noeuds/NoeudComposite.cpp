@@ -559,7 +559,7 @@ void NoeudComposite::getSelectedNodes( ConteneurNoeuds& pSelectedNodes ) const
 	}
 }
 
-
+#if MANUAL_PHYSICS_DETECTION
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void NoeudComposite::collisionDetection( const float& temps )
@@ -638,6 +638,7 @@ void NoeudComposite::fixSpeed( const float& temps )
 			(*it)->fixSpeed(temps);
 	}
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 ///

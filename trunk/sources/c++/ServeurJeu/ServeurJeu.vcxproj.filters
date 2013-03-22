@@ -47,9 +47,6 @@
     <ClInclude Include="..\Reseau\ObjetsGlobaux\PartieServeurs.h">
       <Filter>Source Files\Reseau\ObjetsGlobauxServeurs</Filter>
     </ClInclude>
-    <ClInclude Include="..\Interface\FacadeServeurJeu.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Menu.h">
       <Filter>Source Files</Filter>
     </ClInclude>

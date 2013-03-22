@@ -154,6 +154,8 @@ namespace UIHeavyClient
 
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void SendMessageDLL(string pConnectionId, string pUsername, string pMessage);
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SendMessageGameDLL(string pMessage);
         // sends a request to connect the user. Will not be necessarly connected when exiting this function
         // must wait for a callback indicating the status of this user's connection
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -167,7 +169,7 @@ namespace UIHeavyClient
         // Callback to received event messages from C++
         // declare the callback prototype
         // 
-        public static bool SetupLoginCallBackEvents(LoginWindow pLoginWindow)
+        public static bool SetupLoginCallBackEvents(LoginControl pLoginWindow)
         {
             mLoginWindow = pLoginWindow;
             if (mLoginWindow != null)
@@ -177,7 +179,7 @@ namespace UIHeavyClient
             }
             return false;
         }
-        static LoginWindow mLoginWindow = null;
+        static LoginControl mLoginWindow = null;
         static bool LoginWindowEventReceived(int id, IntPtr pMessage)
         {
             if (mLoginWindow != null && id >= 0 && (int)EventCodes.NB_EVENT_CODES > id)

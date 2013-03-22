@@ -83,6 +83,12 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="Xceed.Wpf.DataGrid">
+      <HintPath>..\..\..\..\Commun\Externe\ExtendedWPFToolkit\Xceed.Wpf.DataGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>..\..\..\..\Commun\Externe\ExtendedWPFToolkit\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -92,18 +98,28 @@
     <Compile Include="AIOptionControl.xaml.cs">
       <DependentUpon>AIOptionControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BonusEditionControl.xaml.cs">
+    <Compile Include="RazerUtilities.cs" />
+    <Compile Include="UserControls\BonusEditionControl.xaml.cs">
       <DependentUpon>BonusEditionControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Chat.cs" />
     <Compile Include="KeyboardOptionControl.xaml.cs">
       <DependentUpon>KeyboardOptionControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LoginControl.xaml.cs">
+      <DependentUpon>LoginControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="EditionModeControl.xaml.cs">
       <DependentUpon>EditionModeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FieldPropertiesControl.xaml.cs">
+      <DependentUpon>FieldPropertiesControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\NumericalInputBox.xaml.cs">
+      <DependentUpon>NumericalInputBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="OnlineLobbyControl.xaml.cs">
       <DependentUpon>OnlineLobbyControl.xaml</DependentUpon>
@@ -122,11 +138,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="BonusEditionControl.xaml">
+    <Page Include="UserControls\BonusEditionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="KeyboardOptionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -155,6 +175,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="EditionModeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FieldPropertiesControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\NumericalInputBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -214,7 +214,7 @@ namespace UIHeavyClient
                     Chat.mLoginInfo.mIpAddress = ipAdress;
                     BlockUIContent();
                     // Setup to be ready to receive events
-                    Chat.SetupLoginCallBackEvents(this);
+                    //Chat.SetupLoginCallBackEvents(this);
 
                     SetUserMessageFeedBack(String.Format("Connecting to server {0}\nPlease wait...", serverName), false);
                     Chat.RequestLogin(userNameInput.Text, passwordInput.Password, ipAdress);
@@ -323,9 +323,6 @@ namespace UIHeavyClient
             userNameInput.Text = Chat.mLoginInfo.mUserName;
             ManualServerEntry.Text = Chat.mLoginInfo.mIpAddress;
         }
-
-
-
     }
 }
 

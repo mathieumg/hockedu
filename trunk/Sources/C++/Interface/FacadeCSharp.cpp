@@ -3,6 +3,7 @@
 #include <iostream>
 #include "ExceptionJeu.h"
 #include "Terrain.h"
+#include "Tournoi.h"
 #include "GestionnaireHUD.h"
 #include "..\reseau\UsinePaquets\UsinePaquetMaillet.h"
 #include "..\reseau\PaquetHandlers\PacketHandler.h"
@@ -10,7 +11,9 @@
 #include "..\Reseau\UsinePaquets\UsinePaquetGameCreation.h"
 #include "..\reseau\Paquets\PaquetGameConnection.h"
 #include "..\reseau\UsinePaquets\UsinePaquetGameConnection.h"
-
+#include "..\reseau\UsinePaquets\UsinePaquetRondelle.h"
+#include "VisitorGatherProperties.h"
+#include "..\Reseau\UsinePaquets\UsinePaquetGameEvent.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -28,7 +31,6 @@ int ExecuteUnitTest()
     // Visual Studio interprète le code de retour 0 comme une réussite et le code
     // de retour 1 comme un échec. Nous transmettons le code de retour à Java
     // qui le transmet directement comme code de sortie du programme.
-    system("pause");
     return reussite ? 0 : 1;
 }
 
@@ -74,6 +76,8 @@ void InitDLL()
     wGestionnaireReseau->ajouterOperationReseau(MAILLET, new PacketHandlerMaillet, new UsinePaquetMaillet);
     wGestionnaireReseau->ajouterOperationReseau(GAME_CREATION_REQUEST, new PacketHandlerGameCreation, new UsinePaquetGameCreation);
     wGestionnaireReseau->ajouterOperationReseau(GAME_CONNECTION, new PacketHandlerGameConnection, new UsinePaquetGameConnection);
+    wGestionnaireReseau->ajouterOperationReseau(RONDELLE, new PacketHandlerRondelle, new UsinePaquetRondelle);
+    wGestionnaireReseau->ajouterOperationReseau(GAME_EVENT, new PacketHandlerGameEvent, new UsinePaquetGameEvent);
 
 }
 
@@ -94,6 +98,10 @@ void RequestLogin( char* pUsername, char* pPassword, char* pIpAdress )
     GestionnaireReseauClientLourd::obtenirInstance();
     GestionnaireReseau::obtenirInstance()->setUser(pUsername, pPassword);
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("MasterServer",pIpAdress,TCP);
+//#if MAT_DEBUG_
+    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer",pIpAdress,TCP);
+    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer",pIpAdress,UDP);
+//#endif
 }
 
 void SendMessageDLL(char * pConnectionId, char* pUsername, char * pMessage)
@@ -111,9 +119,27 @@ void SendMessageDLL(char * pConnectionId, char* pUsername, char * pMessage)
     }
     catch(...)
     {
-        wPaquet->removeAssociatedQuery();
     }
 }
+
+void SendMessageGameDLL( char * pMessage )
+{
+    PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet(CHAT_MESSAGE);
+    wPaquet->setMessage(pMessage);
+    wPaquet->setIsTargetGroup(true);
+    wPaquet->setGroupName("groupe");
+    wPaquet->setTimestamp(time(0));
+    wPaquet->setOrigin(GestionnaireReseau::obtenirInstance()->getPlayerName());
+
+    try
+    {
+        GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet,TCP);
+    }
+    catch(...)
+    {
+    }
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -410,9 +436,10 @@ void initNetwork( ControllerInterface* pController )
 void connectServerGame( char* pServerIP )
 {
     // Temporary
-    GestionnaireReseau::obtenirInstance()->setUser("bob", "");
+    GestionnaireReseau::obtenirInstance()->setUser("bob2", "");
 
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer", pServerIP, TCP);
+    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer", pServerIP, UDP);
 
 
 
@@ -635,6 +662,131 @@ bool TerrainHasDeletable()
 {
     return FacadeModele::getInstance()->getEditionField()->CanSelectedNodeBeDeleted();
 }
+
+
+void BeginNewTournament(char* pTournamentName, char* pMapName, char** pPlayerNames, int pNbrPlayers)
+{
+	// Players list
+	JoueursParticipant players;
+
+	// Fill the players list
+	for(int i = 0; i < pNbrPlayers; ++i)
+	{
+		// Empty name means human player
+		if(strlen(pPlayerNames[i]) == 0)
+        {
+            players.push_back(SPJoueurAbstrait(new JoueurHumain()));
+        }
+		else // AI player
+		{	
+			SPJoueurAbstrait jv = FacadeModele::getInstance()->obtenirJoueur(std::string(pPlayerNames[i]));
+			if(jv)
+			{
+				players.push_back(jv);
+			}
+			else
+            {
+				players.push_back(SPJoueurAbstrait(new JoueurVirtuel(pPlayerNames[i], 1, 0)));
+            }
+		}
+	}
+
+	// Init tournament
+	FacadeModele::getInstance()->initialiserTournoi(players, std::string(pMapName));
+	Tournoi* tournoiCpp = FacadeModele::getInstance()->obtenirTournoi();
+	tournoiCpp->modifierNom(std::string(pTournamentName));
+
+	// Enregistrement du tournoi
+	FacadeModele::getInstance()->enregistrerTournoi(tournoiCpp);
+}
+
+void ContinueExistingTournament(char* pTournamentName)
+{
+    FacadeModele::getInstance()->chargerTournoi(std::string(pTournamentName));
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn RazerKey GetSelectedNodeUniqueKey()
+///
+/// checks if selected nodes are the same type and returns that type
+/// if not, return NODE_KEY_NONE
+///
+///
+/// @return RazerKey
+///
+////////////////////////////////////////////////////////////////////////
+RazerKey GetSelectedNodeUniqueKey()
+{
+    return FacadeModele::getInstance()->getEditionField()->getSelectedNodeUniqueKey();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool GetFieldProperties( FullProperties* fullProperties )
+///
+/// /*Description*/
+///
+/// @param[in] FullProperties * fullProperties
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+int GetFieldProperties( FullProperties* fullProperties )
+{
+    return FacadeModele::getInstance()->getEditionField()->gatherSelectedNodeProperties(fullProperties);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool SendFieldProperties( FullProperties* fullProperties )
+///
+/// /*Description*/
+///
+/// @param[in] FullProperties * fullProperties
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+int SendFieldProperties( FullProperties* fullProperties )
+{
+    return FacadeModele::getInstance()->getEditionField()->applySelectedNodeProperties(fullProperties);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool SendTest( BonusProperties* fullProperties )
+///
+/// /*Description*/
+///
+/// @param[in] BonusProperties * fullProperties
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+int SendTest( BonusProperties* fullProperties )
+{
+    return 0;
+}
+
+
+
+
+void testConnexionUDPCSharp()
+{
+    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("Test", "127.0.0.1", UDP);
+
+    FacadePortability::sleep(1000);
+
+    PaquetRondelle* wPaquet = (PaquetRondelle*) GestionnaireReseau::obtenirInstance()->creerPaquet(RONDELLE);
+    wPaquet->setGameId(9000);
+    wPaquet->setPosition(Vecteur3(0.0f,1.0f,2.0f));
+    wPaquet->setVelocite(Vecteur3(3.0f,4.0f,5.0f));
+    wPaquet->setVitesseRotation(6.5556f);
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet("Test", wPaquet, UDP);
+
+}
+
 
 
 

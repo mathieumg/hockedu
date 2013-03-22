@@ -13,6 +13,9 @@
 #include <stdexcept>
 #include "JoueurVirtuel.h"
 #include "JoueurHumain.h"
+#include "..\Reseau\Paquets\PaquetGameEvent.h"
+#include "..\Reseau\RelayeurMessage.h"
+#include "..\Reseau\GestionnaireReseau.h"
 
 
 
@@ -39,6 +42,8 @@ GameManager::GameManager()
 {
 	mMaximumGameCount = 100000; // Simule pas de limite
 	mAdversaire = 0;
+    // Ne pas mettre a 0, trop dangereux
+    GameManager::uniqueIdCount = 1;// = rand() % INT_MAX/2;
 }
 
 
@@ -85,7 +90,7 @@ int GameManager::addNewGame(SPJoueurAbstrait pJoueur1 /*= 0*/, SPJoueurAbstrait 
 {
 	Partie* wGame;
     int wId = pGameId;
-    if(pGameId = -1)
+    if(pGameId == -1)
     {
         wId = GameManager::getNewUniqueGameId();
     }
@@ -203,6 +208,52 @@ void GameManager::removeGame( int pGameId )
 ///
 /// Methode pour demarrer une partie
 ///
+/// @param[in] int          pGameId:        Id de la partie a traiter
+/// @param[in] std::string  pMapFilename:   Nom de la map a utiliser
+///
+/// @return bool : Succes ou fail (pas utilise pour le moment)
+///
+////////////////////////////////////////////////////////////////////////
+bool GameManager::getGameReady(int pGameId, const std::string& pMapFilename)
+{
+    Partie* wPartie = getGame(pGameId);
+    
+    if(!wPartie)
+    {
+        return false;
+    }
+
+    wPartie->setFieldName(pMapFilename);
+
+    if(wPartie->getReadyToPlay()) // Appelle le updateCallback avec GAME_START
+    {
+
+        if(wPartie->isNetworkClientGame())
+        {
+            // Dans ce cas avant de demarrer la partie, on envoie un message au serveur jeu pour dire que le client est pret et il va nous dire quand demarrer
+            PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+            wPaquet->setGameId(pGameId);
+            wPaquet->setEvent(GAME_EVENT_READY);
+            wPaquet->setEventOnPlayerLeft(GestionnaireReseau::obtenirInstance()->getPlayerName() == wPartie->obtenirNomJoueurGauche());
+            RelayeurMessage::obtenirInstance()->relayerPaquetGame(pGameId, wPaquet, TCP);
+        }
+        wPartie->setGameStatus(GAME_READY);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool GameManager::startGame()
+///
+/// Methode pour demarrer une partie
+///
 ///
 /// @return bool : Succes ou fail (pas utilise pour le moment)
 ///
@@ -210,16 +261,30 @@ void GameManager::removeGame( int pGameId )
 bool GameManager::startGame(int pGameId, const std::string& pMapFilename)
 {
 	Partie* wPartie = getGame(pGameId);
-	wPartie->setFieldName(pMapFilename);
-	if(wPartie->getReadyToPlay()) // Appelle le updateCallback avec GAME_START
-    {
-        wPartie->miseAuJeu(true);
-        return true;
-    }
-    else
+
+    if(!wPartie)
     {
         return false;
     }
+
+    if(wPartie->getGameStatus() == GAME_NOT_READY)
+    {
+        // On initialise la partie
+        if(!getGameReady(pGameId, pMapFilename))
+        {
+            return false;
+        }
+    }
+    
+    if(wPartie->getGameStatus() == GAME_READY)
+    {
+        // Start game si partie deja ready
+        wPartie->miseAuJeu(true);
+    }
+    
+    return true;
+    
+
 }
 
 
@@ -230,7 +295,7 @@ Partie* GameManager::getGame( int pGameId )
     auto it = mListePartiesParId.find(pGameId);
     if(it!=mListePartiesParId.end())
     {
-        return (*it).second;
+        return it->second;
     }
     else
     {

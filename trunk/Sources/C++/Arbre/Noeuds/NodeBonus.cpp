@@ -18,7 +18,7 @@
 #include "BonusModifierFactory.h"
 
 const Vecteur3 DEFAULT_SIZE = Vecteur3(15, 15, 1);
-const float DEFAULT_RADIUS = 10;
+const float DEFAULT_RADIUS = 8;
 
 #if WIN32
 #include "Modele3D.h"
@@ -33,6 +33,12 @@ CreateListDelegateImplementation(EmptyBonus)
     delta = DEFAULT_SIZE / delta;
 
     pModel->assignerFacteurAgrandissement(delta);
+    GLuint liste = glGenLists(1);
+    glNewList(liste, GL_COMPILE);
+    glTranslatef(0, 0, -DEFAULT_SIZE[VZ]);
+    pModel->dessiner(true);	
+    glEndList();
+    return liste;
     return GestionnaireModeles::CreerListe(pModel);
 }
 
@@ -46,7 +52,7 @@ CreateListDelegateImplementation(Bonus)
 
     glRotatef(45,1,0,0);
     glRotatef(35,0,1,0);
-    glScalef(DEFAULT_RADIUS,DEFAULT_RADIUS,DEFAULT_RADIUS);
+    glScalef(DEFAULT_RADIUS*1.5f,DEFAULT_RADIUS*1.5f,DEFAULT_RADIUS*1.5f);
     glBegin(GL_QUADS);
 
     GLfloat vertex[3];
@@ -85,7 +91,7 @@ CreateListDelegateImplementation(Bonus)
     glEndList();
     return liste;
 
-    return RazerGameUtilities::CreateListSphereDefault(pModel,DEFAULT_RADIUS);
+    //return RazerGameUtilities::CreateListSphereDefault(pModel,DEFAULT_RADIUS);
 }
 #endif
 
@@ -106,7 +112,7 @@ NodeBonus::NodeBonus(const std::string& typeNoeud)
    : Super(typeNoeud),mMinTimeSpawn(5.5f), mMaxTimeSpawn(10.f),mHeightAngle(0)
 {
     // temp workaround, l'édition va le considérer comme un cercle pour un moment
-    setDefaultRadius(DEFAULT_SIZE[VX]);
+    setDefaultRadius(DEFAULT_RADIUS);
 
 
     forceFullUpdate();
@@ -173,8 +179,8 @@ void NodeBonus::renderReal() const
     glPushMatrix();
     glPushAttrib( GL_ALL_ATTRIB_BITS );
 
-    // permet de s'assurer de bien le positionner si le bonus n'est pas affiché
-    glTranslatef(mPosition[0], mPosition[1], mPosition[2]-DEFAULT_SIZE[VZ]);
+    // Descend la platforme pour ne voir que la surface
+    glTranslatef(mPosition[0], mPosition[1], mPosition[2]);
     glCallList(liste);
 
     glPopAttrib();
@@ -197,7 +203,7 @@ void NodeBonus::tick( const float& dt )
 {
     if(isVisible())
     {
-        mAngle = (float)((int)(mAngle+dt*500.0f)%360);
+        setAngle((float)((int)(mAngle+dt*500.0f)%360));
         mHeightAngle += dt*3;
         updateMatrice();
     }
@@ -332,31 +338,35 @@ void NodeBonus::updatePhysicBody()
         float halfHeight = mScale[VY]*DEFAULT_SIZE[VY]/2.f*utilitaire::ratioWorldToBox2D;
 
         b2BodyDef myBodyDef;
-        myBodyDef.type = b2_staticBody; //this will be a dynamic body
-        myBodyDef.position.Set(0, 0); //set the starting position
+        myBodyDef.type = IsInGame() ? b2_staticBody : b2_dynamicBody; //this will be a dynamic body
         myBodyDef.angle = 0; //set the starting angle
-
-        mPhysicBody = world->CreateBody(&myBodyDef);
-        b2PolygonShape shape;
         const Vecteur3& pos = getPosition();
         b2Vec2 posB2;
         utilitaire::VEC3_TO_B2VEC(pos,posB2);
         myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
-        shape.SetAsBox(halfLength,halfHeight,b2Vec2(posB2.x,posB2.y),utilitaire::DEG_TO_RAD(mAngle));
+
+        mPhysicBody = world->CreateBody(&myBodyDef);
+        b2CircleShape shape;
+        auto radius = getRadius()*mScale[VX];
+        shape.m_p.Set(0, 0); //position, relative to body position
+        shape.m_radius = radius*utilitaire::ratioWorldToBox2D; //radius
 
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &shape; //this is a pointer to the shape above
         myFixtureDef.density = 1;
         // Il s'agit ici d'un bonus qui peut entré en collision avec une rondelle
-        myFixtureDef.filter.categoryBits = CATEGORY_BONUS;
-        myFixtureDef.filter.maskBits = CATEGORY_PUCK;
+        if(IsInGame())
+        {
+            myFixtureDef.filter.categoryBits = CATEGORY_BONUS;
+            myFixtureDef.filter.maskBits = CATEGORY_PUCK;
 
-        // Le sensor indique qu'on va recevoir la callback de collision avec la rondelle sans vraiment avoir de collision
-        myFixtureDef.isSensor = true;
+            // Le sensor indique qu'on va recevoir la callback de collision avec la rondelle sans vraiment avoir de collision
+            myFixtureDef.isSensor = true;
+        }
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         mPhysicBody->SetUserData(this);
-        //mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
+        mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::synchroniseTransformFromB2CallBack;
         mPhysicBody->SetActive(!IsInGame());
     }
 #endif
@@ -385,6 +395,22 @@ void NodeBonus::ResetTimeLeft()
     int max = (int)(mMaxTimeSpawn*100.f);
 
     mSpawnTimeLeft = (rand()%(max-min)+min)/100.f;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NodeBonus::acceptVisitor( VisiteurNoeud& v )
+///
+/// /*Description*/
+///
+/// @param[in] VisiteurNoeud & v
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NodeBonus::acceptVisitor( VisiteurNoeud& v )
+{
+    v.visiterNodeBonus(this);
 }
 
 

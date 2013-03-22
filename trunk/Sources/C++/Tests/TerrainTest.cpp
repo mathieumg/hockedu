@@ -143,6 +143,28 @@ void TerrainTest::testInsideTable()
     }
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void TerrainTest::testUndoRedo()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void TerrainTest::testUndoRedo()
+{
+    terrain_->createRandomField("testName");
+
+    auto xml = terrain_->creerNoeudXML();
+    Terrain terrainRead(NULL);
+    terrainRead.initialiserXml(xml,false);
+
+    CPPUNIT_ASSERT(terrainRead.getLogicTree());
+    CPPUNIT_ASSERT(terrainRead.getLogicTree()->equals(terrain_->getLogicTree()));
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 /// @}
 ///////////////////////////////////////////////////////////////////////////////

@@ -28,10 +28,6 @@
 #include "Projection.h"
 #include "LignePointillee.h"
 #include "RazerGameUtilities.h"
-
-#if BOX2D_INTEGRATED  
-#include <Box2D/Box2D.h>
-#endif
 #include "Utilitaire.h"
 #include "AideGL.h"
 #include "CompteurAffichage.h"
@@ -44,7 +40,6 @@
 #include "SourisEtatDeplacerFenetre.h"
 #include "VisiteurCollision.h"
 #include "VisiteurSuppression.h"
-#include "VisiteurDeplacement.h"
 #include "SoundFMOD.h"
 #include <algorithm>
 #include "DecodeString.h"
@@ -84,6 +79,7 @@
 #include "ExceptionJeu.h"
 #include "GameManager.h"
 #include "BonusModifierFactory.h"
+#include "SoundFMOD.h"
 
 /// Pointeur vers l'instance unique de la classe.
 FacadeModele* FacadeModele::instance_ = 0;
@@ -240,7 +236,7 @@ void FacadeModele::libererInstance()
 ////////////////////////////////////////////////////////////////////////
 FacadeModele::FacadeModele()
     : hGLRC_(0), hDC_(0), hWnd_(0), vue_(0),zoomElastique_(false),tournoi_(0),cheminTournoi_(""),
-    partieCourante_(0), /*adversaire_(0),*/ mEditionField(0),renderThread_(NULL)
+    partieCourante_(0), /*adversaire_(0),*/ mEditionField(0),renderThread_(NULL), prochainePartie_(-1)
 {
     // Il ne faut pas faire d'initialisation de Noeud ici, car le contexte OpenGl n'est pas encore creer
 
@@ -350,7 +346,7 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
     // Initialisation des modèles
     GestionnaireModeles::obtenirInstance()->initialiser();
     ConfigScene::obtenirInstance();
-    SoundFMOD::obtenirInstance();
+    SoundFMOD::obtenirInstance()->init();
     GestionnaireHUD::obtenirInstance();
 
 #if !SHIPPING
@@ -608,7 +604,7 @@ void FacadeModele::libererMemoire()
     if(obtenirPartieCourante() && !obtenirPartieCourante()->faitPartieDunTournoi())
         GameManager::obtenirInstance()->removeGame(partieCourante_);
 
-#if BOX2D_INTEGRATED  
+#if BOX2D_DEBUG
     if(DebugRenderBox2D::mInstance)delete DebugRenderBox2D::mInstance;
     DebugRenderBox2D::mInstance = NULL;
 #endif
@@ -1021,6 +1017,8 @@ bool FacadeModele::passageModeTournoi()
 /// @fn bool FacadeModele::passageModeJeu()
 ///
 /// Passage au mode jeu.
+/// 
+/// @param[in] pGameId: I de la partie si elle est deja creee, sinon laisser valeur par defaut et elle sera creee
 ///
 ///
 /// @return bool
@@ -1050,14 +1048,29 @@ bool FacadeModele::passageModeJeu()
     //    adversaire_ = SPJoueurAbstrait(new JoueurHumain("Joueur Droit"));
 
 
-
-
-    partieCourante_ = GameManager::obtenirInstance()->addNewGame(SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")));
-
-    if(!GameManager::obtenirInstance()->startGame(partieCourante_, getCurrentMap()))
+    // Jeu local
+    if(prochainePartie_ == -1)
     {
-        return false;
+        partieCourante_ = GameManager::obtenirInstance()->addNewGame(SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")));
+
+        if(!GameManager::obtenirInstance()->startGame(partieCourante_, getCurrentMap()))
+        {
+            return false;
+        }
     }
+    // Jeu en reseau
+    else
+    {
+        partieCourante_ = prochainePartie_;
+        prochainePartie_ = -1;
+
+        if(!GameManager::obtenirInstance()->getGameReady(partieCourante_, getCurrentMap()))
+        {
+            return false;
+        }
+    }
+
+    
 
     // On enregistre apres avoir desactiver les points pour ne pas les voir si on reinitialise la partie
 	Partie* wGame = GameManager::obtenirInstance()->getGame(partieCourante_);

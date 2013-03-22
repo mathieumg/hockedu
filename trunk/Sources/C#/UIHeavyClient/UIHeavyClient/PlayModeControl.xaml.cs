@@ -58,6 +58,8 @@ namespace UIHeavyClient
             if (!playControlGrid.Children.Contains(mWindowsFormsHost))
             {
                 playControlGrid.Children.Add(mWindowsFormsHost);
+                mWindowsFormsHost.Focus();
+                System.Windows.Input.Keyboard.Focus(mWindowsFormsHost);
             }
             Grid.SetColumn(mWindowsFormsHost, 0);
             Grid.SetRow(mWindowsFormsHost, 0);
@@ -153,7 +155,7 @@ namespace UIHeavyClient
         {
             if (mChatInputTextbox.Text != ""/* && mIsUserConnected*/)
             {
-                Chat.SendMessageDLL("GameServer", "Bob", mChatInputTextbox.Text);
+                Chat.SendMessageGameDLL(mChatInputTextbox.Text);
                 mChatInputTextbox.Clear();
             }
         }

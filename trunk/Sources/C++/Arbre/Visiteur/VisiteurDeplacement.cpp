@@ -90,7 +90,7 @@ void VisiteurDeplacement::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 	if(!ignoreSelection_ && !noeud->IsSelected())
 		return;
 
-	noeud->setPosition(noeud->getPosition()+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
+	noeud->setPosition(noeud->getPosition()+Vecteur3(deplacement_[VX], deplacement_[VY], 0));
 }
 
 
@@ -142,8 +142,8 @@ void VisiteurDeplacement::visiterNoeudMuret( NodeWallAbstract* noeud )
         return;
     // assume ici qu'un muret relatif ne peut etre selectionné
     NoeudMuret* muret = (NoeudMuret*)noeud;
-    muret->assignerPositionCoin(1, noeud->obtenirCoin1()+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
-	muret->assignerPositionCoin(2, noeud->obtenirCoin2()+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
+    muret->assignerPositionCoin(1, noeud->obtenirCoin1()+Vecteur3(deplacement_[VX], deplacement_[VY], 0));
+	muret->assignerPositionCoin(2, noeud->obtenirCoin2()+Vecteur3(deplacement_[VX], deplacement_[VY], 0));
     visiterNoeudComposite(noeud);
 }
 
@@ -264,19 +264,20 @@ void VisiteurDeplacement::visiterNoeudPoint( NoeudPoint* noeud )
 	}
 	else if(type == POSITION_MILIEU_GAUCHE || type == POSITION_MILIEU_DROITE)
 	{
-		if(noeud->validerDeplacement(posRelative, -deplacement_,VX))
+		if(noeud->validerDeplacement(posRelative, deplacement_,VX))
 		{
-			noeud->setPosition(posRelative+Vecteur3(-deplacement_[VX], 0, 0));
-			noeud->obtenirPointSym()->setPosition(noeud->obtenirPointSym()->getPosition()+Vecteur3(deplacement_[VX],0, 0));			
+			noeud->setPosition(posRelative+Vecteur3(deplacement_[VX], 0, 0));
+			noeud->obtenirPointSym()->setPosition(noeud->obtenirPointSym()->getPosition()+Vecteur3(-deplacement_[VX],0, 0));			
 		}
 	}
 
 	else if(type == POSITION_HAUT_GAUCHE || type == POSITION_HAUT_DROITE || type == POSITION_BAS_DROITE || type == POSITION_BAS_GAUCHE)
 	{
-		if(noeud->validerDeplacement(posRelative, deplacement_,VY) && noeud->validerDeplacement(posRelative, -deplacement_,VX))
+		if(noeud->validerDeplacement(posRelative, deplacement_,VY) && noeud->validerDeplacement(posRelative, deplacement_,VX))
 		{
-			noeud->setPosition(posRelative+Vecteur3(-deplacement_[VX], deplacement_[VY], 0));
-			noeud->obtenirPointSym()->setPosition(noeud->obtenirPointSym()->getPosition()+deplacement_.convertir<3>());
+			noeud->setPosition(posRelative+Vecteur3(deplacement_[VX], deplacement_[VY], 0));
+            deplacement_[VX]*=-1;
+			noeud->obtenirPointSym()->setPosition(noeud->obtenirPointSym()->getPosition()+deplacement_);
 		}
 	}
 

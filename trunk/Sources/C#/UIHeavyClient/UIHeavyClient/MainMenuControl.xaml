@@ -29,7 +29,7 @@
         <Button Content="Unit Tests" Margin="12" Name="mUnitTestButton" Grid.Row="6" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
         <Label Content="HOCKEDU" HorizontalAlignment="Stretch" Margin="0,0,8,14" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="72" Grid.ColumnSpan="3" />
         <Label Content="" Grid.Row="7" Height="Auto" HorizontalAlignment="Right" Margin="0,14,0,12" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" Grid.Column="0" Grid.ColumnSpan="3" />
-        <GroupBox Grid.Row="1" Header="Quick Play" Margin="18,33,0,0" Name="mQuickPlayGroupBox" Foreground="White" Height="217" VerticalAlignment="Top" Grid.Column="2" HorizontalAlignment="Left" Width="292" Grid.RowSpan="4">
+        <GroupBox Header="Quick Play" Margin="14,55,0,0" Name="mQuickPlayGroupBox" Foreground="White" Height="217" VerticalAlignment="Top" Grid.Column="2" HorizontalAlignment="Left" Width="292" Grid.RowSpan="4">
             <Grid Height="Auto" Width="Auto" Name="mQuickPlayGrid">
                 <Button Content="Go!" Height="23" HorizontalAlignment="Left" Margin="233,167,0,0" Name="mQuickPlayGoButton" VerticalAlignment="Top" Width="43" Background="Black" Foreground="White" Click="mQuickPlayGoButton_Click" />
                 <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="182,167,0,0" Name="mQuickPlayCancelButton" VerticalAlignment="Top" Width="43" Background="Black" Foreground="White" Click="mQuickPlayCancelButton_Click" />
@@ -41,6 +41,10 @@
                 <TextBox Height="23" HorizontalAlignment="Left" Margin="6,122,0,0" Name="mMapTextBox" VerticalAlignment="Top" Width="120" Background="Black" Foreground="White" />
                 <Button Content="Browse" Height="23" HorizontalAlignment="Right" Margin="0,122,64,0" Name="button1" VerticalAlignment="Top" Width="75" Foreground="White" Background="Black" Click="button1_Click" />
             </Grid>
+        </GroupBox>
+        <GroupBox Grid.Column="2" Grid.Row="4" Grid.RowSpan="4" Header="Connection" Height="247" HorizontalAlignment="Left" Margin="14,12,0,0" Name="mOnlineGroupBox" VerticalAlignment="Top" Width="292" Foreground="White" Background="Black">
+            <!-- Content controls use to display user controls -->
+            <ContentControl Name="mOnlineContentControl" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="Black"></ContentControl>
         </GroupBox>
     </Grid>
 </UserControl>

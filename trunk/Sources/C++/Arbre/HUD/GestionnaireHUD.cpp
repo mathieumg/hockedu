@@ -270,7 +270,7 @@ void GestionnaireHUD::creerHUDJeu()
     ConteneurVertex2D* listeDesVertexes01=new ConteneurVertex2D;
     listeDesVertexes01->push_back(Vecteur2f(1.0f,0.5f));
     listeDesVertexes01->push_back(Vecteur2f(1.0f,0.0f));
-    for(int angle = 90; angle <= 270; ++angle)
+    for(int angle = 90; angle <= 270; angle+=18)
     {
         listeDesVertexes01->push_back(Vecteur2(0.1f+(0.1f*cos(utilitaire::DEG_TO_RAD((float)angle))), 0.5f-(0.5f*sin(utilitaire::DEG_TO_RAD((float)angle)))));
     }
@@ -298,7 +298,7 @@ void GestionnaireHUD::creerHUDJeu()
     // Surface pour le joueur de droite
     listeDesVertexes01=new ConteneurVertex2D;
     listeDesVertexes01->push_back(Vecteur2f(0.0f,1.0f));
-    for(int angle = 270; angle >= 90; --angle)
+    for(int angle = 270; angle >= 90; angle-=18)
     {
         listeDesVertexes01->push_back(Vecteur2(1.0f-0.1f-(0.1f*cos(utilitaire::DEG_TO_RAD((float)angle))), 0.5f-(0.5f*sin(utilitaire::DEG_TO_RAD((float)angle)))));
     }
@@ -322,7 +322,7 @@ void GestionnaireHUD::creerHUDJeu()
     /// Bonus HUD right player
     mRightPlayerBonuses = new HUDBonus();
     mRightPlayerBonuses->modifierPosition(0.7f,1);
-    mRightPlayerBonuses->modifierTaille(0.3f,0.1);
+    mRightPlayerBonuses->modifierTaille(0.3f,0.1f);
     panneauScores->add(mRightPlayerBonuses);
 
     // Symbole au milieu.

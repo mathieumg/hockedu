@@ -15,8 +15,6 @@
 #include <jni.h>
 #endif
 
-enum Panneaux{POSITION, ROTATION, ECHELLE, REBOND, ACCELERATION, FRICTION, NBPANNEAUX};
-
 ///////////////////////////////////////////////////////////////////////////
 /// @class VisiteurModifierProprieteNoeud
 /// @brief Visiteur pour assigner les proprietes au noeud voulu
@@ -33,7 +31,7 @@ public:
 	VisiteurModifierProprieteNoeud(JNIEnv* env, jobject& modificateur);
 #endif
 	/// Destructeur
-	~VisiteurModifierProprieteNoeud(void);
+    ~VisiteurModifierProprieteNoeud(void);
 
 	/// Visitation d'un noeud abstrait
 	virtual void visiterNoeudAbstrait( NoeudAbstrait* noeud );

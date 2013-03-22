@@ -61,7 +61,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\Externe\FreeImage\include;.;..\..\Sources\C++\Sons;..\Externe\FMOD\include;../Externe/GLEW/include/GL;../Externe;..\..\Sources\C#\UIHeavyClient\UIHeavyClient\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -84,7 +84,7 @@
     </Midl>
     <ClCompile>
       <AdditionalIncludeDirectories>..\Externe\FreeImage\include;.;..\..\Sources\C++\Sons;..\Externe\FMOD\include;../Externe/GLEW/include/GL;..\Externe\;..\..\Sources\C#\UIHeavyClient\UIHeavyClient\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>

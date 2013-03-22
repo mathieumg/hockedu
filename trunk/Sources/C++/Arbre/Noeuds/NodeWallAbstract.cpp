@@ -17,7 +17,7 @@
 #include "XMLUtils.h"
 
 
-#ifdef MIKE_DEBUG
+#if MIKE_DEBUG_
 PRAGMA_DISABLE_OPTIMIZATION
 #endif
 
@@ -97,27 +97,38 @@ void NodeWallAbstract::updatePhysicBody()
         float halfHeight = mScale[VY]*DEFAULT_SIZE[VY]/2.f*utilitaire::ratioWorldToBox2D;
 
         b2BodyDef myBodyDef;
-        myBodyDef.type = b2_staticBody; //this will be a dynamic body
-        myBodyDef.position.Set(0, 0); //set the starting position
-        myBodyDef.angle = 0; //set the starting angle
 
-        mPhysicBody = world->CreateBody(&myBodyDef);
-        b2PolygonShape shape;
+        /// Lines cant be dynamic, so if either size is null, force it to static
+        if(IsInGame() || halfLength == 0 || halfHeight == 0)
+        {
+            myBodyDef.type =  b2_staticBody; //this will be a static body
+        }
+        else
+        {
+            myBodyDef.type =  b2_dynamicBody; //this will be a dynamic body
+        }
         const Vecteur3& pos = getPosition();
         b2Vec2 posB2;
         utilitaire::VEC3_TO_B2VEC(pos,posB2);
         myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
-        shape.SetAsBox(halfLength,halfHeight,b2Vec2(posB2.x,posB2.y),utilitaire::DEG_TO_RAD(mAngle));
+        myBodyDef.angle = utilitaire::DEG_TO_RAD(mAngle); //set the starting angle
+
+        mPhysicBody = world->CreateBody(&myBodyDef);
+        b2PolygonShape shape;
+        shape.SetAsBox(halfLength,halfHeight,b2Vec2(0,0),0);
 
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &shape; //this is a pointer to the shape above
         myFixtureDef.density = 1;
-        myFixtureDef.filter.categoryBits = GetCategory();
-        myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_MALLET;
+        if(IsInGame())
+        {
+            myFixtureDef.filter.categoryBits = CATEGORY_WALL;
+            myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_MALLET;
+        }
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
-//     mPhysicBody->SetUserData(this);
-//     mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
+        mPhysicBody->SetUserData(this);
+        mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::synchroniseTransformFromB2CallBack;
     }
 #endif
 
@@ -328,7 +339,7 @@ void NodeWallAbstract::renderOpenGLES() const
 }
 
 
-#ifdef MIKE_DEBUG
+#if MIKE_DEBUG_
 PRAGMA_ENABLE_OPTIMIZATION
 #endif
 

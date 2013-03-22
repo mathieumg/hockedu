@@ -36,7 +36,7 @@ SoundFMOD::SoundFMOD(void):
 	playlistActuelle_(0),
 	stopped_(true)
 {
-	init();
+	
 }
 
 

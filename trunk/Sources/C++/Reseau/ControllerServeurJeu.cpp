@@ -6,6 +6,8 @@
 #include "../Application/GameManager.h"
 #include "Partie.h"
 
+bool ControllerServeurJeu::mIsLocalServer = false;
+
 int CallbackSetPatieSyncerServeurJeu(int pGameId, GameStatus)
 {
     Partie* wGame = GameManager::obtenirInstance()->getGame(pGameId);
@@ -35,10 +37,13 @@ ControllerServeurJeu::ControllerServeurJeu()
     mPaquetRunnables[USER_STATUS]                   = PaquetRunnable::RunnableUserStatusServerGame;
     mPaquetRunnables[CHAT_MESSAGE]                  = PaquetRunnable::RunnableChatMessageServerGame;
     mPaquetRunnables[GAME_STATUS]                   = PaquetRunnable::RunnableGameStatusServerGame;
-    //mPaquetRunnables[AUTHENTIFICATION_SERVEUR_JEU]  = PaquetRunnable::RunnableAuthentificationServeurJeuServerGame;
-    mPaquetRunnables[MAILLET]                       = PaquetRunnable::RunnableMailletServerGame;
     mPaquetRunnables[GAME_CREATION_REQUEST]         = PaquetRunnable::RunnableGameCreationServerGame;
     mPaquetRunnables[GAME_CONNECTION]               = PaquetRunnable::RunnableGameConnectionServerGame;
+    mPaquetRunnables[GAME_EVENT]                    = PaquetRunnable::RunnableGameEventServerGame;
+
+
+    //mPaquetRunnables[AUTHENTIFICATION_SERVEUR_JEU]  = PaquetRunnable::RunnableAuthentificationServeurJeuServerGame;
+    mPaquetRunnables[MAILLET]                       = PaquetRunnable::RunnableMailletServerGame;
 
     GameManager::obtenirInstance()->addGameUpdateCallback(CallbackSetPatieSyncerServeurJeu);
 }
@@ -90,15 +95,15 @@ void ControllerServeurJeu::handleDisconnectDetection( SPSocket pSocket )
     GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
 }
 
-void ControllerServeurJeu::getPlayersInGame( int pGameId, std::vector<const std::string*>& pPlayerList )
+void ControllerServeurJeu::getPlayersInGame( int pGameId, std::vector<const std::string>& pPlayerList )
 {
     // Code une fois que les parties vont etre sync dans les serveurs jeu
-    /*Partie* wGame = GameManager::obtenirInstance()->getGame(pGameId);
+    Partie* wGame = GameManager::obtenirInstance()->getGame(pGameId);
     if(wGame)
     {
-        pPlayerList.push_back(&wGame->obtenirNomJoueurGauche());
-        pPlayerList.push_back(&wGame->obtenirNomJoueurDroit());
-    }*/
+        pPlayerList.push_back(wGame->obtenirNomJoueurGauche());
+        pPlayerList.push_back(wGame->obtenirNomJoueurDroit());
+    }
 }
 
 

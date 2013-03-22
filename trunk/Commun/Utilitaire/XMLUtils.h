@@ -16,6 +16,12 @@ typedef TiXmlElement XmlElement;
 typedef TiXmlText XmlText;
 typedef TiXmlNode XmlNode;
 typedef TiXmlDocument XmlDocumentNode;
+#elif __APPLE__
+#include "tinyxml_mac/tinyxml.h"
+typedef TiXmlElement XmlElement;
+typedef TiXmlText XmlText;
+typedef TiXmlNode XmlNode;
+typedef TiXmlDocument XmlDocumentNode;
 #else
 typedef int XmlElement;
 

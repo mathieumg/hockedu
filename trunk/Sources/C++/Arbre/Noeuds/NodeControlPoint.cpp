@@ -15,13 +15,12 @@
 #include "Utilitaire.h"
 #include "ControlPointMutableAbstract.h"
 
-#if BOX2D_INTEGRATED
+#if BOX2D_DEBUG
 #include "DebugRenderBox2D.h"
-#include "FacadeModele.h"
 #endif
 #include "VisiteurCollision.h"
 
-#ifdef MIKE_DEBUG
+#if MIKE_DEBUG_
 PRAGMA_DISABLE_OPTIMIZATION
 #endif
 
@@ -32,7 +31,7 @@ CreateListDelegateImplementation(ControlPoint)
 #if WIN32
     liste = glGenLists(1);
     glNewList(liste, GL_COMPILE);
-#if BOX2D_INTEGRATED
+#if BOX2D_DEBUG
         DebugRenderBox2D* debugRender = DebugRenderBox2D::mInstance;
         debugRender->DrawSolidCircle(b2Vec2(0,0),0.5,b2Vec2(0,0),b2Color(1,0,1));
 #endif
@@ -229,7 +228,7 @@ void NodeControlPoint::setCollisionVisitorAttributes( class VisiteurCollision* v
 }
 
 
-#ifdef MIKE_DEBUG
+#if MIKE_DEBUG_
 PRAGMA_ENABLE_OPTIMIZATION
 #endif
 

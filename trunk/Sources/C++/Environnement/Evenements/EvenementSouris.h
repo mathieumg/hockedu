@@ -11,14 +11,10 @@
 #pragma once
 
 #include "Vecteur.h"
+#include "Enum_Declarations.h"
 
 /// Type de bouton de la souris
-enum BoutonSouris{
-	AUCUN_BOUTON_SOURIS	,
-	BOUTON_SOURIS_GAUCHE,
-	BOUTON_SOURIS_MILIEU,
-	BOUTON_SOURIS_DROIT	,
-	NB_BOUTON_SOURIS	};
+
 ///////////////////////////////////////////////////////////////////////////
 /// @class EvenementSouris
 /// @brief Classe qui sert d'interface des événements souris provenant de Java

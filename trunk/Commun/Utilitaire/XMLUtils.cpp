@@ -11,7 +11,7 @@
 
 namespace XMLUtils
 {
-#if WIN32
+#if WIN32 || __APPLE__
     ////////////////////////////////////////////////////////////////////////
     ///
     /// @fn const char* MakeName( const char* name, int index )
@@ -27,8 +27,9 @@ namespace XMLUtils
     const char* MakeName( const char* name, int index )
     {
         char* createdName = new char[64];
-        if(sprintf_s(createdName,64,"%s%d",name,index) == -1)
+        if(sprintf(createdName,"%s%d",name,index) == -1)
         {
+            
             delete[] createdName;
             return NULL;
         }
@@ -118,6 +119,11 @@ namespace XMLUtils
     {
         element->SetAttribute(name,attribute);
     }
+    template<>
+    void writeAttribute<char>( XmlElement* element, const char* name, const char& attribute )
+    {
+        element->SetAttribute(name,attribute);
+    }
 
     ////////////////////////////////////////////////////////////////////////
     ///
@@ -198,6 +204,14 @@ namespace XMLUtils
     bool readAttribute<int>( const XmlElement* element, const char* name, int& attribute )
     {
         return element->QueryIntAttribute(name, &attribute) == TIXML_SUCCESS;
+    }
+    template<>
+    bool readAttribute<char>( const XmlElement* element, const char* name, char& attribute )
+    {
+        int temp;
+        auto res = element->QueryIntAttribute(name, &temp);
+        attribute = (char)temp;
+        return res == TIXML_SUCCESS;
     }
 
     ////////////////////////////////////////////////////////////////////////

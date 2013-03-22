@@ -8,7 +8,9 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "BonusModifierBlockGoal.h"
-#if BOX2D_INTEGRATED  
+
+// ne fait pas de sens d'utiliser un modifier si on ne joue pas
+#if BOX2D_PLAY  
 #include <Box2D/Box2D.h>
 #endif
 #include "NoeudAbstrait.h"
@@ -122,7 +124,7 @@ bool BonusModifierBlockGoal::Apply()
                 return false;
             }
         }
-#if BOX2D_INTEGRATED 
+#if BOX2D_PLAY 
         auto world = mOwner->getWorld();
         if(world)
         {
@@ -157,12 +159,12 @@ bool BonusModifierBlockGoal::Apply()
 
             return true;
         }
-
+        // if any fixtures were found, it means that this node had a modifiation applied
+        return mFixtures.size() != 0;
 #endif
     }
 
-    // if any fixtures were found, it means that this node had a modifiation applied
-    return mFixtures.size() != 0;
+    return false;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -178,7 +180,7 @@ bool BonusModifierBlockGoal::Apply()
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierBlockGoal::Revert()
 {
-#if BOX2D_INTEGRATED  
+#if BOX2D_PLAY  
     if(mPhysicBody)
     {
         mPhysicBody->GetWorld()->DestroyBody(mPhysicBody);
@@ -209,13 +211,13 @@ void BonusModifierBlockGoal::render() const
     {
         glPushMatrix();
         glDisable(GL_LIGHTING);
-#if BOX2D_INTEGRATED  
+#if BOX2D_PLAY  
         auto transform = mPhysicBody->GetTransform();
         Vecteur3 pos;
         utilitaire::B2VEC_TO_VEC3(pos,transform.p);
         glTranslatef(pos[VX],pos[VY],0);
         glRotatef(utilitaire::RAD_TO_DEG(transform.q.GetAngle()),0,0,1);
-#endif //BOX2D_INTEGRATED
+#endif //BOX2D_PLAY
         glCallList(liste);
         glEnable(GL_LIGHTING);
         glPopMatrix();
@@ -243,7 +245,7 @@ void BonusModifierBlockGoal::Tick( float temps )
     Vecteur3 pos;
     float angle;
     getGoalPosition(pos,angle);
-#if BOX2D_INTEGRATED
+#if BOX2D_PLAY
     b2Vec2 posB2;
     utilitaire::VEC3_TO_B2VEC(pos,posB2);
     mPhysicBody->SetTransform(posB2,angle);

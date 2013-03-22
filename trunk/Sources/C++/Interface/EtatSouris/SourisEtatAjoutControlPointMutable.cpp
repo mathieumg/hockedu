@@ -15,7 +15,7 @@
 #include "Terrain.h"
 #include "ControlPointMutableAbstract.h"
 
-#ifdef MIKE_DEBUG
+#if MIKE_DEBUG_
 PRAGMA_DISABLE_OPTIMIZATION
 #endif
 
@@ -268,7 +268,7 @@ void SourisEtatAjoutControlPointMutable::toucheEnfoncee( EvenementClavier& evene
     }
 }
 
-#ifdef MIKE_DEBUG
+#if MIKE_DEBUG_
 PRAGMA_ENABLE_OPTIMIZATION
 #endif
 
