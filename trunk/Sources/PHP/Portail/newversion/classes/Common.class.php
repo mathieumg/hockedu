@@ -225,6 +225,28 @@ class Common
         return $userInformation;
     }
     
+    public function getMapInfo( $mapId )
+    { 
+        $sql = 'SELECT %s, %s
+                FROM %s 
+                WHERE %s=%d';
+        $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'is_public' ),
+                        $this->db->quoteIdentifier( 'cache_name' ),
+                        
+                        $this->db->quoteIdentifier( 'maps' ),
+                        
+                        $this->db->quoteIdentifier( 'id' ),
+                        $this->db->quote( $mapId, 'integer' )
+                       );
+        $this->db->setLimit( 1 );              
+        $mapInformation = $this->db->queryOne( $sql );
+        
+        $mapInformation['is_public'] = (int)$mapInformation['is_public'];
+        
+        return $mapInformation;
+    }
+    
     public function getUserMaps( $userId, $showPrivateMaps = false )
     { 
         $sql = 'SELECT %s, %s, %s, %s, %s, %s, %s, %s
@@ -520,4 +542,3 @@ class Common
     }
 }
 
-?>

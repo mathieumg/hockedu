@@ -124,20 +124,68 @@ if( !$commonRemoteModule )
                 break;
                 
             case 'getmap':
-                if( empty( $_POST['map_id'] ) )
+                if( empty( $_POST['user_id'] ) )
+                {
+                    $jsonResponse['error'] = 'UserIdMissing';
+                }
+                else if( empty( $_POST['map_id'] ) )
                 {
                     $jsonResponse['error'] = 'MapIdMissing';
+                }
+                else
+                {
+                    // Get DB connection.
+                    $Common = Common::getInstance();
+                    
+                    $mapInfo = $Common->getMapInfo( $_POST['map_id'] );
+                    
+                    $showMap = false;
+                    if( $mapInfo['is_public'] == 1 )
+                    {
+                        $showMap = true;
+                    }
+                    else
+                    {
+                        if( empty( $_POST['auth_key'] ) )
+                        {
+                            $jsonResponse['error'] = 'AuthKeyMissing';
+                        }
+                        else
+                        {
+                            // We have a auth key, is it valid?       
+                            $validKey = $Common->validateAuthenticationKey( $_POST['auth_key'], $_POST['user_id'] );                  
+                            
+                            if( !$validKey )
+                            {
+                                $jsonResponse['error'] = 'AuthKeyInvalid';
+                            }
+                            else
+                            {
+                                // Valid auth key. Allow the download of this map.                        
+                                $showMap = true;
+                            }
+                        }
+                    }
+                    
+                    if( $showMap )
+                    {
+                        //$mapCacheFileName = $mapInfo['cache_name'];
+                        $mapCacheFileName = 'db3d4a31785b535f5c02d9aa6410a2788d310841';
+                        $mapCacheFilePath = '/var/www/hockedu.com/maps/'; //TOREMOVE: Use code below to get maps path from settings cache.
+                        
+                        /*
+                        $website = Website::getInstance();
+                        $mapCacheFilePath = $website->getBasePath() . $website->getSetting( 'mapsDirectory' ) . '/' . $mapCacheFileName;
+                        */
+                        
+                        header('Content-type: text/xml');
+                        echo file_get_contents( $mapCacheFilePath . $mapCacheFileName );
+                    }
                 }
                 
                 break;
                 
-            case 'newmap':                
-                //print_r( $_FILES['mapfile'] );
-                //die;
-                
-                //print_r( $_POST );
-                //die;
-                
+            case 'newmap':                                
                 if( empty( $_POST['user_id'] ) )
                 {
                     $jsonResponse['error'] = 'UserIdMissing';
@@ -200,7 +248,7 @@ if( !$commonRemoteModule )
                                 }
                                 else
                                 {
-                                    $jsonResponse['error'] = 'UnableToAddMap';
+                                    $jsonResponse['error'] = 'MapUnableToAdd';
                                 }
                             }
                             else
@@ -225,9 +273,9 @@ if( !$commonRemoteModule )
 }
 
 // JSON-encode it.
-echo json_encode( $jsonResponse );
+if( !empty( $jsonResponse ) )
+{
+    echo json_encode( $jsonResponse );
+}
 
 $Website->doNotDisplaySite();
-
- ?>
- 
