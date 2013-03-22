@@ -482,7 +482,7 @@ void FacadeModele::enregistrerJoueurs( const std::string& nomFichier /*= ""*/, C
         joueurs = &profilsVirtuels_;
 
     XmlDocument document ;
-    XMLUtils::CreateDocument(document,"1.0","","");
+    XMLUtils::CreateDocument(document);
 
     // Creation du noeud du terrain
     ConfigScene::obtenirInstance()->creerDOM((XmlNode&)*document.GetElem(),*joueurs);
@@ -548,7 +548,7 @@ void FacadeModele::enregistrerTournoi( Tournoi* tournoi )
     if(tournoi == 0)
         tournoi = tournoi_;
     XmlDocument document ;
-    XMLUtils::CreateDocument(document,"1.0","","");
+    XMLUtils::CreateDocument(document);
     // Écrire la déclaration XML standard...
     // On enregistre les différentes configurations.
     XMLUtils::LinkEndChild(document,tournoi->creerTournoiXML());

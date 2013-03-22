@@ -260,13 +260,14 @@ bool mUpdating = false, mRendering=false;
            else
            {
                bool initField = true;
-               auto version = XMLUtils::GetVersion(document);
-                if(version && strcmp(version,XMLUtils::XmlFieldVersion) != 0)
+               const XmlElement* config = XMLUtils::FirstChildElement(document,"Hockedu");
+               std::string version;
+                if(config && XMLUtils::readAttribute(config,"Version",version) && version != XMLUtils::XmlFieldVersion)
                 {
         #if WIN32
                     char MessageStr[256];
                     sprintf_s(MessageStr,"%s\nMap version #%s do not match application's version #%s"\
-                        "\n\nDo you want to try loading it anyway ?",pFilePath.c_str(),version,XMLUtils::XmlFieldVersion);
+                        "\n\nDo you want to try loading it anyway ?",pFilePath.c_str(),version.c_str(),XMLUtils::XmlFieldVersion.c_str());
                     int Result = MessageBoxA( NULL, MessageStr, "Version mismatch", MB_ICONERROR | MB_YESNO | MB_TOPMOST );
                     if( Result == IDNO )
                     {
@@ -300,7 +301,11 @@ bool mUpdating = false, mRendering=false;
    void RazerGameUtilities::SaveFieldToFile( const std::string& nomFichier, Terrain& pField  )
    {
        XmlDocument document ;
-       XMLUtils::CreateDocument(document,XMLUtils::XmlFieldVersion,"","");
+       XMLUtils::CreateDocument(document);
+
+       XmlElement* version = XMLUtils::createNode("Hockedu");
+       XMLUtils::writeAttribute(version,"Version",XMLUtils::XmlFieldVersion);
+       XMLUtils::LinkEndChild(document,version);
 
        // Creation du noeud du terrain
        XMLUtils::LinkEndChild(document,pField.creerNoeudXML());

@@ -218,7 +218,7 @@ ConfigScene::~ConfigScene()
 void ConfigScene::enregistrerConfiguration () const
 {
     XmlDocument document ;
-    XMLUtils::CreateDocument(document,"1.0","","");
+    XMLUtils::CreateDocument(document);
 
 	// On enregistre les différentes configurations.
 	// Créer le noeud 'configuration'

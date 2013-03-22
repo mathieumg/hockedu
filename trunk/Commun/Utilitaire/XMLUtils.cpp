@@ -11,6 +11,7 @@
 
 namespace XMLUtils
 {
+
 #if WIN32 || __APPLE__
     ////////////////////////////////////////////////////////////////////////
     ///
@@ -143,6 +144,10 @@ namespace XMLUtils
     void writeAttribute<std::string>( XmlElement* element, const char* name, const std::string& attribute )
     {
         element->SetAttribute(name,attribute.c_str());
+    }
+    void writeString(XmlElement* element, const char* name, const char* attribute)
+    {
+        element->SetAttribute(name,attribute);
     }
 
 
@@ -383,10 +388,10 @@ namespace XMLUtils
     /// @return XmlDocument
     ///
     ////////////////////////////////////////////////////////////////////////
-    void CreateDocument( XmlDocument& document, const char* _version,const char* _encoding,const char* _standalone )
+    void CreateDocument( XmlDocument& document )
     {
         // Écrire la déclaration XML standard...
-        TiXmlDeclaration* declaration = new TiXmlDeclaration( _version, _encoding, _standalone );
+        TiXmlDeclaration* declaration = new TiXmlDeclaration("1.0","","");
         LinkEndChild(document,declaration);
     }
 
@@ -472,30 +477,6 @@ namespace XMLUtils
     const char* GetNodeTag( const XmlElement* element )
     {
         return element->Value();
-    }
-    ////////////////////////////////////////////////////////////////////////
-    ///
-    /// @fn const char* GetVersion( XmlDocument document )
-    ///
-    /// Retrieves the version from the document
-    ///
-    /// @param[in] XmlDocument document
-    ///
-    /// @return const char*
-    ///
-    ////////////////////////////////////////////////////////////////////////
-    const char* GetVersion( XmlDocument& document )
-    {
-        XmlNode* n = document.mNode->FirstChild();
-        if(n)
-        {
-            TiXmlDeclaration* dec = n->ToDeclaration();
-            if(dec)
-            {
-                return dec->Version();
-            }
-        }
-        return NULL;
     }
 
 #else
@@ -800,7 +781,7 @@ bool LoadDocument( XmlDocument& document, const char* fileName )
 /// @return XmlDocument
 ///
 ////////////////////////////////////////////////////////////////////////
-void CreateDocument( XmlDocument& document, const char* _version,const char* _encoding,const char* _standalone )
+void CreateDocument( XmlDocument& document )
 {
 }
 
@@ -884,22 +865,6 @@ const XmlElement* NextSibling( const XmlElement* child )
 const char* GetNodeTag( const XmlElement* element )
 {
     return "";
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn const char* GetVersion( XmlDocument document )
-///
-/// Retrieves the version from the document
-///
-/// @param[in] XmlDocument document
-///
-/// @return const char*
-///
-////////////////////////////////////////////////////////////////////////
-const char* GetVersion( XmlDocument& document )
-{
-    return NULL;
 }
 
     const char* MakeName( const char* name, int index )
