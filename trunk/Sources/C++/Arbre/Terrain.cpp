@@ -63,7 +63,9 @@
 #include "FieldModificationStrategyMove.h"
 #include "FieldModificationStrategyRotate.h"
 #include "FieldModificationStrategyScale.h"
-#include "Visiteur/VisitorSetProperties.h"
+#include "VisitorSetProperties.h"
+#include "FieldModificationStrategyAddNode.h"
+#include "FieldModificationStrategyAddWall.h"
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
@@ -329,7 +331,6 @@ void Terrain::initialiserArbreRendu()
         {
             mNewNodeTree->empty();
         }
-        mNewNodeTree->setField(this);
     }
 
     // Ajout d'une table de base au terrain
@@ -377,7 +378,6 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
         {
             mNewNodeTree->empty();
         }
-        mNewNodeTree->setField(this);
     }
     mLogicTree = new RazerGameTree(this,MAX_MALLETS,MAX_PUCKS);
 
@@ -856,7 +856,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
                         if(deleteExternNodes)
                         {
                             // La suppression du pNode l'enlevera du groupe
-                            g->erase(n);
+                            n->deleteThis();
                             // Repositionnement de i pour pointer au bon endroit a la prochaine iteration
                             j--; 
                         }
@@ -1970,8 +1970,10 @@ int Terrain::BeginModification(FieldModificationStrategyType type, const FieldMo
     }
     mModifStrategy = NULL;
 
-    switch(type)
+    switch (type)
     {
+    case FIELD_MODIFICATION_NONE:
+        break;
     case FIELD_MODIFICATION_MOVE: 
         {
             FieldModificationStrategyMove* moveModif = new FieldModificationStrategyMove(this,beginEvent);
@@ -1990,8 +1992,45 @@ int Terrain::BeginModification(FieldModificationStrategyType type, const FieldMo
             mModifStrategy = scaleModif;
         }
         break;
+    case FIELD_MODIFICATION_ADD_PORTAL:
+        {
+            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RazerGameUtilities::NOM_PORTAIL);
+            mModifStrategy = addModif;
+        }
+        break;
+    case FIELD_MODIFICATION_ADD_BOOST:
+        {
+            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RazerGameUtilities::NOM_ACCELERATEUR);
+            mModifStrategy = addModif;
+        }
+        break;
+    case FIELD_MODIFICATION_ADD_WALL:
+        {
+            FieldModificationStrategyAddWall* addModif = new FieldModificationStrategyAddWall(this,beginEvent,RazerGameUtilities::NOM_MURET);
+            mModifStrategy = addModif;
+        }
+        break;
+    case FIELD_MODIFICATION_ADD_MALLET:
+        {
+            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RazerGameUtilities::NOM_MAILLET);
+            mModifStrategy = addModif;
+        }
+        break;
+    case FIELD_MODIFICATION_ADD_PUCK:
+        {
+            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RazerGameUtilities::NOM_RONDELLE);
+            mModifStrategy = addModif;
+        }
+        break;
+    case FIELD_MODIFICATION_ADD_BONUS:
+        {
+            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RazerGameUtilities::NAME_BONUS);
+            mModifStrategy = addModif;
+        }
+        break;
     default:
         checkf(0,"Unknown modification type");
+        break;
     }
 
     return !!mModifStrategy;

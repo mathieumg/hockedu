@@ -27,7 +27,7 @@ public:
    /// Constructeur à partir du type du noeud.
    NodeWallAbstract(const std::string& typeNoeud);
    /// Destructeur.
-   ~NodeWallAbstract();
+   virtual ~NodeWallAbstract();
 
 
    /// fonction de comparaison de 2 noeuds

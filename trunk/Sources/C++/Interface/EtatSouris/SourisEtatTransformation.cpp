@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file SourisEtatTransformationEchelle.cpp
+/// @file SourisEtatTransformation.cpp
 /// @author Michael Ferris
 /// @date 2012-01-21
 /// @version 1.0 
@@ -8,15 +8,14 @@
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
-#include "SourisEtatTransformationEchelle.h"
+#include "SourisEtatTransformation.h"
 #include "FacadeModele.h"
-#include "VisiteurEchelle.h"
-#include "VisiteurCollision.h"
 #include "Terrain.h"
+#include "FieldModificationStrategyAbstract.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn SourisEtatTransformationEchelle::SourisEtatTransformationEchelle(  )
+/// @fn SourisEtatTransformation::SourisEtatTransformation(  )
 ///
 /// Initialisation des attributs à leur valeur de base
 ///
@@ -25,37 +24,58 @@
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-SourisEtatTransformationEchelle::SourisEtatTransformationEchelle(  )
+SourisEtatTransformation::SourisEtatTransformation( FieldModificationStrategyType modifType ):
+mModifType(modifType)
 {
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn SourisEtatTransformationEchelle::~SourisEtatTransformationEchelle(void)
+/// @fn SourisEtatTransformation::~SourisEtatTransformation(void)
 ///
-/// Ce destructeur ne fait rien
+/// Ce destructeur libère la mémoire utilisée.
 ///
 ///
 /// @return Aucune (destructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-SourisEtatTransformationEchelle::~SourisEtatTransformationEchelle(void)
+SourisEtatTransformation::~SourisEtatTransformation(void)
 {
 
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void SourisEtatTransformationEchelle::sourisEnfoncee( EvenementSouris& evenementSouris )
+/// @fn void SourisEtatTransformation::toucheRelachee( EvenementClavier& evenementClavier )
 ///
-/// Comportement lorsqu'un bouton de la souris est enfoncé
+/// Comportement lorsque une touche du claiver est relachée (Ici, désactive le mode non-collosion)
+///
+/// @param[in] EvenementClavier & evenementClavier
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void SourisEtatTransformation::toucheRelachee( EvenementClavier& evenementClavier )
+{
+    if(evenementClavier.obtenirTouche() == VJAK_ESCAPE)
+    {
+        FacadeModele::getInstance()->getEditionField()->cancelModification();
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void SourisEtatTransformation::sourisEnfoncee( EvenementSouris& evenementSouris )
+///
+/// Comportement lorsqu'un bouton de la souris est enfoncée
 ///
 /// @param[in] evenementSouris : contient les informations de la souris
 ///
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-void SourisEtatTransformationEchelle::sourisEnfoncee( EvenementSouris& evenementSouris )
+void SourisEtatTransformation::sourisEnfoncee( EvenementSouris& evenementSouris )
 {
     if(evenementSouris.obtenirBouton() == BOUTON_SOURIS_GAUCHE)
     {
@@ -65,14 +85,13 @@ void SourisEtatTransformationEchelle::sourisEnfoncee( EvenementSouris& evenement
         event.mPosition = position;
         event.mType = FIELD_MODIFICATION_EVENT_CLICK;
 
-        FacadeModele::getInstance()->getEditionField()->BeginModification(FIELD_MODIFICATION_SCALE,event);
+        FacadeModele::getInstance()->getEditionField()->BeginModification(mModifType,event);
     }
-
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void SourisEtatTransformationEchelle::sourisRelachee( EvenementSouris& evenementSouris )
+/// @fn void SourisEtatTransformation::sourisRelachee( EvenementSouris& evenementSouris )
 ///
 /// Comportement lorsqu'un bouton de la souris est relachée
 ///
@@ -81,7 +100,7 @@ void SourisEtatTransformationEchelle::sourisEnfoncee( EvenementSouris& evenement
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-void SourisEtatTransformationEchelle::sourisRelachee( EvenementSouris& evenementSouris )
+void SourisEtatTransformation::sourisRelachee( EvenementSouris& evenementSouris )
 {
     if(evenementSouris.obtenirBouton() == BOUTON_SOURIS_GAUCHE)
     {
@@ -91,16 +110,16 @@ void SourisEtatTransformationEchelle::sourisRelachee( EvenementSouris& evenement
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void SourisEtatTransformationEchelle::sourisDeplacee( EvenementSouris& evenementSouris )
+/// @fn void SourisEtatTransformation::sourisDeplacee( EvenementSouris& evenementSouris )
 ///
-/// Comportement lorsqu'un bouton de la souris est deplacée
+/// Comportement lorsque la souris est deplacée
 ///
 /// @param[in] evenementSouris : contient les informations de la souris
 ///
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-void SourisEtatTransformationEchelle::sourisDeplacee( EvenementSouris& evenementSouris )
+void SourisEtatTransformation::sourisDeplacee( EvenementSouris& evenementSouris )
 {
     if(evenementSouris.obtenirBouton() == BOUTON_SOURIS_GAUCHE)
     {
@@ -115,7 +134,7 @@ void SourisEtatTransformationEchelle::sourisDeplacee( EvenementSouris& evenement
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NomEtatSouris SourisEtatTransformationEchelle::obtenirNomEtatSouris()
+/// @fn NomEtatSouris SourisEtatTransformation::obtenirNomEtatSouris()
 ///
 /// Retourne l'état courant
 ///
@@ -123,29 +142,42 @@ void SourisEtatTransformationEchelle::sourisDeplacee( EvenementSouris& evenement
 /// @return L'état courant.
 ///
 ////////////////////////////////////////////////////////////////////////
-NomEtatSouris SourisEtatTransformationEchelle::obtenirNomEtatSouris()
+NomEtatSouris SourisEtatTransformation::obtenirNomEtatSouris()
 {
-	return ETAT_SOURIS_TRANSFORMATION_ECHELLE;
+    switch (mModifType)
+    {
+    case FIELD_MODIFICATION_MOVE:
+        return ETAT_SOURIS_TRANSFORMATION_DEPLACEMENT;
+
+    case FIELD_MODIFICATION_ROTATE:
+        return ETAT_SOURIS_TRANSFORMATION_ROTATION;
+
+    case FIELD_MODIFICATION_SCALE:
+        return ETAT_SOURIS_TRANSFORMATION_ECHELLE;
+
+    case FIELD_MODIFICATION_ADD_PORTAL:
+        return ETAT_SOURIS_AJOUTER_PORTAIL;
+
+    case FIELD_MODIFICATION_ADD_BOOST:
+        return ETAT_SOURIS_AJOUTER_ACCELERATEUR;
+
+    case FIELD_MODIFICATION_ADD_WALL:
+        return ETAT_SOURIS_AJOUTER_MURET;
+
+    case FIELD_MODIFICATION_ADD_MALLET:
+        return ETAT_SOURIS_AJOUTER_MAILLET;
+
+    case FIELD_MODIFICATION_ADD_PUCK:
+        return ETAT_SOURIS_AJOUTER_RONDELLE;
+
+    case FIELD_MODIFICATION_ADD_BONUS:
+        return ETAT_SOURIS_AJOUTER_BONUS;
+    }
+
+    return ETAT_SOURIS_INCONNU;
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void SourisEtatTransformationEchelle::toucheRelachee( EvenementClavier& evenementClavier )
-///
-/// /*Description*/
-///
-/// @param[in] EvenementClavier & evenementClavier
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void SourisEtatTransformationEchelle::toucheRelachee( EvenementClavier& evenementClavier )
-{
-    if(evenementClavier.obtenirTouche() == VJAK_ESCAPE)
-    {
-        FacadeModele::getInstance()->getEditionField()->cancelModification();
-    }
-}
+
 
 
 ///////////////////////////////////////////////////////////////////////////////

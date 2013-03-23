@@ -242,7 +242,7 @@ void NoeudComposite::CreateAndInitNodesFromXml( const XmlElement* child )
             }
             catch(ExceptionJeu&)
             {
-                erase(node);
+                node->deleteThis();
             }
         }
     }

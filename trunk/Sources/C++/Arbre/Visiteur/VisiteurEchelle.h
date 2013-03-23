@@ -25,7 +25,7 @@ public:
 	/// Constructeur par paramètre
 	VisiteurEchelle(float facteur, int axe = -1);
 	/// Destructeur
-	~VisiteurEchelle(void);
+	virtual ~VisiteurEchelle(void);
 
 
 	/// Visitation d'un noeud abstrait

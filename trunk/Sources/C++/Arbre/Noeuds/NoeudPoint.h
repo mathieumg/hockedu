@@ -52,7 +52,7 @@ public:
 	/// Constructeur à partir du type du noeud.
 	NoeudPoint( const std::string& typeNoeud, float coordX, float coordY, TypePosPoint typePosNoeud);
 	/// Destructeur.
-	~NoeudPoint();
+	virtual ~NoeudPoint();
 
 	/// Affiche le cube.
 	virtual void renderReal() const;

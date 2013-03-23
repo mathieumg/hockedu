@@ -27,7 +27,7 @@ public:
    /// Constructeur à partir du type du noeud.
    NoeudMuret(const std::string& typeNoeud);
    /// Destructeur.
-   ~NoeudMuret();
+   virtual ~NoeudMuret();
    
    /// fonction de comparaison de 2 noeuds
    virtual bool equals(NoeudAbstrait* n)

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// @file FieldModificationStrategyAddWall.h
+/// @file FieldModificationStrategyAddNode.h
 /// @author Michael Ferris
 /// @date 2013-03-21
 /// @version 1.0
@@ -8,24 +8,30 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
-#include "FieldModificationStrategyAddNode.h"
+#include "FieldModificationStrategyAbstract.h"
 
 ///////////////////////////////////////////////////////////////////////////
-/// @class FieldModificationStrategyAddWall
+/// @class FieldModificationStrategyAddNode
 /// @brief Strategy to add a wall on the field
 ///
 /// @author Michael Ferris
 /// @date 2013-03-21
 ///////////////////////////////////////////////////////////////////////////
-class FieldModificationStrategyAddWall : public FieldModificationStrategyAddNode
+class FieldModificationStrategyAddNode : public FieldModificationStrategyAbstract
 {
 public:
-    FieldModificationStrategyAddWall(FIELDMODIFICATIONSTRATEGYABSTRACT_PARAMETERS,const std::string& type);
-    ~FieldModificationStrategyAddWall();
+    FieldModificationStrategyAddNode(FIELDMODIFICATIONSTRATEGYABSTRACT_PARAMETERS,const std::string& type);
+    virtual ~FieldModificationStrategyAddNode();
 protected:
     virtual int receivedEventSpecific(const FieldModificationStrategyEvent& pEvent);
-    bool createNextControlPoint();
-    class NodeControlPoint* mCurrentPoint;
+    virtual int endStrategy();
+    /// Ends the strategy early and remove modifications made
+    virtual int cancelStratedy();
+
+    void createNewNode(const Vecteur2& position);
+    class NoeudAbstrait* mNewNode;
+    const std::string mType;
+
 };
 
 

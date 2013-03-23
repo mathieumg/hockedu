@@ -31,7 +31,7 @@ class VisitorSetProperties :
 public:
 	/// Destructeur
     VisitorSetProperties(FullProperties* properties, const BoundingBox& selectedNodesAABB);
-    ~VisitorSetProperties(void);
+    virtual ~VisitorSetProperties(void);
 
 	/// Visitation d'un noeud abstrait
 	virtual void visiterNoeudAbstrait( NoeudAbstrait* noeud );

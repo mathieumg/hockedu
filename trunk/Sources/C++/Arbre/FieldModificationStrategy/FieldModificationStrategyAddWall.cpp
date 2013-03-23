@@ -10,6 +10,8 @@
 #include "FieldModificationStrategyAddWall.h"
 #include "Terrain.h"
 #include "NodeWallEdition.h"
+#include "NodeControlPoint.h"
+#include "RazerGameTree.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -22,11 +24,39 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-FieldModificationStrategyAddWall::FieldModificationStrategyAddWall( FIELDMODIFICATIONSTRATEGYABSTRACT_PARAMETERS ) :
-    FIELDMODIFICATIONSTRATEGYABSTRACT_INIT, mNewNode(NULL)
+FieldModificationStrategyAddWall::FieldModificationStrategyAddWall( FIELDMODIFICATIONSTRATEGYABSTRACT_PARAMETERS,const std::string& type ) :
+    FieldModificationStrategyAddNode(field,pEvent,type), mCurrentPoint(NULL)
 {
-
+    if(!createNextControlPoint())
+    {
+        if(mNewNode)
+        {
+            mNewNode->deleteThis();
+            mNewNode = NULL;
+        }
+        if(mCurrentPoint)
+        {
+            delete mCurrentPoint;
+            mCurrentPoint = NULL;
+        }
+    }
 }
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn  FieldModificationStrategyAddWall::~FieldModificationStrategyAddWall()
+///
+/// /*Description*/
+///
+///
+/// @return 
+///
+////////////////////////////////////////////////////////////////////////
+FieldModificationStrategyAddWall::~FieldModificationStrategyAddWall()
+{
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -41,62 +71,90 @@ FieldModificationStrategyAddWall::FieldModificationStrategyAddWall( FIELDMODIFIC
 ////////////////////////////////////////////////////////////////////////
 int FieldModificationStrategyAddWall::receivedEventSpecific( const FieldModificationStrategyEvent& pEvent )
 {
-    Vecteur2 deplacement = pEvent.mPosition - mOldPosition;
-    if(!deplacement.estNul())
+    if(mNewNode && mCurrentPoint)
     {
-        VisiteurDeplacement visiteurDeplacement(deplacement);
-        mField->visitSelectedNodes(visiteurDeplacement);
+        if(!mNewNode->getParent())
+        {
+            // le noeud a perdu son parent,
+            // le terrain a surement ete reinitialisé, ou undid
+            Vecteur2 pos = mNewNode->getPosition();
+            mNewNode->deleteThis();
+            mNewNode = NULL;
+            mCurrentPoint = NULL;
+            createNewNode(pos);
+            createNextControlPoint();
+            if(!mNewNode || !mCurrentPoint)
+            {
+                return 0;
+            }
+        }
+
+        mCurrentPoint->setPosition(pEvent.mPosition);
+        bool validPos = mField->IsNodeAtValidEditionPosition(mNewNode,true);
+        if(pEvent.mType == FIELD_MODIFICATION_EVENT_CLICK)
+        {
+            if(validPos)
+            {
+                if(!createNextControlPoint())
+                {
+                    mField->transfererNoeud(mNewNode);
+                    mField->pushUndoState();
+                    createNewNode(pEvent.mPosition);
+
+                    /// gestion de cas d'erreur pour un nouveau noeud ajouté
+                    if(!createNextControlPoint())
+                    {
+                        if(mNewNode)
+                        {
+                            mNewNode->deleteThis();
+                            mNewNode = NULL;
+                        }
+                        if(mCurrentPoint)
+                        {
+                            delete mCurrentPoint;
+                            mCurrentPoint = NULL;
+                        }
+                    }
+                }
+            }
+        }
     }
     return 1;
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void FieldModificationStrategyAddWall::endStrategy()
-///
-/// /*Description*/
-///
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-int FieldModificationStrategyAddWall::endStrategy()
+bool FieldModificationStrategyAddWall::createNextControlPoint()
 {
-    return mField->FixCollidingObjects();
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void FieldModificationStrategyAddWall::createNewNode()
-///
-/// /*Description*/
-///
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void FieldModificationStrategyAddWall::createNewNode()
-{
-
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn  FieldModificationStrategyAddWall::~FieldModificationStrategyAddWall()
-///
-/// /*Description*/
-///
-///
-/// @return 
-///
-////////////////////////////////////////////////////////////////////////
-FieldModificationStrategyAddWall::~FieldModificationStrategyAddWall()
-{
-    if(mNewNode)
+    ControlPointMutableAbstract* controlNode = dynamic_cast<ControlPointMutableAbstract*>(mNewNode);
+    if(controlNode)
     {
-        mNewNode->deleteThis();
+        if(controlNode->getMaxControlPoints() == 0)
+        {
+            mNewNode->deleteThis();
+            mNewNode = NULL;
+            return false;
+        }
+        if(controlNode->getNBControlPoint() < controlNode->getMaxControlPoints())
+        {
+            Vecteur3 pos;
+            if(mCurrentPoint)
+            {
+                pos = mCurrentPoint->getPosition();
+            }
+            else
+            {
+                // cas du premier control point ajouté
+                pos = mNewNode->getPosition();
+            }
+            mCurrentPoint = new NodeControlPoint(RazerGameUtilities::NAME_CONTROL_POINT);
+            mCurrentPoint->setPosition(pos);
+            bool res = mNewNode->add(mCurrentPoint);
+            checkf(res);
+            return res;
+        }
     }
+    return false;
 }
+
 
 
 

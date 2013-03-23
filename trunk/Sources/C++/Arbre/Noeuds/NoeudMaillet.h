@@ -38,7 +38,7 @@ private:
     NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCreated, unsigned int malletLimit);
 public:
     /// Destructeur.
-    ~NoeudMaillet();
+    virtual ~NoeudMaillet();
 
     /// fonction de comparaison de 2 noeuds
     virtual bool equals(NoeudAbstrait* n)

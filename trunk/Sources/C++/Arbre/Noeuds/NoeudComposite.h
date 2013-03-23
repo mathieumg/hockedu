@@ -52,8 +52,9 @@ public:
 	virtual void empty();
 	/// Permet d'enlever l'enfant de la liste interne, sans libérer la mémoire de celui-ci
 	void unlinkChild( const NoeudAbstrait* noeud );
-	/// Efface le noeud passé en paramètre.
-	virtual void erase( const NoeudAbstrait* noeud );
+
+    /// Efface le noeud passé en paramètre.
+    virtual bool erase( const NoeudAbstrait* noeud );
 
 	/// Cherche un noeud par le type (sur un noeud constant).
 	virtual const NoeudAbstrait* find( const std::string& typeNoeud ) const;
@@ -116,6 +117,7 @@ public:
     void CreateAndInitNodesFromXml( const XmlElement* child );
 
 protected:
+
 
 	/// La liste des enfants.
 	ConteneurNoeuds enfants_;

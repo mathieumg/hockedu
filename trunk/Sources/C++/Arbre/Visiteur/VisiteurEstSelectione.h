@@ -29,7 +29,7 @@ public:
 	friend VisiteurNoeudTest;
 
 	/// Destructeur
-	~VisiteurEstSelectione(void);
+	virtual ~VisiteurEstSelectione(void);
 
 
 	/// Constructeur par paramêtre

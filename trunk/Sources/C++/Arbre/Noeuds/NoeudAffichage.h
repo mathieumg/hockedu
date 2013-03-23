@@ -26,7 +26,7 @@ public:
    /// Constructeur à partir du type du noeud.
    NoeudAffichage(const std::string& typeNoeud);
    /// Destructeur.
-   ~NoeudAffichage();
+   virtual ~NoeudAffichage();
 
    /// Affiche le cube.
    virtual void renderReal() const;

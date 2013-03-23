@@ -26,7 +26,7 @@ public:
     typedef NoeudMuretRelatif Super;
 	/// Constructeurs par paramètres
 	NodeWallEdition(const std::string& type);
-    ~NodeWallEdition();
+    virtual ~NodeWallEdition();
     /// Ajoute un noeud enfant.
     virtual bool add( NoeudAbstrait* enfant );
     virtual void unlinkChild( const NoeudAbstrait* enfant );

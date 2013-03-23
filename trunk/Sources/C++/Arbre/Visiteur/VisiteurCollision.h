@@ -37,7 +37,7 @@ public:
 	/// Constructeur par paramètre
 	VisiteurCollision(Vecteur2 position, bool flag = true, float rayon = 5);
 	/// Destructeur
-	~VisiteurCollision(void);
+	virtual ~VisiteurCollision(void);
 
 	/// Visitation d'un noeud abstrait
 	virtual void visiterNoeudAbstrait( NoeudAbstrait* noeud );

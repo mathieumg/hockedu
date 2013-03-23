@@ -36,7 +36,7 @@ public:
 	/// Constructeur à partir du type du noeud.
    NoeudTable(const std::string& typeNoeud);
    /// Destructeur.
-   ~NoeudTable();
+   virtual ~NoeudTable();
 
    static int expectedChildCount();
    /// fonction de comparaison de 2 noeuds

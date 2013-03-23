@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file SourisEtatTransformationDeplacement.h
+/// @file SourisEtatTransformation.h
 /// @author Michael Ferris
-/// @date 2012-01-21
+/// @date 2013-03-23
 /// @version 1.0 
 ///
 /// @addtogroup razergame RazerGame
@@ -11,25 +11,24 @@
 #pragma once
 #include "SourisEtatAbstrait.h"
 #include "RazerGameTypeDef.h"
+#include "..\..\Arbre\FieldModificationStrategy\FieldModificationStrategyAbstract.h"
 
 ////////////////////////////////////////////////////////////////////////////
-/// @class SourisEtatTransformationDeplacement
-/// @brief Classe de gestion du comportement pour le déplacement des éléments à l'aide de la souris
+/// @class SourisEtatTransformation
+/// @brief Classe de gestion du comportement pour les modifications sur le terrain
 ///
-/// @author Mathieu Parent
-/// @date 2012-01-28
+/// @author Michael Ferris
+/// @date 2013-03-23
 ////////////////////////////////////////////////////////////////////////////
-class SourisEtatTransformationDeplacement :
+class SourisEtatTransformation :
 	public SourisEtatAbstrait
 {
 public:
 	/// Constructeur par parametres
-	SourisEtatTransformationDeplacement();
+	SourisEtatTransformation(FieldModificationStrategyType modifType);
 	/// Destructeur virtuel
-	virtual ~SourisEtatTransformationDeplacement(void);
+	virtual ~SourisEtatTransformation(void);
 
-	/// Comportement lorsqu'une touche du clavier est enfoncé.
-	virtual void toucheEnfoncee( EvenementClavier& evenementClavier );
 	/// Comportement lorsqu'une touche du clavier est enfoncé.
 	virtual void toucheRelachee( EvenementClavier& evenementClavier );
 	/// Comportement lorsqu'un bouton de la souris est enfoncé.
@@ -41,6 +40,9 @@ public:
 
 	/// Retourne l'état courant
 	virtual NomEtatSouris obtenirNomEtatSouris();
+
+protected:
+    FieldModificationStrategyType mModifType;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

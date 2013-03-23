@@ -144,8 +144,9 @@ void NoeudAbstrait::empty()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::erase( const NoeudAbstrait* noeud )
+bool NoeudAbstrait::erase( const NoeudAbstrait* noeud )
 {
+    return false;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -165,9 +166,7 @@ void NoeudAbstrait::deleteThis()
     // On enleve les noeud selectionné et tous ces enfants.
     // Si on ne veut pas enlever les enfants il faudrait modifier
     // la méthode erase() pour que les enfants soit relié au parent
-    if(getParent() != 0)
-        getParent()->erase(this);
-    else
+    if(!getParent() || !getParent()->erase(this))
     {
         empty();
         delete this;
