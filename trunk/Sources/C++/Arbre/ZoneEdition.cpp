@@ -30,6 +30,7 @@
 
 #include "XMLUtils.h"
 #include "Terrain.h"
+#include "Enum_Declarations.h"
 
 const float ZoneEdition::DEFAUT_LIMITE_INT_X = 75;
 const float ZoneEdition::DEFAUT_LIMITE_INT_Y = 50;

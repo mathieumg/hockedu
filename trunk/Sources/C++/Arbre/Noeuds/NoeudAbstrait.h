@@ -28,6 +28,7 @@
 #include "ExceptionJeu.h"
 #include "Flags.h"
 #include "RazerGameTypeDef.h"
+#include "Enum_Declarations.h"
 
 //Foward Declaration
 class NoeudComposite;
@@ -38,20 +39,7 @@ class Modele3D;
 class Terrain;
 class BonusModifierAbstract;
 
-// max of 16 categories because box2D flag have only 16 bits
-/// Group 1 used to collide mallet with middle separation and goals
-enum PhysicsCategory
-{
-    CATEGORY_NONE     = 0x0000,
-    CATEGORY_BOUNDARY = 0x0001,
-    CATEGORY_PUCK     = 0x0002,
-    CATEGORY_MALLET   = 0x0004,
-    CATEGORY_PORTAL   = 0x0008,
-    CATEGORY_BOOST    = 0x0010,
-    CATEGORY_BONUS    = 0x0020,
-    CATEGORY_WALL     = 0x0040,
-    CATEGORY_GOALIE     = 0x0080,
-};
+
 
 enum NodeFlags
 {

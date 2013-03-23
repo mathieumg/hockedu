@@ -30,7 +30,7 @@
 
 void VisitorSetProperties::SetPos(NoeudAbstrait* noeud)
 {
-    Vecteur2 deplacement = Vecteur3(mProperties->mPositionX,mProperties->mPositionY) - mSelectedNodesAABB.GetCenter();
+    Vecteur2 deplacement = Vecteur2(mProperties->mPositionX,mProperties->mPositionY) - mSelectedNodesAABB.GetCenter();
     if(!deplacement.estNul())
     {
         VisiteurDeplacement v(deplacement);
