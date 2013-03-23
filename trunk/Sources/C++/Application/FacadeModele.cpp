@@ -1054,7 +1054,8 @@ bool FacadeModele::passageModeJeu()
     {
         partieCourante_ = GameManager::obtenirInstance()->addNewGame(SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")));
 
-        if(!GameManager::obtenirInstance()->startGame(partieCourante_, getCurrentMap()))
+        GameManager::obtenirInstance()->setMapForGame(partieCourante_, getCurrentMap());
+        if(!GameManager::obtenirInstance()->startGame(partieCourante_))
         {
             return false;
         }
@@ -1065,7 +1066,8 @@ bool FacadeModele::passageModeJeu()
         partieCourante_ = prochainePartie_;
         prochainePartie_ = -1;
 
-        if(!GameManager::obtenirInstance()->getGameReady(partieCourante_, getCurrentMap()))
+        GameManager::obtenirInstance()->setMapForGame(partieCourante_, getCurrentMap());
+        if(!GameManager::obtenirInstance()->getGameReady(partieCourante_))
         {
             return false;
         }

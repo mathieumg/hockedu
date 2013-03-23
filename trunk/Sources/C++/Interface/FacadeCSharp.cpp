@@ -458,6 +458,7 @@ void requestGameCreationServerGame( char* pGameName )
 {
     PaquetGameCreation* wPaquet = (PaquetGameCreation*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CREATION_REQUEST);
     wPaquet->setGameName(pGameName);
+    wPaquet->setMapName(FacadeModele::FICHIER_TERRAIN_EN_COURS);
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
 }
 

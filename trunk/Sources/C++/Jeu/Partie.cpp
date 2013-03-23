@@ -872,19 +872,24 @@ void Partie::animer( const float& temps )
         mField->animerTerrain(temps);
         if(!GestionnaireAnimations::obtenirInstance()->estJouerReplay())
         {
+#if !MAT_DEBUG
             auto zamboni = mField->getZamboni();
+#endif
             if(estPret() && !estEnPause() && !partieTerminee())
             {
+#if !MAT_DEBUG
                 if(zamboni)
                 {
                     zamboni->setVisible(false);
                     zamboni->setPosition(Vecteur3());
                 }
+#endif
                 // Gestion de la physique du jeu
                 mField->appliquerPhysique(temps);
             }
             else
             {
+#if !MAT_DEBUG
                 if(zamboni)
                 {
                     zamboni->setVisible(true);
@@ -895,6 +900,7 @@ void Partie::animer( const float& temps )
                 direction[VX] = cos(angle);
                 direction[VY] = sin(angle);
                 zamboni->setPosition(pos+direction);
+#endif
             }
         }
         mPartieSyncer.tick();

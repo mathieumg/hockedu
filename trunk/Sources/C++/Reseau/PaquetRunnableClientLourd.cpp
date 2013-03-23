@@ -219,7 +219,7 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
                     wGame->obtenirJoueurGauche()->modifierNom(wPaquet->getPlayer1Name());
                     wGame->obtenirJoueurDroit()->modifierNom(wPaquet->getPlayer2Name());
 
-                    GameManager::obtenirInstance()->startGame(wPaquet->getGameId(), ""); // La map n'a pas d'importance car deja chargee
+                    GameManager::obtenirInstance()->startGame(wPaquet->getGameId()); 
                 }
 
 

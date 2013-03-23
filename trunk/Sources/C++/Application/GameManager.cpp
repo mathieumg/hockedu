@@ -214,7 +214,7 @@ void GameManager::removeGame( int pGameId )
 /// @return bool : Succes ou fail (pas utilise pour le moment)
 ///
 ////////////////////////////////////////////////////////////////////////
-bool GameManager::getGameReady(int pGameId, const std::string& pMapFilename)
+bool GameManager::getGameReady(int pGameId)
 {
     Partie* wPartie = getGame(pGameId);
     
@@ -223,7 +223,6 @@ bool GameManager::getGameReady(int pGameId, const std::string& pMapFilename)
         return false;
     }
 
-    wPartie->setFieldName(pMapFilename);
 
     if(wPartie->getReadyToPlay()) // Appelle le updateCallback avec GAME_START
     {
@@ -258,7 +257,7 @@ bool GameManager::getGameReady(int pGameId, const std::string& pMapFilename)
 /// @return bool : Succes ou fail (pas utilise pour le moment)
 ///
 ////////////////////////////////////////////////////////////////////////
-bool GameManager::startGame(int pGameId, const std::string& pMapFilename)
+bool GameManager::startGame(int pGameId)
 {
 	Partie* wPartie = getGame(pGameId);
 
@@ -270,7 +269,8 @@ bool GameManager::startGame(int pGameId, const std::string& pMapFilename)
     if(wPartie->getGameStatus() == GAME_NOT_READY)
     {
         // On initialise la partie
-        if(!getGameReady(pGameId, pMapFilename))
+
+        if(!getGameReady(pGameId))
         {
             return false;
         }
@@ -341,6 +341,22 @@ void GameManager::animer( const float& pTemps )
             (*it).second->animerBase(pTemps);
         }
     }
+}
+
+
+
+bool GameManager::setMapForGame( int pGameId, const std::string& pMapName )
+{
+    Partie* wGame = getGame(pGameId);
+
+    if(wGame)
+    {
+        wGame->setFieldName(pMapName);
+        return true;
+    }
+
+
+    return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
