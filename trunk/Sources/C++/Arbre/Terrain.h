@@ -149,6 +149,9 @@ public:
 
     // tells if there are selected node on the field that can be deleted
     bool CanSelectedNodeBeDeleted() const;
+    // deletes node selected
+    void deleteSelectedNodes();
+
     /// checks if selected nodes are the same type and returns that type
     /// if not, return NODE_KEY_NONE
     RazerKey getSelectedNodeUniqueKey() const;

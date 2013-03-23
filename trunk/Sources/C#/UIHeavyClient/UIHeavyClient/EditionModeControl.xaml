@@ -32,7 +32,7 @@
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
                 <Button Content="Copy" Margin="5" Name="mCopyButton"    Click="CallActionPerformed" />
-                <Button Content="Delete" Margin="5" Name="mDeleteButton"    Grid.Column="1" IsEnabled="False" Click="HandleDeleteButton" />
+                <Button Content="Delete" Margin="5" Name="mDeleteButton"    Grid.Column="1" Click="HandleDeleteButton" />
                 <Button Content="Undo" Margin="5" Name="mUndoButton"    Click="CallActionPerformed" Grid.Row="1" />
                 <Button Content="Redo" Margin="5" Name="mRedoButton"    Click="CallActionPerformed" Grid.Column="1" Grid.Row="1" />
             </Grid>

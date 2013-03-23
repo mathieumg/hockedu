@@ -66,6 +66,7 @@
 #include "VisitorSetProperties.h"
 #include "FieldModificationStrategyAddNode.h"
 #include "FieldModificationStrategyAddWall.h"
+#include "Visiteur/VisiteurSuppression.h"
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
@@ -423,6 +424,17 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
         mCurrentState = creerNoeudXML();
     }
 
+    if( mSelectedNodes.size() == 0 )
+    {
+        // no more item selected
+        TransmitEvent(THERE_ARE_NO_NODE_SELECTED);
+    }
+    else
+    {
+        // selection present
+        TransmitEvent(THERE_ARE_NODES_SELECTED);
+    }
+
 
     mIsInit = true;
 
@@ -471,6 +483,17 @@ void Terrain::creerTerrainParDefaut(const std::string& nom)
     if(!IsGameField() && !mCurrentState)
     {
         mCurrentState = creerNoeudXML();
+    }
+
+    if( mSelectedNodes.size() == 0 )
+    {
+        // no more item selected
+        TransmitEvent(THERE_ARE_NO_NODE_SELECTED);
+    }
+    else
+    {
+        // selection present
+        TransmitEvent(THERE_ARE_NODES_SELECTED);
     }
 
     mIsInit = true;
@@ -591,6 +614,17 @@ void Terrain::createRandomField(const std::string& nom)
     if(!IsGameField() && !mCurrentState)
     {
         mCurrentState = creerNoeudXML();
+    }
+
+    if( mSelectedNodes.size() == 0 )
+    {
+        // no more item selected
+        TransmitEvent(THERE_ARE_NO_NODE_SELECTED);
+    }
+    else
+    {
+        // selection present
+        TransmitEvent(THERE_ARE_NODES_SELECTED);
     }
 
     mIsInit = true;
@@ -1455,6 +1489,7 @@ void Terrain::duplicateSelection()
         VisiteurDupliquer v(mLogicTree);
         acceptVisitor(v);
     }
+    pushUndoState();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -2281,6 +2316,23 @@ void Terrain::reApplyCurrentState()
         initialiserXml(mCurrentState,false);
         mDoingUndoRedo = false;
     }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::deleteSelectedNodes()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::deleteSelectedNodes()
+{
+    VisiteurSuppression v;
+    acceptVisitor(v);
+    pushUndoState();
 }
 
 

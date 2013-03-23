@@ -77,11 +77,16 @@ namespace UIHeavyClient
                             if (TerrainHasDeletable())
                             {
                                 control.mDeleteButton.IsEnabled = true;
+                                control.mCopyButton.IsEnabled = true;
                             }
                             else
                             {
+                                control.mCopyButton.IsEnabled = false;
                                 control.mDeleteButton.IsEnabled = false;
                             }
+                            control.mMoveStateButton.IsEnabled = true;
+                            control.mRotateStateButton.IsEnabled = true;
+                            control.mScaleStateButton.IsEnabled = true;
                             control.mPropertiesGroupBox.DisplayProperties(key);
                         });
                         break;
@@ -89,7 +94,12 @@ namespace UIHeavyClient
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             control.mDeleteButton.IsEnabled = false;
-                            control.mPropertiesGroupBox.DisplayProperties(RazerKey.RAZER_KEY_NONE);
+                            control.mMoveStateButton.IsEnabled = false;
+                            control.mRotateStateButton.IsEnabled = false;
+                            control.mScaleStateButton.IsEnabled = false;
+                            control.mCopyButton.IsEnabled = false;
+
+                            control.mPropertiesGroupBox.DisplayProperties( RazerKey.RAZER_KEY_NONE );
                         });
                         break;
                     case EventCodes.CAN_UNDO:
@@ -217,7 +227,7 @@ namespace UIHeavyClient
 
             var buttons = RazerUtilities.FindTypedChildren<Button>(this, true);
             // delete button is disabled by default and it is assigned before the callback can be seted
-            mDeleteButton.Foreground = Brushes.Black;
+            //mDeleteButton.Foreground = Brushes.Black;
             foreach (var button in buttons)
             {
                 button.Background = Brushes.Black;
