@@ -81,6 +81,7 @@
 		4E2A596116F2E658002160AE /* BonusModifierFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */; };
 		4E8C11B916FA31AE003D61E8 /* libTinyXml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EF216A316FA2AC0005FB093 /* libTinyXml.a */; };
 		4E93754616FA1E40006A9C39 /* VisitorGatherProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E93754416FA1E40006A9C39 /* VisitorGatherProperties.cpp */; };
+		4E96C87816FE0A5000CBA826 /* razor_sharp.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E96C87716FE0A5000CBA826 /* razor_sharp.png */; };
 		4E96DF0416F64C4700588998 /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E96DC6716F63D2100588998 /* libBox2D.a */; };
 		4E9CE9FA16FBB74100B04A12 /* Login.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E9CE9F916FBB74100B04A12 /* Login.xib */; };
 		4E9CE9FE16FBBA4B00B04A12 /* LoadMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E9CE9FC16FBBA4B00B04A12 /* LoadMapViewController.m */; };
@@ -305,6 +306,7 @@
 		4E2A596216F2E84B002160AE /* Enum_Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enum_Declarations.h; path = "../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"; sourceTree = "<group>"; };
 		4E93754416FA1E40006A9C39 /* VisitorGatherProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VisitorGatherProperties.cpp; path = "../../C++/Arbre/Visiteur/VisitorGatherProperties.cpp"; sourceTree = "<group>"; };
 		4E93754516FA1E40006A9C39 /* VisitorGatherProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VisitorGatherProperties.h; path = "../../C++/Arbre/Visiteur/VisitorGatherProperties.h"; sourceTree = "<group>"; };
+		4E96C87716FE0A5000CBA826 /* razor_sharp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = razor_sharp.png; path = ../../../Content/media/razor_sharp.png; sourceTree = "<group>"; };
 		4E96DC6216F63D1D00588998 /* Box2D.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Box2D.xcodeproj; path = Box2D/Box2D.xcodeproj; sourceTree = "<group>"; };
 		4E9CE9F916FBB74100B04A12 /* Login.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Login.xib; sourceTree = "<group>"; };
 		4E9CE9FB16FBBA4B00B04A12 /* LoadMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMapViewController.h; sourceTree = "<group>"; };
@@ -574,6 +576,7 @@
 		0CC6367816DE731600D05BBE /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				4E96C87716FE0A5000CBA826 /* razor_sharp.png */,
 				6D951C4016EE767B00894B44 /* BottomBar.png */,
 				6D951C3E16EE753600894B44 /* LeftBar.png */,
 				0C04E03B16DE7835002B0EE2 /* Icones */,
@@ -865,6 +868,7 @@
 				6D951C4116EE767B00894B44 /* BottomBar.png in Resources */,
 				4E9CE9FA16FBB74100B04A12 /* Login.xib in Resources */,
 				4E9CE9FF16FBBA4B00B04A12 /* LoadMapViewController.xib in Resources */,
+				4E96C87816FE0A5000CBA826 /* razor_sharp.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

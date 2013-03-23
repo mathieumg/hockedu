@@ -21,13 +21,17 @@ extern int const HAUTEUR_FENETRE;
 @interface EAGLViewController : UIViewController <UIGestureRecognizerDelegate> {
     EAGLContext *context;
     EAGLView* theEAGLView;
+    UIImageView *imageObjectToAdd;
     GLuint program;
     IBOutlet UIView *mGLView;
     IBOutlet UIView *mSideBarView;
     IBOutlet UIView *mTopBarView;
     
     BOOL mSelectionMode;
+    BOOL mCreationMode;
     BOOL animating;
+    NSInteger itemToBeAdded;
+    
     NSInteger animationFrameInterval;
     CADisplayLink *displayLink;
     
@@ -44,12 +48,23 @@ extern int const HAUTEUR_FENETRE;
 @property (nonatomic) NSInteger animationFrameInterval;
 @property (nonatomic, retain) OpenGLWaveFrontObject *cube;
 
+typedef enum{
+    PORTAL,
+    PUCK,
+    MALLET,
+    WALL,
+    ACCELERATOR,
+    BONUS
+} ItemToAdd;
 
 - (IBAction)selectionModeButtonTouched:(UIButton *)sender;
+- (IBAction)creationModeButtonTouched:(UIButton *)sender;
 - (IBAction)saveAndExitButtonTouched:(UIButton *)sender;
+- (IBAction)portalButtonTouched:(UIButton *)sender;
 - (void)startAnimation;
 - (void)stopAnimation;
 - (void)setupView;
+- (CGPoint)convertScreenCoordToVirtualCoord:(CGPoint)pointToConvert;
 - (void)rotationDetectee:(UIGestureRecognizer *)gestureRecognizer;
 
 @end

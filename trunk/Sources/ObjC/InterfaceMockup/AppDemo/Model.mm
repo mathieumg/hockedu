@@ -69,7 +69,7 @@
     NSLog(@"Documents directory: %@", [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error]);
     
     
-    const char* cPath = [path cString];
+    const char* cPath = [path UTF8String];
     std::string targetPath = cPath;
     targetPath += "/test.xml";
     

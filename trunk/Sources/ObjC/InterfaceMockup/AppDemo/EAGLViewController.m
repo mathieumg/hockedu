@@ -36,6 +36,8 @@ enum {
 
 @implementation EAGLViewController
 
+
+
 @synthesize animating;
 @synthesize theEAGLView;
 @synthesize mSideBarView;
@@ -197,34 +199,76 @@ enum {
     glLoadIdentity();
 }
 
--(void) selectionModeButtonTouched:(UIButton *)sender
+-(IBAction) selectionModeButtonTouched:(UIButton *)sender
 {
-    if([sender isSelected])
-    {
-        [sender setSelected:NO];
-        [sender setTitle:@"Selection Mode : OFF" forState:UIControlStateNormal];
-        mSelectionMode = FALSE;
-    }
-    else
-    {
-        [sender setSelected:YES];
-        [sender setTitle:@"Selection Mode : ON" forState:UIControlStateSelected];
-        mSelectionMode = TRUE;
-    }
+    itemToBeAdded = -1;
+    mCreationMode = false;
+    mSelectionMode = true;
+    //[sender setSelected:![sender isSelected]];
+   
 }
 
--(void) saveAndExitButtonTouched:(UIButton *)sender
+
+- (IBAction)creationModeButtonTouched:(UIButton *)sender
+{
+    mCreationMode = true;
+    mSelectionMode = false;
+    //[sender setSelected:![sender isSelected]];
+    
+}
+
+- (IBAction)portalButtonTouched:(UIButton *)sender
+{
+    itemToBeAdded = PORTAL;
+}
+
+-(IBAction) saveAndExitButtonTouched:(UIButton *)sender
 {
     // On sauvegarde la map
     [mModel saveField];
     
 }
 
+- (CGPoint)convertScreenCoordToVirtualCoord:(CGPoint)pointToConvert;
+{
+    int AXIS_X_MIN = ( -( LARGEUR_FENETRE / 2) + translationX ) * zoomFactor;
+    int AXIS_X_MAX = ( (LARGEUR_FENETRE / 2) + translationX) * zoomFactor;
+    int AXIS_Y_MIN = ( -(HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor;
+    int AXIS_Y_MAX = ( (HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor;
+    
+    CGPoint pointVirt;
+    
+    pointVirt.x = pointToConvert.x / (double) LARGEUR_FENETRE * (AXIS_X_MAX-AXIS_X_MIN) + AXIS_X_MIN;
+    pointVirt.y = AXIS_Y_MAX - (pointToConvert.y / (double) HAUTEUR_FENETRE * (AXIS_Y_MAX-AXIS_Y_MIN));
+    
+    return pointVirt;
+}
+
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    touchMoved = false;
     UITouch *touch = [[event allTouches] anyObject];
     firstCorner = [touch locationInView:theEAGLView];
+    
+    touchMoved = false;
+    if(itemToBeAdded != -1)
+    {
+        switch (itemToBeAdded) {
+            case PORTAL:
+                imageObjectToAdd = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cameraFixe.png"]];
+                break;
+                
+            case PUCK:
+                imageObjectToAdd = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"deplacer.png"]];
+                break;
+            default:
+                break;
+        }
+        
+        imageObjectToAdd.center = [touch locationInView:theEAGLView];
+        [imageObjectToAdd setFrame:CGRectMake(110, 180, [imageObjectToAdd frame].size.width, [imageObjectToAdd frame].size.height)];
+        [[self view] addSubview:imageObjectToAdd];
+    }
+    
     NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");
     for(UITouch* touch in touches) {
         CGPoint positionCourante = [touch locationInView:theEAGLView];
@@ -245,10 +289,14 @@ enum {
     
     if ([[event allTouches] count] == 1)
     {
-        if (!mSelectionMode)
+        UITouch *touch = [[event allTouches] anyObject];
+        CGPoint positionCourante = [touch locationInView:theEAGLView];
+        if (mCreationMode) {
+            // Si on est en mode creation et touchMoved, on update la position de limage
+            imageObjectToAdd.center = [touch locationInView:theEAGLView];
+        }
+        else if (!mSelectionMode)
         {
-            UITouch *touch = [[event allTouches] anyObject];
-            CGPoint positionCourante = [touch locationInView:theEAGLView];
             CGPoint positionPrecedente = [touch previousLocationInView:theEAGLView];
             translationX -= (positionCourante.x - positionPrecedente.x);
             translationY += (positionCourante.y - positionPrecedente.y);
@@ -325,8 +373,11 @@ enum {
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    //glOrthof( ( -( LARGEUR_FENETRE / 2) + translationX ) * zoomFactor, ( (LARGEUR_FENETRE / 2) + translationX) * zoomFactor, ( -(HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor, ( (HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor, -5, 100);
-    
+    // Destruction de limage de lobjet qui suit la position du doigt
+    if (imageObjectToAdd !=nil) {
+        [imageObjectToAdd release];
+    }
+   
     if ([[event allTouches] count] == 1)
     {
         
@@ -335,23 +386,20 @@ enum {
             UITouch *touch = [[event allTouches] anyObject];
             CGPoint positionCourante = [touch locationInView:theEAGLView];
             
-            int AXIS_X_MIN = ( -( LARGEUR_FENETRE / 2) + translationX ) * zoomFactor;
-            int AXIS_X_MAX = ( (LARGEUR_FENETRE / 2) + translationX) * zoomFactor;
-            int AXIS_Y_MIN = ( -(HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor;
-            int AXIS_Y_MAX = ( (HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor;
+            CGPoint posVirtuelle = [self convertScreenCoordToVirtualCoord:positionCourante];
             
-            int CV_X_NOW = positionCourante.x / (double) LARGEUR_FENETRE * (AXIS_X_MAX-AXIS_X_MIN) + AXIS_X_MIN;
-            //(clotureXmin + ( positionCourante.x / fenetreVirtuelleX )*LARGEUR_FENETRE);
-            int CV_Y_NOW = AXIS_Y_MAX - (positionCourante.y / (double) HAUTEUR_FENETRE * (AXIS_Y_MAX-AXIS_Y_MIN));
-            //(clotureYmax - ( positionCourante.y / fenetreVirtuelleY )*HAUTEUR_FENETRE );
+            int CV_X_NOW = posVirtuelle.x;
+            int CV_Y_NOW = posVirtuelle.y;
             
             
             int CV_X_OLD;
             int CV_Y_OLD;
             if(touchMoved)
             {
-                CV_X_OLD = firstCorner.x / (double) LARGEUR_FENETRE * (AXIS_X_MAX-AXIS_X_MIN) + AXIS_X_MIN;
-                CV_Y_OLD = AXIS_Y_MAX - (firstCorner.y / (double) HAUTEUR_FENETRE * (AXIS_Y_MAX-AXIS_Y_MIN));
+                CGPoint firstCornerVirt;
+                firstCornerVirt = [self convertScreenCoordToVirtualCoord:firstCorner];
+                CV_X_OLD = firstCornerVirt.x;
+                CV_Y_OLD = firstCornerVirt.y;
             }
             else
             {
@@ -380,6 +428,8 @@ enum {
         }
     }
 }
+
+
 
 -(void)rotationDetectee:(UIGestureRecognizer *)gestureRecognizer
 {

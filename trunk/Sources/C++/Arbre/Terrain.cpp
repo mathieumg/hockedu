@@ -1584,7 +1584,7 @@ float Terrain::GetTableWidth() const
 ////////////////////////////////////////////////////////////////////////
 void Terrain::NodeSelectionNotification( NoeudAbstrait* node, bool selected )
 {
-    int nbSelectedOld = (int)mSelectedNodes.size();
+    
     if(selected)
     {
         mSelectedNodes.insert(node);
@@ -1598,6 +1598,7 @@ void Terrain::NodeSelectionNotification( NoeudAbstrait* node, bool selected )
         }
     }
 #if WIN32
+    int nbSelectedOld = (int)mSelectedNodes.size();
     int nbSelectedNew = (int)mSelectedNodes.size();
     if(nbSelectedOld != nbSelectedNew)
     {
