@@ -515,12 +515,11 @@ void NoeudMaillet::updatePhysicBody()
         mPhysicBody = world->CreateBody(&myBodyDef);
         b2CircleShape circleShape;
         circleShape.m_p.Set(0, 0); //position, relative to body position
-        circleShape.m_radius = (float32)getRadius()*mScale[VX]*utilitaire::ratioWorldToBox2D; //radius
+        circleShape.m_radius = (float32)getRadius()*utilitaire::ratioWorldToBox2D; //radius
 
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
         myFixtureDef.density = 0.02f;
-        if(IsInGame())
         {
             myFixtureDef.filter.categoryBits = CATEGORY_MALLET;
             myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_BOUNDARY | CATEGORY_WALL;
@@ -675,7 +674,10 @@ void NoeudMaillet::appliquerAnimation( const ObjectAnimationParameters& pAnimati
     if(pAnimationResult.CanUpdatedAngle())
         mAngle = pAnimationResult.mAngle[VZ];
     if(pAnimationResult.CanUpdatedScale())
+    {
         mScale = pAnimationResult.mScale;
+        updateRadius();
+    }
     updateMatrice();
 }
 

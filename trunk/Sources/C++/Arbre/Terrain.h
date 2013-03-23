@@ -36,6 +36,10 @@ class NoeudRondelle;
 class NoeudAbstrait;
 class TerrainTest;
 class Partie;
+class VisiteurNoeud;
+
+typedef std::set<NoeudAbstrait*> NodeSet;
+
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class Terrain
@@ -43,6 +47,9 @@ class Partie;
 ///			le modifier et le sauvegarder.
 ///			Tous les noeuds contenus dans ses arbres connaissent l'existence du terrain
 ///			et ont un pointeur sur celui-ci qui est gardé a jour par l'assignation de son parent
+///
+///         Points d'entrés possibles pour avoir un terrain éditable ou jouable sont
+///         initialiserXml()  createRandomField()   creerTerrainParDefaut()
 ///
 /// @author Michael Ferris
 /// @date 2012-03-19
@@ -69,7 +76,7 @@ public:
 	
 
 	/// Permet d'initialiser le terrain avec ces éléments a partir d'un noeud XML
-    bool initialiserXml( XmlElement* element, bool fromDocument = true );
+    bool initialiserXml( const XmlElement* element, bool fromDocument = true );
 
 
 	/// Remet le terrain a son etat de base
@@ -113,14 +120,17 @@ public:
     /// Indicates if any node in the logic tree is selected
     bool IsAnyNodeSelected() const;
 
-    /// Launch a visitor on the field
-    void acceptVisitor(class VisiteurNoeud& visitor);
+    /// Launch a visitor on the field's logicTree
+    void acceptVisitor(VisiteurNoeud& visitor);
 
     /// duplicate nodes selected that can be duplicated
     void duplicateSelection();
 
     /// gets the list of node selected
-    void getSelectedNodes(ConteneurNoeuds& pSelectedNodes) const;
+    inline const NodeSet& getSelectedNodes() const
+    {
+        return mSelectedNodes;
+    }
 
     /// indicate if the node can be released at that position safely
     bool IsNodeAtValidEditionPosition(NoeudAbstrait* pNode, bool pDoHightlightNodeInCollision = false);
@@ -145,11 +155,16 @@ public:
     int gatherSelectedNodeProperties(class FullProperties* properties);
     int applySelectedNodeProperties(class FullProperties* properties);
 
+    void visitSelectedNodes(VisiteurNoeud& visitor);
+
     int BeginModification(FieldModificationStrategyType type, const FieldModificationStrategyEvent& beginEvent);
     int ReceiveModificationEvent(const FieldModificationStrategyEvent& pEvent);
     int EndModification();
 
-
+    /// Adds an undo state onto the stack and empties the redo stack
+    void pushUndoState();
+    int undoModification();
+    int redoModification();
 
 #if BOX2D_PLAY
     /// Callback before the contact between 2 fixtures
@@ -213,10 +228,12 @@ private:
 
     FieldModificationStrategyAbstract* mModifStrategy;
 
-    static const int UNDO_BUFFERSIZE = 10;
-    typedef XmlElement UndoElement;
-    std::deque<UndoElement*> mUndoBuffer;
-    std::vector<UndoElement*> mRedoBuffer;
+    static const int UNDO_BUFFERSIZE = 50;
+    typedef XmlElement FieldState;
+    std::deque<FieldState*> mUndoBuffer;
+    std::vector<FieldState*> mRedoBuffer;
+    FieldState* mCurrentState;
+    bool mDoingUndoRedo;
 
 
 #if BOX2D_INTEGRATED  

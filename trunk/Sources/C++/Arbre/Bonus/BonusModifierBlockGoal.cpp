@@ -133,12 +133,17 @@ bool BonusModifierBlockGoal::Apply()
 
             b2BodyDef myBodyDef;
             myBodyDef.type = b2_staticBody; //this will be a dynamic body
-            myBodyDef.position.Set(0, 0); //set the starting position
-            myBodyDef.angle = 0; //set the starting angle
+
+            float angle;
+            Vecteur3 pos;
+            getGoalPosition(pos,angle);
+            b2Vec2 posB2;
+            utilitaire::VEC3_TO_B2VEC(pos,posB2);
+            myBodyDef.position.Set(posB2.x,posB2.y); //set the starting position
+            myBodyDef.angle = angle; //set the starting angle
 
             mPhysicBody = world->CreateBody(&myBodyDef);
             b2PolygonShape shape;
-            Vecteur3 pos;
             shape.SetAsBox(halfLength,halfHeight,b2Vec2(0,0),0);
 
             b2FixtureDef myFixtureDef;
@@ -150,12 +155,6 @@ bool BonusModifierBlockGoal::Apply()
             
             mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
             mPhysicBody->SetUserData(this);
-
-            float angle;
-            getGoalPosition(pos,angle);
-            b2Vec2 posB2;
-            utilitaire::VEC3_TO_B2VEC(pos,posB2);
-            mPhysicBody->SetTransform(posB2,angle); //set the starting position
 
             return true;
         }

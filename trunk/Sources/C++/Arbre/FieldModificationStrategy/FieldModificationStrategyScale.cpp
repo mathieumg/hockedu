@@ -7,13 +7,13 @@
 /// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
-#include "FieldModificationStrategyMove.h"
+#include "FieldModificationStrategyScale.h"
 #include "Terrain.h"
-#include "VisiteurDeplacement.h"
+#include "VisiteurEchelle.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn int FieldModificationStrategyMove::receivedEventSpecific( const FieldModificationStrategyEvent& pEvent )
+/// @fn int FieldModificationStrategyScale::receivedEventSpecific( const FieldModificationStrategyEvent& pEvent )
 ///
 /// /*Description*/
 ///
@@ -22,20 +22,25 @@
 /// @return int
 ///
 ////////////////////////////////////////////////////////////////////////
-int FieldModificationStrategyMove::receivedEventSpecific( const FieldModificationStrategyEvent& pEvent )
+int FieldModificationStrategyScale::receivedEventSpecific( const FieldModificationStrategyEvent& pEvent )
 {
     Vecteur2 deplacement = pEvent.mPosition - mOldPosition;
-    if(!deplacement.estNul())
+    if(deplacement[VY] != 0)
     {
-        VisiteurDeplacement visiteurDeplacement(deplacement);
-        mField->visitSelectedNodes(visiteurDeplacement);
+        float facteur = 0.95f;
+        if(deplacement[VY] > 0)
+        {
+            facteur = 1.05f;
+        }
+        VisiteurEchelle v(facteur);
+        mField->visitSelectedNodes(v);
     }
     return 1;
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void FieldModificationStrategyMove::endStrategy()
+/// @fn void FieldModificationStrategyScale::endStrategy()
 ///
 /// /*Description*/
 ///
@@ -43,7 +48,7 @@ int FieldModificationStrategyMove::receivedEventSpecific( const FieldModificatio
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-int FieldModificationStrategyMove::endStrategy()
+int FieldModificationStrategyScale::endStrategy()
 {
     return mField->FixCollidingObjects();
 }

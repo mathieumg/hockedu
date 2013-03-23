@@ -39,6 +39,8 @@ public:
     /// Accueil un visiteur
     virtual void acceptVisitor( VisiteurNoeud& v );
 
+    virtual void updateCornerPosition();
+
     virtual void modifierEchelle( float facteur );
     ///////////////////////////////////////////////////////////////////////////
     /// Implementation interface ControlPointMutableAbstract

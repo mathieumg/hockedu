@@ -1006,7 +1006,7 @@ bool NoeudTable::initFromXml( const XmlElement* element )
 
     for(unsigned int i=0; i<NB_BANDES; ++i)
     {
-        assignerCoefRebond(i,rebond[i]);
+        modifierCoefRebond(i,rebond[i]);
     }
 
     int controlPointVisited = 0;
@@ -1233,22 +1233,6 @@ void NoeudTable::replacerModele()
 
 
 }
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudTable::assignerCoefRebond( int index, float coefRebond )
-///
-/// Assigne le coefficient de rebond a la bande de l'index voulu
-///
-/// @param[in] int index : l'index de la bande
-/// @param[in] float coefRebond
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudTable::assignerCoefRebond( int index, float coefRebond )
-{
-    bande_[index]->setReboundRatio(coefRebond);
-}
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -1327,10 +1311,6 @@ void NoeudTable::updatePhysicBody()
 //             }
         }
     }
-
-
-
-
 
 #if BOX2D_INTEGRATED
 

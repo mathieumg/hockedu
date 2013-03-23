@@ -643,7 +643,7 @@ void NoeudRondelle::updatePhysicBody()
         b2BodyDef myBodyDef;
         myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
 
-        float puckRadius = getRadius()*mScale[VX];
+        float puckRadius = getRadius();
 
         const Vecteur3& pos = getPosition();
         b2Vec2 posB2;
@@ -669,6 +669,12 @@ void NoeudRondelle::updatePhysicBody()
             myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
             /// La puck entre en collision avec tout !
             myFixtureDef.filter.maskBits = 0xFFFF;
+        }
+        else
+        {
+            /// En edition la rondelle et les mailet pourront etre par-dessus des bonus, boost, portals
+            myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
+            myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY | CATEGORY_WALL;
         }
 
 
@@ -748,7 +754,10 @@ void NoeudRondelle::appliquerAnimation( const ObjectAnimationParameters& pAnimat
     if(pAnimationResult.CanUpdatedAngle())
         mAngle = pAnimationResult.mAngle[VZ];
     if(pAnimationResult.CanUpdatedScale())
+    {
         mScale = pAnimationResult.mScale;
+        updateRadius();
+    }
     updateMatrice();
 }
 

@@ -28,6 +28,7 @@
 #include "ExceptionJeu.h"
 #include "Flags.h"
 #include "RazerGameTypeDef.h"
+#include "Enum_Declarations.h"
 
 //Foward Declaration
 class NoeudComposite;
@@ -38,19 +39,7 @@ class Modele3D;
 class Terrain;
 class BonusModifierAbstract;
 
-// max of 16 categories because box2D flag have only 16 bits
-enum PhysicsCategory
-{
-    CATEGORY_NONE     = 0x0000,
-    CATEGORY_BOUNDARY = 0x0001,
-    CATEGORY_PUCK     = 0x0002,
-    CATEGORY_MALLET   = 0x0004,
-    CATEGORY_PORTAL   = 0x0008,
-    CATEGORY_BOOST    = 0x0010,
-    CATEGORY_BONUS    = 0x0020,
-    CATEGORY_WALL     = 0x0040,
-    CATEGORY_GOALIE     = 0x0080,
-};
+
 
 enum NodeFlags
 {
@@ -187,6 +176,9 @@ public:
     /// Allows to keep this node in sync with box2D
     static void synchroniseTransformFromB2CallBack(void* , const struct b2Transform&);
     virtual void synchroniseTransformFromB2(const struct b2Transform&);
+
+    inline bool isSyncFromB2Callback()const {return mFlags.IsFlagSet(NODEFLAGS_B2_TRANSFORM_CALLBACK);}
+    inline void setSyncFromB2CallBack(bool val) {mFlags.SetFlag(val,NODEFLAGS_B2_TRANSFORM_CALLBACK);}
 
     /// Recreates everything needed for the game
     virtual void forceFullUpdate();

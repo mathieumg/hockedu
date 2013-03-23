@@ -34,6 +34,7 @@ public:
         }
         return 0;
     }
+    bool isAnyPointSelected() const;
 
     virtual void modifierEchelle( float facteur ) = 0;
 protected:
@@ -50,7 +51,6 @@ public:
     inline unsigned int getMaxControlPoints() const { return mMaxControlPoints; }
     inline void setMaxControlPoints(const unsigned int& pVal) { mMaxControlPoints = pVal; }
     inline unsigned int getNBControlPoint()const {return (unsigned int)mPoints.size();}
-    inline NodeControlPoint* getControlPoint(unsigned int i){checkf(i<mPoints.size()); return mPoints[i];}
     bool addControlPoint(NodeControlPoint* point);
     void removeControlPoint(NodeControlPoint* point);
 private:

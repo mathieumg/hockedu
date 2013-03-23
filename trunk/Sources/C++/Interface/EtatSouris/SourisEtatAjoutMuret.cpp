@@ -9,8 +9,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SourisEtatAjoutMuret.h"
-#include "VisiteurEchelle.h"
-#include "VisiteurRotation.h"
 #include "FacadeModele.h"
 #include "VisiteurCollision.h"
 #include "NoeudMuret.h"

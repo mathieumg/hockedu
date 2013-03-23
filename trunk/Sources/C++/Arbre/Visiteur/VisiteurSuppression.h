@@ -54,6 +54,7 @@ public:
 
 	/// Algorithme de visitation des enfants
 	void visiterEnfants(NoeudComposite* noeud);
+    virtual void visiterNodeControlPoint( NodeControlPoint* noeud );
 
 };
 

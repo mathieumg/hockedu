@@ -10,8 +10,8 @@
 
 #include "SourisEtatTransformationRotation.h"
 #include "FacadeModele.h"
-#include "VisiteurRotation.h"
 #include "Terrain.h"
+#include "FieldModificationStrategyAbstract.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -44,9 +44,7 @@ rotationInverse_(0),ignoreCollision_(false)
 ////////////////////////////////////////////////////////////////////////
 SourisEtatTransformationRotation::~SourisEtatTransformationRotation(void)
 {
-	if(rotationInverse_!=0)
-		delete[] rotationInverse_;
-	rotationInverse_ = 0;
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -62,8 +60,7 @@ SourisEtatTransformationRotation::~SourisEtatTransformationRotation(void)
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatTransformationRotation::toucheEnfoncee( EvenementClavier& evenementClavier )
 {
-	if(evenementClavier.obtenirTouche() == VJAK_CONTROL)
-		ignoreCollision_ = true;
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -79,28 +76,7 @@ void SourisEtatTransformationRotation::toucheEnfoncee( EvenementClavier& eveneme
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatTransformationRotation::toucheRelachee( EvenementClavier& evenementClavier )
 {
-	if(evenementClavier.obtenirTouche() == VJAK_CONTROL)
-	{
-		ignoreCollision_ = false;
-		if(estEnfoncee_)
-		{
-            Terrain* field = NULL;
-            for(int i=0; i<noeudsSelectionnes_.size(); i++)
-			{
-                field = noeudsSelectionnes_[i]->getField();
-                if(rotationInverse_[i] != 0)
-				{
-					VisiteurRotation visiteurRotationInverse((float)rotationInverse_[i],centreRot_);
-					noeudsSelectionnes_[i]->acceptVisitor(visiteurRotationInverse);
-					rotationInverse_[i] = 0;
-				}
-			}
-            if(field)
-            {
-                field->FixCollidingObjects();
-            }
-		}
-	}
+
 }
 
 
@@ -119,24 +95,16 @@ void SourisEtatTransformationRotation::toucheRelachee( EvenementClavier& eveneme
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatTransformationRotation::sourisEnfoncee( EvenementSouris& evenementSouris )
 {
-	// Vérifie si le bouton enfoncé est le bouton de gauche
-	if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_GAUCHE)
-	{
-		// Assigne les attributs concernés
-		estEnfoncee_ = true;
-		positionPrecedente_ = evenementSouris.obtenirPosition();
+    if(evenementSouris.obtenirBouton() == BOUTON_SOURIS_GAUCHE)
+    {
+        Vecteur3 position;
+        FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX],evenementSouris.obtenirPosition()[VY],position);
+        FieldModificationStrategyEvent event;
+        event.mPosition = position;
+        event.mType = FIELD_MODIFICATION_EVENT_CLICK;
 
-        noeudsSelectionnes_.clear(); 
-        FacadeModele::getInstance()->getSelectedNodes(noeudsSelectionnes_);
-
-		centreRot_ = obtenirCentreRot();
-		rotationInverse_ = new int[noeudsSelectionnes_.size()];
-		for (int i = 0; i < noeudsSelectionnes_.size() ; i++)
-		{
-			rotationInverse_[i] = 0;
-		}
-	}
-	
+        FacadeModele::getInstance()->getEditionField()->BeginModification(FIELD_MODIFICATION_ROTATE,event);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -152,33 +120,10 @@ void SourisEtatTransformationRotation::sourisEnfoncee( EvenementSouris& evenemen
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatTransformationRotation::sourisRelachee( EvenementSouris& evenementSouris )
 {
-	// Vérifie si le bouton enfoncé est le bouton de gauche
-	if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_GAUCHE)
-	{
-		// Assigne les attributs concernés
-		positionPrecedente_ = NULL;
-		centreRot_ = NULL;
-		estEnfoncee_ = false;
-
-        Terrain* field = NULL;
-        for(int i=0; i<noeudsSelectionnes_.size(); i++)
-		{
-            field = noeudsSelectionnes_[i]->getField();
-            if(rotationInverse_[i] != 0)
-			{
-				VisiteurRotation visiteurRotationInverse((float)rotationInverse_[i],centreRot_);
-				noeudsSelectionnes_[i]->acceptVisitor(visiteurRotationInverse);
-				rotationInverse_[i] = 0;
-			}
-		}
-        if(field)
-        {
-            field->FixCollidingObjects();
-        }
-
-		delete[] rotationInverse_;
-		rotationInverse_ = 0;
-	}
+    if(evenementSouris.obtenirBouton() == BOUTON_SOURIS_GAUCHE)
+    {
+        FacadeModele::getInstance()->getEditionField()->EndModification();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -194,41 +139,15 @@ void SourisEtatTransformationRotation::sourisRelachee( EvenementSouris& evenemen
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatTransformationRotation::sourisDeplacee( EvenementSouris& evenementSouris )
 {
-	// Verifie si le bouton est enfoncé
-	if(estEnfoncee_)
-	{
-		// Calcul le déplacement relatif depuis le dernier appel de la méthode
-		int angle = -positionPrecedente_[VY]+evenementSouris.obtenirPosition()[VY];
-		//int deplacementX = positionPrecedente_[VX]-evenementSouris.obtenirPosition()[VX];
-
-
-		// Effectue la rotation		
-		VisiteurRotation visiteurRotation((float)angle, centreRot_);
-		VisiteurRotation visiteurRotationInverse((float)-angle, centreRot_);
-		bool rotationValide = true;
-		
-		int i=0; 
-		for(; i<noeudsSelectionnes_.size(); i++)
-		{
-			noeudsSelectionnes_[i]->acceptVisitor(visiteurRotation);
-			// On verifie qu'elle n'a pas engendre de nouvelles collisions
-			if(!FacadeModele::getInstance()->validerPositionNoeud(noeudsSelectionnes_[i]))
-			{
-				if(ignoreCollision_)
-				{
-					rotationInverse_[i] -= angle;
-				}
-				else
-					noeudsSelectionnes_[i]->acceptVisitor(visiteurRotationInverse);
-			}
-			else
-				rotationInverse_[i] = 0;
-		}
-		
-		// Mise à jour de la position
-		positionPrecedente_ = evenementSouris.obtenirPosition();
-		
-	}
+    if(evenementSouris.obtenirBouton() == BOUTON_SOURIS_GAUCHE)
+    {
+        Vecteur3 position;
+        FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX],evenementSouris.obtenirPosition()[VY],position);
+        FieldModificationStrategyEvent event;
+        event.mPosition = position;
+        event.mType = FIELD_MODIFICATION_EVENT_MOVE;
+        FacadeModele::getInstance()->getEditionField()->ReceiveModificationEvent(event);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////

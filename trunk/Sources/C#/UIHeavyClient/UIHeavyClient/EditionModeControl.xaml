@@ -33,8 +33,8 @@
                 </Grid.ColumnDefinitions>
                 <Button Content="Copy" Margin="5" Name="mCopyButton"    Click="CallActionPerformed" />
                 <Button Content="Delete" Margin="5" Name="mDeleteButton"    Grid.Column="1" IsEnabled="False" Click="HandleDeleteButton" />
-                <Button Content="Undo" Margin="5" Name="mUndoButton"    Grid.Row="1" />
-                <Button Content="Redo" Margin="5" Name="mRedoButton"    Grid.Column="1" Grid.Row="1" />
+                <Button Content="Undo" Margin="5" Name="mUndoButton"    Click="CallActionPerformed" Grid.Row="1" />
+                <Button Content="Redo" Margin="5" Name="mRedoButton"    Click="CallActionPerformed" Grid.Column="1" Grid.Row="1" />
             </Grid>
         </GroupBox>
         <GroupBox Header="Edition State" Margin="3" Name="mEditionStateGroupBox" Grid.Column="2">

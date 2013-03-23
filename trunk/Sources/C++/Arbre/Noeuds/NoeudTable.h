@@ -80,9 +80,6 @@ public:
    /// Replace le modele de la table avec le deplacement des points
    void replacerModele();
 
-   /// Assigner le coefficient de rebond a la bande voulu a lindex voulu
-   void assignerCoefRebond(int index, float coefRebond);
-
    /// Accesseur de listeIndexPointsModeleTable_
    static ListeIndexPoints& obtenirListeIndexPointsModeleTable() { return listeIndexPointsModeleTable_; }
 #if WIN32  
@@ -106,9 +103,8 @@ public:
    static const int NB_HORIZONTAL_VERTICES = 3 + 4;
    /// 3 pour les NoeudPoint
    static const int NB_VERTICAL_VERTICES = 3;
+   static const unsigned int NB_BANDES = 8;
 private:
-   
-      
    ///Création du vecteur qui contient les points
    std::vector<NoeudPoint*> vecteurPoint_;
 
@@ -124,7 +120,6 @@ private:
 
    /// Informations sur les 8 points modifiables
    typedef std::pair<TypePosPoint,TypePosPoint> CouplePoint;
-   static const unsigned int NB_BANDES = 8;
    CouplePoint droiteMuret_[NB_BANDES];
    NodeWallAbstract* bande_[NB_BANDES];
 
@@ -136,8 +131,6 @@ private:
 
 /// Accesseurs
 public:
-
-
 
 	/// Accesseur de point dans le vecteurPoint
 	NoeudPoint* obtenirPoint( int typePosPoint);
@@ -160,13 +153,7 @@ public:
 	/// Accesseur des groupes de la table
 	NoeudGroupe* obtenirGroupe(std::string typeEnfant);
 	NoeudGroupe* obtenirGroupe(unsigned int typeIdEnfant);
-
-
-
 	static const float rayonCercleCentre_;
-
-	
-
 };
 
 

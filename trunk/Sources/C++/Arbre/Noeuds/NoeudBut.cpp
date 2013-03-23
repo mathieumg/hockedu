@@ -486,6 +486,11 @@ void NoeudBut::updatePhysicBody()
 #endif
             myFixtureDef.filter.groupIndex = 1;
         }
+        else
+        {
+            myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
+            myFixtureDef.filter.maskBits = 0xFFFF;
+        }
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         shape.Set(anchorPointPosB2,BottomPosB2);
@@ -548,12 +553,8 @@ void NoeudBut::updatePuckCatcher( float puckRadius )
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &shape; //this is a pointer to the shapeHaut above
         myFixtureDef.density = 1;
-        if(IsInGame())
-        {
-            myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
-            myFixtureDef.filter.maskBits = CATEGORY_PUCK;
-        }
-        myFixtureDef.filter.groupIndex = 0;
+        myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
+        myFixtureDef.filter.maskBits = CATEGORY_PUCK;
 
 //         shape.Set(topPosB2,topPosShiftedB2);
 //         mPuckCatcher->CreateFixture(&myFixtureDef); //add a fixture to the body

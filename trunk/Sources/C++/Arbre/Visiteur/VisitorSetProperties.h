@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file VisiteurRotation.h
-/// @author Mathieu Parent
-/// @date 2012-02-06
+/// @file VisitorSetProperties.h
+/// @author Michael Ferris
+/// @date 2013-03-19
 /// @version 1.0 
 ///
 /// @addtogroup razergame RazerGame
@@ -10,27 +10,32 @@
 
 #pragma once
 #include "VisiteurNoeud.h"
+#include "Enum_Declarations.h"
+#include "Flags.h"
+#include "VisitorGatherProperties.h"
+#include "BoundingBox.h"
 
-////////////////////////////////////////////////////////////////////////////
-/// @class VisiteurRotation
-/// @brief Visiteur pour la rotation des noeuds
-/// 
-/// @author Mathieu Parent
-/// @date 2012-02-06
-////////////////////////////////////////////////////////////////////////////
-class VisiteurRotation :
+///////////////////////////////////////////////////////////////////////////
+/// @class VisitorSetProperties
+/// @brief Visiteur pour assigner les proprietes des noeuds,
+///         ce visiteur ignore la selection des noeuds et
+///         ne visite pas le noeuds enfants, il faut donc
+///         l'envoyer manuellement sur les noeuds selectionné!!!
+///
+/// @author Michael Ferris
+/// @date 2013-03-19
+///////////////////////////////////////////////////////////////////////////
+class VisitorSetProperties :
 	public VisiteurNoeud
 {
 public:
-	/// Constructeur par paramètre
-	VisiteurRotation(float angle, const Vecteur2& centreRot);
-	/// Destrcuteur
-	~VisiteurRotation(void);
+	/// Destructeur
+    VisitorSetProperties(FullProperties* properties, const BoundingBox& selectedNodesAABB);
+    ~VisitorSetProperties(void);
 
 	/// Visitation d'un noeud abstrait
 	virtual void visiterNoeudAbstrait( NoeudAbstrait* noeud );
-
-    /// Visitation d'un noeud composite
+	/// Visitation d'un noeud composite
 	virtual void visiterNoeudComposite( NoeudComposite* noeud );
 	/// Visitation d'un noeud muret
 	virtual void visiterNoeudMuret( NodeWallAbstract* noeud );
@@ -48,20 +53,16 @@ public:
 	virtual void visiterNoeudPoint( NoeudPoint* noeud );
 	/// Visitation d'un noeud accélérateur
 	virtual void visiterNoeudAccelerateur( NoeudAccelerateur* noeud );
-    virtual void visiterNoeudMuretEdition( NodeWallEdition* noeud );
     virtual void visiterNodeControlPoint( NodeControlPoint* noeud );
-
-    /// Applies the rotation algorithm
-    void rotateNode( NoeudAbstrait* noeud );
-
-
-
+    virtual void visiterNodeBonus( NodeBonus* noeud );
 private:
-	/// Angle de rotation des éléments
-	int angleRot_;
-	/// Conserve le centre de rotation 
-	Vecteur2 centreRot_;
+    void SetPos(NoeudAbstrait* noeud);
+    void SetAngle(NoeudAbstrait* noeud);
+    void SetScale(NoeudAbstrait* noeud, float ratio);
 
+    /// Bounding box des noeuds selectionné calculé au préalable
+    const BoundingBox& mSelectedNodesAABB;
+    FullProperties* mProperties;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

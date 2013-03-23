@@ -582,7 +582,8 @@ void NoeudAbstrait::setScale( const Vecteur3& echelleCourante )
 	mScale[VX] = echelleCourante[VX];
 	mScale[VY] = echelleCourante[VY];
 	mScale[VZ] = echelleCourante[VZ];
-	updateMatrice();
+    updateRadius();
+    updateMatrice();
     updatePhysicBody();
 }
 
@@ -619,7 +620,7 @@ void NoeudAbstrait::setAngle( float angle )
 {
 	mAngle = angle;
 #if BOX2D_INTEGRATED  
-    if(!mFlags.IsFlagSet(NODEFLAGS_B2_TRANSFORM_CALLBACK) && mPhysicBody)
+    if(!isSyncFromB2Callback() && mPhysicBody)
     {
         mPhysicBody->SetTransform(mPhysicBody->GetPosition(),(float32)utilitaire::DEG_TO_RAD(mAngle));
     }
@@ -893,7 +894,7 @@ void NoeudAbstrait::setPosition( const Vecteur3& positionRelative )
 {
     mPosition = positionRelative;
 #if BOX2D_INTEGRATED  
-    if(!mFlags.IsFlagSet(NODEFLAGS_B2_TRANSFORM_CALLBACK) && mPhysicBody)
+    if(!isSyncFromB2Callback() && mPhysicBody)
     {
         b2Vec2 pos;
         utilitaire::VEC3_TO_B2VEC(mPosition,pos);
@@ -997,7 +998,7 @@ void NoeudAbstrait::synchroniseTransformFromB2( const b2Transform& transform)
 {
 #if BOX2D_INTEGRATED 
     /// permet d'éviter la recursion suite aux appels de setPosition et setAngle
-    mFlags.SetFlag(true,NODEFLAGS_B2_TRANSFORM_CALLBACK);
+    setSyncFromB2CallBack(true);
 
     // TODO:: a verifier avec la position du parent
     Vecteur3 pos;
@@ -1005,7 +1006,7 @@ void NoeudAbstrait::synchroniseTransformFromB2( const b2Transform& transform)
     setPosition(pos);
     setAngle(utilitaire::RAD_TO_DEG(transform.q.GetAngle()));
 
-    mFlags.SetFlag(false,NODEFLAGS_B2_TRANSFORM_CALLBACK);
+    setSyncFromB2CallBack(false);
 #endif
 }
 
@@ -1080,7 +1081,8 @@ bool NoeudAbstrait::equals( NoeudAbstrait* n)
     return !!n &&
     mType == n->mType &&
     mModePolygones == n->mModePolygones &&
-    mPosition == n->mPosition &&
+    // permet de donner une certaine tolerance
+    (mPosition-n->mPosition).norme2() < 1 &&
     mFlags == n->mFlags &&
     mScale == n->mScale &&
     mRadius == n->mRadius;
@@ -1197,6 +1199,7 @@ void NoeudAbstrait::playTick( float temps )
     }
 
 }
+
 
 
 

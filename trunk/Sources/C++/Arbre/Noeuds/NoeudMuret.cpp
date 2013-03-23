@@ -78,7 +78,7 @@ const Vecteur3& NoeudMuret::obtenirCoin2() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudMuret::majPosCoins(  )
+/// @fn void NoeudMuret::updateCornerPosition(  )
 ///
 /// Permet de recalculer la position des coin des muret suite a une rotation ou une mise a l'échelle
 ///
@@ -86,14 +86,17 @@ const Vecteur3& NoeudMuret::obtenirCoin2() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMuret::majPosCoins()
+void NoeudMuret::updateCornerPosition()
 {
 	Vecteur3 deplacement( cos(utilitaire::DEG_TO_RAD(mAngle) ), sin(utilitaire::DEG_TO_RAD(mAngle) ) );
 	deplacement*= mScale[VX];
 	deplacement /= 2.0;
 	positionCoin1_ = mPosition+deplacement;
 	positionCoin2_ = mPosition-deplacement;
-    updatePhysicBody();
+    if(!isSyncFromB2Callback())
+    {
+        updatePhysicBody();
+    }
 }
 
 
@@ -185,67 +188,6 @@ bool NoeudMuret::initFromXml( const XmlElement* element )
     }
     updateWallProperties();
 	return true;
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudMuret::setAngle( float angle )
-///
-/// Permet de modifier l'angle du muret et garde les coins a jour
-///
-/// @param[in] float angle : nouvel angle du muret
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudMuret::setAngle( float angle )
-{
-	Super::setAngle(angle);
-    if(!IsInGame())
-    {
-        majPosCoins();
-    }
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudMuret::setScale( const Vecteur3& echelleCourante )
-///
-/// Mutateur des facteurs d'echelle et conserve les coins a jour
-///
-/// @param[in] const Vecteur3 & echelleCourante
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudMuret::setScale( const Vecteur3& echelleCourante )
-{
-	Super::setScale(echelleCourante);
-    if(!IsInGame())
-    {
-        majPosCoins();
-    }
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudMuret::setPosition( const Vecteur3& positionRelative )
-///
-/// /*Description*/
-///
-/// @param[in] const Vecteur3 & positionRelative
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudMuret::setPosition( const Vecteur3& positionRelative )
-{
-	Super::setPosition(positionRelative);
-    if(!IsInGame())
-    {
-        majPosCoins();
-    }
 }
 
 

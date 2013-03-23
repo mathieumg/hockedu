@@ -345,8 +345,9 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
 
     // Initialisation des modèles
     GestionnaireModeles::obtenirInstance()->initialiser();
-    ConfigScene::obtenirInstance();
+    // init fmod first because config scene will need to modify it
     SoundFMOD::obtenirInstance()->init();
+    ConfigScene::obtenirInstance();
     GestionnaireHUD::obtenirInstance();
 
 #if !SHIPPING
@@ -481,7 +482,7 @@ void FacadeModele::enregistrerJoueurs( const std::string& nomFichier /*= ""*/, C
         joueurs = &profilsVirtuels_;
 
     XmlDocument document ;
-    XMLUtils::CreateDocument(document,"1.0","","");
+    XMLUtils::CreateDocument(document);
 
     // Creation du noeud du terrain
     ConfigScene::obtenirInstance()->creerDOM((XmlNode&)*document.GetElem(),*joueurs);
@@ -547,7 +548,7 @@ void FacadeModele::enregistrerTournoi( Tournoi* tournoi )
     if(tournoi == 0)
         tournoi = tournoi_;
     XmlDocument document ;
-    XMLUtils::CreateDocument(document,"1.0","","");
+    XMLUtils::CreateDocument(document);
     // Écrire la déclaration XML standard...
     // On enregistre les différentes configurations.
     XMLUtils::LinkEndChild(document,tournoi->creerTournoiXML());
@@ -1509,7 +1510,7 @@ bool FacadeModele::verifierValiditeMap( Terrain* terrain/*= 0 */ )
 void FacadeModele::creerTerrainParDefaut( )
 {
     GestionnaireEvenements::modifierEtat(ETAT_MODE_EDITION);
-    mEditionField->createRandomField(FICHIER_TERRAIN_EN_COURS);
+    mEditionField->creerTerrainParDefaut(FICHIER_TERRAIN_EN_COURS);
 }
 
 
@@ -1600,8 +1601,8 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
     if(getEditionField())
     {
         checkf(getEditionField()->getZoneEdition(),"terrain sans zone édition");
-        longueurTable = getEditionField()->getZoneEdition()->obtenirLimiteExtLongueur();
-        largeurTable  = getEditionField()->getZoneEdition()->obtenirLimiteExtLargeur();
+        longueurTable = getEditionField()->getZoneEdition()->obtenirLimiteExtX();
+        largeurTable  = getEditionField()->getZoneEdition()->obtenirLimiteExtY();
         
         NoeudTable* table = getEditionField()->getTable();
         if(!table)
@@ -2070,7 +2071,12 @@ void FacadeModele::getSelectedNodes(ConteneurNoeuds& pSelectedNodes) const
 {
     if(getEditionField())
     {
-        getEditionField()->getSelectedNodes(pSelectedNodes);
+        auto nodes = getEditionField()->getSelectedNodes();
+        pSelectedNodes.reserve(nodes.size());
+        for(auto it= nodes.begin(); it != nodes.end(); ++it)
+        {
+            pSelectedNodes.push_back(*it);
+        }
     }
 }
 

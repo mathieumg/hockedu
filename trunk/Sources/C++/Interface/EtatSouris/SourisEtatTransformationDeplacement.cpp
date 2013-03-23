@@ -98,9 +98,9 @@ void SourisEtatTransformationDeplacement::sourisEnfoncee( EvenementSouris& evene
         FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX],evenementSouris.obtenirPosition()[VY],position);
         FieldModificationStrategyEvent event;
         event.mPosition = position;
-        event.mType = FIELD_MODIFICATION_STRATEGY_EVENT_TYPE_CLICK;
+        event.mType = FIELD_MODIFICATION_EVENT_CLICK;
 
-        FacadeModele::getInstance()->getEditionField()->BeginModification(FIELD_MODIFICATION_STRATEGY_TYPE_MOVE_NODES,event);
+        FacadeModele::getInstance()->getEditionField()->BeginModification(FIELD_MODIFICATION_MOVE,event);
     }
 
 }
@@ -143,7 +143,7 @@ void SourisEtatTransformationDeplacement::sourisDeplacee( EvenementSouris& evene
         FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX],evenementSouris.obtenirPosition()[VY],position);
         FieldModificationStrategyEvent event;
         event.mPosition = position;
-        event.mType = FIELD_MODIFICATION_STRATEGY_EVENT_TYPE_MOVE;
+        event.mType = FIELD_MODIFICATION_EVENT_MOVE;
         FacadeModele::getInstance()->getEditionField()->ReceiveModificationEvent(event);
     }
 }

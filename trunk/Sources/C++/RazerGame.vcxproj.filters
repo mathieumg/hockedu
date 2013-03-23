@@ -584,7 +584,7 @@
     <ClCompile Include="Reseau\Paquets\PaquetGameEvent.cpp">
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClCompile>
-<ClCompile Include="Reseau\Paquets\PaquetGameRegistration.cpp">
+    <ClCompile Include="Reseau\Paquets\PaquetGameRegistration.cpp">
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClCompile>
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameRegistration.cpp">
@@ -595,6 +595,15 @@
     </ClCompile>
     <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyMove.cpp">
       <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyRotate.cpp">
+      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyScale.cpp">
+      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbre\Visiteur\VisitorSetProperties.cpp">
+      <Filter>Sources Files\Arbre\Visiteur</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1110,7 +1119,8 @@
     </ClInclude>
     <ClInclude Include="Reseau\FacadePortability.h">
       <Filter>Sources Files\Reseau\Global</Filter>
-    </ClInclude>    <ClInclude Include="Reseau\Paquets\PaquetGameEvent.h">
+    </ClInclude>
+    <ClInclude Include="Reseau\Paquets\PaquetGameEvent.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyMove.h">
@@ -1118,6 +1128,18 @@
     </ClInclude>
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAbstract.h">
       <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameEvent.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyRotate.h">
+      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyScale.h">
+      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Visiteur\VisitorSetProperties.h">
+      <Filter>Sources Files\Arbre\Visiteur</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

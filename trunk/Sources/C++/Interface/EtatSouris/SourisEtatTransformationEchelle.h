@@ -41,12 +41,6 @@ public:
 	virtual NomEtatSouris obtenirNomEtatSouris();
 
 private:
-	/// Indique si un bouton de la souris a été enfoncé
-	bool estEnfoncee_;
-	/// Conserve en mémoire la position de la souris depuis le dernier appel
-	Vecteur2i positionPrecedente_;
-	/// Contient les noeuds sélectionnés
-	ConteneurNoeuds noeudSelectionnes_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -347,7 +347,7 @@ void NodeBonus::updatePhysicBody()
 
         mPhysicBody = world->CreateBody(&myBodyDef);
         b2CircleShape shape;
-        auto radius = getRadius()*mScale[VX];
+        auto radius = getRadius();
         shape.m_p.Set(0, 0); //position, relative to body position
         shape.m_radius = radius*utilitaire::ratioWorldToBox2D; //radius
 
@@ -362,6 +362,11 @@ void NodeBonus::updatePhysicBody()
 
             // Le sensor indique qu'on va recevoir la callback de collision avec la rondelle sans vraiment avoir de collision
             myFixtureDef.isSensor = true;
+        }
+        else
+        {
+            myFixtureDef.filter.categoryBits = CATEGORY_BONUS;
+            myFixtureDef.filter.maskBits = 0xFFFF;
         }
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
