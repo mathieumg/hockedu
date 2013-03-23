@@ -7,15 +7,30 @@
 /// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
-#include "FieldModificationStrategyRotate.h"
+#include "FieldModificationStrategyAddWall.h"
 #include "Terrain.h"
-#include "VisiteurRotation.h"
-#include "BoundingBox.h"
-#include "NoeudAbstrait.h"
+#include "NodeWallEdition.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn int FieldModificationStrategyRotate::receivedEventSpecific( const FieldModificationStrategyEvent& pEvent )
+/// @fn  FieldModificationStrategyAddWall::FieldModificationStrategyAddWall( FIELDMODIFICATIONSTRATEGYABSTRACT_PARAMETERS )
+///
+/// /*Description*/
+///
+/// @param[in] FIELDMODIFICATIONSTRATEGYABSTRACT_PARAMETERS
+///
+/// @return 
+///
+////////////////////////////////////////////////////////////////////////
+FieldModificationStrategyAddWall::FieldModificationStrategyAddWall( FIELDMODIFICATIONSTRATEGYABSTRACT_PARAMETERS ) :
+    FIELDMODIFICATIONSTRATEGYABSTRACT_INIT, mNewNode(NULL)
+{
+
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn int FieldModificationStrategyAddWall::receivedEventSpecific( const FieldModificationStrategyEvent& pEvent )
 ///
 /// /*Description*/
 ///
@@ -24,20 +39,20 @@
 /// @return int
 ///
 ////////////////////////////////////////////////////////////////////////
-int FieldModificationStrategyRotate::receivedEventSpecific( const FieldModificationStrategyEvent& pEvent )
+int FieldModificationStrategyAddWall::receivedEventSpecific( const FieldModificationStrategyEvent& pEvent )
 {
     Vecteur2 deplacement = pEvent.mPosition - mOldPosition;
     if(!deplacement.estNul())
     {
-        VisiteurRotation v(deplacement[VY]*5,mCenter);
-        mField->visitSelectedNodes(v);
+        VisiteurDeplacement visiteurDeplacement(deplacement);
+        mField->visitSelectedNodes(visiteurDeplacement);
     }
     return 1;
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void FieldModificationStrategyRotate::endStrategy()
+/// @fn void FieldModificationStrategyAddWall::endStrategy()
 ///
 /// /*Description*/
 ///
@@ -45,14 +60,14 @@ int FieldModificationStrategyRotate::receivedEventSpecific( const FieldModificat
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-int FieldModificationStrategyRotate::endStrategy()
+int FieldModificationStrategyAddWall::endStrategy()
 {
     return mField->FixCollidingObjects();
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void FieldModificationStrategyRotate::findRotationCenter()
+/// @fn void FieldModificationStrategyAddWall::createNewNode()
 ///
 /// /*Description*/
 ///
@@ -60,31 +75,30 @@ int FieldModificationStrategyRotate::endStrategy()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void FieldModificationStrategyRotate::findRotationCenter()
+void FieldModificationStrategyAddWall::createNewNode()
 {
-    BoundingBox aabb;
-    auto selectedNodes = mField->getSelectedNodes();
-    for(auto it = selectedNodes.begin(); it != selectedNodes.end(); ++it)
-    {
-        aabb += (*it)->getPosition();
-    }
-    mCenter = aabb.GetCenter();
+
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn int FieldModificationStrategyRotate::cancelStratedy()
+/// @fn  FieldModificationStrategyAddWall::~FieldModificationStrategyAddWall()
 ///
-/// Ends the strategy early and remove modifications made
+/// /*Description*/
 ///
-/// @return int
+///
+/// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-int FieldModificationStrategyRotate::cancelStratedy()
+FieldModificationStrategyAddWall::~FieldModificationStrategyAddWall()
 {
-    mField->reApplyCurrentState();
-    return 1;
+    if(mNewNode)
+    {
+        mNewNode->deleteThis();
+    }
 }
+
+
 
 
 

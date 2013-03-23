@@ -128,6 +128,25 @@ NomEtatSouris SourisEtatTransformationEchelle::obtenirNomEtatSouris()
 	return ETAT_SOURIS_TRANSFORMATION_ECHELLE;
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void SourisEtatTransformationEchelle::toucheRelachee( EvenementClavier& evenementClavier )
+///
+/// /*Description*/
+///
+/// @param[in] EvenementClavier & evenementClavier
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void SourisEtatTransformationEchelle::toucheRelachee( EvenementClavier& evenementClavier )
+{
+    if(evenementClavier.obtenirTouche() == VJAK_ESCAPE)
+    {
+        FacadeModele::getInstance()->getEditionField()->cancelModification();
+    }
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

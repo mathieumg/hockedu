@@ -2006,6 +2006,26 @@ int Terrain::ReceiveModificationEvent(const FieldModificationStrategyEvent& pEve
     return r;
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::cancelModification()
+///
+/// Cancels current modification
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::cancelModification()
+{
+    if(mModifStrategy)
+    {
+        mModifStrategy->cancelStratedy();
+        delete mModifStrategy;
+    }
+    mModifStrategy = NULL;
+}
+
 
 int Terrain::EndModification()
 {
@@ -2203,6 +2223,28 @@ void Terrain::pushUndoState()
     TransmitEvent(CAN_UNDO);
     TransmitEvent(CANNOT_REDO);
 }
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::reApplyCurrentState()
+///
+/// cancels current modifications and reset the field to the last known correct state
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::reApplyCurrentState()
+{
+    if(mCurrentState)
+    {
+        mDoingUndoRedo = true;
+        initialiserXml(mCurrentState,false);
+        mDoingUndoRedo = false;
+    }
+}
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////

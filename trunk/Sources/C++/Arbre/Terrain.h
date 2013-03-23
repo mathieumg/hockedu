@@ -159,12 +159,15 @@ public:
 
     int BeginModification(FieldModificationStrategyType type, const FieldModificationStrategyEvent& beginEvent);
     int ReceiveModificationEvent(const FieldModificationStrategyEvent& pEvent);
+    void cancelModification();
     int EndModification();
 
     /// Adds an undo state onto the stack and empties the redo stack
     void pushUndoState();
     int undoModification();
     int redoModification();
+    /// cancels current modifications and reset the field to the last known correct state
+    void reApplyCurrentState();
 
 #if BOX2D_PLAY
     /// Callback before the contact between 2 fixtures

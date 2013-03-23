@@ -63,6 +63,8 @@ public:
     }
     /// Specific behavior when strategy is over
     virtual int endStrategy() = 0;
+    /// Ends the strategy early and remove modifications made
+    virtual int cancelStratedy() = 0;
 protected:
     virtual int receivedEventSpecific(const FieldModificationStrategyEvent& pEvent) = 0;
 

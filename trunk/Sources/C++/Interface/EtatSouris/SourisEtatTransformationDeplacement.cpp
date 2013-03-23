@@ -74,7 +74,10 @@ void SourisEtatTransformationDeplacement::toucheEnfoncee( EvenementClavier& even
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatTransformationDeplacement::toucheRelachee( EvenementClavier& evenementClavier )
 {
-
+    if(evenementClavier.obtenirTouche() == VJAK_ESCAPE)
+    {
+        FacadeModele::getInstance()->getEditionField()->cancelModification();
+    }
 }
 
 

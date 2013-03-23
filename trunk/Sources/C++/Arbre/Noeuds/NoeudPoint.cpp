@@ -295,7 +295,8 @@ XmlElement* NoeudPoint::createXmlNode()
 
     XmlWriteNodePosition(elementNoeud);
     XMLUtils::writeAttribute<int>(elementNoeud,"typePosNoeud",typePosNoeud_);
-    
+    XMLUtils::writeAttribute(elementNoeud,"selection",IsSelected());
+
 	return elementNoeud;
 }
 
@@ -341,6 +342,12 @@ bool NoeudPoint::initFromXml( const XmlElement* element )
     }
     auto terrain = getField();
     setVisible(!terrain || !terrain->IsGameField());
+
+    bool selected;
+    if(XMLUtils::readAttribute(element,"selection",selected))
+    {
+        setSelection(selected);
+    }
 
 	return true;
 }

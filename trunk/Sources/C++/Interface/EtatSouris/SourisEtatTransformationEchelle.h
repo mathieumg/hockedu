@@ -39,6 +39,7 @@ public:
 
 	/// Retourne l'état courant
 	virtual NomEtatSouris obtenirNomEtatSouris();
+    virtual void toucheRelachee( EvenementClavier& evenementClavier );
 
 private:
 };
