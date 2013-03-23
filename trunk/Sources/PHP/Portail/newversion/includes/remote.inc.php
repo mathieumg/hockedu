@@ -8,8 +8,6 @@
  * @package Hockedu
  */
 
-header('Content-Type: application/json');
-
 $remoteModule = $Website->getModules( 1 );
 
 if( $remoteModule === false )
@@ -275,6 +273,7 @@ if( !$commonRemoteModule )
 // JSON-encode it.
 if( !empty( $jsonResponse ) )
 {
+    header('Content-Type: application/json');
     echo json_encode( $jsonResponse );
 }
 
