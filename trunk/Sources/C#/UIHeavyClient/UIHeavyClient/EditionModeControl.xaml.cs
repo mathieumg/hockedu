@@ -230,7 +230,16 @@ namespace UIHeavyClient
                 /// the button will no longer flash after a click
                 button.Focusable = false;
             }
+            mScaleStateButton.Click += PropertiesRefreshWarning;
+            mMoveStateButton.Click += PropertiesRefreshWarning;
+            mRotateStateButton.Click += PropertiesRefreshWarning;
         }
+
+        void PropertiesRefreshWarning( object sender, RoutedEventArgs e )
+        {
+            mPropertiesGroupBox.mRefreshWarning.Visibility = Visibility.Visible;
+        }
+
 
         void button_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {

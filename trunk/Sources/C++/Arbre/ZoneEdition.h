@@ -49,7 +49,8 @@ private:
 	float mLimitExtY; 
 
     /// Aligned-Axis bounding box
-    BoundingBox mAABB;
+    BoundingBox mAABBExt;
+    BoundingBox mAABBInt;
 
     Terrain* mOwner;
 
@@ -67,24 +68,26 @@ public:
     static const float DEFAUT_LIMITE_EXT_X;
 
 	/// Accesseur de mLimitIntX
-	inline float obtenirLimiteIntLongueur() const { return mLimitIntX; }
+	inline float obtenirLimiteIntX() const { return mLimitIntX; }
 	/// Modificateur de mLimitIntX
-	inline void modifierLimiteIntLongueur(float val) { mLimitIntX = val; rebuild(); }
+	inline void modifierLimiteIntX(float val) { mLimitIntX = val; rebuild(); }
 	/// Accesseur de mLimitIntY
-	inline float obtenirLimiteIntLargeur() const { return mLimitIntY; }
+	inline float obtenirLimiteIntY() const { return mLimitIntY; }
 	/// Modificateur de mLimitIntY
-	inline void modifierLimiteIntLargeur(float val) { mLimitIntY = val; rebuild(); }
+	inline void modifierLimiteIntY(float val) { mLimitIntY = val; rebuild(); }
 	/// Accesseur de mLimitExtY
-	inline float obtenirLimiteExtLargeur() const { return mLimitExtY; }
+	inline float obtenirLimiteExtY() const { return mLimitExtY; }
 	/// Modificateur de mLimitExtY
-	inline void modifierLimiteExtLargeur(float val) { mLimitExtY = val; rebuild(); }
+	inline void modifierLimiteExtY(float val) { mLimitExtY = val; rebuild(); }
 	/// Accesseur de mLimitExtX
-	inline float obtenirLimiteExtLongueur() const { return mLimitExtX; }
+	inline float obtenirLimiteExtX() const { return mLimitExtX; }
 	/// Modificateur de mLimitExtX
-	inline void modifierLimiteExtLongueur(float val) { mLimitExtX = val; rebuild(); }
+	inline void modifierLimiteExtX(float val) { mLimitExtX = val; rebuild(); }
 
-    /// Accessors of mAABB
-    inline const BoundingBox& getAABB() const { return mAABB; }
+    /// Accessors of mAABBExt
+    inline const BoundingBox& getAABBExt() const { return mAABBExt; }
+    /// Accessors of mAABBInt
+    inline BoundingBox getAABBInt() const { return mAABBInt; }
 
     /// checks if both zone are the same
     bool equals( ZoneEdition * zone );

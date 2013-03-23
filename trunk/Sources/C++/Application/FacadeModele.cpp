@@ -1510,7 +1510,7 @@ bool FacadeModele::verifierValiditeMap( Terrain* terrain/*= 0 */ )
 void FacadeModele::creerTerrainParDefaut( )
 {
     GestionnaireEvenements::modifierEtat(ETAT_MODE_EDITION);
-    mEditionField->createRandomField(FICHIER_TERRAIN_EN_COURS);
+    mEditionField->creerTerrainParDefaut(FICHIER_TERRAIN_EN_COURS);
 }
 
 
@@ -1601,8 +1601,8 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
     if(getEditionField())
     {
         checkf(getEditionField()->getZoneEdition(),"terrain sans zone édition");
-        longueurTable = getEditionField()->getZoneEdition()->obtenirLimiteExtLongueur();
-        largeurTable  = getEditionField()->getZoneEdition()->obtenirLimiteExtLargeur();
+        longueurTable = getEditionField()->getZoneEdition()->obtenirLimiteExtX();
+        largeurTable  = getEditionField()->getZoneEdition()->obtenirLimiteExtY();
         
         NoeudTable* table = getEditionField()->getTable();
         if(!table)

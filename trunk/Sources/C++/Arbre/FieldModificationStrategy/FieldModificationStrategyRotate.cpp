@@ -29,7 +29,7 @@ int FieldModificationStrategyRotate::receivedEventSpecific( const FieldModificat
     Vecteur2 deplacement = pEvent.mPosition - mOldPosition;
     if(!deplacement.estNul())
     {
-        VisiteurRotation v(deplacement[VY],mCenter);
+        VisiteurRotation v(deplacement[VY]*5,mCenter);
         mField->visitSelectedNodes(v);
     }
     return 1;

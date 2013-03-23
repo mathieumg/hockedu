@@ -63,6 +63,7 @@
 #include "FieldModificationStrategyMove.h"
 #include "FieldModificationStrategyRotate.h"
 #include "FieldModificationStrategyScale.h"
+#include "Visiteur/VisitorSetProperties.h"
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
@@ -415,6 +416,14 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
         return false;
 
     fullRebuild();
+
+    /// premiere modif, save state first
+    if(!mCurrentState)
+    {
+        mCurrentState = creerNoeudXML();
+    }
+
+
     mIsInit = true;
 
     return true;
@@ -456,6 +465,12 @@ void Terrain::creerTerrainParDefaut(const std::string& nom)
     catch(ExceptionJeu& e)
     {
         checkf(0,"%s", e.what());
+    }
+
+    /// premiere modif, save state first
+    if(!mCurrentState)
+    {
+        mCurrentState = creerNoeudXML();
     }
 
     mIsInit = true;
@@ -571,6 +586,12 @@ void Terrain::createRandomField(const std::string& nom)
     AddBonus(53.2077 ,-19.4675,1);
 
     fullRebuild();
+
+    /// premiere modif, save state first
+    if(!mCurrentState)
+    {
+        mCurrentState = creerNoeudXML();
+    }
 
     mIsInit = true;
 }
@@ -712,59 +733,69 @@ void Terrain::retirerNoeudTemp( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 bool Terrain::insideLimits( NoeudAbstrait* noeud )
 {
+    /// Deprecated
+
     const Vecteur3& pos = noeud->getPosition();
-    checkf(getZoneEdition(),"call illégal à InsideLimits, doit seulement etre utiliser pour le mode édition");
+    auto zone = getZoneEdition();
+    checkf(zone,"call illégal à InsideLimits, doit seulement etre utiliser pour le mode édition");
     // Cas particulier pour des muret puisque ce sont des segment et non des cercles
-    if(getZoneEdition() && noeud->getType() == RazerGameUtilities::NOM_MURET)
+    if(zone)
     {
-        Vecteur2 intersection;
-        NodeWallAbstract *muret = (NodeWallAbstract *)noeud;
-        if (muret)
+        auto aabb = zone->getAABBExt();
+        if( noeud->getType() == RazerGameUtilities::NOM_MURET)
         {
-            // Ligne du haut
-            if(aidecollision::calculerCollisionSegmentSegment(
-                muret->obtenirCoin1().convertir<2>(),
-                muret->obtenirCoin2().convertir<2>(),
-                Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
-                Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
-                intersection    // pas besoin du point dintersection
-                ).type != aidecollision::COLLISION_AUCUNE)
-                return false;
-            // Ligne de droite
-            if(aidecollision::calculerCollisionSegmentSegment(
-                muret->obtenirCoin1().convertir<2>(),
-                muret->obtenirCoin2().convertir<2>(),
-                Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
-                Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
-                intersection    // pas besoin du point dintersection
-                ).type != aidecollision::COLLISION_AUCUNE)
-                return false;
-            // Ligne du bas
-            if(aidecollision::calculerCollisionSegmentSegment(
-                muret->obtenirCoin1().convertir<2>(),
-                muret->obtenirCoin2().convertir<2>(),
-                Vecteur2(getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
-                Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
-                intersection    // pas besoin du point dintersection
-                ).type != aidecollision::COLLISION_AUCUNE)
-                return false;
-            // Ligne de Gauche
-            if(aidecollision::calculerCollisionSegmentSegment(
-                muret->obtenirCoin1().convertir<2>(),
-                muret->obtenirCoin2().convertir<2>(),
-                Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),-getZoneEdition()->obtenirLimiteExtLargeur()),
-                Vecteur2(-getZoneEdition()->obtenirLimiteExtLongueur(),getZoneEdition()->obtenirLimiteExtLargeur()),
-                intersection    // pas besoin du point dintersection
-                ).type != aidecollision::COLLISION_AUCUNE)
-                return false;
+            Vecteur2 intersection;
+            NodeWallAbstract *muret = (NodeWallAbstract *)noeud;
+
+            return aabb.IsInside(muret->obtenirCoin1()) && aabb.IsInside(muret->obtenirCoin2());
+            // 
+            //         if (muret)
+            //         {
+            //             // Ligne du haut
+            //             if(aidecollision::calculerCollisionSegmentSegment(
+            //                 muret->obtenirCoin1().convertir<2>(),
+            //                 muret->obtenirCoin2().convertir<2>(),
+            //                 Vecteur2(-getZoneEdition()->obtenirLimiteExtX(),getZoneEdition()->obtenirLimiteExtY()),
+            //                 Vecteur2(getZoneEdition()->obtenirLimiteExtX(),getZoneEdition()->obtenirLimiteExtY()),
+            //                 intersection    // pas besoin du point dintersection
+            //                 ).type != aidecollision::COLLISION_AUCUNE)
+            //                 return false;
+            //             // Ligne de droite
+            //             if(aidecollision::calculerCollisionSegmentSegment(
+            //                 muret->obtenirCoin1().convertir<2>(),
+            //                 muret->obtenirCoin2().convertir<2>(),
+            //                 Vecteur2(getZoneEdition()->obtenirLimiteExtX(),getZoneEdition()->obtenirLimiteExtY()),
+            //                 Vecteur2(getZoneEdition()->obtenirLimiteExtX(),-getZoneEdition()->obtenirLimiteExtY()),
+            //                 intersection    // pas besoin du point dintersection
+            //                 ).type != aidecollision::COLLISION_AUCUNE)
+            //                 return false;
+            //             // Ligne du bas
+            //             if(aidecollision::calculerCollisionSegmentSegment(
+            //                 muret->obtenirCoin1().convertir<2>(),
+            //                 muret->obtenirCoin2().convertir<2>(),
+            //                 Vecteur2(getZoneEdition()->obtenirLimiteExtX(),-getZoneEdition()->obtenirLimiteExtY()),
+            //                 Vecteur2(-getZoneEdition()->obtenirLimiteExtX(),-getZoneEdition()->obtenirLimiteExtY()),
+            //                 intersection    // pas besoin du point dintersection
+            //                 ).type != aidecollision::COLLISION_AUCUNE)
+            //                 return false;
+            //             // Ligne de Gauche
+            //             if(aidecollision::calculerCollisionSegmentSegment(
+            //                 muret->obtenirCoin1().convertir<2>(),
+            //                 muret->obtenirCoin2().convertir<2>(),
+            //                 Vecteur2(-getZoneEdition()->obtenirLimiteExtX(),-getZoneEdition()->obtenirLimiteExtY()),
+            //                 Vecteur2(-getZoneEdition()->obtenirLimiteExtX(),getZoneEdition()->obtenirLimiteExtY()),
+            //                 intersection    // pas besoin du point dintersection
+            //                 ).type != aidecollision::COLLISION_AUCUNE)
+            //                 return false;
+            //        }
         }
+        // Tests sur les positions avec leurs rayons beaucoup plus simple
+        // sert aussi de float check pour les murets car leur rayon est nulle
+        if(pos[VX]+noeud->getRadius() > getZoneEdition()->obtenirLimiteExtX() || pos[VX]-noeud->getRadius() < -getZoneEdition()->obtenirLimiteExtX())
+            return false;
+        if(pos[VY]+noeud->getRadius() > getZoneEdition()->obtenirLimiteExtY() || pos[VY]-noeud->getRadius() < -getZoneEdition()->obtenirLimiteExtY())
+            return false;
     }
-    // Tests sur les positions avec leurs rayons beaucoup plus simple
-    // sert aussi de float check pour les murets car leur rayon est nulle
-    if(pos[VX]+noeud->getRadius() > getZoneEdition()->obtenirLimiteExtLongueur() || pos[VX]-noeud->getRadius() < -getZoneEdition()->obtenirLimiteExtLongueur())
-        return false;
-    if(pos[VY]+noeud->getRadius() > getZoneEdition()->obtenirLimiteExtLargeur() || pos[VY]-noeud->getRadius() < -getZoneEdition()->obtenirLimiteExtLargeur())
-        return false;
     return true;
 }
 
@@ -1639,7 +1670,7 @@ float Terrain::GetTableWidth() const
     }
     if(mEditionZone)
     {
-        return mEditionZone->obtenirLimiteExtLargeur()*2.f;
+        return mEditionZone->obtenirLimiteExtY()*2.f;
     }
     return ZoneEdition::DEFAUT_LIMITE_EXT_Y*2.f;
 }
@@ -1861,7 +1892,21 @@ int Terrain::gatherSelectedNodeProperties( FullProperties* properties )
         }
         else
         {
-            visitSelectedNodes(v);
+            BoundingBox aabb;
+            for(auto it=mSelectedNodes.begin(); it != mSelectedNodes.end(); ++it)
+            {
+                aabb += (*it)->getPosition();
+                (*it)->acceptVisitor(v);
+            }
+            auto center = aabb.GetCenter();
+            properties->mPositionX = center[VX];
+            properties->mPositionY = center[VY];
+
+            /// les assignation d'angle sont toujours relatif et non absolu, donc
+            /// on affiche 0 
+            properties->mAngle = 0;
+            properties->mPropertyFlagAssignment |= 1<<ASSIGNED_ANGLE;
+            properties->mPropertyFlagAssignment &= ~(1<<INVALID_ANGLE);
         }
 
         // permet de savoir si quelque chose a ete assigné
@@ -1885,22 +1930,30 @@ int Terrain::applySelectedNodeProperties( class FullProperties* properties )
 {
     if(properties)
     {
-//         VisitorGatherProperties v(properties);
-//         RazerKey key = getSelectedNodeUniqueKey();
-//         if(key == RAZER_KEY_NONE)
-//         {
-//             if(mTable)
-//             {
-//                 mTable->acceptVisitor(v);
-//             }
-//         }
-//         else
-//         {
-//             for(auto it=mSelectedNodes.begin(); it != mSelectedNodes.end(); ++it)
-//             {
-//                 (*it)->acceptVisitor(v);
-//             }
-//         }
+        RazerKey key = getSelectedNodeUniqueKey();
+        BoundingBox aabb;
+        if(key == RAZER_KEY_NONE)
+        {
+            if(mTable)
+            {
+                VisitorSetProperties v(properties,aabb);
+                mTable->acceptVisitor(v);
+            }
+        }
+        else
+        {
+            for(auto it=mSelectedNodes.begin(); it != mSelectedNodes.end(); ++it)
+            {
+                aabb += (*it)->getPosition();
+            }
+            VisitorSetProperties v(properties,aabb);
+            for(auto it=mSelectedNodes.begin(); it != mSelectedNodes.end(); ++it)
+            {
+                (*it)->acceptVisitor(v);
+            }
+        }
+        FixCollidingObjects();
+        pushUndoState();
     }
     return 1;
 }
@@ -1937,12 +1990,6 @@ int Terrain::BeginModification(FieldModificationStrategyType type, const FieldMo
         checkf(0,"Unknown modification type");
     }
 
-    /// premiere modif, save state first
-    if(mModifStrategy && !mCurrentState)
-    {
-        mCurrentState = creerNoeudXML();
-    }
-
     return !!mModifStrategy;
 }
 int Terrain::ReceiveModificationEvent(const FieldModificationStrategyEvent& pEvent)
@@ -1964,24 +2011,7 @@ int Terrain::EndModification()
         r = mModifStrategy->endStrategy();
         delete mModifStrategy;
 
-        mUndoBuffer.push_back(mCurrentState);
-
-        mCurrentState = creerNoeudXML();
-
-        if(mUndoBuffer.size() > UNDO_BUFFERSIZE)
-        {
-            delete mUndoBuffer.front();
-            mUndoBuffer.pop_front();
-        }
-
-        for(auto it=mRedoBuffer.begin(); it!= mRedoBuffer.end(); ++it)
-        {
-            delete (*it);
-        }
-        mRedoBuffer.clear();
-
-        TransmitEvent(CAN_UNDO);
-        TransmitEvent(CANNOT_REDO);
+        pushUndoState();
     }
     mModifStrategy = NULL;
     return r;
@@ -2132,6 +2162,42 @@ int Terrain::redoModification()
         return 1;
     }
     return 0;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::pushUndoState()
+///
+/// Adds an undo state onto the stack and empties the redo stack
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::pushUndoState()
+{
+    checkf(mCurrentState, "Current Undo State inexistant when trying to push state");
+    if(mCurrentState)
+    {
+        mUndoBuffer.push_back(mCurrentState);
+    }
+
+    mCurrentState = creerNoeudXML();
+
+    if(mUndoBuffer.size() > UNDO_BUFFERSIZE)
+    {
+        delete mUndoBuffer.front();
+        mUndoBuffer.pop_front();
+    }
+
+    for(auto it=mRedoBuffer.begin(); it!= mRedoBuffer.end(); ++it)
+    {
+        delete (*it);
+    }
+    mRedoBuffer.clear();
+
+    TransmitEvent(CAN_UNDO);
+    TransmitEvent(CANNOT_REDO);
 }
 
 

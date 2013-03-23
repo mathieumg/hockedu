@@ -33,7 +33,7 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-VisiteurRotation::VisiteurRotation( float angle, Vecteur2 centreRot )
+VisiteurRotation::VisiteurRotation( float angle, const Vecteur2& centreRot )
 {
 	angleRot_ = (int)angle;
 	centreRot_ = centreRot;

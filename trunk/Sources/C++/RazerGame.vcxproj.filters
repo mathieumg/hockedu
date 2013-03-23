@@ -602,6 +602,9 @@
     <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyScale.cpp">
       <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
     </ClCompile>
+    <ClCompile Include="Arbre\Visiteur\VisitorSetProperties.cpp">
+      <Filter>Sources Files\Arbre\Visiteur</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1134,6 +1137,9 @@
     </ClInclude>
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyScale.h">
       <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Visiteur\VisitorSetProperties.h">
+      <Filter>Sources Files\Arbre\Visiteur</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -72,7 +72,7 @@ void VisiteurDeplacement::visiterNoeudAbstrait( NoeudAbstrait* noeud )
         auto zone = field->getZoneEdition();
         if(zone)
         {
-            auto aabb = zone->getAABB();
+            auto aabb = zone->getAABBExt();
             if(!aabb.IsInside(pos))
             {
                 pos = aabb.GetClosestPointTo(pos);
@@ -105,7 +105,7 @@ void VisiteurDeplacement::visiterNoeudMuret( NodeWallAbstract* noeud )
         auto zone = field->getZoneEdition();
         if(zone)
         {
-            auto aabb = zone->getAABB();
+            auto aabb = zone->getAABBExt();
             if(!aabb.IsInside(pos1))
             {
                 pos1 = aabb.GetClosestPointTo(pos1);

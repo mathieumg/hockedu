@@ -239,6 +239,7 @@
     <ClCompile Include="Arbre\Visiteur\VisiteurSelectionOpenGL.cpp" />
     <ClCompile Include="Arbre\Visiteur\VisiteurSuppression.cpp" />
     <ClCompile Include="Arbre\Visiteur\VisitorGatherProperties.cpp" />
+    <ClCompile Include="Arbre\Visiteur\VisitorSetProperties.cpp" />
     <ClCompile Include="Arbre\ZoneEdition.cpp" />
     <ClCompile Include="Environnement\Evenements\EvenementClavier.cpp" />
     <ClCompile Include="Environnement\Evenements\EvenementRouletteSouris.cpp" />
@@ -412,6 +413,7 @@
     <ClInclude Include="Arbre\Visiteur\VisiteurSelectionOpenGL.h" />
     <ClInclude Include="Arbre\Visiteur\VisiteurSuppression.h" />
     <ClInclude Include="Arbre\Visiteur\VisitorGatherProperties.h" />
+    <ClInclude Include="Arbre\Visiteur\VisitorSetProperties.h" />
     <ClInclude Include="Arbre\ZoneEdition.h" />
     <ClInclude Include="Configuration\RazerGameTypeDef.h" />
     <ClInclude Include="Environnement\Evenements\EvenementClavier.h" />

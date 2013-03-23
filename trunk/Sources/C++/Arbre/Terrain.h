@@ -48,6 +48,9 @@ typedef std::set<NoeudAbstrait*> NodeSet;
 ///			Tous les noeuds contenus dans ses arbres connaissent l'existence du terrain
 ///			et ont un pointeur sur celui-ci qui est gardé a jour par l'assignation de son parent
 ///
+///         Points d'entrés possibles pour avoir un terrain éditable ou jouable sont
+///         initialiserXml()  createRandomField()   creerTerrainParDefaut()
+///
 /// @author Michael Ferris
 /// @date 2012-03-19
 ///////////////////////////////////////////////////////////////////////////
@@ -158,6 +161,8 @@ public:
     int ReceiveModificationEvent(const FieldModificationStrategyEvent& pEvent);
     int EndModification();
 
+    /// Adds an undo state onto the stack and empties the redo stack
+    void pushUndoState();
     int undoModification();
     int redoModification();
 
