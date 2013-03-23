@@ -200,6 +200,24 @@ void NodeRinkBoards::updatePhysicBody()
 
 
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NodeRinkBoards::updateCornerPosition()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NodeRinkBoards::updateCornerPosition()
+{
+    // Do nothing, the rink board cannot be directly edited. All cal to modify it
+    // should come from the nodes linked to it 
+}
+
+
+
 #if MIKE_DEBUG_
 PRAGMA_ENABLE_OPTIMIZATION
 #endif

@@ -344,6 +344,61 @@ void NodeWallAbstract::renderOpenGLES() const
 }
 
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NodeWallAbstract::setAngle( float angle )
+///
+/// Permet de modifier l'angle du muret et garde les coins a jour
+///
+/// @param[in] float angle : nouvel angle du muret
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NodeWallAbstract::setAngle( float angle )
+{
+    Super::setAngle(angle);
+    updateCornerPosition();
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NodeWallAbstract::setScale( const Vecteur3& echelleCourante )
+///
+/// Mutateur des facteurs d'echelle et conserve les coins a jour
+///
+/// @param[in] const Vecteur3 & echelleCourante
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NodeWallAbstract::setScale( const Vecteur3& echelleCourante )
+{
+    Super::setScale(echelleCourante);
+    updateCornerPosition();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NodeWallAbstract::setPosition( const Vecteur3& positionRelative )
+///
+/// /*Description*/
+///
+/// @param[in] const Vecteur3 & positionRelative
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NodeWallAbstract::setPosition( const Vecteur3& positionRelative )
+{
+    Super::setPosition(positionRelative);
+    updateCornerPosition();
+}
+
+
+
+
 #if MIKE_DEBUG_
 PRAGMA_ENABLE_OPTIMIZATION
 #endif

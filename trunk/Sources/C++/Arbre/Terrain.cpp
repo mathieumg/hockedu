@@ -418,7 +418,7 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
     fullRebuild();
 
     /// premiere modif, save state first
-    if(!mCurrentState)
+    if(!IsGameField() && !mCurrentState)
     {
         mCurrentState = creerNoeudXML();
     }
@@ -468,7 +468,7 @@ void Terrain::creerTerrainParDefaut(const std::string& nom)
     }
 
     /// premiere modif, save state first
-    if(!mCurrentState)
+    if(!IsGameField() && !mCurrentState)
     {
         mCurrentState = creerNoeudXML();
     }
@@ -588,7 +588,7 @@ void Terrain::createRandomField(const std::string& nom)
     fullRebuild();
 
     /// premiere modif, save state first
-    if(!mCurrentState)
+    if(!IsGameField() && !mCurrentState)
     {
         mCurrentState = creerNoeudXML();
     }
@@ -1349,6 +1349,10 @@ void Terrain::fullRebuild()
     {
         VisiteurFunction v(ForceFullRebuildFunc);
         mLogicTree->acceptVisitor(v);
+    }
+    if(mEditionZone)
+    {
+        mEditionZone->rebuild();
     }
 }
 

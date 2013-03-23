@@ -32,6 +32,7 @@ public:
     ~NodeRinkBoards();
 
     virtual void updatePhysicBody();
+    virtual void updateCornerPosition();
 
 private:
     /// un des pointeurs peut etre null s'il est ratacher a un but

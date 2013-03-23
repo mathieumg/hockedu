@@ -40,6 +40,7 @@ public:
 	/// Effectue l'affichage de la zone d'edition
 	void afficher();
 
+    void rebuild();
 private:
 	/// Attribut de la zone d'édition
 	float mLimitIntX;
@@ -58,7 +59,6 @@ private:
     class b2Body* mPhysicsBody;
     void clearPhysicsBody();
 #endif
-    void rebuild();
 
 /// Accesseurs
 public:

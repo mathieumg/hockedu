@@ -189,6 +189,9 @@ public:
     static void synchroniseTransformFromB2CallBack(void* , const struct b2Transform&);
     virtual void synchroniseTransformFromB2(const struct b2Transform&);
 
+    inline bool isSyncFromB2Callback()const {return mFlags.IsFlagSet(NODEFLAGS_B2_TRANSFORM_CALLBACK);}
+    inline void setSyncFromB2CallBack(bool val) {mFlags.SetFlag(val,NODEFLAGS_B2_TRANSFORM_CALLBACK);}
+
     /// Recreates everything needed for the game
     virtual void forceFullUpdate();
 
