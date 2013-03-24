@@ -27,7 +27,7 @@ public:
 	/// Constructeur à partir du type du noeud.
 	NodeModelRender(const std::string& typeNoeud);
 	/// Destructeur.
-	~NodeModelRender();
+	virtual ~NodeModelRender();
 
 	/// Affiche le cube.
 	virtual void renderReal() const;

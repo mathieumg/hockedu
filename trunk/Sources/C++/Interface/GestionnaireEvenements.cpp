@@ -23,7 +23,6 @@
 
 
 GestionnaireEtatAbstrait* GestionnaireEvenements::etatCourant_ = new GestionnaireEtatMenuPrincipal(); 
-MouseMoveSubject GestionnaireEvenements::mMouseMoveSubject;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
@@ -140,8 +139,6 @@ void GestionnaireEvenements::sourisRelachee( EvenementSouris& evenementSouris )
 void GestionnaireEvenements::sourisDeplacee( EvenementSouris& evenementSouris )
 {
 	if(etatCourant_)etatCourant_->sourisDeplacee(evenementSouris);
-    mMouseMoveSubject.mEvent = evenementSouris;
-    mMouseMoveSubject.signalObservers();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -24,8 +24,7 @@
 
 
 const float VisiteurEchelle::FACTEUR_ECHELLE = 1.005f;
-const float VisiteurEchelle::FACTEUR_ROTATION = 1;
-const float VisiteurEchelle::FACTEUR_ECHELLE_MAX = 20;
+const float VisiteurEchelle::FACTEUR_ECHELLE_MAX = 5;
 const float VisiteurEchelle::FACTEUR_ECHELLE_MIN = 0.20f;
 
 
@@ -43,11 +42,10 @@ const float VisiteurEchelle::FACTEUR_ECHELLE_MIN = 0.20f;
 /// @return Aucun
 ///
 ////////////////////////////////////////////////////////////////////////
-VisiteurEchelle::VisiteurEchelle( float facteur, int axe /* = -1 */, bool ignoreSelection /* = false */ )
+VisiteurEchelle::VisiteurEchelle( float facteur, int axe /* = -1 */ )
 {
 	facteur_ = facteur;
 	axe_ = axe;
-	ignoreSelection_ = ignoreSelection;
 }
 
 
@@ -80,28 +78,20 @@ VisiteurEchelle::~VisiteurEchelle(void)
 ////////////////////////////////////////////////////////////////////////
 void VisiteurEchelle::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 {
-	if(!ignoreSelection_ && !noeud->IsSelected())
-		return;
 	Vecteur3 echelleCourante;
 	noeud->getScale(echelleCourante);
 	
-	switch(axe_)
-	{
-	case VX:
-		echelleCourante[VX]*=facteur_;
-		break;
-	case VY:
-		echelleCourante[VY]*=facteur_;
-		break;
-	case VZ:
-		echelleCourante[VZ]*=facteur_;
-		break;
-	default:
-		echelleCourante[VX]*=facteur_;
-		echelleCourante[VY]*=facteur_;
-		echelleCourante[VZ]*=facteur_;
-		break;
-	}
+    for(int i=0; i<3; ++i)
+    {
+        const float newVal = echelleCourante[i]*facteur_;
+        if(axe_ & 1<<i  &&
+            newVal <= FACTEUR_ECHELLE_MAX &&
+            newVal >= FACTEUR_ECHELLE_MIN 
+            )
+        {
+            echelleCourante[i] = newVal;
+        }
+    }
 
 	noeud->setScale(echelleCourante);
 }
@@ -120,10 +110,6 @@ void VisiteurEchelle::visiterNoeudAbstrait( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurEchelle::visiterNoeudComposite( NoeudComposite* noeud )
 {
-	for (unsigned int i=0; i<noeud->childCount(); i++)
-	{
-		noeud->find(i)->acceptVisitor(*this);
-	}	
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -141,7 +127,7 @@ void VisiteurEchelle::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
 	int oldAxe = axe_;
 	// Push
-	axe_ = VX;
+	axe_ = 1<<VY;
 	visiterNoeudAbstrait(noeud);
 	// pop
 	axe_ = oldAxe;
@@ -161,8 +147,6 @@ void VisiteurEchelle::visiterNoeudMuret( NodeWallAbstract* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurEchelle::visiterNoeudBut( NoeudBut* noeud )
 {
-	if(!ignoreSelection_ && !noeud->IsSelected() && !noeud->getParent()->IsSelected())
-		return;
 	noeud->updateLongueur(facteur_);
 	// On donne au but adverse la même échelle
 	noeud->obtenirButAdverse()->updateLongueur(facteur_);
@@ -197,10 +181,12 @@ void VisiteurEchelle::visiterNoeudMaillet( NoeudMaillet* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurEchelle::visiterNoeudPortail( NoeudPortail* noeud )
 {
-	Vecteur3 echelleCourante;
-	noeud->getScale(echelleCourante);
-	noeud->setScale(Vecteur3(echelleCourante[VX]*facteur_, echelleCourante[VY]*facteur_, 1));
-	noeud->updateMatrice();
+    int oldAxe = axe_;
+    // Push
+    axe_ = 1<<VX | 1<<VY;
+    visiterNoeudAbstrait(noeud);
+    // pop
+    axe_ = oldAxe;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -233,7 +219,6 @@ void VisiteurEchelle::visiterNoeudRondelle( NoeudRondelle* noeud )
 void VisiteurEchelle::visiterNoeudTable( NoeudTable* noeud )
 {
 	// Pas d'echelle permise
-	visiterNoeudComposite(noeud);
 }
 
 
@@ -251,7 +236,12 @@ void VisiteurEchelle::visiterNoeudTable( NoeudTable* noeud )
 void VisiteurEchelle::visiterNoeudPoint( NoeudPoint* noeud )
 {
 	// Pas d'echelle permise
-	visiterNoeudComposite(noeud);
+
+    /// mais ses enfants sont interesser a etre modifier
+    for (unsigned int i=0; i<noeud->childCount(); i++)
+    {
+        noeud->find(i)->acceptVisitor(*this);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -267,10 +257,12 @@ void VisiteurEchelle::visiterNoeudPoint( NoeudPoint* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurEchelle::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
 {
-    Vecteur3 echelleCourante;
-    noeud->getScale(echelleCourante);
-    noeud->setScale(Vecteur3(echelleCourante[VX]*facteur_, echelleCourante[VY]*facteur_, 1));
-    noeud->updateMatrice();
+    int oldAxe = axe_;
+    // Push
+    axe_ = 1<<VX | 1<<VY;
+    visiterNoeudAbstrait(noeud);
+    // pop
+    axe_ = oldAxe;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -286,12 +278,10 @@ void VisiteurEchelle::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurEchelle::visiterNodeControlPoint( NodeControlPoint* noeud )
 {
-    if(!ignoreSelection_ && !noeud->IsSelected())
-        return;
-    ControlPointMutableAbstract* obj = noeud->getLinkedObject();
+    NoeudAbstrait* obj = dynamic_cast<NoeudAbstrait*>(noeud->getLinkedObject());
     if(obj)
     {
-        obj->modifierEchelle(facteur_);
+        obj->acceptVisitor(*this);
     }
 }
 

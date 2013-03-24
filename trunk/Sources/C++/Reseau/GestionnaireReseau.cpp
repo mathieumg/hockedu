@@ -47,16 +47,16 @@ SINGLETON_DECLARATION_CPP(GestionnaireReseau);
 int GestionnaireReseau::multicastPort = 1001;
 
 // Port a utiliser pour les communications de base
-int GestionnaireReseau::communicationPort = 25565;
+int GestionnaireReseau::communicationPort = 5010;//25565;
 
 // Port a utiliser pour les communications de base
-int GestionnaireReseau::communicationPortMasterServer = 25566;
+int GestionnaireReseau::communicationPortMasterServer = 5011;//25566;
 
-// Port a utiliser pour les communications de base
-int GestionnaireReseau::communicationUDPPort = 5011;
+// Port a utiliser pour les communications UDP sur le client Lourd
+int GestionnaireReseau::communicationUDPPortClientLourd = GestionnaireReseau::communicationPort;
 
-// Port a utiliser pour les communications de base
-int GestionnaireReseau::connectionUDPPort = 5012;
+// Port a utiliser pour les communications UDP sur le serveur jeu
+int GestionnaireReseau::communicationUDPPortServeurJeu = GestionnaireReseau::communicationPortMasterServer;
 
 std::ofstream errorLogHandle;
 bool bLogCreated = false;
@@ -70,12 +70,7 @@ void logSetup()
     {
         time_t wTime = time(0);
         struct tm wTimeNow;
-#ifdef WINDOWS
         localtime_s( &wTimeNow, &wTime );
-#elif defined(LINUX)
-        time(&wTime);
-        wTimeNow = *localtime(&wTime);
-#endif
         std::stringstream wFilename;
         wFilename << "NETWORK_LOG_" << wTimeNow.tm_mon << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec << ".txt";
 
@@ -198,8 +193,7 @@ void GestionnaireReseau::init()
 	int iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
 #endif
 
-    // Demarre les threads de reception UDP (pour serveur et client)
-    mCommunicateurReseau.demarrerThreadsReceptionUDP();
+    
 
 
 #ifdef WINDOWS
@@ -464,6 +458,14 @@ void GestionnaireReseau::demarrerNouvelleConnection(const std::string& pConnecti
         {
             wNewSocket = SPSocket(new Socket(pIP, GestionnaireReseau::communicationPortMasterServer, pConnectionType));
         }
+        else if(pConnectionId == "GameServer" && pConnectionType == UDP)
+        {
+            wNewSocket = SPSocket(new Socket(pIP, GestionnaireReseau::communicationUDPPortServeurJeu, pConnectionType));
+        }
+        else if(pConnectionType == UDP)
+        {
+            wNewSocket = SPSocket(new Socket(pIP, GestionnaireReseau::communicationUDPPortClientLourd, pConnectionType));
+        }
         else
         {
             wNewSocket = SPSocket(new Socket(pIP, GestionnaireReseau::communicationPort, pConnectionType));
@@ -543,16 +545,17 @@ void GestionnaireReseau::saveSocket( const std::string& pNomJoueur, SPSocket pSo
     FacadePortability::takeMutex(mMutexListeSockets);
     // On compte le nb de connexions qui ne sont pas des connexions de gestion (ex: serveurJeu-serveurMaitre est une connexion de gestion)
     int compte = 0;
+    std::set<std::string> wListeUsers;
     for(auto it = mListeSockets.begin(); it != mListeSockets.end(); ++it)
     {
         if((*it).first.first != "GameServer" && (*it).first.first != "MasterServer")
         {
-            ++compte;
+            wListeUsers.insert((*it).first.first);
         }
     }
 
 
-    if(getController()->getNbConnectionMax() == compte)
+    if(getController()->getNbConnectionMax() == wListeUsers.size() && wListeUsers.find(pNomJoueur) == wListeUsers.end())
     {
         FacadePortability::releaseMutex(mMutexListeSockets);
         throw ExceptionReseau("Trop de users connectes");
@@ -768,12 +771,7 @@ void GestionnaireReseau::sendMessageToLog( const std::string& pMessage )
 	{
         time_t wTime = time(0);
         struct tm wTimeNow;
-#ifdef WINDOWS
         localtime_s( &wTimeNow, &wTime );
-#elif defined(LINUX)
-        time(&wTime);
-        wTimeNow = *localtime(&wTime);
-#endif
         errorLogHandle << "[" << wTimeNow.tm_hour << ":" << wTimeNow.tm_min << ":" << wTimeNow.tm_sec << "] ";
 #ifdef WINDOWS
         errorLogHandle << ExceptionReseau::getLastErrorMessage("", WSAGetLastError());
@@ -1005,6 +1003,9 @@ void GestionnaireReseau::initClient(const std::string& pUsername/* = ""*/, const
     mUsername = pUsername;
     mPassword = pPassword;
     init();
+
+    // Demarre les threads de reception UDP (pour serveur et client)
+    mCommunicateurReseau.demarrerThreadsReceptionUDPClientLourd();
 }
 
 
@@ -1016,6 +1017,9 @@ void GestionnaireReseau::initServer()
 
     // Demarrer le thread de connexion TCP
     mCommunicateurReseau.demarrerThreadsConnectionServeur();
+
+    // Demarre les threads de reception UDP (pour serveur et client)
+    mCommunicateurReseau.demarrerThreadsReceptionUDPServeurJeu();
 
     
 

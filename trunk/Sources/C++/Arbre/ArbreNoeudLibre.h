@@ -25,8 +25,8 @@ class ArbreNoeudLibre :
 public:
 	/// Vide le noeud de ses enfants sans libérer la mémoire.
 	virtual void empty();
-	/// Efface le noeud du conteneur de noeud, le noeud n'est pas libéré
-	virtual void erase( const NoeudAbstrait* noeud );
+    /// Efface le noeud du conteneur de noeud, le noeud n'est pas libéré
+    virtual bool erase( const NoeudAbstrait* noeud );
 };
 
 

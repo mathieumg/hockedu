@@ -35,8 +35,8 @@ public:
     {
         auto n2 = dynamic_cast<NoeudMuretRelatif*>(n);
         return !!n2 && 
-            *coins_[0] == *n2->coins_[0] && 
-            *coins_[1] == *n2->coins_[1] && 
+            (*coins_[0] - *n2->coins_[0]).norme2() < 1 && 
+            (*coins_[1] - *n2->coins_[1]).norme2() < 1 && 
             Super::equals(n);
     }
 	/// Accesseur du coin1
@@ -46,7 +46,14 @@ public:
 
     virtual void updateObserver( const  PositionSubject* pSubject );
 
+
 protected:
+    /// flag used to ignore PositionSubject signal.
+    /// since we are the one setting his position
+    /// the callback would create an infinite loop
+    bool mUpdatingCornerPosition;
+
+
     void init( const Vecteur3& pCorner1, const Vecteur3& pCorner2,PositionSubject* s1,PositionSubject* s2);
 	const Vecteur3* coins_[2];
 };

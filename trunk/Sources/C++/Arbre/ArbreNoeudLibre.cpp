@@ -40,9 +40,10 @@ void ArbreNoeudLibre::empty()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void ArbreNoeudLibre::erase( const NoeudAbstrait* noeud )
+bool ArbreNoeudLibre::erase( const NoeudAbstrait* noeud )
 {
 	unlinkChild(noeud);
+    return false;
 }
 
 

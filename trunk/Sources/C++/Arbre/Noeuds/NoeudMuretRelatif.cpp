@@ -61,7 +61,10 @@ const Vecteur3& NoeudMuretRelatif::obtenirCoin2() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudMuretRelatif::updateObserver( const  PositionSubject* pSubject )
 {
-    updateWallProperties();
+    if(!mUpdatingCornerPosition)
+    {
+        updateWallProperties();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -103,7 +106,7 @@ void NoeudMuretRelatif::init( const Vecteur3& pCorner1, const Vecteur3& pCorner2
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudMuretRelatif::NoeudMuretRelatif( const std::string& type ):
-    Super(type)
+    Super(type), mUpdatingCornerPosition(false)
 {
     coins_[0] = NULL;
     coins_[1] = NULL;

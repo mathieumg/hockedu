@@ -116,24 +116,31 @@ void NoeudComposite::empty()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudComposite::erase( const NoeudAbstrait* noeud )
+bool NoeudComposite::erase( const NoeudAbstrait* noeud )
 {
-	for (ConteneurNoeuds::iterator it = enfants_.begin();
-		it != enfants_.end();
-		it++) {
-			if (*it == noeud) {
-				// On a trouvé le noeud à erase
-				NoeudAbstrait* noeudAEffacer = (*it);
-				enfants_.erase(it);
-				delete noeudAEffacer;
-				noeud = 0;
-				return;
-			}
-			else {
-				// On cherche dans les enfants.
-				(*it)->erase( noeud );
-			}
-	}
+    for (ConteneurNoeuds::iterator it = enfants_.begin();
+        it != enfants_.end();
+        it++) 
+    {
+            if (*it == noeud) 
+            {
+                // On a trouvé le noeud à erase
+                NoeudAbstrait* noeudAEffacer = (*it);
+                enfants_.erase(it);
+                delete noeudAEffacer;
+                noeud = 0;
+                return true;
+            }
+            else 
+            {
+                // On cherche dans les enfants.
+                if((*it)->erase( noeud ))
+                {
+                    return true;
+                }
+            }
+    }
+    return false;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -559,7 +566,7 @@ void NoeudComposite::getSelectedNodes( ConteneurNoeuds& pSelectedNodes ) const
 	}
 }
 
-
+#if MANUAL_PHYSICS_DETECTION
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void NoeudComposite::collisionDetection( const float& temps )
@@ -638,6 +645,7 @@ void NoeudComposite::fixSpeed( const float& temps )
 			(*it)->fixSpeed(temps);
 	}
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 ///

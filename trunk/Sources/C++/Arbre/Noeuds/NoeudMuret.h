@@ -27,7 +27,7 @@ public:
    /// Constructeur à partir du type du noeud.
    NoeudMuret(const std::string& typeNoeud);
    /// Destructeur.
-   ~NoeudMuret();
+   virtual ~NoeudMuret();
    
    /// fonction de comparaison de 2 noeuds
    virtual bool equals(NoeudAbstrait* n)
@@ -48,18 +48,13 @@ public:
    virtual void assignerPositionCoin(int lequel, Vecteur3 position);
 
    /// Permet de recalculer la position des coin des muret suite a une rotation ou une mise a l'échelle
-   void majPosCoins();
+   virtual void updateCornerPosition();
    /// Creation du noeud XML du muret
    virtual XmlElement* createXmlNode();
    /// Initialisation du NoeudMuret à partir d'un element XML
    virtual bool initFromXml(const XmlElement* element);
 
-   /// Permet de modifier l'angle du muret et garde les coins a jour
-   virtual void setAngle(float angle);
-   /// Mutateur des facteurs d'echelle et conserve les coins a jour
-   virtual void setScale(const Vecteur3& echelleCourante);
-   /// Assigne la position relative du noeud et conserve les coins a jour
-   inline virtual void setPosition( const Vecteur3& positionRelative);
+
 
 protected:
 private:

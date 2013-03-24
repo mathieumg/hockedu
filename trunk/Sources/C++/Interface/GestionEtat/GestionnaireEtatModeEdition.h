@@ -12,6 +12,7 @@
 #define GESTIONNAIREETATMODEEDITION_H
 
 #include "GestionnaireEtatAbstrait.h"
+#include "GameTime.h"
 
 class GestionnaireEvenementsTest;
 class Terrain;
@@ -59,6 +60,7 @@ private:
 	Vecteur2i positionSouris_;
     /// pointer on the field currently being modified
     Terrain* mField;
+    GameTime mAutoSaveTimer;
 };
 
 #endif

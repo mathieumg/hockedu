@@ -22,7 +22,7 @@ class NoeudMaillet;
 class NoeudRondelle;
 
 // ATTENTION, ORDRE IMPORTANT DANS L'ENUM. SI UNE VAL EST APRES GAME_STARTED, ELLE EST CONSIDEREE COMME ENCORE EN COURS
-enum GameStatus {GAME_NOT_STARTED, GAME_ENDED, GAME_STARTED, GAME_SCORE, GAME_RUNNING, GAME_PAUSED};
+enum GameStatus {GAME_NOT_READY, GAME_READY, GAME_ENDED, GAME_STARTED, GAME_SCORE, GAME_RUNNING, GAME_PAUSED};
 typedef int (*GameUpdateCallback) (int, GameStatus); // Param1 = GameID, Param2 = UpdateStatus
 
 
@@ -44,8 +44,8 @@ public:
 	~Partie(void);
 
 	/// Modificateur des points des joueurs
-	void incrementerPointsJoueurGauche();
-	void incrementerPointsJoueurDroit();
+	void incrementerPointsJoueurGauche(bool pForceUpdate = false);
+	void incrementerPointsJoueurDroit(bool pForceUpdate = false);
 
 	/// Assignation d'un joueur à la partie, S'assurer que le pointeur est unique !!!
 	void assignerJoueur( SPJoueurAbstrait joueur );
@@ -100,6 +100,10 @@ public:
     bool validatePassword(const std::string& pPasswordToValidate) const;
     void setPassword(const std::string& pPassword);
     inline bool requirePassword() const {return mRequirePassword;}
+
+    bool isNetworkClientGame() const;
+
+    bool isNetworkServerGame() const;
 
 /// Methode Privee
 private:
@@ -162,6 +166,8 @@ private:
     bool mRequirePassword;
     std::string mPassword;
     
+    bool mIsNetworkClientGame;
+    bool mIsNetworkServerGame;
 
 /// Accesseurs
 public:
@@ -216,6 +222,8 @@ public:
     inline void setName(std::string val) { mName = val; }
 
     inline PartieSyncer* getPartieSyncer() { return &mPartieSyncer; }
+
+    void recalculateNetworkGameFlags();
     
 };
 

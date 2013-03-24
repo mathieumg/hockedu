@@ -35,6 +35,7 @@ class TerrainTest : public CppUnit::TestFixture
 	CPPUNIT_TEST( testInitialiser );
     CPPUNIT_TEST( testVerifierValiditer );
     CPPUNIT_TEST( testInsideTable );
+    CPPUNIT_TEST( testUndoRedo );
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -58,6 +59,7 @@ public:
 	void testInitialiser();
     /// Cas de test: s'assurer de bien detecter si un noeud est a lexterieur de la table
     void testInsideTable();
+    void testUndoRedo();
 
 private:
 	Terrain* terrain_;

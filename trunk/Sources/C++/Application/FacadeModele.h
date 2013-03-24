@@ -281,7 +281,7 @@ private:
     //std::hash_map<PartieId,Partie*> mGames;
 
 	/// Objet contenant le temps ecouler en temps reel
-	GameTime temps_;
+	//GameTime temps_;
     
 	static int anglePause_;
 	//SPJoueurAbstrait adversaire_; (maintenant dans le GameManager)
@@ -350,7 +350,11 @@ public:
 	// SPJoueurAbstrait obtenirAdversaire() { return adversaire_; }
     // (maintenant dans GameManager)
 
-    inline std::string getCurrentMap() {return mCurrentMapFile;}
+    inline std::string getCurrentMap() 
+    {
+        if(mCurrentMapFile.size())return mCurrentMapFile;
+        return FICHIER_TERRAIN_EN_COURS;
+    }
     inline void setCurrentMap(std::string pCurrentMap) {mCurrentMapFile = pCurrentMap;}
 
     inline void setProchainePartie(int val) { prochainePartie_ = val; }

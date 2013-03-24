@@ -5,6 +5,17 @@ namespace UIHeavyClient
 #pragma once
 #endif
 
+
+#if !WIN32 && !__linux__ && !__APPLE__
+public
+#endif
+enum BoutonSouris{
+    AUCUN_BOUTON_SOURIS	,
+    BOUTON_SOURIS_GAUCHE,
+    BOUTON_SOURIS_MILIEU,
+    BOUTON_SOURIS_DROIT	,
+    NB_BOUTON_SOURIS	};
+
 #if !WIN32 && !__linux__ && !__APPLE__
     public
 #endif
@@ -22,6 +33,8 @@ namespace UIHeavyClient
         ACTION_EDITEUR_DEPLACER    ,
         ACTION_EDITEUR_ROTATION    ,
         ACTION_EDITEUR_ECHELLE     ,
+        ACTION_EDITEUR_UNDO        ,
+        ACTION_EDITEUR_REDO        ,
         ACTION_SUPPRIMER           ,
         ACTION_DUPLIQUER           ,
         ACTION_INSERER_PORTAIL     ,
@@ -78,6 +91,11 @@ namespace UIHeavyClient
 
         THERE_ARE_NODES_SELECTED,
         THERE_ARE_NO_NODE_SELECTED,
+
+        CAN_UNDO,
+        CANNOT_UNDO,
+        CAN_REDO,
+        CANNOT_REDO,
 
         MODEL_EVENT_END,
         /// Model event category : end
@@ -165,6 +183,24 @@ namespace UIHeavyClient
         NB_PROPERTYASSIGNMENTVALIDATION
     };
     
+    
+    // max of 16 categories because box2D flag have only 16 bits
+    /// Group 1 used to collide mallet with middle separation and goals
+#if !WIN32 && !__linux__ && !__APPLE__
+    public
+#endif
+    enum PhysicsCategory
+    {
+        CATEGORY_NONE     = 0x0000,
+        CATEGORY_BOUNDARY = 0x0001,
+        CATEGORY_PUCK     = 0x0002,
+        CATEGORY_MALLET   = 0x0004,
+        CATEGORY_PORTAL   = 0x0008,
+        CATEGORY_BOOST    = 0x0010,
+        CATEGORY_BONUS    = 0x0020,
+        CATEGORY_WALL     = 0x0040,
+        CATEGORY_GOALIE     = 0x0080,
+    };
 
 #if !WIN32 && !__linux__ && !__APPLE__
 }

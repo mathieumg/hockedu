@@ -11,7 +11,7 @@
 #pragma once
 #include <string>
 #include "ExceptionsReseau/ExceptionReseau.h"
-#include "Network_Defines.h"
+#include "FacadePortability.h"
 #include "Singleton.h"
 #include <map>
 #include "Socket.h"
@@ -54,11 +54,12 @@ enum PacketTypes {
     BASE,
     GAME_STATUS,
     GAME_CREATION_REQUEST,
+    GAME_CONNECTION,
+    GAME_REGISTRATION,
     AUTHENTIFICATION_SERVEUR_JEU,
     MAILLET,
     RONDELLE,
-    GAME_CONNECTION
-};
+    GAME_EVENT};
 
 struct ConnectionStateEvent
 {
@@ -94,9 +95,9 @@ public:
     // Port a utiliser pour les comminications de base
     static int communicationPortMasterServer;
     // Port a utiliser pour les comminications de base
-    static int communicationUDPPort;
+    static int communicationUDPPortClientLourd;
     // Port a utiliser pour les comminications de base
-    static int connectionUDPPort;
+    static int communicationUDPPortServeurJeu;
 
     // Initialise le GestionnaireReseau
     void initClient(const std::string& pUsername = "", const std::string& pPassword = "");

@@ -28,7 +28,7 @@ public:
 	friend VisiteurNoeudTest;
 
 	/// Destructeur
-	~VisiteurSelection(void);
+	virtual ~VisiteurSelection(void);
 
 	/// Méthode pour effectuer la selection sur l'objet le plus près de l'écran
 	void faireSelection();

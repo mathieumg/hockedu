@@ -85,10 +85,10 @@ void TerrainTest::testVerifierValiditer()
 void TerrainTest::testInitialiser()
 {
 	terrain_->initialiser("terrainTest");
-    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteExtLargeur() == ZoneEdition::DEFAUT_LIMITE_EXT_LARGEUR);
-    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteExtLongueur() == ZoneEdition::DEFAUT_LIMITE_EXT_LONGUEUR);
-    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteIntLargeur() == ZoneEdition::DEFAUT_LIMITE_INT_LARGEUR);
-    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteIntLongueur() == ZoneEdition::DEFAUT_LIMITE_INT_LONGUEUR);
+    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteExtY() == ZoneEdition::DEFAUT_LIMITE_EXT_Y);
+    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteExtX() == ZoneEdition::DEFAUT_LIMITE_EXT_X);
+    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteIntY() == ZoneEdition::DEFAUT_LIMITE_INT_Y);
+    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteIntX() == ZoneEdition::DEFAUT_LIMITE_INT_X);
 
 	CPPUNIT_ASSERT(terrain_->mNewNodeTree);
 	CPPUNIT_ASSERT(terrain_->mNewNodeTree->childCount() == 0);
@@ -141,6 +141,28 @@ void TerrainTest::testInsideTable()
             }
         }
     }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void TerrainTest::testUndoRedo()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void TerrainTest::testUndoRedo()
+{
+    terrain_->createRandomField("testName");
+
+    auto xml = terrain_->creerNoeudXML();
+    Terrain terrainRead(NULL);
+    terrainRead.initialiserXml(xml,false);
+
+    CPPUNIT_ASSERT(terrainRead.getLogicTree());
+    CPPUNIT_ASSERT(terrainRead.getLogicTree()->equals(terrain_->getLogicTree()));
 }
 
 ///////////////////////////////////////////////////////////////////////////////

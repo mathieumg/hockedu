@@ -8,6 +8,7 @@ $test = new CacheStore( 'settings' );
 
 $settings = array(  'MainDomain' => 'hockedu.com', 
                     'ContentSubDomain' => 'content',
+                    'MapsStorageDirectory' => 'maps',
                     'CommonDBDSN' => array(
                         'phptype' => 'mysqli',
                         'option' => 'charset=utf8',

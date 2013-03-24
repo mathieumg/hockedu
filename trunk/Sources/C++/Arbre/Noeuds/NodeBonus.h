@@ -26,7 +26,7 @@ public:
     /// Constructeur à partir du type du noeud.
     NodeBonus(const std::string& typeNoeud);
     /// Destructeur.
-    ~NodeBonus();
+    virtual ~NodeBonus();
 
     /// Affiche le bonus.
     virtual void renderReal() const;
