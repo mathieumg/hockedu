@@ -1071,6 +1071,7 @@ bool FacadeModele::passageModeJeu()
         {
             return false;
         }
+        GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(true);
     }
 
     

@@ -605,6 +605,9 @@
     <ClCompile Include="Arbre\Visiteur\VisitorSetProperties.cpp">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
     </ClCompile>
+    <ClCompile Include="Arbre\HUD\HUDForeverAlone.cpp">
+      <Filter>Sources Files\Arbre\Hud</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1140,6 +1143,9 @@
     </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisitorSetProperties.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\HUD\HUDForeverAlone.h">
+      <Filter>Sources Files\Arbre\Hud</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

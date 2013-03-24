@@ -166,6 +166,8 @@ private:
     bool mRequirePassword;
     std::string mPassword;
     
+    bool mIsNetworkClientGame;
+    bool mIsNetworkServerGame;
 
 /// Accesseurs
 public:
@@ -220,6 +222,8 @@ public:
     inline void setName(std::string val) { mName = val; }
 
     inline PartieSyncer* getPartieSyncer() { return &mPartieSyncer; }
+
+    void recalculateNetworkGameFlags();
     
 };
 

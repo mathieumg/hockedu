@@ -64,6 +64,8 @@
 #include "FieldModificationStrategyRotate.h"
 #include "FieldModificationStrategyScale.h"
 #include "Visiteur/VisitorSetProperties.h"
+#include "../Reseau/Paquets/PaquetGameEvent.h"
+#include "../Reseau/RelayeurMessage.h"
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
@@ -1140,6 +1142,15 @@ void Terrain::BeginContact( b2Contact* contact )
                 SoundFMOD::obtenirInstance()->playEffect(effect(COLLISION_MAILLET_EFFECT1+(rand()%5)));
                 NoeudMaillet* maillet = (NoeudMaillet*)(bodies[1]->GetUserData());
                 NoeudRondelle* rondelle = (NoeudRondelle*)(bodies[0]->GetUserData());
+                // Si partie en reseau, on doit envoyer un paquet game event pour dire de changer le last hitting mallet
+                if(maillet && rondelle && mGame->isNetworkServerGame())
+                {
+                    PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+                    wPaquet->setGameId(mGame->getUniqueGameId());
+                    wPaquet->setEvent(GAME_EVENT_CHANGE_LAST_MALLET);
+                    wPaquet->setEventOnPlayerLeft(maillet->estAGauche());
+                    RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
+                }
                 rondelle->setLastHittingMallet(maillet);
             }
             break;

@@ -279,6 +279,7 @@ void Partie::assignerJoueur( SPJoueurAbstrait joueur )
         modifierJoueurDroit(joueur);
     callGameUpdate(mGameStatus);
     mPartieSyncer.setPlayers(joueurGauche_, joueurDroit_);
+    recalculateNetworkGameFlags();
 //  else
 //      delete joueur;
 }
@@ -634,6 +635,7 @@ void Partie::modifierJoueurDroit( SPJoueurAbstrait val )
     joueurDroit_ = val;
     callGameUpdate(mGameStatus);
     mPartieSyncer.setPlayers(NULL, joueurDroit_);
+    recalculateNetworkGameFlags();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -654,6 +656,7 @@ void Partie::modifierJoueurGauche( SPJoueurAbstrait val )
     joueurGauche_ = val;
     callGameUpdate(mGameStatus);
     mPartieSyncer.setPlayers(joueurGauche_, NULL);
+    recalculateNetworkGameFlags();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1000,21 +1003,19 @@ void Partie::setPassword( const std::string& pPassword )
 
 bool Partie::isNetworkClientGame() const
 {
-    // Est une partie network point de vue du client si un joueur network y est connecte
-    SPJoueurAbstrait wJoueurGauche = obtenirJoueurGauche();
-    SPJoueurAbstrait wJoueurDroit = obtenirJoueurDroit();
-
-    if(wJoueurGauche && wJoueurDroit)
-    {
-        return wJoueurGauche->obtenirType() == JOUEUR_NETWORK || wJoueurDroit->obtenirType() == JOUEUR_NETWORK;
-    }
-
-    return false;
+    return mIsNetworkClientGame;
 }
 
 
 
 bool Partie::isNetworkServerGame() const
+{
+    return mIsNetworkServerGame;
+}
+
+
+
+void Partie::recalculateNetworkGameFlags()
 {
     // Est une partie network point de vue du client si les 2 joueurs sont des joueurs network_server
     SPJoueurAbstrait wJoueurGauche = obtenirJoueurGauche();
@@ -1022,10 +1023,15 @@ bool Partie::isNetworkServerGame() const
 
     if(wJoueurGauche && wJoueurDroit)
     {
-        return wJoueurGauche->obtenirType() == JOUEUR_NETWORK_SERVEUR && wJoueurDroit->obtenirType() == JOUEUR_NETWORK_SERVEUR;
+        mIsNetworkServerGame = wJoueurGauche->obtenirType() == JOUEUR_NETWORK_SERVEUR && wJoueurDroit->obtenirType() == JOUEUR_NETWORK_SERVEUR;
+        mIsNetworkClientGame = wJoueurGauche->obtenirType() == JOUEUR_NETWORK || wJoueurDroit->obtenirType() == JOUEUR_NETWORK;;
+    }
+    else
+    {
+        mIsNetworkServerGame = false;
+        mIsNetworkClientGame = false;
     }
 
-    return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

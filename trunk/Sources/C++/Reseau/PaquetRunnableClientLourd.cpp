@@ -278,6 +278,37 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
 
                 break;
             }
+        case GAME_EVENT_CHANGE_LAST_MALLET:
+            {
+                int wGameId = wPaquet->getGameId();
+                bool wIsPlayerLeft = wPaquet->getEventOnPlayerLeft();
+                Runnable* r = new Runnable([wGameId, wIsPlayerLeft](Runnable*){
+                    // On doit mettre a jour le dernier maillet qui a touche a la rondelle pour eviter un crash dans la detection de collision avec les bonus
+                    NoeudMaillet* wMaillet;
+                    Partie* wGameRunnable = GameManager::obtenirInstance()->getGame(wGameId);
+                    if(wIsPlayerLeft)
+                    {
+                        if(wGameRunnable->obtenirJoueurGauche())
+                            wMaillet = wGameRunnable->obtenirJoueurGauche()->getControlingMallet();
+                    }
+                    else
+                    {
+                        if(wGameRunnable->obtenirJoueurDroit())
+                            wMaillet = wGameRunnable->obtenirJoueurDroit()->getControlingMallet();
+                    }
+
+                    if(wGameRunnable->getField())
+                    {
+                        NoeudRondelle* wPuck = wGameRunnable->getField()->getPuck();
+                        if(wPuck)
+                        {
+                            wPuck->setLastHittingMallet(wMaillet);
+                        }
+                    }
+                });
+                RazerGameUtilities::RunOnUpdateThread(r,true);
+                break;
+            }
         }
     }
 
