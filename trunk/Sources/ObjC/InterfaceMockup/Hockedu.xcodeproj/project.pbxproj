@@ -81,12 +81,12 @@
 		4E2A595E16F2E558002160AE /* NodeModelRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595B16F2E558002160AE /* NodeModelRender.cpp */; };
 		4E2A596116F2E658002160AE /* BonusModifierFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */; };
 		4E8C11B916FA31AE003D61E8 /* libTinyXml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EF216A316FA2AC0005FB093 /* libTinyXml.a */; };
-		4E93754616FA1E40006A9C39 /* VisitorGatherProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E93754416FA1E40006A9C39 /* VisitorGatherProperties.cpp */; };
 		4E96C87816FE0A5000CBA826 /* razor_sharp.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E96C87716FE0A5000CBA826 /* razor_sharp.png */; };
 		4E96DF0416F64C4700588998 /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E96DC6716F63D2100588998 /* libBox2D.a */; };
 		4E9CE9FA16FBB74100B04A12 /* Login.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E9CE9F916FBB74100B04A12 /* Login.xib */; };
 		4E9CE9FE16FBBA4B00B04A12 /* LoadMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E9CE9FC16FBBA4B00B04A12 /* LoadMapViewController.m */; };
 		4E9CE9FF16FBBA4B00B04A12 /* LoadMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E9CE9FD16FBBA4B00B04A12 /* LoadMapViewController.xib */; };
+		4E9DDDB216FF842C0081B35D /* VisitorGatherProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E9DDDB016FF842C0081B35D /* VisitorGatherProperties.cpp */; };
 		4EA5287716FE356A008F89BD /* FieldModificationStrategyRotate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA5287316FE356A008F89BD /* FieldModificationStrategyRotate.cpp */; };
 		4EA5287816FE356A008F89BD /* FieldModificationStrategyScale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA5287516FE356A008F89BD /* FieldModificationStrategyScale.cpp */; };
 		4EA5287B16FE366A008F89BD /* VisitorSetProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA5287916FE366A008F89BD /* VisitorSetProperties.cpp */; };
@@ -313,14 +313,14 @@
 		4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierFactory.cpp; path = ../Usines/BonusModifierFactory.cpp; sourceTree = "<group>"; };
 		4E2A596016F2E658002160AE /* BonusModifierFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierFactory.h; path = ../Usines/BonusModifierFactory.h; sourceTree = "<group>"; };
 		4E2A596216F2E84B002160AE /* Enum_Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enum_Declarations.h; path = "../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"; sourceTree = "<group>"; };
-		4E93754416FA1E40006A9C39 /* VisitorGatherProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VisitorGatherProperties.cpp; path = "../../C++/Arbre/Visiteur/VisitorGatherProperties.cpp"; sourceTree = "<group>"; };
-		4E93754516FA1E40006A9C39 /* VisitorGatherProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VisitorGatherProperties.h; path = "../../C++/Arbre/Visiteur/VisitorGatherProperties.h"; sourceTree = "<group>"; };
 		4E96C87716FE0A5000CBA826 /* razor_sharp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = razor_sharp.png; path = ../../../Content/media/razor_sharp.png; sourceTree = "<group>"; };
 		4E96DC6216F63D1D00588998 /* Box2D.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Box2D.xcodeproj; path = Box2D/Box2D.xcodeproj; sourceTree = "<group>"; };
 		4E9CE9F916FBB74100B04A12 /* Login.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Login.xib; sourceTree = "<group>"; };
 		4E9CE9FB16FBBA4B00B04A12 /* LoadMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMapViewController.h; sourceTree = "<group>"; };
 		4E9CE9FC16FBBA4B00B04A12 /* LoadMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadMapViewController.m; sourceTree = "<group>"; };
 		4E9CE9FD16FBBA4B00B04A12 /* LoadMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadMapViewController.xib; sourceTree = "<group>"; };
+		4E9DDDB016FF842C0081B35D /* VisitorGatherProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisitorGatherProperties.cpp; sourceTree = "<group>"; };
+		4E9DDDB116FF842C0081B35D /* VisitorGatherProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisitorGatherProperties.h; sourceTree = "<group>"; };
 		4EA5287316FE356A008F89BD /* FieldModificationStrategyRotate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyRotate.cpp; sourceTree = "<group>"; };
 		4EA5287416FE356A008F89BD /* FieldModificationStrategyRotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyRotate.h; sourceTree = "<group>"; };
 		4EA5287516FE356A008F89BD /* FieldModificationStrategyScale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyScale.cpp; sourceTree = "<group>"; };
@@ -517,10 +517,10 @@
 		0C04E13916DE960B002B0EE2 /* Visiteur */ = {
 			isa = PBXGroup;
 			children = (
+				4E9DDDB016FF842C0081B35D /* VisitorGatherProperties.cpp */,
+				4E9DDDB116FF842C0081B35D /* VisitorGatherProperties.h */,
 				4EA5287916FE366A008F89BD /* VisitorSetProperties.cpp */,
 				4EA5287A16FE366A008F89BD /* VisitorSetProperties.h */,
-				4E93754416FA1E40006A9C39 /* VisitorGatherProperties.cpp */,
-				4E93754516FA1E40006A9C39 /* VisitorGatherProperties.h */,
 				4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */,
 				4EB7EA7816EFBE4100493722 /* VisiteurFunction.h */,
 				0C04E13A16DE960B002B0EE2 /* VisiteurCollision.cpp */,
@@ -986,7 +986,6 @@
 				4E2A595E16F2E558002160AE /* NodeModelRender.cpp in Sources */,
 				4E2A596116F2E658002160AE /* BonusModifierFactory.cpp in Sources */,
 				4EC1626E16F81A8C00577704 /* BonusModifierBlockGoal.cpp in Sources */,
-				4E93754616FA1E40006A9C39 /* VisitorGatherProperties.cpp in Sources */,
 				4E9CE9FE16FBBA4B00B04A12 /* LoadMapViewController.m in Sources */,
 				4E07580916FBE5ED005F697E /* FieldModificationStrategyMove.cpp in Sources */,
 				4EA5287716FE356A008F89BD /* FieldModificationStrategyRotate.cpp in Sources */,
@@ -994,6 +993,7 @@
 				4EA5287B16FE366A008F89BD /* VisitorSetProperties.cpp in Sources */,
 				4ED4BC3516FEED3200227F1E /* FieldModificationStrategyAddNode.cpp in Sources */,
 				4ED4BC3616FEED3200227F1E /* FieldModificationStrategyAddWall.cpp in Sources */,
+				4E9DDDB216FF842C0081B35D /* VisitorGatherProperties.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
