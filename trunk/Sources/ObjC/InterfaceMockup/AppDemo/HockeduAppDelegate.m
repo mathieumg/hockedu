@@ -6,17 +6,24 @@
 #import "HockeduAppDelegate.h"
 #import "MenuViewController.h"
 #import "EAGLViewController.h"
+#import "LoadMapViewController.h"
 
-@implementation AppDemoAppDelegate
+@implementation HockeduAppDelegate
 
 @synthesize window = _window;
 @synthesize menuViewController = _menuViewController;
 @synthesize eaglViewController = _eaglViewController;
-
+@synthesize loadMapViewController = _loadMapViewController;
 
 - (void) afficherVueAnimee
 {    
     self.window.rootViewController = self.eaglViewController;
+    
+}
+
+- (void) showMapList
+{
+    self.window.rootViewController = self.loadMapViewController;
     
 }
 
@@ -70,6 +77,8 @@
 {
     [_window release];
     [_menuViewController release];
+    [_eaglViewController release];
+    [_loadMapViewController release];
     [super dealloc];
 }
 
