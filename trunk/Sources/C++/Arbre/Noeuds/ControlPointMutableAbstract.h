@@ -24,7 +24,7 @@ class ControlPointMutableAbstract
 public:
     /// Constructeurs par paramètres
     ControlPointMutableAbstract(unsigned int limit);
-    ~ControlPointMutableAbstract();
+    virtual ~ControlPointMutableAbstract();
 
     inline NodeControlPoint* getControlPoint(unsigned int i) const
     {

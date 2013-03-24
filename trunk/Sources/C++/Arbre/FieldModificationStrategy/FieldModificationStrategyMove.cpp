@@ -48,6 +48,22 @@ int FieldModificationStrategyMove::endStrategy()
     return mField->FixCollidingObjects();
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn int FieldModificationStrategyMove::cancelStratedy()
+///
+/// Ends the strategy early and remove modifications made
+///
+///
+/// @return int
+///
+////////////////////////////////////////////////////////////////////////
+int FieldModificationStrategyMove::cancelStratedy()
+{
+    mField->reApplyCurrentState();
+    return 1;
+}
+
 
 
 

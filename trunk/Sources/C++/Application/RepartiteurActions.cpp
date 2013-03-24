@@ -11,9 +11,7 @@
 #include "RepartiteurActions.h"
 #include "FacadeModele.h"
 #include "GestionnaireEvenements.h"
-#include "VisiteurSuppression.h"
 #include "GestionnaireEtatAbstrait.h"
-#include "VisiteurDupliquer.h"
 #include "GestionnaireAnimations.h"
 #include "VuePerspectiveCiel.h"
 #include "VuePerspectiveOrbit.h"
@@ -263,7 +261,7 @@ bool RepartiteurActions::actionBoutonTransformationEchelle()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonSupprimer()
 {
-	FacadeModele::getInstance()->acceptVisitor(VisiteurSuppression());
+	FacadeModele::getInstance()->getEditionField()->deleteSelectedNodes();
 	return true; 
 }
 
@@ -415,7 +413,7 @@ bool RepartiteurActions::actionBoutonInsererBonus()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonDupliquer()
 {
-	FacadeModele::getInstance()->duplicateSelection();
+	FacadeModele::getInstance()->getEditionField()->duplicateSelection();
 	return true; 
 }
 

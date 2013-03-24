@@ -71,6 +71,21 @@ void FieldModificationStrategyRotate::findRotationCenter()
     mCenter = aabb.GetCenter();
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn int FieldModificationStrategyRotate::cancelStratedy()
+///
+/// Ends the strategy early and remove modifications made
+///
+/// @return int
+///
+////////////////////////////////////////////////////////////////////////
+int FieldModificationStrategyRotate::cancelStratedy()
+{
+    mField->reApplyCurrentState();
+    return 1;
+}
+
 
 
 

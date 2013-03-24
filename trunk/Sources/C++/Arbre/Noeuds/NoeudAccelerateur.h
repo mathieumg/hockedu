@@ -27,7 +27,7 @@ public:
 	/// Constructeur à partir du type du noeud.
 	NoeudAccelerateur(const std::string& typeNoeud);
 	/// Destructeur.
-	~NoeudAccelerateur();
+	virtual ~NoeudAccelerateur();
 
     /// fonction de comparaison de 2 noeuds
     virtual bool equals(NoeudAbstrait* n)

@@ -20,9 +20,16 @@ enum FieldModificationStrategyEventType
 
 enum FieldModificationStrategyType
 {
-    FIELD_MODIFICATION_MOVE,
-    FIELD_MODIFICATION_ROTATE,
-    FIELD_MODIFICATION_SCALE,
+    FIELD_MODIFICATION_NONE      ,
+    FIELD_MODIFICATION_MOVE      ,
+    FIELD_MODIFICATION_ROTATE    ,
+    FIELD_MODIFICATION_SCALE     ,
+    FIELD_MODIFICATION_ADD_PORTAL,
+    FIELD_MODIFICATION_ADD_BOOST ,
+    FIELD_MODIFICATION_ADD_WALL  ,
+    FIELD_MODIFICATION_ADD_MALLET,
+    FIELD_MODIFICATION_ADD_PUCK  ,
+    FIELD_MODIFICATION_ADD_BONUS ,
 };
 
 struct FieldModificationStrategyEvent
@@ -53,6 +60,7 @@ public:
         checkf(pEvent.mType == FIELD_MODIFICATION_EVENT_CLICK, "Not starting a strategy from a click event");
         checkf(mField);
     }
+    virtual ~FieldModificationStrategyAbstract(){}
     /// Entry point when an event is sent to this strategy, return not used
     int receivedEvent(const FieldModificationStrategyEvent& pEvent)
     {
@@ -63,6 +71,8 @@ public:
     }
     /// Specific behavior when strategy is over
     virtual int endStrategy() = 0;
+    /// Ends the strategy early and remove modifications made
+    virtual int cancelStratedy() = 0;
 protected:
     virtual int receivedEventSpecific(const FieldModificationStrategyEvent& pEvent) = 0;
 

@@ -173,12 +173,6 @@
     <ClCompile Include="Arbre\Modeles\GestionnaireModeles.cpp">
       <Filter>Sources Files\Arbre\Modeles</Filter>
     </ClCompile>
-    <ClCompile Include="Interface\EtatSouris\SourisEtatTransformationRotation.cpp">
-      <Filter>Sources Files\Interface\EtatSouris</Filter>
-    </ClCompile>
-    <ClCompile Include="Interface\EtatSouris\SourisEtatTransformationEchelle.cpp">
-      <Filter>Sources Files\Interface\EtatSouris</Filter>
-    </ClCompile>
     <ClCompile Include="Tests\BancTests.cpp">
       <Filter>Sources Files\Tests</Filter>
     </ClCompile>
@@ -201,9 +195,6 @@
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClCompile>
     <ClCompile Include="Interface\EtatSouris\SourisEtatSelection.cpp">
-      <Filter>Sources Files\Interface\EtatSouris</Filter>
-    </ClCompile>
-    <ClCompile Include="Interface\EtatSouris\SourisEtatTransformationDeplacement.cpp">
       <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClCompile>
     <ClCompile Include="Arbre\Visiteur\VisiteurSelection.cpp">
@@ -229,9 +220,6 @@
     </ClCompile>
     <ClCompile Include="Arbre\Noeuds\NoeudMuret.cpp">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
-    </ClCompile>
-    <ClCompile Include="Interface\EtatSouris\SourisEtatAjoutMuret.cpp">
-      <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClCompile>
     <ClCompile Include="Arbre\Visiteur\VisiteurCollision.cpp">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
@@ -482,9 +470,6 @@
     <ClCompile Include="Arbre\Noeuds\ControlPointMutableAbstract.cpp">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClCompile>
-    <ClCompile Include="Interface\EtatSouris\SourisEtatAjoutControlPointMutable.cpp">
-      <Filter>Sources Files\Interface\EtatSouris</Filter>
-    </ClCompile>
     <ClCompile Include="Arbre\Noeuds\NodeControlPoint.cpp">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClCompile>
@@ -608,6 +593,15 @@
     <ClCompile Include="Arbre\HUD\HUDForeverAlone.cpp">
       <Filter>Sources Files\Arbre\Hud</Filter>
     </ClCompile>
+    <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddWall.cpp">
+      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddNode.cpp">
+      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\EtatSouris\SourisEtatTransformation.cpp">
+      <Filter>Sources Files\Interface\EtatSouris</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -688,12 +682,6 @@
     <ClInclude Include="Arbre\Modeles\GestionnaireModeles.h">
       <Filter>Sources Files\Arbre\Modeles</Filter>
     </ClInclude>
-    <ClInclude Include="Interface\EtatSouris\SourisEtatTransformationRotation.h">
-      <Filter>Sources Files\Interface\EtatSouris</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\EtatSouris\SourisEtatTransformationEchelle.h">
-      <Filter>Sources Files\Interface\EtatSouris</Filter>
-    </ClInclude>
     <ClInclude Include="Tests\BancTests.h">
       <Filter>Sources Files\Tests</Filter>
     </ClInclude>
@@ -714,9 +702,6 @@
     </ClInclude>
     <ClInclude Include="Arbre\Noeuds\NoeudAccelerateur.h">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\EtatSouris\SourisEtatTransformationDeplacement.h">
-      <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClInclude>
     <ClInclude Include="Interface\EtatSouris\SourisEtatSelection.h">
       <Filter>Sources Files\Interface\EtatSouris</Filter>
@@ -744,9 +729,6 @@
     </ClInclude>
     <ClInclude Include="Arbre\Noeuds\NoeudMuret.h">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\EtatSouris\SourisEtatAjoutMuret.h">
-      <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisiteurCollision.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
@@ -1024,9 +1006,6 @@
     <ClInclude Include="Arbre\Noeuds\ControlPointMutableAbstract.h">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClInclude>
-    <ClInclude Include="Interface\EtatSouris\SourisEtatAjoutControlPointMutable.h">
-      <Filter>Sources Files\Interface\EtatSouris</Filter>
-    </ClInclude>
     <ClInclude Include="Arbre\Noeuds\NodePolygone.h">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClInclude>
@@ -1143,9 +1122,17 @@
     </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisitorSetProperties.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbre\HUD\HUDForeverAlone.h">
+    </ClInclude>    <ClInclude Include="Arbre\HUD\HUDForeverAlone.h">
       <Filter>Sources Files\Arbre\Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddWall.h">
+      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddNode.h">
+      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\EtatSouris\SourisEtatTransformation.h">
+      <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

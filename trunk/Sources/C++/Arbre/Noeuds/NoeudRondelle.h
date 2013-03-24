@@ -36,7 +36,7 @@ private:
     NoeudRondelle(const std::string& typeNoeud, unsigned int& puckCreated, unsigned int puckLimit);
 public:
     /// Destructeur.
-    ~NoeudRondelle();
+    virtual ~NoeudRondelle();
 
 
     /// fonction de comparaison de 2 noeuds

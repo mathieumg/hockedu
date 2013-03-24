@@ -25,7 +25,7 @@ public:
 	/// Constructeur par paramètre
 	VisiteurRotation(float angle, const Vecteur2& centreRot);
 	/// Destrcuteur
-	~VisiteurRotation(void);
+	virtual ~VisiteurRotation(void);
 
 	/// Visitation d'un noeud abstrait
 	virtual void visiterNoeudAbstrait( NoeudAbstrait* noeud );

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// @file FieldModificationStrategyRotate.h
+/// @file FieldModificationStrategyAddNode.h
 /// @author Michael Ferris
 /// @date 2013-03-21
 /// @version 1.0
@@ -7,34 +7,31 @@
 /// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
+#pragma once
 #include "FieldModificationStrategyAbstract.h"
 
 ///////////////////////////////////////////////////////////////////////////
-/// @class FieldModificationStrategyRotate
-/// @brief Strategy to rotate nodes
+/// @class FieldModificationStrategyAddNode
+/// @brief Strategy to add a wall on the field
 ///
 /// @author Michael Ferris
 /// @date 2013-03-21
 ///////////////////////////////////////////////////////////////////////////
-class FieldModificationStrategyRotate : public FieldModificationStrategyAbstract
+class FieldModificationStrategyAddNode : public FieldModificationStrategyAbstract
 {
 public:
-    FieldModificationStrategyRotate(FIELDMODIFICATIONSTRATEGYABSTRACT_PARAMETERS):
-        FIELDMODIFICATIONSTRATEGYABSTRACT_INIT
-    {
-        mCenter = pEvent.mPosition;
-        //findRotationCenter();
-    }
-
-
+    FieldModificationStrategyAddNode(FIELDMODIFICATIONSTRATEGYABSTRACT_PARAMETERS,const std::string& type);
+    virtual ~FieldModificationStrategyAddNode();
 protected:
     virtual int receivedEventSpecific(const FieldModificationStrategyEvent& pEvent);
     virtual int endStrategy();
     /// Ends the strategy early and remove modifications made
     virtual int cancelStratedy();
 
-    void findRotationCenter();
-    Vecteur2 mCenter;
+    void createNewNode(const Vecteur2& position);
+    class NoeudAbstrait* mNewNode;
+    const std::string mType;
+
 };
 
 

@@ -149,6 +149,9 @@ public:
 
     // tells if there are selected node on the field that can be deleted
     bool CanSelectedNodeBeDeleted() const;
+    // deletes node selected
+    void deleteSelectedNodes();
+
     /// checks if selected nodes are the same type and returns that type
     /// if not, return NODE_KEY_NONE
     RazerKey getSelectedNodeUniqueKey() const;
@@ -159,12 +162,15 @@ public:
 
     int BeginModification(FieldModificationStrategyType type, const FieldModificationStrategyEvent& beginEvent);
     int ReceiveModificationEvent(const FieldModificationStrategyEvent& pEvent);
+    void cancelModification();
     int EndModification();
 
     /// Adds an undo state onto the stack and empties the redo stack
     void pushUndoState();
     int undoModification();
     int redoModification();
+    /// cancels current modifications and reset the field to the last known correct state
+    void reApplyCurrentState();
 
 #if BOX2D_PLAY
     /// Callback before the contact between 2 fixtures

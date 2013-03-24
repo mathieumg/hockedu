@@ -14,12 +14,8 @@
 #include "GestionnaireModeles.h"
 #include "SoundFMOD.h"
 #include "GestionnaireHUD.h"
-#include "SourisEtatTransformationRotation.h"
-#include "SourisEtatTransformationEchelle.h"
-#include "SourisEtatTransformationDeplacement.h"
 #include "SourisEtatSelection.h"
 #include "SourisEtatAjout.h"
-#include "SourisEtatAjoutControlPointMutable.h"
 #include "Terrain.h"
 #include "ConfigScene.h"
 
@@ -302,16 +298,16 @@ void GestionnaireEtatModeEdition::modifierEtatSouris( NomEtatSouris etatSouris )
         /*static */int i=0;
         switch(etatSouris)
         {
-        case ETAT_SOURIS_TRANSFORMATION_ROTATION    : etatSouris_ = new SourisEtatTransformationRotation    (); break;
-        case ETAT_SOURIS_TRANSFORMATION_ECHELLE     : etatSouris_ = new SourisEtatTransformationEchelle     (); break;
-        case ETAT_SOURIS_TRANSFORMATION_DEPLACEMENT : etatSouris_ = new SourisEtatTransformationDeplacement (); break;
-        case ETAT_SOURIS_SELECTION                  : etatSouris_ = new SourisEtatSelection                 (); break;
-        case ETAT_SOURIS_AJOUTER_PORTAIL            : etatSouris_ = new SourisEtatAjout                     (mField,RazerGameUtilities::NOM_PORTAIL);  break;
-        case ETAT_SOURIS_AJOUTER_MURET              : etatSouris_ = new SourisEtatAjoutControlPointMutable  (mField, ((i++)&1) == 0 ? RazerGameUtilities::NOM_MURET : RazerGameUtilities::NAME_POLYGONE); break;
-        case ETAT_SOURIS_AJOUTER_MAILLET            : etatSouris_ = new SourisEtatAjout                     (mField,RazerGameUtilities::NOM_MAILLET);  break;
-        case ETAT_SOURIS_AJOUTER_RONDELLE           : etatSouris_ = new SourisEtatAjout                     (mField,RazerGameUtilities::NOM_RONDELLE); break;
-        case ETAT_SOURIS_AJOUTER_ACCELERATEUR       : etatSouris_ = new SourisEtatAjout                     (mField,RazerGameUtilities::NOM_ACCELERATEUR); break;
-        case ETAT_SOURIS_AJOUTER_BONUS              : etatSouris_ = new SourisEtatAjout                     (mField,RazerGameUtilities::NAME_BONUS); break;
+        case ETAT_SOURIS_TRANSFORMATION_ROTATION    : etatSouris_ = new SourisEtatTransformation ( FIELD_MODIFICATION_ROTATE     ); break;
+        case ETAT_SOURIS_TRANSFORMATION_ECHELLE     : etatSouris_ = new SourisEtatTransformation ( FIELD_MODIFICATION_SCALE      ); break;
+        case ETAT_SOURIS_TRANSFORMATION_DEPLACEMENT : etatSouris_ = new SourisEtatTransformation ( FIELD_MODIFICATION_MOVE       ); break;
+        case ETAT_SOURIS_SELECTION                  : etatSouris_ = new SourisEtatSelection      (                               ); break;
+        case ETAT_SOURIS_AJOUTER_PORTAIL            : etatSouris_ = new SourisEtatAjout          ( FIELD_MODIFICATION_ADD_PORTAL );  break;
+        case ETAT_SOURIS_AJOUTER_MURET              : etatSouris_ = new SourisEtatAjout          ( FIELD_MODIFICATION_ADD_WALL   ); break;
+        case ETAT_SOURIS_AJOUTER_MAILLET            : etatSouris_ = new SourisEtatAjout          ( FIELD_MODIFICATION_ADD_MALLET );  break;
+        case ETAT_SOURIS_AJOUTER_RONDELLE           : etatSouris_ = new SourisEtatAjout          ( FIELD_MODIFICATION_ADD_PUCK   ); break;
+        case ETAT_SOURIS_AJOUTER_ACCELERATEUR       : etatSouris_ = new SourisEtatAjout          ( FIELD_MODIFICATION_ADD_BOOST  ); break;
+        case ETAT_SOURIS_AJOUTER_BONUS              : etatSouris_ = new SourisEtatAjout          ( FIELD_MODIFICATION_ADD_BONUS  ); break;
         default: Super::modifierEtatSouris(etatSouris);
         }
     }

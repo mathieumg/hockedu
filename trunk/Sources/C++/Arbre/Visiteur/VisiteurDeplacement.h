@@ -26,7 +26,7 @@ public:
 	/// Constructeur par paramètres
 	VisiteurDeplacement(const Vecteur2& deplacementVirtuel);
 	/// Destructeur
-	~VisiteurDeplacement(void);
+	virtual ~VisiteurDeplacement(void);
 
 	/// Visitation d'un noeud abstrait
 	virtual void visiterNoeudAbstrait( NoeudAbstrait* noeud );

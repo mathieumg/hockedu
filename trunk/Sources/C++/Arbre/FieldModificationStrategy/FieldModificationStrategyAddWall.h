@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// @file FieldModificationStrategyRotate.h
+/// @file FieldModificationStrategyAddWall.h
 /// @author Michael Ferris
 /// @date 2013-03-21
 /// @version 1.0
@@ -7,34 +7,25 @@
 /// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
-#include "FieldModificationStrategyAbstract.h"
+#pragma once
+#include "FieldModificationStrategyAddNode.h"
 
 ///////////////////////////////////////////////////////////////////////////
-/// @class FieldModificationStrategyRotate
-/// @brief Strategy to rotate nodes
+/// @class FieldModificationStrategyAddWall
+/// @brief Strategy to add a wall on the field
 ///
 /// @author Michael Ferris
 /// @date 2013-03-21
 ///////////////////////////////////////////////////////////////////////////
-class FieldModificationStrategyRotate : public FieldModificationStrategyAbstract
+class FieldModificationStrategyAddWall : public FieldModificationStrategyAddNode
 {
 public:
-    FieldModificationStrategyRotate(FIELDMODIFICATIONSTRATEGYABSTRACT_PARAMETERS):
-        FIELDMODIFICATIONSTRATEGYABSTRACT_INIT
-    {
-        mCenter = pEvent.mPosition;
-        //findRotationCenter();
-    }
-
-
+    FieldModificationStrategyAddWall(FIELDMODIFICATIONSTRATEGYABSTRACT_PARAMETERS,const std::string& type);
+    ~FieldModificationStrategyAddWall();
 protected:
     virtual int receivedEventSpecific(const FieldModificationStrategyEvent& pEvent);
-    virtual int endStrategy();
-    /// Ends the strategy early and remove modifications made
-    virtual int cancelStratedy();
-
-    void findRotationCenter();
-    Vecteur2 mCenter;
+    bool createNextControlPoint();
+    class NodeControlPoint* mCurrentPoint;
 };
 
 

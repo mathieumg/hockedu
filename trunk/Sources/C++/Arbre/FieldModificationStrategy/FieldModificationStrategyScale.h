@@ -27,6 +27,8 @@ public:
 protected:
     virtual int receivedEventSpecific(const FieldModificationStrategyEvent& pEvent);
     virtual int endStrategy();
+    /// Ends the strategy early and remove modifications made
+    virtual int cancelStratedy();
 };
 
 

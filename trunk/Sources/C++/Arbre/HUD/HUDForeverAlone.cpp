@@ -30,12 +30,12 @@ void HUDForeverAlone::initSurfaces()
     aidegl::glLoadTexture(RazerGameUtilities::NOM_DOSSIER_MEDIA+"ForeverAlone.png", mTexture[0]);
 
     ConteneurVertex2D* vertex = new ConteneurVertex2D();
-    vertex->push_back(Vecteur2f(0.25f,0.25f));
-    vertex->push_back(Vecteur2f(0.25f,0.75f));
-    vertex->push_back(Vecteur2f(0.75f,0.75f));
-    vertex->push_back(Vecteur2f(0.75f,0.25f));
-    mSurface = new HUDSurfaceGL(GL_QUADS,vertex,Vecteur4f(1,1,1,1));
-    mSurface->modifierTaille(0.5f,0.5f);
+    vertex->push_back(Vecteur2f(0.15f,0.15f));
+    vertex->push_back(Vecteur2f(0.15f,0.85f));
+    vertex->push_back(Vecteur2f(0.85f,0.85f));
+    vertex->push_back(Vecteur2f(0.85f,0.15f));
+    mSurface = new HUDSurfaceGL(GL_QUADS,vertex,Vecteur4f(1,1,1,0.7f));
+    mSurface->modifierTaille(0.7f,0.7f);
 
     mSurface->setTexture(mTexture[0]);
 }

@@ -63,7 +63,10 @@
 #include "FieldModificationStrategyMove.h"
 #include "FieldModificationStrategyRotate.h"
 #include "FieldModificationStrategyScale.h"
-#include "Visiteur/VisitorSetProperties.h"
+#include "VisitorSetProperties.h"
+#include "FieldModificationStrategyAddNode.h"
+#include "FieldModificationStrategyAddWall.h"
+#include "Visiteur/VisiteurSuppression.h"
 #include "../Reseau/Paquets/PaquetGameEvent.h"
 #include "../Reseau/RelayeurMessage.h"
 
@@ -331,7 +334,6 @@ void Terrain::initialiserArbreRendu()
         {
             mNewNodeTree->empty();
         }
-        mNewNodeTree->setField(this);
     }
 
     // Ajout d'une table de base au terrain
@@ -379,7 +381,6 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
         {
             mNewNodeTree->empty();
         }
-        mNewNodeTree->setField(this);
     }
     mLogicTree = new RazerGameTree(this,MAX_MALLETS,MAX_PUCKS);
 
@@ -423,6 +424,17 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
     if(!IsGameField() && !mCurrentState)
     {
         mCurrentState = creerNoeudXML();
+    }
+
+    if( mSelectedNodes.size() == 0 )
+    {
+        // no more item selected
+        TransmitEvent(THERE_ARE_NO_NODE_SELECTED);
+    }
+    else
+    {
+        // selection present
+        TransmitEvent(THERE_ARE_NODES_SELECTED);
     }
 
 
@@ -473,6 +485,17 @@ void Terrain::creerTerrainParDefaut(const std::string& nom)
     if(!IsGameField() && !mCurrentState)
     {
         mCurrentState = creerNoeudXML();
+    }
+
+    if( mSelectedNodes.size() == 0 )
+    {
+        // no more item selected
+        TransmitEvent(THERE_ARE_NO_NODE_SELECTED);
+    }
+    else
+    {
+        // selection present
+        TransmitEvent(THERE_ARE_NODES_SELECTED);
     }
 
     mIsInit = true;
@@ -593,6 +616,17 @@ void Terrain::createRandomField(const std::string& nom)
     if(!IsGameField() && !mCurrentState)
     {
         mCurrentState = creerNoeudXML();
+    }
+
+    if( mSelectedNodes.size() == 0 )
+    {
+        // no more item selected
+        TransmitEvent(THERE_ARE_NO_NODE_SELECTED);
+    }
+    else
+    {
+        // selection present
+        TransmitEvent(THERE_ARE_NODES_SELECTED);
     }
 
     mIsInit = true;
@@ -858,7 +892,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
                         if(deleteExternNodes)
                         {
                             // La suppression du pNode l'enlevera du groupe
-                            g->erase(n);
+                            n->deleteThis();
                             // Repositionnement de i pour pointer au bon endroit a la prochaine iteration
                             j--; 
                         }
@@ -1466,6 +1500,7 @@ void Terrain::duplicateSelection()
         VisiteurDupliquer v(mLogicTree);
         acceptVisitor(v);
     }
+    pushUndoState();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1981,8 +2016,10 @@ int Terrain::BeginModification(FieldModificationStrategyType type, const FieldMo
     }
     mModifStrategy = NULL;
 
-    switch(type)
+    switch (type)
     {
+    case FIELD_MODIFICATION_NONE:
+        break;
     case FIELD_MODIFICATION_MOVE: 
         {
             FieldModificationStrategyMove* moveModif = new FieldModificationStrategyMove(this,beginEvent);
@@ -2001,8 +2038,45 @@ int Terrain::BeginModification(FieldModificationStrategyType type, const FieldMo
             mModifStrategy = scaleModif;
         }
         break;
+    case FIELD_MODIFICATION_ADD_PORTAL:
+        {
+            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RazerGameUtilities::NOM_PORTAIL);
+            mModifStrategy = addModif;
+        }
+        break;
+    case FIELD_MODIFICATION_ADD_BOOST:
+        {
+            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RazerGameUtilities::NOM_ACCELERATEUR);
+            mModifStrategy = addModif;
+        }
+        break;
+    case FIELD_MODIFICATION_ADD_WALL:
+        {
+            FieldModificationStrategyAddWall* addModif = new FieldModificationStrategyAddWall(this,beginEvent,RazerGameUtilities::NOM_MURET);
+            mModifStrategy = addModif;
+        }
+        break;
+    case FIELD_MODIFICATION_ADD_MALLET:
+        {
+            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RazerGameUtilities::NOM_MAILLET);
+            mModifStrategy = addModif;
+        }
+        break;
+    case FIELD_MODIFICATION_ADD_PUCK:
+        {
+            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RazerGameUtilities::NOM_RONDELLE);
+            mModifStrategy = addModif;
+        }
+        break;
+    case FIELD_MODIFICATION_ADD_BONUS:
+        {
+            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RazerGameUtilities::NAME_BONUS);
+            mModifStrategy = addModif;
+        }
+        break;
     default:
         checkf(0,"Unknown modification type");
+        break;
     }
 
     return !!mModifStrategy;
@@ -2015,6 +2089,26 @@ int Terrain::ReceiveModificationEvent(const FieldModificationStrategyEvent& pEve
         r = mModifStrategy->receivedEvent(pEvent);
     }
     return r;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::cancelModification()
+///
+/// Cancels current modification
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::cancelModification()
+{
+    if(mModifStrategy)
+    {
+        mModifStrategy->cancelStratedy();
+        delete mModifStrategy;
+    }
+    mModifStrategy = NULL;
 }
 
 
@@ -2214,6 +2308,45 @@ void Terrain::pushUndoState()
     TransmitEvent(CAN_UNDO);
     TransmitEvent(CANNOT_REDO);
 }
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::reApplyCurrentState()
+///
+/// cancels current modifications and reset the field to the last known correct state
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::reApplyCurrentState()
+{
+    if(mCurrentState)
+    {
+        mDoingUndoRedo = true;
+        initialiserXml(mCurrentState,false);
+        mDoingUndoRedo = false;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::deleteSelectedNodes()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::deleteSelectedNodes()
+{
+    VisiteurSuppression v;
+    acceptVisitor(v);
+    pushUndoState();
+}
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////

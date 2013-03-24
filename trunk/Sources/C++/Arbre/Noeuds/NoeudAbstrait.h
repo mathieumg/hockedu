@@ -85,8 +85,9 @@ public:
 
 	/// Vide le noeud de ses enfants.
 	virtual void empty();
-	/// Efface le noeud passé en paramètre.
-	virtual void erase( const NoeudAbstrait* noeud );
+    /// Efface le noeud passé en paramètre. Retourne si le noeud a ete supprimer
+    virtual bool erase( const NoeudAbstrait* noeud );
+
     /// correctly delete a node and removes it form its parent.
     /// do not call in destructor because the parent might be initialising the
     // destruction.
@@ -186,8 +187,9 @@ public:
 	/// Libere la memoire de l'objet Box2D
     virtual void clearPhysicsBody();
 
-
 protected:
+
+
     class b2Body* mPhysicBody;
 
     /// Type du noeud.
