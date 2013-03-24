@@ -477,7 +477,7 @@ void NoeudBut::updatePhysicBody()
         myFixtureDef.density = 1;
         if(IsInGame())
         {
-#if MAT_DEBUG_
+#if MAT_DEBUG_ && 0
             myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
             myFixtureDef.filter.maskBits = CATEGORY_PUCK;
 #else

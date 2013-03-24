@@ -35,15 +35,17 @@ public:
     void removeGame(int pGameId);
 
     // Rend la partie prete a etre demarree
-    bool getGameReady(int pGameId, const std::string& pMapFilename);
+    bool getGameReady(int pGameId);
 
     // Rend la partie prete a etre jouee et la demarre
-	bool startGame(int pGameId, const std::string& pMapFilename);
+	bool startGame(int pGameId);
 
 	Partie* getGame(int pGameId);
 
     // Methode qui cherche une partie avec ce nom (ATTENTION, lent et Ne permet pas de savoir si plusieurs parties avec le meme nom existe. Retourne la premiere trouvee)
     Partie* getGame(const std::string& pGameName);
+
+    bool setMapForGame(int pGameId, const std::string& pMapName);
 
 
     void animer(const float& pTemps);

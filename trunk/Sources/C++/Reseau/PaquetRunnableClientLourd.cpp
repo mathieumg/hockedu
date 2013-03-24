@@ -8,6 +8,7 @@
 // A supprimmer apres le test
 #include "JoueurAbstrait.h"
 #include "NoeudMaillet.h"
+#include "NoeudRondelle.h"
 #include <iostream>
 #include <intrin.h>
 #include "Paquets\PaquetRondelle.h"
@@ -20,6 +21,10 @@
 #include "JoueurNetwork.h"
 #include "FacadeModele.h"
 #include "Paquets\PaquetGameEvent.h"
+#include "SoundFMOD.h"
+#include "Box2D\Common\b2Math.h"
+#include "Box2D\Dynamics\b2Body.h"
+
 
 #ifdef LINUX
 #define _LARGE_TIME_API
@@ -214,7 +219,7 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
                     wGame->obtenirJoueurGauche()->modifierNom(wPaquet->getPlayer1Name());
                     wGame->obtenirJoueurDroit()->modifierNom(wPaquet->getPlayer2Name());
 
-                    GameManager::obtenirInstance()->startGame(wPaquet->getGameId(), ""); // La map n'a pas d'importance car deja chargee
+                    GameManager::obtenirInstance()->startGame(wPaquet->getGameId()); 
                 }
 
 
@@ -231,14 +236,45 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
             {
                 // Pour s'assurer de bien compter les points meme avec des problemes de reseau. Annonce les buts
                 // Attention de ne pas les faire compter par le client quand la physique detecte un but, sinon buts en double
+                int wGameId = wPaquet->getGameId();
+                bool wIsPlayerLeft = wPaquet->getEventOnPlayerLeft();
+                Runnable* r = new Runnable([wGameId, wIsPlayerLeft](Runnable*){
+                    Partie* wGameRunnable = GameManager::obtenirInstance()->getGame(wGameId);
+                    if(wGameRunnable)
+                    {
+                        // Mettre event score
+                        if(wIsPlayerLeft)
+                        {
+                            wGameRunnable->incrementerPointsJoueurGauche(true);
+                        }
+                        else
+                        {
+                            wGameRunnable->incrementerPointsJoueurDroit(true);
+                        }
 
+                        SoundFMOD::obtenirInstance()->playEffect(GOAL_EFFECT);
+                        wGameRunnable->miseAuJeu();
+
+                        if(wGameRunnable->getField())
+                        {
+                            NoeudRondelle* wPuck = wGameRunnable->getField()->getPuck();
+                            if(wPuck)
+                            {
+                                wPuck->getPhysicBody()->SetLinearVelocity(b2Vec2(0,0));
+                                wPuck->getPhysicBody()->SetAngularVelocity(0);
+                                wPuck->setAngle(0);
+                            }
+                        }
+                    }
+                });
+                RazerGameUtilities::RunOnUpdateThread(r,true);
 
                 break;
             }
         case GAME_EVENT_GAME_ENDED:
             {
                 // Fin de la partie
-
+                // Pas utilise en ce moment car le nb de points est fixe et le client va le detecter anyways
 
                 break;
             }

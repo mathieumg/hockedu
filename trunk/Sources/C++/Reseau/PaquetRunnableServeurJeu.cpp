@@ -203,7 +203,10 @@ int PaquetRunnable::RunnableGameCreationServerGame( Paquet* pPaquet )
     {
         // On peut creer la partie
         int wGameId = GameManager::obtenirInstance()->addNewGame(SPJoueurAbstrait(0), SPJoueurAbstrait(0), true);
-        GameManager::obtenirInstance()->getGame(wGameId)->setName(wPaquet->getGameName());
+        //GameManager::obtenirInstance()->setMapForGame(wGameId, wPaquet->getMapName());
+        Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+        wGame->setName(wPaquet->getGameName());
+        wGame->setFieldName(wPaquet->getMapName());
 
         // On peut meme utiliser le meme paquet pour renvoyer le message de confirmation
         wPaquet->setGameId(wGameId);
@@ -312,7 +315,7 @@ int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
         // Si tout le monde connecte, on demarre la partie
         if(wGame->getGameStatus() == GAME_NOT_READY && wGame->obtenirJoueurGauche() && wGame->obtenirJoueurDroit())
         {
-            GameManager::obtenirInstance()->getGameReady(wGame->getUniqueGameId(), "");
+            GameManager::obtenirInstance()->getGameReady(wGame->getUniqueGameId());
         }
     }
     else
@@ -372,7 +375,7 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
                         RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquetEventGameStart, TCP);
 
                         // On demarre aussi la partie localement
-                        GameManager::obtenirInstance()->startGame(wGame->getUniqueGameId(), "");
+                        GameManager::obtenirInstance()->startGame(wGame->getUniqueGameId());
                     }
                 }
 

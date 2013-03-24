@@ -250,6 +250,9 @@ private:
 
     // Terrain initialized
     bool mIsInit;
+
+    // Flag pour dire de ne pas compter de buts pour eviter que plusieurs buts soient attribuer au joueur
+    bool mBesoinMiseAuJeu;
     
 /// Accesseurs
 public:

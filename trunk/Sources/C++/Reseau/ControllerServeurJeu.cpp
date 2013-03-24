@@ -5,8 +5,32 @@
 #include "PaquetRunnableServeurJeu.h"
 #include "../Application/GameManager.h"
 #include "Partie.h"
+#include "Paquets/PaquetGameEvent.h"
+#include "RelayeurMessage.h"
 
 bool ControllerServeurJeu::mIsLocalServer = false;
+
+
+int CallbackGameEndedServeurJeu(int pGameId, GameStatus pNewGameStatus)
+{
+    if(pNewGameStatus == GAME_ENDED)
+    {
+        Partie* wGame = GameManager::obtenirInstance()->getGame(pGameId);
+
+        if(wGame)
+        {
+            PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+
+            wPaquet->setGameId(pGameId);
+            wPaquet->setEvent(GAME_EVENT_GAME_ENDED);
+
+            RelayeurMessage::obtenirInstance()->relayerPaquetGame(pGameId, wPaquet);
+
+        }
+    }
+    return 0;
+}
+
 
 int CallbackSetPatieSyncerServeurJeu(int pGameId, GameStatus)
 {
@@ -46,6 +70,7 @@ ControllerServeurJeu::ControllerServeurJeu()
     mPaquetRunnables[MAILLET]                       = PaquetRunnable::RunnableMailletServerGame;
 
     GameManager::obtenirInstance()->addGameUpdateCallback(CallbackSetPatieSyncerServeurJeu);
+    GameManager::obtenirInstance()->addGameUpdateCallback(CallbackGameEndedServeurJeu);
 }
 
 

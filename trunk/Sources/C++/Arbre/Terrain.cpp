@@ -85,7 +85,7 @@ const unsigned int MAX_MALLETS = 2;
 ////////////////////////////////////////////////////////////////////////
 Terrain::Terrain(Partie* pGame): 
     mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame),mZamboni(NULL),
-    mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL), mIsInit(false), mModifStrategy(NULL),mDoingUndoRedo(false),mCurrentState(NULL)
+    mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL), mIsInit(false), mModifStrategy(NULL),mDoingUndoRedo(false),mCurrentState(NULL), mBesoinMiseAuJeu(false)
 {
 
     mRedoBuffer.reserve(UNDO_BUFFERSIZE);
@@ -1134,7 +1134,7 @@ void Terrain::BeginContact( b2Contact* contact )
             // TODO:: à tester
             {
                 NoeudBut *but = dynamic_cast<NoeudBut *>((NoeudAbstrait*)bodies[1]->GetUserData());
-                if (but)
+                if (but && mGame && !mGame->isNetworkClientGame())
                 {
                     b2Body* rondelleBody = bodies[0];
                     NoeudRondelle* rondelle = (NoeudRondelle*)(rondelleBody->GetUserData());
