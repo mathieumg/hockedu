@@ -94,7 +94,11 @@ void PartieSyncer::tick()
             wPaquet->setNbAssociatedQueries(mDestinationIdentifiers.size());
             for(auto it=mDestinationIdentifiers.begin(); it!=mDestinationIdentifiers.end(); ++it)
             {
+#if MAT_DEBUG_
                 GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
+#else
+                GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
+#endif
             }
         }
 
@@ -108,7 +112,11 @@ void PartieSyncer::tick()
             wPaquet->setNbAssociatedQueries(mDestinationIdentifiers.size());
             for(auto it=mDestinationIdentifiers.begin(); it!=mDestinationIdentifiers.end(); ++it)
             {
+#if MAT_DEBUG_
                 GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
+#else
+                GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
+#endif
             }
         }
 
@@ -132,7 +140,11 @@ void PartieSyncer::tick()
                     wPaquet->setNbAssociatedQueries(mDestinationIdentifiers.size());
                     for(auto it=mDestinationIdentifiers.begin(); it!=mDestinationIdentifiers.end(); ++it)
                     {
+#if MAT_DEBUG_
                         GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
+#else
+                        GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
+#endif
                     }
                 }
             }

@@ -299,19 +299,24 @@ void VisiteurSuppression::visiterEnfants( NoeudComposite* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurSuppression::visiterNoeudMuretEdition( NodeWallEdition* noeud )
 {
-    bool doDelete = false;
-    for(unsigned int i=0; i<noeud->getNBControlPoint(); ++i)
-    {
-        auto point = noeud->getControlPoint(i);
-        if(point->IsSelected())
-        {
-            doDelete = true;
-            break;
-        }
-    }
-
-    if(doDelete)
+    if(noeud->isAnyPointSelected())
     {
         noeud->deleteThis();
     }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void VisiteurSuppression::visiterNodeControlPoint( NodeControlPoint* noeud )
+///
+/// /*Description*/
+///
+/// @param[in] NodeControlPoint * noeud
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void VisiteurSuppression::visiterNodeControlPoint( NodeControlPoint* noeud )
+{
+    // rien faire, un point de controle ne peut etre supprimé
 }

@@ -79,7 +79,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Bonus;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;..\C#\UIHeavyClient\UIHeavyClient;../../Commun/Externe/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/FieldModificationStrategy;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Bonus;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;..\C#\UIHeavyClient\UIHeavyClient;../../Commun/Externe/</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;CREATING_DLL;WIN32;_DEBUG;_WINDOWS;_USRDLL;RazerGame_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -116,7 +116,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Bonus;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;../../Commun/Externe/;..\C#\UIHeavyClient\UIHeavyClient</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/FieldModificationStrategy;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Bonus;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;../../Commun/Externe/;..\C#\UIHeavyClient\UIHeavyClient</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;WIN32;_DEBUG;_WINDOWS;_USRDLL;WITH_JAVA;RazerGame_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -152,7 +152,7 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/Noeuds;Arbre/Usines;Arbre/Bonus;Arbre/Visiteur;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/;..\C#\UIHeavyClient\UIHeavyClient</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/FieldModificationStrategy;Arbre/Noeuds;Arbre/Usines;Arbre/Bonus;Arbre/Visiteur;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/;..\C#\UIHeavyClient\UIHeavyClient</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;CREATING_DLL;WIN32;NDEBUG;_WINDOWS;_USRDLL;RazerGame_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
@@ -191,10 +191,16 @@
     <ClCompile Include="Arbre\Bonus\BonusModifierAbstract.cpp" />
     <ClCompile Include="Arbre\Bonus\BonusModifierBlockGoal.cpp" />
     <ClCompile Include="Arbre\Bonus\BonusModifierGoThorughWall.cpp" />
+    <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddNode.cpp" />
+    <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddWall.cpp" />
+    <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyMove.cpp" />
+    <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyRotate.cpp" />
+    <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyScale.cpp" />
     <ClCompile Include="Arbre\HUD\GestionnaireHUD.cpp" />
     <ClCompile Include="Arbre\HUD\HUDBonus.cpp" />
     <ClCompile Include="Arbre\HUD\HUDElement.cpp" />
     <ClCompile Include="Arbre\HUD\HUDElementComparatif.cpp" />
+    <ClCompile Include="Arbre\HUD\HUDForeverAlone.cpp" />
     <ClCompile Include="Arbre\HUD\HUDMultiligne.cpp" />
     <ClCompile Include="Arbre\HUD\HUDSurfaceGL.cpp" />
     <ClCompile Include="Arbre\HUD\HUDTexte.cpp" />
@@ -236,6 +242,7 @@
     <ClCompile Include="Arbre\Visiteur\VisiteurSelectionOpenGL.cpp" />
     <ClCompile Include="Arbre\Visiteur\VisiteurSuppression.cpp" />
     <ClCompile Include="Arbre\Visiteur\VisitorGatherProperties.cpp" />
+    <ClCompile Include="Arbre\Visiteur\VisitorSetProperties.cpp" />
     <ClCompile Include="Arbre\ZoneEdition.cpp" />
     <ClCompile Include="Environnement\Evenements\EvenementClavier.cpp" />
     <ClCompile Include="Environnement\Evenements\EvenementRouletteSouris.cpp" />
@@ -244,14 +251,10 @@
     <ClCompile Include="Interface\DebugRenderBox2D.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatAbstrait.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatAjout.cpp" />
-    <ClCompile Include="Interface\EtatSouris\SourisEtatAjoutControlPointMutable.cpp" />
-    <ClCompile Include="Interface\EtatSouris\SourisEtatAjoutMuret.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatDeplacerFenetre.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatOrbit.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatSelection.cpp" />
-    <ClCompile Include="Interface\EtatSouris\SourisEtatTransformationDeplacement.cpp" />
-    <ClCompile Include="Interface\EtatSouris\SourisEtatTransformationEchelle.cpp" />
-    <ClCompile Include="Interface\EtatSouris\SourisEtatTransformationRotation.cpp" />
+    <ClCompile Include="Interface\EtatSouris\SourisEtatTransformation.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatZoomElastique.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatZoomProportionnel.cpp" />
     <ClCompile Include="Interface\FacadeCSharp.cpp" />
@@ -295,9 +298,9 @@
     <ClCompile Include="Reseau\ExceptionsReseau\ExceptionReseauParametreInvalide.cpp" />
     <ClCompile Include="Reseau\ExceptionsReseau\ExceptionReseauSocketDeconnecte.cpp" />
     <ClCompile Include="Reseau\ExceptionsReseau\ExceptionReseauTimeout.cpp" />
+    <ClCompile Include="Reseau\FacadePortability.cpp" />
     <ClCompile Include="Reseau\GestionnaireReseau.cpp" />
     <ClCompile Include="Reseau\GestionnaireReseauClientLourd.cpp" />
-    <ClCompile Include="Reseau\Network_Defines.cpp" />
     <ClCompile Include="Reseau\ObjetsGlobaux\JoueurServeurs.cpp" />
     <ClCompile Include="Reseau\ObjetsGlobaux\PartieServeurs.cpp" />
     <ClCompile Include="Reseau\PacketBuilder.cpp" />
@@ -309,6 +312,8 @@
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerEvent.cpp" />
     <ClCompile Include="reseau\PaquetHandlers\PacketHandlerGameConnection.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameCreation.cpp" />
+    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameEvent.cpp" />
+    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameRegistration.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameStatus.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerLoginInfo.cpp" />
     <ClCompile Include="reseau\PaquetHandlers\PacketHandlerMaillet.cpp" />
@@ -325,6 +330,8 @@
     <ClCompile Include="reseau\Paquets\PaquetGameConnection.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetGameCreation.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetEvent.cpp" />
+    <ClCompile Include="Reseau\Paquets\PaquetGameEvent.cpp" />
+    <ClCompile Include="Reseau\Paquets\PaquetGameRegistration.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetGameStatus.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetLoginInfo.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetMaillet.cpp" />
@@ -356,10 +363,17 @@
     <ClInclude Include="Arbre\Bonus\BonusModifierAbstract.h" />
     <ClInclude Include="Arbre\Bonus\BonusModifierBlockGoal.h" />
     <ClInclude Include="Arbre\Bonus\BonusModifierGoThorughWall.h" />
+    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAbstract.h" />
+    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddNode.h" />
+    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddWall.h" />
+    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyMove.h" />
+    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyRotate.h" />
+    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyScale.h" />
     <ClInclude Include="Arbre\HUD\GestionnaireHUD.h" />
     <ClInclude Include="Arbre\HUD\HUDBonus.h" />
     <ClInclude Include="Arbre\HUD\HUDElement.h" />
     <ClInclude Include="Arbre\HUD\HUDElementComparatif.h" />
+    <ClInclude Include="Arbre\HUD\HUDForeverAlone.h" />
     <ClInclude Include="Arbre\HUD\HUDMultiligne.h" />
     <ClInclude Include="Arbre\HUD\HUDSurfaceGL.h" />
     <ClInclude Include="Arbre\HUD\HUDTexte.h" />
@@ -401,6 +415,7 @@
     <ClInclude Include="Arbre\Visiteur\VisiteurSelectionOpenGL.h" />
     <ClInclude Include="Arbre\Visiteur\VisiteurSuppression.h" />
     <ClInclude Include="Arbre\Visiteur\VisitorGatherProperties.h" />
+    <ClInclude Include="Arbre\Visiteur\VisitorSetProperties.h" />
     <ClInclude Include="Arbre\ZoneEdition.h" />
     <ClInclude Include="Configuration\RazerGameTypeDef.h" />
     <ClInclude Include="Environnement\Evenements\EvenementClavier.h" />
@@ -411,14 +426,10 @@
     <ClInclude Include="Interface\DebugRenderBox2D.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatAbstrait.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatAjout.h" />
-    <ClInclude Include="Interface\EtatSouris\SourisEtatAjoutControlPointMutable.h" />
-    <ClInclude Include="Interface\EtatSouris\SourisEtatAjoutMuret.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatDeplacerFenetre.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatOrbit.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatSelection.h" />
-    <ClInclude Include="Interface\EtatSouris\SourisEtatTransformationDeplacement.h" />
-    <ClInclude Include="Interface\EtatSouris\SourisEtatTransformationEchelle.h" />
-    <ClInclude Include="Interface\EtatSouris\SourisEtatTransformationRotation.h" />
+    <ClInclude Include="Interface\EtatSouris\SourisEtatTransformation.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatZoomElastique.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatZoomProportionnel.h" />
     <ClInclude Include="Interface\FacadeCSharp.h" />
@@ -464,9 +475,9 @@
     <ClInclude Include="Reseau\ExceptionsReseau\ExceptionReseauParametreInvalide.h" />
     <ClInclude Include="Reseau\ExceptionsReseau\ExceptionReseauSocketDeconnecte.h" />
     <ClInclude Include="Reseau\ExceptionsReseau\ExceptionReseauTimeout.h" />
+    <ClInclude Include="Reseau\FacadePortability.h" />
     <ClInclude Include="Reseau\GestionnaireReseau.h" />
     <ClInclude Include="Reseau\GestionnaireReseauClientLourd.h" />
-    <ClInclude Include="Reseau\Network_Defines.h" />
     <ClInclude Include="Reseau\ObjetsGlobaux\JoueurServeurs.h" />
     <ClInclude Include="Reseau\ObjetsGlobaux\PartieServeurs.h" />
     <ClInclude Include="Reseau\PacketBuilder.h" />
@@ -486,6 +497,8 @@
     <ClInclude Include="reseau\Paquets\PaquetGameConnection.h" />
     <ClInclude Include="Reseau\Paquets\PaquetGameCreation.h" />
     <ClInclude Include="Reseau\Paquets\PaquetEvent.h" />
+    <ClInclude Include="Reseau\Paquets\PaquetGameEvent.h" />
+    <ClInclude Include="Reseau\Paquets\PaquetGameRegistration.h" />
     <ClInclude Include="Reseau\Paquets\PaquetGameStatus.h" />
     <ClInclude Include="Reseau\Paquets\PaquetLoginInfo.h" />
     <ClInclude Include="Reseau\Paquets\PaquetMaillet.h" />
@@ -502,6 +515,8 @@
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetEvent.h" />
     <ClInclude Include="reseau\UsinePaquets\UsinePaquetGameConnection.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameCreation.h" />
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameEvent.h" />
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameRegistration.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameStatus.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetLoginInfo.h" />
     <ClInclude Include="reseau\UsinePaquets\UsinePaquetMaillet.h" />

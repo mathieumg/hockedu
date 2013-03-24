@@ -272,7 +272,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudTable( NoeudTable* noeud )
 {
 	for(int i=0;i<8;++i)
 	{
-		noeud->assignerCoefRebond(i,coefRebondBandes_[i]);
+		noeud->modifierCoefRebond(i,coefRebondBandes_[i]);
 	}
 	noeud->modifierCoefFriction(coefFriction_);
 
@@ -287,23 +287,23 @@ void VisiteurModifierProprieteNoeud::visiterNoeudTable( NoeudTable* noeud )
 		// Si la longueur a assigner est plus petite que la longueur maximale de la table, on cap a la longueur de la table
 		if(longueurZoneEdition_<(boiteEnglobantTable[1]))
 		{
-			zone->modifierLimiteExtLongueur(boiteEnglobantTable[1]);
+			zone->modifierLimiteExtX(boiteEnglobantTable[1]);
 		}
 		// si plus grand ou egale
 		else
 		{
-			zone->modifierLimiteExtLongueur(longueurZoneEdition_);
+			zone->modifierLimiteExtX(longueurZoneEdition_);
 		}
 
 		// Si la largeur a assigner est plus petite que la largeur maximale de la table, on cap a la largeur de la table
 		if(hauteurZoneEdition_<(boiteEnglobantTable[0]))
 		{
-			zone->modifierLimiteExtLargeur(boiteEnglobantTable[0]);
+			zone->modifierLimiteExtY(boiteEnglobantTable[0]);
 		}
 		// si plus grand ou egale
 		else
 		{
-			zone->modifierLimiteExtLargeur(hauteurZoneEdition_);
+			zone->modifierLimiteExtY(hauteurZoneEdition_);
 		}
 	}
 
@@ -347,34 +347,33 @@ void VisiteurModifierProprieteNoeud::visiterNoeudPoint( NoeudPoint* noeud )
                 if(noeud->obtenirTypePosNoeud() == POSITION_HAUT_MILIEU || noeud->obtenirTypePosNoeud() == POSITION_BAS_MILIEU)
                 {
 
-                    if(utilitaire::ABS(position_[VY])>zone->obtenirLimiteExtLargeur())
-                        position_[VY] = signe[VY]*zone->obtenirLimiteExtLargeur();
-                    if(utilitaire::ABS(position_[VY])<zone->obtenirLimiteIntLargeur())
-                        position_[VY] = signe[VY]*zone->obtenirLimiteIntLargeur();
+                    if(utilitaire::ABS(position_[VY])>zone->obtenirLimiteExtY())
+                        position_[VY] = signe[VY]*zone->obtenirLimiteExtY();
+                    if(utilitaire::ABS(position_[VY])<zone->obtenirLimiteIntY())
+                        position_[VY] = signe[VY]*zone->obtenirLimiteIntY();
                 }
                 else if(noeud->obtenirTypePosNoeud() == POSITION_MILIEU_GAUCHE || noeud->obtenirTypePosNoeud() == POSITION_MILIEU_DROITE)
                 {
-                    if(utilitaire::ABS(position_[VX])>zone->obtenirLimiteExtLongueur())
-                        position_[VX] = signe[VX]*zone->obtenirLimiteExtLongueur();
-                    if(utilitaire::ABS(position_[VX])<zone->obtenirLimiteIntLongueur())
-                        position_[VX] = signe[VX]*zone->obtenirLimiteIntLongueur();
+                    if(utilitaire::ABS(position_[VX])>zone->obtenirLimiteExtX())
+                        position_[VX] = signe[VX]*zone->obtenirLimiteExtX();
+                    if(utilitaire::ABS(position_[VX])<zone->obtenirLimiteIntX())
+                        position_[VX] = signe[VX]*zone->obtenirLimiteIntX();
                 }
                 else if(noeud->obtenirTypePosNoeud() == POSITION_HAUT_GAUCHE || noeud->obtenirTypePosNoeud() == POSITION_HAUT_DROITE || noeud->obtenirTypePosNoeud() == POSITION_BAS_DROITE || noeud->obtenirTypePosNoeud() == POSITION_BAS_GAUCHE)
                 {
-                    if(utilitaire::ABS(position_[VY])>zone->obtenirLimiteExtLargeur())
-                        position_[VY] = signe[VY]*zone->obtenirLimiteExtLargeur();
-                    if(utilitaire::ABS(position_[VY])<zone->obtenirLimiteIntLargeur())
-                        position_[VY] = signe[VY]*zone->obtenirLimiteIntLargeur();
-                    if(utilitaire::ABS(position_[VX])>zone->obtenirLimiteExtLongueur())
-                        position_[VX] = signe[VX]*zone->obtenirLimiteExtLongueur();
-                    if(utilitaire::ABS(position_[VX])<zone->obtenirLimiteIntLongueur())
-                        position_[VX] = signe[VX]*zone->obtenirLimiteIntLongueur();
+                    if(utilitaire::ABS(position_[VY])>zone->obtenirLimiteExtY())
+                        position_[VY] = signe[VY]*zone->obtenirLimiteExtY();
+                    if(utilitaire::ABS(position_[VY])<zone->obtenirLimiteIntY())
+                        position_[VY] = signe[VY]*zone->obtenirLimiteIntY();
+                    if(utilitaire::ABS(position_[VX])>zone->obtenirLimiteExtX())
+                        position_[VX] = signe[VX]*zone->obtenirLimiteExtX();
+                    if(utilitaire::ABS(position_[VX])<zone->obtenirLimiteIntX())
+                        position_[VX] = signe[VX]*zone->obtenirLimiteIntX();
                 }
             }
 		}
 		// Le visiteur permet de mettre a jour les buts en meme temps
-		Vecteur3 deplacement = position_.convertir<3>()-positionCourante;
-		deplacement[VX]*=-1;
+		Vecteur2 deplacement = position_-positionCourante;
 		VisiteurDeplacement visiteur(deplacement);
 		noeud->acceptVisitor(visiteur);
 

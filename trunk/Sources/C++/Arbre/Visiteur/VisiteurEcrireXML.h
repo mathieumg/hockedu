@@ -27,7 +27,7 @@ public:
 	/// Constructeur par défaut
 	VisiteurEcrireXML(void);
 	/// Destructeur
-	~VisiteurEcrireXML(void);
+	virtual ~VisiteurEcrireXML(void);
 
 	/// Visitation d'un noeud abstrait
 	virtual void visiterNoeudAbstrait( NoeudAbstrait* noeud );

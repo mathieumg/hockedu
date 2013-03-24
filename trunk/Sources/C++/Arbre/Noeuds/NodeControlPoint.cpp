@@ -15,9 +15,8 @@
 #include "Utilitaire.h"
 #include "ControlPointMutableAbstract.h"
 
-#if BOX2D_INTEGRATED
+#if BOX2D_DEBUG
 #include "DebugRenderBox2D.h"
-#include "FacadeModele.h"
 #endif
 #include "VisiteurCollision.h"
 
@@ -32,7 +31,7 @@ CreateListDelegateImplementation(ControlPoint)
 #if WIN32
     liste = glGenLists(1);
     glNewList(liste, GL_COMPILE);
-#if BOX2D_INTEGRATED
+#if BOX2D_DEBUG
         DebugRenderBox2D* debugRender = DebugRenderBox2D::mInstance;
         debugRender->DrawSolidCircle(b2Vec2(0,0),0.5,b2Vec2(0,0),b2Color(1,0,1));
 #endif
@@ -121,6 +120,7 @@ XmlElement* NodeControlPoint::createXmlNode()
     XmlElement* elementNoeud = XMLUtils::createNode(mType.c_str());
 
     XmlWriteNodePosition(elementNoeud);
+    XMLUtils::writeAttribute(elementNoeud,"selection",IsSelected());
 
     return elementNoeud;
 }
@@ -143,6 +143,14 @@ bool NodeControlPoint::initFromXml( const XmlElement* element )
     if( !XmlReadNodePosition(pos,element) )
         throw ExceptionJeu("%s: Error reading node's position", mType.c_str());
     setPosition(pos);
+
+    bool selected;
+    if(XMLUtils::readAttribute(element,"selection",selected))
+    {
+        setSelection(selected);
+    }
+
+
     return true;
 }
 

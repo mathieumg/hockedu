@@ -160,8 +160,8 @@ class Website
     }
     
     public static function getEmailTemplate()
-	{
-		$mailMessage = new Email();
+    {
+        $mailMessage = new Email();
         
         $mailMessage->default_charset = 'UTF-8';
         
@@ -170,10 +170,10 @@ class Website
         $mailMessage->SetEncodedEmailHeader('Errors-To', 'webmaster@hockedu.com', 'Webmaster');
         
         return $mailMessage;
-	}
+    }
     
     public function getIpAddress()
-	{       
+    {       
         $realIP = $_SERVER['REMOTE_ADDR'];
         
         if( !empty( $_SERVER['HTTP_CLIENT_IP'] ) )
@@ -188,7 +188,7 @@ class Website
         }
 
         return $realIP;        
-	}
+    }
     
         
     public function getModulePath( $moduleName = null )
@@ -257,14 +257,14 @@ class Website
      * @param string $address URL of the page to redirect to.
      */
     public function changePage( $address )
-	{	
-		// Redirect to the new page.
-		header('HTTP/1.1 301 Moved Permanently');
-		header('Location: http://' . $address);
+    {    
+        // Redirect to the new page.
+        header('HTTP/1.1 301 Moved Permanently');
+        header('Location: http://' . $address);
         
         // Prevent further loading.
         exit;
-	}
+    }
     
     private function assignSmarty()
     {
@@ -307,21 +307,21 @@ class Website
     {
         $this->displaySite = false;
     }
-	
-	public function formatPostalCode( $rawPostalCode, $rawCountry )
-	{
-		switch( $rawCountry )
-		{
-			case 'canada': return strtoupper( substr($rawPostalCode, 0, 3) . ' ' . substr($rawPostalCode, 3, 3) );
-			default:
-			case 'unitedstates' : return $rawPostalCode;
-		}
-	}
-	
-	public function formatProvinceState( $rawProvinceState )
-	{
-		switch( $rawProvinceState )
-		{
+    
+    public function formatPostalCode( $rawPostalCode, $rawCountry )
+    {
+        switch( $rawCountry )
+        {
+            case 'canada': return strtoupper( substr($rawPostalCode, 0, 3) . ' ' . substr($rawPostalCode, 3, 3) );
+            default:
+            case 'unitedstates' : return $rawPostalCode;
+        }
+    }
+    
+    public function formatProvinceState( $rawProvinceState )
+    {
+        switch( $rawProvinceState )
+        {
             case 'ontario': return 'Ontario';
             case 'alberta': return 'Alberta';
             case 'britishcolumbia': return 'Colombie-Britannique';
@@ -385,23 +385,23 @@ class Website
             case 'wv': return 'West Virginia'; 
             case 'wi': return 'Wisconsin'; 
             case 'wy': return 'Wyoming';
-			default: 
-			case 'quebec': return 'Québec';
-		}
-	}
-	
-	public function formatTelephoneNumber( $rawTelephoneNumber )
-	{
-		$phoneNumber = substr($rawTelephoneNumber, 0, 3) . '-' . substr($rawTelephoneNumber, 3, 3) . '-' . substr($rawTelephoneNumber, 6, 4);
-		$extension = substr($rawTelephoneNumber, 10);
-		
-		if( !empty( $extension ) )
-		{
-			$phoneNumber .= ' x' . $extension;
-		}
-		
-		return $phoneNumber;
-	}
+            default: 
+            case 'quebec': return 'Québec';
+        }
+    }
+    
+    public function formatTelephoneNumber( $rawTelephoneNumber )
+    {
+        $phoneNumber = substr($rawTelephoneNumber, 0, 3) . '-' . substr($rawTelephoneNumber, 3, 3) . '-' . substr($rawTelephoneNumber, 6, 4);
+        $extension = substr($rawTelephoneNumber, 10);
+        
+        if( !empty( $extension ) )
+        {
+            $phoneNumber .= ' x' . $extension;
+        }
+        
+        return $phoneNumber;
+    }
     
     /**
      * Returns true if the user is currently logged in.
@@ -412,8 +412,8 @@ class Website
     {
         return !empty( $_SESSION['userInformation'] );
     }
-	
-	/**
+    
+    /**
      * Returns the URL of where to access the static content (images, etc) for the website.
      * @access public
      * @return string
@@ -435,4 +435,3 @@ class Website
     }
 }
 
-?>

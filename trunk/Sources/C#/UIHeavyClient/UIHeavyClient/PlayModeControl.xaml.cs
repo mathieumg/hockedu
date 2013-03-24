@@ -155,7 +155,7 @@ namespace UIHeavyClient
         {
             if (mChatInputTextbox.Text != ""/* && mIsUserConnected*/)
             {
-                Chat.SendMessageDLL("GameServer", "Bob", mChatInputTextbox.Text);
+                Chat.SendMessageGameDLL(mChatInputTextbox.Text);
                 mChatInputTextbox.Clear();
             }
         }

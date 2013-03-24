@@ -147,11 +147,9 @@ T PacketReader::readData( )
     size_t wDataSize = sizeof(T);
     int8_t* wBytes = new int8_t[wDataSize];
     memset(wBytes, 0, wDataSize);
-#ifdef WINDOWS
+
     memcpy_s(wBytes, wDataSize, mArrStart+mCurrentPosition, wDataSize);
-#elif defined(LINUX)
-    memcpy(wBytes, mArrStart + mCurrentPosition, wDataSize);
-#endif
+
     mCurrentPosition += wDataSize;
 
     T wDataRead = *((T*)wBytes);

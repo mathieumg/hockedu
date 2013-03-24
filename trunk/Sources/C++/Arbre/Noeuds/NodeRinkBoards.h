@@ -29,9 +29,14 @@ public:
 	NodeRinkBoards(NoeudPoint* n1, NoeudPoint* n2);
 	NodeRinkBoards(NoeudPoint* n, NoeudBut* but, bool haut);
 	NodeRinkBoards(NoeudBut* but, NoeudPoint* n, bool haut);
-    ~NodeRinkBoards();
+    virtual ~NodeRinkBoards();
 
-    virtual PhysicsCategory GetCategory() {return CATEGORY_BOUNDARY;}
+    virtual void updatePhysicBody();
+    virtual void updateCornerPosition();
+
+private:
+    /// un des pointeurs peut etre null s'il est ratacher a un but
+    NoeudPoint* mPoint1,*mPoint2;
 
 };
 

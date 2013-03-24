@@ -9,17 +9,22 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "NoeudAccelerateur.h"
 #include "NoeudRondelle.h"
-
+#include "Utilitaire.h"
+#include "VisiteurNoeud.h"
 #include "XMLUtils.h"
+
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
-#include "Utilitaire.h"
-#include "VisiteurNoeud.h"
+
+#if MANUAL_PHYSICS_DETECTION
+#include "Terrain.h"
+#endif
 
 #if WIN32
 #include "GestionnaireAnimations.h"
 #endif
+
 
 const float NoeudAccelerateur::DEFAULT_RADIUS = 7;
 
@@ -108,7 +113,7 @@ void NoeudAccelerateur::renderReal() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAccelerateur::tick( const float& temps)
 {
-	mAngle = (float)((int)(mAngle+temps*500.0f)%360);
+	setAngle((float)((int)(mAngle+temps*500.0f)%360));
 	updateMatrice();
 }
 
@@ -169,6 +174,7 @@ bool NoeudAccelerateur::initFromXml( const XmlElement* element )
 	return true;
 }
 
+#if MANUAL_PHYSICS_DETECTION
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void NoeudAccelerateur::collisionDetection( const float& temps )
@@ -182,14 +188,22 @@ bool NoeudAccelerateur::initFromXml( const XmlElement* element )
 ////////////////////////////////////////////////////////////////////////
 void NoeudAccelerateur::collisionDetection( const float& temps )
 {
-/*	NoeudRondelle* rondelle = FacadeModele::getInstance()->obtenirRondelle();
-	Vecteur3 distance = getPosition()- rondelle->getPosition();
-	float rayon = getRadius()+rondelle->getRadius();
-	if(distance.norme2() > rayon*rayon+25)
-	{
-		ActivateBoost(true);
-	}*/
+    auto field = getField();
+    if(field)
+    {
+        NoeudRondelle* rondelle = field->getPuck();
+        if(rondelle)
+        {
+            Vecteur3 distance = getPosition()- rondelle->getPosition();
+            float rayon = getRadius()+rondelle->getRadius();
+            if(distance.norme2() > rayon*rayon+25)
+            {
+                ActivateBoost(true);
+            }
+        }
+    }
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -227,7 +241,7 @@ void NoeudAccelerateur::updatePhysicBody()
         clearPhysicsBody();
 
         b2BodyDef myBodyDef;
-        myBodyDef.type = b2_staticBody; //this will be a dynamic body
+        myBodyDef.type = IsInGame() ? b2_staticBody : b2_dynamicBody; //this will be a dynamic body
         const Vecteur3& pos = getPosition();
         b2Vec2 posB2;
         utilitaire::VEC3_TO_B2VEC(pos,posB2);
@@ -244,15 +258,23 @@ void NoeudAccelerateur::updatePhysicBody()
         myFixtureDef.density = 1;
 
         // Il s'agit ici d'un boost qui peut entré en collision avec une rondell
-        myFixtureDef.filter.categoryBits = CATEGORY_BOOST;
-        myFixtureDef.filter.maskBits = CATEGORY_PUCK;
+        if(IsInGame())
+        {
+            myFixtureDef.filter.categoryBits = CATEGORY_BOOST;
+            myFixtureDef.filter.maskBits = CATEGORY_PUCK;
 
-        // Le sensor indique qu'on va recevoir la callback de collision avec la rondelle sans vraiment avoir de collision
-        myFixtureDef.isSensor = true;
+            // Le sensor indique qu'on va recevoir la callback de collision avec la rondelle sans vraiment avoir de collision
+            myFixtureDef.isSensor = true;
+        }
+        else
+        {
+            myFixtureDef.filter.categoryBits = CATEGORY_BOOST;
+            myFixtureDef.filter.maskBits = 0xFFFF;
+        }
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         mPhysicBody->SetUserData(this);
-        //     mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
+        mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::synchroniseTransformFromB2CallBack;
     }
 #endif
 
@@ -275,7 +297,10 @@ void NoeudAccelerateur::appliquerAnimation( const ObjectAnimationParameters& pAn
     if(pAnimationResult.CanUpdatedAngle())
         mAngle = pAnimationResult.mAngle[VZ];
     if(pAnimationResult.CanUpdatedScale())
+    {
         mScale = pAnimationResult.mScale;
+        updateRadius();
+    }
     updateMatrice();
 }
 

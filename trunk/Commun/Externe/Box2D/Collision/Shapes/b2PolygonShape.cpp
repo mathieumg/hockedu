@@ -225,7 +225,7 @@ bool b2PolygonShape::RayCast(b2RayCastOutput* output, const b2RayCastInput& inpu
 			{
 				// Increase lower.
 				// The segment enters this half-space.
-				lower = numerator / denominator;
+				lower = numerator / denominator - b2_epsilon;
 				index = i;
 			}
 			else if (denominator > 0.0f && numerator < upper * denominator)
@@ -240,7 +240,7 @@ bool b2PolygonShape::RayCast(b2RayCastOutput* output, const b2RayCastInput& inpu
 		// in some cases. Apparently the use of epsilon was to make edge
 		// shapes work, but now those are handled separately.
 		//if (upper < lower - b2_epsilon)
-		if (upper < lower - b2_epsilon)
+		if (upper < lower)
 		{
 			return false;
 		}

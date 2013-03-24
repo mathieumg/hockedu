@@ -121,10 +121,8 @@ class CacheStore
         {
             // Write to the cache to a file.
             $fileHandle = fopen( $this->path . $this->name . '.inc.php', 'w' );
-            fwrite( $fileHandle, "<?php\n" . '$cacheContent = ' . var_export( $this->data, true ) . ";\n?>" );
+            fwrite( $fileHandle, "<?php\n" . '$cacheContent = ' . var_export( $this->data, true ) . ";\n" );
             fclose( $fileHandle );
         }
     }
 }
-
-?>

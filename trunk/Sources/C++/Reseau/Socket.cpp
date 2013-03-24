@@ -34,11 +34,13 @@ Socket::Socket(const std::string& pDestinationIP, const int& pPortNumber, Connec
 	mSocketInfo->sin_family = pIpProtocol;
     mSocketInfo->sin_port = htons(pPortNumber);
     mConnectionState = NOT_CONNECTED;
+    mIndexPaquet = -1;
 
 	if(pConType == UDP)
 	{
 		//UDP datagram
 		mSocket = socket(pIpProtocol, SOCK_DGRAM, IPPROTO_UDP);
+        mConnectionState = CONNECTED;
 	}
 	else if(pConType == TCP)
 	{
@@ -78,7 +80,15 @@ Socket::Socket( HANDLE_SOCKET socket, sockaddr_in* socketInfo, ConnectionType pC
     mConnectionType = pConnectionType;
     mSocketInfo = socketInfo;
     mSocket = socket;
-	mConnectionState = CONNECTING;
+    mIndexPaquet = -1;
+    if(pConnectionType = TCP)
+    {
+	    mConnectionState = CONNECTING;
+    }
+    else
+    {
+        mConnectionState = CONNECTED;
+    }
 
     FacadePortability::createMutex(mMutexActiviteSocket);
 
@@ -325,11 +335,9 @@ uint32_t Socket::recv( uint8_t* buf, uint32_t bufLen, bool pBlock /* = false*/ )
 void Socket::getaddrinfo( uint8_t* addr, uint16_t port, addrinfo* result )
 {
 	char portString[5];
-#ifdef WINDOWS
+
 	sprintf_s(portString, "%d", port);
-#elif defined(LINUX)
-    sprintf(portString, "%d", port);
-#endif
+
 	//std::cout << (char*)addr << std::endl;
 	struct addrinfo hints;
 	memset(&hints, 0, sizeof(hints));
@@ -539,11 +547,7 @@ ConnectionState Socket::initClient()
                 if(attendreSocket(15)) // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
                 {
                     recv((uint8_t*) &wReceptionValue, 3, true);
-#ifdef WINDOWS
                     if(sscanf_s(wReceptionValue,"%i",&wConfirmation) == 0)
-#elif defined(LINUX)
-                    if(sscanf(wReceptionValue,"%i",&wConfirmation) == 0)
-#endif
                     {
                         // sscanf ne fonctionne pas
                         wConfirmation = USER_DISCONNECTED;
@@ -556,11 +560,7 @@ ConnectionState Socket::initClient()
                         send((uint8_t*) wPassword.c_str(), (uint32_t) (wPassword.length()+1), true); // +1 pour avoir le caractere de fin de string
                         char wReceptionValue2[3];
                         recv((uint8_t*) &wReceptionValue2, 3, true);
-#ifdef WINDOWS
                         if(sscanf_s(wReceptionValue2,"%i",&wConfirmation) == 0)
-#elif defined(LINUX)
-                        if(sscanf(wReceptionValue2,"%i",&wConfirmation) == 0)
-#endif
                         {
                             // sscanf ne fonctionne pas
                             wConfirmation = USER_DISCONNECTED;
@@ -695,7 +695,8 @@ bool Socket::attendreSocket( const int& pTimeout ) const
     FD_ZERO(&readfds);
     FD_SET(mSocket, &readfds); // Set the File Descriptor to the one of the socket
     timeval tv = { pTimeout }; // Set timeout
-    return select(mSocket+1, &readfds, NULL, NULL, &tv) > 0; // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
+    return select((int)mSocket+1, &readfds, NULL, NULL, &tv) > 0; // select retourne le nombre de sockets qui ne bloqueront pas et qui font partis de readfds
+    // Premier parametre pour linux seulement, ignore en Windows
 }
 
 
@@ -716,6 +717,12 @@ void Socket::disconnect()
 
 void Socket::setConnectionState( ConnectionState pConnectionState )
 {
+    // On ne peut pas changer le state d'un socket UDP
+    if(mConnectionType == UDP)
+    {
+        return;
+    }
+
 	mConnectionState = pConnectionState;
 
 	ConnectionStateEvent event;

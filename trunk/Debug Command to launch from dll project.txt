@@ -1,0 +1,17 @@
+Debug
+Command 			$(ProjectDir)..\..\Content\Exe\UIHeavyClient.exe
+Command Args
+Working Directory 	$(ProjectDir)..\..\Content\Exe
+Debugger Type 		Mixed
+
+Release
+Command 			$(ProjectDir)..\..\Content\Release\UIHeavyClient.exe
+Command Args		
+Working Directory 	$(ProjectDir)..\..\Content\Release
+Debugger Type 		Mixed
+
+With_java
+Command 			$(JAVA_HOME)\bin\javaw.exe
+Command Args		-jar InterfaceGraphique.jar
+Working Directory 	$(ProjectDir)..\..\Content\JavaExe
+Debugger Type 		Mixed

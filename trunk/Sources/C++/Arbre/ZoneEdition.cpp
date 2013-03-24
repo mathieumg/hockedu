@@ -10,6 +10,11 @@
 
 #include "ZoneEdition.h"
 
+#if BOX2D_INTEGRATED
+#include <Box2D/Box2D.h>
+#include "Utilitaire.h"
+#endif
+
 #if WIN32
 #define _WINSOCKAPI_
 #include <windows.h>
@@ -24,11 +29,13 @@
 #endif
 
 #include "XMLUtils.h"
+#include "Terrain.h"
+#include "Enum_Declarations.h"
 
-const float ZoneEdition::DEFAUT_LIMITE_INT_LONGUEUR = 75;
-const float ZoneEdition::DEFAUT_LIMITE_INT_LARGEUR = 50;
-const float ZoneEdition::DEFAUT_LIMITE_EXT_LARGEUR = 150; 
-const float ZoneEdition::DEFAUT_LIMITE_EXT_LONGUEUR = 200;
+const float ZoneEdition::DEFAUT_LIMITE_INT_X = 75;
+const float ZoneEdition::DEFAUT_LIMITE_INT_Y = 50;
+const float ZoneEdition::DEFAUT_LIMITE_EXT_Y = 150; 
+const float ZoneEdition::DEFAUT_LIMITE_EXT_X = 200;
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -40,12 +47,34 @@ const float ZoneEdition::DEFAUT_LIMITE_EXT_LONGUEUR = 200;
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-ZoneEdition::ZoneEdition()
+ZoneEdition::ZoneEdition(Terrain* owner):
+    mOwner(owner)
+#if BOX2D_INTEGRATED
+    , mPhysicsBody(NULL)
+#endif
 {
-	limiteIntLongueur_ = DEFAUT_LIMITE_INT_LONGUEUR;
-	limiteIntLargeur_  = DEFAUT_LIMITE_INT_LARGEUR ;
-	limiteExtLargeur_  = DEFAUT_LIMITE_EXT_LARGEUR ; 
-	limiteExtLongueur_ = DEFAUT_LIMITE_EXT_LONGUEUR;
+	mLimitIntX = DEFAUT_LIMITE_INT_X;
+	mLimitIntY  = DEFAUT_LIMITE_INT_Y ;
+	mLimitExtY  = DEFAUT_LIMITE_EXT_Y ; 
+	mLimitExtX = DEFAUT_LIMITE_EXT_X;
+    rebuild();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn  ZoneEdition::~ZoneEdition()
+///
+/// /*Description*/
+///
+///
+/// @return 
+///
+////////////////////////////////////////////////////////////////////////
+ZoneEdition::~ZoneEdition()
+{
+#if BOX2D_INTEGRATED  
+    clearPhysicsBody();
+#endif //BOX2D_INTEGRATED
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -68,25 +97,26 @@ void ZoneEdition::modifierLimitesExt( const float* boiteEnglobantTable, const fl
 	// Si la longueur a assigner est plus petite que la longueur maximale de la table, on cap a la longueur de la table
 	if(longueur< boiteEnglobantTable[1] )
 	{
-		limiteExtLongueur_=boiteEnglobantTable[1];
+		mLimitExtX=boiteEnglobantTable[1];
 
 	}
 	// si plus grand ou egale
 	else
 	{
-		limiteExtLongueur_=longueur;
+		mLimitExtX=longueur;
 	}
 
 	// Si la largeur a assigner est plus petite que la largeur maximale de la table, on cap a la largeur de la table
 	if(largeur< boiteEnglobantTable[0] )
 	{
-		limiteExtLargeur_=boiteEnglobantTable[0];
+		mLimitExtY=boiteEnglobantTable[0];
 	}
 	// si plus grand ou egale
 	else
 	{
-		limiteExtLargeur_=largeur;
+		mLimitExtY=largeur;
 	}
+    rebuild();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -103,10 +133,10 @@ XmlElement* ZoneEdition::creerNoeudXML()
 {
 	XmlElement* element = XMLUtils::createNode("ZoneEdition");
 
-    XMLUtils::writeAttribute(element,"ExtLar",limiteExtLargeur_);
-    XMLUtils::writeAttribute(element,"ExtLon",limiteExtLongueur_);
-    XMLUtils::writeAttribute(element,"IntLar",limiteIntLargeur_);
-    XMLUtils::writeAttribute(element,"IntLon",limiteIntLongueur_);
+    XMLUtils::writeAttribute(element,"ExtLar",mLimitExtY);
+    XMLUtils::writeAttribute(element,"ExtLon",mLimitExtX);
+    XMLUtils::writeAttribute(element,"IntLar",mLimitIntY);
+    XMLUtils::writeAttribute(element,"IntLon",mLimitIntX);
 
 	return element;
 }
@@ -129,11 +159,12 @@ bool ZoneEdition::initialisationXML( const XmlElement* element )
 	if(!zone)
 		return false;
 
-    if(!XMLUtils::readAttribute(zone,"ExtLar",limiteExtLargeur_) ) return false;
-    if(!XMLUtils::readAttribute(zone,"ExtLon",limiteExtLongueur_)) return false;
-    if(!XMLUtils::readAttribute(zone,"IntLar",limiteIntLargeur_) ) return false;
-    if(!XMLUtils::readAttribute(zone,"IntLon",limiteIntLongueur_)) return false;
+    if(!XMLUtils::readAttribute(zone,"ExtLar",mLimitExtY) ) return false;
+    if(!XMLUtils::readAttribute(zone,"ExtLon",mLimitExtX)) return false;
+    if(!XMLUtils::readAttribute(zone,"IntLar",mLimitIntY) ) return false;
+    if(!XMLUtils::readAttribute(zone,"IntLon",mLimitIntX)) return false;
 
+    rebuild();
 	return true;
 }
 
@@ -149,10 +180,10 @@ bool ZoneEdition::initialisationXML( const XmlElement* element )
 ////////////////////////////////////////////////////////////////////////
 void ZoneEdition::reinitialiser()
 {
-	limiteIntLongueur_ = DEFAUT_LIMITE_INT_LONGUEUR;
-	limiteIntLargeur_  = DEFAUT_LIMITE_INT_LARGEUR ;
-	limiteExtLargeur_  = DEFAUT_LIMITE_EXT_LARGEUR ; 
-	limiteExtLongueur_ = DEFAUT_LIMITE_EXT_LONGUEUR;
+	mLimitIntX = DEFAUT_LIMITE_INT_X;
+	mLimitIntY  = DEFAUT_LIMITE_INT_Y ;
+	mLimitExtY  = DEFAUT_LIMITE_EXT_Y ; 
+	mLimitExtX = DEFAUT_LIMITE_EXT_X;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -183,10 +214,10 @@ void ZoneEdition::afficher()
 	glColor4f(0,0.749f,1,1);
     GLfloat vertices[12] =
     {
-        limiteExtLongueur_, limiteExtLargeur_,-3,
-        -limiteExtLongueur_, limiteExtLargeur_, -3,
-        -limiteExtLongueur_, -limiteExtLargeur_, -3,
-        limiteExtLongueur_, -limiteExtLargeur_, -3
+        mLimitExtX, mLimitExtY,-3,
+        -mLimitExtX, mLimitExtY, -3,
+        -mLimitExtX, -mLimitExtY, -3,
+        mLimitExtX, -mLimitExtY, -3
     };
     glVertexPointer (3, GL_FLOAT , 0, vertices); 
     glDrawArrays (GL_TRIANGLE_FAN, 0, 4);
@@ -204,6 +235,129 @@ void ZoneEdition::afficher()
 #endif
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool ZoneEdition::equals( ZoneEdition * zone )
+///
+/// /*Description*/
+///
+/// @param[in] ZoneEdition * zone
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool ZoneEdition::equals( ZoneEdition * zone )
+{
+    if(!zone)
+    {
+        return false;
+    }
+    if(zone == this)
+    {
+        return true;
+    }
+
+    return
+    mLimitIntX == zone->mLimitIntX &&
+    mLimitIntY  == zone->mLimitIntY  &&
+    mLimitExtY  == zone->mLimitExtY  &&
+    mLimitExtX == zone->mLimitExtX ;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void ZoneEdition::rebuild()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void ZoneEdition::rebuild()
+{
+    mAABBExt = BoundingBox::BuildAABB(Vecteur3(),Vecteur3(mLimitExtX,mLimitExtY));
+    mAABBInt = BoundingBox::BuildAABB(Vecteur3(),Vecteur3(mLimitIntX,mLimitIntY));
+    
+#if BOX2D_INTEGRATED  
+    clearPhysicsBody();
+    if(mOwner)
+    {
+        auto world = mOwner->GetWorld();
+        if(world)
+        {
+            b2BodyDef def;
+            def.type = b2_staticBody;
+            
+            mPhysicsBody = world->CreateBody(&def);
+
+            b2FixtureDef fixtureDef;
+            fixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
+            fixtureDef.filter.maskBits = 0xFFFF;
+
+            /// default filter for edition, collides with everything
+
+            float extY = mLimitExtY * utilitaire::ratioWorldToBox2D;
+            float extX = mLimitExtX * utilitaire::ratioWorldToBox2D;
+
+            b2PolygonShape box;
+            fixtureDef.shape = &box;
+
+            box.SetAsBox(extX,extY*3,b2Vec2(extX*2,0),0);
+            mPhysicsBody->CreateFixture(&fixtureDef);
+            box.SetAsBox(extX,extY*3,b2Vec2(-extX*2,0),0);
+            mPhysicsBody->CreateFixture(&fixtureDef);
+            box.SetAsBox(extX*3,extY,b2Vec2(0,extY*2),0);
+            mPhysicsBody->CreateFixture(&fixtureDef);
+            box.SetAsBox(extX*3,extY,b2Vec2(0,-extY*2),0);
+            mPhysicsBody->CreateFixture(&fixtureDef);
+
+            /*b2EdgeShape shape;
+            fixtureDef.shape = &shape;
+
+            shape.Set(b2Vec2(-extX,-extY),b2Vec2(-extX,extY));
+            mPhysicsBody->CreateFixture(&fixtureDef);
+
+            shape.Set(b2Vec2(-extX,extY),b2Vec2(extX,extY));
+            mPhysicsBody->CreateFixture(&fixtureDef);
+
+            shape.Set(b2Vec2(extX,extY),b2Vec2(extX,-extY));
+            mPhysicsBody->CreateFixture(&fixtureDef);
+
+            shape.Set(b2Vec2(extX,-extY),b2Vec2(-extX,-extY));
+            mPhysicsBody->CreateFixture(&fixtureDef);*/
+        }
+    }
+#endif //BOX2D_INTEGRATED
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void ZoneEdition::clearPhysicsBody()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+#if BOX2D_INTEGRATED  
+void ZoneEdition::clearPhysicsBody()
+{
+    if(mPhysicsBody && mOwner)
+    {
+        auto world = mOwner->GetWorld();
+        if(world)
+        {
+            world->DestroyBody(mPhysicsBody);
+        }
+    }
+    mPhysicsBody = NULL;
+}
+
+
+
+#endif //BOX2D_INTEGRATED
 
 ///////////////////////////////////////////////////////////////////////////
 /// @}

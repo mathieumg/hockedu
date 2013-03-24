@@ -61,8 +61,8 @@ namespace UIHeavyClient.UserControls
 
             mPropertyPanels = new List<UIElement>(RazerUtilities.FindTypedChildren<UIElement>(mPropertiesStackPanel, false));
 
-            // hack pour ne pas prendre le save button dans cette liste
-            mPropertyPanels.RemoveAt(mPropertyPanels.Count-1);
+            // hack pour ne pas prendre le save et refresh button dans cette liste
+            mPropertyPanels.RemoveAt(mPropertyPanels.Count - 1);
             // Permet que notre structure pointe sur les meme données que le control de Bonus
             //mFullProperties.mBonusProperties = (BonusProperties[])mBonusProperties.mDataGrid.ItemsSource;
 
@@ -137,34 +137,39 @@ namespace UIHeavyClient.UserControls
                 {  
                     mScaleProperty,
                     mAccelerationProperty,
-                    //mPositionProperty,
+                    mPositionProperty,
+                    mAngleProperty,
                 })},
                 {RazerKey.RAZER_KEY_PORTAL,new Property("Portal",new List<UIElement>()
                 {  
-                    //mPositionProperty,
+                    mPositionProperty,
                     mScaleProperty,
                     mAttractionProperty,
+                    mAngleProperty,
                 })},
                 {RazerKey.RAZER_KEY_PUCK,new Property("Puck",new List<UIElement>()
                 {  
-                    //mPositionProperty,
+                    mPositionProperty,
                     mScaleProperty,
+                    mAngleProperty,
                 })},
                 {RazerKey.RAZER_KEY_MALLET,new Property("Mallet",new List<UIElement>()
                 {  
-                    //mPositionProperty,
+                    mPositionProperty,
                     mScaleProperty,
+                    mAngleProperty,
                 })},
                 {RazerKey.RAZER_KEY_BONUS,new Property("Bonus",new List<UIElement>()
                 {  
-                    //mPositionProperty,
+                    mPositionProperty,
                     //mBonusProperties, // risque de ne pas faire la modification specifique des bonus
                     mScaleProperty,
+                    mAngleProperty,
                 })},
                 /// Abuse le fait que ce type est utilisé uniquement pour les murets
                 {RazerKey.RAZER_KEY_CONTROL_POINT,new Property("Wall",new List<UIElement>()
                 {  
-                    //mPositionProperty,
+                    mPositionProperty,
                     mScaleProperty,
                     mBouncingProperty,
                     mAngleProperty,
@@ -246,15 +251,20 @@ namespace UIHeavyClient.UserControls
                 if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_FRICTION    ))  mFrictionProperty.Value = mFullProperties.mFriction;
                 if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_ZONE_X      ))  mZoneEditionX.Value = mFullProperties.mZoneEditionX;
                 if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_ZONE_Y      ))  mZoneEditionY.Value = mFullProperties.mZoneEditionY;
-                //if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_POSITIONX   ))  mPositionX.Value = mFullProperties.mPositionX;
-                //if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_POSITIONY   ))  mPositionY.Value = mFullProperties.mPositionY;
+                if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_POSITIONX   ))  mPositionX.Value = mFullProperties.mPositionX;
+                if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_POSITIONY   ))  mPositionY.Value = mFullProperties.mPositionY;
                 if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_BONUS_MIN   ))  mBonusProperties.mMinSpawnTime.Value = mFullProperties.mMinBonusSpawnTime;
                 if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_BONUS_MAX    ))  mBonusProperties.mMaxSpawnTime.Value = mFullProperties.mMaxBonusSpawnTime;
             }
             // resets the flags
             mFullProperties.mPropertyFlagAssignment = 0;
+            mRefreshWarning.Visibility = Visibility.Collapsed;
         }
-
+        
+        public void RefreshData(object sender, RoutedEventArgs e)
+        {
+            GetData();
+        }
         public void SendData(object sender, RoutedEventArgs e)
         {
 
@@ -273,8 +283,8 @@ namespace UIHeavyClient.UserControls
 
             SendFieldProperties(mFullProperties);
 
-            // resets the flags
-            mFullProperties.mPropertyFlagAssignment = 0;
+            // make sure to have valid updated info
+            GetData();
         }
     }
 }

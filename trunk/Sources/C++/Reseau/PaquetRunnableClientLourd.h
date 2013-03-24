@@ -13,6 +13,8 @@ namespace PaquetRunnable
 
     int RunnableGameConnectionClient(Paquet* pPaquet);
 
+    int RunnableGameEventClient(Paquet* pPaquet);
+
 
 };
 

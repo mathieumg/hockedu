@@ -31,7 +31,7 @@ public:
 	/// Constructeur à partir du type du noeud.
 	NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHaut, NoeudPoint * coinBas, NoeudComposite* pParent = NULL);
 	/// Destructeur.
-	~NoeudBut();
+	virtual ~NoeudBut();
 
     /// fonction de comparaison de 2 noeuds
     virtual bool equals(NoeudAbstrait* n)

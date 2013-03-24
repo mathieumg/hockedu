@@ -8,7 +8,7 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "BonusModifierGoThorughWall.h"
-#if BOX2D_INTEGRATED  
+#if BOX2D_PLAY  
 #include <Box2D/Box2D.h>
 #endif
 #include "NoeudAbstrait.h"
@@ -79,7 +79,7 @@ bool BonusModifierGoThroughWall::Apply()
                 return false;
             }
         }
-#if BOX2D_INTEGRATED 
+#if BOX2D_PLAY 
 
         auto body = mOwner->getPhysicBody();
         if(body)
@@ -116,7 +116,7 @@ bool BonusModifierGoThroughWall::Apply()
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierGoThroughWall::Revert()
 {
-#if BOX2D_INTEGRATED  
+#if BOX2D_PLAY  
     for(int i=0; i<(int)mFixtures.size(); ++i)
     {
         auto fixture = mFixtures[i];

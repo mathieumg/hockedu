@@ -12,7 +12,6 @@
 
 
 #include "NoeudAbstrait.h"
-#include "MouseMoveObserver.h"
 #include "ObjetAnimable.h"
 #include "RunnableBreaker.h"
 
@@ -28,7 +27,7 @@ class JoueurVirtuel;
 /// @author Mathieu Parent
 /// @date 2012-01-25
 ///////////////////////////////////////////////////////////////////////////
-class NoeudMaillet : public NoeudAbstrait, public MouseMoveObserver, public ObjetAnimable, public RunnableBreaker
+class NoeudMaillet : public NoeudAbstrait, public ObjetAnimable, public RunnableBreaker
 {
 public:
     typedef NoeudAbstrait Super;
@@ -39,7 +38,7 @@ private:
     NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCreated, unsigned int malletLimit);
 public:
     /// Destructeur.
-    ~NoeudMaillet();
+    virtual ~NoeudMaillet();
 
     /// fonction de comparaison de 2 noeuds
     virtual bool equals(NoeudAbstrait* n)
@@ -63,6 +62,8 @@ public:
     /// utiliser les liste d'affichage pour windows
     virtual void renderOpenGLES() const;
     /// Physique
+
+#if MANUAL_PHYSICS_DETECTION
     virtual void collisionDetection( const float& temps);
     /// Mise a Jour de la position de ce noeud
     virtual void positionUpdate( const float& temps );
@@ -70,14 +71,14 @@ public:
     virtual void fixOverlap();
     /// Ajustement de la vitesse des noeuds
     virtual void fixSpeed( const float& temps );
+#endif
+
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody();
     /// Builds the mouse joint when starting to play
     void buildMouseJoint(bool pIsNetworkControlled = false);
     /// Free memory of the mouse joint when game is done
     void destroyMouseJoint();
-    /// updates mouse joint when receiving a mousemove event
-    virtual void updateObserver( const  class MouseMoveSubject* pSubject );
     /// node tick received when actually playing the game (simulation running)
     virtual void playTick(float temps);
 
@@ -101,10 +102,10 @@ private:
 	bool estControleParClavier_;
 	bool estControleParOrdinateur_;
     bool estControleParNetwork_;
-    
 
-	/// Conservation en memoire de la position de la osuris
-	Vecteur3 posSouris_;
+	/// Conservation en memoire de la position de destination
+	Vecteur3 mTargetDestination;
+    
 	/// Indique si ce maillet est controlle par le joueur de gauche
 	bool estAGauche_;
 	
@@ -126,7 +127,7 @@ private:
     /// reference to the factory's counter of mallet instances
     unsigned int& mNbMalletCreated;
     
-#if BOX2D_INTEGRATED
+#if BOX2D_PLAY
     /// joint controlling the mallet
     class b2MouseJoint* mMouseJoint;
     b2Body* mMouseBody;
@@ -143,7 +144,7 @@ public:
 	/// Permet d'indiquer au maillet s'il est controle par le clavier ou la souris
 	void setKeyboardControlled(bool clavier);
 	/// Assignation de la position de la souris pour que le maillet puisse la suivre
-	void assignerPosSouris(Vecteur3 pos);
+	void setTargetDestination(Vecteur3 pos);
 	/// Accesseur de velocite_
 	Vecteur3 obtenirVelocite() const { return velocite_; }
 	/// Modificateur de velocite_
@@ -169,8 +170,6 @@ public:
 	JoueurAbstrait* obtenirJoueur() const { return joueur_; }
 	/// Modificateur de joueur_
 	void setPlayer(JoueurAbstrait* val) { joueur_ = val; }
-    /// Obtenir pos souris
-    inline Vecteur3 getPosSouris() {return posSouris_;}
     inline void setIsNetworkPlayer(const bool pIsNetworkPlayer) {estControleParNetwork_ = pIsNetworkPlayer;}
 
 };

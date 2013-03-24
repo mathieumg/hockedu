@@ -144,7 +144,7 @@ namespace UIHeavyClient
             // see output
             ConsoleManager.Show();
             System.Windows.Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-//#if DEBUG
+#if DEBUG || true // Trolol
             System.Windows.Controls.MenuItem debugMenu = new System.Windows.Controls.MenuItem();
             debugMenu.Header = "Debug";
             MenuBar.Items.Add(debugMenu);
@@ -185,13 +185,20 @@ namespace UIHeavyClient
             }
 
             {
+                System.Windows.Controls.MenuItem testConnexionUDP = new System.Windows.Controls.MenuItem();
+                testConnexionUDP.Header = "Test Connexion UDP";
+                testConnexionUDP.Click += testConnexionUDP_Click;
+                debugMenu.Items.Add(testConnexionUDP);
+            }
+
+            {
                 System.Windows.Controls.MenuItem debugItem = new System.Windows.Controls.MenuItem();
                 debugItem.Header = "Reload Models";
                 debugItem.Click += ReloadModels_Click;
                 debugMenu.Items.Add(debugItem);
             }
 
-//#endif
+#endif
 
             InitDLL();
             this.Loaded += CreateUserControl;
@@ -213,6 +220,10 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void connectPartieServerGame(int pGameId);
 
+        // Tests pour connection UDP
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void testConnexionUDPCSharp();
+
         // Tests pour demande de creation d'une partie sur le serveur jeu
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void requestGameCreationServerGame(string pGameName);
@@ -228,6 +239,13 @@ namespace UIHeavyClient
         {
             // Tests pour connection serveur jeu et client
             connectPartieServerGame(1);
+
+        }
+
+        private void testConnexionUDP_Click(object sender, RoutedEventArgs e)
+        {
+
+            testConnexionUDPCSharp();
 
         }
 

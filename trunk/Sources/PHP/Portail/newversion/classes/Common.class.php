@@ -37,6 +37,8 @@ class Common
         $this->db = MDB2::singleton( $dbDsn, $dbOptions );
         $this->db->setFetchMode(MDB2_FETCHMODE_ASSOC);
         $this->db->query("SET NAMES 'utf8'");
+        // MySQL only, workaround for empty strings to NULL bug.
+        $this->db->setOption('portability', MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL);
 		$this->currentAuthenticationData = false;
     }
     
@@ -164,6 +166,47 @@ class Common
         return true;
     }
     
+    public function addUserMap( $userId, $mapName,  $mapDescription, $mapIsPublic, $mapCacheFileName )
+    {
+        // Generate the salt.
+        $creationTime = time();
+        
+        $mapCacheFilePath = '/var/www/hockedu.com/maps/'; //TOREMOVE: Use code below to get maps path from settings cache.
+        
+        /*
+        $website = Website::getInstance();
+        $mapCacheFilePath = $website->getBasePath() . $website->getSetting( 'mapsDirectory' ) . '/' . $mapCacheFileName;
+        */          
+        
+        $sql = 'INSERT INTO %s
+                ( %s, %s, %s, %s, %s, %s, %s, %s )
+                VALUES( %d, %s, %s, %s, %s, %d, %d, %d )';
+        $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'maps' ),
+                        
+                        $this->db->quoteIdentifier( 'id_user' ),
+                        $this->db->quoteIdentifier( 'name' ),
+                        $this->db->quoteIdentifier( 'description' ),
+                        $this->db->quoteIdentifier( 'content' ),                                        
+                        $this->db->quoteIdentifier( 'cache_name' ),                                      
+                        $this->db->quoteIdentifier( 'is_public' ),                                      
+                        $this->db->quoteIdentifier( 'creation_time' ),                                      
+                        $this->db->quoteIdentifier( 'last_modified_time' ),                                      
+                        
+                        $this->db->quote( $userId, 'integer' ),
+                        $this->db->quote( $mapName, 'text' ),
+                        $this->db->quote( $mapDescription, 'text' ),
+                        $this->db->quote( "file://" . $mapCacheFilePath . $mapCacheFileName, 'blob' ),
+                        $this->db->quote( $mapCacheFileName, 'text' ),
+                        $this->db->quote( $mapIsPublic , 'integer' ),
+                        $this->db->quote( $creationTime , 'integer' ),
+                        $this->db->quote( $creationTime , 'integer' )
+                       );
+        $this->db->query( $sql );
+        
+        return $this->db->lastInsertID( 'maps' );
+    }
+    
     public function getUserList()
     { 
         $sql = 'SELECT %s, %s
@@ -182,6 +225,28 @@ class Common
         return $userInformation;
     }
     
+    public function getMapInfo( $mapId )
+    { 
+        $sql = 'SELECT %s, %s
+                FROM %s 
+                WHERE %s=%d';
+        $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'is_public' ),
+                        $this->db->quoteIdentifier( 'cache_name' ),
+                        
+                        $this->db->quoteIdentifier( 'maps' ),
+                        
+                        $this->db->quoteIdentifier( 'id' ),
+                        $this->db->quote( $mapId, 'integer' )
+                       );
+        $this->db->setLimit( 1 );              
+        $mapInformation = $this->db->queryOne( $sql );
+        
+        $mapInformation['is_public'] = (int)$mapInformation['is_public'];
+        
+        return $mapInformation;
+    }
+    
     public function getUserMaps( $userId, $showPrivateMaps = false )
     { 
         $sql = 'SELECT %s, %s, %s, %s, %s, %s, %s, %s
@@ -190,7 +255,7 @@ class Common
 
         if( !$showPrivateMaps )
         {
-            $extraSql = 'AND %s=%d
+            $extraSql = ' AND %s=%d
             ';
             $extraSql = sprintf( $extraSql,              
                             $this->db->quoteIdentifier( 'is_public' ),
@@ -199,7 +264,7 @@ class Common
             $sql .= $extraSql;
         }  
 
-        $sql .= 'ORDER BY %s DESC';
+        $sql .= ' ORDER BY %s DESC';
         $sql = sprintf( $sql,
                         $this->db->quoteIdentifier( 'id' ),
                         $this->db->quoteIdentifier( 'name' ),
@@ -213,11 +278,21 @@ class Common
                         $this->db->quoteIdentifier( 'maps' ),
                         
                         $this->db->quoteIdentifier( 'id_user' ),
-                        $this->db->quote( $userId, 'text' ),
+                        $this->db->quote( $userId, 'integer' ),
                         
                         $this->db->quoteIdentifier( 'last_modified_time' )
                        );
         $userMaps = $this->db->queryAll( $sql );
+        
+        foreach( $userMaps as $index => $map )
+        {
+            $userMaps[ $index ]['id'] = (int)$map['id'];
+            $userMaps[ $index ]['rating_average'] = (float)$map['rating_average'];
+            $userMaps[ $index ]['rating_count'] = (int)$map['rating_count'];
+            $userMaps[ $index ]['is_public'] = (int)$map['is_public'];
+            $userMaps[ $index ]['creation_time'] = (int)$map['creation_time'];
+            $userMaps[ $index ]['last_modified_time'] = (int)$map['last_modified_time'];
+        }
         
         return $userMaps;
     }
@@ -380,6 +455,23 @@ class Common
         
         if( !empty( $userInformation ) )
         {
+            // Renew the expiration, then return it.
+            $userInformation['expiration'] = time() + 3600;
+            
+            $sql = 'UPDATE %s
+                    SET %s=%d
+                    WHERE %s=%s';
+            $sql = sprintf( $sql,
+                            $this->db->quoteIdentifier( 'remote_authentication'),
+                            
+                            $this->db->quoteIdentifier( 'expiration' ),
+                            $this->db->quote( $userInformation['expiration'], 'integer' ),
+                            
+                            $this->db->quoteIdentifier( 'key' ),
+                            $this->db->quote( $userInformation['key'], 'text' )
+                           );
+            $this->db->query( $sql );
+            
             return $userInformation;
         }
         
@@ -450,4 +542,3 @@ class Common
     }
 }
 
-?>
