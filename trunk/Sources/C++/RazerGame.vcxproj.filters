@@ -593,10 +593,16 @@
     <ClCompile Include="Arbre\HUD\HUDForeverAlone.cpp">
       <Filter>Sources Files\Arbre\Hud</Filter>
     </ClCompile>
-    <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddWall.cpp">
-      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
+    <ClCompile Include="Reseau\Paquets\PaquetBonus.cpp">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerBonus.cpp">
+      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
     </ClCompile>
     <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddNode.cpp">
+      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddWall.cpp">
       <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
     </ClCompile>
     <ClCompile Include="Interface\EtatSouris\SourisEtatTransformation.cpp">
@@ -1111,9 +1117,6 @@
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAbstract.h">
       <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameEvent.h">
-      <Filter>Sources Files</Filter>
-    </ClInclude>
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyRotate.h">
       <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
     </ClInclude>
@@ -1122,13 +1125,26 @@
     </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisitorSetProperties.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
-    </ClInclude>    <ClInclude Include="Arbre\HUD\HUDForeverAlone.h">
+    </ClInclude>
+    <ClInclude Include="Arbre\HUD\HUDForeverAlone.h">
       <Filter>Sources Files\Arbre\Hud</Filter>
     </ClInclude>
-    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddWall.h">
-      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
+    <ClInclude Include="Reseau\Paquets\PaquetBonus.h">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerBonus.h">
+      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetBonus.h">
+      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameEvent.h">
+      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddNode.h">
+      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddWall.h">
       <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
     </ClInclude>
     <ClInclude Include="Interface\EtatSouris\SourisEtatTransformation.h">

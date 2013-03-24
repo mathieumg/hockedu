@@ -28,6 +28,8 @@
 #include "..\reseau\UsinePaquets\UsinePaquetRondelle.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetGameEvent.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetGameRegistration.h"
+#include "..\Reseau\UsinePaquets\UsinePaquetBonus.h"
+#include "..\Reseau\PaquetHandlers\PacketHandlerBonus.h"
 
 void InitDLLServeurJeu(std::string& wMasterServerIP)
 {
@@ -55,6 +57,7 @@ void InitDLLServeurJeu(std::string& wMasterServerIP)
     wGestionnaireReseau->ajouterOperationReseau(GAME_CREATION_REQUEST, new PacketHandlerGameCreation, new UsinePaquetGameCreation);
     wGestionnaireReseau->ajouterOperationReseau(GAME_CONNECTION, new PacketHandlerGameConnection, new UsinePaquetGameConnection);
     wGestionnaireReseau->ajouterOperationReseau(GAME_EVENT, new PacketHandlerGameEvent, new UsinePaquetGameEvent);
+    wGestionnaireReseau->ajouterOperationReseau(BONUS, new PacketHandlerBonus, new UsinePaquetBonus);
 
     if(!ControllerServeurJeu::isLocalServer())
     {

@@ -1,6 +1,7 @@
 
 #pragma once
 #include "../Reseau/PaquetRunnable.h"
+#include "Paquets/PaquetBonus.h"
 
 
 namespace PaquetRunnable
@@ -22,6 +23,11 @@ namespace PaquetRunnable
     int RunnableGameConnectionServerGame(Paquet* pPaquet);
 
     int RunnableGameEventServerGame(Paquet* pPaquet);
+
+    // Section Bonus
+    int RunnableBonusMailletMuretServerGame(PaquetBonus* pPaquet);
+    int RunnableBonusGoalerServerGame(PaquetBonus* pPaquet);
+
 
 };
 
