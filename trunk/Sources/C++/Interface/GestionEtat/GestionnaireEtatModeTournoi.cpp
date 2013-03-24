@@ -205,7 +205,6 @@ void GestionnaireEtatModeTournoi::animer( const float& temps )
 				GestionnaireEvenements::modifierEtat(ETAT_PARTIE_TOURNOI_TERMINEE);
 				return;
 			}
-            partieCourante->animer(temps);
 		}
 	}
 

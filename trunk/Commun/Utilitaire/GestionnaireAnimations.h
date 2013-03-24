@@ -49,7 +49,7 @@ public:
 	void saveReplaySound(int choix);
 
 	/// Joueur le replay
-	void jouerReplay(vue::Camera camera);
+	void jouerReplay(vue::Camera& camera);
 
 	/// Accesseurs sur l'état du replay
 	bool estJouerReplay() const;

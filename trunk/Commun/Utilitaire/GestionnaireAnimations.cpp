@@ -27,7 +27,7 @@ SINGLETON_DECLARATION_CPP(GestionnaireAnimations);
 ////////////////////////////////////////////////////////////////////////
 GestionnaireAnimations::GestionnaireAnimations()
 {
-	replay_ = new AnimationReprise(LINEAIRE, true, true, true);
+    replay_ = new AnimationReprise(LINEAIRE, true, true, true);
 }
 
 
@@ -43,14 +43,14 @@ GestionnaireAnimations::GestionnaireAnimations()
 ////////////////////////////////////////////////////////////////////////
 GestionnaireAnimations::~GestionnaireAnimations()
 {
-	ListeAnimations::iterator itAnimations = animations_.begin();
-	for(;itAnimations!=animations_.end(); itAnimations++)
-	{
-		delete (*itAnimations);
-		(*itAnimations) = 0;
-	}
-	delete replay_;
-	replay_ = 0;
+    ListeAnimations::iterator itAnimations = animations_.begin();
+    for(;itAnimations!=animations_.end(); itAnimations++)
+    {
+        delete (*itAnimations);
+        (*itAnimations) = 0;
+    }
+    delete replay_;
+    replay_ = 0;
 }
 
 // 
@@ -69,10 +69,10 @@ GestionnaireAnimations::~GestionnaireAnimations()
 // ////////////////////////////////////////////////////////////////////////
 // GestionnaireAnimations* GestionnaireAnimations::obtenirInstance()
 // {
-// 	if (instance_ == 0)
-// 		instance_ = new GestionnaireAnimations;
+//  if (instance_ == 0)
+//      instance_ = new GestionnaireAnimations;
 // 
-// 	return instance_;
+//  return instance_;
 // }
 // 
 // 
@@ -87,8 +87,8 @@ GestionnaireAnimations::~GestionnaireAnimations()
 // ////////////////////////////////////////////////////////////////////////
 // void GestionnaireAnimations::libererInstance()
 // {
-// 	delete instance_;
-// 	instance_ = 0;
+//  delete instance_;
+//  instance_ = 0;
 // }
 
 
@@ -104,7 +104,7 @@ GestionnaireAnimations::~GestionnaireAnimations()
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireAnimations::ajouterAnimation( Animation* animation )
 {
-	animations_.push_back(animation);
+    animations_.push_back(animation);
 }
 
 
@@ -121,17 +121,17 @@ void GestionnaireAnimations::ajouterAnimation( Animation* animation )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireAnimations::retirerAnimation( Animation* animation )
 {
-	ListeAnimations::iterator it = animations_.begin();
-	for(; it!=animations_.end(); it++)
-	{
-		if((*it)==animation)
-		{
-			delete (*it);
-			(*it) = 0;
-			animations_.erase(it);
-			break;
-		}
-	}
+    ListeAnimations::iterator it = animations_.begin();
+    for(; it!=animations_.end(); it++)
+    {
+        if((*it)==animation)
+        {
+            delete (*it);
+            (*it) = 0;
+            animations_.erase(it);
+            break;
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -147,38 +147,35 @@ void GestionnaireAnimations::retirerAnimation( Animation* animation )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireAnimations::animer( float temps )
 {
-	ListeAnimations::iterator aSuprimer = animations_.end();
-	ListeAnimations::iterator itAnimations = animations_.begin();
-	for(;itAnimations!=animations_.end(); itAnimations++)
-	{
-		Animation* courant = (*itAnimations);
-		if(courant->estTermine())
-			aSuprimer = itAnimations;
-		else
-			courant->animer(temps);
-	}
+    ListeAnimations::iterator itAnimations = animations_.begin();
+    for(;itAnimations!=animations_.end(); )
+    {
+        Animation* courant = (*itAnimations);
+        if(courant->estTermine())
+        {
+            delete courant;
+            itAnimations = animations_.erase(itAnimations);
+        }
+        else
+        {
+            courant->animer(temps);
+            itAnimations++;
+        }
+    }
 
-	if(mReplaying)
-	{
-		if(!replay_->estTermine())
-			replay_->animer(temps);
-		else
+    if(mReplaying)
+    {
+        if(!replay_->estTermine())
+        {
+            replay_->animer(temps);
+        }
+        else
         {
             mReplaying = false;
             ReplaySubject::signalObservers();
         }
-	}
+    }
 
-	// On supprime la nimation qui n'est plus bonne
-
-	if(aSuprimer!=animations_.end())
-	{
-		
-		Animation* courant = (*aSuprimer);
-		delete courant;
-		courant = 0;
-		animations_.erase(aSuprimer);
-	}
 
 }
 
@@ -197,25 +194,25 @@ void GestionnaireAnimations::animer( float temps )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireAnimations::delierObjet( ObjetAnimable* objet )
 {
-	ListeAnimations::iterator itAnimations = animations_.begin();
-	for(;itAnimations!=animations_.end(); itAnimations++)
-	{
-		(*itAnimations)->delierObjet(objet);
-	}
+    ListeAnimations::iterator itAnimations = animations_.begin();
+    for(;itAnimations!=animations_.end(); itAnimations++)
+    {
+        (*itAnimations)->delierObjet(objet);
+    }
 
-	// Pour effecer une animation de la liste si elle est vide
-	ListeAnimations::iterator itAnimations2 = animations_.begin();
-	for(;itAnimations2!=animations_.end(); itAnimations2++)
-	{
-		if((*itAnimations2)->obtenirNbObjets()==0)
-		{
-			Animation* aEffacer = (*itAnimations2);
-			delete aEffacer;
-			aEffacer = 0;
-			animations_.erase(itAnimations2);
-			break;
-		}
-	}
+    // Pour effecer une animation de la liste si elle est vide
+    ListeAnimations::iterator itAnimations2 = animations_.begin();
+    for(;itAnimations2!=animations_.end(); itAnimations2++)
+    {
+        if((*itAnimations2)->obtenirNbObjets()==0)
+        {
+            Animation* aEffacer = (*itAnimations2);
+            delete aEffacer;
+            aEffacer = 0;
+            animations_.erase(itAnimations2);
+            break;
+        }
+    }
 }
 
 
@@ -230,11 +227,11 @@ void GestionnaireAnimations::delierObjet( ObjetAnimable* objet )
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireAnimations::jouerReplay(vue::Camera camera)
+void GestionnaireAnimations::jouerReplay(vue::Camera& camera)
 {
-	mReplaying = true;
-	ancienneCamera_ = camera;
-	replay_->resetTerminer();
+    mReplaying = true;
+    ancienneCamera_ = camera;
+    replay_->resetTerminer();
     ReplaySubject::signalObservers();
 }
 
@@ -246,12 +243,12 @@ void GestionnaireAnimations::jouerReplay(vue::Camera camera)
 /// Retourne true si le replay est en cours de lecture
 ///
 /// 
-/// @return bool	: true si en cours de lecture de l'animation
+/// @return bool    : true si en cours de lecture de l'animation
 ///
 ////////////////////////////////////////////////////////////////////////
 bool GestionnaireAnimations::estJouerReplay() const
 {
-	return mReplaying;
+    return mReplaying;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -260,15 +257,15 @@ bool GestionnaireAnimations::estJouerReplay() const
 ///
 /// Ajoute une frame pour le replay
 ///
-/// @param	frame	: frame a ajouter
-/// @param	objet	: objet lie a la frame
+/// @param  frame   : frame a ajouter
+/// @param  objet   : objet lie a la frame
 /// 
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireAnimations::saveReplayFrame( IterationReplay* frame )
 {
-	replay_->ajouterFrame(frame);
+    replay_->ajouterFrame(frame);
 }
 
 
@@ -278,7 +275,7 @@ void GestionnaireAnimations::saveReplayFrame( IterationReplay* frame )
 ///
 /// Ajoute une frame avec le sou pour le replay
 ///
-/// @param	choix	: int correspondant au son a jouer
+/// @param  choix   : int correspondant au son a jouer
 /// 
 /// @return Aucune.
 ///
@@ -286,7 +283,7 @@ void GestionnaireAnimations::saveReplayFrame( IterationReplay* frame )
 void GestionnaireAnimations::saveReplaySound( int choix )
 {
 
-	replay_->ajouterSon(choix);
+    replay_->ajouterSon(choix);
 
 }
 
@@ -301,7 +298,7 @@ void GestionnaireAnimations::saveReplaySound( int choix )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireAnimations::viderBufferReplay()
 {
-	replay_->viderListe();
+    replay_->viderListe();
 }
 
 
@@ -317,22 +314,22 @@ void GestionnaireAnimations::viderBufferReplay()
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireAnimations::viderAnimationCamera()
 {
-	// Important de laisser i en unsigned int
-	for(unsigned int i= 0; i<animations_.size(); ++i)
-	{
-		for(int j = 0; j< animations_[i]->obtenirNbObjets(); ++j)
-		{
-			// On regarde si l'objet est une camera
-			if( dynamic_cast<vue::Camera*>(animations_[i]->obtenirObjets(j)) )
-			{
-				// si oui on supprime cette animation
-				retirerAnimation(animations_[i]);
-				// on reajuste l'index
-				--i;
-				break;
-			}
-		}
-	}
+    // Important de laisser i en unsigned int
+    for(unsigned int i= 0; i<animations_.size(); ++i)
+    {
+        for(int j = 0; j< animations_[i]->obtenirNbObjets(); ++j)
+        {
+            // On regarde si l'objet est une camera
+            if( dynamic_cast<vue::Camera*>(animations_[i]->obtenirObjets(j)) )
+            {
+                // si oui on supprime cette animation
+                retirerAnimation(animations_[i]);
+                // on reajuste l'index
+                --i;
+                break;
+            }
+        }
+    }
 }
 
 

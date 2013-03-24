@@ -57,6 +57,8 @@ pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurD
     mRequirePassword = false;
     mPassword = "";
     mPartieSyncer.setPlayers(joueurGauche, joueurDroit);
+
+    GestionnaireAnimations::obtenirInstance()->attach(this);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -532,14 +534,6 @@ void Partie::updateMinuterie( int time )
             chiffres_->modifierListes("3");
             chiffres_->setVisible(false);
             setGameStatus(GAME_RUNNING);
-#if !MAT_DEBUG
-            auto zamboni = mField->getZamboni();
-            if(zamboni)
-            {
-                zamboni->setVisible(false);
-                zamboni->setPosition(Vecteur3());
-            }
-#endif
             Vecteur3 coordonneesSouris;
             
             FacadeModele::getInstance()->convertirClotureAVirtuelle(mMousePosScreen[VX], mMousePosScreen[VY], coordonneesSouris);
@@ -844,14 +838,10 @@ void Partie::animer( const float& temps )
             mField->appliquerPhysique(temps);
             mPartieSyncer.tick();
         }
-#if !MAT_DEBUG
+#if !MAT_DEBUG_
         else if(mGameStatus == GAME_WAITING)
         {
             auto zamboni = mField->getZamboni();
-            if(zamboni)
-            {
-                zamboni->setVisible(true);
-            }
             Vecteur3 pos = zamboni->getPosition();
             auto angle = utilitaire::DEG_TO_RAD(zamboni->getAngle());
             Vecteur3 direction;
@@ -1004,8 +994,44 @@ void Partie::updateObserver( const ReplaySubject* pSubject )
     else
     {
         tempsJeu_.unPause();
-        setGameStatus(mLastGameStatus); // Utilise le dernier etat de partie pour unpause
+        checkf(mLastGameStatus != GAME_REPLAYING);
+        if(mLastGameStatus != GAME_REPLAYING)
+        {
+            setGameStatus(mLastGameStatus); // Utilise le dernier etat de partie pour unpause
+        }
     }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Partie::setGameStatus( GameStatus pStatus )
+///
+/// /*Description*/
+///
+/// @param[in] GameStatus pStatus
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Partie::setGameStatus( GameStatus pStatus )
+{
+    mLastGameStatus = mGameStatus; 
+    mGameStatus = pStatus;
+#if !MAT_DEBUG_
+    auto zamboni = mField->getZamboni();
+    if(zamboni)
+    {
+        if(mGameStatus == GAME_WAITING)
+        {
+            zamboni->setVisible(true);
+        }
+        else
+        {
+            zamboni->setVisible(false);
+            zamboni->setPosition(Vecteur3());
+        }
+    }
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////

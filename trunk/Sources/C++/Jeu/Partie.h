@@ -119,7 +119,7 @@ public:
 
     virtual void updateObserver( const ReplaySubject* pSubject );
 
-    inline void setGameStatus(GameStatus pStatus) {mLastGameStatus = mGameStatus; mGameStatus = pStatus;}
+    void setGameStatus(GameStatus pStatus);
 /// Methode Privee
 private:
 
