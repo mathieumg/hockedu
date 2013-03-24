@@ -27,6 +27,8 @@
 #include "GestionnaireHUD.h"
 #include "HUDBonus.h"
 #include "FacadeModele.h"
+#include "../Reseau/Paquets/PaquetGameEvent.h"
+#include "../Reseau/RelayeurMessage.h"
 
 #define TransmitEvent(e) FacadeModele::transmitEvent(e)
 #else
@@ -67,8 +69,6 @@
 #include "FieldModificationStrategyAddNode.h"
 #include "FieldModificationStrategyAddWall.h"
 #include "Visiteur/VisiteurSuppression.h"
-#include "../Reseau/Paquets/PaquetGameEvent.h"
-#include "../Reseau/RelayeurMessage.h"
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;

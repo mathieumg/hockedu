@@ -88,6 +88,8 @@
 		4EA5287B16FE366A008F89BD /* VisitorSetProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA5287916FE366A008F89BD /* VisitorSetProperties.cpp */; };
 		4EB7EA7916EFBE4100493722 /* VisiteurFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */; };
 		4EC1626E16F81A8C00577704 /* BonusModifierBlockGoal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */; };
+		4ED4BC3516FEED3200227F1E /* FieldModificationStrategyAddNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4BC3116FEED3200227F1E /* FieldModificationStrategyAddNode.cpp */; };
+		4ED4BC3616FEED3200227F1E /* FieldModificationStrategyAddWall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4BC3316FEED3200227F1E /* FieldModificationStrategyAddWall.cpp */; };
 		4EEBBF9A16E86E5B00017127 /* Model.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBF9916E86E5B00017127 /* Model.mm */; };
 		4EEBBFA316E8832900017127 /* NoeudAbstrait.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBFA216E8832900017127 /* NoeudAbstrait.cpp */; };
 		6D951C3F16EE753600894B44 /* LeftBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D951C3E16EE753600894B44 /* LeftBar.png */; };
@@ -321,6 +323,10 @@
 		4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierBlockGoal.cpp; sourceTree = "<group>"; };
 		4EC1626D16F81A8C00577704 /* BonusModifierBlockGoal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusModifierBlockGoal.h; sourceTree = "<group>"; };
 		4EC1626F16F81F8000577704 /* RunnableBreaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunnableBreaker.h; sourceTree = "<group>"; };
+		4ED4BC3116FEED3200227F1E /* FieldModificationStrategyAddNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyAddNode.cpp; sourceTree = "<group>"; };
+		4ED4BC3216FEED3200227F1E /* FieldModificationStrategyAddNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyAddNode.h; sourceTree = "<group>"; };
+		4ED4BC3316FEED3200227F1E /* FieldModificationStrategyAddWall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyAddWall.cpp; sourceTree = "<group>"; };
+		4ED4BC3416FEED3200227F1E /* FieldModificationStrategyAddWall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyAddWall.h; sourceTree = "<group>"; };
 		4EEBBF9816E86E5B00017127 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		4EEBBF9916E86E5B00017127 /* Model.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Model.mm; sourceTree = "<group>"; };
 		4EEBBFA216E8832900017127 /* NoeudAbstrait.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoeudAbstrait.cpp; sourceTree = "<group>"; };
@@ -603,6 +609,10 @@
 		4E07580516FBE5ED005F697E /* FieldModificationStrategy */ = {
 			isa = PBXGroup;
 			children = (
+				4ED4BC3116FEED3200227F1E /* FieldModificationStrategyAddNode.cpp */,
+				4ED4BC3216FEED3200227F1E /* FieldModificationStrategyAddNode.h */,
+				4ED4BC3316FEED3200227F1E /* FieldModificationStrategyAddWall.cpp */,
+				4ED4BC3416FEED3200227F1E /* FieldModificationStrategyAddWall.h */,
 				4EA5287316FE356A008F89BD /* FieldModificationStrategyRotate.cpp */,
 				4EA5287416FE356A008F89BD /* FieldModificationStrategyRotate.h */,
 				4EA5287516FE356A008F89BD /* FieldModificationStrategyScale.cpp */,
@@ -964,6 +974,8 @@
 				4EA5287716FE356A008F89BD /* FieldModificationStrategyRotate.cpp in Sources */,
 				4EA5287816FE356A008F89BD /* FieldModificationStrategyScale.cpp in Sources */,
 				4EA5287B16FE366A008F89BD /* VisitorSetProperties.cpp in Sources */,
+				4ED4BC3516FEED3200227F1E /* FieldModificationStrategyAddNode.cpp in Sources */,
+				4ED4BC3616FEED3200227F1E /* FieldModificationStrategyAddWall.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
