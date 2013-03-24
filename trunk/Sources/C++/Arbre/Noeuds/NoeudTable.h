@@ -13,7 +13,7 @@
 #include "NoeudComposite.h"
 #include "NoeudPoint.h"
 #include "NoeudMuret.h"
-#include "PositionSubject.h"
+#include "PositionObserver.h"
 
 class NodeWallAbstract;
 class NoeudBut;

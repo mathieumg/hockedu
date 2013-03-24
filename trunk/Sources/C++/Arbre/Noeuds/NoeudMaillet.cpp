@@ -260,9 +260,17 @@ void NoeudMaillet::modifierDirection( bool active, DirectionMaillet dir )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::setTargetDestination( Vecteur3 pos )
+void NoeudMaillet::setTargetDestination( const Vecteur3& pos, bool forceUpdateMouseJoint /*= false*/ )
 {
 	mTargetDestination = pos;
+#if BOX2D_PLAY
+    if(forceUpdateMouseJoint && mMouseJoint)
+    {
+        b2Vec2 targetPointB2;
+        utilitaire::VEC3_TO_B2VEC(mTargetDestination,targetPointB2);
+        mMouseJoint->SetTarget(targetPointB2);
+    }
+#endif
 }
 
 
@@ -562,6 +570,7 @@ void NoeudMaillet::buildMouseJoint(bool pIsNetworkControlled /*=false*/)
             md.bodyA = mMouseBody;
             md.bodyB = body;
             const Vecteur3& pos = getPosition();
+            setTargetDestination(pos);
             utilitaire::VEC3_TO_B2VEC(pos,md.target);
             md.maxForce = 10000.0f * body->GetMass();
             md.dampingRatio = 0;

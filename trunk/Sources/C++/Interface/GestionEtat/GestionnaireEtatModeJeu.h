@@ -12,6 +12,7 @@
 #define GESTIONNAIREETATMODEJEU_H
 
 #include "GestionnaireEtatAbstrait.h"
+#include "ReplayObserver.h"
 
 ////////////////////////////////////////////////////////////////////////////
 /// @class GestionnaireEtatModeJeu
@@ -20,7 +21,7 @@
 /// @author Vincent Lemire
 /// @date 2012-01-20
 ////////////////////////////////////////////////////////////////////////////
-class GestionnaireEtatModeJeu : public GestionnaireEtatAbstrait
+class GestionnaireEtatModeJeu : public GestionnaireEtatAbstrait , public ReplayObserver
 {
 public:
 	/// Constructeur par paramètre.
@@ -46,6 +47,8 @@ public:
 	/// Permet d'effectuer l'affichage specifique a l'etat
 	virtual void afficher();
 	virtual void miseAJourEvenementsRepetitifs( float deltaTemps );
+
+    virtual void updateObserver( const ReplaySubject* pSubject );
 
 private:
 	bool shiftEnfonce_;

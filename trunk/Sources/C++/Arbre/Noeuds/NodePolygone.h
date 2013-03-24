@@ -10,7 +10,7 @@
 #pragma once
 #include "ControlPointMutableAbstract.h"
 #include "NoeudComposite.h"
-#include "PositionSubject.h"
+#include "PositionObserver.h"
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class NodePolygone

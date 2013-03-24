@@ -40,7 +40,7 @@ GestionnaireEtatAbstrait(),mGame(pGame)
 	modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
 	shiftEnfonce_ = false;
 	enfonce_ = false;
-	
+    GestionnaireAnimations::obtenirInstance()->attach(this);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -246,7 +246,7 @@ void GestionnaireEtatModeJeu::sourisDeplacee( EvenementSouris& evenementSouris )
 	else
 	{
         checkf(mGame);
-        if(mGame)
+        if(mGame && mGame->getGameStatus() == GAME_RUNNING)
         {
             NoeudMaillet* mailletGauche = mGame->getField()->getLeftMallet();
             NoeudMaillet* mailletDroit = mGame->getField()->getRightMallet();
@@ -368,6 +368,39 @@ void GestionnaireEtatModeJeu::miseAJourEvenementsRepetitifs( float deltaTemps )
 	}
 
 
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void GestionnaireEtatModeJeu::updateObserver( const ReplaySubject* pSubject )
+///
+/// /*Description*/
+///
+/// @param[in] const ReplaySubject * pSubject
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void GestionnaireEtatModeJeu::updateObserver( const ReplaySubject* pSubject )
+{
+    if(!pSubject->mReplaying)
+    {
+        vue::Camera ancienneCamera = GestionnaireAnimations::obtenirInstance()->obtenirAncienneCamera();
+        vue::Camera* camera = &FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
+
+        AnimationFrame* frame[2];
+        frame[0] = new AnimationFrame(0, camera->obtenirPosition(), camera->obtenirPointVise(), camera->obtenirDirectionHaut());
+        frame[1] = new AnimationFrame(500, ancienneCamera.obtenirPosition(), ancienneCamera.obtenirPointVise(), ancienneCamera.obtenirDirectionHaut());
+
+        Animation* animation = new Animation(BEZIER, true, true, true);
+        for(int i=0; i<2; i++)
+            animation->ajouterFrame(frame[i]);
+        animation->ajouterObjet(camera);
+        GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
+
+        if(mGame)
+            mGame->delais(4100);
+    }
 }
 
 

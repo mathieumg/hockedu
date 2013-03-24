@@ -1,8 +1,9 @@
 #pragma once
 #include "GestionnaireEtatAbstrait.h"
+#include "ReplayObserver.h"
 
 class GestionnaireEtatPartieTournoiTerminee :
-	public GestionnaireEtatAbstrait
+	public GestionnaireEtatAbstrait, public ReplayObserver
 {
 public:
 	/// Constructeur
@@ -36,5 +37,8 @@ public:
 	virtual void animer( const float& temps );
 	/// Permet d'effectuer l'affichage specifique a l'etat
 	virtual void afficher();
+
+    virtual void updateObserver( const ReplaySubject* pSubject );
+
 };
 

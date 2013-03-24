@@ -902,6 +902,7 @@ void FacadeModele::ClearCurrentGame()
     Partie* wGame = GameManager::obtenirInstance()->getGame(partieCourante_);
     if(wGame)
     {
+        wGame->setGameStatus(GAME_ENDED);
         if(!wGame->faitPartieDunTournoi())
         {
             GameManager::obtenirInstance()->removeGame(partieCourante_);

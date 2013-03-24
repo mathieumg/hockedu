@@ -10,6 +10,7 @@
 
 #pragma once
 #include "GestionnaireEtatAbstrait.h"
+#include "ReplayObserver.h"
 
 ////////////////////////////////////////////////////////////////////////////
 /// @class GestionnaireEtatModeTournoi
@@ -18,7 +19,7 @@
 /// @author Vincent Lemire
 /// @date 2012-01-20
 ////////////////////////////////////////////////////////////////////////////
-class GestionnaireEtatModeTournoi : public GestionnaireEtatAbstrait
+class GestionnaireEtatModeTournoi : public GestionnaireEtatAbstrait, public ReplayObserver
 {
 public:
 	/// Constructeur par paramètre.
@@ -47,6 +48,10 @@ public:
 
 	/// Permet d'effectuer l'affichage specifique a l'etat
 	virtual void afficher();
+
+
+    virtual void updateObserver( const ReplaySubject* pSubject );
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////

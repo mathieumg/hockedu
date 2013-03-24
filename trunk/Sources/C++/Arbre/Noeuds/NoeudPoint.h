@@ -12,7 +12,7 @@
 #include "NoeudComposite.h"
 #include "OnceVector.h"
 #include <set>
-#include "PositionSubject.h"
+#include "PositionObserver.h"
 
 // Surtout ne pas toucher a la position des elements dans l'enum
 /// ils représentent des positions dans un array

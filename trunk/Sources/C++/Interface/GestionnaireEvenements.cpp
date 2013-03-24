@@ -139,6 +139,11 @@ void GestionnaireEvenements::sourisRelachee( EvenementSouris& evenementSouris )
 void GestionnaireEvenements::sourisDeplacee( EvenementSouris& evenementSouris )
 {
 	if(etatCourant_)etatCourant_->sourisDeplacee(evenementSouris);
+    auto partie = FacadeModele::getInstance()->obtenirPartieCourante();
+    if(partie)
+    {
+        partie->setMousePosScreen(evenementSouris.obtenirPosition());
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

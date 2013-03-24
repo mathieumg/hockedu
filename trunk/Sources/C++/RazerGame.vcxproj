@@ -72,7 +72,6 @@
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</PostBuildEventUseInBuild>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;C:\Program Files\Java\jdk1.6.0_25\include;</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'">$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;C:\Program Files\Java\jdk1.6.0_25\include;</IncludePath>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../Content/Exe/</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
@@ -397,7 +396,6 @@
     <ClInclude Include="Arbre\Noeuds\NoeudPortail.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudRondelle.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudTable.h" />
-    <ClInclude Include="Arbre\Noeuds\PositionSubject.h" />
     <ClInclude Include="Arbre\Terrain.h" />
     <ClInclude Include="Arbre\Usines\BonusModifierFactory.h" />
     <ClInclude Include="Arbre\Visiteur\VisiteurCollision.h" />

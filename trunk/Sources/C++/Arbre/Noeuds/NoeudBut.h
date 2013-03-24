@@ -11,7 +11,7 @@
 #define __ARBRE_NOEUDS_NOEUDBUT_H__
 
 #include "NoeudComposite.h"
-#include "PositionSubject.h"
+#include "PositionObserver.h"
 
 class NodeRinkBoards;
 class NoeudPoint;

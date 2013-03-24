@@ -28,8 +28,6 @@ SINGLETON_DECLARATION_CPP(GestionnaireAnimations);
 GestionnaireAnimations::GestionnaireAnimations()
 {
 	replay_ = new AnimationReprise(LINEAIRE, true, true, true);
-	jouerReplay_ = false;
-	replayTermine_ = false;
 }
 
 
@@ -160,12 +158,15 @@ void GestionnaireAnimations::animer( float temps )
 			courant->animer(temps);
 	}
 
-	if(jouerReplay_)
+	if(mReplaying)
 	{
 		if(!replay_->estTermine())
 			replay_->animer(temps);
 		else
-			jouerReplay_ = false; // Desactive le replay une fois termine
+        {
+            mReplaying = false;
+            ReplaySubject::signalObservers();
+        }
 	}
 
 	// On supprime la nimation qui n'est plus bonne
@@ -231,10 +232,10 @@ void GestionnaireAnimations::delierObjet( ObjetAnimable* objet )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireAnimations::jouerReplay(vue::Camera camera)
 {
-	jouerReplay_ = true;
+	mReplaying = true;
 	ancienneCamera_ = camera;
-	replayTermine_ = false;
 	replay_->resetTerminer();
+    ReplaySubject::signalObservers();
 }
 
 
@@ -250,7 +251,7 @@ void GestionnaireAnimations::jouerReplay(vue::Camera camera)
 ////////////////////////////////////////////////////////////////////////
 bool GestionnaireAnimations::estJouerReplay() const
 {
-	return jouerReplay_;
+	return mReplaying;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -288,30 +289,6 @@ void GestionnaireAnimations::saveReplaySound( int choix )
 	replay_->ajouterSon(choix);
 
 }
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn bool GestionnaireAnimations::replayTermine( )
-///
-/// Envoie a facadeModele de faire un delais de la partie courante
-///
-/// @param[out]	bool	: true si le replay est termine
-/// 
-/// @return Aucune.
-///
-////////////////////////////////////////////////////////////////////////
-bool GestionnaireAnimations::replayEstTermine( ) 
-{
-	if(replayTermine_)
-	{
-		replayTermine_ = false;
-		return true;
-	}
-	return false;
-
-}
-
 
 ////////////////////////////////////////////////////////////////////////
 ///

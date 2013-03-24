@@ -262,6 +262,12 @@
     <ClInclude Include="Flags.h">
       <Filter>Sources Files</Filter>
     </ClInclude>
+    <ClInclude Include="ReplayObserver.h">
+      <Filter>Sources Files\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionObserver.h">
+      <Filter>Sources Files\Observer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Content\Exe\nuanceurFragments.glsl">
