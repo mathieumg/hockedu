@@ -157,7 +157,7 @@ int ControllerCSharp::HandleMessage( ControllerCSharp* pContext, EventCodes pEve
 
 
 
-void ControllerCSharp::getPlayersInGame( int pGameId, std::vector<const std::string>& pPlayerList )
+void ControllerCSharp::getPlayersInGame( int pGameId, std::vector<std::string>& pPlayerList )
 {
     pPlayerList.push_back("GameServer");
 }

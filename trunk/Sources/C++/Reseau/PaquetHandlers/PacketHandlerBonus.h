@@ -21,7 +21,7 @@ public:
     PacketHandlerBonus();
 
     // Le controlleur s'occupe de l'initialisation
-    static std::hash_map<PaquetBonusType, PaquetBonusRunnable> mRunnableList;
+    static std::hash_map<int, PaquetBonusRunnable> mRunnableList;
 
 protected:
     virtual void handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable = NULL); // Méthode pour lire les données d'un paquet pour un paquet de base
@@ -32,9 +32,9 @@ protected:
     // Nouvelles methodes
     int getPacketBonusSize( PaquetBonus* pPaquet ) const;
 
-    std::hash_map<PaquetBonusType, int>                 mPaquetSizes;
-    std::hash_map<PaquetBonusType, PaquetBonusBuilder>  mPaquetBuilders;
-    std::hash_map<PaquetBonusType, PaquetBonusReader>   mPaquetReaders;
+    std::hash_map<int, int>                 mPaquetSizes;
+    std::hash_map<int, PaquetBonusBuilder>  mPaquetBuilders;
+    std::hash_map<int, PaquetBonusReader>   mPaquetReaders;
 
 
 };

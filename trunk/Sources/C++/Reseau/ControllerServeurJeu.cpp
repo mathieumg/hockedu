@@ -123,7 +123,7 @@ void ControllerServeurJeu::handleDisconnectDetection( SPSocket pSocket )
     GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
 }
 
-void ControllerServeurJeu::getPlayersInGame( int pGameId, std::vector<const std::string>& pPlayerList )
+void ControllerServeurJeu::getPlayersInGame( int pGameId, std::vector<std::string>& pPlayerList )
 {
     // Code une fois que les parties vont etre sync dans les serveurs jeu
     Partie* wGame = GameManager::obtenirInstance()->getGame(pGameId);

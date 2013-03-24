@@ -191,7 +191,7 @@ int PaquetRunnable::RunnableBonus( Paquet* pPaquet )
     // ****** Ne devrait pas avoir a etre modifier, il ne s'agit que d'un dispatch, pas de handling
 
     PaquetBonus* wPaquet = (PaquetBonus*) pPaquet;
-    std::hash_map<PaquetBonusType, PaquetBonusRunnable>::iterator wRunnable = PacketHandlerBonus::mRunnableList.find(wPaquet->getBonusType());
+    std::hash_map<int, PaquetBonusRunnable>::iterator wRunnable = PacketHandlerBonus::mRunnableList.find(wPaquet->getBonusType());
     if(wRunnable!=PacketHandlerBonus::mRunnableList.end())
     {
         return (wRunnable->second)(wPaquet);
