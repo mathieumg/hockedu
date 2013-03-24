@@ -14,6 +14,8 @@
 #include "..\reseau\UsinePaquets\UsinePaquetRondelle.h"
 #include "VisitorGatherProperties.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetGameEvent.h"
+#include "..\Reseau\PaquetHandlers\PacketHandlerBonus.h"
+#include "..\Reseau\UsinePaquets\UsinePaquetBonus.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -78,6 +80,7 @@ void InitDLL()
     wGestionnaireReseau->ajouterOperationReseau(GAME_CONNECTION, new PacketHandlerGameConnection, new UsinePaquetGameConnection);
     wGestionnaireReseau->ajouterOperationReseau(RONDELLE, new PacketHandlerRondelle, new UsinePaquetRondelle);
     wGestionnaireReseau->ajouterOperationReseau(GAME_EVENT, new PacketHandlerGameEvent, new UsinePaquetGameEvent);
+    wGestionnaireReseau->ajouterOperationReseau(BONUS, new PacketHandlerBonus, new UsinePaquetBonus);
 
 }
 

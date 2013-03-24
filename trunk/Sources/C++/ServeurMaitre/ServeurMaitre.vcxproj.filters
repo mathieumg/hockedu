@@ -171,6 +171,12 @@
     <ClCompile Include="..\Reseau\FacadePortability.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Reseau\Paquets\PaquetBonus.cpp">
+      <Filter>Source Files\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerBonus.cpp">
+      <Filter>Source Files\PacketHandlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControllerServeurMaitre.h">
@@ -313,6 +319,15 @@
     </ClInclude>
     <ClInclude Include="..\Reseau\FacadePortability.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\Paquets\PaquetBonus.h">
+      <Filter>Source Files\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerBonus.h">
+      <Filter>Source Files\PacketHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetBonus.h">
+      <Filter>Source Files\UsinePaquets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
