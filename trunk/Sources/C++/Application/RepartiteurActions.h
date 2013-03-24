@@ -54,9 +54,7 @@ public:
 	///Fonction d'Action pour changer l'état de la souris sur Trasformation Rotation
 	bool actionBoutonTransformationRotation();
 	///Fonction d'Action pour changer l'état de la souris sur Trasformation Échelle
-    bool actionBoutonTransformationEchelle();
-    bool actionBoutonUndo();
-    bool actionBoutonRedo();
+	bool actionBoutonTransformationEchelle();
 	///Fonction d'action pour supprimer la sélection actuelle.
 	bool actionBoutonSupprimer();
 	///Fonction d'action de création d'un nouveau fichier d'edition.

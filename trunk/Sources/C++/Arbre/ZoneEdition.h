@@ -9,10 +9,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "XMLUtils.h"
-#include "BoundingBox.h"
 
 class TerrainTest;
-class Terrain;
+
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class ZoneEdition
@@ -25,8 +24,7 @@ class ZoneEdition
 {
 public:
 	friend TerrainTest;
-	ZoneEdition(Terrain* owner);
-    ~ZoneEdition();
+	ZoneEdition();
 
 	/// Permet de modifier les limites de la zone d'edition de facon relative à une table
 	void modifierLimitesExt(const float* boiteEnglobantTable, const float& longueur,const float& largeur);
@@ -39,58 +37,36 @@ public:
 	void reinitialiser();
 	/// Effectue l'affichage de la zone d'edition
 	void afficher();
-
-    void rebuild();
 private:
 	/// Attribut de la zone d'édition
-	float mLimitIntX;
-	float mLimitExtX;
-
-	float mLimitIntY;
-	float mLimitExtY; 
-
-    /// Aligned-Axis bounding box
-    BoundingBox mAABBExt;
-    BoundingBox mAABBInt;
-
-    Terrain* mOwner;
-
-#if BOX2D_INTEGRATED
-    class b2Body* mPhysicsBody;
-    void clearPhysicsBody();
-#endif
+	float limiteIntLongueur_;
+	float limiteIntLargeur_;
+	float limiteExtLargeur_; 
+	float limiteExtLongueur_;
 
 /// Accesseurs
 public:
-    static const float DEFAUT_LIMITE_INT_X;
-    static const float DEFAUT_LIMITE_INT_Y;
-    static const float DEFAUT_LIMITE_EXT_Y; 
-    static const float DEFAUT_LIMITE_EXT_X;
+    static const float DEFAUT_LIMITE_INT_LONGUEUR;
+    static const float DEFAUT_LIMITE_INT_LARGEUR;
+    static const float DEFAUT_LIMITE_EXT_LARGEUR; 
+    static const float DEFAUT_LIMITE_EXT_LONGUEUR;
 
-	/// Accesseur de mLimitIntX
-	inline float obtenirLimiteIntX() const { return mLimitIntX; }
-	/// Modificateur de mLimitIntX
-	inline void modifierLimiteIntX(float val) { mLimitIntX = val; rebuild(); }
-	/// Accesseur de mLimitIntY
-	inline float obtenirLimiteIntY() const { return mLimitIntY; }
-	/// Modificateur de mLimitIntY
-	inline void modifierLimiteIntY(float val) { mLimitIntY = val; rebuild(); }
-	/// Accesseur de mLimitExtY
-	inline float obtenirLimiteExtY() const { return mLimitExtY; }
-	/// Modificateur de mLimitExtY
-	inline void modifierLimiteExtY(float val) { mLimitExtY = val; rebuild(); }
-	/// Accesseur de mLimitExtX
-	inline float obtenirLimiteExtX() const { return mLimitExtX; }
-	/// Modificateur de mLimitExtX
-	inline void modifierLimiteExtX(float val) { mLimitExtX = val; rebuild(); }
-
-    /// Accessors of mAABBExt
-    inline const BoundingBox& getAABBExt() const { return mAABBExt; }
-    /// Accessors of mAABBInt
-    inline BoundingBox getAABBInt() const { return mAABBInt; }
-
-    /// checks if both zone are the same
-    bool equals( ZoneEdition * zone );
+	/// Accesseur de limiteIntLongueur_
+	float obtenirLimiteIntLongueur() const { return limiteIntLongueur_; }
+	/// Modificateur de limiteIntLongueur_
+	void modifierLimiteIntLongueur(float val) { limiteIntLongueur_ = val; }
+	/// Accesseur de limiteIntLargeur_
+	float obtenirLimiteIntLargeur() const { return limiteIntLargeur_; }
+	/// Modificateur de limiteIntLargeur_
+	void modifierLimiteIntLargeur(float val) { limiteIntLargeur_ = val; }
+	/// Accesseur de limiteExtLargeur_
+	float obtenirLimiteExtLargeur() const { return limiteExtLargeur_; }
+	/// Modificateur de limiteExtLargeur_
+	void modifierLimiteExtLargeur(float val) { limiteExtLargeur_ = val; }
+	/// Accesseur de limiteExtLongueur_
+	float obtenirLimiteExtLongueur() const { return limiteExtLongueur_; }
+	/// Modificateur de limiteExtLongueur_
+	void modifierLimiteExtLongueur(float val) { limiteExtLongueur_ = val; }
 };
 
 ///////////////////////////////////////////////////////////////////////////

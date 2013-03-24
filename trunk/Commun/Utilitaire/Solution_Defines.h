@@ -12,22 +12,13 @@
 // Set to 1 when testing for shipping game
 #define SHIPPING 0
 
-
-
 #if WIN32
-#define PLAY_GAME 1
 #define BOX2D_INTEGRATED 1
-#define BOX2D_PLAY BOX2D_INTEGRATED && PLAY_GAME
-#define BOX2D_DEBUG BOX2D_INTEGRATED && !SHIPPING && 1
 #else
-#define PLAY_GAME 0
-#define BOX2D_INTEGRATED 1
-#define BOX2D_PLAY BOX2D_INTEGRATED && PLAY_GAME
-#define BOX2D_DEBUG BOX2D_INTEGRATED && !SHIPPING && 0
+#define BOX2D_INTEGRATED 0
 #endif
 
-#define MANUAL_PHYSICS_DETECTION !BOX2D_PLAY && PLAY_GAME
-
+#define BOX2D_DEBUG BOX2D_INTEGRATED && !SHIPPING && 1
 
 #define HANDLE_CHARACTERE_0 0
 
@@ -41,7 +32,7 @@
 #endif
 
 #else
-#define PRAGMA_DISABLE_OPTIMIZATION
+#define PRAGMA_DISABLE_OPTIMIZATION 
 #endif
 
 #if WIN32
@@ -110,13 +101,4 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
 #define checkf(expr, ...)   { if(!(expr)) appFailAssert( #expr, __FILE__, __LINE__, ##__VA_ARGS__ ); }
 #else
 #define checkf(expr, ...)
-#endif
-
-#ifndef WINDOWS
-#define sprintf_s sprintf
-#define strcpy_s(buf, bufLen, arrToCopy) { strcpy(buf, arrToCopy); }
-#define localtime_s(tmStructReference, time_tReference) { time(time_tReference); *tmStructReference = *localtime(time_tReference); }
-#define memcpy_s(dstArray, dstArrayLen, srcArray, srcArrayLen) { memcpy(dstArray, srcArray, srcArrayLen); }
-#define sscanf_s sscanf
-#define _localtime64_s(tmStructReference, time_tReference) { time(time_tReference); tmStructReference = localtime(time_tReference); return (tMStructReference == NULL); }
 #endif

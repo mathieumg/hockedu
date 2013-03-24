@@ -26,7 +26,7 @@ public:
    /// Constructeur à partir du type du noeud.
    NoeudPortail(const std::string& typeNoeud);
    /// Destructeur.
-   virtual ~NoeudPortail();
+   ~NoeudPortail();
 
    /// fonction de comparaison de 2 noeuds
    virtual bool equals(NoeudAbstrait* n)

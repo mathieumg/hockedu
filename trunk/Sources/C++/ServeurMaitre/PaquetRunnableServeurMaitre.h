@@ -7,15 +7,16 @@ namespace PaquetRunnable
 {
     // Delegates specifiques au serveur maitre
 
-    int RunnableLoginInfoMasterServer(Paquet* pPaquet);
+    int RunnableLoginInfoServerMaster(Paquet* pPaquet);
 
-    int RunnableChatMessageMasterServer(Paquet* pPaquet);
+    int RunnableChatMessageServerMaster(Paquet* pPaquet);
 
-    int RunnableUserStatusMasterServer(Paquet* pPaquet);
+    int RunnableUserStatusServerMaster(Paquet* pPaquet);
 
-    int RunnableGameStatusMasterServer(Paquet* pPaquet);
+    int RunnableGameStatusServerMaster(Paquet* pPaquet);
 
-    int RunnableGameRegistrationMasterServer(Paquet* pPaquet);
+    int RunnableGameCreationServerMaster(Paquet* pPaquet);
+
 
 };
 

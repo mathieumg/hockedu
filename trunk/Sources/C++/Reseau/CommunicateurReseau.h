@@ -15,7 +15,7 @@
 #include <list>
 #include <map>
 #include "QueueThreadSafe.h"
-#include "FacadePortability.h"
+#include "Network_Defines.h"
 
 class Paquet;
 struct PaquetAEnvoyer {
@@ -76,11 +76,8 @@ public:
     // Methode pour demarrer les threads de connection TCP
     void demarrerThreadsConnectionServeur();
 
-    // Methode pour demarrer les threads de reception UDP pour le client lourd
-    void demarrerThreadsReceptionUDPClientLourd();
-
     // Methode pour demarrer les threads de reception UDP
-    void demarrerThreadsReceptionUDPServeurJeu();
+    void demarrerThreadsReceptionUDP();
 
 	// Enleve le socket et son thread de connection de la liste (surtout appelee par le thread lui meme quand il a terminer son travail)
 	void enleverConnectionThread(SPSocket pSocket, bool pSuccess);
@@ -114,7 +111,6 @@ private:
 
 	// Methode pour avertir le thread d'envoie que des paquets sont a envoyer (le thread se met en wait si la file est vide)
 	void wakeThreadEnvoie() const;
-
 
 
 	// Les deux files fifo  qui contiennent les Paquets a echanger entre les threads (paquets a envoyer et paquets recus)

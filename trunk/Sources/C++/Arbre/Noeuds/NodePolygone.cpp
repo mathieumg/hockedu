@@ -14,7 +14,6 @@
 #include <Box2D/Box2D.h>
 #endif
 #include "Utilitaire.h"
-#include <algorithm>
 
 template<typename T>
 T sign(T val)
@@ -195,7 +194,7 @@ void NodePolygone::updatePhysicBody()
         clearPhysicsBody();
 
         b2BodyDef myBodyDef;
-        myBodyDef.type = IsInGame() ? b2_staticBody : b2_dynamicBody;; //this will be a dynamic body
+        myBodyDef.type = b2_staticBody; //this will be a dynamic body
         myBodyDef.position.Set(0, 0); //set the starting position
         myBodyDef.angle = 0; //set the starting angle
 
@@ -279,11 +278,8 @@ void NodePolygone::updatePhysicBody()
             b2FixtureDef myFixtureDef;
             myFixtureDef.shape = &shape; //this is a pointer to the shape above
             myFixtureDef.density = 1;
-            if(IsInGame())
-            {
-                myFixtureDef.filter.categoryBits = CATEGORY_WALL;
-                myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_MALLET;
-            }
+            myFixtureDef.filter.categoryBits = CATEGORY_WALL;
+            myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_MALLET;
 
             mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         }

@@ -24,6 +24,7 @@
 #include "NoeudPoint.h"
 #include "NoeudTable.h"
 #include "NoeudAbstrait.h"
+#include "VisiteurRotation.h"
 #include "VisiteurDupliquer.h"
 #include "FacadeModele.h"
 #include "ArbreRendu.h"
@@ -84,7 +85,9 @@ void VisiteurNoeudTest::testDeplacerObjet()
 	n->setSelection(true);
 	VisiteurDeplacement v(Vecteur2(25.0,-10.0));
 	n->acceptVisitor(v);
-	CPPUNIT_ASSERT(n->getPosition() == Vecteur3(25.0,-10.0));
+	CPPUNIT_ASSERT(n->getPosition() == Vecteur3(-25.0,-10.0));
+
+
 }
 
 

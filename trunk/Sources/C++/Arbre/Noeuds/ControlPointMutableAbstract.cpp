@@ -131,26 +131,3 @@ void ControlPointMutableAbstract::removeControlPointInner( NodeControlPoint* poi
     
     point->setLinkedObject(NULL);
 }
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn bool ControlPointMutableAbstract::isAnyPointSelected()
-///
-/// /*Description*/
-///
-///
-/// @return bool
-///
-////////////////////////////////////////////////////////////////////////
-bool ControlPointMutableAbstract::isAnyPointSelected() const
-{
-    for(unsigned int i=0; i<getNBControlPoint(); ++i)
-    {
-        auto point = getControlPoint(i);
-        if(point->IsSelected())
-        {
-            return true;
-        }
-    }
-    return false;
-}

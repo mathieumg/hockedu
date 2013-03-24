@@ -5,32 +5,6 @@
 #include "PaquetRunnableServeurJeu.h"
 #include "../Application/GameManager.h"
 #include "Partie.h"
-#include "Paquets/PaquetGameEvent.h"
-#include "RelayeurMessage.h"
-
-bool ControllerServeurJeu::mIsLocalServer = false;
-
-
-int CallbackGameEndedServeurJeu(int pGameId, GameStatus pNewGameStatus)
-{
-    if(pNewGameStatus == GAME_ENDED)
-    {
-        Partie* wGame = GameManager::obtenirInstance()->getGame(pGameId);
-
-        if(wGame)
-        {
-            PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
-
-            wPaquet->setGameId(pGameId);
-            wPaquet->setEvent(GAME_EVENT_GAME_ENDED);
-
-            RelayeurMessage::obtenirInstance()->relayerPaquetGame(pGameId, wPaquet);
-
-        }
-    }
-    return 0;
-}
-
 
 int CallbackSetPatieSyncerServeurJeu(int pGameId, GameStatus)
 {
@@ -61,16 +35,12 @@ ControllerServeurJeu::ControllerServeurJeu()
     mPaquetRunnables[USER_STATUS]                   = PaquetRunnable::RunnableUserStatusServerGame;
     mPaquetRunnables[CHAT_MESSAGE]                  = PaquetRunnable::RunnableChatMessageServerGame;
     mPaquetRunnables[GAME_STATUS]                   = PaquetRunnable::RunnableGameStatusServerGame;
-    mPaquetRunnables[GAME_CREATION_REQUEST]         = PaquetRunnable::RunnableGameCreationServerGame;
-    mPaquetRunnables[GAME_CONNECTION]               = PaquetRunnable::RunnableGameConnectionServerGame;
-    mPaquetRunnables[GAME_EVENT]                    = PaquetRunnable::RunnableGameEventServerGame;
-
-
     //mPaquetRunnables[AUTHENTIFICATION_SERVEUR_JEU]  = PaquetRunnable::RunnableAuthentificationServeurJeuServerGame;
     mPaquetRunnables[MAILLET]                       = PaquetRunnable::RunnableMailletServerGame;
+    mPaquetRunnables[GAME_CREATION_REQUEST]         = PaquetRunnable::RunnableGameCreationServerGame;
+    mPaquetRunnables[GAME_CONNECTION]               = PaquetRunnable::RunnableGameConnectionServerGame;
 
     GameManager::obtenirInstance()->addGameUpdateCallback(CallbackSetPatieSyncerServeurJeu);
-    GameManager::obtenirInstance()->addGameUpdateCallback(CallbackGameEndedServeurJeu);
 }
 
 
@@ -120,15 +90,15 @@ void ControllerServeurJeu::handleDisconnectDetection( SPSocket pSocket )
     GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
 }
 
-void ControllerServeurJeu::getPlayersInGame( int pGameId, std::vector<const std::string>& pPlayerList )
+void ControllerServeurJeu::getPlayersInGame( int pGameId, std::vector<const std::string*>& pPlayerList )
 {
     // Code une fois que les parties vont etre sync dans les serveurs jeu
-    Partie* wGame = GameManager::obtenirInstance()->getGame(pGameId);
+    /*Partie* wGame = GameManager::obtenirInstance()->getGame(pGameId);
     if(wGame)
     {
-        pPlayerList.push_back(wGame->obtenirNomJoueurGauche());
-        pPlayerList.push_back(wGame->obtenirNomJoueurDroit());
-    }
+        pPlayerList.push_back(&wGame->obtenirNomJoueurGauche());
+        pPlayerList.push_back(&wGame->obtenirNomJoueurDroit());
+    }*/
 }
 
 

@@ -10,7 +10,7 @@
 
 #pragma once
 #include <queue>
-#include "../../Sources/C++/Reseau/FacadePortability.h"
+#include "../../Sources/C++/Reseau/Network_Defines.h"
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class QueueThreadSafe

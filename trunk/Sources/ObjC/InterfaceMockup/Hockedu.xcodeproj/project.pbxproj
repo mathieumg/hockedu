@@ -74,7 +74,6 @@
 		0C49614216E7F37F00D13713 /* ExceptionJeu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C49614016E7F37F00D13713 /* ExceptionJeu.cpp */; };
 		0C49614616E80AC600D13713 /* UsineNoeud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C49614516E80AC600D13713 /* UsineNoeud.cpp */; };
 		4E058F2E16FA5D0800A68C40 /* libAFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E058F0D16FA5C2B00A68C40 /* libAFNetworking.a */; };
-		4E07580916FBE5ED005F697E /* FieldModificationStrategyMove.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E07580716FBE5ED005F697E /* FieldModificationStrategyMove.cpp */; };
 		4E2A595716F2E48C002160AE /* BonusModifierAbstract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595316F2E48C002160AE /* BonusModifierAbstract.cpp */; };
 		4E2A595816F2E48C002160AE /* BonusModifierGoThorughWall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595516F2E48C002160AE /* BonusModifierGoThorughWall.cpp */; };
 		4E2A595D16F2E558002160AE /* NodeBonus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595916F2E558002160AE /* NodeBonus.cpp */; };
@@ -87,13 +86,8 @@
 		4E9CE9FA16FBB74100B04A12 /* Login.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E9CE9F916FBB74100B04A12 /* Login.xib */; };
 		4E9CE9FE16FBBA4B00B04A12 /* LoadMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E9CE9FC16FBBA4B00B04A12 /* LoadMapViewController.m */; };
 		4E9CE9FF16FBBA4B00B04A12 /* LoadMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E9CE9FD16FBBA4B00B04A12 /* LoadMapViewController.xib */; };
-		4EA5287716FE356A008F89BD /* FieldModificationStrategyRotate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA5287316FE356A008F89BD /* FieldModificationStrategyRotate.cpp */; };
-		4EA5287816FE356A008F89BD /* FieldModificationStrategyScale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA5287516FE356A008F89BD /* FieldModificationStrategyScale.cpp */; };
-		4EA5287B16FE366A008F89BD /* VisitorSetProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA5287916FE366A008F89BD /* VisitorSetProperties.cpp */; };
 		4EB7EA7916EFBE4100493722 /* VisiteurFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */; };
 		4EC1626E16F81A8C00577704 /* BonusModifierBlockGoal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */; };
-		4ED4BC3516FEED3200227F1E /* FieldModificationStrategyAddNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4BC3116FEED3200227F1E /* FieldModificationStrategyAddNode.cpp */; };
-		4ED4BC3616FEED3200227F1E /* FieldModificationStrategyAddWall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4BC3316FEED3200227F1E /* FieldModificationStrategyAddWall.cpp */; };
 		4EEBBF9A16E86E5B00017127 /* Model.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBF9916E86E5B00017127 /* Model.mm */; };
 		4EEBBFA316E8832900017127 /* NoeudAbstrait.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBFA216E8832900017127 /* NoeudAbstrait.cpp */; };
 		6D951C3F16EE753600894B44 /* LeftBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D951C3E16EE753600894B44 /* LeftBar.png */; };
@@ -291,17 +285,14 @@
 		0C04E1D316DE964F002B0EE2 /* XMLUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XMLUtils.cpp; sourceTree = "<group>"; };
 		0C04E1D616DE964F002B0EE2 /* Vecteur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vecteur.h; sourceTree = "<group>"; };
 		0C04E1D716DE964F002B0EE2 /* XMLUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLUtils.h; sourceTree = "<group>"; };
-		0C04E1FD16DEA0AB002B0EE2 /* EvenementSouris.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EvenementSouris.cpp; path = "../../Sources/C++/Environnement/Evenements/EvenementSouris.cpp"; sourceTree = "<group>"; };
-		0C04E1FE16DEA0AB002B0EE2 /* EvenementSouris.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EvenementSouris.h; path = "../../Sources/C++/Environnement/Evenements/EvenementSouris.h"; sourceTree = "<group>"; };
-		0C04E20316DEB841002B0EE2 /* CodesEvenements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CodesEvenements.h; path = "../../Sources/C++/Interface/CodesEvenements.h"; sourceTree = "<group>"; };
-		0C49614016E7F37F00D13713 /* ExceptionJeu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExceptionJeu.cpp; sourceTree = "<group>"; };
-		0C49614116E7F37F00D13713 /* ExceptionJeu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExceptionJeu.h; sourceTree = "<group>"; };
-		0C49614516E80AC600D13713 /* UsineNoeud.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UsineNoeud.cpp; sourceTree = "<group>"; };
+		0C04E1FD16DEA0AB002B0EE2 /* EvenementSouris.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EvenementSouris.cpp; path = "../../C++/Environnement/Evenements/EvenementSouris.cpp"; sourceTree = "<group>"; };
+		0C04E1FE16DEA0AB002B0EE2 /* EvenementSouris.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EvenementSouris.h; path = "../../C++/Environnement/Evenements/EvenementSouris.h"; sourceTree = "<group>"; };
+		0C04E20316DEB841002B0EE2 /* CodesEvenements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CodesEvenements.h; path = "../../C++/Interface/CodesEvenements.h"; sourceTree = "<group>"; };
+		0C49614016E7F37F00D13713 /* ExceptionJeu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ExceptionJeu.cpp; path = ../../../Commun/Utilitaire/ExceptionJeu.cpp; sourceTree = "<group>"; };
+		0C49614116E7F37F00D13713 /* ExceptionJeu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExceptionJeu.h; path = ../../../Commun/Utilitaire/ExceptionJeu.h; sourceTree = "<group>"; };
+		0C49614516E80AC600D13713 /* UsineNoeud.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UsineNoeud.cpp; path = "../../C++/Arbre/Usines/UsineNoeud.cpp"; sourceTree = "<group>"; };
 		4E058F0816FA5C2A00A68C40 /* AFNetworking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AFNetworking.xcodeproj; path = AFNetworking/AFNetworking.xcodeproj; sourceTree = "<group>"; };
-		4E07580616FBE5ED005F697E /* FieldModificationStrategyAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyAbstract.h; sourceTree = "<group>"; };
-		4E07580716FBE5ED005F697E /* FieldModificationStrategyMove.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyMove.cpp; sourceTree = "<group>"; };
-		4E07580816FBE5ED005F697E /* FieldModificationStrategyMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyMove.h; sourceTree = "<group>"; };
-		4E2A595116F2E455002160AE /* Flags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flags.h; sourceTree = "<group>"; };
+		4E2A595116F2E455002160AE /* Flags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Flags.h; path = ../../../Commun/Utilitaire/Flags.h; sourceTree = "<group>"; };
 		4E2A595316F2E48C002160AE /* BonusModifierAbstract.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierAbstract.cpp; sourceTree = "<group>"; };
 		4E2A595416F2E48C002160AE /* BonusModifierAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusModifierAbstract.h; sourceTree = "<group>"; };
 		4E2A595516F2E48C002160AE /* BonusModifierGoThorughWall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierGoThorughWall.cpp; sourceTree = "<group>"; };
@@ -310,8 +301,8 @@
 		4E2A595A16F2E558002160AE /* NodeBonus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeBonus.h; sourceTree = "<group>"; };
 		4E2A595B16F2E558002160AE /* NodeModelRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NodeModelRender.cpp; sourceTree = "<group>"; };
 		4E2A595C16F2E558002160AE /* NodeModelRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeModelRender.h; sourceTree = "<group>"; };
-		4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierFactory.cpp; path = ../Usines/BonusModifierFactory.cpp; sourceTree = "<group>"; };
-		4E2A596016F2E658002160AE /* BonusModifierFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierFactory.h; path = ../Usines/BonusModifierFactory.h; sourceTree = "<group>"; };
+		4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierFactory.cpp; path = "../../C++/Arbre/Usines/BonusModifierFactory.cpp"; sourceTree = "<group>"; };
+		4E2A596016F2E658002160AE /* BonusModifierFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierFactory.h; path = "../../C++/Arbre/Usines/BonusModifierFactory.h"; sourceTree = "<group>"; };
 		4E2A596216F2E84B002160AE /* Enum_Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enum_Declarations.h; path = "../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"; sourceTree = "<group>"; };
 		4E93754416FA1E40006A9C39 /* VisitorGatherProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VisitorGatherProperties.cpp; path = "../../C++/Arbre/Visiteur/VisitorGatherProperties.cpp"; sourceTree = "<group>"; };
 		4E93754516FA1E40006A9C39 /* VisitorGatherProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VisitorGatherProperties.h; path = "../../C++/Arbre/Visiteur/VisitorGatherProperties.h"; sourceTree = "<group>"; };
@@ -321,21 +312,11 @@
 		4E9CE9FB16FBBA4B00B04A12 /* LoadMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMapViewController.h; sourceTree = "<group>"; };
 		4E9CE9FC16FBBA4B00B04A12 /* LoadMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadMapViewController.m; sourceTree = "<group>"; };
 		4E9CE9FD16FBBA4B00B04A12 /* LoadMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadMapViewController.xib; sourceTree = "<group>"; };
-		4EA5287316FE356A008F89BD /* FieldModificationStrategyRotate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyRotate.cpp; sourceTree = "<group>"; };
-		4EA5287416FE356A008F89BD /* FieldModificationStrategyRotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyRotate.h; sourceTree = "<group>"; };
-		4EA5287516FE356A008F89BD /* FieldModificationStrategyScale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyScale.cpp; sourceTree = "<group>"; };
-		4EA5287616FE356A008F89BD /* FieldModificationStrategyScale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyScale.h; sourceTree = "<group>"; };
-		4EA5287916FE366A008F89BD /* VisitorSetProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisitorSetProperties.cpp; sourceTree = "<group>"; };
-		4EA5287A16FE366A008F89BD /* VisitorSetProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisitorSetProperties.h; sourceTree = "<group>"; };
 		4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisiteurFunction.cpp; sourceTree = "<group>"; };
 		4EB7EA7816EFBE4100493722 /* VisiteurFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisiteurFunction.h; sourceTree = "<group>"; };
-		4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierBlockGoal.cpp; sourceTree = "<group>"; };
-		4EC1626D16F81A8C00577704 /* BonusModifierBlockGoal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusModifierBlockGoal.h; sourceTree = "<group>"; };
-		4EC1626F16F81F8000577704 /* RunnableBreaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunnableBreaker.h; sourceTree = "<group>"; };
-		4ED4BC3116FEED3200227F1E /* FieldModificationStrategyAddNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyAddNode.cpp; sourceTree = "<group>"; };
-		4ED4BC3216FEED3200227F1E /* FieldModificationStrategyAddNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyAddNode.h; sourceTree = "<group>"; };
-		4ED4BC3316FEED3200227F1E /* FieldModificationStrategyAddWall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyAddWall.cpp; sourceTree = "<group>"; };
-		4ED4BC3416FEED3200227F1E /* FieldModificationStrategyAddWall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyAddWall.h; sourceTree = "<group>"; };
+		4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierBlockGoal.cpp; path = "../../C++/Arbre/Bonus/BonusModifierBlockGoal.cpp"; sourceTree = "<group>"; };
+		4EC1626D16F81A8C00577704 /* BonusModifierBlockGoal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierBlockGoal.h; path = "../../C++/Arbre/Bonus/BonusModifierBlockGoal.h"; sourceTree = "<group>"; };
+		4EC1626F16F81F8000577704 /* RunnableBreaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunnableBreaker.h; path = ../../../Commun/Utilitaire/RunnableBreaker.h; sourceTree = "<group>"; };
 		4EEBBF9816E86E5B00017127 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		4EEBBF9916E86E5B00017127 /* Model.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Model.mm; sourceTree = "<group>"; };
 		4EEBBFA216E8832900017127 /* NoeudAbstrait.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoeudAbstrait.cpp; sourceTree = "<group>"; };
@@ -423,6 +404,14 @@
 		0C04E09316DE88ED002B0EE2 /* C++Files */ = {
 			isa = PBXGroup;
 			children = (
+				0C49614516E80AC600D13713 /* UsineNoeud.cpp */,
+				4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */,
+				4E2A596016F2E658002160AE /* BonusModifierFactory.h */,
+				0C49614016E7F37F00D13713 /* ExceptionJeu.cpp */,
+				0C49614116E7F37F00D13713 /* ExceptionJeu.h */,
+				0C04E20316DEB841002B0EE2 /* CodesEvenements.h */,
+				0C04E1FD16DEA0AB002B0EE2 /* EvenementSouris.cpp */,
+				0C04E1FE16DEA0AB002B0EE2 /* EvenementSouris.h */,
 				0C04E18516DE964E002B0EE2 /* Utilitaire */,
 				0C04E0F016DE960A002B0EE2 /* Arbre */,
 				0C04E0EF16DE917C002B0EE2 /* RazerGameTypeDef.h */,
@@ -436,17 +425,16 @@
 		0C04E0F016DE960A002B0EE2 /* Arbre */ = {
 			isa = PBXGroup;
 			children = (
+				4E2A595216F2E48C002160AE /* Bonus */,
+				0C04E10916DE960B002B0EE2 /* Noeuds */,
 				0C04E13316DE960B002B0EE2 /* RazerGameTree.cpp */,
 				0C04E13416DE960B002B0EE2 /* RazerGameTree.h */,
 				0C04E13516DE960B002B0EE2 /* Terrain.cpp */,
 				0C04E13616DE960B002B0EE2 /* Terrain.h */,
-				0C04E15416DE960B002B0EE2 /* ZoneEdition.cpp */,
-				0C04E15516DE960B002B0EE2 /* ZoneEdition.h */,
-				4E07580516FBE5ED005F697E /* FieldModificationStrategy */,
-				4E2A595216F2E48C002160AE /* Bonus */,
-				0C04E10916DE960B002B0EE2 /* Noeuds */,
 				0C04E13716DE960B002B0EE2 /* Usines */,
 				0C04E13916DE960B002B0EE2 /* Visiteur */,
+				0C04E15416DE960B002B0EE2 /* ZoneEdition.cpp */,
+				0C04E15516DE960B002B0EE2 /* ZoneEdition.h */,
 			);
 			name = Arbre;
 			path = "../../C++/Arbre";
@@ -508,7 +496,6 @@
 		0C04E13716DE960B002B0EE2 /* Usines */ = {
 			isa = PBXGroup;
 			children = (
-				0C49614516E80AC600D13713 /* UsineNoeud.cpp */,
 				0C04E13816DE960B002B0EE2 /* UsineNoeud.h */,
 			);
 			path = Usines;
@@ -517,10 +504,6 @@
 		0C04E13916DE960B002B0EE2 /* Visiteur */ = {
 			isa = PBXGroup;
 			children = (
-				4EA5287916FE366A008F89BD /* VisitorSetProperties.cpp */,
-				4EA5287A16FE366A008F89BD /* VisitorSetProperties.h */,
-				4E93754416FA1E40006A9C39 /* VisitorGatherProperties.cpp */,
-				4E93754516FA1E40006A9C39 /* VisitorGatherProperties.h */,
 				4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */,
 				4EB7EA7816EFBE4100493722 /* VisiteurFunction.h */,
 				0C04E13A16DE960B002B0EE2 /* VisiteurCollision.cpp */,
@@ -554,13 +537,6 @@
 		0C04E18516DE964E002B0EE2 /* Utilitaire */ = {
 			isa = PBXGroup;
 			children = (
-				0C49614016E7F37F00D13713 /* ExceptionJeu.cpp */,
-				0C49614116E7F37F00D13713 /* ExceptionJeu.h */,
-				0C04E20316DEB841002B0EE2 /* CodesEvenements.h */,
-				0C04E1FD16DEA0AB002B0EE2 /* EvenementSouris.cpp */,
-				0C04E1FE16DEA0AB002B0EE2 /* EvenementSouris.h */,
-				4EC1626F16F81F8000577704 /* RunnableBreaker.h */,
-				4E2A595116F2E455002160AE /* Flags.h */,
 				0C04E18616DE964E002B0EE2 /* AideCollision.cpp */,
 				0C04E18716DE964E002B0EE2 /* AideCollision.h */,
 				0C04E19216DE964E002B0EE2 /* BoundingBox.cpp */,
@@ -616,31 +592,9 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4E07580516FBE5ED005F697E /* FieldModificationStrategy */ = {
-			isa = PBXGroup;
-			children = (
-				4ED4BC3116FEED3200227F1E /* FieldModificationStrategyAddNode.cpp */,
-				4ED4BC3216FEED3200227F1E /* FieldModificationStrategyAddNode.h */,
-				4ED4BC3316FEED3200227F1E /* FieldModificationStrategyAddWall.cpp */,
-				4ED4BC3416FEED3200227F1E /* FieldModificationStrategyAddWall.h */,
-				4EA5287316FE356A008F89BD /* FieldModificationStrategyRotate.cpp */,
-				4EA5287416FE356A008F89BD /* FieldModificationStrategyRotate.h */,
-				4EA5287516FE356A008F89BD /* FieldModificationStrategyScale.cpp */,
-				4EA5287616FE356A008F89BD /* FieldModificationStrategyScale.h */,
-				4E07580616FBE5ED005F697E /* FieldModificationStrategyAbstract.h */,
-				4E07580716FBE5ED005F697E /* FieldModificationStrategyMove.cpp */,
-				4E07580816FBE5ED005F697E /* FieldModificationStrategyMove.h */,
-			);
-			path = FieldModificationStrategy;
-			sourceTree = "<group>";
-		};
 		4E2A595216F2E48C002160AE /* Bonus */ = {
 			isa = PBXGroup;
 			children = (
-				4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */,
-				4E2A596016F2E658002160AE /* BonusModifierFactory.h */,
-				4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */,
-				4EC1626D16F81A8C00577704 /* BonusModifierBlockGoal.h */,
 				4E2A595316F2E48C002160AE /* BonusModifierAbstract.cpp */,
 				4E2A595416F2E48C002160AE /* BonusModifierAbstract.h */,
 				4E2A595516F2E48C002160AE /* BonusModifierGoThorughWall.cpp */,
@@ -668,15 +622,21 @@
 		96378D6B1472C71100F543EA = {
 			isa = PBXGroup;
 			children = (
+				4E058F0816FA5C2A00A68C40 /* AFNetworking.xcodeproj */,
+				4E93754416FA1E40006A9C39 /* VisitorGatherProperties.cpp */,
+				4E93754516FA1E40006A9C39 /* VisitorGatherProperties.h */,
+				4EF2169E16FA2ABE005FB093 /* TinyXml.xcodeproj */,
+				4EC1626F16F81F8000577704 /* RunnableBreaker.h */,
+				4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */,
+				4EC1626D16F81A8C00577704 /* BonusModifierBlockGoal.h */,
+				4E96DC6216F63D1D00588998 /* Box2D.xcodeproj */,
 				4E2A596216F2E84B002160AE /* Enum_Declarations.h */,
+				4E2A595116F2E455002160AE /* Flags.h */,
 				0C04E09316DE88ED002B0EE2 /* C++Files */,
 				96378D801472C71100F543EA /* Hockedu */,
 				0CC6367816DE731600D05BBE /* Images */,
 				96378D791472C71100F543EA /* Frameworks */,
 				96378D771472C71100F543EA /* Products */,
-				4E96DC6216F63D1D00588998 /* Box2D.xcodeproj */,
-				4EF2169E16FA2ABE005FB093 /* TinyXml.xcodeproj */,
-				4E058F0816FA5C2A00A68C40 /* AFNetworking.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -988,12 +948,6 @@
 				4EC1626E16F81A8C00577704 /* BonusModifierBlockGoal.cpp in Sources */,
 				4E93754616FA1E40006A9C39 /* VisitorGatherProperties.cpp in Sources */,
 				4E9CE9FE16FBBA4B00B04A12 /* LoadMapViewController.m in Sources */,
-				4E07580916FBE5ED005F697E /* FieldModificationStrategyMove.cpp in Sources */,
-				4EA5287716FE356A008F89BD /* FieldModificationStrategyRotate.cpp in Sources */,
-				4EA5287816FE356A008F89BD /* FieldModificationStrategyScale.cpp in Sources */,
-				4EA5287B16FE366A008F89BD /* VisitorSetProperties.cpp in Sources */,
-				4ED4BC3516FEED3200227F1E /* FieldModificationStrategyAddNode.cpp in Sources */,
-				4ED4BC3616FEED3200227F1E /* FieldModificationStrategyAddWall.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

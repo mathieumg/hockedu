@@ -73,7 +73,6 @@ extern "C"
     __declspec(dllexport) void RequestLogin( char* pUsername, char* pPassword, char* pIpAdress );
     __declspec(dllexport) void CancelConnection( char* pConnectionId );
     __declspec(dllexport) void SendMessageDLL( char* pConnectionId, char* pUsername, char * pMessage );
-    __declspec(dllexport) void SendMessageGameDLL( char * pMessage );
     __declspec(dllexport) void ReloadModels(){GestionnaireModeles::obtenirInstance()->ReloadModels();}
 
     __declspec(dllexport) bool ActionPerformed( ActionType action );
@@ -171,7 +170,6 @@ extern "C"
     __declspec(dllexport) void connectServerGame( char* pServerIP );
     __declspec(dllexport) void connectPartieServerGame( int pGameId );
     __declspec(dllexport) void requestGameCreationServerGame( char* pGameName );
-    __declspec(dllexport) void testConnexionUDPCSharp();
     //__declspec(dllexport) void recevoirPaquet( Paquet* pPaquet );
     /// 
     //////////////////////////////////////////////////////////////////////////

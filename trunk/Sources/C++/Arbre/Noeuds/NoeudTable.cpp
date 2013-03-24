@@ -7,7 +7,16 @@
 /// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
+#include "NoeudTable.h"
+#include "NoeudPoint.h"
+#include "NoeudBut.h"
+#include "AideCollision.h"
+#include "NoeudGroupe.h"
 
+#include <math.h>
+#include "VisiteurDeplacement.h"
+
+#include "XMLUtils.h"
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
@@ -21,18 +30,9 @@
 #include <GL\glu.h>
 #include "FacadeModele.h"
 #endif
-
-#include "NoeudTable.h"
-#include "NoeudPoint.h"
-#include "NoeudBut.h"
-#include "AideCollision.h"
-#include "NoeudGroupe.h"
-#include <math.h>
-#include "XMLUtils.h"
 #include "ArbreRendu.h"
 #include "Terrain.h"
 #include "Solution_Defines.h"
-#include "VisiteurNoeud.h"
 
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
 const Vecteur3 NoeudTable::DEFAULT_SIZE = Vecteur3(300,150);
@@ -175,6 +175,7 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
     
     // Allocation de l'espace mémoire pour les but et on donne les paramètre nécessaire à l'affichage
     butJoueur1_ = new NoeudBut(RazerGameUtilities::NOM_BUT,1,hautGauche_,basGauche_,milieuGauche_);
+
     butJoueur2_ = new NoeudBut(RazerGameUtilities::NOM_BUT,2,hautDroite_,basDroite_,milieuDroite_);
     butJoueur1_->modifierButAdverse(butJoueur2_);
     butJoueur2_->modifierButAdverse(butJoueur1_);
@@ -241,7 +242,7 @@ struct queuedMove
     Vecteur3 move;
 };
 std::vector<queuedMove> moveQueue;
-#include "..\Reseau\FacadePortability.h"
+#include "..\Reseau\Network_Defines.h"
 HANDLE_MUTEX mutex = NULL;
 
 void emptyQueue()
@@ -1006,7 +1007,7 @@ bool NoeudTable::initFromXml( const XmlElement* element )
 
     for(unsigned int i=0; i<NB_BANDES; ++i)
     {
-        modifierCoefRebond(i,rebond[i]);
+        assignerCoefRebond(i,rebond[i]);
     }
 
     int controlPointVisited = 0;
@@ -1217,21 +1218,37 @@ GroupeTripleAdresseFloat NoeudTable::trouverVertex( const aiScene* scene, const 
 ////////////////////////////////////////////////////////////////////////
 void NoeudTable::replacerModele()
 {
-//     for(int i=0; i<vecteurPoint_.size(); i++)
-//     {
-//         Vecteur3 deplacement(vecteurPoint_[i]->obtenirPositionInitiale()-vecteurPoint_[i]->getPosition());
-//         const GroupeTripleAdresseFloat* liste = vecteurPoint_[i]->obtenirListePointsAChanger();
-//         if(liste)
-//         {
-//             for(unsigned int j=0; j<liste->size(); j++)
-//             {
-//                 *(liste->get(j)[VX]) += (float)deplacement[VX];
-//                 *(liste->get(j)[VY]) += (float)deplacement[VY];
-//             }
-//         }
-//     }
+    for(int i=0; i<vecteurPoint_.size(); i++)
+    {
+        Vecteur3 deplacement(vecteurPoint_[i]->obtenirPositionInitiale()-vecteurPoint_[i]->getPosition());
+        const GroupeTripleAdresseFloat* liste = vecteurPoint_[i]->obtenirListePointsAChanger();
+        if(liste)
+        {
+            for(unsigned int j=0; j<liste->size(); j++)
+            {
+                *(liste->get(j)[VX]) += (float)deplacement[VX];
+                *(liste->get(j)[VY]) += (float)deplacement[VY];
+            }
+        }
+    }
 
 
+}
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudTable::assignerCoefRebond( int index, float coefRebond )
+///
+/// Assigne le coefficient de rebond a la bande de l'index voulu
+///
+/// @param[in] int index : l'index de la bande
+/// @param[in] float coefRebond
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudTable::assignerCoefRebond( int index, float coefRebond )
+{
+    bande_[index]->setReboundRatio(coefRebond);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1312,6 +1329,10 @@ void NoeudTable::updatePhysicBody()
         }
     }
 
+
+
+
+
 #if BOX2D_INTEGRATED
 
     clearPhysicsBody();
@@ -1337,7 +1358,6 @@ void NoeudTable::updatePhysicBody()
             b2FixtureDef myFixtureDef;
             myFixtureDef.shape = &shape; //this is a pointer to the shapeHaut above
             myFixtureDef.density = 1;
-
             myFixtureDef.filter.categoryBits = CATEGORY_NONE;
             myFixtureDef.filter.maskBits = CATEGORY_NONE;
             myFixtureDef.filter.groupIndex = 1;

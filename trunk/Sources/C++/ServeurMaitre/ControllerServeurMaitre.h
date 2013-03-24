@@ -14,9 +14,6 @@
 #include "../Reseau/ControllerInterface.h"
 #include "../Reseau/Socket.h"
 #include <hash_map>
-#include <map>
-
-class PartieServeurs;
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class ControllerServeurMaitre
@@ -38,6 +35,10 @@ public:
     virtual std::string authenticate( const std::string& pUsername, const std::string& pPassword );
 
     virtual void getPlayersInGame( int pGameId, std::vector<const std::string*>& pPlayerList );
+
+private:
+    std::hash_map<unsigned int, std::string> mGameServersList;
+    static unsigned int mNewGameServerId;
 };
 
 

@@ -31,7 +31,7 @@ public:
 	VisiteurModifierProprieteNoeud(JNIEnv* env, jobject& modificateur);
 #endif
 	/// Destructeur
-    virtual ~VisiteurModifierProprieteNoeud(void);
+    ~VisiteurModifierProprieteNoeud(void);
 
 	/// Visitation d'un noeud abstrait
 	virtual void visiterNoeudAbstrait( NoeudAbstrait* noeud );

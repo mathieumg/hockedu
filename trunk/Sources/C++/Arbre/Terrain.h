@@ -8,24 +8,16 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
-
-#if BOX2D_PLAY
-#include "Box2D\Dynamics\b2WorldCallbacks.h"
-class b2Contact;
-struct b2ContactImpulse;
-struct b2Manifold;
-#endif
-
 #include <string>
 #include "ZoneEdition.h"
 #include <vector>
 #include "RazerGameTypeDef.h"
 #include "XMLUtils.h"
 #include "Enum_Declarations.h"
-#include "RunnableBreaker.h"
-#include <deque>
-#include "FieldModificationStrategyAbstract.h"
 
+#ifndef __APPLE__
+#include "RunnableBreaker.h"
+#endif
 
 class RazerGameTree;
 class ArbreNoeudLibre;
@@ -36,10 +28,13 @@ class NoeudRondelle;
 class NoeudAbstrait;
 class TerrainTest;
 class Partie;
-class VisiteurNoeud;
 
-typedef std::set<NoeudAbstrait*> NodeSet;
-
+#if BOX2D_INTEGRATED
+#include "Box2D\Dynamics\b2WorldCallbacks.h"
+class b2Contact;
+struct b2ContactImpulse;
+struct b2Manifold;
+#endif
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class Terrain
@@ -48,15 +43,20 @@ typedef std::set<NoeudAbstrait*> NodeSet;
 ///			Tous les noeuds contenus dans ses arbres connaissent l'existence du terrain
 ///			et ont un pointeur sur celui-ci qui est gardé a jour par l'assignation de son parent
 ///
-///         Points d'entrés possibles pour avoir un terrain éditable ou jouable sont
-///         initialiserXml()  createRandomField()   creerTerrainParDefaut()
-///
 /// @author Michael Ferris
 /// @date 2012-03-19
 ///////////////////////////////////////////////////////////////////////////
-class Terrain : public RunnableBreaker
-#if BOX2D_PLAY
-, public b2ContactListener
+class Terrain
+#ifndef __APPLE__
+    : public RunnableBreaker
+#endif
+#if BOX2D_INTEGRATED
+#ifndef __APPLE__
+,
+#else
+:
+#endif
+    public b2ContactListener
 #endif
 {
 public:
@@ -76,8 +76,7 @@ public:
 	
 
 	/// Permet d'initialiser le terrain avec ces éléments a partir d'un noeud XML
-    bool initialiserXml( const XmlElement* element, bool fromDocument = true );
-
+	bool initialiserXml( XmlElement* element );
 
 	/// Remet le terrain a son etat de base
 	void reinitialiser();
@@ -120,17 +119,14 @@ public:
     /// Indicates if any node in the logic tree is selected
     bool IsAnyNodeSelected() const;
 
-    /// Launch a visitor on the field's logicTree
-    void acceptVisitor(VisiteurNoeud& visitor);
+    /// Launch a visitor on the field
+    void acceptVisitor(class VisiteurNoeud& visitor);
 
     /// duplicate nodes selected that can be duplicated
     void duplicateSelection();
 
     /// gets the list of node selected
-    inline const NodeSet& getSelectedNodes() const
-    {
-        return mSelectedNodes;
-    }
+    void getSelectedNodes(ConteneurNoeuds& pSelectedNodes) const;
 
     /// indicate if the node can be released at that position safely
     bool IsNodeAtValidEditionPosition(NoeudAbstrait* pNode, bool pDoHightlightNodeInCollision = false);
@@ -140,39 +136,16 @@ public:
     /// tente de repositionner 1 noeud pour enlver l'overlapping
     bool FixCollindingNode(NoeudAbstrait* node, unsigned int nbIterations);
 
-    /// checks if both field are the same
-    bool equals(Terrain* terrain);
-
-
     float GetTableWidth()const;
     void NodeSelectionNotification( NoeudAbstrait* node, bool selectionne );
 
     // tells if there are selected node on the field that can be deleted
     bool CanSelectedNodeBeDeleted() const;
-    // deletes node selected
-    void deleteSelectedNodes();
-
     /// checks if selected nodes are the same type and returns that type
     /// if not, return NODE_KEY_NONE
     RazerKey getSelectedNodeUniqueKey() const;
     int gatherSelectedNodeProperties(class FullProperties* properties);
-    int applySelectedNodeProperties(class FullProperties* properties);
-
-    void visitSelectedNodes(VisiteurNoeud& visitor);
-
-    int BeginModification(FieldModificationStrategyType type, const FieldModificationStrategyEvent& beginEvent);
-    int ReceiveModificationEvent(const FieldModificationStrategyEvent& pEvent);
-    void cancelModification();
-    int EndModification();
-
-    /// Adds an undo state onto the stack and empties the redo stack
-    void pushUndoState();
-    int undoModification();
-    int redoModification();
-    /// cancels current modifications and reset the field to the last known correct state
-    void reApplyCurrentState();
-
-#if BOX2D_PLAY
+#if BOX2D_INTEGRATED
     /// Callback before the contact between 2 fixtures
     virtual void BeginContact( b2Contact* contact );
 
@@ -232,16 +205,6 @@ private:
     /// pointeur sur la zamboni
     class NodeModelRender* mZamboni;
 
-    FieldModificationStrategyAbstract* mModifStrategy;
-
-    static const int UNDO_BUFFERSIZE = 50;
-    typedef XmlElement FieldState;
-    std::deque<FieldState*> mUndoBuffer;
-    std::vector<FieldState*> mRedoBuffer;
-    FieldState* mCurrentState;
-    bool mDoingUndoRedo;
-
-
 #if BOX2D_INTEGRATED  
     class b2World* mWorld;
 #endif
@@ -250,9 +213,6 @@ private:
 
     // Terrain initialized
     bool mIsInit;
-
-    // Flag pour dire de ne pas compter de buts pour eviter que plusieurs buts soient attribuer au joueur
-    bool mBesoinMiseAuJeu;
     
 /// Accesseurs
 public:
@@ -281,6 +241,7 @@ public:
     NoeudMaillet* getRightMallet() const;
 #if BOX2D_INTEGRATED  
     inline class b2World* GetWorld() {return mWorld;}
+
 #endif
     inline bool isInit() const { return mIsInit; }
 public:

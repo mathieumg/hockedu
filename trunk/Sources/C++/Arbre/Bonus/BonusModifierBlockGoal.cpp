@@ -8,9 +8,7 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "BonusModifierBlockGoal.h"
-
-// ne fait pas de sens d'utiliser un modifier si on ne joue pas
-#if BOX2D_PLAY  
+#if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
 #include "NoeudAbstrait.h"
@@ -76,7 +74,7 @@ bool BonusModifierBlockGoal::Attach( NoeudRondelle* pPuck )
     {
         auto mallet = pPuck->getLastHittingMallet();
         auto field = pPuck->getField();
-        if(field && mallet)
+        if(field)
         {
             NoeudBut* goals[2];
             field->getGoals(goals);
@@ -124,7 +122,7 @@ bool BonusModifierBlockGoal::Apply()
                 return false;
             }
         }
-#if BOX2D_PLAY 
+#if BOX2D_INTEGRATED 
         auto world = mOwner->getWorld();
         if(world)
         {
@@ -133,17 +131,12 @@ bool BonusModifierBlockGoal::Apply()
 
             b2BodyDef myBodyDef;
             myBodyDef.type = b2_staticBody; //this will be a dynamic body
-
-            float angle;
-            Vecteur3 pos;
-            getGoalPosition(pos,angle);
-            b2Vec2 posB2;
-            utilitaire::VEC3_TO_B2VEC(pos,posB2);
-            myBodyDef.position.Set(posB2.x,posB2.y); //set the starting position
-            myBodyDef.angle = angle; //set the starting angle
+            myBodyDef.position.Set(0, 0); //set the starting position
+            myBodyDef.angle = 0; //set the starting angle
 
             mPhysicBody = world->CreateBody(&myBodyDef);
             b2PolygonShape shape;
+            Vecteur3 pos;
             shape.SetAsBox(halfLength,halfHeight,b2Vec2(0,0),0);
 
             b2FixtureDef myFixtureDef;
@@ -156,14 +149,20 @@ bool BonusModifierBlockGoal::Apply()
             mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
             mPhysicBody->SetUserData(this);
 
+            float angle;
+            getGoalPosition(pos,angle);
+            b2Vec2 posB2;
+            utilitaire::VEC3_TO_B2VEC(pos,posB2);
+            mPhysicBody->SetTransform(posB2,angle); //set the starting position
+
             return true;
         }
-        // if any fixtures were found, it means that this node had a modifiation applied
-        return mFixtures.size() != 0;
+
 #endif
     }
 
-    return false;
+    // if any fixtures were found, it means that this node had a modifiation applied
+    return mFixtures.size() != 0;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -179,7 +178,7 @@ bool BonusModifierBlockGoal::Apply()
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierBlockGoal::Revert()
 {
-#if BOX2D_PLAY  
+#if BOX2D_INTEGRATED  
     if(mPhysicBody)
     {
         mPhysicBody->GetWorld()->DestroyBody(mPhysicBody);
@@ -210,13 +209,13 @@ void BonusModifierBlockGoal::render() const
     {
         glPushMatrix();
         glDisable(GL_LIGHTING);
-#if BOX2D_PLAY  
+#if BOX2D_INTEGRATED  
         auto transform = mPhysicBody->GetTransform();
         Vecteur3 pos;
         utilitaire::B2VEC_TO_VEC3(pos,transform.p);
         glTranslatef(pos[VX],pos[VY],0);
         glRotatef(utilitaire::RAD_TO_DEG(transform.q.GetAngle()),0,0,1);
-#endif //BOX2D_PLAY
+#endif //BOX2D_INTEGRATED
         glCallList(liste);
         glEnable(GL_LIGHTING);
         glPopMatrix();
@@ -244,7 +243,7 @@ void BonusModifierBlockGoal::Tick( float temps )
     Vecteur3 pos;
     float angle;
     getGoalPosition(pos,angle);
-#if BOX2D_PLAY
+#if BOX2D_INTEGRATED
     b2Vec2 posB2;
     utilitaire::VEC3_TO_B2VEC(pos,posB2);
     mPhysicBody->SetTransform(posB2,angle);

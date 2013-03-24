@@ -168,7 +168,7 @@ void NoeudCompositeTest::ajoutRecursifTest()
 ////////////////////////////////////////////////////////////////////////
 void NoeudCompositeTest::effacerEnfantsTest()
 {
-    if(enfants[1])enfants[1]->deleteThis();
+	arbre->erase(enfants[1]);
 	CPPUNIT_ASSERT(arbre->childCount() == 1);
 	for(int i=1; i<5; i++)
 	{
@@ -186,15 +186,17 @@ void NoeudCompositeTest::effacerEnfantsTest()
 	{
 		enfants[i] = new NoeudComposite();
 	}
+	arbre->erase(enfants[1]);
 	// Rien ne devrait ce passer puisque enfant[1] n'est pas un enfant de arbre
 	CPPUNIT_ASSERT(arbre->childCount() == 1);
 	try
 	{
-		CPPUNIT_ASSERT(enfants[1]->getParent() == NULL); // L'enfant n'a pas de parent
+		enfants[1]->getParent();
+		CPPUNIT_ASSERT(true); // L'enfant existe toujours
 	}
 	catch(...)
 	{
-		CPPUNIT_ASSERT(false); //L'enfant n'existe pas
+		CPPUNIT_ASSERT(false); //L'enfant à bien été invalidé
 	}
 
 }

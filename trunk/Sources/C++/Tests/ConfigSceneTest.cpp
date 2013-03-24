@@ -136,7 +136,7 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
 
 	// Écriture initiale du document
 	XmlDocument document ;
-    XMLUtils::CreateDocument(document);
+    XMLUtils::CreateDocument(document,"","","");
     VisiteurEcrireXML v;
     arbre->acceptVisitor(v);
 

@@ -89,7 +89,7 @@ void NoeudPortail::renderReal() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudPortail::tick( const float& temps)
 {
-	setAngle((float)((int)(mAngle+temps*1000.0f)%360));
+	mAngle = (float)((int)(mAngle+temps*1000.0f)%360);
 	updateMatrice();
    // Appel à la version de la classe de base pour l'animation des enfants.
    NoeudAbstrait::tick(temps);
@@ -130,7 +130,7 @@ void NoeudPortail::updatePhysicBody()
         clearPhysicsBody();
 
         b2BodyDef myBodyDef;
-        myBodyDef.type = IsInGame() ? b2_staticBody : b2_dynamicBody;; //this will be a static body
+        myBodyDef.type = b2_staticBody; //this will be a static body
         const Vecteur3& pos = getPosition();
         b2Vec2 posB2;
         utilitaire::VEC3_TO_B2VEC(pos,posB2);
@@ -147,24 +147,15 @@ void NoeudPortail::updatePhysicBody()
         myFixtureDef.density = 1;
 
         // Il s'agit ici d'un portail qui peut entré en collision avec une rondell
-        if(IsInGame())
-        {
-            myFixtureDef.filter.categoryBits = CATEGORY_PORTAL;
-            myFixtureDef.filter.maskBits = CATEGORY_PUCK;
+        myFixtureDef.filter.categoryBits = CATEGORY_PORTAL;
+        myFixtureDef.filter.maskBits = CATEGORY_PUCK;
 
-            // Le sensor indique qu'on va recevoir la callback de collision avec la rondelle sans vraiment avoir de collision
-            myFixtureDef.isSensor = true;
-        }
-        else
-        {
-            myFixtureDef.filter.categoryBits = CATEGORY_PORTAL;
-            myFixtureDef.filter.maskBits = 0xFFFF;
-        }
-
+        // Le sensor indique qu'on va recevoir la callback de collision avec la rondelle sans vraiment avoir de collision
+        myFixtureDef.isSensor = true;
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         mPhysicBody->SetUserData(this);
-        mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::synchroniseTransformFromB2CallBack;
+        //mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
     }
 #endif
 }

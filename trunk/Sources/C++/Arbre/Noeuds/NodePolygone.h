@@ -25,7 +25,7 @@ public:
     typedef NoeudComposite Super;
 	/// Constructeurs par paramètres
 	NodePolygone(const std::string& type);
-    virtual ~NodePolygone();
+    ~NodePolygone();
     virtual void renderReal()const;
     /// Ajoute un noeud enfant.
     virtual bool add( NoeudAbstrait* enfant );

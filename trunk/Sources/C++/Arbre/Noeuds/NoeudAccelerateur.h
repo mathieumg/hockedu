@@ -27,7 +27,7 @@ public:
 	/// Constructeur à partir du type du noeud.
 	NoeudAccelerateur(const std::string& typeNoeud);
 	/// Destructeur.
-	virtual ~NoeudAccelerateur();
+	~NoeudAccelerateur();
 
     /// fonction de comparaison de 2 noeuds
     virtual bool equals(NoeudAbstrait* n)
@@ -63,10 +63,8 @@ public:
 	/// Modificateur de activer_
 	void ActivateBoost(bool val);
 
-#if MANUAL_PHYSICS_DETECTION
-    /// Application de la physique de la rondelle
+	/// Application de la physique de la rondelle
 	virtual void collisionDetection( const float& temps );
-#endif
 
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody();

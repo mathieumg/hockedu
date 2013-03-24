@@ -38,14 +38,9 @@ public:
 	/// Permet d'obtenir une copie de ce joueur
 	//virtual JoueurAbstrait* obtenirCopie();
 
-    virtual bool isReady() {return mIsReady;}
-    
-
 protected:
 	/// Initialisaiton du joueur à partir d'un element XML
 	virtual bool initialiser(const XmlElement* element);
-
-
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -46,10 +46,13 @@ void PacketReader::setCurrentByteOrder( ByteOrder pNewByteOrder )
 void PacketReader::append ( size_t pNewSize, uint8_t* pDataToAdd)
 {
     uint8_t* newArrayStart = new uint8_t[pNewSize];
-
+#ifdef WINDOWS
     memcpy_s(newArrayStart, mSize, mArrStart, mSize);
     memcpy_s(newArrayStart + mSize, pNewSize - mSize, pDataToAdd, pNewSize - mSize);
-
+#elif defined(LINUX)
+    memcpy(newArrayStart, mArrStart, mSize);
+    memcpy(newArrayStart + mSize, pDataToAdd, pNewSize - mSize);
+#endif
     mSize = pNewSize;
     if (mArrStart != NULL)
         delete mArrStart;
@@ -59,9 +62,11 @@ void PacketReader::append ( size_t pNewSize, uint8_t* pDataToAdd)
 void PacketReader::setArrayStart( uint8_t* arrayStart, size_t arraySize )
 {
     uint8_t* newArrayStart = new uint8_t[arraySize];
-
+#ifdef WINDOWS
     memcpy_s(newArrayStart, arraySize, arrayStart, arraySize);
-
+#elif defined(LINUX)
+    memcpy(newArrayStart, arrayStart, arraySize);
+#endif
     mSize = arraySize;
     if (mArrStart != NULL)
         delete mArrStart;
@@ -85,9 +90,11 @@ void PacketReader::readString(uint8_t* pReturnString, uint32_t pStringLength)
     memset(pReturnString, 0, pStringLength);
 #endif
 
-
+#ifdef WINDOWS
     memcpy_s(pReturnString, pStringLength, mArrStart+mCurrentPosition, pStringLength);
-
+#elif defined(LINUX)
+    memcpy(pReturnString, mArrStart + mCurrentPosition, pStringLength);
+#endif
     mCurrentPosition += pStringLength;
 #if HANDLE_CHARACTERE_0
     // Ajout du caractère 0.

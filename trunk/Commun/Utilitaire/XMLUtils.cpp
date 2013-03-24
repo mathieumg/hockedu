@@ -11,7 +11,6 @@
 
 namespace XMLUtils
 {
-
 #if WIN32 || __APPLE__
     ////////////////////////////////////////////////////////////////////////
     ///
@@ -120,11 +119,6 @@ namespace XMLUtils
     {
         element->SetAttribute(name,attribute);
     }
-    template<>
-    void writeAttribute<char>( XmlElement* element, const char* name, const char& attribute )
-    {
-        element->SetAttribute(name,attribute);
-    }
 
     ////////////////////////////////////////////////////////////////////////
     ///
@@ -144,10 +138,6 @@ namespace XMLUtils
     void writeAttribute<std::string>( XmlElement* element, const char* name, const std::string& attribute )
     {
         element->SetAttribute(name,attribute.c_str());
-    }
-    void writeString(XmlElement* element, const char* name, const char* attribute)
-    {
-        element->SetAttribute(name,attribute);
     }
 
 
@@ -209,22 +199,6 @@ namespace XMLUtils
     bool readAttribute<int>( const XmlElement* element, const char* name, int& attribute )
     {
         return element->QueryIntAttribute(name, &attribute) == TIXML_SUCCESS;
-    }
-    template<>
-    bool readAttribute<bool>( const XmlElement* element, const char* name, bool& attribute )
-    {
-        int temp;
-        auto res = element->QueryIntAttribute(name, &temp);
-        attribute = !!temp;
-        return res == TIXML_SUCCESS;
-    }
-    template<>
-    bool readAttribute<char>( const XmlElement* element, const char* name, char& attribute )
-    {
-        int temp;
-        auto res = element->QueryIntAttribute(name, &temp);
-        attribute = (char)temp;
-        return res == TIXML_SUCCESS;
     }
 
     ////////////////////////////////////////////////////////////////////////
@@ -396,10 +370,10 @@ namespace XMLUtils
     /// @return XmlDocument
     ///
     ////////////////////////////////////////////////////////////////////////
-    void CreateDocument( XmlDocument& document )
+    void CreateDocument( XmlDocument& document, const char* _version,const char* _encoding,const char* _standalone )
     {
         // Écrire la déclaration XML standard...
-        TiXmlDeclaration* declaration = new TiXmlDeclaration("1.0","","");
+        TiXmlDeclaration* declaration = new TiXmlDeclaration( _version, _encoding, _standalone );
         LinkEndChild(document,declaration);
     }
 
@@ -485,6 +459,30 @@ namespace XMLUtils
     const char* GetNodeTag( const XmlElement* element )
     {
         return element->Value();
+    }
+    ////////////////////////////////////////////////////////////////////////
+    ///
+    /// @fn const char* GetVersion( XmlDocument document )
+    ///
+    /// Retrieves the version from the document
+    ///
+    /// @param[in] XmlDocument document
+    ///
+    /// @return const char*
+    ///
+    ////////////////////////////////////////////////////////////////////////
+    const char* GetVersion( XmlDocument& document )
+    {
+        XmlNode* n = document.mNode->FirstChild();
+        if(n)
+        {
+            TiXmlDeclaration* dec = n->ToDeclaration();
+            if(dec)
+            {
+                return dec->Version();
+            }
+        }
+        return NULL;
     }
 
 #else
@@ -789,7 +787,7 @@ bool LoadDocument( XmlDocument& document, const char* fileName )
 /// @return XmlDocument
 ///
 ////////////////////////////////////////////////////////////////////////
-void CreateDocument( XmlDocument& document )
+void CreateDocument( XmlDocument& document, const char* _version,const char* _encoding,const char* _standalone )
 {
 }
 
@@ -873,6 +871,22 @@ const XmlElement* NextSibling( const XmlElement* child )
 const char* GetNodeTag( const XmlElement* element )
 {
     return "";
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn const char* GetVersion( XmlDocument document )
+///
+/// Retrieves the version from the document
+///
+/// @param[in] XmlDocument document
+///
+/// @return const char*
+///
+////////////////////////////////////////////////////////////////////////
+const char* GetVersion( XmlDocument& document )
+{
+    return NULL;
 }
 
     const char* MakeName( const char* name, int index )

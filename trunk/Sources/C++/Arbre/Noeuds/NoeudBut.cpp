@@ -475,22 +475,14 @@ void NoeudBut::updatePhysicBody()
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &shape; //this is a pointer to the shapeHaut above
         myFixtureDef.density = 1;
-        if(IsInGame())
-        {
-#if MAT_DEBUG_ && 0
-            myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
-            myFixtureDef.filter.maskBits = CATEGORY_PUCK;
+#if MAT_DEBUG_
+        myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
+        myFixtureDef.filter.maskBits = CATEGORY_PUCK;
 #else
-            myFixtureDef.filter.categoryBits = CATEGORY_NONE;
-            myFixtureDef.filter.maskBits = CATEGORY_NONE;
+        myFixtureDef.filter.categoryBits = CATEGORY_NONE;
+        myFixtureDef.filter.maskBits = CATEGORY_NONE;
 #endif
-            myFixtureDef.filter.groupIndex = 1;
-        }
-        else
-        {
-            myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
-            myFixtureDef.filter.maskBits = 0xFFFF;
-        }
+        myFixtureDef.filter.groupIndex = 1;
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         shape.Set(anchorPointPosB2,BottomPosB2);
@@ -517,7 +509,7 @@ void NoeudBut::updatePhysicBody()
 ////////////////////////////////////////////////////////////////////////
 void NoeudBut::updatePuckCatcher( float puckRadius )
 {
-#if BOX2D_PLAY 
+#if BOX2D_INTEGRATED  
     auto world = getWorld();
     if(world && (!mPuckCatcher || mCachedPuckRadius != puckRadius) )
     {
@@ -555,6 +547,7 @@ void NoeudBut::updatePuckCatcher( float puckRadius )
         myFixtureDef.density = 1;
         myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
         myFixtureDef.filter.maskBits = CATEGORY_PUCK;
+        myFixtureDef.filter.groupIndex = 0;
 
 //         shape.Set(topPosB2,topPosShiftedB2);
 //         mPuckCatcher->CreateFixture(&myFixtureDef); //add a fixture to the body
@@ -585,7 +578,7 @@ void NoeudBut::updatePuckCatcher( float puckRadius )
 void NoeudBut::clearPhysicsBody()
 {
     NoeudAbstrait::clearPhysicsBody();
-#if BOX2D_PLAY  
+#if BOX2D_INTEGRATED  
     auto world = getWorld();
     if(world && mPuckCatcher)
     {

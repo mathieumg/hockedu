@@ -6,8 +6,8 @@
 #include "CommunicateurBD.h"
 #include "ExceptionsReseau/ExceptionReseauBD.h"
 #include "../Reseau/Paquets/PaquetEvent.h"
-#include "../Reseau/ObjetsGlobaux/PartieServeurs.h"
-#include "GameServerManager.h"
+
+unsigned int ControllerServeurMaitre::mNewGameServerId = 1;
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -23,14 +23,16 @@ ControllerServeurMaitre::ControllerServeurMaitre()
 {
     // Ajouter tous les Runnables dependant de ce qui est handled selon le type de controlleur
     mPaquetRunnables[EVENT] = PaquetRunnable::RunnableEvent;
-    mPaquetRunnables[LOGIN_INFO] = PaquetRunnable::RunnableLoginInfoMasterServer;
+    mPaquetRunnables[LOGIN_INFO] = PaquetRunnable::RunnableLoginInfoServerMaster;
     // Pas de connexion automatique pour le serveur maitre
     //mPaquetRunnables[CONN_AUTOMATIQUE] = PaquetRunnable::RunnableConnAutomatiqueServer;
-    mPaquetRunnables[USER_STATUS] = PaquetRunnable::RunnableUserStatusMasterServer;
-    mPaquetRunnables[CHAT_MESSAGE] = PaquetRunnable::RunnableChatMessageMasterServer;
+    mPaquetRunnables[USER_STATUS] = PaquetRunnable::RunnableUserStatusServerMaster;
+    mPaquetRunnables[CHAT_MESSAGE] = PaquetRunnable::RunnableChatMessageServerMaster;
     mPaquetRunnables[TEST] = PaquetRunnable::RunnableTest;
-    mPaquetRunnables[GAME_STATUS] = PaquetRunnable::RunnableGameStatusMasterServer;
-    mPaquetRunnables[GAME_REGISTRATION] = PaquetRunnable::RunnableGameRegistrationMasterServer;
+    mPaquetRunnables[GAME_STATUS] = PaquetRunnable::RunnableGameStatusServerMaster;
+    mPaquetRunnables[GAME_CREATION_REQUEST] = PaquetRunnable::RunnableGameCreationServerMaster;
+
+
 }
 
 
@@ -51,7 +53,7 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
     switch(pEventCode) {
     case USER_DISCONNECTED:
         {
-            std::string wPlayerName(va_arg(pListeElems,char*));
+            std::string& wPlayerName = va_arg(pListeElems,std::string);
             if(wPlayerName.length() != 0 )
             {
                 // Handle deconnection (throw une exception qui sera catch dans le thread de reception et qui fera la deconnexion)
@@ -64,21 +66,19 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
 #if !SHIPPING
             std::cout << "Game server authentication request" << std::endl;
 #endif
-            for(auto i = GameServerManager::getAddedGameServersAmount() + 1; i <= GameServerManager::getLatestGameServerId(); ++i)
+            for(unsigned int i = mGameServersList.size()+1; i < mNewGameServerId; ++i)
             {
                 std::string wIdentificationString("GameServer");
                 wIdentificationString += i;
                 SPSocket wAssociatedSocket = GestionnaireReseau::obtenirInstance()->getSocket(wIdentificationString, TCP);
-
-                GameServerManager::obtenirInstance()->addNewGameServer(i, wAssociatedSocket->getAdresseDestination());
-
+                mGameServersList[i] = wAssociatedSocket->getAdresseDestination();
                 PaquetEvent* wReplyPacket = (PaquetEvent*)GestionnaireReseau::obtenirInstance()->creerPaquet(EVENT);
                 wReplyPacket->setEventCode(GAME_SERVER_AUTHENTICATION_REPLY);
                 std::stringstream message;
                 message << i;
                 wReplyPacket->setMessage(message.str());
 #if !SHIPPING
-                std::cout << "Replying to server id " << i << ". The server's IP is: " << wAssociatedSocket->getAdresseDestination() << std::endl;
+                std::cout << "Replying to server id " << i << ". The server's IP is: " << mGameServersList[i] << std::endl;
 #endif
                 GestionnaireReseau::obtenirInstance()->envoyerPaquet(wAssociatedSocket, wReplyPacket);
             }
@@ -95,6 +95,9 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
     };
 }
 
+
+
+
 void ControllerServeurMaitre::handleDisconnectDetection(SPSocket pSocket)
 {
     GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
@@ -109,7 +112,7 @@ std::string ControllerServeurMaitre::authenticate( const std::string& pUsername,
         if(pUsername == "GameServer" && pPassword == "HockeduSuperProtectedPassword")
         {
             std::string wTempUser = pUsername;
-            wTempUser += GameServerManager::generateNewGameServerId();
+            wTempUser += mNewGameServerId++;
             return wTempUser;
         }
         else if (CommunicateurBD::obtenirInstance()->authenticate(pUsername, pPassword) != -1)
@@ -130,5 +133,5 @@ std::string ControllerServeurMaitre::authenticate( const std::string& pUsername,
 // A implementer une fois que la structure de parties va etre faire dans le serveur maitre
 void ControllerServeurMaitre::getPlayersInGame( int pGameId, std::vector<const std::string*>& pPlayerList )
 {
-    throw std::runtime_error("The method or operation is not implemented.");
+    throw std::exception("The method or operation is not implemented.");
 }

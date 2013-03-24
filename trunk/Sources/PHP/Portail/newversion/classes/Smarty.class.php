@@ -10,3 +10,5 @@
  
  
 include( '../classes/Smarty/Smarty.class.php' );
+
+?>

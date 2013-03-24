@@ -74,7 +74,7 @@ Vecteur2 AIStratDefensive::appliquerStrategie( NoeudMaillet* maillet )
 	// On senligne avec la rondelle si on est deja dans la zone de but
 	if (abs(dir[VX]) < maillet->getRadius()*2+10)
 	{
-		dir = (rondelle->getPosition() - maillet->getPosition()).convertir<2>();
+		dir = rondelle->getPosition() - maillet->getPosition();
 		dir.normaliser();
 		dir[VX] = 0.0;
 	}

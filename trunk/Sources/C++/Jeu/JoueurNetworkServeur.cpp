@@ -25,7 +25,6 @@
 JoueurNetworkServeur::JoueurNetworkServeur(std::string nom) : JoueurAbstrait(nom)
 {
 	type_ = JOUEUR_NETWORK_SERVEUR;
-    setReady(false);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -95,8 +94,6 @@ void JoueurNetworkServeur::genererAleatoirement()
 {
 	modifierNom("Joueur Network Serveur Aleatoire");
 }
-
-
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

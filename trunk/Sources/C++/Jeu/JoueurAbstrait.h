@@ -51,13 +51,9 @@ public:
     inline class NoeudMaillet* getControlingMallet() const { return mControlingMallet; }
     inline void setControlingMallet(class NoeudMaillet* pVal) { mControlingMallet = pVal; }
 
-    virtual bool isReady() {return true;}
-    inline void setReady(const bool pReady) {mIsReady = pReady;}
-
 protected:
 	/// Le type du joueur (humain ou virtuel)
 	TypeJoueur type_;
-    bool mIsReady;
 	/// Initialisaiton du joueur à partir d'un element XML
 	virtual bool initialiser(const XmlElement* element);
 private:

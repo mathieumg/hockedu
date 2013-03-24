@@ -36,7 +36,7 @@ private:
     NoeudRondelle(const std::string& typeNoeud, unsigned int& puckCreated, unsigned int puckLimit);
 public:
     /// Destructeur.
-    virtual ~NoeudRondelle();
+    ~NoeudRondelle();
 
 
     /// fonction de comparaison de 2 noeuds
@@ -56,7 +56,6 @@ public:
     /// Accueil un visiteur
     virtual void acceptVisitor( VisiteurNoeud& v);
 
-#if MANUAL_PHYSICS_DETECTION
     /// Application de la physique de la rondelle
     virtual void collisionDetection( const float& temps );
     /// Mise a Jour de la position de ce noeud
@@ -65,19 +64,18 @@ public:
     virtual void fixOverlap();
     /// Ajustement de la vitesse des noeuds
     virtual void fixSpeed( const float& temps );
-#endif
 
     /// Accesseur de mVelocite
     Vecteur3 obtenirVelocite() const;
-    void modifierVelocite(const Vecteur3& val);
+    void modifierVelocite(Vecteur3 val) { mVelocite = val; }
 
     /// Accesseurs pour la modification
     //float obtenirAngle() const {return angle_;}
-    float obtenirVitesseRotation() const;
+    float obtenirVitesseRotation() const {return mVitesseRotation;}
 
     /// Modificateurs pour la rotation
     //void modifierAngle(const float angle) {angle_ = angle;}
-    void modifierVitesseRotation(const float vitesse);
+    void modifierVitesseRotation(const float vitesse) {mVitesseRotation = vitesse;}
 
     void validerPropriteteTablePourJeu() ;
 

@@ -26,8 +26,6 @@
 #include "GameManager.h"
 #include "RazerGameUtilities.h"
 #include "..\reseau\UsinePaquets\UsinePaquetRondelle.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetGameEvent.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetGameRegistration.h"
 
 void InitDLLServeurJeu(std::string& wMasterServerIP)
 {
@@ -35,15 +33,7 @@ void InitDLLServeurJeu(std::string& wMasterServerIP)
     GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
 
     wGestionnaireReseau->setController(new ControllerServeurJeu);
-    if(!ControllerServeurJeu::isLocalServer())
-    {
-        wGestionnaireReseau->initGameServer();
-    }
-    else
-    {
-        wGestionnaireReseau->initServer();
-    }
-    
+    wGestionnaireReseau->initGameServer();
 
     // On doit ajouter une nouvelle operation reseau pour que le systeme le connaisse (1 par type de paquet)
     wGestionnaireReseau->ajouterOperationReseau(CHAT_MESSAGE, new PacketHandlerChatMessage, new UsinePaquetChatMessage);
@@ -54,33 +44,29 @@ void InitDLLServeurJeu(std::string& wMasterServerIP)
     wGestionnaireReseau->ajouterOperationReseau(RONDELLE, new PacketHandlerRondelle, new UsinePaquetRondelle);
     wGestionnaireReseau->ajouterOperationReseau(GAME_CREATION_REQUEST, new PacketHandlerGameCreation, new UsinePaquetGameCreation);
     wGestionnaireReseau->ajouterOperationReseau(GAME_CONNECTION, new PacketHandlerGameConnection, new UsinePaquetGameConnection);
-    wGestionnaireReseau->ajouterOperationReseau(GAME_EVENT, new PacketHandlerGameEvent, new UsinePaquetGameEvent);
 
-    if(!ControllerServeurJeu::isLocalServer())
+    wGestionnaireReseau->demarrerNouvelleConnection("MasterServer", wMasterServerIP, TCP);
+
+    PaquetEvent* wPaquet = (PaquetEvent*)wGestionnaireReseau->creerPaquet(EVENT);
+    wPaquet->setEventCode(GAME_SERVER_AUTHENTICATION_REQUEST);
+    wPaquet->setMessage("");
+
+    SPSocket wSocketMasterServer = wGestionnaireReseau->getSocket("MasterServer", TCP);
+    const int MAX_ATTEMPTS = 10;
+    int nbTries = 0;
+    while (wSocketMasterServer->getConnectionState() == NOT_CONNECTED && nbTries < MAX_ATTEMPTS)
     {
-        wGestionnaireReseau->demarrerNouvelleConnection("MasterServer", wMasterServerIP, TCP);
-        wGestionnaireReseau->ajouterOperationReseau(GAME_REGISTRATION, new PacketHandlerGameRegistration, new UsinePaquetGameRegistration);
-
-        PaquetEvent* wPaquet = (PaquetEvent*)wGestionnaireReseau->creerPaquet(EVENT);
-        wPaquet->setEventCode(GAME_SERVER_AUTHENTICATION_REQUEST);
-        wPaquet->setMessage("");
-
-        SPSocket wSocketMasterServer = wGestionnaireReseau->getSocket("MasterServer", TCP);
-        const int MAX_ATTEMPTS = 10;
-        int nbTries = 0;
-        while (wSocketMasterServer->getConnectionState() == NOT_CONNECTED && nbTries < MAX_ATTEMPTS)
-        {
-            FacadePortability::sleep(1000);
-            ++nbTries;
-        }
-        if(wSocketMasterServer->getConnectionState() == CONNECTING || wSocketMasterServer->getConnectionState() == CONNECTED)
-        {
-            wGestionnaireReseau->envoyerPaquet("MasterServer", wPaquet, TCP);
-        }
-    
-        // Initialise la Facade Serveur Jeu (demarre la boucle de tick)
-        FacadeServeurJeu::getInstance();
+        FacadePortability::sleep(1000);
+        ++nbTries;
     }
+    if(wSocketMasterServer->getConnectionState() == CONNECTING || wSocketMasterServer->getConnectionState() == CONNECTED)
+    {
+        wGestionnaireReseau->envoyerPaquet("MasterServer", wPaquet, TCP);
+    }
+    
+    // Initialise la Facade Serveur Jeu (demarre la boucle de tick)
+    FacadeServeurJeu::getInstance();
+
 }
 
 
@@ -121,6 +107,11 @@ void* DeamonTick( void *arg )
         }
         FacadePortability::sleep(1); // Enlever cette ligne pour etre plus precis, mais va bouffer le CPU
     }
+
+
+
+
+
 }
 
 
@@ -178,7 +169,7 @@ void FacadeServeurJeu::libererInstance()
 ///
 ////////////////////////////////////////////////////////////////////////
 FacadeServeurJeu::FacadeServeurJeu()
-    :mTickInterval(10)
+    :mTickInterval(5)
 {
 
     // Initialisation de la randomisation

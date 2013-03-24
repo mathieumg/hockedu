@@ -1,13 +1,12 @@
 #pragma once
 #include "ObserverPaternDefinitions.h"
-#include "Enum_Declarations.h"
-#include "Vecteur.h"
+#include "EvenementSouris.h"
 
 class MouseMoveSubject : public Subject<MouseMoveSubject>
 {
 public:
-    Vecteur3 mVirtualPos;
-    BoutonSouris mButton;
+    /// Accessors of mEvent
+    EvenementSouris mEvent;
 };
 
 class MouseMoveObserver : public Observer<MouseMoveSubject>

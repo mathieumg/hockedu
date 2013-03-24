@@ -40,7 +40,9 @@
     visitor.faireSelection();
     
     // Pop over controller pour modifier les proprietes
-    return ((Terrain*)mField)->getSelectedNodes().size();;
+    ConteneurNoeuds *selectedNodes = new ConteneurNoeuds;
+    ((Terrain*)mField)->getSelectedNodes(*selectedNodes);
+    return selectedNodes->size();
     
 }
 

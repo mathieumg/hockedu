@@ -41,8 +41,6 @@ private:
     static int HandleEvent(ControllerCSharp*, EventCodes,  va_list pListeElems);
     static int HandleMessage(ControllerCSharp*, EventCodes,  va_list pListeElems);
 
-    virtual void getPlayersInGame( int pGameId, std::vector<const std::string>& pPlayerList );
-
     std::hash_map<EventCodes, EventTypeHandler> mEventTypeHandlers;
 };
 

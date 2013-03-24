@@ -26,7 +26,7 @@ public:
    /// Constructeur à partir du type du noeud.
    NoeudAffichage(const std::string& typeNoeud);
    /// Destructeur.
-   virtual ~NoeudAffichage();
+   ~NoeudAffichage();
 
    /// Affiche le cube.
    virtual void renderReal() const;
@@ -42,10 +42,7 @@ public:
    void modifierListes(const std::string& nomListe);
 
    /// Reset l'echele a l'origine
-   virtual void resetEchelle() 
-   {
-       mScale = echelleBase_;
-   }
+   virtual void resetEchelle() {mScale = echelleBase_;}
 
    virtual void peindreElement();
 

@@ -29,19 +29,14 @@ public:
 
     virtual void handleDisconnectDetection( SPSocket pSocket );
 
-    virtual int getNbConnectionMax() const {return 2;}
+    virtual int getNbConnectionMax() const {return 2;} // Max de 2 personnes connectees pour le serveur jeu
 
-    virtual void getPlayersInGame( int pGameId, std::vector<const std::string>& pPlayerList );
+    virtual void getPlayersInGame( int pGameId, std::vector<const std::string*>& pPlayerList );
 
     virtual Partie* getGame( int pGameId );
 
-    unsigned int getServerId() { return mServerId; }
-
-    static bool isLocalServer() { return mIsLocalServer;}
-    static void setIsLocalServer(bool pIsLocalServer) { mIsLocalServer = pIsLocalServer; }
 private:
     unsigned int mServerId;
-    static bool mIsLocalServer;
 };
 
 

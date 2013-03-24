@@ -24,7 +24,6 @@
 #include "GestionnaireEtatAbstrait.h"
 #include "GestionnaireAnimations.h"
 #include "HUDBonus.h"
-#include "HUDForeverAlone.h"
 
 // Déclarations de base pour le singleton
 SINGLETON_DECLARATION_CPP(GestionnaireHUD);
@@ -385,7 +384,6 @@ void GestionnaireHUD::creerHUDJeu()
     //panneau pour le replay.
     HUDElementComparatif* panneauReplay = new HUDElementComparatif([]() {return GestionnaireAnimations::obtenirInstance()->estJouerReplay();});
 
-
     ConteneurVertex2D* pointsReplay = new ConteneurVertex2D;
     pointsReplay->push_back(Vecteur2f(0.0f,0.0f));
     pointsReplay->push_back(Vecteur2f(0.0f,1.0f));
@@ -399,12 +397,6 @@ void GestionnaireHUD::creerHUDJeu()
     imageReplay->modifierPosition(0,0);
     imageReplay->modifierTaille(1,1);
     racineJeu_->add(panneauReplay);
-
-    HUDForeverAlone* wForeverAlone = new HUDForeverAlone;
-    wForeverAlone->initSurfaces();
-    wForeverAlone->modifierVisibilite(false);
-    mForeverAlone = wForeverAlone;
-    racineJeu_->add(mForeverAlone);
 }
 
 ////////////////////////////////////////////////////////////////////////

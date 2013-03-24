@@ -23,9 +23,9 @@ class VisiteurEchelle :
 {
 public:
 	/// Constructeur par paramètre
-	VisiteurEchelle(float facteur, int axe = -1);
+	VisiteurEchelle(float facteur, int axe = -1, bool ignoreSelection = false );
 	/// Destructeur
-	virtual ~VisiteurEchelle(void);
+	~VisiteurEchelle(void);
 
 
 	/// Visitation d'un noeud abstrait
@@ -55,9 +55,12 @@ private:
 	float facteur_;
 	/// Axe selon lequel sera fait la mise à l'échelle
 	int axe_;
+	/// Indique si on effectue la mise à l'échelle en ignorant la sélection
+	bool ignoreSelection_;
 	
 	/// Diverses constantes pour la gestion de la taille des objets
 	static const float FACTEUR_ECHELLE; // Facteur d'echelle
+	static const float FACTEUR_ROTATION; // Facteur de rotation
 	static const float FACTEUR_ECHELLE_MAX; // Facteur d'echelle maximal
 	static const float FACTEUR_ECHELLE_MIN; // Facteur d'echelle minimal
 	

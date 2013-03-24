@@ -21,6 +21,52 @@ namespace aidecollision {
 	////////////////////////////////////////////////////////////////////////
 	///
 	/// @fn DetailsCollision calculerCollisionSegment(
+	///        const Vecteur2& point1,
+	///        const Vecteur2& point2,
+	///        const Vecteur2& position,
+	///        float          rayon,
+	///        bool            collisionAvecPoints
+	///        );
+	///
+	/// Cette fonction calcule l'intersection d'un cercle, identifié par son
+	/// centre et son rayon, avec un segment de droite, identifié par les 
+	/// coordonnées de chacune de ses extrémités.
+	///
+	/// Elle ne fait qu'appeler la version 3D de cette même fonction.
+	///
+	/// @param[in] point1              : Première extrémité du segment de
+	///                                  droite.
+	/// @param[in] point2              : Seconde extrémité du segment de
+	///                                  droite.
+	/// @param[in] position            : Centre du cercle.
+	/// @param[in] rayon               : Rayon du cercle.
+	/// @param[in] collisionAvecPoints : Vrai si on veut les collisions avec
+	///                                  les extrémités.
+	///
+	/// @return Structure contenant de l'information sur la collision.
+	///
+	////////////////////////////////////////////////////////////////////////
+	DetailsCollision calculerCollisionSegment(
+		const Vecteur2& point1,
+		const Vecteur2& point2,
+		const Vecteur2& position,
+		float          rayon,
+		bool            collisionAvecPoints //= true
+		)
+	{
+		return calculerCollisionSegment(
+			point1.convertir<3>(),
+			point2.convertir<3>(),
+			position.convertir<3>(),
+			rayon,
+			collisionAvecPoints
+			);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////
+	///
+	/// @fn DetailsCollision calculerCollisionSegment(
 	///        const Vecteur3& point1,
 	///        const Vecteur3& point2,
 	///        const Vecteur3& position,
@@ -389,6 +435,72 @@ namespace aidecollision {
 			return vitesseCollision * -constanteAmortissement;
 		}
 	}
+
+
+	////////////////////////////////////////////////////////////////////////
+	///
+	/// @fn Vecteur2 calculerCollisionSegment(
+	///        const Vecteur2&   point1,
+	///        const Vecteur2&   point2,
+	///        const Vecteur2&   position,
+	///        float            rayon,
+	///        bool              collisionAvecPoints,
+	///        float            constanteRebondissement,
+	///        float            constanteAmortissement,
+	///        const Vecteur2&   vitesse,
+	///        DetailsCollision* retourDetails = 0
+	///        );
+	///
+	/// Cette fonction calcule la force causée par la collision d'un cercle,
+	/// identifié par son centre et son rayon, avec un segment de droite,
+	/// identifié par les coordonnées de chacune de ses extrémités.  Elle
+	/// tient compte d'une force de rebondissement ainsi qu'une force
+	/// d'amortissement.
+	///
+	/// Elle ne fait qu'appeler la version 3D de cette même fonction.
+	///
+	/// @param[in]  point1                  : Première extrémité du segment de
+	///                                       droite.
+	/// @param[in]  point2                  : Seconde extrémité du segment de
+	///                                       droite.
+	/// @param[in]  position                : Centre du cercle.
+	/// @param[in]  rayon                   : Rayon du cercle.
+	/// @param[in]  collisionAvecPoints     : Vrai si on veut les collisions
+	///                                       avec les extrémités.
+	/// @param[in]  constanteRebondissement : Constante de rebondissement de
+	///                                       l'objet.
+	/// @param[in]  constanteAmortissement  : Constante d'amortissement de
+	///                                       l'objet.
+	/// @param[in]  vitesse                 : Vitesse de l'objet en collision.
+	/// @param[out] retourDetails           : Pointeur pour retourner les
+	///                                       détails de la collision.
+	///
+	/// @return Force causée par la collision, en deux dimensions.
+	///
+	////////////////////////////////////////////////////////////////////////
+	Vecteur2 calculerCollisionSegment(
+		const Vecteur2&   point1,
+		const Vecteur2&   point2,
+		const Vecteur2&   position,
+		float            rayon,
+		bool              collisionAvecPoints,
+		float            constanteRebondissement,
+		float            constanteAmortissement,
+		const Vecteur2&   vitesse,
+		DetailsCollision* retourDetails //= 0
+		)
+	{
+		return calculerCollisionSegment(
+			point1.convertir<3>(), point2.convertir<3>(),
+			position.convertir<3>(), rayon,
+			collisionAvecPoints,
+			constanteRebondissement,
+			constanteAmortissement,
+			vitesse.convertir<3>(),
+			retourDetails
+			).convertir<2>();
+	}
+
 
 	////////////////////////////////////////////////////////////////////////
 	///

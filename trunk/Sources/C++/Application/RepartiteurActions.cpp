@@ -11,7 +11,9 @@
 #include "RepartiteurActions.h"
 #include "FacadeModele.h"
 #include "GestionnaireEvenements.h"
+#include "VisiteurSuppression.h"
 #include "GestionnaireEtatAbstrait.h"
+#include "VisiteurDupliquer.h"
 #include "GestionnaireAnimations.h"
 #include "VuePerspectiveCiel.h"
 #include "VuePerspectiveOrbit.h"
@@ -21,7 +23,6 @@
 #include "VuePerspectiveSplit.h"
 #include "Partie.h"
 #include "ObjetAnimable.h"
-#include "Terrain.h"
 
 // Initialisations automatiques
 SINGLETON_DECLARATION_CPP(RepartiteurActions);
@@ -57,8 +58,6 @@ RepartiteurActions::RepartiteurActions()
     banqueActions_[ACTION_EDITEUR_DEPLACER]      = &RepartiteurActions::actionBoutonTransformationDeplacement;
     banqueActions_[ACTION_EDITEUR_ROTATION]      = &RepartiteurActions::actionBoutonTransformationRotation;
     banqueActions_[ACTION_EDITEUR_ECHELLE]       = &RepartiteurActions::actionBoutonTransformationEchelle;
-    banqueActions_[ACTION_EDITEUR_UNDO]          = &RepartiteurActions::actionBoutonUndo;
-    banqueActions_[ACTION_EDITEUR_REDO]          = &RepartiteurActions::actionBoutonRedo;
     banqueActions_[ACTION_SUPPRIMER]             = &RepartiteurActions::actionBoutonSupprimer;
     banqueActions_[ACTION_DUPLIQUER]             = &RepartiteurActions::actionBoutonDupliquer;
 
@@ -261,7 +260,7 @@ bool RepartiteurActions::actionBoutonTransformationEchelle()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonSupprimer()
 {
-	FacadeModele::getInstance()->getEditionField()->deleteSelectedNodes();
+	FacadeModele::getInstance()->acceptVisitor(VisiteurSuppression());
 	return true; 
 }
 
@@ -413,7 +412,7 @@ bool RepartiteurActions::actionBoutonInsererBonus()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonDupliquer()
 {
-	FacadeModele::getInstance()->getEditionField()->duplicateSelection();
+	FacadeModele::getInstance()->duplicateSelection();
 	return true; 
 }
 
@@ -704,36 +703,6 @@ bool RepartiteurActions::actionChangerModeCameraSplit()
 	FacadeModele::getInstance()->modifierVue(nouvelleVue);
 
 	return true; 
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn bool RepartiteurActions::actionBoutonUndo()
-///
-/// /*Description*/
-///
-///
-/// @return bool
-///
-////////////////////////////////////////////////////////////////////////
-bool RepartiteurActions::actionBoutonUndo()
-{
-    return !!FacadeModele::getInstance()->getEditionField()->undoModification();
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn bool RepartiteurActions::actionBoutonRedo()
-///
-/// /*Description*/
-///
-///
-/// @return bool
-///
-////////////////////////////////////////////////////////////////////////
-bool RepartiteurActions::actionBoutonRedo()
-{
-    return !!FacadeModele::getInstance()->getEditionField()->redoModification();
 }
 
 

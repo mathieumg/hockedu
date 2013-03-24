@@ -8,7 +8,7 @@ class VisiteurSelectionOpenGL :
 {
 public:
 	VisiteurSelectionOpenGL(const IdNoeuds*, bool ctrlOn);
-	virtual ~VisiteurSelectionOpenGL(void);
+	~VisiteurSelectionOpenGL(void);
 
 	/// Visitation d'un noeud abstrait
 	virtual void visiterNoeudAbstrait( NoeudAbstrait* noeud );

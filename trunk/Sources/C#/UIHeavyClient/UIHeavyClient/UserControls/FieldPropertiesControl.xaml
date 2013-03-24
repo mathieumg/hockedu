@@ -28,14 +28,7 @@
                     </StackPanel>
                 </StackPanel>
                 <user:BonusEditionControl x:Name="mBonusProperties"       />
-                <StackPanel>
-                    <Button Content="Save" Click="SendData" Focusable="False" Foreground="White" Background="Black"/>
-                    <Button Content="Refresh" Click="RefreshData" Focusable="False" Foreground="White" Background="Black"/>
-                    <TextBlock TextWrapping="Wrap" Foreground="White" Name="mRefreshWarning" Visibility="Collapsed">
-                        Manual modification won't automatically refresh properties.
-                        Please hit Refresh
-                    </TextBlock>
-                </StackPanel>
+                <Button Content="Save" Click="SendData" Focusable="False" Foreground="White" Background="Black"/>
             </StackPanel>
         </ScrollViewer>
     </GroupBox>

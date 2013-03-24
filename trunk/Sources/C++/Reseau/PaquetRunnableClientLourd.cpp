@@ -8,7 +8,6 @@
 // A supprimmer apres le test
 #include "JoueurAbstrait.h"
 #include "NoeudMaillet.h"
-#include "NoeudRondelle.h"
 #include <iostream>
 #include <intrin.h>
 #include "Paquets\PaquetRondelle.h"
@@ -20,11 +19,6 @@
 #include "JoueurHumain.h"
 #include "JoueurNetwork.h"
 #include "FacadeModele.h"
-#include "Paquets\PaquetGameEvent.h"
-#include "SoundFMOD.h"
-#include "Box2D\Common\b2Math.h"
-#include "Box2D\Dynamics\b2Body.h"
-
 
 #ifdef LINUX
 #define _LARGE_TIME_API
@@ -58,14 +52,11 @@ int PaquetRunnable::RunnableMailletClient( Paquet* pPaquet )
             JoueurAbstrait* wJoueur = maillet->obtenirJoueur();
             if(wJoueur->obtenirType() == JOUEUR_NETWORK)
             {
-                int wGameId = wPaquet->getGameId();
-                Runnable* r = new Runnable([wGameId,maillet,wPos](Runnable*){
-                    if(GameManager::obtenirInstance()->getGame(wGameId))
-                    {
-                        // Mettre la position du maillet
-                        maillet->setTargetDestination(wPos);
-                    }
-                    
+
+                Runnable* r = new Runnable([maillet,wPos](Runnable*){
+
+                    // Mettre la position du maillet
+                    maillet->assignerPosSouris(wPos);
 
                 });
                 //maillet->attach(r);
@@ -99,9 +90,9 @@ int PaquetRunnable::RunnableRondelleClient( Paquet* pPaquet )
                 Vecteur3 wPos = wPaquet->getPosition();
                 Vecteur3 wVelocite = wPaquet->getVelocite();
                 float wVitesseRot = wPaquet->getVitesseRotation();
-                int wGameId = wPaquet->getGameId();
-                Runnable* r = new Runnable([wGameId, wPuck, wPos, wVelocite, wVitesseRot](Runnable*){
-                    if(wPuck && GameManager::obtenirInstance()->getGame(wGameId))
+
+                Runnable* r = new Runnable([wPuck, wPos, wVelocite, wVitesseRot](Runnable*){
+                    if(wPuck)
                     {
                         wPuck->modifierVitesseRotation(wVitesseRot);
                         wPuck->setPosition(wPos);
@@ -182,134 +173,6 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
         std::cout << "Error occured connecting to game: " << wPaquet->getGameId() << std::endl;
         // State invalide, on ne fait rien
         break;
-    }
-
-
-
-    return 0;
-}
-
-
-
-int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
-{
-    PaquetGameEvent* wPaquet = (PaquetGameEvent*) pPaquet;
-
-    Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
-
-    if(wGame)
-    {
-        switch(wPaquet->getEvent())
-        {
-        case GAME_EVENT_START_GAME:
-            {
-                // Serveur dit de commencer la partie (les 2 clients sont prets)
-                // Aussi utilise pour unpause
-
-                if(wGame->getGameStatus() == GAME_PAUSED)
-                {
-                    // Resume game only
-
-                }
-                else if(wGame->getGameStatus() == GAME_READY)
-                {
-                    // Start game
-                    // On utilise les noms de joueurs du paquet pour initialiser la partie
-
-                    wGame->obtenirJoueurGauche()->modifierNom(wPaquet->getPlayer1Name());
-                    wGame->obtenirJoueurDroit()->modifierNom(wPaquet->getPlayer2Name());
-
-                    GameManager::obtenirInstance()->startGame(wPaquet->getGameId()); 
-                }
-
-
-
-                break;
-            }
-        case GAME_EVENT_PAUSE_GAME_USER_DISCONNECTED:
-            {
-                // L'autre joueur s'est deconnecte
-
-                break;
-            }
-        case GAME_EVENT_PLAYER_SCORED:
-            {
-                // Pour s'assurer de bien compter les points meme avec des problemes de reseau. Annonce les buts
-                // Attention de ne pas les faire compter par le client quand la physique detecte un but, sinon buts en double
-                int wGameId = wPaquet->getGameId();
-                bool wIsPlayerLeft = wPaquet->getEventOnPlayerLeft();
-                Runnable* r = new Runnable([wGameId, wIsPlayerLeft](Runnable*){
-                    Partie* wGameRunnable = GameManager::obtenirInstance()->getGame(wGameId);
-                    if(wGameRunnable)
-                    {
-                        // Mettre event score
-                        if(wIsPlayerLeft)
-                        {
-                            wGameRunnable->incrementerPointsJoueurGauche(true);
-                        }
-                        else
-                        {
-                            wGameRunnable->incrementerPointsJoueurDroit(true);
-                        }
-
-                        SoundFMOD::obtenirInstance()->playEffect(GOAL_EFFECT);
-                        wGameRunnable->miseAuJeu();
-
-                        if(wGameRunnable->getField())
-                        {
-                            NoeudRondelle* wPuck = wGameRunnable->getField()->getPuck();
-                            if(wPuck)
-                            {
-                                wPuck->getPhysicBody()->SetLinearVelocity(b2Vec2(0,0));
-                                wPuck->getPhysicBody()->SetAngularVelocity(0);
-                                wPuck->setAngle(0);
-                            }
-                        }
-                    }
-                });
-                RazerGameUtilities::RunOnUpdateThread(r,true);
-
-                break;
-            }
-        case GAME_EVENT_GAME_ENDED:
-            {
-                // Fin de la partie
-                // Pas utilise en ce moment car le nb de points est fixe et le client va le detecter anyways
-
-                break;
-            }
-        case GAME_EVENT_CHANGE_LAST_MALLET:
-            {
-                int wGameId = wPaquet->getGameId();
-                bool wIsPlayerLeft = wPaquet->getEventOnPlayerLeft();
-                Runnable* r = new Runnable([wGameId, wIsPlayerLeft](Runnable*){
-                    // On doit mettre a jour le dernier maillet qui a touche a la rondelle pour eviter un crash dans la detection de collision avec les bonus
-                    NoeudMaillet* wMaillet;
-                    Partie* wGameRunnable = GameManager::obtenirInstance()->getGame(wGameId);
-                    if(wIsPlayerLeft)
-                    {
-                        if(wGameRunnable->obtenirJoueurGauche())
-                            wMaillet = wGameRunnable->obtenirJoueurGauche()->getControlingMallet();
-                    }
-                    else
-                    {
-                        if(wGameRunnable->obtenirJoueurDroit())
-                            wMaillet = wGameRunnable->obtenirJoueurDroit()->getControlingMallet();
-                    }
-
-                    if(wGameRunnable->getField())
-                    {
-                        NoeudRondelle* wPuck = wGameRunnable->getField()->getPuck();
-                        if(wPuck)
-                        {
-                            wPuck->setLastHittingMallet(wMaillet);
-                        }
-                    }
-                });
-                RazerGameUtilities::RunOnUpdateThread(r,true);
-                break;
-            }
-        }
     }
 
 

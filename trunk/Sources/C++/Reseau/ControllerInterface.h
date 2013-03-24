@@ -48,7 +48,7 @@ public:
     virtual std::string authenticate(const std::string& pUsername, const std::string& pPassword) {return "";}
 
     // Retourne la liste des joueurs connectes qui sont assicies a cette partie
-    virtual void getPlayersInGame(int pGameId, std::vector<const std::string>& pPlayerList);
+    virtual void getPlayersInGame(int pGameId, std::vector<const std::string*>& pPlayerList);
 
     virtual Partie* getGame(int pGameId);
 

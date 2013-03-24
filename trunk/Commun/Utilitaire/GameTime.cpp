@@ -19,11 +19,9 @@
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-GameTime::GameTime(void)
+GameTime::GameTime(void): paused_(false)
 {
 	begin_time_ = clock();
-    pause_time_ = begin_time_;
-    paused_ = true;
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -37,11 +35,9 @@ GameTime::GameTime(void)
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-GameTime::GameTime( clock_t currentTime )
+GameTime::GameTime( clock_t currentTime ): paused_(false)
 {
 	begin_time_ = currentTime;
-    pause_time_ = currentTime;
-    paused_ = true;
 }
 
 /////////////////////////////////////////////////////////////////////////

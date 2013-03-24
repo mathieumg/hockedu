@@ -25,7 +25,7 @@ public:
 	/// Contructeur
 	NoeudGroupe(std::string type, std::string typeEnfants = "");
 	/// Destructeur
-	virtual ~NoeudGroupe(void);
+	~NoeudGroupe(void);
 
     /// fonction de comparaison de 2 noeuds
     virtual bool equals(NoeudAbstrait* n)

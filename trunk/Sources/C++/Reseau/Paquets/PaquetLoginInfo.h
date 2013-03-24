@@ -41,6 +41,7 @@ public:
 	inline void setPassword(const std::string& val) { mPassword = val; }
 
 	~PaquetLoginInfo();
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////

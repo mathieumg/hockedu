@@ -58,7 +58,7 @@ class VisitorGatherProperties :
 public:
 	/// Destructeur
     VisitorGatherProperties(FullProperties* properties);
-    virtual ~VisitorGatherProperties(void);
+    ~VisitorGatherProperties(void);
 
 	/// Visitation d'un noeud abstrait
 	virtual void visiterNoeudAbstrait( NoeudAbstrait* noeud );

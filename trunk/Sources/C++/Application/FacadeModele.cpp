@@ -28,6 +28,10 @@
 #include "Projection.h"
 #include "LignePointillee.h"
 #include "RazerGameUtilities.h"
+
+#if BOX2D_INTEGRATED  
+#include <Box2D/Box2D.h>
+#endif
 #include "Utilitaire.h"
 #include "AideGL.h"
 #include "CompteurAffichage.h"
@@ -40,6 +44,7 @@
 #include "SourisEtatDeplacerFenetre.h"
 #include "VisiteurCollision.h"
 #include "VisiteurSuppression.h"
+#include "VisiteurDeplacement.h"
 #include "SoundFMOD.h"
 #include <algorithm>
 #include "DecodeString.h"
@@ -79,7 +84,6 @@
 #include "ExceptionJeu.h"
 #include "GameManager.h"
 #include "BonusModifierFactory.h"
-#include "SoundFMOD.h"
 
 /// Pointeur vers l'instance unique de la classe.
 FacadeModele* FacadeModele::instance_ = 0;
@@ -345,9 +349,8 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
 
     // Initialisation des modèles
     GestionnaireModeles::obtenirInstance()->initialiser();
-    // init fmod first because config scene will need to modify it
-    SoundFMOD::obtenirInstance()->init();
     ConfigScene::obtenirInstance();
+    SoundFMOD::obtenirInstance();
     GestionnaireHUD::obtenirInstance();
 
 #if !SHIPPING
@@ -482,7 +485,7 @@ void FacadeModele::enregistrerJoueurs( const std::string& nomFichier /*= ""*/, C
         joueurs = &profilsVirtuels_;
 
     XmlDocument document ;
-    XMLUtils::CreateDocument(document);
+    XMLUtils::CreateDocument(document,"1.0","","");
 
     // Creation du noeud du terrain
     ConfigScene::obtenirInstance()->creerDOM((XmlNode&)*document.GetElem(),*joueurs);
@@ -548,7 +551,7 @@ void FacadeModele::enregistrerTournoi( Tournoi* tournoi )
     if(tournoi == 0)
         tournoi = tournoi_;
     XmlDocument document ;
-    XMLUtils::CreateDocument(document);
+    XMLUtils::CreateDocument(document,"1.0","","");
     // Écrire la déclaration XML standard...
     // On enregistre les différentes configurations.
     XMLUtils::LinkEndChild(document,tournoi->creerTournoiXML());
@@ -605,7 +608,7 @@ void FacadeModele::libererMemoire()
     if(obtenirPartieCourante() && !obtenirPartieCourante()->faitPartieDunTournoi())
         GameManager::obtenirInstance()->removeGame(partieCourante_);
 
-#if BOX2D_DEBUG
+#if BOX2D_INTEGRATED  
     if(DebugRenderBox2D::mInstance)delete DebugRenderBox2D::mInstance;
     DebugRenderBox2D::mInstance = NULL;
 #endif
@@ -1049,32 +1052,21 @@ bool FacadeModele::passageModeJeu()
     //    adversaire_ = SPJoueurAbstrait(new JoueurHumain("Joueur Droit"));
 
 
-    // Jeu local
+
     if(prochainePartie_ == -1)
     {
         partieCourante_ = GameManager::obtenirInstance()->addNewGame(SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")));
-
-        GameManager::obtenirInstance()->setMapForGame(partieCourante_, getCurrentMap());
-        if(!GameManager::obtenirInstance()->startGame(partieCourante_))
-        {
-            return false;
-        }
     }
-    // Jeu en reseau
     else
     {
         partieCourante_ = prochainePartie_;
         prochainePartie_ = -1;
-
-        GameManager::obtenirInstance()->setMapForGame(partieCourante_, getCurrentMap());
-        if(!GameManager::obtenirInstance()->getGameReady(partieCourante_))
-        {
-            return false;
-        }
-        GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(true);
     }
 
-    
+    if(!GameManager::obtenirInstance()->startGame(partieCourante_, getCurrentMap()))
+    {
+        return false;
+    }
 
     // On enregistre apres avoir desactiver les points pour ne pas les voir si on reinitialise la partie
 	Partie* wGame = GameManager::obtenirInstance()->getGame(partieCourante_);
@@ -1513,7 +1505,7 @@ bool FacadeModele::verifierValiditeMap( Terrain* terrain/*= 0 */ )
 void FacadeModele::creerTerrainParDefaut( )
 {
     GestionnaireEvenements::modifierEtat(ETAT_MODE_EDITION);
-    mEditionField->creerTerrainParDefaut(FICHIER_TERRAIN_EN_COURS);
+    mEditionField->createRandomField(FICHIER_TERRAIN_EN_COURS);
 }
 
 
@@ -1604,8 +1596,8 @@ jobject FacadeModele::obtenirAttributsNoeudSelectionne(JNIEnv* env)
     if(getEditionField())
     {
         checkf(getEditionField()->getZoneEdition(),"terrain sans zone édition");
-        longueurTable = getEditionField()->getZoneEdition()->obtenirLimiteExtX();
-        largeurTable  = getEditionField()->getZoneEdition()->obtenirLimiteExtY();
+        longueurTable = getEditionField()->getZoneEdition()->obtenirLimiteExtLongueur();
+        largeurTable  = getEditionField()->getZoneEdition()->obtenirLimiteExtLargeur();
         
         NoeudTable* table = getEditionField()->getTable();
         if(!table)
@@ -2074,12 +2066,7 @@ void FacadeModele::getSelectedNodes(ConteneurNoeuds& pSelectedNodes) const
 {
     if(getEditionField())
     {
-        auto nodes = getEditionField()->getSelectedNodes();
-        pSelectedNodes.reserve(nodes.size());
-        for(auto it= nodes.begin(); it != nodes.end(); ++it)
-        {
-            pSelectedNodes.push_back(*it);
-        }
+        getEditionField()->getSelectedNodes(pSelectedNodes);
     }
 }
 

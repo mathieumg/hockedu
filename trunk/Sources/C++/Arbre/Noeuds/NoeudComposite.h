@@ -52,9 +52,8 @@ public:
 	virtual void empty();
 	/// Permet d'enlever l'enfant de la liste interne, sans libérer la mémoire de celui-ci
 	void unlinkChild( const NoeudAbstrait* noeud );
-
-    /// Efface le noeud passé en paramètre.
-    virtual bool erase( const NoeudAbstrait* noeud );
+	/// Efface le noeud passé en paramètre.
+	virtual void erase( const NoeudAbstrait* noeud );
 
 	/// Cherche un noeud par le type (sur un noeud constant).
 	virtual const NoeudAbstrait* find( const std::string& typeNoeud ) const;
@@ -97,7 +96,6 @@ public:
 	/// Retourne le conteneur d'enfant du noeud courant
 	ConteneurNoeuds& obtenirEnfants() { return enfants_; }
 
-#if MANUAL_PHYSICS_DETECTION
 	/// Application de la physique des noeuds la ou applicable
 	virtual void collisionDetection( const float& temps );
 	/// Mise a Jour de la position de ce noeud
@@ -105,8 +103,8 @@ public:
 	/// Repositionnement des modele pour enlever la penetration entre les noeuds
 	virtual void fixOverlap();
 	/// Ajustement de la vitesse des noeuds
+
 	virtual void fixSpeed( const float& temps );
-#endif
 	
 	/// Retourne les racines des sous-arbres selectionnees
     void getSelectedNodes(ConteneurNoeuds& pSelectedNodes) const;
@@ -117,7 +115,6 @@ public:
     void CreateAndInitNodesFromXml( const XmlElement* child );
 
 protected:
-
 
 	/// La liste des enfants.
 	ConteneurNoeuds enfants_;

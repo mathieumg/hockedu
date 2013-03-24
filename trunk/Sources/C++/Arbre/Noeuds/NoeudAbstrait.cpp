@@ -13,10 +13,9 @@
 #include "Singleton.h"
 #include "XMLUtils.h"
 
-#endif
-
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
+#endif
 #endif
 
 #include "NoeudAbstrait.h"
@@ -144,9 +143,8 @@ void NoeudAbstrait::empty()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-bool NoeudAbstrait::erase( const NoeudAbstrait* noeud )
+void NoeudAbstrait::erase( const NoeudAbstrait* noeud )
 {
-    return false;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -166,7 +164,9 @@ void NoeudAbstrait::deleteThis()
     // On enleve les noeud selectionné et tous ces enfants.
     // Si on ne veut pas enlever les enfants il faudrait modifier
     // la méthode erase() pour que les enfants soit relié au parent
-    if(!getParent() || !getParent()->erase(this))
+    if(getParent() != 0)
+        getParent()->erase(this);
+    else
     {
         empty();
         delete this;
@@ -581,8 +581,7 @@ void NoeudAbstrait::setScale( const Vecteur3& echelleCourante )
 	mScale[VX] = echelleCourante[VX];
 	mScale[VY] = echelleCourante[VY];
 	mScale[VZ] = echelleCourante[VZ];
-    updateRadius();
-    updateMatrice();
+	updateMatrice();
     updatePhysicBody();
 }
 
@@ -619,7 +618,7 @@ void NoeudAbstrait::setAngle( float angle )
 {
 	mAngle = angle;
 #if BOX2D_INTEGRATED  
-    if(!isSyncFromB2Callback() && mPhysicBody)
+    if(mPhysicBody)
     {
         mPhysicBody->SetTransform(mPhysicBody->GetPosition(),(float32)utilitaire::DEG_TO_RAD(mAngle));
     }
@@ -771,10 +770,8 @@ XmlElement* NoeudAbstrait::createXmlNode()
     XmlWriteNodePosition(elementNoeud);
     XMLUtils::writeArray(mScale.c_arr(),3,elementNoeud,"echelle");
     XMLUtils::writeAttribute(elementNoeud,"angle",mAngle);
-
     XMLUtils::writeAttribute(elementNoeud,"affiche",isVisible());
     XMLUtils::writeAttribute(elementNoeud,"selectionnable",canBeSelected());
-    XMLUtils::writeAttribute(elementNoeud,"selected",IsSelected());
 
 	return elementNoeud;
 }
@@ -838,17 +835,14 @@ bool NoeudAbstrait::initFromXml( const XmlElement* element )
     if( !XMLUtils::readAttribute(element,"angle",floatElem) )
         throw ExceptionJeu("%s: Error reading node's angle", mType.c_str());
     setAngle(floatElem);
-    if( !XMLUtils::readAttribute(element,"affiche",intElem) )
+    
+	if( !XMLUtils::readAttribute(element,"affiche",intElem) )
         throw ExceptionJeu("%s: Error reading node's visibility flag", mType.c_str());
     setVisible(intElem==1);
 
     if( !XMLUtils::readAttribute(element,"selectionnable",intElem) )
         throw ExceptionJeu("%s: Error reading node's selection flag", mType.c_str());
     setCanBeSelected(intElem==1);
-    
-    if( !XMLUtils::readAttribute(element,"selected",intElem) )
-        intElem = 0; // backward compatibility
-    setSelection(intElem==1);
 	
 	return true;
 }
@@ -893,7 +887,7 @@ void NoeudAbstrait::setPosition( const Vecteur3& positionRelative )
 {
     mPosition = positionRelative;
 #if BOX2D_INTEGRATED  
-    if(!isSyncFromB2Callback() && mPhysicBody)
+    if(mPhysicBody)
     {
         b2Vec2 pos;
         utilitaire::VEC3_TO_B2VEC(mPosition,pos);
@@ -996,16 +990,9 @@ void NoeudAbstrait::synchroniseTransformFromB2CallBack( void* node, const b2Tran
 void NoeudAbstrait::synchroniseTransformFromB2( const b2Transform& transform)
 {
 #if BOX2D_INTEGRATED 
-    /// permet d'éviter la recursion suite aux appels de setPosition et setAngle
-    setSyncFromB2CallBack(true);
-
     // TODO:: a verifier avec la position du parent
-    Vecteur3 pos;
-    utilitaire::B2VEC_TO_VEC3(pos,transform.p);
-    setPosition(pos);
-    setAngle(utilitaire::RAD_TO_DEG(transform.q.GetAngle()));
-
-    setSyncFromB2CallBack(false);
+    utilitaire::B2VEC_TO_VEC3(mPosition,transform.p);
+    mAngle = utilitaire::RAD_TO_DEG(transform.q.GetAngle());
 #endif
 }
 
@@ -1080,8 +1067,7 @@ bool NoeudAbstrait::equals( NoeudAbstrait* n)
     return !!n &&
     mType == n->mType &&
     mModePolygones == n->mModePolygones &&
-    // permet de donner une certaine tolerance
-    (mPosition-n->mPosition).norme2() < 1 &&
+    mPosition == n->mPosition &&
     mFlags == n->mFlags &&
     mScale == n->mScale &&
     mRadius == n->mRadius;
@@ -1198,7 +1184,6 @@ void NoeudAbstrait::playTick( float temps )
     }
 
 }
-
 
 
 

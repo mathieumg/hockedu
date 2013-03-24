@@ -254,40 +254,6 @@ void NodeWallEdition::acceptVisitor( VisiteurNoeud& v )
     v.visiterNoeudMuretEdition(this);
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NodeWallEdition::updateCornerPosition()
-///
-/// /*Description*/
-///
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NodeWallEdition::updateCornerPosition()
-{
-    mUpdatingCornerPosition= true;
-
-    NodeControlPoint* p1 = getControlPoint(0);
-    NodeControlPoint* p2 = getControlPoint(1);
-
-    if(p1 && p2)
-    {
-        Vecteur3 deplacement( cos(utilitaire::DEG_TO_RAD(mAngle) ), sin(utilitaire::DEG_TO_RAD(mAngle) ) );
-        deplacement *= mScale[VX];
-        deplacement /= 2.0;
-
-        p1->setPosition(mPosition+deplacement);
-        p2->setPosition(mPosition-deplacement);
-    }
-
-    if(!isSyncFromB2Callback())
-    {
-        updatePhysicBody();
-    }
-    mUpdatingCornerPosition= false;
-}
-
 #if MIKE_DEBUG_
 PRAGMA_ENABLE_OPTIMIZATION
 #endif

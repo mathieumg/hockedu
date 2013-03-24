@@ -37,7 +37,7 @@
             dest = src;                                                   \
             mFlags.SetFlag(true,ASSIGNED_##Flag);                         \
         }                                                                 \
-        mProperties->mPropertyFlagAssignment = mFlags.mValue;         \
+        mProperties->mPropertyFlagAssignment = mFlags.GetValue();         \
     }
 
 void VisitorGatherProperties::GetPos(NoeudAbstrait* noeud)
@@ -65,7 +65,7 @@ void VisitorGatherProperties::GetPos(NoeudAbstrait* noeud)
     }
     mFlags.SetFlag(true,ASSIGNED_POSITIONX);
     mFlags.SetFlag(true,ASSIGNED_POSITIONY);
-    mProperties->mPropertyFlagAssignment = mFlags.mValue;
+    mProperties->mPropertyFlagAssignment = mFlags.GetValue();
 }
 
 
@@ -194,12 +194,8 @@ void VisitorGatherProperties::visiterNoeudMaillet( NoeudMaillet* noeud )
 {
     Vecteur3 scale;
     noeud->getScale(scale);
-    SET_PROPERTY(SCALE,scale[VX],mProperties->mScale);
+    SET_PROPERTY(SCALE,scale[VY],mProperties->mScale);
     GetPos(noeud);
-
-    float angle = noeud->getAngle();
-    SET_PROPERTY(ANGLE,angle,mProperties->mAngle);
-
 }
 
 
@@ -218,13 +214,10 @@ void VisitorGatherProperties::visiterNoeudPortail( NoeudPortail* noeud )
 {
     Vecteur3 scale;
     noeud->getScale(scale);
-    SET_PROPERTY(SCALE,scale[VX],mProperties->mScale);
+    SET_PROPERTY(SCALE,scale[VY],mProperties->mScale);
     GetPos(noeud);
     auto force = noeud->getAttractionForce();
     SET_PROPERTY(ATTRACTION,force,mProperties->mAttraction);
-
-    float angle = noeud->getAngle();
-    SET_PROPERTY(ANGLE,angle,mProperties->mAngle);
 }
 
 
@@ -243,11 +236,8 @@ void VisitorGatherProperties::visiterNoeudRondelle( NoeudRondelle* noeud )
 {
     Vecteur3 scale;
     noeud->getScale(scale);
-    SET_PROPERTY(SCALE,scale[VX],mProperties->mScale);
+    SET_PROPERTY(SCALE,scale[VY],mProperties->mScale);
     GetPos(noeud);
-
-    float angle = noeud->getAngle();
-    SET_PROPERTY(ANGLE,angle,mProperties->mAngle);
 }
 
 
@@ -272,8 +262,8 @@ void VisitorGatherProperties::visiterNoeudTable( NoeudTable* noeud )
         auto zone = field->getZoneEdition();
         if(zone)
         {
-            auto y = zone->obtenirLimiteExtY();
-            auto x = zone->obtenirLimiteExtX();
+            auto y = zone->obtenirLimiteExtLargeur();
+            auto x = zone->obtenirLimiteExtLongueur();
             SET_PROPERTY(ZONE_X,x,mProperties->mZoneEditionX);
             SET_PROPERTY(ZONE_Y,y,mProperties->mZoneEditionY);
         }
@@ -318,13 +308,10 @@ void VisitorGatherProperties::visiterNoeudAccelerateur( NoeudAccelerateur* noeud
 {
     Vecteur3 scale;
     noeud->getScale(scale);
-    SET_PROPERTY(SCALE,scale[VX],mProperties->mScale);
+    SET_PROPERTY(SCALE,scale[VY],mProperties->mScale);
     GetPos(noeud);
     auto accel = noeud->obtenirBonusAccel();
     SET_PROPERTY(ACCELERATION,accel,mProperties->mAcceleration);
-
-    float angle = noeud->getAngle();
-    SET_PROPERTY(ANGLE,angle,mProperties->mAngle);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -365,9 +352,6 @@ void VisitorGatherProperties::visiterNodeBonus( NodeBonus* noeud )
     noeud->getScale(scale);
     SET_PROPERTY(SCALE,scale[VY],mProperties->mScale);
     GetPos(noeud);
-
-    float angle = noeud->getAngle();
-    SET_PROPERTY(ANGLE,angle,mProperties->mAngle);
 }
 
 

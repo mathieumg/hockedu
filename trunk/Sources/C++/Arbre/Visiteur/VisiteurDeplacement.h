@@ -2,7 +2,7 @@
 /// @file VisiteurDeplacement.h
 /// @author Mathieu Parent, Michael Ferris
 /// @date 2012-02-06
-/// @version 2.0 
+/// @version 1.0 
 ///
 /// @addtogroup razergame RazerGame
 /// @{
@@ -13,8 +13,7 @@
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class VisiteurCollision
-/// @brief Visiteur pour les déplacement des objets, n'effectue pas le parcours
-///         de l'arbre, doit etre lance sur les noeuds que l'on veut deplacer uniquement
+/// @brief Visiteur pour les déplacement des objets
 ///
 /// @author Mathieu Parent, Michael Ferris
 /// @date 2012-02-06
@@ -24,12 +23,16 @@ class VisiteurDeplacement :
 {
 public:
 	/// Constructeur par paramètres
-	VisiteurDeplacement(const Vecteur2& deplacementVirtuel);
+	VisiteurDeplacement(Vecteur2 deplacementVirtuel, bool ignoreSelection = false);
+	/// Constructeur par paramètres
+	VisiteurDeplacement(Vecteur3 deplacementVirtuel, bool ignoreSelection = false);
 	/// Destructeur
-	virtual ~VisiteurDeplacement(void);
+	~VisiteurDeplacement(void);
 
 	/// Visitation d'un noeud abstrait
 	virtual void visiterNoeudAbstrait( NoeudAbstrait* noeud );
+	/// Visitation d'un noeud composite
+	virtual void visiterNoeudComposite( NoeudComposite* noeud );
 	/// Visitation d'un noeud muret
 	virtual void visiterNoeudMuret( NodeWallAbstract* noeud );
 	/// Visitation d'un noeud but
@@ -40,6 +43,8 @@ public:
 	virtual void visiterNoeudPortail( NoeudPortail* noeud );
 	/// Visitation d'un noeud rondelle
 	virtual void visiterNoeudRondelle( NoeudRondelle* noeud );
+	/// Visitation d'un noeud table
+	virtual void visiterNoeudTable( NoeudTable* noeud );
 	/// Visitation d'un noeud point
 	virtual void visiterNoeudPoint( NoeudPoint* noeud );
 	/// Visitation d'un noeud accélérateur
@@ -49,6 +54,8 @@ public:
 
 
 private:
+	/// Indique si on ignore la sélection pour faire le déplacement
+	bool ignoreSelection_;
 	/// Vecteur de déplacement pour les éléments
 	Vecteur2 deplacement_;
 

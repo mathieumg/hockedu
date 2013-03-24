@@ -8,7 +8,7 @@ class VisiteurFunction :
 {
 public:
     VisiteurFunction(VisiteurFunctionFunction pFunc, void * pUserData = NULL);
-    virtual ~VisiteurFunction(void);
+    ~VisiteurFunction(void);
 
     /// Visitation d'un noeud abstrait
     virtual void visiterNoeudAbstrait( NoeudAbstrait* noeud );

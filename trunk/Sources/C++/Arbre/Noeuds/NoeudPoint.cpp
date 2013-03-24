@@ -16,6 +16,7 @@
 #include "XMLUtils.h"
 #include "VisiteurNoeud.h"
 #include "NoeudBut.h"
+#include "VisiteurDeplacement.h"
 
 
 const float NoeudPoint::DEFAULT_RADIUS = 10;
@@ -64,7 +65,6 @@ NoeudPoint::NoeudPoint( const std::string& typeNoeud, float coordX, float coordY
 ////////////////////////////////////////////////////////////////////////
 NoeudPoint::~NoeudPoint()
 {
-    move3DModel(positionInitiale_);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -240,15 +240,16 @@ bool NoeudPoint::validerDeplacement( const Vecteur3& pos, const Vecteur2& deplac
         if( t )
         {
             ZoneEdition* zone = t->getZoneEdition();
+            checkf(zone,"Tentative de déplacer un point sans zone édition, s'assurer qu'on est en mode édition");
             if(zone)
             {
                 Vecteur3 deplace2(deplace[VX],deplace[VY],0);
                 Vecteur3 cible=pos+deplace2;
-                float valeurLimiteInt = (axe == VX) ? zone->obtenirLimiteIntX() : zone->obtenirLimiteIntY();
+                float valeurLimiteInt = (axe == VX) ? zone->obtenirLimiteIntLongueur() : zone->obtenirLimiteIntLargeur();
                 if(utilitaire::ABS(cible[axe]) < valeurLimiteInt)
                     return false;
 
-                float valeurLimiteExt = (axe == VX) ? zone->obtenirLimiteExtX() : zone->obtenirLimiteExtY();
+                float valeurLimiteExt = (axe == VX) ? zone->obtenirLimiteExtLongueur() : zone->obtenirLimiteExtLargeur();
                 if(utilitaire::ABS(cible[axe]) > valeurLimiteExt)
                     return false;
 
@@ -295,8 +296,7 @@ XmlElement* NoeudPoint::createXmlNode()
 
     XmlWriteNodePosition(elementNoeud);
     XMLUtils::writeAttribute<int>(elementNoeud,"typePosNoeud",typePosNoeud_);
-    XMLUtils::writeAttribute(elementNoeud,"selection",IsSelected());
-
+    
 	return elementNoeud;
 }
 
@@ -343,12 +343,6 @@ bool NoeudPoint::initFromXml( const XmlElement* element )
     auto terrain = getField();
     setVisible(!terrain || !terrain->IsGameField());
 
-    bool selected;
-    if(XMLUtils::readAttribute(element,"selection",selected))
-    {
-        setSelection(selected);
-    }
-
 	return true;
 }
 
@@ -370,9 +364,6 @@ const GroupeTripleAdresseFloat* NoeudPoint::obtenirListePointsAChanger() const
 	return 0;
 }
 
-
-
-
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void NoeudPoint::setPosition( const Vecteur3& positionRelative )
@@ -386,45 +377,26 @@ const GroupeTripleAdresseFloat* NoeudPoint::obtenirListePointsAChanger() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudPoint::setPosition( const Vecteur3& positionRelative )
 {
-    move3DModel(positionRelative);
+#if WIN32  
+	const GroupeTripleAdresseFloat* liste = obtenirListePointsAChanger();
+    Vecteur3 deplacement(positionRelative-mPosition);
+    if(liste)
+	{
+		for(unsigned int i=0; i<liste->size(); i++)
+		{
+			*(liste->get(i)[VX]) += (float)deplacement[VX];
+			*(liste->get(i)[VY]) += (float)deplacement[VY];
+		}
+	}
+    else
+    {
+        NoeudTable::queueTableModelMove(typePosNoeud_,deplacement);
+    }
+#endif
+
     // assigner la position du point en premier pour que la table puisse l'utiliser à sa mise a jour
     NoeudAbstrait::setPosition(positionRelative);
     PositionSubject::signalObservers();
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudPoint::move3DModel( const Vecteur3& targetPosition )
-///
-/// /*Description*/
-///
-/// @param[in] const Vecteur3 & targetPosition
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudPoint::move3DModel( const Vecteur3& targetPosition )
-{
-#if WIN32  
-    // onlny edit model if the table is present
-    if(getField() && getField()->getTable())
-    {
-        const GroupeTripleAdresseFloat* liste = obtenirListePointsAChanger();
-        Vecteur3 deplacement(targetPosition-mPosition);
-        if(liste)
-        {
-            for(unsigned int i=0; i<liste->size(); i++)
-            {
-                *(liste->get(i)[VX]) += (float)deplacement[VX];
-                *(liste->get(i)[VY]) += (float)deplacement[VY];
-            }
-        }
-        else
-        {
-            NoeudTable::queueTableModelMove(typePosNoeud_,deplacement);
-        }
-    }
-#endif
 }
 
 

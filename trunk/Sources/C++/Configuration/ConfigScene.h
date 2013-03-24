@@ -93,17 +93,7 @@ private:
 	// Lumieres 0-7
 	std::vector<LumiereAbstraite*> conteneurLumiere_;
 
-    bool mAutoSaveEnable;
-    float mAutoSaveDelai; // in seconds
-
 public:
-    /// Accessors of mAutoSaveEnable
-    inline bool IsAutoSaveEnable() const { return mAutoSaveEnable; }
-    inline void setAutoSsveEnable(const bool& pVal) { mAutoSaveEnable = pVal; }
-
-    /// Accessors of mAutoSaveDelai
-    inline float getAutoSaveDelai() const { return mAutoSaveDelai; }
-    inline void setAutoSaveDelai(const float& pVal) { mAutoSaveDelai = pVal; }
 
 	/// Nom du fichier XML dans lequel doit se trouver la configuration.
 	static const std::string FICHIER_CONFIGURATION;

@@ -27,7 +27,7 @@ public:
    /// Constructeur à partir du type du noeud.
    NodeWallAbstract(const std::string& typeNoeud);
    /// Destructeur.
-   virtual ~NodeWallAbstract();
+   ~NodeWallAbstract();
 
 
    /// fonction de comparaison de 2 noeuds
@@ -66,23 +66,12 @@ public:
 
    /// Recreates the physics body according to current attributes
    virtual void updatePhysicBody();
-
-   /// Permet de modifier l'angle du muret et garde les coins a jour
-   virtual void setAngle(float angle);
-   /// Mutateur des facteurs d'echelle et conserve les coins a jour
-   virtual void setScale(const Vecteur3& echelleCourante);
-   /// Assigne la position relative du noeud et conserve les coins a jour
-   inline virtual void setPosition( const Vecteur3& positionRelative);
-
-   /// Update corner position from angle, scale and current position.
-   virtual void updateCornerPosition() = 0;
-
    static const Vecteur3 DEFAULT_SIZE;
+   virtual PhysicsCategory GetCategory() {return CATEGORY_WALL;}
 protected:
 private:
    /// Coefficient different different pour chaque muret, sauvegarde en XML
    float coefRebond_;
-
 
    /// Accessors
 public:

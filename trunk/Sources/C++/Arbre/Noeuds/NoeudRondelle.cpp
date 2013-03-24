@@ -27,12 +27,6 @@
 #include "UsineNoeud.h"
 #include "ExceptionJeu.h"
 
-#if MANUAL_PHYSICS_DETECTION
-#include "SoundFMOD.h"
-
-#endif
-
-
 #ifndef __APPLE__
 #include "FacadeModele.h"
 #endif
@@ -170,10 +164,6 @@ void NoeudRondelle::acceptVisitor( VisiteurNoeud& v )
     v.visiterNoeudRondelle(this);
 }
 
-
-
-
-#if MANUAL_PHYSICS_DETECTION
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void NoeudRondelle::collisionDetection( float temps )
@@ -187,6 +177,7 @@ void NoeudRondelle::acceptVisitor( VisiteurNoeud& v )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::collisionDetection( const float& temps )
 {
+#if !BOX2D_INTEGRATED && WIN32
     if(!table_)
     {
         if(getField())
@@ -225,10 +216,10 @@ void NoeudRondelle::collisionDetection( const float& temps )
         if(groupe)
         {
             // Parcours de la liste des portails
-            unsigned int nbEnfant = groupe->childCount();
+            unsigned int nbEnfant = groupe->obtenirNombreEnfants();
             for(unsigned int i = 0; i < nbEnfant; ++i)
             {
-                NoeudPortail* portail = dynamic_cast<NoeudPortail*>(groupe->find(i));
+                NoeudPortail* portail = dynamic_cast<NoeudPortail*>(groupe->chercher(i));
                 if(portail)
                 {
                     float sommeRayon = (portail->getRadius())/5 + getRadius();
@@ -241,7 +232,7 @@ void NoeudRondelle::collisionDetection( const float& temps )
                         int noPortailDeSortie = 0;
                         while((noPortailDeSortie = rand()%nbEnfant) == i);
 
-                        NoeudPortail* portailDeSortie = dynamic_cast<NoeudPortail*>(groupe->find(noPortailDeSortie));
+                        NoeudPortail* portailDeSortie = dynamic_cast<NoeudPortail*>(groupe->chercher(noPortailDeSortie));
                         portailDeSortie->setIsAttractionFieldActive(false);
                         anciennePos_ = mPosition = portailDeSortie->getPosition();
                         enfoncement_.remetAZero();
@@ -307,10 +298,10 @@ void NoeudRondelle::collisionDetection( const float& temps )
         groupe = table_->obtenirGroupe(RazerGameUtilities::NOM_ACCELERATEUR);
         if(groupe)
         {
-            unsigned int nbEnfant = groupe->childCount();
+            unsigned int nbEnfant = groupe->obtenirNombreEnfants();
             for(unsigned int i=0; i<nbEnfant; ++i)
             {
-                NoeudAccelerateur* accel = dynamic_cast<NoeudAccelerateur*>(groupe->find(i));
+                NoeudAccelerateur* accel = dynamic_cast<NoeudAccelerateur*>(groupe->chercher(i));
                 if(accel)
                 {
                     float sommeRayon = accel->getRadius()+getRadius();
@@ -318,10 +309,10 @@ void NoeudRondelle::collisionDetection( const float& temps )
                     // Collision
                     if(distance.norme2() <= sommeRayon*sommeRayon)
                     {
-                        if(accel->IsBoostActive())
+                        if(accel->estActiver())
                         {
                             bonusAccelResultant_ *= accel->obtenirBonusAccel();
-                            accel->ActivateBoost(false);
+                            accel->modifierActiver(false);
                             SoundFMOD::obtenirInstance()->playEffect(effect(ACCELERATOR_EFFECT));
                         }
                     }
@@ -374,6 +365,7 @@ void NoeudRondelle::collisionDetection( const float& temps )
             }
         }
     }
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -389,10 +381,12 @@ void NoeudRondelle::collisionDetection( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::positionUpdate( const float& temps )
 {
+#if !BOX2D_INTEGRATED && WIN32
     anciennePos_ = mPosition;
     mPosition += mVelocite*temps;
     mAngle = (float)((int)(mAngle + 5*mVitesseRotation)%360);
     updateMatrice();
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -407,6 +401,7 @@ void NoeudRondelle::positionUpdate( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::fixOverlap()
 {
+#if !BOX2D_INTEGRATED && WIN32
     if(!table_)
     {
         if(getField())
@@ -461,6 +456,7 @@ void NoeudRondelle::fixOverlap()
         
     }
     mPosition[VZ] = 0;
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -476,6 +472,7 @@ void NoeudRondelle::fixOverlap()
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::fixSpeed( const float& temps )
 {
+#if !BOX2D_INTEGRATED && WIN32
     if(!table_)
     {
         if(getField())
@@ -493,11 +490,11 @@ void NoeudRondelle::fixSpeed( const float& temps )
     if(groupe)
     {
         // Parcours de la liste des portails
-        unsigned int nbEnfant = groupe->childCount();
+        unsigned int nbEnfant = groupe->obtenirNombreEnfants();
         for(unsigned int i = 0; i < nbEnfant; ++i)
         {
             // Le portail à traiter
-            NoeudPortail* portail = dynamic_cast<NoeudPortail*>(groupe->find(i));
+            NoeudPortail* portail = dynamic_cast<NoeudPortail*>(groupe->chercher(i));
             if(portail)
             {
                 // Distance entre le centre du portail et le centre de la rondelle
@@ -580,8 +577,8 @@ void NoeudRondelle::fixSpeed( const float& temps )
 
     mVelocite[VZ] = 0;
     mVitesseRotation *= 0.99f;
-}
 #endif
+}
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -595,7 +592,7 @@ void NoeudRondelle::fixSpeed( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void NoeudRondelle::validerPropriteteTablePourJeu() 
 {
-#if MANUAL_PHYSICS_DETECTION
+#if !BOX2D_INTEGRATED && WIN32
     if(getField())
     {
         table_ = getField()->getTable();
@@ -664,18 +661,8 @@ void NoeudRondelle::updatePhysicBody()
         myFixtureDef.restitution = 0.95f;
 
         // Il s'agit ici d'une rondelle qui peut entre en collision avec un maillet, un mur, un portail ou un boost
-        if(IsInGame())
-        {
-            myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
-            /// La puck entre en collision avec tout !
-            myFixtureDef.filter.maskBits = 0xFFFF;
-        }
-        else
-        {
-            /// En edition la rondelle et les mailet pourront etre par-dessus des bonus, boost, portals
-            myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
-            myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY | CATEGORY_WALL;
-        }
+        myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
+        myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY | CATEGORY_WALL | CATEGORY_PORTAL | CATEGORY_BOOST | CATEGORY_BONUS | CATEGORY_GOALIE;
 
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
@@ -704,38 +691,6 @@ void NoeudRondelle::updatePhysicBody()
 
 }
 
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn const std::string& NoeudRondelle::get3DModelKey()
-///
-/// /*Description*/
-///
-///
-/// @return const std::string&
-///
-////////////////////////////////////////////////////////////////////////
-const std::string& NoeudRondelle::get3DModelKey() const
-{
-    return Super::get3DModelKey();
-}
-
-void NoeudRondelle::modifierVelocite( const Vecteur3& val )
-{
-#if BOX2D_INTEGRATED
-    auto body = getPhysicBody();
-    if(body)
-    {
-        b2Vec2 velocity;
-        utilitaire::VEC3_TO_B2VEC(val,velocity);
-        body->SetLinearVelocity(velocity);
-    }
-#else
-    mVelocite = val;
-#endif
-}
-
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void NoeudRondelle::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
@@ -754,10 +709,7 @@ void NoeudRondelle::appliquerAnimation( const ObjectAnimationParameters& pAnimat
     if(pAnimationResult.CanUpdatedAngle())
         mAngle = pAnimationResult.mAngle[VZ];
     if(pAnimationResult.CanUpdatedScale())
-    {
         mScale = pAnimationResult.mScale;
-        updateRadius();
-    }
     updateMatrice();
 }
 
@@ -775,10 +727,9 @@ Vecteur3 NoeudRondelle::obtenirVelocite() const
 {
 #if BOX2D_INTEGRATED
     Vecteur3 v;
-    auto body = getPhysicBody();
-    if(body)
+    if(mPhysicBody)
     {
-        utilitaire::B2VEC_TO_VEC3(v,body->GetLinearVelocity());
+        utilitaire::B2VEC_TO_VEC3(v,mPhysicBody->GetLinearVelocity());
     }
     return v;
 #else
@@ -786,32 +737,19 @@ Vecteur3 NoeudRondelle::obtenirVelocite() const
 #endif
 }
 
-void NoeudRondelle::modifierVitesseRotation( const float vitesse )
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn const std::string& NoeudRondelle::get3DModelKey()
+///
+/// /*Description*/
+///
+///
+/// @return const std::string&
+///
+////////////////////////////////////////////////////////////////////////
+const std::string& NoeudRondelle::get3DModelKey() const
 {
-#if BOX2D_INTEGRATED
-    auto body = getPhysicBody();
-    if(body)
-    {
-        body->SetAngularVelocity(vitesse);
-    }
-#else
-    mVitesseRotation = vitesse;
-#endif
-}
-
-float NoeudRondelle::obtenirVitesseRotation() const
-{
-#if BOX2D_INTEGRATED
-    auto body = getPhysicBody();
-    float speed = 0;
-    if(body)
-    {
-        speed = body->GetAngularVelocity();
-    }
-    return speed;
-#else
-    return mVelocite;
-#endif
+    return Super::get3DModelKey();
 }
 
 

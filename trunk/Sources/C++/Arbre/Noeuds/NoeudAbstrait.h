@@ -28,7 +28,6 @@
 #include "ExceptionJeu.h"
 #include "Flags.h"
 #include "RazerGameTypeDef.h"
-#include "Enum_Declarations.h"
 
 //Foward Declaration
 class NoeudComposite;
@@ -39,7 +38,19 @@ class Modele3D;
 class Terrain;
 class BonusModifierAbstract;
 
-
+// max of 16 categories because box2D flag have only 16 bits
+enum PhysicsCategory
+{
+    CATEGORY_NONE     = 0x0000,
+    CATEGORY_BOUNDARY = 0x0001,
+    CATEGORY_PUCK     = 0x0002,
+    CATEGORY_MALLET   = 0x0004,
+    CATEGORY_PORTAL   = 0x0008,
+    CATEGORY_BOOST    = 0x0010,
+    CATEGORY_BONUS    = 0x0020,
+    CATEGORY_WALL     = 0x0040,
+    CATEGORY_GOALIE     = 0x0080,
+};
 
 enum NodeFlags
 {
@@ -50,7 +61,6 @@ enum NodeFlags
     NODEFLAGS_HIGHTLIGHT,
     NODEFLAGS_IS_IN_GAME,
     NODEFLAGS_ACTIVE,
-    NODEFLAGS_B2_TRANSFORM_CALLBACK,
     NB_NODEFLAGS
 };
 
@@ -85,9 +95,8 @@ public:
 
 	/// Vide le noeud de ses enfants.
 	virtual void empty();
-    /// Efface le noeud passé en paramètre. Retourne si le noeud a ete supprimer
-    virtual bool erase( const NoeudAbstrait* noeud );
-
+	/// Efface le noeud passé en paramètre.
+	virtual void erase( const NoeudAbstrait* noeud );
     /// correctly delete a node and removes it form its parent.
     /// do not call in destructor because the parent might be initialising the
     // destruction.
@@ -145,7 +154,6 @@ public:
 	/// Permet d'assigner les attribut nécessaire à la collision
 	virtual void setCollisionVisitorAttributes(VisiteurCollision* v);
 
-#if MANUAL_PHYSICS_DETECTION
 	/// Application de la physique des noeuds la ou applicable
 	virtual void collisionDetection( const float& temps ){}
 	/// Misae a Jour de la position de ce noeud
@@ -154,7 +162,6 @@ public:
 	virtual void fixOverlap(){}
 	/// Ajustement de la vitesse des noeuds
 	virtual void fixSpeed( const float& temps ) {}
-#endif
 
 	/// Creation du noeud XML du Noeud
 	virtual XmlElement* createXmlNode();
@@ -178,18 +185,14 @@ public:
     static void synchroniseTransformFromB2CallBack(void* , const struct b2Transform&);
     virtual void synchroniseTransformFromB2(const struct b2Transform&);
 
-    inline bool isSyncFromB2Callback()const {return mFlags.IsFlagSet(NODEFLAGS_B2_TRANSFORM_CALLBACK);}
-    inline void setSyncFromB2CallBack(bool val) {mFlags.SetFlag(val,NODEFLAGS_B2_TRANSFORM_CALLBACK);}
-
     /// Recreates everything needed for the game
     virtual void forceFullUpdate();
 
 	/// Libere la memoire de l'objet Box2D
     virtual void clearPhysicsBody();
 
+
 protected:
-
-
     class b2Body* mPhysicBody;
 
     /// Type du noeud.

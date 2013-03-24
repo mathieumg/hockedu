@@ -44,7 +44,6 @@ ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceiv
     mPaquetRunnables[RONDELLE]              = PaquetRunnable::RunnableRondelleClient;
     mPaquetRunnables[GAME_CREATION_REQUEST] = PaquetRunnable::RunnableGameCreationClient;
     mPaquetRunnables[GAME_CONNECTION]       = PaquetRunnable::RunnableGameConnectionClient;
-    mPaquetRunnables[GAME_EVENT]            = PaquetRunnable::RunnableGameEventClient;
 
 
 
@@ -148,11 +147,4 @@ int ControllerCSharp::HandleMessage( ControllerCSharp* pContext, EventCodes pEve
         return c((char*)username.c_str(),(char*)message.c_str());
     }
     return 0;
-}
-
-
-
-void ControllerCSharp::getPlayersInGame( int pGameId, std::vector<const std::string>& pPlayerList )
-{
-    pPlayerList.push_back("GameServer");
 }

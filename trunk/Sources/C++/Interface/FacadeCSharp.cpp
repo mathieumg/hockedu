@@ -13,7 +13,6 @@
 #include "..\reseau\UsinePaquets\UsinePaquetGameConnection.h"
 #include "..\reseau\UsinePaquets\UsinePaquetRondelle.h"
 #include "VisitorGatherProperties.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetGameEvent.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -31,6 +30,7 @@ int ExecuteUnitTest()
     // Visual Studio interprète le code de retour 0 comme une réussite et le code
     // de retour 1 comme un échec. Nous transmettons le code de retour à Java
     // qui le transmet directement comme code de sortie du programme.
+    system("pause");
     return reussite ? 0 : 1;
 }
 
@@ -77,7 +77,6 @@ void InitDLL()
     wGestionnaireReseau->ajouterOperationReseau(GAME_CREATION_REQUEST, new PacketHandlerGameCreation, new UsinePaquetGameCreation);
     wGestionnaireReseau->ajouterOperationReseau(GAME_CONNECTION, new PacketHandlerGameConnection, new UsinePaquetGameConnection);
     wGestionnaireReseau->ajouterOperationReseau(RONDELLE, new PacketHandlerRondelle, new UsinePaquetRondelle);
-    wGestionnaireReseau->ajouterOperationReseau(GAME_EVENT, new PacketHandlerGameEvent, new UsinePaquetGameEvent);
 
 }
 
@@ -100,7 +99,6 @@ void RequestLogin( char* pUsername, char* pPassword, char* pIpAdress )
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("MasterServer",pIpAdress,TCP);
 //#if MAT_DEBUG_
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer",pIpAdress,TCP);
-    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer",pIpAdress,UDP);
 //#endif
 }
 
@@ -119,27 +117,9 @@ void SendMessageDLL(char * pConnectionId, char* pUsername, char * pMessage)
     }
     catch(...)
     {
+        wPaquet->removeAssociatedQuery();
     }
 }
-
-void SendMessageGameDLL( char * pMessage )
-{
-    PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet(CHAT_MESSAGE);
-    wPaquet->setMessage(pMessage);
-    wPaquet->setIsTargetGroup(true);
-    wPaquet->setGroupName("groupe");
-    wPaquet->setTimestamp(time(0));
-    wPaquet->setOrigin(GestionnaireReseau::obtenirInstance()->getPlayerName());
-
-    try
-    {
-        GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet,TCP);
-    }
-    catch(...)
-    {
-    }
-}
-
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -439,7 +419,6 @@ void connectServerGame( char* pServerIP )
     GestionnaireReseau::obtenirInstance()->setUser("bob2", "");
 
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer", pServerIP, TCP);
-    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer", pServerIP, UDP);
 
 
 
@@ -458,7 +437,6 @@ void requestGameCreationServerGame( char* pGameName )
 {
     PaquetGameCreation* wPaquet = (PaquetGameCreation*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CREATION_REQUEST);
     wPaquet->setGameName(pGameName);
-    wPaquet->setMapName(FacadeModele::FICHIER_TERRAIN_EN_COURS);
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
 }
 
@@ -751,7 +729,7 @@ int GetFieldProperties( FullProperties* fullProperties )
 ////////////////////////////////////////////////////////////////////////
 int SendFieldProperties( FullProperties* fullProperties )
 {
-    return FacadeModele::getInstance()->getEditionField()->applySelectedNodeProperties(fullProperties);
+    return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -769,25 +747,3 @@ int SendTest( BonusProperties* fullProperties )
 {
     return 0;
 }
-
-
-
-
-void testConnexionUDPCSharp()
-{
-    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("Test", "127.0.0.1", UDP);
-
-    FacadePortability::sleep(1000);
-
-    PaquetRondelle* wPaquet = (PaquetRondelle*) GestionnaireReseau::obtenirInstance()->creerPaquet(RONDELLE);
-    wPaquet->setGameId(9000);
-    wPaquet->setPosition(Vecteur3(0.0f,1.0f,2.0f));
-    wPaquet->setVelocite(Vecteur3(3.0f,4.0f,5.0f));
-    wPaquet->setVitesseRotation(6.5556f);
-    GestionnaireReseau::obtenirInstance()->envoyerPaquet("Test", wPaquet, UDP);
-
-}
-
-
-
-

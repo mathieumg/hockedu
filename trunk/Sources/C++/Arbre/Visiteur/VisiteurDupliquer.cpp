@@ -110,7 +110,7 @@ void VisiteurDupliquer::visiterNoeudMuret( NodeWallAbstract* noeud )
 					return;
 				}
 			}
-            nouveauNoeud->deleteThis();
+			arbre_->erase(nouveauNoeud);
 		}
 	}
     visiterNoeudComposite(noeud);
@@ -301,7 +301,7 @@ void VisiteurDupliquer::dupliquerNoeud( NoeudAbstrait* noeud )
 
 			if(!posValide)
 			{
-                nouveauNoeud->deleteThis();
+				arbre_->erase(nouveauNoeud);
 			}
 		}
 	}

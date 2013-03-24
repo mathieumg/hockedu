@@ -30,7 +30,7 @@ public:
 	/// Constructeur à partir du type du noeud.
 	NodeControlPoint( const std::string& typeNoeud);
 	/// Destructeur.
-	virtual ~NodeControlPoint();
+	~NodeControlPoint();
 
 	/// Effectue l'animation
 	virtual void tick( const float& temps );

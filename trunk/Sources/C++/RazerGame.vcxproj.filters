@@ -96,9 +96,6 @@
     <Filter Include="Sources Files\Arbre\Bonus">
       <UniqueIdentifier>{df564af7-932a-4e50-9943-1528050503eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources Files\Arbre\FieldModificationStrategy">
-      <UniqueIdentifier>{ea9119c6-a85a-4d09-a9fa-d74a27e8814f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application\FacadeModele.cpp">
@@ -173,6 +170,12 @@
     <ClCompile Include="Arbre\Modeles\GestionnaireModeles.cpp">
       <Filter>Sources Files\Arbre\Modeles</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\EtatSouris\SourisEtatTransformationRotation.cpp">
+      <Filter>Sources Files\Interface\EtatSouris</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\EtatSouris\SourisEtatTransformationEchelle.cpp">
+      <Filter>Sources Files\Interface\EtatSouris</Filter>
+    </ClCompile>
     <ClCompile Include="Tests\BancTests.cpp">
       <Filter>Sources Files\Tests</Filter>
     </ClCompile>
@@ -195,6 +198,9 @@
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClCompile>
     <ClCompile Include="Interface\EtatSouris\SourisEtatSelection.cpp">
+      <Filter>Sources Files\Interface\EtatSouris</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\EtatSouris\SourisEtatTransformationDeplacement.cpp">
       <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClCompile>
     <ClCompile Include="Arbre\Visiteur\VisiteurSelection.cpp">
@@ -220,6 +226,9 @@
     </ClCompile>
     <ClCompile Include="Arbre\Noeuds\NoeudMuret.cpp">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\EtatSouris\SourisEtatAjoutMuret.cpp">
+      <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClCompile>
     <ClCompile Include="Arbre\Visiteur\VisiteurCollision.cpp">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
@@ -470,6 +479,9 @@
     <ClCompile Include="Arbre\Noeuds\ControlPointMutableAbstract.cpp">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\EtatSouris\SourisEtatAjoutControlPointMutable.cpp">
+      <Filter>Sources Files\Interface\EtatSouris</Filter>
+    </ClCompile>
     <ClCompile Include="Arbre\Noeuds\NodeControlPoint.cpp">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClCompile>
@@ -521,6 +533,9 @@
     <ClCompile Include="Reseau\Paquets\PaquetRondelle.cpp">
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClCompile>
+    <ClCompile Include="Reseau\Network_Defines.cpp">
+      <Filter>Sources Files\Reseau</Filter>
+    </ClCompile>
     <ClCompile Include="Reseau\PaquetRunnableServeurJeu.cpp">
       <Filter>Sources Files\Reseau</Filter>
     </ClCompile>
@@ -562,45 +577,6 @@
     </ClCompile>
     <ClCompile Include="Arbre\Visiteur\VisitorGatherProperties.cpp">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
-    </ClCompile>
-    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameEvent.cpp">
-      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
-    </ClCompile>
-    <ClCompile Include="Reseau\Paquets\PaquetGameEvent.cpp">
-      <Filter>Sources Files\Reseau\Paquets</Filter>
-    </ClCompile>
-    <ClCompile Include="Reseau\Paquets\PaquetGameRegistration.cpp">
-      <Filter>Sources Files\Reseau\Paquets</Filter>
-    </ClCompile>
-    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameRegistration.cpp">
-      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
-    </ClCompile>
-    <ClCompile Include="Reseau\FacadePortability.cpp">
-      <Filter>Sources Files\Reseau\Global</Filter>
-    </ClCompile>
-    <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyMove.cpp">
-      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
-    </ClCompile>
-    <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyRotate.cpp">
-      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
-    </ClCompile>
-    <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyScale.cpp">
-      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
-    </ClCompile>
-    <ClCompile Include="Arbre\Visiteur\VisitorSetProperties.cpp">
-      <Filter>Sources Files\Arbre\Visiteur</Filter>
-    </ClCompile>
-    <ClCompile Include="Arbre\HUD\HUDForeverAlone.cpp">
-      <Filter>Sources Files\Arbre\Hud</Filter>
-    </ClCompile>
-    <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddWall.cpp">
-      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
-    </ClCompile>
-    <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddNode.cpp">
-      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
-    </ClCompile>
-    <ClCompile Include="Interface\EtatSouris\SourisEtatTransformation.cpp">
-      <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -682,6 +658,12 @@
     <ClInclude Include="Arbre\Modeles\GestionnaireModeles.h">
       <Filter>Sources Files\Arbre\Modeles</Filter>
     </ClInclude>
+    <ClInclude Include="Interface\EtatSouris\SourisEtatTransformationRotation.h">
+      <Filter>Sources Files\Interface\EtatSouris</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\EtatSouris\SourisEtatTransformationEchelle.h">
+      <Filter>Sources Files\Interface\EtatSouris</Filter>
+    </ClInclude>
     <ClInclude Include="Tests\BancTests.h">
       <Filter>Sources Files\Tests</Filter>
     </ClInclude>
@@ -702,6 +684,9 @@
     </ClInclude>
     <ClInclude Include="Arbre\Noeuds\NoeudAccelerateur.h">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\EtatSouris\SourisEtatTransformationDeplacement.h">
+      <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClInclude>
     <ClInclude Include="Interface\EtatSouris\SourisEtatSelection.h">
       <Filter>Sources Files\Interface\EtatSouris</Filter>
@@ -729,6 +714,9 @@
     </ClInclude>
     <ClInclude Include="Arbre\Noeuds\NoeudMuret.h">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\EtatSouris\SourisEtatAjoutMuret.h">
+      <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisiteurCollision.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
@@ -1006,8 +994,14 @@
     <ClInclude Include="Arbre\Noeuds\ControlPointMutableAbstract.h">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClInclude>
+    <ClInclude Include="Interface\EtatSouris\SourisEtatAjoutControlPointMutable.h">
+      <Filter>Sources Files\Interface\EtatSouris</Filter>
+    </ClInclude>
     <ClInclude Include="Arbre\Noeuds\NodePolygone.h">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\Network_Defines.h">
+      <Filter>Sources Files\Reseau\Global</Filter>
     </ClInclude>
     <ClInclude Include="Interface\FacadeServeurJeu.h">
       <Filter>Sources Files\Interface</Filter>
@@ -1092,47 +1086,6 @@
     </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisitorGatherProperties.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\Paquets\PaquetGameRegistration.h">
-      <Filter>Sources Files\Reseau\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameRegistration.h">
-      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\FacadePortability.h">
-      <Filter>Sources Files\Reseau\Global</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\Paquets\PaquetGameEvent.h">
-      <Filter>Sources Files\Reseau\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyMove.h">
-      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAbstract.h">
-      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameEvent.h">
-      <Filter>Sources Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyRotate.h">
-      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyScale.h">
-      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbre\Visiteur\VisitorSetProperties.h">
-      <Filter>Sources Files\Arbre\Visiteur</Filter>
-    </ClInclude>    <ClInclude Include="Arbre\HUD\HUDForeverAlone.h">
-      <Filter>Sources Files\Arbre\Hud</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddWall.h">
-      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddNode.h">
-      <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\EtatSouris\SourisEtatTransformation.h">
-      <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -24,7 +24,7 @@ public:
 	/// Constructeur par défaut
 	VisiteurSuppression(void);
 	/// Destructeur
-	virtual ~VisiteurSuppression(void);
+	~VisiteurSuppression(void);
 
 	/// Visitation d'un noeud abstrait
 	virtual void visiterNoeudAbstrait( NoeudAbstrait* noeud );
@@ -54,7 +54,6 @@ public:
 
 	/// Algorithme de visitation des enfants
 	void visiterEnfants(NoeudComposite* noeud);
-    virtual void visiterNodeControlPoint( NodeControlPoint* noeud );
 
 };
 

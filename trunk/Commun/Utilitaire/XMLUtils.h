@@ -56,7 +56,7 @@ public:
 
 namespace XMLUtils
 {
-    static const std::string XmlFieldVersion = "2.2";
+    const char XmlFieldVersion[] = "2.1";
     
     ///private use
     const char* MakeName(const char* name, int index);
@@ -72,7 +72,6 @@ namespace XMLUtils
     
     /// Writes an attribute in the xml element with the given name tag
     template<class T> void writeAttribute(XmlElement* element, const char* name, const T& attribute);
-    void writeString(XmlElement* element, const char* name, const char* attribute);
     /// Read an attribute from the xml element with the given name tag
     template<class T> bool readAttribute(const XmlElement* element, const char* name, T& attribute);
     /// retrieve the text for this node's tag
@@ -94,7 +93,7 @@ namespace XMLUtils
     const XmlElement* NextSibling( const XmlElement* child );
 
     /// creates an xml document
-    void CreateDocument(XmlDocument& document);
+    void CreateDocument(XmlDocument& document, const char* _version,const char* _encoding,const char* _standalone);
     /// Loads a document from the file, returns null if not found
     bool LoadDocument(XmlDocument& document, const char* fileName);
     bool SaveDocument(XmlDocument& document, const char* fileName);
@@ -135,6 +134,8 @@ namespace XMLUtils
         }
         return true;
     }
+    /// Retrieves the version from the document
+    const char* GetVersion( XmlDocument& document );
 
 }
 

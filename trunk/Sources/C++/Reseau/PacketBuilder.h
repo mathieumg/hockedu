@@ -284,15 +284,19 @@ void PacketBuilder::addData( T& pDataToAdd )
 	if(mSwapBytes)
 	{
 		T result = swapBytes(pDataToAdd);
-
+#ifdef WINDOWS
         memcpy_s(mArrStart+ *mArrSize, sizeof(T), &result, sizeof(T));
-
+#elif defined(LINUX)
+        memcpy(mArrStart+*mArrSize, &result, sizeof(T));
+#endif
 		*mArrSize = *mArrSize + sizeof(T);
 		return;
 	}
-
+#ifdef WINDOWS
 	memcpy_s(mArrStart+ *mArrSize, sizeof(T), &pDataToAdd, sizeof(T));
-
+#elif defined(LINUX)
+    memcpy(mArrStart+*mArrSize, &pDataToAdd, sizeof(T));
+#endif
 	*mArrSize = *mArrSize + sizeof(T);
 }
 

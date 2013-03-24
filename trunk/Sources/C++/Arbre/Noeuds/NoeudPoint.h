@@ -52,7 +52,7 @@ public:
 	/// Constructeur à partir du type du noeud.
 	NoeudPoint( const std::string& typeNoeud, float coordX, float coordY, TypePosPoint typePosNoeud);
 	/// Destructeur.
-	virtual ~NoeudPoint();
+	~NoeudPoint();
 
 	/// Affiche le cube.
 	virtual void renderReal() const;
@@ -70,19 +70,6 @@ public:
 	const Vecteur3&  getPosition() const;
 	/// Assigne la position relative du noeud et deplace le modele 3D de la table
 	virtual void setPosition( const Vecteur3& positionRelative);
-
-    ////////////////////////////////////////////////////////////////////////
-    ///
-    /// @fn void move3DModel( const Vecteur3& positionRelative )
-    ///
-    /// /*Description*/
-    ///
-    /// @param[in] 
-    ///
-    /// @return void
-    ///
-    ////////////////////////////////////////////////////////////////////////
-    void move3DModel( const Vecteur3& positionRelative );
 
 
 	/// Accesseur de pointHorizontalSym_
