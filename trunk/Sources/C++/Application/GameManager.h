@@ -47,6 +47,8 @@ public:
 
 	Partie* getGame(int pGameId);
 
+    Partie* getGameWithPlayer(const std::string& pPlayerName);
+
     // Methode qui cherche une partie avec ce nom (ATTENTION, lent et Ne permet pas de savoir si plusieurs parties avec le meme nom existe. Retourne la premiere trouvee)
     Partie* getGame(const std::string& pGameName);
 

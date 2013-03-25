@@ -8,6 +8,7 @@
 #include "Paquets/PaquetGameEvent.h"
 #include "RelayeurMessage.h"
 #include "PaquetHandlers/PacketHandlerBonus.h"
+#include "Runnable.h"
 
 bool ControllerServeurJeu::mIsLocalServer = false;
 
@@ -120,7 +121,52 @@ void ControllerServeurJeu::handleEvent( EventCodes pEventCode, va_list pListeEle
 
 void ControllerServeurJeu::handleDisconnectDetection( SPSocket pSocket )
 {
+    // Doit mettre en pause la partie et notifier l'autre joueur
+    std::string wSocketIdentifier = GestionnaireReseau::obtenirInstance()->getSocketIdentifier(pSocket);
     GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
+
+
+
+    Partie* wGameBeforeCall = GameManager::obtenirInstance()->getGameWithPlayer(wSocketIdentifier);
+    int wGameId = 0;
+    if(wGameBeforeCall)
+        wGameId = wGameBeforeCall->getUniqueGameId();
+    Runnable* r = new Runnable([wGameId, wSocketIdentifier](Runnable*){
+        Partie* wGame = GameManager::obtenirInstance()->getGameWithPlayer(wSocketIdentifier);
+        if(wGame && wGame->getGameStatus() != GAME_PAUSED)
+        {
+            // Modifier la partie sur le serveur
+            wGame->modifierEnPause(true);
+            if(wGame->obtenirNomJoueurGauche() == wSocketIdentifier)
+            {
+                // Joueur gauche deconnecte
+                wGame->modifierJoueurGauche(NULL);
+            }
+            else
+            {
+                // Joueur droit deconnecte
+                wGame->modifierJoueurDroit(NULL);
+            }
+
+            // Mettre la partie en pause sur le client qui est encore connecte
+            PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+            wPaquet->setGameId(wGame->getUniqueGameId());
+            wPaquet->setEvent(GAME_EVENT_PAUSE_GAME_USER_DISCONNECTED);
+
+            std::vector<std::string> wList;
+            GestionnaireReseau::obtenirInstance()->getController()->getPlayersInGame(wGame->getUniqueGameId(), wList);
+            wPaquet->setNbAssociatedQueries(wList.size());
+            for(auto it = wList.begin(); it!=wList.end(); ++it)
+            {
+                if(*it != wSocketIdentifier && *it != "")
+                {
+                    GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
+                }
+            }
+        }
+    });
+    RazerGameUtilities::RunOnUpdateThread(r,true);
+    
 }
 
 void ControllerServeurJeu::getPlayersInGame( int pGameId, std::vector<std::string>& pPlayerList )

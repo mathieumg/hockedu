@@ -152,37 +152,48 @@ int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
 
     Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
 
-    if(wGame && wGame->getGameStatus() != GAME_NOT_READY)
+    if(wGame)
     {
-        Vecteur3 wPos = wPaquet->getPosition();
-        NoeudMaillet* maillet;
-        if(wPaquet->getEstAGauche())
+        if(wGame->getGameStatus() == GAME_PAUSED)
         {
-            maillet = wGame->obtenirJoueurGauche()->getControlingMallet();
+            // Si la partie est en pause, on doit dire au client de se mettre en pause (cas ou il n'aurait pas recu le paquet de mise en pause et il continue a envoyer une position)
+            /*PaquetGameEvent* wPaquetResponse = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+            wPaquetResponse->setGameId(wPaquet->getGameId());
+            wPaquetResponse->setEvent(GAME_EVENT_PAUSE_GAME_SIGNAL);
+            RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquetResponse->getGameId(), wPaquetResponse, TCP);*/
         }
-        else
+        else if(wGame->getGameStatus() != GAME_NOT_READY)
         {
-            maillet = wGame->obtenirJoueurDroit()->getControlingMallet();
-        }
 
-        // On ne met pas a jour si c'est nous
-        if(maillet)
-        {
-            JoueurAbstrait* wJoueur = maillet->obtenirJoueur();
-            if(wJoueur && wJoueur->obtenirType() == JOUEUR_NETWORK_SERVEUR)
+            Vecteur3 wPos = wPaquet->getPosition();
+            NoeudMaillet* maillet;
+            if(wPaquet->getEstAGauche())
             {
-                Runnable* r = new Runnable([maillet,wPos](Runnable*){
-
-                    // Mettre la position du maillet
-                    maillet->setTargetDestination(wPos);
-
-                });
-                //maillet->attach(r);
-                RazerGameUtilities::RunOnUpdateThread(r,true);
+                maillet = wGame->obtenirJoueurGauche()->getControlingMallet();
             }
+            else
+            {
+                maillet = wGame->obtenirJoueurDroit()->getControlingMallet();
+            }
+
+            // On ne met pas a jour si c'est nous
+            if(maillet)
+            {
+                JoueurAbstrait* wJoueur = maillet->obtenirJoueur();
+                if(wJoueur && wJoueur->obtenirType() == JOUEUR_NETWORK_SERVEUR)
+                {
+                    Runnable* r = new Runnable([maillet,wPos](Runnable*){
+
+                        // Mettre la position du maillet
+                        maillet->setTargetDestination(wPos);
+
+                    });
+                    //maillet->attach(r);
+                    RazerGameUtilities::RunOnUpdateThread(r,true);
+                }
+            }
+        
         }
-        
-        
 
         
     }
@@ -311,9 +322,24 @@ int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
             wPaquet->setConnectionState(connectPlayer(wPaquet->getUsername(), wGame));
         }
 
+        // Dans le cas ou la partie est en pause, c'est que un des 2 joueurs s'est deconnected et il est en train de se reconnecter. Il faut lui reassigner son maillet sans reset la partie
+        if(wGame->getGameStatus() == GAME_PAUSED && (wPaquet->getConnectionState() == GAME_CONNECTION_ACCEPTED_LEFT || wPaquet->getConnectionState() == GAME_CONNECTION_ACCEPTED_RIGHT))
+        {
+            
+            try
+            {
+                wGame->reloadControleMallet();
+                wGame->modifierEnPause(false);
+            }
+            catch(ExceptionJeu& e)
+            {
+                utilitaire::afficherErreur(e.what());
+                return false;
+            }
+        }
 
         // Si tout le monde connecte, on demarre la partie
-        if(wGame->getGameStatus() == GAME_NOT_READY && wGame->obtenirJoueurGauche() && wGame->obtenirJoueurDroit())
+        else if(wGame->getGameStatus() == GAME_NOT_READY && wGame->obtenirJoueurGauche() && wGame->obtenirJoueurDroit())
         {
             GameManager::obtenirInstance()->getGameReady(wGame->getUniqueGameId());
         }
@@ -339,6 +365,18 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
     {
         switch(wPaquet->getEvent())
         {
+        case GAME_EVENT_START_GAME:
+            {
+                // Demande de unpause, on doit verifier si 2 joueurs sont biens connectes
+
+                if(GestionnaireReseau::obtenirInstance()->getSocket(wGame->obtenirNomJoueurGauche(), TCP) && GestionnaireReseau::obtenirInstance()->getSocket(wGame->obtenirNomJoueurDroit(), TCP))
+                {
+                    wGame->modifierEnPause(false);
+                    RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
+                }
+
+                break;
+            }
         case GAME_EVENT_READY:
             {
                 // Envoyer par un client pour signaler qu'il est pret a demarrer la partie
@@ -387,8 +425,15 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
             {
                 // Client demande une pause
 
+                if(wGame->getGameStatus() == GAME_RUNNING || wGame->getGameStatus() == GAME_STARTED)
+                {
+                    wGame->modifierEnPause(true);
 
-
+                    PaquetGameEvent* wPaquetResponse = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+                    wPaquetResponse->setGameId(wPaquet->getGameId());
+                    wPaquetResponse->setEvent(GAME_EVENT_PAUSE_GAME_SIGNAL);
+                    RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquetResponse->getGameId(), wPaquetResponse, TCP);
+                }
 
                 break;
             }

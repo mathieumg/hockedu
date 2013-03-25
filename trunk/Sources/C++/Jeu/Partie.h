@@ -64,6 +64,8 @@ public:
 	/// Methode pour indiquer au maillet par qui ils sont controlles
 	void assignerControlesMaillet(NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle) ;
 
+    void reloadControleMallet();
+    
 	/// Permet de savoir si la partie est terminee
 	inline bool partieTerminee() const {return pointsJoueurGauche_>=POINTAGE_GAGNANT || pointsJoueurDroit_>= POINTAGE_GAGNANT ;}
 

@@ -364,6 +364,24 @@ bool GameManager::setMapForGame( int pGameId, const std::string& pMapName )
     return false;
 }
 
+
+
+Partie* GameManager::getGameWithPlayer( const std::string& pPlayerName )
+{
+    for(auto it = mListePartiesParId.begin(); it!=mListePartiesParId.end(); ++it)
+    {
+        Partie* wGame = it->second;
+        if(wGame)
+        {
+            if(wGame->obtenirNomJoueurGauche() == pPlayerName || wGame->obtenirNomJoueurDroit() == pPlayerName)
+            {
+                return wGame;
+            }
+        }
+    }
+    return NULL;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 /// @}
 ///////////////////////////////////////////////////////////////////////////////

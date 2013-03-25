@@ -28,6 +28,7 @@
 #include "..\Reseau\GestionnaireReseau.h"
 #include "..\Reseau\Paquets\PaquetGameEvent.h"
 #include "..\Reseau\RelayeurMessage.h"
+#include "Solution_Defines.h"
 
 
 GLuint Partie::listePause_ = 0;
@@ -447,53 +448,6 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
                 wMaillets[i]->setPlayer(wJoueurs[i].get());
                 wMaillets[i]->buildMouseJoint();
             }
-// 
-//             // Ancien code
-//             if(joueurGauche_->obtenirType() == JOUEUR_NETWORK)
-//             {
-//                 mailletGauche->setIsAI(false);
-//                 mailletGauche->setIsNetworkPlayer(true);
-//                 mailletGauche->buildMouseJoint(true);
-//             }
-//             else
-//             {
-//                 mailletGauche->setKeyboardControlled(false);
-//                 mailletGauche->setIsNetworkPlayer(false);
-//                 if(joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
-//                 {
-//                     mailletGauche->setIsAI(false);
-//                 }
-//                 else
-//                 {
-//                     mailletGauche->setIsAI(true);
-//                     mailletGauche->setAIPlayer((JoueurVirtuel*)joueurGauche_.get());
-//                 }
-//                 mailletGauche->buildMouseJoint();
-//             }
-// 
-//             if(joueurDroit_->obtenirType() == JOUEUR_NETWORK)
-//             {
-//                 mailletDroit->setIsAI(false);
-//                 mailletDroit->setIsNetworkPlayer(true);
-//                 mailletDroit->buildMouseJoint(true);
-//             }
-//             else
-//             {
-//                 mailletDroit->setIsNetworkPlayer(false);
-//                 if(joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
-//                 {
-//                     mailletDroit->setIsAI(false);
-//                     // Si le maillet gauche est controller par lordinateur alors le maillet droit est controle par la souris
-//                     mailletDroit->setKeyboardControlled(!mailletGauche->obtenirEstControleParOrdinateur());
-//                 }
-//                 else
-//                 {
-//                     mailletDroit->setIsAI(true);
-//                     mailletDroit->setAIPlayer((JoueurVirtuel*)joueurDroit_.get());
-//                 }
-//                 mailletDroit->buildMouseJoint();
-//             }
-
         }
         else
         {
@@ -505,6 +459,20 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
         throw ExceptionJeu("Tente d'assigner les controles a des maillets lorsqu'il manque encore des joueurs dans la partie");
     }
 }
+
+
+
+void Partie::reloadControleMallet()
+{
+    checkf(getGameStatus() == GAME_PAUSED, "La partie doit avoir ete initialise avant de pouvoir appeler un reload sur les maillets");
+    Terrain* wField = getField();
+    checkf(wField, "Terrain invalide lors du reloadMallet");
+    assignerControlesMaillet(wField->getLeftMallet(), wField->getRightMallet(), wField->getPuck()); 
+
+
+}
+
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -967,14 +935,16 @@ void Partie::callGameUpdate(GameStatus pGameStatus) const
 
 void Partie::modifierEnPause( bool val )
 {
-    checkf(mGameStatus == GAME_PAUSED, "On ne doit pas mettre en pause une partie qui l'est deja");
+    
     if(val)
     {
+        checkf(mGameStatus != GAME_PAUSED, "On ne doit pas mettre en pause une partie qui l'est deja");
         tempsJeu_.pause();
         setGameStatus(GAME_PAUSED);
     }
     else
     {
+        checkf(mGameStatus == GAME_PAUSED, "On doit etre en pause pour sortir du pause");
         tempsJeu_.unPause();
         setGameStatus(mLastGameStatus); // Utilise le dernier etat de partie pour unpause
     }
@@ -1033,6 +1003,10 @@ void Partie::recalculateNetworkGameFlags()
     }
 
 }
+
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}
