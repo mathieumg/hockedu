@@ -8,7 +8,7 @@
 #import "EAGLViewController.h"
 #import "EAGLView.h"
 #define degreesToRadian(x) (M_PI * (x) / 180.0)
-
+#import "Enum_Declarations.h"
 int const LARGEUR_FENETRE = 1024;
 int const HAUTEUR_FENETRE = 768;
 // Uniform index.
@@ -292,6 +292,11 @@ enum {
     touchMoved = false;
     if (mCreationMode)
     {
+        //CGPoint randomPoint;
+        //randomPoint.x=-25;
+        //randomPoint.y=0;
+        CGPoint coordVirt = [self convertScreenCoordToVirtualCoord:firstCorner];
+        [mModel beginModification:FIELD_MODIFICATION_ADD_PORTAL:coordVirt];
         if(itemToBeAdded != -1)
         {
             // Si on est en mode creation et quon a un item a ajouter, on assigne limage associe a l'item
@@ -310,7 +315,7 @@ enum {
             }
             // On assigne la position de l'objet a la position du touche et on ajoute le UIImageView a la vu EAGL
             imageObjectToAdd.center = [touch locationInView:theEAGLView];
-            [[self view] addSubview:imageObjectToAdd];
+            //[[self view] addSubview:imageObjectToAdd];
         }
     }
     
@@ -338,7 +343,10 @@ enum {
         CGPoint positionCourante = [touch locationInView:theEAGLView];
         if (mCreationMode && imageObjectToAdd!=nil) {
             // Si on est en mode creation et touchMoved, on update la position de limage
-            imageObjectToAdd.center = [touch locationInView:theEAGLView];
+            //imageObjectToAdd.center = [touch locationInView:theEAGLView];
+            CGPoint coordVirt = [self convertScreenCoordToVirtualCoord:positionCourante];
+            [mModel eventModification:FIELD_MODIFICATION_EVENT_MOVE:coordVirt];
+            
         }
         else if (mSelectionMode && mMoveTool)
         {
@@ -422,19 +430,24 @@ enum {
     
     if ([[event allTouches] count] == 1)
     {
+        UITouch *touch = [[event allTouches] anyObject];
+        CGPoint positionCourante = [touch locationInView:theEAGLView];
         if (mCreationMode) {
             // Destruction de limage de lobjet qui suit la position du doigt
-            if (imageObjectToAdd !=nil) {
-                // On lenleve de la scene, et on delete
-                [imageObjectToAdd removeFromSuperview];
-                [imageObjectToAdd release];
-            }
+            
+                // On drop lobjet
+                CGPoint coordVirt = [self convertScreenCoordToVirtualCoord:positionCourante];
+            // On drop le noeud a la position finale
+            [mModel eventModification:FIELD_MODIFICATION_EVENT_CLICK:coordVirt];
+            // On enleve le prochain noeud qui apparait pour sajouter, utilise dans c++
+            [mModel eventCancel];
+                //[imageObjectToAdd removeFromSuperview];
+                //[imageObjectToAdd release];
         }
         
         if(mSelectionMode && mSelectTool)
         {
-            UITouch *touch = [[event allTouches] anyObject];
-            CGPoint positionCourante = [touch locationInView:theEAGLView];
+            
             
             CGPoint posVirtuelle = [self convertScreenCoordToVirtualCoord:positionCourante];
             
@@ -566,9 +579,9 @@ enum {
     glDisableClientState(GL_VERTEX_ARRAY);
     
     
-    glEnableClientState(GL_VERTEX_ARRAY);
+    //glEnableClientState(GL_VERTEX_ARRAY);
     [mModel render];
-    glDisableClientState(GL_VERTEX_ARRAY);
+    //glDisableClientState(GL_VERTEX_ARRAY);
     
 	static NSTimeInterval lastDrawTime;
 	if (lastDrawTime)

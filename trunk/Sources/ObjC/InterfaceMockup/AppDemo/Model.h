@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Enum_Declarations.h"
 @interface Model : NSObject
 {
 
@@ -18,4 +19,7 @@ void* mField;
 - (id)init;
 -(int)acceptSelectionVisitor:(float)positionMinX: (float)positionMinY:(float) positionMaxX:(float) positionMaxY;
 -(void) saveField;
+-(void) beginModification:(FieldModificationStrategyType)type:(CGPoint)coordVirt;
+-(void) eventModification:(FieldModificationStrategyEventType)type:(CGPoint)coordVirt;
+-(void) eventCancel;
 @end

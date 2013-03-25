@@ -27,6 +27,8 @@
     //b2World* world = new b2World(b2Vec2(0,0));
     mField = new Terrain(NULL);
     ((Terrain*)mField)->createRandomField("test");
+    ((Terrain*)mField)->setTableItemsSelection(true);
+    ((Terrain*)mField)->deleteSelectedNodes();
     return self;
 }
 
@@ -42,6 +44,30 @@
     // Pop over controller pour modifier les proprietes
     return ((Terrain*)mField)->getSelectedNodes().size();;
     
+}
+
+-(void) beginModification:(FieldModificationStrategyType)type:(CGPoint)coordVirt
+{
+    FieldModificationStrategyEvent event;
+    event.mPosition[VX] = coordVirt.x;
+    event.mPosition[VY] = coordVirt.y;
+    event.mType = FIELD_MODIFICATION_EVENT_CLICK;
+    
+    ((Terrain*)mField)->BeginModification(type, event);
+}
+
+-(void) eventModification:(FieldModificationStrategyEventType)type:(CGPoint)coordVirt
+{
+    FieldModificationStrategyEvent event;
+    event.mType = type;
+    event.mPosition[VX] = coordVirt.x;
+    event.mPosition[VY] = coordVirt.y;
+    ((Terrain*)mField)->ReceiveModificationEvent(event);
+}
+
+-(void) eventCancel;
+{
+    ((Terrain*)mField)->cancelModification();
 }
 
 -(void) saveField
