@@ -269,6 +269,12 @@
   <ItemGroup>
     <Compile Include="Enum_Declarations.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\HttpHockeduRequests\HttpHockeduRequests.csproj">
+      <Project>{5734EB1F-03DA-4ABF-A620-00C248FE8CDF}</Project>
+      <Name>HttpHockeduRequests</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

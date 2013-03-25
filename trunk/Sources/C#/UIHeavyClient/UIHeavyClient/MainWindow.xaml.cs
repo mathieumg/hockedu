@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
+using HttpHockeduRequests;
 
 namespace UIHeavyClient
 {

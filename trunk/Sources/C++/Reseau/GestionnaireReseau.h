@@ -218,6 +218,7 @@ public:
 
     bool isAGameServerConnected() const;
 
+
     //Contains the operating system's byte order.
 	static ByteOrder NATIVE_BYTE_ORDER;
 private:
