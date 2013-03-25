@@ -110,21 +110,6 @@ void AchievementsManager::LoadAchievementProgress()
 ////////////////////////////////////////////////////////////////////////
 void AchievementsManager::SaveAchievementProgress()
 {
-    /// Todo::/*
-    std::string l_filename = "datafile.sqlite";
-    std::ostringstream l_query;
-    sqlite3* l_sql_db = NULL;
-
-    printf("Opening DB\n");
-    int rc = sqlite3_open(l_filename.c_str(), &l_sql_db);
-    if( rc ){
-        sqlite3_close(l_sql_db);
-        printf("Error couldn't open SQLite database %s",l_filename.c_str());
-        return ;
-    };
-
-*/
-
 
 }
 
