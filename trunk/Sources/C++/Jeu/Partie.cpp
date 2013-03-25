@@ -19,7 +19,6 @@
 #include "GestionnaireModeles.h"
 #include "Vue.h"
 #include "Camera.h"
-#include "GestionnaireAnimations.h"
 #include "XMLUtils.h"
 #include "Terrain.h"
 #include "ExceptionJeu.h"
@@ -48,7 +47,7 @@ const int Partie::POINTAGE_GAGNANT = 7;
 ///
 ////////////////////////////////////////////////////////////////////////
 Partie::Partie(SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, const std::vector<GameUpdateCallback>& updateCallback /*= 0*/ ):
-pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), estPret_(false), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 60, joueurGauche, joueurDroit)
+pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 60, joueurGauche, joueurDroit)
 {
     chiffres_ = new NoeudAffichage("3");
     mField = new Terrain(this);
@@ -59,6 +58,8 @@ pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurD
     mRequirePassword = false;
     mPassword = "";
     mPartieSyncer.setPlayers(joueurGauche, joueurDroit);
+
+    GestionnaireAnimations::obtenirInstance()->attach(this);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -374,16 +375,13 @@ bool Partie::initialiserXML( const XmlElement* elem, ConteneurJoueur* profilsVir
 ////////////////////////////////////////////////////////////////////////
 void Partie::reinitialiserPartie()
 {
-    //SignalGameOver();
     pointsJoueurGauche_ = 0;
     pointsJoueurDroit_ = 0;
     // Reinitialisation du noeudAffichage Chiffre
     chiffres_->modifierListes("3");
     chiffres_->setVisible(false);
-    modifierEstPret(true);
+    tempsJeu_.unPause();
     tempsJeu_.reset_Time();
-    // Mise au jeu
-    //miseAuJeu();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -497,6 +495,9 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 
     maillet1->setPosition(maillet1->obtenirPositionOriginale());
     maillet2->setPosition(maillet2->obtenirPositionOriginale());
+    maillet1->setTargetDestination(maillet1->obtenirPositionOriginale(), true);
+    maillet2->setTargetDestination(maillet2->obtenirPositionOriginale(), true);
+
 
     int dureeAnimationIntro = 0;
     
@@ -522,10 +523,8 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 ////////////////////////////////////////////////////////////////////////
 void Partie::delais( int time )
 {
-    modifierEstPret(false);
+    setGameStatus(GAME_WAITING);
     minuterie_ = time;
-    if(chiffres_==0)
-        return;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -541,46 +540,60 @@ void Partie::delais( int time )
 ////////////////////////////////////////////////////////////////////////
 void Partie::updateMinuterie( int time )
 {
-    if(estPret_)
-        return;
-
-    if(estEnPause())
+    if(mGameStatus == GAME_WAITING)
     {
-        delais(3100);
-        return;
-    }
-
-    int minuterieAvant = minuterie_;
-    minuterie_ -= (time*2);
-    if(minuterie_ < 0)
-    {
-        minuterie_ = 0;
-        chiffres_->modifierListes("3");
-        chiffres_->setVisible(false);
-        modifierEstPret(true);
-        return;
-    }
-
-    
-    if((minuterieAvant/1000-minuterie_/1000)!=0)
-    {
-        if(chiffres_!=0)
+        int minuterieAvant = minuterie_;
+        minuterie_ -= (time*2);
+        if(minuterie_ < 0)
         {
-            int lequel = (minuterie_/1000+1);
-            if(lequel!=1 && lequel!=2 && lequel!=3)
-                return;
-            chiffres_->setVisible(true);
-            SoundFMOD::obtenirInstance()->playEffect(BEEP_EFFECT);
+            minuterie_ = 0;
+            chiffres_->modifierListes("3");
+            chiffres_->setVisible(false);
+            setGameStatus(GAME_RUNNING);
+            Vecteur3 coordonneesSouris;
+            
+            FacadeModele::getInstance()->convertirClotureAVirtuelle(mMousePosScreen[VX], mMousePosScreen[VY], coordonneesSouris);
+            if(joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
+            {
+                NoeudMaillet* mailletGauche = getField()->getLeftMallet();
+                if(mailletGauche && !mailletGauche->obtenirEstControleParOrdinateur())
+                {
+                    mailletGauche->setTargetDestination(coordonneesSouris, true);
+                }
+            }
+            if(joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
+            {
+                NoeudMaillet* mailletDroit = getField()->getRightMallet();
+                if(mailletDroit && !mailletDroit->obtenirEstControleParOrdinateur())
+                {
+                    mailletDroit->setTargetDestination(coordonneesSouris, true);
+                }
+            }
+            
+            tempsJeu_.unPause();
+            return;
+        }
 
-            // Creation d'une chaine avec le charactère 0
-            std::string numeroString = "0";
-            // le charactère 0 + une valeur entre 0 et 9 donne le charactère désiré
-            numeroString[0] += lequel;
-            chiffres_->modifierListes(numeroString);
+        if((minuterieAvant/1000-minuterie_/1000)!=0)
+        {
+            if(chiffres_!=0)
+            {
+                int lequel = (minuterie_/1000+1);
+                if(lequel!=1 && lequel!=2 && lequel!=3)
+                    return;
+                chiffres_->setVisible(true);
+                SoundFMOD::obtenirInstance()->playEffect(BEEP_EFFECT);
 
-            chiffres_->resetEchelle();
-            if(lequel == 2)
-                FacadeModele::getInstance()->obtenirVue()->centrerCamera(mField->GetTableWidth());
+                // Creation d'une chaine avec le charactère 0
+                std::string numeroString = "0";
+                // le charactère 0 + une valeur entre 0 et 9 donne le charactère désiré
+                numeroString[0] += lequel;
+                chiffres_->modifierListes(numeroString);
+
+                chiffres_->resetEchelle();
+                if(lequel == 2)
+                    FacadeModele::getInstance()->obtenirVue()->centrerCamera(mField->GetTableWidth());
+            }
         }
     }
 }
@@ -658,11 +671,7 @@ void Partie::vider()
     pointsJoueurDroit_ = 0;
     joueurGauche_.reset();
     joueurDroit_.reset();
-//  modifierJoueurGauche(0);
-//  modifierJoueurDroit(0);
-    //enPause_ = false;
     mGameStatus = mLastGameStatus = GAME_NOT_READY;
-    estPret_ = false;
     faitPartieDunTournoi_ = false;
 }
 
@@ -841,40 +850,24 @@ void Partie::animer( const float& temps )
         updateMinuterie((int)(temps*1000));
         chiffres_->tick(temps);
         mField->animerTerrain(temps);
-        if(!GestionnaireAnimations::obtenirInstance()->estJouerReplay())
+        if(mGameStatus == GAME_RUNNING)
         {
-#if !MAT_DEBUG
-            auto zamboni = mField->getZamboni();
-#endif
-            if(estPret() && !estEnPause() && !partieTerminee())
-            {
-#if !MAT_DEBUG
-                if(zamboni)
-                {
-                    zamboni->setVisible(false);
-                    zamboni->setPosition(Vecteur3());
-                }
-#endif
-                // Gestion de la physique du jeu
-                mField->appliquerPhysique(temps);
-            }
-            else
-            {
-#if !MAT_DEBUG
-                if(zamboni)
-                {
-                    zamboni->setVisible(true);
-                }
-                Vecteur3 pos = zamboni->getPosition();
-                auto angle = utilitaire::DEG_TO_RAD(zamboni->getAngle());
-                Vecteur3 direction;
-                direction[VX] = cos(angle);
-                direction[VY] = sin(angle);
-                zamboni->setPosition(pos+direction);
-#endif
-            }
+            // Gestion de la physique du jeu
+            mField->appliquerPhysique(temps);
+            mPartieSyncer.tick();
         }
-        mPartieSyncer.tick();
+#if !MAT_DEBUG_
+        else if(mGameStatus == GAME_WAITING)
+        {
+            auto zamboni = mField->getZamboni();
+            Vecteur3 pos = zamboni->getPosition();
+            auto angle = utilitaire::DEG_TO_RAD(zamboni->getAngle());
+            Vecteur3 direction;
+            direction[VX] = cos(angle);
+            direction[VY] = sin(angle);
+            zamboni->setPosition(pos+direction);
+        }
+#endif
     }
 }
 
@@ -902,12 +895,12 @@ void Partie::animerBase( const float& temps )
             wLogicTree->tick(temps);
         }
     }
-    if(estPret() && !estEnPause() && !partieTerminee())
+    if(mGameStatus == GAME_RUNNING)
     {
         // Gestion de la physique du jeu
         mField->appliquerPhysique(temps);
+        mPartieSyncer.tick();
     }
-    mPartieSyncer.tick();
 }
 
 
@@ -935,7 +928,6 @@ void Partie::callGameUpdate(GameStatus pGameStatus) const
 
 void Partie::modifierEnPause( bool val )
 {
-    
     if(val && getGameStatus() != GAME_PAUSED)
     {
         tempsJeu_.pause();
@@ -1002,9 +994,66 @@ void Partie::recalculateNetworkGameFlags()
 
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Partie::updateObserver( const ReplaySubject* pSubject )
+///
+/// /*Description*/
+///
+/// @param[in] const ReplaySubject * pSubject
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Partie::updateObserver( const ReplaySubject* pSubject )
+{
+    if(pSubject->mReplaying)
+    {
+        tempsJeu_.pause();
+        setGameStatus(GAME_REPLAYING);
+    }
+    else
+    {
+        tempsJeu_.unPause();
+        checkf(mLastGameStatus != GAME_REPLAYING);
+        if(mLastGameStatus != GAME_REPLAYING)
+        {
+            setGameStatus(mLastGameStatus); // Utilise le dernier etat de partie pour unpause
+        }
+    }
+}
 
-
-
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Partie::setGameStatus( GameStatus pStatus )
+///
+/// /*Description*/
+///
+/// @param[in] GameStatus pStatus
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Partie::setGameStatus( GameStatus pStatus )
+{
+    mLastGameStatus = mGameStatus; 
+    mGameStatus = pStatus;
+#if !MAT_DEBUG_
+    auto zamboni = mField->getZamboni();
+    if(zamboni)
+    {
+        if(mGameStatus == GAME_WAITING)
+        {
+            zamboni->setVisible(true);
+        }
+        else
+        {
+            zamboni->setVisible(false);
+            zamboni->setPosition(Vecteur3());
+        }
+    }
+#endif
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

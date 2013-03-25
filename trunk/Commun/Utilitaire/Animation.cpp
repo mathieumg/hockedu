@@ -114,10 +114,12 @@ void Animation::animer( float temps )
 		return;
 	}
 
-	AnimationFrame* frameCourant = frames_[indexFrameCourant_];
-	float tempsFrameCourant = frameCourant->obtenirTemps();
+
 	if(indexFrameCourant_<((int)frames_.size()-1))
 	{
+        AnimationFrame* frameCourant = frames_[indexFrameCourant_];
+        float tempsFrameCourant = frameCourant->obtenirTemps();
+
 		// Pas dernier frame
 		AnimationFrame* frameSuivant = frames_[indexFrameCourant_+1];
 		float tempsFrameSuivant = frameSuivant->obtenirTemps();
@@ -234,8 +236,6 @@ void Animation::animerConstant(AnimationFrame* courant)
 ///////////////////////////////////////////////////////////////////////////////
 void Animation::animerLineaire( AnimationFrame* courant, AnimationFrame* suivant )
 {
-	if(indexFrameCourant_>=(int)frames_.size()-1)
-		return;
 
 	const Vecteur3& positionCourante = courant->getPosition();
 	const Vecteur3& angleCourant = courant->getAngle();

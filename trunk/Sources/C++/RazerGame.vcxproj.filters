@@ -853,9 +853,6 @@
     <ClInclude Include="Arbre\HUD\HUDTexte.h">
       <Filter>Sources Files\Arbre\Hud</Filter>
     </ClInclude>
-    <ClInclude Include="Arbre\Noeuds\PositionSubject.h">
-      <Filter>Sources Files\Arbre\Noeuds</Filter>
-    </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisiteurFunction.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
     </ClInclude>

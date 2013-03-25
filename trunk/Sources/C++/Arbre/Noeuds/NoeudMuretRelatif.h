@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "PositionSubject.h"
+#include "PositionObserver.h"
 #include "NodeWallAbstract.h"
 
 

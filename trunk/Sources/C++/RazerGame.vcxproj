@@ -117,7 +117,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/FieldModificationStrategy;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Bonus;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;../../Commun/Externe/;..\C#\UIHeavyClient\UIHeavyClient</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;WIN32;_DEBUG;_WINDOWS;_USRDLL;WITH_JAVA;RazerGame_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;CREATING_DLL;WIN32;_DEBUG;_WINDOWS;_USRDLL;WITH_JAVA;RazerGame_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -400,7 +400,6 @@
     <ClInclude Include="Arbre\Noeuds\NoeudPortail.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudRondelle.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudTable.h" />
-    <ClInclude Include="Arbre\Noeuds\PositionSubject.h" />
     <ClInclude Include="Arbre\Terrain.h" />
     <ClInclude Include="Arbre\Usines\BonusModifierFactory.h" />
     <ClInclude Include="Arbre\Visiteur\VisiteurCollision.h" />

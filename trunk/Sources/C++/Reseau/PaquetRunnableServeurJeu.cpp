@@ -152,7 +152,7 @@ int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
 
     Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
 
-    if(wGame)
+    if(wGame && wGame->getGameStatus() == GAME_RUNNING)
     {
         if(wGame->getGameStatus() == GAME_PAUSED)
         {

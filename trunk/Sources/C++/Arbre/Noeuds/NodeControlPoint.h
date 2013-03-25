@@ -10,7 +10,7 @@
 #pragma once
 
 #include "NoeudComposite.h"
-#include "PositionSubject.h"
+#include "PositionObserver.h"
 #include "Solution_Defines.h"
 #include <list>
 

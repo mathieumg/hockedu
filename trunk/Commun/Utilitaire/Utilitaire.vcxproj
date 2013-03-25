@@ -166,7 +166,9 @@
     <ClInclude Include="OnceVector.h" />
     <ClInclude Include="Phont.h" />
     <ClInclude Include="Plan3D.h" />
+    <ClInclude Include="PositionObserver.h" />
     <ClInclude Include="QueueThreadSafe.h" />
+    <ClInclude Include="ReplayObserver.h" />
     <ClInclude Include="Runnable.h" />
     <ClInclude Include="RunnableBreaker.h" />
     <ClInclude Include="Singleton.h" />

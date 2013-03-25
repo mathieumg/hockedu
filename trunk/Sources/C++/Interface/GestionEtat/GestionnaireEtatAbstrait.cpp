@@ -183,23 +183,6 @@ void GestionnaireEtatAbstrait::gestionAnimationEnJeu( Partie* partieCourante, co
 		NoeudRondelle* rondelle = partieCourante->getField()->getPuck();
 
 		GestionnaireAnimations* gestionnaire = GestionnaireAnimations::obtenirInstance();
-		if(GestionnaireAnimations::obtenirInstance()->replayEstTermine())
-		{
-			vue::Camera ancienneCamera = GestionnaireAnimations::obtenirInstance()->obtenirAncienneCamera();
-
-			AnimationFrame* frame[2];
-			frame[0] = new AnimationFrame(0, camera->obtenirPosition(), camera->obtenirPointVise(), camera->obtenirDirectionHaut());
-			frame[1] = new AnimationFrame(500, ancienneCamera.obtenirPosition(), ancienneCamera.obtenirPointVise(), ancienneCamera.obtenirDirectionHaut());
-
-			Animation* animation = new Animation(BEZIER, true, true, true);
-			for(int i=0; i<2; i++)
-				animation->ajouterFrame(frame[i]);
-			animation->ajouterObjet(camera);
-			GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
-
-			if(partieCourante)
-				partieCourante->delais(4100);
-		}
 
 		std::vector<AnimationRepriseFrame*> listeAnimationFrame;
 		if(camera)
@@ -305,6 +288,7 @@ void GestionnaireEtatAbstrait::renderBase( Terrain* pField, RenderSpecific pSpec
         }
     }
 }
+
 
 
 
