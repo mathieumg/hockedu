@@ -105,6 +105,9 @@
       <DependentUpon>PasswordPrompt.xaml</DependentUpon>
     </Compile>
     <Compile Include="RazerUtilities.cs" />
+    <Compile Include="UserControls\AchievementUnlocked.xaml.cs">
+      <DependentUpon>AchievementUnlocked.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\BonusEditionControl.xaml.cs">
       <DependentUpon>BonusEditionControl.xaml</DependentUpon>
     </Compile>
@@ -141,6 +144,10 @@
       <DependentUpon>TournamentControl.xaml</DependentUpon>
     </Compile>
     <Page Include="AIOptionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\AchievementUnlocked.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -282,6 +289,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enum_Declarations.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AchievementsEnums.h" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
