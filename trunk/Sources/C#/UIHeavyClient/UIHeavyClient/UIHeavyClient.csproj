@@ -99,6 +99,9 @@
       <DependentUpon>AIOptionControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="RazerUtilities.cs" />
+    <Compile Include="UserControls\AchievementUnlocked.xaml.cs">
+      <DependentUpon>AchievementUnlocked.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\BonusEditionControl.xaml.cs">
       <DependentUpon>BonusEditionControl.xaml</DependentUpon>
     </Compile>
@@ -135,6 +138,10 @@
       <DependentUpon>TournamentControl.xaml</DependentUpon>
     </Compile>
     <Page Include="AIOptionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\AchievementUnlocked.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -268,6 +275,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enum_Declarations.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AchievementsEnums.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\HttpHockeduRequests\HttpHockeduRequests.csproj">

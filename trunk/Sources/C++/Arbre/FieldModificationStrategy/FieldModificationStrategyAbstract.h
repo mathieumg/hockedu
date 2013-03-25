@@ -9,28 +9,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "Vecteur.h"
-
+#include "Enum_Declarations.h"
 class Terrain;
 
-enum FieldModificationStrategyEventType
-{
-    FIELD_MODIFICATION_EVENT_CLICK,
-    FIELD_MODIFICATION_EVENT_MOVE,
-};
 
-enum FieldModificationStrategyType
-{
-    FIELD_MODIFICATION_NONE      ,
-    FIELD_MODIFICATION_MOVE      ,
-    FIELD_MODIFICATION_ROTATE    ,
-    FIELD_MODIFICATION_SCALE     ,
-    FIELD_MODIFICATION_ADD_PORTAL,
-    FIELD_MODIFICATION_ADD_BOOST ,
-    FIELD_MODIFICATION_ADD_WALL  ,
-    FIELD_MODIFICATION_ADD_MALLET,
-    FIELD_MODIFICATION_ADD_PUCK  ,
-    FIELD_MODIFICATION_ADD_BONUS ,
-};
 
 struct FieldModificationStrategyEvent
 {

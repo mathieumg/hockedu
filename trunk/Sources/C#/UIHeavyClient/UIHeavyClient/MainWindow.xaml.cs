@@ -15,6 +15,8 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
+using UIHeavyClient.UserControls;
+using System.Windows.Media.Animation;
 using HttpHockeduRequests;
 
 namespace UIHeavyClient
@@ -225,6 +227,8 @@ namespace UIHeavyClient
 #endif
 
             InitDLL();
+            SetAchievementUnlocked( mAchievementUnlockCallBack );
+
             this.Loaded += CreateUserControl;
             this.KeyDown += MainWindow_KeyDown;
             this.KeyUp += MainWindow_KeyUp;
@@ -416,6 +420,52 @@ namespace UIHeavyClient
             mServerSaveMapItem.IsEnabled = pMustBeEnabled;
             mResetMapItem.IsEnabled = pMustBeEnabled;
             mTestMapItem.IsEnabled = pMustBeEnabled;
+        }
+
+
+        [DllImport( @"RazerGame.dll" )]
+        static extern void SetAchievementUnlocked( AchievementUnlockCallBack callback );
+
+        public delegate int AchievementUnlockCallBack( AchievementsType id, IntPtr message );
+        static AchievementUnlockCallBack mAchievementUnlockCallBack = AchievementUnlocked;
+
+        static int AchievementUnlocked( AchievementsType id, IntPtr pMessage )
+        {
+            string achievementName = Marshal.PtrToStringAnsi( pMessage );
+            DisplayAchievement( achievementName );
+            return 1;
+        }
+
+        static AchievementUnlocked mAchievementPanel = null;
+        static Storyboard mStoryboard = new Storyboard();
+        static void mWaitAnimation_Completed( object sender, EventArgs e )
+        {
+            mAchievementPanel.Close();
+        }
+
+        static void DisplayAchievement(string achievementName)
+        {
+            if ( mAchievementPanel != null )
+            {
+                mAchievementPanel.Close();
+            }
+            mAchievementPanel = new AchievementUnlocked();
+            mAchievementPanel.AchievementName = achievementName;
+            mAchievementPanel.Topmost = true;
+            mAchievementPanel.Left = MainWindowHandler.Context.Left + MainWindowHandler.Context.Width - mAchievementPanel.Width;
+            mAchievementPanel.Top = MainWindowHandler.Context.Top + MainWindowHandler.Context.Height;
+            mAchievementPanel.Show();
+
+            DoubleAnimation beginAnimation = new DoubleAnimation();
+            beginAnimation.To = mAchievementPanel.Top - ( mAchievementPanel.Height );
+            beginAnimation.From = mAchievementPanel.Top;
+            beginAnimation.AutoReverse = true;
+            beginAnimation.Completed += mWaitAnimation_Completed;
+            beginAnimation.Duration = new TimeSpan( 0, 0, 3 );
+            Storyboard.SetTargetProperty( beginAnimation, new PropertyPath( Window.TopProperty ) );
+
+            mStoryboard.Children.Add( beginAnimation );
+            mStoryboard.Begin( mAchievementPanel, HandoffBehavior.SnapshotAndReplace );
         }
     }
 }

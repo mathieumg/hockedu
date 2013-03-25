@@ -16,6 +16,7 @@
 #include "..\Reseau\UsinePaquets\UsinePaquetGameEvent.h"
 #include "..\Reseau\PaquetHandlers\PacketHandlerBonus.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetBonus.h"
+#include "..\Achievements\AchievementsManager.h"
 #include "FacadeModele.h"
 #include "..\Reseau\Paquets\PaquetGameEvent.h"
 #include "..\Reseau\RelayeurMessage.h"
@@ -84,6 +85,8 @@ void InitDLL()
     wGestionnaireReseau->ajouterOperationReseau(RONDELLE, new PacketHandlerRondelle, new UsinePaquetRondelle);
     wGestionnaireReseau->ajouterOperationReseau(GAME_EVENT, new PacketHandlerGameEvent, new UsinePaquetGameEvent);
     wGestionnaireReseau->ajouterOperationReseau(BONUS, new PacketHandlerBonus, new UsinePaquetBonus);
+
+    AchievementsManager::obtenirInstance()->InitialiseAchievements();
 
 }
 
@@ -808,6 +811,22 @@ void testConnexionUDPCSharp()
     wPaquet->setVitesseRotation(6.5556f);
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("Test", wPaquet, UDP);
 
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void SetAchievementUnlocked( AchievementUnlockCallBack callback )
+///
+/// /*Description*/
+///
+/// @param[in] AchievementUnlockCallBack callback
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void SetAchievementUnlocked( AchievementUnlockCallBack callback )
+{
+    AchievementsManager::obtenirInstance()->setAchievementUnlockedCallback(callback);
 }
 
 
