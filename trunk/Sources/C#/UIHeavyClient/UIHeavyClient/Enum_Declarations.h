@@ -1,4 +1,9 @@
 #if !WIN32 && !__linux__ && !__APPLE__
+#define CSHARP
+#endif
+
+
+#if CSHARP
 namespace UIHeavyClient
 {
 #else
@@ -6,20 +11,27 @@ namespace UIHeavyClient
 #endif
 
 
-#if !WIN32 && !__linux__ && !__APPLE__
-public
+#if CSHARP
+public enum BoutonSouris
+#else
+typedef enum
 #endif
-enum BoutonSouris{
+{
     AUCUN_BOUTON_SOURIS	,
     BOUTON_SOURIS_GAUCHE,
     BOUTON_SOURIS_MILIEU,
     BOUTON_SOURIS_DROIT	,
-    NB_BOUTON_SOURIS	};
-
-#if !WIN32 && !__linux__ && !__APPLE__
-    public
+    NB_BOUTON_SOURIS	}
+#if !CSHARP
+BoutonSouris
 #endif
- enum ActionType
+;
+
+#if CSHARP
+public enum ActionType
+#else
+typedef enum
+#endif
     {
         ACTION_EDITEUR_NOUVEAU     ,
         ACTION_REINITIALISER_PARTIE,
@@ -52,12 +64,17 @@ enum BoutonSouris{
         ACTION_CAMERA_ORBITE       ,
         ACTION_CAMERA_LIBRE        ,
         ACTION_CAMERA_SPLIT        ,
-    };
-
-#if !WIN32 && !__linux__ && !__APPLE__
-    public
+}
+#if !CSHARP
+ActionType
 #endif
-    enum EventCodes
+;
+
+#if CSHARP
+public enum EventCodes
+#else
+typedef enum
+#endif
     {
         /// Network event category : begin
         SERVER_EVENT_BEGIN,
@@ -65,7 +82,7 @@ enum BoutonSouris{
         USER_DID_NOT_SEND_NAME_ON_CONNECTION,
         USER_CONNECTED,
         USER_DISCONNECTED,
-        INVALID_USERNAME = USER_DISCONNECTED, // Pour eviter d'avoir a changer le handling pour le prototype. Mettre 2 enums separes pour la version finale
+        INVALID_USERNAME = USER_DISCONNECTED, // Pour eviter d'avoia changer le handling pour le prototype. Mettre 2 enums separes pour la version finale
         CONNECTION_CANCELED,
         SEND_PASSWORD_REQUEST,
         RECONNECTION_TIMEOUT,
@@ -103,25 +120,36 @@ enum BoutonSouris{
         
 
         NB_EVENT_CODES // Must be always last !
-    };
-
-#if !WIN32 && !__linux__ && !__APPLE__
-    public
+    }
+#if !CSHARP
+EventCodes
 #endif
-    enum BonusType
+;
+
+#if CSHARP
+public enum BonusType
+#else
+typedef enum
+#endif
+    
     {
         BONUS_TYPE_GO_THROUGH_WALL,
         BONUS_TYPE_BLOCK_GOAL,
 
         NB_BONUS_TYPE
-    };
+    }
+#if !CSHARP
+BonusType
+#endif
+;
 
 
     // Enum to differentiate nodes and allows to find 3D models/Lists
-#if !WIN32 && !__linux__ && !__APPLE__
-    public
+#if CSHARP
+public enum RazerKey
+#else
+typedef enum
 #endif
-    enum RazerKey
     {
         RAZER_KEY_NONE                ,
         RAZER_KEY_BOOST               ,
@@ -141,7 +169,11 @@ enum BoutonSouris{
         RAZER_KEY_EMPTY_BONUS         ,
         RAZER_KEY_BONUS               ,
         RAZER_KEY_GOALER              ,
-    };
+    }
+#if !CSHARP
+RazerKey
+#endif
+;
 
 
     /// Enum to check if a property has already been assigned
@@ -151,10 +183,11 @@ enum BoutonSouris{
     /// Node2 sees the flag ASSIGNED_SCALE and checks the current value
     /// if it doesn't match it sets the flag INVALID_SCALE to indicate not to use it
     ///
-#if !WIN32 && !__linux__ && !__APPLE__
-    public
+#if CSHARP
+public enum PropertyAssignmentValidation
+#else
+typedef enum
 #endif
-    enum PropertyAssignmentValidation
     {
         ASSIGNED_FRICTION        ,
         INVALID_FRICTION         ,
@@ -181,15 +214,19 @@ enum BoutonSouris{
         ASSIGNED_BONUS_MAX      ,
         INVALID_BONUS_MAX       ,
         NB_PROPERTYASSIGNMENTVALIDATION
-    };
-    
+}
+#if !CSHARP
+PropertyAssignmentValidation
+#endif
+;
     
     // max of 16 categories because box2D flag have only 16 bits
     /// Group 1 used to collide mallet with middle separation and goals
-#if !WIN32 && !__linux__ && !__APPLE__
-    public
+#if CSHARP
+public enum PhysicsCategory
+#else
+typedef enum
 #endif
-    enum PhysicsCategory
     {
         CATEGORY_NONE     = 0x0000,
         CATEGORY_BOUNDARY = 0x0001,
@@ -200,8 +237,48 @@ enum BoutonSouris{
         CATEGORY_BONUS    = 0x0020,
         CATEGORY_WALL     = 0x0040,
         CATEGORY_GOALIE     = 0x0080,
-    };
+    }
+#if !CSHARP
+PhysicsCategory
+#endif
+    ;
 
-#if !WIN32 && !__linux__ && !__APPLE__
+#if CSHARP
+public enum FieldModificationStrategyEventType
+#else
+typedef enum
+#endif
+{
+    FIELD_MODIFICATION_EVENT_CLICK,
+    FIELD_MODIFICATION_EVENT_MOVE,
+}
+#if !CSHARP
+FieldModificationStrategyEventType
+#endif
+;
+
+#if CSHARP
+public enum FieldModificationStrategyType
+#else
+typedef enum
+#endif
+{
+    FIELD_MODIFICATION_NONE      ,
+    FIELD_MODIFICATION_MOVE      ,
+    FIELD_MODIFICATION_ROTATE    ,
+    FIELD_MODIFICATION_SCALE     ,
+    FIELD_MODIFICATION_ADD_PORTAL,
+    FIELD_MODIFICATION_ADD_BOOST ,
+    FIELD_MODIFICATION_ADD_WALL  ,
+    FIELD_MODIFICATION_ADD_MALLET,
+    FIELD_MODIFICATION_ADD_PUCK  ,
+    FIELD_MODIFICATION_ADD_BONUS ,
+}
+#if !CSHARP
+FieldModificationStrategyType
+#endif
+;
+
+#if CSHARP
 }
 #endif

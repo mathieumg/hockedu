@@ -325,10 +325,6 @@ namespace UIHeavyClient
         }
         void MainWindow_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if ( e.Key == Key.A )
-            {
-                DisplayAchievement("Achievement UI test");
-            }
             if (mOpenGLControl != null)
             {
                 if (mOpenGLControl.Focused)

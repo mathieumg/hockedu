@@ -11,6 +11,7 @@
 #include "AbstractAchievement.h"
 #include "Achievements.h"
 #include <iostream>
+#include "sqlite3.h"
 
 SINGLETON_DECLARATION_CPP(AchievementsManager);
 
@@ -104,6 +105,14 @@ void AchievementsManager::LoadAchievementProgress()
 void AchievementsManager::SaveAchievementProgress()
 {
     /// Todo::
+//     sqlite3_
+//     int rc;
+//     char *zErrMsg = 0;
+//     rc = sqlite3_exec(db, cmd, sql_callback, pRS, &zErrMsg);
+//     if( rc!=SQLITE_OK ){
+//         pRS->SetError(zErrMsg);
+//         sqlite3_free(zErrMsg);
+//     }
 }
 
 
