@@ -90,9 +90,11 @@ namespace UIHeavyClient
 
         private void onlineModeButton_Click(object sender, RoutedEventArgs e)
         {
-            mOnlineGroupBox.Visibility = Visibility.Visible;
-            mQuickPlayGroupBox.Visibility = Visibility.Hidden;
-            MainWindowHandler.LoginUI.SetFocusToUserName();
+            //mOnlineGroupBox.Visibility = Visibility.Visible;
+            //mQuickPlayGroupBox.Visibility = Visibility.Hidden;
+            //MainWindowHandler.LoginUI.SetFocusToUserName();
+
+            MainWindowHandler.GoToOnlineLobby(); // TEMP
         }
 
         private void optionButton_Click(object sender, RoutedEventArgs e)
