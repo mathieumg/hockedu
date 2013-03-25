@@ -47,8 +47,6 @@ namespace HttpHockeduRequests
 
 
 
-
-
         public void retreiveUserListFromJson()
         {
             // Liste d'objets

@@ -213,6 +213,15 @@ namespace UIHeavyClient
                 debugMenu.Items.Add(debugItem);
             }
 
+            {
+                System.Windows.Controls.MenuItem debugItem = new System.Windows.Controls.MenuItem();
+                debugItem.Header = "Test JSON";
+                debugItem.Click += TestJSON_Click;
+                debugMenu.Items.Add(debugItem);
+            }
+
+            
+
 #endif
 
             InitDLL();
@@ -226,6 +235,15 @@ namespace UIHeavyClient
         {
             ReloadModels();
         }
+
+        void TestJSON_Click(object sender, RoutedEventArgs e)
+        {
+            HttpManager wManager = new HttpManager();
+            wManager.retreiveUserListFromJson();
+
+            Console.Out.WriteLine("Test Termine");
+        }
+        
 
         // Tests pour connection serveur jeu et client
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
