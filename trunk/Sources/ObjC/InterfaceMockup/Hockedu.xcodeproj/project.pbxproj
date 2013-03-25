@@ -81,7 +81,12 @@
 		4E2A595E16F2E558002160AE /* NodeModelRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595B16F2E558002160AE /* NodeModelRender.cpp */; };
 		4E2A596116F2E658002160AE /* BonusModifierFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */; };
 		4E8C11B916FA31AE003D61E8 /* libTinyXml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EF216A316FA2AC0005FB093 /* libTinyXml.a */; };
-		4E8E3ABC1700D87E00C8FC56 /* EventManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8E3ABB1700D87E00C8FC56 /* EventManagerViewController.m */; };
+		4E8E3AC01700EB3100C8FC56 /* EditorStateAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8E3ABF1700EB3100C8FC56 /* EditorStateAbstract.m */; };
+		4E8E3AC31700EB7E00C8FC56 /* EventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8E3AC21700EB7E00C8FC56 /* EventManager.m */; };
+		4E8E3AC61700EBF700C8FC56 /* EditorStateAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8E3AC51700EBF700C8FC56 /* EditorStateAdd.m */; };
+		4E8E3AC91700EC6800C8FC56 /* EditorStateTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8E3AC81700EC6800C8FC56 /* EditorStateTransform.m */; };
+		4E8E3ACC1700ECB900C8FC56 /* EditorStateSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8E3ACB1700ECB900C8FC56 /* EditorStateSelection.m */; };
+		4E8E3ACF1700ECDF00C8FC56 /* EditorStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8E3ACE1700ECDF00C8FC56 /* EditorStateView.m */; };
 		4E96C87816FE0A5000CBA826 /* razor_sharp.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E96C87716FE0A5000CBA826 /* razor_sharp.png */; };
 		4E96DF0416F64C4700588998 /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E96DC6716F63D2100588998 /* libBox2D.a */; };
 		4E9CE9FA16FBB74100B04A12 /* Login.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E9CE9F916FBB74100B04A12 /* Login.xib */; };
@@ -314,8 +319,18 @@
 		4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierFactory.cpp; path = ../Usines/BonusModifierFactory.cpp; sourceTree = "<group>"; };
 		4E2A596016F2E658002160AE /* BonusModifierFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierFactory.h; path = ../Usines/BonusModifierFactory.h; sourceTree = "<group>"; };
 		4E2A596216F2E84B002160AE /* Enum_Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enum_Declarations.h; path = "../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"; sourceTree = "<group>"; };
-		4E8E3ABA1700D87E00C8FC56 /* EventManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventManagerViewController.h; sourceTree = "<group>"; };
-		4E8E3ABB1700D87E00C8FC56 /* EventManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventManagerViewController.m; sourceTree = "<group>"; };
+		4E8E3ABE1700EB3100C8FC56 /* EditorStateAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorStateAbstract.h; sourceTree = "<group>"; };
+		4E8E3ABF1700EB3100C8FC56 /* EditorStateAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditorStateAbstract.m; sourceTree = "<group>"; };
+		4E8E3AC11700EB7E00C8FC56 /* EventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventManager.h; sourceTree = "<group>"; };
+		4E8E3AC21700EB7E00C8FC56 /* EventManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventManager.m; sourceTree = "<group>"; };
+		4E8E3AC41700EBF700C8FC56 /* EditorStateAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorStateAdd.h; sourceTree = "<group>"; };
+		4E8E3AC51700EBF700C8FC56 /* EditorStateAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditorStateAdd.m; sourceTree = "<group>"; };
+		4E8E3AC71700EC6800C8FC56 /* EditorStateTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorStateTransform.h; sourceTree = "<group>"; };
+		4E8E3AC81700EC6800C8FC56 /* EditorStateTransform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditorStateTransform.m; sourceTree = "<group>"; };
+		4E8E3ACA1700ECB900C8FC56 /* EditorStateSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorStateSelection.h; sourceTree = "<group>"; };
+		4E8E3ACB1700ECB900C8FC56 /* EditorStateSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditorStateSelection.m; sourceTree = "<group>"; };
+		4E8E3ACD1700ECDF00C8FC56 /* EditorStateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorStateView.h; sourceTree = "<group>"; };
+		4E8E3ACE1700ECDF00C8FC56 /* EditorStateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditorStateView.m; sourceTree = "<group>"; };
 		4E96C87716FE0A5000CBA826 /* razor_sharp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = razor_sharp.png; path = ../../../Content/media/razor_sharp.png; sourceTree = "<group>"; };
 		4E96DC6216F63D1D00588998 /* Box2D.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Box2D.xcodeproj; path = Box2D/Box2D.xcodeproj; sourceTree = "<group>"; };
 		4E9CE9F916FBB74100B04A12 /* Login.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Login.xib; sourceTree = "<group>"; };
@@ -656,6 +671,25 @@
 			path = Bonus;
 			sourceTree = "<group>";
 		};
+		4E8E3ABD1700EAB300C8FC56 /* State */ = {
+			isa = PBXGroup;
+			children = (
+				4E8E3ABE1700EB3100C8FC56 /* EditorStateAbstract.h */,
+				4E8E3ABF1700EB3100C8FC56 /* EditorStateAbstract.m */,
+				4E8E3AC11700EB7E00C8FC56 /* EventManager.h */,
+				4E8E3AC21700EB7E00C8FC56 /* EventManager.m */,
+				4E8E3AC41700EBF700C8FC56 /* EditorStateAdd.h */,
+				4E8E3AC51700EBF700C8FC56 /* EditorStateAdd.m */,
+				4E8E3AC71700EC6800C8FC56 /* EditorStateTransform.h */,
+				4E8E3AC81700EC6800C8FC56 /* EditorStateTransform.m */,
+				4E8E3ACA1700ECB900C8FC56 /* EditorStateSelection.h */,
+				4E8E3ACB1700ECB900C8FC56 /* EditorStateSelection.m */,
+				4E8E3ACD1700ECDF00C8FC56 /* EditorStateView.h */,
+				4E8E3ACE1700ECDF00C8FC56 /* EditorStateView.m */,
+			);
+			name = State;
+			sourceTree = "<group>";
+		};
 		4E96DC6316F63D1D00588998 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -712,6 +746,7 @@
 			children = (
 				96378D891472C71200F543EA /* HockeduAppDelegate.h */,
 				96378D8A1472C71200F543EA /* HockeduAppDelegate.m */,
+				4E8E3ABD1700EAB300C8FC56 /* State */,
 				968DACC11472ED46007D15A3 /* Utilitaires */,
 				969DDEDC1472CF6000ED5DC8 /* Vues */,
 				96378D981472C7F200F543EA /* Interface Builder */,
@@ -739,8 +774,6 @@
 		96378D941472C78200F543EA /* Controleurs */ = {
 			isa = PBXGroup;
 			children = (
-				4E8E3ABA1700D87E00C8FC56 /* EventManagerViewController.h */,
-				4E8E3ABB1700D87E00C8FC56 /* EventManagerViewController.m */,
 				96378D951472C7CC00F543EA /* MenuViewController.h */,
 				96378D961472C7CC00F543EA /* MenuViewController.m */,
 				969DDF8D1472E15900ED5DC8 /* EAGLViewController.h */,
@@ -1003,7 +1036,12 @@
 				4ED4BC3516FEED3200227F1E /* FieldModificationStrategyAddNode.cpp in Sources */,
 				4ED4BC3616FEED3200227F1E /* FieldModificationStrategyAddWall.cpp in Sources */,
 				4E9DDDB216FF842C0081B35D /* VisitorGatherProperties.cpp in Sources */,
-				4E8E3ABC1700D87E00C8FC56 /* EventManagerViewController.m in Sources */,
+				4E8E3AC01700EB3100C8FC56 /* EditorStateAbstract.m in Sources */,
+				4E8E3AC31700EB7E00C8FC56 /* EventManager.m in Sources */,
+				4E8E3AC61700EBF700C8FC56 /* EditorStateAdd.m in Sources */,
+				4E8E3AC91700EC6800C8FC56 /* EditorStateTransform.m in Sources */,
+				4E8E3ACC1700ECB900C8FC56 /* EditorStateSelection.m in Sources */,
+				4E8E3ACF1700ECDF00C8FC56 /* EditorStateView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
