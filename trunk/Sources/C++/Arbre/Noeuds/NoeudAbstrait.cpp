@@ -1110,8 +1110,10 @@ void NoeudAbstrait::renderOpenGLES() const
         vertices[i] = (cos(deg)*radius);
         vertices[i+1] = (sin(deg)*radius);
     }
+    glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer (2, GL_FLOAT , 0, vertices); 
     glDrawArrays (GL_TRIANGLE_FAN, 0, segments);
+    glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 ////////////////////////////////////////////////////////////////////////

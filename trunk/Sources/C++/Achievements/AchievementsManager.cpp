@@ -12,6 +12,7 @@
 #include "Achievements.h"
 #include <iostream>
 #include "sqlite3.h"
+#include <sstream>
 
 SINGLETON_DECLARATION_CPP(AchievementsManager);
 
@@ -28,11 +29,7 @@ SINGLETON_DECLARATION_CPP(AchievementsManager);
 ////////////////////////////////////////////////////////////////////////
 AchievementsManager::AchievementsManager() : mAchievementUnlockedCallback(NULL)
 {
-//     sqlite3* db;
-//     if(sqlite3_open("achievement",&db))
-//     {
-//         std::cout << "wee\n";
-//     }
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -79,6 +76,11 @@ AchievementsManager::~AchievementsManager()
 void AchievementsManager::InitialiseAchievements()
 {
     mAchievementProgress[ACHIEVEMENTS_START_APPLICATION] = new AchievementStartApp();
+
+
+
+
+    SaveAchievementProgress();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -108,15 +110,22 @@ void AchievementsManager::LoadAchievementProgress()
 ////////////////////////////////////////////////////////////////////////
 void AchievementsManager::SaveAchievementProgress()
 {
-    /// Todo::
-//     sqlite3_
-//     int rc;
-//     char *zErrMsg = 0;
-//     rc = sqlite3_exec(db, cmd, sql_callback, pRS, &zErrMsg);
-//     if( rc!=SQLITE_OK ){
-//         pRS->SetError(zErrMsg);
-//         sqlite3_free(zErrMsg);
-//     }
+    /// Todo::/*
+    std::string l_filename = "datafile.sqlite";
+    std::ostringstream l_query;
+    sqlite3* l_sql_db = NULL;
+
+    printf("Opening DB\n");
+    int rc = sqlite3_open(l_filename.c_str(), &l_sql_db);
+    if( rc ){
+        sqlite3_close(l_sql_db);
+        printf("Error couldn't open SQLite database %s",l_filename.c_str());
+        return ;
+    };
+
+*/
+
+
 }
 
 
