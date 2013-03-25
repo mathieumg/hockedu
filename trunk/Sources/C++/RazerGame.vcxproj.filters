@@ -614,9 +614,6 @@
     <ClCompile Include="Achievements\AchievementsManager.cpp">
       <Filter>Sources Files\Achievements</Filter>
     </ClCompile>
-    <ClCompile Include="Achievements\AbstractAchievement.cpp">
-      <Filter>Sources Files\Achievements</Filter>
-    </ClCompile>
     <ClCompile Include="Achievements\Achievements.cpp">
       <Filter>Sources Files\Achievements</Filter>
     </ClCompile>
@@ -1163,9 +1160,6 @@
       <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClInclude>
     <ClInclude Include="Achievements\AchievementsManager.h">
-      <Filter>Sources Files\Achievements</Filter>
-    </ClInclude>
-    <ClInclude Include="Achievements\AbstractAchievement.h">
       <Filter>Sources Files\Achievements</Filter>
     </ClInclude>
     <ClInclude Include="Achievements\Achievements.h">

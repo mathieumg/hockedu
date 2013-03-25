@@ -13,10 +13,13 @@
 #include "AchievementsEnums.h"
 #include <set>
 #include <string>
+#include "Achievements.h"
 
 class AbstractAchievement;
 
 typedef int (*AchievementUnlockCallBack)(AchievementsType pType, char* pMessage);
+struct AchievementBinding;
+typedef void (*AchievementEventReceived)(AbstractAchievement*,AchievementEvent);
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class AchievementsManager
@@ -42,15 +45,14 @@ public:
     void SaveAchievementProgress();
 
     void LaunchEvent(AchievementEvent);
-    void RegisterAchievementEventListener(AchievementEvent,AbstractAchievement*);
-    void UnregisterAchievementEventListener(AchievementEvent,AbstractAchievement*);
+    void RegisterAchievementEventListener(const AchievementBinding&);
+    void UnregisterAchievementEventListener(const AchievementBinding&);
 
     inline void setAchievementUnlockedCallback( AchievementUnlockCallBack pVal) { mAchievementUnlockedCallback = pVal; }
     void AchievementUnlocked(AchievementsType pType, const std::string& pAchievementName);
 
-
 private:
-    typedef std::set<AbstractAchievement*> EventListenerList;
+    typedef std::set<Binding*> EventListenerList;
     std::map<AchievementsType,AbstractAchievement*> mAchievementProgress;
     std::map<AchievementEvent,EventListenerList*> mEventListeners;
     AchievementUnlockCallBack mAchievementUnlockedCallback;

@@ -100,7 +100,7 @@
     <packageHasNamedElement>
       <class
         Id="2a28e8d6-a2d1-4d9c-b4d3-0dbf0c39960b"
-        name="EtatSourisDeplacement"
+        name="EtatSourisTransformation"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">

@@ -13,6 +13,7 @@
 #include <iostream>
 #include "sqlite3.h"
 #include <sstream>
+#include "XMLUtils.h"
 
 SINGLETON_DECLARATION_CPP(AchievementsManager);
 
@@ -78,9 +79,16 @@ void AchievementsManager::InitialiseAchievements()
     mAchievementProgress[ACHIEVEMENTS_START_APPLICATION] = new AchievementStartApp();
 
 
+    // Initialisation de base des niveaux
+    for( auto it=mAchievementProgress.begin(); it!= mAchievementProgress.end(); ++it)
+    {
+        if(it->second)
+        {
+            it->second->InitFirstLevel();
+        }
+    }
 
-
-    SaveAchievementProgress();
+    LoadAchievementProgress();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -95,7 +103,26 @@ void AchievementsManager::InitialiseAchievements()
 ////////////////////////////////////////////////////////////////////////
 void AchievementsManager::LoadAchievementProgress()
 {
-    /// Todo::
+    XmlDocument document ;
+    if(XMLUtils::LoadDocument(document,"Achievements.xml"))
+    {
+        XmlElement* achievementRoot = XMLUtils::FirstChildElement(document.GetElem(),"Achievements");
+
+        // Écrire dans le fichier
+        for( auto it=mAchievementProgress.begin(); it!= mAchievementProgress.end(); ++it)
+        {
+            if(it->second)
+            {
+                if(!it->second->LoadAchievementNode(achievementRoot))
+                {
+                    /// noeud n'a pas charger son noeud
+                    /// comportement possible, mais checkf pour s'assurer que callback'est desire
+                    checkf(0);
+                }
+            }
+        }
+    }
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -110,7 +137,26 @@ void AchievementsManager::LoadAchievementProgress()
 ////////////////////////////////////////////////////////////////////////
 void AchievementsManager::SaveAchievementProgress()
 {
+    XmlDocument document ;
+    XMLUtils::CreateDocument(document);
 
+    XmlElement* achievementRoot = XMLUtils::createNode("Achievements");
+    XMLUtils::LinkEndChild(document,achievementRoot);
+
+    // Écrire dans le fichier
+    for( auto it=mAchievementProgress.begin(); it!= mAchievementProgress.end(); ++it)
+    {
+        if(it->second)
+        {
+            auto elem = it->second->CreateAchievementNode();
+            if(elem)
+            {
+                XMLUtils::LinkEndChild(achievementRoot,elem);
+            }
+        }
+    }
+
+    XMLUtils::SaveDocument(document,"Achievements.xml");
 }
 
 
@@ -136,7 +182,11 @@ void AchievementsManager::LaunchEvent( AchievementEvent pEvent )
         const EventListenerList listernersList = *it->second;
         for(auto itA=listernersList.begin(); itA!= listernersList.end(); ++itA)
         {
-            (*itA)->EventReceived(pEvent);
+            auto callback = (*itA)->mCallBack;
+            if(callback)
+            {
+                callback((*itA)->mAchievement,pEvent);
+            }
         }
     }
 }
@@ -153,14 +203,17 @@ void AchievementsManager::LaunchEvent( AchievementEvent pEvent )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void AchievementsManager::RegisterAchievementEventListener( AchievementEvent pEvent,AbstractAchievement* pAchievement)
+void AchievementsManager::RegisterAchievementEventListener(const AchievementBinding& pBinding)
 {
-    auto it = mEventListeners.find(pEvent);
-    if(it == mEventListeners.end())
+    if(pBinding.mBinding && pBinding.mBinding->mCallBack)
     {
-        mEventListeners[pEvent] = new EventListenerList();
+        auto it = mEventListeners.find(pBinding.mEventBinded);
+        if(it == mEventListeners.end())
+        {
+            mEventListeners[pBinding.mEventBinded] = new EventListenerList();
+        }
+        mEventListeners[pBinding.mEventBinded]->insert(pBinding.mBinding);
     }
-    mEventListeners[pEvent]->insert(pAchievement);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -175,15 +228,15 @@ void AchievementsManager::RegisterAchievementEventListener( AchievementEvent pEv
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void AchievementsManager::UnregisterAchievementEventListener( AchievementEvent pEvent,AbstractAchievement* pAchievement )
+void AchievementsManager::UnregisterAchievementEventListener( const AchievementBinding& pBinding )
 {
-    auto it = mEventListeners.find(pEvent);
+    auto it = mEventListeners.find(pBinding.mEventBinded);
     /// look for the event list
     if(it != mEventListeners.end())
     {
         /// list found, search for the achievement
         EventListenerList* listernersList = it->second;
-        auto a = listernersList->find(pAchievement);
+        auto a = listernersList->find(pBinding.mBinding);
 
         if(a != listernersList->end())
         {
@@ -218,5 +271,6 @@ void AchievementsManager::AchievementUnlocked( AchievementsType pType, const std
     {
         std::cout << "Achievement Unlocked : " << pAchievementName << std::endl;
     }
+    SaveAchievementProgress();
 }
 

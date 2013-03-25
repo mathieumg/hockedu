@@ -11,20 +11,6 @@
 #include "AchievementsEnums.h"
 
 
-///////////////////////////////////////////////////////////////////////////
-/// @class AbstractAchievement
-/// @brief Classe représentant l'interface et les éléments de base d'un achievement.
-///
-///
-/// @author Michael Ferris
-/// @date 2013-03-24
-///////////////////////////////////////////////////////////////////////////
-class AbstractAchievement
-{
-public:
-    virtual ~AbstractAchievement(){}
-    virtual void EventReceived(AchievementEvent) = 0;
-};
 
 
 ///////////////////////////////////////////////////////////////////////////////
