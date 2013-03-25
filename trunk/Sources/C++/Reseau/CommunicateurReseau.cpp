@@ -1040,9 +1040,11 @@ void * CommunicateurReseau::receivingUDPThreadRoutine( void *arg )
 {
     ArgsConnectionThread* wArgs = (ArgsConnectionThread*) arg;
 
-    CommunicateurReseau* wCommunicateurReseau = wArgs->communicateurReseau;
     SPSocket wSocket = (SPSocket)wArgs->socketAConnecter;
-    delete arg;
+    delete wArgs;
+
+#ifndef __linux__
+
     uint8_t readBuffer[GestionnaireReseau::TAILLE_BUFFER_RECEPTION_ENVOI];
     PacketReader wPacketReader;
 
@@ -1109,6 +1111,7 @@ void * CommunicateurReseau::receivingUDPThreadRoutine( void *arg )
 
         }
     }
+#endif
 
     return 0;
 }

@@ -24,6 +24,7 @@
 #include "SoundFMOD.h"
 #include "Box2D\Common\b2Math.h"
 #include "Box2D\Dynamics\b2Body.h"
+#include "PaquetHandlers\PacketHandlerBonus.h"
 
 
 #ifdef LINUX
@@ -312,6 +313,27 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
         }
     }
 
+
+
+    return 0;
+}
+
+
+////////// Section des bonus
+
+
+int PaquetRunnable::RunnableBonusMailletMuretClient( PaquetBonus* pPaquet )
+{
+    PaquetBonusInfosMailletMurets* wInfos = (PaquetBonusInfosMailletMurets*) pPaquet->getPaquetInfos();
+
+
+    return 0;
+}
+
+
+int PaquetRunnable::RunnableBonusGoalerClient( PaquetBonus* pPaquet )
+{
+    PaquetBonusInfosGoaler* wInfos = (PaquetBonusInfosGoaler*) pPaquet->getPaquetInfos();
 
 
     return 0;

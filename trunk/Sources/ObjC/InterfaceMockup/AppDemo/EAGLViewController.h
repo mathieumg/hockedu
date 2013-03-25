@@ -21,16 +21,21 @@ extern int const HAUTEUR_FENETRE;
 @interface EAGLViewController : UIViewController <UIGestureRecognizerDelegate> {
     EAGLContext *context;
     EAGLView* theEAGLView;
-    UIImageView *imageObjectToAdd;
+    
     GLuint program;
     IBOutlet UIView *mGLView;
     IBOutlet UIView *mSideBarView;
     IBOutlet UIView *mTopBarView;
     
+    // Used to know if we are selecting or creating
     BOOL mSelectionMode;
     BOOL mCreationMode;
-    BOOL animating;
+    BOOL mSelectTool;
+    BOOL mMoveTool;
+    UIImageView *imageObjectToAdd;
     NSInteger itemToBeAdded;
+    
+    BOOL animating;
     
     NSInteger animationFrameInterval;
     CADisplayLink *displayLink;
@@ -40,6 +45,7 @@ extern int const HAUTEUR_FENETRE;
     float translationX;
     float translationY;
     float zoomFactor;
+    // Utilise pour le rectangle de selection
     CGPoint firstCorner;
     BOOL touchMoved;
 }
@@ -58,9 +64,12 @@ typedef enum{
 } ItemToAdd;
 
 - (IBAction)selectionModeButtonTouched:(UIButton *)sender;
+- (IBAction)selectToolButtonTouched:(UIButton *)sender;
+- (IBAction)moveToolButtonTouched:(UIButton *)sender;
 - (IBAction)creationModeButtonTouched:(UIButton *)sender;
 - (IBAction)saveAndExitButtonTouched:(UIButton *)sender;
 - (IBAction)portalButtonTouched:(UIButton *)sender;
+- (void)unselectAllTools;
 - (void)startAnimation;
 - (void)stopAnimation;
 - (void)setupView;

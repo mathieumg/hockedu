@@ -307,6 +307,7 @@
     <ClCompile Include="Reseau\PacketReader.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandler.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerAuthentificationServeurJeu.cpp" />
+    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerBonus.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerConnAutomatique.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerEvent.cpp" />
@@ -325,6 +326,7 @@
     <ClCompile Include="Reseau\PaquetRunnableServeurJeu.cpp" />
     <ClCompile Include="Reseau\Paquets\Paquet.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetAuthentificationServeurJeu.cpp" />
+    <ClCompile Include="Reseau\Paquets\PaquetBonus.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetChatMessage.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetConnAutomatique.cpp" />
     <ClCompile Include="reseau\Paquets\PaquetGameConnection.cpp" />
@@ -482,6 +484,7 @@
     <ClInclude Include="Reseau\PacketBuilder.h" />
     <ClInclude Include="Reseau\PacketReader.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandler.h" />
+    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerBonus.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerConnAutomatique.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerEvent.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerLoginInfo.h" />
@@ -491,6 +494,7 @@
     <ClInclude Include="Reseau\PaquetRunnableServeurJeu.h" />
     <ClInclude Include="Reseau\Paquets\Paquet.h" />
     <ClInclude Include="Reseau\Paquets\PaquetAuthentificationServeurJeu.h" />
+    <ClInclude Include="Reseau\Paquets\PaquetBonus.h" />
     <ClInclude Include="Reseau\Paquets\PaquetChatMessage.h" />
     <ClInclude Include="Reseau\Paquets\PaquetConnAutomatique.h" />
     <ClInclude Include="reseau\Paquets\PaquetGameConnection.h" />
@@ -509,6 +513,7 @@
     <ClInclude Include="Reseau\SocketTCPServeur.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquet.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetAuthentificationServeurJeu.h" />
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetBonus.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetChatMessage.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetConnAutomatique.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetEvent.h" />
