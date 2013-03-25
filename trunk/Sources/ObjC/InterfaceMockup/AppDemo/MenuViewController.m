@@ -4,6 +4,7 @@
 //
 
 #import "MenuViewController.h"
+#import "LoadMapViewController.h"
 #import "HockeduAppDelegate.h"
 
 @implementation MenuViewController
@@ -47,12 +48,17 @@
 	return YES;
 }
 
-- (IBAction)afficherVueAnimee
+- (IBAction)showEditor
 {
-    AppDemoAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
+    HockeduAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
     [delegate afficherVueAnimee];
 }
 
-
+-(IBAction) openMapList
+{
+    HockeduAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
+    [delegate showMapList];
+    
+}
 
 @end

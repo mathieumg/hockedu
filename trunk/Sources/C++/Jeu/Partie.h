@@ -174,6 +174,8 @@ private:
     /// position of mouse in the screen coordinates, do not use directly on nodes
     Vecteur2i mMousePosScreen;
 
+    bool mIsNetworkClientGame;
+    bool mIsNetworkServerGame;
 
     /// Accesseurs
 public:
@@ -226,6 +228,8 @@ public:
     inline void setName(std::string val) { mName = val; }
 
     inline PartieSyncer* getPartieSyncer() { return &mPartieSyncer; }
+
+    void recalculateNetworkGameFlags();
     
 
     /// Accessors of mMousePosScreen

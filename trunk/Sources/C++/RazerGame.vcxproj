@@ -200,6 +200,7 @@
     <ClCompile Include="Arbre\HUD\HUDBonus.cpp" />
     <ClCompile Include="Arbre\HUD\HUDElement.cpp" />
     <ClCompile Include="Arbre\HUD\HUDElementComparatif.cpp" />
+    <ClCompile Include="Arbre\HUD\HUDForeverAlone.cpp" />
     <ClCompile Include="Arbre\HUD\HUDMultiligne.cpp" />
     <ClCompile Include="Arbre\HUD\HUDSurfaceGL.cpp" />
     <ClCompile Include="Arbre\HUD\HUDTexte.cpp" />
@@ -372,6 +373,7 @@
     <ClInclude Include="Arbre\HUD\HUDBonus.h" />
     <ClInclude Include="Arbre\HUD\HUDElement.h" />
     <ClInclude Include="Arbre\HUD\HUDElementComparatif.h" />
+    <ClInclude Include="Arbre\HUD\HUDForeverAlone.h" />
     <ClInclude Include="Arbre\HUD\HUDMultiligne.h" />
     <ClInclude Include="Arbre\HUD\HUDSurfaceGL.h" />
     <ClInclude Include="Arbre\HUD\HUDTexte.h" />

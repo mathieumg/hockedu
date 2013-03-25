@@ -77,7 +77,7 @@ int FieldModificationStrategyAddWall::receivedEventSpecific( const FieldModifica
         {
             // le noeud a perdu son parent,
             // le terrain a surement ete reinitialisé, ou undid
-            Vecteur2 pos = mNewNode->getPosition();
+            const Vecteur2 pos = mNewNode->getPosition().convertir<2>();
             mNewNode->deleteThis();
             mNewNode = NULL;
             mCurrentPoint = NULL;

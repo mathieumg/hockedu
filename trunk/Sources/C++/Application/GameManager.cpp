@@ -16,6 +16,7 @@
 #include "..\Reseau\Paquets\PaquetGameEvent.h"
 #include "..\Reseau\RelayeurMessage.h"
 #include "..\Reseau\GestionnaireReseau.h"
+#include "GestionnaireHUD.h"
 
 
 
@@ -278,6 +279,10 @@ bool GameManager::startGame(int pGameId)
     
     if(wPartie->getGameStatus() == GAME_READY)
     {
+        if(GestionnaireHUD::Exists())
+        {
+            GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(false);
+        }
         // Start game si partie deja ready
         wPartie->miseAuJeu(true);
     }

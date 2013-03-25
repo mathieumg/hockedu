@@ -76,7 +76,7 @@ bool BonusModifierBlockGoal::Attach( NoeudRondelle* pPuck )
     {
         auto mallet = pPuck->getLastHittingMallet();
         auto field = pPuck->getField();
-        if(field)
+        if(field && mallet)
         {
             NoeudBut* goals[2];
             field->getGoals(goals);

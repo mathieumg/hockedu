@@ -590,6 +590,9 @@
     <ClCompile Include="Arbre\Visiteur\VisitorSetProperties.cpp">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
     </ClCompile>
+    <ClCompile Include="Arbre\HUD\HUDForeverAlone.cpp">
+      <Filter>Sources Files\Arbre\Hud</Filter>
+    </ClCompile>
     <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddWall.cpp">
       <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
     </ClCompile>
@@ -1116,6 +1119,8 @@
     </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisitorSetProperties.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
+    </ClInclude>    <ClInclude Include="Arbre\HUD\HUDForeverAlone.h">
+      <Filter>Sources Files\Arbre\Hud</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddWall.h">
       <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
