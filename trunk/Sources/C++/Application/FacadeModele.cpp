@@ -80,6 +80,7 @@
 #include "GameManager.h"
 #include "BonusModifierFactory.h"
 #include "SoundFMOD.h"
+#include "..\Achievements\LaunchAchievementLite.h"
 
 /// Pointeur vers l'instance unique de la classe.
 FacadeModele* FacadeModele::instance_ = 0;
@@ -1104,6 +1105,7 @@ bool FacadeModele::passageModeJeu()
 ////////////////////////////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageMenuPrincipal()
 {
+    Achievements::LaunchEvent(ACHIEVEMENT_EVENT_MAIN_SCREEN_LOADED);
     mEditionField->libererMemoire();
     ClearCurrentGame();
 
