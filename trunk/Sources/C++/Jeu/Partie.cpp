@@ -936,15 +936,13 @@ void Partie::callGameUpdate(GameStatus pGameStatus) const
 void Partie::modifierEnPause( bool val )
 {
     
-    if(val)
+    if(val && getGameStatus() != GAME_PAUSED)
     {
-        checkf(mGameStatus != GAME_PAUSED, "On ne doit pas mettre en pause une partie qui l'est deja");
         tempsJeu_.pause();
         setGameStatus(GAME_PAUSED);
     }
-    else
+    else if(getGameStatus() == GAME_PAUSED)
     {
-        checkf(mGameStatus == GAME_PAUSED, "On doit etre en pause pour sortir du pause");
         tempsJeu_.unPause();
         setGameStatus(mLastGameStatus); // Utilise le dernier etat de partie pour unpause
     }

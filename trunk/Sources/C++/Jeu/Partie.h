@@ -171,6 +171,7 @@ private:
     bool mIsNetworkClientGame;
     bool mIsNetworkServerGame;
 
+
 /// Accesseurs
 public:
 	/// Indique si les 2 joueurs de la partie sont virtuels

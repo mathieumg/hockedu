@@ -39,6 +39,9 @@ public:
 
     void removeGame(int pGameId);
 
+    // Ne pas utiliser. Uniquement pour faire le remove definitif. Utiliser removeGame()
+    void removeGameFromList(int pGameId) {mListePartiesParId.erase(pGameId);}
+
     // Rend la partie prete a etre demarree
     bool getGameReady(int pGameId);
 

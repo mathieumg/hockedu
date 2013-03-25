@@ -25,6 +25,7 @@
 #include "Box2D\Common\b2Math.h"
 #include "Box2D\Dynamics\b2Body.h"
 #include "PaquetHandlers\PacketHandlerBonus.h"
+#include "GestionnaireHUD.h"
 
 
 #ifdef LINUX
@@ -213,6 +214,7 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
                     wGame->obtenirJoueurGauche()->modifierNom(wPaquet->getPlayer1Name());
                     wGame->obtenirJoueurDroit()->modifierNom(wPaquet->getPlayer2Name());
                     // Resume game only
+                    GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(false);
                     wGame->modifierEnPause(false);
                 }
                 else if(wGame->getGameStatus() == GAME_READY)
@@ -236,6 +238,7 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
                 if(wGame->getGameStatus() == GAME_RUNNING || wGame->getGameStatus() == GAME_STARTED)
                 {
                     wGame->modifierEnPause(true);
+                    GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(true);
                 }
                 std::cout << "Other player disconnected" << std::endl;
 
