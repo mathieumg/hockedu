@@ -329,7 +329,7 @@ void GestionnaireReseau::supprimerPacketHandlersEtUsines()
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireReseau::envoyerPaquet( SPSocket pSocketAUtiliser, Paquet* pPaquet )
 {
-    if(this->validerOperation(pPaquet->getOperation()))
+    if(validerOperation(pPaquet->getOperation()))
     {
         if(!mCommunicateurReseau.ajouterPaquetEnvoie(pSocketAUtiliser, pPaquet))
         {
@@ -365,6 +365,7 @@ void GestionnaireReseau::envoyerPaquet( const std::string& pConnectionId, Paquet
     }
     else
     {
+        
         pPaquet->removeAssociatedQuery();
     }
 }
@@ -879,6 +880,26 @@ std::string GestionnaireReseau::getPlayerName()
 std::string GestionnaireReseau::getPlayerPassword()
 {
     return mPassword;
+}
+
+
+
+
+
+std::string GestionnaireReseau::getSocketIdentifier( SPSocket wSocket ) 
+{
+    std::string wBuf;
+    FacadePortability::takeMutex(mMutexListeSockets);
+    for(auto it = mListeSockets.begin(); it!=mListeSockets.end(); ++it)
+    {
+        if(it->second == wSocket)
+        {
+            wBuf = it->first.first;
+            break;
+        }
+    }
+    FacadePortability::releaseMutex(mMutexListeSockets);
+    return wBuf;
 }
 
 

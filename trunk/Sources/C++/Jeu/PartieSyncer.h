@@ -14,6 +14,7 @@
 #include <vector>
 
 
+
 ///////////////////////////////////////////////////////////////////////////
 /// @class PartieSyncer
 /// @brief Objet pour la synchronisation de la partie sur le network.

@@ -28,7 +28,11 @@ SINGLETON_DECLARATION_CPP(AchievementsManager);
 ////////////////////////////////////////////////////////////////////////
 AchievementsManager::AchievementsManager() : mAchievementUnlockedCallback(NULL)
 {
-
+//     sqlite3* db;
+//     if(sqlite3_open("achievement",&db))
+//     {
+//         std::cout << "wee\n";
+//     }
 }
 
 ////////////////////////////////////////////////////////////////////////

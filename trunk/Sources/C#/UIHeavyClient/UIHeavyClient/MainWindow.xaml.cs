@@ -194,6 +194,20 @@ namespace UIHeavyClient
             }
 
             {
+                System.Windows.Controls.MenuItem testPauseNetwork = new System.Windows.Controls.MenuItem();
+                testPauseNetwork.Header = "Test Pause Game";
+                testPauseNetwork.Click += requestGamePause_Click;
+                debugMenu.Items.Add(testPauseNetwork);
+            }
+
+            {
+                System.Windows.Controls.MenuItem testResumeNetwork = new System.Windows.Controls.MenuItem();
+                testResumeNetwork.Header = "Test Resume Game";
+                testResumeNetwork.Click += requestGameResume_Click;
+                debugMenu.Items.Add(testResumeNetwork);
+            }
+
+            {
                 System.Windows.Controls.MenuItem debugItem = new System.Windows.Controls.MenuItem();
                 debugItem.Header = "Reload Models";
                 debugItem.Click += ReloadModels_Click;
@@ -232,6 +246,14 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void requestGameCreationServerGame(string pGameName);
 
+        // Tests pour mise en pause
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void requestGamePause();
+
+        // Tests pour mise en pause
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void requestGameResume();
+
         private void connexionServeurJeu_Click(object sender, RoutedEventArgs e)
         {
             // Tests pour connection serveur jeu et client
@@ -259,6 +281,21 @@ namespace UIHeavyClient
             requestGameCreationServerGame("Bob's Game");
 
         }
+
+        private void requestGamePause_Click(object sender, RoutedEventArgs e)
+        {
+            // Tests pour la creation d'une partie sur le serveur jeu
+            requestGamePause();
+
+        }
+
+        private void requestGameResume_Click(object sender, RoutedEventArgs e)
+        {
+            // Tests pour la creation d'une partie sur le serveur jeu
+            requestGameResume();
+
+        }
+        
         
 
         void simulationMode_Click(object sender, RoutedEventArgs e)

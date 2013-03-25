@@ -27,6 +27,7 @@
 #include "..\Reseau\GestionnaireReseau.h"
 #include "..\Reseau\Paquets\PaquetGameEvent.h"
 #include "..\Reseau\RelayeurMessage.h"
+#include "Solution_Defines.h"
 
 
 GLuint Partie::listePause_ = 0;
@@ -456,6 +457,20 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
         throw ExceptionJeu("Tente d'assigner les controles a des maillets lorsqu'il manque encore des joueurs dans la partie");
     }
 }
+
+
+
+void Partie::reloadControleMallet()
+{
+    checkf(getGameStatus() == GAME_PAUSED, "La partie doit avoir ete initialise avant de pouvoir appeler un reload sur les maillets");
+    Terrain* wField = getField();
+    checkf(wField, "Terrain invalide lors du reloadMallet");
+    assignerControlesMaillet(wField->getLeftMallet(), wField->getRightMallet(), wField->getPuck()); 
+
+
+}
+
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -913,12 +928,12 @@ void Partie::callGameUpdate(GameStatus pGameStatus) const
 
 void Partie::modifierEnPause( bool val )
 {
-    if(val)
+    if(val && getGameStatus() != GAME_PAUSED)
     {
         tempsJeu_.pause();
         setGameStatus(GAME_PAUSED);
     }
-    else
+    else if(getGameStatus() == GAME_PAUSED)
     {
         tempsJeu_.unPause();
         setGameStatus(mLastGameStatus); // Utilise le dernier etat de partie pour unpause

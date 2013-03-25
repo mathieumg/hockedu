@@ -17,6 +17,9 @@
 #include "..\Reseau\PaquetHandlers\PacketHandlerBonus.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetBonus.h"
 #include "..\Achievements\AchievementsManager.h"
+#include "FacadeModele.h"
+#include "..\Reseau\Paquets\PaquetGameEvent.h"
+#include "..\Reseau\RelayeurMessage.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -466,6 +469,22 @@ void requestGameCreationServerGame( char* pGameName )
     wPaquet->setGameName(pGameName);
     wPaquet->setMapName(FacadeModele::FICHIER_TERRAIN_EN_COURS);
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
+}
+
+void requestGamePause( )
+{
+    PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+    wPaquet->setGameId(FacadeModele::getInstance()->obtenirPartieCouranteId());
+    wPaquet->setEvent(GAME_EVENT_PAUSE_GAME_REQUESTED);
+    RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
+}
+
+void requestGameResume( )
+{
+    PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+    wPaquet->setGameId(FacadeModele::getInstance()->obtenirPartieCouranteId());
+    wPaquet->setEvent(GAME_EVENT_START_GAME);
+    RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
 }
 
 void SaveMap(char* pFileName)

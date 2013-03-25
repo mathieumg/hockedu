@@ -168,7 +168,6 @@ class Common
     
     public function addUserMap( $userId, $mapName,  $mapDescription, $mapIsPublic, $mapCacheFileName )
     {
-        // Generate the salt.
         $creationTime = time();
         
         $mapCacheFilePath = '/var/www/hockedu.com/maps/'; //TOREMOVE: Use code below to get maps path from settings cache.
@@ -205,6 +204,46 @@ class Common
         $this->db->query( $sql );
         
         return $this->db->lastInsertID( 'maps' );
+    }
+    
+    public function updateUserMap( $mapId, $mapName, $mapDescription, $mapIsPublic, $mapCacheFileName )
+    {
+        $modificationTime = time();
+        
+        $mapCacheFilePath = '/var/www/hockedu.com/maps/'; //TOREMOVE: Use code below to get maps path from settings cache.
+        
+        /*
+        $website = Website::getInstance();
+        $mapCacheFilePath = $website->getBasePath() . $website->getSetting( 'mapsDirectory' ) . '/' . $mapCacheFileName;
+        */          
+        
+        $sql = 'UPDATE %s
+                SET %s=%s, %s=%s, %s=%s, %s=%s, %s=%d, %s=%d
+                WHERE %s=%d';
+        $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'maps' ),
+                        
+                        $this->db->quoteIdentifier( 'name' ),
+                        $this->db->quote( $mapName, 'text' ),
+                        
+                        $this->db->quoteIdentifier( 'description' ),
+                        $this->db->quote( $mapDescription, 'text' ),
+                        
+                        $this->db->quoteIdentifier( 'content' ),   
+                        $this->db->quote( "file://" . $mapCacheFilePath . $mapCacheFileName, 'blob' ),       
+                        
+                        $this->db->quoteIdentifier( 'cache_name' ),   
+                        $this->db->quote( $mapCacheFileName, 'text' ),       
+                        
+                        $this->db->quoteIdentifier( 'is_public' ),
+                        $this->db->quote( $mapIsPublic , 'integer' ), 
+                        
+                        $this->db->quoteIdentifier( 'last_modified_time' ),                                      
+                        $this->db->quote( $modificationTime , 'integer' ),
+                        
+                        $this->db->quote( $mapId, 'integer' )
+                       );
+        $this->db->query( $sql );
     }
     
     public function getUserList()
