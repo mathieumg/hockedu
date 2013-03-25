@@ -1165,9 +1165,6 @@
     <ClInclude Include="Achievements\AchievementsManager.h">
       <Filter>Sources Files\Achievements</Filter>
     </ClInclude>
-    <ClInclude Include="Achievements\AchievementsEnums.h">
-      <Filter>Sources Files\Achievements</Filter>
-    </ClInclude>
     <ClInclude Include="Achievements\AbstractAchievement.h">
       <Filter>Sources Files\Achievements</Filter>
     </ClInclude>
@@ -1175,6 +1172,9 @@
       <Filter>Sources Files\Achievements</Filter>
     </ClInclude>
     <ClInclude Include="Achievements\LaunchAchievementLite.h">
+      <Filter>Sources Files\Achievements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\C#\UIHeavyClient\UIHeavyClient\AchievementsEnums.h">
       <Filter>Sources Files\Achievements</Filter>
     </ClInclude>
   </ItemGroup>

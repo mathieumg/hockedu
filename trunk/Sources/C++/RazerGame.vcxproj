@@ -362,9 +362,9 @@
     <ClCompile Include="Tests\XMLTests.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\C#\UIHeavyClient\UIHeavyClient\AchievementsEnums.h" />
     <ClInclude Include="Achievements\AbstractAchievement.h" />
     <ClInclude Include="Achievements\Achievements.h" />
-    <ClInclude Include="Achievements\AchievementsEnums.h" />
     <ClInclude Include="Achievements\AchievementsManager.h" />
     <ClInclude Include="Achievements\LaunchAchievementLite.h" />
     <ClInclude Include="Application\FacadeModele.h" />

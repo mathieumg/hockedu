@@ -30,7 +30,7 @@ AchievementStartApp::AchievementStartApp()
 ////////////////////////////////////////////////////////////////////////
 void AchievementStartApp::EventReceived( AchievementEvent pEvent )
 {
-    std::cout << "Achievement Unlocked : Start Application";
+    AchievementsManager::obtenirInstance()->AchievementUnlocked(ACHIEVEMENTS_START_APPLICATION,"Start Application");
     AchievementsManager::obtenirInstance()->UnregisterAchievementEventListener(ACHIEVEMENT_EVENT_MAIN_SCREEN_LOADED,this);
 }
 

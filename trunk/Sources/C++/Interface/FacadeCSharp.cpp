@@ -794,6 +794,22 @@ void testConnexionUDPCSharp()
 
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void SetAchievementUnlocked( AchievementUnlockCallBack callback )
+///
+/// /*Description*/
+///
+/// @param[in] AchievementUnlockCallBack callback
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void SetAchievementUnlocked( AchievementUnlockCallBack callback )
+{
+    AchievementsManager::obtenirInstance()->setAchievementUnlockedCallback(callback);
+}
+
 
 
 

@@ -10,6 +10,7 @@
 #include "AchievementsManager.h"
 #include "AbstractAchievement.h"
 #include "Achievements.h"
+#include <iostream>
 
 SINGLETON_DECLARATION_CPP(AchievementsManager);
 
@@ -24,7 +25,7 @@ SINGLETON_DECLARATION_CPP(AchievementsManager);
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-AchievementsManager::AchievementsManager()
+AchievementsManager::AchievementsManager() : mAchievementUnlockedCallback(NULL)
 {
 
 }
@@ -189,6 +190,26 @@ void AchievementsManager::UnregisterAchievementEventListener( AchievementEvent p
             delete listernersList;
             mEventListeners.erase(it);
         }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void AchievementsManager::AchievementUnlocked( AchievementsType pType, const std::string& pAchievementName )
+///
+/// /*Description*/
+///
+/// @param[in] AchievementsType pType
+/// @param[in] const std::string & pAchievementName
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void AchievementsManager::AchievementUnlocked( AchievementsType pType, const std::string& pAchievementName )
+{
+    if(!mAchievementUnlockedCallback || !mAchievementUnlockedCallback(pType,(char*)pAchievementName.c_str()))
+    {
+        std::cout << "Achievement Unlocked : " << pAchievementName << std::endl;
     }
 }
 
