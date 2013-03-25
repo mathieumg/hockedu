@@ -98,6 +98,12 @@
     <Compile Include="AIOptionControl.xaml.cs">
       <DependentUpon>AIOptionControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GameCreationPrompt.xaml.cs">
+      <DependentUpon>GameCreationPrompt.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PasswordPrompt.xaml.cs">
+      <DependentUpon>PasswordPrompt.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RazerUtilities.cs" />
     <Compile Include="UserControls\BonusEditionControl.xaml.cs">
       <DependentUpon>BonusEditionControl.xaml</DependentUpon>
@@ -135,6 +141,14 @@
       <DependentUpon>TournamentControl.xaml</DependentUpon>
     </Compile>
     <Page Include="AIOptionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GameCreationPrompt.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PasswordPrompt.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
