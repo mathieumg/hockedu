@@ -321,6 +321,8 @@
 		4E9CE9FD16FBBA4B00B04A12 /* LoadMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadMapViewController.xib; sourceTree = "<group>"; };
 		4E9DDDB016FF842C0081B35D /* VisitorGatherProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisitorGatherProperties.cpp; sourceTree = "<group>"; };
 		4E9DDDB116FF842C0081B35D /* VisitorGatherProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisitorGatherProperties.h; sourceTree = "<group>"; };
+		4EA0DAF616FFDA7900C0502A /* PositionObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PositionObserver.h; sourceTree = "<group>"; };
+		4EA0DAF716FFDA7900C0502A /* ReplayObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplayObserver.h; sourceTree = "<group>"; };
 		4EA5287316FE356A008F89BD /* FieldModificationStrategyRotate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyRotate.cpp; sourceTree = "<group>"; };
 		4EA5287416FE356A008F89BD /* FieldModificationStrategyRotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyRotate.h; sourceTree = "<group>"; };
 		4EA5287516FE356A008F89BD /* FieldModificationStrategyScale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyScale.cpp; sourceTree = "<group>"; };
@@ -554,6 +556,8 @@
 		0C04E18516DE964E002B0EE2 /* Utilitaire */ = {
 			isa = PBXGroup;
 			children = (
+				4EA0DAF616FFDA7900C0502A /* PositionObserver.h */,
+				4EA0DAF716FFDA7900C0502A /* ReplayObserver.h */,
 				0C49614016E7F37F00D13713 /* ExceptionJeu.cpp */,
 				0C49614116E7F37F00D13713 /* ExceptionJeu.h */,
 				0C04E20316DEB841002B0EE2 /* CodesEvenements.h */,
