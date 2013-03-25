@@ -98,6 +98,12 @@
     <Compile Include="AIOptionControl.xaml.cs">
       <DependentUpon>AIOptionControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GameCreationPrompt.xaml.cs">
+      <DependentUpon>GameCreationPrompt.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PasswordPrompt.xaml.cs">
+      <DependentUpon>PasswordPrompt.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RazerUtilities.cs" />
     <Compile Include="UserControls\AchievementUnlocked.xaml.cs">
       <DependentUpon>AchievementUnlocked.xaml</DependentUpon>
@@ -142,6 +148,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\AchievementUnlocked.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GameCreationPrompt.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PasswordPrompt.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
