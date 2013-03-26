@@ -64,19 +64,21 @@ AchievementsManager::~AchievementsManager()
     mAchievementProgress.clear();
 }
 
+
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void AchievementsManager::InitialiseAchievements()
+/// @fn void AchievementsManager::CreateAchievements()
 ///
-/// /*Description*/
+/// Creates the achievements list empty and fresh
 ///
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void AchievementsManager::InitialiseAchievements()
+void AchievementsManager::CreateAchievements()
 {
     mAchievementProgress[ACHIEVEMENTS_START_APPLICATION] = new AchievementStartApp();
+    mAchievementProgress[ACHIEVEMENTS_GAME_WON_L1] = new AchievementGameWon();
 
 
     // Initialisation de base des niveaux
@@ -87,7 +89,22 @@ void AchievementsManager::InitialiseAchievements()
             it->second->InitFirstLevel();
         }
     }
+}
 
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void AchievementsManager::InitialiseAchievements()
+///
+/// Creates the achievements list and load current user progress
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void AchievementsManager::InitialiseAchievements()
+{
+    CreateAchievements();
     LoadAchievementProgress();
 }
 
@@ -117,7 +134,7 @@ void AchievementsManager::LoadAchievementProgress()
                 {
                     /// noeud n'a pas charger son noeud
                     /// comportement possible, mais checkf pour s'assurer que callback'est desire
-                    checkf(0);
+                    std::cout << "Error loading achievement data " << it->second->GetXmlTag();
                 }
             }
         }

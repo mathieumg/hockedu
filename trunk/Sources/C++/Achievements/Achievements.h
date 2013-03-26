@@ -93,6 +93,7 @@ public:
     XmlElement* CreateAchievementNode() const;
 
     void InitFirstLevel() const;
+    virtual std::string GetXmlTag()const = 0;
 protected:
     void GoToNextLevel();
     void RegisterLevel(unsigned int level) const;
@@ -100,9 +101,8 @@ protected:
     
 
     /// Overload this method to add parameters to the achievement persistency
-    virtual void FillAchievementData(XmlElement*) const {}
-    virtual bool LoadAchievementData(const XmlElement*) { return true; }
-    virtual std::string GetXmlTag()const = 0;
+    virtual void FillAchievementData(XmlElement* elem) const {}
+    virtual bool LoadAchievementData(const XmlElement* elem) { return true; }
 
     /// Parametre a configurer dans le constructeur des achivements concrets puis ne plus les modifiers !
     std::vector<AchievementLevelDefinition*> mLevelDefinitions;
@@ -114,7 +114,7 @@ private:
 };
 
 ///////////////////////////////////////////////////////////////////////////
-/// @class AbstractAchievement
+/// @class AchievementStartApp
 /// @brief Classe représentant l'interface et les éléments de base d'un achievement.
 ///
 ///
@@ -125,8 +125,23 @@ class AchievementStartApp : public AbstractAchievement
 {
 public:
     AchievementStartApp();
-    static void EventStartCallBack(AbstractAchievement*,AchievementEvent);
     virtual std::string GetXmlTag()const{return "StartApp";}
+protected:
+    static void EventStartCallBack(AbstractAchievement* pAchievement, AchievementEvent pEvent);
+};
+
+class AchievementGameWon : public AbstractAchievement
+{
+public:
+    AchievementGameWon();
+    virtual std::string GetXmlTag()const{return "WinGame";}
+protected:
+    static void EventWinCallBack(AbstractAchievement* pAchievement, AchievementEvent pEvent);
+    virtual void FillAchievementData(XmlElement* elem) const;
+    virtual bool LoadAchievementData(const XmlElement* elem);
+private:
+    int mNbGameWon;
+
 };
 
 

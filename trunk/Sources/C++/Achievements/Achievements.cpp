@@ -215,4 +215,123 @@ void AchievementStartApp::EventStartCallBack( AbstractAchievement* pAchievement 
 
 
 
+const int NbGameWinNeeded[] =
+{
+    1,5,20,50,100
+};
+const std::string achievementName[] =
+{
+    "Welcome to the victor's club",
+    "Game won L2 ( 5 Games )",
+    "Game won L3 ( 20 Games )",
+    "Game won L4 ( 50 Games )",
+    "Game won L5 ( 100 Games )",
+};
 
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn  AchievementGameWon::AchievementGameWon()
+///
+/// /*Description*/
+///
+///
+/// @return 
+///
+////////////////////////////////////////////////////////////////////////
+AchievementGameWon::AchievementGameWon():
+    mNbGameWon(0)
+{
+    ADD_NEW_LEVEL
+        (
+        APPEND_BINDING(ACHIEVEMENT_EVENT_GAME_WON,EventWinCallBack)
+        );
+
+    ADD_NEW_LEVEL
+        (
+        APPEND_BINDING(ACHIEVEMENT_EVENT_GAME_WON,EventWinCallBack)
+        );
+
+    ADD_NEW_LEVEL
+        (
+        APPEND_BINDING(ACHIEVEMENT_EVENT_GAME_WON,EventWinCallBack)
+        );
+
+    ADD_NEW_LEVEL
+        (
+        APPEND_BINDING(ACHIEVEMENT_EVENT_GAME_WON,EventWinCallBack)
+        );
+
+    ADD_NEW_LEVEL
+        (
+        APPEND_BINDING(ACHIEVEMENT_EVENT_GAME_WON,EventWinCallBack)
+        );
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void AchievementGameWon::EventWinCallBack( AbstractAchievement*,AchievementEvent )
+///
+/// /*Description*/
+///
+/// @param[in] AbstractAchievement *
+/// @param[in] AchievementEvent
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void AchievementGameWon::EventWinCallBack( AbstractAchievement* pAchievement, AchievementEvent pEvent )
+{
+
+    auto achievement = (AchievementGameWon*)pAchievement;
+    int n = ++achievement->mNbGameWon;
+    
+    int level = achievement->mLevelUnlocked;
+    if(level < ARRAY_COUNT(NbGameWinNeeded) && n >= NbGameWinNeeded[level])
+    {
+        achievement->GoToNextLevel();
+        AchievementsManager::obtenirInstance()->AchievementUnlocked(AchievementsType(ACHIEVEMENTS_GAME_WON_L1+level),achievementName[level]);
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void AchievementGameWon::FillAchievementData( XmlElement* )
+///
+/// /*Description*/
+///
+/// @param[in] XmlElement *
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void AchievementGameWon::FillAchievementData( XmlElement* elem ) const
+{
+    XMLUtils::writeAttribute(elem,"GameWon",mNbGameWon);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool AchievementGameWon::LoadAchievementData( const XmlElement* )
+///
+/// /*Description*/
+///
+/// @param[in] const XmlElement *
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool AchievementGameWon::LoadAchievementData( const XmlElement* elem)
+{
+    if(!XMLUtils::readAttribute(elem,"GameWon",mNbGameWon))
+    {
+        if(mLevelUnlocked < ARRAY_COUNT(NbGameWinNeeded))
+        {
+            mNbGameWon = NbGameWinNeeded[mLevelUnlocked];
+            return true;
+        }
+    }
+    return false;
+}

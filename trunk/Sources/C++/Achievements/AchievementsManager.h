@@ -41,6 +41,20 @@ class AchievementsManager : public Singleton<AchievementsManager>
     ~AchievementsManager();
 public:
     void InitialiseAchievements();
+
+    ////////////////////////////////////////////////////////////////////////
+    ///
+    /// @fn void CreateAchievements()
+    ///
+    /// /*Description*/
+    ///
+    /// @param[in] 
+    ///
+    /// @return void
+    ///
+    ////////////////////////////////////////////////////////////////////////
+    void CreateAchievements();
+
     void LoadAchievementProgress();
     void SaveAchievementProgress();
 

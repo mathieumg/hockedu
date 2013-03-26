@@ -347,6 +347,7 @@
     <ClCompile Include="Reseau\Socket.cpp" />
     <ClCompile Include="Reseau\SocketTCPServeur.cpp" />
     <ClCompile Include="Sons\SoundFMOD.cpp" />
+    <ClCompile Include="Tests\AchievementsTests.cpp" />
     <ClCompile Include="Tests\BancTests.cpp" />
     <ClCompile Include="Tests\ConfigSceneTest.cpp" />
     <ClCompile Include="Tests\GestionnaireEvenementsTest.cpp" />
@@ -535,6 +536,7 @@
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetTest.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetUserStatus.h" />
     <ClInclude Include="Sons\SoundFMOD.h" />
+    <ClInclude Include="Tests\AchievementsTests.h" />
     <ClInclude Include="Tests\BancTests.h" />
     <ClInclude Include="Tests\ConfigSceneTest.h" />
     <ClInclude Include="Tests\GestionnaireEvenementsTest.h" />

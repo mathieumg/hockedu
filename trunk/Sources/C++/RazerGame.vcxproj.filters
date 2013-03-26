@@ -620,6 +620,9 @@
     <ClCompile Include="Achievements\LaunchAchievementLite.cpp">
       <Filter>Sources Files\Achievements</Filter>
     </ClCompile>
+    <ClCompile Include="Tests\AchievementsTests.cpp">
+      <Filter>Sources Files\Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1170,6 +1173,9 @@
     </ClInclude>
     <ClInclude Include="..\C#\UIHeavyClient\UIHeavyClient\AchievementsEnums.h">
       <Filter>Sources Files\Achievements</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\AchievementsTests.h">
+      <Filter>Sources Files\Tests</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
