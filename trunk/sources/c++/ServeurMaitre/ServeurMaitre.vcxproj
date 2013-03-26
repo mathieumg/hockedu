@@ -83,6 +83,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Commun\Utilitaire\Solution_Defines.cpp" />
     <ClCompile Include="..\Reseau\CommunicateurReseau.cpp" />
     <ClCompile Include="..\Reseau\ControllerInterface.cpp" />
     <ClCompile Include="..\Reseau\ExceptionsReseau\ExceptionReseau.cpp" />

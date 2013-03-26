@@ -39,6 +39,9 @@
     <ClCompile Include="MenuOptionCallVoid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Commun\Utilitaire\Solution_Defines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.h">
