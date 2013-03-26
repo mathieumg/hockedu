@@ -266,10 +266,11 @@ class Common
     
     public function getMapInfo( $mapId )
     { 
-        $sql = 'SELECT %s, %s
+        $sql = 'SELECT %s, %s, %s
                 FROM %s 
                 WHERE %s=%d';
         $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'name' ),
                         $this->db->quoteIdentifier( 'is_public' ),
                         $this->db->quoteIdentifier( 'cache_name' ),
                         
@@ -279,11 +280,50 @@ class Common
                         $this->db->quote( $mapId, 'integer' )
                        );
         $this->db->setLimit( 1 );              
-        $mapInformation = $this->db->queryOne( $sql );
+        $mapInformation = $this->db->queryRow( $sql );
         
-        $mapInformation['is_public'] = (int)$mapInformation['is_public'];
+        if( !empty( $mapInformation ) )
+        {
+            $mapInformation['is_public'] = (int)$mapInformation['is_public'];
+        }
         
         return $mapInformation;
+    }
+    
+    public function getMaps()
+    { 
+        $sql = 'SELECT %s, %s, %s, %s, %s, %s, %s
+                FROM %s 
+                WHERE %s=%d 
+                ORDER BY %s DESC';
+        $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'id' ),
+                        $this->db->quoteIdentifier( 'name' ),
+                        $this->db->quoteIdentifier( 'description' ),
+                        $this->db->quoteIdentifier( 'rating_average' ),
+                        $this->db->quoteIdentifier( 'rating_count' ),
+                        $this->db->quoteIdentifier( 'creation_time' ),
+                        $this->db->quoteIdentifier( 'last_modified_time' ),
+                        
+                        $this->db->quoteIdentifier( 'maps' ),
+                        
+                        $this->db->quoteIdentifier( 'is_public' ),
+                        $this->db->quote( 1, 'integer' ),
+                        
+                        $this->db->quoteIdentifier( 'last_modified_time' )
+                       );
+        $userMaps = $this->db->queryAll( $sql );
+        
+        foreach( $userMaps as $index => $map )
+        {
+            $userMaps[ $index ]['id'] = (int)$map['id'];
+            $userMaps[ $index ]['rating_average'] = (float)$map['rating_average'];
+            $userMaps[ $index ]['rating_count'] = (int)$map['rating_count'];
+            $userMaps[ $index ]['creation_time'] = (int)$map['creation_time'];
+            $userMaps[ $index ]['last_modified_time'] = (int)$map['last_modified_time'];
+        }
+        
+        return $userMaps;
     }
     
     public function getUserMaps( $userId, $showPrivateMaps = false )

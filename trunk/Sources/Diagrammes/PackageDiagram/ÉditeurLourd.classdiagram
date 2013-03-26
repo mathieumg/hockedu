@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="272570a4-a3df-4c33-90de-23b2e0523060" name="ÉditeurLourd" linkedPackageId="5d3a3a45-de05-478b-b0f3-f16cb9b6a4e8" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="272570a4-a3df-4c33-90de-23b2e0523060" name="ÉditeurLourd" linkedPackageId="5d3a3a45-de05-478b-b0f3-f16cb9b6a4e8" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
   <packagedElements>
     <logicalClassDesignerModelHasPackages>
       <package Id="c7307c39-d5d1-4a69-8b17-fe80fa1d1e91" name="Éditeur Lourd">
@@ -39,34 +39,12 @@
             </class>
           </packageHasNamedElement>
           <packageHasNamedElement>
-            <class Id="41cd6473-8a46-45a5-a336-09f413ad7d6c" name="EtatSourisDeplacement" isAbstract="false" isLeaf="false" isActiveClass="false">
+            <class Id="41cd6473-8a46-45a5-a336-09f413ad7d6c" name="EtatSourisTransformation" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="2a28e8d6-a2d1-4d9c-b4d3-0dbf0c39960b" />
               <generalsInternal>
                 <generalization Id="f293e850-9a2b-40b6-b54c-fd8dbb8fab6f" isSubstitutable="false">
                   <classMoniker Id="2a3a457e-1a84-4a57-bb97-ba10a410fe46" LastKnownName="EtatSouris &lt;Abstract&gt;" />
                   <elementDefinition Id="0a9778c1-aafe-4b52-be81-dd4ea8e09b25" />
-                </generalization>
-              </generalsInternal>
-            </class>
-          </packageHasNamedElement>
-          <packageHasNamedElement>
-            <class Id="d509caa4-507e-4b71-ac0a-9bc16b9545e4" name="EtatSourisEchelle" isAbstract="false" isLeaf="false" isActiveClass="false">
-              <elementDefinition Id="5773597f-3281-4bb4-ba9c-f43331f9cf2c" />
-              <generalsInternal>
-                <generalization Id="eafbb49e-e43e-48ed-86ca-259496489209" isSubstitutable="false">
-                  <classMoniker Id="2a3a457e-1a84-4a57-bb97-ba10a410fe46" LastKnownName="EtatSouris &lt;Abstract&gt;" />
-                  <elementDefinition Id="5c9ef4a7-5417-4899-9638-8cef4bd9e07d" />
-                </generalization>
-              </generalsInternal>
-            </class>
-          </packageHasNamedElement>
-          <packageHasNamedElement>
-            <class Id="378d8deb-fe05-457b-bc6b-dd9404bf905c" name="EtatSourisRotation" isAbstract="false" isLeaf="false" isActiveClass="false">
-              <elementDefinition Id="6acb13d3-ce1d-4548-bca5-aa22485cf40f" />
-              <generalsInternal>
-                <generalization Id="fd746a6c-ef29-446d-9f24-9fb879c1755e" isSubstitutable="false">
-                  <classMoniker Id="2a3a457e-1a84-4a57-bb97-ba10a410fe46" LastKnownName="EtatSouris &lt;Abstract&gt;" />
-                  <elementDefinition Id="745d44e6-fd23-4635-8180-15265ef3512d" />
                 </generalization>
               </generalsInternal>
             </class>

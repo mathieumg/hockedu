@@ -86,15 +86,15 @@ if( !$commonRemoteModule )
                 break;
                 
             case 'listmaps':                
+                // Get DB connection.
+                $Common = Common::getInstance();
+                
                 if( empty( $_POST['user_id'] ) )
                 {
-                    $jsonResponse['error'] = 'UserIdMissing';
+                    $jsonResponse['maps'] = $Common->getMaps();
                 }
                 else
                 {
-                    // Get DB connection.
-                    $Common = Common::getInstance();
-                
                     $showPrivateMaps = false;
                     if( !empty( $_POST['auth_key'] ) )
                     {
@@ -115,7 +115,7 @@ if( !$commonRemoteModule )
                     // List the user's maps.
                     if( empty( $jsonResponse['error'] ) )
                     {
-                        $jsonResponse['user_maps'] = $Common->getUserMaps( $_POST['user_id'], $showPrivateMaps );
+                        $jsonResponse['maps'] = $Common->getUserMaps( $_POST['user_id'], $showPrivateMaps );
                     }
                 }
                 
@@ -176,8 +176,11 @@ if( !$commonRemoteModule )
                         $mapCacheFilePath = $website->getBasePath() . $website->getSetting( 'mapsDirectory' ) . '/' . $mapCacheFileName;
                         */
                         
-                        header('Content-type: text/xml');
-                        echo file_get_contents( $mapCacheFilePath . $mapCacheFileName );
+                        //header('Content-type: text/xml');
+                        //echo file_get_contents( $mapCacheFilePath . $mapCacheFileName );
+                        
+                        $jsonResponse['name'] = $mapInfo['name'];
+                        $jsonResponse['content'] = file_get_contents( $mapCacheFilePath . $mapCacheFileName );
                     }
                 }
                 
@@ -279,7 +282,11 @@ if( !$commonRemoteModule )
                     }
                 }
                 
-                break;    
+                break; 
+
+            default:
+                $jsonResponse['error'] = 'UnknownRequest';
+                break;                
         }
     }
 }

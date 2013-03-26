@@ -122,6 +122,7 @@
     <ClCompile Include="ObjetAnimable.cpp" />
     <ClCompile Include="Phont.cpp" />
     <ClCompile Include="Plan3D.cpp" />
+    <ClCompile Include="Solution_Defines.cpp" />
     <ClCompile Include="textfile.cpp" />
     <ClCompile Include="Utilitaire.cpp" />
     <ClCompile Include="Vue\Camera.cpp" />

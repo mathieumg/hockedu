@@ -177,6 +177,9 @@
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerBonus.cpp">
       <Filter>Source Files\PacketHandlers</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Commun\Utilitaire\Solution_Defines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControllerServeurMaitre.h">

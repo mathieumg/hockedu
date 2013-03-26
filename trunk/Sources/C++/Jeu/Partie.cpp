@@ -28,6 +28,7 @@
 #include "..\Reseau\Paquets\PaquetGameEvent.h"
 #include "..\Reseau\RelayeurMessage.h"
 #include "Solution_Defines.h"
+#include "LaunchAchievementLite.h"
 
 
 GLuint Partie::listePause_ = 0;
@@ -47,7 +48,8 @@ const int Partie::POINTAGE_GAGNANT = 7;
 ///
 ////////////////////////////////////////////////////////////////////////
 Partie::Partie(SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, const std::vector<GameUpdateCallback>& updateCallback /*= 0*/ ):
-pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 60, joueurGauche, joueurDroit)
+pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 60, joueurGauche, joueurDroit),
+mIsNetworkClientGame(false),mIsNetworkServerGame(false)
 {
     chiffres_ = new NoeudAffichage("3");
     mField = new Terrain(this);
@@ -60,6 +62,7 @@ pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurD
     mPartieSyncer.setPlayers(joueurGauche, joueurDroit);
 
     GestionnaireAnimations::obtenirInstance()->attach(this);
+    recalculateNetworkGameFlags();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -201,11 +204,23 @@ void Partie::incrementerPointsJoueurGauche(bool pForceUpdate /*= false*/)
         {
             setGameStatus(GAME_ENDED);
             callGameUpdate(GAME_ENDED);
+
+            if(joueurDroit_ && joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
+            {
+                Achievements::LaunchEvent(ACHIEVEMENT_EVENT_GAME_LOOSE);
+            }
+            if(joueurGauche_ && joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
+            {
+                Achievements::LaunchEvent(ACHIEVEMENT_EVENT_GAME_WON);
+            }
         }
         else
         {
             callGameUpdate(GAME_SCORE);
         }
+
+
+        
     }
     
 }
@@ -238,11 +253,22 @@ void Partie::incrementerPointsJoueurDroit(bool pForceUpdate /*= false*/)
         {
             setGameStatus(GAME_ENDED);
             callGameUpdate(GAME_ENDED);
+
+            if(joueurDroit_ && joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
+            {
+                Achievements::LaunchEvent(ACHIEVEMENT_EVENT_GAME_WON);
+            }
+            if(joueurGauche_ && joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
+            {
+                Achievements::LaunchEvent(ACHIEVEMENT_EVENT_GAME_LOOSE);
+            }
         }
         else
         {
             callGameUpdate(GAME_SCORE);
         }
+        
+
     }
 }
 
