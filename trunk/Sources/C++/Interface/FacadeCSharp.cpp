@@ -109,7 +109,6 @@ void RequestLogin( char* pUsername, char* pPassword, char* pIpAdress )
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("MasterServer",pIpAdress,TCP);
 //#if MAT_DEBUG_
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer",pIpAdress,TCP);
-    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer",pIpAdress,UDP);
 //#endif
 }
 

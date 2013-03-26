@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using HttpHockeduRequests;
 
 namespace UIHeavyClient
 {
@@ -18,6 +19,20 @@ namespace UIHeavyClient
     /// </summary>
     public partial class GameCreationPrompt : Window
     {
+
+        public void callbackMapsFunction(List<UserMapDetailedJSON> pList)
+        {
+            // Update the combobox with the list
+            MainWindowHandler.mTaskManager.ExecuteTask(() =>
+            {
+                foreach (UserMapDetailedJSON wItem in pList)
+                {
+                    mMapComboBox.Items.Add(wItem);
+                }
+            });
+            
+        }
+
         private bool mOkIsClicked;
 
         public string Name
@@ -55,7 +70,7 @@ namespace UIHeavyClient
             Close();
         }
 
-        public void ClearInput()
+        public void ClearInputAndLoadMapList()
         {
             mNameTextBox.Clear();
             mPasswordCheckBox.IsChecked = false;
@@ -68,8 +83,9 @@ namespace UIHeavyClient
         {
             mMapComboBox.Items.Clear();
 
-            // TODO
-            // Query maps and insert them in combo box
+            // Load map list async!!!!
+            HttpManager wManager = new HttpManager();
+            wManager.getPublicMapList(callbackMapsFunction);
         }
     }
 }

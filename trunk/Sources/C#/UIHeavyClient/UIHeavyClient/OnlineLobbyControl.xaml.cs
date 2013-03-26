@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using HttpHockeduRequests;
 
 namespace UIHeavyClient
 {
@@ -48,6 +49,11 @@ namespace UIHeavyClient
 
         private void mEditionModeButton_Click(object sender, RoutedEventArgs e)
         {
+            // Vincent, tu peux aller chercher la liste des maps d'un user avec 
+            // HttpManager wManager = new HttpManager();
+            // wManager.getUserMapList(int pUserId, string pAuthentication)
+            // apres avoir ete chercher les infos dans la DLL
+
             MainWindowHandler.GoToEditionMode();
         }
 
@@ -65,8 +71,10 @@ namespace UIHeavyClient
 
         private void mCreateButton_Click(object sender, RoutedEventArgs e)
         {
-            mGameCreationPrompt.ClearInput();
+            mGameCreationPrompt.ClearInputAndLoadMapList();
             mGameCreationPrompt.ShowDialog();
+
+
 
             if (mGameCreationPrompt.OkIsClicked)
             {

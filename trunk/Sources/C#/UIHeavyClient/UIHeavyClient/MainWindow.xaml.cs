@@ -17,6 +17,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using UIHeavyClient.UserControls;
 using System.Windows.Media.Animation;
+using HttpHockeduRequests;
 
 namespace UIHeavyClient
 {
@@ -97,6 +98,16 @@ namespace UIHeavyClient
         public static extern void InitDLL();
         [DllImport(@"RazerGame.dll")]
         public static extern void FreeApplicationMemory();
+
+        public void TestCallbackMapDownloaded(string pOutputPath)
+        {
+            
+            MainWindowHandler.mTaskManager.ExecuteTask(() =>
+            {
+                Console.WriteLine(pOutputPath);
+            });
+        }
+
 
         private void Window_Closed(object sender, EventArgs e)
         {
@@ -214,6 +225,15 @@ namespace UIHeavyClient
                 debugMenu.Items.Add(debugItem);
             }
 
+            {
+                System.Windows.Controls.MenuItem debugItem = new System.Windows.Controls.MenuItem();
+                debugItem.Header = "Test JSON";
+                debugItem.Click += TestJSON_Click;
+                debugMenu.Items.Add(debugItem);
+            }
+
+            
+
 #endif
 
             InitDLL();
@@ -229,6 +249,16 @@ namespace UIHeavyClient
         {
             ReloadModels();
         }
+
+        void TestJSON_Click(object sender, RoutedEventArgs e)
+        {
+            HttpManager wManager = new HttpManager();
+            //wManager.getPublicMapList();
+            wManager.downloadMap(12, 1, TestCallbackMapDownloaded);
+
+            Console.Out.WriteLine("Test Termine");
+        }
+        
 
         // Tests pour connection serveur jeu et client
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]

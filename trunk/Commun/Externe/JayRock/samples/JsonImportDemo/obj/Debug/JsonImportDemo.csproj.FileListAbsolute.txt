@@ -1,0 +1,5 @@
+D:\AirHockeyGit\log3900-04_DO_NOT_MODIFY\trunk\Commun\Externe\JayRock\samples\JsonImportDemo\bin\JsonImportDemo.exe.config
+D:\AirHockeyGit\log3900-04_DO_NOT_MODIFY\trunk\Commun\Externe\JayRock\samples\JsonImportDemo\obj\Debug\JsonImportDemo.Properties.Resources.resources
+D:\AirHockeyGit\log3900-04_DO_NOT_MODIFY\trunk\Commun\Externe\JayRock\samples\JsonImportDemo\obj\Debug\JsonImportDemo.csproj.GenerateResource.Cache
+D:\AirHockeyGit\log3900-04_DO_NOT_MODIFY\trunk\Commun\Externe\JayRock\samples\JsonImportDemo\obj\Debug\JsonImportDemo.csprojResolveAssemblyReference.cache
+E:\airhockeygit\log3900-04_do_not_modify\trunk\Commun\Externe\JayRock\samples\JsonImportDemo\bin\JsonImportDemo.exe.config
