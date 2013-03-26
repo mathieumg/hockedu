@@ -21,6 +21,7 @@ typedef int (*AchievementUnlockCallBack)(AchievementsType pType, char* pMessage)
 struct AchievementBinding;
 typedef void (*AchievementEventReceived)(AbstractAchievement*,AchievementEvent);
 
+class AchievementsTests;
 ///////////////////////////////////////////////////////////////////////////
 /// @class AchievementsManager
 /// @brief Classe effectuant la gestion des achievements. 
@@ -40,20 +41,9 @@ class AchievementsManager : public Singleton<AchievementsManager>
     AchievementsManager();
     ~AchievementsManager();
 public:
+    friend AchievementsTests;
     void InitialiseAchievements();
 
-    ////////////////////////////////////////////////////////////////////////
-    ///
-    /// @fn void CreateAchievements()
-    ///
-    /// /*Description*/
-    ///
-    /// @param[in] 
-    ///
-    /// @return void
-    ///
-    ////////////////////////////////////////////////////////////////////////
-    void CreateAchievements();
 
     void LoadAchievementProgress();
     void SaveAchievementProgress();
@@ -71,6 +61,7 @@ private:
     std::map<AchievementEvent,EventListenerList*> mEventListeners;
     AchievementUnlockCallBack mAchievementUnlockedCallback;
 
+    void CreateAchievements();
 
 };
 

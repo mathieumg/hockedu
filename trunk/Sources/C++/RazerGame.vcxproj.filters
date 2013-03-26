@@ -611,6 +611,9 @@
     <ClCompile Include="Tests\AchievementsTests.cpp">
       <Filter>Sources Files\Tests</Filter>
     </ClCompile>
+    <ClCompile Include="Environnement\EditionEventManager.cpp">
+      <Filter>Sources Files\Environnement</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1152,6 +1155,9 @@
     </ClInclude>
     <ClInclude Include="Tests\AchievementsTests.h">
       <Filter>Sources Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Environnement\EditionEventManager.h">
+      <Filter>Sources Files\Environnement</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

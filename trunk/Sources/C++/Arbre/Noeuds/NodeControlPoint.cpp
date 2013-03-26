@@ -87,7 +87,7 @@ NodeControlPoint::~NodeControlPoint()
 void NodeControlPoint::renderReal() const
 {
 #if WIN32
-    const float zTranslated = 25.f+sin(mHeightAngle)*3.f;
+    const float zTranslated = 15.f+sin(mHeightAngle)*3.f;
     glTranslatef(0,0,zTranslated);
 #endif
     glColor4f(1.0f,0.84f,0.0f,1.0f);

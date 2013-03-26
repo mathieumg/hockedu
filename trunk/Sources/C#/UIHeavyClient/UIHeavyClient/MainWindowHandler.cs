@@ -27,7 +27,8 @@ using System.Windows.Forms;
 
 namespace UIHeavyClient
 {
-    public delegate bool EventReceivedCallBack(EventCodes id, IntPtr message);
+    public delegate bool EventReceivedCallBack( EventCodes id, IntPtr message );
+    public delegate bool EditionEventCallBack( EditionEventCodes pEvent );
     //declare the callback prototype
     public delegate bool MessageReceivedCallBack(IntPtr username, IntPtr message);
 
@@ -70,6 +71,9 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll")]
         static extern void SetEventCallback(EventReceivedCallBack callback);
 
+        [DllImport( @"RazerGame.dll" )]
+        static extern void SetEditionEventCallBack( EditionEventCallBack callback );
+
         //Callback to received user messages from C++
         [DllImport(@"RazerGame.dll")]
         static extern void SetMessageCallback(MessageReceivedCallBack callback);
@@ -91,13 +95,14 @@ namespace UIHeavyClient
         public static void GoToEditionMode()
         {
             MessageReceivedCallBack messageCallBack = null;
-            EventReceivedCallBack eventCallBack = Context.EditionModeControl.EventCallBack;
+            EditionEventCallBack eventCallBack = Context.EditionModeControl.EventCallBack;
             SetMessageCallback(messageCallBack);
-            SetEventCallback(eventCallBack);
+            SetEditionEventCallBack( eventCallBack );
+            SetEventCallback(null);
 
             if (ActionPerformed(ActionType.ACTION_ALLER_MODE_EDITION))
             {
-                mCurrentEventCallBack = eventCallBack;
+                mCurrentEventCallBack = null;
                 mCurrentMessageCallback = messageCallBack;
 
                 Context.WindowContentControl.Content = Context.EditionModeControl;
