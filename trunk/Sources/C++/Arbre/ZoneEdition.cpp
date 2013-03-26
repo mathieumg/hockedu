@@ -205,9 +205,10 @@ void ZoneEdition::afficher()
     glGetBooleanv(GL_LIGHTING, &lighting_state);
     glDisable(GL_LIGHTING);
     FacadeModele::getInstance()->DeActivateShaders();
-    glEnableClientState(GL_VERTEX_ARRAY);
 #endif
+    glEnableClientState(GL_VERTEX_ARRAY);
 
+    
 	// Dessin de la zone d'édition
     glPushMatrix();
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -224,8 +225,9 @@ void ZoneEdition::afficher()
 
 	glPopAttrib();
     glPopMatrix();
-#if WIN32
+
     glDisableClientState(GL_VERTEX_ARRAY);
+#if WIN32
     FacadeModele::getInstance()->ActivateShaders();
 
     // Réactiver l'éclairage et (s'il y a lieu)

@@ -13,6 +13,7 @@
 #import <OpenGLES/ES2/glext.h>
 #import "OpenGLWaveFrontObject.h"
 #import "Model.h"
+#import "EventManager.h"
 extern int const LARGEUR_FENETRE;
 extern int const HAUTEUR_FENETRE;
 
@@ -21,7 +22,7 @@ extern int const HAUTEUR_FENETRE;
 @interface EAGLViewController : UIViewController <UIGestureRecognizerDelegate> {
     EAGLContext *context;
     EAGLView* theEAGLView;
-    
+    EventManager* mEventManager;
     GLuint program;
     IBOutlet UIView *mGLView;
     IBOutlet UIView *mSideBarView;
