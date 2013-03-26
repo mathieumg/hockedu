@@ -7,6 +7,18 @@
 /// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
+#ifndef __APPLE__
+#include "FacadeModele.h"
+#endif
+
+#if BOX2D_INTEGRATED  
+#include <Box2D/Box2D.h>
+#endif
+
+#if MANUAL_PHYSICS_DETECTION
+#include "SoundFMOD.h"
+#endif
+
 #include "NoeudRondelle.h"
 #include "VisiteurCollision.h"
 #include "NoeudMuret.h"
@@ -20,22 +32,11 @@
 #include "Terrain.h"
 #include "NoeudPortail.h"
 #include "Utilitaire.h"
-#if BOX2D_INTEGRATED  
-#include <Box2D/Box2D.h>
-#endif
 #include "NoeudBut.h"
 #include "UsineNoeud.h"
 #include "ExceptionJeu.h"
+#include "EditionEventManager.h"
 
-#if MANUAL_PHYSICS_DETECTION
-#include "SoundFMOD.h"
-
-#endif
-
-
-#ifndef __APPLE__
-#include "FacadeModele.h"
-#endif
 
 const float NoeudRondelle::DEFAULT_RADIUS = 8;
 
@@ -71,12 +72,10 @@ NoeudRondelle::NoeudRondelle(const std::string& typeNoeud, unsigned int& puckCre
 #endif
     
     ++mNbPuckCreated;
-#ifndef __APPLE__
     if(mNbPuckCreated >= puckLimit)
     {
-        FacadeModele::transmitEvent(DISABLE_PUCK_CREATION);
+        EditionEventManager::TransmitEvent(DISABLE_PUCK_CREATION);
     }
-#endif
 }
 
 
@@ -93,9 +92,7 @@ NoeudRondelle::~NoeudRondelle()
 {
     --mNbPuckCreated;
     RunnableBreaker::signalObservers();
-#ifndef __APPLE__
-    FacadeModele::transmitEvent(ENABLE_PUCK_CREATION);
-#endif
+    EditionEventManager::TransmitEvent(ENABLE_PUCK_CREATION);
 }
 
 ////////////////////////////////////////////////////////////////////////

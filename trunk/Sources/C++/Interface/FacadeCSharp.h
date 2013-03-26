@@ -23,6 +23,7 @@
 #include "..\Sons\SoundFMOD.h"
 #include "GestionnaireModeles.h"
 #include "..\Achievements\AchievementsManager.h"
+#include "..\Environnement\EditionEventManager.h"
 
 
 // Summary:
@@ -160,6 +161,11 @@ extern "C"
     /// Enregistre la callback pour mettre a jour la vue lors d'événement
     __declspec(dllexport) void SetEventCallback( EventReceivedCallBack callback );
 
+    /// Enregistre la callback pour mettre a jour la vue lors d'événement
+    __declspec(dllexport) void SetEditionEventCallBack( EditionEventReceived callback )
+    {
+        EditionEventManager::setEditionEventCallback(callback);
+    }
 
     __declspec(dllexport) void DisconnectUser( char* pUsername );
     //////////////////////////////////////////////////////////////////////////

@@ -30,9 +30,6 @@
 #include "../Reseau/Paquets/PaquetGameEvent.h"
 #include "../Reseau/RelayeurMessage.h"
 
-#define TransmitEvent(e) FacadeModele::transmitEvent(e)
-#else
-#define TransmitEvent(e)
 #endif
 
 #include "Terrain.h"
@@ -68,7 +65,10 @@
 #include "VisitorSetProperties.h"
 #include "FieldModificationStrategyAddNode.h"
 #include "FieldModificationStrategyAddWall.h"
-#include "Visiteur/VisiteurSuppression.h"
+#include "VisiteurSuppression.h"
+#include "EditionEventManager.h"
+
+#define TransmitEvent(e) EditionEventManager::TransmitEvent(e)
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
@@ -106,8 +106,11 @@ Terrain::Terrain(Partie* pGame):
     }
 #endif
 #if BOX2D_DEBUG
-    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_shapeBit);
-    mWorld->SetDebugDraw(DebugRenderBox2D::mInstance);
+    if(DebugRenderBox2D::mInstance)
+    {
+        DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_shapeBit);
+        mWorld->SetDebugDraw(DebugRenderBox2D::mInstance);
+    }
 #endif
 #endif
 

@@ -680,7 +680,7 @@ void AddRadioPlaylist(char* pPlaylist, char** pSongs, int pNbrSongs)
 
 bool TerrainHasDeletable()
 {
-    return FacadeModele::getInstance()->getEditionField()->CanSelectedNodeBeDeleted();
+    return FacadeModele::Exists() && FacadeModele::getInstance()->getEditionField()->CanSelectedNodeBeDeleted();
 }
 
 

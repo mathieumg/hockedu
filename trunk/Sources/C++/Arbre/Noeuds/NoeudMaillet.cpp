@@ -33,6 +33,7 @@
 #include "FacadeModele.h"
 #endif
 #include "Utilitaire.h"
+#include "EditionEventManager.h"
 
 
 
@@ -72,12 +73,10 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCre
 
 
     ++mNbMalletCreated;
-#ifndef __APPLE__
     if(mNbMalletCreated >= malletLimit)
     {
-        FacadeModele::transmitEvent(DISABLE_MALLET_CREATION);
+        EditionEventManager::TransmitEvent(DISABLE_MALLET_CREATION);
     }
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -94,9 +93,7 @@ NoeudMaillet::~NoeudMaillet()
 	--mNbMalletCreated;
     // indique aux runnables qui lui sont associé de s'invalidé
     RunnableBreaker::signalObservers();
-#ifndef __APPLE__
-    FacadeModele::transmitEvent(ENABLE_MALLET_CREATION);
-#endif
+    EditionEventManager::TransmitEvent(ENABLE_MALLET_CREATION);
 #if BOX2D_PLAY
     checkf(!mMouseJoint, "Le mouse joint a mal ete liberé");
     destroyMouseJoint();

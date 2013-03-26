@@ -57,6 +57,9 @@ private:
     ControlPointMutableAbstract* mLinkedObject;
     bool mCanBeVisited;
 
+    /// value to calculate animation movement in Z plane
+    float mHeightAngle;
+
 public:
     /// Accessors of mLinkedObject
     inline ControlPointMutableAbstract* getLinkedObject() const { return mLinkedObject; }

@@ -30,22 +30,27 @@
 PRAGMA_DISABLE_OPTIMIZATION
 #endif
 
+
+const float DEFAULT_RADIUS = 5;
+
 CreateListDelegateImplementation(ControlPoint)
 {
+    return RazerGameUtilities::CreateListSphereDefault(pModel,DEFAULT_RADIUS);
 
+
+    /// ancien affichage avec seulement opengl
     GLuint liste = NULL;
 #if WIN32
     liste = glGenLists(1);
     glNewList(liste, GL_COMPILE);
 #if BOX2D_DEBUG
-        DebugRenderBox2D* debugRender = DebugRenderBox2D::mInstance;
-        debugRender->DrawSolidCircle(b2Vec2(0,0),0.5,b2Vec2(0,0),b2Color(1,0,1));
+    DebugRenderBox2D* debugRender = DebugRenderBox2D::mInstance;
+    debugRender->DrawSolidCircle(b2Vec2(0,0),0.5,b2Vec2(0,0),b2Color(1,0,1));
 #endif
     glEndList();
 #endif
     return liste;
 }
-
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -59,9 +64,9 @@ CreateListDelegateImplementation(ControlPoint)
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeControlPoint::NodeControlPoint( const std::string& typeNoeud ):
-Super(typeNoeud),mCanBeVisited(true)
+Super(typeNoeud),mCanBeVisited(true),mHeightAngle(0)
 {
-    setDefaultRadius(5);
+    setDefaultRadius(DEFAULT_RADIUS);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -81,7 +86,10 @@ NodeControlPoint::~NodeControlPoint()
 
 void NodeControlPoint::renderReal() const
 {
-    glTranslatef(0, 0, 0.5);
+#if WIN32
+    const float zTranslated = 15.f+sin(mHeightAngle)*3.f;
+    glTranslatef(0,0,zTranslated);
+#endif
     glColor4f(1.0f,0.84f,0.0f,1.0f);
     // Appel à la version de la classe de base pour l'affichage des enfants.
     NoeudAbstrait::renderReal();
@@ -100,7 +108,13 @@ void NodeControlPoint::renderReal() const
 ////////////////////////////////////////////////////////////////////////
 void NodeControlPoint::tick( const float& temps )
 {
-    Super::tick(temps);
+    if(isVisible())
+    {
+        setAngle((float)((int)(mAngle+temps*500.0f)%360));
+        mHeightAngle += temps*3;
+        updateMatrice();
+    }
+
 //     mAngle = (float)((int)(mAngle+temps*500.0f)%360);
 //     updateMatrice();
 // 

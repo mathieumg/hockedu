@@ -58,12 +58,6 @@ ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceiv
 
     mEventTypeHandlers[CHAT_MESSAGE_RECEIVED] = ControllerCSharp::HandleMessage;
 
-    for(EventCodes e = EventCodes(MODEL_EVENT_BEGIN+1); e<MODEL_EVENT_END; e = EventCodes(e+1))
-    {
-        mEventTypeHandlers[e] = ControllerCSharp::HandleEvent;
-    }
-
-
     GameManager::obtenirInstance()->addGameUpdateCallback(CallbackSetPatieSyncerClientLourd);
 }
 
