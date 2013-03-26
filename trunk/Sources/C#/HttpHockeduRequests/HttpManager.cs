@@ -13,28 +13,68 @@ using System.Threading;
 
 namespace HttpHockeduRequests
 {
-    
+    // Declaration des delegates pour les callback des retours de fonction des workers
     public delegate void MapsListLoadedCallBack( List<UserMapDetailedJSON> pList );
     public delegate void MapDownloadedCallBack( string pFilepath );
 
-    public class DownloadWorkerParams
+
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class WorkerParamsDownload
+    /// @brief Classe pour contenir les parametres pour les appels de fonctions
+    ///
+    /// @author Mathieu Parent
+    /// @date 2013-03-26
+    ///////////////////////////////////////////////////////////////////////////
+    public class WorkerParamsDownload
     {
-        public DownloadWorkerParams(int pUserId, int pMapId, MapDownloadedCallBack pCallback)
+        public WorkerParamsDownload(MapDownloadedCallBack pCallback, int pUserId, int pMapId = -1)
         {
-            userId   = pUserId;
-            mapId    = pMapId;
-            callback = pCallback;
+            userId         = pUserId;
+            mapId          = pMapId;
+            callback       = pCallback;
         }
-        public int userId;
-        public int mapId;
-        public MapDownloadedCallBack callback;
+
+        public int                      userId;
+        public int                      mapId;
+        public MapDownloadedCallBack    callback;
     }
 
 
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class WorkerParamsList
+    /// @brief Classe pour contenir les parametres pour les appels de fonctions
+    ///
+    /// @author Mathieu Parent
+    /// @date 2013-03-26
+    ///////////////////////////////////////////////////////////////////////////
+    public class WorkerParamsList
+    {
+        public WorkerParamsList(MapsListLoadedCallBack pCallback, int pUserId, int pMapId = -1, string pAuthentification = "")
+        {
+            userId = pUserId;
+            mapId = pMapId;
+            authentication = pAuthentification;
+            callback = pCallback;
+        }
+
+        public int userId;
+        public int mapId;
+        public string authentication;
+        public MapsListLoadedCallBack callback;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class HttpManagerWorker
+    /// @brief Worker qui contient les fonctions a appeler pour executer dans des threads seperes
+    ///
+    /// @author Mathieu Parent
+    /// @date 2013-03-26
+    ///////////////////////////////////////////////////////////////////////////
     public class HttpManagerWorker
     {
 
-        public static void retreiveMapList(object pCallback)
+        public static void getPublicMapList(object pCallback)
         {
             MapsListLoadedCallBack wCallback = (MapsListLoadedCallBack)pCallback;
             string wData = HttpManager.getJsonFromRequest("http://hockedu.com/remote/listmaps");
@@ -55,9 +95,62 @@ namespace HttpHockeduRequests
             }
         }
 
+        public static void getUserPublicMapList(object pParams)
+        {
+            WorkerParamsList wParams = (WorkerParamsList)pParams;
+
+            NameValueCollection wPostData = new NameValueCollection();
+            wPostData.Add("user_id", wParams.userId.ToString());
+            string wData = HttpManager.getJsonFromRequest("http://hockedu.com/remote/listmaps", wPostData);
+
+            if (wData.Length == 0)
+            {
+                wParams.callback(new List<UserMapDetailedJSON>());
+            }
+            MapListJSON wMapList = (MapListJSON)JsonConvert.Import(typeof(MapListJSON), wData);
+
+            // Si pas d'erreur
+            if (wMapList.error == null)
+            {
+                wParams.callback(new List<UserMapDetailedJSON>(wMapList.maps));
+            }
+            else
+            {
+                wParams.callback(new List<UserMapDetailedJSON>());
+            }
+        }
+
+
+        public static void getUserMapList(object pParams)
+        {
+            WorkerParamsList wParams = (WorkerParamsList)pParams;
+
+            NameValueCollection wPostData = new NameValueCollection();
+            wPostData.Add("user_id", wParams.userId.ToString());
+            wPostData.Add("auth_key", wParams.authentication.ToString());
+            string wData = HttpManager.getJsonFromRequest("http://hockedu.com/remote/listmaps", wPostData);
+
+            if (wData.Length == 0)
+            {
+                wParams.callback(new List<UserMapDetailedJSON>());
+            }
+            MapListJSON wMapList = (MapListJSON)JsonConvert.Import(typeof(MapListJSON), wData);
+
+            // Si pas d'erreur
+            if (wMapList.error == null)
+            {
+                wParams.callback(new List<UserMapDetailedJSON>(wMapList.maps));
+            }
+            else
+            {
+                wParams.callback(new List<UserMapDetailedJSON>());
+            }
+        }
+
+
         public static void downloadMap(object pParams)
         {
-            DownloadWorkerParams wParams = (DownloadWorkerParams)pParams;
+            WorkerParamsDownload wParams = (WorkerParamsDownload)pParams;
             int wUserId = wParams.userId;
             int wMapId = wParams.mapId;
             MapDownloadedCallBack wCallback = wParams.callback;
@@ -67,7 +160,7 @@ namespace HttpHockeduRequests
             wPostData.Add("map_id", wMapId.ToString());
             string wJsonData = HttpManager.getJsonFromRequest("http://hockedu.com/remote/getmap", wPostData);
 
-            UserMapLightJSON wMapLight = (UserMapLightJSON)JsonConvert.Import(typeof(UserMapLightJSON), wJsonData);
+            UserMapDownloadJSON wMapLight = (UserMapDownloadJSON)JsonConvert.Import(typeof(UserMapDownloadJSON), wJsonData);
 
             // On sauvegarde le data dans un fichier XML et on retourne le path
             if (wMapLight.error != null)
@@ -102,6 +195,16 @@ namespace HttpHockeduRequests
     }
 
 
+
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class HttpManager
+    /// @brief Manager pour les appels par des requetes HTTP. Essayer de garder le plus possible les fonctionnalites ASYNC!!
+    ///
+    /// @author Mathieu Parent
+    /// @date 2013-03-26
+    ///////////////////////////////////////////////////////////////////////////
     public class HttpManager
     {
         private WebClient mClient;
@@ -111,8 +214,17 @@ namespace HttpHockeduRequests
             System.Net.ServicePointManager.Expect100Continue = false;
         }
 
-        
-
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn static string getJsonFromRequest(string pUrl, NameValueCollection pParams = null)
+        ///
+        /// Methode pour effectuer un appel a une requete HTTP avec des parametres pour la requete en POST. 
+        /// Retourne un string contenant du JSON pour le retour de la requete
+        /// 
+        /// @param[in] string               pUrl    : Url pour la requete
+        /// @param[in] NameValueCollection  pParams : Parametres a passer par la requete HTTP
+        ///
+        /// @return string : Chaine JSON comtenant le retour de la requete
+        ////////////////////////////////////////////////////////////////////////
         public static string getJsonFromRequest(string pUrl, NameValueCollection pParams = null)
         {
             WebClient client = new WebClient();
@@ -128,66 +240,79 @@ namespace HttpHockeduRequests
         }
 
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void downloadMap(int pUserId, int pMapId, MapDownloadedCallBack pCallback)
+        ///
+        /// Methode pour telecharger une map par le serveur web. ASYNC
+        /// 
+        /// @param[in] int                      pUserId     : UserId du proprietaire de la map
+        /// @param[in] int                      pMapId      : MapId de la map a telecharger
+        /// @param[in] MapDownloadedCallBack    pCallback   : Fonction de callback a appeler une fois que le telechargement est termine
+        ///
+        /// @return None.
+        ////////////////////////////////////////////////////////////////////////
         public void downloadMap(int pUserId, int pMapId, MapDownloadedCallBack pCallback)
         {
-            DownloadWorkerParams wParams = new DownloadWorkerParams(pUserId, pMapId, pCallback);
+            // Faire dans un thread separe
+            WorkerParamsDownload wParams = new WorkerParamsDownload(pCallback, pUserId, pMapId);
             Thread newThread = new Thread(new ParameterizedThreadStart(HttpManagerWorker.downloadMap));
             newThread.Start(wParams);
         }
 
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void getPublicMapList(MapsListLoadedCallBack pCallbackFunction)
+        ///
+        /// Methode pour obtenir la liste de toutes les maps publiques de tous les utilisateurs contenus dans la base de donnees
+        /// 
+        /// @param[in] MapsListLoadedCallBack   pCallbackFunction   : Callback a appeler une fois que la liste a ete telechargee
+        ///
+        /// @return None.
+        ////////////////////////////////////////////////////////////////////////
         public void getPublicMapList(MapsListLoadedCallBack pCallbackFunction)
         {
             // Faire dans un thread separe
-            Thread newThread = new Thread(new ParameterizedThreadStart(HttpManagerWorker.retreiveMapList));
+            Thread newThread = new Thread(new ParameterizedThreadStart(HttpManagerWorker.getPublicMapList));
             newThread.Start(pCallbackFunction);
         }
-        public List<UserMapDetailedJSON> getUserPublicMapList(int pUserId)
+
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void getUserPublicMapList(int pUserId, MapsListLoadedCallBack pCallback)
+        ///
+        /// Methode pour obtenir la liste des map publiques pour un utilisateur
+        /// 
+        /// @param[in] int                      pUserId     : UserId du user dont on veut les map publiques
+        /// @param[in] MapsListLoadedCallBack   pCallback   : Callback a appeler une fois que la liste a ete telechargee
+        ///
+        /// @return None.
+        ////////////////////////////////////////////////////////////////////////
+        public void getUserPublicMapList(int pUserId, MapsListLoadedCallBack pCallback)
         {
-            NameValueCollection wPostData = new NameValueCollection();
-            wPostData.Add("user_id", pUserId.ToString());
-            string wData = getJsonFromRequest("http://hockedu.com/remote/listmaps", wPostData);
-
-            if(wData.Length == 0)
-            {
-                return new List<UserMapDetailedJSON>();
-            }
-            MapListJSON wMapList = (MapListJSON)JsonConvert.Import(typeof(MapListJSON), wData);
-
-            // Si pas d'erreur
-            if (wMapList.error == null)
-            {
-                return new List<UserMapDetailedJSON>(wMapList.maps);
-            }
-            else
-            {
-                return new List<UserMapDetailedJSON>();
-            }
+            // Faire dans un thread separe
+            WorkerParamsList wParams = new WorkerParamsList(pCallback, pUserId);
+            Thread newThread = new Thread(new ParameterizedThreadStart(HttpManagerWorker.getUserPublicMapList));
+            newThread.Start(wParams);
         }
 
 
-
-        public List<UserMapDetailedJSON> getUserMapList(int pUserId, string pAuthentication)
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void getUserMapList(int pUserId, string pAuthentication, MapsListLoadedCallBack pCallback)
+        ///
+        /// Methode pour obtenir la liste des maps privees et publiques pour un utilisateur
+        /// 
+        /// @param[in] int                      pUserId         : UserId du user dont on veut les map publiques
+        /// @param[in] string                   pAuthentication : Chaine d'authentification obtenue lors de la connexion au serveur 
+        /// @param[in] MapsListLoadedCallBack   pCallback       : Callback a appeler une fois que la liste a ete telechargee
+        ///
+        /// @return None.
+        ////////////////////////////////////////////////////////////////////////
+        public void getUserMapList(int pUserId, string pAuthentication, MapsListLoadedCallBack pCallback)
         {
-            NameValueCollection wPostData = new NameValueCollection();
-            wPostData.Add("user_id", pUserId.ToString());
-            wPostData.Add("auth_key", pAuthentication.ToString());
-            string wData = getJsonFromRequest("http://hockedu.com/remote/listmaps", wPostData);
-
-            if(wData.Length == 0)
-            {
-                return new List<UserMapDetailedJSON>();
-            }
-            MapListJSON wMapList = (MapListJSON)JsonConvert.Import(typeof(MapListJSON), wData);
-
-            // Si pas d'erreur
-            if (wMapList.error == null)
-            {
-                return new List<UserMapDetailedJSON>(wMapList.maps);
-            }
-            else
-            {
-                return new List<UserMapDetailedJSON>();
-            }
+            // Faire dans un thread separe
+            WorkerParamsList wParams = new WorkerParamsList(pCallback, pUserId, -1, pAuthentication);
+            Thread newThread = new Thread(new ParameterizedThreadStart(HttpManagerWorker.getUserMapList));
+            newThread.Start(wParams);
         }
     }
 }

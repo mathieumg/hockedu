@@ -29,7 +29,7 @@ namespace HttpHockeduRequests
     public class MapListJSON
     {
         public string error;                    // Nom de l'erreur, null sinon
-        public UserMapDetailedJSON[] maps;  // Liste des maps
+        public UserMapDetailedJSON[] maps;      // Liste des maps
 
     }
 
@@ -49,7 +49,7 @@ namespace HttpHockeduRequests
 
     // Classes pour le getMap
 
-    public class UserMapLightJSON
+    public class UserMapDownloadJSON
     {
         public string   error;       // Error message
         public string   name;    // Map name
