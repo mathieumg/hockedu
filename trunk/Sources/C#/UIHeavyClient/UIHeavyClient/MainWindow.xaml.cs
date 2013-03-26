@@ -243,7 +243,8 @@ namespace UIHeavyClient
         void TestJSON_Click(object sender, RoutedEventArgs e)
         {
             HttpManager wManager = new HttpManager();
-            wManager.retreiveUserListFromJson();
+            //wManager.getPublicMapList();
+            wManager.downloadMap(12, 1);
 
             Console.Out.WriteLine("Test Termine");
         }

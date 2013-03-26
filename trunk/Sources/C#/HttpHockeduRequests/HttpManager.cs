@@ -7,52 +7,146 @@ using Jayrock.Json.Conversion;
 
 using System.Net;
 using System.IO;
+using System.Collections.Specialized;
 
 namespace HttpHockeduRequests
 {
+    
+
+
     public class HttpManager
     {
-
-        public string getJsonFromRequest(string pUrl)
+        private WebClient mClient;
+        public HttpManager()
         {
-            StringBuilder wStringBuffer = new StringBuilder();
-            byte[] wBuf = new byte[10240];
+            mClient = new WebClient();
+            System.Net.ServicePointManager.Expect100Continue = false;
+        }
 
-            HttpWebRequest wRequest = (HttpWebRequest)WebRequest.Create(pUrl);
-            HttpWebResponse wResponse = (HttpWebResponse)wRequest.GetResponse();
-
-            Stream wResponseStream = wResponse.GetResponseStream();
-            string wBufferString = null;
-            int wCount = 0;
-            do
+        public string getJsonFromRequest(string pUrl, NameValueCollection pParams = null)
+        {
+            WebClient client = new WebClient();
+            if(pParams != null)
             {
-                // On remplit le buffer
-                wCount = wResponseStream.Read(wBuf, 0, wBuf.Length);
-
-                // Verifie si on lit quelque chose
-                if (wCount != 0)
-                {
-                    // Conversion du stream de byte en ASCII
-                    wBufferString = Encoding.ASCII.GetString(wBuf, 0, wCount);
-
-                    // Append a la fin
-                    wStringBuffer.Append(wBufferString);
-                }
+                byte[] wResponse = client.UploadValues(pUrl, pParams);
+                return Encoding.ASCII.GetString(wResponse);
             }
-            while (wCount > 0); // Boucle tant qu'il y a des valeurs a lire dans le stream
-
-            // Fin de la lecture
-            return wStringBuffer.ToString();
+            else
+            {
+                return client.DownloadString(pUrl);
+            }
+            
         }
 
 
 
-        public void retreiveUserListFromJson()
+
+        public string downloadMap(int pUserId, int pMapId, string pAuthKey = "")
         {
-            // Liste d'objets
-            UserList wList = (UserList)JsonConvert.Import(typeof(UserList), getJsonFromRequest("http://hockedu.com/ajax/listusers"));
-            
-            Console.WriteLine(wList.ToString());
+            NameValueCollection wPostData = new NameValueCollection();
+            wPostData.Add("user_id", pUserId.ToString());
+            wPostData.Add("map_id", pMapId.ToString());
+            string wJsonData = getJsonFromRequest("http://hockedu.com/remote/getmap", wPostData);
+
+            UserMapLightJSON wMapLight = (UserMapLightJSON)JsonConvert.Import(typeof(UserMapLightJSON), wJsonData);
+
+            // On sauvegarde le data dans un fichier XML et on retourne le path
+            if(wMapLight.error != null)
+            {
+                return "";
+            }
+            else
+            {
+                string wCurrentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).ToString() + "asdasd";
+                string wDestinationFilePath = wCurrentDirectory + Path.DirectorySeparatorChar + wMapLight.name + ".xml";
+                try
+                {
+                    System.IO.File.WriteAllText(wDestinationFilePath, wMapLight.content);
+                }
+                catch (System.IO.IOException)
+                {
+                    try
+                    {
+                        // Si erreur, on le met dans C:temp/
+                        wDestinationFilePath = "C:" + Path.DirectorySeparatorChar + "temp" + Path.DirectorySeparatorChar + wMapLight.name + ".xml";
+                        System.IO.File.WriteAllText(wDestinationFilePath, wMapLight.content);
+                    }
+                    catch (Exception)
+                    {
+                        // Si encore une erreur, on retourne rien
+                    	return "";
+                    }
+                }
+                return wDestinationFilePath; // Retourne le file path ou le fichier a ete sauvegarde en local
+            }
+        }
+
+        public List<UserMapDetailedJSON> getPublicMapList()
+        {
+            string wData = getJsonFromRequest("http://hockedu.com/remote/listmaps");
+            if(wData.Length == 0)
+            {
+                return new List<UserMapDetailedJSON>();
+            }
+            MapListJSON wMapList = (MapListJSON)JsonConvert.Import(typeof(MapListJSON), wData);
+
+            // Si pas d'erreur
+            if (wMapList.error == null)
+            {
+                return new List<UserMapDetailedJSON>(wMapList.maps);
+            }
+            else
+            {
+                return new List<UserMapDetailedJSON>();
+            }
+        }
+        public List<UserMapDetailedJSON> getUserPublicMapList(int pUserId)
+        {
+            NameValueCollection wPostData = new NameValueCollection();
+            wPostData.Add("user_id", pUserId.ToString());
+            string wData = getJsonFromRequest("http://hockedu.com/remote/listmaps", wPostData);
+
+            if(wData.Length == 0)
+            {
+                return new List<UserMapDetailedJSON>();
+            }
+            MapListJSON wMapList = (MapListJSON)JsonConvert.Import(typeof(MapListJSON), wData);
+
+            // Si pas d'erreur
+            if (wMapList.error == null)
+            {
+                return new List<UserMapDetailedJSON>(wMapList.maps);
+            }
+            else
+            {
+                return new List<UserMapDetailedJSON>();
+            }
+        }
+
+
+
+        public List<UserMapDetailedJSON> getUserMapList(int pUserId, string pAuthentication)
+        {
+            NameValueCollection wPostData = new NameValueCollection();
+            wPostData.Add("user_id", pUserId.ToString());
+            wPostData.Add("auth_key", pAuthentication.ToString());
+            string wData = getJsonFromRequest("http://hockedu.com/remote/listmaps", wPostData);
+
+            if(wData.Length == 0)
+            {
+                return new List<UserMapDetailedJSON>();
+            }
+            MapListJSON wMapList = (MapListJSON)JsonConvert.Import(typeof(MapListJSON), wData);
+
+            // Si pas d'erreur
+            if (wMapList.error == null)
+            {
+                return new List<UserMapDetailedJSON>(wMapList.maps);
+            }
+            else
+            {
+                return new List<UserMapDetailedJSON>();
+            }
         }
     }
 }

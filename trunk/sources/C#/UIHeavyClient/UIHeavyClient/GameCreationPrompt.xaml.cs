@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using HttpHockeduRequests;
 
 namespace UIHeavyClient
 {
@@ -55,7 +56,7 @@ namespace UIHeavyClient
             Close();
         }
 
-        public void ClearInput()
+        public void ClearInputAndLoadMapList()
         {
             mNameTextBox.Clear();
             mPasswordCheckBox.IsChecked = false;
@@ -68,8 +69,14 @@ namespace UIHeavyClient
         {
             mMapComboBox.Items.Clear();
 
-            // TODO
-            // Query maps and insert them in combo box
+            // Load map list
+            HttpManager wManager = new HttpManager();
+            List<UserMapDetailedJSON> wList = wManager.getPublicMapList();
+
+            foreach (UserMapDetailedJSON wItem in wList)
+            {
+                mMapComboBox.Items.Add(wItem);
+            }
         }
     }
 }
