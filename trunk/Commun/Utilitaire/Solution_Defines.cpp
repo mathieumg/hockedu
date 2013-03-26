@@ -14,7 +14,11 @@
 #endif
 
 #include "Solution_Defines.h"
+#if __linux__
 #include <string.h>
+#else
+#include <string>
+#endif
 #include <vector>
 #include <algorithm>
 #include <stdarg.h>
@@ -71,7 +75,8 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
     char AssertMsg[2048];
     GET_VARARGS( AssertMsg, ARRAY_COUNT(AssertMsg), ARRAY_COUNT(AssertMsg)-1, Format, Format );
 
-    std::string displayMessage = assertIDText;
+    std::string displayMessage;
+    displayMessage += assertIDText;
     displayMessage += "\n";
     displayMessage += Expr;
     displayMessage += "\n";

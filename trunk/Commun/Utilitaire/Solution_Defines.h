@@ -57,7 +57,7 @@
 // Méthode utilitaire
 #ifdef WINDOWS
 typedef char *  va_list;
-#elif defined(LINUX)
+#elif defined(LINUX) || defined(__APPLE__)
 #include <cstdio>
 #endif
 

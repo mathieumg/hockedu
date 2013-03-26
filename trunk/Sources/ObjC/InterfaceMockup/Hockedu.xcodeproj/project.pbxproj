@@ -98,6 +98,7 @@
 		4EA5287B16FE366A008F89BD /* VisitorSetProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA5287916FE366A008F89BD /* VisitorSetProperties.cpp */; };
 		4EB7EA7916EFBE4100493722 /* VisiteurFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */; };
 		4EC1626E16F81A8C00577704 /* BonusModifierBlockGoal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */; };
+		4EC7359D17015F85002FCF4C /* Solution_Defines.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7359C17015F85002FCF4C /* Solution_Defines.cpp */; };
 		4ED4BC3516FEED3200227F1E /* FieldModificationStrategyAddNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4BC3116FEED3200227F1E /* FieldModificationStrategyAddNode.cpp */; };
 		4ED4BC3616FEED3200227F1E /* FieldModificationStrategyAddWall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4BC3316FEED3200227F1E /* FieldModificationStrategyAddWall.cpp */; };
 		4EEBBF9A16E86E5B00017127 /* Model.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBF9916E86E5B00017127 /* Model.mm */; };
@@ -352,6 +353,7 @@
 		4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierBlockGoal.cpp; sourceTree = "<group>"; };
 		4EC1626D16F81A8C00577704 /* BonusModifierBlockGoal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusModifierBlockGoal.h; sourceTree = "<group>"; };
 		4EC1626F16F81F8000577704 /* RunnableBreaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunnableBreaker.h; sourceTree = "<group>"; };
+		4EC7359C17015F85002FCF4C /* Solution_Defines.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Solution_Defines.cpp; sourceTree = "<group>"; };
 		4ED4BC3116FEED3200227F1E /* FieldModificationStrategyAddNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyAddNode.cpp; sourceTree = "<group>"; };
 		4ED4BC3216FEED3200227F1E /* FieldModificationStrategyAddNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyAddNode.h; sourceTree = "<group>"; };
 		4ED4BC3316FEED3200227F1E /* FieldModificationStrategyAddWall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyAddWall.cpp; sourceTree = "<group>"; };
@@ -574,6 +576,7 @@
 		0C04E18516DE964E002B0EE2 /* Utilitaire */ = {
 			isa = PBXGroup;
 			children = (
+				4EC7359C17015F85002FCF4C /* Solution_Defines.cpp */,
 				4EA0DAF616FFDA7900C0502A /* PositionObserver.h */,
 				4EA0DAF716FFDA7900C0502A /* ReplayObserver.h */,
 				0C49614016E7F37F00D13713 /* ExceptionJeu.cpp */,
@@ -1042,6 +1045,7 @@
 				4E8E3AC91700EC6800C8FC56 /* EditorStateTransform.m in Sources */,
 				4E8E3ACC1700ECB900C8FC56 /* EditorStateSelection.m in Sources */,
 				4E8E3ACF1700ECDF00C8FC56 /* EditorStateView.m in Sources */,
+				4EC7359D17015F85002FCF4C /* Solution_Defines.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
