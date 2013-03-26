@@ -330,8 +330,7 @@ bool AchievementGameWon::LoadAchievementData( const XmlElement* elem)
         if(mLevelUnlocked < ARRAY_COUNT(NbGameWinNeeded))
         {
             mNbGameWon = NbGameWinNeeded[mLevelUnlocked];
-            return true;
         }
     }
-    return false;
+    return true;
 }

@@ -134,7 +134,7 @@ void AchievementsManager::LoadAchievementProgress()
                 {
                     /// noeud n'a pas charger son noeud
                     /// comportement possible, mais checkf pour s'assurer que callback'est desire
-                    std::cout << "Error loading achievement data " << it->second->GetXmlTag();
+                    std::cout << "Error loading achievement data " << it->second->GetXmlTag() << std::endl;
                 }
             }
         }
