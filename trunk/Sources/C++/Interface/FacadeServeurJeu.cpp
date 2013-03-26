@@ -17,7 +17,6 @@
 #include "..\Reseau\PaquetHandlers\PacketHandler.h"
 #include "..\Reseau\Paquets\PaquetEvent.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetGameStatus.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetAuthentificationServeurJeu.h"
 #include "..\reseau\UsinePaquets\UsinePaquetMaillet.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetGameCreation.h"
 #include "..\reseau\UsinePaquets\UsinePaquetGameConnection.h"
@@ -27,7 +26,6 @@
 #include "RazerGameUtilities.h"
 #include "..\reseau\UsinePaquets\UsinePaquetRondelle.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetGameEvent.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetGameRegistration.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetBonus.h"
 #include "..\Reseau\PaquetHandlers\PacketHandlerBonus.h"
 

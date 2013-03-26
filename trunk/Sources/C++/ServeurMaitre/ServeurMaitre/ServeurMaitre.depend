@@ -3348,7 +3348,7 @@
 	<exception>
 	<stdexcept>
 
-1364311773 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseau.h
+1364316261 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseau.h
 	<string>
 	"ExceptionsReseau/ExceptionReseau.h"
 	"FacadePortability.h"
@@ -3398,7 +3398,7 @@
 	<stdio.h>
 	<string.h>
 
-1364275643 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandler.h
+1364318338 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandler.h
 	"../PacketBuilder.h"
 	"../PacketReader.h"
 	"../GestionnaireReseau.h"
@@ -3963,7 +3963,7 @@
 	"UsinePaquet.h"
 	"../Paquets/PaquetUserStatus.h"
 
-1363146815 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetGameStatus.h
+1364318458 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetGameStatus.h
 	"UsinePaquet.h"
 	"../Paquets/PaquetGameStatus.h"
 
@@ -4028,7 +4028,7 @@
 	<ext/hash_map>
 	<hash_map>
 
-1364313560 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.cpp
+1364318390 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.cpp
 	"PaquetRunnableServeurMaitre.h"
 	"../ServeurMaitre/FacadeServeurMaitre.h"
 	"../Reseau/Paquets/PaquetLoginInfo.h"
@@ -4043,7 +4043,6 @@
 	<stdexcept>
 	"../Reseau/Paquets/PaquetGameStatus.h"
 	"../Reseau/Paquets/PaquetGameCreation.h"
-	"../Reseau/Paquets/PaquetGameRegistration.h"
 	"GameServerManager.h"
 	"GameServer.h"
 
@@ -4227,4 +4226,8 @@
 
 1364260410 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetGameCreation.cpp
 	"PaquetGameCreation.h"
+
+1364311773 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerBonus.cpp
+	"../Paquets/PaquetBonus.h"
+	"PacketHandlerBonus.h"
 

@@ -156,12 +156,6 @@
     <ClCompile Include="..\reseau\Paquets\PaquetGameConnection.cpp">
       <Filter>Source Files\Paquets</Filter>
     </ClCompile>
-    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameRegistration.cpp">
-      <Filter>Source Files\PacketHandlers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Reseau\Paquets\PaquetGameRegistration.cpp">
-      <Filter>Source Files\Paquets</Filter>
-    </ClCompile>
     <ClCompile Include="GameServerManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -316,9 +310,6 @@
     </ClInclude>
     <ClInclude Include="..\Reseau\Paquets\PaquetGameRegistration.h">
       <Filter>Source Files\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetGameRegistration.h">
-      <Filter>Source Files\UsinePaquets</Filter>
     </ClInclude>
     <ClInclude Include="GameServerManager.h">
       <Filter>Source Files</Filter>

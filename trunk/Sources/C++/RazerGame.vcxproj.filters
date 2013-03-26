@@ -506,17 +506,11 @@
     <ClCompile Include="Arbre\Usines\UsineNoeud.cpp">
       <Filter>Sources Files\Arbre</Filter>
     </ClCompile>
-    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerAuthentificationServeurJeu.cpp">
-      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
-    </ClCompile>
     <ClCompile Include="reseau\PaquetHandlers\PacketHandlerMaillet.cpp">
       <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
     </ClCompile>
     <ClCompile Include="reseau\PaquetHandlers\PacketHandlerRondelle.cpp">
       <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
-    </ClCompile>
-    <ClCompile Include="Reseau\Paquets\PaquetAuthentificationServeurJeu.cpp">
-      <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClCompile>
     <ClCompile Include="Reseau\Paquets\PaquetMaillet.cpp">
       <Filter>Sources Files\Reseau\Paquets</Filter>
@@ -571,12 +565,6 @@
     </ClCompile>
     <ClCompile Include="Reseau\Paquets\PaquetGameEvent.cpp">
       <Filter>Sources Files\Reseau\Paquets</Filter>
-    </ClCompile>
-    <ClCompile Include="Reseau\Paquets\PaquetGameRegistration.cpp">
-      <Filter>Sources Files\Reseau\Paquets</Filter>
-    </ClCompile>
-    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameRegistration.cpp">
-      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
     </ClCompile>
     <ClCompile Include="Reseau\FacadePortability.cpp">
       <Filter>Sources Files\Reseau\Global</Filter>
@@ -1045,17 +1033,11 @@
     <ClInclude Include="Arbre\Bonus\BonusModifierGoThorughWall.h">
       <Filter>Sources Files\Arbre\Bonus</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\Paquets\PaquetAuthentificationServeurJeu.h">
-      <Filter>Sources Files\Reseau\Paquets</Filter>
-    </ClInclude>
     <ClInclude Include="Reseau\Paquets\PaquetMaillet.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClInclude>
     <ClInclude Include="Reseau\Paquets\PaquetRondelle.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetAuthentificationServeurJeu.h">
-      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
     </ClInclude>
     <ClInclude Include="reseau\UsinePaquets\UsinePaquetMaillet.h">
       <Filter>Sources Files\Reseau\UsinePaquets</Filter>
@@ -1110,12 +1092,6 @@
     </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisitorGatherProperties.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\Paquets\PaquetGameRegistration.h">
-      <Filter>Sources Files\Reseau\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameRegistration.h">
-      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
     </ClInclude>
     <ClInclude Include="Reseau\FacadePortability.h">
       <Filter>Sources Files\Reseau\Global</Filter>

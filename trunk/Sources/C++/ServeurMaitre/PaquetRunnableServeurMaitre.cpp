@@ -19,7 +19,6 @@
 #include <stdexcept>
 #include "../Reseau/Paquets/PaquetGameStatus.h"
 #include "../Reseau/Paquets/PaquetGameCreation.h"
-#include "../Reseau/Paquets/PaquetGameRegistration.h"
 #include "GameServerManager.h"
 #include "GameServer.h"
 

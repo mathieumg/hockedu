@@ -455,8 +455,6 @@ void connectPartieServerGame( int pGameId )
     PaquetGameConnection* wPaquet = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);
     wPaquet->setGameId(pGameId);
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
-
-
 }
 
 void requestGameCreationServerGame( char* pGameName )

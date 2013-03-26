@@ -11,7 +11,6 @@
 #include <iomanip>
 #include <stdexcept>
 
-#include "Paquets\PaquetAuthentificationServeurJeu.h"
 #include "Paquets\PaquetChatMessage.h"
 #include "RelayeurMessage.h"
 #include "Paquets\PaquetUserStatus.h"
@@ -24,7 +23,6 @@
 #include "JoueurNetworkServeur.h"
 #include "Runnable.h"
 #include "NoeudMaillet.h"
-#include "Paquets\PaquetGameRegistration.h"
 #include "GestionnaireReseau.h"
 #include "ControllerServeurJeu.h"
 #include "JoueurVirtuel.h"

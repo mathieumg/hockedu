@@ -105,7 +105,6 @@
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerEvent.cpp" />
     <ClCompile Include="..\reseau\PaquetHandlers\PacketHandlerGameConnection.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameCreation.cpp" />
-    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameRegistration.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameStatus.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerLoginInfo.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerTest.cpp" />
@@ -118,7 +117,6 @@
     <ClCompile Include="..\Reseau\Paquets\PaquetEvent.cpp" />
     <ClCompile Include="..\reseau\Paquets\PaquetGameConnection.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetGameCreation.cpp" />
-    <ClCompile Include="..\Reseau\Paquets\PaquetGameRegistration.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetGameStatus.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetLoginInfo.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetTest.cpp" />
@@ -176,7 +174,6 @@
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetEvent.h" />
     <ClInclude Include="..\reseau\UsinePaquets\UsinePaquetGameConnection.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetGameCreation.h" />
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetGameRegistration.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetGameStatus.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetLoginInfo.h" />
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetTest.h" />
