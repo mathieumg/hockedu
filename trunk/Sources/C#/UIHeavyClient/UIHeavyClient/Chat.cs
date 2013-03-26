@@ -211,8 +211,8 @@ namespace UIHeavyClient
                         mLoginWindow.mTaskManager.ExecuteTask(() =>
                         {
                             mLoginWindow.ConnectionSuccessful();
+                            mLoginWindow = null;
                         });
-                        mLoginWindow = null;
                         break;
                     case EventCodes.USER_ALREADY_CONNECTED:
                         // On n'écoute plus les événements
@@ -221,8 +221,8 @@ namespace UIHeavyClient
                         mLoginWindow.mTaskManager.ExecuteTask(() =>
                         {
                             mLoginWindow.UserNameAlreadyChosen();
+                            mLoginWindow = null;
                         });
-                        mLoginWindow = null;
                         break;
                     case EventCodes.USER_DID_NOT_SEND_NAME_ON_CONNECTION:
                         // On n'écoute plus les événements
@@ -232,8 +232,8 @@ namespace UIHeavyClient
                         {
                             mLoginWindow.SetUserMessageFeedBack("Connection Error", true);
                             mLoginWindow.UnBlockUIContent();
+                            mLoginWindow = null;
                         });
-                        mLoginWindow = null;
                         break;
                     case EventCodes.USER_DISCONNECTED:
                         // On n'écoute plus les événements
@@ -243,8 +243,8 @@ namespace UIHeavyClient
                         {
                             mLoginWindow.SetUserMessageFeedBack("Connection Error", true);
                             mLoginWindow.UnBlockUIContent();
+                            mLoginWindow = null;
                         });
-                        mLoginWindow = null;
                         break;
                     case EventCodes.CONNECTION_CANCELED:
                         // On n'écoute plus les événements
@@ -254,8 +254,8 @@ namespace UIHeavyClient
                         {
                             mLoginWindow.SetUserMessageFeedBack("Connection Canceled", false);
                             mLoginWindow.UnBlockUIContent();
+                            mLoginWindow = null;
                         });
-                        mLoginWindow = null;
                         break;
                     case EventCodes.RECONNECTION_TIMEOUT:
                         // On n'écoute plus les événements
@@ -265,8 +265,8 @@ namespace UIHeavyClient
                         {
                             mLoginWindow.SetUserMessageFeedBack("Connection Timed out", true);
                             mLoginWindow.UnBlockUIContent();
+                            mLoginWindow = null;
                         });
-                        mLoginWindow = null;
                         break;
                     case EventCodes.RECONNECTION_IN_PROGRESS: break;
                     case EventCodes.WRONG_PASSWORD: break;
