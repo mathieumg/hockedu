@@ -8,12 +8,18 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////
 
+#if BOX2D_INTEGRATED
+#include <Box2D/Box2D.h>
+#endif
+
 #include "NodeControlPoint.h"
 #include "VisiteurNoeud.h"
 #include <algorithm>
 
 #include "Utilitaire.h"
 #include "ControlPointMutableAbstract.h"
+
+
 
 #if BOX2D_DEBUG
 #include "DebugRenderBox2D.h"
