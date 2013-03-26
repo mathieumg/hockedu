@@ -1,4 +1,14 @@
-﻿using System;
+﻿///////////////////////////////////////////////////////////////////////////////
+/// @file KeyboardOptionControl.xaml.cs
+/// @author Vincent Lemire
+/// @date 2013-02-26
+/// @version 1.0
+///
+/// @addtogroup razergame RazerGame
+/// @{
+///////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,9 +25,13 @@ using System.Runtime.InteropServices;
 
 namespace UIHeavyClient
 {
-    /// <summary>
-    /// Logique d'interaction pour KeyboardOptionControl.xaml
-    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class KeyboardOptionControl
+    /// @brief Window for configuring the keyboard.
+    ///
+    /// @author Vincent Lemire
+    /// @date 2013-03-26
+    ///////////////////////////////////////////////////////////////////////////
     public partial class KeyboardOptionControl : UserControl
     {
         Dictionary<object, string> mGuidanceMessages;
@@ -104,3 +118,9 @@ namespace UIHeavyClient
         }
     }
 }
+
+///////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////
+
+

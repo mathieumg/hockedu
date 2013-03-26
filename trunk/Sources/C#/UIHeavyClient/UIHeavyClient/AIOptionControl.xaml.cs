@@ -1,4 +1,14 @@
-﻿using System;
+﻿///////////////////////////////////////////////////////////////////////////////
+/// @file AIOptionControl.xaml.cs
+/// @author Vincent Lemire
+/// @date 2013-01-28
+/// @version 1.0
+///
+/// @addtogroup razergame RazerGame
+/// @{
+///////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,9 +25,13 @@ using System.Runtime.InteropServices;
 
 namespace UIHeavyClient
 {
-    /// <summary>
-    /// Struct for AI profiles
-    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////
+    /// @struct AIProfile
+    /// @brief To receive an AI profile from the dll.
+    ///
+    /// @author Vincent Lemire
+    /// @date 2013-01-28
+    ///////////////////////////////////////////////////////////////////////////
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     struct AIProfile
     {
@@ -33,11 +47,16 @@ namespace UIHeavyClient
         }
     }
 
-    /// <summary>
-    /// Logique d'interaction pour AIOptionControl.xaml
-    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class AIOptionControl
+    /// @brief Window to configure the AI profiles.
+    ///
+    /// @author Vincent Lemire
+    /// @date 2013-01-28
+    ///////////////////////////////////////////////////////////////////////////
     public partial class AIOptionControl : UserControl
     {
+        // Members
         Dictionary<object, string> mGuidanceMessages;
         Dictionary<string, AIProfile> mProfiles;
         string mSelectedProfile;
@@ -52,6 +71,13 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void GetPlayers([In, Out] AIProfile[] pProfiles, int pNbrProfiles);
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn AIOptionControl.AIOptionControl()
+        ///
+        /// Constructor.
+        ///
+        /// @return None.
+        ////////////////////////////////////////////////////////////////////////
         public AIOptionControl()
         {
             InitializeComponent();
@@ -71,26 +97,76 @@ namespace UIHeavyClient
             mSelectedProfile = "";
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void AIOptionControl.mBackToOptionButton_Click()
+        ///
+        /// Back to options menu.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mBackToOptionButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToOptionsMenu();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void AIOptionControl.mBackToMainButton_Click()
+        ///
+        /// Back to main menu.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mBackToMainButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToMainMenu();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void AIOptionControl.DisplayGuidanceMessages()
+        ///
+        /// Display Bastien & Scapin.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void DisplayGuidanceMessages(object sender, MouseEventArgs e)
         {
             mGuidanceLabel.Content = mGuidanceMessages[sender];
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void AIOptionControl.ClearGuidanceMessages()
+        ///
+        /// Clear Bastien & Scapin.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void ClearGuidanceMessages(object sender, MouseEventArgs e)
         {
             mGuidanceLabel.Content = "";
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void AIOptionControl.mAddButton_Click()
+        ///
+        /// Add a new AI profile.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mAddButton_Click(object sender, RoutedEventArgs e)
         {
             string newName = "New AI";
@@ -106,6 +182,16 @@ namespace UIHeavyClient
             DisplayAIProfiles();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void AIOptionControl.mDeleteButton_Click()
+        ///
+        /// Delete the selected AI profile.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mDeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (mSelectedProfile != "")
@@ -116,6 +202,16 @@ namespace UIHeavyClient
             DisplayAIProfiles();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void AIOptionControl.mSaveButton_Click()
+        ///
+        /// Save selected AI profile.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mSaveButton_Click(object sender, RoutedEventArgs e)
         {
             if (mSelectedProfile != "" && mProfileNameTextBox.Text != "")
@@ -128,6 +224,13 @@ namespace UIHeavyClient
             DisplayAIProfiles();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void AIOptionControl.DisplayAIProfiles()
+        ///
+        /// Query Ai profiles from XML.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void DisplayAIProfiles()
         {
             ClearProfileInfo();
@@ -155,6 +258,16 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void AIOptionControl.mCurrentAIList_SelectionChanged()
+        ///
+        /// Diplay selected AI profile on the right side.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mCurrentAIList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if ((sender as ListView).SelectedItems.Count > 0)
@@ -168,6 +281,13 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void AIOptionControl.ClearProfileInfo()
+        ///
+        /// Clear the selected profile infos.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void ClearProfileInfo()
         {
             mProfileNameTextBox.Text = "";
@@ -178,3 +298,7 @@ namespace UIHeavyClient
         }
     }
 }
+
+///////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////

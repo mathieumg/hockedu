@@ -1,4 +1,14 @@
-﻿using System;
+﻿///////////////////////////////////////////////////////////////////////////////
+/// @file OnlineLobbyControl.xaml.cs
+/// @author Vincent Lemire and Micheal Ferris
+/// @date 2013-02-26
+/// @version 1.0
+///
+/// @addtogroup razergame RazerGame
+/// @{
+///////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +25,13 @@ using HttpHockeduRequests;
 
 namespace UIHeavyClient
 {
+    ///////////////////////////////////////////////////////////////////////////
+    /// @struct OnlineGameInfos
+    /// @brief To receive game data from the Dll.
+    ///
+    /// @author Vincent Lemire
+    /// @date 2013-03-26
+    ///////////////////////////////////////////////////////////////////////////
     struct OnlineGameInfos
     {
         int id;
@@ -25,9 +42,13 @@ namespace UIHeavyClient
 
     }
 
-    /// <summary>
-    /// Logique d'interaction pour OnlineLobbyControl.xaml
-    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class OnlineLobbyControl
+    /// @brief Window for online mode.
+    ///
+    /// @author Vincent Lemire
+    /// @date 2013-03-26
+    ///////////////////////////////////////////////////////////////////////////
     public partial class OnlineLobbyControl : UserControl
     {
         private PasswordPrompt mPasswordPrompt;
@@ -122,3 +143,9 @@ namespace UIHeavyClient
         }
     }
 }
+
+///////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////
+
+
