@@ -1,4 +1,14 @@
-﻿using System;
+﻿///////////////////////////////////////////////////////////////////////////////
+/// @file GameCreationPrompt.xaml.cs
+/// @author Vincent Lemire
+/// @date 2013-03-26
+/// @version 1.0
+///
+/// @addtogroup razergame RazerGame
+/// @{
+///////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,9 +24,13 @@ using HttpHockeduRequests;
 
 namespace UIHeavyClient
 {
-    /// <summary>
-    /// Logique d'interaction pour GameCreationPrompt.xaml
-    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class GameCreationPrompt
+    /// @brief Popup to create a online game.
+    ///
+    /// @author Vincent Lemire
+    /// @date 2013-03-26
+    ///////////////////////////////////////////////////////////////////////////
     public partial class GameCreationPrompt : Window
     {
 
@@ -89,3 +103,9 @@ namespace UIHeavyClient
         }
     }
 }
+
+
+///////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////
+

@@ -22,6 +22,13 @@ using System.Windows.Controls;
 
 namespace UIHeavyClient
 {
+    ///////////////////////////////////////////////////////////////////////////
+    /// @struct ConsoleManager
+    /// @brief To handle a chat user.
+    ///
+    /// @author Michael Ferris
+    /// @date 2013-01-28
+    ///////////////////////////////////////////////////////////////////////////
     struct ChatUser
     {
         public string mUserName;
@@ -29,6 +36,13 @@ namespace UIHeavyClient
         public string mUserState;
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    /// @struct ConsoleManager
+    /// @brief To handle login infos.
+    ///
+    /// @author Michael Ferris
+    /// @date 2013-01-28
+    ///////////////////////////////////////////////////////////////////////////
     struct LoginWindowSavedInfo
     {
         public string mUserName;
@@ -59,9 +73,9 @@ namespace UIHeavyClient
 
         public static LoginWindowSavedInfo mLoginInfo = new LoginWindowSavedInfo();
         ////////////////////////////////////////////////////////////////////////
-        /// @propertie string Chat.WholeMessage
+        /// @property string Chat.WholeMessage
         ///
-        /// Propertie for the conversation.
+        /// Property for the conversation.
         ///
         /// @return The user name.
         ////////////////////////////////////////////////////////////////////////
@@ -71,9 +85,9 @@ namespace UIHeavyClient
         }
 
         ////////////////////////////////////////////////////////////////////////
-        /// @propertie string Chat.ConnectedUsers
+        /// @property string Chat.ConnectedUsers
         ///
-        /// Propertie for the connected users.
+        /// Property for the connected users.
         ///
         /// @return The user name.
         ////////////////////////////////////////////////////////////////////////
@@ -451,3 +465,9 @@ namespace UIHeavyClient
     }
 
 }
+
+///////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////
+
+

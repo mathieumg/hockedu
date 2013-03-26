@@ -1,4 +1,14 @@
-﻿using System;
+﻿///////////////////////////////////////////////////////////////////////////////
+/// @file TournamentControl.xaml.cs
+/// @author Vincent Lemire
+/// @date 2013-02-10
+/// @version 1.0
+///
+/// @addtogroup razergame RazerGame
+/// @{
+///////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,9 +25,13 @@ using System.Runtime.InteropServices;
 
 namespace UIHeavyClient
 {
-    /// <summary>
-    /// Logique d'interaction pour TournamentControl.xaml
-    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class TournamentControl
+    /// @brief Window to configure tournaments.
+    ///
+    /// @author Vincent Lemire
+    /// @date 2013-01-28
+    ///////////////////////////////////////////////////////////////////////////
     public partial class TournamentControl : UserControl
     {
         // C++ functions
@@ -171,3 +185,7 @@ namespace UIHeavyClient
         }
     }
 }
+
+///////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,14 @@
-﻿using System;
+﻿///////////////////////////////////////////////////////////////////////////////
+/// @file ServerMapPrompt.xaml.cs
+/// @author Vincent Lemire
+/// @date 2013-03-26
+/// @version 1.0
+///
+/// @addtogroup razergame RazerGame
+/// @{
+///////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,9 +24,13 @@ using HttpHockeduRequests;
 
 namespace UIHeavyClient
 {
-    /// <summary>
-    /// Logique d'interaction pour ServerMapPrompt.xaml
-    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class ServerMapPrompt
+    /// @brief To select a map from server.
+    ///
+    /// @author Vincent Lemire
+    /// @date 2013-01-28
+    ///////////////////////////////////////////////////////////////////////////
     public partial class ServerMapPrompt : Window
     {
         private bool mOkIsClicked;
@@ -59,3 +73,8 @@ namespace UIHeavyClient
         }
     }
 }
+
+///////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////
+

@@ -1,4 +1,14 @@
-﻿using System;
+﻿///////////////////////////////////////////////////////////////////////////////
+/// @file PlayModeControl.xaml.cs
+/// @author Vincent Lemire
+/// @date 2013-02-06
+/// @version 1.0
+///
+/// @addtogroup razergame RazerGame
+/// @{
+///////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -16,9 +26,13 @@ using System.Runtime.InteropServices;
 
 namespace UIHeavyClient
 {
-    /// <summary>
-    /// Logique d'interaction pour RadioOptionControl1.xaml
-    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class RadioOptionControl
+    /// @brief Window to configure radio.
+    ///
+    /// @author Vincent Lemire
+    /// @date 2013-02-06
+    ///////////////////////////////////////////////////////////////////////////
     public partial class RadioOptionControl : UserControl
     {
         private Dictionary<object, string> mGuidanceMessages;
@@ -218,3 +232,9 @@ namespace UIHeavyClient
         }
     }
 }
+
+///////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////
+
+

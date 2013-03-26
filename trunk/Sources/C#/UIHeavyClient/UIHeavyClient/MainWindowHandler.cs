@@ -1,4 +1,14 @@
-﻿using System;
+﻿///////////////////////////////////////////////////////////////////////////////
+/// @file MainWindowHandler.xaml.cs
+/// @author Vincent Lemire and Micheal Ferris
+/// @date 2013-02-26
+/// @version 1.0
+///
+/// @addtogroup razergame RazerGame
+/// @{
+///////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +30,14 @@ namespace UIHeavyClient
     public delegate bool EventReceivedCallBack(EventCodes id, IntPtr message);
     //declare the callback prototype
     public delegate bool MessageReceivedCallBack(IntPtr username, IntPtr message);
+
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class MainWindowHandler
+    /// @brief Static wrapper to access every controls.
+    ///
+    /// @author Vincent Lemire
+    /// @date 2013-01-28
+    ///////////////////////////////////////////////////////////////////////////
     static class MainWindowHandler
     {
         private static MainWindow mContext;
@@ -249,3 +267,9 @@ namespace UIHeavyClient
         }
     }
 }
+
+///////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////
+
+

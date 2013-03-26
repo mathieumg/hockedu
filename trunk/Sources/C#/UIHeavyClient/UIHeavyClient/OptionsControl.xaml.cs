@@ -1,4 +1,14 @@
-﻿using System;
+﻿///////////////////////////////////////////////////////////////////////////////
+/// @file OptionsControl.xaml.cs
+/// @author Vincent Lemire and Micheal Ferris
+/// @date 2013-02-26
+/// @version 1.0
+///
+/// @addtogroup razergame RazerGame
+/// @{
+///////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,9 +24,13 @@ using System.Windows.Shapes;
 
 namespace UIHeavyClient
 {
-    /// <summary>
-    /// Logique d'interaction pour OptionsControl.xaml
-    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class OptionsControl
+    /// @brief Window for options menu.
+    ///
+    /// @author Vincent Lemire
+    /// @date 2013-03-26
+    ///////////////////////////////////////////////////////////////////////////
     public partial class OptionsControl : UserControl
     {
         Dictionary<object, string> mGuidanceMessages;
@@ -65,3 +79,9 @@ namespace UIHeavyClient
         }
     }
 }
+
+///////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////
+
+
