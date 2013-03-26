@@ -281,7 +281,7 @@ void NodeWallEdition::updateCornerPosition()
         p2->setPosition(mPosition-deplacement);
     }
 
-    if(!isSyncFromB2Callback())
+    if(!isWorldLocked())
     {
         updatePhysicBody();
     }

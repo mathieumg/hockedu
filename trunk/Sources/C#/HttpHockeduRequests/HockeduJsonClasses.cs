@@ -24,12 +24,10 @@ namespace HttpHockeduRequests
 
 
     // Classes pour la liste des maps
-
-
     public class MapListJSON
     {
         public string error;                    // Nom de l'erreur, null sinon
-        public UserMapDetailedJSON[] maps;  // Liste des maps
+        public UserMapDetailedJSON[] maps;      // Liste des maps
 
     }
 
@@ -47,14 +45,20 @@ namespace HttpHockeduRequests
     }
 
 
-    // Classes pour le getMap
-
-    public class UserMapLightJSON
+    // Classes pour le getMap\
+    public class UserMapDownloadJSON
     {
         public string   error;       // Error message
         public string   name;    // Map name
         public string   content;    // XML content
     }
 
+
+    // Classe pour le Map Upload
+    public class MapUploadJSON
+    {
+        public string error;    // Code d'erreur
+        public int map_id;      // Id de la map creee
+    }
 
 }

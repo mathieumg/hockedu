@@ -130,8 +130,8 @@ void VisiteurNoeudTest::testSelectionObjet()
 	noeud4->setPosition(Vecteur3(-500.0,-500.0,0.0));
 	noeud5->setPosition(Vecteur3(500.0,-500.0,0.0));
 
-	VisiteurSelection v(Vecteur2(-500.0,500.0),Vecteur2(-500.0,500.0));
-	CPPUNIT_ASSERT(v.avecRectangle == false);
+	VisiteurSelection v(Vecteur2(-500.0,500.0),Vecteur2(-500.0,500.0),false);
+	CPPUNIT_ASSERT(v.mToggleSelection == false);
 
 	arbre->acceptVisitor(v);
 	v.faireSelection();
@@ -143,8 +143,8 @@ void VisiteurNoeudTest::testSelectionObjet()
 	CPPUNIT_ASSERT(noeud5->IsSelected() == false);
 	noeud1->setSelection(false);
 
-	VisiteurSelection v2(Vecteur2(-550.0,450.0),Vecteur2(550.0,550.0));
-	CPPUNIT_ASSERT(v2.avecRectangle == true);
+	VisiteurSelection v2(Vecteur2(-550.0,450.0),Vecteur2(550.0,550.0),true);
+	CPPUNIT_ASSERT(v2.mToggleSelection == true);
 
 	arbre->acceptVisitor(v2);
 	v2.faireSelection();

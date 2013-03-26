@@ -150,7 +150,7 @@ bool BonusModifierBlockGoal::Apply()
             myFixtureDef.shape = &shape; //this is a pointer to the shape above
             myFixtureDef.density = 1;
             // Il s'agit ici d'un goaler qui peut entré en collision avec une rondelle
-            myFixtureDef.filter.categoryBits = CATEGORY_GOALIE;
+            myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
             myFixtureDef.filter.maskBits = CATEGORY_PUCK;
             
             mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body

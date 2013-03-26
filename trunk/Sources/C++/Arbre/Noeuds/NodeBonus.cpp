@@ -354,10 +354,11 @@ void NodeBonus::updatePhysicBody()
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &shape; //this is a pointer to the shape above
         myFixtureDef.density = 1;
+
         // Il s'agit ici d'un bonus qui peut entré en collision avec une rondelle
+        myFixtureDef.filter.categoryBits = CATEGORY_BONUS;
         if(IsInGame())
         {
-            myFixtureDef.filter.categoryBits = CATEGORY_BONUS;
             myFixtureDef.filter.maskBits = CATEGORY_PUCK;
 
             // Le sensor indique qu'on va recevoir la callback de collision avec la rondelle sans vraiment avoir de collision
@@ -365,8 +366,8 @@ void NodeBonus::updatePhysicBody()
         }
         else
         {
-            myFixtureDef.filter.categoryBits = CATEGORY_BONUS;
             myFixtureDef.filter.maskBits = 0xFFFF;
+            myFixtureDef.filter.groupIndex = 1;
         }
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body

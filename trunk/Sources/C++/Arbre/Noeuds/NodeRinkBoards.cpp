@@ -36,6 +36,9 @@ PRAGMA_DISABLE_OPTIMIZATION
 NodeRinkBoards::NodeRinkBoards( NoeudPoint* n1, NoeudPoint* n2 ):
     Super(RazerGameUtilities::NAME_RINK_BOARD), mPoint1(n1),mPoint2(n2)
 {
+    /// les noeuds points ne peuvent etre supprimer
+    mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
+
     setScale(Vecteur3(1,0,0));
     setRecordable(false);
     setVisible(false);
@@ -59,6 +62,8 @@ NodeRinkBoards::NodeRinkBoards( NoeudPoint* n1, NoeudPoint* n2 ):
 NodeRinkBoards::NodeRinkBoards( NoeudPoint* n, NoeudBut* but, bool haut ):
     Super(RazerGameUtilities::NAME_RINK_BOARD), mPoint1(n),mPoint2(NULL)
 {
+    /// les noeuds points ne peuvent etre supprimer
+    mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
     setScale(Vecteur3(1,0,0));
     setRecordable(false);
     setVisible(false);
@@ -86,6 +91,9 @@ NodeRinkBoards::NodeRinkBoards( NoeudPoint* n, NoeudBut* but, bool haut ):
 NodeRinkBoards::NodeRinkBoards( NoeudBut* but, NoeudPoint* n, bool haut ):
     Super(RazerGameUtilities::NAME_RINK_BOARD), mPoint1(NULL),mPoint2(n)
 {
+    /// les noeuds points ne peuvent etre supprimer
+    mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
+
     setScale(Vecteur3(1,0,0));
     setRecordable(false);
     setVisible(false);
@@ -191,7 +199,7 @@ void NodeRinkBoards::updatePhysicBody()
         }
         
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
-        //     mPhysicBody->SetUserData(this);
+        mPhysicBody->SetUserData(this);
         //     mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
     }
 #endif

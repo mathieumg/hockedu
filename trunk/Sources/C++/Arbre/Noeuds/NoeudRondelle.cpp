@@ -69,9 +69,7 @@ NoeudRondelle::NoeudRondelle(const std::string& typeNoeud, unsigned int& puckCre
     mAngle = 0.0f;
     mVitesseRotation = 0.0f;
 #endif
-
-    updatePhysicBody();
-
+    
     ++mNbPuckCreated;
 #ifndef __APPLE__
     if(mNbPuckCreated >= puckLimit)
@@ -666,17 +664,17 @@ void NoeudRondelle::updatePhysicBody()
         myFixtureDef.restitution = 0.95f;
 
         // Il s'agit ici d'une rondelle qui peut entre en collision avec un maillet, un mur, un portail ou un boost
+        myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
         if(IsInGame())
         {
-            myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
             /// La puck entre en collision avec tout !
             myFixtureDef.filter.maskBits = 0xFFFF;
         }
         else
         {
             /// En edition la rondelle et les mailet pourront etre par-dessus des bonus, boost, portals
-            myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
             myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY | CATEGORY_WALL;
+            myFixtureDef.filter.groupIndex = 1;
         }
 
 

@@ -70,7 +70,6 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCre
     }
     velocite_.remetAZero();
 
-    updatePhysicBody();
 
     ++mNbMalletCreated;
 #ifndef __APPLE__
@@ -532,7 +531,10 @@ void NoeudMaillet::updatePhysicBody()
             myFixtureDef.filter.categoryBits = CATEGORY_MALLET;
             myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_BOUNDARY | CATEGORY_WALL;
         }
-        myFixtureDef.filter.groupIndex = 1;
+        if(!IsInGame())
+        {
+            myFixtureDef.filter.groupIndex = 1;
+        }
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         mPhysicBody->SetUserData(this);

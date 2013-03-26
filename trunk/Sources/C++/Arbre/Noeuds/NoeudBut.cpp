@@ -479,10 +479,10 @@ void NoeudBut::updatePhysicBody()
         {
 #if MAT_DEBUG_ && 0
             myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
-            myFixtureDef.filter.maskBits = CATEGORY_PUCK;
+            myFixtureDef.filter.maskBits = CATEGORY_PUCK|CATEGORY_MALLET;
 #else
-            myFixtureDef.filter.categoryBits = CATEGORY_NONE;
-            myFixtureDef.filter.maskBits = CATEGORY_NONE;
+            myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
+            myFixtureDef.filter.maskBits = CATEGORY_MALLET;
 #endif
             myFixtureDef.filter.groupIndex = 1;
         }
@@ -497,7 +497,7 @@ void NoeudBut::updatePhysicBody()
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
 
         updatePuckCatcher(mCachedPuckRadius);
-        //     mPhysicBody->SetUserData(this);
+        mPhysicBody->SetUserData(this);
         //     mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::SynchroniseTransformFromB2CallBack;
     }
 #endif

@@ -64,7 +64,6 @@ NoeudAccelerateur::NoeudAccelerateur(const std::string& typeNoeud)
 
 	animation->ajouterObjet(this);
 #endif
-    updatePhysicBody();
 
 	//GestionnaireAnimations::getInstance()->ajouterAnimation(animation);
 }
@@ -270,6 +269,7 @@ void NoeudAccelerateur::updatePhysicBody()
         {
             myFixtureDef.filter.categoryBits = CATEGORY_BOOST;
             myFixtureDef.filter.maskBits = 0xFFFF;
+            myFixtureDef.filter.groupIndex = 1;
         }
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body

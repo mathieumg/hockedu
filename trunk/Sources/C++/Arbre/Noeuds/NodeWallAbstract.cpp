@@ -56,7 +56,6 @@ NodeWallAbstract::NodeWallAbstract(const std::string& typeNoeud)
 	: Super(typeNoeud)
 {
 	coefRebond_ = 0.75;
-    updatePhysicBody();
 }
 
 
@@ -302,7 +301,10 @@ void NodeWallAbstract::updateWallProperties()
     // necessaire pour s'assurer de l'integrite des proprietes
     // physiques et d'affichage
     updateMatrice();
-    updatePhysicBody();
+    if(!isWorldLocked())
+    {
+        updatePhysicBody();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////

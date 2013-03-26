@@ -36,14 +36,7 @@
 {
     Vecteur2 posMin = Vecteur2(positionMinX,positionMinY);
     Vecteur2 posMax = Vecteur2(positionMaxX,positionMaxY);
-    VisiteurSelection visitor = VisiteurSelection(posMin,posMax);
-    ((Terrain*)mField)->setTableItemsSelection(false);
-    ((Terrain*)mField)->acceptVisitor(visitor);
-    visitor.faireSelection();
-    
-    // Pop over controller pour modifier les proprietes
-    return ((Terrain*)mField)->getSelectedNodes().size();;
-    
+    return ((Terrain*)mField)->selectNodes(posMin,posMax,false);
 }
 
 -(void) beginModification:(FieldModificationStrategyType)type:(CGPoint)coordVirt

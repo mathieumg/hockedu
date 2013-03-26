@@ -338,7 +338,7 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
     hWnd_ = hWnd;
     bool succes = aidegl::creerContexteGL(hWnd_, hDC_, hGLRC_);
     checkf(succes);
-
+    
     InitOpenGLContext();
 
     // FreeImage, utilisée par le chargeur, doit être initialisée
