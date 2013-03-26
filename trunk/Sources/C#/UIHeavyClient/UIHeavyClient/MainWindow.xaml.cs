@@ -108,6 +108,13 @@ namespace UIHeavyClient
             });
         }
 
+        public void TestCallbackMapUploaded(HttpHockeduRequests.UploadOperationStatus pStatus, int pMapId)
+        {
+            Console.WriteLine(pStatus);
+            Console.WriteLine(pMapId);
+        }
+        
+
 
         private void Window_Closed(object sender, EventArgs e)
         {
@@ -259,9 +266,9 @@ namespace UIHeavyClient
         {
             HttpManager wManager = new HttpManager();
             //wManager.getPublicMapList();
-            wManager.downloadMap(12, 1, TestCallbackMapDownloaded);
+            //wManager.downloadMap(12, 1, TestCallbackMapDownloaded);
+            wManager.uploadNewMap(12, "05237e69-8d18-11e2-b5d0-005056823b67", "TestMat4", "Test Upload HTTP", true, "D:\\AirHockeyGit\\log3900-04_Cloned2\\trunk\\Content\\cs_italy.xml", TestCallbackMapUploaded);
 
-            Console.Out.WriteLine("Test Termine");
         }
         
 
