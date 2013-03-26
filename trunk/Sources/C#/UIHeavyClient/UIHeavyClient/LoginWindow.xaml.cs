@@ -207,7 +207,7 @@ namespace UIHeavyClient
                     serverName = listedServer[serverComboBox.SelectedIndex].mName;
                 }
 
-                if (Chat.IsIPv4(ipAdress))
+                if (Utilities.IsIPv4(ipAdress))
                 {
                     Chat.mLoginInfo.mUserName = userNameInput.Text;
                     Chat.mLoginInfo.mPassword = passwordInput.Password;

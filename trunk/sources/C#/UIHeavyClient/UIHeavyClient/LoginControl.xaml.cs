@@ -26,6 +26,21 @@ using System.ComponentModel;
 
 namespace UIHeavyClient
 {
+
+    ///////////////////////////////////////////////////////////////////////////
+    /// @struct LoginWindowSavedInfo
+    /// @brief To handle login infos.
+    ///
+    /// @author Michael Ferris
+    /// @date 2013-01-28
+    ///////////////////////////////////////////////////////////////////////////
+    struct LoginWindowSavedInfo
+    {
+        public string mUserName;
+        public string mPassword;
+        public string mIpAddress;
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     /// @class LoginWindow
     /// @brief A simple window where the user will input his user name.
@@ -36,6 +51,8 @@ namespace UIHeavyClient
     ///////////////////////////////////////////////////////////////////////////
     public partial class LoginControl : UserControl
     {
+        public static LoginWindowSavedInfo mLoginInfo = new LoginWindowSavedInfo();
+
 
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void CancelConnection(string pConnectionId);
@@ -138,6 +155,19 @@ namespace UIHeavyClient
 
 
 
+        public static void ControlEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            Control control = sender as Control;
+            if ((bool)e.NewValue)
+            {
+                control.Foreground = Brushes.White;
+            }
+            else
+            {
+                control.Foreground = Brushes.Black;
+            }
+        }
+
         void Window_Closed(object sender, EventArgs e)
         {
             Chat.SetupLoginCallBackEvents(null);
@@ -187,7 +217,7 @@ namespace UIHeavyClient
                     serverName = listedServer[serverComboBox.SelectedIndex].mName;
                 }
 
-                if (Chat.IsIPv4(ipAdress))
+                if (Utilities.IsIPv4(ipAdress))
                 {
                     Chat.mLoginInfo.mUserName = userNameInput.Text;
                     Chat.mLoginInfo.mPassword = passwordInput.Password;

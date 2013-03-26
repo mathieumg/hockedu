@@ -146,6 +146,7 @@
     <Compile Include="TournamentControl.xaml.cs">
       <DependentUpon>TournamentControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilities.cs" />
     <Page Include="AIOptionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
