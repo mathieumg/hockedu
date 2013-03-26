@@ -21,8 +21,6 @@ int CallbackSetPatieSyncerClientLourd(int pGameId, GameStatus)
     return 0;
 }
 
-
-
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn  ControllerCSharp::ControllerCSharp()
@@ -68,7 +66,6 @@ ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceiv
 
     GameManager::obtenirInstance()->addGameUpdateCallback(CallbackSetPatieSyncerClientLourd);
 }
-
 
 ////////////////////////////////////////////////////////////////////////
 ///

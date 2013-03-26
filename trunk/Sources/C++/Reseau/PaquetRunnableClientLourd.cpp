@@ -223,8 +223,6 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
                     GameManager::obtenirInstance()->startGame(wPaquet->getGameId()); 
                 }
 
-
-
                 break;
             }
         case GAME_EVENT_PAUSE_GAME_USER_DISCONNECTED:

@@ -15,10 +15,12 @@ class GameServerManager: public Singleton<GameServerManager>
 SINGLETON_DECLARATION_CLASSE_SANS_CONSTRUCTEUR(GameServerManager);
 
 public:
-    void addNewGameServer(unsigned int pGameServerId, std::string pServerIP);
+    void addNewGameServer(unsigned int& pGameServerId, std::string& pServerIP, std::string& pServerIdentifier);
     void removeGameServer(unsigned int pGameServerId);
 
     GameServer* getGameServer( unsigned int pGameServerId );
+
+    unsigned int selectRandomGameServer();
 
     static unsigned int generateNewGameServerId() { return ++mNewGameServerId; }
     static unsigned int getLatestGameServerId() { return mNewGameServerId; }

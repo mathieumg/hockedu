@@ -56,5 +56,8 @@
     <ClInclude Include="MenuOptionCallVoid.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Interface\FacadeServeurJeu.h">
+      <Filter>Source Files\Reseau</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

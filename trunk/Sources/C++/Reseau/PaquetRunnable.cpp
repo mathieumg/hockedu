@@ -157,7 +157,7 @@ int PaquetRunnable::RunnableGameStatusServer( Paquet* pPaquet )
 int PaquetRunnable::RunnableGameCreationClient( Paquet* pPaquet )
 {
     PaquetGameCreation* wPaquet = (PaquetGameCreation*) pPaquet;
-    
+
     if(wPaquet->getGameId() == -1)
     {
         // Creation a echouee
@@ -168,14 +168,16 @@ int PaquetRunnable::RunnableGameCreationClient( Paquet* pPaquet )
         // Creation reussie
         std::cout << "Creation de partie reussie" << std::endl;
 
-        // On se connecte a la partie si c'est bien une de not partie
-        if(GestionnaireReseau::obtenirInstance()->getPlayerName() == wPaquet->getUsername())
-        {
-            PaquetGameConnection* wPaquetConnexion = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);
-            wPaquetConnexion->setGameId(wPaquet->getGameId());
-            GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquetConnexion, TCP);
-        }
+        GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer", wPaquet->getServerIP(), TCP);
+        SPSocket wSocketGameServer = GestionnaireReseau::obtenirInstance()->getSocket("GameServer", TCP);
         
+        //GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer", wPaquet->getServerIP(), UDP);
+
+        PaquetGameConnection* wPaquetConnexion = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);
+        wPaquetConnexion->setGameId(wPaquet->getGameId());
+
+        wSocketGameServer->setOnConnectionCallback([wPaquetConnexion]()->void{ GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquetConnexion, TCP); });
+
     }
 
     return 0;
@@ -191,7 +193,7 @@ int PaquetRunnable::RunnableBonus( Paquet* pPaquet )
     // ****** Ne devrait pas avoir a etre modifier, il ne s'agit que d'un dispatch, pas de handling
 
     PaquetBonus* wPaquet = (PaquetBonus*) pPaquet;
-    std::hash_map<PaquetBonusType, PaquetBonusRunnable>::iterator wRunnable = PacketHandlerBonus::mRunnableList.find(wPaquet->getBonusType());
+    auto wRunnable = PacketHandlerBonus::mRunnableList.find(wPaquet->getBonusType());
     if(wRunnable!=PacketHandlerBonus::mRunnableList.end())
     {
         return (wRunnable->second)(wPaquet);

@@ -10,8 +10,6 @@
 
 const char flagChar = '-';
 
-
-
 // Fonction pour les flags qui ont un string apres la flag
 // Ex: -m 192.168.0.0.1
 void parseParamWithArg(std::string& pOutParam, int pLoopCounter, int argc, char* argv[])

@@ -68,7 +68,6 @@ void PacketReader::setArrayStart( uint8_t* arrayStart, size_t arraySize )
     mArrStart = newArrayStart;
 }
 
-
 void PacketReader::clearBuffer()
 {
     mCurrentPosition = 0;
@@ -84,7 +83,6 @@ void PacketReader::readString(uint8_t* pReturnString, uint32_t pStringLength)
 #else
     memset(pReturnString, 0, pStringLength);
 #endif
-
 
     memcpy_s(pReturnString, pStringLength, mArrStart+mCurrentPosition, pStringLength);
 

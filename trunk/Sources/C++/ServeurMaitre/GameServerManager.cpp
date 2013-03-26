@@ -52,9 +52,9 @@ GameServerManager::~GameServerManager()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GameServerManager::addNewGameServer( unsigned int pGameServerId, std::string pServerIP )
+void GameServerManager::addNewGameServer( unsigned int& pGameServerId, std::string& pServerIP, std::string& pServerIdentifier )
 {
-    GameServer* wGameServer = new GameServer(pGameServerId, pServerIP);
+    GameServer* wGameServer = new GameServer(pGameServerId, pServerIP, pServerIdentifier);
     addNewGameServer(pGameServerId, wGameServer);
 }
 
@@ -102,7 +102,20 @@ void GameServerManager::removeGameServer( unsigned int pGameServerId )
     }
 
     delete (*it).second;
-    mGameServersList.erase((*it).first);
+    mGameServersList.erase(it->first);
+}
+
+unsigned int GameServerManager::selectRandomGameServer()
+{
+    // Obtain a random index in range 0 - size
+    unsigned int wIndex = rand() % mGameServersList.size();
+
+    // Get the nth element of the list where n = index
+    auto it = mGameServersList.begin();
+    for(unsigned int i = 0; i < wIndex; ++i, ++it) {}
+    
+    // Return server id at index n.
+    return it->first;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -123,6 +136,6 @@ GameServer* GameServerManager::getGameServer( unsigned int pGameServerId )
     {
         throw ExceptionReseau("The specified game server ID doesn't exist.");
     }
-
-    return (*it).second;
+    
+    return it->second;
 }

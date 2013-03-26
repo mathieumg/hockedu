@@ -84,6 +84,9 @@ SPSocket SocketTCPServeur::accept( sockaddr* addr, uint32_t* addrlen )
         unsigned int taille = sizeof(sockaddr_in);
 #endif
         wTempSocket = ::accept(mSocket, (sockaddr*)temp, &taille);
+#if !SHIPPING
+        std::cout << "temp: Accepted connection from IP " << inet_ntoa(temp->sin_addr) << std::endl;
+#endif
     }
     else
     {
@@ -91,6 +94,9 @@ SPSocket SocketTCPServeur::accept( sockaddr* addr, uint32_t* addrlen )
         wTempSocket = ::accept(mSocket, addr, (int*)addrlen);
 #elif defined(LINUX)
         wTempSocket = ::accept(mSocket, addr, (unsigned int*)addrlen);
+#endif
+#if !SHIPPING
+        std::cout << "addr: Accepted connection from IP " << inet_ntoa(((sockaddr_in*)addr)->sin_addr) << std::endl;
 #endif
     }
 
@@ -108,10 +114,12 @@ SPSocket SocketTCPServeur::accept( sockaddr* addr, uint32_t* addrlen )
     else
     {
         sockaddr_in* addr2 = new sockaddr_in;
-        memcpy(addr2, addr, sizeof(addr));
+        memcpy(addr2, addr, sizeof(*addr));
+#if !SHIPPING
+        std::cout << "addr2: Accepted connection from IP " << inet_ntoa(addr2->sin_addr) << std::endl;
+#endif
         return SPSocket(new Socket(wTempSocket, (sockaddr_in*)addr2, TCP));
     }
-
 }
 
 

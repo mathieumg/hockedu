@@ -23,7 +23,6 @@
 #include "GameServerManager.h"
 #include "GameServer.h"
 
-
 /// ***** PAR CONVENTION, METTRE Master A LA FIN DU NOM DES DELEGATES
 
 
@@ -135,17 +134,46 @@ int PaquetRunnable::RunnableGameStatusMasterServer( Paquet* pPaquet )
 }
 
 
-int PaquetRunnable::RunnableGameRegistrationMasterServer( Paquet* pPaquet )
+int PaquetRunnable::RunnableGameCreationMasterServer( Paquet* pPaquet )
 {
-    PaquetGameRegistration* wPaquet = (PaquetGameRegistration*) pPaquet;
+    PaquetGameCreation* wPaquet = (PaquetGameCreation*) pPaquet;
     
     const int wGameId = wPaquet->getGameId();
-    const unsigned int wServerId = wPaquet->getServerId();
-#if !SHIPPING
-    std::cout << "Creating game id " << wGameId << " on server " << wServerId;
-#endif
-    GameServerManager::obtenirInstance()->getGameServer(wServerId)->addGame(wGameId, wPaquet->getGameName(), wPaquet->getMapName(), wPaquet->getUsername());
+    unsigned int wServerId = wPaquet->getServerId();
+    if ( wGameId == -1 )
+    {
+        if( wServerId == 0)
+        {
+            wServerId = GameServerManager::obtenirInstance()->selectRandomGameServer();
+            wPaquet->setServerId(wServerId);
+        }
 
+#if !SHIPPING
+        std::cout << "Forwarding packet to GameServer " << wServerId << std::endl;
+#endif
+
+        std::string& wServerIdentifier = GameServerManager::obtenirInstance()->getGameServer(wServerId)->getServerIdentifier();
+        GestionnaireReseau::obtenirInstance()->envoyerPaquet(wServerIdentifier, wPaquet, TCP);
+    }
+    else
+    {
+#if !SHIPPING
+        std::cout << "Creating game id " << wGameId << " on server " << wServerId << std::endl;
+#endif
+        GameServerManager::obtenirInstance()->getGameServer(wServerId)->addGame(wGameId, wPaquet->getGameName(), wPaquet->getMapName(), wPaquet->getUsername());
+        GameServer* wServer = GameServerManager::obtenirInstance()->getGameServer(wServerId);
+        std::string wServerIP = wServer->getServerIP();
+#if !SHIPPING
+        std::cout << "Setting GameServer IP to " << wServerIP << " in paquet reply" << std::endl;
+#endif
+        wPaquet->setServerIP(wServerIP);
+#if !SHIPPING
+        std::cout << "Forwarding reply packet to user " << wServerId << std::endl;
+#endif
+
+        // Sends reply to game creator
+        GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
+    }
     return 0;
 }
 

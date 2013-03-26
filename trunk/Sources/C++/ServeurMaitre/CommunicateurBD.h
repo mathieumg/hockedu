@@ -44,6 +44,7 @@ private:
     // Methode a appeler avant chaque methode qui doit appeler la BD
     bool validateConnection() const;
 
+
 	mysqlpp::Connection mConnection;
 
     static std::string mBDHost;

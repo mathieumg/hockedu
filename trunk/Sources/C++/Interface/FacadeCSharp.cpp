@@ -101,10 +101,6 @@ void RequestLogin( char* pUsername, char* pPassword, char* pIpAdress )
     GestionnaireReseauClientLourd::obtenirInstance();
     GestionnaireReseau::obtenirInstance()->setUser(pUsername, pPassword);
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("MasterServer",pIpAdress,TCP);
-//#if MAT_DEBUG_
-    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer",pIpAdress,TCP);
-    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer",pIpAdress,UDP);
-//#endif
 }
 
 void SendMessageDLL(char * pConnectionId, char* pUsername, char * pMessage)
@@ -462,7 +458,7 @@ void requestGameCreationServerGame( char* pGameName )
     PaquetGameCreation* wPaquet = (PaquetGameCreation*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CREATION_REQUEST);
     wPaquet->setGameName(pGameName);
     wPaquet->setMapName(FacadeModele::FICHIER_TERRAIN_EN_COURS);
-    GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
 }
 
 void SaveMap(char* pFileName)

@@ -177,6 +177,12 @@
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerBonus.cpp">
       <Filter>Source Files\PacketHandlers</Filter>
     </ClCompile>
+    <ClCompile Include="..\Reseau\Paquets\PaquetGameCreation.cpp">
+      <Filter>Source Files\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameCreation.cpp">
+      <Filter>Source Files\PacketHandlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControllerServeurMaitre.h">
@@ -327,6 +333,12 @@
       <Filter>Source Files\PacketHandlers</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetBonus.h">
+      <Filter>Source Files\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\Paquets\PaquetGameCreation.h">
+      <Filter>Source Files\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetGameCreation.h">
       <Filter>Source Files\UsinePaquets</Filter>
     </ClInclude>
   </ItemGroup>

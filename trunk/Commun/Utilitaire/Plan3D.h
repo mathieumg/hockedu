@@ -17,7 +17,6 @@
 
 namespace math {
    
-   
    ///////////////////////////////////////////////////////////////////////////
    /// @class Plan3D
    /// @brief Définition de la classe qui crée un plan en 3 dimensions.
