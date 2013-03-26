@@ -13,10 +13,12 @@ using System.Threading;
 
 namespace HttpHockeduRequests
 {
+    public enum UploadOperationStatus { UPLOAD_SUCCESS, UPLOAD_FAILED_INVALID_FILE_PATH, UPLOAD_FAILED_AUTHENTICATION_REJECTED, UPLOAD_FAILED_UNKNOWN_ERROR };
+
     // Declaration des delegates pour les callback des retours de fonction des workers
     public delegate void MapsListLoadedCallBack( List<UserMapDetailedJSON> pList );
     public delegate void MapDownloadedCallBack( string pFilepath );
-
+    public delegate void MapUploadCallback( UploadOperationStatus pStatus, int pMapId = -1 );
 
     ///////////////////////////////////////////////////////////////////////////
     /// @class WorkerParamsDownload
@@ -62,6 +64,38 @@ namespace HttpHockeduRequests
         public string authentication;
         public MapsListLoadedCallBack callback;
     }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class WorkerParamsListUpload
+    /// @brief Classe pour contenir les parametres pour les appels de fonctions pour l'upload de la map
+    ///
+    /// @author Mathieu Parent
+    /// @date 2013-03-26
+    ///////////////////////////////////////////////////////////////////////////
+    public class WorkerParamsUpload
+    {
+        public WorkerParamsUpload(MapUploadCallback pCallback, int pUserId, string pAuthenticationKey, string pMapName, string pMapDescription, bool pMapPublic, string pFilepath)
+        {
+           userId                = pUserId;
+           authenticationKey     = pAuthenticationKey;
+           mapName               = pMapName;
+           mapDescription        = pMapDescription;
+           mapPublic             = pMapPublic;
+           filepath              = pFilepath;
+           callback              = pCallback;
+
+        }
+
+        public int                  userId;
+        public string               authenticationKey;
+        public string               mapName;
+        public string               mapDescription;
+        public bool                 mapPublic;
+        public string               filepath;
+        public MapUploadCallback    callback;
+    }
+
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -192,6 +226,125 @@ namespace HttpHockeduRequests
                 wCallback(wDestinationFilePath); // Retourne le file path ou le fichier a ete sauvegarde en local
             }
         }
+
+        public const string TemplateFormData = "--{0}\r\nContent-Disposition: form-data; name=\"{1}\"\r\n\r\n{2}\r\n";
+        public const string TemplateFileData = "--{0}\r\nContent-Disposition: form-data; name=\"{1}\"; filename=\"{2}\"\r\nContent-Type: {3}\r\n\r\n";
+        public static void uploadMap(object pParams)
+        {
+            WorkerParamsUpload wParams = (WorkerParamsUpload)pParams;
+
+            // On essaie d'aller chercher le contenu du fichier donne dans le filepath
+            string wFileContentString = "";
+            try
+            {
+                wFileContentString = System.IO.File.ReadAllText(wParams.filepath);
+            }
+            catch (System.Exception)
+            {
+                // Cancel
+                wParams.callback(UploadOperationStatus.UPLOAD_FAILED_INVALID_FILE_PATH);
+            }
+
+            // Escape file data
+
+            try
+            {
+                // Basic infos
+                HttpWebRequest wRequest = (HttpWebRequest)WebRequest.Create("http://hockedu.com/remote/newmap");
+                wRequest.Method = "POST";
+                wRequest.KeepAlive = true;
+                wRequest.AllowAutoRedirect = true;
+                wRequest.Timeout = 120000;
+
+                // Create boundary and set ContentType
+                string wBoundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
+                wRequest.ContentType = "multipart/form-data; boundary=" + wBoundary;
+
+                // Get request Stream to edit it
+                Stream wRequestStream = wRequest.GetRequestStream();
+
+                // Ajouter les infos de la requete avant le contenu du fichier (formulaire)
+                // user_id
+                string item = String.Format(TemplateFormData, wBoundary, "user_id", wParams.userId);
+                byte[] itemBytes = System.Text.Encoding.UTF8.GetBytes(item);
+                wRequestStream.Write(itemBytes, 0, itemBytes.Length);
+
+                // auth_key
+                string itemAuthKey = String.Format(TemplateFormData, wBoundary, "auth_key", wParams.authenticationKey);
+                byte[] itemBytesAuthKey = System.Text.Encoding.UTF8.GetBytes(itemAuthKey);
+                wRequestStream.Write(itemBytesAuthKey, 0, itemBytesAuthKey.Length);
+
+                // name
+                string itemName = String.Format(TemplateFormData, wBoundary, "name", wParams.mapName);
+                byte[] itemBytesName = System.Text.Encoding.UTF8.GetBytes(itemName);
+                wRequestStream.Write(itemBytesName, 0, itemBytesName.Length);
+
+                // description
+                string itemDescription = String.Format(TemplateFormData, wBoundary, "description", wParams.mapDescription);
+                byte[] itemBytesDescription = System.Text.Encoding.UTF8.GetBytes(itemDescription);
+                wRequestStream.Write(itemBytesDescription, 0, itemBytesDescription.Length);
+
+                // public
+                string itemPublic = String.Format(TemplateFormData, wBoundary, "public", wParams.mapPublic);
+                byte[] itemBytesPublic = System.Text.Encoding.UTF8.GetBytes(itemPublic);
+                wRequestStream.Write(itemBytesPublic, 0, itemBytesPublic.Length);
+
+                // Ajouter le data du fichier au stream
+                // mapfile (header)
+                string wFileName = wParams.filepath.Substring(wParams.filepath.LastIndexOf(Path.DirectorySeparatorChar)+1);
+                string header = String.Format(TemplateFileData, wBoundary, "mapfile", wFileName, "text/xml");
+                byte[] headerbytes = Encoding.UTF8.GetBytes(header);
+                wRequestStream.Write(headerbytes, 0, headerbytes.Length);
+                // mapfile (data)
+                byte[] newlineBytes = Encoding.UTF8.GetBytes(wFileContentString);
+                wRequestStream.Write(newlineBytes, 0, newlineBytes.Length);
+
+
+
+                /*string itemMapFile = String.Format(TemplateFormData, wBoundary, "mapfile", wFileContentString);
+                byte[] itemBytesMapFile = System.Text.Encoding.UTF8.GetBytes(itemMapFile);
+                wRequestStream.Write(itemBytesMapFile, 0, itemBytesMapFile.Length);*/
+
+
+                // Ajouter les bytes de fermeture a la fin de la request
+                byte[] wEndBytes = System.Text.Encoding.UTF8.GetBytes("--" + wBoundary + "--");
+                wRequestStream.Write(wEndBytes, 0, wEndBytes.Length);
+
+                // Set request length?
+                //wRequest.ContentLength = longueur;
+
+
+                // On ferme le stream de requete
+                wRequestStream.Close();
+
+                // Lire la reponse du serveur
+                using (WebResponse wResponse = wRequest.GetResponse())
+                using (StreamReader wReader = new StreamReader(wResponse.GetResponseStream()))
+                {
+                    string wResponseData = wReader.ReadToEnd();
+                    // Retourne du JSON avec le map_id qui a ete cree
+                    MapUploadJSON wMapUploaded = (MapUploadJSON)JsonConvert.Import(typeof(MapUploadJSON), wResponseData);
+                    if (wMapUploaded.error == null)
+                    {
+                        wParams.callback(UploadOperationStatus.UPLOAD_SUCCESS);
+                    }
+                    else if (wMapUploaded.error == "AuthKeyMissing" || wMapUploaded.error == "AuthKeyInvalid")
+                    {
+                        wParams.callback(UploadOperationStatus.UPLOAD_FAILED_AUTHENTICATION_REJECTED);
+                    }
+                    else
+                    {
+                        wParams.callback(UploadOperationStatus.UPLOAD_FAILED_UNKNOWN_ERROR);
+                    }
+                };
+
+            }
+            catch (System.Exception ex)
+            {
+                wParams.callback(UploadOperationStatus.UPLOAD_FAILED_UNKNOWN_ERROR);
+            }
+
+        }
     }
 
 
@@ -312,6 +465,32 @@ namespace HttpHockeduRequests
             // Faire dans un thread separe
             WorkerParamsList wParams = new WorkerParamsList(pCallback, pUserId, -1, pAuthentication);
             Thread newThread = new Thread(new ParameterizedThreadStart(HttpManagerWorker.getUserMapList));
+            newThread.Start(wParams);
+        }
+
+
+
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void uploadNewMap(int pUserId, string pAuthenticationKey, string pMapName, string pMapDescription, bool pMapPublic, string pFilepath, MapUploadCallback pCallback)
+        ///
+        /// Methode pour uploader une map par le serveur web. ASYNC
+        /// 
+        /// @param[in] int                  pUserId             : UserId du proprietaire de la map
+        /// @param[in] string               pAuthenticationKey  : Authentication key du user de la session courante
+        /// @param[in] string               pMapName            : Nom a donner a la map
+        /// @param[in] string               pMapDescription     : Description a donner a la map
+        /// @param[in] bool                 pMapPublic          : Bool qui indique si la map doit etre publique ou non
+        /// @param[in] string               pFilepath           : Path dans le filesystem qui contient le fichier
+        /// @param[in] MapUploadCallBack    pCallback           : Fonction de callback a appeler une fois que l'upload est termine ou qu'il y a une erreur
+        ///
+        /// @return None.
+        ////////////////////////////////////////////////////////////////////////
+        public void uploadNewMap(int pUserId, string pAuthenticationKey, string pMapName, string pMapDescription, bool pMapPublic, string pFilepath, MapUploadCallback pCallback)
+        {
+            // Faire dans un thread separe
+            WorkerParamsUpload wParams = new WorkerParamsUpload(pCallback, pUserId, pAuthenticationKey, pMapName, pMapDescription, pMapPublic, pFilepath);
+            Thread newThread = new Thread(new ParameterizedThreadStart(HttpManagerWorker.uploadMap));
             newThread.Start(wParams);
         }
     }
