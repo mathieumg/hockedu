@@ -12,9 +12,48 @@
 #include "NoeudAbstrait.h"
 #include "AFJSONRequestOperation.h"
 #include "AFHTTPClient.h"
-//#include <Box2D/Box2D.h>
+#include "EditionEventManager.h"
 
 @implementation Model
+
+void EditionEventCallback(EditionEventCodes pEvent)
+{
+    switch (pEvent) {
+            
+        case ENABLE_PUCK_CREATION:
+            NSLog(@"Can create Puck\n");
+            break;
+        case DISABLE_PUCK_CREATION:
+            NSLog(@"Cannot Create Puck\n");
+            break;
+        case ENABLE_MALLET_CREATION:
+            NSLog(@"Can create Mallet\n");
+            break;
+        case DISABLE_MALLET_CREATION:
+            NSLog(@"Cannot create puck\n");
+            break;
+        case THERE_ARE_NODES_SELECTED:
+            NSLog(@"There are items selected\n");
+            break;
+        case THERE_ARE_NO_NODE_SELECTED:
+            NSLog(@"There are no nodes selected\n");
+            break;
+        case CAN_UNDO:
+            NSLog(@"Can Undo modification\n");
+            break;
+        case CANNOT_UNDO:
+            NSLog(@"Cannot Undo modification\n");
+            break;
+        case CAN_REDO:
+            NSLog(@"Can Redo modification\n");
+            break;
+        case CANNOT_REDO:
+            NSLog(@"Cannot Redo modification\n");
+            break;
+        default:
+            break;
+    }
+}
 
 
 - (void)render
@@ -29,6 +68,7 @@
     ((Terrain*)mField)->createRandomField("test");
     ((Terrain*)mField)->setTableItemsSelection(true);
     ((Terrain*)mField)->deleteSelectedNodes();
+    EditionEventManager::setEditionEventCallback(EditionEventCallback);
     return self;
 }
 
