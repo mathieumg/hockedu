@@ -64,11 +64,11 @@ void EditionEventCallback(EditionEventCodes pEvent)
 - (id)init
 {
     //b2World* world = new b2World(b2Vec2(0,0));
+    EditionEventManager::setEditionEventCallback(EditionEventCallback);
     mField = new Terrain(NULL);
     ((Terrain*)mField)->createRandomField("test");
     ((Terrain*)mField)->setTableItemsSelection(true);
     ((Terrain*)mField)->deleteSelectedNodes();
-    EditionEventManager::setEditionEventCallback(EditionEventCallback);
     return self;
 }
 
