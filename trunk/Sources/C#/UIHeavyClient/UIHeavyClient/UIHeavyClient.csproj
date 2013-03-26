@@ -105,6 +105,9 @@
       <DependentUpon>PasswordPrompt.xaml</DependentUpon>
     </Compile>
     <Compile Include="RazerUtilities.cs" />
+    <Compile Include="ServerMapPrompt.xaml.cs">
+      <DependentUpon>ServerMapPrompt.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\AchievementUnlocked.xaml.cs">
       <DependentUpon>AchievementUnlocked.xaml</DependentUpon>
     </Compile>
@@ -144,6 +147,10 @@
       <DependentUpon>TournamentControl.xaml</DependentUpon>
     </Compile>
     <Page Include="AIOptionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ServerMapPrompt.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

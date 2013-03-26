@@ -32,14 +32,21 @@ namespace UIHeavyClient
     {
         private PasswordPrompt mPasswordPrompt;
         private GameCreationPrompt mGameCreationPrompt;
+        private ServerMapPrompt mServerMapPrompt;
+
+        private HttpManager mHttpManager;
 
         private Dictionary<int, OnlineGameInfos> mOnlineGameInfos;
 
         public OnlineLobbyControl()
         {
             InitializeComponent();
+
             mPasswordPrompt = new PasswordPrompt();
             mGameCreationPrompt = new GameCreationPrompt();
+            mServerMapPrompt = new ServerMapPrompt();
+
+            mHttpManager = new HttpManager();
         }
 
         private void mBackToMainButton_Click(object sender, RoutedEventArgs e)
@@ -54,7 +61,21 @@ namespace UIHeavyClient
             // wManager.getUserMapList(int pUserId, string pAuthentication)
             // apres avoir ete chercher les infos dans la DLL
 
-            MainWindowHandler.GoToEditionMode();
+            //mHttpManager.getUserMapList(0, "", HandleMaps);
+        }
+
+        private void HandleMaps(List<UserMapDetailedJSON> pList)
+        {
+            mServerMapPrompt.HandleMaps(pList);
+            mServerMapPrompt.ShowDialog();
+
+            if (mServerMapPrompt.OkIsClicked)
+            {
+                // TODO : 
+                // Load map from server
+
+                MainWindowHandler.GoToEditionMode();
+            }
         }
 
         private void mJoinButton_Click(object sender, RoutedEventArgs e)
