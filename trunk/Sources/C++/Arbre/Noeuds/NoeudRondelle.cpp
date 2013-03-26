@@ -57,16 +57,18 @@ CreateListDelegateImplementation(Puck)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudRondelle::NoeudRondelle(const std::string& typeNoeud, unsigned int& puckCreated, unsigned int puckLimit)
-    : NoeudAbstrait(typeNoeud),puissanceVent_(0.05f),mNbPuckCreated(puckCreated),mLastHittingMallet(NULL)
+    : NoeudAbstrait(typeNoeud),mNbPuckCreated(puckCreated),mLastHittingMallet(NULL),mCollisionDetected(false)
 {
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
 
+#if MANUAL_PHYSICS_DETECTION
+    puissanceVent_ = 0.05f;
     mCoefFriction = 2.5f;
     mVelocite = Vecteur3(0.0f,0.0f,0.0f);
     mAngle = 0.0f;
     mVitesseRotation = 0.0f;
-
+#endif
 
     updatePhysicBody();
 
@@ -721,20 +723,7 @@ const std::string& NoeudRondelle::get3DModelKey() const
     return Super::get3DModelKey();
 }
 
-void NoeudRondelle::modifierVelocite( const Vecteur3& val )
-{
-#if BOX2D_INTEGRATED
-    auto body = getPhysicBody();
-    if(body)
-    {
-        b2Vec2 velocity;
-        utilitaire::VEC3_TO_B2VEC(val,velocity);
-        body->SetLinearVelocity(velocity);
-    }
-#else
-    mVelocite = val;
-#endif
-}
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -761,6 +750,21 @@ void NoeudRondelle::appliquerAnimation( const ObjectAnimationParameters& pAnimat
     updateMatrice();
 }
 
+void NoeudRondelle::modifierVelocite( const Vecteur3& val )
+{
+#if BOX2D_PLAY
+    auto body = getPhysicBody();
+    if(body)
+    {
+        b2Vec2 velocity;
+        utilitaire::VEC3_TO_B2VEC(val,velocity);
+        body->SetLinearVelocity(velocity);
+    }
+#elif MANUAL_PHYSICS_DETECTION
+    mVelocite = val;
+#endif
+}
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn Vecteur3 NoeudRondelle::obtenirVelocite()
@@ -773,7 +777,7 @@ void NoeudRondelle::appliquerAnimation( const ObjectAnimationParameters& pAnimat
 ////////////////////////////////////////////////////////////////////////
 Vecteur3 NoeudRondelle::obtenirVelocite() const
 {
-#if BOX2D_INTEGRATED
+#if BOX2D_PLAY
     Vecteur3 v;
     auto body = getPhysicBody();
     if(body)
@@ -781,27 +785,30 @@ Vecteur3 NoeudRondelle::obtenirVelocite() const
         utilitaire::B2VEC_TO_VEC3(v,body->GetLinearVelocity());
     }
     return v;
-#else
+#elif MANUAL_PHYSICS_DETECTION
     return mVelocite;
+#else
+    checkf(0, "Appel bizarre sans physique");
+    return 0;
 #endif
 }
 
 void NoeudRondelle::modifierVitesseRotation( const float vitesse )
 {
-#if BOX2D_INTEGRATED
+#if BOX2D_PLAY
     auto body = getPhysicBody();
     if(body)
     {
         body->SetAngularVelocity(vitesse);
     }
-#else
+#elif MANUAL_PHYSICS_DETECTION
     mVitesseRotation = vitesse;
 #endif
 }
 
 float NoeudRondelle::obtenirVitesseRotation() const
 {
-#if BOX2D_INTEGRATED
+#if BOX2D_PLAY
     auto body = getPhysicBody();
     float speed = 0;
     if(body)
@@ -809,8 +816,11 @@ float NoeudRondelle::obtenirVitesseRotation() const
         speed = body->GetAngularVelocity();
     }
     return speed;
-#else
+#elif MANUAL_PHYSICS_DETECTION
     return mVelocite;
+#else
+    checkf(0, "Appel bizarre sans physique");
+    return 0;
 #endif
 }
 

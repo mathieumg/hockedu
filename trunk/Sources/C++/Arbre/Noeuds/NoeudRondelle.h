@@ -96,6 +96,7 @@ public:
 
     static const float DEFAULT_RADIUS;
 private:
+#if MANUAL_PHYSICS_DETECTION
     /// Velocite courante de la rondelle
     Vecteur3 mVelocite;
     /// Coefficient de friction resenti par la table
@@ -104,16 +105,14 @@ private:
     float mVitesseRotation;
     /// Sauvegarde de la position de la rondelle avant la MAJ
     Vecteur3 anciennePos_;
-	
+
     /// Vecteur d'enfoncement resultant de collisions
     Vecteur3 enfoncement_;
     Vecteur3 vitesseResultante_;
     bool collision_;
     /// Conservation en memoire du pointeur de la table
     NoeudTable* table_;
-    /// Conservation en memoire de la position de la rondelle leur du debut de la partie
-    Vecteur3 positionOriginale_;
-	
+
     /// Variables pour la gestion du vent
     float coeffVent_;
     float puissanceVent_;
@@ -121,16 +120,26 @@ private:
 
     /// Acceleration de la rondelle passant par un accelerateur
     float bonusAccelResultant_;
+#endif
+    /// Conservation en memoire de la position de la rondelle leur du debut de la partie
+    Vecteur3 positionOriginale_;
+
+    /// Indicates if a collision has benn detected in this frame
+    bool mCollisionDetected;
+
 
     /// reference to the factory's counter of puck instances
     unsigned int& mNbPuckCreated;
     NoeudMaillet* mLastHittingMallet;
-
 public:
     /// Accessors of mLastHittingMallet
     inline NoeudMaillet* getLastHittingMallet() const { return mLastHittingMallet; }
     inline void setLastHittingMallet(NoeudMaillet* pVal) { mLastHittingMallet = pVal; }
 
+
+    /// Accessors of mCollisionDetected
+    inline bool IsCollisionDetected() const { return mCollisionDetected; }
+    inline void setCollisionDetected(const bool& pVal) { mCollisionDetected = pVal; }
 };
 
 

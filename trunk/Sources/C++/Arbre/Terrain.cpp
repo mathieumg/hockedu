@@ -1136,31 +1136,40 @@ void Terrain::BeginContact( b2Contact* contact )
             // TODO:: à tester
             {
                 NoeudBut *but = dynamic_cast<NoeudBut *>((NoeudAbstrait*)bodies[1]->GetUserData());
-                if (but && mGame && !mGame->isNetworkClientGame())
+                if (but)
                 {
-                    b2Body* rondelleBody = bodies[0];
-                    NoeudRondelle* rondelle = (NoeudRondelle*)(rondelleBody->GetUserData());
-                    Runnable* r = new Runnable([=](Runnable*){
-                        if(mGame)
+                    if(mGame && !mGame->isNetworkClientGame())
+                    {
+                        b2Body* rondelleBody = bodies[0];
+                        NoeudRondelle* rondelle = (NoeudRondelle*)(rondelleBody->GetUserData());
+                        if(!rondelle->IsCollisionDetected())
                         {
-                            auto position = rondelle->getPosition();
-                            if(position[VX] < 0)
-                            {
-                                mGame->incrementerPointsJoueurDroit();
-                            }
-                            else
-                            {
-                                mGame->incrementerPointsJoueurGauche();
-                            }
-                            SoundFMOD::obtenirInstance()->playEffect(GOAL_EFFECT);
+                            rondelle->setCollisionDetected(true);
+                            auto game = mGame;
+                            Runnable* r = new Runnable([game,rondelle,rondelleBody](Runnable*){
+                                if(game)
+                                {
+                                    auto position = rondelle->getPosition();
+                                    if(position[VX] < 0)
+                                    {
+                                        game->incrementerPointsJoueurDroit();
+                                    }
+                                    else
+                                    {
+                                        game->incrementerPointsJoueurGauche();
+                                    }
+                                    SoundFMOD::obtenirInstance()->playEffect(GOAL_EFFECT);
+                                }
+                                game->miseAuJeu();
+                                rondelleBody->SetLinearVelocity(b2Vec2(0,0));
+                                rondelleBody->SetAngularVelocity(0);
+                                rondelle->setAngle(0);
+                                rondelle->setCollisionDetected(false);
+                            });
+                            RunnableBreaker::attach(r);
+                            RazerGameUtilities::RunOnUpdateThread(r,true);
                         }
-                        mGame->miseAuJeu();
-                        rondelleBody->SetLinearVelocity(b2Vec2(0,0));
-                        rondelleBody->SetAngularVelocity(0);
-                        rondelle->setAngle(0);
-                    });
-                    RunnableBreaker::attach(r);
-                    RazerGameUtilities::RunOnUpdateThread(r,true);
+                    }
                 }
                 else
                 {
@@ -1214,7 +1223,7 @@ void Terrain::BeginContact( b2Contact* contact )
                             NoeudRondelle* rondelle = (NoeudRondelle*)bodies[0]->GetUserData();
 
                             // The new pos can only be assigned outside of the world's step, so we queue it
-                            Runnable* r = new Runnable([=](Runnable*)
+                            Runnable* r = new Runnable([portailDeSortie,rondelle](Runnable*)
                             {
                                 portailDeSortie->setIsAttractionFieldActive(false);
                                 auto newPos = portailDeSortie->getPosition();
