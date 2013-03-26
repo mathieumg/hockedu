@@ -19,6 +19,20 @@ namespace UIHeavyClient
     /// </summary>
     public partial class GameCreationPrompt : Window
     {
+
+        public void callbackMapsFunction(List<UserMapDetailedJSON> pList)
+        {
+            // Update the combobox with the list
+            MainWindowHandler.mTaskManager.ExecuteTask(() =>
+            {
+                foreach (UserMapDetailedJSON wItem in pList)
+                {
+                    mMapComboBox.Items.Add(wItem);
+                }
+            });
+            
+        }
+
         private bool mOkIsClicked;
 
         public string Name
@@ -69,14 +83,9 @@ namespace UIHeavyClient
         {
             mMapComboBox.Items.Clear();
 
-            // Load map list
+            // Load map list async!!!!
             HttpManager wManager = new HttpManager();
-            List<UserMapDetailedJSON> wList = wManager.getPublicMapList();
-
-            foreach (UserMapDetailedJSON wItem in wList)
-            {
-                mMapComboBox.Items.Add(wItem);
-            }
+            wManager.getPublicMapList(callbackMapsFunction);
         }
     }
 }

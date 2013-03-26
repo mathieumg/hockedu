@@ -99,6 +99,16 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll")]
         public static extern void FreeApplicationMemory();
 
+        public void TestCallbackMapDownloaded(string pOutputPath)
+        {
+            
+            MainWindowHandler.mTaskManager.ExecuteTask(() =>
+            {
+                Console.WriteLine(pOutputPath);
+            });
+        }
+
+
         private void Window_Closed(object sender, EventArgs e)
         {
             OpenGLControl.mRenderTimer.Stop();
@@ -244,7 +254,7 @@ namespace UIHeavyClient
         {
             HttpManager wManager = new HttpManager();
             //wManager.getPublicMapList();
-            wManager.downloadMap(12, 1);
+            wManager.downloadMap(12, 1, TestCallbackMapDownloaded);
 
             Console.Out.WriteLine("Test Termine");
         }

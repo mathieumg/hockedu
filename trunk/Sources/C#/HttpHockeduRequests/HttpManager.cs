@@ -8,56 +8,75 @@ using Jayrock.Json.Conversion;
 using System.Net;
 using System.IO;
 using System.Collections.Specialized;
+using System.Threading;
+
 
 namespace HttpHockeduRequests
 {
     
+    public delegate void MapsListLoadedCallBack( List<UserMapDetailedJSON> pList );
+    public delegate void MapDownloadedCallBack( string pFilepath );
 
-
-    public class HttpManager
+    public class DownloadWorkerParams
     {
-        private WebClient mClient;
-        public HttpManager()
+        public DownloadWorkerParams(int pUserId, int pMapId, MapDownloadedCallBack pCallback)
         {
-            mClient = new WebClient();
-            System.Net.ServicePointManager.Expect100Continue = false;
+            userId   = pUserId;
+            mapId    = pMapId;
+            callback = pCallback;
         }
+        public int userId;
+        public int mapId;
+        public MapDownloadedCallBack callback;
+    }
 
-        public string getJsonFromRequest(string pUrl, NameValueCollection pParams = null)
+
+    public class HttpManagerWorker
+    {
+
+        public static void retreiveMapList(object pCallback)
         {
-            WebClient client = new WebClient();
-            if(pParams != null)
+            MapsListLoadedCallBack wCallback = (MapsListLoadedCallBack)pCallback;
+            string wData = HttpManager.getJsonFromRequest("http://hockedu.com/remote/listmaps");
+            if (wData.Length == 0)
             {
-                byte[] wResponse = client.UploadValues(pUrl, pParams);
-                return Encoding.ASCII.GetString(wResponse);
+                wCallback(new List<UserMapDetailedJSON>());
+            }
+            MapListJSON wMapList = (MapListJSON)JsonConvert.Import(typeof(MapListJSON), wData);
+
+            // Si pas d'erreur
+            if (wMapList.error == null)
+            {
+                wCallback(new List<UserMapDetailedJSON>(wMapList.maps));
             }
             else
             {
-                return client.DownloadString(pUrl);
+                wCallback(new List<UserMapDetailedJSON>());
             }
-            
         }
 
-
-
-
-        public string downloadMap(int pUserId, int pMapId, string pAuthKey = "")
+        public static void downloadMap(object pParams)
         {
+            DownloadWorkerParams wParams = (DownloadWorkerParams)pParams;
+            int wUserId = wParams.userId;
+            int wMapId = wParams.mapId;
+            MapDownloadedCallBack wCallback = wParams.callback;
+
             NameValueCollection wPostData = new NameValueCollection();
-            wPostData.Add("user_id", pUserId.ToString());
-            wPostData.Add("map_id", pMapId.ToString());
-            string wJsonData = getJsonFromRequest("http://hockedu.com/remote/getmap", wPostData);
+            wPostData.Add("user_id", wUserId.ToString());
+            wPostData.Add("map_id", wMapId.ToString());
+            string wJsonData = HttpManager.getJsonFromRequest("http://hockedu.com/remote/getmap", wPostData);
 
             UserMapLightJSON wMapLight = (UserMapLightJSON)JsonConvert.Import(typeof(UserMapLightJSON), wJsonData);
 
             // On sauvegarde le data dans un fichier XML et on retourne le path
-            if(wMapLight.error != null)
+            if (wMapLight.error != null)
             {
-                return "";
+                wCallback("");
             }
             else
             {
-                string wCurrentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).ToString() + "asdasd";
+                string wCurrentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).ToString();
                 string wDestinationFilePath = wCurrentDirectory + Path.DirectorySeparatorChar + wMapLight.name + ".xml";
                 try
                 {
@@ -74,31 +93,53 @@ namespace HttpHockeduRequests
                     catch (Exception)
                     {
                         // Si encore une erreur, on retourne rien
-                    	return "";
+                       wCallback("");
                     }
                 }
-                return wDestinationFilePath; // Retourne le file path ou le fichier a ete sauvegarde en local
+                wCallback(wDestinationFilePath); // Retourne le file path ou le fichier a ete sauvegarde en local
             }
         }
+    }
 
-        public List<UserMapDetailedJSON> getPublicMapList()
+
+    public class HttpManager
+    {
+        private WebClient mClient;
+        public HttpManager()
         {
-            string wData = getJsonFromRequest("http://hockedu.com/remote/listmaps");
-            if(wData.Length == 0)
-            {
-                return new List<UserMapDetailedJSON>();
-            }
-            MapListJSON wMapList = (MapListJSON)JsonConvert.Import(typeof(MapListJSON), wData);
+            mClient = new WebClient();
+            System.Net.ServicePointManager.Expect100Continue = false;
+        }
 
-            // Si pas d'erreur
-            if (wMapList.error == null)
+        
+
+        public static string getJsonFromRequest(string pUrl, NameValueCollection pParams = null)
+        {
+            WebClient client = new WebClient();
+            if(pParams != null)
             {
-                return new List<UserMapDetailedJSON>(wMapList.maps);
+                byte[] wResponse = client.UploadValues(pUrl, pParams);
+                return Encoding.ASCII.GetString(wResponse);
             }
             else
             {
-                return new List<UserMapDetailedJSON>();
+                return client.DownloadString(pUrl);
             }
+        }
+
+
+        public void downloadMap(int pUserId, int pMapId, MapDownloadedCallBack pCallback)
+        {
+            DownloadWorkerParams wParams = new DownloadWorkerParams(pUserId, pMapId, pCallback);
+            Thread newThread = new Thread(new ParameterizedThreadStart(HttpManagerWorker.downloadMap));
+            newThread.Start(wParams);
+        }
+
+        public void getPublicMapList(MapsListLoadedCallBack pCallbackFunction)
+        {
+            // Faire dans un thread separe
+            Thread newThread = new Thread(new ParameterizedThreadStart(HttpManagerWorker.retreiveMapList));
+            newThread.Start(pCallbackFunction);
         }
         public List<UserMapDetailedJSON> getUserPublicMapList(int pUserId)
         {
