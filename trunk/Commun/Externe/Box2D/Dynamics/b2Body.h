@@ -380,6 +380,9 @@ public:
 	/// Dump this body to a log file
 	void Dump();
 
+    bool IsColliding(const b2Body* body) const;
+    bool IsColliding(const b2Fixture* fixture) const;
+
     SynchroniseTransformWithUserData mSynchroniseTransformWithUserData;
 
 private:

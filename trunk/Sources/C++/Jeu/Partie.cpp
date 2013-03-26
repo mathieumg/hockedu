@@ -19,7 +19,6 @@
 #include "GestionnaireModeles.h"
 #include "Vue.h"
 #include "Camera.h"
-#include "GestionnaireAnimations.h"
 #include "XMLUtils.h"
 #include "Terrain.h"
 #include "ExceptionJeu.h"
@@ -28,6 +27,8 @@
 #include "..\Reseau\GestionnaireReseau.h"
 #include "..\Reseau\Paquets\PaquetGameEvent.h"
 #include "..\Reseau\RelayeurMessage.h"
+#include "Solution_Defines.h"
+#include "LaunchAchievementLite.h"
 
 
 GLuint Partie::listePause_ = 0;
@@ -47,7 +48,8 @@ const int Partie::POINTAGE_GAGNANT = 7;
 ///
 ////////////////////////////////////////////////////////////////////////
 Partie::Partie(SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, const std::vector<GameUpdateCallback>& updateCallback /*= 0*/ ):
-pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), estPret_(false), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 60, joueurGauche, joueurDroit)
+pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 60, joueurGauche, joueurDroit),
+mIsNetworkClientGame(false),mIsNetworkServerGame(false)
 {
     chiffres_ = new NoeudAffichage("3");
     mField = new Terrain(this);
@@ -58,6 +60,9 @@ pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurD
     mRequirePassword = false;
     mPassword = "";
     mPartieSyncer.setPlayers(joueurGauche, joueurDroit);
+
+    GestionnaireAnimations::obtenirInstance()->attach(this);
+    recalculateNetworkGameFlags();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -199,11 +204,23 @@ void Partie::incrementerPointsJoueurGauche(bool pForceUpdate /*= false*/)
         {
             setGameStatus(GAME_ENDED);
             callGameUpdate(GAME_ENDED);
+
+            if(joueurDroit_ && joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
+            {
+                Achievements::LaunchEvent(ACHIEVEMENT_EVENT_GAME_LOOSE);
+            }
+            if(joueurGauche_ && joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
+            {
+                Achievements::LaunchEvent(ACHIEVEMENT_EVENT_GAME_WON);
+            }
         }
         else
         {
             callGameUpdate(GAME_SCORE);
         }
+
+
+        
     }
     
 }
@@ -236,11 +253,22 @@ void Partie::incrementerPointsJoueurDroit(bool pForceUpdate /*= false*/)
         {
             setGameStatus(GAME_ENDED);
             callGameUpdate(GAME_ENDED);
+
+            if(joueurDroit_ && joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
+            {
+                Achievements::LaunchEvent(ACHIEVEMENT_EVENT_GAME_WON);
+            }
+            if(joueurGauche_ && joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
+            {
+                Achievements::LaunchEvent(ACHIEVEMENT_EVENT_GAME_LOOSE);
+            }
         }
         else
         {
             callGameUpdate(GAME_SCORE);
         }
+        
+
     }
 }
 
@@ -373,16 +401,13 @@ bool Partie::initialiserXML( const XmlElement* elem, ConteneurJoueur* profilsVir
 ////////////////////////////////////////////////////////////////////////
 void Partie::reinitialiserPartie()
 {
-    //SignalGameOver();
     pointsJoueurGauche_ = 0;
     pointsJoueurDroit_ = 0;
     // Reinitialisation du noeudAffichage Chiffre
     chiffres_->modifierListes("3");
     chiffres_->setVisible(false);
-    modifierEstPret(true);
+    tempsJeu_.unPause();
     tempsJeu_.reset_Time();
-    // Mise au jeu
-    //miseAuJeu();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -447,53 +472,6 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
                 wMaillets[i]->setPlayer(wJoueurs[i].get());
                 wMaillets[i]->buildMouseJoint();
             }
-// 
-//             // Ancien code
-//             if(joueurGauche_->obtenirType() == JOUEUR_NETWORK)
-//             {
-//                 mailletGauche->setIsAI(false);
-//                 mailletGauche->setIsNetworkPlayer(true);
-//                 mailletGauche->buildMouseJoint(true);
-//             }
-//             else
-//             {
-//                 mailletGauche->setKeyboardControlled(false);
-//                 mailletGauche->setIsNetworkPlayer(false);
-//                 if(joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
-//                 {
-//                     mailletGauche->setIsAI(false);
-//                 }
-//                 else
-//                 {
-//                     mailletGauche->setIsAI(true);
-//                     mailletGauche->setAIPlayer((JoueurVirtuel*)joueurGauche_.get());
-//                 }
-//                 mailletGauche->buildMouseJoint();
-//             }
-// 
-//             if(joueurDroit_->obtenirType() == JOUEUR_NETWORK)
-//             {
-//                 mailletDroit->setIsAI(false);
-//                 mailletDroit->setIsNetworkPlayer(true);
-//                 mailletDroit->buildMouseJoint(true);
-//             }
-//             else
-//             {
-//                 mailletDroit->setIsNetworkPlayer(false);
-//                 if(joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
-//                 {
-//                     mailletDroit->setIsAI(false);
-//                     // Si le maillet gauche est controller par lordinateur alors le maillet droit est controle par la souris
-//                     mailletDroit->setKeyboardControlled(!mailletGauche->obtenirEstControleParOrdinateur());
-//                 }
-//                 else
-//                 {
-//                     mailletDroit->setIsAI(true);
-//                     mailletDroit->setAIPlayer((JoueurVirtuel*)joueurDroit_.get());
-//                 }
-//                 mailletDroit->buildMouseJoint();
-//             }
-
         }
         else
         {
@@ -505,6 +483,20 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
         throw ExceptionJeu("Tente d'assigner les controles a des maillets lorsqu'il manque encore des joueurs dans la partie");
     }
 }
+
+
+
+void Partie::reloadControleMallet()
+{
+    checkf(getGameStatus() == GAME_PAUSED, "La partie doit avoir ete initialise avant de pouvoir appeler un reload sur les maillets");
+    Terrain* wField = getField();
+    checkf(wField, "Terrain invalide lors du reloadMallet");
+    assignerControlesMaillet(wField->getLeftMallet(), wField->getRightMallet(), wField->getPuck()); 
+
+
+}
+
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -529,6 +521,9 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 
     maillet1->setPosition(maillet1->obtenirPositionOriginale());
     maillet2->setPosition(maillet2->obtenirPositionOriginale());
+    maillet1->setTargetDestination(maillet1->obtenirPositionOriginale(), true);
+    maillet2->setTargetDestination(maillet2->obtenirPositionOriginale(), true);
+
 
     int dureeAnimationIntro = 0;
     
@@ -554,10 +549,8 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 ////////////////////////////////////////////////////////////////////////
 void Partie::delais( int time )
 {
-    modifierEstPret(false);
+    setGameStatus(GAME_WAITING);
     minuterie_ = time;
-    if(chiffres_==0)
-        return;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -573,46 +566,60 @@ void Partie::delais( int time )
 ////////////////////////////////////////////////////////////////////////
 void Partie::updateMinuterie( int time )
 {
-    if(estPret_)
-        return;
-
-    if(estEnPause())
+    if(mGameStatus == GAME_WAITING)
     {
-        delais(3100);
-        return;
-    }
-
-    int minuterieAvant = minuterie_;
-    minuterie_ -= (time*2);
-    if(minuterie_ < 0)
-    {
-        minuterie_ = 0;
-        chiffres_->modifierListes("3");
-        chiffres_->setVisible(false);
-        modifierEstPret(true);
-        return;
-    }
-
-    
-    if((minuterieAvant/1000-minuterie_/1000)!=0)
-    {
-        if(chiffres_!=0)
+        int minuterieAvant = minuterie_;
+        minuterie_ -= (time*2);
+        if(minuterie_ < 0)
         {
-            int lequel = (minuterie_/1000+1);
-            if(lequel!=1 && lequel!=2 && lequel!=3)
-                return;
-            chiffres_->setVisible(true);
-            SoundFMOD::obtenirInstance()->playEffect(BEEP_EFFECT);
+            minuterie_ = 0;
+            chiffres_->modifierListes("3");
+            chiffres_->setVisible(false);
+            setGameStatus(GAME_RUNNING);
+            Vecteur3 coordonneesSouris;
+            
+            FacadeModele::getInstance()->convertirClotureAVirtuelle(mMousePosScreen[VX], mMousePosScreen[VY], coordonneesSouris);
+            if(joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
+            {
+                NoeudMaillet* mailletGauche = getField()->getLeftMallet();
+                if(mailletGauche && !mailletGauche->obtenirEstControleParOrdinateur())
+                {
+                    mailletGauche->setTargetDestination(coordonneesSouris, true);
+                }
+            }
+            if(joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
+            {
+                NoeudMaillet* mailletDroit = getField()->getRightMallet();
+                if(mailletDroit && !mailletDroit->obtenirEstControleParOrdinateur())
+                {
+                    mailletDroit->setTargetDestination(coordonneesSouris, true);
+                }
+            }
+            
+            tempsJeu_.unPause();
+            return;
+        }
 
-            // Creation d'une chaine avec le charactère 0
-            std::string numeroString = "0";
-            // le charactère 0 + une valeur entre 0 et 9 donne le charactère désiré
-            numeroString[0] += lequel;
-            chiffres_->modifierListes(numeroString);
+        if((minuterieAvant/1000-minuterie_/1000)!=0)
+        {
+            if(chiffres_!=0)
+            {
+                int lequel = (minuterie_/1000+1);
+                if(lequel!=1 && lequel!=2 && lequel!=3)
+                    return;
+                chiffres_->setVisible(true);
+                SoundFMOD::obtenirInstance()->playEffect(BEEP_EFFECT);
 
-            chiffres_->resetEchelle();
-            if(lequel == 2)
-                FacadeModele::getInstance()->obtenirVue()->centrerCamera(mField->GetTableWidth());
+                // Creation d'une chaine avec le charactère 0
+                std::string numeroString = "0";
+                // le charactère 0 + une valeur entre 0 et 9 donne le charactère désiré
+                numeroString[0] += lequel;
+                chiffres_->modifierListes(numeroString);
+
+                chiffres_->resetEchelle();
+                if(lequel == 2)
+                    FacadeModele::getInstance()->obtenirVue()->centrerCamera(mField->GetTableWidth());
+            }
         }
     }
 }
@@ -690,11 +697,7 @@ void Partie::vider()
     pointsJoueurDroit_ = 0;
     joueurGauche_.reset();
     joueurDroit_.reset();
-//  modifierJoueurGauche(0);
-//  modifierJoueurDroit(0);
-    //enPause_ = false;
     mGameStatus = mLastGameStatus = GAME_NOT_READY;
-    estPret_ = false;
     faitPartieDunTournoi_ = false;
 }
 
@@ -873,40 +876,24 @@ void Partie::animer( const float& temps )
         updateMinuterie((int)(temps*1000));
         chiffres_->tick(temps);
         mField->animerTerrain(temps);
-        if(!GestionnaireAnimations::obtenirInstance()->estJouerReplay())
+        if(mGameStatus == GAME_RUNNING)
         {
-#if !MAT_DEBUG
-            auto zamboni = mField->getZamboni();
-#endif
-            if(estPret() && !estEnPause() && !partieTerminee())
-            {
-#if !MAT_DEBUG
-                if(zamboni)
-                {
-                    zamboni->setVisible(false);
-                    zamboni->setPosition(Vecteur3());
-                }
-#endif
-                // Gestion de la physique du jeu
-                mField->appliquerPhysique(temps);
-            }
-            else
-            {
-#if !MAT_DEBUG
-                if(zamboni)
-                {
-                    zamboni->setVisible(true);
-                }
-                Vecteur3 pos = zamboni->getPosition();
-                auto angle = utilitaire::DEG_TO_RAD(zamboni->getAngle());
-                Vecteur3 direction;
-                direction[VX] = cos(angle);
-                direction[VY] = sin(angle);
-                zamboni->setPosition(pos+direction);
-#endif
-            }
+            // Gestion de la physique du jeu
+            mField->appliquerPhysique(temps);
+            mPartieSyncer.tick();
         }
-        mPartieSyncer.tick();
+#if !MAT_DEBUG_
+        else if(mGameStatus == GAME_WAITING)
+        {
+            auto zamboni = mField->getZamboni();
+            Vecteur3 pos = zamboni->getPosition();
+            auto angle = utilitaire::DEG_TO_RAD(zamboni->getAngle());
+            Vecteur3 direction;
+            direction[VX] = cos(angle);
+            direction[VY] = sin(angle);
+            zamboni->setPosition(pos+direction);
+        }
+#endif
     }
 }
 
@@ -934,12 +921,12 @@ void Partie::animerBase( const float& temps )
             wLogicTree->tick(temps);
         }
     }
-    if(estPret() && !estEnPause() && !partieTerminee())
+    if(mGameStatus == GAME_RUNNING)
     {
         // Gestion de la physique du jeu
         mField->appliquerPhysique(temps);
+        mPartieSyncer.tick();
     }
-    mPartieSyncer.tick();
 }
 
 
@@ -967,13 +954,12 @@ void Partie::callGameUpdate(GameStatus pGameStatus) const
 
 void Partie::modifierEnPause( bool val )
 {
-    checkf(mGameStatus == GAME_PAUSED, "On ne doit pas mettre en pause une partie qui l'est deja");
-    if(val)
+    if(val && getGameStatus() != GAME_PAUSED)
     {
         tempsJeu_.pause();
         setGameStatus(GAME_PAUSED);
     }
-    else
+    else if(getGameStatus() == GAME_PAUSED)
     {
         tempsJeu_.unPause();
         setGameStatus(mLastGameStatus); // Utilise le dernier etat de partie pour unpause
@@ -1032,6 +1018,67 @@ void Partie::recalculateNetworkGameFlags()
         mIsNetworkClientGame = false;
     }
 
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Partie::updateObserver( const ReplaySubject* pSubject )
+///
+/// /*Description*/
+///
+/// @param[in] const ReplaySubject * pSubject
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Partie::updateObserver( const ReplaySubject* pSubject )
+{
+    if(pSubject->mReplaying)
+    {
+        tempsJeu_.pause();
+        setGameStatus(GAME_REPLAYING);
+    }
+    else
+    {
+        tempsJeu_.unPause();
+        checkf(mLastGameStatus != GAME_REPLAYING);
+        if(mLastGameStatus != GAME_REPLAYING)
+        {
+            setGameStatus(mLastGameStatus); // Utilise le dernier etat de partie pour unpause
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Partie::setGameStatus( GameStatus pStatus )
+///
+/// /*Description*/
+///
+/// @param[in] GameStatus pStatus
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Partie::setGameStatus( GameStatus pStatus )
+{
+    mLastGameStatus = mGameStatus; 
+    mGameStatus = pStatus;
+#if !MAT_DEBUG_
+    auto zamboni = mField->getZamboni();
+    if(zamboni)
+    {
+        if(mGameStatus == GAME_WAITING)
+        {
+            zamboni->setVisible(true);
+        }
+        else
+        {
+            zamboni->setVisible(false);
+            zamboni->setPosition(Vecteur3());
+        }
+    }
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////

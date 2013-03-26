@@ -144,7 +144,7 @@ public:
 	/// Permet d'indiquer au maillet s'il est controle par le clavier ou la souris
 	void setKeyboardControlled(bool clavier);
 	/// Assignation de la position de la souris pour que le maillet puisse la suivre
-	void setTargetDestination(Vecteur3 pos);
+	void setTargetDestination(const Vecteur3& pos, bool forceUpdateMouseJoint = false);
 	/// Accesseur de velocite_
 	Vecteur3 obtenirVelocite() const { return velocite_; }
 	/// Modificateur de velocite_

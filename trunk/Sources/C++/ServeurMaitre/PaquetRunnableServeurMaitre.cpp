@@ -137,7 +137,7 @@ int PaquetRunnable::RunnableGameStatusMasterServer( Paquet* pPaquet )
 int PaquetRunnable::RunnableGameCreationMasterServer( Paquet* pPaquet )
 {
     PaquetGameCreation* wPaquet = (PaquetGameCreation*) pPaquet;
-    
+
     const int wGameId = wPaquet->getGameId();
     unsigned int wServerId = wPaquet->getServerId();
     if ( wGameId == -1 )
@@ -152,7 +152,7 @@ int PaquetRunnable::RunnableGameCreationMasterServer( Paquet* pPaquet )
         std::cout << "Forwarding packet to GameServer " << wServerId << std::endl;
 #endif
 
-        std::string& wServerIdentifier = GameServerManager::obtenirInstance()->getGameServer(wServerId)->getServerIdentifier();
+        std::string wServerIdentifier = GameServerManager::obtenirInstance()->getGameServer(wServerId)->getServerIdentifier();
         GestionnaireReseau::obtenirInstance()->envoyerPaquet(wServerIdentifier, wPaquet, TCP);
     }
     else

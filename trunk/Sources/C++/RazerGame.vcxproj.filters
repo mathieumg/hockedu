@@ -99,6 +99,9 @@
     <Filter Include="Sources Files\Arbre\FieldModificationStrategy">
       <UniqueIdentifier>{ea9119c6-a85a-4d09-a9fa-d74a27e8814f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources Files\Achievements">
+      <UniqueIdentifier>{f8495929-e4fc-4305-bcb8-997254900016}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application\FacadeModele.cpp">
@@ -608,6 +611,18 @@
     <ClCompile Include="Interface\EtatSouris\SourisEtatTransformation.cpp">
       <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClCompile>
+    <ClCompile Include="Achievements\AchievementsManager.cpp">
+      <Filter>Sources Files\Achievements</Filter>
+    </ClCompile>
+    <ClCompile Include="Achievements\Achievements.cpp">
+      <Filter>Sources Files\Achievements</Filter>
+    </ClCompile>
+    <ClCompile Include="Achievements\LaunchAchievementLite.cpp">
+      <Filter>Sources Files\Achievements</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\AchievementsTests.cpp">
+      <Filter>Sources Files\Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -852,9 +867,6 @@
     </ClInclude>
     <ClInclude Include="Arbre\HUD\HUDTexte.h">
       <Filter>Sources Files\Arbre\Hud</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbre\Noeuds\PositionSubject.h">
-      <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisiteurFunction.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
@@ -1149,6 +1161,21 @@
     </ClInclude>
     <ClInclude Include="Interface\EtatSouris\SourisEtatTransformation.h">
       <Filter>Sources Files\Interface\EtatSouris</Filter>
+    </ClInclude>
+    <ClInclude Include="Achievements\AchievementsManager.h">
+      <Filter>Sources Files\Achievements</Filter>
+    </ClInclude>
+    <ClInclude Include="Achievements\Achievements.h">
+      <Filter>Sources Files\Achievements</Filter>
+    </ClInclude>
+    <ClInclude Include="Achievements\LaunchAchievementLite.h">
+      <Filter>Sources Files\Achievements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\C#\UIHeavyClient\UIHeavyClient\AchievementsEnums.h">
+      <Filter>Sources Files\Achievements</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\AchievementsTests.h">
+      <Filter>Sources Files\Tests</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

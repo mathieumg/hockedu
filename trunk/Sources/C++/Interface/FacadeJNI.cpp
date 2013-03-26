@@ -43,6 +43,15 @@
 #include "NoeudTable.h"
 #include "RepartiteurActions.h"
 #include "GestionnaireHUD.h"
+#include "../Reseau/GestionnaireReseau.h"
+#include "../Reseau/PaquetHandlers/PacketHandler.h"
+#include "../Reseau/UsinePaquets/UsinePaquetChatMessage.h"
+#include "../Reseau/UsinePaquets/UsinePaquetUserStatus.h"
+#include "../reseau/UsinePaquets/UsinePaquetMaillet.h"
+#include "../Reseau/UsinePaquets/UsinePaquetGameCreation.h"
+#include "../reseau/UsinePaquets/UsinePaquetGameConnection.h"
+#include "../reseau/UsinePaquets/UsinePaquetRondelle.h"
+#include "../Reseau/UsinePaquets/UsinePaquetGameEvent.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -147,6 +156,22 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_OpenGL_initialiserOpenGL
 
 	FacadeModele::getInstance()->initialiserOpenGL(hWnd);
     RepartiteurActions::obtenirInstance()->appelerMethodeAction(ACTION_ALLER_MENU_PRINCIPAL);
+
+
+    GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
+
+    // ajout du controlleur qui va gèrer les événements du réseau et les retransmettre par callback à la vue
+    wGestionnaireReseau->setController(NULL);
+    wGestionnaireReseau->initClient();
+
+    // On doit ajouter une nouvelle operation reseau pour que le systeme le connaisse (1 par type de paquet)
+    wGestionnaireReseau->ajouterOperationReseau(CHAT_MESSAGE, new PacketHandlerChatMessage, new UsinePaquetChatMessage);
+    wGestionnaireReseau->ajouterOperationReseau(USER_STATUS, new PacketHandlerUserStatus, new UsinePaquetUserStatus);
+    wGestionnaireReseau->ajouterOperationReseau(MAILLET, new PacketHandlerMaillet, new UsinePaquetMaillet);
+    wGestionnaireReseau->ajouterOperationReseau(GAME_CREATION_REQUEST, new PacketHandlerGameCreation, new UsinePaquetGameCreation);
+    wGestionnaireReseau->ajouterOperationReseau(GAME_CONNECTION, new PacketHandlerGameConnection, new UsinePaquetGameConnection);
+    wGestionnaireReseau->ajouterOperationReseau(RONDELLE, new PacketHandlerRondelle, new UsinePaquetRondelle);
+    wGestionnaireReseau->ajouterOperationReseau(GAME_EVENT, new PacketHandlerGameEvent, new UsinePaquetGameEvent);
 }
 
 

@@ -37,6 +37,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ObjC", "..\ObjC\ObjC.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dummy", "Dummy\Dummy.vcxproj", "{05374C38-58BC-4E45-BD22-DBF455467628}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpHockeduRequests", "..\C#\HttpHockeduRequests\HttpHockeduRequests.csproj", "{5734EB1F-03DA-4ABF-A620-00C248FE8CDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -94,6 +96,11 @@ Global
 		{05374C38-58BC-4E45-BD22-DBF455467628}.Debug|x64.ActiveCfg = Debug|Win32
 		{05374C38-58BC-4E45-BD22-DBF455467628}.Release|x64.ActiveCfg = Release|Win32
 		{05374C38-58BC-4E45-BD22-DBF455467628}.WithJava|x64.ActiveCfg = Debug|Win32
+		{5734EB1F-03DA-4ABF-A620-00C248FE8CDF}.Debug|x64.ActiveCfg = Debug|x64
+		{5734EB1F-03DA-4ABF-A620-00C248FE8CDF}.Debug|x64.Build.0 = Debug|x64
+		{5734EB1F-03DA-4ABF-A620-00C248FE8CDF}.Release|x64.ActiveCfg = Release|x64
+		{5734EB1F-03DA-4ABF-A620-00C248FE8CDF}.Release|x64.Build.0 = Release|x64
+		{5734EB1F-03DA-4ABF-A620-00C248FE8CDF}.WithJava|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

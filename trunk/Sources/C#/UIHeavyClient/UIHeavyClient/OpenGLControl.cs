@@ -66,7 +66,6 @@ namespace UIHeavyClient
 
         void OpenGLControl_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-            Console.Out.WriteLine(e.KeyCode.ToString());
             
         }
 

@@ -116,6 +116,9 @@
       <Filter>Sources Files</Filter>
     </ClCompile>
     <ClCompile Include="ExceptionJeu.cpp" />
+    <ClCompile Include="Solution_Defines.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AideCollision.h">
@@ -261,6 +264,12 @@
     </ClInclude>
     <ClInclude Include="Flags.h">
       <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ReplayObserver.h">
+      <Filter>Sources Files\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionObserver.h">
+      <Filter>Sources Files\Observer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -123,10 +123,8 @@ void RelayeurMessage::relayerPaquet( const std::string& pPlayerName, Paquet* pPa
 void RelayeurMessage::relayerPaquetGame( int pGameId, Paquet* pPaquet, ConnectionType pConnectionType /*= TCP*/ )
 {
     // Va chercher la liste des joueurs
-    std::vector<const std::string> wPlayersList;
+    std::vector<std::string> wPlayersList;
     GestionnaireReseau::obtenirInstance()->getController()->getPlayersInGame(pGameId, wPlayersList);
-    
-    
     
     
     pPaquet->setNbAssociatedQueries(wPlayersList.size());

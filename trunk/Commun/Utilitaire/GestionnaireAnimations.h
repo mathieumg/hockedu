@@ -13,6 +13,7 @@
 #include "AnimationReprise.h"
 #include "Vue\Camera.h"
 #include "Vue\Vue.h"
+#include "ReplayObserver.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -22,7 +23,7 @@
 /// @author Mathieu Parent
 /// @date 2012-03-18
 ///////////////////////////////////////////////////////////////////////////
-class GestionnaireAnimations:public Singleton<GestionnaireAnimations>
+class GestionnaireAnimations:public Singleton<GestionnaireAnimations>, public ReplaySubject
 {
 	SINGLETON_DECLARATION_CLASSE_SANS_CONSTRUCTEUR(GestionnaireAnimations);
 public:
@@ -48,14 +49,18 @@ public:
 	void saveReplaySound(int choix);
 
 	/// Joueur le replay
-	void jouerReplay(vue::Camera camera);
+	void jouerReplay(vue::Camera& camera);
 
 	/// Accesseurs sur l'état du replay
 	bool estJouerReplay() const;
-	bool replayEstTermine();
 
 	/// Mettre fin au replay
-	void terminerReplay() {jouerReplay_ = false; replayTermine_ = true; replay_->arreterAnimation();}
+	void terminerReplay() 
+    {
+        mReplaying = false; 
+        replay_->arreterAnimation();
+        ReplaySubject::signalObservers();
+    }
 
 	/// Vider les frames du replay
 	void viderBufferReplay();
@@ -71,10 +76,6 @@ private:
 	vue::Camera ancienneCamera_;
 	/// Liste des animations
 	ListeAnimations animations_;
-
-	/// État du replay
-	bool jouerReplay_;
-	bool replayTermine_;
 
 	/// Le replay
 	AnimationReprise* replay_;

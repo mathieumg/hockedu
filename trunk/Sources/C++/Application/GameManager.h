@@ -39,6 +39,9 @@ public:
 
     void removeGame(int pGameId);
 
+    // Ne pas utiliser. Uniquement pour faire le remove definitif. Utiliser removeGame()
+    void removeGameFromList(int pGameId) {mListePartiesParId.erase(pGameId);}
+
     // Rend la partie prete a etre demarree
     bool getGameReady(int pGameId);
 
@@ -46,6 +49,8 @@ public:
 	bool startGame(int pGameId);
 
 	Partie* getGame(int pGameId);
+
+    Partie* getGameWithPlayer(const std::string& pPlayerName);
 
     // Methode qui cherche une partie avec ce nom (ATTENTION, lent et Ne permet pas de savoir si plusieurs parties avec le meme nom existe. Retourne la premiere trouvee)
     Partie* getGame(const std::string& pGameName);

@@ -19,6 +19,7 @@
 #include "Terrain.h"
 #include "GameManager.h"
 #include "..\Reseau\Paquets\PaquetRondelle.h"
+#include "..\Reseau\RelayeurMessage.h"
 
 
 PartieSyncer::PartieSyncer( int pGameId, clock_t pFrequencyPerSec, SPJoueurAbstrait pPlayer1, SPJoueurAbstrait pPlayer2 )
@@ -91,6 +92,8 @@ void PartieSyncer::tick()
             wPaquet->setEstAGauche(mPlayer1->getControlingMallet()->estAGauche());
             wPaquet->setGameId(mGameId);
 
+            RelayeurMessage::obtenirInstance()->relayerPaquetGame(mGameId, wPaquet, TCP);
+            /*
             wPaquet->setNbAssociatedQueries(mDestinationIdentifiers.size());
             for(auto it=mDestinationIdentifiers.begin(); it!=mDestinationIdentifiers.end(); ++it)
             {
@@ -99,7 +102,7 @@ void PartieSyncer::tick()
 #else
                 GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
 #endif
-            }
+            }*/
         }
 
         if(mPlayer2)
@@ -109,7 +112,8 @@ void PartieSyncer::tick()
             wPaquet->setEstAGauche(mPlayer2->getControlingMallet()->estAGauche());
             wPaquet->setGameId(mGameId);
 
-            wPaquet->setNbAssociatedQueries(mDestinationIdentifiers.size());
+            RelayeurMessage::obtenirInstance()->relayerPaquetGame(mGameId, wPaquet, TCP);
+            /*wPaquet->setNbAssociatedQueries(mDestinationIdentifiers.size());
             for(auto it=mDestinationIdentifiers.begin(); it!=mDestinationIdentifiers.end(); ++it)
             {
 #if MAT_DEBUG_
@@ -117,7 +121,7 @@ void PartieSyncer::tick()
 #else
                 GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
 #endif
-            }
+            }*/
         }
 
 
@@ -137,7 +141,8 @@ void PartieSyncer::tick()
                     wPaquet->setVelocite(wPuck->obtenirVelocite());
                     wPaquet->setVitesseRotation(wPuck->obtenirVitesseRotation());
 
-                    wPaquet->setNbAssociatedQueries(mDestinationIdentifiers.size());
+                    RelayeurMessage::obtenirInstance()->relayerPaquetGame(mGameId, wPaquet, TCP);
+                    /*wPaquet->setNbAssociatedQueries(mDestinationIdentifiers.size());
                     for(auto it=mDestinationIdentifiers.begin(); it!=mDestinationIdentifiers.end(); ++it)
                     {
 #if MAT_DEBUG_
@@ -145,7 +150,7 @@ void PartieSyncer::tick()
 #else
                         GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
 #endif
-                    }
+                    }*/
                 }
             }
         }

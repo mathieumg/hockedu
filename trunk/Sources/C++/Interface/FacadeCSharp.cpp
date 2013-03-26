@@ -16,6 +16,10 @@
 #include "..\Reseau\UsinePaquets\UsinePaquetGameEvent.h"
 #include "..\Reseau\PaquetHandlers\PacketHandlerBonus.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetBonus.h"
+#include "..\Achievements\AchievementsManager.h"
+#include "FacadeModele.h"
+#include "..\Reseau\Paquets\PaquetGameEvent.h"
+#include "..\Reseau\RelayeurMessage.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -81,6 +85,8 @@ void InitDLL()
     wGestionnaireReseau->ajouterOperationReseau(RONDELLE, new PacketHandlerRondelle, new UsinePaquetRondelle);
     wGestionnaireReseau->ajouterOperationReseau(GAME_EVENT, new PacketHandlerGameEvent, new UsinePaquetGameEvent);
     wGestionnaireReseau->ajouterOperationReseau(BONUS, new PacketHandlerBonus, new UsinePaquetBonus);
+
+    AchievementsManager::obtenirInstance()->InitialiseAchievements();
 
 }
 
@@ -461,6 +467,22 @@ void requestGameCreationServerGame( char* pGameName )
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
 }
 
+void requestGamePause( )
+{
+    PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+    wPaquet->setGameId(FacadeModele::getInstance()->obtenirPartieCouranteId());
+    wPaquet->setEvent(GAME_EVENT_PAUSE_GAME_REQUESTED);
+    RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
+}
+
+void requestGameResume( )
+{
+    PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+    wPaquet->setGameId(FacadeModele::getInstance()->obtenirPartieCouranteId());
+    wPaquet->setEvent(GAME_EVENT_START_GAME);
+    RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
+}
+
 void SaveMap(char* pFileName)
 {
     RazerGameUtilities::SaveFieldToFile(std::string(pFileName), *FacadeModele::getInstance()->getEditionField());
@@ -785,6 +807,22 @@ void testConnexionUDPCSharp()
     wPaquet->setVitesseRotation(6.5556f);
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("Test", wPaquet, UDP);
 
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void SetAchievementUnlocked( AchievementUnlockCallBack callback )
+///
+/// /*Description*/
+///
+/// @param[in] AchievementUnlockCallBack callback
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void SetAchievementUnlocked( AchievementUnlockCallBack callback )
+{
+    AchievementsManager::obtenirInstance()->setAchievementUnlockedCallback(callback);
 }
 
 

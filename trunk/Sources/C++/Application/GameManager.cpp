@@ -17,6 +17,7 @@
 #include "..\Reseau\RelayeurMessage.h"
 #include "..\Reseau\GestionnaireReseau.h"
 #include "GestionnaireHUD.h"
+#include "Runnable.h"
 
 
 
@@ -189,16 +190,22 @@ void GameManager::addGame( Partie* pGame )
 ////////////////////////////////////////////////////////////////////////
 void GameManager::removeGame( int pGameId )
 {
-    auto wGame = mListePartiesParId.find(pGameId);
-    if(wGame != mListePartiesParId.end())
-    {
-        if((*wGame).second->getGameStatus() == GAME_RUNNING)
+    Runnable* r = new Runnable([pGameId](Runnable*){
+
+        auto wGame = GameManager::obtenirInstance()->getGame(pGameId);
+        if(wGame)
         {
-            throw std::runtime_error("On ne peut appeler un remove sur une partie en cours d'execution. Doit etre terminee ou mise en pause avant.");
+            if(wGame->getGameStatus() != GAME_PAUSED)
+            {
+                wGame->modifierEnPause(true);
+            }
+            wGame->SignalGameOver();
+            delete wGame;
+            GameManager::obtenirInstance()->removeGameFromList(pGameId);
         }
-        delete (*wGame).second;
-        mListePartiesParId.erase(pGameId);
-    }
+    });
+    RazerGameUtilities::RunOnUpdateThread(r,true);
+
 }
 
 
@@ -363,6 +370,30 @@ bool GameManager::setMapForGame( int pGameId, const std::string& pMapName )
 
     return false;
 }
+
+
+
+Partie* GameManager::getGameWithPlayer( const std::string& pPlayerName )
+{
+    for(auto it = mListePartiesParId.begin(); it!=mListePartiesParId.end(); ++it)
+    {
+        Partie* wGame = it->second;
+        if(wGame)
+        {
+            if(wGame->obtenirNomJoueurGauche() == pPlayerName || wGame->obtenirNomJoueurDroit() == pPlayerName)
+            {
+                return wGame;
+            }
+        }
+    }
+    return NULL;
+}
+
+
+
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

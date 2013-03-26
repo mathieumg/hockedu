@@ -133,6 +133,7 @@ bool CommunicateurReseau::ajouterPaquetEnvoie( SPSocket pSocket, Paquet* pPaquet
 	PaquetAEnvoyer* paquetAEnvoyer = new PaquetAEnvoyer;
 	paquetAEnvoyer->paquet = pPaquet;
 	paquetAEnvoyer->socket = pSocket;
+    
 	if(!mListeEnvoie.push(paquetAEnvoyer))
 	{
 		// On ne peut pas ajouter le paquet a la liste car elle est pleine
@@ -953,8 +954,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
 
                     }
 
-                    std::cout << pSocketIdentifier << " Connected" << std::endl;
-                    // On envoit un message de confirmation pour dire que la conenction est acceptee
+                    
 
                     char wMessageConfirmation[4];
                     uint32_t len = sprintf_s(wMessageConfirmation,"%d",USER_CONNECTED);
@@ -962,8 +962,11 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
 
                     // On ajoute le nouveau socket au gestionnaire reseau (avec son nom obtenu dans le paquet)
                     GestionnaireReseau::obtenirInstance()->saveSocket(pSocketIdentifier, wNewSocket);
-                    GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection(pSocketIdentifier, inet_ntoa(sinRemote.sin_addr), UDP);
+                    //GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection(pSocketIdentifier, inet_ntoa(sinRemote.sin_addr), UDP);
                     wNewSocket->setConnectionState(CONNECTED);
+
+                    std::cout << pSocketIdentifier << " Connected" << std::endl;
+                    // On envoit un message de confirmation pour dire que la conenction est acceptee
                 }
                 else
                 {
@@ -1035,9 +1038,11 @@ void * CommunicateurReseau::receivingUDPThreadRoutine( void *arg )
 {
     ArgsConnectionThread* wArgs = (ArgsConnectionThread*) arg;
 
-    CommunicateurReseau* wCommunicateurReseau = wArgs->communicateurReseau;
     SPSocket wSocket = (SPSocket)wArgs->socketAConnecter;
-    delete arg;
+    delete wArgs;
+
+#ifndef __linux__
+
     uint8_t readBuffer[GestionnaireReseau::TAILLE_BUFFER_RECEPTION_ENVOI];
     PacketReader wPacketReader;
 
@@ -1104,6 +1109,7 @@ void * CommunicateurReseau::receivingUDPThreadRoutine( void *arg )
 
         }
     }
+#endif
 
     return 0;
 }

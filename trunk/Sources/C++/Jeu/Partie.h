@@ -16,13 +16,24 @@
 #include "GameTime.h"
 #include "ExceptionJeu.h"
 #include "PartieSyncer.h"
+#include "ReplayObserver.h"
 
 
 class NoeudMaillet;
 class NoeudRondelle;
 
 // ATTENTION, ORDRE IMPORTANT DANS L'ENUM. SI UNE VAL EST APRES GAME_STARTED, ELLE EST CONSIDEREE COMME ENCORE EN COURS
-enum GameStatus {GAME_NOT_READY, GAME_READY, GAME_ENDED, GAME_STARTED, GAME_SCORE, GAME_RUNNING, GAME_PAUSED};
+enum GameStatus {
+    GAME_NOT_READY, 
+    GAME_READY, 
+    GAME_ENDED, 
+    GAME_STARTED, 
+    GAME_SCORE, 
+    GAME_WAITING, 
+    GAME_RUNNING, 
+    GAME_PAUSED,
+    GAME_REPLAYING,
+};
 typedef int (*GameUpdateCallback) (int, GameStatus); // Param1 = GameID, Param2 = UpdateStatus
 
 
@@ -35,7 +46,7 @@ enum PositionJoueur{GAGNANT_GAUCHE,GAGNANT_DROITE,GAGNANT_AUCUN};
 /// @author Vincent Lemire
 /// @date 2012-02-17
 ///////////////////////////////////////////////////////////////////////////
-class Partie
+class Partie : public ReplayObserver
 {
 public:
 
@@ -64,6 +75,8 @@ public:
 	/// Methode pour indiquer au maillet par qui ils sont controlles
 	void assignerControlesMaillet(NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle) ;
 
+    void reloadControleMallet();
+    
 	/// Permet de savoir si la partie est terminee
 	inline bool partieTerminee() const {return pointsJoueurGauche_>=POINTAGE_GAGNANT || pointsJoueurDroit_>= POINTAGE_GAGNANT ;}
 
@@ -105,16 +118,15 @@ public:
 
     bool isNetworkServerGame() const;
 
+
+    virtual void updateObserver( const ReplaySubject* pSubject );
+
+    void setGameStatus(GameStatus pStatus);
 /// Methode Privee
 private:
 
     /// Constructeur par paramètres
 	Partie(SPJoueurAbstrait joueurGauche = 0, SPJoueurAbstrait joueurDroit = 0, int uniqueGameId = 0, const std::vector<GameUpdateCallback>& updateCallback = std::vector<GameUpdateCallback>());
-    
-	/// Modificateur de estPret_
-	inline void modifierEstPret(bool val) { estPret_ = val; if(estPret_) tempsJeu_.unPause(); else tempsJeu_.pause(); }
-
-    inline void setGameStatus(GameStatus pStatus) {mLastGameStatus = mGameStatus; mGameStatus = pStatus;}
 
 /// Attributs
 private:
@@ -125,11 +137,6 @@ private:
 	/// Les points des deux joueurs
 	int pointsJoueurGauche_;
 	int pointsJoueurDroit_;
-
-	/// Indique si la partie peut debuter/continuer
-	bool estPret_;
-	/// Indique si la partie est en pause
-	//bool enPause_;
 
 	/// Temps restant a etre inactif
 	int minuterie_;
@@ -166,8 +173,12 @@ private:
     bool mRequirePassword;
     std::string mPassword;
     
+    /// position of mouse in the screen coordinates, do not use directly on nodes
+    Vecteur2i mMousePosScreen;
+
     bool mIsNetworkClientGame;
     bool mIsNetworkServerGame;
+
 
 /// Accesseurs
 public:
@@ -209,8 +220,6 @@ public:
 	SPJoueurAbstrait obtenirGagnant() const;
 	/// Permet de savoir la position du gagnant
 	PositionJoueur obtenirPositionGagant();
-	/// Indique si la partie est prete
-	bool estPret() const {return estPret_;}
     /// Accessors of mField
     inline Terrain* getField() const { return mField; }
 
@@ -225,6 +234,12 @@ public:
 
     void recalculateNetworkGameFlags();
     
+
+    /// Accessors of mMousePosScreen
+    inline Vecteur2i getMousePosScreen() const { return mMousePosScreen; }
+    inline void setMousePosScreen(const Vecteur2i& pVal) { mMousePosScreen = pVal; }
+
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////

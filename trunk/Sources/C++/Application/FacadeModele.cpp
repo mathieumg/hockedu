@@ -80,6 +80,7 @@
 #include "GameManager.h"
 #include "BonusModifierFactory.h"
 #include "SoundFMOD.h"
+#include "..\Achievements\LaunchAchievementLite.h"
 
 /// Pointeur vers l'instance unique de la classe.
 FacadeModele* FacadeModele::instance_ = 0;
@@ -337,7 +338,7 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
     hWnd_ = hWnd;
     bool succes = aidegl::creerContexteGL(hWnd_, hDC_, hGLRC_);
     checkf(succes);
-
+    
     InitOpenGLContext();
 
     // FreeImage, utilisée par le chargeur, doit être initialisée
@@ -902,6 +903,7 @@ void FacadeModele::ClearCurrentGame()
     Partie* wGame = GameManager::obtenirInstance()->getGame(partieCourante_);
     if(wGame)
     {
+        wGame->setGameStatus(GAME_ENDED);
         if(!wGame->faitPartieDunTournoi())
         {
             GameManager::obtenirInstance()->removeGame(partieCourante_);
@@ -1103,6 +1105,7 @@ bool FacadeModele::passageModeJeu()
 ////////////////////////////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageMenuPrincipal()
 {
+    Achievements::LaunchEvent(ACHIEVEMENT_EVENT_MAIN_SCREEN_LOADED);
     mEditionField->libererMemoire();
     ClearCurrentGame();
 

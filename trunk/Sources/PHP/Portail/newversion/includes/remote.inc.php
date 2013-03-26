@@ -86,15 +86,15 @@ if( !$commonRemoteModule )
                 break;
                 
             case 'listmaps':                
+                // Get DB connection.
+                $Common = Common::getInstance();
+                
                 if( empty( $_POST['user_id'] ) )
                 {
-                    $jsonResponse['error'] = 'UserIdMissing';
+                    $jsonResponse['maps'] = $Common->getMaps();
                 }
                 else
                 {
-                    // Get DB connection.
-                    $Common = Common::getInstance();
-                
                     $showPrivateMaps = false;
                     if( !empty( $_POST['auth_key'] ) )
                     {
@@ -115,7 +115,7 @@ if( !$commonRemoteModule )
                     // List the user's maps.
                     if( empty( $jsonResponse['error'] ) )
                     {
-                        $jsonResponse['user_maps'] = $Common->getUserMaps( $_POST['user_id'], $showPrivateMaps );
+                        $jsonResponse['maps'] = $Common->getUserMaps( $_POST['user_id'], $showPrivateMaps );
                     }
                 }
                 
@@ -176,12 +176,25 @@ if( !$commonRemoteModule )
                         $mapCacheFilePath = $website->getBasePath() . $website->getSetting( 'mapsDirectory' ) . '/' . $mapCacheFileName;
                         */
                         
-                        header('Content-type: text/xml');
-                        echo file_get_contents( $mapCacheFilePath . $mapCacheFileName );
+                        //header('Content-type: text/xml');
+                        //echo file_get_contents( $mapCacheFilePath . $mapCacheFileName );
+                        
+                        $jsonResponse['name'] = $mapInfo['name'];
+                        $jsonResponse['content'] = file_get_contents( $mapCacheFilePath . $mapCacheFileName );
                     }
                 }
                 
                 break;
+                   
+            case 'updatemap':
+            
+                if( empty( $_POST['map_id'] ) )
+                {
+                    $jsonResponse['error'] = 'MapIdMissing';
+                    break;
+                }
+                
+                $updateMap = true;
                 
             case 'newmap':                                
                 if( empty( $_POST['user_id'] ) )
@@ -238,7 +251,15 @@ if( !$commonRemoteModule )
                             {
                                 $mapContent = file_get_contents( $mapCacheFilePath . $mapCacheFileName );
                                 
-                                $mapId = $Common->addUserMap( $userId, $mapName,  $mapDescription, $mapIsPublic, $mapCacheFileName );
+                                if( isset( $updateMap ) )
+                                {
+                                    $mapId = $_POST['map_id'];
+                                    $Common->updateUserMap( $mapId, $mapName, $mapDescription, $mapIsPublic, $mapCacheFileName );
+                                }
+                                else
+                                {
+                                    $mapId = $Common->addUserMap( $userId, $mapName, $mapDescription, $mapIsPublic, $mapCacheFileName );
+                                }
                                 
                                 if( $mapId )
                                 {
@@ -261,11 +282,11 @@ if( !$commonRemoteModule )
                     }
                 }
                 
-                break;    
-                
-            case 'updatemap':
-            
-                break;  
+                break; 
+
+            default:
+                $jsonResponse['error'] = 'UnknownRequest';
+                break;                
         }
     }
 }

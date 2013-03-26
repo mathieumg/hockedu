@@ -57,7 +57,7 @@
 // Méthode utilitaire
 #ifdef WINDOWS
 typedef char *  va_list;
-#elif defined(LINUX)
+#elif defined(LINUX) || defined(__APPLE__)
 #include <cstdio>
 #endif
 
@@ -66,7 +66,6 @@ typedef char *  va_list;
     ( sizeof(array) / sizeof((array)[0]) )
 
 /// Solution utilities
-#ifdef WINDOWS
 #define CheckTime(content) \
 {\
     clock_t t = clock();\
@@ -100,13 +99,9 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
 #define appFailAssert(expr,file,line,...)				{ appFailAssertFunc(expr, file, line, ##__VA_ARGS__); }
 #endif
 
-//ifdef WINDOWS
-#endif
 
 // Fonction pour faire la verification
-#ifndef WIN32
-#define checkf(expr, ...)
-#elif !SHIPPING
+#if !SHIPPING
 #define checkf(expr, ...)   { if(!(expr)) appFailAssert( #expr, __FILE__, __LINE__, ##__VA_ARGS__ ); }
 #else
 #define checkf(expr, ...)

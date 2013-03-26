@@ -5,7 +5,7 @@
 
 
 
-std::hash_map<PaquetBonusType, PaquetBonusRunnable> PacketHandlerBonus::mRunnableList;
+std::hash_map<int, PaquetBonusRunnable> PacketHandlerBonus::mRunnableList;
 
 
 

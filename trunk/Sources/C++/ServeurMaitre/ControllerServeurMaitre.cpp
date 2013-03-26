@@ -69,8 +69,8 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
                 std::string wIdentificationString("GameServer");
                 wIdentificationString += i;
                 SPSocket wAssociatedSocket = GestionnaireReseau::obtenirInstance()->getSocket(wIdentificationString, TCP);
-
-                GameServerManager::obtenirInstance()->addNewGameServer(i, wAssociatedSocket->getAdresseDestination(), wIdentificationString);
+                std::string wServerIP = wAssociatedSocket->getAdresseDestination();
+                GameServerManager::obtenirInstance()->addNewGameServer(i, wServerIP, wIdentificationString);
 
                 PaquetEvent* wReplyPacket = (PaquetEvent*)GestionnaireReseau::obtenirInstance()->creerPaquet(EVENT);
                 wReplyPacket->setEventCode(GAME_SERVER_AUTHENTICATION_REPLY);
@@ -128,7 +128,7 @@ std::string ControllerServeurMaitre::authenticate( const std::string& pUsername,
 }
 
 // A implementer une fois que la structure de parties va etre faire dans le serveur maitre
-void ControllerServeurMaitre::getPlayersInGame( int pGameId, std::vector<const std::string*>& pPlayerList )
+void ControllerServeurMaitre::getPlayersInGame( int pGameId, std::vector<std::string>& pPlayerList )
 {
     throw std::runtime_error("The method or operation is not implemented.");
 }

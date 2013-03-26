@@ -22,6 +22,7 @@
 #include "..\Configuration\ConfigScene.h"
 #include "..\Sons\SoundFMOD.h"
 #include "GestionnaireModeles.h"
+#include "..\Achievements\AchievementsManager.h"
 
 
 // Summary:
@@ -83,6 +84,9 @@ extern "C"
     __declspec(dllexport) bool ValidateField();
     __declspec(dllexport) void ResetCamera();
 
+    /// Achievements
+    __declspec(dllexport) void SetAchievementUnlocked( AchievementUnlockCallBack callback );
+    //////////////////////////////////////////////////////////////////////////
 
     __declspec(dllexport) bool TerrainHasDeletable();
     /// checks if selected nodes are the same type and returns that type
@@ -156,6 +160,7 @@ extern "C"
     /// Enregistre la callback pour mettre a jour la vue lors d'événement
     __declspec(dllexport) void SetEventCallback( EventReceivedCallBack callback );
 
+
     __declspec(dllexport) void DisconnectUser( char* pUsername );
     //////////////////////////////////////////////////////////////////////////
 
@@ -171,6 +176,8 @@ extern "C"
     __declspec(dllexport) void connectServerGame( char* pServerIP );
     __declspec(dllexport) void connectPartieServerGame( int pGameId );
     __declspec(dllexport) void requestGameCreationServerGame( char* pGameName );
+    __declspec(dllexport) void requestGamePause( );
+    __declspec(dllexport) void requestGameResume( );
     __declspec(dllexport) void testConnexionUDPCSharp();
     //__declspec(dllexport) void recevoirPaquet( Paquet* pPaquet );
     /// 

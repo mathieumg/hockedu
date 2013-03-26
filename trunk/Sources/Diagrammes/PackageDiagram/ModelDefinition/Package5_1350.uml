@@ -79,7 +79,7 @@
     <packageHasNamedElement>
       <class
         Id="1937ce54-bba6-474b-acaf-0ced3d94f5c3"
-        name="EtatDeplacement"
+        name="EtatTransformation"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
@@ -159,6 +159,25 @@
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="739047c5-17e4-41ee-8d5e-d5ca9924426f"
+        name="EtatVue"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="0051777b-8bba-4e1f-b2f3-9a2b38f6c837"
+            isSubstitutable="false">
+            <classMoniker
+              Id="921ba588-eac3-468e-bddb-bbb7b46eb5b3"
+              LastKnownName="EtatSouris &lt;Abstract&gt;"
+              LastKnownLocation="Package3_1350.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
     </packageHasNamedElement>
   </packagedElements>
 </package>

@@ -97,6 +97,9 @@ int NoeudTable::expectedChildCount()
 NoeudTable::NoeudTable(const std::string& typeNoeud)
    : NoeudComposite(typeNoeud) , coefFriction_(5)
 {
+    /// les noeuds points ne peuvent etre supprimer
+    mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
+
     for(int i=0; i<NB_GROUP_TYPES; ++i)
     {
         /// Groupe destine a contenir les noeud concret pour un meilleur parcours d'arbre
@@ -206,7 +209,6 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
     bande_[6] = mr3;//mr7;
     bande_[7] = mr7;//mr8;
 
-    updatePhysicBody();
 }
 
 
@@ -1338,11 +1340,11 @@ void NoeudTable::updatePhysicBody()
             myFixtureDef.shape = &shape; //this is a pointer to the shapeHaut above
             myFixtureDef.density = 1;
 
-            myFixtureDef.filter.categoryBits = CATEGORY_NONE;
-            myFixtureDef.filter.maskBits = CATEGORY_NONE;
-            myFixtureDef.filter.groupIndex = 1;
+            myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
+            myFixtureDef.filter.maskBits = CATEGORY_MALLET;
 
             mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+            mPhysicBody->SetUserData(this);
         }
     }
 #endif
@@ -1362,7 +1364,10 @@ void NoeudTable::updatePhysicBody()
 ////////////////////////////////////////////////////////////////////////
 void NoeudTable::updateObserver( const  PositionSubject* pSubject )
 {
-    updatePhysicBody();
+    if(!isWorldLocked())
+    {
+        updatePhysicBody();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////

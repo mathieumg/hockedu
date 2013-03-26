@@ -152,6 +152,8 @@ public:
     // deletes node selected
     void deleteSelectedNodes();
 
+
+    bool selectNodes(Vecteur2 positionMin, Vecteur2 positionMax, bool toggleSelection);
     /// checks if selected nodes are the same type and returns that type
     /// if not, return NODE_KEY_NONE
     RazerKey getSelectedNodeUniqueKey() const;
@@ -171,6 +173,12 @@ public:
     int redoModification();
     /// cancels current modifications and reset the field to the last known correct state
     void reApplyCurrentState();
+
+#if BOX2D_INTEGRATED
+    /// Detecte si le b2Body est a un endroit ou il peut etre freely,
+    /// dans le cas de collision avec des noeuds, ceux ci sont retourné dans le conteneur
+    bool DetectWorldOverlapping(b2Body* pBody, std::set<NoeudAbstrait*>* pCollidingNodes = NULL);
+#endif
 
 #if BOX2D_PLAY
     /// Callback before the contact between 2 fixtures
@@ -234,7 +242,7 @@ private:
 
     FieldModificationStrategyAbstract* mModifStrategy;
 
-    static const int UNDO_BUFFERSIZE = 50;
+    static const int UNDO_BUFFERSIZE = 1000;
     typedef XmlElement FieldState;
     std::deque<FieldState*> mUndoBuffer;
     std::vector<FieldState*> mRedoBuffer;

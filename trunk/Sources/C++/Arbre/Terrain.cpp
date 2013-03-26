@@ -334,6 +334,7 @@ void Terrain::initialiserArbreRendu()
         {
             mNewNodeTree->empty();
         }
+        mNewNodeTree->setField(this);
     }
 
     // Ajout d'une table de base au terrain
@@ -381,6 +382,7 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
         {
             mNewNodeTree->empty();
         }
+        mNewNodeTree->setField(this);
     }
     mLogicTree = new RazerGameTree(this,MAX_MALLETS,MAX_PUCKS);
 
@@ -769,8 +771,6 @@ void Terrain::retirerNoeudTemp( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 bool Terrain::insideLimits( NoeudAbstrait* noeud )
 {
-    /// Deprecated
-
     const Vecteur3& pos = noeud->getPosition();
     auto zone = getZoneEdition();
     checkf(zone,"call illégal à InsideLimits, doit seulement etre utiliser pour le mode édition");
@@ -784,46 +784,6 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
             NodeWallAbstract *muret = (NodeWallAbstract *)noeud;
 
             return aabb.IsInside(muret->obtenirCoin1()) && aabb.IsInside(muret->obtenirCoin2());
-            // 
-            //         if (muret)
-            //         {
-            //             // Ligne du haut
-            //             if(aidecollision::calculerCollisionSegmentSegment(
-            //                 muret->obtenirCoin1().convertir<2>(),
-            //                 muret->obtenirCoin2().convertir<2>(),
-            //                 Vecteur2(-getZoneEdition()->obtenirLimiteExtX(),getZoneEdition()->obtenirLimiteExtY()),
-            //                 Vecteur2(getZoneEdition()->obtenirLimiteExtX(),getZoneEdition()->obtenirLimiteExtY()),
-            //                 intersection    // pas besoin du point dintersection
-            //                 ).type != aidecollision::COLLISION_AUCUNE)
-            //                 return false;
-            //             // Ligne de droite
-            //             if(aidecollision::calculerCollisionSegmentSegment(
-            //                 muret->obtenirCoin1().convertir<2>(),
-            //                 muret->obtenirCoin2().convertir<2>(),
-            //                 Vecteur2(getZoneEdition()->obtenirLimiteExtX(),getZoneEdition()->obtenirLimiteExtY()),
-            //                 Vecteur2(getZoneEdition()->obtenirLimiteExtX(),-getZoneEdition()->obtenirLimiteExtY()),
-            //                 intersection    // pas besoin du point dintersection
-            //                 ).type != aidecollision::COLLISION_AUCUNE)
-            //                 return false;
-            //             // Ligne du bas
-            //             if(aidecollision::calculerCollisionSegmentSegment(
-            //                 muret->obtenirCoin1().convertir<2>(),
-            //                 muret->obtenirCoin2().convertir<2>(),
-            //                 Vecteur2(getZoneEdition()->obtenirLimiteExtX(),-getZoneEdition()->obtenirLimiteExtY()),
-            //                 Vecteur2(-getZoneEdition()->obtenirLimiteExtX(),-getZoneEdition()->obtenirLimiteExtY()),
-            //                 intersection    // pas besoin du point dintersection
-            //                 ).type != aidecollision::COLLISION_AUCUNE)
-            //                 return false;
-            //             // Ligne de Gauche
-            //             if(aidecollision::calculerCollisionSegmentSegment(
-            //                 muret->obtenirCoin1().convertir<2>(),
-            //                 muret->obtenirCoin2().convertir<2>(),
-            //                 Vecteur2(-getZoneEdition()->obtenirLimiteExtX(),-getZoneEdition()->obtenirLimiteExtY()),
-            //                 Vecteur2(-getZoneEdition()->obtenirLimiteExtX(),getZoneEdition()->obtenirLimiteExtY()),
-            //                 intersection    // pas besoin du point dintersection
-            //                 ).type != aidecollision::COLLISION_AUCUNE)
-            //                 return false;
-            //        }
         }
         // Tests sur les positions avec leurs rayons beaucoup plus simple
         // sert aussi de float check pour les murets car leur rayon est nulle
@@ -850,14 +810,14 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
 {
     if(!mTable)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\naucune table presente sur le terrain");
+        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nNo table detected.");
         return false;
     }
 
     // on prend un des 2 buts
     if(!mTable->obtenirBut(1))
     {
-        if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\naucun buts presents sur le terrain");
+        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nNo goal detected on the table.");
         return false;
     }
     float hauteurBut = mTable->obtenirBut(1)->obtenirHauteurBut();
@@ -915,7 +875,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
     checkf(g);
     if(g && g->childCount() == 1)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\nil n'y a qu'un seul portail sur le terrain");
+        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nOnly one portal detected, please add a second one.");
         return false;
     }
 
@@ -927,17 +887,17 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
 
     if(!puck)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\nil n'y a pas de rondelle presente sur la table");
+        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nNo puck detected.");
         return false;
     }
     if(!leftMallet)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\nil n'y a pas de maillet present sur le cote gauche de la table");
+        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nThere's no mallet on the left side.");
         return false;
     }
     if(!rightMallet)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\nil n'y a pas de maillet present sur le cote droit de la table");
+        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nThere's no mallet on the right side.");
         return false;
     }
 
@@ -947,7 +907,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
         if(afficherErreur)
         {
             std::ostringstream mess;
-            mess << "Erreur: table invalide\nbuts trop petits pour jouer.\nDistance manquante = ";
+            mess << "Error: Invalid table\nGoals are too small.\nMissing width = ";
             mess << (float)puck->getRadius()*2+20-hauteurBut;
             mess << " pixels";
             utilitaire::afficherErreur(mess.str());
@@ -984,7 +944,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
                     if ( f->RayCast( &output, input,childindex) )
                     {
                         // collision detected
-                        if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\nUn maillet touche a la ligne du milieu");
+                        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nA mallet is touching the middle line.");
                         return false;
                     }
                 }
@@ -998,7 +958,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
         Vecteur2 intersection;
         if(aidecollision::calculerCollisionSegment(point1,point2,node->getPosition(),node->getRadius()).type != aidecollision::COLLISION_AUCUNE )
         {
-            if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\nUn maillet touche a la ligne du milieu");
+            if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nA mallet is touching the middle line.");
             return false;
         }
     }
@@ -1009,12 +969,12 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
     auto posright = rightMallet->getPosition();
     if(posleft[VX] > 0)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\n2 Maillets sur le cote droite de la table");
+        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nThere're two mallets on the right side.");
         return false;
     }
     if(posright[VX] < 0)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Erreur: table invalide\n2 Maillets sur le cote gauche de la table");
+        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nThere're two mallets on the left side.");
         return false;
     }
 
@@ -1136,31 +1096,40 @@ void Terrain::BeginContact( b2Contact* contact )
             // TODO:: à tester
             {
                 NoeudBut *but = dynamic_cast<NoeudBut *>((NoeudAbstrait*)bodies[1]->GetUserData());
-                if (but && mGame && !mGame->isNetworkClientGame())
+                if (but)
                 {
-                    b2Body* rondelleBody = bodies[0];
-                    NoeudRondelle* rondelle = (NoeudRondelle*)(rondelleBody->GetUserData());
-                    Runnable* r = new Runnable([=](Runnable*){
-                        if(mGame)
+                    if(mGame && !mGame->isNetworkClientGame())
+                    {
+                        b2Body* rondelleBody = bodies[0];
+                        NoeudRondelle* rondelle = (NoeudRondelle*)(rondelleBody->GetUserData());
+                        if(!rondelle->IsCollisionDetected())
                         {
-                            auto position = rondelle->getPosition();
-                            if(position[VX] < 0)
-                            {
-                                mGame->incrementerPointsJoueurDroit();
-                            }
-                            else
-                            {
-                                mGame->incrementerPointsJoueurGauche();
-                            }
-                            SoundFMOD::obtenirInstance()->playEffect(GOAL_EFFECT);
+                            rondelle->setCollisionDetected(true);
+                            auto game = mGame;
+                            Runnable* r = new Runnable([game,rondelle,rondelleBody](Runnable*){
+                                if(game)
+                                {
+                                    auto position = rondelle->getPosition();
+                                    if(position[VX] < 0)
+                                    {
+                                        game->incrementerPointsJoueurDroit();
+                                    }
+                                    else
+                                    {
+                                        game->incrementerPointsJoueurGauche();
+                                    }
+                                    SoundFMOD::obtenirInstance()->playEffect(GOAL_EFFECT);
+                                }
+                                game->miseAuJeu();
+                                rondelleBody->SetLinearVelocity(b2Vec2(0,0));
+                                rondelleBody->SetAngularVelocity(0);
+                                rondelle->setAngle(0);
+                                rondelle->setCollisionDetected(false);
+                            });
+                            RunnableBreaker::attach(r);
+                            RazerGameUtilities::RunOnUpdateThread(r,true);
                         }
-                        mGame->miseAuJeu();
-                        rondelleBody->SetLinearVelocity(b2Vec2(0,0));
-                        rondelleBody->SetAngularVelocity(0);
-                        rondelle->setAngle(0);
-                    });
-                    RunnableBreaker::attach(r);
-                    RazerGameUtilities::RunOnUpdateThread(r,true);
+                    }
                 }
                 else
                 {
@@ -1214,7 +1183,7 @@ void Terrain::BeginContact( b2Contact* contact )
                             NoeudRondelle* rondelle = (NoeudRondelle*)bodies[0]->GetUserData();
 
                             // The new pos can only be assigned outside of the world's step, so we queue it
-                            Runnable* r = new Runnable([=](Runnable*)
+                            Runnable* r = new Runnable([portailDeSortie,rondelle](Runnable*)
                             {
                                 portailDeSortie->setIsAttractionFieldActive(false);
                                 auto newPos = portailDeSortie->getPosition();
@@ -1590,11 +1559,38 @@ NoeudMaillet* Terrain::getRightMallet() const
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
+VISITEUR_FUNC_FUNC_DECLARATION(DeactivateHighlight)
+{
+    pNoeud->setHighlight(false);
+}
 bool Terrain::IsNodeAtValidEditionPosition( NoeudAbstrait* pNode, bool pDoHightlightNodeInCollision /*= false*/ )
 {
+    bool validPosition = true;
+#if BOX2D_INTEGRATED
+    if(pDoHightlightNodeInCollision)
+    {
+        VisiteurFunction v(DeactivateHighlight);
+        acceptVisitor(v);
+
+        std::set<NoeudAbstrait*> collidingNodes;
+        validPosition = !DetectWorldOverlapping(pNode->getPhysicBody(),&collidingNodes);
+        for(auto it=collidingNodes.begin(); it != collidingNodes.end(); ++it)
+        {
+            (*it)->setHighlight(true);
+        }
+    }
+    else
+    {
+        validPosition = !DetectWorldOverlapping(pNode->getPhysicBody());
+    }
+#else
     VisiteurCollision visiteur(pNode,pDoHightlightNodeInCollision);
     acceptVisitor(visiteur);
-    return !(visiteur.collisionPresente()) && insideLimits(pNode);
+    validPosition = !(visiteur.collisionPresente());
+#endif
+
+
+    return validPosition && insideLimits(pNode);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1610,9 +1606,14 @@ bool Terrain::IsNodeAtValidEditionPosition( NoeudAbstrait* pNode, bool pDoHightl
 bool Terrain::FixCollidingObjects()
 {
 #if BOX2D_INTEGRATED  
-    mWorld->Step(0.001f,0,1000);
-    mWorld->Step(0.001f,0,1000);
-    mWorld->Step(0.001f,0,1000);
+    if(mLogicTree)
+    {
+        mWorld->Step(0.001f,0,1000);
+
+        /// callbacks might have invalidate some data, rebuild just to make sure
+        fullRebuild();
+    }
+
     return true;
 #else
     bool tableValide = false;
@@ -1698,7 +1699,7 @@ bool Terrain::FixCollindingNode( NoeudAbstrait* pNode, unsigned int nbIterations
     }
 
     // Il faut la partie égale de la comparaison, car le ++tentative 
-    // de la condition while ne ce fera pas s'il n'y a plus de collision
+    // de la condition while ne ce fera pas s'il node'y a plus de collision
     return tentative <= nbIterations;
 }
 
@@ -1770,6 +1771,94 @@ void Terrain::NodeSelectionNotification( NoeudAbstrait* node, bool selected )
 
 ////////////////////////////////////////////////////////////////////////
 ///
+/// @fn bool Terrain::selectNodes( Vecteur2 positionMin, Vecteur2 positionMax )
+///
+/// /*Description*/
+///
+/// @param[in] Vecteur2 positionMin
+/// @param[in] Vecteur2 positionMax
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool Terrain::selectNodes( Vecteur2 positionMin, Vecteur2 positionMax, bool toggleSelection )
+{
+    if(!toggleSelection)
+    {
+        setTableItemsSelection(false);
+    }
+    BoundingBox aabb;
+    aabb += positionMin;
+    aabb += positionMax;
+    {
+        auto extent = aabb.GetExtent();
+        if(extent[VX] < 3 || extent[VY] < 3)
+        {
+            /// pour etre certain que le carre ait une grandeur minimum
+            aabb = BoundingBox::BuildAABB(aabb.GetCenter(),Vecteur2(3,3));
+        }
+    }
+    positionMin = aabb.mMinPoint;
+    positionMax = aabb.mMaxPoint;
+
+#if BOX2D_INTEGRATED
+    b2Vec2 b2center, b2Extent;
+    Vecteur2 center,extent;
+    aabb.GetCenterAndExtents(center,extent);
+
+    utilitaire::VEC3_TO_B2VEC(center,b2center);
+    utilitaire::VEC3_TO_B2VEC(extent,b2Extent);
+
+    b2BodyDef myBodyDef;
+
+    myBodyDef.type =  b2_staticBody; //this will be a static body
+    myBodyDef.position.Set(b2center.x, b2center.y); //set the starting position
+    myBodyDef.angle = 0; //set the starting angle
+
+    b2Body* physicBody = mWorld->CreateBody(&myBodyDef);
+    b2PolygonShape shape;
+    shape.SetAsBox(b2Extent.x,b2Extent.y,b2Vec2(0,0),0);
+
+    b2FixtureDef myFixtureDef;
+    myFixtureDef.shape = &shape; //this is a pointer to the shape above
+    myFixtureDef.density = 1;
+    myFixtureDef.filter.categoryBits = 0;
+    myFixtureDef.filter.maskBits = 0;
+    myFixtureDef.filter.groupIndex = 1;
+
+    physicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+
+    std::set<NoeudAbstrait*> selectingNodes;
+    DetectWorldOverlapping(physicBody,&selectingNodes);
+    for(auto it=selectingNodes.begin(); it!= selectingNodes.end(); ++it)
+    {
+        NoeudAbstrait* node = *it;
+        if(node->canBeSelected())
+        {
+            if(toggleSelection)
+            {
+                node->toggleSelection();
+            }
+            else
+            {
+                node->setSelection(true);
+            }
+        }
+    }
+
+    mWorld->DestroyBody(physicBody);
+
+#else
+    VisiteurSelection visitor = VisiteurSelection(positionMin,positionMax,toggleSelection);
+    acceptVisitor(visitor);
+    visitor.faireSelection();
+#endif
+    return !!getSelectedNodes().size();
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
 /// @fn bool Terrain::CanSelectedNodeBeDeleted()
 ///
 /// /*Description*/
@@ -1782,11 +1871,8 @@ bool Terrain::CanSelectedNodeBeDeleted() const
 {
     for(auto it=mSelectedNodes.begin(); it != mSelectedNodes.end(); ++it)
     {
-        NoeudPoint *point = dynamic_cast<NoeudPoint *>(*it);
-        if (!point)
+        if ((*it)->canBeDeleted())
         {
-            // seulement les noeud point sont selectionnable et ne peuvent etre deleted so haha
-            // dont ask dont tell....
             return true;
         }
     }
@@ -2345,6 +2431,80 @@ void Terrain::deleteSelectedNodes()
     acceptVisitor(v);
     pushUndoState();
 }
+
+
+#if BOX2D_INTEGRATED  
+class BodyAABBQueryCallback: public b2QueryCallback
+{
+public:
+    BodyAABBQueryCallback(b2Body* body, std::set<NoeudAbstrait*>* pCollidingNodes):
+        mCollisionDetected(false),mCollidingNodes(pCollidingNodes),mBody(body){}
+
+    /// Called for each fixture found in the query AABB.
+    /// @return false to terminate the query.
+    virtual bool ReportFixture(b2Fixture* fixture)
+    {
+        auto bodyB = fixture->GetBody();
+        if(mBody && bodyB && bodyB != mBody)
+        {
+            if(mBody->IsColliding(fixture))
+            {
+                mCollisionDetected = true;
+                if(mCollidingNodes)
+                {
+                    NoeudAbstrait* node = dynamic_cast<NoeudAbstrait*>((NoeudAbstrait*)bodyB->GetUserData());
+                    if(node)
+                    {
+                        mCollidingNodes->insert(node);
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    bool mCollisionDetected;
+private:
+    std::set<NoeudAbstrait*>* mCollidingNodes;
+    b2Body* mBody;
+    
+};
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool Terrain::DetectWorldOverlapping( b2Body* pBody, ConteneurNoeuds* pCollidingNodes /*= NULL*/ )
+///
+/// Detecte si le b2Body est a un endroit ou il peut etre freely,
+/// dans le cas de collision avec des noeuds, ceux ci sont retourné dans le conteneur
+///
+/// @param[in] b2Body * pBody
+/// @param[in] ConteneurNoeuds * pCollidingNodes
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool Terrain::DetectWorldOverlapping( b2Body* pBody, std::set<NoeudAbstrait*>* pCollidingNodes /*= NULL*/ )
+{
+    if(mWorld && pBody)
+    {
+        b2AABB aabb;
+        aabb.lowerBound = b2Vec2(FLT_MAX,FLT_MAX);
+        aabb.upperBound = b2Vec2(-FLT_MAX,-FLT_MAX); 
+        for(b2Fixture* fixture = pBody->GetFixtureList(); fixture; fixture = fixture->GetNext())
+        {
+            for(int32 i = fixture->getProxyCount()-1; i>=0; --i)
+            {
+                aabb.Combine(aabb,fixture->GetAABB(i));
+            }
+        }
+        BodyAABBQueryCallback callback(pBody,pCollidingNodes);
+        mWorld->QueryAABB(&callback,aabb);
+        return callback.mCollisionDetected;
+    }
+    return false;
+}
+#endif
+
 
 
 

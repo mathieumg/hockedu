@@ -79,7 +79,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/FieldModificationStrategy;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Bonus;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;..\C#\UIHeavyClient\UIHeavyClient;../../Commun/Externe/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Commun\Externe\SQLite;..\..\Commun\Externe\FreeImage\include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Achievements;Arbre;Arbre/FieldModificationStrategy;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Bonus;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;..\C#\UIHeavyClient\UIHeavyClient;../../Commun/Externe/</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;CREATING_DLL;WIN32;_DEBUG;_WINDOWS;_USRDLL;RazerGame_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -116,8 +116,8 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/FieldModificationStrategy;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Bonus;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;../../Commun/Externe/;..\C#\UIHeavyClient\UIHeavyClient</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;WIN32;_DEBUG;_WINDOWS;_USRDLL;WITH_JAVA;RazerGame_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>Achievements;..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/FieldModificationStrategy;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Bonus;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;../../Commun/Externe/;..\C#\UIHeavyClient\UIHeavyClient</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;CREATING_DLL;WIN32;_DEBUG;_WINDOWS;_USRDLL;WITH_JAVA;RazerGame_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -152,7 +152,7 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/FieldModificationStrategy;Arbre/Noeuds;Arbre/Usines;Arbre/Bonus;Arbre/Visiteur;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/;..\C#\UIHeavyClient\UIHeavyClient</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Achievements;..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/FieldModificationStrategy;Arbre/Noeuds;Arbre/Usines;Arbre/Bonus;Arbre/Visiteur;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/;..\C#\UIHeavyClient\UIHeavyClient</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;CREATING_DLL;WIN32;NDEBUG;_WINDOWS;_USRDLL;RazerGame_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
@@ -184,6 +184,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Achievements\Achievements.cpp" />
+    <ClCompile Include="Achievements\AchievementsManager.cpp" />
+    <ClCompile Include="Achievements\LaunchAchievementLite.cpp" />
     <ClCompile Include="Application\FacadeModele.cpp" />
     <ClCompile Include="Application\GameManager.cpp" />
     <ClCompile Include="Application\RepartiteurActions.cpp" />
@@ -344,6 +347,7 @@
     <ClCompile Include="Reseau\Socket.cpp" />
     <ClCompile Include="Reseau\SocketTCPServeur.cpp" />
     <ClCompile Include="Sons\SoundFMOD.cpp" />
+    <ClCompile Include="Tests\AchievementsTests.cpp" />
     <ClCompile Include="Tests\BancTests.cpp" />
     <ClCompile Include="Tests\ConfigSceneTest.cpp" />
     <ClCompile Include="Tests\GestionnaireEvenementsTest.cpp" />
@@ -358,6 +362,10 @@
     <ClCompile Include="Tests\XMLTests.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\C#\UIHeavyClient\UIHeavyClient\AchievementsEnums.h" />
+    <ClInclude Include="Achievements\Achievements.h" />
+    <ClInclude Include="Achievements\AchievementsManager.h" />
+    <ClInclude Include="Achievements\LaunchAchievementLite.h" />
     <ClInclude Include="Application\FacadeModele.h" />
     <ClInclude Include="Application\GameManager.h" />
     <ClInclude Include="Application\RepartiteurActions.h" />
@@ -400,7 +408,6 @@
     <ClInclude Include="Arbre\Noeuds\NoeudPortail.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudRondelle.h" />
     <ClInclude Include="Arbre\Noeuds\NoeudTable.h" />
-    <ClInclude Include="Arbre\Noeuds\PositionSubject.h" />
     <ClInclude Include="Arbre\Terrain.h" />
     <ClInclude Include="Arbre\Usines\BonusModifierFactory.h" />
     <ClInclude Include="Arbre\Visiteur\VisiteurCollision.h" />
@@ -529,6 +536,7 @@
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetTest.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetUserStatus.h" />
     <ClInclude Include="Sons\SoundFMOD.h" />
+    <ClInclude Include="Tests\AchievementsTests.h" />
     <ClInclude Include="Tests\BancTests.h" />
     <ClInclude Include="Tests\ConfigSceneTest.h" />
     <ClInclude Include="Tests\GestionnaireEvenementsTest.h" />

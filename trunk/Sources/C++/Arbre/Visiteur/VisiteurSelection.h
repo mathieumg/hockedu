@@ -34,7 +34,7 @@ public:
 	void faireSelection();
 
 	/// Constructeur par paramêtre
-	VisiteurSelection(Vecteur2 positionSouris, Vecteur2 positionMax);
+	VisiteurSelection(Vecteur2 positionSouris, Vecteur2 positionMax, bool toggleSelection);
 
 	/// Visitation d'un noeud abstrait
 	virtual void visiterNoeudAbstrait( NoeudAbstrait* noeud );
@@ -72,7 +72,7 @@ private:
 	NoeudZBuf aSelectionner_;
 
 	/// Indique si la sélection est fait par un rectangle élastique
-	bool avecRectangle;
+	bool mToggleSelection;
 
 };
 

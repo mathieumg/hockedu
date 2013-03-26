@@ -555,7 +555,7 @@ ConnectionState Socket::initClient()
 
                     if(wConfirmation == SEND_PASSWORD_REQUEST)
                     {
-                        // On doit envoyer le mot de passe 
+                        // On doit envoyer le mot de passe
                         std::string wPassword = GestionnaireReseau::obtenirInstance()->getPlayerPassword();
                         send((uint8_t*) wPassword.c_str(), (uint32_t) (wPassword.length()+1), true); // +1 pour avoir le caractere de fin de string
                         char wReceptionValue2[3];

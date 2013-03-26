@@ -15,6 +15,9 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
+using UIHeavyClient.UserControls;
+using System.Windows.Media.Animation;
+using HttpHockeduRequests;
 
 namespace UIHeavyClient
 {
@@ -96,6 +99,23 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll")]
         public static extern void FreeApplicationMemory();
 
+        public void TestCallbackMapDownloaded(string pOutputPath)
+        {
+            
+            MainWindowHandler.mTaskManager.ExecuteTask(() =>
+            {
+                Console.WriteLine(pOutputPath);
+            });
+        }
+
+        public void TestCallbackMapUploaded(HttpHockeduRequests.UploadOperationStatus pStatus, int pMapId)
+        {
+            Console.WriteLine(pStatus);
+            Console.WriteLine(pMapId);
+        }
+        
+
+
         private void Window_Closed(object sender, EventArgs e)
         {
             OpenGLControl.mRenderTimer.Stop();
@@ -114,6 +134,7 @@ namespace UIHeavyClient
             
             mWindowFormsHost = new WindowsFormsHost();
             mWindowFormsHost.Name = "windowsFormsHost1";
+            mWindowFormsHost.GotFocus += mWindowFormsHost_GotFocus;
 
             mWindowFormsHost.Child = mOpenGLControl;
             mOpenGLControl.InitializeOpenGL(mOpenGLControl,new EventArgs());
@@ -135,6 +156,10 @@ namespace UIHeavyClient
 
         }
 
+        void mWindowFormsHost_GotFocus( object sender, RoutedEventArgs e )
+        {
+            mOpenGLControl.Focus();
+        }
 
             
         public MainWindow()
@@ -192,15 +217,40 @@ namespace UIHeavyClient
             }
 
             {
+                System.Windows.Controls.MenuItem testPauseNetwork = new System.Windows.Controls.MenuItem();
+                testPauseNetwork.Header = "Test Pause Game";
+                testPauseNetwork.Click += requestGamePause_Click;
+                debugMenu.Items.Add(testPauseNetwork);
+            }
+
+            {
+                System.Windows.Controls.MenuItem testResumeNetwork = new System.Windows.Controls.MenuItem();
+                testResumeNetwork.Header = "Test Resume Game";
+                testResumeNetwork.Click += requestGameResume_Click;
+                debugMenu.Items.Add(testResumeNetwork);
+            }
+
+            {
                 System.Windows.Controls.MenuItem debugItem = new System.Windows.Controls.MenuItem();
                 debugItem.Header = "Reload Models";
                 debugItem.Click += ReloadModels_Click;
                 debugMenu.Items.Add(debugItem);
             }
 
+            {
+                System.Windows.Controls.MenuItem debugItem = new System.Windows.Controls.MenuItem();
+                debugItem.Header = "Test JSON";
+                debugItem.Click += TestJSON_Click;
+                debugMenu.Items.Add(debugItem);
+            }
+
+            
+
 #endif
 
             InitDLL();
+            SetAchievementUnlocked( mAchievementUnlockCallBack );
+
             this.Loaded += CreateUserControl;
             this.KeyDown += MainWindow_KeyDown;
             this.KeyUp += MainWindow_KeyUp;
@@ -211,6 +261,16 @@ namespace UIHeavyClient
         {
             ReloadModels();
         }
+
+        void TestJSON_Click(object sender, RoutedEventArgs e)
+        {
+            HttpManager wManager = new HttpManager();
+            //wManager.getPublicMapList();
+            //wManager.downloadMap(12, 1, TestCallbackMapDownloaded);
+            wManager.uploadNewMap(12, "05237e69-8d18-11e2-b5d0-005056823b67", "TestMat4", "Test Upload HTTP", true, "D:\\AirHockeyGit\\log3900-04_Cloned2\\trunk\\Content\\cs_italy.xml", TestCallbackMapUploaded);
+
+        }
+        
 
         // Tests pour connection serveur jeu et client
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -227,6 +287,14 @@ namespace UIHeavyClient
         // Tests pour demande de creation d'une partie sur le serveur jeu
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void requestGameCreationServerGame(string pGameName);
+
+        // Tests pour mise en pause
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void requestGamePause();
+
+        // Tests pour mise en pause
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void requestGameResume();
 
         private void connexionServeurJeu_Click(object sender, RoutedEventArgs e)
         {
@@ -255,6 +323,21 @@ namespace UIHeavyClient
             requestGameCreationServerGame("Bob's Game");
 
         }
+
+        private void requestGamePause_Click(object sender, RoutedEventArgs e)
+        {
+            // Tests pour la creation d'une partie sur le serveur jeu
+            requestGamePause();
+
+        }
+
+        private void requestGameResume_Click(object sender, RoutedEventArgs e)
+        {
+            // Tests pour la creation d'une partie sur le serveur jeu
+            requestGameResume();
+
+        }
+        
         
 
         void simulationMode_Click(object sender, RoutedEventArgs e)
@@ -360,6 +443,52 @@ namespace UIHeavyClient
             mServerSaveMapItem.IsEnabled = pMustBeEnabled;
             mResetMapItem.IsEnabled = pMustBeEnabled;
             mTestMapItem.IsEnabled = pMustBeEnabled;
+        }
+
+
+        [DllImport( @"RazerGame.dll" )]
+        static extern void SetAchievementUnlocked( AchievementUnlockCallBack callback );
+
+        public delegate int AchievementUnlockCallBack( AchievementsType id, IntPtr message );
+        static AchievementUnlockCallBack mAchievementUnlockCallBack = AchievementUnlocked;
+
+        static int AchievementUnlocked( AchievementsType id, IntPtr pMessage )
+        {
+            string achievementName = Marshal.PtrToStringAnsi( pMessage );
+            DisplayAchievement( achievementName );
+            return 1;
+        }
+
+        static AchievementUnlocked mAchievementPanel = null;
+        static Storyboard mStoryboard = new Storyboard();
+        static void mWaitAnimation_Completed( object sender, EventArgs e )
+        {
+            mAchievementPanel.Close();
+        }
+
+        static void DisplayAchievement(string achievementName)
+        {
+            if ( mAchievementPanel != null )
+            {
+                mAchievementPanel.Close();
+            }
+            mAchievementPanel = new AchievementUnlocked();
+            mAchievementPanel.AchievementName = achievementName;
+            mAchievementPanel.Topmost = true;
+            mAchievementPanel.Left = MainWindowHandler.Context.Left + MainWindowHandler.Context.Width - mAchievementPanel.Width;
+            mAchievementPanel.Top = MainWindowHandler.Context.Top + MainWindowHandler.Context.Height;
+            mAchievementPanel.Show();
+
+            DoubleAnimation beginAnimation = new DoubleAnimation();
+            beginAnimation.To = mAchievementPanel.Top - ( mAchievementPanel.Height );
+            beginAnimation.From = mAchievementPanel.Top;
+            beginAnimation.AutoReverse = true;
+            beginAnimation.Completed += mWaitAnimation_Completed;
+            beginAnimation.Duration = new TimeSpan( 0, 0, 3 );
+            Storyboard.SetTargetProperty( beginAnimation, new PropertyPath( Window.TopProperty ) );
+
+            mStoryboard.Children.Add( beginAnimation );
+            mStoryboard.Begin( mAchievementPanel, HandoffBehavior.SnapshotAndReplace );
         }
     }
 }

@@ -181,10 +181,6 @@ void GestionnaireEtatPartieTournoiTerminee::rouletteSouris( EvenementRouletteSou
 void GestionnaireEtatPartieTournoiTerminee::animer( const float& temps )
 {
 	SoundFMOD::obtenirInstance()->repeatAppSong();
-	if(GestionnaireAnimations::obtenirInstance()->replayEstTermine())
-	{
-		pointerCameraSurScoreBoard();
-	}
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -239,4 +235,23 @@ void GestionnaireEtatPartieTournoiTerminee::pointerCameraSurScoreBoard()
 
 	animation->ajouterObjet(cameraCourante);
 	GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void GestionnaireEtatPartieTournoiTerminee::updateObserver( const ReplaySubject* pSubject )
+///
+/// /*Description*/
+///
+/// @param[in] const ReplaySubject * pSubject
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void GestionnaireEtatPartieTournoiTerminee::updateObserver( const ReplaySubject* pSubject )
+{
+    if(!pSubject->mReplaying)
+    {
+        pointerCameraSurScoreBoard();
+    }
 }

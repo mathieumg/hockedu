@@ -12,7 +12,7 @@
 #include "NoeudComposite.h"
 #include "OnceVector.h"
 #include <set>
-#include "PositionSubject.h"
+#include "PositionObserver.h"
 
 // Surtout ne pas toucher a la position des elements dans l'enum
 /// ils représentent des positions dans un array
@@ -71,19 +71,11 @@ public:
 	/// Assigne la position relative du noeud et deplace le modele 3D de la table
 	virtual void setPosition( const Vecteur3& positionRelative);
 
-    ////////////////////////////////////////////////////////////////////////
-    ///
-    /// @fn void move3DModel( const Vecteur3& positionRelative )
-    ///
-    /// /*Description*/
-    ///
-    /// @param[in] 
-    ///
-    /// @return void
-    ///
-    ////////////////////////////////////////////////////////////////////////
-    void move3DModel( const Vecteur3& positionRelative );
+    /// moves 3D model's vertex to the targetLocation
+    void move3DModel( const Vecteur3& targetLocation );
 
+    /// Recreates the physics body according to current attributes
+    virtual void updatePhysicBody();
 
 	/// Accesseur de pointHorizontalSym_
 	NoeudPoint* obtenirPointSym() const;

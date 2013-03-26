@@ -56,7 +56,6 @@ NodeWallAbstract::NodeWallAbstract(const std::string& typeNoeud)
 	: Super(typeNoeud)
 {
 	coefRebond_ = 0.75;
-    updatePhysicBody();
 }
 
 
@@ -302,7 +301,10 @@ void NodeWallAbstract::updateWallProperties()
     // necessaire pour s'assurer de l'integrite des proprietes
     // physiques et d'affichage
     updateMatrice();
-    updatePhysicBody();
+    if(!isWorldLocked())
+    {
+        updatePhysicBody();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -317,9 +319,6 @@ void NodeWallAbstract::updateWallProperties()
 ////////////////////////////////////////////////////////////////////////
 void NodeWallAbstract::renderOpenGLES() const
 {
-    GLfloat lineWidth;
-    glGetFloatv(GL_LINE_WIDTH,&lineWidth);
-    glLineWidth(mScale[VY]);
     glColor4f(1,1,0,1);
 
     auto c1 = obtenirCoin1(), c2 = obtenirCoin2();
@@ -337,10 +336,10 @@ void NodeWallAbstract::renderOpenGLES() const
     Vecteur2 cornerUpRight = Vecteur2(c2[VX],c2[VY]) + (distFromMiddlePoint * vecteurDir.tournerPiSur2());
     Vecteur2 cornerBotRight = Vecteur2(c2[VX],c2[VY]) + (distFromMiddlePoint * vecteurDir.tournerMoinsPiSur2());
     GLfloat vertices[8] = {cornerUpLeft[VX],cornerUpLeft[VY],cornerBotLeft[VX],cornerBotLeft[VY],cornerUpRight[VX],cornerUpRight[VY],cornerBotRight[VX],cornerBotRight[VY]};
+    glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer (2, GL_FLOAT , 0, vertices); 
     glDrawArrays (GL_TRIANGLE_FAN, 0, 4);
-
-    glLineWidth(lineWidth);
+    glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 

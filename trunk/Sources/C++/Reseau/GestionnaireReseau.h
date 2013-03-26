@@ -171,6 +171,8 @@ public:
     // Methode pour retourner le nom du player (ne devrait pas etre utilisee par le serveur)
     std::string getPlayerName();
 
+    std::string getSocketIdentifier(SPSocket wSocket);
+
     void getEveryoneConnected(std::vector<const std::string*>& pList);
 
     // Methode pour retourner le mot de passe du joueur
@@ -215,6 +217,7 @@ public:
     bool isMasterServerConnected() const;
 
     bool isAGameServerConnected() const;
+
 
     //Contains the operating system's byte order.
 	static ByteOrder NATIVE_BYTE_ORDER;
