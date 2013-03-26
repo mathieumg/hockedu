@@ -3885,7 +3885,7 @@
 	"FacadeServeurMaitre.h"
 	"CommunicateurBD.h"
 
-1363667246 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/mainServeurMaitre.cpp
+1364310312 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/mainServeurMaitre.cpp
 	<iostream>
 	"../Reseau/GestionnaireReseauServeurMaitre.h"
 	"ControllerServeurMaitre.h"
@@ -4028,7 +4028,7 @@
 	<ext/hash_map>
 	<hash_map>
 
-1363838514 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.cpp
+1364313560 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.cpp
 	"PaquetRunnableServeurMaitre.h"
 	"../ServeurMaitre/FacadeServeurMaitre.h"
 	"../Reseau/Paquets/PaquetLoginInfo.h"
@@ -4047,7 +4047,7 @@
 	"GameServerManager.h"
 	"GameServer.h"
 
-1363841450 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/GameServer.h
+1364231531 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/GameServer.h
 	<string>
 	<ext/hash_map>
 	<hash_map>
@@ -4059,12 +4059,12 @@
 1363709379 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetGameRegistration.cpp
 	"PaquetGameRegistration.h"
 
-1363817743 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/GameServer.cpp
+1364275331 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/GameServer.cpp
 	"GameServer.h"
 	"..\Reseau\ExceptionsReseau\ExceptionReseau.h"
 	"..\Reseau\ObjetsGlobaux\PartieServeurs.h"
 
-1363818400 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/GameServerManager.cpp
+1364274865 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/GameServerManager.cpp
 	"GameServerManager.h"
 	"..\Reseau\ExceptionsReseau\ExceptionReseau.h"
 	"GameServer.h"
@@ -4224,4 +4224,7 @@
 	"../Paquets/PaquetBonus.h"
 	<ext/hash_map>
 	<hash_map>
+
+1364260410 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetGameCreation.cpp
+	"PaquetGameCreation.h"
 
