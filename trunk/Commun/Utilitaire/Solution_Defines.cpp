@@ -158,8 +158,6 @@ void appDebugBreak()
 {
 #if WIN32
     __debugbreak();
-#else
-    asm("int $3");
 #endif
 }
 
