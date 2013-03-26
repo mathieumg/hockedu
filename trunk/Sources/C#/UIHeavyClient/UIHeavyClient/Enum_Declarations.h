@@ -236,7 +236,6 @@ typedef enum
         CATEGORY_BOOST    = 0x0010,
         CATEGORY_BONUS    = 0x0020,
         CATEGORY_WALL     = 0x0040,
-        CATEGORY_GOALIE     = 0x0080,
     }
 #if !CSHARP
 PhysicsCategory

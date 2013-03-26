@@ -40,8 +40,6 @@ NoeudPortail::NoeudPortail(const std::string& typeNoeud)
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
 
-    updatePhysicBody();
-
 }
 
 
@@ -159,6 +157,7 @@ void NoeudPortail::updatePhysicBody()
         {
             myFixtureDef.filter.categoryBits = CATEGORY_PORTAL;
             myFixtureDef.filter.maskBits = 0xFFFF;
+            myFixtureDef.filter.groupIndex = 1;
         }
 
 

@@ -55,7 +55,7 @@ CreateListDelegateImplementation(ControlPoint)
 NodeControlPoint::NodeControlPoint( const std::string& typeNoeud ):
 Super(typeNoeud),mCanBeVisited(true)
 {
-    setDefaultRadius(8);
+    setDefaultRadius(5);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -234,6 +234,44 @@ void NodeControlPoint::setCollisionVisitorAttributes( class VisiteurCollision* v
     {
         Super::setCollisionVisitorAttributes(v);
     }
+}
+
+void NodeControlPoint::updatePhysicBody()
+{
+#if BOX2D_INTEGRATED
+    auto world = getWorld();
+    if(world)
+    {
+        clearPhysicsBody();
+
+        if(!IsInGame())
+        {
+            b2BodyDef myBodyDef;
+            myBodyDef.type = b2_dynamicBody;; //this will be a static body
+            const Vecteur3& pos = getPosition();
+            b2Vec2 posB2;
+            utilitaire::VEC3_TO_B2VEC(pos,posB2);
+            myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
+            myBodyDef.angle = 0; //set the starting angle
+
+            mPhysicBody = world->CreateBody(&myBodyDef);
+            b2CircleShape circleShape;
+            circleShape.m_p.Set(0, 0); //position, relative to body position
+            circleShape.m_radius = (float32)getRadius()*utilitaire::ratioWorldToBox2D; //radius
+
+            b2FixtureDef myFixtureDef;
+            myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
+            myFixtureDef.density = 1;
+
+            myFixtureDef.filter.categoryBits = 0;
+            myFixtureDef.filter.maskBits = 0;
+            myFixtureDef.filter.groupIndex = 1;
+
+            mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+            mPhysicBody->SetUserData(this);
+        }
+    }
+#endif
 }
 
 

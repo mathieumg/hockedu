@@ -50,6 +50,7 @@ enum NodeFlags
     NODEFLAGS_HIGHTLIGHT,
     NODEFLAGS_IS_IN_GAME,
     NODEFLAGS_ACTIVE,
+    NODEFLAGS_CAN_BE_DELETED,
     NODEFLAGS_B2_TRANSFORM_CALLBACK,
     NB_NODEFLAGS
 };
@@ -178,8 +179,7 @@ public:
     static void synchroniseTransformFromB2CallBack(void* , const struct b2Transform&);
     virtual void synchroniseTransformFromB2(const struct b2Transform&);
 
-    inline bool isSyncFromB2Callback()const {return mFlags.IsFlagSet(NODEFLAGS_B2_TRANSFORM_CALLBACK);}
-    inline void setSyncFromB2CallBack(bool val) {mFlags.SetFlag(val,NODEFLAGS_B2_TRANSFORM_CALLBACK);}
+    bool isWorldLocked()const;
 
     /// Recreates everything needed for the game
     virtual void forceFullUpdate();
@@ -202,7 +202,7 @@ protected:
 	mutable Vecteur3  mPosition;
 
     /// flags of a node;
-    Flags<char,NB_NODEFLAGS> mFlags;
+    Flags<int,NB_NODEFLAGS> mFlags;
 
 	/// Pointeur vers le parent.
 	NoeudComposite*   mParent;
@@ -234,7 +234,7 @@ private:
 	
 	/// Pointeur sur le terrain que le noeud est inclu dedans, Null si le noeud n'est pas sur un terrain
 	Terrain* mField;
-
+    class b2World* mWorld;
 
 
 	/// Accesseurs
@@ -281,6 +281,8 @@ public:
     /// Vérifie si le noeud est sélectionnable.
     inline bool canBeSelected() const;
 
+    inline bool canBeDeleted() const{return mFlags.IsFlagSet(NODEFLAGS_CAN_BE_DELETED);}
+
     /// Écrit si le noeud peut être enregistré ou non.
     inline void setRecordable( bool enregistrable );
     /// Vérifie si le noeud est enregistrable.
@@ -303,7 +305,7 @@ public:
 	virtual void setField(Terrain* val);
 
     /// Accessors of mWorld
-    class b2World* getWorld();
+    inline class b2World* getWorld()const {return mWorld;}
     /// Accessors of mPhysicBody
     inline class b2Body* getPhysicBody() const { return mPhysicBody; }
 

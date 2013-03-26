@@ -120,6 +120,7 @@ void FieldModificationStrategyAddNode::createNewNode(const Vecteur2& position)
         {
             mNewNode->setPosition(position);
             mField->ajouterNoeudTemp(mNewNode);
+            mNewNode->forceFullUpdate();
         }
     }
 }

@@ -334,6 +334,7 @@ void Terrain::initialiserArbreRendu()
         {
             mNewNodeTree->empty();
         }
+        mNewNodeTree->setField(this);
     }
 
     // Ajout d'une table de base au terrain
@@ -381,6 +382,7 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
         {
             mNewNodeTree->empty();
         }
+        mNewNodeTree->setField(this);
     }
     mLogicTree = new RazerGameTree(this,MAX_MALLETS,MAX_PUCKS);
 
@@ -769,8 +771,6 @@ void Terrain::retirerNoeudTemp( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 bool Terrain::insideLimits( NoeudAbstrait* noeud )
 {
-    /// Deprecated
-
     const Vecteur3& pos = noeud->getPosition();
     auto zone = getZoneEdition();
     checkf(zone,"call illégal à InsideLimits, doit seulement etre utiliser pour le mode édition");
@@ -784,46 +784,6 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
             NodeWallAbstract *muret = (NodeWallAbstract *)noeud;
 
             return aabb.IsInside(muret->obtenirCoin1()) && aabb.IsInside(muret->obtenirCoin2());
-            // 
-            //         if (muret)
-            //         {
-            //             // Ligne du haut
-            //             if(aidecollision::calculerCollisionSegmentSegment(
-            //                 muret->obtenirCoin1().convertir<2>(),
-            //                 muret->obtenirCoin2().convertir<2>(),
-            //                 Vecteur2(-getZoneEdition()->obtenirLimiteExtX(),getZoneEdition()->obtenirLimiteExtY()),
-            //                 Vecteur2(getZoneEdition()->obtenirLimiteExtX(),getZoneEdition()->obtenirLimiteExtY()),
-            //                 intersection    // pas besoin du point dintersection
-            //                 ).type != aidecollision::COLLISION_AUCUNE)
-            //                 return false;
-            //             // Ligne de droite
-            //             if(aidecollision::calculerCollisionSegmentSegment(
-            //                 muret->obtenirCoin1().convertir<2>(),
-            //                 muret->obtenirCoin2().convertir<2>(),
-            //                 Vecteur2(getZoneEdition()->obtenirLimiteExtX(),getZoneEdition()->obtenirLimiteExtY()),
-            //                 Vecteur2(getZoneEdition()->obtenirLimiteExtX(),-getZoneEdition()->obtenirLimiteExtY()),
-            //                 intersection    // pas besoin du point dintersection
-            //                 ).type != aidecollision::COLLISION_AUCUNE)
-            //                 return false;
-            //             // Ligne du bas
-            //             if(aidecollision::calculerCollisionSegmentSegment(
-            //                 muret->obtenirCoin1().convertir<2>(),
-            //                 muret->obtenirCoin2().convertir<2>(),
-            //                 Vecteur2(getZoneEdition()->obtenirLimiteExtX(),-getZoneEdition()->obtenirLimiteExtY()),
-            //                 Vecteur2(-getZoneEdition()->obtenirLimiteExtX(),-getZoneEdition()->obtenirLimiteExtY()),
-            //                 intersection    // pas besoin du point dintersection
-            //                 ).type != aidecollision::COLLISION_AUCUNE)
-            //                 return false;
-            //             // Ligne de Gauche
-            //             if(aidecollision::calculerCollisionSegmentSegment(
-            //                 muret->obtenirCoin1().convertir<2>(),
-            //                 muret->obtenirCoin2().convertir<2>(),
-            //                 Vecteur2(-getZoneEdition()->obtenirLimiteExtX(),-getZoneEdition()->obtenirLimiteExtY()),
-            //                 Vecteur2(-getZoneEdition()->obtenirLimiteExtX(),getZoneEdition()->obtenirLimiteExtY()),
-            //                 intersection    // pas besoin du point dintersection
-            //                 ).type != aidecollision::COLLISION_AUCUNE)
-            //                 return false;
-            //        }
         }
         // Tests sur les positions avec leurs rayons beaucoup plus simple
         // sert aussi de float check pour les murets car leur rayon est nulle
@@ -1599,11 +1559,38 @@ NoeudMaillet* Terrain::getRightMallet() const
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
+VISITEUR_FUNC_FUNC_DECLARATION(DeactivateHighlight)
+{
+    pNoeud->setHighlight(false);
+}
 bool Terrain::IsNodeAtValidEditionPosition( NoeudAbstrait* pNode, bool pDoHightlightNodeInCollision /*= false*/ )
 {
+    bool validPosition = true;
+#if BOX2D_INTEGRATED
+    if(pDoHightlightNodeInCollision)
+    {
+        VisiteurFunction v(DeactivateHighlight);
+        acceptVisitor(v);
+
+        std::set<NoeudAbstrait*> collidingNodes;
+        validPosition = !DetectWorldOverlapping(pNode->getPhysicBody(),&collidingNodes);
+        for(auto it=collidingNodes.begin(); it != collidingNodes.end(); ++it)
+        {
+            (*it)->setHighlight(true);
+        }
+    }
+    else
+    {
+        validPosition = !DetectWorldOverlapping(pNode->getPhysicBody());
+    }
+#else
     VisiteurCollision visiteur(pNode,pDoHightlightNodeInCollision);
     acceptVisitor(visiteur);
-    return !(visiteur.collisionPresente()) && insideLimits(pNode);
+    validPosition = !(visiteur.collisionPresente());
+#endif
+
+
+    return validPosition && insideLimits(pNode);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1619,9 +1606,14 @@ bool Terrain::IsNodeAtValidEditionPosition( NoeudAbstrait* pNode, bool pDoHightl
 bool Terrain::FixCollidingObjects()
 {
 #if BOX2D_INTEGRATED  
-    mWorld->Step(0.001f,0,1000);
-    mWorld->Step(0.001f,0,1000);
-    mWorld->Step(0.001f,0,1000);
+    if(mLogicTree)
+    {
+        mWorld->Step(0.001f,0,1000);
+
+        /// callbacks might have invalidate some data, rebuild just to make sure
+        fullRebuild();
+    }
+
     return true;
 #else
     bool tableValide = false;
@@ -1707,7 +1699,7 @@ bool Terrain::FixCollindingNode( NoeudAbstrait* pNode, unsigned int nbIterations
     }
 
     // Il faut la partie égale de la comparaison, car le ++tentative 
-    // de la condition while ne ce fera pas s'il n'y a plus de collision
+    // de la condition while ne ce fera pas s'il node'y a plus de collision
     return tentative <= nbIterations;
 }
 
@@ -1779,6 +1771,94 @@ void Terrain::NodeSelectionNotification( NoeudAbstrait* node, bool selected )
 
 ////////////////////////////////////////////////////////////////////////
 ///
+/// @fn bool Terrain::selectNodes( Vecteur2 positionMin, Vecteur2 positionMax )
+///
+/// /*Description*/
+///
+/// @param[in] Vecteur2 positionMin
+/// @param[in] Vecteur2 positionMax
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool Terrain::selectNodes( Vecteur2 positionMin, Vecteur2 positionMax, bool toggleSelection )
+{
+    if(!toggleSelection)
+    {
+        setTableItemsSelection(false);
+    }
+    BoundingBox aabb;
+    aabb += positionMin;
+    aabb += positionMax;
+    {
+        auto extent = aabb.GetExtent();
+        if(extent[VX] < 3 || extent[VY] < 3)
+        {
+            /// pour etre certain que le carre ait une grandeur minimum
+            aabb = BoundingBox::BuildAABB(aabb.GetCenter(),Vecteur2(3,3));
+        }
+    }
+    positionMin = aabb.mMinPoint;
+    positionMax = aabb.mMaxPoint;
+
+#if BOX2D_INTEGRATED
+    b2Vec2 b2center, b2Extent;
+    Vecteur2 center,extent;
+    aabb.GetCenterAndExtents(center,extent);
+
+    utilitaire::VEC3_TO_B2VEC(center,b2center);
+    utilitaire::VEC3_TO_B2VEC(extent,b2Extent);
+
+    b2BodyDef myBodyDef;
+
+    myBodyDef.type =  b2_staticBody; //this will be a static body
+    myBodyDef.position.Set(b2center.x, b2center.y); //set the starting position
+    myBodyDef.angle = 0; //set the starting angle
+
+    b2Body* physicBody = mWorld->CreateBody(&myBodyDef);
+    b2PolygonShape shape;
+    shape.SetAsBox(b2Extent.x,b2Extent.y,b2Vec2(0,0),0);
+
+    b2FixtureDef myFixtureDef;
+    myFixtureDef.shape = &shape; //this is a pointer to the shape above
+    myFixtureDef.density = 1;
+    myFixtureDef.filter.categoryBits = 0;
+    myFixtureDef.filter.maskBits = 0;
+    myFixtureDef.filter.groupIndex = 1;
+
+    physicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+
+    std::set<NoeudAbstrait*> selectingNodes;
+    DetectWorldOverlapping(physicBody,&selectingNodes);
+    for(auto it=selectingNodes.begin(); it!= selectingNodes.end(); ++it)
+    {
+        NoeudAbstrait* node = *it;
+        if(node->canBeSelected())
+        {
+            if(toggleSelection)
+            {
+                node->toggleSelection();
+            }
+            else
+            {
+                node->setSelection(true);
+            }
+        }
+    }
+
+    mWorld->DestroyBody(physicBody);
+
+#else
+    VisiteurSelection visitor = VisiteurSelection(positionMin,positionMax,toggleSelection);
+    acceptVisitor(visitor);
+    visitor.faireSelection();
+#endif
+    return !!getSelectedNodes().size();
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
 /// @fn bool Terrain::CanSelectedNodeBeDeleted()
 ///
 /// /*Description*/
@@ -1791,11 +1871,8 @@ bool Terrain::CanSelectedNodeBeDeleted() const
 {
     for(auto it=mSelectedNodes.begin(); it != mSelectedNodes.end(); ++it)
     {
-        NoeudPoint *point = dynamic_cast<NoeudPoint *>(*it);
-        if (!point)
+        if ((*it)->canBeDeleted())
         {
-            // seulement les noeud point sont selectionnable et ne peuvent etre deleted so haha
-            // dont ask dont tell....
             return true;
         }
     }
@@ -2354,6 +2431,80 @@ void Terrain::deleteSelectedNodes()
     acceptVisitor(v);
     pushUndoState();
 }
+
+
+#if BOX2D_INTEGRATED  
+class BodyAABBQueryCallback: public b2QueryCallback
+{
+public:
+    BodyAABBQueryCallback(b2Body* body, std::set<NoeudAbstrait*>* pCollidingNodes):
+        mCollisionDetected(false),mCollidingNodes(pCollidingNodes),mBody(body){}
+
+    /// Called for each fixture found in the query AABB.
+    /// @return false to terminate the query.
+    virtual bool ReportFixture(b2Fixture* fixture)
+    {
+        auto bodyB = fixture->GetBody();
+        if(mBody && bodyB && bodyB != mBody)
+        {
+            if(mBody->IsColliding(fixture))
+            {
+                mCollisionDetected = true;
+                if(mCollidingNodes)
+                {
+                    NoeudAbstrait* node = dynamic_cast<NoeudAbstrait*>((NoeudAbstrait*)bodyB->GetUserData());
+                    if(node)
+                    {
+                        mCollidingNodes->insert(node);
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    bool mCollisionDetected;
+private:
+    std::set<NoeudAbstrait*>* mCollidingNodes;
+    b2Body* mBody;
+    
+};
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool Terrain::DetectWorldOverlapping( b2Body* pBody, ConteneurNoeuds* pCollidingNodes /*= NULL*/ )
+///
+/// Detecte si le b2Body est a un endroit ou il peut etre freely,
+/// dans le cas de collision avec des noeuds, ceux ci sont retourné dans le conteneur
+///
+/// @param[in] b2Body * pBody
+/// @param[in] ConteneurNoeuds * pCollidingNodes
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool Terrain::DetectWorldOverlapping( b2Body* pBody, std::set<NoeudAbstrait*>* pCollidingNodes /*= NULL*/ )
+{
+    if(mWorld && pBody)
+    {
+        b2AABB aabb;
+        aabb.lowerBound = b2Vec2(FLT_MAX,FLT_MAX);
+        aabb.upperBound = b2Vec2(-FLT_MAX,-FLT_MAX); 
+        for(b2Fixture* fixture = pBody->GetFixtureList(); fixture; fixture = fixture->GetNext())
+        {
+            for(int32 i = fixture->getProxyCount()-1; i>=0; --i)
+            {
+                aabb.Combine(aabb,fixture->GetAABB(i));
+            }
+        }
+        BodyAABBQueryCallback callback(pBody,pCollidingNodes);
+        mWorld->QueryAABB(&callback,aabb);
+        return callback.mCollisionDetected;
+    }
+    return false;
+}
+#endif
+
 
 
 

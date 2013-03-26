@@ -109,8 +109,16 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 {
 	if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_GAUCHE)
 	{
-		if(!ctrlEnfoncee_)
-			FacadeModele::getInstance()->selectionArbre(false);
+//         FacadeModele::getInstance()->modifierVariableZoomElastique(false);
+//         Vecteur3 avant,apres;
+//         FacadeModele::getInstance()->convertirClotureAVirtuelle(positionEnfoncee_[0],positionEnfoncee_[1],avant);
+//         FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[0],evenementSouris.obtenirPosition()[1],apres);
+//         FacadeModele::getInstance()->getEditionField()->selectNodes((Vecteur2&)avant,(Vecteur2&)apres,ctrlEnfoncee_);
+//         estEnfoncee_ = false;
+//         return;
+
+        if(!ctrlEnfoncee_)
+            FacadeModele::getInstance()->selectionArbre(false);
 
 //		if(drag_)
 		{

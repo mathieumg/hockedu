@@ -127,6 +127,7 @@ namespace UIHeavyClient
             
             mWindowFormsHost = new WindowsFormsHost();
             mWindowFormsHost.Name = "windowsFormsHost1";
+            mWindowFormsHost.GotFocus += mWindowFormsHost_GotFocus;
 
             mWindowFormsHost.Child = mOpenGLControl;
             mOpenGLControl.InitializeOpenGL(mOpenGLControl,new EventArgs());
@@ -148,6 +149,10 @@ namespace UIHeavyClient
 
         }
 
+        void mWindowFormsHost_GotFocus( object sender, RoutedEventArgs e )
+        {
+            mOpenGLControl.Focus();
+        }
 
             
         public MainWindow()

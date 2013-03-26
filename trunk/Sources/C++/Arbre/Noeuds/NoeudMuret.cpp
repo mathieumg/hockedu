@@ -93,7 +93,7 @@ void NoeudMuret::updateCornerPosition()
 	deplacement /= 2.0;
 	positionCoin1_ = mPosition+deplacement;
 	positionCoin2_ = mPosition-deplacement;
-    if(!isSyncFromB2Callback())
+    if(!isWorldLocked())
     {
         updatePhysicBody();
     }
