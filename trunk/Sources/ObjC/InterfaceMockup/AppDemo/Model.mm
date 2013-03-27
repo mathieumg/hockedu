@@ -61,7 +61,7 @@ bool RenderNode(RazerKey key)
 {
     if(mModel3DManager)
     {
-        return [mModel3DManager renderObject:key];
+        //return [mModel3DManager renderObject:key];
     }
     return false;
 }

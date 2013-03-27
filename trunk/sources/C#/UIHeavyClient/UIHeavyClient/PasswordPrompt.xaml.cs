@@ -57,13 +57,13 @@ namespace UIHeavyClient
         private void mCancelButton_Click(object sender, RoutedEventArgs e)
         {
             mOkIsClicked = false;
-            Close();
+            Hide();
         }
 
         private void mOkButton_Click(object sender, RoutedEventArgs e)
         {
             mOkIsClicked = true;
-            Close();
+            Hide();
         }
     }
 }
