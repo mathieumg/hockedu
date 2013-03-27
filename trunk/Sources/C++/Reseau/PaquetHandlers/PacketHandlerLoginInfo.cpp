@@ -33,7 +33,7 @@ void PacketHandlerLoginInfo::handlePacketReceptionSpecific(PacketReader& pPacket
         wPaquet->setRunnable(pRunnable);
         wPaquet->run();
 
-
+        
 //     #ifdef SERVER
 //
 //         // On envoie un event au gestionnaire reseau

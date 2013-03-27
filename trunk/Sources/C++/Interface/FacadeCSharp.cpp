@@ -143,8 +143,7 @@ void SendMessageDLL(char * pConnectionId, char* pUsername, char * pMessage)
 {
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet(CHAT_MESSAGE);
     wPaquet->setMessage(pMessage);
-    wPaquet->setIsTargetGroup(true);
-    wPaquet->setGroupName("groupe");
+    wPaquet->setIsTargetGroup(false);
     wPaquet->setTimestamp(time(0));
     wPaquet->setOrigin(pUsername);
 

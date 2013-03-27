@@ -80,6 +80,8 @@ namespace UIHeavyClient
         // On doit definir les callbacks pour chaque etat defini dans le CallbackManager
         public static void InitCallbacks()
         {
+            CallbackManager.Init();
+
             CallbackContainer wContainerEdition = new CallbackContainer();
             wContainerEdition.mEditionEventCallback=Context.EditionModeControl.EventCallBack;
             CallbackManager.AddCallback(GameState.GAME_STATE_EDITION, wContainerEdition);
@@ -92,11 +94,13 @@ namespace UIHeavyClient
             wContainerMainMenu.mEventReceivedCallback=LoginControl.LoginControlEventReceived;
             CallbackManager.AddCallback(GameState.GAME_STATE_MAIN_MENU, wContainerMainMenu);
 
-            CallbackContainer wEmptyContainer = new CallbackContainer();
-            CallbackManager.AddCallback(GameState.GAME_STATE_LOBBY, wEmptyContainer);
-            CallbackManager.AddCallback(GameState.GAME_STATE_TOURNAMENT_MENU, wEmptyContainer);
-            CallbackManager.AddCallback(GameState.GAME_STATE_ONLINE_LOBBY, wEmptyContainer);
-            CallbackManager.AddCallback(GameState.GAME_STATE_NONE, wEmptyContainer);
+            CallbackContainer wContainerOnlineLobby=new CallbackContainer();
+            wContainerOnlineLobby.mEventReceivedCallback=OnlineLobbyControl.CallbackEvent;
+            wContainerOnlineLobby.mMessageReceivedCallback=OnlineLobbyControl.CallbackMessage;
+            CallbackManager.AddCallback(GameState.GAME_STATE_ONLINE_LOBBY, wContainerOnlineLobby);
+            CallbackManager.AddCallback(GameState.GAME_STATE_MAIN_MENU, wContainerOnlineLobby);
+            CallbackManager.AddCallback(GameState.GAME_STATE_PLAY, wContainerOnlineLobby);
+            CallbackManager.AddCallback(GameState.GAME_STATE_EDITION, wContainerOnlineLobby);
 
         }
 
