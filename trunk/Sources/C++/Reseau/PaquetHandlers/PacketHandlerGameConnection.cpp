@@ -31,9 +31,6 @@ void PacketHandlerGameConnection::handlePacketReceptionSpecific(PacketReader& pP
         wPaquet->setRunnable(pRunnable);
         wPaquet->run();
     }
-
-
-
 }
 
 void PacketHandlerGameConnection::handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder)
@@ -55,7 +52,7 @@ int PacketHandlerGameConnection::getPacketSizeSpecific( Paquet* pPaquet ) const
 
     return getSizeForInt() // GameId
         + getSizeForString(wPaquet->getUsername()) // Username
-        +  getSizeForString(wPaquet->getPassword()) // Password
+        + getSizeForString(wPaquet->getPassword()) // Password
         + getSizeForInt() // ConnectionState
         ;
 

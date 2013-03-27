@@ -8,6 +8,10 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 
+#if BOX2D_INTEGRATED
+#include <Box2D/Box2D.h>
+#endif
+
 #include "NoeudPoint.h"
 #include "Utilitaire.h"
 #include "ZoneEdition.h"
@@ -45,6 +49,9 @@ CreateListDelegateImplementation(TableControlPoint)
 NoeudPoint::NoeudPoint( const std::string& typeNoeud, float coordX, float coordY, TypePosPoint typePosNoeud)
 	: NoeudComposite(typeNoeud) , longueurCote_(2.0f), typePosNoeud_(typePosNoeud)
 {
+    /// les noeuds points ne peuvent etre supprimer
+    mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
+
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
     // Il ne faut aps utiliser le modificateur de position relative, car il ne faut pas affecter le modele 3D a la construction des points
@@ -427,6 +434,44 @@ void NoeudPoint::move3DModel( const Vecteur3& targetPosition )
 #endif
 }
 
+
+void NoeudPoint::updatePhysicBody()
+{
+#if BOX2D_INTEGRATED
+    auto world = getWorld();
+    if(world)
+    {
+        clearPhysicsBody();
+
+        if(!IsInGame())
+        {
+            b2BodyDef myBodyDef;
+            myBodyDef.type = b2_dynamicBody;; //this will be a static body
+            const Vecteur3& pos = getPosition();
+            b2Vec2 posB2;
+            utilitaire::VEC3_TO_B2VEC(pos,posB2);
+            myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
+            myBodyDef.angle = 0; //set the starting angle
+
+            mPhysicBody = world->CreateBody(&myBodyDef);
+            b2CircleShape circleShape;
+            circleShape.m_p.Set(0, 0); //position, relative to body position
+            circleShape.m_radius = (float32)getRadius()*utilitaire::ratioWorldToBox2D; //radius
+
+            b2FixtureDef myFixtureDef;
+            myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
+            myFixtureDef.density = 1;
+
+            myFixtureDef.filter.categoryBits = 0;
+            myFixtureDef.filter.maskBits = 0;
+            myFixtureDef.filter.groupIndex = 1;
+
+            mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+            mPhysicBody->SetUserData(this);
+        }
+    }
+#endif
+}
 
 
 

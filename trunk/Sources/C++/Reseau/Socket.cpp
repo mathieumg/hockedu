@@ -25,7 +25,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 Socket::Socket(const std::string& pDestinationIP, const int& pPortNumber, ConnectionType pConType/*=TCP*/, InternetProtocol pIpProtocol /*=IPv4*/)
-    :mIpProtocol(pIpProtocol),mFlags(0)
+    :mIpProtocol(pIpProtocol),mFlags(0),mOnConnectionCallback(NULL)
 {
 	mConnectionType = pConType;
 	mSocketInfo = new sockaddr_in;
@@ -555,7 +555,7 @@ ConnectionState Socket::initClient()
 
                     if(wConfirmation == SEND_PASSWORD_REQUEST)
                     {
-                        // On doit envoyer le mot de passe 
+                        // On doit envoyer le mot de passe
                         std::string wPassword = GestionnaireReseau::obtenirInstance()->getPlayerPassword();
                         send((uint8_t*) wPassword.c_str(), (uint32_t) (wPassword.length()+1), true); // +1 pour avoir le caractere de fin de string
                         char wReceptionValue2[3];
@@ -723,6 +723,11 @@ void Socket::setConnectionState( ConnectionState pConnectionState )
         return;
     }
 
+    if(mConnectionState != pConnectionState && pConnectionState == CONNECTED && mOnConnectionCallback)
+    {
+        mOnConnectionCallback();
+        mOnConnectionCallback = NULL;
+    }
 	mConnectionState = pConnectionState;
 
 	ConnectionStateEvent event;

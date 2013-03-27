@@ -1,4 +1,14 @@
-﻿using System;
+﻿///////////////////////////////////////////////////////////////////////////////
+/// @file EditionModeControl.xaml.cs
+/// @author Vincent Lemire
+/// @date 2013-01-28
+/// @version 1.0
+///
+/// @addtogroup razergame RazerGame
+/// @{
+///////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +27,16 @@ using System.Windows.Forms.Integration;
 
 namespace UIHeavyClient
 {
-    /// <summary>
-    /// Logique d'interaction pour EditionModeControl.xaml
-    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class EditionModeControl
+    /// @brief Window for edition mode.
+    ///
+    /// @author Vincent Lemire
+    /// @date 2013-03-26
+    ///////////////////////////////////////////////////////////////////////////
     public partial class EditionModeControl : UserControl
     {
+        // Members
         private WindowsFormsHost mWindowsFormsHost;
         
         Dictionary<object, string> mGuidanceMessages;
@@ -30,47 +45,58 @@ namespace UIHeavyClient
 
         Button mLastClickedButton;
 
-        EventReceivedCallBack mEventCallBack = EditionModeEventReceived;
-        public EventReceivedCallBack EventCallBack
+        EditionEventCallBack mEventCallBack = EditionModeEventReceived;
+
+        // Properties
+        public EditionEventCallBack EventCallBack
         {
             get{return mEventCallBack;}
         }
 
-        static bool EditionModeEventReceived(EventCodes id, IntPtr pMessage)
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.EditionModeEventReceived()
+        ///
+        /// Handle events.
+        /// 
+        /// @param[in] EventCodes : The event's id.
+        /// @param[in] IntPtr : The event's message.
+        ///
+        /// @return bool.
+        ////////////////////////////////////////////////////////////////////////
+        static bool EditionModeEventReceived( EditionEventCodes id)
         {
             EditionModeControl control = MainWindowHandler.Context.EditionModeControl;
             if (control != null)
             {
-                string message = Marshal.PtrToStringAnsi(pMessage);
                 switch (id)
                 {
-                    case EventCodes.ENABLE_PUCK_CREATION:
+                case EditionEventCodes.ENABLE_PUCK_CREATION:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             control.mPuckButton.IsEnabled = true;
                         });
 
                         break;
-                    case EventCodes.DISABLE_PUCK_CREATION:
+                case EditionEventCodes.DISABLE_PUCK_CREATION:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             control.mPuckButton.IsEnabled = false;
                         });
                         break;
-                    case EventCodes.ENABLE_MALLET_CREATION:
+                case EditionEventCodes.ENABLE_MALLET_CREATION:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             control.mMalletButton.IsEnabled = true;
                         });
 
                         break;
-                    case EventCodes.DISABLE_MALLET_CREATION:
+                case EditionEventCodes.DISABLE_MALLET_CREATION:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             control.mMalletButton.IsEnabled = false;
                         });
                         break;
-                    case EventCodes.THERE_ARE_NODES_SELECTED:
+                case EditionEventCodes.THERE_ARE_NODES_SELECTED:
                         RazerKey key = GetSelectedNodeUniqueKey();
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
@@ -90,7 +116,7 @@ namespace UIHeavyClient
                             control.mPropertiesGroupBox.DisplayProperties(key);
                         });
                         break;
-                    case EventCodes.THERE_ARE_NO_NODE_SELECTED:
+                case EditionEventCodes.THERE_ARE_NO_NODE_SELECTED:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             control.mDeleteButton.IsEnabled = false;
@@ -102,25 +128,25 @@ namespace UIHeavyClient
                             control.mPropertiesGroupBox.DisplayProperties( RazerKey.RAZER_KEY_NONE );
                         });
                         break;
-                    case EventCodes.CAN_UNDO:
+                case EditionEventCodes.CAN_UNDO:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                         control.mUndoButton.IsEnabled = true;
                         });
                         break;
-                    case EventCodes.CANNOT_UNDO:
+                case EditionEventCodes.CANNOT_UNDO:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                         control.mUndoButton.IsEnabled = false;
                         });
                         break;
-                    case EventCodes.CAN_REDO:
+                case EditionEventCodes.CAN_REDO:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                         control.mRedoButton.IsEnabled = true;
                         });
                         break;
-                    case EventCodes.CANNOT_REDO:
+                case EditionEventCodes.CANNOT_REDO:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                         control.mRedoButton.IsEnabled = false;
@@ -133,8 +159,16 @@ namespace UIHeavyClient
             }
             return true;
         }
-        
-        
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.EditionModeControl()
+        ///
+        /// Constructor.
+        /// 
+        /// @param[in] WindowsFormsHost : The OpenGL control.
+        ///
+        /// @return None.
+        ////////////////////////////////////////////////////////////////////////
         public EditionModeControl(WindowsFormsHost pWindowsFormsHost)
         {
             InitializeComponent();
@@ -245,12 +279,31 @@ namespace UIHeavyClient
             mRotateStateButton.Click += PropertiesRefreshWarning;
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.PropertiesRefreshWarning()
+        ///
+        /// Waning.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         void PropertiesRefreshWarning( object sender, RoutedEventArgs e )
         {
             mPropertiesGroupBox.mRefreshWarning.Visibility = Visibility.Visible;
         }
 
-
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.button_IsEnabledChanged()
+        ///
+        /// Change button's color.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         void button_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             Control control = sender as Control;
@@ -286,7 +339,16 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll")]
         static extern bool ValidateField();
 
-
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.HandleDeleteButton()
+        ///
+        /// Delete button.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void HandleDeleteButton(object sender, RoutedEventArgs e)
         {
             MessageBoxResult dr = MessageBox.Show("Are you sure?", "Delete", MessageBoxButton.YesNo);
@@ -297,6 +359,16 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.HandleStateButton()
+        ///
+        /// Change edition state.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void HandleStateButton(object sender, RoutedEventArgs e)
         {
             if(sender is Button)
@@ -305,6 +377,16 @@ namespace UIHeavyClient
             CallActionPerformed(sender, e);
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.CallActionPerformed()
+        ///
+        /// Action call.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void CallActionPerformed(object sender, RoutedEventArgs e)
         {
             if (mActionPerformedStrings != null)
@@ -315,6 +397,16 @@ namespace UIHeavyClient
             DisplayGuidanceInstructions(sender, e);
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.OnGenerateField()
+        ///
+        /// Default map.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void OnGenerateField(object sender, RoutedEventArgs e)
         {
             MessageBoxResult dr = MessageBox.Show("Are you sure?", "Default Map", MessageBoxButton.YesNo);
@@ -325,6 +417,16 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.OnValidateField()
+        ///
+        /// Map validation.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void OnValidateField(object sender, RoutedEventArgs e)
         {
             if (ValidateField())
@@ -335,11 +437,28 @@ namespace UIHeavyClient
         
         #endregion
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.MainMenuBtnClick()
+        ///
+        /// Back to main menu.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void MainMenuBtnClick(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToMainMenu();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.AppendOpenGL()
+        ///
+        /// Add OpenGL to control.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void AppendOpenGL()
         {
             if (!editionControlGrid.Children.Contains(mWindowsFormsHost))
@@ -353,11 +472,28 @@ namespace UIHeavyClient
             Grid.SetRow(mWindowsFormsHost, 1);
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.RemoveOpenGL()
+        ///
+        /// Remove OpenGL from control.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void RemoveOpenGL()
         {
             editionControlGrid.Children.Remove(mWindowsFormsHost);
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.DisplayGuidanceInstructions()
+        ///
+        /// Diplay Bastien & Scapin.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void DisplayGuidanceInstructions(object sender, RoutedEventArgs e)
         {
             if (mGuidanceInstructions != null && mGuidanceTextBlock != null)
@@ -370,6 +506,16 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.DisplayGuidanceMessages()
+        ///
+        /// Diplay Bastien & Scapin.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void DisplayGuidanceMessages(object sender, MouseEventArgs e)
         {
             string m;
@@ -379,16 +525,42 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.ClearGuidanceMessages()
+        ///
+        /// Clear Bastien & Scapin.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void ClearGuidanceMessages(object sender, MouseEventArgs e)
         {
             mGuidanceLabel.Content = "";
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.InitButtons()
+        ///
+        /// Initialise button state.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void InitButtons()
         {
             HandleStateButton(mFreeStateButton, new RoutedEventArgs());
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.ChangeClickedButton()
+        ///
+        /// Change button color.
+        /// 
+        /// @param[in] Button : The button to change.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void ChangeClickedButton(Button pButton)
         {
             if (mLastClickedButton != null)
@@ -400,14 +572,39 @@ namespace UIHeavyClient
             mLastClickedButton = pButton;
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.mCamareResetButton_Click()
+        ///
+        /// Reset camera.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mCamareResetButton_Click(object sender, RoutedEventArgs e)
         {
             ResetCamera();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.SetGuidanceInstuction()
+        ///
+        /// Chnage current instruction.
+        /// 
+        /// @param[in] string : The instruction.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void SetGuidanceInstuction(string pInstruction)
         {
             mGuidanceTextBlock.Text = pInstruction;
         }
     }
 }
+
+///////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////
+
+

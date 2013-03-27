@@ -10,13 +10,14 @@
 /// Constructor
 ///
 /// @param[in] unsigned int pServerId The server's ID.
-/// @param[in] std::string pServerIP The server's IP.
-///
+/// @param[in] std::string& pServerIP The server's IP.
+/// @param[in] std::string& pServerIdentifier The server's identifier in the socket map.
+
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-GameServer::GameServer(unsigned int pServerId, std::string pServerIP)
-    : mServerId(pServerId), mServerIP(pServerIP)
+GameServer::GameServer(unsigned int pServerId, std::string& pServerIP, std::string& pServerIdentifier)
+    : mServerId(pServerId), mServerIP(pServerIP), mServerIdentifier(pServerIdentifier)
 {
 }
 

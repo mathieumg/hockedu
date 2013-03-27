@@ -27,11 +27,6 @@
 #include <time.h>
 #include "../ServeurMaitre/ControllerServeurMaitre.h"
 
-#if !WINDOWS
-#define sprintf_s sprintf
-#endif
-
-
 // Taille maximale des buffers pour l<envoie et la reception
 unsigned int CommunicateurReseau::maxBufferSize = 5000;
 
@@ -544,7 +539,7 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
                     }
                     // Sinon on continue car le temps est atteint et on envoie le paquet
                 }
-                
+
 				SPSocket wSocket = wPaquetAEnvoyer->socket;
 
                 // Fix crash
@@ -553,7 +548,7 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
                     continue; // Si le socket est invalide, on drop le paquet
                 }
 				ConnectionState wConnectionState = wSocket->getConnectionState();
-				if(wConnectionState == CONNECTING || wConnectionState == NOT_CONNECTED)
+				if(!wPaquet->isForcedToSendOnBrokenSocket() && (wConnectionState == CONNECTING || wConnectionState == NOT_CONNECTED))
                 {
                     if (wConnectionState == CONNECTING)
                     {
@@ -1083,7 +1078,7 @@ void * CommunicateurReseau::receivingUDPThreadRoutine( void *arg )
             wPacketReader.setArrayStart(readBuffer, getPacketHeaderSize());
             HeaderPaquet wPacketHeader = PacketHandler::handlePacketHeaderReception(wPacketReader);
             wPacketReader.setSize(getPacketHeaderSize());
-            
+
             std::string wIP = inet_ntoa(wInAddr.sin_addr);
             if(wPacketHeader.numeroPaquet > wMapNoSequence[wIP])
             {
@@ -1095,9 +1090,9 @@ void * CommunicateurReseau::receivingUDPThreadRoutine( void *arg )
                 wMapNoSequence[wIP] = wPacketHeader.numeroPaquet;
             }
 
-            
 
-            
+
+
 
         }
         catch(ExceptionReseauTimeout&)

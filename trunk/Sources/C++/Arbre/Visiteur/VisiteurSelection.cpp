@@ -35,7 +35,7 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-VisiteurSelection::VisiteurSelection( Vecteur2 positionMin, Vecteur2 positionMax )
+VisiteurSelection::VisiteurSelection( Vecteur2 positionMin, Vecteur2 positionMax, bool toggleSelection)
 {
 	
 	positionClicMin_[VX] = min(positionMin[VX], positionMax[VX]);
@@ -43,10 +43,7 @@ VisiteurSelection::VisiteurSelection( Vecteur2 positionMin, Vecteur2 positionMax
 	positionClicMax_[VX] = max(positionMin[VX], positionMax[VX]);
 	positionClicMax_[VY] = max(positionMin[VY], positionMax[VY]);
 
-	if(positionClicMin_==positionClicMax_)
-		avecRectangle = false;
-	else
-		avecRectangle = true;
+	mToggleSelection = toggleSelection;
 }
 
 
@@ -119,7 +116,7 @@ void VisiteurSelection::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
 	if(noeud->canBeSelected())
 	{
-		if(avecRectangle)
+		if(mToggleSelection)
 		{
 			visiterNoeudAffichable(noeud);
 		}
@@ -285,7 +282,7 @@ void VisiteurSelection::visiterNoeudAffichable( NoeudAbstrait* noeud )
 	Vecteur3 pos = noeud->getPosition();
 
 	bool selection = false;
-	if(avecRectangle)
+	if(mToggleSelection)
 	{
 		// Test pour voir si le centre du noeud est a l'interieur du rectangle
 		if(	pos[VX]>positionClicMin_[VX] &&
@@ -293,7 +290,7 @@ void VisiteurSelection::visiterNoeudAffichable( NoeudAbstrait* noeud )
 			pos[VX]<positionClicMax_[VX] &&
 			pos[VY]<positionClicMax_[VY])
 		{
-			noeud->selectAll();
+            noeud->toggleSelection();
 		}
 	}
 	else
@@ -317,18 +314,14 @@ void VisiteurSelection::visiterNoeudAffichable( NoeudAbstrait* noeud )
 		// On effectue la selection du noeud
 
 		// On verifie que le noeud est sur le dessus (seulement pour un clic)
-		if(zoneOccuppee.second[VZ]>aSelectionner_.second || avecRectangle)
+		if(zoneOccuppee.second[VZ]>aSelectionner_.second || mToggleSelection)
 		{
-			if(avecRectangle)
-				noeud->selectAll(); // On selectionne si le noeud n'est pas selectionne
+			if(mToggleSelection)
+				noeud->setSelection(true); // On selectionne si le noeud n'est pas selectionne
 			else
 				aSelectionner_ = NoeudZBuf(noeud, zoneOccuppee.second[VZ]);
 		}
 	}
-		
-		
-		
-		
 		
 		/*
 		// Test pour voir si le clic est sur le noeud
@@ -341,9 +334,9 @@ void VisiteurSelection::visiterNoeudAffichable( NoeudAbstrait* noeud )
 		for(int i=1; i<conteneur.size(); i++)
 		{
 			float posZCourante = conteneur[i]->getPosition()[VZ];
-			if(posZCourante>=aSelectionner_.second && conteneur[i]->canBeSelected() || avecRectangle)
+			if(posZCourante>=aSelectionner_.second && conteneur[i]->canBeSelected() || mToggleSelection)
 			{
-				if(avecRectangle)
+				if(mToggleSelection)
 	 				noeud->selectAll(); // On selectionne si le noeud n'est pas selectionne
 		 		else
 		 			aSelectionner_ = NoeudZBuf(noeud, posZCourante);
@@ -360,9 +353,9 @@ void VisiteurSelection::visiterNoeudAffichable( NoeudAbstrait* noeud )
 // 		// On effectue la selection du noeud
 // 
 // 		// On verifie que le noeud est sur le dessus (seulement pour un clic)
-// // 		if(zoneOccuppee.second[VZ]>aSelectionner_.second || avecRectangle)
+// // 		if(zoneOccuppee.second[VZ]>aSelectionner_.second || mToggleSelection)
 // // 		{
-// // 			if(avecRectangle)
+// // 			if(mToggleSelection)
 // 				noeud->selectAll(); // On selectionne si le noeud n'est pas selectionne
 // // 			else
 // // 				aSelectionner_ = NoeudZBuf(noeud, zoneOccuppee.second[VZ]);
@@ -402,10 +395,14 @@ void VisiteurSelection::faireSelection()
 	if(aSelectionner_.first!=NULL)
 	{
 		NoeudAbstrait* aSel = aSelectionner_.first;
-		if(aSel->IsSelected() && !avecRectangle)
-			aSel->deselectAll(); // On deselectionne si le noeud est deja selectionne
-		else
-			aSel->selectAll(); // On selectionne si le noeud n'est pas selectionne
+        if(mToggleSelection)
+        {
+            aSel->toggleSelection();
+        }
+        else
+        {
+            aSel->setSelection(true);
+        }
 	}
 }
 

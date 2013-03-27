@@ -11,12 +11,13 @@
 @interface Model : NSObject
 {
 
-void* mField;
-
+    void* mField;
+    
 }
 
 - (void)render;
 - (id)init;
+- (void) dealloc;
 -(int)acceptSelectionVisitor:(float)positionMinX: (float)positionMinY:(float) positionMaxX:(float) positionMaxY;
 -(void) saveField;
 -(void) beginModification:(FieldModificationStrategyType)type:(CGPoint)coordVirt;

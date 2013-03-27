@@ -7,6 +7,12 @@ void PacketHandlerGameCreation::handlePacketReceptionSpecific(PacketReader& pPac
     {
         PaquetGameCreation* wPaquet = (PaquetGameCreation*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CREATION_REQUEST);
 
+        // GameId
+        wPaquet->setGameId(pPacketReader.readInteger());
+
+        // ServerId
+        wPaquet->setServerId(pPacketReader.readUnsignedInteger());
+
         // Username
         int wArraySize      = pPacketReader.readInteger();
         uint8_t* wBuffer    = new uint8_t[wArraySize];
@@ -28,8 +34,12 @@ void PacketHandlerGameCreation::handlePacketReceptionSpecific(PacketReader& pPac
         wPaquet->setMapName(std::string((char*) wBuffer));
         delete wBuffer;
 
-        // GameId
-        wPaquet->setGameId(pPacketReader.readInteger());
+        // ServerIP
+        wArraySize  = pPacketReader.readInteger();
+        wBuffer     = new uint8_t[wArraySize];
+        pPacketReader.readString(wBuffer, wArraySize);
+        wPaquet->setServerIP(std::string((char*) wBuffer));
+        delete wBuffer;
 
         wPaquet->setRunnable(pRunnable);
         wPaquet->run();
@@ -40,11 +50,12 @@ void PacketHandlerGameCreation::handlePacketPreparationSpecific(Paquet* pPaquet,
 {
     PaquetGameCreation* wPaquet   = (PaquetGameCreation*) pPaquet;
 
-    pPacketBuilder  << wPaquet->getUsername()
+    pPacketBuilder  << wPaquet->getGameId()
+                    << wPaquet->getServerId()
+                    << wPaquet->getUsername()
                     << wPaquet->getGameName()
                     << wPaquet->getMapName()
-                    << wPaquet->getGameId();
-
+                    << wPaquet->getServerIP();
 }
 
 
@@ -56,7 +67,7 @@ int PacketHandlerGameCreation::getPacketSizeSpecific( Paquet* pPaquet ) const
     return getSizeForString(wPaquet->getUsername()) // Username
         +  getSizeForString(wPaquet->getGameName()) // GameName
         +  getSizeForString(wPaquet->getMapName()) // MapName
-        + getSizeForInt() // GameId
-        ;
-
+        +  getSizeForString(wPaquet->getServerIP()) // Server IP
+        +  getSizeForInt() // GameId
+        +  getSizeForInt(); // Server Id
 }

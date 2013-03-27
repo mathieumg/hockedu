@@ -1,4 +1,14 @@
-﻿using System;
+﻿///////////////////////////////////////////////////////////////////////////////
+/// @file MainMenuControl.xaml.cs
+/// @author Vincent Lemire
+/// @date 2013-02-26
+/// @version 1.0
+///
+/// @addtogroup razergame RazerGame
+/// @{
+///////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -16,15 +26,26 @@ using Microsoft.Win32;
 
 namespace UIHeavyClient
 {
-    /// <summary>
-    /// Logique d'interaction pour MainMenuControl.xaml
-    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class MainMenuControl
+    /// @brief Window for the main menu.
+    ///
+    /// @author Vincent Lemire
+    /// @date 2013-03-26
+    ///////////////////////////////////////////////////////////////////////////
     public partial class MainMenuControl : UserControl
     {
         Dictionary<object, string> mGuidanceMessages;
 
         // To load the map for quick play
         OpenFileDialog mOpenFileDialog;
+        private LoginControl mLoginControl;
+
+        public LoginControl LoginControlElement
+        {
+            get { return mLoginControl; }
+            set { mLoginControl = value; }
+        }
 
         public MainMenuControl()
         {
@@ -54,6 +75,9 @@ namespace UIHeavyClient
             mOpenFileDialog = new OpenFileDialog();
             mOpenFileDialog.Multiselect = false;
             mOpenFileDialog.Title = "Choose a map";
+
+            mLoginControl = new LoginControl();
+            
         }
 
         // C++ function
@@ -70,6 +94,7 @@ namespace UIHeavyClient
         {
             ExecuteUnitTest();
         }
+
 
         private void quickPlayButton_Click(object sender, RoutedEventArgs e)
         {
@@ -90,11 +115,11 @@ namespace UIHeavyClient
 
         private void onlineModeButton_Click(object sender, RoutedEventArgs e)
         {
-            //mOnlineGroupBox.Visibility = Visibility.Visible;
-            //mQuickPlayGroupBox.Visibility = Visibility.Hidden;
-            //MainWindowHandler.LoginUI.SetFocusToUserName();
+            mOnlineGroupBox.Visibility = Visibility.Visible;
+            mQuickPlayGroupBox.Visibility = Visibility.Hidden;
+            mLoginControl.SetFocusToUserName();
 
-            MainWindowHandler.GoToOnlineLobby(); // TEMP
+            //MainWindowHandler.GoToOnlineLobby(); // TEMP
         }
 
         private void optionButton_Click(object sender, RoutedEventArgs e)
@@ -116,7 +141,7 @@ namespace UIHeavyClient
         {
             mQuickPlayGroupBox.Visibility = Visibility.Hidden;
             mOnlineGroupBox.Visibility = Visibility.Hidden;
-            mOnlineContentControl.Content = MainWindowHandler.LoginUI;
+            mOnlineContentControl.Content = mLoginControl;
         }
 
         private void mQuickPlayCancelButton_Click(object sender, RoutedEventArgs e)
@@ -170,5 +195,13 @@ namespace UIHeavyClient
                 mAIComboBox.Items.Add(p.Name);
             }
         }
+
+
     }
 }
+
+
+///////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////
+

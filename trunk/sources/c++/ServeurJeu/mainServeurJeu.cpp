@@ -31,12 +31,6 @@ void parseParamWithArg(std::string& pOutParam, int pLoopCounter, int argc, char*
 }
 
 
-
-
-
-
-
-
 void TerminateServer()
 {
     exit(0);
@@ -47,13 +41,9 @@ void DoNothing()
 
 }
 
-
-
-
 int main(int argc, char* argv[])  {
     
     std::cout << "--------- Serveur Jeu ---------" << std::endl << std::endl;
-
     std::string wMasterServerIP = "192.168.0.105"; // Adresse par defaut du serveur maitre
     
     //********** Liste des flags
@@ -99,7 +89,6 @@ int main(int argc, char* argv[])  {
     {
         wMenu.displayAndPick();
     }
-
     
     return 0;
 }

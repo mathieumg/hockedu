@@ -33,6 +33,7 @@
 #include "FacadeModele.h"
 #endif
 #include "Utilitaire.h"
+#include "EditionEventManager.h"
 
 
 
@@ -70,15 +71,12 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCre
     }
     velocite_.remetAZero();
 
-    updatePhysicBody();
 
     ++mNbMalletCreated;
-#ifndef __APPLE__
     if(mNbMalletCreated >= malletLimit)
     {
-        FacadeModele::transmitEvent(DISABLE_MALLET_CREATION);
+        EditionEventManager::TransmitEvent(DISABLE_MALLET_CREATION);
     }
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -95,9 +93,7 @@ NoeudMaillet::~NoeudMaillet()
 	--mNbMalletCreated;
     // indique aux runnables qui lui sont associé de s'invalidé
     RunnableBreaker::signalObservers();
-#ifndef __APPLE__
-    FacadeModele::transmitEvent(ENABLE_MALLET_CREATION);
-#endif
+    EditionEventManager::TransmitEvent(ENABLE_MALLET_CREATION);
 #if BOX2D_PLAY
     checkf(!mMouseJoint, "Le mouse joint a mal ete liberé");
     destroyMouseJoint();
@@ -532,7 +528,10 @@ void NoeudMaillet::updatePhysicBody()
             myFixtureDef.filter.categoryBits = CATEGORY_MALLET;
             myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_BOUNDARY | CATEGORY_WALL;
         }
-        myFixtureDef.filter.groupIndex = 1;
+        if(!IsInGame())
+        {
+            myFixtureDef.filter.groupIndex = 1;
+        }
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         mPhysicBody->SetUserData(this);

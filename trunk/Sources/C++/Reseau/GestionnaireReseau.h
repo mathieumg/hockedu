@@ -55,8 +55,6 @@ enum PacketTypes {
     GAME_STATUS,
     GAME_CREATION_REQUEST,
     GAME_CONNECTION,
-    GAME_REGISTRATION,
-    AUTHENTIFICATION_SERVEUR_JEU,
     MAILLET,
     RONDELLE,
     GAME_EVENT,
@@ -217,6 +215,7 @@ public:
     bool isMasterServerConnected() const;
 
     bool isAGameServerConnected() const;
+
 
     //Contains the operating system's byte order.
 	static ByteOrder NATIVE_BYTE_ORDER;

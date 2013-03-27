@@ -129,7 +129,7 @@ void CommunicateurBD::init()
     }
     catch(...)
     {
-        throw ExceptionReseauBD("Connexion impossible a la BD");
+        std::cout << "Connexion impossible a la BD" << std::endl;
     }
 }
 

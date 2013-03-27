@@ -1,4 +1,14 @@
-﻿using System;
+﻿///////////////////////////////////////////////////////////////////////////////
+/// @file MainWindow.xaml.cs
+/// @author Vincent Lemire and Micheal Ferris
+/// @date 2013-02-26
+/// @version 1.0
+///
+/// @addtogroup razergame RazerGame
+/// @{
+///////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,12 +27,17 @@ using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using UIHeavyClient.UserControls;
 using System.Windows.Media.Animation;
+using HttpHockeduRequests;
 
 namespace UIHeavyClient
 {
-    /// <summary>
-    /// Logique d'interaction pour MainWindow.xaml
-    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class MainWindow
+    /// @brief The chat window.
+    ///
+    /// @author Vincent Lemire
+    /// @date 2013-01-28
+    ///////////////////////////////////////////////////////////////////////////
     public partial class MainWindow : Window
     {
         
@@ -39,7 +54,6 @@ namespace UIHeavyClient
         private AIOptionControl mAIOptionControl;
         private KeyboardOptionControl mKeyboardOptionControl;
 
-        private LoginWindow mLoginWindow;
 
         private OpenGLControl mOpenGLControl;
         private WindowsFormsHost mWindowFormsHost;
@@ -98,6 +112,23 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll")]
         public static extern void FreeApplicationMemory();
 
+        public void TestCallbackMapDownloaded(string pOutputPath)
+        {
+            
+            MainWindowHandler.mTaskManager.ExecuteTask(() =>
+            {
+                Console.WriteLine(pOutputPath);
+            });
+        }
+
+        public void TestCallbackMapUploaded(HttpHockeduRequests.UploadOperationStatus pStatus, int pMapId)
+        {
+            Console.WriteLine(pStatus);
+            Console.WriteLine(pMapId);
+        }
+        
+
+
         private void Window_Closed(object sender, EventArgs e)
         {
             OpenGLControl.mRenderTimer.Stop();
@@ -116,6 +147,7 @@ namespace UIHeavyClient
             
             mWindowFormsHost = new WindowsFormsHost();
             mWindowFormsHost.Name = "windowsFormsHost1";
+            mWindowFormsHost.GotFocus += mWindowFormsHost_GotFocus;
 
             mWindowFormsHost.Child = mOpenGLControl;
             mOpenGLControl.InitializeOpenGL(mOpenGLControl,new EventArgs());
@@ -130,13 +162,18 @@ namespace UIHeavyClient
             mAIOptionControl = new AIOptionControl();
             mKeyboardOptionControl = new KeyboardOptionControl();
 
-            mLoginWindow = new LoginWindow();
 
             this.WindowContentControl.Content = mMainMenuControl;
+            MainWindowHandler.InitCallbacks();
             MainWindowHandler.GoToMainMenu();
 
+            
         }
 
+        void mWindowFormsHost_GotFocus( object sender, RoutedEventArgs e )
+        {
+            mOpenGLControl.Focus();
+        }
 
             
         public MainWindow()
@@ -214,14 +251,25 @@ namespace UIHeavyClient
                 debugMenu.Items.Add(debugItem);
             }
 
+            {
+                System.Windows.Controls.MenuItem debugItem = new System.Windows.Controls.MenuItem();
+                debugItem.Header = "Test JSON";
+                debugItem.Click += TestJSON_Click;
+                debugMenu.Items.Add(debugItem);
+            }
+
+            
+
 #endif
 
             InitDLL();
+            
             SetAchievementUnlocked( mAchievementUnlockCallBack );
 
             this.Loaded += CreateUserControl;
             this.KeyDown += MainWindow_KeyDown;
             this.KeyUp += MainWindow_KeyUp;
+            
         }
         [DllImport(@"RazerGame.dll")]
         public static extern void ReloadModels();
@@ -229,6 +277,16 @@ namespace UIHeavyClient
         {
             ReloadModels();
         }
+
+        void TestJSON_Click(object sender, RoutedEventArgs e)
+        {
+            HttpManager wManager = new HttpManager();
+            //wManager.getPublicMapList();
+            //wManager.downloadMap(12, 1, TestCallbackMapDownloaded);
+            wManager.uploadNewMap(12, "05237e69-8d18-11e2-b5d0-005056823b67", "TestMat4", "Test Upload HTTP", true, "D:\\AirHockeyGit\\log3900-04_Cloned2\\trunk\\Content\\cs_italy.xml", TestCallbackMapUploaded);
+
+        }
+        
 
         // Tests pour connection serveur jeu et client
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -322,11 +380,6 @@ namespace UIHeavyClient
             System.Diagnostics.Process.Start("http://www.hockedu.com");
         }
 
-
-        private void ConnectToServer(object sender, RoutedEventArgs e)
-        {
-            mLoginWindow.ShowDialog();
-        }
 
         void MainWindow_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -450,3 +503,9 @@ namespace UIHeavyClient
         }
     }
 }
+
+///////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////
+
+

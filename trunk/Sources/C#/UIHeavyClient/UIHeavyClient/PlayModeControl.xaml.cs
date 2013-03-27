@@ -1,4 +1,14 @@
-﻿using System;
+﻿///////////////////////////////////////////////////////////////////////////////
+/// @file PlayModeControl.xaml.cs
+/// @author Vincent Lemire
+/// @date 2013-02-06
+/// @version 1.0
+///
+/// @addtogroup razergame RazerGame
+/// @{
+///////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,9 +26,13 @@ using System.Runtime.InteropServices;
 
 namespace UIHeavyClient
 {
-    /// <summary>
-    /// Logique d'interaction pour PlayModeControl.xaml
-    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class PlayModeControl
+    /// @brief Window to configure radio.
+    ///
+    /// @author Vincent Lemire
+    /// @date 2013-02-06
+    ///////////////////////////////////////////////////////////////////////////
     public partial class PlayModeControl : UserControl
     {
         private WindowsFormsHost mWindowsFormsHost;
@@ -176,3 +190,9 @@ namespace UIHeavyClient
         public static MessageReceivedCallBack mMessageCallback = MessageReceived;
     }
 }
+
+///////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////
+
+

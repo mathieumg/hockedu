@@ -47,12 +47,18 @@ public:
     void renderReal() const;
     /// Permet d'assigner les attribut nécessaire à la collision
     virtual void setCollisionVisitorAttributes(VisiteurCollision* v);
+
+    /// Recreates the physics body according to current attributes
+    virtual void updatePhysicBody();
 private:
 	/// list of other control points linked to the same object, they must
     /// all have the same life scope
 	std::list<NodeControlPoint*> mAssociatedPoints;
     ControlPointMutableAbstract* mLinkedObject;
     bool mCanBeVisited;
+
+    /// value to calculate animation movement in Z plane
+    float mHeightAngle;
 
 public:
     /// Accessors of mLinkedObject

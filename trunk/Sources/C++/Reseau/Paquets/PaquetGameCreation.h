@@ -19,8 +19,14 @@ public:
     inline void setMapName (const std::string& pMapName) { mMapName = pMapName; }
     inline std::string getMapName () const { return mMapName; }
 
-	inline void setGameId(const int& val) { mGameId = val; }
+    inline void setServerIP (const std::string& pServerIP) { mServerIP = pServerIP; }
+    inline std::string getServerIP () const { return mServerIP; }
+
+    inline void setGameId(const int& pGameId) { mGameId = pGameId; }
     inline int getGameId() const { return mGameId; }
+
+    inline void setServerId(const int& pServerId) { mServerId = pServerId; }
+    inline unsigned int getServerId() const { return mServerId; }
 
 protected:
     PaquetGameCreation(void);
@@ -30,7 +36,8 @@ private:
     std::string mGameName;
     std::string mUsername;
     std::string mMapName;
+    std::string mServerIP;
     int mGameId;
-	
+    unsigned int mServerId;
 };
 

@@ -1,4 +1,14 @@
-﻿using System;
+﻿///////////////////////////////////////////////////////////////////////////////
+/// @file PasswordPrompt.xaml.cs
+/// @author Vincent Lemire
+/// @date 2013-03-26
+/// @version 1.0
+///
+/// @addtogroup razergame RazerGame
+/// @{
+///////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,9 +23,13 @@ using System.Windows.Shapes;
 
 namespace UIHeavyClient
 {
-    /// <summary>
-    /// Logique d'interaction pour PasswordPrompt.xaml
-    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class PlayModeControl
+    /// @brief Popup to input a game password.
+    ///
+    /// @author Vincent Lemire
+    /// @date 2013-03-26
+    ///////////////////////////////////////////////////////////////////////////
     public partial class PasswordPrompt : Window
     {
         private bool mOkIsClicked;
@@ -53,3 +67,9 @@ namespace UIHeavyClient
         }
     }
 }
+
+///////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////
+
+

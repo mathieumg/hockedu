@@ -17,7 +17,6 @@
 #include "..\Reseau\PaquetHandlers\PacketHandler.h"
 #include "..\Reseau\Paquets\PaquetEvent.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetGameStatus.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetAuthentificationServeurJeu.h"
 #include "..\reseau\UsinePaquets\UsinePaquetMaillet.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetGameCreation.h"
 #include "..\reseau\UsinePaquets\UsinePaquetGameConnection.h"
@@ -27,7 +26,6 @@
 #include "RazerGameUtilities.h"
 #include "..\reseau\UsinePaquets\UsinePaquetRondelle.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetGameEvent.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetGameRegistration.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetBonus.h"
 #include "..\Reseau\PaquetHandlers\PacketHandlerBonus.h"
 
@@ -62,28 +60,19 @@ void InitDLLServeurJeu(std::string& wMasterServerIP)
     if(!ControllerServeurJeu::isLocalServer())
     {
         wGestionnaireReseau->demarrerNouvelleConnection("MasterServer", wMasterServerIP, TCP);
-        wGestionnaireReseau->ajouterOperationReseau(GAME_REGISTRATION, new PacketHandlerGameRegistration, new UsinePaquetGameRegistration);
 
         PaquetEvent* wPaquet = (PaquetEvent*)wGestionnaireReseau->creerPaquet(EVENT);
         wPaquet->setEventCode(GAME_SERVER_AUTHENTICATION_REQUEST);
         wPaquet->setMessage("");
 
         SPSocket wSocketMasterServer = wGestionnaireReseau->getSocket("MasterServer", TCP);
-        const int MAX_ATTEMPTS = 10;
-        int nbTries = 0;
-        while (wSocketMasterServer->getConnectionState() == NOT_CONNECTED && nbTries < MAX_ATTEMPTS)
-        {
-            FacadePortability::sleep(1000);
-            ++nbTries;
-        }
-        if(wSocketMasterServer->getConnectionState() == CONNECTING || wSocketMasterServer->getConnectionState() == CONNECTED)
-        {
+        wSocketMasterServer->setOnConnectionCallback([wGestionnaireReseau, wPaquet]()->void {
             wGestionnaireReseau->envoyerPaquet("MasterServer", wPaquet, TCP);
-        }
-    
-        // Initialise la Facade Serveur Jeu (demarre la boucle de tick)
-        FacadeServeurJeu::getInstance();
+        });
     }
+
+    // Initialise la Facade Serveur Jeu (demarre la boucle de tick)
+    FacadeServeurJeu::getInstance();
 }
 
 

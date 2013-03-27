@@ -30,7 +30,7 @@ ControllerServeurMaitre::ControllerServeurMaitre()
     mPaquetRunnables[CHAT_MESSAGE] = PaquetRunnable::RunnableChatMessageMasterServer;
     mPaquetRunnables[TEST] = PaquetRunnable::RunnableTest;
     mPaquetRunnables[GAME_STATUS] = PaquetRunnable::RunnableGameStatusMasterServer;
-    mPaquetRunnables[GAME_REGISTRATION] = PaquetRunnable::RunnableGameRegistrationMasterServer;
+    mPaquetRunnables[GAME_CREATION_REQUEST] = PaquetRunnable::RunnableGameCreationMasterServer;
 }
 
 
@@ -69,8 +69,8 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
                 std::string wIdentificationString("GameServer");
                 wIdentificationString += i;
                 SPSocket wAssociatedSocket = GestionnaireReseau::obtenirInstance()->getSocket(wIdentificationString, TCP);
-
-                GameServerManager::obtenirInstance()->addNewGameServer(i, wAssociatedSocket->getAdresseDestination());
+                std::string wServerIP = wAssociatedSocket->getAdresseDestination();
+                GameServerManager::obtenirInstance()->addNewGameServer(i, wServerIP, wIdentificationString);
 
                 PaquetEvent* wReplyPacket = (PaquetEvent*)GestionnaireReseau::obtenirInstance()->creerPaquet(EVENT);
                 wReplyPacket->setEventCode(GAME_SERVER_AUTHENTICATION_REPLY);

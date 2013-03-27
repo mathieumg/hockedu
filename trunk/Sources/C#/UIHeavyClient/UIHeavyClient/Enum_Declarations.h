@@ -95,29 +95,8 @@ typedef enum
         GAME_SERVER_AUTHENTICATION_REQUEST,
         GAME_SERVER_AUTHENTICATION_REPLY,
         SERVER_EVENT_END,
-        /// Network event category : end
+        /// Network event category : end    
 
-
-        /// Model event category : begin
-        MODEL_EVENT_BEGIN,
-
-        ENABLE_PUCK_CREATION,
-        DISABLE_PUCK_CREATION,
-        ENABLE_MALLET_CREATION,
-        DISABLE_MALLET_CREATION,
-
-        THERE_ARE_NODES_SELECTED,
-        THERE_ARE_NO_NODE_SELECTED,
-
-        CAN_UNDO,
-        CANNOT_UNDO,
-        CAN_REDO,
-        CANNOT_REDO,
-
-        MODEL_EVENT_END,
-        /// Model event category : end
-        
-        
 
         NB_EVENT_CODES // Must be always last !
     }
@@ -125,6 +104,30 @@ typedef enum
 EventCodes
 #endif
 ;
+
+#if CSHARP
+public enum EditionEventCodes
+#else
+typedef enum
+#endif
+{
+    ENABLE_PUCK_CREATION,
+    DISABLE_PUCK_CREATION,
+    ENABLE_MALLET_CREATION,
+    DISABLE_MALLET_CREATION,
+    THERE_ARE_NODES_SELECTED,
+    THERE_ARE_NO_NODE_SELECTED,
+    CAN_UNDO,
+    CANNOT_UNDO,
+    CAN_REDO,
+    CANNOT_REDO,
+
+    NB_EDITION_EVENT_CODES // Must be always last !
+}
+#if !CSHARP
+EditionEventCodes
+#endif
+    ;
 
 #if CSHARP
 public enum BonusType
@@ -236,7 +239,6 @@ typedef enum
         CATEGORY_BOOST    = 0x0010,
         CATEGORY_BONUS    = 0x0020,
         CATEGORY_WALL     = 0x0040,
-        CATEGORY_GOALIE     = 0x0080,
     }
 #if !CSHARP
 PhysicsCategory

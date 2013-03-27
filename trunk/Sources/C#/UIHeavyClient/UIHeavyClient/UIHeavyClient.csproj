@@ -98,6 +98,7 @@
     <Compile Include="AIOptionControl.xaml.cs">
       <DependentUpon>AIOptionControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CallbackManager.cs" />
     <Compile Include="GameCreationPrompt.xaml.cs">
       <DependentUpon>GameCreationPrompt.xaml</DependentUpon>
     </Compile>
@@ -105,6 +106,9 @@
       <DependentUpon>PasswordPrompt.xaml</DependentUpon>
     </Compile>
     <Compile Include="RazerUtilities.cs" />
+    <Compile Include="ServerMapPrompt.xaml.cs">
+      <DependentUpon>ServerMapPrompt.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\AchievementUnlocked.xaml.cs">
       <DependentUpon>AchievementUnlocked.xaml</DependentUpon>
     </Compile>
@@ -117,9 +121,6 @@
     </Compile>
     <Compile Include="LoginControl.xaml.cs">
       <DependentUpon>LoginControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="LoginWindow.xaml.cs">
-      <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="EditionModeControl.xaml.cs">
       <DependentUpon>EditionModeControl.xaml</DependentUpon>
@@ -143,7 +144,12 @@
     <Compile Include="TournamentControl.xaml.cs">
       <DependentUpon>TournamentControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilities.cs" />
     <Page Include="AIOptionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ServerMapPrompt.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -168,10 +174,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="LoginControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -292,6 +294,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AchievementsEnums.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\HttpHockeduRequests\HttpHockeduRequests.csproj">
+      <Project>{5734EB1F-03DA-4ABF-A620-00C248FE8CDF}</Project>
+      <Name>HttpHockeduRequests</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

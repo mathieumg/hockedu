@@ -18,37 +18,7 @@
 #include "NoeudPoint.h"
 #include "NoeudAccelerateur.h"
 #include "NodeControlPoint.h"
-#if BOX2D_INTEGRATED  
-#include <Box2D/Box2D.h>
-#endif
 #include "NodeBonus.h"
-
-
-#if BOX2D_INTEGRATED  
-class VisitorQueryCallBack: public b2QueryCallback
-{
-public:
-    VisitorQueryCallBack(VisiteurCollision&v, NoeudAbstrait* noeud):
-        mVisitor(v),mNoeud(noeud){}
-
-    /// Called for each fixture found in the query AABB.
-    /// @return false to terminate the query.
-    virtual bool ReportFixture(b2Fixture* fixture)
-    {
-        NoeudAbstrait* n = dynamic_cast<NoeudAbstrait*>((NoeudAbstrait*)fixture->GetBody()->GetUserData());
-        if(n && mNoeud!= n)
-        {
-            noeudsCollision_.push_back(n);
-        }
-        return true;
-    }
-
-private:
-    ConteneurNoeuds noeudsCollision_;
-    VisiteurCollision& mVisitor;
-    NoeudAbstrait* mNoeud;
-};
-#endif
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -64,38 +34,11 @@ private:
 ////////////////////////////////////////////////////////////////////////
 VisiteurCollision::VisiteurCollision( NoeudAbstrait* noeudAVerifier , bool flag /* = true*/)
 {
-	flag_ = flag;
-	collision_ = false;
-	noeudAVerifier_ = noeudAVerifier;
-	noeudAVerifier->setCollisionVisitorAttributes(this);
-	positionAVerifier_ = noeudAVerifier->getPosition().convertir<2>();
-
-
-// #if BOX2D_INTEGRATED  
-//     if(noeudAVerifier_)
-//     {
-//         b2Body* body = noeudAVerifier_->getPhysicBody();
-//         b2World* world = noeudAVerifier_->getWorld();
-//         if(world && body)
-//         {
-//             
-//             b2AABB aabb;
-//             aabb.lowerBound = b2Vec2(FLT_MAX,FLT_MAX);
-//             aabb.upperBound = b2Vec2(-FLT_MAX,-FLT_MAX); 
-//             for(b2Fixture* fixture = body->GetFixtureList(); fixture; fixture = fixture->GetNext())
-//             {
-//                 for(int32 i = fixture->getProxyCount()-1; i>=0; --i)
-//                 {
-//                     aabb.Combine(aabb,fixture->GetAABB(i));
-//                 }
-//             }
-//             VisitorQueryCallBack callback(*this,noeudAVerifier_);
-//             world->QueryAABB(&callback,aabb);
-//         }
-//     }
-// 
-// #endif
-
+    flag_ = flag;
+    collision_ = false;
+    mNodeToVerify = noeudAVerifier;
+    noeudAVerifier->setCollisionVisitorAttributes(this);
+    positionAVerifier_ = noeudAVerifier->getPosition().convertir<2>();
 
 	/// PAS OUBLIER DE REINITIALISER LES NOUVELLES VARIABLE DANS LA METHODE REINITIALISER
 }
@@ -115,7 +58,7 @@ VisiteurCollision::VisiteurCollision( Vecteur2 position , bool flag /* = true*/,
 {
 	flag_ = flag;
 	collision_ = false;
-	noeudAVerifier_ = NULL;
+	mNodeToVerify = NULL;
 	rayonAVerifier_ = rayon;
 	positionAVerifier_ = position;
 	typeCollision_ = CERCLE;
@@ -196,7 +139,7 @@ void VisiteurCollision::visiterNoeudComposite( NoeudComposite* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurCollision::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
-	if(noeud == noeudAVerifier_)
+	if(noeud == mNodeToVerify)
 		return;
 
 	if(flag_)
@@ -252,7 +195,7 @@ void VisiteurCollision::visiterNoeudMuret( NodeWallAbstract* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurCollision::visiterNoeudBut( NoeudBut* noeud )
 {
-	if(noeud == noeudAVerifier_)
+	if(noeud == mNodeToVerify)
 		return;
 
 	if(flag_)
@@ -524,7 +467,7 @@ void VisiteurCollision::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurCollision::detectionCollisionCercleCercle( NoeudAbstrait* noeud )
 {
-	if(noeud == noeudAVerifier_)
+	if(noeud == mNodeToVerify)
 		return;
 
 	aidecollision::DetailsCollision detailsCollision = aidecollision::calculerCollisionSphere(positionAVerifier_.convertir<3>(),rayonAVerifier_,noeud->getPosition(),noeud->getRadius());
@@ -573,7 +516,7 @@ void VisiteurCollision::obtenirListeCollision( ConteneurNoeuds &listeDeRetour )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurCollision::detectionCollisionCercleSegment( NoeudAbstrait* noeud )
 {
-	if(noeud == noeudAVerifier_)
+	if(noeud == mNodeToVerify)
 		return;
 
 	// Non utilise, decommenter si utile
@@ -607,8 +550,8 @@ void VisiteurCollision::detectionCollisionCercleSegment( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 bool VisiteurCollision::collisionPresente() const
 {
-	if(noeudAVerifier_!=NULL)
-		if(noeudAVerifier_->getType() == RazerGameUtilities::NAME_TABLE_CONTROL_POINT)
+	if(mNodeToVerify!=NULL)
+		if(mNodeToVerify->getType() == RazerGameUtilities::NAME_TABLE_CONTROL_POINT)
 			return false;
 	return collision_;
 }
@@ -644,8 +587,8 @@ void VisiteurCollision::reinitialiser()
 	collision_ = false;
 	noeudsCollision_.clear();
 	conteneurDetailsCollision.clear();
-	noeudAVerifier_->setCollisionVisitorAttributes(this);
-	positionAVerifier_ = noeudAVerifier_->getPosition().convertir<2>();
+	mNodeToVerify->setCollisionVisitorAttributes(this);
+	positionAVerifier_ = mNodeToVerify->getPosition().convertir<2>();
 }
 
 ////////////////////////////////////////////////////////////////////////

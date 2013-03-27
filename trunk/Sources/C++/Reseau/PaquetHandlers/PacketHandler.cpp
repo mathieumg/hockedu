@@ -27,7 +27,6 @@ void PacketHandler::handlePacketPreparation( Paquet* pPaquet, PacketBuilder& pPa
     pPacketBuilder.includeStringLength(false);
     PacketTypes wType = pPaquet->getOperation();
     pPacketBuilder << Paquet::sequenceIdentification << wType;
-    // Size du paquet courant
     pPacketBuilder << pPaquet->getNumeroPaquet() << getPacketSize(pPaquet);
     pPacketBuilder.includeStringLength(true);
     handlePacketPreparationSpecific(pPaquet, pPacketBuilder);

@@ -87,6 +87,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Commun\Utilitaire\Solution_Defines.cpp" />
     <ClCompile Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.cpp" />
     <ClCompile Include="..\Reseau\ObjetsGlobaux\PartieServeurs.cpp" />
     <ClCompile Include="mainServeurJeu.cpp" />
@@ -95,6 +96,7 @@
     <ClCompile Include="MenuOptionCallVoid.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Interface\FacadeServeurJeu.h" />
     <ClInclude Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.h" />
     <ClInclude Include="..\Reseau\ObjetsGlobaux\PartieServeurs.h" />
     <ClInclude Include="Menu.h" />

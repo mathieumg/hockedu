@@ -8,12 +8,18 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////
 
+#if BOX2D_INTEGRATED
+#include <Box2D/Box2D.h>
+#endif
+
 #include "NodeControlPoint.h"
 #include "VisiteurNoeud.h"
 #include <algorithm>
 
 #include "Utilitaire.h"
 #include "ControlPointMutableAbstract.h"
+
+
 
 #if BOX2D_DEBUG
 #include "DebugRenderBox2D.h"
@@ -24,22 +30,27 @@
 PRAGMA_DISABLE_OPTIMIZATION
 #endif
 
+
+const float DEFAULT_RADIUS = 5;
+
 CreateListDelegateImplementation(ControlPoint)
 {
+    return RazerGameUtilities::CreateListSphereDefault(pModel,DEFAULT_RADIUS);
 
+
+    /// ancien affichage avec seulement opengl
     GLuint liste = NULL;
 #if WIN32
     liste = glGenLists(1);
     glNewList(liste, GL_COMPILE);
 #if BOX2D_DEBUG
-        DebugRenderBox2D* debugRender = DebugRenderBox2D::mInstance;
-        debugRender->DrawSolidCircle(b2Vec2(0,0),0.5,b2Vec2(0,0),b2Color(1,0,1));
+    DebugRenderBox2D* debugRender = DebugRenderBox2D::mInstance;
+    debugRender->DrawSolidCircle(b2Vec2(0,0),0.5,b2Vec2(0,0),b2Color(1,0,1));
 #endif
     glEndList();
 #endif
     return liste;
 }
-
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -53,9 +64,9 @@ CreateListDelegateImplementation(ControlPoint)
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeControlPoint::NodeControlPoint( const std::string& typeNoeud ):
-Super(typeNoeud),mCanBeVisited(true)
+Super(typeNoeud),mCanBeVisited(true),mHeightAngle(0)
 {
-    setDefaultRadius(8);
+    setDefaultRadius(DEFAULT_RADIUS);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -75,7 +86,10 @@ NodeControlPoint::~NodeControlPoint()
 
 void NodeControlPoint::renderReal() const
 {
-    glTranslatef(0, 0, 0.5);
+#if WIN32
+    const float zTranslated = 15.f+sin(mHeightAngle)*3.f;
+    glTranslatef(0,0,zTranslated);
+#endif
     glColor4f(1.0f,0.84f,0.0f,1.0f);
     // Appel à la version de la classe de base pour l'affichage des enfants.
     NoeudAbstrait::renderReal();
@@ -94,7 +108,13 @@ void NodeControlPoint::renderReal() const
 ////////////////////////////////////////////////////////////////////////
 void NodeControlPoint::tick( const float& temps )
 {
-    Super::tick(temps);
+    if(isVisible())
+    {
+        setAngle((float)((int)(mAngle+temps*500.0f)%360));
+        mHeightAngle += temps*3;
+        updateMatrice();
+    }
+
 //     mAngle = (float)((int)(mAngle+temps*500.0f)%360);
 //     updateMatrice();
 // 
@@ -234,6 +254,44 @@ void NodeControlPoint::setCollisionVisitorAttributes( class VisiteurCollision* v
     {
         Super::setCollisionVisitorAttributes(v);
     }
+}
+
+void NodeControlPoint::updatePhysicBody()
+{
+#if BOX2D_INTEGRATED
+    auto world = getWorld();
+    if(world)
+    {
+        clearPhysicsBody();
+
+        if(!IsInGame())
+        {
+            b2BodyDef myBodyDef;
+            myBodyDef.type = b2_dynamicBody;; //this will be a static body
+            const Vecteur3& pos = getPosition();
+            b2Vec2 posB2;
+            utilitaire::VEC3_TO_B2VEC(pos,posB2);
+            myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
+            myBodyDef.angle = 0; //set the starting angle
+
+            mPhysicBody = world->CreateBody(&myBodyDef);
+            b2CircleShape circleShape;
+            circleShape.m_p.Set(0, 0); //position, relative to body position
+            circleShape.m_radius = (float32)getRadius()*utilitaire::ratioWorldToBox2D; //radius
+
+            b2FixtureDef myFixtureDef;
+            myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
+            myFixtureDef.density = 1;
+
+            myFixtureDef.filter.categoryBits = 0;
+            myFixtureDef.filter.maskBits = 0;
+            myFixtureDef.filter.groupIndex = 1;
+
+            mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+            mPhysicBody->SetUserData(this);
+        }
+    }
+#endif
 }
 
 

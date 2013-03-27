@@ -156,12 +156,6 @@
     <ClCompile Include="..\reseau\Paquets\PaquetGameConnection.cpp">
       <Filter>Source Files\Paquets</Filter>
     </ClCompile>
-    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameRegistration.cpp">
-      <Filter>Source Files\PacketHandlers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Reseau\Paquets\PaquetGameRegistration.cpp">
-      <Filter>Source Files\Paquets</Filter>
-    </ClCompile>
     <ClCompile Include="GameServerManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -175,6 +169,15 @@
       <Filter>Source Files\Paquets</Filter>
     </ClCompile>
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerBonus.cpp">
+      <Filter>Source Files\PacketHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Commun\Utilitaire\Solution_Defines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\Paquets\PaquetGameCreation.cpp">
+      <Filter>Source Files\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameCreation.cpp">
       <Filter>Source Files\PacketHandlers</Filter>
     </ClCompile>
   </ItemGroup>
@@ -308,9 +311,6 @@
     <ClInclude Include="..\Reseau\Paquets\PaquetGameRegistration.h">
       <Filter>Source Files\Paquets</Filter>
     </ClInclude>
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetGameRegistration.h">
-      <Filter>Source Files\UsinePaquets</Filter>
-    </ClInclude>
     <ClInclude Include="GameServerManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -327,6 +327,12 @@
       <Filter>Source Files\PacketHandlers</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetBonus.h">
+      <Filter>Source Files\UsinePaquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\Paquets\PaquetGameCreation.h">
+      <Filter>Source Files\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetGameCreation.h">
       <Filter>Source Files\UsinePaquets</Filter>
     </ClInclude>
   </ItemGroup>

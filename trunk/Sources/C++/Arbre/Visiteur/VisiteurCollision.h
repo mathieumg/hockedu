@@ -92,11 +92,11 @@ public:
 	/// Permet de connaitre le nombre de noeud en collision detecter par le visiteur
 	unsigned int obtenirNbrNoeudEncollision();
 
-    /// Accessors of noeudAVerifier_
-    inline void setNoeudAVerifier(NoeudAbstrait* pVal) { noeudAVerifier_ = pVal; }
+    /// Accessors of mNodeToVerify
+    inline void setNoeudAVerifier(NoeudAbstrait* pVal) { mNodeToVerify = pVal; }
 private:
 	/// Attributs
-	NoeudAbstrait* noeudAVerifier_;
+	NoeudAbstrait* mNodeToVerify;
 
 
     /// Position de l'élément à vérifier

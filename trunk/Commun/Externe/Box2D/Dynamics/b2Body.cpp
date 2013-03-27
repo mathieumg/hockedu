@@ -514,3 +514,78 @@ void b2Body::Dump()
 	}
 	b2Log("}\n");
 }
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool b2Body::IsColliding( const b2Body* body2 )
+///
+/// Slow detection to see if 2 body are touching
+///
+/// @param[in] const b2Body * body2
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool b2Body::IsColliding( const b2Body* body2 ) const
+{
+    if(!body2)
+    {
+        return false;
+    }
+    
+    for(const b2Fixture* fixtureB = body2->GetFixtureList(); fixtureB; fixtureB = fixtureB->GetNext())
+    {
+        if(IsColliding(fixtureB))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool b2Body::IsColliding( const b2Fixture* fixture )
+///
+/// /*Description*/
+///
+/// @param[in] const b2Fixture * fixture
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool b2Body::IsColliding( const b2Fixture* fixtureB ) const
+{
+    if(!fixtureB)
+    {
+        return false;
+    }
+    const b2Transform xfA = GetTransform();
+    const b2Transform xfB = fixtureB->GetBody()->GetTransform();
+    for(const b2Fixture* fixtureA = GetFixtureList(); fixtureA; fixtureA = fixtureA->GetNext())
+    {
+        const b2Shape* shapeA = fixtureA->GetShape();
+        if(shapeA)
+        {
+            for(int32 indexA = shapeA->GetChildCount()-1; indexA>=0; --indexA)
+            {
+                if(b2ContactFilter::ShouldCollideBase(fixtureA,fixtureB))
+                {
+                    const b2Shape* shapeB = fixtureB->GetShape();
+                    if(shapeB)
+                    {
+                        for(int32 indexB = shapeB->GetChildCount()-1; indexB>=0; --indexB)
+                        {
+                            if(b2TestOverlap(shapeA,indexA,shapeB,indexB,xfA,xfB))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}

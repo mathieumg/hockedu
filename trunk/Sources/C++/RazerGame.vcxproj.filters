@@ -506,17 +506,11 @@
     <ClCompile Include="Arbre\Usines\UsineNoeud.cpp">
       <Filter>Sources Files\Arbre</Filter>
     </ClCompile>
-    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerAuthentificationServeurJeu.cpp">
-      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
-    </ClCompile>
     <ClCompile Include="reseau\PaquetHandlers\PacketHandlerMaillet.cpp">
       <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
     </ClCompile>
     <ClCompile Include="reseau\PaquetHandlers\PacketHandlerRondelle.cpp">
       <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
-    </ClCompile>
-    <ClCompile Include="Reseau\Paquets\PaquetAuthentificationServeurJeu.cpp">
-      <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClCompile>
     <ClCompile Include="Reseau\Paquets\PaquetMaillet.cpp">
       <Filter>Sources Files\Reseau\Paquets</Filter>
@@ -572,12 +566,6 @@
     <ClCompile Include="Reseau\Paquets\PaquetGameEvent.cpp">
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClCompile>
-    <ClCompile Include="Reseau\Paquets\PaquetGameRegistration.cpp">
-      <Filter>Sources Files\Reseau\Paquets</Filter>
-    </ClCompile>
-    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameRegistration.cpp">
-      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
-    </ClCompile>
     <ClCompile Include="Reseau\FacadePortability.cpp">
       <Filter>Sources Files\Reseau\Global</Filter>
     </ClCompile>
@@ -614,14 +602,17 @@
     <ClCompile Include="Achievements\AchievementsManager.cpp">
       <Filter>Sources Files\Achievements</Filter>
     </ClCompile>
-    <ClCompile Include="Achievements\AbstractAchievement.cpp">
-      <Filter>Sources Files\Achievements</Filter>
-    </ClCompile>
     <ClCompile Include="Achievements\Achievements.cpp">
       <Filter>Sources Files\Achievements</Filter>
     </ClCompile>
     <ClCompile Include="Achievements\LaunchAchievementLite.cpp">
       <Filter>Sources Files\Achievements</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\AchievementsTests.cpp">
+      <Filter>Sources Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Environnement\EditionEventManager.cpp">
+      <Filter>Sources Files\Environnement</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1045,17 +1036,11 @@
     <ClInclude Include="Arbre\Bonus\BonusModifierGoThorughWall.h">
       <Filter>Sources Files\Arbre\Bonus</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\Paquets\PaquetAuthentificationServeurJeu.h">
-      <Filter>Sources Files\Reseau\Paquets</Filter>
-    </ClInclude>
     <ClInclude Include="Reseau\Paquets\PaquetMaillet.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClInclude>
     <ClInclude Include="Reseau\Paquets\PaquetRondelle.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetAuthentificationServeurJeu.h">
-      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
     </ClInclude>
     <ClInclude Include="reseau\UsinePaquets\UsinePaquetMaillet.h">
       <Filter>Sources Files\Reseau\UsinePaquets</Filter>
@@ -1111,12 +1096,6 @@
     <ClInclude Include="Arbre\Visiteur\VisitorGatherProperties.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\Paquets\PaquetGameRegistration.h">
-      <Filter>Sources Files\Reseau\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameRegistration.h">
-      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
-    </ClInclude>
     <ClInclude Include="Reseau\FacadePortability.h">
       <Filter>Sources Files\Reseau\Global</Filter>
     </ClInclude>
@@ -1165,9 +1144,6 @@
     <ClInclude Include="Achievements\AchievementsManager.h">
       <Filter>Sources Files\Achievements</Filter>
     </ClInclude>
-    <ClInclude Include="Achievements\AbstractAchievement.h">
-      <Filter>Sources Files\Achievements</Filter>
-    </ClInclude>
     <ClInclude Include="Achievements\Achievements.h">
       <Filter>Sources Files\Achievements</Filter>
     </ClInclude>
@@ -1176,6 +1152,12 @@
     </ClInclude>
     <ClInclude Include="..\C#\UIHeavyClient\UIHeavyClient\AchievementsEnums.h">
       <Filter>Sources Files\Achievements</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\AchievementsTests.h">
+      <Filter>Sources Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Environnement\EditionEventManager.h">
+      <Filter>Sources Files\Environnement</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

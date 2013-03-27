@@ -48,11 +48,12 @@ NoeudAbstrait::NoeudAbstrait(
     mPhysicBody(NULL),
     mType(type) ,
     mPosition(0) ,
-    mFlags(1<<NODEFLAGS_VISIBLE|1<<NODEFLAGS_CAN_BE_SELECTED|1<<NODEFLAGS_RECORDABLE),
+    mFlags(1<<NODEFLAGS_VISIBLE|1<<NODEFLAGS_CAN_BE_SELECTED|1<<NODEFLAGS_RECORDABLE|1<<NODEFLAGS_CAN_BE_DELETED),
     mParent(0) , 
     mAngle(0) ,
     mGlId(mIdGlCounter++),
-    mField(NULL)
+    mField(NULL),
+    mWorld(NULL)
 {
 	mScale[VX] = 1;
 	mScale[VY] = 1;
@@ -166,8 +167,11 @@ void NoeudAbstrait::deleteThis()
     // On enleve les noeud selectionné et tous ces enfants.
     // Si on ne veut pas enlever les enfants il faudrait modifier
     // la méthode erase() pour que les enfants soit relié au parent
+    auto terrain = getField();
     if(!getParent() || !getParent()->erase(this))
     {
+        /// le parent a peut etre retirer le terrain ce qui pourrait invalider la libération de la mémoire
+        setField(terrain);
         empty();
         delete this;
     }
@@ -515,7 +519,12 @@ void NoeudAbstrait::renderReal() const
 
 
 #else
-        renderOpenGLES();
+        auto field = getField();
+        if(!field || !field->renderAppleNode(this))
+        {
+            renderOpenGLES();
+        }
+        
 #endif
         if(isHightlighted() || IsSelected())
         {
@@ -583,7 +592,10 @@ void NoeudAbstrait::setScale( const Vecteur3& echelleCourante )
 	mScale[VZ] = echelleCourante[VZ];
     updateRadius();
     updateMatrice();
-    updatePhysicBody();
+    if(!isWorldLocked())
+    {
+        updatePhysicBody();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -619,7 +631,7 @@ void NoeudAbstrait::setAngle( float angle )
 {
 	mAngle = angle;
 #if BOX2D_INTEGRATED  
-    if(!isSyncFromB2Callback() && mPhysicBody)
+    if(!isWorldLocked() && mPhysicBody)
     {
         mPhysicBody->SetTransform(mPhysicBody->GetPosition(),(float32)utilitaire::DEG_TO_RAD(mAngle));
     }
@@ -873,6 +885,7 @@ void NoeudAbstrait::setField( Terrain* val )
 	mField = val;
     if(mField)
     {
+        mWorld = mField->GetWorld();
         mField->NodeSelectionNotification(this,IsSelected());
     }
     SetIsInGame(mField && mField->IsGameField());
@@ -893,7 +906,7 @@ void NoeudAbstrait::setPosition( const Vecteur3& positionRelative )
 {
     mPosition = positionRelative;
 #if BOX2D_INTEGRATED  
-    if(!isSyncFromB2Callback() && mPhysicBody)
+    if(!isWorldLocked() && mPhysicBody)
     {
         b2Vec2 pos;
         utilitaire::VEC3_TO_B2VEC(mPosition,pos);
@@ -957,7 +970,10 @@ void NoeudAbstrait::forceFullUpdate()
 {
     updateRadius();
     updateMatrice();
-    updatePhysicBody();
+    if(!isWorldLocked())
+    {
+        updatePhysicBody();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -996,16 +1012,11 @@ void NoeudAbstrait::synchroniseTransformFromB2CallBack( void* node, const b2Tran
 void NoeudAbstrait::synchroniseTransformFromB2( const b2Transform& transform)
 {
 #if BOX2D_INTEGRATED 
-    /// permet d'éviter la recursion suite aux appels de setPosition et setAngle
-    setSyncFromB2CallBack(true);
-
     // TODO:: a verifier avec la position du parent
     Vecteur3 pos;
     utilitaire::B2VEC_TO_VEC3(pos,transform.p);
     setPosition(pos);
     setAngle(utilitaire::RAD_TO_DEG(transform.q.GetAngle()));
-
-    setSyncFromB2CallBack(false);
 #endif
 }
 
@@ -1042,25 +1053,6 @@ const class ArbreRendu* NoeudAbstrait::GetTreeRoot() const
         return mParent->GetTreeRoot();
     }
     // tree root not found
-    return NULL;
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn class b2World* NoeudAbstrait::getWorld()
-///
-/// /*Description*/
-///
-///
-/// @return class b2World*
-///
-////////////////////////////////////////////////////////////////////////
-class b2World* NoeudAbstrait::getWorld()
-{
-#if BOX2D_INTEGRATED
-    return getField() ? getField()->GetWorld() : NULL;
-#endif
     return NULL;
 }
 
@@ -1199,6 +1191,28 @@ void NoeudAbstrait::playTick( float temps )
         (*it)->Tick(temps);
     }
 
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool NoeudAbstrait::isWorldLocked()
+///
+/// /*Description*/
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool NoeudAbstrait::isWorldLocked() const
+{
+#if BOX2D_INTEGRATED
+    auto world = getWorld();
+    if(world)
+    {
+        return world->IsLocked();
+    }
+#endif
+    return false;
 }
 
 

@@ -338,7 +338,7 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
     hWnd_ = hWnd;
     bool succes = aidegl::creerContexteGL(hWnd_, hDC_, hGLRC_);
     checkf(succes);
-
+    
     InitOpenGLContext();
 
     // FreeImage, utilisée par le chargeur, doit être initialisée
@@ -2084,25 +2084,6 @@ void FacadeModele::getSelectedNodes(ConteneurNoeuds& pSelectedNodes) const
             pSelectedNodes.push_back(*it);
         }
     }
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn int FacadeModele::transmitEvent( EventCodes pCode )
-///
-/// Send event to the controller
-///
-/// @param[in] EventCodes pCode
-///
-/// @return int
-///
-////////////////////////////////////////////////////////////////////////
-void FacadeModele::transmitEvent( EventCodes pCode, ... )
-{
-    va_list args;
-    va_start(args, pCode);
-    GestionnaireReseau::obtenirInstance()->transmitEvent(pCode,args);
-    va_end(args);
 }
 
 ////////////////////////////////////////////////////////////////////////

@@ -14,6 +14,7 @@
 #include <stdint.h>
 #include <stdexcept>
 #include "FacadePortability.h"
+#include <functional>
 
 #ifdef LINUX
 #define INVALID_SOCKET -1
@@ -23,6 +24,8 @@
 enum InternetProtocol {IPv4 = AF_INET, IPv6 = AF_INET6, UNSPECIFIED = AF_UNSPEC};
 enum ConnectionType {UDP, TCP};
 enum ConnectionState {CONNECTED, CONNECTING, NOT_CONNECTED};
+
+typedef std::function<void ()> OnConnectionCallback;
 
 enum SocketFlags
 {
@@ -82,13 +85,15 @@ public:
     inline int getIndexPaquet() const { return mIndexPaquet; }
     inline void setIndexPaquet(int val) { mIndexPaquet = val; }
 
+    inline void setOnConnectionCallback(OnConnectionCallback pOnConnectionSendCallback) { mOnConnectionCallback = pOnConnectionSendCallback; }
+
 private:
 
     HANDLE_MUTEX mMutexActiviteSocket;
     int mFlags;
 
     void connect();
-
+    OnConnectionCallback mOnConnectionCallback;
 
 	InternetProtocol mIpProtocol;
 	ConnectionType mConnectionType;
