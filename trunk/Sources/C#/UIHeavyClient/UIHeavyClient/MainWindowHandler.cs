@@ -24,13 +24,10 @@ using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows.Forms;
+using HttpHockeduRequests;
 
 namespace UIHeavyClient
 {
-    
-    
-    
-
     ///////////////////////////////////////////////////////////////////////////
     /// @class MainWindowHandler
     /// @brief Static wrapper to access every controls.
@@ -260,6 +257,12 @@ namespace UIHeavyClient
             {
                 SaveMapToLocal(mCurrentMap);
             }
+        }
+
+        public static void SaveMapToServer()
+        {
+            HttpManager wHttpManager = new HttpManager();
+            wHttpManager.uploadNewMap(12, "", "", "", true, mCurrentMap, null); 
         }
 
         public static void LoadPlayingMap(string pMapFile)

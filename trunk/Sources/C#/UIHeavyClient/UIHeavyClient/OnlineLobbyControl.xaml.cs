@@ -22,6 +22,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using HttpHockeduRequests;
+using System.Runtime.InteropServices;
 
 namespace UIHeavyClient
 {
@@ -32,14 +33,14 @@ namespace UIHeavyClient
     /// @author Vincent Lemire
     /// @date 2013-03-26
     ///////////////////////////////////////////////////////////////////////////
-    struct OnlineGameInfos
+    class OnlineGameInfos
     {
-        int id;
-        uint serverId;
-        string name;
-        string creatorName;
-        bool needPassword;
-
+        public int id;
+        public uint serverId;
+        public string name;
+        public string creatorName;
+        public string mapName;
+        public bool needPassword;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -51,6 +52,7 @@ namespace UIHeavyClient
     ///////////////////////////////////////////////////////////////////////////
     public partial class OnlineLobbyControl : UserControl
     {
+        // Members
         private PasswordPrompt mPasswordPrompt;
         private GameCreationPrompt mGameCreationPrompt;
         private ServerMapPrompt mServerMapPrompt;
@@ -58,6 +60,13 @@ namespace UIHeavyClient
         private HttpManager mHttpManager;
 
         private Dictionary<int, OnlineGameInfos> mOnlineGameInfos;
+
+
+        // C++ functions
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void requestGameCreationServerGame(string pGameName, string pMapName, string pPassword);
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void connectPartieServerGame(int pGameId, string pInputPassword);
 
         public OnlineLobbyControl()
         {
@@ -77,52 +86,55 @@ namespace UIHeavyClient
 
         private void mEditionModeButton_Click(object sender, RoutedEventArgs e)
         {
-            // Vincent, tu peux aller chercher la liste des maps d'un user avec 
-            // HttpManager wManager = new HttpManager();
-            // wManager.getUserMapList(int pUserId, string pAuthentication)
-            // apres avoir ete chercher les infos dans la DLL
-
-            //mHttpManager.getUserMapList(0, "", HandleMaps);
-        }
-
-        private void HandleMaps(List<UserMapDetailedJSON> pList)
-        {
-            mServerMapPrompt.HandleMaps(pList);
+            mServerMapPrompt = new ServerMapPrompt();
+            mServerMapPrompt.GetServerMaps();
             mServerMapPrompt.ShowDialog();
 
             if (mServerMapPrompt.OkIsClicked)
             {
-                // TODO : 
-                // Load map from server
-
-                MainWindowHandler.GoToEditionMode();
+                mHttpManager.downloadMap(12, mServerMapPrompt.SelectedMap.id, HandleDownloadedMap);
             }
+
+            mServerMapPrompt.Close();
         }
 
         private void mJoinButton_Click(object sender, RoutedEventArgs e)
         {
-            mPasswordPrompt.ClearInput();
-            mPasswordPrompt.ShowDialog();
+            OnlineGameInfos selected = (mOnlineGameListView.SelectedItem as OnlineGameInfos);
 
-            if (mPasswordPrompt.OkIsClicked)
-            { 
-                // TODO
-                // Join game logic
+            if (selected != null)
+            {
+                if (selected.needPassword)
+                {
+                    mPasswordPrompt = new PasswordPrompt();
+                    mPasswordPrompt.ShowDialog();
+
+                    if (mPasswordPrompt.OkIsClicked)
+                    {
+                        connectPartieServerGame(selected.id, mPasswordPrompt.Password);
+                    }
+
+                    mPasswordPrompt.Close();
+                }
+                else
+                {
+                    connectPartieServerGame(selected.id, "");
+                }
             }
         }
 
         private void mCreateButton_Click(object sender, RoutedEventArgs e)
         {
+            mGameCreationPrompt = new GameCreationPrompt();
             mGameCreationPrompt.ClearInputAndLoadMapList();
             mGameCreationPrompt.ShowDialog();
 
-
-
             if (mGameCreationPrompt.OkIsClicked)
             {
-                // TODO
-                // Create game logic
-            }   
+                requestGameCreationServerGame(mGameCreationPrompt.Name, mGameCreationPrompt.Map.name, mGameCreationPrompt.Password);
+            }
+
+            mGameCreationPrompt.Close();
         }
 
         private void mRandomButton_Click(object sender, RoutedEventArgs e)
@@ -140,14 +152,16 @@ namespace UIHeavyClient
         private void submitButton_Click(object sender, RoutedEventArgs e)
         {
             // Ouin, faudrait p-e implémenter le chat...
+        }
 
-
-
-
-
-
-
-
+        public void HandleDownloadedMap(string pFilepath)
+        {
+            // Load the map to edition mode
+            MainWindowHandler.mTaskManager.ExecuteTask(() =>
+            {
+                MainWindowHandler.LoadMapFromLocal(pFilepath);
+                MainWindowHandler.GoToEditionMode();
+            });
         }
     }
 }
