@@ -133,7 +133,7 @@ bool CommunicateurReseau::ajouterPaquetEnvoie( SPSocket pSocket, Paquet* pPaquet
 	PaquetAEnvoyer* paquetAEnvoyer = new PaquetAEnvoyer;
 	paquetAEnvoyer->paquet = pPaquet;
 	paquetAEnvoyer->socket = pSocket;
-    
+
 	if(!mListeEnvoie.push(paquetAEnvoyer))
 	{
 		// On ne peut pas ajouter le paquet a la liste car elle est pleine
@@ -708,7 +708,6 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                             break;
                         }
                     }
-
                 }
                 catch(ExceptionReseauSocketDeconnecte&)
                 {
@@ -954,7 +953,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
 
                     }
 
-                    
+
 
                     char wMessageConfirmation[4];
                     uint32_t len = sprintf_s(wMessageConfirmation,"%d",USER_CONNECTED);
