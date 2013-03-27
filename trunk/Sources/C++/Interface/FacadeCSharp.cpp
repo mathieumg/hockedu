@@ -20,6 +20,7 @@
 #include "FacadeModele.h"
 #include "..\Reseau\Paquets\PaquetGameEvent.h"
 #include "..\Reseau\RelayeurMessage.h"
+#include "..\Reseau\Paquets\PaquetEvent.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -108,6 +109,35 @@ void RequestLogin( char* pUsername, char* pPassword, char* pIpAdress )
     GestionnaireReseau::obtenirInstance()->setUser(pUsername, pPassword);
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("MasterServer",pIpAdress,TCP);
 }
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void DisconnectMasterServer( )
+///
+/// Envoi une demande pour se deconnecter du Master Server (Retour au menu principal)
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void DisconnectMasterServer(  )
+{
+    PaquetEvent* wPaquet = (PaquetEvent*)GestionnaireReseau::obtenirInstance()->creerPaquet(EVENT);
+    wPaquet->setEventCode(USER_DISCONNECTED);
+    wPaquet->setMessage(GestionnaireReseau::obtenirInstance()->getPlayerName());
+    wPaquet->forceSendBrokenSocket();
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
+
+    //Sleep(100);
+
+    GestionnaireReseau::obtenirInstance()->removeSocket("MasterServer", TCP);
+    
+
+    
+
+    
+}
+
 
 void SendMessageDLL(char * pConnectionId, char* pUsername, char * pMessage)
 {

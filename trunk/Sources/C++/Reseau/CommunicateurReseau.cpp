@@ -548,7 +548,7 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
                     continue; // Si le socket est invalide, on drop le paquet
                 }
 				ConnectionState wConnectionState = wSocket->getConnectionState();
-				if(wConnectionState == CONNECTING || wConnectionState == NOT_CONNECTED)
+				if(!wPaquet->isForcedToSendOnBrokenSocket() && (wConnectionState == CONNECTING || wConnectionState == NOT_CONNECTED))
                 {
                     if (wConnectionState == CONNECTING)
                     {

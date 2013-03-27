@@ -54,110 +54,7 @@ namespace UIHeavyClient
         public static extern void SendMessageGameDLL(string pMessage);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         static extern void SetMessageCallback(MessageReceivedCallBack callback);
-        // sends a request to connect the user. Will not be necessarly connected when exiting this function
-        // must wait for a callback indicating the status of this user's connection
-
-        //****** A METTRE AILLEURS 
-        /*
-        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void RequestLogin(string pUsername, string pPassword, string pIpAdress);
-        [DllImport(@"RazerGame.dll")]
-        static extern void SetEventCallback(EventReceivedCallBack callback);
-        static LoginControl mLoginWindow = null;
-        public static bool SetupLoginCallBackEvents(LoginControl pLoginWindow)
-        {
-            mLoginWindow = pLoginWindow;
-            if (mLoginWindow != null)
-            {
-                SetEventCallback(mLoginEventCallback);
-                return true;
-            }
-            return false;
-        }
         
-        static bool LoginWindowEventReceived(int id, IntPtr pMessage)
-        {
-            if (mLoginWindow != null && id >= 0 && (int)EventCodes.NB_EVENT_CODES > id)
-            {
-                string message = Marshal.PtrToStringAnsi(pMessage);
-                EventCodes type = (EventCodes)id;
-                switch (type)
-                {
-                    case EventCodes.USER_CONNECTED:
-                        // La fenetre principale doit maintenant ecouter les evenement pour mettre a jour le chat
-                        SetEventCallback(mMainWindowEventCallback);
-                        SetMessageCallback(mMessageCallback);
-
-                        // Signal à la fenetre l'événement
-                        mLoginWindow.mTaskManager.ExecuteTask(() =>
-                        {
-                            mLoginWindow.ConnectionSuccessful();
-                            mLoginWindow = null;
-                        });
-                        break;
-                    case EventCodes.USER_ALREADY_CONNECTED:
-                        // On n'écoute plus les événements
-                        SetEventCallback(null);
-                        // Signal à la fenetre l'événement
-                        mLoginWindow.mTaskManager.ExecuteTask(() =>
-                        {
-                            mLoginWindow.UserNameAlreadyChosen();
-                            mLoginWindow = null;
-                        });
-                        break;
-                    case EventCodes.USER_DID_NOT_SEND_NAME_ON_CONNECTION:
-                        // On n'écoute plus les événements
-                        SetEventCallback(null);
-                        // Signal à la fenetre l'événement
-                        mLoginWindow.mTaskManager.ExecuteTask(() =>
-                        {
-                            mLoginWindow.SetUserMessageFeedBack("Connection Error", true);
-                            mLoginWindow.UnBlockUIContent();
-                            mLoginWindow = null;
-                        });
-                        break;
-                    case EventCodes.USER_DISCONNECTED:
-                        // On n'écoute plus les événements
-                        SetEventCallback(null);
-                        // Signal à la fenetre l'événement
-                        mLoginWindow.mTaskManager.ExecuteTask(() =>
-                        {
-                            mLoginWindow.SetUserMessageFeedBack("Connection Error", true);
-                            mLoginWindow.UnBlockUIContent();
-                            mLoginWindow = null;
-                        });
-                        break;
-                    case EventCodes.CONNECTION_CANCELED:
-                        // On n'écoute plus les événements
-                        SetEventCallback(null);
-                        // Signal à la fenetre l'événement
-                        mLoginWindow.mTaskManager.ExecuteTask(() =>
-                        {
-                            mLoginWindow.SetUserMessageFeedBack("Connection Canceled", false);
-                            mLoginWindow.UnBlockUIContent();
-                            mLoginWindow = null;
-                        });
-                        break;
-                    case EventCodes.RECONNECTION_TIMEOUT:
-                        // On n'écoute plus les événements
-                        SetEventCallback(null);
-                        // Signal à la fenetre l'événement
-                        mLoginWindow.mTaskManager.ExecuteTask(() =>
-                        {
-                            mLoginWindow.SetUserMessageFeedBack("Connection Timed out", true);
-                            mLoginWindow.UnBlockUIContent();
-                            mLoginWindow = null;
-                        });
-                        break;
-                    case EventCodes.RECONNECTION_IN_PROGRESS: break;
-                    case EventCodes.WRONG_PASSWORD: break;
-                    default: break;
-                }
-            }
-            return true;
-        }
-        static EventReceivedCallBack mLoginEventCallback = LoginWindowEventReceived;
-        */
 
         ////////// Delegates functions definitions
         delegate bool EventReceivedCallBack(int id, IntPtr message);
@@ -278,13 +175,6 @@ namespace UIHeavyClient
             string message = Marshal.PtrToStringAnsi(pMessage);
             string username = Marshal.PtrToStringAnsi(pUsername);
             UpdateChat(username, message);
-            /*if (mMainWindow != null)
-            {
-                mMainWindow.mTaskManager.ExecuteTask(() =>
-                {
-                    mMainWindow.ShowWholeMessage();
-                });
-            }*/
             return true;
         }
 
@@ -301,7 +191,6 @@ namespace UIHeavyClient
             mWholeMessage = "";
             mConnectedUsers.Clear();
         }
-
 
 
     }

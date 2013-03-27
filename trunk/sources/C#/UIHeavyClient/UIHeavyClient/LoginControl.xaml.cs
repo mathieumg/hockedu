@@ -26,15 +26,36 @@ using System.ComponentModel;
 
 namespace UIHeavyClient
 {
+    ///////////////////////////////////////////////////////////////////////////
+    /// @struct Server
+    /// @brief A server.
+    ///
+    /// @author Vincent Lemire
+    /// @date 2013-01-29
+    ///////////////////////////////////////////////////////////////////////////
+    struct Server
+    {
+        public string mName;
+        public string mIPAdress;
+        public bool isAvailable;
+
+        public Server(string pName, string pIPAdress)
+        {
+            mName=pName;
+            mIPAdress=pIPAdress;
+            isAvailable=true;
+        }
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////
-    /// @struct LoginWindowSavedInfo
+    /// @struct LoginControlSavedInfo
     /// @brief To handle login infos.
     ///
     /// @author Michael Ferris
     /// @date 2013-01-28
     ///////////////////////////////////////////////////////////////////////////
-    struct LoginWindowSavedInfo
+    public struct LoginControlSavedInfo
     {
         public string mUserName;
         public string mPassword;
@@ -42,7 +63,7 @@ namespace UIHeavyClient
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    /// @class LoginWindow
+    /// @class LoginControl
     /// @brief A simple window where the user will input his user name.
     ///        The server will be called to validate the name.
     ///
@@ -51,15 +72,14 @@ namespace UIHeavyClient
     ///////////////////////////////////////////////////////////////////////////
     public partial class LoginControl : UserControl
     {
-        public static LoginWindowSavedInfo mLoginInfo = new LoginWindowSavedInfo();
-
+        public LoginControlSavedInfo mLoginInfo = new LoginControlSavedInfo();
 
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void CancelConnection(string pConnectionId);
-
-
-        /// DEPRECATED DO NOT USE ANYMORE, USE TaskManager in MainWindowHandler
-        public TaskManager mTaskManager = new TaskManager();
+        [DllImport(@"RazerGame.dll", CallingConvention=CallingConvention.Cdecl)]
+        public static extern void RequestLogin(string pUsername, string pPassword, string pIpAdress);
+        [DllImport(@"RazerGame.dll", CallingConvention=CallingConvention.Cdecl)]
+        public static extern void DisconnectMasterServer();
 
         // The user name input
         string mUserName = "";
@@ -73,7 +93,7 @@ namespace UIHeavyClient
         Server[] listedServer;
 
         ////////////////////////////////////////////////////////////////////////
-        /// @propertie string LoginWindow.UserName
+        /// @propertie string LoginControl.UserName
         ///
         /// Propertie for the user name.
         ///
@@ -86,7 +106,7 @@ namespace UIHeavyClient
         }
 
         ////////////////////////////////////////////////////////////////////////
-        /// @propertie bool LoginWindow.UserConnected
+        /// @propertie bool LoginControl.UserConnected
         ///
         /// Propertie to know if user is connected.
         ///
@@ -112,7 +132,7 @@ namespace UIHeavyClient
         }
 
         ////////////////////////////////////////////////////////////////////////
-        /// @fn LoginWindow.LoginWindow()
+        /// @fn LoginControl.LoginControl()
         ///
         /// Default constructor.
         ///
@@ -124,14 +144,12 @@ namespace UIHeavyClient
 
             InitSavedValues();
 
-            cancelButton.IsEnabledChanged += Chat.ControlEnabledChanged;
-            loginButton.IsEnabledChanged += Chat.ControlEnabledChanged;
-            userNameInput.IsEnabledChanged += Chat.ControlEnabledChanged;
-            refreshButton.IsEnabledChanged += Chat.ControlEnabledChanged;
-            serverComboBox.IsEnabledChanged += Chat.ControlEnabledChanged;
-            ManualServerEntry.IsEnabledChanged += Chat.ControlEnabledChanged;
+            cancelButton.IsEnabledChanged      += ControlEnabledChanged;
+            loginButton.IsEnabledChanged       += ControlEnabledChanged;
+            userNameInput.IsEnabledChanged     += ControlEnabledChanged;
+            serverComboBox.IsEnabledChanged    += ControlEnabledChanged;
+            ManualServerEntry.IsEnabledChanged += ControlEnabledChanged;
 
-            refreshButton.Visibility = Visibility.Hidden;
             listedServer = new Server[]
             {
                 new Server("Local", "127.0.0.1"),
@@ -149,7 +167,6 @@ namespace UIHeavyClient
             }
 
             serverComboBox.SelectedIndex = 0;
-
             userNameInput.Focus();
         }
 
@@ -168,18 +185,12 @@ namespace UIHeavyClient
             }
         }
 
-        void Window_Closed(object sender, EventArgs e)
-        {
-            Chat.SetupLoginCallBackEvents(null);
-        }
-
         public void ConnectionSuccessful()
         {
             SetUserMessageFeedBack("Connection successful !", false);
             mUserName = userNameInput.Text;
             mUserConnected = true;
             Mouse.OverrideCursor = Cursors.Arrow;
-            //this.Close();
             MainWindowHandler.GoToOnlineLobby();
         }
 
@@ -192,7 +203,7 @@ namespace UIHeavyClient
 
 
         ////////////////////////////////////////////////////////////////////////
-        /// @fn void LoginWindow.TryConnecting()
+        /// @fn void LoginControl.TryConnecting()
         ///
         /// Make necessary validations and registers inputs.
         ///
@@ -202,8 +213,6 @@ namespace UIHeavyClient
         {
             if (userNameInput.Text != "" && passwordInput.Password != "")
             {
-
-                // Block everything while connecting
                 string serverName;
                 string ipAdress;
                 if (ManualServerEntry.Text != "")
@@ -219,15 +228,13 @@ namespace UIHeavyClient
 
                 if (Utilities.IsIPv4(ipAdress))
                 {
-                    Chat.mLoginInfo.mUserName = userNameInput.Text;
-                    Chat.mLoginInfo.mPassword = passwordInput.Password;
-                    Chat.mLoginInfo.mIpAddress = ipAdress;
+                    mLoginInfo.mUserName  = userNameInput.Text;
+                    mLoginInfo.mPassword  = passwordInput.Password;
+                    mLoginInfo.mIpAddress = ipAdress;
                     BlockUIContent();
-                    // Setup to be ready to receive events
-                    Chat.SetupLoginCallBackEvents(this);
 
                     SetUserMessageFeedBack(String.Format("Connecting to server {0}\nPlease wait...", serverName), false);
-                    Chat.RequestLogin(userNameInput.Text, passwordInput.Password, ipAdress);
+                    RequestLogin(userNameInput.Text, passwordInput.Password, ipAdress);
                 }
                 else
                 {
@@ -243,10 +250,8 @@ namespace UIHeavyClient
         public void BlockUIContent()
         {
             mConnecting = true;
-
             userNameInput.IsEnabled = false;
             loginButton.IsEnabled = false;
-            refreshButton.IsEnabled = false;
             serverComboBox.IsEnabled = false;
             ManualServerEntry.IsEnabled = false;
             cancelButton.Content = "Cancel";
@@ -258,16 +263,14 @@ namespace UIHeavyClient
             // Unblock everything while connecting
             userNameInput.IsEnabled = true;
             loginButton.IsEnabled = true;
-            refreshButton.IsEnabled = true;
             serverComboBox.IsEnabled = true;
             ManualServerEntry.IsEnabled = true;
             cancelButton.Content = "Exit";
             Mouse.OverrideCursor = Cursors.Arrow;
-
             mConnecting = false;
         }
         ////////////////////////////////////////////////////////////////////////
-        /// @fn void LoginWindow.loginButton_Click()
+        /// @fn void LoginControl.loginButton_Click()
         ///
         /// Event when the connexion button is clicked.
         /// 
@@ -282,7 +285,7 @@ namespace UIHeavyClient
         }
 
         ////////////////////////////////////////////////////////////////////////
-        /// @fn void LoginWindow.messageTextBox_KeyDown()
+        /// @fn void LoginControl.messageTextBox_KeyDown()
         ///
         /// Event when the user pressed a key.
         /// 
@@ -297,23 +300,6 @@ namespace UIHeavyClient
             if (e.Key == Key.Escape)
                 cancelButton_Click(sender, e);
         }
-        ////////////////////////////////////////////////////////////////////////
-        /// @fn void LoginWindow.refreshButton_Click(object sender, RoutedEventArgs e)
-        ///
-        /// Event when the user pressed the refresh button.
-        /// 
-        /// @param[in] object : The object related to the event.
-        /// @param[in] RoutedEventArgs : The key event.
-        ///
-        /// @return None.
-        ////////////////////////////////////////////////////////////////////////
-        private void refreshButton_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (Server s in listedServer)
-            {
-                //s.isAvailable = ... TODO : CALL DLL
-            }
-        }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
@@ -321,23 +307,124 @@ namespace UIHeavyClient
             {
                 CancelConnection("ServerMaster");
                 SetUserMessageFeedBack("Cancel requested", false);
-            }
-            else
-            {
-                //Close();
+                mConnecting = false;
+                UnBlockUIContent();
             }
         }
 
         private void InitSavedValues()
         {
-            userNameInput.Text = Chat.mLoginInfo.mUserName;
-            ManualServerEntry.Text = Chat.mLoginInfo.mIpAddress;
+            userNameInput.Text     = mLoginInfo.mUserName;
+            ManualServerEntry.Text = mLoginInfo.mIpAddress;
         }
 
         public void SetFocusToUserName()
         {
             userNameInput.Focus();
         }
+
+
+
+
+        // Callbacks for the Login window
+        public static bool LoginControlEventReceived(EventCodes id, IntPtr pMessage)
+        {
+            if ( id >= 0 && EventCodes.NB_EVENT_CODES > id )
+            {
+                string message=Marshal.PtrToStringAnsi(pMessage);
+                EventCodes type=(EventCodes)id;
+                LoginControl wThis=MainWindowHandler.Context.MainMenuControl.LoginControlElement;
+                switch (type)
+                {
+                case EventCodes.USER_CONNECTED:
+                {
+                        wThis.mConnecting = false;
+                        // Signal à la fenetre l'événement
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                            wThis.ConnectionSuccessful();
+                            wThis.UnBlockUIContent();
+                        });
+
+                        break;
+                }
+                case EventCodes.USER_ALREADY_CONNECTED:
+                {
+                    wThis.mConnecting=false;
+                    // Signal à la fenetre l'événement
+                    MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                    {
+                        wThis.UserNameAlreadyChosen();
+                    });
+                    break;
+                }
+                case EventCodes.USER_DID_NOT_SEND_NAME_ON_CONNECTION:
+                {
+                    wThis.mConnecting=false;
+                    // Signal à la fenetre l'événement
+                    MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                    {
+                        wThis.SetUserMessageFeedBack("Connection Error", true);
+                        wThis.UnBlockUIContent();
+                    });
+                    break;
+                }
+                case EventCodes.USER_DISCONNECTED:
+                {
+                    wThis.mConnecting=false;
+                    // Signal à la fenetre l'événement
+                    MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                    {
+                        wThis.SetUserMessageFeedBack("Connection Error", true);
+                        wThis.UnBlockUIContent();
+                    });
+                    break;
+                }
+                case EventCodes.CONNECTION_CANCELED:
+                {
+                    // Signal à la fenetre l'événement
+                    MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                    {
+                        wThis.SetUserMessageFeedBack("Connection Canceled", false);
+                        wThis.UnBlockUIContent();
+                    });
+                    break;
+                }
+                case EventCodes.RECONNECTION_TIMEOUT:
+                {
+                    // On ne veut pas afficher des vieux events quand on n'attend plus pour se connecter
+                    if (wThis.mConnecting)
+                    {
+                        // Signal à la fenetre l'événement
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                            wThis.SetUserMessageFeedBack("Connection Timed out", true);
+                            wThis.UnBlockUIContent();
+                        });
+                    }
+                    wThis.mConnecting=false;
+                    break;
+                }
+                case EventCodes.RECONNECTION_IN_PROGRESS: break;
+                case EventCodes.WRONG_PASSWORD:
+                {
+                    wThis.mConnecting=false;
+                    MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                    {
+                        wThis.SetUserMessageFeedBack("Wrong username/password", true);
+                        wThis.UnBlockUIContent();
+                    });
+                    break;
+                }
+                default: break;
+                }
+            }
+            return true;
+        }
+
+
+
+
     }
 }
 

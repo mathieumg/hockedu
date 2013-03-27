@@ -98,6 +98,7 @@
     <Compile Include="AIOptionControl.xaml.cs">
       <DependentUpon>AIOptionControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CallbackManager.cs" />
     <Compile Include="GameCreationPrompt.xaml.cs">
       <DependentUpon>GameCreationPrompt.xaml</DependentUpon>
     </Compile>
@@ -120,9 +121,6 @@
     </Compile>
     <Compile Include="LoginControl.xaml.cs">
       <DependentUpon>LoginControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="LoginWindow.xaml.cs">
-      <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="EditionModeControl.xaml.cs">
       <DependentUpon>EditionModeControl.xaml</DependentUpon>
@@ -176,10 +174,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="LoginControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
