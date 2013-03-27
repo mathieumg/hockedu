@@ -519,7 +519,12 @@ void NoeudAbstrait::renderReal() const
 
 
 #else
-        renderOpenGLES();
+        auto field = getField();
+        if(!field || !field->renderAppleNode(this))
+        {
+            renderOpenGLES();
+        }
+        
 #endif
         if(isHightlighted() || IsSelected())
         {
