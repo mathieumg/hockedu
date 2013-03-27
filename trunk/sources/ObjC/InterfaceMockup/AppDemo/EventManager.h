@@ -37,4 +37,7 @@ typedef enum {
 
 -(EventManager*) init;
 -(void) modifyState:(EditorStateName)editorState;
+-(void)touchesBegan:(UITouch *)touch;
+-(void)touchesMoved:(UITouch *)touch;
+-(void)touchesEnded:(UITouch *)touch;
 @end

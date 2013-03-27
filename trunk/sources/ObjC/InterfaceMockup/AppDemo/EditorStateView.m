@@ -9,6 +9,10 @@
 #import "EditorStateView.h"
 
 @implementation EditorStateView
+-(EditorStateView*)init
+{
+    return self;
+}
 -(void)touchesBegan:(UITouch *)touch
 {
     

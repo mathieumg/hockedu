@@ -17,9 +17,23 @@
     mCurrentState = [[EditorStateSelection alloc]init]; // Etat par defaut en ouvrant l'editeur
     return self;
 }
+
+-(void)touchesBegan:(UITouch *)touch
+{
+    [mCurrentState touchesBegan:touch];
+}
+-(void)touchesMoved:(UITouch *)touch
+{
+    [mCurrentState touchesMoved:touch];
+}
+-(void)touchesEnded:(UITouch *)touch
+{
+    [mCurrentState touchesEnded:touch];
+}
+
 -(void) modifyState:(EditorStateName)editorState
 {
-    if(mCurrentState)
+    if(mCurrentState!=nil)
     {
         [mCurrentState release];
     }
@@ -44,6 +58,10 @@
         case EDITOR_STATE_AJOUTER_ACCELERATEUR : mCurrentState = [[EditorStateAdd alloc] init:FIELD_MODIFICATION_ADD_BOOST];
             break;
         case EDITOR_STATE_AJOUTER_BONUS : mCurrentState = [[EditorStateAdd alloc] init:FIELD_MODIFICATION_ADD_BONUS];
+            break;
+        case EDITOR_STATE_MOVE_WINDOW : mCurrentState = [[EditorStateView alloc]init];
+            break;
+        case EDITOR_STATE_ZOOM_PROPORTIONNEL : mCurrentState = [[EditorStateView alloc]init];
             break;
         default: break;
     }

@@ -132,9 +132,16 @@ enum {
 - (void)viewDidLoad
 {
     UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationDetectee:)];
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
+    
     [rotationGesture setDelegate:self];
+    [longPressGesture setDelegate:self];
+    
     [theEAGLView addGestureRecognizer:rotationGesture];
+    [theEAGLView addGestureRecognizer:longPressGesture];
+    
     [rotationGesture release];
+    [longPressGesture release];
 }
 
 
@@ -206,16 +213,20 @@ enum {
     glLoadIdentity();
 }
 
+- (void)longPressDetected:(UIGestureRecognizer *)gestureRecognizer
+{
+    NSLog(@"LONG PRESS DETECTED!!!!");
+}
+
 - (void)unselectAllTools
 {
     // AJOUTER TOUS NOUVEAUX TOOL ICI
     mMoveTool = false;
     mSelectTool = false;
 }
-
 -(IBAction) selectionModeButtonTouched:(UIButton *)sender
 {
-    //mEventManager.mCurrentState = EDITOR_STATE_SELECTION;
+    [mEventManager modifyState:EDITOR_STATE_SELECTION];
     // En mode selection, on ne peut pas ajouter ditem
     itemToBeAdded = -1;
     // On ne peut pas avoir creationmode et selection mode en meme temps
@@ -229,6 +240,7 @@ enum {
 
 - (IBAction)creationModeButtonTouched:(UIButton *)sender
 {
+    [mEventManager modifyState:EDITOR_STATE_AJOUTER_PORTAIL];
     // En creation mode, on ne peut quajouter des nouveaux items, aucun tool de disponible
     [self unselectAllTools];
     mCreationMode = !mCreationMode;
@@ -240,7 +252,7 @@ enum {
 
 - (IBAction)selectToolButtonTouched:(UIButton *)sender
 {
-    //mEventManager.mCurrentState = EDITOR_STATE_SELECTION;
+    [mEventManager modifyState:EDITOR_STATE_SELECTION];
     
     // Disponible uniquement si on est en selectionmode
     if (mSelectionMode) {
@@ -251,6 +263,7 @@ enum {
 }
 - (IBAction)moveToolButtonTouched:(UIButton *)sender
 {
+    [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_DEPLACEMENT];
     // Disponible uniquement si on est en selectionmode
     if (mSelectionMode) {
         mSelectTool = false;
@@ -261,6 +274,9 @@ enum {
 
 - (IBAction)portalButtonTouched:(UIButton *)sender
 {
+    [mEventManager modifyState:EDITOR_STATE_AJOUTER_PORTAIL];
+    // On envois la position du centre du bouton de creation, pour cacher lobjet cree en arriere
+    //[mModel beginModification:FIELD_MODIFICATION_ADD_PORTAL:sender.center];
     // On met le portal comme item a ajouter au prochain clique dans la vue
     itemToBeAdded = PORTAL;
 }
@@ -290,6 +306,7 @@ enum {
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [[event allTouches] anyObject];
+    [mEventManager touchesBegan:touch];
     // On prend en note le point ou le toucher a commencer
     firstCorner = [touch locationInView:theEAGLView];
     // On reinitialise le bool disant si on drag
@@ -344,6 +361,7 @@ enum {
     if ([[event allTouches] count] == 1)
     {
         UITouch *touch = [[event allTouches] anyObject];
+        [mEventManager touchesMoved:touch];
         CGPoint positionCourante = [touch locationInView:theEAGLView];
         if (mCreationMode) {
             // Si on est en mode creation et touchMoved, on update la position de limage
@@ -435,6 +453,7 @@ enum {
     if ([[event allTouches] count] == 1)
     {
         UITouch *touch = [[event allTouches] anyObject];
+        [mEventManager touchesEnded:touch];
         CGPoint positionCourante = [touch locationInView:theEAGLView];
         if (mCreationMode) {
             // Destruction de limage de lobjet qui suit la position du doigt

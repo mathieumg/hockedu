@@ -80,6 +80,10 @@
 		4E2A595D16F2E558002160AE /* NodeBonus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595916F2E558002160AE /* NodeBonus.cpp */; };
 		4E2A595E16F2E558002160AE /* NodeModelRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595B16F2E558002160AE /* NodeModelRender.cpp */; };
 		4E2A596116F2E658002160AE /* BonusModifierFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */; };
+		4E8A93A217027E7F008B0C4A /* PieMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8A939B17027E7F008B0C4A /* PieMenu.m */; };
+		4E8A93A317027E7F008B0C4A /* PieMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8A939D17027E7F008B0C4A /* PieMenuItem.m */; };
+		4E8A93A417027E7F008B0C4A /* PieView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8A939F17027E7F008B0C4A /* PieView.m */; };
+		4E8A93A517027E7F008B0C4A /* TouchPieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8A93A117027E7F008B0C4A /* TouchPieViewController.m */; };
 		4E8C11B916FA31AE003D61E8 /* libTinyXml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EF216A316FA2AC0005FB093 /* libTinyXml.a */; };
 		4E8E3AC01700EB3100C8FC56 /* EditorStateAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8E3ABF1700EB3100C8FC56 /* EditorStateAbstract.m */; };
 		4E8E3AC31700EB7E00C8FC56 /* EventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8E3AC21700EB7E00C8FC56 /* EventManager.m */; };
@@ -319,6 +323,14 @@
 		4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierFactory.cpp; path = ../Usines/BonusModifierFactory.cpp; sourceTree = "<group>"; };
 		4E2A596016F2E658002160AE /* BonusModifierFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierFactory.h; path = ../Usines/BonusModifierFactory.h; sourceTree = "<group>"; };
 		4E2A596216F2E84B002160AE /* Enum_Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enum_Declarations.h; path = "../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"; sourceTree = "<group>"; };
+		4E8A939A17027E7F008B0C4A /* PieMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieMenu.h; sourceTree = "<group>"; };
+		4E8A939B17027E7F008B0C4A /* PieMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieMenu.m; sourceTree = "<group>"; };
+		4E8A939C17027E7F008B0C4A /* PieMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieMenuItem.h; sourceTree = "<group>"; };
+		4E8A939D17027E7F008B0C4A /* PieMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieMenuItem.m; sourceTree = "<group>"; };
+		4E8A939E17027E7F008B0C4A /* PieView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieView.h; sourceTree = "<group>"; };
+		4E8A939F17027E7F008B0C4A /* PieView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieView.m; sourceTree = "<group>"; };
+		4E8A93A017027E7F008B0C4A /* TouchPieViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchPieViewController.h; sourceTree = "<group>"; };
+		4E8A93A117027E7F008B0C4A /* TouchPieViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchPieViewController.m; sourceTree = "<group>"; };
 		4E8E3ABE1700EB3100C8FC56 /* EditorStateAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorStateAbstract.h; sourceTree = "<group>"; };
 		4E8E3ABF1700EB3100C8FC56 /* EditorStateAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditorStateAbstract.m; sourceTree = "<group>"; };
 		4E8E3AC11700EB7E00C8FC56 /* EventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventManager.h; sourceTree = "<group>"; };
@@ -671,6 +683,21 @@
 			path = Bonus;
 			sourceTree = "<group>";
 		};
+		4E8A939917027E7F008B0C4A /* PieMenu */ = {
+			isa = PBXGroup;
+			children = (
+				4E8A939A17027E7F008B0C4A /* PieMenu.h */,
+				4E8A939B17027E7F008B0C4A /* PieMenu.m */,
+				4E8A939C17027E7F008B0C4A /* PieMenuItem.h */,
+				4E8A939D17027E7F008B0C4A /* PieMenuItem.m */,
+				4E8A939E17027E7F008B0C4A /* PieView.h */,
+				4E8A939F17027E7F008B0C4A /* PieView.m */,
+				4E8A93A017027E7F008B0C4A /* TouchPieViewController.h */,
+				4E8A93A117027E7F008B0C4A /* TouchPieViewController.m */,
+			);
+			path = PieMenu;
+			sourceTree = SOURCE_ROOT;
+		};
 		4E8E3ABD1700EAB300C8FC56 /* State */ = {
 			isa = PBXGroup;
 			children = (
@@ -746,6 +773,7 @@
 			children = (
 				96378D891472C71200F543EA /* HockeduAppDelegate.h */,
 				96378D8A1472C71200F543EA /* HockeduAppDelegate.m */,
+				4E8A939917027E7F008B0C4A /* PieMenu */,
 				4E8E3ABD1700EAB300C8FC56 /* State */,
 				968DACC11472ED46007D15A3 /* Utilitaires */,
 				969DDEDC1472CF6000ED5DC8 /* Vues */,
@@ -1042,6 +1070,10 @@
 				4E8E3AC91700EC6800C8FC56 /* EditorStateTransform.m in Sources */,
 				4E8E3ACC1700ECB900C8FC56 /* EditorStateSelection.m in Sources */,
 				4E8E3ACF1700ECDF00C8FC56 /* EditorStateView.m in Sources */,
+				4E8A93A217027E7F008B0C4A /* PieMenu.m in Sources */,
+				4E8A93A317027E7F008B0C4A /* PieMenuItem.m in Sources */,
+				4E8A93A417027E7F008B0C4A /* PieView.m in Sources */,
+				4E8A93A517027E7F008B0C4A /* TouchPieViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

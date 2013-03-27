@@ -76,5 +76,6 @@ typedef enum{
 - (void)setupView;
 - (CGPoint)convertScreenCoordToVirtualCoord:(CGPoint)pointToConvert;
 - (void)rotationDetectee:(UIGestureRecognizer *)gestureRecognizer;
+- (void)longPressDetected:(UIGestureRecognizer *)gestureRecognizer;
 
 @end

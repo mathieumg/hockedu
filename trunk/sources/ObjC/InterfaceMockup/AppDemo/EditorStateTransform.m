@@ -9,6 +9,10 @@
 #import "EditorStateTransform.h"
 
 @implementation EditorStateTransform
+-(EditorStateTransform*)init:(FieldModificationStrategyType)type
+{
+    return self;
+}
 -(void)touchesBegan:(UITouch *)touch
 {
     
