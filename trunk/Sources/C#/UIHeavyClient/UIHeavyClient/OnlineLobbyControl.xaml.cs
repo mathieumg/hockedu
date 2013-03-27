@@ -140,6 +140,14 @@ namespace UIHeavyClient
         private void submitButton_Click(object sender, RoutedEventArgs e)
         {
             // Ouin, faudrait p-e implémenter le chat...
+
+
+
+
+
+
+
+
         }
     }
 }

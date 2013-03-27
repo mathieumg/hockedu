@@ -54,7 +54,6 @@ namespace UIHeavyClient
         private AIOptionControl mAIOptionControl;
         private KeyboardOptionControl mKeyboardOptionControl;
 
-        private LoginWindow mLoginWindow;
 
         private OpenGLControl mOpenGLControl;
         private WindowsFormsHost mWindowFormsHost;
@@ -163,11 +162,12 @@ namespace UIHeavyClient
             mAIOptionControl = new AIOptionControl();
             mKeyboardOptionControl = new KeyboardOptionControl();
 
-            mLoginWindow = new LoginWindow();
 
             this.WindowContentControl.Content = mMainMenuControl;
+            MainWindowHandler.InitCallbacks();
             MainWindowHandler.GoToMainMenu();
 
+            
         }
 
         void mWindowFormsHost_GotFocus( object sender, RoutedEventArgs e )
@@ -263,11 +263,13 @@ namespace UIHeavyClient
 #endif
 
             InitDLL();
+            
             SetAchievementUnlocked( mAchievementUnlockCallBack );
 
             this.Loaded += CreateUserControl;
             this.KeyDown += MainWindow_KeyDown;
             this.KeyUp += MainWindow_KeyUp;
+            
         }
         [DllImport(@"RazerGame.dll")]
         public static extern void ReloadModels();
@@ -378,11 +380,6 @@ namespace UIHeavyClient
             System.Diagnostics.Process.Start("http://www.hockedu.com");
         }
 
-
-        private void ConnectToServer(object sender, RoutedEventArgs e)
-        {
-            mLoginWindow.ShowDialog();
-        }
 
         void MainWindow_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
