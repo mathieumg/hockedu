@@ -9,6 +9,10 @@
 #import "EditorStateSelection.h"
 
 @implementation EditorStateSelection
+-(EditorStateSelection*)init
+{
+    return self;
+}
 -(void)touchesBegan:(UITouch *)touch
 {
     
