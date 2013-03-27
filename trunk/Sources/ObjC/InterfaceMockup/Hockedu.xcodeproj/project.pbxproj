@@ -88,8 +88,9 @@
 		4E8E3ACC1700ECB900C8FC56 /* EditorStateSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8E3ACB1700ECB900C8FC56 /* EditorStateSelection.m */; };
 		4E8E3ACF1700ECDF00C8FC56 /* EditorStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8E3ACE1700ECDF00C8FC56 /* EditorStateView.m */; };
 		4E90C0FC17024114000F2564 /* EditionEventManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E90C0FA17024114000F2564 /* EditionEventManager.cpp */; };
-		4E96C87816FE0A5000CBA826 /* razor_sharp.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E96C87716FE0A5000CBA826 /* razor_sharp.png */; };
+		4E94494417025200005BC9F6 /* Model3DManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E94494317025200005BC9F6 /* Model3DManager.m */; };
 		4E96DF0416F64C4700588998 /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E96DC6716F63D2100588998 /* libBox2D.a */; };
+		4E99937817027CDC00C68644 /* razor_sharp.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E99937717027CDC00C68644 /* razor_sharp.png */; };
 		4E9CE9FA16FBB74100B04A12 /* Login.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E9CE9F916FBB74100B04A12 /* Login.xib */; };
 		4E9CE9FE16FBBA4B00B04A12 /* LoadMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E9CE9FC16FBBA4B00B04A12 /* LoadMapViewController.m */; };
 		4E9CE9FF16FBBA4B00B04A12 /* LoadMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E9CE9FD16FBBA4B00B04A12 /* LoadMapViewController.xib */; };
@@ -335,8 +336,10 @@
 		4E8E3ACE1700ECDF00C8FC56 /* EditorStateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditorStateView.m; sourceTree = "<group>"; };
 		4E90C0FA17024114000F2564 /* EditionEventManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EditionEventManager.cpp; path = "../../C++/Environnement/EditionEventManager.cpp"; sourceTree = "<group>"; };
 		4E90C0FB17024114000F2564 /* EditionEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditionEventManager.h; path = "../../C++/Environnement/EditionEventManager.h"; sourceTree = "<group>"; };
-		4E96C87716FE0A5000CBA826 /* razor_sharp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = razor_sharp.png; path = ../../../Content/media/razor_sharp.png; sourceTree = "<group>"; };
+		4E94494217025200005BC9F6 /* Model3DManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model3DManager.h; sourceTree = "<group>"; };
+		4E94494317025200005BC9F6 /* Model3DManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model3DManager.m; sourceTree = "<group>"; };
 		4E96DC6216F63D1D00588998 /* Box2D.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Box2D.xcodeproj; path = Box2D/Box2D.xcodeproj; sourceTree = "<group>"; };
+		4E99937717027CDC00C68644 /* razor_sharp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = razor_sharp.png; path = ../../../Content/media/razor_sharp.png; sourceTree = "<group>"; };
 		4E9CE9F916FBB74100B04A12 /* Login.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Login.xib; sourceTree = "<group>"; };
 		4E9CE9FB16FBBA4B00B04A12 /* LoadMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMapViewController.h; sourceTree = "<group>"; };
 		4E9CE9FC16FBBA4B00B04A12 /* LoadMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadMapViewController.m; sourceTree = "<group>"; };
@@ -630,7 +633,7 @@
 		0CC6367816DE731600D05BBE /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				4E96C87716FE0A5000CBA826 /* razor_sharp.png */,
+				4E99937717027CDC00C68644 /* razor_sharp.png */,
 				6D951C4016EE767B00894B44 /* BottomBar.png */,
 				6D951C3E16EE753600894B44 /* LeftBar.png */,
 				0C04E03B16DE7835002B0EE2 /* Icones */,
@@ -763,6 +766,8 @@
 				968DACBA1472EAFF007D15A3 /* Modèles 3D */,
 				4EEBBF9816E86E5B00017127 /* Model.h */,
 				4EEBBF9916E86E5B00017127 /* Model.mm */,
+				4E94494217025200005BC9F6 /* Model3DManager.h */,
+				4E94494317025200005BC9F6 /* Model3DManager.m */,
 			);
 			name = Hockedu;
 			path = AppDemo;
@@ -958,7 +963,7 @@
 				6D951C4116EE767B00894B44 /* BottomBar.png in Resources */,
 				4E9CE9FA16FBB74100B04A12 /* Login.xib in Resources */,
 				4E9CE9FF16FBBA4B00B04A12 /* LoadMapViewController.xib in Resources */,
-				4E96C87816FE0A5000CBA826 /* razor_sharp.png in Resources */,
+				4E99937817027CDC00C68644 /* razor_sharp.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1052,6 +1057,7 @@
 				4E8E3ACF1700ECDF00C8FC56 /* EditorStateView.m in Sources */,
 				4EC7359D17015F85002FCF4C /* Solution_Defines.cpp in Sources */,
 				4E90C0FC17024114000F2564 /* EditionEventManager.cpp in Sources */,
+				4E94494417025200005BC9F6 /* Model3DManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1159,6 +1165,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Commun/Externe/Box2D/Libs\"",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = Hockedu;
 				"USER_HEADER_SEARCH_PATHS[arch=*]" = "../../../Commun/Externe/** AFNetworking/AFNetworking/";
 				WRAPPER_EXTENSION = app;
@@ -1178,6 +1185,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Commun/Externe/Box2D/Libs\"",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = Hockedu;
 				WRAPPER_EXTENSION = app;
 			};
