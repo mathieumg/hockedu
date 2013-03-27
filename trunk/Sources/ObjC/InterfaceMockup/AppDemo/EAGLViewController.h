@@ -14,12 +14,14 @@
 #import "OpenGLWaveFrontObject.h"
 #import "Model.h"
 #import "EventManager.h"
+#import "iCarousel.h"
+
 extern int const LARGEUR_FENETRE;
 extern int const HAUTEUR_FENETRE;
 
 @class EAGLView;
 
-@interface EAGLViewController : UIViewController <UIGestureRecognizerDelegate> {
+@interface EAGLViewController : UIViewController <UIGestureRecognizerDelegate, iCarouselDataSource, iCarouselDelegate> {
     EAGLContext *context;
     EAGLView* theEAGLView;
     EventManager* mEventManager;
@@ -54,6 +56,7 @@ extern int const HAUTEUR_FENETRE;
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;
 @property (nonatomic) NSInteger animationFrameInterval;
 @property (nonatomic, retain) OpenGLWaveFrontObject *cube;
+@property (nonatomic, retain) IBOutlet iCarousel *carousel;
 
 typedef enum{
     PORTAL,
