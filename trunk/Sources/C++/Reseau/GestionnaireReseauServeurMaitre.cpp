@@ -79,7 +79,7 @@ void GestionnaireReseauServeurMaitre::SocketStateCallback( const ConnectionState
 		SPSocket wSocketVientConnecter = GestionnaireReseau::obtenirInstance()->getSocket(wPlayerName, TCP);
 		for(std::set<std::string>::iterator it = wListe.begin(); it!=wListe.end(); ++it)
 		{
-			if(wPlayerName != (*it))
+			if(wPlayerName != (*it) && (*it).find("GameServer") == -1 && (*it) != "MasterServer")
 			{
 				// On l'envoie a playerName
 				PaquetUserStatus* wPaquet = (PaquetUserStatus*) GestionnaireReseau::obtenirInstance()->creerPaquet(USER_STATUS);
@@ -92,7 +92,7 @@ void GestionnaireReseauServeurMaitre::SocketStateCallback( const ConnectionState
 			}
 		}
 	}
-	if(wPlayerName.size() == 0)
+	if(wPlayerName.size() == 0 || "GameServer" == wPlayerName || "MasterServer" == wPlayerName)
 	{
         wPaquet->removeAssociatedQuery(); // delete
 	}
