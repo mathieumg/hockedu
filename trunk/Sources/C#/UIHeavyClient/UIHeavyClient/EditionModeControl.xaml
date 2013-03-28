@@ -7,6 +7,8 @@
              xmlns:userControls="clr-namespace:UIHeavyClient.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="674" d:DesignWidth="1058" Background="Black" Foreground="White">
+
+    
     <Grid Background="Black" Name="editionControlGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="260*" MaxWidth="300" />
