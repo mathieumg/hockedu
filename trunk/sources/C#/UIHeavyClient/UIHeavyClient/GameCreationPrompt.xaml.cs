@@ -48,7 +48,7 @@ namespace UIHeavyClient
 
         private bool mOkIsClicked;
 
-        public string Name
+        public string GameName
         {
             get { return mNameTextBox.Text; }
         }

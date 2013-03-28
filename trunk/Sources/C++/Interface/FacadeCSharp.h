@@ -65,6 +65,17 @@ extern "C"
         int FailProb;
     };
 
+    struct OnlineGameInfos
+    {
+        int id;
+        unsigned serverId;
+        char* name;
+        char* creatorName;
+        char* mapName;
+        bool needPassword;
+        char* needPasswordString;
+    };
+
     __declspec(dllexport) void InitOpenGL(HWND hWnd);
     __declspec(dllexport) void FreeApplicationMemory( );
     __declspec(dllexport) void RenderOpenGL();
@@ -137,6 +148,9 @@ extern "C"
     __declspec(dllexport) void BeginNewTournament(char* pTournamentName, char* pMapName, char** pPlayerNames, int pNbrPlayers);
     __declspec(dllexport) void ContinueExistingTournament(char* pTournamentName);
 
+    // Online lobby calls
+    __declspec(dllexport) int GetNbrServerGames();
+    __declspec(dllexport) void GetServersGames(OnlineGameInfos* pGames, int pNbrGames);
 
     ///////////////////////////////////////////////////////////////////////////////
     // User mouse and keyboard events

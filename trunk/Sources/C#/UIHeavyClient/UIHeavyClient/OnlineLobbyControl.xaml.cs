@@ -33,14 +33,27 @@ namespace UIHeavyClient
     /// @author Vincent Lemire
     /// @date 2013-03-26
     ///////////////////////////////////////////////////////////////////////////
-    class OnlineGameInfos
+    public struct OnlineGameInfos
     {
-        public int id;
-        public uint serverId;
-        public string name;
-        public string creatorName;
-        public string mapName;
-        public bool needPassword;
+        public int id {get; set;}
+        public uint serverId { get; set; }
+        public string name { get; set; }
+        public string creatorName { get; set; }
+        public string mapName { get; set; }
+        public bool needPassword { get; set; }
+        public string needPasswordString { get; set; }
+
+        public OnlineGameInfos(int pId, uint pServerId, string pName, string pCreatorName, string pMapName, bool pNeedPassword, string pNeedPasswordString)
+            : this()
+        {
+            id = pId;
+            serverId = pServerId;
+            name = pName;
+            creatorName = pCreatorName;
+            mapName = pMapName;
+            needPassword = pNeedPassword;
+            needPasswordString = pNeedPasswordString;
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -59,22 +72,32 @@ namespace UIHeavyClient
 
         private HttpManager mHttpManager;
 
-        private Dictionary<int, OnlineGameInfos> mOnlineGameInfos;
+        //private Dictionary<int, OnlineGameInfos> mOnlineGameInfos;
         private Chat mChat;
 
+        // Properties
         public Chat ChatObject
         {
             get { return mChat;}
         }
-
-
 
         // C++ functions
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void requestGameCreationServerGame(string pGameName, string pMapName, string pPassword);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void connectPartieServerGame(int pGameId, string pInputPassword);
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int GetNbrServerGames();
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void GetServersGames([In, Out] OnlineGameInfos[] pGames, int pNbrGames);
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.OnlineLobbyControl()
+        ///
+        /// Constructor.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public OnlineLobbyControl()
         {
             InitializeComponent();
@@ -87,12 +110,32 @@ namespace UIHeavyClient
             mChat = new Chat();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.mBackToMainButton_Click()
+        ///
+        /// Return to main menu.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mBackToMainButton_Click(object sender, RoutedEventArgs e)
         {
             mChat.ClearContent();
             MainWindowHandler.GoToMainMenu();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.mEditionModeButton_Click()
+        ///
+        /// Goto to edition mode.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mEditionModeButton_Click(object sender, RoutedEventArgs e)
         {
             mServerMapPrompt = new ServerMapPrompt();
@@ -107,31 +150,51 @@ namespace UIHeavyClient
             mServerMapPrompt.Close();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.mJoinButton_Click()
+        ///
+        /// Join an existing game.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mJoinButton_Click(object sender, RoutedEventArgs e)
         {
-            OnlineGameInfos selected = (mOnlineGameListView.SelectedItem as OnlineGameInfos);
+            OnlineGameInfos? selected = (mOnlineGameListView.SelectedItem as OnlineGameInfos?);
 
             if (selected != null)
             {
-                if (selected.needPassword)
+                if (selected.Value.needPassword)
                 {
                     mPasswordPrompt = new PasswordPrompt();
                     mPasswordPrompt.ShowDialog();
 
                     if (mPasswordPrompt.OkIsClicked)
                     {
-                        connectPartieServerGame(selected.id, mPasswordPrompt.Password);
+                        connectPartieServerGame(selected.Value.id, mPasswordPrompt.Password);
                     }
 
                     mPasswordPrompt.Close();
                 }
                 else
                 {
-                    connectPartieServerGame(selected.id, "");
+                    connectPartieServerGame(selected.Value.id, "");
                 }
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.mCreateButton_Click()
+        ///
+        /// Create a new game and wait for someone.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mCreateButton_Click(object sender, RoutedEventArgs e)
         {
             mGameCreationPrompt = new GameCreationPrompt();
@@ -140,34 +203,56 @@ namespace UIHeavyClient
 
             if (mGameCreationPrompt.OkIsClicked)
             {
-                requestGameCreationServerGame(mGameCreationPrompt.Name, mGameCreationPrompt.Map.name, mGameCreationPrompt.Password);
+                requestGameCreationServerGame(mGameCreationPrompt.GameName, mGameCreationPrompt.Map.name, mGameCreationPrompt.Password);
             }
 
             mGameCreationPrompt.Close();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.mRandomButton_Click()
+        ///
+        /// Join a random existing game.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mRandomButton_Click(object sender, RoutedEventArgs e)
         {
             // TODO
             // Join random game logic
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.mRefreshButton_Click()
+        ///
+        /// Refresh game data.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mRefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
-            // Read data again
+            // Display games again
+            DisplayServerGames();
         }
-
-
-
-
-
-
-
 
         ////////// Methodes pour le chat dans le lobby
 
-
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.submitButton_Click()
+        ///
+        /// Send message to chat.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void submitButton_Click(object sender, RoutedEventArgs e)
         {
             if (messageTextBox.Text!="")
@@ -177,7 +262,16 @@ namespace UIHeavyClient
             }
         }
 
-
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.CallbackEvent()
+        ///
+        /// Callback for events.
+        /// 
+        /// @param[in] EventCodes : event's id.
+        /// @param[in] IntPtr : event's message.
+        ///
+        /// @return bool.
+        ////////////////////////////////////////////////////////////////////////
         public static bool CallbackEvent(EventCodes id, IntPtr pMessage)
         {
             string message=Marshal.PtrToStringAnsi(pMessage);
@@ -224,7 +318,16 @@ namespace UIHeavyClient
             return true;
         }
 
- public void HandleDownloadedMap(string pFilepath)
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.HandleDownloadedMap()
+        ///
+        /// Receive a server map.
+        /// 
+        /// @param[in] string : The map's file path.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        public void HandleDownloadedMap(string pFilepath)
         {
             // Load the map to edition mode
             MainWindowHandler.mTaskManager.ExecuteTask(() =>
@@ -234,6 +337,16 @@ namespace UIHeavyClient
             });
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.CallbackMessage()
+        ///
+        /// Callback when receiving a message.
+        /// 
+        /// @param[in] IntPtr : The user.
+        /// @param[in] IntPtr : The message.
+        ///
+        /// @return bool.
+        ////////////////////////////////////////////////////////////////////////
         public static bool CallbackMessage(IntPtr pUsername, IntPtr pMessage)
         {
             string message=Marshal.PtrToStringAnsi(pMessage);
@@ -249,7 +362,6 @@ namespace UIHeavyClient
             
             return true;
         }
-
 
         ////////////////////////////////////////////////////////////////////////
         /// @fn void OnlineLobbyControl.UpdateChatView()
@@ -270,7 +382,16 @@ namespace UIHeavyClient
             UpdateConnectedUserList();
         }
 
-
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.PropertiesRefreshWarning()
+        ///
+        /// Waning.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void UpdateConnectedUserList()
         {
             // Si le nb d'element dans les 2 listes n'est pas le meme,  un user s'est connecte ou deconnecte.
@@ -285,7 +406,16 @@ namespace UIHeavyClient
             }
         }
 
-
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.PropertiesRefreshWarning()
+        ///
+        /// Waning.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void BlockUIContent()
         {
             messageTextBox.IsEnabled=false;
@@ -293,11 +423,42 @@ namespace UIHeavyClient
             onlineListView.IsEnabled=false;
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.PropertiesRefreshWarning()
+        ///
+        /// Waning.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void UnBlockUIContent()
         {
             messageTextBox.IsEnabled=true;
             submitButton.IsEnabled=true;
             onlineListView.IsEnabled=true;
+        }
+
+        public void DisplayServerGames()
+        {
+            int nbrServerGames = GetNbrServerGames();
+
+            OnlineGameInfos[] gameInfos = new OnlineGameInfos[nbrServerGames];
+
+            for (uint i = 0; i < nbrServerGames; ++i )
+            {
+                gameInfos[i] = new OnlineGameInfos(0, 0, new string('s', 255), new string('s', 255), new string('s', 255), false, new string('s', 4));
+            }
+
+            GetServersGames(gameInfos, nbrServerGames);
+
+            mOnlineGameListView.Items.Clear();
+
+            foreach (OnlineGameInfos g in gameInfos)
+            {
+                mOnlineGameListView.Items.Add((object)g);
+            }
         }
     }
 }

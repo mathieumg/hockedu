@@ -118,8 +118,6 @@ namespace UIHeavyClient
             mOnlineGroupBox.Visibility = Visibility.Visible;
             mQuickPlayGroupBox.Visibility = Visibility.Hidden;
             mLoginControl.SetFocusToUserName();
-
-            //MainWindowHandler.GoToOnlineLobby(); // TEMP
         }
 
         private void optionButton_Click(object sender, RoutedEventArgs e)

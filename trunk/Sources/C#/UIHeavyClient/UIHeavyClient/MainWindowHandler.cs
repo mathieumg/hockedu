@@ -194,6 +194,7 @@ namespace UIHeavyClient
             if(CallbackManager.ChangeGameMode(GameState.GAME_STATE_ONLINE_LOBBY))
             {
                 Context.WindowContentControl.Content=Context.OnlineLobbyControl;
+                Context.OnlineLobbyControl.DisplayServerGames();
                 CallbackManager.CommitChanges();
             }
         }
