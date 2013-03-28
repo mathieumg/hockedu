@@ -7,37 +7,31 @@
              d:DesignHeight="607" d:DesignWidth="929">
     <Grid Name="mGrid" Height="Auto" Background="Black" Width="Auto">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="142*" />
-            <ColumnDefinition Width="129*" />
-            <ColumnDefinition Width="561*" />
+            <ColumnDefinition Width="159*" />
+            <ColumnDefinition Width="144*" />
+            <ColumnDefinition Width="152*" />
+            <ColumnDefinition Width="474*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100*" MinHeight="100" MaxHeight="100" />
-            <RowDefinition Height="446*" />
-            <RowDefinition Height="70*" MinHeight="70" MaxHeight="70" />
+            <RowDefinition Height="100" MinHeight="100" MaxHeight="100" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="70" MinHeight="70" MaxHeight="70" />
         </Grid.RowDefinitions>
-        <Label Content="CONTROL CONFIGURATION" HorizontalAlignment="Stretch" Margin="0,0,8,8" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="64" Grid.ColumnSpan="3" />
-        <Label Content="" Grid.Row="2" Height="Auto" HorizontalAlignment="Right" Margin="0,14,0,12" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" Grid.Column="2" />
-        <Button Content="Option Menu" Grid.Row="2" Margin="12" Name="mBackToOptionButton" Background="Black" Foreground="White" Click="mBackToOptionButton_Click" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="18" />
-        <Button Content="Main Menu" Margin="12" Name="mBackToMainButton" Grid.Row="2" Background="Black" Foreground="White" Click="mBackToMainButton_Click" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="18" Grid.Column="1" />
-        <GroupBox Grid.Row="1" Header="Configurable Actions" Margin="12" Name="mConfigurableGroupBox" Foreground="White" Grid.ColumnSpan="2">
-            <Grid>
-                <ListBox Margin="12" Name="mCurrentAIList" Background="Black" Foreground="White"  />
-            </Grid>
-        </GroupBox>
-        <GroupBox Grid.Column="2" Grid.Row="1" Header="Keyboard Edition" Margin="21,41,12,71" Name="mCurrentEditGroupBox" Foreground="White">
-            <Grid Height="Auto">
-
-                <Button Content="Save" Margin="12,0,0,12" Name="mSaveButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" HorizontalAlignment="Left" Width="62" Height="32" VerticalAlignment="Bottom" Click="mSaveButton_Click" />
-                <Label Content="Up : " Height="28" HorizontalAlignment="Left" Margin="6,6,0,0" Name="mUpKeyLabel" VerticalAlignment="Top" Foreground="White" />
-                <Label Content="Down : " Height="28" HorizontalAlignment="Left" Margin="6,32,0,0" Name="mDownKeyLabel" VerticalAlignment="Top" Foreground="White" />
-                <Label Content="Left : " Height="28" HorizontalAlignment="Left" Margin="12,66,0,0" Name="mLeftKeyLabel" VerticalAlignment="Top" Foreground="White" />
-                <Label Content="Right : " Height="28" HorizontalAlignment="Left" Margin="12,100,0,0" Name="mRightKeyLabel" VerticalAlignment="Top" Foreground="White" />
-                <TextBox Height="19" HorizontalAlignment="Left" Margin="46,8,0,0" Name="mUpKeyTextBox" VerticalAlignment="Top" Width="62" Background="Black" Foreground="White" KeyDown="UpKeyInput" />
-                <TextBox Background="Black" Foreground="White" Height="19" HorizontalAlignment="Left" Margin="65,34,0,0" Name="mDownKeyTextBox" VerticalAlignment="Top" Width="62" KeyDown="DownKeyInput" />
-                <TextBox Background="Black" Foreground="White" Height="19" HorizontalAlignment="Left" Margin="65,68,0,0" Name="mLeftKeyTextBox" VerticalAlignment="Top" Width="62" KeyDown="LeftKeyInput" />
-                <TextBox Background="Black" Foreground="White" Height="19" HorizontalAlignment="Left" Margin="65,100,0,0" Name="mRightKeyTextBox" VerticalAlignment="Top" Width="62" KeyDown="RightKeyInput" />
-            </Grid>
-        </GroupBox>
+        <Label Content="CONTROL CONFIGURATION" HorizontalAlignment="Stretch" Margin="0,0,8,8" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="64" Grid.ColumnSpan="4" />
+        <Label Content="" Grid.Row="5" Height="Auto" HorizontalAlignment="Right" Margin="0,14,0,12" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" Grid.Column="3" />
+        <Button Content="Option Menu" Grid.Row="5" Margin="12" Name="mBackToOptionButton" Background="Black" Foreground="White" Click="mBackToOptionButton_Click" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="18" />
+        <Button Content="Main Menu" Margin="12" Name="mBackToMainButton" Grid.Row="5" Background="Black" Foreground="White" Click="mBackToMainButton_Click" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="18" Grid.Column="1" />
+        <TextBox Margin="5,30" Name="mUpKeyTextBox" Background="Black" Foreground="White" IsReadOnly="True" PreviewKeyDown="UpKeyInput" Grid.Column="1" Grid.Row="1" FontSize="30" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+        <TextBox Background="Black" Foreground="White" Margin="5,30" Name="mDownKeyTextBox" PreviewKeyDown="DownKeyInput" IsReadOnly="True" Grid.Column="1" Grid.Row="2" FontSize="30" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+        <TextBox Background="Black" Foreground="White" Margin="5,30" Name="mLeftKeyTextBox" PreviewKeyDown="LeftKeyInput" IsReadOnly="True" Grid.Column="1" Grid.Row="3" FontSize="30" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+        <TextBox Background="Black" Foreground="White" Margin="5,30" Name="mRightKeyTextBox" PreviewKeyDown="RightKeyInput" IsReadOnly="True" Grid.Column="1" Grid.Row="4" FontSize="30" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+        <Label Content="Up : " Margin="5,20" Name="mUpKeyLabel" Foreground="White" Grid.Row="1" FontSize="30" />
+        <Label Content="Down : " Margin="5,20" Name="mDownKeyLabel" Foreground="White" Grid.Row="2" FontSize="30" />
+        <Label Content="Left : " Margin="5,20" Name="mLeftKeyLabel" Foreground="White" Grid.Row="3" FontSize="30" />
+        <Label Content="Right : " Margin="5,20" Name="mRightKeyLabel" Foreground="White" Grid.Row="4" FontSize="30" />
+        <Button Content="Save" Margin="71,68,9,12" Name="mSaveButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" Click="mSaveButton_Click" Grid.Row="4" Grid.Column="2" />
     </Grid>
 </UserControl>

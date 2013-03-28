@@ -27,12 +27,12 @@
         <Button   Name="submitButton"     Margin="6,3,2,3"   Background="Black" Foreground="White" Content="Send" MaxHeight="50" IsDefault="True" FontSize="32" Grid.Row="5" Grid.Column="5" Click="submitButton_Click" />
         <TextBox  Name="wholeMessageBox" TextWrapping="Wrap" Margin="1" Background="Black" Foreground="White" Text="Welcome!" IsReadOnly="True" VerticalScrollBarVisibility="Auto" UseLayoutRounding="True" Grid.Row="3" Grid.ColumnSpan="5" Grid.RowSpan="2" />
         <ListView Name="onlineListView" Margin="1" Background="Black" Foreground="White" Grid.Row="4" Grid.Column="5">
-            <ListView.ContextMenu>
+            <!--<ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Block" />
                     <MenuItem Header="Private Message" />
                 </ContextMenu>
-            </ListView.ContextMenu>
+            </ListView.ContextMenu>-->
         </ListView>
         <Label Name="onlineLabel" Margin="1" Foreground="White" Content="Online:" Grid.Row="3" Grid.Column="5" />
         <Button Content="Main Menu" Margin="3" Name="mBackToMainButton" Background="Black" Foreground="White" FontSize="16" Click="mBackToMainButton_Click" Grid.Row="2" Grid.Column="5" />
