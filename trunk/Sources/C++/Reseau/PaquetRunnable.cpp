@@ -90,8 +90,6 @@ int PaquetRunnable::RunnableUserStatusClient( Paquet* pPaquet )
 {
     PaquetUserStatus* wPaquet = (PaquetUserStatus*) pPaquet;
 
-
-
     switch(wPaquet->getConnectionState())
     {
     case CONNECTED:

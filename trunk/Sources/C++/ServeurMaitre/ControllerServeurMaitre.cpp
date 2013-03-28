@@ -8,6 +8,7 @@
 #include "../Reseau/Paquets/PaquetEvent.h"
 #include "../Reseau/ObjetsGlobaux/PartieServeurs.h"
 #include "GameServerManager.h"
+#include "../Reseau/RelayeurMessage.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///

@@ -39,6 +39,13 @@ namespace UIHeavyClient
 
         // To load the map for quick play
         OpenFileDialog mOpenFileDialog;
+        private LoginControl mLoginControl;
+
+        public LoginControl LoginControlElement
+        {
+            get { return mLoginControl; }
+            set { mLoginControl = value; }
+        }
 
         public MainMenuControl()
         {
@@ -68,6 +75,9 @@ namespace UIHeavyClient
             mOpenFileDialog = new OpenFileDialog();
             mOpenFileDialog.Multiselect = false;
             mOpenFileDialog.Title = "Choose a map";
+
+            mLoginControl = new LoginControl();
+            
         }
 
         // C++ function
@@ -84,6 +94,7 @@ namespace UIHeavyClient
         {
             ExecuteUnitTest();
         }
+
 
         private void quickPlayButton_Click(object sender, RoutedEventArgs e)
         {
@@ -106,9 +117,7 @@ namespace UIHeavyClient
         {
             mOnlineGroupBox.Visibility = Visibility.Visible;
             mQuickPlayGroupBox.Visibility = Visibility.Hidden;
-            MainWindowHandler.LoginUI.SetFocusToUserName();
-
-            //MainWindowHandler.GoToOnlineLobby(); // TEMP
+            mLoginControl.SetFocusToUserName();
         }
 
         private void optionButton_Click(object sender, RoutedEventArgs e)
@@ -130,7 +139,7 @@ namespace UIHeavyClient
         {
             mQuickPlayGroupBox.Visibility = Visibility.Hidden;
             mOnlineGroupBox.Visibility = Visibility.Hidden;
-            mOnlineContentControl.Content = MainWindowHandler.LoginUI;
+            mOnlineContentControl.Content = mLoginControl;
         }
 
         private void mQuickPlayCancelButton_Click(object sender, RoutedEventArgs e)
@@ -184,6 +193,8 @@ namespace UIHeavyClient
                 mAIComboBox.Items.Add(p.Name);
             }
         }
+
+
     }
 }
 

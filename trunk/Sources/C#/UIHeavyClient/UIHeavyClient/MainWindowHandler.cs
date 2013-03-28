@@ -24,14 +24,10 @@ using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows.Forms;
+using HttpHockeduRequests;
 
 namespace UIHeavyClient
 {
-    public delegate bool EventReceivedCallBack( EventCodes id, IntPtr message );
-    public delegate bool EditionEventCallBack( EditionEventCodes pEvent );
-    //declare the callback prototype
-    public delegate bool MessageReceivedCallBack(IntPtr username, IntPtr message);
-
     ///////////////////////////////////////////////////////////////////////////
     /// @class MainWindowHandler
     /// @brief Static wrapper to access every controls.
@@ -46,7 +42,7 @@ namespace UIHeavyClient
         private static OpenFileDialog mOpenFileDialog = new OpenFileDialog();
         private static Microsoft.Win32.SaveFileDialog mSaveFileDialog = new Microsoft.Win32.SaveFileDialog();
 
-        private static LoginControl mLoginControl = new LoginControl();
+        
 
         public static MainWindow Context
         {
@@ -58,25 +54,13 @@ namespace UIHeavyClient
             get { return mCurrentMap; }
             set { mCurrentMap = value; }
         }
-        public static LoginControl LoginUI
-        {
-            get { return mLoginControl; }
-        }
 
         public static TaskManager mTaskManager = new TaskManager();
 
         [DllImport(@"RazerGame.dll")]
         public static extern bool ActionPerformed(ActionType action);
 
-        [DllImport(@"RazerGame.dll")]
-        static extern void SetEventCallback(EventReceivedCallBack callback);
-
-        [DllImport( @"RazerGame.dll" )]
-        static extern void SetEditionEventCallBack( EditionEventCallBack callback );
-
-        //Callback to received user messages from C++
-        [DllImport(@"RazerGame.dll")]
-        static extern void SetMessageCallback(MessageReceivedCallBack callback);
+        
 
         // Save/Load
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -89,33 +73,56 @@ namespace UIHeavyClient
         // Save to server
         // Load to server
 
-        static EventReceivedCallBack mCurrentEventCallBack;
-        static MessageReceivedCallBack mCurrentMessageCallback;
+
+        // On doit definir les callbacks pour chaque etat defini dans le CallbackManager
+        public static void InitCallbacks()
+        {
+            CallbackManager.Init();
+
+            CallbackContainer wContainerEdition = new CallbackContainer();
+            wContainerEdition.mEditionEventCallback=Context.EditionModeControl.EventCallBack;
+            CallbackManager.AddCallback(GameState.GAME_STATE_EDITION, wContainerEdition);
+
+            CallbackContainer wContainerPlay = new CallbackContainer();
+            wContainerPlay.mMessageReceivedCallback = PlayModeControl.mMessageCallback;
+            CallbackManager.AddCallback(GameState.GAME_STATE_PLAY, wContainerPlay);
+
+            CallbackContainer wContainerMainMenu=new CallbackContainer();
+            wContainerMainMenu.mEventReceivedCallback=LoginControl.LoginControlEventReceived;
+            CallbackManager.AddCallback(GameState.GAME_STATE_MAIN_MENU, wContainerMainMenu);
+
+            CallbackContainer wContainerOnlineLobby=new CallbackContainer();
+            wContainerOnlineLobby.mEventReceivedCallback=OnlineLobbyControl.CallbackEvent;
+            wContainerOnlineLobby.mMessageReceivedCallback=OnlineLobbyControl.CallbackMessage;
+            CallbackManager.AddCallback(GameState.GAME_STATE_ONLINE_LOBBY, wContainerOnlineLobby);
+            CallbackManager.AddCallback(GameState.GAME_STATE_MAIN_MENU, wContainerOnlineLobby);
+            CallbackManager.AddCallback(GameState.GAME_STATE_PLAY, wContainerOnlineLobby);
+            CallbackManager.AddCallback(GameState.GAME_STATE_EDITION, wContainerOnlineLobby);
+
+        }
+
 
         public static void GoToEditionMode()
         {
-            MessageReceivedCallBack messageCallBack = null;
-            EditionEventCallBack eventCallBack = Context.EditionModeControl.EventCallBack;
-            SetMessageCallback(messageCallBack);
-            SetEditionEventCallBack( eventCallBack );
-            SetEventCallback(null);
-
-            if (ActionPerformed(ActionType.ACTION_ALLER_MODE_EDITION))
+            
+            if(CallbackManager.ChangeGameMode(GameState.GAME_STATE_EDITION))
             {
-                mCurrentEventCallBack = null;
-                mCurrentMessageCallback = messageCallBack;
+                if (ActionPerformed(ActionType.ACTION_ALLER_MODE_EDITION))
+                {
 
-                Context.WindowContentControl.Content = Context.EditionModeControl;
-                Context.PlayModeControl.RemoveOpenGL();
-                Context.EditionModeControl.AppendOpenGL();
-                Context.EditionModeControl.InitButtons();
-                Context.EditionModeControl.mPropertiesGroupBox.DisplayProperties(RazerKey.RAZER_KEY_NONE);
+                    Context.WindowContentControl.Content=Context.EditionModeControl;
+                    Context.PlayModeControl.RemoveOpenGL();
+                    Context.EditionModeControl.AppendOpenGL();
+                    Context.EditionModeControl.InitButtons();
+                    Context.EditionModeControl.mPropertiesGroupBox.DisplayProperties(RazerKey.RAZER_KEY_NONE);
+                    CallbackManager.CommitChanges();
+                }
+                else
+                {
+                    CallbackManager.RevertChanges();
+                }
             }
-            else
-            {
-                SetMessageCallback(mCurrentMessageCallback);
-                SetEventCallback(mCurrentEventCallBack);
-            }
+            
 
             Context.HandleEditionMenuItem(true);
             Context.EditionModeControl.SetGuidanceInstuction("");
@@ -128,71 +135,68 @@ namespace UIHeavyClient
                 return;
             }
 
-            MessageReceivedCallBack messageCallBack = PlayModeControl.mMessageCallback;
-            EventReceivedCallBack eventCallBack = null;
-            SetMessageCallback(messageCallBack);
-            SetEventCallback(eventCallBack);
-
-            if (ActionPerformed(pAction))
+            
+            if(CallbackManager.ChangeGameMode(GameState.GAME_STATE_PLAY))
             {
-                mCurrentMessageCallback = messageCallBack;
-                mCurrentEventCallBack = eventCallBack;
-
-
-                Context.WindowContentControl.Content = Context.PlayModeControl;
-                Context.EditionModeControl.RemoveOpenGL();
-                Context.PlayModeControl.AppendOpenGL();
-                Context.PlayModeControl.DisplayRadioPlaylists();
+                if (ActionPerformed(pAction))
+                {
+                    Context.WindowContentControl.Content=Context.PlayModeControl;
+                    Context.EditionModeControl.RemoveOpenGL();
+                    Context.PlayModeControl.AppendOpenGL();
+                    Context.PlayModeControl.DisplayRadioPlaylists();
+                    CallbackManager.CommitChanges();
+                }
+                else
+                {
+                    CallbackManager.RevertChanges();
+                }
             }
-            else
-            {
-                SetMessageCallback(mCurrentMessageCallback);
-                SetEventCallback(mCurrentEventCallBack);
-            }
-
+            
             Context.HandleEditionMenuItem(false);
         }
 
         public static void GoToMainMenu()
         {
-            MessageReceivedCallBack messageCallBack = null;
-            EventReceivedCallBack eventCallBack = null;
-            SetMessageCallback(messageCallBack);
-            SetEventCallback(eventCallBack);
-
-            if (ActionPerformed(ActionType.ACTION_ALLER_MENU_PRINCIPAL))
+            if(CallbackManager.ChangeGameMode(GameState.GAME_STATE_MAIN_MENU))
             {
-                mCurrentMessageCallback = messageCallBack;
-                mCurrentEventCallBack = eventCallBack;
-
-                Context.WindowContentControl.Content = Context.MainMenuControl;
-                Context.MainMenuControl.InitOperations();
-
-                Context.EditionModeControl.RemoveOpenGL();
-                Context.PlayModeControl.RemoveOpenGL();
-
-                Context.MainMenuControl.DisplayProfileNames();
+                if (ActionPerformed(ActionType.ACTION_ALLER_MENU_PRINCIPAL))
+                {
+                    Context.WindowContentControl.Content=Context.MainMenuControl;
+                    Context.MainMenuControl.InitOperations();
+                    Context.EditionModeControl.RemoveOpenGL();
+                    Context.PlayModeControl.RemoveOpenGL();
+                    Context.MainMenuControl.DisplayProfileNames();
+                    LoginControl.DisconnectMasterServer();
+                    CallbackManager.CommitChanges();
+                }
+                else
+                {
+                    CallbackManager.RevertChanges();
+                }
             }
-            else
-            {
-                SetMessageCallback(mCurrentMessageCallback);
-                SetEventCallback(mCurrentEventCallBack);
-            }
-
+            
             Context.HandleEditionMenuItem(false);
         }
 
         public static void GoToTournamentMenu()
         {
-            Context.WindowContentControl.Content = Context.TournamentControl;
-            Context.TournamentControl.DisplayProfileNames();
+            if(CallbackManager.ChangeGameMode(GameState.GAME_STATE_TOURNAMENT_MENU))
+            {
+                Context.WindowContentControl.Content=Context.TournamentControl;
+                Context.TournamentControl.DisplayProfileNames();
+                CallbackManager.CommitChanges();
+            }
         }
 
         public static void GoToOnlineLobby()
         {
             // set callback events and messages
-
-            Context.WindowContentControl.Content = Context.OnlineLobbyControl;
+            if(CallbackManager.ChangeGameMode(GameState.GAME_STATE_ONLINE_LOBBY))
+            {
+                Context.WindowContentControl.Content=Context.OnlineLobbyControl;
+                Context.OnlineLobbyControl.DisplayServerGames();
+                CallbackManager.CommitChanges();
+            }
         }
 
         public static void GoToOptionsMenu()
@@ -260,6 +264,12 @@ namespace UIHeavyClient
             }
         }
 
+        public static void SaveMapToServer()
+        {
+            HttpManager wHttpManager = new HttpManager();
+            wHttpManager.uploadNewMap(12, "", "", "", true, mCurrentMap, null); 
+        }
+
         public static void LoadPlayingMap(string pMapFile)
         {
             SetPlayMap(pMapFile);
@@ -267,8 +277,7 @@ namespace UIHeavyClient
 
         public static void Cleanup()
         {
-            SetEventCallback(null);
-            SetMessageCallback(null);
+            CallbackManager.ChangeGameMode(GameState.GAME_STATE_NONE);
         }
     }
 }

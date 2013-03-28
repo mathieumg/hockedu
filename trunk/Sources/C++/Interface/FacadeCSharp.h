@@ -65,6 +65,17 @@ extern "C"
         int FailProb;
     };
 
+    struct OnlineGameInfos
+    {
+        int id;
+        unsigned serverId;
+        char* name;
+        char* creatorName;
+        char* mapName;
+        bool needPassword;
+        char* needPasswordString;
+    };
+
     __declspec(dllexport) void InitOpenGL(HWND hWnd);
     __declspec(dllexport) void FreeApplicationMemory( );
     __declspec(dllexport) void RenderOpenGL();
@@ -73,6 +84,7 @@ extern "C"
     __declspec(dllexport) int ExecuteUnitTest();
     __declspec(dllexport) void InitDLL();
     __declspec(dllexport) void RequestLogin( char* pUsername, char* pPassword, char* pIpAdress );
+    __declspec(dllexport) void DisconnectMasterServer( );
     __declspec(dllexport) void CancelConnection( char* pConnectionId );
     __declspec(dllexport) void SendMessageDLL( char* pConnectionId, char* pUsername, char * pMessage );
     __declspec(dllexport) void SendMessageGameDLL( char * pMessage );
@@ -136,6 +148,9 @@ extern "C"
     __declspec(dllexport) void BeginNewTournament(char* pTournamentName, char* pMapName, char** pPlayerNames, int pNbrPlayers);
     __declspec(dllexport) void ContinueExistingTournament(char* pTournamentName);
 
+    // Online lobby calls
+    __declspec(dllexport) int GetNbrServerGames();
+    __declspec(dllexport) void GetServersGames(OnlineGameInfos* pGames, int pNbrGames);
 
     ///////////////////////////////////////////////////////////////////////////////
     // User mouse and keyboard events
@@ -180,8 +195,8 @@ extern "C"
     __declspec(dllexport) void initNetwork( ControllerInterface* pController );
     __declspec(dllexport) void envoyerPaquet( Paquet* pPaquet );
     __declspec(dllexport) void connectServerGame( char* pServerIP );
-    __declspec(dllexport) void connectPartieServerGame( int pGameId );
-    __declspec(dllexport) void requestGameCreationServerGame( char* pGameName );
+    __declspec(dllexport) void connectPartieServerGame( int pGameId, char* pInputPassword );
+    __declspec(dllexport) void requestGameCreationServerGame( char* pGameName, char* pMapName, char* pPassword );
     __declspec(dllexport) void requestGamePause( );
     __declspec(dllexport) void requestGameResume( );
     __declspec(dllexport) void testConnexionUDPCSharp();

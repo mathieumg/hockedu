@@ -40,14 +40,14 @@
         <Button Content="Join Game" Margin="3" Name="mJoinButton" Background="Black" Foreground="White" Grid.Row="2" Grid.Column="1" FontSize="16" Click="mJoinButton_Click" />
         <Button Content="Join Random Game" Margin="3" Name="mRandomButton" Background="Black" Foreground="White" Grid.Row="2" Grid.Column="2" FontSize="16" Click="mRandomButton_Click" />
         <Button Content="Create Game" Margin="3" Name="mCreateButton" Background="Black" Foreground="White" Grid.Row="2" FontSize="16" Click="mCreateButton_Click" />
-        <ListView Margin="5" Name="listView1" Background="Black" Foreground="White" Grid.ColumnSpan="6" Grid.Row="1">
+        <ListView Margin="5" Name="mOnlineGameListView" Background="Black" Foreground="White" Grid.ColumnSpan="6" Grid.Row="1">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="ID" Width="50" DisplayMemberBinding="{Binding id}"/>
                     <GridViewColumn Header="Server ID" Width="100" DisplayMemberBinding="{Binding serverId}"/>
                     <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding name}"/>
                     <GridViewColumn Header="Creator's Name" Width="200" DisplayMemberBinding="{Binding creatorName}"/>
-                    <GridViewColumn Header="Need Password" Width="100" DisplayMemberBinding="{Binding needPassword}"/>
+                    <GridViewColumn Header="Need Password" Width="100" DisplayMemberBinding="{Binding needPasswordString}"/>
                     <GridViewColumn Header="Map Name" Width="300" DisplayMemberBinding="{Binding mapName}"/>
                 </GridView>
             </ListView.View>

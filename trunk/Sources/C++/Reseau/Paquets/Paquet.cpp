@@ -53,6 +53,7 @@ const std::string Paquet::sequenceIdentification = "LindseyStirling";
 ///
 ////////////////////////////////////////////////////////////////////////
 Paquet::Paquet()
+    :mForceSendEvenWhenSocketNotConnected(false)
 {
     mNbAssociatedQueries = 1; // Par defaut, on envoie le paquet qu'une seule fois
     mNumeroPaquet = ++CompteurNumeroPaquet;

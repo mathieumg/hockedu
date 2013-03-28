@@ -54,6 +54,10 @@ public:
     inline clock_t getLastTick() const { return mLastTick; }
     inline void setLastTick(clock_t val) { mLastTick = val; }
 
+    inline void forceSendBrokenSocket() {mForceSendEvenWhenSocketNotConnected = true;}
+
+    inline bool isForcedToSendOnBrokenSocket() {return mForceSendEvenWhenSocketNotConnected;}
+
 protected:
 	Paquet();
 private:
@@ -63,6 +67,7 @@ private:
     int mLatency;
     clock_t mLastTick;
     
+    bool mForceSendEvenWhenSocketNotConnected;
 
 	PaquetRunnableFunc mRunnableFunction;
 };
