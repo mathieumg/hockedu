@@ -101,6 +101,33 @@
 		4EB7EA7916EFBE4100493722 /* VisiteurFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */; };
 		4EC1626E16F81A8C00577704 /* BonusModifierBlockGoal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */; };
 		4EC7359D17015F85002FCF4C /* Solution_Defines.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7359C17015F85002FCF4C /* Solution_Defines.cpp */; };
+		4ED0E8201702A1B10043DF70 /* eclair.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E81D1702A1B10043DF70 /* eclair.jpg */; };
+		4ED0E8211702A1B10043DF70 /* portail.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E81E1702A1B10043DF70 /* portail.mtl */; };
+		4ED0E8221702A1B10043DF70 /* portail.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E81F1702A1B10043DF70 /* portail.obj */; };
+		4ED0E8311702B5D40043DF70 /* accelerateur.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8251702B5D40043DF70 /* accelerateur.mtl */; };
+		4ED0E8321702B5D40043DF70 /* accelerateur.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8261702B5D40043DF70 /* accelerateur.obj */; };
+		4ED0E8331702B5D40043DF70 /* but_milieu.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8271702B5D40043DF70 /* but_milieu.mtl */; };
+		4ED0E8341702B5D40043DF70 /* but_milieu.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8281702B5D40043DF70 /* but_milieu.obj */; };
+		4ED0E8351702B5D40043DF70 /* EmptyBonus.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8291702B5D40043DF70 /* EmptyBonus.mtl */; };
+		4ED0E8361702B5D40043DF70 /* EmptyBonus.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E82A1702B5D40043DF70 /* EmptyBonus.obj */; };
+		4ED0E8371702B5D40043DF70 /* maillet.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E82B1702B5D40043DF70 /* maillet.mtl */; };
+		4ED0E8381702B5D40043DF70 /* maillet.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E82C1702B5D40043DF70 /* maillet.obj */; };
+		4ED0E8391702B5D40043DF70 /* muret.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E82D1702B5D40043DF70 /* muret.mtl */; };
+		4ED0E83A1702B5D40043DF70 /* muret.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E82E1702B5D40043DF70 /* muret.obj */; };
+		4ED0E83B1702B5D40043DF70 /* rondelle.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E82F1702B5D40043DF70 /* rondelle.mtl */; };
+		4ED0E83C1702B5D40043DF70 /* rondelle.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8301702B5D40043DF70 /* rondelle.obj */; };
+		4ED0E8421702B8250043DF70 /* couleurMuret.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E83D1702B8250043DF70 /* couleurMuret.png */; };
+		4ED0E8431702B8250043DF70 /* poly2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E83E1702B8250043DF70 /* poly2.png */; };
+		4ED0E8441702B8250043DF70 /* razer-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E83F1702B8250043DF70 /* razer-logo.png */; };
+		4ED0E8451702B8250043DF70 /* redbull_textureSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8401702B8250043DF70 /* redbull_textureSmall.png */; };
+		4ED0E8461702B8250043DF70 /* textureRedPlastic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8411702B8250043DF70 /* textureRedPlastic.jpg */; };
+		4ED0E84A1702B8590043DF70 /* control_point.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8471702B8590043DF70 /* control_point.mtl */; };
+		4ED0E84B1702B8590043DF70 /* control_point.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8481702B8590043DF70 /* control_point.obj */; };
+		4ED0E84C1702B8590043DF70 /* Translucent_Glass_Sky_Reflection.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8491702B8590043DF70 /* Translucent_Glass_Sky_Reflection.jpg */; };
+		4ED0E84E1702B8770043DF70 /* Metal_Aluminum_Anodized.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E84D1702B8770043DF70 /* Metal_Aluminum_Anodized.jpg */; };
+		4ED0E8511702B8A80043DF70 /* point.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E84F1702B8A80043DF70 /* point.mtl */; };
+		4ED0E8521702B8A80043DF70 /* point.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8501702B8A80043DF70 /* point.obj */; };
+		4ED0E8541702B9270043DF70 /* Flames.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8531702B9270043DF70 /* Flames.jpg */; };
 		4ED4BC3516FEED3200227F1E /* FieldModificationStrategyAddNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4BC3116FEED3200227F1E /* FieldModificationStrategyAddNode.cpp */; };
 		4ED4BC3616FEED3200227F1E /* FieldModificationStrategyAddWall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4BC3316FEED3200227F1E /* FieldModificationStrategyAddWall.cpp */; };
 		4EEBBF9A16E86E5B00017127 /* Model.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBF9916E86E5B00017127 /* Model.mm */; };
@@ -236,7 +263,6 @@
 		0C04E12E16DE960B002B0EE2 /* NoeudRondelle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoeudRondelle.h; sourceTree = "<group>"; };
 		0C04E12F16DE960B002B0EE2 /* NoeudTable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoeudTable.cpp; sourceTree = "<group>"; };
 		0C04E13016DE960B002B0EE2 /* NoeudTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoeudTable.h; sourceTree = "<group>"; };
-		0C04E13116DE960B002B0EE2 /* PositionSubject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PositionSubject.h; sourceTree = "<group>"; };
 		0C04E13216DE960B002B0EE2 /* NoeudAbstrait.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoeudAbstrait.h; sourceTree = "<group>"; };
 		0C04E13316DE960B002B0EE2 /* RazerGameTree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RazerGameTree.cpp; sourceTree = "<group>"; };
 		0C04E13416DE960B002B0EE2 /* RazerGameTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RazerGameTree.h; sourceTree = "<group>"; };
@@ -360,6 +386,33 @@
 		4EC1626D16F81A8C00577704 /* BonusModifierBlockGoal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusModifierBlockGoal.h; sourceTree = "<group>"; };
 		4EC1626F16F81F8000577704 /* RunnableBreaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunnableBreaker.h; sourceTree = "<group>"; };
 		4EC7359C17015F85002FCF4C /* Solution_Defines.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Solution_Defines.cpp; sourceTree = "<group>"; };
+		4ED0E81D1702A1B10043DF70 /* eclair.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = eclair.jpg; path = ../../../../Content/media/eclair.jpg; sourceTree = "<group>"; };
+		4ED0E81E1702A1B10043DF70 /* portail.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = portail.mtl; path = ../../../../Content/media/portail.mtl; sourceTree = "<group>"; };
+		4ED0E81F1702A1B10043DF70 /* portail.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = portail.obj; path = ../../../../Content/media/portail.obj; sourceTree = "<group>"; };
+		4ED0E8251702B5D40043DF70 /* accelerateur.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = accelerateur.mtl; path = ../../../../Content/media/accelerateur.mtl; sourceTree = "<group>"; };
+		4ED0E8261702B5D40043DF70 /* accelerateur.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = accelerateur.obj; path = ../../../../Content/media/accelerateur.obj; sourceTree = "<group>"; };
+		4ED0E8271702B5D40043DF70 /* but_milieu.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = but_milieu.mtl; path = ../../../../Content/media/but_milieu.mtl; sourceTree = "<group>"; };
+		4ED0E8281702B5D40043DF70 /* but_milieu.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = but_milieu.obj; path = ../../../../Content/media/but_milieu.obj; sourceTree = "<group>"; };
+		4ED0E8291702B5D40043DF70 /* EmptyBonus.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EmptyBonus.mtl; path = ../../../../Content/media/EmptyBonus.mtl; sourceTree = "<group>"; };
+		4ED0E82A1702B5D40043DF70 /* EmptyBonus.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EmptyBonus.obj; path = ../../../../Content/media/EmptyBonus.obj; sourceTree = "<group>"; };
+		4ED0E82B1702B5D40043DF70 /* maillet.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = maillet.mtl; path = ../../../../Content/media/maillet.mtl; sourceTree = "<group>"; };
+		4ED0E82C1702B5D40043DF70 /* maillet.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = maillet.obj; path = ../../../../Content/media/maillet.obj; sourceTree = "<group>"; };
+		4ED0E82D1702B5D40043DF70 /* muret.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = muret.mtl; path = ../../../../Content/media/muret.mtl; sourceTree = "<group>"; };
+		4ED0E82E1702B5D40043DF70 /* muret.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = muret.obj; path = ../../../../Content/media/muret.obj; sourceTree = "<group>"; };
+		4ED0E82F1702B5D40043DF70 /* rondelle.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = rondelle.mtl; path = ../../../../Content/media/rondelle.mtl; sourceTree = "<group>"; };
+		4ED0E8301702B5D40043DF70 /* rondelle.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = rondelle.obj; path = ../../../../Content/media/rondelle.obj; sourceTree = "<group>"; };
+		4ED0E83D1702B8250043DF70 /* couleurMuret.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = couleurMuret.png; path = ../../../../Content/media/couleurMuret.png; sourceTree = "<group>"; };
+		4ED0E83E1702B8250043DF70 /* poly2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = poly2.png; path = ../../../../Content/media/poly2.png; sourceTree = "<group>"; };
+		4ED0E83F1702B8250043DF70 /* razer-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "razer-logo.png"; path = "../../../../Content/media/razer-logo.png"; sourceTree = "<group>"; };
+		4ED0E8401702B8250043DF70 /* redbull_textureSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = redbull_textureSmall.png; path = ../../../../Content/media/redbull_textureSmall.png; sourceTree = "<group>"; };
+		4ED0E8411702B8250043DF70 /* textureRedPlastic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = textureRedPlastic.jpg; path = ../../../../Content/media/textureRedPlastic.jpg; sourceTree = "<group>"; };
+		4ED0E8471702B8590043DF70 /* control_point.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = control_point.mtl; path = ../../../../Content/media/control_point/control_point.mtl; sourceTree = "<group>"; };
+		4ED0E8481702B8590043DF70 /* control_point.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = control_point.obj; path = ../../../../Content/media/control_point/control_point.obj; sourceTree = "<group>"; };
+		4ED0E8491702B8590043DF70 /* Translucent_Glass_Sky_Reflection.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Translucent_Glass_Sky_Reflection.jpg; path = ../../../../Content/media/control_point/Translucent_Glass_Sky_Reflection.jpg; sourceTree = "<group>"; };
+		4ED0E84D1702B8770043DF70 /* Metal_Aluminum_Anodized.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Metal_Aluminum_Anodized.jpg; path = ../../../../Content/media/EmptyBonus/Metal_Aluminum_Anodized.jpg; sourceTree = "<group>"; };
+		4ED0E84F1702B8A80043DF70 /* point.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = point.mtl; path = ../../../../Content/media/point.mtl; sourceTree = "<group>"; };
+		4ED0E8501702B8A80043DF70 /* point.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = point.obj; path = ../../../../Content/media/point.obj; sourceTree = "<group>"; };
+		4ED0E8531702B9270043DF70 /* Flames.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Flames.jpg; path = ../../../../Content/media/Flames.jpg; sourceTree = "<group>"; };
 		4ED4BC3116FEED3200227F1E /* FieldModificationStrategyAddNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyAddNode.cpp; sourceTree = "<group>"; };
 		4ED4BC3216FEED3200227F1E /* FieldModificationStrategyAddNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyAddNode.h; sourceTree = "<group>"; };
 		4ED4BC3316FEED3200227F1E /* FieldModificationStrategyAddWall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyAddWall.cpp; sourceTree = "<group>"; };
@@ -529,7 +582,6 @@
 				0C04E12E16DE960B002B0EE2 /* NoeudRondelle.h */,
 				0C04E12F16DE960B002B0EE2 /* NoeudTable.cpp */,
 				0C04E13016DE960B002B0EE2 /* NoeudTable.h */,
-				0C04E13116DE960B002B0EE2 /* PositionSubject.h */,
 				0C04E13216DE960B002B0EE2 /* NoeudAbstrait.h */,
 			);
 			path = Noeuds;
@@ -709,6 +761,48 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		4ED0E8231702B4100043DF70 /* TableModels */ = {
+			isa = PBXGroup;
+			children = (
+				4ED0E84F1702B8A80043DF70 /* point.mtl */,
+				4ED0E8501702B8A80043DF70 /* point.obj */,
+				4ED0E8251702B5D40043DF70 /* accelerateur.mtl */,
+				4ED0E8261702B5D40043DF70 /* accelerateur.obj */,
+				4ED0E8271702B5D40043DF70 /* but_milieu.mtl */,
+				4ED0E8281702B5D40043DF70 /* but_milieu.obj */,
+				4ED0E8291702B5D40043DF70 /* EmptyBonus.mtl */,
+				4ED0E82A1702B5D40043DF70 /* EmptyBonus.obj */,
+				4ED0E82B1702B5D40043DF70 /* maillet.mtl */,
+				4ED0E82C1702B5D40043DF70 /* maillet.obj */,
+				4ED0E82D1702B5D40043DF70 /* muret.mtl */,
+				4ED0E82E1702B5D40043DF70 /* muret.obj */,
+				4ED0E82F1702B5D40043DF70 /* rondelle.mtl */,
+				4ED0E8301702B5D40043DF70 /* rondelle.obj */,
+				4ED0E81E1702A1B10043DF70 /* portail.mtl */,
+				4ED0E81F1702A1B10043DF70 /* portail.obj */,
+				4ED0E8471702B8590043DF70 /* control_point.mtl */,
+				4ED0E8481702B8590043DF70 /* control_point.obj */,
+				4ED0E8241702B41D0043DF70 /* Images */,
+			);
+			name = TableModels;
+			sourceTree = "<group>";
+		};
+		4ED0E8241702B41D0043DF70 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				4ED0E8531702B9270043DF70 /* Flames.jpg */,
+				4ED0E84D1702B8770043DF70 /* Metal_Aluminum_Anodized.jpg */,
+				4ED0E8491702B8590043DF70 /* Translucent_Glass_Sky_Reflection.jpg */,
+				4ED0E83D1702B8250043DF70 /* couleurMuret.png */,
+				4ED0E83E1702B8250043DF70 /* poly2.png */,
+				4ED0E83F1702B8250043DF70 /* razer-logo.png */,
+				4ED0E8401702B8250043DF70 /* redbull_textureSmall.png */,
+				4ED0E8411702B8250043DF70 /* textureRedPlastic.jpg */,
+				4ED0E81D1702A1B10043DF70 /* eclair.jpg */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		4EF2169F16FA2ABE005FB093 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -766,8 +860,6 @@
 				968DACBA1472EAFF007D15A3 /* Modèles 3D */,
 				4EEBBF9816E86E5B00017127 /* Model.h */,
 				4EEBBF9916E86E5B00017127 /* Model.mm */,
-				4E94494217025200005BC9F6 /* Model3DManager.h */,
-				4E94494317025200005BC9F6 /* Model3DManager.m */,
 			);
 			name = Hockedu;
 			path = AppDemo;
@@ -812,6 +904,9 @@
 		968DACBA1472EAFF007D15A3 /* Modèles 3D */ = {
 			isa = PBXGroup;
 			children = (
+				4E94494217025200005BC9F6 /* Model3DManager.h */,
+				4E94494317025200005BC9F6 /* Model3DManager.m */,
+				4ED0E8231702B4100043DF70 /* TableModels */,
 				968DACBB1472EB55007D15A3 /* cube.mtl */,
 				968DACBC1472EB55007D15A3 /* cube.obj */,
 				968DACBD1472EB55007D15A3 /* poly.png */,
@@ -964,6 +1059,33 @@
 				4E9CE9FA16FBB74100B04A12 /* Login.xib in Resources */,
 				4E9CE9FF16FBBA4B00B04A12 /* LoadMapViewController.xib in Resources */,
 				4E99937817027CDC00C68644 /* razor_sharp.png in Resources */,
+				4ED0E8201702A1B10043DF70 /* eclair.jpg in Resources */,
+				4ED0E8211702A1B10043DF70 /* portail.mtl in Resources */,
+				4ED0E8221702A1B10043DF70 /* portail.obj in Resources */,
+				4ED0E8311702B5D40043DF70 /* accelerateur.mtl in Resources */,
+				4ED0E8321702B5D40043DF70 /* accelerateur.obj in Resources */,
+				4ED0E8331702B5D40043DF70 /* but_milieu.mtl in Resources */,
+				4ED0E8341702B5D40043DF70 /* but_milieu.obj in Resources */,
+				4ED0E8351702B5D40043DF70 /* EmptyBonus.mtl in Resources */,
+				4ED0E8361702B5D40043DF70 /* EmptyBonus.obj in Resources */,
+				4ED0E8371702B5D40043DF70 /* maillet.mtl in Resources */,
+				4ED0E8381702B5D40043DF70 /* maillet.obj in Resources */,
+				4ED0E8391702B5D40043DF70 /* muret.mtl in Resources */,
+				4ED0E83A1702B5D40043DF70 /* muret.obj in Resources */,
+				4ED0E83B1702B5D40043DF70 /* rondelle.mtl in Resources */,
+				4ED0E83C1702B5D40043DF70 /* rondelle.obj in Resources */,
+				4ED0E8421702B8250043DF70 /* couleurMuret.png in Resources */,
+				4ED0E8431702B8250043DF70 /* poly2.png in Resources */,
+				4ED0E8441702B8250043DF70 /* razer-logo.png in Resources */,
+				4ED0E8451702B8250043DF70 /* redbull_textureSmall.png in Resources */,
+				4ED0E8461702B8250043DF70 /* textureRedPlastic.jpg in Resources */,
+				4ED0E84A1702B8590043DF70 /* control_point.mtl in Resources */,
+				4ED0E84B1702B8590043DF70 /* control_point.obj in Resources */,
+				4ED0E84C1702B8590043DF70 /* Translucent_Glass_Sky_Reflection.jpg in Resources */,
+				4ED0E84E1702B8770043DF70 /* Metal_Aluminum_Anodized.jpg in Resources */,
+				4ED0E8511702B8A80043DF70 /* point.mtl in Resources */,
+				4ED0E8521702B8A80043DF70 /* point.obj in Resources */,
+				4ED0E8541702B9270043DF70 /* Flames.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1179,6 +1301,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AppDemo/Hockedu-Prefix.pch";
 				GCC_VERSION = "";
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					../../../Commun/Externe/,
+					AFNetworking/AFNetworking/,
+				);
 				INFOPLIST_FILE = "AppDemo/Hockedu-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -1187,6 +1313,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = Hockedu;
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "../../../Commun/Externe/ AFNetworking/AFNetworking/";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

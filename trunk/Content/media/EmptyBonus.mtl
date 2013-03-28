@@ -11,7 +11,7 @@ newmtl Metal_Aluminum_Anodized
 Ka 0.000000 0.000000 0.000000
 Kd 0.792157 0.819608 0.858824
 Ks 0.330000 0.330000 0.330000
-map_Kd EmptyBonus/Metal_Aluminum_Anodized.jpg
+map_Kd Metal_Aluminum_Anodized.jpg
 
 newmtl Color_I12
 Ka 0.000000 0.000000 0.000000

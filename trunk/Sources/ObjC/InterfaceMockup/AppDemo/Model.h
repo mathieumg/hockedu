@@ -8,11 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "Enum_Declarations.h"
+#import "Model3DManager.h"
 @interface Model : NSObject
 {
 
     void* mField;
-    
+    Model3DManager* mModel3DManager;
 }
 
 - (void)render;

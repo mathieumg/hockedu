@@ -15,7 +15,7 @@
 #import "OpenGLWaveFrontMaterial.h"
 #import "OpenGLTexture3D.h"
 
-static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexIndex, GLuint vertexTextureIndex, GLuint *vertexCount, Vertex3D	*vertices, GLfloat  *allTextureCoords, GLfloat *textureCoords, GLuint componentsPerTextureCoord, GLushort *faceVertexIndex)
+static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexIndex, GLuint vertexTextureIndex, GLuint *vertexCount, Vertex3D	*vertices, GLfloat  *allTextureCoords, GLfloat *textureCoords, GLuint componentsPerTextureCoord, GLushort *faceVertexIndex, struct Extremas* extremes)
 {
 	//NSLog(@"Processing Vertex: %d, Texture Index: %d", vertexIndex, vertexTextureIndex);
 	BOOL alreadyExists = VertexTextureIndexContainsVertexIndex(rootNode, vertexIndex);
@@ -34,9 +34,20 @@ static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexI
 		}
 		else
 		{
-			vertices[*vertexCount].x = vertices[vertexNode->originalVertex].x;
-			vertices[*vertexCount].y = vertices[vertexNode->originalVertex].y;
-			vertices[*vertexCount].z = vertices[vertexNode->originalVertex].z;
+            float x = vertices[vertexNode->originalVertex].x;
+			float y = vertices[vertexNode->originalVertex].y;
+			float z = vertices[vertexNode->originalVertex].z;
+          /*  if      (x<extremes->xMin.x) { extremes->xMin.x=x; extremes->xMin.y=y; extremes->xMin.z=z; }
+            else if (x>extremes->xMax.x) { extremes->xMax.x=x; extremes->xMax.y=y; extremes->xMax.z=z; }
+            if      (y<extremes->yMin.y) { extremes->yMin.x=x; extremes->yMin.y=y; extremes->yMin.z=z; }
+            else if (y>extremes->yMax.y) { extremes->yMax.x=x; extremes->yMax.y=y; extremes->yMax.z=z; }
+            if      (z<extremes->zMin.z) { extremes->zMin.x=x; extremes->zMin.y=y; extremes->zMin.z=z; }
+            else if (z>extremes->zMax.z) { extremes->zMax.x=x; extremes->zMax.y=y; extremes->zMax.z=z; }
+            
+            */
+			vertices[*vertexCount].x = x;
+			vertices[*vertexCount].y = y;
+			vertices[*vertexCount].z = z;
 			vertexNode->actualVertex = *vertexCount;
 			
 			for (int i = 0; i < componentsPerTextureCoord; i++)
@@ -58,9 +69,24 @@ static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexI
 @synthesize currentRotation;
 @synthesize materials;
 @synthesize groups;
+@synthesize modelScale;
+@synthesize minCoord;
+@synthesize maxCoord;
+
 - (id)initWithPath:(NSString *)path
 {
-	
+	modelScale = Vertex3DMake(1, 1, 1);
+    minCoord   = Vertex3DMake(MAXFLOAT, MAXFLOAT, MAXFLOAT);
+    maxCoord   = Vertex3DMake(-MAXFLOAT, -MAXFLOAT, -MAXFLOAT);
+    
+    struct Extremas extremes;
+    extremes.xMin = Vertex3DMake(MAXFLOAT, MAXFLOAT, MAXFLOAT);
+    extremes.xMax = Vertex3DMake(-MAXFLOAT, -MAXFLOAT, -MAXFLOAT);
+    extremes.yMin = Vertex3DMake(MAXFLOAT, MAXFLOAT, MAXFLOAT);
+    extremes.yMax = Vertex3DMake(-MAXFLOAT, -MAXFLOAT, -MAXFLOAT);
+    extremes.zMin = Vertex3DMake(MAXFLOAT, MAXFLOAT, MAXFLOAT);
+    extremes.zMax = Vertex3DMake(-MAXFLOAT, -MAXFLOAT, -MAXFLOAT);
+    
 	if ((self = [super init]))
 	{
 		self.groups = [NSMutableArray array];
@@ -235,11 +261,11 @@ static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexI
 				if (rootNode == NULL)
 					rootNode =  VertexTextureIndexMake(vertex1Index, vertex1TextureIndex, UINT_MAX);
 				
-				processOneVertex(rootNode, vertex1Index, vertex1TextureIndex, &vertexCount, vertices, allTextureCoords, textureCoords, valuesPerCoord, &(currentGroup.faces[groupFaceCount].v1));
+				processOneVertex(rootNode, vertex1Index, vertex1TextureIndex, &vertexCount, vertices, allTextureCoords, textureCoords, valuesPerCoord, &(currentGroup.faces[groupFaceCount].v1),&extremes);
 				NSArray *vertex2Parts = [[faceIndexGroups objectAtIndex:1] componentsSeparatedByString:@"/"];
-				processOneVertex(rootNode, [[vertex2Parts objectAtIndex:kGroupIndexVertex] intValue]-1, [vertex2Parts count] > 1 ? [[vertex2Parts objectAtIndex:kGroupIndexTextureCoordIndex] intValue]-1 : 0, &vertexCount, vertices, allTextureCoords, textureCoords, valuesPerCoord, &currentGroup.faces[groupFaceCount].v2);	
+				processOneVertex(rootNode, [[vertex2Parts objectAtIndex:kGroupIndexVertex] intValue]-1, [vertex2Parts count] > 1 ? [[vertex2Parts objectAtIndex:kGroupIndexTextureCoordIndex] intValue]-1 : 0, &vertexCount, vertices, allTextureCoords, textureCoords, valuesPerCoord, &currentGroup.faces[groupFaceCount].v2,&extremes);
 				NSArray *vertex3Parts = [[faceIndexGroups objectAtIndex:2] componentsSeparatedByString:@"/"];
-				processOneVertex(rootNode, [[vertex3Parts objectAtIndex:kGroupIndexVertex] intValue]-1, [vertex3Parts count] > 1 ? [[vertex3Parts objectAtIndex:kGroupIndexTextureCoordIndex] intValue]-1 : 0, &vertexCount, vertices, allTextureCoords, textureCoords, valuesPerCoord, &currentGroup.faces[groupFaceCount].v3);
+				processOneVertex(rootNode, [[vertex3Parts objectAtIndex:kGroupIndexVertex] intValue]-1, [vertex3Parts count] > 1 ? [[vertex3Parts objectAtIndex:kGroupIndexTextureCoordIndex] intValue]-1 : 0, &vertexCount, vertices, allTextureCoords, textureCoords, valuesPerCoord, &currentGroup.faces[groupFaceCount].v3,&extremes);
 				
 				faceCount++;
 				groupFaceCount++;
@@ -249,12 +275,38 @@ static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexI
 		}
 		//NSLog(@"Final vertex count: %d", vertexCount);
 		
+        
+        for(int i=0; i<vertexCount; ++i)
+        {
+            
+            float x = vertices[i].x;
+			float y = vertices[i].y;
+			float z = vertices[i].z;
+            if      (x<extremes.xMin.x) { extremes.xMin.x=x; extremes.xMin.y=y; extremes.xMin.z=z; }
+            else if (x>extremes.xMax.x) { extremes.xMax.x=x; extremes.xMax.y=y; extremes.xMax.z=z; }
+            if      (y<extremes.yMin.y) { extremes.yMin.x=x; extremes.yMin.y=y; extremes.yMin.z=z; }
+            else if (y>extremes.yMax.y) { extremes.yMax.x=x; extremes.yMax.y=y; extremes.yMax.z=z; }
+            if      (z<extremes.zMin.z) { extremes.zMin.x=x; extremes.zMin.y=y; extremes.zMin.z=z; }
+            else if (z>extremes.zMax.z) { extremes.zMax.x=x; extremes.zMax.y=y; extremes.zMax.z=z; }
+        }
+        
+        
+        
 		[self calculateNormals];
 		if (allTextureCoords)
 			free(allTextureCoords);
 		[vertexCombinations release];
 		VertexTextureIndexFree(rootNode);
 	}
+    
+        
+    minCoord.x=extremes.xMin.x;
+    minCoord.y=extremes.yMin.y;
+    minCoord.z=extremes.zMin.z;
+    maxCoord.x=extremes.xMax.x;
+    maxCoord.y=extremes.yMax.y;
+    maxCoord.z=extremes.zMax.z;
+    
 	return self;
 }
 
@@ -264,16 +316,19 @@ static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexI
 	glPushMatrix();
 	
 	// Load the identity matrix to restore to origin
-	glLoadIdentity();
+	//glLoadIdentity();
     
 	// Translate to the current position
-	glTranslatef(currentPosition.x, currentPosition.y, currentPosition.z);
+	//glTranslatef(currentPosition.x, currentPosition.y, currentPosition.z);
 	
 	// Rotate to the current rotation
-	glRotatef(currentRotation.x, 1.0, 0.0, 0.0);
-	glRotatef(currentRotation.y, 0.0, 1.0, 0.0);
-	glRotatef(currentPosition.z, 0.0, 0.0, 1.0);
+	//glRotatef(currentRotation.x, 1.0, 0.0, 0.0);
+	//glRotatef(currentRotation.y, 0.0, 1.0, 0.0);
+	//glRotatef(currentPosition.z, 0.0, 0.0, 1.0);
 	
+    glTranslatef(0, 0, -minCoord.z);
+    glScalef(modelScale.x,modelScale.y,modelScale.z);
+    
 	// Enable and load the vertex array
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
@@ -377,5 +432,15 @@ static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexI
 	if (textureCoords)
 		free(textureCoords);
 	[super dealloc];
+}
+
+- (void)calculateScale:(Vertex3D)expectedSize
+{
+    const float a = maxCoord.x-minCoord.x;
+    const float b = maxCoord.y-minCoord.y;
+    const float c = maxCoord.z-minCoord.z;
+    modelScale.x = expectedSize.x/(a);
+    modelScale.y = expectedSize.y/(b);
+    modelScale.z = expectedSize.z/(c);
 }
 @end
