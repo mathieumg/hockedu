@@ -2525,9 +2525,8 @@ bool Terrain::DetectWorldOverlapping( b2Body* pBody, std::set<NoeudAbstrait*>* p
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool Terrain::renderAppleNode( const NoeudAbstrait* node ) const
+bool Terrain::renderAppleNode( RazerKey key ) const
 {
-    auto key = node->getKey();
     if(key != RAZER_KEY_NONE && mRenderObjC)
     {
         return mRenderObjC(key);

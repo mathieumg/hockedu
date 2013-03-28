@@ -259,7 +259,7 @@ private:
     /// pointer to the manager of model 3D in objc
     RenderObjCCallback mRenderObjC;
 public:
-    bool renderAppleNode(const NoeudAbstrait* node)const;
+    bool renderAppleNode(RazerKey key)const;
     inline void setModelManagerObjc(RenderObjCCallback pVal) { mRenderObjC = pVal; }
 private:
    

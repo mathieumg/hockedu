@@ -520,12 +520,8 @@ void NoeudAbstrait::renderReal() const
 
 #else
         auto field = getField();
-        //glRotatef(mAngle, 0, 0, 1);
-        //glScalef(mScale[0], mScale[1], mScale[2]);
-        if(!field || !field->renderAppleNode(this))
+        if(!field || !field->renderAppleNode(RazerGameUtilities::StringToKey(get3DModelKey())))
         {
-            //glRotatef(-mAngle, 0, 0, 1);
-            //glScalef(1.f/mScale[0], 1.f/mScale[1], 1.f/mScale[2]);
             renderOpenGLES();
         }
         

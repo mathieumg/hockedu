@@ -1,12 +1,15 @@
-# Blender MTL File: 'portail.blend'
-# Material Count: 1
-newmtl _eclair.jpg
-Ns 0
-Ka 0.000000 0.000000 0.000000
-Kd 0.8 0.8 0.8
-Ks 0.8 0.8 0.8
-d 1
-illum 2
-map_Kd eclair.jpg
+#
+## Alias OBJ Material File
+# Exported from SketchUp, (c) 2000-2006 Google, Inc.
 
+newmtl portal
+Ka 0.000000 0.000000 0.000000
+Kd 0.533333 0.631373 0.662745
+Ks 0.330000 0.330000 0.330000
+map_Kd portal_effect.png
+
+newmtl _Charcoal_
+Ka 0.000000 0.000000 0.000000
+Kd 0.137255 0.137255 0.137255
+Ks 0.330000 0.330000 0.330000
 
