@@ -35,7 +35,7 @@ GameServer::~GameServer()
 {
     for(auto it = mGamesList.begin(); it != mGamesList.end(); ++it)
     {
-        removeGame((*it).first);
+        removeGame(it->first);
     }
 }
 

@@ -22,6 +22,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using HttpHockeduRequests;
+using System.Runtime.InteropServices;
 
 namespace UIHeavyClient
 {
@@ -39,7 +40,7 @@ namespace UIHeavyClient
         string name;
         string creatorName;
         bool needPassword;
-
+        string mapName;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -51,6 +52,9 @@ namespace UIHeavyClient
     ///////////////////////////////////////////////////////////////////////////
     public partial class OnlineLobbyControl : UserControl
     {
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void requestGamesList();
+
         private PasswordPrompt mPasswordPrompt;
         private GameCreationPrompt mGameCreationPrompt;
         private ServerMapPrompt mServerMapPrompt;
@@ -135,6 +139,8 @@ namespace UIHeavyClient
         {
             // TODO
             // Read data again
+            gamesListView.Items.Clear();
+            requestGamesList();
         }
 
         private void submitButton_Click(object sender, RoutedEventArgs e)

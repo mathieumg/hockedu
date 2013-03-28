@@ -178,6 +178,7 @@ extern "C"
     __declspec(dllexport) void requestGameCreationServerGame( char* pGameName );
     __declspec(dllexport) void requestGamePause( );
     __declspec(dllexport) void requestGameResume( );
+    __declspec(dllexport) void requestGamesList( );
     __declspec(dllexport) void testConnexionUDPCSharp();
     //__declspec(dllexport) void recevoirPaquet( Paquet* pPaquet );
     /// 
