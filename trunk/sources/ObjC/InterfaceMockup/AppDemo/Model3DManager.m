@@ -68,6 +68,7 @@
 
 - (bool)renderObject:(RazerKey)type
 {
+    return false;
     OpenGLWaveFrontObject *theObject = [mModels objectForKey:[NSNumber numberWithInt:type]];
     if(theObject != nil)
     {

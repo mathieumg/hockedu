@@ -127,8 +127,6 @@
 		4ED0E8461702B8250043DF70 /* textureRedPlastic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8411702B8250043DF70 /* textureRedPlastic.jpg */; };
 		4ED0E84A1702B8590043DF70 /* control_point.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8471702B8590043DF70 /* control_point.mtl */; };
 		4ED0E84B1702B8590043DF70 /* control_point.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8481702B8590043DF70 /* control_point.obj */; };
-		4ED0E84C1702B8590043DF70 /* Translucent_Glass_Sky_Reflection.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8491702B8590043DF70 /* Translucent_Glass_Sky_Reflection.jpg */; };
-		4ED0E84E1702B8770043DF70 /* Metal_Aluminum_Anodized.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E84D1702B8770043DF70 /* Metal_Aluminum_Anodized.jpg */; };
 		4ED0E8511702B8A80043DF70 /* point.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E84F1702B8A80043DF70 /* point.mtl */; };
 		4ED0E8521702B8A80043DF70 /* point.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8501702B8A80043DF70 /* point.obj */; };
 		4ED0E8541702B9270043DF70 /* Flames.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8531702B9270043DF70 /* Flames.jpg */; };
@@ -421,8 +419,6 @@
 		4ED0E8411702B8250043DF70 /* textureRedPlastic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = textureRedPlastic.jpg; path = ../../../../Content/media/textureRedPlastic.jpg; sourceTree = "<group>"; };
 		4ED0E8471702B8590043DF70 /* control_point.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = control_point.mtl; path = ../../../../Content/media/control_point/control_point.mtl; sourceTree = "<group>"; };
 		4ED0E8481702B8590043DF70 /* control_point.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = control_point.obj; path = ../../../../Content/media/control_point/control_point.obj; sourceTree = "<group>"; };
-		4ED0E8491702B8590043DF70 /* Translucent_Glass_Sky_Reflection.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Translucent_Glass_Sky_Reflection.jpg; path = ../../../../Content/media/control_point/Translucent_Glass_Sky_Reflection.jpg; sourceTree = "<group>"; };
-		4ED0E84D1702B8770043DF70 /* Metal_Aluminum_Anodized.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Metal_Aluminum_Anodized.jpg; path = ../../../../Content/media/EmptyBonus/Metal_Aluminum_Anodized.jpg; sourceTree = "<group>"; };
 		4ED0E84F1702B8A80043DF70 /* point.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = point.mtl; path = ../../../../Content/media/point.mtl; sourceTree = "<group>"; };
 		4ED0E8501702B8A80043DF70 /* point.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = point.obj; path = ../../../../Content/media/point.obj; sourceTree = "<group>"; };
 		4ED0E8531702B9270043DF70 /* Flames.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Flames.jpg; path = ../../../../Content/media/Flames.jpg; sourceTree = "<group>"; };
@@ -821,8 +817,6 @@
 			isa = PBXGroup;
 			children = (
 				4ED0E8531702B9270043DF70 /* Flames.jpg */,
-				4ED0E84D1702B8770043DF70 /* Metal_Aluminum_Anodized.jpg */,
-				4ED0E8491702B8590043DF70 /* Translucent_Glass_Sky_Reflection.jpg */,
 				4ED0E83D1702B8250043DF70 /* couleurMuret.png */,
 				4ED0E83E1702B8250043DF70 /* poly2.png */,
 				4ED0E83F1702B8250043DF70 /* razer-logo.png */,
@@ -1122,8 +1116,6 @@
 				4ED0E8461702B8250043DF70 /* textureRedPlastic.jpg in Resources */,
 				4ED0E84A1702B8590043DF70 /* control_point.mtl in Resources */,
 				4ED0E84B1702B8590043DF70 /* control_point.obj in Resources */,
-				4ED0E84C1702B8590043DF70 /* Translucent_Glass_Sky_Reflection.jpg in Resources */,
-				4ED0E84E1702B8770043DF70 /* Metal_Aluminum_Anodized.jpg in Resources */,
 				4ED0E8511702B8A80043DF70 /* point.mtl in Resources */,
 				4ED0E8521702B8A80043DF70 /* point.obj in Resources */,
 				4ED0E8541702B9270043DF70 /* Flames.jpg in Resources */,

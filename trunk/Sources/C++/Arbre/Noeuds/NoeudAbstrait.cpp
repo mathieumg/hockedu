@@ -522,7 +522,9 @@ void NoeudAbstrait::renderReal() const
         auto field = getField();
         if(!field || !field->renderAppleNode(RazerGameUtilities::StringToKey(get3DModelKey())))
         {
+            glDisable(GL_BLEND);
             renderOpenGLES();
+            glEnable(GL_BLEND);
         }
         
 #endif
@@ -1091,7 +1093,7 @@ void NoeudAbstrait::renderOpenGLES() const
 {
     const int segments = 10;
     static const float jump = 2*utilitaire::PI/(float)segments;
-    const float radius = getRadius();
+    const float radius = getDefaultRadius();
     const int count=segments*2;
     GLfloat vertices[count];
     int i = 0;

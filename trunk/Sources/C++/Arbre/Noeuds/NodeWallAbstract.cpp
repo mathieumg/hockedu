@@ -321,6 +321,21 @@ void NodeWallAbstract::renderOpenGLES() const
 {
     glColor4f(1,1,0,1);
 
+    {
+        /// half width and hlaf height
+        const float hw = DEFAULT_SIZE[VX]/2.f;
+        const float hh = DEFAULT_SIZE[VY]/2.f;
+        GLfloat vertices[8] = {-hw,-hh,hw,-hh,hw,hh,-hw,hh};        
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer (2, GL_FLOAT , 0, vertices);
+        glDrawArrays (GL_TRIANGLE_FAN, 0, 4);
+        glDisableClientState(GL_VERTEX_ARRAY);
+        return;
+    }
+    
+    
+    
+    {
     auto c1 = obtenirCoin1(), c2 = obtenirCoin2();
     c1 -= mPosition;
     c2 -= mPosition;
@@ -340,6 +355,7 @@ void NodeWallAbstract::renderOpenGLES() const
     glVertexPointer (2, GL_FLOAT , 0, vertices); 
     glDrawArrays (GL_TRIANGLE_FAN, 0, 4);
     glDisableClientState(GL_VERTEX_ARRAY);
+    }
 }
 
 
