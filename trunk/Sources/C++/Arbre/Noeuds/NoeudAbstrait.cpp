@@ -520,8 +520,12 @@ void NoeudAbstrait::renderReal() const
 
 #else
         auto field = getField();
+        //glRotatef(mAngle, 0, 0, 1);
+        //glScalef(mScale[0], mScale[1], mScale[2]);
         if(!field || !field->renderAppleNode(this))
         {
+            //glRotatef(-mAngle, 0, 0, 1);
+            //glScalef(1.f/mScale[0], 1.f/mScale[1], 1.f/mScale[2]);
             renderOpenGLES();
         }
         
@@ -664,7 +668,6 @@ float NoeudAbstrait::getAngle() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::updateMatrice()
 {
-#if WIN32
 	glPushMatrix();
 	glLoadIdentity();
 
@@ -674,7 +677,6 @@ void NoeudAbstrait::updateMatrice()
 	glGetFloatv(GL_MODELVIEW_MATRIX, mTransformationMatrix); // Savegarde de la matrice courante dans le noeud
 
 	glPopMatrix();
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////

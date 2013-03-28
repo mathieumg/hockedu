@@ -2528,7 +2528,7 @@ bool Terrain::DetectWorldOverlapping( b2Body* pBody, std::set<NoeudAbstrait*>* p
 bool Terrain::renderAppleNode( const NoeudAbstrait* node ) const
 {
     auto key = node->getKey();
-    if(mRenderObjC)
+    if(key != RAZER_KEY_NONE && mRenderObjC)
     {
         return mRenderObjC(key);
     }
