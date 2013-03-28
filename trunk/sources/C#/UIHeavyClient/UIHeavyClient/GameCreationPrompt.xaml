@@ -1,7 +1,7 @@
 ﻿<Window x:Class="UIHeavyClient.GameCreationPrompt"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Create Game" Height="285" Width="300" Background="Black" Foreground="White" MinHeight="285" MaxHeight="285" MinWidth="300" MaxWidth="300">
+        Title="Create Game" Height="285" Width="300" Background="Black" Foreground="White" MinHeight="285" MaxHeight="285" MinWidth="300" MaxWidth="300" ResizeMode="NoResize">
     <Grid Background="Black">
         <Label Content="Game's Name : " Height="28" HorizontalAlignment="Left" Margin="6,12,0,0" Name="mNameLabel" VerticalAlignment="Top" Background="Black" Foreground="White" />
         <Label Content="Password : " Height="28" HorizontalAlignment="Left" Margin="12,80,0,0" Name="mPasswordLabel" VerticalAlignment="Top" Background="Black" Foreground="White" />

@@ -2088,25 +2088,6 @@ void FacadeModele::getSelectedNodes(ConteneurNoeuds& pSelectedNodes) const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn int FacadeModele::transmitEvent( EventCodes pCode )
-///
-/// Send event to the controller
-///
-/// @param[in] EventCodes pCode
-///
-/// @return int
-///
-////////////////////////////////////////////////////////////////////////
-void FacadeModele::transmitEvent( EventCodes pCode, ... )
-{
-    va_list args;
-    va_start(args, pCode);
-    GestionnaireReseau::obtenirInstance()->transmitEvent(pCode,args);
-    va_end(args);
-}
-
-////////////////////////////////////////////////////////////////////////
-///
 /// @fn unsigned int FacadeModele::obtenirNbNoeudSelect()
 ///
 /// /*Description*/

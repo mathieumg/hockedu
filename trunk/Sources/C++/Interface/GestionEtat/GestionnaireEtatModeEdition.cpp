@@ -96,66 +96,81 @@ void GestionnaireEtatModeEdition::toucheRelachee( EvenementClavier& evenementCla
 #if BOX2D_DEBUG
     case VJAK_NUMPAD0:
         {
-            auto flag = DebugRenderBox2D::mInstance->GetFlags();
-            if(flag & b2Draw::e_shapeBit)
+            if(DebugRenderBox2D::mInstance)
             {
-                DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_shapeBit);
-            }
-            else
-            {
-                DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_shapeBit);
+                auto flag = DebugRenderBox2D::mInstance->GetFlags();
+                if(flag & b2Draw::e_shapeBit)
+                {
+                    DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_shapeBit);
+                }
+                else
+                {
+                    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_shapeBit);
+                }
             }
         }
         break;
     case VJAK_NUMPAD1:
         {
-            auto flag = DebugRenderBox2D::mInstance->GetFlags();
-            if(flag & b2Draw::e_jointBit)
+            if(DebugRenderBox2D::mInstance)
             {
-                DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_jointBit);
-            }
-            else
-            {
-                DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_jointBit);
+                auto flag = DebugRenderBox2D::mInstance->GetFlags();
+                if(flag & b2Draw::e_jointBit)
+                {
+                    DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_jointBit);
+                }
+                else
+                {
+                    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_jointBit);
+                }
             }
         }
         break;
     case VJAK_NUMPAD2:
         {
-            auto flag = DebugRenderBox2D::mInstance->GetFlags();
-            if(flag & b2Draw::e_aabbBit)
+            if(DebugRenderBox2D::mInstance)
             {
-                DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_aabbBit);
-            }
-            else
-            {
-                DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_aabbBit);
+                auto flag = DebugRenderBox2D::mInstance->GetFlags();
+                if(flag & b2Draw::e_aabbBit)
+                {
+                    DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_aabbBit);
+                }
+                else
+                {
+                    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_aabbBit);
+                }
             }
         }
         break;
     case VJAK_NUMPAD3:
         {
-            auto flag = DebugRenderBox2D::mInstance->GetFlags();
-            if(flag & b2Draw::e_pairBit)
+            if(DebugRenderBox2D::mInstance)
             {
-                DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_pairBit);
-            }
-            else
-            {
-                DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_pairBit);
+                auto flag = DebugRenderBox2D::mInstance->GetFlags();
+                if(flag & b2Draw::e_pairBit)
+                {
+                    DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_pairBit);
+                }
+                else
+                {
+                    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_pairBit);
+                }
             }
         }
         break;
     case VJAK_NUMPAD4:
         {
-            auto flag = DebugRenderBox2D::mInstance->GetFlags();
-            if(flag & b2Draw::e_centerOfMassBit)
+            if(DebugRenderBox2D::mInstance)
             {
-                DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_centerOfMassBit);
-            }
-            else
-            {
-                DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_centerOfMassBit);
+                auto flag = DebugRenderBox2D::mInstance->GetFlags();
+                if(flag & b2Draw::e_centerOfMassBit)
+                {
+                    DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_centerOfMassBit);
+                }
+                else
+                {
+                    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_centerOfMassBit);
+                }
             }
         }
         break;

@@ -110,12 +110,40 @@ void RequestLogin( char* pUsername, char* pPassword, char* pIpAdress )
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("MasterServer",pIpAdress,TCP);
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void DisconnectMasterServer( )
+///
+/// Envoi une demande pour se deconnecter du Master Server (Retour au menu principal)
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void DisconnectMasterServer(  )
+{
+    PaquetEvent* wPaquet = (PaquetEvent*)GestionnaireReseau::obtenirInstance()->creerPaquet(EVENT);
+    wPaquet->setEventCode(USER_DISCONNECTED);
+    wPaquet->setMessage(GestionnaireReseau::obtenirInstance()->getPlayerName());
+    wPaquet->forceSendBrokenSocket();
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
+
+    //Sleep(100);
+
+    GestionnaireReseau::obtenirInstance()->removeSocket("MasterServer", TCP);
+    
+
+    
+
+    
+}
+
+
 void SendMessageDLL(char * pConnectionId, char* pUsername, char * pMessage)
 {
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet(CHAT_MESSAGE);
     wPaquet->setMessage(pMessage);
-    wPaquet->setIsTargetGroup(true);
-    wPaquet->setGroupName("groupe");
+    wPaquet->setIsTargetGroup(false);
     wPaquet->setTimestamp(time(0));
     wPaquet->setOrigin(pUsername);
 
@@ -451,18 +479,20 @@ void connectServerGame( char* pServerIP )
 
 }
 
-void connectPartieServerGame( int pGameId )
+void connectPartieServerGame( int pGameId, char* pInputPassword )
 {
     PaquetGameConnection* wPaquet = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);
     wPaquet->setGameId(pGameId);
+    wPaquet->setPassword(pInputPassword);
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
 }
 
-void requestGameCreationServerGame( char* pGameName )
+void requestGameCreationServerGame( char* pGameName, char* pMapName, char* pPassword  )
 {
     PaquetGameCreation* wPaquet = (PaquetGameCreation*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CREATION_REQUEST);
     wPaquet->setGameName(pGameName);
-    wPaquet->setMapName(FacadeModele::FICHIER_TERRAIN_EN_COURS);
+    wPaquet->setMapName(pMapName);
+    wPaquet->setPassword(pPassword);
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
 }
 
@@ -681,7 +711,7 @@ void AddRadioPlaylist(char* pPlaylist, char** pSongs, int pNbrSongs)
 
 bool TerrainHasDeletable()
 {
-    return FacadeModele::getInstance()->getEditionField()->CanSelectedNodeBeDeleted();
+    return FacadeModele::Exists() && FacadeModele::getInstance()->getEditionField()->CanSelectedNodeBeDeleted();
 }
 
 
@@ -837,6 +867,7 @@ void SetAchievementUnlocked( AchievementUnlockCallBack callback )
 void requestGamesList()
 {
     PaquetEvent* wPaquet = (PaquetEvent*)GestionnaireReseau::obtenirInstance()->creerPaquet(EVENT);
+    wPaquet->setEventCode(GAMES_LIST_REQUEST);
     wPaquet->setMessage(GestionnaireReseau::obtenirInstance()->getPlayerName());
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
 }

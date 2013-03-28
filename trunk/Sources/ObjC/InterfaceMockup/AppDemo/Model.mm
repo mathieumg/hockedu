@@ -12,10 +12,61 @@
 #include "NoeudAbstrait.h"
 #include "AFJSONRequestOperation.h"
 #include "AFHTTPClient.h"
-//#include <Box2D/Box2D.h>
+#include "EditionEventManager.h"
+
+#import "Model3DManager.h"
+
+static Model3DManager* mModel3DManager = NULL;
+
+void EditionEventCallback(EditionEventCodes pEvent)
+{
+    switch (pEvent) {
+            
+        case ENABLE_PUCK_CREATION:
+            //NSLog(@"Can create Puck\n");
+            break;
+        case DISABLE_PUCK_CREATION:
+            //NSLog(@"Cannot Create Puck\n");
+            break;
+        case ENABLE_MALLET_CREATION:
+            //NSLog(@"Can create Mallet\n");
+            break;
+        case DISABLE_MALLET_CREATION:
+            //NSLog(@"Cannot create puck\n");
+            break;
+        case THERE_ARE_NODES_SELECTED:
+            //NSLog(@"There are items selected\n");
+            break;
+        case THERE_ARE_NO_NODE_SELECTED:
+            //NSLog(@"There are no nodes selected\n");
+            break;
+        case CAN_UNDO:
+            //NSLog(@"Can Undo modification\n");
+            break;
+        case CANNOT_UNDO:
+            //NSLog(@"Cannot Undo modification\n");
+            break;
+        case CAN_REDO:
+            //NSLog(@"Can Redo modification\n");
+            break;
+        case CANNOT_REDO:
+            //NSLog(@"Cannot Redo modification\n");
+            break;
+        default:
+            break;
+    }
+}
+
+bool RenderNode(RazerKey key)
+{
+    if(mModel3DManager)
+    {
+        //return [mModel3DManager renderObject:key];
+    }
+    return false;
+}
 
 @implementation Model
-
 
 - (void)render
 {
@@ -24,12 +75,26 @@
 }
 - (id)init
 {
-    //b2World* world = new b2World(b2Vec2(0,0));
+    EditionEventManager::setEditionEventCallback(EditionEventCallback);
     mField = new Terrain(NULL);
+    if(mModel3DManager == NULL)
+    {
+        mModel3DManager = [[Model3DManager alloc]init];
+    }
+    [mModel3DManager renderObject:RAZER_KEY_TABLE];
+    ((Terrain*)mField)->setModelManagerObjc(RenderNode);
     ((Terrain*)mField)->createRandomField("test");
     ((Terrain*)mField)->setTableItemsSelection(true);
     ((Terrain*)mField)->deleteSelectedNodes();
+    ((Terrain*)mField)->verifierValidite();
     return self;
+}
+
+-(void)dealloc
+{
+    [mModel3DManager release];
+    mModel3DManager = NULL;
+    delete (Terrain*)mField;
 }
 
 -(int)acceptSelectionVisitor:(float)positionMinX: (float)positionMinY:(float) positionMaxX:(float) positionMaxY

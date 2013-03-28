@@ -23,6 +23,7 @@
 #include "..\Sons\SoundFMOD.h"
 #include "GestionnaireModeles.h"
 #include "..\Achievements\AchievementsManager.h"
+#include "..\Environnement\EditionEventManager.h"
 
 
 // Summary:
@@ -72,6 +73,7 @@ extern "C"
     __declspec(dllexport) int ExecuteUnitTest();
     __declspec(dllexport) void InitDLL();
     __declspec(dllexport) void RequestLogin( char* pUsername, char* pPassword, char* pIpAdress );
+    __declspec(dllexport) void DisconnectMasterServer( );
     __declspec(dllexport) void CancelConnection( char* pConnectionId );
     __declspec(dllexport) void SendMessageDLL( char* pConnectionId, char* pUsername, char * pMessage );
     __declspec(dllexport) void SendMessageGameDLL( char * pMessage );
@@ -160,6 +162,11 @@ extern "C"
     /// Enregistre la callback pour mettre a jour la vue lors d'événement
     __declspec(dllexport) void SetEventCallback( EventReceivedCallBack callback );
 
+    /// Enregistre la callback pour mettre a jour la vue lors d'événement
+    __declspec(dllexport) void SetEditionEventCallBack( EditionEventReceived callback )
+    {
+        EditionEventManager::setEditionEventCallback(callback);
+    }
 
     __declspec(dllexport) void DisconnectUser( char* pUsername );
     //////////////////////////////////////////////////////////////////////////
@@ -174,8 +181,8 @@ extern "C"
     __declspec(dllexport) void initNetwork( ControllerInterface* pController );
     __declspec(dllexport) void envoyerPaquet( Paquet* pPaquet );
     __declspec(dllexport) void connectServerGame( char* pServerIP );
-    __declspec(dllexport) void connectPartieServerGame( int pGameId );
-    __declspec(dllexport) void requestGameCreationServerGame( char* pGameName );
+    __declspec(dllexport) void connectPartieServerGame( int pGameId, char* pInputPassword );
+    __declspec(dllexport) void requestGameCreationServerGame( char* pGameName, char* pMapName, char* pPassword );
     __declspec(dllexport) void requestGamePause( );
     __declspec(dllexport) void requestGameResume( );
     __declspec(dllexport) void requestGamesList( );

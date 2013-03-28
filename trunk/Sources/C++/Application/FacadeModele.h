@@ -219,9 +219,6 @@ public:
     void afficherProgramInfoLog( GLuint obj, const char* message );
     void afficherShaderInfoLog( GLuint obj, const char* message );
 
-    /// Send event to the controller
-    static void transmitEvent( EventCodes pCode, ... );
-
     /// Nom du fichier XML dans lequel doit se trouver le terrain par defaut
     static const std::string FICHIER_TERRAIN_EN_COURS;
 

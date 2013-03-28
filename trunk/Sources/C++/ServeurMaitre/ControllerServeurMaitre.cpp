@@ -8,8 +8,8 @@
 #include "../Reseau/Paquets/PaquetEvent.h"
 #include "../Reseau/ObjetsGlobaux/PartieServeurs.h"
 #include "GameServerManager.h"
+#include "../Reseau/RelayeurMessage.h"
 #include "GameServer.h"
-#include "../Reseau/Paquets/PaquetGamesList.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -103,7 +103,7 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
                 auto wGamesContainer = wGameServerIt->second->getGamesContainer();
                 for(auto wGameIt = wGamesContainer.begin(); wGameIt != wGamesContainer.end(); ++wGameIt)
                 {
-                    PaquetEvent* wPaquet = (PaquetEvent*)GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+                    PaquetEvent* wPaquet = (PaquetEvent*)GestionnaireReseau::obtenirInstance()->creerPaquet(EVENT);
                     wPaquet->setEventCode(GAME_ADDED);
                     std::stringstream message("");
                     auto wGame = wGameIt->second;

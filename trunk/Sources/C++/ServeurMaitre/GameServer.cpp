@@ -58,6 +58,8 @@ void GameServer::addGame( int pGameId, std::string pGameName, std::string pMapNa
     PartieServeurs* wGame = new PartieServeurs(pUsername, "");
     wGame->setGameName(pGameName);
     wGame->setMapName(pMapName);
+    wGame->setServerId(mServerId);
+    wGame->setUniqueGameId(pGameId);
     addGame(pGameId, wGame);
 }
 

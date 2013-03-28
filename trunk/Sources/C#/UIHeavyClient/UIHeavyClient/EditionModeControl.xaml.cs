@@ -45,10 +45,10 @@ namespace UIHeavyClient
 
         Button mLastClickedButton;
 
-        EventReceivedCallBack mEventCallBack = EditionModeEventReceived;
+        EditionEventCallBack mEventCallBack = EditionModeEventReceived;
 
         // Properties
-        public EventReceivedCallBack EventCallBack
+        public EditionEventCallBack EventCallBack
         {
             get{return mEventCallBack;}
         }
@@ -63,41 +63,40 @@ namespace UIHeavyClient
         ///
         /// @return bool.
         ////////////////////////////////////////////////////////////////////////
-        static bool EditionModeEventReceived(EventCodes id, IntPtr pMessage)
+        static bool EditionModeEventReceived( EditionEventCodes id)
         {
             EditionModeControl control = MainWindowHandler.Context.EditionModeControl;
             if (control != null)
             {
-                string message = Marshal.PtrToStringAnsi(pMessage);
                 switch (id)
                 {
-                    case EventCodes.ENABLE_PUCK_CREATION:
+                case EditionEventCodes.ENABLE_PUCK_CREATION:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             control.mPuckButton.IsEnabled = true;
                         });
 
                         break;
-                    case EventCodes.DISABLE_PUCK_CREATION:
+                case EditionEventCodes.DISABLE_PUCK_CREATION:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             control.mPuckButton.IsEnabled = false;
                         });
                         break;
-                    case EventCodes.ENABLE_MALLET_CREATION:
+                case EditionEventCodes.ENABLE_MALLET_CREATION:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             control.mMalletButton.IsEnabled = true;
                         });
 
                         break;
-                    case EventCodes.DISABLE_MALLET_CREATION:
+                case EditionEventCodes.DISABLE_MALLET_CREATION:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             control.mMalletButton.IsEnabled = false;
                         });
                         break;
-                    case EventCodes.THERE_ARE_NODES_SELECTED:
+                case EditionEventCodes.THERE_ARE_NODES_SELECTED:
                         RazerKey key = GetSelectedNodeUniqueKey();
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
@@ -117,7 +116,7 @@ namespace UIHeavyClient
                             control.mPropertiesGroupBox.DisplayProperties(key);
                         });
                         break;
-                    case EventCodes.THERE_ARE_NO_NODE_SELECTED:
+                case EditionEventCodes.THERE_ARE_NO_NODE_SELECTED:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             control.mDeleteButton.IsEnabled = false;
@@ -129,25 +128,25 @@ namespace UIHeavyClient
                             control.mPropertiesGroupBox.DisplayProperties( RazerKey.RAZER_KEY_NONE );
                         });
                         break;
-                    case EventCodes.CAN_UNDO:
+                case EditionEventCodes.CAN_UNDO:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                         control.mUndoButton.IsEnabled = true;
                         });
                         break;
-                    case EventCodes.CANNOT_UNDO:
+                case EditionEventCodes.CANNOT_UNDO:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                         control.mUndoButton.IsEnabled = false;
                         });
                         break;
-                    case EventCodes.CAN_REDO:
+                case EditionEventCodes.CAN_REDO:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                         control.mRedoButton.IsEnabled = true;
                         });
                         break;
-                    case EventCodes.CANNOT_REDO:
+                case EditionEventCodes.CANNOT_REDO:
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                         control.mRedoButton.IsEnabled = false;

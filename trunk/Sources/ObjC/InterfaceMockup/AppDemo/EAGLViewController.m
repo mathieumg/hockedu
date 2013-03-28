@@ -33,6 +33,9 @@ enum {
 @property (retain, nonatomic) IBOutlet UIView *mSideBarView;
 @property (retain, nonatomic) IBOutlet UIView *mTopBarView;
 @property (nonatomic, assign) CADisplayLink *displayLink;
+@property (nonatomic, assign) BOOL wrap;
+@property (nonatomic, assign) BOOL clipsToBounds;
+@property (nonatomic, retain) NSMutableArray *items;
 @end
 
 @implementation EAGLViewController
@@ -46,9 +49,17 @@ enum {
 @synthesize displayLink;
 @synthesize cube;
 @synthesize mEventManager;
+@synthesize carousel;
+@synthesize items;
 
 - (void)awakeFromNib
 {
+    self.items = [NSMutableArray array];
+    for (int i = 0; i < 100; i++)
+    {
+        [items addObject:[NSNumber numberWithInt:i]];
+    }
+    
     [self.view init];
     theEAGLView = [[EAGLView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.mGLView.bounds.size.height, self.mGLView.bounds.size.width)];
     
@@ -78,6 +89,8 @@ enum {
     animating = FALSE;
     animationFrameInterval = 1;
     self.displayLink = nil;
+    
+
 }
 
 - (void)dealloc
@@ -96,6 +109,12 @@ enum {
     [mGLView release];
     [mSideBarView release];
     [mTopBarView release];
+    carousel.delegate = nil;
+    carousel.dataSource = nil;
+    
+    [carousel release];
+    [items release];
+    
     [super dealloc];
 }
 
@@ -131,10 +150,21 @@ enum {
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+    
     UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationDetectee:)];
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
+    
     [rotationGesture setDelegate:self];
+    [longPressGesture setDelegate:self];
+    
     [theEAGLView addGestureRecognizer:rotationGesture];
+    [theEAGLView addGestureRecognizer:longPressGesture];
+    
     [rotationGesture release];
+    [longPressGesture release];
+    
+    carousel.type = iCarouselTypeLinear;
 }
 
 
@@ -151,6 +181,7 @@ enum {
     if ([EAGLContext currentContext] == context)
         [EAGLContext setCurrentContext:nil];
 	self.context = nil;
+    self.carousel = nil;
 }
 
 - (NSInteger)animationFrameInterval
@@ -206,16 +237,20 @@ enum {
     glLoadIdentity();
 }
 
+- (void)longPressDetected:(UIGestureRecognizer *)gestureRecognizer
+{
+    NSLog(@"LONG PRESS DETECTED!!!!");
+}
+
 - (void)unselectAllTools
 {
     // AJOUTER TOUS NOUVEAUX TOOL ICI
     mMoveTool = false;
     mSelectTool = false;
 }
-
 -(IBAction) selectionModeButtonTouched:(UIButton *)sender
 {
-    //mEventManager.mCurrentState = EDITOR_STATE_SELECTION;
+    [mEventManager modifyState:EDITOR_STATE_SELECTION];
     // En mode selection, on ne peut pas ajouter ditem
     itemToBeAdded = -1;
     // On ne peut pas avoir creationmode et selection mode en meme temps
@@ -229,6 +264,7 @@ enum {
 
 - (IBAction)creationModeButtonTouched:(UIButton *)sender
 {
+    [mEventManager modifyState:EDITOR_STATE_AJOUTER_PORTAIL];
     // En creation mode, on ne peut quajouter des nouveaux items, aucun tool de disponible
     [self unselectAllTools];
     mCreationMode = !mCreationMode;
@@ -240,7 +276,7 @@ enum {
 
 - (IBAction)selectToolButtonTouched:(UIButton *)sender
 {
-    //mEventManager.mCurrentState = EDITOR_STATE_SELECTION;
+    [mEventManager modifyState:EDITOR_STATE_SELECTION];
     
     // Disponible uniquement si on est en selectionmode
     if (mSelectionMode) {
@@ -251,6 +287,7 @@ enum {
 }
 - (IBAction)moveToolButtonTouched:(UIButton *)sender
 {
+    [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_DEPLACEMENT];
     // Disponible uniquement si on est en selectionmode
     if (mSelectionMode) {
         mSelectTool = false;
@@ -261,6 +298,9 @@ enum {
 
 - (IBAction)portalButtonTouched:(UIButton *)sender
 {
+    [mEventManager modifyState:EDITOR_STATE_AJOUTER_PORTAIL];
+    // On envois la position du centre du bouton de creation, pour cacher lobjet cree en arriere
+    //[mModel beginModification:FIELD_MODIFICATION_ADD_PORTAL:sender.center];
     // On met le portal comme item a ajouter au prochain clique dans la vue
     itemToBeAdded = PORTAL;
 }
@@ -290,6 +330,7 @@ enum {
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [[event allTouches] anyObject];
+    [mEventManager touchesBegan:touch];
     // On prend en note le point ou le toucher a commencer
     firstCorner = [touch locationInView:theEAGLView];
     // On reinitialise le bool disant si on drag
@@ -344,6 +385,7 @@ enum {
     if ([[event allTouches] count] == 1)
     {
         UITouch *touch = [[event allTouches] anyObject];
+        [mEventManager touchesMoved:touch];
         CGPoint positionCourante = [touch locationInView:theEAGLView];
         if (mCreationMode) {
             // Si on est en mode creation et touchMoved, on update la position de limage
@@ -435,6 +477,7 @@ enum {
     if ([[event allTouches] count] == 1)
     {
         UITouch *touch = [[event allTouches] anyObject];
+        [mEventManager touchesEnded:touch];
         CGPoint positionCourante = [touch locationInView:theEAGLView];
         if (mCreationMode) {
             // Destruction de limage de lobjet qui suit la position du doigt
@@ -601,6 +644,72 @@ enum {
 	lastDrawTime = [NSDate timeIntervalSinceReferenceDate];
     
     [(EAGLView *)theEAGLView presentFramebuffer];
+}
+
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return YES;
+}
+
+#pragma mark -
+#pragma mark iCarousel methods
+
+- (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel
+{
+    //return the total number of items in the carousel
+    return [items count];
+}
+
+- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
+{
+    UILabel *label = nil;
+    
+    //create new view if no view is available for recycling
+    if (view == nil)
+    {
+        //don't do anything specific to the index within
+        //this `if (view == nil) {...}` statement because the view will be
+        //recycled and used with other index values later
+        view = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 98.0f, 92.0f)] autorelease];
+        ((UIImageView *)view).image = [UIImage imageNamed:@"aide32x32.png"];
+        view.contentMode = UIViewContentModeCenter;
+        
+        label = [[[UILabel alloc] initWithFrame:view.bounds] autorelease];
+        label.backgroundColor = [UIColor clearColor];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = [label.font fontWithSize:30];
+        label.textColor = [UIColor colorWithRed:0.0 green: 1.0 blue: 0.0 alpha:1.0f];
+        label.tag = 1;
+        [view addSubview:label];
+    }
+    else
+    {
+        //get a reference to the label in the recycled view
+        label = (UILabel *)[view viewWithTag:1];
+    }
+    
+    //set item label
+    //remember to always set any properties of your carousel item
+    //views outside of the `if (view == nil) {...}` check otherwise
+    //you'll get weird issues with carousel item content appearing
+    //in the wrong place in the carousel
+    label.text = [[items objectAtIndex:index] stringValue];
+    
+    return view;
+}
+
+- (CGFloat)carousel:(iCarousel *)carousel valueForOption:(iCarouselOption)option withDefault:(CGFloat)value
+{
+    switch( option )
+    {
+        case iCarouselOptionSpacing:
+            return value * 1.1f;
+            
+        case iCarouselOptionWrap:
+            return YES;
+    }
+    return value;
 }
 
 @end

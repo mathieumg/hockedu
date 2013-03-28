@@ -26,7 +26,6 @@
 #include "Box2D\Dynamics\b2Body.h"
 #include "PaquetHandlers\PacketHandlerBonus.h"
 #include "GestionnaireHUD.h"
-#include "Paquets\PaquetGamesList.h"
 #include "ObjetsGlobaux\PartieServeurs.h"
 
 

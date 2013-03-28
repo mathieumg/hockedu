@@ -40,9 +40,9 @@ namespace UIHeavyClient
             get { return mOkIsClicked; }
         }
 
-        public string SelectedMap
+        public UserMapDetailedJSON SelectedMap
         {
-            get { return mMapComboBox.SelectedItem.ToString(); }
+            get { return (mMapComboBox.SelectedItem as UserMapDetailedJSON); }
         }
 
         public ServerMapPrompt()
@@ -51,25 +51,37 @@ namespace UIHeavyClient
             mOkIsClicked = false;
         }
 
-        public void HandleMaps(List<UserMapDetailedJSON> pList)
+        public void callbackMapsFunction(List<UserMapDetailedJSON> pList)
         {
-            mMapComboBox.Items.Clear();
-            foreach (UserMapDetailedJSON m in pList)
+            // Update the combobox with the list
+            MainWindowHandler.mTaskManager.ExecuteTask(() =>
             {
-                mMapComboBox.Items.Add(m.name);
-            }
+                foreach (UserMapDetailedJSON wItem in pList)
+                {
+                    mMapComboBox.Items.Add(wItem);
+                }
+            });
         }
 
         private void mCancelButton_Click(object sender, RoutedEventArgs e)
         {
             mOkIsClicked = false;
-            Close();
+            Hide();
         }
 
         private void mOkButton_Click(object sender, RoutedEventArgs e)
         {
             mOkIsClicked = true;
-            Close();
+            Hide();
+        }
+
+        public void GetServerMaps()
+        {
+            mMapComboBox.Items.Clear();
+
+            // Load map list async!!!!
+            HttpManager wManager = new HttpManager();
+            wManager.getPublicMapList(callbackMapsFunction);
         }
     }
 }

@@ -23,6 +23,8 @@ typedef int (*PaquetRunnableFunc) (class Paquet*);
 
 class Partie;
 
+
+
 ///////////////////////////////////////////////////////////////////////////
 /// @class ControllerInterface
 /// @brief Interface a implementer pour un controlleur a associer au modele pour les callbacks
@@ -54,6 +56,7 @@ public:
 
 protected:
     std::hash_map<PaquetTypes, PaquetRunnableFunc> mPaquetRunnables;
+
 };
 
 

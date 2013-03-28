@@ -254,6 +254,18 @@ private:
     class b2World* mWorld;
 #endif
 
+#if __APPLE__
+    typedef bool (*RenderObjCCallback)(RazerKey);
+    /// pointer to the manager of model 3D in objc
+    RenderObjCCallback mRenderObjC;
+public:
+    bool renderAppleNode(const NoeudAbstrait* node)const;
+    inline void setModelManagerObjc(RenderObjCCallback pVal) { mRenderObjC = pVal; }
+private:
+   
+#endif
+
+    
     std::set<NoeudAbstrait*> mSelectedNodes;
 
     // Terrain initialized

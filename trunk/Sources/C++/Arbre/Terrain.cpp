@@ -30,9 +30,7 @@
 #include "../Reseau/Paquets/PaquetGameEvent.h"
 #include "../Reseau/RelayeurMessage.h"
 
-#define TransmitEvent(e) FacadeModele::transmitEvent(e)
 #else
-#define TransmitEvent(e)
 #endif
 
 #include "Terrain.h"
@@ -68,7 +66,10 @@
 #include "VisitorSetProperties.h"
 #include "FieldModificationStrategyAddNode.h"
 #include "FieldModificationStrategyAddWall.h"
-#include "Visiteur/VisiteurSuppression.h"
+#include "VisiteurSuppression.h"
+#include "EditionEventManager.h"
+
+#define TransmitEvent(e) EditionEventManager::TransmitEvent(e)
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
@@ -88,6 +89,10 @@ const unsigned int MAX_MALLETS = 2;
 Terrain::Terrain(Partie* pGame): 
     mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame),mZamboni(NULL),
     mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL), mIsInit(false), mModifStrategy(NULL),mDoingUndoRedo(false),mCurrentState(NULL), mBesoinMiseAuJeu(false)
+#if __APPLE__
+/// pointer to the callback to do the render in objc
+,mRenderObjC(NULL)
+#endif
 {
 
     mRedoBuffer.reserve(UNDO_BUFFERSIZE);
@@ -106,8 +111,11 @@ Terrain::Terrain(Partie* pGame):
     }
 #endif
 #if BOX2D_DEBUG
-    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_shapeBit);
-    mWorld->SetDebugDraw(DebugRenderBox2D::mInstance);
+    if(DebugRenderBox2D::mInstance)
+    {
+        DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_shapeBit);
+        mWorld->SetDebugDraw(DebugRenderBox2D::mInstance);
+    }
 #endif
 #endif
 
@@ -2500,6 +2508,29 @@ bool Terrain::DetectWorldOverlapping( b2Body* pBody, std::set<NoeudAbstrait*>* p
         BodyAABBQueryCallback callback(pBody,pCollidingNodes);
         mWorld->QueryAABB(&callback,aabb);
         return callback.mCollisionDetected;
+    }
+    return false;
+}
+#endif
+
+#if __APPLE__
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool Terrain::renderAppleNode( NoeudAbstrait* node )
+///
+/// /*Description*/
+///
+/// @param[in] NoeudAbstrait * node
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool Terrain::renderAppleNode( const NoeudAbstrait* node ) const
+{
+    auto key = node->getKey();
+    if(mRenderObjC)
+    {
+        return mRenderObjC(key);
     }
     return false;
 }

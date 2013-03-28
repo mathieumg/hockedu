@@ -19,6 +19,9 @@ public:
     inline void setMapName (const std::string& pMapName) { mMapName = pMapName; }
     inline std::string getMapName () const { return mMapName; }
 
+    inline void setPassword (const std::string& pPassword) { mPassword = pPassword; }
+    inline std::string getPassword () const { return mPassword; }
+
     inline void setServerIP (const std::string& pServerIP) { mServerIP = pServerIP; }
     inline std::string getServerIP () const { return mServerIP; }
 
@@ -36,6 +39,7 @@ private:
     std::string mGameName;
     std::string mUsername;
     std::string mMapName;
+    std::string mPassword;
     std::string mServerIP;
     int mGameId;
     unsigned int mServerId;

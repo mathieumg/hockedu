@@ -86,7 +86,6 @@ namespace HttpHockeduRequests
            callback              = pCallback;
 
         }
-
         public int                  userId;
         public string               authenticationKey;
         public string               mapName;
@@ -300,18 +299,9 @@ namespace HttpHockeduRequests
                 wRequestStream.Write(newlineBytes, 0, newlineBytes.Length);
 
 
-
-                /*string itemMapFile = String.Format(TemplateFormData, wBoundary, "mapfile", wFileContentString);
-                byte[] itemBytesMapFile = System.Text.Encoding.UTF8.GetBytes(itemMapFile);
-                wRequestStream.Write(itemBytesMapFile, 0, itemBytesMapFile.Length);*/
-
-
                 // Ajouter les bytes de fermeture a la fin de la request
                 byte[] wEndBytes = System.Text.Encoding.UTF8.GetBytes("--" + wBoundary + "--");
                 wRequestStream.Write(wEndBytes, 0, wEndBytes.Length);
-
-                // Set request length?
-                //wRequest.ContentLength = longueur;
 
 
                 // On ferme le stream de requete
