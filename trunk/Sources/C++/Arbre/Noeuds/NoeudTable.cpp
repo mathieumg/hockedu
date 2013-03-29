@@ -95,7 +95,7 @@ int NoeudTable::expectedChildCount()
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudTable::NoeudTable(const std::string& typeNoeud)
-   : NoeudComposite(typeNoeud) , coefFriction_(5)
+   : NoeudComposite(typeNoeud) , coefFriction_(0.3f)
 {
     /// les noeuds points ne peuvent etre supprimer
     mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
