@@ -55,6 +55,7 @@ public:                                                     \
 DEFAULT_BONUS_FACTORY_DECLARATION(BonusModifierGoThroughWall);
 DEFAULT_BONUS_FACTORY_DECLARATION(BonusModifierBlockGoal);
 DEFAULT_BONUS_FACTORY_DECLARATION(BonusModifierFan);
+DEFAULT_BONUS_FACTORY_DECLARATION(BonusModifierChangeZone);
 
 
 

@@ -484,7 +484,6 @@ void NoeudBut::updatePhysicBody()
             myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
             myFixtureDef.filter.maskBits = CATEGORY_MALLET;
 #endif
-            myFixtureDef.filter.groupIndex = 1;
         }
         else
         {

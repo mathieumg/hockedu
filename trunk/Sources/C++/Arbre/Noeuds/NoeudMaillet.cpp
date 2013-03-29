@@ -526,7 +526,7 @@ void NoeudMaillet::updatePhysicBody()
         myFixtureDef.density = 0.02f;
         {
             myFixtureDef.filter.categoryBits = CATEGORY_MALLET;
-            myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_BOUNDARY | CATEGORY_WALL;
+            myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_BOUNDARY | CATEGORY_WALL | CATEGORY_MIDLANE;
         }
         if(!IsInGame())
         {

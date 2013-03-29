@@ -623,6 +623,9 @@
     <ClCompile Include="Arbre\Bonus\BonusModifierFan.cpp">
       <Filter>Sources Files\Arbre\Bonus</Filter>
     </ClCompile>
+    <ClCompile Include="Arbre\Bonus\BonusModifierChangeZone.cpp">
+      <Filter>Sources Files\Arbre\Bonus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1172,6 +1175,9 @@
       <Filter>Sources Files\Physics</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\Bonus\BonusModifierFan.h">
+      <Filter>Sources Files\Arbre\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Bonus\BonusModifierChangeZone.h">
       <Filter>Sources Files\Arbre\Bonus</Filter>
     </ClInclude>
   </ItemGroup>

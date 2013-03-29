@@ -1340,7 +1340,7 @@ void NoeudTable::updatePhysicBody()
             myFixtureDef.shape = &shape; //this is a pointer to the shapeHaut above
             myFixtureDef.density = 1;
 
-            myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
+            myFixtureDef.filter.categoryBits = CATEGORY_MIDLANE;
             myFixtureDef.filter.maskBits = CATEGORY_MALLET;
 
             mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
