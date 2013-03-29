@@ -358,6 +358,7 @@ void GestionnaireModeles::initialiser()
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_EMPTY_BONUS        , "EmptyBonus",RazerGameUtilities::CreateListDelegateEmptyBonus));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_BONUS              , "",RazerGameUtilities::CreateListDelegateBonus));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_GOALER             , "Goaler/Goaler",RazerGameUtilities::CreateListDelegateGoaler));
+    tamponGlobal.vec.push_back(ModelToLoad("Fan"                                       ,RazerGameUtilities::CreateListDelegateFan));
     tamponGlobal.vec.push_back(ModelToLoad("pause"));
     tamponGlobal.vec.push_back(ModelToLoad("1"));
     tamponGlobal.vec.push_back(ModelToLoad("2"));

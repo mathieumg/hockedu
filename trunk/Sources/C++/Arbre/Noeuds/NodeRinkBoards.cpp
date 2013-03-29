@@ -187,6 +187,7 @@ void NodeRinkBoards::updatePhysicBody()
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &shape; //this is a pointer to the shape above
         myFixtureDef.density = 1;
+        myFixtureDef.restitution = getReboundRatio();
         if(IsInGame())
         {
             myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;

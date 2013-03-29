@@ -11,7 +11,7 @@
 #define __BONUS_MODIFIER_FACTORY_H__
 
 class BonusModifierAbstract;
-
+class NodeBonus;
 #include "Enum_Declarations.h"
 
 ///////////////////////////////////////////////////////////////////////////
@@ -26,7 +26,7 @@ class FactoryBonusModifier
 {
 public:
     /// Function to overload
-    virtual BonusModifierAbstract* createBonus() const = 0;
+    virtual BonusModifierAbstract* createBonus(NodeBonus* creator) const = 0;
     virtual ~FactoryBonusModifier(){}
 
     static void ClearFactories();
@@ -43,17 +43,19 @@ private:
 class Factory## FactoryName : public FactoryBonusModifier   \
 {                                                           \
 public:                                                     \
-    virtual BonusModifierAbstract* createBonus() const;     \
+    virtual BonusModifierAbstract* createBonus(NodeBonus* creator) const;     \
 };
 
 #define DEFAULT_BONUS_FACTORY_IMPLEMENTATION(FactoryName)                \
-    BonusModifierAbstract* Factory## FactoryName::createBonus() const    \
-    {  return new FactoryName();  }
+    BonusModifierAbstract* Factory## FactoryName::createBonus(NodeBonus* creator) const    \
+    {  BonusModifierAbstract* newModifier = new FactoryName(); newModifier->Init(creator); return newModifier; }
 
 
 // don't forget to update enum and array when creating a new factory
 DEFAULT_BONUS_FACTORY_DECLARATION(BonusModifierGoThroughWall);
 DEFAULT_BONUS_FACTORY_DECLARATION(BonusModifierBlockGoal);
+DEFAULT_BONUS_FACTORY_DECLARATION(BonusModifierFan);
+DEFAULT_BONUS_FACTORY_DECLARATION(BonusModifierChangeZone);
 
 
 

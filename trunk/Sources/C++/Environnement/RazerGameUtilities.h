@@ -129,6 +129,7 @@ public:
 
     static const std::string NAME_GOALER;
     CreateListDelegateSignature(Goaler);
+    CreateListDelegateSignature(Fan);
 
     typedef Map<std::string,RazerKey> StringToKeyMap;
     /// Memory leak !! but wth

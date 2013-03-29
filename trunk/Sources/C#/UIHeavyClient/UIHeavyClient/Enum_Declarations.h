@@ -140,6 +140,8 @@ typedef enum
     {
         BONUS_TYPE_GO_THROUGH_WALL,
         BONUS_TYPE_BLOCK_GOAL,
+        BONUS_TYPE_FAN,
+        BONUS_TYPE_CHANGE_ZONE,
 
         NB_BONUS_TYPE
     }
@@ -242,6 +244,7 @@ typedef enum
         CATEGORY_BONUS    = 0x0020,      /// Expected to have NoeudAbstrait* as user data 
         CATEGORY_WALL     = 0x0040,      /// Expected to have NoeudAbstrait* as user data 
         CATEGORY_FORCE_FIELD = 0x0080,   /// Expected to have ForceField* as user data
+        CATEGORY_MIDLANE = 0x0100,   /// Expected to have NoeudTable* as user data
     }
 #if !CSHARP
 PhysicsCategory

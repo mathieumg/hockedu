@@ -160,6 +160,22 @@ void GestionnaireEvenements::toucheEnfoncee(EvenementClavier& evenementClavier)
             }
         }
         break;
+    case VJAK_NUMPAD5:
+        {
+            if(DebugRenderBox2D::mInstance)
+            {
+                auto flag = DebugRenderBox2D::mInstance->GetFlags();
+                if(flag & b2Draw::e_drawInactiveBit)
+                {
+                    DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_drawInactiveBit);
+                }
+                else
+                {
+                    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_drawInactiveBit);
+                }
+            }
+        }
+        break;
 #endif //BOX2D_INTEGRATED
     default:
         break;

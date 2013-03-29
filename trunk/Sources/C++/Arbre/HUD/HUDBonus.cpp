@@ -34,12 +34,13 @@ void HUDBonus::initSurfaces()
     memset(mTextures,0,sizeof(mTextures));
     aidegl::glLoadTexture(iconPath+"God.jpg", mTextures[BONUS_TYPE_GO_THROUGH_WALL]);
     aidegl::glLoadTexture(iconPath+"Goaler.png", mTextures[BONUS_TYPE_BLOCK_GOAL]);
-
+    aidegl::glLoadTexture(iconPath+"ChangeZone.png", mTextures[BONUS_TYPE_CHANGE_ZONE]);
+    
     ConteneurVertex2D* vertex = new ConteneurVertex2D();
-    vertex->push_back(Vecteur2f(0,0));
     vertex->push_back(Vecteur2f(0,1));
     vertex->push_back(Vecteur2f(1,1));
     vertex->push_back(Vecteur2f(1,0));
+    vertex->push_back(Vecteur2f(0,0));
     mSurface = new HUDSurfaceGL(GL_QUADS,vertex,Vecteur4f(1,1,1,1));
     mSurface->modifierTaille(0.05f,0.05f);
     mTimerElement = new HUDTexte(TEXTE,Vecteur4f(1,1,1,1));
@@ -76,7 +77,7 @@ void HUDBonus::peindreElement()
 {
     if(mModifiers)
     {
-        float curX=0, curY=0;
+        float curX=0, curY=obtenirY();
         for(auto it=mModifiers->begin(); it!= mModifiers->end(); ++it)
         {
             BonusType type = (*it)->getType();
@@ -87,14 +88,20 @@ void HUDBonus::peindreElement()
             sprintf(buffer,"%2.2f",temps);
             mTimerElement->setMessage(buffer);
 
-            float pX = curX+obtenirX(), pY = curY+obtenirY();
+            float pX = curX+obtenirX(), pY = curY;
             mSurface->modifierPosition(pX,pY);
+            /// 0.02 semble etre la hauteur du texte, but cant know it right now
             mTimerElement->modifierPosition(pX,pY+mSurface->obtenirHauteur()+0.02f);
-
+            
             mSurface->repeindre();
             mTimerElement->repeindre();
 
             curX += mSurface->obtenirLargeur();
+            if(curX >= obtenirLargeur())
+            {
+                curX = 0;
+                curY += mSurface->obtenirHauteur()+0.02f*2;
+            }
         }
     }
 }

@@ -63,13 +63,9 @@ private:
 
     class HUDBonus* mLeftPlayerBonuses;
     class HUDBonus* mRightPlayerBonuses;
-
-
+    class HUDBonus* mPuckBonuses;
 
     float mDeltaXOrtho;
-
-
-
 
 /// Accesseurs
 public:
@@ -78,6 +74,8 @@ public:
     inline class HUDBonus* getLeftPlayerBonuses() const { return mLeftPlayerBonuses; }
     /// Accessors of mRightPlayerBonuses
     inline class HUDBonus* getRightPlayerBonuses() const { return mRightPlayerBonuses; }
+    /// Accessors of mPuckBonuses
+    inline class HUDBonus* getPuckBonuses() const { return mPuckBonuses; }
     /// Sets the ratio  X/Y of the window to keep hud at correct size
     inline void setRatio(float windowRatio)
     {

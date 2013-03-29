@@ -44,19 +44,18 @@ ForceField::~ForceField()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void ForceFieldCircle::CreateBody( b2World* world, unsigned short categoryAffected )
+void ForceFieldCircle::CreateBody( b2World* world, unsigned short categoryAffected, const b2Vec2& pos )
 {
     checkf(!mPhysicBody,"Creating a new physics body for a force field already defined")
     if(world && mRadius > 0)
     {
         b2BodyDef myBodyDef;
         myBodyDef.type = b2_staticBody; //this will be a static body
-        myBodyDef.position.Set(0, 0); //set the starting position
+        myBodyDef.position = pos; //set the starting position
         myBodyDef.angle = 0; //set the starting angle
 
         mPhysicBody = world->CreateBody(&myBodyDef);
         b2CircleShape circleShape;
-        circleShape.m_p.Set(0, 0); //position, relative to body position
         circleShape.m_radius = mRadius;
 
         b2FixtureDef myFixtureDef;
@@ -95,9 +94,9 @@ void ForceFieldCircle::ApplyForceField() const
 
             auto distance = forceVector.Normalize();
             float ratio = 1-(distance/mRadius);
-            if(ratio < 0.5f)
+            if(ratio < 0.2f)
             {
-                ratio = 0.5f;
+                ratio = 0.2f;
             }
 
             forceVector *= mMaxForce*ratio;

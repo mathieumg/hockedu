@@ -115,6 +115,7 @@ Terrain::Terrain(Partie* pGame):
     if(DebugRenderBox2D::mInstance)
     {
         DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_shapeBit);
+        DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_drawInactiveBit);
         mWorld->SetDebugDraw(DebugRenderBox2D::mInstance);
     }
 #endif
@@ -1361,6 +1362,17 @@ void Terrain::EndContact( b2Contact* contact )
 ////////////////////////////////////////////////////////////////////////
 void Terrain::PreSolve( b2Contact* contact, const b2Manifold* oldManifold )
 {
+    auto fixtureA = contact->GetFixtureA();
+    auto fixtureB = contact->GetFixtureB();
+    auto bodyA = fixtureA->GetBody();
+    auto bodyB = fixtureB->GetBody();
+    auto filterA = fixtureA->GetFilterData();
+    auto filterB = fixtureB->GetFilterData();
+    short category = filterA.categoryBits | filterB.categoryBits;
+    if(category & CATEGORY_MALLET )
+    {
+        contact->SetRestitution(0);
+    }
     B2_NOT_USED(contact);
     B2_NOT_USED(oldManifold);
 }
@@ -1538,6 +1550,7 @@ void Terrain::duplicateSelection()
         acceptVisitor(v);
     }
     pushUndoState();
+    FixCollidingObjects();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -2037,6 +2050,9 @@ void Terrain::initNecessaryPointersForGame()
 	
 	        auto rightBonuses = GestionnaireHUD::obtenirInstance()->getRightPlayerBonuses();
 	        rightBonuses->setModifiers(&mRightMallet->GetModifiers());
+
+            auto puckBonuses = GestionnaireHUD::obtenirInstance()->getPuckBonuses();
+            puckBonuses->setModifiers(&mPuck->GetModifiers());
         }
 #endif
 

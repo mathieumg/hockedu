@@ -1,21 +1,26 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// @file BonusModifierGoThroughWall.cpp
+/// @file BonusModifierChangeZone.cpp
 /// @author Michael Ferris
-/// @date 2013-03-14
+/// @date 2013-03-29
 /// @version 1.0
 ///
 /// @addtogroup razergame RazerGame
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
-#include "BonusModifierGoThorughWall.h"
+#include "BonusModifierChangeZone.h"
+
+// ne fait pas de sens d'utiliser un modifier si on ne joue pas
 #if BOX2D_PLAY  
 #include <Box2D/Box2D.h>
 #endif
 #include "NoeudAbstrait.h"
+#include "Utilitaire.h"
+#include "NoeudRondelle.h"
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn  BonusModifierGoThroughWall::BonusModifierGoThroughWall()
+/// @fn  BonusModifierChangeZone::BonusModifierChangeZone()
 ///
 /// /*Description*/
 ///
@@ -23,14 +28,32 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-BonusModifierGoThroughWall::BonusModifierGoThroughWall():
+BonusModifierChangeZone::BonusModifierChangeZone():
     BonusModifierAbstract(10)
 {
 }
 
+
+
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool BonusModifierGoThroughWall::Attach( NoeudAbstrait* pPuck )
+/// @fn  BonusModifierChangeZone::~BonusModifierChangeZone()
+///
+/// /*Description*/
+///
+///
+/// @return 
+///
+////////////////////////////////////////////////////////////////////////
+BonusModifierChangeZone::~BonusModifierChangeZone()
+{
+
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool BonusModifierChangeZone::Attach( NoeudAbstrait* pPuck )
 ///
 /// Attach a modifier on a node, receiving the puck as entry point,
 /// but from it, the modifier can apply itself on anything in the map
@@ -44,18 +67,14 @@ BonusModifierGoThroughWall::BonusModifierGoThroughWall():
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool BonusModifierGoThroughWall::Attach( NoeudRondelle* pPuck )
+bool BonusModifierChangeZone::Attach( NoeudRondelle* pPuck )
 {
-    if(rand()&1)
-    {
-        return AttachToLastHittingMallet(pPuck);
-    }
-    return AttachToPuck(pPuck);
+    return AttachToLastHittingMallet(pPuck);
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool BonusModifierGoThroughWall::Apply()
+/// @fn bool BonusModifierChangeZone::Apply()
 ///
 /// Applies the real effect on the node
 /// returns false if the bonus finished the execution (no time to live)
@@ -65,7 +84,7 @@ bool BonusModifierGoThroughWall::Attach( NoeudRondelle* pPuck )
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool BonusModifierGoThroughWall::Apply()
+bool BonusModifierChangeZone::Apply()
 {
     if(mOwner)
     {
@@ -73,7 +92,7 @@ bool BonusModifierGoThroughWall::Apply()
         // recherche pour un bonus déjà présent
         for(auto it = existingModifiers.begin(); it != existingModifiers.end(); ++it)
         {
-            BonusModifierGoThroughWall* modifier = dynamic_cast<BonusModifierGoThroughWall*>(*it);
+            BonusModifierChangeZone* modifier = dynamic_cast<BonusModifierChangeZone*>(*it);
             if(modifier && modifier != this)
             {
                 // resets time to live on the modifier
@@ -91,10 +110,10 @@ bool BonusModifierGoThroughWall::Apply()
             for(auto fixture = body->GetFixtureList(); fixture; fixture = fixture->GetNext())
             {
                 b2Filter filter = fixture->GetFilterData();
-                if(filter.maskBits & CATEGORY_WALL)
+                if(filter.maskBits & CATEGORY_MIDLANE)
                 {
                     // removes the wall as categorie that can block the node
-                    filter.maskBits &= ~CATEGORY_WALL;
+                    filter.maskBits &= ~CATEGORY_MIDLANE;
                     fixture->SetFilterData(filter);
                     mFixtures.push_back(fixture);
                 }
@@ -109,7 +128,7 @@ bool BonusModifierGoThroughWall::Apply()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool BonusModifierGoThroughWall::Revert()
+/// @fn bool BonusModifierChangeZone::Revert()
 ///
 /// Reverts the effect on the node,
 /// return unsed for now
@@ -118,7 +137,7 @@ bool BonusModifierGoThroughWall::Apply()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool BonusModifierGoThroughWall::Revert()
+bool BonusModifierChangeZone::Revert()
 {
 #if BOX2D_PLAY  
     for(int i=0; i<(int)mFixtures.size(); ++i)
@@ -126,9 +145,57 @@ bool BonusModifierGoThroughWall::Revert()
         auto fixture = mFixtures[i];
         b2Filter filter = fixture->GetFilterData();
         // adds the wall as categories that can block the node
-        filter.maskBits |= CATEGORY_WALL;
+        filter.maskBits |= CATEGORY_MIDLANE;
         fixture->SetFilterData(filter);
     }
 #endif
+    NoeudRondelle* rondelle = (NoeudRondelle*)mOwner;
+    if(rondelle)
+    {
+        auto pos = rondelle->getPosition();
+        auto initialPos = rondelle->obtenirPositionOriginale();
+        // verification si le maillet n'est plus dans sa zone
+        if(pos[VX]*initialPos[VX] <= 0)
+        {
+            rondelle->setPosition(initialPos);
+        }
+    }
     return true;
 }
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void BonusModifierChangeZone::render()
+///
+/// Render specific content for this modifier
+/// translation to the node will already be applied
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void BonusModifierChangeZone::render() const
+{
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void BonusModifierChangeZone::Tick( float temps )
+///
+/// Tick the modifier
+///
+/// @param[in] float temps
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void BonusModifierChangeZone::Tick( float temps )
+{
+    Super::Tick(temps);
+}
+
+
+////////////////////////////////////////////////
+/// @}
+////////////////////////////////////////////////

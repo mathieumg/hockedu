@@ -259,10 +259,15 @@ void VisitorSetProperties::visiterNoeudTable( NoeudTable* noeud )
 //         SET_PROPERTY(BONUS_MIN,0,mProperties->mMinBonusSpawnTime);
 //         SET_PROPERTY(BONUS_MAX,0,mProperties->mMaxBonusSpawnTime);
     }
-    for(int i=0; i<NoeudTable::NB_BANDES; ++i)
-    {
-        noeud->modifierCoefRebond(i,mProperties->mRebound);
-    }
+
+    noeud->modifierCoefRebond(0,mProperties->mRinkRebound1);
+    noeud->modifierCoefRebond(1,mProperties->mRinkRebound2);
+    noeud->modifierCoefRebond(2,mProperties->mRinkRebound3);
+    noeud->modifierCoefRebond(3,mProperties->mRinkRebound4);
+    noeud->modifierCoefRebond(4,mProperties->mRinkRebound5);
+    noeud->modifierCoefRebond(5,mProperties->mRinkRebound6);
+    noeud->modifierCoefRebond(6,mProperties->mRinkRebound7);
+    noeud->modifierCoefRebond(7,mProperties->mRinkRebound8);
 }
 
 

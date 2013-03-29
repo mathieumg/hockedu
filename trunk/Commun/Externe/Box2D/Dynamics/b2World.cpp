@@ -1150,7 +1150,8 @@ void b2World::DrawDebugData()
 			{
 				if (b->IsActive() == false)
 				{
-					DrawShape(f, xf, b2Color(0.5f, 0.5f, 0.3f));
+                    if(flags & b2Draw::e_drawInactiveBit)
+					    DrawShape(f, xf, b2Color(0.5f, 0.5f, 0.3f));
 				}
 				else if (b->GetType() == b2_staticBody)
 				{
@@ -1185,13 +1186,13 @@ void b2World::DrawDebugData()
 		b2Color color(0.3f, 0.9f, 0.9f);
 		for (b2Contact* c = m_contactManager.m_contactList; c; c = c->GetNext())
 		{
-			//b2Fixture* fixtureA = c->GetFixtureA();
-			//b2Fixture* fixtureB = c->GetFixtureB();
+            b2Fixture* fixtureA = c->GetFixtureA();
+            b2Fixture* fixtureB = c->GetFixtureB();
 
-			//b2Vec2 cA = fixtureA->GetAABB().GetCenter();
-			//b2Vec2 cB = fixtureB->GetAABB().GetCenter();
+            b2Vec2 cA = fixtureA->GetAABB(0).GetCenter();
+            b2Vec2 cB = fixtureB->GetAABB(0).GetCenter();
 
-			//m_debugDraw->DrawSegment(cA, cB, color);
+            m_debugDraw->DrawSegment(cA, cB, color);
 		}
 	}
 
@@ -1202,9 +1203,10 @@ void b2World::DrawDebugData()
 
 		for (b2Body* b = m_bodyList; b; b = b->GetNext())
 		{
-			if (b->IsActive() == false)
+            if (b->IsActive() == false)
 			{
-				continue;
+                if(!(flags & b2Draw::e_drawInactiveBit))
+                    continue;
 			}
 
 			for (b2Fixture* f = b->GetFixtureList(); f; f = f->GetNext())
@@ -1229,9 +1231,12 @@ void b2World::DrawDebugData()
 	{
 		for (b2Body* b = m_bodyList; b; b = b->GetNext())
 		{
-			b2Transform xf = b->GetTransform();
-			xf.p = b->GetWorldCenter();
-			m_debugDraw->DrawTransform(xf);
+            if (b->IsActive() || flags & b2Draw::e_drawInactiveBit)
+            {
+                b2Transform xf = b->GetTransform();
+                xf.p = b->GetWorldCenter();
+                m_debugDraw->DrawTransform(xf);
+            }
 		}
 	}
 }

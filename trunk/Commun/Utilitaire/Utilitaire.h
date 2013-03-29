@@ -30,7 +30,7 @@ namespace utilitaire {
 	static Vecteur3 vj = Vecteur3( 0.0, 1.0, 0.0 );
 	/// Le vecteur k (dirigé vers l'axe des Z positifs et unitaire).
 	static Vecteur3 vk = Vecteur3( 0.0, 0.0, 1.0 );
-    static const float ratioWorldToBox2D = 0.1f;
+    static const float ratioWorldToBox2D = 0.01f;
 
 	/// Fonction globale pour l'affichage d'erreur.
 	void afficherErreur(const std::string& message);
