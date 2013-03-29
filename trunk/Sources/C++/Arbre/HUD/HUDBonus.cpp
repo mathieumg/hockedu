@@ -76,7 +76,7 @@ void HUDBonus::peindreElement()
 {
     if(mModifiers)
     {
-        float curX=0, curY=0;
+        float curX=0, curY=obtenirY();
         for(auto it=mModifiers->begin(); it!= mModifiers->end(); ++it)
         {
             BonusType type = (*it)->getType();
@@ -87,14 +87,20 @@ void HUDBonus::peindreElement()
             sprintf(buffer,"%2.2f",temps);
             mTimerElement->setMessage(buffer);
 
-            float pX = curX+obtenirX(), pY = curY+obtenirY();
+            float pX = curX+obtenirX(), pY = curY;
             mSurface->modifierPosition(pX,pY);
+            /// 0.02 semble etre la hauteur du texte, but cant know it right now
             mTimerElement->modifierPosition(pX,pY+mSurface->obtenirHauteur()+0.02f);
-
+            
             mSurface->repeindre();
             mTimerElement->repeindre();
 
             curX += mSurface->obtenirLargeur();
+            if(curX >= obtenirLargeur())
+            {
+                curX = 0;
+                curY += mSurface->obtenirHauteur()+0.02f*2;
+            }
         }
     }
 }

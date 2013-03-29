@@ -320,6 +320,12 @@ void GestionnaireHUD::creerHUDJeu()
 
     panneauScores->add(surfaceJoueurDroit);
 
+    /// Bonus HUD Puck 
+    mPuckBonuses = new HUDBonus();
+    mPuckBonuses->modifierPosition(0.4f,1);
+    mPuckBonuses->modifierTaille(0.2f,0.1f);
+    panneauScores->add(mPuckBonuses);
+
     /// Bonus HUD right player
     mRightPlayerBonuses = new HUDBonus();
     mRightPlayerBonuses->modifierPosition(0.7f,1);

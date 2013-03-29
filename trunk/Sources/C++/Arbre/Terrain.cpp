@@ -2050,6 +2050,9 @@ void Terrain::initNecessaryPointersForGame()
 	
 	        auto rightBonuses = GestionnaireHUD::obtenirInstance()->getRightPlayerBonuses();
 	        rightBonuses->setModifiers(&mRightMallet->GetModifiers());
+
+            auto puckBonuses = GestionnaireHUD::obtenirInstance()->getPuckBonuses();
+            puckBonuses->setModifiers(&mPuck->GetModifiers());
         }
 #endif
 
