@@ -16,7 +16,7 @@ public:
     GameServer(unsigned int pServerId, std::string& pServerIP, std::string& pServerIdentifier);
     ~GameServer(void);
 
-    void addGame(int pGameId, std::string pGameName, std::string pMapName, std::string pUsername);
+    void addGame(int pGameId, std::string& pGameName, std::string& pMapName, std::string& pUsername, std::string& pPassword);
 
     PartieServeurs* getGame(int pGameId);
 

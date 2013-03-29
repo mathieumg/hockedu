@@ -509,6 +509,11 @@ namespace UIHeavyClient
         {
             Close();
         }
+
+        void DefaultMap(object sender, RoutedEventArgs e)
+        {
+            EditionModeControl.CallDefaultFieldFromMenu();
+        }
     }
 }
 

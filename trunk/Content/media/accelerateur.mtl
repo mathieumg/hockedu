@@ -1,13 +1,28 @@
-# Blender MTL File: 'accelerateur.blend'
-# Material Count: 1
-newmtl __Color_I07__redbull_texture.png
-Ns 0.000000
+#
+## Alias OBJ Material File
+# Exported from SketchUp, (c) 2000-2006 Google, Inc.
+
+newmtl RedBull2
 Ka 0.000000 0.000000 0.000000
-Kd 0.800000 0.800000 0.800000
-Ks 0.500000 0.500000 0.500000
-Ni 1.000000
-d 1.000000
-illum 2
+Kd 0.525490 0.482353 0.658824
+Ks 0.330000 0.330000 0.330000
+map_Kd redbull_texture.png
+
+newmtl Redbull4
+Ka 0.000000 0.000000 0.000000
+Kd 0.670588 0.650980 0.729412
+Ks 0.330000 0.330000 0.330000
 map_Kd redbull_textureSmall.png
 
+newmtl Redbull3
+Ka 0.000000 0.000000 0.000000
+Kd 0.525490 0.482353 0.658824
+Ks 0.330000 0.330000 0.330000
+map_Kd redbull_texture.png
+
+newmtl RedBull
+Ka 0.000000 0.000000 0.000000
+Kd 0.525490 0.482353 0.658824
+Ks 0.330000 0.330000 0.330000
+map_Kd redbull_texture.png
 

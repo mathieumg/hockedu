@@ -234,13 +234,14 @@ typedef enum
 #endif
     {
         CATEGORY_NONE     = 0x0000,
-        CATEGORY_BOUNDARY = 0x0001,
-        CATEGORY_PUCK     = 0x0002,
-        CATEGORY_MALLET   = 0x0004,
-        CATEGORY_PORTAL   = 0x0008,
-        CATEGORY_BOOST    = 0x0010,
-        CATEGORY_BONUS    = 0x0020,
-        CATEGORY_WALL     = 0x0040,
+        CATEGORY_BOUNDARY = 0x0001,      /// User data not predetermined, might have to dynamic cast
+        CATEGORY_PUCK     = 0x0002,      /// Expected to have NoeudAbstrait* as user data 
+        CATEGORY_MALLET   = 0x0004,      /// Expected to have NoeudAbstrait* as user data 
+        CATEGORY_PORTAL   = 0x0008,      /// Expected to have NoeudAbstrait* as user data 
+        CATEGORY_BOOST    = 0x0010,      /// Expected to have NoeudAbstrait* as user data 
+        CATEGORY_BONUS    = 0x0020,      /// Expected to have NoeudAbstrait* as user data 
+        CATEGORY_WALL     = 0x0040,      /// Expected to have NoeudAbstrait* as user data 
+        CATEGORY_FORCE_FIELD = 0x0080,   /// Expected to have ForceField* as user data
     }
 #if !CSHARP
 PhysicsCategory

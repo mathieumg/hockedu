@@ -90,9 +90,9 @@ namespace UIHeavyClient.UserControls
                 mAngleProperty.Value = 0;
 
                 mAttractionProperty.LabelName = "Attraction force:";
-                mAttractionProperty.MaxValue = 3;
+                mAttractionProperty.MaxValue = 1;
                 mAttractionProperty.Increment = 0.1f;
-                mAttractionProperty.Value = 1;
+                mAttractionProperty.Value = 0.5f;
 
                 mFrictionProperty.LabelName = "Friction:";
                 mFrictionProperty.MaxValue = 1;

@@ -253,13 +253,17 @@ private:
 #if BOX2D_INTEGRATED  
     class b2World* mWorld;
 #endif
+#if BOX2D_PLAY
+    std::set<class ForceField*> mForceFieldActive;
+#endif
+
 
 #if __APPLE__
     typedef bool (*RenderObjCCallback)(RazerKey);
     /// pointer to the manager of model 3D in objc
     RenderObjCCallback mRenderObjC;
 public:
-    bool renderAppleNode(const NoeudAbstrait* node)const;
+    bool renderAppleNode(RazerKey key)const;
     inline void setModelManagerObjc(RenderObjCCallback pVal) { mRenderObjC = pVal; }
 private:
    

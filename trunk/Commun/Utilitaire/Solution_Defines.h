@@ -12,7 +12,7 @@
 // Set to 1 when testing for shipping game
 #define SHIPPING 0
 
-
+#define STL_ITERATE(container, var) for(auto var=container.begin(); var != container.end(); ++var)
 
 #if WIN32
 #define PLAY_GAME 1

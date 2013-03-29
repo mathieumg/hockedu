@@ -4,8 +4,7 @@
 
 newmtl Translucent_Glass_Sky_Reflection
 Ka 0.000000 0.000000 0.000000
-Kd 0.490196 0.541176 0.717647
+Kd 0.733333 0.094118 0.098039
 Ks 0.330000 0.330000 0.330000
-d 0.520000
-map_Kd control_point/Translucent_Glass_Sky_Reflection.jpg
+map_Kd control_point_texture.png
 

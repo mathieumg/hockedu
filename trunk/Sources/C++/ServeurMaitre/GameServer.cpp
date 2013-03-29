@@ -53,11 +53,12 @@ GameServer::~GameServer()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GameServer::addGame( int pGameId, std::string pGameName, std::string pMapName, std::string pUsername )
+void GameServer::addGame( int pGameId, std::string& pGameName, std::string& pMapName, std::string& pUsername, std::string& pPassword )
 {
     PartieServeurs* wGame = new PartieServeurs(pUsername, "");
     wGame->setGameName(pGameName);
     wGame->setMapName(pMapName);
+    wGame->setPassword(pPassword);
     wGame->setServerId(mServerId);
     wGame->setUniqueGameId(pGameId);
     addGame(pGameId, wGame);

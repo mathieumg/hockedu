@@ -16,6 +16,15 @@
 #define kGroupIndexVertex			0
 #define kGroupIndexTextureCoordIndex	1
 
+struct Extremas {
+    Vertex3D xMin;
+    Vertex3D xMax;
+    Vertex3D yMin;
+    Vertex3D yMax;
+    Vertex3D zMin;
+    Vertex3D zMax;
+};
+
 @interface OpenGLWaveFrontObject : NSObject {
 	NSString			*sourceObjFilePath;
 	NSString			*sourceMtlFilePath;
@@ -33,6 +42,10 @@
 	NSDictionary		*materials;
 	NSMutableArray		*groups;
 	
+    Vertex3D            minCoord;
+    Vertex3D            maxCoord;
+    Vertex3D            modelScale;
+    
 	Vertex3D			currentPosition;
 	Rotation3D			currentRotation;
 }
@@ -41,7 +54,11 @@
 @property (nonatomic, retain) NSDictionary *materials;
 @property (nonatomic, retain) NSMutableArray *groups;
 @property Vertex3D currentPosition;
+@property Vertex3D minCoord;
+@property Vertex3D maxCoord;
+@property Vertex3D modelScale;
 @property Rotation3D currentRotation;
 - (id)initWithPath:(NSString *)path;
 - (void)drawSelf;
+- (void)calculateScale:(Vertex3D)expectedSize;
 @end

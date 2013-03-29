@@ -112,7 +112,7 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
                             << wGame->getGameName()         << SEPARATOR
                             << wGame->getPlayer1Name()      << SEPARATOR
                             << wGame->getPlayer2Name()      << SEPARATOR
-                            << (wGame->getPassword() == "") << SEPARATOR
+                            << (wGame->getPassword() == "" ? "false" : "true" ) << SEPARATOR
                             << wGame->getMapName();
                     wPaquet->setMessage(message.str());
                     GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPlayerName, wPaquet, TCP);

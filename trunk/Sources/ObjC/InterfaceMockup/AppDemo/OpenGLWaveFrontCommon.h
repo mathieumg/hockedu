@@ -25,7 +25,7 @@ static inline Color3D Color3DMake(CGFloat inRed, CGFloat inGreen, CGFloat inBlue
 #pragma mark -
 #pragma mark Vertex3D
 #pragma mark -
-typedef struct {
+typedef struct Vertex3D{
 	GLfloat	x;
 	GLfloat y;
 	GLfloat z;

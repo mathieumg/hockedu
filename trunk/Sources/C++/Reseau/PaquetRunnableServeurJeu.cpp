@@ -220,16 +220,6 @@ int PaquetRunnable::RunnableGameCreationServerGame( Paquet* pPaquet )
         // On peut meme utiliser le meme paquet pour renvoyer le message de confirmation
         wPaquet->setGameId(wGameId);
 
-        // If not local server -> Reply to Master Server.
-        if(!ControllerServeurJeu::isLocalServer())
-        {
-            wPaquet->setServerId(((ControllerServeurJeu*)GestionnaireReseau::obtenirInstance()->getController())->getServerId());
-            GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
-        }
-        else // Otherwise, the user is already connected to the server, so we reply directly to him.
-        {
-            GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
-        }
     }
     else
     {
@@ -238,10 +228,17 @@ int PaquetRunnable::RunnableGameCreationServerGame( Paquet* pPaquet )
 
         // On peut meme utiliser le meme paquet pour renvoyer le message de confirmation
         wPaquet->setGameId(-1);
+    }
 
-        // En envoie le message de confirmation
+    // If not local server -> Reply to Master Server.
+    if(!ControllerServeurJeu::isLocalServer())
+    {
+        wPaquet->setServerId(((ControllerServeurJeu*)GestionnaireReseau::obtenirInstance()->getController())->getServerId());
+        GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
+    }
+    else // Otherwise, the user is already connected to the server, so we reply directly to him.
+    {
         GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
-
     }
 
     return 0;

@@ -159,11 +159,11 @@ int PaquetRunnable::RunnableGameCreationMasterServer( Paquet* pPaquet )
 #if !SHIPPING
         std::cout << "Creating game id " << wGameId << " on server " << wServerId << std::endl;
 #endif
-        GameServerManager::obtenirInstance()->getGameServer(wServerId)->addGame(wGameId, wPaquet->getGameName(), wPaquet->getMapName(), wPaquet->getUsername());
+        GameServerManager::obtenirInstance()->getGameServer(wServerId)->addGame(wGameId, wPaquet->getGameName(), wPaquet->getMapName(), wPaquet->getUsername(), wPaquet->getPassword());
         GameServer* wServer = GameServerManager::obtenirInstance()->getGameServer(wServerId);
         std::string wServerIP = wServer->getServerIP();
 #if !SHIPPING
-        std::cout << "Setting GameServer IP to " << wServerIP << " in paquet reply" << std::endl;
+        std::cout << "Setting GameServer IP to " << wServerIP << " in packet reply" << std::endl;
 #endif
         wPaquet->setServerIP(wServerIP);
 #if !SHIPPING

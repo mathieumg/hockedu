@@ -14,9 +14,8 @@
 #include "AFHTTPClient.h"
 #include "EditionEventManager.h"
 
-#import "Model3DManager.h"
 
-static Model3DManager* mModel3DManager = NULL;
+static Model3DManager* model3DManager = NULL;
 
 void EditionEventCallback(EditionEventCodes pEvent)
 {
@@ -57,36 +56,38 @@ void EditionEventCallback(EditionEventCodes pEvent)
     }
 }
 
-bool RenderNode(RazerKey key)
+bool RenderNodeCallback(RazerKey key)
 {
-    if(mModel3DManager)
+    if(model3DManager)
     {
-        //return [mModel3DManager renderObject:key];
+        return [model3DManager renderObject:key];
     }
     return false;
 }
 
 @implementation Model
 
+
+
 - (void)render
 {
-    ((Terrain*)mField)->renderField();
+    glPushMatrix();
+    glTranslatef(15,15,20);
+    RenderNodeCallback(RAZER_KEY_HOUSE);
     
+    glPopMatrix();
+    
+    ((Terrain*)mField)->renderField();  
 }
 - (id)init
 {
     EditionEventManager::setEditionEventCallback(EditionEventCallback);
     mField = new Terrain(NULL);
-    if(mModel3DManager == NULL)
-    {
-        mModel3DManager = [[Model3DManager alloc]init];
-    }
-    [mModel3DManager renderObject:RAZER_KEY_TABLE];
-    ((Terrain*)mField)->setModelManagerObjc(RenderNode);
+    mModel3DManager = [[Model3DManager alloc]init];
+    model3DManager = mModel3DManager;
+    
+    ((Terrain*)mField)->setModelManagerObjc(RenderNodeCallback);
     ((Terrain*)mField)->createRandomField("test");
-    ((Terrain*)mField)->setTableItemsSelection(true);
-    ((Terrain*)mField)->deleteSelectedNodes();
-    ((Terrain*)mField)->verifierValidite();
     return self;
 }
 
