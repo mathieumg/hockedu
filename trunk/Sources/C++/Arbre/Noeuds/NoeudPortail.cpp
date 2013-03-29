@@ -184,7 +184,7 @@ void NoeudPortail::updatePhysicBody()
         {
             delete mForceField;
         }
-        mForceField = new ForceFieldCircle(radius*3.0f,100*utilitaire::ratioWorldToBox2D*mAttractionForce);
+        mForceField = new ForceFieldCircle(radius*3.0f,1*utilitaire::ratioWorldToBox2D*mAttractionForce);
         mForceField->CreateBody(world,CATEGORY_PUCK);
         auto fieldBody = mForceField->getPhysicsBody();
         fieldBody->SetTransform(mPhysicBody->GetPosition(),0);

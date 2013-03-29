@@ -115,6 +115,7 @@ Terrain::Terrain(Partie* pGame):
     if(DebugRenderBox2D::mInstance)
     {
         DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_shapeBit);
+        DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_drawInactiveBit);
         mWorld->SetDebugDraw(DebugRenderBox2D::mInstance);
     }
 #endif
