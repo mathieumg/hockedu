@@ -7,9 +7,7 @@
 /// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
-#if BOX2D_DEBUG
-#include "DebugRenderBox2D.h"
-#endif
+
 #include "GestionnaireEtatModeEdition.h"
 #include "FacadeModele.h"
 #include "SourisEtatAbstrait.h"
@@ -93,88 +91,6 @@ void GestionnaireEtatModeEdition::toucheRelachee( EvenementClavier& evenementCla
     case VJAK_SHIFT:
         shiftEnfonce_ = false;
         break;
-#if BOX2D_DEBUG
-    case VJAK_NUMPAD0:
-        {
-            if(DebugRenderBox2D::mInstance)
-            {
-                auto flag = DebugRenderBox2D::mInstance->GetFlags();
-                if(flag & b2Draw::e_shapeBit)
-                {
-                    DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_shapeBit);
-                }
-                else
-                {
-                    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_shapeBit);
-                }
-            }
-        }
-        break;
-    case VJAK_NUMPAD1:
-        {
-            if(DebugRenderBox2D::mInstance)
-            {
-                auto flag = DebugRenderBox2D::mInstance->GetFlags();
-                if(flag & b2Draw::e_jointBit)
-                {
-                    DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_jointBit);
-                }
-                else
-                {
-                    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_jointBit);
-                }
-            }
-        }
-        break;
-    case VJAK_NUMPAD2:
-        {
-            if(DebugRenderBox2D::mInstance)
-            {
-                auto flag = DebugRenderBox2D::mInstance->GetFlags();
-                if(flag & b2Draw::e_aabbBit)
-                {
-                    DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_aabbBit);
-                }
-                else
-                {
-                    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_aabbBit);
-                }
-            }
-        }
-        break;
-    case VJAK_NUMPAD3:
-        {
-            if(DebugRenderBox2D::mInstance)
-            {
-                auto flag = DebugRenderBox2D::mInstance->GetFlags();
-                if(flag & b2Draw::e_pairBit)
-                {
-                    DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_pairBit);
-                }
-                else
-                {
-                    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_pairBit);
-                }
-            }
-        }
-        break;
-    case VJAK_NUMPAD4:
-        {
-            if(DebugRenderBox2D::mInstance)
-            {
-                auto flag = DebugRenderBox2D::mInstance->GetFlags();
-                if(flag & b2Draw::e_centerOfMassBit)
-                {
-                    DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_centerOfMassBit);
-                }
-                else
-                {
-                    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_centerOfMassBit);
-                }
-            }
-        }
-        break;
-#endif //BOX2D_INTEGRATED
     default:
         break;
     }

@@ -46,16 +46,23 @@ public:
    virtual void acceptVisitor( VisiteurNoeud& v);
 
    /// Accesseur et modificateur sur l'activité du champ d'attraction
-   inline bool isAttractionFieldActive() const{return mIsAttractionFieldActive;}
-   void setIsAttractionFieldActive(const bool actif){mIsAttractionFieldActive=actif;}
+   bool isAttractionFieldActive() const;
+   void setIsAttractionFieldActive(const bool actif);
 
    /// Recreates the physics body according to current attributes
    virtual void updatePhysicBody();
 
    /// Accessors of mAttractionForce
    inline float getAttractionForce() const { return mAttractionForce; }
-   inline void setAttractionForce(const float& pVal) { mAttractionForce = pVal; }
+   inline void setAttractionForce( float pVal) { mAttractionForce = pVal; }
 
+   /// Assigne la position relative du noeud.
+   virtual void setPosition( const Vecteur3& positionRelative );
+
+   /// Creation du noeud XML du Noeud
+   virtual XmlElement* createXmlNode();
+   /// Initialisation du NoeudAbstrait à partir d'un element XML
+   virtual bool initFromXml(const XmlElement* element);
 
    static const float DEFAULT_RADIUS;
 private:
@@ -63,7 +70,7 @@ private:
 
     /// Not USED Yet
 	float mAttractionForce;
-
+    class ForceField* mForceField;
 
 };
 

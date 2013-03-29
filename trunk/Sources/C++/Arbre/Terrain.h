@@ -253,6 +253,10 @@ private:
 #if BOX2D_INTEGRATED  
     class b2World* mWorld;
 #endif
+#if BOX2D_PLAY
+    std::set<class ForceField*> mForceFieldActive;
+#endif
+
 
 #if __APPLE__
     typedef bool (*RenderObjCCallback)(RazerKey);

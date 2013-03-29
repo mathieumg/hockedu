@@ -674,7 +674,8 @@ void NoeudRondelle::updatePhysicBody()
             myFixtureDef.filter.groupIndex = 1;
         }
 
-
+        /// calcul plus precis, mais plus couteux de la physique sur la rondelle
+        mPhysicBody->SetBullet(true);
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         mPhysicBody->SetUserData(this);
         mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::synchroniseTransformFromB2CallBack;
