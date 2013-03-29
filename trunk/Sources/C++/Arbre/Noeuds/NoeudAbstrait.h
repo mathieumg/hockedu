@@ -187,6 +187,8 @@ public:
 	/// Libere la memoire de l'objet Box2D
     virtual void clearPhysicsBody();
 
+    bool containsModifiers()const {return !!mModifiers.size();}
+
 protected:
 
 

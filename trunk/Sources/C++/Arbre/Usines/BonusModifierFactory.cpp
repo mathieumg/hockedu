@@ -10,15 +10,18 @@
 #include "BonusModifierFactory.h"
 #include "BonusModifierGoThorughWall.h"
 #include "BonusModifierBlockGoal.h"
+#include "BonusModifierFan.h"
 
 DEFAULT_BONUS_FACTORY_IMPLEMENTATION(BonusModifierGoThroughWall);
 DEFAULT_BONUS_FACTORY_IMPLEMENTATION(BonusModifierBlockGoal);
+DEFAULT_BONUS_FACTORY_IMPLEMENTATION(BonusModifierFan);
 
 
 FactoryBonusModifier* FactoryBonusModifier::mFactories[NB_BONUS_TYPE] =
 {
     new FactoryBonusModifierGoThroughWall(),
     new FactoryBonusModifierBlockGoal(),
+    new FactoryBonusModifierFan(),
 };
 
 ////////////////////////////////////////////////////////////////////////

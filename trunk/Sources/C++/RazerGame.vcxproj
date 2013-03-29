@@ -193,6 +193,7 @@
     <ClCompile Include="Arbre\ArbreNoeudLibre.cpp" />
     <ClCompile Include="Arbre\Bonus\BonusModifierAbstract.cpp" />
     <ClCompile Include="Arbre\Bonus\BonusModifierBlockGoal.cpp" />
+    <ClCompile Include="Arbre\Bonus\BonusModifierFan.cpp" />
     <ClCompile Include="Arbre\Bonus\BonusModifierGoThorughWall.cpp" />
     <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddNode.cpp" />
     <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddWall.cpp" />
@@ -370,6 +371,7 @@
     <ClInclude Include="Arbre\ArbreNoeudLibre.h" />
     <ClInclude Include="Arbre\Bonus\BonusModifierAbstract.h" />
     <ClInclude Include="Arbre\Bonus\BonusModifierBlockGoal.h" />
+    <ClInclude Include="Arbre\Bonus\BonusModifierFan.h" />
     <ClInclude Include="Arbre\Bonus\BonusModifierGoThorughWall.h" />
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAbstract.h" />
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddNode.h" />

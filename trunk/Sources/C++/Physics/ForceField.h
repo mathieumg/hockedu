@@ -15,6 +15,7 @@
 
 class b2Body;
 class b2World;
+struct b2Vec2;
 
 /// !!!! Every coords are in Box2D's system, must convert values before applying it to these objects
 
@@ -36,7 +37,7 @@ public:
     virtual ~ForceField();
     /// Creates the physics body for this field
     /// categoryAffected : physicis categories of objects affected by the force field
-    virtual void CreateBody(b2World* world, unsigned short categoryAffected) = 0;
+    virtual void CreateBody(b2World* world, unsigned short categoryAffected, const b2Vec2& pos) = 0;
 
     void AddAffectedBody(b2Body* pBody)
     {
@@ -93,7 +94,7 @@ public:
     }
     /// Creates the physics body for this field
     /// categoryAffected : physicis categories of objects affected by the force field
-    virtual void CreateBody(b2World* world, unsigned short categoryAffected);
+    virtual void CreateBody(b2World* world, unsigned short categoryAffected, const b2Vec2& pos);
 
     /// Applies forces on affected bodies
     virtual void ApplyForceField() const;

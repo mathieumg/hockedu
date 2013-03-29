@@ -118,3 +118,19 @@ void BonusModifierAbstract::Tick( float temps )
         }
     }
 }
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void BonusModifierAbstract::Init( NodeBonus* creator )
+///
+/// Init function for factories
+///
+/// @param[in] NodeBonus * creator
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void BonusModifierAbstract::Init( NodeBonus* creator )
+{
+    mCreator = creator;
+}

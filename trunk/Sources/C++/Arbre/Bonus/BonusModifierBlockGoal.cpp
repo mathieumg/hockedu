@@ -21,7 +21,7 @@
 #include "NoeudMaillet.h"
 
 
-Vecteur3 GoalerSize(3,15,15);
+const Vecteur3 GoalerSize(3,15,15);
 
 #if WIN32
 #include "Modele3D.h"

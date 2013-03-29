@@ -138,6 +138,7 @@ typedef enum
     {
         BONUS_TYPE_GO_THROUGH_WALL,
         BONUS_TYPE_BLOCK_GOAL,
+        BONUS_TYPE_FAN,
 
         NB_BONUS_TYPE
     }
