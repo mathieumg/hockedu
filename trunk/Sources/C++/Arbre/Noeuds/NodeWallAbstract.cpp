@@ -55,7 +55,7 @@ CreateListDelegateImplementation(Wall)
 NodeWallAbstract::NodeWallAbstract(const std::string& typeNoeud)
 	: Super(typeNoeud)
 {
-	coefRebond_ = 0.75;
+	mReboundRatio = 0.75f;
 }
 
 
@@ -119,6 +119,7 @@ void NodeWallAbstract::updatePhysicBody()
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &shape; //this is a pointer to the shape above
         myFixtureDef.density = 1;
+        myFixtureDef.restitution = getReboundRatio();
         if(IsInGame())
         {
             myFixtureDef.filter.categoryBits = CATEGORY_WALL;
@@ -204,7 +205,7 @@ XmlElement* NodeWallAbstract::createXmlNode()
 {
 	XmlElement* elementNoeud = Super::createXmlNode();
 	// Ajouter la position des coins des murets
-	XMLUtils::writeAttribute(elementNoeud,"coefRebond",coefRebond_);
+	XMLUtils::writeAttribute(elementNoeud,"coefRebond",mReboundRatio);
 	return elementNoeud;
 }
 
@@ -226,7 +227,7 @@ bool NodeWallAbstract::initFromXml( const XmlElement* element )
 	float floatElem;
 	if( !XMLUtils::readAttribute(element,"coefRebond",floatElem) )
 		return false;
-	coefRebond_ = floatElem;
+	mReboundRatio = floatElem;
 
 	return true;
 }

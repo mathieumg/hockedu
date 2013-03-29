@@ -658,7 +658,7 @@ void NoeudRondelle::updatePhysicBody()
         myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
         myFixtureDef.density = 0.02f;
         myFixtureDef.friction = 0.1f;
-        myFixtureDef.restitution = 0.95f;
+        myFixtureDef.restitution = 0;
 
         // Il s'agit ici d'une rondelle qui peut entre en collision avec un maillet, un mur, un portail ou un boost
         myFixtureDef.filter.categoryBits = CATEGORY_PUCK;

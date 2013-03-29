@@ -265,44 +265,46 @@ void VisiteurDupliquer::dupliquerNoeud( NoeudAbstrait* noeud )
 		NoeudAbstrait* nouveauNoeud = arbre_->ajouterNouveauNoeud(RazerGameUtilities::NOM_TABLE, noeud->getType());
 		if(nouveauNoeud != 0)
 		{
+            Vecteur2 position = noeud->getPosition().convertir<2>() + Vecteur2(noeud->getRadius(),noeud->getRadius());
+            nouveauNoeud->setPosition(position);
+            nouveauNoeud->forceFullUpdate();
+			//Vecteur2 position;
+// 			bool posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
+// 			for(int i = 1; i <= 2; ++i)
+// 			{
+// 				position = noeud->getPosition().convertir<2>() + Vecteur2(2*i*noeud->getRadius(), 2*i*noeud->getRadius());
+// 				nouveauNoeud->setPosition(position.convertir<3>());
+// 				posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
+// 
+// 				if(posValide)
+// 					break;
+// 
+// 				position = noeud->getPosition().convertir<2>() + Vecteur2(-2*i*noeud->getRadius(), 2*i*noeud->getRadius());
+// 				nouveauNoeud->setPosition(position.convertir<3>());
+// 				posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
+// 
+// 				if(posValide)
+// 					break;
+// 
+// 				position = noeud->getPosition().convertir<2>() + Vecteur2(-2*i*noeud->getRadius(), -2*i*noeud->getRadius());
+// 				nouveauNoeud->setPosition(position.convertir<3>());
+// 				posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
+// 
+// 				if(posValide)
+// 					break;
+// 
+// 				position = noeud->getPosition().convertir<2>() + Vecteur2(2*i*noeud->getRadius(), -2*i*noeud->getRadius());
+// 				nouveauNoeud->setPosition(position.convertir<3>());
+// 				posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
+// 
+// 				if(posValide)
+// 					break;
+// 			}
 
-			Vecteur2 position;
-			bool posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
-			for(int i = 1; i <= 2; ++i)
-			{
-				position = noeud->getPosition().convertir<2>() + Vecteur2(2*i*noeud->getRadius(), 2*i*noeud->getRadius());
-				nouveauNoeud->setPosition(position.convertir<3>());
-				posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
-
-				if(posValide)
-					break;
-
-				position = noeud->getPosition().convertir<2>() + Vecteur2(-2*i*noeud->getRadius(), 2*i*noeud->getRadius());
-				nouveauNoeud->setPosition(position.convertir<3>());
-				posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
-
-				if(posValide)
-					break;
-
-				position = noeud->getPosition().convertir<2>() + Vecteur2(-2*i*noeud->getRadius(), -2*i*noeud->getRadius());
-				nouveauNoeud->setPosition(position.convertir<3>());
-				posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
-
-				if(posValide)
-					break;
-
-				position = noeud->getPosition().convertir<2>() + Vecteur2(2*i*noeud->getRadius(), -2*i*noeud->getRadius());
-				nouveauNoeud->setPosition(position.convertir<3>());
-				posValide = terrain->IsNodeAtValidEditionPosition(nouveauNoeud);
-
-				if(posValide)
-					break;
-			}
-
-			if(!posValide)
-			{
-                nouveauNoeud->deleteThis();
-			}
+// 			if(!posValide)
+// 			{
+//                 nouveauNoeud->deleteThis();
+// 			}
 		}
 	}
 }

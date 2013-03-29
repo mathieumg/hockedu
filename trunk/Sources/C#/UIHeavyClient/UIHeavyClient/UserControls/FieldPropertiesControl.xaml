@@ -27,6 +27,14 @@
                         <user:NumericalInputBox   x:Name="mZoneEditionY"    />
                     </StackPanel>
                 </StackPanel>
+                <user:NumericalInputBox   x:Name="mRinkRebound1"    />
+                <user:NumericalInputBox   x:Name="mRinkRebound2"    />
+                <user:NumericalInputBox   x:Name="mRinkRebound3"    />
+                <user:NumericalInputBox   x:Name="mRinkRebound4"    />
+                <user:NumericalInputBox   x:Name="mRinkRebound5"    />
+                <user:NumericalInputBox   x:Name="mRinkRebound6"    />
+                <user:NumericalInputBox   x:Name="mRinkRebound7"    />
+                <user:NumericalInputBox   x:Name="mRinkRebound8"    />
                 <user:BonusEditionControl x:Name="mBonusProperties"       />
                 <StackPanel>
                     <Button Content="Save" Click="SendData" Focusable="False" Foreground="White" Background="Black"/>

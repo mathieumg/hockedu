@@ -281,8 +281,14 @@ void VisitorGatherProperties::visiterNoeudTable( NoeudTable* noeud )
         SET_PROPERTY(BONUS_MIN,0,mProperties->mMinBonusSpawnTime);
         SET_PROPERTY(BONUS_MAX,0,mProperties->mMaxBonusSpawnTime);
     }
-    float rebond = noeud->obtenirCoefRebond(0);
-    SET_PROPERTY(REBOUND,rebond,mProperties->mRebound);
+    mProperties->mRinkRebound1 = noeud->obtenirCoefRebond(0);
+    mProperties->mRinkRebound2 = noeud->obtenirCoefRebond(1);
+    mProperties->mRinkRebound3 = noeud->obtenirCoefRebond(2);
+    mProperties->mRinkRebound4 = noeud->obtenirCoefRebond(3);
+    mProperties->mRinkRebound5 = noeud->obtenirCoefRebond(4);
+    mProperties->mRinkRebound6 = noeud->obtenirCoefRebond(5);
+    mProperties->mRinkRebound7 = noeud->obtenirCoefRebond(6);
+    mProperties->mRinkRebound8 = noeud->obtenirCoefRebond(7);
 }
 
 

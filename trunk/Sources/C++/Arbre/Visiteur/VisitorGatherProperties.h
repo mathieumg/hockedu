@@ -37,6 +37,14 @@ public:
     float mRebound;
     float mMinBonusSpawnTime;
     float mMaxBonusSpawnTime;
+    float mRinkRebound1;
+    float mRinkRebound2;
+    float mRinkRebound3;
+    float mRinkRebound4;
+    float mRinkRebound5;
+    float mRinkRebound6;
+    float mRinkRebound7;
+    float mRinkRebound8;
     //BonusProperties* mBonusProperties;
     int mPropertyFlagAssignment;
 };
