@@ -3285,7 +3285,7 @@
 
 1363040401 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/sha1.h
 
-1364341451 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/CommunicateurReseau.cpp
+1364450263 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/CommunicateurReseau.cpp
 	"CommunicateurReseau.h"
 	"ExceptionsReseau/ExceptionReseau.h"
 	<iostream>
@@ -3348,7 +3348,7 @@
 	<exception>
 	<stdexcept>
 
-1364316261 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseau.h
+1364412938 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseau.h
 	<string>
 	"ExceptionsReseau/ExceptionReseau.h"
 	"FacadePortability.h"
@@ -3367,15 +3367,15 @@
 
 1363148328 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Commun/Utilitaire/Singleton.h
 
-1364311773 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/ControllerInterface.h
+1364442292 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/ControllerInterface.h
 	<hash_map>
 	<ext/hash_map>
 	"Socket.h"
 	"../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"
 
-1364311773 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h
+1364591624 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h
 
-1363148328 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/Paquets/Paquet.h
+1364442292 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/Paquets/Paquet.h
 	<string>
 	"../GestionnaireReseau.h"
 	<time.h>
@@ -3398,7 +3398,7 @@
 	<stdio.h>
 	<string.h>
 
-1364318338 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandler.h
+1364440939 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandler.h
 	"../PacketBuilder.h"
 	"../PacketReader.h"
 	"../GestionnaireReseau.h"
@@ -3410,7 +3410,7 @@
 	<stdio.h>
 	<string.h>
 
-1363667245 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Commun/Utilitaire/Utilitaire.h
+1364591624 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Commun/Utilitaire/Utilitaire.h
 	"Vecteur.h"
 	<sstream>
 
@@ -3419,7 +3419,7 @@
 	"Solution_Defines.h"
 	<math.h>
 
-1364311773 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Commun/Utilitaire/Solution_Defines.h
+1364532349 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Commun/Utilitaire/Solution_Defines.h
 	<cstdio>
 
 1364311773 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/ControllerServeurMaitre.h
@@ -3471,7 +3471,7 @@
 1363148328 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/ObjetsGlobaux/PartieServeurs.cpp
 	"PartieServeurs.h"
 
-1363761465 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/ObjetsGlobaux/PartieServeurs.h
+1364402362 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/ObjetsGlobaux/PartieServeurs.h
 	<time.h>
 	<string>
 
@@ -3537,7 +3537,7 @@
 	"Paquet.h"
 	"../ObjetsGlobaux/PartieServeurs.h"
 
-1363148328 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerLoginInfo.cpp
+1364442292 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerLoginInfo.cpp
 	<iostream>
 	<sstream>
 	"PacketHandler.h"
@@ -3579,7 +3579,7 @@
 1363148328 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetUserStatus.h
 	"Paquet.h"
 
-1363326408 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/Paquets/Paquet.cpp
+1364442292 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/Paquets/Paquet.cpp
 	"Paquet.h"
 	<sstream>
 	<iostream>
@@ -3627,7 +3627,7 @@
 	<netinet/in.h>
 	<arpa/inet.h>
 
-1363148328 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/CommunicateurBD.cpp
+1364442292 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/CommunicateurBD.cpp
 	"CommunicateurBD.h"
 	"ExceptionsReseau/ExceptionReseauBD.h"
 	"sha1.h"
@@ -3881,7 +3881,7 @@
 1363146815 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/ExceptionsReseau/ExceptionReseauBD.cpp
 	"ExceptionReseauBD.h"
 
-1363148328 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/FacadeServeurMaitre.cpp
+1364361523 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/FacadeServeurMaitre.cpp
 	"FacadeServeurMaitre.h"
 	"CommunicateurBD.h"
 
@@ -3946,7 +3946,7 @@
 	"UsinePaquets/UsinePaquet.h"
 	"../Paquets/PaquetEvent.h"
 
-1364179044 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseauServeurMaitre.cpp
+1364532350 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/GestionnaireReseauServeurMaitre.cpp
 	"GestionnaireReseauServeurMaitre.h"
 	"GestionnaireReseau.h"
 	"Paquets/PaquetUserStatus.h"
@@ -3963,7 +3963,7 @@
 	"UsinePaquet.h"
 	"../Paquets/PaquetUserStatus.h"
 
-1364318458 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetGameStatus.h
+1364440995 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquetGameStatus.h
 	"UsinePaquet.h"
 	"../Paquets/PaquetGameStatus.h"
 
@@ -3974,7 +3974,7 @@
 1363841296 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetGameRegistration.h
 	"Paquet.h"
 
-1364312044 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/PaquetRunnable.cpp
+1364442292 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/PaquetRunnable.cpp
 	"PaquetRunnable.h"
 	"GestionnaireReseau.h"
 	"Paquets/PaquetEvent.h"
@@ -3996,19 +3996,19 @@
 	"Paquets/PaquetBonus.h"
 	"PaquetHandlers/PacketHandlerBonus.h"
 
-1364251721 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/PaquetRunnable.h
+1364361473 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/PaquetRunnable.h
 
 1363667246 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetMaillet.h
 	"Paquet.h"
 	"Vecteur.h"
 
-1364251025 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetGameCreation.h
+1364606259 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetGameCreation.h
 	"Paquet.h"
 
 1363987429 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetGameConnection.h
 	"Paquet.h"
 
-1364313387 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/ControllerServeurMaitre.cpp
+1364538280 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/ControllerServeurMaitre.cpp
 	"ControllerServeurMaitre.h"
 	"../Reseau/GestionnaireReseau.h"
 	"../Reseau/PaquetRunnable.h"
@@ -4019,16 +4019,18 @@
 	"../Reseau/Paquets/PaquetEvent.h"
 	"../Reseau/ObjetsGlobaux/PartieServeurs.h"
 	"GameServerManager.h"
+	"../Reseau/RelayeurMessage.h"
+	"GameServer.h"
 
 1364310401 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.h
 	"../Reseau/PaquetRunnable.h"
 
-1364274882 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/GameServerManager.h
+1364414254 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/GameServerManager.h
 	"Singleton.h"
 	<ext/hash_map>
 	<hash_map>
 
-1364318390 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.cpp
+1364539562 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.cpp
 	"PaquetRunnableServeurMaitre.h"
 	"../ServeurMaitre/FacadeServeurMaitre.h"
 	"../Reseau/Paquets/PaquetLoginInfo.h"
@@ -4046,7 +4048,7 @@
 	"GameServerManager.h"
 	"GameServer.h"
 
-1364231531 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/GameServer.h
+1364606094 /media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/GameServer.h
 	<string>
 	<ext/hash_map>
 	<hash_map>
@@ -4058,7 +4060,7 @@
 1363709379 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetGameRegistration.cpp
 	"PaquetGameRegistration.h"
 
-1364275331 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/GameServer.cpp
+1364606117 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/ServeurMaitre/GameServer.cpp
 	"GameServer.h"
 	"..\Reseau\ExceptionsReseau\ExceptionReseau.h"
 	"..\Reseau\ObjetsGlobaux\PartieServeurs.h"
@@ -4211,7 +4213,7 @@
 	"UsinePaquet.h"
 	"../Paquets/PaquetGameCreation.h"
 
-1364312979 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerGameCreation.cpp
+1364442292 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerGameCreation.cpp
 	"PacketHandler.h"
 	"../Paquets/PaquetGameCreation.h"
 
@@ -4225,7 +4227,7 @@
 	<ext/hash_map>
 	<hash_map>
 
-1364260410 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetGameCreation.cpp
+1364442292 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetGameCreation.cpp
 	"PaquetGameCreation.h"
 
 1364311773 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerBonus.cpp
