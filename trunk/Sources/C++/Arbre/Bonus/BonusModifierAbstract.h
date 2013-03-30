@@ -13,6 +13,7 @@
 
 class NoeudAbstrait;
 class NoeudRondelle;
+class NodeBonus;
 ///////////////////////////////////////////////////////////////////////////
 /// @class BonusModifierAbstract
 /// @brief Classe qui représente l'interface de base des bonus qui s'attachent
@@ -25,11 +26,14 @@ class BonusModifierAbstract
 {
 public:
     // Default constructor
-    BonusModifierAbstract(float timeToLive):mIsFinished(false),mOwner(0),mTimeToLive(timeToLive)
+    BonusModifierAbstract(float timeToLive):mIsFinished(false),mOwner(0),mTimeToLive(timeToLive),mCreator(0)
     {
     }
 
     virtual ~BonusModifierAbstract(){}
+
+    
+
 
     /// Attach a modifier on a node, receiving the puck as entry point,
     /// but from it, the modifier can apply itself on anything in the map
@@ -65,8 +69,11 @@ public:
     virtual BonusType getType()const = 0;
     /// Accessors of mTimeToLive
     inline float getTimeToLive() const { return mTimeToLive; }
-protected:
 
+    /// Init function for factories
+    void Init(NodeBonus* creator);
+
+protected:
     /// utility functions, attachs the modifier to the last hitting mallet
     bool AttachToLastHittingMallet(NoeudRondelle* pPuck);
     /// utility functions, attachs the modifier to the opposing mallet of the last hitting mallet
@@ -76,7 +83,7 @@ protected:
 
     NoeudAbstrait* mOwner;
     float mTimeToLive;
-
+    NodeBonus* mCreator;
 private:
     bool mIsFinished;
 };

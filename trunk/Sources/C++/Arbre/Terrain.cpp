@@ -68,6 +68,7 @@
 #include "FieldModificationStrategyAddWall.h"
 #include "VisiteurSuppression.h"
 #include "EditionEventManager.h"
+#include "ForceField.h"
 
 #define TransmitEvent(e) EditionEventManager::TransmitEvent(e)
 
@@ -114,6 +115,7 @@ Terrain::Terrain(Partie* pGame):
     if(DebugRenderBox2D::mInstance)
     {
         DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_shapeBit);
+        DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_drawInactiveBit);
         mWorld->SetDebugDraw(DebugRenderBox2D::mInstance);
     }
 #endif
@@ -129,6 +131,7 @@ Terrain::Terrain(Partie* pGame):
         TransmitEvent(CANNOT_UNDO);
         TransmitEvent(CANNOT_REDO);
     }
+
 }
 
 
@@ -1044,6 +1047,12 @@ void Terrain::appliquerPhysique( float temps )
         VisiteurFunction tick(PlayTickNode,&temps);
         mLogicTree->acceptVisitor(tick);
 #if BOX2D_PLAY
+
+        for(auto it= mForceFieldActive.begin(); it != mForceFieldActive.end(); ++it)
+        {
+            (*it)->ApplyForceField();
+        }
+
         mWorld->Step(temps, 8, 8);
 #elif MANUAL_PHYSICS_DETECTION
         mLogicTree->positionUpdate(temps);
@@ -1083,7 +1092,7 @@ void Terrain::BeginContact( b2Contact* contact )
     if(isPuckPresent)
     {
         // on ne conserve que l'autre categorie
-        category &= ~CATEGORY_PUCK;
+        short categoryLeft = category & ~CATEGORY_PUCK;
         b2Body* bodies[2];
         // l'index 0 contient le body pointant sur la rondelle
         if(filterA.categoryBits & CATEGORY_PUCK)
@@ -1098,10 +1107,9 @@ void Terrain::BeginContact( b2Contact* contact )
         }
 
 
-        switch(category)
+        switch(categoryLeft)
         {
         case CATEGORY_BOUNDARY:
-            // TODO:: à tester
             {
                 NoeudBut *but = dynamic_cast<NoeudBut *>((NoeudAbstrait*)bodies[1]->GetUserData());
                 if (but)
@@ -1238,6 +1246,25 @@ void Terrain::BeginContact( b2Contact* contact )
             break;
         }
     }
+
+    if(category & CATEGORY_FORCE_FIELD)
+    {
+        ForceField* ff = NULL;
+        b2Body* affectedBody = NULL;
+        if(filterA.categoryBits & CATEGORY_FORCE_FIELD)
+        {
+            ff = (ForceField*)bodyA->GetUserData();
+            affectedBody = bodyB;
+        }
+        else
+        {
+            ff = (ForceField*)bodyB->GetUserData();
+            affectedBody = bodyA;
+        }
+        checkf(!!dynamic_cast<ForceField*>(ff));
+        ff->AddAffectedBody(affectedBody);
+        mForceFieldActive.insert(ff);
+    }
     
 }
 
@@ -1266,25 +1293,59 @@ void Terrain::EndContact( b2Contact* contact )
     short category = filterA.categoryBits | filterB.categoryBits;
     bool isPuckPresent = !!(( category ) & CATEGORY_PUCK );
 
-    // la rondelle est sortie d'un portal
-    if( category == (CATEGORY_PUCK|CATEGORY_PORTAL) )
+    if(isPuckPresent)
     {
-        b2Body* portalBody = NULL;
-        if(filterA.categoryBits & CATEGORY_PORTAL)
+        // on ne conserve que l'autre categorie
+        category &= ~CATEGORY_PUCK;
+        b2Body* bodies[2];
+        // l'index 0 contient le body pointant sur la rondelle
+        if(filterA.categoryBits & CATEGORY_PUCK)
         {
-            portalBody = bodyA;
+            bodies[0] = bodyA;
+            bodies[1] = bodyB;
         }
         else
         {
-            portalBody = bodyB;
+            bodies[0] = bodyB;
+            bodies[1] = bodyA;
         }
-
-        NoeudPortail* portal = (NoeudPortail*)portalBody->GetUserData();
-        checkf(portal, "Portal's body's User Data is not the Portal");
-
-        portal->setIsAttractionFieldActive(true);
+        switch (category)
+        {
+        case CATEGORY_PORTAL:
+            {
+//                 // la rondelle est sortie d'un portal
+//                 NoeudPortail* portal = (NoeudPortail*)bodies[1]->GetUserData();
+//                 portal->setIsAttractionFieldActive(true);
+            }
+            break;
+        default:
+            break;
+        }
     }
 
+    if(category & CATEGORY_FORCE_FIELD)
+    {
+        ForceField* ff = NULL;
+        b2Body* affectedBody = NULL;
+        if(filterA.categoryBits & CATEGORY_FORCE_FIELD)
+        {
+            ff = (ForceField*)bodyA->GetUserData();
+            affectedBody = bodyB;
+        }
+        else
+        {
+            ff = (ForceField*)bodyB->GetUserData();
+            affectedBody = bodyA;
+        }
+        checkf(!!dynamic_cast<ForceField*>(ff));
+        ff->RemoveAffectedBody(affectedBody);
+        auto it = mForceFieldActive.find(ff);
+        if(it != mForceFieldActive.end())
+        {
+            mForceFieldActive.erase(it);
+        }
+        ff->setActive(true);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1301,6 +1362,17 @@ void Terrain::EndContact( b2Contact* contact )
 ////////////////////////////////////////////////////////////////////////
 void Terrain::PreSolve( b2Contact* contact, const b2Manifold* oldManifold )
 {
+    auto fixtureA = contact->GetFixtureA();
+    auto fixtureB = contact->GetFixtureB();
+    auto bodyA = fixtureA->GetBody();
+    auto bodyB = fixtureB->GetBody();
+    auto filterA = fixtureA->GetFilterData();
+    auto filterB = fixtureB->GetFilterData();
+    short category = filterA.categoryBits | filterB.categoryBits;
+    if(category & CATEGORY_MALLET )
+    {
+        contact->SetRestitution(0);
+    }
     B2_NOT_USED(contact);
     B2_NOT_USED(oldManifold);
 }
@@ -1478,6 +1550,7 @@ void Terrain::duplicateSelection()
         acceptVisitor(v);
     }
     pushUndoState();
+    FixCollidingObjects();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1977,6 +2050,9 @@ void Terrain::initNecessaryPointersForGame()
 	
 	        auto rightBonuses = GestionnaireHUD::obtenirInstance()->getRightPlayerBonuses();
 	        rightBonuses->setModifiers(&mRightMallet->GetModifiers());
+
+            auto puckBonuses = GestionnaireHUD::obtenirInstance()->getPuckBonuses();
+            puckBonuses->setModifiers(&mPuck->GetModifiers());
         }
 #endif
 
@@ -2525,10 +2601,9 @@ bool Terrain::DetectWorldOverlapping( b2Body* pBody, std::set<NoeudAbstrait*>* p
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool Terrain::renderAppleNode( const NoeudAbstrait* node ) const
+bool Terrain::renderAppleNode( RazerKey key ) const
 {
-    auto key = node->getKey();
-    if(mRenderObjC)
+    if(key != RAZER_KEY_NONE && mRenderObjC)
     {
         return mRenderObjC(key);
     }

@@ -647,8 +647,20 @@ void NoeudRondelle::updatePhysicBody()
         utilitaire::VEC3_TO_B2VEC(pos,posB2);
         myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
         myBodyDef.angle = 0; //set the starting angle
-        myBodyDef.linearDamping = 0.5f;
-        myBodyDef.angularDamping = 0.1f;
+
+        float friction = 0.5f;
+        auto field = getField();
+        if(field)
+        {
+            auto table = getField()->getTable();
+           if(table)
+           {
+               friction = table->obtenirCoefFriction();
+           }
+        }
+
+        myBodyDef.linearDamping = friction;
+        myBodyDef.angularDamping = 0.3f;
         mPhysicBody = world->CreateBody(&myBodyDef);
         b2CircleShape circleShape;
         circleShape.m_p.Set(0, 0); //position, relative to body position
@@ -656,9 +668,9 @@ void NoeudRondelle::updatePhysicBody()
 
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
-        myFixtureDef.density = 0.02f;
-        myFixtureDef.friction = 0.1f;
-        myFixtureDef.restitution = 0.95f;
+        myFixtureDef.density = 0.01f;
+        myFixtureDef.friction = 1.0f;
+        myFixtureDef.restitution = 0;
 
         // Il s'agit ici d'une rondelle qui peut entre en collision avec un maillet, un mur, un portail ou un boost
         myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
@@ -674,7 +686,8 @@ void NoeudRondelle::updatePhysicBody()
             myFixtureDef.filter.groupIndex = 1;
         }
 
-
+        /// calcul plus precis, mais plus couteux de la physique sur la rondelle
+        mPhysicBody->SetBullet(true);
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         mPhysicBody->SetUserData(this);
         mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::synchroniseTransformFromB2CallBack;

@@ -100,7 +100,7 @@ public:
    /// taille par défaut de table
    static const Vecteur3 DEFAULT_SIZE;
    /// 3 pour les NoeudPoint et Centre, 2 pour les 4 ligne de 1/3 field
-   static const int NB_HORIZONTAL_VERTICES = 3 + 4;
+   static const int NB_HORIZONTAL_VERTICES = 3 + 2;
    /// 3 pour les NoeudPoint
    static const int NB_VERTICAL_VERTICES = 3;
    static const unsigned int NB_BANDES = 8;

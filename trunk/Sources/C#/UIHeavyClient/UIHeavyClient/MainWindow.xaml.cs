@@ -294,7 +294,7 @@ namespace UIHeavyClient
 
         // Tests pour connection sur une partie du serveur jeu
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void connectPartieServerGame(int pGameId);
+        public static extern void connectPartieServerGame(int pGameId, string pInputPassword);
 
         // Tests pour connection UDP
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -302,7 +302,7 @@ namespace UIHeavyClient
 
         // Tests pour demande de creation d'une partie sur le serveur jeu
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void requestGameCreationServerGame(string pGameName);
+        public static extern void requestGameCreationServerGame(string pGameName, string pMapName, string pPassword);
 
         // Tests pour mise en pause
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -322,7 +322,7 @@ namespace UIHeavyClient
         private void connexionPartieServeurJeu_Click(object sender, RoutedEventArgs e)
         {
             // Tests pour connection serveur jeu et client
-            connectPartieServerGame(1);
+            connectPartieServerGame(1, "");
 
         }
 
@@ -336,7 +336,7 @@ namespace UIHeavyClient
         private void requestGameCreationServeurJeu_Click(object sender, RoutedEventArgs e)
         {
             // Tests pour la creation d'une partie sur le serveur jeu
-            requestGameCreationServerGame("Bob's Game");
+            requestGameCreationServerGame("Bob's Game", "MapEnCours.xml", "");
 
         }
 
@@ -447,13 +447,16 @@ namespace UIHeavyClient
 
         public void HandleEditionMenuItem(bool pMustBeEnabled)
         {
-            mLoadMapItem.IsEnabled = pMustBeEnabled;
-            mServerLoadMapItem.IsEnabled = pMustBeEnabled;
-            mQuickSaveMapItem.IsEnabled = pMustBeEnabled;
-            mSaveMapItem.IsEnabled = pMustBeEnabled;
-            mServerSaveMapItem.IsEnabled = pMustBeEnabled;
-            mResetMapItem.IsEnabled = pMustBeEnabled;
-            mTestMapItem.IsEnabled = pMustBeEnabled;
+            Visibility visibility = pMustBeEnabled ? Visibility.Visible : Visibility.Collapsed;
+
+            mLoadMapItem.Visibility = visibility;
+            mLoadMapItem.Visibility = visibility;
+            mServerLoadMapItem.Visibility = visibility;
+            mQuickSaveMapItem.Visibility = visibility;
+            mSaveMapItem.Visibility = visibility;
+            mServerSaveMapItem.Visibility = visibility;
+            mResetMapItem.Visibility = visibility;
+            mTestMapItem.Visibility = visibility;
         }
 
 
@@ -500,6 +503,16 @@ namespace UIHeavyClient
 
             mStoryboard.Children.Add( beginAnimation );
             mStoryboard.Begin( mAchievementPanel, HandoffBehavior.SnapshotAndReplace );
+        }
+
+        void ExitHockedu(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        void DefaultMap(object sender, RoutedEventArgs e)
+        {
+            EditionModeControl.CallDefaultFieldFromMenu();
         }
     }
 }

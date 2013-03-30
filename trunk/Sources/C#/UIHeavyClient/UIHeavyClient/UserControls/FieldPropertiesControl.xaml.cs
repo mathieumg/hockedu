@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections;
 
 namespace UIHeavyClient.UserControls
 {
@@ -37,10 +38,17 @@ namespace UIHeavyClient.UserControls
             public float mRebound;
             public float mMinBonusSpawnTime;
             public float mMaxBonusSpawnTime;
+            public float mRinkRebound1;
+            public float mRinkRebound2;
+            public float mRinkRebound3;
+            public float mRinkRebound4;
+            public float mRinkRebound5;
+            public float mRinkRebound6;
+            public float mRinkRebound7;
+            public float mRinkRebound8;
             //public BonusProperties[] mBonusProperties;  // retirer pour le moment
             public int mPropertyFlagAssignment;
         }
-
 
         struct Property
         {
@@ -71,17 +79,17 @@ namespace UIHeavyClient.UserControls
                 mScaleProperty.LabelName = "Scale:";
                 mScaleProperty.MinValue = 0.2f;
                 mScaleProperty.MaxValue = 5;
-                mScaleProperty.Increment = 0.1f;
+                mScaleProperty.Increment = 0.05f;
                 mScaleProperty.Value = 1;
 
                 mBouncingProperty.LabelName = "Wall rebound ratio:";
-                mBouncingProperty.MaxValue = 3;
-                mBouncingProperty.Increment = 0.1f;
-                mBouncingProperty.Value = 1;
+                mBouncingProperty.MaxValue = 2;
+                mBouncingProperty.Increment = 0.05f;
+                mBouncingProperty.Value = 0.90f;
 
                 mAccelerationProperty.LabelName = "Acceleration ratio";
                 mAccelerationProperty.MaxValue = 3;
-                mAccelerationProperty.Increment = 0.1f;
+                mAccelerationProperty.Increment = 0.05f;
                 mAccelerationProperty.Value = 1;
 
                 mAngleProperty.LabelName = "Angle:";
@@ -90,13 +98,13 @@ namespace UIHeavyClient.UserControls
                 mAngleProperty.Value = 0;
 
                 mAttractionProperty.LabelName = "Attraction force:";
-                mAttractionProperty.MaxValue = 3;
-                mAttractionProperty.Increment = 0.1f;
-                mAttractionProperty.Value = 1;
+                mAttractionProperty.MaxValue = 1;
+                mAttractionProperty.Increment = 0.05f;
+                mAttractionProperty.Value = 0.5f;
 
                 mFrictionProperty.LabelName = "Friction:";
                 mFrictionProperty.MaxValue = 1;
-                mFrictionProperty.Increment = 0.1f;
+                mFrictionProperty.Increment = 0.05f;
                 mFrictionProperty.Value = 0.5f;
 
                 mZoneEditionX.LabelName = "X:";
@@ -122,6 +130,48 @@ namespace UIHeavyClient.UserControls
                 mPositionY.MinValue = -400;
                 mPositionY.Increment = 1f;
                 mPositionY.Value = 0;
+
+                mRinkRebound1.LabelName = "Left   Top    board rebound";
+                mRinkRebound2.LabelName = "Top    Left   board rebound";
+                mRinkRebound3.LabelName = "Top    Right  board rebound";
+                mRinkRebound4.LabelName = "Right  Top    board rebound";
+                mRinkRebound5.LabelName = "Right  Bottom board rebound";
+                mRinkRebound6.LabelName = "Bottom Right  board rebound";
+                mRinkRebound7.LabelName = "Bottom Left   board rebound";
+                mRinkRebound8.LabelName = "Left   Bottom board rebound";
+                
+                mRinkRebound1.MaxValue = 2;
+                mRinkRebound1.Increment = 0.05f;
+                mRinkRebound1.Value = 0.90f;
+
+                mRinkRebound2.MaxValue = 2;
+                mRinkRebound2.Increment = 0.05f;
+                mRinkRebound2.Value = 0.90f;
+
+                mRinkRebound3.MaxValue = 2;
+                mRinkRebound3.Increment = 0.05f;
+                mRinkRebound3.Value = 0.90f;
+
+                mRinkRebound4.MaxValue = 2;
+                mRinkRebound4.Increment = 0.05f;
+                mRinkRebound4.Value = 0.90f;
+
+                mRinkRebound5.MaxValue = 2;
+                mRinkRebound5.Increment = 0.05f;
+                mRinkRebound5.Value = 0.90f;
+
+                mRinkRebound6.MaxValue = 2;
+                mRinkRebound6.Increment = 0.05f;
+                mRinkRebound6.Value = 0.90f;
+
+                mRinkRebound7.MaxValue = 2;
+                mRinkRebound7.Increment = 0.05f;
+                mRinkRebound7.Value = 0.90f;
+
+                mRinkRebound8.MaxValue = 2;
+                mRinkRebound8.Increment = 0.05f;
+                mRinkRebound8.Value = 0.90f;
+
             }
 
             mPropertiesByKey = new Dictionary<RazerKey, Property>()
@@ -131,7 +181,14 @@ namespace UIHeavyClient.UserControls
                     mBonusProperties,
                     mFrictionProperty,
                     mEditionZoneProperty,
-                    mBouncingProperty,
+                    mRinkRebound1,
+                    mRinkRebound2,
+                    mRinkRebound3,
+                    mRinkRebound4,
+                    mRinkRebound5,
+                    mRinkRebound6,
+                    mRinkRebound7,
+                    mRinkRebound8,
                 })},
                 {RazerKey.RAZER_KEY_BOOST,new Property("Boost",new List<UIElement>()
                 {  
@@ -255,6 +312,14 @@ namespace UIHeavyClient.UserControls
                 if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_POSITIONY   ))  mPositionY.Value = mFullProperties.mPositionY;
                 if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_BONUS_MIN   ))  mBonusProperties.mMinSpawnTime.Value = mFullProperties.mMinBonusSpawnTime;
                 if(IsPropertyValid(PropertyAssignmentValidation.ASSIGNED_BONUS_MAX    ))  mBonusProperties.mMaxSpawnTime.Value = mFullProperties.mMaxBonusSpawnTime;
+                mRinkRebound1.Value = mFullProperties.mRinkRebound1;
+                mRinkRebound2.Value = mFullProperties.mRinkRebound2;
+                mRinkRebound3.Value = mFullProperties.mRinkRebound3;
+                mRinkRebound4.Value = mFullProperties.mRinkRebound4;
+                mRinkRebound5.Value = mFullProperties.mRinkRebound5;
+                mRinkRebound6.Value = mFullProperties.mRinkRebound6;
+                mRinkRebound7.Value = mFullProperties.mRinkRebound7;
+                mRinkRebound8.Value = mFullProperties.mRinkRebound8;
             }
             // resets the flags
             mFullProperties.mPropertyFlagAssignment = 0;
@@ -268,18 +333,28 @@ namespace UIHeavyClient.UserControls
         public void SendData(object sender, RoutedEventArgs e)
         {
 
-            mFullProperties.mScale        = mScaleProperty.Value        ;
-            mFullProperties.mRebound      = mBouncingProperty.Value     ;
-            mFullProperties.mAcceleration = mAccelerationProperty.Value ;
-            mFullProperties.mAngle        = mAngleProperty.Value        ;
-            mFullProperties.mAttraction   = mAttractionProperty.Value   ;
-            mFullProperties.mFriction     = mFrictionProperty.Value     ;
-            mFullProperties.mZoneEditionX = mZoneEditionX.Value         ;
-            mFullProperties.mZoneEditionY = mZoneEditionY.Value         ;
-            mFullProperties.mPositionX    = mPositionX.Value            ;
-            mFullProperties.mPositionY    = mPositionY.Value            ;
+            mFullProperties.mScale             = mScaleProperty.Value                ;
+            mFullProperties.mRebound           = mBouncingProperty.Value             ;
+            mFullProperties.mAcceleration      = mAccelerationProperty.Value         ;
+            mFullProperties.mAngle             = mAngleProperty.Value                ;
+            mFullProperties.mAttraction        = mAttractionProperty.Value           ;
+            mFullProperties.mFriction          = mFrictionProperty.Value             ;
+            mFullProperties.mZoneEditionX      = mZoneEditionX.Value                 ;
+            mFullProperties.mZoneEditionY      = mZoneEditionY.Value                 ;
+            mFullProperties.mPositionX         = mPositionX.Value                    ;
+            mFullProperties.mPositionY         = mPositionY.Value                    ;
             mFullProperties.mMinBonusSpawnTime = mBonusProperties.mMinSpawnTime.Value;
             mFullProperties.mMaxBonusSpawnTime = mBonusProperties.mMaxSpawnTime.Value;
+
+            mFullProperties.mRinkRebound1      = mRinkRebound1.Value                 ;
+            mFullProperties.mRinkRebound2      = mRinkRebound2.Value                 ;
+            mFullProperties.mRinkRebound3      = mRinkRebound3.Value                 ;
+            mFullProperties.mRinkRebound4      = mRinkRebound4.Value                 ;
+            mFullProperties.mRinkRebound5      = mRinkRebound5.Value                 ;
+            mFullProperties.mRinkRebound6      = mRinkRebound6.Value                 ;
+            mFullProperties.mRinkRebound7      = mRinkRebound7.Value                 ;
+            mFullProperties.mRinkRebound8      = mRinkRebound8.Value                 ;
+
 
             SendFieldProperties(mFullProperties);
 

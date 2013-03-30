@@ -102,6 +102,9 @@
     <Filter Include="Sources Files\Achievements">
       <UniqueIdentifier>{f8495929-e4fc-4305-bcb8-997254900016}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources Files\Physics">
+      <UniqueIdentifier>{97821e45-c342-4bc4-afbb-bcfef0a748cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application\FacadeModele.cpp">
@@ -613,6 +616,15 @@
     </ClCompile>
     <ClCompile Include="Environnement\EditionEventManager.cpp">
       <Filter>Sources Files\Environnement</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\ForceField.cpp">
+      <Filter>Sources Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbre\Bonus\BonusModifierFan.cpp">
+      <Filter>Sources Files\Arbre\Bonus</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbre\Bonus\BonusModifierChangeZone.cpp">
+      <Filter>Sources Files\Arbre\Bonus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1158,6 +1170,15 @@
     </ClInclude>
     <ClInclude Include="Environnement\EditionEventManager.h">
       <Filter>Sources Files\Environnement</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\ForceField.h">
+      <Filter>Sources Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Bonus\BonusModifierFan.h">
+      <Filter>Sources Files\Arbre\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Bonus\BonusModifierChangeZone.h">
+      <Filter>Sources Files\Arbre\Bonus</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

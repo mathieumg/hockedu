@@ -42,7 +42,10 @@
 		{
 			UIImage *image = [[UIImage alloc] initWithData:texData];
 			if (image == nil)
+            {
+                NSLog(@"Cannot load image %@",inFilename);
 				return nil;
+            }
 			
 			GLuint width = CGImageGetWidth(image.CGImage);
 			GLuint height = CGImageGetHeight(image.CGImage);
@@ -55,7 +58,11 @@
 			CGContextDrawImage( context, CGRectMake( 0, 0, width, height ), image.CGImage );
 
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
-			//GLuint errorcode = glGetError();
+			GLuint errorcode = glGetError();
+            if(errorcode != 0)
+            {
+                NSLog(@"Erreur au chargement de la texture %@ [%d]\n",inFilename,errorcode);
+            }
 			CGContextRelease(context);
 			
 			free(imageData);

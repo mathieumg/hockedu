@@ -46,7 +46,11 @@ BonusModifierGoThroughWall::BonusModifierGoThroughWall():
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierGoThroughWall::Attach( NoeudRondelle* pPuck )
 {
-    return AttachToLastHittingMallet(pPuck);
+    if(rand()&1)
+    {
+        return AttachToLastHittingMallet(pPuck);
+    }
+    return AttachToPuck(pPuck);
 }
 
 ////////////////////////////////////////////////////////////////////////

@@ -13,6 +13,7 @@
 #endif
 #include "Utilitaire.h"
 #include "VisiteurNoeud.h"
+#include "../../Physics/ForceField.h"
 
 
 const float NoeudPortail::DEFAULT_RADIUS = 10;
@@ -35,7 +36,7 @@ CreateListDelegateImplementation(Portal)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudPortail::NoeudPortail(const std::string& typeNoeud)
-   : NoeudAbstrait(typeNoeud), mIsAttractionFieldActive(true)
+   : NoeudAbstrait(typeNoeud), mIsAttractionFieldActive(true),mForceField(NULL),mAttractionForce(0.5)
 {   
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
@@ -54,6 +55,12 @@ NoeudPortail::NoeudPortail(const std::string& typeNoeud)
 ////////////////////////////////////////////////////////////////////////
 NoeudPortail::~NoeudPortail()
 {
+#if BOX2D_PLAY
+    if(mForceField)
+    {
+        delete mForceField;
+    }
+#endif //BOX2D_PLAY
 }
 
 
@@ -127,6 +134,7 @@ void NoeudPortail::updatePhysicBody()
     {
         clearPhysicsBody();
 
+
         b2BodyDef myBodyDef;
         myBodyDef.type = IsInGame() ? b2_staticBody : b2_dynamicBody;; //this will be a static body
         const Vecteur3& pos = getPosition();
@@ -138,7 +146,14 @@ void NoeudPortail::updatePhysicBody()
         mPhysicBody = world->CreateBody(&myBodyDef);
         b2CircleShape circleShape;
         circleShape.m_p.Set(0, 0); //position, relative to body position
-        circleShape.m_radius = (float32)getRadius()*utilitaire::ratioWorldToBox2D; //radius
+
+        const float radius = (float32)getRadius()*utilitaire::ratioWorldToBox2D;
+        /// le corps de detection de collision est plus petit que le modele 3D pour donner un peu de temps avant que la rondelle n'entre dedans
+        circleShape.m_radius = radius;
+        if(IsInGame())
+        {
+            circleShape.m_radius *= 0.2f;
+        }
 
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
@@ -160,10 +175,18 @@ void NoeudPortail::updatePhysicBody()
             myFixtureDef.filter.groupIndex = 1;
         }
 
-
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         mPhysicBody->SetUserData(this);
         mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::synchroniseTransformFromB2CallBack;
+
+#if BOX2D_PLAY 
+        if(mForceField)
+        {
+            delete mForceField;
+        }
+        mForceField = new ForceFieldCircle(radius*3.0f,1*utilitaire::ratioWorldToBox2D*mAttractionForce);
+        mForceField->CreateBody(world,CATEGORY_PUCK,mPhysicBody->GetPosition());
+#endif //BOX2D_PLAY
     }
 #endif
 }
@@ -182,6 +205,114 @@ void NoeudPortail::renderOpenGLES() const
 {
     glColor4f(0.0f,0.0f,1.0f,1.0f);
     Super::renderOpenGLES();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool NoeudPortail::isAttractionFieldActive()
+///
+/// /*Description*/
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool NoeudPortail::isAttractionFieldActive() const
+{
+#if BOX2D_PLAY
+    return mForceField && mForceField->IsActive();
+#else
+    return mIsAttractionFieldActive;
+#endif
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudPortail::setIsAttractionFieldActive( const bool actif )
+///
+/// /*Description*/
+///
+/// @param[in] const bool actif
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudPortail::setIsAttractionFieldActive( const bool actif )
+{
+#if BOX2D_PLAY
+    if(mForceField)
+    {
+        mForceField->setActive(actif);
+    }
+#else
+    mIsAttractionFieldActive=actif;
+#endif
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudPortail::setPosition( const Vecteur3& positionRelative )
+///
+/// /*Description*/
+///
+/// @param[in] const Vecteur3 & positionRelative
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudPortail::setPosition( const Vecteur3& positionRelative )
+{
+    Super::setPosition(positionRelative);
+#if BOX2D_PLAY
+    if( !isWorldLocked() && mForceField && mPhysicBody)
+    {
+        auto body = mForceField->getPhysicsBody();
+        body->SetTransform(mPhysicBody->GetPosition(),0);
+    }
+#endif
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn XmlElement* NoeudPortail::createXmlNode()
+///
+/// /*Description*/
+///
+///
+/// @return XmlElement*
+///
+////////////////////////////////////////////////////////////////////////
+XmlElement* NoeudPortail::createXmlNode()
+{
+    auto elem = Super::createXmlNode();
+    if(elem)
+    {
+        XMLUtils::writeAttribute(elem,"forceField",mAttractionForce);
+    }
+    return elem;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool NoeudPortail::initFromXml( const XmlElement* element )
+///
+/// /*Description*/
+///
+/// @param[in] const XmlElement * element
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool NoeudPortail::initFromXml( const XmlElement* element )
+{
+    if(!Super::initFromXml(element))
+        return false;
+
+    // if error here keep default value
+    XMLUtils::readAttribute(element,"forceField",mAttractionForce);
+
+
+    return true;
 }
 
 

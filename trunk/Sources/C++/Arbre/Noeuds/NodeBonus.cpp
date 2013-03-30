@@ -115,6 +115,11 @@ NodeBonus::NodeBonus(const std::string& typeNoeud)
     setDefaultRadius(DEFAULT_RADIUS);
 
 
+#if MIKE_DEBUG_
+    mMinTimeSpawn = 0;
+    mMaxTimeSpawn = 5;
+#endif
+
     forceFullUpdate();
     ResetTimeLeft();
 }
@@ -144,6 +149,17 @@ NodeBonus::~NodeBonus()
 ////////////////////////////////////////////////////////////////////////
 void NodeBonus::renderReal() const
 {
+    if(containsModifiers())
+    {
+        // Renders all the modifiers present on the node
+        for(auto it = mModifiers.begin(); it != mModifiers.end(); ++it)
+        {
+            (*it)->render();
+        }
+
+        /// only render modifiers
+        return;
+    }
 #if WIN32
     glDisable(GL_LIGHTING);
     FacadeModele::getInstance()->DeActivateShaders();
@@ -223,7 +239,7 @@ void NodeBonus::tick( const float& dt )
 void NodeBonus::playTick( float temps)
 {
     Super::playTick(temps);
-    if(!isActive())
+    if(!isActive() && !containsModifiers())
     {
         // game tick
         mSpawnTimeLeft -= temps;
@@ -253,11 +269,13 @@ void NodeBonus::ExecuteBonus( class NoeudRondelle* rondelle )
     if(isActive())
     {
         int b = rand()%NB_BONUS_TYPE;
-        b = BONUS_TYPE_BLOCK_GOAL; // testing value
+#if MIKE_DEBUG_
+        b = BONUS_TYPE_CHANGE_ZONE; // testing value
+#endif
         auto factory = FactoryBonusModifier::getFactory(BonusType(b));
         if(factory)
         {
-            auto bonus = factory->createBonus();
+            auto bonus = factory->createBonus(this);
             if(!bonus->Attach(rondelle))
             {
                 // the modifier couldn't attach itself on the node so we delete it

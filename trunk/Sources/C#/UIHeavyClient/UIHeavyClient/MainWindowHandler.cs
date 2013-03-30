@@ -24,13 +24,10 @@ using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows.Forms;
+using HttpHockeduRequests;
 
 namespace UIHeavyClient
 {
-    
-    
-    
-
     ///////////////////////////////////////////////////////////////////////////
     /// @class MainWindowHandler
     /// @brief Static wrapper to access every controls.
@@ -40,13 +37,13 @@ namespace UIHeavyClient
     ///////////////////////////////////////////////////////////////////////////
     static class MainWindowHandler
     {
+        // Members
         private static MainWindow mContext;
         private static string mCurrentMap = "";
         private static OpenFileDialog mOpenFileDialog = new OpenFileDialog();
         private static Microsoft.Win32.SaveFileDialog mSaveFileDialog = new Microsoft.Win32.SaveFileDialog();
 
-        
-
+        // Properties
         public static MainWindow Context
         {
             get { return mContext; }
@@ -60,26 +57,31 @@ namespace UIHeavyClient
 
         public static TaskManager mTaskManager = new TaskManager();
 
+        // Event C++ function
         [DllImport(@"RazerGame.dll")]
         public static extern bool ActionPerformed(ActionType action);
 
         
-
-        // Save/Load
+        // Save/Load C++ functions
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void SaveMap(string pFileName);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void LoadMap(string pFileName);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void SetPlayMap(string pFileName);
-        // TODO
-        // Save to server
-        // Load to server
 
 
-        // On doit definir les callbacks pour chaque etat defini dans le CallbackManager
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindowHandler.InitCallbacks()
+        ///
+        /// On doit definir les callbacks pour chaque etat defini dans le CallbackManager.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public static void InitCallbacks()
         {
+            CallbackManager.Init();
+
             CallbackContainer wContainerEdition = new CallbackContainer();
             wContainerEdition.mEditionEventCallback=Context.EditionModeControl.EventCallBack;
             CallbackManager.AddCallback(GameState.GAME_STATE_EDITION, wContainerEdition);
@@ -92,15 +94,23 @@ namespace UIHeavyClient
             wContainerMainMenu.mEventReceivedCallback=LoginControl.LoginControlEventReceived;
             CallbackManager.AddCallback(GameState.GAME_STATE_MAIN_MENU, wContainerMainMenu);
 
-            CallbackContainer wEmptyContainer = new CallbackContainer();
-            CallbackManager.AddCallback(GameState.GAME_STATE_LOBBY, wEmptyContainer);
-            CallbackManager.AddCallback(GameState.GAME_STATE_TOURNAMENT_MENU, wEmptyContainer);
-            CallbackManager.AddCallback(GameState.GAME_STATE_ONLINE_LOBBY, wEmptyContainer);
-            CallbackManager.AddCallback(GameState.GAME_STATE_NONE, wEmptyContainer);
+            CallbackContainer wContainerOnlineLobby=new CallbackContainer();
+            wContainerOnlineLobby.mEventReceivedCallback=OnlineLobbyControl.CallbackEvent;
+            wContainerOnlineLobby.mMessageReceivedCallback=OnlineLobbyControl.CallbackMessage;
+            CallbackManager.AddCallback(GameState.GAME_STATE_ONLINE_LOBBY, wContainerOnlineLobby);
+            CallbackManager.AddCallback(GameState.GAME_STATE_MAIN_MENU, wContainerOnlineLobby);
+            CallbackManager.AddCallback(GameState.GAME_STATE_PLAY, wContainerOnlineLobby);
+            CallbackManager.AddCallback(GameState.GAME_STATE_EDITION, wContainerOnlineLobby);
 
         }
 
-
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindowHandler.GoToEditionMode()
+        ///
+        /// Append OpenGL to edition mode and go there.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public static void GoToEditionMode()
         {
             
@@ -127,6 +137,15 @@ namespace UIHeavyClient
             Context.EditionModeControl.SetGuidanceInstuction("");
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindowHandler.GoToPlayMode()
+        ///
+        /// Append OpenGL to play mode and init it according to the type of game.
+        /// 
+        /// @param[in] ActionType : To specify the type of game.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public static void GoToPlayMode(ActionType pAction)
         {
             if (pAction != ActionType.ACTION_ALLER_MODE_JEU && pAction != ActionType.ACTION_ALLER_MODE_TOURNOI)
@@ -154,6 +173,13 @@ namespace UIHeavyClient
             Context.HandleEditionMenuItem(false);
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindowHandler.GoToMainMenu()
+        ///
+        /// Return to main menu.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public static void GoToMainMenu()
         {
             if(CallbackManager.ChangeGameMode(GameState.GAME_STATE_MAIN_MENU))
@@ -177,6 +203,13 @@ namespace UIHeavyClient
             Context.HandleEditionMenuItem(false);
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindowHandler.GoToTournamentMenu()
+        ///
+        /// Tournament menu + AI profile reading.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public static void GoToTournamentMenu()
         {
             if(CallbackManager.ChangeGameMode(GameState.GAME_STATE_TOURNAMENT_MENU))
@@ -187,50 +220,111 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindowHandler.GoToOnlineLobby()
+        ///
+        /// Online mode + read current server games.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public static void GoToOnlineLobby()
         {
             // set callback events and messages
             if(CallbackManager.ChangeGameMode(GameState.GAME_STATE_ONLINE_LOBBY))
             {
                 Context.WindowContentControl.Content=Context.OnlineLobbyControl;
+                Context.OnlineLobbyControl.DisplayServerGames();
                 CallbackManager.CommitChanges();
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindowHandler.GoToOptionsMenu()
+        ///
+        /// Option menu.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public static void GoToOptionsMenu()
         {
             Context.WindowContentControl.Content = Context.OptionsControl;
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindowHandler.GoToRadioOptions()
+        ///
+        /// Radio menu + read playlists and songs.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public static void GoToRadioOptions()
         {
             Context.WindowContentControl.Content = Context.RadioOptionControl;
             Context.RadioOptionControl.DisplayPlaylists();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindowHandler.GoToAIOptions()
+        ///
+        /// AI option menu + read AI profiles.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public static void GoToAIOptions()
         {
             Context.WindowContentControl.Content = Context.AIOptionControl;
             Context.AIOptionControl.DisplayAIProfiles();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindowHandler.GoToKeyboardOption()
+        ///
+        /// Keyboard options + display current configuration.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public static void GoToKeyboardOption()
         {
             Context.WindowContentControl.Content = Context.KeyboardOptionControl;
             Context.KeyboardOptionControl.DisplayPlayerTwoKeys();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindowHandler.LoadMapFromLocal()
+        ///
+        /// Load a map from a path.
+        /// 
+        /// @param[in] string : The map's file path.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public static void LoadMapFromLocal(string pMapName)
         {
             LoadMap(pMapName);
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindowHandler.SaveMapToLocal()
+        ///
+        /// Save a map to the specified path.
+        /// 
+        /// @param[in] string : The map's file path.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public static void SaveMapToLocal(string pMapName)
         {
             SaveMap(pMapName);
             Context.EditionModeControl.SetGuidanceInstuction("Map saved to file \"" + pMapName + "\".");
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindowHandler.DialogLoadMapFromLocal()
+        ///
+        /// Load map from a dialog window.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public static void DialogLoadMapFromLocal()
         {
             mOpenFileDialog.Title = "Choose a map file";
@@ -241,6 +335,13 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindowHandler.DialogSaveMapToLocal()
+        ///
+        /// Save map from a dialog window.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public static void DialogSaveMapToLocal()
         {
             mSaveFileDialog.Title = "Enter the name of your map file";
@@ -250,6 +351,13 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindowHandler.QuickSaveMapToLocal()
+        ///
+        /// Save map to the last path it was saved in (prompt a dialog if it's the first time).
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public static void QuickSaveMapToLocal()
         {
             if (mCurrentMap == "")
@@ -262,11 +370,40 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindowHandler.SaveMapToServer()
+        ///
+        /// Online save.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        public static void SaveMapToServer()
+        {
+            HttpManager wHttpManager = new HttpManager();
+            wHttpManager.uploadNewMap(12, "", "", "", true, mCurrentMap, null); 
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindowHandler.LoadPlayingMap()
+        ///
+        /// Call the DLL to load a map.
+        /// 
+        /// @param[in] string : The map's file path.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public static void LoadPlayingMap(string pMapFile)
         {
             SetPlayMap(pMapFile);
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindowHandler.Cleanup()
+        ///
+        /// Reset data.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public static void Cleanup()
         {
             CallbackManager.ChangeGameMode(GameState.GAME_STATE_NONE);

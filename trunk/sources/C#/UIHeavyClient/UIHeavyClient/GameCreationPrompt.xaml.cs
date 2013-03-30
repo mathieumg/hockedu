@@ -44,12 +44,11 @@ namespace UIHeavyClient
                     mMapComboBox.Items.Add(wItem);
                 }
             });
-            
         }
 
         private bool mOkIsClicked;
 
-        public string Name
+        public string GameName
         {
             get { return mNameTextBox.Text; }
         }
@@ -57,9 +56,9 @@ namespace UIHeavyClient
         {
             get { return mPasswordCheckBox.IsChecked.Value ? mNameTextBox.Text : ""; }
         }
-        public string Map
+        public UserMapDetailedJSON Map
         {
-            get { return mMapComboBox.SelectedItem.ToString(); }
+            get { return (mMapComboBox.SelectedItem as UserMapDetailedJSON); }
         }
         public bool OkIsClicked
         {
@@ -75,13 +74,13 @@ namespace UIHeavyClient
         private void mOkButton_Click(object sender, RoutedEventArgs e)
         {
             mOkIsClicked = true;
-            Close();
+            Hide();
         }
 
         private void mCancelButton_Click(object sender, RoutedEventArgs e)
         {
             mOkIsClicked = false;
-            Close();
+            Hide();
         }
 
         public void ClearInputAndLoadMapList()

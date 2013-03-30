@@ -325,7 +325,6 @@ namespace UIHeavyClient
 
 
 
-
         // Callbacks for the Login window
         public static bool LoginControlEventReceived(EventCodes id, IntPtr pMessage)
         {

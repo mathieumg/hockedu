@@ -35,7 +35,7 @@ public:
    {
        auto n2 = dynamic_cast<NodeWallAbstract*>(n);
        return !!n2 && 
-           coefRebond_ == n2->coefRebond_ && 
+           mReboundRatio == n2->mReboundRatio && 
            Super::equals(n);
    }
    /// accessor to the key to retrieve the list and/or 3D Model
@@ -81,14 +81,14 @@ public:
 protected:
 private:
    /// Coefficient different different pour chaque muret, sauvegarde en XML
-   float coefRebond_;
+   float mReboundRatio;
 
 
    /// Accessors
 public:
-    /// Accesseur de coefRebond_
-    float getReboundRatio() const { return coefRebond_; }
-    void setReboundRatio(float val) { coefRebond_ = val; }
+    /// Accesseur de mReboundRatio
+    float getReboundRatio() const { return mReboundRatio; }
+    void setReboundRatio(float val) { mReboundRatio = val; }
 };
 
 

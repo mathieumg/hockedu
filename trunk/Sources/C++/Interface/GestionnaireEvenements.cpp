@@ -8,6 +8,10 @@
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
+#if BOX2D_DEBUG
+#include "DebugRenderBox2D.h"
+#endif
+
 #include "GestionnaireEvenements.h"
 #include "GestionnaireEtatModeEdition.h"
 #include "GestionnaireEtatModeJeu.h"
@@ -20,6 +24,7 @@
 #include "GestionnaireEtatPartieRapideTerminee.h"
 #include "GestionnaireEtatPartieTournoiTerminee.h"
 #include "GestionnaireEtatModeSimulation.h"
+
 
 
 GestionnaireEtatAbstrait* GestionnaireEvenements::etatCourant_ = new GestionnaireEtatMenuPrincipal(); 
@@ -66,14 +71,117 @@ void GestionnaireEvenements::modifierEtat(const EtatGestion &nouvelEtat)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEvenements::toucheEnfoncee(EvenementClavier& evenementClavier)
 {
-	if(evenementClavier.obtenirTouche() == VJAK_P)
-	{
-		SoundFMOD::obtenirInstance()->togglePlaying();
-	}
-	if(evenementClavier.obtenirTouche() == VJAK_0)
-	{
-		FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
-	}
+    auto touche = evenementClavier.obtenirTouche() ;
+    switch(touche)
+    {
+    case VJAK_P:
+        SoundFMOD::obtenirInstance()->togglePlaying();
+        break;
+    case VJAK_0:
+        FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
+#if BOX2D_DEBUG
+    case VJAK_NUMPAD0:
+        {
+            if(DebugRenderBox2D::mInstance)
+            {
+                auto flag = DebugRenderBox2D::mInstance->GetFlags();
+                if(flag & b2Draw::e_shapeBit)
+                {
+                    DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_shapeBit);
+                }
+                else
+                {
+                    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_shapeBit);
+                }
+            }
+        }
+        break;
+    case VJAK_NUMPAD1:
+        {
+            if(DebugRenderBox2D::mInstance)
+            {
+                auto flag = DebugRenderBox2D::mInstance->GetFlags();
+                if(flag & b2Draw::e_jointBit)
+                {
+                    DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_jointBit);
+                }
+                else
+                {
+                    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_jointBit);
+                }
+            }
+        }
+        break;
+    case VJAK_NUMPAD2:
+        {
+            if(DebugRenderBox2D::mInstance)
+            {
+                auto flag = DebugRenderBox2D::mInstance->GetFlags();
+                if(flag & b2Draw::e_aabbBit)
+                {
+                    DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_aabbBit);
+                }
+                else
+                {
+                    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_aabbBit);
+                }
+            }
+        }
+        break;
+    case VJAK_NUMPAD3:
+        {
+            if(DebugRenderBox2D::mInstance)
+            {
+                auto flag = DebugRenderBox2D::mInstance->GetFlags();
+                if(flag & b2Draw::e_pairBit)
+                {
+                    DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_pairBit);
+                }
+                else
+                {
+                    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_pairBit);
+                }
+            }
+        }
+        break;
+    case VJAK_NUMPAD4:
+        {
+            if(DebugRenderBox2D::mInstance)
+            {
+                auto flag = DebugRenderBox2D::mInstance->GetFlags();
+                if(flag & b2Draw::e_centerOfMassBit)
+                {
+                    DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_centerOfMassBit);
+                }
+                else
+                {
+                    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_centerOfMassBit);
+                }
+            }
+        }
+        break;
+    case VJAK_NUMPAD5:
+        {
+            if(DebugRenderBox2D::mInstance)
+            {
+                auto flag = DebugRenderBox2D::mInstance->GetFlags();
+                if(flag & b2Draw::e_drawInactiveBit)
+                {
+                    DebugRenderBox2D::mInstance->ClearFlags(b2Draw::e_drawInactiveBit);
+                }
+                else
+                {
+                    DebugRenderBox2D::mInstance->AppendFlags(b2Draw::e_drawInactiveBit);
+                }
+            }
+        }
+        break;
+#endif //BOX2D_INTEGRATED
+    default:
+        break;
+    };
+
+
     if(etatCourant_)etatCourant_->toucheEnfoncee(evenementClavier);
 }
 

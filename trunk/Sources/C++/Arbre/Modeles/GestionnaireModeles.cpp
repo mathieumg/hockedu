@@ -352,12 +352,13 @@ void GestionnaireModeles::initialiser()
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_RONDELLE            , RazerGameUtilities::CreateListDelegatePuck));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_ACCELERATEUR        , RazerGameUtilities::CreateListDelegateBoost));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_MAILLET             , RazerGameUtilities::CreateListDelegateMallet));
-    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_TABLE_CONTROL_POINT, "point",RazerGameUtilities::CreateListDelegateTableControlPoint));
+    tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_TABLE_CONTROL_POINT, "control_point/control_point",RazerGameUtilities::CreateListDelegateTableControlPoint));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_CONTROL_POINT      , "control_point/control_point",RazerGameUtilities::CreateListDelegateControlPoint));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_ZAMBONI            , "zamboni",RazerGameUtilities::CreateListDelegateZamboni));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_EMPTY_BONUS        , "EmptyBonus",RazerGameUtilities::CreateListDelegateEmptyBonus));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_BONUS              , "",RazerGameUtilities::CreateListDelegateBonus));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_GOALER             , "Goaler/Goaler",RazerGameUtilities::CreateListDelegateGoaler));
+    tamponGlobal.vec.push_back(ModelToLoad("Fan"                                       ,RazerGameUtilities::CreateListDelegateFan));
     tamponGlobal.vec.push_back(ModelToLoad("pause"));
     tamponGlobal.vec.push_back(ModelToLoad("1"));
     tamponGlobal.vec.push_back(ModelToLoad("2"));

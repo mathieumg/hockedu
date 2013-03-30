@@ -39,9 +39,12 @@ namespace UIHeavyClient
         // Members
         private WindowsFormsHost mWindowsFormsHost;
         
-        Dictionary<object, string> mGuidanceMessages;
-        Dictionary<object, string> mGuidanceInstructions;
-        Dictionary<object, ActionType> mActionPerformedStrings;
+        private Dictionary<object, string> mGuidanceMessages;
+        private Dictionary<object, string> mGuidanceInstructions;
+        private Dictionary<object, ActionType> mActionPerformedStrings;
+
+        // For keyboard event binding
+        private Dictionary<string, RoutedCommand> mRoutedCommands;
 
         Button mLastClickedButton;
 
@@ -178,10 +181,10 @@ namespace UIHeavyClient
 
             mGuidanceMessages = new Dictionary<object, string>() 
             { 
-                {mDeleteButton, "Delete selected objects"},
-                {mCopyButton, "Copy selected objects"},
-                {mUndoButton, "Cancel your last action"},
-                {mRedoButton, "Redo the action you just cancelled"},
+                {mDeleteButton, "Delete selected objects (delete)"},
+                {mCopyButton, "Copy selected objects (Ctrl + C)"},
+                {mUndoButton, "Cancel your last action (Ctrl + Z)"},
+                {mRedoButton, "Redo the action you just cancelled (Ctrl + Y)"},
 
                 {mPuckButton, "The puck for the hockey game (you can only create one)"},
                 {mMalletButton, "The mallets for the hockey game (you can only create two)"},
@@ -200,10 +203,10 @@ namespace UIHeavyClient
                 {mFreeCameraRadio, "Free camera that can move anywhere in the 3D map"},
                 {mOrbitalCameraRadio, "Camera that can only turn around a fixed point"},
                 {mSkyCameraRadio, "Fixed camera above the map"},
-                {mCamareResetButton, "Re-center the camera on the map"},
+                {mCamareResetButton, "Re-center the camera on the map (Ctrl + R)"},
 
                 {mMainMenuButton, "Return to main menu"},
-                {mDefaultFieldButton, "Reset the map to default"},
+                {mDefaultFieldButton, "Reset the map to default (Ctrl + N)"},
                 {mValidateFieldButton, "Will validate if your map is certified to be played on"},
             };
 
@@ -277,6 +280,9 @@ namespace UIHeavyClient
             mScaleStateButton.Click += PropertiesRefreshWarning;
             mMoveStateButton.Click += PropertiesRefreshWarning;
             mRotateStateButton.Click += PropertiesRefreshWarning;
+
+            // Keyboard events
+            InitRoutedCommands();
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -416,6 +422,10 @@ namespace UIHeavyClient
                 GenerateDefaultField();
             }
         }
+        public void CallDefaultFieldFromMenu()
+        {
+            OnGenerateField(mDefaultFieldButton, null);
+        }
 
         ////////////////////////////////////////////////////////////////////////
         /// @fn void EditionModeControl.OnValidateField()
@@ -434,7 +444,137 @@ namespace UIHeavyClient
                 MessageBoxResult dr = MessageBox.Show("Map is valid to play", "Map Validation", MessageBoxButton.OK);
             }
         }
+
         
+
+        #endregion
+
+        #region Routed Commands
+
+        private void InitRoutedCommands()
+        {
+            mRoutedCommands = new Dictionary<string, RoutedCommand>();
+
+            // Delete
+            mRoutedCommands.Add("Delete",new RoutedCommand());
+            mRoutedCommands["Delete"].InputGestures.Add(new KeyGesture(Key.Delete));
+            CommandBindings.Add(new CommandBinding(mRoutedCommands["Delete"], DeleteShortcut, CanDeleteShortcut));
+
+            // Load
+            mRoutedCommands.Add("Load", new RoutedCommand());
+            mRoutedCommands["Load"].InputGestures.Add(new KeyGesture(Key.O, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(mRoutedCommands["Load"], LoadShortcut));
+
+            // Save
+            mRoutedCommands.Add("Save", new RoutedCommand());
+            mRoutedCommands["Save"].InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(mRoutedCommands["Save"], SaveShortcut));
+
+            // Save as
+            mRoutedCommands.Add("SaveAs", new RoutedCommand());
+            mRoutedCommands["SaveAs"].InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Shift));
+            CommandBindings.Add(new CommandBinding(mRoutedCommands["SaveAs"], SaveAsShortcut));
+
+            // Undo
+            mRoutedCommands.Add("Undo", new RoutedCommand());
+            mRoutedCommands["Undo"].InputGestures.Add(new KeyGesture(Key.Z, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(mRoutedCommands["Undo"], UndoShortcut, CanUndoShortcut));
+
+            // Redo
+            mRoutedCommands.Add("Redo", new RoutedCommand());
+            mRoutedCommands["Redo"].InputGestures.Add(new KeyGesture(Key.Y, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(mRoutedCommands["Redo"], RedoShortcut, CanRedoShortcut));
+
+            // Copy
+            mRoutedCommands.Add("Copy", new RoutedCommand());
+            mRoutedCommands["Copy"].InputGestures.Add(new KeyGesture(Key.C, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(mRoutedCommands["Copy"], CopyShortcut, CanCopyShortcut));
+
+            // New
+            mRoutedCommands.Add("New", new RoutedCommand());
+            mRoutedCommands["New"].InputGestures.Add(new KeyGesture(Key.N, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(mRoutedCommands["New"], NewShortcut));
+
+            // Reset Camera
+            mRoutedCommands.Add("ResetCamera", new RoutedCommand());
+            mRoutedCommands["ResetCamera"].InputGestures.Add(new KeyGesture(Key.R, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(mRoutedCommands["ResetCamera"], ResetCameraShortcut));
+        }
+
+        // Delete
+        private void CanDeleteShortcut(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = mDeleteButton.IsEnabled;
+            e.Handled = true;
+        }
+        private void DeleteShortcut(object sender, ExecutedRoutedEventArgs e)
+        {
+            HandleDeleteButton(mDeleteButton, e);
+        }
+
+        // Load
+        private void LoadShortcut(object sender, ExecutedRoutedEventArgs e)
+        {
+            MainWindowHandler.DialogLoadMapFromLocal();
+        }
+
+        // Save
+        private void SaveShortcut(object sender, ExecutedRoutedEventArgs e)
+        {
+            MainWindowHandler.QuickSaveMapToLocal();
+        }
+
+        // Save as
+        private void SaveAsShortcut(object sender, ExecutedRoutedEventArgs e)
+        {
+            MainWindowHandler.DialogSaveMapToLocal();
+        }
+
+        // Undo
+        private void CanUndoShortcut(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = mUndoButton.IsEnabled;
+            e.Handled = true;
+        }
+        private void UndoShortcut(object sender, ExecutedRoutedEventArgs e)
+        {
+            CallActionPerformed(mUndoButton, e);
+        }
+
+        // Redo
+        private void CanRedoShortcut(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = mRedoButton.IsEnabled;
+            e.Handled = true;
+        }
+        private void RedoShortcut(object sender, ExecutedRoutedEventArgs e)
+        {
+            CallActionPerformed(mRedoButton, e);
+        }
+
+        // Copy
+        private void CanCopyShortcut(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = mCopyButton.IsEnabled;
+            e.Handled = true;
+        }
+        private void CopyShortcut(object sender, ExecutedRoutedEventArgs e)
+        {
+            CallActionPerformed(mCopyButton, e);
+        }
+
+        // New
+        private void NewShortcut(object sender, ExecutedRoutedEventArgs e)
+        {
+            OnGenerateField(mDefaultFieldButton, e);
+        }
+
+        // Reset Camera
+        private void ResetCameraShortcut(object sender, ExecutedRoutedEventArgs e)
+        {
+            mCamareResetButton_Click(mDefaultFieldButton, e);
+        }
+
         #endregion
 
         ////////////////////////////////////////////////////////////////////////

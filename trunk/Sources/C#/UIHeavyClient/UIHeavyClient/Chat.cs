@@ -22,19 +22,6 @@ using System.Windows.Controls;
 
 namespace UIHeavyClient
 {
-    ///////////////////////////////////////////////////////////////////////////
-    /// @struct ChatUser
-    /// @brief To handle a chat user.
-    ///
-    /// @author Michael Ferris
-    /// @date 2013-01-28
-    ///////////////////////////////////////////////////////////////////////////
-    struct ChatUser
-    {
-        public string mUserName;
-        public string mPassword;
-        public string mUserState;
-    }
 
     
 
@@ -45,7 +32,7 @@ namespace UIHeavyClient
     /// @author Vincent Lemire
     /// @date 2013-01-28
     ///////////////////////////////////////////////////////////////////////////
-    static class Chat
+    public class Chat
     {
         ////////// DLL functions
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -63,19 +50,16 @@ namespace UIHeavyClient
 
         ////////// Attibutes
         // The whole conversation
-        static string mWholeMessage;
+        string mWholeMessage;
         // Connected users
-        static List<string> mConnectedUsers = new List<string>();
+        List<string> mConnectedUsers=new List<string>();
         // Last user who has talked
-        static string mLastUser = "";
+        string mLastUser = "";
         // New messages?
-        static bool mNewMessages = false;
+        bool mNewMessages = false;
 
         
-        ////////// Callbacks saved in the chat
-        static MessageReceivedCallBack mMessageCallback = MessageReceived;
-
-
+        
 
         ////////////////////////////////////////////////////////////////////////
         /// @property string Chat.WholeMessage
@@ -84,7 +68,7 @@ namespace UIHeavyClient
         ///
         /// @return The user name.
         ////////////////////////////////////////////////////////////////////////
-        public static string WholeMessage
+        public string WholeMessage
         {
             get { return mWholeMessage; }
         }
@@ -97,7 +81,7 @@ namespace UIHeavyClient
         ///
         /// @return The user name.
         ////////////////////////////////////////////////////////////////////////
-        public static List<string> ConnectedUsers
+        public List<string> ConnectedUsers
         {
             get { return mConnectedUsers; }
         }
@@ -110,7 +94,7 @@ namespace UIHeavyClient
         ///
         /// @return The user name.
         ////////////////////////////////////////////////////////////////////////
-        public static bool NewMessages
+        public bool NewMessages
         {
             get { return mNewMessages; }
             set { mNewMessages = value; }
@@ -128,7 +112,7 @@ namespace UIHeavyClient
         ///
         /// @return None.
         ////////////////////////////////////////////////////////////////////////
-        public static void UpdateChat(string userName, string message)
+        public void UpdateChat(string userName, string message)
         {
             message = "    [" + DateTime.Now.ToString("HH:mm") + "]  " + message + "\n";
             // Don't write the name if it's the same user again
@@ -151,7 +135,7 @@ namespace UIHeavyClient
         ///
         /// @return None.
         ////////////////////////////////////////////////////////////////////////
-        public static void AddServerEventMessage(string message)
+        public void AddServerEventMessage(string message)
         {
             message = "[" + DateTime.Now.ToString("HH:mm") + "]  " + message + "\n";
             mLastUser = null;
@@ -159,24 +143,6 @@ namespace UIHeavyClient
             mNewMessages = true;
         }
 
-
-        ////////////////////////////////////////////////////////////////////////
-        /// @fn bool MessageReceived(IntPtr pUsername, IntPtr pMessage)
-        ///
-        /// Add a message from a server message
-        /// 
-        /// @param[in] IntPtr   pUsername   : Username (pointer to)
-        /// @param[in] IntPtr   pMessage    : Message (pointer to)
-        ///
-        /// @return bool : not used for not
-        ////////////////////////////////////////////////////////////////////////
-        static bool MessageReceived(IntPtr pUsername, IntPtr pMessage)
-        {
-            string message = Marshal.PtrToStringAnsi(pMessage);
-            string username = Marshal.PtrToStringAnsi(pUsername);
-            UpdateChat(username, message);
-            return true;
-        }
 
 
         ////////////////////////////////////////////////////////////////////////
@@ -186,12 +152,32 @@ namespace UIHeavyClient
         /// 
         /// @return void
         ////////////////////////////////////////////////////////////////////////
-        public static void ClearContent()
+        public void ClearContent()
         {
             mWholeMessage = "";
             mConnectedUsers.Clear();
         }
 
+
+        public void addChatUser(string pUser)
+        {
+            mConnectedUsers.Add(pUser);
+            mConnectedUsers.Sort();
+        }
+
+        public void removeChatUser(string pUser)
+        {
+            // Juste pour etre certain. Pas sur si le == operator ferait la job.
+            foreach (string wUser in mConnectedUsers)
+            {
+                if(wUser.ToString() == pUser.ToString())
+                {
+                    mConnectedUsers.Remove(wUser);
+                    mConnectedUsers.Sort();
+                    break;
+                }
+            }
+        }
 
     }
 

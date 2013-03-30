@@ -27,12 +27,12 @@
         <Button   Name="submitButton"     Margin="6,3,2,3"   Background="Black" Foreground="White" Content="Send" MaxHeight="50" IsDefault="True" FontSize="32" Grid.Row="5" Grid.Column="5" Click="submitButton_Click" />
         <TextBox  Name="wholeMessageBox" TextWrapping="Wrap" Margin="1" Background="Black" Foreground="White" Text="Welcome!" IsReadOnly="True" VerticalScrollBarVisibility="Auto" UseLayoutRounding="True" Grid.Row="3" Grid.ColumnSpan="5" Grid.RowSpan="2" />
         <ListView Name="onlineListView" Margin="1" Background="Black" Foreground="White" Grid.Row="4" Grid.Column="5">
-            <ListView.ContextMenu>
+            <!--<ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Block" />
                     <MenuItem Header="Private Message" />
                 </ContextMenu>
-            </ListView.ContextMenu>
+            </ListView.ContextMenu>-->
         </ListView>
         <Label Name="onlineLabel" Margin="1" Foreground="White" Content="Online:" Grid.Row="3" Grid.Column="5" />
         <Button Content="Main Menu" Margin="3" Name="mBackToMainButton" Background="Black" Foreground="White" FontSize="16" Click="mBackToMainButton_Click" Grid.Row="2" Grid.Column="5" />
@@ -40,14 +40,14 @@
         <Button Content="Join Game" Margin="3" Name="mJoinButton" Background="Black" Foreground="White" Grid.Row="2" Grid.Column="1" FontSize="16" Click="mJoinButton_Click" />
         <Button Content="Join Random Game" Margin="3" Name="mRandomButton" Background="Black" Foreground="White" Grid.Row="2" Grid.Column="2" FontSize="16" Click="mRandomButton_Click" />
         <Button Content="Create Game" Margin="3" Name="mCreateButton" Background="Black" Foreground="White" Grid.Row="2" FontSize="16" Click="mCreateButton_Click" />
-        <ListView Margin="5" Name="listView1" Background="Black" Foreground="White" Grid.ColumnSpan="6" Grid.Row="1">
+        <ListView Margin="5" Name="mOnlineGameListView" Background="Black" Foreground="White" Grid.ColumnSpan="6" Grid.Row="1">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="ID" Width="50" DisplayMemberBinding="{Binding id}"/>
                     <GridViewColumn Header="Server ID" Width="100" DisplayMemberBinding="{Binding serverId}"/>
                     <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding name}"/>
                     <GridViewColumn Header="Creator's Name" Width="200" DisplayMemberBinding="{Binding creatorName}"/>
-                    <GridViewColumn Header="Need Password" Width="100" DisplayMemberBinding="{Binding needPassword}"/>
+                    <GridViewColumn Header="Need Password" Width="100" DisplayMemberBinding="{Binding needPasswordString}"/>
                     <GridViewColumn Header="Map Name" Width="300" DisplayMemberBinding="{Binding mapName}"/>
                 </GridView>
             </ListView.View>

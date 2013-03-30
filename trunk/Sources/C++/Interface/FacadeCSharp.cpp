@@ -143,8 +143,7 @@ void SendMessageDLL(char * pConnectionId, char* pUsername, char * pMessage)
 {
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet(CHAT_MESSAGE);
     wPaquet->setMessage(pMessage);
-    wPaquet->setIsTargetGroup(true);
-    wPaquet->setGroupName("groupe");
+    wPaquet->setIsTargetGroup(false);
     wPaquet->setTimestamp(time(0));
     wPaquet->setOrigin(pUsername);
 
@@ -480,18 +479,20 @@ void connectServerGame( char* pServerIP )
 
 }
 
-void connectPartieServerGame( int pGameId )
+void connectPartieServerGame( int pGameId, char* pInputPassword )
 {
     PaquetGameConnection* wPaquet = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);
     wPaquet->setGameId(pGameId);
+    wPaquet->setPassword(pInputPassword);
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
 }
 
-void requestGameCreationServerGame( char* pGameName )
+void requestGameCreationServerGame( char* pGameName, char* pMapName, char* pPassword  )
 {
     PaquetGameCreation* wPaquet = (PaquetGameCreation*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CREATION_REQUEST);
     wPaquet->setGameName(pGameName);
-    wPaquet->setMapName(FacadeModele::FICHIER_TERRAIN_EN_COURS);
+    wPaquet->setMapName(pMapName);
+    wPaquet->setPassword(pPassword);
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
 }
 
@@ -854,5 +855,39 @@ void SetAchievementUnlocked( AchievementUnlockCallBack callback )
 }
 
 
+int GetNbrServerGames()
+{
+    // TODO
+    // Return the number of server's games
 
+    return 3; // TEMP
+}
+
+
+void GetServersGames(OnlineGameInfos* pGames, int pNbrGames)
+{
+    // TODO
+    // Get server games infos and put them in the array
+
+    for(int i = 0; i < pNbrGames; ++i)
+    {
+        pGames[i].id = i;
+        pGames[i].serverId = i*4 + 437;
+
+        strcpy_s(pGames[i].name, 255, std::string("Ultimate Game").c_str());
+        strcpy_s(pGames[i].creatorName, 255, std::string("Rachel").c_str());
+        strcpy_s(pGames[i].mapName, 255, std::string("Bowser's castle").c_str());
+
+        pGames[i].needPassword = ((i & 1) == 0) ? true : false;
+
+        if(pGames[i].needPassword)
+        {
+            strcpy_s(pGames[i].needPasswordString, 4, "Yes");
+        }
+        else
+        {
+            strcpy_s(pGames[i].needPasswordString, 4, "No");
+        }
+    }
+}
 
