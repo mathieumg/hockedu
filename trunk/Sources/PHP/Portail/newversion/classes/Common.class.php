@@ -109,7 +109,7 @@ class Common
 
         for( $i = 0; $i < 10; $i++ )
         {
-            $salt .= $characterList{ mt_rand( 0, strlen( $characterList ) ) };
+            $salt .= $characterList[ mt_rand( 0, strlen( $characterList ) - 1 ) ];
         }
         
         $sql = 'INSERT INTO %s
