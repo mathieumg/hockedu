@@ -287,6 +287,7 @@
     <ClCompile Include="Jeu\AI\AIStrat.cpp" />
     <ClCompile Include="Jeu\AI\AIStratDefensive.cpp" />
     <ClCompile Include="Jeu\AI\AIStratOffensive.cpp" />
+    <ClCompile Include="Jeu\AI\Renforcement\AILearner.cpp" />
     <ClCompile Include="Jeu\JoueurAbstrait.cpp" />
     <ClCompile Include="Jeu\JoueurHumain.cpp" />
     <ClCompile Include="Jeu\JoueurNetwork.cpp" />
@@ -348,6 +349,7 @@
     <ClCompile Include="Reseau\SocketTCPServeur.cpp" />
     <ClCompile Include="Sons\SoundFMOD.cpp" />
     <ClCompile Include="Tests\AchievementsTests.cpp" />
+    <ClCompile Include="Tests\AiLearnerTests.cpp" />
     <ClCompile Include="Tests\BancTests.cpp" />
     <ClCompile Include="Tests\ConfigSceneTest.cpp" />
     <ClCompile Include="Tests\GestionnaireEvenementsTest.cpp" />
@@ -469,6 +471,7 @@
     <ClInclude Include="Jeu\AI\AIStrat.h" />
     <ClInclude Include="Jeu\AI\AIStratDefensive.h" />
     <ClInclude Include="Jeu\AI\AIStratOffensive.h" />
+    <ClInclude Include="Jeu\AI\Renforcement\AILearner.h" />
     <ClInclude Include="Jeu\JoueurAbstrait.h" />
     <ClInclude Include="Jeu\JoueurHumain.h" />
     <ClInclude Include="Jeu\JoueurNetwork.h" />
@@ -537,6 +540,7 @@
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetUserStatus.h" />
     <ClInclude Include="Sons\SoundFMOD.h" />
     <ClInclude Include="Tests\AchievementsTests.h" />
+    <ClInclude Include="Tests\AiLearnerTests.h" />
     <ClInclude Include="Tests\BancTests.h" />
     <ClInclude Include="Tests\ConfigSceneTest.h" />
     <ClInclude Include="Tests\GestionnaireEvenementsTest.h" />

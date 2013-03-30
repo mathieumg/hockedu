@@ -105,6 +105,9 @@
     <Filter Include="Sources Files\Physics">
       <UniqueIdentifier>{97821e45-c342-4bc4-afbb-bcfef0a748cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources Files\Jeu\AI\Renforcement">
+      <UniqueIdentifier>{6b545438-cabd-41a9-b067-b0857ed88eb2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application\FacadeModele.cpp">
@@ -625,6 +628,12 @@
     </ClCompile>
     <ClCompile Include="Arbre\Bonus\BonusModifierChangeZone.cpp">
       <Filter>Sources Files\Arbre\Bonus</Filter>
+    </ClCompile>
+    <ClCompile Include="Jeu\AI\Renforcement\AILearner.cpp">
+      <Filter>Sources Files\Jeu\AI\Renforcement</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\AiLearnerTests.cpp">
+      <Filter>Sources Files\Tests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1179,6 +1188,12 @@
     </ClInclude>
     <ClInclude Include="Arbre\Bonus\BonusModifierChangeZone.h">
       <Filter>Sources Files\Arbre\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="Jeu\AI\Renforcement\AILearner.h">
+      <Filter>Sources Files\Jeu\AI\Renforcement</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\AiLearnerTests.h">
+      <Filter>Sources Files\Tests</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
