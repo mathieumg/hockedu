@@ -75,6 +75,9 @@
 		0C49614616E80AC600D13713 /* UsineNoeud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C49614516E80AC600D13713 /* UsineNoeud.cpp */; };
 		4E058F2E16FA5D0800A68C40 /* libAFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E058F0D16FA5C2B00A68C40 /* libAFNetworking.a */; };
 		4E07580916FBE5ED005F697E /* FieldModificationStrategyMove.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E07580716FBE5ED005F697E /* FieldModificationStrategyMove.cpp */; };
+		4E1FF7381707917E005D1D50 /* ForceField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E1FF7361707917E005D1D50 /* ForceField.cpp */; };
+		4E1FF73D17079212005D1D50 /* BonusModifierChangeZone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E1FF73917079212005D1D50 /* BonusModifierChangeZone.cpp */; };
+		4E1FF73E17079212005D1D50 /* BonusModifierFan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E1FF73B17079212005D1D50 /* BonusModifierFan.cpp */; };
 		4E2A595716F2E48C002160AE /* BonusModifierAbstract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595316F2E48C002160AE /* BonusModifierAbstract.cpp */; };
 		4E2A595816F2E48C002160AE /* BonusModifierGoThorughWall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595516F2E48C002160AE /* BonusModifierGoThorughWall.cpp */; };
 		4E2A595D16F2E558002160AE /* NodeBonus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595916F2E558002160AE /* NodeBonus.cpp */; };
@@ -344,6 +347,12 @@
 		4E07580616FBE5ED005F697E /* FieldModificationStrategyAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyAbstract.h; sourceTree = "<group>"; };
 		4E07580716FBE5ED005F697E /* FieldModificationStrategyMove.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyMove.cpp; sourceTree = "<group>"; };
 		4E07580816FBE5ED005F697E /* FieldModificationStrategyMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyMove.h; sourceTree = "<group>"; };
+		4E1FF7361707917E005D1D50 /* ForceField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ForceField.cpp; path = "../../C++/Physics/ForceField.cpp"; sourceTree = "<group>"; };
+		4E1FF7371707917E005D1D50 /* ForceField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForceField.h; path = "../../C++/Physics/ForceField.h"; sourceTree = "<group>"; };
+		4E1FF73917079212005D1D50 /* BonusModifierChangeZone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierChangeZone.cpp; path = "../../C++/Arbre/Bonus/BonusModifierChangeZone.cpp"; sourceTree = "<group>"; };
+		4E1FF73A17079212005D1D50 /* BonusModifierChangeZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierChangeZone.h; path = "../../C++/Arbre/Bonus/BonusModifierChangeZone.h"; sourceTree = "<group>"; };
+		4E1FF73B17079212005D1D50 /* BonusModifierFan.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierFan.cpp; path = "../../C++/Arbre/Bonus/BonusModifierFan.cpp"; sourceTree = "<group>"; };
+		4E1FF73C17079212005D1D50 /* BonusModifierFan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierFan.h; path = "../../C++/Arbre/Bonus/BonusModifierFan.h"; sourceTree = "<group>"; };
 		4E2A595116F2E455002160AE /* Flags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flags.h; sourceTree = "<group>"; };
 		4E2A595316F2E48C002160AE /* BonusModifierAbstract.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierAbstract.cpp; sourceTree = "<group>"; };
 		4E2A595416F2E48C002160AE /* BonusModifierAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusModifierAbstract.h; sourceTree = "<group>"; };
@@ -525,6 +534,12 @@
 		0C04E09316DE88ED002B0EE2 /* C++Files */ = {
 			isa = PBXGroup;
 			children = (
+				4E1FF73917079212005D1D50 /* BonusModifierChangeZone.cpp */,
+				4E1FF73A17079212005D1D50 /* BonusModifierChangeZone.h */,
+				4E1FF73B17079212005D1D50 /* BonusModifierFan.cpp */,
+				4E1FF73C17079212005D1D50 /* BonusModifierFan.h */,
+				4E1FF7361707917E005D1D50 /* ForceField.cpp */,
+				4E1FF7371707917E005D1D50 /* ForceField.h */,
 				4E90C0FA17024114000F2564 /* EditionEventManager.cpp */,
 				4E90C0FB17024114000F2564 /* EditionEventManager.h */,
 				0C04E18516DE964E002B0EE2 /* Utilitaire */,
@@ -1109,7 +1124,6 @@
 				4E9CE9FA16FBB74100B04A12 /* Login.xib in Resources */,
 				4E9CE9FF16FBBA4B00B04A12 /* LoadMapViewController.xib in Resources */,
 				4E99937817027CDC00C68644 /* razor_sharp.png in Resources */,
-
 				4E8A52D7170673960043A056 /* Icon.png in Resources */,
 				4E8A52D8170673960043A056 /* icon1.png in Resources */,
 				4E8A52D9170673960043A056 /* icon2.png in Resources */,
@@ -1239,6 +1253,9 @@
 				4E90C0FC17024114000F2564 /* EditionEventManager.cpp in Sources */,
 				4E94494417025200005BC9F6 /* Model3DManager.m in Sources */,
 				6D01D099170286BB00899CCB /* iCarousel.m in Sources */,
+				4E1FF7381707917E005D1D50 /* ForceField.cpp in Sources */,
+				4E1FF73D17079212005D1D50 /* BonusModifierChangeZone.cpp in Sources */,
+				4E1FF73E17079212005D1D50 /* BonusModifierFan.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

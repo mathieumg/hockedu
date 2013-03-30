@@ -22,6 +22,8 @@ extern int const HAUTEUR_FENETRE;
 
 @class EAGLView;
 
+
+
 @interface EAGLViewController : UIViewController <UIGestureRecognizerDelegate, iCarouselDataSource, iCarouselDelegate> {
     EAGLContext *context;
     EAGLView* theEAGLView;
@@ -44,8 +46,10 @@ extern int const HAUTEUR_FENETRE;
     NSInteger animationFrameInterval;
     CADisplayLink *displayLink;
     
-    //OpenGLWaveFrontObject *cube;
     Model* mModel;
+    
+    //OpenGLWaveFrontObject *cube;
+    
     float translationX;
     float translationY;
     float zoomFactor;
@@ -55,13 +59,15 @@ extern int const HAUTEUR_FENETRE;
     
     // Utilise pour le pie menu
     PieMenu *pieMenu;
-	UILabel *label;
+	UILabel *labelPieMenu;
     //
 }
 
+
+
 // Utilise pour le pie menu
 @property (nonatomic, retain) PieMenu *pieMenu;
-@property (nonatomic, retain) IBOutlet UILabel *label;
+@property (nonatomic, retain) IBOutlet UILabel *labelPieMenu;
 
 - (IBAction) fingerSizeAction:(id)sender;
 - (IBAction) leftHandedAction:(id)sender;
