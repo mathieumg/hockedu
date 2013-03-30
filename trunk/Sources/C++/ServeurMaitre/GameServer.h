@@ -8,6 +8,7 @@ namespace std {using namespace __gnu_cxx; }
 #endif
 
 class PartieServeurs;
+typedef std::hash_map<int, PartieServeurs*> GamesContainer;
 
 class GameServer
 {
@@ -15,13 +16,15 @@ public:
     GameServer(unsigned int pServerId, std::string& pServerIP, std::string& pServerIdentifier);
     ~GameServer(void);
 
-    void addGame(int pGameId, std::string pGameName, std::string pMapName, std::string pUsername);
+    void addGame(const int& pGameId, const std::string& pGameName, const std::string& pMapName, const std::string& pUsername, const std::string& pPassword);
 
-    PartieServeurs* getGame(int pGameId);
+    const PartieServeurs* getGame(int pGameId);
 
-    std::string getServerIdentifier() { return mServerIdentifier; }
+    const std::string& getServerIdentifier() { return mServerIdentifier; }
 
-    std::string getServerIP() { return mServerIP; }
+    const std::string& getServerIP() { return mServerIP; }
+
+    const GamesContainer& getGamesContainer() const { return mGamesList; }
 
     void removeGame(int pGameId);
 private:
@@ -29,6 +32,6 @@ private:
     std::string mServerIdentifier;
     unsigned int mServerId;
     void addGame(int pGameId, PartieServeurs* pGame);
-    std::hash_map<int, PartieServeurs*> mGamesList;
+    GamesContainer mGamesList;
 };
 

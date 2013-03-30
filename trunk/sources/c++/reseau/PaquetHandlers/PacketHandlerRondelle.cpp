@@ -11,7 +11,6 @@ void PacketHandlerRondelle::handlePacketReceptionSpecific(PacketReader& pPacketR
     {
         PaquetRondelle* wPaquet = (PaquetRondelle*) GestionnaireReseau::obtenirInstance()->creerPaquet(RONDELLE);
 
-
         wPaquet->setGameId(pPacketReader.readInteger());
         float wX = pPacketReader.readFloat();
         float wY = pPacketReader.readFloat();
@@ -25,11 +24,7 @@ void PacketHandlerRondelle::handlePacketReceptionSpecific(PacketReader& pPacketR
 
         wPaquet->setRunnable(pRunnable);
         wPaquet->run();
-
     }
-
-
-
 }
 
 void PacketHandlerRondelle::handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder)
