@@ -80,7 +80,7 @@ CGContextRef MyCreateBitmapContext (int pixelsWide, int pixelsHigh) {
 
 - (id) init {
 	if (self = [super init]) {
-		self.items = [[NSArray alloc] init];
+		self.items = [[[NSArray alloc] init] autorelease];
 		self.path = [NSMutableArray arrayWithCapacity:2];
 		self.fingerSize = PieMenuFingerSizeNormal;
 	}
@@ -90,7 +90,7 @@ CGContextRef MyCreateBitmapContext (int pixelsWide, int pixelsHigh) {
 - (void) showInView:(UIView *)theView atPoint:(CGPoint)thePoint {
 	self.parentView = theView;
 	if (pieView == nil) {
-		self.pieView = [[PieView alloc] initWithFrame:CGRectZero];
+		self.pieView = [[[PieView alloc] initWithFrame:CGRectZero] autorelease];
 		pieView.userInteractionEnabled = YES;
 		for (PieMenuItem *item in items) {
 			[pieView addItem:item];

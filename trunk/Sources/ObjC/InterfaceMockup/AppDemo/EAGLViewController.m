@@ -192,7 +192,7 @@ enum {
 - (void) setupPieMenu
 {
     // SETUP DU PIE MENU
-	self.pieMenu = [[PieMenu alloc] init];
+	self.pieMenu = [[[PieMenu alloc] init] autorelease];
 	PieMenuItem *itemA = [[PieMenuItem alloc] initWithTitle:@"ItemA"
 													  label:nil
 													 target:self

@@ -13,15 +13,15 @@
 {
     return self;
 }
--(void)touchesBegan:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model
+-(void)touchesBegan:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model
 {
     
 }
--(void)touchesMoved:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model
+-(void)touchesMoved:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model
 {
     
 }
--(void)touchesEnded:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model
+-(void)touchesEnded:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model
 {
     
 }

@@ -12,7 +12,7 @@
 #import "Model.h"
 @interface EditorStateAdd : EditorStateAbstract
 -(EditorStateAdd*) init:(FieldModificationStrategyType)type;
--(void)touchesBegan:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model;
--(void)touchesMoved:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model;
--(void)touchesEnded:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model;
+-(void)touchesBegan:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model;
+-(void)touchesMoved:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model;
+-(void)touchesEnded:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model;
 @end

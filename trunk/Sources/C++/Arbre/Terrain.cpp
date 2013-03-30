@@ -685,7 +685,7 @@ XmlElement* Terrain::creerNoeudXML()
     XmlElement* elem = v.obtenirRacine();
     XMLUtils::LinkEndChild(racine,elem);
 
-    checkf(getZoneEdition(), "Tentative de sauvegarder la zone édition qui n'existe pas. S'assurer qu'on est pas en train d'essaye de save un terrain pour le mode jeu");
+    checkf(getZoneEdition(), "Tentative de sauvegarder la zone Edition qui n'existe pas. S'assurer qu'on est pas en train d'essaye de save un terrain pour le mode jeu");
     if(getZoneEdition())
     {
         XMLUtils::LinkEndChild(racine,getZoneEdition()->creerNoeudXML());
@@ -1567,7 +1567,7 @@ NoeudMaillet* Terrain::getLeftMallet() const
 {
     if(mLeftMallet)
     {
-        checkf(IsGameField(), "Dans le mode édition on ne conserve pas de pointeur sur le maillet");
+        checkf(IsGameField(), "Dans le mode Edition on ne conserve pas de pointeur sur le maillet");
         return mLeftMallet;
     }
     checkf(!IsGameField(), "Dans le mode jeu on doit avoir un pointeur sur le maillet");
@@ -1605,7 +1605,7 @@ NoeudMaillet* Terrain::getRightMallet() const
 {
     if(mRightMallet)
     {
-        checkf(IsGameField(), "Dans le mode édition on ne conserve pas de pointeur sur le maillet");
+        checkf(IsGameField(), "Dans le mode Edition on ne conserve pas de pointeur sur le maillet");
         return mRightMallet;
     }
     checkf(!IsGameField(), "Dans le mode jeu on doit avoir un pointeur sur le maillet");

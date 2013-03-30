@@ -28,15 +28,15 @@
 
 -(void)touchesBegan:(UITouch *)touch:(CGPoint)coordVirt
 {
-    [_mCurrentState touchesBegan:touch:coordVirt];
+    [_mCurrentState touchesBegan:touch:coordVirt:_mModel];
 }
 -(void)touchesMoved:(UITouch *)touch:(CGPoint)coordVirt
 {
-    [_mCurrentState touchesMoved:touch:coordVirt];
+    [_mCurrentState touchesMoved:touch:coordVirt:_mModel];
 }
 -(void)touchesEnded:(UITouch *)touch:(CGPoint)coordVirt
 {
-    [_mCurrentState touchesEnded:touch:coordVirt];
+    [_mCurrentState touchesEnded:touch:coordVirt:_mModel];
 }
 
 -(void) modifyState:(EditorStateName)editorState

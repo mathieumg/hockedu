@@ -35,12 +35,19 @@
 		
 		// Assumes pvr4 is RGB not RGBA, which is how texturetool generates them
 		if ([extension isEqualToString:@"pvr4"])
+        {
 			glCompressedTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG, inWidth, inHeight, 0, (inWidth * inHeight) / 2, [texData bytes]);
+            [texData release];
+        }
 		else if ([extension isEqualToString:@"pvr2"])
+        {
 			glCompressedTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG, inWidth, inHeight, 0, (inWidth * inHeight) / 2, [texData bytes]);
+            [texData release];
+        }
 		else
 		{
 			UIImage *image = [[UIImage alloc] initWithData:texData];
+            [texData release];
 			if (image == nil)
             {
                 NSLog(@"Cannot load image %@",inFilename);

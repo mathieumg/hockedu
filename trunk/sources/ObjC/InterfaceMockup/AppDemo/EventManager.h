@@ -38,8 +38,8 @@ typedef enum {
 
 -(EventManager*) init:(Model*)model;
 -(void) modifyState:(EditorStateName)editorState;
--(void)touchesBegan:(UITouch *)touch:(CGPoint)coordVirt;
--(void)touchesMoved:(UITouch *)touch:(CGPoint)coordVirt;
--(void)touchesEnded:(UITouch *)touch:(CGPoint)coordVirt;
+-(void)touchesBegan:(UITouch *)touch :(CGPoint)coordVirt;
+-(void)touchesMoved:(UITouch *)touch :(CGPoint)coordVirt;
+-(void)touchesEnded:(UITouch *)touch :(CGPoint)coordVirt;
 
 @end

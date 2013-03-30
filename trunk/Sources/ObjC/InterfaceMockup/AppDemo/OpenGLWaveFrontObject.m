@@ -147,13 +147,11 @@ static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexI
 		GLuint allTextureCoordsCount = 0;
 		textureCoordsCount = 0;
 		GLuint groupFaceCount = 0;
-		GLuint groupCoordCount = 0;
 		// Reuse our count variables for second time through
 		vertexCount = 0;
 		faceCount = 0;
 		OpenGLWaveFrontGroup *currentGroup = nil;
 		NSUInteger lineNum = 0;
-		BOOL usingGroups = YES;
 		
 		VertexTextureIndex *rootNode = nil;
 		for (NSString * line in lines)
@@ -216,7 +214,6 @@ static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexI
 				[groups addObject:currentGroup];
 				[currentGroup release];
 				groupFaceCount = 0;
-				groupCoordCount = 0;
 			}
 			else if ([line hasPrefix:@"usemtl "])
 			{
@@ -248,7 +245,6 @@ static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexI
 																	 material:tempMaterial];
 					[groups addObject:currentGroup];
 					[currentGroup release];
-					usingGroups = NO;
 				}
 				
 				// TODO: Look for quads and build two triangles
@@ -297,15 +293,14 @@ static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexI
 			free(allTextureCoords);
 		[vertexCombinations release];
 		VertexTextureIndexFree(rootNode);
-	}
-    
         
-    minCoord.x=extremes.xMin.x;
-    minCoord.y=extremes.yMin.y;
-    minCoord.z=extremes.zMin.z;
-    maxCoord.x=extremes.xMax.x;
-    maxCoord.y=extremes.yMax.y;
-    maxCoord.z=extremes.zMax.z;
+        minCoord.x=extremes.xMin.x;
+        minCoord.y=extremes.yMin.y;
+        minCoord.z=extremes.zMin.z;
+        maxCoord.x=extremes.xMax.x;
+        maxCoord.y=extremes.yMax.y;
+        maxCoord.z=extremes.zMax.z;
+	}
     
 	return self;
 }

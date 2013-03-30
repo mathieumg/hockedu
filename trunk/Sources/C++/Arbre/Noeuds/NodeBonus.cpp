@@ -352,8 +352,6 @@ void NodeBonus::updatePhysicBody()
     {
         clearPhysicsBody();
 
-        float halfLength = mScale[VX]*DEFAULT_SIZE[VX]/2.f*utilitaire::ratioWorldToBox2D;
-        float halfHeight = mScale[VY]*DEFAULT_SIZE[VY]/2.f*utilitaire::ratioWorldToBox2D;
 
         b2BodyDef myBodyDef;
         myBodyDef.type = IsInGame() ? b2_staticBody : b2_dynamicBody; //this will be a dynamic body
