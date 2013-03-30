@@ -854,6 +854,24 @@ void SetAchievementUnlocked( AchievementUnlockCallBack callback )
     AchievementsManager::obtenirInstance()->setAchievementUnlockedCallback(callback);
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn requestGamesList()
+///
+/// Sends a packet to request the games list from the master server.
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void requestGamesList()
+{
+    PaquetEvent* wPaquet = (PaquetEvent*)GestionnaireReseau::obtenirInstance()->creerPaquet(EVENT);
+    wPaquet->setEventCode(GAMES_LIST_REQUEST);
+    wPaquet->setMessage(GestionnaireReseau::obtenirInstance()->getPlayerName());
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
+}
+
 
 int GetNbrServerGames()
 {

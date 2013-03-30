@@ -94,9 +94,7 @@ Socket::Socket( HANDLE_SOCKET socket, sockaddr_in* socketInfo, ConnectionType pC
 
     if(mSocket == INVALID_SOCKET)
     {
-#ifdef WINDOWS
-        int i = WSAGetLastError();
-#endif
+        int i = FacadePortability::getLastError();
         throw ExceptionReseau("Could not initialize socket (Copy).");
     }
 }
@@ -379,9 +377,7 @@ void Socket::connect( )
 {
 	if(::connect(mSocket, (sockaddr*) mSocketInfo, sizeof(sockaddr_in)) == -1)
 	{
-#ifdef WINDOWS
-        int wError = WSAGetLastError();
-#endif
+        int wError = FacadePortability::getLastError();
 		throw ExceptionReseau("Error while connecting to the specified address: " + getAdresseDestination());
 	}
 }

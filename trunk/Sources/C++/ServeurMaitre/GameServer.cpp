@@ -13,7 +13,7 @@
 /// @param[in] std::string& pServerIP The server's IP.
 /// @param[in] std::string& pServerIdentifier The server's identifier in the socket map.
 
-/// @return 
+/// @return
 ///
 ////////////////////////////////////////////////////////////////////////
 GameServer::GameServer(unsigned int pServerId, std::string& pServerIP, std::string& pServerIdentifier)
@@ -28,14 +28,14 @@ GameServer::GameServer(unsigned int pServerId, std::string& pServerIP, std::stri
 /// Destructor - ensures every Game was removed from the container.
 ///
 ///
-/// @return 
+/// @return
 ///
 ////////////////////////////////////////////////////////////////////////
 GameServer::~GameServer()
 {
     for(auto it = mGamesList.begin(); it != mGamesList.end(); ++it)
     {
-        removeGame((*it).first);
+        removeGame(it->first);
     }
 }
 
@@ -53,11 +53,14 @@ GameServer::~GameServer()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GameServer::addGame( int pGameId, std::string pGameName, std::string pMapName, std::string pUsername )
+void GameServer::addGame( const int& pGameId, const std::string& pGameName, const std::string& pMapName, const std::string& pUsername, const std::string& pPassword )
 {
     PartieServeurs* wGame = new PartieServeurs(pUsername, "");
     wGame->setGameName(pGameName);
     wGame->setMapName(pMapName);
+    wGame->setPassword(pPassword);
+    wGame->setServerId(mServerId);
+    wGame->setUniqueGameId(pGameId);
     addGame(pGameId, wGame);
 }
 
@@ -81,7 +84,7 @@ void GameServer::addGame( int pGameId, PartieServeurs* pGame )
     {
         throw ExceptionReseau("The specified game ID already exists on this server.");
     }
-    
+
     mGamesList[pGameId] = pGame;
 }
 
@@ -97,7 +100,7 @@ void GameServer::addGame( int pGameId, PartieServeurs* pGame )
 /// @return PartieServeurs* The game with the specified game ID.
 ///
 ////////////////////////////////////////////////////////////////////////
-PartieServeurs* GameServer::getGame( int pGameId )
+const PartieServeurs* GameServer::getGame( int pGameId )
 {
     auto it = mGamesList.find(pGameId);
 

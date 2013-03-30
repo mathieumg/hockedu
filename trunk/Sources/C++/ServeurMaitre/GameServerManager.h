@@ -9,6 +9,7 @@ namespace std {using namespace __gnu_cxx; }
 
 
 class GameServer;
+typedef std::hash_map<unsigned int, GameServer*> GameServersContainer;
 
 class GameServerManager: public Singleton<GameServerManager>
 {
@@ -22,6 +23,8 @@ public:
 
     unsigned int selectRandomGameServer();
 
+    const GameServersContainer& getGameServersContainer() const { return mGameServersList; }
+
     static unsigned int generateNewGameServerId() { return ++mNewGameServerId; }
     static unsigned int getLatestGameServerId() { return mNewGameServerId; }
     static unsigned int getAddedGameServersAmount() { return mAddedGameServersAmount; }
@@ -29,7 +32,7 @@ private:
     GameServerManager();
     ~GameServerManager();
     void addNewGameServer(unsigned int pGameServerId, GameServer* pGameServer);
-    std::hash_map<unsigned int, GameServer*> mGameServersList;
+    GameServersContainer mGameServersList;
     static unsigned int mAddedGameServersAmount;
     static unsigned int mNewGameServerId;
 };

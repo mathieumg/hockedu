@@ -9,6 +9,7 @@
 #include "../Reseau/ObjetsGlobaux/PartieServeurs.h"
 #include "GameServerManager.h"
 #include "../Reseau/RelayeurMessage.h"
+#include "GameServer.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -89,6 +90,34 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
         {
             std::cout << "Event: Tentative de connexion de " << va_arg(pListeElems,char*) << std::endl;
             break;
+        }
+    case GAMES_LIST_REQUEST:
+        {
+            std::string wPlayerName(va_arg(pListeElems,char*));
+#if !SHIPPING
+            std::cout << "Games list requested" << std::endl;
+#endif
+            auto wGameServersContainer = GameServerManager::obtenirInstance()->getGameServersContainer();
+            for(auto wGameServerIt = wGameServersContainer.begin(); wGameServerIt != wGameServersContainer.end(); ++wGameServerIt)
+            {
+                auto wGamesContainer = wGameServerIt->second->getGamesContainer();
+                for(auto wGameIt = wGamesContainer.begin(); wGameIt != wGamesContainer.end(); ++wGameIt)
+                {
+                    PaquetEvent* wPaquet = (PaquetEvent*)GestionnaireReseau::obtenirInstance()->creerPaquet(EVENT);
+                    wPaquet->setEventCode(GAME_ADDED);
+                    std::stringstream message("");
+                    auto wGame = wGameIt->second;
+                    message << wGame->getServerId()         << SEPARATOR
+                            << wGame->getUniqueGameId()     << SEPARATOR
+                            << wGame->getGameName()         << SEPARATOR
+                            << wGame->getPlayer1Name()      << SEPARATOR
+                            << wGame->getPlayer2Name()      << SEPARATOR
+                            << (wGame->getPassword() == "" ? "false" : "true" ) << SEPARATOR
+                            << wGame->getMapName();
+                    wPaquet->setMessage(message.str());
+                    GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPlayerName, wPaquet, TCP);
+                }
+            }
         }
     default:
         std::cout << "EventCode: " << pEventCode << std::endl;
