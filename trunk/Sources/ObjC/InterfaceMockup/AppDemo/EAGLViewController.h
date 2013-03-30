@@ -15,6 +15,7 @@
 #import "Model.h"
 #import "EventManager.h"
 #import "iCarousel.h"
+#import "PieMenu.h"
 
 extern int const LARGEUR_FENETRE;
 extern int const HAUTEUR_FENETRE;
@@ -51,7 +52,20 @@ extern int const HAUTEUR_FENETRE;
     // Utilise pour le rectangle de selection
     CGPoint firstCorner;
     BOOL touchMoved;
+    
+    // Utilise pour le pie menu
+    PieMenu *pieMenu;
+	UILabel *label;
+    //
 }
+
+// Utilise pour le pie menu
+@property (nonatomic, retain) PieMenu *pieMenu;
+@property (nonatomic, retain) IBOutlet UILabel *label;
+
+- (IBAction) fingerSizeAction:(id)sender;
+- (IBAction) leftHandedAction:(id)sender;
+//
 
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;
 @property (nonatomic) NSInteger animationFrameInterval;
@@ -79,6 +93,6 @@ typedef enum{
 - (void)setupView;
 - (CGPoint)convertScreenCoordToVirtualCoord:(CGPoint)pointToConvert;
 - (void)rotationDetectee:(UIGestureRecognizer *)gestureRecognizer;
-- (void)longPressDetected:(UIGestureRecognizer *)gestureRecognizer;
+- (IBAction)longPressDetected:(UILongPressGestureRecognizer*)sender;
 
 @end

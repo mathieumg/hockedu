@@ -36,6 +36,7 @@ enum {
 @property (nonatomic, assign) BOOL wrap;
 @property (nonatomic, assign) BOOL clipsToBounds;
 @property (nonatomic, retain) NSMutableArray *items;
+- (void) itemSelected:(PieMenuItem *)item;
 @end
 
 @implementation EAGLViewController
@@ -51,6 +52,9 @@ enum {
 @synthesize mEventManager;
 @synthesize carousel;
 @synthesize items;
+// Pie menu
+@synthesize pieMenu;
+@synthesize label;
 
 - (void)awakeFromNib
 {
@@ -152,19 +156,136 @@ enum {
 {
     [super viewDidLoad];
     
+    // SETUP DES GESTURES
     UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationDetectee:)];
     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
+    //UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
     
     [rotationGesture setDelegate:self];
     [longPressGesture setDelegate:self];
+    //[tapGesture setDelegate:self];
     
-    [theEAGLView addGestureRecognizer:rotationGesture];
-    [theEAGLView addGestureRecognizer:longPressGesture];
+    [mGLView addGestureRecognizer:rotationGesture];
+    [mGLView addGestureRecognizer:longPressGesture];
+    //[theEAGLView addGestureRecognizer:tapGesture];
     
     [rotationGesture release];
     [longPressGesture release];
+    //[tapGesture release];
+    
+    // FIN SETUP DES GESTURES
     
     carousel.type = iCarouselTypeLinear;
+    
+    // SETUP DU PIE MENU
+	self.pieMenu = [[PieMenu alloc] init];
+	PieMenuItem *itemA = [[PieMenuItem alloc] initWithTitle:@"ItemA"
+													  label:nil
+													 target:self
+												   selector:@selector(itemSelected:)
+												   userInfo:nil
+													   icon:[UIImage imageNamed:@"icon1.png"]];
+    
+	PieMenuItem *itemB = [[PieMenuItem alloc] initWithTitle:@"ItemB"
+													  label:nil
+													 target:self
+												   selector:@selector(itemSelected:)
+												   userInfo:nil
+													   icon:[UIImage imageNamed:@"icon1.png"]];
+	
+	PieMenuItem *itemC = [[PieMenuItem alloc] initWithTitle:@"ItemC"
+													  label:nil
+													 target:self
+												   selector:@selector(itemSelected:)
+												   userInfo:nil
+													   icon:[UIImage imageNamed:@"icon2.png"]];
+	
+	PieMenuItem *itemD = [[PieMenuItem alloc] initWithTitle:@"ItemD"
+													  label:nil
+													 target:self
+												   selector:@selector(itemSelected:)
+												   userInfo:nil
+													   icon:[UIImage imageNamed:@"icon3.png"]];
+	
+	
+	PieMenuItem *itemE = [[PieMenuItem alloc] initWithTitle:@"ItemE"
+													  label:nil
+													 target:self
+												   selector:@selector(itemSelected:)
+												   userInfo:nil
+													   icon:[UIImage imageNamed:@"icon4.png"]];
+	
+	PieMenuItem *itemF = [[PieMenuItem alloc] initWithTitle:@"ItemF"
+													  label:nil
+													 target:self
+												   selector:@selector(itemSelected:)
+												   userInfo:nil
+													   icon:[UIImage imageNamed:@"icon4.png"]];
+	
+	PieMenuItem *itemG = [[PieMenuItem alloc] initWithTitle:@"ItemG"
+													  label:nil
+													 target:self
+												   selector:@selector(itemSelected:)
+												   userInfo:nil
+													   icon:[UIImage imageNamed:@"icon4.png"]];
+	
+	
+	[itemA addSubItem:itemE];
+	[itemA addSubItem:itemB];
+	[itemA addSubItem:itemD];
+	
+	//[pieMenu addItem:itemD];
+	[pieMenu addItem:itemA];
+	[pieMenu addItem:itemC];
+	//[pieMenu addItem:itemE];
+	//[pieMenu addItem:itemB];
+	[pieMenu addItem:itemF];
+	[pieMenu addItem:itemG];
+	
+	[itemA release];
+	[itemB release];
+	[itemC release];
+	[itemD release];
+	[itemE release];
+	[itemF release];
+	[itemG release];
+}
+
+- (void) itemSelected:(PieMenuItem *)item {
+    
+    // Fonction appelle lorsqun item du pie menu est selectionne
+	NSLog(@"Item '%s' selected", [item.title UTF8String]);
+	label.text = [NSString stringWithFormat:@"Item '%s' selected", [item.title UTF8String]];
+}
+
+- (IBAction) fingerSizeAction:(id)sender {
+	UISegmentedControl* segCtl = sender;
+	pieMenu.fingerSize = [segCtl selectedSegmentIndex];
+}
+
+- (IBAction) leftHandedAction:(id)sender {
+	UISwitch *swit = (UISwitch *)sender;
+	pieMenu.leftHanded = swit.on;
+}
+
+- (UIResponder *)nextResponder {
+	if (pieMenu.on) {
+		return [pieMenu view];
+	} else {
+		return [super nextResponder];
+	}
+}
+
+- (IBAction)longPressDetected:(UILongPressGestureRecognizer *)sender;
+{
+    //auto a=0;
+    
+    //UITouch *touch = [sender. anyObject];
+	CGPoint p = [sender locationInView:self.mGLView];//[touch locationInView:self.view];
+	[pieMenu showInView:self.view atPoint:p];
+    //[super touchesBegan:touches withEvent:event];
+
+    
 }
 
 
@@ -235,11 +356,6 @@ enum {
     
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-}
-
-- (void)longPressDetected:(UIGestureRecognizer *)gestureRecognizer
-{
-    NSLog(@"LONG PRESS DETECTED!!!!");
 }
 
 - (void)unselectAllTools
