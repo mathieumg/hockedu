@@ -94,6 +94,8 @@ typedef enum
         SERVER_USER_CONNECTING,
         GAME_SERVER_AUTHENTICATION_REQUEST,
         GAME_SERVER_AUTHENTICATION_REPLY,
+        GAMES_LIST_REQUEST,
+        GAME_ADDED,
         SERVER_EVENT_END,
         /// Network event category : end    
 

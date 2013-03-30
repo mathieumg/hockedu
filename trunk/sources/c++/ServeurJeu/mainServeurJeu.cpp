@@ -49,6 +49,7 @@ void ReconnectMaster()
 int main(int argc, char* argv[])  {
     
     std::cout << "--------- Serveur Jeu ---------" << std::endl << std::endl;
+    //std::string wMasterServerIP = "192.168.0.105"; // Adresse par defaut du serveur maitre
     
     //********** Liste des flags
     // -mIP     Adresse IPv4 du serveur Maitre

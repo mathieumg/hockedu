@@ -80,6 +80,11 @@
 		4E2A595D16F2E558002160AE /* NodeBonus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595916F2E558002160AE /* NodeBonus.cpp */; };
 		4E2A595E16F2E558002160AE /* NodeModelRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595B16F2E558002160AE /* NodeModelRender.cpp */; };
 		4E2A596116F2E658002160AE /* BonusModifierFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */; };
+		4E8A52D7170673960043A056 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8A52D2170673960043A056 /* Icon.png */; };
+		4E8A52D8170673960043A056 /* icon1.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8A52D3170673960043A056 /* icon1.png */; };
+		4E8A52D9170673960043A056 /* icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8A52D4170673960043A056 /* icon2.png */; };
+		4E8A52DA170673960043A056 /* icon3.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8A52D5170673960043A056 /* icon3.png */; };
+		4E8A52DB170673960043A056 /* icon4.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8A52D6170673960043A056 /* icon4.png */; };
 		4E8A93A217027E7F008B0C4A /* PieMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8A939B17027E7F008B0C4A /* PieMenu.m */; };
 		4E8A93A317027E7F008B0C4A /* PieMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8A939D17027E7F008B0C4A /* PieMenuItem.m */; };
 		4E8A93A417027E7F008B0C4A /* PieView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8A939F17027E7F008B0C4A /* PieView.m */; };
@@ -351,6 +356,11 @@
 		4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierFactory.cpp; path = ../Usines/BonusModifierFactory.cpp; sourceTree = "<group>"; };
 		4E2A596016F2E658002160AE /* BonusModifierFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierFactory.h; path = ../Usines/BonusModifierFactory.h; sourceTree = "<group>"; };
 		4E2A596216F2E84B002160AE /* Enum_Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enum_Declarations.h; path = "../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"; sourceTree = "<group>"; };
+		4E8A52D2170673960043A056 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		4E8A52D3170673960043A056 /* icon1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1.png; sourceTree = "<group>"; };
+		4E8A52D4170673960043A056 /* icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon2.png; sourceTree = "<group>"; };
+		4E8A52D5170673960043A056 /* icon3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon3.png; sourceTree = "<group>"; };
+		4E8A52D6170673960043A056 /* icon4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon4.png; sourceTree = "<group>"; };
 		4E8A939A17027E7F008B0C4A /* PieMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieMenu.h; sourceTree = "<group>"; };
 		4E8A939B17027E7F008B0C4A /* PieMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieMenu.m; sourceTree = "<group>"; };
 		4E8A939C17027E7F008B0C4A /* PieMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieMenuItem.h; sourceTree = "<group>"; };
@@ -748,6 +758,11 @@
 		4E8A939917027E7F008B0C4A /* PieMenu */ = {
 			isa = PBXGroup;
 			children = (
+				4E8A52D2170673960043A056 /* Icon.png */,
+				4E8A52D3170673960043A056 /* icon1.png */,
+				4E8A52D4170673960043A056 /* icon2.png */,
+				4E8A52D5170673960043A056 /* icon3.png */,
+				4E8A52D6170673960043A056 /* icon4.png */,
 				4E8A939A17027E7F008B0C4A /* PieMenu.h */,
 				4E8A939B17027E7F008B0C4A /* PieMenu.m */,
 				4E8A939C17027E7F008B0C4A /* PieMenuItem.h */,
@@ -1094,6 +1109,12 @@
 				4E9CE9FA16FBB74100B04A12 /* Login.xib in Resources */,
 				4E9CE9FF16FBBA4B00B04A12 /* LoadMapViewController.xib in Resources */,
 				4E99937817027CDC00C68644 /* razor_sharp.png in Resources */,
+
+				4E8A52D7170673960043A056 /* Icon.png in Resources */,
+				4E8A52D8170673960043A056 /* icon1.png in Resources */,
+				4E8A52D9170673960043A056 /* icon2.png in Resources */,
+				4E8A52DA170673960043A056 /* icon3.png in Resources */,
+				4E8A52DB170673960043A056 /* icon4.png in Resources */,
 				4ED0E8201702A1B10043DF70 /* eclair.jpg in Resources */,
 				4ED0E8211702A1B10043DF70 /* portail.mtl in Resources */,
 				4ED0E8221702A1B10043DF70 /* portail.obj in Resources */,

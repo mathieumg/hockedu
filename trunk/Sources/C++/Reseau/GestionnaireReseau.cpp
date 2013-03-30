@@ -73,7 +73,6 @@ void logSetup()
         localtime_s( &wTimeNow, &wTime );
         std::stringstream wFilename;
         wFilename << "NETWORK_LOG_" << wTimeNow.tm_mon << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec << ".txt";
-
         errorLogHandle.open(wFilename.str(), std::fstream::out);
         bLogCreated = true;
     }
@@ -135,47 +134,48 @@ GestionnaireReseau::~GestionnaireReseau()
 void GestionnaireReseau::init()
 {
     // Setup de la map pour les types d'exceptions
+    mMapExceptions[RAZORGAME_ENOTCONN]         = SOCKET_DECONNECTE;    // Socket not connected
+    mMapExceptions[RAZORGAME_ECONNRESET]       = SOCKET_DECONNECTE;    // Connection reset
+    mMapExceptions[RAZORGAME_ECONNABORTED]     = SOCKET_DECONNECTE;    // Connection aborted (ex: il y a eu un problemen de protocole)
+    mMapExceptions[RAZORGAME_ESHUTDOWN]        = SOCKET_DECONNECTE;    // Le socket a ete shutdown
+    mMapExceptions[RAZORGAME_ECONNREFUSED]     = SOCKET_DECONNECTE;    // Connection refusee par le host
+    mMapExceptions[RAZORGAME_ENOTSOCK]         = SOCKET_DECONNECTE;    // Handle de socket invalide, throw un socket Deconnecte pour dire qu'il faut reconnecter/reconstruire le socket
+
+    mMapExceptions[RAZORGAME_ETIMEDOUT]        = TIMEOUT;  // Timeout
+    mMapExceptions[RAZORGAME_EHOSTDOWN]        = TIMEOUT;  // Host is down
+    mMapExceptions[RAZORGAME_EHOSTUNREACH]     = TIMEOUT;  // Host is unreacheable
+
+    mMapExceptions[RAZORGAME_EBADF]                = PARAMETRE_INVALIDE;   // File handle invalide
+    mMapExceptions[RAZORGAME_EFAULT]               = PARAMETRE_INVALIDE;   // Bad address, ex: if the length of an argument, which is a sockaddr structure, is smaller than the sizeof(sockaddr)
+    mMapExceptions[RAZORGAME_EINVAL]               = PARAMETRE_INVALIDE;   // Invalid arguments and/or calls (ex: calling accept() on a non-listening socket)
+    mMapExceptions[RAZORGAME_EDESTADDRREQ]         = PARAMETRE_INVALIDE;   // Pas de variable d'adresse
+    mMapExceptions[RAZORGAME_EPROTOTYPE]           = PARAMETRE_INVALIDE;   // Protocol invalide (ex: set SOCK_STREAM on a UDP socket)
+    mMapExceptions[RAZORGAME_ENOPROTOOPT]          = PARAMETRE_INVALIDE;   // Bad protocol option
+    mMapExceptions[RAZORGAME_EPROTONOSUPPORT]      = PARAMETRE_INVALIDE;   // Protocole pas supporte
+    mMapExceptions[RAZORGAME_ESOCKTNOSUPPORT]      = PARAMETRE_INVALIDE;   // Type de socket pas supporte
+    mMapExceptions[RAZORGAME_EOPNOTSUPP]           = PARAMETRE_INVALIDE;   // Operation pas supportee
+    mMapExceptions[RAZORGAME_EPFNOSUPPORT]         = PARAMETRE_INVALIDE;   // Famille de protocole pas supportee
+    mMapExceptions[RAZORGAME_EAFNOSUPPORT]         = PARAMETRE_INVALIDE;   //Famille d'adresse pas supportee
+    mMapExceptions[RAZORGAME_EADDRNOTAVAIL]        = PARAMETRE_INVALIDE;   // Contexte invalide pour cette adresse
+    mMapExceptions[RAZORGAME_EACCES]               = PARAMETRE_INVALIDE;   // Access refuse (ex: Utilisation d'un socket pour une adresse de broadcast sans lui avoir donner l'option pour les broadcast)
+    mMapExceptions[RAZORGAME_EADDRINUSE]           = PARAMETRE_INVALIDE;   // Adresse deja utilisee (ex: Ne peut pas rebind)
+    mMapExceptions[RAZORGAME_ENETUNREACH]          = PARAMETRE_INVALIDE;   // Pas de route connue pour cette adresse
+    mMapExceptions[RAZORGAME_ELOOP]                = PARAMETRE_INVALIDE;   // Pas capable de traduire le nom
+    mMapExceptions[RAZORGAME_ENAMETOOLONG]         = PARAMETRE_INVALIDE;   // Nom trop long
+
+    mMapExceptions[RAZORGAME_NOT_ENOUGH_MEMORY]   = GLOBALE;  // Memoire insuffisante
+    mMapExceptions[RAZORGAME_EMFILE]               = GLOBALE;  // Trop de sockets ouverts
+    mMapExceptions[RAZORGAME_ENETDOWN]             = GLOBALE;  // Network is down
+    mMapExceptions[RAZORGAME_EUSERS]               = GLOBALE;  // Use quota exceeded
+    mMapExceptions[RAZORGAME_EDQUOT]               = GLOBALE;  // Disk quota exceeded
+
 #ifdef WINDOWS
-    mMapExceptions[WSAENOTCONN]         = SOCKET_DECONNECTE;    // Socket not connected
-    mMapExceptions[WSAECONNRESET]       = SOCKET_DECONNECTE;    // Connection reset
-    mMapExceptions[WSAECONNABORTED]     = SOCKET_DECONNECTE;    // Connection aborted (ex: il y a eu un problemen de protocole)
-    mMapExceptions[WSAESHUTDOWN]        = SOCKET_DECONNECTE;    // Le socket a ete shutdown
-    mMapExceptions[WSAECONNREFUSED]     = SOCKET_DECONNECTE;    // Connection refusee par le host
-    mMapExceptions[WSAENOTSOCK]         = SOCKET_DECONNECTE;    // Handle de socket invalide, throw un socket Deconnecte pour dire qu'il faut reconnecter/reconstruire le socket
-
-    mMapExceptions[WSAETIMEDOUT]        = TIMEOUT;  // Timeout
-    mMapExceptions[WSAEHOSTDOWN]        = TIMEOUT;  // Host is down
-    mMapExceptions[WSAEHOSTUNREACH]     = TIMEOUT;  // Host is unreacheable
-
     mMapExceptions[WSA_INVALID_HANDLE]      = PARAMETRE_INVALIDE;   // Utilisation d'un handle invalide
     mMapExceptions[WSA_INVALID_PARAMETER]   = PARAMETRE_INVALIDE;   // Parametre invalide
-    mMapExceptions[WSAEBADF]                = PARAMETRE_INVALIDE;   // File handle invalide
-    mMapExceptions[WSAEFAULT]               = PARAMETRE_INVALIDE;   // Bad address, ex: if the length of an argument, which is a sockaddr structure, is smaller than the sizeof(sockaddr)
-    mMapExceptions[WSAEINVAL]               = PARAMETRE_INVALIDE;   // Invalid arguments and/or calls (ex: calling accept() on a non-listening socket)
-    mMapExceptions[WSAEDESTADDRREQ]         = PARAMETRE_INVALIDE;   // Pas de variable d'adresse
-    mMapExceptions[WSAEPROTOTYPE]           = PARAMETRE_INVALIDE;   // Protocol invalide (ex: set SOCK_STREAM on a UDP socket)
-    mMapExceptions[WSAENOPROTOOPT]          = PARAMETRE_INVALIDE;   // Bad protocol option
-    mMapExceptions[WSAEPROTONOSUPPORT]      = PARAMETRE_INVALIDE;   // Protocole pas supporte
-    mMapExceptions[WSAESOCKTNOSUPPORT]      = PARAMETRE_INVALIDE;   // Type de socket pas supporte
-    mMapExceptions[WSAEOPNOTSUPP]           = PARAMETRE_INVALIDE;   // Operation pas supportee
-    mMapExceptions[WSAEPFNOSUPPORT]         = PARAMETRE_INVALIDE;   // Famille de protocole pas supportee
-    mMapExceptions[WSAEAFNOSUPPORT]         = PARAMETRE_INVALIDE;   //Famille d'adresse pas supportee
-    mMapExceptions[WSAEADDRNOTAVAIL]        = PARAMETRE_INVALIDE;   // Contexte invalide pour cette adresse
-    mMapExceptions[WSAEACCES]               = PARAMETRE_INVALIDE;   // Access refuse (ex: Utilisation d'un socket pour une adresse de broadcast sans lui avoir donner l'option pour les broadcast)
-    mMapExceptions[WSAEADDRINUSE]           = PARAMETRE_INVALIDE;   // Adresse deja utilisee (ex: Ne peut pas rebind)
-    mMapExceptions[WSAENETUNREACH]          = PARAMETRE_INVALIDE;   // Pas de route connue pour cette adresse
-    mMapExceptions[WSAELOOP]                = PARAMETRE_INVALIDE;   // Pas capable de traduire le nom
-    mMapExceptions[WSAENAMETOOLONG]         = PARAMETRE_INVALIDE;   // Nom trop long
-
-    mMapExceptions[WSA_NOT_ENOUGH_MEMORY]   = GLOBALE;  // Memoire insuffisante
-    mMapExceptions[WSAEMFILE]               = GLOBALE;  // Trop de sockets ouverts
-    mMapExceptions[WSAENETDOWN]             = GLOBALE;  // Network is down
-    mMapExceptions[WSAEPROCLIM]             = GLOBALE;  // Trop de process
-    mMapExceptions[WSAEUSERS]               = GLOBALE;  // Use quota exceeded
-    mMapExceptions[WSAEDQUOT]               = GLOBALE;  // Disk quota exceeded
-    mMapExceptions[WSASYSNOTREADY]          = GLOBALE;  // Erreur a l'initialisation de Winsock
-    mMapExceptions[WSAVERNOTSUPPORTED]      = GLOBALE;  // Version de Winsock pas supportee
-    mMapExceptions[WSANOTINITIALISED]       = GLOBALE;  // Winsock pas encore initialise
+    mMapExceptions[RAZORGAME_EPROCLIM]             = GLOBALE;  // Trop de process
+    mMapExceptions[RAZORGAME_SYSNOTREADY]          = GLOBALE;  // Erreur a l'initialisation de Winsock
+    mMapExceptions[RAZORGAME_VERNOTSUPPORTED]      = GLOBALE;  // Version de Winsock pas supportee
+    mMapExceptions[RAZORGAME_NOTINITIALISED]       = GLOBALE;  // Winsock pas encore initialise
     mMapExceptions[WSASYSCALLFAILURE]       = GLOBALE;  // System call failure
     mMapExceptions[WSASERVICE_NOT_FOUND]    = GLOBALE;  // Service not found
     mMapExceptions[WSATYPE_NOT_FOUND]       = GLOBALE;  // Class type not found
@@ -193,7 +193,7 @@ void GestionnaireReseau::init()
 	int iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
 #endif
 
-    
+
 
 
 #ifdef WINDOWS
@@ -202,7 +202,6 @@ void GestionnaireReseau::init()
         throw ExceptionReseau("Erreur init de Gestionnaire Reseau", NULL);
     }
 #endif
-
 }
 
 
@@ -365,7 +364,7 @@ void GestionnaireReseau::envoyerPaquet( const std::string& pConnectionId, Paquet
     }
     else
     {
-        
+
         pPaquet->removeAssociatedQuery();
     }
 }
@@ -447,7 +446,7 @@ Paquet* GestionnaireReseau::creerPaquet( const PacketTypes pOperation )
 /// @param[in] const std::string& pIP			: Adresse IP du Socket a creer
 /// @param[in] ConnectionType pConnectionType	: Type de connectiona  demarrer (TCP ou UDP)
 ///
-/// @return     : Socket*	: Pointeur vers le socket qui vient d'être créer
+/// @return     : Socket*	: Pointeur vers le socket qui vient d'Ãªtre crÃ©er
 ///
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireReseau::demarrerNouvelleConnection(const std::string& pConnectionId, const std::string& pIP, ConnectionType pConnectionType)
@@ -774,9 +773,7 @@ void GestionnaireReseau::sendMessageToLog( const std::string& pMessage )
         struct tm wTimeNow;
         localtime_s( &wTimeNow, &wTime );
         errorLogHandle << "[" << wTimeNow.tm_hour << ":" << wTimeNow.tm_min << ":" << wTimeNow.tm_sec << "] ";
-#ifdef WINDOWS
-        errorLogHandle << ExceptionReseau::getLastErrorMessage("", WSAGetLastError());
-#endif
+        errorLogHandle << ExceptionReseau::getLastErrorMessage("", FacadePortability::getLastError());
         errorLogHandle << " " << pMessage << std::endl;
 		errorLogHandle.flush(); // Pour etre certain d'avoir tout meme si le programme crash
 	}
@@ -795,11 +792,7 @@ void GestionnaireReseau::sendMessageToLog( const std::string& pMessage )
 void GestionnaireReseau::throwExceptionReseau(const std::string& pMessagePrefix /* = "" */) const
 {
     ExceptionTypes wType;
-#ifdef WINDOWS
-    int wErreur = WSAGetLastError();
-#elif defined(LINUX)
-    int wErreur = -1;
-#endif
+    int wErreur = FacadePortability::getLastError();
 
     try
     {
@@ -886,7 +879,7 @@ std::string GestionnaireReseau::getPlayerPassword()
 
 
 
-std::string GestionnaireReseau::getSocketIdentifier( SPSocket wSocket ) 
+std::string GestionnaireReseau::getSocketIdentifier( SPSocket wSocket )
 {
     std::string wBuf;
     FacadePortability::takeMutex(mMutexListeSockets);
@@ -1042,7 +1035,7 @@ void GestionnaireReseau::initServer()
     // Demarre les threads de reception UDP (pour serveur et client)
     mCommunicateurReseau.demarrerThreadsReceptionUDPServeurJeu();
 
-    
+
 
     // Demarrer Thread connexion automatique
 }

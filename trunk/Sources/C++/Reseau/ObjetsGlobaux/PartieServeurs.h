@@ -25,6 +25,8 @@ class PartieServeurs {
 private:
     friend class PaquetGameStatus;
 
+    unsigned int mServerId;
+
     // Id de la partie
     int mUniqueGameId;
     
@@ -37,6 +39,8 @@ private:
 
     // Nom de la partie
     std::string mGameName;
+
+    std::string mPassword;
 
     // Score des joueurs
     int mPlayer1Score;
@@ -58,13 +62,22 @@ public:
     PartieServeurs( PartieServeurs* pSource);
 	~PartieServeurs();
 
+    /// Gets the value of ServerId
+    unsigned int getServerId() const { return mServerId; }
+    /// Sets the value of ServerId
+    void setServerId(const unsigned int& pServerId) { mServerId = pServerId; }
+
     int getUniqueGameId() const { return mUniqueGameId; }
+    void setUniqueGameId(const int& pUniqueGameId) { mUniqueGameId = pUniqueGameId; }  
 
     inline void setPlayerName1( const std::string& pPlayerName1 ) {mPlayer1Name = pPlayerName1;}
     inline void setPlayerName2( const std::string& pPlayerName2 ) {mPlayer2Name = pPlayerName2;}
 
     std::string getPlayer1Name() const { return mPlayer1Name; }
     std::string getPlayer2Name() const { return mPlayer2Name; }
+
+    std::string getPassword() const { return mPassword; }
+    void setPassword(const std::string& pPassword) { mPassword = pPassword; }
 
     std::string getMapName() const { return mMapName; }
     void setMapName(std::string pMapName) { mMapName = pMapName; }
