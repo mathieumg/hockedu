@@ -36,7 +36,7 @@ Tournoi::Tournoi(): estEnCours_(false)
 
     for(int i=0; i<nbrParties_; ++i)
     {
-        parties_[i] = GameManager::obtenirInstance()->addNewGame(NULL, NULL, true);
+        parties_[i] = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE,NULL, NULL, true);
     }
 }
 

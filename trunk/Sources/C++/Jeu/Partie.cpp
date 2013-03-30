@@ -47,9 +47,9 @@ const int Partie::POINTAGE_GAGNANT = 7;
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-Partie::Partie(SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, const std::vector<GameUpdateCallback>& updateCallback /*= 0*/ ):
+Partie::Partie(GameType gameType, SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, const std::vector<GameUpdateCallback>& updateCallback /*= 0*/ ):
 pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 60, joueurGauche, joueurDroit),
-mIsNetworkClientGame(false),mIsNetworkServerGame(false)
+mGameType(gameType)
 {
     chiffres_ = new NoeudAffichage("3");
     mField = new Terrain(this);
@@ -62,7 +62,6 @@ mIsNetworkClientGame(false),mIsNetworkServerGame(false)
     mPartieSyncer.setPlayers(joueurGauche, joueurDroit);
 
     GestionnaireAnimations::obtenirInstance()->attach(this);
-    recalculateNetworkGameFlags();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -307,7 +306,6 @@ void Partie::assignerJoueur( SPJoueurAbstrait joueur )
         modifierJoueurDroit(joueur);
     callGameUpdate(mGameStatus);
     mPartieSyncer.setPlayers(joueurGauche_, joueurDroit_);
-    recalculateNetworkGameFlags();
 //  else
 //      delete joueur;
 }
@@ -642,7 +640,6 @@ void Partie::modifierJoueurDroit( SPJoueurAbstrait val )
     joueurDroit_ = val;
     callGameUpdate(mGameStatus);
     mPartieSyncer.setPlayers(NULL, joueurDroit_);
-    recalculateNetworkGameFlags();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -663,7 +660,6 @@ void Partie::modifierJoueurGauche( SPJoueurAbstrait val )
     joueurGauche_ = val;
     callGameUpdate(mGameStatus);
     mPartieSyncer.setPlayers(joueurGauche_, NULL);
-    recalculateNetworkGameFlags();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -983,41 +979,6 @@ void Partie::setPassword( const std::string& pPassword )
     {
         mRequirePassword = false;
     }
-}
-
-
-
-bool Partie::isNetworkClientGame() const
-{
-    return mIsNetworkClientGame;
-}
-
-
-
-bool Partie::isNetworkServerGame() const
-{
-    return mIsNetworkServerGame;
-}
-
-
-
-void Partie::recalculateNetworkGameFlags()
-{
-    // Est une partie network point de vue du client si les 2 joueurs sont des joueurs network_server
-    SPJoueurAbstrait wJoueurGauche = obtenirJoueurGauche();
-    SPJoueurAbstrait wJoueurDroit = obtenirJoueurDroit();
-
-    if(wJoueurGauche && wJoueurDroit)
-    {
-        mIsNetworkServerGame = wJoueurGauche->obtenirType() == JOUEUR_NETWORK_SERVEUR && wJoueurDroit->obtenirType() == JOUEUR_NETWORK_SERVEUR;
-        mIsNetworkClientGame = wJoueurGauche->obtenirType() == JOUEUR_NETWORK || wJoueurDroit->obtenirType() == JOUEUR_NETWORK;;
-    }
-    else
-    {
-        mIsNetworkServerGame = false;
-        mIsNetworkClientGame = false;
-    }
-
 }
 
 ////////////////////////////////////////////////////////////////////////

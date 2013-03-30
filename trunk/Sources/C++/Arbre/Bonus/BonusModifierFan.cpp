@@ -169,10 +169,12 @@ void BonusModifierFan::render() const
     if(listeFan)
     {
         glPushMatrix();
+        glPushAttrib(GL_ALL_ATTRIB_BITS);
         auto pos = mOwner->getPosition();
         glTranslatef(pos[VX],pos[VY],0);
         glRotatef(mAngle,0,0,1);
         glCallList(listeFan);
+        glPopAttrib();
         glPopMatrix();
     }
 #endif

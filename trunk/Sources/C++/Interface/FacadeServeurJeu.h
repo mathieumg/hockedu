@@ -13,10 +13,8 @@
 
 extern "C" 
 {
-    DLLEXPORT_SERVEUR_JEU void InitDLLServeurJeu(std::string& pMasterServerIP);
-
-
-
+    DLLEXPORT_SERVEUR_JEU void InitDLLServeurJeu();
+    DLLEXPORT_SERVEUR_JEU void ConnectMasterServer(const std::string& wMasterServerIP);
 
     class ControllerInterface;
     class Paquet;

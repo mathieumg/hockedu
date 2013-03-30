@@ -258,6 +258,13 @@ namespace UIHeavyClient
                 debugMenu.Items.Add(debugItem);
             }
 
+            {
+                System.Windows.Controls.MenuItem debugItem = new System.Windows.Controls.MenuItem();
+                debugItem.Header = "Switch Play Mode";
+                debugItem.Click += SwitchPlayMode;
+                debugMenu.Items.Add( debugItem );
+            }
+
             
 
 #endif
@@ -270,6 +277,11 @@ namespace UIHeavyClient
             this.KeyDown += MainWindow_KeyDown;
             this.KeyUp += MainWindow_KeyUp;
             
+        }
+
+        void SwitchPlayMode( object sender, RoutedEventArgs e )
+        {
+            MainWindowHandler.GoToPlayMode( ActionType.ACTION_ALLER_MODE_JEU );
         }
         [DllImport(@"RazerGame.dll")]
         public static extern void ReloadModels();

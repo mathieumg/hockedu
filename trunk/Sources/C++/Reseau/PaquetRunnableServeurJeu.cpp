@@ -211,7 +211,7 @@ int PaquetRunnable::RunnableGameCreationServerGame( Paquet* pPaquet )
     if(!GameManager::obtenirInstance()->getGame(wPaquet->getGameName()))
     {
         // On peut creer la partie
-        int wGameId = GameManager::obtenirInstance()->addNewGame(SPJoueurAbstrait(0), SPJoueurAbstrait(0), true);
+        int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_NETWORK_SERVER,SPJoueurAbstrait(0), SPJoueurAbstrait(0), true);
         //GameManager::obtenirInstance()->setMapForGame(wGameId, wPaquet->getMapName());
         Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
         wGame->setName(wPaquet->getGameName());

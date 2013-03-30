@@ -16,6 +16,7 @@
 #include "NoeudAbstrait.h"
 #include "Utilitaire.h"
 #include "NoeudRondelle.h"
+#include "NoeudMaillet.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -149,15 +150,15 @@ bool BonusModifierChangeZone::Revert()
         fixture->SetFilterData(filter);
     }
 #endif
-    NoeudRondelle* rondelle = (NoeudRondelle*)mOwner;
-    if(rondelle)
+    NoeudMaillet* maillet = (NoeudMaillet*)mOwner;
+    if(maillet)
     {
-        auto pos = rondelle->getPosition();
-        auto initialPos = rondelle->obtenirPositionOriginale();
+        auto pos = maillet->getPosition();
+        auto initialPos = maillet->obtenirPositionOriginale();
         // verification si le maillet n'est plus dans sa zone
         if(pos[VX]*initialPos[VX] <= 0)
         {
-            rondelle->setPosition(initialPos);
+            maillet->setPosition(initialPos);
         }
     }
     return true;
@@ -177,6 +178,7 @@ bool BonusModifierChangeZone::Revert()
 ////////////////////////////////////////////////////////////////////////
 void BonusModifierChangeZone::render() const
 {
+
 }
 
 ////////////////////////////////////////////////////////////////////////
