@@ -7,21 +7,21 @@
 //
 
 #import "EditorStateAdd.h"
-
+#import "Enum_Declarations.h"
 @implementation EditorStateAdd
 -(EditorStateAdd*) init:(FieldModificationStrategyType)type
 {
     return self;
 }
--(void)touchesBegan:(UITouch *)touch
+-(void)touchesBegan:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model
+{
+    [model beginModification:FIELD_MODIFICATION_ADD_PORTAL:coordVirt];
+}
+-(void)touchesMoved:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model
 {
     
 }
--(void)touchesMoved:(UITouch *)touch
-{
-    
-}
--(void)touchesEnded:(UITouch *)touch
+-(void)touchesEnded:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model
 {
     
 }

@@ -13,9 +13,10 @@
 #import "EditorStateSelection.h"
 #import "EditorStateTransform.h"
 #import "EditorStateView.h"
+#import "Model.h"
 @interface EventManager : NSObject
 @property (nonatomic, retain) EditorStateAbstract *mCurrentState;
-
+@property (nonatomic, retain) Model *mModel;
 typedef enum {
 	EDITOR_STATE_MOVE_WINDOW
 	,EDITOR_STATE_ZOOM_PROPORTIONNEL
@@ -35,9 +36,10 @@ typedef enum {
 	,EDITOR_STATE_INCONNU
 } EditorStateName;
 
--(EventManager*) init;
+-(EventManager*) init:(Model*)model;
 -(void) modifyState:(EditorStateName)editorState;
--(void)touchesBegan:(UITouch *)touch;
--(void)touchesMoved:(UITouch *)touch;
--(void)touchesEnded:(UITouch *)touch;
+-(void)touchesBegan:(UITouch *)touch:(CGPoint)coordVirt;
+-(void)touchesMoved:(UITouch *)touch:(CGPoint)coordVirt;
+-(void)touchesEnded:(UITouch *)touch:(CGPoint)coordVirt;
+
 @end
