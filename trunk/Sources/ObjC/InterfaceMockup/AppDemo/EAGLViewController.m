@@ -709,50 +709,6 @@ enum {
     
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    // Draw the background grid.
-    glColor4f( 1.0, 1.0, 1.0, 1.0 );
-    
-    int x1 = translationX - LARGEUR_FENETRE / 2;
-    int x2 = translationX + LARGEUR_FENETRE / 2;
-    int y1 = translationY - HAUTEUR_FENETRE / 2;
-    int y2 = translationY + HAUTEUR_FENETRE / 2;
-    
-    const int intervalle = 50;
-    const int zValue = -5;
-    const int size = ( ( ( LARGEUR_FENETRE + HAUTEUR_FENETRE ) / intervalle ) + 5 ) * 3 * 2;
-    GLfloat vertices[ size ];
-    
-    int count = 0;
-    // Vertical lines.
-    for( int a = x1 - x1 % intervalle; a < x2; a += intervalle )
-    {
-        vertices[ count++ ] = a;
-        vertices[ count++ ] = y1;
-        vertices[ count++ ] = zValue;
-        
-        vertices[ count++ ] = a;
-        vertices[ count++ ] = y2;
-        vertices[ count++ ] = zValue;
-    }
-    
-    // Horizontal lines.
-    for( int a = y1 - y1 % intervalle; a < y2; a += intervalle )
-    {
-        vertices[ count++ ] = x1;
-        vertices[ count++ ] = a;
-        vertices[ count++ ] = zValue;
-        
-        vertices[ count++ ] = x2;
-        vertices[ count++ ] = a;
-        vertices[ count++ ] = zValue;
-    }
-    
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, vertices);
-    glDrawArrays(GL_LINES, 0, count / 3);
-    glDisableClientState(GL_VERTEX_ARRAY);
-    
-    
     //glEnableClientState(GL_VERTEX_ARRAY);
     [mModel render];
     //glDisableClientState(GL_VERTEX_ARRAY);
