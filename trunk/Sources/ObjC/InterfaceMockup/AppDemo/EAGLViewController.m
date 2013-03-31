@@ -265,11 +265,12 @@ enum {
 	[itemG release];
 }
 
+#warning Fonction a mettre dans les settings!!!!!
 - (IBAction) fingerSizeAction:(id)sender {
 	UISegmentedControl* segCtl = sender;
 	pieMenu.fingerSize = [segCtl selectedSegmentIndex];
 }
-
+#warning Fonction a mettre dans les settings!!!!!
 - (IBAction) leftHandedAction:(id)sender {
 	UISwitch *swit = (UISwitch *)sender;
 	pieMenu.leftHanded = swit.on;
@@ -291,7 +292,7 @@ enum {
 	CGPoint p = [sender locationInView:self.mGLView];//[touch locationInView:self.view];
 	[pieMenu showInView:self.view atPoint:p];
     //[super touchesBegan:touches withEvent:event];
-
+    [mModel eventCancel];
     
 }
 
@@ -368,18 +369,18 @@ enum {
 - (void)unselectAllTools
 {
     // AJOUTER TOUS NOUVEAUX TOOL ICI
-    mMoveTool = false;
-    mSelectTool = false;
+    //mMoveTool = false;
+    //mSelectTool = false;
 }
 -(IBAction) selectionModeButtonTouched:(UIButton *)sender
 {
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
     // En mode selection, on ne peut pas ajouter ditem
-    itemToBeAdded = -1;
+    //itemToBeAdded = -1;
     // On ne peut pas avoir creationmode et selection mode en meme temps
-    mCreationMode = false;
+    //mCreationMode = false;
     // On inverse selection mode
-    mSelectionMode = !mSelectionMode;
+    //mSelectionMode = !mSelectionMode;
     //[sender setSelected:![sender isSelected]];
     
 }
@@ -389,9 +390,9 @@ enum {
 {
     [mEventManager modifyState:EDITOR_STATE_AJOUTER_PORTAIL];
     // En creation mode, on ne peut quajouter des nouveaux items, aucun tool de disponible
-    [self unselectAllTools];
-    mCreationMode = !mCreationMode;
-    mSelectionMode = false;
+//    [self unselectAllTools];
+//    mCreationMode = !mCreationMode;
+//    mSelectionMode = false;
     //[sender setSelected:![sender isSelected]];
     
 }
@@ -402,21 +403,25 @@ enum {
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
     
     // Disponible uniquement si on est en selectionmode
-    if (mSelectionMode) {
-        mSelectTool = true;
-        mMoveTool = false;
-    }
+//    if (mSelectionMode) {
+//        mSelectTool = true;
+//        mMoveTool = false;
+//    }
     
 }
 - (IBAction)moveToolButtonTouched:(UIButton *)sender
 {
     [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_DEPLACEMENT];
     // Disponible uniquement si on est en selectionmode
-    if (mSelectionMode) {
-        mSelectTool = false;
-        mMoveTool = true;
-    }
+//    if (mSelectionMode) {
+//        mSelectTool = false;
+//        mMoveTool = true;
+//    }
     
+}
+- (IBAction)rotationToolButtonTouched:(UIButton *)sender
+{
+    [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_ROTATION];
 }
 
 - (IBAction)portalButtonTouched:(UIButton *)sender
@@ -456,9 +461,9 @@ enum {
     CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
     [mEventManager touchesBegan:touch:touchCoordVirt];
     // On prend en note le point ou le toucher a commencer
-    firstCorner = [touch locationInView:theEAGLView];
-    // On reinßitialise le bool disant si on drag
-    touchMoved = false;
+    //firstCorner = [touch locationInView:theEAGLView];
+    // On reinitialise le bool disant si on drag
+    //touchMoved = false;
 //    if (mCreationMode)
 //    {
 //        //CGPoint randomPoint;
@@ -603,9 +608,10 @@ enum {
     if ([[event allTouches] count] == 1)
     {
         UITouch *touch = [[event allTouches] anyObject];
+        //CGPoint positionCourante = [touch locationInView:theEAGLView];
         CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
         [mEventManager touchesEnded:touch:touchCoordVirt];
-//        CGPoint positionCourante = [touch locationInView:theEAGLView];
+//        
 //        if (mCreationMode) {
 //            // Destruction de limage de lobjet qui suit la position du doigt
 //            

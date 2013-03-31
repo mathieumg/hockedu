@@ -24,4 +24,5 @@
 -(void) beginModification:(FieldModificationStrategyType)type:(CGPoint)coordVirt;
 -(void) eventModification:(FieldModificationStrategyEventType)type:(CGPoint)coordVirt;
 -(void) eventCancel;
+-(void) endModification;
 @end

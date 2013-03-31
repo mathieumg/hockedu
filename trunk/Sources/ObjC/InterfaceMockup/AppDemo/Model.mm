@@ -16,7 +16,6 @@
 
 
 static Model3DManager* model3DManager = NULL;
-
 void EditionEventCallback(EditionEventCodes pEvent)
 {
     switch (pEvent) {
@@ -90,6 +89,7 @@ bool RenderNodeCallback(RazerKey key)
     [mModel3DManager release];
     mModel3DManager = NULL;
     delete (Terrain*)mField;
+    [super dealloc];
 }
 
 -(int)acceptSelectionVisitor:(float)positionMinX: (float)positionMinY:(float) positionMaxX:(float) positionMaxY
@@ -116,6 +116,11 @@ bool RenderNodeCallback(RazerKey key)
     event.mPosition[VX] = coordVirt.x;
     event.mPosition[VY] = coordVirt.y;
     ((Terrain*)mField)->ReceiveModificationEvent(event);
+}
+
+-(void) endModification
+{
+    ((Terrain*)mField)->EndModification();
 }
 
 -(void) eventCancel;

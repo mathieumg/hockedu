@@ -15,14 +15,14 @@
 }
 -(void)touchesBegan:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model
 {
-    
+    [model beginModification:FIELD_MODIFICATION_MOVE :coordVirt];
 }
 -(void)touchesMoved:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model
 {
-    
+    [model eventModification:FIELD_MODIFICATION_EVENT_MOVE:coordVirt];
 }
 -(void)touchesEnded:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model
 {
-    
+    [model endModification];
 }
 @end

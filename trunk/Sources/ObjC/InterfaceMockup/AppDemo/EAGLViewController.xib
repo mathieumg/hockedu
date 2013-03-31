@@ -107,6 +107,7 @@
 										<string key="NSFrame">{{156, 33}, {111, 101}}</string>
 										<reference key="NSSuperview" ref="126840822"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="1034629061"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -114,6 +115,28 @@
 										<int key="IBUIContentVerticalAlignment">0</int>
 										<int key="IBUIButtonType">1</int>
 										<string key="IBUINormalTitle">Move</string>
+										<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
+										<object class="NSColor" key="IBUINormalTitleColor">
+											<int key="NSColorSpace">1</int>
+											<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+										</object>
+										<reference key="IBUINormalTitleShadowColor" ref="721629208"/>
+										<reference key="IBUIFontDescription" ref="437964532"/>
+										<reference key="IBUIFont" ref="589001317"/>
+									</object>
+									<object class="IBUIButton" id="1034629061">
+										<reference key="NSNextResponder" ref="126840822"/>
+										<int key="NSvFlags">292</int>
+										<string key="NSFrame">{{286, 33}, {112, 101}}</string>
+										<reference key="NSSuperview" ref="126840822"/>
+										<reference key="NSWindow"/>
+										<string key="NSReuseIdentifierKey">_NS:9</string>
+										<bool key="IBUIOpaque">NO</bool>
+										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+										<int key="IBUIContentHorizontalAlignment">0</int>
+										<int key="IBUIContentVerticalAlignment">0</int>
+										<int key="IBUIButtonType">1</int>
+										<string key="IBUINormalTitle">Rotation</string>
 										<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
 										<object class="NSColor" key="IBUINormalTitleColor">
 											<int key="NSColorSpace">1</int>
@@ -168,7 +191,7 @@
 										<int key="IBUIContentHorizontalAlignment">0</int>
 										<int key="IBUIContentVerticalAlignment">0</int>
 										<int key="IBUIButtonType">1</int>
-										<string key="IBUINormalTitle">Selection Mode</string>
+										<string key="IBUINormalTitle">Camera Mode</string>
 										<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
 										<object class="NSColor" key="IBUINormalTitleColor">
 											<int key="NSColorSpace">2</int>
@@ -214,7 +237,7 @@
 										<int key="IBUIContentHorizontalAlignment">0</int>
 										<int key="IBUIContentVerticalAlignment">0</int>
 										<int key="IBUIButtonType">1</int>
-										<string key="IBUINormalTitle">Creation Mode</string>
+										<string key="IBUINormalTitle">Edition Mode</string>
 										<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
 										<object class="NSColor" key="IBUINormalTitleColor">
 											<int key="NSColorSpace">2</int>
@@ -442,6 +465,15 @@
 					</object>
 					<int key="connectionID">58</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">rotationToolButtonTouched:</string>
+						<reference key="source" ref="1034629061"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">64</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -505,6 +537,7 @@
 							<reference ref="633385197"/>
 							<reference ref="679950737"/>
 							<reference ref="1021975126"/>
+							<reference ref="1034629061"/>
 						</object>
 						<reference key="parent" ref="8160408"/>
 						<string key="objectName">TopBarView</string>
@@ -554,6 +587,11 @@
 						<reference key="object" ref="19810471"/>
 						<reference key="parent" ref="1031136972"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">63</int>
+						<reference key="object" ref="1034629061"/>
+						<reference key="parent" ref="126840822"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -581,6 +619,7 @@
 					<string>53.IBPluginDependency</string>
 					<string>56.CustomClassName</string>
 					<string>56.IBPluginDependency</string>
+					<string>63.IBPluginDependency</string>
 				</object>
 				<object class="NSArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -605,6 +644,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>iCarousel</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -619,7 +659,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">62</int>
+			<int key="maxID">64</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -632,9 +672,12 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>creationModeButtonTouched:</string>
+							<string>fingerSizeAction:</string>
+							<string>leftHandedAction:</string>
 							<string>longPressDetected:</string>
 							<string>moveToolButtonTouched:</string>
 							<string>portalButtonTouched:</string>
+							<string>rotationToolButtonTouched:</string>
 							<string>saveAndExitButtonTouched:</string>
 							<string>selectToolButtonTouched:</string>
 							<string>selectionModeButtonTouched:</string>
@@ -642,7 +685,10 @@
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIButton</string>
+							<string>id</string>
+							<string>id</string>
 							<string>UILongPressGestureRecognizer</string>
+							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
@@ -655,9 +701,12 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>creationModeButtonTouched:</string>
+							<string>fingerSizeAction:</string>
+							<string>leftHandedAction:</string>
 							<string>longPressDetected:</string>
 							<string>moveToolButtonTouched:</string>
 							<string>portalButtonTouched:</string>
+							<string>rotationToolButtonTouched:</string>
 							<string>saveAndExitButtonTouched:</string>
 							<string>selectToolButtonTouched:</string>
 							<string>selectionModeButtonTouched:</string>
@@ -669,6 +718,14 @@
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">fingerSizeAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">leftHandedAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">longPressDetected:</string>
 								<string key="candidateClassName">UILongPressGestureRecognizer</string>
 							</object>
@@ -678,6 +735,10 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">portalButtonTouched:</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">rotationToolButtonTouched:</string>
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBActionInfo">
@@ -699,6 +760,7 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>carousel</string>
+							<string>labelPieMenu</string>
 							<string>mGLView</string>
 							<string>mSideBarView</string>
 							<string>mTopBarView</string>
@@ -706,6 +768,7 @@
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>iCarousel</string>
+							<string>UILabel</string>
 							<string>UIView</string>
 							<string>UIView</string>
 							<string>UIView</string>
@@ -716,6 +779,7 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>carousel</string>
+							<string>labelPieMenu</string>
 							<string>mGLView</string>
 							<string>mSideBarView</string>
 							<string>mTopBarView</string>
@@ -725,6 +789,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">carousel</string>
 								<string key="candidateClassName">iCarousel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelPieMenu</string>
+								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">mGLView</string>

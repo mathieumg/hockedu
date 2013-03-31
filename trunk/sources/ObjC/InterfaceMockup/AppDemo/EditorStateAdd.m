@@ -19,10 +19,11 @@
 }
 -(void)touchesMoved:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model
 {
-    
+    [model eventModification:FIELD_MODIFICATION_EVENT_MOVE:coordVirt];
 }
 -(void)touchesEnded:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model
 {
-    
+    [model eventModification:FIELD_MODIFICATION_EVENT_CLICK:coordVirt];
+    [model eventCancel];
 }
 @end
