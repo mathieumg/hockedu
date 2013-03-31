@@ -9,13 +9,15 @@
 #import "EditorStateTransform.h"
 
 @implementation EditorStateTransform
+FieldModificationStrategyType _mType;
 -(EditorStateTransform*)init:(FieldModificationStrategyType)type
 {
+    _mType = type;
     return self;
 }
 -(void)touchesBegan:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model
 {
-    [model beginModification:FIELD_MODIFICATION_MOVE :coordVirt];
+    [model beginModification:_mType :coordVirt];
 }
 -(void)touchesMoved:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model
 {
