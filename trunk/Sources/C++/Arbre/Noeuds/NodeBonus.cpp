@@ -264,7 +264,7 @@ void NodeBonus::ExecuteBonus( class NoeudRondelle* rondelle )
     {
         int b = rand()%NB_BONUS_TYPE;
 #if MIKE_DEBUG_
-        b = BONUS_TYPE_GO_THROUGH_WALL; // testing value
+        //b = BONUS_TYPE_GO_THROUGH_WALL; // testing value
 #endif
         auto factory = FactoryBonusModifier::getFactory(BonusType(b));
         if(factory)
