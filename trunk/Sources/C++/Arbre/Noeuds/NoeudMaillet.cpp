@@ -524,14 +524,7 @@ void NoeudMaillet::updatePhysicBody()
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
         myFixtureDef.density = 0.02f;
-        {
-            myFixtureDef.filter.categoryBits = CATEGORY_MALLET;
-            myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_BOUNDARY | CATEGORY_WALL | CATEGORY_MIDLANE;
-        }
-        if(!IsInGame())
-        {
-            myFixtureDef.filter.groupIndex = 1;
-        }
+        RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_MALLET,IsInGame());
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         mPhysicBody->SetUserData(this);

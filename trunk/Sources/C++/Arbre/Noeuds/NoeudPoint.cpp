@@ -465,10 +465,7 @@ void NoeudPoint::updatePhysicBody()
             b2FixtureDef myFixtureDef;
             myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
             myFixtureDef.density = 1;
-
-            myFixtureDef.filter.categoryBits = 0;
-            myFixtureDef.filter.maskBits = 0;
-            myFixtureDef.filter.groupIndex = 1;
+            RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_CONTROL_POINT,IsInGame());
 
             mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
             mPhysicBody->SetUserData(this);

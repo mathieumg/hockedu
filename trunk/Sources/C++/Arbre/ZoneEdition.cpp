@@ -393,8 +393,7 @@ void ZoneEdition::rebuild()
             mPhysicsBody = world->CreateBody(&def);
 
             b2FixtureDef fixtureDef;
-            fixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
-            fixtureDef.filter.maskBits = 0xFFFF;
+            RazerGameUtilities::ApplyFilters(fixtureDef,RAZER_KEY_ZONE_EDITION,false);
 
             /// default filter for edition, collides with everything
 

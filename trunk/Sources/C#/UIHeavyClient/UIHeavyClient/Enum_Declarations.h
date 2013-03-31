@@ -167,6 +167,7 @@ typedef enum
         RAZER_KEY_TABLE                ,
         RAZER_KEY_PORTAL               ,
         RAZER_KEY_PUCK                 ,
+        RAZER_KEY_PUCK_CATCHER                 ,
         RAZER_KEY_PUCK_TROLL           ,
         RAZER_KEY_MALLET               ,
         RAZER_KEY_TABLE_CONTROL_POINT  ,
@@ -183,6 +184,9 @@ typedef enum
         RAZER_KEY_MODEL_2              ,
         RAZER_KEY_MODEL_3              ,
         RAZER_KEY_ROOT_TREE            ,
+        RAZER_KEY_ZONE_EDITION            ,
+        RAZER_KEY_SELECTION_BODY            ,
+        RAZER_KEY_FORCE_FIELD           ,
 
         NB_RAZER_KEYS
     }
@@ -254,6 +258,7 @@ typedef enum
         CATEGORY_WALL     = 0x0040,      /// Expected to have NoeudAbstrait* as user data 
         CATEGORY_FORCE_FIELD = 0x0080,   /// Expected to have ForceField* as user data
         CATEGORY_MIDLANE = 0x0100,   /// Expected to have NoeudTable* as user data
+        CATEGORY_SELECTION = 0x0200,   /// Used to select node inedition
     }
 #if !CSHARP
 PhysicsCategory

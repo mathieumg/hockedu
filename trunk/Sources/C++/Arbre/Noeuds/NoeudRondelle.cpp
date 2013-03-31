@@ -676,20 +676,7 @@ void NoeudRondelle::updatePhysicBody()
         myFixtureDef.density = 0.01f;
         myFixtureDef.friction = 1.0f;
         myFixtureDef.restitution = 0;
-
-        // Il s'agit ici d'une rondelle qui peut entre en collision avec un maillet, un mur, un portail ou un boost
-        myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
-        if(IsInGame())
-        {
-            /// La puck entre en collision avec tout !
-            myFixtureDef.filter.maskBits = 0xFFFF;
-        }
-        else
-        {
-            /// En edition la rondelle et les mailet pourront etre par-dessus des bonus, boost, portals
-            myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY | CATEGORY_WALL;
-            myFixtureDef.filter.groupIndex = 1;
-        }
+        RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_PUCK,IsInGame());
 
         /// calcul plus precis, mais plus couteux de la physique sur la rondelle
         mPhysicBody->SetBullet(true);

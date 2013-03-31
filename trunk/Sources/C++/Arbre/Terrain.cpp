@@ -95,8 +95,8 @@ Terrain::Terrain(Partie* pGame):
 ,mRenderObjC(NULL)
 #endif
 {
-
 #if BOX2D_INTEGRATED
+    RazerGameUtilities::FillPhysicsFilters();
     b2Vec2 gravity(0,0);
     mWorld = new b2World(gravity);
 
@@ -1917,9 +1917,7 @@ bool Terrain::selectNodes( Vecteur2 positionMin, Vecteur2 positionMax, bool togg
     b2FixtureDef myFixtureDef;
     myFixtureDef.shape = &shape; //this is a pointer to the shape above
     myFixtureDef.density = 1;
-    myFixtureDef.filter.categoryBits = 0;
-    myFixtureDef.filter.maskBits = 0;
-    myFixtureDef.filter.groupIndex = 1;
+    RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_SELECTION_BODY,false);
 
     physicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
 

@@ -188,16 +188,8 @@ void NodeRinkBoards::updatePhysicBody()
         myFixtureDef.shape = &shape; //this is a pointer to the shape above
         myFixtureDef.density = 1;
         myFixtureDef.restitution = getReboundRatio();
-        if(IsInGame())
-        {
-            myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
-            myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_MALLET;
-        }
-        else
-        {
-            myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
-            myFixtureDef.filter.maskBits = 0xFFFF;
-        }
+        RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_RINK_BOARD,IsInGame());
+
         
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         mPhysicBody->SetUserData(this);
