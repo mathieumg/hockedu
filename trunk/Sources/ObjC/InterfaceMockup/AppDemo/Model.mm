@@ -70,13 +70,7 @@ bool RenderNodeCallback(RazerKey key)
 
 
 - (void)render
-{
-    glPushMatrix();
-    glTranslatef(15,15,20);
-    RenderNodeCallback(RAZER_KEY_HOUSE);
-    
-    glPopMatrix();
-    
+{    
     ((Terrain*)mField)->renderField();  
 }
 - (id)init

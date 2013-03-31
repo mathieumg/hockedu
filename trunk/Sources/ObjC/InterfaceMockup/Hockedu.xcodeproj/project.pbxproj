@@ -83,6 +83,16 @@
 		4E2A595D16F2E558002160AE /* NodeBonus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595916F2E558002160AE /* NodeBonus.cpp */; };
 		4E2A595E16F2E558002160AE /* NodeModelRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595B16F2E558002160AE /* NodeModelRender.cpp */; };
 		4E2A596116F2E658002160AE /* BonusModifierFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */; };
+		4E6D69AA1707BE9C00CC94CC /* control_point_texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A01707BE9C00CC94CC /* control_point_texture.png */; };
+		4E6D69AB1707BE9C00CC94CC /* couleurMuret.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A11707BE9C00CC94CC /* couleurMuret.png */; };
+		4E6D69AC1707BE9C00CC94CC /* EmptyBonus.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A21707BE9C00CC94CC /* EmptyBonus.png */; };
+		4E6D69AD1707BE9C00CC94CC /* Flames.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A31707BE9C00CC94CC /* Flames.jpg */; };
+		4E6D69AE1707BE9C00CC94CC /* goal_texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A41707BE9C00CC94CC /* goal_texture.png */; };
+		4E6D69AF1707BE9C00CC94CC /* portal_effect.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A51707BE9C00CC94CC /* portal_effect.png */; };
+		4E6D69B01707BE9C00CC94CC /* razer-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A61707BE9C00CC94CC /* razer-logo.png */; };
+		4E6D69B11707BE9C00CC94CC /* redbull_texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A71707BE9C00CC94CC /* redbull_texture.png */; };
+		4E6D69B21707BE9C00CC94CC /* redbull_textureSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A81707BE9C00CC94CC /* redbull_textureSmall.png */; };
+		4E6D69B31707BE9C00CC94CC /* rondelle.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A91707BE9C00CC94CC /* rondelle.png */; };
 		4E8A52D7170673960043A056 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8A52D2170673960043A056 /* Icon.png */; };
 		4E8A52D8170673960043A056 /* icon1.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8A52D3170673960043A056 /* icon1.png */; };
 		4E8A52D9170673960043A056 /* icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8A52D4170673960043A056 /* icon2.png */; };
@@ -113,7 +123,6 @@
 		4EB7EA7916EFBE4100493722 /* VisiteurFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */; };
 		4EC1626E16F81A8C00577704 /* BonusModifierBlockGoal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */; };
 		4EC7359D17015F85002FCF4C /* Solution_Defines.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7359C17015F85002FCF4C /* Solution_Defines.cpp */; };
-		4ED0E8201702A1B10043DF70 /* eclair.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E81D1702A1B10043DF70 /* eclair.jpg */; };
 		4ED0E8211702A1B10043DF70 /* portail.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E81E1702A1B10043DF70 /* portail.mtl */; };
 		4ED0E8221702A1B10043DF70 /* portail.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E81F1702A1B10043DF70 /* portail.obj */; };
 		4ED0E8311702B5D40043DF70 /* accelerateur.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8251702B5D40043DF70 /* accelerateur.mtl */; };
@@ -128,16 +137,10 @@
 		4ED0E83A1702B5D40043DF70 /* muret.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E82E1702B5D40043DF70 /* muret.obj */; };
 		4ED0E83B1702B5D40043DF70 /* rondelle.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E82F1702B5D40043DF70 /* rondelle.mtl */; };
 		4ED0E83C1702B5D40043DF70 /* rondelle.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8301702B5D40043DF70 /* rondelle.obj */; };
-		4ED0E8421702B8250043DF70 /* couleurMuret.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E83D1702B8250043DF70 /* couleurMuret.png */; };
-		4ED0E8431702B8250043DF70 /* poly2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E83E1702B8250043DF70 /* poly2.png */; };
-		4ED0E8441702B8250043DF70 /* razer-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E83F1702B8250043DF70 /* razer-logo.png */; };
-		4ED0E8451702B8250043DF70 /* redbull_textureSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8401702B8250043DF70 /* redbull_textureSmall.png */; };
-		4ED0E8461702B8250043DF70 /* textureRedPlastic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8411702B8250043DF70 /* textureRedPlastic.jpg */; };
 		4ED0E84A1702B8590043DF70 /* control_point.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8471702B8590043DF70 /* control_point.mtl */; };
 		4ED0E84B1702B8590043DF70 /* control_point.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8481702B8590043DF70 /* control_point.obj */; };
 		4ED0E8511702B8A80043DF70 /* point.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E84F1702B8A80043DF70 /* point.mtl */; };
 		4ED0E8521702B8A80043DF70 /* point.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8501702B8A80043DF70 /* point.obj */; };
-		4ED0E8541702B9270043DF70 /* Flames.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8531702B9270043DF70 /* Flames.jpg */; };
 		4ED4BC3516FEED3200227F1E /* FieldModificationStrategyAddNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4BC3116FEED3200227F1E /* FieldModificationStrategyAddNode.cpp */; };
 		4ED4BC3616FEED3200227F1E /* FieldModificationStrategyAddWall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4BC3316FEED3200227F1E /* FieldModificationStrategyAddWall.cpp */; };
 		4EEBBF9A16E86E5B00017127 /* Model.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBF9916E86E5B00017127 /* Model.mm */; };
@@ -365,6 +368,16 @@
 		4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierFactory.cpp; path = ../Usines/BonusModifierFactory.cpp; sourceTree = "<group>"; };
 		4E2A596016F2E658002160AE /* BonusModifierFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierFactory.h; path = ../Usines/BonusModifierFactory.h; sourceTree = "<group>"; };
 		4E2A596216F2E84B002160AE /* Enum_Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enum_Declarations.h; path = "../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"; sourceTree = "<group>"; };
+		4E6D69A01707BE9C00CC94CC /* control_point_texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = control_point_texture.png; path = ../../../../Content/media/control_point_texture.png; sourceTree = "<group>"; };
+		4E6D69A11707BE9C00CC94CC /* couleurMuret.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = couleurMuret.png; path = ../../../../Content/media/couleurMuret.png; sourceTree = "<group>"; };
+		4E6D69A21707BE9C00CC94CC /* EmptyBonus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = EmptyBonus.png; path = ../../../../Content/media/EmptyBonus.png; sourceTree = "<group>"; };
+		4E6D69A31707BE9C00CC94CC /* Flames.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Flames.jpg; path = ../../../../Content/media/Flames.jpg; sourceTree = "<group>"; };
+		4E6D69A41707BE9C00CC94CC /* goal_texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = goal_texture.png; path = ../../../../Content/media/goal_texture.png; sourceTree = "<group>"; };
+		4E6D69A51707BE9C00CC94CC /* portal_effect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = portal_effect.png; path = ../../../../Content/media/portal_effect.png; sourceTree = "<group>"; };
+		4E6D69A61707BE9C00CC94CC /* razer-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "razer-logo.png"; path = "../../../../Content/media/razer-logo.png"; sourceTree = "<group>"; };
+		4E6D69A71707BE9C00CC94CC /* redbull_texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = redbull_texture.png; path = ../../../../Content/media/redbull_texture.png; sourceTree = "<group>"; };
+		4E6D69A81707BE9C00CC94CC /* redbull_textureSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = redbull_textureSmall.png; path = ../../../../Content/media/redbull_textureSmall.png; sourceTree = "<group>"; };
+		4E6D69A91707BE9C00CC94CC /* rondelle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rondelle.png; path = ../../../../Content/media/rondelle.png; sourceTree = "<group>"; };
 		4E8A52D2170673960043A056 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		4E8A52D3170673960043A056 /* icon1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1.png; sourceTree = "<group>"; };
 		4E8A52D4170673960043A056 /* icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon2.png; sourceTree = "<group>"; };
@@ -416,7 +429,6 @@
 		4EC1626D16F81A8C00577704 /* BonusModifierBlockGoal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusModifierBlockGoal.h; sourceTree = "<group>"; };
 		4EC1626F16F81F8000577704 /* RunnableBreaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunnableBreaker.h; sourceTree = "<group>"; };
 		4EC7359C17015F85002FCF4C /* Solution_Defines.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Solution_Defines.cpp; sourceTree = "<group>"; };
-		4ED0E81D1702A1B10043DF70 /* eclair.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = eclair.jpg; path = ../../../../Content/media/eclair.jpg; sourceTree = "<group>"; };
 		4ED0E81E1702A1B10043DF70 /* portail.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = portail.mtl; path = ../../../../Content/media/portail.mtl; sourceTree = "<group>"; };
 		4ED0E81F1702A1B10043DF70 /* portail.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = portail.obj; path = ../../../../Content/media/portail.obj; sourceTree = "<group>"; };
 		4ED0E8251702B5D40043DF70 /* accelerateur.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = accelerateur.mtl; path = ../../../../Content/media/accelerateur.mtl; sourceTree = "<group>"; };
@@ -431,16 +443,10 @@
 		4ED0E82E1702B5D40043DF70 /* muret.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = muret.obj; path = ../../../../Content/media/muret.obj; sourceTree = "<group>"; };
 		4ED0E82F1702B5D40043DF70 /* rondelle.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = rondelle.mtl; path = ../../../../Content/media/rondelle.mtl; sourceTree = "<group>"; };
 		4ED0E8301702B5D40043DF70 /* rondelle.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = rondelle.obj; path = ../../../../Content/media/rondelle.obj; sourceTree = "<group>"; };
-		4ED0E83D1702B8250043DF70 /* couleurMuret.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = couleurMuret.png; path = ../../../../Content/media/couleurMuret.png; sourceTree = "<group>"; };
-		4ED0E83E1702B8250043DF70 /* poly2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = poly2.png; path = ../../../../Content/media/poly2.png; sourceTree = "<group>"; };
-		4ED0E83F1702B8250043DF70 /* razer-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "razer-logo.png"; path = "../../../../Content/media/razer-logo.png"; sourceTree = "<group>"; };
-		4ED0E8401702B8250043DF70 /* redbull_textureSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = redbull_textureSmall.png; path = ../../../../Content/media/redbull_textureSmall.png; sourceTree = "<group>"; };
-		4ED0E8411702B8250043DF70 /* textureRedPlastic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = textureRedPlastic.jpg; path = ../../../../Content/media/textureRedPlastic.jpg; sourceTree = "<group>"; };
 		4ED0E8471702B8590043DF70 /* control_point.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = control_point.mtl; path = ../../../../Content/media/control_point/control_point.mtl; sourceTree = "<group>"; };
 		4ED0E8481702B8590043DF70 /* control_point.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = control_point.obj; path = ../../../../Content/media/control_point/control_point.obj; sourceTree = "<group>"; };
 		4ED0E84F1702B8A80043DF70 /* point.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = point.mtl; path = ../../../../Content/media/point.mtl; sourceTree = "<group>"; };
 		4ED0E8501702B8A80043DF70 /* point.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = point.obj; path = ../../../../Content/media/point.obj; sourceTree = "<group>"; };
-		4ED0E8531702B9270043DF70 /* Flames.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Flames.jpg; path = ../../../../Content/media/Flames.jpg; sourceTree = "<group>"; };
 		4ED4BC3116FEED3200227F1E /* FieldModificationStrategyAddNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyAddNode.cpp; sourceTree = "<group>"; };
 		4ED4BC3216FEED3200227F1E /* FieldModificationStrategyAddNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyAddNode.h; sourceTree = "<group>"; };
 		4ED4BC3316FEED3200227F1E /* FieldModificationStrategyAddWall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyAddWall.cpp; sourceTree = "<group>"; };
@@ -846,13 +852,16 @@
 		4ED0E8241702B41D0043DF70 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				4ED0E8531702B9270043DF70 /* Flames.jpg */,
-				4ED0E83D1702B8250043DF70 /* couleurMuret.png */,
-				4ED0E83E1702B8250043DF70 /* poly2.png */,
-				4ED0E83F1702B8250043DF70 /* razer-logo.png */,
-				4ED0E8401702B8250043DF70 /* redbull_textureSmall.png */,
-				4ED0E8411702B8250043DF70 /* textureRedPlastic.jpg */,
-				4ED0E81D1702A1B10043DF70 /* eclair.jpg */,
+				4E6D69A01707BE9C00CC94CC /* control_point_texture.png */,
+				4E6D69A11707BE9C00CC94CC /* couleurMuret.png */,
+				4E6D69A21707BE9C00CC94CC /* EmptyBonus.png */,
+				4E6D69A31707BE9C00CC94CC /* Flames.jpg */,
+				4E6D69A41707BE9C00CC94CC /* goal_texture.png */,
+				4E6D69A51707BE9C00CC94CC /* portal_effect.png */,
+				4E6D69A61707BE9C00CC94CC /* razer-logo.png */,
+				4E6D69A71707BE9C00CC94CC /* redbull_texture.png */,
+				4E6D69A81707BE9C00CC94CC /* redbull_textureSmall.png */,
+				4E6D69A91707BE9C00CC94CC /* rondelle.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -1129,7 +1138,6 @@
 				4E8A52D9170673960043A056 /* icon2.png in Resources */,
 				4E8A52DA170673960043A056 /* icon3.png in Resources */,
 				4E8A52DB170673960043A056 /* icon4.png in Resources */,
-				4ED0E8201702A1B10043DF70 /* eclair.jpg in Resources */,
 				4ED0E8211702A1B10043DF70 /* portail.mtl in Resources */,
 				4ED0E8221702A1B10043DF70 /* portail.obj in Resources */,
 				4ED0E8311702B5D40043DF70 /* accelerateur.mtl in Resources */,
@@ -1144,16 +1152,20 @@
 				4ED0E83A1702B5D40043DF70 /* muret.obj in Resources */,
 				4ED0E83B1702B5D40043DF70 /* rondelle.mtl in Resources */,
 				4ED0E83C1702B5D40043DF70 /* rondelle.obj in Resources */,
-				4ED0E8421702B8250043DF70 /* couleurMuret.png in Resources */,
-				4ED0E8431702B8250043DF70 /* poly2.png in Resources */,
-				4ED0E8441702B8250043DF70 /* razer-logo.png in Resources */,
-				4ED0E8451702B8250043DF70 /* redbull_textureSmall.png in Resources */,
-				4ED0E8461702B8250043DF70 /* textureRedPlastic.jpg in Resources */,
 				4ED0E84A1702B8590043DF70 /* control_point.mtl in Resources */,
 				4ED0E84B1702B8590043DF70 /* control_point.obj in Resources */,
 				4ED0E8511702B8A80043DF70 /* point.mtl in Resources */,
 				4ED0E8521702B8A80043DF70 /* point.obj in Resources */,
-				4ED0E8541702B9270043DF70 /* Flames.jpg in Resources */,
+				4E6D69AA1707BE9C00CC94CC /* control_point_texture.png in Resources */,
+				4E6D69AB1707BE9C00CC94CC /* couleurMuret.png in Resources */,
+				4E6D69AC1707BE9C00CC94CC /* EmptyBonus.png in Resources */,
+				4E6D69AD1707BE9C00CC94CC /* Flames.jpg in Resources */,
+				4E6D69AE1707BE9C00CC94CC /* goal_texture.png in Resources */,
+				4E6D69AF1707BE9C00CC94CC /* portal_effect.png in Resources */,
+				4E6D69B01707BE9C00CC94CC /* razer-logo.png in Resources */,
+				4E6D69B11707BE9C00CC94CC /* redbull_texture.png in Resources */,
+				4E6D69B21707BE9C00CC94CC /* redbull_textureSmall.png in Resources */,
+				4E6D69B31707BE9C00CC94CC /* rondelle.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
