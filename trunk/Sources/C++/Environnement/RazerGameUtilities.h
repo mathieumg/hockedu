@@ -192,6 +192,30 @@ public:
         }
         return RAZER_KEY_NONE;
     }
+
+    struct PhysicsFilter
+    {
+        PhysicsFilter(short category =0,
+        short maskbit=0,
+        short group=0,
+        bool isSensor=false):
+         mCategory(category),
+         mMaskbit(maskbit),
+         mGroup(group),
+        mIsSensor(isSensor)
+        {
+
+        }
+        short mCategory;
+        short mMaskbit;
+        short mGroup;
+        bool mIsSensor;
+    };
+    static void FillPhysicsFilters(){}
+    static const PhysicsFilter EditionFilters[NB_RAZER_KEYS];
+    static const PhysicsFilter GameFilters[NB_RAZER_KEYS];
+
+
 };
 
 
