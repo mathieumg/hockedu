@@ -79,7 +79,7 @@ void VisiteurNoeudTest::tearDown()
 void VisiteurNoeudTest::testDeplacerObjet()
 {
 
-	NoeudAbstrait* n = new NoeudAbstrait("");
+    NoeudAbstrait* n = new NoeudAbstrait(RAZER_KEY_NONE,"");
 	n->setPosition(Vecteur3(0.0,0.0));
 	n->setSelection(true);
 	VisiteurDeplacement v(Vecteur2(25.0,-10.0));
@@ -180,9 +180,9 @@ void VisiteurNoeudTest::testSuppressionObjet()
 	NoeudAbstrait* n5 = arbre->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
 	NoeudAbstrait* n6 = arbre->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
 	NoeudAbstrait* n7 = arbre->creerNoeud(RazerGameUtilities::NOM_ACCELERATEUR);
-	NoeudComposite* nC1 = new NoeudComposite("groupe1");
-	NoeudComposite* nC2 = new NoeudComposite("groupe2");
-	NoeudComposite* nC3 = new NoeudComposite("groupe3");
+	NoeudComposite* nC1 = new NoeudComposite(RAZER_KEY_NONE,"groupe1");
+	NoeudComposite* nC2 = new NoeudComposite(RAZER_KEY_NONE,"groupe2");
+	NoeudComposite* nC3 = new NoeudComposite(RAZER_KEY_NONE,"groupe3");
 
 	arbre->add(n1);
 	arbre->add(n2);

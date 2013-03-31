@@ -63,7 +63,7 @@ CreateListDelegateImplementation(PuckTroll)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudRondelle::NoeudRondelle(const std::string& typeNoeud, unsigned int& puckCreated, unsigned int puckLimit)
-    : NoeudAbstrait(typeNoeud),mNbPuckCreated(puckCreated),mLastHittingMallet(NULL)
+    : NoeudAbstrait(RAZER_KEY_PUCK,typeNoeud),mNbPuckCreated(puckCreated),mLastHittingMallet(NULL)
 {
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
@@ -718,29 +718,6 @@ void NoeudRondelle::updatePhysicBody()
 #endif
 
 }
-
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn const std::string& NoeudRondelle::get3DModelKey()
-///
-/// /*Description*/
-///
-///
-/// @return const std::string&
-///
-////////////////////////////////////////////////////////////////////////
-const std::string& NoeudRondelle::get3DModelKey() const
-{
-    static const std::string troll = "rondelleTroll";
-    if(canGoThroughWall())
-    {
-        return troll;
-    }
-    return Super::get3DModelKey();
-}
-
 
 
 ////////////////////////////////////////////////////////////////////////

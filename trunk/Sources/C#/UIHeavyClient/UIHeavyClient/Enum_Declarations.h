@@ -167,6 +167,7 @@ typedef enum
         RAZER_KEY_TABLE               ,
         RAZER_KEY_PORTAL              ,
         RAZER_KEY_PUCK                ,
+        RAZER_KEY_PUCK_TROLL          ,
         RAZER_KEY_MALLET              ,
         RAZER_KEY_TABLE_CONTROL_POINT ,
         RAZER_KEY_CONTROL_POINT       ,
@@ -176,6 +177,12 @@ typedef enum
         RAZER_KEY_EMPTY_BONUS         ,
         RAZER_KEY_BONUS               ,
         RAZER_KEY_GOALER              ,
+        RAZER_KEY_FAN              ,
+        RAZER_KEY_PAUSE              ,
+        RAZER_KEY_MODEL_1              ,
+        RAZER_KEY_MODEL_2              ,
+        RAZER_KEY_MODEL_3              ,
+        RAZER_KEY_ROOT_TREE,
     }
 #if !CSHARP
 RazerKey

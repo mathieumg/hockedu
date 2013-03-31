@@ -36,7 +36,7 @@ CreateListDelegateImplementation(Portal)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudPortail::NoeudPortail(const std::string& typeNoeud)
-   : NoeudAbstrait(typeNoeud), mIsAttractionFieldActive(true),mForceField(NULL),mAttractionForce(0.5)
+   : NoeudAbstrait(RAZER_KEY_PORTAL,typeNoeud), mIsAttractionFieldActive(true),mForceField(NULL),mAttractionForce(0.5)
 {   
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);

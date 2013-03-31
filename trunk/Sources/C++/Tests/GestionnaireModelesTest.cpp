@@ -68,11 +68,11 @@ void GestionnaireModelesTest::testObtenirModele()
 	Modele3D* modeleTest;
 
 	// On tente d'obtenir un modèle inexistant
-	modeleTest = GestionnaireModeles::obtenirInstance()->obtenirModele("VincentLemire.sr");
+	modeleTest = GestionnaireModeles::obtenirInstance()->obtenirModele(RAZER_KEY_NONE);
 	CPPUNIT_ASSERT(!modeleTest);
 	// On tente d'obtenir modèle existant
-	modeleTest = GestionnaireModeles::obtenirInstance()->obtenirModele(RazerGameUtilities::NOM_MAILLET);
-	//CPPUNIT_ASSERT(!!modeleTest);
+	modeleTest = GestionnaireModeles::obtenirInstance()->obtenirModele(RAZER_KEY_PUCK);
+	CPPUNIT_ASSERT(!!modeleTest);
 }
 
 

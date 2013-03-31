@@ -30,8 +30,6 @@ public:
 
     /// Affiche le bonus.
     virtual void renderReal() const;
-    /// accessor to the key to retrieve the list and/or 3D Model
-    virtual const std::string& get3DModelKey() const;
     /// Recreates everything needed for the game
     virtual void forceFullUpdate();
     /// node tick received when actually playing the game (simulation running)

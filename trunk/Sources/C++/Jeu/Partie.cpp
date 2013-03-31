@@ -402,7 +402,7 @@ void Partie::reinitialiserPartie()
     pointsJoueurGauche_ = 0;
     pointsJoueurDroit_ = 0;
     // Reinitialisation du noeudAffichage Chiffre
-    chiffres_->modifierListes("3");
+    chiffres_->setSkinKey(RAZER_KEY_MODEL_3);
     chiffres_->setVisible(false);
     tempsJeu_.unPause();
     tempsJeu_.reset_Time();
@@ -571,7 +571,7 @@ void Partie::updateMinuterie( int time )
         if(minuterie_ < 0)
         {
             minuterie_ = 0;
-            chiffres_->modifierListes("3");
+            chiffres_->setSkinKey(RAZER_KEY_MODEL_3);
             chiffres_->setVisible(false);
             setGameStatus(GAME_RUNNING);
             Vecteur3 coordonneesSouris;
@@ -607,14 +607,9 @@ void Partie::updateMinuterie( int time )
                     return;
                 chiffres_->setVisible(true);
                 SoundFMOD::obtenirInstance()->playEffect(BEEP_EFFECT);
-
-                // Creation d'une chaine avec le charactère 0
-                std::string numeroString = "0";
-                // le charactère 0 + une valeur entre 0 et 9 donne le charactère désiré
-                numeroString[0] += lequel;
-                chiffres_->modifierListes(numeroString);
-
+                chiffres_->setSkinKey(RazerKey(RAZER_KEY_MODEL_1+lequel-1));
                 chiffres_->resetEchelle();
+
                 if(lequel == 2)
                     FacadeModele::getInstance()->obtenirVue()->centrerCamera(mField->GetTableWidth());
             }

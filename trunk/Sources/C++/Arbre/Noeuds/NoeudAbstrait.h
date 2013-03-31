@@ -73,6 +73,7 @@ public:
 	friend VisiteurNoeudTest;
 	/// Constructeur.
 	NoeudAbstrait(
+        RazerKey defaultKey,
 		const std::string& type = std::string( "" )
 		);
 	/// Destructeur.
@@ -165,10 +166,6 @@ public:
     /// Utilities pour la lecture/ecriture de la position du noeud
     void XmlWriteNodePosition( XmlElement* elementNoeud );
     static bool XmlReadNodePosition( Vecteur3& pos, const XmlElement* element );
-    
-
-    /// accessor to the key to retrieve the list and/or 3D Model
-    virtual const std::string& get3DModelKey() const {return mType;}
 
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody() {}
@@ -196,6 +193,13 @@ protected:
 
     /// Type du noeud.
 	std::string      mType;
+    /// Key defining this node, can also be used to reset the skin
+    RazerKey mDefaultNodeKey;
+
+    /// represent the key for the current skin
+    RazerKey mSkinKey;
+    std::vector<RazerKey> mSkinStack;
+
 
 	/// Mode d'affichage des polygones.
 	GLenum           mModePolygones;
@@ -242,6 +246,15 @@ private:
 	/// Accesseurs
 public:
     virtual const class ArbreRendu* GetTreeRoot() const;
+
+    /// Accessors of mDefaultNodeKey
+    inline RazerKey getDefaultNodeKey() const { return mDefaultNodeKey; }
+    inline void setDefaultNodeKey(RazerKey pVal) { mDefaultNodeKey = pVal;setSkinKey(pVal); }
+    /// Accessors of mSkinKey
+    inline RazerKey getSkinKey() const { return mSkinKey; }
+    inline void setSkinKey( RazerKey pVal) { mSkinKey = pVal; mSkinStack.push_back(pVal); }
+    /// reapply old skin to the object, need to have called setSkin before hand
+    void resetSkin();
 
     /// Obtient le parent de ce noeud.
     inline NoeudComposite* getParent(){return mParent;}

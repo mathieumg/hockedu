@@ -23,9 +23,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudComposite::NoeudComposite(
+    RazerKey defaultKey,
 	const std::string& type //= std::string( "" )
 	) :
-NoeudAbstrait(type)
+NoeudAbstrait(defaultKey,type)
 {
 
 }
@@ -458,18 +459,21 @@ void NoeudComposite::setPolygonMode( GLenum modePolygones )
 ////////////////////////////////////////////////////////////////////////
 void NoeudComposite::renderReal() const
 {
-    glPushMatrix();
-    glPushAttrib(GL_CURRENT_BIT | GL_POLYGON_BIT);
 
-    // Assignation du mode d'affichage des polygones
-    glPolygonMode( GL_FRONT_AND_BACK, mModePolygones );
+    {
+        glPushMatrix();
+        glPushAttrib(GL_CURRENT_BIT | GL_POLYGON_BIT);
 
-    // Affichage concret
-    NoeudAbstrait::renderReal();
+        // Assignation du mode d'affichage des polygones
+        glPolygonMode( GL_FRONT_AND_BACK, mModePolygones );
 
-    // Restauration
-    glPopAttrib();
-    glPopMatrix();
+        // Affichage concret
+        NoeudAbstrait::renderReal();
+
+        // Restauration
+        glPopAttrib();
+        glPopMatrix();
+    }
 
     DrawChild();
 }

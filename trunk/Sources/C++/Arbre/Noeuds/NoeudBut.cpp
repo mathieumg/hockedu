@@ -55,7 +55,7 @@ CreateListDelegateImplementation(Goal)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudBut::NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHaut, NoeudPoint * coinBas, NoeudComposite* pParent)
-   : NoeudComposite(typeNoeud), joueur_(joueur), coinHaut_(coinHaut), coinBas_(coinBas), mBottomAngle(0),mTopAngle(0), mPuckCatcher(NULL),mCachedPuckRadius(NoeudRondelle::DEFAULT_RADIUS)
+   : NoeudComposite(RAZER_KEY_GOAL,typeNoeud), joueur_(joueur), coinHaut_(coinHaut), coinBas_(coinBas), mBottomAngle(0),mTopAngle(0), mPuckCatcher(NULL),mCachedPuckRadius(NoeudRondelle::DEFAULT_RADIUS)
 {
     if(pParent)
     {
@@ -94,7 +94,7 @@ void NoeudBut::renderReal() const
 {
 #if WIN32
     GLuint liste = NULL;
-    GestionnaireModeles::obtenirInstance()->obtenirListe(mType,liste);
+    GestionnaireModeles::obtenirInstance()->obtenirListe(getSkinKey(),liste);
 
     GLint renderMode;
     glGetIntegerv(GL_RENDER_MODE,&renderMode);

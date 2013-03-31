@@ -25,7 +25,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudGroupe::NoeudGroupe(std::string type, std::string typeEnfants):
-NoeudComposite(type),typeEnfants_(typeEnfants)
+NoeudComposite(RAZER_KEY_GROUP,type),typeEnfants_(typeEnfants)
 {
     /// les noeuds points ne peuvent etre supprimer
     mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);

@@ -95,7 +95,7 @@ int NoeudTable::expectedChildCount()
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudTable::NoeudTable(const std::string& typeNoeud)
-   : NoeudComposite(typeNoeud) , coefFriction_(0.3f)
+   : NoeudComposite(RAZER_KEY_TABLE,typeNoeud) , coefFriction_(0.3f)
 {
     /// les noeuds points ne peuvent etre supprimer
     mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);

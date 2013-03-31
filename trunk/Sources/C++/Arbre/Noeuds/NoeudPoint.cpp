@@ -47,10 +47,14 @@ CreateListDelegateImplementation(TableControlPoint)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudPoint::NoeudPoint( const std::string& typeNoeud, float coordX, float coordY, TypePosPoint typePosNoeud)
-	: NoeudComposite(typeNoeud) , longueurCote_(2.0f), typePosNoeud_(typePosNoeud)
+	: NoeudComposite(RAZER_KEY_TABLE_CONTROL_POINT,typeNoeud) , longueurCote_(2.0f), typePosNoeud_(typePosNoeud)
 {
     /// les noeuds points ne peuvent etre supprimer
     mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
+
+    /// affichage du noeud avec le modele du control point
+    setDefaultNodeKey(RAZER_KEY_CONTROL_POINT);
+
 
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);

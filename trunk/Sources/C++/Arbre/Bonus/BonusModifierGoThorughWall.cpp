@@ -52,12 +52,7 @@ bool BonusModifierGoThroughWall::Attach( NoeudRondelle* pPuck )
         return AttachToLastHittingMallet(pPuck);
     }
 
-    bool r = AttachToPuck(pPuck);
-    if(r)
-    {
-        pPuck->setCanGoThroughwalls(true);
-    }
-    return r;
+    return AttachToPuck(pPuck);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -90,6 +85,13 @@ bool BonusModifierGoThroughWall::Apply()
                 return false;
             }
         }
+
+        auto rondelle = dynamic_cast<NoeudRondelle*>(mOwner);
+        if(rondelle)
+        {
+            rondelle->setSkinKey(RAZER_KEY_PUCK_TROLL);
+        }
+
 #if BOX2D_PLAY 
 
         auto body = mOwner->getPhysicBody();
@@ -130,7 +132,7 @@ bool BonusModifierGoThroughWall::Revert()
     auto rondelle = dynamic_cast<NoeudRondelle*>(mOwner);
     if(rondelle)
     {
-        rondelle->setCanGoThroughwalls(false);
+        rondelle->resetSkin();
     }
 
 #if BOX2D_PLAY  

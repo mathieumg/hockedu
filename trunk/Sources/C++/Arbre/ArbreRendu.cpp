@@ -27,7 +27,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 ArbreRendu::ArbreRendu(Terrain* pField)
-	: NoeudComposite("racine")
+	: NoeudComposite(RAZER_KEY_ROOT_TREE,"racine")
 {
 	// On ne veut pas que ce noeud soit sélectionnable.
 	setCanBeSelected(false);

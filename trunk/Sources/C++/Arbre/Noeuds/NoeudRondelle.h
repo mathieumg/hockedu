@@ -22,8 +22,6 @@ enum PuckFlags
 {
     /// Indicates if a collision has benn detected in this frame
     PUCK_COLLISION_DETECTED,
-    PUCK_CAN_GO_THROUGH_WALL,
-
 
     NB_PUCK_FLAGS
 };
@@ -103,9 +101,6 @@ public:
     virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
     //////////////////////////////////////////////////////////////////////////
 
-    virtual const std::string& get3DModelKey() const;
-
-    
 
     static const float DEFAULT_RADIUS;
 private:
@@ -151,9 +146,6 @@ public:
     /// Accessors of mCollisionDetected
     inline bool IsCollisionDetected() const { return mFlags.IsFlagSet(PUCK_COLLISION_DETECTED); }
     inline void setCollisionDetected(bool pVal) { mFlags.SetFlag(pVal,PUCK_COLLISION_DETECTED); }
-
-    inline bool canGoThroughWall() const { return mFlags.IsFlagSet(PUCK_CAN_GO_THROUGH_WALL); }
-    inline void setCanGoThroughwalls(bool pVal) { mFlags.SetFlag(pVal,PUCK_CAN_GO_THROUGH_WALL); }
 };
 
 

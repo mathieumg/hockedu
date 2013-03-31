@@ -109,7 +109,7 @@ CreateListDelegateImplementation(Bonus)
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeBonus::NodeBonus(const std::string& typeNoeud)
-   : Super(typeNoeud),mHeightAngle(0)
+   : Super(RAZER_KEY_BONUS,typeNoeud),mHeightAngle(0)
 {
     // temp workaround, l'édition va le considérer comme un cercle pour un moment
     setDefaultRadius(DEFAULT_RADIUS);
@@ -181,7 +181,7 @@ void NodeBonus::renderReal() const
 
     /// retrait de la platforme pour le moment, bug la selection
     GLuint liste;	
-    GestionnaireModeles::obtenirInstance()->obtenirListe(RazerGameUtilities::NAME_EMPTY_BONUS,liste);
+    GestionnaireModeles::obtenirInstance()->obtenirListe(RAZER_KEY_EMPTY_BONUS,liste);
     // Si aucune liste n'est trouvé, on sort de la fonction.
     if(liste==NULL)
         return;
@@ -264,7 +264,7 @@ void NodeBonus::ExecuteBonus( class NoeudRondelle* rondelle )
     {
         int b = rand()%NB_BONUS_TYPE;
 #if MIKE_DEBUG_
-        //b = BONUS_TYPE_CHANGE_ZONE; // testing value
+        b = BONUS_TYPE_GO_THROUGH_WALL; // testing value
 #endif
         auto factory = FactoryBonusModifier::getFactory(BonusType(b));
         if(factory)
@@ -288,20 +288,6 @@ void NodeBonus::ExecuteBonus( class NoeudRondelle* rondelle )
     activate(false);
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn const std::string& NodeBonus::get3DModelKey()
-///
-/// Retrieves the key to find the 
-///
-///
-/// @return const std::string&
-///
-////////////////////////////////////////////////////////////////////////
-const std::string& NodeBonus::get3DModelKey() const
-{
-    return RazerGameUtilities::NAME_BONUS;
-}
 
 ////////////////////////////////////////////////////////////////////////
 ///

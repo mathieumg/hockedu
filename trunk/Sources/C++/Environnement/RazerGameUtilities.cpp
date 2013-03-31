@@ -203,11 +203,14 @@ void RazerGameUtilities::RunOnUpdateThread( Runnable* run, bool pForceQueue /*= 
 unsigned int RazerGameUtilities::CreateListSphereDefault( Modele3D* pModel, float radius )
 {
 #if WIN32
-    float rayon,haut,bas;
-    pModel->calculerCylindreEnglobant(rayon,bas,haut);
-    float ratio = radius / rayon;
-    pModel->assignerFacteurAgrandissement(Vecteur3(ratio,ratio,ratio));
-    return GestionnaireModeles::CreerListe(pModel);
+    if(pModel)
+    {
+        float rayon,haut,bas;
+        pModel->calculerCylindreEnglobant(rayon,bas,haut);
+        float ratio = radius / rayon;
+        pModel->assignerFacteurAgrandissement(Vecteur3(ratio,ratio,ratio));
+        return GestionnaireModeles::CreerListe(pModel);
+    }
 #endif
     return NULL;
 }

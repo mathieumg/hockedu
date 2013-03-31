@@ -64,7 +64,7 @@ CreateListDelegateImplementation(ControlPoint)
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeControlPoint::NodeControlPoint( const std::string& typeNoeud ):
-Super(typeNoeud),mCanBeVisited(true),mHeightAngle(0)
+Super(RAZER_KEY_CONTROL_POINT,typeNoeud),mCanBeVisited(true),mHeightAngle(0)
 {
     setDefaultRadius(DEFAULT_RADIUS);
 }

@@ -32,7 +32,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( NoeudAbstraitTest );
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstraitTest::setUp()
 {
-	noeud = new NoeudAbstrait("TestingNode");
+	noeud = new NoeudAbstrait(RAZER_KEY_NONE,"TestingNode");
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -205,11 +205,11 @@ void NoeudAbstraitTest::testGetTreeRoot()
 {
     RazerGameTree tree(NULL);
 
-    NoeudComposite* c1 = new NoeudComposite(""),
-        * c2 = new NoeudComposite(""),
-        * c3 = new NoeudComposite(""),
-        * c4 = new NoeudComposite(""),
-        * c5 = new NoeudComposite("");
+    NoeudComposite* c1 = new NoeudComposite(RAZER_KEY_NONE,""),
+        * c2 = new NoeudComposite(RAZER_KEY_NONE,""),
+        * c3 = new NoeudComposite(RAZER_KEY_NONE,""),
+        * c4 = new NoeudComposite(RAZER_KEY_NONE,""),
+        * c5 = new NoeudComposite(RAZER_KEY_NONE,"");
 
     c1->add(c2);
     c2->add(c3);

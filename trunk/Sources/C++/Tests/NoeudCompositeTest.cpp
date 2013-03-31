@@ -32,11 +32,11 @@ CPPUNIT_TEST_SUITE_REGISTRATION( NoeudCompositeTest );
 void NoeudCompositeTest::setUp()
 {
 	arbre = new RazerGameTree(NULL);
-	enfants[0] = new NoeudComposite();
-	enfants[1] = new NoeudComposite();
-	enfants[2] = new NoeudComposite();
-	enfants[3] = new NoeudComposite();
-	enfants[4] = new NoeudComposite();
+	enfants[0] = new NoeudComposite(RAZER_KEY_NONE);
+	enfants[1] = new NoeudComposite(RAZER_KEY_NONE);
+	enfants[2] = new NoeudComposite(RAZER_KEY_NONE);
+	enfants[3] = new NoeudComposite(RAZER_KEY_NONE);
+	enfants[4] = new NoeudComposite(RAZER_KEY_NONE);
 
 	arbre->add(enfants[0]);
 	arbre->add(enfants[1]);
@@ -89,7 +89,7 @@ void NoeudCompositeTest::ajoutEnfantTest()
 	CPPUNIT_ASSERT( enfants[3]->treeDepth() == 1);
 
 	// Test pour s'assurer qu'un noeud ne peut s'add lui-même
-	NoeudComposite* n = new NoeudComposite();
+	NoeudComposite* n = new NoeudComposite(RAZER_KEY_NONE);
 	n->add(n);
 	CPPUNIT_ASSERT( n->childCount() == 0);
 	CPPUNIT_ASSERT( n->treeDepth() == 1);
@@ -139,8 +139,8 @@ void NoeudCompositeTest::viderArbreTest()
 void NoeudCompositeTest::ajoutRecursifTest()
 {
 	arbre->empty();
-	enfants[0] = new NoeudComposite();
-	enfants[1] = new NoeudComposite();
+	enfants[0] = new NoeudComposite(RAZER_KEY_NONE);
+	enfants[1] = new NoeudComposite(RAZER_KEY_NONE);
 
 	arbre->add(enfants[0]);
 
@@ -184,7 +184,7 @@ void NoeudCompositeTest::effacerEnfantsTest()
 	}
 	for(int i=1; i<5; i++)
 	{
-		enfants[i] = new NoeudComposite();
+		enfants[i] = new NoeudComposite(RAZER_KEY_ROOT_TREE);
 	}
 	// Rien ne devrait ce passer puisque enfant[1] n'est pas un enfant de arbre
 	CPPUNIT_ASSERT(arbre->childCount() == 1);
@@ -220,9 +220,9 @@ void NoeudCompositeTest::chercherEnfantTest()
 	CPPUNIT_ASSERT(enfants[2]->find(1) == enfants[4]);
 
 	arbre->empty();
-	enfants[0] = new NoeudComposite("maillet");
-	enfants[1] = new NoeudComposite("maillet");
-	enfants[2] = new NoeudComposite("portail");
+	enfants[0] = new NoeudComposite(RAZER_KEY_NONE,"maillet");
+	enfants[1] = new NoeudComposite(RAZER_KEY_NONE,"maillet");
+	enfants[2] = new NoeudComposite(RAZER_KEY_NONE,"portail");
 	arbre->add(enfants[0]);
 	arbre->add(enfants[1]);
 	enfants[0]->add(enfants[2]);

@@ -53,7 +53,7 @@ CreateListDelegateImplementation(Wall)
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeWallAbstract::NodeWallAbstract(const std::string& typeNoeud)
-	: Super(typeNoeud)
+	: Super(RAZER_KEY_WALL,typeNoeud)
 {
 	mReboundRatio = 0.75f;
 }
@@ -230,22 +230,6 @@ bool NodeWallAbstract::initFromXml( const XmlElement* element )
 	mReboundRatio = floatElem;
 
 	return true;
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn const std::string& NodeWallAbstract::get3DModelKey()
-///
-/// accessor to the key to retrieve the list and/or 3D Model
-///
-///
-/// @return const std::string&
-///
-////////////////////////////////////////////////////////////////////////
-const std::string& NodeWallAbstract::get3DModelKey() const
-{
-    // in all case for the wall we want to use the same model
-    return RazerGameUtilities::NOM_MURET;
 }
 
 ////////////////////////////////////////////////////////////////////////

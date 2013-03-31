@@ -43,7 +43,7 @@ PRAGMA_DISABLE_OPTIMIZATION
 ///
 ////////////////////////////////////////////////////////////////////////
 NodePolygone::NodePolygone( const std::string& type ):
-    Super(type),ControlPointMutableAbstract(8)
+    Super(RAZER_KEY_POLYGON,type),ControlPointMutableAbstract(8)
 {
 
 }
