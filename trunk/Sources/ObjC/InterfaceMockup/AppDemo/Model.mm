@@ -128,6 +128,16 @@ bool RenderNodeCallback(RazerKey key)
     ((Terrain*)mField)->cancelModification();
 }
 
+-(void) duplicateSelection
+{
+    ((Terrain*)mField)->duplicateSelection();
+}
+
+-(void) deleteSelection
+{
+    ((Terrain*)mField)->deleteSelectedNodes();
+}
+
 -(void) saveField
 {
     NSError* error;

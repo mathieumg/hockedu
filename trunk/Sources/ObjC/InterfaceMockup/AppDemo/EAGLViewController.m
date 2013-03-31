@@ -424,6 +424,22 @@ enum {
     [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_ROTATION];
 }
 
+
+- (IBAction)scaleToolButtonTouched:(UIButton *)sender
+{
+    [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_ECHELLE];
+}
+
+- (IBAction)duplicateToolButtonTouched:(UIButton *)sender
+{
+    [mModel duplicateSelection];
+}
+
+- (IBAction)deleteToolButtonTouched:(UIButton *)sender
+{
+    [mModel deleteSelection];
+}
+
 - (IBAction)portalButtonTouched:(UIButton *)sender
 {
     [mEventManager modifyState:EDITOR_STATE_AJOUTER_PORTAIL];

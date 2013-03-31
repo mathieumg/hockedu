@@ -146,6 +146,72 @@
 										<reference key="IBUIFontDescription" ref="437964532"/>
 										<reference key="IBUIFont" ref="589001317"/>
 									</object>
+									<object class="IBUIButton" id="1072196406">
+										<reference key="NSNextResponder" ref="126840822"/>
+										<int key="NSvFlags">292</int>
+										<string key="NSFrame">{{415, 33}, {112, 102}}</string>
+										<reference key="NSSuperview" ref="126840822"/>
+										<reference key="NSWindow"/>
+										<string key="NSReuseIdentifierKey">_NS:9</string>
+										<bool key="IBUIOpaque">NO</bool>
+										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+										<int key="IBUIContentHorizontalAlignment">0</int>
+										<int key="IBUIContentVerticalAlignment">0</int>
+										<int key="IBUIButtonType">1</int>
+										<string key="IBUINormalTitle">Scale</string>
+										<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
+										<object class="NSColor" key="IBUINormalTitleColor">
+											<int key="NSColorSpace">1</int>
+											<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+										</object>
+										<reference key="IBUINormalTitleShadowColor" ref="721629208"/>
+										<reference key="IBUIFontDescription" ref="437964532"/>
+										<reference key="IBUIFont" ref="589001317"/>
+									</object>
+									<object class="IBUIButton" id="914707639">
+										<reference key="NSNextResponder" ref="126840822"/>
+										<int key="NSvFlags">292</int>
+										<string key="NSFrame">{{546, 33}, {112, 100}}</string>
+										<reference key="NSSuperview" ref="126840822"/>
+										<reference key="NSWindow"/>
+										<string key="NSReuseIdentifierKey">_NS:9</string>
+										<bool key="IBUIOpaque">NO</bool>
+										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+										<int key="IBUIContentHorizontalAlignment">0</int>
+										<int key="IBUIContentVerticalAlignment">0</int>
+										<int key="IBUIButtonType">1</int>
+										<string key="IBUINormalTitle">Duplicate</string>
+										<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
+										<object class="NSColor" key="IBUINormalTitleColor">
+											<int key="NSColorSpace">1</int>
+											<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+										</object>
+										<reference key="IBUINormalTitleShadowColor" ref="721629208"/>
+										<reference key="IBUIFontDescription" ref="437964532"/>
+										<reference key="IBUIFont" ref="589001317"/>
+									</object>
+									<object class="IBUIButton" id="975728454">
+										<reference key="NSNextResponder" ref="126840822"/>
+										<int key="NSvFlags">292</int>
+										<string key="NSFrame">{{676, 33}, {111, 102}}</string>
+										<reference key="NSSuperview" ref="126840822"/>
+										<reference key="NSWindow"/>
+										<string key="NSReuseIdentifierKey">_NS:9</string>
+										<bool key="IBUIOpaque">NO</bool>
+										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+										<int key="IBUIContentHorizontalAlignment">0</int>
+										<int key="IBUIContentVerticalAlignment">0</int>
+										<int key="IBUIButtonType">1</int>
+										<string key="IBUINormalTitle">Delete</string>
+										<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
+										<object class="NSColor" key="IBUINormalTitleColor">
+											<int key="NSColorSpace">1</int>
+											<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+										</object>
+										<reference key="IBUINormalTitleShadowColor" ref="721629208"/>
+										<reference key="IBUIFontDescription" ref="437964532"/>
+										<reference key="IBUIFont" ref="589001317"/>
+									</object>
 								</object>
 								<string key="NSFrame">{{194, 622}, {830, 146}}</string>
 								<reference key="NSSuperview" ref="8160408"/>
@@ -474,6 +540,33 @@
 					</object>
 					<int key="connectionID">64</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">scaleToolButtonTouched:</string>
+						<reference key="source" ref="1072196406"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">66</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">duplicateToolButtonTouched:</string>
+						<reference key="source" ref="914707639"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">68</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">deleteToolButtonTouched:</string>
+						<reference key="source" ref="975728454"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">70</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -538,6 +631,9 @@
 							<reference ref="679950737"/>
 							<reference ref="1021975126"/>
 							<reference ref="1034629061"/>
+							<reference ref="1072196406"/>
+							<reference ref="914707639"/>
+							<reference ref="975728454"/>
 						</object>
 						<reference key="parent" ref="8160408"/>
 						<string key="objectName">TopBarView</string>
@@ -592,6 +688,21 @@
 						<reference key="object" ref="1034629061"/>
 						<reference key="parent" ref="126840822"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">65</int>
+						<reference key="object" ref="1072196406"/>
+						<reference key="parent" ref="126840822"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">67</int>
+						<reference key="object" ref="914707639"/>
+						<reference key="parent" ref="126840822"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">69</int>
+						<reference key="object" ref="975728454"/>
+						<reference key="parent" ref="126840822"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -620,6 +731,9 @@
 					<string>56.CustomClassName</string>
 					<string>56.IBPluginDependency</string>
 					<string>63.IBPluginDependency</string>
+					<string>65.IBPluginDependency</string>
+					<string>67.IBPluginDependency</string>
+					<string>69.IBPluginDependency</string>
 				</object>
 				<object class="NSArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -645,6 +759,9 @@
 					<string>iCarousel</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -659,7 +776,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">64</int>
+			<int key="maxID">70</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -672,6 +789,8 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>creationModeButtonTouched:</string>
+							<string>deleteToolButtonTouched:</string>
+							<string>duplicateToolButtonTouched:</string>
 							<string>fingerSizeAction:</string>
 							<string>leftHandedAction:</string>
 							<string>longPressDetected:</string>
@@ -679,15 +798,19 @@
 							<string>portalButtonTouched:</string>
 							<string>rotationToolButtonTouched:</string>
 							<string>saveAndExitButtonTouched:</string>
+							<string>scaleToolButtonTouched:</string>
 							<string>selectToolButtonTouched:</string>
 							<string>selectionModeButtonTouched:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
 							<string>id</string>
 							<string>id</string>
 							<string>UILongPressGestureRecognizer</string>
+							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
@@ -701,6 +824,8 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>creationModeButtonTouched:</string>
+							<string>deleteToolButtonTouched:</string>
+							<string>duplicateToolButtonTouched:</string>
 							<string>fingerSizeAction:</string>
 							<string>leftHandedAction:</string>
 							<string>longPressDetected:</string>
@@ -708,6 +833,7 @@
 							<string>portalButtonTouched:</string>
 							<string>rotationToolButtonTouched:</string>
 							<string>saveAndExitButtonTouched:</string>
+							<string>scaleToolButtonTouched:</string>
 							<string>selectToolButtonTouched:</string>
 							<string>selectionModeButtonTouched:</string>
 						</object>
@@ -715,6 +841,14 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
 								<string key="name">creationModeButtonTouched:</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">deleteToolButtonTouched:</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">duplicateToolButtonTouched:</string>
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBActionInfo">
@@ -743,6 +877,10 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">saveAndExitButtonTouched:</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">scaleToolButtonTouched:</string>
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBActionInfo">
