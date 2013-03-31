@@ -199,55 +199,55 @@ enum {
 												   selector:@selector(itemSelected:)
 												   userInfo:nil
 													   icon:[UIImage imageNamed:@"icon1.png"]];
-    
+
 	PieMenuItem *itemB = [[PieMenuItem alloc] initWithTitle:@"ItemB"
 													  label:nil
 													 target:self
 												   selector:@selector(itemSelected:)
 												   userInfo:nil
 													   icon:[UIImage imageNamed:@"icon1.png"]];
-	
+
 	PieMenuItem *itemC = [[PieMenuItem alloc] initWithTitle:@"ItemC"
 													  label:nil
 													 target:self
 												   selector:@selector(itemSelected:)
 												   userInfo:nil
 													   icon:[UIImage imageNamed:@"icon2.png"]];
-	
+
 	PieMenuItem *itemD = [[PieMenuItem alloc] initWithTitle:@"ItemD"
 													  label:nil
 													 target:self
 												   selector:@selector(itemSelected:)
 												   userInfo:nil
 													   icon:[UIImage imageNamed:@"icon3.png"]];
-	
-	
+
+
 	PieMenuItem *itemE = [[PieMenuItem alloc] initWithTitle:@"ItemE"
 													  label:nil
 													 target:self
 												   selector:@selector(itemSelected:)
 												   userInfo:nil
 													   icon:[UIImage imageNamed:@"icon4.png"]];
-	
+
 	PieMenuItem *itemF = [[PieMenuItem alloc] initWithTitle:@"ItemF"
 													  label:nil
 													 target:self
 												   selector:@selector(itemSelected:)
 												   userInfo:nil
 													   icon:[UIImage imageNamed:@"icon4.png"]];
-	
+
 	PieMenuItem *itemG = [[PieMenuItem alloc] initWithTitle:@"ItemG"
 													  label:nil
 													 target:self
 												   selector:@selector(itemSelected:)
 												   userInfo:nil
 													   icon:[UIImage imageNamed:@"icon4.png"]];
-	
-	
+
+
 	[itemA addSubItem:itemE];
 	[itemA addSubItem:itemB];
 	[itemA addSubItem:itemD];
-	
+
 	//[pieMenu addItem:itemD];
 	[pieMenu addItem:itemA];
 	[pieMenu addItem:itemC];
@@ -255,7 +255,7 @@ enum {
 	//[pieMenu addItem:itemB];
 	[pieMenu addItem:itemF];
 	[pieMenu addItem:itemG];
-	
+
 	[itemA release];
 	[itemB release];
 	[itemC release];
@@ -286,25 +286,25 @@ enum {
 - (IBAction)longPressDetected:(UILongPressGestureRecognizer *)sender;
 {
     //auto a=0;
-    
+
     //UITouch *touch = [sender. anyObject];
 	CGPoint p = [sender locationInView:self.mGLView];//[touch locationInView:self.view];
 	[pieMenu showInView:self.view atPoint:p];
     //[super touchesBegan:touches withEvent:event];
 
-    
+
 }
 
 
 - (void)viewDidUnload
 {
 	[super viewDidUnload];
-	
+
     if (program) {
         glDeleteProgram(program);
         program = 0;
     }
-    
+
     // Tear down context.
     if ([EAGLContext currentContext] == context)
         [EAGLContext setCurrentContext:nil];
@@ -325,7 +325,7 @@ enum {
 	 */
     if (frameInterval >= 1) {
         animationFrameInterval = frameInterval;
-        
+
         if (animating) {
             [self stopAnimation];
             [self startAnimation];
@@ -341,7 +341,7 @@ enum {
         [aDisplayLink setFrameInterval:animationFrameInterval];
         [aDisplayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         self.displayLink = aDisplayLink;
-        
+
         animating = TRUE;
     }
 }
@@ -360,7 +360,7 @@ enum {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrthof( ( -( LARGEUR_FENETRE / 2) + translationX ) * zoomFactor, ( (LARGEUR_FENETRE / 2) + translationX) * zoomFactor, ( -(HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor, ( (HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor, -5, 100);
-    
+
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
@@ -381,7 +381,7 @@ enum {
     // On inverse selection mode
     mSelectionMode = !mSelectionMode;
     //[sender setSelected:![sender isSelected]];
-    
+
 }
 
 
@@ -393,20 +393,20 @@ enum {
     mCreationMode = !mCreationMode;
     mSelectionMode = false;
     //[sender setSelected:![sender isSelected]];
-    
+
 }
 
 
 - (IBAction)selectToolButtonTouched:(UIButton *)sender
 {
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
-    
+
     // Disponible uniquement si on est en selectionmode
     if (mSelectionMode) {
         mSelectTool = true;
         mMoveTool = false;
     }
-    
+
 }
 - (IBAction)moveToolButtonTouched:(UIButton *)sender
 {
@@ -416,7 +416,7 @@ enum {
         mSelectTool = false;
         mMoveTool = true;
     }
-    
+
 }
 
 - (IBAction)portalButtonTouched:(UIButton *)sender
@@ -432,7 +432,7 @@ enum {
 {
     // On sauvegarde la map
     [mModel saveField];
-    
+
 }
 
 - (CGPoint)convertScreenCoordToVirtualCoord:(CGPoint)pointToConvert;
@@ -441,12 +441,12 @@ enum {
     int AXIS_X_MAX = ( (LARGEUR_FENETRE / 2) + translationX) * zoomFactor;
     int AXIS_Y_MIN = ( -(HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor;
     int AXIS_Y_MAX = ( (HAUTEUR_FENETRE / 2) + translationY ) * zoomFactor;
-    
+
     CGPoint pointVirt;
-    
+
     pointVirt.x = pointToConvert.x / (double) LARGEUR_FENETRE * (AXIS_X_MAX-AXIS_X_MIN) + AXIS_X_MIN;
     pointVirt.y = AXIS_Y_MAX - (pointToConvert.y / (double) HAUTEUR_FENETRE * (AXIS_Y_MAX-AXIS_Y_MIN));
-    
+
     return pointVirt;
 }
 
@@ -487,7 +487,7 @@ enum {
 //            //[[self view] addSubview:imageObjectToAdd];
 //        }
 //    }
-    
+
     NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");
     for(UITouch* touch in touches) {
         CGPoint positionCourante = [touch locationInView:theEAGLView];
@@ -505,13 +505,13 @@ enum {
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    
+
     if ([[event allTouches] count] == 1)
     {
         UITouch *touch = [[event allTouches] anyObject];
         CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
         [mEventManager touchesMoved:touch:touchCoordVirt];
-        
+
         //CGPoint positionCourante = [touch locationInView:theEAGLView];
 //        if (mCreationMode) {
 //            // Si on est en mode creation et touchMoved, on update la position de limage
@@ -561,7 +561,7 @@ enum {
     }
     else if([[event allTouches] count] == 2) {
         // Poor man's pinch, perhaps implement as a UIGesture later on.
-        
+
         // Acquire the position of the two fingers.
         NSSet *allTouches = [event allTouches];
         CGPoint positionFingers[4];
@@ -570,19 +570,19 @@ enum {
             positionFingers[ index++ ] = [touch locationInView:theEAGLView];
             positionFingers[ index++ ] = [touch previousLocationInView:theEAGLView];
         }
-        
+
         float deltaX = positionFingers[2].x - positionFingers[0].x;
         float deltaY = positionFingers[2].y - positionFingers[0].y;
-        
+
         float distance1 = sqrtf( ( pow( deltaX, 2 ) + pow( deltaY, 2 ) ) );
-        
+
         deltaX = positionFingers[3].x - positionFingers[1].x;
         deltaY = positionFingers[3].y - positionFingers[1].y;
-        
+
         float distance2 = sqrtf( ( pow( deltaX, 2 ) + pow( deltaY, 2 ) ) );
-        
+
         zoomFactor += ( distance2 - distance1 ) * 0.001;
-        
+
         if( zoomFactor < 0.2 )
         {
             zoomFactor = 0.2;
@@ -591,15 +591,15 @@ enum {
         {
             zoomFactor = 5.0;
         }
-        
+
         [self updateOrtho];
     }
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    
-    
+
+
     if ([[event allTouches] count] == 1)
     {
         UITouch *touch = [[event allTouches] anyObject];
@@ -618,7 +618,7 @@ enum {
 //                //[imageObjectToAdd removeFromSuperview];
 //                //[imageObjectToAdd release];
 //        }
-        
+
 //        if(mSelectionMode && mSelectTool)
 //        {
 //            
@@ -682,21 +682,21 @@ enum {
 {
     glEnable(GL_DEPTH_TEST);
 	glMatrixMode(GL_PROJECTION);
-    
-    
+
+
 	CGRect rect = theEAGLView.bounds;
-    
+
     [self updateOrtho];
-    
-    
+
+
 	glViewport(0, 0, rect.size.width, rect.size.height);
-    
-    
+
+
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    
+
 	glClearColor(0.3765, 0.4039, 0.4862, 1.0); //Background color for the editing area.
-    
+
 	glGetError(); // Clear error codes
 }
 
@@ -704,11 +704,11 @@ enum {
 - (void)drawFrame
 {
     [(EAGLView *)theEAGLView setFramebuffer];
-    
+
 	static GLfloat rotation = 0.0;
-    
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
+
     //glEnableClientState(GL_VERTEX_ARRAY);
     [mModel render];
     //glDisableClientState(GL_VERTEX_ARRAY);

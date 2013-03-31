@@ -50,8 +50,7 @@ public:
     virtual void acceptVisitor( VisiteurNoeud& v);
 private:
     float mSpawnTimeLeft;// in sec
-    float mMinTimeSpawn;
-    float mMaxTimeSpawn;
+
 
     float mHeightAngle;
 };

@@ -109,16 +109,10 @@ CreateListDelegateImplementation(Bonus)
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeBonus::NodeBonus(const std::string& typeNoeud)
-   : Super(typeNoeud),mMinTimeSpawn(5.5f), mMaxTimeSpawn(10.f),mHeightAngle(0)
+   : Super(typeNoeud),mHeightAngle(0)
 {
     // temp workaround, l'édition va le considérer comme un cercle pour un moment
     setDefaultRadius(DEFAULT_RADIUS);
-
-
-#if MIKE_DEBUG_
-    mMinTimeSpawn = 0;
-    mMaxTimeSpawn = 5;
-#endif
 
     forceFullUpdate();
     ResetTimeLeft();
@@ -332,6 +326,7 @@ void NodeBonus::forceFullUpdate()
         }
 #endif
     }
+    ResetTimeLeft();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -413,10 +408,21 @@ void NodeBonus::renderOpenGLES() const
 void NodeBonus::ResetTimeLeft()
 {
     // precision 2 decimale
-    int min = (int)(mMinTimeSpawn*100.f);
-    int max = (int)(mMaxTimeSpawn*100.f);
+    auto field = getField();
+    if(field)
+    {
+        int min = (int)(field->getBonusesMinTimeSpawn()*100.f);
+        int max = (int)(field->getBonusesMaxTimeSpawn()*100.f);
+        if(min == max)
+        {
+            mSpawnTimeLeft = min;
+        }
+        else
+        {
+            mSpawnTimeLeft = (rand()%(max-min)+min)/100.f;
+        }
+    }
 
-    mSpawnTimeLeft = (rand()%(max-min)+min)/100.f;
 }
 
 ////////////////////////////////////////////////////////////////////////

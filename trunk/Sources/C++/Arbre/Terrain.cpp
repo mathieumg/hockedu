@@ -96,7 +96,6 @@ Terrain::Terrain(Partie* pGame):
 #endif
 {
 
-    mRedoBuffer.reserve(UNDO_BUFFERSIZE);
 #if BOX2D_INTEGRATED
     b2Vec2 gravity(0,0);
     mWorld = new b2World(gravity);
@@ -105,12 +104,6 @@ Terrain::Terrain(Partie* pGame):
     mWorld->SetContinuousPhysics(true);
     mWorld->SetSubStepping(false);
 
-#if BOX2D_PLAY
-    if(IsGameField())
-    {
-        mWorld->SetContactListener(this);
-    }
-#endif
 #if BOX2D_DEBUG
     if(DebugRenderBox2D::mInstance)
     {
@@ -121,17 +114,25 @@ Terrain::Terrain(Partie* pGame):
 #endif
 #endif
 
-    /// Cree la zone edition apres le world, car celle-ci va en avoir besoin
+    setBonusesMinTimeSpawn(5);
+    setBonusesMaxTimeSpawn(15);
+
     mEditionZone = NULL;
-    if(!mGame)
+    if(mGame)
     {
+#if BOX2D_PLAY
+        mWorld->SetContactListener(this);
+#endif
+    }
+    else
+    {
+        /// Cree la zone edition apres le world, car celle-ci va en avoir besoin
         mEditionZone = new ZoneEdition(this);
 
         // cant do undo/redo action by default
         TransmitEvent(CANNOT_UNDO);
         TransmitEvent(CANNOT_REDO);
     }
-
 }
 
 
@@ -409,6 +410,17 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
     if(!XMLUtils::readAttribute(racine,"nom",mFieldName))
         return false;
 
+    float val;
+    if(XMLUtils::readAttribute(racine,"bonusMin",val))
+    {
+        setBonusesMinTimeSpawn(val);
+    }
+    if(XMLUtils::readAttribute(racine,"bonusMax",val))
+    {
+        setBonusesMaxTimeSpawn(val);
+    }
+
+
     try
     {
         mLogicTree->initFromXml(racine);
@@ -678,6 +690,8 @@ XmlElement* Terrain::creerNoeudXML()
     // Créer le noeud 
     XmlElement* racine = XMLUtils::createNode("Terrain");
     XMLUtils::writeAttribute(racine,"nom",getNom());
+    XMLUtils::writeAttribute(racine,"bonusMin",getBonusesMinTimeSpawn());
+    XMLUtils::writeAttribute(racine,"bonusMax",getBonusesMaxTimeSpawn());
 
     VisiteurEcrireXML v;
     acceptVisitor(v);
@@ -2609,9 +2623,56 @@ bool Terrain::renderAppleNode( RazerKey key ) const
     }
     return false;
 }
+
 #endif
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::setBonusesMinTimeSpawn( const float pVal )
+///
+/// /*Description*/
+///
+/// @param[in] const float pVal
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::setBonusesMinTimeSpawn( const float pVal )
+{
+    if(mGame && mGame->isNetworkClientGame())
+    {
+        /// infinite time for client so they won't spawn them themselves
+        mBonusesMinTimeSpawn = 99999.f;
+    }
+    else
+    {
+        mBonusesMinTimeSpawn = pVal;
+    }
+}
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::setBonusesMaxTimeSpawn( const float pVal )
+///
+/// /*Description*/
+///
+/// @param[in] const float pVal
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::setBonusesMaxTimeSpawn( const float pVal )
+{
+    if(mGame && mGame->isNetworkClientGame())
+    {
+        /// infinite time for client so they won't spawn them themselves
+        mBonusesMaxTimeSpawn = 99999.f;
+    }
+    else
+    {
+        mBonusesMaxTimeSpawn = pVal;
+    }
+}
 
 
 
