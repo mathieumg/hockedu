@@ -12,6 +12,7 @@
 #include <Box2D/Box2D.h>
 #endif
 #include "NoeudAbstrait.h"
+#include "NoeudRondelle.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -50,7 +51,13 @@ bool BonusModifierGoThroughWall::Attach( NoeudRondelle* pPuck )
     {
         return AttachToLastHittingMallet(pPuck);
     }
-    return AttachToPuck(pPuck);
+
+    bool r = AttachToPuck(pPuck);
+    if(r)
+    {
+        pPuck->setCanGoThroughwalls(true);
+    }
+    return r;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -120,6 +127,12 @@ bool BonusModifierGoThroughWall::Apply()
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierGoThroughWall::Revert()
 {
+    auto rondelle = dynamic_cast<NoeudRondelle*>(mOwner);
+    if(rondelle)
+    {
+        rondelle->setCanGoThroughwalls(false);
+    }
+
 #if BOX2D_PLAY  
     for(int i=0; i<(int)mFixtures.size(); ++i)
     {

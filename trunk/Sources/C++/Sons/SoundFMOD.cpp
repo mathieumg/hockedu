@@ -116,26 +116,28 @@ void SoundFMOD::init()
     ERRCHECK(result,);
 
 	// Sons par défaut de l'application 
-	create_sound("hockey.mp3", FMOD_SOFTWARE, 0, songs_group);
-	create_sound("SongoftheCagedBird.mp3", FMOD_LOOP_NORMAL, 0, songs_group);
-	create_sound("Diamond_Mine.xm", FMOD_LOOP_NORMAL, 0, songs_group);
+    /*STARTUP_SONG,*/create_sound("hockey.mp3", FMOD_SOFTWARE, 0, songs_group);
+    /*EDITION_MODE_SONG,*/create_sound("EditionMode.mp3", FMOD_LOOP_NORMAL, 0, songs_group);
+    /*MENU_MODE_SONG,*/create_sound("Diamond_Mine.xm", FMOD_LOOP_NORMAL, 0, songs_group);
+    /*LINDSEY_CAGE_SONG,*/create_sound("SongoftheCagedBird.mp3", FMOD_LOOP_NORMAL, 0, songs_group);
 	
 	// Volume des musiques
 	songs_group->setVolume((float)0.25);
 
 	// Effets sonores
- 	create_sound("goal.wav", FMOD_SOFTWARE, 0,		effects_group);
- 	create_sound("collision_muret.wav", FMOD_SOFTWARE, 0,		effects_group);
- 	create_sound("collision_maillet1.wav", FMOD_SOFTWARE, 0,effects_group);
- 	create_sound("collision_maillet2.wav", FMOD_SOFTWARE, 0,effects_group);
- 	create_sound("collision_maillet3.wav", FMOD_SOFTWARE, 0,effects_group);
- 	create_sound("collision_maillet4.wav", FMOD_SOFTWARE, 0,effects_group);
- 	create_sound("collision_maillet5.wav", FMOD_SOFTWARE, 0,effects_group);
-	create_sound("click.wav", FMOD_SOFTWARE, 0,			effects_group);
-	create_sound("beep-3.wav", FMOD_SOFTWARE, 0,		effects_group);
-	create_sound("portalenter.wav", FMOD_SOFTWARE, 0,		effects_group);
-	create_sound("pause.wav", FMOD_SOFTWARE, 0,		effects_group);
-	create_sound("accelerator.mp3", FMOD_SOFTWARE, 0,		effects_group);
+    /*GOAL_EFFECT,*/create_sound("goal.wav", FMOD_SOFTWARE, 0,		effects_group);
+    /*COLLISION_MURET_EFFECT, */create_sound("collision_muret.wav", FMOD_SOFTWARE, 0,		effects_group);
+    /*COLLISION_MAILLET_EFFECT1,*/create_sound("collision_maillet1.wav", FMOD_SOFTWARE, 0,effects_group);
+    /*COLLISION_MAILLET_EFFECT2,*/create_sound("collision_maillet2.wav", FMOD_SOFTWARE, 0,effects_group);
+    /*COLLISION_MAILLET_EFFECT3,*/create_sound("collision_maillet3.wav", FMOD_SOFTWARE, 0,effects_group);
+    /*COLLISION_MAILLET_EFFECT4,*/create_sound("collision_maillet4.wav", FMOD_SOFTWARE, 0,effects_group);
+    /*COLLISION_MAILLET_EFFECT5,*/create_sound("collision_maillet5.wav", FMOD_SOFTWARE, 0,effects_group);
+    /*CLICK_EFFECT, */create_sound("click.wav", FMOD_SOFTWARE, 0,			effects_group);
+    /*BEEP_EFFECT,*/create_sound("beep-3.wav", FMOD_SOFTWARE, 0,		effects_group);
+    /*PORTAL_EFFECT,*/create_sound("portalenter.wav", FMOD_SOFTWARE, 0,		effects_group);
+    /*PAUSE_EFFECT,*/create_sound("pause.wav", FMOD_SOFTWARE, 0,		effects_group);
+    /*ACCELERATOR_EFFECT,*/create_sound("accelerator.mp3", FMOD_SOFTWARE, 0,		effects_group);
+    
 	effects_group->setMaxAudible(100);
 	effects_group->setMaxAudibleBehavior(FMOD_SOUNDGROUP_BEHAVIOR_MUTE);
 	

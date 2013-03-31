@@ -350,6 +350,7 @@ void GestionnaireModeles::initialiser()
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_MURET               , RazerGameUtilities::CreateListDelegateWall));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_PORTAIL             , RazerGameUtilities::CreateListDelegatePortal));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_RONDELLE            , RazerGameUtilities::CreateListDelegatePuck));
+    tamponGlobal.vec.push_back(ModelToLoad("rondelleTroll"                             , RazerGameUtilities::CreateListDelegatePuckTroll));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_ACCELERATEUR        , RazerGameUtilities::CreateListDelegateBoost));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NOM_MAILLET             , RazerGameUtilities::CreateListDelegateMallet));
     tamponGlobal.vec.push_back(ModelToLoad(RazerGameUtilities::NAME_TABLE_CONTROL_POINT, "control_point/control_point",RazerGameUtilities::CreateListDelegateTableControlPoint));

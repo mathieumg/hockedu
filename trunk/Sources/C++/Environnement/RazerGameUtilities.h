@@ -98,6 +98,8 @@ public:
     /// La chaîne représentant le type de la rondelle.
     static const std::string NOM_RONDELLE;
     CreateListDelegateSignature(Puck);
+    CreateListDelegateSignature(PuckTroll);
+
 
     /// La chaîne représentant le type des maillets.
     static const std::string NOM_MAILLET;

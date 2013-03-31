@@ -1,0 +1,15 @@
+#
+## Alias OBJ Material File
+# Exported from SketchUp, (c) 2000-2006 Google, Inc.
+
+newmtl TrollFace
+Ka 0.000000 0.000000 0.000000
+Kd 0.921569 0.921569 0.921569
+Ks 0.330000 0.330000 0.330000
+map_Kd TrollFace.png
+
+newmtl _Charcoal_
+Ka 0.000000 0.000000 0.000000
+Kd 0.349020 0.086275 0.105882
+Ks 0.330000 0.330000 0.330000
+
