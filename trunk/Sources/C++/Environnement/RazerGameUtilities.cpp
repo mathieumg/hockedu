@@ -351,9 +351,10 @@ void RazerGameUtilities::FillPhysicsFilters()
     EditionFilters[RAZER_KEY_TABLE] = PhysicsFilter(CATEGORY_BOUNDARY, CATEGORY_MALLET,-1);
     EditionFilters[RAZER_KEY_PUCK_CATCHER] = PhysicsFilter(CATEGORY_BOUNDARY, CATEGORY_PUCK,-1);
     EditionFilters[RAZER_KEY_BONUS] = PhysicsFilter(CATEGORY_BONUS, 0xFFFF);
-    EditionFilters[RAZER_KEY_CONTROL_POINT] = PhysicsFilter(CATEGORY_NONE, CATEGORY_SELECTION);
+    /// utilisation d'une category de gameplay pour pouvoir simplement faire la selection avec celui-ci
+    EditionFilters[RAZER_KEY_CONTROL_POINT] = PhysicsFilter(CATEGORY_FORCE_FIELD, CATEGORY_SELECTION);
     EditionFilters[RAZER_KEY_ZONE_EDITION] = PhysicsFilter(CATEGORY_BOUNDARY,0xFFFF,-1);
-    EditionFilters[RAZER_KEY_SELECTION_BODY] = PhysicsFilter(CATEGORY_SELECTION,0,-1);
+    EditionFilters[RAZER_KEY_SELECTION_BODY] = PhysicsFilter(CATEGORY_SELECTION,0xFFFF,-1);
 
     GameFilters.clear();
     GameFilters[RAZER_KEY_RINK_BOARD] = PhysicsFilter(CATEGORY_BOUNDARY, CATEGORY_PUCK|CATEGORY_MALLET);
