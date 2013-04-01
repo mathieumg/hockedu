@@ -201,28 +201,28 @@ enum {
 													 target:self
 												   selector:@selector(selectToolButtonTouched:)
 												   userInfo:nil
-													   icon:[UIImage imageNamed:@"icon1.png"]];
+													   icon:[UIImage imageNamed:@"cursor_24x24.png"]];
     
 	PieMenuItem *itemB = [[PieMenuItem alloc] initWithTitle:@"Move"
 													  label:nil
 													 target:self
 												   selector:@selector(moveToolButtonTouched:)
 												   userInfo:nil
-													   icon:[UIImage imageNamed:@"icon1.png"]];
+													   icon:[UIImage imageNamed:@"move_alt2_24x24.png"]];
 	
 	PieMenuItem *itemC = [[PieMenuItem alloc] initWithTitle:@"Rotate"
 													  label:nil
 													 target:self
 												   selector:@selector(rotationToolButtonTouched:)
 												   userInfo:nil
-													   icon:[UIImage imageNamed:@"icon2.png"]];
+													   icon:[UIImage imageNamed:@"curved_arrow_24x18.png"]];
 	
 	PieMenuItem *itemD = [[PieMenuItem alloc] initWithTitle:@"Scale"
 													  label:nil
 													 target:self
 												   selector:@selector(scaleToolButtonTouched:)
 												   userInfo:nil
-													   icon:[UIImage imageNamed:@"icon3.png"]];
+													   icon:[UIImage imageNamed:@"fullscreen_24x24.png"]];
 	
 	
 	PieMenuItem *itemE = [[PieMenuItem alloc] initWithTitle:@"Duplicate"
@@ -230,21 +230,21 @@ enum {
 													 target:self
 												   selector:@selector(duplicateToolButtonTouched:)
 												   userInfo:nil
-													   icon:[UIImage imageNamed:@"icon4.png"]];
+													   icon:[UIImage imageNamed:@"fork_21x24.png"]];
 	
 	PieMenuItem *itemF = [[PieMenuItem alloc] initWithTitle:@"Delete"
 													  label:nil
 													 target:self
 												   selector:@selector(deleteToolButtonTouched:)
 												   userInfo:nil
-													   icon:[UIImage imageNamed:@"icon4.png"]];
+													   icon:[UIImage imageNamed:@"x_alt_24x24.png"]];
 	
 	PieMenuItem *itemG = [[PieMenuItem alloc] initWithTitle:@"Properties"
 													  label:nil
 													 target:self
 												   selector:@selector(itemSelected:)
 												   userInfo:nil
-													   icon:[UIImage imageNamed:@"icon4.png"]];
+													   icon:[UIImage imageNamed:@"cog_24x24.png"]];
 	
 	
 	//[itemA addSubItem:itemE];
