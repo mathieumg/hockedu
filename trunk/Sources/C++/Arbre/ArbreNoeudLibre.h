@@ -23,6 +23,7 @@ class ArbreNoeudLibre :
 	public NoeudComposite
 {
 public:
+    ArbreNoeudLibre();
 	/// Vide le noeud de ses enfants sans libérer la mémoire.
 	virtual void empty();
     /// Efface le noeud du conteneur de noeud, le noeud n'est pas libéré

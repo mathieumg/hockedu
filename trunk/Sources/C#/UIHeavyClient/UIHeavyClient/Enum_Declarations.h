@@ -35,6 +35,7 @@ typedef enum
     {
         ACTION_EDITEUR_NOUVEAU     ,
         ACTION_REINITIALISER_PARTIE,
+        ACTION_REINITIALISER_RONDELLE,
         ACTION_PAUSE_JEU           ,
         ACTION_REPLAY              ,
         ACTION_CAMERA              ,
@@ -158,24 +159,37 @@ public enum RazerKey
 typedef enum
 #endif
     {
-        RAZER_KEY_NONE                ,
-        RAZER_KEY_BOOST               ,
-        RAZER_KEY_HOUSE               ,
+        RAZER_KEY_NONE                 ,
+        RAZER_KEY_BOOST                ,
+        RAZER_KEY_HOUSE                ,
         RAZER_KEY_GOAL                 ,
-        RAZER_KEY_WALL                ,
-        RAZER_KEY_RINK_BOARD          ,
-        RAZER_KEY_TABLE               ,
-        RAZER_KEY_PORTAL              ,
-        RAZER_KEY_PUCK                ,
-        RAZER_KEY_MALLET              ,
-        RAZER_KEY_TABLE_CONTROL_POINT ,
-        RAZER_KEY_CONTROL_POINT       ,
-        RAZER_KEY_GROUP               ,
-        RAZER_KEY_POLYGON             ,
-        RAZER_KEY_ZAMBONI             ,
-        RAZER_KEY_EMPTY_BONUS         ,
-        RAZER_KEY_BONUS               ,
-        RAZER_KEY_GOALER              ,
+        RAZER_KEY_WALL                 ,
+        RAZER_KEY_RINK_BOARD           ,
+        RAZER_KEY_TABLE                ,
+        RAZER_KEY_PORTAL               ,
+        RAZER_KEY_PUCK                 ,
+        RAZER_KEY_PUCK_CATCHER                 ,
+        RAZER_KEY_PUCK_TROLL           ,
+        RAZER_KEY_MALLET               ,
+        RAZER_KEY_TABLE_CONTROL_POINT  ,
+        RAZER_KEY_CONTROL_POINT        ,
+        RAZER_KEY_GROUP                ,
+        RAZER_KEY_POLYGON              ,
+        RAZER_KEY_ZAMBONI              ,
+        RAZER_KEY_EMPTY_BONUS          ,
+        RAZER_KEY_BONUS                ,
+        RAZER_KEY_GOALER               ,
+        RAZER_KEY_FAN                  ,
+        RAZER_KEY_PAUSE                ,
+        RAZER_KEY_MODEL_1              ,
+        RAZER_KEY_MODEL_2              ,
+        RAZER_KEY_MODEL_3              ,
+        RAZER_KEY_ROOT_TREE            ,
+        RAZER_KEY_ZONE_EDITION            ,
+        RAZER_KEY_SELECTION_BODY            ,
+        RAZER_KEY_FORCE_FIELD           ,
+
+        NB_RAZER_KEYS
     }
 #if !CSHARP
 RazerKey
@@ -245,6 +259,7 @@ typedef enum
         CATEGORY_WALL     = 0x0040,      /// Expected to have NoeudAbstrait* as user data 
         CATEGORY_FORCE_FIELD = 0x0080,   /// Expected to have ForceField* as user data
         CATEGORY_MIDLANE = 0x0100,   /// Expected to have NoeudTable* as user data
+        CATEGORY_SELECTION = 0x0200,   /// Used to select node inedition
     }
 #if !CSHARP
 PhysicsCategory

@@ -45,7 +45,7 @@ CreateListDelegateImplementation(Boost)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudAccelerateur::NoeudAccelerateur(const std::string& typeNoeud)
-	: NoeudAbstrait(typeNoeud),bonusAccel_(1.50), activer_(true)
+	: NoeudAbstrait(RAZER_KEY_BOOST,typeNoeud),bonusAccel_(1.50), activer_(true)
 {
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
@@ -255,22 +255,7 @@ void NoeudAccelerateur::updatePhysicBody()
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
         myFixtureDef.density = 1;
-
-        // Il s'agit ici d'un boost qui peut entré en collision avec une rondell
-        if(IsInGame())
-        {
-            myFixtureDef.filter.categoryBits = CATEGORY_BOOST;
-            myFixtureDef.filter.maskBits = CATEGORY_PUCK;
-
-            // Le sensor indique qu'on va recevoir la callback de collision avec la rondelle sans vraiment avoir de collision
-            myFixtureDef.isSensor = true;
-        }
-        else
-        {
-            myFixtureDef.filter.categoryBits = CATEGORY_BOOST;
-            myFixtureDef.filter.maskBits = 0xFFFF;
-            myFixtureDef.filter.groupIndex = 1;
-        }
+        RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_BOOST,IsInGame());
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         mPhysicBody->SetUserData(this);

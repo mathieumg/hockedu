@@ -34,13 +34,7 @@ public:
    virtual void tick( const float& temps );
    /// Accueil un visiteur
    virtual void acceptVisitor( VisiteurNoeud& v);
-
-   /// accessor to the key to retrieve the list and/or 3D Model
-   virtual const std::string& get3DModelKey() const {return mModelKey;}
-
-   /// Modifie les listes d'affichage
-   void modifierListes(const std::string& nomListe);
-
+   
    /// Reset l'echele a l'origine
    virtual void resetEchelle() 
    {
@@ -50,9 +44,7 @@ public:
    virtual void peindreElement();
 
 private:
-	Vecteur3 echelleBase_;
-    std::string mModelKey;
-	
+	Vecteur3 echelleBase_;	
 };
 
 

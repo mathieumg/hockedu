@@ -222,9 +222,11 @@ void VisiteurDeplacement::visiterNoeudPoint( NoeudPoint* noeud )
     {
         if(noeud->validerDeplacement(posRelative, deplacement_,VY) && noeud->validerDeplacement(posRelative, deplacement_,VX))
         {
-            noeud->setPosition(posRelative+Vecteur3(deplacement_[VX], deplacement_[VY], 0));
+            noeud->setPosition(posRelative+deplacement_);
             deplacement_[VX]*=-1;
             noeud->obtenirPointSym()->setPosition(noeud->obtenirPointSym()->getPosition()+deplacement_);
+            // revert change since other node might want the modif
+            deplacement_[VX]*=-1;
         }
     }
 

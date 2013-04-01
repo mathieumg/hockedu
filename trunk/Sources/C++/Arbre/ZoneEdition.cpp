@@ -299,7 +299,7 @@ void ZoneEdition::rebuild()
         float y2 = mLimitExtY;
 
         const float intervalle = 30;
-        const float zValue = 1;
+        const float zValue = -5;
         const int size = (int)( ( ( mLimitExtY + mLimitExtX )*2.f / intervalle ) + 5 ) * 3 * 2;
         mRenderVertices = new float[size];
 
@@ -393,8 +393,7 @@ void ZoneEdition::rebuild()
             mPhysicsBody = world->CreateBody(&def);
 
             b2FixtureDef fixtureDef;
-            fixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
-            fixtureDef.filter.maskBits = 0xFFFF;
+            RazerGameUtilities::ApplyFilters(fixtureDef,RAZER_KEY_ZONE_EDITION,false);
 
             /// default filter for edition, collides with everything
 

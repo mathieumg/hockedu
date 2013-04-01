@@ -5,6 +5,9 @@
         WindowStyle="None">
     <StackPanel>
         <Label>Achievement Unlocked :</Label>
+        <StackPanel Orientation="Horizontal">
+        <Image Source="FuckYeah.jpg" Width="60"/>
         <Label Name="mAchievementName"/>
+        </StackPanel>
     </StackPanel>
 </Window>

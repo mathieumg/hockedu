@@ -277,9 +277,8 @@ void VisitorGatherProperties::visiterNoeudTable( NoeudTable* noeud )
             SET_PROPERTY(ZONE_X,x,mProperties->mZoneEditionX);
             SET_PROPERTY(ZONE_Y,y,mProperties->mZoneEditionY);
         }
-        // todo:::
-        SET_PROPERTY(BONUS_MIN,0,mProperties->mMinBonusSpawnTime);
-        SET_PROPERTY(BONUS_MAX,0,mProperties->mMaxBonusSpawnTime);
+        SET_PROPERTY(BONUS_MIN,field->getBonusesMinTimeSpawn(),mProperties->mMinBonusSpawnTime);
+        SET_PROPERTY(BONUS_MAX,field->getBonusesMaxTimeSpawn(),mProperties->mMaxBonusSpawnTime);
     }
     mProperties->mRinkRebound1 = noeud->obtenirCoefRebond(0);
     mProperties->mRinkRebound2 = noeud->obtenirCoefRebond(1);

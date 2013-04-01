@@ -255,9 +255,8 @@ void VisitorSetProperties::visiterNoeudTable( NoeudTable* noeud )
             zone->modifierLimiteExtY(mProperties->mZoneEditionY);
             zone->modifierLimiteExtX(mProperties->mZoneEditionX);
         }
-        // todo:::
-//         SET_PROPERTY(BONUS_MIN,0,mProperties->mMinBonusSpawnTime);
-//         SET_PROPERTY(BONUS_MAX,0,mProperties->mMaxBonusSpawnTime);
+        field->setBonusesMinTimeSpawn(mProperties->mMinBonusSpawnTime);
+        field->setBonusesMaxTimeSpawn(mProperties->mMaxBonusSpawnTime);
     }
 
     noeud->modifierCoefRebond(0,mProperties->mRinkRebound1);

@@ -164,7 +164,7 @@ void BonusModifierFan::render() const
 #if WIN32
 
     GLuint listeFan=0,listeFanCase=0;
-    GestionnaireModeles::obtenirInstance()->obtenirListe("Fan",listeFan);
+    GestionnaireModeles::obtenirInstance()->obtenirListe(RAZER_KEY_FAN,listeFan);
     checkf(mOwner);
     if(listeFan)
     {

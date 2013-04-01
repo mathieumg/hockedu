@@ -12,6 +12,7 @@
 #include <Box2D/Box2D.h>
 #endif
 #include "NoeudAbstrait.h"
+#include "NoeudRondelle.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -50,6 +51,7 @@ bool BonusModifierGoThroughWall::Attach( NoeudRondelle* pPuck )
     {
         return AttachToLastHittingMallet(pPuck);
     }
+
     return AttachToPuck(pPuck);
 }
 
@@ -83,6 +85,13 @@ bool BonusModifierGoThroughWall::Apply()
                 return false;
             }
         }
+
+        auto rondelle = dynamic_cast<NoeudRondelle*>(mOwner);
+        if(rondelle)
+        {
+            rondelle->setSkinKey(RAZER_KEY_PUCK_TROLL);
+        }
+
 #if BOX2D_PLAY 
 
         auto body = mOwner->getPhysicBody();
@@ -120,6 +129,12 @@ bool BonusModifierGoThroughWall::Apply()
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierGoThroughWall::Revert()
 {
+    auto rondelle = dynamic_cast<NoeudRondelle*>(mOwner);
+    if(rondelle)
+    {
+        rondelle->resetSkin();
+    }
+
 #if BOX2D_PLAY  
     for(int i=0; i<(int)mFixtures.size(); ++i)
     {

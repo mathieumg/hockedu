@@ -46,7 +46,7 @@ GestionnaireHUD::GestionnaireHUD()
     //creerHUDEdition();
 
 
-    GestionnaireModeles::obtenirInstance()->obtenirListe("pause",listePause_);
+    GestionnaireModeles::obtenirInstance()->obtenirListe(RAZER_KEY_PAUSE,listePause_);
 }
 
 ////////////////////////////////////////////////////////////////////////

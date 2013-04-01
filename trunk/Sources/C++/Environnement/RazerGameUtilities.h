@@ -38,6 +38,26 @@ typedef unsigned int (*CreateListDelegate)(class Modele3D*);
 
 class Terrain;
 class Runnable;
+struct b2FixtureDef;
+struct PhysicsFilter
+{
+    PhysicsFilter(short category =0,
+        short maskbit=0,
+        short group=0,
+        bool isSensor=false):
+    mCategory(category),
+        mMaskbit(maskbit),
+        mGroup(group),
+        mIsSensor(isSensor)
+    {
+
+    }
+
+    short mCategory;
+    short mMaskbit;
+    short mGroup;
+    bool mIsSensor;
+};
 
 
 class RazerGameUtilities {
@@ -98,6 +118,8 @@ public:
     /// La chaîne représentant le type de la rondelle.
     static const std::string NOM_RONDELLE;
     CreateListDelegateSignature(Puck);
+    CreateListDelegateSignature(PuckTroll);
+
 
     /// La chaîne représentant le type des maillets.
     static const std::string NOM_MAILLET;
@@ -190,6 +212,15 @@ public:
         }
         return RAZER_KEY_NONE;
     }
+
+
+#if BOX2D_INTEGRATED  
+    static void FillPhysicsFilters();
+    static std::map<RazerKey,PhysicsFilter> EditionFilters;
+    static std::map<RazerKey,PhysicsFilter> GameFilters;
+    static void ApplyFilters(b2FixtureDef& def,RazerKey key, bool inGame);
+#endif
+
 };
 
 

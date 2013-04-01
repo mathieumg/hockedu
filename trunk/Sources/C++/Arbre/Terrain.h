@@ -250,6 +250,11 @@ private:
     bool mDoingUndoRedo;
 
 
+    float mBonusesMinTimeSpawn;
+    float mBonusesMaxTimeSpawn;
+
+
+
 #if BOX2D_INTEGRATED  
     class b2World* mWorld;
 #endif
@@ -303,6 +308,15 @@ public:
 
     NoeudMaillet* getLeftMallet() const;
     NoeudMaillet* getRightMallet() const;
+
+    /// Accessors of mBonusesMinTimeSpawn
+    inline float getBonusesMinTimeSpawn() const { return mBonusesMinTimeSpawn; }
+    void setBonusesMinTimeSpawn(const float pVal);
+
+    /// Accessors of mBonusesMaxTimeSpawn
+    inline float getBonusesMaxTimeSpawn() const { return mBonusesMaxTimeSpawn; }
+    void setBonusesMaxTimeSpawn(const float pVal);
+
 #if BOX2D_INTEGRATED  
     inline class b2World* GetWorld() {return mWorld;}
 #endif

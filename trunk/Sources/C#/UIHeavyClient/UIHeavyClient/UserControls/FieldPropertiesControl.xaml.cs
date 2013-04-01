@@ -131,14 +131,14 @@ namespace UIHeavyClient.UserControls
                 mPositionY.Increment = 1f;
                 mPositionY.Value = 0;
 
-                mRinkRebound1.LabelName = "Left   Top    board rebound";
-                mRinkRebound2.LabelName = "Top    Left   board rebound";
-                mRinkRebound3.LabelName = "Top    Right  board rebound";
-                mRinkRebound4.LabelName = "Right  Top    board rebound";
-                mRinkRebound5.LabelName = "Right  Bottom board rebound";
-                mRinkRebound6.LabelName = "Bottom Right  board rebound";
-                mRinkRebound7.LabelName = "Bottom Left   board rebound";
-                mRinkRebound8.LabelName = "Left   Bottom board rebound";
+                mRinkRebound1.LabelName = "Left Top rebound";
+                mRinkRebound2.LabelName = "Top Left rebound";
+                mRinkRebound3.LabelName = "Top Right rebound";
+                mRinkRebound4.LabelName = "Right Top rebound";
+                mRinkRebound5.LabelName = "Right Bottom rebound";
+                mRinkRebound6.LabelName = "Bottom Right rebound";
+                mRinkRebound7.LabelName = "Bottom Left rebound";
+                mRinkRebound8.LabelName = "Left Bottom rebound";
                 
                 mRinkRebound1.MaxValue = 2;
                 mRinkRebound1.Increment = 0.05f;

@@ -53,7 +53,7 @@ CreateListDelegateImplementation(Wall)
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeWallAbstract::NodeWallAbstract(const std::string& typeNoeud)
-	: Super(typeNoeud)
+	: Super(RAZER_KEY_WALL,typeNoeud)
 {
 	mReboundRatio = 0.75f;
 }
@@ -120,16 +120,7 @@ void NodeWallAbstract::updatePhysicBody()
         myFixtureDef.shape = &shape; //this is a pointer to the shape above
         myFixtureDef.density = 1;
         myFixtureDef.restitution = getReboundRatio();
-        if(IsInGame())
-        {
-            myFixtureDef.filter.categoryBits = CATEGORY_WALL;
-            myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_MALLET;
-        }
-        else
-        {
-            myFixtureDef.filter.categoryBits = CATEGORY_WALL;
-            myFixtureDef.filter.maskBits = 0xFFFF;
-        }
+        RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_WALL,IsInGame());
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         mPhysicBody->SetUserData(this);
@@ -230,22 +221,6 @@ bool NodeWallAbstract::initFromXml( const XmlElement* element )
 	mReboundRatio = floatElem;
 
 	return true;
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn const std::string& NodeWallAbstract::get3DModelKey()
-///
-/// accessor to the key to retrieve the list and/or 3D Model
-///
-///
-/// @return const std::string&
-///
-////////////////////////////////////////////////////////////////////////
-const std::string& NodeWallAbstract::get3DModelKey() const
-{
-    // in all case for the wall we want to use the same model
-    return RazerGameUtilities::NOM_MURET;
 }
 
 ////////////////////////////////////////////////////////////////////////

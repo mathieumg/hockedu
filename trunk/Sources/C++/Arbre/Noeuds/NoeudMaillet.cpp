@@ -57,7 +57,7 @@ CreateListDelegateImplementation(Mallet)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet::NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCreated, unsigned int malletLimit)
-   : NoeudAbstrait(typeNoeud), vitesse_(300.0),estControleParClavier_(false), joueur_(0),mNbMalletCreated(malletCreated)
+   : NoeudAbstrait(RAZER_KEY_MALLET,typeNoeud), vitesse_(300.0),estControleParClavier_(false), joueur_(0),mNbMalletCreated(malletCreated)
 #if BOX2D_PLAY
 , mMouseJoint(NULL),mMouseBody(NULL)
 #endif
@@ -524,14 +524,7 @@ void NoeudMaillet::updatePhysicBody()
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
         myFixtureDef.density = 0.02f;
-        {
-            myFixtureDef.filter.categoryBits = CATEGORY_MALLET;
-            myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_BOUNDARY | CATEGORY_WALL | CATEGORY_MIDLANE;
-        }
-        if(!IsInGame())
-        {
-            myFixtureDef.filter.groupIndex = 1;
-        }
+        RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_MALLET,IsInGame());
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         mPhysicBody->SetUserData(this);

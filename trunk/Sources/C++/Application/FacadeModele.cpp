@@ -13,8 +13,6 @@
 /**
 
 @mainpage Projet intégrateur de troisième année -- LOG3900
-
-@li <a href="../javadoc/index.html">Documentation Javadoc de la partie Java.</a>
 */
 #define _WINSOCKAPI_
 #include <windows.h>
@@ -81,6 +79,8 @@
 #include "BonusModifierFactory.h"
 #include "SoundFMOD.h"
 #include "..\Achievements\LaunchAchievementLite.h"
+#include "..\Reseau\Paquets\PaquetGameEvent.h"
+#include "..\Reseau\RelayeurMessage.h"
 
 /// Pointeur vers l'instance unique de la classe.
 FacadeModele* FacadeModele::instance_ = 0;
@@ -1832,8 +1832,31 @@ void FacadeModele::appliquerVue(int quelViewport/* = 1*/)
 void FacadeModele::togglePause()
 {
     Partie* wGame = obtenirPartieCourante();
-    if(wGame && !GestionnaireAnimations::obtenirInstance()->estJouerReplay())
-        wGame->modifierEnPause(!wGame->estEnPause());
+    if(wGame)
+    {
+        checkf(!wGame->isNetworkServerGame(), "Un serveur ne peut demander de faire pause par ici");
+        if(wGame->isNetworkClientGame())
+        {
+            if(wGame->estEnPause())
+            {
+                PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+                wPaquet->setGameId(FacadeModele::getInstance()->obtenirPartieCouranteId());
+                wPaquet->setEvent(GAME_EVENT_START_GAME);
+                RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
+            }
+            else
+            {
+                PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+                wPaquet->setGameId(FacadeModele::getInstance()->obtenirPartieCouranteId());
+                wPaquet->setEvent(GAME_EVENT_PAUSE_GAME_REQUESTED);
+                RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
+            }
+        }
+        else if(!GestionnaireAnimations::obtenirInstance()->estJouerReplay())
+        {
+            wGame->modifierEnPause(!wGame->estEnPause());
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -2101,6 +2124,29 @@ unsigned int FacadeModele::obtenirNbNoeudSelect()
     VisiteurEstSelectione v;
     acceptVisitor(v);
     return (unsigned int)v.obtenirListeNoeuds()->size();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void FacadeModele::reinitialiserRondelle()
+///
+/// Reinitialise la rondelle a son etat original
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void FacadeModele::reinitialiserRondelle()
+{
+    auto partie = obtenirPartieCourante();
+    if(partie)
+    {
+        checkf(!partie->isNetworkClientGame(),"Feature not implemented yet");
+        if(!partie->isNetworkClientGame())
+        {
+            partie->miseAuJeu(false);
+        }
+    }
 }
 
 

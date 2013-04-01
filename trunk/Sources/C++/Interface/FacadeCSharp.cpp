@@ -375,47 +375,11 @@ void OnMouseWheelMoved( int deltaRotation )
 
 bool ActionPerformed( ActionType action )
 {
-    if(action == ACTION_SUPPRIMER || action == ACTION_EDITEUR_NOUVEAU || action == ACTION_REINITIALISER_PARTIE)
-    {
-        // Si on est dans le cas de suppression et qu'il n'y a pas de sélection.
-        if(action == ACTION_SUPPRIMER  && !FacadeModele::getInstance()->possedeSelection())
-            return false;
-
-        //checkf(0,"Enleve le check pour les cas une fois que la fenetre de validation est géré par le C#");
-    }
+    // Si on est dans le cas de suppression et qu'il n'y a pas de sélection.
+    if(action == ACTION_SUPPRIMER  && !FacadeModele::getInstance()->possedeSelection())
+        return false;
 
     return RepartiteurActions::obtenirInstance()->appelerMethodeAction(action);
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn bool IsGamePaused()
-///
-/// /*Description*/
-///
-///
-/// @return bool
-///
-////////////////////////////////////////////////////////////////////////
-bool IsGamePaused()
-{
-    return FacadeModele::getInstance()->estEnPause();
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void PauseGame( bool doPause )
-///
-/// /*Description*/
-///
-/// @param[in] bool doPause
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void PauseGame( bool doPause )
-{
-    FacadeModele::getInstance()->modifierEnPause(doPause);
 }
 
 ////////////////////////////////////////////////////////////////////////

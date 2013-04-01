@@ -95,7 +95,7 @@ int NoeudTable::expectedChildCount()
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudTable::NoeudTable(const std::string& typeNoeud)
-   : NoeudComposite(typeNoeud) , coefFriction_(0.3f)
+   : NoeudComposite(RAZER_KEY_TABLE,typeNoeud) , coefFriction_(0.3f)
 {
     /// les noeuds points ne peuvent etre supprimer
     mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
@@ -1339,9 +1339,7 @@ void NoeudTable::updatePhysicBody()
             b2FixtureDef myFixtureDef;
             myFixtureDef.shape = &shape; //this is a pointer to the shapeHaut above
             myFixtureDef.density = 1;
-
-            myFixtureDef.filter.categoryBits = CATEGORY_MIDLANE;
-            myFixtureDef.filter.maskBits = CATEGORY_MALLET;
+            RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_TABLE,IsInGame());
 
             mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
             mPhysicBody->SetUserData(this);

@@ -36,6 +36,7 @@ public:
 
 	/// Constructeur.
 	NoeudComposite(
+        RazerKey defaultKey,
 		const std::string& type = std::string( "" )
 		);
 	/// Destructeur.

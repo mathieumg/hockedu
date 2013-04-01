@@ -17,6 +17,15 @@
 #include "RunnableBreaker.h"
 class NoeudTable;
 class NoeudMaillet;
+
+enum PuckFlags
+{
+    /// Indicates if a collision has benn detected in this frame
+    PUCK_COLLISION_DETECTED,
+
+    NB_PUCK_FLAGS
+};
+
 ///////////////////////////////////////////////////////////////////////////
 /// @class NoeudRondelle
 /// @brief Classe qui représente une rondelle du jeu.
@@ -92,7 +101,6 @@ public:
     virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
     //////////////////////////////////////////////////////////////////////////
 
-    virtual const std::string& get3DModelKey() const;
 
     static const float DEFAULT_RADIUS;
 private:
@@ -124,9 +132,7 @@ private:
     /// Conservation en memoire de la position de la rondelle leur du debut de la partie
     Vecteur3 positionOriginale_;
 
-    /// Indicates if a collision has benn detected in this frame
-    bool mCollisionDetected;
-
+    Flags<int,NB_PUCK_FLAGS> mFlags;
 
     /// reference to the factory's counter of puck instances
     unsigned int& mNbPuckCreated;
@@ -138,8 +144,8 @@ public:
 
 
     /// Accessors of mCollisionDetected
-    inline bool IsCollisionDetected() const { return mCollisionDetected; }
-    inline void setCollisionDetected(const bool& pVal) { mCollisionDetected = pVal; }
+    inline bool IsCollisionDetected() const { return mFlags.IsFlagSet(PUCK_COLLISION_DETECTED); }
+    inline void setCollisionDetected(bool pVal) { mFlags.SetFlag(pVal,PUCK_COLLISION_DETECTED); }
 };
 
 
