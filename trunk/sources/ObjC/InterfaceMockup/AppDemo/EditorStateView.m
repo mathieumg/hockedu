@@ -19,7 +19,7 @@
 }
 -(void)touchesMoved:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model
 {
-    
+   
 }
 -(void)touchesEnded:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model
 {

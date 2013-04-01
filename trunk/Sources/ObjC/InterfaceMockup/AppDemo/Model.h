@@ -24,4 +24,7 @@
 -(void) beginModification:(FieldModificationStrategyType)type:(CGPoint)coordVirt;
 -(void) eventModification:(FieldModificationStrategyEventType)type:(CGPoint)coordVirt;
 -(void) eventCancel;
+-(void) endModification;
+-(void) duplicateSelection;
+-(void) deleteSelection;
 @end

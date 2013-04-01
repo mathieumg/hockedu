@@ -90,6 +90,10 @@ typedef enum{
 - (IBAction)selectionModeButtonTouched:(UIButton *)sender;
 - (IBAction)selectToolButtonTouched:(UIButton *)sender;
 - (IBAction)moveToolButtonTouched:(UIButton *)sender;
+- (IBAction)rotationToolButtonTouched:(UIButton *)sender;
+- (IBAction)scaleToolButtonTouched:(UIButton *)sender;
+- (IBAction)duplicateToolButtonTouched:(UIButton *)sender;
+- (IBAction)deleteToolButtonTouched:(UIButton *)sender;
 - (IBAction)creationModeButtonTouched:(UIButton *)sender;
 - (IBAction)saveAndExitButtonTouched:(UIButton *)sender;
 - (IBAction)portalButtonTouched:(UIButton *)sender;
