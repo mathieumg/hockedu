@@ -35,6 +35,7 @@ typedef enum
     {
         ACTION_EDITEUR_NOUVEAU     ,
         ACTION_REINITIALISER_PARTIE,
+        ACTION_REINITIALISER_RONDELLE,
         ACTION_PAUSE_JEU           ,
         ACTION_REPLAY              ,
         ACTION_CAMERA              ,

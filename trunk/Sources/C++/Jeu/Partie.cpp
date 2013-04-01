@@ -515,7 +515,9 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 
     // Positionnement
     rondelle->setPosition(rondelle->obtenirPositionOriginale());
+    rondelle->modifierVelocite(0);
     rondelle->modifierVitesseRotation(0);
+    rondelle->setAngle(0);
 
     maillet1->setPosition(maillet1->obtenirPositionOriginale());
     maillet2->setPosition(maillet2->obtenirPositionOriginale());
@@ -947,11 +949,13 @@ void Partie::modifierEnPause( bool val )
 {
     if(val && getGameStatus() != GAME_PAUSED)
     {
+        SoundFMOD::obtenirInstance()->playEffect(effect(PAUSE_EFFECT));
         tempsJeu_.pause();
         setGameStatus(GAME_PAUSED);
     }
     else if(getGameStatus() == GAME_PAUSED)
     {
+        SoundFMOD::obtenirInstance()->playEffect(effect(PAUSE_EFFECT));
         tempsJeu_.unPause();
         setGameStatus(mLastGameStatus); // Utilise le dernier etat de partie pour unpause
     }

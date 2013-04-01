@@ -365,7 +365,25 @@ namespace UIHeavyClient
             requestGameResume();
 
         }
-        
+        [DllImport( @"RazerGame.dll" )]
+        static extern bool ActionPerformed( ActionType action );
+
+        private void PauseGameClick(object sender, RoutedEventArgs e)
+        {
+            ActionPerformed( ActionType.ACTION_PAUSE_JEU );
+        }
+        private void RestartGameClick(object sender, RoutedEventArgs e)
+        {
+            ActionPerformed( ActionType.ACTION_REINITIALISER_PARTIE );
+        }
+        private void ResetPuckClick(object sender, RoutedEventArgs e)
+        {
+            ActionPerformed( ActionType.ACTION_REINITIALISER_RONDELLE );
+        }
+        private void ReplayClick(object sender, RoutedEventArgs e)
+        {
+            ActionPerformed( ActionType.ACTION_REPLAY );
+        }
         
 
         void simulationMode_Click(object sender, RoutedEventArgs e)

@@ -329,10 +329,6 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll")]
         static extern bool ActionPerformed(ActionType action);
         [DllImport(@"RazerGame.dll")]
-        static extern bool IsGamePaused();
-        [DllImport(@"RazerGame.dll")]
-        static extern void PauseGame(bool doPause);
-        [DllImport(@"RazerGame.dll")]
         static extern bool TerrainHasDeletable();
         [DllImport(@"RazerGame.dll")]
         static extern RazerKey GetSelectedNodeUniqueKey();

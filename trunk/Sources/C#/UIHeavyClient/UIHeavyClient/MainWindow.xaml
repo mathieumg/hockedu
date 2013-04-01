@@ -16,6 +16,12 @@
                 <MenuItem Header="Main Menu" Click="BackToMainMenu" />
                 <MenuItem Header="Exit Hockedu" Click="ExitHockedu"/>
             </MenuItem>
+            <MenuItem Header="Game Actions" Name="mGameActionsMenu">
+                <MenuItem Header="Pause Game" Click="PauseGameClick"/>
+                <MenuItem Header="Restart Game" Click="RestartGameClick"/>
+                <MenuItem Header="Reset Puck"   Click="ResetPuckClick"/>
+                <MenuItem Header="Replay last 10s"  Click="ReplayClick"/>
+            </MenuItem>
             <MenuItem Header="Option">
                 <MenuItem Header="Keyboard Control"/>
             </MenuItem>

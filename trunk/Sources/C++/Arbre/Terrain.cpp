@@ -1151,9 +1151,6 @@ void Terrain::BeginContact( b2Contact* contact )
                                     SoundFMOD::obtenirInstance()->playEffect(GOAL_EFFECT);
                                 }
                                 game->miseAuJeu();
-                                rondelleBody->SetLinearVelocity(b2Vec2(0,0));
-                                rondelleBody->SetAngularVelocity(0);
-                                rondelle->setAngle(0);
                                 rondelle->setCollisionDetected(false);
                             });
                             RunnableBreaker::attach(r);
