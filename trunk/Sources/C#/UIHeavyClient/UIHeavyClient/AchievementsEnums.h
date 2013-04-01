@@ -1,4 +1,9 @@
 #if !WIN32 && !__linux__ && !__APPLE__
+#define CSHARP
+#endif
+
+
+#if CSHARP
 namespace UIHeavyClient
 {
 #else
@@ -10,7 +15,7 @@ namespace UIHeavyClient
 /// il s'agit de leur ID pour les reconnaitres over-time
 /// donc ne pas jouer avec ceux-ci.
 /// laisser un espace suffisant entre 2 achievements pour des nouveaux
-#if !WIN32 && !__linux__ && !__APPLE__
+#if CSHARP
 public
 #endif
 enum AchievementsType
@@ -33,7 +38,7 @@ enum AchievementsType
 /// Ordre pas important.
 /// Sert au programme d'indiquer un type d'événement qui peut
 /// possiblement etre écouter par un ou plusieurs achievement
-#if !WIN32 && !__linux__ && !__APPLE__
+#if CSHARP
 public
 #endif
 enum AchievementEvent
@@ -47,6 +52,6 @@ enum AchievementEvent
 
 };
 
-#if !WIN32 && !__linux__ && !__APPLE__
+#if CSHARP
 }
 #endif

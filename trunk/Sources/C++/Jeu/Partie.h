@@ -17,6 +17,7 @@
 #include "ExceptionJeu.h"
 #include "PartieSyncer.h"
 #include "ReplayObserver.h"
+#include "AchievementsEnums.h"
 
 
 class NoeudMaillet;
@@ -137,6 +138,8 @@ public:
     }
 
     virtual void updateObserver( const ReplaySubject* pSubject );
+
+    void SendAchievementEventToHumanPlayer(SPJoueurAbstrait player,AchievementEvent eventIfHuman, AchievementEvent eventIfNonHuman );
 
     void setGameStatus(GameStatus pStatus);
 /// Methode Privee

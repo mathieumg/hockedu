@@ -203,15 +203,7 @@ void Partie::incrementerPointsJoueurGauche(bool pForceUpdate /*= false*/)
         {
             setGameStatus(GAME_ENDED);
             callGameUpdate(GAME_ENDED);
-
-            if(joueurDroit_ && joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
-            {
-                Achievements::LaunchEvent(ACHIEVEMENT_EVENT_GAME_LOOSE);
-            }
-            if(joueurGauche_ && joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
-            {
-                Achievements::LaunchEvent(ACHIEVEMENT_EVENT_GAME_WON);
-            }
+            SendAchievementEventToHumanPlayer(joueurGauche_,ACHIEVEMENT_EVENT_GAME_WON,ACHIEVEMENT_EVENT_GAME_LOOSE);
         }
         else
         {
@@ -252,15 +244,7 @@ void Partie::incrementerPointsJoueurDroit(bool pForceUpdate /*= false*/)
         {
             setGameStatus(GAME_ENDED);
             callGameUpdate(GAME_ENDED);
-
-            if(joueurDroit_ && joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
-            {
-                Achievements::LaunchEvent(ACHIEVEMENT_EVENT_GAME_WON);
-            }
-            if(joueurGauche_ && joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
-            {
-                Achievements::LaunchEvent(ACHIEVEMENT_EVENT_GAME_LOOSE);
-            }
+            SendAchievementEventToHumanPlayer(joueurDroit_,ACHIEVEMENT_EVENT_GAME_WON,ACHIEVEMENT_EVENT_GAME_LOOSE);
         }
         else
         {
@@ -1039,6 +1023,56 @@ void Partie::setGameStatus( GameStatus pStatus )
         }
     }
 #endif
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Partie::SendAchievementEventToHumanPlayer( SPJoueurAbstrait player,AchievementEvent eventIfHuman, AchievementEvent eventIfNonHuman )
+///
+/// Permet d'envoyer un evenement conditionnel selon le type de joueur qui a declancher l'événement.
+/// Si les 2 joueurs de la partie sont humains on n'envoit pas l'événement, car ca ne fait pas de sens.
+///
+/// @param[in] SPJoueurAbstrait player : joueur qui a déclancher l'événement
+/// @param[in] AchievementEvent eventIfHuman : type d'événement désiré si le joueur déclanchant est humain
+/// @param[in] AchievementEvent eventIfNonHuman : type d'événement désiré si le type de joueur est nonhumain (network ou AI)
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Partie::SendAchievementEventToHumanPlayer( SPJoueurAbstrait player,AchievementEvent eventIfHuman, AchievementEvent eventIfNonHuman )
+{
+    checkf(player == joueurGauche_ || player == joueurDroit_);
+    checkf(player);
+
+    if(joueurGauche_ && joueurDroit_)
+    {
+        if(isNetworkServerGame())
+        {
+            // server doesnt care about achievements
+            return;
+        }
+        if(isOfflineGame())
+        {
+            /// it is possible to have human vs human, so we check to make sure
+            SPJoueurAbstrait oppositePlayer = player == joueurGauche_ ? joueurGauche_: joueurDroit_;
+            if(oppositePlayer->obtenirType() == player->obtenirType())
+            {
+                /// incoherence pour les achievements, on sort
+                return;
+            }
+        }
+
+        /// here we can assume we have only one human player
+        if(player->obtenirType() == JOUEUR_HUMAIN)
+        {
+            Achievements::LaunchEvent(eventIfHuman);
+        }
+        else
+        {
+            Achievements::LaunchEvent(eventIfNonHuman);
+        }
+
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
