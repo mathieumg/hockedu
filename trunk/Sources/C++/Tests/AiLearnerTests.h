@@ -19,6 +19,7 @@
 using namespace std;
 
 
+
 ///////////////////////////////////////////////////////////////////////////
 /// @class AiLearnerTests
 /// @brief Classe de test cppunit pour tester le bon fonctionnement du ai learner
@@ -37,6 +38,7 @@ class AiLearnerTests : public CppUnit::TestFixture
 	// =================================================================
 	CPPUNIT_TEST_SUITE( AiLearnerTests );
     CPPUNIT_TEST( testAddNewDataAndSaveRawBinary );
+    CPPUNIT_TEST( testConvertData );
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -56,6 +58,7 @@ public:
 	// =================================================================
     
     void testAddNewDataAndSaveRawBinary();
+    void testConvertData();
 	
 private:
 

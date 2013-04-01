@@ -119,6 +119,9 @@
     <ClCompile Include="Solution_Defines.cpp">
       <Filter>Sources Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Externe\DirectorySearch\DirectorySearch.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AideCollision.h">

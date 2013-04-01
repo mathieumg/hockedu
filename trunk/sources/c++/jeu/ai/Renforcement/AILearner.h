@@ -13,17 +13,19 @@
 #include "Singleton.h"
 #include <stdint.h>
 #include <fstream>
+#include "..\Reseau\FacadePortability.h"
 
 #define AI_LEARNER_OUTPUT_BUFFER_SIZE 5000 // Taille du buffer d'input
 #define AI_LEARNER_MAX_VELOCITE_INPUT 100 // Velocite maximale en entree pour la conversion en uint8_t (ajuster en fonction des parametres de velocite passes)
 #define AI_LEARNER_RAW_DATA_EXTENSION ".airaw" // Extension des fichiers d'output
+#define AI_LEARNER_RUNTIME_DATA_EXTENSION ".ailogic" // Extension des fichiers d'output runtime
 
 struct LearningInfosRaw {
     // Input
     uint8_t positionAi[2]; // [0] = VX, [1] = VY
-    int8_t velociteAi[2];
+    int8_t  velociteAi[2];
     uint8_t positionRondelle[2];
-    int8_t velociteRondelle[2];
+    int8_t  velociteRondelle[2];
     uint8_t positionAdversaire[2];
     uint8_t action;
 
@@ -31,9 +33,47 @@ struct LearningInfosRaw {
     uint8_t resultat;
 };
 
+typedef int (*AiLearnerBuildReadyCallback)(bool pOperationSuccess);
+class AILearner;
+struct AiLearnerConvertionThreadParams
+{
+    AiLearnerBuildReadyCallback callback;
+    std::string folderPath;
+    std::string outputFilename;
+    AILearner* thisPtr;
+};
 
-enum LearningAiAction {AI_ACTION_DEFENDRE, AI_ACTION_ATTAQUER_DIRECTEMENT, AI_ACTION_ATTAQUER_GAUCHE, AI_ACTION_ATTAQUER_DROITE};
+
+struct AiRuntimeInfos 
+{
+    // Input
+    uint8_t positionAi[2]; // [0] = VX, [1] = VY
+    int8_t  velociteAi[2];
+    uint8_t positionRondelle[2];
+    int8_t  velociteRondelle[2];
+    uint8_t positionAdversaire[2];
+
+    // Output
+    uint8_t action;
+};
+
+
+
+struct AiLearningComputingValue
+{
+    AiLearningComputingValue(int pSomme, int pNbEntrees)
+    {
+        somme = pSomme;
+        nbEntrees = pNbEntrees;
+    }
+    int somme;
+    int nbEntrees;
+};
+
+enum LearningAiAction {AI_ACTION_DEFENDRE, AI_ACTION_ATTAQUER_DIRECTEMENT, AI_ACTION_ATTAQUER_GAUCHE, AI_ACTION_ATTAQUER_DROITE, AI_ACTION_NB};
 enum LearningAiOutput {AI_OUTPUT_BUT_COMPTE, AI_OUTPUT_RIEN, AI_OUTPUT_ADVERSAIRE_BUT_COMPTE};
+
+
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class AILearner
@@ -67,8 +107,10 @@ public:
     void terminerSauvegardeNouvelleInfo(LearningAiOutput pOutput);
 
 
+    // Utilise les fichiers dans le dossier specifie pour construire les donnees utilisables pour jouer avec l'AI
+    static bool convertirDonneesRaw(const std::string& pFolderPath, const std::string& pOutputFilename, AiLearnerBuildReadyCallback pCallback);
 
-
+    static int getPointsForResult(LearningAiOutput pResult);
 
 
 private:
@@ -79,6 +121,11 @@ private:
     /// Methodes
     void convertirPositionUint8(const Vecteur2& pPositionAConvertir, Vecteur2i& pOut);
     void convertirVelociteUint8(const Vecteur2& pVelociteAConvertir, Vecteur2i& pOut);
+    static void conversionThreadDone() {mHandleThreadConversion = NULL;}
+
+    /// Threads
+    // Code d'execution du thread de conversion des donnes raw en donnees utilisables
+    static void *convertirDonneesRawThread(void *arg);
 
     /// Attributs
     bool mInitDone;
@@ -88,6 +135,7 @@ private:
     Vecteur2 mMapBottomRight;
     Vecteur2 mMapDimensions;
     std::ofstream mOutputStream;
+    static HANDLE_THREAD mHandleThreadConversion;
 
 };
 

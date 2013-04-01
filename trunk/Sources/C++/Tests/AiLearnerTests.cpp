@@ -10,6 +10,7 @@
 
 #include "AiLearnerTests.h"
 #include "Renforcement\AILearner.h"
+#include <stdlib.h>
 
 // Enregistrement de la suite de tests au sein du registre
 CPPUNIT_TEST_SUITE_REGISTRATION( AiLearnerTests );
@@ -31,7 +32,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( AiLearnerTests );
 ////////////////////////////////////////////////////////////////////////
 void AiLearnerTests::setUp()
 {
-    CPPUNIT_ASSERT(AILearner::obtenirInstance()->init("C:/temp/testAiLearner.airaw", Vecteur2(-1000.0f, 400.0f), Vecteur2(1000.0f, -400.0f)), "AiLearner init failed");
+    CPPUNIT_ASSERT(AILearner::obtenirInstance()->init("C:/temp/testAiLearner.airaw", Vecteur2(-1000.0f, 400.0f), Vecteur2(1000.0f, -400.0f)));
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -67,15 +68,16 @@ void AiLearnerTests::testAddNewDataAndSaveRawBinary()
     // Ajouter des nouveaux entries
     AILearner* wInstance = AILearner::obtenirInstance();
 
-    for(int i=0; i<1000000; ++i)
+    for(int i=0; i<2000; ++i)
     {
+        LearningAiAction wRandomAction = (LearningAiAction) (rand() % 5);
         wInstance->sauvegarderNouvelleInfo(
-            Vecteur3(-500.0f, -200.0f, 0.0f), // Pos AI
-            Vecteur3(20.0f, 50.0f, 0.0f),     // Velocite AI
-            Vecteur3(0.0f, 300.0f, 0.0f),     // Pos Rondelle
-            Vecteur3(-10.0f, 50.0f, 0.0f),    // Velocite Rondelle
-            Vecteur3(700.0f, -300.0f),        // Pos joueur adverse
-            AI_ACTION_ATTAQUER_DIRECTEMENT    // Action a effectuer
+            Vecteur3((rand() % 2000)-1000, (rand() % 800) - 400, 0.0f), // Pos AI
+            Vecteur3((rand() % 255)-127, (rand() % 255)-127, 0.0f),     // Velocite AI
+            Vecteur3((rand() % 2000)-1000, (rand() % 800) - 400, 0.0f),     // Pos Rondelle
+            Vecteur3((rand() % 255)-127, (rand() % 255)-127, 0.0f),    // Velocite Rondelle
+            Vecteur3((rand() % 2000)-1000, (rand() % 800) - 400, 0.0f),        // Pos joueur adverse
+            wRandomAction    // Action a effectuer
             );
 
         // Set the end of reading
@@ -84,9 +86,30 @@ void AiLearnerTests::testAddNewDataAndSaveRawBinary()
     
 
     // Dump to file in raw format
-    CPPUNIT_ASSERT(wInstance->dump(), "Dump failed");
+    CPPUNIT_ASSERT(wInstance->dump());
 
     // When implemented, reload the binary and compare data
+
+
+}
+
+
+
+// Callback a appeler une fois que le traitement est termine
+int CallbackTestAiLearner(bool pOperationSuccess)
+{
+    std::cout << "Status Operation: " << pOperationSuccess << std::endl;
+    return 0;
+}
+
+
+void AiLearnerTests::testConvertData()
+{
+    FacadePortability::sleep(2000);
+    std::string wFolderPath = "C:/temp";
+    std::string wFilename = "unitTest";
+
+    AILearner::convertirDonneesRaw(wFolderPath, wFilename, CallbackTestAiLearner);
 
 
 }
