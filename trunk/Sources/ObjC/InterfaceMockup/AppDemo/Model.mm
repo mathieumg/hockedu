@@ -188,7 +188,7 @@ bool RenderNodeCallback(RazerKey key)
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
     }];
-    
+    [httpClient release];
 }
 
 @end

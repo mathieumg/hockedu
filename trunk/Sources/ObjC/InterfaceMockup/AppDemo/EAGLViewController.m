@@ -193,66 +193,66 @@ enum {
 {
     // SETUP DU PIE MENU
 	self.pieMenu = [[[PieMenu alloc] init] autorelease];
-	PieMenuItem *itemA = [[PieMenuItem alloc] initWithTitle:@"ItemA"
+	PieMenuItem *itemA = [[PieMenuItem alloc] initWithTitle:@"Select"
 													  label:nil
 													 target:self
-												   selector:@selector(itemSelected:)
+												   selector:@selector(selectToolButtonTouched:)
 												   userInfo:nil
 													   icon:[UIImage imageNamed:@"icon1.png"]];
     
-	PieMenuItem *itemB = [[PieMenuItem alloc] initWithTitle:@"ItemB"
+	PieMenuItem *itemB = [[PieMenuItem alloc] initWithTitle:@"Move"
 													  label:nil
 													 target:self
-												   selector:@selector(itemSelected:)
+												   selector:@selector(moveToolButtonTouched:)
 												   userInfo:nil
 													   icon:[UIImage imageNamed:@"icon1.png"]];
 	
-	PieMenuItem *itemC = [[PieMenuItem alloc] initWithTitle:@"ItemC"
+	PieMenuItem *itemC = [[PieMenuItem alloc] initWithTitle:@"Rotate"
 													  label:nil
 													 target:self
-												   selector:@selector(itemSelected:)
+												   selector:@selector(rotationToolButtonTouched:)
 												   userInfo:nil
 													   icon:[UIImage imageNamed:@"icon2.png"]];
 	
-	PieMenuItem *itemD = [[PieMenuItem alloc] initWithTitle:@"ItemD"
+	PieMenuItem *itemD = [[PieMenuItem alloc] initWithTitle:@"Scale"
 													  label:nil
 													 target:self
-												   selector:@selector(itemSelected:)
+												   selector:@selector(scaleToolButtonTouched:)
 												   userInfo:nil
 													   icon:[UIImage imageNamed:@"icon3.png"]];
 	
 	
-	PieMenuItem *itemE = [[PieMenuItem alloc] initWithTitle:@"ItemE"
+	PieMenuItem *itemE = [[PieMenuItem alloc] initWithTitle:@"Duplicate"
+													  label:nil
+													 target:self
+												   selector:@selector(duplicateToolButtonTouched:)
+												   userInfo:nil
+													   icon:[UIImage imageNamed:@"icon4.png"]];
+	
+	PieMenuItem *itemF = [[PieMenuItem alloc] initWithTitle:@"Delete"
+													  label:nil
+													 target:self
+												   selector:@selector(deleteToolButtonTouched:)
+												   userInfo:nil
+													   icon:[UIImage imageNamed:@"icon4.png"]];
+	
+	PieMenuItem *itemG = [[PieMenuItem alloc] initWithTitle:@"Properties"
 													  label:nil
 													 target:self
 												   selector:@selector(itemSelected:)
 												   userInfo:nil
 													   icon:[UIImage imageNamed:@"icon4.png"]];
 	
-	PieMenuItem *itemF = [[PieMenuItem alloc] initWithTitle:@"ItemF"
-													  label:nil
-													 target:self
-												   selector:@selector(itemSelected:)
-												   userInfo:nil
-													   icon:[UIImage imageNamed:@"icon4.png"]];
 	
-	PieMenuItem *itemG = [[PieMenuItem alloc] initWithTitle:@"ItemG"
-													  label:nil
-													 target:self
-												   selector:@selector(itemSelected:)
-												   userInfo:nil
-													   icon:[UIImage imageNamed:@"icon4.png"]];
+	//[itemA addSubItem:itemE];
+	//[itemA addSubItem:itemB];
+	//[itemA addSubItem:itemD];
 	
-	
-	[itemA addSubItem:itemE];
-	[itemA addSubItem:itemB];
-	[itemA addSubItem:itemD];
-	
-	//[pieMenu addItem:itemD];
+	[pieMenu addItem:itemD];
 	[pieMenu addItem:itemA];
 	[pieMenu addItem:itemC];
-	//[pieMenu addItem:itemE];
-	//[pieMenu addItem:itemB];
+	[pieMenu addItem:itemE];
+	[pieMenu addItem:itemB];
 	[pieMenu addItem:itemF];
 	[pieMenu addItem:itemG];
 	
