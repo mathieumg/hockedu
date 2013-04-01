@@ -278,13 +278,13 @@ enum {
 	pieMenu.leftHanded = swit.on;
 }
 
-- (UIResponder *)nextResponder {
-	if (pieMenu.on) {
-		return [pieMenu view];
-	} else {
-		return [super nextResponder];
-	}
-}
+//- (UIResponder *)nextResponder {
+//	if (pieMenu.on) {
+//		return [pieMenu view];
+//	} else {
+//		return [super nextResponder];
+//	}
+//}
 
 - (IBAction)longPressDetected:(UILongPressGestureRecognizer *)sender;
 {
