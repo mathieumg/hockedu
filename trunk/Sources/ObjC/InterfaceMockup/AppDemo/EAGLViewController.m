@@ -157,22 +157,25 @@ enum {
 {
     [super viewDidLoad];
     
+    
+    
     // SETUP DES GESTURES
     UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationDetectee:)];
-    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
-    //UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
+    //UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
     
     [rotationGesture setDelegate:self];
-    [longPressGesture setDelegate:self];
-    //[tapGesture setDelegate:self];
+    //[longPressGesture setDelegate:self];
+    [tapGesture setNumberOfTapsRequired:2];
+    [tapGesture setDelegate:self];
     
     [mGLView addGestureRecognizer:rotationGesture];
-    [mGLView addGestureRecognizer:longPressGesture];
-    //[theEAGLView addGestureRecognizer:tapGesture];
+    //[mGLView addGestureRecognizer:longPressGesture];
+    [mGLView addGestureRecognizer:tapGesture];
     
     [rotationGesture release];
-    [longPressGesture release];
-    //[tapGesture release];
+    //[longPressGesture release];
+    [tapGesture release];
     
     // FIN SETUP DES GESTURES
     
@@ -247,12 +250,11 @@ enum {
 	//[itemA addSubItem:itemE];
 	//[itemA addSubItem:itemB];
 	//[itemA addSubItem:itemD];
-	
-	[pieMenu addItem:itemD];
 	[pieMenu addItem:itemA];
-	[pieMenu addItem:itemC];
-	[pieMenu addItem:itemE];
 	[pieMenu addItem:itemB];
+    [pieMenu addItem:itemC];
+    [pieMenu addItem:itemD];
+	[pieMenu addItem:itemE];
 	[pieMenu addItem:itemF];
 	[pieMenu addItem:itemG];
 	

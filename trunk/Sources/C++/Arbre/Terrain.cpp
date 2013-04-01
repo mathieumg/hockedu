@@ -2634,6 +2634,7 @@ bool Terrain::renderAppleNode( RazerKey key ) const
 ////////////////////////////////////////////////////////////////////////
 void Terrain::setBonusesMinTimeSpawn( const float pVal )
 {
+#ifndef __APPLE__
     if(mGame && mGame->isNetworkClientGame())
     {
         /// infinite time for client so they won't spawn them themselves
@@ -2643,6 +2644,7 @@ void Terrain::setBonusesMinTimeSpawn( const float pVal )
     {
         mBonusesMinTimeSpawn = pVal;
     }
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -2658,6 +2660,7 @@ void Terrain::setBonusesMinTimeSpawn( const float pVal )
 ////////////////////////////////////////////////////////////////////////
 void Terrain::setBonusesMaxTimeSpawn( const float pVal )
 {
+#ifndef __APPLE__
     if(mGame && mGame->isNetworkClientGame())
     {
         /// infinite time for client so they won't spawn them themselves
@@ -2667,6 +2670,7 @@ void Terrain::setBonusesMaxTimeSpawn( const float pVal )
     {
         mBonusesMaxTimeSpawn = pVal;
     }
+#endif
 }
 
 
