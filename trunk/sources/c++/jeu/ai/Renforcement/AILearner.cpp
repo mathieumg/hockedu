@@ -371,15 +371,11 @@ void * AILearner::convertirDonneesRawThread( void *arg )
                 wLastInfosChecked = it->first;
             }
 
-
-
             // Delete les elements de la map
             for(auto it = wMapData.begin(); it!=wMapData.end(); ++it)
             {
                 delete it->second;
             }
-
-
 
             // Conversion terminee, on appelle le callback et on signal au AILearner que le traitement est termine
             if(wParams->callback)

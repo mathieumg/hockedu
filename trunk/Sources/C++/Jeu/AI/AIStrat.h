@@ -15,7 +15,7 @@
 class NoeudMaillet;
 class AIMaillet;
 
-enum typeStrat {DEFENSIVE,OFFENSIVE,NBSTRAT};
+enum typeStrat {DEFENSIVE, OFFENSIVE, OFFENSIVE_LIGNE_DROITE, OFFENSIVE_GAUCHE, OFFENSIVE_DROITE, NBSTRAT};
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class AIStrat
