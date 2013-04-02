@@ -6,36 +6,24 @@
     <DockPanel Background="#FF323232">
         <Menu Name="MenuBar" DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <MenuItem Header="Load Map (Ctrl + O)" Click="LoadMapFromLocal" Name="mLoadMapItem"/>
-                <MenuItem Header="Load Map From Server" Name="mServerLoadMapItem"/>
-                <MenuItem Header="Save Map As (Ctrl + Shift + S)" Click="SaveMapToLocal" Name="mSaveMapItem"/>
-                <MenuItem Header="Save Map (Ctrl + S)" Click="QuickSaveMapToLocal" Name="mQuickSaveMapItem"/>
-                <MenuItem Header="Save Map To Server" Name="mServerSaveMapItem"/>
-                <MenuItem Header="Reset to Default Map (Ctrl + N)" Name="mResetMapItem" Click="DefaultMap"/>
-                <!--<MenuItem Header="Test Map" Name="mTestMapItem"/>-->
+                <MenuItem Header="Load Map (Ctrl + O)" Click="LoadMapFromLocal" Name="mLoadMapItem" Visibility="Collapsed"/>
+                <MenuItem Header="Load Map From Server" Name="mServerLoadMapItem" Visibility="Collapsed"/>
+                <MenuItem Header="Save Map As (Ctrl + Shift + S)" Click="SaveMapToLocal" Name="mSaveMapItem" Visibility="Collapsed"/>
+                <MenuItem Header="Save Map (Ctrl + S)" Click="QuickSaveMapToLocal" Name="mQuickSaveMapItem" Visibility="Collapsed"/>
+                <MenuItem Header="Save Map To Server" Name="mServerSaveMapItem" Visibility="Collapsed"/>
+                <MenuItem Header="Reset to Default Map (Ctrl + N)" Name="mResetMapItem" Click="DefaultMap" Visibility="Collapsed"/>
                 <MenuItem Header="Main Menu" Click="BackToMainMenu" />
                 <MenuItem Header="Exit Hockedu" Click="ExitHockedu"/>
             </MenuItem>
-            <MenuItem Header="Game Actions" Name="mGameActionsMenu">
-                <MenuItem Header="Pause Game" Click="PauseGameClick"/>
-                <MenuItem Header="Restart Game" Click="RestartGameClick"/>
-                <MenuItem Header="Reset Puck"   Click="ResetPuckClick"/>
-                <MenuItem Header="Replay last 10s (Ctrl + R)"  Click="ReplayClick"/>
-            </MenuItem>
-            <MenuItem Header="Option">
-                <MenuItem Header="Keyboard Control"/>
+            <MenuItem Header="Game Actions" Name="mGameActionsMenu" Visibility="Collapsed">
+                <MenuItem Header="Pause Game" Click="PauseGameClick" />
+                <MenuItem Header="Restart Game" Click="RestartGameClick" />
+                <MenuItem Header="Reset Puck"   Click="ResetPuckClick" />
+                <MenuItem Header="Replay last 10s (Ctrl + R)"  Click="ReplayClick" />
             </MenuItem>
             <MenuItem Header="Online Mode">
-                <!--<MenuItem Header="Connect" Click="ConnectToServer"/>-->
-                <!--<MenuItem Header="Disconnect"/>-->
                 <MenuItem Header="Web Site" Click="OpenWebSite"/>
             </MenuItem>
-            <!--<MenuItem Header="Window">
-                <MenuItem Header="Explorer" Click="ShowExplorerWindow"/>
-                <MenuItem Header="Output" Click="ShowOutputWindow"/>
-                <MenuItem Header="Property" Click="ShowPropertyWindow"/>
-                <MenuItem Header="ToDoList" Click="ShowListWindow"/>
-            </MenuItem>-->
             <MenuItem Header="Help">
                 <MenuItem Header="FAQ"/>
                 <MenuItem Header="Credits"/>
