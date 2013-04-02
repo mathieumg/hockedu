@@ -28,7 +28,6 @@
 ////////////////////////////////////////////////////////////////////////
 AIStratOffensiveLigneDroite::AIStratOffensiveLigneDroite(const AIMaillet& context):AIStrat(context)
 {
-	tirReussi_ = (unsigned int)(rand() % 100 + 1) > context_.obtenirJv().obtenirProbabiliteEchec();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -64,18 +63,37 @@ Vecteur2 AIStratOffensiveLigneDroite::appliquerStrategie( NoeudMaillet* maillet 
 	if(!maillet->getField() || !( rondelle = maillet->getField()->getPuck() ) || !( table = maillet->getField()->getTable() ) )
 		return Vecteur2();
 
-	// Direction du deplacement de la rondelle
-	Vecteur2 dir = rondelle->getPosition().convertir<2>() - maillet->getPosition().convertir<2>();
-	dir.normaliser();
-	dir *= (float)context_.obtenirJv().obtenirVitesse();
+    // On va chercher la position de la rondelle et du maillet
+    Vecteur3 wPosRondelle   = rondelle->getPosition();
+    Vecteur3 wPosMaillet    = maillet->getPosition();
+    Vecteur3 wDistanceVecteur = wPosRondelle-wPosMaillet;
+    float wDistance = sqrt(wDistanceVecteur[VX] * wDistanceVecteur[VX] + wDistanceVecteur[VY] * wDistanceVecteur[VY]);
 
-	if(!tirReussi_ && rondelle->obtenirVelocite().norme2() >= 800)
-	{
-		dir[VX] = 0;
-	}
+    if(wDistance > 50.0f)
+    {
+        // Si on est loin, on va en direction de la rondelle
+        wDistanceVecteur.normaliser();
+        wDistanceVecteur *= (float)context_.obtenirJv().obtenirVitesse();
+        return wDistanceVecteur;
+    }
+    else
+    {
+        // Si on est proche de la rondelle, on triche un peu pour que la trajectoire apres impact soit vers le but adverse directement
+        NoeudBut* wButs[2];
+        maillet->getField()->getGoals(wButs);
+        if(!wButs[0] || !wButs[1])
+        {
+            return Vecteur2();
+        }
+        else
+        {
+            // On a les buts, on veut viser dans cette direction
 
-	
-	return dir;
+            // TODO: IMPLEMENTATION DIRECTION
+
+        }
+    }
+    return Vecteur2();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

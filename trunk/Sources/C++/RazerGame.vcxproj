@@ -297,6 +297,7 @@
     <ClCompile Include="Jeu\JoueurNetwork.cpp" />
     <ClCompile Include="Jeu\JoueurNetworkServeur.cpp" />
     <ClCompile Include="Jeu\JoueurVirtuel.cpp" />
+    <ClCompile Include="Jeu\JoueurVirtuelRenforcement.cpp" />
     <ClCompile Include="Jeu\Partie.cpp" />
     <ClCompile Include="Jeu\PartieSyncer.cpp" />
     <ClCompile Include="Jeu\Tournoi.cpp" />
@@ -485,6 +486,7 @@
     <ClInclude Include="Jeu\JoueurNetwork.h" />
     <ClInclude Include="Jeu\JoueurNetworkServeur.h" />
     <ClInclude Include="Jeu\JoueurVirtuel.h" />
+    <ClInclude Include="Jeu\JoueurVirtuelRenforcement.h" />
     <ClInclude Include="Jeu\Partie.h" />
     <ClInclude Include="Jeu\PartieSyncer.h" />
     <ClInclude Include="Jeu\Tournoi.h" />

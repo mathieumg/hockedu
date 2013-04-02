@@ -14,10 +14,10 @@
 
 HANDLE_THREAD AILearner::mHandleThreadConversion = NULL;
 
-bool operator < (const AiRuntimeInfos &pLeft, const AiRuntimeInfos &pRight)
-{ 
-    return memcmp(&pLeft,&pRight,sizeof(AiRuntimeInfos)) < 0;
-}
+int AILearner::mStepVelocite = 20;
+int AILearner::mStepPosition = 100;
+
+
 
 // Initialisations automatiques
 SINGLETON_DECLARATION_CPP(AILearner);
@@ -177,9 +177,17 @@ void AILearner::convertirPositionUint8( const Vecteur2& pPositionAConvertir, Vec
 {
     // Convertir la position en coordonnee (0-255, 0-255) grid
     // La map est separee en 255 cases en X et 255 en Y. De cette facon, on peut utiliser des uint8_t pour sauvegarder les positions
+    AILearner* wInstance = AILearner::obtenirInstance();
 
-    pOut[VX] = (int) (255.0f*(pPositionAConvertir[VX]-mMapTopLeft[VX])/mMapDimensions[VX]);
-    pOut[VY] = (int) (255.0f*(mMapTopLeft[VY]-pPositionAConvertir[VY])/mMapDimensions[VY]);
+    Vecteur2 wMapTopLeft     = wInstance->getMapTopLeft();
+    Vecteur2 wMapBottomRight = wInstance->getMapBottomRight();
+    Vecteur2 wMapDimensions  = wInstance->getMapDimensions();
+
+    // Si la dimension est nulle, c'est louche
+    checkf(wMapDimensions[VX] < 1.0f || wMapDimensions[VY] < 1.0f);
+
+    pOut[VX] = (int) (AILearner::mStepPosition*(pPositionAConvertir[VX]-wMapTopLeft[VX])/wMapDimensions[VX]);
+    pOut[VY] = (int) (AILearner::mStepPosition*(wMapTopLeft[VY]-pPositionAConvertir[VY])/wMapDimensions[VY]);
 
 
 }
@@ -188,32 +196,26 @@ void AILearner::convertirPositionUint8( const Vecteur2& pPositionAConvertir, Vec
 
 void AILearner::convertirVelociteUint8( const Vecteur2& pVelociteAConvertir, Vecteur2i& pOut )
 {
-    
-    
-
     // Conversion d'une velocite en velocite relative sur 8bits
     if(abs(pVelociteAConvertir[VX]) >= AI_LEARNER_MAX_VELOCITE_INPUT)
     {
         int wSignX = (int) (pVelociteAConvertir[VX] / abs(pVelociteAConvertir[VX]));
-        pOut[VX] = 127 * wSignX; 
+        pOut[VX] = AILearner::mStepVelocite * wSignX; 
     }
     else
     {
-        pOut[VX] = (int) ((127.0f * pVelociteAConvertir[VX]) / AI_LEARNER_MAX_VELOCITE_INPUT);
+        pOut[VX] = (int) (((float)AILearner::mStepVelocite * pVelociteAConvertir[VX]) / AI_LEARNER_MAX_VELOCITE_INPUT);
     }
 
     if(abs(pVelociteAConvertir[VY]) >= AI_LEARNER_MAX_VELOCITE_INPUT)
     {
         int wSignY = (int) (pVelociteAConvertir[VY] / abs(pVelociteAConvertir[VY]));
-        pOut[VY] = 127 * wSignY;
+        pOut[VY] = AILearner::mStepVelocite * wSignY;
     }
     else
     {
-        pOut[VY] = (int) ((127.0f * pVelociteAConvertir[VY]) / AI_LEARNER_MAX_VELOCITE_INPUT);
+        pOut[VY] = (int) (((float)AILearner::mStepVelocite * pVelociteAConvertir[VY]) / AI_LEARNER_MAX_VELOCITE_INPUT);
     }
-    
-
-
 }
 
 
@@ -371,6 +373,10 @@ void * AILearner::convertirDonneesRawThread( void *arg )
                 wLastInfosChecked = it->first;
             }
 
+            wOutput.flush();
+            wOutput.close();
+            
+
             // Delete les elements de la map
             for(auto it = wMapData.begin(); it!=wMapData.end(); ++it)
             {
@@ -409,6 +415,8 @@ int AILearner::getPointsForResult(LearningAiOutput pResult)
         break;
     }
 }
+
+
 
 
 

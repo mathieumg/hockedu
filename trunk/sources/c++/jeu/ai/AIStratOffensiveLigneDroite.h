@@ -30,7 +30,6 @@ public:
 
 /// Attributs
 private:
-	bool tirReussi_;
 
 
 /// Accesseurs

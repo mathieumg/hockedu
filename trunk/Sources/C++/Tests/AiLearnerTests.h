@@ -59,6 +59,7 @@ public:
     
     void testAddNewDataAndSaveRawBinary();
     void testConvertData();
+    static void testReloadAiLogic();
 	
 private:
 

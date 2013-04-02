@@ -55,9 +55,29 @@ struct AiRuntimeInfos
 
     // Output
     uint8_t action;
+
+    bool operator < ( const AiRuntimeInfos &pRight) const
+    { 
+        return memcmp(this,&pRight,sizeof(AiRuntimeInfos)) < 0;
+    }
 };
 
 
+struct AiRuntimeInfosInput
+{
+    uint8_t positionAi[2]; // [0] = VX, [1] = VY
+    int8_t  velociteAi[2];
+    uint8_t positionRondelle[2];
+    int8_t  velociteRondelle[2];
+    uint8_t positionAdversaire[2];
+
+    bool operator < ( const AiRuntimeInfosInput &pRight) const 
+    { 
+        return memcmp(this,&pRight,sizeof(AiRuntimeInfosInput)) < 0;
+    }
+};
+
+typedef uint8_t AiRuntimeInfosOutput;
 
 struct AiLearningComputingValue
 {
@@ -86,7 +106,10 @@ class AILearner : public Singleton<AILearner>
 {
     SINGLETON_DECLARATION_CLASSE_SANS_CONSTRUCTEUR(AILearner);
 public:
-	
+	// Steps pour conversion
+    static int mStepPosition;
+    static int mStepVelocite;
+
 	/// Destructeur
 	~AILearner();
 
@@ -111,7 +134,18 @@ public:
     static bool convertirDonneesRaw(const std::string& pFolderPath, const std::string& pOutputFilename, AiLearnerBuildReadyCallback pCallback);
 
     static int getPointsForResult(LearningAiOutput pResult);
+    
+    static void convertirPositionUint8(const Vecteur2& pPositionAConvertir, Vecteur2i& pOut);
+    static void convertirVelociteUint8(const Vecteur2& pVelociteAConvertir, Vecteur2i& pOut);
 
+    inline const Vecteur2& getMapTopLeft() const { return mMapTopLeft; }
+    inline void setMapTopLeft(const Vecteur2& val) { mMapTopLeft = val; }
+
+    inline const Vecteur2& getMapBottomRight() const { return mMapBottomRight; }
+    inline void setMapBottomRight(const Vecteur2& val) { mMapBottomRight = val; }
+
+    inline const Vecteur2& getMapDimensions() const { return mMapDimensions; }
+    inline void setMapDimensions(const Vecteur2& val) { mMapDimensions = val; }
 
 private:
 	
@@ -119,8 +153,6 @@ private:
     AILearner();
 
     /// Methodes
-    void convertirPositionUint8(const Vecteur2& pPositionAConvertir, Vecteur2i& pOut);
-    void convertirVelociteUint8(const Vecteur2& pVelociteAConvertir, Vecteur2i& pOut);
     static void conversionThreadDone() {mHandleThreadConversion = NULL;}
 
     /// Threads
@@ -131,11 +163,15 @@ private:
     bool mInitDone;
     int mBufferCount;
     LearningInfosRaw mOutputBuffer[AI_LEARNER_OUTPUT_BUFFER_SIZE];
+
     Vecteur2 mMapTopLeft;
     Vecteur2 mMapBottomRight;
     Vecteur2 mMapDimensions;
+
     std::ofstream mOutputStream;
     static HANDLE_THREAD mHandleThreadConversion;
+
+    
 
 };
 

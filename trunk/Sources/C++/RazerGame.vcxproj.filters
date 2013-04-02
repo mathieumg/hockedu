@@ -647,6 +647,9 @@
     <ClCompile Include="jeu\ai\AIStratOffensiveDroite.cpp">
       <Filter>Sources Files\Jeu\AI</Filter>
     </ClCompile>
+    <ClCompile Include="Jeu\JoueurVirtuelRenforcement.cpp">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1218,6 +1221,9 @@
     </ClInclude>
     <ClInclude Include="jeu\ai\AIStratOffensiveDroite.h">
       <Filter>Sources Files\Jeu\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Jeu\JoueurVirtuelRenforcement.h">
+      <Filter>Sources Files\Jeu</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

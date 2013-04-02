@@ -9,6 +9,9 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "AIMailletRenforcement.h"
+#include "NoeudRondelle.h"
+#include "NoeudMaillet.h"
+#include "Terrain.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -25,7 +28,6 @@
 ////////////////////////////////////////////////////////////////////////
 AIMailletRenforcement::AIMailletRenforcement(const JoueurVirtuel& jv): AIMaillet(jv)
 {
-
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -42,25 +44,6 @@ AIMailletRenforcement::~AIMailletRenforcement()
 	
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn Vecteur2 AIMailletRenforcement::evaluerDirection( NoeudMaillet* maillet, NoeudTable* table,NoeudRondelle* rondelle )
-///
-/// On evalue la nouvelle direction du maillet contrôlé par joueur 
-/// virtuel selon la strategie
-///
-/// @param[in] NoeudMaillet * maillet : pointeur sur le maillet du JV
-/// @param[in] NoeudTable * table : pointeur sur la table pour savoir 
-/// où sont les murets
-///
-/// @return Vecteur2
-///
-////////////////////////////////////////////////////////////////////////
-Vecteur2 AIMailletRenforcement::evaluerDirection( NoeudMaillet* maillet )
-{
-	// A ce point, la methode evaluerStrategie a deja été appelé, donc on peut l'utiliser directement
-	return Vecteur2();
-}
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -77,7 +60,11 @@ Vecteur2 AIMailletRenforcement::evaluerDirection( NoeudMaillet* maillet )
 ////////////////////////////////////////////////////////////////////////
 void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
 {
-	
+    NoeudRondelle* rondelle;
+    if(!maillet->getField() || !(rondelle = maillet->getField()->getPuck()))
+        return;
+
+    (rondelle->getPosition()[VX] * maillet->getPosition()[VX] >= 0) ? changerStrat(OFFENSIVE): changerStrat(DEFENSIVE);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -28,8 +28,8 @@ public:
 	virtual ~AIMailletRenforcement();
 	/// Évaluation de la stratégie à utiliser
 	virtual void evaluerStrategie(NoeudMaillet* maillet);
-	/// Évaluation de la direction
-	virtual Vecteur2 evaluerDirection(NoeudMaillet* maillet);
+    
+private:
 
 
 };
