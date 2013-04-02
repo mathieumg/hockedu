@@ -32,6 +32,7 @@ enum {
 @property (nonatomic, retain) IBOutlet UIView *mGLView;
 @property (retain, nonatomic) IBOutlet UIView *mSideBarView;
 @property (retain, nonatomic) IBOutlet UIView *mTopBarView;
+@property (retain, nonatomic) IBOutlet UIView *undoRedoView;
 @property (nonatomic, assign) CADisplayLink *displayLink;
 @property (nonatomic, assign) BOOL wrap;
 @property (nonatomic, assign) BOOL clipsToBounds;
@@ -47,6 +48,7 @@ enum {
 @synthesize mSideBarView;
 @synthesize mTopBarView;
 @synthesize mGLView;
+@synthesize undoRedoView;
 @synthesize context;
 @synthesize displayLink;
 @synthesize cube;
@@ -78,16 +80,11 @@ enum {
     translationX = 0.0;
     translationY = 0.0;
     zoomFactor = 0.5;
-    mSelectTool = true;
-    mSelectionMode = true;
-    mMoveTool = false;
-    mCreationMode = false;
-    itemToBeAdded = -1;
-    imageObjectToAdd= nil;
     
     [self.mGLView addSubview:theEAGLView];
     [self.mGLView addSubview:mSideBarView];
     [self.mGLView addSubview:mTopBarView];
+    [self.mGLView addSubview:undoRedoView];
     [self.theEAGLView setFramebuffer];
     
     
@@ -229,6 +226,15 @@ enum {
     carousel.type = iCarouselTypeLinear;
     // Set le pie menu, voir methode
     [self setupPieMenu];
+}
+
+- (IBAction)undoButtonTouched:(UIButton *)sender
+{
+    [mModel undo];
+}
+- (IBAction)redoButtonTouched:(UIButton *)sender
+{
+    [mModel redo];
 }
 
 - (void) propertiesMenu:(PieMenuItem *)item {
@@ -424,58 +430,30 @@ enum {
     //mMoveTool = false;
     //mSelectTool = false;
 }
--(IBAction) selectionModeButtonTouched:(UIButton *)sender
+-(IBAction) cameraModeButtonTouched:(UIButton *)sender
+{
+    [mEventManager modifyState:EDITOR_STATE_MOVE_WINDOW];
+}
+
+- (IBAction)editorModeButtonTouched:(UIButton *)sender
 {
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
-    // En mode selection, on ne peut pas ajouter ditem
-    //itemToBeAdded = -1;
-    // On ne peut pas avoir creationmode et selection mode en meme temps
-    //mCreationMode = false;
-    // On inverse selection mode
-    //mSelectionMode = !mSelectionMode;
-    //[sender setSelected:![sender isSelected]];
-    
 }
-
-
-- (IBAction)creationModeButtonTouched:(UIButton *)sender
-{
-    [mEventManager modifyState:EDITOR_STATE_AJOUTER_PORTAIL];
-    // En creation mode, on ne peut quajouter des nouveaux items, aucun tool de disponible
-//    [self unselectAllTools];
-//    mCreationMode = !mCreationMode;
-//    mSelectionMode = false;
-    //[sender setSelected:![sender isSelected]];
-    
-}
-
 
 - (IBAction)selectToolButtonTouched:(UIButton *)sender
 {
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
-    
-    // Disponible uniquement si on est en selectionmode
-//    if (mSelectionMode) {
-//        mSelectTool = true;
-//        mMoveTool = false;
-//    }
-    
 }
+
 - (IBAction)moveToolButtonTouched:(UIButton *)sender
 {
-    [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_DEPLACEMENT];
-    // Disponible uniquement si on est en selectionmode
-//    if (mSelectionMode) {
-//        mSelectTool = false;
-//        mMoveTool = true;
-//    }
-    
+    [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_DEPLACEMENT];    
 }
+
 - (IBAction)rotationToolButtonTouched:(UIButton *)sender
 {
     [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_ROTATION];
 }
-
 
 - (IBAction)scaleToolButtonTouched:(UIButton *)sender
 {
@@ -495,17 +473,11 @@ enum {
 - (IBAction)portalButtonTouched:(UIButton *)sender
 {
     [mEventManager modifyState:EDITOR_STATE_AJOUTER_PORTAIL];
-    // On envois la position du centre du bouton de creation, pour cacher lobjet cree en arriere
-    //[mModel beginModification:FIELD_MODIFICATION_ADD_PORTAL:sender.center];
-    // On met le portal comme item a ajouter au prochain clique dans la vue
-    itemToBeAdded = PORTAL;
 }
 
 -(IBAction) saveAndExitButtonTouched:(UIButton *)sender
 {
-    // On sauvegarde la map
     [mModel saveField];
-    
 }
 
 - (CGPoint)convertScreenCoordToVirtualCoord:(CGPoint)pointToConvert;
@@ -528,39 +500,7 @@ enum {
     UITouch *touch = [[event allTouches] anyObject];
     CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
     [mEventManager touchesBegan:touch:touchCoordVirt];
-    // On prend en note le point ou le toucher a commencer
-    //firstCorner = [touch locationInView:theEAGLView];
-    // On reinitialise le bool disant si on drag
-    //touchMoved = false;
-//    if (mCreationMode)
-//    {
-//        //CGPoint randomPoint;
-//        //randomPoint.x=-25;
-//        //randomPoint.y=0;
-//        CGPoint coordVirt = [self convertScreenCoordToVirtualCoord:firstCorner];
-//        [mModel beginModification:FIELD_MODIFICATION_ADD_PORTAL:coordVirt];
-//        if(itemToBeAdded != -1)
-//        {
-//            // Si on est en mode creation et quon a un item a ajouter, on assigne limage associe a l'item
-//            switch (itemToBeAdded) {
-//                case PORTAL:
-//                    //imageObjectToAdd = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cameraFixe.png"]];
-//                    break;
-//                    
-//                case PUCK:
-//                    //imageObjectToAdd = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"deplacer.png"]];
-//                    break;
-//                default:
-//                    // On ajoute des portal si on ne connait pas l'item demande, par securite
-//                    //imageObjectToAdd = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cameraFixe.png"]];
-//                    break;
-//            }
-//            // On assigne la position de l'objet a la position du touche et on ajoute le UIImageView a la vu EAGL
-//            //imageObjectToAdd.center = [touch locationInView:theEAGLView];
-//            //[[self view] addSubview:imageObjectToAdd];
-//        }
-//    }
-    
+        
     NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");
     for(UITouch* touch in touches) {
         CGPoint positionCourante = [touch locationInView:theEAGLView];
