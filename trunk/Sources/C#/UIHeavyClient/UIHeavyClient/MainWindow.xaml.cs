@@ -211,10 +211,10 @@ namespace UIHeavyClient
             start.FileName = path;
             start.WindowStyle = ProcessWindowStyle.Hidden;
             start.CreateNoWindow = true;
-            /*using ( Process proc = Process.Start( start ) )
+            using ( Process proc = Process.Start( start ) )
             {
                 proc.WaitForExit();
-            }*/
+            }
             //////////////////////////////////////////////////////////////////////////
 
             System.Windows.Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
