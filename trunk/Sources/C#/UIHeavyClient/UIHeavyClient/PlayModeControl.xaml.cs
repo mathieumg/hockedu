@@ -53,6 +53,8 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void PreviousRadioSong();
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int GetRadioVolume();
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void SetRadioVolume(int pVolume);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void SetCurrentRadioPlaylist(string pPlaylist);
@@ -113,6 +115,11 @@ namespace UIHeavyClient
         private void mVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             SetRadioVolume((int)(sender as Slider).Value);
+        }
+
+        public void DisplayRadioVolume()
+        {
+            mVolumeSlider.Value = GetRadioVolume();
         }
 
         private void mPlaylistComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
