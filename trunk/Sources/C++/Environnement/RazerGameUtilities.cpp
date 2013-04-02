@@ -219,44 +219,43 @@ unsigned int RazerGameUtilities::CreateListSphereDefault( Modele3D* pModel, floa
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void RazerGameUtilities::LoadFieldFromFile( const std::string& pFilePath, Terrain& pField )
+/// @fn void RazerGameUtilities::LoadFieldFromFile( const std::string& pathFile, Terrain& pField )
 ///
 /// Effectue le chargement XML d'un terrain
 ///
-/// @param[in] const std::string & pFilePath
+/// @param[in] const std::string & pathFile
 /// @param[in] Terrain & pField
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void RazerGameUtilities::LoadFieldFromFile( const std::string& pFilePath, Terrain& pField )
+void RazerGameUtilities::LoadFieldFromFile( const std::string& pPathFile, Terrain& pField )
 {
-    // Todo:: ajouter de la valider sur le path du fichier
-    //        if(pFilePath.size() < 4 )
-    //        {
-    // 
-    //        }
-    //        strcmp((pFilePath.c_str() + pFilePath.size()-4),".xml");
-    // 
+    std::string pathFile = pPathFile;
+    static const char ext[] = ".xml";
+    if(pathFile.size() < 4 || strcmp((pathFile.c_str() + pathFile.size()-4),ext) != 0)
+    {
+        pathFile.append(ext,4);
+    }
 
     // Vérification de l'existence du ficher
-    if ( !utilitaire::fichierExiste(pFilePath) ) 
+    if ( !utilitaire::fichierExiste(pathFile) ) 
     {
         // Si on est en jeu on s'assure d'avoir une table valide
-        pField.creerTerrainParDefaut(pFilePath);
+        pField.creerTerrainParDefaut(pathFile);
         // Si le fichier n'existe pas, on le crée.
-        SaveFieldToFile(pFilePath,pField);
+        SaveFieldToFile(pathFile,pField);
     }
     // si le fichier existe on le lit
     else 
     {
         // Lire à partir du fichier de configuration
         XmlDocument document; 
-        if(!XMLUtils::LoadDocument(document,pFilePath.c_str()))
+        if(!XMLUtils::LoadDocument(document,pathFile.c_str()))
         {
             utilitaire::afficherErreur("Erreur : chargement XML : erreur de lecture du fichier");
             // Si on est en jeu on s'assure d'avoir une table valide
-            pField.creerTerrainParDefaut(pFilePath);
+            pField.creerTerrainParDefaut(pathFile);
         }
         else
         {
@@ -272,7 +271,7 @@ void RazerGameUtilities::LoadFieldFromFile( const std::string& pFilePath, Terrai
 #if WIN32
                     char MessageStr[256];
                     sprintf_s(MessageStr,"%s\nMap version #%s do not match application's version #%s"\
-                        "\n\nDo you want to try loading it anyway ?",pFilePath.c_str(),version.c_str(),XMLUtils::XmlFieldVersion.c_str());
+                        "\n\nDo you want to try loading it anyway ?",pathFile.c_str(),version.c_str(),XMLUtils::XmlFieldVersion.c_str());
                     int Result = MessageBoxA( NULL, MessageStr, "Version mismatch", MB_ICONERROR | MB_YESNO | MB_TOPMOST );
                     if( Result == IDNO )
                     {
@@ -286,7 +285,7 @@ void RazerGameUtilities::LoadFieldFromFile( const std::string& pFilePath, Terrai
             if(!initField || !pField.initialiserXml(root))
             {
                 // Erreur dans l'initialisation avec le xml, donc on laisse un terrain vide
-                pField.creerTerrainParDefaut(pFilePath);
+                pField.creerTerrainParDefaut(pathFile);
             }
             //pField.FixCollidingObjects();
         }
@@ -306,6 +305,13 @@ void RazerGameUtilities::LoadFieldFromFile( const std::string& pFilePath, Terrai
 ////////////////////////////////////////////////////////////////////////
 void RazerGameUtilities::SaveFieldToFile( const std::string& nomFichier, Terrain& pField  )
 {
+    std::string pathFile = nomFichier;
+    static const char ext[] = ".xml";
+    if(pathFile.size() < 4 || strcmp((pathFile.c_str() + pathFile.size()-4),ext) != 0)
+    {
+        pathFile.append(ext,4);
+    }
+
     XmlDocument document ;
     XMLUtils::CreateDocument(document);
 
@@ -317,7 +323,7 @@ void RazerGameUtilities::SaveFieldToFile( const std::string& nomFichier, Terrain
     XMLUtils::LinkEndChild(version,pField.creerNoeudXML());
 
     // Écrire dans le fichier
-    XMLUtils::SaveDocument(document,nomFichier.c_str());
+    XMLUtils::SaveDocument(document,pathFile.c_str());
 }
 
 
