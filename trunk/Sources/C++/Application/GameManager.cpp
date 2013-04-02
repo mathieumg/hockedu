@@ -157,7 +157,7 @@ void GameManager::addGame( Partie* pGame )
 		{
 			throw std::runtime_error("Une autre partie avec cet id est deja contenue dans le GameManager");
 		}
-        mListePartiesParId[pGame->getUniqueGameId()] = pGame;
+        mListePartiesParId[pGame->getUniqueGameId() - 1] = pGame;
 	}
 	else
 	{

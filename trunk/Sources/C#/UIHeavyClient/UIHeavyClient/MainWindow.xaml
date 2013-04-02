@@ -12,7 +12,7 @@
                 <MenuItem Header="Save Map (Ctrl + S)" Click="QuickSaveMapToLocal" Name="mQuickSaveMapItem"/>
                 <MenuItem Header="Save Map To Server" Name="mServerSaveMapItem"/>
                 <MenuItem Header="Reset to Default Map (Ctrl + N)" Name="mResetMapItem" Click="DefaultMap"/>
-                <MenuItem Header="Test Map" Name="mTestMapItem"/>
+                <!--<MenuItem Header="Test Map" Name="mTestMapItem"/>-->
                 <MenuItem Header="Main Menu" Click="BackToMainMenu" />
                 <MenuItem Header="Exit Hockedu" Click="ExitHockedu"/>
             </MenuItem>
@@ -20,7 +20,7 @@
                 <MenuItem Header="Pause Game" Click="PauseGameClick"/>
                 <MenuItem Header="Restart Game" Click="RestartGameClick"/>
                 <MenuItem Header="Reset Puck"   Click="ResetPuckClick"/>
-                <MenuItem Header="Replay last 10s"  Click="ReplayClick"/>
+                <MenuItem Header="Replay last 10s (Ctrl + R)"  Click="ReplayClick"/>
             </MenuItem>
             <MenuItem Header="Option">
                 <MenuItem Header="Keyboard Control"/>
@@ -30,12 +30,12 @@
                 <!--<MenuItem Header="Disconnect"/>-->
                 <MenuItem Header="Web Site" Click="OpenWebSite"/>
             </MenuItem>
-            <MenuItem Header="Window">
-                <!--<MenuItem Header="Explorer" Click="ShowExplorerWindow"/>
+            <!--<MenuItem Header="Window">
+                <MenuItem Header="Explorer" Click="ShowExplorerWindow"/>
                 <MenuItem Header="Output" Click="ShowOutputWindow"/>
                 <MenuItem Header="Property" Click="ShowPropertyWindow"/>
-                <MenuItem Header="ToDoList" Click="ShowListWindow"/>-->
-            </MenuItem>
+                <MenuItem Header="ToDoList" Click="ShowListWindow"/>
+            </MenuItem>-->
             <MenuItem Header="Help">
                 <MenuItem Header="FAQ"/>
                 <MenuItem Header="Credits"/>

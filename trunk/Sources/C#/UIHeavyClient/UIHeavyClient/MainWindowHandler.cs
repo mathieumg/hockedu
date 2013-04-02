@@ -171,6 +171,7 @@ namespace UIHeavyClient
             }
             
             Context.HandleEditionMenuItem(false);
+            Context.HandleGameMenuItem(true);
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -201,6 +202,7 @@ namespace UIHeavyClient
             }
             
             Context.HandleEditionMenuItem(false);
+            Context.HandleGameMenuItem(false);
         }
 
         ////////////////////////////////////////////////////////////////////////

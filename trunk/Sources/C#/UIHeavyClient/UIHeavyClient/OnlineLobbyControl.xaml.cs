@@ -177,6 +177,7 @@ namespace UIHeavyClient
                     if (mPasswordPrompt.OkIsClicked)
                     {
                         connectPartieServerGame(selected.Value.id, mPasswordPrompt.Password);
+                        MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_JEU);
                     }
 
                     mPasswordPrompt.Close();
@@ -184,6 +185,7 @@ namespace UIHeavyClient
                 else
                 {
                     connectPartieServerGame(selected.Value.id, "");
+                    MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_JEU);
                 }
             }
         }
@@ -206,7 +208,9 @@ namespace UIHeavyClient
 
             if (mGameCreationPrompt.OkIsClicked)
             {
+                //if(mGameCreationPrompt.GameName != ""
                 requestGameCreationServerGame(mGameCreationPrompt.GameName, mGameCreationPrompt.Map.name, mGameCreationPrompt.Password);
+                MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_JEU);
             }
 
             mGameCreationPrompt.Close();

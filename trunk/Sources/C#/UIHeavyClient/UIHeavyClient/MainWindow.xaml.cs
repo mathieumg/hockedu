@@ -211,10 +211,10 @@ namespace UIHeavyClient
             start.FileName = path;
             start.WindowStyle = ProcessWindowStyle.Hidden;
             start.CreateNoWindow = true;
-            using ( Process proc = Process.Start( start ) )
+            /*using ( Process proc = Process.Start( start ) )
             {
                 proc.WaitForExit();
-            }
+            }*/
             //////////////////////////////////////////////////////////////////////////
 
             System.Windows.Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -521,9 +521,15 @@ namespace UIHeavyClient
             mSaveMapItem.Visibility = visibility;
             mServerSaveMapItem.Visibility = visibility;
             mResetMapItem.Visibility = visibility;
-            mTestMapItem.Visibility = visibility;
+            //mTestMapItem.Visibility = visibility;
         }
 
+        public void HandleGameMenuItem(bool pMustBeEnabled)
+        {
+            Visibility visibility = pMustBeEnabled ? Visibility.Visible : Visibility.Collapsed;
+
+            mGameActionsMenu.Visibility = visibility;
+        }
 
         [DllImport( @"RazerGame.dll" )]
         static extern void SetAchievementUnlocked( AchievementUnlockCallBack callback );
