@@ -125,10 +125,28 @@ int GameManager::addNewGame(GameType gametype, SPJoueurAbstrait pJoueur1 /*= 0*/
 		else
 		{
 			// Erreur
-			throw std::runtime_error("Appel invalide, le parametre 1 ne peut etre null si le deuxieme ne l'est pas");
+			checkf(0)
 		}
 	}
-    addGame(wGame);
+    bool wGameAdded = false;
+    int wTryCount = 0;
+    while(!wGameAdded && wTryCount <1000)
+    {
+        try
+        {
+            addGame(wGame);
+            wGameAdded = true;
+        }
+        catch(std::runtime_error& pException)
+        {
+            // Une partie existe probablement avec cet id et on peut pas sauvegarder la nouvelle, on lui donne un nouvel id
+            wGame->setUniqueGameId(getNewUniqueGameId());
+            ++wTryCount;
+        }
+    }
+    // Si tu pogne ce checkf, t'as un gros probleme
+    checkf(wTryCount < 1000);
+
 	return wGame->getUniqueGameId();
 }
 

@@ -25,7 +25,7 @@ class GestionnaireEtatModeJeu : public GestionnaireEtatAbstrait , public ReplayO
 {
 public:
 	/// Constructeur par paramètre.
-	GestionnaireEtatModeJeu(Partie* pGame);
+	GestionnaireEtatModeJeu(int pGameId);
 	/// Destructeur virtuel
 	virtual ~GestionnaireEtatModeJeu();
 
@@ -56,7 +56,7 @@ private:
 	int boutonEnfonce_;
 	Vecteur2i positionSouris_;
     /// pointer to the current game
-    Partie* mGame;
+    int mGameId;
 };
 
 #endif

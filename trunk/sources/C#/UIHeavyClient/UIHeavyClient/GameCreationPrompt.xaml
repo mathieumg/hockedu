@@ -8,10 +8,10 @@
         <Label Content="Select the map : " Height="28" HorizontalAlignment="Left" Margin="12,114,0,0" Name="mMapLabel" VerticalAlignment="Top" Background="Black" Foreground="White" />
         <Label Content="" Height="28" HorizontalAlignment="Left" Margin="12,148,0,0" Name="mFeedbackLabel" VerticalAlignment="Top" Background="Black" Foreground="Red" />
         <CheckBox Content="Game protected by password" Height="16" HorizontalAlignment="Left" Margin="12,58,0,0" Name="mPasswordCheckBox" VerticalAlignment="Top" Background="Black" Foreground="White" />
-        <TextBox Height="24" HorizontalAlignment="Left" Margin="103,14,0,0" Name="mNameTextBox" VerticalAlignment="Top" Width="124" Background="Black" Foreground="White" />
+        <TextBox Height="24" HorizontalAlignment="Left" Margin="103,14,0,0" Name="mNameTextBox" VerticalAlignment="Top" Width="124" Background="Black" Foreground="White" TextChanged="NameChanged" />
         <PasswordBox Height="24" HorizontalAlignment="Left" Margin="87,84,0,0" Name="mPasswordTextBox" VerticalAlignment="Top" Width="124" IsEnabled="{Binding ElementName=mPasswordCheckBox, Path=IsChecked}" Background="Black" Foreground="White" />
-        <Button Content="Ok" Height="23" HorizontalAlignment="Left" Margin="12,192,0,0" Name="mOkButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" Click="mOkButton_Click" />
+        <Button Content="Ok" Height="23" HorizontalAlignment="Left" Margin="12,192,0,0" Name="mOkButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" Click="mOkButton_Click" IsDefault="True"/>
         <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="122,192,0,0" Name="mCancelButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" Click="mCancelButton_Click" />
-        <ComboBox Height="23" HorizontalAlignment="Left" Margin="113,117,0,0" Name="mMapComboBox" VerticalAlignment="Top" Width="120" />
+        <ComboBox Height="23" HorizontalAlignment="Left" Margin="113,117,0,0" Name="mMapComboBox" VerticalAlignment="Top" Width="120" SelectionChanged="MapChanged" />
     </Grid>
 </Window>

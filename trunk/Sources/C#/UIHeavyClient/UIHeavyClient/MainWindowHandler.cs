@@ -82,26 +82,37 @@ namespace UIHeavyClient
         {
             CallbackManager.Init();
 
+            // CallbackContainers
             CallbackContainer wContainerEdition = new CallbackContainer();
             wContainerEdition.mEditionEventCallback=Context.EditionModeControl.EventCallBack;
-            CallbackManager.AddCallback(GameState.GAME_STATE_EDITION, wContainerEdition);
 
             CallbackContainer wContainerPlay = new CallbackContainer();
             wContainerPlay.mMessageReceivedCallback = PlayModeControl.mMessageCallback;
-            CallbackManager.AddCallback(GameState.GAME_STATE_PLAY, wContainerPlay);
 
-            CallbackContainer wContainerMainMenu=new CallbackContainer();
-            wContainerMainMenu.mEventReceivedCallback=LoginControl.LoginControlEventReceived;
-            CallbackManager.AddCallback(GameState.GAME_STATE_MAIN_MENU, wContainerMainMenu);
+            CallbackContainer wContainerMainMenu = new CallbackContainer();
+            wContainerMainMenu.mEventReceivedCallback = LoginControl.LoginControlEventReceived;
 
-            CallbackContainer wContainerOnlineLobby=new CallbackContainer();
-            wContainerOnlineLobby.mEventReceivedCallback=OnlineLobbyControl.CallbackEvent;
-            wContainerOnlineLobby.mMessageReceivedCallback=OnlineLobbyControl.CallbackMessage;
-            CallbackManager.AddCallback(GameState.GAME_STATE_ONLINE_LOBBY, wContainerOnlineLobby);
-            CallbackManager.AddCallback(GameState.GAME_STATE_MAIN_MENU, wContainerOnlineLobby);
-            CallbackManager.AddCallback(GameState.GAME_STATE_PLAY, wContainerOnlineLobby);
-            CallbackManager.AddCallback(GameState.GAME_STATE_EDITION, wContainerOnlineLobby);
+            CallbackContainer wContainerOnlineLobby = new CallbackContainer();
+            wContainerOnlineLobby.mEventReceivedCallback = OnlineLobbyControl.CallbackEvent;
+            wContainerOnlineLobby.mMessageReceivedCallback = OnlineLobbyControl.CallbackMessage;
 
+            // Create callback lists
+            List<CallbackContainer> wEditionStateCallBacks = new List<CallbackContainer>() { wContainerEdition, wContainerOnlineLobby, };
+            List<CallbackContainer> wPlayStateCallBacks = new List<CallbackContainer>() { wContainerPlay, wContainerOnlineLobby, };
+            List<CallbackContainer> wMainMenuStateCallBacks = new List<CallbackContainer>() { wContainerMainMenu, wContainerOnlineLobby, };
+            List<CallbackContainer> wOnlineStateCallBacks = new List<CallbackContainer>() { wContainerOnlineLobby, };
+
+            // Create elements list
+            List<UIElement> wEditionStateElements = Context.GetEditionUniqueElements();
+            List<UIElement> wPlayStateElements = Context.GetPlayUniqueElements();
+            List<UIElement> wMainMenuStateElements = new List<UIElement>() { };
+            List<UIElement> wOnlineStateElements = new List<UIElement>() { };
+
+            // Adding states
+            CallbackManager.AddState(GameState.GAME_STATE_EDITION, wEditionStateCallBacks, wEditionStateElements);
+            CallbackManager.AddState(GameState.GAME_STATE_PLAY, wPlayStateCallBacks, wPlayStateElements);
+            CallbackManager.AddState(GameState.GAME_STATE_MAIN_MENU, wMainMenuStateCallBacks, wMainMenuStateElements);
+            CallbackManager.AddState(GameState.GAME_STATE_ONLINE_LOBBY, wOnlineStateCallBacks, wOnlineStateElements);
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -131,9 +142,11 @@ namespace UIHeavyClient
                     CallbackManager.RevertChanges();
                 }
             }
-            
+            else
+            {
+                CallbackManager.RevertChanges();
+            }
 
-            Context.HandleEditionMenuItem(true);
             Context.EditionModeControl.SetGuidanceInstuction("");
         }
 
@@ -169,8 +182,10 @@ namespace UIHeavyClient
                     CallbackManager.RevertChanges();
                 }
             }
-            
-            Context.HandleEditionMenuItem(false);
+            else
+            {
+                CallbackManager.RevertChanges();
+            }
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -199,8 +214,10 @@ namespace UIHeavyClient
                     CallbackManager.RevertChanges();
                 }
             }
-            
-            Context.HandleEditionMenuItem(false);
+            else
+            {
+                CallbackManager.RevertChanges();
+            }
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -218,6 +235,10 @@ namespace UIHeavyClient
                 Context.TournamentControl.DisplayProfileNames();
                 CallbackManager.CommitChanges();
             }
+            else
+            {
+                CallbackManager.RevertChanges();
+            }
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -230,11 +251,15 @@ namespace UIHeavyClient
         public static void GoToOnlineLobby()
         {
             // set callback events and messages
-            if(CallbackManager.ChangeGameMode(GameState.GAME_STATE_ONLINE_LOBBY))
+            if (CallbackManager.ChangeGameMode(GameState.GAME_STATE_ONLINE_LOBBY))
             {
-                Context.WindowContentControl.Content=Context.OnlineLobbyControl;
+                Context.WindowContentControl.Content = Context.OnlineLobbyControl;
                 Context.OnlineLobbyControl.RequestGamesList();
                 CallbackManager.CommitChanges();
+            }
+            else
+            {
+                CallbackManager.RevertChanges();
             }
         }
 

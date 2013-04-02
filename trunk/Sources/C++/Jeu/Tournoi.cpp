@@ -124,8 +124,8 @@ bool Tournoi::initialisation( const JoueursParticipant& joueurs, const std::stri
 
 	unsigned int index = 14;
 	indexPartieCourante_ = 14;
-    Partie* wGames[nbrJoueurs_];
-    for (unsigned int j = 0; j < nbrJoueurs_ ; j++)
+    Partie* wGames[nbrParties_];
+    for (unsigned int j = 0; j < nbrParties_ ; j++)
     {
         wGames[j] = GameManager::obtenirInstance()->getGame(parties_[j]);
     }
