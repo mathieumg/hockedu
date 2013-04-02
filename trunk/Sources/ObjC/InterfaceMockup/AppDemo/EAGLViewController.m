@@ -231,11 +231,15 @@ enum {
     [self setupPieMenu];
 }
 
-- (void) itemSelected:(PieMenuItem *)item {
+- (void) propertiesMenu:(PieMenuItem *)item {
     
-    // Fonction appelle lorsqun item du pie menu est selectionne
-	NSLog(@"Item '%s' selected", [item.title UTF8String]);
-	labelPieMenu.text = [NSString stringWithFormat:@"Item '%s' selected", [item.title UTF8String]];
+    // Ouverture du popover contenant les proprietes associees a la selection courante
+//    UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
+//    UITabBarController *tabController = [[UITabBarController alloc] init];
+//    UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tableController];
+//    UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:navController];
+//    navController.tabBarController = tabController;
+//    [popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 - (void) setupPieMenu
@@ -288,7 +292,7 @@ enum {
 	PieMenuItem *itemG = [[PieMenuItem alloc] initWithTitle:@"Properties"
 													  label:nil
 													 target:self
-												   selector:@selector(itemSelected:)
+												   selector:@selector(propertiesMenu:)
 												   userInfo:nil
 													   icon:[UIImage imageNamed:@"cog_24x24.png"]];
 	

@@ -127,6 +127,7 @@
 		4EAF3DF2170A6A7500B3C34E /* blueButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF3DEE170A6A7400B3C34E /* blueButton@2x.png */; };
 		4EAF3DF3170A6A7500B3C34E /* blueButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF3DEF170A6A7400B3C34E /* blueButtonHighlight.png */; };
 		4EAF3DF4170A6A7500B3C34E /* blueButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF3DF0170A6A7400B3C34E /* blueButtonHighlight@2x.png */; };
+		4EAF3DF6170AAC1E00B3C34E /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF3DF5170AAC1E00B3C34E /* Settings.bundle */; };
 		4EB7EA7916EFBE4100493722 /* VisiteurFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */; };
 		4EC1626E16F81A8C00577704 /* BonusModifierBlockGoal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */; };
 		4EC7359D17015F85002FCF4C /* Solution_Defines.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7359C17015F85002FCF4C /* Solution_Defines.cpp */; };
@@ -437,6 +438,7 @@
 		4EAF3DEE170A6A7400B3C34E /* blueButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueButton@2x.png"; sourceTree = SOURCE_ROOT; };
 		4EAF3DEF170A6A7400B3C34E /* blueButtonHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueButtonHighlight.png; sourceTree = SOURCE_ROOT; };
 		4EAF3DF0170A6A7400B3C34E /* blueButtonHighlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueButtonHighlight@2x.png"; sourceTree = SOURCE_ROOT; };
+		4EAF3DF5170AAC1E00B3C34E /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisiteurFunction.cpp; sourceTree = "<group>"; };
 		4EB7EA7816EFBE4100493722 /* VisiteurFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisiteurFunction.h; sourceTree = "<group>"; };
 		4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierBlockGoal.cpp; sourceTree = "<group>"; };
@@ -903,6 +905,7 @@
 		96378D6B1472C71100F543EA = {
 			isa = PBXGroup;
 			children = (
+				4EAF3DF5170AAC1E00B3C34E /* Settings.bundle */,
 				4E2A596216F2E84B002160AE /* Enum_Declarations.h */,
 				0C04E09316DE88ED002B0EE2 /* C++Files */,
 				96378D801472C71100F543EA /* Hockedu */,
@@ -1194,6 +1197,7 @@
 				4EAF3DF2170A6A7500B3C34E /* blueButton@2x.png in Resources */,
 				4EAF3DF3170A6A7500B3C34E /* blueButtonHighlight.png in Resources */,
 				4EAF3DF4170A6A7500B3C34E /* blueButtonHighlight@2x.png in Resources */,
+				4EAF3DF6170AAC1E00B3C34E /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
