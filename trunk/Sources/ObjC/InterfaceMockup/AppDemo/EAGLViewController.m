@@ -208,7 +208,7 @@ enum {
     // SETUP DES GESTURES
     UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationDetectee:)];
     //UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapDetected:)];
     
     [rotationGesture setDelegate:self];
     //[longPressGesture setDelegate:self];
@@ -332,7 +332,7 @@ enum {
 //	}
 //}
 
-- (IBAction)longPressDetected:(UILongPressGestureRecognizer *)sender;
+- (IBAction)doubleTapDetected:(UITapGestureRecognizer *)sender;
 {
     //auto a=0;
     

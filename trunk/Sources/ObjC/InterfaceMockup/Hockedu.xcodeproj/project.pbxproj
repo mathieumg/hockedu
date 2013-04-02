@@ -939,8 +939,8 @@
 			isa = PBXGroup;
 			children = (
 				4EAF3DED170A6A7400B3C34E /* blueButton.png */,
-				4EAF3DEE170A6A7400B3C34E /* blueButton@2x.png */,
 				4EAF3DEF170A6A7400B3C34E /* blueButtonHighlight.png */,
+				4EAF3DEE170A6A7400B3C34E /* blueButton@2x.png */,
 				4EAF3DF0170A6A7400B3C34E /* blueButtonHighlight@2x.png */,
 				6D01D096170286BB00899CCB /* iCarousel */,
 				96378D891472C71200F543EA /* HockeduAppDelegate.h */,
