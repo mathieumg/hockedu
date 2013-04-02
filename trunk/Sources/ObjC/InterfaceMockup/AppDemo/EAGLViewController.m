@@ -95,6 +95,42 @@ enum {
     animationFrameInterval = 1;
     self.displayLink = nil;
     
+    UIImage *buttonImage = [[UIImage imageNamed:@"blueButton@2x.png"]
+                            resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"blueButtonHighlight@2x.png"]
+                                     resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    
+    // Set the background for any states you plan to use
+    [saveButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [saveButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [selectButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [selectButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [moveButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [moveButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [rotationButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [rotationButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [scaleButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [scaleButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [duplicateButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [duplicateButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [editionButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [editionButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [deleteButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [deleteButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [cameraButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [cameraButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [buttonImage release];
+    [buttonImageHighlight release];
+    
 
 }
 
@@ -120,6 +156,16 @@ enum {
     [carousel release];
     [items release];
     
+    //[saveExitButton release];
+    [saveButton release];
+    [selectButton release];
+    [moveButton release];
+    [rotationButton release];
+    [scaleButton release];
+    [duplicateButton release];
+    [deleteButton release];
+    [cameraButton release];
+    [editionButton release];
     [super dealloc];
 }
 

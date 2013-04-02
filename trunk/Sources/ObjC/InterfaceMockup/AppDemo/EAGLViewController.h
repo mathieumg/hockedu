@@ -33,6 +33,15 @@ extern int const HAUTEUR_FENETRE;
     IBOutlet UIView *mSideBarView;
     IBOutlet UIView *mTopBarView;
     
+    IBOutlet UIButton *editionButton;
+    IBOutlet UIButton *cameraButton;
+    IBOutlet UIButton *deleteButton;
+    IBOutlet UIButton *duplicateButton;
+    IBOutlet UIButton *scaleButton;
+    IBOutlet UIButton *rotationButton;
+    IBOutlet UIButton *moveButton;
+    IBOutlet UIButton *selectButton;
+    IBOutlet UIButton *saveButton;
     // Used to know if we are selecting or creating
     BOOL mSelectionMode;
     BOOL mCreationMode;
