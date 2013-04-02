@@ -55,6 +55,9 @@ private:
 
     Terrain* mOwner;
 
+    float* mRenderVertices;
+    int mVerticesCount;
+
 #if BOX2D_INTEGRATED
     class b2Body* mPhysicsBody;
     void clearPhysicsBody();

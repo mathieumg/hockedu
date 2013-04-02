@@ -75,11 +75,25 @@
 		0C49614616E80AC600D13713 /* UsineNoeud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C49614516E80AC600D13713 /* UsineNoeud.cpp */; };
 		4E058F2E16FA5D0800A68C40 /* libAFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E058F0D16FA5C2B00A68C40 /* libAFNetworking.a */; };
 		4E07580916FBE5ED005F697E /* FieldModificationStrategyMove.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E07580716FBE5ED005F697E /* FieldModificationStrategyMove.cpp */; };
+		4E1FF7381707917E005D1D50 /* ForceField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E1FF7361707917E005D1D50 /* ForceField.cpp */; };
+		4E1FF73D17079212005D1D50 /* BonusModifierChangeZone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E1FF73917079212005D1D50 /* BonusModifierChangeZone.cpp */; };
+		4E1FF73E17079212005D1D50 /* BonusModifierFan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E1FF73B17079212005D1D50 /* BonusModifierFan.cpp */; };
 		4E2A595716F2E48C002160AE /* BonusModifierAbstract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595316F2E48C002160AE /* BonusModifierAbstract.cpp */; };
 		4E2A595816F2E48C002160AE /* BonusModifierGoThorughWall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595516F2E48C002160AE /* BonusModifierGoThorughWall.cpp */; };
 		4E2A595D16F2E558002160AE /* NodeBonus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595916F2E558002160AE /* NodeBonus.cpp */; };
 		4E2A595E16F2E558002160AE /* NodeModelRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595B16F2E558002160AE /* NodeModelRender.cpp */; };
 		4E2A596116F2E658002160AE /* BonusModifierFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */; };
+		4E6D69AA1707BE9C00CC94CC /* control_point_texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A01707BE9C00CC94CC /* control_point_texture.png */; };
+		4E6D69AB1707BE9C00CC94CC /* couleurMuret.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A11707BE9C00CC94CC /* couleurMuret.png */; };
+		4E6D69AC1707BE9C00CC94CC /* EmptyBonus.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A21707BE9C00CC94CC /* EmptyBonus.png */; };
+		4E6D69AD1707BE9C00CC94CC /* Flames.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A31707BE9C00CC94CC /* Flames.jpg */; };
+		4E6D69AE1707BE9C00CC94CC /* goal_texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A41707BE9C00CC94CC /* goal_texture.png */; };
+		4E6D69AF1707BE9C00CC94CC /* portal_effect.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A51707BE9C00CC94CC /* portal_effect.png */; };
+		4E6D69B01707BE9C00CC94CC /* razer-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A61707BE9C00CC94CC /* razer-logo.png */; };
+		4E6D69B11707BE9C00CC94CC /* redbull_texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A71707BE9C00CC94CC /* redbull_texture.png */; };
+		4E6D69B21707BE9C00CC94CC /* redbull_textureSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A81707BE9C00CC94CC /* redbull_textureSmall.png */; };
+		4E6D69B31707BE9C00CC94CC /* rondelle.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A91707BE9C00CC94CC /* rondelle.png */; };
+		4E8A52D7170673960043A056 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8A52D2170673960043A056 /* Icon.png */; };
 		4E8A93A217027E7F008B0C4A /* PieMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8A939B17027E7F008B0C4A /* PieMenu.m */; };
 		4E8A93A317027E7F008B0C4A /* PieMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8A939D17027E7F008B0C4A /* PieMenuItem.m */; };
 		4E8A93A417027E7F008B0C4A /* PieView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8A939F17027E7F008B0C4A /* PieView.m */; };
@@ -91,6 +105,13 @@
 		4E8E3AC91700EC6800C8FC56 /* EditorStateTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8E3AC81700EC6800C8FC56 /* EditorStateTransform.m */; };
 		4E8E3ACC1700ECB900C8FC56 /* EditorStateSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8E3ACB1700ECB900C8FC56 /* EditorStateSelection.m */; };
 		4E8E3ACF1700ECDF00C8FC56 /* EditorStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8E3ACE1700ECDF00C8FC56 /* EditorStateView.m */; };
+		4E8E5BD9170A28E000B69DD2 /* cog_24x24.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8E5BD2170A28DF00B69DD2 /* cog_24x24.png */; };
+		4E8E5BDA170A28E000B69DD2 /* cursor_24x24.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8E5BD3170A28DF00B69DD2 /* cursor_24x24.png */; };
+		4E8E5BDB170A28E000B69DD2 /* curved_arrow_24x18.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8E5BD4170A28DF00B69DD2 /* curved_arrow_24x18.png */; };
+		4E8E5BDC170A28E000B69DD2 /* fork_21x24.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8E5BD5170A28DF00B69DD2 /* fork_21x24.png */; };
+		4E8E5BDD170A28E000B69DD2 /* fullscreen_24x24.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8E5BD6170A28E000B69DD2 /* fullscreen_24x24.png */; };
+		4E8E5BDE170A28E000B69DD2 /* move_alt2_24x24.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8E5BD7170A28E000B69DD2 /* move_alt2_24x24.png */; };
+		4E8E5BDF170A28E000B69DD2 /* x_alt_24x24.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8E5BD8170A28E000B69DD2 /* x_alt_24x24.png */; };
 		4E90C0FC17024114000F2564 /* EditionEventManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E90C0FA17024114000F2564 /* EditionEventManager.cpp */; };
 		4E94494417025200005BC9F6 /* Model3DManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E94494317025200005BC9F6 /* Model3DManager.m */; };
 		4E96DF0416F64C4700588998 /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E96DC6716F63D2100588998 /* libBox2D.a */; };
@@ -102,10 +123,14 @@
 		4EA5287716FE356A008F89BD /* FieldModificationStrategyRotate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA5287316FE356A008F89BD /* FieldModificationStrategyRotate.cpp */; };
 		4EA5287816FE356A008F89BD /* FieldModificationStrategyScale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA5287516FE356A008F89BD /* FieldModificationStrategyScale.cpp */; };
 		4EA5287B16FE366A008F89BD /* VisitorSetProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA5287916FE366A008F89BD /* VisitorSetProperties.cpp */; };
+		4EAF3DF1170A6A7500B3C34E /* blueButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF3DED170A6A7400B3C34E /* blueButton.png */; };
+		4EAF3DF2170A6A7500B3C34E /* blueButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF3DEE170A6A7400B3C34E /* blueButton@2x.png */; };
+		4EAF3DF3170A6A7500B3C34E /* blueButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF3DEF170A6A7400B3C34E /* blueButtonHighlight.png */; };
+		4EAF3DF4170A6A7500B3C34E /* blueButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF3DF0170A6A7400B3C34E /* blueButtonHighlight@2x.png */; };
+		4EAF3DF6170AAC1E00B3C34E /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF3DF5170AAC1E00B3C34E /* Settings.bundle */; };
 		4EB7EA7916EFBE4100493722 /* VisiteurFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */; };
 		4EC1626E16F81A8C00577704 /* BonusModifierBlockGoal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */; };
 		4EC7359D17015F85002FCF4C /* Solution_Defines.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7359C17015F85002FCF4C /* Solution_Defines.cpp */; };
-		4ED0E8201702A1B10043DF70 /* eclair.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E81D1702A1B10043DF70 /* eclair.jpg */; };
 		4ED0E8211702A1B10043DF70 /* portail.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E81E1702A1B10043DF70 /* portail.mtl */; };
 		4ED0E8221702A1B10043DF70 /* portail.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E81F1702A1B10043DF70 /* portail.obj */; };
 		4ED0E8311702B5D40043DF70 /* accelerateur.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8251702B5D40043DF70 /* accelerateur.mtl */; };
@@ -120,16 +145,10 @@
 		4ED0E83A1702B5D40043DF70 /* muret.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E82E1702B5D40043DF70 /* muret.obj */; };
 		4ED0E83B1702B5D40043DF70 /* rondelle.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E82F1702B5D40043DF70 /* rondelle.mtl */; };
 		4ED0E83C1702B5D40043DF70 /* rondelle.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8301702B5D40043DF70 /* rondelle.obj */; };
-		4ED0E8421702B8250043DF70 /* couleurMuret.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E83D1702B8250043DF70 /* couleurMuret.png */; };
-		4ED0E8431702B8250043DF70 /* poly2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E83E1702B8250043DF70 /* poly2.png */; };
-		4ED0E8441702B8250043DF70 /* razer-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E83F1702B8250043DF70 /* razer-logo.png */; };
-		4ED0E8451702B8250043DF70 /* redbull_textureSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8401702B8250043DF70 /* redbull_textureSmall.png */; };
-		4ED0E8461702B8250043DF70 /* textureRedPlastic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8411702B8250043DF70 /* textureRedPlastic.jpg */; };
 		4ED0E84A1702B8590043DF70 /* control_point.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8471702B8590043DF70 /* control_point.mtl */; };
 		4ED0E84B1702B8590043DF70 /* control_point.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8481702B8590043DF70 /* control_point.obj */; };
 		4ED0E8511702B8A80043DF70 /* point.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E84F1702B8A80043DF70 /* point.mtl */; };
 		4ED0E8521702B8A80043DF70 /* point.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8501702B8A80043DF70 /* point.obj */; };
-		4ED0E8541702B9270043DF70 /* Flames.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8531702B9270043DF70 /* Flames.jpg */; };
 		4ED4BC3516FEED3200227F1E /* FieldModificationStrategyAddNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4BC3116FEED3200227F1E /* FieldModificationStrategyAddNode.cpp */; };
 		4ED4BC3616FEED3200227F1E /* FieldModificationStrategyAddWall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4BC3316FEED3200227F1E /* FieldModificationStrategyAddWall.cpp */; };
 		4EEBBF9A16E86E5B00017127 /* Model.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBF9916E86E5B00017127 /* Model.mm */; };
@@ -339,6 +358,12 @@
 		4E07580616FBE5ED005F697E /* FieldModificationStrategyAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyAbstract.h; sourceTree = "<group>"; };
 		4E07580716FBE5ED005F697E /* FieldModificationStrategyMove.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyMove.cpp; sourceTree = "<group>"; };
 		4E07580816FBE5ED005F697E /* FieldModificationStrategyMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyMove.h; sourceTree = "<group>"; };
+		4E1FF7361707917E005D1D50 /* ForceField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ForceField.cpp; path = "../../C++/Physics/ForceField.cpp"; sourceTree = "<group>"; };
+		4E1FF7371707917E005D1D50 /* ForceField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForceField.h; path = "../../C++/Physics/ForceField.h"; sourceTree = "<group>"; };
+		4E1FF73917079212005D1D50 /* BonusModifierChangeZone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierChangeZone.cpp; path = "../../C++/Arbre/Bonus/BonusModifierChangeZone.cpp"; sourceTree = "<group>"; };
+		4E1FF73A17079212005D1D50 /* BonusModifierChangeZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierChangeZone.h; path = "../../C++/Arbre/Bonus/BonusModifierChangeZone.h"; sourceTree = "<group>"; };
+		4E1FF73B17079212005D1D50 /* BonusModifierFan.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierFan.cpp; path = "../../C++/Arbre/Bonus/BonusModifierFan.cpp"; sourceTree = "<group>"; };
+		4E1FF73C17079212005D1D50 /* BonusModifierFan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierFan.h; path = "../../C++/Arbre/Bonus/BonusModifierFan.h"; sourceTree = "<group>"; };
 		4E2A595116F2E455002160AE /* Flags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flags.h; sourceTree = "<group>"; };
 		4E2A595316F2E48C002160AE /* BonusModifierAbstract.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierAbstract.cpp; sourceTree = "<group>"; };
 		4E2A595416F2E48C002160AE /* BonusModifierAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusModifierAbstract.h; sourceTree = "<group>"; };
@@ -351,6 +376,17 @@
 		4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierFactory.cpp; path = ../Usines/BonusModifierFactory.cpp; sourceTree = "<group>"; };
 		4E2A596016F2E658002160AE /* BonusModifierFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierFactory.h; path = ../Usines/BonusModifierFactory.h; sourceTree = "<group>"; };
 		4E2A596216F2E84B002160AE /* Enum_Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enum_Declarations.h; path = "../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"; sourceTree = "<group>"; };
+		4E6D69A01707BE9C00CC94CC /* control_point_texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = control_point_texture.png; path = ../../../../Content/media/control_point_texture.png; sourceTree = "<group>"; };
+		4E6D69A11707BE9C00CC94CC /* couleurMuret.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = couleurMuret.png; path = ../../../../Content/media/couleurMuret.png; sourceTree = "<group>"; };
+		4E6D69A21707BE9C00CC94CC /* EmptyBonus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = EmptyBonus.png; path = ../../../../Content/media/EmptyBonus.png; sourceTree = "<group>"; };
+		4E6D69A31707BE9C00CC94CC /* Flames.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Flames.jpg; path = ../../../../Content/media/Flames.jpg; sourceTree = "<group>"; };
+		4E6D69A41707BE9C00CC94CC /* goal_texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = goal_texture.png; path = ../../../../Content/media/goal_texture.png; sourceTree = "<group>"; };
+		4E6D69A51707BE9C00CC94CC /* portal_effect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = portal_effect.png; path = ../../../../Content/media/portal_effect.png; sourceTree = "<group>"; };
+		4E6D69A61707BE9C00CC94CC /* razer-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "razer-logo.png"; path = "../../../../Content/media/razer-logo.png"; sourceTree = "<group>"; };
+		4E6D69A71707BE9C00CC94CC /* redbull_texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = redbull_texture.png; path = ../../../../Content/media/redbull_texture.png; sourceTree = "<group>"; };
+		4E6D69A81707BE9C00CC94CC /* redbull_textureSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = redbull_textureSmall.png; path = ../../../../Content/media/redbull_textureSmall.png; sourceTree = "<group>"; };
+		4E6D69A91707BE9C00CC94CC /* rondelle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rondelle.png; path = ../../../../Content/media/rondelle.png; sourceTree = "<group>"; };
+		4E8A52D2170673960043A056 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		4E8A939A17027E7F008B0C4A /* PieMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieMenu.h; sourceTree = "<group>"; };
 		4E8A939B17027E7F008B0C4A /* PieMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieMenu.m; sourceTree = "<group>"; };
 		4E8A939C17027E7F008B0C4A /* PieMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieMenuItem.h; sourceTree = "<group>"; };
@@ -371,6 +407,13 @@
 		4E8E3ACB1700ECB900C8FC56 /* EditorStateSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditorStateSelection.m; sourceTree = "<group>"; };
 		4E8E3ACD1700ECDF00C8FC56 /* EditorStateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorStateView.h; sourceTree = "<group>"; };
 		4E8E3ACE1700ECDF00C8FC56 /* EditorStateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditorStateView.m; sourceTree = "<group>"; };
+		4E8E5BD2170A28DF00B69DD2 /* cog_24x24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cog_24x24.png; sourceTree = "<group>"; };
+		4E8E5BD3170A28DF00B69DD2 /* cursor_24x24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cursor_24x24.png; sourceTree = "<group>"; };
+		4E8E5BD4170A28DF00B69DD2 /* curved_arrow_24x18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = curved_arrow_24x18.png; sourceTree = "<group>"; };
+		4E8E5BD5170A28DF00B69DD2 /* fork_21x24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fork_21x24.png; sourceTree = "<group>"; };
+		4E8E5BD6170A28E000B69DD2 /* fullscreen_24x24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fullscreen_24x24.png; sourceTree = "<group>"; };
+		4E8E5BD7170A28E000B69DD2 /* move_alt2_24x24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = move_alt2_24x24.png; sourceTree = "<group>"; };
+		4E8E5BD8170A28E000B69DD2 /* x_alt_24x24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = x_alt_24x24.png; sourceTree = "<group>"; };
 		4E90C0FA17024114000F2564 /* EditionEventManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EditionEventManager.cpp; path = "../../C++/Environnement/EditionEventManager.cpp"; sourceTree = "<group>"; };
 		4E90C0FB17024114000F2564 /* EditionEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditionEventManager.h; path = "../../C++/Environnement/EditionEventManager.h"; sourceTree = "<group>"; };
 		4E94494217025200005BC9F6 /* Model3DManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model3DManager.h; sourceTree = "<group>"; };
@@ -391,13 +434,17 @@
 		4EA5287616FE356A008F89BD /* FieldModificationStrategyScale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyScale.h; sourceTree = "<group>"; };
 		4EA5287916FE366A008F89BD /* VisitorSetProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisitorSetProperties.cpp; sourceTree = "<group>"; };
 		4EA5287A16FE366A008F89BD /* VisitorSetProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisitorSetProperties.h; sourceTree = "<group>"; };
+		4EAF3DED170A6A7400B3C34E /* blueButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueButton.png; sourceTree = SOURCE_ROOT; };
+		4EAF3DEE170A6A7400B3C34E /* blueButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueButton@2x.png"; sourceTree = SOURCE_ROOT; };
+		4EAF3DEF170A6A7400B3C34E /* blueButtonHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueButtonHighlight.png; sourceTree = SOURCE_ROOT; };
+		4EAF3DF0170A6A7400B3C34E /* blueButtonHighlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueButtonHighlight@2x.png"; sourceTree = SOURCE_ROOT; };
+		4EAF3DF5170AAC1E00B3C34E /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisiteurFunction.cpp; sourceTree = "<group>"; };
 		4EB7EA7816EFBE4100493722 /* VisiteurFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisiteurFunction.h; sourceTree = "<group>"; };
 		4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierBlockGoal.cpp; sourceTree = "<group>"; };
 		4EC1626D16F81A8C00577704 /* BonusModifierBlockGoal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusModifierBlockGoal.h; sourceTree = "<group>"; };
 		4EC1626F16F81F8000577704 /* RunnableBreaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunnableBreaker.h; sourceTree = "<group>"; };
 		4EC7359C17015F85002FCF4C /* Solution_Defines.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Solution_Defines.cpp; sourceTree = "<group>"; };
-		4ED0E81D1702A1B10043DF70 /* eclair.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = eclair.jpg; path = ../../../../Content/media/eclair.jpg; sourceTree = "<group>"; };
 		4ED0E81E1702A1B10043DF70 /* portail.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = portail.mtl; path = ../../../../Content/media/portail.mtl; sourceTree = "<group>"; };
 		4ED0E81F1702A1B10043DF70 /* portail.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = portail.obj; path = ../../../../Content/media/portail.obj; sourceTree = "<group>"; };
 		4ED0E8251702B5D40043DF70 /* accelerateur.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = accelerateur.mtl; path = ../../../../Content/media/accelerateur.mtl; sourceTree = "<group>"; };
@@ -412,16 +459,10 @@
 		4ED0E82E1702B5D40043DF70 /* muret.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = muret.obj; path = ../../../../Content/media/muret.obj; sourceTree = "<group>"; };
 		4ED0E82F1702B5D40043DF70 /* rondelle.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = rondelle.mtl; path = ../../../../Content/media/rondelle.mtl; sourceTree = "<group>"; };
 		4ED0E8301702B5D40043DF70 /* rondelle.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = rondelle.obj; path = ../../../../Content/media/rondelle.obj; sourceTree = "<group>"; };
-		4ED0E83D1702B8250043DF70 /* couleurMuret.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = couleurMuret.png; path = ../../../../Content/media/couleurMuret.png; sourceTree = "<group>"; };
-		4ED0E83E1702B8250043DF70 /* poly2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = poly2.png; path = ../../../../Content/media/poly2.png; sourceTree = "<group>"; };
-		4ED0E83F1702B8250043DF70 /* razer-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "razer-logo.png"; path = "../../../../Content/media/razer-logo.png"; sourceTree = "<group>"; };
-		4ED0E8401702B8250043DF70 /* redbull_textureSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = redbull_textureSmall.png; path = ../../../../Content/media/redbull_textureSmall.png; sourceTree = "<group>"; };
-		4ED0E8411702B8250043DF70 /* textureRedPlastic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = textureRedPlastic.jpg; path = ../../../../Content/media/textureRedPlastic.jpg; sourceTree = "<group>"; };
 		4ED0E8471702B8590043DF70 /* control_point.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = control_point.mtl; path = ../../../../Content/media/control_point/control_point.mtl; sourceTree = "<group>"; };
 		4ED0E8481702B8590043DF70 /* control_point.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = control_point.obj; path = ../../../../Content/media/control_point/control_point.obj; sourceTree = "<group>"; };
 		4ED0E84F1702B8A80043DF70 /* point.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = point.mtl; path = ../../../../Content/media/point.mtl; sourceTree = "<group>"; };
 		4ED0E8501702B8A80043DF70 /* point.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = point.obj; path = ../../../../Content/media/point.obj; sourceTree = "<group>"; };
-		4ED0E8531702B9270043DF70 /* Flames.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Flames.jpg; path = ../../../../Content/media/Flames.jpg; sourceTree = "<group>"; };
 		4ED4BC3116FEED3200227F1E /* FieldModificationStrategyAddNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyAddNode.cpp; sourceTree = "<group>"; };
 		4ED4BC3216FEED3200227F1E /* FieldModificationStrategyAddNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyAddNode.h; sourceTree = "<group>"; };
 		4ED4BC3316FEED3200227F1E /* FieldModificationStrategyAddWall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyAddWall.cpp; sourceTree = "<group>"; };
@@ -515,6 +556,12 @@
 		0C04E09316DE88ED002B0EE2 /* C++Files */ = {
 			isa = PBXGroup;
 			children = (
+				4E1FF73917079212005D1D50 /* BonusModifierChangeZone.cpp */,
+				4E1FF73A17079212005D1D50 /* BonusModifierChangeZone.h */,
+				4E1FF73B17079212005D1D50 /* BonusModifierFan.cpp */,
+				4E1FF73C17079212005D1D50 /* BonusModifierFan.h */,
+				4E1FF7361707917E005D1D50 /* ForceField.cpp */,
+				4E1FF7371707917E005D1D50 /* ForceField.h */,
 				4E90C0FA17024114000F2564 /* EditionEventManager.cpp */,
 				4E90C0FB17024114000F2564 /* EditionEventManager.h */,
 				0C04E18516DE964E002B0EE2 /* Utilitaire */,
@@ -748,6 +795,14 @@
 		4E8A939917027E7F008B0C4A /* PieMenu */ = {
 			isa = PBXGroup;
 			children = (
+				4E8E5BD2170A28DF00B69DD2 /* cog_24x24.png */,
+				4E8E5BD3170A28DF00B69DD2 /* cursor_24x24.png */,
+				4E8E5BD4170A28DF00B69DD2 /* curved_arrow_24x18.png */,
+				4E8E5BD5170A28DF00B69DD2 /* fork_21x24.png */,
+				4E8E5BD6170A28E000B69DD2 /* fullscreen_24x24.png */,
+				4E8E5BD7170A28E000B69DD2 /* move_alt2_24x24.png */,
+				4E8E5BD8170A28E000B69DD2 /* x_alt_24x24.png */,
+				4E8A52D2170673960043A056 /* Icon.png */,
 				4E8A939A17027E7F008B0C4A /* PieMenu.h */,
 				4E8A939B17027E7F008B0C4A /* PieMenu.m */,
 				4E8A939C17027E7F008B0C4A /* PieMenuItem.h */,
@@ -816,13 +871,16 @@
 		4ED0E8241702B41D0043DF70 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				4ED0E8531702B9270043DF70 /* Flames.jpg */,
-				4ED0E83D1702B8250043DF70 /* couleurMuret.png */,
-				4ED0E83E1702B8250043DF70 /* poly2.png */,
-				4ED0E83F1702B8250043DF70 /* razer-logo.png */,
-				4ED0E8401702B8250043DF70 /* redbull_textureSmall.png */,
-				4ED0E8411702B8250043DF70 /* textureRedPlastic.jpg */,
-				4ED0E81D1702A1B10043DF70 /* eclair.jpg */,
+				4E6D69A01707BE9C00CC94CC /* control_point_texture.png */,
+				4E6D69A11707BE9C00CC94CC /* couleurMuret.png */,
+				4E6D69A21707BE9C00CC94CC /* EmptyBonus.png */,
+				4E6D69A31707BE9C00CC94CC /* Flames.jpg */,
+				4E6D69A41707BE9C00CC94CC /* goal_texture.png */,
+				4E6D69A51707BE9C00CC94CC /* portal_effect.png */,
+				4E6D69A61707BE9C00CC94CC /* razer-logo.png */,
+				4E6D69A71707BE9C00CC94CC /* redbull_texture.png */,
+				4E6D69A81707BE9C00CC94CC /* redbull_textureSmall.png */,
+				4E6D69A91707BE9C00CC94CC /* rondelle.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -847,6 +905,7 @@
 		96378D6B1472C71100F543EA = {
 			isa = PBXGroup;
 			children = (
+				4EAF3DF5170AAC1E00B3C34E /* Settings.bundle */,
 				4E2A596216F2E84B002160AE /* Enum_Declarations.h */,
 				0C04E09316DE88ED002B0EE2 /* C++Files */,
 				96378D801472C71100F543EA /* Hockedu */,
@@ -882,6 +941,10 @@
 		96378D801472C71100F543EA /* Hockedu */ = {
 			isa = PBXGroup;
 			children = (
+				4EAF3DED170A6A7400B3C34E /* blueButton.png */,
+				4EAF3DEF170A6A7400B3C34E /* blueButtonHighlight.png */,
+				4EAF3DEE170A6A7400B3C34E /* blueButton@2x.png */,
+				4EAF3DF0170A6A7400B3C34E /* blueButtonHighlight@2x.png */,
 				6D01D096170286BB00899CCB /* iCarousel */,
 				96378D891472C71200F543EA /* HockeduAppDelegate.h */,
 				96378D8A1472C71200F543EA /* HockeduAppDelegate.m */,
@@ -1094,7 +1157,7 @@
 				4E9CE9FA16FBB74100B04A12 /* Login.xib in Resources */,
 				4E9CE9FF16FBBA4B00B04A12 /* LoadMapViewController.xib in Resources */,
 				4E99937817027CDC00C68644 /* razor_sharp.png in Resources */,
-				4ED0E8201702A1B10043DF70 /* eclair.jpg in Resources */,
+				4E8A52D7170673960043A056 /* Icon.png in Resources */,
 				4ED0E8211702A1B10043DF70 /* portail.mtl in Resources */,
 				4ED0E8221702A1B10043DF70 /* portail.obj in Resources */,
 				4ED0E8311702B5D40043DF70 /* accelerateur.mtl in Resources */,
@@ -1109,16 +1172,32 @@
 				4ED0E83A1702B5D40043DF70 /* muret.obj in Resources */,
 				4ED0E83B1702B5D40043DF70 /* rondelle.mtl in Resources */,
 				4ED0E83C1702B5D40043DF70 /* rondelle.obj in Resources */,
-				4ED0E8421702B8250043DF70 /* couleurMuret.png in Resources */,
-				4ED0E8431702B8250043DF70 /* poly2.png in Resources */,
-				4ED0E8441702B8250043DF70 /* razer-logo.png in Resources */,
-				4ED0E8451702B8250043DF70 /* redbull_textureSmall.png in Resources */,
-				4ED0E8461702B8250043DF70 /* textureRedPlastic.jpg in Resources */,
 				4ED0E84A1702B8590043DF70 /* control_point.mtl in Resources */,
 				4ED0E84B1702B8590043DF70 /* control_point.obj in Resources */,
 				4ED0E8511702B8A80043DF70 /* point.mtl in Resources */,
 				4ED0E8521702B8A80043DF70 /* point.obj in Resources */,
-				4ED0E8541702B9270043DF70 /* Flames.jpg in Resources */,
+				4E6D69AA1707BE9C00CC94CC /* control_point_texture.png in Resources */,
+				4E6D69AB1707BE9C00CC94CC /* couleurMuret.png in Resources */,
+				4E6D69AC1707BE9C00CC94CC /* EmptyBonus.png in Resources */,
+				4E6D69AD1707BE9C00CC94CC /* Flames.jpg in Resources */,
+				4E6D69AE1707BE9C00CC94CC /* goal_texture.png in Resources */,
+				4E6D69AF1707BE9C00CC94CC /* portal_effect.png in Resources */,
+				4E6D69B01707BE9C00CC94CC /* razer-logo.png in Resources */,
+				4E6D69B11707BE9C00CC94CC /* redbull_texture.png in Resources */,
+				4E6D69B21707BE9C00CC94CC /* redbull_textureSmall.png in Resources */,
+				4E6D69B31707BE9C00CC94CC /* rondelle.png in Resources */,
+				4E8E5BD9170A28E000B69DD2 /* cog_24x24.png in Resources */,
+				4E8E5BDA170A28E000B69DD2 /* cursor_24x24.png in Resources */,
+				4E8E5BDB170A28E000B69DD2 /* curved_arrow_24x18.png in Resources */,
+				4E8E5BDC170A28E000B69DD2 /* fork_21x24.png in Resources */,
+				4E8E5BDD170A28E000B69DD2 /* fullscreen_24x24.png in Resources */,
+				4E8E5BDE170A28E000B69DD2 /* move_alt2_24x24.png in Resources */,
+				4E8E5BDF170A28E000B69DD2 /* x_alt_24x24.png in Resources */,
+				4EAF3DF1170A6A7500B3C34E /* blueButton.png in Resources */,
+				4EAF3DF2170A6A7500B3C34E /* blueButton@2x.png in Resources */,
+				4EAF3DF3170A6A7500B3C34E /* blueButtonHighlight.png in Resources */,
+				4EAF3DF4170A6A7500B3C34E /* blueButtonHighlight@2x.png in Resources */,
+				4EAF3DF6170AAC1E00B3C34E /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1218,6 +1297,9 @@
 				4E90C0FC17024114000F2564 /* EditionEventManager.cpp in Sources */,
 				4E94494417025200005BC9F6 /* Model3DManager.m in Sources */,
 				6D01D099170286BB00899CCB /* iCarousel.m in Sources */,
+				4E1FF7381707917E005D1D50 /* ForceField.cpp in Sources */,
+				4E1FF73D17079212005D1D50 /* BonusModifierChangeZone.cpp in Sources */,
+				4E1FF73E17079212005D1D50 /* BonusModifierFan.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

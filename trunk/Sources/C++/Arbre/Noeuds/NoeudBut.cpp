@@ -55,7 +55,7 @@ CreateListDelegateImplementation(Goal)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudBut::NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHaut, NoeudPoint * coinBas, NoeudComposite* pParent)
-   : NoeudComposite(typeNoeud), joueur_(joueur), coinHaut_(coinHaut), coinBas_(coinBas), mBottomAngle(0),mTopAngle(0), mPuckCatcher(NULL),mCachedPuckRadius(NoeudRondelle::DEFAULT_RADIUS)
+   : NoeudComposite(RAZER_KEY_GOAL,typeNoeud), joueur_(joueur), coinHaut_(coinHaut), coinBas_(coinBas), mBottomAngle(0),mTopAngle(0), mPuckCatcher(NULL),mCachedPuckRadius(NoeudRondelle::DEFAULT_RADIUS)
 {
     if(pParent)
     {
@@ -94,7 +94,7 @@ void NoeudBut::renderReal() const
 {
 #if WIN32
     GLuint liste = NULL;
-    GestionnaireModeles::obtenirInstance()->obtenirListe(mType,liste);
+    GestionnaireModeles::obtenirInstance()->obtenirListe(getSkinKey(),liste);
 
     GLint renderMode;
     glGetIntegerv(GL_RENDER_MODE,&renderMode);
@@ -475,21 +475,7 @@ void NoeudBut::updatePhysicBody()
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &shape; //this is a pointer to the shapeHaut above
         myFixtureDef.density = 1;
-        if(IsInGame())
-        {
-#if MAT_DEBUG_ && 0
-            myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
-            myFixtureDef.filter.maskBits = CATEGORY_PUCK|CATEGORY_MALLET;
-#else
-            myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
-            myFixtureDef.filter.maskBits = CATEGORY_MALLET;
-#endif
-        }
-        else
-        {
-            myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
-            myFixtureDef.filter.maskBits = 0xFFFF;
-        }
+        RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_GOAL,IsInGame());
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         shape.Set(anchorPointPosB2,BottomPosB2);
@@ -552,8 +538,7 @@ void NoeudBut::updatePuckCatcher( float puckRadius )
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &shape; //this is a pointer to the shapeHaut above
         myFixtureDef.density = 1;
-        myFixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
-        myFixtureDef.filter.maskBits = CATEGORY_PUCK;
+        RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_PUCK_CATCHER,IsInGame());
 
 //         shape.Set(topPosB2,topPosShiftedB2);
 //         mPuckCatcher->CreateFixture(&myFixtureDef); //add a fixture to the body

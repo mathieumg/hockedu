@@ -16,7 +16,6 @@
 
 
 static Model3DManager* model3DManager = NULL;
-
 void EditionEventCallback(EditionEventCodes pEvent)
 {
     switch (pEvent) {
@@ -70,13 +69,7 @@ bool RenderNodeCallback(RazerKey key)
 
 
 - (void)render
-{
-    glPushMatrix();
-    glTranslatef(15,15,20);
-    RenderNodeCallback(RAZER_KEY_HOUSE);
-    
-    glPopMatrix();
-    
+{    
     ((Terrain*)mField)->renderField();  
 }
 - (id)init
@@ -96,6 +89,7 @@ bool RenderNodeCallback(RazerKey key)
     [mModel3DManager release];
     mModel3DManager = NULL;
     delete (Terrain*)mField;
+    [super dealloc];
 }
 
 -(int)acceptSelectionVisitor:(float)positionMinX: (float)positionMinY:(float) positionMaxX:(float) positionMaxY
@@ -124,9 +118,24 @@ bool RenderNodeCallback(RazerKey key)
     ((Terrain*)mField)->ReceiveModificationEvent(event);
 }
 
+-(void) endModification
+{
+    ((Terrain*)mField)->EndModification();
+}
+
 -(void) eventCancel;
 {
     ((Terrain*)mField)->cancelModification();
+}
+
+-(void) duplicateSelection
+{
+    ((Terrain*)mField)->duplicateSelection();
+}
+
+-(void) deleteSelection
+{
+    ((Terrain*)mField)->deleteSelectedNodes();
 }
 
 -(void) saveField
@@ -179,7 +188,7 @@ bool RenderNodeCallback(RazerKey key)
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
     }];
-    
+    [httpClient release];
 }
 
 @end

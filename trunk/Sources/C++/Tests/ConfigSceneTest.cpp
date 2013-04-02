@@ -107,10 +107,10 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
 	NoeudAbstrait* n5 = arbre->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
 	NoeudAbstrait* n6 = arbre->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
 	NoeudAbstrait* n7 = arbre->creerNoeud(RazerGameUtilities::NOM_ACCELERATEUR);
-	NoeudComposite* nC1 = new NoeudComposite("groupe1");
-	NoeudComposite* nC2 = new NoeudComposite("groupe2");
-	NoeudComposite* nC3 = new NoeudComposite("groupe3");
-	NoeudComposite* nC4 = new NoeudComposite("groupe4");
+	NoeudComposite* nC1 = new NoeudComposite(RAZER_KEY_NONE,"groupe1");
+	NoeudComposite* nC2 = new NoeudComposite(RAZER_KEY_NONE,"groupe2");
+	NoeudComposite* nC3 = new NoeudComposite(RAZER_KEY_NONE,"groupe3");
+	NoeudComposite* nC4 = new NoeudComposite(RAZER_KEY_NONE,"groupe4");
 
 	arbre->add(n1);
 	arbre->add(n2);

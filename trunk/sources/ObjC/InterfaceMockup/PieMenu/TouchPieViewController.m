@@ -42,7 +42,7 @@
 // Implement viewDidLoad to do additional setup after loading the view.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	self.pieMenu = [[PieMenu alloc] init];
+	self.pieMenu = [[[PieMenu alloc] init] autorelease];
 	PieMenuItem *itemA = [[PieMenuItem alloc] initWithTitle:@"ItemA" 
 													  label:nil 
 													 target:self 

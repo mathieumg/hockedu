@@ -17,6 +17,7 @@
 #include "ExceptionJeu.h"
 #include "PartieSyncer.h"
 #include "ReplayObserver.h"
+#include "AchievementsEnums.h"
 
 
 class NoeudMaillet;
@@ -38,6 +39,15 @@ typedef int (*GameUpdateCallback) (int, GameStatus); // Param1 = GameID, Param2 
 
 
 enum PositionJoueur{GAGNANT_GAUCHE,GAGNANT_DROITE,GAGNANT_AUCUN};
+
+/// Permet de connaitre l'intention de la partie et qui la contient
+enum GameType
+{
+    GAME_TYPE_NETWORK_CLIENT,   /// Some event will not be simulated since a server is required to play the game
+    GAME_TYPE_NETWORK_SERVER,   /// will send some information on the network to keep client games in sync
+    GAME_TYPE_OFFLINE,          /// Must do all the simulation and event locally
+};
+
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class Partie
@@ -114,19 +124,29 @@ public:
     void setPassword(const std::string& pPassword);
     inline bool requirePassword() const {return mRequirePassword;}
 
-    bool isNetworkClientGame() const;
-
-    bool isNetworkServerGame() const;
-
+    inline bool isNetworkClientGame() const
+    {
+        return mGameType == GAME_TYPE_NETWORK_CLIENT;
+    }
+    inline bool isNetworkServerGame() const
+    {
+        return mGameType == GAME_TYPE_NETWORK_SERVER;
+    }
+    inline bool isOfflineGame() const
+    {
+        return mGameType == GAME_TYPE_OFFLINE;
+    }
 
     virtual void updateObserver( const ReplaySubject* pSubject );
+
+    void SendAchievementEventToHumanPlayer(SPJoueurAbstrait player,AchievementEvent eventIfHuman, AchievementEvent eventIfNonHuman );
 
     void setGameStatus(GameStatus pStatus);
 /// Methode Privee
 private:
 
     /// Constructeur par paramètres
-	Partie(SPJoueurAbstrait joueurGauche = 0, SPJoueurAbstrait joueurDroit = 0, int uniqueGameId = 0, const std::vector<GameUpdateCallback>& updateCallback = std::vector<GameUpdateCallback>());
+	Partie(GameType gameType,SPJoueurAbstrait joueurGauche = 0, SPJoueurAbstrait joueurDroit = 0, int uniqueGameId = 0, const std::vector<GameUpdateCallback>& updateCallback = std::vector<GameUpdateCallback>());
 
 /// Attributs
 private:
@@ -176,9 +196,9 @@ private:
     /// position of mouse in the screen coordinates, do not use directly on nodes
     Vecteur2i mMousePosScreen;
 
-    bool mIsNetworkClientGame;
-    bool mIsNetworkServerGame;
-
+    /// Permet de connaitre l'intention de la partie et qui la contient
+    /// ne peux changer une fois créer
+    const GameType mGameType;
 
 /// Accesseurs
 public:
@@ -232,8 +252,6 @@ public:
 
     inline PartieSyncer* getPartieSyncer() { return &mPartieSyncer; }
 
-    void recalculateNetworkGameFlags();
-    
 
     /// Accessors of mMousePosScreen
     inline Vecteur2i getMousePosScreen() const { return mMousePosScreen; }

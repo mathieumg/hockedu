@@ -171,6 +171,7 @@ namespace UIHeavyClient
             }
             
             Context.HandleEditionMenuItem(false);
+            Context.HandleGameMenuItem(true);
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -201,6 +202,7 @@ namespace UIHeavyClient
             }
             
             Context.HandleEditionMenuItem(false);
+            Context.HandleGameMenuItem(false);
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -233,7 +235,7 @@ namespace UIHeavyClient
             if(CallbackManager.ChangeGameMode(GameState.GAME_STATE_ONLINE_LOBBY))
             {
                 Context.WindowContentControl.Content=Context.OnlineLobbyControl;
-                Context.OnlineLobbyControl.DisplayServerGames();
+                Context.OnlineLobbyControl.RequestGamesList();
                 CallbackManager.CommitChanges();
             }
         }

@@ -4,7 +4,7 @@
 
 newmtl Metal_Aluminum_Anodized
 Ka 0.000000 0.000000 0.000000
-Kd 0.858824 0.847059 0.811765
+Kd 0.376471 0.372549 0.356863
 Ks 0.330000 0.330000 0.330000
 map_Kd Fan_texture.jpg
 

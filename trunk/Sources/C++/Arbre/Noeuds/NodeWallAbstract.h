@@ -38,9 +38,6 @@ public:
            mReboundRatio == n2->mReboundRatio && 
            Super::equals(n);
    }
-   /// accessor to the key to retrieve the list and/or 3D Model
-   virtual const std::string& get3DModelKey() const;
-
    /// Affiche le muret.
    virtual void renderReal() const;
    /// Fonction appeler dans afficher concret pour faire le

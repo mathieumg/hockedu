@@ -29,7 +29,7 @@ void parseParamWithArg(std::string& pOutParam, int pLoopCounter, int argc, char*
         throw std::runtime_error("Valeur manquante pour le flag " + std::string(argv[pLoopCounter]));
     }
 }
-
+std::string wMasterServerIP = "127.0.0.1"; // Adresse par defaut du serveur maitre
 
 void TerminateServer()
 {
@@ -41,10 +41,15 @@ void DoNothing()
 
 }
 
+void ReconnectMaster()
+{
+    ConnectMasterServer(wMasterServerIP);
+}
+
 int main(int argc, char* argv[])  {
     
     std::cout << "--------- Serveur Jeu ---------" << std::endl << std::endl;
-    std::string wMasterServerIP = "127.0.0.1"; // Adresse par defaut du serveur maitre
+    //std::string wMasterServerIP = "192.168.0.105"; // Adresse par defaut du serveur maitre
     
     //********** Liste des flags
     // -mIP     Adresse IPv4 du serveur Maitre
@@ -77,13 +82,14 @@ int main(int argc, char* argv[])  {
     }
 
     // Appel a la fonction d'initialisation
-    InitDLLServeurJeu(wMasterServerIP);
-
+    InitDLLServeurJeu();
+    ReconnectMaster();
 
     // Affichage du menu
     Menu wMenu("Choose an option");
     wMenu.addMenuOption(0, new MenuOptionCallVoid("Do Nothing", DoNothing));
-    wMenu.addMenuOption(1, new MenuOptionCallVoid("Exit Server", TerminateServer));
+    wMenu.addMenuOption(1, new MenuOptionCallVoid("Reconnect Master Server", ReconnectMaster));
+    wMenu.addMenuOption(2, new MenuOptionCallVoid("Exit Server", TerminateServer));
 
     while(true)
     {

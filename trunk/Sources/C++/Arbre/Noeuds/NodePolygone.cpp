@@ -43,7 +43,7 @@ PRAGMA_DISABLE_OPTIMIZATION
 ///
 ////////////////////////////////////////////////////////////////////////
 NodePolygone::NodePolygone( const std::string& type ):
-    Super(type),ControlPointMutableAbstract(8)
+    Super(RAZER_KEY_POLYGON,type),ControlPointMutableAbstract(8)
 {
 
 }
@@ -279,11 +279,7 @@ void NodePolygone::updatePhysicBody()
             b2FixtureDef myFixtureDef;
             myFixtureDef.shape = &shape; //this is a pointer to the shape above
             myFixtureDef.density = 1;
-            if(IsInGame())
-            {
-                myFixtureDef.filter.categoryBits = CATEGORY_WALL;
-                myFixtureDef.filter.maskBits = CATEGORY_PUCK | CATEGORY_MALLET;
-            }
+            RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_POLYGON,IsInGame());
 
             mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         }

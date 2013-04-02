@@ -36,6 +36,8 @@ enum {
 @property (nonatomic, assign) BOOL wrap;
 @property (nonatomic, assign) BOOL clipsToBounds;
 @property (nonatomic, retain) NSMutableArray *items;
+- (void) itemSelected:(PieMenuItem *)item;
+- (void) setupPieMenu;
 @end
 
 @implementation EAGLViewController
@@ -51,6 +53,9 @@ enum {
 @synthesize mEventManager;
 @synthesize carousel;
 @synthesize items;
+// Pie menu
+@synthesize pieMenu;
+@synthesize labelPieMenu;
 
 - (void)awakeFromNib
 {
@@ -69,7 +74,7 @@ enum {
     theEAGLView.opaque = YES;
     
     mModel = [[Model alloc]init];
-    mEventManager = [[EventManager alloc]init];
+    mEventManager = [[EventManager alloc]init:mModel];
     translationX = 0.0;
     translationY = 0.0;
     zoomFactor = 0.5;
@@ -89,6 +94,42 @@ enum {
     animating = FALSE;
     animationFrameInterval = 1;
     self.displayLink = nil;
+    
+    UIImage *buttonImage = [[UIImage imageNamed:@"blueButton@2x.png"]
+                            resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"blueButtonHighlight@2x.png"]
+                                     resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    
+    // Set the background for any states you plan to use
+    [saveButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [saveButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [selectButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [selectButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [moveButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [moveButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [rotationButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [rotationButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [scaleButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [scaleButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [duplicateButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [duplicateButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [editionButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [editionButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [deleteButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [deleteButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [cameraButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [cameraButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [buttonImage release];
+    [buttonImageHighlight release];
     
 
 }
@@ -115,6 +156,16 @@ enum {
     [carousel release];
     [items release];
     
+    //[saveExitButton release];
+    [saveButton release];
+    [selectButton release];
+    [moveButton release];
+    [rotationButton release];
+    [scaleButton release];
+    [duplicateButton release];
+    [deleteButton release];
+    [cameraButton release];
+    [editionButton release];
     [super dealloc];
 }
 
@@ -152,19 +203,149 @@ enum {
 {
     [super viewDidLoad];
     
+    
+    
+    // SETUP DES GESTURES
     UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationDetectee:)];
-    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
+    //UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapDetected:)];
     
     [rotationGesture setDelegate:self];
-    [longPressGesture setDelegate:self];
+    //[longPressGesture setDelegate:self];
+    [tapGesture setNumberOfTapsRequired:2];
+    [tapGesture setDelegate:self];
     
-    [theEAGLView addGestureRecognizer:rotationGesture];
-    [theEAGLView addGestureRecognizer:longPressGesture];
+    [mGLView addGestureRecognizer:rotationGesture];
+    //[mGLView addGestureRecognizer:longPressGesture];
+    [mGLView addGestureRecognizer:tapGesture];
     
     [rotationGesture release];
-    [longPressGesture release];
+    //[longPressGesture release];
+    [tapGesture release];
     
+    // FIN SETUP DES GESTURES
+    
+    // Set le carousel
     carousel.type = iCarouselTypeLinear;
+    // Set le pie menu, voir methode
+    [self setupPieMenu];
+}
+
+- (void) propertiesMenu:(PieMenuItem *)item {
+    
+    // Ouverture du popover contenant les proprietes associees a la selection courante
+//    UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
+//    UITabBarController *tabController = [[UITabBarController alloc] init];
+//    UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tableController];
+//    UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:navController];
+//    navController.tabBarController = tabController;
+//    [popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+- (void) setupPieMenu
+{
+    // SETUP DU PIE MENU
+	self.pieMenu = [[[PieMenu alloc] init] autorelease];
+	PieMenuItem *itemA = [[PieMenuItem alloc] initWithTitle:@"Select"
+													  label:nil
+													 target:self
+												   selector:@selector(selectToolButtonTouched:)
+												   userInfo:nil
+													   icon:[UIImage imageNamed:@"cursor_24x24.png"]];
+    
+	PieMenuItem *itemB = [[PieMenuItem alloc] initWithTitle:@"Move"
+													  label:nil
+													 target:self
+												   selector:@selector(moveToolButtonTouched:)
+												   userInfo:nil
+													   icon:[UIImage imageNamed:@"move_alt2_24x24.png"]];
+	
+	PieMenuItem *itemC = [[PieMenuItem alloc] initWithTitle:@"Rotate"
+													  label:nil
+													 target:self
+												   selector:@selector(rotationToolButtonTouched:)
+												   userInfo:nil
+													   icon:[UIImage imageNamed:@"curved_arrow_24x18.png"]];
+	
+	PieMenuItem *itemD = [[PieMenuItem alloc] initWithTitle:@"Scale"
+													  label:nil
+													 target:self
+												   selector:@selector(scaleToolButtonTouched:)
+												   userInfo:nil
+													   icon:[UIImage imageNamed:@"fullscreen_24x24.png"]];
+	
+	
+	PieMenuItem *itemE = [[PieMenuItem alloc] initWithTitle:@"Duplicate"
+													  label:nil
+													 target:self
+												   selector:@selector(duplicateToolButtonTouched:)
+												   userInfo:nil
+													   icon:[UIImage imageNamed:@"fork_21x24.png"]];
+	
+	PieMenuItem *itemF = [[PieMenuItem alloc] initWithTitle:@"Delete"
+													  label:nil
+													 target:self
+												   selector:@selector(deleteToolButtonTouched:)
+												   userInfo:nil
+													   icon:[UIImage imageNamed:@"x_alt_24x24.png"]];
+	
+	PieMenuItem *itemG = [[PieMenuItem alloc] initWithTitle:@"Properties"
+													  label:nil
+													 target:self
+												   selector:@selector(propertiesMenu:)
+												   userInfo:nil
+													   icon:[UIImage imageNamed:@"cog_24x24.png"]];
+	
+	
+	//[itemA addSubItem:itemE];
+	//[itemA addSubItem:itemB];
+	//[itemA addSubItem:itemD];
+	[pieMenu addItem:itemA];
+	[pieMenu addItem:itemB];
+    [pieMenu addItem:itemC];
+    [pieMenu addItem:itemD];
+	[pieMenu addItem:itemE];
+	[pieMenu addItem:itemF];
+	[pieMenu addItem:itemG];
+	
+	[itemA release];
+	[itemB release];
+	[itemC release];
+	[itemD release];
+	[itemE release];
+	[itemF release];
+	[itemG release];
+}
+
+#warning Fonction a mettre dans les settings!!!!!
+- (IBAction) fingerSizeAction:(id)sender {
+	UISegmentedControl* segCtl = sender;
+	pieMenu.fingerSize = [segCtl selectedSegmentIndex];
+}
+#warning Fonction a mettre dans les settings!!!!!
+- (IBAction) leftHandedAction:(id)sender {
+	UISwitch *swit = (UISwitch *)sender;
+	pieMenu.leftHanded = swit.on;
+}
+
+//- (UIResponder *)nextResponder {
+//	if (pieMenu.on) {
+//		return [pieMenu view];
+//	} else {
+//		return [super nextResponder];
+//	}
+//}
+
+- (IBAction)doubleTapDetected:(UITapGestureRecognizer *)sender;
+{
+    //auto a=0;
+    
+    //UITouch *touch = [sender. anyObject];
+	CGPoint p = [sender locationInView:self.mGLView];//[touch locationInView:self.view];
+	[pieMenu showInView:self.view atPoint:p];
+    //[super touchesBegan:touches withEvent:event];
+    [mModel eventCancel];
+    
 }
 
 
@@ -237,26 +418,21 @@ enum {
     glLoadIdentity();
 }
 
-- (void)longPressDetected:(UIGestureRecognizer *)gestureRecognizer
-{
-    NSLog(@"LONG PRESS DETECTED!!!!");
-}
-
 - (void)unselectAllTools
 {
     // AJOUTER TOUS NOUVEAUX TOOL ICI
-    mMoveTool = false;
-    mSelectTool = false;
+    //mMoveTool = false;
+    //mSelectTool = false;
 }
 -(IBAction) selectionModeButtonTouched:(UIButton *)sender
 {
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
     // En mode selection, on ne peut pas ajouter ditem
-    itemToBeAdded = -1;
+    //itemToBeAdded = -1;
     // On ne peut pas avoir creationmode et selection mode en meme temps
-    mCreationMode = false;
+    //mCreationMode = false;
     // On inverse selection mode
-    mSelectionMode = !mSelectionMode;
+    //mSelectionMode = !mSelectionMode;
     //[sender setSelected:![sender isSelected]];
     
 }
@@ -266,9 +442,9 @@ enum {
 {
     [mEventManager modifyState:EDITOR_STATE_AJOUTER_PORTAIL];
     // En creation mode, on ne peut quajouter des nouveaux items, aucun tool de disponible
-    [self unselectAllTools];
-    mCreationMode = !mCreationMode;
-    mSelectionMode = false;
+//    [self unselectAllTools];
+//    mCreationMode = !mCreationMode;
+//    mSelectionMode = false;
     //[sender setSelected:![sender isSelected]];
     
 }
@@ -279,21 +455,41 @@ enum {
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
     
     // Disponible uniquement si on est en selectionmode
-    if (mSelectionMode) {
-        mSelectTool = true;
-        mMoveTool = false;
-    }
+//    if (mSelectionMode) {
+//        mSelectTool = true;
+//        mMoveTool = false;
+//    }
     
 }
 - (IBAction)moveToolButtonTouched:(UIButton *)sender
 {
     [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_DEPLACEMENT];
     // Disponible uniquement si on est en selectionmode
-    if (mSelectionMode) {
-        mSelectTool = false;
-        mMoveTool = true;
-    }
+//    if (mSelectionMode) {
+//        mSelectTool = false;
+//        mMoveTool = true;
+//    }
     
+}
+- (IBAction)rotationToolButtonTouched:(UIButton *)sender
+{
+    [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_ROTATION];
+}
+
+
+- (IBAction)scaleToolButtonTouched:(UIButton *)sender
+{
+    [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_ECHELLE];
+}
+
+- (IBAction)duplicateToolButtonTouched:(UIButton *)sender
+{
+    [mModel duplicateSelection];
+}
+
+- (IBAction)deleteToolButtonTouched:(UIButton *)sender
+{
+    [mModel deleteSelection];
 }
 
 - (IBAction)portalButtonTouched:(UIButton *)sender
@@ -330,39 +526,40 @@ enum {
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [[event allTouches] anyObject];
-    [mEventManager touchesBegan:touch];
+    CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
+    [mEventManager touchesBegan:touch:touchCoordVirt];
     // On prend en note le point ou le toucher a commencer
-    firstCorner = [touch locationInView:theEAGLView];
+    //firstCorner = [touch locationInView:theEAGLView];
     // On reinitialise le bool disant si on drag
-    touchMoved = false;
-    if (mCreationMode)
-    {
-        //CGPoint randomPoint;
-        //randomPoint.x=-25;
-        //randomPoint.y=0;
-        CGPoint coordVirt = [self convertScreenCoordToVirtualCoord:firstCorner];
-        [mModel beginModification:FIELD_MODIFICATION_ADD_PORTAL:coordVirt];
-        if(itemToBeAdded != -1)
-        {
-            // Si on est en mode creation et quon a un item a ajouter, on assigne limage associe a l'item
-            switch (itemToBeAdded) {
-                case PORTAL:
-                    //imageObjectToAdd = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cameraFixe.png"]];
-                    break;
-                    
-                case PUCK:
-                    //imageObjectToAdd = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"deplacer.png"]];
-                    break;
-                default:
-                    // On ajoute des portal si on ne connait pas l'item demande, par securite
-                    //imageObjectToAdd = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cameraFixe.png"]];
-                    break;
-            }
-            // On assigne la position de l'objet a la position du touche et on ajoute le UIImageView a la vu EAGL
-            //imageObjectToAdd.center = [touch locationInView:theEAGLView];
-            //[[self view] addSubview:imageObjectToAdd];
-        }
-    }
+    //touchMoved = false;
+//    if (mCreationMode)
+//    {
+//        //CGPoint randomPoint;
+//        //randomPoint.x=-25;
+//        //randomPoint.y=0;
+//        CGPoint coordVirt = [self convertScreenCoordToVirtualCoord:firstCorner];
+//        [mModel beginModification:FIELD_MODIFICATION_ADD_PORTAL:coordVirt];
+//        if(itemToBeAdded != -1)
+//        {
+//            // Si on est en mode creation et quon a un item a ajouter, on assigne limage associe a l'item
+//            switch (itemToBeAdded) {
+//                case PORTAL:
+//                    //imageObjectToAdd = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cameraFixe.png"]];
+//                    break;
+//                    
+//                case PUCK:
+//                    //imageObjectToAdd = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"deplacer.png"]];
+//                    break;
+//                default:
+//                    // On ajoute des portal si on ne connait pas l'item demande, par securite
+//                    //imageObjectToAdd = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cameraFixe.png"]];
+//                    break;
+//            }
+//            // On assigne la position de l'objet a la position du touche et on ajoute le UIImageView a la vu EAGL
+//            //imageObjectToAdd.center = [touch locationInView:theEAGLView];
+//            //[[self view] addSubview:imageObjectToAdd];
+//        }
+//    }
     
     NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");
     for(UITouch* touch in touches) {
@@ -385,53 +582,55 @@ enum {
     if ([[event allTouches] count] == 1)
     {
         UITouch *touch = [[event allTouches] anyObject];
-        [mEventManager touchesMoved:touch];
-        CGPoint positionCourante = [touch locationInView:theEAGLView];
-        if (mCreationMode) {
-            // Si on est en mode creation et touchMoved, on update la position de limage
-            //imageObjectToAdd.center = [touch locationInView:theEAGLView];
-            CGPoint coordVirt = [self convertScreenCoordToVirtualCoord:positionCourante];
-            [mModel eventModification:FIELD_MODIFICATION_EVENT_MOVE:coordVirt];
-            
-        }
-        else if (mSelectionMode && mMoveTool)
-        {
-            CGPoint positionPrecedente = [touch previousLocationInView:theEAGLView];
-            translationX -= (positionCourante.x - positionPrecedente.x);
-            translationY += (positionCourante.y - positionPrecedente.y);
-            
-            // Set boundaries for the editing grid, currently 1000x1000, centered at 0,0.
-            /*
-             if( translationX < ( -500 / zoomFactor ) )
-             {
-             translationX = (int)( -500 / zoomFactor );
-             }
-             */
-            if( translationX < -500 )
-            {
-                translationX = -500;
-            }
-            else if( translationX > 500 )
-            {
-                translationX = 500;
-            }
-            
-            if( translationY < -500 )
-            {
-                translationY = -500;
-            }
-            else if( translationY > 500 )
-            {
-                translationY = 500;
-            }
-            
-            [self updateOrtho];
-            
-        }
-        else if (mSelectionMode && mSelectTool)
-        {
-            touchMoved = true;
-        }
+        CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
+        [mEventManager touchesMoved:touch:touchCoordVirt];
+        
+        //CGPoint positionCourante = [touch locationInView:theEAGLView];
+//        if (mCreationMode) {
+//            // Si on est en mode creation et touchMoved, on update la position de limage
+//            //imageObjectToAdd.center = [touch locationInView:theEAGLView];
+//            CGPoint coordVirt = [self convertScreenCoordToVirtualCoord:positionCourante];
+//            [mModel eventModification:FIELD_MODIFICATION_EVENT_MOVE:coordVirt];
+//            
+//        }
+//        else if (mSelectionMode && mMoveTool)
+//        {
+//            CGPoint positionPrecedente = [touch previousLocationInView:theEAGLView];
+//            translationX -= (positionCourante.x - positionPrecedente.x);
+//            translationY += (positionCourante.y - positionPrecedente.y);
+//            
+//            // Set boundaries for the editing grid, currently 1000x1000, centered at 0,0.
+//            /*
+//             if( translationX < ( -500 / zoomFactor ) )
+//             {
+//             translationX = (int)( -500 / zoomFactor );
+//             }
+//             */
+//            if( translationX < -500 )
+//            {
+//                translationX = -500;
+//            }
+//            else if( translationX > 500 )
+//            {
+//                translationX = 500;
+//            }
+//            
+//            if( translationY < -500 )
+//            {
+//                translationY = -500;
+//            }
+//            else if( translationY > 500 )
+//            {
+//                translationY = 500;
+//            }
+//            
+//            [self updateOrtho];
+//            
+//        }
+//        else if (mSelectionMode && mSelectTool)
+//        {
+//            touchMoved = true;
+//        }
     }
     else if([[event allTouches] count] == 2) {
         // Poor man's pinch, perhaps implement as a UIGesture later on.
@@ -477,65 +676,67 @@ enum {
     if ([[event allTouches] count] == 1)
     {
         UITouch *touch = [[event allTouches] anyObject];
-        [mEventManager touchesEnded:touch];
-        CGPoint positionCourante = [touch locationInView:theEAGLView];
-        if (mCreationMode) {
-            // Destruction de limage de lobjet qui suit la position du doigt
-            
-                // On drop lobjet
-                CGPoint coordVirt = [self convertScreenCoordToVirtualCoord:positionCourante];
-            // On drop le noeud a la position finale
-            [mModel eventModification:FIELD_MODIFICATION_EVENT_CLICK:coordVirt];
-            // On enleve le prochain noeud qui apparait pour sajouter, utilise dans c++
-            [mModel eventCancel];
-                //[imageObjectToAdd removeFromSuperview];
-                //[imageObjectToAdd release];
-        }
+        //CGPoint positionCourante = [touch locationInView:theEAGLView];
+        CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
+        [mEventManager touchesEnded:touch:touchCoordVirt];
+//        
+//        if (mCreationMode) {
+//            // Destruction de limage de lobjet qui suit la position du doigt
+//            
+//                // On drop lobjet
+//                CGPoint coordVirt = [self convertScreenCoordToVirtualCoord:positionCourante];
+//            // On drop le noeud a la position finale
+//            [mModel eventModification:FIELD_MODIFICATION_EVENT_CLICK:coordVirt];
+//            // On enleve le prochain noeud qui apparait pour sajouter, utilise dans c++
+//            [mModel eventCancel];
+//                //[imageObjectToAdd removeFromSuperview];
+//                //[imageObjectToAdd release];
+//        }
         
-        if(mSelectionMode && mSelectTool)
-        {
-            
-            
-            CGPoint posVirtuelle = [self convertScreenCoordToVirtualCoord:positionCourante];
-            
-            int CV_X_NOW = posVirtuelle.x;
-            int CV_Y_NOW = posVirtuelle.y;
-            
-            
-            int CV_X_OLD;
-            int CV_Y_OLD;
-            if(touchMoved)
-            {
-                CGPoint firstCornerVirt;
-                firstCornerVirt = [self convertScreenCoordToVirtualCoord:firstCorner];
-                CV_X_OLD = firstCornerVirt.x;
-                CV_Y_OLD = firstCornerVirt.y;
-            }
-            else
-            {
-                CV_X_OLD = CV_X_NOW-2;
-                CV_X_NOW += 2;
-                CV_Y_OLD = CV_Y_NOW+2;
-                CV_Y_NOW-=2;
-            }
-            int nbNoeudsSelectionnes = [mModel acceptSelectionVisitor:CV_X_OLD:CV_Y_OLD:CV_X_NOW:CV_Y_NOW];
-            if(nbNoeudsSelectionnes==1)
-            {
-                // Si on a un seul noeud selectionne, on ouvre un popovercontroller contenant les proprietes modifiables du noeud
-                
-                //UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
-                
-                //UITabBarController *tabController = [[UITabBarController alloc] init];
-                
-                //UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tableController];
-                
-                //UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:navController];
-                //navController.tabBarController = tabController;
-                
-                //[popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-                
-            }
-        }
+//        if(mSelectionMode && mSelectTool)
+//        {
+//            
+//            
+//            CGPoint posVirtuelle = [self convertScreenCoordToVirtualCoord:positionCourante];
+//            
+//            int CV_X_NOW = posVirtuelle.x;
+//            int CV_Y_NOW = posVirtuelle.y;
+//            
+//            
+//            int CV_X_OLD;
+//            int CV_Y_OLD;
+//            if(touchMoved)
+//            {
+//                CGPoint firstCornerVirt;
+//                firstCornerVirt = [self convertScreenCoordToVirtualCoord:firstCorner];
+//                CV_X_OLD = firstCornerVirt.x;
+//                CV_Y_OLD = firstCornerVirt.y;
+//            }
+//            else
+//            {
+//                CV_X_OLD = CV_X_NOW-2;
+//                CV_X_NOW += 2;
+//                CV_Y_OLD = CV_Y_NOW+2;
+//                CV_Y_NOW-=2;
+//            }
+//            int nbNoeudsSelectionnes = [mModel acceptSelectionVisitor:CV_X_OLD:CV_Y_OLD:CV_X_NOW:CV_Y_NOW];
+//            if(nbNoeudsSelectionnes==1)
+//            {
+//                // Si on a un seul noeud selectionne, on ouvre un popovercontroller contenant les proprietes modifiables du noeud
+//                
+//                //UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
+//                
+//                //UITabBarController *tabController = [[UITabBarController alloc] init];
+//                
+//                //UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tableController];
+//                
+//                //UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:navController];
+//                //navController.tabBarController = tabController;
+//                
+//                //[popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//                
+//            }
+//        }
     }
 }
 
@@ -581,50 +782,6 @@ enum {
 	static GLfloat rotation = 0.0;
     
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    // Draw the background grid.
-    glColor4f( 1.0, 1.0, 1.0, 1.0 );
-    
-    int x1 = translationX - LARGEUR_FENETRE / 2;
-    int x2 = translationX + LARGEUR_FENETRE / 2;
-    int y1 = translationY - HAUTEUR_FENETRE / 2;
-    int y2 = translationY + HAUTEUR_FENETRE / 2;
-    
-    const int intervalle = 50;
-    const int zValue = -5;
-    const int size = ( ( ( LARGEUR_FENETRE + HAUTEUR_FENETRE ) / intervalle ) + 5 ) * 3 * 2;
-    GLfloat vertices[ size ];
-    
-    int count = 0;
-    // Vertical lines.
-    for( int a = x1 - x1 % intervalle; a < x2; a += intervalle )
-    {
-        vertices[ count++ ] = a;
-        vertices[ count++ ] = y1;
-        vertices[ count++ ] = zValue;
-        
-        vertices[ count++ ] = a;
-        vertices[ count++ ] = y2;
-        vertices[ count++ ] = zValue;
-    }
-    
-    // Horizontal lines.
-    for( int a = y1 - y1 % intervalle; a < y2; a += intervalle )
-    {
-        vertices[ count++ ] = x1;
-        vertices[ count++ ] = a;
-        vertices[ count++ ] = zValue;
-        
-        vertices[ count++ ] = x2;
-        vertices[ count++ ] = a;
-        vertices[ count++ ] = zValue;
-    }
-    
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, vertices);
-    glDrawArrays(GL_LINES, 0, count / 3);
-    glDisableClientState(GL_VERTEX_ARRAY);
-    
     
     //glEnableClientState(GL_VERTEX_ARRAY);
     [mModel render];
@@ -675,7 +832,7 @@ enum {
         ((UIImageView *)view).image = [UIImage imageNamed:@"aide32x32.png"];
         view.contentMode = UIViewContentModeCenter;
         
-        label = [[[UILabel alloc] initWithFrame:view.bounds] autorelease];
+        UILabel* label = [[[UILabel alloc] initWithFrame:view.bounds] autorelease];
         label.backgroundColor = [UIColor clearColor];
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [label.font fontWithSize:30];
@@ -708,6 +865,8 @@ enum {
             
         case iCarouselOptionWrap:
             return YES;
+        default :
+            break;
     }
     return value;
 }

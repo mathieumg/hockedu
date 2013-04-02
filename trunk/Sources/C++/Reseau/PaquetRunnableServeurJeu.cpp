@@ -211,7 +211,7 @@ int PaquetRunnable::RunnableGameCreationServerGame( Paquet* pPaquet )
     if(!GameManager::obtenirInstance()->getGame(wPaquet->getGameName()))
     {
         // On peut creer la partie
-        int wGameId = GameManager::obtenirInstance()->addNewGame(SPJoueurAbstrait(0), SPJoueurAbstrait(0), true);
+        int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_NETWORK_SERVER,SPJoueurAbstrait(0), SPJoueurAbstrait(0), true);
         //GameManager::obtenirInstance()->setMapForGame(wGameId, wPaquet->getMapName());
         Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
         wGame->setName(wPaquet->getGameName());
@@ -220,16 +220,6 @@ int PaquetRunnable::RunnableGameCreationServerGame( Paquet* pPaquet )
         // On peut meme utiliser le meme paquet pour renvoyer le message de confirmation
         wPaquet->setGameId(wGameId);
 
-        // If not local server -> Reply to Master Server.
-        if(!ControllerServeurJeu::isLocalServer())
-        {
-            wPaquet->setServerId(((ControllerServeurJeu*)GestionnaireReseau::obtenirInstance()->getController())->getServerId());
-            GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
-        }
-        else // Otherwise, the user is already connected to the server, so we reply directly to him.
-        {
-            GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
-        }
     }
     else
     {
@@ -238,10 +228,17 @@ int PaquetRunnable::RunnableGameCreationServerGame( Paquet* pPaquet )
 
         // On peut meme utiliser le meme paquet pour renvoyer le message de confirmation
         wPaquet->setGameId(-1);
+    }
 
-        // En envoie le message de confirmation
+    // If not local server -> Reply to Master Server.
+    if(!ControllerServeurJeu::isLocalServer())
+    {
+        wPaquet->setServerId(((ControllerServeurJeu*)GestionnaireReseau::obtenirInstance()->getController())->getServerId());
+        GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
+    }
+    else // Otherwise, the user is already connected to the server, so we reply directly to him.
+    {
         GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
-
     }
 
     return 0;

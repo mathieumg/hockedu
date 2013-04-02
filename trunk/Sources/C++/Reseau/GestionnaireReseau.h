@@ -55,6 +55,7 @@ enum PacketTypes {
     GAME_STATUS,
     GAME_CREATION_REQUEST,
     GAME_CONNECTION,
+    GAMES_LIST,
     MAILLET,
     RONDELLE,
     GAME_EVENT,

@@ -109,16 +109,10 @@ CreateListDelegateImplementation(Bonus)
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeBonus::NodeBonus(const std::string& typeNoeud)
-   : Super(typeNoeud),mMinTimeSpawn(5.5f), mMaxTimeSpawn(10.f),mHeightAngle(0)
+   : Super(RAZER_KEY_BONUS,typeNoeud),mHeightAngle(0)
 {
     // temp workaround, l'édition va le considérer comme un cercle pour un moment
     setDefaultRadius(DEFAULT_RADIUS);
-
-
-#if MIKE_DEBUG_
-    mMinTimeSpawn = 0;
-    mMaxTimeSpawn = 5;
-#endif
 
     forceFullUpdate();
     ResetTimeLeft();
@@ -187,7 +181,7 @@ void NodeBonus::renderReal() const
 
     /// retrait de la platforme pour le moment, bug la selection
     GLuint liste;	
-    GestionnaireModeles::obtenirInstance()->obtenirListe(RazerGameUtilities::NAME_EMPTY_BONUS,liste);
+    GestionnaireModeles::obtenirInstance()->obtenirListe(RAZER_KEY_EMPTY_BONUS,liste);
     // Si aucune liste n'est trouvé, on sort de la fonction.
     if(liste==NULL)
         return;
@@ -270,7 +264,7 @@ void NodeBonus::ExecuteBonus( class NoeudRondelle* rondelle )
     {
         int b = rand()%NB_BONUS_TYPE;
 #if MIKE_DEBUG_
-        b = BONUS_TYPE_CHANGE_ZONE; // testing value
+        //b = BONUS_TYPE_GO_THROUGH_WALL; // testing value
 #endif
         auto factory = FactoryBonusModifier::getFactory(BonusType(b));
         if(factory)
@@ -294,20 +288,6 @@ void NodeBonus::ExecuteBonus( class NoeudRondelle* rondelle )
     activate(false);
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn const std::string& NodeBonus::get3DModelKey()
-///
-/// Retrieves the key to find the 
-///
-///
-/// @return const std::string&
-///
-////////////////////////////////////////////////////////////////////////
-const std::string& NodeBonus::get3DModelKey() const
-{
-    return RazerGameUtilities::NAME_BONUS;
-}
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -332,6 +312,7 @@ void NodeBonus::forceFullUpdate()
         }
 #endif
     }
+    ResetTimeLeft();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -352,8 +333,6 @@ void NodeBonus::updatePhysicBody()
     {
         clearPhysicsBody();
 
-        float halfLength = mScale[VX]*DEFAULT_SIZE[VX]/2.f*utilitaire::ratioWorldToBox2D;
-        float halfHeight = mScale[VY]*DEFAULT_SIZE[VY]/2.f*utilitaire::ratioWorldToBox2D;
 
         b2BodyDef myBodyDef;
         myBodyDef.type = IsInGame() ? b2_staticBody : b2_dynamicBody; //this will be a dynamic body
@@ -415,10 +394,21 @@ void NodeBonus::renderOpenGLES() const
 void NodeBonus::ResetTimeLeft()
 {
     // precision 2 decimale
-    int min = (int)(mMinTimeSpawn*100.f);
-    int max = (int)(mMaxTimeSpawn*100.f);
+    auto field = getField();
+    if(field)
+    {
+        int min = (int)(field->getBonusesMinTimeSpawn()*100.f);
+        int max = (int)(field->getBonusesMaxTimeSpawn()*100.f);
+        if(min == max)
+        {
+            mSpawnTimeLeft = min;
+        }
+        else
+        {
+            mSpawnTimeLeft = (rand()%(max-min)+min)/100.f;
+        }
+    }
 
-    mSpawnTimeLeft = (rand()%(max-min)+min)/100.f;
 }
 
 ////////////////////////////////////////////////////////////////////////

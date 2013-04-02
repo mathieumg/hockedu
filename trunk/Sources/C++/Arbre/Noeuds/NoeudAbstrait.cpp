@@ -28,7 +28,6 @@
 #include "BonusModifierAbstract.h"
 
 
-
 GLuint NoeudAbstrait::mIdGlCounter = 1;
 
 ////////////////////////////////////////////////////////////////////////
@@ -43,6 +42,7 @@ GLuint NoeudAbstrait::mIdGlCounter = 1;
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudAbstrait::NoeudAbstrait(
+    RazerKey defaultKey/* = RAZER_KEY_NONE*/,
    const std::string& type //= std::string( "" )
    ) :
     mPhysicBody(NULL),
@@ -53,7 +53,9 @@ NoeudAbstrait::NoeudAbstrait(
     mAngle(0) ,
     mGlId(mIdGlCounter++),
     mField(NULL),
-    mWorld(NULL)
+    mWorld(NULL),
+    mDefaultNodeKey(defaultKey),
+    mSkinKey(defaultKey)
 {
 	mScale[VX] = 1;
 	mScale[VY] = 1;
@@ -481,7 +483,7 @@ void NoeudAbstrait::renderReal() const
         }
 
         GLuint liste;	
-        GestionnaireModeles::obtenirInstance()->obtenirListe(get3DModelKey(),liste);
+        GestionnaireModeles::obtenirInstance()->obtenirListe(getSkinKey(),liste);
         // Si aucune liste n'est trouvé, on sort de la fonction.
         if(liste==NULL)
             return;
@@ -520,7 +522,7 @@ void NoeudAbstrait::renderReal() const
 
 #else
         auto field = getField();
-        if(!field || !field->renderAppleNode(RazerGameUtilities::StringToKey(get3DModelKey())))
+        if(!field || !field->renderAppleNode(getSkinKey()))
         {
             glDisable(GL_BLEND);
             renderOpenGLES();
@@ -928,7 +930,7 @@ void NoeudAbstrait::setPosition( const Vecteur3& positionRelative )
 Modele3D* NoeudAbstrait::getModel() const
 {
 #if WIN32
-    return GestionnaireModeles::obtenirInstance()->obtenirModele(get3DModelKey());
+    return GestionnaireModeles::obtenirInstance()->obtenirModele(getSkinKey());
 #else
     return NULL;
 #endif
@@ -1213,6 +1215,39 @@ bool NoeudAbstrait::isWorldLocked() const
     }
 #endif
     return false;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudAbstrait::resetSkin()
+///
+/// Need to have called setSkin before hand
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAbstrait::resetSkin()
+{
+    for(auto it =mSkinStack.begin(); it != mSkinStack.end(); ++it)
+    {
+        if(*it == mSkinKey)
+        {
+            // remove only one instance of the key
+            mSkinStack.erase(it);
+            break;
+        }
+    }
+
+    /// apply the most recent skin
+    if(!mSkinStack.empty())
+    {
+        mSkinKey=mSkinStack.back();
+    }
+    else
+    {
+        mSkinKey=mDefaultNodeKey;
+    }
 }
 
 

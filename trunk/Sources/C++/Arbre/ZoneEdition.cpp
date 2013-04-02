@@ -48,7 +48,7 @@ const float ZoneEdition::DEFAUT_LIMITE_EXT_X = 200;
 ///
 ////////////////////////////////////////////////////////////////////////
 ZoneEdition::ZoneEdition(Terrain* owner):
-    mOwner(owner)
+    mOwner(owner),mRenderVertices(NULL)
 #if BOX2D_INTEGRATED
     , mPhysicsBody(NULL)
 #endif
@@ -75,6 +75,10 @@ ZoneEdition::~ZoneEdition()
 #if BOX2D_INTEGRATED  
     clearPhysicsBody();
 #endif //BOX2D_INTEGRATED
+    if(mRenderVertices)
+    {
+        delete[] mRenderVertices;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -198,6 +202,10 @@ void ZoneEdition::reinitialiser()
 ////////////////////////////////////////////////////////////////////////
 void ZoneEdition::afficher()
 {
+    if(!mRenderVertices)
+    {
+        return;
+    }
 #if WIN32
     // États de la lumière 
     GLboolean lighting_state;
@@ -206,27 +214,22 @@ void ZoneEdition::afficher()
     glDisable(GL_LIGHTING);
     FacadeModele::getInstance()->DeActivateShaders();
 #endif
-    glEnableClientState(GL_VERTEX_ARRAY);
 
-    
 	// Dessin de la zone d'édition
     glPushMatrix();
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 	glColor4f(0,0.749f,1,1);
-    GLfloat vertices[12] =
-    {
-        mLimitExtX, mLimitExtY,-3,
-        -mLimitExtX, mLimitExtY, -3,
-        -mLimitExtX, -mLimitExtY, -3,
-        mLimitExtX, -mLimitExtY, -3
-    };
-    glVertexPointer (3, GL_FLOAT , 0, vertices); 
-    glDrawArrays (GL_TRIANGLE_FAN, 0, 4);
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer (3, GL_FLOAT , 0, mRenderVertices); 
+    glDrawArrays (GL_LINES, 0, mVerticesCount);
+    glDisableClientState(GL_VERTEX_ARRAY);
 
 	glPopAttrib();
     glPopMatrix();
 
-    glDisableClientState(GL_VERTEX_ARRAY);
+    
+
 #if WIN32
     FacadeModele::getInstance()->ActivateShaders();
 
@@ -278,9 +281,105 @@ bool ZoneEdition::equals( ZoneEdition * zone )
 ////////////////////////////////////////////////////////////////////////
 void ZoneEdition::rebuild()
 {
+    /// Doncstruction des AABB selon les limites
     mAABBExt = BoundingBox::BuildAABB(Vecteur3(),Vecteur3(mLimitExtX,mLimitExtY));
     mAABBInt = BoundingBox::BuildAABB(Vecteur3(),Vecteur3(mLimitIntX,mLimitIntY));
-    
+
+
+    /// Reconstruction de l'array de vertices
+    {
+        if(mRenderVertices)
+        {
+            delete[] mRenderVertices;
+        }
+
+        float x1 = -mLimitExtX;
+        float x2 = mLimitExtX;
+        float y1 = -mLimitExtY;
+        float y2 = mLimitExtY;
+
+        const float intervalle = 30;
+        const float zValue = -5;
+        const int size = (int)( ( ( mLimitExtY + mLimitExtX )*2.f / intervalle ) + 5 ) * 3 * 2;
+        mRenderVertices = new float[size];
+
+        mVerticesCount = 0;
+        // Vertical lines.
+        float curX = x1 - ((int)x1 % (int)intervalle);
+        // ajout de la ligne de depart
+        if(curX != x1)
+        {
+            mRenderVertices[ mVerticesCount++ ] = x1;
+            mRenderVertices[ mVerticesCount++ ] = y1;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+
+            mRenderVertices[ mVerticesCount++ ] = x1;
+            mRenderVertices[ mVerticesCount++ ] = y2;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+        }
+        // ajout des ligne intermediaires
+        for( ; curX < x2; curX += intervalle )
+        {
+            mRenderVertices[ mVerticesCount++ ] = curX;
+            mRenderVertices[ mVerticesCount++ ] = y1;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+
+            mRenderVertices[ mVerticesCount++ ] = curX;
+            mRenderVertices[ mVerticesCount++ ] = y2;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+        }
+        // ajout de la ligne finale
+        {
+            mRenderVertices[ mVerticesCount++ ] = x2;
+            mRenderVertices[ mVerticesCount++ ] = y1;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+
+            mRenderVertices[ mVerticesCount++ ] = x2;
+            mRenderVertices[ mVerticesCount++ ] = y2;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+        }
+
+
+
+        // Horizontal lines.
+        float curY = y1 - ((int)y1 % (int)intervalle);
+        // ajout de la ligne de depart
+        if(curY != y1)
+        {
+            mRenderVertices[ mVerticesCount++ ] = x1;
+            mRenderVertices[ mVerticesCount++ ] = y1;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+
+            mRenderVertices[ mVerticesCount++ ] = x2;
+            mRenderVertices[ mVerticesCount++ ] = y1;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+        }
+        // ajout des ligne intermediaires
+        for( ; curY < y2; curY += intervalle )
+        {
+            mRenderVertices[ mVerticesCount++ ] = x1;
+            mRenderVertices[ mVerticesCount++ ] = curY;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+
+            mRenderVertices[ mVerticesCount++ ] = x2;
+            mRenderVertices[ mVerticesCount++ ] = curY;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+        }
+        // ajout de la ligne finale
+        {
+            mRenderVertices[ mVerticesCount++ ] = x1;
+            mRenderVertices[ mVerticesCount++ ] = y2;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+
+            mRenderVertices[ mVerticesCount++ ] = x2;
+            mRenderVertices[ mVerticesCount++ ] = y2;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+        }
+
+        mVerticesCount /= 3;
+    }
+
+
 #if BOX2D_INTEGRATED  
     clearPhysicsBody();
     if(mOwner)
@@ -294,8 +393,7 @@ void ZoneEdition::rebuild()
             mPhysicsBody = world->CreateBody(&def);
 
             b2FixtureDef fixtureDef;
-            fixtureDef.filter.categoryBits = CATEGORY_BOUNDARY;
-            fixtureDef.filter.maskBits = 0xFFFF;
+            RazerGameUtilities::ApplyFilters(fixtureDef,RAZER_KEY_ZONE_EDITION,false);
 
             /// default filter for edition, collides with everything
 

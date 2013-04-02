@@ -29,7 +29,7 @@
 #include "..\Reseau\UsinePaquets\UsinePaquetBonus.h"
 #include "..\Reseau\PaquetHandlers\PacketHandlerBonus.h"
 
-void InitDLLServeurJeu(std::string& wMasterServerIP)
+void InitDLLServeurJeu()
 {
     // Initialisation du GestionnaireReseau
     GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
@@ -57,8 +57,15 @@ void InitDLLServeurJeu(std::string& wMasterServerIP)
     wGestionnaireReseau->ajouterOperationReseau(GAME_EVENT, new PacketHandlerGameEvent, new UsinePaquetGameEvent);
     wGestionnaireReseau->ajouterOperationReseau(BONUS, new PacketHandlerBonus, new UsinePaquetBonus);
 
+    // Initialise la Facade Serveur Jeu (demarre la boucle de tick)
+    FacadeServeurJeu::getInstance();
+}
+
+void ConnectMasterServer(const std::string& wMasterServerIP)
+{
     if(!ControllerServeurJeu::isLocalServer())
     {
+        GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
         wGestionnaireReseau->demarrerNouvelleConnection("MasterServer", wMasterServerIP, TCP);
 
         PaquetEvent* wPaquet = (PaquetEvent*)wGestionnaireReseau->creerPaquet(EVENT);
@@ -70,11 +77,7 @@ void InitDLLServeurJeu(std::string& wMasterServerIP)
             wGestionnaireReseau->envoyerPaquet("MasterServer", wPaquet, TCP);
         });
     }
-
-    // Initialise la Facade Serveur Jeu (demarre la boucle de tick)
-    FacadeServeurJeu::getInstance();
 }
-
 
 
 

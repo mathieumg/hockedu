@@ -44,6 +44,11 @@ CreateListDelegateImplementation(Puck)
 {
     return RazerGameUtilities::CreateListSphereDefault(pModel,NoeudRondelle::DEFAULT_RADIUS);
 }
+CreateListDelegateImplementation(PuckTroll)
+{
+    return RazerGameUtilities::CreateListSphereDefault(pModel,NoeudRondelle::DEFAULT_RADIUS*1.35f);
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -58,7 +63,7 @@ CreateListDelegateImplementation(Puck)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudRondelle::NoeudRondelle(const std::string& typeNoeud, unsigned int& puckCreated, unsigned int puckLimit)
-    : NoeudAbstrait(typeNoeud),mNbPuckCreated(puckCreated),mLastHittingMallet(NULL),mCollisionDetected(false)
+    : NoeudAbstrait(RAZER_KEY_PUCK,typeNoeud),mNbPuckCreated(puckCreated),mLastHittingMallet(NULL)
 {
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
@@ -671,20 +676,7 @@ void NoeudRondelle::updatePhysicBody()
         myFixtureDef.density = 0.01f;
         myFixtureDef.friction = 1.0f;
         myFixtureDef.restitution = 0;
-
-        // Il s'agit ici d'une rondelle qui peut entre en collision avec un maillet, un mur, un portail ou un boost
-        myFixtureDef.filter.categoryBits = CATEGORY_PUCK;
-        if(IsInGame())
-        {
-            /// La puck entre en collision avec tout !
-            myFixtureDef.filter.maskBits = 0xFFFF;
-        }
-        else
-        {
-            /// En edition la rondelle et les mailet pourront etre par-dessus des bonus, boost, portals
-            myFixtureDef.filter.maskBits = CATEGORY_MALLET | CATEGORY_BOUNDARY | CATEGORY_WALL;
-            myFixtureDef.filter.groupIndex = 1;
-        }
+        RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_PUCK,IsInGame());
 
         /// calcul plus precis, mais plus couteux de la physique sur la rondelle
         mPhysicBody->SetBullet(true);
@@ -713,24 +705,6 @@ void NoeudRondelle::updatePhysicBody()
 #endif
 
 }
-
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn const std::string& NoeudRondelle::get3DModelKey()
-///
-/// /*Description*/
-///
-///
-/// @return const std::string&
-///
-////////////////////////////////////////////////////////////////////////
-const std::string& NoeudRondelle::get3DModelKey() const
-{
-    return Super::get3DModelKey();
-}
-
 
 
 ////////////////////////////////////////////////////////////////////////

@@ -8,7 +8,9 @@
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 #include "RazerGameUtilities.h"
-
+#if BOX2D_INTEGRATED  
+#include <Box2D/Box2D.h>
+#endif
 #if WIN32
 #include "GestionnaireModeles.h"
 #include "GestionnaireEvenements.h"
@@ -203,11 +205,14 @@ void RazerGameUtilities::RunOnUpdateThread( Runnable* run, bool pForceQueue /*= 
 unsigned int RazerGameUtilities::CreateListSphereDefault( Modele3D* pModel, float radius )
 {
 #if WIN32
-    float rayon,haut,bas;
-    pModel->calculerCylindreEnglobant(rayon,bas,haut);
-    float ratio = radius / rayon;
-    pModel->assignerFacteurAgrandissement(Vecteur3(ratio,ratio,ratio));
-    return GestionnaireModeles::CreerListe(pModel);
+    if(pModel)
+    {
+        float rayon,haut,bas;
+        pModel->calculerCylindreEnglobant(rayon,bas,haut);
+        float ratio = radius / rayon;
+        pModel->assignerFacteurAgrandissement(Vecteur3(ratio,ratio,ratio));
+        return GestionnaireModeles::CreerListe(pModel);
+    }
 #endif
     return NULL;
 }
@@ -318,6 +323,79 @@ void RazerGameUtilities::SaveFieldToFile( const std::string& nomFichier, Terrain
     // Écrire dans le fichier
     XMLUtils::SaveDocument(document,nomFichier.c_str());
 }
+
+
+#if BOX2D_INTEGRATED  
+std::map<RazerKey,PhysicsFilter> RazerGameUtilities::EditionFilters;
+std::map<RazerKey,PhysicsFilter> RazerGameUtilities::GameFilters;
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void RazerGameUtilities::FillPhysicsFilters()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void RazerGameUtilities::FillPhysicsFilters()
+{
+    EditionFilters.clear();
+    EditionFilters[RAZER_KEY_RINK_BOARD] = PhysicsFilter(CATEGORY_BOUNDARY, 0xFFFF,-1);
+    EditionFilters[RAZER_KEY_WALL] = PhysicsFilter(CATEGORY_WALL, 0xFFFF);
+    EditionFilters[RAZER_KEY_PUCK] = PhysicsFilter(CATEGORY_PUCK, CATEGORY_MALLET|CATEGORY_WALL|CATEGORY_BOUNDARY|CATEGORY_SELECTION);
+    EditionFilters[RAZER_KEY_MALLET] = PhysicsFilter(CATEGORY_MALLET, CATEGORY_PUCK|CATEGORY_WALL|CATEGORY_BOUNDARY|CATEGORY_SELECTION);
+    EditionFilters[RAZER_KEY_PORTAL] = PhysicsFilter(CATEGORY_PORTAL, 0xFFFF);
+    EditionFilters[RAZER_KEY_BOOST] = PhysicsFilter(CATEGORY_BOOST, 0xFFFF);
+    EditionFilters[RAZER_KEY_GOAL] = PhysicsFilter(CATEGORY_BOUNDARY, 0xFFFF,-1);
+    EditionFilters[RAZER_KEY_TABLE] = PhysicsFilter(CATEGORY_BOUNDARY, CATEGORY_MALLET,-1);
+    EditionFilters[RAZER_KEY_PUCK_CATCHER] = PhysicsFilter(CATEGORY_BOUNDARY, CATEGORY_PUCK,-1);
+    EditionFilters[RAZER_KEY_BONUS] = PhysicsFilter(CATEGORY_BONUS, 0xFFFF);
+    /// utilisation d'une category de gameplay pour pouvoir simplement faire la selection avec celui-ci
+    EditionFilters[RAZER_KEY_CONTROL_POINT] = PhysicsFilter(CATEGORY_FORCE_FIELD, CATEGORY_SELECTION);
+    EditionFilters[RAZER_KEY_ZONE_EDITION] = PhysicsFilter(CATEGORY_BOUNDARY,0xFFFF,-1);
+    EditionFilters[RAZER_KEY_SELECTION_BODY] = PhysicsFilter(CATEGORY_SELECTION,0xFFFF,-1);
+
+    GameFilters.clear();
+    GameFilters[RAZER_KEY_RINK_BOARD] = PhysicsFilter(CATEGORY_BOUNDARY, CATEGORY_PUCK|CATEGORY_MALLET);
+    GameFilters[RAZER_KEY_WALL] = PhysicsFilter(CATEGORY_WALL, CATEGORY_PUCK|CATEGORY_MALLET);
+    GameFilters[RAZER_KEY_PUCK] = PhysicsFilter(CATEGORY_PUCK, 0xFFFF);
+    GameFilters[RAZER_KEY_MALLET] = PhysicsFilter(CATEGORY_MALLET, CATEGORY_PUCK|CATEGORY_WALL|CATEGORY_BOUNDARY|CATEGORY_MIDLANE);
+    GameFilters[RAZER_KEY_PORTAL] = PhysicsFilter(CATEGORY_PORTAL, CATEGORY_PUCK,0,true);
+    GameFilters[RAZER_KEY_BOOST] = PhysicsFilter(CATEGORY_BOOST, CATEGORY_PUCK,0,true);
+    GameFilters[RAZER_KEY_GOAL] = PhysicsFilter(CATEGORY_BOUNDARY, CATEGORY_MALLET);
+    GameFilters[RAZER_KEY_TABLE] = PhysicsFilter(CATEGORY_MIDLANE, CATEGORY_MALLET);  // the midlane preventing mallet go to through
+    GameFilters[RAZER_KEY_PUCK_CATCHER] = PhysicsFilter(CATEGORY_BOUNDARY, CATEGORY_PUCK);
+    GameFilters[RAZER_KEY_BONUS] = PhysicsFilter(CATEGORY_BONUS, CATEGORY_PUCK,0,true);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void RazerGameUtilities::ApplyFilters( b2FixtureDef& def,RazerKey key )
+///
+/// /*Description*/
+///
+/// @param[in] b2FixtureDef & def
+/// @param[in] RazerKey key
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void RazerGameUtilities::ApplyFilters( b2FixtureDef& def,RazerKey key, bool inGame )
+{
+    PhysicsFilter filter;
+    std::map<RazerKey,PhysicsFilter>& filters = inGame?GameFilters:EditionFilters;
+    auto it=filters.find(key);
+    if(it != filters.end())
+    {
+        filter = it->second;
+    }
+    def.isSensor = filter.mIsSensor;
+    def.filter.categoryBits = filter.mCategory;
+    def.filter.maskBits = filter.mMaskbit;
+    def.filter.groupIndex = filter.mGroup;
+}
+#endif //BOX2D_INTEGRATED
 
 
 

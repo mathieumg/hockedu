@@ -64,7 +64,7 @@ CreateListDelegateImplementation(ControlPoint)
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeControlPoint::NodeControlPoint( const std::string& typeNoeud ):
-Super(typeNoeud),mCanBeVisited(true),mHeightAngle(0)
+Super(RAZER_KEY_CONTROL_POINT,typeNoeud),mCanBeVisited(true),mHeightAngle(0)
 {
     setDefaultRadius(DEFAULT_RADIUS);
 }
@@ -279,13 +279,13 @@ void NodeControlPoint::updatePhysicBody()
             circleShape.m_p.Set(0, 0); //position, relative to body position
             circleShape.m_radius = (float32)getRadius()*utilitaire::ratioWorldToBox2D; //radius
 
+
+
             b2FixtureDef myFixtureDef;
             myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
             myFixtureDef.density = 1;
 
-            myFixtureDef.filter.categoryBits = 0;
-            myFixtureDef.filter.maskBits = 0;
-            myFixtureDef.filter.groupIndex = 1;
+            RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_CONTROL_POINT,IsInGame());
 
             mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
             mPhysicBody->SetUserData(this);

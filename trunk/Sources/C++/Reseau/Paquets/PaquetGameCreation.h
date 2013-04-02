@@ -11,25 +11,25 @@ public:
     virtual PacketTypes getOperation() const { return GAME_CREATION_REQUEST; }
 
     inline void setGameName(const std::string& pGameName) { mGameName = pGameName; }
-    inline std::string getGameName() const { return mGameName; }
+    inline const std::string& getGameName() const { return mGameName; }
 
     inline void setUsername (const std::string& pUsername) { mUsername = pUsername; }
-    inline std::string getUsername() const { return mUsername; }
+    inline const std::string& getUsername() const { return mUsername; }
 
     inline void setMapName (const std::string& pMapName) { mMapName = pMapName; }
-    inline std::string getMapName () const { return mMapName; }
+    inline const std::string& getMapName () const { return mMapName; }
 
     inline void setPassword (const std::string& pPassword) { mPassword = pPassword; }
-    inline std::string getPassword () const { return mPassword; }
+    inline const std::string& getPassword () const { return mPassword; }
 
     inline void setServerIP (const std::string& pServerIP) { mServerIP = pServerIP; }
-    inline std::string getServerIP () const { return mServerIP; }
+    inline const std::string& getServerIP () const { return mServerIP; }
 
     inline void setGameId(const int& pGameId) { mGameId = pGameId; }
-    inline int getGameId() const { return mGameId; }
+    inline const int& getGameId() const { return mGameId; }
 
-    inline void setServerId(const int& pServerId) { mServerId = pServerId; }
-    inline unsigned int getServerId() const { return mServerId; }
+    inline void setServerId(const unsigned int& pServerId) { mServerId = pServerId; }
+    inline const unsigned int& getServerId() const { return mServerId; }
 
 protected:
     PaquetGameCreation(void);

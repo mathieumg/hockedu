@@ -66,6 +66,9 @@ namespace UIHeavyClient
     public partial class OnlineLobbyControl : UserControl
     {
         // Members
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void requestGamesList();
+
         private PasswordPrompt mPasswordPrompt;
         private GameCreationPrompt mGameCreationPrompt;
         private ServerMapPrompt mServerMapPrompt;
@@ -174,6 +177,7 @@ namespace UIHeavyClient
                     if (mPasswordPrompt.OkIsClicked)
                     {
                         connectPartieServerGame(selected.Value.id, mPasswordPrompt.Password);
+                        MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_JEU);
                     }
 
                     mPasswordPrompt.Close();
@@ -181,6 +185,7 @@ namespace UIHeavyClient
                 else
                 {
                     connectPartieServerGame(selected.Value.id, "");
+                    MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_JEU);
                 }
             }
         }
@@ -203,7 +208,9 @@ namespace UIHeavyClient
 
             if (mGameCreationPrompt.OkIsClicked)
             {
+                //if(mGameCreationPrompt.GameName != ""
                 requestGameCreationServerGame(mGameCreationPrompt.GameName, mGameCreationPrompt.Map.name, mGameCreationPrompt.Password);
+                MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_JEU);
             }
 
             mGameCreationPrompt.Close();
@@ -238,7 +245,8 @@ namespace UIHeavyClient
         private void mRefreshButton_Click(object sender, RoutedEventArgs e)
         {
             // Display games again
-            DisplayServerGames();
+            //DisplayServerGames();
+            RequestGamesList();
         }
 
         ////////// Methodes pour le chat dans le lobby
@@ -276,7 +284,7 @@ namespace UIHeavyClient
         {
             string message=Marshal.PtrToStringAnsi(pMessage);
 
-            if (id>=0&&EventCodes.NB_EVENT_CODES>id)
+            if (id >= 0 && EventCodes.NB_EVENT_CODES > id)
             {
                 OnlineLobbyControl wThis = MainWindowHandler.Context.OnlineLobbyControl;
                 switch (id)
@@ -311,11 +319,29 @@ namespace UIHeavyClient
                         
                     }
                     break;
+                    case EventCodes.GAME_ADDED:
+                    {
+                        // Splits the message
+                        char SEPARATOR = '|';
+                        string[] values = message.Split(SEPARATOR);
+                        OnlineGameInfos wOnlineGameInfos = new OnlineGameInfos(int.Parse(values[1]), uint.Parse(values[0]), values[2], values[3], values[6], bool.Parse(values[5]), values[5]);
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                            wThis.mOnlineGameListView.Items.Add((object)wOnlineGameInfos);
+                        });
+                    }
+                    break;
                     default: break;
                 }
             }
 
             return true;
+        }
+
+        public void RequestGamesList()
+        {
+            mOnlineGameListView.Items.Clear();
+            requestGamesList();
         }
 
         ////////////////////////////////////////////////////////////////////////

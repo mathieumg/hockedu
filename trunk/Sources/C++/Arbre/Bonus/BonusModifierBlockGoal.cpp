@@ -206,7 +206,7 @@ void BonusModifierBlockGoal::render() const
 #if WIN32
 
     GLuint liste;
-    GestionnaireModeles::obtenirInstance()->obtenirListe(RazerGameUtilities::NAME_GOALER,liste);
+    GestionnaireModeles::obtenirInstance()->obtenirListe(RAZER_KEY_GOALER,liste);
     if(liste)
     {
         glPushMatrix();

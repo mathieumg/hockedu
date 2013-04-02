@@ -27,7 +27,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudAffichage::NoeudAffichage(const std::string& typeNoeud)
-   : NoeudAbstrait(typeNoeud),mModelKey(typeNoeud)
+   : NoeudAbstrait(RAZER_KEY_MODEL_1,typeNoeud)
 {   
 	setVisible(false);
 	mScale = Vecteur3(5, 5, 5);
@@ -107,23 +107,6 @@ void NoeudAffichage::acceptVisitor( VisiteurNoeud& v )
 {
 	
 }
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudAffichage::modifierListes( std::string nomListe )
-///
-/// Permet de modifier les listes d'affichage du noeud
-///
-/// @param[in] std::string nomListe : nom de la cle de la liste voulue
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudAffichage::modifierListes( const std::string& nomListe )
-{
-    mModelKey = nomListe;
-}
-
 
 ////////////////////////////////////////////////////////////////////////
 ///

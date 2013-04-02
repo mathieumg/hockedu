@@ -88,7 +88,7 @@ GameManager::~GameManager()
 /// @return int
 ///
 ////////////////////////////////////////////////////////////////////////
-int GameManager::addNewGame(SPJoueurAbstrait pJoueur1 /*= 0*/, SPJoueurAbstrait pJoueur2 /*= 0*/, bool pForceParameters /*=false*/, int pGameId /*=-1*/)
+int GameManager::addNewGame(GameType gametype, SPJoueurAbstrait pJoueur1 /*= 0*/, SPJoueurAbstrait pJoueur2 /*= 0*/, bool pForceParameters /*=false*/, int pGameId /*=-1*/)
 {
 	Partie* wGame;
     int wId = pGameId;
@@ -102,17 +102,17 @@ int GameManager::addNewGame(SPJoueurAbstrait pJoueur1 /*= 0*/, SPJoueurAbstrait 
 		if(pForceParameters)
 		{
 			// Si on veut forcer la creation de la partie avec les parametres de joueurs
-            wGame = new Partie(pJoueur1, pJoueur2, wId);
+            wGame = new Partie(gametype,pJoueur1, pJoueur2, wId);
 		}
         else if(mAdversaire)
         {
             // Si adversaire defini, on lance avec l'adversaire
-            wGame = new Partie(pJoueur1, mAdversaire, wId);
+            wGame = new Partie(gametype,pJoueur1, mAdversaire, wId);
         }
 		else
 		{
 			// Si adversaire pas defini, on lance avec un joueur Humain
-			wGame = new Partie(pJoueur1,SPJoueurAbstrait(new JoueurHumain("Joueur Droit")), wId);
+			wGame = new Partie(gametype,pJoueur1,SPJoueurAbstrait(new JoueurHumain("Joueur Droit")), wId);
 		}
 	}
 	else
@@ -120,7 +120,7 @@ int GameManager::addNewGame(SPJoueurAbstrait pJoueur1 /*= 0*/, SPJoueurAbstrait 
 		if(pJoueur1)
 		{
 			// Demarre une partie avec les 2 joueurs passes en parametre
-			wGame = new Partie(pJoueur1, pJoueur2, wId);
+			wGame = new Partie(gametype,pJoueur1, pJoueur2, wId);
 		}
 		else
 		{
@@ -157,7 +157,7 @@ void GameManager::addGame( Partie* pGame )
 		{
 			throw std::runtime_error("Une autre partie avec cet id est deja contenue dans le GameManager");
 		}
-        mListePartiesParId[pGame->getUniqueGameId()] = pGame;
+        mListePartiesParId[pGame->getUniqueGameId() - 1] = pGame;
 	}
 	else
 	{

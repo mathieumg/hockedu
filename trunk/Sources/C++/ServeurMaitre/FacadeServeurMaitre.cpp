@@ -21,7 +21,7 @@ SINGLETON_DECLARATION_CPP(FacadeServeurMaitre);
 /// Constructeur
 ///
 ///
-/// @return 
+/// @return
 ///
 ////////////////////////////////////////////////////////////////////////
 FacadeServeurMaitre::FacadeServeurMaitre()
@@ -55,10 +55,10 @@ FacadeServeurMaitre::FacadeServeurMaitre()
 ///
 /// @fn  FacadeServeurMaitre::~FacadeServeurMaitre(  )
 ///
-/// Destructeur 
+/// Destructeur
 ///
 ///
-/// @return 
+/// @return
 ///
 ////////////////////////////////////////////////////////////////////////
 FacadeServeurMaitre::~FacadeServeurMaitre()

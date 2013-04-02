@@ -95,9 +95,8 @@ Terrain::Terrain(Partie* pGame):
 ,mRenderObjC(NULL)
 #endif
 {
-
-    mRedoBuffer.reserve(UNDO_BUFFERSIZE);
 #if BOX2D_INTEGRATED
+    RazerGameUtilities::FillPhysicsFilters();
     b2Vec2 gravity(0,0);
     mWorld = new b2World(gravity);
 
@@ -105,12 +104,6 @@ Terrain::Terrain(Partie* pGame):
     mWorld->SetContinuousPhysics(true);
     mWorld->SetSubStepping(false);
 
-#if BOX2D_PLAY
-    if(IsGameField())
-    {
-        mWorld->SetContactListener(this);
-    }
-#endif
 #if BOX2D_DEBUG
     if(DebugRenderBox2D::mInstance)
     {
@@ -121,17 +114,25 @@ Terrain::Terrain(Partie* pGame):
 #endif
 #endif
 
-    /// Cree la zone edition apres le world, car celle-ci va en avoir besoin
+    setBonusesMinTimeSpawn(5);
+    setBonusesMaxTimeSpawn(15);
+
     mEditionZone = NULL;
-    if(!mGame)
+    if(mGame)
     {
+#if BOX2D_PLAY
+        mWorld->SetContactListener(this);
+#endif
+    }
+    else
+    {
+        /// Cree la zone edition apres le world, car celle-ci va en avoir besoin
         mEditionZone = new ZoneEdition(this);
 
         // cant do undo/redo action by default
         TransmitEvent(CANNOT_UNDO);
         TransmitEvent(CANNOT_REDO);
     }
-
 }
 
 
@@ -409,6 +410,17 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
     if(!XMLUtils::readAttribute(racine,"nom",mFieldName))
         return false;
 
+    float val;
+    if(XMLUtils::readAttribute(racine,"bonusMin",val))
+    {
+        setBonusesMinTimeSpawn(val);
+    }
+    if(XMLUtils::readAttribute(racine,"bonusMax",val))
+    {
+        setBonusesMaxTimeSpawn(val);
+    }
+
+
     try
     {
         mLogicTree->initFromXml(racine);
@@ -678,6 +690,8 @@ XmlElement* Terrain::creerNoeudXML()
     // Créer le noeud 
     XmlElement* racine = XMLUtils::createNode("Terrain");
     XMLUtils::writeAttribute(racine,"nom",getNom());
+    XMLUtils::writeAttribute(racine,"bonusMin",getBonusesMinTimeSpawn());
+    XMLUtils::writeAttribute(racine,"bonusMax",getBonusesMaxTimeSpawn());
 
     VisiteurEcrireXML v;
     acceptVisitor(v);
@@ -685,7 +699,7 @@ XmlElement* Terrain::creerNoeudXML()
     XmlElement* elem = v.obtenirRacine();
     XMLUtils::LinkEndChild(racine,elem);
 
-    checkf(getZoneEdition(), "Tentative de sauvegarder la zone édition qui n'existe pas. S'assurer qu'on est pas en train d'essaye de save un terrain pour le mode jeu");
+    checkf(getZoneEdition(), "Tentative de sauvegarder la zone Edition qui n'existe pas. S'assurer qu'on est pas en train d'essaye de save un terrain pour le mode jeu");
     if(getZoneEdition())
     {
         XMLUtils::LinkEndChild(racine,getZoneEdition()->creerNoeudXML());
@@ -1137,9 +1151,6 @@ void Terrain::BeginContact( b2Contact* contact )
                                     SoundFMOD::obtenirInstance()->playEffect(GOAL_EFFECT);
                                 }
                                 game->miseAuJeu();
-                                rondelleBody->SetLinearVelocity(b2Vec2(0,0));
-                                rondelleBody->SetAngularVelocity(0);
-                                rondelle->setAngle(0);
                                 rondelle->setCollisionDetected(false);
                             });
                             RunnableBreaker::attach(r);
@@ -1567,7 +1578,7 @@ NoeudMaillet* Terrain::getLeftMallet() const
 {
     if(mLeftMallet)
     {
-        checkf(IsGameField(), "Dans le mode édition on ne conserve pas de pointeur sur le maillet");
+        checkf(IsGameField(), "Dans le mode Edition on ne conserve pas de pointeur sur le maillet");
         return mLeftMallet;
     }
     checkf(!IsGameField(), "Dans le mode jeu on doit avoir un pointeur sur le maillet");
@@ -1605,7 +1616,7 @@ NoeudMaillet* Terrain::getRightMallet() const
 {
     if(mRightMallet)
     {
-        checkf(IsGameField(), "Dans le mode édition on ne conserve pas de pointeur sur le maillet");
+        checkf(IsGameField(), "Dans le mode Edition on ne conserve pas de pointeur sur le maillet");
         return mRightMallet;
     }
     checkf(!IsGameField(), "Dans le mode jeu on doit avoir un pointeur sur le maillet");
@@ -1903,9 +1914,7 @@ bool Terrain::selectNodes( Vecteur2 positionMin, Vecteur2 positionMax, bool togg
     b2FixtureDef myFixtureDef;
     myFixtureDef.shape = &shape; //this is a pointer to the shape above
     myFixtureDef.density = 1;
-    myFixtureDef.filter.categoryBits = 0;
-    myFixtureDef.filter.maskBits = 0;
-    myFixtureDef.filter.groupIndex = 1;
+    RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_SELECTION_BODY,false);
 
     physicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
 
@@ -2609,9 +2618,60 @@ bool Terrain::renderAppleNode( RazerKey key ) const
     }
     return false;
 }
+
 #endif
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::setBonusesMinTimeSpawn( const float pVal )
+///
+/// /*Description*/
+///
+/// @param[in] const float pVal
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::setBonusesMinTimeSpawn( const float pVal )
+{
+#if WIN32
+    if(mGame && mGame->isNetworkClientGame())
+    {
+        /// infinite time for client so they won't spawn them themselves
+        mBonusesMinTimeSpawn = 99999.f;
+    }
+    else
+#endif
+    {
+        mBonusesMinTimeSpawn = pVal;
+    }
+}
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::setBonusesMaxTimeSpawn( const float pVal )
+///
+/// /*Description*/
+///
+/// @param[in] const float pVal
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::setBonusesMaxTimeSpawn( const float pVal )
+{
+#if WIN32
+    if(mGame && mGame->isNetworkClientGame())
+    {
+        /// infinite time for client so they won't spawn them themselves
+        mBonusesMaxTimeSpawn = 99999.f;
+    }
+    else
+#endif
+    {
+        mBonusesMaxTimeSpawn = pVal;
+    }
+}
 
 
 

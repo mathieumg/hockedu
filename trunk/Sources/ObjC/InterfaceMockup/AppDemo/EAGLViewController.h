@@ -15,11 +15,14 @@
 #import "Model.h"
 #import "EventManager.h"
 #import "iCarousel.h"
+#import "PieMenu.h"
 
 extern int const LARGEUR_FENETRE;
 extern int const HAUTEUR_FENETRE;
 
 @class EAGLView;
+
+
 
 @interface EAGLViewController : UIViewController <UIGestureRecognizerDelegate, iCarouselDataSource, iCarouselDelegate> {
     EAGLContext *context;
@@ -30,6 +33,15 @@ extern int const HAUTEUR_FENETRE;
     IBOutlet UIView *mSideBarView;
     IBOutlet UIView *mTopBarView;
     
+    IBOutlet UIButton *editionButton;
+    IBOutlet UIButton *cameraButton;
+    IBOutlet UIButton *deleteButton;
+    IBOutlet UIButton *duplicateButton;
+    IBOutlet UIButton *scaleButton;
+    IBOutlet UIButton *rotationButton;
+    IBOutlet UIButton *moveButton;
+    IBOutlet UIButton *selectButton;
+    IBOutlet UIButton *saveButton;
     // Used to know if we are selecting or creating
     BOOL mSelectionMode;
     BOOL mCreationMode;
@@ -43,15 +55,32 @@ extern int const HAUTEUR_FENETRE;
     NSInteger animationFrameInterval;
     CADisplayLink *displayLink;
     
-    //OpenGLWaveFrontObject *cube;
     Model* mModel;
+    
+    //OpenGLWaveFrontObject *cube;
+    
     float translationX;
     float translationY;
     float zoomFactor;
     // Utilise pour le rectangle de selection
     CGPoint firstCorner;
     BOOL touchMoved;
+    
+    // Utilise pour le pie menu
+    PieMenu *pieMenu;
+	UILabel *labelPieMenu;
+    //
 }
+
+
+
+// Utilise pour le pie menu
+@property (nonatomic, retain) PieMenu *pieMenu;
+@property (nonatomic, retain) IBOutlet UILabel *labelPieMenu;
+
+- (IBAction) fingerSizeAction:(id)sender;
+- (IBAction) leftHandedAction:(id)sender;
+//
 
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;
 @property (nonatomic) NSInteger animationFrameInterval;
@@ -70,6 +99,10 @@ typedef enum{
 - (IBAction)selectionModeButtonTouched:(UIButton *)sender;
 - (IBAction)selectToolButtonTouched:(UIButton *)sender;
 - (IBAction)moveToolButtonTouched:(UIButton *)sender;
+- (IBAction)rotationToolButtonTouched:(UIButton *)sender;
+- (IBAction)scaleToolButtonTouched:(UIButton *)sender;
+- (IBAction)duplicateToolButtonTouched:(UIButton *)sender;
+- (IBAction)deleteToolButtonTouched:(UIButton *)sender;
 - (IBAction)creationModeButtonTouched:(UIButton *)sender;
 - (IBAction)saveAndExitButtonTouched:(UIButton *)sender;
 - (IBAction)portalButtonTouched:(UIButton *)sender;
@@ -79,6 +112,6 @@ typedef enum{
 - (void)setupView;
 - (CGPoint)convertScreenCoordToVirtualCoord:(CGPoint)pointToConvert;
 - (void)rotationDetectee:(UIGestureRecognizer *)gestureRecognizer;
-- (void)longPressDetected:(UIGestureRecognizer *)gestureRecognizer;
+- (IBAction)doubleTapDetected:(UITapGestureRecognizer*)sender;
 
 @end

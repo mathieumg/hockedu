@@ -43,9 +43,10 @@ RepartiteurActions::RepartiteurActions()
 {
     banqueActions_[ACTION_EDITEUR_NOUVEAU]       = &RepartiteurActions::actionBoutonEditionNouveau;
     banqueActions_[ACTION_REINITIALISER_PARTIE]  = &RepartiteurActions::actionReinitialiserPartie;
+    banqueActions_[ACTION_REINITIALISER_RONDELLE]  = &RepartiteurActions::actionReinitialiserRondelle;
     banqueActions_[ACTION_PAUSE_JEU]             = &RepartiteurActions::actionTogglePauseJeu;
     banqueActions_[ACTION_REPLAY]                = &RepartiteurActions::actionReplay;
-
+    
     //Fonctions de zoom
     banqueActions_[ACTION_CAMERA]                = &RepartiteurActions::actionBoutonCamera;
     banqueActions_[ACTION_ORBIT]                 = &RepartiteurActions::actionBoutonOrbit;
@@ -524,7 +525,6 @@ bool RepartiteurActions::actionBoutonAllerModeSimulation()
 bool RepartiteurActions::actionTogglePauseJeu()
 {
 	FacadeModele::getInstance()->togglePause();
-	SoundFMOD::obtenirInstance()->playEffect(effect(PAUSE_EFFECT));
 	return true; 
 }
 
@@ -734,6 +734,22 @@ bool RepartiteurActions::actionBoutonUndo()
 bool RepartiteurActions::actionBoutonRedo()
 {
     return !!FacadeModele::getInstance()->getEditionField()->redoModification();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool RepartiteurActions::actionReinitialiserRondelle()
+///
+///Fonction d'action pour reinitialiaser la rondelle
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool RepartiteurActions::actionReinitialiserRondelle()
+{
+    FacadeModele::getInstance()->reinitialiserRondelle();
+    return true;
 }
 
 

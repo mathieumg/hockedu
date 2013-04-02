@@ -201,6 +201,8 @@ public:
 
 	/// Permet de reinitialiser la partie courante
 	void reinitialiserPartie();
+    /// Reinitialise la rondelle a son etat original
+    void reinitialiserRondelle();
 	/// Reset des flags de l'arbre de rendu
 	void resetHighlightFlags();
 

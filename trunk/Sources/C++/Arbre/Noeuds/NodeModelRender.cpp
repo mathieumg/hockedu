@@ -39,7 +39,7 @@ CreateListDelegateImplementation(Zamboni)
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeModelRender::NodeModelRender(const std::string& typeNoeud)
-   : NoeudComposite(typeNoeud)
+   : NoeudComposite(RAZER_KEY_NONE,typeNoeud)
 {
 
 }

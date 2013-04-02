@@ -47,9 +47,9 @@ const int Partie::POINTAGE_GAGNANT = 7;
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-Partie::Partie(SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, const std::vector<GameUpdateCallback>& updateCallback /*= 0*/ ):
+Partie::Partie(GameType gameType, SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, const std::vector<GameUpdateCallback>& updateCallback /*= 0*/ ):
 pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 60, joueurGauche, joueurDroit),
-mIsNetworkClientGame(false),mIsNetworkServerGame(false)
+mGameType(gameType)
 {
     chiffres_ = new NoeudAffichage("3");
     mField = new Terrain(this);
@@ -62,7 +62,6 @@ mIsNetworkClientGame(false),mIsNetworkServerGame(false)
     mPartieSyncer.setPlayers(joueurGauche, joueurDroit);
 
     GestionnaireAnimations::obtenirInstance()->attach(this);
-    recalculateNetworkGameFlags();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -204,15 +203,7 @@ void Partie::incrementerPointsJoueurGauche(bool pForceUpdate /*= false*/)
         {
             setGameStatus(GAME_ENDED);
             callGameUpdate(GAME_ENDED);
-
-            if(joueurDroit_ && joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
-            {
-                Achievements::LaunchEvent(ACHIEVEMENT_EVENT_GAME_LOOSE);
-            }
-            if(joueurGauche_ && joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
-            {
-                Achievements::LaunchEvent(ACHIEVEMENT_EVENT_GAME_WON);
-            }
+            SendAchievementEventToHumanPlayer(joueurGauche_,ACHIEVEMENT_EVENT_GAME_WON,ACHIEVEMENT_EVENT_GAME_LOOSE);
         }
         else
         {
@@ -253,15 +244,7 @@ void Partie::incrementerPointsJoueurDroit(bool pForceUpdate /*= false*/)
         {
             setGameStatus(GAME_ENDED);
             callGameUpdate(GAME_ENDED);
-
-            if(joueurDroit_ && joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
-            {
-                Achievements::LaunchEvent(ACHIEVEMENT_EVENT_GAME_WON);
-            }
-            if(joueurGauche_ && joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
-            {
-                Achievements::LaunchEvent(ACHIEVEMENT_EVENT_GAME_LOOSE);
-            }
+            SendAchievementEventToHumanPlayer(joueurDroit_,ACHIEVEMENT_EVENT_GAME_WON,ACHIEVEMENT_EVENT_GAME_LOOSE);
         }
         else
         {
@@ -307,7 +290,6 @@ void Partie::assignerJoueur( SPJoueurAbstrait joueur )
         modifierJoueurDroit(joueur);
     callGameUpdate(mGameStatus);
     mPartieSyncer.setPlayers(joueurGauche_, joueurDroit_);
-    recalculateNetworkGameFlags();
 //  else
 //      delete joueur;
 }
@@ -404,7 +386,7 @@ void Partie::reinitialiserPartie()
     pointsJoueurGauche_ = 0;
     pointsJoueurDroit_ = 0;
     // Reinitialisation du noeudAffichage Chiffre
-    chiffres_->modifierListes("3");
+    chiffres_->setSkinKey(RAZER_KEY_MODEL_3);
     chiffres_->setVisible(false);
     tempsJeu_.unPause();
     tempsJeu_.reset_Time();
@@ -517,7 +499,9 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 
     // Positionnement
     rondelle->setPosition(rondelle->obtenirPositionOriginale());
+    rondelle->modifierVelocite(0);
     rondelle->modifierVitesseRotation(0);
+    rondelle->setAngle(0);
 
     maillet1->setPosition(maillet1->obtenirPositionOriginale());
     maillet2->setPosition(maillet2->obtenirPositionOriginale());
@@ -573,7 +557,7 @@ void Partie::updateMinuterie( int time )
         if(minuterie_ < 0)
         {
             minuterie_ = 0;
-            chiffres_->modifierListes("3");
+            chiffres_->setSkinKey(RAZER_KEY_MODEL_3);
             chiffres_->setVisible(false);
             setGameStatus(GAME_RUNNING);
             Vecteur3 coordonneesSouris;
@@ -609,14 +593,9 @@ void Partie::updateMinuterie( int time )
                     return;
                 chiffres_->setVisible(true);
                 SoundFMOD::obtenirInstance()->playEffect(BEEP_EFFECT);
-
-                // Creation d'une chaine avec le charactère 0
-                std::string numeroString = "0";
-                // le charactère 0 + une valeur entre 0 et 9 donne le charactère désiré
-                numeroString[0] += lequel;
-                chiffres_->modifierListes(numeroString);
-
+                chiffres_->setSkinKey(RazerKey(RAZER_KEY_MODEL_1+lequel-1));
                 chiffres_->resetEchelle();
+
                 if(lequel == 2)
                     FacadeModele::getInstance()->obtenirVue()->centrerCamera(mField->GetTableWidth());
             }
@@ -642,7 +621,6 @@ void Partie::modifierJoueurDroit( SPJoueurAbstrait val )
     joueurDroit_ = val;
     callGameUpdate(mGameStatus);
     mPartieSyncer.setPlayers(NULL, joueurDroit_);
-    recalculateNetworkGameFlags();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -663,7 +641,6 @@ void Partie::modifierJoueurGauche( SPJoueurAbstrait val )
     joueurGauche_ = val;
     callGameUpdate(mGameStatus);
     mPartieSyncer.setPlayers(joueurGauche_, NULL);
-    recalculateNetworkGameFlags();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -956,11 +933,13 @@ void Partie::modifierEnPause( bool val )
 {
     if(val && getGameStatus() != GAME_PAUSED)
     {
+        SoundFMOD::obtenirInstance()->playEffect(effect(PAUSE_EFFECT));
         tempsJeu_.pause();
         setGameStatus(GAME_PAUSED);
     }
     else if(getGameStatus() == GAME_PAUSED)
     {
+        SoundFMOD::obtenirInstance()->playEffect(effect(PAUSE_EFFECT));
         tempsJeu_.unPause();
         setGameStatus(mLastGameStatus); // Utilise le dernier etat de partie pour unpause
     }
@@ -983,41 +962,6 @@ void Partie::setPassword( const std::string& pPassword )
     {
         mRequirePassword = false;
     }
-}
-
-
-
-bool Partie::isNetworkClientGame() const
-{
-    return mIsNetworkClientGame;
-}
-
-
-
-bool Partie::isNetworkServerGame() const
-{
-    return mIsNetworkServerGame;
-}
-
-
-
-void Partie::recalculateNetworkGameFlags()
-{
-    // Est une partie network point de vue du client si les 2 joueurs sont des joueurs network_server
-    SPJoueurAbstrait wJoueurGauche = obtenirJoueurGauche();
-    SPJoueurAbstrait wJoueurDroit = obtenirJoueurDroit();
-
-    if(wJoueurGauche && wJoueurDroit)
-    {
-        mIsNetworkServerGame = wJoueurGauche->obtenirType() == JOUEUR_NETWORK_SERVEUR && wJoueurDroit->obtenirType() == JOUEUR_NETWORK_SERVEUR;
-        mIsNetworkClientGame = wJoueurGauche->obtenirType() == JOUEUR_NETWORK || wJoueurDroit->obtenirType() == JOUEUR_NETWORK;;
-    }
-    else
-    {
-        mIsNetworkServerGame = false;
-        mIsNetworkClientGame = false;
-    }
-
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1079,6 +1023,56 @@ void Partie::setGameStatus( GameStatus pStatus )
         }
     }
 #endif
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Partie::SendAchievementEventToHumanPlayer( SPJoueurAbstrait player,AchievementEvent eventIfHuman, AchievementEvent eventIfNonHuman )
+///
+/// Permet d'envoyer un evenement conditionnel selon le type de joueur qui a declancher l'événement.
+/// Si les 2 joueurs de la partie sont humains on n'envoit pas l'événement, car ca ne fait pas de sens.
+///
+/// @param[in] SPJoueurAbstrait player : joueur qui a déclancher l'événement
+/// @param[in] AchievementEvent eventIfHuman : type d'événement désiré si le joueur déclanchant est humain
+/// @param[in] AchievementEvent eventIfNonHuman : type d'événement désiré si le type de joueur est nonhumain (network ou AI)
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Partie::SendAchievementEventToHumanPlayer( SPJoueurAbstrait player,AchievementEvent eventIfHuman, AchievementEvent eventIfNonHuman )
+{
+    checkf(player == joueurGauche_ || player == joueurDroit_);
+    checkf(player);
+
+    if(joueurGauche_ && joueurDroit_)
+    {
+        if(isNetworkServerGame())
+        {
+            // server doesnt care about achievements
+            return;
+        }
+        if(isOfflineGame())
+        {
+            /// it is possible to have human vs human, so we check to make sure
+            SPJoueurAbstrait oppositePlayer = player == joueurGauche_ ? joueurGauche_: joueurDroit_;
+            if(oppositePlayer->obtenirType() == player->obtenirType())
+            {
+                /// incoherence pour les achievements, on sort
+                return;
+            }
+        }
+
+        /// here we can assume we have only one human player
+        if(player->obtenirType() == JOUEUR_HUMAIN)
+        {
+            Achievements::LaunchEvent(eventIfHuman);
+        }
+        else
+        {
+            Achievements::LaunchEvent(eventIfNonHuman);
+        }
+
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

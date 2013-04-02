@@ -62,7 +62,9 @@ public:
 	///Fonction d'action de création d'un nouveau fichier d'edition.
 	bool actionBoutonEditionNouveau();
 	///Fonction d'action pour reinitialisaer une partie
-	bool actionReinitialiserPartie();
+    bool actionReinitialiserPartie();
+    ///Fonction d'action pour reinitialiaser la rondelle
+    bool actionReinitialiserRondelle();
 	///Fonction d'action pour inserer un portail dans l'espace de jeu.
 	bool actionBoutonInsererPortail();
 	///Fonction d'action pour inserer un muret dans l'espace de jeu.
