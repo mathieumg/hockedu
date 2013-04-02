@@ -535,16 +535,17 @@ namespace UIHeavyClient
             mAchievementPanel.AchievementName = achievementName;
             mAchievementPanel.Topmost = true;
             mAchievementPanel.Left = MainWindowHandler.Context.Left + MainWindowHandler.Context.Width - mAchievementPanel.Width;
-            mAchievementPanel.Top = MainWindowHandler.Context.Top + MainWindowHandler.Context.Height;
+            mAchievementPanel.Top = MainWindowHandler.Context.Top /*+ MainWindowHandler.Context.Height - mAchievementPanel.Height*/;
             mAchievementPanel.Show();
 
             DoubleAnimation beginAnimation = new DoubleAnimation();
-            beginAnimation.To = mAchievementPanel.Top - ( mAchievementPanel.Height );
-            beginAnimation.From = mAchievementPanel.Top;
+            beginAnimation.From = 0;// mAchievementPanel.Top;
+            beginAnimation.To = mAchievementPanel.Height;// mAchievementPanel.Top - ( mAchievementPanel.Height );
             beginAnimation.AutoReverse = true;
             beginAnimation.Completed += mWaitAnimation_Completed;
-            beginAnimation.Duration = new TimeSpan( 0, 0, 3 );
-            Storyboard.SetTargetProperty( beginAnimation, new PropertyPath( Window.TopProperty ) );
+            beginAnimation.Duration = new TimeSpan( 0, 0, 5 );
+            Storyboard.SetTargetProperty( beginAnimation, new PropertyPath( Window.HeightProperty ) );
+            mAchievementPanel.Height = 0;
 
             mStoryboard.Children.Add( beginAnimation );
             mStoryboard.Begin( mAchievementPanel, HandoffBehavior.SnapshotAndReplace );

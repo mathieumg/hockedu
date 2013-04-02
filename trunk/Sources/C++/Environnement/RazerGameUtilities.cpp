@@ -238,10 +238,6 @@ void RazerGameUtilities::LoadFieldFromFile( const std::string& pFilePath, Terrai
     //        }
     //        strcmp((pFilePath.c_str() + pFilePath.size()-4),".xml");
     // 
-#if WIN32
-    // En place pour eviter des cas speciaux avec la souris (soit des ajout d'objets liberer 2 fois)
-    GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
-#endif
 
     // Vérification de l'existence du ficher
     if ( !utilitaire::fichierExiste(pFilePath) ) 

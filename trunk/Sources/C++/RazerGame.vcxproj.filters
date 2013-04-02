@@ -218,9 +218,6 @@
     <ClCompile Include="Arbre\Visiteur\VisiteurRotation.cpp">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
     </ClCompile>
-    <ClCompile Include="Tests\GestionnaireModelesTest.cpp">
-      <Filter>Sources Files\Tests</Filter>
-    </ClCompile>
     <ClCompile Include="Arbre\Visiteur\VisiteurSuppression.cpp">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
     </ClCompile>
@@ -744,9 +741,6 @@
     </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisiteurRotation.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
-    </ClInclude>
-    <ClInclude Include="Tests\GestionnaireModelesTest.h">
-      <Filter>Sources Files\Tests</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisiteurSuppression.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
