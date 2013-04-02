@@ -34,8 +34,8 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-GestionnaireEtatModeJeu::GestionnaireEtatModeJeu( Partie* pGame ):
-GestionnaireEtatAbstrait(),mGame(pGame)
+GestionnaireEtatModeJeu::GestionnaireEtatModeJeu( int pGameId ):
+GestionnaireEtatAbstrait(),mGameId(pGameId)
 {
 	modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
 	shiftEnfonce_ = false;
@@ -72,10 +72,11 @@ GestionnaireEtatModeJeu::~GestionnaireEtatModeJeu()
 void GestionnaireEtatModeJeu::toucheEnfoncee(EvenementClavier& evenementClavier)
 {
 	ToucheClavier touche = evenementClavier.obtenirTouche();
-    checkf(mGame);
-    if(mGame)
+    Partie* wGame = GameManager::obtenirInstance()->getGame(mGameId);
+    checkf(wGame);
+    if(wGame)
     {
-        NoeudMaillet* maillet = mGame->getField()->getRightMallet();
+        NoeudMaillet* maillet = wGame->getField()->getRightMallet();
         checkf(maillet);
         if(maillet)
         {
@@ -102,9 +103,9 @@ void GestionnaireEtatModeJeu::toucheEnfoncee(EvenementClavier& evenementClavier)
     }
     else if(touche == VJAK_SPACE)
     {
-        if(mGame)
+        if(wGame)
         {
-            mGame->modifierEnPause(!mGame->estEnPause());
+            wGame->modifierEnPause(!wGame->estEnPause());
         }
     }
 	else
@@ -141,11 +142,11 @@ void GestionnaireEtatModeJeu::toucheRelachee( EvenementClavier& evenementClavier
 	if(toucheSauvegardee_==touche)
 		toucheSauvegardee_ = 0;
 
-
-    checkf(mGame);
-    if(mGame)
+    Partie* wGame = GameManager::obtenirInstance()->getGame(mGameId);
+    checkf(wGame);
+    if(wGame)
     {
-        NoeudMaillet* maillet = mGame->getField()->getRightMallet();
+        NoeudMaillet* maillet = wGame->getField()->getRightMallet();
         checkf(maillet);
         if(maillet)
         {
@@ -245,11 +246,12 @@ void GestionnaireEtatModeJeu::sourisDeplacee( EvenementSouris& evenementSouris )
 	}
 	else
 	{
-        checkf(mGame);
-        if(mGame && mGame->getGameStatus() == GAME_RUNNING)
+        Partie* wGame = GameManager::obtenirInstance()->getGame(mGameId);
+        checkf(wGame);
+        if(wGame && wGame->getGameStatus() == GAME_RUNNING)
         {
-            NoeudMaillet* mailletGauche = mGame->getField()->getLeftMallet();
-            NoeudMaillet* mailletDroit = mGame->getField()->getRightMallet();
+            NoeudMaillet* mailletGauche = wGame->getField()->getLeftMallet();
+            NoeudMaillet* mailletDroit = wGame->getField()->getRightMallet();
             checkf(mailletGauche && mailletDroit);
             if(mailletGauche && mailletDroit)
             {
@@ -296,19 +298,19 @@ void GestionnaireEtatModeJeu::rouletteSouris( EvenementRouletteSouris& evenement
 void GestionnaireEtatModeJeu::animer( const float& temps )
 {
 	SoundFMOD::obtenirInstance()->change_song_if_end();
-	Partie* partieCourante = mGame;
+	Partie* wGame = GameManager::obtenirInstance()->getGame(mGameId);
 
-	if(partieCourante)
+	if(wGame)
 	{
-		partieCourante->animer(temps);
+		wGame->animer(temps);
 		
-        if(partieCourante->partieTerminee())
+        if(wGame->partieTerminee())
         {
             GestionnaireEvenements::modifierEtat(ETAT_PARTIE_RAPIDE_TERMINEE);
             return;
         }
 	}
-	gestionAnimationEnJeu(partieCourante, temps);
+	gestionAnimationEnJeu(wGame, temps);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -323,9 +325,10 @@ void GestionnaireEtatModeJeu::animer( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeJeu::afficher()
 {
-    if(mGame)
+    Partie* wGame = GameManager::obtenirInstance()->getGame(mGameId);
+    if(wGame)
     {
-        renderBase(mGame->getField(),[&]() -> void{mGame->afficher();});
+        renderBase(wGame->getField(),[&]() -> void{wGame->afficher();});
     }
     GestionnaireHUD::obtenirInstance()->dessinerHUDJeu();
 }
@@ -397,9 +400,9 @@ void GestionnaireEtatModeJeu::updateObserver( const ReplaySubject* pSubject )
             animation->ajouterFrame(frame[i]);
         animation->ajouterObjet(camera);
         GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
-
-        if(mGame)
-            mGame->delais(4100);
+        Partie* wGame = GameManager::obtenirInstance()->getGame(mGameId);
+        if(wGame)
+            wGame->delais(4100);
     }
 }
 
