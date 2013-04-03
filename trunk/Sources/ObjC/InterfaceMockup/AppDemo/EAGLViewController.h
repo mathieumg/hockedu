@@ -33,6 +33,7 @@ extern int const HAUTEUR_FENETRE;
     IBOutlet UIView *mSideBarView;
     IBOutlet UIView *mTopBarView;
     IBOutlet UIView *undoRedoView;
+    IBOutlet UIView *mPropertyView;
     
     IBOutlet UIButton *editionButton;
     IBOutlet UIButton *cameraButton;

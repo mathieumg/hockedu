@@ -33,6 +33,7 @@ enum {
 @property (retain, nonatomic) IBOutlet UIView *mSideBarView;
 @property (retain, nonatomic) IBOutlet UIView *mTopBarView;
 @property (retain, nonatomic) IBOutlet UIView *undoRedoView;
+@property (retain, nonatomic) IBOutlet UIView *mPropertyView;
 @property (nonatomic, assign) CADisplayLink *displayLink;
 @property (nonatomic, assign) BOOL wrap;
 @property (nonatomic, assign) BOOL clipsToBounds;
@@ -48,6 +49,7 @@ enum {
 @synthesize mSideBarView;
 @synthesize mTopBarView;
 @synthesize mGLView;
+@synthesize mPropertyView;
 @synthesize undoRedoView;
 @synthesize context;
 @synthesize displayLink;
@@ -163,6 +165,7 @@ enum {
     [deleteButton release];
     [cameraButton release];
     [editionButton release];
+    [mPropertyView release];
     [super dealloc];
 }
 
@@ -244,20 +247,30 @@ enum {
 
 - (void) propertiesMenu:(PieMenuItem *)item {
     
-    // Ouverture du popover contenant les proprietes associees a la selection courante
-    UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
-    
-    UILabel *label = [[UILabel alloc] init];
-    label.text = @"Test";
-    
-    UITextField *textField = [[UITextField alloc] init];
-    
-    
-    
-    //UITabBarController *tabController = [[UITabBarController alloc] init];
-    //UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tabController];
-    UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:tableController];
-    [popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//    // Ouverture du popover contenant les proprietes associees a la selection courante
+//    UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
+//    
+//    UILabel *label = [[UILabel alloc] init];
+//    label.text = @"Test";
+//    
+//    UITextField *textField = [[UITextField alloc] init];
+//    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellEditingStyleInsert reuseIdentifier:@"insert"];
+//    
+//    UITableView *tableView = [[UITableView alloc]init];
+//
+//    //[tableView set];
+//    [tableController setTableView:tableView];
+//    
+//    
+//    //UITabBarController *tabController = [[UITabBarController alloc] init];
+//    //UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tabController];
+//    UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:tableController];
+//    [popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [UIView beginAnimations:@"MenuAnimationShow" context:NULL];
+    [UIView setAnimationDuration:1];
+    self.mPropertyView.center = CGPointMake(320/2, mPropertyView.frame.size.height/2);
+    [UIView commitAnimations];
+
 }
 
 - (void) setupPieMenu
