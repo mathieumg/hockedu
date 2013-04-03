@@ -122,11 +122,7 @@ if( !$commonRemoteModule )
                 break;
                 
             case 'getmap':
-                if( empty( $_POST['user_id'] ) )
-                {
-                    $jsonResponse['error'] = 'UserIdMissing';
-                }
-                else if( empty( $_POST['map_id'] ) )
+                if( empty( $_POST['map_id'] ) )
                 {
                     $jsonResponse['error'] = 'MapIdMissing';
                 }
@@ -144,7 +140,11 @@ if( !$commonRemoteModule )
                     }
                     else
                     {
-                        if( empty( $_POST['auth_key'] ) )
+                        if( empty( $_POST['user_id'] ) )
+                        {
+                            $jsonResponse['error'] = 'UserIdMissing';
+                        }
+                        else if( empty( $_POST['auth_key'] ) )
                         {
                             $jsonResponse['error'] = 'AuthKeyMissing';
                         }
@@ -167,8 +167,7 @@ if( !$commonRemoteModule )
                     
                     if( $showMap )
                     {
-                        //$mapCacheFileName = $mapInfo['cache_name'];
-                        $mapCacheFileName = 'db3d4a31785b535f5c02d9aa6410a2788d310841';
+                        $mapCacheFileName = $mapInfo['cache_name'];
                         $mapCacheFilePath = '/var/www/hockedu.com/maps/'; //TOREMOVE: Use code below to get maps path from settings cache.
                         
                         /*
