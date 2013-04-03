@@ -116,7 +116,7 @@ namespace vue {
    {
 	   float nouvellePosition = position_[VZ]+deplacement;
 	   float distanceCentre = (position_-pointVise_).norme();
-	   if(nouvellePosition>20.0/* && distanceCentre<2000.0*/)
+	   if(nouvellePosition>-200.0/* && distanceCentre<2000.0*/)
 	   {
 		   position_[VZ] = nouvellePosition;
 		   if(avecPointVise)
@@ -140,7 +140,7 @@ namespace vue {
    {
 	   Vecteur3 nouvellePosition = position_+deplacement;
 	   float distanceCentre = (position_-pointVise_).norme();
-	   if(nouvellePosition[VZ]>0.0/* && distanceCentre<2000.0*/)
+	   if(nouvellePosition[VZ]>-200.0f/* && distanceCentre<2000.0*/)
 	   {
 		   position_ = nouvellePosition;
 		   if(avecPointVise)
@@ -224,14 +224,14 @@ namespace vue {
 	   // On effectue la modification des angles
 	   theta-=rotationX;
 	   float phiTemp = phi-rotationY;
-	   phi = CLIP(phiTemp, 0.000001f, (float)M_PI/2.0f); // On limite la rotation sur cet axe
+	   phi = CLIP(phiTemp, -(float)M_PI/4.0f, (float)M_PI/2.0f); // On limite la rotation sur cet axe
 	   // On calcule la nouvelle position et on l'applique
 	   float dx = r*cos(theta)*sin(phi);
 	   float dy = r*sin(theta)*sin(phi);
 	   float dz = r*cos(phi);
 	   Vecteur3 nouvellePosition(dx, dy, dz);
 	   float distanceCentre = (position_-pointVise_).norme();
-	   if(nouvellePosition[VZ]>20.0f/* && distanceCentre<2000.0*/)
+	   if(nouvellePosition[VZ]>-200.0f/* && distanceCentre<2000.0*/)
 	   {
 		   position_ = nouvellePosition+pointVise_;
 
