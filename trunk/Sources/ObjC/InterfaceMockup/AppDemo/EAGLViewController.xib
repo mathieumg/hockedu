@@ -1220,6 +1220,7 @@
 							<string>editorModeButtonTouched:</string>
 							<string>fingerSizeAction:</string>
 							<string>leftHandedAction:</string>
+							<string>longPressDetected:</string>
 							<string>moveToolButtonTouched:</string>
 							<string>pinchDetected:</string>
 							<string>portalButtonTouched:</string>
@@ -1239,6 +1240,7 @@
 							<string>UIButton</string>
 							<string>id</string>
 							<string>id</string>
+							<string>UILongPressGestureRecognizer</string>
 							<string>UIButton</string>
 							<string>id</string>
 							<string>UIButton</string>
@@ -1261,6 +1263,7 @@
 							<string>editorModeButtonTouched:</string>
 							<string>fingerSizeAction:</string>
 							<string>leftHandedAction:</string>
+							<string>longPressDetected:</string>
 							<string>moveToolButtonTouched:</string>
 							<string>pinchDetected:</string>
 							<string>portalButtonTouched:</string>
@@ -1300,6 +1303,10 @@
 							<object class="IBActionInfo">
 								<string key="name">leftHandedAction:</string>
 								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">longPressDetected:</string>
+								<string key="candidateClassName">UILongPressGestureRecognizer</string>
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">moveToolButtonTouched:</string>

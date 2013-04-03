@@ -46,6 +46,7 @@ extern int const HAUTEUR_FENETRE;
     IBOutlet UIButton *saveButton;
     
     BOOL animating;
+    BOOL propertyBarHidden;
     
     NSInteger animationFrameInterval;
     CADisplayLink *displayLink;
@@ -101,6 +102,6 @@ extern int const HAUTEUR_FENETRE;
 - (void)setupView;
 - (CGPoint)convertScreenCoordToVirtualCoord:(CGPoint)pointToConvert;
 - (void)rotationDetectee:(UIGestureRecognizer *)gestureRecognizer;
-- (IBAction)doubleTapDetected:(UITapGestureRecognizer*)sender;
+- (IBAction)longPressDetected:(UILongPressGestureRecognizer*)sender;
 
 @end
