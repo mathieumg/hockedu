@@ -55,7 +55,7 @@
                 <Button Content="Select" Margin="1" Name="mSelectStateButton"     Grid.Column="1" Click="HandleStateButton" />
                 <Button Content="Rotate" Margin="1" Name="mRotateStateButton"     Grid.Column="1" Grid.Row="1" Click="HandleStateButton" />
                 <Button Content="Scale" Margin="1" Name="mScaleStateButton"     Grid.Column="2" Click="HandleStateButton" />
-                <Button Content="Zoom" Margin="1" Name="mZoomStateButton"     Grid.Column="2" Grid.Row="1" Click="HandleStateButton" />
+                <Button Content="Zoom" Margin="1" Name="mZoomStateButton"     Grid.Column="2" Grid.Row="1" Click="ZoomButtonClick" />
             </Grid>
         </GroupBox>
         <GroupBox Header="Camera Mode" Margin="3" Name="mCameraModeGroupBox" Grid.Column="3">

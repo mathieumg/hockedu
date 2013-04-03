@@ -132,8 +132,15 @@ extern "C"
     __declspec(dllexport) void NextRadioSong();
     __declspec(dllexport) void PreviousRadioSong();
     __declspec(dllexport) void SetRadioVolume(int pVolume);
+    __declspec(dllexport) int GetRadioVolume();
     __declspec(dllexport) void SetCurrentRadioPlaylist(char* pPlaylist);
     __declspec(dllexport) void GetCurrentRadioPlaylist(char* pPlaylist);
+
+    // General volume calls
+    __declspec(dllexport) int GetSoundVolume();
+    __declspec(dllexport) void SetSoundVolume(int pVolume);
+    __declspec(dllexport) int GetEffectVolume();
+    __declspec(dllexport) void SetEffectVolume(int pVolume);
 
     // Radio configuration calls
     __declspec(dllexport) int GetNbrPlaylists();
@@ -195,7 +202,7 @@ extern "C"
     __declspec(dllexport) void initNetwork( ControllerInterface* pController );
     __declspec(dllexport) void envoyerPaquet( Paquet* pPaquet );
     __declspec(dllexport) void connectServerGame( char* pServerIP );
-    __declspec(dllexport) void connectPartieServerGame( int pGameId, char* pInputPassword );
+    __declspec(dllexport) void connectPartieServerGame( int pGameId, unsigned int pServerId, char* pInputPassword );
     __declspec(dllexport) void requestGameCreationServerGame( char* pGameName, char* pMapName, char* pPassword );
     __declspec(dllexport) void requestGamePause( );
     __declspec(dllexport) void requestGameResume( );

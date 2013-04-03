@@ -16,20 +16,7 @@
 #include "Enum_Declarations.h"
 #include <map>
 #define Map std::map
-#if WIN32
 
-#elif __APPLE__
-#define GLdouble GLfloat
-#define glPushAttrib(x)
-#define glPopAttrib()
-#define glPolygonMode(x,y)
-#define glGetDoublev glGetFloatv
-#define glMultMatrixd glMultMatrixf
-#else
-typedef float GLdouble;
-typedef unsigned int GLuint;
-#define GLenum unsigned int
-#endif
 
 // Macro permettant de localiser la signature des fonctions et éviter des gros replace all en cas de changement
 #define CreateListDelegateSignature(name) static unsigned int CreateListDelegate## name(class Modele3D* pModel)

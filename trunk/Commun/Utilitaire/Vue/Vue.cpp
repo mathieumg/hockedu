@@ -7,9 +7,18 @@
 /// @addtogroup utilitaire Utilitaire
 /// @{
 /////////////////////////////////////////////////////////////////////////////////
+#if WIN32
 #define _WINSOCKAPI_
 #include <windows.h>
 #include <GL/glu.h>
+
+#elif __APPLE__
+#import <OpenGLES/ES1/gl.h>
+#import <OpenGLES/ES1/glext.h>
+#import <OpenGLES/ES2/gl.h>
+#import <OpenGLES/ES2/glext.h>
+#include "glu.h"
+#endif
 
 #include "Vue.h"
 #include "Plan3D.h"
@@ -86,7 +95,13 @@ namespace vue {
       glGetIntegerv ( GL_VIEWPORT, cloture );
 
       // Premier point.
+#if !WIN32
+      Vecteur3 point1;
+      Vecteur3 point2;
+#else
       Vecteur3D<double> point1;
+      Vecteur3D<double> point2;
+#endif
       gluUnProject(
          x, cloture[3] - y, MinZ,
          matriceModelisation, matriceProjection, cloture,
@@ -94,7 +109,6 @@ namespace vue {
       );
 
       // Deuxième point.
-      Vecteur3D<double> point2;
       gluUnProject(
          x, cloture[3] - y, MaxZ,
          matriceModelisation, matriceProjection, cloture,

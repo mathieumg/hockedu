@@ -7,13 +7,23 @@
 /// @addtogroup utilitaire Utilitaire
 /// @{
 ////////////////////////////////////////////////////////////////////////////////////
+#if WIN32
 #define _WINSOCKAPI_
 #include <windows.h>
 #include "glew.h"
+#include <GL/glu.h>
+
+#elif __APPLE__
+#import <OpenGLES/ES1/gl.h>
+#import <OpenGLES/ES1/glext.h>
+#import <OpenGLES/ES2/gl.h>
+#import <OpenGLES/ES2/glext.h>
+#import "glu.h"
+#endif
+
 #include "ProjectionPerspective.h"
 #include "LignePointillee.h"
 #include "Utilitaire.h"
-#include <GL/glu.h>
 #include <math.h>
 #include <iostream>
 
@@ -579,7 +589,8 @@ namespace vue {
 	////////////////////////////////////////////////////////////////////////
 	void ProjectionPerspective::afficherBordureVirtuelles() const
 	{
-		glDisable(GL_TEXTURE_2D); 
+#if WIN32
+		glDisable(GL_TEXTURE_2D);
 		glEnable(GL_COLOR_LOGIC_OP);
 		glLogicOp(GL_XOR);
 		glLineWidth(1.0f);
@@ -590,6 +601,7 @@ namespace vue {
 		glVertex3f(xMinFenetre_,0.0,100.0);
 		glEnd();
 		glDisable(GL_COLOR_LOGIC_OP);
+#endif
 
 	}
 

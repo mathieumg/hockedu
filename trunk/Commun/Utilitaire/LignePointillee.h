@@ -11,7 +11,16 @@
 #define __UTILITAIRE_LIGNEPOINTILLEE_H__
 
 
+#if WIN32
 #include "glew.h"
+
+#elif __APPLE__
+#import <OpenGLES/ES1/gl.h>
+#import <OpenGLES/ES1/glext.h>
+#import <OpenGLES/ES2/gl.h>
+#import <OpenGLES/ES2/glext.h>
+#import "glu.h"
+#endif
 #include "Vecteur.h"
 
 
@@ -85,6 +94,7 @@ namespace aidegl {
    ////////////////////////////////////////////////////////////////////////
    inline void LignePointillee::commencer() const
    {
+#if WIN32
       // On sauvegarde les attributs de traçage
       const GLbitfield masque = GL_CURRENT_BIT | GL_LIGHTING_BIT;
       if (patron_ == 0xFFFF) {
@@ -100,6 +110,7 @@ namespace aidegl {
 
       glDisable(GL_LIGHTING);
       glColor4f( couleur_[0], couleur_[1], couleur_[2], couleur_[3]);
+#endif
    }
 
 
@@ -115,8 +126,10 @@ namespace aidegl {
    ////////////////////////////////////////////////////////////////////////
    inline void LignePointillee::finir() const
    {
+#if WIN32
       // On rétablit les attributs initiaux.
       glPopAttrib();
+#endif
    }
 
 

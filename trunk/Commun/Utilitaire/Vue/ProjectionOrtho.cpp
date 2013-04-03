@@ -7,13 +7,25 @@
 /// @addtogroup utilitaire Utilitaire
 /// @{
 ////////////////////////////////////////////////////////////////////////////////////
+
+#if WIN32
 #define _WINSOCKAPI_
 #include <windows.h>
 #include "glew.h"
+#include <GL/glu.h>
+
+#elif __APPLE__
+#import <OpenGLES/ES1/gl.h>
+#import <OpenGLES/ES1/glext.h>
+#import <OpenGLES/ES2/gl.h>
+#import <OpenGLES/ES2/glext.h>
+#import "glu.h"
+#endif
+
+
 #include "ProjectionOrtho.h"
 #include "LignePointillee.h"
 #include "Utilitaire.h"
-#include <GL/glu.h>
 
 namespace vue {
 
@@ -203,7 +215,12 @@ namespace vue {
 	////////////////////////////////////////////////////////////////////////
 	void ProjectionOrtho::appliquer() const
 	{
-		glOrtho( xMinFenetre_, xMaxFenetre_,
+#if WIN32
+		glOrtho
+#else
+        glOrthof
+#endif
+            ( xMinFenetre_, xMaxFenetre_,
 			yMinFenetre_, yMaxFenetre_,
 			zAvant_, zArriere_ );
 		
@@ -230,10 +247,10 @@ namespace vue {
 	{
 
 		Vecteur2 coin1Virtuelle = convertirClotureAVirtuelle(coin1), coin2Virtuelle = convertirClotureAVirtuelle(coin2);
-		float	nouveauXMin = min(coin1Virtuelle[VX],coin2Virtuelle[VX]),
-				nouveauXMax = max(coin1Virtuelle[VX],coin2Virtuelle[VX]),
-				nouveauYMin = min(coin1Virtuelle[VY],coin2Virtuelle[VY]),
-				nouveauYMax = max(coin1Virtuelle[VY],coin2Virtuelle[VY]);
+		float	nouveauXMin = utilitaire::borneInferieure(coin1Virtuelle[VX],coin2Virtuelle[VX]),
+				nouveauXMax = utilitaire::borneSuperieure(coin1Virtuelle[VX],coin2Virtuelle[VX]),
+				nouveauYMin = utilitaire::borneInferieure(coin1Virtuelle[VY],coin2Virtuelle[VY]),
+				nouveauYMax = utilitaire::borneSuperieure(coin1Virtuelle[VY],coin2Virtuelle[VY]);
 
 		float longueurRectangleX = nouveauXMax - nouveauXMin;
 		float centreX = longueurRectangleX/2.0f+nouveauXMin;
@@ -282,10 +299,11 @@ namespace vue {
 	void ProjectionOrtho::zoomerOut( const Vecteur2i& coin1, const Vecteur2i& coin2 ) 
 	{
  		Vecteur2 coin1Virtuelle = convertirClotureAVirtuelle(coin1), coin2Virtuelle = convertirClotureAVirtuelle(coin2);
-		float	nouveauXMin = min(coin1Virtuelle[VX],coin2Virtuelle[VX]),
-			nouveauXMax = max(coin1Virtuelle[VX],coin2Virtuelle[VX]),
-			nouveauYMin = min(coin1Virtuelle[VY],coin2Virtuelle[VY]),
-			nouveauYMax = max(coin1Virtuelle[VY],coin2Virtuelle[VY]);
+        
+        float	nouveauXMin = utilitaire::borneInferieure(coin1Virtuelle[VX],coin2Virtuelle[VX]),
+        nouveauXMax = utilitaire::borneSuperieure(coin1Virtuelle[VX],coin2Virtuelle[VX]),
+        nouveauYMin = utilitaire::borneInferieure(coin1Virtuelle[VY],coin2Virtuelle[VY]),
+        nouveauYMax = utilitaire::borneSuperieure(coin1Virtuelle[VY],coin2Virtuelle[VY]);
 
 		Vecteur2 lDepart = obtenirDimensionFenetre();
 		Vecteur2 lFin;
@@ -502,7 +520,8 @@ namespace vue {
 	////////////////////////////////////////////////////////////////////////
 	void ProjectionOrtho::afficherBordureVirtuelles() const
 	{
-		glDisable(GL_TEXTURE_2D); 
+#if WIN32
+		glDisable(GL_TEXTURE_2D);
 		glEnable(GL_COLOR_LOGIC_OP);
 		glLogicOp(GL_XOR);
 		glLineWidth(1.0f);
@@ -513,6 +532,7 @@ namespace vue {
         glVertex3f(xMinFenetre_,0.0,100.0);
 		glEnd();
 		glDisable(GL_COLOR_LOGIC_OP);
+#endif
 
 	}
 
