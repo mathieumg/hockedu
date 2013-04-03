@@ -13,7 +13,6 @@
 #include "Utilitaire.h"
 #include "../Reseau/ControllerInterface.h"
 
-
 ///////////////////////////////////////////////////////////////////////////
 /// @class ControllerServeurJeu
 /// @brief Controlleur du serveur de jeu

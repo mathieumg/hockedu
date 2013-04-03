@@ -59,6 +59,7 @@ void InitDLLServeurJeu()
 
     // Initialise la Facade Serveur Jeu (demarre la boucle de tick)
     FacadeServeurJeu::getInstance();
+
 }
 
 void ConnectMasterServer(const std::string& wMasterServerIP)
@@ -130,6 +131,15 @@ void* DeamonTick( void *arg )
 
 
 
+void SetStartMapDownloadCallback( ManagedStartMapDownload pCallback )
+{
+    FacadeServeurJeu::getInstance()->setCallbackManagedStartDownload(pCallback);
+}
+
+
+
+
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -197,7 +207,7 @@ FacadeServeurJeu::FacadeServeurJeu()
         throw std::runtime_error("Erreur lors de la creation du thread de reception");
     }
 
-
+    mCallbackManagedStartDownload = NULL;
 }
 
 
@@ -281,6 +291,20 @@ void FacadeServeurJeu::transmitEvent( EventCodes pCode, ... )
 }
 
 
+
+bool FacadeServeurJeu::downloadMap(int pUserId, int pMapId, CallbackDone pCallbackDone) const
+{
+    if(mCallbackManagedStartDownload)
+    {
+        // Si callback, appeler pour demarrer le download
+        mCallbackManagedStartDownload(pUserId, pMapId, pCallbackDone);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 
 
 

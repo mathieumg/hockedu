@@ -281,15 +281,36 @@ namespace UIHeavyClient
         }
 
 
-
+        // Callbacks utilises pour la connexion a une partie en reseau
         public void CallbackMapDownloaded(string pOutputPath)
         {
-
             MainWindowHandler.mTaskManager.ExecuteTask(() =>
             {
-                Console.WriteLine(pOutputPath);
+                if(pOutputPath.Length > 0)
+                {
+                    // Assigner la map a jouer dans le modele avec le filepah recu
+                    MainWindowHandler.LoadPlayingMap(pOutputPath);
+                    // On vient de recevoir la map download, on veut maintenant passer au mode jeu
+                    MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_JEU);
+                }
             });
         }
+        public void CallbackMapListForMapDownload( List<UserMapDetailedJSON> pList )
+        {
+            // Une fois qu'on a charge la liste des maps, on trouve la bonne 
+            string wMapToFind = MainWindowHandler.Context.OnlineLobbyControl.mGameWaitingToConnect.mapName;
+            foreach (UserMapDetailedJSON wMap in pList)
+            {
+                if(wMap.name == wMapToFind)
+                {
+                    // Trouve, pas besoin du user_id pcq la map devrait etre publique si une partie a ete creee avec
+                    MainWindowHandler.Context.OnlineLobbyControl.mHttpManager.downloadMap(12, wMap.id, MainWindowHandler.Context.OnlineLobbyControl.CallbackMapDownloaded);
+                    break;
+                }
+            }
+        }
+
+
         ////////////////////////////////////////////////////////////////////////
         /// @fn void OnlineLobbyControl.CallbackEvent()
         ///
@@ -359,13 +380,8 @@ namespace UIHeavyClient
                             MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
 
                             // Download la map pour la partie et on ne change pas de state avant que ce soit termine
-                            // MainWindowHandler.Context.OnlineLobbyControl.mHttpManager.downloadMap(0, wThis.mGameWaitingToConnect.mapName, wThis.CallbackMapDownloaded);
-
-
-                            MainWindowHandler.mTaskManager.ExecuteTask(() =>
-                            {
-                                MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_JEU);
-                            });
+                            // La seule facon de trouver les infos de la bonne map est d'aller chercher la liste et de trouver celle avec le bon nom
+                            MainWindowHandler.Context.OnlineLobbyControl.mHttpManager.getPublicMapList(wThis.CallbackMapListForMapDownload);
                         }
                     }
                     break;

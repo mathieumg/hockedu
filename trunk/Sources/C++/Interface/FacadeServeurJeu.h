@@ -10,12 +10,16 @@
 #include <string>
 #include "../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"
 
+typedef void (*CallbackDone)(std::string pFilepath);
+typedef void (*ManagedStartMapDownload)(int pUserId, int pMapId, CallbackDone pCallbackFromManaged);
 
 extern "C" 
 {
     DLLEXPORT_SERVEUR_JEU void InitDLLServeurJeu();
     DLLEXPORT_SERVEUR_JEU void ConnectMasterServer(const std::string& wMasterServerIP);
     DLLEXPORT_SERVEUR_JEU char* ObtenirAdresseIpLocaleAssociee(const std::string& pIpAssociee);
+    DLLEXPORT_SERVEUR_JEU void SetStartMapDownloadCallback(ManagedStartMapDownload pCallback);
+
 
     class ControllerInterface;
     class Paquet;
@@ -67,6 +71,8 @@ public:
     /// Send event to the controller
     static void transmitEvent( EventCodes pCode, ... );
 
+    bool downloadMap(int pUserId, int pMapId, CallbackDone pCallbackDone) const;
+
 private:
     /// Constructeur par défaut.
     FacadeServeurJeu();
@@ -87,9 +93,15 @@ private:
     // interval entre les ticks (en ms)
     int mTickInterval;
 
+    // Callback a appeler pour demarrer le download de la map
+    ManagedStartMapDownload mCallbackManagedStartDownload;
+    
     /// Accesseurs
 public:
     inline int getTickInterval() const { return mTickInterval; }
+
+    inline ManagedStartMapDownload getCallbackManagedStartDownload() const { return mCallbackManagedStartDownload; }
+    inline void setCallbackManagedStartDownload(ManagedStartMapDownload val) { mCallbackManagedStartDownload = val; }
 };
 
 
