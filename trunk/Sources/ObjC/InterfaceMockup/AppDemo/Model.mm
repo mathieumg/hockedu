@@ -12,10 +12,13 @@
 #include "NoeudAbstrait.h"
 #include "AFJSONRequestOperation.h"
 #include "AFHTTPClient.h"
+#include "VuePerspectiveOrbit.h"
 #include "EditionEventManager.h"
 
 
+
 static Model3DManager* model3DManager = NULL;
+vue::Vue* mView = NULL;
 void EditionEventCallback(EditionEventCodes pEvent)
 {
     switch (pEvent) {
@@ -69,7 +72,8 @@ bool RenderNodeCallback(RazerKey key)
 
 
 - (void)render
-{    
+{
+    mView->appliquerVue(0);
     ((Terrain*)mField)->renderField();  
 }
 - (id)init
@@ -78,6 +82,12 @@ bool RenderNodeCallback(RazerKey key)
     mField = new Terrain(NULL);
     mModel3DManager = [[Model3DManager alloc]init];
     model3DManager = mModel3DManager;
+    mView = new vue::VuePerspectiveOrbit(
+            vue::Camera(Vecteur3(0,-0.0001f,300), Vecteur3(0,0,0),
+                       Vecteur3(0,1,0),Vecteur3(0,1,0)),
+                                         0,400,0,400,
+                                         180,50000,10,15000,1.25f,
+                                         -150,150,-150,150);
     
     ((Terrain*)mField)->setModelManagerObjc(RenderNodeCallback);
     ((Terrain*)mField)->createRandomField("test");
@@ -89,32 +99,37 @@ bool RenderNodeCallback(RazerKey key)
     [mModel3DManager release];
     mModel3DManager = NULL;
     delete (Terrain*)mField;
+    delete mView;
     [super dealloc];
 }
 
--(int)acceptSelectionVisitor:(float)positionMinX: (float)positionMinY:(float) positionMaxX:(float) positionMaxY
+-(int)acceptSelectionVisitor:(float)positionMinX :(float)positionMinY :(float)positionMaxX :(float) positionMaxY
 {
-    Vecteur2 posMin = Vecteur2(positionMinX,positionMinY);
-    Vecteur2 posMax = Vecteur2(positionMaxX,positionMaxY);
-    return ((Terrain*)mField)->selectNodes(posMin,posMax,false);
+    Vecteur3 posMin;
+    Vecteur3 posMax;
+    mView->convertirClotureAVirtuelle(positionMinX, positionMinY, posMin);
+    mView->convertirClotureAVirtuelle(positionMaxX, positionMaxY, posMax);
+    return ((Terrain*)mField)->selectNodes((Vecteur2)posMin,(Vecteur2)posMax,false);
 }
 
--(void) beginModification:(FieldModificationStrategyType)type:(CGPoint)coordVirt
+-(void) beginModification:(FieldModificationStrategyType)type :(CGPoint)coordVirt
 {
     FieldModificationStrategyEvent event;
-    event.mPosition[VX] = coordVirt.x;
-    event.mPosition[VY] = coordVirt.y;
+    Vecteur3 pos;
+    mView->convertirClotureAVirtuelle(coordVirt.x, coordVirt.y, pos);
+    event.mPosition = pos;
     event.mType = FIELD_MODIFICATION_EVENT_CLICK;
     
     ((Terrain*)mField)->BeginModification(type, event);
 }
 
--(void) eventModification:(FieldModificationStrategyEventType)type:(CGPoint)coordVirt
+-(void) eventModification:(FieldModificationStrategyEventType)type :(CGPoint)coordVirt
 {
     FieldModificationStrategyEvent event;
     event.mType = type;
-    event.mPosition[VX] = coordVirt.x;
-    event.mPosition[VY] = coordVirt.y;
+    Vecteur3 pos;
+    mView->convertirClotureAVirtuelle(coordVirt.x, coordVirt.y, pos);
+    event.mPosition = pos;
     ((Terrain*)mField)->ReceiveModificationEvent(event);
 }
 
@@ -138,14 +153,19 @@ bool RenderNodeCallback(RazerKey key)
     ((Terrain*)mField)->deleteSelectedNodes();
 }
 
--(void) deplacerSouris:(int)deplacementX:(int)deplacementY
+-(void) deplacerSouris:(int)deplacementX :(int)deplacementY
 {
-    
+    mView->deplacerXYSouris(deplacementX, deplacementY);
 }
 
--(void) orbit:(int)deplacementX:(int)deplacementY
+-(void) orbit:(int)deplacementX :(int)deplacementY
 {
-    
+    mView->rotaterXY(Vecteur2i(deplacementX,deplacementY));
+}
+
+-(void) resizeWindow:(int)minX :(int)minY :(int)maxX :(int)maxY
+{
+    mView->redimensionnerFenetre(Vecteur2i(minX,minY), Vecteur2i(maxX,maxY));
 }
 
 -(void) undo

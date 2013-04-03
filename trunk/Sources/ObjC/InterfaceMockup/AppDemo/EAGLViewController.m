@@ -76,6 +76,7 @@ enum {
     theEAGLView.opaque = YES;
     
     mModel = [[Model alloc]init];
+    [mModel resizeWindow:0 :0 :LARGEUR_FENETRE :HAUTEUR_FENETRE];
     mEventManager = [[EventManager alloc]init:mModel];
     translationX = 0.0;
     translationY = 0.0;
@@ -414,6 +415,8 @@ enum {
     }
 }
 
+
+/// DEPRECATED
 - (void)updateOrtho
 {
     glMatrixMode(GL_PROJECTION);
@@ -480,6 +483,8 @@ enum {
     [mModel saveField];
 }
 
+
+///DEPRECATED
 - (CGPoint)convertScreenCoordToVirtualCoord:(CGPoint)pointToConvert;
 {
     int AXIS_X_MIN = ( -( LARGEUR_FENETRE / 2) + translationX ) * zoomFactor;
@@ -498,8 +503,9 @@ enum {
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [[event allTouches] anyObject];
-    CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
-    [mEventManager touchesBegan:touch:touchCoordVirt];
+    CGPoint positionCourante = [touch locationInView:theEAGLView];
+    //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
+    [mEventManager touchesBegan:touch:positionCourante];
         
     NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");
     for(UITouch* touch in touches) {
@@ -522,8 +528,9 @@ enum {
     if ([[event allTouches] count] == 1)
     {
         UITouch *touch = [[event allTouches] anyObject];
-        CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
-        [mEventManager touchesMoved:touch:touchCoordVirt];
+        CGPoint positionCourante = [touch locationInView:theEAGLView];
+        //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
+        [mEventManager touchesMoved:touch:positionCourante];
         
         //CGPoint positionCourante = [touch locationInView:theEAGLView];
 //        if (mCreationMode) {
@@ -616,9 +623,9 @@ enum {
     if ([[event allTouches] count] == 1)
     {
         UITouch *touch = [[event allTouches] anyObject];
-        //CGPoint positionCourante = [touch locationInView:theEAGLView];
-        CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
-        [mEventManager touchesEnded:touch:touchCoordVirt];
+        CGPoint positionCourante = [touch locationInView:theEAGLView];
+        //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
+        [mEventManager touchesEnded:touch:positionCourante];
 //        
 //        if (mCreationMode) {
 //            // Destruction de limage de lobjet qui suit la position du doigt
@@ -692,6 +699,7 @@ enum {
 }
 
 
+// DEPRECATED
 -(void)setupView
 {
     glEnable(GL_DEPTH_TEST);
@@ -718,27 +726,10 @@ enum {
 - (void)drawFrame
 {
     [(EAGLView *)theEAGLView setFramebuffer];
-    
-	static GLfloat rotation = 0.0;
-    
+        
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    //glEnableClientState(GL_VERTEX_ARRAY);
     [mModel render];
-    //glDisableClientState(GL_VERTEX_ARRAY);
-    
-	static NSTimeInterval lastDrawTime;
-	if (lastDrawTime)
-	{
-		NSTimeInterval timeSinceLastDraw = [NSDate timeIntervalSinceReferenceDate] - lastDrawTime;
-		rotation+=50 * timeSinceLastDraw;
-		Rotation3D rot;
-		rot.x = rotation;
-		rot.y = rotation;
-		rot.z = rotation;
-		cube.currentRotation = rot;
-	}
-	lastDrawTime = [NSDate timeIntervalSinceReferenceDate];
     
     [(EAGLView *)theEAGLView presentFramebuffer];
 }
