@@ -388,7 +388,8 @@ enum {
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     if ( [gestureRecognizer isMemberOfClass:[UITapGestureRecognizer class]] ) {
         // Return NO for views that don't support Taps
-        if ((touch.view !=mGLView)) {
+        UIView* view=touch.view;
+        if ((view!=theEAGLView)) {
             return NO;
         }
         return YES;
