@@ -50,6 +50,8 @@ public:
    virtual const Vecteur3& obtenirCoin2() const = 0;
    /// updates angle, scale and position according to its corners
    virtual void updateWallProperties();
+   /// Recreates everything needed for the game
+   virtual void forceFullUpdate(){updateWallProperties();}
 
    /// Permet d'assigner les attribut nécessaire à la collision
    virtual void setCollisionVisitorAttributes(VisiteurCollision* v);
