@@ -10,8 +10,8 @@
 #if WIN32
 #define _WINSOCKAPI_
 #include <windows.h>
-#include <GL/glu.h>
 #include "glew.h"
+#include <GL/glu.h>
 
 #elif __APPLE__
 #import <OpenGLES/ES1/gl.h>
