@@ -153,6 +153,19 @@ bool RenderNodeCallback(RazerKey key)
     ((Terrain*)mField)->deleteSelectedNodes();
 }
 
+-(void) zoom:(float)scale
+{
+    if(scale>0)
+    {
+        mView->zoomerIn();
+    }
+    else
+    {
+        mView->zoomerOut();
+    }
+    
+}
+
 -(void) deplacerSouris:(int)deplacementX :(int)deplacementY
 {
     mView->deplacerXYSouris(deplacementX, deplacementY);

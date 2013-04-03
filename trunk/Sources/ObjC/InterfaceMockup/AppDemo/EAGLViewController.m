@@ -359,29 +359,18 @@ enum {
 - (IBAction)pinchDetected:(id)sender
 {
     // Rich man pinch
-
     if([(UIPinchGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded)
     {
         __previousScale = 1.0;
         return;
     }
-    
-    if ([(UIPinchGestureRecognizer*)sender state] == UIGestureRecognizerStateBegan ||
-        [(UIPinchGestureRecognizer*)sender state] == UIGestureRecognizerStateChanged) {
-        
-        CGFloat currentScale = [[theEAGLView.layer valueForKeyPath:@"transform.scale"] floatValue];
-        
-        const CGFloat kMaxScale = 4.0;
-        const CGFloat kMinScale = 0.8;
-        
-        CGFloat newScale = 1 -  (__previousScale - [(UIPinchGestureRecognizer*)sender scale]);
-        newScale = MIN(newScale, kMaxScale / currentScale);
-        newScale = MAX(newScale, kMinScale / currentScale);
-        CGAffineTransform transform = CGAffineTransformScale([theEAGLView transform], newScale, newScale);
-        theEAGLView.transform = transform;
-        }
-    
-        __previousScale = [(UIPinchGestureRecognizer*)sender scale]; 
+    float currentScale = [(UIPinchGestureRecognizer*)sender scale];
+    float diff = currentScale-__previousScale;
+    if(diff != 0)
+    {
+        [mModel zoom:diff];
+    }
+    __previousScale = currentScale; 
     
 }
 
