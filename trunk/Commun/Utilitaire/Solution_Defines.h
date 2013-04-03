@@ -54,6 +54,23 @@
 #else
 #define PRAGMA_ENABLE_OPTIMIZATION
 #endif
+
+#if WIN32
+
+#elif __APPLE__
+#define GLdouble GLfloat
+#define glPushAttrib(x)
+#define glPopAttrib()
+#define glPolygonMode(x,y)
+#define glGetDoublev glGetFloatv
+#define glMultMatrixd glMultMatrixf
+#else
+typedef float GLdouble;
+typedef unsigned int GLuint;
+#define GLenum unsigned int
+#endif
+
+
 // Méthode utilitaire
 #ifdef WINDOWS
 typedef char *  va_list;

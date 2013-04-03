@@ -9,8 +9,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "AnimationReprise.h"
-
+#if WIN32
 #include "SoundFMOD.h"
+#endif
 #include <iostream>
 #include "GestionnaireAnimations.h"
 
@@ -217,8 +218,10 @@ void AnimationReprise::animer( float temps )
 	{
 		frameCourant_++;
 		int son = (*frameCourant_)->obtenirChoixSon();
+#if WIN32
 		if(son!=-1)
 			SoundFMOD::obtenirInstance()->playEffect(effect(son));
+#endif
 		if(*frameCourant_!=frames_.back())
 		{
 			suivant++;
@@ -277,7 +280,11 @@ void AnimationReprise::animer( float temps )
 ///////////////////////////////////////////////////////////////////////////////
 void AnimationReprise::ajouterSon( int choix )
 {
-	if(choix!=BEEP_EFFECT && frames_.size()>0)
+	if(
+#if WIN32
+       choix!=BEEP_EFFECT &&
+#endif
+       frames_.size()>0)
 	{
 		IterationReplay* dernierFrame = frames_.back();
 

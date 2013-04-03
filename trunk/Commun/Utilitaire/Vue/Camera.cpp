@@ -8,16 +8,23 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 
-
-
-#define _USE_MATH_DEFINES
-#include <math.h>
+#if WIN32
 #define _WINSOCKAPI_
 #include <windows.h>
 #include <GL/glu.h>
+
+#elif __APPLE__
+#import <OpenGLES/ES1/gl.h>
+#import <OpenGLES/ES1/glext.h>
+#import <OpenGLES/ES2/gl.h>
+#import <OpenGLES/ES2/glext.h>
+#import "glu.h"
+#endif
+
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include "Utilitaire.h"
 #include "Camera.h"
-#include <iostream>
 #define DEG2RAD(a) ((a) * M_PI / 180.0)
 #define CLIP(a,min,max) (a < min) ? min : ((a > max) ? max : a)
 
@@ -250,6 +257,7 @@ namespace vue {
       gluLookAt( position_[0]      , position_[1]      , position_[2],
                  (pointVise_)[0]     , (pointVise_)[1]     , (pointVise_)[2],
                  directionHaut_[0] , directionHaut_[1] , directionHaut_[2] );
+       
    }
 
    void Camera::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )

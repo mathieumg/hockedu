@@ -11,8 +11,8 @@
 #include "Singleton.h"
 #include "Animation.h"
 #include "AnimationReprise.h"
-#include "Vue\Camera.h"
-#include "Vue\Vue.h"
+#include "Camera.h"
+#include "Vue.h"
 #include "ReplayObserver.h"
 
 

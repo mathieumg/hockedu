@@ -137,6 +137,21 @@
 		4E9CE9FE16FBBA4B00B04A12 /* LoadMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E9CE9FC16FBBA4B00B04A12 /* LoadMapViewController.m */; };
 		4E9CE9FF16FBBA4B00B04A12 /* LoadMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E9CE9FD16FBBA4B00B04A12 /* LoadMapViewController.xib */; };
 		4E9DDDB216FF842C0081B35D /* VisitorGatherProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E9DDDB016FF842C0081B35D /* VisitorGatherProperties.cpp */; };
+		4EA45524170B6812009D680D /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA45510170B6812009D680D /* Camera.cpp */; };
+		4EA45525170B6812009D680D /* Projection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA45512170B6812009D680D /* Projection.cpp */; };
+		4EA45526170B6812009D680D /* ProjectionOrtho.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA45514170B6812009D680D /* ProjectionOrtho.cpp */; };
+		4EA45527170B6812009D680D /* ProjectionPerspective.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA45516170B6812009D680D /* ProjectionPerspective.cpp */; };
+		4EA45528170B6812009D680D /* Vue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA45518170B6812009D680D /* Vue.cpp */; };
+		4EA45529170B6812009D680D /* VueOrtho.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA4551A170B6812009D680D /* VueOrtho.cpp */; };
+		4EA4552A170B6812009D680D /* VuePerspectiveCiel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA4551C170B6812009D680D /* VuePerspectiveCiel.cpp */; };
+		4EA4552B170B6812009D680D /* VuePerspectiveLibre.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA4551E170B6812009D680D /* VuePerspectiveLibre.cpp */; };
+		4EA4552C170B6812009D680D /* VuePerspectiveOrbit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA45520170B6812009D680D /* VuePerspectiveOrbit.cpp */; };
+		4EA4552D170B6812009D680D /* VuePerspectiveSplit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA45522170B6812009D680D /* VuePerspectiveSplit.cpp */; };
+		4EA45539170B6F81009D680D /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA45531170B6F80009D680D /* Animation.cpp */; };
+		4EA4553A170B6F81009D680D /* AnimationFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA45533170B6F80009D680D /* AnimationFrame.cpp */; };
+		4EA4553B170B6F81009D680D /* AnimationReprise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA45535170B6F81009D680D /* AnimationReprise.cpp */; };
+		4EA4553C170B6F81009D680D /* GestionnaireAnimations.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA45537170B6F81009D680D /* GestionnaireAnimations.cpp */; };
+		4EA455D7170BA181009D680D /* glu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA455D6170BA181009D680D /* glu.cpp */; };
 		4EA5287716FE356A008F89BD /* FieldModificationStrategyRotate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA5287316FE356A008F89BD /* FieldModificationStrategyRotate.cpp */; };
 		4EA5287816FE356A008F89BD /* FieldModificationStrategyScale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA5287516FE356A008F89BD /* FieldModificationStrategyScale.cpp */; };
 		4EA5287B16FE366A008F89BD /* VisitorSetProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA5287916FE366A008F89BD /* VisitorSetProperties.cpp */; };
@@ -478,6 +493,36 @@
 		4E9DDDB116FF842C0081B35D /* VisitorGatherProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisitorGatherProperties.h; sourceTree = "<group>"; };
 		4EA0DAF616FFDA7900C0502A /* PositionObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PositionObserver.h; sourceTree = "<group>"; };
 		4EA0DAF716FFDA7900C0502A /* ReplayObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplayObserver.h; sourceTree = "<group>"; };
+		4EA45510170B6812009D680D /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
+		4EA45511170B6812009D680D /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		4EA45512170B6812009D680D /* Projection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Projection.cpp; sourceTree = "<group>"; };
+		4EA45513170B6812009D680D /* Projection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Projection.h; sourceTree = "<group>"; };
+		4EA45514170B6812009D680D /* ProjectionOrtho.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProjectionOrtho.cpp; sourceTree = "<group>"; };
+		4EA45515170B6812009D680D /* ProjectionOrtho.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectionOrtho.h; sourceTree = "<group>"; };
+		4EA45516170B6812009D680D /* ProjectionPerspective.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProjectionPerspective.cpp; sourceTree = "<group>"; };
+		4EA45517170B6812009D680D /* ProjectionPerspective.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectionPerspective.h; sourceTree = "<group>"; };
+		4EA45518170B6812009D680D /* Vue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vue.cpp; sourceTree = "<group>"; };
+		4EA45519170B6812009D680D /* Vue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vue.h; sourceTree = "<group>"; };
+		4EA4551A170B6812009D680D /* VueOrtho.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VueOrtho.cpp; sourceTree = "<group>"; };
+		4EA4551B170B6812009D680D /* VueOrtho.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VueOrtho.h; sourceTree = "<group>"; };
+		4EA4551C170B6812009D680D /* VuePerspectiveCiel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VuePerspectiveCiel.cpp; sourceTree = "<group>"; };
+		4EA4551D170B6812009D680D /* VuePerspectiveCiel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VuePerspectiveCiel.h; sourceTree = "<group>"; };
+		4EA4551E170B6812009D680D /* VuePerspectiveLibre.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VuePerspectiveLibre.cpp; sourceTree = "<group>"; };
+		4EA4551F170B6812009D680D /* VuePerspectiveLibre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VuePerspectiveLibre.h; sourceTree = "<group>"; };
+		4EA45520170B6812009D680D /* VuePerspectiveOrbit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VuePerspectiveOrbit.cpp; sourceTree = "<group>"; };
+		4EA45521170B6812009D680D /* VuePerspectiveOrbit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VuePerspectiveOrbit.h; sourceTree = "<group>"; };
+		4EA45522170B6812009D680D /* VuePerspectiveSplit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VuePerspectiveSplit.cpp; sourceTree = "<group>"; };
+		4EA45523170B6812009D680D /* VuePerspectiveSplit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VuePerspectiveSplit.h; sourceTree = "<group>"; };
+		4EA45531170B6F80009D680D /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; };
+		4EA45532170B6F80009D680D /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
+		4EA45533170B6F80009D680D /* AnimationFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationFrame.cpp; sourceTree = "<group>"; };
+		4EA45534170B6F80009D680D /* AnimationFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationFrame.h; sourceTree = "<group>"; };
+		4EA45535170B6F81009D680D /* AnimationReprise.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationReprise.cpp; sourceTree = "<group>"; };
+		4EA45536170B6F81009D680D /* AnimationReprise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationReprise.h; sourceTree = "<group>"; };
+		4EA45537170B6F81009D680D /* GestionnaireAnimations.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GestionnaireAnimations.cpp; sourceTree = "<group>"; };
+		4EA45538170B6F81009D680D /* GestionnaireAnimations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestionnaireAnimations.h; sourceTree = "<group>"; };
+		4EA455D5170BA181009D680D /* glu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glu.h; sourceTree = "<group>"; };
+		4EA455D6170BA181009D680D /* glu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glu.cpp; sourceTree = "<group>"; };
 		4EA5287316FE356A008F89BD /* FieldModificationStrategyRotate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyRotate.cpp; sourceTree = "<group>"; };
 		4EA5287416FE356A008F89BD /* FieldModificationStrategyRotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyRotate.h; sourceTree = "<group>"; };
 		4EA5287516FE356A008F89BD /* FieldModificationStrategyScale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyScale.cpp; sourceTree = "<group>"; };
@@ -746,6 +791,15 @@
 		0C04E18516DE964E002B0EE2 /* Utilitaire */ = {
 			isa = PBXGroup;
 			children = (
+				4EA45531170B6F80009D680D /* Animation.cpp */,
+				4EA45532170B6F80009D680D /* Animation.h */,
+				4EA45533170B6F80009D680D /* AnimationFrame.cpp */,
+				4EA45534170B6F80009D680D /* AnimationFrame.h */,
+				4EA45535170B6F81009D680D /* AnimationReprise.cpp */,
+				4EA45536170B6F81009D680D /* AnimationReprise.h */,
+				4EA45537170B6F81009D680D /* GestionnaireAnimations.cpp */,
+				4EA45538170B6F81009D680D /* GestionnaireAnimations.h */,
+				4EA4550F170B6812009D680D /* Vue */,
 				4EC7359C17015F85002FCF4C /* Solution_Defines.cpp */,
 				4EA0DAF616FFDA7900C0502A /* PositionObserver.h */,
 				4EA0DAF716FFDA7900C0502A /* ReplayObserver.h */,
@@ -954,6 +1008,33 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		4EA4550F170B6812009D680D /* Vue */ = {
+			isa = PBXGroup;
+			children = (
+				4EA45510170B6812009D680D /* Camera.cpp */,
+				4EA45511170B6812009D680D /* Camera.h */,
+				4EA45512170B6812009D680D /* Projection.cpp */,
+				4EA45513170B6812009D680D /* Projection.h */,
+				4EA45514170B6812009D680D /* ProjectionOrtho.cpp */,
+				4EA45515170B6812009D680D /* ProjectionOrtho.h */,
+				4EA45516170B6812009D680D /* ProjectionPerspective.cpp */,
+				4EA45517170B6812009D680D /* ProjectionPerspective.h */,
+				4EA45518170B6812009D680D /* Vue.cpp */,
+				4EA45519170B6812009D680D /* Vue.h */,
+				4EA4551A170B6812009D680D /* VueOrtho.cpp */,
+				4EA4551B170B6812009D680D /* VueOrtho.h */,
+				4EA4551C170B6812009D680D /* VuePerspectiveCiel.cpp */,
+				4EA4551D170B6812009D680D /* VuePerspectiveCiel.h */,
+				4EA4551E170B6812009D680D /* VuePerspectiveLibre.cpp */,
+				4EA4551F170B6812009D680D /* VuePerspectiveLibre.h */,
+				4EA45520170B6812009D680D /* VuePerspectiveOrbit.cpp */,
+				4EA45521170B6812009D680D /* VuePerspectiveOrbit.h */,
+				4EA45522170B6812009D680D /* VuePerspectiveSplit.cpp */,
+				4EA45523170B6812009D680D /* VuePerspectiveSplit.h */,
+			);
+			path = Vue;
+			sourceTree = "<group>";
+		};
 		4ED0E8231702B4100043DF70 /* TableModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -1054,6 +1135,8 @@
 		96378D801472C71100F543EA /* Hockedu */ = {
 			isa = PBXGroup;
 			children = (
+				4EA455D5170BA181009D680D /* glu.h */,
+				4EA455D6170BA181009D680D /* glu.cpp */,
 				4E908340170B9A0B00E7DEDC /* redo.png */,
 				4E908341170B9A0B00E7DEDC /* undo.png */,
 				4E8BB6AB170B6546000ACFE7 /* InAppSettingsKit */,
@@ -1418,6 +1501,21 @@
 				4E1FF7381707917E005D1D50 /* ForceField.cpp in Sources */,
 				4E1FF73D17079212005D1D50 /* BonusModifierChangeZone.cpp in Sources */,
 				4E1FF73E17079212005D1D50 /* BonusModifierFan.cpp in Sources */,
+				4EA45524170B6812009D680D /* Camera.cpp in Sources */,
+				4EA45525170B6812009D680D /* Projection.cpp in Sources */,
+				4EA45526170B6812009D680D /* ProjectionOrtho.cpp in Sources */,
+				4EA45527170B6812009D680D /* ProjectionPerspective.cpp in Sources */,
+				4EA45528170B6812009D680D /* Vue.cpp in Sources */,
+				4EA45529170B6812009D680D /* VueOrtho.cpp in Sources */,
+				4EA4552A170B6812009D680D /* VuePerspectiveCiel.cpp in Sources */,
+				4EA4552B170B6812009D680D /* VuePerspectiveLibre.cpp in Sources */,
+				4EA4552C170B6812009D680D /* VuePerspectiveOrbit.cpp in Sources */,
+				4EA4552D170B6812009D680D /* VuePerspectiveSplit.cpp in Sources */,
+				4EA45539170B6F81009D680D /* Animation.cpp in Sources */,
+				4EA4553A170B6F81009D680D /* AnimationFrame.cpp in Sources */,
+				4EA4553B170B6F81009D680D /* AnimationReprise.cpp in Sources */,
+				4EA4553C170B6F81009D680D /* GestionnaireAnimations.cpp in Sources */,
+				4EA455D7170BA181009D680D /* glu.cpp in Sources */,
 				4E8BB6CC170B6546000ACFE7 /* IASKAppSettingsViewController.m in Sources */,
 				4E8BB6CD170B6546000ACFE7 /* IASKAppSettingsWebViewController.m in Sources */,
 				4E8BB6CE170B6546000ACFE7 /* IASKSpecifierValuesViewController.m in Sources */,
@@ -1534,8 +1632,9 @@
 				GCC_PREFIX_HEADER = "AppDemo/Hockedu-Prefix.pch";
 				GCC_VERSION = "";
 				"HEADER_SEARCH_PATHS[arch=*]" = (
-					../../../Commun/Externe/,
+					"../../../Commun/Externe/**",
 					AFNetworking/AFNetworking/,
+					iGlu/include/,
 				);
 				INFOPLIST_FILE = "AppDemo/Hockedu-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -1545,7 +1644,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = Hockedu;
-				"USER_HEADER_SEARCH_PATHS[arch=*]" = "../../../Commun/Externe/** AFNetworking/AFNetworking/";
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "../../../Commun/Externe/** AFNetworking/AFNetworking/ iGlu/include/";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1562,8 +1661,9 @@
 				GCC_PREFIX_HEADER = "AppDemo/Hockedu-Prefix.pch";
 				GCC_VERSION = "";
 				"HEADER_SEARCH_PATHS[arch=*]" = (
-					../../../Commun/Externe/,
+					"../../../Commun/Externe/**",
 					AFNetworking/AFNetworking/,
+					iGlu/include/,
 				);
 				INFOPLIST_FILE = "AppDemo/Hockedu-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -1573,7 +1673,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = Hockedu;
-				"USER_HEADER_SEARCH_PATHS[arch=*]" = "../../../Commun/Externe/ AFNetworking/AFNetworking/";
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "../../../Commun/Externe/** AFNetworking/AFNetworking/ iGlu/include/";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

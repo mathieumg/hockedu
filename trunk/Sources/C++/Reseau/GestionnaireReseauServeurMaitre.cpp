@@ -19,6 +19,7 @@
 #include "UsinePaquets/UsinePaquetGameStatus.h"
 #include "PaquetHandlers/PacketHandler.h"
 #include "UsinePaquets/UsinePaquetGameCreation.h"
+#include "UsinePaquets/UsinePaquetGameConnection.h"
 
 // Initialisations automatiques
 SINGLETON_DECLARATION_CPP(GestionnaireReseauServeurMaitre);
@@ -46,6 +47,7 @@ GestionnaireReseauServeurMaitre::GestionnaireReseauServeurMaitre()
 	wGestionnaireReseau->ajouterOperationReseau(USER_STATUS, new PacketHandlerUserStatus, new UsinePaquetUserStatus);
     wGestionnaireReseau->ajouterOperationReseau(GAME_STATUS, new PacketHandlerGameStatus, new UsinePaquetGameStatus);
     wGestionnaireReseau->ajouterOperationReseau(GAME_CREATION_REQUEST, new PacketHandlerGameCreation, new UsinePaquetGameCreation);
+    wGestionnaireReseau->ajouterOperationReseau(GAME_CONNECTION, new PacketHandlerGameConnection, new UsinePaquetGameConnection);
 }
 
 

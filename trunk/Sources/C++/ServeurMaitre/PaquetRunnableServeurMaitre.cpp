@@ -21,6 +21,7 @@
 #include "../Reseau/Paquets/PaquetGameCreation.h"
 #include "GameServerManager.h"
 #include "GameServer.h"
+#include "../reseau/Paquets/PaquetGameConnection.h"
 
 /// ***** PAR CONVENTION, METTRE Master A LA FIN DU NOM DES DELEGATES
 
@@ -144,6 +145,12 @@ int PaquetRunnable::RunnableGameCreationMasterServer( Paquet* pPaquet )
         if( wServerId == 0)
         {
             wServerId = GameServerManager::obtenirInstance()->selectRandomGameServer();
+            if(wServerId == -1)
+            {
+                wPaquet->setGameId(-1);
+                GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
+                return 0;
+            }
             wPaquet->setServerId(wServerId);
         }
 
@@ -173,6 +180,30 @@ int PaquetRunnable::RunnableGameCreationMasterServer( Paquet* pPaquet )
         // Sends reply to game creator
         GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
     }
+    return 0;
+}
+
+
+
+
+int PaquetRunnable::RunnableGameConnectionMasterServer( Paquet* pPaquet )
+{
+    PaquetGameConnection* wPaquet = (PaquetGameConnection*) pPaquet;
+
+    const int wGameId = wPaquet->getGameId();
+    GameServer* wServer = GameServerManager::obtenirInstance()->getGameServer(wPaquet->getGameServerId());
+    if(wServer)
+    {
+        wPaquet->setGameServerIp(wServer->getServerIP());
+        wPaquet->setConnectionState(GAME_CONNECTION_REPLY_GAME_SERVER_IP);
+    }
+    else
+    {
+        wPaquet->setGameId(-1);
+        wPaquet->setConnectionState(GAME_CONNECTION_REJECTED);
+    }
+
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
     return 0;
 }
 
