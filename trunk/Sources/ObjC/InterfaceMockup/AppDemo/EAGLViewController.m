@@ -32,6 +32,7 @@ enum {
 @property (nonatomic, retain) IBOutlet UIView *mGLView;
 @property (retain, nonatomic) IBOutlet UIView *mSideBarView;
 @property (retain, nonatomic) IBOutlet UIView *mTopBarView;
+@property (retain, nonatomic) IBOutlet UIView *undoRedoView;
 @property (nonatomic, assign) CADisplayLink *displayLink;
 @property (nonatomic, assign) BOOL wrap;
 @property (nonatomic, assign) BOOL clipsToBounds;
@@ -47,6 +48,7 @@ enum {
 @synthesize mSideBarView;
 @synthesize mTopBarView;
 @synthesize mGLView;
+@synthesize undoRedoView;
 @synthesize context;
 @synthesize displayLink;
 @synthesize cube;
@@ -78,22 +80,53 @@ enum {
     translationX = 0.0;
     translationY = 0.0;
     zoomFactor = 0.5;
-    mSelectTool = true;
-    mSelectionMode = true;
-    mMoveTool = false;
-    mCreationMode = false;
-    itemToBeAdded = -1;
-    imageObjectToAdd= nil;
     
     [self.mGLView addSubview:theEAGLView];
     [self.mGLView addSubview:mSideBarView];
     [self.mGLView addSubview:mTopBarView];
+    [self.mGLView addSubview:undoRedoView];
     [self.theEAGLView setFramebuffer];
     
     
     animating = FALSE;
     animationFrameInterval = 1;
     self.displayLink = nil;
+    
+    UIImage *buttonImage = [[UIImage imageNamed:@"blueButton@2x.png"]
+                            resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"blueButtonHighlight@2x.png"]
+                                     resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    
+    // Set the background for any states you plan to use
+    [saveButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [saveButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [selectButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [selectButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [moveButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [moveButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [rotationButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [rotationButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [scaleButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [scaleButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [duplicateButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [duplicateButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [editionButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [editionButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [deleteButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [deleteButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [cameraButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [cameraButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [buttonImage release];
+    [buttonImageHighlight release];
     
 
 }
@@ -120,6 +153,16 @@ enum {
     [carousel release];
     [items release];
     
+    //[saveExitButton release];
+    [saveButton release];
+    [selectButton release];
+    [moveButton release];
+    [rotationButton release];
+    [scaleButton release];
+    [duplicateButton release];
+    [deleteButton release];
+    [cameraButton release];
+    [editionButton release];
     [super dealloc];
 }
 
@@ -157,22 +200,25 @@ enum {
 {
     [super viewDidLoad];
     
+    
+    
     // SETUP DES GESTURES
     UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationDetectee:)];
-    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
-    //UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
+    //UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapDetected:)];
     
     [rotationGesture setDelegate:self];
-    [longPressGesture setDelegate:self];
-    //[tapGesture setDelegate:self];
+    //[longPressGesture setDelegate:self];
+    [tapGesture setNumberOfTapsRequired:2];
+    [tapGesture setDelegate:self];
     
     [mGLView addGestureRecognizer:rotationGesture];
-    [mGLView addGestureRecognizer:longPressGesture];
-    //[theEAGLView addGestureRecognizer:tapGesture];
+    //[mGLView addGestureRecognizer:longPressGesture];
+    [mGLView addGestureRecognizer:tapGesture];
     
     [rotationGesture release];
-    [longPressGesture release];
-    //[tapGesture release];
+    //[longPressGesture release];
+    [tapGesture release];
     
     // FIN SETUP DES GESTURES
     
@@ -182,77 +228,89 @@ enum {
     [self setupPieMenu];
 }
 
-- (void) itemSelected:(PieMenuItem *)item {
+- (IBAction)undoButtonTouched:(UIButton *)sender
+{
+    [mModel undo];
+}
+- (IBAction)redoButtonTouched:(UIButton *)sender
+{
+    [mModel redo];
+}
+
+- (void) propertiesMenu:(PieMenuItem *)item {
     
-    // Fonction appelle lorsqun item du pie menu est selectionne
-	NSLog(@"Item '%s' selected", [item.title UTF8String]);
-	labelPieMenu.text = [NSString stringWithFormat:@"Item '%s' selected", [item.title UTF8String]];
+    // Ouverture du popover contenant les proprietes associees a la selection courante
+//    UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
+//    UITabBarController *tabController = [[UITabBarController alloc] init];
+//    UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tableController];
+//    UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:navController];
+//    navController.tabBarController = tabController;
+//    [popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 - (void) setupPieMenu
 {
     // SETUP DU PIE MENU
 	self.pieMenu = [[[PieMenu alloc] init] autorelease];
-	PieMenuItem *itemA = [[PieMenuItem alloc] initWithTitle:@"ItemA"
+	PieMenuItem *itemA = [[PieMenuItem alloc] initWithTitle:@"Select"
 													  label:nil
 													 target:self
-												   selector:@selector(itemSelected:)
+												   selector:@selector(selectToolButtonTouched:)
 												   userInfo:nil
-													   icon:[UIImage imageNamed:@"icon1.png"]];
+													   icon:[UIImage imageNamed:@"cursor_24x24.png"]];
     
-	PieMenuItem *itemB = [[PieMenuItem alloc] initWithTitle:@"ItemB"
+	PieMenuItem *itemB = [[PieMenuItem alloc] initWithTitle:@"Move"
 													  label:nil
 													 target:self
-												   selector:@selector(itemSelected:)
+												   selector:@selector(moveToolButtonTouched:)
 												   userInfo:nil
-													   icon:[UIImage imageNamed:@"icon1.png"]];
+													   icon:[UIImage imageNamed:@"move_alt2_24x24.png"]];
 	
-	PieMenuItem *itemC = [[PieMenuItem alloc] initWithTitle:@"ItemC"
+	PieMenuItem *itemC = [[PieMenuItem alloc] initWithTitle:@"Rotate"
 													  label:nil
 													 target:self
-												   selector:@selector(itemSelected:)
+												   selector:@selector(rotationToolButtonTouched:)
 												   userInfo:nil
-													   icon:[UIImage imageNamed:@"icon2.png"]];
+													   icon:[UIImage imageNamed:@"curved_arrow_24x18.png"]];
 	
-	PieMenuItem *itemD = [[PieMenuItem alloc] initWithTitle:@"ItemD"
+	PieMenuItem *itemD = [[PieMenuItem alloc] initWithTitle:@"Scale"
 													  label:nil
 													 target:self
-												   selector:@selector(itemSelected:)
+												   selector:@selector(scaleToolButtonTouched:)
 												   userInfo:nil
-													   icon:[UIImage imageNamed:@"icon3.png"]];
+													   icon:[UIImage imageNamed:@"fullscreen_24x24.png"]];
 	
 	
-	PieMenuItem *itemE = [[PieMenuItem alloc] initWithTitle:@"ItemE"
+	PieMenuItem *itemE = [[PieMenuItem alloc] initWithTitle:@"Duplicate"
 													  label:nil
 													 target:self
-												   selector:@selector(itemSelected:)
+												   selector:@selector(duplicateToolButtonTouched:)
 												   userInfo:nil
-													   icon:[UIImage imageNamed:@"icon4.png"]];
+													   icon:[UIImage imageNamed:@"fork_21x24.png"]];
 	
-	PieMenuItem *itemF = [[PieMenuItem alloc] initWithTitle:@"ItemF"
+	PieMenuItem *itemF = [[PieMenuItem alloc] initWithTitle:@"Delete"
 													  label:nil
 													 target:self
-												   selector:@selector(itemSelected:)
+												   selector:@selector(deleteToolButtonTouched:)
 												   userInfo:nil
-													   icon:[UIImage imageNamed:@"icon4.png"]];
+													   icon:[UIImage imageNamed:@"x_alt_24x24.png"]];
 	
-	PieMenuItem *itemG = [[PieMenuItem alloc] initWithTitle:@"ItemG"
+	PieMenuItem *itemG = [[PieMenuItem alloc] initWithTitle:@"Properties"
 													  label:nil
 													 target:self
-												   selector:@selector(itemSelected:)
+												   selector:@selector(propertiesMenu:)
 												   userInfo:nil
-													   icon:[UIImage imageNamed:@"icon4.png"]];
+													   icon:[UIImage imageNamed:@"cog_24x24.png"]];
 	
 	
-	[itemA addSubItem:itemE];
-	[itemA addSubItem:itemB];
-	[itemA addSubItem:itemD];
-	
-	//[pieMenu addItem:itemD];
+	//[itemA addSubItem:itemE];
+	//[itemA addSubItem:itemB];
+	//[itemA addSubItem:itemD];
 	[pieMenu addItem:itemA];
-	[pieMenu addItem:itemC];
-	//[pieMenu addItem:itemE];
-	//[pieMenu addItem:itemB];
+	[pieMenu addItem:itemB];
+    [pieMenu addItem:itemC];
+    [pieMenu addItem:itemD];
+	[pieMenu addItem:itemE];
 	[pieMenu addItem:itemF];
 	[pieMenu addItem:itemG];
 	
@@ -276,15 +334,15 @@ enum {
 	pieMenu.leftHanded = swit.on;
 }
 
-- (UIResponder *)nextResponder {
-	if (pieMenu.on) {
-		return [pieMenu view];
-	} else {
-		return [super nextResponder];
-	}
-}
+//- (UIResponder *)nextResponder {
+//	if (pieMenu.on) {
+//		return [pieMenu view];
+//	} else {
+//		return [super nextResponder];
+//	}
+//}
 
-- (IBAction)longPressDetected:(UILongPressGestureRecognizer *)sender;
+- (IBAction)doubleTapDetected:(UITapGestureRecognizer *)sender;
 {
     //auto a=0;
     
@@ -372,58 +430,30 @@ enum {
     //mMoveTool = false;
     //mSelectTool = false;
 }
--(IBAction) selectionModeButtonTouched:(UIButton *)sender
+-(IBAction) cameraModeButtonTouched:(UIButton *)sender
+{
+    [mEventManager modifyState:EDITOR_STATE_MOVE_WINDOW];
+}
+
+- (IBAction)editorModeButtonTouched:(UIButton *)sender
 {
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
-    // En mode selection, on ne peut pas ajouter ditem
-    //itemToBeAdded = -1;
-    // On ne peut pas avoir creationmode et selection mode en meme temps
-    //mCreationMode = false;
-    // On inverse selection mode
-    //mSelectionMode = !mSelectionMode;
-    //[sender setSelected:![sender isSelected]];
-    
 }
-
-
-- (IBAction)creationModeButtonTouched:(UIButton *)sender
-{
-    [mEventManager modifyState:EDITOR_STATE_AJOUTER_PORTAIL];
-    // En creation mode, on ne peut quajouter des nouveaux items, aucun tool de disponible
-//    [self unselectAllTools];
-//    mCreationMode = !mCreationMode;
-//    mSelectionMode = false;
-    //[sender setSelected:![sender isSelected]];
-    
-}
-
 
 - (IBAction)selectToolButtonTouched:(UIButton *)sender
 {
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
-    
-    // Disponible uniquement si on est en selectionmode
-//    if (mSelectionMode) {
-//        mSelectTool = true;
-//        mMoveTool = false;
-//    }
-    
 }
+
 - (IBAction)moveToolButtonTouched:(UIButton *)sender
 {
-    [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_DEPLACEMENT];
-    // Disponible uniquement si on est en selectionmode
-//    if (mSelectionMode) {
-//        mSelectTool = false;
-//        mMoveTool = true;
-//    }
-    
+    [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_DEPLACEMENT];    
 }
+
 - (IBAction)rotationToolButtonTouched:(UIButton *)sender
 {
     [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_ROTATION];
 }
-
 
 - (IBAction)scaleToolButtonTouched:(UIButton *)sender
 {
@@ -443,17 +473,11 @@ enum {
 - (IBAction)portalButtonTouched:(UIButton *)sender
 {
     [mEventManager modifyState:EDITOR_STATE_AJOUTER_PORTAIL];
-    // On envois la position du centre du bouton de creation, pour cacher lobjet cree en arriere
-    //[mModel beginModification:FIELD_MODIFICATION_ADD_PORTAL:sender.center];
-    // On met le portal comme item a ajouter au prochain clique dans la vue
-    itemToBeAdded = PORTAL;
 }
 
 -(IBAction) saveAndExitButtonTouched:(UIButton *)sender
 {
-    // On sauvegarde la map
     [mModel saveField];
-    
 }
 
 - (CGPoint)convertScreenCoordToVirtualCoord:(CGPoint)pointToConvert;
@@ -476,39 +500,7 @@ enum {
     UITouch *touch = [[event allTouches] anyObject];
     CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
     [mEventManager touchesBegan:touch:touchCoordVirt];
-    // On prend en note le point ou le toucher a commencer
-    //firstCorner = [touch locationInView:theEAGLView];
-    // On reinitialise le bool disant si on drag
-    //touchMoved = false;
-//    if (mCreationMode)
-//    {
-//        //CGPoint randomPoint;
-//        //randomPoint.x=-25;
-//        //randomPoint.y=0;
-//        CGPoint coordVirt = [self convertScreenCoordToVirtualCoord:firstCorner];
-//        [mModel beginModification:FIELD_MODIFICATION_ADD_PORTAL:coordVirt];
-//        if(itemToBeAdded != -1)
-//        {
-//            // Si on est en mode creation et quon a un item a ajouter, on assigne limage associe a l'item
-//            switch (itemToBeAdded) {
-//                case PORTAL:
-//                    //imageObjectToAdd = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cameraFixe.png"]];
-//                    break;
-//                    
-//                case PUCK:
-//                    //imageObjectToAdd = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"deplacer.png"]];
-//                    break;
-//                default:
-//                    // On ajoute des portal si on ne connait pas l'item demande, par securite
-//                    //imageObjectToAdd = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cameraFixe.png"]];
-//                    break;
-//            }
-//            // On assigne la position de l'objet a la position du touche et on ajoute le UIImageView a la vu EAGL
-//            //imageObjectToAdd.center = [touch locationInView:theEAGLView];
-//            //[[self view] addSubview:imageObjectToAdd];
-//        }
-//    }
-    
+        
     NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");
     for(UITouch* touch in touches) {
         CGPoint positionCourante = [touch locationInView:theEAGLView];

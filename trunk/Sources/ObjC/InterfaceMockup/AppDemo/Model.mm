@@ -138,6 +138,25 @@ bool RenderNodeCallback(RazerKey key)
     ((Terrain*)mField)->deleteSelectedNodes();
 }
 
+-(void) deplacerSouris:(int)deplacementX:(int)deplacementY
+{
+    
+}
+
+-(void) orbit:(int)deplacementX:(int)deplacementY
+{
+    
+}
+
+-(void) undo
+{
+    ((Terrain*)mField)->undoModification();
+}
+-(void) redo
+{
+    ((Terrain*)mField)->redoModification();
+}
+
 -(void) saveField
 {
     NSError* error;
@@ -188,7 +207,7 @@ bool RenderNodeCallback(RazerKey key)
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
     }];
-    
+    [httpClient release];
 }
 
 @end

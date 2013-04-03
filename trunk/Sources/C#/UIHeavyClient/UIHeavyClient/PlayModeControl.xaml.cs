@@ -38,6 +38,9 @@ namespace UIHeavyClient
         private WindowsFormsHost mWindowsFormsHost;
         private bool mIsRadioPlaying;
 
+        // For keyboard event binding
+        private Dictionary<string, RoutedCommand> mRoutedCommands;
+
         // C++ Radio functions
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void PlayRadioSong();
@@ -50,6 +53,8 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void PreviousRadioSong();
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int GetRadioVolume();
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void SetRadioVolume(int pVolume);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void SetCurrentRadioPlaylist(string pPlaylist);
@@ -59,12 +64,17 @@ namespace UIHeavyClient
         private static extern int GetNbrPlaylists();
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         private static extern void GetRadioPlaylists([In, Out] string[] pPlaylists, int pNbrPlaylists);
+        [DllImport(@"RazerGame.dll")]
+        static extern bool ActionPerformed(ActionType action);
 
         public PlayModeControl(WindowsFormsHost pWindowsFormsHost)
         {
             InitializeComponent();
             mWindowsFormsHost = pWindowsFormsHost;
             mIsRadioPlaying = true;
+
+            // Keyboard events
+            InitRoutedCommands();
         }
 
         public void AppendOpenGL()
@@ -105,6 +115,11 @@ namespace UIHeavyClient
         private void mVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             SetRadioVolume((int)(sender as Slider).Value);
+        }
+
+        public void DisplayRadioVolume()
+        {
+            mVolumeSlider.Value = GetRadioVolume();
         }
 
         private void mPlaylistComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -188,6 +203,26 @@ namespace UIHeavyClient
         }
 
         public static MessageReceivedCallBack mMessageCallback = MessageReceived;
+
+        #region Routed Commands
+
+        private void InitRoutedCommands()
+        {
+            mRoutedCommands = new Dictionary<string, RoutedCommand>();
+
+            // 10 seconds replay
+            mRoutedCommands.Add("Replay", new RoutedCommand());
+            mRoutedCommands["Replay"].InputGestures.Add(new KeyGesture(Key.R, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(mRoutedCommands["Replay"], ReplayShortcut));
+        }
+
+        // Replay
+        private void ReplayShortcut(object sender, ExecutedRoutedEventArgs e)
+        {
+            ActionPerformed(ActionType.ACTION_REPLAY);
+        }
+
+        #endregion
     }
 }
 

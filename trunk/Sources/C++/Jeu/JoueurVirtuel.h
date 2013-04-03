@@ -57,7 +57,7 @@ public:
 	void modifierProbabiliteEchec(unsigned int probabiliteEchec);
 
 	/// Questionne le AIMaillet sur la direction à prendre du maillet
-	Vecteur2 obtenirDirectionAI(NoeudMaillet* maillet);
+	virtual Vecteur2 obtenirDirectionAI(NoeudMaillet* maillet);
 
 private:
 	/// Vitesse du joueur
@@ -66,11 +66,13 @@ private:
 	/// Probabilité de manquer la rondelle
 	unsigned int probabiliteEchec_;
 
-	/// Pointeur sur AIMaillet pour savoir dans quelle direction aller
-	AIMaillet* aiMaillet_;
+	
 protected:
 	/// Initialisaiton du joueur à partir d'un element XML
 	virtual bool initialiser(const XmlElement* element);
+
+    /// Pointeur sur AIMaillet pour savoir dans quelle direction aller
+    AIMaillet* aiMaillet_;
 };
 
 

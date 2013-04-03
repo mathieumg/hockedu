@@ -243,7 +243,8 @@ public:
     /// Accessors of mField
     inline Terrain* getField() const { return mField; }
 
-	inline const int getUniqueGameId() {return mUniqueGameId;}
+    inline const int getUniqueGameId() {return mUniqueGameId;}
+	inline void setUniqueGameId(int pNewGameId) {mUniqueGameId = pNewGameId;}
 
     inline GameStatus getGameStatus() const { return mGameStatus; }
 

@@ -490,20 +490,15 @@ namespace UIHeavyClient
             MainWindowHandler.QuickSaveMapToLocal();
         }
 
-        public void HandleEditionMenuItem(bool pMustBeEnabled)
+        public List<UIElement> GetEditionUniqueElements()
         {
-            Visibility visibility = pMustBeEnabled ? Visibility.Visible : Visibility.Collapsed;
-
-            mLoadMapItem.Visibility = visibility;
-            mLoadMapItem.Visibility = visibility;
-            mServerLoadMapItem.Visibility = visibility;
-            mQuickSaveMapItem.Visibility = visibility;
-            mSaveMapItem.Visibility = visibility;
-            mServerSaveMapItem.Visibility = visibility;
-            mResetMapItem.Visibility = visibility;
-            mTestMapItem.Visibility = visibility;
+            return new List<UIElement>() { mLoadMapItem, mLoadMapItem, mServerLoadMapItem, mQuickSaveMapItem, mSaveMapItem, mServerSaveMapItem, mResetMapItem, };
         }
 
+        public List<UIElement> GetPlayUniqueElements()
+        {
+            return new List<UIElement>() { mGameActionsMenu, };
+        }
 
         [DllImport( @"RazerGame.dll" )]
         static extern void SetAchievementUnlocked( AchievementUnlockCallBack callback );

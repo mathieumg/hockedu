@@ -90,6 +90,8 @@ namespace UIHeavyClient
             mPasswordTextBox.Clear();
             mFeedbackLabel.Content = "";
             GetServerMaps();
+            mOkButton.IsEnabled = false;
+            mNameTextBox.Focus();
         }
 
         private void GetServerMaps()
@@ -99,6 +101,16 @@ namespace UIHeavyClient
             // Load map list async!!!!
             HttpManager wManager = new HttpManager();
             wManager.getPublicMapList(callbackMapsFunction);
+        }
+
+        private void NameChanged(object sender, TextChangedEventArgs e)
+        {
+            mOkButton.IsEnabled = ((sender as TextBox).Text != "" && mMapComboBox.SelectedItem != null);
+        }
+
+        private void MapChanged(object sender, SelectionChangedEventArgs e)
+        {
+            mOkButton.IsEnabled = (mNameTextBox.Text != "" && (sender as ComboBox).SelectedItem != null);
         }
     }
 }

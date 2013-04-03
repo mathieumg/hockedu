@@ -14,6 +14,9 @@
 #include "AIStratOffensive.h"
 #include "Terrain.h"
 #include "NoeudRondelle.h"
+#include "AIStratOffensiveLigneDroite.h"
+#include "AIStratOffensiveDroite.h"
+#include "AIStratOffensiveGauche.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -108,7 +111,10 @@ void AIMaillet::changerStrat( typeStrat strat )
 		switch(strat)
 		{
 		case DEFENSIVE: nouvelleStrat = new AIStratDefensive(*this); break;
-		case OFFENSIVE: nouvelleStrat = new AIStratOffensive(*this); break;
+        case OFFENSIVE: nouvelleStrat = new AIStratOffensive(*this); break;
+        case OFFENSIVE_LIGNE_DROITE: nouvelleStrat = new AIStratOffensiveLigneDroite(*this); break;
+        case OFFENSIVE_DROITE: nouvelleStrat = new AIStratOffensiveDroite(*this); break;
+		case OFFENSIVE_GAUCHE: nouvelleStrat = new AIStratOffensiveGauche(*this); break;
 		}
 	}
 	if(nouvelleStrat)

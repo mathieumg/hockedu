@@ -12,7 +12,7 @@
 #include "RazerGameTypeDef.h"
 #include "XMLUtils.h"
 
-enum TypeJoueur{JOUEUR_HUMAIN,JOUEUR_VIRTUEL,JOUEUR_NETWORK,JOUEUR_NETWORK_SERVEUR};
+enum TypeJoueur{JOUEUR_HUMAIN,JOUEUR_VIRTUEL,JOUEUR_VIRTUEL_RENFORCEMENT,JOUEUR_NETWORK,JOUEUR_NETWORK_SERVEUR};
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class JoueurAbstrait

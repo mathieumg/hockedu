@@ -21,6 +21,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Runtime.InteropServices;
 
 namespace UIHeavyClient
 {
@@ -33,7 +34,18 @@ namespace UIHeavyClient
     ///////////////////////////////////////////////////////////////////////////
     public partial class OptionsControl : UserControl
     {
+        // Members
         Dictionary<object, string> mGuidanceMessages;
+
+        // C++ function
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int GetSoundVolume();
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void SetSoundVolume(int pVolume);
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int GetEffectVolume();
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void SetEffectVolume(int pVolume);
 
         public OptionsControl()
         {
@@ -46,6 +58,16 @@ namespace UIHeavyClient
                 {mRadioOptionButton, "Configure the radio. The radio will play music during your hockey games"},
                 {mBackToMenuButton, "Return to main menu"},
             };
+            DisplaySoundVolume();
+            /// On affecte les callback apres avoirlu les valeurs du modele pour ne pas les ecraser
+            mVolumeSlider.ValueChanged += mVolumeSlider_ValueChanged_1;
+            mEffectSlider.ValueChanged += mEffectSlider_ValueChanged;
+        }
+
+        public void DisplaySoundVolume()
+        {
+            mVolumeSlider.Value = GetSoundVolume();
+            mEffectSlider.Value = GetEffectVolume();
         }
 
         private void backToMenuButton_Click(object sender, RoutedEventArgs e)
@@ -76,6 +98,16 @@ namespace UIHeavyClient
         private void mKeyboardOptionButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToKeyboardOption();
+        }
+
+        private void mVolumeSlider_ValueChanged_1(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            SetSoundVolume((int)(sender as Slider).Value);
+        }
+
+        private void mEffectSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            SetEffectVolume((int)(sender as Slider).Value);
         }
     }
 }
