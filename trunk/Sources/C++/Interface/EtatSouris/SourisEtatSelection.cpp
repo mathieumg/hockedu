@@ -232,12 +232,13 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 				}
 			}
 			
+            auto field = FacadeModele::getInstance()->getEditionField();
             int selected = 0;
 			ConteneurIdNoeuds::const_iterator iter = liste.begin();
 			for(; iter != liste.end(); iter++)
 			{
 				VisiteurSelectionOpenGL visiteur(&iter->second,ctrlEnfoncee_);
-				NoeudGroupe* groupe = FacadeModele::getInstance()->getEditionField()->getTable()->obtenirGroupe(iter->first);
+				NoeudGroupe* groupe = field->getTable()->obtenirGroupe(iter->first);
 				if(groupe)
 				{
 					groupe->acceptVisitor(visiteur);
@@ -247,7 +248,7 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 
                 selected += visiteur.getNbSelected();
 			}
-
+            field->pushUndoState();
 			//glMatrixMode( GL_PROJECTION );
 		//	glPopMatrix();
 		//	glMatrixMode( GL_MODELVIEW );
