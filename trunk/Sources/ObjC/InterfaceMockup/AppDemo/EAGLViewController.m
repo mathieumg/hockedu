@@ -576,33 +576,40 @@ enum {
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if(!propertyBarHidden)
-    {
-        [UIView beginAnimations:@"MenuAnimationShow" context:NULL];
-        [UIView setAnimationDuration:1];
-        self.mPropertyView.center = CGPointMake(mPropertyView.center.x + mPropertyView.bounds.size.width, mPropertyView.center.y);
-        [UIView commitAnimations];
-        propertyBarHidden = YES;
-    }
+    
     
     
     UITouch *touch = [[event allTouches] anyObject];
     CGPoint positionCourante = [touch locationInView:theEAGLView];
+    
+    UIView* view=touch.view;
+    if ((view!=mPropertyView)) {
+        if(!propertyBarHidden)
+        {
+            [UIView beginAnimations:@"MenuAnimationShow" context:NULL];
+            [UIView setAnimationDuration:1];
+            self.mPropertyView.center = CGPointMake(mPropertyView.center.x + mPropertyView.bounds.size.width, mPropertyView.center.y);
+            [UIView commitAnimations];
+            propertyBarHidden = YES;
+        }
+        [mEventManager touchesBegan:touch:positionCourante];
+    }
+    
     //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
-    [mEventManager touchesBegan:touch:positionCourante];
+    //[mEventManager touchesBegan:touch:positionCourante];
         
-    NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");
-    for(UITouch* touch in touches) {
-        CGPoint positionCourante = [touch locationInView:theEAGLView];
-        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);
-    }
-    NSLog(@"Position de tous les doigts sur l'écran");
-    NSSet *allTouches = [event allTouches];
-    for(UITouch* touch in allTouches) {
-        CGPoint positionCourante = [touch locationInView:theEAGLView];
-        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);
-    }
-    NSLog(@"\n\n");
+//    NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");
+//    for(UITouch* touch in touches) {
+//        CGPoint positionCourante = [touch locationInView:theEAGLView];
+//        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);
+//    }
+//    NSLog(@"Position de tous les doigts sur l'écran");
+//    NSSet *allTouches = [event allTouches];
+//    for(UITouch* touch in allTouches) {
+//        CGPoint positionCourante = [touch locationInView:theEAGLView];
+//        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);
+//    }
+//    NSLog(@"\n\n");
 }
 
 
