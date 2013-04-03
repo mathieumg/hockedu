@@ -384,6 +384,18 @@ enum {
     
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if ( [gestureRecognizer isMemberOfClass:[UITapGestureRecognizer class]] ) {
+        // Return NO for views that don't support Taps
+        if ((touch.view !=mGLView)) {
+            return NO;
+        }
+        return YES;
+    }
+    
+    return YES;
+}
+
 - (IBAction)doubleTapDetected:(UITapGestureRecognizer *)sender;
 {
     //auto a=0;
