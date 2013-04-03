@@ -7,6 +7,7 @@
 #include "../Interface/FacadeServeurJeu.h"
 #include "Menu.h"
 #include "MenuOptionCallVoid.h"
+#include <list>
 
 const char flagChar = '-';
 
@@ -54,6 +55,7 @@ int main(int argc, char* argv[])  {
     //********** Liste des flags
     // -mIP     Adresse IPv4 du serveur Maitre
     //**********
+    bool wUsedArgForMasterServerIp = false;
     try
     {
         for(int i = 0; i < argc; i++) 
@@ -65,6 +67,7 @@ int main(int argc, char* argv[])  {
                 if(wFlag == "mIP")
                 {
                     parseParamWithArg(wMasterServerIP, i, argc, argv);
+                    wUsedArgForMasterServerIp = true;
                 }
                 else
                 {
@@ -83,6 +86,34 @@ int main(int argc, char* argv[])  {
 
     // Appel a la fonction d'initialisation
     InitDLLServeurJeu();
+
+    if(!wUsedArgForMasterServerIp)
+    {
+        // Par defaut on essaie de mettre une adresse de l'ecole (132.xxx.xxx.xxx)
+        // Apres on essaie de mettre une adresse residentielle (192.168.xxx.xxx)
+        // Sinon on met 127.0.0.1 (on ne change rien)
+
+        try 
+        {
+            char* wIp = ObtenirAdresseIpLocaleAssociee("132.207.0.0");
+            wMasterServerIP = std::string(wIp);
+            delete wIp;
+        }
+        catch(...)
+        {
+            try 
+            {
+                char* wIp = ObtenirAdresseIpLocaleAssociee("192.168.0.0");
+                wMasterServerIP = std::string(wIp);
+                delete wIp;
+            }
+            catch(...) {}
+        }
+        
+
+    }
+
+    // Connect master server
     ReconnectMaster();
 
     // Affichage du menu

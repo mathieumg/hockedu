@@ -15,6 +15,7 @@ extern "C"
 {
     DLLEXPORT_SERVEUR_JEU void InitDLLServeurJeu();
     DLLEXPORT_SERVEUR_JEU void ConnectMasterServer(const std::string& wMasterServerIP);
+    DLLEXPORT_SERVEUR_JEU char* ObtenirAdresseIpLocaleAssociee(const std::string& pIpAssociee);
 
     class ControllerInterface;
     class Paquet;
