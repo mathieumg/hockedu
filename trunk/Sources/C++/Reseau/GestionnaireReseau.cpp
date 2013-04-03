@@ -68,11 +68,23 @@ void logSetup()
 {
     if(!bLogCreated)
     {
+#ifdef WIN32
+        CreateDirectoryA(
+            "logs",
+            NULL
+            );
+#else
+        struct stat st = {0};
+        if (stat("logs", &st) == -1) 
+        {
+            mkdir("logs", 0777);
+        }
+#endif
         time_t wTime = time(0);
         struct tm wTimeNow;
         localtime_s( &wTimeNow, &wTime );
         std::stringstream wFilename;
-        wFilename << "NETWORK_LOG_" << wTimeNow.tm_mon << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec << ".txt";
+        wFilename << "logs/NETWORK_LOG_" << wTimeNow.tm_mon << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec << ".txt";
         errorLogHandle.open(wFilename.str(), std::fstream::out);
         bLogCreated = true;
     }
