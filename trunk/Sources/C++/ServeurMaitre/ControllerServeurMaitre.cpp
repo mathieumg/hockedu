@@ -33,6 +33,7 @@ ControllerServeurMaitre::ControllerServeurMaitre()
     mPaquetRunnables[TEST] = PaquetRunnable::RunnableTest;
     mPaquetRunnables[GAME_STATUS] = PaquetRunnable::RunnableGameStatusMasterServer;
     mPaquetRunnables[GAME_CREATION_REQUEST] = PaquetRunnable::RunnableGameCreationMasterServer;
+    mPaquetRunnables[GAME_CONNECTION] = PaquetRunnable::RunnableGameConnectionMasterServer;
 }
 
 

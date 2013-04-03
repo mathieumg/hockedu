@@ -443,12 +443,13 @@ void connectServerGame( char* pServerIP )
 
 }
 
-void connectPartieServerGame( int pGameId, char* pInputPassword )
+void connectPartieServerGame( int pGameId, unsigned int pServerId, char* pInputPassword )
 {
     PaquetGameConnection* wPaquet = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);
     wPaquet->setGameId(pGameId);
+    wPaquet->setGameServerId(pServerId);
     wPaquet->setPassword(pInputPassword);
-    GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
 }
 
 void requestGameCreationServerGame( char* pGameName, char* pMapName, char* pPassword  )

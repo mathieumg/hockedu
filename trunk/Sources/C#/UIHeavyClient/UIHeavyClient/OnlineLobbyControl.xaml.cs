@@ -89,7 +89,7 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void requestGameCreationServerGame(string pGameName, string pMapName, string pPassword);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void connectPartieServerGame(int pGameId, string pInputPassword);
+        public static extern void connectPartieServerGame(int pGameId, uint pServerId, string pInputPassword);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int GetNbrServerGames();
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -179,7 +179,7 @@ namespace UIHeavyClient
 
                     if (mPasswordPrompt.OkIsClicked)
                     {
-                        connectPartieServerGame(selected.Value.id, mPasswordPrompt.Password);
+                        connectPartieServerGame(selected.Value.id, selected.Value.serverId, mPasswordPrompt.Password);
                         mIsWaitingForOnlineGame = true;
                     }
 
@@ -187,7 +187,7 @@ namespace UIHeavyClient
                 }
                 else
                 {
-                    connectPartieServerGame(selected.Value.id, "");
+                    connectPartieServerGame(selected.Value.id, selected.Value.serverId, "");
                     mIsWaitingForOnlineGame = true;
                 }
             }
@@ -233,7 +233,7 @@ namespace UIHeavyClient
             Random rand = new Random();
             OnlineGameInfos? randomGame = (mOnlineGameListView.Items[rand.Next(mOnlineGameListView.Items.Count - 1)] as OnlineGameInfos?);
 
-            connectPartieServerGame(randomGame.Value.id, "");
+            connectPartieServerGame(randomGame.Value.id, randomGame.Value.serverId, "");
             mIsWaitingForOnlineGame = true;
         }
 

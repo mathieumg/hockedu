@@ -107,6 +107,12 @@ void GameServerManager::removeGameServer( unsigned int pGameServerId )
 
 unsigned int GameServerManager::selectRandomGameServer()
 {
+    // Evite un crash si size == 0
+    if(mGameServersList.size() == 0)
+    {
+        return -1;
+    }
+
     // Obtain a random index in range 0 - size
     unsigned int wIndex = rand() % mGameServersList.size();
 

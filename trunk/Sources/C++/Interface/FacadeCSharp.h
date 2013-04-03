@@ -195,7 +195,7 @@ extern "C"
     __declspec(dllexport) void initNetwork( ControllerInterface* pController );
     __declspec(dllexport) void envoyerPaquet( Paquet* pPaquet );
     __declspec(dllexport) void connectServerGame( char* pServerIP );
-    __declspec(dllexport) void connectPartieServerGame( int pGameId, char* pInputPassword );
+    __declspec(dllexport) void connectPartieServerGame( int pGameId, unsigned int pServerId, char* pInputPassword );
     __declspec(dllexport) void requestGameCreationServerGame( char* pGameName, char* pMapName, char* pPassword );
     __declspec(dllexport) void requestGamePause( );
     __declspec(dllexport) void requestGameResume( );

@@ -211,10 +211,10 @@ namespace UIHeavyClient
             start.FileName = path;
             start.WindowStyle = ProcessWindowStyle.Hidden;
             start.CreateNoWindow = true;
-            using ( Process proc = Process.Start( start ) )
+            /*using ( Process proc = Process.Start( start ) )
             {
                 proc.WaitForExit();
-            }
+            }*/
             //////////////////////////////////////////////////////////////////////////
 
             System.Windows.Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -341,7 +341,7 @@ namespace UIHeavyClient
 
         // Tests pour connection sur une partie du serveur jeu
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void connectPartieServerGame(int pGameId, string pInputPassword);
+        public static extern void connectPartieServerGame(int pGameId, uint pServerId, string pInputPassword);
 
         // Tests pour connection UDP
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -369,7 +369,7 @@ namespace UIHeavyClient
         private void connexionPartieServeurJeu_Click(object sender, RoutedEventArgs e)
         {
             // Tests pour connection serveur jeu et client
-            connectPartieServerGame(1, "");
+            connectPartieServerGame(1, 1, "");
 
         }
 
