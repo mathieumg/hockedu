@@ -203,7 +203,7 @@ namespace HttpHockeduRequests
             else
             {
                 string wCurrentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).ToString();
-                string wDestinationFilePath = wCurrentDirectory + Path.DirectorySeparatorChar + wMapLight.name + ".xml";
+                string wDestinationFilePath = wCurrentDirectory + Path.DirectorySeparatorChar + "OnlineMaps" + Path.DirectorySeparatorChar + wMapLight.name + ".xml";
                 try
                 {
                     System.IO.File.WriteAllText(wDestinationFilePath, wMapLight.content);
