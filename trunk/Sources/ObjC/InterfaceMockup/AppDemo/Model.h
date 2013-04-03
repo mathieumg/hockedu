@@ -19,16 +19,17 @@
 - (void)render;
 - (id)init;
 - (void) dealloc;
--(int)acceptSelectionVisitor:(float)positionMinX: (float)positionMinY:(float) positionMaxX:(float) positionMaxY;
+-(int)acceptSelectionVisitor:(float)positionMinX :(float)positionMinY :(float)positionMaxX :(float) positionMaxY;
 -(void) saveField;
--(void) beginModification:(FieldModificationStrategyType)type:(CGPoint)coordVirt;
--(void) eventModification:(FieldModificationStrategyEventType)type:(CGPoint)coordVirt;
+-(void) beginModification:(FieldModificationStrategyType)type :(CGPoint)coordVirt;
+-(void) eventModification:(FieldModificationStrategyEventType)type :(CGPoint)coordVirt;
 -(void) eventCancel;
 -(void) endModification;
 -(void) duplicateSelection;
 -(void) deleteSelection;
 -(void) undo;
 -(void) redo;
--(void) deplacerSouris:(int)deplacementX:(int)deplacementY;
--(void) orbit:(int)deplacementX:(int)deplacementY;
+-(void) deplacerSouris:(int)deplacementX :(int)deplacementY;
+-(void) orbit:(int)deplacementX :(int)deplacementY;
+-(void) resizeWindow:(int)minX :(int)minY :(int)maxX :(int)maxY;
 @end

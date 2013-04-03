@@ -76,6 +76,7 @@ enum {
     theEAGLView.opaque = YES;
     
     mModel = [[Model alloc]init];
+    [mModel resizeWindow:0 :0 :LARGEUR_FENETRE :HAUTEUR_FENETRE];
     mEventManager = [[EventManager alloc]init:mModel];
     translationX = 0.0;
     translationY = 0.0;
@@ -207,18 +208,23 @@ enum {
     //UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapDetected:)];
     
+    UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchDetected:)];
+    
     [rotationGesture setDelegate:self];
     //[longPressGesture setDelegate:self];
     [tapGesture setNumberOfTapsRequired:2];
     [tapGesture setDelegate:self];
+    [pinchGesture setDelegate:self];
     
     [mGLView addGestureRecognizer:rotationGesture];
     //[mGLView addGestureRecognizer:longPressGesture];
     [mGLView addGestureRecognizer:tapGesture];
+    [mGLView addGestureRecognizer:pinchGesture];
     
     [rotationGesture release];
     //[longPressGesture release];
     [tapGesture release];
+    [pinchGesture release];
     
     // FIN SETUP DES GESTURES
     
@@ -240,12 +246,19 @@ enum {
 - (void) propertiesMenu:(PieMenuItem *)item {
     
     // Ouverture du popover contenant les proprietes associees a la selection courante
-//    UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
-//    UITabBarController *tabController = [[UITabBarController alloc] init];
-//    UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tableController];
-//    UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:navController];
-//    navController.tabBarController = tabController;
-//    [popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
+    
+    UILabel *label = [[UILabel alloc] init];
+    label.text = @"Test";
+    
+    UITextField *textField = [[UITextField alloc] init];
+    
+    
+    
+    //UITabBarController *tabController = [[UITabBarController alloc] init];
+    //UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tabController];
+    UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:tableController];
+    [popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 - (void) setupPieMenu
@@ -342,6 +355,49 @@ enum {
 //	}
 //}
 
+
+- (IBAction)pinchDetected:(id)sender
+{
+    // Rich man pinch
+
+    if([(UIPinchGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded)
+    {
+        __previousScale = 1.0;
+        return;
+    }
+    
+    if ([(UIPinchGestureRecognizer*)sender state] == UIGestureRecognizerStateBegan ||
+        [(UIPinchGestureRecognizer*)sender state] == UIGestureRecognizerStateChanged) {
+        
+        CGFloat currentScale = [[theEAGLView.layer valueForKeyPath:@"transform.scale"] floatValue];
+        
+        const CGFloat kMaxScale = 4.0;
+        const CGFloat kMinScale = 0.8;
+        
+        CGFloat newScale = 1 -  (__previousScale - [(UIPinchGestureRecognizer*)sender scale]);
+        newScale = MIN(newScale, kMaxScale / currentScale);
+        newScale = MAX(newScale, kMinScale / currentScale);
+        CGAffineTransform transform = CGAffineTransformScale([theEAGLView transform], newScale, newScale);
+        theEAGLView.transform = transform;
+        }
+    
+        __previousScale = [(UIPinchGestureRecognizer*)sender scale]; 
+    
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if ( [gestureRecognizer isMemberOfClass:[UITapGestureRecognizer class]] ) {
+        // Return NO for views that don't support Taps
+        UIView* view=touch.view;
+        if ((view!=theEAGLView)) {
+            return NO;
+        }
+        return YES;
+    }
+    
+    return YES;
+}
+
 - (IBAction)doubleTapDetected:(UITapGestureRecognizer *)sender;
 {
     //auto a=0;
@@ -414,6 +470,8 @@ enum {
     }
 }
 
+
+/// DEPRECATED
 - (void)updateOrtho
 {
     glMatrixMode(GL_PROJECTION);
@@ -480,6 +538,8 @@ enum {
     [mModel saveField];
 }
 
+
+///DEPRECATED
 - (CGPoint)convertScreenCoordToVirtualCoord:(CGPoint)pointToConvert;
 {
     int AXIS_X_MIN = ( -( LARGEUR_FENETRE / 2) + translationX ) * zoomFactor;
@@ -498,8 +558,9 @@ enum {
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [[event allTouches] anyObject];
-    CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
-    [mEventManager touchesBegan:touch:touchCoordVirt];
+    CGPoint positionCourante = [touch locationInView:theEAGLView];
+    //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
+    [mEventManager touchesBegan:touch:positionCourante];
         
     NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");
     for(UITouch* touch in touches) {
@@ -522,8 +583,9 @@ enum {
     if ([[event allTouches] count] == 1)
     {
         UITouch *touch = [[event allTouches] anyObject];
-        CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
-        [mEventManager touchesMoved:touch:touchCoordVirt];
+        CGPoint positionCourante = [touch locationInView:theEAGLView];
+        //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
+        [mEventManager touchesMoved:touch:positionCourante];
         
         //CGPoint positionCourante = [touch locationInView:theEAGLView];
 //        if (mCreationMode) {
@@ -573,39 +635,7 @@ enum {
 //        }
     }
     else if([[event allTouches] count] == 2) {
-        // Poor man's pinch, perhaps implement as a UIGesture later on.
         
-        // Acquire the position of the two fingers.
-        NSSet *allTouches = [event allTouches];
-        CGPoint positionFingers[4];
-        int index = 0;
-        for(UITouch* touch in allTouches) {
-            positionFingers[ index++ ] = [touch locationInView:theEAGLView];
-            positionFingers[ index++ ] = [touch previousLocationInView:theEAGLView];
-        }
-        
-        float deltaX = positionFingers[2].x - positionFingers[0].x;
-        float deltaY = positionFingers[2].y - positionFingers[0].y;
-        
-        float distance1 = sqrtf( ( pow( deltaX, 2 ) + pow( deltaY, 2 ) ) );
-        
-        deltaX = positionFingers[3].x - positionFingers[1].x;
-        deltaY = positionFingers[3].y - positionFingers[1].y;
-        
-        float distance2 = sqrtf( ( pow( deltaX, 2 ) + pow( deltaY, 2 ) ) );
-        
-        zoomFactor += ( distance2 - distance1 ) * 0.001;
-        
-        if( zoomFactor < 0.2 )
-        {
-            zoomFactor = 0.2;
-        }
-        else if( zoomFactor > 5.0 )
-        {
-            zoomFactor = 5.0;
-        }
-        
-        [self updateOrtho];
     }
 }
 
@@ -616,9 +646,9 @@ enum {
     if ([[event allTouches] count] == 1)
     {
         UITouch *touch = [[event allTouches] anyObject];
-        //CGPoint positionCourante = [touch locationInView:theEAGLView];
-        CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
-        [mEventManager touchesEnded:touch:touchCoordVirt];
+        CGPoint positionCourante = [touch locationInView:theEAGLView];
+        //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
+        [mEventManager touchesEnded:touch:positionCourante];
 //        
 //        if (mCreationMode) {
 //            // Destruction de limage de lobjet qui suit la position du doigt
@@ -692,6 +722,7 @@ enum {
 }
 
 
+// DEPRECATED
 -(void)setupView
 {
     glEnable(GL_DEPTH_TEST);
@@ -718,27 +749,10 @@ enum {
 - (void)drawFrame
 {
     [(EAGLView *)theEAGLView setFramebuffer];
-    
-	static GLfloat rotation = 0.0;
-    
+        
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    //glEnableClientState(GL_VERTEX_ARRAY);
     [mModel render];
-    //glDisableClientState(GL_VERTEX_ARRAY);
-    
-	static NSTimeInterval lastDrawTime;
-	if (lastDrawTime)
-	{
-		NSTimeInterval timeSinceLastDraw = [NSDate timeIntervalSinceReferenceDate] - lastDrawTime;
-		rotation+=50 * timeSinceLastDraw;
-		Rotation3D rot;
-		rot.x = rotation;
-		rot.y = rotation;
-		rot.z = rotation;
-		cube.currentRotation = rot;
-	}
-	lastDrawTime = [NSDate timeIntervalSinceReferenceDate];
     
     [(EAGLView *)theEAGLView presentFramebuffer];
 }

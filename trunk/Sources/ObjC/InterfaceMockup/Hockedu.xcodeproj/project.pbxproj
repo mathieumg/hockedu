@@ -476,7 +476,6 @@
 		4E8E5BD6170A28E000B69DD2 /* fullscreen_24x24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fullscreen_24x24.png; sourceTree = "<group>"; };
 		4E8E5BD7170A28E000B69DD2 /* move_alt2_24x24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = move_alt2_24x24.png; sourceTree = "<group>"; };
 		4E8E5BD8170A28E000B69DD2 /* x_alt_24x24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = x_alt_24x24.png; sourceTree = "<group>"; };
-		4E90833C170B89BB00E7DEDC /* InterfaceBuilderKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = InterfaceBuilderKit.framework; path = Library/Frameworks/InterfaceBuilderKit.framework; sourceTree = DEVELOPER_DIR; };
 		4E908340170B9A0B00E7DEDC /* redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redo.png; sourceTree = SOURCE_ROOT; };
 		4E908341170B9A0B00E7DEDC /* undo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undo.png; sourceTree = SOURCE_ROOT; };
 		4E90C0FA17024114000F2564 /* EditionEventManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EditionEventManager.cpp; path = "../../C++/Environnement/EditionEventManager.cpp"; sourceTree = "<group>"; };
@@ -1098,7 +1097,6 @@
 		96378D6B1472C71100F543EA = {
 			isa = PBXGroup;
 			children = (
-				4E90833C170B89BB00E7DEDC /* InterfaceBuilderKit.framework */,
 				4E8BB6DA170B6676000ACFE7 /* MessageUI.framework */,
 				4EAF3DF5170AAC1E00B3C34E /* Settings.bundle */,
 				0C04E09316DE88ED002B0EE2 /* C++Files */,
