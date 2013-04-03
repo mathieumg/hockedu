@@ -1,0 +1,47 @@
+﻿<Window x:Class="UIHeavyClient.CreditPopup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Credits" Height="437" Width="513" ResizeMode="NoResize">
+    <Grid Background="Black">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Label Content="Team Developpers" Margin="0" Name="label1" Foreground="White" FontSize="18" />
+        <Label Content="Michael Ferris" Margin="0" Name="label2" Foreground="White" Grid.Row="1" Height="25" Width="150" />
+        <Label Content="Mathieu Parent" Name="label3" Foreground="White" Grid.Row="6" Height="25" Width="150" Margin="0" />
+        <Label Content="Mathieur M-Gosselin" Name="label24" Foreground="White" Grid.Row="5" Margin="0" Height="25" Width="150" />
+        <Label Content="Samuel Ledoux" Margin="0" Name="label5" Foreground="White" Grid.Row="3" Height="25" Width="150" />
+        <Label Content="Charles Étienne Lalonde" Name="label6" Foreground="White" Grid.Row="2" Height="25" Width="150" Margin="0" />
+        <Label Content="Vincent Lemire" Margin="0" Name="label7" Foreground="White" Grid.Row="4" Height="25" Width="150" />
+        
+        <Label Content="Used Libraries" Margin="1" Name="label4" Foreground="White" FontSize="20" Grid.Column="2" />
+        <Label Content="Box2D" Margin="0" Name="label43" Foreground="White" Grid.Column="2" Grid.Row="2" Width="150" Height="25" />
+        <Label Content="TinyXML" Margin="0" Name="label44" Foreground="White" Grid.Column="2" Grid.Row="6" Width="150" Height="25" />
+        <Label Content="Sound Fmod" Margin="0" Name="label45" Foreground="White" Grid.Column="2" Grid.Row="5" Width="150" Height="25" />
+        <Label Content="OpenGL" Margin="0" Name="label412" Foreground="White" Grid.Column="2" Grid.Row="4" Width="150" Height="25" />
+        <Label Content="AF Networking" Margin="7,1" Name="label48" Foreground="White" Grid.Column="2" Grid.Row="1" Width="150" Height="25" />
+        <Label Content="MySQL++" Margin="0" Name="label456" Foreground="White" Grid.Column="2" Grid.Row="3" Width="150" Height="25" />
+        
+        <Label Content="Special Thanks" Height="38" Margin="0" Name="label8" VerticalAlignment="Top" Foreground="White" FontSize="20" Grid.Row="8" Grid.Column="1" />
+        <Label Content="Lindsey Stirling" Margin="0" Name="label81" Foreground="White" Grid.Column="1" Grid.Row="11" Width="150" Height="25" />
+        <Label Content="Olivier Gendreau" Margin="0" Name="label82" Foreground="White" Grid.Column="1" Grid.Row="9" Width="150" Height="25" />
+        <Label Content="Nicolas Roy" Margin="0" Name="label835h" Foreground="White" Grid.Column="1" Grid.Row="10" Width="150" Height="25" />
+    </Grid>
+</Window>

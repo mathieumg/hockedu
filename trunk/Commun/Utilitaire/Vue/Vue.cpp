@@ -95,7 +95,13 @@ namespace vue {
       glGetIntegerv ( GL_VIEWPORT, cloture );
 
       // Premier point.
+#if !WIN32
       Vecteur3 point1;
+      Vecteur3 point2;
+#else
+      Vecteur3D<double> point1;
+      Vecteur3D<double> point2;
+#endif
       gluUnProject(
          x, cloture[3] - y, MinZ,
          matriceModelisation, matriceProjection, cloture,
@@ -103,10 +109,9 @@ namespace vue {
       );
 
       // Deuxième point.
-      Vecteur3 point2;
       gluUnProject(
-         (GLfloat)x, (GLfloat)cloture[3] - y, (GLfloat)MaxZ,
-         (const GLfloat *)matriceModelisation, (const GLfloat *)matriceProjection, (const GLint *)cloture,
+         x, cloture[3] - y, MaxZ,
+         matriceModelisation, matriceProjection, cloture,
          &point2[0], &point2[1], &point2[2]
       );
 

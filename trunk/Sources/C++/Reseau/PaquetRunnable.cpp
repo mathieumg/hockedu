@@ -173,6 +173,7 @@ int PaquetRunnable::RunnableGameCreationClient( Paquet* pPaquet )
 
         PaquetGameConnection* wPaquetConnexion = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);
         wPaquetConnexion->setGameId(wPaquet->getGameId());
+        wPaquetConnexion->setGameServerId(wPaquet->getServerId());
 
         wSocketGameServer->setOnConnectionCallback([wPaquetConnexion]()->void{ GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquetConnexion, TCP); });
 

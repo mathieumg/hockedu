@@ -758,6 +758,19 @@ void Socket::setSocketInfo( sockaddr_in* pSockInfo )
 
 
 
+void Socket::setOnConnectionCallback( OnConnectionCallback pOnConnectionSendCallback )
+{
+    mOnConnectionCallback = pOnConnectionSendCallback;
+    // Si deja connecte, on appelle immediatement le callback
+    if(mConnectionState == CONNECTED && mOnConnectionCallback)
+    {
+        mOnConnectionCallback();
+    }
+    
+}
+
+
+
 
 
 

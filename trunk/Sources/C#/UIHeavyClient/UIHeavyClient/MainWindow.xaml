@@ -26,12 +26,14 @@
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem Header="FAQ"/>
-                <MenuItem Header="Credits"/>
+                <MenuItem Header="Credits" Click="ShowCreditsPopup"/>
                 <MenuItem Header="About"/>
             </MenuItem>
         </Menu>
         
         <!-- Content controls use to display user controls-->
-        <ContentControl Name="windowContentControl" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="Black"></ContentControl>
+        <ContentControl Name="windowContentControl" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="Black">
+            <Label Content="Loading your mother..." Height="112" Name="label1" Width="733" Foreground="White" FontSize="72" />
+        </ContentControl>
     </DockPanel>
 </Window>

@@ -10,6 +10,9 @@ void PacketHandlerGameConnection::handlePacketReceptionSpecific(PacketReader& pP
         // GameId
         wPaquet->setGameId(pPacketReader.readInteger());
 
+        // GameServerId
+        wPaquet->setGameServerId(pPacketReader.readInteger());
+
         // Username
         int wArraySize      = pPacketReader.readInteger();
         uint8_t* wBuffer    = new uint8_t[wArraySize];
@@ -27,6 +30,13 @@ void PacketHandlerGameConnection::handlePacketReceptionSpecific(PacketReader& pP
         // ConnectionState
         wPaquet->setConnectionState((GameConnectionState) pPacketReader.readInteger());
         
+        // Server Ip
+        wArraySize  = pPacketReader.readInteger();
+        wBuffer     = new uint8_t[wArraySize];
+        pPacketReader.readString(wBuffer, wArraySize);
+        wPaquet->setGameServerIp(std::string((char*) wBuffer));
+        delete wBuffer;
+
 
         wPaquet->setRunnable(pRunnable);
         wPaquet->run();
@@ -38,9 +48,11 @@ void PacketHandlerGameConnection::handlePacketPreparationSpecific(Paquet* pPaque
     PaquetGameConnection* wPaquet   = (PaquetGameConnection*) pPaquet;
 
     pPacketBuilder  << wPaquet->getGameId()
+                    << wPaquet->getGameServerId()
                     << wPaquet->getUsername()
                     << wPaquet->getPassword()
-                    << wPaquet->getConnectionState();
+                    << wPaquet->getConnectionState()
+                    << wPaquet->getGameServerIp();
 
 }
 
@@ -51,9 +63,11 @@ int PacketHandlerGameConnection::getPacketSizeSpecific( Paquet* pPaquet ) const
     PaquetGameConnection* wPaquet = (PaquetGameConnection*) pPaquet;
 
     return getSizeForInt() // GameId
+        + getSizeForInt() // GameServerId
         + getSizeForString(wPaquet->getUsername()) // Username
         + getSizeForString(wPaquet->getPassword()) // Password
         + getSizeForInt() // ConnectionState
+        + getSizeForString(wPaquet->getGameServerIp()) // Server Ip
         ;
 
 }

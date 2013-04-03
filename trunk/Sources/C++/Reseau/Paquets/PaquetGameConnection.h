@@ -4,7 +4,17 @@
 class UsinePaquetGameConnection;
 
 // Game connection request states
-enum GameConnectionState {GAME_CONNECTION_PENDING, GAME_CONNECTION_ALREADY_CONNECTED, GAME_CONNECTION_ACCEPTED_LEFT, GAME_CONNECTION_ACCEPTED_RIGHT, GAME_CONNECTION_GAME_FULL, GAME_CONNECTION_WRONG_PASSWORD, GAME_CONNECTION_GAME_NOT_FOUND, GAME_CONNECTION_REJECTED};
+enum GameConnectionState {
+    GAME_CONNECTION_PENDING, 
+    GAME_CONNECTION_ALREADY_CONNECTED, 
+    GAME_CONNECTION_ACCEPTED_LEFT, 
+    GAME_CONNECTION_ACCEPTED_RIGHT, 
+    GAME_CONNECTION_GAME_FULL, 
+    GAME_CONNECTION_WRONG_PASSWORD, 
+    GAME_CONNECTION_GAME_NOT_FOUND, 
+    GAME_CONNECTION_REJECTED, 
+    GAME_CONNECTION_REPLY_GAME_SERVER_IP
+};
 
 class PaquetGameConnection : public Paquet
 {
@@ -26,7 +36,11 @@ public:
     inline GameConnectionState getConnectionState() const { return mConnectionState; }
     inline void setConnectionState(GameConnectionState val) { mConnectionState = val; }
 
+    inline int getGameServerId() const { return mGameServerId; }
+    inline void setGameServerId(int val) { mGameServerId = val; }
 
+    inline const std::string& getGameServerIp() const { return mGameServerIp; }
+	inline void setGameServerIp(const std::string& val) { mGameServerIp = val; }
 
 protected:
     PaquetGameConnection(void);
@@ -35,10 +49,12 @@ private:
     friend class UsinePaquetGameConnection;
 
     int mGameId; // GameId of the game you want to connect to
+    int mGameServerId; // GameServerId of the game you want to connect to
     std::string mUsername; // User of the player connecting
     std::string mPassword; // For future modifications
     GameConnectionState mConnectionState; // Flag for return message
-
+    std::string mGameServerIp; // Ip of the game server
+    
     
 
 
