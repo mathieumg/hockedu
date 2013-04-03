@@ -603,9 +603,20 @@ void PreviousRadioSong()
 	SoundFMOD::obtenirInstance()->previous_Song();
 }
 
+int GetRadioVolume()
+{
+    return (int)(SoundFMOD::obtenirInstance()->getSongVolume() * 10.0f);
+}
+
+int GetEffectVolume()
+{
+    return (int)(SoundFMOD::obtenirInstance()->getEffectVolume() * 10.0f);
+}
+
+
 void SetRadioVolume(int pVolume)
 {
-	SoundFMOD::obtenirInstance()->setPlaylistVolume(pVolume/100.0f);
+	SoundFMOD::obtenirInstance()->setPlaylistVolume(pVolume/10.0f);
 }
 
 void SetCurrentRadioPlaylist(char* pPlaylist)
@@ -618,7 +629,26 @@ void GetCurrentRadioPlaylist(char* pPlaylist)
     strcpy_s(pPlaylist, 255, SoundFMOD::obtenirInstance()->obtenirNomCanalCourant().c_str());
 }
 
+int GetSoundVolume()
+{
+    return (int)(SoundFMOD::obtenirInstance()->getAppSongVolume() * 10.0f);
+}
 
+void SetSoundVolume(int pVolume)
+{
+    SoundFMOD::obtenirInstance()->setPlaylistVolume(pVolume/10.0f);
+    SoundFMOD::obtenirInstance()->setAppVolume(pVolume/10.0f);
+}
+
+int SetEffectVolume()
+{
+    return (int)(SoundFMOD::obtenirInstance()->getEffectVolume() * 10.0f);
+}
+
+void SetEffectVolume(int pVolume)
+{
+    SoundFMOD::obtenirInstance()->setEffectVolume(pVolume/10.0f);
+}
 
 int GetNbrPlaylists()
 {
@@ -872,4 +902,5 @@ void GetServersGames(OnlineGameInfos* pGames, int pNbrGames)
         }
     }
 }
+
 
