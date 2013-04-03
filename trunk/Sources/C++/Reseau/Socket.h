@@ -85,7 +85,7 @@ public:
     inline int getIndexPaquet() const { return mIndexPaquet; }
     inline void setIndexPaquet(int val) { mIndexPaquet = val; }
 
-    inline void setOnConnectionCallback(OnConnectionCallback pOnConnectionSendCallback) { mOnConnectionCallback = pOnConnectionSendCallback; }
+    void setOnConnectionCallback(OnConnectionCallback pOnConnectionSendCallback);
 
 private:
 

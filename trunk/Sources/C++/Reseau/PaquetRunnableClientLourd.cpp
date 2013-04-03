@@ -182,7 +182,22 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
         {
             // Pas de break, meme comportement que default
         }
+    case GAME_CONNECTION_REPLY_GAME_SERVER_IP:
+        {
+            // Reponse du serveur maitre pour nous donner l'ip du server maitre
+            GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
+            wPaquet->setConnectionState(GAME_CONNECTION_PENDING);
+            wPaquet->setUsername(wGestionnaireReseau->getPlayerName());
 
+            wGestionnaireReseau->demarrerNouvelleConnection("GameServer", wPaquet->getGameServerIp(), TCP);
+
+            SPSocket wSocketGameServer = wGestionnaireReseau->getSocket("GameServer", TCP);
+            wSocketGameServer->setOnConnectionCallback([wGestionnaireReseau, wPaquet]()->void {
+                // Envoie de la requete de connexion au serveur jeu
+                wGestionnaireReseau->envoyerPaquet("GameServer", wPaquet, TCP);
+            });
+            
+        }
     default:
         std::cout << "Error occured connecting to game: " << wPaquet->getGameId() << std::endl;
         // State invalide, on ne fait rien
