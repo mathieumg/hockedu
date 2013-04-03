@@ -7,10 +7,18 @@
 /// @addtogroup utilitaire Utilitaire
 /// @{
 ////////////////////////////////////////////////////////////////////////////////////
-#define _WINSOCKAPI_
-#include <windows.h>
+
+#if WIN32
 #include "glew.h"
+#elif __APPLE__
+#import <OpenGLES/ES1/gl.h>
+#import <OpenGLES/ES1/glext.h>
+#import <OpenGLES/ES2/gl.h>
+#import <OpenGLES/ES2/glext.h>
+#endif
+
 #include "Projection.h"
+
 
 
 namespace vue {

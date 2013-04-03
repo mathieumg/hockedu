@@ -27,4 +27,8 @@
 -(void) endModification;
 -(void) duplicateSelection;
 -(void) deleteSelection;
+-(void) undo;
+-(void) redo;
+-(void) deplacerSouris:(int)deplacementX:(int)deplacementY;
+-(void) orbit:(int)deplacementX:(int)deplacementY;
 @end

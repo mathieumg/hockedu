@@ -175,6 +175,7 @@ namespace UIHeavyClient
                     Context.EditionModeControl.RemoveOpenGL();
                     Context.PlayModeControl.AppendOpenGL();
                     Context.PlayModeControl.DisplayRadioPlaylists();
+                    Context.PlayModeControl.DisplayRadioVolume();
                     CallbackManager.CommitChanges();
                 }
                 else

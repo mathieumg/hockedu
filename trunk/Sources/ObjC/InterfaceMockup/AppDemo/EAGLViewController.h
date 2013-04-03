@@ -32,6 +32,7 @@ extern int const HAUTEUR_FENETRE;
     IBOutlet UIView *mGLView;
     IBOutlet UIView *mSideBarView;
     IBOutlet UIView *mTopBarView;
+    IBOutlet UIView *undoRedoView;
     
     IBOutlet UIButton *editionButton;
     IBOutlet UIButton *cameraButton;
@@ -42,13 +43,6 @@ extern int const HAUTEUR_FENETRE;
     IBOutlet UIButton *moveButton;
     IBOutlet UIButton *selectButton;
     IBOutlet UIButton *saveButton;
-    // Used to know if we are selecting or creating
-    BOOL mSelectionMode;
-    BOOL mCreationMode;
-    BOOL mSelectTool;
-    BOOL mMoveTool;
-    UIImageView *imageObjectToAdd;
-    NSInteger itemToBeAdded;
     
     BOOL animating;
     
@@ -62,9 +56,6 @@ extern int const HAUTEUR_FENETRE;
     float translationX;
     float translationY;
     float zoomFactor;
-    // Utilise pour le rectangle de selection
-    CGPoint firstCorner;
-    BOOL touchMoved;
     
     // Utilise pour le pie menu
     PieMenu *pieMenu;
@@ -87,25 +78,18 @@ extern int const HAUTEUR_FENETRE;
 @property (nonatomic, retain) OpenGLWaveFrontObject *cube;
 @property (nonatomic, retain) IBOutlet iCarousel *carousel;
 
-typedef enum{
-    PORTAL,
-    PUCK,
-    MALLET,
-    WALL,
-    ACCELERATOR,
-    BONUS
-} ItemToAdd;
-
-- (IBAction)selectionModeButtonTouched:(UIButton *)sender;
+- (IBAction)cameraModeButtonTouched:(UIButton *)sender;
 - (IBAction)selectToolButtonTouched:(UIButton *)sender;
 - (IBAction)moveToolButtonTouched:(UIButton *)sender;
 - (IBAction)rotationToolButtonTouched:(UIButton *)sender;
 - (IBAction)scaleToolButtonTouched:(UIButton *)sender;
 - (IBAction)duplicateToolButtonTouched:(UIButton *)sender;
 - (IBAction)deleteToolButtonTouched:(UIButton *)sender;
-- (IBAction)creationModeButtonTouched:(UIButton *)sender;
+- (IBAction)editorModeButtonTouched:(UIButton *)sender;
 - (IBAction)saveAndExitButtonTouched:(UIButton *)sender;
 - (IBAction)portalButtonTouched:(UIButton *)sender;
+- (IBAction)undoButtonTouched:(UIButton *)sender;
+- (IBAction)redoButtonTouched:(UIButton *)sender;
 - (void)unselectAllTools;
 - (void)startAnimation;
 - (void)stopAnimation;
