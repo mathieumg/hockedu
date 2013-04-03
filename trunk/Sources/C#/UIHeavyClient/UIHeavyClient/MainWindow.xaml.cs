@@ -211,10 +211,10 @@ namespace UIHeavyClient
             start.FileName = path;
             start.WindowStyle = ProcessWindowStyle.Hidden;
             start.CreateNoWindow = true;
-            /*using ( Process proc = Process.Start( start ) )
+            using ( Process proc = Process.Start( start ) )
             {
                 proc.WaitForExit();
-            }*/
+            }
             //////////////////////////////////////////////////////////////////////////
 
             System.Windows.Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -510,25 +510,14 @@ namespace UIHeavyClient
             MainWindowHandler.QuickSaveMapToLocal();
         }
 
-        public void HandleEditionMenuItem(bool pMustBeEnabled)
+        public List<UIElement> GetEditionUniqueElements()
         {
-            Visibility visibility = pMustBeEnabled ? Visibility.Visible : Visibility.Collapsed;
-
-            mLoadMapItem.Visibility = visibility;
-            mLoadMapItem.Visibility = visibility;
-            mServerLoadMapItem.Visibility = visibility;
-            mQuickSaveMapItem.Visibility = visibility;
-            mSaveMapItem.Visibility = visibility;
-            mServerSaveMapItem.Visibility = visibility;
-            mResetMapItem.Visibility = visibility;
-            //mTestMapItem.Visibility = visibility;
+            return new List<UIElement>() { mLoadMapItem, mLoadMapItem, mServerLoadMapItem, mQuickSaveMapItem, mSaveMapItem, mServerSaveMapItem, mResetMapItem, };
         }
 
-        public void HandleGameMenuItem(bool pMustBeEnabled)
+        public List<UIElement> GetPlayUniqueElements()
         {
-            Visibility visibility = pMustBeEnabled ? Visibility.Visible : Visibility.Collapsed;
-
-            mGameActionsMenu.Visibility = visibility;
+            return new List<UIElement>() { mGameActionsMenu, };
         }
 
         [DllImport( @"RazerGame.dll" )]

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
+using System.Windows;
 
 namespace UIHeavyClient
 {
@@ -15,7 +17,11 @@ namespace UIHeavyClient
     public delegate bool EditionEventCallBack(EditionEventCodes pEvent);
 
 
-    
+    struct CallbackInfos
+    {
+        public List<CallbackContainer> mCallbackContainer;
+        public List<UIElement> mStateElements;
+    }
 
 
     class CallbackContainer 
@@ -59,9 +65,9 @@ namespace UIHeavyClient
         // Peut retourner null
         static List<CallbackContainer> getCallbackContainer(GameState pGameState)
         {
-            List<CallbackContainer> wCallbackToApply;
+            CallbackInfos wCallbackToApply;
             mCallbacks.TryGetValue(pGameState, out wCallbackToApply);
-            return wCallbackToApply;
+            return wCallbackToApply.mCallbackContainer;
         }
 
         // Declaration des Callbacks pour le dispatch
@@ -118,7 +124,7 @@ namespace UIHeavyClient
 
 
         // Attibuts
-        private static Dictionary<GameState, List<CallbackContainer>> mCallbacks = new Dictionary<GameState, List<CallbackContainer>>();
+        private static Dictionary<GameState, CallbackInfos> mCallbacks = new Dictionary<GameState, CallbackInfos>();
 
         private static GameState mCurrentGameState = GameState.GAME_STATE_NONE;
         private static GameState mWantedGameState = GameState.GAME_STATE_NONE;
@@ -127,18 +133,19 @@ namespace UIHeavyClient
 
 
         // Methode pour initialiser la liste des callbacks
-        public static void AddCallback(GameState pState, CallbackContainer pContainer)
+        public static void AddState(GameState pState, List<CallbackContainer> pContainer, List<UIElement> pElements)
         {
-            List<CallbackContainer> wCallbackToApply;
-            if (!mCallbacks.TryGetValue(pState, out wCallbackToApply))
+            // Check if the state already exist
+            CallbackInfos wStateToCheck;
+            if (!mCallbacks.TryGetValue(pState, out wStateToCheck))
             {
-                // Si clee pas la on doit creer une liste de Container.
-                wCallbackToApply = new List<CallbackContainer>();
-                mCallbacks.Add(pState, wCallbackToApply);
+                // If not create it and insert containers
+                wStateToCheck = new CallbackInfos();
+                wStateToCheck.mCallbackContainer = pContainer;
+                wStateToCheck.mStateElements = pElements;
+                mCallbacks.Add(pState, wStateToCheck);
             }
-            wCallbackToApply.Add(pContainer);
         }
-
 
 
         ////////////////////////////////////////////////////////////////////////
@@ -152,11 +159,28 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public static bool ChangeGameMode(GameState pState)
         {
-            List<CallbackContainer> wCallbackToApply;
+            CallbackInfos wCallbackToApply;
             if (mCallbacks.TryGetValue(pState, out wCallbackToApply))
             {
                 mWantedGameState = pState;
                 mUnCommittedModification = true;
+
+                // Collapsed old state elements
+                CallbackInfos wOldCallBack;
+                if (mCallbacks.TryGetValue(mCurrentGameState, out wOldCallBack))
+                {
+                    foreach (UIElement u in wOldCallBack.mStateElements)
+                    {
+                        u.Visibility = Visibility.Collapsed;
+                    }
+                }
+
+                // Reveal new state elements
+                foreach (UIElement u in wCallbackToApply.mStateElements)
+                {
+                    u.Visibility = Visibility.Visible;
+                }
+
                 return true;
             }
             return false;

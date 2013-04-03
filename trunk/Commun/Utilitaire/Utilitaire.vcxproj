@@ -60,7 +60,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\Externe\FreeImage\include;.;..\..\Sources\C++\Sons;..\Externe\FMOD\include;../Externe/GLEW/include/GL;../Externe;..\..\Sources\C#\UIHeavyClient\UIHeavyClient\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Externe\FreeImage\include;.;..\..\Sources\C++\Sons;..\Externe\FMOD\include;../Externe/GLEW/include/GL;../Externe;..\..\Sources\C#\UIHeavyClient\UIHeavyClient\;../../Commun/Externe/DirectorySearch/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -83,7 +83,7 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\Externe\FreeImage\include;.;..\..\Sources\C++\Sons;..\Externe\FMOD\include;../Externe/GLEW/include/GL;..\Externe\;..\..\Sources\C#\UIHeavyClient\UIHeavyClient\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Externe\FreeImage\include;.;..\..\Sources\C++\Sons;..\Externe\FMOD\include;../Externe/GLEW/include/GL;..\Externe\;..\..\Sources\C#\UIHeavyClient\UIHeavyClient\;../../Commun/Externe/DirectorySearch/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>
@@ -100,6 +100,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Externe\DirectorySearch\DirectorySearch.cpp" />
     <ClCompile Include="AideCollision.cpp" />
     <ClCompile Include="AideGL.cpp" />
     <ClCompile Include="Animation.cpp" />

@@ -136,6 +136,7 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
             int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_NETWORK_CLIENT,SPJoueurHumain(new JoueurHumain(GestionnaireReseau::obtenirInstance()->getPlayerName())), SPJoueurNetwork(new JoueurNetwork()), true, wPaquet->getGameId());
             std::cout << "Connecte a la partie: " << wGameId << std::endl;
             FacadeModele::getInstance()->setProchainePartie(wGameId);
+            GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_SUCCESS);
             break;
         }
     case GAME_CONNECTION_ACCEPTED_RIGHT:
@@ -144,6 +145,7 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
             int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_NETWORK_CLIENT,SPJoueurNetwork(new JoueurNetwork()), SPJoueurHumain(new JoueurHumain(GestionnaireReseau::obtenirInstance()->getPlayerName())), true, wPaquet->getGameId());
             std::cout << "Connecte a la partie: " << wGameId << std::endl;
             FacadeModele::getInstance()->setProchainePartie(wGameId);
+            GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_SUCCESS);
             break;
         }
     case GAME_CONNECTION_ALREADY_CONNECTED:

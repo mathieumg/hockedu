@@ -28,9 +28,9 @@ public:
 	/// Constructeur
 	AIMaillet(const JoueurVirtuel&);
 	/// Destructeur
-	~AIMaillet();
+	virtual ~AIMaillet();
 	/// Évaluation de la stratégie à utiliser
-	void evaluerStrategie(NoeudMaillet* maillet);
+	virtual void evaluerStrategie(NoeudMaillet* maillet);
 	/// Évaluation de la direction
 	Vecteur2 evaluerDirection(NoeudMaillet* maillet);
 	/// Changement de strategie
