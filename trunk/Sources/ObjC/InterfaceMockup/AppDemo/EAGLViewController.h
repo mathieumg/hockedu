@@ -61,6 +61,10 @@ extern int const HAUTEUR_FENETRE;
     PieMenu *pieMenu;
 	UILabel *labelPieMenu;
     //
+    
+    // Pinch et zoom
+    CGFloat __scale;
+    CGFloat __previousScale;
 }
 
 
