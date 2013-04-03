@@ -47,6 +47,13 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void SetEffectVolume(int pVolume);
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OptionsControl.OptionsControl()
+        ///
+        /// Constructor.
+        ///
+        /// @return none.
+        ////////////////////////////////////////////////////////////////////////
         public OptionsControl()
         {
             InitializeComponent();
@@ -59,52 +66,140 @@ namespace UIHeavyClient
                 {mBackToMenuButton, "Return to main menu"},
             };
             DisplaySoundVolume();
-            /// On affecte les callback apres avoirlu les valeurs du modele pour ne pas les ecraser
+
+            // On affecte les callback apres avoirlu les valeurs du modele pour ne pas les ecraser
             mVolumeSlider.ValueChanged += mVolumeSlider_ValueChanged_1;
             mEffectSlider.ValueChanged += mEffectSlider_ValueChanged;
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OptionsControl.DisplaySoundVolume()
+        ///
+        /// Ajust volume slide bars.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void DisplaySoundVolume()
         {
             mVolumeSlider.Value = GetSoundVolume();
             mEffectSlider.Value = GetEffectVolume();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OptionsControl.backToMenuButton_Click()
+        ///
+        /// Return to main menu.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void backToMenuButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToMainMenu();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OptionsControl.aiConfigureButton_Click()
+        ///
+        /// Go to AI profiles configuration.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void aiConfigureButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToAIOptions();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OptionsControl.radioOptionButton_Click()
+        ///
+        /// Go to radio configuration button.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void radioOptionButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToRadioOptions();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OptionsControl.DisplayGuidanceMessages()
+        ///
+        /// Display Bastien & Scapin.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] MouseEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void DisplayGuidanceMessages(object sender, MouseEventArgs e)
         {
             mGuidanceLabel.Content = mGuidanceMessages[sender];
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OptionsControl.ClearGuidanceMessages()
+        ///
+        /// Clear Bastien & Scapin.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] MouseEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void ClearGuidanceMessages(object sender, MouseEventArgs e)
         {
             mGuidanceLabel.Content = "";
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OptionsControl.mKeyboardOptionButton_Click()
+        ///
+        /// Go to keyboard configuration.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mKeyboardOptionButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToKeyboardOption();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OptionsControl.mVolumeSlider_ValueChanged_1()
+        ///
+        /// Music volume change.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedPropertyChangedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mVolumeSlider_ValueChanged_1(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             SetSoundVolume((int)(sender as Slider).Value);
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OptionsControl.mEffectSlider_ValueChanged()
+        ///
+        /// Effect volume change.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedPropertyChangedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mEffectSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             SetEffectVolume((int)(sender as Slider).Value);

@@ -289,7 +289,7 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         /// @fn void EditionModeControl.PropertiesRefreshWarning()
         ///
-        /// Waning.
+        /// Warning.
         /// 
         /// @param[in] object : The sender.
         /// @param[in] RoutedEventArgs : The event.

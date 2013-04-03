@@ -43,5 +43,6 @@
         <Label Content="Lindsey Stirling" Margin="0" Name="label81" Foreground="White" Grid.Column="1" Grid.Row="11" Width="150" Height="25" />
         <Label Content="Olivier Gendreau" Margin="0" Name="label82" Foreground="White" Grid.Column="1" Grid.Row="9" Width="150" Height="25" />
         <Label Content="Nicolas Roy" Margin="0" Name="label835h" Foreground="White" Grid.Column="1" Grid.Row="10" Width="150" Height="25" />
+        <Label Content="Bastien &amp; Scapin Approved" Grid.Column="2" Grid.Row="12" Name="label9" Foreground="White" FontSize="8" />
     </Grid>
 </Window>

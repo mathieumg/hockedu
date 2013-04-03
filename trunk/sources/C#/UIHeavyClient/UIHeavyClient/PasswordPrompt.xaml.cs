@@ -32,8 +32,10 @@ namespace UIHeavyClient
     ///////////////////////////////////////////////////////////////////////////
     public partial class PasswordPrompt : Window
     {
+        // Attributes
         private bool mOkIsClicked;
 
+        // Properties
         public string Password
         {
             get { return mPasswordBox.Password; }
@@ -43,23 +45,57 @@ namespace UIHeavyClient
             get { return mOkIsClicked; }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void PasswordPrompt.PasswordPrompt()
+        ///
+        /// Constructor.
+        ///
+        /// @return None.
+        ////////////////////////////////////////////////////////////////////////
         public PasswordPrompt()
         {
             InitializeComponent();
             mOkIsClicked = false;
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void PasswordPrompt.ClearInput()
+        ///
+        /// Clear input.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void ClearInput()
         {
             mPasswordBox.Clear();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void PasswordPrompt.mCancelButton_Click()
+        ///
+        /// Cancel button event.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mCancelButton_Click(object sender, RoutedEventArgs e)
         {
             mOkIsClicked = false;
             Hide();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void PasswordPrompt.mOkButton_Click()
+        ///
+        /// Ok button event.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mOkButton_Click(object sender, RoutedEventArgs e)
         {
             mOkIsClicked = true;
