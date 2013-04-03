@@ -41,9 +41,6 @@ namespace UIHeavyClient
     ///////////////////////////////////////////////////////////////////////////
     public partial class MainWindow : Window
     {
-        
-        //static System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
-
         // Controls
         private EditionModeControl mEditionModeControl;
         private MainMenuControl mMainMenuControl;
@@ -59,14 +56,12 @@ namespace UIHeavyClient
 
         private OpenGLControl mOpenGLControl;
         private WindowsFormsHost mWindowFormsHost;
-        
 
         // Properties
         public OpenGLControl OpenGLControl
         {
             get { return mOpenGLControl; }
         }
-
         public EditionModeControl EditionModeControl
         {
             get { return mEditionModeControl; }
@@ -114,23 +109,49 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll")]
         public static extern void FreeApplicationMemory();
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.TestCallbackMapDownloaded()
+        ///
+        /// Mao download test.
+        /// 
+        /// @param[in] string : The map local path.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void TestCallbackMapDownloaded(string pOutputPath)
         {
-            
             MainWindowHandler.mTaskManager.ExecuteTask(() =>
             {
                 Console.WriteLine(pOutputPath);
             });
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.TestCallbackMapUploaded()
+        ///
+        /// Upload map test.
+        /// 
+        /// @param[in] UploadOperationStatus : status.
+        /// @param[in] int : map id.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void TestCallbackMapUploaded(HttpHockeduRequests.UploadOperationStatus pStatus, int pMapId)
         {
             Console.WriteLine(pStatus);
             Console.WriteLine(pMapId);
         }
-        
 
-
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.Window_Closed()
+        ///
+        /// Close event.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] EventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void Window_Closed(object sender, EventArgs e)
         {
             OpenGLControl.mRenderTimer.Stop();
@@ -141,6 +162,16 @@ namespace UIHeavyClient
             System.Windows.Application.Current.Shutdown();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.CreateUserControl()
+        ///
+        /// Initialize everything.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] EventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void CreateUserControl(object sender, EventArgs e)
         {
             InitDLL();
@@ -171,15 +202,30 @@ namespace UIHeavyClient
             this.WindowContentControl.Content = mMainMenuControl;
             MainWindowHandler.InitCallbacks();
             MainWindowHandler.GoToMainMenu();
-
-            
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.mWindowFormsHost_GotFocus()
+        ///
+        /// On focus, try giving focus to OpenGL.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         void mWindowFormsHost_GotFocus( object sender, RoutedEventArgs e )
         {
             mOpenGLControl.Focus();
         }
-            
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.MainWindow()
+        ///
+        /// Main constructor.
+        ///
+        /// @return None.
+        ////////////////////////////////////////////////////////////////////////
         public MainWindow()
         {
             InitializeComponent();
@@ -269,13 +315,7 @@ namespace UIHeavyClient
                 debugItem.Click += SwitchPlayMode;
                 debugMenu.Items.Add( debugItem );
             }
-
-            
-
 #endif
-
-            
-            
             SetAchievementUnlocked( mAchievementUnlockCallBack );
 
             this.Loaded += CreateUserControl;
@@ -283,27 +323,57 @@ namespace UIHeavyClient
             this.KeyUp += MainWindow_KeyUp;
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.SwitchPlayMode()
+        ///
+        /// Go to play mode.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         void SwitchPlayMode( object sender, RoutedEventArgs e )
         {
             MainWindowHandler.GoToPlayMode( ActionType.ACTION_ALLER_MODE_JEU );
         }
+
         [DllImport(@"RazerGame.dll")]
         public static extern void ReloadModels();
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.ReloadModels_Click()
+        ///
+        /// Reload model.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         void ReloadModels_Click(object sender, RoutedEventArgs e)
         {
             ReloadModels();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.TestJSON_Click()
+        ///
+        /// JSON test.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         void TestJSON_Click(object sender, RoutedEventArgs e)
         {
             HttpManager wManager = new HttpManager();
             //wManager.getPublicMapList();
             //wManager.downloadMap(12, 1, TestCallbackMapDownloaded);
             wManager.uploadNewMap(12, "05237e69-8d18-11e2-b5d0-005056823b67", "TestMat4", "Test Upload HTTP", true, "D:\\AirHockeyGit\\log3900-04_Cloned2\\trunk\\Content\\cs_italy.xml", TestCallbackMapUploaded);
-
         }
         
-
         // Tests pour connection serveur jeu et client
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void connectServerGame(string pServerIP);
@@ -328,6 +398,16 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void requestGameResume();
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.connexionServeurJeu_Click()
+        ///
+        /// Connection to game server.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void connexionServeurJeu_Click(object sender, RoutedEventArgs e)
         {
             // Tests pour connection serveur jeu et client
@@ -335,86 +415,227 @@ namespace UIHeavyClient
 
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.connexionPartieServeurJeu_Click()
+        ///
+        /// Connection to game server.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void connexionPartieServeurJeu_Click(object sender, RoutedEventArgs e)
         {
             // Tests pour connection serveur jeu et client
             connectPartieServerGame(1, 1, "");
-
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.testConnexionUDP_Click()
+        ///
+        /// UDP test.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void testConnexionUDP_Click(object sender, RoutedEventArgs e)
         {
-
             testConnexionUDPCSharp();
-
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.requestGameCreationServeurJeu_Click()
+        ///
+        /// Game creation.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void requestGameCreationServeurJeu_Click(object sender, RoutedEventArgs e)
         {
             // Tests pour la creation d'une partie sur le serveur jeu
             requestGameCreationServerGame("Bob's Game", "MapEnCours.xml", "");
-
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.requestGamePause_Click()
+        ///
+        /// Game pause.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void requestGamePause_Click(object sender, RoutedEventArgs e)
         {
             // Tests pour la creation d'une partie sur le serveur jeu
             requestGamePause();
-
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.requestGameResume_Click()
+        ///
+        /// Resume game.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void requestGameResume_Click(object sender, RoutedEventArgs e)
         {
             // Tests pour la creation d'une partie sur le serveur jeu
             requestGameResume();
-
         }
+
         [DllImport( @"RazerGame.dll" )]
         static extern bool ActionPerformed( ActionType action );
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.PauseGameClick()
+        ///
+        /// Pause game.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void PauseGameClick(object sender, RoutedEventArgs e)
         {
             ActionPerformed( ActionType.ACTION_PAUSE_JEU );
         }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.RestartGameClick()
+        ///
+        /// Game restart.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void RestartGameClick(object sender, RoutedEventArgs e)
         {
             ActionPerformed( ActionType.ACTION_REINITIALISER_PARTIE );
         }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.ResetPuckClick()
+        ///
+        /// Puck reset in case it is stuck.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void ResetPuckClick(object sender, RoutedEventArgs e)
         {
             ActionPerformed( ActionType.ACTION_REINITIALISER_RONDELLE );
         }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.ReplayClick()
+        ///
+        /// 10 seconds replay.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void ReplayClick(object sender, RoutedEventArgs e)
         {
             ActionPerformed( ActionType.ACTION_REPLAY );
         }
-        
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.simulationMode_Click()
+        ///
+        /// Simulations for tests.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         void simulationMode_Click(object sender, RoutedEventArgs e)
         {
-            // temp
+            // Temp
             WindowContentControl.Content = PlayModeControl;
             EditionModeControl.RemoveOpenGL();
             PlayModeControl.AppendOpenGL();
             MainWindowHandler.ActionPerformed(ActionType.ACTION_ALLER_MODE_SIMULATION);
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.SplitView_Click()
+        ///
+        /// Spliting view for tests.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         void SplitView_Click(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.ActionPerformed(ActionType.ACTION_CAMERA_SPLIT);
         }
-        
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.BackToMainMenu()
+        ///
+        /// Return to main menu.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void BackToMainMenu(object sender, RoutedEventArgs e)
         {
-            MainWindowHandler.GoToMainMenu();
+            MessageBoxResult dr = System.Windows.MessageBox.Show("Are you sure?", "Return to main menu", MessageBoxButton.YesNo);
+
+            if (dr == MessageBoxResult.Yes)
+            {
+                MainWindowHandler.GoToMainMenu();
+            }   
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.OpenWebSite()
+        ///
+        /// Open Hockedu Web page.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void OpenWebSite(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("http://www.hockedu.com");
         }
 
-
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.MainWindow_KeyUp()
+        ///
+        /// When a key is released.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] KeyEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         void MainWindow_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (mOpenGLControl != null)
@@ -428,11 +649,19 @@ namespace UIHeavyClient
                         mOpenGLControl.OpenGLControl_KeyUp(sender, keyEv);
                         e.Handled = true;
                     }
-                    
                 }
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.ConvertKeyEvent()
+        ///
+        /// Converter for key event.
+        /// 
+        /// @param[out] RoutedEventArgs : The event.
+        ///
+        /// @return KeyEventArgs.
+        ////////////////////////////////////////////////////////////////////////
         static System.Windows.Forms.KeyEventArgs ConvertKeyEvent(ref System.Windows.Input.KeyEventArgs e)
         {
             System.Windows.Forms.KeyEventArgs keyEv = null;
@@ -447,6 +676,17 @@ namespace UIHeavyClient
             }
             return keyEv;
         }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.MainWindow_KeyDown()
+        ///
+        /// When a key is pressed.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] KeyEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         void MainWindow_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (mOpenGLControl != null)
@@ -464,26 +704,70 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.LoadMapFromLocal()
+        ///
+        /// Load a local map.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         void LoadMapFromLocal(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.DialogLoadMapFromLocal();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.SaveMapToLocal()
+        ///
+        /// Local map save.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         void SaveMapToLocal(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.DialogSaveMapToLocal();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.QuickSaveMapToLocal()
+        ///
+        /// Save local map.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         void QuickSaveMapToLocal(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.QuickSaveMapToLocal();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.GetEditionUniqueElements()
+        ///
+        /// Get edition elements that must collapse.
+        ///
+        /// @return List<UIElement>.
+        ////////////////////////////////////////////////////////////////////////
         public List<UIElement> GetEditionUniqueElements()
         {
             return new List<UIElement>() { mLoadMapItem, mLoadMapItem, mServerLoadMapItem, mQuickSaveMapItem, mSaveMapItem, mServerSaveMapItem, mResetMapItem, };
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.GetPlayUniqueElements()
+        ///
+        /// Get play elements that must collapse.
+        ///
+        /// @return List<UIElement>.
+        ////////////////////////////////////////////////////////////////////////
         public List<UIElement> GetPlayUniqueElements()
         {
             return new List<UIElement>() { mGameActionsMenu, };
@@ -495,6 +779,16 @@ namespace UIHeavyClient
         public delegate int AchievementUnlockCallBack( AchievementsType id, IntPtr message );
         static AchievementUnlockCallBack mAchievementUnlockCallBack = AchievementUnlocked;
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.AchievementUnlocked()
+        ///
+        /// Handle achievements.
+        /// 
+        /// @param[in] AchievementsType : Achievement id.
+        /// @param[in] IntPtr : Achievement message.
+        ///
+        /// @return int.
+        ////////////////////////////////////////////////////////////////////////
         static int AchievementUnlocked( AchievementsType id, IntPtr pMessage )
         {
             string achievementName = Marshal.PtrToStringAnsi( pMessage );
@@ -504,11 +798,31 @@ namespace UIHeavyClient
 
         static AchievementUnlocked mAchievementPanel = null;
         static Storyboard mStoryboard = new Storyboard();
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.mWaitAnimation_Completed()
+        ///
+        /// Close achievement panel.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] EventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         static void mWaitAnimation_Completed( object sender, EventArgs e )
         {
             mAchievementPanel.Close();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.DisplayAchievement()
+        ///
+        /// Display achievement panel.
+        /// 
+        /// @param[in] string : Achievement name.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         static void DisplayAchievement(string achievementName)
         {
             if ( mAchievementPanel != null )
@@ -535,16 +849,46 @@ namespace UIHeavyClient
             mStoryboard.Begin( mAchievementPanel, HandoffBehavior.SnapshotAndReplace );
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.ExitHockedu()
+        ///
+        /// Exit event.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         void ExitHockedu(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.DefaultMap()
+        ///
+        /// Reset to default map.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         void DefaultMap(object sender, RoutedEventArgs e)
         {
             EditionModeControl.CallDefaultFieldFromMenu();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.ShowCreditsPopup()
+        ///
+        /// Credits.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         void ShowCreditsPopup(object sender, RoutedEventArgs e)
         {
             mCreditPopup.ShowDialog();

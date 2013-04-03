@@ -80,6 +80,16 @@ void ConnectMasterServer(const std::string& wMasterServerIP)
 }
 
 
+char* ObtenirAdresseIpLocaleAssociee(const std::string& pIpAssociee)
+{
+    std::string wTemp = GestionnaireReseau::obtenirInstance()->getAdresseIPLocaleAssociee(pIpAssociee);
+    const char* wIp = wTemp.c_str();
+
+    char *ret = new char[17];
+    memcpy(ret,wIp, strlen(wIp)+1);
+    return ret;
+}
+
 
 /// Pointeur vers l'instance unique de la classe.
 FacadeServeurJeu* FacadeServeurJeu::instance_ = 0;

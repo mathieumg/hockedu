@@ -33,21 +33,10 @@ namespace UIHeavyClient
     ///////////////////////////////////////////////////////////////////////////
     public partial class GameCreationPrompt : Window
     {
-
-        public void callbackMapsFunction(List<UserMapDetailedJSON> pList)
-        {
-            // Update the combobox with the list
-            MainWindowHandler.mTaskManager.ExecuteTask(() =>
-            {
-                foreach (UserMapDetailedJSON wItem in pList)
-                {
-                    mMapComboBox.Items.Add(wItem);
-                }
-            });
-        }
-
+        // Attributes
         private bool mOkIsClicked;
 
+        // Properties
         public string GameName
         {
             get { return mNameTextBox.Text; }
@@ -65,24 +54,79 @@ namespace UIHeavyClient
             get { return mOkIsClicked; }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void GameCreationPrompt.callbackMapsFunction()
+        ///
+        /// Call back when maps are loaded.
+        /// 
+        /// @param[in] List<UserMapDetailedJSON> : Maps list.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        public void callbackMapsFunction(List<UserMapDetailedJSON> pList)
+        {
+            // Update the combobox with the list
+            MainWindowHandler.mTaskManager.ExecuteTask(() =>
+            {
+                foreach (UserMapDetailedJSON wItem in pList)
+                {
+                    mMapComboBox.Items.Add(wItem);
+                }
+            });
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void GameCreationPrompt.GameCreationPrompt()
+        ///
+        /// Constructor.
+        ///
+        /// @return None.
+        ////////////////////////////////////////////////////////////////////////
         public GameCreationPrompt()
         {
             InitializeComponent();
             mOkIsClicked = false;
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void GameCreationPrompt.mOkButton_Click()
+        ///
+        /// Ok button event.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mOkButton_Click(object sender, RoutedEventArgs e)
         {
             mOkIsClicked = true;
             Hide();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void GameCreationPrompt.mCancelButton_Click()
+        ///
+        /// Cancel button event.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mCancelButton_Click(object sender, RoutedEventArgs e)
         {
             mOkIsClicked = false;
             Hide();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void GameCreationPrompt.ClearInputAndLoadMapList()
+        ///
+        /// Reset popup.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void ClearInputAndLoadMapList()
         {
             mNameTextBox.Clear();
@@ -94,6 +138,13 @@ namespace UIHeavyClient
             mNameTextBox.Focus();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void GameCreationPrompt.GetServerMaps()
+        ///
+        /// Asynchronusly query server's maps.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void GetServerMaps()
         {
             mMapComboBox.Items.Clear();
@@ -103,11 +154,31 @@ namespace UIHeavyClient
             wManager.getPublicMapList(callbackMapsFunction);
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void GameCreationPrompt.NameChanged()
+        ///
+        /// On name change event, disable ok if empty.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] TextChangedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void NameChanged(object sender, TextChangedEventArgs e)
         {
             mOkButton.IsEnabled = ((sender as TextBox).Text != "" && mMapComboBox.SelectedItem != null);
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void GameCreationPrompt.MapChanged()
+        ///
+        /// On map change event, disable ok if empty.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] SelectionChangedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void MapChanged(object sender, SelectionChangedEventArgs e)
         {
             mOkButton.IsEnabled = (mNameTextBox.Text != "" && (sender as ComboBox).SelectedItem != null);

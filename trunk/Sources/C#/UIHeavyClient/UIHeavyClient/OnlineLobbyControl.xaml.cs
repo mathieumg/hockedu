@@ -78,6 +78,7 @@ namespace UIHeavyClient
         private Chat mChat;
 
         private bool mIsWaitingForOnlineGame;
+        private OnlineGameInfos mGameWaitingToConnect;
 
         // Properties
         public Chat ChatObject
@@ -180,6 +181,7 @@ namespace UIHeavyClient
                     if (mPasswordPrompt.OkIsClicked)
                     {
                         connectPartieServerGame(selected.Value.id, selected.Value.serverId, mPasswordPrompt.Password);
+                        mGameWaitingToConnect = selected.Value;
                         mIsWaitingForOnlineGame = true;
                     }
 
@@ -188,6 +190,7 @@ namespace UIHeavyClient
                 else
                 {
                     connectPartieServerGame(selected.Value.id, selected.Value.serverId, "");
+                    mGameWaitingToConnect = selected.Value;
                     mIsWaitingForOnlineGame = true;
                 }
             }
@@ -212,6 +215,7 @@ namespace UIHeavyClient
             if (mGameCreationPrompt.OkIsClicked)
             {
                 requestGameCreationServerGame(mGameCreationPrompt.GameName, mGameCreationPrompt.Map.name, mGameCreationPrompt.Password);
+                mGameWaitingToConnect = new OnlineGameInfos(-1, 0, mGameCreationPrompt.GameName, "", mGameCreationPrompt.Map.name, mGameCreationPrompt.Password != "", "");
                 mIsWaitingForOnlineGame = true;
             }
 
@@ -234,6 +238,8 @@ namespace UIHeavyClient
             OnlineGameInfos? randomGame = (mOnlineGameListView.Items[rand.Next(mOnlineGameListView.Items.Count - 1)] as OnlineGameInfos?);
 
             connectPartieServerGame(randomGame.Value.id, randomGame.Value.serverId, "");
+            mGameWaitingToConnect = randomGame.Value;
+
             mIsWaitingForOnlineGame = true;
         }
 
@@ -274,6 +280,16 @@ namespace UIHeavyClient
             }
         }
 
+
+
+        public void CallbackMapDownloaded(string pOutputPath)
+        {
+
+            MainWindowHandler.mTaskManager.ExecuteTask(() =>
+            {
+                Console.WriteLine(pOutputPath);
+            });
+        }
         ////////////////////////////////////////////////////////////////////////
         /// @fn void OnlineLobbyControl.CallbackEvent()
         ///
@@ -341,6 +357,11 @@ namespace UIHeavyClient
                         if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
                         {
                             MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
+
+                            // Download la map pour la partie et on ne change pas de state avant que ce soit termine
+                            // MainWindowHandler.Context.OnlineLobbyControl.mHttpManager.downloadMap(0, wThis.mGameWaitingToConnect.mapName, wThis.CallbackMapDownloaded);
+
+
                             MainWindowHandler.mTaskManager.ExecuteTask(() =>
                             {
                                 MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_JEU);
