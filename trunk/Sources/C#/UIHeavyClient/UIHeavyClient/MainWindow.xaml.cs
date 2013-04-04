@@ -308,7 +308,7 @@ namespace UIHeavyClient
                 debugItem.Click += TestJSON_Click;
                 debugMenu.Items.Add(debugItem);
             }
-
+            
             {
                 System.Windows.Controls.MenuItem debugItem = new System.Windows.Controls.MenuItem();
                 debugItem.Header = "Switch Play Mode";

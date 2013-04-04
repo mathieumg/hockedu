@@ -349,6 +349,20 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
 
                 break;
             }
+        case GAME_EVENT_RESET_PUCK:
+            {
+                // Le serveur nous dit de reset la puck (refaire une mise au jeu) apres avoir recu la request d'un des clients
+                int wGameId = wGame->getUniqueGameId();
+                Runnable* r = new Runnable([wGameId](Runnable*){
+                    Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+                    if(wGame)
+                    {
+                        wGame->miseAuJeu(false);
+                    }
+                });
+                RazerGameUtilities::RunOnUpdateThread(r,true);
+                break;
+            }
         }
     }
 

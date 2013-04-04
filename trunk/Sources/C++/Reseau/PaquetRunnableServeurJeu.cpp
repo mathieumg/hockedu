@@ -29,6 +29,9 @@
 #include "Paquets\PaquetGameEvent.h"
 #include "FacadeServeurJeu.h"
 #include <iosfwd>
+#include "Partie.h"
+#include "Terrain.h"
+#include "NoeudRondelle.h"
 
 SINGLETON_DECLARATION_CPP(PaquetRunnableServeurJeuHelper);
 
@@ -463,6 +466,27 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
                     RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquetResponse->getGameId(), wPaquetResponse, TCP);
                 }
 
+                break;
+            }
+        case GAME_EVENT_RESET_PUCK:
+            {
+                // Client demande de refaire la mise au jeu
+                // On doit verifier que la rondelle ne bouge pas ou presque pas avant de lancer l'event
+                Terrain* wField = wGame->getField();
+                if(wField && wField->getPuck()->obtenirVelocite().norme() < 3.0f)
+                {
+                    // Vitesse assez basse
+                    RelayeurMessage::obtenirInstance()->relayerPaquetGame(wGame->getUniqueGameId(), wPaquet, TCP);
+                    int wGameId = wGame->getUniqueGameId();
+                    Runnable* r = new Runnable([wGameId](Runnable*){
+                        Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+                        if(wGame)
+                        {
+                            wGame->miseAuJeu(false);
+                        }
+                    });
+                    RazerGameUtilities::RunOnUpdateThread(r,true);
+                }
                 break;
             }
         }
