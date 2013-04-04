@@ -346,12 +346,13 @@ void GestionnaireReseau::envoyerPaquet( SPSocket pSocketAUtiliser, Paquet* pPaqu
         {
             // Le paquet ne peut pas etre ajouter
             pPaquet->removeAssociatedQuery();
-            throw ExceptionReseau("Buffer d'envoie plein");
+            checkf(0); // Si ca arrive, qqch est louche
         }
     }
     else
     {
-        throw ExceptionReseau("Operation invalide a l'envoie d'un Paquet dans GestionnaireReseau.");
+        pPaquet->removeAssociatedQuery();
+        checkf(0); // Probleme d'ajout de l'operation dans le gestionnaire
     }
 }
 

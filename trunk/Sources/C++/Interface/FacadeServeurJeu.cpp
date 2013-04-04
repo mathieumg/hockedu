@@ -84,7 +84,15 @@ void ConnectMasterServer(const std::string& wMasterServerIP)
 
 char* ObtenirAdresseIpLocaleAssociee(const std::string& pIpAssociee)
 {
-    std::string wTemp = GestionnaireReseau::obtenirInstance()->getAdresseIPLocaleAssociee(pIpAssociee);
+    std::string wTemp;
+    try 
+    {
+        wTemp = GestionnaireReseau::obtenirInstance()->getAdresseIPLocaleAssociee(pIpAssociee);
+    }
+    catch(ExceptionReseau&)
+    {
+        wTemp = "";
+    }
     const char* wIp = wTemp.c_str();
 
     char *ret = new char[17];
