@@ -33,6 +33,7 @@ enum {
 @property (retain, nonatomic) IBOutlet UIView *mSideBarView;
 @property (retain, nonatomic) IBOutlet UIView *mTopBarView;
 @property (retain, nonatomic) IBOutlet UIView *undoRedoView;
+@property (retain, nonatomic) IBOutlet UIView *mPropertyView;
 @property (nonatomic, assign) CADisplayLink *displayLink;
 @property (nonatomic, assign) BOOL wrap;
 @property (nonatomic, assign) BOOL clipsToBounds;
@@ -48,6 +49,7 @@ enum {
 @synthesize mSideBarView;
 @synthesize mTopBarView;
 @synthesize mGLView;
+@synthesize mPropertyView;
 @synthesize undoRedoView;
 @synthesize context;
 @synthesize displayLink;
@@ -86,8 +88,12 @@ enum {
     [self.mGLView addSubview:mSideBarView];
     [self.mGLView addSubview:mTopBarView];
     [self.mGLView addSubview:undoRedoView];
+    [self.mGLView addSubview:mPropertyView];
     [self.theEAGLView setFramebuffer];
     
+    // On cache la bar en dehors a droite
+    self.mPropertyView.center = CGPointMake(mPropertyView.center.x + mPropertyView.bounds.size.width, mPropertyView.center.y);
+    propertyBarHidden = YES;
     
     animating = FALSE;
     animationFrameInterval = 1;
@@ -164,6 +170,7 @@ enum {
     [deleteButton release];
     [cameraButton release];
     [editionButton release];
+    [mPropertyView release];
     [super dealloc];
 }
 
@@ -205,25 +212,26 @@ enum {
     
     // SETUP DES GESTURES
     UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationDetectee:)];
-    //UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapDetected:)];
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressDetected:)];
+    //UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapDetected:)];
     
     UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchDetected:)];
     
     [rotationGesture setDelegate:self];
     //[longPressGesture setDelegate:self];
-    [tapGesture setNumberOfTapsRequired:2];
-    [tapGesture setDelegate:self];
+    //[longPressGesture setNumberOfTapsRequired:2];
+    [longPressGesture setDelegate:self];
+    //[longPressGesture setCancelsTouchesInView:YES];
     [pinchGesture setDelegate:self];
     
     [mGLView addGestureRecognizer:rotationGesture];
     //[mGLView addGestureRecognizer:longPressGesture];
-    [mGLView addGestureRecognizer:tapGesture];
+    [mGLView addGestureRecognizer:longPressGesture];
     [mGLView addGestureRecognizer:pinchGesture];
     
     [rotationGesture release];
     //[longPressGesture release];
-    [tapGesture release];
+    [longPressGesture release];
     [pinchGesture release];
     
     // FIN SETUP DES GESTURES
@@ -245,20 +253,31 @@ enum {
 
 - (void) propertiesMenu:(PieMenuItem *)item {
     
-    // Ouverture du popover contenant les proprietes associees a la selection courante
-    UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
-    
-    UILabel *label = [[UILabel alloc] init];
-    label.text = @"Test";
-    
-    UITextField *textField = [[UITextField alloc] init];
-    
-    
-    
-    //UITabBarController *tabController = [[UITabBarController alloc] init];
-    //UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tabController];
-    UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:tableController];
-    [popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//    // Ouverture du popover contenant les proprietes associees a la selection courante
+//    UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
+//    
+//    UILabel *label = [[UILabel alloc] init];
+//    label.text = @"Test";
+//    
+//    UITextField *textField = [[UITextField alloc] init];
+//    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellEditingStyleInsert reuseIdentifier:@"insert"];
+//    
+//    UITableView *tableView = [[UITableView alloc]init];
+//
+//    //[tableView set];
+//    [tableController setTableView:tableView];
+//    
+//    
+//    //UITabBarController *tabController = [[UITabBarController alloc] init];
+//    //UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tabController];
+//    UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:tableController];
+//    [popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [UIView beginAnimations:@"MenuAnimationShow" context:NULL];
+    [UIView setAnimationDuration:1];
+    self.mPropertyView.center = CGPointMake(mPropertyView.center.x - mPropertyView.bounds.size.width, mPropertyView.center.y);
+    [UIView commitAnimations];
+    propertyBarHidden = NO;
+
 }
 
 - (void) setupPieMenu
@@ -359,55 +378,55 @@ enum {
 - (IBAction)pinchDetected:(id)sender
 {
     // Rich man pinch
-
     if([(UIPinchGestureRecognizer*)sender state] == UIGestureRecognizerStateEnded)
     {
         __previousScale = 1.0;
         return;
     }
-    
-    if ([(UIPinchGestureRecognizer*)sender state] == UIGestureRecognizerStateBegan ||
-        [(UIPinchGestureRecognizer*)sender state] == UIGestureRecognizerStateChanged) {
-        
-        CGFloat currentScale = [[theEAGLView.layer valueForKeyPath:@"transform.scale"] floatValue];
-        
-        const CGFloat kMaxScale = 4.0;
-        const CGFloat kMinScale = 0.8;
-        
-        CGFloat newScale = 1 -  (__previousScale - [(UIPinchGestureRecognizer*)sender scale]);
-        newScale = MIN(newScale, kMaxScale / currentScale);
-        newScale = MAX(newScale, kMinScale / currentScale);
-        CGAffineTransform transform = CGAffineTransformScale([theEAGLView transform], newScale, newScale);
-        theEAGLView.transform = transform;
-        }
-    
-        __previousScale = [(UIPinchGestureRecognizer*)sender scale]; 
+    float currentScale = [(UIPinchGestureRecognizer*)sender scale];
+    float diff = currentScale-__previousScale;
+    if(diff != 0)
+    {
+        [mModel zoom:diff];
+    }
+    __previousScale = currentScale; 
     
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    if ( [gestureRecognizer isMemberOfClass:[UITapGestureRecognizer class]] ) {
-        // Return NO for views that don't support Taps
-        UIView* view=touch.view;
-        if ((view!=theEAGLView)) {
-            return NO;
-        }
-        return YES;
-    }
     
-    return YES;
+        //if (![gestureRecognizer isMemberOfClass:[UILongPressGestureRecognizer class]])
+        //{
+            // Return NO for views that don't support Taps
+            UIView* view=touch.view;
+            if ((view!=theEAGLView)) {
+                return NO;
+            }
+
+        //}
+        return YES;
+    
+    //return YES;
 }
 
-- (IBAction)doubleTapDetected:(UITapGestureRecognizer *)sender;
+- (IBAction)longPressDetected:(UILongPressGestureRecognizer *)sender
 {
-    //auto a=0;
-    
-    //UITouch *touch = [sender. anyObject];
-	CGPoint p = [sender locationInView:self.mGLView];//[touch locationInView:self.view];
-	[pieMenu showInView:self.view atPoint:p];
-    //[super touchesBegan:touches withEvent:event];
-    [mModel eventCancel];
-    
+    if (sender.state == UIGestureRecognizerStateBegan){
+        NSLog(@"UIGestureRecognizerStateBegan.");
+        //Do Whatever You want on Began of Gesture
+        CGPoint p = [sender locationInView:self.mGLView];
+        //[touch locationInView:self.view];
+        [pieMenu showInView:self.view atPoint:p];
+        //[super touchesBegan:[sender touch] withEvent:[sender ]];
+        //[mModel eventCancel];
+        
+    }
+    //else if (sender.state == UIGestureRecognizerState) {
+        //NSLog(@"UIGestureRecognizerStateEnded");
+        //Do Whatever You want on End of Gesture
+    //}
+     
+	    
 }
 
 
@@ -557,23 +576,40 @@ enum {
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    
+    
+    
     UITouch *touch = [[event allTouches] anyObject];
     CGPoint positionCourante = [touch locationInView:theEAGLView];
+    
+    UIView* view=touch.view;
+    if ((view!=mPropertyView)) {
+        if(!propertyBarHidden)
+        {
+            [UIView beginAnimations:@"MenuAnimationShow" context:NULL];
+            [UIView setAnimationDuration:1];
+            self.mPropertyView.center = CGPointMake(mPropertyView.center.x + mPropertyView.bounds.size.width, mPropertyView.center.y);
+            [UIView commitAnimations];
+            propertyBarHidden = YES;
+        }
+        [mEventManager touchesBegan:touch:positionCourante];
+    }
+    
     //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
-    [mEventManager touchesBegan:touch:positionCourante];
+    //[mEventManager touchesBegan:touch:positionCourante];
         
-    NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");
-    for(UITouch* touch in touches) {
-        CGPoint positionCourante = [touch locationInView:theEAGLView];
-        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);
-    }
-    NSLog(@"Position de tous les doigts sur l'écran");
-    NSSet *allTouches = [event allTouches];
-    for(UITouch* touch in allTouches) {
-        CGPoint positionCourante = [touch locationInView:theEAGLView];
-        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);
-    }
-    NSLog(@"\n\n");
+//    NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");
+//    for(UITouch* touch in touches) {
+//        CGPoint positionCourante = [touch locationInView:theEAGLView];
+//        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);
+//    }
+//    NSLog(@"Position de tous les doigts sur l'écran");
+//    NSSet *allTouches = [event allTouches];
+//    for(UITouch* touch in allTouches) {
+//        CGPoint positionCourante = [touch locationInView:theEAGLView];
+//        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);
+//    }
+//    NSLog(@"\n\n");
 }
 
 

@@ -29,6 +29,7 @@
 -(void) deleteSelection;
 -(void) undo;
 -(void) redo;
+-(void) zoom:(float)scale;
 -(void) deplacerSouris:(int)deplacementX :(int)deplacementY;
 -(void) orbit:(int)deplacementX :(int)deplacementY;
 -(void) resizeWindow:(int)minX :(int)minY :(int)maxX :(int)maxY;

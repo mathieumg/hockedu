@@ -1943,6 +1943,7 @@ bool Terrain::selectNodes( Vecteur2 positionMin, Vecteur2 positionMax, bool togg
     acceptVisitor(visitor);
     visitor.faireSelection();
 #endif
+    pushUndoState();
     return !!getSelectedNodes().size();
 }
 
