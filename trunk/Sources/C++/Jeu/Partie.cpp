@@ -29,6 +29,7 @@
 #include "..\Reseau\RelayeurMessage.h"
 #include "Solution_Defines.h"
 #include "LaunchAchievementLite.h"
+#include "..\Reseau\ControllerServeurJeu.h"
 
 
 GLuint Partie::listePause_ = 0;
@@ -1073,6 +1074,29 @@ void Partie::SendAchievementEventToHumanPlayer( SPJoueurAbstrait player,Achievem
         }
 
     }
+}
+
+
+
+PartieServeurs* Partie::buildPartieServeurs()
+{
+    PartieServeurs* wPartie = new PartieServeurs;
+    wPartie->setUniqueGameId(mUniqueGameId);
+    wPartie->setGameName(mName);
+    wPartie->setMapName(mField->getNom());
+    wPartie->setPlayerName1(obtenirNomJoueurGauche());
+    wPartie->setPlayerName2(obtenirNomJoueurDroit());
+    wPartie->setPlayer1Score(pointsJoueurGauche_);
+    wPartie->setPlayer2Score(pointsJoueurDroit_);
+    wPartie->setPassword(mPassword);
+
+    ControllerServeurJeu* wController = dynamic_cast<ControllerServeurJeu*>(GestionnaireReseau::obtenirInstance()->getController());
+    if(wController)
+    {
+        wPartie->setServerId(wController->getServerId());
+    }
+
+    return wPartie;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

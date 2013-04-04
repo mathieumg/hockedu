@@ -206,9 +206,18 @@ int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
 
 void CallbackMapDownloaded(std::string pMapFilepath)
 {
-    if(!pMapFilepath.size())
+    if(pMapFilepath.find(".") == std::string::npos)
     {
         checkf(0);
+        // On doit terminer la partie, le parametre est le map id
+        FacadePortability::takeMutex(PaquetRunnableServeurJeuHelper::obtenirInstance()->mMutexMapMapnameGameId);
+        std::list<int> wListe = PaquetRunnableServeurJeuHelper::obtenirInstance()->mMapMapnameGameId[pMapFilepath];
+        for(auto it = wListe.begin(); it!=wListe.end(); ++it)
+        {
+            GameManager::obtenirInstance()->removeGame(*it);
+        }
+        wListe.empty();
+        FacadePortability::releaseMutex(PaquetRunnableServeurJeuHelper::obtenirInstance()->mMutexMapMapnameGameId);
         return;
     }
     FacadePortability::takeMutex(PaquetRunnableServeurJeuHelper::obtenirInstance()->mMutexMapMapnameGameId);

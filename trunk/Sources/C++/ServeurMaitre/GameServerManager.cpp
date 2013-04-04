@@ -1,10 +1,13 @@
 #include "GameServerManager.h"
 #include "..\Reseau\ExceptionsReseau\ExceptionReseau.h"
 #include "GameServer.h"
+#include "..\Reseau\ObjetsGlobaux\PartieServeurs.h"
 
 SINGLETON_DECLARATION_CPP(GameServerManager);
 unsigned int GameServerManager::mNewGameServerId = 0;
 unsigned int GameServerManager::mAddedGameServersAmount = 0;
+
+
 
 ////////////////////////////////////////////////////////////////////////
 ///

@@ -193,12 +193,21 @@ namespace HttpHockeduRequests
             wPostData.Add("map_id", wMapId.ToString());
             string wJsonData = HttpManager.getJsonFromRequest("http://hockedu.com/remote/getmap", wPostData);
 
-            UserMapDownloadJSON wMapLight = (UserMapDownloadJSON)JsonConvert.Import(typeof(UserMapDownloadJSON), wJsonData);
-
+            UserMapDownloadJSON wMapLight;
+            try
+            {
+                wMapLight=(UserMapDownloadJSON)JsonConvert.Import(typeof(UserMapDownloadJSON), wJsonData);
+            }
+            catch
+            {
+                wCallback(wMapId.ToString());
+                return;
+            }
             // On sauvegarde le data dans un fichier XML et on retourne le path
             if (wMapLight.error != null)
             {
-                wCallback("");
+                wCallback(wMapId.ToString());
+                return;
             }
             else
             {
@@ -219,7 +228,8 @@ namespace HttpHockeduRequests
                     catch (Exception)
                     {
                         // Si encore une erreur, on retourne rien
-                       wCallback("");
+                        wCallback(wMapId.ToString());
+                        return;
                     }
                 }
                 wCallback(wDestinationFilePath); // Retourne le file path ou le fichier a ete sauvegarde en local

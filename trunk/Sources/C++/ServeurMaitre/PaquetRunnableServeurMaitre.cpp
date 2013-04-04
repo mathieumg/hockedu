@@ -119,21 +119,6 @@ int PaquetRunnable::RunnableUserStatusMasterServer( Paquet* pPaquet )
 
 
 
-int PaquetRunnable::RunnableGameStatusMasterServer( Paquet* pPaquet )
-{
-    PaquetGameStatus* wPaquet = (PaquetGameStatus*) pPaquet;
-
-    // *****On doit faire une copie du PartieServeurs avant de le propager car il sera detruit a la destruction du PaquetGameStatus
-    PartieServeurs* wPartie = new PartieServeurs(wPaquet->getGameInfos());
-
-
-    FacadeServeurMaitre::obtenirInstance()->updateGameStatus(wPartie);
-
-
-    return 0;
-}
-
-
 int PaquetRunnable::RunnableGameCreationMasterServer( Paquet* pPaquet )
 {
     PaquetGameCreation* wPaquet = (PaquetGameCreation*) pPaquet;
@@ -204,6 +189,31 @@ int PaquetRunnable::RunnableGameConnectionMasterServer( Paquet* pPaquet )
     }
 
     GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
+    return 0;
+}
+
+
+
+int PaquetRunnable::RunnableGameStatusMasterServer( Paquet* pPaquet )
+{
+    PaquetGameStatus* wPaquet = (PaquetGameStatus*) pPaquet;
+
+    const int wGameId = wPaquet->getGameInfos()->getUniqueGameId();
+    const int wServerId = wPaquet->getGameInfos()->getServerId();
+
+    GameServer* wGameServer = GameServerManager::obtenirInstance()->getGameServer(wServerId);
+    if(wGameServer)
+    {
+        PartieServeurs* wGame = wGameServer->getGame(wGameId);
+        if(wGame)
+        {
+            wGame->updateData(wPaquet->getGameInfos());
+        }
+    }
+
+
+
+
     return 0;
 }
 

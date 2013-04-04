@@ -10,8 +10,11 @@ void PacketHandlerGameStatus::handlePacketReceptionSpecific(PacketReader& pPacke
         PaquetGameStatus* wPaquet = (PaquetGameStatus*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_STATUS);
         PartieServeurs* wGameInfos = wPaquet->getGameInfos();
 
+        // ServerId
+        wPaquet->getGameInfos()->setServerId(pPacketReader.readInteger());
+
         // GameId
-        wPaquet->setGameId(pPacketReader.readInteger());
+        wPaquet->getGameInfos()->setUniqueGameId(pPacketReader.readInteger());
 
         // Player1Name
         int wArraySize      = pPacketReader.readInteger();
@@ -27,6 +30,20 @@ void PacketHandlerGameStatus::handlePacketReceptionSpecific(PacketReader& pPacke
         wGameInfos->setPlayerName2((char*) wBuffer);
         delete wBuffer;
 
+        // MapName
+        wArraySize  = pPacketReader.readInteger();
+        wBuffer     = new uint8_t[wArraySize];
+        pPacketReader.readString(wBuffer, wArraySize);
+        wGameInfos->setMapName((char*) wBuffer);
+        delete wBuffer;
+
+        // GameName
+        wArraySize  = pPacketReader.readInteger();
+        wBuffer     = new uint8_t[wArraySize];
+        pPacketReader.readString(wBuffer, wArraySize);
+        wGameInfos->setGameName((char*) wBuffer);
+        delete wBuffer;
+
         //P1 score
         wGameInfos->setPlayer1Score(pPacketReader.readInteger());
 
@@ -34,7 +51,10 @@ void PacketHandlerGameStatus::handlePacketReceptionSpecific(PacketReader& pPacke
         wGameInfos->setPlayer2Score(pPacketReader.readInteger());
 
         // Time
-        wGameInfos->setTime(pPacketReader.readInteger());
+        wGameInfos->setTime(pPacketReader.read64bInteger());
+
+        // GameStatus
+        wGameInfos->setGameStatus((GameStatus) pPacketReader.readInteger());
 
         wPaquet->setRunnable(pRunnable);
         wPaquet->run();
@@ -49,15 +69,19 @@ void PacketHandlerGameStatus::handlePacketPreparationSpecific(Paquet* pPaquet, P
 {
     PaquetGameStatus* wPaquet   = (PaquetGameStatus*) pPaquet;
 
-
     PartieServeurs* wGameInfos  = wPaquet->getGameInfos();
 
-    pPacketBuilder << wGameInfos->getUniqueGameId()
+    pPacketBuilder 
+        << wGameInfos->getServerId()
+        << wGameInfos->getUniqueGameId()
         << wGameInfos->getPlayer1Name()
         << wGameInfos->getPlayer2Name()
+        << wGameInfos->getMapName()
+        << wGameInfos->getGameName()
         << wGameInfos->getPlayer1Score()
         << wGameInfos->getPlayer2Score()
-        << wGameInfos->getTime(); // time_t est represente par iun int
+        << wGameInfos->getTime()     // time_t est represente par un int64
+        << wGameInfos->getGameStatus();
 
 }
 
@@ -68,12 +92,17 @@ int PacketHandlerGameStatus::getPacketSizeSpecific( Paquet* pPaquet ) const
     PaquetGameStatus* wPaquet = (PaquetGameStatus*) pPaquet;
     PartieServeurs* wGameInfos = wPaquet->getGameInfos();
 
-    return getSizeForInt() // GameId
-        +  getSizeForString(wGameInfos->getPlayer1Name()) // Player1 Name
-        +  getSizeForString(wGameInfos->getPlayer2Name()) // Player2 Name
-        + getSizeForInt() // Player1 Score
-        + getSizeForInt() // Player2 Score
-        + getSizeForInt() // Time
+    return 
+            getSizeForInt()                                // ServerId
+        +   getSizeForInt()                                // GameId
+        +   getSizeForString(wGameInfos->getPlayer1Name()) // Player1 Name
+        +   getSizeForString(wGameInfos->getPlayer2Name()) // Player2 Name
+        +   getSizeForString(wGameInfos->getMapName())     // MapName
+        +   getSizeForString(wGameInfos->getGameName())    // GameName
+        +   getSizeForInt()                                // Player1 Score
+        +   getSizeForInt()                                // Player2 Score
+        +   getSizeFor64bInteger()                         // Time
+        +   getSizeForInt()                                // GameStatus
         ;
 
 }

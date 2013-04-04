@@ -18,7 +18,7 @@ public:
 
     void addGame(const int& pGameId, const std::string& pGameName, const std::string& pMapName, const std::string& pUsername, const std::string& pPassword);
 
-    const PartieServeurs* getGame(int pGameId);
+    PartieServeurs* getGame(int pGameId);
 
     const std::string& getServerIdentifier() { return mServerIdentifier; }
 

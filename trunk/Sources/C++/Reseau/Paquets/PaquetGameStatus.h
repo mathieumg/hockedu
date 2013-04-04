@@ -25,7 +25,7 @@ class PaquetGameStatus : public Paquet {
 private:
     friend class UsinePaquetGameStatus;
 
-    PartieServeurs mGame;
+    PartieServeurs* mGame;
 
 protected:
 	PaquetGameStatus();
@@ -33,9 +33,16 @@ protected:
 public:
     virtual PacketTypes getOperation() const { return GAME_STATUS; }
 
-    inline PartieServeurs* getGameInfos() {return &mGame;}
+    inline PartieServeurs* getGameInfos() {return mGame;}
+    inline void setGameInfos(PartieServeurs* pGame)
+    {
+        if(mGame)
+        {
+            delete mGame;
+        }
+        mGame = pGame;
+    }
 
-    void setGameId(const int pGameId) {mGame.mUniqueGameId = pGameId;}
 
 	~PaquetGameStatus();
 
