@@ -36,6 +36,9 @@
 // lien avec la librairie winsock2
 #pragma comment( lib, "ws2_32.lib" )
 #endif
+#ifdef LINUX
+#include <sys/stat.h>
+#endif
 
 ByteOrder GestionnaireReseau::NATIVE_BYTE_ORDER = UNKNOWN;
 
@@ -75,7 +78,7 @@ void logSetup()
             );
 #else
         struct stat st = {0};
-        if (stat("logs", &st) == -1) 
+        if (stat("logs", &st) == -1)
         {
             mkdir("logs", 0777);
         }
