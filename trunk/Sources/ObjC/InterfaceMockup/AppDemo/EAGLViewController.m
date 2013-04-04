@@ -34,6 +34,8 @@ enum {
 @property (retain, nonatomic) IBOutlet UIView *mTopBarView;
 @property (retain, nonatomic) IBOutlet UIView *undoRedoView;
 @property (retain, nonatomic) IBOutlet UIView *mPropertyView;
+@property (retain, nonatomic) IBOutlet UITableViewController *mPropertyTableViewController;
+@property (retain, nonatomic) IBOutlet UITableView *mPropertyTableView;
 @property (nonatomic, assign) CADisplayLink *displayLink;
 @property (nonatomic, assign) BOOL wrap;
 @property (nonatomic, assign) BOOL clipsToBounds;
@@ -50,6 +52,8 @@ enum {
 @synthesize mTopBarView;
 @synthesize mGLView;
 @synthesize mPropertyView;
+@synthesize mPropertyTableView;
+@synthesize mPropertyTableViewController;
 @synthesize undoRedoView;
 @synthesize context;
 @synthesize displayLink;
@@ -89,7 +93,10 @@ enum {
     [self.mGLView addSubview:mTopBarView];
     [self.mGLView addSubview:undoRedoView];
     [self.mGLView addSubview:mPropertyView];
+    [self.mPropertyView addSubview:mPropertyTableView];
     [self.theEAGLView setFramebuffer];
+    
+    //mPropertyTableView.dataSource = tablePropertiesCell;
     
     // On cache la bar en dehors a droite
     self.mPropertyView.center = CGPointMake(mPropertyView.center.x + mPropertyView.bounds.size.width, mPropertyView.center.y);
@@ -171,9 +178,40 @@ enum {
     [cameraButton release];
     [editionButton release];
     [mPropertyView release];
+    [propertyTableViewController release];
+    [propertyTableView release];
+    [tablePropertiesCell release];
     [super dealloc];
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    
+    return 1;
+    
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    }
+    
+    // Configure the cell.
+    
+    cell = tablePropertiesCell;
+    
+    return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UIViewController *targetViewController = [[mPropertyTableViewController objectAtIndex:indexPath.row] objectForKey:@"controller"];
+    
+    [[self navigationController] pushViewController:targetViewController animated:YES];
+}
 
 //With this and the next method, we only allow the landscaperight orientation when on this view
 -(BOOL)shouldAutorotate {
@@ -411,8 +449,9 @@ enum {
 
 - (IBAction)longPressDetected:(UILongPressGestureRecognizer *)sender
 {
+    NSLog(@"LONGPRESSDETECTED \n");
     if (sender.state == UIGestureRecognizerStateBegan){
-        NSLog(@"UIGestureRecognizerStateBegan.");
+        NSLog(@"UIGestureRecognizerStateBegan.\n");
         //Do Whatever You want on Began of Gesture
         CGPoint p = [sender locationInView:self.mGLView];
         //[touch locationInView:self.view];
@@ -753,7 +792,7 @@ enum {
     if ([gestureRecognizer numberOfTouches] == 2)
     {
         CGPoint position = [gestureRecognizer locationInView:theEAGLView];
-        NSLog(@"Centre de rotation x: %f y: %f",position.x, position.y);
+        NSLog(@"ROTATION GESTURE : Centre de rotation x: %f y: %f\n",position.x, position.y);
     }
 }
 

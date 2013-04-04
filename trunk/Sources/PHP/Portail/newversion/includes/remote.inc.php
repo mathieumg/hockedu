@@ -178,24 +178,21 @@ if( !$commonRemoteModule )
                         //header('Content-type: text/xml');
                         //echo file_get_contents( $mapCacheFilePath . $mapCacheFileName );
                         
+                        $jsonResponse['id'] = $mapInfo['id'];
+                        $jsonResponse['author'] = $mapInfo['id_user'];
+                        $jsonResponse['version'] = $mapInfo['version'];
                         $jsonResponse['name'] = $mapInfo['name'];
+                        $jsonResponse['rating'] = $mapInfo['rating_average'];
+                        $jsonResponse['public'] = $mapInfo['is_public'];
+                        $jsonResponse['created'] = $mapInfo['creation_time'];
+                        $jsonResponse['modified'] = $mapInfo['last_modified_time'];
                         $jsonResponse['content'] = file_get_contents( $mapCacheFilePath . $mapCacheFileName );
                     }
                 }
                 
                 break;
-                   
-            case 'updatemap':
-            
-                if( empty( $_POST['map_id'] ) )
-                {
-                    $jsonResponse['error'] = 'MapIdMissing';
-                    break;
-                }
                 
-                $updateMap = true;
-                
-            case 'newmap':                                
+            case 'sendmap':                                
                 if( empty( $_POST['user_id'] ) )
                 {
                     $jsonResponse['error'] = 'UserIdMissing';
@@ -250,7 +247,7 @@ if( !$commonRemoteModule )
                             {
                                 $mapContent = file_get_contents( $mapCacheFilePath . $mapCacheFileName );
                                 
-                                if( isset( $updateMap ) )
+                                if( !empty( $_POST['map_id'] ) )
                                 {
                                     $mapId = $_POST['map_id'];
                                     $Common->updateUserMap( $mapId, $mapName, $mapDescription, $mapIsPublic, $mapCacheFileName );
