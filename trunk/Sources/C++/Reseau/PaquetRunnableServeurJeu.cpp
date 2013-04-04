@@ -157,7 +157,7 @@ int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
 
     Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
 
-    if(wGame && wGame->getGameStatus() == GAME_RUNNING)
+    if(wGame && wGame->getGameStatus() == GAME_STARTED)
     {
         if(wGame->getGameStatus() == GAME_PAUSED)
         {
@@ -456,7 +456,7 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
             {
                 // Client demande une pause
 
-                if(wGame->getGameStatus() == GAME_RUNNING || wGame->getGameStatus() == GAME_STARTED)
+                if(wGame->getGameStatus() == GAME_STARTED)
                 {
                     wGame->modifierEnPause(true);
 

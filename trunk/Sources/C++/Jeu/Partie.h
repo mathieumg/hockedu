@@ -31,7 +31,6 @@ enum GameStatus {
     GAME_STARTED, 
     GAME_SCORE, 
     GAME_WAITING, 
-    GAME_RUNNING, 
     GAME_PAUSED,
     GAME_REPLAYING,
 };

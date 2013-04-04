@@ -248,7 +248,7 @@ void GestionnaireEtatModeJeu::sourisDeplacee( EvenementSouris& evenementSouris )
 	{
         Partie* wGame = GameManager::obtenirInstance()->getGame(mGameId);
         checkf(wGame);
-        if(wGame && wGame->getGameStatus() == GAME_RUNNING)
+        if(wGame && wGame->getGameStatus() == GAME_STARTED)
         {
             NoeudMaillet* mailletGauche = wGame->getField()->getLeftMallet();
             NoeudMaillet* mailletDroit = wGame->getField()->getRightMallet();

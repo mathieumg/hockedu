@@ -251,7 +251,7 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
         case GAME_EVENT_PAUSE_GAME_USER_DISCONNECTED:
             {
                 // L'autre joueur s'est deconnecte
-                if(wGame->getGameStatus() == GAME_RUNNING || wGame->getGameStatus() == GAME_STARTED)
+                if(wGame->getGameStatus() == GAME_STARTED)
                 {
                     wGame->modifierEnPause(true);
                     GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(true);
@@ -342,7 +342,7 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
             {
                 // Le serveur demande de se mettre en pause
                 // Si on est en cours de jeu, on pause
-                if(wGame->getGameStatus() == GAME_RUNNING || wGame->getGameStatus() == GAME_STARTED)
+                if(wGame->getGameStatus() == GAME_STARTED)
                 {
                     wGame->modifierEnPause(true);
                 }
