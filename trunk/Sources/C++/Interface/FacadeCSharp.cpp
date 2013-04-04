@@ -707,7 +707,7 @@ void BeginNewTournament(char* pTournamentName, char* pMapName, char** pPlayerNam
 		// Empty name means human player
 		if(strlen(pPlayerNames[i]) == 0)
         {
-            players.push_back(SPJoueurAbstrait(new JoueurHumain()));
+            players.push_back(SPJoueurAbstrait(new JoueurHumain("Joueur humain")));
         }
 		else // AI player
 		{	
