@@ -161,8 +161,11 @@ namespace UIHeavyClient
 
         public void addChatUser(string pUser)
         {
-            mConnectedUsers.Add(pUser);
-            mConnectedUsers.Sort();
+            if (!mConnectedUsers.Contains(pUser))
+            {
+                mConnectedUsers.Add(pUser);
+                mConnectedUsers.Sort();
+            }
         }
 
         public void removeChatUser(string pUser)
