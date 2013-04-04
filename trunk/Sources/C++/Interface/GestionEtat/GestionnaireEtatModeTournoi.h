@@ -12,6 +12,9 @@
 #include "GestionnaireEtatAbstrait.h"
 #include "ReplayObserver.h"
 
+
+class Tournoi;
+
 ////////////////////////////////////////////////////////////////////////////
 /// @class GestionnaireEtatModeTournoi
 /// @brief Gère le logiciel lorsque l'utilisateur est en tournoi 
@@ -23,7 +26,7 @@ class GestionnaireEtatModeTournoi : public GestionnaireEtatAbstrait, public Repl
 {
 public:
 	/// Constructeur par paramètre.
-	GestionnaireEtatModeTournoi();
+	GestionnaireEtatModeTournoi(Tournoi* tournoi);
 
 	/// Comportement pour une touche enfoncée
 	virtual void toucheEnfoncee( EvenementClavier& evenementClavier );
@@ -51,7 +54,9 @@ public:
 
 
     virtual void updateObserver( const ReplaySubject* pSubject );
-
+  
+private:
+    Tournoi* mTournoi;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
