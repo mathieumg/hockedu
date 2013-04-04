@@ -452,12 +452,13 @@ void connectPartieServerGame( int pGameId, unsigned int pServerId, char* pInputP
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
 }
 
-void requestGameCreationServerGame( char* pGameName, char* pMapName, char* pPassword  )
+void requestGameCreationServerGame( char* pGameName, char* pMapName, int pMapId, char* pPassword  )
 {
     PaquetGameCreation* wPaquet = (PaquetGameCreation*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CREATION_REQUEST);
     wPaquet->setGameName(pGameName);
     wPaquet->setMapName(pMapName);
     wPaquet->setPassword(pPassword);
+    wPaquet->setMapId(pMapId);
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
 }
 

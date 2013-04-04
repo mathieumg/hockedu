@@ -28,6 +28,7 @@
 #include "..\Reseau\UsinePaquets\UsinePaquetGameEvent.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetBonus.h"
 #include "..\Reseau\PaquetHandlers\PacketHandlerBonus.h"
+#include "..\Reseau\PaquetRunnableServeurJeu.h"
 
 void InitDLLServeurJeu()
 {
@@ -208,6 +209,7 @@ FacadeServeurJeu::FacadeServeurJeu()
     }
 
     mCallbackManagedStartDownload = NULL;
+    
 }
 
 

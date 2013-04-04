@@ -88,7 +88,7 @@ namespace UIHeavyClient
 
         // C++ functions
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void requestGameCreationServerGame(string pGameName, string pMapName, string pPassword);
+        public static extern void requestGameCreationServerGame(string pGameName, string pMapName, int pMapId, string pPassword);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void connectPartieServerGame(int pGameId, uint pServerId, string pInputPassword);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -214,7 +214,7 @@ namespace UIHeavyClient
 
             if (mGameCreationPrompt.OkIsClicked)
             {
-                requestGameCreationServerGame(mGameCreationPrompt.GameName, mGameCreationPrompt.Map.name, mGameCreationPrompt.Password);
+                requestGameCreationServerGame(mGameCreationPrompt.GameName, mGameCreationPrompt.Map.name, mGameCreationPrompt.Map.id, mGameCreationPrompt.Password);
                 mGameWaitingToConnect = new OnlineGameInfos(-1, 0, mGameCreationPrompt.GameName, "", mGameCreationPrompt.Map.name, mGameCreationPrompt.Password != "", "");
                 mIsWaitingForOnlineGame = true;
             }

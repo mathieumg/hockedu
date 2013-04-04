@@ -10,6 +10,7 @@
 #include <string>
 #include "../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"
 
+
 typedef void (*CallbackDone)(std::string pFilepath);
 typedef void (*ManagedStartMapDownload)(int pUserId, int pMapId, CallbackDone pCallbackFromManaged);
 
@@ -53,7 +54,7 @@ extern "C"
 class FacadeServeurJeu
 {
 public:
-
+    
 
     /// Obtient l'instance unique de la classe.
     static FacadeServeurJeu* getInstance();

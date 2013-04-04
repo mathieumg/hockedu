@@ -388,7 +388,7 @@ namespace UIHeavyClient
 
         // Tests pour demande de creation d'une partie sur le serveur jeu
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void requestGameCreationServerGame(string pGameName, string pMapName, string pPassword);
+        public static extern void requestGameCreationServerGame(string pGameName, string pMapName, int pMapId, string pPassword);
 
         // Tests pour mise en pause
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -459,7 +459,7 @@ namespace UIHeavyClient
         private void requestGameCreationServeurJeu_Click(object sender, RoutedEventArgs e)
         {
             // Tests pour la creation d'une partie sur le serveur jeu
-            requestGameCreationServerGame("Bob's Game", "MapEnCours.xml", "");
+            requestGameCreationServerGame("Bob's Game", "MapEnCours.xml", 0, "");
         }
 
         ////////////////////////////////////////////////////////////////////////

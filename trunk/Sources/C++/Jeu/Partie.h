@@ -200,6 +200,8 @@ private:
     /// ne peux changer une fois créer
     const GameType mGameType;
 
+
+    
 /// Accesseurs
 public:
 	/// Indique si les 2 joueurs de la partie sont virtuels
