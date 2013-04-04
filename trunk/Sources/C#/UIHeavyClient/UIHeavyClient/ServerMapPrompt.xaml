@@ -7,7 +7,7 @@
     <Grid Background="Black">
         <Grid.RowDefinitions>
             <RowDefinition Height="162*" />
-            <RowDefinition Height="45*" MinHeight="45" MaxHeight="45" />
+            <RowDefinition Height="50*" MinHeight="50" MaxHeight="50" />
         </Grid.RowDefinitions>
         <Button Content="Ok" HorizontalAlignment="Left" Margin="10,12,0,10" Name="mOkButton" Width="75" Background="Black" Foreground="White" Click="mOkButton_Click" Grid.Row="1" />
         <Button Content="Cancel" HorizontalAlignment="Left" Margin="103,12,0,10" Name="mCancelButton" Width="75" Background="Black" Foreground="White" Click="mCancelButton_Click" Grid.Row="1" />

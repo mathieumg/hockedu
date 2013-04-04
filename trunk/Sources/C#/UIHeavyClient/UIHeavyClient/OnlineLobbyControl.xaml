@@ -16,17 +16,18 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="80" MinHeight="80" MaxHeight="80" />
-            <RowDefinition Height="292*" />
+            <RowDefinition Height="245*" />
+            <RowDefinition Height="47*" />
             <RowDefinition Height="45*" />
             <RowDefinition Height="26" MinHeight="26" MaxHeight="26" />
             <RowDefinition Height="139*" />
             <RowDefinition Height="64*" />
         </Grid.RowDefinitions>
-        <Label Content="HOCKEDU ONLINE LOBBY" HorizontalAlignment="Stretch" Margin="0,0,8,14" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="72" Grid.RowSpan="6" Grid.ColumnSpan="6" />
-        <TextBox  Name="messageTextBox" HorizontalAlignment="Stretch"  TextWrapping="Wrap"   Margin="5"   Background="Black" Foreground="White" MaxHeight="50" VerticalScrollBarVisibility="Auto" Grid.Row="5" Grid.ColumnSpan="5" />
-        <Button   Name="submitButton"     Margin="6,3,2,3"   Background="Black" Foreground="White" Content="Send" MaxHeight="50" IsDefault="True" FontSize="32" Grid.Row="5" Grid.Column="5" Click="submitButton_Click" />
-        <TextBox  Name="wholeMessageBox" TextWrapping="Wrap" Margin="1" Background="Black" Foreground="White" Text="Welcome!" IsReadOnly="True" VerticalScrollBarVisibility="Auto" UseLayoutRounding="True" Grid.Row="3" Grid.ColumnSpan="5" Grid.RowSpan="2" />
-        <ListView Name="onlineListView" Margin="1" Background="Black" Foreground="White" Grid.Row="4" Grid.Column="5">
+        <Label Content="HOCKEDU ONLINE LOBBY" HorizontalAlignment="Stretch" Margin="0,0,8,14" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="72" Grid.RowSpan="7" Grid.ColumnSpan="6" />
+        <TextBox  Name="messageTextBox" HorizontalAlignment="Stretch"  TextWrapping="Wrap"   Margin="5"   Background="Black" Foreground="White" MaxHeight="50" VerticalScrollBarVisibility="Auto" Grid.Row="6" Grid.ColumnSpan="5" />
+        <Button   Name="submitButton"     Margin="6,3,2,3"   Background="Black" Foreground="White" Content="Send" MaxHeight="50" IsDefault="True" FontSize="32" Grid.Row="6" Grid.Column="5" Click="submitButton_Click" />
+        <TextBox  Name="wholeMessageBox" TextWrapping="Wrap" Margin="1" Background="Black" Foreground="White" Text="Welcome!" IsReadOnly="True" VerticalScrollBarVisibility="Auto" UseLayoutRounding="True" Grid.Row="4" Grid.ColumnSpan="5" Grid.RowSpan="2" />
+        <ListView Name="onlineListView" Margin="1" Background="Black" Foreground="White" Grid.Row="5" Grid.Column="5">
             <!--<ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Block" />
@@ -34,12 +35,12 @@
                 </ContextMenu>
             </ListView.ContextMenu>-->
         </ListView>
-        <Label Name="onlineLabel" Margin="1" Foreground="White" Content="Online:" Grid.Row="3" Grid.Column="5" />
-        <Button Content="Main Menu" Margin="3" Name="mBackToMainButton" Background="Black" Foreground="White" FontSize="16" Click="mBackToMainButton_Click" Grid.Row="2" Grid.Column="5" />
-        <Button Content="Online Edition Mode" Margin="3" Name="mEditionModeButton" Background="Black" Foreground="White" Grid.Row="2" Grid.Column="4" FontSize="16" Click="mEditionModeButton_Click" />
-        <Button Content="Join Game" Margin="3" Name="mJoinButton" Background="Black" Foreground="White" Grid.Row="2" Grid.Column="1" FontSize="16" Click="mJoinButton_Click" />
-        <Button Content="Join Random Game" Margin="3" Name="mRandomButton" Background="Black" Foreground="White" Grid.Row="2" Grid.Column="2" FontSize="16" Click="mRandomButton_Click" />
-        <Button Content="Create Game" Margin="3" Name="mCreateButton" Background="Black" Foreground="White" Grid.Row="2" FontSize="16" Click="mCreateButton_Click" />
+        <Label Name="onlineLabel" Margin="1" Foreground="White" Content="Online:" Grid.Row="4" Grid.Column="5" />
+        <Button Content="Main Menu" Margin="3" Name="mBackToMainButton" Background="Black" Foreground="White" FontSize="16" Click="mBackToMainButton_Click" Grid.Row="3" Grid.Column="5" />
+        <Button Content="Online Edition Mode" Margin="3" Name="mEditionModeButton" Background="Black" Foreground="White" Grid.Row="3" Grid.Column="4" FontSize="16" Click="mEditionModeButton_Click" />
+        <Button Content="Join Game" Margin="3" Name="mJoinButton" Background="Black" Foreground="White" Grid.Row="3" Grid.Column="1" FontSize="16" Click="mJoinButton_Click" />
+        <Button Content="Join Random Game" Margin="3" Name="mRandomButton" Background="Black" Foreground="White" Grid.Row="3" Grid.Column="2" FontSize="16" Click="mRandomButton_Click" />
+        <Button Content="Create Game" Margin="3" Name="mCreateButton" Background="Black" Foreground="White" Grid.Row="3" FontSize="16" Click="mCreateButton_Click" />
         <ListView Margin="5" Name="mOnlineGameListView" Background="Black" Foreground="White" Grid.ColumnSpan="6" Grid.Row="1" SizeChanged="ResizeGridColumns" GridViewColumnHeader.Click="ClickForSorting">
             <ListView.View>
                 <GridView>
@@ -52,7 +53,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Refresh" Margin="3" Name="mRefreshButton" Background="Black" Foreground="White" Grid.Row="2" FontSize="16" Grid.Column="3" Click="mRefreshButton_Click" />
-        <Label Content="Loading..." Grid.ColumnSpan="6" Grid.RowSpan="6" Margin="0" Name="mLoadingLabel" Background="Black" Foreground="White" FontSize="200" Visibility="Hidden"/>
+        <Button Content="Refresh" Margin="3" Name="mRefreshButton" Background="Black" Foreground="White" Grid.Row="3" FontSize="16" Grid.Column="3" Click="mRefreshButton_Click" />
+        <Label Content="" FontFamily="Times New Roman" FontSize="24" Foreground="#FF00D500" Height="36" HorizontalAlignment="Right" Margin="0,6,11,5" Name="mFeedbackLabel" VerticalAlignment="Center" Width="Auto" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="6"/>
     </Grid>
 </UserControl>
