@@ -848,28 +848,28 @@ bool Partie::getReadyToPlay()
 ////////////////////////////////////////////////////////////////////////
 void Partie::animer( const float& temps )
 {
-    if(getGameStatus() >= GAME_STARTED)
+    chiffres_->tick(temps);
+    mField->animerTerrain(temps);
+    updateMinuterie((int)(temps*1000));
+    if(getGameStatus() == GAME_STARTED)
     {
-        updateMinuterie((int)(temps*1000));
-        chiffres_->tick(temps);
-        mField->animerTerrain(temps);
-
         // Gestion de la physique du jeu
         mField->appliquerPhysique(temps);
         mPartieSyncer.tick();
-#if !MAT_DEBUG_
-        else if(mGameStatus == GAME_WAITING)
-        {
-            auto zamboni = mField->getZamboni();
-            Vecteur3 pos = zamboni->getPosition();
-            auto angle = utilitaire::DEG_TO_RAD(zamboni->getAngle());
-            Vecteur3 direction;
-            direction[VX] = cos(angle);
-            direction[VY] = sin(angle);
-            zamboni->setPosition(pos+direction);
-        }
-#endif
     }
+#if !MAT_DEBUG_
+    if(mGameStatus == GAME_WAITING)
+    {
+        auto zamboni = mField->getZamboni();
+        Vecteur3 pos = zamboni->getPosition();
+        auto angle = utilitaire::DEG_TO_RAD(zamboni->getAngle());
+        Vecteur3 direction;
+        direction[VX] = cos(angle);
+        direction[VY] = sin(angle);
+        zamboni->setPosition(pos+direction);
+    }
+#endif
+    
 }
 
 

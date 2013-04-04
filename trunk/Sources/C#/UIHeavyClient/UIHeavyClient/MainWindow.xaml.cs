@@ -282,20 +282,6 @@ namespace UIHeavyClient
             }
 
             {
-                System.Windows.Controls.MenuItem testPauseNetwork = new System.Windows.Controls.MenuItem();
-                testPauseNetwork.Header = "Test Pause Game";
-                testPauseNetwork.Click += requestGamePause_Click;
-                debugMenu.Items.Add(testPauseNetwork);
-            }
-
-            {
-                System.Windows.Controls.MenuItem testResumeNetwork = new System.Windows.Controls.MenuItem();
-                testResumeNetwork.Header = "Test Resume Game";
-                testResumeNetwork.Click += requestGameResume_Click;
-                debugMenu.Items.Add(testResumeNetwork);
-            }
-
-            {
                 System.Windows.Controls.MenuItem debugItem = new System.Windows.Controls.MenuItem();
                 debugItem.Header = "Reload Models";
                 debugItem.Click += ReloadModels_Click;
@@ -462,37 +448,6 @@ namespace UIHeavyClient
             requestGameCreationServerGame("Bob's Game", "MapEnCours.xml", 0, "");
         }
 
-        ////////////////////////////////////////////////////////////////////////
-        /// @fn void MainWindow.requestGamePause_Click()
-        ///
-        /// Game pause.
-        /// 
-        /// @param[in] object : The sender.
-        /// @param[in] RoutedEventArgs : The event.
-        ///
-        /// @return void.
-        ////////////////////////////////////////////////////////////////////////
-        private void requestGamePause_Click(object sender, RoutedEventArgs e)
-        {
-            // Tests pour la creation d'une partie sur le serveur jeu
-            requestGamePause();
-        }
-
-        ////////////////////////////////////////////////////////////////////////
-        /// @fn void MainWindow.requestGameResume_Click()
-        ///
-        /// Resume game.
-        /// 
-        /// @param[in] object : The sender.
-        /// @param[in] RoutedEventArgs : The event.
-        ///
-        /// @return void.
-        ////////////////////////////////////////////////////////////////////////
-        private void requestGameResume_Click(object sender, RoutedEventArgs e)
-        {
-            // Tests pour la creation d'une partie sur le serveur jeu
-            requestGameResume();
-        }
 
         [DllImport( @"RazerGame.dll" )]
         static extern bool ActionPerformed( ActionType action );

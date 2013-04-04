@@ -43,7 +43,7 @@ int PaquetRunnable::RunnableMailletClient( Paquet* pPaquet )
 
     Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
 
-    if(wGame && wGame->getGameStatus() >= GAME_STARTED)
+    if(wGame && wGame->getGameStatus() == GAME_STARTED)
     {
         Vecteur3 wPos = wPaquet->getPosition();
         NoeudMaillet* maillet;

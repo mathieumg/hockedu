@@ -103,10 +103,11 @@ void GestionnaireEtatModeJeu::toucheEnfoncee(EvenementClavier& evenementClavier)
     }
     else if(touche == VJAK_SPACE)
     {
-        if(wGame)
+        FacadeModele::getInstance()->togglePause();
+        /*if(wGame)
         {
             wGame->modifierEnPause(!wGame->estEnPause());
-        }
+        }*/
     }
 	else
     {

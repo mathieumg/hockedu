@@ -528,6 +528,8 @@ bool RepartiteurActions::actionBoutonAllerModeSimulation()
 bool RepartiteurActions::actionTogglePauseJeu()
 {
 	FacadeModele::getInstance()->togglePause();
+    FacadeModele* wCrash = 0;
+    wCrash->animer(0.3f);
 	return true; 
 }
 
