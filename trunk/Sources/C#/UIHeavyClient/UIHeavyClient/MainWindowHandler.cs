@@ -135,6 +135,7 @@ namespace UIHeavyClient
                     Context.EditionModeControl.AppendOpenGL();
                     Context.EditionModeControl.InitButtons();
                     Context.EditionModeControl.mPropertiesGroupBox.DisplayProperties(RazerKey.RAZER_KEY_NONE);
+                    Context.OnlineLobbyControl.ClearOnlineUsers();
                     CallbackManager.CommitChanges();
                 }
                 else
@@ -176,6 +177,7 @@ namespace UIHeavyClient
                     Context.PlayModeControl.AppendOpenGL();
                     Context.PlayModeControl.DisplayRadioPlaylists();
                     Context.PlayModeControl.DisplayRadioVolume();
+                    Context.OnlineLobbyControl.ClearOnlineUsers();
                     CallbackManager.CommitChanges();
                 }
                 else
@@ -203,10 +205,13 @@ namespace UIHeavyClient
                 if (ActionPerformed(ActionType.ACTION_ALLER_MENU_PRINCIPAL))
                 {
                     Context.WindowContentControl.Content=Context.MainMenuControl;
+
                     Context.MainMenuControl.InitOperations();
                     Context.EditionModeControl.RemoveOpenGL();
                     Context.PlayModeControl.RemoveOpenGL();
                     Context.MainMenuControl.DisplayProfileNames();
+                    Context.OnlineLobbyControl.ClearOnlineUsers();
+
                     LoginControl.DisconnectMasterServer();
                     CallbackManager.CommitChanges();
                 }

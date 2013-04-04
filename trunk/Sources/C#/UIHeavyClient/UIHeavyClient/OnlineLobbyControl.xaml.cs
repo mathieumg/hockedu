@@ -21,6 +21,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.ComponentModel;
 using HttpHockeduRequests;
 using System.Runtime.InteropServices;
 
@@ -80,6 +81,11 @@ namespace UIHeavyClient
         private bool mIsWaitingForOnlineGame;
         private OnlineGameInfos mGameWaitingToConnect;
 
+        private GridViewColumnHeader mLastClickedHeader;
+        private ListSortDirection mLastSortDirection;
+
+        private Dictionary<string, string> mColumnToMember;
+
         // Properties
         public Chat ChatObject
         {
@@ -115,6 +121,16 @@ namespace UIHeavyClient
             mChat = new Chat();
 
             mIsWaitingForOnlineGame = false;
+
+            mColumnToMember = new Dictionary<string, string>() 
+            { 
+                {"ID", "id"},
+                {"Server ID", "serverId"},
+                {"Name", "name"},
+                {"Creator's Name", "creatorName"},
+                {"Need Password", "needPasswordString"},
+                {"Map Name", "mapName"},
+            };
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -151,7 +167,10 @@ namespace UIHeavyClient
 
             if (mServerMapPrompt.OkIsClicked)
             {
-                mHttpManager.downloadMap(12, mServerMapPrompt.SelectedMap.id, HandleDownloadedMap);
+                if (mServerMapPrompt.SelectedMap != null)
+                {
+                    mHttpManager.downloadMap(12, mServerMapPrompt.SelectedMap.id, HandleDownloadedMap);
+                }
             }
 
             mServerMapPrompt.Close();
@@ -280,8 +299,15 @@ namespace UIHeavyClient
             }
         }
 
-
-
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.CallbackMapDownloaded()
+        ///
+        /// Callback for when a map is downloaded.
+        /// 
+        /// @param[in] string : The local map path.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void CallbackMapDownloaded(string pOutputPath)
         {
 
@@ -290,6 +316,7 @@ namespace UIHeavyClient
                 Console.WriteLine(pOutputPath);
             });
         }
+
         ////////////////////////////////////////////////////////////////////////
         /// @fn void OnlineLobbyControl.CallbackEvent()
         ///
@@ -376,6 +403,13 @@ namespace UIHeavyClient
             return true;
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.RequestGamesList()
+        ///
+        /// Query game list.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void RequestGamesList()
         {
             mOnlineGameListView.Items.Clear();
@@ -447,12 +481,9 @@ namespace UIHeavyClient
         }
 
         ////////////////////////////////////////////////////////////////////////
-        /// @fn void OnlineLobbyControl.PropertiesRefreshWarning()
+        /// @fn void OnlineLobbyControl.UpdateConnectedUserList()
         ///
-        /// Waning.
-        /// 
-        /// @param[in] object : The sender.
-        /// @param[in] RoutedEventArgs : The event.
+        /// Connected user list.
         ///
         /// @return void.
         ////////////////////////////////////////////////////////////////////////
@@ -467,16 +498,14 @@ namespace UIHeavyClient
                 {
                     onlineListView.Items.Add(wUser);
                 }
+                SortListView("id", ListSortDirection.Ascending);
             }
         }
 
         ////////////////////////////////////////////////////////////////////////
-        /// @fn void OnlineLobbyControl.PropertiesRefreshWarning()
+        /// @fn void OnlineLobbyControl.BlockUIContent()
         ///
-        /// Waning.
-        /// 
-        /// @param[in] object : The sender.
-        /// @param[in] RoutedEventArgs : The event.
+        /// Disable some UI elements.
         ///
         /// @return void.
         ////////////////////////////////////////////////////////////////////////
@@ -488,12 +517,9 @@ namespace UIHeavyClient
         }
 
         ////////////////////////////////////////////////////////////////////////
-        /// @fn void OnlineLobbyControl.PropertiesRefreshWarning()
+        /// @fn void OnlineLobbyControl.UnBlockUIContent()
         ///
-        /// Waning.
-        /// 
-        /// @param[in] object : The sender.
-        /// @param[in] RoutedEventArgs : The event.
+        /// Enable some UI elements.
         ///
         /// @return void.
         ////////////////////////////////////////////////////////////////////////
@@ -504,6 +530,13 @@ namespace UIHeavyClient
             onlineListView.IsEnabled=true;
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.DisplayServerGames()
+        ///
+        /// Display game list on UI.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void DisplayServerGames()
         {
             int nbrServerGames = GetNbrServerGames();
@@ -523,6 +556,107 @@ namespace UIHeavyClient
             {
                 mOnlineGameListView.Items.Add((object)g);
             }
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.ResizeGridColumns()
+        ///
+        /// Resize the list view columns.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] SizeChangedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        private void ResizeGridColumns(object sender, SizeChangedEventArgs e)
+        {
+            double totalWidth = (sender as ListView).ActualWidth;
+            GridView grid = (sender as ListView).View as GridView;
+
+            grid.Columns[0].Width = totalWidth * 0.1;
+            grid.Columns[1].Width = totalWidth * 0.15;
+            grid.Columns[2].Width = totalWidth * 0.2;
+            grid.Columns[3].Width = totalWidth * 0.15;
+            grid.Columns[4].Width = totalWidth * 0.2;
+            grid.Columns[5].Width = totalWidth * 0.2;
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.ClickForSorting()
+        ///
+        /// Sort by clicking on a header.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        private void ClickForSorting(object sender, RoutedEventArgs e)
+        {
+            GridViewColumnHeader clickedHeader = e.OriginalSource as GridViewColumnHeader;
+            ListSortDirection sortDirection;
+
+            if (clickedHeader != null)
+            {
+                if (clickedHeader.Role != GridViewColumnHeaderRole.Padding)
+                {
+                    if (clickedHeader != mLastClickedHeader)
+                    {
+                        sortDirection = ListSortDirection.Ascending;
+                    }
+                    else
+                    {
+                        if (mLastSortDirection == ListSortDirection.Ascending)
+                        {
+                            sortDirection = ListSortDirection.Descending;
+                        }
+                        else
+                        {
+                            sortDirection = ListSortDirection.Ascending;
+                        }
+                    }
+
+                    string header = mColumnToMember[(clickedHeader.Column.Header as string)];
+                    SortListView(header, sortDirection);
+
+                    mLastClickedHeader = clickedHeader;
+                    mLastSortDirection = sortDirection;
+                }
+            }
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.SortListView()
+        ///
+        /// Sort by a header.
+        /// 
+        /// @param[in] string : The member'a name.
+        /// @param[in] ListSortDirection : The sorting direction.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        private void SortListView(string pSortBy, ListSortDirection pDirection)
+        {
+            ICollectionView items = CollectionViewSource.GetDefaultView(mOnlineGameListView.Items);
+
+            if (items != null)
+            {
+                items.SortDescriptions.Clear();
+                items.SortDescriptions.Add(new SortDescription(pSortBy, pDirection));
+                items.Refresh();
+            }
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.ClearOnlineUsers()
+        ///
+        /// When deconnecting, clear online users.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        public void ClearOnlineUsers()
+        {
+            onlineListView.Items.Clear();
         }
     }
 }
