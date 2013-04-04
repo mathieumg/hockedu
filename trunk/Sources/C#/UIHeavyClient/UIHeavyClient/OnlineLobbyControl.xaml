@@ -53,5 +53,6 @@
             </ListView.View>
         </ListView>
         <Button Content="Refresh" Margin="3" Name="mRefreshButton" Background="Black" Foreground="White" Grid.Row="2" FontSize="16" Grid.Column="3" Click="mRefreshButton_Click" />
+        <Label Content="Loading..." Grid.ColumnSpan="6" Grid.RowSpan="6" Margin="0" Name="mLoadingLabel" Background="Black" Foreground="White" FontSize="200" Visibility="Hidden"/>
     </Grid>
 </UserControl>

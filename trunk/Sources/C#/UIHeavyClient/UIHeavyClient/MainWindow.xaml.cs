@@ -54,6 +54,8 @@ namespace UIHeavyClient
 
         private CreditPopup mCreditPopup;
 
+        private SaveServerMapPrompt mSaveServerMapPrompt;
+
         private OpenGLControl mOpenGLControl;
         private WindowsFormsHost mWindowFormsHost;
 
@@ -198,6 +200,8 @@ namespace UIHeavyClient
             mKeyboardOptionControl = new KeyboardOptionControl();
 
             mCreditPopup = new CreditPopup();
+
+            mSaveServerMapPrompt = new SaveServerMapPrompt();
 
             this.WindowContentControl.Content = mMainMenuControl;
             MainWindowHandler.InitCallbacks();
@@ -847,6 +851,11 @@ namespace UIHeavyClient
         void ShowCreditsPopup(object sender, RoutedEventArgs e)
         {
             mCreditPopup.ShowDialog();
+        }
+
+        private void SaveMapToServer(object sender, RoutedEventArgs e)
+        {
+            mSaveServerMapPrompt.ShowDialog();
         }
     }
 }

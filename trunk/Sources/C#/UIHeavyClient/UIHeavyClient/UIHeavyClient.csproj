@@ -111,6 +111,9 @@
       <DependentUpon>PasswordPrompt.xaml</DependentUpon>
     </Compile>
     <Compile Include="RazerUtilities.cs" />
+    <Compile Include="SaveServerMapPrompt.xaml.cs">
+      <DependentUpon>SaveServerMapPrompt.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ServerMapPrompt.xaml.cs">
       <DependentUpon>ServerMapPrompt.xaml</DependentUpon>
     </Compile>
@@ -155,6 +158,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CreditPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SaveServerMapPrompt.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -312,9 +319,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UserControls\FuckYeah.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <SplashScreen Include="splash.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

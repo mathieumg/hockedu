@@ -95,6 +95,7 @@ namespace UIHeavyClient
                     mMapListView.Items.Add(wItem);
                 }
                 SortListView("id", ListSortDirection.Ascending);
+                mFeedbackLabel.Content = "";
             });
         }
 
@@ -139,6 +140,7 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public void GetServerMaps()
         {
+            mFeedbackLabel.Content = "Downloading maps, please wait...";
             mMapListView.Items.Clear();
 
             // Load map list async!!!!

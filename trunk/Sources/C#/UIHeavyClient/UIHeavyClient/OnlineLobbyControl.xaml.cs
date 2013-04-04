@@ -169,6 +169,7 @@ namespace UIHeavyClient
             {
                 if (mServerMapPrompt.SelectedMap != null)
                 {
+                    mLoadingLabel.Visibility = System.Windows.Visibility.Visible;
                     mHttpManager.downloadMap(12, mServerMapPrompt.SelectedMap.id, HandleDownloadedMap);
                 }
             }
@@ -199,15 +200,17 @@ namespace UIHeavyClient
 
                     if (mPasswordPrompt.OkIsClicked)
                     {
+                        mLoadingLabel.Visibility = System.Windows.Visibility.Visible;
                         connectPartieServerGame(selected.Value.id, selected.Value.serverId, mPasswordPrompt.Password);
                         mGameWaitingToConnect = selected.Value;
-                        mIsWaitingForOnlineGame = true;
+                        mIsWaitingForOnlineGame = true;   
                     }
 
                     mPasswordPrompt.Close();
                 }
                 else
                 {
+                    mLoadingLabel.Visibility = System.Windows.Visibility.Visible;
                     connectPartieServerGame(selected.Value.id, selected.Value.serverId, "");
                     mGameWaitingToConnect = selected.Value;
                     mIsWaitingForOnlineGame = true;
@@ -233,6 +236,7 @@ namespace UIHeavyClient
 
             if (mGameCreationPrompt.OkIsClicked)
             {
+                mLoadingLabel.Visibility = System.Windows.Visibility.Visible;
                 requestGameCreationServerGame(mGameCreationPrompt.GameName, mGameCreationPrompt.Map.name, mGameCreationPrompt.Map.id, mGameCreationPrompt.Password);
                 mGameWaitingToConnect = new OnlineGameInfos(-1, 0, mGameCreationPrompt.GameName, "", mGameCreationPrompt.Map.name, mGameCreationPrompt.Password != "", "");
                 mIsWaitingForOnlineGame = true;
@@ -253,13 +257,18 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         private void mRandomButton_Click(object sender, RoutedEventArgs e)
         {
-            Random rand = new Random();
-            OnlineGameInfos? randomGame = (mOnlineGameListView.Items[rand.Next(mOnlineGameListView.Items.Count - 1)] as OnlineGameInfos?);
+            if (mOnlineGameListView.Items.Count > 0)
+            {
+                mLoadingLabel.Visibility = System.Windows.Visibility.Visible;
 
-            connectPartieServerGame(randomGame.Value.id, randomGame.Value.serverId, "");
-            mGameWaitingToConnect = randomGame.Value;
+                Random rand = new Random();
+                OnlineGameInfos? randomGame = (mOnlineGameListView.Items[rand.Next(mOnlineGameListView.Items.Count - 1)] as OnlineGameInfos?);
 
-            mIsWaitingForOnlineGame = true;
+                connectPartieServerGame(randomGame.Value.id, randomGame.Value.serverId, "");
+                mGameWaitingToConnect = randomGame.Value;
+
+                mIsWaitingForOnlineGame = true;
+            }   
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -427,6 +436,7 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public void RequestGamesList()
         {
+            mLoadingLabel.Visibility = Visibility.Hidden;
             mOnlineGameListView.Items.Clear();
             requestGamesList();
         }
