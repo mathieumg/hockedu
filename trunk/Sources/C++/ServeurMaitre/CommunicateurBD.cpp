@@ -101,13 +101,19 @@ int CommunicateurBD::authenticate( const std::string& pPlayerName, const std::st
 
 
 
-bool CommunicateurBD::validateConnection() const
+bool CommunicateurBD::validateConnection()
 {
 	/*if(mConnection -> isClosed())
 	{
 		throw ExceptionReseauBD("Connexion a la Base de donnee impossible");
 	}*/
-	return mConnection.connected();
+
+    if(!mConnection.connected())
+    {
+        // Si deconnecte, on essaie de se reconnecter
+        init();
+    }
+    return mConnection.connected();
 }
 
 

@@ -42,7 +42,7 @@ public:
 
 private:
     // Methode a appeler avant chaque methode qui doit appeler la BD
-    bool validateConnection() const;
+    bool validateConnection();
 
 
 	mysqlpp::Connection mConnection;

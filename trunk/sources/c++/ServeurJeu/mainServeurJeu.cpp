@@ -9,6 +9,9 @@
 #include "MenuOptionCallVoid.h"
 #include <list>
 
+
+
+
 const char flagChar = '-';
 
 
@@ -47,7 +50,7 @@ void ReconnectMaster()
     ConnectMasterServer(wMasterServerIP);
 }
 
-int main(int argc, char* argv[])  {
+int mainServeurJeu(std::string pMasterServerIp)  {
     
     std::cout << "--------- Serveur Jeu ---------" << std::endl << std::endl;
     //std::string wMasterServerIP = "192.168.0.105"; // Adresse par defaut du serveur maitre
@@ -56,7 +59,13 @@ int main(int argc, char* argv[])  {
     // -mIP     Adresse IPv4 du serveur Maitre
     //**********
     bool wUsedArgForMasterServerIp = false;
-    try
+    if(pMasterServerIp != "")
+    {
+        wMasterServerIP = pMasterServerIp;
+        wUsedArgForMasterServerIp = true;
+    }
+
+    /*try
     {
         for(int i = 0; i < argc; i++) 
         {
@@ -82,7 +91,7 @@ int main(int argc, char* argv[])  {
         std::cout << "Erreur dans les parametres" << std::endl;
         std::cout << e.what() << std::endl;
         return -1;
-    }
+    }*/
 
     // Appel a la fonction d'initialisation
     InitDLLServeurJeu();

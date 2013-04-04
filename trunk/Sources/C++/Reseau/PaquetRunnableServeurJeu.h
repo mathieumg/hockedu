@@ -2,11 +2,14 @@
 #pragma once
 #include "../Reseau/PaquetRunnable.h"
 #include "Paquets/PaquetBonus.h"
-
+#include "Singleton.h"
+#include <map>
+#include <list>
+#include "../Reseau/FacadePortability.h"
 
 namespace PaquetRunnable
 {
-    // Delegates specifiques au serveur maitre
+    // Delegates specifiques au serveur jeu
 
     int RunnableAuthentificationServeurJeuServerGame(Paquet* pPaquet);
 
@@ -29,7 +32,18 @@ namespace PaquetRunnable
     int RunnableBonusGoalerServerGame(PaquetBonus* pPaquet);
 
 
+    
 };
 
+
+class PaquetRunnableServeurJeuHelper : public Singleton<PaquetRunnableServeurJeuHelper>
+{
+    SINGLETON_DECLARATION_CLASSE_SANS_CONSTRUCTEUR(PaquetRunnableServeurJeuHelper);
+public:
+    std::map<std::string, std::list<int>> mMapMapnameGameId;
+    HANDLE_MUTEX mMutexMapMapnameGameId;
+private:
+    PaquetRunnableServeurJeuHelper();
+};
 
 
