@@ -49,7 +49,7 @@ namespace HttpHockeduRequests
     public class UserMapDownloadJSON
     {
         public string   error;       // Error message
-        public string   name;    // Map name
+        public string   name;       // Map name
         public string   content;    // XML content
     }
 
