@@ -12,7 +12,8 @@
 
 @interface Model3DManager : NSObject
 {
-    NSMutableDictionary* mModels;
+//    NSMutableDictionary* mModels;
+    NSMutableArray* mModels;
 }
 
 - (id)init;

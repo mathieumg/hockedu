@@ -72,6 +72,10 @@ public:
 	void ajouterChanson(std::string nomCanal, std::string nomChanson);
 	void supprimerChanson(std::string nomCanal, std::string nomChanson);
 
+    // Getter and setter for house display
+    inline bool GetIsHouseDisplay() const { return mIsHouseDisplay; }
+    void SetIsHouseDisplay(bool val);
+
 	/// Lecture du fichier XML de musiques
 	std::vector<std::string> obtenirListeCanaux();
 	NomsPlaylists obtenirCanal(std::string nom);
@@ -96,6 +100,8 @@ private:
     bool mAutoSaveEnable;
     float mAutoSaveDelai; // in seconds
 
+    bool mIsHouseDisplay;
+    
 public:
     /// Accessors of mAutoSaveEnable
     inline bool IsAutoSaveEnable() const { return mAutoSaveEnable; }

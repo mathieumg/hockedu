@@ -43,6 +43,7 @@ public:
     static GLuint CreerListe( Modele3D* pModel, bool avecTexture = true);
     /// Ajoute une liste dans la map pour la retrouver
     void AjouterListe( Modele3DKey key, GLuint liste );
+    void ModifierListe( Modele3DKey key, GLuint liste );
 
 	void initialiser();
 
@@ -50,6 +51,8 @@ public:
 
     /// Debug usage, do not call unless certain.
     void ReloadModels();
+
+    unsigned int mHouseList;
 
 private:
 	typedef std::map<std::string,GLuint> NameToTypeId;

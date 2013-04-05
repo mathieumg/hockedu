@@ -179,6 +179,8 @@ namespace UIHeavyClient
 
             AddPlayer(newName, 1, 0);
 
+            MainWindowHandler.LaunchAchievementEvent(AchievementEvent.ACHIEVEMENT_EVENT_AI_CREATED);
+
             DisplayAIProfiles();
         }
 

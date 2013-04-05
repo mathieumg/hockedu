@@ -21,6 +21,7 @@
 #include "..\Reseau\Paquets\PaquetGameEvent.h"
 #include "..\Reseau\RelayeurMessage.h"
 #include "..\Reseau\Paquets\PaquetEvent.h"
+#include "LaunchAchievementLite.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -687,6 +688,16 @@ void AddRadioPlaylist(char* pPlaylist, char** pSongs, int pNbrSongs)
     }
 }
 
+bool GetIsHouseDisplay()
+{
+    return ConfigScene::obtenirInstance()->GetIsHouseDisplay();
+}
+
+void SetIsHouseDisplay(bool pIsHouseDisplay)
+{
+    ConfigScene::obtenirInstance()->SetIsHouseDisplay(pIsHouseDisplay);
+}
+
 bool TerrainHasDeletable()
 {
     return FacadeModele::Exists() && FacadeModele::getInstance()->getEditionField()->CanSelectedNodeBeDeleted();
@@ -885,6 +896,11 @@ void GetServersGames(OnlineGameInfos* pGames, int pNbrGames)
             strcpy_s(pGames[i].needPasswordString, 4, "No");
         }
     }
+}
+
+void LaunchAchievementEvent( AchievementEvent pEvent )
+{
+    Achievements::LaunchEvent(pEvent);
 }
 
 

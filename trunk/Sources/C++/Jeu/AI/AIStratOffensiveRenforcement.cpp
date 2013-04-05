@@ -54,7 +54,9 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
 	if(!maillet->getField() || !( rondelle = maillet->getField()->getPuck() ) || !( table = maillet->getField()->getTable() ) )
 		return Vecteur2();
 
-	AIMaillet* aiMallet = ((JoueurVirtuel*)maillet->obtenirJoueur())->getAiMaillet();
+    SPJoueurVirtuel joueurVirtuel = std::dynamic_pointer_cast<JoueurVirtuel>(maillet->obtenirJoueur());
+    checkf(joueurVirtuel);
+	AIMaillet* aiMallet = joueurVirtuel->getAiMaillet();
 
 	float sommeRayon = maillet->getRadius() + rondelle->getRadius() + 5; // minimum de 5 unités pour faire l'impulsion lors du coup
 
