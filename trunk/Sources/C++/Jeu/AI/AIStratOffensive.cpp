@@ -58,7 +58,7 @@ AIStratOffensive::~AIStratOffensive()
 /// @return Vecteur2 :  la direction
 ///
 ////////////////////////////////////////////////////////////////////////
-Vecteur2 AIStratOffensive::appliquerStrategie( NoeudMaillet* maillet )
+Vecteur2 AIStratOffensive::appliquerStrategie( NoeudMaillet* maillet , Vecteur2 pointVise )
 {
 	NoeudRondelle* rondelle; NoeudTable* table;
 	if(!maillet->getField() || !( rondelle = maillet->getField()->getPuck() ) || !( table = maillet->getField()->getTable() ) )

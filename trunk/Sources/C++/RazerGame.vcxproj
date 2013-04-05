@@ -290,6 +290,7 @@
     <ClCompile Include="jeu\ai\AIStratOffensiveDroite.cpp" />
     <ClCompile Include="jeu\ai\AIStratOffensiveGauche.cpp" />
     <ClCompile Include="jeu\ai\AIStratOffensiveLigneDroite.cpp" />
+    <ClCompile Include="Jeu\AI\AIStratOffensiveRenforcement.cpp" />
     <ClCompile Include="Jeu\AI\Renforcement\AILearner.cpp" />
     <ClCompile Include="Jeu\AI\Renforcement\AIMailletRenforcement.cpp" />
     <ClCompile Include="Jeu\JoueurAbstrait.cpp" />
@@ -479,6 +480,7 @@
     <ClInclude Include="jeu\ai\AIStratOffensiveDroite.h" />
     <ClInclude Include="jeu\ai\AIStratOffensiveGauche.h" />
     <ClInclude Include="jeu\ai\AIStratOffensiveLigneDroite.h" />
+    <ClInclude Include="Jeu\AI\AIStratOffensiveRenforcement.h" />
     <ClInclude Include="Jeu\AI\Renforcement\AILearner.h" />
     <ClInclude Include="Jeu\AI\Renforcement\AIMailletRenforcement.h" />
     <ClInclude Include="Jeu\JoueurAbstrait.h" />

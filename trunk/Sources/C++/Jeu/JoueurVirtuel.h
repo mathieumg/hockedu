@@ -58,7 +58,9 @@ public:
 
 	/// Questionne le AIMaillet sur la direction à prendre du maillet
 	virtual Vecteur2 obtenirDirectionAI(NoeudMaillet* maillet);
-
+	/// Accesseur de aiMaillet_
+	AIMaillet* getAiMaillet() const { return aiMaillet_; }
+	void setAiMaillet(AIMaillet* val) { aiMaillet_ = val; }
 private:
 	/// Vitesse du joueur
 	unsigned int vitesse_;
@@ -73,6 +75,7 @@ protected:
 
     /// Pointeur sur AIMaillet pour savoir dans quelle direction aller
     AIMaillet* aiMaillet_;
+	
 };
 
 
