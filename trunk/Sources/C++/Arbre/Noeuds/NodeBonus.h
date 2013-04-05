@@ -46,6 +46,11 @@ public:
 
     /// Accueil un visiteur
     virtual void acceptVisitor( VisiteurNoeud& v);
+
+    /// vertexArray size must be 81, colorArray size must be 108
+    static void getCubeColorVertexArrays(float* vertexArray, float* colorArray);
+
+    virtual void updateMatrice();
 private:
     float mSpawnTimeLeft;// in sec
 

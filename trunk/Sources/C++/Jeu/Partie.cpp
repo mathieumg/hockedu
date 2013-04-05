@@ -458,7 +458,7 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
                     throw ExceptionJeu("Combinaison de joueurs invalides");
                     break;
                 }
-                wMaillets[i]->setPlayer(wJoueurs[i].get());
+                wMaillets[i]->setPlayer(wJoueurs[i]);
                 wMaillets[i]->buildMouseJoint();
             }
         }
@@ -498,7 +498,7 @@ void Partie::reloadControleMallet()
 ////////////////////////////////////////////////////////////////////////
 void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 {
-    mGameStatus = GAME_STARTED;
+    setGameStatus(GAME_STARTED);
     // Obtention des éléments
     NoeudRondelle* rondelle = mField->getPuck();
     NoeudMaillet* maillet1 = mField->getLeftMallet();

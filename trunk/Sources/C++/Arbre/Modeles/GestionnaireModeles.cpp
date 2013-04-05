@@ -8,6 +8,7 @@
 /// @{
 ////////////////////////////////////////////////////////////////////////////////////
 
+#include "ConfigScene.h"
 #include "GestionnaireModeles.h"
 #include "Utilitaire.h"
 #include "NoeudTable.h"
@@ -144,8 +145,11 @@ GestionnaireModeles::~GestionnaireModeles()
 	{
 		if(i->second != 0)
 			glDeleteLists(i->second,1);
-		
 	}
+    if(mHouseList && !ConfigScene::obtenirInstance()->GetIsHouseDisplay())
+    {
+        glDeleteLists(mHouseList,1);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -214,6 +218,11 @@ void GestionnaireModeles::AjouterListe( Modele3DKey key, GLuint liste )
         }
         banqueListes[key] = liste;
     }
+}
+
+void GestionnaireModeles::ModifierListe( Modele3DKey key, GLuint liste )
+{
+    banqueListes[key] = liste;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -342,14 +351,14 @@ GLuint GestionnaireModeles::obtenirTypeIdFromName( const std::string& name ) con
 void GestionnaireModeles::initialiser()
 {
     // La piece en premier pour qu'elle soit loader en dernier
-    //tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_HOUSE            , "piece"                                                                               ));
+    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_HOUSE              , "piece"                      , RazerGameUtilities::CreateListDelegateHouse                                                          ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_TABLE              , "table"                      , RazerGameUtilities::CreateListDelegateTable            ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_GOAL               , "but_milieu"                 , RazerGameUtilities::CreateListDelegateGoal             ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_WALL               , "muret"                      , RazerGameUtilities::CreateListDelegateWall             ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_PORTAL             , "portail"                    , RazerGameUtilities::CreateListDelegatePortal           ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_PUCK               , "rondelle"                    , RazerGameUtilities::CreateListDelegatePuck             ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_PUCK_TROLL         , "rondelleTroll"              , RazerGameUtilities::CreateListDelegatePuckTroll        ));
-    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_BOOST              , "boost"               , RazerGameUtilities::CreateListDelegateBoost            ));
+    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_BOOST              , "boost"                      , RazerGameUtilities::CreateListDelegateBoost            ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_MALLET             , "maillet"                    , RazerGameUtilities::CreateListDelegateMallet           ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_TABLE_CONTROL_POINT, "control_point/control_point", RazerGameUtilities::CreateListDelegateTableControlPoint));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_CONTROL_POINT      , "control_point/control_point", RazerGameUtilities::CreateListDelegateControlPoint     ));
@@ -362,7 +371,7 @@ void GestionnaireModeles::initialiser()
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_MODEL_1            , "1"                                                                                   ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_MODEL_2            , "2"                                                                                   ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_MODEL_3            , "3"                                                                                   ));
-
+    
     DataThreadModels* dataWorkerModel = new DataThreadModels();
     dataWorkerModel->tampon = &tamponGlobal;
     dataWorkerModel->dc = FacadeModele::getInstance()->obtenirHDC();
@@ -445,6 +454,8 @@ void GestionnaireModeles::ReloadModels()
 
 
 
+
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn DWORD WINAPI WorkerLoadModel( LPVOID arg )
@@ -520,4 +531,17 @@ DWORD WINAPI WorkerLoadModel( LPVOID arg )
     delete data;
 
 	return TRUE;
+}
+
+CreateListDelegateImplementation(House)
+{
+    unsigned int liste = GestionnaireModeles::CreerListe(pModel);
+
+    GestionnaireModeles::obtenirInstance()->mHouseList = liste;
+
+    if(ConfigScene::obtenirInstance()->GetIsHouseDisplay())
+    {
+        return liste;
+    }
+    return 0;
 }

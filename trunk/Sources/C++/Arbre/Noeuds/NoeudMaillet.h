@@ -122,7 +122,7 @@ private:
 	bool collisionAvecRondelle_;
 
 	/// Le joueur qui possède ce maillet
-	JoueurAbstrait* joueur_;
+	SPJoueurAbstrait joueur_;
 	
     /// reference to the factory's counter of mallet instances
     unsigned int& mNbMalletCreated;
@@ -167,9 +167,9 @@ public:
 	/// Accesseur de joueurGauche_
 	bool estAGauche() const { return estAGauche_; }
 	/// Accesseur de joueur_
-	JoueurAbstrait* obtenirJoueur() const { return joueur_; }
+	SPJoueurAbstrait obtenirJoueur() const { return joueur_; }
 	/// Modificateur de joueur_
-	void setPlayer(JoueurAbstrait* val) { joueur_ = val; }
+	void setPlayer(SPJoueurAbstrait val) { joueur_ = val; }
     inline void setIsNetworkPlayer(const bool pIsNetworkPlayer) {estControleParNetwork_ = pIsNetworkPlayer;}
 
 };

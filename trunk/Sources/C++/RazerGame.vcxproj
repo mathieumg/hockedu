@@ -356,6 +356,7 @@
     <ClCompile Include="Sons\SoundFMOD.cpp" />
     <ClCompile Include="Tests\AchievementsTests.cpp" />
     <ClCompile Include="Tests\AiLearnerTests.cpp" />
+    <ClCompile Include="Tests\AIRenforcementTest.cpp" />
     <ClCompile Include="Tests\BancTests.cpp" />
     <ClCompile Include="Tests\ConfigSceneTest.cpp" />
     <ClCompile Include="Tests\GestionnaireEvenementsTest.cpp" />
@@ -552,6 +553,7 @@
     <ClInclude Include="Sons\SoundFMOD.h" />
     <ClInclude Include="Tests\AchievementsTests.h" />
     <ClInclude Include="Tests\AiLearnerTests.h" />
+    <ClInclude Include="Tests\AIRenforcementTest.h" />
     <ClInclude Include="Tests\BancTests.h" />
     <ClInclude Include="Tests\ConfigSceneTest.h" />
     <ClInclude Include="Tests\GestionnaireEvenementsTest.h" />

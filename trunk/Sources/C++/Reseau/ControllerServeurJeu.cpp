@@ -11,6 +11,7 @@
 #include "Runnable.h"
 #include "RazerGameTypeDef.h"
 #include "JoueurAbstrait.h"
+#include "JoueurVirtuel.h"
 
 
 bool ControllerServeurJeu::mIsLocalServer = false;
@@ -134,12 +135,13 @@ void ControllerServeurJeu::handleDisconnectDetection( SPSocket pSocket )
     int wGameId = 0;
     if(wGameBeforeCall)
         wGameId = wGameBeforeCall->getUniqueGameId();
-    Runnable* r = new Runnable([wGameId, wSocketIdentifier](Runnable*){
+        Runnable* r = new Runnable([wGameId, wSocketIdentifier](Runnable*){
         Partie* wGame = GameManager::obtenirInstance()->getGameWithPlayer(wSocketIdentifier);
         if(wGame)
         {
             // Modifier la partie sur le serveur
-            wGame->modifierEnPause(true);
+            wGame->modifierEnPause(true); 
+
             if(wGame->obtenirNomJoueurGauche() == wSocketIdentifier)
             {
                 // Joueur gauche deconnecte
@@ -150,6 +152,8 @@ void ControllerServeurJeu::handleDisconnectDetection( SPSocket pSocket )
                 // Joueur droit deconnecte
                 wGame->modifierJoueurDroit(SPJoueurAbstrait(NULL));
             }
+
+            
 
             // Mettre la partie en pause sur le client qui est encore connecte
             PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
@@ -176,7 +180,6 @@ void ControllerServeurJeu::handleDisconnectDetection( SPSocket pSocket )
                     }
                 }
             }
-            
         }
     });
     RazerGameUtilities::RunOnUpdateThread(r,true);

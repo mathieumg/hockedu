@@ -21,6 +21,8 @@
 #include "..\Reseau\Paquets\PaquetGameEvent.h"
 #include "..\Reseau\RelayeurMessage.h"
 #include "..\Reseau\Paquets\PaquetEvent.h"
+#include "GameManager.h"
+#include "LaunchAchievementLite.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -687,6 +689,16 @@ void AddRadioPlaylist(char* pPlaylist, char** pSongs, int pNbrSongs)
     }
 }
 
+bool GetIsHouseDisplay()
+{
+    return ConfigScene::obtenirInstance()->GetIsHouseDisplay();
+}
+
+void SetIsHouseDisplay(bool pIsHouseDisplay)
+{
+    ConfigScene::obtenirInstance()->SetIsHouseDisplay(pIsHouseDisplay);
+}
+
 bool TerrainHasDeletable()
 {
     return FacadeModele::Exists() && FacadeModele::getInstance()->getEditionField()->CanSelectedNodeBeDeleted();
@@ -884,6 +896,30 @@ void GetServersGames(OnlineGameInfos* pGames, int pNbrGames)
         {
             strcpy_s(pGames[i].needPasswordString, 4, "No");
         }
+    }
+}
+
+void LaunchAchievementEvent( AchievementEvent pEvent )
+{
+    Achievements::LaunchEvent(pEvent);
+}
+
+
+
+void AskForAIOpponentInNetworkGame()
+{
+    // Demande l'ajout d'un joueur virtuel dans une partie sur le serveur
+
+    int wGameId = FacadeModele::getInstance()->obtenirPartieCouranteId();
+    Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+    if(wGame)
+    {
+        PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+        wPaquet->setGameId(wGameId);
+        wPaquet->setEvent(GAME_EVENT_ADD_AI);
+        wPaquet->setPlayer1Name(GestionnaireReseau::obtenirInstance()->getPlayerName());
+        wPaquet->setEventOnPlayerLeft(wGame->obtenirNomJoueurGauche() == wPaquet->getPlayer1Name());
+        RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
     }
 }
 

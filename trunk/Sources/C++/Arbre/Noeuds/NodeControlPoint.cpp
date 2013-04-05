@@ -110,9 +110,9 @@ void NodeControlPoint::tick( const float& temps )
 {
     if(isVisible())
     {
-        setAngle((float)((int)(mAngle+temps*500.0f)%360));
+        //setAngle((float)((int)(mAngle+temps*500.0f)%360));
         mHeightAngle += temps*3;
-        updateMatrice();
+        //updateMatrice();
     }
 
 //     mAngle = (float)((int)(mAngle+temps*500.0f)%360);

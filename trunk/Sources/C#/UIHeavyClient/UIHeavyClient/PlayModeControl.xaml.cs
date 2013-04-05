@@ -66,6 +66,8 @@ namespace UIHeavyClient
         private static extern void GetRadioPlaylists([In, Out] string[] pPlaylists, int pNbrPlaylists);
         [DllImport(@"RazerGame.dll")]
         static extern bool ActionPerformed(ActionType action);
+        [DllImport(@"RazerGame.dll", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void AskForAIOpponentInNetworkGame();
 
         public PlayModeControl(WindowsFormsHost pWindowsFormsHost)
         {
@@ -206,7 +208,31 @@ namespace UIHeavyClient
             return true;
         }
 
+        static bool EventReceived(EventCodes id, IntPtr pMessage)
+        {
+            if (id == EventCodes.SERVER_USER_DISCONNECTED)
+            {
+                MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                {
+                    // Demande si on veut continuer a jouer avec un joueur AI en attendant
+
+                    MessageBoxResult dr=MessageBox.Show("Do you want to play againt an AI while waiting?", "Opponent disconnected", MessageBoxButton.YesNo);
+
+                    if (dr==MessageBoxResult.Yes)
+                    {
+                        AskForAIOpponentInNetworkGame();
+                    }
+                    // Sinon, on reste en pause
+
+                });
+            }
+            return true;
+        }
+
+        
+
         public static MessageReceivedCallBack mMessageCallback = MessageReceived;
+        public static EventReceivedCallBack mEventCallback=EventReceived;
 
         #region Routed Commands
 

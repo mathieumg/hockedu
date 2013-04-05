@@ -329,6 +329,7 @@ void Terrain::initialiserArbreRendu()
     {
         mRenderTree = new ArbreRendu(this);
         NoeudAbstrait* piece = new NodeModelRender(RazerGameUtilities::NOM_HOUSE);
+        piece->setSkinKey(RAZER_KEY_HOUSE);
         mRenderTree->add(piece);
         if(IsGameField())
         {
@@ -377,6 +378,7 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
     {
         mRenderTree = new ArbreRendu(this);
         NoeudAbstrait* piece = new NodeModelRender(RazerGameUtilities::NOM_HOUSE);
+        piece->setSkinKey(RAZER_KEY_HOUSE);
         mRenderTree->add(piece);
         if(IsGameField())
         {
@@ -1208,6 +1210,17 @@ void Terrain::BeginContact( b2Contact* contact )
                             }
 
                             NoeudRondelle* rondelle = (NoeudRondelle*)bodies[0]->GetUserData();
+
+                            if(mGame)
+                            {
+                                auto maillet = rondelle->getLastHittingMallet();
+                                if(maillet)
+                                {
+                                    mGame->SendAchievementEventToHumanPlayer(maillet->obtenirJoueur(), ACHIEVEMENT_EVENT_PORTAL, ACHIEVEMENT_EVENT_NONE);
+                                }
+                                
+                            }
+                            
 
                             // The new pos can only be assigned outside of the world's step, so we queue it
                             Runnable* r = new Runnable([portailDeSortie,rondelle](Runnable*)

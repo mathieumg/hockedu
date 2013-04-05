@@ -24,7 +24,7 @@
 
 class NoeudMaillet;
 class NoeudRondelle;
-
+class AIRenforcementTest;
 
 typedef int (*GameUpdateCallback) (int, GameStatus); // Param1 = GameID, Param2 = UpdateStatus
 
@@ -52,6 +52,7 @@ class Partie : public ReplayObserver
 public:
 
 	friend class GameManager;
+	friend AIRenforcementTest;
 	/// Destructeur
 	~Partie(void);
 
