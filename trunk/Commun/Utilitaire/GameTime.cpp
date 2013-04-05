@@ -85,7 +85,7 @@ float GameTime::Elapsed_Time_ms()
 clock_t GameTime::Elapsed_Time_clock()
 {
 	if(paused_)
-		return pause_time_;
+		return (pause_time_ - begin_time_);
 	return (clock() - begin_time_);
 }
 
@@ -117,6 +117,7 @@ float GameTime::Elapsed_Time_percent( clock_t ref )
 void GameTime::reset_Time()
 {
 	begin_time_ = clock();
+    pause_time_ = clock();
 }
 
 /////////////////////////////////////////////////////////////////////////

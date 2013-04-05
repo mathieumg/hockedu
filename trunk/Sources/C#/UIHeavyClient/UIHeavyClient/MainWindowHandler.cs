@@ -135,6 +135,7 @@ namespace UIHeavyClient
                     Context.EditionModeControl.AppendOpenGL();
                     Context.EditionModeControl.InitButtons();
                     Context.EditionModeControl.mPropertiesGroupBox.DisplayProperties(RazerKey.RAZER_KEY_NONE);
+                    Context.OnlineLobbyControl.ClearOnlineUsers();
                     CallbackManager.CommitChanges();
                 }
                 else
@@ -176,6 +177,7 @@ namespace UIHeavyClient
                     Context.PlayModeControl.AppendOpenGL();
                     Context.PlayModeControl.DisplayRadioPlaylists();
                     Context.PlayModeControl.DisplayRadioVolume();
+                    Context.OnlineLobbyControl.ClearOnlineUsers();
                     CallbackManager.CommitChanges();
                 }
                 else
@@ -203,10 +205,13 @@ namespace UIHeavyClient
                 if (ActionPerformed(ActionType.ACTION_ALLER_MENU_PRINCIPAL))
                 {
                     Context.WindowContentControl.Content=Context.MainMenuControl;
+
                     Context.MainMenuControl.InitOperations();
                     Context.EditionModeControl.RemoveOpenGL();
                     Context.PlayModeControl.RemoveOpenGL();
                     Context.MainMenuControl.DisplayProfileNames();
+                    Context.OnlineLobbyControl.ClearOnlineUsers();
+
                     LoginControl.DisconnectMasterServer();
                     CallbackManager.CommitChanges();
                 }
@@ -230,16 +235,8 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public static void GoToTournamentMenu()
         {
-            if(CallbackManager.ChangeGameMode(GameState.GAME_STATE_TOURNAMENT_MENU))
-            {
-                Context.WindowContentControl.Content=Context.TournamentControl;
-                Context.TournamentControl.DisplayProfileNames();
-                CallbackManager.CommitChanges();
-            }
-            else
-            {
-                CallbackManager.RevertChanges();
-            }
+            Context.WindowContentControl.Content=Context.TournamentControl;
+            Context.TournamentControl.DisplayProfileNames();
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -354,6 +351,8 @@ namespace UIHeavyClient
         public static void DialogLoadMapFromLocal()
         {
             mOpenFileDialog.Title = "Choose a map file";
+            mOpenFileDialog.Multiselect = false;
+            mOpenFileDialog.Filter = "XML Files (*.xml)|*.xml";
             if (mOpenFileDialog.ShowDialog() == DialogResult.OK)
             {
                 LoadMapFromLocal(mOpenFileDialog.FileName);
@@ -371,6 +370,7 @@ namespace UIHeavyClient
         public static void DialogSaveMapToLocal()
         {
             mSaveFileDialog.Title = "Enter the name of your map file";
+            mSaveFileDialog.Filter = "XML Files (*.xml)|*.xml";
             if (mSaveFileDialog.ShowDialog().Value)
             {
                 SaveMapToLocal(mSaveFileDialog.FileName);

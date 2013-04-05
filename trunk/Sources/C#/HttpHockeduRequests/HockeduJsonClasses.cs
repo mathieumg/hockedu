@@ -33,14 +33,14 @@ namespace HttpHockeduRequests
 
     public class UserMapDetailedJSON
     {
-        public int      id;
-        public string   name;
-        public string   description;
-        public string   rating_average;
-        public string   rating_count;
-        public bool     is_public;
-        public string   creation_time;
-        public string   last_modified_time;
+        public int id { get; set; } 
+        public string   name { get; set; }
+        public string   description { get; set; }
+        public string   rating_average { get; set; }
+        public string   rating_count { get; set; }
+        public bool     is_public { get; set; }
+        public string   creation_time { get; set; }
+        public string   last_modified_time { get; set; }
         public override string ToString() { return name; }
     }
 
@@ -49,7 +49,7 @@ namespace HttpHockeduRequests
     public class UserMapDownloadJSON
     {
         public string   error;       // Error message
-        public string   name;    // Map name
+        public string   name;       // Map name
         public string   content;    // XML content
     }
 

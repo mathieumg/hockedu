@@ -74,6 +74,7 @@ namespace UIHeavyClient
 
             mOpenFileDialog = new OpenFileDialog();
             mOpenFileDialog.Multiselect = false;
+            mOpenFileDialog.Filter = "XML Files (*.xml)|*.xml";
             mOpenFileDialog.Title = "Choose a map";
 
             mLoginControl = new LoginControl();

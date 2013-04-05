@@ -31,6 +31,9 @@ public:
     inline void setServerId(const unsigned int& pServerId) { mServerId = pServerId; }
     inline const unsigned int& getServerId() const { return mServerId; }
 
+    inline int getMapId() const { return mMapId; }
+    inline void setMapId(int val) { mMapId = val; }
+
 protected:
     PaquetGameCreation(void);
 
@@ -39,6 +42,7 @@ private:
     std::string mGameName;
     std::string mUsername;
     std::string mMapName;
+    int mMapId;
     std::string mPassword;
     std::string mServerIP;
     int mGameId;

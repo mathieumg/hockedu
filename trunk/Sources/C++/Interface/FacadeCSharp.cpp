@@ -452,30 +452,16 @@ void connectPartieServerGame( int pGameId, unsigned int pServerId, char* pInputP
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
 }
 
-void requestGameCreationServerGame( char* pGameName, char* pMapName, char* pPassword  )
+void requestGameCreationServerGame( char* pGameName, char* pMapName, int pMapId, char* pPassword  )
 {
     PaquetGameCreation* wPaquet = (PaquetGameCreation*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CREATION_REQUEST);
     wPaquet->setGameName(pGameName);
     wPaquet->setMapName(pMapName);
     wPaquet->setPassword(pPassword);
+    wPaquet->setMapId(pMapId);
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
 }
 
-void requestGamePause( )
-{
-    PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
-    wPaquet->setGameId(FacadeModele::getInstance()->obtenirPartieCouranteId());
-    wPaquet->setEvent(GAME_EVENT_PAUSE_GAME_REQUESTED);
-    RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
-}
-
-void requestGameResume( )
-{
-    PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
-    wPaquet->setGameId(FacadeModele::getInstance()->obtenirPartieCouranteId());
-    wPaquet->setEvent(GAME_EVENT_START_GAME);
-    RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
-}
 
 void SaveMap(char* pFileName)
 {
@@ -721,7 +707,7 @@ void BeginNewTournament(char* pTournamentName, char* pMapName, char** pPlayerNam
 		// Empty name means human player
 		if(strlen(pPlayerNames[i]) == 0)
         {
-            players.push_back(SPJoueurAbstrait(new JoueurHumain()));
+            players.push_back(SPJoueurAbstrait(new JoueurHumain("Joueur humain")));
         }
 		else // AI player
 		{	

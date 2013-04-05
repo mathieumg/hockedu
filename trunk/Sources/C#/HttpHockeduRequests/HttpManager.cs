@@ -203,7 +203,7 @@ namespace HttpHockeduRequests
             else
             {
                 string wCurrentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).ToString();
-                string wDestinationFilePath = wCurrentDirectory + Path.DirectorySeparatorChar + "OnlineMaps" + Path.DirectorySeparatorChar + wMapLight.name + ".xml";
+                string wDestinationFilePath=wCurrentDirectory+Path.DirectorySeparatorChar+"OnlineMaps"+Path.DirectorySeparatorChar+wMapId+".xml";
                 try
                 {
                     System.IO.File.WriteAllText(wDestinationFilePath, wMapLight.content);
@@ -212,8 +212,8 @@ namespace HttpHockeduRequests
                 {
                     try
                     {
-                        // Si erreur, on le met dans C:temp/
-                        wDestinationFilePath = "C:" + Path.DirectorySeparatorChar + "temp" + Path.DirectorySeparatorChar + wMapLight.name + ".xml";
+                        // Si erreur, on le met dans C:/temp/
+                        wDestinationFilePath="C:"+Path.DirectorySeparatorChar+"temp"+Path.DirectorySeparatorChar+wMapId+".xml";
                         System.IO.File.WriteAllText(wDestinationFilePath, wMapLight.content);
                     }
                     catch (Exception)

@@ -21,6 +21,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.ComponentModel;
 using HttpHockeduRequests;
 using System.Runtime.InteropServices;
 
@@ -80,6 +81,11 @@ namespace UIHeavyClient
         private bool mIsWaitingForOnlineGame;
         private OnlineGameInfos mGameWaitingToConnect;
 
+        private GridViewColumnHeader mLastClickedHeader;
+        private ListSortDirection mLastSortDirection;
+
+        private Dictionary<string, string> mColumnToMember;
+
         // Properties
         public Chat ChatObject
         {
@@ -88,7 +94,7 @@ namespace UIHeavyClient
 
         // C++ functions
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void requestGameCreationServerGame(string pGameName, string pMapName, string pPassword);
+        public static extern void requestGameCreationServerGame(string pGameName, string pMapName, int pMapId, string pPassword);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void connectPartieServerGame(int pGameId, uint pServerId, string pInputPassword);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -115,6 +121,16 @@ namespace UIHeavyClient
             mChat = new Chat();
 
             mIsWaitingForOnlineGame = false;
+
+            mColumnToMember = new Dictionary<string, string>() 
+            { 
+                {"ID", "id"},
+                {"Server ID", "serverId"},
+                {"Name", "name"},
+                {"Creator's Name", "creatorName"},
+                {"Need Password", "needPasswordString"},
+                {"Map Name", "mapName"},
+            };
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -151,7 +167,11 @@ namespace UIHeavyClient
 
             if (mServerMapPrompt.OkIsClicked)
             {
-                mHttpManager.downloadMap(12, mServerMapPrompt.SelectedMap.id, HandleDownloadedMap);
+                if (mServerMapPrompt.SelectedMap != null)
+                {
+                    mFeedbackLabel.Content = "Loading, please wait...";
+                    mHttpManager.downloadMap(12, mServerMapPrompt.SelectedMap.id, HandleDownloadedMap);
+                }
             }
 
             mServerMapPrompt.Close();
@@ -180,15 +200,17 @@ namespace UIHeavyClient
 
                     if (mPasswordPrompt.OkIsClicked)
                     {
+                        mFeedbackLabel.Content = "Loading, please wait...";
                         connectPartieServerGame(selected.Value.id, selected.Value.serverId, mPasswordPrompt.Password);
                         mGameWaitingToConnect = selected.Value;
-                        mIsWaitingForOnlineGame = true;
+                        mIsWaitingForOnlineGame = true;   
                     }
 
                     mPasswordPrompt.Close();
                 }
                 else
                 {
+                    mFeedbackLabel.Content = "Loading, please wait...";
                     connectPartieServerGame(selected.Value.id, selected.Value.serverId, "");
                     mGameWaitingToConnect = selected.Value;
                     mIsWaitingForOnlineGame = true;
@@ -214,7 +236,8 @@ namespace UIHeavyClient
 
             if (mGameCreationPrompt.OkIsClicked)
             {
-                requestGameCreationServerGame(mGameCreationPrompt.GameName, mGameCreationPrompt.Map.name, mGameCreationPrompt.Password);
+                mFeedbackLabel.Content = "Loading, please wait...";
+                requestGameCreationServerGame(mGameCreationPrompt.GameName, mGameCreationPrompt.Map.name, mGameCreationPrompt.Map.id, mGameCreationPrompt.Password);
                 mGameWaitingToConnect = new OnlineGameInfos(-1, 0, mGameCreationPrompt.GameName, "", mGameCreationPrompt.Map.name, mGameCreationPrompt.Password != "", "");
                 mIsWaitingForOnlineGame = true;
             }
@@ -234,13 +257,18 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         private void mRandomButton_Click(object sender, RoutedEventArgs e)
         {
-            Random rand = new Random();
-            OnlineGameInfos? randomGame = (mOnlineGameListView.Items[rand.Next(mOnlineGameListView.Items.Count - 1)] as OnlineGameInfos?);
+            if (mOnlineGameListView.Items.Count > 0)
+            {
+                mFeedbackLabel.Content = "Loading, please wait...";
 
-            connectPartieServerGame(randomGame.Value.id, randomGame.Value.serverId, "");
-            mGameWaitingToConnect = randomGame.Value;
+                Random rand = new Random();
+                OnlineGameInfos? randomGame = (mOnlineGameListView.Items[rand.Next(mOnlineGameListView.Items.Count - 1)] as OnlineGameInfos?);
 
-            mIsWaitingForOnlineGame = true;
+                connectPartieServerGame(randomGame.Value.id, randomGame.Value.serverId, "");
+                mGameWaitingToConnect = randomGame.Value;
+
+                mIsWaitingForOnlineGame = true;
+            }   
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -280,16 +308,44 @@ namespace UIHeavyClient
             }
         }
 
-
-
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.CallbackMapDownloaded()
+        ///
+        /// Callback for when a map is downloaded.
+        /// 
+        /// @param[in] string : The local map path.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void CallbackMapDownloaded(string pOutputPath)
         {
-
             MainWindowHandler.mTaskManager.ExecuteTask(() =>
             {
-                Console.WriteLine(pOutputPath);
+                if(pOutputPath.Length > 0)
+                {
+                    // Assigner la map a jouer dans le modele avec le filepah recu
+                    MainWindowHandler.LoadPlayingMap(pOutputPath);
+                    // On vient de recevoir la map download, on veut maintenant passer au mode jeu
+                    MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_JEU);
+                }
             });
         }
+        public void CallbackMapListForMapDownload( List<UserMapDetailedJSON> pList )
+        {
+            // Une fois qu'on a charge la liste des maps, on trouve la bonne 
+            string wMapToFind = MainWindowHandler.Context.OnlineLobbyControl.mGameWaitingToConnect.mapName;
+            foreach (UserMapDetailedJSON wMap in pList)
+            {
+                if(wMap.name == wMapToFind)
+                {
+                    // Trouve, pas besoin du user_id pcq la map devrait etre publique si une partie a ete creee avec
+                    MainWindowHandler.Context.OnlineLobbyControl.mHttpManager.downloadMap(12, wMap.id, MainWindowHandler.Context.OnlineLobbyControl.CallbackMapDownloaded);
+                    break;
+                }
+            }
+        }
+
+
         ////////////////////////////////////////////////////////////////////////
         /// @fn void OnlineLobbyControl.CallbackEvent()
         ///
@@ -359,13 +415,44 @@ namespace UIHeavyClient
                             MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
 
                             // Download la map pour la partie et on ne change pas de state avant que ce soit termine
-                            // MainWindowHandler.Context.OnlineLobbyControl.mHttpManager.downloadMap(0, wThis.mGameWaitingToConnect.mapName, wThis.CallbackMapDownloaded);
+                            // La seule facon de trouver les infos de la bonne map est d'aller chercher la liste et de trouver celle avec le bon nom
+                            MainWindowHandler.Context.OnlineLobbyControl.mHttpManager.getPublicMapList(wThis.CallbackMapListForMapDownload);
+                        }
+                    }
+                    break;
+                    case EventCodes.GAME_CONNECTION_RESPONSE_ALREADY_CONNECTED:
+                    {
+                        // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
+                        if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                        {
+                            MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
 
+                            MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("You are already connected to this game...");
+                            MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
+                        }
+                    }
+                    break;
+                    case EventCodes.GAME_CONNECTION_RESPONSE_GAME_FULL:
+                    {
+                        // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
+                        if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                        {
+                            MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
 
-                            MainWindowHandler.mTaskManager.ExecuteTask(() =>
-                            {
-                                MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_JEU);
-                            });
+                            MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("This game already have two player... try another one!");
+                            MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
+                        }
+                    }
+                    break;
+                    case EventCodes.GAME_CONNECTION_RESPONSE_GAME_NOT_FOUND:
+                    {
+                        // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
+                        if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                        {
+                            MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
+
+                            MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("This game doesn't exist anymore... try another one!");
+                            MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
                         }
                     }
                     break;
@@ -376,6 +463,13 @@ namespace UIHeavyClient
             return true;
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.RequestGamesList()
+        ///
+        /// Query game list.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void RequestGamesList()
         {
             mOnlineGameListView.Items.Clear();
@@ -447,12 +541,9 @@ namespace UIHeavyClient
         }
 
         ////////////////////////////////////////////////////////////////////////
-        /// @fn void OnlineLobbyControl.PropertiesRefreshWarning()
+        /// @fn void OnlineLobbyControl.UpdateConnectedUserList()
         ///
-        /// Waning.
-        /// 
-        /// @param[in] object : The sender.
-        /// @param[in] RoutedEventArgs : The event.
+        /// Connected user list.
         ///
         /// @return void.
         ////////////////////////////////////////////////////////////////////////
@@ -467,16 +558,14 @@ namespace UIHeavyClient
                 {
                     onlineListView.Items.Add(wUser);
                 }
+                SortListView("id", ListSortDirection.Ascending);
             }
         }
 
         ////////////////////////////////////////////////////////////////////////
-        /// @fn void OnlineLobbyControl.PropertiesRefreshWarning()
+        /// @fn void OnlineLobbyControl.BlockUIContent()
         ///
-        /// Waning.
-        /// 
-        /// @param[in] object : The sender.
-        /// @param[in] RoutedEventArgs : The event.
+        /// Disable some UI elements.
         ///
         /// @return void.
         ////////////////////////////////////////////////////////////////////////
@@ -488,12 +577,9 @@ namespace UIHeavyClient
         }
 
         ////////////////////////////////////////////////////////////////////////
-        /// @fn void OnlineLobbyControl.PropertiesRefreshWarning()
+        /// @fn void OnlineLobbyControl.UnBlockUIContent()
         ///
-        /// Waning.
-        /// 
-        /// @param[in] object : The sender.
-        /// @param[in] RoutedEventArgs : The event.
+        /// Enable some UI elements.
         ///
         /// @return void.
         ////////////////////////////////////////////////////////////////////////
@@ -504,25 +590,117 @@ namespace UIHeavyClient
             onlineListView.IsEnabled=true;
         }
 
-        public void DisplayServerGames()
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.ResizeGridColumns()
+        ///
+        /// Resize the list view columns.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] SizeChangedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        private void ResizeGridColumns(object sender, SizeChangedEventArgs e)
         {
-            int nbrServerGames = GetNbrServerGames();
+            double totalWidth = (sender as ListView).ActualWidth;
+            GridView grid = (sender as ListView).View as GridView;
 
-            OnlineGameInfos[] gameInfos = new OnlineGameInfos[nbrServerGames];
+            grid.Columns[0].Width = totalWidth * 0.1;
+            grid.Columns[1].Width = totalWidth * 0.15;
+            grid.Columns[2].Width = totalWidth * 0.2;
+            grid.Columns[3].Width = totalWidth * 0.15;
+            grid.Columns[4].Width = totalWidth * 0.2;
+            grid.Columns[5].Width = totalWidth * 0.2;
+        }
 
-            for (uint i = 0; i < nbrServerGames; ++i )
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.ClickForSorting()
+        ///
+        /// Sort by clicking on a header.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        private void ClickForSorting(object sender, RoutedEventArgs e)
+        {
+            GridViewColumnHeader clickedHeader = e.OriginalSource as GridViewColumnHeader;
+            ListSortDirection sortDirection;
+
+            if (clickedHeader != null)
             {
-                gameInfos[i] = new OnlineGameInfos(0, 0, new string('s', 255), new string('s', 255), new string('s', 255), false, new string('s', 4));
+                if (clickedHeader.Role != GridViewColumnHeaderRole.Padding)
+                {
+                    if (clickedHeader != mLastClickedHeader)
+                    {
+                        sortDirection = ListSortDirection.Ascending;
+                    }
+                    else
+                    {
+                        if (mLastSortDirection == ListSortDirection.Ascending)
+                        {
+                            sortDirection = ListSortDirection.Descending;
+                        }
+                        else
+                        {
+                            sortDirection = ListSortDirection.Ascending;
+                        }
+                    }
+
+                    string header = mColumnToMember[(clickedHeader.Column.Header as string)];
+                    SortListView(header, sortDirection);
+
+                    mLastClickedHeader = clickedHeader;
+                    mLastSortDirection = sortDirection;
+                }
             }
+        }
 
-            GetServersGames(gameInfos, nbrServerGames);
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.SortListView()
+        ///
+        /// Sort by a header.
+        /// 
+        /// @param[in] string : The member'a name.
+        /// @param[in] ListSortDirection : The sorting direction.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        private void SortListView(string pSortBy, ListSortDirection pDirection)
+        {
+            ICollectionView items = CollectionViewSource.GetDefaultView(mOnlineGameListView.Items);
 
-            mOnlineGameListView.Items.Clear();
-
-            foreach (OnlineGameInfos g in gameInfos)
+            if (items != null)
             {
-                mOnlineGameListView.Items.Add((object)g);
+                items.SortDescriptions.Clear();
+                items.SortDescriptions.Add(new SortDescription(pSortBy, pDirection));
+                items.Refresh();
             }
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.ClearOnlineUsers()
+        ///
+        /// When deconnecting, clear online users.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        public void ClearOnlineUsers()
+        {
+            onlineListView.Items.Clear();
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.DisplayFeedBack()
+        ///
+        /// Public access for feedback label.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        public void DisplayFeedBack(string pMessage)
+        {
+            mFeedbackLabel.Content = pMessage;
         }
     }
 }

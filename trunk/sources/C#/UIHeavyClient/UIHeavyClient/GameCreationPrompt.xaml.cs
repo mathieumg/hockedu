@@ -20,6 +20,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.ComponentModel;
 using HttpHockeduRequests;
 
 namespace UIHeavyClient
@@ -36,6 +37,11 @@ namespace UIHeavyClient
         // Attributes
         private bool mOkIsClicked;
 
+        private GridViewColumnHeader mLastClickedHeader;
+        private ListSortDirection mLastSortDirection;
+
+        private Dictionary<string, string> mColumnToMember;
+
         // Properties
         public string GameName
         {
@@ -47,7 +53,7 @@ namespace UIHeavyClient
         }
         public UserMapDetailedJSON Map
         {
-            get { return (mMapComboBox.SelectedItem as UserMapDetailedJSON); }
+            get { return (mMapListView.SelectedItem as UserMapDetailedJSON); }
         }
         public bool OkIsClicked
         {
@@ -70,8 +76,10 @@ namespace UIHeavyClient
             {
                 foreach (UserMapDetailedJSON wItem in pList)
                 {
-                    mMapComboBox.Items.Add(wItem);
+                    mMapListView.Items.Add(wItem);
                 }
+                SortListView("id", ListSortDirection.Ascending);
+                mFeedbackLabel.Content = "";
             });
         }
 
@@ -86,6 +94,13 @@ namespace UIHeavyClient
         {
             InitializeComponent();
             mOkIsClicked = false;
+
+            mColumnToMember = new Dictionary<string, string>() 
+            { 
+                {"Author", "id"},
+                {"Name", "name"},
+                {"Description", "description"},
+            };
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -129,10 +144,10 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public void ClearInputAndLoadMapList()
         {
+            mFeedbackLabel.Content = "Downloading maps, please wait...";
             mNameTextBox.Clear();
             mPasswordCheckBox.IsChecked = false;
             mPasswordTextBox.Clear();
-            mFeedbackLabel.Content = "";
             GetServerMaps();
             mOkButton.IsEnabled = false;
             mNameTextBox.Focus();
@@ -147,7 +162,7 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         private void GetServerMaps()
         {
-            mMapComboBox.Items.Clear();
+            mMapListView.Items.Clear();
 
             // Load map list async!!!!
             HttpManager wManager = new HttpManager();
@@ -166,7 +181,7 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         private void NameChanged(object sender, TextChangedEventArgs e)
         {
-            mOkButton.IsEnabled = ((sender as TextBox).Text != "" && mMapComboBox.SelectedItem != null);
+            mOkButton.IsEnabled = ((sender as TextBox).Text != "" && mMapListView.SelectedItem != null);
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -181,11 +196,96 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         private void MapChanged(object sender, SelectionChangedEventArgs e)
         {
-            mOkButton.IsEnabled = (mNameTextBox.Text != "" && (sender as ComboBox).SelectedItem != null);
+            mOkButton.IsEnabled = (mNameTextBox.Text != "" && (sender as ListView).SelectedItem != null);
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void GameCreationPrompt.mCancelButton_Click()
+        ///
+        /// Cancel button event.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        private void ResizeGridColumns(object sender, SizeChangedEventArgs e)
+        {
+            double totalWidth = (sender as ListView).ActualWidth;
+            GridView grid = (sender as ListView).View as GridView;
+
+            grid.Columns[0].Width = totalWidth * 0.25;
+            grid.Columns[1].Width = totalWidth * 0.25;
+            grid.Columns[2].Width = totalWidth * 0.5;
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void GameCreationPrompt.ClickForSorting()
+        ///
+        /// Sorting by click.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        private void ClickForSorting(object sender, RoutedEventArgs e)
+        {
+            GridViewColumnHeader clickedHeader = e.OriginalSource as GridViewColumnHeader;
+            ListSortDirection sortDirection;
+
+            if (clickedHeader != null)
+            {
+                if (clickedHeader.Role != GridViewColumnHeaderRole.Padding)
+                {
+                    if (clickedHeader != mLastClickedHeader)
+                    {
+                        sortDirection = ListSortDirection.Ascending;
+                    }
+                    else
+                    {
+                        if (mLastSortDirection == ListSortDirection.Ascending)
+                        {
+                            sortDirection = ListSortDirection.Descending;
+                        }
+                        else
+                        {
+                            sortDirection = ListSortDirection.Ascending;
+                        }
+                    }
+
+                    string header = mColumnToMember[(clickedHeader.Column.Header as string)];
+                    SortListView(header, sortDirection);
+
+                    mLastClickedHeader = clickedHeader;
+                    mLastSortDirection = sortDirection;
+                }
+            }
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void GameCreationPrompt.SortListView()
+        ///
+        /// Sorting by a column.
+        /// 
+        /// @param[in] string : Member name.
+        /// @param[in] ListSortDirection : Sort direction.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        private void SortListView(string pSortBy, ListSortDirection pDirection)
+        {
+            ICollectionView items = CollectionViewSource.GetDefaultView(mMapListView.Items);
+
+            if (items != null)
+            {
+                items.SortDescriptions.Clear();
+                items.SortDescriptions.Add(new SortDescription(pSortBy, pDirection));
+                items.Refresh();
+            }
         }
     }
 }
-
 
 ///////////////////////////////////////////////////////////////////////////
 /// @}

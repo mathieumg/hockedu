@@ -457,7 +457,14 @@ void Socket::setsockopt( uint32_t level, uint32_t optionName, uint8_t* optionVal
 ////////////////////////////////////////////////////////////////////////
 std::string Socket::getAdresseSource() const
 {
-	return GestionnaireReseau::obtenirInstance()->getAdresseIPLocaleAssociee(inet_ntoa(mSocketInfo->sin_addr));
+    try
+    {
+	    return GestionnaireReseau::obtenirInstance()->getAdresseIPLocaleAssociee(inet_ntoa(mSocketInfo->sin_addr));
+    }
+    catch(ExceptionReseau&)
+    {
+        return "";
+    }
 }
 
 

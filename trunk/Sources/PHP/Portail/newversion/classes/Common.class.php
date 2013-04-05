@@ -39,7 +39,7 @@ class Common
         $this->db->query("SET NAMES 'utf8'");
         // MySQL only, workaround for empty strings to NULL bug.
         $this->db->setOption('portability', MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL);
-		$this->currentAuthenticationData = false;
+        $this->currentAuthenticationData = false;
     }
     
     private function recordLogin( $userId, $username, $password, $subsite, $success, &$Website )
@@ -266,25 +266,41 @@ class Common
     
     public function getMapInfo( $mapId )
     { 
-        $sql = 'SELECT %s, %s, %s
+        $sql = 'SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
                 FROM %s 
                 WHERE %s=%d';
         $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'id' ),
+                        $this->db->quoteIdentifier( 'id_user' ),
+                        $this->db->quoteIdentifier( 'version' ),
                         $this->db->quoteIdentifier( 'name' ),
-                        $this->db->quoteIdentifier( 'is_public' ),
+                        $this->db->quoteIdentifier( 'description' ),
                         $this->db->quoteIdentifier( 'cache_name' ),
+                        $this->db->quoteIdentifier( 'rating_average' ),
+                        $this->db->quoteIdentifier( 'rating_count' ),
+                        $this->db->quoteIdentifier( 'is_public' ),
+                        $this->db->quoteIdentifier( 'creation_time' ),
+                        $this->db->quoteIdentifier( 'last_modified_time' ),
                         
                         $this->db->quoteIdentifier( 'maps' ),
                         
                         $this->db->quoteIdentifier( 'id' ),
                         $this->db->quote( $mapId, 'integer' )
                        );
+
         $this->db->setLimit( 1 );              
         $mapInformation = $this->db->queryRow( $sql );
         
         if( !empty( $mapInformation ) )
         {
+            $mapInformation['id'] = (int)$mapInformation['id'];
+            $mapInformation['id_user'] = (int)$mapInformation['id_user'];
+            $mapInformation['version'] = (int)$mapInformation['version'];
+            $mapInformation['rating_average'] = (float)$mapInformation['rating_average'];
+            $mapInformation['rating_count'] = (int)$mapInformation['rating_count'];
             $mapInformation['is_public'] = (int)$mapInformation['is_public'];
+            $mapInformation['creation_time'] = (int)$mapInformation['creation_time'];
+            $mapInformation['last_modified_time'] = (int)$mapInformation['last_modified_time'];
         }
         
         return $mapInformation;

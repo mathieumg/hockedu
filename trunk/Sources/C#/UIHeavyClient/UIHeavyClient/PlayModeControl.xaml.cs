@@ -196,7 +196,7 @@ namespace UIHeavyClient
             
             MainWindowHandler.mTaskManager.ExecuteTask(() =>
             {
-                MainWindowHandler.Context.PlayModeControl.mChatOutputTextBox.Text += "\n" + username + ":" + message;
+                MainWindowHandler.Context.PlayModeControl.mChatOutputTextBox.Text += "\n" + username + ": " + message;
                 MainWindowHandler.Context.PlayModeControl.mChatOutputTextBox.ScrollToEnd();
             });
             return true;

@@ -103,10 +103,11 @@ void GestionnaireEtatModeJeu::toucheEnfoncee(EvenementClavier& evenementClavier)
     }
     else if(touche == VJAK_SPACE)
     {
-        if(wGame)
+        FacadeModele::getInstance()->togglePause();
+        /*if(wGame)
         {
             wGame->modifierEnPause(!wGame->estEnPause());
-        }
+        }*/
     }
 	else
     {
@@ -248,7 +249,7 @@ void GestionnaireEtatModeJeu::sourisDeplacee( EvenementSouris& evenementSouris )
 	{
         Partie* wGame = GameManager::obtenirInstance()->getGame(mGameId);
         checkf(wGame);
-        if(wGame && wGame->getGameStatus() == GAME_RUNNING)
+        if(wGame && wGame->getGameStatus() == GAME_STARTED)
         {
             NoeudMaillet* mailletGauche = wGame->getField()->getLeftMallet();
             NoeudMaillet* mailletDroit = wGame->getField()->getRightMallet();

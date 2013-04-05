@@ -45,8 +45,8 @@ public:
 	void adjustTime(float ms);
 
 	/// Permet de mettre la minuterie en pause
-	inline void pause(){pause_time_ = Elapsed_Time_clock();paused_ = true;}
-	inline void unPause(){paused_ = false; adjustTime((Elapsed_Time_clock()-pause_time_)/(CLOCKS_PER_SEC/1000.0f));}
+    inline void pause(){if(!paused_) {pause_time_ = clock();paused_ = true;}}
+    inline void unPause(){if(paused_) {paused_ = false; adjustTime((clock()-pause_time_)/(CLOCKS_PER_SEC/1000.0f));}}
 
 private:
 	/// Le temps initial

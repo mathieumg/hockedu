@@ -27,6 +27,13 @@
 #include "ControllerServeurJeu.h"
 #include "JoueurVirtuel.h"
 #include "Paquets\PaquetGameEvent.h"
+#include "FacadeServeurJeu.h"
+#include <iosfwd>
+#include "Partie.h"
+#include "Terrain.h"
+#include "NoeudRondelle.h"
+
+SINGLETON_DECLARATION_CPP(PaquetRunnableServeurJeuHelper);
 
 /// ***** PAR CONVENTION, METTRE Game A LA FIN DU NOM DES DELEGATES
 
@@ -150,7 +157,7 @@ int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
 
     Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
 
-    if(wGame && wGame->getGameStatus() == GAME_RUNNING)
+    if(wGame && wGame->getGameStatus() == GAME_STARTED)
     {
         if(wGame->getGameStatus() == GAME_PAUSED)
         {
@@ -200,6 +207,30 @@ int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
 }
 
 
+void CallbackMapDownloaded(std::string pMapFilepath)
+{
+    if(!pMapFilepath.size())
+    {
+        checkf(0);
+        return;
+    }
+    FacadePortability::takeMutex(PaquetRunnableServeurJeuHelper::obtenirInstance()->mMutexMapMapnameGameId);
+    // A la reception, on peut mettre le field de tous les terrains qui attendaient pour ce fichier
+    std::string wMapId = pMapFilepath.substr(pMapFilepath.find_last_of("\\")+1);
+    wMapId = wMapId.substr(0, wMapId.find("."));
+    std::list<int> wListe = PaquetRunnableServeurJeuHelper::obtenirInstance()->mMapMapnameGameId[wMapId];
+    for(auto it = wListe.begin(); it!=wListe.end(); ++it)
+    {
+        Partie* wGame = GameManager::obtenirInstance()->getGame(*it);
+        checkf(wGame);
+        if(wGame)
+        {
+            wGame->setFieldName(pMapFilepath);
+        }
+    }
+    wListe.empty();
+    FacadePortability::releaseMutex(PaquetRunnableServeurJeuHelper::obtenirInstance()->mMutexMapMapnameGameId);
+}
 
 int PaquetRunnable::RunnableGameCreationServerGame( Paquet* pPaquet )
 {
@@ -215,7 +246,16 @@ int PaquetRunnable::RunnableGameCreationServerGame( Paquet* pPaquet )
         //GameManager::obtenirInstance()->setMapForGame(wGameId, wPaquet->getMapName());
         Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
         wGame->setName(wPaquet->getGameName());
-        wGame->setFieldName(wPaquet->getMapName());
+
+        // On demarre le download de la map, c'est lui qui va set le fieldName une fois recu
+        // Avant on sauvegarde la liaison entre le nom de la map et le id de la partie qui en a besoin
+        FacadePortability::takeMutex(PaquetRunnableServeurJeuHelper::obtenirInstance()->mMutexMapMapnameGameId);
+        std::stringstream ss;
+        ss << wPaquet->getMapId();
+        PaquetRunnableServeurJeuHelper::obtenirInstance()->mMapMapnameGameId[ss.str()].push_back(wGameId);
+        FacadePortability::releaseMutex(PaquetRunnableServeurJeuHelper::obtenirInstance()->mMutexMapMapnameGameId);
+        FacadeServeurJeu::getInstance()->downloadMap(0, wPaquet->getMapId(), CallbackMapDownloaded);
+        
 
         // On peut meme utiliser le meme paquet pour renvoyer le message de confirmation
         wPaquet->setGameId(wGameId);
@@ -416,7 +456,7 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
             {
                 // Client demande une pause
 
-                if(wGame->getGameStatus() == GAME_RUNNING || wGame->getGameStatus() == GAME_STARTED)
+                if(wGame->getGameStatus() == GAME_STARTED)
                 {
                     wGame->modifierEnPause(true);
 
@@ -426,6 +466,27 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
                     RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquetResponse->getGameId(), wPaquetResponse, TCP);
                 }
 
+                break;
+            }
+        case GAME_EVENT_RESET_PUCK:
+            {
+                // Client demande de refaire la mise au jeu
+                // On doit verifier que la rondelle ne bouge pas ou presque pas avant de lancer l'event
+                Terrain* wField = wGame->getField();
+                if(wField && wField->getPuck()->obtenirVelocite().norme() < 3.0f)
+                {
+                    // Vitesse assez basse
+                    RelayeurMessage::obtenirInstance()->relayerPaquetGame(wGame->getUniqueGameId(), wPaquet, TCP);
+                    int wGameId = wGame->getUniqueGameId();
+                    Runnable* r = new Runnable([wGameId](Runnable*){
+                        Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+                        if(wGame)
+                        {
+                            wGame->miseAuJeu(false);
+                        }
+                    });
+                    RazerGameUtilities::RunOnUpdateThread(r,true);
+                }
                 break;
             }
         }
@@ -455,4 +516,11 @@ int PaquetRunnable::RunnableBonusGoalerServerGame( PaquetBonus* pPaquet )
 
 
     return 0;
+}
+
+
+
+PaquetRunnableServeurJeuHelper::PaquetRunnableServeurJeuHelper()
+{
+    FacadePortability::createMutex(mMutexMapMapnameGameId);
 }

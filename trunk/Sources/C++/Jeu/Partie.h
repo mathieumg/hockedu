@@ -31,7 +31,6 @@ enum GameStatus {
     GAME_STARTED, 
     GAME_SCORE, 
     GAME_WAITING, 
-    GAME_RUNNING, 
     GAME_PAUSED,
     GAME_REPLAYING,
 };
@@ -200,6 +199,8 @@ private:
     /// ne peux changer une fois créer
     const GameType mGameType;
 
+
+    
 /// Accesseurs
 public:
 	/// Indique si les 2 joueurs de la partie sont virtuels

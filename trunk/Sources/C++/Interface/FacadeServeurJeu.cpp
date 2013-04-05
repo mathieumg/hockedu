@@ -28,6 +28,7 @@
 #include "..\Reseau\UsinePaquets\UsinePaquetGameEvent.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetBonus.h"
 #include "..\Reseau\PaquetHandlers\PacketHandlerBonus.h"
+#include "..\Reseau\PaquetRunnableServeurJeu.h"
 
 void InitDLLServeurJeu()
 {
@@ -59,6 +60,7 @@ void InitDLLServeurJeu()
 
     // Initialise la Facade Serveur Jeu (demarre la boucle de tick)
     FacadeServeurJeu::getInstance();
+
 }
 
 void ConnectMasterServer(const std::string& wMasterServerIP)
@@ -82,7 +84,15 @@ void ConnectMasterServer(const std::string& wMasterServerIP)
 
 char* ObtenirAdresseIpLocaleAssociee(const std::string& pIpAssociee)
 {
-    std::string wTemp = GestionnaireReseau::obtenirInstance()->getAdresseIPLocaleAssociee(pIpAssociee);
+    std::string wTemp;
+    try 
+    {
+        wTemp = GestionnaireReseau::obtenirInstance()->getAdresseIPLocaleAssociee(pIpAssociee);
+    }
+    catch(ExceptionReseau&)
+    {
+        wTemp = "";
+    }
     const char* wIp = wTemp.c_str();
 
     char *ret = new char[17];
@@ -127,6 +137,15 @@ void* DeamonTick( void *arg )
         FacadePortability::sleep(1); // Enlever cette ligne pour etre plus precis, mais va bouffer le CPU
     }
 }
+
+
+
+void SetStartMapDownloadCallback( ManagedStartMapDownload pCallback )
+{
+    FacadeServeurJeu::getInstance()->setCallbackManagedStartDownload(pCallback);
+}
+
+
 
 
 
@@ -197,7 +216,8 @@ FacadeServeurJeu::FacadeServeurJeu()
         throw std::runtime_error("Erreur lors de la creation du thread de reception");
     }
 
-
+    mCallbackManagedStartDownload = NULL;
+    
 }
 
 
@@ -281,6 +301,20 @@ void FacadeServeurJeu::transmitEvent( EventCodes pCode, ... )
 }
 
 
+
+bool FacadeServeurJeu::downloadMap(int pUserId, int pMapId, CallbackDone pCallbackDone) const
+{
+    if(mCallbackManagedStartDownload)
+    {
+        // Si callback, appeler pour demarrer le download
+        mCallbackManagedStartDownload(pUserId, pMapId, pCallbackDone);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 
 
 

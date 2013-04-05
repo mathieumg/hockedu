@@ -18,7 +18,6 @@
 #include "NoeudRondelle.h"
 #include "NoeudMaillet.h"
 
-
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn  BonusModifierChangeZone::BonusModifierChangeZone()
@@ -70,6 +69,7 @@ BonusModifierChangeZone::~BonusModifierChangeZone()
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierChangeZone::Attach( NoeudRondelle* pPuck )
 {
+    SoundFMOD::obtenirInstance()->playEffect(BONUS_CHANGE_SIDE_IN_EFFECT);
     return AttachToLastHittingMallet(pPuck);
 }
 
@@ -140,6 +140,8 @@ bool BonusModifierChangeZone::Apply()
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierChangeZone::Revert()
 {
+    SoundFMOD::obtenirInstance()->playEffect(BONUS_CHANGE_SIDE_OUT_EFFECT);
+
 #if BOX2D_PLAY  
     for(int i=0; i<(int)mFixtures.size(); ++i)
     {

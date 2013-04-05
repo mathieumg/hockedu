@@ -559,7 +559,7 @@ void Partie::updateMinuterie( int time )
             minuterie_ = 0;
             chiffres_->setSkinKey(RAZER_KEY_MODEL_3);
             chiffres_->setVisible(false);
-            setGameStatus(GAME_RUNNING);
+            setGameStatus(GAME_STARTED);
             Vecteur3 coordonneesSouris;
             
             FacadeModele::getInstance()->convertirClotureAVirtuelle(mMousePosScreen[VX], mMousePosScreen[VY], coordonneesSouris);
@@ -848,30 +848,28 @@ bool Partie::getReadyToPlay()
 ////////////////////////////////////////////////////////////////////////
 void Partie::animer( const float& temps )
 {
-    if(getGameStatus() >= GAME_STARTED)
+    chiffres_->tick(temps);
+    mField->animerTerrain(temps);
+    updateMinuterie((int)(temps*1000));
+    if(getGameStatus() == GAME_STARTED)
     {
-        updateMinuterie((int)(temps*1000));
-        chiffres_->tick(temps);
-        mField->animerTerrain(temps);
-        if(mGameStatus == GAME_RUNNING)
-        {
-            // Gestion de la physique du jeu
-            mField->appliquerPhysique(temps);
-            mPartieSyncer.tick();
-        }
-#if !MAT_DEBUG_
-        else if(mGameStatus == GAME_WAITING)
-        {
-            auto zamboni = mField->getZamboni();
-            Vecteur3 pos = zamboni->getPosition();
-            auto angle = utilitaire::DEG_TO_RAD(zamboni->getAngle());
-            Vecteur3 direction;
-            direction[VX] = cos(angle);
-            direction[VY] = sin(angle);
-            zamboni->setPosition(pos+direction);
-        }
-#endif
+        // Gestion de la physique du jeu
+        mField->appliquerPhysique(temps);
+        mPartieSyncer.tick();
     }
+#if !MAT_DEBUG_
+    if(mGameStatus == GAME_WAITING)
+    {
+        auto zamboni = mField->getZamboni();
+        Vecteur3 pos = zamboni->getPosition();
+        auto angle = utilitaire::DEG_TO_RAD(zamboni->getAngle());
+        Vecteur3 direction;
+        direction[VX] = cos(angle);
+        direction[VY] = sin(angle);
+        zamboni->setPosition(pos+direction);
+    }
+#endif
+    
 }
 
 
@@ -898,7 +896,7 @@ void Partie::animerBase( const float& temps )
             wLogicTree->tick(temps);
         }
     }
-    if(mGameStatus == GAME_RUNNING)
+    if(mGameStatus == GAME_STARTED)
     {
         // Gestion de la physique du jeu
         mField->appliquerPhysique(temps);
@@ -934,13 +932,11 @@ void Partie::modifierEnPause( bool val )
     if(val && getGameStatus() != GAME_PAUSED)
     {
         SoundFMOD::obtenirInstance()->playEffect(effect(PAUSE_EFFECT));
-        tempsJeu_.pause();
         setGameStatus(GAME_PAUSED);
     }
     else if(getGameStatus() == GAME_PAUSED)
     {
         SoundFMOD::obtenirInstance()->playEffect(effect(PAUSE_EFFECT));
-        tempsJeu_.unPause();
         setGameStatus(mLastGameStatus); // Utilise le dernier etat de partie pour unpause
     }
 }
@@ -1008,6 +1004,48 @@ void Partie::setGameStatus( GameStatus pStatus )
 {
     mLastGameStatus = mGameStatus; 
     mGameStatus = pStatus;
+
+    // Appeler les events de changement de state (ex: pause, unpause)
+    switch(pStatus)
+    {
+    case GAME_PAUSED:
+        {
+            // Quand on pause, il faut mettre le timer en pause
+            tempsJeu_.pause();
+            break;
+        }
+    case GAME_READY:
+        {
+            // Quand on devient pret (apres getGameReady), on reset le timer
+            tempsJeu_.reset_Time();
+            break;
+        }
+    case GAME_REPLAYING:
+        {
+            // Quand on regarde un replay, il faut mettre le timer en pause
+            tempsJeu_.pause();
+            break;
+        }
+    case GAME_SCORE:
+        {
+            // Rien de special
+            break;
+        }
+    case GAME_STARTED:
+        {
+            // Quand on met la partie en cours, on unpause le timer
+            tempsJeu_.unPause();
+            break;
+        }
+    case GAME_WAITING:
+        {
+            // Quand on attend, il faut mettre le timer en pause
+            tempsJeu_.pause();
+            break;
+        }
+    }
+
+
 #if !MAT_DEBUG_
     auto zamboni = mField->getZamboni();
     if(zamboni)
