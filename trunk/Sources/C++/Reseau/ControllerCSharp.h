@@ -12,7 +12,7 @@
 #include "Utilitaire.h"
 #include "ControllerInterface.h"
 
-typedef int (__stdcall *MessageReceivedCallBack)( char* pUsername, char* pMessage );
+typedef int (__stdcall *MessageReceivedCallBack)( char* pUsername, char* pMessage, char* pGroupName );
 typedef int (__stdcall *EventReceivedCallBack)( EventCodes pId, char* pMessage );
 typedef int (*EventTypeHandler)(class ControllerCSharp*, EventCodes, va_list);
 

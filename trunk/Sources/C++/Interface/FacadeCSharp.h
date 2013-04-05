@@ -174,7 +174,7 @@ extern "C"
     //////////////////////////////////////////////////////////////////////////
     /// Chat functions
     /// declare the callback prototype
-    typedef BOOL (__stdcall *MessageReceivedCallBack)( char* pUsername, char* pMessage );
+    typedef BOOL (__stdcall *MessageReceivedCallBack)( char* pUsername, char* pMessage, char* pGroupName );
     /// Enregistre la callback pour mettre a jour la vue lors de nouveau message
     __declspec(dllexport) void SetMessageCallback( MessageReceivedCallBack callback );
 

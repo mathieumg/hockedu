@@ -74,6 +74,7 @@ namespace UIHeavyClient
     {
         public LoginControlSavedInfo mLoginInfo = new LoginControlSavedInfo();
 
+        // C++ functions
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void CancelConnection(string pConnectionId);
         [DllImport(@"RazerGame.dll", CallingConvention=CallingConvention.Cdecl)]
@@ -118,6 +119,16 @@ namespace UIHeavyClient
             set { mUserConnected = value; }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void LoginControl.SetUserMessageFeedBack()
+        ///
+        /// Feedback message.
+        /// 
+        /// @param[in] string : The message.
+        /// @param[in] bool : Is it an error?.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void SetUserMessageFeedBack(string message, bool isError)
         {
             if (isError)
@@ -170,8 +181,16 @@ namespace UIHeavyClient
             userNameInput.Focus();
         }
 
-
-
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void LoginControl.ControlEnabledChanged()
+        ///
+        /// Ajust UI colors.
+        /// 
+        /// @param[in] object : The object related to the event.
+        /// @param[in] DependencyPropertyChangedEventArgs : The key event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public static void ControlEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             Control control = sender as Control;
@@ -185,6 +204,13 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void LoginControl.ConnectionSuccessful()
+        ///
+        /// Operations when connection is successful.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void ConnectionSuccessful()
         {
             SetUserMessageFeedBack("Connection successful !", false);
@@ -194,20 +220,25 @@ namespace UIHeavyClient
             MainWindowHandler.GoToOnlineLobby();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void LoginControl.UserNameAlreadyChosen()
+        ///
+        /// Operation when login is already in use.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void UserNameAlreadyChosen()
         {
             SetUserMessageFeedBack("User name already used.\nPlease choose another.", true);
             UnBlockUIContent();
         }
 
-
-
         ////////////////////////////////////////////////////////////////////////
         /// @fn void LoginControl.TryConnecting()
         ///
         /// Make necessary validations and registers inputs.
         ///
-        /// @return None.
+        /// @return void.
         ////////////////////////////////////////////////////////////////////////
         public void TryConnecting()
         {
@@ -247,6 +278,13 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void LoginControl.BlockUIContent()
+        ///
+        /// DIsable some UI content while connecting.
+        ///
+        /// @return None.
+        ////////////////////////////////////////////////////////////////////////
         public void BlockUIContent()
         {
             mConnecting = true;
@@ -258,6 +296,13 @@ namespace UIHeavyClient
             Mouse.OverrideCursor = Cursors.Wait;
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void LoginControl.UnBlockUIContent()
+        ///
+        /// Enable UI content.
+        ///
+        /// @return None.
+        ////////////////////////////////////////////////////////////////////////
         public void UnBlockUIContent()
         {
             // Unblock everything while connecting
@@ -269,6 +314,7 @@ namespace UIHeavyClient
             Mouse.OverrideCursor = Cursors.Arrow;
             mConnecting = false;
         }
+
         ////////////////////////////////////////////////////////////////////////
         /// @fn void LoginControl.loginButton_Click()
         ///
@@ -277,7 +323,7 @@ namespace UIHeavyClient
         /// @param[in] object : The object related to the event.
         /// @param[in] RoutedEventArgs : The key event.
         ///
-        /// @return None.
+        /// @return void.
         ////////////////////////////////////////////////////////////////////////
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
@@ -285,14 +331,14 @@ namespace UIHeavyClient
         }
 
         ////////////////////////////////////////////////////////////////////////
-        /// @fn void LoginControl.messageTextBox_KeyDown()
+        /// @fn void LoginControl.OnKeyDown()
         ///
         /// Event when the user pressed a key.
         /// 
         /// @param[in] object : The object related to the event.
-        /// @param[in] RoutedEventArgs : The key event.
+        /// @param[in] KeyEventArgs : The key event.
         ///
-        /// @return None.
+        /// @return void.
         ////////////////////////////////////////////////////////////////////////
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
@@ -301,6 +347,16 @@ namespace UIHeavyClient
                 cancelButton_Click(sender, e);
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void LoginControl.cancelButton_Click()
+        ///
+        /// Event when connection is canceled.
+        /// 
+        /// @param[in] object : The object related to the event.
+        /// @param[in] RoutedEventArgs : The key event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
             if (mConnecting)
@@ -312,20 +368,41 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void LoginControl.InitSavedValues()
+        ///
+        /// Display user values.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void InitSavedValues()
         {
             userNameInput.Text     = mLoginInfo.mUserName;
             ManualServerEntry.Text = mLoginInfo.mIpAddress;
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void LoginControl.SetFocusToUserName()
+        ///
+        /// Focus on user name textbox.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void SetFocusToUserName()
         {
             userNameInput.Focus();
         }
 
-
-
-        // Callbacks for the Login window
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void LoginControl.LoginControlEventReceived()
+        ///
+        /// Event callback for connection.
+        /// 
+        /// @param[in] EventCodes : The event Id.
+        /// @param[in] IntPtr : The event message.
+        ///
+        /// @return bool.
+        ////////////////////////////////////////////////////////////////////////
         public static bool LoginControlEventReceived(EventCodes id, IntPtr pMessage)
         {
             if ( id >= 0 && EventCodes.NB_EVENT_CODES > id )
@@ -421,9 +498,20 @@ namespace UIHeavyClient
             return true;
         }
 
-
-
-
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void LoginControl.mProfileButton_Click()
+        ///
+        /// Open web site in browser.
+        /// 
+        /// @param[in] object : The object related to the event.
+        /// @param[in] RoutedEventArgs : The key event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        private void mProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.hockedu.com");
+        }
     }
 }
 

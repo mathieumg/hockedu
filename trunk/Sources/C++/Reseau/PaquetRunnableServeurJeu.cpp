@@ -117,13 +117,15 @@ int PaquetRunnable::RunnableChatMessageServerGame( Paquet* pPaquet )
     // On ne call donc pas delete dessus tout suite
     if(wPaquet->IsTargetGroup())
     {
-        // On envoie a tout le monde
-        RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, NULL, TCP);
+        // On l'envoie a la personne dans groupName seulement
+        RelayeurMessage::obtenirInstance()->relayerPaquet(wPaquet->getGroupName(), wPaquet, TCP);
     }
     else
     {
-        // On l'envoie a la personne dans groupName seulement
-        RelayeurMessage::obtenirInstance()->relayerPaquet(wPaquet->getGroupName(), wPaquet, TCP);
+        // On envoie a tout le monde
+        std::set<std::string> wListeAIgnorer;
+        wListeAIgnorer.insert("MasterServer");
+        RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, &wListeAIgnorer, TCP);
     }
 
     return 0;
@@ -496,6 +498,31 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
                     });
                     RazerGameUtilities::RunOnUpdateThread(r,true);
                 }
+                break;
+            }
+        case GAME_EVENT_PAUSE_GAME_USER_DISCONNECTED:
+            {
+                // Client se deconnecte, on doit le handle de la meme facon que si l'app crash
+                int wGameId = wGame->getUniqueGameId();
+                bool wPlayerLeft = wPaquet->getEventOnPlayerLeft();
+                Runnable* r = new Runnable([wGameId, wPlayerLeft](Runnable*){
+                    Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+                    if(wGame)
+                    {
+                        // On va chercher le bon socket pour handle la disconnection dessus
+                        SPSocket wSocket;
+                        if(wPlayerLeft)
+                        {
+                            wSocket = GestionnaireReseau::obtenirInstance()->getSocket(wGame->obtenirNomJoueurGauche(), TCP);
+                        }
+                        else
+                        {
+                            wSocket = GestionnaireReseau::obtenirInstance()->getSocket(wGame->obtenirNomJoueurDroit(), TCP);
+                        }
+                        GestionnaireReseau::obtenirInstance()->getController()->handleDisconnectDetection(wSocket);
+                    }
+                });
+                RazerGameUtilities::RunOnUpdateThread(r,true);
                 break;
             }
         }

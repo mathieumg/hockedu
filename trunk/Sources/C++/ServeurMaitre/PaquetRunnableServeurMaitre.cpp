@@ -22,6 +22,7 @@
 #include "GameServerManager.h"
 #include "GameServer.h"
 #include "../reseau/Paquets/PaquetGameConnection.h"
+#include <set>
 
 /// ***** PAR CONVENTION, METTRE Master A LA FIN DU NOM DES DELEGATES
 
@@ -100,6 +101,8 @@ int PaquetRunnable::RunnableChatMessageMasterServer( Paquet* pPaquet )
     else
     {
         // On envoie a tout le monde
+        std::set<std::string> wListeIgnore;
+        wListeIgnore.insert("GameServer");
         RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, NULL, TCP);
     }
 

@@ -12,7 +12,7 @@ namespace UIHeavyClient
     enum GameState {GAME_STATE_NONE, GAME_STATE_EDITION, GAME_STATE_PLAY, GAME_STATE_MAIN_MENU, GAME_STATE_TOURNAMENT_MENU, GAME_STATE_ONLINE_LOBBY}
 
     // Declaration des prototypes de callbacks
-    public delegate bool MessageReceivedCallBack(IntPtr username, IntPtr message);
+    public delegate bool MessageReceivedCallBack(IntPtr username, IntPtr message, IntPtr groupName);
     public delegate bool EventReceivedCallBack(EventCodes id, IntPtr message);
     public delegate bool EditionEventCallBack(EditionEventCodes pEvent);
 
@@ -71,7 +71,7 @@ namespace UIHeavyClient
         }
 
         // Declaration des Callbacks pour le dispatch
-        static bool MessageReceivedCallBackManager(IntPtr username, IntPtr message)
+        static bool MessageReceivedCallBackManager(IntPtr username, IntPtr message, IntPtr grouName)
         {
             bool wReturnValue = true;
             List<CallbackContainer> wCallbacks = getCallbackContainer(mWantedGameState);
@@ -81,7 +81,7 @@ namespace UIHeavyClient
                 {
                     if(wContainer.mMessageReceivedCallback != null)
                     {
-                        wReturnValue = wReturnValue && wContainer.mMessageReceivedCallback(username, message);
+                        wReturnValue = wReturnValue && wContainer.mMessageReceivedCallback(username, message, grouName);
                     }
                 }
             }

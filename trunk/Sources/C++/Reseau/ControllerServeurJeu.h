@@ -28,7 +28,6 @@ public:
 
     virtual void handleDisconnectDetection( SPSocket pSocket );
 
-    virtual int getNbConnectionMax() const {return 2;}
 
     virtual void getPlayersInGame( int pGameId, std::vector<std::string>& pPlayerList );
 

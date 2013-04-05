@@ -189,6 +189,7 @@ bool CommunicateurBD::addGameResult(const std::string& pPlayer1Name, const std::
             return false;
         }
     }
+    return false;
 }
 
 

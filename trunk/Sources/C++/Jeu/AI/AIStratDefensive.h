@@ -28,7 +28,7 @@ public:
 	virtual ~AIStratDefensive();
 
 	/// Retourne la direction à prendre pour le maillet selon une stratégie defensive
-	virtual Vecteur2 appliquerStrategie( NoeudMaillet* maillet );
+	virtual Vecteur2 appliquerStrategie( NoeudMaillet* maillet, Vecteur2 pointVise = Vecteur2() );
 
 /// Accesseurs
 public:

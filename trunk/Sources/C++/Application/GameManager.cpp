@@ -44,6 +44,15 @@ int CallbackGameUpdateServeurJeu(int pGameId, GameStatus pGameStatus)
         GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
 
     }
+    else if(wGame && wGame->isNetworkClientGame() && pGameStatus == GAME_ENDED)
+    {
+        // On signal au serveur jeu qu'on quitte la partie
+        PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+        wPaquet->setGameId(wGame->getUniqueGameId());
+        wPaquet->setEvent(GAME_EVENT_PAUSE_GAME_USER_DISCONNECTED);
+        wPaquet->setEventOnPlayerLeft(wGame->obtenirNomJoueurGauche() == GestionnaireReseau::obtenirInstance()->getPlayerName());
+        GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
+    }
     return 0;
 }
 
