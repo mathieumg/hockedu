@@ -514,19 +514,22 @@ namespace UIHeavyClient
         ///
         /// @return bool.
         ////////////////////////////////////////////////////////////////////////
-        public static bool CallbackMessage(IntPtr pUsername, IntPtr pMessage)
+        public static bool CallbackMessage(IntPtr pUsername, IntPtr pMessage, IntPtr pGroupName)
         {
             string message=Marshal.PtrToStringAnsi(pMessage);
-            string username=Marshal.PtrToStringAnsi(pUsername);
-            OnlineLobbyControl wThis = MainWindowHandler.Context.OnlineLobbyControl;
+            string username = Marshal.PtrToStringAnsi(pUsername);
+            string groupName = Marshal.PtrToStringAnsi(pGroupName);
 
-            wThis.ChatObject.UpdateChat(username, message);
-
-            MainWindowHandler.mTaskManager.ExecuteTask(() =>
+            if(groupName == "lobby")
             {
-                wThis.UpdateChatView();
-            });
-            
+                OnlineLobbyControl wThis = MainWindowHandler.Context.OnlineLobbyControl;
+                wThis.ChatObject.UpdateChat(username, message);
+                MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                {
+                    wThis.UpdateChatView();
+                });
+            }
+
             return true;
         }
 

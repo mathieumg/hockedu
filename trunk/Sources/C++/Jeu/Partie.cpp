@@ -592,8 +592,6 @@ void Partie::updateMinuterie( int time )
         clock_t wClockActuel = clock();
         int lequel = (mClockDelaisDone - wClockActuel)/1000;
         int lequelLastTick = (mClockDelaisDone - mClockLastTick)/1000;
-        std::cout << "Lequel:" << lequel << std::endl;
-        std::cout << "LequelLastTick:" << lequelLastTick << std::endl << std::endl;
 
         if(mClockLastTick && lequel != lequelLastTick)
         {

@@ -68,11 +68,11 @@ GestionnaireReseauClientLourd::~GestionnaireReseauClientLourd()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireReseauClientLourd::messageReceived( const char* pUsername, const char* pMessage )
+void GestionnaireReseauClientLourd::messageReceived( const char* pUsername, const char* pMessage, const char* pGrouName )
 {
     if(mMessageReceivedCallBack)
     {
-        mMessageReceivedCallBack((char*)pUsername,(char*)pMessage);
+        mMessageReceivedCallBack((char*)pUsername,(char*)pMessage,(char*)pGrouName);
     }
 }
 

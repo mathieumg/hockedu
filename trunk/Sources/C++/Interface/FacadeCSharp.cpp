@@ -144,6 +144,7 @@ void SendMessageDLL(char * pConnectionId, char* pUsername, char * pMessage)
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet(CHAT_MESSAGE);
     wPaquet->setMessage(pMessage);
     wPaquet->setIsTargetGroup(false);
+    wPaquet->setGroupName("lobby");
     wPaquet->setTimestamp(time(0));
     wPaquet->setOrigin(pUsername);
 
@@ -160,8 +161,8 @@ void SendMessageGameDLL( char * pMessage )
 {
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet(CHAT_MESSAGE);
     wPaquet->setMessage(pMessage);
-    wPaquet->setIsTargetGroup(true);
-    wPaquet->setGroupName("groupe");
+    wPaquet->setIsTargetGroup(false);
+    wPaquet->setGroupName("ingame");
     wPaquet->setTimestamp(time(0));
     wPaquet->setOrigin(GestionnaireReseau::obtenirInstance()->getPlayerName());
 

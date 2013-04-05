@@ -66,7 +66,19 @@ void RelayeurMessage::relayerPaquetGlobalement( Paquet* pPaquet, const std::set<
     pPaquet->setNbAssociatedQueries((int) (wListe.size()));
     for(std::set<std::string>::const_iterator it = wListe.begin(); it!=wListe.end(); ++it)
     {
-        if(!pListeNomsAIgnorer || pListeNomsAIgnorer->find(*it) == pListeNomsAIgnorer->end())
+        bool wNomFound = false;
+        if(pListeNomsAIgnorer)
+        {
+            for(auto itListe = pListeNomsAIgnorer->begin(); itListe != pListeNomsAIgnorer->end(); itListe++)
+            {
+                if((*itListe).find(*it) == 0) // Si contient le nom a ignorer au debut de son nom
+                {
+                    wNomFound = true;
+                    break;
+                }
+            }
+        }
+        if(!wNomFound)
         {
             relayerPaquet((*it), pPaquet, TCP);
         }

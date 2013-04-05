@@ -117,13 +117,15 @@ int PaquetRunnable::RunnableChatMessageServerGame( Paquet* pPaquet )
     // On ne call donc pas delete dessus tout suite
     if(wPaquet->IsTargetGroup())
     {
-        // On envoie a tout le monde
-        RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, NULL, TCP);
+        // On l'envoie a la personne dans groupName seulement
+        RelayeurMessage::obtenirInstance()->relayerPaquet(wPaquet->getGroupName(), wPaquet, TCP);
     }
     else
     {
-        // On l'envoie a la personne dans groupName seulement
-        RelayeurMessage::obtenirInstance()->relayerPaquet(wPaquet->getGroupName(), wPaquet, TCP);
+        // On envoie a tout le monde
+        std::set<std::string> wListeAIgnorer;
+        wListeAIgnorer.insert("MasterServer");
+        RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, &wListeAIgnorer, TCP);
     }
 
     return 0;
