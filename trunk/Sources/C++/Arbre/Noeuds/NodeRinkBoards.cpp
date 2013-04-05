@@ -36,13 +36,7 @@ PRAGMA_DISABLE_OPTIMIZATION
 NodeRinkBoards::NodeRinkBoards( NoeudPoint* n1, NoeudPoint* n2 ):
     Super(RazerGameUtilities::NAME_RINK_BOARD), mPoint1(n1),mPoint2(n2)
 {
-    /// les noeuds points ne peuvent etre supprimer
-    mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
-
-    setScale(Vecteur3(1,0,0));
-    setRecordable(false);
-    setVisible(false);
-
+    initBase();
     init(n1->mPosition,n2->mPosition,n1,n2);
 }
 
@@ -62,11 +56,7 @@ NodeRinkBoards::NodeRinkBoards( NoeudPoint* n1, NoeudPoint* n2 ):
 NodeRinkBoards::NodeRinkBoards( NoeudPoint* n, NoeudBut* but, bool haut ):
     Super(RazerGameUtilities::NAME_RINK_BOARD), mPoint1(n),mPoint2(NULL)
 {
-    /// les noeuds points ne peuvent etre supprimer
-    mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
-    setScale(Vecteur3(1,0,0));
-    setRecordable(false);
-    setVisible(false);
+    initBase();
 
     init(n->mPosition,
         haut? but->mTopPosition : but->mBottomPosition,
@@ -91,18 +81,37 @@ NodeRinkBoards::NodeRinkBoards( NoeudPoint* n, NoeudBut* but, bool haut ):
 NodeRinkBoards::NodeRinkBoards( NoeudBut* but, NoeudPoint* n, bool haut ):
     Super(RazerGameUtilities::NAME_RINK_BOARD), mPoint1(NULL),mPoint2(n)
 {
-    /// les noeuds points ne peuvent etre supprimer
-    mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
-
-    setScale(Vecteur3(1,0,0));
-    setRecordable(false);
-    setVisible(false);
-
+    initBase();
     init(haut? but->mTopPosition : but->mBottomPosition,
         n->mPosition,
         n,
         but);
 }
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NodeRinkBoards::initBase()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NodeRinkBoards::initBase()
+{
+    /// les noeuds points ne peuvent etre supprimer
+    mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
+
+    setSkinKey(RAZER_KEY_WALL);
+    setScale(Vecteur3(1,1,1));
+    setRecordable(false);
+#if WIN32
+    setVisible(false);
+#endif
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
