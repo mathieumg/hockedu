@@ -24,16 +24,17 @@
 ControllerServeurMaitre::ControllerServeurMaitre()
 {
     // Ajouter tous les Runnables dependant de ce qui est handled selon le type de controlleur
-    mPaquetRunnables[EVENT] = PaquetRunnable::RunnableEvent;
-    mPaquetRunnables[LOGIN_INFO] = PaquetRunnable::RunnableLoginInfoMasterServer;
+    mPaquetRunnables[EVENT]                 = PaquetRunnable::RunnableEvent;
+    mPaquetRunnables[LOGIN_INFO]            = PaquetRunnable::RunnableLoginInfoMasterServer;
     // Pas de connexion automatique pour le serveur maitre
-    //mPaquetRunnables[CONN_AUTOMATIQUE] = PaquetRunnable::RunnableConnAutomatiqueServer;
-    mPaquetRunnables[USER_STATUS] = PaquetRunnable::RunnableUserStatusMasterServer;
-    mPaquetRunnables[CHAT_MESSAGE] = PaquetRunnable::RunnableChatMessageMasterServer;
-    mPaquetRunnables[TEST] = PaquetRunnable::RunnableTest;
-    mPaquetRunnables[GAME_STATUS] = PaquetRunnable::RunnableGameStatusMasterServer;
+    //mPaquetRunnables[CONN_AUTOMATIQUE]    = PaquetRunnable::RunnableConnAutomatiqueServer;
+    mPaquetRunnables[USER_STATUS]           = PaquetRunnable::RunnableUserStatusMasterServer;
+    mPaquetRunnables[CHAT_MESSAGE]          = PaquetRunnable::RunnableChatMessageMasterServer;
+    mPaquetRunnables[TEST]                  = PaquetRunnable::RunnableTest;
+    mPaquetRunnables[GAME_STATUS]           = PaquetRunnable::RunnableGameStatusMasterServer;
     mPaquetRunnables[GAME_CREATION_REQUEST] = PaquetRunnable::RunnableGameCreationMasterServer;
-    mPaquetRunnables[GAME_CONNECTION] = PaquetRunnable::RunnableGameConnectionMasterServer;
+    mPaquetRunnables[GAME_CONNECTION]       = PaquetRunnable::RunnableGameConnectionMasterServer;
+    mPaquetRunnables[GAME_STATUS]           = PaquetRunnable::RunnableGameStatusMasterServer;
 }
 
 

@@ -1,0 +1,23 @@
+# Blender MTL File: ''
+# Material Count: 2
+newmtl _Charcoal_
+Ns 92.156863
+Ka 0.000000 0.000000 0.000000
+Kd 0.087843 0.087843 0.087843
+Ks 0.165000 0.165000 0.165000
+Ni 1.000000
+d 1.000000
+illum 2
+
+
+newmtl rondelle_rondelle.png_rondelle.png
+Ns 92.156863
+Ka 0.000000 0.000000 0.000000
+Kd 0.486902 0.000000 0.000000
+Ks 0.165000 0.165000 0.165000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd rondelle.png
+
+

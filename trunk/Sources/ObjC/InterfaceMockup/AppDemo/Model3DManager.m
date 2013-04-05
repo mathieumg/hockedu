@@ -36,10 +36,10 @@
 {
     self.mModels = [NSMutableDictionary dictionary];
     Vertex3D expectedSize = Vertex3DMake(10, 10, 2);
-  /*  //[self AddObject:@"portail":RAZER_KEY_PORTAL:&expectedSize];
+    //[self AddObject:@"portail":RAZER_KEY_PORTAL:&expectedSize];
     
-    expectedSize = Vertex3DMake(14, 14, 20);
-    //[self AddObject:@"accelerateur":RAZER_KEY_BOOST:&expectedSize];
+    expectedSize = Vertex3DMake(14, 14, 2);
+    [self AddObject:@"boost":RAZER_KEY_BOOST:&expectedSize];
     
     expectedSize = Vertex3DMake(30, 10, 5);
     //[self AddObject:@"but_milieu":RAZER_KEY_GOAL:&expectedSize];
@@ -57,18 +57,18 @@
     [self AddObject:@"rondelle":RAZER_KEY_PUCK:&expectedSize];
     
     expectedSize = Vertex3DMake(10, 10, 4);
-    [self AddObject:@"control_point":RAZER_KEY_CONTROL_POINT:&expectedSize];
+    //[self AddObject:@"control_point":RAZER_KEY_CONTROL_POINT:&expectedSize];
     
     expectedSize = Vertex3DMake(20, 20, 20);
     //[self AddObject:@"point":RAZER_KEY_TABLE_CONTROL_POINT:&expectedSize];
-*/
+
     return self;
 }
 
 
 - (bool)renderObject:(RazerKey)type
 {
-    return false;
+    //return false;
     OpenGLWaveFrontObject *theObject = [mModels objectForKey:[NSNumber numberWithInt:type]];
     if(theObject != nil)
     {

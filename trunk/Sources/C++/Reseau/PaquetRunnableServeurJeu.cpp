@@ -117,13 +117,15 @@ int PaquetRunnable::RunnableChatMessageServerGame( Paquet* pPaquet )
     // On ne call donc pas delete dessus tout suite
     if(wPaquet->IsTargetGroup())
     {
-        // On envoie a tout le monde
-        RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, NULL, TCP);
+        // On l'envoie a la personne dans groupName seulement
+        RelayeurMessage::obtenirInstance()->relayerPaquet(wPaquet->getGroupName(), wPaquet, TCP);
     }
     else
     {
-        // On l'envoie a la personne dans groupName seulement
-        RelayeurMessage::obtenirInstance()->relayerPaquet(wPaquet->getGroupName(), wPaquet, TCP);
+        // On envoie a tout le monde
+        std::set<std::string> wListeAIgnorer;
+        wListeAIgnorer.insert("MasterServer");
+        RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, &wListeAIgnorer, TCP);
     }
 
     return 0;
@@ -209,9 +211,18 @@ int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
 
 void CallbackMapDownloaded(std::string pMapFilepath)
 {
-    if(!pMapFilepath.size())
+    if(pMapFilepath.find(".") == std::string::npos)
     {
         checkf(0);
+        // On doit terminer la partie, le parametre est le map id
+        FacadePortability::takeMutex(PaquetRunnableServeurJeuHelper::obtenirInstance()->mMutexMapMapnameGameId);
+        std::list<int> wListe = PaquetRunnableServeurJeuHelper::obtenirInstance()->mMapMapnameGameId[pMapFilepath];
+        for(auto it = wListe.begin(); it!=wListe.end(); ++it)
+        {
+            GameManager::obtenirInstance()->removeGame(*it);
+        }
+        wListe.empty();
+        FacadePortability::releaseMutex(PaquetRunnableServeurJeuHelper::obtenirInstance()->mMutexMapMapnameGameId);
         return;
     }
     FacadePortability::takeMutex(PaquetRunnableServeurJeuHelper::obtenirInstance()->mMutexMapMapnameGameId);
@@ -487,6 +498,31 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
                     });
                     RazerGameUtilities::RunOnUpdateThread(r,true);
                 }
+                break;
+            }
+        case GAME_EVENT_PAUSE_GAME_USER_DISCONNECTED:
+            {
+                // Client se deconnecte, on doit le handle de la meme facon que si l'app crash
+                int wGameId = wGame->getUniqueGameId();
+                bool wPlayerLeft = wPaquet->getEventOnPlayerLeft();
+                Runnable* r = new Runnable([wGameId, wPlayerLeft](Runnable*){
+                    Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+                    if(wGame)
+                    {
+                        // On va chercher le bon socket pour handle la disconnection dessus
+                        SPSocket wSocket;
+                        if(wPlayerLeft)
+                        {
+                            wSocket = GestionnaireReseau::obtenirInstance()->getSocket(wGame->obtenirNomJoueurGauche(), TCP);
+                        }
+                        else
+                        {
+                            wSocket = GestionnaireReseau::obtenirInstance()->getSocket(wGame->obtenirNomJoueurDroit(), TCP);
+                        }
+                        GestionnaireReseau::obtenirInstance()->getController()->handleDisconnectDetection(wSocket);
+                    }
+                });
+                RazerGameUtilities::RunOnUpdateThread(r,true);
                 break;
             }
         }

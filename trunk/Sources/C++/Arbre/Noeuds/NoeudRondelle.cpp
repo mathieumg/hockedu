@@ -674,7 +674,7 @@ void NoeudRondelle::updatePhysicBody()
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
         myFixtureDef.density = 0.01f;
-        myFixtureDef.friction = 1.0f;
+        myFixtureDef.friction = 0.2f;
         myFixtureDef.restitution = 0;
         RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_PUCK,IsInGame());
 

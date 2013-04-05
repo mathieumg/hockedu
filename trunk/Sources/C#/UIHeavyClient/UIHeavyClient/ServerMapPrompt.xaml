@@ -7,10 +7,10 @@
     <Grid Background="Black">
         <Grid.RowDefinitions>
             <RowDefinition Height="162*" />
-            <RowDefinition Height="47*" />
+            <RowDefinition Height="50*" MinHeight="50" MaxHeight="50" />
         </Grid.RowDefinitions>
-        <Button Content="Ok" Height="23" HorizontalAlignment="Left" Margin="12,0,0,15" Name="mOkButton" VerticalAlignment="Bottom" Width="75" Background="Black" Foreground="White" Click="mOkButton_Click" Grid.Row="1" />
-        <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="103,0,0,16" Name="mCancelButton" VerticalAlignment="Bottom" Width="75" Background="Black" Foreground="White" Click="mCancelButton_Click" Grid.Row="1" />
+        <Button Content="Ok" HorizontalAlignment="Left" Margin="10,12,0,10" Name="mOkButton" Width="75" Background="Black" Foreground="White" Click="mOkButton_Click" Grid.Row="1" />
+        <Button Content="Cancel" HorizontalAlignment="Left" Margin="103,12,0,10" Name="mCancelButton" Width="75" Background="Black" Foreground="White" Click="mCancelButton_Click" Grid.Row="1" />
         <ListView Margin="3" Name="mMapListView" Background="Black" Foreground="White" SizeChanged="ResizeGridColumns" GridViewColumnHeader.Click="ClickForSorting">
             <ListView.View>
                 <GridView>
@@ -20,5 +20,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <Label Content="" FontFamily="Times New Roman" FontSize="24" Foreground="#FF00D500" Height="36" HorizontalAlignment="Right" Margin="0,5,3,4" Name="mFeedbackLabel" VerticalAlignment="Center" Width="Auto" Grid.Row="1" />
     </Grid>
 </Window>

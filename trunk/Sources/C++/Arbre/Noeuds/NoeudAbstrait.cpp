@@ -668,6 +668,7 @@ float NoeudAbstrait::getAngle() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::updateMatrice()
 {
+    glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
 

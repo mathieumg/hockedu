@@ -29,10 +29,11 @@
 #include "..\Reseau\RelayeurMessage.h"
 #include "Solution_Defines.h"
 #include "LaunchAchievementLite.h"
+#include "..\Reseau\ControllerServeurJeu.h"
 
 
 GLuint Partie::listePause_ = 0;
-const int Partie::POINTAGE_GAGNANT = 7;
+const int Partie::POINTAGE_GAGNANT = 3;
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -51,6 +52,7 @@ Partie::Partie(GameType gameType, SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueu
 pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 60, joueurGauche, joueurDroit),
 mGameType(gameType)
 {
+    mClockLastTick = 0;
     chiffres_ = new NoeudAffichage("3");
     mField = new Terrain(this);
 	mUniqueGameId = uniqueGameId;
@@ -185,7 +187,7 @@ void Partie::setFieldName( const std::string& terrain )
 ////////////////////////////////////////////////////////////////////////
 void Partie::incrementerPointsJoueurGauche(bool pForceUpdate /*= false*/)
 {
-    
+    pointsJoueurGauche_++;
     if(isNetworkServerGame())
     {
         // Dans le cas, il faut envoyer un paquet aux 2 clients
@@ -194,15 +196,17 @@ void Partie::incrementerPointsJoueurGauche(bool pForceUpdate /*= false*/)
         wPaquet->setGameId(mUniqueGameId);
         wPaquet->setEvent(GAME_EVENT_PLAYER_SCORED);
         RelayeurMessage::obtenirInstance()->relayerPaquetGame(mUniqueGameId, wPaquet);
+        if(partieTerminee())
+        {
+            setGameStatus(GAME_ENDED);
+        }
     }
     else if(pForceUpdate || !isNetworkClientGame())
     {
         // Dans le cas du client en reseau, on ne fait rien puisque c'est le serveur qui va nous envoyer l'evenement du but
-        pointsJoueurGauche_++;
         if(partieTerminee())
         {
             setGameStatus(GAME_ENDED);
-            callGameUpdate(GAME_ENDED);
             SendAchievementEventToHumanPlayer(joueurGauche_,ACHIEVEMENT_EVENT_GAME_WON,ACHIEVEMENT_EVENT_GAME_LOOSE);
         }
         else
@@ -227,6 +231,7 @@ void Partie::incrementerPointsJoueurGauche(bool pForceUpdate /*= false*/)
 ////////////////////////////////////////////////////////////////////////
 void Partie::incrementerPointsJoueurDroit(bool pForceUpdate /*= false*/)
 {
+    pointsJoueurDroit_++;
     if(isNetworkServerGame())
     {
         // Dans le cas, il faut envoyer un paquet aux 2 clients
@@ -235,15 +240,17 @@ void Partie::incrementerPointsJoueurDroit(bool pForceUpdate /*= false*/)
         wPaquet->setGameId(mUniqueGameId);
         wPaquet->setEvent(GAME_EVENT_PLAYER_SCORED);
         RelayeurMessage::obtenirInstance()->relayerPaquetGame(mUniqueGameId, wPaquet);
+        if(partieTerminee())
+        {
+            setGameStatus(GAME_ENDED);
+        }
     }
     else if(pForceUpdate || !isNetworkClientGame()) // forceUpdate si on a recu le message du serveur et il faut incrementer
     {
         // Dans le cas du client en reseau, on ne fait rien puisque c'est le serveur qui va nous envoyer l'evenement du but
-        pointsJoueurDroit_++;
         if(partieTerminee())
         {
             setGameStatus(GAME_ENDED);
-            callGameUpdate(GAME_ENDED);
             SendAchievementEventToHumanPlayer(joueurDroit_,ACHIEVEMENT_EVENT_GAME_WON,ACHIEVEMENT_EVENT_GAME_LOOSE);
         }
         else
@@ -509,14 +516,12 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
     maillet2->setTargetDestination(maillet2->obtenirPositionOriginale(), true);
 
 
-    int dureeAnimationIntro = 0;
-    
 
     if(debutDePartie)
     {
         tempsJeu_.reset_Time();
     }
-    delais(4100+dureeAnimationIntro);
+    delais(4100);
 }
 
 
@@ -534,7 +539,7 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 void Partie::delais( int time )
 {
     setGameStatus(GAME_WAITING);
-    minuterie_ = time;
+    mClockDelaisDone = clock() + time;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -552,11 +557,10 @@ void Partie::updateMinuterie( int time )
 {
     if(mGameStatus == GAME_WAITING)
     {
-        int minuterieAvant = minuterie_;
-        minuterie_ -= (time*2);
-        if(minuterie_ < 0)
+        // Si delais termine
+        if(clock() > mClockDelaisDone-1000)
         {
-            minuterie_ = 0;
+            mClockDelaisDone = 0;
             chiffres_->setSkinKey(RAZER_KEY_MODEL_3);
             chiffres_->setVisible(false);
             setGameStatus(GAME_STARTED);
@@ -579,16 +583,21 @@ void Partie::updateMinuterie( int time )
                     mailletDroit->setTargetDestination(coordonneesSouris, true);
                 }
             }
-            
+            mClockLastTick = 0;
             tempsJeu_.unPause();
             return;
         }
+        
+        // Si on est a une seconde pile (beep et change de chiffre)
+        clock_t wClockActuel = clock();
+        int lequel = (mClockDelaisDone - wClockActuel)/1000;
+        int lequelLastTick = (mClockDelaisDone - mClockLastTick)/1000;
 
-        if((minuterieAvant/1000-minuterie_/1000)!=0)
+        if(mClockLastTick && lequel != lequelLastTick)
         {
             if(chiffres_!=0)
             {
-                int lequel = (minuterie_/1000+1);
+                //int lequel = (mClockDelaisDone/1000+1);
                 if(lequel!=1 && lequel!=2 && lequel!=3)
                     return;
                 chiffres_->setVisible(true);
@@ -600,6 +609,7 @@ void Partie::updateMinuterie( int time )
                     FacadeModele::getInstance()->obtenirVue()->centrerCamera(mField->GetTableWidth());
             }
         }
+        mClockLastTick = clock();
     }
 }
 
@@ -762,9 +772,8 @@ PositionJoueur Partie::obtenirPositionGagant()
 ////////////////////////////////////////////////////////////////////////
 void Partie::SignalGameOver()
 {
-    mGameStatus = GAME_ENDED;
+    setGameStatus(GAME_ENDED);
 	// On appelle le callback avant de remettre les informations a 0
-	callGameUpdate(GAME_ENDED);
     if(joueurGauche_)
     {
         NoeudMaillet* mailletGauche = joueurGauche_->getControlingMallet();
@@ -1044,7 +1053,7 @@ void Partie::setGameStatus( GameStatus pStatus )
             break;
         }
     }
-
+    callGameUpdate(pStatus);
 
 #if !MAT_DEBUG_
     auto zamboni = mField->getZamboni();
@@ -1111,6 +1120,30 @@ void Partie::SendAchievementEventToHumanPlayer( SPJoueurAbstrait player,Achievem
         }
 
     }
+}
+
+
+
+PartieServeurs* Partie::buildPartieServeurs()
+{
+    PartieServeurs* wPartie = new PartieServeurs;
+    wPartie->setUniqueGameId(mUniqueGameId);
+    wPartie->setGameName(mName);
+    wPartie->setMapName(mField->getNom());
+    wPartie->setPlayerName1(obtenirNomJoueurGauche());
+    wPartie->setPlayerName2(obtenirNomJoueurDroit());
+    wPartie->setPlayer1Score(pointsJoueurGauche_);
+    wPartie->setPlayer2Score(pointsJoueurDroit_);
+    wPartie->setPassword(mPassword);
+    wPartie->setGameStatus(mGameStatus);
+
+    ControllerServeurJeu* wController = dynamic_cast<ControllerServeurJeu*>(GestionnaireReseau::obtenirInstance()->getController());
+    if(wController)
+    {
+        wPartie->setServerId(wController->getServerId());
+    }
+
+    return wPartie;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -12,7 +12,20 @@
 #include <time.h>
 #include <string>
 
-typedef int (*PartieServeursCallback) ();
+enum GameStatus {
+    GAME_NOT_READY, 
+    GAME_READY, 
+    GAME_ENDED, 
+    GAME_STARTED, 
+    GAME_SCORE, 
+    GAME_WAITING, 
+    GAME_RUNNING, 
+    GAME_PAUSED,
+    GAME_REPLAYING,
+};
+
+// Params: (serverId, gameId, GameStatus)
+typedef void (*PartieServeursCallback) (int, int, GameStatus);
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class PartieServeurs
@@ -25,6 +38,7 @@ class PartieServeurs {
 private:
     friend class PaquetGameStatus;
 
+    // Id du serveur
     unsigned int mServerId;
 
     // Id de la partie
@@ -48,14 +62,15 @@ private:
 
     // Temps restant a la partie
     time_t mTime;
-    
+
+    // GameStatus
+    GameStatus mGameStatus;
+	
     static int compteurGameId;
 
-    // Callback appelee quand le score change
-    PartieServeursCallback mUpdateCallback;
+    
 
-    void callUpdateCallbackFunction() {if(mUpdateCallback) mUpdateCallback();}
-
+    
 public:
 	PartieServeurs(const std::string& pPlayer1Name, const std::string& pPlayer2Name);
     PartieServeurs();
@@ -86,16 +101,21 @@ public:
     void setGameName(std::string pGameName) { mGameName = pGameName; }
 
     int getPlayer1Score() const { return mPlayer1Score; }
-    void setPlayer1Score(int val) { mPlayer1Score = val; callUpdateCallbackFunction();}
+    void setPlayer1Score(int val) { mPlayer1Score = val;}
 
     int getPlayer2Score() const { return mPlayer2Score; }
-    void setPlayer2Score(int val) { mPlayer2Score = val; callUpdateCallbackFunction();}
+    void setPlayer2Score(int val) { mPlayer2Score = val;}
 
     time_t getTime() const { return mTime; }
-    inline void setTime(time_t val) { mTime = val; }
+    inline void setTime(time_t val) { mTime = val;}
     void setTime(int pHours, int pMins, int pSec);
 
-    inline void setUpdateCallback(PartieServeursCallback pCallback) {mUpdateCallback = pCallback;}
+    inline GameStatus getGameStatus() const { return mGameStatus; }
+	inline void setGameStatus(GameStatus val) { mGameStatus = val;}
+
+    void updateData(PartieServeurs* pUpdateData);
+
+    
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -50,6 +50,7 @@
             [texData release];
 			if (image == nil)
             {
+                glDisable(GL_TEXTURE_2D);
                 NSLog(@"Cannot load image %@",inFilename);
 				return nil;
             }
@@ -75,7 +76,8 @@
 			free(imageData);
 			[image release];
 		}
-		glEnable(GL_BLEND);
+        glDisable(GL_TEXTURE_2D);
+		//glEnable(GL_BLEND);
 
 	}
 	return self;

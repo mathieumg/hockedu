@@ -56,7 +56,7 @@ ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceiv
         mEventTypeHandlers[e] = ControllerCSharp::HandleEvent;
     }
 
-    mEventTypeHandlers[CHAT_MESSAGE_RECEIVED] = ControllerCSharp::HandleMessage;
+    mEventTypeHandlers[CHAT_MESSAGE_RECEIVED]           = ControllerCSharp::HandleMessage;
 
     GameManager::obtenirInstance()->addGameUpdateCallback(CallbackSetPatieSyncerClientLourd);
 }
@@ -141,7 +141,8 @@ int ControllerCSharp::HandleMessage( ControllerCSharp* pContext, EventCodes pEve
     {
         std::string username    = va_arg(pListeElems,char*);
         std::string message     = va_arg(pListeElems,char*);
-        return c((char*)username.c_str(),(char*)message.c_str());
+        std::string groupName     = va_arg(pListeElems,char*);
+        return c((char*)username.c_str(),(char*)message.c_str(),(char*)groupName.c_str());
     }
     return 0;
 }

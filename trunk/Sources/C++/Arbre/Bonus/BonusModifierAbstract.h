@@ -11,6 +11,7 @@
 
 #include "Enum_Declarations.h"
 
+
 class NoeudAbstrait;
 class NoeudRondelle;
 class NodeBonus;

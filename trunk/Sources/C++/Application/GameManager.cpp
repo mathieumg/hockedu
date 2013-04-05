@@ -18,6 +18,8 @@
 #include "..\Reseau\GestionnaireReseau.h"
 #include "GestionnaireHUD.h"
 #include "Runnable.h"
+#include "..\Reseau\Paquets\PaquetGameStatus.h"
+#include "..\Reseau\ObjetsGlobaux\PartieServeurs.h"
 
 
 
@@ -28,6 +30,31 @@ int GameManager::uniqueIdCount = 0;
 SINGLETON_DECLARATION_CPP(GameManager);
 
 
+// Callback pour sync avec le serveur Maitre
+int CallbackGameUpdateServeurJeu(int pGameId, GameStatus pGameStatus)
+{
+    Partie* wGame = GameManager::obtenirInstance()->getGame(pGameId);
+
+    if(wGame && wGame->isNetworkServerGame())
+    {
+        // On envoie les infos au serveur maitre
+        PaquetGameStatus* wPaquet = (PaquetGameStatus*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_STATUS);
+        PartieServeurs* wPartie = wGame->buildPartieServeurs();
+        wPaquet->setGameInfos(wPartie); // S'occupe du delete
+        GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
+
+    }
+    else if(wGame && wGame->isNetworkClientGame() && pGameStatus == GAME_ENDED)
+    {
+        // On signal au serveur jeu qu'on quitte la partie
+        PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+        wPaquet->setGameId(wGame->getUniqueGameId());
+        wPaquet->setEvent(GAME_EVENT_PAUSE_GAME_USER_DISCONNECTED);
+        wPaquet->setEventOnPlayerLeft(wGame->obtenirNomJoueurGauche() == GestionnaireReseau::obtenirInstance()->getPlayerName());
+        GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquet, TCP);
+    }
+    return 0;
+}
 
 
 ///////////////////////////////////////////////////////////////////
@@ -130,6 +157,9 @@ int GameManager::addNewGame(GameType gametype, SPJoueurAbstrait pJoueur1 /*= 0*/
 	}
     bool wGameAdded = false;
     int wTryCount = 0;
+    std::vector<GameUpdateCallback> wListeCallbacks;
+    wListeCallbacks.push_back(CallbackGameUpdateServeurJeu);
+    wGame->setUpdateCallback(wListeCallbacks);
     while(!wGameAdded && wTryCount <1000)
     {
         try
@@ -137,7 +167,7 @@ int GameManager::addNewGame(GameType gametype, SPJoueurAbstrait pJoueur1 /*= 0*/
             addGame(wGame);
             wGameAdded = true;
         }
-        catch(std::runtime_error& pException)
+        catch(std::runtime_error&)
         {
             // Une partie existe probablement avec cet id et on peut pas sauvegarder la nouvelle, on lui donne un nouvel id
             wGame->setUniqueGameId(getNewUniqueGameId());

@@ -19,11 +19,12 @@
 	NSString				*name;
 	GLuint					numberOfFaces;
 	Face3D					*faces;	
-
+    int                     mStartingIndex;
 	OpenGLWaveFrontMaterial	*material;
 }
 @property (nonatomic, retain) NSString *name;
 @property GLuint numberOfFaces;
+@property int mStartingIndex;
 @property Face3D *faces;
 @property (nonatomic, retain) OpenGLWaveFrontMaterial *material;
 //@property GLubyte valuesPerCoord;
@@ -31,5 +32,6 @@
 
 - (id)initWithName:(NSString *)inName 
 	 numberOfFaces:(GLuint)inNumFaces
-		  material:(OpenGLWaveFrontMaterial *)inMaterial;
+		  material:(OpenGLWaveFrontMaterial *)inMaterial
+                  :(int)startingIndex;
 @end

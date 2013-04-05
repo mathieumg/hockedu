@@ -15,7 +15,7 @@ struct ChatMessageReceived
     std::string mUsername;
     std::string mMessage;
 };
-typedef BOOL (__stdcall *MessageReceivedCallBack)(char* pUsername, char* pMessage);
+typedef BOOL (__stdcall *MessageReceivedCallBack)(char* pUsername, char* pMessage, char* pGroupName);
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class GestionnaireReseauClientLourd
@@ -31,7 +31,7 @@ class GestionnaireReseauClientLourd :public Singleton<GestionnaireReseauClientLo
 public:
     /// Accessors of mMessageReceivedCallBack
     inline void setMessageReceivedCallBack(MessageReceivedCallBack pVal) { mMessageReceivedCallBack = pVal; }
-    void messageReceived(const char* pUsername, const char* pMessage);
+    void messageReceived(const char* pUsername, const char* pMessage, const char* pGroupName);
 
 private:
     /// Constructeur par defaut

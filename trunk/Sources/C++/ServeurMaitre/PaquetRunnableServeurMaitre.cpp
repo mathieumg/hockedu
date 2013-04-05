@@ -22,6 +22,7 @@
 #include "GameServerManager.h"
 #include "GameServer.h"
 #include "../reseau/Paquets/PaquetGameConnection.h"
+#include <set>
 
 /// ***** PAR CONVENTION, METTRE Master A LA FIN DU NOM DES DELEGATES
 
@@ -100,6 +101,8 @@ int PaquetRunnable::RunnableChatMessageMasterServer( Paquet* pPaquet )
     else
     {
         // On envoie a tout le monde
+        std::set<std::string> wListeIgnore;
+        wListeIgnore.insert("GameServer");
         RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, NULL, TCP);
     }
 
@@ -117,21 +120,6 @@ int PaquetRunnable::RunnableUserStatusMasterServer( Paquet* pPaquet )
 }
 
 
-
-
-int PaquetRunnable::RunnableGameStatusMasterServer( Paquet* pPaquet )
-{
-    PaquetGameStatus* wPaquet = (PaquetGameStatus*) pPaquet;
-
-    // *****On doit faire une copie du PartieServeurs avant de le propager car il sera detruit a la destruction du PaquetGameStatus
-    PartieServeurs* wPartie = new PartieServeurs(wPaquet->getGameInfos());
-
-
-    FacadeServeurMaitre::obtenirInstance()->updateGameStatus(wPartie);
-
-
-    return 0;
-}
 
 
 int PaquetRunnable::RunnableGameCreationMasterServer( Paquet* pPaquet )
@@ -204,6 +192,29 @@ int PaquetRunnable::RunnableGameConnectionMasterServer( Paquet* pPaquet )
     }
 
     GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
+    return 0;
+}
+
+
+
+int PaquetRunnable::RunnableGameStatusMasterServer( Paquet* pPaquet )
+{
+    PaquetGameStatus* wPaquet = (PaquetGameStatus*) pPaquet;
+
+    const int wGameId = wPaquet->getGameInfos()->getUniqueGameId();
+    const int wServerId = wPaquet->getGameInfos()->getServerId();
+
+    GameServer* wGameServer = GameServerManager::obtenirInstance()->getGameServer(wServerId);
+    if(wGameServer)
+    {
+        PartieServeurs* wGame = wGameServer->getGame(wGameId);
+        if(wGame)
+        {
+            wGame->updateData(wPaquet->getGameInfos());
+        }
+    }
+    GameServerManager::obtenirInstance()->callUpdateCallbackFunction(wPaquet->getGameInfos()->getServerId(), wPaquet->getGameInfos()->getUniqueGameId(), wPaquet->getGameInfos()->getGameStatus());
+
     return 0;
 }
 

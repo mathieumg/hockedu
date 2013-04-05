@@ -44,7 +44,9 @@ int PaquetRunnable::RunnableChatMessageClient( Paquet* pPaquet )
 {
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) pPaquet;
 
-    GestionnaireReseau::obtenirInstance()->transmitEvent(CHAT_MESSAGE_RECEIVED,wPaquet->getOrigin().c_str(),wPaquet->getMessage().c_str());
+    
+    GestionnaireReseau::obtenirInstance()->transmitEvent(CHAT_MESSAGE_RECEIVED,wPaquet->getOrigin().c_str(),wPaquet->getMessage().c_str(), wPaquet->getGroupName().c_str());
+    
     wPaquet->removeAssociatedQuery();
     return 0;
 }

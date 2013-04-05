@@ -73,7 +73,7 @@ bool RenderNodeCallback(RazerKey key)
 
 - (void)render
 {
-    mView->appliquerVue(0);
+    mView->appliquerVue(1);
     ((Terrain*)mField)->renderField();  
 }
 - (id)init

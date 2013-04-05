@@ -18,22 +18,14 @@
 #include "PartieSyncer.h"
 #include "ReplayObserver.h"
 #include "AchievementsEnums.h"
+#include "..\Reseau\ObjetsGlobaux\PartieServeurs.h"
+#include <vector>
 
 
 class NoeudMaillet;
 class NoeudRondelle;
 
-// ATTENTION, ORDRE IMPORTANT DANS L'ENUM. SI UNE VAL EST APRES GAME_STARTED, ELLE EST CONSIDEREE COMME ENCORE EN COURS
-enum GameStatus {
-    GAME_NOT_READY, 
-    GAME_READY, 
-    GAME_ENDED, 
-    GAME_STARTED, 
-    GAME_SCORE, 
-    GAME_WAITING, 
-    GAME_PAUSED,
-    GAME_REPLAYING,
-};
+
 typedef int (*GameUpdateCallback) (int, GameStatus); // Param1 = GameID, Param2 = UpdateStatus
 
 
@@ -115,7 +107,7 @@ public:
     void SignalGameOver();
     bool getReadyToPlay();
 
-	inline void setUpdateCallback(const std::vector<GameUpdateCallback>& pCallback) {mUpdateCallbacks = pCallback;}
+	inline void setUpdateCallback(const std::vector<GameUpdateCallback>& pCallbacks) {mUpdateCallbacks.insert(mUpdateCallbacks.end(), pCallbacks.begin(), pCallbacks.end());}
 
     inline void sendNetworkInfos() {mPartieSyncer.tick();}
 
@@ -141,6 +133,9 @@ public:
     void SendAchievementEventToHumanPlayer(SPJoueurAbstrait player,AchievementEvent eventIfHuman, AchievementEvent eventIfNonHuman );
 
     void setGameStatus(GameStatus pStatus);
+    
+    PartieServeurs* buildPartieServeurs();    
+
 /// Protected because we need to call these from the class' children
 protected:
 
@@ -161,7 +156,8 @@ private:
 	int pointsJoueurDroit_;
 
 	/// Temps restant a etre inactif
-	int minuterie_;
+	clock_t mClockDelaisDone;
+    clock_t mClockLastTick;
 
 	/// Décompte de mise au jeu
 	NoeudAffichage* chiffres_;

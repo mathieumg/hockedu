@@ -3,6 +3,7 @@
 
 PaquetGameStatus::PaquetGameStatus(  )
 {
+    mGame = new PartieServeurs;
 }
 
 
@@ -10,4 +11,8 @@ PaquetGameStatus::PaquetGameStatus(  )
 
 PaquetGameStatus::~PaquetGameStatus()
 {
+    if(mGame)
+    {
+        delete mGame;
+    }
 }

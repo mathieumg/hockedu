@@ -3,6 +3,7 @@
 #endif
 
 
+
 #if CSHARP
 namespace UIHeavyClient
 {
@@ -90,6 +91,7 @@ typedef enum
         RECONNECTION_IN_PROGRESS,
         WRONG_PASSWORD,
         CHAT_MESSAGE_RECEIVED,
+        CHAT_MESSAGE_RECEIVED_INGAME,
         SERVER_USER_CONNECTED,
         SERVER_USER_DISCONNECTED,
         SERVER_USER_CONNECTING,
@@ -98,6 +100,9 @@ typedef enum
         GAMES_LIST_REQUEST,
         GAME_ADDED,
         GAME_CONNECTION_RESPONSE_SUCCESS,
+        GAME_CONNECTION_RESPONSE_ALREADY_CONNECTED,
+        GAME_CONNECTION_RESPONSE_GAME_FULL,
+        GAME_CONNECTION_RESPONSE_GAME_NOT_FOUND,
         SERVER_EVENT_END,
         /// Network event category : end    
 

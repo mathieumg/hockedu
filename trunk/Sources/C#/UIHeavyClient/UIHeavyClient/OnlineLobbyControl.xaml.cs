@@ -169,6 +169,7 @@ namespace UIHeavyClient
             {
                 if (mServerMapPrompt.SelectedMap != null)
                 {
+                    mFeedbackLabel.Content = "Loading, please wait...";
                     mHttpManager.downloadMap(12, mServerMapPrompt.SelectedMap.id, HandleDownloadedMap);
                 }
             }
@@ -199,15 +200,17 @@ namespace UIHeavyClient
 
                     if (mPasswordPrompt.OkIsClicked)
                     {
+                        mFeedbackLabel.Content = "Loading, please wait...";
                         connectPartieServerGame(selected.Value.id, selected.Value.serverId, mPasswordPrompt.Password);
                         mGameWaitingToConnect = selected.Value;
-                        mIsWaitingForOnlineGame = true;
+                        mIsWaitingForOnlineGame = true;   
                     }
 
                     mPasswordPrompt.Close();
                 }
                 else
                 {
+                    mFeedbackLabel.Content = "Loading, please wait...";
                     connectPartieServerGame(selected.Value.id, selected.Value.serverId, "");
                     mGameWaitingToConnect = selected.Value;
                     mIsWaitingForOnlineGame = true;
@@ -233,6 +236,7 @@ namespace UIHeavyClient
 
             if (mGameCreationPrompt.OkIsClicked)
             {
+                mFeedbackLabel.Content = "Loading, please wait...";
                 requestGameCreationServerGame(mGameCreationPrompt.GameName, mGameCreationPrompt.Map.name, mGameCreationPrompt.Map.id, mGameCreationPrompt.Password);
                 mGameWaitingToConnect = new OnlineGameInfos(-1, 0, mGameCreationPrompt.GameName, "", mGameCreationPrompt.Map.name, mGameCreationPrompt.Password != "", "");
                 mIsWaitingForOnlineGame = true;
@@ -253,13 +257,18 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         private void mRandomButton_Click(object sender, RoutedEventArgs e)
         {
-            Random rand = new Random();
-            OnlineGameInfos? randomGame = (mOnlineGameListView.Items[rand.Next(mOnlineGameListView.Items.Count - 1)] as OnlineGameInfos?);
+            if (mOnlineGameListView.Items.Count > 0)
+            {
+                mFeedbackLabel.Content = "Loading, please wait...";
 
-            connectPartieServerGame(randomGame.Value.id, randomGame.Value.serverId, "");
-            mGameWaitingToConnect = randomGame.Value;
+                Random rand = new Random();
+                OnlineGameInfos? randomGame = (mOnlineGameListView.Items[rand.Next(mOnlineGameListView.Items.Count - 1)] as OnlineGameInfos?);
 
-            mIsWaitingForOnlineGame = true;
+                connectPartieServerGame(randomGame.Value.id, randomGame.Value.serverId, "");
+                mGameWaitingToConnect = randomGame.Value;
+
+                mIsWaitingForOnlineGame = true;
+            }   
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -411,6 +420,51 @@ namespace UIHeavyClient
                         }
                     }
                     break;
+                    case EventCodes.GAME_CONNECTION_RESPONSE_ALREADY_CONNECTED:
+                    {
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                            // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
+                            if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                            {
+                                MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
+
+                                MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("You are already connected to this game...");
+                                MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
+                            }
+                        });
+                    }
+                    break;
+                    case EventCodes.GAME_CONNECTION_RESPONSE_GAME_FULL:
+                    {
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                            // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
+                            if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                            {
+                                MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
+
+                                MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("This game already have two player... try another one!");
+                                MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
+                            }
+                        });
+                    }
+                    break;
+                    case EventCodes.GAME_CONNECTION_RESPONSE_GAME_NOT_FOUND:
+                    {
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                            // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
+                            if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                            {
+                                MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
+
+                                MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("This game doesn't exist anymore... try another one!");
+                                MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
+                            }
+                        });
+                    }
+                    break;
                     default: break;
                 }
             }
@@ -460,19 +514,22 @@ namespace UIHeavyClient
         ///
         /// @return bool.
         ////////////////////////////////////////////////////////////////////////
-        public static bool CallbackMessage(IntPtr pUsername, IntPtr pMessage)
+        public static bool CallbackMessage(IntPtr pUsername, IntPtr pMessage, IntPtr pGroupName)
         {
             string message=Marshal.PtrToStringAnsi(pMessage);
-            string username=Marshal.PtrToStringAnsi(pUsername);
-            OnlineLobbyControl wThis = MainWindowHandler.Context.OnlineLobbyControl;
+            string username = Marshal.PtrToStringAnsi(pUsername);
+            string groupName = Marshal.PtrToStringAnsi(pGroupName);
 
-            wThis.ChatObject.UpdateChat(username, message);
-
-            MainWindowHandler.mTaskManager.ExecuteTask(() =>
+            if(groupName == "lobby")
             {
-                wThis.UpdateChatView();
-            });
-            
+                OnlineLobbyControl wThis = MainWindowHandler.Context.OnlineLobbyControl;
+                wThis.ChatObject.UpdateChat(username, message);
+                MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                {
+                    wThis.UpdateChatView();
+                });
+            }
+
             return true;
         }
 
@@ -543,34 +600,6 @@ namespace UIHeavyClient
             messageTextBox.IsEnabled=true;
             submitButton.IsEnabled=true;
             onlineListView.IsEnabled=true;
-        }
-
-        ////////////////////////////////////////////////////////////////////////
-        /// @fn void OnlineLobbyControl.DisplayServerGames()
-        ///
-        /// Display game list on UI.
-        ///
-        /// @return void.
-        ////////////////////////////////////////////////////////////////////////
-        public void DisplayServerGames()
-        {
-            int nbrServerGames = GetNbrServerGames();
-
-            OnlineGameInfos[] gameInfos = new OnlineGameInfos[nbrServerGames];
-
-            for (uint i = 0; i < nbrServerGames; ++i )
-            {
-                gameInfos[i] = new OnlineGameInfos(0, 0, new string('s', 255), new string('s', 255), new string('s', 255), false, new string('s', 4));
-            }
-
-            GetServersGames(gameInfos, nbrServerGames);
-
-            mOnlineGameListView.Items.Clear();
-
-            foreach (OnlineGameInfos g in gameInfos)
-            {
-                mOnlineGameListView.Items.Add((object)g);
-            }
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -672,6 +701,18 @@ namespace UIHeavyClient
         public void ClearOnlineUsers()
         {
             onlineListView.Items.Clear();
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.DisplayFeedBack()
+        ///
+        /// Public access for feedback label.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        public void DisplayFeedBack(string pMessage)
+        {
+            mFeedbackLabel.Content = pMessage;
         }
     }
 }

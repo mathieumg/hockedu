@@ -18,7 +18,8 @@
 
 - (id)initWithName:(NSString *)inName 
 	 numberOfFaces:(GLuint)inNumFaces
-		  material:(OpenGLWaveFrontMaterial *)inMaterial;
+		  material:(OpenGLWaveFrontMaterial *)inMaterial
+                  :(int)startingIndex;
 
 {
 	if ((self = [super init]))
@@ -26,7 +27,7 @@
 		self.name = inName;
 		self.numberOfFaces = inNumFaces;
 		self.material = inMaterial;
-
+        self.mStartingIndex = startingIndex;
 		faces = malloc(sizeof(Face3D) * numberOfFaces);
 		
 	}

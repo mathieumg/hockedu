@@ -189,16 +189,20 @@ namespace UIHeavyClient
             }
         }
 
-        static bool MessageReceived(IntPtr pUsername, IntPtr pMessage)
+        static bool MessageReceived(IntPtr pUsername, IntPtr pMessage, IntPtr pGroupName)
         {
             string message = Marshal.PtrToStringAnsi(pMessage);
             string username = Marshal.PtrToStringAnsi(pUsername);
-            
-            MainWindowHandler.mTaskManager.ExecuteTask(() =>
+            string groupname = Marshal.PtrToStringAnsi(pGroupName);
+            if(groupname == "ingame")
             {
-                MainWindowHandler.Context.PlayModeControl.mChatOutputTextBox.Text += "\n" + username + ": " + message;
-                MainWindowHandler.Context.PlayModeControl.mChatOutputTextBox.ScrollToEnd();
-            });
+                MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                {
+                    MainWindowHandler.Context.PlayModeControl.mChatOutputTextBox.Text += "\n" + username + ": " + message;
+                    MainWindowHandler.Context.PlayModeControl.mChatOutputTextBox.ScrollToEnd();
+                });
+            }
+            
             return true;
         }
 

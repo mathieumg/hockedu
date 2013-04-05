@@ -3,6 +3,9 @@
 #include "..\Reseau\ObjetsGlobaux\PartieServeurs.h"
 
 
+
+
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn GameServer::GameServer( unsigned int pServerId, std::string pServerIP ) : mServerId(pServerId), mServerIP(pServerIP)
@@ -100,7 +103,7 @@ void GameServer::addGame( int pGameId, PartieServeurs* pGame )
 /// @return PartieServeurs* The game with the specified game ID.
 ///
 ////////////////////////////////////////////////////////////////////////
-const PartieServeurs* GameServer::getGame( int pGameId )
+PartieServeurs* GameServer::getGame( int pGameId )
 {
     auto it = mGamesList.find(pGameId);
 

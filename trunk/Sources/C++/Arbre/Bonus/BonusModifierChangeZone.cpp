@@ -13,11 +13,13 @@
 #if BOX2D_PLAY  
 #include <Box2D/Box2D.h>
 #endif
+#if WIN32
+#include "SoundFMOD.h"
+#endif
 #include "NoeudAbstrait.h"
 #include "Utilitaire.h"
 #include "NoeudRondelle.h"
 #include "NoeudMaillet.h"
-
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -70,6 +72,9 @@ BonusModifierChangeZone::~BonusModifierChangeZone()
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierChangeZone::Attach( NoeudRondelle* pPuck )
 {
+#if WIN32
+    SoundFMOD::obtenirInstance()->playEffect(BONUS_CHANGE_SIDE_IN_EFFECT);
+#endif //WIN32
     return AttachToLastHittingMallet(pPuck);
 }
 
@@ -140,6 +145,10 @@ bool BonusModifierChangeZone::Apply()
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierChangeZone::Revert()
 {
+#if WIN32 
+    SoundFMOD::obtenirInstance()->playEffect(BONUS_CHANGE_SIDE_OUT_EFFECT); 
+#endif
+
 #if BOX2D_PLAY  
     for(int i=0; i<(int)mFixtures.size(); ++i)
     {

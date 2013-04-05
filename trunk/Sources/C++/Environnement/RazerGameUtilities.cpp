@@ -312,6 +312,23 @@ void RazerGameUtilities::SaveFieldToFile( const std::string& nomFichier, Terrain
         pathFile.append(ext,4);
     }
 
+    int wTest = pathFile.find_last_of("\\");
+    int wTest2 = pathFile.find_last_of("/");
+    int wIndexSeparateur = utilitaire::borneSuperieure(wTest2, wTest);
+
+    int wIndexPoint = pathFile.find_last_of(".");
+    std::string wMapName;
+    if(wIndexPoint == std::string::npos)
+    {
+        wMapName = pathFile.substr(wIndexSeparateur+1, pathFile.length()-wIndexSeparateur);
+    }
+    else
+    {
+        wMapName = pathFile.substr(wIndexSeparateur+1, wIndexPoint-wIndexSeparateur-1);
+    }
+
+    pField.modifierNom(wMapName);
+
     XmlDocument document ;
     XMLUtils::CreateDocument(document);
 

@@ -120,9 +120,8 @@ AssertHandleMode __cdecl DisplayAssertMessage( const char *message)
 {
     enum AssertHandleMode HandleMode = ASSERT_IgnoreAll;
     //char TempStr[4096];
-    std::cerr << message <<std::endl;
 #if WIN32
-  /*  std::string MessageStr = "Press [Abort] Dynamic Breakpoint\nPress [Retry] to ignore the assertion and continue\nPress [Ignore] to *always* ignore this assertion\n\n";
+    std::string MessageStr = "Press [Abort] Dynamic Breakpoint\nPress [Retry] to ignore the assertion and continue\nPress [Ignore] to *always* ignore this assertion\n\n";
 
     // Also add the instructions
     MessageStr += message;
@@ -139,7 +138,9 @@ AssertHandleMode __cdecl DisplayAssertMessage( const char *message)
     else if (Result == IDIGNORE)
     {
         HandleMode = ASSERT_IgnoreAll;
-    }*/
+    }
+#else
+    std::cerr << "checkf failed : " <<message <<std::endl;
 #endif
     return HandleMode;
 }

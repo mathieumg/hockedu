@@ -144,6 +144,7 @@ void SendMessageDLL(char * pConnectionId, char* pUsername, char * pMessage)
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet(CHAT_MESSAGE);
     wPaquet->setMessage(pMessage);
     wPaquet->setIsTargetGroup(false);
+    wPaquet->setGroupName("lobby");
     wPaquet->setTimestamp(time(0));
     wPaquet->setOrigin(pUsername);
 
@@ -160,8 +161,8 @@ void SendMessageGameDLL( char * pMessage )
 {
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet(CHAT_MESSAGE);
     wPaquet->setMessage(pMessage);
-    wPaquet->setIsTargetGroup(true);
-    wPaquet->setGroupName("groupe");
+    wPaquet->setIsTargetGroup(false);
+    wPaquet->setGroupName("ingame");
     wPaquet->setTimestamp(time(0));
     wPaquet->setOrigin(GestionnaireReseau::obtenirInstance()->getPlayerName());
 
@@ -627,14 +628,10 @@ void SetSoundVolume(int pVolume)
     SoundFMOD::obtenirInstance()->setAppVolume(pVolume/10.0f);
 }
 
-int SetEffectVolume()
-{
-    return (int)(SoundFMOD::obtenirInstance()->getEffectVolume() * 10.0f);
-}
-
 void SetEffectVolume(int pVolume)
 {
     SoundFMOD::obtenirInstance()->setEffectVolume(pVolume/10.0f);
+    SoundFMOD::obtenirInstance()->playEffect(CLICK_EFFECT);
 }
 
 int GetNbrPlaylists()
@@ -707,7 +704,7 @@ void BeginNewTournament(char* pTournamentName, char* pMapName, char** pPlayerNam
 		// Empty name means human player
 		if(strlen(pPlayerNames[i]) == 0)
         {
-            players.push_back(SPJoueurAbstrait(new JoueurHumain()));
+            players.push_back(SPJoueurAbstrait(new JoueurHumain("Joueur humain")));
         }
 		else // AI player
 		{	

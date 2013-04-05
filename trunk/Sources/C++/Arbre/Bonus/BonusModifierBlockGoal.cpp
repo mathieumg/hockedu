@@ -13,13 +13,15 @@
 #if BOX2D_PLAY  
 #include <Box2D/Box2D.h>
 #endif
+#if WIN32
+#include "SoundFMOD.h"
+#endif
 #include "NoeudAbstrait.h"
 #include "NoeudRondelle.h"
 #include "Terrain.h"
 #include "NoeudBut.h"
 #include "Utilitaire.h"
 #include "NoeudMaillet.h"
-
 
 const Vecteur3 GoalerSize(3,15,15);
 
@@ -84,6 +86,10 @@ bool BonusModifierBlockGoal::Attach( NoeudRondelle* pPuck )
             NoeudBut* affectedGoal = goals[!(mallet == field->getLeftMallet())];
             if(affectedGoal)
             {
+#if WIN32 
+                SoundFMOD::obtenirInstance()->playEffect(BONUS_BLOCK_GOAL_IN_EFFECT); 
+#endif
+
                 mPuckPos = &pPuck->getPosition();
                 mProtectedGoal = affectedGoal;
                 mOwner = mallet;
@@ -180,6 +186,10 @@ bool BonusModifierBlockGoal::Apply()
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierBlockGoal::Revert()
 {
+#if WIN32
+    SoundFMOD::obtenirInstance()->playEffect(BONUS_BLOCK_GOAL_OUT_EFFECT); 
+#endif
+
 #if BOX2D_PLAY  
     if(mPhysicBody)
     {

@@ -11,8 +11,12 @@
 #if BOX2D_PLAY  
 #include <Box2D/Box2D.h>
 #endif
+#if WIN32
+#include "SoundFMOD.h"
+#endif
 #include "NoeudAbstrait.h"
 #include "NoeudRondelle.h"
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -47,6 +51,11 @@ BonusModifierGoThroughWall::BonusModifierGoThroughWall():
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierGoThroughWall::Attach( NoeudRondelle* pPuck )
 {
+    
+#if WIN32 
+    SoundFMOD::obtenirInstance()->playEffect(BONUS_PASS_WALL_IN_EFFECT); 
+#endif
+
     if(rand()&1)
     {
         return AttachToLastHittingMallet(pPuck);
@@ -129,6 +138,11 @@ bool BonusModifierGoThroughWall::Apply()
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierGoThroughWall::Revert()
 {
+    
+#if WIN32 
+    SoundFMOD::obtenirInstance()->playEffect(BONUS_PASS_WALL_IN_EFFECT); 
+#endif
+
     auto rondelle = dynamic_cast<NoeudRondelle*>(mOwner);
     if(rondelle)
     {

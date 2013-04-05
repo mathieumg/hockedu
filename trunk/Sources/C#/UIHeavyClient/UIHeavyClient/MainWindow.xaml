@@ -10,7 +10,7 @@
                 <MenuItem Header="Load Map From Server" Name="mServerLoadMapItem" Visibility="Collapsed"/>
                 <MenuItem Header="Save Map As (Ctrl + Shift + S)" Click="SaveMapToLocal" Name="mSaveMapItem" Visibility="Collapsed"/>
                 <MenuItem Header="Save Map (Ctrl + S)" Click="QuickSaveMapToLocal" Name="mQuickSaveMapItem" Visibility="Collapsed"/>
-                <MenuItem Header="Save Map To Server" Name="mServerSaveMapItem" Visibility="Collapsed"/>
+                <MenuItem Header="Save Map To Server" Name="mServerSaveMapItem" Visibility="Collapsed" Click="SaveMapToServer" />
                 <MenuItem Header="Reset to Default Map (Ctrl + N)" Name="mResetMapItem" Click="DefaultMap" Visibility="Collapsed"/>
                 <MenuItem Header="Main Menu" Click="BackToMainMenu" />
                 <MenuItem Header="Exit Hockedu" Click="ExitHockedu"/>
@@ -32,8 +32,6 @@
         </Menu>
         
         <!-- Content controls use to display user controls-->
-        <ContentControl Name="windowContentControl" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="Black">
-            <Label Content="Loading your mother..." Height="112" Name="label1" Width="733" Foreground="White" FontSize="72" />
-        </ContentControl>
+        <ContentControl Name="windowContentControl" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="Black"></ContentControl>
     </DockPanel>
 </Window>

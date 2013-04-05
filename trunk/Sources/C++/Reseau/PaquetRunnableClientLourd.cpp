@@ -151,7 +151,7 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
     case GAME_CONNECTION_ALREADY_CONNECTED:
         {
             // User with this name already connected
-
+            GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_ALREADY_CONNECTED);
 
 
             break;
@@ -159,12 +159,13 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
     case GAME_CONNECTION_GAME_FULL:
         {
             // Partie comporte deja 2 joueurs
-
+            GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_GAME_FULL);
 
         }
         // Dans tous les autres cas, la connection a echouee
     case GAME_CONNECTION_GAME_NOT_FOUND:
         {
+            GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_GAME_NOT_FOUND);
             std::cout << "Game not found with id: " << wPaquet->getGameId() << std::endl;
             break;
         }
