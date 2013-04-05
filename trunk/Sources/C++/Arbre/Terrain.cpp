@@ -1211,6 +1211,17 @@ void Terrain::BeginContact( b2Contact* contact )
 
                             NoeudRondelle* rondelle = (NoeudRondelle*)bodies[0]->GetUserData();
 
+                            if(mGame)
+                            {
+                                auto maillet = rondelle->getLastHittingMallet();
+                                if(maillet)
+                                {
+                                    mGame->SendAchievementEventToHumanPlayer(maillet->obtenirJoueur(), ACHIEVEMENT_EVENT_PORTAL, ACHIEVEMENT_EVENT_NONE);
+                                }
+                                
+                            }
+                            
+
                             // The new pos can only be assigned outside of the world's step, so we queue it
                             Runnable* r = new Runnable([portailDeSortie,rondelle](Runnable*)
                             {

@@ -335,6 +335,11 @@ bool AchievementGameWon::LoadAchievementData( const XmlElement* elem)
     return true;
 }
 
+
+
+
+
+
 const int AchievementAICreation::AI_CREATION_NEEDED[3] = {3,10,20};
 const std::string AchievementAICreation::AI_LEVEL_NAME[3] =
 {
@@ -385,3 +390,110 @@ bool AchievementAICreation::LoadAchievementData( const XmlElement* elem )
     }
     return true;
 }
+
+
+
+
+
+const std::string AchievementMute::MUTE_LEVEL_NAME[1] =
+{
+    "Stopping noise pollution"
+};
+
+AchievementMute::AchievementMute() : mMuted(false)
+{
+    ADD_NEW_LEVEL(
+        APPEND_BINDING(ACHIEVEMENT_EVENT_MUTE,EventMuteCallBack)
+        );
+}
+
+void AchievementMute::EventMuteCallBack( AbstractAchievement* pAchievement, AchievementEvent pEvent )
+{
+    auto wThis = (AchievementMute*)pAchievement;
+    wThis->mMuted = true;
+
+    int level = wThis->mLevelUnlocked;
+    if(level < 1)
+    {
+        wThis->GoToNextLevel();
+        AchievementsManager::obtenirInstance()->AchievementUnlocked(AchievementsType(ACHIEVEMENT_EVENT_MUTE+level),AchievementMute::MUTE_LEVEL_NAME[level]);
+    }
+}
+
+void AchievementMute::FillAchievementData( XmlElement* elem ) const
+{
+    XMLUtils::writeAttribute(elem,"MuteSound",mMuted);
+}
+
+bool AchievementMute::LoadAchievementData( const XmlElement* elem )
+{
+    if(!XMLUtils::readAttribute(elem,"MuteSound",mMuted))
+    {
+         mMuted = false;
+    }
+    return true;
+}
+
+
+
+
+const int AchievementPortal::PORTAL_NEEDED[4] = 
+{
+    1, 10, 20, 50
+};
+
+const std::string AchievementPortal::PORTAL_LEVEL_NAME[4] = 
+{
+    "Welcome to Aperture Science",
+    "I suppose you want some cake?",
+    "Now your thinking with portals",
+    "The cake is a lie"
+};
+
+AchievementPortal::AchievementPortal() : mNbrPortalCreated(0)
+{
+    ADD_NEW_LEVEL(
+        APPEND_BINDING(ACHIEVEMENT_EVENT_PORTAL,EventPortalCallBack)
+        );
+    ADD_NEW_LEVEL(
+        APPEND_BINDING(ACHIEVEMENT_EVENT_PORTAL,EventPortalCallBack)
+        );
+    ADD_NEW_LEVEL(
+        APPEND_BINDING(ACHIEVEMENT_EVENT_PORTAL,EventPortalCallBack)
+        );
+    ADD_NEW_LEVEL(
+        APPEND_BINDING(ACHIEVEMENT_EVENT_PORTAL,EventPortalCallBack)
+        );
+}
+
+void AchievementPortal::EventPortalCallBack( AbstractAchievement* pAchievement, AchievementEvent pEvent )
+{
+    auto wThis = (AchievementPortal*)pAchievement;
+    auto val = ++wThis->mNbrPortalCreated;
+
+    int level = wThis->mLevelUnlocked;
+    if(level < ARRAY_COUNT(AchievementPortal::PORTAL_NEEDED) && val >= AchievementPortal::PORTAL_NEEDED[level])
+    {
+        wThis->GoToNextLevel();
+        AchievementsManager::obtenirInstance()->AchievementUnlocked(AchievementsType(ACHIEVEMENTS_PORTAL_L1+level),AchievementPortal::PORTAL_LEVEL_NAME[level]);
+    }
+}
+
+void AchievementPortal::FillAchievementData( XmlElement* elem ) const
+{
+    XMLUtils::writeAttribute(elem,"PortalCreated",mNbrPortalCreated);
+}
+
+bool AchievementPortal::LoadAchievementData( const XmlElement* elem )
+{
+    if(!XMLUtils::readAttribute(elem,"PortalCreated",mNbrPortalCreated))
+    {
+        if(mLevelUnlocked < ARRAY_COUNT(PORTAL_NEEDED))
+        {
+            mNbrPortalCreated = PORTAL_NEEDED[mLevelUnlocked];
+        }
+    }
+    return true;
+}
+
+

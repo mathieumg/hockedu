@@ -186,7 +186,7 @@ int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
             // On ne met pas a jour si c'est nous
             if(maillet)
             {
-                JoueurAbstrait* wJoueur = maillet->obtenirJoueur();
+                SPJoueurAbstrait wJoueur = maillet->obtenirJoueur();
                 if(wJoueur && wJoueur->obtenirType() == JOUEUR_NETWORK_SERVEUR)
                 {
                     Runnable* r = new Runnable([maillet,wPos](Runnable*){

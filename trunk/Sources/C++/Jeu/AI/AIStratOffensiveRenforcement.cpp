@@ -53,7 +53,9 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
 	if(!maillet->getField() || !( rondelle = maillet->getField()->getPuck() ) || !( table = maillet->getField()->getTable() ) )
 		return Vecteur2();
 
-	AIMaillet* aiMallet = ((JoueurVirtuel*)maillet->obtenirJoueur())->getAiMaillet();
+    SPJoueurVirtuel joueurVirtuel = std::dynamic_pointer_cast<JoueurVirtuel>(maillet->obtenirJoueur());
+    checkf(joueurVirtuel);
+	AIMaillet* aiMallet = joueurVirtuel->getAiMaillet();
 	std::pair<Vecteur2,Vecteur2> lignePrevue = ((AIMailletRenforcement*)aiMallet)->getLignePrevue();
 
 	// Equation de la droite
