@@ -314,7 +314,7 @@ void RazerGameUtilities::SaveFieldToFile( const std::string& nomFichier, Terrain
 
     int wTest = pathFile.find_last_of("\\");
     int wTest2 = pathFile.find_last_of("/");
-    int wIndexSeparateur = max(wTest2, wTest);
+    int wIndexSeparateur = utilitaire::borneSuperieure(wTest2, wTest);
 
     int wIndexPoint = pathFile.find_last_of(".");
     std::string wMapName;

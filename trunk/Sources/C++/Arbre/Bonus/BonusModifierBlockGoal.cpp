@@ -13,13 +13,15 @@
 #if BOX2D_PLAY  
 #include <Box2D/Box2D.h>
 #endif
+#if WIN32
+#include "SoundFMOD.h"
+#endif
 #include "NoeudAbstrait.h"
 #include "NoeudRondelle.h"
 #include "Terrain.h"
 #include "NoeudBut.h"
 #include "Utilitaire.h"
 #include "NoeudMaillet.h"
-#include "SoundFMOD.h"
 
 const Vecteur3 GoalerSize(3,15,15);
 

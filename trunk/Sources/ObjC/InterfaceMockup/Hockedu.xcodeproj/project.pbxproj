@@ -76,13 +76,14 @@
 		4E058F2E16FA5D0800A68C40 /* libAFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E058F0D16FA5C2B00A68C40 /* libAFNetworking.a */; };
 		4E07580916FBE5ED005F697E /* FieldModificationStrategyMove.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E07580716FBE5ED005F697E /* FieldModificationStrategyMove.cpp */; };
 		4E1FF7381707917E005D1D50 /* ForceField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E1FF7361707917E005D1D50 /* ForceField.cpp */; };
-		4E1FF73D17079212005D1D50 /* BonusModifierChangeZone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E1FF73917079212005D1D50 /* BonusModifierChangeZone.cpp */; };
-		4E1FF73E17079212005D1D50 /* BonusModifierFan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E1FF73B17079212005D1D50 /* BonusModifierFan.cpp */; };
-		4E2A595716F2E48C002160AE /* BonusModifierAbstract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595316F2E48C002160AE /* BonusModifierAbstract.cpp */; };
-		4E2A595816F2E48C002160AE /* BonusModifierGoThorughWall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595516F2E48C002160AE /* BonusModifierGoThorughWall.cpp */; };
 		4E2A595D16F2E558002160AE /* NodeBonus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595916F2E558002160AE /* NodeBonus.cpp */; };
 		4E2A595E16F2E558002160AE /* NodeModelRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595B16F2E558002160AE /* NodeModelRender.cpp */; };
-		4E2A596116F2E658002160AE /* BonusModifierFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */; };
+		4E43BB37170E64190074CB3D /* BonusModifierFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E43BB36170E64190074CB3D /* BonusModifierFactory.cpp */; };
+		4E43BB3D170E658C0074CB3D /* BonusModifierAbstract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E43BB38170E658B0074CB3D /* BonusModifierAbstract.cpp */; };
+		4E43BB3E170E658C0074CB3D /* BonusModifierBlockGoal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E43BB39170E658B0074CB3D /* BonusModifierBlockGoal.cpp */; };
+		4E43BB3F170E658C0074CB3D /* BonusModifierChangeZone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E43BB3A170E658B0074CB3D /* BonusModifierChangeZone.cpp */; };
+		4E43BB40170E658C0074CB3D /* BonusModifierFan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E43BB3B170E658C0074CB3D /* BonusModifierFan.cpp */; };
+		4E43BB41170E658C0074CB3D /* BonusModifierGoThorughWall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E43BB3C170E658C0074CB3D /* BonusModifierGoThorughWall.cpp */; };
 		4E6D69AA1707BE9C00CC94CC /* control_point_texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A01707BE9C00CC94CC /* control_point_texture.png */; };
 		4E6D69AB1707BE9C00CC94CC /* couleurMuret.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A11707BE9C00CC94CC /* couleurMuret.png */; };
 		4E6D69AC1707BE9C00CC94CC /* EmptyBonus.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D69A21707BE9C00CC94CC /* EmptyBonus.png */; };
@@ -146,7 +147,6 @@
 		4EAF3DF4170A6A7500B3C34E /* blueButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF3DF0170A6A7400B3C34E /* blueButtonHighlight@2x.png */; };
 		4EAF3DF6170AAC1E00B3C34E /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF3DF5170AAC1E00B3C34E /* Settings.bundle */; };
 		4EB7EA7916EFBE4100493722 /* VisiteurFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */; };
-		4EC1626E16F81A8C00577704 /* BonusModifierBlockGoal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */; };
 		4EC7359D17015F85002FCF4C /* Solution_Defines.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7359C17015F85002FCF4C /* Solution_Defines.cpp */; };
 		4ED0E8211702A1B10043DF70 /* portail.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E81E1702A1B10043DF70 /* portail.mtl */; };
 		4ED0E8221702A1B10043DF70 /* portail.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E81F1702A1B10043DF70 /* portail.obj */; };
@@ -374,24 +374,25 @@
 		4E07580616FBE5ED005F697E /* FieldModificationStrategyAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyAbstract.h; sourceTree = "<group>"; };
 		4E07580716FBE5ED005F697E /* FieldModificationStrategyMove.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyMove.cpp; sourceTree = "<group>"; };
 		4E07580816FBE5ED005F697E /* FieldModificationStrategyMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyMove.h; sourceTree = "<group>"; };
-		4E1FF7361707917E005D1D50 /* ForceField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ForceField.cpp; path = "../../C++/Physics/ForceField.cpp"; sourceTree = "<group>"; };
+		4E1FF7361707917E005D1D50 /* ForceField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ForceField.cpp; path = ../Physics/ForceField.cpp; sourceTree = "<group>"; };
 		4E1FF7371707917E005D1D50 /* ForceField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForceField.h; path = "../../C++/Physics/ForceField.h"; sourceTree = "<group>"; };
-		4E1FF73917079212005D1D50 /* BonusModifierChangeZone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierChangeZone.cpp; path = "../../C++/Arbre/Bonus/BonusModifierChangeZone.cpp"; sourceTree = "<group>"; };
-		4E1FF73A17079212005D1D50 /* BonusModifierChangeZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierChangeZone.h; path = "../../C++/Arbre/Bonus/BonusModifierChangeZone.h"; sourceTree = "<group>"; };
-		4E1FF73B17079212005D1D50 /* BonusModifierFan.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierFan.cpp; path = "../../C++/Arbre/Bonus/BonusModifierFan.cpp"; sourceTree = "<group>"; };
-		4E1FF73C17079212005D1D50 /* BonusModifierFan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierFan.h; path = "../../C++/Arbre/Bonus/BonusModifierFan.h"; sourceTree = "<group>"; };
+		4E1FF73A17079212005D1D50 /* BonusModifierChangeZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusModifierChangeZone.h; sourceTree = "<group>"; };
+		4E1FF73C17079212005D1D50 /* BonusModifierFan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusModifierFan.h; sourceTree = "<group>"; };
 		4E2A595116F2E455002160AE /* Flags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flags.h; sourceTree = "<group>"; };
-		4E2A595316F2E48C002160AE /* BonusModifierAbstract.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierAbstract.cpp; sourceTree = "<group>"; };
 		4E2A595416F2E48C002160AE /* BonusModifierAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusModifierAbstract.h; sourceTree = "<group>"; };
-		4E2A595516F2E48C002160AE /* BonusModifierGoThorughWall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierGoThorughWall.cpp; sourceTree = "<group>"; };
 		4E2A595616F2E48C002160AE /* BonusModifierGoThorughWall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusModifierGoThorughWall.h; sourceTree = "<group>"; };
 		4E2A595916F2E558002160AE /* NodeBonus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NodeBonus.cpp; sourceTree = "<group>"; };
 		4E2A595A16F2E558002160AE /* NodeBonus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeBonus.h; sourceTree = "<group>"; };
 		4E2A595B16F2E558002160AE /* NodeModelRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NodeModelRender.cpp; sourceTree = "<group>"; };
 		4E2A595C16F2E558002160AE /* NodeModelRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeModelRender.h; sourceTree = "<group>"; };
-		4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierFactory.cpp; path = ../Usines/BonusModifierFactory.cpp; sourceTree = "<group>"; };
 		4E2A596016F2E658002160AE /* BonusModifierFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierFactory.h; path = ../Usines/BonusModifierFactory.h; sourceTree = "<group>"; };
 		4E2A596216F2E84B002160AE /* Enum_Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enum_Declarations.h; path = "../../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"; sourceTree = "<group>"; };
+		4E43BB36170E64190074CB3D /* BonusModifierFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierFactory.cpp; path = ../Usines/BonusModifierFactory.cpp; sourceTree = "<group>"; };
+		4E43BB38170E658B0074CB3D /* BonusModifierAbstract.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierAbstract.cpp; sourceTree = "<group>"; };
+		4E43BB39170E658B0074CB3D /* BonusModifierBlockGoal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierBlockGoal.cpp; sourceTree = "<group>"; };
+		4E43BB3A170E658B0074CB3D /* BonusModifierChangeZone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierChangeZone.cpp; sourceTree = "<group>"; };
+		4E43BB3B170E658C0074CB3D /* BonusModifierFan.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierFan.cpp; sourceTree = "<group>"; };
+		4E43BB3C170E658C0074CB3D /* BonusModifierGoThorughWall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierGoThorughWall.cpp; sourceTree = "<group>"; };
 		4E6D69A01707BE9C00CC94CC /* control_point_texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = control_point_texture.png; path = ../../../../Content/media/control_point_texture.png; sourceTree = "<group>"; };
 		4E6D69A11707BE9C00CC94CC /* couleurMuret.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = couleurMuret.png; path = ../../../../Content/media/couleurMuret.png; sourceTree = "<group>"; };
 		4E6D69A21707BE9C00CC94CC /* EmptyBonus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = EmptyBonus.png; path = ../../../../Content/media/EmptyBonus.png; sourceTree = "<group>"; };
@@ -489,7 +490,6 @@
 		4EAF3DF5170AAC1E00B3C34E /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VisiteurFunction.cpp; sourceTree = "<group>"; };
 		4EB7EA7816EFBE4100493722 /* VisiteurFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisiteurFunction.h; sourceTree = "<group>"; };
-		4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierBlockGoal.cpp; sourceTree = "<group>"; };
 		4EC1626D16F81A8C00577704 /* BonusModifierBlockGoal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusModifierBlockGoal.h; sourceTree = "<group>"; };
 		4EC1626F16F81F8000577704 /* RunnableBreaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunnableBreaker.h; sourceTree = "<group>"; };
 		4EC7359C17015F85002FCF4C /* Solution_Defines.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Solution_Defines.cpp; sourceTree = "<group>"; };
@@ -604,11 +604,6 @@
 		0C04E09316DE88ED002B0EE2 /* C++Files */ = {
 			isa = PBXGroup;
 			children = (
-				4E1FF73917079212005D1D50 /* BonusModifierChangeZone.cpp */,
-				4E1FF73A17079212005D1D50 /* BonusModifierChangeZone.h */,
-				4E1FF73B17079212005D1D50 /* BonusModifierFan.cpp */,
-				4E1FF73C17079212005D1D50 /* BonusModifierFan.h */,
-				4E1FF7361707917E005D1D50 /* ForceField.cpp */,
 				4E1FF7371707917E005D1D50 /* ForceField.h */,
 				4E90C0FA17024114000F2564 /* EditionEventManager.cpp */,
 				4E90C0FB17024114000F2564 /* EditionEventManager.h */,
@@ -626,6 +621,7 @@
 			isa = PBXGroup;
 			children = (
 				0C04E13316DE960B002B0EE2 /* RazerGameTree.cpp */,
+				4E1FF7361707917E005D1D50 /* ForceField.cpp */,
 				0C04E13416DE960B002B0EE2 /* RazerGameTree.h */,
 				0C04E13516DE960B002B0EE2 /* Terrain.cpp */,
 				0C04E13616DE960B002B0EE2 /* Terrain.h */,
@@ -847,13 +843,17 @@
 		4E2A595216F2E48C002160AE /* Bonus */ = {
 			isa = PBXGroup;
 			children = (
-				4E2A595F16F2E658002160AE /* BonusModifierFactory.cpp */,
+				4E43BB38170E658B0074CB3D /* BonusModifierAbstract.cpp */,
+				4E43BB39170E658B0074CB3D /* BonusModifierBlockGoal.cpp */,
+				4E43BB3A170E658B0074CB3D /* BonusModifierChangeZone.cpp */,
+				4E43BB3B170E658C0074CB3D /* BonusModifierFan.cpp */,
+				4E43BB3C170E658C0074CB3D /* BonusModifierGoThorughWall.cpp */,
+				4E43BB36170E64190074CB3D /* BonusModifierFactory.cpp */,
+				4E1FF73A17079212005D1D50 /* BonusModifierChangeZone.h */,
+				4E1FF73C17079212005D1D50 /* BonusModifierFan.h */,
 				4E2A596016F2E658002160AE /* BonusModifierFactory.h */,
-				4EC1626C16F81A8C00577704 /* BonusModifierBlockGoal.cpp */,
 				4EC1626D16F81A8C00577704 /* BonusModifierBlockGoal.h */,
-				4E2A595316F2E48C002160AE /* BonusModifierAbstract.cpp */,
 				4E2A595416F2E48C002160AE /* BonusModifierAbstract.h */,
-				4E2A595516F2E48C002160AE /* BonusModifierGoThorughWall.cpp */,
 				4E2A595616F2E48C002160AE /* BonusModifierGoThorughWall.h */,
 			);
 			path = Bonus;
@@ -1365,12 +1365,8 @@
 				4EEBBF9A16E86E5B00017127 /* Model.mm in Sources */,
 				4EEBBFA316E8832900017127 /* NoeudAbstrait.cpp in Sources */,
 				4EB7EA7916EFBE4100493722 /* VisiteurFunction.cpp in Sources */,
-				4E2A595716F2E48C002160AE /* BonusModifierAbstract.cpp in Sources */,
-				4E2A595816F2E48C002160AE /* BonusModifierGoThorughWall.cpp in Sources */,
 				4E2A595D16F2E558002160AE /* NodeBonus.cpp in Sources */,
 				4E2A595E16F2E558002160AE /* NodeModelRender.cpp in Sources */,
-				4E2A596116F2E658002160AE /* BonusModifierFactory.cpp in Sources */,
-				4EC1626E16F81A8C00577704 /* BonusModifierBlockGoal.cpp in Sources */,
 				4E9CE9FE16FBBA4B00B04A12 /* LoadMapViewController.m in Sources */,
 				4E07580916FBE5ED005F697E /* FieldModificationStrategyMove.cpp in Sources */,
 				4EA5287716FE356A008F89BD /* FieldModificationStrategyRotate.cpp in Sources */,
@@ -1394,8 +1390,6 @@
 				4E94494417025200005BC9F6 /* Model3DManager.m in Sources */,
 				6D01D099170286BB00899CCB /* iCarousel.m in Sources */,
 				4E1FF7381707917E005D1D50 /* ForceField.cpp in Sources */,
-				4E1FF73D17079212005D1D50 /* BonusModifierChangeZone.cpp in Sources */,
-				4E1FF73E17079212005D1D50 /* BonusModifierFan.cpp in Sources */,
 				4EA45524170B6812009D680D /* Camera.cpp in Sources */,
 				4EA45525170B6812009D680D /* Projection.cpp in Sources */,
 				4EA45526170B6812009D680D /* ProjectionOrtho.cpp in Sources */,
@@ -1411,6 +1405,12 @@
 				4EA4553B170B6F81009D680D /* AnimationReprise.cpp in Sources */,
 				4EA4553C170B6F81009D680D /* GestionnaireAnimations.cpp in Sources */,
 				4EA455D7170BA181009D680D /* glu.cpp in Sources */,
+				4E43BB37170E64190074CB3D /* BonusModifierFactory.cpp in Sources */,
+				4E43BB3D170E658C0074CB3D /* BonusModifierAbstract.cpp in Sources */,
+				4E43BB3E170E658C0074CB3D /* BonusModifierBlockGoal.cpp in Sources */,
+				4E43BB3F170E658C0074CB3D /* BonusModifierChangeZone.cpp in Sources */,
+				4E43BB40170E658C0074CB3D /* BonusModifierFan.cpp in Sources */,
+				4E43BB41170E658C0074CB3D /* BonusModifierGoThorughWall.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

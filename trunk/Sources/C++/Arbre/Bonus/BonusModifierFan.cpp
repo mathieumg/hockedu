@@ -13,11 +13,13 @@
 #if BOX2D_PLAY  
 #include <Box2D/Box2D.h>
 #endif
+#if WIN32
+#include "SoundFMOD.h"
+#endif
 #include "NoeudAbstrait.h"
 #include "Utilitaire.h"
 #include "NodeBonus.h"
 #include "ForceField.h"
-#include "SoundFMOD.h"
 
 const float FanRadius = 8;
 
