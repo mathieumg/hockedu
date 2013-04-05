@@ -137,8 +137,8 @@ void NoeudPoint::renderOpenGLES() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudPoint::tick( const float& temps )
 {
-	mAngle = (float)((int)(mAngle+temps*500.0f)%360);
-	updateMatrice();
+	//mAngle = (float)((int)(mAngle+temps*500.0f)%360);
+	//updateMatrice();
 
 // #if WIN32
 // 	glPushMatrix();
