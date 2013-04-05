@@ -13,6 +13,7 @@
 #endif
 #include "NoeudAbstrait.h"
 #include "NoeudRondelle.h"
+#include "SoundFMOD.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///

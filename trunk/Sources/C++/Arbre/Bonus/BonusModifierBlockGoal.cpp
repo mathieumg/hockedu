@@ -19,6 +19,7 @@
 #include "NoeudBut.h"
 #include "Utilitaire.h"
 #include "NoeudMaillet.h"
+#include "SoundFMOD.h"
 
 const Vecteur3 GoalerSize(3,15,15);
 

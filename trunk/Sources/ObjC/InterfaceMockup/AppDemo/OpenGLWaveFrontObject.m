@@ -132,7 +132,7 @@ static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexI
 					NSArray *faceParts = [oneFace componentsSeparatedByString:@"/"];
 					
 					NSString *faceKey = [NSString stringWithFormat:@"%@/%@", [faceParts objectAtIndex:0], ([faceParts count] > 1) ? [faceParts objectAtIndex:1] : 0];
-					if (![vertexCombinations containsObject:faceKey])
+					if ([faceKey length] > 1 && ![vertexCombinations containsObject:faceKey])
 						[vertexCombinations addObject:faceKey];
 				}
 			}
@@ -210,7 +210,8 @@ static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexI
 				
 				currentGroup = [[OpenGLWaveFrontGroup alloc] initWithName:groupName
 															numberOfFaces:currentGroupFaceCount 
-																 material:material];
+																 material:material
+                                                                         :vertexCount];
 				[groups addObject:currentGroup];
 				[currentGroup release];
 				groupFaceCount = 0;
@@ -242,7 +243,8 @@ static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexI
 					
 					currentGroup = [[OpenGLWaveFrontGroup alloc] initWithName:@"default"
 																numberOfFaces:numberOfFaces 
-																	 material:tempMaterial];
+																	 material:tempMaterial
+                                                                             :vertexCount];
 					[groups addObject:currentGroup];
 					[currentGroup release];
 				}
@@ -309,6 +311,7 @@ static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexI
 {
 	// Save the current transformation by pushing it on the stack
 	glPushMatrix();
+    glEnable(GL_BLEND);
 	
 	// Load the identity matrix to restore to origin
 	//glLoadIdentity();
@@ -325,21 +328,31 @@ static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexI
     glScalef(modelScale.x,modelScale.y,modelScale.z);
     
 	// Enable and load the vertex array
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_NORMAL_ARRAY);
+	
 	glVertexPointer(3, GL_FLOAT, 0, vertices); 
 	glNormalPointer(GL_FLOAT, 0, vertexNormals);
 	// Loop through each group
 	
+    
+    
+    
 	if (textureCoords != NULL)
 	{
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glTexCoordPointer(valuesPerCoord, GL_FLOAT, 0, textureCoords);
+        
+		
 	}
 	for (OpenGLWaveFrontGroup *group in groups)
 	{
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_NORMAL_ARRAY);
+        
 		if (textureCoords != NULL && group.material.texture != nil)
+        {
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glTexCoordPointer(valuesPerCoord, GL_FLOAT, 0, textureCoords);
+            glEnable(GL_TEXTURE_2D);
 			[group.material.texture bind];
+        }
 		// Set color and materials based on group's material
 		Color3D ambient = group.material.ambient;
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, (const GLfloat *)&ambient);
@@ -353,13 +366,26 @@ static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexI
 		
 		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, group.material.shininess);
 		
-		glDrawElements(GL_TRIANGLE_FAN, 3*group.numberOfFaces, GL_UNSIGNED_SHORT, &(group.faces[0]));
+		glDrawElements(GL_TRIANGLES, 3*group.numberOfFaces, GL_UNSIGNED_SHORT, &(group.faces[0]));
+        
+        if (textureCoords != NULL && group.material.texture != nil)
+        {
+            glDisable(GL_TEXTURE_2D);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
+        
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_NORMAL_ARRAY);
 	}
 	if (textureCoords != NULL)
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    {
+		
+    }
 	
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_NORMAL_ARRAY);
+
+    
+    
+    glDisable(GL_BLEND);
 	// Restore the current transformation by popping it off
 	glPopMatrix();
 }

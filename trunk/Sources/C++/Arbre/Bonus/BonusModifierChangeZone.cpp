@@ -17,6 +17,7 @@
 #include "Utilitaire.h"
 #include "NoeudRondelle.h"
 #include "NoeudMaillet.h"
+#include "SoundFMOD.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
