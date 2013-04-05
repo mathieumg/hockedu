@@ -30,6 +30,10 @@ void parseParamWithArg(std::string& pOutParam, int pLoopCounter, int argc, char*
 
 int main(int argc, char* argv[])  {
 
+#ifdef LINUX
+    daemon();
+#endif
+
     std::cout << "--------- Serveur Maitre ---------" << std::endl << std::endl;
 
     //********** Liste des flags
@@ -46,12 +50,12 @@ int main(int argc, char* argv[])  {
 
     try
     {
-        for(int i = 0; i < argc; i++) 
+        for(int i = 0; i < argc; i++)
         {
             if(argv[i][0] == flagChar) // Si flag
             {
                 std::string wFlag = argv[i]+1; // On laisse tomber le premier char car c'est le flagchar
-                
+
                 if(wFlag == "bHost")
                 {
                     parseParamWithArg(wBDHost, i, argc, argv);

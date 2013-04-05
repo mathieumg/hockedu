@@ -299,6 +299,7 @@
     <ClCompile Include="Jeu\JoueurVirtuel.cpp" />
     <ClCompile Include="Jeu\JoueurVirtuelRenforcement.cpp" />
     <ClCompile Include="Jeu\Partie.cpp" />
+    <ClCompile Include="Jeu\PartieApprentissage.cpp" />
     <ClCompile Include="Jeu\PartieSyncer.cpp" />
     <ClCompile Include="Jeu\Tournoi.cpp" />
     <ClCompile Include="Physics\ForceField.cpp" />
@@ -487,6 +488,7 @@
     <ClInclude Include="Jeu\JoueurVirtuel.h" />
     <ClInclude Include="Jeu\JoueurVirtuelRenforcement.h" />
     <ClInclude Include="Jeu\Partie.h" />
+    <ClInclude Include="Jeu\PartieApprentissage.h" />
     <ClInclude Include="Jeu\PartieSyncer.h" />
     <ClInclude Include="Jeu\Tournoi.h" />
     <ClInclude Include="Physics\ForceField.h" />

@@ -647,6 +647,9 @@
     <ClCompile Include="Jeu\JoueurVirtuelRenforcement.cpp">
       <Filter>Sources Files\Jeu</Filter>
     </ClCompile>
+    <ClCompile Include="Jeu\PartieApprentissage.cpp">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1217,6 +1220,9 @@
       <Filter>Sources Files\Jeu\AI</Filter>
     </ClInclude>
     <ClInclude Include="Jeu\JoueurVirtuelRenforcement.h">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClInclude>
+    <ClInclude Include="Jeu\PartieApprentissage.h">
       <Filter>Sources Files\Jeu</Filter>
     </ClInclude>
   </ItemGroup>
