@@ -88,6 +88,7 @@ namespace UIHeavyClient
 
             CallbackContainer wContainerPlay = new CallbackContainer();
             wContainerPlay.mMessageReceivedCallback = PlayModeControl.mMessageCallback;
+            wContainerPlay.mEventReceivedCallback=PlayModeControl.mEventCallback;
 
             CallbackContainer wContainerMainMenu = new CallbackContainer();
             wContainerMainMenu.mEventReceivedCallback = LoginControl.LoginControlEventReceived;

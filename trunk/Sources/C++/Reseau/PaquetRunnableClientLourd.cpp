@@ -226,39 +226,46 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
             {
                 // Serveur dit de commencer la partie (les 2 clients sont prets)
                 // Aussi utilise pour unpause
+                int wGameId = wPaquet->getGameId();
+                Runnable* r = new Runnable([wGameId, wPaquet](Runnable*){
+                    Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+                    if(wGame->getGameStatus() == GAME_PAUSED)
+                    {
+                        // on reassigne le nom des joueurs au cas ou ils auraient change
+                        wGame->obtenirJoueurGauche()->modifierNom(wPaquet->getPlayer1Name());
+                        wGame->obtenirJoueurDroit()->modifierNom(wPaquet->getPlayer2Name());
+                        // Resume game only
+                        GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(false);
+                        wGame->modifierEnPause(false);
+                    }
+                    else if(wGame->getGameStatus() == GAME_READY)
+                    {
+                        // Start game
+                        // On utilise les noms de joueurs du paquet pour initialiser la partie
 
-                if(wGame->getGameStatus() == GAME_PAUSED)
-                {
-                    // on reassigne le nom des joueurs au cas ou ils auraient change
-                    wGame->obtenirJoueurGauche()->modifierNom(wPaquet->getPlayer1Name());
-                    wGame->obtenirJoueurDroit()->modifierNom(wPaquet->getPlayer2Name());
-                    // Resume game only
-                    GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(false);
-                    wGame->modifierEnPause(false);
-                }
-                else if(wGame->getGameStatus() == GAME_READY)
-                {
-                    // Start game
-                    // On utilise les noms de joueurs du paquet pour initialiser la partie
+                        wGame->obtenirJoueurGauche()->modifierNom(wPaquet->getPlayer1Name());
+                        wGame->obtenirJoueurDroit()->modifierNom(wPaquet->getPlayer2Name());
 
-                    wGame->obtenirJoueurGauche()->modifierNom(wPaquet->getPlayer1Name());
-                    wGame->obtenirJoueurDroit()->modifierNom(wPaquet->getPlayer2Name());
-
-                    GameManager::obtenirInstance()->startGame(wPaquet->getGameId()); 
-                }
-
+                        GameManager::obtenirInstance()->startGame(wPaquet->getGameId()); 
+                    }
+                });
+                RazerGameUtilities::RunOnUpdateThread(r,true);
                 break;
             }
         case GAME_EVENT_PAUSE_GAME_USER_DISCONNECTED:
             {
-                // L'autre joueur s'est deconnecte
-                if(wGame->getGameStatus() == GAME_STARTED)
-                {
-                    wGame->modifierEnPause(true);
-                    GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(true);
-                }
-                std::cout << "Other player disconnected" << std::endl;
-
+                int wGameId = wPaquet->getGameId();
+                Runnable* r = new Runnable([wGameId](Runnable*){
+                    Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+                    // L'autre joueur s'est deconnecte
+                    if(wGame->getGameStatus() == GAME_STARTED)
+                    {
+                        wGame->modifierEnPause(true);
+                        GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(true);
+                    }
+                    std::cout << "Other player disconnected" << std::endl;
+                });
+                RazerGameUtilities::RunOnUpdateThread(r,true);
 
                 break;
             }
@@ -341,13 +348,17 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
             }
         case GAME_EVENT_PAUSE_GAME_SIGNAL:
             {
-                // Le serveur demande de se mettre en pause
-                // Si on est en cours de jeu, on pause
-                if(wGame->getGameStatus() == GAME_STARTED)
-                {
-                    wGame->modifierEnPause(true);
-                }
-
+                int wGameId = wGame->getUniqueGameId();
+                Runnable* r = new Runnable([wGameId](Runnable*){
+                    // Le serveur demande de se mettre en pause
+                    // Si on est en cours de jeu, on pause
+                    Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+                    if(wGame->getGameStatus() == GAME_STARTED)
+                    {
+                        wGame->modifierEnPause(true);
+                    }
+                });
+                RazerGameUtilities::RunOnUpdateThread(r,true);
                 break;
             }
         case GAME_EVENT_RESET_PUCK:
