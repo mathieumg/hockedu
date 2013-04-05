@@ -687,6 +687,16 @@ void AddRadioPlaylist(char* pPlaylist, char** pSongs, int pNbrSongs)
     }
 }
 
+bool GetIsHouseDisplay()
+{
+    return ConfigScene::obtenirInstance()->GetIsHouseDisplay();
+}
+
+void SetIsHouseDisplay(bool pIsHouseDisplay)
+{
+    ConfigScene::obtenirInstance()->SetIsHouseDisplay(pIsHouseDisplay);
+}
+
 bool TerrainHasDeletable()
 {
     return FacadeModele::Exists() && FacadeModele::getInstance()->getEditionField()->CanSelectedNodeBeDeleted();

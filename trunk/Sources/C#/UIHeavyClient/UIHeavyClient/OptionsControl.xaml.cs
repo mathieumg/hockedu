@@ -46,6 +46,10 @@ namespace UIHeavyClient
         private static extern int GetEffectVolume();
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void SetEffectVolume(int pVolume);
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern bool GetIsHouseDisplay();
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void SetIsHouseDisplay(bool pIsHouseDisplay);
 
         ////////////////////////////////////////////////////////////////////////
         /// @fn void OptionsControl.OptionsControl()
@@ -65,7 +69,7 @@ namespace UIHeavyClient
                 {mRadioOptionButton, "Configure the radio. The radio will play music during your hockey games"},
                 {mBackToMenuButton, "Return to main menu"},
             };
-            DisplaySoundVolume();
+            DisplayOptionsValue();
 
             // On affecte les callback apres avoirlu les valeurs du modele pour ne pas les ecraser
             mVolumeSlider.ValueChanged += mVolumeSlider_ValueChanged_1;
@@ -79,10 +83,11 @@ namespace UIHeavyClient
         ///
         /// @return void.
         ////////////////////////////////////////////////////////////////////////
-        public void DisplaySoundVolume()
+        public void DisplayOptionsValue()
         {
             mVolumeSlider.Value = GetSoundVolume();
             mEffectSlider.Value = GetEffectVolume();
+            mHouseCheckBox.IsChecked = GetIsHouseDisplay();
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -203,6 +208,11 @@ namespace UIHeavyClient
         private void mEffectSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             SetEffectVolume((int)(sender as Slider).Value);
+        }
+
+        private void mHouseCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            SetIsHouseDisplay((sender as CheckBox).IsChecked.Value);
         }
     }
 }

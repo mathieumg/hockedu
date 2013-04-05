@@ -271,6 +271,7 @@ namespace UIHeavyClient
         public static void GoToOptionsMenu()
         {
             Context.WindowContentControl.Content = Context.OptionsControl;
+            Context.OptionsControl.DisplayOptionsValue();
         }
 
         ////////////////////////////////////////////////////////////////////////
