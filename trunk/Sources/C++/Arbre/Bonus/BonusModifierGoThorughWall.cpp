@@ -48,7 +48,10 @@ BonusModifierGoThroughWall::BonusModifierGoThroughWall():
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierGoThroughWall::Attach( NoeudRondelle* pPuck )
 {
-    SoundFMOD::obtenirInstance()->playEffect(BONUS_PASS_WALL_IN_EFFECT);
+    
+#if WIN32 
+    SoundFMOD::obtenirInstance()->playEffect(BONUS_PASS_WALL_IN_EFFECT); 
+#endif
 
     if(rand()&1)
     {
@@ -132,7 +135,10 @@ bool BonusModifierGoThroughWall::Apply()
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierGoThroughWall::Revert()
 {
-    SoundFMOD::obtenirInstance()->playEffect(BONUS_PASS_WALL_IN_EFFECT);
+    
+#if WIN32 
+    SoundFMOD::obtenirInstance()->playEffect(BONUS_PASS_WALL_IN_EFFECT); 
+#endif
 
     auto rondelle = dynamic_cast<NoeudRondelle*>(mOwner);
     if(rondelle)

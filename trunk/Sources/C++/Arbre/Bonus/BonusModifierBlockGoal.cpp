@@ -84,7 +84,9 @@ bool BonusModifierBlockGoal::Attach( NoeudRondelle* pPuck )
             NoeudBut* affectedGoal = goals[!(mallet == field->getLeftMallet())];
             if(affectedGoal)
             {
-                SoundFMOD::obtenirInstance()->playEffect(BONUS_BLOCK_GOAL_IN_EFFECT);
+#if WIN32 
+                SoundFMOD::obtenirInstance()->playEffect(BONUS_BLOCK_GOAL_IN_EFFECT); 
+#endif
 
                 mPuckPos = &pPuck->getPosition();
                 mProtectedGoal = affectedGoal;
@@ -182,7 +184,9 @@ bool BonusModifierBlockGoal::Apply()
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierBlockGoal::Revert()
 {
-    SoundFMOD::obtenirInstance()->playEffect(BONUS_BLOCK_GOAL_OUT_EFFECT);
+#if WIN32
+    SoundFMOD::obtenirInstance()->playEffect(BONUS_BLOCK_GOAL_OUT_EFFECT); 
+#endif
 
 #if BOX2D_PLAY  
     if(mPhysicBody)
