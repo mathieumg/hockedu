@@ -333,8 +333,8 @@ static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexI
 	glNormalPointer(GL_FLOAT, 0, vertexNormals);
 	// Loop through each group
 	
-    
-    
+    bool light = glIsEnabled(GL_LIGHTING);
+    glDisable(GL_LIGHTING);
     
 	if (textureCoords != NULL)
 	{
@@ -383,7 +383,10 @@ static inline void	processOneVertex(VertexTextureIndex *rootNode, GLuint vertexI
     }
 	
 
-    
+    if(light)
+    {
+        glEnable(GL_LIGHTING);
+    }
     
     glDisable(GL_BLEND);
 	// Restore the current transformation by popping it off

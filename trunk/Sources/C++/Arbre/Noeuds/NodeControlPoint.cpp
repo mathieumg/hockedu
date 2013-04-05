@@ -86,10 +86,10 @@ NodeControlPoint::~NodeControlPoint()
 
 void NodeControlPoint::renderReal() const
 {
-#if WIN32
-    const float zTranslated = 15.f+sin(mHeightAngle)*3.f;
+//#if WIN32
+    const float zTranslated = 20.f+sin(mHeightAngle)*3.f;
     glTranslatef(0,0,zTranslated);
-#endif
+//#endif
     glColor4f(1.0f,0.84f,0.0f,1.0f);
     // Appel à la version de la classe de base pour l'affichage des enfants.
     NoeudAbstrait::renderReal();

@@ -26,7 +26,9 @@
 	theObject.currentPosition = position;
     [theObject calculateScale: *(Vertex3D*)expectedSize];
     
-    [mModels setObject:theObject forKey:[NSNumber numberWithInt:key]];
+    NSNumber* keyInt = [NSNumber numberWithInt:key];
+    [mModels setObject:theObject forKey:keyInt];
+    //[keyInt release];
 
 	[theObject release];
 }
@@ -35,8 +37,10 @@
 -(id)init
 {
     self.mModels = [NSMutableDictionary dictionary];
-    Vertex3D expectedSize = Vertex3DMake(10, 10, 2);
-    //[self AddObject:@"portail":RAZER_KEY_PORTAL:&expectedSize];
+    
+    
+    Vertex3D expectedSize = Vertex3DMake(20, 20, 1);
+    [self AddObject:@"portal":RAZER_KEY_PORTAL:&expectedSize];
     
     expectedSize = Vertex3DMake(14, 14, 2);
     [self AddObject:@"boost":RAZER_KEY_BOOST:&expectedSize];
@@ -57,10 +61,10 @@
     [self AddObject:@"rondelle":RAZER_KEY_PUCK:&expectedSize];
     
     expectedSize = Vertex3DMake(10, 10, 4);
-    //[self AddObject:@"control_point":RAZER_KEY_CONTROL_POINT:&expectedSize];
+    [self AddObject:@"control_point":RAZER_KEY_CONTROL_POINT:&expectedSize];
     
-    expectedSize = Vertex3DMake(20, 20, 20);
-    //[self AddObject:@"point":RAZER_KEY_TABLE_CONTROL_POINT:&expectedSize];
+    expectedSize = Vertex3DMake(20, 20, 6);
+    [self AddObject:@"control_point":RAZER_KEY_TABLE_CONTROL_POINT:&expectedSize];
 
     return self;
 }
@@ -69,13 +73,18 @@
 - (bool)renderObject:(RazerKey)type
 {
     //return false;
-    OpenGLWaveFrontObject *theObject = [mModels objectForKey:[NSNumber numberWithInt:type]];
+    NSNumber* key = [NSNumber numberWithInt:type];
+    OpenGLWaveFrontObject *theObject = [mModels objectForKey:key];
+    
+    bool ret = false;
     if(theObject != nil)
     {
         [theObject drawSelf];
-        return true;
+        ret = true;
     }
-    return false;
+    
+    //
+    return ret;
 }
 
 
