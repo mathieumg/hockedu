@@ -106,9 +106,12 @@ enum {
     animationFrameInterval = 1;
     self.displayLink = nil;
     
-    UIImage *buttonImage = [[UIImage imageNamed:@"blueButton@2x.png"]
+    buttonImage = [[UIImage imageNamed:@"blueButton@2x.png"]
                             resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
-    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"blueButtonHighlight@2x.png"]
+    buttonImageHighlight = [[UIImage imageNamed:@"blueButtonHighlight@2x.png"]
+                                     resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    
+    buttonImagePressed = [[UIImage imageNamed:@"blueButtonPressed@2x.png"]
                                      resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     
     // Set the background for any states you plan to use
@@ -139,9 +142,9 @@ enum {
     [cameraButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [cameraButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     
-    [buttonImage release];
-    [buttonImageHighlight release];
-    
+    [buttonImage retain];
+    [buttonImageHighlight retain];
+    [buttonImagePressed retain];
 
 }
 
@@ -546,6 +549,21 @@ enum {
     //mMoveTool = false;
     //mSelectTool = false;
 }
+
+-(void)pressButtonUI:(UIButton *)sender
+{
+    if( previouslySelected != nil )
+    {
+        [previouslySelected setBackgroundImage:buttonImage forState:UIControlStateNormal];
+        [previouslySelected setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    }
+    
+    [sender setBackgroundImage:buttonImagePressed forState:UIControlStateNormal];
+    [sender setBackgroundImage:buttonImagePressed forState:UIControlStateHighlighted];
+    
+    previouslySelected = sender;
+}
+
 -(IBAction) cameraModeButtonTouched:(UIButton *)sender
 {
     [mEventManager modifyState:EDITOR_STATE_MOVE_WINDOW];
@@ -558,31 +576,37 @@ enum {
 
 - (IBAction)selectToolButtonTouched:(UIButton *)sender
 {
+    [self pressButtonUI:sender];
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
 }
 
 - (IBAction)moveToolButtonTouched:(UIButton *)sender
 {
-    [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_DEPLACEMENT];    
+    [self pressButtonUI:sender];
+    [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_DEPLACEMENT];
 }
 
 - (IBAction)rotationToolButtonTouched:(UIButton *)sender
 {
+    [self pressButtonUI:sender];
     [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_ROTATION];
 }
 
 - (IBAction)scaleToolButtonTouched:(UIButton *)sender
 {
+    [self pressButtonUI:sender];
     [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_ECHELLE];
 }
 
 - (IBAction)duplicateToolButtonTouched:(UIButton *)sender
 {
+    [self pressButtonUI:sender];
     [mModel duplicateSelection];
 }
 
 - (IBAction)deleteToolButtonTouched:(UIButton *)sender
 {
+    [self pressButtonUI:sender];
     [mModel deleteSelection];
 }
 
