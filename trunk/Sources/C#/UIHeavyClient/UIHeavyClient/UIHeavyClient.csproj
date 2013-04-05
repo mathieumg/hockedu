@@ -68,6 +68,9 @@
     <Prefer32Bit>false</Prefer32Bit>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>airhockey_72x72.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -321,7 +324,7 @@
     <Resource Include="UserControls\FuckYeah.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="airhockey_72x72.png" />
+    <Resource Include="airhockey_72x72.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

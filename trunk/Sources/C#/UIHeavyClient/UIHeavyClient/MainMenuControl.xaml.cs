@@ -47,6 +47,13 @@ namespace UIHeavyClient
             set { mLoginControl = value; }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainMenuControl.MainMenuControl()
+        ///
+        /// Constructor.
+        ///
+        /// @return none.
+        ////////////////////////////////////////////////////////////////////////
         public MainMenuControl()
         {
             InitializeComponent();
@@ -91,12 +98,31 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void GetPlayers([In, Out] AIProfile[] pProfiles, int pNbrProfiles);
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainMenuControl.mUnitTestButton_Click()
+        ///
+        /// Execute unit tests from last year project.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         void mUnitTestButton_Click(object sender, RoutedEventArgs e)
         {
             ExecuteUnitTest();
         }
 
-
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainMenuControl.quickPlayButton_Click()
+        ///
+        /// Enable the box to start a game.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void quickPlayButton_Click(object sender, RoutedEventArgs e)
         {
             mQuickPlayGroupBox.Visibility = Visibility.Visible;
@@ -104,16 +130,46 @@ namespace UIHeavyClient
             DisplayProfileNames();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainMenuControl.editionModeButton_Click()
+        ///
+        /// Go to edition mode.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void editionModeButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToEditionMode();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainMenuControl.tournamentButton_Click()
+        ///
+        /// Go to tournament configuration.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void tournamentButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToTournamentMenu();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainMenuControl.onlineModeButton_Click()
+        ///
+        /// Enable the box to connect online.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void onlineModeButton_Click(object sender, RoutedEventArgs e)
         {
             mOnlineGroupBox.Visibility = Visibility.Visible;
@@ -121,21 +177,61 @@ namespace UIHeavyClient
             mLoginControl.SetFocusToUserName();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainMenuControl.optionButton_Click()
+        ///
+        /// Go to option menu.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void optionButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToOptionsMenu();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainMenuControl.DisplayGuidanceMessages()
+        ///
+        /// Display Bastien & Scapin.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void DisplayGuidanceMessages(object sender, MouseEventArgs e)
         {
             mGuidanceLabel.Content = mGuidanceMessages[sender];
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainMenuControl.ClearGuidanceMessages()
+        ///
+        /// Clear Bastien & Scapin.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void ClearGuidanceMessages(object sender, MouseEventArgs e)
         {
             mGuidanceLabel.Content = "";
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainMenuControl.InitOperations()
+        ///
+        /// When you go to main menu.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void InitOperations()
         {
             mQuickPlayGroupBox.Visibility = Visibility.Hidden;
@@ -143,11 +239,31 @@ namespace UIHeavyClient
             mOnlineContentControl.Content = mLoginControl;
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainMenuControl.mQuickPlayCancelButton_Click()
+        ///
+        /// Cancel going to a game.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mQuickPlayCancelButton_Click(object sender, RoutedEventArgs e)
         {
             mQuickPlayGroupBox.Visibility = Visibility.Hidden;
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainMenuControl.mQuickPlayGoButton_Click()
+        ///
+        /// Start a game.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mQuickPlayGoButton_Click(object sender, RoutedEventArgs e)
         {
             bool isHuman = mHumanRadio.IsChecked.Value;
@@ -166,6 +282,16 @@ namespace UIHeavyClient
             MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_JEU);
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainMenuControl.button1_Click()
+        ///
+        /// Load a map.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             if (mOpenFileDialog.ShowDialog().Value)
@@ -174,6 +300,13 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainMenuControl.DisplayProfileNames()
+        ///
+        /// Display AI profiles into combo box.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void DisplayProfileNames()
         {
             mAIComboBox.Items.Clear();
@@ -194,11 +327,8 @@ namespace UIHeavyClient
                 mAIComboBox.Items.Add(p.Name);
             }
         }
-
-
     }
 }
-
 
 ///////////////////////////////////////////////////////////////////////////
 /// @}

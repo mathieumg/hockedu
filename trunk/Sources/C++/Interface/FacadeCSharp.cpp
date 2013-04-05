@@ -628,14 +628,10 @@ void SetSoundVolume(int pVolume)
     SoundFMOD::obtenirInstance()->setAppVolume(pVolume/10.0f);
 }
 
-int SetEffectVolume()
-{
-    return (int)(SoundFMOD::obtenirInstance()->getEffectVolume() * 10.0f);
-}
-
 void SetEffectVolume(int pVolume)
 {
     SoundFMOD::obtenirInstance()->setEffectVolume(pVolume/10.0f);
+    SoundFMOD::obtenirInstance()->playEffect(CLICK_EFFECT);
 }
 
 int GetNbrPlaylists()
