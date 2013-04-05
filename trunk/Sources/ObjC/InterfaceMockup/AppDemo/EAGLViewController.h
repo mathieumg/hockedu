@@ -67,6 +67,9 @@ extern int const HAUTEUR_FENETRE;
     // Pinch et zoom
     CGFloat __scale;
     CGFloat __previousScale;
+    IBOutlet UITableViewController *propertyTableViewController;
+    IBOutlet UITableView *propertyTableView;
+    IBOutlet UITableViewCell *tablePropertiesCell;
 }
 
 
