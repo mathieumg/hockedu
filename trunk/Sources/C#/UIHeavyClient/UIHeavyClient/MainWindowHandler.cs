@@ -28,6 +28,8 @@ using HttpHockeduRequests;
 
 namespace UIHeavyClient
 {
+    
+
     ///////////////////////////////////////////////////////////////////////////
     /// @class MainWindowHandler
     /// @brief Static wrapper to access every controls.
@@ -69,7 +71,8 @@ namespace UIHeavyClient
         private static extern void LoadMap(string pFileName);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void SetPlayMap(string pFileName);
-
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void LaunchAchievementEvent(AchievementEvent pEvent);
 
         ////////////////////////////////////////////////////////////////////////
         /// @fn void MainWindowHandler.InitCallbacks()

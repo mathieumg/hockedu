@@ -334,3 +334,54 @@ bool AchievementGameWon::LoadAchievementData( const XmlElement* elem)
     }
     return true;
 }
+
+const int AchievementAICreation::AI_CREATION_NEEDED[3] = {3,10,20};
+const std::string AchievementAICreation::AI_LEVEL_NAME[3] =
+{
+    "Need some friends",
+    "Need more friends",
+    "I'm really forever alone",
+};
+
+AchievementAICreation::AchievementAICreation(): mNbAiCreated(0)
+{
+    ADD_NEW_LEVEL(
+        APPEND_BINDING(ACHIEVEMENT_EVENT_AI_CREATED,EventAICreatedCallBack)
+        );
+    ADD_NEW_LEVEL(
+        APPEND_BINDING(ACHIEVEMENT_EVENT_AI_CREATED,EventAICreatedCallBack)
+        );
+    ADD_NEW_LEVEL(
+        APPEND_BINDING(ACHIEVEMENT_EVENT_AI_CREATED,EventAICreatedCallBack)
+        );
+}
+
+void AchievementAICreation::EventAICreatedCallBack( AbstractAchievement* pAchievement, AchievementEvent pEvent )
+{
+    auto wThis = (AchievementAICreation*)pAchievement;
+    auto val = ++wThis->mNbAiCreated;
+
+    int level = wThis->mLevelUnlocked;
+    if(level < ARRAY_COUNT(AchievementAICreation::AI_CREATION_NEEDED) && val >= AchievementAICreation::AI_CREATION_NEEDED[level])
+    {
+        wThis->GoToNextLevel();
+        AchievementsManager::obtenirInstance()->AchievementUnlocked(AchievementsType(ACHIEVEMENTS_AI_CREATION_L1+level),AchievementAICreation::AI_LEVEL_NAME[level]);
+    }
+}
+
+void AchievementAICreation::FillAchievementData( XmlElement* elem ) const
+{
+    XMLUtils::writeAttribute(elem,"AICreated",mNbAiCreated);
+}
+
+bool AchievementAICreation::LoadAchievementData( const XmlElement* elem )
+{
+    if(!XMLUtils::readAttribute(elem,"AICreated",mNbAiCreated))
+    {
+        if(mLevelUnlocked < ARRAY_COUNT(AI_CREATION_NEEDED))
+        {
+            mNbAiCreated = AI_CREATION_NEEDED[mLevelUnlocked];
+        }
+    }
+    return true;
+}
