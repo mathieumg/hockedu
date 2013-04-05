@@ -90,6 +90,8 @@ bool BonusModifierFan::Attach( NoeudRondelle* pPuck )
 {
     if(mCreator)
     {
+        SoundFMOD::obtenirInstance()->playEffect(BONUS_FAN_IN_EFFECT);
+
         mOwner = mCreator;
         return mCreator->AddModifier(this);
     }

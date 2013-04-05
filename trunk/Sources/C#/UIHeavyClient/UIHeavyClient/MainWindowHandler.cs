@@ -351,6 +351,8 @@ namespace UIHeavyClient
         public static void DialogLoadMapFromLocal()
         {
             mOpenFileDialog.Title = "Choose a map file";
+            mOpenFileDialog.Multiselect = false;
+            mOpenFileDialog.Filter = "XML Files (*.xml)|*.xml";
             if (mOpenFileDialog.ShowDialog() == DialogResult.OK)
             {
                 LoadMapFromLocal(mOpenFileDialog.FileName);
@@ -368,6 +370,7 @@ namespace UIHeavyClient
         public static void DialogSaveMapToLocal()
         {
             mSaveFileDialog.Title = "Enter the name of your map file";
+            mSaveFileDialog.Filter = "XML Files (*.xml)|*.xml";
             if (mSaveFileDialog.ShowDialog().Value)
             {
                 SaveMapToLocal(mSaveFileDialog.FileName);

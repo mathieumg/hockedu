@@ -45,6 +45,12 @@ extern int const HAUTEUR_FENETRE;
     IBOutlet UIButton *selectButton;
     IBOutlet UIButton *saveButton;
     
+    UIButton *previouslySelected;
+    
+    UIImage *buttonImage;
+    UIImage *buttonImageHighlight;
+    UIImage *buttonImagePressed;
+    
     BOOL animating;
     BOOL propertyBarHidden;
     
@@ -100,6 +106,7 @@ extern int const HAUTEUR_FENETRE;
 - (IBAction)undoButtonTouched:(UIButton *)sender;
 - (IBAction)redoButtonTouched:(UIButton *)sender;
 - (void)unselectAllTools;
+- (void)pressButtonUI:(UIButton *)sender;
 - (void)startAnimation;
 - (void)stopAnimation;
 - (void)setupView;

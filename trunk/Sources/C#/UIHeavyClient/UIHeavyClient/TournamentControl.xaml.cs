@@ -76,10 +76,12 @@ namespace UIHeavyClient
 
             mMapFileDialog = new Microsoft.Win32.OpenFileDialog();
             mMapFileDialog.Multiselect = false;
+            mMapFileDialog.Filter = "XML Files (*.xml)|*.xml";
             mMapFileDialog.Title = "Choose a map file";
 
             mTournamentFileDialog = new Microsoft.Win32.OpenFileDialog();
             mTournamentFileDialog.Multiselect = false;
+            mTournamentFileDialog.Filter = "XML Files (*.xml)|*.xml";
             mTournamentFileDialog.Title = "Choose a tournament file";
         }
 

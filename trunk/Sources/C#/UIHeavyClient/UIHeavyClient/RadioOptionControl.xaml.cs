@@ -77,6 +77,9 @@ namespace UIHeavyClient
             mPlaylistsContent = new Dictionary<string, ObservableCollection<string>>();
 
             mOpenFileDialog = new Microsoft.Win32.OpenFileDialog();
+            mOpenFileDialog.Title = "Select a song file";
+            mOpenFileDialog.Multiselect = true;
+            mOpenFileDialog.Filter = "Sound file(*.mp3;*.wma;*.wav;*.xm)|*.mp3;*.wma;*.wav;*.xm";
         }
 
         private void mBackToOptionButton_Click(object sender, RoutedEventArgs e)
@@ -162,9 +165,18 @@ namespace UIHeavyClient
         {
             if (mSelectedPlaylist != "")
             {
-                RemoveRadioPlaylist(mSelectedPlaylist);
-                DisplayPlaylists();
+                string buffer;
+                int count = mPlaylistsListView.SelectedItems.Count - 1;
+                for (int i = count; i >= 0; --i)
+                {
+                    buffer = (mPlaylistsListView.SelectedItems[i] as string);
+                    mSelectedPlaylistContent.Remove(buffer);
+                    mPlaylistsListView.Items.Remove((buffer as string));
+
+                    RemoveRadioPlaylist(buffer);
+                }   
             }
+            DisplayPlaylists();
         }
 
         private void mCurrentPlaylistsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -189,7 +201,8 @@ namespace UIHeavyClient
             if (mSelectedPlaylistContent != null)
             {
                 string buffer;
-                for (int i = 0; i < mSongsListView.SelectedItems.Count; ++i )
+                int count = mSongsListView.SelectedItems.Count - 1;
+                for (int i = count; i >= 0; --i)
                 {
                     buffer = (mSongsListView.SelectedItems[i] as string);
                     mSelectedPlaylistContent.Remove(buffer);
@@ -202,12 +215,13 @@ namespace UIHeavyClient
         {
             if (mSelectedPlaylistContent != null)
             {
-                mOpenFileDialog.Title = "Select a song file";
-
                 if (mOpenFileDialog.ShowDialog().Value)
                 {
-                    mSelectedPlaylistContent.Add(mOpenFileDialog.FileName);
-                    mSongsListView.Items.Add(mOpenFileDialog.FileName);
+                    foreach (string s in mOpenFileDialog.FileNames)
+                    {
+                        mSelectedPlaylistContent.Add(s);
+                        mSongsListView.Items.Add(s);
+                    }   
                 }
             }
         }

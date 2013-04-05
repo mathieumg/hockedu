@@ -20,7 +20,6 @@
 #include "Utilitaire.h"
 #include "NoeudMaillet.h"
 
-
 const Vecteur3 GoalerSize(3,15,15);
 
 #if WIN32
@@ -84,6 +83,8 @@ bool BonusModifierBlockGoal::Attach( NoeudRondelle* pPuck )
             NoeudBut* affectedGoal = goals[!(mallet == field->getLeftMallet())];
             if(affectedGoal)
             {
+                SoundFMOD::obtenirInstance()->playEffect(BONUS_BLOCK_GOAL_IN_EFFECT);
+
                 mPuckPos = &pPuck->getPosition();
                 mProtectedGoal = affectedGoal;
                 mOwner = mallet;
@@ -180,6 +181,8 @@ bool BonusModifierBlockGoal::Apply()
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierBlockGoal::Revert()
 {
+    SoundFMOD::obtenirInstance()->playEffect(BONUS_BLOCK_GOAL_OUT_EFFECT);
+
 #if BOX2D_PLAY  
     if(mPhysicBody)
     {
