@@ -20,6 +20,17 @@
 const Vecteur3 DEFAULT_SIZE = Vecteur3(15, 15, 1);
 const float DEFAULT_RADIUS = 8;
 
+const int nbFaces = 12;
+const int nbVertexPerFace = 3;
+const int vertexSize = 3;
+const int colorSize = 4;
+const int vertexArraySize = nbFaces*nbVertexPerFace*vertexSize;
+const int colorArraySize = nbFaces*nbVertexPerFace*colorSize;
+
+bool cubeModelArraysInit = false;
+GLfloat vertexArray[vertexArraySize];
+GLfloat colorArray[colorArraySize];
+
 #if WIN32
 #include "Modele3D.h"
 #include "GestionnaireModeles.h"
@@ -47,46 +58,22 @@ CreateListDelegateImplementation(Bonus)
     const float height = 15;
     GLuint liste = glGenLists(1);
 
-
     glNewList(liste, GL_COMPILE);
-
-    glRotatef(45,1,0,0);
-    glRotatef(35,0,1,0);
-    glScalef(DEFAULT_RADIUS*1.5f,DEFAULT_RADIUS*1.5f,DEFAULT_RADIUS*1.5f);
-    glBegin(GL_QUADS);
-
-    GLfloat vertex[3];
-    GLfloat alternance[2][4][2] =
-    {{
-        {0,0},
-        {0,1},
-        {1,1},
-        {1,0},
-    },
+    if(!cubeModelArraysInit)
     {
-        {0,0},
-        {1,0},
-        {1,1},
-        {0,1},
-    }};
-    for(int axe=0; axe<3; ++axe)
-    {
-        for(int fixedValue=0; fixedValue<2; ++fixedValue)
-        {
-            vertex[axe] = fixedValue-0.5f;
-            for(int it=0; it<4; ++it)
-            {
-                for(int pos=1; pos<3; ++pos)
-                {
-                    vertex[(axe+pos)%3] = alternance[fixedValue][it][pos-1]-0.5f;
-                }
-                glColor3f(vertex[0],vertex[1],vertex[2]);
-                glVertex3f(vertex[0],vertex[1],vertex[2]);
-            }
-        }
+        NodeBonus::getCubeColorVertexArrays(vertexArray,colorArray);
+        cubeModelArraysInit = true;
     }
-    glEnd();
 
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+
+    glColorPointer(4, GL_FLOAT, 0, colorArray);
+    glVertexPointer(3, GL_FLOAT, 0, vertexArray);
+    glDrawArrays(GL_TRIANGLES, 0, nbFaces*nbVertexPerFace);
+
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
 
     glEndList();
     return liste;
@@ -95,6 +82,57 @@ CreateListDelegateImplementation(Bonus)
 }
 #endif
 
+
+/// vertexArray size must be 81, colorArray size must be 108
+void NodeBonus::getCubeColorVertexArrays(float* vertexArray, float* colorArray)
+{
+    /// cube infos
+    float vertices[8][vertexSize]=
+    {
+        {1,0,0},
+        {1,0,1},
+        {0,0,1},
+        {0,0,0},
+        {1,1,0},
+        {1,1,1},
+        {0,1,1},
+        {0,1,0},
+    };
+    /// index to vertices for faces
+    int faces[nbFaces][nbVertexPerFace] =
+    {
+        {5,1,4},
+        {5,4,8},
+        {3,7,8},
+        {3,8,4},
+        {2,6,3},
+        {6,7,3},
+        {1,5,2},
+        {5,6,2},
+        {5,8,6},
+        {8,7,6},
+        {1,2,3},
+        {1,3,4},
+    };
+
+    int countVertex = 0;
+    int countColor = 0;
+    for(int iFace=0; iFace<nbFaces; ++iFace)
+    {
+        for(int iVertex=0; iVertex<nbVertexPerFace; ++iVertex)
+        {
+            for(int iAxe=0; iAxe<vertexSize;++iAxe)
+            {
+                vertexArray[countVertex++] = vertices[faces[iFace][iVertex]-1][iAxe]-0.5f;
+                colorArray[countColor++] = vertices[faces[iFace][iVertex]-1][iAxe];
+            }
+            /// alpha value
+            colorArray[countColor++] = 0.2f;
+        }
+    }
+    checkf(countVertex == vertexArraySize);
+    checkf(countColor == colorArraySize);
+}
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -113,6 +151,12 @@ NodeBonus::NodeBonus(const std::string& typeNoeud)
 {
     // temp workaround, l'édition va le considérer comme un cercle pour un moment
     setDefaultRadius(DEFAULT_RADIUS);
+
+    if(!cubeModelArraysInit)
+    {
+        getCubeColorVertexArrays(vertexArray,colorArray);
+        cubeModelArraysInit = true;
+    }
 
     forceFullUpdate();
     ResetTimeLeft();
@@ -157,17 +201,22 @@ void NodeBonus::renderReal() const
 #if WIN32
     glDisable(GL_LIGHTING);
     FacadeModele::getInstance()->DeActivateShaders();
-	// Appel à la version de la classe de base pour l'affichage des enfants.
-
+#endif
     // static to make all bonus hover at the same height
-    const float zTranslated = getRadius()*1.2f+sin(mHeightAngle)*3.f;
+    const float zTranslated = getRadius()*1.5f+sin(mHeightAngle)*3.f;
     glPushMatrix();
     glTranslatef( 0,0,zTranslated);
-#endif
-
+    
+    GLboolean blendEnabled = glIsEnabled(GL_BLEND);
+    glEnable(GL_BLEND);
     Super::renderReal();
-#if WIN32
+    if(!blendEnabled)
+    {
+        glDisable(GL_BLEND);
+    }
     glPopMatrix();
+#if WIN32
+    
     glEnable(GL_LIGHTING);
     FacadeModele::getInstance()->ActivateShaders();
 
@@ -377,8 +426,15 @@ void NodeBonus::updatePhysicBody()
 
 void NodeBonus::renderOpenGLES() const
 {
-    glColor4f(0.0f,0.0f,1.0f,1.0f);
-    Super::renderOpenGLES();
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+
+    glColorPointer(4, GL_FLOAT, 0, colorArray);
+    glVertexPointer(3, GL_FLOAT, 0, vertexArray);
+    glDrawArrays(GL_TRIANGLES, 0, nbFaces*nbVertexPerFace);
+
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -401,11 +457,11 @@ void NodeBonus::ResetTimeLeft()
         int max = (int)(field->getBonusesMaxTimeSpawn()*100.f);
         if(min == max)
         {
-            mSpawnTimeLeft = min;
+            mSpawnTimeLeft = (float)min;
         }
         else
         {
-            mSpawnTimeLeft = (rand()%(max-min)+min)/100.f;
+            mSpawnTimeLeft = (float)(rand()%(max-min)+min)/100.f;
         }
     }
 
@@ -425,6 +481,35 @@ void NodeBonus::ResetTimeLeft()
 void NodeBonus::acceptVisitor( VisiteurNoeud& v )
 {
     v.visiterNodeBonus(this);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NodeBonus::updateMatrice()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NodeBonus::updateMatrice()
+{
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+
+    glRotatef(mAngle, 0.0, 0.0, 1.0);
+    static float angleX = 45;
+    static float angleY = 35;
+    glRotatef(angleX,1,0,0);
+    glRotatef(angleY,0,1,0);
+    glScalef(mScale[VX], mScale[VY], mScale[VZ]);
+    glScalef(DEFAULT_RADIUS*1.5f,DEFAULT_RADIUS*1.5f,DEFAULT_RADIUS*1.5f);
+
+    glGetFloatv(GL_MODELVIEW_MATRIX, mTransformationMatrix); // Savegarde de la matrice courante dans le noeud
+
+    glPopMatrix();
 }
 
 

@@ -73,6 +73,8 @@ public:
     static const std::string NOM_ACCELERATEUR;
     CreateListDelegateSignature(Boost);
 
+    CreateListDelegateSignature(House);
+
     /// La chaîne représentant le dossier.
     static const std::string NOM_DOSSIER_MEDIA;
 
@@ -81,7 +83,6 @@ public:
 
     /// La chaîne représentant le type de la piece.
     static const std::string NOM_HOUSE;
-    CreateListDelegateSignature(House);
 
     /// La chaîne représentant le type des buts.
     static const std::string NOM_BUT;

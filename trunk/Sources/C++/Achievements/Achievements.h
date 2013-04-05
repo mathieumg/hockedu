@@ -98,7 +98,6 @@ protected:
     void GoToNextLevel();
     void RegisterLevel(unsigned int level) const;
     void UnRegisterLevel(unsigned int level) const;
-    
 
     /// Overload this method to add parameters to the achievement persistency
     virtual void FillAchievementData(XmlElement* elem) const {}
@@ -130,6 +129,14 @@ protected:
     static void EventStartCallBack(AbstractAchievement* pAchievement, AchievementEvent pEvent);
 };
 
+///////////////////////////////////////////////////////////////////////////
+/// @class AchievementGameWon
+/// @brief Achievement based on game wining.
+///
+///
+/// @author Michael Ferris
+/// @date 2013-03-24
+///////////////////////////////////////////////////////////////////////////
 class AchievementGameWon : public AbstractAchievement
 {
 public:
@@ -144,23 +151,73 @@ private:
 
 };
 
+///////////////////////////////////////////////////////////////////////////
+/// @class AchievementAICreation
+/// @brief Achievement based on AI profiles creation.
+///
+///
+/// @author Michael Ferris
+/// @date 2013-03-24
+///////////////////////////////////////////////////////////////////////////
+class AchievementAICreation : public AbstractAchievement
+{
+public:
+    AchievementAICreation();
+    virtual std::string GetXmlTag()const{return "AiCreation";}
+protected:
+    static void EventAICreatedCallBack(AbstractAchievement* pAchievement, AchievementEvent pEvent);
+    virtual void FillAchievementData(XmlElement* elem) const;
+    virtual bool LoadAchievementData(const XmlElement* elem);
+private:
+    int mNbAiCreated;
+    static const int AI_CREATION_NEEDED[3];
+    static const std::string AI_LEVEL_NAME[3];
+};
 
+///////////////////////////////////////////////////////////////////////////
+/// @class AchievementMute
+/// @brief Achievement obtained by muting music.
+///
+///
+/// @author Vincent Lemire
+/// @date 2013-04-05
+///////////////////////////////////////////////////////////////////////////
+class AchievementMute : public AbstractAchievement
+{
+public:
+    AchievementMute();
+    virtual std::string GetXmlTag()const{return "MuteSound";}
+protected:
+    static void EventMuteCallBack(AbstractAchievement* pAchievement, AchievementEvent pEvent);
+    virtual void FillAchievementData(XmlElement* elem) const;
+    virtual bool LoadAchievementData(const XmlElement* elem);
+private:
+    static const std::string MUTE_LEVEL_NAME[1];
+    bool mMuted;
+};
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+///////////////////////////////////////////////////////////////////////////
+/// @class AchievementPortal
+/// @brief Achievement obtained by using portal.
+///
+///
+/// @author Vincent Lemire
+/// @date 2013-04-05
+///////////////////////////////////////////////////////////////////////////
+class AchievementPortal : public AbstractAchievement
+{
+public:
+    AchievementPortal();
+    virtual std::string GetXmlTag()const{return "PortalTaken";}
+protected:
+    static void EventPortalCallBack(AbstractAchievement* pAchievement, AchievementEvent pEvent);
+    virtual void FillAchievementData(XmlElement* elem) const;
+    virtual bool LoadAchievementData(const XmlElement* elem);
+private:
+    static const std::string PORTAL_LEVEL_NAME[4];
+    static const int PORTAL_NEEDED[4];
+    int mNbrPortalCreated;
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

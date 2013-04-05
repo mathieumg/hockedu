@@ -25,8 +25,8 @@ namespace UIHeavyClient.UserControls
 
         public string AchievementName
         {
-            get { return (string) mAchievementName.Content; }
-            set { mAchievementName.Content = value; }
+            get { return (string) mAchievementName.Text; }
+            set { mAchievementName.Text = value; }
         }
     }
 }

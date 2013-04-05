@@ -29,6 +29,7 @@ using UIHeavyClient.UserControls;
 using System.Windows.Media.Animation;
 using HttpHockeduRequests;
 using System.Diagnostics;
+using System.Collections;
 
 namespace UIHeavyClient
 {
@@ -738,6 +739,9 @@ namespace UIHeavyClient
         public delegate int AchievementUnlockCallBack( AchievementsType id, IntPtr message );
         static AchievementUnlockCallBack mAchievementUnlockCallBack = AchievementUnlocked;
 
+
+        static bool AchievementDisplaying = false;
+        static ArrayList mAchievementQueued = new ArrayList();
         ////////////////////////////////////////////////////////////////////////
         /// @fn void MainWindow.AchievementUnlocked()
         ///
@@ -771,6 +775,13 @@ namespace UIHeavyClient
         static void mWaitAnimation_Completed( object sender, EventArgs e )
         {
             mAchievementPanel.Close();
+            AchievementDisplaying = false;
+            if (mAchievementQueued.Count != 0)
+            {
+                string name = mAchievementQueued[0] as string;
+                mAchievementQueued.RemoveAt(0);
+                DisplayAchievement(name);
+            }
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -784,28 +795,37 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         static void DisplayAchievement(string achievementName)
         {
-            if ( mAchievementPanel != null )
+            MainWindowHandler.mTaskManager.ExecuteTask(() =>
             {
-                mAchievementPanel.Close();
-            }
-            mAchievementPanel = new AchievementUnlocked();
-            mAchievementPanel.AchievementName = achievementName;
-            mAchievementPanel.Topmost = true;
-            mAchievementPanel.Left = MainWindowHandler.Context.Left + MainWindowHandler.Context.Width - mAchievementPanel.Width;
-            mAchievementPanel.Top = MainWindowHandler.Context.Top /*+ MainWindowHandler.Context.Height - mAchievementPanel.Height*/;
-            mAchievementPanel.Show();
+                if (AchievementDisplaying)
+                {
+                    mAchievementQueued.Add(achievementName);
+                    return;
+                }
+                AchievementDisplaying = true;
+                if (mAchievementPanel != null)
+                {
+                    mAchievementPanel.Close();
+                }
+                mAchievementPanel = new AchievementUnlocked();
+                mAchievementPanel.AchievementName = achievementName;
+                mAchievementPanel.Topmost = true;
+                mAchievementPanel.Left = MainWindowHandler.Context.Left + MainWindowHandler.Context.Width - mAchievementPanel.Width;
+                mAchievementPanel.Top = MainWindowHandler.Context.Top /*+ MainWindowHandler.Context.Height - mAchievementPanel.Height*/;
+                mAchievementPanel.Show();
 
-            DoubleAnimation beginAnimation = new DoubleAnimation();
-            beginAnimation.From = 0;// mAchievementPanel.Top;
-            beginAnimation.To = mAchievementPanel.Height;// mAchievementPanel.Top - ( mAchievementPanel.Height );
-            beginAnimation.AutoReverse = true;
-            beginAnimation.Completed += mWaitAnimation_Completed;
-            beginAnimation.Duration = new TimeSpan( 0, 0, 5 );
-            Storyboard.SetTargetProperty( beginAnimation, new PropertyPath( Window.HeightProperty ) );
-            mAchievementPanel.Height = 0;
+                DoubleAnimation beginAnimation = new DoubleAnimation();
+                beginAnimation.From = 0;// mAchievementPanel.Top;
+                beginAnimation.To = mAchievementPanel.Height;// mAchievementPanel.Top - ( mAchievementPanel.Height );
+                beginAnimation.AutoReverse = true;
+                beginAnimation.Completed += mWaitAnimation_Completed;
+                beginAnimation.Duration = new TimeSpan(0, 0, 5);
+                Storyboard.SetTargetProperty(beginAnimation, new PropertyPath(Window.HeightProperty));
+                mAchievementPanel.Height = 0;
 
-            mStoryboard.Children.Add( beginAnimation );
-            mStoryboard.Begin( mAchievementPanel, HandoffBehavior.SnapshotAndReplace );
+                mStoryboard.Children.Add(beginAnimation);
+                mStoryboard.Begin(mAchievementPanel, HandoffBehavior.SnapshotAndReplace);
+            });
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -856,6 +876,11 @@ namespace UIHeavyClient
         private void SaveMapToServer(object sender, RoutedEventArgs e)
         {
             mSaveServerMapPrompt.ShowDialog();
+        }
+
+        public void RestartGameMenuHandle(bool pMustBeCollapse)
+        {
+            mRestartGameMenuItem.Visibility = pMustBeCollapse ? Visibility.Collapsed : Visibility.Visible;
         }
     }
 }
