@@ -40,9 +40,12 @@ public:
     // Methode pour sauvegarder les infos de connexion
     static void setup(const std::string& pHostname, const std::string pName, const std::string& pUser, const std::string& pPassword);
 
+    // Envoie les resultats de la partie dans la BD
+    bool addGameResult(const std::string& pPlayer1Name, const std::string& pPlayer2Name, int pScoreUser1, int pScoreUser2, int pTime);
+
 private:
     // Methode a appeler avant chaque methode qui doit appeler la BD
-    bool validateConnection() const;
+    bool validateConnection();
 
 
 	mysqlpp::Connection mConnection;

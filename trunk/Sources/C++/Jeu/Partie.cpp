@@ -33,7 +33,7 @@
 
 
 GLuint Partie::listePause_ = 0;
-const int Partie::POINTAGE_GAGNANT = 7;
+const int Partie::POINTAGE_GAGNANT = 1;
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -186,7 +186,7 @@ void Partie::setFieldName( const std::string& terrain )
 ////////////////////////////////////////////////////////////////////////
 void Partie::incrementerPointsJoueurGauche(bool pForceUpdate /*= false*/)
 {
-    
+    pointsJoueurGauche_++;
     if(isNetworkServerGame())
     {
         // Dans le cas, il faut envoyer un paquet aux 2 clients
@@ -195,15 +195,17 @@ void Partie::incrementerPointsJoueurGauche(bool pForceUpdate /*= false*/)
         wPaquet->setGameId(mUniqueGameId);
         wPaquet->setEvent(GAME_EVENT_PLAYER_SCORED);
         RelayeurMessage::obtenirInstance()->relayerPaquetGame(mUniqueGameId, wPaquet);
+        if(partieTerminee())
+        {
+            setGameStatus(GAME_ENDED);
+        }
     }
     else if(pForceUpdate || !isNetworkClientGame())
     {
         // Dans le cas du client en reseau, on ne fait rien puisque c'est le serveur qui va nous envoyer l'evenement du but
-        pointsJoueurGauche_++;
         if(partieTerminee())
         {
             setGameStatus(GAME_ENDED);
-            callGameUpdate(GAME_ENDED);
             SendAchievementEventToHumanPlayer(joueurGauche_,ACHIEVEMENT_EVENT_GAME_WON,ACHIEVEMENT_EVENT_GAME_LOOSE);
         }
         else
@@ -228,6 +230,7 @@ void Partie::incrementerPointsJoueurGauche(bool pForceUpdate /*= false*/)
 ////////////////////////////////////////////////////////////////////////
 void Partie::incrementerPointsJoueurDroit(bool pForceUpdate /*= false*/)
 {
+    pointsJoueurDroit_++;
     if(isNetworkServerGame())
     {
         // Dans le cas, il faut envoyer un paquet aux 2 clients
@@ -236,15 +239,17 @@ void Partie::incrementerPointsJoueurDroit(bool pForceUpdate /*= false*/)
         wPaquet->setGameId(mUniqueGameId);
         wPaquet->setEvent(GAME_EVENT_PLAYER_SCORED);
         RelayeurMessage::obtenirInstance()->relayerPaquetGame(mUniqueGameId, wPaquet);
+        if(partieTerminee())
+        {
+            setGameStatus(GAME_ENDED);
+        }
     }
     else if(pForceUpdate || !isNetworkClientGame()) // forceUpdate si on a recu le message du serveur et il faut incrementer
     {
         // Dans le cas du client en reseau, on ne fait rien puisque c'est le serveur qui va nous envoyer l'evenement du but
-        pointsJoueurDroit_++;
         if(partieTerminee())
         {
             setGameStatus(GAME_ENDED);
-            callGameUpdate(GAME_ENDED);
             SendAchievementEventToHumanPlayer(joueurDroit_,ACHIEVEMENT_EVENT_GAME_WON,ACHIEVEMENT_EVENT_GAME_LOOSE);
         }
         else
@@ -560,7 +565,7 @@ void Partie::updateMinuterie( int time )
             minuterie_ = 0;
             chiffres_->setSkinKey(RAZER_KEY_MODEL_3);
             chiffres_->setVisible(false);
-            setGameStatus(GAME_RUNNING);
+            setGameStatus(GAME_STARTED);
             Vecteur3 coordonneesSouris;
             
             FacadeModele::getInstance()->convertirClotureAVirtuelle(mMousePosScreen[VX], mMousePosScreen[VY], coordonneesSouris);
@@ -763,9 +768,8 @@ PositionJoueur Partie::obtenirPositionGagant()
 ////////////////////////////////////////////////////////////////////////
 void Partie::SignalGameOver()
 {
-    mGameStatus = GAME_ENDED;
+    setGameStatus(GAME_ENDED);
 	// On appelle le callback avant de remettre les informations a 0
-	callGameUpdate(GAME_ENDED);
     if(joueurGauche_)
     {
         NoeudMaillet* mailletGauche = joueurGauche_->getControlingMallet();
@@ -849,30 +853,28 @@ bool Partie::getReadyToPlay()
 ////////////////////////////////////////////////////////////////////////
 void Partie::animer( const float& temps )
 {
-    if(getGameStatus() >= GAME_STARTED)
+    chiffres_->tick(temps);
+    mField->animerTerrain(temps);
+    updateMinuterie((int)(temps*1000));
+    if(getGameStatus() == GAME_STARTED)
     {
-        updateMinuterie((int)(temps*1000));
-        chiffres_->tick(temps);
-        mField->animerTerrain(temps);
-        if(mGameStatus == GAME_RUNNING)
-        {
-            // Gestion de la physique du jeu
-            mField->appliquerPhysique(temps);
-            mPartieSyncer.tick();
-        }
-#if !MAT_DEBUG_
-        else if(mGameStatus == GAME_WAITING)
-        {
-            auto zamboni = mField->getZamboni();
-            Vecteur3 pos = zamboni->getPosition();
-            auto angle = utilitaire::DEG_TO_RAD(zamboni->getAngle());
-            Vecteur3 direction;
-            direction[VX] = cos(angle);
-            direction[VY] = sin(angle);
-            zamboni->setPosition(pos+direction);
-        }
-#endif
+        // Gestion de la physique du jeu
+        mField->appliquerPhysique(temps);
+        mPartieSyncer.tick();
     }
+#if !MAT_DEBUG_
+    if(mGameStatus == GAME_WAITING)
+    {
+        auto zamboni = mField->getZamboni();
+        Vecteur3 pos = zamboni->getPosition();
+        auto angle = utilitaire::DEG_TO_RAD(zamboni->getAngle());
+        Vecteur3 direction;
+        direction[VX] = cos(angle);
+        direction[VY] = sin(angle);
+        zamboni->setPosition(pos+direction);
+    }
+#endif
+    
 }
 
 
@@ -899,7 +901,7 @@ void Partie::animerBase( const float& temps )
             wLogicTree->tick(temps);
         }
     }
-    if(mGameStatus == GAME_RUNNING)
+    if(mGameStatus == GAME_STARTED)
     {
         // Gestion de la physique du jeu
         mField->appliquerPhysique(temps);
@@ -935,13 +937,11 @@ void Partie::modifierEnPause( bool val )
     if(val && getGameStatus() != GAME_PAUSED)
     {
         SoundFMOD::obtenirInstance()->playEffect(effect(PAUSE_EFFECT));
-        tempsJeu_.pause();
         setGameStatus(GAME_PAUSED);
     }
     else if(getGameStatus() == GAME_PAUSED)
     {
         SoundFMOD::obtenirInstance()->playEffect(effect(PAUSE_EFFECT));
-        tempsJeu_.unPause();
         setGameStatus(mLastGameStatus); // Utilise le dernier etat de partie pour unpause
     }
 }
@@ -1009,6 +1009,48 @@ void Partie::setGameStatus( GameStatus pStatus )
 {
     mLastGameStatus = mGameStatus; 
     mGameStatus = pStatus;
+
+    // Appeler les events de changement de state (ex: pause, unpause)
+    switch(pStatus)
+    {
+    case GAME_PAUSED:
+        {
+            // Quand on pause, il faut mettre le timer en pause
+            tempsJeu_.pause();
+            break;
+        }
+    case GAME_READY:
+        {
+            // Quand on devient pret (apres getGameReady), on reset le timer
+            tempsJeu_.reset_Time();
+            break;
+        }
+    case GAME_REPLAYING:
+        {
+            // Quand on regarde un replay, il faut mettre le timer en pause
+            tempsJeu_.pause();
+            break;
+        }
+    case GAME_SCORE:
+        {
+            // Rien de special
+            break;
+        }
+    case GAME_STARTED:
+        {
+            // Quand on met la partie en cours, on unpause le timer
+            tempsJeu_.unPause();
+            break;
+        }
+    case GAME_WAITING:
+        {
+            // Quand on attend, il faut mettre le timer en pause
+            tempsJeu_.pause();
+            break;
+        }
+    }
+    callGameUpdate(pStatus);
+
 #if !MAT_DEBUG_
     auto zamboni = mField->getZamboni();
     if(zamboni)
@@ -1089,6 +1131,7 @@ PartieServeurs* Partie::buildPartieServeurs()
     wPartie->setPlayer1Score(pointsJoueurGauche_);
     wPartie->setPlayer2Score(pointsJoueurDroit_);
     wPartie->setPassword(mPassword);
+    wPartie->setGameStatus(mGameStatus);
 
     ControllerServeurJeu* wController = dynamic_cast<ControllerServeurJeu*>(GestionnaireReseau::obtenirInstance()->getController());
     if(wController)

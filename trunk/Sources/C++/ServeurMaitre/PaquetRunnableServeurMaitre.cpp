@@ -210,9 +210,7 @@ int PaquetRunnable::RunnableGameStatusMasterServer( Paquet* pPaquet )
             wGame->updateData(wPaquet->getGameInfos());
         }
     }
-
-
-
+    GameServerManager::obtenirInstance()->callUpdateCallbackFunction(wPaquet->getGameInfos()->getServerId(), wPaquet->getGameInfos()->getUniqueGameId(), wPaquet->getGameInfos()->getGameStatus());
 
     return 0;
 }

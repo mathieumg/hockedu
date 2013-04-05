@@ -2,15 +2,7 @@
 #include "..\Reseau\ExceptionsReseau\ExceptionReseau.h"
 #include "..\Reseau\ObjetsGlobaux\PartieServeurs.h"
 
-void CallbackPartieServeursUpdate(int pServerId, int pGameId, GameStatus pGameStatus)
-{
-    if(pGameStatus == GAME_ENDED)
-    {
-         // Si partie terminee, on sauvegarde dans la BD le score final
 
-
-    }
-}
 
 
 
@@ -72,7 +64,6 @@ void GameServer::addGame( const int& pGameId, const std::string& pGameName, cons
     wGame->setPassword(pPassword);
     wGame->setServerId(mServerId);
     wGame->setUniqueGameId(pGameId);
-    wGame->setUpdateCallback(CallbackPartieServeursUpdate);
     addGame(pGameId, wGame);
 }
 

@@ -22,6 +22,9 @@
 #include "Partie.h"
 #include "ObjetAnimable.h"
 #include "Terrain.h"
+#include "..\Reseau\GestionnaireReseau.h"
+#include "..\Reseau\Paquets\PaquetGameEvent.h"
+#include "..\Reseau\RelayeurMessage.h"
 
 // Initialisations automatiques
 SINGLETON_DECLARATION_CPP(RepartiteurActions);
@@ -525,6 +528,8 @@ bool RepartiteurActions::actionBoutonAllerModeSimulation()
 bool RepartiteurActions::actionTogglePauseJeu()
 {
 	FacadeModele::getInstance()->togglePause();
+    FacadeModele* wCrash = 0;
+    wCrash->animer(0.3f);
 	return true; 
 }
 
@@ -748,7 +753,19 @@ bool RepartiteurActions::actionBoutonRedo()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionReinitialiserRondelle()
 {
-    FacadeModele::getInstance()->reinitialiserRondelle();
+    Partie* wGame = FacadeModele::getInstance()->obtenirPartieCourante();
+    if(wGame && wGame->isNetworkClientGame())
+    {
+        // On ne peut pas reset la puck directement, il faut demander au serveur de la reset et a la reception de la reponse, on la reset
+        PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+        wPaquet->setEvent(GAME_EVENT_RESET_PUCK);
+        wPaquet->setGameId(wGame->getUniqueGameId());
+        RelayeurMessage::obtenirInstance()->relayerPaquetGame(wGame->getUniqueGameId(), wPaquet, TCP);
+    }
+    else
+    {
+        FacadeModele::getInstance()->reinitialiserRondelle();
+    }
     return true;
 }
 

@@ -2,12 +2,40 @@
 #include "..\Reseau\ExceptionsReseau\ExceptionReseau.h"
 #include "GameServer.h"
 #include "..\Reseau\ObjetsGlobaux\PartieServeurs.h"
+#include <iostream>
+#include "CommunicateurBD.h"
 
 SINGLETON_DECLARATION_CPP(GameServerManager);
 unsigned int GameServerManager::mNewGameServerId = 0;
 unsigned int GameServerManager::mAddedGameServersAmount = 0;
 
+void CallbackPartieServeursUpdate(int pServerId, int pGameId, GameStatus pGameStatus)
+{
+    if(pGameStatus == GAME_ENDED)
+    {
+        // Si partie terminee, on sauvegarde dans la BD le score final
+        std::cout << "Game (" << pServerId << "," << pGameId << ") ended" << std::endl;
 
+        
+        GameServer* wGameServer = GameServerManager::obtenirInstance()->getGameServer(pServerId);
+        if(wGameServer)
+        {
+            // Envoyer data a la BD
+            PartieServeurs* wGame = wGameServer->getGame(pGameId);
+            if(wGame)
+            {
+                bool wReturnValue = CommunicateurBD::obtenirInstance()->addGameResult(wGame->getPlayer1Name(), wGame->getPlayer2Name(), wGame->getPlayer1Score(), wGame->getPlayer2Score(), (int) wGame->getTime());
+                wReturnValue ? (std::cout << "Sauvegarde dans la BD reussie." << std::endl) : (std::cout << "Sauvegarde dans la BD echouee." << std::endl);
+                checkf(wReturnValue);
+            }
+
+
+
+            // On supprime la partie du serveur
+            wGameServer->removeGame(pGameId);
+        }
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -22,7 +50,7 @@ unsigned int GameServerManager::mAddedGameServersAmount = 0;
 GameServerManager::GameServerManager()
     : mGameServersList()
 {
-
+    mUpdateCallback = CallbackPartieServeursUpdate;
 }
 
 ////////////////////////////////////////////////////////////////////////

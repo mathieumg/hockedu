@@ -68,11 +68,9 @@ private:
 	
     static int compteurGameId;
 
-    // Callback appelee quand le score change
-    PartieServeursCallback mUpdateCallback;
+    
 
-    void callUpdateCallbackFunction() {if(mUpdateCallback) mUpdateCallback(mServerId, mUniqueGameId, mGameStatus);}
-
+    
 public:
 	PartieServeurs(const std::string& pPlayer1Name, const std::string& pPlayer2Name);
     PartieServeurs();
@@ -87,8 +85,8 @@ public:
     int getUniqueGameId() const { return mUniqueGameId; }
     void setUniqueGameId(const int& pUniqueGameId) { mUniqueGameId = pUniqueGameId; }  
 
-    inline void setPlayerName1( const std::string& pPlayerName1 ) {mPlayer1Name = pPlayerName1; callUpdateCallbackFunction();}
-    inline void setPlayerName2( const std::string& pPlayerName2 ) {mPlayer2Name = pPlayerName2; callUpdateCallbackFunction();}
+    inline void setPlayerName1( const std::string& pPlayerName1 ) {mPlayer1Name = pPlayerName1;}
+    inline void setPlayerName2( const std::string& pPlayerName2 ) {mPlayer2Name = pPlayerName2;}
 
     std::string getPlayer1Name() const { return mPlayer1Name; }
     std::string getPlayer2Name() const { return mPlayer2Name; }
@@ -103,21 +101,21 @@ public:
     void setGameName(std::string pGameName) { mGameName = pGameName; }
 
     int getPlayer1Score() const { return mPlayer1Score; }
-    void setPlayer1Score(int val) { mPlayer1Score = val; callUpdateCallbackFunction();}
+    void setPlayer1Score(int val) { mPlayer1Score = val;}
 
     int getPlayer2Score() const { return mPlayer2Score; }
-    void setPlayer2Score(int val) { mPlayer2Score = val; callUpdateCallbackFunction();}
+    void setPlayer2Score(int val) { mPlayer2Score = val;}
 
     time_t getTime() const { return mTime; }
-    inline void setTime(time_t val) { mTime = val; callUpdateCallbackFunction();}
+    inline void setTime(time_t val) { mTime = val;}
     void setTime(int pHours, int pMins, int pSec);
 
     inline GameStatus getGameStatus() const { return mGameStatus; }
-	inline void setGameStatus(GameStatus val) { mGameStatus = val; callUpdateCallbackFunction();}
+	inline void setGameStatus(GameStatus val) { mGameStatus = val;}
 
     void updateData(PartieServeurs* pUpdateData);
 
-    inline void setUpdateCallback(PartieServeursCallback pCallback) {mUpdateCallback = pCallback;}
+    
 };
 
 ///////////////////////////////////////////////////////////////////////////////

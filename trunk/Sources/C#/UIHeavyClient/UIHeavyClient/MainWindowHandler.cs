@@ -235,16 +235,8 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public static void GoToTournamentMenu()
         {
-            if(CallbackManager.ChangeGameMode(GameState.GAME_STATE_TOURNAMENT_MENU))
-            {
-                Context.WindowContentControl.Content=Context.TournamentControl;
-                Context.TournamentControl.DisplayProfileNames();
-                CallbackManager.CommitChanges();
-            }
-            else
-            {
-                CallbackManager.RevertChanges();
-            }
+            Context.WindowContentControl.Content=Context.TournamentControl;
+            Context.TournamentControl.DisplayProfileNames();
         }
 
         ////////////////////////////////////////////////////////////////////////

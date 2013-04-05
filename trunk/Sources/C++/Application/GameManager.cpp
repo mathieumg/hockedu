@@ -386,7 +386,7 @@ void GameManager::animer( const float& pTemps )
     // On anime toutes les parties
     for(auto it = mListePartiesParId.begin(); it!=mListePartiesParId.end(); ++it)
     {
-        if((*it).second->getGameStatus() >= GAME_STARTED)
+        if((*it).second->getGameStatus() >= GAME_READY)
         {
             // Anime si la partie est en cours (n'animera pas si la partie n'est pas encore commencee)
             (*it).second->animerBase(pTemps);

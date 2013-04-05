@@ -10,7 +10,7 @@ int PartieServeurs::compteurGameId = 0;
 
 PartieServeurs::PartieServeurs( const std::string& pPlayer1Name, const std::string& pPlayer2Name )
 {
-    mUpdateCallback = NULL;
+    
     mGameStatus = GAME_NOT_READY;
     mPlayer1Name    = pPlayer1Name;
     mPlayer2Name    = pPlayer2Name;
@@ -21,7 +21,6 @@ PartieServeurs::PartieServeurs( const std::string& pPlayer1Name, const std::stri
 
 PartieServeurs::PartieServeurs()
 {
-    mUpdateCallback = NULL;
     mGameStatus = GAME_NOT_READY;
     mTime           = time(0);
     mUniqueGameId   = compteurGameId; // Assigne un id unique a la partie
@@ -32,7 +31,6 @@ PartieServeurs::PartieServeurs()
 
 PartieServeurs::PartieServeurs( PartieServeurs* pSource )
 {
-    mUpdateCallback = NULL;
     mGameStatus = GAME_NOT_READY;
     mUniqueGameId   = pSource->mUniqueGameId;
     mPlayer1Name    = pSource->mPlayer1Name;
@@ -65,7 +63,6 @@ void PartieServeurs::setTime( int pHours, int pMins, int pSec )
     timeInfo->tm_hour   = pHours;
     timeInfo->tm_min    = pMins;
     timeInfo->tm_sec    = pSec;
-    callUpdateCallbackFunction();
 }
 
 
@@ -85,6 +82,5 @@ void PartieServeurs::updateData( PartieServeurs* pUpdateData )
 
     this->setGameStatus(pUpdateData->getGameStatus());
 
-    callUpdateCallbackFunction();
 }
 

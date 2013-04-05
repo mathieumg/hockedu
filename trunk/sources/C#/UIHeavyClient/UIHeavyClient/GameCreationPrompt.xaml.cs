@@ -79,6 +79,7 @@ namespace UIHeavyClient
                     mMapListView.Items.Add(wItem);
                 }
                 SortListView("id", ListSortDirection.Ascending);
+                mFeedbackLabel.Content = "";
             });
         }
 
@@ -143,6 +144,7 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public void ClearInputAndLoadMapList()
         {
+            mFeedbackLabel.Content = "Downloading maps, please wait...";
             mNameTextBox.Clear();
             mPasswordCheckBox.IsChecked = false;
             mPasswordTextBox.Clear();

@@ -11,6 +11,7 @@
 #include "CommunicateurBD.h"
 #include "ExceptionsReseau/ExceptionReseauBD.h"
 #include "sha1.h"
+#include <iosfwd>
 
 SINGLETON_DECLARATION_CPP(CommunicateurBD);
 
@@ -101,13 +102,19 @@ int CommunicateurBD::authenticate( const std::string& pPlayerName, const std::st
 
 
 
-bool CommunicateurBD::validateConnection() const
+bool CommunicateurBD::validateConnection()
 {
 	/*if(mConnection -> isClosed())
 	{
 		throw ExceptionReseauBD("Connexion a la Base de donnee impossible");
 	}*/
-	return mConnection.connected();
+
+    if(!mConnection.connected())
+    {
+        // Si deconnecte, on essaie de se reconnecter
+        init();
+    }
+    return mConnection.connected();
 }
 
 
@@ -159,6 +166,29 @@ void CommunicateurBD::setup( const std::string& pHostname, const std::string pNa
     // Met le flag de setup seulement si tous les parametres ont au moins 1 caractere et le hostname definit le port
     CommunicateurBD::setupDone = pName.length() && pUser.length() && pPassword.length() && pHostname.find(':') != std::string::npos;
 
+}
+
+
+
+
+bool CommunicateurBD::addGameResult(const std::string& pPlayer1Name, const std::string& pPlayer2Name, int pScoreUser1, int pScoreUser2, int pTime )
+{
+    if (validateConnection())
+    {
+        std::stringstream ss;
+        ss << "INSERT INTO matches (`id_user1`, `id_user2`, `score_user1`, `score_user2`, `time`) VALUES((SELECT id FROM users WHERE username = \"" + pPlayer1Name + "\"), (SELECT id FROM users WHERE username = \"" + pPlayer2Name + "\"),  "
+            << pScoreUser1 << ", " << pScoreUser2 << ", " << pTime << ")";
+
+        mysqlpp::Query query = mConnection.query(ss.str());
+        try 
+        {
+            return query.execute();
+        }
+        catch(...)
+        {
+            return false;
+        }
+    }
 }
 
 

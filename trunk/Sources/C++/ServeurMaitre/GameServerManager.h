@@ -6,6 +6,7 @@ namespace std {using namespace __gnu_cxx; }
 #elif defined(WIN32)
 #include <hash_map>
 #endif
+#include "../Reseau/ObjetsGlobaux/PartieServeurs.h"
 
 
 class GameServer;
@@ -28,6 +29,9 @@ public:
     static unsigned int generateNewGameServerId() { return ++mNewGameServerId; }
     static unsigned int getLatestGameServerId() { return mNewGameServerId; }
     static unsigned int getAddedGameServersAmount() { return mAddedGameServersAmount; }
+
+    void callUpdateCallbackFunction(int pServerId, int pGameId, GameStatus pGameStatus) {if(mUpdateCallback) mUpdateCallback(pServerId, pGameId, pGameStatus);}
+    inline void setUpdateCallback(PartieServeursCallback pCallback) {mUpdateCallback = pCallback;}
 private:
     GameServerManager();
     ~GameServerManager();
@@ -35,5 +39,8 @@ private:
     GameServersContainer mGameServersList;
     static unsigned int mAddedGameServersAmount;
     static unsigned int mNewGameServerId;
+
+    // Callback appelee quand le score change dans une partie
+    PartieServeursCallback mUpdateCallback;
 };
 
