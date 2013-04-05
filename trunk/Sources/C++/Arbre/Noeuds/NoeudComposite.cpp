@@ -459,7 +459,7 @@ void NoeudComposite::setPolygonMode( GLenum modePolygones )
 ////////////////////////////////////////////////////////////////////////
 void NoeudComposite::renderReal() const
 {
-
+    if(isVisible())
     {
         glPushMatrix();
         glPushAttrib(GL_CURRENT_BIT | GL_POLYGON_BIT);

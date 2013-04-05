@@ -32,6 +32,7 @@ ArbreRendu::ArbreRendu(Terrain* pField)
 	// On ne veut pas que ce noeud soit sélectionnable.
 	setCanBeSelected(false);
     setField(pField);
+    setVisible(false);
 }
 
 

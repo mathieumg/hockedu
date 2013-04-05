@@ -59,7 +59,7 @@ bool ArbreNoeudLibre::erase( const NoeudAbstrait* noeud )
 ArbreNoeudLibre::ArbreNoeudLibre():
     NoeudComposite(RAZER_KEY_ROOT_TREE)
 {
-
+    setVisible(false);
 }
 
 

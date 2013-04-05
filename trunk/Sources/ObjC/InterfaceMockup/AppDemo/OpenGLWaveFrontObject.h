@@ -30,7 +30,8 @@ struct Extremas {
 	NSString			*sourceMtlFilePath;
 	
 	GLuint				numberOfVertices;
-	Vertex3D			*vertices;	
+	Vertex3D			*vertices;
+	Vertex3D            *faceVertices;
 	GLuint				numberOfFaces;			// Total faces in all groups
 	
 	Vector3D			*surfaceNormals;		// length = numberOfFaces
