@@ -38,7 +38,7 @@ JoueurVirtuel::JoueurVirtuel(std::string nom, unsigned int vitesse, unsigned int
 ///
 /// @fn JoueurVirtuel::JoueurVirtuel( JNIEnv* env, jobject& joueurVirtuel )
 ///
-/// Constructeur qui initialisela le joueur virtuel à partir d'un objet Java.
+/// Constructeur qui initialise le joueur virtuel à partir d'un objet Java.
 ///
 /// @param[in] env : l'environnement Java.
 /// @param[in] joueurVirtuel : un joueur virtuel précédement déclaré en Java
