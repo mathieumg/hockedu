@@ -10,6 +10,7 @@
 
 #pragma once
 #include "aistrat.h"
+#include "AIStratOffensiveRenforcement.h"
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class AIStratOffensiveGauche
@@ -18,16 +19,13 @@
 /// @author Mathieu Parent
 /// @date 2013-03-31
 ///////////////////////////////////////////////////////////////////////////
-class AIStratOffensiveGauche : public AIStrat
+class AIStratOffensiveGauche : public AIStratOffensiveRenforcement
 {
 public:
 	/// Constructeur
 	AIStratOffensiveGauche(const AIMaillet&);
 	/// Destructeur
 	virtual ~AIStratOffensiveGauche();
-	/// Retourne la direction à prendre pour le maillet selon une stratégie offensive
-	virtual Vecteur2 appliquerStrategie( NoeudMaillet* maillet );
-
 /// Attributs
 private:
 	bool tirReussi_;
