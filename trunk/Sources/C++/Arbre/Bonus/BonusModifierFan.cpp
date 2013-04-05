@@ -17,6 +17,7 @@
 #include "Utilitaire.h"
 #include "NodeBonus.h"
 #include "ForceField.h"
+#include "SoundFMOD.h"
 
 const float FanRadius = 8;
 
