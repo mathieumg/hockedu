@@ -17,6 +17,7 @@
 #include "XMLUtils.h"
 #include "Utilitaire.h"
 #include "NoeudRondelle.h"
+#include "Terrain.h"
 
 const Vecteur3 NoeudBut::DEFAULT_SIZE = Vecteur3(30, 10, 5);
 #if WIN32
@@ -96,6 +97,11 @@ void NoeudBut::renderReal() const
     GLuint liste = NULL;
     GestionnaireModeles::obtenirInstance()->obtenirListe(getSkinKey(),liste);
 
+    if(liste == 0)
+    {
+        return;
+    }
+    
     GLint renderMode;
     glGetIntegerv(GL_RENDER_MODE,&renderMode);
     if(renderMode == GL_SELECT)
@@ -103,8 +109,8 @@ void NoeudBut::renderReal() const
         // dont draw goals model when selecting
         return;
     }
-
-    if(liste != 0 && isVisible())
+#endif
+    if(isVisible())
     {
         const Vecteur3& positionPoint = getPosition();
         glTranslatef(positionPoint[VX], positionPoint[VY], 0);
@@ -143,8 +149,18 @@ void NoeudBut::renderReal() const
             glScalef(1, -1, 1);
         }
         glPushAttrib( GL_ALL_ATTRIB_BITS );
-
+#if WIN32
         glCallList(liste);
+#else
+        auto field = getField();
+        if(!field || !field->renderAppleNode(getSkinKey()))
+        {
+            glDisable(GL_BLEND);
+            renderOpenGLES();
+            glEnable(GL_BLEND);
+        }
+#endif
+        
         glPopAttrib();
         glPopMatrix();
 
@@ -158,13 +174,21 @@ void NoeudBut::renderReal() const
             glScalef(1., -1., 1.);
         }
         glPushAttrib( GL_ALL_ATTRIB_BITS );
-        glCallList(liste); 
+#if WIN32
+        glCallList(liste);
+#else
+        if(!field || !field->renderAppleNode(getSkinKey()))
+        {
+            glDisable(GL_BLEND);
+            renderOpenGLES();
+            glEnable(GL_BLEND);
+        }
+#endif
 
         glPopAttrib();
         glPopMatrix();
     }
 
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////

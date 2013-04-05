@@ -46,7 +46,7 @@
     [self AddObject:@"boost":RAZER_KEY_BOOST:&expectedSize];
     
     expectedSize = Vertex3DMake(30, 10, 5);
-    //[self AddObject:@"but_milieu":RAZER_KEY_GOAL:&expectedSize];
+    [self AddObject:@"but":RAZER_KEY_GOAL:&expectedSize];
     
     expectedSize = Vertex3DMake(15, 15, 1);
     //[self AddObject:@"EmptyBonus":RAZER_KEY_BONUS:&expectedSize];
