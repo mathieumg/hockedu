@@ -62,5 +62,8 @@
     <ClInclude Include="..\Interface\FacadeServeurJeu.h">
       <Filter>Source Files\Reseau</Filter>
     </ClInclude>
+    <ClInclude Include="mainServeurJeu.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

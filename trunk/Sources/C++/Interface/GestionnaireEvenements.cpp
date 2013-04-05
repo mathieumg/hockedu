@@ -50,7 +50,7 @@ void GestionnaireEvenements::modifierEtat(const EtatGestion &nouvelEtat)
 		case ETAT_MENU_PRINCIPAL: etatCourant_ = new GestionnaireEtatMenuPrincipal(); break;
 		case ETAT_MODE_EDITION: etatCourant_ = new GestionnaireEtatModeEdition(FacadeModele::getInstance()->getEditionField()); break;
         case ETAT_MODE_JEU: etatCourant_ = new GestionnaireEtatModeJeu(FacadeModele::getInstance()->obtenirPartieCouranteId()); break;
-		case ETAT_MODE_TOURNOI: etatCourant_ = new GestionnaireEtatModeTournoi(); break;
+        case ETAT_MODE_TOURNOI: etatCourant_ = new GestionnaireEtatModeTournoi(FacadeModele::getInstance()->obtenirTournoi()); break;
 		case ETAT_PARTIE_RAPIDE_TERMINEE: etatCourant_ = new GestionnaireEtatPartieRapideTerminee(); break;
         case ETAT_PARTIE_TOURNOI_TERMINEE: etatCourant_ = new GestionnaireEtatPartieTournoiTerminee(); break;
         case ETAT_MODE_SIMULATION: etatCourant_ = new GestionnaireEtatModeSimulation(); break;

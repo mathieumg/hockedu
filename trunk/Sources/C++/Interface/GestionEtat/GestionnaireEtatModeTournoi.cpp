@@ -30,7 +30,7 @@
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-GestionnaireEtatModeTournoi::GestionnaireEtatModeTournoi() : GestionnaireEtatAbstrait()
+GestionnaireEtatModeTournoi::GestionnaireEtatModeTournoi(Tournoi* tournoi) : GestionnaireEtatAbstrait(), mTournoi(tournoi)
 {
 	modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
     GestionnaireAnimations::obtenirInstance()->attach(this);
@@ -50,7 +50,7 @@ GestionnaireEtatModeTournoi::GestionnaireEtatModeTournoi() : GestionnaireEtatAbs
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeTournoi::toucheEnfoncee( EvenementClavier& evenementClavier )
 {
-	ToucheClavier touche = evenementClavier.obtenirTouche();
+	/*ToucheClavier touche = evenementClavier.obtenirTouche();
 	NoeudMaillet* maillet = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
 
 	// Les 4 cas suivants déplacent le maillet du joueur 2
@@ -64,7 +64,44 @@ void GestionnaireEtatModeTournoi::toucheEnfoncee( EvenementClavier& evenementCla
 		maillet->modifierDirection(true,DIR_DROITE);
 
 	if(touche == ConfigScene::obtenirInstance()->obtenirToucheBas())
-		maillet->modifierDirection(true,DIR_BAS);
+		maillet->modifierDirection(true,DIR_BAS);*/
+
+    ToucheClavier touche = evenementClavier.obtenirTouche();
+
+    Partie* wGame = mTournoi->obtenirPartieCourante();
+
+    
+    checkf(wGame);
+    if(wGame)
+    {
+        NoeudMaillet* maillet = wGame->getField()->getRightMallet();
+        checkf(maillet);
+        if(maillet)
+        {
+            // Les 4 cas suivants déplacent le maillet du joueur 2
+            if(touche == ConfigScene::obtenirInstance()->obtenirToucheHaut())
+                maillet->modifierDirection(true,DIR_HAUT);
+
+            if(touche == ConfigScene::obtenirInstance()->obtenirToucheGauche())
+                maillet->modifierDirection(true,DIR_GAUCHE);
+
+            if(touche == ConfigScene::obtenirInstance()->obtenirToucheDroite())
+                maillet->modifierDirection(true,DIR_DROITE);
+
+            if(touche == ConfigScene::obtenirInstance()->obtenirToucheBas())
+                maillet->modifierDirection(true,DIR_BAS);
+        }
+    }
+
+	
+    if(touche == VJAK_SPACE)
+    {
+        FacadeModele::getInstance()->togglePause();
+    }
+	else
+    {
+		toucheSauvegardee_ = touche;
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,20 +118,28 @@ void GestionnaireEtatModeTournoi::toucheEnfoncee( EvenementClavier& evenementCla
 void GestionnaireEtatModeTournoi::toucheRelachee( EvenementClavier& evenementClavier )
 {
 	ToucheClavier touche = evenementClavier.obtenirTouche();
-	NoeudMaillet* maillet = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
+    Partie* wGame = mTournoi->obtenirPartieCourante();
+    checkf(wGame);
+    if(wGame)
+    {
+        NoeudMaillet* maillet = wGame->getField()->getRightMallet();
+        checkf(maillet);
+        if(maillet)
+        {
+            // Les 4 cas suivants déplacent le maillet du joueur 2
+            if(touche == ConfigScene::obtenirInstance()->obtenirToucheHaut())
+                maillet->modifierDirection(false,DIR_HAUT);
 
-	// Les 4 cas suivants déplacent le maillet du joueur 2
-	if(touche == ConfigScene::obtenirInstance()->obtenirToucheHaut())
-		maillet->modifierDirection(false,DIR_HAUT);
+            if(touche == ConfigScene::obtenirInstance()->obtenirToucheGauche())
+                maillet->modifierDirection(false,DIR_GAUCHE);
 
-	if(touche == ConfigScene::obtenirInstance()->obtenirToucheGauche())
-		maillet->modifierDirection(false,DIR_GAUCHE);
+            if(touche == ConfigScene::obtenirInstance()->obtenirToucheDroite())
+                maillet->modifierDirection(false,DIR_DROITE);
 
-	if(touche == ConfigScene::obtenirInstance()->obtenirToucheDroite())
-		maillet->modifierDirection(false,DIR_DROITE);
-
-	if(touche == ConfigScene::obtenirInstance()->obtenirToucheBas())
-		maillet->modifierDirection(false,DIR_BAS);
+            if(touche == ConfigScene::obtenirInstance()->obtenirToucheBas())
+                maillet->modifierDirection(false,DIR_BAS);
+        }
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

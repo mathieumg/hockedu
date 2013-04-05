@@ -54,6 +54,8 @@ namespace UIHeavyClient
 
         private CreditPopup mCreditPopup;
 
+        private SaveServerMapPrompt mSaveServerMapPrompt;
+
         private OpenGLControl mOpenGLControl;
         private WindowsFormsHost mWindowFormsHost;
 
@@ -199,6 +201,8 @@ namespace UIHeavyClient
 
             mCreditPopup = new CreditPopup();
 
+            mSaveServerMapPrompt = new SaveServerMapPrompt();
+
             this.WindowContentControl.Content = mMainMenuControl;
             MainWindowHandler.InitCallbacks();
             MainWindowHandler.GoToMainMenu();
@@ -282,20 +286,6 @@ namespace UIHeavyClient
             }
 
             {
-                System.Windows.Controls.MenuItem testPauseNetwork = new System.Windows.Controls.MenuItem();
-                testPauseNetwork.Header = "Test Pause Game";
-                testPauseNetwork.Click += requestGamePause_Click;
-                debugMenu.Items.Add(testPauseNetwork);
-            }
-
-            {
-                System.Windows.Controls.MenuItem testResumeNetwork = new System.Windows.Controls.MenuItem();
-                testResumeNetwork.Header = "Test Resume Game";
-                testResumeNetwork.Click += requestGameResume_Click;
-                debugMenu.Items.Add(testResumeNetwork);
-            }
-
-            {
                 System.Windows.Controls.MenuItem debugItem = new System.Windows.Controls.MenuItem();
                 debugItem.Header = "Reload Models";
                 debugItem.Click += ReloadModels_Click;
@@ -308,7 +298,7 @@ namespace UIHeavyClient
                 debugItem.Click += TestJSON_Click;
                 debugMenu.Items.Add(debugItem);
             }
-
+            
             {
                 System.Windows.Controls.MenuItem debugItem = new System.Windows.Controls.MenuItem();
                 debugItem.Header = "Switch Play Mode";
@@ -388,7 +378,7 @@ namespace UIHeavyClient
 
         // Tests pour demande de creation d'une partie sur le serveur jeu
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void requestGameCreationServerGame(string pGameName, string pMapName, string pPassword);
+        public static extern void requestGameCreationServerGame(string pGameName, string pMapName, int pMapId, string pPassword);
 
         // Tests pour mise en pause
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -459,40 +449,9 @@ namespace UIHeavyClient
         private void requestGameCreationServeurJeu_Click(object sender, RoutedEventArgs e)
         {
             // Tests pour la creation d'une partie sur le serveur jeu
-            requestGameCreationServerGame("Bob's Game", "MapEnCours.xml", "");
+            requestGameCreationServerGame("Bob's Game", "MapEnCours.xml", 0, "");
         }
 
-        ////////////////////////////////////////////////////////////////////////
-        /// @fn void MainWindow.requestGamePause_Click()
-        ///
-        /// Game pause.
-        /// 
-        /// @param[in] object : The sender.
-        /// @param[in] RoutedEventArgs : The event.
-        ///
-        /// @return void.
-        ////////////////////////////////////////////////////////////////////////
-        private void requestGamePause_Click(object sender, RoutedEventArgs e)
-        {
-            // Tests pour la creation d'une partie sur le serveur jeu
-            requestGamePause();
-        }
-
-        ////////////////////////////////////////////////////////////////////////
-        /// @fn void MainWindow.requestGameResume_Click()
-        ///
-        /// Resume game.
-        /// 
-        /// @param[in] object : The sender.
-        /// @param[in] RoutedEventArgs : The event.
-        ///
-        /// @return void.
-        ////////////////////////////////////////////////////////////////////////
-        private void requestGameResume_Click(object sender, RoutedEventArgs e)
-        {
-            // Tests pour la creation d'une partie sur le serveur jeu
-            requestGameResume();
-        }
 
         [DllImport( @"RazerGame.dll" )]
         static extern bool ActionPerformed( ActionType action );
@@ -892,6 +851,11 @@ namespace UIHeavyClient
         void ShowCreditsPopup(object sender, RoutedEventArgs e)
         {
             mCreditPopup.ShowDialog();
+        }
+
+        private void SaveMapToServer(object sender, RoutedEventArgs e)
+        {
+            mSaveServerMapPrompt.ShowDialog();
         }
     }
 }

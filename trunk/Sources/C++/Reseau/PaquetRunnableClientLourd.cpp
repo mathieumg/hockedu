@@ -43,7 +43,7 @@ int PaquetRunnable::RunnableMailletClient( Paquet* pPaquet )
 
     Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
 
-    if(wGame && wGame->getGameStatus() >= GAME_STARTED)
+    if(wGame && wGame->getGameStatus() == GAME_STARTED)
     {
         Vecteur3 wPos = wPaquet->getPosition();
         NoeudMaillet* maillet;
@@ -151,7 +151,7 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
     case GAME_CONNECTION_ALREADY_CONNECTED:
         {
             // User with this name already connected
-
+            GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_ALREADY_CONNECTED);
 
 
             break;
@@ -159,12 +159,13 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
     case GAME_CONNECTION_GAME_FULL:
         {
             // Partie comporte deja 2 joueurs
-
+            GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_GAME_FULL);
 
         }
         // Dans tous les autres cas, la connection a echouee
     case GAME_CONNECTION_GAME_NOT_FOUND:
         {
+            GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_GAME_NOT_FOUND);
             std::cout << "Game not found with id: " << wPaquet->getGameId() << std::endl;
             break;
         }
@@ -251,7 +252,7 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
         case GAME_EVENT_PAUSE_GAME_USER_DISCONNECTED:
             {
                 // L'autre joueur s'est deconnecte
-                if(wGame->getGameStatus() == GAME_RUNNING || wGame->getGameStatus() == GAME_STARTED)
+                if(wGame->getGameStatus() == GAME_STARTED)
                 {
                     wGame->modifierEnPause(true);
                     GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(true);
@@ -342,11 +343,25 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
             {
                 // Le serveur demande de se mettre en pause
                 // Si on est en cours de jeu, on pause
-                if(wGame->getGameStatus() == GAME_RUNNING || wGame->getGameStatus() == GAME_STARTED)
+                if(wGame->getGameStatus() == GAME_STARTED)
                 {
                     wGame->modifierEnPause(true);
                 }
 
+                break;
+            }
+        case GAME_EVENT_RESET_PUCK:
+            {
+                // Le serveur nous dit de reset la puck (refaire une mise au jeu) apres avoir recu la request d'un des clients
+                int wGameId = wGame->getUniqueGameId();
+                Runnable* r = new Runnable([wGameId](Runnable*){
+                    Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+                    if(wGame)
+                    {
+                        wGame->miseAuJeu(false);
+                    }
+                });
+                RazerGameUtilities::RunOnUpdateThread(r,true);
                 break;
             }
         }
