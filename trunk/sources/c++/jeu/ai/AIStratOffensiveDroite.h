@@ -22,11 +22,11 @@ class AIStratOffensiveDroite : public AIStrat
 {
 public:
 	/// Constructeur
-	AIStratOffensiveDroite(const AIMaillet&);
+    AIStratOffensiveDroite(const AIMaillet&);
 	/// Destructeur
 	virtual ~AIStratOffensiveDroite();
 	/// Retourne la direction à prendre pour le maillet selon une stratégie offensive
-	virtual Vecteur2 appliquerStrategie( NoeudMaillet* maillet );
+	virtual Vecteur2 appliquerStrategie( NoeudMaillet* maillet , Vecteur2 pointVise = Vecteur2());
 
 /// Attributs
 private:

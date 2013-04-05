@@ -351,7 +351,7 @@ void GestionnaireModeles::initialiser()
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_PUCK_TROLL         , "rondelleTroll"              , RazerGameUtilities::CreateListDelegatePuckTroll        ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_BOOST              , "boost"               , RazerGameUtilities::CreateListDelegateBoost            ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_MALLET             , "maillet"                    , RazerGameUtilities::CreateListDelegateMallet           ));
-    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_TABLE_CONTROL_POINT, "point"                      , RazerGameUtilities::CreateListDelegateTableControlPoint));
+    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_TABLE_CONTROL_POINT, "control_point/control_point", RazerGameUtilities::CreateListDelegateTableControlPoint));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_CONTROL_POINT      , "control_point/control_point", RazerGameUtilities::CreateListDelegateControlPoint     ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_ZAMBONI            , "zamboni"                    , RazerGameUtilities::CreateListDelegateZamboni          ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_EMPTY_BONUS        , "EmptyBonus"                 , RazerGameUtilities::CreateListDelegateEmptyBonus       ));
