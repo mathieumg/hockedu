@@ -179,6 +179,7 @@ namespace UIHeavyClient
                     Context.PlayModeControl.DisplayRadioVolume();
                     Context.OnlineLobbyControl.ClearOnlineUsers();
                     CallbackManager.CommitChanges();
+                    Context.RestartGameMenuHandle(false);
                 }
                 else
                 {
