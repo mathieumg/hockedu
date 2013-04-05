@@ -14,7 +14,8 @@
 #include "AFHTTPClient.h"
 #include "VuePerspectiveOrbit.h"
 #include "EditionEventManager.h"
-
+#include <time.h>
+#include <iostream>
 
 
 static Model3DManager* model3DManager = NULL;
@@ -69,10 +70,16 @@ bool RenderNodeCallback(RazerKey key)
 
 @implementation Model
 
-
+float temps = clock();
 
 - (void)render
 {
+    // pour avoir le delta time en secondes
+    float delta = clock()-temps;
+    delta/=1000.f;
+    delta/=1000.f;
+    ((Terrain*)mField)->animerTerrain(delta);
+    temps = clock();
     mView->appliquerVue(1);
     ((Terrain*)mField)->renderField();  
 }

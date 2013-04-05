@@ -53,7 +53,7 @@ NoeudPoint::NoeudPoint( const std::string& typeNoeud, float coordX, float coordY
     mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
 
     /// affichage du noeud avec le modele du control point
-    setDefaultNodeKey(RAZER_KEY_CONTROL_POINT);
+    //setDefaultNodeKey(RAZER_KEY_CONTROL_POINT);
 
 
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
@@ -95,9 +95,7 @@ void NoeudPoint::renderReal() const
 
     // Assignation du mode d'affichage des polygones
     glPolygonMode( GL_FRONT_AND_BACK, mModePolygones );
-#if !__APPLE__
     glTranslatef(0,0,25.f);
-#endif
     // Affichage concret
     NoeudAbstrait::renderReal();
 
