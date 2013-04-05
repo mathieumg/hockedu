@@ -1133,11 +1133,13 @@ bool FacadeModele::passageMenuPrincipal()
 void FacadeModele::reinitialiserPartie()
 {
     Partie* wGame = GameManager::obtenirInstance()->getGame(partieCourante_);
-    if(wGame)
+    if(wGame && !wGame->isNetworkClientGame())
     {
         wGame->reinitialiserPartie();
         wGame->miseAuJeu(true);
     }
+}
+    
 }
 
 ////////////////////////////////////////////////////////////////////////
