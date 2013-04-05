@@ -25,5 +25,6 @@ private:
     bool mGoalScored;
 
     void handleGoalScored( SPJoueurAbstrait pLearningPlayer, SPJoueurAbstrait pOpponent);
+    void handleLearningStart( NoeudMaillet* wRightMallet, NoeudRondelle* wPuck, NoeudMaillet* wLeftMallet);
 };
 

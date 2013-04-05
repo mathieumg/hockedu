@@ -41,30 +41,12 @@ void PartieApprentissage::animer(const float& pTime)
         if(wRightPlayer->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT && (mPreviousPuckPosition[VX] < 0 && wPuckPosition[VX] >= 0))
         {
             //TODO: Handle learning AI stuff
-            if(mGoalScored)
-            {
-                AILearner::obtenirInstance()->terminerSauvegardeNouvelleInfo(AI_OUTPUT_RIEN);
-            }
-            Vecteur3 wAiPosition(wRightMallet->getPosition()),
-                     wAiVelocity(wRightMallet->obtenirVelocite()),
-                     wPuckVelocity(wPuck->obtenirVelocite()),
-                     wOpponentPosition(wLeftMallet->getPosition());
-            LearningAiAction wAction = (LearningAiAction) (rand() % AI_ACTION_NB);
-            AILearner::obtenirInstance()->sauvegarderNouvelleInfo(wAiPosition, wAiVelocity, wPuckPosition, wPuckVelocity, wOpponentPosition, wAction);
+            handleLearningStart(wRightMallet, wPuck, wLeftMallet);
         }
         else if(wLeftPlayer->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT && (mPreviousPuckPosition[VX] > 0 && wPuckPosition[VX] <= 0))
         {
             //TODO: Handle learning AI stuff.
-            if(mGoalScored)
-            {
-                AILearner::obtenirInstance()->terminerSauvegardeNouvelleInfo(AI_OUTPUT_RIEN);
-            }
-            Vecteur3 wAiPosition(wLeftMallet->getPosition()),
-                     wAiVelocity(wLeftMallet->obtenirVelocite()),
-                     wPuckVelocity(wPuck->obtenirVelocite()),
-                     wOpponentPosition(wRightMallet->getPosition());
-            LearningAiAction wAction = (LearningAiAction) (rand() % AI_ACTION_NB);
-            AILearner::obtenirInstance()->sauvegarderNouvelleInfo(wAiPosition, wAiVelocity, wPuckPosition, wPuckVelocity, wOpponentPosition, wAction);
+            handleLearningStart(wLeftMallet, wPuck, wRightMallet);
         }
         mPreviousPuckPosition = wPuckPosition;
     }
@@ -144,4 +126,32 @@ void PartieApprentissage::incrementerPointsJoueurDroit( bool pForceUpdate /*= fa
 {
     handleGoalScored(obtenirJoueurDroit(), obtenirJoueurGauche());
     Partie::incrementerPointsJoueurGauche();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn PartieApprentissage::handleLearningStart( NoeudMaillet* pRightMallet, NoeudRondelle* pPuck, NoeudMaillet* pOpponentMallet, Vecteur3 wPuckPosition )
+///
+/// Description
+///
+/// @param[in] NoeudMaillet * pRightMallet
+/// @param[in] NoeudRondelle * pPuck
+/// @param[in] NoeudMaillet * pOpponentMallet
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void PartieApprentissage::handleLearningStart( NoeudMaillet* pRightMallet, NoeudRondelle* pPuck, NoeudMaillet* pOpponentMallet)
+{
+    if(mGoalScored)
+    {
+        AILearner::obtenirInstance()->terminerSauvegardeNouvelleInfo(AI_OUTPUT_RIEN);
+    }
+    Vecteur3 wAiPosition(pRightMallet->getPosition()),
+        wAiVelocity(pRightMallet->obtenirVelocite()),
+        wPuckPosition(pPuck->getPosition()),
+        wPuckVelocity(pPuck->obtenirVelocite()),
+        wOpponentPosition(pOpponentMallet->getPosition());
+    LearningAiAction wAction = (LearningAiAction) (rand() % AI_ACTION_NB);
+    AILearner::obtenirInstance()->sauvegarderNouvelleInfo(wAiPosition, wAiVelocity, wPuckPosition, wPuckVelocity, wOpponentPosition, wAction);
 }
