@@ -33,7 +33,7 @@
 
 
 GLuint Partie::listePause_ = 0;
-const int Partie::POINTAGE_GAGNANT = 1;
+const int Partie::POINTAGE_GAGNANT = 3;
 
 
 ////////////////////////////////////////////////////////////////////////
