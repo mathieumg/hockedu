@@ -426,11 +426,12 @@ enum {
     }
     float currentScale = [(UIPinchGestureRecognizer*)sender scale];
     float diff = currentScale-__previousScale;
-    if(diff != 0)
+    if(diff > 1.5 || diff < 0.5)
     {
         [mModel zoom:diff];
+        __previousScale = currentScale; 
     }
-    __previousScale = currentScale; 
+    
     
 }
 

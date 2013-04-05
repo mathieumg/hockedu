@@ -14,8 +14,7 @@
 #include "NoeudRondelle.h"
 #include "AIMaillet.h"
 #include "JoueurVirtuel.h"
-#include "AIStrat.h"
-#include "AIStratOffensiveRenforcement.h"
+
 
 ////////////////////////////////////////////////////////////////////////
 ///

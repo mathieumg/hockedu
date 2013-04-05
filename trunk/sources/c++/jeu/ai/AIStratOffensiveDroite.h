@@ -22,7 +22,7 @@ class AIStratOffensiveDroite : public AIStratOffensiveRenforcement
 {
 public:
 	/// Constructeur
-	AIStratOffensiveDroite(const AIMaillet&);
+    AIStratOffensiveDroite(const AIMaillet&);
 	/// Destructeur
 	virtual ~AIStratOffensiveDroite();
 /// Attributs
