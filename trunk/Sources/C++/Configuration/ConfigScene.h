@@ -73,8 +73,8 @@ public:
 	void supprimerChanson(std::string nomCanal, std::string nomChanson);
 
     // Getter and setter for house display
-    bool GetIsHouseDisplay() const { return mIsHouseDisplay; }
-    void SetIsHouseDisplay(bool val) { mIsHouseDisplay = val; }
+    inline bool GetIsHouseDisplay() const { return mIsHouseDisplay; }
+    void SetIsHouseDisplay(bool val);
 
 	/// Lecture du fichier XML de musiques
 	std::vector<std::string> obtenirListeCanaux();

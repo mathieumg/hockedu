@@ -7,6 +7,9 @@
 /// @addtogroup razergame RazerGame
 /// @{
 ////////////////////////////////////////////////////////////////////////////////////
+#if WIN32
+#include "GestionnaireModeles.h"
+#endif
 
 #include "ConfigScene.h"
 #include "VisiteurEcrireXML.h"
@@ -29,6 +32,7 @@
 #include "LumiereDirectionnelle.h"
 #include "LumiereSpot.h"
 #include "ExceptionJeu.h"
+
 
 SINGLETON_DECLARATION_CPP(ConfigScene);
 
@@ -821,6 +825,23 @@ void ConfigScene::rafraichirLumiere()
 	{
 		conteneurLumiere_[i]->initLumiere();
 	}
+}
+
+void ConfigScene::SetIsHouseDisplay( bool val )
+{
+    mIsHouseDisplay = val;
+
+
+#if WIN32
+    if(val)
+    {
+        GestionnaireModeles::obtenirInstance()->ModifierListe(RAZER_KEY_HOUSE,GestionnaireModeles::obtenirInstance()->mHouseList);
+    }
+    else
+    {
+        GestionnaireModeles::obtenirInstance()->ModifierListe(RAZER_KEY_HOUSE,0);
+    }
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////
