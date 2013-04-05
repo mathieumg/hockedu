@@ -650,6 +650,9 @@
     <ClCompile Include="Jeu\AI\AIStratOffensiveRenforcement.cpp">
       <Filter>Sources Files\Jeu\AI</Filter>
     </ClCompile>
+    <ClCompile Include="Tests\AIRenforcementTest.cpp">
+      <Filter>Sources Files\Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1224,6 +1227,9 @@
     </ClInclude>
     <ClInclude Include="Jeu\AI\AIStratOffensiveRenforcement.h">
       <Filter>Sources Files\Jeu\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\AIRenforcementTest.h">
+      <Filter>Sources Files\Tests</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

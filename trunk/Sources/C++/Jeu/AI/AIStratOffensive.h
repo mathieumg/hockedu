@@ -26,7 +26,7 @@ public:
 	/// Destructeur
 	virtual ~AIStratOffensive();
 	/// Retourne la direction à prendre pour le maillet selon une stratégie offensive
-	virtual Vecteur2 appliquerStrategie( NoeudMaillet* maillet , Vecteur2 pointVise = Vecteur2() );
+	virtual Vecteur2 appliquerStrategie( NoeudMaillet* maillet );
 
 /// Attributs
 private:
