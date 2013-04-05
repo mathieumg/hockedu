@@ -96,6 +96,8 @@ extern "C"
     __declspec(dllexport) void GenerateDefaultField();
     __declspec(dllexport) bool ValidateField();
     __declspec(dllexport) void ResetCamera();
+    __declspec(dllexport) void LaunchAchievementEvent(AchievementEvent pEvent);
+
 
     /// Achievements
     __declspec(dllexport) void SetAchievementUnlocked( AchievementUnlockCallBack callback );
@@ -158,6 +160,10 @@ extern "C"
     // Online lobby calls
     __declspec(dllexport) int GetNbrServerGames();
     __declspec(dllexport) void GetServersGames(OnlineGameInfos* pGames, int pNbrGames);
+
+    // House model
+    __declspec(dllexport) bool GetIsHouseDisplay();
+    __declspec(dllexport) void SetIsHouseDisplay(bool pIsHouseDisplay);
 
     ///////////////////////////////////////////////////////////////////////////////
     // User mouse and keyboard events

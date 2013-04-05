@@ -7,6 +7,9 @@
 /// @addtogroup razergame RazerGame
 /// @{
 ////////////////////////////////////////////////////////////////////////////////////
+#if WIN32
+#include "GestionnaireModeles.h"
+#endif
 
 #include "ConfigScene.h"
 #include "VisiteurEcrireXML.h"
@@ -30,6 +33,7 @@
 #include "LumiereSpot.h"
 #include "ExceptionJeu.h"
 
+
 SINGLETON_DECLARATION_CPP(ConfigScene);
 
 const std::string ConfigScene::FICHIER_CONFIGURATION = "Configuration.xml";
@@ -47,7 +51,7 @@ const char ConfigScene::ETIQUETTE_ARBRE[] = {"Arbre"};
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-ConfigScene::ConfigScene(): toucheHaut_(VJAK_W), toucheBas_(VJAK_S), toucheGauche_(VJAK_A), toucheDroite_(VJAK_D), mAutoSaveEnable(true), mAutoSaveDelai(30)
+ConfigScene::ConfigScene(): toucheHaut_(VJAK_W), toucheBas_(VJAK_S), toucheGauche_(VJAK_A), toucheDroite_(VJAK_D), mAutoSaveEnable(true), mAutoSaveDelai(30), mIsHouseDisplay(false)
 {
 
 	// Lumiere 0 qui est la lumiere ambiante
@@ -232,6 +236,7 @@ void ConfigScene::enregistrerConfiguration () const
     XMLUtils::writeAttribute(elementScene,"toucheDroite", toucheDroite_);
     XMLUtils::writeAttribute(elementScene,"AutoSave", IsAutoSaveEnable());
     XMLUtils::writeAttribute(elementScene,"AutoSaveDelai", getAutoSaveDelai());
+    XMLUtils::writeAttribute(elementScene, "DisplayHouse", GetIsHouseDisplay());
 	
 	// Enregistrement du volumes de la musique et des effets
     XMLUtils::writeAttribute(elementScene,"volSong", SoundFMOD::obtenirInstance()->getAppSongVolume());
@@ -290,6 +295,8 @@ void ConfigScene::chargerConfiguration( )
 
                     XMLUtils::readAttribute(elementScene,"AutoSave", mAutoSaveEnable);
                     XMLUtils::readAttribute(elementScene,"AutoSaveDelai", mAutoSaveDelai);
+
+                    XMLUtils::readAttribute(elementScene, "DisplayHouse", mIsHouseDisplay);
                 }
             }
         }
@@ -818,6 +825,23 @@ void ConfigScene::rafraichirLumiere()
 	{
 		conteneurLumiere_[i]->initLumiere();
 	}
+}
+
+void ConfigScene::SetIsHouseDisplay( bool val )
+{
+    mIsHouseDisplay = val;
+
+
+#if WIN32
+    if(val)
+    {
+        GestionnaireModeles::obtenirInstance()->ModifierListe(RAZER_KEY_HOUSE,GestionnaireModeles::obtenirInstance()->mHouseList);
+    }
+    else
+    {
+        GestionnaireModeles::obtenirInstance()->ModifierListe(RAZER_KEY_HOUSE,0);
+    }
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////

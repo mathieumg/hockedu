@@ -58,7 +58,7 @@ int PaquetRunnable::RunnableMailletClient( Paquet* pPaquet )
         // Si maillet pas encore cree (ex: transition vers le mode jeu en cours et deja reception de paquets)
         if(maillet)
         {
-            JoueurAbstrait* wJoueur = maillet->obtenirJoueur();
+            SPJoueurAbstrait wJoueur = maillet->obtenirJoueur();
             if(wJoueur->obtenirType() == JOUEUR_NETWORK)
             {
                 int wGameId = wPaquet->getGameId();

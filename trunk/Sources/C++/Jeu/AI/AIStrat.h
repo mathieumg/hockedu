@@ -32,7 +32,7 @@ public:
 	/// Destructeur virtuel
 	virtual ~AIStrat();
 	/// Méthode réimplémenté par les classes dérivés qui contient la stratégie selon le cas
-	virtual Vecteur2 appliquerStrategie(NoeudMaillet* maillet, Vecteur2 pointVise = Vecteur2())=0;
+	virtual Vecteur2 appliquerStrategie(NoeudMaillet* maillet)=0;
 
 /// Attributs
 protected:

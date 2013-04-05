@@ -170,6 +170,8 @@ namespace UIHeavyClient
                 if (mServerMapPrompt.SelectedMap != null)
                 {
                     mFeedbackLabel.Content = "Loading, please wait...";
+                    HandleUIButtons(false);
+
                     mHttpManager.downloadMap(12, mServerMapPrompt.SelectedMap.id, HandleDownloadedMap);
                 }
             }
@@ -201,6 +203,8 @@ namespace UIHeavyClient
                     if (mPasswordPrompt.OkIsClicked)
                     {
                         mFeedbackLabel.Content = "Loading, please wait...";
+                        HandleUIButtons(false);
+
                         connectPartieServerGame(selected.Value.id, selected.Value.serverId, mPasswordPrompt.Password);
                         mGameWaitingToConnect = selected.Value;
                         mIsWaitingForOnlineGame = true;   
@@ -211,6 +215,8 @@ namespace UIHeavyClient
                 else
                 {
                     mFeedbackLabel.Content = "Loading, please wait...";
+                    HandleUIButtons(false);
+
                     connectPartieServerGame(selected.Value.id, selected.Value.serverId, "");
                     mGameWaitingToConnect = selected.Value;
                     mIsWaitingForOnlineGame = true;
@@ -237,6 +243,7 @@ namespace UIHeavyClient
             if (mGameCreationPrompt.OkIsClicked)
             {
                 mFeedbackLabel.Content = "Loading, please wait...";
+                HandleUIButtons(false);
                 requestGameCreationServerGame(mGameCreationPrompt.GameName, mGameCreationPrompt.Map.name, mGameCreationPrompt.Map.id, mGameCreationPrompt.Password);
                 mGameWaitingToConnect = new OnlineGameInfos(-1, 0, mGameCreationPrompt.GameName, "", mGameCreationPrompt.Map.name, mGameCreationPrompt.Password != "", "");
                 mIsWaitingForOnlineGame = true;
@@ -260,6 +267,7 @@ namespace UIHeavyClient
             if (mOnlineGameListView.Items.Count > 0)
             {
                 mFeedbackLabel.Content = "Loading, please wait...";
+                HandleUIButtons(false);
 
                 Random rand = new Random();
                 OnlineGameInfos? randomGame = (mOnlineGameListView.Items[rand.Next(mOnlineGameListView.Items.Count - 1)] as OnlineGameInfos?);
@@ -327,6 +335,7 @@ namespace UIHeavyClient
                     MainWindowHandler.LoadPlayingMap(pOutputPath);
                     // On vient de recevoir la map download, on veut maintenant passer au mode jeu
                     MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_JEU);
+                    MainWindowHandler.Context.RestartGameMenuHandle(true);
                 }
             });
         }
@@ -430,6 +439,7 @@ namespace UIHeavyClient
                                 MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
 
                                 MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("You are already connected to this game...");
+                                MainWindowHandler.Context.OnlineLobbyControl.HandleUIButtons(true);
                                 MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
                             }
                         });
@@ -445,6 +455,7 @@ namespace UIHeavyClient
                                 MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
 
                                 MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("This game already have two player... try another one!");
+                                MainWindowHandler.Context.OnlineLobbyControl.HandleUIButtons(true);
                                 MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
                             }
                         });
@@ -460,6 +471,7 @@ namespace UIHeavyClient
                                 MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
 
                                 MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("This game doesn't exist anymore... try another one!");
+                                MainWindowHandler.Context.OnlineLobbyControl.HandleUIButtons(true);
                                 MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
                             }
                         });
@@ -481,6 +493,8 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public void RequestGamesList()
         {
+            mFeedbackLabel.Content = "";
+            HandleUIButtons(true);
             mOnlineGameListView.Items.Clear();
             requestGamesList();
         }
@@ -713,6 +727,16 @@ namespace UIHeavyClient
         public void DisplayFeedBack(string pMessage)
         {
             mFeedbackLabel.Content = pMessage;
+        }
+
+        public void HandleUIButtons(bool pIsEnable)
+        {
+            mCreateButton.IsEnabled = pIsEnable;
+            mJoinButton.IsEnabled = pIsEnable;
+            mRandomButton.IsEnabled = pIsEnable;
+            mRefreshButton.IsEnabled = pIsEnable;
+            mEditionModeButton.IsEnabled = pIsEnable;
+            mBackToMainButton.IsEnabled = pIsEnable;
         }
     }
 }

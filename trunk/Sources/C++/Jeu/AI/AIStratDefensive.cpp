@@ -56,7 +56,7 @@ AIStratDefensive::~AIStratDefensive()
 /// @return Vecteur2 :  la direction
 ///
 ////////////////////////////////////////////////////////////////////////
-Vecteur2 AIStratDefensive::appliquerStrategie( NoeudMaillet* maillet, Vecteur2 pointVise )
+Vecteur2 AIStratDefensive::appliquerStrategie( NoeudMaillet* maillet)
 {
 	NoeudRondelle* rondelle;
 	if(!maillet->getField() || !( rondelle = maillet->getField()->getPuck() ) )
