@@ -422,38 +422,47 @@ namespace UIHeavyClient
                     break;
                     case EventCodes.GAME_CONNECTION_RESPONSE_ALREADY_CONNECTED:
                     {
-                        // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
-                        if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
-                            MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
+                            // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
+                            if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                            {
+                                MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
 
-                            MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("You are already connected to this game...");
-                            MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
-                        }
+                                MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("You are already connected to this game...");
+                                MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
+                            }
+                        });
                     }
                     break;
                     case EventCodes.GAME_CONNECTION_RESPONSE_GAME_FULL:
                     {
-                        // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
-                        if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
-                            MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
+                            // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
+                            if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                            {
+                                MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
 
-                            MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("This game already have two player... try another one!");
-                            MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
-                        }
+                                MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("This game already have two player... try another one!");
+                                MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
+                            }
+                        });
                     }
                     break;
                     case EventCodes.GAME_CONNECTION_RESPONSE_GAME_NOT_FOUND:
                     {
-                        // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
-                        if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
-                            MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
+                            // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
+                            if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                            {
+                                MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
 
-                            MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("This game doesn't exist anymore... try another one!");
-                            MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
-                        }
+                                MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("This game doesn't exist anymore... try another one!");
+                                MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
+                            }
+                        });
                     }
                     break;
                     default: break;
