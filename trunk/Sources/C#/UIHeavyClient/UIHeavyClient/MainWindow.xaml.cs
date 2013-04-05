@@ -857,6 +857,11 @@ namespace UIHeavyClient
         {
             mSaveServerMapPrompt.ShowDialog();
         }
+
+        public void RestartGameMenuHandle(bool pMustBeCollapse)
+        {
+            mRestartGameMenuItem.Visibility = pMustBeCollapse ? Visibility.Collapsed : Visibility.Visible;
+        }
     }
 }
 

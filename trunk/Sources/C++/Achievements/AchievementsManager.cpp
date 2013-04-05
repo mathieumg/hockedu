@@ -79,6 +79,7 @@ void AchievementsManager::CreateAchievements()
 {
     mAchievementProgress[ACHIEVEMENTS_START_APPLICATION] = new AchievementStartApp();
     mAchievementProgress[ACHIEVEMENTS_GAME_WON_L1] = new AchievementGameWon();
+    mAchievementProgress[ACHIEVEMENTS_AI_CREATION_L1] = new AchievementAICreation();
 
 
     // Initialisation de base des niveaux

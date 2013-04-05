@@ -96,6 +96,8 @@ extern "C"
     __declspec(dllexport) void GenerateDefaultField();
     __declspec(dllexport) bool ValidateField();
     __declspec(dllexport) void ResetCamera();
+    __declspec(dllexport) void LaunchAchievementEvent(AchievementEvent pEvent);
+
 
     /// Achievements
     __declspec(dllexport) void SetAchievementUnlocked( AchievementUnlockCallBack callback );

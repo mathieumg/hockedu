@@ -17,7 +17,7 @@
             </MenuItem>
             <MenuItem Header="Game Actions" Name="mGameActionsMenu" Visibility="Collapsed">
                 <MenuItem Header="Pause Game" Click="PauseGameClick" />
-                <MenuItem Header="Restart Game" Click="RestartGameClick" />
+                <MenuItem Header="Restart Game" Click="RestartGameClick" Name="mRestartGameMenuItem"/>
                 <MenuItem Header="Reset Puck"   Click="ResetPuckClick" />
                 <MenuItem Header="Replay last 10s (Ctrl + R)"  Click="ReplayClick" />
             </MenuItem>
