@@ -102,23 +102,17 @@ int mainServeurJeu(std::string pMasterServerIp)  {
         // Apres on essaie de mettre une adresse residentielle (192.168.xxx.xxx)
         // Sinon on met 127.0.0.1 (on ne change rien)
 
-        try 
+        char* wIp = ObtenirAdresseIpLocaleAssociee("132.207.0.0");
+        if(strlen(wIp) == 0)
         {
-            char* wIp = ObtenirAdresseIpLocaleAssociee("132.207.0.0");
-            wMasterServerIP = std::string(wIp);
-            delete wIp;
-        }
-        catch(...)
-        {
-            try 
+            wIp = ObtenirAdresseIpLocaleAssociee("192.168.0.0");
+            if(strlen(wIp) == 0)
             {
-                char* wIp = ObtenirAdresseIpLocaleAssociee("192.168.0.0");
-                wMasterServerIP = std::string(wIp);
-                delete wIp;
+                wIp = "127.0.0.1";
             }
-            catch(...) {}
         }
-        
+        wMasterServerIP = std::string(wIp);
+        delete wIp;
 
     }
 

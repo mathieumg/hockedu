@@ -127,7 +127,7 @@ void RelayeurMessage::relayerPaquetGame( int pGameId, Paquet* pPaquet, Connectio
     GestionnaireReseau::obtenirInstance()->getController()->getPlayersInGame(pGameId, wPlayersList);
     
     
-    pPaquet->setNbAssociatedQueries(wPlayersList.size());
+    pPaquet->setNbAssociatedQueries((int)wPlayersList.size());
 
     for(auto it = wPlayersList.begin(); it != wPlayersList.end(); ++it)
     {

@@ -498,6 +498,31 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
                 }
                 break;
             }
+        case GAME_EVENT_PAUSE_GAME_USER_DISCONNECTED:
+            {
+                // Client se deconnecte, on doit le handle de la meme facon que si l'app crash
+                int wGameId = wGame->getUniqueGameId();
+                bool wPlayerLeft = wPaquet->getEventOnPlayerLeft();
+                Runnable* r = new Runnable([wGameId, wPlayerLeft](Runnable*){
+                    Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+                    if(wGame)
+                    {
+                        // On va chercher le bon socket pour handle la disconnection dessus
+                        SPSocket wSocket;
+                        if(wPlayerLeft)
+                        {
+                            wSocket = GestionnaireReseau::obtenirInstance()->getSocket(wGame->obtenirNomJoueurGauche(), TCP);
+                        }
+                        else
+                        {
+                            wSocket = GestionnaireReseau::obtenirInstance()->getSocket(wGame->obtenirNomJoueurDroit(), TCP);
+                        }
+                        GestionnaireReseau::obtenirInstance()->getController()->handleDisconnectDetection(wSocket);
+                    }
+                });
+                RazerGameUtilities::RunOnUpdateThread(r,true);
+                break;
+            }
         }
     }
 

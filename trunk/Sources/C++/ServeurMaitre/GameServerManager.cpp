@@ -26,7 +26,7 @@ void CallbackPartieServeursUpdate(int pServerId, int pGameId, GameStatus pGameSt
             {
                 bool wReturnValue = CommunicateurBD::obtenirInstance()->addGameResult(wGame->getPlayer1Name(), wGame->getPlayer2Name(), wGame->getPlayer1Score(), wGame->getPlayer2Score(), (int) wGame->getTime());
                 wReturnValue ? (std::cout << "Sauvegarde dans la BD reussie." << std::endl) : (std::cout << "Sauvegarde dans la BD echouee." << std::endl);
-                checkf(wReturnValue);
+                
             }
 
 

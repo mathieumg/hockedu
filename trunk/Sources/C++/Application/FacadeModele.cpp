@@ -900,6 +900,7 @@ void FacadeModele::ClearCurrentGame()
     if(tournoi_)
         tournoi_->modifierEstEnCours(false);
 
+
     Partie* wGame = GameManager::obtenirInstance()->getGame(partieCourante_);
     if(wGame)
     {
@@ -909,6 +910,8 @@ void FacadeModele::ClearCurrentGame()
             GameManager::obtenirInstance()->removeGame(partieCourante_);
         }
     }
+
+    
 }
 
 ////////////////////////////////////////////////////////////////////////
