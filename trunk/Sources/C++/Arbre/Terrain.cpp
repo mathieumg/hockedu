@@ -329,6 +329,7 @@ void Terrain::initialiserArbreRendu()
     {
         mRenderTree = new ArbreRendu(this);
         NoeudAbstrait* piece = new NodeModelRender(RazerGameUtilities::NOM_HOUSE);
+        piece->setSkinKey(RAZER_KEY_HOUSE);
         mRenderTree->add(piece);
         if(IsGameField())
         {
@@ -377,6 +378,7 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
     {
         mRenderTree = new ArbreRendu(this);
         NoeudAbstrait* piece = new NodeModelRender(RazerGameUtilities::NOM_HOUSE);
+        piece->setSkinKey(RAZER_KEY_HOUSE);
         mRenderTree->add(piece);
         if(IsGameField())
         {

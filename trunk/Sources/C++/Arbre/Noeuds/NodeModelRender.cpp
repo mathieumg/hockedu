@@ -24,6 +24,7 @@ CreateListDelegateImplementation(Zamboni)
     return GestionnaireModeles::CreerListe(pModel);
 }
 #endif
+#include "AideGL.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -72,6 +73,7 @@ void NodeModelRender::renderReal() const
 {
 	// Appel à la version de la classe de base pour l'affichage des enfants.
 	NoeudComposite::renderReal();
+    aidegl::verifierErreurOpenGL();
 }
 
 

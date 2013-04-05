@@ -159,6 +159,10 @@ extern "C"
     __declspec(dllexport) int GetNbrServerGames();
     __declspec(dllexport) void GetServersGames(OnlineGameInfos* pGames, int pNbrGames);
 
+    // House model
+    __declspec(dllexport) bool GetIsHouseDisplay();
+    __declspec(dllexport) void SetIsHouseDisplay(bool pIsHouseDisplay);
+
     ///////////////////////////////////////////////////////////////////////////////
     // User mouse and keyboard events
     __declspec(dllexport) void OnKeyPressed(int key);

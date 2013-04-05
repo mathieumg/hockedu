@@ -19,7 +19,7 @@
 ////////////////////////////////////////////////////////////////////////
 AIStratOffensiveRenforcement::AIStratOffensiveRenforcement( const AIMaillet& context):AIStrat(context)
 {
-
+	tirReussi_ = (unsigned int)(rand() % 100 + 1) > context_.obtenirJv().obtenirProbabiliteEchec();
 }
 ////////////////////////////////////////////////////////////////////////
 ///
