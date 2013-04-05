@@ -193,6 +193,7 @@ namespace UIHeavyClient
         private void mVolumeSlider_ValueChanged_1(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             SetSoundVolume((int)(sender as Slider).Value);
+            CheckForMuteAchievement();
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -208,6 +209,15 @@ namespace UIHeavyClient
         private void mEffectSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             SetEffectVolume((int)(sender as Slider).Value);
+            CheckForMuteAchievement();
+        }
+
+        private void CheckForMuteAchievement()
+        {
+            if (mVolumeSlider.Value == 0 && mEffectSlider.Value == 0)
+            {
+                MainWindowHandler.LaunchAchievementEvent(AchievementEvent.ACHIEVEMENT_EVENT_MUTE);
+            }
         }
 
         private void mHouseCheckBox_Checked(object sender, RoutedEventArgs e)

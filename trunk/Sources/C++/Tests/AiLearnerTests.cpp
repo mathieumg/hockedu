@@ -69,7 +69,7 @@ void AiLearnerTests::testAddNewDataAndSaveRawBinary()
     // Ajouter des nouveaux entries
     AILearner* wInstance = AILearner::obtenirInstance();
 
-    for(int i=0; i<500000; ++i)
+    for(int i=0; i<500; ++i)
     {
         LearningAiAction wRandomAction = (LearningAiAction) (rand() % 5);
         wInstance->sauvegarderNouvelleInfo(

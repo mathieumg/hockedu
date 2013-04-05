@@ -458,7 +458,7 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
                     throw ExceptionJeu("Combinaison de joueurs invalides");
                     break;
                 }
-                wMaillets[i]->setPlayer(wJoueurs[i].get());
+                wMaillets[i]->setPlayer(wJoueurs[i]);
                 wMaillets[i]->buildMouseJoint();
             }
         }

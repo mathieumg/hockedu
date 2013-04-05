@@ -11,12 +11,14 @@
 #import "OpenGLWaveFrontObject.h"
 
 @interface Model3DManager ()
-@property (nonatomic, retain) NSMutableDictionary *mModels;
+@property (nonatomic, retain) NSMutableArray *mModels;
 @end
 
 @implementation Model3DManager
 
 @synthesize mModels;
+
+
 
 -(void)AddObject:(NSString*)name :(RazerKey)key :(void*)expectedSize
 {
@@ -26,18 +28,18 @@
 	theObject.currentPosition = position;
     [theObject calculateScale: *(Vertex3D*)expectedSize];
     
-    NSNumber* keyInt = [NSNumber numberWithInt:key];
-    [mModels setObject:theObject forKey:keyInt];
-    //[keyInt release];
-
+    [mModels setObject:theObject atIndexedSubscript:key];
 	[theObject release];
 }
 
 
 -(id)init
-{
-    self.mModels = [NSMutableDictionary dictionary];
-    
+{    
+    self.mModels = [NSMutableArray arrayWithCapacity:NB_RAZER_KEYS];
+    for(int i=0; i<NB_RAZER_KEYS; ++i)
+    {
+        [mModels addObject:[NSNull null]];
+    }
     
     Vertex3D expectedSize = Vertex3DMake(20, 20, 1);
     [self AddObject:@"portal":RAZER_KEY_PORTAL:&expectedSize];
@@ -47,9 +49,6 @@
     
     expectedSize = Vertex3DMake(30, 10, 5);
     [self AddObject:@"but":RAZER_KEY_GOAL:&expectedSize];
-    
-    expectedSize = Vertex3DMake(15, 15, 1);
-    //[self AddObject:@"EmptyBonus":RAZER_KEY_BONUS:&expectedSize];
     
     expectedSize = Vertex3DMake(20, 20, 20);
     [self AddObject:@"maillet":RAZER_KEY_MALLET:&expectedSize];
@@ -72,14 +71,13 @@
 
 - (bool)renderObject:(RazerKey)type
 {
-    //return false;
-    NSNumber* key = [NSNumber numberWithInt:type];
-    OpenGLWaveFrontObject *theObject = [mModels objectForKey:key];
+    id theObject = [mModels objectAtIndex:type];
     
     bool ret = false;
-    if(theObject != nil)
+    if(theObject != nil && theObject != [NSNull null])
     {
-        [theObject drawSelf];
+        OpenGLWaveFrontObject * model = theObject;
+        [model drawSelf];
         ret = true;
     }
     
