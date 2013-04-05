@@ -129,6 +129,8 @@
 		4E9CE9FE16FBBA4B00B04A12 /* LoadMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E9CE9FC16FBBA4B00B04A12 /* LoadMapViewController.m */; };
 		4E9CE9FF16FBBA4B00B04A12 /* LoadMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E9CE9FD16FBBA4B00B04A12 /* LoadMapViewController.xib */; };
 		4E9DDDB216FF842C0081B35D /* VisitorGatherProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E9DDDB016FF842C0081B35D /* VisitorGatherProperties.cpp */; };
+		4EA20695170F68F00078BB91 /* but.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4EA20693170F68F00078BB91 /* but.mtl */; };
+		4EA20696170F68F00078BB91 /* but.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4EA20694170F68F00078BB91 /* but.obj */; };
 		4EA45524170B6812009D680D /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA45510170B6812009D680D /* Camera.cpp */; };
 		4EA45525170B6812009D680D /* Projection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA45512170B6812009D680D /* Projection.cpp */; };
 		4EA45526170B6812009D680D /* ProjectionOrtho.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA45514170B6812009D680D /* ProjectionOrtho.cpp */; };
@@ -154,14 +156,8 @@
 		4EAF3DF6170AAC1E00B3C34E /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF3DF5170AAC1E00B3C34E /* Settings.bundle */; };
 		4EB7EA7916EFBE4100493722 /* VisiteurFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7EA7716EFBE4100493722 /* VisiteurFunction.cpp */; };
 		4EC7359D17015F85002FCF4C /* Solution_Defines.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7359C17015F85002FCF4C /* Solution_Defines.cpp */; };
-		4ED0E8331702B5D40043DF70 /* but_milieu.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8271702B5D40043DF70 /* but_milieu.mtl */; };
-		4ED0E8341702B5D40043DF70 /* but_milieu.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8281702B5D40043DF70 /* but_milieu.obj */; };
-		4ED0E8351702B5D40043DF70 /* EmptyBonus.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8291702B5D40043DF70 /* EmptyBonus.mtl */; };
-		4ED0E8361702B5D40043DF70 /* EmptyBonus.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E82A1702B5D40043DF70 /* EmptyBonus.obj */; };
 		4ED0E8391702B5D40043DF70 /* muret.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E82D1702B5D40043DF70 /* muret.mtl */; };
 		4ED0E83A1702B5D40043DF70 /* muret.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E82E1702B5D40043DF70 /* muret.obj */; };
-		4ED0E8511702B8A80043DF70 /* point.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E84F1702B8A80043DF70 /* point.mtl */; };
-		4ED0E8521702B8A80043DF70 /* point.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED0E8501702B8A80043DF70 /* point.obj */; };
 		4ED4BC3516FEED3200227F1E /* FieldModificationStrategyAddNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4BC3116FEED3200227F1E /* FieldModificationStrategyAddNode.cpp */; };
 		4ED4BC3616FEED3200227F1E /* FieldModificationStrategyAddWall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4BC3316FEED3200227F1E /* FieldModificationStrategyAddWall.cpp */; };
 		4ED864AE170E1F0000ADBFAD /* maillet.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 4ED864AB170E1F0000ADBFAD /* maillet.mtl */; };
@@ -455,6 +451,8 @@
 		4E9DDDB116FF842C0081B35D /* VisitorGatherProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisitorGatherProperties.h; sourceTree = "<group>"; };
 		4EA0DAF616FFDA7900C0502A /* PositionObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PositionObserver.h; sourceTree = "<group>"; };
 		4EA0DAF716FFDA7900C0502A /* ReplayObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplayObserver.h; sourceTree = "<group>"; };
+		4EA20693170F68F00078BB91 /* but.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = but.mtl; sourceTree = "<group>"; };
+		4EA20694170F68F00078BB91 /* but.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = but.obj; sourceTree = "<group>"; };
 		4EA45510170B6812009D680D /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 		4EA45511170B6812009D680D /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		4EA45512170B6812009D680D /* Projection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Projection.cpp; sourceTree = "<group>"; };
@@ -501,14 +499,8 @@
 		4EC1626D16F81A8C00577704 /* BonusModifierBlockGoal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonusModifierBlockGoal.h; sourceTree = "<group>"; };
 		4EC1626F16F81F8000577704 /* RunnableBreaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunnableBreaker.h; sourceTree = "<group>"; };
 		4EC7359C17015F85002FCF4C /* Solution_Defines.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Solution_Defines.cpp; sourceTree = "<group>"; };
-		4ED0E8271702B5D40043DF70 /* but_milieu.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = but_milieu.mtl; path = ../../../../Content/media/but_milieu.mtl; sourceTree = "<group>"; };
-		4ED0E8281702B5D40043DF70 /* but_milieu.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = but_milieu.obj; path = ../../../../Content/media/but_milieu.obj; sourceTree = "<group>"; };
-		4ED0E8291702B5D40043DF70 /* EmptyBonus.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EmptyBonus.mtl; path = ../../../../Content/media/EmptyBonus.mtl; sourceTree = "<group>"; };
-		4ED0E82A1702B5D40043DF70 /* EmptyBonus.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = EmptyBonus.obj; path = ../../../../Content/media/EmptyBonus.obj; sourceTree = "<group>"; };
-		4ED0E82D1702B5D40043DF70 /* muret.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = muret.mtl; path = ../../../../Content/media/muret.mtl; sourceTree = "<group>"; };
-		4ED0E82E1702B5D40043DF70 /* muret.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = muret.obj; path = ../../../../Content/media/muret.obj; sourceTree = "<group>"; };
-		4ED0E84F1702B8A80043DF70 /* point.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = point.mtl; path = ../../../../Content/media/point.mtl; sourceTree = "<group>"; };
-		4ED0E8501702B8A80043DF70 /* point.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = point.obj; path = ../../../../Content/media/point.obj; sourceTree = "<group>"; };
+		4ED0E82D1702B5D40043DF70 /* muret.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = muret.mtl; path = ../muret.mtl; sourceTree = "<group>"; };
+		4ED0E82E1702B5D40043DF70 /* muret.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = muret.obj; path = ../muret.obj; sourceTree = "<group>"; };
 		4ED4BC3116FEED3200227F1E /* FieldModificationStrategyAddNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyAddNode.cpp; sourceTree = "<group>"; };
 		4ED4BC3216FEED3200227F1E /* FieldModificationStrategyAddNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FieldModificationStrategyAddNode.h; sourceTree = "<group>"; };
 		4ED4BC3316FEED3200227F1E /* FieldModificationStrategyAddWall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FieldModificationStrategyAddWall.cpp; sourceTree = "<group>"; };
@@ -907,6 +899,8 @@
 		4E8FDB22170D9C3F00821A72 /* iPadModels */ = {
 			isa = PBXGroup;
 			children = (
+				4EA20693170F68F00078BB91 /* but.mtl */,
+				4EA20694170F68F00078BB91 /* but.obj */,
 				4E8DB75E170F3BC6002B6E06 /* control_point.mtl */,
 				4E8DB75C170F3AD9002B6E06 /* control_point.obj */,
 				4E927703170E775E0036AEE2 /* portal.mtl */,
@@ -917,6 +911,8 @@
 				4ED864AC170E1F0000ADBFAD /* maillet.obj */,
 				4E8FDB23170D9C3F00821A72 /* rondelle.mtl */,
 				4E8FDB24170D9C3F00821A72 /* rondelle.obj */,
+				4ED0E82D1702B5D40043DF70 /* muret.mtl */,
+				4ED0E82E1702B5D40043DF70 /* muret.obj */,
 			);
 			name = iPadModels;
 			path = ../../../../Content/media/iPadModels;
@@ -961,14 +957,6 @@
 			isa = PBXGroup;
 			children = (
 				4E8FDB22170D9C3F00821A72 /* iPadModels */,
-				4ED0E84F1702B8A80043DF70 /* point.mtl */,
-				4ED0E8501702B8A80043DF70 /* point.obj */,
-				4ED0E8271702B5D40043DF70 /* but_milieu.mtl */,
-				4ED0E8281702B5D40043DF70 /* but_milieu.obj */,
-				4ED0E8291702B5D40043DF70 /* EmptyBonus.mtl */,
-				4ED0E82A1702B5D40043DF70 /* EmptyBonus.obj */,
-				4ED0E82D1702B5D40043DF70 /* muret.mtl */,
-				4ED0E82E1702B5D40043DF70 /* muret.obj */,
 				4ED0E8241702B41D0043DF70 /* Images */,
 			);
 			name = TableModels;
@@ -1259,14 +1247,8 @@
 				4E9CE9FA16FBB74100B04A12 /* Login.xib in Resources */,
 				4E9CE9FF16FBBA4B00B04A12 /* LoadMapViewController.xib in Resources */,
 				4E99937817027CDC00C68644 /* razor_sharp.png in Resources */,
-				4ED0E8331702B5D40043DF70 /* but_milieu.mtl in Resources */,
-				4ED0E8341702B5D40043DF70 /* but_milieu.obj in Resources */,
-				4ED0E8351702B5D40043DF70 /* EmptyBonus.mtl in Resources */,
-				4ED0E8361702B5D40043DF70 /* EmptyBonus.obj in Resources */,
 				4ED0E8391702B5D40043DF70 /* muret.mtl in Resources */,
 				4ED0E83A1702B5D40043DF70 /* muret.obj in Resources */,
-				4ED0E8511702B8A80043DF70 /* point.mtl in Resources */,
-				4ED0E8521702B8A80043DF70 /* point.obj in Resources */,
 				4E6D69AA1707BE9C00CC94CC /* control_point_texture.png in Resources */,
 				4E6D69AB1707BE9C00CC94CC /* couleurMuret.png in Resources */,
 				4E6D69AC1707BE9C00CC94CC /* EmptyBonus.png in Resources */,
@@ -1302,6 +1284,8 @@
 				4E927709170EA2000036AEE2 /* razer-logo.png in Resources */,
 				4E8DB75D170F3AD9002B6E06 /* control_point.obj in Resources */,
 				4E8DB75F170F3BC6002B6E06 /* control_point.mtl in Resources */,
+				4EA20695170F68F00078BB91 /* but.mtl in Resources */,
+				4EA20696170F68F00078BB91 /* but.obj in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

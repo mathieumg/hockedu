@@ -20,11 +20,6 @@
 const Vecteur3 DEFAULT_SIZE = Vecteur3(15, 15, 1);
 const float DEFAULT_RADIUS = 8;
 
-#if WIN32
-#include "Modele3D.h"
-#include "GestionnaireModeles.h"
-#include "FacadeModele.h"
-
 const int nbFaces = 12;
 const int nbVertexPerFace = 3;
 const int vertexSize = 3;
@@ -35,6 +30,11 @@ const int colorArraySize = nbFaces*nbVertexPerFace*colorSize;
 bool cubeModelArraysInit = false;
 GLfloat vertexArray[vertexArraySize];
 GLfloat colorArray[colorArraySize];
+
+#if WIN32
+#include "Modele3D.h"
+#include "GestionnaireModeles.h"
+#include "FacadeModele.h"
 
 CreateListDelegateImplementation(EmptyBonus)
 {
@@ -201,14 +201,12 @@ void NodeBonus::renderReal() const
 #if WIN32
     glDisable(GL_LIGHTING);
     FacadeModele::getInstance()->DeActivateShaders();
-	// Appel à la version de la classe de base pour l'affichage des enfants.
-
+#endif
     // static to make all bonus hover at the same height
     const float zTranslated = getRadius()*1.5f+sin(mHeightAngle)*3.f;
     glPushMatrix();
-
     glTranslatef( 0,0,zTranslated);
-#endif
+    
     GLboolean blendEnabled = glIsEnabled(GL_BLEND);
     glEnable(GL_BLEND);
     Super::renderReal();
@@ -216,8 +214,9 @@ void NodeBonus::renderReal() const
     {
         glDisable(GL_BLEND);
     }
-#if WIN32
     glPopMatrix();
+#if WIN32
+    
     glEnable(GL_LIGHTING);
     FacadeModele::getInstance()->ActivateShaders();
 

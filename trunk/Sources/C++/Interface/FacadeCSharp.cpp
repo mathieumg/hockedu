@@ -21,6 +21,7 @@
 #include "..\Reseau\Paquets\PaquetGameEvent.h"
 #include "..\Reseau\RelayeurMessage.h"
 #include "..\Reseau\Paquets\PaquetEvent.h"
+#include "LaunchAchievementLite.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -895,6 +896,11 @@ void GetServersGames(OnlineGameInfos* pGames, int pNbrGames)
             strcpy_s(pGames[i].needPasswordString, 4, "No");
         }
     }
+}
+
+void LaunchAchievementEvent( AchievementEvent pEvent )
+{
+    Achievements::LaunchEvent(pEvent);
 }
 
 

@@ -98,7 +98,6 @@ protected:
     void GoToNextLevel();
     void RegisterLevel(unsigned int level) const;
     void UnRegisterLevel(unsigned int level) const;
-    
 
     /// Overload this method to add parameters to the achievement persistency
     virtual void FillAchievementData(XmlElement* elem) const {}
@@ -142,6 +141,21 @@ protected:
 private:
     int mNbGameWon;
 
+};
+
+class AchievementAICreation : public AbstractAchievement
+{
+public:
+    AchievementAICreation();
+    virtual std::string GetXmlTag()const{return "AiCreation";}
+protected:
+    static void EventAICreatedCallBack(AbstractAchievement* pAchievement, AchievementEvent pEvent);
+    virtual void FillAchievementData(XmlElement* elem) const;
+    virtual bool LoadAchievementData(const XmlElement* elem);
+private:
+    int mNbAiCreated;
+    static const int AI_CREATION_NEEDED[3];
+    static const std::string AI_LEVEL_NAME[3];
 };
 
 
