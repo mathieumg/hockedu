@@ -196,7 +196,14 @@ namespace UIHeavyClient
         {
             if (mSelectedProfile != "")
             {
-                RemovePlayer(mSelectedProfile);
+                string buffer;
+                int count = mProfilesListView.SelectedItems.Count - 1;
+                for (int i = count; i >= 0; --i)
+                {
+                    buffer = (mProfilesListView.SelectedItems[i] as string);
+                    mProfilesListView.Items.Remove((buffer as string));
+                    RemovePlayer(buffer);
+                }   
             }
 
             DisplayAIProfiles();
