@@ -533,7 +533,7 @@ void NoeudTable::renderReal() const
             glEnable(GL_LIGHTING);
         }
 #else
-    NoeudAbstrait::renderReal();
+    renderOpenGLES();
 #endif
     }
 
