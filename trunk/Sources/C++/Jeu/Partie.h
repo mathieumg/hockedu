@@ -153,7 +153,8 @@ private:
 	int pointsJoueurDroit_;
 
 	/// Temps restant a etre inactif
-	int minuterie_;
+	clock_t mClockDelaisDone;
+    clock_t mClockLastTick;
 
 	/// Décompte de mise au jeu
 	NoeudAffichage* chiffres_;

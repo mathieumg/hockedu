@@ -52,6 +52,7 @@ Partie::Partie(GameType gameType, SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueu
 pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 60, joueurGauche, joueurDroit),
 mGameType(gameType)
 {
+    mClockLastTick = 0;
     chiffres_ = new NoeudAffichage("3");
     mField = new Terrain(this);
 	mUniqueGameId = uniqueGameId;
@@ -515,14 +516,12 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
     maillet2->setTargetDestination(maillet2->obtenirPositionOriginale(), true);
 
 
-    int dureeAnimationIntro = 0;
-    
 
     if(debutDePartie)
     {
         tempsJeu_.reset_Time();
     }
-    delais(4100+dureeAnimationIntro);
+    delais(4100);
 }
 
 
@@ -540,7 +539,7 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 void Partie::delais( int time )
 {
     setGameStatus(GAME_WAITING);
-    minuterie_ = time;
+    mClockDelaisDone = clock() + time;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -558,11 +557,10 @@ void Partie::updateMinuterie( int time )
 {
     if(mGameStatus == GAME_WAITING)
     {
-        int minuterieAvant = minuterie_;
-        minuterie_ -= (time*2);
-        if(minuterie_ < 0)
+        // Si delais termine
+        if(clock() > mClockDelaisDone-1000)
         {
-            minuterie_ = 0;
+            mClockDelaisDone = 0;
             chiffres_->setSkinKey(RAZER_KEY_MODEL_3);
             chiffres_->setVisible(false);
             setGameStatus(GAME_STARTED);
@@ -585,16 +583,23 @@ void Partie::updateMinuterie( int time )
                     mailletDroit->setTargetDestination(coordonneesSouris, true);
                 }
             }
-            
+            mClockLastTick = 0;
             tempsJeu_.unPause();
             return;
         }
+        
+        // Si on est a une seconde pile (beep et change de chiffre)
+        clock_t wClockActuel = clock();
+        int lequel = (mClockDelaisDone - wClockActuel)/1000;
+        int lequelLastTick = (mClockDelaisDone - mClockLastTick)/1000;
+        std::cout << "Lequel:" << lequel << std::endl;
+        std::cout << "LequelLastTick:" << lequelLastTick << std::endl << std::endl;
 
-        if((minuterieAvant/1000-minuterie_/1000)!=0)
+        if(mClockLastTick && lequel != lequelLastTick)
         {
             if(chiffres_!=0)
             {
-                int lequel = (minuterie_/1000+1);
+                //int lequel = (mClockDelaisDone/1000+1);
                 if(lequel!=1 && lequel!=2 && lequel!=3)
                     return;
                 chiffres_->setVisible(true);
@@ -606,6 +611,7 @@ void Partie::updateMinuterie( int time )
                     FacadeModele::getInstance()->obtenirVue()->centrerCamera(mField->GetTableWidth());
             }
         }
+        mClockLastTick = clock();
     }
 }
 
