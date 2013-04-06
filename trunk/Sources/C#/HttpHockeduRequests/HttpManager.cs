@@ -259,7 +259,7 @@ namespace HttpHockeduRequests
             try
             {
                 // Basic infos
-                HttpWebRequest wRequest = (HttpWebRequest)WebRequest.Create("http://hockedu.com/remote/newmap");
+                HttpWebRequest wRequest = (HttpWebRequest)WebRequest.Create("http://hockedu.com/remote/sendmap");
                 wRequest.Method = "POST";
                 wRequest.KeepAlive = true;
                 wRequest.AllowAutoRedirect = true;
