@@ -28,7 +28,7 @@
 ////////////////////////////////////////////////////////////////////////
 AIStratOffensive::AIStratOffensive(const AIMaillet& context):AIStrat(context)
 {
-	tirReussi_ = (unsigned int)(rand() % 100 + 1) > context_.obtenirJv().obtenirProbabiliteEchec();
+	tirReussi_ = (unsigned int)(rand() % 100 + 1) > context_.obtenirJv()->obtenirProbabiliteEchec();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -67,7 +67,7 @@ Vecteur2 AIStratOffensive::appliquerStrategie( NoeudMaillet* maillet)
 	// Direction du deplacement de la rondelle
 	Vecteur2 dir = rondelle->getPosition().convertir<2>() - maillet->getPosition().convertir<2>();
 	dir.normaliser();
-	dir *= (float)context_.obtenirJv().obtenirVitesse();
+	dir *= (float)context_.obtenirJv()->obtenirVitesse();
 
 	if(!tirReussi_ && rondelle->obtenirVelocite().norme2() >= 800)
 	{

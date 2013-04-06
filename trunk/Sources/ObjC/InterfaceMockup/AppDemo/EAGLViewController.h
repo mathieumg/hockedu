@@ -105,6 +105,7 @@ extern int const HAUTEUR_FENETRE;
 - (IBAction)portalButtonTouched:(UIButton *)sender;
 - (IBAction)undoButtonTouched:(UIButton *)sender;
 - (IBAction)redoButtonTouched:(UIButton *)sender;
+- (void) propertiesMenuButtonTouched:(PieMenuItem *)item;
 - (void)unselectAllTools;
 - (void)pressButtonUI:(UIButton *)sender;
 - (void)startAnimation;

@@ -6,6 +6,7 @@
 #include "Tournoi.h"
 #include "GestionnaireHUD.h"
 #include "..\reseau\UsinePaquets\UsinePaquetMaillet.h"
+#include "..\reseau\UsinePaquets\UsinePaquetPortal.h"
 #include "..\reseau\PaquetHandlers\PacketHandler.h"
 #include "..\Reseau\Paquets\PaquetGameCreation.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetGameCreation.h"
@@ -22,7 +23,8 @@
 #include "..\Reseau\Paquets\PaquetEvent.h"
 #include "GameManager.h"
 #include "LaunchAchievementLite.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetPortal.h"
+#include "Partie.h"
+#include "JoueurVirtuelRenforcement.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -505,6 +507,7 @@ void SetSecondPlayer(bool pIsHuman, char* pName)
 void AddPlayer(char* pName, int pSpeed, int pFailProb)
 {
     SPJoueurAbstrait joueurVirtuel(new JoueurVirtuel(pName, pSpeed, pFailProb));
+    //SPJoueurAbstrait joueurVirtuel(new JoueurVirtuelRenforcement("", pName, pSpeed, pFailProb));
     FacadeModele::getInstance()->ajouterJoueur(joueurVirtuel);
 }
 
@@ -533,7 +536,7 @@ void GetPlayers(AIProfile* pProfiles, int pNbrProfiles)
 	{
         joueur = FacadeModele::getInstance()->obtenirJoueur(*iter);
 
-        if(joueur->obtenirType()==JOUEUR_VIRTUEL)
+        if(joueur->obtenirType()==JOUEUR_VIRTUEL || joueur->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
 	    {
 		    SPJoueurVirtuel joueurVirtuel = std::dynamic_pointer_cast<JoueurVirtuel>(joueur);
 
@@ -927,6 +930,29 @@ void AskForAIOpponentInNetworkGame()
 void ResetAchievements()
 {
     AchievementsManager::obtenirInstance()->ResetAchievements();
+}
+
+
+
+void TestTrajectoryPredictionDLL()
+{
+    Partie* wGame = FacadeModele::getInstance()->obtenirPartieCourante();
+
+    if(wGame)
+    {
+        PuckProjection wPred = wGame->getPuckProjection(75.0f, 10000);
+        std::cout << "Test prediction: " << wPred.position << "\t" << wPred.time << "ms" <<  std::endl;
+    }
+}
+
+void ReloadModels()
+{
+    GestionnaireModeles::obtenirInstance()->ReloadModels();
+}
+
+void SetEditionEventCallBack( EditionEventReceived callback )
+{
+    EditionEventManager::setEditionEventCallback(callback);
 }
 
 

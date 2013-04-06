@@ -30,10 +30,11 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 JoueurVirtuelRenforcement::JoueurVirtuelRenforcement(const std::string& pAiLogicFilepath, const std::string& nom /*= ""*/, unsigned int vitesse /*= 0*/, unsigned int probabiliteEchec /*= 0*/)
+    :JoueurVirtuel(nom, vitesse, probabiliteEchec)
 {
 	type_ = JOUEUR_VIRTUEL_RENFORCEMENT;
     chargerAiLogic(pAiLogicFilepath);
-    setAiMaillet(new AIMailletRenforcement(*this));
+    setAiMaillet(new AIMailletRenforcement(this));
 }
 
 ////////////////////////////////////////////////////////////////////////

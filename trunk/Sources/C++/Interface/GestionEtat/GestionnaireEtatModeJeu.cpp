@@ -19,6 +19,8 @@
 #include "GestionnaireEtatAbstrait.h"
 #include "SourisEtatAbstrait.h"
 #include "SoundFMOD.h"
+#include "FacadeCSharp.h"
+
 
 
 
@@ -94,8 +96,12 @@ void GestionnaireEtatModeJeu::toucheEnfoncee(EvenementClavier& evenementClavier)
                 maillet->modifierDirection(true,DIR_BAS);
         }
     }
-
 	
+    if(touche == VJAK_F1)
+    {
+        TestTrajectoryPredictionDLL();
+    }
+
 	// VERIF ETAT PAUSE
 	if(touche==VJAK_SHIFT)
     {

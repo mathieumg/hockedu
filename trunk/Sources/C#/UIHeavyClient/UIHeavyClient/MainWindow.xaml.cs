@@ -314,7 +314,15 @@ namespace UIHeavyClient
                 debugItem.Click += SwitchPlayMode;
                 debugMenu.Items.Add( debugItem );
             }
+
             {
+                System.Windows.Controls.MenuItem debugItem=new System.Windows.Controls.MenuItem();
+                debugItem.Header="Test Trajectory Prediction";
+                debugItem.Click+=TestTrajectoryPrediction;
+                debugMenu.Items.Add(debugItem);
+            }
+
+			{
                 System.Windows.Controls.MenuItem debugItem = new System.Windows.Controls.MenuItem();
                 debugItem.Header = "Reset Achievements";
                 debugItem.Click += ResetAchievements;
@@ -361,6 +369,25 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll")]
         public static extern void ResetAchievements();
 
+
+        [DllImport(@"RazerGame.dll")]
+        public static extern void TestTrajectoryPredictionDLL();
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.SwitchPlayMode()
+        ///
+        /// Go to play mode.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        void TestTrajectoryPrediction(object sender, RoutedEventArgs e)
+        {
+            TestTrajectoryPredictionDLL();
+        }
+
+
         [DllImport(@"RazerGame.dll")]
         public static extern void ReloadModels();
 
@@ -394,7 +421,7 @@ namespace UIHeavyClient
             HttpManager wManager = new HttpManager();
             //wManager.getPublicMapList();
             //wManager.downloadMap(12, 1, TestCallbackMapDownloaded);
-            wManager.uploadNewMap(12, "05237e69-8d18-11e2-b5d0-005056823b67", "TestMat4", "Test Upload HTTP", true, "D:\\AirHockeyGit\\log3900-04_Cloned2\\trunk\\Content\\cs_italy.xml", TestCallbackMapUploaded);
+            wManager.sendMap(12, "cd13d808-9e93-11e2-b5d0-005056823b67", "TestMat9000", "UPDATE DESCRIPTION", true, "E:\\airhockeygit\\log3900-04_DO_NOT_MODIFY\\trunk\\Content\\Exe\\bobMapGrosMailet.xml", 15, TestCallbackMapUploaded);
         }
 
         void TestAchievementUpload_Click( object sender, RoutedEventArgs e )
