@@ -13,7 +13,7 @@
 #include "XMLUtils.h"
 
 enum TypeJoueur{JOUEUR_HUMAIN,JOUEUR_VIRTUEL,JOUEUR_VIRTUEL_RENFORCEMENT,JOUEUR_NETWORK,JOUEUR_NETWORK_SERVEUR};
-
+enum PlayerSide{PLAYER_SIDE_LEFT,PLAYER_SIDE_RIGHT};
 ///////////////////////////////////////////////////////////////////////////
 /// @class JoueurAbstrait
 /// @brief Classe abstraite qui représente un joueur dans le mode jeu.
@@ -54,6 +54,10 @@ public:
     virtual bool isReady() {return true;}
     inline void setReady(const bool pReady) {mIsReady = pReady;}
 
+	/// Accesseur de mPlayerSide_
+	PlayerSide getPlayerSide() const { return mPlayerSide_; }
+	void setPlayerSide(PlayerSide val) { mPlayerSide_ = val; }
+
 protected:
 	/// Le type du joueur (humain ou virtuel)
 	TypeJoueur type_;
@@ -61,6 +65,8 @@ protected:
 	/// Initialisaiton du joueur à partir d'un element XML
 	virtual bool initialiser(const XmlElement* element);
 private:
+	/// Le cote du joueur
+	PlayerSide mPlayerSide_;
 	/// Le nom du joueur
 	std::string nom_;
 	/// Outils pour connaitre le nom d'un joueur contenu dans un noeud XML
