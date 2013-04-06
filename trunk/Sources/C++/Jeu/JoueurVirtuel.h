@@ -14,6 +14,7 @@
 #include <jni.h>
 #endif //WITH_JAVA  
 #include "NoeudRondelle.h"
+#include <memory>
 
 class AIMaillet;
 
@@ -24,7 +25,7 @@ class AIMaillet;
 /// @author Vincent Lemire
 /// @date 2012-02-17
 ///////////////////////////////////////////////////////////////////////////
-class JoueurVirtuel : public JoueurAbstrait
+class JoueurVirtuel : public JoueurAbstrait, public std::enable_shared_from_this<JoueurVirtuel>
 {
 public:
 
@@ -60,21 +61,23 @@ public:
 	virtual Vecteur2 obtenirDirectionAI(NoeudMaillet* maillet);
 	/// Accesseur de aiMaillet_
 	AIMaillet* getAiMaillet() const { return aiMaillet_; }
-	void setAiMaillet(AIMaillet* val) { aiMaillet_ = val; }
+	void setAiMaillet(AIMaillet* val);
+
+
 private:
 	/// Vitesse du joueur
 	unsigned int vitesse_;
 	
 	/// Probabilité de manquer la rondelle
 	unsigned int probabiliteEchec_;
-
+    /// Pointeur sur AIMaillet pour savoir dans quelle direction aller
+    AIMaillet* aiMaillet_;
 	
 protected:
 	/// Initialisaiton du joueur à partir d'un element XML
 	virtual bool initialiser(const XmlElement* element);
 
-    /// Pointeur sur AIMaillet pour savoir dans quelle direction aller
-    AIMaillet* aiMaillet_;
+
 	
 };
 

@@ -53,12 +53,25 @@ namespace HttpHockeduRequests
         public string   content;    // XML content
     }
 
+    // Classes pour le getMap\
+    public class UserAchievementDownloadJSON
+    {
+        public string   error;       // Error message
+        public string   achievements;    // XML content
+    }
+
 
     // Classe pour le Map Upload
     public class MapUploadJSON
     {
         public string error;    // Code d'erreur
         public int map_id;      // Id de la map creee
+    }
+
+    // Classe pour le Achievement Upload
+    public class AchievementUploadJSON
+    {
+        public string error;    // Code d'erreur
     }
 
 }

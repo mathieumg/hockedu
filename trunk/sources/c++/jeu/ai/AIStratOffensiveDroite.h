@@ -34,6 +34,8 @@ private:
 public:
 	virtual typeStrat obtenirType() { return OFFENSIVE_DROITE; }
 
+    virtual void calculateTagetPos();
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////

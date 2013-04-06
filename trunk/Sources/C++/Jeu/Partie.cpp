@@ -55,6 +55,7 @@ mGameType(gameType)
     mClockLastTick = 0;
     chiffres_ = new NoeudAffichage("3");
     mField = new Terrain(this);
+    mFieldSimulation = new Terrain(this);
 	mUniqueGameId = uniqueGameId;
 	mUpdateCallbacks = updateCallback;
     mGameStatus = GAME_NOT_READY;
@@ -80,6 +81,7 @@ Partie::~Partie( void )
     mGameStatus = GAME_ENDED;
     SignalGameOver();
     delete mField;
+    delete mFieldSimulation;
     joueurGauche_.reset();
     joueurDroit_.reset();
     delete chiffres_;
@@ -173,6 +175,7 @@ const std::string& Partie::getFieldName() const
 void Partie::setFieldName( const std::string& terrain )
 {
     mField->modifierNom(terrain);
+    mFieldSimulation->modifierNom(terrain);
 }
 
 
@@ -499,7 +502,7 @@ void Partie::reloadControleMallet()
 ////////////////////////////////////////////////////////////////////////
 void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 {
-    mGameStatus = GAME_STARTED;
+    setGameStatus(GAME_STARTED);
     // Obtention des éléments
     NoeudRondelle* rondelle = mField->getPuck();
     NoeudMaillet* maillet1 = mField->getLeftMallet();
@@ -630,6 +633,10 @@ void Partie::modifierJoueurDroit( SPJoueurAbstrait val )
 //  if(joueurDroit_)
 //      delete joueurDroit_;
     joueurDroit_ = val;
+    if(joueurDroit_)
+    {
+	    joueurDroit_->setPlayerSide(PLAYER_SIDE_RIGHT);
+    }
     callGameUpdate(mGameStatus);
     mPartieSyncer.setPlayers(NULL, joueurDroit_);
 }
@@ -650,6 +657,10 @@ void Partie::modifierJoueurGauche( SPJoueurAbstrait val )
 //  if(joueurGauche_)
 //      delete joueurGauche_;
     joueurGauche_ = val;
+    if(joueurGauche_)
+    {
+        joueurGauche_->setPlayerSide(PLAYER_SIDE_LEFT);
+    }
     callGameUpdate(mGameStatus);
     mPartieSyncer.setPlayers(joueurGauche_, NULL);
 }
@@ -814,13 +825,16 @@ bool Partie::getReadyToPlay()
     if(getFieldName().size() == 0)
     {
         mField->creerTerrainParDefaut(FacadeModele::FICHIER_TERRAIN_EN_COURS);
+        mFieldSimulation->creerTerrainParDefaut(FacadeModele::FICHIER_TERRAIN_EN_COURS);
     }
     else
     {
         RazerGameUtilities::LoadFieldFromFile(getFieldName(),*mField);
+        RazerGameUtilities::LoadFieldFromFile(getFieldName(),*mFieldSimulation);
     }
 
     mField->fullRebuild();
+    mFieldSimulation->fullRebuild();
 
     if(!mField->verifierValidite())
     {
@@ -829,6 +843,7 @@ bool Partie::getReadyToPlay()
     
     try
     {
+        assignerControlesMaillet(mField->getLeftMallet(),mField->getRightMallet(),mField->getPuck());
         assignerControlesMaillet(mField->getLeftMallet(),mField->getRightMallet(),mField->getPuck());
     }
     catch(ExceptionJeu& e)
@@ -839,6 +854,8 @@ bool Partie::getReadyToPlay()
 
     mField->setTableItemsSelection(false);
     mField->setTableControlPointVisible(false);
+    mFieldSimulation->setTableItemsSelection(false);
+    mFieldSimulation->setTableControlPointVisible(false);
 
 	// On appelle le callback pour dire que la partie va commencer
 	callGameUpdate(GAME_STARTED);
@@ -1102,7 +1119,7 @@ void Partie::SendAchievementEventToHumanPlayer( SPJoueurAbstrait player,Achievem
         if(isOfflineGame())
         {
             /// it is possible to have human vs human, so we check to make sure
-            SPJoueurAbstrait oppositePlayer = player == joueurGauche_ ? joueurGauche_: joueurDroit_;
+            SPJoueurAbstrait oppositePlayer = player == joueurGauche_ ? joueurDroit_ : joueurGauche_;
             if(oppositePlayer->obtenirType() == player->obtenirType())
             {
                 /// incoherence pour les achievements, on sort
@@ -1145,6 +1162,103 @@ PartieServeurs* Partie::buildPartieServeurs()
     }
 
     return wPartie;
+}
+
+
+
+
+bool Partie::updateTerrainSimulation()
+{
+    // On doit sauvegarder les infos suivantes:
+    // - Position rondelle
+    // - Velocite rondelle
+    // - Vitesse angulaire rondelle
+    // - Position maillets
+    // - Velocite maillets
+
+    NoeudMaillet* wMailletGauche = mField->getLeftMallet();
+    NoeudMaillet* wMailletDroit  = mField->getRightMallet();
+    NoeudRondelle* wRondelle     = mField->getPuck();
+
+    if(wMailletGauche && wMailletDroit && wRondelle)
+    {
+        NoeudMaillet* wMailletGaucheSimulation = mFieldSimulation->getLeftMallet();
+        NoeudMaillet* wMailletDroitSimulation  = mFieldSimulation->getRightMallet();
+        NoeudRondelle* wRondelleSimulation     = mFieldSimulation->getPuck();
+        // Il y a probablement eu un probleme de init si ca ne fonctionne pas
+        checkf(wMailletDroitSimulation && wMailletGaucheSimulation && wRondelleSimulation);
+        if(wMailletDroitSimulation && wMailletGaucheSimulation && wRondelleSimulation)
+        {
+            // Set position
+            wRondelleSimulation->setPosition(wRondelle->getPosition());
+            wMailletGaucheSimulation->setPosition(wMailletGauche->getPosition());
+            wMailletDroitSimulation->setPosition(wMailletDroit->getPosition());
+
+
+            // Set velocity
+            wRondelleSimulation->modifierVelocite(wRondelle->obtenirVelocite());
+            wMailletGaucheSimulation->modifierVelocite(wMailletGauche->obtenirVelocite());
+            wMailletDroitSimulation->modifierVelocite(wMailletDroit->obtenirVelocite());
+
+            // Set angular velocity
+            wRondelleSimulation->modifierVitesseRotation(wRondelle->obtenirVitesseRotation());
+            
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
+
+PuckProjection Partie::getPuckProjection( float pPosX, int pDelaisMaxMs /*= 10000*/ )
+{
+    PuckProjection wReturnVal;
+    wReturnVal.time = -1;
+    // On sync le terrain de simulation pour trouver la position
+    updateTerrainSimulation();
+
+    NoeudRondelle* wPuck = mFieldSimulation->getPuck();
+    if(wPuck)
+    {
+        float wDiffXStart = pPosX - wPuck->getPosition()[VX];
+
+        
+        // On itere le world box2d jusqu'a ce qu'on trouve la posX voulue ou le delais max
+        int wElapsedTime = 0;
+        while(true)
+        {
+            // Tick le world
+            mFieldSimulation->appliquerPhysique(10.0f/1000.0f);
+            wElapsedTime += 10;
+
+            // Verifie la rondelle
+            //std::cout << wDiffXStart << "\t" << (pPosX - wPuck->getPosition()[VX]) << std::endl;
+            if((pPosX - wPuck->getPosition()[VX]) * wDiffXStart < 0) // Change de cote de la droite du milieu
+            {
+                wReturnVal.position = wPuck->getPosition().convertir<2>();
+                wReturnVal.time = wElapsedTime;
+                break;
+            }
+            
+            // Verifie delais max
+            if(wElapsedTime > pDelaisMaxMs)
+            {
+                wReturnVal.time = -1;
+                break;
+            }
+        }
+    }
+    
+
+    return wReturnVal;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

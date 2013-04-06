@@ -292,7 +292,7 @@ enum {
     [mModel redo];
 }
 
-- (void) propertiesMenu:(PieMenuItem *)item {
+- (void) propertiesMenuButtonTouched:(PieMenuItem *)item {
     
 //    // Ouverture du popover contenant les proprietes associees a la selection courante
 //    UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
@@ -371,7 +371,7 @@ enum {
 	PieMenuItem *itemG = [[PieMenuItem alloc] initWithTitle:@"Properties"
 													  label:nil
 													 target:self
-												   selector:@selector(propertiesMenu:)
+												   selector:@selector(propertiesMenuButtonTouched:)
 												   userInfo:nil
 													   icon:[UIImage imageNamed:@"cog_24x24.png"]];
 	
@@ -386,6 +386,8 @@ enum {
 	[pieMenu addItem:itemE];
 	[pieMenu addItem:itemF];
 	[pieMenu addItem:itemG];
+    
+    [pieMenu setFingerSize:PieMenuFingerSizeBig];
 	
 	[itemA release];
 	[itemB release];
@@ -577,37 +579,55 @@ enum {
 
 - (IBAction)selectToolButtonTouched:(UIButton *)sender
 {
-    [self pressButtonUI:sender];
+    if(![sender isMemberOfClass:[PieMenuItem class]])
+    {
+        [self pressButtonUI:sender];
+    }
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
 }
 
 - (IBAction)moveToolButtonTouched:(UIButton *)sender
 {
-    [self pressButtonUI:sender];
+    if(![sender isMemberOfClass:[PieMenuItem class]])
+    {
+        [self pressButtonUI:sender];
+    }
     [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_DEPLACEMENT];
 }
 
 - (IBAction)rotationToolButtonTouched:(UIButton *)sender
 {
-    [self pressButtonUI:sender];
+    if(![sender isMemberOfClass:[PieMenuItem class]])
+    {
+        [self pressButtonUI:sender];
+    }
     [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_ROTATION];
 }
 
 - (IBAction)scaleToolButtonTouched:(UIButton *)sender
 {
-    [self pressButtonUI:sender];
+    if(![sender isMemberOfClass:[PieMenuItem class]])
+    {
+        [self pressButtonUI:sender];
+    }
     [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_ECHELLE];
 }
 
 - (IBAction)duplicateToolButtonTouched:(UIButton *)sender
 {
-    [self pressButtonUI:sender];
+    if(![sender isMemberOfClass:[PieMenuItem class]])
+    {
+        [self pressButtonUI:sender];
+    }
     [mModel duplicateSelection];
 }
 
 - (IBAction)deleteToolButtonTouched:(UIButton *)sender
 {
-    [self pressButtonUI:sender];
+    if(![sender isMemberOfClass:[PieMenuItem class]])
+    {
+        [self pressButtonUI:sender];
+    }
     [mModel deleteSelection];
 }
 

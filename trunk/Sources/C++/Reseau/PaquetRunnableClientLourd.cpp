@@ -24,9 +24,9 @@
 #include "SoundFMOD.h"
 #include "Box2D\Common\b2Math.h"
 #include "Box2D\Dynamics\b2Body.h"
-#include "PaquetHandlers\PacketHandlerBonus.h"
 #include "GestionnaireHUD.h"
 #include "ObjetsGlobaux\PartieServeurs.h"
+#include "Paquets\PaquetPortal.h"
 
 
 #ifdef LINUX
@@ -226,39 +226,46 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
             {
                 // Serveur dit de commencer la partie (les 2 clients sont prets)
                 // Aussi utilise pour unpause
+                int wGameId = wPaquet->getGameId();
+                Runnable* r = new Runnable([wGameId, wPaquet](Runnable*){
+                    Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+                    if(wGame->getGameStatus() == GAME_PAUSED)
+                    {
+                        // on reassigne le nom des joueurs au cas ou ils auraient change
+                        wGame->obtenirJoueurGauche()->modifierNom(wPaquet->getPlayer1Name());
+                        wGame->obtenirJoueurDroit()->modifierNom(wPaquet->getPlayer2Name());
+                        // Resume game only
+                        GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(false);
+                        wGame->modifierEnPause(false);
+                    }
+                    else if(wGame->getGameStatus() == GAME_READY)
+                    {
+                        // Start game
+                        // On utilise les noms de joueurs du paquet pour initialiser la partie
 
-                if(wGame->getGameStatus() == GAME_PAUSED)
-                {
-                    // on reassigne le nom des joueurs au cas ou ils auraient change
-                    wGame->obtenirJoueurGauche()->modifierNom(wPaquet->getPlayer1Name());
-                    wGame->obtenirJoueurDroit()->modifierNom(wPaquet->getPlayer2Name());
-                    // Resume game only
-                    GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(false);
-                    wGame->modifierEnPause(false);
-                }
-                else if(wGame->getGameStatus() == GAME_READY)
-                {
-                    // Start game
-                    // On utilise les noms de joueurs du paquet pour initialiser la partie
+                        wGame->obtenirJoueurGauche()->modifierNom(wPaquet->getPlayer1Name());
+                        wGame->obtenirJoueurDroit()->modifierNom(wPaquet->getPlayer2Name());
 
-                    wGame->obtenirJoueurGauche()->modifierNom(wPaquet->getPlayer1Name());
-                    wGame->obtenirJoueurDroit()->modifierNom(wPaquet->getPlayer2Name());
-
-                    GameManager::obtenirInstance()->startGame(wPaquet->getGameId()); 
-                }
-
+                        GameManager::obtenirInstance()->startGame(wPaquet->getGameId()); 
+                    }
+                });
+                RazerGameUtilities::RunOnUpdateThread(r,true);
                 break;
             }
         case GAME_EVENT_PAUSE_GAME_USER_DISCONNECTED:
             {
-                // L'autre joueur s'est deconnecte
-                if(wGame->getGameStatus() == GAME_STARTED)
-                {
-                    wGame->modifierEnPause(true);
-                    GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(true);
-                }
-                std::cout << "Other player disconnected" << std::endl;
-
+                int wGameId = wPaquet->getGameId();
+                Runnable* r = new Runnable([wGameId](Runnable*){
+                    Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+                    // L'autre joueur s'est deconnecte
+                    if(wGame->getGameStatus() == GAME_STARTED)
+                    {
+                        wGame->modifierEnPause(true);
+                        GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(true);
+                    }
+                    std::cout << "Other player disconnected" << std::endl;
+                });
+                RazerGameUtilities::RunOnUpdateThread(r,true);
 
                 break;
             }
@@ -341,13 +348,17 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
             }
         case GAME_EVENT_PAUSE_GAME_SIGNAL:
             {
-                // Le serveur demande de se mettre en pause
-                // Si on est en cours de jeu, on pause
-                if(wGame->getGameStatus() == GAME_STARTED)
-                {
-                    wGame->modifierEnPause(true);
-                }
-
+                int wGameId = wGame->getUniqueGameId();
+                Runnable* r = new Runnable([wGameId](Runnable*){
+                    // Le serveur demande de se mettre en pause
+                    // Si on est en cours de jeu, on pause
+                    Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+                    if(wGame->getGameStatus() == GAME_STARTED)
+                    {
+                        wGame->modifierEnPause(true);
+                    }
+                });
+                RazerGameUtilities::RunOnUpdateThread(r,true);
                 break;
             }
         case GAME_EVENT_RESET_PUCK:
@@ -373,22 +384,69 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
 }
 
 
-////////// Section des bonus
 
-
-int PaquetRunnable::RunnableBonusMailletMuretClient( PaquetBonus* pPaquet )
+int PaquetRunnable::RunnableBonusClient( Paquet* pPaquet )
 {
-    PaquetBonusInfosMailletMurets* wInfos = (PaquetBonusInfosMailletMurets*) pPaquet->getPaquetInfos();
+    PaquetBonus* wPaquet = (PaquetBonus*)pPaquet;
+    int wGameId = wPaquet->getGameId();
+    PaquetBonusAction wAction = wPaquet->getBonusAction();
+    PaquetBonusType wType = wPaquet->getBonusType();
+    Vecteur2 pos = wPaquet->getBonusPosition();
+
+    Runnable* r = new Runnable([wGameId, pos](Runnable*){
+
+        /*switch(wAction)
+        {
+        case BONUS_ACTION_SPAN :
+            break;
+
+        case BONUS_ACTION_EXECUTE :
+            break;
+
+        case BONUS_ACTION_END :
+            break;
+        default:
+        }*/
+
+        /*Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+        if(wGame)
+        {
+            if(wGame->getField())
+            {
+                wGame->getField()->getPuck()->setPosition(pos);
+            }
+        }*/
+    });
+    RazerGameUtilities::RunOnUpdateThread(r,true);
+
+    return 0;
+}
+
+
+
+int PaquetRunnable::RunnablePortalClient( Paquet* pPaquet )
+{
+    PaquetPortal* wPaquet = (PaquetPortal*) pPaquet;
+    int wGameId = wPaquet->getGameId();
+    Vecteur3 pos = wPaquet->getPosition();
+    Runnable* r = new Runnable([wGameId, pos](Runnable*){
+        Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+        if(wGame)
+        {
+            if(wGame->getField())
+            {
+                wGame->getField()->getPuck()->setPosition(pos);
+            }
+        }
+    });
+    RazerGameUtilities::RunOnUpdateThread(r,true);
 
 
     return 0;
 }
 
 
-int PaquetRunnable::RunnableBonusGoalerClient( PaquetBonus* pPaquet )
-{
-    PaquetBonusInfosGoaler* wInfos = (PaquetBonusInfosGoaler*) pPaquet->getPaquetInfos();
 
 
-    return 0;
-}
+
+

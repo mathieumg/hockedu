@@ -24,8 +24,6 @@ namespace PaquetRunnable
     int RunnableGameStatusServer(Paquet* pPaquet);
 
     int RunnableGameCreationClient(Paquet* pPaquet);
-
-    int RunnableBonus(Paquet* pPaquet);
 };
 
 

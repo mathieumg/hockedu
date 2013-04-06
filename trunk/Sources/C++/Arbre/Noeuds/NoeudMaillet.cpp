@@ -564,7 +564,7 @@ void NoeudMaillet::buildMouseJoint(bool pIsNetworkControlled /*=false*/)
             const Vecteur3& pos = getPosition();
             setTargetDestination(pos);
             utilitaire::VEC3_TO_B2VEC(pos,md.target);
-            md.maxForce = 300.0f * body->GetMass();
+            md.maxForce = 3000.0f * body->GetMass();
             md.dampingRatio = 0;
             md.frequencyHz = 100;
             mMouseJoint = (b2MouseJoint*)world->CreateJoint(&md);
@@ -633,6 +633,7 @@ void NoeudMaillet::playTick(float temps)
                 mTargetDestination += getPosition();
             }
             break;
+        case JOUEUR_VIRTUEL_RENFORCEMENT:
         case JOUEUR_VIRTUEL:
             {
                 SPJoueurVirtuel wJoueur = std::dynamic_pointer_cast<JoueurVirtuel>(joueur_);

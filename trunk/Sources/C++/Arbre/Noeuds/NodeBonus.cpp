@@ -35,6 +35,8 @@ GLfloat colorArray[colorArraySize];
 #include "Modele3D.h"
 #include "GestionnaireModeles.h"
 #include "FacadeModele.h"
+#include "../Reseau/RelayeurMessage.h"
+#include "../Reseau/Paquets/PaquetBonus.h"
 
 CreateListDelegateImplementation(EmptyBonus)
 {
@@ -81,6 +83,7 @@ CreateListDelegateImplementation(Bonus)
     //return RazerGameUtilities::CreateListSphereDefault(pModel,DEFAULT_RADIUS);
 }
 #endif
+
 
 
 /// vertexArray size must be 81, colorArray size must be 108
@@ -292,6 +295,19 @@ void NodeBonus::playTick( float temps)
             setVisible(true);
             // activate collision on strat creation
             activate(true);
+
+#if WIN32
+            /*Partie* wGame = getField()->GetGame();
+            if(wGame != NULL && wGame->isNetworkServerGame())
+            {
+                PaquetBonus* wPaquet = (PaquetBonus*) GestionnaireReseau::obtenirInstance()->creerPaquet(BONUS);
+                wPaquet->setGameId(wGame->getUniqueGameId());
+                wPaquet->setBonusType((PaquetBonusType)(rand()%NB_BONUS_TYPE));
+                wPaquet->setBonusAction(BONUS_ACTION_SPAN);
+                wPaquet->setBonusPosition(getPosition());
+                RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
+            }*/
+#endif
         }
     }
 }

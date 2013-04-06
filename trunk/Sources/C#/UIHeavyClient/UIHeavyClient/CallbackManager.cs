@@ -202,12 +202,12 @@ namespace UIHeavyClient
                 mCurrentGameState = mWantedGameState;
                 mUnCommittedModification = false;
             }
+#if !SHIPPING
             else
             {
-#if DEBUG
                 throw new System.Exception("Cannot Commit unmodified state");
-#endif
             }
+#endif
         }
 
 
@@ -226,20 +226,18 @@ namespace UIHeavyClient
             {
                 if (!ChangeGameMode(mCurrentGameState))
                 {
-#if DEBUG
+#if !SHIPPING
                     throw new System.Exception("Cannot Revert. Last state threw an error on load");    
 #endif
                 }
                 mUnCommittedModification=false;
             }
+#if !SHIPPING
             else
             {
-#if DEBUG
                 throw new System.Exception("Cannot Revert unmodified state");
-#endif
             }
+#endif
         }
-
-
     }
 }

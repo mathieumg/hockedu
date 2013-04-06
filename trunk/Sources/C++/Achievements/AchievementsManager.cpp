@@ -11,11 +11,14 @@
 #include "AbstractAchievement.h"
 #include "Achievements.h"
 #include <iostream>
-#include "sqlite3.h"
 #include <sstream>
 #include "XMLUtils.h"
 
 SINGLETON_DECLARATION_CPP(AchievementsManager);
+
+#if MIKE_DEBUG_
+PRAGMA_DISABLE_OPTIMIZATION
+#endif
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -45,23 +48,8 @@ AchievementsManager::AchievementsManager() : mAchievementUnlockedCallback(NULL)
 ////////////////////////////////////////////////////////////////////////
 AchievementsManager::~AchievementsManager()
 {
-    for( auto it=mEventListeners.begin(); it!= mEventListeners.end(); ++it)
-    {
-        if(it->second)
-        {
-            delete it->second;
-        }
-    }
-    mEventListeners.clear();
+    ClearMemory();
 
-    for( auto it=mAchievementProgress.begin(); it!= mAchievementProgress.end(); ++it)
-    {
-        if(it->second)
-        {
-            delete it->second;
-        }
-    }
-    mAchievementProgress.clear();
 }
 
 
@@ -109,6 +97,7 @@ void AchievementsManager::InitialiseAchievements()
 {
     CreateAchievements();
     LoadAchievementProgress();
+    SaveAchievementProgress();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -137,7 +126,7 @@ void AchievementsManager::LoadAchievementProgress()
                 {
                     /// noeud n'a pas charger son noeud
                     /// comportement possible, mais checkf pour s'assurer que callback'est desire
-                    std::cout << "Error loading achievement data " << it->second->GetXmlTag() << std::endl;
+                    std::cout << "Error loading achievement data " << it->second->GetFirstType() << std::endl;
                 }
             }
         }
@@ -168,11 +157,7 @@ void AchievementsManager::SaveAchievementProgress()
     {
         if(it->second)
         {
-            auto elem = it->second->CreateAchievementNode();
-            if(elem)
-            {
-                XMLUtils::LinkEndChild(achievementRoot,elem);
-            }
+            it->second->CreateAchievementNode(achievementRoot);
         }
     }
 
@@ -197,6 +182,7 @@ void AchievementsManager::LaunchEvent( AchievementEvent pEvent )
     /// look for the event list
     if(it != mEventListeners.end())
     {
+        bool launched = false;
         // create local list of listeners, because achievements
         // can request to unregister while iterating
         const EventListenerList listernersList = *it->second;
@@ -206,7 +192,12 @@ void AchievementsManager::LaunchEvent( AchievementEvent pEvent )
             if(callback)
             {
                 callback((*itA)->mAchievement,pEvent);
+                launched = true;
             }
+        }
+        if(launched)
+        {
+            SaveAchievementProgress();
         }
     }
 }
@@ -294,3 +285,35 @@ void AchievementsManager::AchievementUnlocked( AchievementsType pType, const std
     SaveAchievementProgress();
 }
 
+/// Fonction pour des tests
+void AchievementsManager::ResetAchievements()
+{
+    ClearMemory();
+    CreateAchievements();
+    SaveAchievementProgress();
+}
+
+void AchievementsManager::ClearMemory()
+{
+    for( auto it=mEventListeners.begin(); it!= mEventListeners.end(); ++it)
+    {
+        if(it->second)
+        {
+            delete it->second;
+        }
+    }
+    mEventListeners.clear();
+
+    for( auto it=mAchievementProgress.begin(); it!= mAchievementProgress.end(); ++it)
+    {
+        if(it->second)
+        {
+            delete it->second;
+        }
+    }
+    mAchievementProgress.clear();
+}
+
+#if MIKE_DEBUG_
+PRAGMA_ENABLE_OPTIMIZATION
+#endif

@@ -14,6 +14,9 @@
 #include "NoeudRondelle.h"
 #include "AIMaillet.h"
 #include "JoueurVirtuel.h"
+#include "NoeudBut.h"
+#include "FacadeModele.h"
+#include "Partie.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -29,7 +32,7 @@
 ////////////////////////////////////////////////////////////////////////
 AIStratOffensiveDroite::AIStratOffensiveDroite(const AIMaillet& context):AIStratOffensiveRenforcement(context)
 {
-	tirReussi_ = (unsigned int)(rand() % 100 + 1) > context_.obtenirJv().obtenirProbabiliteEchec();
+	tirReussi_ = (unsigned int)(rand() % 100 + 1) > context_.obtenirJv()->obtenirProbabiliteEchec();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -45,6 +48,23 @@ AIStratOffensiveDroite::AIStratOffensiveDroite(const AIMaillet& context):AIStrat
 ////////////////////////////////////////////////////////////////////////
 AIStratOffensiveDroite::~AIStratOffensiveDroite()
 {
+}
+
+void AIStratOffensiveDroite::calculateTagetPos()
+{
+    // IMPLEMENT THIS
+    NoeudBut* wButs[2];
+    FacadeModele::getInstance()->obtenirPartieCourante()->getField()->getGoals(wButs);
+    if(context_.obtenirJv()->getPlayerSide() == PLAYER_SIDE_LEFT)
+    {
+        setPointVise(wButs[1]->getPosition().convertir<2>());
+    }
+    else
+    {
+        setPointVise(wButs[0]->getPosition().convertir<2>());
+    }
+
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////

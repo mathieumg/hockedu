@@ -307,6 +307,12 @@ GameConnectionState connectPlayer(const std::string& pPlayerName, Partie* pGame)
             pGame->assignerJoueur(SPJoueurNetworkServeur(new JoueurNetworkServeur(pPlayerName)));
             return GAME_CONNECTION_ACCEPTED_LEFT;
         }
+        else if(pGame->obtenirJoueurGauche()->obtenirType() == JOUEUR_VIRTUEL)
+        {
+            pGame->modifierJoueurGauche(SPJoueurNetworkServeur(new JoueurNetworkServeur(pPlayerName)));
+            pGame->reloadControleMallet();
+            return GAME_CONNECTION_ACCEPTED_LEFT;
+        }
         else if(pGame->obtenirNomJoueurGauche() == pPlayerName)
         {
             return GAME_CONNECTION_ALREADY_CONNECTED;
@@ -317,6 +323,12 @@ GameConnectionState connectPlayer(const std::string& pPlayerName, Partie* pGame)
             pGame->assignerJoueur(SPJoueurNetworkServeur(new JoueurNetworkServeur(pPlayerName)));
             return GAME_CONNECTION_ACCEPTED_RIGHT;
         }
+        else if(pGame->obtenirJoueurDroit()->obtenirType() == JOUEUR_VIRTUEL)
+        {
+            pGame->modifierJoueurDroit(SPJoueurNetworkServeur(new JoueurNetworkServeur(pPlayerName)));
+            pGame->reloadControleMallet();
+            return GAME_CONNECTION_ACCEPTED_RIGHT;
+        }
         else if(pGame->obtenirNomJoueurDroit() == pPlayerName)
         {
             return GAME_CONNECTION_ALREADY_CONNECTED;
@@ -325,7 +337,6 @@ GameConnectionState connectPlayer(const std::string& pPlayerName, Partie* pGame)
         {
             return GAME_CONNECTION_GAME_FULL;
         }
-
     }
     else
     {
@@ -340,59 +351,61 @@ int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
     PaquetGameConnection* wPaquet = (PaquetGameConnection*) pPaquet;
 
     // Reception de requete de connection a une partie deja cree
-
-    // On va chercher la partie demandee
-    Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
-    if(wGame)
-    {
-        if(wGame->requirePassword())
+    int wGameId = wPaquet->getGameId();
+    Runnable* r = new Runnable([wGameId, wPaquet](Runnable*){
+        // On va chercher la partie demandee
+        Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
+        if(wGame)
         {
-            // Valider le mot de passe
-            if(wGame->validatePassword(wPaquet->getPassword()))
+            if(wGame->requirePassword())
             {
-                // Mot de passe valide
-                wPaquet->setConnectionState(connectPlayer(wPaquet->getUsername(), wGame));
+                // Valider le mot de passe
+                if(wGame->validatePassword(wPaquet->getPassword()))
+                {
+                    // Mot de passe valide
+                    wPaquet->setConnectionState(connectPlayer(wPaquet->getUsername(), wGame));
+                }
+                else
+                {
+                    wPaquet->setConnectionState(GAME_CONNECTION_WRONG_PASSWORD);
+                }
             }
             else
             {
-                wPaquet->setConnectionState(GAME_CONNECTION_WRONG_PASSWORD);
+                // Pas besoin de mot de passe
+                wPaquet->setConnectionState(connectPlayer(wPaquet->getUsername(), wGame));
+            }
+
+            // Dans le cas ou la partie est en pause, c'est que un des 2 joueurs s'est deconnected et il est en train de se reconnecter. Il faut lui reassigner son maillet sans reset la partie
+            if(wGame->getGameStatus() == GAME_PAUSED && (wPaquet->getConnectionState() == GAME_CONNECTION_ACCEPTED_LEFT || wPaquet->getConnectionState() == GAME_CONNECTION_ACCEPTED_RIGHT))
+            {
+            
+                try
+                {
+                    wGame->reloadControleMallet();
+                    wGame->modifierEnPause(false);
+                }
+                catch(ExceptionJeu& e)
+                {
+                    utilitaire::afficherErreur(e.what());
+                    return;
+                }
+            }
+
+            // Si tout le monde connecte, on demarre la partie
+            else if(wGame->getGameStatus() == GAME_NOT_READY && wGame->obtenirJoueurGauche() && wGame->obtenirJoueurDroit())
+            {
+                GameManager::obtenirInstance()->getGameReady(wGame->getUniqueGameId());
             }
         }
         else
         {
-            // Pas besoin de mot de passe
-            wPaquet->setConnectionState(connectPlayer(wPaquet->getUsername(), wGame));
+            wPaquet->setConnectionState(GAME_CONNECTION_GAME_NOT_FOUND);
         }
-
-        // Dans le cas ou la partie est en pause, c'est que un des 2 joueurs s'est deconnected et il est en train de se reconnecter. Il faut lui reassigner son maillet sans reset la partie
-        if(wGame->getGameStatus() == GAME_PAUSED && (wPaquet->getConnectionState() == GAME_CONNECTION_ACCEPTED_LEFT || wPaquet->getConnectionState() == GAME_CONNECTION_ACCEPTED_RIGHT))
-        {
-            
-            try
-            {
-                wGame->reloadControleMallet();
-                wGame->modifierEnPause(false);
-            }
-            catch(ExceptionJeu& e)
-            {
-                utilitaire::afficherErreur(e.what());
-                return false;
-            }
-        }
-
-        // Si tout le monde connecte, on demarre la partie
-        else if(wGame->getGameStatus() == GAME_NOT_READY && wGame->obtenirJoueurGauche() && wGame->obtenirJoueurDroit())
-        {
-            GameManager::obtenirInstance()->getGameReady(wGame->getUniqueGameId());
-        }
-    }
-    else
-    {
-        wPaquet->setConnectionState(GAME_CONNECTION_GAME_NOT_FOUND);
-    }
     
-    GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
-
+        GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
+    });
+    RazerGameUtilities::RunOnUpdateThread(r,true);
     return 0;
 }
 
@@ -525,6 +538,43 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
                 RazerGameUtilities::RunOnUpdateThread(r,true);
                 break;
             }
+        case GAME_EVENT_ADD_AI:
+            {
+                // Client demande l'ajout d'un joueur AI
+                int wGameId = wPaquet->getGameId();
+                Runnable* r = new Runnable([wGameId, wPaquet](Runnable*){
+                    Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+                    bool wChanged = false;
+                    if(wPaquet->getEventOnPlayerLeft() && wGame->obtenirNomJoueurDroit() != wPaquet->getPlayer1Name())
+                    {
+                        wGame->modifierJoueurDroit(SPJoueurVirtuel(new JoueurVirtuel("AITempDroit", 6, 50)));
+                        wChanged = true;                   
+                    }
+                    else if(wGame->obtenirNomJoueurGauche() != wPaquet->getPlayer1Name())
+                    {
+                        wGame->modifierJoueurGauche(SPJoueurVirtuel(new JoueurVirtuel("AITempGauche", 6, 50)));
+                        wChanged = true;
+                    }
+
+                    if(wChanged)
+                    {
+                        // Si joueur virtuel
+                        wGame->reloadControleMallet();
+                        wGame->setGameStatus(GAME_STARTED);
+
+                        PaquetGameEvent* wPaquetStartGame = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+                        wPaquetStartGame->setEvent(GAME_EVENT_START_GAME);
+                        wPaquetStartGame->setGameId(wGameId);
+                        wPaquetStartGame->setPlayer1Name(wGame->obtenirNomJoueurGauche());
+                        wPaquetStartGame->setPlayer2Name(wGame->obtenirNomJoueurDroit());
+                        RelayeurMessage::obtenirInstance()->relayerPaquetGame(wGameId, wPaquetStartGame, TCP);
+                    }
+                    
+
+                });
+                RazerGameUtilities::RunOnUpdateThread(r,true);
+                break;
+            }
         }
     }
 
@@ -532,29 +582,6 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
 
     return 0;
 }
-
-
-////////// Section Bonus
-int PaquetRunnable::RunnableBonusMailletMuretServerGame( PaquetBonus* pPaquet )
-{
-    PaquetBonusInfosMailletMurets* wInfos = (PaquetBonusInfosMailletMurets*) pPaquet->getPaquetInfos();
-
-
-
-    return 0;
-}
-
-
-int PaquetRunnable::RunnableBonusGoalerServerGame( PaquetBonus* pPaquet )
-{
-    PaquetBonusInfosGoaler* wInfos = (PaquetBonusInfosGoaler*) pPaquet->getPaquetInfos();
-
-
-
-    return 0;
-}
-
-
 
 PaquetRunnableServeurJeuHelper::PaquetRunnableServeurJeuHelper()
 {

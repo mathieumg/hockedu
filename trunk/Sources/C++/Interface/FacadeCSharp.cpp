@@ -6,6 +6,7 @@
 #include "Tournoi.h"
 #include "GestionnaireHUD.h"
 #include "..\reseau\UsinePaquets\UsinePaquetMaillet.h"
+#include "..\reseau\UsinePaquets\UsinePaquetPortal.h"
 #include "..\reseau\PaquetHandlers\PacketHandler.h"
 #include "..\Reseau\Paquets\PaquetGameCreation.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetGameCreation.h"
@@ -14,14 +15,16 @@
 #include "..\reseau\UsinePaquets\UsinePaquetRondelle.h"
 #include "VisitorGatherProperties.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetGameEvent.h"
-#include "..\Reseau\PaquetHandlers\PacketHandlerBonus.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetBonus.h"
 #include "..\Achievements\AchievementsManager.h"
 #include "FacadeModele.h"
 #include "..\Reseau\Paquets\PaquetGameEvent.h"
 #include "..\Reseau\RelayeurMessage.h"
 #include "..\Reseau\Paquets\PaquetEvent.h"
+#include "GameManager.h"
 #include "LaunchAchievementLite.h"
+#include "Partie.h"
+#include "JoueurVirtuelRenforcement.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -87,6 +90,7 @@ void InitDLL()
     wGestionnaireReseau->ajouterOperationReseau(RONDELLE, new PacketHandlerRondelle, new UsinePaquetRondelle);
     wGestionnaireReseau->ajouterOperationReseau(GAME_EVENT, new PacketHandlerGameEvent, new UsinePaquetGameEvent);
     wGestionnaireReseau->ajouterOperationReseau(BONUS, new PacketHandlerBonus, new UsinePaquetBonus);
+    wGestionnaireReseau->ajouterOperationReseau(PORTAL, new PacketHandlerPortal, new UsinePaquetPortal);
 
     AchievementsManager::obtenirInstance()->InitialiseAchievements();
 
@@ -486,7 +490,7 @@ void SetSecondPlayer(bool pIsHuman, char* pName)
 
     if(pIsHuman)
     {
-        player = SPJoueurHumain(new JoueurHumain);
+        player = SPJoueurHumain(new JoueurHumain("Right Player"));
 
         // Test seulement
         //player = SPJoueurNetwork(new JoueurNetwork);
@@ -503,6 +507,7 @@ void SetSecondPlayer(bool pIsHuman, char* pName)
 void AddPlayer(char* pName, int pSpeed, int pFailProb)
 {
     SPJoueurAbstrait joueurVirtuel(new JoueurVirtuel(pName, pSpeed, pFailProb));
+    //SPJoueurAbstrait joueurVirtuel(new JoueurVirtuelRenforcement("", pName, pSpeed, pFailProb));
     FacadeModele::getInstance()->ajouterJoueur(joueurVirtuel);
 }
 
@@ -531,7 +536,7 @@ void GetPlayers(AIProfile* pProfiles, int pNbrProfiles)
 	{
         joueur = FacadeModele::getInstance()->obtenirJoueur(*iter);
 
-        if(joueur->obtenirType()==JOUEUR_VIRTUEL)
+        if(joueur->obtenirType()==JOUEUR_VIRTUEL || joueur->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
 	    {
 		    SPJoueurVirtuel joueurVirtuel = std::dynamic_pointer_cast<JoueurVirtuel>(joueur);
 
@@ -715,7 +720,7 @@ void BeginNewTournament(char* pTournamentName, char* pMapName, char** pPlayerNam
 		// Empty name means human player
 		if(strlen(pPlayerNames[i]) == 0)
         {
-            players.push_back(SPJoueurAbstrait(new JoueurHumain("Joueur humain")));
+            players.push_back(SPJoueurAbstrait(new JoueurHumain("Human Player")));
         }
 		else // AI player
 		{	
@@ -901,6 +906,53 @@ void GetServersGames(OnlineGameInfos* pGames, int pNbrGames)
 void LaunchAchievementEvent( AchievementEvent pEvent )
 {
     Achievements::LaunchEvent(pEvent);
+}
+
+
+
+void AskForAIOpponentInNetworkGame()
+{
+    // Demande l'ajout d'un joueur virtuel dans une partie sur le serveur
+
+    int wGameId = FacadeModele::getInstance()->obtenirPartieCouranteId();
+    Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+    if(wGame)
+    {
+        PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+        wPaquet->setGameId(wGameId);
+        wPaquet->setEvent(GAME_EVENT_ADD_AI);
+        wPaquet->setPlayer1Name(GestionnaireReseau::obtenirInstance()->getPlayerName());
+        wPaquet->setEventOnPlayerLeft(wGame->obtenirNomJoueurGauche() == wPaquet->getPlayer1Name());
+        RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
+    }
+}
+
+void ResetAchievements()
+{
+    AchievementsManager::obtenirInstance()->ResetAchievements();
+}
+
+
+
+void TestTrajectoryPredictionDLL()
+{
+    Partie* wGame = FacadeModele::getInstance()->obtenirPartieCourante();
+
+    if(wGame)
+    {
+        PuckProjection wPred = wGame->getPuckProjection(75.0f, 10000);
+        std::cout << "Test prediction: " << wPred.position << "\t" << wPred.time << "ms" <<  std::endl;
+    }
+}
+
+void ReloadModels()
+{
+    GestionnaireModeles::obtenirInstance()->ReloadModels();
+}
+
+void SetEditionEventCallBack( EditionEventReceived callback )
+{
+    EditionEventManager::setEditionEventCallback(callback);
 }
 
 
