@@ -35,6 +35,8 @@ GLfloat colorArray[colorArraySize];
 #include "Modele3D.h"
 #include "GestionnaireModeles.h"
 #include "FacadeModele.h"
+#include "../Reseau/RelayeurMessage.h"
+#include "../Reseau/Paquets/PaquetBonus.h"
 
 CreateListDelegateImplementation(EmptyBonus)
 {
@@ -81,8 +83,7 @@ CreateListDelegateImplementation(Bonus)
     //return RazerGameUtilities::CreateListSphereDefault(pModel,DEFAULT_RADIUS);
 }
 #endif
-#include "../Reseau/RelayeurMessage.h"
-#include "../Reseau/Paquets/PaquetBonus.h"
+
 
 
 /// vertexArray size must be 81, colorArray size must be 108
