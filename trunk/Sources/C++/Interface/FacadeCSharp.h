@@ -89,7 +89,8 @@ extern "C"
     __declspec(dllexport) void SendMessageDLL( char* pConnectionId, char* pUsername, char * pMessage );
     __declspec(dllexport) void SendMessageGameDLL( char * pMessage );
     __declspec(dllexport) void ReloadModels(){GestionnaireModeles::obtenirInstance()->ReloadModels();}
-
+    __declspec(dllexport) void ResetAchievements();
+    
     __declspec(dllexport) bool ActionPerformed( ActionType action );
     __declspec(dllexport) bool IsGamePaused();
     __declspec(dllexport) void PauseGame(bool doPause);

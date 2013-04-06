@@ -768,6 +768,22 @@ void FacadeModele::animer( const float& temps)
         obtenirPartieCourante()->obtenirGameTime()->unPause();
     }
 
+#if !SHIPPING
+    auto partie = obtenirPartieCourante();
+    if(partie)
+    {
+        auto puck = partie->getField()->getPuck();
+        if(puck)
+        {
+            auto vel = puck->obtenirVelocite();
+            char buffer[56];
+            sprintf(buffer,"Speed [%.2f,%.2f]",vel[0],vel[1]);
+            debugInfo->setMessage(buffer);
+            debugInfo->modifierVisibilite(true);
+        }
+    }
+#endif
+
     RazerGameUtilities::Updating(false);
 }
 
@@ -1057,7 +1073,7 @@ bool FacadeModele::passageModeJeu()
     // Jeu local
     if(prochainePartie_ == -1)
     {
-        partieCourante_ = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE,SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")));
+        partieCourante_ = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE,SPJoueurAbstrait(new JoueurHumain("Left Player")));
 
         GameManager::obtenirInstance()->setMapForGame(partieCourante_, getCurrentMap());
         if(!GameManager::obtenirInstance()->startGame(partieCourante_))

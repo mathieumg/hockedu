@@ -1104,7 +1104,7 @@ void Partie::SendAchievementEventToHumanPlayer( SPJoueurAbstrait player,Achievem
         if(isOfflineGame())
         {
             /// it is possible to have human vs human, so we check to make sure
-            SPJoueurAbstrait oppositePlayer = player == joueurGauche_ ? joueurGauche_: joueurDroit_;
+            SPJoueurAbstrait oppositePlayer = player == joueurGauche_ ? joueurDroit_ : joueurGauche_;
             if(oppositePlayer->obtenirType() == player->obtenirType())
             {
                 /// incoherence pour les achievements, on sort

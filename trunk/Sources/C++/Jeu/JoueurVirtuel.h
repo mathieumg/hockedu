@@ -60,21 +60,21 @@ public:
 	virtual Vecteur2 obtenirDirectionAI(NoeudMaillet* maillet);
 	/// Accesseur de aiMaillet_
 	AIMaillet* getAiMaillet() const { return aiMaillet_; }
-	void setAiMaillet(AIMaillet* val) { aiMaillet_ = val; }
+	void setAiMaillet(AIMaillet* val);
 private:
 	/// Vitesse du joueur
 	unsigned int vitesse_;
 	
 	/// Probabilité de manquer la rondelle
 	unsigned int probabiliteEchec_;
-
+    /// Pointeur sur AIMaillet pour savoir dans quelle direction aller
+    AIMaillet* aiMaillet_;
 	
 protected:
 	/// Initialisaiton du joueur à partir d'un element XML
 	virtual bool initialiser(const XmlElement* element);
 
-    /// Pointeur sur AIMaillet pour savoir dans quelle direction aller
-    AIMaillet* aiMaillet_;
+
 	
 };
 

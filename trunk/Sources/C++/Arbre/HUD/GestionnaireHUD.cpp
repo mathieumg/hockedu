@@ -369,7 +369,7 @@ void GestionnaireHUD::creerHUDJeu()
     panneauVainqueur->modifierTaille(0.6f, 0.6f);
     panneauVainqueur->modifierPosition(0.2f, 0.2f);
 
-    HUDTexte* textePartieTerminee = new HUDTexte("Partie terminée! Le gagnant est:", Vecteur4f(1.0f,1.0f,1.0f,1.0f), policeGrosTexte);
+    HUDTexte* textePartieTerminee = new HUDTexte("Game over! The winner is :", Vecteur4f(1.0f,1.0f,1.0f,1.0f), policeGrosTexte);
     textePartieTerminee->modifierPosition(0.1f, 0.33f);
     panneauVainqueur->add(textePartieTerminee);
 
@@ -377,11 +377,11 @@ void GestionnaireHUD::creerHUDJeu()
     texteNomVainqueur->modifierPosition(0.3f, 0.66f);
     panneauVainqueur->add(texteNomVainqueur);
 
-    std::string messageContinuer("Appuyez sur une touche pour continuer...");
+    std::string messageContinuer("Press any key to continue...");
     HUDTexte* espacePourContinuer = new HUDTexte(messageContinuer, Vecteur4f(1.0f,1.0f,1.0f,0.9f), policeGrosTexte);
     espacePourContinuer->modifierPosition(0.0f, 0.9f);
     panneauVainqueur->add(espacePourContinuer);
-    std::string messageContinuer2("Ou appuyer sur R pour une reprise video");
+    std::string messageContinuer2("Or press Ctrl + R for a video replay!");
     HUDTexte* espacePourContinuer2 = new HUDTexte(messageContinuer2, Vecteur4f(1.0f,1.0f,1.0f,0.9f), policeGrosTexte);
     espacePourContinuer2->modifierPosition(0.0f, 1.0f);
     panneauVainqueur->add(espacePourContinuer2);
@@ -547,11 +547,11 @@ void GestionnaireHUD::creerHUDTournoi()
     /////////////////////////////////////////////////
     // appuyez sur une touche pour continuer...    //
     /////////////////////////////////////////////////
-    std::string messageContinuer("Appuyez sur une touche pour continuer...");
+    std::string messageContinuer("Press any key to continue...");
     HUDTexte* espacePourContinuer = new HUDTexte(messageContinuer, Vecteur4f(1.0f,1.0f,1.0f,0.9f));
     espacePourContinuer->modifierPosition(0.6f, 0.90f);
     racineTournoi_->add(espacePourContinuer);
-    std::string messageContinuer2("Ou appuyer sur R pour une reprise video");
+    std::string messageContinuer2("Or press Ctrl + R for a video replay!");
     HUDTexte* espacePourContinuer2 = new HUDTexte(messageContinuer2, Vecteur4f(1.0f,1.0f,1.0f,0.9f));
     espacePourContinuer2->modifierPosition(0.6f, 0.95f);
     racineTournoi_->add(espacePourContinuer2);
