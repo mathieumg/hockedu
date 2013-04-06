@@ -263,7 +263,7 @@ void AchievementStartApp::EventStartCallBack( AbstractAchievement* pAchievement 
 {
     auto achievement = (AchievementStartApp*)pAchievement;
     achievement->GoToNextLevel();
-    AchievementsManager::obtenirInstance()->AchievementUnlocked(ACHIEVEMENTS_START_APPLICATION,"Start Application");
+    AchievementsManager::obtenirInstance()->AchievementUnlocked(ACHIEVEMENTS_START_APPLICATION,"Break the ice");
 }
 
 
@@ -275,10 +275,10 @@ const int NbGameWinNeeded[] =
 const std::string achievementName[] =
 {
     "Welcome to the victor's club",
-    "Game won L2 ( 5 Games )",
-    "Game won L3 ( 20 Games )",
-    "Game won L4 ( 50 Games )",
-    "Game won L5 ( 100 Games )",
+    "Keep going Jack",
+    "Way to go bro",
+    "You like that game too much",
+    "Ok now just go play outside",
 };
 
 
@@ -499,7 +499,7 @@ const std::string AchievementPortal::PORTAL_LEVEL_NAME[4] =
 {
     "Welcome to Aperture Science",
     "I suppose you want some cake?",
-    "Now your thinking with portals",
+    "Now you're thinking with portals",
     "The cake is a lie"
 };
 

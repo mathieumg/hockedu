@@ -77,7 +77,9 @@
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
 
-
+#if MIKE_DEBUG_
+PRAGMA_DISABLE_OPTIMIZATION
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -1082,7 +1084,7 @@ void Terrain::appliquerPhysique( float temps )
             if(body)
             {
                 auto velocity = body->GetLinearVelocity();
-                const float maxSpeed = 1500* utilitaire::ratioWorldToBox2D;
+                const float maxSpeed = 1000* utilitaire::ratioWorldToBox2D;
                 float speed = velocity.Normalize();
                 if(speed > maxSpeed)
                 {
@@ -1740,6 +1742,8 @@ bool Terrain::IsNodeAtValidEditionPosition( NoeudAbstrait* pNode, bool pDoHightl
 ////////////////////////////////////////////////////////////////////////
 bool Terrain::FixCollidingObjects()
 {
+    VisiteurFunction v(DeactivateHighlight);
+    acceptVisitor(v);
 #if BOX2D_INTEGRATED  
     if(mLogicTree)
     {
@@ -2719,6 +2723,9 @@ void Terrain::setBonusesMaxTimeSpawn( const float pVal )
     }
 }
 
+#if MIKE_DEBUG_
+PRAGMA_ENABLE_OPTIMIZATION
+#endif
 
 
 ///////////////////////////////////////////////////////////////////////////
