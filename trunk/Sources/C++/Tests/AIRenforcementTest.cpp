@@ -24,7 +24,8 @@ void AIRenforcementTest::setUp()
 	partie = new Partie(GAME_TYPE_OFFLINE,SPJoueurAbstrait(new JoueurVirtuel("")),SPJoueurAbstrait(new JoueurVirtuelRenforcement("")));
 	//joueur = partie->obtenirJoueurDroit();
 	// Creation du terrain
-	partie->getField()->creerTerrainParDefaut("Coliss");
+	partie->getField()->creerTerrainParDefaut("");
+	partie->getReadyToPlay();
 	//partie->modifierJoueurDroit(SPJoueurAbstrait(new JoueurVirtuelRenforcement("")));
 }
 ////////////////////////////////////////////////////////////////////////
@@ -62,7 +63,13 @@ void AIRenforcementTest::testDirectionPhaseDeplacement()
 	wPuck->setPosition(Vecteur3(1,0,0));
 	wPuck->modifierVelocite(Vecteur3(150,0,0));
 
-	//((JoueurVirtuelRenforcement*)wMaillet->obtenirJoueur())->obtenirDirectionAI(wMaillet);
+	// Setup strat
+	auto joueurVirtuel = (std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(wMaillet->obtenirJoueur()));
+	AIMailletRenforcement* aimaillet = (AIMailletRenforcement*)joueurVirtuel->getAiMaillet();
+
+	aimaillet->changerStrat(OFFENSIVE_LIGNE_DROITE);
+	//aimaillet-
+	joueurVirtuel->obtenirDirectionAI(wMaillet);
 	// Set la strategie
 	CPPUNIT_ASSERT(wMaillet->obtenirVelocite()!=Vecteur3());
 }

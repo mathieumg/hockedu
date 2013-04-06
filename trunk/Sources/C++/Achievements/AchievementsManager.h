@@ -40,6 +40,8 @@ class AchievementsManager : public Singleton<AchievementsManager>
     SINGLETON_DECLARATION_CLASSE_SANS_CONSTRUCTEUR(AchievementsManager);
     AchievementsManager();
     ~AchievementsManager();
+
+
 public:
     friend AchievementsTests;
     void InitialiseAchievements();
@@ -55,6 +57,9 @@ public:
     inline void setAchievementUnlockedCallback( AchievementUnlockCallBack pVal) { mAchievementUnlockedCallback = pVal; }
     void AchievementUnlocked(AchievementsType pType, const std::string& pAchievementName);
 
+    /// Fonction pour des tests
+    void ResetAchievements();
+
 private:
     typedef std::set<Binding*> EventListenerList;
     std::map<AchievementsType,AbstractAchievement*> mAchievementProgress;
@@ -62,7 +67,7 @@ private:
     AchievementUnlockCallBack mAchievementUnlockedCallback;
 
     void CreateAchievements();
-
+    void ClearMemory();
 };
 
 

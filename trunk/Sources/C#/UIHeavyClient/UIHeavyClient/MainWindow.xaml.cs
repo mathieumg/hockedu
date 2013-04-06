@@ -306,6 +306,12 @@ namespace UIHeavyClient
                 debugItem.Click += SwitchPlayMode;
                 debugMenu.Items.Add( debugItem );
             }
+            {
+                System.Windows.Controls.MenuItem debugItem = new System.Windows.Controls.MenuItem();
+                debugItem.Header = "Reset Achievements";
+                debugItem.Click += ResetAchievements;
+                debugMenu.Items.Add(debugItem);
+            }
 #endif
             SetAchievementUnlocked( mAchievementUnlockCallBack );
 
@@ -328,6 +334,12 @@ namespace UIHeavyClient
         {
             MainWindowHandler.GoToPlayMode( ActionType.ACTION_ALLER_MODE_JEU );
         }
+        void ResetAchievements(object sender, RoutedEventArgs e)
+        {
+            ResetAchievements();
+        }
+        [DllImport(@"RazerGame.dll")]
+        public static extern void ResetAchievements();
 
         [DllImport(@"RazerGame.dll")]
         public static extern void ReloadModels();

@@ -1073,7 +1073,7 @@ bool FacadeModele::passageModeJeu()
     // Jeu local
     if(prochainePartie_ == -1)
     {
-        partieCourante_ = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE,SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")));
+        partieCourante_ = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE,SPJoueurAbstrait(new JoueurHumain("Left Player")));
 
         GameManager::obtenirInstance()->setMapForGame(partieCourante_, getCurrentMap());
         if(!GameManager::obtenirInstance()->startGame(partieCourante_))
@@ -1149,12 +1149,13 @@ bool FacadeModele::passageMenuPrincipal()
 void FacadeModele::reinitialiserPartie()
 {
     Partie* wGame = GameManager::obtenirInstance()->getGame(partieCourante_);
-    if(wGame)
+    if(wGame && !wGame->isNetworkClientGame())
     {
         wGame->reinitialiserPartie();
         wGame->miseAuJeu(true);
     }
 }
+    
 
 ////////////////////////////////////////////////////////////////////////
 ///

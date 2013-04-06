@@ -16,10 +16,10 @@ body
 
 #logo
 {
-	background-image: url("logo.jpg");
+	background-image: url("images/HockeduLogo.png");
 	background-repeat: no-repeat;
-	height: 244px;
-	width: 924px;
+    width: 800px;
+    height: 200px;
 	margin: auto;
 	margin-top: 0px;
 	padding-bottom: 0px;
