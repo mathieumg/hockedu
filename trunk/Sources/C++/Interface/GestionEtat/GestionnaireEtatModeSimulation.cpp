@@ -66,7 +66,7 @@ GestionnaireEtatAbstrait()
 
     for(int i=0; i<2; ++i)
     {
-        int partieCourante = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE,SPJoueurAbstrait(new JoueurVirtuel("Joueur Gauche",225,50)),SPJoueurAbstrait(new JoueurVirtuel("Joueur Droit",225,50)));
+        int partieCourante = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE,SPJoueurAbstrait(new JoueurVirtuel("Left Player",225,50)),SPJoueurAbstrait(new JoueurVirtuel("Joueur Droit",225,50)));
         auto pointeurPartie = GameManager::obtenirInstance()->getGame(partieCourante);
         if(i==0)
         {
