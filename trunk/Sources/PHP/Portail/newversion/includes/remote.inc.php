@@ -279,6 +279,129 @@ if( !$commonRemoteModule )
                 }
                 
                 break; 
+                
+            case 'sendachievements': 
+                if( empty( $_POST['user_id'] ) )
+                {
+                    $jsonResponse['error'] = 'UserIdMissing';
+                }
+                else if( empty( $_POST['auth_key'] ) )
+                {
+                    $jsonResponse['error'] = 'AuthKeyMissing';
+                }
+                else if( !isset( $_FILES['achievementsfile'] ) || $_FILES['achievementsfile']['size'] == 0 )
+                {
+                    $jsonResponse['error'] = 'AchievementsFileMissing';
+                }
+                else if( $_FILES['achievementsfile']['error'] !== 0 )
+                {
+                    $jsonResponse['error'] = 'AchievementsFileUploadError';
+                }
+                else if( $_FILES['achievementsfile']['type'] !== 'text/xml' )
+                {
+                    $jsonResponse['error'] = 'AchievementsFileInvalidType';
+                }
+                else
+                {
+                    // Get DB connection.
+                    $Common = Common::getInstance();
+                    
+                    // Is the authentication key valid?
+                    if( $Common->validateAuthenticationKey( $_POST['auth_key'], $_POST['user_id'] ) )
+                    {
+                        $userId = $_POST['user_id'];
+                        $achievementsContent = file_get_contents( $_FILES['achievementsfile']['tmp_name'] );
+                        
+                        $xml = new SimpleXMLElement( $achievementsContent );
+                        
+                        foreach( $xml->Achievement as $achievement )
+                        {
+                            $achievementId = $achievement['Id'];
+                            $isUnlocked = false;
+                            $progressData = null;
+                            
+                            if( isset( $achievement['Unlocked'] ) )
+                            {
+                                $isUnlocked = true;
+                            }
+                            else if( isset( $achievement->Data ) )
+                            {
+                                $progressData = $achievement->Data->asXML();
+                            }
+                            
+                            $Common->updateUserAchievement( $userId, $achievementId, $isUnlocked, $progressData );
+                        }
+
+                        //$jsonResponse['ok'] = 'AuthKeyInvalid';
+                    }
+                    else
+                    {
+                        $jsonResponse['error'] = 'AuthKeyInvalid';
+                    }
+                }
+            
+                break;
+                
+            case 'getachievements':
+                if( empty( $_POST['user_id'] ) )
+                {
+                    $jsonResponse['error'] = 'UserIdMissing';
+                }
+                else if( empty( $_POST['auth_key'] ) )
+                {
+                    $jsonResponse['error'] = 'AuthKeyMissing';
+                }
+                else
+                {
+                     // Get DB connection.
+                    $Common = Common::getInstance();
+                    
+                    // Is the authentication key valid?
+                    if( $Common->validateAuthenticationKey( $_POST['auth_key'], $_POST['user_id'] ) )
+                    {
+                        $userId = $_POST['user_id'];
+                        
+                        $userAchievements = $Common->getUserAchievements( $userId );
+                        
+                        // Work-around for deep copy of SimpleXML elements.
+                        function xml_adopt($root, $new) {
+                            $node = $root->addChild($new->getName(), (string) $new);
+                            foreach($new->attributes() as $attr => $value) {
+                                $node->addAttribute($attr, $value);
+                            }
+                            foreach($new->children() as $ch) {
+                                xml_adopt($node, $ch);
+                            }
+                        }
+                        
+                        $xml = new SimpleXMLElement('<Achievements></Achievements>'); 
+                        
+                        foreach( $userAchievements as $userAchievement )
+                        {
+                            $achievement = $xml->addChild('Achievement');
+                            $achievement->addAttribute('Id', $userAchievement['id_achievement']);
+                            
+                            if( $userAchievement['unlocked'] == 1 )
+                            {
+                                $achievement->addAttribute('Unlocked', '1');
+                            }
+                            
+                            if( !empty( $userAchievement['progress_data'] ) )
+                            {
+                                $dbNode = new SimpleXMLElement( $userAchievement['progress_data'] );
+                                xml_adopt($achievement, $dbNode);
+                            }
+                        }                        
+
+                        $jsonResponse['achievements'] = $xml->asXML();
+                    }
+                    else
+                    {
+                        $jsonResponse['error'] = 'AuthKeyInvalid';
+                    }
+                }
+                
+                break;
 
             default:
                 $jsonResponse['error'] = 'UnknownRequest';
@@ -288,10 +411,13 @@ if( !$commonRemoteModule )
 }
 
 // JSON-encode it.
-if( !empty( $jsonResponse ) )
-{
-    header('Content-Type: application/json');
-    echo json_encode( $jsonResponse );
-}
+//if( empty( $jsonResponse ) )
+//{
+//    $jsonResponse = '';
+//}
+    
+header('Content-Type: application/json');
+echo json_encode( (object)$jsonResponse );
+//}
 
 $Website->doNotDisplaySite();
