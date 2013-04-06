@@ -30,7 +30,7 @@
 #include "../Reseau/Paquets/PaquetGameEvent.h"
 #include "../Reseau/Paquets/PaquetPortal.h"
 #include "../Reseau/RelayeurMessage.h"
-
+#include "../Reseau/Paquets/PaquetBonus.h"
 #else
 #endif
 
@@ -70,7 +70,7 @@
 #include "VisiteurSuppression.h"
 #include "EditionEventManager.h"
 #include "ForceField.h"
-#include "../Reseau/Paquets/PaquetBonus.h"
+
 
 
 #define TransmitEvent(e) EditionEventManager::TransmitEvent(e)
