@@ -105,6 +105,12 @@ void AbstractAchievement::GoToNextLevel()
     RegisterLevel(mLevelUnlocked);
 }
 
+const char AchievementTag[] = "Achievement";
+const char DataTag[] = "Data";
+const char IdTag[] = "Id";
+const char UnlockedTag[] = "Unlocked";
+
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn XmlElement* AbstractAchievement::CreateAchievementNode()
@@ -117,25 +123,25 @@ void AbstractAchievement::GoToNextLevel()
 ////////////////////////////////////////////////////////////////////////
 void AbstractAchievement::CreateAchievementNode(XmlElement* root) const
 {
-    XmlElement* elem = XMLUtils::createNode("Achievement");
+    XmlElement* elem = XMLUtils::createNode(AchievementTag);
 
     int id = GetFirstType();
     for(unsigned int i=0; i<mLevelUnlocked; ++i)
     {
-        XMLUtils::writeAttribute(elem,"Id",id);
-        XMLUtils::writeAttribute(elem,"Unlocked",1);
+        XMLUtils::writeAttribute(elem,IdTag,id);
+        XMLUtils::writeAttribute(elem,UnlockedTag,1);
         XMLUtils::LinkEndChild(root,elem);
 
-        elem = XMLUtils::createNode("Achievement");
+        elem = XMLUtils::createNode(AchievementTag);
         ++id;
     }
 
     if(mLevelUnlocked<mNbLevels)
     {
-        XMLUtils::writeAttribute(elem,"Id",id);
+        XMLUtils::writeAttribute(elem,IdTag,id);
         XMLUtils::LinkEndChild(root,elem);
 
-        XmlElement* data = XMLUtils::createNode("Data");
+        XmlElement* data = XMLUtils::createNode(DataTag);
         FillAchievementData(data);
         XMLUtils::LinkEndChild(elem,data);
     }
@@ -163,7 +169,7 @@ bool AbstractAchievement::LoadAchievementNode( const XmlElement* root )
     for(auto elem = XMLUtils::FirstChildElement(root); elem; elem = XMLUtils::NextSibling(elem))
     {
         int id;
-        if(XMLUtils::readAttribute(elem,"id",id))
+        if(XMLUtils::readAttribute(elem,IdTag,id))
         {
             unsigned int level = id-firstId;
             if(level < mNbLevels)
@@ -174,23 +180,37 @@ bool AbstractAchievement::LoadAchievementNode( const XmlElement* root )
                     mLevelUnlocked = level;
                     maxLevelElem = elem;
                 }
+
+                if(level == mNbLevels-1)
+                {
+                    // early exist
+                    break;
+                }
             }
         }
     }
 
     if(maxLevelElem)
     {
+        int i;
+        /// si on trouve l'attribut unlocked sur le dernier achievement, c'est qu'on a probablement fini l'achievement
+        if(XMLUtils::readAttribute(maxLevelElem,UnlockedTag,i))
+        {
+            ++mLevelUnlocked;
+        }
+
         if(mLevelUnlocked != 0)
         {
             UnRegisterLevel(0);
             RegisterLevel(mLevelUnlocked);
         }
 
-        const XmlElement* data = XMLUtils::FirstChildElement(maxLevelElem,"Data");
+        const XmlElement* data = XMLUtils::FirstChildElement(maxLevelElem,DataTag);
         if(data)
         {
             return LoadAchievementData(data);
         }
+        return mLevelUnlocked == mNbLevels;
     }
     return false;
 }
