@@ -30,7 +30,7 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-AIMaillet::AIMaillet(const JoueurVirtuel& jv): strategie_(0),jv_(jv)
+AIMaillet::AIMaillet(JoueurVirtuel* jv): strategie_(0),jv_(jv)
 {
 
 }

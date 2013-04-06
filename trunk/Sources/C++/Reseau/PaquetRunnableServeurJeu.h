@@ -25,14 +25,7 @@ namespace PaquetRunnable
 
     int RunnableGameConnectionServerGame(Paquet* pPaquet);
 
-    int RunnableGameEventServerGame(Paquet* pPaquet);
-
-    // Section Bonus
-    int RunnableBonusMailletMuretServerGame(PaquetBonus* pPaquet);
-    int RunnableBonusGoalerServerGame(PaquetBonus* pPaquet);
-
-
-    
+    int RunnableGameEventServerGame(Paquet* pPaquet);    
 };
 
 

@@ -28,19 +28,23 @@ public:
 	/// Retourne la direction à prendre pour le maillet selon une stratégie offensive
 	virtual Vecteur2 appliquerStrategie( NoeudMaillet* maillet );
 
+    virtual void calculateTagetPos() = 0;
+
 	/// Attributs
 protected:
 	bool tirReussi_;
-	Vecteur2 malletTargetPos;
+	Vecteur2 mMalletTargetPos;
 	Vecteur2 mPointVise;
 	Vecteur2 mPointImpact;
 	int mTimeBeforeImpact;
+    bool mCalculEffectue;
+    bool mAttackMode;
 
 public:
 	virtual typeStrat obtenirType() { return OFFENSIVE; }
 	/// Accesseur de malletTargetPos
-	Vecteur2 getMalletTargetPos() const { return malletTargetPos; }
-	void setMalletTargetPos(Vecteur2 val) { malletTargetPos = val; }
+	Vecteur2 getMalletTargetPos() const { return mMalletTargetPos; }
+	void setMalletTargetPos(Vecteur2 val) { mMalletTargetPos = val; }
 	/// Accesseur de mTimeBeforeImpact
 	int getTimeBeforeImpact() const { return mTimeBeforeImpact; }
 	void setTimeBeforeImpact(int val) { mTimeBeforeImpact = val; }

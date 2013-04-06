@@ -260,7 +260,7 @@ namespace vue {
    void VuePerspectiveOrbit::deplacerXYSouris(float deplacementX, float deplacementY)
    {
       //projection_.translater(deplacementX, deplacementY);
-       Vecteur2i d(deplacementX,deplacementY);
+       Vecteur2i d((int)deplacementX,(int)deplacementY);
        deplacerXYSouris(d);
    }
 

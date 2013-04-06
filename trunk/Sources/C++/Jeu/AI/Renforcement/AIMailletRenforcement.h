@@ -23,7 +23,7 @@ class AIMailletRenforcement : public AIMaillet
 {
 public:
 	/// Constructeur
-	AIMailletRenforcement(const JoueurVirtuel&);
+	AIMailletRenforcement(JoueurVirtuel* pJoueur);
 	/// Destructeur
 	virtual ~AIMailletRenforcement();
 	/// Évaluation de la stratégie à utiliser
@@ -31,7 +31,7 @@ public:
 	
 
 private: 
-	
+	bool mPuckWasOnOppenentSize;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

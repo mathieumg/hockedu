@@ -9,6 +9,10 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Shipping|x64">
+      <Configuration>Shipping</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="WithJava|x64">
       <Configuration>WithJava</Configuration>
       <Platform>x64</Platform>
@@ -22,6 +26,11 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -40,6 +49,9 @@
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -56,8 +68,11 @@
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'">true</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../Content/Release/</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">../../../Livrable final/Exe/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">false</LinkIncremental>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
@@ -65,11 +80,15 @@
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'" />
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'" />
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</PostBuildEventUseInBuild>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'">false</PostBuildEventUseInBuild>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">false</PostBuildEventUseInBuild>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;C:\Program Files\Java\jdk1.6.0_25\include;</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'">$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;C:\Program Files\Java\jdk1.6.0_25\include;</IncludePath>
   </PropertyGroup>
@@ -183,6 +202,42 @@
       <Message>Tests unitaires</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalIncludeDirectories>Physics;Achievements;..\..\Commun\Externe\FreeImage\include;$(JAVA_HOME)/include;$(JAVA_HOME)/include/win32;../../Commun/Externe/JAWT_info/include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Application;Arbre;Arbre/FieldModificationStrategy;Arbre/Noeuds;Arbre/Usines;Arbre/Bonus;Arbre/Visiteur;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/;..\C#\UIHeavyClient\UIHeavyClient;../../Commun/Externe/DirectorySearch/inc</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SHIPPING=1;CREATING_DLL;WIN32;NDEBUG;_WINDOWS;_USRDLL;RazerGame_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ForcedIncludeFiles>Solution_Defines.h</ForcedIncludeFiles>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;freetype246_R_x64.lib;glew32s.lib;tinyxml_R_x64.lib;assimp_R_x64.lib;cppunit_R_x64.lib;fmodex64_vc.lib;glew32.lib;Box2D_R.lib;Utilitaire_S.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>../../Commun/Externe/xerces-c/lib;../../Commun/Externe/FreeType/lib;../../Commun/Externe/GLEW/lib;../../Commun/Externe/tinyxml/lib;../../Commun/Externe/assimp/lib;../../Commun/Externe/cppunit/lib;../../Commun/Externe/FMOD/lib;$(SolutionDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>$(SolutionDir)..\Java\LancerInterfaceGraphique.bat</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Tests unitaires</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Achievements\Achievements.cpp" />
     <ClCompile Include="Achievements\AchievementsManager.cpp" />
@@ -267,6 +322,7 @@
     <ClCompile Include="Interface\FacadeJNI.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Configuration\ConfigScene.cpp" />
     <ClCompile Include="Arbre\ArbreRendu.cpp" />
@@ -330,6 +386,7 @@
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameStatus.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerLoginInfo.cpp" />
     <ClCompile Include="reseau\PaquetHandlers\PacketHandlerMaillet.cpp" />
+    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerPortal.cpp" />
     <ClCompile Include="reseau\PaquetHandlers\PacketHandlerRondelle.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerTest.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp" />
@@ -347,6 +404,7 @@
     <ClCompile Include="Reseau\Paquets\PaquetGameStatus.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetLoginInfo.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetMaillet.cpp" />
+    <ClCompile Include="Reseau\Paquets\PaquetPortal.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetRondelle.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetTest.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetUserStatus.cpp" />
@@ -456,6 +514,7 @@
     <ClInclude Include="Interface\FacadeJNI.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Configuration\ConfigScene.h" />
     <ClInclude Include="Arbre\ArbreRendu.h" />
@@ -511,7 +570,6 @@
     <ClInclude Include="Reseau\PacketBuilder.h" />
     <ClInclude Include="Reseau\PacketReader.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandler.h" />
-    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerBonus.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerConnAutomatique.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerEvent.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerLoginInfo.h" />
@@ -530,6 +588,7 @@
     <ClInclude Include="Reseau\Paquets\PaquetGameStatus.h" />
     <ClInclude Include="Reseau\Paquets\PaquetLoginInfo.h" />
     <ClInclude Include="Reseau\Paquets\PaquetMaillet.h" />
+    <ClInclude Include="Reseau\Paquets\PaquetPortal.h" />
     <ClInclude Include="Reseau\Paquets\PaquetRondelle.h" />
     <ClInclude Include="Reseau\Paquets\PaquetTest.h" />
     <ClInclude Include="Reseau\Paquets\PaquetUserStatus.h" />
@@ -547,6 +606,7 @@
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameStatus.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetLoginInfo.h" />
     <ClInclude Include="reseau\UsinePaquets\UsinePaquetMaillet.h" />
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetPortal.h" />
     <ClInclude Include="reseau\UsinePaquets\UsinePaquetRondelle.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetTest.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetUserStatus.h" />

@@ -1057,7 +1057,7 @@ bool FacadeModele::passageModeJeu()
     // Jeu local
     if(prochainePartie_ == -1)
     {
-        partieCourante_ = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE,SPJoueurAbstrait(new JoueurHumain("Joueur Gauche")));
+        partieCourante_ = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE,SPJoueurAbstrait(new JoueurHumain("Left Player")));
 
         GameManager::obtenirInstance()->setMapForGame(partieCourante_, getCurrentMap());
         if(!GameManager::obtenirInstance()->startGame(partieCourante_))

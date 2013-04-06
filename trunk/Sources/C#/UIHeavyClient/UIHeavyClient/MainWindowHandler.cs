@@ -402,6 +402,24 @@ namespace UIHeavyClient
             }
         }
 
+
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindowHandler.CallbackMapUploaded()
+        ///
+        /// Upload map callback
+        /// 
+        /// @param[in] UploadOperationStatus : status.
+        /// @param[in] int : map id.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        public static void CallbackMapUploaded(HttpHockeduRequests.UploadOperationStatus pStatus, int pMapId)
+        {
+            // Implement this
+            Console.WriteLine(pStatus);
+            Console.WriteLine(pMapId);
+        }
         ////////////////////////////////////////////////////////////////////////
         /// @fn void MainWindowHandler.SaveMapToServer()
         ///
@@ -409,10 +427,10 @@ namespace UIHeavyClient
         ///
         /// @return void.
         ////////////////////////////////////////////////////////////////////////
-        public static void SaveMapToServer()
+        public static void SaveMapToServer(int pUserId, string pAuthenticationKey, string pMapName, string pMapDescription, bool pMapPublic, string pFilepath, int pMapId)
         {
             HttpManager wHttpManager = new HttpManager();
-            wHttpManager.uploadNewMap(12, "", "", "", true, mCurrentMap, null); 
+            wHttpManager.sendMap(pUserId, pAuthenticationKey, pMapName, pMapDescription, pMapPublic, pFilepath, pMapId, CallbackMapUploaded); 
         }
 
         ////////////////////////////////////////////////////////////////////////
