@@ -66,6 +66,7 @@ typedef SOCKET HANDLE_SOCKET;
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/socket.h>
+#include <sys/stat.h>
 #include <errno.h>
 typedef pthread_mutex_t HANDLE_MUTEX;
 typedef pthread_t       HANDLE_THREAD;

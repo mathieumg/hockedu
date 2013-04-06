@@ -131,10 +131,7 @@ void AiLearnerTests::testConvertData()
     std::string wFilename = "unitTest";
 
     AILearner::convertirDonneesRaw(wFolderPath, wFilename, CallbackTestAiLearner);
-
-
 }
-
 
 
 void AiLearnerTests::testReloadAiLogic()

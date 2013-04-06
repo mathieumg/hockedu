@@ -36,9 +36,6 @@
 // lien avec la librairie winsock2
 #pragma comment( lib, "ws2_32.lib" )
 #endif
-#ifdef LINUX
-#include <sys/stat.h>
-#endif
 
 ByteOrder GestionnaireReseau::NATIVE_BYTE_ORDER = UNKNOWN;
 

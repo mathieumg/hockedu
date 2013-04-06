@@ -31,7 +31,7 @@ void parseParamWithArg(std::string& pOutParam, int pLoopCounter, int argc, char*
 int main(int argc, char* argv[])  {
 
 #ifdef LINUX
-    daemon();
+    daemon(0,0);
 #endif
 
     std::cout << "--------- Serveur Maitre ---------" << std::endl << std::endl;
@@ -103,7 +103,11 @@ int main(int argc, char* argv[])  {
     // To prevend the server to exit without killing it
     while(true)
     {
-        getchar(); // Pause until enter is pressed
+#ifdef LINUX
+        FacadePortability::sleep(1); // Pause until enter is pressed
+#else
+        getchar();
+#endif;
     }
 
     return 0;

@@ -652,7 +652,7 @@
     </ClCompile>
     <ClCompile Include="Jeu\PartieApprentissage.cpp">
       <Filter>Sources Files\Jeu</Filter>
-
+    </ClCompile>
     <ClCompile Include="Tests\AIRenforcementTest.cpp">
       <Filter>Sources Files\Tests</Filter>
     </ClCompile>
@@ -661,7 +661,6 @@
     </ClCompile>
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerPortal.cpp">
       <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
-
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1235,9 +1234,9 @@
     <ClInclude Include="Jeu\AI\AIStratOffensiveRenforcement.h">
       <Filter>Sources Files\Jeu\AI</Filter>
     </ClInclude>
-
     <ClInclude Include="Jeu\PartieApprentissage.h">
       <Filter>Sources Files\Jeu</Filter>
+    </ClInclude>
     <ClInclude Include="Tests\AIRenforcementTest.h">
       <Filter>Sources Files\Tests</Filter>
     </ClInclude>
