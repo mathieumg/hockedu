@@ -7,9 +7,19 @@
     </head>
 
     <body>
-        <div id="content" class="page_{$ModuleName}">
-            {* Include the current page *}
-            {include file="$TemplateToInclude"}
+        <div id="logo"></div>
+        <div id="container">
+            {* Include the menu at the top *}
+            {assign var="topmenu" value="true"}
+            {include file="menu.tpl"}
+            <div id="content" class="page_{$ModuleName}">
+                {* Include the current page *}
+                {include file="$TemplateToInclude"}
+            </div>
+            {* Include the menu at the bottom *}
+            {assign var="topmenu" value="false"}
+            {* include file="menu.tpl" *}
         </div>
+        <p id="copyright"><img src="{$ImagesURL}razorsharp_small.png" /><br /><br />Hockedu by RazorSharp Technologies &copy; All rights reserved - 2013</p>
     </body>
 </html>

@@ -103,7 +103,7 @@ int PaquetRunnable::RunnableChatMessageMasterServer( Paquet* pPaquet )
         // On envoie a tout le monde
         std::set<std::string> wListeIgnore;
         wListeIgnore.insert("GameServer");
-        RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, NULL, TCP);
+        RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, &wListeIgnore, TCP);
     }
 
     return 0;

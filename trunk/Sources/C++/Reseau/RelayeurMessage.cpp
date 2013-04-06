@@ -71,7 +71,8 @@ void RelayeurMessage::relayerPaquetGlobalement( Paquet* pPaquet, const std::set<
         {
             for(auto itListe = pListeNomsAIgnorer->begin(); itListe != pListeNomsAIgnorer->end(); itListe++)
             {
-                if((*itListe).find(*it) == 0) // Si contient le nom a ignorer au debut de son nom
+                size_t wIndexFound = (*it).find(*itListe);
+                if(wIndexFound == 0) // Si contient le nom a ignorer au debut de son nom
                 {
                     wNomFound = true;
                     break;

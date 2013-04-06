@@ -1,18 +1,27 @@
 @charset "utf-8";
 
-body 
+html 
 {
+    height: 100%;
+}
+
+body
+{
+
     margin:0;
 	margin-left: 10px;
     padding:0;
-    width:100%;
-    background-color: #efefef;
     font: 0.95em arial, sans-serif;
-}
-
-a:visited
-{
-	color: black;
+    background: #1e5799; /* Old browsers */
+    background: -moz-linear-gradient(top,  #1e5799 0%, #2989d8 50%, #7db9e8 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1e5799), color-stop(50%,#2989d8), color-stop(100%,#7db9e8)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #1e5799 0%,#2989d8 50%,#7db9e8 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #1e5799 0%,#2989d8 50%,#7db9e8 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #1e5799 0%,#2989d8 50%,#7db9e8 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #1e5799 0%,#2989d8 50%,#7db9e8 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
+        background-repeat: no-repeat;
+    background-color: #7db9e8;
 }
 
 table
@@ -257,4 +266,229 @@ input.error
 
 #footer p {
     padding:.5em 15px;
+}
+
+#logo
+{
+	background-image: url("images/HockeduLogo.png");
+	background-repeat: no-repeat;
+    width: 800px;
+    height: 200px;
+	margin: auto;
+	margin-top: 50px;
+	padding-bottom: 0px;
+}
+
+.ad
+{
+  margin-top: 10px;
+  text-align: center;
+}
+
+#container
+{
+	width: 820px;
+	margin: auto;
+	background-color: #a0cfff;
+	border-color: #1e5799;
+	border-width: 2px;
+	border-style: solid;
+    margin-top: 10px;
+        border-radius: 10px;
+    -moz-border-radius: 10px;
+    
+        -moz-border-radius: 10px;
+    -moz-box-shadow: 1px 1px black;
+    -webkit-box-shadow: 1px 1px black;
+    box-shadow: 1px 1px black;
+}
+
+a:visited
+{
+	color: #235e9b;
+}
+
+a:active
+{
+	color: #c2e0ff;
+}
+
+a
+{
+	color: #235e9b;
+}
+
+.menu
+{
+	list-style-type: none;
+	text-align: center;
+	background-color: #1874ca;
+	padding-top: 10px;
+	padding-bottom: 10px;
+    padding-right: 15px;
+    padding-left: 0px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    border-radius: 6px 6px 0px 0px;
+    -moz-border-radius: 6px 6px 0px 0px;
+        -moz-border-radius: 10px;
+    border-bottom: 2px solid #1e5799;
+}
+
+.menu li
+{
+	display: inline;
+	border-color: #5f7221;
+/* 	background-color: #97d553;
+	border-width: 2px;
+	border-style: solid;  */
+	padding: 5px;
+	color: white;
+	font-size: 14px;
+    margin: 3px;
+}
+
+.menu li a
+{
+	text-decoration: none;
+    text-shadow: 2px 2px 2px black;
+    font-weight: bold;
+	color: white;
+	padding: 5px;
+}
+
+.menu li a:hover
+{
+	background-color: #82b6e7;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -moz-box-shadow: inset 1px 1px #888;
+    -webkit-box-shadow: inset 1px 1px #888;
+    box-shadow: inset 1px 1px #888;
+}
+
+#content
+{
+	padding: 10px;
+}
+
+#content ul
+{
+	margin-left: 30px;
+}
+
+#content p
+{
+	margin-left: 10px;
+}
+
+h1
+{
+	color: #660000;
+	margin: 5px;
+	margin-bottom: 10px;
+	font-size: 22px;
+	font-weight: bold;
+}
+
+h2
+{
+	margin: 5px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.itembox
+{
+	background-color: #fbfdd5;
+	margin-left: 10px;
+	padding: 5px;
+	margin-bottom: 10px;
+}
+
+.itembox p
+{
+	margin-left: 10px;
+}
+
+.newsdetails
+{
+	font-size: 10px;
+	margin-top: 10px;
+}
+
+th
+{
+	padding-top: 3px;
+	padding-bottom: 3px;
+	background-color: #526a19;
+  color: white;
+}
+
+.tdthumb, .tdauthor, .tdrating, .tddownload
+{
+	text-align: center;
+}
+.tdauthor, .tdrating, .tddownload, .tddescription, .tdmapname
+{
+	background-color: #f0f3cc;
+	margin: 0px;
+	padding: 5px;
+	border: 1px solid #2c3d0a;
+	overflow: hidden;
+}
+
+.tddownload
+{
+	background-color: #FFFFFF;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.pages
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+.pages li
+{
+	display: inline;
+	margin-right: 3px;
+  margin-bottom: 35px;
+}
+
+.pages li a
+{
+	background-color: #f0f3cc;
+	text-decoration: none;
+	border: 1px solid #2c3d0a;
+	padding: 2px;
+	margin-right: 3px;
+}
+
+.currentpage
+{
+	font-weight: bold;
+}
+
+form p
+{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+sup, .error
+{
+	color: red;
+	font-weight: bold;
+}
+
+#copyright
+{
+	margin-top: 15px;
+	font-size: 10px;
+	text-align: center;
+	color: white;
 }
