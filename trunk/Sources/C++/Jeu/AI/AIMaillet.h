@@ -36,7 +36,7 @@ public:
 	/// Changement de strategie
 	void changerStrat(typeStrat);
 
-private:
+protected:
 	/// La stratégie du maillet
 	AIStrat* strategie_;
 	const JoueurVirtuel& jv_;

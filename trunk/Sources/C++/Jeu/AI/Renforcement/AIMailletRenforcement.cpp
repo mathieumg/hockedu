@@ -12,6 +12,10 @@
 #include "NoeudRondelle.h"
 #include "NoeudMaillet.h"
 #include "Terrain.h"
+#include "Partie.h"
+#include "FacadeModele.h"
+#include "AIStratOffensiveRenforcement.h"
+#include "JoueurVirtuelRenforcement.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -60,11 +64,43 @@ AIMailletRenforcement::~AIMailletRenforcement()
 ////////////////////////////////////////////////////////////////////////
 void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
 {
-    NoeudRondelle* rondelle;
-    if(!maillet->getField() || !(rondelle = maillet->getField()->getPuck()))
-        return;
+    // On utilise la prediction pour trouver la position de la rondelle a x=75
+    float wPosX = 75.0f;
+    if(maillet->estAGauche())
+    {
+        wPosX *= -1.0f;
+    }
 
-    (rondelle->getPosition()[VX] * maillet->getPosition()[VX] >= 0) ? changerStrat(OFFENSIVE_LIGNE_DROITE): changerStrat(DEFENSIVE);
+    Partie* wGame = FacadeModele::getInstance()->obtenirPartieCourante();
+
+    checkf(wGame);
+    if(wGame)
+    {
+        PuckProjection wPred = wGame->getPuckProjection(wPosX, 10000);
+
+        if(wPred.time == -1)
+        {
+            changerStrat(OFFENSIVE); // Ne fait que repousser la rondelle
+            return;
+        }
+
+        // Get good strat
+        
+        changerStrat(DEFENSIVE); // Va set le point vise
+
+        // Set important data
+        AIStratOffensiveRenforcement* wStrat = (AIStratOffensiveRenforcement*) strategie_;
+        wStrat->setPointImpact(wPred.position);
+        wStrat->setTimeBeforeImpact(wPred.time);
+
+
+    }
+    else
+    {
+        // Si erreur, on donne une valeur arbitraire
+        changerStrat(DEFENSIVE);
+    }
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////
