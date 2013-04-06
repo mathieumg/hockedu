@@ -6,6 +6,7 @@
 #include "Tournoi.h"
 #include "GestionnaireHUD.h"
 #include "..\reseau\UsinePaquets\UsinePaquetMaillet.h"
+#include "..\reseau\UsinePaquets\UsinePaquetPortal.h"
 #include "..\reseau\PaquetHandlers\PacketHandler.h"
 #include "..\Reseau\Paquets\PaquetGameCreation.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetGameCreation.h"
@@ -14,7 +15,6 @@
 #include "..\reseau\UsinePaquets\UsinePaquetRondelle.h"
 #include "VisitorGatherProperties.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetGameEvent.h"
-#include "..\Reseau\PaquetHandlers\PacketHandlerBonus.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetBonus.h"
 #include "..\Achievements\AchievementsManager.h"
 #include "FacadeModele.h"
@@ -90,6 +90,7 @@ void InitDLL()
     wGestionnaireReseau->ajouterOperationReseau(RONDELLE, new PacketHandlerRondelle, new UsinePaquetRondelle);
     wGestionnaireReseau->ajouterOperationReseau(GAME_EVENT, new PacketHandlerGameEvent, new UsinePaquetGameEvent);
     wGestionnaireReseau->ajouterOperationReseau(BONUS, new PacketHandlerBonus, new UsinePaquetBonus);
+    wGestionnaireReseau->ajouterOperationReseau(PORTAL, new PacketHandlerPortal, new UsinePaquetPortal);
 
     AchievementsManager::obtenirInstance()->InitialiseAchievements();
 

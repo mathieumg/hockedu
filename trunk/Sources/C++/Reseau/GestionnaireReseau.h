@@ -59,7 +59,8 @@ enum PacketTypes {
     MAILLET,
     RONDELLE,
     GAME_EVENT,
-    BONUS
+    PORTAL,
+    BONUS,
 };
 
 struct ConnectionStateEvent

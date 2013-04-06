@@ -90,14 +90,15 @@ public:
     }
     virtual ~AbstractAchievement();
     bool LoadAchievementNode(const XmlElement* root);
-    XmlElement* CreateAchievementNode() const;
+    void CreateAchievementNode(XmlElement*) const;
 
-    void InitFirstLevel() const;
-    virtual std::string GetXmlTag()const = 0;
+    void InitFirstLevel();
+    virtual AchievementsType GetFirstType() const = 0;
 protected:
     void GoToNextLevel();
     void RegisterLevel(unsigned int level) const;
     void UnRegisterLevel(unsigned int level) const;
+
 
     /// Overload this method to add parameters to the achievement persistency
     virtual void FillAchievementData(XmlElement* elem) const {}
@@ -107,8 +108,7 @@ protected:
     std::vector<AchievementLevelDefinition*> mLevelDefinitions;
 
     unsigned int mLevelUnlocked;
-private:
-    const XmlElement* GetXmlElement(const XmlElement* root) const;
+    unsigned int mNbLevels;
     
 };
 
@@ -124,9 +124,9 @@ class AchievementStartApp : public AbstractAchievement
 {
 public:
     AchievementStartApp();
-    virtual std::string GetXmlTag()const{return "StartApp";}
 protected:
     static void EventStartCallBack(AbstractAchievement* pAchievement, AchievementEvent pEvent);
+    virtual AchievementsType GetFirstType() const{return ACHIEVEMENTS_START_APPLICATION;}
 };
 
 ///////////////////////////////////////////////////////////////////////////
@@ -141,11 +141,11 @@ class AchievementGameWon : public AbstractAchievement
 {
 public:
     AchievementGameWon();
-    virtual std::string GetXmlTag()const{return "WinGame";}
 protected:
     static void EventWinCallBack(AbstractAchievement* pAchievement, AchievementEvent pEvent);
     virtual void FillAchievementData(XmlElement* elem) const;
     virtual bool LoadAchievementData(const XmlElement* elem);
+    virtual AchievementsType GetFirstType() const{return ACHIEVEMENTS_GAME_WON_L1;}
 private:
     int mNbGameWon;
 
@@ -163,11 +163,11 @@ class AchievementAICreation : public AbstractAchievement
 {
 public:
     AchievementAICreation();
-    virtual std::string GetXmlTag()const{return "AiCreation";}
 protected:
     static void EventAICreatedCallBack(AbstractAchievement* pAchievement, AchievementEvent pEvent);
     virtual void FillAchievementData(XmlElement* elem) const;
     virtual bool LoadAchievementData(const XmlElement* elem);
+    virtual AchievementsType GetFirstType() const{return ACHIEVEMENTS_AI_CREATION_L1;}
 private:
     int mNbAiCreated;
     static const int AI_CREATION_NEEDED[3];
@@ -186,11 +186,11 @@ class AchievementMute : public AbstractAchievement
 {
 public:
     AchievementMute();
-    virtual std::string GetXmlTag()const{return "MuteSound";}
 protected:
     static void EventMuteCallBack(AbstractAchievement* pAchievement, AchievementEvent pEvent);
     virtual void FillAchievementData(XmlElement* elem) const;
     virtual bool LoadAchievementData(const XmlElement* elem);
+    virtual AchievementsType GetFirstType() const{return ACHIEVEMENTS_MUTE;}
 private:
     static const std::string MUTE_LEVEL_NAME[1];
     bool mMuted;
@@ -208,11 +208,11 @@ class AchievementPortal : public AbstractAchievement
 {
 public:
     AchievementPortal();
-    virtual std::string GetXmlTag()const{return "PortalTaken";}
 protected:
     static void EventPortalCallBack(AbstractAchievement* pAchievement, AchievementEvent pEvent);
     virtual void FillAchievementData(XmlElement* elem) const;
     virtual bool LoadAchievementData(const XmlElement* elem);
+    virtual AchievementsType GetFirstType() const{return ACHIEVEMENTS_PORTAL_L1;}
 private:
     static const std::string PORTAL_LEVEL_NAME[4];
     static const int PORTAL_NEEDED[4];

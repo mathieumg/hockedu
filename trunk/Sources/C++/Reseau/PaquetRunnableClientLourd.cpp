@@ -24,9 +24,9 @@
 #include "SoundFMOD.h"
 #include "Box2D\Common\b2Math.h"
 #include "Box2D\Dynamics\b2Body.h"
-#include "PaquetHandlers\PacketHandlerBonus.h"
 #include "GestionnaireHUD.h"
 #include "ObjetsGlobaux\PartieServeurs.h"
+#include "Paquets\PaquetPortal.h"
 
 
 #ifdef LINUX
@@ -384,22 +384,69 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
 }
 
 
-////////// Section des bonus
 
-
-int PaquetRunnable::RunnableBonusMailletMuretClient( PaquetBonus* pPaquet )
+int PaquetRunnable::RunnableBonusClient( Paquet* pPaquet )
 {
-    PaquetBonusInfosMailletMurets* wInfos = (PaquetBonusInfosMailletMurets*) pPaquet->getPaquetInfos();
+    PaquetBonus* wPaquet = (PaquetBonus*)pPaquet;
+    int wGameId = wPaquet->getGameId();
+    PaquetBonusAction wAction = wPaquet->getBonusAction();
+    PaquetBonusType wType = wPaquet->getBonusType();
+    Vecteur2 pos = wPaquet->getBonusPosition();
+
+    Runnable* r = new Runnable([wGameId, pos](Runnable*){
+
+        /*switch(wAction)
+        {
+        case BONUS_ACTION_SPAN :
+            break;
+
+        case BONUS_ACTION_EXECUTE :
+            break;
+
+        case BONUS_ACTION_END :
+            break;
+        default:
+        }*/
+
+        /*Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+        if(wGame)
+        {
+            if(wGame->getField())
+            {
+                wGame->getField()->getPuck()->setPosition(pos);
+            }
+        }*/
+    });
+    RazerGameUtilities::RunOnUpdateThread(r,true);
+
+    return 0;
+}
+
+
+
+int PaquetRunnable::RunnablePortalClient( Paquet* pPaquet )
+{
+    PaquetPortal* wPaquet = (PaquetPortal*) pPaquet;
+    int wGameId = wPaquet->getGameId();
+    Vecteur3 pos = wPaquet->getPosition();
+    Runnable* r = new Runnable([wGameId, pos](Runnable*){
+        Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+        if(wGame)
+        {
+            if(wGame->getField())
+            {
+                wGame->getField()->getPuck()->setPosition(pos);
+            }
+        }
+    });
+    RazerGameUtilities::RunOnUpdateThread(r,true);
 
 
     return 0;
 }
 
 
-int PaquetRunnable::RunnableBonusGoalerClient( PaquetBonus* pPaquet )
-{
-    PaquetBonusInfosGoaler* wInfos = (PaquetBonusInfosGoaler*) pPaquet->getPaquetInfos();
 
 
-    return 0;
-}
+
+

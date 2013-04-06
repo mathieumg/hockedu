@@ -7,7 +7,6 @@
 #include "Partie.h"
 #include "Paquets/PaquetGameEvent.h"
 #include "RelayeurMessage.h"
-#include "PaquetHandlers/PacketHandlerBonus.h"
 #include "Runnable.h"
 #include "RazerGameTypeDef.h"
 #include "JoueurAbstrait.h"
@@ -70,12 +69,7 @@ ControllerServeurJeu::ControllerServeurJeu()
     mPaquetRunnables[GAME_CREATION_REQUEST]         = PaquetRunnable::RunnableGameCreationServerGame;
     mPaquetRunnables[GAME_CONNECTION]               = PaquetRunnable::RunnableGameConnectionServerGame;
     mPaquetRunnables[GAME_EVENT]                    = PaquetRunnable::RunnableGameEventServerGame;
-    mPaquetRunnables[BONUS]                         = PaquetRunnable::RunnableBonus;
     mPaquetRunnables[MAILLET]                       = PaquetRunnable::RunnableMailletServerGame;
-
-    // Runnables pour les bonus
-    PacketHandlerBonus::mRunnableList[BONUS_MAILLET_MURETS] = PaquetRunnable::RunnableBonusMailletMuretServerGame;
-    PacketHandlerBonus::mRunnableList[BONUS_GOALER]         = PaquetRunnable::RunnableBonusMailletMuretServerGame;
 
     GameManager::obtenirInstance()->addGameUpdateCallback(CallbackSetPatieSyncerServeurJeu);
     GameManager::obtenirInstance()->addGameUpdateCallback(CallbackGameEndedServeurJeu);

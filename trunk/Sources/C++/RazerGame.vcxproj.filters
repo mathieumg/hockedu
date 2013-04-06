@@ -653,6 +653,12 @@
     <ClCompile Include="Tests\AIRenforcementTest.cpp">
       <Filter>Sources Files\Tests</Filter>
     </ClCompile>
+    <ClCompile Include="Reseau\Paquets\PaquetPortal.cpp">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClCompile>
+    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerPortal.cpp">
+      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1159,9 +1165,6 @@
     <ClInclude Include="Reseau\Paquets\PaquetBonus.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerBonus.h">
-      <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
-    </ClInclude>
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetBonus.h">
       <Filter>Sources Files\Reseau\UsinePaquets</Filter>
     </ClInclude>
@@ -1230,6 +1233,12 @@
     </ClInclude>
     <ClInclude Include="Tests\AIRenforcementTest.h">
       <Filter>Sources Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\Paquets\PaquetPortal.h">
+      <Filter>Sources Files\Reseau\Paquets</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetPortal.h">
+      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

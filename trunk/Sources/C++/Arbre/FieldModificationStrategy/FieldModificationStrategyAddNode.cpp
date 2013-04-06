@@ -97,6 +97,11 @@ int FieldModificationStrategyAddNode::receivedEventSpecific( const FieldModifica
 ////////////////////////////////////////////////////////////////////////
 int FieldModificationStrategyAddNode::endStrategy()
 {
+    if(mNewNode)
+    {
+        mNewNode->deleteThis();
+    }
+    mNewNode = NULL;
     return mField->FixCollidingObjects();
 }
 
@@ -137,6 +142,11 @@ void FieldModificationStrategyAddNode::createNewNode(const Vecteur2& position)
 ////////////////////////////////////////////////////////////////////////
 int FieldModificationStrategyAddNode::cancelStratedy()
 {
+    if(mNewNode)
+    {
+        mNewNode->deleteThis();
+    }
+    mNewNode = NULL;
     return mField->FixCollidingObjects();
 }
 
