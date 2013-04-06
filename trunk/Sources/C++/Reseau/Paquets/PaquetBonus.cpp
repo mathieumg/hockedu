@@ -5,7 +5,7 @@
 
 PaquetBonus::PaquetBonus(  )
 {
-    mInfos = NULL;
+
 }
 
 
@@ -13,10 +13,7 @@ PaquetBonus::PaquetBonus(  )
 
 PaquetBonus::~PaquetBonus()
 {
-    if(mInfos)
-    {
-	    delete mInfos;
-    }
+
 }
 
 
