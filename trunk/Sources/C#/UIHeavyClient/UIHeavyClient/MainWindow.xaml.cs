@@ -239,7 +239,7 @@ namespace UIHeavyClient
             ConsoleManager.Show();
 
             System.Windows.Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-#if DEBUG || true // Trolol
+#if !SHIPPING
             System.Windows.Controls.MenuItem debugMenu = new System.Windows.Controls.MenuItem();
             debugMenu.Header = "Debug";
             MenuBar.Items.Add(debugMenu);

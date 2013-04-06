@@ -11,7 +11,6 @@
 #include "AbstractAchievement.h"
 #include "Achievements.h"
 #include <iostream>
-#include "sqlite3.h"
 #include <sstream>
 #include "XMLUtils.h"
 
