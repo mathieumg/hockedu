@@ -488,7 +488,7 @@ void SetSecondPlayer(bool pIsHuman, char* pName)
 
     if(pIsHuman)
     {
-        player = SPJoueurHumain(new JoueurHumain);
+        player = SPJoueurHumain(new JoueurHumain("Right Player"));
 
         // Test seulement
         //player = SPJoueurNetwork(new JoueurNetwork);
@@ -717,7 +717,7 @@ void BeginNewTournament(char* pTournamentName, char* pMapName, char** pPlayerNam
 		// Empty name means human player
 		if(strlen(pPlayerNames[i]) == 0)
         {
-            players.push_back(SPJoueurAbstrait(new JoueurHumain("Joueur humain")));
+            players.push_back(SPJoueurAbstrait(new JoueurHumain("Human Player")));
         }
 		else // AI player
 		{	
@@ -922,6 +922,11 @@ void AskForAIOpponentInNetworkGame()
         wPaquet->setEventOnPlayerLeft(wGame->obtenirNomJoueurGauche() == wPaquet->getPlayer1Name());
         RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
     }
+}
+
+void ResetAchievements()
+{
+    AchievementsManager::obtenirInstance()->ResetAchievements();
 }
 
 

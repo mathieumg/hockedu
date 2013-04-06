@@ -30,7 +30,6 @@ typedef int (*GameUpdateCallback) (int, GameStatus); // Param1 = GameID, Param2 
 
 
 enum PositionJoueur{GAGNANT_GAUCHE,GAGNANT_DROITE,GAGNANT_AUCUN};
-
 /// Permet de connaitre l'intention de la partie et qui la contient
 enum GameType
 {

@@ -16,6 +16,7 @@
 #include "RunnableBreaker.h"
 
 enum DirectionMaillet{DIR_HAUT,DIR_BAS,DIR_GAUCHE,DIR_DROITE,NB_DIR};
+enum MalletSide{MALLET_SIDE_LEFT,MALLET_SIDE_RIGHT};
 class NoeudTable;
 class NoeudRondelle;
 class JoueurVirtuel;
@@ -92,6 +93,7 @@ public:
     static const float DEFAULT_RADIUS;
     /// Attributs
 private:
+	MalletSide malletSide_;
 	/// Velocite courante du maillet
 	Vecteur3 velocite_;
 	/// Vitesse maximale
@@ -137,8 +139,9 @@ private:
 
 /// Accesseurs
 public:
-
-
+	/// Accesseur de malletSide_
+	MalletSide getMalletSide() const { return malletSide_; }
+	void setMalletSide(MalletSide val) { malletSide_ = val; }
 	/// Mutateur de la direction du maillet controler par clavier
 	void modifierDirection(bool active, DirectionMaillet dir);
 	/// Permet d'indiquer au maillet s'il est controle par le clavier ou la souris

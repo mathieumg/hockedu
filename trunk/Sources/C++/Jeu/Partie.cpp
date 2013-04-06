@@ -450,6 +450,7 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
                         wMaillets[i]->setIsNetworkPlayer(true);
                         break;
                     }
+				case JOUEUR_VIRTUEL_RENFORCEMENT:
                 case JOUEUR_VIRTUEL:
                     {
                         wMaillets[i]->setIsNetworkPlayer(false);
@@ -632,6 +633,7 @@ void Partie::modifierJoueurDroit( SPJoueurAbstrait val )
 //  if(joueurDroit_)
 //      delete joueurDroit_;
     joueurDroit_ = val;
+	joueurGauche_->setPlayerSide(PLAYER_SIDE_RIGHT);
     callGameUpdate(mGameStatus);
     mPartieSyncer.setPlayers(NULL, joueurDroit_);
 }
@@ -652,6 +654,7 @@ void Partie::modifierJoueurGauche( SPJoueurAbstrait val )
 //  if(joueurGauche_)
 //      delete joueurGauche_;
     joueurGauche_ = val;
+	joueurGauche_->setPlayerSide(PLAYER_SIDE_LEFT);
     callGameUpdate(mGameStatus);
     mPartieSyncer.setPlayers(joueurGauche_, NULL);
 }
@@ -1110,7 +1113,7 @@ void Partie::SendAchievementEventToHumanPlayer( SPJoueurAbstrait player,Achievem
         if(isOfflineGame())
         {
             /// it is possible to have human vs human, so we check to make sure
-            SPJoueurAbstrait oppositePlayer = player == joueurGauche_ ? joueurGauche_: joueurDroit_;
+            SPJoueurAbstrait oppositePlayer = player == joueurGauche_ ? joueurDroit_ : joueurGauche_;
             if(oppositePlayer->obtenirType() == player->obtenirType())
             {
                 /// incoherence pour les achievements, on sort

@@ -10,7 +10,9 @@
 #endif
 
 // Set to 1 when testing for shipping game
+#ifndef SHIPPING
 #define SHIPPING 0
+#endif
 
 #define STL_ITERATE(container, var) for(auto var=container.begin(); var != container.end(); ++var)
 

@@ -5,6 +5,7 @@
 #include "AIMaillet.h"
 #include "JoueurVirtuel.h"
 #include "Renforcement\AIMailletRenforcement.h"
+#include "Vecteur.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -87,12 +88,21 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
 
 		// Droite sur laquelle on veut envoyer la rondelle
 		Vecteur2 directionLignePrevue = mPointVise-mPointImpact;
-		Vecteur2 directionLignePrevueNormaliser = directionLignePrevue.norme();
+		Vecteur2 directionLignePrevueNormaliser = directionLignePrevue;
+		directionLignePrevueNormaliser.normaliser();
 		// Point sur la droite ou on doit positionner le maillet avant de faire le coup
 		Vecteur2 posPointSurLigne;
 		// Projection de la position du maillet sur la droite quon veut
-		posPointSurLigne[0] = directionLignePrevueNormaliser[0]*maillet->getPosition()[0];
-		posPointSurLigne[1] = directionLignePrevueNormaliser[1]*maillet->getPosition()[1];
+		//posPointSurLigne[0] = directionLignePrevueNormaliser[0]*maillet->getPosition()[0];
+		//posPointSurLigne[1] = directionLignePrevueNormaliser[1]*maillet->getPosition()[1];
+		Vecteur2 vecVersMaillet = maillet->getPosition() - mPointImpact;
+		Vecteur2 vecVersVise = mPointVise-mPointImpact;
+		vecVersVise.normaliser();
+		float res = produitScalaire(vecVersMaillet,vecVersVise);
+		posPointSurLigne =((vecVersVise)*res) + mPointImpact;
+
+
+
 		Vecteur2 distMailletRondelleSurLigne = mPointImpact - posPointSurLigne;
 		if ( distMailletRondelleSurLigne.norme() < sommeRayon)
 		{

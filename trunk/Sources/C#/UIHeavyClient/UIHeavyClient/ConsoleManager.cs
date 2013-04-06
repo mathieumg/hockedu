@@ -53,13 +53,13 @@ namespace UIHeavyClient
         /// </summary>
         public static void Show()
         {
-            #if DEBUG
+#if !SHIPPING
             if (!HasConsole)
             {
                 AllocConsole();
                 InvalidateOutAndError();
             }
-            #endif
+#endif
         }
 
         /// <summary>
@@ -67,13 +67,13 @@ namespace UIHeavyClient
         /// </summary>
         public static void Hide()
         {
-            #if DEBUG
+#if !SHIPPING
             if (HasConsole)
             {
                 SetOutAndErrorNull();
                 FreeConsole();
             }
-            #endif
+#endif
         }
 
         public static void Toggle()

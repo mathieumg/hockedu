@@ -105,7 +105,7 @@ GestionnaireEtatPartieRapideTerminee::~GestionnaireEtatPartieRapideTerminee(void
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatPartieRapideTerminee::toucheEnfoncee( EvenementClavier& evenementClavier )
 {
-	if(evenementClavier.obtenirTouche() == VJAK_R || GestionnaireAnimations::obtenirInstance()->estJouerReplay())
+	if(evenementClavier.obtenirTouche() == VJAK_R || evenementClavier.obtenirTouche() == VJAK_CONTROL || GestionnaireAnimations::obtenirInstance()->estJouerReplay())
 		return;
 	GestionnaireAnimations::obtenirInstance()->terminerReplay();
 	GestionnaireAnimations::obtenirInstance()->viderBufferReplay();

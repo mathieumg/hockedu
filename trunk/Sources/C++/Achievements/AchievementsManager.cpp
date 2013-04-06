@@ -11,7 +11,6 @@
 #include "AbstractAchievement.h"
 #include "Achievements.h"
 #include <iostream>
-#include "sqlite3.h"
 #include <sstream>
 #include "XMLUtils.h"
 
@@ -45,23 +44,8 @@ AchievementsManager::AchievementsManager() : mAchievementUnlockedCallback(NULL)
 ////////////////////////////////////////////////////////////////////////
 AchievementsManager::~AchievementsManager()
 {
-    for( auto it=mEventListeners.begin(); it!= mEventListeners.end(); ++it)
-    {
-        if(it->second)
-        {
-            delete it->second;
-        }
-    }
-    mEventListeners.clear();
+    ClearMemory();
 
-    for( auto it=mAchievementProgress.begin(); it!= mAchievementProgress.end(); ++it)
-    {
-        if(it->second)
-        {
-            delete it->second;
-        }
-    }
-    mAchievementProgress.clear();
 }
 
 
@@ -197,6 +181,7 @@ void AchievementsManager::LaunchEvent( AchievementEvent pEvent )
     /// look for the event list
     if(it != mEventListeners.end())
     {
+        bool launched = false;
         // create local list of listeners, because achievements
         // can request to unregister while iterating
         const EventListenerList listernersList = *it->second;
@@ -206,7 +191,12 @@ void AchievementsManager::LaunchEvent( AchievementEvent pEvent )
             if(callback)
             {
                 callback((*itA)->mAchievement,pEvent);
+                launched = true;
             }
+        }
+        if(launched)
+        {
+            SaveAchievementProgress();
         }
     }
 }
@@ -292,5 +282,34 @@ void AchievementsManager::AchievementUnlocked( AchievementsType pType, const std
         std::cout << "Achievement Unlocked : " << pAchievementName << std::endl;
     }
     SaveAchievementProgress();
+}
+
+/// Fonction pour des tests
+void AchievementsManager::ResetAchievements()
+{
+    ClearMemory();
+    CreateAchievements();
+    SaveAchievementProgress();
+}
+
+void AchievementsManager::ClearMemory()
+{
+    for( auto it=mEventListeners.begin(); it!= mEventListeners.end(); ++it)
+    {
+        if(it->second)
+        {
+            delete it->second;
+        }
+    }
+    mEventListeners.clear();
+
+    for( auto it=mAchievementProgress.begin(); it!= mAchievementProgress.end(); ++it)
+    {
+        if(it->second)
+        {
+            delete it->second;
+        }
+    }
+    mAchievementProgress.clear();
 }
 
