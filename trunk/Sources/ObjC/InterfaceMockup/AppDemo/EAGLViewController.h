@@ -22,7 +22,18 @@ extern int const HAUTEUR_FENETRE;
 
 @class EAGLView;
 
+@interface CarouselElement : NSObject
+{
+    EditorStateName ModifType;
+    NSString *LabelValue;
+    NSString *ImageName;
+    
+}
 
+@property (nonatomic, retain) NSString* LabelValue;
+@property (nonatomic, retain) NSString* ImageName;
+
+@end
 
 @interface EAGLViewController : UIViewController <UIGestureRecognizerDelegate, iCarouselDataSource, iCarouselDelegate> {
     EAGLContext *context;
@@ -44,9 +55,16 @@ extern int const HAUTEUR_FENETRE;
     IBOutlet UIButton *moveButton;
     IBOutlet UIButton *selectButton;
     IBOutlet UIButton *saveButton;
+    IBOutlet UIButton *leftArrowButton;
+    IBOutlet UIButton *rightArrowButton;
+    
+    NSArray* carouselElements;
     
     UIButton *previouslySelected;
     
+    IBOutlet UIImageView *carouselBackground;
+    UIImage *carouselBackgroundImage;
+    UIImage *carouselBackgroundSelected;
     UIImage *buttonImage;
     UIImage *buttonImageHighlight;
     UIImage *buttonImagePressed;
@@ -92,8 +110,11 @@ extern int const HAUTEUR_FENETRE;
 @property (nonatomic) NSInteger animationFrameInterval;
 @property (nonatomic, retain) OpenGLWaveFrontObject *cube;
 @property (nonatomic, retain) IBOutlet iCarousel *carousel;
+@property (readonly, nonatomic, retain) NSArray* carouselElements;
 
 - (IBAction)cameraModeButtonTouched:(UIButton *)sender;
+- (IBAction)leftArrowButton:(UIButton *)sender;
+- (IBAction)rightArrowButton:(UIButton *)sender;
 - (IBAction)selectToolButtonTouched:(UIButton *)sender;
 - (IBAction)moveToolButtonTouched:(UIButton *)sender;
 - (IBAction)rotationToolButtonTouched:(UIButton *)sender;
@@ -106,6 +127,7 @@ extern int const HAUTEUR_FENETRE;
 - (IBAction)undoButtonTouched:(UIButton *)sender;
 - (IBAction)redoButtonTouched:(UIButton *)sender;
 - (void)unselectAllTools;
+- (void)carouselSelectItem:(NSInteger)index;
 - (void)pressButtonUI:(UIButton *)sender;
 - (void)startAnimation;
 - (void)stopAnimation;
@@ -113,5 +135,6 @@ extern int const HAUTEUR_FENETRE;
 - (CGPoint)convertScreenCoordToVirtualCoord:(CGPoint)pointToConvert;
 - (void)rotationDetectee:(UIGestureRecognizer *)gestureRecognizer;
 - (IBAction)longPressDetected:(UILongPressGestureRecognizer*)sender;
+- (IBAction)swipeDetected:(id)sender;
 
 @end

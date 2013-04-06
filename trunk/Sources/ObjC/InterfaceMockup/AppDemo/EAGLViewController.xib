@@ -302,7 +302,7 @@
 										<string key="NSFrame">{{16, 157}, {158, 98}}</string>
 										<reference key="NSSuperview" ref="1031136972"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="19810471"/>
+										<reference key="NSNextKeyView" ref="76500366"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -385,17 +385,93 @@
 										<reference key="IBUIFontDescription" ref="437964532"/>
 										<reference key="IBUIFont" ref="589001317"/>
 									</object>
+									<object class="IBUIImageView" id="76500366">
+										<reference key="NSNextResponder" ref="1031136972"/>
+										<int key="NSvFlags">292</int>
+										<string key="NSFrame">{{16, 273}, {158, 94}}</string>
+										<reference key="NSSuperview" ref="1031136972"/>
+										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="589853707"/>
+										<string key="NSReuseIdentifierKey">_NS:9</string>
+										<bool key="IBUIUserInteractionEnabled">NO</bool>
+										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+										<object class="NSCustomResource" key="IBUIImage">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">carouselBackground.png</string>
+										</object>
+									</object>
 									<object class="IBUIView" id="19810471">
 										<reference key="NSNextResponder" ref="1031136972"/>
 										<int key="NSvFlags">274</int>
-										<string key="NSFrame">{{48, 319}, {98, 92}}</string>
+										<object class="NSMutableArray" key="NSSubviews">
+											<bool key="EncodedWithXMLCoder">YES</bool>
+										</object>
+										<string key="NSFrame">{{42, 275}, {109, 92}}</string>
 										<reference key="NSSuperview" ref="1031136972"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="620474914"/>
+										<reference key="NSNextKeyView" ref="26422650"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<reference key="IBUIBackgroundColor" ref="332488002"/>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+									</object>
+									<object class="IBUIButton" id="589853707">
+										<reference key="NSNextResponder" ref="1031136972"/>
+										<int key="NSvFlags">292</int>
+										<string key="NSFrame">{{20, 273}, {34, 93}}</string>
+										<reference key="NSSuperview" ref="1031136972"/>
+										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="19810471"/>
+										<string key="NSReuseIdentifierKey">_NS:9</string>
+										<bool key="IBUIOpaque">NO</bool>
+										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+										<int key="IBUIContentHorizontalAlignment">0</int>
+										<int key="IBUIContentVerticalAlignment">0</int>
+										<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
+										<object class="NSColor" key="IBUINormalTitleColor">
+											<int key="NSColorSpace">1</int>
+											<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+										</object>
+										<reference key="IBUINormalTitleShadowColor" ref="429881088"/>
+										<object class="NSCustomResource" key="IBUIHighlightedImage">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">leftArrowHighlight.png</string>
+										</object>
+										<object class="NSCustomResource" key="IBUINormalImage">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">leftArrow.png</string>
+										</object>
+										<reference key="IBUIFontDescription" ref="437964532"/>
+										<reference key="IBUIFont" ref="589001317"/>
+									</object>
+									<object class="IBUIButton" id="26422650">
+										<reference key="NSNextResponder" ref="1031136972"/>
+										<int key="NSvFlags">292</int>
+										<string key="NSFrame">{{139, 273}, {34, 93}}</string>
+										<reference key="NSSuperview" ref="1031136972"/>
+										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="620474914"/>
+										<string key="NSReuseIdentifierKey">_NS:9</string>
+										<bool key="IBUIOpaque">NO</bool>
+										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+										<int key="IBUIContentHorizontalAlignment">0</int>
+										<int key="IBUIContentVerticalAlignment">0</int>
+										<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
+										<object class="NSColor" key="IBUINormalTitleColor">
+											<int key="NSColorSpace">1</int>
+											<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+										</object>
+										<reference key="IBUINormalTitleShadowColor" ref="429881088"/>
+										<object class="NSCustomResource" key="IBUIHighlightedImage">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">rightArrowHighlight.png</string>
+										</object>
+										<object class="NSCustomResource" key="IBUINormalImage">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">rightArrow.png</string>
+										</object>
+										<reference key="IBUIFontDescription" ref="437964532"/>
+										<reference key="IBUIFont" ref="589001317"/>
 									</object>
 								</object>
 								<string key="NSFrameSize">{194, 768}</string>
@@ -417,7 +493,7 @@
 									<object class="IBUIButton" id="833819397">
 										<reference key="NSNextResponder" ref="481136316"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{11, 20}, {52, 53}}</string>
+										<string key="NSFrame">{{11, 10}, {32, 32}}</string>
 										<reference key="NSSuperview" ref="481136316"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="75622117"/>
@@ -427,14 +503,13 @@
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 										<int key="IBUIContentHorizontalAlignment">0</int>
 										<int key="IBUIContentVerticalAlignment">0</int>
-										<int key="IBUIButtonType">1</int>
+										<bool key="IBUIAdjustsImageWhenHighlighted">NO</bool>
 										<string key="IBUINormalTitle">Button</string>
 										<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
 										<object class="NSColor" key="IBUINormalTitleColor">
 											<int key="NSColorSpace">1</int>
 											<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 										</object>
-										<reference key="IBUINormalTitleShadowColor" ref="429881088"/>
 										<object class="NSCustomResource" key="IBUINormalImage">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">undo.png</string>
@@ -445,7 +520,7 @@
 									<object class="IBUIButton" id="75622117">
 										<reference key="NSNextResponder" ref="481136316"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{73, 19.5}, {52, 53}}</string>
+										<string key="NSFrame">{{53, 10}, {32, 32}}</string>
 										<reference key="NSSuperview" ref="481136316"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="126840822"/>
@@ -455,7 +530,7 @@
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 										<int key="IBUIContentHorizontalAlignment">0</int>
 										<int key="IBUIContentVerticalAlignment">0</int>
-										<int key="IBUIButtonType">1</int>
+										<bool key="IBUIAdjustsImageWhenHighlighted">NO</bool>
 										<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
 										<object class="NSColor" key="IBUINormalTitleColor">
 											<int key="NSColorSpace">1</int>
@@ -496,7 +571,6 @@
 										<string key="NSFrame">{{-0.5, 0}, {179, 621}}</string>
 										<reference key="NSSuperview" ref="408101308"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:10</string>
 										<object class="NSColor" key="IBUIBackgroundColor">
 											<int key="NSColorSpace">1</int>
@@ -846,7 +920,7 @@
 								<string key="NSFrame">{{117, 134}, {94, 27}}</string>
 								<reference key="NSSuperview" ref="126870967"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="1059242532"/>
+								<reference key="NSNextKeyView" ref="109637101"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -1245,7 +1319,6 @@
 								<string key="NSFrame">{{219, 503}, {94, 27}}</string>
 								<reference key="NSSuperview" ref="126870967"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -1470,6 +1543,7 @@
 								<string key="NSFrame">{{217, 139}, {118, 23}}</string>
 								<reference key="NSSuperview" ref="126870967"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="1059242532"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -1535,14 +1609,6 @@
 						<reference key="destination" ref="126840822"/>
 					</object>
 					<int key="connectionID">29</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">carousel</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="19810471"/>
-					</object>
-					<int key="connectionID">60</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -1655,6 +1721,38 @@
 						<reference key="destination" ref="693688580"/>
 					</object>
 					<int key="connectionID">106</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">carousel</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="19810471"/>
+					</object>
+					<int key="connectionID">60</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">leftArrowButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="589853707"/>
+					</object>
+					<int key="connectionID">157</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">rightArrowButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="26422650"/>
+					</object>
+					<int key="connectionID">159</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">carouselBackground</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="76500366"/>
+					</object>
+					<int key="connectionID">161</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -1796,6 +1894,24 @@
 					</object>
 					<int key="connectionID">103</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">leftArrowButton:</string>
+						<reference key="source" ref="589853707"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">158</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">rightArrowButton:</string>
+						<reference key="source" ref="26422650"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">160</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -1914,8 +2030,8 @@
 						<reference key="object" ref="481136316"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="75622117"/>
 							<reference ref="833819397"/>
+							<reference ref="75622117"/>
 						</object>
 						<reference key="parent" ref="8160408"/>
 					</object>
@@ -1989,8 +2105,11 @@
 							<reference ref="644876442"/>
 							<reference ref="623130732"/>
 							<reference ref="620474914"/>
-							<reference ref="19810471"/>
 							<reference ref="559874944"/>
+							<reference ref="76500366"/>
+							<reference ref="19810471"/>
+							<reference ref="589853707"/>
+							<reference ref="26422650"/>
 						</object>
 						<reference key="parent" ref="8160408"/>
 						<string key="objectName">SideBarView</string>
@@ -1998,11 +2117,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">46</int>
 						<reference key="object" ref="559874944"/>
-						<reference key="parent" ref="1031136972"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">56</int>
-						<reference key="object" ref="19810471"/>
 						<reference key="parent" ref="1031136972"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -2230,6 +2344,29 @@
 						<reference key="object" ref="109637101"/>
 						<reference key="parent" ref="144942244"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">153</int>
+						<reference key="object" ref="76500366"/>
+						<reference key="parent" ref="1031136972"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">56</int>
+						<reference key="object" ref="19810471"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+						</object>
+						<reference key="parent" ref="1031136972"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">155</int>
+						<reference key="object" ref="589853707"/>
+						<reference key="parent" ref="1031136972"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">156</int>
+						<reference key="object" ref="26422650"/>
+						<reference key="parent" ref="1031136972"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -2285,6 +2422,11 @@
 					<string>148.IBPluginDependency</string>
 					<string>149.IBPluginDependency</string>
 					<string>151.IBPluginDependency</string>
+					<string>153.IBPluginDependency</string>
+					<string>155.IBPluginDependency</string>
+					<string>155.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
+					<string>156.IBPluginDependency</string>
+					<string>156.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
 					<string>17.IBPluginDependency</string>
 					<string>21.IBPluginDependency</string>
 					<string>22.IBPluginDependency</string>
@@ -2314,6 +2456,7 @@
 					<string>69.IBUIButtonInspectorSelectedEdgeInsetMetadataKey</string>
 					<string>86.IBPluginDependency</string>
 					<string>88.IBPluginDependency</string>
+					<string>88.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
 					<string>89.IBPluginDependency</string>
 					<string>92.IBPluginDependency</string>
 				</object>
@@ -2370,6 +2513,11 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<real value="1"/>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<real value="1"/>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2397,6 +2545,7 @@
 					<real value="1"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<real value="0.0"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
@@ -2413,7 +2562,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">151</int>
+			<int key="maxID">161</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2430,15 +2579,19 @@
 							<string>duplicateToolButtonTouched:</string>
 							<string>editorModeButtonTouched:</string>
 							<string>fingerSizeAction:</string>
+							<string>leftArrowButton:</string>
 							<string>leftHandedAction:</string>
 							<string>longPressDetected:</string>
 							<string>moveToolButtonTouched:</string>
+							<string>pinchDetected:</string>
 							<string>portalButtonTouched:</string>
 							<string>redoButtonTouched:</string>
+							<string>rightArrowButton:</string>
 							<string>rotationToolButtonTouched:</string>
 							<string>saveAndExitButtonTouched:</string>
 							<string>scaleToolButtonTouched:</string>
 							<string>selectToolButtonTouched:</string>
+							<string>swipeDetected:</string>
 							<string>undoButtonTouched:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
@@ -2448,15 +2601,19 @@
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>id</string>
+							<string>UIButton</string>
 							<string>id</string>
 							<string>UILongPressGestureRecognizer</string>
 							<string>UIButton</string>
+							<string>id</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>id</string>
 							<string>UIButton</string>
 						</object>
 					</object>
@@ -2469,15 +2626,19 @@
 							<string>duplicateToolButtonTouched:</string>
 							<string>editorModeButtonTouched:</string>
 							<string>fingerSizeAction:</string>
+							<string>leftArrowButton:</string>
 							<string>leftHandedAction:</string>
 							<string>longPressDetected:</string>
 							<string>moveToolButtonTouched:</string>
+							<string>pinchDetected:</string>
 							<string>portalButtonTouched:</string>
 							<string>redoButtonTouched:</string>
+							<string>rightArrowButton:</string>
 							<string>rotationToolButtonTouched:</string>
 							<string>saveAndExitButtonTouched:</string>
 							<string>scaleToolButtonTouched:</string>
 							<string>selectToolButtonTouched:</string>
+							<string>swipeDetected:</string>
 							<string>undoButtonTouched:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
@@ -2503,6 +2664,10 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">leftArrowButton:</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">leftHandedAction:</string>
 								<string key="candidateClassName">id</string>
 							</object>
@@ -2515,11 +2680,19 @@
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">pinchDetected:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">portalButtonTouched:</string>
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">redoButtonTouched:</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">rightArrowButton:</string>
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBActionInfo">
@@ -2539,6 +2712,10 @@
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">swipeDetected:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">undoButtonTouched:</string>
 								<string key="candidateClassName">UIButton</string>
 							</object>
@@ -2550,10 +2727,12 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>cameraButton</string>
 							<string>carousel</string>
+							<string>carouselBackground</string>
 							<string>deleteButton</string>
 							<string>duplicateButton</string>
 							<string>editionButton</string>
 							<string>labelPieMenu</string>
+							<string>leftArrowButton</string>
 							<string>mGLView</string>
 							<string>mPropertyTableView</string>
 							<string>mPropertyTableViewController</string>
@@ -2563,6 +2742,7 @@
 							<string>moveButton</string>
 							<string>propertyTableView</string>
 							<string>propertyTableViewController</string>
+							<string>rightArrowButton</string>
 							<string>rotationButton</string>
 							<string>saveButton</string>
 							<string>scaleButton</string>
@@ -2574,10 +2754,12 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIButton</string>
 							<string>iCarousel</string>
+							<string>UIImageView</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UILabel</string>
+							<string>UIButton</string>
 							<string>UIView</string>
 							<string>UITableView</string>
 							<string>UITableViewController</string>
@@ -2587,6 +2769,7 @@
 							<string>UIButton</string>
 							<string>UITableView</string>
 							<string>UITableViewController</string>
+							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
@@ -2601,10 +2784,12 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>cameraButton</string>
 							<string>carousel</string>
+							<string>carouselBackground</string>
 							<string>deleteButton</string>
 							<string>duplicateButton</string>
 							<string>editionButton</string>
 							<string>labelPieMenu</string>
+							<string>leftArrowButton</string>
 							<string>mGLView</string>
 							<string>mPropertyTableView</string>
 							<string>mPropertyTableViewController</string>
@@ -2614,6 +2799,7 @@
 							<string>moveButton</string>
 							<string>propertyTableView</string>
 							<string>propertyTableViewController</string>
+							<string>rightArrowButton</string>
 							<string>rotationButton</string>
 							<string>saveButton</string>
 							<string>scaleButton</string>
@@ -2632,6 +2818,10 @@
 								<string key="candidateClassName">iCarousel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
+								<string key="name">carouselBackground</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
 								<string key="name">deleteButton</string>
 								<string key="candidateClassName">UIButton</string>
 							</object>
@@ -2646,6 +2836,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">labelPieMenu</string>
 								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">leftArrowButton</string>
+								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">mGLView</string>
@@ -2682,6 +2876,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">propertyTableViewController</string>
 								<string key="candidateClassName">UITableViewController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">rightArrowButton</string>
+								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">rotationButton</string>
@@ -2770,12 +2968,17 @@
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>BottomBar.png</string>
 				<string>LeftBar.png</string>
+				<string>carouselBackground.png</string>
 				<string>cursor_24x24.png</string>
 				<string>curved_arrow_24x18.png</string>
 				<string>fork_21x24.png</string>
 				<string>fullscreen_24x24.png</string>
+				<string>leftArrow.png</string>
+				<string>leftArrowHighlight.png</string>
 				<string>move_alt2_24x24.png</string>
 				<string>redo.png</string>
+				<string>rightArrow.png</string>
+				<string>rightArrowHighlight.png</string>
 				<string>undo.png</string>
 				<string>x_alt_24x24.png</string>
 			</object>
@@ -2783,12 +2986,17 @@
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>{830, 151}</string>
 				<string>{194, 768}</string>
+				<string>{164, 102}</string>
 				<string>{24, 24}</string>
 				<string>{24, 18}</string>
 				<string>{21, 24}</string>
 				<string>{24, 24}</string>
+				<string>{29, 41}</string>
+				<string>{29, 41}</string>
 				<string>{24, 24}</string>
 				<string>{32, 32}</string>
+				<string>{30, 41}</string>
+				<string>{30, 41}</string>
 				<string>{32, 32}</string>
 				<string>{24, 24}</string>
 			</object>
