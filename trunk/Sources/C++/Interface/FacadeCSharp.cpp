@@ -23,6 +23,7 @@
 #include "..\Reseau\Paquets\PaquetEvent.h"
 #include "GameManager.h"
 #include "LaunchAchievementLite.h"
+#include "Partie.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -921,6 +922,29 @@ void AskForAIOpponentInNetworkGame()
         wPaquet->setEventOnPlayerLeft(wGame->obtenirNomJoueurGauche() == wPaquet->getPlayer1Name());
         RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
     }
+}
+
+
+
+void TestTrajectoryPredictionDLL()
+{
+    Partie* wGame = FacadeModele::getInstance()->obtenirPartieCourante();
+
+    if(wGame)
+    {
+        PuckProjection wPred = wGame->getPuckProjection(75.0f, 10000);
+        std::cout << "Test prediction: " << wPred.position << "\t" << wPred.time << "ms" <<  std::endl;
+    }
+}
+
+void ReloadModels()
+{
+    GestionnaireModeles::obtenirInstance()->ReloadModels();
+}
+
+void SetEditionEventCallBack( EditionEventReceived callback )
+{
+    EditionEventManager::setEditionEventCallback(callback);
 }
 
 

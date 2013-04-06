@@ -62,7 +62,7 @@ void AIRenforcementTest::testDirectionPhaseDeplacement()
 	wPuck->setPosition(Vecteur3(1,0,0));
 	wPuck->modifierVelocite(Vecteur3(150,0,0));
 
-	((JoueurVirtuelRenforcement*)wMaillet->obtenirJoueur())->obtenirDirectionAI(wMaillet);
+	//((JoueurVirtuelRenforcement*)wMaillet->obtenirJoueur())->obtenirDirectionAI(wMaillet);
 	// Set la strategie
 	CPPUNIT_ASSERT(wMaillet->obtenirVelocite()!=Vecteur3());
 }

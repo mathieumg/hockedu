@@ -40,6 +40,12 @@ enum GameType
 };
 
 
+struct PuckProjection 
+{
+    int time;
+    Vecteur2 position;
+};
+
 ///////////////////////////////////////////////////////////////////////////
 /// @class Partie
 /// @brief Classe représentant une partie entre 2 joueurs (virtuels ou humains).
@@ -135,7 +141,16 @@ public:
 
     void setGameStatus(GameStatus pStatus);
     
-    PartieServeurs* buildPartieServeurs();    
+    PartieServeurs* buildPartieServeurs();  
+
+    // Met a jour les informations contenues dans le terrain de simulation selon ce qui est contenu dans le terrain de base
+    bool updateTerrainSimulation();
+
+    // Retourne la projection de quand la position de la puck est a ce X
+    // Retourne la position et dans combien de temps
+    // Si le temps == -1, delais max depasse
+    PuckProjection getPuckProjection(float pPosX, int pDelaisMaxMs = 1000); 
+
 
 /// Methode Privee
 private:
@@ -169,6 +184,9 @@ private:
 	bool faitPartieDunTournoi_;
     /// Terrain associé à la partie, son scope est le meme que la partie
     Terrain* mField;
+
+    /// Terrain pour les simulations physiques
+    Terrain* mFieldSimulation;
 
 	// ID unique de la partie
 	int mUniqueGameId;

@@ -306,6 +306,13 @@ namespace UIHeavyClient
                 debugItem.Click += SwitchPlayMode;
                 debugMenu.Items.Add( debugItem );
             }
+
+            {
+                System.Windows.Controls.MenuItem debugItem=new System.Windows.Controls.MenuItem();
+                debugItem.Header="Test Trajectory Prediction";
+                debugItem.Click+=TestTrajectoryPrediction;
+                debugMenu.Items.Add(debugItem);
+            }
 #endif
             SetAchievementUnlocked( mAchievementUnlockCallBack );
 
@@ -328,6 +335,25 @@ namespace UIHeavyClient
         {
             MainWindowHandler.GoToPlayMode( ActionType.ACTION_ALLER_MODE_JEU );
         }
+
+
+        [DllImport(@"RazerGame.dll")]
+        public static extern void TestTrajectoryPredictionDLL();
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.SwitchPlayMode()
+        ///
+        /// Go to play mode.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        void TestTrajectoryPrediction(object sender, RoutedEventArgs e)
+        {
+            TestTrajectoryPredictionDLL();
+        }
+
 
         [DllImport(@"RazerGame.dll")]
         public static extern void ReloadModels();
