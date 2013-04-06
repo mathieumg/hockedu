@@ -387,6 +387,38 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
 
 int PaquetRunnable::RunnableBonusClient( Paquet* pPaquet )
 {
+    PaquetBonus* wPaquet = (PaquetBonus*)pPaquet;
+    int wGameId = wPaquet->getGameId();
+    PaquetBonusAction wAction = wPaquet->getBonusAction();
+    PaquetBonusType wType = wPaquet->getBonusType();
+    Vecteur2 pos = wPaquet->getBonusPosition();
+
+    Runnable* r = new Runnable([wGameId, pos](Runnable*){
+
+        /*switch(wAction)
+        {
+        case BONUS_ACTION_SPAN :
+            break;
+
+        case BONUS_ACTION_EXECUTE :
+            break;
+
+        case BONUS_ACTION_END :
+            break;
+        default:
+        }*/
+
+        /*Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+        if(wGame)
+        {
+            if(wGame->getField())
+            {
+                wGame->getField()->getPuck()->setPosition(pos);
+            }
+        }*/
+    });
+    RazerGameUtilities::RunOnUpdateThread(r,true);
+
     return 0;
 }
 

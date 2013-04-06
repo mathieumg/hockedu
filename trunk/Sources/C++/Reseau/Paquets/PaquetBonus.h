@@ -15,11 +15,8 @@
 class UsinePaquetBonus;
 
 // Differents types de paquets
-enum PaquetBonusType {BONUS_MAILLET_MURETS, BONUS_GOALER, BONUS_NB};
+enum PaquetBonusType {BONUS_MAILLET_MURETS, BONUS_GOALER, BONUS_VENT_FAN, BONUS_CHANGE_SIDE, BONUS_NB};
 enum PaquetBonusAction {BONUS_ACTION_SPAN, BONUS_ACTION_EXECUTE, BONUS_ACTION_END};
-
-
-//class PaquetBonusInfos {};
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -38,7 +35,7 @@ private:
     PaquetBonusAction mBonusAction;
     
     int mGameId;
-    Vecteur2 mBonusPosition;
+    Vecteur3 mBonusPosition;
 
 protected:
 	PaquetBonus();
@@ -46,8 +43,8 @@ protected:
 public:
 	virtual PacketTypes getOperation() const { return BONUS; }
 
-    inline const Vecteur2& getBonusPosition() const { return mBonusPosition; }
-    inline void setBonusPosition(const Vecteur2& val) { mBonusPosition = val; }
+    inline const Vecteur3& getBonusPosition() const { return mBonusPosition; }
+    inline void setBonusPosition(const Vecteur3& val) { mBonusPosition = val; }
 
     PaquetBonusAction getBonusAction() const { return mBonusAction; }
     void setBonusAction(PaquetBonusAction val) { mBonusAction = val; }
