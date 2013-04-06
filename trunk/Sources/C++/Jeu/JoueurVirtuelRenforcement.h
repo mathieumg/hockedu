@@ -24,7 +24,7 @@
 class JoueurVirtuelRenforcement : public JoueurVirtuel
 {
 public:
-
+    friend class AiLearnerTests;
 	/// Constructeur par paramètres
 	JoueurVirtuelRenforcement(const std::string& pAiLogicFilepath, const std::string& nom = "", unsigned int vitesse = 0, unsigned int probabiliteEchec = 0);
 
@@ -48,6 +48,7 @@ public:
 	virtual Vecteur2 obtenirDirectionAI(NoeudMaillet* maillet);
 
 private:
+    bool hasMapEntryFor(const Vecteur3& pPositionAi, const Vecteur3& pVelociteAi, const Vecteur3& pPositionRondelle, const Vecteur3& pVelociteRondelle, const Vecteur3& pPositionJoueurAdverse) const;
 
     bool chargerAiLogic(const std::string& pAiLogicFilepath);
 

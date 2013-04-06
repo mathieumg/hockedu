@@ -447,6 +447,7 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
                         wMaillets[i]->setIsNetworkPlayer(true);
                         break;
                     }
+                case JOUEUR_VIRTUEL_RENFORCEMENT:
                 case JOUEUR_VIRTUEL:
                     {
                         wMaillets[i]->setIsNetworkPlayer(false);

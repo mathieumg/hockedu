@@ -237,6 +237,22 @@ namespace FacadePortability {
 #endif
     }
 
+    inline void createDirectory(char* dirName)
+    {
+#ifdef WIN32
+        CreateDirectoryA(
+            dirName,
+            NULL
+            );
+#else
+        struct stat st = {0};
+        if (stat(dirName, &st) == -1)
+        {
+            mkdir(dirName, 0777);
+        }
+#endif
+    }
+
     void getLocalIPAddresses(std::list<std::string>& pOut);
 };
 #endif // FACADEPORTABILITY_INCLUDED

@@ -184,7 +184,7 @@ void AILearner::convertirPositionUint8( const Vecteur2& pPositionAConvertir, Vec
     Vecteur2 wMapDimensions  = wInstance->getMapDimensions();
 
     // Si la dimension est nulle, c'est louche
-    checkf(wMapDimensions[VX] < 1.0f || wMapDimensions[VY] < 1.0f);
+    checkf(wMapDimensions[VX] > 1.0f && wMapDimensions[VY] > 1.0f);
 
     pOut[VX] = (int) (AILearner::mStepPosition*(pPositionAConvertir[VX]-wMapTopLeft[VX])/wMapDimensions[VX]);
     pOut[VY] = (int) (AILearner::mStepPosition*(wMapTopLeft[VY]-pPositionAConvertir[VY])/wMapDimensions[VY]);
@@ -219,10 +219,11 @@ void AILearner::convertirVelociteUint8( const Vecteur2& pVelociteAConvertir, Vec
 }
 
 
-
 bool AILearner::convertirDonneesRaw( const std::string& pFolderPath, const std::string& pOutputFilename, AiLearnerBuildReadyCallback pCallback)
 {
-    if(!pCallback || mHandleThreadConversion)
+    DWORD returnValue;
+    GetExitCodeThread(mHandleThreadConversion,&returnValue);
+    if(!pCallback || returnValue == STILL_ACTIVE)
     {
         // Fail si pas de callback ou si thread deja en cours d'execution
         return false;
@@ -235,7 +236,8 @@ bool AILearner::convertirDonneesRaw( const std::string& pFolderPath, const std::
     wParams->outputFilename = pOutputFilename;
 
     FacadePortability::createThread(mHandleThreadConversion, convertirDonneesRawThread, wParams);
-    if(mHandleThreadConversion==NULL)
+    GetExitCodeThread(mHandleThreadConversion,&returnValue);
+    if(returnValue != STILL_ACTIVE)
     {
         // Fail a la creation du thread
         return false;
@@ -393,7 +395,7 @@ void * AILearner::convertirDonneesRawThread( void *arg )
 
 
     // Reset the thread handle to signal the thread is done
-    AILearner::conversionThreadDone();
+    //AILearner::conversionThreadDone();
     delete wParams;
     return 0;
 }
@@ -415,13 +417,6 @@ int AILearner::getPointsForResult(LearningAiOutput pResult)
         break;
     }
 }
-
-
-
-
-
-
-
 
 
 ///////////////////////////////////////////////////////////////////////////////

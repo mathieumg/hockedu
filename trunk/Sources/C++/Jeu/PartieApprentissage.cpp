@@ -22,7 +22,7 @@ PartieApprentissage::~PartieApprentissage(void)
 ///
 /// @fn PartieApprentissage::animer()
 ///
-/// Description
+/// Overridden function in order to handle learning AI behavior on each tick.
 ///
 ///
 /// @return void
@@ -40,12 +40,10 @@ void PartieApprentissage::animer(const float& pTime)
         NoeudMaillet* wLeftMallet = mField->getLeftMallet();
         if(wRightPlayer->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT && (mPreviousPuckPosition[VX] < 0 && wPuckPosition[VX] >= 0))
         {
-            //TODO: Handle learning AI stuff
             handleLearningStart(wRightMallet, wPuck, wLeftMallet);
         }
         else if(wLeftPlayer->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT && (mPreviousPuckPosition[VX] > 0 && wPuckPosition[VX] <= 0))
         {
-            //TODO: Handle learning AI stuff.
             handleLearningStart(wLeftMallet, wPuck, wRightMallet);
         }
         mPreviousPuckPosition = wPuckPosition;
@@ -57,9 +55,9 @@ void PartieApprentissage::animer(const float& pTime)
 ///
 /// @fn PartieApprentissage::modifierJoueurDroit( SPJoueurAbstrait pPlayer )
 ///
-/// Description
+/// Overridden function so that it limits players to either human or learning AI.
 ///
-/// @param[in] SPJoueurAbstrait pPlayer
+/// @param[in] SPJoueurAbstrait pPlayer Player to modify to
 ///
 /// @return void
 ///
@@ -80,9 +78,9 @@ void PartieApprentissage::modifierJoueurDroit( SPJoueurAbstrait pPlayer )
 ///
 /// @fn PartieApprentissage::modifierJoueurGauche( SPJoueurAbstrait pPlayer )
 ///
-/// Description
+/// Overridden function so that it limits players to either human or learning AI.
 ///
-/// @param[in] SPJoueurAbstrait pPlayer
+/// @param[in] SPJoueurAbstrait pPlayer Player to modify to
 ///
 /// @return void
 ///
@@ -99,12 +97,24 @@ void PartieApprentissage::modifierJoueurGauche( SPJoueurAbstrait pPlayer )
     }
 }
 
-void PartieApprentissage::handleGoalScored( SPJoueurAbstrait pLearningPlayer, SPJoueurAbstrait pOpponent)
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn PartieApprentissage::handleGoalScored( SPJoueurAbstrait pPlayer, SPJoueurAbstrait pOpponent )
+///
+/// Function used to handle scoring behavior for AIs.
+///
+/// @param[in] SPJoueurAbstrait pPlayer The player who scored.
+/// @param[in] SPJoueurAbstrait pOpponent His opponent.
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void PartieApprentissage::handleGoalScored( SPJoueurAbstrait pPlayer, SPJoueurAbstrait pOpponent)
 {
-    if(pLearningPlayer->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+    if(pPlayer->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
     {
         //TODO Make AILearner take a player object to save data
-        //((JoueurVirtuelRenforcement*)pLearningPlayer.get())->
+        //((JoueurVirtuelRenforcement*)pPlayer.get())->
         AILearner::obtenirInstance()->terminerSauvegardeNouvelleInfo(AI_OUTPUT_ADVERSAIRE_BUT_COMPTE);
     }
 
@@ -116,39 +126,65 @@ void PartieApprentissage::handleGoalScored( SPJoueurAbstrait pLearningPlayer, SP
 }
 
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn PartieApprentissage::incrementerPointsJoueurGauche( bool pForceUpdate /*= false*/ )
+///
+/// Overridden function so that we can handle special AI behavior when a goal is scored.
+///
+/// @param[in] bool pForceUpdate
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
 void PartieApprentissage::incrementerPointsJoueurGauche( bool pForceUpdate /*= false*/ )
 {
     handleGoalScored(obtenirJoueurGauche(), obtenirJoueurDroit());
-    Partie::incrementerPointsJoueurGauche();
-}
-
-void PartieApprentissage::incrementerPointsJoueurDroit( bool pForceUpdate /*= false*/ )
-{
-    handleGoalScored(obtenirJoueurDroit(), obtenirJoueurGauche());
-    Partie::incrementerPointsJoueurGauche();
+    Partie::incrementerPointsJoueurGauche( pForceUpdate );
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn PartieApprentissage::handleLearningStart( NoeudMaillet* pRightMallet, NoeudRondelle* pPuck, NoeudMaillet* pOpponentMallet, Vecteur3 wPuckPosition )
+/// @fn PartieApprentissage::incrementerPointsJoueurGauche( bool pForceUpdate /*= false*/ )
 ///
-/// Description
+/// Overridden function so that we can handle special AI behavior when a goal is scored.
 ///
-/// @param[in] NoeudMaillet * pRightMallet
+/// @param[in] bool pForceUpdate
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void PartieApprentissage::incrementerPointsJoueurDroit( bool pForceUpdate /*= false*/ )
+{
+    handleGoalScored(obtenirJoueurDroit(), obtenirJoueurGauche());
+    Partie::incrementerPointsJoueurGauche( pForceUpdate );
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn PartieApprentissage::handleLearningStart( NoeudMaillet* pLearningMallet, NoeudRondelle* pPuck, NoeudMaillet* pOpponentMallet, Vecteur3 wPuckPosition )
+///
+/// Handles the behavior to put the AI in learning mode.
+///
+/// @param[in] NoeudMaillet * pLearningMallet
 /// @param[in] NoeudRondelle * pPuck
 /// @param[in] NoeudMaillet * pOpponentMallet
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void PartieApprentissage::handleLearningStart( NoeudMaillet* pRightMallet, NoeudRondelle* pPuck, NoeudMaillet* pOpponentMallet)
+void PartieApprentissage::handleLearningStart( NoeudMaillet* pLearningMallet, NoeudRondelle* pPuck, NoeudMaillet* pOpponentMallet)
 {
-    if(mGoalScored)
+    if(!mGoalScored)
     {
         AILearner::obtenirInstance()->terminerSauvegardeNouvelleInfo(AI_OUTPUT_RIEN);
     }
-    Vecteur3 wAiPosition(pRightMallet->getPosition()),
-        wAiVelocity(pRightMallet->obtenirVelocite()),
+    else
+    {
+        mGoalScored = false;
+    }
+    Vecteur3 wAiPosition(pLearningMallet->getPosition()),
+        wAiVelocity(pLearningMallet->obtenirVelocite()),
         wPuckPosition(pPuck->getPosition()),
         wPuckVelocity(pPuck->obtenirVelocite()),
         wOpponentPosition(pOpponentMallet->getPosition());
