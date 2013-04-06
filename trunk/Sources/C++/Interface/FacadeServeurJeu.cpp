@@ -29,6 +29,7 @@
 #include "..\Reseau\UsinePaquets\UsinePaquetBonus.h"
 #include "..\Reseau\PaquetHandlers\PacketHandlerBonus.h"
 #include "..\Reseau\PaquetRunnableServeurJeu.h"
+#include "..\Reseau\UsinePaquets\UsinePaquetPortal.h"
 
 void InitDLLServeurJeu()
 {
@@ -57,6 +58,7 @@ void InitDLLServeurJeu()
     wGestionnaireReseau->ajouterOperationReseau(GAME_CONNECTION, new PacketHandlerGameConnection, new UsinePaquetGameConnection);
     wGestionnaireReseau->ajouterOperationReseau(GAME_EVENT, new PacketHandlerGameEvent, new UsinePaquetGameEvent);
     wGestionnaireReseau->ajouterOperationReseau(BONUS, new PacketHandlerBonus, new UsinePaquetBonus);
+    wGestionnaireReseau->ajouterOperationReseau(PORTAL, new PacketHandlerPortal, new UsinePaquetPortal);
 
     // Initialise la Facade Serveur Jeu (demarre la boucle de tick)
     FacadeServeurJeu::getInstance();

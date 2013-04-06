@@ -23,6 +23,7 @@
 #include "..\Reseau\Paquets\PaquetEvent.h"
 #include "GameManager.h"
 #include "LaunchAchievementLite.h"
+#include "..\Reseau\UsinePaquets\UsinePaquetPortal.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -88,6 +89,7 @@ void InitDLL()
     wGestionnaireReseau->ajouterOperationReseau(RONDELLE, new PacketHandlerRondelle, new UsinePaquetRondelle);
     wGestionnaireReseau->ajouterOperationReseau(GAME_EVENT, new PacketHandlerGameEvent, new UsinePaquetGameEvent);
     wGestionnaireReseau->ajouterOperationReseau(BONUS, new PacketHandlerBonus, new UsinePaquetBonus);
+    wGestionnaireReseau->ajouterOperationReseau(PORTAL, new PacketHandlerPortal, new UsinePaquetPortal);
 
     AchievementsManager::obtenirInstance()->InitialiseAchievements();
 

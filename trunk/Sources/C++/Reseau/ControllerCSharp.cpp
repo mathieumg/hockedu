@@ -45,6 +45,7 @@ ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceiv
     mPaquetRunnables[GAME_CONNECTION]       = PaquetRunnable::RunnableGameConnectionClient;
     mPaquetRunnables[GAME_EVENT]            = PaquetRunnable::RunnableGameEventClient;
     mPaquetRunnables[BONUS]                 = PaquetRunnable::RunnableBonus;
+    mPaquetRunnables[PORTAL]                = PaquetRunnable::RunnablePortalClient;
 
     // Runnables pour les paquets bonus
     PacketHandlerBonus::mRunnableList[BONUS_MAILLET_MURETS] = PaquetRunnable::RunnableBonusMailletMuretClient;
