@@ -447,6 +447,7 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
                         wMaillets[i]->setIsNetworkPlayer(true);
                         break;
                     }
+				case JOUEUR_VIRTUEL_RENFORCEMENT:
                 case JOUEUR_VIRTUEL:
                     {
                         wMaillets[i]->setIsNetworkPlayer(false);
@@ -629,6 +630,7 @@ void Partie::modifierJoueurDroit( SPJoueurAbstrait val )
 //  if(joueurDroit_)
 //      delete joueurDroit_;
     joueurDroit_ = val;
+	joueurGauche_->setPlayerSide(PLAYER_SIDE_RIGHT);
     callGameUpdate(mGameStatus);
     mPartieSyncer.setPlayers(NULL, joueurDroit_);
 }
@@ -649,6 +651,7 @@ void Partie::modifierJoueurGauche( SPJoueurAbstrait val )
 //  if(joueurGauche_)
 //      delete joueurGauche_;
     joueurGauche_ = val;
+	joueurGauche_->setPlayerSide(PLAYER_SIDE_LEFT);
     callGameUpdate(mGameStatus);
     mPartieSyncer.setPlayers(joueurGauche_, NULL);
 }

@@ -2062,6 +2062,8 @@ void Terrain::initNecessaryPointersForGame()
         // Assignation des position de base des elements pour la reinitialisation suite a un but
         mLeftMallet->modifierPositionOriginale(mLeftMallet->getPosition());
         mRightMallet->modifierPositionOriginale(mRightMallet->getPosition());
+		mLeftMallet->setMalletSide(MALLET_SIDE_LEFT);
+		mRightMallet->setMalletSide(MALLET_SIDE_RIGHT);
         mPuck->validerPropriteteTablePourJeu();
         mPuck->modifierPositionOriginale(mPuck->getPosition());
 

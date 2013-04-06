@@ -43,11 +43,11 @@
                     <RowDefinition Height="50*" />
                     <RowDefinition Height="53*" />
                 </Grid.RowDefinitions>
-                <Button Content="Save" Margin="12,12,0,12" Name="mSaveButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" Grid.Row="3" HorizontalAlignment="Left" Width="62" Click="mSaveButton_Click" />
-                <Label Content="Profile's Name :" Foreground="White" HorizontalAlignment="Left" Margin="12" Name="mProfileNameLabel" />
+                <Button Content="Save" Margin="12,12,442,12" Name="mSaveButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" Grid.Row="3" Click="mSaveButton_Click" />
+                <Label Content="Profile's Name :" Foreground="White" HorizontalAlignment="Left" Margin="12,12,0,0" Name="mProfileNameLabel" Height="26" VerticalAlignment="Top" />
                 <Label Content="Speed : " Foreground="White" HorizontalAlignment="Left" Margin="12" Name="mProfileSpeedLabel" Grid.Row="1" />
                 <Label Content="Fail probability : " Foreground="White" HorizontalAlignment="Left" Margin="12" Name="mProfileReflexLabel" Grid.Row="2" />
-                <TextBox HorizontalAlignment="Left" Margin="112,10,0,10" Name="mProfileNameTextBox" Width="120" Background="Black" Foreground="White" MaxLength="255"/>
+                <TextBox HorizontalAlignment="Left" Margin="112,10,0,0" Name="mProfileNameTextBox" Width="120" Background="Black" Foreground="White" MaxLength="255" Height="30" VerticalAlignment="Top" />
                 <Slider HorizontalAlignment="Left" Margin="113,18,0,8" Name="mSpeedSlider" Width="265" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="1" IsSnapToTickEnabled="True" />
                 <Slider HorizontalAlignment="Left" Margin="113,9,0,18" Name="mReflexSlider" Width="265" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="2" IsSnapToTickEnabled="True" />
                 <Label Content="{Binding ElementName=mSpeedSlider, Path=Value}" Foreground="#FF00D500" HorizontalAlignment="Left" Margin="384,15,0,8" Name="mSpeedDisplayLabel" Width="80" Grid.Row="1" />
