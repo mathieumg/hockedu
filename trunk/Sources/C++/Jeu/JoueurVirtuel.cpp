@@ -25,12 +25,12 @@
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-JoueurVirtuel::JoueurVirtuel(std::string nom, unsigned int vitesse, unsigned int probabiliteEchec):JoueurAbstrait(nom)
+JoueurVirtuel::JoueurVirtuel(std::string nom, unsigned int vitesse, unsigned int probabiliteEchec):JoueurAbstrait(nom) ,aiMaillet_(NULL)
 {
 	vitesse_ = vitesse;
 	probabiliteEchec_ = probabiliteEchec;
 	type_ = JOUEUR_VIRTUEL;
-	aiMaillet_ = new AIMaillet(*this);
+	setAiMaillet(new AIMaillet(*this));
 }
 
 #ifdef WITH_JAVA
@@ -46,7 +46,7 @@ JoueurVirtuel::JoueurVirtuel(std::string nom, unsigned int vitesse, unsigned int
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-JoueurVirtuel::JoueurVirtuel( JNIEnv* env, jobject& joueurVirtuel ) : JoueurAbstrait("")
+JoueurVirtuel::JoueurVirtuel( JNIEnv* env, jobject& joueurVirtuel ) : JoueurAbstrait("") ,aiMaillet_(NULL)
 {
 	// Obtention de la classe
 	jclass classe = env->GetObjectClass(joueurVirtuel);
@@ -69,7 +69,7 @@ JoueurVirtuel::JoueurVirtuel( JNIEnv* env, jobject& joueurVirtuel ) : JoueurAbst
 	probabiliteEchec_ = probabiliteEchec;
 	type_ = JOUEUR_VIRTUEL;
 
-	aiMaillet_ = new AIMaillet(*this);
+    setAiMaillet(new AIMaillet(*this));
 
 }
 
@@ -86,7 +86,10 @@ JoueurVirtuel::JoueurVirtuel( JNIEnv* env, jobject& joueurVirtuel ) : JoueurAbst
 ////////////////////////////////////////////////////////////////////////
 JoueurVirtuel::~JoueurVirtuel( void )
 {
-	//delete aiMaillet_;
+    if(aiMaillet_)
+    {
+	    delete aiMaillet_;
+    }
 }
 
 
@@ -242,6 +245,26 @@ Vecteur2 JoueurVirtuel::obtenirDirectionAI( NoeudMaillet* maillet )
 	//envoie le pointeur sur la rondelle et sur le maillet
 	aiMaillet_->evaluerStrategie(maillet);
 	return aiMaillet_->evaluerDirection(maillet);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void JoueurVirtuel::setAiMaillet( AIMaillet* val )
+///
+/// /*Description*/
+///
+/// @param[in] AIMaillet * val
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void JoueurVirtuel::setAiMaillet( AIMaillet* val )
+{
+    if(aiMaillet_)
+    {
+        delete aiMaillet_;
+    }
+    aiMaillet_ = val;
 }
 
 

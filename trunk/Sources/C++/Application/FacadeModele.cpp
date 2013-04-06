@@ -768,6 +768,22 @@ void FacadeModele::animer( const float& temps)
         obtenirPartieCourante()->obtenirGameTime()->unPause();
     }
 
+#if !SHIPPING
+    auto partie = obtenirPartieCourante();
+    if(partie)
+    {
+        auto puck = partie->getField()->getPuck();
+        if(puck)
+        {
+            auto vel = puck->obtenirVelocite();
+            char buffer[56];
+            sprintf(buffer,"Speed [%.2f,%.2f]",vel[0],vel[1]);
+            debugInfo->setMessage(buffer);
+            debugInfo->modifierVisibilite(true);
+        }
+    }
+#endif
+
     RazerGameUtilities::Updating(false);
 }
 

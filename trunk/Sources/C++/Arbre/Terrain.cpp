@@ -1070,6 +1070,26 @@ void Terrain::appliquerPhysique( float temps )
         }
 
         mWorld->Step(temps, 8, 8);
+
+
+        /// Limit puck's speed!
+        auto puck = getPuck();
+        if(puck)
+        {
+            auto body = puck->getPhysicBody();
+            if(body)
+            {
+                auto velocity = body->GetLinearVelocity();
+                const float maxSpeed = 1500* utilitaire::ratioWorldToBox2D;
+                float speed = velocity.Normalize();
+                if(speed > maxSpeed)
+                {
+                    velocity *= maxSpeed;
+                    body->SetLinearVelocity(velocity);
+                }
+            }
+        }
+
 #elif MANUAL_PHYSICS_DETECTION
         mLogicTree->positionUpdate(temps);
         mLogicTree->collisionDetection(temps);

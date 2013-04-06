@@ -33,7 +33,7 @@ JoueurVirtuelRenforcement::JoueurVirtuelRenforcement(const std::string& pAiLogic
 {
 	type_ = JOUEUR_VIRTUEL_RENFORCEMENT;
     chargerAiLogic(pAiLogicFilepath);
-    aiMaillet_ = new AIMailletRenforcement(*this);
+    setAiMaillet(new AIMailletRenforcement(*this));
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -136,8 +136,13 @@ void JoueurVirtuelRenforcement::genererAleatoirement()
 Vecteur2 JoueurVirtuelRenforcement::obtenirDirectionAI( NoeudMaillet* maillet )
 {
 	//envoie le pointeur sur la rondelle et sur le maillet
-    aiMaillet_->evaluerStrategie(maillet);
-	return aiMaillet_->evaluerDirection(maillet);
+    auto ai = getAiMaillet();
+    if(ai)
+    {
+        ai->evaluerStrategie(maillet);
+        return ai->evaluerDirection(maillet);
+    }
+    return 0;
 }
 
 
