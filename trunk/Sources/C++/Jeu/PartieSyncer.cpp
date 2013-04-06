@@ -85,7 +85,7 @@ void PartieSyncer::tick()
     if(isReadyToUpdate())
     {
         // Envoie des infos de maillet
-        if(mPlayer1)
+        if(mPlayer1 && mPlayer1->getControlingMallet())
         {
             PaquetMaillet* wPaquet = (PaquetMaillet*) GestionnaireReseau::obtenirInstance()->creerPaquet(MAILLET);
             wPaquet->setPosition(mPlayer1->getControlingMallet()->getPosition());
@@ -105,7 +105,7 @@ void PartieSyncer::tick()
             }*/
         }
 
-        if(mPlayer2)
+        if(mPlayer2 && mPlayer2->getControlingMallet())
         {
             PaquetMaillet* wPaquet = (PaquetMaillet*) GestionnaireReseau::obtenirInstance()->creerPaquet(MAILLET);
             wPaquet->setPosition(mPlayer2->getControlingMallet()->getPosition());

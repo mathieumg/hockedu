@@ -498,7 +498,7 @@ void Partie::reloadControleMallet()
 ////////////////////////////////////////////////////////////////////////
 void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 {
-    mGameStatus = GAME_STARTED;
+    setGameStatus(GAME_STARTED);
     // Obtention des éléments
     NoeudRondelle* rondelle = mField->getPuck();
     NoeudMaillet* maillet1 = mField->getLeftMallet();

@@ -470,16 +470,20 @@ void CommunicateurReseau::demarrerConnectionThread( SPSocket pSocket )
 void CommunicateurReseau::enleverConnectionThread( SPSocket pSocket, bool pSuccess )
 {
     FacadePortability::takeMutex(mMutexListeSocketsConnection);
-	mHandlesThreadConnection.erase(mHandlesThreadConnection.find(pSocket));
-    FacadePortability::releaseMutex(mMutexListeSocketsConnection);
-    if(!pSuccess)
+    auto wIt = mHandlesThreadConnection.find(pSocket);
+    if(wIt != mHandlesThreadConnection.end())
     {
-        GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
-    }
-    else
-    {
-        // Si la reconnection a reussie, on le remet dans la liste des sockets a ecouter
-        ajouterSocketEcoute(pSocket);
+        mHandlesThreadConnection.erase(mHandlesThreadConnection.find(pSocket));
+        FacadePortability::releaseMutex(mMutexListeSocketsConnection);
+        if(!pSuccess)
+        {
+            GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
+        }
+        else
+        {
+            // Si la reconnection a reussie, on le remet dans la liste des sockets a ecouter
+            ajouterSocketEcoute(pSocket);
+        }
     }
 }
 
