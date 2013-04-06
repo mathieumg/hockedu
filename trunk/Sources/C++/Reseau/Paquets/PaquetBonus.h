@@ -16,9 +16,10 @@ class UsinePaquetBonus;
 
 // Differents types de paquets
 enum PaquetBonusType {BONUS_MAILLET_MURETS, BONUS_GOALER, BONUS_NB};
+enum PaquetBonusAction {BONUS_ACTION_SPAN, BONUS_ACTION_EXECUTE, BONUS_ACTION_END};
 
 
-class PaquetBonusInfos {};
+//class PaquetBonusInfos {};
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -34,13 +35,10 @@ private:
 
     
     PaquetBonusType mBonusType;
+    PaquetBonusAction mBonusAction;
+    
     int mGameId;
     Vecteur2 mBonusPosition;
-
-
-
-    PaquetBonusInfos* mInfos;
-
 
 protected:
 	PaquetBonus();
@@ -48,11 +46,11 @@ protected:
 public:
 	virtual PacketTypes getOperation() const { return BONUS; }
 
-    void setPaquetInfos(PaquetBonusInfos* pInfos) {if(mInfos) {delete mInfos;} mInfos = pInfos;}
-    PaquetBonusInfos* getPaquetInfos() {return mInfos;}
-
     inline const Vecteur2& getBonusPosition() const { return mBonusPosition; }
     inline void setBonusPosition(const Vecteur2& val) { mBonusPosition = val; }
+
+    PaquetBonusAction getBonusAction() const { return mBonusAction; }
+    void setBonusAction(PaquetBonusAction val) { mBonusAction = val; }
 
     inline PaquetBonusType getBonusType() const { return mBonusType; }
     inline void setBonusType(PaquetBonusType val) { mBonusType = val; }
@@ -63,28 +61,6 @@ public:
     ~PaquetBonus();
 
 };
-
-
-////////// Enumeration des infos des differents types de paquets
-
-// Utilisation comme une struct
-class PaquetBonusInfosGoaler : public PaquetBonusInfos
-{
-public:
-    bool onLeftPlayer;
-};
-
-
-class PaquetBonusInfosMailletMurets : public PaquetBonusInfos
-{
-public:
-    bool onLeftPlayer;
-};
-
-
-
-
-
 
 
 ///////////////////////////////////////////////////////////////////////////////

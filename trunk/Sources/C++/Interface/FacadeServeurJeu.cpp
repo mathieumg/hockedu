@@ -27,7 +27,6 @@
 #include "..\reseau\UsinePaquets\UsinePaquetRondelle.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetGameEvent.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetBonus.h"
-#include "..\Reseau\PaquetHandlers\PacketHandlerBonus.h"
 #include "..\Reseau\PaquetRunnableServeurJeu.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetPortal.h"
 

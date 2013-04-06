@@ -14,7 +14,6 @@
 #include "..\reseau\UsinePaquets\UsinePaquetRondelle.h"
 #include "VisitorGatherProperties.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetGameEvent.h"
-#include "..\Reseau\PaquetHandlers\PacketHandlerBonus.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetBonus.h"
 #include "..\Achievements\AchievementsManager.h"
 #include "FacadeModele.h"

@@ -16,10 +16,7 @@ namespace PaquetRunnable
 
     int RunnableGameEventClient(Paquet* pPaquet);
 
-    // Section bonus
-    int RunnableBonusMailletMuretClient(PaquetBonus* pPaquet);
-    int RunnableBonusGoalerClient(PaquetBonus* pPaquet);
-
+    int RunnableBonusClient(Paquet* pPaquet);
 
     int RunnablePortalClient(Paquet* pPaquet);
 

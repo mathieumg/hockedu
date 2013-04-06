@@ -70,6 +70,7 @@
 #include "VisiteurSuppression.h"
 #include "EditionEventManager.h"
 #include "ForceField.h"
+#include "../Reseau/Paquets/PaquetBonus.h"
 
 
 #define TransmitEvent(e) EditionEventManager::TransmitEvent(e)
@@ -1268,6 +1269,7 @@ void Terrain::BeginContact( b2Contact* contact )
                 }
             }
             break;
+
         case CATEGORY_BOOST   :
             {
                 NoeudAccelerateur* accelerateur = (NoeudAccelerateur*)bodies[1]->GetUserData();
@@ -1282,19 +1284,30 @@ void Terrain::BeginContact( b2Contact* contact )
                 SoundFMOD::obtenirInstance()->playEffect(effect(ACCELERATOR_EFFECT));
             }
             break;
-        case CATEGORY_BONUS:
-            {
-                NodeBonus* bonus = (NodeBonus*)(bodies[1]->GetUserData());
-                NoeudRondelle* rondelle = (NoeudRondelle*)(bodies[0]->GetUserData());
 
-                // The execution ca modify box2D so we queue it
-                Runnable* r = new Runnable([bonus,rondelle](Runnable*)
+        case CATEGORY_BONUS:
+            if (!mGame->isNetworkClientGame())
+            {
+	            NodeBonus* bonus = (NodeBonus*)(bodies[1]->GetUserData());
+	            NoeudRondelle* rondelle = (NoeudRondelle*)(bodies[0]->GetUserData());
+	
+                /*if(mGame->isNetworkServerGame())
                 {
-                    bonus->ExecuteBonus(rondelle); 
-                });
-                RunnableBreaker::attach(r);
-                RazerGameUtilities::RunOnUpdateThread(r,true);
-                break;
+                    PaquetBonus* wPaquet = (PaquetBonus*) GestionnaireReseau::obtenirInstance()->creerPaquet(BONUS);
+                    wPaquet->setGameId(mGame->getUniqueGameId());
+                    wPaquet->setBonusType()
+                    wPaquet->setPosition(portailDeSortie->getPosition());
+                    RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
+                }*/
+
+	            // The execution ca modify box2D so we queue it
+	            Runnable* r = new Runnable([bonus,rondelle](Runnable*)
+	            {
+	                bonus->ExecuteBonus(rondelle); 
+	            });
+	            RunnableBreaker::attach(r);
+	            RazerGameUtilities::RunOnUpdateThread(r,true);
+	            break;
             }
         default:
             break;

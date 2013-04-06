@@ -58,6 +58,7 @@ HANDLER_DECLARATION(Event);
 HANDLER_DECLARATION(ConnAutomatique);
 HANDLER_DECLARATION(ChatMessage);
 HANDLER_DECLARATION(Portal);
+HANDLER_DECLARATION(Bonus);
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

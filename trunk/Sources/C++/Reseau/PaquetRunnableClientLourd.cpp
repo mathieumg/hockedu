@@ -24,7 +24,6 @@
 #include "SoundFMOD.h"
 #include "Box2D\Common\b2Math.h"
 #include "Box2D\Dynamics\b2Body.h"
-#include "PaquetHandlers\PacketHandlerBonus.h"
 #include "GestionnaireHUD.h"
 #include "ObjetsGlobaux\PartieServeurs.h"
 #include "Paquets\PaquetPortal.h"
@@ -385,25 +384,12 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
 }
 
 
-////////// Section des bonus
 
-
-int PaquetRunnable::RunnableBonusMailletMuretClient( PaquetBonus* pPaquet )
+int PaquetRunnable::RunnableBonusClient( Paquet* pPaquet )
 {
-    PaquetBonusInfosMailletMurets* wInfos = (PaquetBonusInfosMailletMurets*) pPaquet->getPaquetInfos();
-
-
     return 0;
 }
 
-
-int PaquetRunnable::RunnableBonusGoalerClient( PaquetBonus* pPaquet )
-{
-    PaquetBonusInfosGoaler* wInfos = (PaquetBonusInfosGoaler*) pPaquet->getPaquetInfos();
-
-
-    return 0;
-}
 
 
 int PaquetRunnable::RunnablePortalClient( Paquet* pPaquet )
