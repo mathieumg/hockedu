@@ -35,7 +35,6 @@ HUDTexte::HUDTexte(std::string texte, Vecteur4f& couleur, std::string& typeFont)
 	if(!textRenderer_.load("", (RazerGameUtilities::NOM_DOSSIER_MEDIA + typeFont).c_str()))
 	{
 		utilitaire::afficherErreur("Erreur: incapable d'ouvrir le font " + typeFont);
-		exit(-1);
 	}
 }
 
@@ -57,7 +56,6 @@ HUDTexte::HUDTexte(TypeTexte typeTexte, Vecteur4f& couleur, std::string& typeFon
 	if(!textRenderer_.load("", (RazerGameUtilities::NOM_DOSSIER_MEDIA +typeFont).c_str()))
 	{
 		utilitaire::afficherErreur("Erreur: incapable d'ouvrir le font game_over");
-		exit(-1);
 	}
 }
 
@@ -82,7 +80,6 @@ HUDTexte::HUDTexte(unsigned int& idPartie, unsigned int& joueur, Vecteur4f& coul
 	if(!textRenderer_.load("", (RazerGameUtilities::NOM_DOSSIER_MEDIA +typeFont).c_str()))
 	{
 		utilitaire::afficherErreur("Erreur: incapable d'ouvrir le font game_over");
-		exit(-1);
 	}
 }
 
