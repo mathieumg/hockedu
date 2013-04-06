@@ -24,6 +24,7 @@
 #include "GameManager.h"
 #include "LaunchAchievementLite.h"
 #include "Partie.h"
+#include "JoueurVirtuelRenforcement.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -505,6 +506,7 @@ void SetSecondPlayer(bool pIsHuman, char* pName)
 void AddPlayer(char* pName, int pSpeed, int pFailProb)
 {
     SPJoueurAbstrait joueurVirtuel(new JoueurVirtuel(pName, pSpeed, pFailProb));
+    //SPJoueurAbstrait joueurVirtuel(new JoueurVirtuelRenforcement("", pName, pSpeed, pFailProb));
     FacadeModele::getInstance()->ajouterJoueur(joueurVirtuel);
 }
 
@@ -533,7 +535,7 @@ void GetPlayers(AIProfile* pProfiles, int pNbrProfiles)
 	{
         joueur = FacadeModele::getInstance()->obtenirJoueur(*iter);
 
-        if(joueur->obtenirType()==JOUEUR_VIRTUEL)
+        if(joueur->obtenirType()==JOUEUR_VIRTUEL || joueur->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
 	    {
 		    SPJoueurVirtuel joueurVirtuel = std::dynamic_pointer_cast<JoueurVirtuel>(joueur);
 

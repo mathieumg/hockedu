@@ -25,12 +25,13 @@
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-JoueurVirtuel::JoueurVirtuel(std::string nom, unsigned int vitesse, unsigned int probabiliteEchec):JoueurAbstrait(nom) ,aiMaillet_(NULL)
+JoueurVirtuel::JoueurVirtuel(std::string nom, unsigned int vitesse, unsigned int probabiliteEchec):JoueurAbstrait(nom) 
 {
 	vitesse_ = vitesse;
 	probabiliteEchec_ = probabiliteEchec;
 	type_ = JOUEUR_VIRTUEL;
-	setAiMaillet(new AIMaillet(*this));
+    aiMaillet_ = NULL;
+    setAiMaillet(new AIMaillet(this));
 }
 
 #ifdef WITH_JAVA

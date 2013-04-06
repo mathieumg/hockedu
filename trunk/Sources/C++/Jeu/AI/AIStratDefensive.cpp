@@ -81,7 +81,7 @@ Vecteur2 AIStratDefensive::appliquerStrategie( NoeudMaillet* maillet)
 	else
 		dir.normaliser();
 
-	dir *= (float)context_.obtenirJv().obtenirVitesse()*0.75f;
+	dir *= (float)context_.obtenirJv()->obtenirVitesse()*0.75f;
 
 	return dir;
 }

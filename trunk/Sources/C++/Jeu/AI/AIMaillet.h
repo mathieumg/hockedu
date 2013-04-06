@@ -11,6 +11,7 @@
 #pragma once
 #include "Vecteur.h"
 #include "AIStrat.h"
+#include "RazerGameTypeDef.h"
 
 class NoeudMaillet;
 class JoueurVirtuel;
@@ -26,7 +27,7 @@ class AIMaillet
 {
 public:
 	/// Constructeur
-	AIMaillet(const JoueurVirtuel&);
+	AIMaillet(JoueurVirtuel* pJoueurVirtuel);
 	/// Destructeur
 	virtual ~AIMaillet();
 	/// Évaluation de la stratégie à utiliser
@@ -40,12 +41,12 @@ protected:
 	/// La stratégie du maillet
 	AIStrat* strategie_;
 	
-	const JoueurVirtuel& jv_;
+	JoueurVirtuel* jv_;
 
 /// Accesseurs
 public:
 	/// Accesseur de jv_
-	const JoueurVirtuel& obtenirJv() const { return jv_; }
+	JoueurVirtuel* obtenirJv() const { return jv_; }
 	/// Accesseur de strategie_
 	AIStrat* getStrategie() const { return strategie_; }
 };

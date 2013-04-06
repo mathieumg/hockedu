@@ -633,6 +633,7 @@ void NoeudMaillet::playTick(float temps)
                 mTargetDestination += getPosition();
             }
             break;
+        case JOUEUR_VIRTUEL_RENFORCEMENT:
         case JOUEUR_VIRTUEL:
             {
                 SPJoueurVirtuel wJoueur = std::dynamic_pointer_cast<JoueurVirtuel>(joueur_);

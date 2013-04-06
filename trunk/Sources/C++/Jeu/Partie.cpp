@@ -1230,8 +1230,8 @@ PuckProjection Partie::getPuckProjection( float pPosX, int pDelaisMaxMs /*= 1000
         while(true)
         {
             // Tick le world
-            mFieldSimulation->appliquerPhysique(1.0f/1000.0f);
-            wElapsedTime += 1;
+            mFieldSimulation->appliquerPhysique(10.0f/1000.0f);
+            wElapsedTime += 10;
 
             // Verifie la rondelle
             //std::cout << wDiffXStart << "\t" << (pPosX - wPuck->getPosition()[VX]) << std::endl;

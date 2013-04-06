@@ -14,6 +14,7 @@
 #include <jni.h>
 #endif //WITH_JAVA  
 #include "NoeudRondelle.h"
+#include <memory>
 
 class AIMaillet;
 
@@ -24,7 +25,7 @@ class AIMaillet;
 /// @author Vincent Lemire
 /// @date 2012-02-17
 ///////////////////////////////////////////////////////////////////////////
-class JoueurVirtuel : public JoueurAbstrait
+class JoueurVirtuel : public JoueurAbstrait, public std::enable_shared_from_this<JoueurVirtuel>
 {
 public:
 
@@ -61,6 +62,8 @@ public:
 	/// Accesseur de aiMaillet_
 	AIMaillet* getAiMaillet() const { return aiMaillet_; }
 	void setAiMaillet(AIMaillet* val);
+
+
 private:
 	/// Vitesse du joueur
 	unsigned int vitesse_;
