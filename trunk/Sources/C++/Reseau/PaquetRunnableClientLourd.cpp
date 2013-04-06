@@ -27,6 +27,7 @@
 #include "PaquetHandlers\PacketHandlerBonus.h"
 #include "GestionnaireHUD.h"
 #include "ObjetsGlobaux\PartieServeurs.h"
+#include "Paquets\PaquetPortal.h"
 
 
 #ifdef LINUX
@@ -403,3 +404,31 @@ int PaquetRunnable::RunnableBonusGoalerClient( PaquetBonus* pPaquet )
 
     return 0;
 }
+
+
+int PaquetRunnable::RunnablePortalClient( Paquet* pPaquet )
+{
+    PaquetPortal* wPaquet = (PaquetPortal*) pPaquet;
+    int wGameId = wPaquet->getGameId();
+    Vecteur3 pos = wPaquet->getPosition();
+    Runnable* r = new Runnable([wGameId, pos](Runnable*){
+        Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+        if(wGame)
+        {
+            if(wGame->getField())
+            {
+                wGame->getField()->getPuck()->setPosition(pos);
+            }
+        }
+    });
+    RazerGameUtilities::RunOnUpdateThread(r,true);
+
+
+    return 0;
+}
+
+
+
+
+
+

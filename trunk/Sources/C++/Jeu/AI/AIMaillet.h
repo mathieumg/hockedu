@@ -39,13 +39,15 @@ public:
 private:
 	/// La stratégie du maillet
 	AIStrat* strategie_;
+	
 	const JoueurVirtuel& jv_;
 
 /// Accesseurs
 public:
 	/// Accesseur de jv_
 	const JoueurVirtuel& obtenirJv() const { return jv_; }
-
+	/// Accesseur de strategie_
+	AIStrat* getStrategie() const { return strategie_; }
 };
 
 ///////////////////////////////////////////////////////////////////////////////

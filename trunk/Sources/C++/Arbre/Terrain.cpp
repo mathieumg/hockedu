@@ -28,6 +28,7 @@
 #include "HUDBonus.h"
 #include "FacadeModele.h"
 #include "../Reseau/Paquets/PaquetGameEvent.h"
+#include "../Reseau/Paquets/PaquetPortal.h"
 #include "../Reseau/RelayeurMessage.h"
 
 #else
@@ -69,6 +70,7 @@
 #include "VisiteurSuppression.h"
 #include "EditionEventManager.h"
 #include "ForceField.h"
+
 
 #define TransmitEvent(e) EditionEventManager::TransmitEvent(e)
 
@@ -1207,6 +1209,7 @@ void Terrain::BeginContact( b2Contact* contact )
             }
             break;
         case CATEGORY_PORTAL  :
+            if(!mGame->isNetworkClientGame())
             {
                 NoeudPortail* portail = (NoeudPortail*)bodies[1]->GetUserData();
                 checkf(portail, "Portal's body's User Data is not the Portal");
@@ -1239,6 +1242,13 @@ void Terrain::BeginContact( b2Contact* contact )
                                     mGame->SendAchievementEventToHumanPlayer(maillet->obtenirJoueur(), ACHIEVEMENT_EVENT_PORTAL, ACHIEVEMENT_EVENT_NONE);
                                 }
                                 
+                                if(mGame->isNetworkServerGame())
+                                {
+                                    PaquetPortal* wPaquet = (PaquetPortal*) GestionnaireReseau::obtenirInstance()->creerPaquet(PORTAL);
+                                    wPaquet->setGameId(mGame->getUniqueGameId());
+                                    wPaquet->setPosition(portailDeSortie->getPosition());
+                                    RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
+                                }
                             }
                             
 

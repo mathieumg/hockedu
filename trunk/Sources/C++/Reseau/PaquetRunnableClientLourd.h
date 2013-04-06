@@ -21,6 +21,7 @@ namespace PaquetRunnable
     int RunnableBonusGoalerClient(PaquetBonus* pPaquet);
 
 
+    int RunnablePortalClient(Paquet* pPaquet);
 
 };
 

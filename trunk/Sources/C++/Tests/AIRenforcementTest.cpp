@@ -6,6 +6,7 @@
 #include "JoueurVirtuelRenforcement.h"
 #include "JoueurVirtuel.h"
 #include "AIMaillet.h"
+#include "AIStratOffensiveRenforcement.h"
 
 // Enregistrement de la suite de tests au sein du registre
 CPPUNIT_TEST_SUITE_REGISTRATION( AIRenforcementTest );
@@ -57,7 +58,7 @@ void AIRenforcementTest::testDirectionPhaseDeplacement()
 	
 	// Place le maillet
 	 NoeudMaillet* wMaillet = partie->getField()->getRightMallet();
-	 wMaillet->setPosition(Vecteur3(150,0,0));
+	 wMaillet->setPosition(Vecteur3(55,0,0));
 	// Place la rondelle
 	NoeudRondelle* wPuck = partie->getField()->getPuck();
 	wPuck->setPosition(Vecteur3(1,0,0));
@@ -68,7 +69,11 @@ void AIRenforcementTest::testDirectionPhaseDeplacement()
 	AIMailletRenforcement* aimaillet = (AIMailletRenforcement*)joueurVirtuel->getAiMaillet();
 
 	aimaillet->changerStrat(OFFENSIVE_LIGNE_DROITE);
-	//aimaillet-
+	AIStratOffensiveRenforcement* strat = ((AIStratOffensiveRenforcement*)aimaillet->getStrategie());
+	//strat->setMalletTargetPos(Vecteur2()); PAS A SETTER
+	strat->setPointImpact(Vecteur2(50,0));
+	strat->setPointVise(Vecteur2(-150,0));
+	strat->setTimeBeforeImpact(0); // pas utilisé pour le moment
 	joueurVirtuel->obtenirDirectionAI(wMaillet);
 	// Set la strategie
 	CPPUNIT_ASSERT(wMaillet->obtenirVelocite()!=Vecteur3());
