@@ -26,7 +26,7 @@ SINGLETON_DECLARATION_CPP(FacadeServeurMaitre);
 ////////////////////////////////////////////////////////////////////////
 FacadeServeurMaitre::FacadeServeurMaitre()
 {
-    std::list<std::pair<std::string, std::string>> wUsersToTest;
+    /*std::list<std::pair<std::string, std::string>> wUsersToTest;
     wUsersToTest.push_back(std::pair<std::string, std::string>("bob", "sdsd"));
     wUsersToTest.push_back(std::pair<std::string, std::string>("testing", "testing"));
     wUsersToTest.push_back(std::pair<std::string, std::string>("testing", "yolo"));
@@ -47,7 +47,7 @@ FacadeServeurMaitre::FacadeServeurMaitre()
             oss << "User " << wUsername << " connected successfully! User ID: " << wUserId << std::endl;
         }
         std::cout << oss.str() << std::endl;
-    }
+    }*/
 }
 
 
