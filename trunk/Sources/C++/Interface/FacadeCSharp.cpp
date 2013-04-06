@@ -923,4 +923,9 @@ void AskForAIOpponentInNetworkGame()
     }
 }
 
+void ResetAchievements()
+{
+    AchievementsManager::obtenirInstance()->ResetAchievements();
+}
+
 
