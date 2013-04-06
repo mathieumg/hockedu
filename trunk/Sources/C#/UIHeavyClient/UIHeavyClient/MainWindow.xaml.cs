@@ -401,7 +401,7 @@ namespace UIHeavyClient
             HttpManager wManager = new HttpManager();
             //wManager.getPublicMapList();
             //wManager.downloadMap(12, 1, TestCallbackMapDownloaded);
-            wManager.sendMap(12, "cd13d808-9e93-11e2-b5d0-005056823b67", "TestMat9000", "Test Upload HTTP new", true, "E:\\airhockeygit\\log3900-04_DO_NOT_MODIFY\\trunk\\Content\\Exe\\bobMapGrosMailet.xml", -1, TestCallbackMapUploaded);
+            wManager.sendMap(12, "cd13d808-9e93-11e2-b5d0-005056823b67", "TestMat9000", "UPDATE DESCRIPTION", true, "E:\\airhockeygit\\log3900-04_DO_NOT_MODIFY\\trunk\\Content\\Exe\\bobMapGrosMailet.xml", 15, TestCallbackMapUploaded);
         }
         
         // Tests pour connection serveur jeu et client
