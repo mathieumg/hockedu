@@ -314,6 +314,23 @@ void AchievementsManager::ClearMemory()
     mAchievementProgress.clear();
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void AchievementsManager::ReloadAchievements()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void AchievementsManager::ReloadAchievements()
+{
+    ClearMemory();
+    CreateAchievements();
+    LoadAchievementProgress();
+}
+
 #if MIKE_DEBUG_
 PRAGMA_ENABLE_OPTIMIZATION
 #endif

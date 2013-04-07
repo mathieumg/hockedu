@@ -43,6 +43,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServeurJeuLauncher", "Serve
 		{2469C5D8-015A-4862-AAEE-1E861D06DEE1} = {2469C5D8-015A-4862-AAEE-1E861D06DEE1}
 	EndProjectSection
 EndProject
+Project("{A0786B88-2ADB-4C21-ABE8-AA2D79766269}") = "HockeduCom", "..\PHP\HockeduCom.phpproj", "{A3C45874-2CD8-4631-96EE-ACAD29F8C3F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -221,6 +223,14 @@ Global
 		{E855C041-719C-42FF-8B12-C36C31439A81}.WithJava|Mixed Platforms.Build.0 = Shipping|x64
 		{E855C041-719C-42FF-8B12-C36C31439A81}.WithJava|x64.ActiveCfg = Debug|x64
 		{E855C041-719C-42FF-8B12-C36C31439A81}.WithJava|x64.Build.0 = Debug|x64
+		{A3C45874-2CD8-4631-96EE-ACAD29F8C3F3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A3C45874-2CD8-4631-96EE-ACAD29F8C3F3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A3C45874-2CD8-4631-96EE-ACAD29F8C3F3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A3C45874-2CD8-4631-96EE-ACAD29F8C3F3}.Release|x64.ActiveCfg = Release|Any CPU
+		{A3C45874-2CD8-4631-96EE-ACAD29F8C3F3}.Shipping|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A3C45874-2CD8-4631-96EE-ACAD29F8C3F3}.Shipping|x64.ActiveCfg = Release|Any CPU
+		{A3C45874-2CD8-4631-96EE-ACAD29F8C3F3}.WithJava|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A3C45874-2CD8-4631-96EE-ACAD29F8C3F3}.WithJava|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

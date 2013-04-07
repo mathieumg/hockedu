@@ -662,6 +662,9 @@
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerPortal.cpp">
       <Filter>Sources Files\Reseau\PaquetHandlers</Filter>
     </ClCompile>
+    <ClCompile Include="Arbre\FieldRunnableStructs.cpp">
+      <Filter>Sources Files\Arbre\Edition</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1245,7 +1248,9 @@
     </ClInclude>
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetPortal.h">
       <Filter>Sources Files\Reseau\UsinePaquets</Filter>
-
+    </ClInclude>
+    <ClInclude Include="Arbre\FieldRunnableStructs.h">
+      <Filter>Sources Files\Arbre\Edition</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

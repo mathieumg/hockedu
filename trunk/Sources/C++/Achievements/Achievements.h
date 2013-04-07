@@ -84,7 +84,7 @@ struct AchievementLevelDefinition
 class AbstractAchievement
 {
 public:
-    AbstractAchievement():mLevelUnlocked(0)
+    AbstractAchievement():mLevelUnlocked(0), mHasProgressed(false)
     {
 
     }
@@ -109,6 +109,8 @@ protected:
 
     unsigned int mLevelUnlocked;
     unsigned int mNbLevels;
+
+    bool mHasProgressed;
     
 };
 

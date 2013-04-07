@@ -47,12 +47,16 @@ public:
 	/// Questionne le AIMaillet sur la direction à prendre du maillet
 	virtual Vecteur2 obtenirDirectionAI(NoeudMaillet* maillet);
 
+    inline std::string GetAiLogicFilepath() const {return mAiLogicFilepath;}
+
 private:
     bool hasMapEntryFor(const Vecteur3& pPositionAi, const Vecteur3& pVelociteAi, const Vecteur3& pPositionRondelle, const Vecteur3& pVelociteRondelle, const Vecteur3& pPositionJoueurAdverse) const;
 
     bool chargerAiLogic(const std::string& pAiLogicFilepath);
 
     std::map<AiRuntimeInfosInput, AiRuntimeInfosOutput> mActionMap;
+
+    std::string mAiLogicFilepath;
 
 protected:
 	/// Initialisaiton du joueur à partir d'un element XML

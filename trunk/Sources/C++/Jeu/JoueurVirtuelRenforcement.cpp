@@ -30,7 +30,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 JoueurVirtuelRenforcement::JoueurVirtuelRenforcement(const std::string& pAiLogicFilepath, const std::string& nom /*= ""*/, unsigned int vitesse /*= 0*/, unsigned int probabiliteEchec /*= 0*/)
-    :JoueurVirtuel(nom, vitesse, probabiliteEchec)
+    :JoueurVirtuel(nom, vitesse, probabiliteEchec), mAiLogicFilepath(pAiLogicFilepath)
 {
 	type_ = JOUEUR_VIRTUEL_RENFORCEMENT;
     chargerAiLogic(pAiLogicFilepath);
