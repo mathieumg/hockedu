@@ -1,4 +1,14 @@
-﻿using System;
+﻿///////////////////////////////////////////////////////////////////////////////
+/// @file AIOptionControl.xaml.cs
+/// @author Vincent Lemire
+/// @date 2013-01-28
+/// @version 1.0
+///
+/// @addtogroup razergame RazerGame
+/// @{
+///////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,13 +23,25 @@ using System.Windows.Shapes;
 
 namespace UIHeavyClient
 {
-    /// <summary>
-    /// Logique d'interaction pour CreditPopup.xaml
-    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////
+    /// @class CreditPopup
+    /// @brief A credit window.
+    ///
+    /// @author Vincent Lemire
+    /// @date 2013-04-06
+    ///////////////////////////////////////////////////////////////////////////
     public partial class CreditPopup : Window
     {
+        // Attributes
         private string mCreditText;
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn CreditPopup.CreditPopup()
+        ///
+        /// Constructor.
+        ///
+        /// @return None.
+        ////////////////////////////////////////////////////////////////////////
         public CreditPopup()
         {
             InitializeComponent();
@@ -29,3 +51,7 @@ namespace UIHeavyClient
         }
     }
 }
+
+///////////////////////////////////////////////////////////////////////////
+/// @}
+///////////////////////////////////////////////////////////////////////////

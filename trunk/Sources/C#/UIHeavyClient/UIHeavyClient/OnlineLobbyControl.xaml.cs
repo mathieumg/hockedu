@@ -731,6 +731,15 @@ namespace UIHeavyClient
             mFeedbackLabel.Content = pMessage;
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.HandleUIButtons()
+        ///
+        /// Hide/show some UI button.
+        /// 
+        /// @param[in] bool : Hide or show.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void HandleUIButtons(bool pIsEnable)
         {
             mCreateButton.IsEnabled = pIsEnable;

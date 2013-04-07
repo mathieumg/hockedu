@@ -102,6 +102,13 @@ namespace UIHeavyClient
             Hide();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void PasswordPrompt.SetFocus()
+        ///
+        /// Set focus to password text box.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void SetFocus()
         {
             mPasswordBox.Focus();
