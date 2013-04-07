@@ -168,6 +168,10 @@
 		4EEBBFA316E8832900017127 /* NoeudAbstrait.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBFA216E8832900017127 /* NoeudAbstrait.cpp */; };
 		6D01D099170286BB00899CCB /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D01D098170286BB00899CCB /* iCarousel.m */; };
 		6D0F2C7A170E40AE00E378CC /* blueButtonPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D0F2C79170E40AE00E378CC /* blueButtonPressed@2x.png */; };
+		6D666B97171177F400429A7D /* HockeduLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D666B94171177F400429A7D /* HockeduLogo.png */; };
+		6D666B98171177F400429A7D /* RazorSharp.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D666B95171177F400429A7D /* RazorSharp.png */; };
+		6D666B99171177F400429A7D /* RazorSharpTechnologies.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D666B96171177F400429A7D /* RazorSharpTechnologies.png */; };
+		6D666B9C17117F6100429A7D /* BackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D666B9B17117F6100429A7D /* BackgroundLayer.m */; };
 		6D951C3F16EE753600894B44 /* LeftBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D951C3E16EE753600894B44 /* LeftBar.png */; };
 		6D951C4116EE767B00894B44 /* BottomBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D951C4016EE767B00894B44 /* BottomBar.png */; };
 		6D98E42F170FB3FE00661FFE /* blueButtonDisabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D98E422170FB3FE00661FFE /* blueButtonDisabled.png */; };
@@ -534,6 +538,11 @@
 		6D01D097170286BB00899CCB /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
 		6D01D098170286BB00899CCB /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
 		6D0F2C79170E40AE00E378CC /* blueButtonPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueButtonPressed@2x.png"; sourceTree = "<group>"; };
+		6D666B94171177F400429A7D /* HockeduLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HockeduLogo.png; sourceTree = "<group>"; };
+		6D666B95171177F400429A7D /* RazorSharp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RazorSharp.png; sourceTree = "<group>"; };
+		6D666B96171177F400429A7D /* RazorSharpTechnologies.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RazorSharpTechnologies.png; sourceTree = "<group>"; };
+		6D666B9A17117F6100429A7D /* BackgroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundLayer.h; sourceTree = "<group>"; };
+		6D666B9B17117F6100429A7D /* BackgroundLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundLayer.m; sourceTree = "<group>"; };
 		6D951C3E16EE753600894B44 /* LeftBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LeftBar.png; sourceTree = "<group>"; };
 		6D951C4016EE767B00894B44 /* BottomBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BottomBar.png; sourceTree = "<group>"; };
 		6D98E422170FB3FE00661FFE /* blueButtonDisabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueButtonDisabled.png; sourceTree = "<group>"; };
@@ -829,6 +838,9 @@
 		0CC6367816DE731600D05BBE /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6D666B94171177F400429A7D /* HockeduLogo.png */,
+				6D666B95171177F400429A7D /* RazorSharp.png */,
+				6D666B96171177F400429A7D /* RazorSharpTechnologies.png */,
 				6D98E43C170FC24400661FFE /* outil_maillet.png */,
 				6D98E422170FB3FE00661FFE /* blueButtonDisabled.png */,
 				6D98E423170FB3FE00661FFE /* blueButtonDisabled@2x.png */,
@@ -1102,6 +1114,8 @@
 				968DACBA1472EAFF007D15A3 /* Modèles 3D */,
 				4EEBBF9816E86E5B00017127 /* Model.h */,
 				4EEBBF9916E86E5B00017127 /* Model.mm */,
+				6D666B9A17117F6100429A7D /* BackgroundLayer.h */,
+				6D666B9B17117F6100429A7D /* BackgroundLayer.m */,
 			);
 			name = Hockedu;
 			path = AppDemo;
@@ -1358,6 +1372,9 @@
 				6D98E443170FEBB000661FFE /* boostColorInt.png in Resources */,
 				6D98E444170FEBB000661FFE /* boostColorMid.png in Resources */,
 				6D98E445170FEBB000661FFE /* rondelle.png in Resources */,
+				6D666B97171177F400429A7D /* HockeduLogo.png in Resources */,
+				6D666B98171177F400429A7D /* RazorSharp.png in Resources */,
+				6D666B99171177F400429A7D /* RazorSharpTechnologies.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1475,6 +1492,7 @@
 				4E43BB3F170E658C0074CB3D /* BonusModifierChangeZone.cpp in Sources */,
 				4E43BB40170E658C0074CB3D /* BonusModifierFan.cpp in Sources */,
 				4E43BB41170E658C0074CB3D /* BonusModifierGoThorughWall.cpp in Sources */,
+				6D666B9C17117F6100429A7D /* BackgroundLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -25,6 +25,13 @@ enum {
     NUM_ATTRIBUTES
 };
 
+@implementation CarouselElement
+
+@synthesize LabelValue;
+@synthesize ImageName;
+
+@end
+
 @interface EAGLViewController ()
 @property (nonatomic, retain) EAGLContext *context;
 @property (nonatomic, retain) EventManager* mEventManager;
@@ -146,14 +153,38 @@ enum {
     [cameraButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [cameraButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     
-    /*
-    CarouselElement *element1 = [[CarouselElement alloc] init];
     
-    element1->ModifType=EDITOR_STATE_AJOUTER_ACCELERATEUR;
-    element1->LabelValue = @"Maillet";
-    element1->ImageName = @"SomeImage";
-    [[carouselElements alloc] initWithObjects:element1];
-     */
+    CarouselElement *mailletCarousel = [[CarouselElement alloc] init];
+    mailletCarousel->ModifType=EDITOR_STATE_AJOUTER_MAILLET;
+    mailletCarousel.LabelValue = @"Mallet";
+    mailletCarousel.ImageName = @"outil_maillet";
+    
+    CarouselElement *rondelleCarousel = [[CarouselElement alloc] init];
+    rondelleCarousel->ModifType=EDITOR_STATE_AJOUTER_RONDELLE;
+    rondelleCarousel.LabelValue = @"Puck";
+    rondelleCarousel.ImageName = @"outil_maillet";
+    
+    CarouselElement *muretCarousel = [[CarouselElement alloc] init];
+    muretCarousel->ModifType=EDITOR_STATE_AJOUTER_MURET;
+    muretCarousel.LabelValue = @"Wall";
+    muretCarousel.ImageName = @"outil_maillet";
+    
+    CarouselElement *accelerateurCarousel = [[CarouselElement alloc] init];
+    accelerateurCarousel->ModifType=EDITOR_STATE_AJOUTER_ACCELERATEUR;
+    accelerateurCarousel.LabelValue = @"Booster";
+    accelerateurCarousel.ImageName = @"outil_maillet";
+    
+    CarouselElement *portailCarousel = [[CarouselElement alloc] init];
+    portailCarousel->ModifType=EDITOR_STATE_AJOUTER_PORTAIL;
+    portailCarousel.LabelValue = @"Portal";
+    portailCarousel.ImageName = @"outil_maillet";
+    
+    CarouselElement *bonusCarousel = [[CarouselElement alloc] init];
+    bonusCarousel->ModifType=EDITOR_STATE_AJOUTER_BONUS;
+    bonusCarousel.LabelValue = @"Bonus";
+    bonusCarousel.ImageName = @"outil_maillet";
+    
+    carouselElements = [[NSArray alloc] initWithObjects:mailletCarousel,rondelleCarousel,muretCarousel,accelerateurCarousel,portailCarousel,bonusCarousel,nil];
     
     [self pressButtonUI:selectButton];
     
@@ -610,7 +641,9 @@ enum {
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index
 {
-   [self carouselSelectItem:index];
+    CarouselElement* element = [carouselElements objectAtIndex:index];
+    [self carouselSelectItem:index];
+    [mEventManager modifyState:element->ModifType];
 }
 
 -(IBAction) cameraModeButtonTouched:(UIButton *)sender
@@ -673,7 +706,7 @@ enum {
 {
     if(![sender isMemberOfClass:[PieMenuItem class]])
     {
-        [self pressButtonUI:sender];
+        [self pressButtonUI:nil];
     }
     [mModel duplicateSelection];
 }
@@ -682,14 +715,14 @@ enum {
 {
     if(![sender isMemberOfClass:[PieMenuItem class]])
     {
-        [self pressButtonUI:sender];
+        [self pressButtonUI:nil];
     }
     [mModel deleteSelection];
 }
 
 - (IBAction)portalButtonTouched:(UIButton *)sender
 {
-    [mEventManager modifyState:EDITOR_STATE_AJOUTER_PORTAIL];
+    [mEventManager modifyState:EDITOR_STATE_AJOUTER_MAILLET];
 }
 
 -(IBAction) saveAndExitButtonTouched:(UIButton *)sender
@@ -948,9 +981,18 @@ enum {
     return [items count];
 }
 
+- (void) carouselDidEndScrollingAnimation:(iCarousel *)carousel;
+{
+    NSInteger currentIndex = carousel.currentItemIndex;
+    CarouselElement* element = [carouselElements objectAtIndex:currentIndex];
+    [self carouselSelectItem:currentIndex];
+    [mEventManager modifyState:element->ModifType];
+}
+
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
 {
     UILabel *label = nil;
+    CarouselElement* element = [carouselElements objectAtIndex:index];
     
     //create new view if no view is available for recycling
     if (view == nil)
@@ -958,17 +1000,26 @@ enum {
         //don't do anything specific to the index within
         //this `if (view == nil) {...}` statement because the view will be
         //recycled and used with other index values later
-        view = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 98.0f, 92.0f)] autorelease];
-        ((UIImageView *)view).image = [UIImage imageNamed:@"outil_maillet.png"];
-        view.contentMode = UIViewContentModeCenter;
         
-        UILabel* label = [[[UILabel alloc] initWithFrame:view.bounds] autorelease];
+        view = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 98.0f, 85.0f)] autorelease];
+        view.contentMode = UIViewContentModeTop;
+        CGRect labelPosition = view.bounds;
+        labelPosition.origin.y += 25;
+        UILabel* label = [[[UILabel alloc] initWithFrame:labelPosition] autorelease];
         label.backgroundColor = [UIColor clearColor];
         label.textAlignment = NSTextAlignmentCenter;
-        label.font = [label.font fontWithSize:30];
-        label.textColor = [UIColor colorWithRed:0.0 green: 1.0 blue: 0.0 alpha:1.0f];
+        //label.font = [label.font fontWithSize:20];
+        label.font = [UIFont fontWithName:@"Helvetica-Bold" size:20];
+        //label.textColor = [UIColor colorWithRed:0.1922f green: 0.4745f blue: 0.6784f alpha:1.0f];
+        label.textColor = [UIColor whiteColor];
+        //label.shadowOffset = ;
+        //label
+        label.shadowColor = [UIColor blackColor];
+        label.shadowOffset = CGSizeMake(1, 1);
         label.tag = 1;
-        [view addSubview:label];
+        label.text = element.LabelValue;
+        ((UIImageView *)view).image = [UIImage imageNamed:element.ImageName];
+        [view addSubview:label ];
     }
     else
     {
@@ -981,9 +1032,10 @@ enum {
     //views outside of the `if (view == nil) {...}` check otherwise
     //you'll get weird issues with carousel item content appearing
     //in the wrong place in the carousel
-    label.text = [[items objectAtIndex:index] stringValue];
+    //label.text = [[items objectAtIndex:index] stringValue];
     
-    [self carouselSelectItem:index];
+    ((UIImageView *)view).image = [UIImage imageNamed:element.ImageName];
+    label.text = element.LabelValue;
     
     return view;
 }
