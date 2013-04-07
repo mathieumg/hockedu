@@ -33,6 +33,8 @@ public:
 	virtual void renderReal() const;
 	/// Effectue l'animation du cube.
 	virtual void tick( const float& temps );
+    /// On redefini render pour ne pas dessiner cette node sur ipad
+    virtual void renderOpenGLES() const;
 	
 private:
 

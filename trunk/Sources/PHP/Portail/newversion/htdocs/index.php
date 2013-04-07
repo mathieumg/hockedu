@@ -57,6 +57,9 @@ else
 		case 'register':
             $Website->setIncludeModule( 'register' );
             break;
+        case 'rankings':
+            $Website->setIncludeModule( 'rankings' );
+            break;
 		case 'login':
             $Website->setIncludeModule( 'login' );
             break;

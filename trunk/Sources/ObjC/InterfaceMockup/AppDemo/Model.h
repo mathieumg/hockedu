@@ -9,6 +9,35 @@
 #import <Foundation/Foundation.h>
 #import "Enum_Declarations.h"
 #import "Model3DManager.h"
+
+@interface FullPropertiesApple : NSObject{
+@public
+    float mFriction;
+    float mZoneEditionX;
+    float mZoneEditionY;
+    float mScale;
+    float mAcceleration;
+    float mPositionX;
+    float mPositionY;
+    float mAttraction;
+    float mAngle;
+    float mRebound;
+    float mMinBonusSpawnTime;
+    float mMaxBonusSpawnTime;
+    float mRinkRebound1;
+    float mRinkRebound2;
+    float mRinkRebound3;
+    float mRinkRebound4;
+    float mRinkRebound5;
+    float mRinkRebound6;
+    float mRinkRebound7;
+    float mRinkRebound8;
+    //BonusProperties* mBonusProperties;
+    int mPropertyFlagAssignment;
+    
+}
+//@property (retain, nonatomic) float mFriction;
+@end
 @interface Model : NSObject
 {
 
@@ -33,4 +62,7 @@
 -(void) deplacerSouris:(int)deplacementX :(int)deplacementY;
 -(void) orbit:(int)deplacementX :(int)deplacementY;
 -(void) resizeWindow:(int)minX :(int)minY :(int)maxX :(int)maxY;
+-(FullPropertiesApple*) getProperties;
+-(void) setProperties:(FullPropertiesApple*)prop;
+-(RazerKey) getSelectedNodesType;
 @end
