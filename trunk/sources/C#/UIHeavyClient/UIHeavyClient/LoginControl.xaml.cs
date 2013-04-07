@@ -333,13 +333,13 @@ namespace UIHeavyClient
             {
                 if ( AuthWebOnly )
                 {
+                    BlockUIContent();
                     mCurrentRequest = new ConnectionRequest();
                     mLoginInfo.mUserName = userNameInput.Text;
                     mLoginInfo.mPassword = CalculateSHA1( passwordInput.Password );
-                    BlockUIContent();
-                    mCurrentRequest.mWebAuthThread = AuthenticateToWeb();
                     mCurrentRequest.mConnectionSuccessfulCallback = mConnectionSuccessfulCallback;
                     mCurrentRequest.mWebAuthOnly = true;
+                    AuthenticateToWeb( mCurrentRequest );
 
                     SetUserMessageFeedBack( String.Format( "Connecting to server \nPlease wait..." ), false );
                 }
@@ -366,8 +366,8 @@ namespace UIHeavyClient
                         mLoginInfo.mPassword = CalculateSHA1( passwordInput.Password );
                         mLoginInfo.mIpAddress = ipAdress;
                         BlockUIContent();
-                        mCurrentRequest.mWebAuthThread = AuthenticateToWeb();
                         mCurrentRequest.mConnectionSuccessfulCallback = mConnectionSuccessfulCallback;
+                        AuthenticateToWeb( mCurrentRequest );
 
                         SetUserMessageFeedBack( String.Format( "Connecting to server {0}\nPlease wait...", serverName ), false );
                         RequestLogin( userNameInput.Text, passwordInput.Password, ipAdress );
@@ -384,10 +384,10 @@ namespace UIHeavyClient
             }
         }
 
-        public static Thread AuthenticateToWeb()
+        public static void AuthenticateToWeb(ConnectionRequest request)
         {
             HttpManager wManager = new HttpManager();
-            return wManager.authenticate( mLoginInfo.mUserName, mLoginInfo.mPassword, AuthenticateCallback );
+            request.mWebAuthThread = wManager.authenticate( mLoginInfo.mUserName, mLoginInfo.mPassword, AuthenticateCallback );
         }
 
         public static void AuthenticateCallback( HttpHockeduRequests.AuthentificationJSON response )
@@ -396,7 +396,6 @@ namespace UIHeavyClient
             if ( response != null )
             {
                 mLoginInfo.mUserId = response.id_user;
-                mLoginInfo.mUserId = "12";  ///hardcoded for test
                 mLoginInfo.mAuthKey = response.auth_key;
                 mLoginInfo.mKeyExpiration = response.auth_key_expiration;
                 mLoginInfo.mAuthOnWeb = 
@@ -404,11 +403,33 @@ namespace UIHeavyClient
                     !string.IsNullOrEmpty(mLoginInfo.mAuthKey) && 
                     !string.IsNullOrEmpty(mLoginInfo.mKeyExpiration);
             }
-            if ( mCurrentRequest != null && mCurrentRequest.mWebAuthOnly && mLoginInfo.mAuthOnWeb )
+            if ( mCurrentRequest.mWebAuthOnly )
             {
-                // si on tente uniquement de ce connecter au web on l'indique, sinon, la vraie requete est pour le serveur maitre
-                mCurrentRequest.ConnectionSuccess();
+                if ( mCurrentRequest != null && mLoginInfo.mAuthOnWeb )
+                {
+                    // si on tente uniquement de ce connecter au web on l'indique, sinon, la vraie requete est pour le serveur maitre
+                    mCurrentRequest.ConnectionSuccess();
+                }
+                else
+                {
+                    /// ici on assume qu'on est dans une fenetre de weblogin
+                    WebLogin webLogin = WebLogin.getInstance();
+                    if ( webLogin != null )
+                    {
+                        webLogin.mLoginControl.UnBlockUIContent();
+                        if ( response != null && response.error != null )
+                        {
+                            webLogin.mLoginControl.SetUserMessageFeedBack( "Error: " + response.error,true );
+                        }
+                        else
+                        {
+                            webLogin.mLoginControl.SetUserMessageFeedBack( "Unknown error", true );
+                        }
+                    }
+                }
             }
+            
+            
         }
 
         public static string CalculateSHA1( string text )

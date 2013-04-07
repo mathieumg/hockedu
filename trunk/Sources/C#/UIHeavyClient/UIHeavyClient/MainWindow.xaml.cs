@@ -144,7 +144,7 @@ namespace UIHeavyClient
             Console.WriteLine(pStatus);
             Console.WriteLine(pMapId);
         }
-        public void TestCallbackAchievementsUploaded( HttpHockeduRequests.UploadOperationStatus pStatus )
+        public static void TestCallbackAchievementsUploaded( HttpHockeduRequests.UploadOperationStatus pStatus )
         {
             Console.WriteLine( pStatus );
         }
@@ -424,10 +424,22 @@ namespace UIHeavyClient
             wManager.sendMap(12, "cd13d808-9e93-11e2-b5d0-005056823b67", "TestMat9000", "UPDATE DESCRIPTION", true, "E:\\airhockeygit\\log3900-04_DO_NOT_MODIFY\\trunk\\Content\\Exe\\bobMapGrosMailet.xml", 15, TestCallbackMapUploaded);
         }
 
-        void TestAchievementUpload_Click( object sender, RoutedEventArgs e )
+        public static void UploadAchievement()
         {
             HttpManager wManager = new HttpManager();
-            wManager.uploadAchievements( 12, "cd13d808-9e93-11e2-b5d0-005056823b67", TestCallbackAchievementsUploaded );
+            wManager.uploadAchievements( LoginControl.mLoginInfo.mUserId, LoginControl.mLoginInfo.mAuthKey, TestCallbackAchievementsUploaded );
+        }
+
+        void TestAchievementUpload_Click( object sender, RoutedEventArgs e )
+        {
+            if ( LoginControl.mLoginInfo.mAuthOnWeb )
+            {
+                UploadAchievement();
+            }
+            else
+            {
+                WebLogin.CreateWebLoginWindow( UploadAchievement );
+            }
         }
         void TestAchievementDownload_Click( object sender, RoutedEventArgs e )
         {

@@ -1,0 +1,8 @@
+﻿<Window x:Class="UIHeavyClient.WebLogin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="WebLogin" Height="300" Width="300">
+    <Grid>
+        <ContentControl Name="mLoginContente" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="Black"></ContentControl>
+    </Grid>
+</Window>

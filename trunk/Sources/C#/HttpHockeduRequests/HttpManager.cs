@@ -103,13 +103,13 @@ namespace HttpHockeduRequests
 
     public class WorkerAchievementParamsUpload
     {
-        public WorkerAchievementParamsUpload( AchievementsUploadCallback pCallback, int pUserId, string pAuthenticationKey )
+        public WorkerAchievementParamsUpload( AchievementsUploadCallback pCallback, string pUserId, string pAuthenticationKey )
         {
             userId = pUserId;
             authenticationKey = pAuthenticationKey;
             callback = pCallback;
         }
-        public int                  userId;
+        public string                  userId;
         public string               authenticationKey;
         public AchievementsUploadCallback    callback;
     }
@@ -720,7 +720,7 @@ namespace HttpHockeduRequests
             newThread.Start( wParams );
         }
 
-        public void uploadAchievements( int pUserId, string pAuthenticationKey, AchievementsUploadCallback pCallback )
+        public void uploadAchievements( string pUserId, string pAuthenticationKey, AchievementsUploadCallback pCallback )
         {
             // Faire dans un thread separe
             WorkerAchievementParamsUpload wParams = new WorkerAchievementParamsUpload( pCallback, pUserId, pAuthenticationKey );
