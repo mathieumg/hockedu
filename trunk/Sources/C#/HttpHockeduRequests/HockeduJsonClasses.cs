@@ -74,4 +74,12 @@ namespace HttpHockeduRequests
         public string error;    // Code d'erreur
     }
 
+    public class AuthentificationJSON
+    {
+        public string error;  // Code d'erreur
+        public string id_user; // user id 
+        public string auth_key; // cle d'identification pour les requetes futures
+        public string auth_key_expiration; // expiration de la cle en UnixTimeStamp
+    }
+
 }

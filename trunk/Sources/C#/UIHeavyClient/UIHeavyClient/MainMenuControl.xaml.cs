@@ -84,8 +84,7 @@ namespace UIHeavyClient
             mOpenFileDialog.Filter = "XML Files (*.xml)|*.xml";
             mOpenFileDialog.Title = "Choose a map";
 
-            mLoginControl = new LoginControl();
-            
+            mLoginControl = new LoginControl( MainWindowHandler.GoToOnlineLobby, false );
         }
 
         // C++ function
