@@ -19,6 +19,7 @@
 
 class JoueurAbstrait;
 class JoueurVirtuel;
+class JoueurVirtuelRenforcement;
 class JoueurHumain;
 class JoueurNetwork;
 class JoueurNetworkServeur;
@@ -31,6 +32,7 @@ class NoeudAbstrait;
 
 typedef std::shared_ptr<JoueurAbstrait> SPJoueurAbstrait;
 typedef std::shared_ptr<JoueurVirtuel> SPJoueurVirtuel;
+typedef std::shared_ptr<JoueurVirtuelRenforcement> SPJoueurVirtuelRenforcement;
 typedef std::shared_ptr<JoueurHumain> SPJoueurHumain;
 typedef std::shared_ptr<JoueurNetwork> SPJoueurNetwork;
 typedef std::shared_ptr<JoueurNetworkServeur> SPJoueurNetworkServeur;
@@ -39,6 +41,7 @@ typedef std::shared_ptr<JoueurNetworkServeur> SPJoueurNetworkServeur;
 
 typedef JoueurAbstrait* SPJoueurAbstrait;
 typedef JoueurVirtuel* SPJoueurVirtuel;
+typedef JoueurVirtuelRenforcement* SPJoueurVirtuelRenforcement;
 typedef JoueurHumain* SPJoueurHumain;
 typedef JoueurNetwork* SPJoueurNetwork;
 typedef JoueurNetworkServeur* SPJoueurNetworkServeur;

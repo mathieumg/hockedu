@@ -22,8 +22,6 @@
 #include <iostream>
 #include "Paquets/PaquetGameConnection.h"
 #include "Paquets/PaquetBonus.h"
-#include "PaquetHandlers/PacketHandlerBonus.h"
-
 
 // Meme pour le client et les serveurs.
 // Relance l'event au gestionnaire reseau
@@ -182,25 +180,6 @@ int PaquetRunnable::RunnableGameCreationClient( Paquet* pPaquet )
     }
 
     return 0;
-}
-
-
-
-
-int PaquetRunnable::RunnableBonus( Paquet* pPaquet )
-{
-    // On utilise le type du bonus pour appeler le bon runnable specifique
-    // le paquet est deja tout decode et le PaquetBonusInfo est cree avec le bon type
-    // ****** Ne devrait pas avoir a etre modifier, il ne s'agit que d'un dispatch, pas de handling
-
-    PaquetBonus* wPaquet = (PaquetBonus*) pPaquet;
-    auto wRunnable = PacketHandlerBonus::mRunnableList.find(wPaquet->getBonusType());
-    if(wRunnable!=PacketHandlerBonus::mRunnableList.end())
-    {
-        return (wRunnable->second)(wPaquet);
-    }
-
-    return -1;
 }
 
 

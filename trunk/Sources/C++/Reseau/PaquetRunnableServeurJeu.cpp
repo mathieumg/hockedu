@@ -583,29 +583,6 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
     return 0;
 }
 
-
-////////// Section Bonus
-int PaquetRunnable::RunnableBonusMailletMuretServerGame( PaquetBonus* pPaquet )
-{
-    PaquetBonusInfosMailletMurets* wInfos = (PaquetBonusInfosMailletMurets*) pPaquet->getPaquetInfos();
-
-
-
-    return 0;
-}
-
-
-int PaquetRunnable::RunnableBonusGoalerServerGame( PaquetBonus* pPaquet )
-{
-    PaquetBonusInfosGoaler* wInfos = (PaquetBonusInfosGoaler*) pPaquet->getPaquetInfos();
-
-
-
-    return 0;
-}
-
-
-
 PaquetRunnableServeurJeuHelper::PaquetRunnableServeurJeuHelper()
 {
     FacadePortability::createMutex(mMutexMapMapnameGameId);

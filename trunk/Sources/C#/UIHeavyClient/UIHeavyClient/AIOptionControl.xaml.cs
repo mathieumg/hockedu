@@ -229,6 +229,13 @@ namespace UIHeavyClient
 
                 AddPlayer(mProfileNameTextBox.Text, (int)mSpeedSlider.Value, (int)mReflexSlider.Value);
             }
+            else if (mProfileNameTextBox.Text != "")
+            {
+                RemovePlayer(mProfileNameTextBox.Text);
+                AddPlayer(mProfileNameTextBox.Text, (int)mSpeedSlider.Value, (int)mReflexSlider.Value);
+                MainWindowHandler.LaunchAchievementEvent(AchievementEvent.ACHIEVEMENT_EVENT_AI_CREATED);
+            }
+
 
             DisplayAIProfiles();
         }

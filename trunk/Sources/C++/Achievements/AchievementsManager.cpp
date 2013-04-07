@@ -11,11 +11,14 @@
 #include "AbstractAchievement.h"
 #include "Achievements.h"
 #include <iostream>
-#include "sqlite3.h"
 #include <sstream>
 #include "XMLUtils.h"
 
 SINGLETON_DECLARATION_CPP(AchievementsManager);
+
+#if MIKE_DEBUG_
+PRAGMA_DISABLE_OPTIMIZATION
+#endif
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -94,6 +97,7 @@ void AchievementsManager::InitialiseAchievements()
 {
     CreateAchievements();
     LoadAchievementProgress();
+    SaveAchievementProgress();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -122,7 +126,7 @@ void AchievementsManager::LoadAchievementProgress()
                 {
                     /// noeud n'a pas charger son noeud
                     /// comportement possible, mais checkf pour s'assurer que callback'est desire
-                    std::cout << "Error loading achievement data " << it->second->GetXmlTag() << std::endl;
+                    std::cout << "Error loading achievement data " << it->second->GetFirstType() << std::endl;
                 }
             }
         }
@@ -153,11 +157,7 @@ void AchievementsManager::SaveAchievementProgress()
     {
         if(it->second)
         {
-            auto elem = it->second->CreateAchievementNode();
-            if(elem)
-            {
-                XMLUtils::LinkEndChild(achievementRoot,elem);
-            }
+            it->second->CreateAchievementNode(achievementRoot);
         }
     }
 
@@ -314,3 +314,6 @@ void AchievementsManager::ClearMemory()
     mAchievementProgress.clear();
 }
 
+#if MIKE_DEBUG_
+PRAGMA_ENABLE_OPTIMIZATION
+#endif

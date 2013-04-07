@@ -88,7 +88,7 @@ extern "C"
     __declspec(dllexport) void CancelConnection( char* pConnectionId );
     __declspec(dllexport) void SendMessageDLL( char* pConnectionId, char* pUsername, char * pMessage );
     __declspec(dllexport) void SendMessageGameDLL( char * pMessage );
-    __declspec(dllexport) void ReloadModels(){GestionnaireModeles::obtenirInstance()->ReloadModels();}
+    __declspec(dllexport) void ReloadModels();
     __declspec(dllexport) void ResetAchievements();
     
     __declspec(dllexport) bool ActionPerformed( ActionType action );
@@ -191,10 +191,7 @@ extern "C"
     __declspec(dllexport) void SetEventCallback( EventReceivedCallBack callback );
 
     /// Enregistre la callback pour mettre a jour la vue lors d'événement
-    __declspec(dllexport) void SetEditionEventCallBack( EditionEventReceived callback )
-    {
-        EditionEventManager::setEditionEventCallback(callback);
-    }
+    __declspec(dllexport) void SetEditionEventCallBack( EditionEventReceived callback );
 
     __declspec(dllexport) void DisconnectUser( char* pUsername );
     //////////////////////////////////////////////////////////////////////////
@@ -214,6 +211,7 @@ extern "C"
     __declspec(dllexport) void requestGamesList( );
     __declspec(dllexport) void testConnexionUDPCSharp();
     __declspec(dllexport) void AskForAIOpponentInNetworkGame();
+    __declspec(dllexport) void TestTrajectoryPredictionDLL();
     //__declspec(dllexport) void recevoirPaquet( Paquet* pPaquet );
     /// 
     //////////////////////////////////////////////////////////////////////////

@@ -72,7 +72,7 @@ namespace UIHeavyClient
                 {mAIComboBox, "Choose a profile. You can create profiles by going in the option menu"},
             };
 
-#if DEBUG
+#if !SHIPPING
             mUnitTestButton.Click += mUnitTestButton_Click;
             mUnitTestButton.Visibility = Visibility.Visible;
 #else

@@ -8,7 +8,6 @@
 #include "GameManager.h"
 #include "Partie.h"
 #include "PartieSyncer.h"
-#include "PaquetHandlers\PacketHandlerBonus.h"
 
 
 int CallbackSetPatieSyncerClientLourd(int pGameId, GameStatus)
@@ -44,12 +43,8 @@ ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceiv
     mPaquetRunnables[GAME_CREATION_REQUEST] = PaquetRunnable::RunnableGameCreationClient;
     mPaquetRunnables[GAME_CONNECTION]       = PaquetRunnable::RunnableGameConnectionClient;
     mPaquetRunnables[GAME_EVENT]            = PaquetRunnable::RunnableGameEventClient;
-    mPaquetRunnables[BONUS]                 = PaquetRunnable::RunnableBonus;
-
-    // Runnables pour les paquets bonus
-    PacketHandlerBonus::mRunnableList[BONUS_MAILLET_MURETS] = PaquetRunnable::RunnableBonusMailletMuretClient;
-    PacketHandlerBonus::mRunnableList[BONUS_GOALER]         = PaquetRunnable::RunnableBonusGoalerClient;
-
+    mPaquetRunnables[BONUS]                 = PaquetRunnable::RunnableBonusClient;
+    mPaquetRunnables[PORTAL]                = PaquetRunnable::RunnablePortalClient;
 
     for(EventCodes e = EventCodes(SERVER_EVENT_BEGIN+1); e<SERVER_EVENT_END; e = EventCodes(e+1))
     {

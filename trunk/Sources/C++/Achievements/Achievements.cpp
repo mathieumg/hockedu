@@ -2,6 +2,11 @@
 #include "AchievementsManager.h"
 #include "XMLUtils.h"
 
+#if MIKE_DEBUG_
+PRAGMA_DISABLE_OPTIMIZATION
+#endif
+
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn  AbstractAchievement::~AbstractAchievement()
@@ -35,8 +40,9 @@ AbstractAchievement::~AbstractAchievement()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void AbstractAchievement::InitFirstLevel() const
+void AbstractAchievement::InitFirstLevel()
 {
+    mNbLevels = (unsigned int)mLevelDefinitions.size();
     RegisterLevel(0);
 }
 
@@ -99,6 +105,12 @@ void AbstractAchievement::GoToNextLevel()
     RegisterLevel(mLevelUnlocked);
 }
 
+const char AchievementTag[] = "Achievement";
+const char DataTag[] = "Data";
+const char IdTag[] = "Id";
+const char UnlockedTag[] = "Unlocked";
+
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn XmlElement* AbstractAchievement::CreateAchievementNode()
@@ -109,12 +121,34 @@ void AbstractAchievement::GoToNextLevel()
 /// @return XmlElement*
 ///
 ////////////////////////////////////////////////////////////////////////
-XmlElement* AbstractAchievement::CreateAchievementNode() const
+void AbstractAchievement::CreateAchievementNode(XmlElement* root) const
 {
-    XmlElement* elem = XMLUtils::createNode(GetXmlTag().c_str());
-    XMLUtils::writeAttribute(elem,"levelUnlocked",(int&)mLevelUnlocked);
-    FillAchievementData(elem);
-    return elem;
+    XmlElement* elem = XMLUtils::createNode(AchievementTag);
+
+    int id = GetFirstType();
+    for(unsigned int i=0; i<mLevelUnlocked; ++i)
+    {
+        XMLUtils::writeAttribute(elem,IdTag,id);
+        XMLUtils::writeAttribute(elem,UnlockedTag,1);
+        XMLUtils::LinkEndChild(root,elem);
+
+        elem = XMLUtils::createNode(AchievementTag);
+        ++id;
+    }
+
+    if(mLevelUnlocked<mNbLevels)
+    {
+        XMLUtils::writeAttribute(elem,IdTag,id);
+        XMLUtils::LinkEndChild(root,elem);
+
+        XmlElement* data = XMLUtils::createNode(DataTag);
+        FillAchievementData(data);
+        XMLUtils::LinkEndChild(elem,data);
+    }
+    else
+    {
+        delete elem;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -130,38 +164,57 @@ XmlElement* AbstractAchievement::CreateAchievementNode() const
 ////////////////////////////////////////////////////////////////////////
 bool AbstractAchievement::LoadAchievementNode( const XmlElement* root )
 {
-    const XmlElement* elem = GetXmlElement(root);
-    if(elem)
+    int firstId = GetFirstType();
+    const XmlElement* maxLevelElem = NULL;
+    for(auto elem = XMLUtils::FirstChildElement(root); elem; elem = XMLUtils::NextSibling(elem))
     {
-        if(!XMLUtils::readAttribute(elem,"levelUnlocked",(int&)mLevelUnlocked))
+        int id;
+        if(XMLUtils::readAttribute(elem,IdTag,id))
         {
-            return false;
+            unsigned int level = id-firstId;
+            if(level < mNbLevels)
+            {
+                /// id dans le range interessé
+                if(level >= mLevelUnlocked)
+                {
+                    mLevelUnlocked = level;
+                    maxLevelElem = elem;
+                }
+
+                if(level == mNbLevels-1)
+                {
+                    // early exist
+                    break;
+                }
+            }
         }
+    }
+
+    if(maxLevelElem)
+    {
+        int i;
+        /// si on trouve l'attribut unlocked sur le dernier achievement, c'est qu'on a probablement fini l'achievement
+        if(XMLUtils::readAttribute(maxLevelElem,UnlockedTag,i))
+        {
+            ++mLevelUnlocked;
+        }
+
         if(mLevelUnlocked != 0)
         {
             UnRegisterLevel(0);
             RegisterLevel(mLevelUnlocked);
         }
 
-        return LoadAchievementData(elem);
+        const XmlElement* data = XMLUtils::FirstChildElement(maxLevelElem,DataTag);
+        if(data)
+        {
+            return LoadAchievementData(data);
+        }
+        return mLevelUnlocked == mNbLevels;
     }
     return false;
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn XmlElement* AbstractAchievement::GetXmlElement()
-///
-/// /*Description*/
-///
-///
-/// @return XmlElement*
-///
-////////////////////////////////////////////////////////////////////////
-const XmlElement* AbstractAchievement::GetXmlElement(const XmlElement* root) const
-{
-    return XMLUtils::FirstChildElement(root,GetXmlTag().c_str());
-}
 
 
 
@@ -210,7 +263,7 @@ void AchievementStartApp::EventStartCallBack( AbstractAchievement* pAchievement 
 {
     auto achievement = (AchievementStartApp*)pAchievement;
     achievement->GoToNextLevel();
-    AchievementsManager::obtenirInstance()->AchievementUnlocked(ACHIEVEMENTS_START_APPLICATION,"Start Application");
+    AchievementsManager::obtenirInstance()->AchievementUnlocked(ACHIEVEMENTS_START_APPLICATION,"Break the ice");
 }
 
 
@@ -222,10 +275,10 @@ const int NbGameWinNeeded[] =
 const std::string achievementName[] =
 {
     "Welcome to the victor's club",
-    "Game won L2 ( 5 Games )",
-    "Game won L3 ( 20 Games )",
-    "Game won L4 ( 50 Games )",
-    "Game won L5 ( 100 Games )",
+    "Keep going Jack",
+    "Way to go bro",
+    "You like that game too much",
+    "Ok now just go play outside",
 };
 
 
@@ -446,7 +499,7 @@ const std::string AchievementPortal::PORTAL_LEVEL_NAME[4] =
 {
     "Welcome to Aperture Science",
     "I suppose you want some cake?",
-    "Now your thinking with portals",
+    "Now you're thinking with portals",
     "The cake is a lie"
 };
 
@@ -497,3 +550,6 @@ bool AchievementPortal::LoadAchievementData( const XmlElement* elem )
 }
 
 
+#if MIKE_DEBUG_
+PRAGMA_ENABLE_OPTIMIZATION
+#endif

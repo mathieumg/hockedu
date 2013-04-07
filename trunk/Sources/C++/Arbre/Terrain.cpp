@@ -28,8 +28,9 @@
 #include "HUDBonus.h"
 #include "FacadeModele.h"
 #include "../Reseau/Paquets/PaquetGameEvent.h"
+#include "../Reseau/Paquets/PaquetPortal.h"
 #include "../Reseau/RelayeurMessage.h"
-
+#include "../Reseau/Paquets/PaquetBonus.h"
 #else
 #endif
 
@@ -70,12 +71,16 @@
 #include "EditionEventManager.h"
 #include "ForceField.h"
 
+
+
 #define TransmitEvent(e) EditionEventManager::TransmitEvent(e)
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
 
-
+#if MIKE_DEBUG_
+PRAGMA_DISABLE_OPTIMIZATION
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -1070,6 +1075,26 @@ void Terrain::appliquerPhysique( float temps )
         }
 
         mWorld->Step(temps, 8, 8);
+
+
+        /// Limit puck's speed!
+        auto puck = getPuck();
+        if(puck)
+        {
+            auto body = puck->getPhysicBody();
+            if(body)
+            {
+                auto velocity = body->GetLinearVelocity();
+                const float maxSpeed = 1000* utilitaire::ratioWorldToBox2D;
+                float speed = velocity.Normalize();
+                if(speed > maxSpeed)
+                {
+                    velocity *= maxSpeed;
+                    body->SetLinearVelocity(velocity);
+                }
+            }
+        }
+
 #elif MANUAL_PHYSICS_DETECTION
         mLogicTree->positionUpdate(temps);
         mLogicTree->collisionDetection(temps);
@@ -1187,6 +1212,7 @@ void Terrain::BeginContact( b2Contact* contact )
             }
             break;
         case CATEGORY_PORTAL  :
+            if(!mGame->isNetworkClientGame())
             {
                 NoeudPortail* portail = (NoeudPortail*)bodies[1]->GetUserData();
                 checkf(portail, "Portal's body's User Data is not the Portal");
@@ -1219,6 +1245,13 @@ void Terrain::BeginContact( b2Contact* contact )
                                     mGame->SendAchievementEventToHumanPlayer(maillet->obtenirJoueur(), ACHIEVEMENT_EVENT_PORTAL, ACHIEVEMENT_EVENT_NONE);
                                 }
                                 
+                                if(mGame->isNetworkServerGame())
+                                {
+                                    PaquetPortal* wPaquet = (PaquetPortal*) GestionnaireReseau::obtenirInstance()->creerPaquet(PORTAL);
+                                    wPaquet->setGameId(mGame->getUniqueGameId());
+                                    wPaquet->setPosition(portailDeSortie->getPosition());
+                                    RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
+                                }
                             }
                             
 
@@ -1238,6 +1271,7 @@ void Terrain::BeginContact( b2Contact* contact )
                 }
             }
             break;
+
         case CATEGORY_BOOST   :
             {
                 NoeudAccelerateur* accelerateur = (NoeudAccelerateur*)bodies[1]->GetUserData();
@@ -1252,19 +1286,30 @@ void Terrain::BeginContact( b2Contact* contact )
                 SoundFMOD::obtenirInstance()->playEffect(effect(ACCELERATOR_EFFECT));
             }
             break;
-        case CATEGORY_BONUS:
-            {
-                NodeBonus* bonus = (NodeBonus*)(bodies[1]->GetUserData());
-                NoeudRondelle* rondelle = (NoeudRondelle*)(bodies[0]->GetUserData());
 
-                // The execution ca modify box2D so we queue it
-                Runnable* r = new Runnable([bonus,rondelle](Runnable*)
+        case CATEGORY_BONUS:
+            if (!mGame->isNetworkClientGame())
+            {
+	            NodeBonus* bonus = (NodeBonus*)(bodies[1]->GetUserData());
+	            NoeudRondelle* rondelle = (NoeudRondelle*)(bodies[0]->GetUserData());
+	
+                /*if(mGame->isNetworkServerGame())
                 {
-                    bonus->ExecuteBonus(rondelle); 
-                });
-                RunnableBreaker::attach(r);
-                RazerGameUtilities::RunOnUpdateThread(r,true);
-                break;
+                    PaquetBonus* wPaquet = (PaquetBonus*) GestionnaireReseau::obtenirInstance()->creerPaquet(BONUS);
+                    wPaquet->setGameId(mGame->getUniqueGameId());
+                    wPaquet->setBonusType()
+                    wPaquet->setPosition(portailDeSortie->getPosition());
+                    RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
+                }*/
+
+	            // The execution ca modify box2D so we queue it
+	            Runnable* r = new Runnable([bonus,rondelle](Runnable*)
+	            {
+	                bonus->ExecuteBonus(rondelle); 
+	            });
+	            RunnableBreaker::attach(r);
+	            RazerGameUtilities::RunOnUpdateThread(r,true);
+	            break;
             }
         default:
             break;
@@ -1710,6 +1755,8 @@ bool Terrain::IsNodeAtValidEditionPosition( NoeudAbstrait* pNode, bool pDoHightl
 ////////////////////////////////////////////////////////////////////////
 bool Terrain::FixCollidingObjects()
 {
+    VisiteurFunction v(DeactivateHighlight);
+    acceptVisitor(v);
 #if BOX2D_INTEGRATED  
     if(mLogicTree)
     {
@@ -2689,6 +2736,9 @@ void Terrain::setBonusesMaxTimeSpawn( const float pVal )
     }
 }
 
+#if MIKE_DEBUG_
+PRAGMA_ENABLE_OPTIMIZATION
+#endif
 
 
 ///////////////////////////////////////////////////////////////////////////
