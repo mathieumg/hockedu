@@ -176,32 +176,32 @@ enum {
     CarouselElement *mailletCarousel = [[CarouselElement alloc] init];
     mailletCarousel->ModifType=EDITOR_STATE_AJOUTER_MAILLET;
     mailletCarousel.LabelValue = @"Mallet";
-    mailletCarousel.ImageName = @"outil_maillet";
+    mailletCarousel.ImageName = @"outil_maillet2";
     
     CarouselElement *rondelleCarousel = [[CarouselElement alloc] init];
     rondelleCarousel->ModifType=EDITOR_STATE_AJOUTER_RONDELLE;
     rondelleCarousel.LabelValue = @"Puck";
-    rondelleCarousel.ImageName = @"outil_maillet";
+    rondelleCarousel.ImageName = @"outil_rondelle";
     
     CarouselElement *muretCarousel = [[CarouselElement alloc] init];
     muretCarousel->ModifType=EDITOR_STATE_AJOUTER_MURET;
     muretCarousel.LabelValue = @"Wall";
-    muretCarousel.ImageName = @"outil_maillet";
+    muretCarousel.ImageName = @"outil_muret";
     
     CarouselElement *accelerateurCarousel = [[CarouselElement alloc] init];
     accelerateurCarousel->ModifType=EDITOR_STATE_AJOUTER_ACCELERATEUR;
     accelerateurCarousel.LabelValue = @"Booster";
-    accelerateurCarousel.ImageName = @"outil_maillet";
+    accelerateurCarousel.ImageName = @"outil_accelerateur";
     
     CarouselElement *portailCarousel = [[CarouselElement alloc] init];
     portailCarousel->ModifType=EDITOR_STATE_AJOUTER_PORTAIL;
     portailCarousel.LabelValue = @"Portal";
-    portailCarousel.ImageName = @"outil_maillet";
+    portailCarousel.ImageName = @"outil_portail";
     
     CarouselElement *bonusCarousel = [[CarouselElement alloc] init];
     bonusCarousel->ModifType=EDITOR_STATE_AJOUTER_BONUS;
     bonusCarousel.LabelValue = @"Bonus";
-    bonusCarousel.ImageName = @"outil_maillet";
+    bonusCarousel.ImageName = @"outil_bonus";
     
     carouselElements = [[NSArray alloc] initWithObjects:mailletCarousel,rondelleCarousel,muretCarousel,accelerateurCarousel,portailCarousel,bonusCarousel,nil];
 
