@@ -211,6 +211,7 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
         }
     case GAME_CONNECTION_REJECTED:
         {
+            GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_GAME_CONNECTION_GENERAL_FAILURE);
             std::cout << "Connection rejected. No more info. Game: " << wPaquet->getGameId() << std::endl;
             break;
         }
@@ -235,6 +236,7 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
             
         }
     default:
+        GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_GAME_CONNECTION_GENERAL_FAILURE);
         std::cout << "Error occured connecting to game: " << wPaquet->getGameId() << std::endl;
         // State invalide, on ne fait rien
         break;

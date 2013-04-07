@@ -493,6 +493,22 @@ namespace UIHeavyClient
                         });
                     }
                     break;
+                    case EventCodes.GAME_CONNECTION_RESPONSE_GAME_CONNECTION_GENERAL_FAILURE:
+                    {
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                            // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
+                            if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                            {
+                                MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame=false;
+
+                                MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("An error occured while joining game.");
+                                MainWindowHandler.Context.OnlineLobbyControl.HandleUIButtons(true);
+                                MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
+                            }
+                        });
+                    }
+                    break;
                     default: break;
                 }
             }
