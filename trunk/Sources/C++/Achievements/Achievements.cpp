@@ -103,6 +103,8 @@ void AbstractAchievement::GoToNextLevel()
     UnRegisterLevel(mLevelUnlocked);
     ++mLevelUnlocked;
     RegisterLevel(mLevelUnlocked);
+
+    mHasProgressed = false;
 }
 
 const char AchievementTag[] = "Achievement";
@@ -136,7 +138,7 @@ void AbstractAchievement::CreateAchievementNode(XmlElement* root) const
         ++id;
     }
 
-    if(mLevelUnlocked<mNbLevels)
+    if(mLevelUnlocked<mNbLevels && mHasProgressed)
     {
         XMLUtils::writeAttribute(elem,IdTag,id);
         XMLUtils::LinkEndChild(root,elem);
@@ -208,6 +210,7 @@ bool AbstractAchievement::LoadAchievementNode( const XmlElement* root )
         const XmlElement* data = XMLUtils::FirstChildElement(maxLevelElem,DataTag);
         if(data)
         {
+            mHasProgressed = true;
             return LoadAchievementData(data);
         }
         return mLevelUnlocked == mNbLevels;
@@ -264,6 +267,7 @@ void AchievementStartApp::EventStartCallBack( AbstractAchievement* pAchievement 
     auto achievement = (AchievementStartApp*)pAchievement;
     achievement->GoToNextLevel();
     AchievementsManager::obtenirInstance()->AchievementUnlocked(ACHIEVEMENTS_START_APPLICATION,"Break the ice");
+    achievement->mHasProgressed = true;
 }
 
 
@@ -346,6 +350,7 @@ void AchievementGameWon::EventWinCallBack( AbstractAchievement* pAchievement, Ac
     {
         achievement->GoToNextLevel();
         AchievementsManager::obtenirInstance()->AchievementUnlocked(AchievementsType(ACHIEVEMENTS_GAME_WON_L1+level),achievementName[level]);
+        achievement->mHasProgressed = true;
     }
 }
 
@@ -384,6 +389,10 @@ bool AchievementGameWon::LoadAchievementData( const XmlElement* elem)
         {
             mNbGameWon = NbGameWinNeeded[mLevelUnlocked];
         }
+    }
+    else
+    {
+        mHasProgressed = true;
     }
     return true;
 }
@@ -424,6 +433,7 @@ void AchievementAICreation::EventAICreatedCallBack( AbstractAchievement* pAchiev
     {
         wThis->GoToNextLevel();
         AchievementsManager::obtenirInstance()->AchievementUnlocked(AchievementsType(ACHIEVEMENTS_AI_CREATION_L1+level),AchievementAICreation::AI_LEVEL_NAME[level]);
+        wThis->mHasProgressed = true;
     }
 }
 
@@ -439,7 +449,12 @@ bool AchievementAICreation::LoadAchievementData( const XmlElement* elem )
         if(mLevelUnlocked < ARRAY_COUNT(AI_CREATION_NEEDED))
         {
             mNbAiCreated = AI_CREATION_NEEDED[mLevelUnlocked];
+            mHasProgressed = true;
         }
+    }
+    else
+    {
+        mHasProgressed = true;
     }
     return true;
 }
@@ -470,6 +485,7 @@ void AchievementMute::EventMuteCallBack( AbstractAchievement* pAchievement, Achi
     {
         wThis->GoToNextLevel();
         AchievementsManager::obtenirInstance()->AchievementUnlocked(AchievementsType(ACHIEVEMENT_EVENT_MUTE+level),AchievementMute::MUTE_LEVEL_NAME[level]);
+        wThis->mHasProgressed = true;
     }
 }
 
@@ -483,6 +499,10 @@ bool AchievementMute::LoadAchievementData( const XmlElement* elem )
     if(!XMLUtils::readAttribute(elem,"MuteSound",mMuted))
     {
          mMuted = false;
+    }
+    else
+    {
+        mHasProgressed = true;
     }
     return true;
 }
@@ -529,6 +549,7 @@ void AchievementPortal::EventPortalCallBack( AbstractAchievement* pAchievement, 
     {
         wThis->GoToNextLevel();
         AchievementsManager::obtenirInstance()->AchievementUnlocked(AchievementsType(ACHIEVEMENTS_PORTAL_L1+level),AchievementPortal::PORTAL_LEVEL_NAME[level]);
+        wThis->mHasProgressed;
     }
 }
 
@@ -545,6 +566,10 @@ bool AchievementPortal::LoadAchievementData( const XmlElement* elem )
         {
             mNbrPortalCreated = PORTAL_NEEDED[mLevelUnlocked];
         }
+    }
+    else
+    {
+        mHasProgressed = true;
     }
     return true;
 }
