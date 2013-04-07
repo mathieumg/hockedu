@@ -153,7 +153,7 @@ private:
     AILearner();
 
     /// Methodes
-    static void conversionThreadDone() {mHandleThreadConversion = NULL;}
+    //static void conversionThreadDone() {mHandleThreadConversion = NULL;}
 
     /// Threads
     // Code d'execution du thread de conversion des donnes raw en donnees utilisables

@@ -212,6 +212,13 @@ namespace UIHeavyClient
             CheckForMuteAchievement();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OptionsControl.CheckForMuteAchievement()
+        ///
+        /// Achievment that ask to mute all sound.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void CheckForMuteAchievement()
         {
             if (mVolumeSlider.Value == 0 && mEffectSlider.Value == 0)
@@ -220,6 +227,16 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OptionsControl.mHouseCheckBox_Checked()
+        ///
+        /// Hie/Show the house.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedPropertyChangedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mHouseCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             SetIsHouseDisplay((sender as CheckBox).IsChecked.Value);

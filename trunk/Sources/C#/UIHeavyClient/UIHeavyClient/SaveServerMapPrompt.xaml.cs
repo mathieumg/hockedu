@@ -32,9 +32,29 @@ namespace UIHeavyClient
     ///////////////////////////////////////////////////////////////////////////
     public partial class SaveServerMapPrompt : Window
     {
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void SaveServerMapPrompt.SaveServerMapPrompt()
+        ///
+        /// Constructor.
+        ///
+        /// @return none.
+        ////////////////////////////////////////////////////////////////////////
         public SaveServerMapPrompt()
         {
             InitializeComponent();
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void SaveServerMapPrompt.GiveFocus()
+        ///
+        /// Give focus to map name textbox.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        public void GiveFocus()
+        {
+            mNameTextBox.Focus();
+            mOkButton.IsDefault = true;
         }
     }
 }

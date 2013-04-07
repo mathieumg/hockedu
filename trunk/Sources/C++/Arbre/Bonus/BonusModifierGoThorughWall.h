@@ -15,7 +15,7 @@ class NoeudAbstrait;
 ///////////////////////////////////////////////////////////////////////////
 /// @class BonusModifierGoThroughWall
 /// @brief Classe qui représente un bonus appliquant la modification
-///         sur un noeud pour lui permettre de passer aux travers des murs
+///         sur la rondelle pour lui permettre de passer aux travers des murs
 ///
 /// @author Michael Ferris
 /// @date 2013-03-14
@@ -46,3 +46,25 @@ public:
 private:
     std::vector<class b2Fixture*> mFixtures;
 };
+
+///////////////////////////////////////////////////////////////////////////
+/// @class BonusModifierGoThroughWallMallet
+/// @brief Classe qui représente un bonus appliquant la modification
+///         sur le maillet pour lui permettre de passer aux travers des murs
+///
+/// @author Vincent Lemire
+/// @date 2013-04-06
+///////////////////////////////////////////////////////////////////////////
+class BonusModifierGoThroughWallMallet : public BonusModifierGoThroughWall
+{
+public:
+    BonusModifierGoThroughWallMallet(){}
+
+    virtual bool Attach(NoeudRondelle* pPuck);
+    virtual BonusType getType()const{return BONUS_TYPE_GO_THROUGH_WALL_MALLET;}
+};
+
+
+////////////////////////////////////////////////
+/// @}
+////////////////////////////////////////////////

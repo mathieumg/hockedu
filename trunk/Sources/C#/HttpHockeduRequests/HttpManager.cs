@@ -13,12 +13,15 @@ using System.Threading;
 
 namespace HttpHockeduRequests
 {
-    public enum UploadOperationStatus { UPLOAD_SUCCESS, UPLOAD_FAILED_INVALID_FILE_PATH, UPLOAD_FAILED_AUTHENTICATION_REJECTED, UPLOAD_FAILED_UNKNOWN_ERROR };
+    public enum UploadOperationStatus { UPLOAD_SUCCESS, UPLOAD_FAILED_USER_ID_MISSING, UPLOAD_FAILED_INVALID_FILE_PATH, UPLOAD_FAILED_AUTHENTICATION_REJECTED, UPLOAD_FAILED_FILE_RELATED, UPLOAD_FAILED_UNKNOWN_ERROR };
+    public enum DownloadOperationStatus { DOWNLOAD_SUCCESS, DOWNLOAD_FAILED_INVALID_FILE_PATH, DOWNLOAD_FAILED_AUTHENTICATION_REJECTED, DOWNLOAD_FAILED_UNKNOWN_ERROR };
 
     // Declaration des delegates pour les callback des retours de fonction des workers
     public delegate void MapsListLoadedCallBack( List<UserMapDetailedJSON> pList );
     public delegate void MapDownloadedCallBack( string pFilepath );
     public delegate void MapUploadCallback( UploadOperationStatus pStatus, int pMapId = -1 );
+    public delegate void AchievementsUploadCallback( UploadOperationStatus pStatus );
+    public delegate void AchievementsDownloadedCallback( DownloadOperationStatus pStatus );
 
     ///////////////////////////////////////////////////////////////////////////
     /// @class WorkerParamsDownload
@@ -75,7 +78,7 @@ namespace HttpHockeduRequests
     ///////////////////////////////////////////////////////////////////////////
     public class WorkerParamsUpload
     {
-        public WorkerParamsUpload(MapUploadCallback pCallback, int pUserId, string pAuthenticationKey, string pMapName, string pMapDescription, bool pMapPublic, string pFilepath)
+        public WorkerParamsUpload(MapUploadCallback pCallback, int pUserId, string pAuthenticationKey, string pMapName, string pMapDescription, bool pMapPublic, string pFilepath, int pMapId)
         {
            userId                = pUserId;
            authenticationKey     = pAuthenticationKey;
@@ -83,8 +86,8 @@ namespace HttpHockeduRequests
            mapDescription        = pMapDescription;
            mapPublic             = pMapPublic;
            filepath              = pFilepath;
+           mapId                 = pMapId;
            callback              = pCallback;
-
         }
         public int                  userId;
         public string               authenticationKey;
@@ -92,7 +95,34 @@ namespace HttpHockeduRequests
         public string               mapDescription;
         public bool                 mapPublic;
         public string               filepath;
+        public int                  mapId;
         public MapUploadCallback    callback;
+    }
+
+    public class WorkerAchievementParamsUpload
+    {
+        public WorkerAchievementParamsUpload( AchievementsUploadCallback pCallback, int pUserId, string pAuthenticationKey )
+        {
+            userId = pUserId;
+            authenticationKey = pAuthenticationKey;
+            callback = pCallback;
+        }
+        public int                  userId;
+        public string               authenticationKey;
+        public AchievementsUploadCallback    callback;
+    }
+
+    public class WorkerAchievementParamsDownload
+    {
+        public WorkerAchievementParamsDownload( AchievementsDownloadedCallback pCallback, int pUserId, string pAuthenticationKey )
+        {
+            userId = pUserId;
+            authenticationKey = pAuthenticationKey;
+            callback = pCallback;
+        }
+        public int                  userId;
+        public string               authenticationKey;
+        public AchievementsDownloadedCallback    callback;
     }
 
 
@@ -238,7 +268,7 @@ namespace HttpHockeduRequests
 
         public const string TemplateFormData = "--{0}\r\nContent-Disposition: form-data; name=\"{1}\"\r\n\r\n{2}\r\n";
         public const string TemplateFileData = "--{0}\r\nContent-Disposition: form-data; name=\"{1}\"; filename=\"{2}\"\r\nContent-Type: {3}\r\n\r\n";
-        public static void uploadMap(object pParams)
+        public static void sendMap(object pParams)
         {
             WorkerParamsUpload wParams = (WorkerParamsUpload)pParams;
 
@@ -252,6 +282,7 @@ namespace HttpHockeduRequests
             {
                 // Cancel
                 wParams.callback(UploadOperationStatus.UPLOAD_FAILED_INVALID_FILE_PATH);
+                return;
             }
 
             // Escape file data
@@ -293,11 +324,23 @@ namespace HttpHockeduRequests
                 byte[] itemBytesDescription = System.Text.Encoding.UTF8.GetBytes(itemDescription);
                 wRequestStream.Write(itemBytesDescription, 0, itemBytesDescription.Length);
 
-                // public
-                string itemPublic = String.Format(TemplateFormData, wBoundary, "public", wParams.mapPublic);
-                byte[] itemBytesPublic = System.Text.Encoding.UTF8.GetBytes(itemPublic);
-                wRequestStream.Write(itemBytesPublic, 0, itemBytesPublic.Length);
 
+                // public
+                if (wParams.mapPublic)
+                {
+                    string itemPublic=String.Format(TemplateFormData, wBoundary, "public", wParams.mapPublic);
+                    byte[] itemBytesPublic=System.Text.Encoding.UTF8.GetBytes(itemPublic);
+                    wRequestStream.Write(itemBytesPublic, 0, itemBytesPublic.Length);
+                }
+
+                // MapId
+                if(wParams.mapId != -1)
+                {
+                    string itemMapId=String.Format(TemplateFormData, wBoundary, "map_id", wParams.mapId);
+                    byte[] itemMapIdBytes=System.Text.Encoding.UTF8.GetBytes(itemMapId);
+                    wRequestStream.Write(itemMapIdBytes, 0, itemMapIdBytes.Length);
+                }
+                
                 // Ajouter le data du fichier au stream
                 // mapfile (header)
                 string wFileName = wParams.filepath.Substring(wParams.filepath.LastIndexOf(Path.DirectorySeparatorChar)+1);
@@ -324,26 +367,170 @@ namespace HttpHockeduRequests
                     string wResponseData = wReader.ReadToEnd();
                     // Retourne du JSON avec le map_id qui a ete cree
                     MapUploadJSON wMapUploaded = (MapUploadJSON)JsonConvert.Import(typeof(MapUploadJSON), wResponseData);
+                    
                     if (wMapUploaded.error == null)
                     {
-                        wParams.callback(UploadOperationStatus.UPLOAD_SUCCESS);
+                        wParams.callback(UploadOperationStatus.UPLOAD_SUCCESS, wMapUploaded.map_id);
                     }
-                    else if (wMapUploaded.error == "AuthKeyMissing" || wMapUploaded.error == "AuthKeyInvalid")
+                    else if (wMapUploaded.error=="AuthKeyMissing"||wMapUploaded.error=="AuthKeyInvalid"||wMapUploaded.error=="UserIdMissing")
                     {
                         wParams.callback(UploadOperationStatus.UPLOAD_FAILED_AUTHENTICATION_REJECTED);
+                    }
+                    else if (wMapUploaded.error=="MapFileUploadError"||wMapUploaded.error=="MapFileInvalidType"||wMapUploaded.error=="MapFileCacheError")
+                    {
+                        wParams.callback(UploadOperationStatus.UPLOAD_FAILED_FILE_RELATED);
                     }
                     else
                     {
                         wParams.callback(UploadOperationStatus.UPLOAD_FAILED_UNKNOWN_ERROR);
                     }
                 };
-
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
                 wParams.callback(UploadOperationStatus.UPLOAD_FAILED_UNKNOWN_ERROR);
             }
+        }
 
+        public static void achievementUpload( object pParams )
+        {
+            WorkerAchievementParamsUpload wParams = (WorkerAchievementParamsUpload) pParams;
+
+            // On essaie d'aller chercher le contenu du fichier donne dans le filepath
+            string wFileContentString = "";
+            try
+            {
+                wFileContentString = System.IO.File.ReadAllText( "Achievements.xml" );
+            }
+            catch ( System.Exception )
+            {
+                // Cancel
+                wParams.callback( UploadOperationStatus.UPLOAD_FAILED_INVALID_FILE_PATH );
+            }
+
+            // Escape file data
+
+            try
+            {
+                // Basic infos
+                HttpWebRequest wRequest = (HttpWebRequest) WebRequest.Create( "http://hockedu.com/remote/sendachievements" );
+                wRequest.Method = "POST";
+                wRequest.KeepAlive = true;
+                wRequest.AllowAutoRedirect = true;
+                wRequest.Timeout = 120000;
+
+                // Create boundary and set ContentType
+                string wBoundary = "---------------------------" + DateTime.Now.Ticks.ToString( "x" );
+                wRequest.ContentType = "multipart/form-data; boundary=" + wBoundary;
+
+                // Get request Stream to edit it
+                Stream wRequestStream = wRequest.GetRequestStream();
+
+                // Ajouter les infos de la requete avant le contenu du fichier (formulaire)
+                // user_id
+                string item = String.Format( TemplateFormData, wBoundary, "user_id", wParams.userId );
+                byte[] itemBytes = System.Text.Encoding.UTF8.GetBytes( item );
+                wRequestStream.Write( itemBytes, 0, itemBytes.Length );
+
+                // auth_key
+                string itemAuthKey = String.Format( TemplateFormData, wBoundary, "auth_key", wParams.authenticationKey );
+                byte[] itemBytesAuthKey = System.Text.Encoding.UTF8.GetBytes( itemAuthKey );
+                wRequestStream.Write( itemBytesAuthKey, 0, itemBytesAuthKey.Length );
+
+
+                // Ajouter le data du fichier au stream
+                // achievement (header)
+                string wFileName = "Achievements.xml";
+                string header = String.Format( TemplateFileData, wBoundary, "achievementsfile", wFileName, "text/xml" );
+                byte[] headerbytes = Encoding.UTF8.GetBytes( header );
+                wRequestStream.Write( headerbytes, 0, headerbytes.Length );
+                // mapfile (data)
+                byte[] newlineBytes = Encoding.UTF8.GetBytes( wFileContentString );
+                wRequestStream.Write( newlineBytes, 0, newlineBytes.Length );
+
+
+                // Ajouter les bytes de fermeture a la fin de la request
+                byte[] wEndBytes = System.Text.Encoding.UTF8.GetBytes( "--" + wBoundary + "--" );
+                wRequestStream.Write( wEndBytes, 0, wEndBytes.Length );
+
+
+                // On ferme le stream de requete
+                wRequestStream.Close();
+
+                // Lire la reponse du serveur
+                using ( WebResponse wResponse = wRequest.GetResponse() )
+                using ( StreamReader wReader = new StreamReader( wResponse.GetResponseStream() ) )
+                {
+                    string wResponseData = wReader.ReadToEnd();
+                    // Retourne du JSON avec le map_id qui a ete cree
+                    AchievementUploadJSON wAchievementUploaded = (AchievementUploadJSON) JsonConvert.Import( typeof( AchievementUploadJSON ), wResponseData );
+                    if ( wAchievementUploaded.error == null )
+                    {
+                        wParams.callback( UploadOperationStatus.UPLOAD_SUCCESS );
+                    }
+                    else if ( wAchievementUploaded.error == "AuthKeyMissing" || wAchievementUploaded.error == "AuthKeyInvalid" )
+                    {
+                        wParams.callback( UploadOperationStatus.UPLOAD_FAILED_AUTHENTICATION_REJECTED );
+                    }
+                    else
+                    {
+                        wParams.callback( UploadOperationStatus.UPLOAD_FAILED_UNKNOWN_ERROR );
+                    }
+                };
+                
+            }
+            catch ( System.Exception ex )
+            {
+                wParams.callback( UploadOperationStatus.UPLOAD_FAILED_UNKNOWN_ERROR );
+            }
+
+        }
+
+
+        public static void downloadAchievements( object pParams )
+        {
+            WorkerAchievementParamsDownload wParams = (WorkerAchievementParamsDownload) pParams;
+            int wUserId = wParams.userId;
+            string wAuthKey = wParams.authenticationKey;
+            AchievementsDownloadedCallback wCallback = wParams.callback;
+
+            NameValueCollection wPostData = new NameValueCollection();
+            wPostData.Add( "user_id", wUserId.ToString() );
+            wPostData.Add( "auth_key", wAuthKey );
+            string wJsonData = HttpManager.getJsonFromRequest( "http://hockedu.com/remote/getachievements", wPostData );
+
+            UserAchievementDownloadJSON wAchievementLight;
+            try
+            {
+                wAchievementLight = (UserAchievementDownloadJSON) JsonConvert.Import( typeof( UserAchievementDownloadJSON ), wJsonData );
+            }
+            catch
+            {
+                wCallback( DownloadOperationStatus.DOWNLOAD_FAILED_UNKNOWN_ERROR );
+                return;
+            }
+            // On sauvegarde le data dans un fichier XML et on retourne le path
+            if ( wAchievementLight.error != null )
+            {
+                wCallback( DownloadOperationStatus.DOWNLOAD_FAILED_UNKNOWN_ERROR );
+                return;
+            }
+            else
+            {
+                string wCurrentDirectory = Directory.GetCurrentDirectory().ToString();
+                string wDestinationFilePath=wCurrentDirectory +Path.DirectorySeparatorChar + "Achievements" + ".xml";
+                try
+                {
+                    System.IO.File.WriteAllText( wDestinationFilePath, wAchievementLight.achievements );
+                }
+                catch ( System.IO.IOException )
+                {
+                    // Si encore une erreur, on retourne rien
+                    wCallback( DownloadOperationStatus.DOWNLOAD_FAILED_UNKNOWN_ERROR );
+                    return;
+                }
+                wCallback( DownloadOperationStatus.DOWNLOAD_SUCCESS ); // Retourne le file path ou le fichier a ete sauvegarde en local
+            }
         }
     }
 
@@ -360,10 +547,8 @@ namespace HttpHockeduRequests
     ///////////////////////////////////////////////////////////////////////////
     public class HttpManager
     {
-        private WebClient mClient;
         public HttpManager()
         {
-            mClient = new WebClient();
             System.Net.ServicePointManager.Expect100Continue = false;
         }
 
@@ -482,16 +667,34 @@ namespace HttpHockeduRequests
         /// @param[in] string               pMapDescription     : Description a donner a la map
         /// @param[in] bool                 pMapPublic          : Bool qui indique si la map doit etre publique ou non
         /// @param[in] string               pFilepath           : Path dans le filesystem qui contient le fichier
+        /// @param[in] int                  pFilepath           : Id de la map si ce n'est qu'un update (seule difference entre les 2). Mettre -1 pour add new game
         /// @param[in] MapUploadCallBack    pCallback           : Fonction de callback a appeler une fois que l'upload est termine ou qu'il y a une erreur
         ///
         /// @return None.
         ////////////////////////////////////////////////////////////////////////
-        public void uploadNewMap(int pUserId, string pAuthenticationKey, string pMapName, string pMapDescription, bool pMapPublic, string pFilepath, MapUploadCallback pCallback)
+        public void sendMap(int pUserId, string pAuthenticationKey, string pMapName, string pMapDescription, bool pMapPublic, string pFilepath, int pMapId, MapUploadCallback pCallback)
         {
             // Faire dans un thread separe
-            WorkerParamsUpload wParams = new WorkerParamsUpload(pCallback, pUserId, pAuthenticationKey, pMapName, pMapDescription, pMapPublic, pFilepath);
-            Thread newThread = new Thread(new ParameterizedThreadStart(HttpManagerWorker.uploadMap));
+            WorkerParamsUpload wParams = new WorkerParamsUpload(pCallback, pUserId, pAuthenticationKey, pMapName, pMapDescription, pMapPublic, pFilepath, pMapId);
+            Thread newThread = new Thread(new ParameterizedThreadStart(HttpManagerWorker.sendMap));
             newThread.Start(wParams);
         }
+
+        public void uploadAchievements( int pUserId, string pAuthenticationKey, AchievementsUploadCallback pCallback )
+        {
+            // Faire dans un thread separe
+            WorkerAchievementParamsUpload wParams = new WorkerAchievementParamsUpload( pCallback, pUserId, pAuthenticationKey );
+            Thread newThread = new Thread(new ParameterizedThreadStart(HttpManagerWorker.achievementUpload));
+            newThread.Start(wParams);
+        }
+
+        public void downloadAchievements( int pUserId, string pAuthenticationKey, AchievementsDownloadedCallback pCallback )
+        {
+            // Faire dans un thread separe
+            WorkerAchievementParamsDownload wParams = new WorkerAchievementParamsDownload( pCallback, pUserId, pAuthenticationKey );
+            Thread newThread = new Thread(new ParameterizedThreadStart(HttpManagerWorker.downloadAchievements));
+            newThread.Start(wParams);
+        }
+
     }
 }

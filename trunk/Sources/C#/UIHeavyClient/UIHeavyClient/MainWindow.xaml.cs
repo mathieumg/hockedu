@@ -144,6 +144,14 @@ namespace UIHeavyClient
             Console.WriteLine(pStatus);
             Console.WriteLine(pMapId);
         }
+        public void TestCallbackAchievementsUploaded( HttpHockeduRequests.UploadOperationStatus pStatus )
+        {
+            Console.WriteLine( pStatus );
+        }
+        public void TestCallbackAchievementsDownloaded( DownloadOperationStatus pStatus)
+        {
+            Console.WriteLine( pStatus );
+        }
 
         ////////////////////////////////////////////////////////////////////////
         /// @fn void MainWindow.Window_Closed()
@@ -320,6 +328,18 @@ namespace UIHeavyClient
                 debugItem.Click += ResetAchievements;
                 debugMenu.Items.Add(debugItem);
             }
+            {
+                System.Windows.Controls.MenuItem debugItem = new System.Windows.Controls.MenuItem();
+                debugItem.Header = "Test Send Achievements";
+                debugItem.Click += TestAchievementUpload_Click;
+                debugMenu.Items.Add( debugItem );
+            }
+            {
+                System.Windows.Controls.MenuItem debugItem = new System.Windows.Controls.MenuItem();
+                debugItem.Header = "Test Get Achievements";
+                debugItem.Click += TestAchievementDownload_Click;
+                debugMenu.Items.Add( debugItem );
+            }
 #endif
             SetAchievementUnlocked( mAchievementUnlockCallBack );
 
@@ -401,7 +421,18 @@ namespace UIHeavyClient
             HttpManager wManager = new HttpManager();
             //wManager.getPublicMapList();
             //wManager.downloadMap(12, 1, TestCallbackMapDownloaded);
-            wManager.uploadNewMap(12, "05237e69-8d18-11e2-b5d0-005056823b67", "TestMat4", "Test Upload HTTP", true, "D:\\AirHockeyGit\\log3900-04_Cloned2\\trunk\\Content\\cs_italy.xml", TestCallbackMapUploaded);
+            wManager.sendMap(12, "cd13d808-9e93-11e2-b5d0-005056823b67", "TestMat9000", "UPDATE DESCRIPTION", true, "E:\\airhockeygit\\log3900-04_DO_NOT_MODIFY\\trunk\\Content\\Exe\\bobMapGrosMailet.xml", 15, TestCallbackMapUploaded);
+        }
+
+        void TestAchievementUpload_Click( object sender, RoutedEventArgs e )
+        {
+            HttpManager wManager = new HttpManager();
+            wManager.uploadAchievements( 12, "cd13d808-9e93-11e2-b5d0-005056823b67", TestCallbackAchievementsUploaded );
+        }
+        void TestAchievementDownload_Click( object sender, RoutedEventArgs e )
+        {
+            HttpManager wManager = new HttpManager();
+            wManager.downloadAchievements( 12, "cd13d808-9e93-11e2-b5d0-005056823b67", TestCallbackAchievementsDownloaded );
         }
         
         // Tests pour connection serveur jeu et client
@@ -912,11 +943,34 @@ namespace UIHeavyClient
             mCreditPopup.ShowDialog();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.SaveMapToServer()
+        ///
+        /// Send a map to server.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void SaveMapToServer(object sender, RoutedEventArgs e)
         {
+            mSaveServerMapPrompt.GiveFocus();
             mSaveServerMapPrompt.ShowDialog();
+  
+            // TODO
+            // Save to server!
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.RestartGameMenuHandle()
+        ///
+        /// Show/Hide the restart game option.
+        /// 
+        /// @param[in] bool : hide or show.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void RestartGameMenuHandle(bool pMustBeCollapse)
         {
             mRestartGameMenuItem.Visibility = pMustBeCollapse ? Visibility.Collapsed : Visibility.Visible;

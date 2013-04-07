@@ -37,11 +37,13 @@ class AiLearnerTests : public CppUnit::TestFixture
 	// de la macro CPPUNIT_TEST sinon ce dernier ne sera pas exécuté !
 	// =================================================================
 	CPPUNIT_TEST_SUITE( AiLearnerTests );
+    CPPUNIT_TEST( testLearningGame);
     CPPUNIT_TEST( testAddNewDataAndSaveRawBinary );
     CPPUNIT_TEST( testConvertData );
 	CPPUNIT_TEST_SUITE_END();
 
 public:
+    static bool mDataSavingFinished;
 
 	// =================================================================
 	// Méthodes pour initialiser et 'finaliser' la suite de tests
@@ -59,8 +61,9 @@ public:
     
     void testAddNewDataAndSaveRawBinary();
     void testConvertData();
+    void testLearningGame();
     static void testReloadAiLogic();
-	
+	static int notifyDataSavingFinished(bool pDataSavingFinished) { mDataSavingFinished = pDataSavingFinished; return 0; }
 private:
 
 };

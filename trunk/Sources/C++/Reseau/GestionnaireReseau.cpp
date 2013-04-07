@@ -68,18 +68,7 @@ void logSetup()
 {
     if(!bLogCreated)
     {
-#ifdef WIN32
-        CreateDirectoryA(
-            "logs",
-            NULL
-            );
-#else
-        struct stat st = {0};
-        if (stat("logs", &st) == -1) 
-        {
-            mkdir("logs", 0777);
-        }
-#endif
+        FacadePortability::createDirectory("logs");
         time_t wTime = time(0);
         struct tm wTimeNow;
         localtime_s( &wTimeNow, &wTime );
