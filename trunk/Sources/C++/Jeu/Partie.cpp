@@ -981,9 +981,9 @@ bool Partie::validatePassword( const std::string& pPasswordToValidate ) const
 void Partie::setPassword( const std::string& pPassword )
 {
     mPassword = pPassword;
-    if(pPassword.length() == 0)
+    if(pPassword.length() > 0)
     {
-        mRequirePassword = false;
+        mRequirePassword = true;
     }
 }
 

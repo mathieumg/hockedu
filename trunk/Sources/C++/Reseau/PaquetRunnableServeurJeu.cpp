@@ -257,6 +257,7 @@ int PaquetRunnable::RunnableGameCreationServerGame( Paquet* pPaquet )
         //GameManager::obtenirInstance()->setMapForGame(wGameId, wPaquet->getMapName());
         Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
         wGame->setName(wPaquet->getGameName());
+        wGame->setPassword(wPaquet->getPassword());
 
         // On demarre le download de la map, c'est lui qui va set le fieldName une fois recu
         // Avant on sauvegarde la liaison entre le nom de la map et le id de la partie qui en a besoin

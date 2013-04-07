@@ -18,7 +18,6 @@
 #include "Paquets/PaquetTest.h"
 #include "Paquets/PaquetGameStatus.h"
 #include "Paquets/PaquetMaillet.h"
-#include "Paquets/PaquetGameCreation.h"
 #include <iostream>
 #include "Paquets/PaquetGameConnection.h"
 #include "Paquets/PaquetBonus.h"
@@ -150,37 +149,6 @@ int PaquetRunnable::RunnableGameStatusServer( Paquet* pPaquet )
     return 0;
 }
 
-
-
-int PaquetRunnable::RunnableGameCreationClient( Paquet* pPaquet )
-{
-    PaquetGameCreation* wPaquet = (PaquetGameCreation*) pPaquet;
-
-    if(wPaquet->getGameId() == -1)
-    {
-        // Creation a echouee
-        std::cout << "Creation de partie echouee" << std::endl;
-    }
-    else
-    {
-        // Creation reussie
-        std::cout << "Creation de partie reussie" << std::endl;
-
-        GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer", wPaquet->getServerIP(), TCP);
-        SPSocket wSocketGameServer = GestionnaireReseau::obtenirInstance()->getSocket("GameServer", TCP);
-        
-        //GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer", wPaquet->getServerIP(), UDP);
-
-        PaquetGameConnection* wPaquetConnexion = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);
-        wPaquetConnexion->setGameId(wPaquet->getGameId());
-        wPaquetConnexion->setGameServerId(wPaquet->getServerId());
-
-        wSocketGameServer->setOnConnectionCallback([wPaquetConnexion]()->void{ GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquetConnexion, TCP); });
-
-    }
-
-    return 0;
-}
 
 
 

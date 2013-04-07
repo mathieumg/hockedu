@@ -460,6 +460,7 @@ void connectPartieServerGame( int pGameId, unsigned int pServerId, char* pInputP
 
 void requestGameCreationServerGame( char* pGameName, char* pMapName, int pMapId, char* pPassword  )
 {
+    FacadeModele::getInstance()->setGameCreationPassword(pPassword);
     PaquetGameCreation* wPaquet = (PaquetGameCreation*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CREATION_REQUEST);
     wPaquet->setGameName(pGameName);
     wPaquet->setMapName(pMapName);
