@@ -35,4 +35,5 @@
 -(void) resizeWindow:(int)minX :(int)minY :(int)maxX :(int)maxY;
 -(void*) getProperties:(void*)fullProp;
 -(void) setProperties:(void*)fullProp;
+-(RazerKey) getSelectedNodesType;
 @end

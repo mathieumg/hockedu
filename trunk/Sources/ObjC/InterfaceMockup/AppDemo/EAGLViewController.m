@@ -33,9 +33,18 @@ enum {
 @property (retain, nonatomic) IBOutlet UIView *mSideBarView;
 @property (retain, nonatomic) IBOutlet UIView *mTopBarView;
 @property (retain, nonatomic) IBOutlet UIView *undoRedoView;
+
+// View pour le panel de modification des proprietes
 @property (retain, nonatomic) IBOutlet UIView *mPropertyView;
-@property (retain, nonatomic) IBOutlet UITableViewController *mPropertyTableViewController;
-@property (retain, nonatomic) IBOutlet UITableView *mPropertyTableView;
+@property (retain, nonatomic) IBOutlet UIView *mTablePropertyView;
+@property (retain, nonatomic) IBOutlet UIView *mBoostPropertyView;
+@property (retain, nonatomic) IBOutlet UIView *mPortalPropertyView;
+@property (retain, nonatomic) IBOutlet UIView *mPuckPropertyView;
+@property (retain, nonatomic) IBOutlet UIView *mMalletPropertyView;
+@property (retain, nonatomic) IBOutlet UIView *mWallPropertyView;
+@property (retain, nonatomic) IBOutlet UIView *mControlPointPropertyView;
+@property (retain, nonatomic) IBOutlet UIView *mBonusPropertyView;
+
 @property (nonatomic, assign) CADisplayLink *displayLink;
 @property (nonatomic, assign) BOOL wrap;
 @property (nonatomic, assign) BOOL clipsToBounds;
@@ -51,9 +60,18 @@ enum {
 @synthesize mSideBarView;
 @synthesize mTopBarView;
 @synthesize mGLView;
+
+// Panel de modification des proprietes
 @synthesize mPropertyView;
-@synthesize mPropertyTableView;
-@synthesize mPropertyTableViewController;
+@synthesize mTablePropertyView;
+@synthesize mBoostPropertyView;
+@synthesize mPortalPropertyView;
+@synthesize mPuckPropertyView;
+@synthesize mMalletPropertyView;
+@synthesize mWallPropertyView;
+@synthesize mControlPointPropertyView;
+@synthesize mBonusPropertyView;
+
 @synthesize undoRedoView;
 @synthesize context;
 @synthesize displayLink;
@@ -62,6 +80,9 @@ enum {
 @synthesize carousel;
 @synthesize items;
 @synthesize carouselElements;
+@synthesize textBoxCollection;
+@synthesize sliderCollection;
+@synthesize stepperCollection;
 // Pie menu
 @synthesize pieMenu;
 @synthesize labelPieMenu;
@@ -94,7 +115,6 @@ enum {
     [self.mGLView addSubview:mTopBarView];
     [self.mGLView addSubview:undoRedoView];
     [self.mGLView addSubview:mPropertyView];
-    [self.mPropertyView addSubview:mPropertyTableView];
     [self.theEAGLView setFramebuffer];
     
     //mPropertyTableView.dataSource = tablePropertiesCell;
@@ -147,12 +167,12 @@ enum {
     [cameraButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     
     /*
-    CarouselElement *element1 = [[CarouselElement alloc] init];
-    
-    element1->ModifType=EDITOR_STATE_AJOUTER_ACCELERATEUR;
-    element1->LabelValue = @"Maillet";
-    element1->ImageName = @"SomeImage";
-    [[carouselElements alloc] initWithObjects:element1];
+     CarouselElement *element1 = [[CarouselElement alloc] init];
+     
+     element1->ModifType=EDITOR_STATE_AJOUTER_ACCELERATEUR;
+     element1->LabelValue = @"Maillet";
+     element1->ImageName = @"SomeImage";
+     [[carouselElements alloc] initWithObjects:element1];
      */
     
     [self pressButtonUI:selectButton];
@@ -195,43 +215,22 @@ enum {
     [deleteButton release];
     [cameraButton release];
     [editionButton release];
+    
+    // View pour le panel de modif
     [mPropertyView release];
-    [propertyTableViewController release];
-    [propertyTableView release];
-    [tablePropertiesCell release];
+    [mTablePropertyView release];
+    [mBoostPropertyView release];
+    [mPortalPropertyView release];
+    [mPuckPropertyView release];
+    [mMalletPropertyView release];
+    [mWallPropertyView release];
+    [mControlPointPropertyView release];
+    [mBonusPropertyView release];
+    
     [leftArrowButton release];
     [rightArrowButton release];
     [carouselBackground release];
     [super dealloc];
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    
-    return 1;
-    
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
-    
-    // Configure the cell.
-    
-    cell = tablePropertiesCell;
-    
-    return cell;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UIViewController *targetViewController = [[mPropertyTableViewController objectAtIndex:indexPath.row] objectForKey:@"controller"];
-    
-    [[self navigationController] pushViewController:targetViewController animated:YES];
 }
 
 //With this and the next method, we only allow the landscaperight orientation when on this view
@@ -267,7 +266,7 @@ enum {
 {
     [super viewDidLoad];
     
-    
+    [mPropertyView  addSubview:mTablePropertyView];
     
     // SETUP DES GESTURES
     UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationDetectee:)];
@@ -317,30 +316,90 @@ enum {
 
 - (void) propertiesMenuButtonTouched:(PieMenuItem *)item {
     
-    //    // Ouverture du popover contenant les proprietes associees a la selection courante
-    //    UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
-    //
-    //    UILabel *label = [[UILabel alloc] init];
-    //    label.text = @"Test";
-    //
-    //    UITextField *textField = [[UITextField alloc] init];
-    //    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellEditingStyleInsert reuseIdentifier:@"insert"];
-    //
-    //    UITableView *tableView = [[UITableView alloc]init];
-    //
-    //    //[tableView set];
-    //    [tableController setTableView:tableView];
-    //
-    //
-    //    //UITabBarController *tabController = [[UITabBarController alloc] init];
-    //    //UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tabController];
-    //    UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:tableController];
-    //    [popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    // On enleve lancienne view
+    for(UIView* subview in [mPropertyView subviews])
+    {
+        [subview removeFromSuperview];
+    }
+    
+    // On set la nouvelle view selon la selection
+    switch ([mModel getSelectedNodesType]) {
+        case RAZER_KEY_BONUS:
+            [mPropertyView addSubview:mBonusPropertyView];
+            break;
+        case RAZER_KEY_BOOST:
+            [mPropertyView addSubview:mBoostPropertyView];
+            break;
+        case RAZER_KEY_CONTROL_POINT:
+            [mPropertyView addSubview:mControlPointPropertyView];
+            break;
+        case RAZER_KEY_MALLET:
+            [mPropertyView addSubview:mMalletPropertyView];
+            break;
+        case RAZER_KEY_PORTAL:
+            [mPropertyView addSubview:mPortalPropertyView];
+            break;
+        case RAZER_KEY_PUCK:
+            [mPropertyView addSubview:mPuckPropertyView];
+            break;
+        case RAZER_KEY_NONE:
+            [mPropertyView addSubview:mTablePropertyView];
+            break;
+        case RAZER_KEY_TABLE_CONTROL_POINT:
+            [mPropertyView addSubview:mControlPointPropertyView];
+            break;
+        default:
+            break;
+    }
+    
     [UIView beginAnimations:@"MenuAnimationShow" context:NULL];
     [UIView setAnimationDuration:1];
     self.mPropertyView.center = CGPointMake(mPropertyView.center.x - mPropertyView.bounds.size.width, mPropertyView.center.y);
     [UIView commitAnimations];
     propertyBarHidden = NO;
+    
+}
+
+- (IBAction) sliderValueChanged:(UISlider*)sender;
+{
+    float value = [sender value];
+    NSString *stringValue = [NSString stringWithFormat:@"%.2f",value];
+    
+    
+    
+    for(UITextField *textField in textBoxCollection){
+        if(textField.tag==sender.tag){
+            [textField setText:stringValue];
+        }
+    }
+}
+- (IBAction) textFieldValueChanged:(UITextField*)sender
+{
+    
+    float value = [sender.text floatValue];
+    
+    
+    for(UISlider *slider in sliderCollection){
+        if(sender.tag==slider.tag){
+            [slider setValue:value];
+        }
+    }
+}
+
+- (IBAction) textFieldValueChangedStepper:(UITextField*)sender
+{
+    int value = [sender.text intValue];
+    
+    
+    for(UIStepper *stepper in stepperCollection){
+        if(sender.tag==stepper.tag){
+            [stepper setValue:value];
+        }
+    }
+}
+
+- (IBAction) stepperValueChanged:(UIStepper*)sender
+{
     
 }
 
@@ -610,7 +669,7 @@ enum {
 
 - (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index
 {
-   [self carouselSelectItem:index];
+    [self carouselSelectItem:index];
 }
 
 -(IBAction) cameraModeButtonTouched:(UIButton *)sender

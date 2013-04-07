@@ -261,5 +261,9 @@ float temps = clock();
 {
     ((Terrain*)mField)->applySelectedNodeProperties((FullProperties*)fullProp);
 }
+-(RazerKey) getSelectedNodesType
+{
+    return ((Terrain*)mField)->getSelectedNodeUniqueKey();
+}
 
 @end
