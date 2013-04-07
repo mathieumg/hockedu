@@ -56,11 +56,6 @@ bool BonusModifierGoThroughWall::Attach( NoeudRondelle* pPuck )
     SoundFMOD::obtenirInstance()->playEffect(BONUS_PASS_WALL_IN_EFFECT); 
 #endif
 
-    if(rand()&1)
-    {
-        return AttachToLastHittingMallet(pPuck);
-    }
-
     return AttachToPuck(pPuck);
 }
 
@@ -160,4 +155,29 @@ bool BonusModifierGoThroughWall::Revert()
     }
 #endif
     return true;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool BonusModifierGoThroughWallMallet::Attach( NoeudAbstrait* pPuck )
+///
+/// Attach a modifier on a node, receiving the puck as entry point,
+/// but from it, the modifier can apply itself on anything in the map
+///
+/// returns true if the modifier is attached on a node
+/// returns false otherwise
+/// note, returning false doesn't mean the bonus was not applied or refreshed
+///
+/// @param[in] NoeudAbstrait * pPuck
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool BonusModifierGoThroughWallMallet::Attach( NoeudRondelle* pPuck )
+{
+#if WIN32 
+    SoundFMOD::obtenirInstance()->playEffect(BONUS_PASS_WALL_IN_EFFECT); 
+#endif
+
+    return AttachToLastHittingMallet(pPuck);
 }
