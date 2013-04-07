@@ -42,6 +42,7 @@ namespace UIHeavyClient
         private static string mCurrentMap = "";
         private static OpenFileDialog mOpenFileDialog = new OpenFileDialog();
         private static Microsoft.Win32.SaveFileDialog mSaveFileDialog = new Microsoft.Win32.SaveFileDialog();
+        private static int mMapId = -1;
 
         // Properties
         public static MainWindow Context
@@ -53,6 +54,11 @@ namespace UIHeavyClient
         {
             get { return mCurrentMap; }
             set { mCurrentMap = value; }
+        }
+        public static int MapId
+        {
+            get { return mMapId; }
+            set { mMapId = value; }
         }
 
         public static TaskManager mTaskManager = new TaskManager();
@@ -420,18 +426,6 @@ namespace UIHeavyClient
             // Implement this
             Console.WriteLine(pStatus);
             Console.WriteLine(pMapId);
-        }
-        ////////////////////////////////////////////////////////////////////////
-        /// @fn void MainWindowHandler.SaveMapToServer()
-        ///
-        /// Online save.
-        ///
-        /// @return void.
-        ////////////////////////////////////////////////////////////////////////
-        public static void SaveMapToServer(int pUserId, string pAuthenticationKey, string pMapName, string pMapDescription, bool pMapPublic, string pFilepath, int pMapId)
-        {
-            HttpManager wHttpManager = new HttpManager();
-            wHttpManager.sendMap(pUserId, pAuthenticationKey, pMapName, pMapDescription, pMapPublic, pFilepath, pMapId, CallbackMapUploaded); 
         }
 
         ////////////////////////////////////////////////////////////////////////

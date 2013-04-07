@@ -7,7 +7,7 @@
         <Menu Name="MenuBar" DockPanel.Dock="Top">
             <MenuItem Header="File">
                 <MenuItem Header="Load Map (Ctrl + O)" Click="LoadMapFromLocal" Name="mLoadMapItem" Visibility="Collapsed"/>
-                <MenuItem Header="Load Map From Server" Name="mServerLoadMapItem" Visibility="Collapsed"/>
+                <MenuItem Header="Load Map From Server" Name="mServerLoadMapItem" Visibility="Collapsed" Click="LoadMapFromServer"/>
                 <MenuItem Header="Save Map As (Ctrl + Shift + S)" Click="SaveMapToLocal" Name="mSaveMapItem" Visibility="Collapsed"/>
                 <MenuItem Header="Save Map (Ctrl + S)" Click="QuickSaveMapToLocal" Name="mQuickSaveMapItem" Visibility="Collapsed"/>
                 <MenuItem Header="Save Map To Server" Name="mServerSaveMapItem" Visibility="Collapsed" Click="SaveMapToServer" />

@@ -56,6 +56,7 @@ namespace UIHeavyClient
         private CreditPopup mCreditPopup;
 
         private SaveServerMapPrompt mSaveServerMapPrompt;
+        private ServerMapPrompt mServerMapPrompt;
 
         private OpenGLControl mOpenGLControl;
         private WindowsFormsHost mWindowFormsHost;
@@ -211,6 +212,7 @@ namespace UIHeavyClient
             mCreditPopup = new CreditPopup();
 
             mSaveServerMapPrompt = new SaveServerMapPrompt();
+            mServerMapPrompt = new ServerMapPrompt();
 
             this.WindowContentControl.Content = mMainMenuControl;
             MainWindowHandler.InitCallbacks();
@@ -966,12 +968,108 @@ namespace UIHeavyClient
         /// @return void.
         ////////////////////////////////////////////////////////////////////////
         private void SaveMapToServer(object sender, RoutedEventArgs e)
+        {            
+            if (LoginControl.mLoginInfo.mAuthOnWeb)
+            {
+                HttpRequestForSavingMap();
+            }
+            else
+            {
+                WebLogin.CreateWebLoginWindow(HttpRequestForSavingMap);
+            } 
+        }
+
+        private void HttpRequestForSavingMap()
         {
+            mSaveServerMapPrompt = new SaveServerMapPrompt();
             mSaveServerMapPrompt.GiveFocus();
             mSaveServerMapPrompt.ShowDialog();
-  
-            // TODO
-            // Save to server!
+
+            if (mSaveServerMapPrompt.OkIsClicked)
+            {
+                string mapPath = MainWindowHandler.CurrentMap == "" ? "tempFileMap.xml" : MainWindowHandler.CurrentMap;
+
+                MainWindowHandler.SaveMapToLocal(mapPath);
+
+                HttpManager wHttpManager = new HttpManager();
+                wHttpManager.sendMap(Convert.ToInt32(LoginControl.mLoginInfo.mUserId), 
+                    LoginControl.mLoginInfo.mAuthKey, 
+                    mSaveServerMapPrompt.MapName, 
+                    mSaveServerMapPrompt.MapDescription, 
+                    mSaveServerMapPrompt.IsPublic,
+                    mapPath, 
+                    MainWindowHandler.MapId, 
+                    DisplayMapSavedOnServer);
+            }
+
+            mSaveServerMapPrompt.Close();
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.SaveMapToServer()
+        ///
+        /// Send a map to server.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        private void LoadMapFromServer(object sender, RoutedEventArgs e)
+        {
+
+            if (LoginControl.mLoginInfo.mAuthOnWeb)
+            {
+                HttpRequestForLoadingMap();
+            }
+            else
+            {
+                WebLogin.CreateWebLoginWindow(HttpRequestForLoadingMap);
+            }
+        }
+
+        private void HttpRequestForLoadingMap()
+        {
+            mServerMapPrompt = new ServerMapPrompt();
+            mServerMapPrompt.GetServerMaps();
+            mServerMapPrompt.ShowDialog();
+
+            if (mServerMapPrompt.OkIsClicked)
+            {
+                if (mServerMapPrompt.SelectedMap != null)
+                {
+                    HttpManager wHttpManager = new HttpManager();
+                    wHttpManager.downloadMap(Convert.ToInt32(LoginControl.mLoginInfo.mUserId), mServerMapPrompt.SelectedMap.id, HandleDownloadedMap);
+                }
+            }
+
+            mServerMapPrompt.Close();
+        }
+
+        public void HandleDownloadedMap(string pFilepath, int pMapId)
+        {
+            // Load the map to edition mode
+            MainWindowHandler.mTaskManager.ExecuteTask(() =>
+            {
+                MainWindowHandler.MapId = pMapId;
+                MainWindowHandler.LoadMapFromLocal(pFilepath);
+            });
+        }
+
+        public static void DisplayMapSavedOnServer(UploadOperationStatus pStatus, int pMapid)
+        {
+            MainWindowHandler.mTaskManager.ExecuteTask(() =>
+            {
+                MainWindowHandler.MapId = pMapid;
+                if (pStatus == UploadOperationStatus.UPLOAD_SUCCESS)
+                {
+                    MainWindowHandler.Context.EditionModeControl.SetGuidanceInstuction("Your map has been saved online");
+                }
+                else
+                {
+                    MainWindowHandler.Context.EditionModeControl.SetGuidanceInstuction("Operation failed, please try again");
+                }
+            });
         }
 
         ////////////////////////////////////////////////////////////////////////
