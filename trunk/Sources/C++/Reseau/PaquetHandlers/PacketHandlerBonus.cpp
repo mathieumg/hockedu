@@ -13,7 +13,7 @@ void PacketHandlerBonus::handlePacketReceptionSpecific(PacketReader& pPacketRead
 
         wPaquet->setGameId(pPacketReader.readInteger());
 
-        wPaquet->setBonusType((PaquetBonusType)pPacketReader.readInteger());
+        wPaquet->setBonusType((BonusType)pPacketReader.readInteger());
         wPaquet->setBonusAction((PaquetBonusAction)pPacketReader.readInteger());
 
         float wX = pPacketReader.readFloat();

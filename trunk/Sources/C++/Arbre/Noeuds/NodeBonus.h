@@ -51,9 +51,15 @@ public:
     static void getCubeColorVertexArrays(float* vertexArray, float* colorArray);
 
     virtual void updateMatrice();
+
+    void displayBonus(BonusType pBonusType);
+
+    inline BonusType getBonusType() const {return mBonusType;}
+
 private:
     float mSpawnTimeLeft;// in sec
 
+    BonusType mBonusType;
 
     float mHeightAngle;
 };
