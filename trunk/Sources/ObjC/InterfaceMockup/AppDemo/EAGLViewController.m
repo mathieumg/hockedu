@@ -400,7 +400,16 @@ enum {
 
 - (IBAction) stepperValueChanged:(UIStepper*)sender
 {
+    int value = [sender value];
+    NSString *stringValue = [NSString stringWithFormat:@"%d",value];
     
+    
+    
+    for(UITextField *textField in textBoxCollection){
+        if(textField.tag==sender.tag){
+            [textField setText:stringValue];
+        }
+    }
 }
 
 - (void) setupPieMenu
@@ -781,8 +790,8 @@ enum {
     UITouch *touch = [[event allTouches] anyObject];
     CGPoint positionCourante = [touch locationInView:theEAGLView];
     
-    UIView* view=touch.view;
-    if ((view!=mPropertyView && view !=mTopBarView && view !=mSideBarView && view !=undoRedoView)) {
+    UIView* viewTouched = [touch view];
+    if (viewTouched != mPortalPropertyView && viewTouched != mPuckPropertyView && viewTouched != mTablePropertyView && viewTouched != mTopBarView && viewTouched != mSideBarView && viewTouched != undoRedoView && viewTouched != mMalletPropertyView && viewTouched != mControlPointPropertyView && viewTouched != mWallPropertyView && viewTouched != mBoostPropertyView && viewTouched != mBonusPropertyView) {
         if(!propertyBarHidden)
         {
             [UIView beginAnimations:@"MenuAnimationShow" context:NULL];
@@ -819,8 +828,8 @@ enum {
     {
         UITouch *touch = [[event allTouches] anyObject];
         CGPoint positionCourante = [touch locationInView:theEAGLView];
-        UIView * view = touch.view;
-        if ((view!=mPropertyView && view !=mTopBarView && view !=mSideBarView && view !=undoRedoView)) {
+        UIView * viewTouched = touch.view;
+        if (viewTouched != mPortalPropertyView && viewTouched != mPuckPropertyView && viewTouched != mTablePropertyView && viewTouched != mTopBarView && viewTouched != mSideBarView && viewTouched != undoRedoView && viewTouched != mMalletPropertyView && viewTouched != mControlPointPropertyView && viewTouched != mWallPropertyView && viewTouched != mBoostPropertyView && viewTouched != mBonusPropertyView) {
             //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
             [mEventManager touchesMoved:touch:positionCourante];
         }
