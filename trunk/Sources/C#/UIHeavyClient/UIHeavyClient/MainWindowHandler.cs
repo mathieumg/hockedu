@@ -451,6 +451,42 @@ namespace UIHeavyClient
         {
             CallbackManager.ChangeGameMode(GameState.GAME_STATE_NONE);
         }
+
+
+        public static void UploadAchievementsResponse( UploadOperationStatus pStatus )
+        {
+            if ( pStatus == UploadOperationStatus.UPLOAD_SUCCESS )
+            {
+                HttpManager wManager = new HttpManager();
+                wManager.downloadAchievements( LoginControl.mLoginInfo.mUserId, LoginControl.mLoginInfo.mAuthKey, DownloadAchievementsResponse );
+            }
+            else
+            {
+                Console.WriteLine( pStatus );
+            }
+        }
+
+        [DllImport( @"RazerGame.dll", CallingConvention = CallingConvention.Cdecl )]
+        public static extern void ReloadAchievementsProgress();
+
+        public static void DownloadAchievementsResponse( DownloadOperationStatus pStatus )
+        {
+            Console.WriteLine( pStatus );
+            if ( pStatus == DownloadOperationStatus.DOWNLOAD_SUCCESS )
+            {
+                ReloadAchievementsProgress();
+            }
+        }
+        
+
+        public static void SynchroniseAchievements()
+        {
+            HttpManager wManager = new HttpManager();
+            wManager.uploadAchievements( LoginControl.mLoginInfo.mUserId, LoginControl.mLoginInfo.mAuthKey, UploadAchievementsResponse );
+
+        }
+
+
     }
 }
 

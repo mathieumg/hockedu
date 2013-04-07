@@ -213,7 +213,7 @@ bool AbstractAchievement::LoadAchievementNode( const XmlElement* root )
             mHasProgressed = true;
             return LoadAchievementData(data);
         }
-        return mLevelUnlocked == mNbLevels;
+        return mLevelUnlocked == mNbLevels || !mHasProgressed;
     }
     return false;
 }

@@ -403,9 +403,17 @@ namespace UIHeavyClient
                     !string.IsNullOrEmpty(mLoginInfo.mAuthKey) && 
                     !string.IsNullOrEmpty(mLoginInfo.mKeyExpiration);
             }
-            if ( mCurrentRequest.mWebAuthOnly )
+
+            if ( mLoginInfo.mAuthOnWeb )
             {
-                if ( mCurrentRequest != null && mLoginInfo.mAuthOnWeb )
+                /// en tout temps, si la connection reussi, on sync les achievements
+                MainWindowHandler.SynchroniseAchievements();
+            }
+
+
+            if ( mCurrentRequest != null && mCurrentRequest.mWebAuthOnly )
+            {
+                if ( mLoginInfo.mAuthOnWeb )
                 {
                     // si on tente uniquement de ce connecter au web on l'indique, sinon, la vraie requete est pour le serveur maitre
                     mCurrentRequest.ConnectionSuccess();
@@ -428,8 +436,6 @@ namespace UIHeavyClient
                     }
                 }
             }
-            
-            
         }
 
         public static string CalculateSHA1( string text )
