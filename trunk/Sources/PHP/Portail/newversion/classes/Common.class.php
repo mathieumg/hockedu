@@ -241,9 +241,95 @@ class Common
                         $this->db->quoteIdentifier( 'last_modified_time' ),                                      
                         $this->db->quote( $modificationTime , 'integer' ),
                         
+                        $this->db->quoteIdentifier( 'map_id' ),
                         $this->db->quote( $mapId, 'integer' )
                        );
         $this->db->query( $sql );
+    }
+    
+    public function userAchievementExists( $userId, $achievementId )
+    {
+        $sql = 'SELECT %s
+                FROM %s 
+                WHERE %s=%s AND %s=%s';
+        $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'id' ),
+                        
+                        $this->db->quoteIdentifier( 'achievements_progress'),
+                        
+                        $this->db->quoteIdentifier( 'id_achievement' ),
+                        $this->db->quote( $achievementId, 'integer' ),
+                        
+                        $this->db->quoteIdentifier( 'id_user' ),
+                        $this->db->quote( $userId, 'integer' )
+                       );
+        $this->db->setLimit( 1 );
+        $userAchievement = $this->db->queryOne( $sql );
+        
+        if( empty( $userAchievement ) )
+        {
+            // Achievement doesn't seem to exist.
+            return false;
+        }
+        
+        return true;
+    }
+    
+    public function updateUserAchievement( $userId, $achievementId, $isUnlocked, $progressData )
+    {       
+        $progressData ? : $progressData = '';
+        
+        if( $this->userAchievementExists( $userId, $achievementId ) )
+        {
+            $sql = 'UPDATE %s
+                    SET %s=%s, %s=%s, %s=%s
+                    WHERE %s=%d AND %s=%d AND %s=%d';
+            $sql = sprintf( $sql,
+                            $this->db->quoteIdentifier( 'achievements_progress' ),
+                            
+                            $this->db->quoteIdentifier( 'unlocked' ),
+                            $this->db->quote( ($isUnlocked ? 1 : 0), 'integer' ),
+                            
+                            $this->db->quoteIdentifier( 'progress_data' ),
+                            $this->db->quote( $progressData, 'text' ),       
+                            
+                            $this->db->quoteIdentifier( 'time' ),   
+                            $this->db->quote( time(), 'integer' ),       
+                            
+                            $this->db->quoteIdentifier( 'id_achievement' ),
+                            $this->db->quote( $achievementId , 'integer' ), 
+                            
+                            $this->db->quoteIdentifier( 'id_user' ),                                      
+                            $this->db->quote( $userId , 'integer' ),
+                            
+                            $this->db->quoteIdentifier( 'unlocked' ),                                      
+                            $this->db->quote( 0 , 'integer' )
+                           );
+            $this->db->query( $sql );
+        }
+        else
+        {            
+            $sql = 'INSERT INTO %s
+                    ( %s, %s, %s, %s, %s )
+                    VALUES( %d, %d, %d, %s, %d )';
+            $sql = sprintf( $sql,
+                            $this->db->quoteIdentifier( 'achievements_progress' ),
+                            
+                            $this->db->quoteIdentifier( 'id_achievement' ),
+                            $this->db->quoteIdentifier( 'id_user' ),
+                            $this->db->quoteIdentifier( 'unlocked' ),
+                            $this->db->quoteIdentifier( 'progress_data' ),                                                                          
+                            $this->db->quoteIdentifier( 'time' ),                                                                           
+                            
+                            $this->db->quote( $achievementId , 'integer' ),
+                            $this->db->quote( $userId , 'integer' ),
+                            $this->db->quote( ($isUnlocked ? 1 : 0), 'integer' ),
+                            $this->db->quote( $progressData, 'text' ),   
+                            $this->db->quote( time(), 'integer' )
+                           );
+            
+            $this->db->query( $sql );
+        }
     }
     
     public function getUserList()
@@ -262,6 +348,31 @@ class Common
         $userInformation = $this->db->queryAll( $sql );
         
         return $userInformation;
+    }
+    
+    public function getUserAchievements( $userId )
+    { 
+        $sql = 'SELECT %s, %s, %s, %s, %s
+                FROM %s 
+                WHERE %s=%d
+                ORDER BY %s ASC';
+        $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'id_achievement' ),
+                        $this->db->quoteIdentifier( 'id_user' ),
+                        $this->db->quoteIdentifier( 'unlocked' ),
+                        $this->db->quoteIdentifier( 'progress_data' ),
+                        $this->db->quoteIdentifier( 'time' ),
+                           
+                        $this->db->quoteIdentifier( 'achievements_progress'),
+                        
+                        $this->db->quoteIdentifier( 'id_user' ),
+                        $this->db->quote( $userId, 'integer' ),
+                        
+                        $this->db->quoteIdentifier( 'id_achievement' )
+                       );
+        $userAchievements = $this->db->queryAll( $sql );
+        
+        return $userAchievements;
     }
     
     public function getMapInfo( $mapId )
@@ -527,12 +638,13 @@ class Common
     
     public function getValidAuthenticationData( $userId )
     {
-        $sql = 'SELECT %s, %s
+        $sql = 'SELECT %s, %s, %s
                 FROM %s 
                 WHERE %s=%d AND %s>=%d
                 ORDER BY %s DESC';
         $sql = sprintf( $sql,
                         $this->db->quoteIdentifier( 'key' ),
+                        $this->db->quoteIdentifier( 'id_user' ),
                         $this->db->quoteIdentifier( 'expiration' ),
                         
                         $this->db->quoteIdentifier( 'remote_authentication'),
@@ -552,6 +664,7 @@ class Common
         {
             // Renew the expiration, then return it.
             $userInformation['expiration'] = time() + 3600;
+            $userInformation['id_user'] = (int)$userInformation['id_user'];
             
             $sql = 'UPDATE %s
                     SET %s=%d

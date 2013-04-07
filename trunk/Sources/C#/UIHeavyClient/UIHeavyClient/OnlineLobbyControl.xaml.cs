@@ -198,6 +198,7 @@ namespace UIHeavyClient
                 if (selected.Value.needPassword)
                 {
                     mPasswordPrompt = new PasswordPrompt();
+                    mPasswordPrompt.SetFocus();
                     mPasswordPrompt.ShowDialog();
 
                     if (mPasswordPrompt.OkIsClicked)
@@ -238,6 +239,7 @@ namespace UIHeavyClient
         {
             mGameCreationPrompt = new GameCreationPrompt();
             mGameCreationPrompt.ClearInputAndLoadMapList();
+            mGameCreationPrompt.SetFocus();
             mGameCreationPrompt.ShowDialog();
 
             if (mGameCreationPrompt.OkIsClicked)
@@ -729,6 +731,15 @@ namespace UIHeavyClient
             mFeedbackLabel.Content = pMessage;
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void OnlineLobbyControl.HandleUIButtons()
+        ///
+        /// Hide/show some UI button.
+        /// 
+        /// @param[in] bool : Hide or show.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void HandleUIButtons(bool pIsEnable)
         {
             mCreateButton.IsEnabled = pIsEnable;

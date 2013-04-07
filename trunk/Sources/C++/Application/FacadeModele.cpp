@@ -237,7 +237,8 @@ void FacadeModele::libererInstance()
 ////////////////////////////////////////////////////////////////////////
 FacadeModele::FacadeModele()
     : hGLRC_(0), hDC_(0), hWnd_(0), vue_(0),zoomElastique_(false),tournoi_(0),cheminTournoi_(""),
-    partieCourante_(0), /*adversaire_(0),*/ mEditionField(0),renderThread_(NULL), prochainePartie_(-1)
+    partieCourante_(0), /*adversaire_(0),*/ mEditionField(0),renderThread_(NULL), prochainePartie_(-1),
+    mCurrentZoom(0), mMinZoom(-20), mMaxZoom(20)
 {
     // Il ne faut pas faire d'initialisation de Noeud ici, car le contexte OpenGl n'est pas encore creer
 
@@ -835,10 +836,16 @@ void FacadeModele::orbit( Vecteur2i deplacement )
 void FacadeModele::zoom(int nbCoches)
 {
     // Si le nombre de coche est négatif, c'est qu'on roule vers l'avant.
-    if(nbCoches < 0)
+    if(nbCoches < 0 && mCurrentZoom < mMaxZoom)
+    {
         obtenirVue() -> zoomerIn();
-    else if(nbCoches > 0)
+        ++mCurrentZoom;
+    }
+    else if(nbCoches > 0 && mCurrentZoom > mMinZoom)
+    {
         obtenirVue() -> zoomerOut();
+        --mCurrentZoom;
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

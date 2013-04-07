@@ -28,8 +28,6 @@ using HttpHockeduRequests;
 
 namespace UIHeavyClient
 {
-    
-
     ///////////////////////////////////////////////////////////////////////////
     /// @class MainWindowHandler
     /// @brief Static wrapper to access every controls.
@@ -242,6 +240,7 @@ namespace UIHeavyClient
         {
             Context.WindowContentControl.Content=Context.TournamentControl;
             Context.TournamentControl.DisplayProfileNames();
+            Context.TournamentControl.SetFocus();
         }
 
         ////////////////////////////////////////////////////////////////////////

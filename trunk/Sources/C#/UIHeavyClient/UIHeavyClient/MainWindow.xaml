@@ -24,10 +24,8 @@
             <MenuItem Header="Online Mode">
                 <MenuItem Header="Web Site" Click="OpenWebSite"/>
             </MenuItem>
-            <MenuItem Header="Help">
-                <MenuItem Header="FAQ"/>
+            <MenuItem Header="About">
                 <MenuItem Header="Credits" Click="ShowCreditsPopup"/>
-                <MenuItem Header="About"/>
             </MenuItem>
         </Menu>
         

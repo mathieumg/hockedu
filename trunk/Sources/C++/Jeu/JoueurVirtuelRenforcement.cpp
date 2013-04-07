@@ -240,6 +240,46 @@ AiRuntimeInfosOutput JoueurVirtuelRenforcement::getActionFor(const Vecteur3& pPo
     }
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn JoueurVirtuelRenforcement::hasMapEntryFor( const Vecteur3& pPositionAi, const Vecteur3& pVelociteAi, const Vecteur3& pPositionRondelle, const Vecteur3& pVelociteRondelle, const Vecteur3& pPositionJoueurAdverse ) const
+///
+/// Returns if the AI has an entry for the specified data. Required for unit tests.
+///
+/// @param[in] const Vecteur3 & pPositionAi
+/// @param[in] const Vecteur3 & pVelociteAi
+/// @param[in] const Vecteur3 & pPositionRondelle
+/// @param[in] const Vecteur3 & pVelociteRondelle
+/// @param[in] const Vecteur3 & pPositionJoueurAdverse
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool JoueurVirtuelRenforcement::hasMapEntryFor( const Vecteur3& pPositionAi, const Vecteur3& pVelociteAi, const Vecteur3& pPositionRondelle, const Vecteur3& pVelociteRondelle, const Vecteur3& pPositionJoueurAdverse ) const
+{
+    AiRuntimeInfosInput wInfos;
+    Vecteur2i wVect8b;
+    AILearner::convertirPositionUint8(pPositionAi.convertir<2>(), wVect8b);
+    wInfos.positionAi[VX] = wVect8b[VX];
+    wInfos.positionAi[VY] = wVect8b[VY];
+    AILearner::convertirPositionUint8(pPositionJoueurAdverse.convertir<2>(), wVect8b);
+    wInfos.positionAdversaire[VX] = wVect8b[VX];
+    wInfos.positionAdversaire[VY] = wVect8b[VY];
+    AILearner::convertirPositionUint8(pPositionRondelle.convertir<2>(), wVect8b);
+    wInfos.positionRondelle[VX] = wVect8b[VX];
+    wInfos.positionRondelle[VY] = wVect8b[VY];
+
+    AILearner::convertirVelociteUint8(pVelociteAi.convertir<2>(), wVect8b);
+    wInfos.velociteAi[VX] = wVect8b[VX];
+    wInfos.velociteAi[VY] = wVect8b[VY];
+    AILearner::convertirVelociteUint8(pVelociteRondelle.convertir<2>(), wVect8b);
+    wInfos.velociteRondelle[VX] = wVect8b[VX];
+    wInfos.velociteRondelle[VY] = wVect8b[VY];
+
+    auto wIt = mActionMap.find(wInfos);
+    return wIt != mActionMap.end();
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

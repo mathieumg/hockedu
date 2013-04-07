@@ -59,6 +59,13 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void AddRadioPlaylist(string pPlaylist, string[] pSongs, int pNbrSongs);
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void RadioOptionControl.RadioOptionControl()
+        ///
+        /// Constructor.
+        ///
+        /// @return None.
+        ////////////////////////////////////////////////////////////////////////
         public RadioOptionControl()
         {
             InitializeComponent();
@@ -82,26 +89,73 @@ namespace UIHeavyClient
             mOpenFileDialog.Filter = "Sound file(*.mp3;*.wma;*.wav;*.xm)|*.mp3;*.wma;*.wav;*.xm";
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void RadioOptionControl.mBackToOptionButton_Click()
+        ///
+        /// Return to option menu.
+        /// 
+        /// @param[in] object : The object related to the event.
+        /// @param[in] RoutedEventArgs : The key event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mBackToOptionButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToOptionsMenu();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void RadioOptionControl.mBackToMainButton_Click()
+        ///
+        /// Return to main menu.
+        /// 
+        /// @param[in] object : The object related to the event.
+        /// @param[in] RoutedEventArgs : The key event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mBackToMainButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToMainMenu();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void RadioOptionControl.DisplayGuidanceMessages()
+        ///
+        /// Display Bastien & Scapin.
+        /// 
+        /// @param[in] object : The object related to the event.
+        /// @param[in] MouseEventArgs : The key event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void DisplayGuidanceMessages(object sender, MouseEventArgs e)
         {
             mGuidanceLabel.Content = mGuidanceMessages[sender];
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void RadioOptionControl.ClearGuidanceMessages()
+        ///
+        /// Clear Bastien & Scapin.
+        /// 
+        /// @param[in] object : The object related to the event.
+        /// @param[in] MouseEventArgs : The key event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void ClearGuidanceMessages(object sender, MouseEventArgs e)
         {
             mGuidanceLabel.Content = "";
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void RadioOptionControl.DisplayPlaylists()
+        ///
+        /// Get playlists from DLL.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void DisplayPlaylists()
         {
             // Clear what's on screen
@@ -147,6 +201,16 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void RadioOptionControl.mPlaylistAddButton_Click()
+        ///
+        /// Add a new playlist.
+        /// 
+        /// @param[in] object : The object related to the event.
+        /// @param[in] RoutedEventArgs : The key event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mPlaylistAddButton_Click(object sender, RoutedEventArgs e)
         {
             // Make sure that the new name doesn't exist
@@ -161,6 +225,16 @@ namespace UIHeavyClient
             DisplayPlaylists();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void RadioOptionControl.mPlaylistDeleteButton_Click()
+        ///
+        /// Remove a playlist.
+        /// 
+        /// @param[in] object : The object related to the event.
+        /// @param[in] RoutedEventArgs : The key event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mPlaylistDeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (mSelectedPlaylist != "")
@@ -179,6 +253,16 @@ namespace UIHeavyClient
             DisplayPlaylists();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void RadioOptionControl.mCurrentPlaylistsList_SelectionChanged()
+        ///
+        /// Change selected playlist.
+        /// 
+        /// @param[in] object : The object related to the event.
+        /// @param[in] SelectionChangedEventArgs : The key event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mCurrentPlaylistsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ClearPlaylistInfo();
@@ -196,6 +280,16 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void RadioOptionControl.mSongDeleteButton_Click()
+        ///
+        /// Remove a song from a playlist.
+        /// 
+        /// @param[in] object : The object related to the event.
+        /// @param[in] RoutedEventArgs : The key event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mSongDeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (mSelectedPlaylistContent != null)
@@ -211,6 +305,16 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void RadioOptionControl.mSongAddButton_Click()
+        ///
+        /// Add a new song to a playlist.
+        /// 
+        /// @param[in] object : The object related to the event.
+        /// @param[in] RoutedEventArgs : The key event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mSongAddButton_Click(object sender, RoutedEventArgs e)
         {
             if (mSelectedPlaylistContent != null)
@@ -226,6 +330,16 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void RadioOptionControl.mSaveButton_Click()
+        ///
+        /// Save playlist.
+        /// 
+        /// @param[in] object : The object related to the event.
+        /// @param[in] RoutedEventArgs : The key event.
+        ///
+        /// @return None.
+        ////////////////////////////////////////////////////////////////////////
         private void mSaveButton_Click(object sender, RoutedEventArgs e)
         {
             // Is there a name?
@@ -238,6 +352,13 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void RadioOptionControl.ClearPlaylistInfo()
+        ///
+        /// Clear UI data.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void ClearPlaylistInfo()
         {
             mPlaylistNameTextBox.Text = "";

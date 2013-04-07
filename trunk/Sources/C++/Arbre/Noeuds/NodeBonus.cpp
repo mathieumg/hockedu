@@ -291,25 +291,45 @@ void NodeBonus::playTick( float temps)
         mSpawnTimeLeft -= temps;
         if(mSpawnTimeLeft < 0)
         {
+            mBonusType = (BonusType)(rand()%NB_BONUS_TYPE);
             ResetTimeLeft();
             setVisible(true);
             // activate collision on strat creation
             activate(true);
 
 #if WIN32
-            /*Partie* wGame = getField()->GetGame();
-            if(wGame != NULL && wGame->isNetworkServerGame())
+            Partie* wGame = getField()->GetGame();
+            if(wGame && wGame->isNetworkServerGame())
             {
                 PaquetBonus* wPaquet = (PaquetBonus*) GestionnaireReseau::obtenirInstance()->creerPaquet(BONUS);
                 wPaquet->setGameId(wGame->getUniqueGameId());
-                wPaquet->setBonusType((PaquetBonusType)(rand()%NB_BONUS_TYPE));
+                wPaquet->setBonusType((BonusType)(mBonusType));
                 wPaquet->setBonusAction(BONUS_ACTION_SPAN);
                 wPaquet->setBonusPosition(getPosition());
                 RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
-            }*/
+            }
 #endif
         }
     }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NodeBonus::displayBonus( class NoeudRondelle* )
+///
+/// Called from paquet to display a bonus.
+///
+/// @param[in] class NoeudRondelle *
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NodeBonus::displayBonus(BonusType pBonusType)
+{
+    mBonusType = pBonusType;
+    ResetTimeLeft();
+    setVisible(true);
+    activate(true);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -327,11 +347,11 @@ void NodeBonus::ExecuteBonus( class NoeudRondelle* rondelle )
 {
     if(isActive())
     {
-        int b = rand()%NB_BONUS_TYPE;
+        //int b = rand()%NB_BONUS_TYPE;
 #if MIKE_DEBUG_
         //b = BONUS_TYPE_GO_THROUGH_WALL; // testing value
 #endif
-        auto factory = FactoryBonusModifier::getFactory(BonusType(b));
+        auto factory = FactoryBonusModifier::getFactory(mBonusType);
         if(factory)
         {
             auto bonus = factory->createBonus(this);
