@@ -943,11 +943,34 @@ namespace UIHeavyClient
             mCreditPopup.ShowDialog();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.SaveMapToServer()
+        ///
+        /// Send a map to server.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void SaveMapToServer(object sender, RoutedEventArgs e)
         {
+            mSaveServerMapPrompt.GiveFocus();
             mSaveServerMapPrompt.ShowDialog();
+  
+            // TODO
+            // Save to server!
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.RestartGameMenuHandle()
+        ///
+        /// Show/Hide the restart game option.
+        /// 
+        /// @param[in] bool : hide or show.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void RestartGameMenuHandle(bool pMustBeCollapse)
         {
             mRestartGameMenuItem.Visibility = pMustBeCollapse ? Visibility.Collapsed : Visibility.Visible;

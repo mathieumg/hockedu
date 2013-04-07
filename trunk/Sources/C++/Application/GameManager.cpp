@@ -20,6 +20,7 @@
 #include "Runnable.h"
 #include "..\Reseau\Paquets\PaquetGameStatus.h"
 #include "..\Reseau\ObjetsGlobaux\PartieServeurs.h"
+#include "PartieApprentissage.h"
 
 
 
@@ -115,39 +116,42 @@ GameManager::~GameManager()
 /// @return int
 ///
 ////////////////////////////////////////////////////////////////////////
-int GameManager::addNewGame(GameType gametype, SPJoueurAbstrait pJoueur1 /*= 0*/, SPJoueurAbstrait pJoueur2 /*= 0*/, bool pForceParameters /*=false*/, int pGameId /*=-1*/)
+int GameManager::addNewGame(GameType gametype, SPJoueurAbstrait pJoueur1 /*= 0*/, SPJoueurAbstrait pJoueur2 /*= 0*/, bool pForceParameters /*=false*/,  bool pIsLearningGame /*=false*/, int pGameId /*=-1*/)
 {
 	Partie* wGame;
     int wId = pGameId;
+    SPJoueurAbstrait wJoueur1, wJoueur2;
+    GameType wGameType = gametype;
     if(pGameId == -1)
     {
         wId = GameManager::getNewUniqueGameId();
     }
 	if(pJoueur2 == 0)
 	{
-		
-		if(pForceParameters)
-		{
-			// Si on veut forcer la creation de la partie avec les parametres de joueurs
-            wGame = new Partie(gametype,pJoueur1, pJoueur2, wId);
+        // Joueur 1 toujours setté
+        wJoueur1 = pJoueur1;
+        if(pForceParameters)
+        {
+            // Si on veut forcer la creation de la partie avec les parametres de joueurs
+            wJoueur2 = pJoueur2;
 		}
         else if(mAdversaire)
         {
             // Si adversaire defini, on lance avec l'adversaire
-            wGame = new Partie(gametype,pJoueur1, mAdversaire, wId);
+            wJoueur2 = mAdversaire;
         }
 		else
 		{
-			// Si adversaire pas defini, on lance avec un joueur Humain
-			wGame = new Partie(gametype,pJoueur1,SPJoueurAbstrait(new JoueurHumain("Joueur Droit")), wId);
+            // Si adversaire pas defini, on lance avec un joueur Humain
+            wJoueur2 = SPJoueurAbstrait(new JoueurHumain("Joueur Droit"));
 		}
 	}
 	else
 	{
 		if(pJoueur1)
 		{
-			// Demarre une partie avec les 2 joueurs passes en parametre
-			wGame = new Partie(gametype,pJoueur1, pJoueur2, wId);
+            wJoueur1 = pJoueur1;
+            wJoueur2 = pJoueur2;
 		}
 		else
 		{
@@ -155,6 +159,15 @@ int GameManager::addNewGame(GameType gametype, SPJoueurAbstrait pJoueur1 /*= 0*/
 			checkf(0)
 		}
 	}
+    if(pIsLearningGame)
+    {
+        wGame = new PartieApprentissage(wGameType, wJoueur1, wJoueur2, wId);
+    }
+    else
+    {
+        wGame = new Partie(wGameType, wJoueur1, wJoueur2, wId);
+    }
+
     bool wGameAdded = false;
     int wTryCount = 0;
     std::vector<GameUpdateCallback> wListeCallbacks;

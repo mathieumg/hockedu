@@ -60,6 +60,8 @@
 			<Add directory="../../../../Commun/Externe/MySQL++/CodeBlocks" />
 			<Add directory="../../../../Commun/Externe/MySQL/lib" />
 		</Linker>
+		<Unit filename="../../../../Commun/Utilitaire/Solution_Defines.cpp" />
+		<Unit filename="../../../../Commun/Utilitaire/Solution_Defines.h" />
 		<Unit filename="../../Reseau/CommunicateurReseau.cpp" />
 		<Unit filename="../../Reseau/CommunicateurReseau.h" />
 		<Unit filename="../../Reseau/ControllerCPP.h" />
@@ -101,6 +103,7 @@
 		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerConnAutomatique.h" />
 		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerEvent.cpp" />
 		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerEvent.h" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerGameConnection.cpp" />
 		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerGameCreation.cpp" />
 		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerGameStatus.cpp" />
 		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerGameStatus.h" />
@@ -120,6 +123,8 @@
 		<Unit filename="../../Reseau/Paquets/PaquetConnAutomatique.h" />
 		<Unit filename="../../Reseau/Paquets/PaquetEvent.cpp" />
 		<Unit filename="../../Reseau/Paquets/PaquetEvent.h" />
+		<Unit filename="../../Reseau/Paquets/PaquetGameConnection.cpp" />
+		<Unit filename="../../Reseau/Paquets/PaquetGameConnection.h" />
 		<Unit filename="../../Reseau/Paquets/PaquetGameCreation.cpp" />
 		<Unit filename="../../Reseau/Paquets/PaquetGameCreation.h" />
 		<Unit filename="../../Reseau/Paquets/PaquetGameStatus.cpp" />
@@ -140,6 +145,7 @@
 		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetChatMessage.h" />
 		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetConnAutomatique.h" />
 		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetEvent.h" />
+		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetGameConnection.h" />
 		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetGameCreation.h" />
 		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetGameStatus.h" />
 		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetLoginInfo.h" />

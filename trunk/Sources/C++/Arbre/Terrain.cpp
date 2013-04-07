@@ -1293,14 +1293,15 @@ void Terrain::BeginContact( b2Contact* contact )
 	            NodeBonus* bonus = (NodeBonus*)(bodies[1]->GetUserData());
 	            NoeudRondelle* rondelle = (NoeudRondelle*)(bodies[0]->GetUserData());
 	
-                /*if(mGame->isNetworkServerGame())
+                if(mGame->isNetworkServerGame())
                 {
                     PaquetBonus* wPaquet = (PaquetBonus*) GestionnaireReseau::obtenirInstance()->creerPaquet(BONUS);
                     wPaquet->setGameId(mGame->getUniqueGameId());
-                    wPaquet->setBonusType()
-                    wPaquet->setPosition(portailDeSortie->getPosition());
+                    wPaquet->setBonusType(bonus->getBonusType());
+                    wPaquet->setBonusAction(BONUS_ACTION_EXECUTE);
+                    wPaquet->setBonusPosition(bonus->getPosition());
                     RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
-                }*/
+                }
 
 	            // The execution ca modify box2D so we queue it
 	            Runnable* r = new Runnable([bonus,rondelle](Runnable*)
