@@ -115,7 +115,7 @@ public:
 
     void updateData(PartieServeurs* pUpdateData);
 
-    
+    bool isPasswordProtected() const {return mPassword.size() != 0;}
 };
 
 ///////////////////////////////////////////////////////////////////////////////

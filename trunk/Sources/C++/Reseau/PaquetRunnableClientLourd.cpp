@@ -27,6 +27,7 @@
 #include "GestionnaireHUD.h"
 #include "ObjetsGlobaux\PartieServeurs.h"
 #include "Paquets\PaquetPortal.h"
+#include "Paquets\PaquetGameCreation.h"
 #include "VisiteurCollision.h"
 #include "NodeBonus.h"
 
@@ -125,6 +126,39 @@ int PaquetRunnable::RunnableRondelleClient( Paquet* pPaquet )
 
 
 
+int PaquetRunnable::RunnableGameCreationClient( Paquet* pPaquet )
+{
+    PaquetGameCreation* wPaquet = (PaquetGameCreation*) pPaquet;
+
+    if(wPaquet->getGameId() == -1)
+    {
+        // Creation a echouee
+        std::cout << "Creation de partie echouee" << std::endl;
+    }
+    else
+    {
+        // Creation reussie
+        std::cout << "Creation de partie reussie" << std::endl;
+
+        GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer", wPaquet->getServerIP(), TCP);
+        SPSocket wSocketGameServer = GestionnaireReseau::obtenirInstance()->getSocket("GameServer", TCP);
+
+        //GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer", wPaquet->getServerIP(), UDP);
+
+        PaquetGameConnection* wPaquetConnexion = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);
+        wPaquetConnexion->setGameId(wPaquet->getGameId());
+        wPaquetConnexion->setGameServerId(wPaquet->getServerId());
+        wPaquetConnexion->setPassword(FacadeModele::getInstance()->getGameCreationPassword());
+
+        wSocketGameServer->setOnConnectionCallback([wPaquetConnexion]()->void{ GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquetConnexion, TCP); });
+
+    }
+
+    return 0;
+}
+
+
+
 int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
 {
     PaquetGameConnection* wPaquet = (PaquetGameConnection*) pPaquet;
@@ -162,7 +196,7 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
         {
             // Partie comporte deja 2 joueurs
             GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_GAME_FULL);
-
+            break;
         }
         // Dans tous les autres cas, la connection a echouee
     case GAME_CONNECTION_GAME_NOT_FOUND:
@@ -173,11 +207,13 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
         }
     case GAME_CONNECTION_WRONG_PASSWORD:
         {
+            GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_WRONG_PASSWORD_CS);
             std::cout << "Wrong Password: " << std::endl;
             break;
         }
     case GAME_CONNECTION_REJECTED:
         {
+            GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_GAME_CONNECTION_GENERAL_FAILURE);
             std::cout << "Connection rejected. No more info. Game: " << wPaquet->getGameId() << std::endl;
             break;
         }
@@ -199,9 +235,10 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
                 // Envoie de la requete de connexion au serveur jeu
                 wGestionnaireReseau->envoyerPaquet("GameServer", wPaquet, TCP);
             });
-            
+            break;
         }
     default:
+        GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_GAME_CONNECTION_GENERAL_FAILURE);
         std::cout << "Error occured connecting to game: " << wPaquet->getGameId() << std::endl;
         // State invalide, on ne fait rien
         break;
@@ -250,6 +287,7 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
 
                         GameManager::obtenirInstance()->startGame(wPaquet->getGameId()); 
                     }
+                    GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_SERVER_USER_CONNECTED);
                 });
                 RazerGameUtilities::RunOnUpdateThread(r,true);
                 break;
@@ -265,6 +303,7 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
                         wGame->modifierEnPause(true);
                         GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(true);
                     }
+                    GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_SERVER_USER_DISCONNECTED);
                     std::cout << "Other player disconnected" << std::endl;
                 });
                 RazerGameUtilities::RunOnUpdateThread(r,true);
@@ -313,8 +352,7 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
         case GAME_EVENT_GAME_ENDED:
             {
                 // Fin de la partie
-                // Pas utilise en ce moment car le nb de points est fixe et le client va le detecter anyways
-
+                GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_ENDED_CS);
                 break;
             }
         case GAME_EVENT_CHANGE_LAST_MALLET:

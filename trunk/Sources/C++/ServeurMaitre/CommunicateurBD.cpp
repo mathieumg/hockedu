@@ -78,10 +78,16 @@ int CommunicateurBD::authenticate( const std::string& pPlayerName, const std::st
                     wUserId = (int)((*it)[0]); // The user's id is the first element of the returned row.
                 }
             }
+
+            if(wUserId == -1)
+            {
+                throw ExceptionReseau("Mot de passe invalide");
+            }
         }
         catch(const mysqlpp::Exception& e)
         {
             std::cerr << "Error while reading database: " << e.what() << std::endl;
+            throw ExceptionReseauBD("Erreur lors de la communication a la BD pour le authenticate");
         }
 
         /*mysqlpp::Connection conn = mConnection;
@@ -95,6 +101,10 @@ int CommunicateurBD::authenticate( const std::string& pPlayerName, const std::st
                 std::cout << '\t' << row[0] << std::endl;
             }
         }*/
+    }
+    else
+    {
+        throw ExceptionReseauBD("Erreur de connexion a la BD pour le authenticate");
     }
 	return wUserId;
 }

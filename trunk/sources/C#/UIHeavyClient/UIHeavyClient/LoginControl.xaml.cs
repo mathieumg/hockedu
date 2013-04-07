@@ -676,6 +676,16 @@ namespace UIHeavyClient
                     } );
                     break;
                 }
+                case EventCodes.DATABASE_CONNECTION_ERROR:
+                {
+                    MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                    {
+                        wThis.SetUserMessageFeedBack("Database connection error (server side)", true);
+                        wThis.UnBlockUIContent();
+                        mCurrentRequest=null;
+                    });
+                    break;
+                }
                 default: break;
                 }
             }

@@ -243,6 +243,7 @@ private:
 	
     /// Indique si ce terrain est utilisé pour jouer ou pour l'édition
     Partie* mGame;
+    bool mIsSimulation;
 
     /// pointeur sur la zamboni
     class NodeModelRender* mZamboni;
@@ -296,6 +297,8 @@ private:
     
 /// Accesseurs
 public:
+    inline bool getIsSimulation() const { return mIsSimulation; }
+    inline void setIsSimulation(bool val) { mIsSimulation = val; }
     /// Accessors of mZamboni
     inline class NodeModelRender* getZamboni() const { return mZamboni; }
 	/// Accesseur de arbreRendu_

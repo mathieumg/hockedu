@@ -257,6 +257,7 @@ int PaquetRunnable::RunnableGameCreationServerGame( Paquet* pPaquet )
         //GameManager::obtenirInstance()->setMapForGame(wGameId, wPaquet->getMapName());
         Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
         wGame->setName(wPaquet->getGameName());
+        wGame->setPassword(wPaquet->getPassword());
 
         // On demarre le download de la map, c'est lui qui va set le fieldName une fois recu
         // Avant on sauvegarde la liaison entre le nom de la map et le id de la partie qui en a besoin
@@ -480,7 +481,7 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
             {
                 // Client demande une pause
 
-                if(wGame->getGameStatus() == GAME_STARTED)
+                if(wGame->getGameStatus() == GAME_STARTED && wGame->obtenirJoueurDroit() && wGame->obtenirJoueurDroit()->obtenirType() != JOUEUR_VIRTUEL && wGame->obtenirJoueurGauche() && wGame->obtenirJoueurGauche()->obtenirType() != JOUEUR_VIRTUEL)
                 {
                     wGame->modifierEnPause(true);
 
@@ -497,19 +498,23 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
                 // Client demande de refaire la mise au jeu
                 // On doit verifier que la rondelle ne bouge pas ou presque pas avant de lancer l'event
                 Terrain* wField = wGame->getField();
-                if(wField && wField->getPuck()->obtenirVelocite().norme() < 3.0f)
+                if(wField)
                 {
-                    // Vitesse assez basse
-                    RelayeurMessage::obtenirInstance()->relayerPaquetGame(wGame->getUniqueGameId(), wPaquet, TCP);
-                    int wGameId = wGame->getUniqueGameId();
-                    Runnable* r = new Runnable([wGameId](Runnable*){
-                        Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
-                        if(wGame)
-                        {
-                            wGame->miseAuJeu(false);
-                        }
-                    });
-                    RazerGameUtilities::RunOnUpdateThread(r,true);
+                    float wSpeed = wField->getPuck()->obtenirVelocite().norme();
+                    if(wSpeed < 320.0f)
+                    {
+                        // Vitesse assez basse
+                        RelayeurMessage::obtenirInstance()->relayerPaquetGame(wGame->getUniqueGameId(), wPaquet, TCP);
+                        int wGameId = wGame->getUniqueGameId();
+                        Runnable* r = new Runnable([wGameId](Runnable*){
+                            Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+                            if(wGame)
+                            {
+                                wGame->miseAuJeu(false);
+                            }
+                        });
+                        RazerGameUtilities::RunOnUpdateThread(r,true);
+                    }
                 }
                 break;
             }
@@ -559,7 +564,14 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
                     if(wChanged)
                     {
                         // Si joueur virtuel
-                        wGame->reloadControleMallet();
+                        if(wGame->getGameStatus() == GAME_NOT_READY)
+                        {
+                            GameManager::obtenirInstance()->getGameReady(wGameId);
+                        }
+                        else
+                        {
+                            wGame->reloadControleMallet();
+                        }
                         wGame->setGameStatus(GAME_STARTED);
 
                         PaquetGameEvent* wPaquetStartGame = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);

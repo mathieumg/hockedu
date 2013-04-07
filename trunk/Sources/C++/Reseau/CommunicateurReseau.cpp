@@ -26,6 +26,7 @@
 #include <sstream>
 #include <time.h>
 #include "../ServeurMaitre/ControllerServeurMaitre.h"
+#include "../ServeurMaitre/ExceptionsReseau/ExceptionReseauBD.h"
 
 // Taille maximale des buffers pour l<envoie et la reception
 unsigned int CommunicateurReseau::maxBufferSize = 5000;
@@ -939,7 +940,25 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
                         }
                         wNewSocket->recv((uint8_t*) &wPassword, 50, true);
 
-                        if((pSocketIdentifier = GestionnaireReseau::obtenirInstance()->authenticate(wPlayerName, wPassword)) == "")
+                        try 
+                        {
+                            pSocketIdentifier = GestionnaireReseau::obtenirInstance()->authenticate(wPlayerName, wPassword);
+                        }
+                        catch(ExceptionReseauBD&)
+                        {
+                            // Connexion rejetee
+                            wMessageConfirmation = DATABASE_CONNECTION_ERROR;
+                            ss.str(std::string());
+                            ss.clear();
+
+                            ss << wMessageConfirmation;
+                            wNewSocket->send((uint8_t*)ss.str().c_str(), 3, true);
+
+                            wNewSocket->disconnect();
+                            wNewSocket = 0;
+                            continue; // On ne veut pas retourner un status connected alors on skip le reste de la boucle
+                        }
+                        catch(ExceptionReseau&)
                         {
                             // Connexion rejetee
                             wMessageConfirmation = WRONG_PASSWORD;
@@ -952,9 +971,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
                             wNewSocket->disconnect();
                             wNewSocket = 0;
                             continue; // On ne veut pas retourner un status connected alors on skip le reste de la boucle
-
                         }
-
                     }
 
 
