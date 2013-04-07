@@ -24,14 +24,14 @@ extern int const HAUTEUR_FENETRE;
 
 @interface CarouselElement : NSObject
 {
+    NSString* LabelValue;
+    NSString* ImageName;
+    @public
     EditorStateName ModifType;
-    NSString *LabelValue;
-    NSString *ImageName;
-    
 }
 
-@property (nonatomic, retain) NSString* LabelValue;
-@property (nonatomic, retain) NSString* ImageName;
+@property (readwrite, nonatomic, retain) NSString* LabelValue;
+@property (readwrite, nonatomic, retain) NSString* ImageName;
 
 @end
 

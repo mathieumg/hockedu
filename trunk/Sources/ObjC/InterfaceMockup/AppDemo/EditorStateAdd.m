@@ -9,13 +9,15 @@
 #import "EditorStateAdd.h"
 #import "Enum_Declarations.h"
 @implementation EditorStateAdd
+FieldModificationStrategyType currentType;
 -(EditorStateAdd*) init:(FieldModificationStrategyType)type
 {
+    currentType = type;
     return self;
 }
 -(void)touchesBegan:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model
 {
-    [model beginModification:FIELD_MODIFICATION_ADD_PORTAL:coordVirt];
+    [model beginModification:currentType:coordVirt];
 }
 -(void)touchesMoved:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model
 {
