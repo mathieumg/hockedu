@@ -7,6 +7,7 @@
     </head>
 
     <body>
+        <div id="topbar"><a href="/login">Login</a> | <a href="/register">Register</a></div>
         <div id="logo"></div>
         <div id="container">
             {* Include the menu at the top *}
