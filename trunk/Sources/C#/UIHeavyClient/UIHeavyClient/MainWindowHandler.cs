@@ -42,6 +42,7 @@ namespace UIHeavyClient
         private static string mCurrentMap = "";
         private static OpenFileDialog mOpenFileDialog = new OpenFileDialog();
         private static Microsoft.Win32.SaveFileDialog mSaveFileDialog = new Microsoft.Win32.SaveFileDialog();
+        private static int mMapId = -1;
 
         // Properties
         public static MainWindow Context
@@ -53,6 +54,11 @@ namespace UIHeavyClient
         {
             get { return mCurrentMap; }
             set { mCurrentMap = value; }
+        }
+        public static int MapId
+        {
+            get { return mMapId; }
+            set { mMapId = value; }
         }
 
         public static TaskManager mTaskManager = new TaskManager();
@@ -203,6 +209,8 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public static void GoToMainMenu()
         {
+            SynchroniseAchievements();
+
             if(CallbackManager.ChangeGameMode(GameState.GAME_STATE_MAIN_MENU))
             {
                 if (ActionPerformed(ActionType.ACTION_ALLER_MENU_PRINCIPAL))
@@ -419,18 +427,6 @@ namespace UIHeavyClient
             Console.WriteLine(pStatus);
             Console.WriteLine(pMapId);
         }
-        ////////////////////////////////////////////////////////////////////////
-        /// @fn void MainWindowHandler.SaveMapToServer()
-        ///
-        /// Online save.
-        ///
-        /// @return void.
-        ////////////////////////////////////////////////////////////////////////
-        public static void SaveMapToServer(int pUserId, string pAuthenticationKey, string pMapName, string pMapDescription, bool pMapPublic, string pFilepath, int pMapId)
-        {
-            HttpManager wHttpManager = new HttpManager();
-            wHttpManager.sendMap(pUserId, pAuthenticationKey, pMapName, pMapDescription, pMapPublic, pFilepath, pMapId, CallbackMapUploaded); 
-        }
 
         ////////////////////////////////////////////////////////////////////////
         /// @fn void MainWindowHandler.LoadPlayingMap()
@@ -457,6 +453,44 @@ namespace UIHeavyClient
         {
             CallbackManager.ChangeGameMode(GameState.GAME_STATE_NONE);
         }
+
+
+        public static void UploadAchievementsResponse( UploadOperationStatus pStatus )
+        {
+            if ( pStatus == UploadOperationStatus.UPLOAD_SUCCESS )
+            {
+                HttpManager wManager = new HttpManager();
+                wManager.downloadAchievements( LoginControl.mLoginInfo.mUserId, LoginControl.mLoginInfo.mAuthKey, DownloadAchievementsResponse );
+            }
+            else
+            {
+                Console.WriteLine( pStatus );
+            }
+        }
+
+        [DllImport( @"RazerGame.dll", CallingConvention = CallingConvention.Cdecl )]
+        public static extern void ReloadAchievementsProgress();
+
+        public static void DownloadAchievementsResponse( DownloadOperationStatus pStatus )
+        {
+            Console.WriteLine( pStatus );
+            if ( pStatus == DownloadOperationStatus.DOWNLOAD_SUCCESS )
+            {
+                ReloadAchievementsProgress();
+            }
+        }
+        
+
+        public static void SynchroniseAchievements()
+        {
+            if(LoginControl.mLoginInfo.mAuthOnWeb)
+            {
+                HttpManager wManager = new HttpManager();
+                wManager.uploadAchievements( LoginControl.mLoginInfo.mUserId, LoginControl.mLoginInfo.mAuthKey, UploadAchievementsResponse );
+            }
+        }
+
+
     }
 }
 
