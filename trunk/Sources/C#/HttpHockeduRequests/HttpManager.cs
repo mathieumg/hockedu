@@ -18,7 +18,7 @@ namespace HttpHockeduRequests
 
     // Declaration des delegates pour les callback des retours de fonction des workers
     public delegate void MapsListLoadedCallBack( List<UserMapDetailedJSON> pList );
-    public delegate void MapDownloadedCallBack( string pFilepath );
+    public delegate void MapDownloadedCallBack( string pFilepath, int pMapId = -1 );
     public delegate void MapUploadCallback( UploadOperationStatus pStatus, int pMapId = -1 );
     public delegate void AchievementsUploadCallback( UploadOperationStatus pStatus );
     public delegate void AchievementsDownloadedCallback( DownloadOperationStatus pStatus );

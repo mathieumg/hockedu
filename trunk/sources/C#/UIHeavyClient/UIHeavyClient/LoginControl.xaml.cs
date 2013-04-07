@@ -531,6 +531,14 @@ namespace UIHeavyClient
                 SetUserMessageFeedBack("Cancel requested", false);
                 mCurrentRequest = null;
             }
+            else
+            {
+                WebLogin wl = WebLogin.getInstance();
+                if (wl != null)
+                {
+                    wl.Close();
+                }
+            }
             UnBlockUIContent();
         }
 

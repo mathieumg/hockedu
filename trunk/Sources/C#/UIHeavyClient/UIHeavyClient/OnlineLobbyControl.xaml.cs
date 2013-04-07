@@ -161,6 +161,19 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         private void mEditionModeButton_Click(object sender, RoutedEventArgs e)
         {
+
+            if (LoginControl.mLoginInfo.mAuthOnWeb)
+            {
+                HttpRequestForLoadingMap();
+            }
+            else
+            {
+                WebLogin.CreateWebLoginWindow(HttpRequestForLoadingMap);
+            }
+        }
+
+        private void HttpRequestForLoadingMap()
+        {
             mServerMapPrompt = new ServerMapPrompt();
             mServerMapPrompt.GetServerMaps();
             mServerMapPrompt.ShowDialog();
@@ -172,7 +185,7 @@ namespace UIHeavyClient
                     mFeedbackLabel.Content = "Loading, please wait...";
                     HandleUIButtons(false);
 
-                    mHttpManager.downloadMap(12, mServerMapPrompt.SelectedMap.id, HandleDownloadedMap);
+                    mHttpManager.downloadMap(Convert.ToInt32(LoginControl.mLoginInfo.mUserId), mServerMapPrompt.SelectedMap.id, HandleDownloadedMap);
                 }
             }
 
@@ -327,7 +340,7 @@ namespace UIHeavyClient
         ///
         /// @return void.
         ////////////////////////////////////////////////////////////////////////
-        public void CallbackMapDownloaded(string pOutputPath)
+        public void CallbackMapDownloaded(string pOutputPath, int pMapId)
         {
             MainWindowHandler.mTaskManager.ExecuteTask(() =>
             {
@@ -350,7 +363,7 @@ namespace UIHeavyClient
                 if(wMap.name == wMapToFind)
                 {
                     // Trouve, pas besoin du user_id pcq la map devrait etre publique si une partie a ete creee avec
-                    MainWindowHandler.Context.OnlineLobbyControl.mHttpManager.downloadMap(12, wMap.id, MainWindowHandler.Context.OnlineLobbyControl.CallbackMapDownloaded);
+                    MainWindowHandler.Context.OnlineLobbyControl.mHttpManager.downloadMap(Convert.ToInt32(LoginControl.mLoginInfo.mUserId), wMap.id, MainWindowHandler.Context.OnlineLobbyControl.CallbackMapDownloaded);
                     break;
                 }
             }
@@ -510,11 +523,12 @@ namespace UIHeavyClient
         ///
         /// @return void.
         ////////////////////////////////////////////////////////////////////////
-        public void HandleDownloadedMap(string pFilepath)
+        public void HandleDownloadedMap(string pFilepath, int pMapId)
         {
             // Load the map to edition mode
             MainWindowHandler.mTaskManager.ExecuteTask(() =>
             {
+                MainWindowHandler.MapId = pMapId;
                 MainWindowHandler.LoadMapFromLocal(pFilepath);
                 MainWindowHandler.GoToEditionMode();
             });
