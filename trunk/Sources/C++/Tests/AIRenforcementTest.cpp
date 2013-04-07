@@ -7,6 +7,8 @@
 #include "JoueurVirtuel.h"
 #include "AIMaillet.h"
 #include "AIStratOffensiveRenforcement.h"
+#include "FacadeModele.h"
+#include "GameManager.h"
 
 // Enregistrement de la suite de tests au sein du registre
 CPPUNIT_TEST_SUITE_REGISTRATION( AIRenforcementTest );
@@ -22,12 +24,10 @@ CPPUNIT_TEST_SUITE_REGISTRATION( AIRenforcementTest );
 ////////////////////////////////////////////////////////////////////////
 void AIRenforcementTest::setUp()
 {
-	partie = new Partie(GAME_TYPE_OFFLINE,SPJoueurAbstrait(new JoueurVirtuel("")),SPJoueurAbstrait(new JoueurVirtuelRenforcement("")));
-	//joueur = partie->obtenirJoueurDroit();
-	// Creation du terrain
-	partie->getField()->creerTerrainParDefaut("");
-	partie->getReadyToPlay();
-	//partie->modifierJoueurDroit(SPJoueurAbstrait(new JoueurVirtuelRenforcement("")));
+    GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, SPJoueurAbstrait(new JoueurVirtuel("")),SPJoueurAbstrait(new JoueurVirtuelRenforcement("")), true, false, 9000);
+	GameManager::obtenirInstance()->getGameReady(9000);
+    FacadeModele::getInstance()->setPartieCourante(9000);
+    partie = GameManager::obtenirInstance()->getGame(9000);
 }
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -41,7 +41,6 @@ void AIRenforcementTest::setUp()
 ////////////////////////////////////////////////////////////////////////
 void AIRenforcementTest::tearDown()
 {
-	delete partie;
 }
 ////////////////////////////////////////////////////////////////////////
 ///
