@@ -62,8 +62,8 @@ public:
 	~Partie(void);
 
 	/// Modificateur des points des joueurs
-	void incrementerPointsJoueurGauche(bool pForceUpdate = false);
-	void incrementerPointsJoueurDroit(bool pForceUpdate = false);
+	virtual void incrementerPointsJoueurGauche(bool pForceUpdate = false);
+	virtual void incrementerPointsJoueurDroit(bool pForceUpdate = false);
 
 	/// Assignation d'un joueur à la partie, S'assurer que le pointeur est unique !!!
 	void assignerJoueur( SPJoueurAbstrait joueur );
@@ -98,7 +98,7 @@ public:
 	
 	/// Gestion de l'affichage du décompte de mise au jeu
 	void afficher();
-	void animer( const float& temps);
+	virtual void animer( const float& temps);
     void animerBase( const float& temps );
 
 	void vider();
@@ -151,11 +151,14 @@ public:
     PuckProjection getPuckProjection(float pPosX, int pDelaisMaxMs = 1000); 
 
 
-/// Methode Privee
-private:
+/// Protected because we need to call these from the class' children
+protected:
 
     /// Constructeur par paramètres
 	Partie(GameType gameType,SPJoueurAbstrait joueurGauche = 0, SPJoueurAbstrait joueurDroit = 0, int uniqueGameId = 0, const std::vector<GameUpdateCallback>& updateCallback = std::vector<GameUpdateCallback>());
+
+    /// Terrain associé à la partie, son scope est le meme que la partie
+    Terrain* mField;
 
 /// Attributs
 private:
@@ -181,8 +184,6 @@ private:
 
 	/// Indique si cette
 	bool faitPartieDunTournoi_;
-    /// Terrain associé à la partie, son scope est le meme que la partie
-    Terrain* mField;
 
     /// Terrain pour les simulations physiques
     Terrain* mFieldSimulation;
@@ -241,11 +242,11 @@ public:
 
 	/// Accesseur du joueur1
 	inline SPJoueurAbstrait obtenirJoueurDroit() const { return joueurDroit_; }
-	void modifierJoueurDroit(SPJoueurAbstrait val);
+	virtual void modifierJoueurDroit(SPJoueurAbstrait val);
 
 	/// Accesseur du joueur1
 	inline SPJoueurAbstrait obtenirJoueurGauche() const { return joueurGauche_; }
-	void modifierJoueurGauche(SPJoueurAbstrait val);
+	virtual void modifierJoueurGauche(SPJoueurAbstrait val);
 
 	/// Accesseur et modificateur pour le terrain
     const std::string& getFieldName() const;

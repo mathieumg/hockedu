@@ -12,6 +12,13 @@
 #include "Renforcement\AILearner.h"
 #include <stdlib.h>
 #include "JoueurVirtuelRenforcement.h"
+#include "GameManager.h"
+#include "JoueurHumain.h"
+#include "PartieApprentissage.h"
+#include "Terrain.h"
+#include <iosfwd>
+
+bool AiLearnerTests::mDataSavingFinished = false;
 
 // Enregistrement de la suite de tests au sein du registre
 CPPUNIT_TEST_SUITE_REGISTRATION( AiLearnerTests );
@@ -33,7 +40,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( AiLearnerTests );
 ////////////////////////////////////////////////////////////////////////
 void AiLearnerTests::setUp()
 {
-    CPPUNIT_ASSERT(AILearner::obtenirInstance()->init("C:/temp/testAiLearner.airaw", Vecteur2(-1000.0f, 400.0f), Vecteur2(1000.0f, -400.0f)));
+    CPPUNIT_ASSERT(AILearner::obtenirInstance()->init("./testAiLearner.airaw", Vecteur2(-1000.0f, 400.0f), Vecteur2(1000.0f, -400.0f)));
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -103,13 +110,6 @@ void AiLearnerTests::testAddNewDataAndSaveRawBinary()
 
     // When implemented, reload the binary and compare data
 
-
-
-
-
-
-
-
 }
 
 
@@ -127,21 +127,18 @@ int CallbackTestAiLearner(bool pOperationSuccess)
 void AiLearnerTests::testConvertData()
 {
     FacadePortability::sleep(1000);
-    std::string wFolderPath = "C:/temp";
+    std::string wFolderPath = "./";
     std::string wFilename = "unitTest";
 
     AILearner::convertirDonneesRaw(wFolderPath, wFilename, CallbackTestAiLearner);
-
-
 }
-
 
 
 void AiLearnerTests::testReloadAiLogic()
 {
     // Reinit pcq une fois que le test est termine, le liberer instance est appele et la dimension de la map devient nulle
-    AILearner::obtenirInstance()->init("C:/temp/testAiLearner2.airaw", Vecteur2(-1000.0f, 400.0f), Vecteur2(1000.0f, -400.0f));
-    JoueurVirtuelRenforcement wJoueur("C:/temp/unitTest.ailogic");
+    AILearner::obtenirInstance()->init("./testAiLearner2.airaw", Vecteur2(-1000.0f, 400.0f), Vecteur2(1000.0f, -400.0f));
+    JoueurVirtuelRenforcement wJoueur("./unitTest.ailogic");
     AiRuntimeInfosInput wInfos;
     wInfos.positionAi[VX] = 0;
     wInfos.positionAi[VY] = 0;
@@ -158,7 +155,6 @@ void AiLearnerTests::testReloadAiLogic()
     wInfos.positionRondelle[VX] = 50;
     wInfos.positionRondelle[VY] = 20;
 
-
     AiRuntimeInfosOutput wAction = wJoueur.getActionFor(
         Vecteur3(0.0f, 0.0f, 0.0f),         // Pos AI
         Vecteur3(-3.0f , 10.0f, 0.0f),      // Velocite AI
@@ -166,6 +162,70 @@ void AiLearnerTests::testReloadAiLogic()
         Vecteur3(-5.0f , -10.0f, 0.0f),     // Velocite Rondelle
         Vecteur3(10.0f, 20.0f, 0.0f)       // Pos joueur adverse
     );
+}
+
+void AiLearnerTests::testLearningGame()
+{
+    char* wOutputFolder = "LearningTest/";
+
+    FacadePortability::createDirectory(wOutputFolder);
+    GameManager* wGameManager = GameManager::obtenirInstance();
+    SPJoueurAbstrait wDummyPlayer(new JoueurHumain("Asd"));
+    std::ostringstream wRawDataOutputFile;
+    wRawDataOutputFile << wOutputFolder << "TestAI" << AI_LEARNER_RAW_DATA_EXTENSION;
+    AILearner::obtenirInstance()->changerRepertoireOutput(wRawDataOutputFile.str());
+    SPJoueurAbstrait wLearningAI(new JoueurVirtuelRenforcement(wRawDataOutputFile.str()));
+    int wGameId = wGameManager->addNewGame(GAME_TYPE_OFFLINE, wDummyPlayer, wLearningAI, false, true);
+    PartieApprentissage* wGame = (PartieApprentissage*)wGameManager->getGame(wGameId);
+    Terrain* wField = wGame->getField();
+    wField->creerTerrainParDefaut("");
+    wGame->getReadyToPlay();
+    NoeudMaillet* wLearningMallet = wField->getRightMallet();
+    NoeudRondelle* wPuck = wField->getPuck();
+    float wTimeElapsed = 10.0/1000.0;
+    wPuck->setPosition(Vecteur3(-5,0,0));
+    wGame->animer(wTimeElapsed);
+    wPuck->setPosition(Vecteur3(5,0,0)); 
+    wGame->animer(wTimeElapsed); // Should generate a (75,0,0), (0,0,0), (5, 0, 0), (0, 0, 0), (-75, 0, 0), [action] learning.
+    wPuck->setPosition(Vecteur3(-5,0,0));
+    wGame->animer(wTimeElapsed);
+    wPuck->setPosition(Vecteur3(4,0,0));
+    wGame->animer(wTimeElapsed); // Gives result AI_OUTPUT_RIEN to previous learning and starts a new learning with the data (75,0,0), (0,0,0), (4, 0, 0), (0, 0, 0), (-75, 0, 0), [action]
+    wPuck->setPosition(Vecteur3(-5,0,0));
+    wGame->animer(wTimeElapsed);
+    wGame->incrementerPointsJoueurDroit(); // Gives result AI_OUTPUT_BUT_COMPTE to previous learning.
+    wPuck->setPosition(Vecteur3(6,0,0));
+    wGame->animer(wTimeElapsed); // Starts a new learning with the data (75,0,0), (0,0,0), (6, 0, 0), (0, 0, 0), (-75, 0, 0), [action]
+    wPuck->setPosition(Vecteur3(-5,0,0));
+    wGame->animer(wTimeElapsed);
+    wGame->incrementerPointsJoueurGauche(); // Gives result AI_OUTPUT_ADVERSAIRE_BUT_COMPTE to previous learning.
+    wPuck->setPosition(Vecteur3(5,0,0));
+
+    AILearner::obtenirInstance()->dump();
+
+    std::ostringstream wConvertedDataOutputFile, wOutputFileName;
+    wOutputFileName << "TestAI" << AI_LEARNER_RUNTIME_DATA_EXTENSION;
+    wConvertedDataOutputFile << wOutputFolder << wOutputFileName.str();
+    CPPUNIT_ASSERT(AILearner::obtenirInstance()->convertirDonneesRaw(wOutputFolder, wOutputFileName.str(),notifyDataSavingFinished));
+    
+    FacadePortability::sleep(100);
+    CPPUNIT_ASSERT(mDataSavingFinished);
+
+    auto wLoadedAi = dynamic_pointer_cast<JoueurVirtuelRenforcement>(SPJoueurAbstrait(new JoueurVirtuelRenforcement(wConvertedDataOutputFile.str())));
+
+    Vecteur3 wAIPosition(75,0,0),
+             wAIVelocity(0,0,0),
+             wPuckVelocity(0,0,0),
+             wOpponentPosition(-75,0,0);
+    Vecteur3 wPuckPosition(5,0,0);
+
+    CPPUNIT_ASSERT(wLoadedAi->hasMapEntryFor(wAIPosition,wAIVelocity, wPuckPosition, wPuckVelocity, wOpponentPosition));
+    wPuckPosition = Vecteur3(4,0,0);
+    CPPUNIT_ASSERT(wLoadedAi->hasMapEntryFor(wAIPosition,wAIVelocity, wPuckPosition, wPuckVelocity, wOpponentPosition));
+    wPuckPosition = Vecteur3(6,0,0);
+    CPPUNIT_ASSERT(wLoadedAi->hasMapEntryFor(wAIPosition,wAIVelocity, wPuckPosition, wPuckVelocity, wOpponentPosition));
+    wPuckPosition = Vecteur3(78,0,0);
+    CPPUNIT_ASSERT(!wLoadedAi->hasMapEntryFor(wAIPosition,wAIVelocity, wPuckPosition, wPuckVelocity, wOpponentPosition));
 }
 
 

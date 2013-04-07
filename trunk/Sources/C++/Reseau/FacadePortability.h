@@ -66,6 +66,7 @@ typedef SOCKET HANDLE_SOCKET;
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/socket.h>
+#include <sys/stat.h>
 #include <errno.h>
 typedef pthread_mutex_t HANDLE_MUTEX;
 typedef pthread_t       HANDLE_THREAD;
@@ -234,6 +235,22 @@ namespace FacadePortability {
         return WSAGetLastError();
 #else
         return errno;
+#endif
+    }
+
+    inline void createDirectory(char* dirName)
+    {
+#ifdef WIN32
+        CreateDirectoryA(
+            dirName,
+            NULL
+            );
+#else
+        struct stat st = {0};
+        if (stat(dirName, &st) == -1)
+        {
+            mkdir(dirName, 0777);
+        }
 #endif
     }
 

@@ -76,6 +76,7 @@ public:
 
 	/// Pour les test unitaires
 	friend GestionnaireEvenementsTest;
+    friend AIRenforcementTest;
 
 	/// Obtient l'instance unique de la classe.
 	static FacadeModele* getInstance();
@@ -273,6 +274,7 @@ private:
 
 	/// Pointeur sur la partie courante
 	int partieCourante_;
+    void setPartieCourante(int pPartieCouranteId) {partieCourante_ = pPartieCouranteId;}
 
     /// Pointeur sur la prochaine partie
     int prochainePartie_;

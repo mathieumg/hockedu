@@ -2,7 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include "PacketHandler.h"
-#include "..\Paquets\PaquetBonus.h"
+#include "../Paquets/PaquetBonus.h"
 
 
 void PacketHandlerBonus::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable)
