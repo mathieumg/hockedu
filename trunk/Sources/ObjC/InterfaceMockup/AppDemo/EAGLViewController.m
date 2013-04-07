@@ -61,6 +61,7 @@ enum {
 @synthesize mEventManager;
 @synthesize carousel;
 @synthesize items;
+@synthesize carouselElements;
 // Pie menu
 @synthesize pieMenu;
 @synthesize labelPieMenu;
@@ -68,7 +69,7 @@ enum {
 - (void)awakeFromNib
 {
     self.items = [NSMutableArray array];
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 6; i++)
     {
         [items addObject:[NSNumber numberWithInt:i]];
     }
@@ -114,6 +115,9 @@ enum {
     buttonImagePressed = [[UIImage imageNamed:@"blueButtonPressed@2x.png"]
                                      resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     
+    carouselBackgroundImage = [UIImage imageNamed:@"carouselBackground.png"];
+    carouselBackgroundSelected = [UIImage imageNamed:@"carouselBackgroundHighlight.png"];
+    
     // Set the background for any states you plan to use
     [saveButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [saveButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
@@ -141,6 +145,17 @@ enum {
     
     [cameraButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [cameraButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    /*
+    CarouselElement *element1 = [[CarouselElement alloc] init];
+    
+    element1->ModifType=EDITOR_STATE_AJOUTER_ACCELERATEUR;
+    element1->LabelValue = @"Maillet";
+    element1->ImageName = @"SomeImage";
+    [[carouselElements alloc] initWithObjects:element1];
+     */
+    
+    [self pressButtonUI:selectButton];
     
     [buttonImage retain];
     [buttonImageHighlight retain];
@@ -184,6 +199,9 @@ enum {
     [propertyTableViewController release];
     [propertyTableView release];
     [tablePropertiesCell release];
+    [leftArrowButton release];
+    [rightArrowButton release];
+    [carouselBackground release];
     [super dealloc];
 }
 
@@ -258,22 +276,27 @@ enum {
     
     UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchDetected:)];
     
+    UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeDetected:)];
+    
     [rotationGesture setDelegate:self];
     //[longPressGesture setDelegate:self];
     //[longPressGesture setNumberOfTapsRequired:2];
     [longPressGesture setDelegate:self];
     //[longPressGesture setCancelsTouchesInView:YES];
     [pinchGesture setDelegate:self];
+    [swipeGesture setDelegate:self];
     
     [mGLView addGestureRecognizer:rotationGesture];
     //[mGLView addGestureRecognizer:longPressGesture];
     [mGLView addGestureRecognizer:longPressGesture];
     [mGLView addGestureRecognizer:pinchGesture];
+    [carousel addGestureRecognizer:swipeGesture];
     
     [rotationGesture release];
     //[longPressGesture release];
     [longPressGesture release];
     [pinchGesture release];
+    [swipeGesture release];
     
     // FIN SETUP DES GESTURES
     
@@ -428,13 +451,18 @@ enum {
     }
     float currentScale = [(UIPinchGestureRecognizer*)sender scale];
     float diff = currentScale-__previousScale;
-    if(diff > 1.5 || diff < 0.5)
+    if(diff > 1.1 || diff < 0.9)
     {
         [mModel zoom:diff];
         __previousScale = currentScale; 
     }
     
     
+}
+
+- (IBAction)swipeDetected:(id)sender
+{
+    NSLog(@"swipe \n");
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
@@ -561,10 +589,28 @@ enum {
         [previouslySelected setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     }
     
-    [sender setBackgroundImage:buttonImagePressed forState:UIControlStateNormal];
-    [sender setBackgroundImage:buttonImagePressed forState:UIControlStateHighlighted];
-    
-    previouslySelected = sender;
+    if( sender != nil )
+    {
+        [sender setBackgroundImage:buttonImagePressed forState:UIControlStateNormal];
+        [sender setBackgroundImage:buttonImagePressed forState:UIControlStateHighlighted];
+        
+        previouslySelected = sender;
+        
+        [carouselBackground setImage:carouselBackgroundImage];
+    }
+}
+
+- (void)carouselSelectItem:(NSInteger)index
+{
+    NSLog(@"%d", index);
+    [carouselBackground setImage:carouselBackgroundSelected];
+    [self pressButtonUI:nil];
+}
+
+
+- (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index
+{
+   [self carouselSelectItem:index];
 }
 
 -(IBAction) cameraModeButtonTouched:(UIButton *)sender
@@ -575,6 +621,16 @@ enum {
 - (IBAction)editorModeButtonTouched:(UIButton *)sender
 {
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
+}
+
+- (IBAction)leftArrowButton:(UIButton *)sender
+{
+    [self.carousel scrollByNumberOfItems:-1 duration:0.3f];
+}
+
+- (IBAction)rightArrowButton:(UIButton *)sender
+{
+    [self.carousel scrollByNumberOfItems:1 duration:0.3f];
 }
 
 - (IBAction)selectToolButtonTouched:(UIButton *)sender
@@ -903,7 +959,7 @@ enum {
         //this `if (view == nil) {...}` statement because the view will be
         //recycled and used with other index values later
         view = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 98.0f, 92.0f)] autorelease];
-        ((UIImageView *)view).image = [UIImage imageNamed:@"aide32x32.png"];
+        ((UIImageView *)view).image = [UIImage imageNamed:@"outil_maillet.png"];
         view.contentMode = UIViewContentModeCenter;
         
         UILabel* label = [[[UILabel alloc] initWithFrame:view.bounds] autorelease];
@@ -926,6 +982,8 @@ enum {
     //you'll get weird issues with carousel item content appearing
     //in the wrong place in the carousel
     label.text = [[items objectAtIndex:index] stringValue];
+    
+    [self carouselSelectItem:index];
     
     return view;
 }
