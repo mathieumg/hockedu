@@ -615,7 +615,7 @@ bool RepartiteurActions::actionChangerModeCameraFixe()
 	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
-
+    FacadeModele::getInstance()->resetCurrentZoom();
 	FacadeModele::getInstance()->modifierVue(nouvelleVue);
 
 	return true; 

@@ -227,6 +227,9 @@ public:
 
     /// Nom du fichier XML dans lequel doit se trouver les joueurs.
     static const std::string FICHIER_JOUEURS;
+
+    inline void resetCurrentZoom(){mCurrentZoom = 0;}
+
 private:
    /// Constructeur par défaut.
    FacadeModele();
@@ -264,6 +267,11 @@ private:
 	/// Variables pour conserver les coins du zoom élastique.
 	Vecteur2i coinElastique1_;
 	Vecteur2i coinElastique2_;
+
+    // Zoom limits
+    int mCurrentZoom;
+    int mMinZoom;
+    int mMaxZoom;
 
 	/// Joueurs possibles
 	ConteneurJoueur profilsVirtuels_;
