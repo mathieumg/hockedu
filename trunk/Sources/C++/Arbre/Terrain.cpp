@@ -94,7 +94,8 @@ PRAGMA_DISABLE_OPTIMIZATION
 ////////////////////////////////////////////////////////////////////////
 Terrain::Terrain(Partie* pGame): 
     mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame),mZamboni(NULL),
-    mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL), mIsInit(false), mModifStrategy(NULL),mDoingUndoRedo(false),mCurrentState(NULL), mBesoinMiseAuJeu(false)
+    mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL), mIsInit(false), mModifStrategy(NULL),mDoingUndoRedo(false),mCurrentState(NULL), mBesoinMiseAuJeu(false),
+    mIsSimulation(false)
 #if __APPLE__
 /// pointer to the callback to do the render in objc
 ,mRenderObjC(NULL)
@@ -273,6 +274,140 @@ void Terrain::renderField()
         getZoneEdition()->afficher();
     if(mRenderTree)
         mRenderTree->render();
+
+
+#if MAT_DEBUG_
+    auto table = getTable();
+    if(table)
+    {
+        float hw[2];
+        table->calculerHautLongMax(hw);
+        float x1 = -hw[1];
+        float x2 = hw[1];
+        float y1 = -hw[0];
+        float y2 = hw[0];
+
+        const float intervalle = 10;
+        const float zValue = 1;
+        const int size = (int)( ( ( hw[0] + hw[1] )*2.f / intervalle ) + 5 ) * 3 * 2;
+        float *mRenderVertices = new float[size];
+
+        int mVerticesCount = 0;
+        // Vertical lines.
+        float curX = x1 - ((int)x1 % (int)intervalle);
+        // ajout de la ligne de depart
+        if(curX != x1)
+        {
+            mRenderVertices[ mVerticesCount++ ] = x1;
+            mRenderVertices[ mVerticesCount++ ] = y1;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+
+            mRenderVertices[ mVerticesCount++ ] = x1;
+            mRenderVertices[ mVerticesCount++ ] = y2;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+        }
+        // ajout des ligne intermediaires
+        for( ; curX < x2; curX += intervalle )
+        {
+            mRenderVertices[ mVerticesCount++ ] = curX;
+            mRenderVertices[ mVerticesCount++ ] = y1;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+
+            mRenderVertices[ mVerticesCount++ ] = curX;
+            mRenderVertices[ mVerticesCount++ ] = y2;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+        }
+        // ajout de la ligne finale
+        {
+            mRenderVertices[ mVerticesCount++ ] = x2;
+            mRenderVertices[ mVerticesCount++ ] = y1;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+
+            mRenderVertices[ mVerticesCount++ ] = x2;
+            mRenderVertices[ mVerticesCount++ ] = y2;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+        }
+
+
+
+        // Horizontal lines.
+        float curY = y1 - ((int)y1 % (int)intervalle);
+        // ajout de la ligne de depart
+        if(curY != y1)
+        {
+            mRenderVertices[ mVerticesCount++ ] = x1;
+            mRenderVertices[ mVerticesCount++ ] = y1;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+
+            mRenderVertices[ mVerticesCount++ ] = x2;
+            mRenderVertices[ mVerticesCount++ ] = y1;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+        }
+        // ajout des ligne intermediaires
+        for( ; curY < y2; curY += intervalle )
+        {
+            mRenderVertices[ mVerticesCount++ ] = x1;
+            mRenderVertices[ mVerticesCount++ ] = curY;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+
+            mRenderVertices[ mVerticesCount++ ] = x2;
+            mRenderVertices[ mVerticesCount++ ] = curY;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+        }
+        // ajout de la ligne finale
+        {
+            mRenderVertices[ mVerticesCount++ ] = x1;
+            mRenderVertices[ mVerticesCount++ ] = y2;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+
+            mRenderVertices[ mVerticesCount++ ] = x2;
+            mRenderVertices[ mVerticesCount++ ] = y2;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+        }
+
+        mVerticesCount /= 3;
+
+#if WIN32
+        // États de la lumière 
+        GLboolean lighting_state;
+        // Désactiver l'éclairage
+        glGetBooleanv(GL_LIGHTING, &lighting_state);
+        glDisable(GL_LIGHTING);
+        FacadeModele::getInstance()->DeActivateShaders();
+#endif
+
+        // Dessin de la zone d'édition
+        glPushMatrix();
+        glPushAttrib(GL_ALL_ATTRIB_BITS);
+        glColor4f(1,0,0,1);
+
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer (3, GL_FLOAT , 0, mRenderVertices); 
+        glDrawArrays (GL_LINES, 0, mVerticesCount);
+        glDisableClientState(GL_VERTEX_ARRAY);
+
+        glPopAttrib();
+        glPopMatrix();
+
+
+
+#if WIN32
+        FacadeModele::getInstance()->ActivateShaders();
+
+        // Réactiver l'éclairage et (s'il y a lieu)
+        if (lighting_state == GL_TRUE) {
+            glEnable(GL_LIGHTING);
+        }
+#endif
+
+
+        delete[] mRenderVertices;
+
+    }
+
+#endif
+
+
 }
 
 
@@ -706,7 +841,7 @@ XmlElement* Terrain::creerNoeudXML()
     XmlElement* elem = v.obtenirRacine();
     XMLUtils::LinkEndChild(racine,elem);
 
-    checkf(getZoneEdition(), "Tentative de sauvegarder la zone Edition qui n'existe pas. S'assurer qu'on est pas en train d'essaye de save un terrain pour le mode jeu");
+    //checkf(getZoneEdition(), "Tentative de sauvegarder la zone Edition qui n'existe pas. S'assurer qu'on est pas en train d'essaye de save un terrain pour le mode jeu");
     if(getZoneEdition())
     {
         XMLUtils::LinkEndChild(racine,getZoneEdition()->creerNoeudXML());

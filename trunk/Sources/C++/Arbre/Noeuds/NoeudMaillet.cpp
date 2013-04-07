@@ -34,6 +34,8 @@
 #endif
 #include "Utilitaire.h"
 #include "EditionEventManager.h"
+#include "Runnable.h"
+#include "RazerGameUtilities.h"
 
 
 
@@ -633,7 +635,13 @@ void NoeudMaillet::playTick(float temps)
                 mTargetDestination += getPosition();
             }
             break;
-        case JOUEUR_VIRTUEL_RENFORCEMENT:
+        case JOUEUR_VIRTUEL_RENFORCEMENT: 
+            {
+                SPJoueurVirtuel wJoueur = std::dynamic_pointer_cast<JoueurVirtuel>(joueur_);
+                mTargetDestination = wJoueur->obtenirDirectionAI(this);
+                mTargetDestination += getPosition();
+                return;
+            }
         case JOUEUR_VIRTUEL:
             {
                 SPJoueurVirtuel wJoueur = std::dynamic_pointer_cast<JoueurVirtuel>(joueur_);
@@ -672,7 +680,13 @@ void NoeudMaillet::playTick(float temps)
 void NoeudMaillet::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
 {
     if(pAnimationResult.CanUpdatedPosition())
-        setPosition(pAnimationResult.mPosition);
+    {
+        Vecteur3 wPos = pAnimationResult.mPosition;
+        Runnable* r = new Runnable([wPos, this](Runnable*){
+            this->setTargetDestination(wPos, true);
+        });
+        RazerGameUtilities::RunOnUpdateThread(r,true);
+    }
     if(pAnimationResult.CanUpdatedAngle())
         mAngle = pAnimationResult.mAngle[VZ];
     if(pAnimationResult.CanUpdatedScale())
@@ -682,6 +696,8 @@ void NoeudMaillet::appliquerAnimation( const ObjectAnimationParameters& pAnimati
     }
     updateMatrice();
 }
+
+std::vector<Vecteur3> NoeudMaillet::mListePointsDebug;
 
 
 ///////////////////////////////////////////////////////////////////////////////

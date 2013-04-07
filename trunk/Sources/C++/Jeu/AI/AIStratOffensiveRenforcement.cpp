@@ -7,6 +7,9 @@
 #include "Renforcement\AIMailletRenforcement.h"
 #include "Vecteur.h"
 #include <iostream>
+#include "AnimationFrame.h"
+#include "Animation.h"
+#include "GestionnaireAnimations.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -54,7 +57,6 @@ AIStratOffensiveRenforcement::~AIStratOffensiveRenforcement()
 ////////////////////////////////////////////////////////////////////////
 Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet )
 {
-    std::cout << "WTFDUDE" << std::endl;
 	NoeudRondelle* rondelle; NoeudTable* table;
 	if(!maillet->getField() || !( rondelle = maillet->getField()->getPuck() ) || !( table = maillet->getField()->getTable() ) )
 		return Vecteur2();
@@ -64,84 +66,38 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
 	AIMaillet* aiMallet = joueurVirtuel->getAiMaillet();
 
 	float sommeRayon = maillet->getRadius() + rondelle->getRadius() + 5; // minimum de 5 unités pour faire l'impulsion lors du coup
+    
 
-	//std::pair<Vecteur2,Vecteur2> lignePrevue = ((AIMailletRenforcement*)aiMallet)->getLignePrevue();
-// 
-// 	Vecteur2 velocitePuck = rondelle->obtenirVelocite();
-	// Equation de la droite de la rondelle
-// 	float m = (mPointImpact[VY] - lignePrevue.first[1])/(mPointImpact[VX]-lignePrevue.first[0]);
-// 	float b = lignePrevue.first[1] - (m * lignePrevue.first[0]);
-	// Test si le maillet est deja sur la ligne ou la rondelle va passer
-    Vecteur2 wDist = maillet->getPosition() - mMalletTargetPos;
-	if (mAttackMode == true || abs(wDist.norme()) < 8.0f)
-	{
-        mAttackMode = true;
-		// Le maillet est en place, on peut attaquer
-		if (abs(rondelle->getPosition()[VX])>=mPointImpact[VX])
-		{
-			Vecteur2 dirToGo = mPointVise - maillet->getPosition();
-            dirToGo.normaliser();
-            dirToGo *= joueurVirtuel->obtenirVitesse();
-            std::cout << "Dir1: " << dirToGo << std::endl;
-			return dirToGo;
-		} 
-		else
-		{
-			return Vecteur2();
-		}
-	} 
-	else
-	{
-        if(mCalculEffectue)
-        {
-            Vecteur2 dirToGo = mMalletTargetPos-maillet->getPosition();
-            dirToGo.normaliser();
-            dirToGo *= joueurVirtuel->obtenirVitesse();
-            std::cout << "Dir2: " << dirToGo << std::endl;
-            return dirToGo;
-        }
+    if(!mCalculEffectue)
+    {
+        // Calcul pos [1]
+        Vecteur3 wDir = (mMalletTargetPos-mPointVise);
+        Vecteur3 wDirNorm = wDir;
+        wDirNorm.normaliser();
+        Vecteur3 wPoint1 = mPointImpact + 0.25f*wDir;
+        Vecteur3 wDirRondelleNorm = rondelle->obtenirVelocite();
+        wDirRondelleNorm.normaliser();
 
-		// Sinon on doit calculer la position sur la ligne ou le maillet doit etre
-
-		// Droite sur laquelle on veut envoyer la rondelle
-		Vecteur2 directionLignePrevue = mPointVise-mPointImpact;
-		Vecteur2 directionLignePrevueNormaliser = directionLignePrevue;
-		directionLignePrevueNormaliser.normaliser();
-		// Point sur la droite ou on doit positionner le maillet avant de faire le coup
-		Vecteur2 posPointSurLigne;
-		// Projection de la position du maillet sur la droite quon veut
-		//posPointSurLigne[0] = directionLignePrevueNormaliser[0]*maillet->getPosition()[0];
-		//posPointSurLigne[1] = directionLignePrevueNormaliser[1]*maillet->getPosition()[1];
-		Vecteur2 vecVersMaillet = maillet->getPosition() - mPointImpact;
-		Vecteur2 vecVersVise = mPointVise-mPointImpact;
-		vecVersVise.normaliser();
-		float res = produitScalaire(vecVersMaillet,vecVersVise);
-		posPointSurLigne =((vecVersVise)*res) + mPointImpact;
+        Vecteur3 mMalletTargetPos = mPointImpact;//mPointImpact.convertir<2>() + (wDirRondelleNorm * (maillet->getRadius() + rondelle->getRadius()));
 
 
+        AnimationFrame* frame[5];
+        frame[0] = new AnimationFrame(0, maillet->getPosition());
+        frame[1] = new AnimationFrame(mTimeBeforeImpact*0.75, wPoint1);
+        frame[2] = new AnimationFrame(mTimeBeforeImpact*0.98, mMalletTargetPos);
+        frame[3] = new AnimationFrame(mTimeBeforeImpact*1.01, mPointVise);
+        frame[4] = new AnimationFrame(mTimeBeforeImpact*1.01, mPointVise);
 
-		Vecteur2 distMailletRondelleSurLigne = mPointImpact - posPointSurLigne;
-		if ( distMailletRondelleSurLigne.norme() < sommeRayon)
-		{
-			// On doit ajuster posPointSurLigne pour ne pas etre sur la position de la rondelle
-			/*float angle = atan(directionLignePrevue[VY]/directionLignePrevue[VX]); // rad
-			float deltaX = sommeRayon * cos(angle);// rad
-			float deltaY = sommeRayon * sin(angle);// rad
-			posPointSurLigne[VY] += deltaY;
-			// On ajuste selon de quel bord la vitesse de la rondelle va
-			posPointSurLigne[VX] += (rondelle->obtenirVelocite()[VX] < 0 ? -deltaX : deltaX);*/
+        Animation* animation = new Animation(BEZIER, true, false, false);
+        for(int i=0; i<3; i++)
+            animation->ajouterFrame(frame[i]);
+        animation->ajouterObjet((ObjetAnimable*)maillet);
+        GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
 
-		} 
 
-		// On sauvegarde la position quon veut etre sur la ligne
-		mMalletTargetPos = posPointSurLigne;
-
-		Vecteur2 dirToGo = mMalletTargetPos-maillet->getPosition();
-        dirToGo.normaliser();
-        dirToGo *= joueurVirtuel->obtenirVitesse();
-        std::cout << "Dir3: " << dirToGo << std::endl;
         mCalculEffectue = true;
-        return dirToGo;
-	}
+    }
+
+    return Vecteur2();
 }
 
