@@ -185,6 +185,11 @@ namespace UIHeavyClient
             BeginNewTournament(tournamentName, mapName, playersNames, nbrPlayers);
             MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_TOURNOI);
         }
+
+        public void SetFocus()
+        {
+            mTournamentNameTextBox.Focus();
+        }
     }
 }
 

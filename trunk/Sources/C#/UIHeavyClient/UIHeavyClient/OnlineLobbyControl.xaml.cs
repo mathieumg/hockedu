@@ -198,6 +198,7 @@ namespace UIHeavyClient
                 if (selected.Value.needPassword)
                 {
                     mPasswordPrompt = new PasswordPrompt();
+                    mPasswordPrompt.SetFocus();
                     mPasswordPrompt.ShowDialog();
 
                     if (mPasswordPrompt.OkIsClicked)
@@ -238,6 +239,7 @@ namespace UIHeavyClient
         {
             mGameCreationPrompt = new GameCreationPrompt();
             mGameCreationPrompt.ClearInputAndLoadMapList();
+            mGameCreationPrompt.SetFocus();
             mGameCreationPrompt.ShowDialog();
 
             if (mGameCreationPrompt.OkIsClicked)

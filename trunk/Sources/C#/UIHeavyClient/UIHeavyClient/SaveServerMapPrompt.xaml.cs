@@ -36,6 +36,12 @@ namespace UIHeavyClient
         {
             InitializeComponent();
         }
+
+        public void GiveFocus()
+        {
+            mNameTextBox.Focus();
+            mOkButton.IsDefault = true;
+        }
     }
 }
 

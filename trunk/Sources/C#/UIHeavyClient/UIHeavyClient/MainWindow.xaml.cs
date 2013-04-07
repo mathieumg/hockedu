@@ -945,7 +945,8 @@ namespace UIHeavyClient
 
         private void SaveMapToServer(object sender, RoutedEventArgs e)
         {
-            mSaveServerMapPrompt.ShowDialog();
+            mSaveServerMapPrompt.GiveFocus();
+            mSaveServerMapPrompt.ShowDialog();  
         }
 
         public void RestartGameMenuHandle(bool pMustBeCollapse)

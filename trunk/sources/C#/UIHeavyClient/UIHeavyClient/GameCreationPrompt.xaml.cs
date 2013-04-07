@@ -284,6 +284,11 @@ namespace UIHeavyClient
                 items.Refresh();
             }
         }
+
+        public void SetFocus()
+        {
+            mNameTextBox.Focus();
+        }
     }
 }
 

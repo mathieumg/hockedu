@@ -128,6 +128,8 @@ namespace UIHeavyClient
             mQuickPlayGroupBox.Visibility = Visibility.Visible;
             mOnlineGroupBox.Visibility = Visibility.Hidden;
             DisplayProfileNames();
+            (sender as Button).IsDefault = false;
+            mQuickPlayGoButton.IsDefault = true;
         }
 
         ////////////////////////////////////////////////////////////////////////

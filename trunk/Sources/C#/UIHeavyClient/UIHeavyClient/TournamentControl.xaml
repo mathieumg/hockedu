@@ -33,8 +33,8 @@
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
-                <Label Content="Tournament's Name :" Foreground="White" HorizontalAlignment="Left" Margin="1" Name="mTournamentNameLabel" />
-                <TextBox HorizontalAlignment="Left" Margin="123,4,0,0" Name="mTournamentNameTextBox" Width="120" Background="Black" Foreground="White" Height="23" VerticalAlignment="Top" />
+                <Label Content="Tournament's Name :" Foreground="White" HorizontalAlignment="Left" Margin="-4,1,0,1" Name="mTournamentNameLabel" />
+                <TextBox Margin="120,4,10,0" Name="mTournamentNameTextBox" Background="Black" Foreground="White" Height="23" VerticalAlignment="Top" />
                 <GroupBox Header="Player 1" Height="72" HorizontalAlignment="Left" Margin="1" Name="mPlayer1" VerticalAlignment="Top" Width="175" Grid.Row="1">
                     <Grid>
                         <RadioButton Content="Human Player" Foreground="White" GroupName="rgPlayer1Radios" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="6,6,0,0" Name="mHuman1Radio" VerticalAlignment="Top" />
@@ -149,8 +149,8 @@
                     </Grid>
                 </GroupBox>
                 <Button Content="Begin Tournament" Margin="1" Name="mTournamentBeginButton" Background="Black" Foreground="White" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="3" Grid.Row="5" Click="mTournamentBeginButton_Click" />
-                <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="46,5,0,0" Name="mMapNameTextBox" Width="120" Background="Black" Foreground="White" Height="Auto" VerticalAlignment="Top" />
-                <Button Content="Browse" Grid.Column="1" Height="23" HorizontalAlignment="Right" Margin="0,6,0,0" Name="mLoadMapButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" Click="mLoadMapButton_Click" />
+                <TextBox Grid.Column="1" Margin="48,5,5,0" Name="mMapNameTextBox" Background="Black" Foreground="White" Height="Auto" VerticalAlignment="Top" />
+                <Button Content="Browse" Grid.Column="2" Height="23" HorizontalAlignment="Left" Margin="6,4,0,0" Name="mLoadMapButton" VerticalAlignment="Top" Width="75" Background="Black" Foreground="White" Click="mLoadMapButton_Click" />
             </Grid>
         </GroupBox>
         <Button Content="Load Existing Tournament" Height="43" HorizontalAlignment="Left" Margin="141,12,0,0" Name="mTournamentLoadButton" VerticalAlignment="Top" Width="Auto" Background="Black" Foreground="White" Grid.Row="2" Click="mTournamentLoadButton_Click" />

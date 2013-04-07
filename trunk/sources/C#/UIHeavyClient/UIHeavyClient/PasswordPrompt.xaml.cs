@@ -101,6 +101,11 @@ namespace UIHeavyClient
             mOkIsClicked = true;
             Hide();
         }
+
+        public void SetFocus()
+        {
+            mPasswordBox.Focus();
+        }
     }
 }
 
