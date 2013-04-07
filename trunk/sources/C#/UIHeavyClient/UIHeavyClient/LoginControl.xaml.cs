@@ -23,6 +23,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
+using System.Security.Cryptography;
+using HttpHockeduRequests;
+using System.Threading;
 
 namespace UIHeavyClient
 {
@@ -47,6 +50,7 @@ namespace UIHeavyClient
         }
     }
 
+    public delegate void ConnectionSuccessfulCallback();
 
     ///////////////////////////////////////////////////////////////////////////
     /// @struct LoginControlSavedInfo
@@ -57,9 +61,54 @@ namespace UIHeavyClient
     ///////////////////////////////////////////////////////////////////////////
     public struct LoginControlSavedInfo
     {
+        public LoginControlSavedInfo(int i)
+        {
+            mUserName = "";
+            mPassword = "";
+            mIpAddress = "";
+
+
+            mAuthOnWeb = false;
+            mUserId = null;
+            mAuthKey = null;
+            mKeyExpiration = null;
+        }
         public string mUserName;
-        public string mPassword;
+        public string mPassword;  /// Password hashed with SHA1
         public string mIpAddress;
+
+
+        public bool mAuthOnWeb;
+        public string mUserId; /// not authenticated if null
+        public string mAuthKey;
+        public string mKeyExpiration;
+    }
+
+    public class ConnectionRequest
+    {
+        public void CancelRequest()
+        {
+            if ( mWebAuthThread != null)
+            {
+                mWebAuthThread.Abort();
+            }
+            if ( !mWebAuthOnly )
+            {
+                LoginControl.CancelConnection( "ServerMaster" );
+            }
+        }
+
+        public void ConnectionSuccess()
+        {
+            if ( mConnectionSuccessfulCallback != null )
+            {
+                mConnectionSuccessfulCallback();
+            }
+        }
+
+        public bool mWebAuthOnly = false;
+        public Thread mWebAuthThread = null;
+        public ConnectionSuccessfulCallback mConnectionSuccessfulCallback = null;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -72,7 +121,9 @@ namespace UIHeavyClient
     ///////////////////////////////////////////////////////////////////////////
     public partial class LoginControl : UserControl
     {
-        public LoginControlSavedInfo mLoginInfo = new LoginControlSavedInfo();
+        static public LoginControlSavedInfo mLoginInfo = new LoginControlSavedInfo(0);
+        /// can only do one request at a time
+        static public ConnectionRequest mCurrentRequest = null;
 
         // C++ functions
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -88,7 +139,8 @@ namespace UIHeavyClient
         // The main window must know if the user is connected
         bool mUserConnected = false;
 
-        bool mConnecting = false;
+        bool mAuthWebOnly = false;
+        public ConnectionSuccessfulCallback mConnectionSuccessfulCallback = null;
 
         // The server list
         Server[] listedServer;
@@ -117,6 +169,19 @@ namespace UIHeavyClient
         {
             get { return mUserConnected; }
             set { mUserConnected = value; }
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @propertie bool LoginControl.AuthWebOnly
+        ///
+        /// Propertie to know if the control is used only to authenticate on the web
+        ///
+        /// @return If the control state
+        ////////////////////////////////////////////////////////////////////////
+        public bool AuthWebOnly
+        {
+            get { return mAuthWebOnly; }
+            set { mAuthWebOnly = value; }
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -149,35 +214,49 @@ namespace UIHeavyClient
         ///
         /// @return None (constructor).
         ////////////////////////////////////////////////////////////////////////
-        public LoginControl()
+        public LoginControl(ConnectionSuccessfulCallback connectionSuccessfulCallback,bool onlyWebAuth = false)
         {
             InitializeComponent();
 
             InitSavedValues();
 
+            mConnectionSuccessfulCallback = connectionSuccessfulCallback;
+            AuthWebOnly = onlyWebAuth;
+            if ( AuthWebOnly )
+            {
+                ServerLabel.Visibility = System.Windows.Visibility.Collapsed;
+                serverComboBox.Visibility = System.Windows.Visibility.Collapsed;
+                ManualServerEntryLabel.Visibility = System.Windows.Visibility.Collapsed;
+                ManualServerEntry.Visibility = System.Windows.Visibility.Collapsed;
+            }
+            else
+            {
+                serverComboBox.IsEnabledChanged += ControlEnabledChanged;
+                ManualServerEntry.IsEnabledChanged += ControlEnabledChanged;
+                listedServer = new Server[]
+                {
+                    new Server("Local", "127.0.0.1"),
+                    new Server("Math's house", "173.177.0.193"),
+                };
+
+                foreach ( Server s in listedServer )
+                {
+                    ComboBoxItem buffer = new ComboBoxItem();
+                    buffer.Content = s.mName;// +(s.isAvailable ? " (Actif)" : " (Inactif)");
+                    buffer.Background = serverComboBox.Background;
+                    buffer.Foreground = serverComboBox.Foreground;
+
+                    serverComboBox.Items.Add( buffer );
+                }
+
+                serverComboBox.SelectedIndex = 0;
+            }
+
             cancelButton.IsEnabledChanged      += ControlEnabledChanged;
             loginButton.IsEnabledChanged       += ControlEnabledChanged;
             userNameInput.IsEnabledChanged     += ControlEnabledChanged;
-            serverComboBox.IsEnabledChanged    += ControlEnabledChanged;
-            ManualServerEntry.IsEnabledChanged += ControlEnabledChanged;
 
-            listedServer = new Server[]
-            {
-                new Server("Local", "127.0.0.1"),
-                new Server("Math's house", "173.177.0.193"),
-            };
-
-            foreach (Server s in listedServer)
-            {
-                ComboBoxItem buffer = new ComboBoxItem();
-                buffer.Content = s.mName;// +(s.isAvailable ? " (Actif)" : " (Inactif)");
-                buffer.Background = serverComboBox.Background;
-                buffer.Foreground = serverComboBox.Foreground;
-
-                serverComboBox.Items.Add(buffer);
-            }
-
-            serverComboBox.SelectedIndex = 0;
+            UnBlockUIContent();
             userNameInput.Focus();
         }
 
@@ -217,7 +296,10 @@ namespace UIHeavyClient
             mUserName = userNameInput.Text;
             mUserConnected = true;
             Mouse.OverrideCursor = Cursors.Arrow;
-            MainWindowHandler.GoToOnlineLobby();
+            if ( mCurrentRequest != null )
+            {
+                mCurrentRequest.ConnectionSuccess();
+            }
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -242,40 +324,125 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public void TryConnecting()
         {
+            if ( mCurrentRequest != null )
+            {
+                mCurrentRequest.CancelRequest();
+            }
+            mCurrentRequest = null;
             if (userNameInput.Text != "" && passwordInput.Password != "")
             {
-                string serverName;
-                string ipAdress;
-                if (ManualServerEntry.Text != "")
+                if ( AuthWebOnly )
                 {
-                    ipAdress = ManualServerEntry.Text;
-                    serverName = ipAdress;
-                }
-                else
-                {
-                    ipAdress = listedServer[serverComboBox.SelectedIndex].mIPAdress;
-                    serverName = listedServer[serverComboBox.SelectedIndex].mName;
-                }
-
-                if (Utilities.IsIPv4(ipAdress))
-                {
-                    mLoginInfo.mUserName  = userNameInput.Text;
-                    mLoginInfo.mPassword  = passwordInput.Password;
-                    mLoginInfo.mIpAddress = ipAdress;
                     BlockUIContent();
+                    mCurrentRequest = new ConnectionRequest();
+                    mLoginInfo.mUserName = userNameInput.Text;
+                    mLoginInfo.mPassword = CalculateSHA1( passwordInput.Password );
+                    mCurrentRequest.mConnectionSuccessfulCallback = mConnectionSuccessfulCallback;
+                    mCurrentRequest.mWebAuthOnly = true;
+                    AuthenticateToWeb( mCurrentRequest );
 
-                    SetUserMessageFeedBack(String.Format("Connecting to server {0}\nPlease wait...", serverName), false);
-                    RequestLogin(userNameInput.Text, passwordInput.Password, ipAdress);
+                    SetUserMessageFeedBack( String.Format( "Connecting to server \nPlease wait..." ), false );
                 }
                 else
                 {
-                    SetUserMessageFeedBack(String.Format("IP Address [{0}] invalid", ipAdress), true);
+                    string serverName;
+                    string ipAdress;
+                    if ( ManualServerEntry.Text != "" )
+                    {
+                        ipAdress = ManualServerEntry.Text;
+                        serverName = ipAdress;
+                    }
+                    else
+                    {
+                        ipAdress = listedServer[serverComboBox.SelectedIndex].mIPAdress;
+                        serverName = listedServer[serverComboBox.SelectedIndex].mName;
+                    }
+
+                    if ( Utilities.IsIPv4( ipAdress ) )
+                    {
+                        mCurrentRequest = new ConnectionRequest();
+
+                        mLoginInfo.mUserName = userNameInput.Text;
+                        mLoginInfo.mPassword = CalculateSHA1( passwordInput.Password );
+                        mLoginInfo.mIpAddress = ipAdress;
+                        BlockUIContent();
+                        mCurrentRequest.mConnectionSuccessfulCallback = mConnectionSuccessfulCallback;
+                        AuthenticateToWeb( mCurrentRequest );
+
+                        SetUserMessageFeedBack( String.Format( "Connecting to server {0}\nPlease wait...", serverName ), false );
+                        RequestLogin( userNameInput.Text, passwordInput.Password, ipAdress );
+                    }
+                    else
+                    {
+                        SetUserMessageFeedBack( String.Format( "IP Address [{0}] invalid", ipAdress ), true );
+                    }
                 }
             }
             else
             {
                 SetUserMessageFeedBack("Please enter a user name and a password", true);
             }
+        }
+
+        public static void AuthenticateToWeb(ConnectionRequest request)
+        {
+            HttpManager wManager = new HttpManager();
+            request.mWebAuthThread = wManager.authenticate( mLoginInfo.mUserName, mLoginInfo.mPassword, AuthenticateCallback );
+        }
+
+        public static void AuthenticateCallback( HttpHockeduRequests.AuthentificationJSON response )
+        {
+            mLoginInfo.mAuthOnWeb = false;
+            if ( response != null )
+            {
+                mLoginInfo.mUserId = response.id_user;
+                mLoginInfo.mAuthKey = response.auth_key;
+                mLoginInfo.mKeyExpiration = response.auth_key_expiration;
+                mLoginInfo.mAuthOnWeb = 
+                    !string.IsNullOrEmpty(mLoginInfo.mUserId) && 
+                    !string.IsNullOrEmpty(mLoginInfo.mAuthKey) && 
+                    !string.IsNullOrEmpty(mLoginInfo.mKeyExpiration);
+            }
+
+            if ( mLoginInfo.mAuthOnWeb )
+            {
+                /// en tout temps, si la connection reussi, on sync les achievements
+                MainWindowHandler.SynchroniseAchievements();
+            }
+
+
+            if ( mCurrentRequest != null && mCurrentRequest.mWebAuthOnly )
+            {
+                if ( mLoginInfo.mAuthOnWeb )
+                {
+                    // si on tente uniquement de ce connecter au web on l'indique, sinon, la vraie requete est pour le serveur maitre
+                    mCurrentRequest.ConnectionSuccess();
+                }
+                else
+                {
+                    /// ici on assume qu'on est dans une fenetre de weblogin
+                    WebLogin webLogin = WebLogin.getInstance();
+                    if ( webLogin != null )
+                    {
+                        webLogin.mLoginControl.UnBlockUIContent();
+                        if ( response != null && response.error != null )
+                        {
+                            webLogin.mLoginControl.SetUserMessageFeedBack( "Error: " + response.error,true );
+                        }
+                        else
+                        {
+                            webLogin.mLoginControl.SetUserMessageFeedBack( "Unknown error", true );
+                        }
+                    }
+                }
+            }
+        }
+
+        public static string CalculateSHA1( string text )
+        {
+            byte[] buffer = Encoding.UTF8.GetBytes( text );
+            SHA1CryptoServiceProvider cryptoTransformSHA1 = new SHA1CryptoServiceProvider();
+            return BitConverter.ToString( cryptoTransformSHA1.ComputeHash( buffer ) ).Replace("-","").ToLower();
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -287,13 +454,14 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public void BlockUIContent()
         {
-            mConnecting = true;
             userNameInput.IsEnabled = false;
             loginButton.IsEnabled = false;
             serverComboBox.IsEnabled = false;
             ManualServerEntry.IsEnabled = false;
             cancelButton.Content = "Cancel";
             Mouse.OverrideCursor = Cursors.Wait;
+
+            cancelButton.Visibility = Visibility.Visible;
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -312,7 +480,11 @@ namespace UIHeavyClient
             ManualServerEntry.IsEnabled = true;
             cancelButton.Content = "Exit";
             Mouse.OverrideCursor = Cursors.Arrow;
-            mConnecting = false;
+
+            if ( !mAuthWebOnly )
+            {
+                cancelButton.Visibility = Visibility.Hidden;
+            }
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -359,13 +531,21 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
-            if (mConnecting)
+            if (mCurrentRequest != null)
             {
-                CancelConnection("ServerMaster");
+                mCurrentRequest.CancelRequest();
                 SetUserMessageFeedBack("Cancel requested", false);
-                mConnecting = false;
-                UnBlockUIContent();
+                mCurrentRequest = null;
             }
+            else
+            {
+                WebLogin wl = WebLogin.getInstance();
+                if (wl != null)
+                {
+                    wl.Close();
+                }
+            }
+            UnBlockUIContent();
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -414,46 +594,49 @@ namespace UIHeavyClient
                 {
                 case EventCodes.USER_CONNECTED:
                 {
-                        wThis.mConnecting = false;
-                        // Signal à la fenetre l'événement
-                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                    // Signal à la fenetre l'événement
+                    MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                    {
+                        if ( mCurrentRequest != null )
                         {
                             wThis.ConnectionSuccessful();
-                            wThis.UnBlockUIContent();
-                        });
+                        }
+                        mCurrentRequest = null;
+                        wThis.UnBlockUIContent();
+                    });
 
-                        break;
+                    break;
                 }
                 case EventCodes.USER_ALREADY_CONNECTED:
                 {
-                    wThis.mConnecting=false;
                     // Signal à la fenetre l'événement
                     MainWindowHandler.mTaskManager.ExecuteTask(() =>
                     {
                         wThis.UserNameAlreadyChosen();
-                    });
+                        mCurrentRequest = null;
+                    } );
                     break;
                 }
                 case EventCodes.USER_DID_NOT_SEND_NAME_ON_CONNECTION:
                 {
-                    wThis.mConnecting=false;
                     // Signal à la fenetre l'événement
                     MainWindowHandler.mTaskManager.ExecuteTask(() =>
                     {
                         wThis.SetUserMessageFeedBack("Connection Error", true);
                         wThis.UnBlockUIContent();
-                    });
+                        mCurrentRequest = null;
+                    } );
                     break;
                 }
                 case EventCodes.USER_DISCONNECTED:
                 {
-                    wThis.mConnecting=false;
                     // Signal à la fenetre l'événement
                     MainWindowHandler.mTaskManager.ExecuteTask(() =>
                     {
                         wThis.SetUserMessageFeedBack("Connection Error", true);
                         wThis.UnBlockUIContent();
-                    });
+                        mCurrentRequest = null;
+                    } );
                     break;
                 }
                 case EventCodes.CONNECTION_CANCELED:
@@ -463,33 +646,34 @@ namespace UIHeavyClient
                     {
                         wThis.SetUserMessageFeedBack("Connection Canceled", false);
                         wThis.UnBlockUIContent();
-                    });
+                        mCurrentRequest = null;
+                    } );
                     break;
                 }
                 case EventCodes.RECONNECTION_TIMEOUT:
                 {
                     // On ne veut pas afficher des vieux events quand on n'attend plus pour se connecter
-                    if (wThis.mConnecting)
+                    if ( mCurrentRequest != null )
                     {
                         // Signal à la fenetre l'événement
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             wThis.SetUserMessageFeedBack("Connection Timed out", true);
                             wThis.UnBlockUIContent();
-                        });
+                        } );
+                        mCurrentRequest = null;
                     }
-                    wThis.mConnecting=false;
                     break;
                 }
                 case EventCodes.RECONNECTION_IN_PROGRESS: break;
                 case EventCodes.WRONG_PASSWORD:
                 {
-                    wThis.mConnecting=false;
                     MainWindowHandler.mTaskManager.ExecuteTask(() =>
                     {
                         wThis.SetUserMessageFeedBack("Wrong username/password", true);
                         wThis.UnBlockUIContent();
-                    });
+                        mCurrentRequest = null;
+                    } );
                     break;
                 }
                 case EventCodes.DATABASE_CONNECTION_ERROR:

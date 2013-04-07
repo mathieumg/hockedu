@@ -421,6 +421,7 @@ namespace UIHeavyClient
         }
         public void CallDefaultFieldFromMenu()
         {
+            MainWindowHandler.MapId = -1;
             OnGenerateField(mDefaultFieldButton, null);
         }
 

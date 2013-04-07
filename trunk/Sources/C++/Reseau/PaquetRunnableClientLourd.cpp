@@ -28,6 +28,8 @@
 #include "ObjetsGlobaux\PartieServeurs.h"
 #include "Paquets\PaquetPortal.h"
 #include "Paquets\PaquetGameCreation.h"
+#include "VisiteurCollision.h"
+#include "NodeBonus.h"
 
 
 #ifdef LINUX
@@ -428,34 +430,86 @@ int PaquetRunnable::RunnableBonusClient( Paquet* pPaquet )
     PaquetBonus* wPaquet = (PaquetBonus*)pPaquet;
     int wGameId = wPaquet->getGameId();
     PaquetBonusAction wAction = wPaquet->getBonusAction();
-    PaquetBonusType wType = wPaquet->getBonusType();
+    BonusType wType = wPaquet->getBonusType();
     Vecteur2 pos = wPaquet->getBonusPosition();
 
-    Runnable* r = new Runnable([wGameId, pos](Runnable*){
-
-        /*switch(wAction)
+    switch(wAction)
+    {
+    case BONUS_ACTION_SPAN :
         {
-        case BONUS_ACTION_SPAN :
-            break;
+            Runnable* r = new Runnable([wGameId, pos, wType](Runnable*){
 
-        case BONUS_ACTION_EXECUTE :
-            break;
-
-        case BONUS_ACTION_END :
-            break;
-        default:
-        }*/
-
-        /*Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
-        if(wGame)
-        {
-            if(wGame->getField())
+            Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+            if(wGame)
             {
-                wGame->getField()->getPuck()->setPosition(pos);
+                auto field = wGame->getField();
+                if(field)
+                {
+                    VisiteurCollision v(pos, false);
+                    field->acceptVisitor(v);
+                    ConteneurNoeuds cn;
+                    v.obtenirListeCollision(cn);
+
+                    for(auto iter = cn.begin(); iter != cn.end(); ++iter)
+                    {
+                        if((*iter)->getDefaultNodeKey() == RAZER_KEY_BONUS)
+                        {
+                            ((NodeBonus*)(*iter))->displayBonus(wType);
+                        }
+                    }
+                }
             }
-        }*/
-    });
-    RazerGameUtilities::RunOnUpdateThread(r,true);
+            });
+            RazerGameUtilities::RunOnUpdateThread(r,true);
+            break;
+        }
+
+    case BONUS_ACTION_EXECUTE :
+        {
+            Runnable* r = new Runnable([wGameId, pos, wType](Runnable*){
+
+            Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+            if(wGame)
+            {
+                auto field = wGame->getField();
+                if(field)
+                {
+                    VisiteurCollision v(pos, false);
+                    field->acceptVisitor(v);
+                    ConteneurNoeuds cn;
+                    v.obtenirListeCollision(cn);
+
+                    for(auto iter = cn.begin(); iter != cn.end(); ++iter)
+                    {
+                        if((*iter)->getDefaultNodeKey() == RAZER_KEY_BONUS)
+                        {
+                            ((NodeBonus*)(*iter))->ExecuteBonus(field->getPuck());
+                        }
+                    }
+                }
+            }
+            });
+            RazerGameUtilities::RunOnUpdateThread(r,true);
+            break;
+        }
+
+    case BONUS_ACTION_END :
+        {
+            Runnable* r = new Runnable([wGameId, pos](Runnable*){
+
+            /*Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+            if(wGame)
+            {
+                if(wGame->getField())
+                {
+                    wGame->getField()->getPuck()->setPosition(pos);
+                }
+            }*/
+            });
+            RazerGameUtilities::RunOnUpdateThread(r,true);
+            break;
+        }
+    }
 
     return 0;
 }

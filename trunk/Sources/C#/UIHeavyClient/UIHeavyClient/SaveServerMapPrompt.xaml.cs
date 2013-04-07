@@ -32,9 +32,65 @@ namespace UIHeavyClient
     ///////////////////////////////////////////////////////////////////////////
     public partial class SaveServerMapPrompt : Window
     {
+        private bool mOkIsClicked;
+
+        public bool OkIsClicked
+        {
+            get { return mOkIsClicked; }
+        }
+
+        public string MapName
+        {
+            get { return mNameTextBox.Text; }
+        }
+        public string MapDescription
+        {
+            get { return mDescriptionTextBox.Text; }
+        }
+        public bool IsPublic
+        {
+            get { return mPublicCheckBox.IsChecked.Value; }
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void SaveServerMapPrompt.SaveServerMapPrompt()
+        ///
+        /// Constructor.
+        ///
+        /// @return none.
+        ////////////////////////////////////////////////////////////////////////
         public SaveServerMapPrompt()
         {
             InitializeComponent();
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void SaveServerMapPrompt.GiveFocus()
+        ///
+        /// Give focus to map name textbox.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        public void GiveFocus()
+        {
+            mNameTextBox.Clear();
+            mDescriptionTextBox.Clear();
+            mPublicCheckBox.IsChecked = false;
+
+            mNameTextBox.Focus();
+            mOkButton.IsDefault = true;
+        }
+
+        private void mCancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            mOkIsClicked = false;
+            Hide();
+        }
+
+        private void mOkButton_Click(object sender, RoutedEventArgs e)
+        {
+            mOkIsClicked = true;
+            Hide();
         }
     }
 }

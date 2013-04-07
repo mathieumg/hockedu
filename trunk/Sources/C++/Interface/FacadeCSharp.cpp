@@ -933,6 +933,20 @@ void ResetAchievements()
     AchievementsManager::obtenirInstance()->ResetAchievements();
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void ReloadAchievementsProgress()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void ReloadAchievementsProgress()
+{
+    AchievementsManager::obtenirInstance()->ReloadAchievements();
+}
 
 
 void TestTrajectoryPredictionDLL()

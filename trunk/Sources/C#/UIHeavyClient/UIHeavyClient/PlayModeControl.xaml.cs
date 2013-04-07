@@ -69,6 +69,15 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll", CallingConvention=CallingConvention.Cdecl)]
         private static extern void AskForAIOpponentInNetworkGame();
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void PlayModeControl.PlayModeControl()
+        ///
+        /// Constructor.
+        /// 
+        /// @param[in] WindowsFormsHost : The host for OpenGL.
+        ///
+        /// @return none.
+        ////////////////////////////////////////////////////////////////////////
         public PlayModeControl(WindowsFormsHost pWindowsFormsHost)
         {
             InitializeComponent();
@@ -79,6 +88,13 @@ namespace UIHeavyClient
             InitRoutedCommands();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void PlayModeControl.AppendOpenGL()
+        ///
+        /// Append OpenGL to the host.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void AppendOpenGL()
         {
             if (!playControlGrid.Children.Contains(mWindowsFormsHost))
@@ -93,37 +109,101 @@ namespace UIHeavyClient
             Grid.SetColumnSpan(mWindowsFormsHost, 2);
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void PlayModeControl.RemoveOpenGL()
+        ///
+        /// Remove OpenGL from the host.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void RemoveOpenGL()
         {
             playControlGrid.Children.Remove(mWindowsFormsHost);
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void PlayModeControl.mPeviousButton_Click()
+        ///
+        /// Previous radio song.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mPeviousButton_Click(object sender, RoutedEventArgs e)
         {
             PreviousRadioSong();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void PlayModeControl.mNextButton_Click()
+        ///
+        /// Next radio song.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mNextButton_Click(object sender, RoutedEventArgs e)
         {
             NextRadioSong();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void PlayModeControl.mStopButton_Click()
+        ///
+        /// Stop radio song.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mStopButton_Click(object sender, RoutedEventArgs e)
         {
             StopRadioSong();
             mIsRadioPlaying = false;
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void PlayModeControl.mVolumeSlider_ValueChanged()
+        ///
+        /// Change radio volume.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedPropertyChangedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             SetRadioVolume((int)(sender as Slider).Value);
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void PlayModeControl.DisplayRadioVolume()
+        ///
+        /// Get radio volume from DLL.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void DisplayRadioVolume()
         {
             mVolumeSlider.Value = GetRadioVolume();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void PlayModeControl.mPlaylistComboBox_SelectionChanged()
+        ///
+        /// Change radio channel.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] SelectionChangedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mPlaylistComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if ((sender as ComboBox).SelectedItem != null)
@@ -132,6 +212,16 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void PlayModeControl.mPlayButton_Click()
+        ///
+        /// Play/pause radio song.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mPlayButton_Click(object sender, RoutedEventArgs e)
         {
             if (mIsRadioPlaying)
@@ -148,6 +238,13 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void PlayModeControl.DisplayRadioPlaylists()
+        ///
+        /// Get radio playlists from DLL.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void DisplayRadioPlaylists()
         {
             // Clear what's on screen
@@ -175,7 +272,7 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         /// @fn void PlayModeControl.submitButton_Click()
         ///
-        /// Event when the submit button is clicked.
+        /// Send chat message.
         /// 
         /// @param[in] object : The object related to the event.
         /// @param[in] RoutedEventArgs : The key event.
@@ -191,6 +288,17 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void PlayModeControl.MessageReceived()
+        ///
+        /// Recieve chat message.
+        /// 
+        /// @param[in] IntPtr : The user name.
+        /// @param[in] IntPtr : The chat message.
+        /// @param[in] IntPtr : The chat group.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         static bool MessageReceived(IntPtr pUsername, IntPtr pMessage, IntPtr pGroupName)
         {
             string message = Marshal.PtrToStringAnsi(pMessage);
@@ -208,6 +316,16 @@ namespace UIHeavyClient
             return true;
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void PlayModeControl.EventReceived()
+        ///
+        /// Handle events.
+        /// 
+        /// @param[in] EventCodes : Event id.
+        /// @param[in] IntPtr : Event message.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         static bool EventReceived(EventCodes id, IntPtr pMessage)
         {
             if (id==EventCodes.GAME_SERVER_USER_DISCONNECTED)

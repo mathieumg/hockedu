@@ -2,7 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include "PacketHandler.h"
-#include "..\Paquets\PaquetBonus.h"
+#include "../Paquets/PaquetBonus.h"
 
 
 void PacketHandlerBonus::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable)
@@ -13,7 +13,7 @@ void PacketHandlerBonus::handlePacketReceptionSpecific(PacketReader& pPacketRead
 
         wPaquet->setGameId(pPacketReader.readInteger());
 
-        wPaquet->setBonusType((PaquetBonusType)pPacketReader.readInteger());
+        wPaquet->setBonusType((BonusType)pPacketReader.readInteger());
         wPaquet->setBonusAction((PaquetBonusAction)pPacketReader.readInteger());
 
         float wX = pPacketReader.readFloat();

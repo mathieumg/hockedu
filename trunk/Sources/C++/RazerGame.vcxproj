@@ -256,6 +256,7 @@
     <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyMove.cpp" />
     <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyRotate.cpp" />
     <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyScale.cpp" />
+    <ClCompile Include="Arbre\FieldRunnableStructs.cpp" />
     <ClCompile Include="Arbre\HUD\GestionnaireHUD.cpp" />
     <ClCompile Include="Arbre\HUD\HUDBonus.cpp" />
     <ClCompile Include="Arbre\HUD\HUDElement.cpp" />
@@ -356,6 +357,7 @@
     <ClCompile Include="Jeu\JoueurVirtuel.cpp" />
     <ClCompile Include="Jeu\JoueurVirtuelRenforcement.cpp" />
     <ClCompile Include="Jeu\Partie.cpp" />
+    <ClCompile Include="Jeu\PartieApprentissage.cpp" />
     <ClCompile Include="Jeu\PartieSyncer.cpp" />
     <ClCompile Include="Jeu\Tournoi.cpp" />
     <ClCompile Include="Physics\ForceField.cpp" />
@@ -447,6 +449,7 @@
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyMove.h" />
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyRotate.h" />
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyScale.h" />
+    <ClInclude Include="Arbre\FieldRunnableStructs.h" />
     <ClInclude Include="Arbre\HUD\GestionnaireHUD.h" />
     <ClInclude Include="Arbre\HUD\HUDBonus.h" />
     <ClInclude Include="Arbre\HUD\HUDElement.h" />
@@ -549,6 +552,7 @@
     <ClInclude Include="Jeu\JoueurVirtuel.h" />
     <ClInclude Include="Jeu\JoueurVirtuelRenforcement.h" />
     <ClInclude Include="Jeu\Partie.h" />
+    <ClInclude Include="Jeu\PartieApprentissage.h" />
     <ClInclude Include="Jeu\PartieSyncer.h" />
     <ClInclude Include="Jeu\Tournoi.h" />
     <ClInclude Include="Physics\ForceField.h" />

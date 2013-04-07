@@ -15,7 +15,6 @@
 #if BOX2D_PLAY
 #include "Partie.h"
 #include "SoundFMOD.h"
-#include "Runnable.h"
 #endif
 #if BOX2D_DEBUG
 #include "DebugRenderBox2D.h"
@@ -70,7 +69,7 @@
 #include "VisiteurSuppression.h"
 #include "EditionEventManager.h"
 #include "ForceField.h"
-
+#include "FieldRunnableStructs.h"
 
 
 #define TransmitEvent(e) EditionEventManager::TransmitEvent(e)
@@ -154,9 +153,6 @@ Terrain::Terrain(Partie* pGame):
 ////////////////////////////////////////////////////////////////////////
 Terrain::~Terrain()
 {
-#ifndef __APPLE__
-    RunnableBreaker::signalObservers();
-#endif
     libererMemoire();
 
     if(mEditionZone)
@@ -171,6 +167,13 @@ Terrain::~Terrain()
         mWorld = NULL;
     }
 #endif
+
+    while(!mRunnableQueue.empty())
+    {
+        auto v = mRunnableQueue.back();
+        if(v)delete v;
+        mRunnableQueue.pop_back();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1236,6 +1239,17 @@ void Terrain::appliquerPhysique( float temps )
         mLogicTree->fixSpeed(temps);
         mLogicTree->fixOverlap();
 #endif
+
+        while(!mRunnableQueue.empty())
+        {
+            auto v = mRunnableQueue.back();
+            if(v)
+            {
+                v->execute();
+                delete v;
+            }
+            mRunnableQueue.pop_back();
+        }
     }
 }
 
@@ -1297,26 +1311,10 @@ void Terrain::BeginContact( b2Contact* contact )
                         if(!rondelle->IsCollisionDetected())
                         {
                             rondelle->setCollisionDetected(true);
-                            auto game = mGame;
-                            Runnable* r = new Runnable([game,rondelle,rondelleBody](Runnable*){
-                                if(game)
-                                {
-                                    auto position = rondelle->getPosition();
-                                    if(position[VX] < 0)
-                                    {
-                                        game->incrementerPointsJoueurDroit();
-                                    }
-                                    else
-                                    {
-                                        game->incrementerPointsJoueurGauche();
-                                    }
-                                    SoundFMOD::obtenirInstance()->playEffect(GOAL_EFFECT);
-                                }
-                                game->miseAuJeu();
-                                rondelle->setCollisionDetected(false);
-                            });
-                            RunnableBreaker::attach(r);
-                            RazerGameUtilities::RunOnUpdateThread(r,true);
+                            FieldRunnableGoals* r = new FieldRunnableGoals();
+                            r->game = mGame;
+                            r->puck = rondelle;
+                            mRunnableQueue.push_front(r);
                         }
                     }
                 }
@@ -1388,18 +1386,10 @@ void Terrain::BeginContact( b2Contact* contact )
                                     RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
                                 }
                             }
-                            
-
-                            // The new pos can only be assigned outside of the world's step, so we queue it
-                            Runnable* r = new Runnable([portailDeSortie,rondelle](Runnable*)
-                            {
-                                portailDeSortie->setIsAttractionFieldActive(false);
-                                auto newPos = portailDeSortie->getPosition();
-                                rondelle->setPosition(newPos);
-                                SoundFMOD::obtenirInstance()->playEffect(effect(PORTAL_EFFECT));
-                            });
-                            RunnableBreaker::attach(r);
-                            RazerGameUtilities::RunOnUpdateThread(r,true);
+                            FieldRunnablePortal* r = new FieldRunnablePortal();
+                            r->portal = portailDeSortie;
+                            r->puck = rondelle;
+                            mRunnableQueue.push_front(r);
                             return;
                         }
                     }
@@ -1428,22 +1418,20 @@ void Terrain::BeginContact( b2Contact* contact )
 	            NodeBonus* bonus = (NodeBonus*)(bodies[1]->GetUserData());
 	            NoeudRondelle* rondelle = (NoeudRondelle*)(bodies[0]->GetUserData());
 	
-                /*if(mGame->isNetworkServerGame())
+                if(mGame->isNetworkServerGame())
                 {
                     PaquetBonus* wPaquet = (PaquetBonus*) GestionnaireReseau::obtenirInstance()->creerPaquet(BONUS);
                     wPaquet->setGameId(mGame->getUniqueGameId());
-                    wPaquet->setBonusType()
-                    wPaquet->setPosition(portailDeSortie->getPosition());
+                    wPaquet->setBonusType(bonus->getBonusType());
+                    wPaquet->setBonusAction(BONUS_ACTION_EXECUTE);
+                    wPaquet->setBonusPosition(bonus->getPosition());
                     RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
-                }*/
-
-	            // The execution ca modify box2D so we queue it
-	            Runnable* r = new Runnable([bonus,rondelle](Runnable*)
-	            {
-	                bonus->ExecuteBonus(rondelle); 
-	            });
-	            RunnableBreaker::attach(r);
-	            RazerGameUtilities::RunOnUpdateThread(r,true);
+                }
+                // The execution ca modify box2D so we queue it
+                FieldRunnableBonus* r = new FieldRunnableBonus();
+                r->bonus = bonus;
+                r->puck = rondelle;
+                mRunnableQueue.push_front(r);
 	            break;
             }
         default:

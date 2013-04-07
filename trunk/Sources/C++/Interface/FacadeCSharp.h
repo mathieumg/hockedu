@@ -90,7 +90,10 @@ extern "C"
     __declspec(dllexport) void SendMessageGameDLL( char * pMessage );
     __declspec(dllexport) void ReloadModels();
     __declspec(dllexport) void ResetAchievements();
+    __declspec(dllexport) void ReloadAchievementsProgress();
     
+
+
     __declspec(dllexport) bool ActionPerformed( ActionType action );
     __declspec(dllexport) bool IsGamePaused();
     __declspec(dllexport) void PauseGame(bool doPause);

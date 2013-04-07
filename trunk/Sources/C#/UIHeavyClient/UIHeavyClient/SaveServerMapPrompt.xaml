@@ -15,7 +15,7 @@
         <TextBox Margin="85,7,5,5" Name="mNameTextBox" Background="Black" Foreground="White" />
         <TextBox Margin="5" Name="mDescriptionTextBox" Grid.Row="2" Background="Black" Foreground="White" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" />
         <CheckBox Content="Public map (can be played by other players)" HorizontalAlignment="Left" Margin="15,12,0,8" Name="mPublicCheckBox" Grid.Row="3" Foreground="White" />
-        <Button Content="Ok" HorizontalAlignment="Left" Margin="12,5,0,6" Name="mOkButton" Width="75" Grid.Row="4" Background="Black" Foreground="White" />
-        <Button Content="Cancel" HorizontalAlignment="Left" Margin="105,5,0,7" Name="mCancelButton" Width="75" Grid.Row="4" Background="Black" Foreground="White" />
+        <Button Content="Ok" HorizontalAlignment="Left" Margin="12,5,0,6" Name="mOkButton" Width="75" Grid.Row="4" Background="Black" Foreground="White" Click="mOkButton_Click" />
+        <Button Content="Cancel" HorizontalAlignment="Left" Margin="105,5,0,7" Name="mCancelButton" Width="75" Grid.Row="4" Background="Black" Foreground="White" Click="mCancelButton_Click" />
     </Grid>
 </Window>

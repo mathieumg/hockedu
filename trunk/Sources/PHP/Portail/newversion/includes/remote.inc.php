@@ -78,6 +78,7 @@ if( !$commonRemoteModule )
                         
                         $authenticationData = $Common->getCurrentAuthenticationData();
                         
+                        $jsonResponse['id_user'] = $authenticationData['id_user'];
                         $jsonResponse['auth_key'] = $authenticationData['key'];
                         $jsonResponse['auth_key_expiration'] = $authenticationData['expiration'];
                     }

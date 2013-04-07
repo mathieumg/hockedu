@@ -76,6 +76,7 @@ public:
 
 	/// Pour les test unitaires
 	friend GestionnaireEvenementsTest;
+    friend AIRenforcementTest;
 
 	/// Obtient l'instance unique de la classe.
 	static FacadeModele* getInstance();
@@ -230,6 +231,9 @@ public:
 
     /// Nom du fichier XML dans lequel doit se trouver les joueurs.
     static const std::string FICHIER_JOUEURS;
+
+    inline void resetCurrentZoom(){mCurrentZoom = 0;}
+
 private:
    /// Constructeur par défaut.
    FacadeModele();
@@ -268,6 +272,11 @@ private:
 	Vecteur2i coinElastique1_;
 	Vecteur2i coinElastique2_;
 
+    // Zoom limits
+    int mCurrentZoom;
+    int mMinZoom;
+    int mMaxZoom;
+
 	/// Joueurs possibles
 	ConteneurJoueur profilsVirtuels_;
 	/// Tournoi courant
@@ -277,6 +286,7 @@ private:
 
 	/// Pointeur sur la partie courante
 	int partieCourante_;
+    void setPartieCourante(int pPartieCouranteId) {partieCourante_ = pPartieCouranteId;}
 
     /// Pointeur sur la prochaine partie
     int prochainePartie_;

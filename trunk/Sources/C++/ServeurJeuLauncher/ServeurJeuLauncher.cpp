@@ -13,7 +13,7 @@ CallbackDone mCallbackMapDownloadedDLL;
 
 
 // Callback une fois que le HttpManager a terminer de telecharger la map (pont entre le C# et la DLL)
-void CallbackMapDownloadedManaged(System::String^ pOutputPath)
+void CallbackMapDownloadedManaged(System::String^ pOutputPath, int pMapId)
 {
     Console::WriteLine(L"Download finished");
     char* str = (char*) Marshal::StringToHGlobalAnsi(pOutputPath).ToPointer();
@@ -31,14 +31,11 @@ void FonctionAppelDownload(int pUserId, int pMapId, CallbackDone pMapDownloadedC
 
     MapDownloadedCallBack ^delegate1 = gcnew MapDownloadedCallBack(&CallbackMapDownloadedManaged);
     wManager->downloadMap(pUserId, pMapId, delegate1);
-
 }
 
 int main(array<System::String ^> ^args)
 {
     Console::WriteLine(L"Hello World");
-
-
 
     for(int i=0; i<(args->Length); i++)
     {
@@ -59,8 +56,5 @@ int main(array<System::String ^> ^args)
     {
         mainServeurJeu("");
     }
-
-    
-
     return 0;
 }
