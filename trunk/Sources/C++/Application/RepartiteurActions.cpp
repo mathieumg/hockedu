@@ -545,47 +545,51 @@ bool RepartiteurActions::actionTogglePauseJeu()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionReplay()
 {
-	// Toggle
-	if(GestionnaireAnimations::obtenirInstance()->estJouerReplay())
-	{
-		vue::Vue* vueCourante = FacadeModele::getInstance()->obtenirVue();
-		vue::Camera* camera = &vueCourante->obtenirCamera();
-		vue::Camera ancienneCamera = GestionnaireAnimations::obtenirInstance()->obtenirAncienneCamera();
+    Partie* wGame = FacadeModele::getInstance()->obtenirPartieCourante();
+    if(wGame && !wGame->isNetworkClientGame())
+    {
+        // Toggle
+	    if(GestionnaireAnimations::obtenirInstance()->estJouerReplay())
+	    {
+		    vue::Vue* vueCourante = FacadeModele::getInstance()->obtenirVue();
+		    vue::Camera* camera = &vueCourante->obtenirCamera();
+		    vue::Camera ancienneCamera = GestionnaireAnimations::obtenirInstance()->obtenirAncienneCamera();
 
-		AnimationFrame* frame[2];
-		frame[0] = new AnimationFrame(0, camera->obtenirPosition(), camera->obtenirPointVise(), camera->obtenirDirectionHaut());
-		frame[1] = new AnimationFrame(500, ancienneCamera.obtenirPosition(), ancienneCamera.obtenirPointVise(), ancienneCamera.obtenirDirectionHaut());
+		    AnimationFrame* frame[2];
+		    frame[0] = new AnimationFrame(0, camera->obtenirPosition(), camera->obtenirPointVise(), camera->obtenirDirectionHaut());
+		    frame[1] = new AnimationFrame(500, ancienneCamera.obtenirPosition(), ancienneCamera.obtenirPointVise(), ancienneCamera.obtenirDirectionHaut());
 
-		Animation* animation = new Animation(BEZIER, true, true, true);
-		for(int i=0; i<2; i++)
-			animation->ajouterFrame(frame[i]);
-		animation->ajouterObjet((ObjetAnimable*)&(vueCourante->obtenirCamera()));
-		GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
+		    Animation* animation = new Animation(BEZIER, true, true, true);
+		    for(int i=0; i<2; i++)
+			    animation->ajouterFrame(frame[i]);
+		    animation->ajouterObjet((ObjetAnimable*)&(vueCourante->obtenirCamera()));
+		    GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
 
-		GestionnaireAnimations::obtenirInstance()->terminerReplay();
-		Partie* partie = FacadeModele::getInstance()->obtenirPartieCourante();
-		if(partie && !partie->partieTerminee())
-			partie->obtenirGameTime()->unPause();
-	}
-	else
-	{
-		vue::Vue* vueCourante = FacadeModele::getInstance()->obtenirVue();
-		vue::Camera* camera = &vueCourante->obtenirCamera();
+		    GestionnaireAnimations::obtenirInstance()->terminerReplay();
+		    Partie* partie = FacadeModele::getInstance()->obtenirPartieCourante();
+		    if(partie && !partie->partieTerminee())
+			    partie->obtenirGameTime()->unPause();
+	    }
+	    else
+	    {
+		    vue::Vue* vueCourante = FacadeModele::getInstance()->obtenirVue();
+		    vue::Camera* camera = &vueCourante->obtenirCamera();
 		
-		vue::Camera ancienneCamera = GestionnaireAnimations::obtenirInstance()->obtenirAncienneCamera();
-		// Mettre quelque chose du genre pour effectuer un fondu au debut du replay
-		/*AnimationFrame* frame[2];
-		frame[0] = new AnimationFrame(0, camera->obtenirPosition(), camera->obtenirPointVise(), camera->obtenirDirectionHaut());
-		frame[1] = new AnimationFrame(500, ancienneCamera.obtenirPosition(), ancienneCamera.obtenirPointVise(), ancienneCamera.obtenirDirectionHaut());
+		    vue::Camera ancienneCamera = GestionnaireAnimations::obtenirInstance()->obtenirAncienneCamera();
+		    // Mettre quelque chose du genre pour effectuer un fondu au debut du replay
+		    /*AnimationFrame* frame[2];
+		    frame[0] = new AnimationFrame(0, camera->obtenirPosition(), camera->obtenirPointVise(), camera->obtenirDirectionHaut());
+		    frame[1] = new AnimationFrame(500, ancienneCamera.obtenirPosition(), ancienneCamera.obtenirPointVise(), ancienneCamera.obtenirDirectionHaut());
 
-		Animation* animation = new Animation(BEZIER, true, true, true);
-		for(int i=0; i<2; i++)
-			animation->ajouterFrame(frame[i]);
-		animation->ajouterObjet((ObjetAnimable*)&(vueCourante->obtenirCamera()));
-		GestionnaireAnimations::getInstance()->ajouterAnimation(animation);*/
-		FacadeModele::getInstance()->obtenirPartieCourante()->obtenirGameTime()->pause();
-		GestionnaireAnimations::obtenirInstance()->jouerReplay(FacadeModele::getInstance()->obtenirVue()->obtenirCamera());
-	}
+		    Animation* animation = new Animation(BEZIER, true, true, true);
+		    for(int i=0; i<2; i++)
+			    animation->ajouterFrame(frame[i]);
+		    animation->ajouterObjet((ObjetAnimable*)&(vueCourante->obtenirCamera()));
+		    GestionnaireAnimations::getInstance()->ajouterAnimation(animation);*/
+		    FacadeModele::getInstance()->obtenirPartieCourante()->obtenirGameTime()->pause();
+		    GestionnaireAnimations::obtenirInstance()->jouerReplay(FacadeModele::getInstance()->obtenirVue()->obtenirCamera());
+	    }
+    }
 	return true; 
 }
 

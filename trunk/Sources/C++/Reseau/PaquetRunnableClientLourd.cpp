@@ -194,7 +194,7 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
         {
             // Partie comporte deja 2 joueurs
             GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_GAME_FULL);
-
+            break;
         }
         // Dans tous les autres cas, la connection a echouee
     case GAME_CONNECTION_GAME_NOT_FOUND:
@@ -233,7 +233,7 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
                 // Envoie de la requete de connexion au serveur jeu
                 wGestionnaireReseau->envoyerPaquet("GameServer", wPaquet, TCP);
             });
-            
+            break;
         }
     default:
         GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_GAME_CONNECTION_GENERAL_FAILURE);
@@ -285,6 +285,7 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
 
                         GameManager::obtenirInstance()->startGame(wPaquet->getGameId()); 
                     }
+                    GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_SERVER_USER_CONNECTED);
                 });
                 RazerGameUtilities::RunOnUpdateThread(r,true);
                 break;
@@ -300,6 +301,7 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
                         wGame->modifierEnPause(true);
                         GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(true);
                     }
+                    GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_SERVER_USER_DISCONNECTED);
                     std::cout << "Other player disconnected" << std::endl;
                 });
                 RazerGameUtilities::RunOnUpdateThread(r,true);
@@ -348,8 +350,7 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
         case GAME_EVENT_GAME_ENDED:
             {
                 // Fin de la partie
-                // Pas utilise en ce moment car le nb de points est fixe et le client va le detecter anyways
-
+                GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_ENDED_CS);
                 break;
             }
         case GAME_EVENT_CHANGE_LAST_MALLET:

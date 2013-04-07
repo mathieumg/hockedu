@@ -336,6 +336,7 @@ namespace UIHeavyClient
                     // On vient de recevoir la map download, on veut maintenant passer au mode jeu
                     MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_JEU);
                     MainWindowHandler.Context.RestartGameMenuHandle(true);
+                    MainWindowHandler.Context.ReplayMenuHandle(true);
                 }
             });
         }
@@ -418,6 +419,12 @@ namespace UIHeavyClient
                     break;
                     case EventCodes.GAME_CONNECTION_RESPONSE_SUCCESS:
                     {
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                            MainWindowHandler.Context.RestartGameMenuHandle(false);
+                            MainWindowHandler.Context.AddAIOpponentHandle(false);
+                        });
+
                         // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
                         if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
                         {

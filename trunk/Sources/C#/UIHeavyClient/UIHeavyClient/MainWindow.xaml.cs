@@ -587,6 +587,24 @@ namespace UIHeavyClient
             ActionPerformed( ActionType.ACTION_REPLAY );
         }
 
+
+        [DllImport(@"RazerGame.dll", CallingConvention=CallingConvention.Cdecl)]
+        private static extern void AskForAIOpponentInNetworkGame();
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void MainWindow.AddAIOpponentClick()
+        ///
+        /// Ask for an AI opponent when the oppenent disconnects
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        private void AddAIOpponentClick(object sender, RoutedEventArgs e)
+        {
+            AskForAIOpponentInNetworkGame();
+        }
+
         ////////////////////////////////////////////////////////////////////////
         /// @fn void MainWindow.simulationMode_Click()
         ///
@@ -951,6 +969,16 @@ namespace UIHeavyClient
         public void RestartGameMenuHandle(bool pMustBeCollapse)
         {
             mRestartGameMenuItem.Visibility = pMustBeCollapse ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        public void ReplayMenuHandle(bool pMustBeCollapse)
+        {
+            mReplayItem.Visibility=pMustBeCollapse?Visibility.Collapsed:Visibility.Visible;
+        }
+
+        public void AddAIOpponentHandle(bool pMustBeCollapse)
+        {
+            mAiOpponentItem.Visibility=pMustBeCollapse?Visibility.Collapsed:Visibility.Visible;
         }
     }
 }
