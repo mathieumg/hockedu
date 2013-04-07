@@ -267,7 +267,6 @@ void AchievementStartApp::EventStartCallBack( AbstractAchievement* pAchievement 
     auto achievement = (AchievementStartApp*)pAchievement;
     achievement->GoToNextLevel();
     AchievementsManager::obtenirInstance()->AchievementUnlocked(ACHIEVEMENTS_START_APPLICATION,"Break the ice");
-    achievement->mHasProgressed = true;
 }
 
 
@@ -344,13 +343,13 @@ void AchievementGameWon::EventWinCallBack( AbstractAchievement* pAchievement, Ac
 
     auto achievement = (AchievementGameWon*)pAchievement;
     int n = ++achievement->mNbGameWon;
-    
+    achievement->mHasProgressed = true;
+
     int level = achievement->mLevelUnlocked;
     if(level < ARRAY_COUNT(NbGameWinNeeded) && n >= NbGameWinNeeded[level])
     {
         achievement->GoToNextLevel();
         AchievementsManager::obtenirInstance()->AchievementUnlocked(AchievementsType(ACHIEVEMENTS_GAME_WON_L1+level),achievementName[level]);
-        achievement->mHasProgressed = true;
     }
 }
 
@@ -427,13 +426,13 @@ void AchievementAICreation::EventAICreatedCallBack( AbstractAchievement* pAchiev
 {
     auto wThis = (AchievementAICreation*)pAchievement;
     auto val = ++wThis->mNbAiCreated;
+    wThis->mHasProgressed = true;
 
     int level = wThis->mLevelUnlocked;
     if(level < ARRAY_COUNT(AchievementAICreation::AI_CREATION_NEEDED) && val >= AchievementAICreation::AI_CREATION_NEEDED[level])
     {
         wThis->GoToNextLevel();
         AchievementsManager::obtenirInstance()->AchievementUnlocked(AchievementsType(ACHIEVEMENTS_AI_CREATION_L1+level),AchievementAICreation::AI_LEVEL_NAME[level]);
-        wThis->mHasProgressed = true;
     }
 }
 
@@ -449,7 +448,6 @@ bool AchievementAICreation::LoadAchievementData( const XmlElement* elem )
         if(mLevelUnlocked < ARRAY_COUNT(AI_CREATION_NEEDED))
         {
             mNbAiCreated = AI_CREATION_NEEDED[mLevelUnlocked];
-            mHasProgressed = true;
         }
     }
     else
@@ -479,13 +477,13 @@ void AchievementMute::EventMuteCallBack( AbstractAchievement* pAchievement, Achi
 {
     auto wThis = (AchievementMute*)pAchievement;
     wThis->mMuted = true;
+    wThis->mHasProgressed = true;
 
     int level = wThis->mLevelUnlocked;
     if(level < 1)
     {
         wThis->GoToNextLevel();
-        AchievementsManager::obtenirInstance()->AchievementUnlocked(AchievementsType(ACHIEVEMENT_EVENT_MUTE+level),AchievementMute::MUTE_LEVEL_NAME[level]);
-        wThis->mHasProgressed = true;
+        AchievementsManager::obtenirInstance()->AchievementUnlocked(AchievementsType(ACHIEVEMENT_EVENT_MUTE+level),AchievementMute::MUTE_LEVEL_NAME[level]);   
     }
 }
 
@@ -543,13 +541,13 @@ void AchievementPortal::EventPortalCallBack( AbstractAchievement* pAchievement, 
 {
     auto wThis = (AchievementPortal*)pAchievement;
     auto val = ++wThis->mNbrPortalCreated;
+    wThis->mHasProgressed = true;
 
     int level = wThis->mLevelUnlocked;
     if(level < ARRAY_COUNT(AchievementPortal::PORTAL_NEEDED) && val >= AchievementPortal::PORTAL_NEEDED[level])
     {
         wThis->GoToNextLevel();
-        AchievementsManager::obtenirInstance()->AchievementUnlocked(AchievementsType(ACHIEVEMENTS_PORTAL_L1+level),AchievementPortal::PORTAL_LEVEL_NAME[level]);
-        wThis->mHasProgressed;
+        AchievementsManager::obtenirInstance()->AchievementUnlocked(AchievementsType(ACHIEVEMENTS_PORTAL_L1+level),AchievementPortal::PORTAL_LEVEL_NAME[level]);       
     }
 }
 
