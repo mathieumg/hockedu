@@ -2319,8 +2319,9 @@ void Terrain::initNecessaryPointersForGame()
         mPuck->validerPropriteteTablePourJeu();
         mPuck->modifierPositionOriginale(mPuck->getPosition());
 
+        mRightMallet->setSkinKey(RAZER_KEY_SKIN_MALLET_RED);
 #if WIN32
-        if (GestionnaireHUD::Exists())
+        if (!mIsSimulation && GestionnaireHUD::Exists())
         {
 	        auto leftBonuses = GestionnaireHUD::obtenirInstance()->getLeftPlayerBonuses();
 	        leftBonuses->setModifiers(&mLeftMallet->GetModifiers());
