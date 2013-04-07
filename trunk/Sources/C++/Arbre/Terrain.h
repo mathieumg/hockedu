@@ -22,7 +22,6 @@ struct b2Manifold;
 #include "RazerGameTypeDef.h"
 #include "XMLUtils.h"
 #include "Enum_Declarations.h"
-#include "RunnableBreaker.h"
 #include <deque>
 #include "FieldModificationStrategyAbstract.h"
 
@@ -54,9 +53,9 @@ typedef std::set<NoeudAbstrait*> NodeSet;
 /// @author Michael Ferris
 /// @date 2012-03-19
 ///////////////////////////////////////////////////////////////////////////
-class Terrain : public RunnableBreaker
+class Terrain
 #if BOX2D_PLAY
-, public b2ContactListener
+: public b2ContactListener
 #endif
 {
 public:
@@ -253,6 +252,8 @@ private:
     float mBonusesMinTimeSpawn;
     float mBonusesMaxTimeSpawn;
 
+
+    std::deque<class FieldRunnable*> mRunnableQueue;
 
 
 #if BOX2D_INTEGRATED  

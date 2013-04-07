@@ -63,6 +63,8 @@ extern "C"
         char* Name;
         int Speed;
         int FailProb;
+        bool IsLearning;
+        char* FilePath;
     };
 
     struct OnlineGameInfos
@@ -121,7 +123,7 @@ extern "C"
     __declspec(dllexport) void SetSecondPlayer(bool pIsHuman, char* pName);
 
 	// AI configuration calls
-    __declspec(dllexport) void AddPlayer(char* pName, int pSpeed, int pFailProb);
+    __declspec(dllexport) void AddPlayer(char* pName, int pSpeed, int pFailProb, bool pIsLearning, char* pFilePath);
     __declspec(dllexport) void RemovePlayer(char* pName);
 	__declspec(dllexport) int GetNbrPlayers();
 	__declspec(dllexport) void GetPlayers(AIProfile* pProfiles, int pNbrProfiles);

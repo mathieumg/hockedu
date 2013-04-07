@@ -503,6 +503,32 @@ class Common
         return $userMaps;
     }
     
+    public function getUsersRankings()
+    { 
+        $sql = 'SELECT %s, %s, COUNT(%s) as win_count
+                FROM %s 
+                RIGHT JOIN %s ON %s = %s
+                GROUP BY %s
+                ORDER BY win_count DESC';
+
+        $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'users' ) . '.' . $this->db->quoteIdentifier( 'id' ),
+                        $this->db->quoteIdentifier( 'username' ),
+                        $this->db->quoteIdentifier( 'id_user1' ),
+                        
+                        $this->db->quoteIdentifier( 'matches' ),
+                        
+                        $this->db->quoteIdentifier( 'users' ),
+                        $this->db->quoteIdentifier( 'users' ) . '.' . $this->db->quoteIdentifier( 'id' ),
+                        $this->db->quoteIdentifier( 'id_user1' ),
+                        
+                        $this->db->quoteIdentifier( 'users' ) . '.' . $this->db->quoteIdentifier( 'id' )
+                       );
+        $userRankings = $this->db->queryAll( $sql );
+
+        return $userRankings;
+    }
+    
     /**
      * Indicates whether a user with the specified email exists.
      * @access public

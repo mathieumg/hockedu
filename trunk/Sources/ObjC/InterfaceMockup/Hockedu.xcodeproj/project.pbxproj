@@ -406,7 +406,7 @@
 		4E2A595B16F2E558002160AE /* NodeModelRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NodeModelRender.cpp; sourceTree = "<group>"; };
 		4E2A595C16F2E558002160AE /* NodeModelRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeModelRender.h; sourceTree = "<group>"; };
 		4E2A596016F2E658002160AE /* BonusModifierFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusModifierFactory.h; path = ../Usines/BonusModifierFactory.h; sourceTree = "<group>"; };
-		4E2A596216F2E84B002160AE /* Enum_Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enum_Declarations.h; path = "../../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"; sourceTree = "<group>"; };
+		4E2A596216F2E84B002160AE /* Enum_Declarations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Enum_Declarations.h; path = "../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"; sourceTree = "<group>"; };
 		4E43BB36170E64190074CB3D /* BonusModifierFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusModifierFactory.cpp; path = ../Usines/BonusModifierFactory.cpp; sourceTree = "<group>"; };
 		4E43BB38170E658B0074CB3D /* BonusModifierAbstract.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierAbstract.cpp; sourceTree = "<group>"; };
 		4E43BB39170E658B0074CB3D /* BonusModifierBlockGoal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BonusModifierBlockGoal.cpp; sourceTree = "<group>"; };
@@ -648,6 +648,7 @@
 				4E1FF7371707917E005D1D50 /* ForceField.h */,
 				4E90C0FA17024114000F2564 /* EditionEventManager.cpp */,
 				4E90C0FB17024114000F2564 /* EditionEventManager.h */,
+				4E2A596216F2E84B002160AE /* Enum_Declarations.h */,
 				0C04E18516DE964E002B0EE2 /* Utilitaire */,
 				0C04E0F016DE960A002B0EE2 /* Arbre */,
 				0C04E0EF16DE917C002B0EE2 /* RazerGameTypeDef.h */,
@@ -682,7 +683,6 @@
 			isa = PBXGroup;
 			children = (
 				4E2A595916F2E558002160AE /* NodeBonus.cpp */,
-				4E2A596216F2E84B002160AE /* Enum_Declarations.h */,
 				4E2A595A16F2E558002160AE /* NodeBonus.h */,
 				4E2A595B16F2E558002160AE /* NodeModelRender.cpp */,
 				4E2A595C16F2E558002160AE /* NodeModelRender.h */,

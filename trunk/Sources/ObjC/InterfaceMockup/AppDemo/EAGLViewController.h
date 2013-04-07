@@ -45,6 +45,14 @@ extern int const HAUTEUR_FENETRE;
     IBOutlet UIView *mTopBarView;
     IBOutlet UIView *undoRedoView;
     IBOutlet UIView *mPropertyView;
+    IBOutlet UIView *mTablePropertyView;
+    IBOutlet UIView *mBoostPropertyView;
+    IBOutlet UIView *mPortalPropertyView;
+    IBOutlet UIView *mPuckPropertyView;
+    IBOutlet UIView *mMalletPropertyView;
+    IBOutlet UIView *mWallPropertyView;
+    IBOutlet UIView *mControlPointPropertyView;
+    IBOutlet UIView *mBonusPropertyView;
     
     IBOutlet UIButton *editionButton;
     IBOutlet UIButton *cameraButton;
@@ -59,6 +67,9 @@ extern int const HAUTEUR_FENETRE;
     IBOutlet UIButton *rightArrowButton;
     
     NSArray* carouselElements;
+    NSArray* textBoxCollection;
+    NSArray* sliderCollection;
+    NSArray* stepperCollection;
     
     UIButton *previouslySelected;
     
@@ -91,9 +102,6 @@ extern int const HAUTEUR_FENETRE;
     // Pinch et zoom
     CGFloat __scale;
     CGFloat __previousScale;
-    IBOutlet UITableViewController *propertyTableViewController;
-    IBOutlet UITableView *propertyTableView;
-    IBOutlet UITableViewCell *tablePropertiesCell;
 }
 
 
@@ -111,6 +119,10 @@ extern int const HAUTEUR_FENETRE;
 @property (nonatomic, retain) OpenGLWaveFrontObject *cube;
 @property (nonatomic, retain) IBOutlet iCarousel *carousel;
 @property (readonly, nonatomic, retain) NSArray* carouselElements;
+@property (nonatomic, retain) IBOutletCollection(UITextField) NSArray* textBoxCollection;
+@property (nonatomic, retain) IBOutletCollection(UISlider) NSArray* sliderCollection;
+@property (nonatomic, retain) IBOutletCollection(UIStepper) NSArray* stepperCollection;
+
 
 - (IBAction)cameraModeButtonTouched:(UIButton *)sender;
 - (IBAction)leftArrowButton:(UIButton *)sender;
@@ -137,5 +149,8 @@ extern int const HAUTEUR_FENETRE;
 - (void)rotationDetectee:(UIGestureRecognizer *)gestureRecognizer;
 - (IBAction)longPressDetected:(UILongPressGestureRecognizer*)sender;
 - (IBAction)swipeDetected:(id)sender;
-
+- (IBAction) sliderValueChanged:(UISlider*)sender;
+- (IBAction) textFieldValueChanged:(UITextField*)sender;
+- (IBAction) textFieldValueChangedStepper:(UITextField*)sender;
+- (IBAction) stepperValueChanged:(UIStepper*)sender;
 @end
