@@ -22,6 +22,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
+using Microsoft.Win32;
 
 namespace UIHeavyClient
 {
@@ -38,12 +39,16 @@ namespace UIHeavyClient
         public string Name;
         public int Speed;
         public int FailProb;
+        public bool IsLearning;
+        public string FilePath;
 
-        public AIProfile(string pName, int pSpeed, int pFailProb)
+        public AIProfile(string pName, int pSpeed, int pFailProb, bool pIsLearning, string pFilePath)
         {
             Name = pName;
             Speed = pSpeed;
             FailProb = pFailProb;
+            IsLearning = pIsLearning;
+            FilePath = pFilePath;
         }
     }
 
@@ -61,9 +66,11 @@ namespace UIHeavyClient
         Dictionary<string, AIProfile> mProfiles;
         string mSelectedProfile;
 
+        OpenFileDialog mOpenFileDialog;
+
         // C++ functions
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void AddPlayer(string pName, int pSpeed, int pFailProb);
+        private static extern void AddPlayer(string pName, int pSpeed, int pFailProb, bool pIsLearning, string pFilePath);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void RemovePlayer(string pName);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -95,6 +102,11 @@ namespace UIHeavyClient
 
             mProfiles = new Dictionary<string, AIProfile>();
             mSelectedProfile = "";
+
+            mOpenFileDialog = new OpenFileDialog();
+            mOpenFileDialog.Multiselect = false;
+            mOpenFileDialog.Filter = "XML Files (*.xml)|*.xml";
+            mOpenFileDialog.Title = "Choose a reinforcement AI profile";
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -177,7 +189,7 @@ namespace UIHeavyClient
                 newName = "New AI " + (++i); 
             }
 
-            AddPlayer(newName, 1, 0);
+            AddPlayer(newName, 1, 0, false, "");
 
             MainWindowHandler.LaunchAchievementEvent(AchievementEvent.ACHIEVEMENT_EVENT_AI_CREATED);
 
@@ -227,12 +239,12 @@ namespace UIHeavyClient
             {
                 RemovePlayer(mSelectedProfile);
 
-                AddPlayer(mProfileNameTextBox.Text, (int)mSpeedSlider.Value, (int)mReflexSlider.Value);
+                AddPlayer(mProfileNameTextBox.Text, (int)mSpeedSlider.Value, (int)mReflexSlider.Value, mLearningCheckbox.IsChecked.Value, mLearningTextbox.Text);
             }
             else if (mProfileNameTextBox.Text != "")
             {
                 RemovePlayer(mProfileNameTextBox.Text);
-                AddPlayer(mProfileNameTextBox.Text, (int)mSpeedSlider.Value, (int)mReflexSlider.Value);
+                AddPlayer(mProfileNameTextBox.Text, (int)mSpeedSlider.Value, (int)mReflexSlider.Value, mLearningCheckbox.IsChecked.Value, mLearningTextbox.Text);
                 MainWindowHandler.LaunchAchievementEvent(AchievementEvent.ACHIEVEMENT_EVENT_AI_CREATED);
             }
 
@@ -258,7 +270,7 @@ namespace UIHeavyClient
 
             for (int i = 0; i < nbrProfiles; ++i)
             {
-                profiles[i] = new AIProfile(new string('s', 255), 1, 0);
+                profiles[i] = new AIProfile(new string('s', 255), 1, 0, false, new string('s', 255));
             }
 
             GetPlayers(profiles, nbrProfiles);
@@ -294,6 +306,8 @@ namespace UIHeavyClient
                 mProfileNameTextBox.Text = selectedProfile.Name;
                 mSpeedSlider.Value = selectedProfile.Speed;
                 mReflexSlider.Value = selectedProfile.FailProb;
+                mLearningCheckbox.IsChecked = selectedProfile.IsLearning;
+                mLearningTextbox.Text = selectedProfile.FilePath;
             }
         }
 
@@ -309,8 +323,18 @@ namespace UIHeavyClient
             mProfileNameTextBox.Text = "";
             mSpeedSlider.Value = 0;
             mReflexSlider.Value = 0;
+            mLearningCheckbox.IsChecked = false;
+            mLearningTextbox.Text = "";
 
             mSelectedProfile = "";
+        }
+
+        private void mBrowseBotton_Click(object sender, RoutedEventArgs e)
+        {
+            if (mOpenFileDialog.ShowDialog().Value)
+            {
+                mLearningTextbox.Text = mOpenFileDialog.FileName;
+            }
         }
     }
 }
