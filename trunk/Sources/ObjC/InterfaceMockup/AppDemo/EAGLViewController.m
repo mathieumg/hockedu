@@ -107,12 +107,12 @@ enum {
     self.displayLink = nil;
     
     buttonImage = [[UIImage imageNamed:@"blueButton@2x.png"]
-                            resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+                   resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     buttonImageHighlight = [[UIImage imageNamed:@"blueButtonHighlight@2x.png"]
-                                     resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+                            resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     
     buttonImagePressed = [[UIImage imageNamed:@"blueButtonPressed@2x.png"]
-                                     resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+                          resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     
     // Set the background for any states you plan to use
     [saveButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
@@ -145,7 +145,7 @@ enum {
     [buttonImage retain];
     [buttonImageHighlight retain];
     [buttonImagePressed retain];
-
+    
 }
 
 - (void)dealloc
@@ -294,31 +294,31 @@ enum {
 
 - (void) propertiesMenuButtonTouched:(PieMenuItem *)item {
     
-//    // Ouverture du popover contenant les proprietes associees a la selection courante
-//    UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
-//    
-//    UILabel *label = [[UILabel alloc] init];
-//    label.text = @"Test";
-//    
-//    UITextField *textField = [[UITextField alloc] init];
-//    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellEditingStyleInsert reuseIdentifier:@"insert"];
-//    
-//    UITableView *tableView = [[UITableView alloc]init];
-//
-//    //[tableView set];
-//    [tableController setTableView:tableView];
-//    
-//    
-//    //UITabBarController *tabController = [[UITabBarController alloc] init];
-//    //UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tabController];
-//    UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:tableController];
-//    [popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    //    // Ouverture du popover contenant les proprietes associees a la selection courante
+    //    UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
+    //
+    //    UILabel *label = [[UILabel alloc] init];
+    //    label.text = @"Test";
+    //
+    //    UITextField *textField = [[UITextField alloc] init];
+    //    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellEditingStyleInsert reuseIdentifier:@"insert"];
+    //
+    //    UITableView *tableView = [[UITableView alloc]init];
+    //
+    //    //[tableView set];
+    //    [tableController setTableView:tableView];
+    //
+    //
+    //    //UITabBarController *tabController = [[UITabBarController alloc] init];
+    //    //UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tabController];
+    //    UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:tableController];
+    //    [popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     [UIView beginAnimations:@"MenuAnimationShow" context:NULL];
     [UIView setAnimationDuration:1];
     self.mPropertyView.center = CGPointMake(mPropertyView.center.x - mPropertyView.bounds.size.width, mPropertyView.center.y);
     [UIView commitAnimations];
     propertyBarHidden = NO;
-
+    
 }
 
 - (void) setupPieMenu
@@ -431,7 +431,7 @@ enum {
     if(diff > 1.5 || diff < 0.5)
     {
         [mModel zoom:diff];
-        __previousScale = currentScale; 
+        __previousScale = currentScale;
     }
     
     
@@ -439,16 +439,16 @@ enum {
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     
-        //if (![gestureRecognizer isMemberOfClass:[UILongPressGestureRecognizer class]])
-        //{
-            // Return NO for views that don't support Taps
-            UIView* view=touch.view;
-            if ((view!=theEAGLView)) {
-                return NO;
-            }
-
-        //}
-        return YES;
+    //if (![gestureRecognizer isMemberOfClass:[UILongPressGestureRecognizer class]])
+    //{
+    // Return NO for views that don't support Taps
+    UIView* view=touch.view;
+    if ((view!=theEAGLView)) {
+        return NO;
+    }
+    
+    //}
+    return YES;
     
     //return YES;
 }
@@ -467,11 +467,11 @@ enum {
         
     }
     //else if (sender.state == UIGestureRecognizerState) {
-        //NSLog(@"UIGestureRecognizerStateEnded");
-        //Do Whatever You want on End of Gesture
+    //NSLog(@"UIGestureRecognizerStateEnded");
+    //Do Whatever You want on End of Gesture
     //}
-     
-	    
+    
+    
 }
 
 
@@ -667,7 +667,7 @@ enum {
     CGPoint positionCourante = [touch locationInView:theEAGLView];
     
     UIView* view=touch.view;
-    if ((view!=mPropertyView)) {
+    if ((view!=mPropertyView && view !=mTopBarView && view !=mSideBarView && view !=undoRedoView)) {
         if(!propertyBarHidden)
         {
             [UIView beginAnimations:@"MenuAnimationShow" context:NULL];
@@ -681,19 +681,19 @@ enum {
     
     //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
     //[mEventManager touchesBegan:touch:positionCourante];
-        
-//    NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");
-//    for(UITouch* touch in touches) {
-//        CGPoint positionCourante = [touch locationInView:theEAGLView];
-//        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);
-//    }
-//    NSLog(@"Position de tous les doigts sur l'écran");
-//    NSSet *allTouches = [event allTouches];
-//    for(UITouch* touch in allTouches) {
-//        CGPoint positionCourante = [touch locationInView:theEAGLView];
-//        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);
-//    }
-//    NSLog(@"\n\n");
+    
+    //    NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");
+    //    for(UITouch* touch in touches) {
+    //        CGPoint positionCourante = [touch locationInView:theEAGLView];
+    //        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);
+    //    }
+    //    NSLog(@"Position de tous les doigts sur l'écran");
+    //    NSSet *allTouches = [event allTouches];
+    //    for(UITouch* touch in allTouches) {
+    //        CGPoint positionCourante = [touch locationInView:theEAGLView];
+    //        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);
+    //    }
+    //    NSLog(@"\n\n");
 }
 
 
@@ -704,55 +704,58 @@ enum {
     {
         UITouch *touch = [[event allTouches] anyObject];
         CGPoint positionCourante = [touch locationInView:theEAGLView];
-        //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
-        [mEventManager touchesMoved:touch:positionCourante];
+        UIView * view = touch.view;
+        if ((view!=mPropertyView && view !=mTopBarView && view !=mSideBarView && view !=undoRedoView)) {
+            //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
+            [mEventManager touchesMoved:touch:positionCourante];
+        }
         
         //CGPoint positionCourante = [touch locationInView:theEAGLView];
-//        if (mCreationMode) {
-//            // Si on est en mode creation et touchMoved, on update la position de limage
-//            //imageObjectToAdd.center = [touch locationInView:theEAGLView];
-//            CGPoint coordVirt = [self convertScreenCoordToVirtualCoord:positionCourante];
-//            [mModel eventModification:FIELD_MODIFICATION_EVENT_MOVE:coordVirt];
-//            
-//        }
-//        else if (mSelectionMode && mMoveTool)
-//        {
-//            CGPoint positionPrecedente = [touch previousLocationInView:theEAGLView];
-//            translationX -= (positionCourante.x - positionPrecedente.x);
-//            translationY += (positionCourante.y - positionPrecedente.y);
-//            
-//            // Set boundaries for the editing grid, currently 1000x1000, centered at 0,0.
-//            /*
-//             if( translationX < ( -500 / zoomFactor ) )
-//             {
-//             translationX = (int)( -500 / zoomFactor );
-//             }
-//             */
-//            if( translationX < -500 )
-//            {
-//                translationX = -500;
-//            }
-//            else if( translationX > 500 )
-//            {
-//                translationX = 500;
-//            }
-//            
-//            if( translationY < -500 )
-//            {
-//                translationY = -500;
-//            }
-//            else if( translationY > 500 )
-//            {
-//                translationY = 500;
-//            }
-//            
-//            [self updateOrtho];
-//            
-//        }
-//        else if (mSelectionMode && mSelectTool)
-//        {
-//            touchMoved = true;
-//        }
+        //        if (mCreationMode) {
+        //            // Si on est en mode creation et touchMoved, on update la position de limage
+        //            //imageObjectToAdd.center = [touch locationInView:theEAGLView];
+        //            CGPoint coordVirt = [self convertScreenCoordToVirtualCoord:positionCourante];
+        //            [mModel eventModification:FIELD_MODIFICATION_EVENT_MOVE:coordVirt];
+        //
+        //        }
+        //        else if (mSelectionMode && mMoveTool)
+        //        {
+        //            CGPoint positionPrecedente = [touch previousLocationInView:theEAGLView];
+        //            translationX -= (positionCourante.x - positionPrecedente.x);
+        //            translationY += (positionCourante.y - positionPrecedente.y);
+        //
+        //            // Set boundaries for the editing grid, currently 1000x1000, centered at 0,0.
+        //            /*
+        //             if( translationX < ( -500 / zoomFactor ) )
+        //             {
+        //             translationX = (int)( -500 / zoomFactor );
+        //             }
+        //             */
+        //            if( translationX < -500 )
+        //            {
+        //                translationX = -500;
+        //            }
+        //            else if( translationX > 500 )
+        //            {
+        //                translationX = 500;
+        //            }
+        //
+        //            if( translationY < -500 )
+        //            {
+        //                translationY = -500;
+        //            }
+        //            else if( translationY > 500 )
+        //            {
+        //                translationY = 500;
+        //            }
+        //
+        //            [self updateOrtho];
+        //
+        //        }
+        //        else if (mSelectionMode && mSelectTool)
+        //        {
+        //            touchMoved = true;
+        //        }
     }
     else if([[event allTouches] count] == 2) {
         
@@ -767,66 +770,67 @@ enum {
     {
         UITouch *touch = [[event allTouches] anyObject];
         CGPoint positionCourante = [touch locationInView:theEAGLView];
+        
         //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
         [mEventManager touchesEnded:touch:positionCourante];
-//        
-//        if (mCreationMode) {
-//            // Destruction de limage de lobjet qui suit la position du doigt
-//            
-//                // On drop lobjet
-//                CGPoint coordVirt = [self convertScreenCoordToVirtualCoord:positionCourante];
-//            // On drop le noeud a la position finale
-//            [mModel eventModification:FIELD_MODIFICATION_EVENT_CLICK:coordVirt];
-//            // On enleve le prochain noeud qui apparait pour sajouter, utilise dans c++
-//            [mModel eventCancel];
-//                //[imageObjectToAdd removeFromSuperview];
-//                //[imageObjectToAdd release];
-//        }
+        //
+        //        if (mCreationMode) {
+        //            // Destruction de limage de lobjet qui suit la position du doigt
+        //
+        //                // On drop lobjet
+        //                CGPoint coordVirt = [self convertScreenCoordToVirtualCoord:positionCourante];
+        //            // On drop le noeud a la position finale
+        //            [mModel eventModification:FIELD_MODIFICATION_EVENT_CLICK:coordVirt];
+        //            // On enleve le prochain noeud qui apparait pour sajouter, utilise dans c++
+        //            [mModel eventCancel];
+        //                //[imageObjectToAdd removeFromSuperview];
+        //                //[imageObjectToAdd release];
+        //        }
         
-//        if(mSelectionMode && mSelectTool)
-//        {
-//            
-//            
-//            CGPoint posVirtuelle = [self convertScreenCoordToVirtualCoord:positionCourante];
-//            
-//            int CV_X_NOW = posVirtuelle.x;
-//            int CV_Y_NOW = posVirtuelle.y;
-//            
-//            
-//            int CV_X_OLD;
-//            int CV_Y_OLD;
-//            if(touchMoved)
-//            {
-//                CGPoint firstCornerVirt;
-//                firstCornerVirt = [self convertScreenCoordToVirtualCoord:firstCorner];
-//                CV_X_OLD = firstCornerVirt.x;
-//                CV_Y_OLD = firstCornerVirt.y;
-//            }
-//            else
-//            {
-//                CV_X_OLD = CV_X_NOW-2;
-//                CV_X_NOW += 2;
-//                CV_Y_OLD = CV_Y_NOW+2;
-//                CV_Y_NOW-=2;
-//            }
-//            int nbNoeudsSelectionnes = [mModel acceptSelectionVisitor:CV_X_OLD:CV_Y_OLD:CV_X_NOW:CV_Y_NOW];
-//            if(nbNoeudsSelectionnes==1)
-//            {
-//                // Si on a un seul noeud selectionne, on ouvre un popovercontroller contenant les proprietes modifiables du noeud
-//                
-//                //UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
-//                
-//                //UITabBarController *tabController = [[UITabBarController alloc] init];
-//                
-//                //UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tableController];
-//                
-//                //UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:navController];
-//                //navController.tabBarController = tabController;
-//                
-//                //[popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-//                
-//            }
-//        }
+        //        if(mSelectionMode && mSelectTool)
+        //        {
+        //
+        //
+        //            CGPoint posVirtuelle = [self convertScreenCoordToVirtualCoord:positionCourante];
+        //
+        //            int CV_X_NOW = posVirtuelle.x;
+        //            int CV_Y_NOW = posVirtuelle.y;
+        //
+        //
+        //            int CV_X_OLD;
+        //            int CV_Y_OLD;
+        //            if(touchMoved)
+        //            {
+        //                CGPoint firstCornerVirt;
+        //                firstCornerVirt = [self convertScreenCoordToVirtualCoord:firstCorner];
+        //                CV_X_OLD = firstCornerVirt.x;
+        //                CV_Y_OLD = firstCornerVirt.y;
+        //            }
+        //            else
+        //            {
+        //                CV_X_OLD = CV_X_NOW-2;
+        //                CV_X_NOW += 2;
+        //                CV_Y_OLD = CV_Y_NOW+2;
+        //                CV_Y_NOW-=2;
+        //            }
+        //            int nbNoeudsSelectionnes = [mModel acceptSelectionVisitor:CV_X_OLD:CV_Y_OLD:CV_X_NOW:CV_Y_NOW];
+        //            if(nbNoeudsSelectionnes==1)
+        //            {
+        //                // Si on a un seul noeud selectionne, on ouvre un popovercontroller contenant les proprietes modifiables du noeud
+        //
+        //                //UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
+        //
+        //                //UITabBarController *tabController = [[UITabBarController alloc] init];
+        //
+        //                //UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tableController];
+        //
+        //                //UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:navController];
+        //                //navController.tabBarController = tabController;
+        //
+        //                //[popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        //
+        //            }
+        //        }
     }
 }
 
@@ -846,31 +850,31 @@ enum {
 -(void)setupView
 {
     glEnable(GL_DEPTH_TEST);
-	glMatrixMode(GL_PROJECTION);
+    glMatrixMode(GL_PROJECTION);
     
     
-	CGRect rect = theEAGLView.bounds;
+    CGRect rect = theEAGLView.bounds;
     
     [self updateOrtho];
     
     
-	glViewport(0, 0, rect.size.width, rect.size.height);
+    glViewport(0, 0, rect.size.width, rect.size.height);
     
     
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     
-	glClearColor(0.3765, 0.4039, 0.4862, 1.0); //Background color for the editing area.
+    glClearColor(0.3765, 0.4039, 0.4862, 1.0); //Background color for the editing area.
     
-	glGetError(); // Clear error codes
+    glGetError(); // Clear error codes
 }
 
 
 - (void)drawFrame
 {
     [(EAGLView *)theEAGLView setFramebuffer];
-        
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     [mModel render];
     

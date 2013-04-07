@@ -14,6 +14,7 @@
 #include "AFHTTPClient.h"
 #include "VuePerspectiveOrbit.h"
 #include "EditionEventManager.h"
+#import "VisitorGatherProperties.h"
 #include <time.h>
 #include <iostream>
 
@@ -248,6 +249,17 @@ float temps = clock();
         NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
     }];
     [httpClient release];
+}
+
+// Point d'entre pour le menu de modification des proprietes
+-(void*) getProperties:(void*)fullProp
+{
+    ((Terrain*)mField)->gatherSelectedNodeProperties((FullProperties*)fullProp);
+    return fullProp;
+}
+-(void) setProperties:(void*)fullProp
+{
+    ((Terrain*)mField)->applySelectedNodeProperties((FullProperties*)fullProp);
 }
 
 @end

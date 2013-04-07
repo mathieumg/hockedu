@@ -33,4 +33,6 @@
 -(void) deplacerSouris:(int)deplacementX :(int)deplacementY;
 -(void) orbit:(int)deplacementX :(int)deplacementY;
 -(void) resizeWindow:(int)minX :(int)minY :(int)maxX :(int)maxY;
+-(void*) getProperties:(void*)fullProp;
+-(void) setProperties:(void*)fullProp;
 @end
