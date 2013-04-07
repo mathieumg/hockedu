@@ -209,6 +209,8 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public static void GoToMainMenu()
         {
+            SynchroniseAchievements();
+
             if(CallbackManager.ChangeGameMode(GameState.GAME_STATE_MAIN_MENU))
             {
                 if (ActionPerformed(ActionType.ACTION_ALLER_MENU_PRINCIPAL))
@@ -481,9 +483,11 @@ namespace UIHeavyClient
 
         public static void SynchroniseAchievements()
         {
-            HttpManager wManager = new HttpManager();
-            wManager.uploadAchievements( LoginControl.mLoginInfo.mUserId, LoginControl.mLoginInfo.mAuthKey, UploadAchievementsResponse );
-
+            if(LoginControl.mLoginInfo.mAuthOnWeb)
+            {
+                HttpManager wManager = new HttpManager();
+                wManager.uploadAchievements( LoginControl.mLoginInfo.mUserId, LoginControl.mLoginInfo.mAuthKey, UploadAchievementsResponse );
+            }
         }
 
 

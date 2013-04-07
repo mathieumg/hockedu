@@ -248,10 +248,8 @@ FacadeModele::FacadeModele()
     mEditionField = new Terrain(NULL);
 
 #ifdef WIN32
-    CreateDirectoryA(
-        "tournoi",
-        NULL
-        );
+    CreateDirectoryA("tournoi",NULL);
+    CreateDirectoryA("OnlineMaps",NULL);
 #else
     // creation d'un dossier avec un autre API, dunno which yet
 #endif
