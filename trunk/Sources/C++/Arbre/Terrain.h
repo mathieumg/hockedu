@@ -24,6 +24,7 @@ struct b2Manifold;
 #include "Enum_Declarations.h"
 #include <deque>
 #include "FieldModificationStrategyAbstract.h"
+#include "GameTime.h"
 
 
 class RazerGameTree;
@@ -38,6 +39,13 @@ class Partie;
 class VisiteurNoeud;
 
 typedef std::set<NoeudAbstrait*> NodeSet;
+
+enum PuckZone
+{
+    PUCK_ZONE_UNKNOWN,
+    PUCK_ZONE_LEFT,
+    PUCK_ZONE_RIGHT,
+};
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -255,12 +263,14 @@ private:
 
     std::deque<class FieldRunnable*> mRunnableQueue;
 
-
+    PuckZone mPuckZone;
+    GameTime mZoneTimer;
 #if BOX2D_INTEGRATED  
     class b2World* mWorld;
 #endif
 #if BOX2D_PLAY
     std::set<class ForceField*> mForceFieldActive;
+    class ForceField* mLeftForceField,*mRightForceField;
 #endif
 
 
@@ -318,6 +328,10 @@ public:
     /// Accessors of mBonusesMaxTimeSpawn
     inline float getBonusesMaxTimeSpawn() const { return mBonusesMaxTimeSpawn; }
     void setBonusesMaxTimeSpawn(const float pVal);
+
+    /// Accessors of mPuckZone
+    inline PuckZone getPuckZone() const { return mPuckZone; }
+    void setPuckZone(const PuckZone pVal);
 
 #if BOX2D_INTEGRATED  
     inline class b2World* GetWorld() {return mWorld;}

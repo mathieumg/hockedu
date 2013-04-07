@@ -106,3 +106,67 @@ void ForceFieldCircle::ApplyForceField() const
 }
 
 #endif
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void ForceFieldSquare::CreateBody( b2World* world, unsigned short categoryAffected, const b2Vec2& pos )
+///
+/// Creates the physics body for this field
+/// categoryAffected : physicis categories of objects affected by the force field
+///
+/// @param[in] b2World * world
+/// @param[in] unsigned short categoryAffected
+/// @param[in] const b2Vec2 & pos
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void ForceFieldSquare::CreateBody( b2World* world, unsigned short categoryAffected, const b2Vec2& pos )
+{
+    checkf(!mPhysicBody,"Creating a new physics body for a force field already defined")
+    if(world && mHalfHeight >= 0 && mHalfWidth >= 0 )
+    {
+        b2BodyDef myBodyDef;
+        myBodyDef.type = b2_staticBody; //this will be a static body
+        myBodyDef.position = pos; //set the starting position
+        myBodyDef.angle = 0; //set the starting angle
+
+        mPhysicBody = world->CreateBody(&myBodyDef);
+        b2PolygonShape shape;
+        shape.SetAsBox(mHalfWidth,mHalfHeight,b2Vec2(0,0),mAngle);
+
+        b2FixtureDef myFixtureDef;
+        myFixtureDef.shape = &shape; //this is a pointer to the shape above
+        myFixtureDef.density = 1;
+
+        // Il s'agit ici d'un champ de force qui affecte les rondelles
+        myFixtureDef.filter.categoryBits = CATEGORY_FORCE_FIELD;
+        myFixtureDef.filter.maskBits = categoryAffected;
+        myFixtureDef.isSensor = true;
+
+        mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+        mPhysicBody->SetUserData(this);
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void ForceFieldSquare::ApplyForceField()
+///
+/// Applies forces on affected bodies
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void ForceFieldSquare::ApplyForceField() const
+{
+    if(mPhysicBody && IsActive())
+    {
+        STL_ITERATE(mAffectedBodies, it)
+        {
+            b2Body* body = *it;
+            body->ApplyForceToCenter(mForce);
+        }
+    }
+}

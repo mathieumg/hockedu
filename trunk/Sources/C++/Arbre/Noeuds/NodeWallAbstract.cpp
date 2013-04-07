@@ -17,9 +17,6 @@
 #include "XMLUtils.h"
 
 
-#if MIKE_DEBUG_
-PRAGMA_DISABLE_OPTIMIZATION
-#endif
 
 const Vecteur3 NodeWallAbstract::DEFAULT_SIZE = Vecteur3(1, 5, 15);
 
@@ -389,10 +386,6 @@ void NodeWallAbstract::setPosition( const Vecteur3& positionRelative )
 
 
 
-
-#if MIKE_DEBUG_
-PRAGMA_ENABLE_OPTIMIZATION
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

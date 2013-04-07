@@ -12,6 +12,7 @@
 
 /// Force fields are used with Box2D
 #if BOX2D_PLAY
+#include <Box2D\Common\b2Math.h>
 
 class b2Body;
 class b2World;
@@ -101,6 +102,30 @@ public:
 private:
     const float mRadius;
     const float mMaxForce;
+};
+
+
+class ForceFieldSquare : public ForceField
+{
+public:
+    ForceFieldSquare(float halfWidth, float halfHeight, float angle, b2Vec2 force):
+        mHalfWidth(halfWidth),mHalfHeight(halfHeight),mAngle(angle),mForce(force)
+    {
+
+    }
+    /// Creates the physics body for this field
+    /// categoryAffected : physicis categories of objects affected by the force field
+    virtual void CreateBody(b2World* world, unsigned short categoryAffected, const b2Vec2& pos);
+
+    /// Applies forces on affected bodies
+    virtual void ApplyForceField() const;
+private:
+    b2Vec2 mForce;
+    /// in radian
+    const float mAngle;
+
+    const float mHalfWidth;
+    const float mHalfHeight;
 };
 
 

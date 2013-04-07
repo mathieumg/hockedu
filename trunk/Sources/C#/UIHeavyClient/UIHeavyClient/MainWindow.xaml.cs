@@ -840,6 +840,7 @@ namespace UIHeavyClient
         {
             string achievementName = Marshal.PtrToStringAnsi( pMessage );
             DisplayAchievement( achievementName );
+            MainWindowHandler.Context.Focus();
             return 1;
         }
 

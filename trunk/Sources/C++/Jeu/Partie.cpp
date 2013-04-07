@@ -508,6 +508,8 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
     NoeudMaillet* maillet1 = mField->getLeftMallet();
     NoeudMaillet* maillet2 = mField->getRightMallet();
 
+    mField->setPuckZone(PUCK_ZONE_UNKNOWN);
+
     // Positionnement
     rondelle->setPosition(rondelle->obtenirPositionOriginale());
     rondelle->modifierVelocite(0);
