@@ -638,12 +638,13 @@ class Common
     
     public function getValidAuthenticationData( $userId )
     {
-        $sql = 'SELECT %s, %s
+        $sql = 'SELECT %s, %s, %s
                 FROM %s 
                 WHERE %s=%d AND %s>=%d
                 ORDER BY %s DESC';
         $sql = sprintf( $sql,
                         $this->db->quoteIdentifier( 'key' ),
+                        $this->db->quoteIdentifier( 'id_user' ),
                         $this->db->quoteIdentifier( 'expiration' ),
                         
                         $this->db->quoteIdentifier( 'remote_authentication'),
@@ -663,6 +664,7 @@ class Common
         {
             // Renew the expiration, then return it.
             $userInformation['expiration'] = time() + 3600;
+            $userInformation['id_user'] = (int)$userInformation['id_user'];
             
             $sql = 'UPDATE %s
                     SET %s=%d
