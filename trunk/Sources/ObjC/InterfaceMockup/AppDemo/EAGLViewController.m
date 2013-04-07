@@ -25,6 +25,8 @@ enum {
     NUM_ATTRIBUTES
 };
 
+
+
 @interface EAGLViewController ()
 @property (nonatomic, retain) EAGLContext *context;
 @property (nonatomic, retain) EventManager* mEventManager;
@@ -315,7 +317,8 @@ enum {
 }
 
 - (void) propertiesMenuButtonTouched:(PieMenuItem *)item {
-    
+    FullPropertiesApple* prop = [[FullPropertiesApple alloc]init];
+    prop = [mModel getProperties];
     // On enleve lancienne view
     for(UIView* subview in [mPropertyView subviews])
     {
@@ -325,6 +328,30 @@ enum {
     // On set la nouvelle view selon la selection
     switch ([mModel getSelectedNodesType]) {
         case RAZER_KEY_BONUS:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 39:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop->mPositionX];
+                        break;
+                    case 40:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop->mPositionY];
+                        break;
+                    case 23:
+                        // Scale
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop->mScale];
+                        break;
+                    case 24:
+                        // Angle
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop->mAngle];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            
             [mPropertyView addSubview:mBonusPropertyView];
             break;
         case RAZER_KEY_BOOST:
