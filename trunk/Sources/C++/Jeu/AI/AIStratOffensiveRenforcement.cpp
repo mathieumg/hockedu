@@ -74,7 +74,7 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
         Vecteur3 wDir = (mMalletTargetPos-mPointVise);
         Vecteur3 wDirNorm = wDir;
         wDirNorm.normaliser();
-        Vecteur3 wPoint1 = mPointImpact + 0.25f*wDir;
+        Vecteur3 wPoint1 = mPointImpact + 0.40f*wDir;
         Vecteur3 wDirRondelleNorm = rondelle->obtenirVelocite();
         wDirRondelleNorm.normaliser();
 
