@@ -1334,6 +1334,7 @@ PuckProjection Partie::getPuckProjection( float pPosX, int pDelaisMaxMs /*= 1000
             {
                 wReturnVal.position = wPuck->getPosition().convertir<2>();
                 wReturnVal.time = wElapsedTime;
+                wReturnVal.velocite = wPuck->obtenirVelocite().convertir<2>();
                 break;
             }
             

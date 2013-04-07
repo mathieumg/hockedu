@@ -507,8 +507,8 @@ void SetSecondPlayer(bool pIsHuman, char* pName)
 
 void AddPlayer(char* pName, int pSpeed, int pFailProb)
 {
-    //SPJoueurAbstrait joueurVirtuel(new JoueurVirtuel(pName, pSpeed, pFailProb));
-    SPJoueurAbstrait joueurVirtuel(new JoueurVirtuelRenforcement("", pName, pSpeed, pFailProb));
+    SPJoueurAbstrait joueurVirtuel(new JoueurVirtuel(pName, pSpeed, pFailProb));
+    //SPJoueurAbstrait joueurVirtuel(new JoueurVirtuelRenforcement("", pName, pSpeed, pFailProb));
     FacadeModele::getInstance()->ajouterJoueur(joueurVirtuel);
 }
 

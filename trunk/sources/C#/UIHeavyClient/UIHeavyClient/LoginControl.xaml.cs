@@ -678,11 +678,11 @@ namespace UIHeavyClient
                 }
                 case EventCodes.DATABASE_CONNECTION_ERROR:
                 {
-                    wThis.mConnecting=false;
                     MainWindowHandler.mTaskManager.ExecuteTask(() =>
                     {
                         wThis.SetUserMessageFeedBack("Database connection error (server side)", true);
                         wThis.UnBlockUIContent();
+                        mCurrentRequest=null;
                     });
                     break;
                 }

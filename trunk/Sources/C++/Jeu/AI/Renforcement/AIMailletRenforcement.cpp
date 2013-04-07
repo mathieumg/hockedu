@@ -159,6 +159,7 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
             AIStratOffensiveRenforcement* wStrat = (AIStratOffensiveRenforcement*) strategie_;
             wStrat->setPointImpact(wPred.position);
             wStrat->setTimeBeforeImpact(wPred.time);
+            //wStrat->setVelociteRondelleImpact(wPred.velocite);
             wStrat->calculateTagetPos();
 
             mPuckWasOnOppenentSize = false;

@@ -260,7 +260,7 @@ void Terrain::renderField()
 {
     if(mLogicTree)
         mLogicTree->render();
-
+    
 #if WIN32
     GLint renderMode;
     glGetIntegerv(GL_RENDER_MODE,&renderMode);
@@ -277,7 +277,7 @@ void Terrain::renderField()
         getZoneEdition()->afficher();
     if(mRenderTree)
         mRenderTree->render();
-
+    /*
 
 #if MAT_DEBUG_
     auto table = getTable();
@@ -409,7 +409,7 @@ void Terrain::renderField()
     }
 
 #endif
-
+    */
 
 }
 

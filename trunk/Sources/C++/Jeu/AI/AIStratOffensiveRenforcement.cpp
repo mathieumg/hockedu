@@ -70,26 +70,26 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
 
     if(!mCalculEffectue)
     {
-        // Calcul pos [1]
-        Vecteur3 wDir = (mMalletTargetPos-mPointVise);
-        Vecteur3 wDirNorm = wDir;
-        wDirNorm.normaliser();
-        Vecteur3 wPoint1 = mPointImpact + 0.40f*wDir;
         Vecteur3 wDirRondelleNorm = rondelle->obtenirVelocite();
         wDirRondelleNorm.normaliser();
 
         Vecteur3 mMalletTargetPos = mPointImpact;//mPointImpact.convertir<2>() + (wDirRondelleNorm * (maillet->getRadius() + rondelle->getRadius()));
 
+        Vecteur3 wDir = (mMalletTargetPos-mPointVise);
+        Vecteur3 wDirNorm = wDir;
+        wDirNorm.normaliser();
+        Vecteur3 wPoint1 = mPointImpact + 0.40f*wDir;
+        
 
         AnimationFrame* frame[5];
         frame[0] = new AnimationFrame(0, maillet->getPosition());
         frame[1] = new AnimationFrame(mTimeBeforeImpact*0.75, wPoint1);
-        frame[2] = new AnimationFrame(mTimeBeforeImpact*0.98, mMalletTargetPos);
-        frame[3] = new AnimationFrame(mTimeBeforeImpact*1.01, mPointVise);
-        frame[4] = new AnimationFrame(mTimeBeforeImpact*1.01, mPointVise);
+        frame[2] = new AnimationFrame(mTimeBeforeImpact*0.9, mMalletTargetPos + 2.0f*wDirRondelleNorm*maillet->getRadius());
+        frame[3] = new AnimationFrame(mTimeBeforeImpact, mMalletTargetPos - 10.0f*wDirRondelleNorm*maillet->getRadius());
+        frame[4] = new AnimationFrame(mTimeBeforeImpact, mMalletTargetPos - 10.0f*wDirRondelleNorm*maillet->getRadius());
 
         Animation* animation = new Animation(BEZIER, true, false, false);
-        for(int i=0; i<3; i++)
+        for(int i=0; i<5; i++)
             animation->ajouterFrame(frame[i]);
         animation->ajouterObjet((ObjetAnimable*)maillet);
         GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
