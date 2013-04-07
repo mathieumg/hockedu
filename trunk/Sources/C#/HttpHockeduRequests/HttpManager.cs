@@ -116,13 +116,13 @@ namespace HttpHockeduRequests
 
     public class WorkerAchievementParamsDownload
     {
-        public WorkerAchievementParamsDownload( AchievementsDownloadedCallback pCallback, int pUserId, string pAuthenticationKey )
+        public WorkerAchievementParamsDownload( AchievementsDownloadedCallback pCallback, string pUserId, string pAuthenticationKey )
         {
             userId = pUserId;
             authenticationKey = pAuthenticationKey;
             callback = pCallback;
         }
-        public int                  userId;
+        public string                  userId;
         public string               authenticationKey;
         public AchievementsDownloadedCallback    callback;
     }
@@ -505,12 +505,12 @@ namespace HttpHockeduRequests
         public static void downloadAchievements( object pParams )
         {
             WorkerAchievementParamsDownload wParams = (WorkerAchievementParamsDownload) pParams;
-            int wUserId = wParams.userId;
+            string wUserId = wParams.userId;
             string wAuthKey = wParams.authenticationKey;
             AchievementsDownloadedCallback wCallback = wParams.callback;
 
             NameValueCollection wPostData = new NameValueCollection();
-            wPostData.Add( "user_id", wUserId.ToString() );
+            wPostData.Add( "user_id", wUserId );
             wPostData.Add( "auth_key", wAuthKey );
             string wJsonData = HttpManager.getJsonFromRequest( "http://hockedu.com/remote/getachievements", wPostData );
 
@@ -728,7 +728,7 @@ namespace HttpHockeduRequests
             newThread.Start( wParams );
         }
 
-        public void downloadAchievements( int pUserId, string pAuthenticationKey, AchievementsDownloadedCallback pCallback )
+        public void downloadAchievements( string pUserId, string pAuthenticationKey, AchievementsDownloadedCallback pCallback )
         {
             // Faire dans un thread separe
             WorkerAchievementParamsDownload wParams = new WorkerAchievementParamsDownload( pCallback, pUserId, pAuthenticationKey );

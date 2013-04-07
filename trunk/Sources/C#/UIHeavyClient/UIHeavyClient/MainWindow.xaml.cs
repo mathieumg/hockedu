@@ -444,7 +444,7 @@ namespace UIHeavyClient
         void TestAchievementDownload_Click( object sender, RoutedEventArgs e )
         {
             HttpManager wManager = new HttpManager();
-            wManager.downloadAchievements( 12, "cd13d808-9e93-11e2-b5d0-005056823b67", TestCallbackAchievementsDownloaded );
+            wManager.downloadAchievements( "12", "cd13d808-9e93-11e2-b5d0-005056823b67", TestCallbackAchievementsDownloaded );
         }
         
         // Tests pour connection serveur jeu et client

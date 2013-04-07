@@ -57,6 +57,8 @@ public:
     inline void setAchievementUnlockedCallback( AchievementUnlockCallBack pVal) { mAchievementUnlockedCallback = pVal; }
     void AchievementUnlocked(AchievementsType pType, const std::string& pAchievementName);
 
+    void ReloadAchievements();
+
     /// Fonction pour des tests
     void ResetAchievements();
 
