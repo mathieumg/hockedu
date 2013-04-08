@@ -145,6 +145,16 @@ namespace UIHeavyClient
                 {"Need Password", "needPasswordString"},
                 {"Map Name", "mapName"},
             };
+
+            var buttons = RazerUtilities.FindTypedChildren<Button>( this, true );
+            // delete button is disabled by default and it is assigned before the callback can be seted
+            //mDeleteButton.Foreground = Brushes.Black;
+            foreach ( var button in buttons )
+            {
+                /// the button will no longer flash after a click
+                button.Focusable = false;
+            }
+
         }
 
         ////////////////////////////////////////////////////////////////////////
