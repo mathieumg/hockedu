@@ -681,11 +681,22 @@ void NoeudMaillet::appliquerAnimation( const ObjectAnimationParameters& pAnimati
 {
     if(pAnimationResult.CanUpdatedPosition())
     {
-        Vecteur3 wPos = pAnimationResult.mPosition;
-        Runnable* r = new Runnable([wPos, this](Runnable*){
-            this->setTargetDestination(wPos, true);
-        });
-        RazerGameUtilities::RunOnUpdateThread(r,true);
+        if(obtenirJoueur())
+        {
+            if(obtenirJoueur()->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+            {
+                Vecteur3 wPos = pAnimationResult.mPosition;
+                Runnable* r = new Runnable([wPos, this](Runnable*){
+                    this->setTargetDestination(wPos, true);
+                });
+                RazerGameUtilities::RunOnUpdateThread(r,true);
+            }
+            else
+            {
+                setPosition(pAnimationResult.mPosition);
+            }
+        }
+        
     }
     if(pAnimationResult.CanUpdatedAngle())
         mAngle = pAnimationResult.mAngle[VZ];

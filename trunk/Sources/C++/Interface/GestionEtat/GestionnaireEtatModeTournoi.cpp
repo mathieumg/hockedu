@@ -278,6 +278,7 @@ void GestionnaireEtatModeTournoi::afficher()
             renderBase(game->getField(),[&]()->void{game->afficher();});
             if(game->partieTerminee())
             {
+                game->setGameStatus(GAME_ENDED);
                 GestionnaireHUD::obtenirInstance()->dessinerHUDTournoi();
             }
             else

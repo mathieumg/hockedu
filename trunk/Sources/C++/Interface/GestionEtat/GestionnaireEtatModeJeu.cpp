@@ -313,6 +313,7 @@ void GestionnaireEtatModeJeu::animer( const float& temps )
 		
         if(wGame->partieTerminee())
         {
+            wGame->setGameStatus(GAME_ENDED);
             GestionnaireEvenements::modifierEtat(ETAT_PARTIE_RAPIDE_TERMINEE);
             return;
         }

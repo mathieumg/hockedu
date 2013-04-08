@@ -1090,7 +1090,7 @@ void Partie::updateObserver( const ReplaySubject* pSubject )
     else
     {
         tempsJeu_.unPause();
-        checkf(mLastGameStatus != GAME_REPLAYING);
+        //checkf(mLastGameStatus != GAME_REPLAYING);
         if(mLastGameStatus != GAME_REPLAYING)
         {
             setGameStatus(mLastGameStatus); // Utilise le dernier etat de partie pour unpause
