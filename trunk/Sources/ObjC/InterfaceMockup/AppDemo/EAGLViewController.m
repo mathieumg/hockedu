@@ -43,7 +43,7 @@ enum {
 @property (retain, nonatomic) IBOutlet UIView *undoRedoView;
 
 // View pour le panel de modification des proprietes
-@property (retain, nonatomic) IBOutlet UIView *mPropertyView;
+@property (retain, nonatomic) IBOutlet UIImageView *mPropertyView;
 @property (retain, nonatomic) IBOutlet UIView *mTablePropertyView;
 @property (retain, nonatomic) IBOutlet UIView *mBoostPropertyView;
 @property (retain, nonatomic) IBOutlet UIView *mPortalPropertyView;
@@ -53,6 +53,7 @@ enum {
 @property (retain, nonatomic) IBOutlet UIView *mControlPointPropertyView;
 @property (retain, nonatomic) IBOutlet UIView *mBonusPropertyView;
 @property (retain, nonatomic) IBOutlet UIView *applyView;
+
 
 @property (nonatomic, assign) CADisplayLink *displayLink;
 @property (nonatomic, assign) BOOL wrap;
@@ -185,6 +186,11 @@ enum {
     [cameraButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [cameraButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     
+    [applyButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [applyButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    
+    
     CarouselElement *mailletCarousel = [[CarouselElement alloc] init];
     mailletCarousel->ModifType=EDITOR_STATE_AJOUTER_MAILLET;
     mailletCarousel.LabelValue = @"Mallet";
@@ -273,6 +279,7 @@ enum {
     [rightArrowButton release];
     [carouselBackground release];
     [applyView release];
+    [applyButton release];
     [super dealloc];
 }
 
@@ -358,6 +365,7 @@ enum {
 }
 
 - (void) propertiesMenuButtonTouched:(PieMenuItem *)item {
+    
     FullPropertiesApple prop;// = [[FullPropertiesApple alloc]init];
     [mModel getProperties: &prop];
     // On enleve lancienne view
@@ -369,259 +377,52 @@ enum {
     // On set la nouvelle view selon la selection
     switch ([mModel getSelectedNodesType]) {
         case RAZER_KEY_BONUS:
-            for(UITextField *textField in textBoxCollection){
-                switch (textField.tag) {
-                    case 39:
-                        // Pos X
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mPositionX];
-                        break;
-                    case 40:
-                        // Pos Y
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mPositionY];
-                        break;
-                    case 23:
-                        // Scale
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
-                        break;
-                    case 24:
-                        // Angle
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
-                        break;
-                        
-                    default:
-                        break;
-                }
-            }
-            
-            
+            [self refreshProperty];
             [mPropertyView addSubview:mBonusPropertyView];
             [mBonusPropertyView addSubview:applyView];
-            applyView.center = CGPointMake( mBonusPropertyView.frame.size.width/2,mBonusPropertyView.frame.size.height - (applyView.frame.size.height/2) - 3);
+            applyView.center = CGPointMake( mBonusPropertyView.frame.size.width/2,mBonusPropertyView.frame.size.height - (applyView.frame.size.height/2) - 7);
+            //[mBonusPropertyView setNeedsDisplay];
             
             break;
         case RAZER_KEY_BOOST:
-            for(UITextField *textField in textBoxCollection){
-                switch (textField.tag) {
-                    case 27:
-                        // Pos X
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mPositionX];
-                        break;
-                    case 28:
-                        // Pos Y
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mPositionY];
-                        break;
-                    case 10:
-                        // Scale
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
-                        break;
-                    case 11:
-                        // Accel
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAcceleration];
-                        break;
-                    case 12:
-                        // Angle
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
-                        break;
-                        
-                    default:
-                        break;
-                }
-            }
+            [self refreshProperty];
             [mPropertyView addSubview:mBoostPropertyView];
             [mBoostPropertyView addSubview:applyView];
             applyView.center = CGPointMake( mBoostPropertyView.frame.size.width/2,mBoostPropertyView.frame.size.height - (applyView.frame.size.height/2) - 3);
             break;
         case RAZER_KEY_CONTROL_POINT:
             // WALLS
-            for(UITextField *textField in textBoxCollection){
-                switch (textField.tag) {
-                    case 35:
-                        // Pos X
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mPositionX];
-                        break;
-                    case 36:
-                        // Pos Y
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mPositionY];
-                        break;
-                    case 20:
-                        // Scale
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
-                        break;
-                    case 21:
-                        // Angle
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
-                        break;
-                    case 22:
-                        // Rebound
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRebound];
-                        break;
-                        
-                    default:
-                        break;
-                }
-            }
+            [self refreshProperty];
             [mPropertyView addSubview:mWallPropertyView];
             [mWallPropertyView addSubview:applyView];
             applyView.center = CGPointMake( mWallPropertyView.frame.size.width/2,mWallPropertyView.frame.size.height - (applyView.frame.size.height/2) - 3);
             break;
         case RAZER_KEY_MALLET:
-            for(UITextField *textField in textBoxCollection){
-                switch (textField.tag) {
-                    case 33:
-                        // Pos X
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mPositionX];
-                        break;
-                    case 34:
-                        // Pos Y
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mPositionY];
-                        break;
-                    case 18:
-                        // Scale
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
-                        break;
-                    case 19:
-                        // Angle
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
-                        break;
-                        
-                    default:
-                        break;
-                }
-            }
+            [self refreshProperty];
             [mPropertyView addSubview:mMalletPropertyView];
             [mMalletPropertyView addSubview:applyView];
             applyView.center = CGPointMake( mMalletPropertyView.frame.size.width/2,mMalletPropertyView.frame.size.height - (applyView.frame.size.height/2) - 3);
             break;
         case RAZER_KEY_PORTAL:
-            for(UITextField *textField in textBoxCollection){
-                switch (textField.tag) {
-                    case 29:
-                        // Pos X
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mPositionX];
-                        break;
-                    case 30:
-                        // Pos Y
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mPositionY];
-                        break;
-                    case 13:
-                        // Scale
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
-                        break;
-                    case 14:
-                        // Attraction
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAttraction];
-                        break;
-                    case 15:
-                        // Angle
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
-                        break;
-                        
-                    default:
-                        break;
-                }
-            }
+            [self refreshProperty];
             [mPropertyView addSubview:mPortalPropertyView];
             [mPortalPropertyView addSubview:applyView];
             applyView.center = CGPointMake( mPortalPropertyView.frame.size.width/2,mPortalPropertyView.frame.size.height - (applyView.frame.size.height/2) - 3);
             break;
         case RAZER_KEY_PUCK:
-            for(UITextField *textField in textBoxCollection){
-                switch (textField.tag) {
-                    case 31:
-                        // Pos X
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mPositionX];
-                        break;
-                    case 32:
-                        // Pos Y
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mPositionY];
-                        break;
-                    case 16:
-                        // Scale
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
-                        break;
-                    case 17:
-                        // Angle
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
-                        break;
-                        
-                    default:
-                        break;
-                }
-            }
+            [self refreshProperty];
             [mPropertyView addSubview:mPuckPropertyView];
             [mPuckPropertyView addSubview:applyView];
             applyView.center = CGPointMake( mPuckPropertyView.frame.size.width/2,mPuckPropertyView.frame.size.height - (applyView.frame.size.height/2) - 3);
             break;
         case RAZER_KEY_NONE:
-            for(UITextField *textField in textBoxCollection){
-                switch (textField.tag) {
-                    case 0:
-                        // Friction
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mFriction];
-                    case 25:
-                        // Pos X
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mPositionX];
-                        break;
-                    case 26:
-                        // Pos Y
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mPositionY];
-                        break;
-                    case 1:
-                        // LeftTop
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound1];
-                        break;
-                    case 2:
-                        // TopLeft
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound2];
-                    case 3:
-                        // TopRight
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound3];
-                    case 4:
-                        // RightTop
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound4];
-                    case 5:
-                        // RightBot
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound5];
-                    case 6:
-                        // BotRight
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound6];
-                        break;
-                    case 41:
-                        // BotLeft
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound7];
-                    case 7:
-                        // TopLeft
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound8];
-                    case 8:
-                        // MinSpawn
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mMinBonusSpawnTime];
-                    case 9:
-                        // TopLeft
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mMaxBonusSpawnTime];
-                        
-                    default:
-                        break;
-                }
-            }
+            [self refreshProperty];
             [mPropertyView addSubview:mTablePropertyView];
             [mTablePropertyView addSubview:applyView];
-            applyView.center = CGPointMake( mTablePropertyView.frame.size.width/2,mTablePropertyView.frame.size.height - (applyView.frame.size.height/2) - 3);
+            applyView.center = CGPointMake( mTablePropertyView.frame.size.width/2,mTablePropertyView.frame.size.height - (applyView.frame.size.height/2) - 7);
             break;
         case RAZER_KEY_TABLE_CONTROL_POINT:
-            for(UITextField *textField in textBoxCollection){
-                switch (textField.tag) {
-                    case 37:
-                        // Pos X
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mPositionX];
-                        break;
-                    case 38:
-                        // Pos Y
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mPositionY];
-                        
-                    default:
-                        break;
-                }
-            }
+            [self refreshProperty];
             [mPropertyView addSubview:mControlPointPropertyView];
             [mControlPointPropertyView addSubview:applyView];
             applyView.center = CGPointMake( mControlPointPropertyView.frame.size.width/2,mControlPointPropertyView.frame.size.height - (applyView.frame.size.height/2) - 3);
@@ -629,7 +430,6 @@ enum {
         default:
             break;
     }
-    
     [UIView beginAnimations:@"MenuAnimationShow" context:NULL];
     [UIView setAnimationDuration:1];
     self.mPropertyView.center = CGPointMake(mPropertyView.center.x - mPropertyView.bounds.size.width, mPropertyView.center.y);
@@ -687,6 +487,578 @@ enum {
         if(textField.tag==sender.tag){
             [textField setText:stringValue];
         }
+    }
+}
+
+- (void)refreshProperty
+{
+    FullPropertiesApple prop;
+    [mModel getProperties: &prop];
+    
+    // On set la nouvelle view selon la selection
+    switch ([mModel getSelectedNodesType]) {
+        case RAZER_KEY_BONUS:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 39:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 40:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 23:
+                        // Scale
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 24:
+                        // Angle
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
+                        [self textFieldValueChanged:textField];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            
+            break;
+        case RAZER_KEY_BOOST:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 27:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 28:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 10:
+                        // Scale
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 11:
+                        // Accel
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAcceleration];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 12:
+                        // Angle
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
+                        [self textFieldValueChanged:textField];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_CONTROL_POINT:
+            // WALLS
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 35:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 36:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 20:
+                        // Scale
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 21:
+                        // Angle
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 22:
+                        // Rebound
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRebound];
+                        [self textFieldValueChanged:textField];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_MALLET:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 33:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 34:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 18:
+                        // Scale
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 19:
+                        // Angle
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
+                        [self textFieldValueChanged:textField];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_PORTAL:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 29:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 30:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 13:
+                        // Scale
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 14:
+                        // Attraction
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAttraction];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 15:
+                        // Angle
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
+                        [self textFieldValueChanged:textField];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_PUCK:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 31:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 32:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 16:
+                        // Scale
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 17:
+                        // Angle
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
+                        [self textFieldValueChanged:textField];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_NONE:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 0:
+                        // Friction
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mFriction];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 25:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mZoneEditionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 26:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mZoneEditionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 1:
+                        // LeftTop
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound1];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 2:
+                        // TopLeft
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound2];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 3:
+                        // TopRight
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound3];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 4:
+                        // RightTop
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound4];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 5:
+                        // RightBot
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound5];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 6:
+                        // BotRight
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound6];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 41:
+                        // BotLeft
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound7];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 7:
+                        // TopLeft
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound8];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 8:
+                        // MinSpawn
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mMinBonusSpawnTime];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 9:
+                        // TopLeft
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mMaxBonusSpawnTime];
+                        [self textFieldValueChanged:textField];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_TABLE_CONTROL_POINT:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 37:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 38:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    default:
+                        break;
+                }
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+- (IBAction)applyButtonTouched:(UIButton *)sender
+{
+    FullPropertiesApple prop;
+    //[mModel getProperties: &prop];
+    
+    // On set la nouvelle view selon la selection
+    switch ([mModel getSelectedNodesType]) {
+        case RAZER_KEY_BONUS:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 39:
+                        // Pos X
+                        prop.mPositionX = [textField.text floatValue];
+                        break;
+                    case 40:
+                        // Pos Y
+                        prop.mPositionY = [textField.text floatValue];
+                        break;
+                    case 23:
+                        // Scale
+                        prop.mScale = [textField.text floatValue];
+                        break;
+                    case 24:
+                        // Angle
+                        prop.mAngle = [textField.text floatValue];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            
+            break;
+        case RAZER_KEY_BOOST:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 27:
+                        // Pos X
+                        prop.mPositionX = [textField.text floatValue];
+                        break;
+                    case 28:
+                        // Pos Y
+                        prop.mPositionY = [textField.text floatValue];
+                        break;
+                    case 10:
+                        // Scale
+                        prop.mScale = [textField.text floatValue];
+                        break;
+                    case 11:
+                        // Accel
+                        prop.mAcceleration = [textField.text floatValue];
+                        break;
+                    case 12:
+                        // Angle
+                        prop.mAngle = [textField.text floatValue];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_CONTROL_POINT:
+            // WALLS
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 35:
+                        // Pos X
+                        prop.mPositionX = [textField.text floatValue];
+                        break;
+                    case 36:
+                        // Pos Y
+                        prop.mPositionY = [textField.text floatValue];
+                        break;
+                    case 20:
+                        // Scale
+                        prop.mScale = [textField.text floatValue];
+                        break;
+                    case 21:
+                        // Angle
+                        prop.mAngle = [textField.text floatValue];
+                        break;
+                    case 22:
+                        // Rebound
+                        prop.mRebound = [textField.text floatValue];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_MALLET:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 33:
+                        // Pos X
+                        prop.mPositionX = [textField.text floatValue];
+                        break;
+                    case 34:
+                        // Pos Y
+                        prop.mPositionY = [textField.text floatValue];
+                        break;
+                    case 18:
+                        // Scale
+                        prop.mScale = [textField.text floatValue];
+                        break;
+                    case 19:
+                        // Angle
+                        prop.mAngle = [textField.text floatValue];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_PORTAL:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 29:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 30:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 13:
+                        // Scale
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 14:
+                        // Attraction
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAttraction];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 15:
+                        // Angle
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
+                        [self textFieldValueChanged:textField];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_PUCK:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 31:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 32:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 16:
+                        // Scale
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 17:
+                        // Angle
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
+                        [self textFieldValueChanged:textField];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_NONE:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 0:
+                        // Friction
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mFriction];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 25:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mZoneEditionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 26:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mZoneEditionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 1:
+                        // LeftTop
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound1];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 2:
+                        // TopLeft
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound2];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 3:
+                        // TopRight
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound3];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 4:
+                        // RightTop
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound4];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 5:
+                        // RightBot
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound5];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 6:
+                        // BotRight
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound6];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 41:
+                        // BotLeft
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound7];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 7:
+                        // TopLeft
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound8];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 8:
+                        // MinSpawn
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mMinBonusSpawnTime];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 9:
+                        // TopLeft
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mMaxBonusSpawnTime];
+                        [self textFieldValueChanged:textField];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_TABLE_CONTROL_POINT:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 37:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 38:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    default:
+                        break;
+                }
+            }
+            break;
+        default:
+            break;
     }
 }
 
@@ -1071,7 +1443,7 @@ enum {
     CGPoint positionCourante = [touch locationInView:theEAGLView];
     
     UIView* viewTouched = [touch view];
-    if (viewTouched != mPortalPropertyView && viewTouched != mPuckPropertyView && viewTouched != mTablePropertyView && viewTouched != mTopBarView && viewTouched != mSideBarView && viewTouched != undoRedoView && viewTouched != mMalletPropertyView && viewTouched != mControlPointPropertyView && viewTouched != mWallPropertyView && viewTouched != mBoostPropertyView && viewTouched != mBonusPropertyView) {
+    if (![viewTouched isMemberOfClass:[UIImageView class]] && ![viewTouched isMemberOfClass:[UIView class]]) {
         if(!propertyBarHidden)
         {
             [UIView beginAnimations:@"MenuAnimationShow" context:NULL];
@@ -1109,7 +1481,7 @@ enum {
         UITouch *touch = [[event allTouches] anyObject];
         CGPoint positionCourante = [touch locationInView:theEAGLView];
         UIView * viewTouched = touch.view;
-        if (viewTouched != mPortalPropertyView && viewTouched != mPuckPropertyView && viewTouched != mTablePropertyView && viewTouched != mTopBarView && viewTouched != mSideBarView && viewTouched != undoRedoView && viewTouched != mMalletPropertyView && viewTouched != mControlPointPropertyView && viewTouched != mWallPropertyView && viewTouched != mBoostPropertyView && viewTouched != mBonusPropertyView) {
+        if (![viewTouched isMemberOfClass:[UIImageView class]] && ![viewTouched isMemberOfClass:[UIView class]]) {
             //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
             [mEventManager touchesMoved:positionCourante];
         }

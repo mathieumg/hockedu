@@ -1184,7 +1184,6 @@ NoeudRondelle* Terrain::getPuck() const
         checkf(IsGameField(), "Dans le mode édition on ne conserve pas de pointeur sur la puck");
         return mPuck;
     }
-    checkf(!IsGameField() || (mGame && mGame->getGameStatus() == GAME_NOT_READY), "Dans le mode jeu on doit avoir un pointeur sur la puck");
 
     if(getTable())
     {
@@ -1855,7 +1854,6 @@ NoeudMaillet* Terrain::getLeftMallet() const
         checkf(IsGameField(), "Dans le mode Edition on ne conserve pas de pointeur sur le maillet");
         return mLeftMallet;
     }
-    checkf(!IsGameField() || (mGame && mGame->getGameStatus() == GAME_NOT_READY), "Dans le mode jeu on doit avoir un pointeur sur le maillet");
 
     NoeudMaillet* maillet = NULL;
     if(getTable())
@@ -1893,7 +1891,6 @@ NoeudMaillet* Terrain::getRightMallet() const
         checkf(IsGameField(), "Dans le mode Edition on ne conserve pas de pointeur sur le maillet");
         return mRightMallet;
     }
-    checkf(!IsGameField() || (mGame && mGame->getGameStatus() == GAME_NOT_READY), "Dans le mode jeu on doit avoir un pointeur sur le maillet");
 
     NoeudMaillet* maillet = NULL;
     if(getTable())
