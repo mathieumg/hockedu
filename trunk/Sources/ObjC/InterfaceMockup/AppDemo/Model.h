@@ -61,6 +61,9 @@ typedef struct{
 -(void) redo;
 -(void) zoom:(float)scale;
 -(void) deplacerSouris:(int)deplacementX :(int)deplacementY;
+-(void) createCameraFixed;
+-(void) createCameraOrbit;
+-(void) createCameraFree;
 -(void) orbit:(int)deplacementX :(int)deplacementY;
 -(void) resizeWindow:(int)minX :(int)minY :(int)maxX :(int)maxY;
 -(void) getProperties:(FullPropertiesApple*)prop;

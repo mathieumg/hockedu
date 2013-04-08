@@ -70,7 +70,7 @@ namespace UIHeavyClient
 
             mColumnToMember = new Dictionary<string, string>() 
             { 
-                {"Id", "id"},
+                {"Author", "author"},
                 {"Name", "name"},
                 {"Description", "description"},
             };

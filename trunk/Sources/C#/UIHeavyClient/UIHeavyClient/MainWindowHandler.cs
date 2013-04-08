@@ -130,12 +130,21 @@ namespace UIHeavyClient
         ///
         /// @return void.
         ////////////////////////////////////////////////////////////////////////
-        public static void GoToEditionMode()
+        public static void GoToEditionMode(bool pLoadDefaultXML = true)
         {
             
             if(CallbackManager.ChangeGameMode(GameState.GAME_STATE_EDITION))
             {
-                if (ActionPerformed(ActionType.ACTION_ALLER_MODE_EDITION))
+                bool wSuccess = false;
+                if (pLoadDefaultXML)
+                {
+                    wSuccess = ActionPerformed(ActionType.ACTION_ALLER_MODE_EDITION);
+                }
+                else
+                {
+                    wSuccess = ActionPerformed(ActionType.ACTION_ALLER_MODE_EDITION_PAS_DEFAUT_XML);
+                }
+                if (wSuccess)
                 {
 
                     Context.WindowContentControl.Content=Context.EditionModeControl;

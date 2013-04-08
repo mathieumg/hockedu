@@ -318,6 +318,11 @@ enum {
     
     UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeDetected:)];
     
+    UIPanGestureRecognizer* panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panDetected:)];
+    
+    panGesture.maximumNumberOfTouches = 2;
+    panGesture.minimumNumberOfTouches = 2;
+    
     [rotationGesture setDelegate:self];
     //[longPressGesture setDelegate:self];
     //[longPressGesture setNumberOfTapsRequired:2];
@@ -325,11 +330,13 @@ enum {
     //[longPressGesture setCancelsTouchesInView:YES];
     [pinchGesture setDelegate:self];
     [swipeGesture setDelegate:self];
+    [panGesture setDelegate:self];
     
     [mGLView addGestureRecognizer:rotationGesture];
     //[mGLView addGestureRecognizer:longPressGesture];
     [mGLView addGestureRecognizer:longPressGesture];
     [mGLView addGestureRecognizer:pinchGesture];
+    [mGLView addGestureRecognizer:panGesture];
     [carousel addGestureRecognizer:swipeGesture];
     
     [rotationGesture release];
@@ -337,6 +344,7 @@ enum {
     [longPressGesture release];
     [pinchGesture release];
     [swipeGesture release];
+    [panGesture release];
     
     // FIN SETUP DES GESTURES
     
@@ -1145,6 +1153,14 @@ enum {
     }
     
     
+}
+
+- (IBAction)panDetected:(UIPanGestureRecognizer*)sender
+{
+    CGPoint translation = [sender translationInView:theEAGLView];
+    [sender setTranslation:translation inView:theEAGLView];
+    
+    [mModel orbit:translation.x :translation.y];
 }
 
 - (IBAction)swipeDetected:(id)sender

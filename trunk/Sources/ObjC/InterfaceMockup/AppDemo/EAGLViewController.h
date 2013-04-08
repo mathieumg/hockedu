@@ -153,6 +153,7 @@ extern int const HAUTEUR_FENETRE;
 - (void)rotationDetectee:(UIGestureRecognizer *)gestureRecognizer;
 - (IBAction)longPressDetected:(UILongPressGestureRecognizer*)sender;
 - (IBAction)swipeDetected:(id)sender;
+- (IBAction)panDetected:(UIPanGestureRecognizer*)sender;
 - (IBAction) sliderValueChanged:(UISlider*)sender;
 - (IBAction) textFieldValueChanged:(UITextField*)sender;
 - (IBAction) textFieldValueChangedStepper:(UITextField*)sender;
