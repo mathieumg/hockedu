@@ -704,7 +704,6 @@ bool RepartiteurActions::actionChangerModeCameraLibre()
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
 	FacadeModele::getInstance()->modifierVue(nouvelleVue);
-    FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
     return true; 
 }
 
