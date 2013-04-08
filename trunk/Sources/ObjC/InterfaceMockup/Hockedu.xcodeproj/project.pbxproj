@@ -172,6 +172,10 @@
 		4EF26F3A1712AA63001F1B61 /* Facade.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF26F391712AA63001F1B61 /* Facade.m */; };
 		6D01D099170286BB00899CCB /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D01D098170286BB00899CCB /* iCarousel.m */; };
 		6D0F2C7A170E40AE00E378CC /* blueButtonPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D0F2C79170E40AE00E378CC /* blueButtonPressed@2x.png */; };
+		6D644B4A1712F59400517960 /* HockeduLogoSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D644B491712F59400517960 /* HockeduLogoSmall.png */; };
+		6D644B4E17130B7300517960 /* Map.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D644B4D17130B7300517960 /* Map.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		6D644B5117130C9D00517960 /* AFAppDotNetAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D644B5017130C9C00517960 /* AFAppDotNetAPIClient.m */; };
+		6D644B541713126400517960 /* MapTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D644B531713126400517960 /* MapTableViewCell.m */; };
 		6D666B97171177F400429A7D /* HockeduLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D666B94171177F400429A7D /* HockeduLogo.png */; };
 		6D666B98171177F400429A7D /* RazorSharp.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D666B95171177F400429A7D /* RazorSharp.png */; };
 		6D666B99171177F400429A7D /* RazorSharpTechnologies.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D666B96171177F400429A7D /* RazorSharpTechnologies.png */; };
@@ -553,6 +557,13 @@
 		6D01D097170286BB00899CCB /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
 		6D01D098170286BB00899CCB /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
 		6D0F2C79170E40AE00E378CC /* blueButtonPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueButtonPressed@2x.png"; sourceTree = "<group>"; };
+		6D644B491712F59400517960 /* HockeduLogoSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HockeduLogoSmall.png; sourceTree = "<group>"; };
+		6D644B4C17130B7300517960 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
+		6D644B4D17130B7300517960 /* Map.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Map.m; sourceTree = "<group>"; };
+		6D644B4F17130C9C00517960 /* AFAppDotNetAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFAppDotNetAPIClient.h; sourceTree = "<group>"; };
+		6D644B5017130C9C00517960 /* AFAppDotNetAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFAppDotNetAPIClient.m; sourceTree = "<group>"; };
+		6D644B521713126400517960 /* MapTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapTableViewCell.h; sourceTree = "<group>"; };
+		6D644B531713126400517960 /* MapTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapTableViewCell.m; sourceTree = "<group>"; };
 		6D666B94171177F400429A7D /* HockeduLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HockeduLogo.png; sourceTree = "<group>"; };
 		6D666B95171177F400429A7D /* RazorSharp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RazorSharp.png; sourceTree = "<group>"; };
 		6D666B96171177F400429A7D /* RazorSharpTechnologies.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RazorSharpTechnologies.png; sourceTree = "<group>"; };
@@ -859,6 +870,7 @@
 		0CC6367816DE731600D05BBE /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6D644B491712F59400517960 /* HockeduLogoSmall.png */,
 				4E82C16A171272F3002A6510 /* blueButtonCameraPressed.png */,
 				4E82C16B171272F3002A6510 /* blueButtonCameraPressed@2x.png */,
 				4E82C16C171272F3002A6510 /* sidepanel.png */,
@@ -1090,6 +1102,15 @@
 			path = iCarousel;
 			sourceTree = SOURCE_ROOT;
 		};
+		6D644B4B17130B3B00517960 /* JSONResponses */ = {
+			isa = PBXGroup;
+			children = (
+				6D644B4C17130B7300517960 /* Map.h */,
+				6D644B4D17130B7300517960 /* Map.m */,
+			);
+			name = JSONResponses;
+			sourceTree = "<group>";
+		};
 		96378D6B1472C71100F543EA = {
 			isa = PBXGroup;
 			children = (
@@ -1129,6 +1150,9 @@
 		96378D801472C71100F543EA /* Hockedu */ = {
 			isa = PBXGroup;
 			children = (
+				6D644B4F17130C9C00517960 /* AFAppDotNetAPIClient.h */,
+				6D644B5017130C9C00517960 /* AFAppDotNetAPIClient.m */,
+				6D644B4B17130B3B00517960 /* JSONResponses */,
 				4EA455D5170BA181009D680D /* glu.h */,
 				4EA455D6170BA181009D680D /* glu.cpp */,
 				6D01D096170286BB00899CCB /* iCarousel */,
@@ -1223,6 +1247,8 @@
 			children = (
 				969DDEDE1472CF8C00ED5DC8 /* EAGLView.h */,
 				969DDEDF1472CF8C00ED5DC8 /* EAGLView.m */,
+				6D644B521713126400517960 /* MapTableViewCell.h */,
+				6D644B531713126400517960 /* MapTableViewCell.m */,
 			);
 			name = Vues;
 			sourceTree = "<group>";
@@ -1416,6 +1442,7 @@
 				4E82C16D171272F3002A6510 /* blueButtonCameraPressed.png in Resources */,
 				4E82C16E171272F3002A6510 /* blueButtonCameraPressed@2x.png in Resources */,
 				4E82C16F171272F3002A6510 /* sidepanel.png in Resources */,
+				6D644B4A1712F59400517960 /* HockeduLogoSmall.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1535,6 +1562,9 @@
 				4E43BB41170E658C0074CB3D /* BonusModifierGoThorughWall.cpp in Sources */,
 				6D666B9C17117F6100429A7D /* BackgroundLayer.m in Sources */,
 				4EF26F3A1712AA63001F1B61 /* Facade.m in Sources */,
+				6D644B4E17130B7300517960 /* Map.m in Sources */,
+				6D644B5117130C9D00517960 /* AFAppDotNetAPIClient.m in Sources */,
+				6D644B541713126400517960 /* MapTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

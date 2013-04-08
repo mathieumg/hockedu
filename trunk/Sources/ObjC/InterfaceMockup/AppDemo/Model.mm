@@ -274,6 +274,13 @@ float temps = clock();
     ((Terrain*)mField)->redoModification();
 }
 
+-(void) loadField:(NSString*) stringToParse
+{
+    TiXmlDocument doc;
+    doc.Parse([stringToParse UTF8String],0,TIXML_ENCODING_UTF8);
+    ((Terrain*)mField)->initialiserXml(doc.ToElement());
+}
+
 -(void) saveField
 {
     if(((Terrain*)mField)->verifierValidite())
