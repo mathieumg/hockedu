@@ -11,14 +11,17 @@
 #pragma once
 #pragma warning( disable : 4290 )
 
+#if WIN32
+#include "PartieSyncer.h"
+#include "..\Reseau\ObjetsGlobaux\PartieServeurs.h"
+#endif
+
 #include "RazerGameTypeDef.h"
 #include "NoeudAffichage.h"
 #include "GameTime.h"
 #include "ExceptionJeu.h"
-#include "PartieSyncer.h"
 #include "ReplayObserver.h"
 #include "AchievementsEnums.h"
-#include "..\Reseau\ObjetsGlobaux\PartieServeurs.h"
 #include <vector>
 
 

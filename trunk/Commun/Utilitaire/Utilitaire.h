@@ -15,6 +15,8 @@
 
 struct b2Vec2;
 
+typedef void (*DisplayMessageCallback)(const char* message);
+
 namespace utilitaire {
 	/// Définition d'un type d'entier non signé.
 	typedef unsigned int uint;
@@ -34,6 +36,7 @@ namespace utilitaire {
 
 	/// Fonction globale pour l'affichage d'erreur.
 	void afficherErreur(const std::string& message);
+    extern DisplayMessageCallback mDisplayMessageCallback;
 
 	/// Pour convertir les angles de radians en degrés.
 	float RAD_TO_DEG( float AngleRad );
