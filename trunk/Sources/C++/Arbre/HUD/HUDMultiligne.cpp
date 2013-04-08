@@ -23,7 +23,7 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-HUDMultiligne::HUDMultiligne(std::string messageMultiligne, Vecteur4f& couleur, std::string fontType)
+HUDMultiligne::HUDMultiligne(std::string messageMultiligne, Vecteur4f& couleur, bool isSmallText)
 {
 	texteMultiligne_=messageMultiligne;
 	int indexDebutLigne=0;
@@ -45,7 +45,7 @@ HUDMultiligne::HUDMultiligne(std::string messageMultiligne, Vecteur4f& couleur, 
 
 	for(i=0;i<lignes_.size();++i)
 	{
-		HUDTexte* elementTexte=new HUDTexte(lignes_[i], couleur, fontType);
+		HUDTexte* elementTexte=new HUDTexte(lignes_[i], couleur, isSmallText);
 		elementTexte->modifierPosition(0, 1.0f-(lignes_.size()-i)*0.05f);
 		add(elementTexte);
 	}

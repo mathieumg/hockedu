@@ -44,6 +44,8 @@ public:
 	virtual void visiterNoeudPoint( NoeudPoint* noeud );
 	/// Visitation d'un noeud accélérateur
 	virtual void visiterNoeudAccelerateur( NoeudAccelerateur* noeud );
+
+    void visiterNodeControlPoint( NodeControlPoint* noeud );
 	/// Algortihme de duplication d'un noeud
 	void dupliquerNoeud(NoeudAbstrait* noeud);
 	/// Visitation des enfants d'un noeud composite

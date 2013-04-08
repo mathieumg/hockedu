@@ -919,7 +919,7 @@ bool NoeudTable::estSurTable(Vecteur2 position)
         if(node)
         {
             auto body = node->getPhysicBody();
-            checkf(body);
+            //checkf(body);
             if(body)
             {
                 for (b2Fixture* f = body->GetFixtureList(); f; f = f->GetNext()) {

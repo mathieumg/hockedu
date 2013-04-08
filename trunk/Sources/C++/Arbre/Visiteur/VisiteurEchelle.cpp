@@ -131,7 +131,6 @@ void VisiteurEchelle::visiterNoeudMuret( NodeWallAbstract* noeud )
 	visiterNoeudAbstrait(noeud);
 	// pop
 	axe_ = oldAxe;
-    visiterNoeudComposite(noeud);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -278,10 +277,14 @@ void VisiteurEchelle::visiterNoeudAccelerateur( NoeudAccelerateur* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurEchelle::visiterNodeControlPoint( NodeControlPoint* noeud )
 {
-    NoeudAbstrait* obj = dynamic_cast<NoeudAbstrait*>(noeud->getLinkedObject());
-    if(obj)
+    if(noeud->IsSelected() && noeud->canBeVisitedAndRemoveFlag())
     {
-        obj->acceptVisitor(*this);
+        noeud->flagSelectedAssociatedPoints();
+        NoeudAbstrait* obj = dynamic_cast<NoeudAbstrait*>(noeud->getLinkedObject());
+        if(obj)
+        {
+            obj->acceptVisitor(*this);
+        }
     }
 }
 

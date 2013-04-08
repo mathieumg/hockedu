@@ -101,6 +101,23 @@ public:
 	void modifierPositionInitiale(Vecteur3 val) { positionInitiale_ = val; }
 
     static const float DEFAULT_RADIUS;
+
+    /// Use this to prevent a visitor from doing his work on multiple associated control points
+    /// ie. when the visitation affects the linked object directly
+
+    /// Do not use flag visitation with visitor that can be stopped midway
+    void flagSelectedAssociatedPoints() const;
+
+    inline bool canBeVisisted() const {return mCanBeVisited;}
+    /// tells if this point can be visisted, and reset the flag for next time
+    inline bool canBeVisitedAndRemoveFlag() 
+    {
+        /// returns the value of mCanBeVisited and set it to true afterward
+        return mCanBeVisited++; 
+    }
+private:
+    bool mCanBeVisited;
+    inline void flagVisitationIfSelected() { if(IsSelected()) mCanBeVisited = false;}
 private:
 	/// Longueur d'un cote du carre représentant le point
 	float longueurCote_;
