@@ -549,7 +549,7 @@ bool RepartiteurActions::actionTogglePauseJeu()
 bool RepartiteurActions::actionReplay()
 {
     Partie* wGame = FacadeModele::getInstance()->obtenirPartieCourante();
-    if(wGame && !wGame->isNetworkClientGame())
+	if(wGame && (!wGame->isNetworkClientGame() || wGame->getGameStatus()==GAME_ENDED))
     {
         // Toggle
 	    if(GestionnaireAnimations::obtenirInstance()->estJouerReplay())
