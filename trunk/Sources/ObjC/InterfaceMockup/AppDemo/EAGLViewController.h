@@ -44,6 +44,7 @@ extern int const HAUTEUR_FENETRE;
     IBOutlet UIView *mSideBarView;
     IBOutlet UIView *mTopBarView;
     IBOutlet UIView *undoRedoView;
+    IBOutlet UIButton *helpButton;
     IBOutlet UIView *applyView;
     IBOutlet UIImageView *mPropertyView;
     IBOutlet UIView *mTablePropertyView;
@@ -67,6 +68,7 @@ extern int const HAUTEUR_FENETRE;
     IBOutlet UIButton *leftArrowButton;
     IBOutlet UIButton *rightArrowButton;
     IBOutlet UIButton *applyButton;
+    IBOutlet UIButton *settingsButton;
     
     NSArray* carouselElements;
     NSArray* textBoxCollection;
@@ -81,6 +83,7 @@ extern int const HAUTEUR_FENETRE;
     UIImage *buttonImage;
     UIImage *buttonImageHighlight;
     UIImage *buttonImagePressed;
+    UIImage *buttonImageCameraPressed;
     
     BOOL animating;
     BOOL propertyBarHidden;

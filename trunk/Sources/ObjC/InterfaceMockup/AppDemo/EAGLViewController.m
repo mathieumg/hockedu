@@ -122,6 +122,7 @@ enum {
     zoomFactor = 0.5;
     
     [self.mGLView addSubview:theEAGLView];
+    [self.mGLView addSubview:helpButton];
     [self.mGLView addSubview:mSideBarView];
     [self.mGLView addSubview:mTopBarView];
     [self.mGLView addSubview:undoRedoView];
@@ -155,6 +156,9 @@ enum {
     buttonImagePressed = [[UIImage imageNamed:@"blueButtonPressed@2x.png"]
                           resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     
+    buttonImageCameraPressed = [[UIImage imageNamed:@"blueButtonCameraPressed@2x.png"]
+                          resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    
     carouselBackgroundImage = [UIImage imageNamed:@"carouselBackground.png"];
     carouselBackgroundSelected = [UIImage imageNamed:@"carouselBackgroundHighlight.png"];
     
@@ -177,19 +181,20 @@ enum {
     [duplicateButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [duplicateButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     
-    [editionButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
-    [editionButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
-    
     [deleteButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [deleteButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [editionButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateNormal];
+    [editionButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateHighlighted];
     
     [cameraButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [cameraButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     
+    [settingsButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [settingsButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
     [applyButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [applyButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
-    
-    
     
     CarouselElement *mailletCarousel = [[CarouselElement alloc] init];
     mailletCarousel->ModifType=EDITOR_STATE_AJOUTER_MAILLET;
@@ -280,6 +285,8 @@ enum {
     [carouselBackground release];
     [applyView release];
     [applyButton release];
+    [helpButton release];
+    [settingsButton release];
     [super dealloc];
 }
 
@@ -1313,11 +1320,21 @@ enum {
 
 -(IBAction) cameraModeButtonTouched:(UIButton *)sender
 {
+    [editionButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [editionButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [cameraButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateNormal];
+    [cameraButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateHighlighted];
     [mEventManager modifyState:EDITOR_STATE_MOVE_WINDOW];
 }
 
 - (IBAction)editorModeButtonTouched:(UIButton *)sender
 {
+    [editionButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateNormal];
+    [editionButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateHighlighted];
+    
+    [cameraButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [cameraButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
 }
 
