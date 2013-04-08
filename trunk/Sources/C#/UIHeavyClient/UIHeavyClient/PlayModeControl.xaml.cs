@@ -398,6 +398,11 @@ namespace UIHeavyClient
         }
 
         #endregion
+
+        public void HandleChatVisibility(bool pIsDisplay)
+        {
+            mPublicityLabel.Visibility = (pIsDisplay ? Visibility.Hidden : Visibility.Visible);
+        }
     }
 }
 
