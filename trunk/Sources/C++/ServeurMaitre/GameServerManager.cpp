@@ -17,7 +17,7 @@ void CallbackPartieServeursUpdate(int pServerId, int pGameId, GameStatus pGameSt
         // Si partie terminee, on sauvegarde dans la BD le score final
         std::cout << "Game (" << pServerId << "," << pGameId << ") ended" << std::endl;
 
-        
+
         GameServer* wGameServer = GameServerManager::obtenirInstance()->getGameServer(pServerId);
         if(wGameServer)
         {
@@ -27,7 +27,7 @@ void CallbackPartieServeursUpdate(int pServerId, int pGameId, GameStatus pGameSt
             {
                 bool wReturnValue = CommunicateurBD::obtenirInstance()->addGameResult(wGame->getPlayer1Name(), wGame->getPlayer2Name(), wGame->getPlayer1Score(), wGame->getPlayer2Score(), (int) wGame->getTime());
                 wReturnValue ? (std::cout << "Sauvegarde dans la BD reussie." << std::endl) : (std::cout << "Sauvegarde dans la BD echouee." << std::endl);
-                
+
             }
             // On supprime la partie du serveur
             wGameServer->removeGame(pGameId);
@@ -42,7 +42,7 @@ void CallbackPartieServeursUpdate(int pServerId, int pGameId, GameStatus pGameSt
 /// Default constructor
 ///
 ///
-/// @return 
+/// @return
 ///
 ////////////////////////////////////////////////////////////////////////
 GameServerManager::GameServerManager()
@@ -58,7 +58,7 @@ GameServerManager::GameServerManager()
 /// Destructor - ensures every GameServer was removed from the container.
 ///
 ///
-/// @return 
+/// @return
 ///
 ////////////////////////////////////////////////////////////////////////
 GameServerManager::~GameServerManager()
@@ -145,8 +145,8 @@ unsigned int GameServerManager::selectGameServer()
     unsigned int wLowestGamesAmount = -1;
     unsigned int wServerWithLowestGamesAmount = 0;
 
-    // Iterate over 
-    for(auto it = mGameServersList.begin(); it != mGameServersList.end(); ++it) 
+    // Iterate over
+    for(auto it = mGameServersList.begin(); it != mGameServersList.end(); ++it)
     {
         unsigned int wCurrentServerGamesAmount = it->second->getGamesContainer().size();
         if (wCurrentServerGamesAmount == 0)
@@ -160,7 +160,7 @@ unsigned int GameServerManager::selectGameServer()
             wServerWithLowestGamesAmount = it->first;
         }
     }
-    
+
     // Return server id at the selected index.
     return wServerWithLowestGamesAmount;
 }
@@ -192,7 +192,7 @@ std::pair<unsigned int, int> GameServerManager::doMatchmaking(const std::string&
             }
         }
     }
-    
+
     return wLowestGameIdentifier;
 }
 
@@ -214,6 +214,6 @@ GameServer* GameServerManager::getGameServer( unsigned int pGameServerId )
     {
         throw ExceptionReseau("The specified game server ID doesn't exist.");
     }
-    
+
     return it->second;
 }
