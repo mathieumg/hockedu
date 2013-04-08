@@ -93,6 +93,7 @@ extern "C"
     __declspec(dllexport) void ReloadModels();
     __declspec(dllexport) void ResetAchievements();
     __declspec(dllexport) void ReloadAchievementsProgress();
+    __declspec(dllexport) void SetDisplayMessageCallback(DisplayMessageCallback c);
     
 
 

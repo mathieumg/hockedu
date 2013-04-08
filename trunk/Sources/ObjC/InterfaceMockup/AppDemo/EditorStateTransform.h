@@ -11,8 +11,8 @@
 #import "Enum_Declarations.h"
 #import "Model.h"
 @interface EditorStateTransform : EditorStateAbstract
--(EditorStateTransform*)init:(FieldModificationStrategyType)type;
--(void)touchesBegan:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model;
--(void)touchesMoved:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model;
--(void)touchesEnded:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model;
+-(EditorStateTransform*)init:(FieldModificationStrategyType)type:(EventManager*)eventManager;
+-(void)touchesBegan:(CGPoint)coordVirt;
+-(void)touchesMoved:(CGPoint)coordVirt;
+-(void)touchesEnded:(CGPoint)coordVirt;
 @end

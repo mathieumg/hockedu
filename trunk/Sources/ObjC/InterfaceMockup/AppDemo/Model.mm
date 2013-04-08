@@ -18,8 +18,8 @@
 #include <time.h>
 #include <iostream>
 
-@implementation FullPropertiesApple
-@end
+//@implementation FullPropertiesApple
+//@end
 
 void displayMessageCallback(const char* message)
 {
@@ -271,61 +271,61 @@ float temps = clock();
 }
 
 // Point d'entre pour le menu de modification des proprietes
--(FullPropertiesApple*) getProperties
+-(void) getProperties:(FullPropertiesApple*)prop
 {
-    FullProperties* fullP = new FullProperties();
-    ((Terrain*)mField)->gatherSelectedNodeProperties(fullP);
-    FullPropertiesApple *prop;
+    FullProperties fullP;
+    ((Terrain*)mField)->gatherSelectedNodeProperties(&fullP);
+    //FullPropertiesApple *prop;
     
-    prop->mFriction= fullP->mFriction;
-    prop->mZoneEditionX= fullP->mZoneEditionX;
-    prop->mZoneEditionY= fullP->mZoneEditionY;
-    prop->mScale= fullP->mScale;
-    prop->mAcceleration= fullP->mAcceleration;
-    prop->mPositionX= fullP->mPositionX;
-    prop->mPositionY= fullP->mPositionY;
-    prop->mAttraction= fullP->mAttraction;
-    prop->mAngle= fullP->mAngle;
-    prop->mRebound= fullP->mRebound;
-    prop->mMinBonusSpawnTime= fullP->mMinBonusSpawnTime;
-    prop->mMaxBonusSpawnTime= fullP->mMaxBonusSpawnTime;
-    prop->mRinkRebound1= fullP->mRinkRebound1;
-    prop->mRinkRebound2= fullP->mRinkRebound2;
-    prop->mRinkRebound3= fullP->mRinkRebound3;
-    prop->mRinkRebound4= fullP->mRinkRebound4;
-    prop->mRinkRebound5= fullP->mRinkRebound5;
-    prop->mRinkRebound6= fullP->mRinkRebound6;
-    prop->mRinkRebound7= fullP->mRinkRebound7;
-    prop->mRinkRebound8= fullP->mRinkRebound8;
-    prop->mPropertyFlagAssignment = fullP->mPropertyFlagAssignment;
+    prop->mFriction= fullP.mFriction;
+    prop->mZoneEditionX= fullP.mZoneEditionX;
+    prop->mZoneEditionY= fullP.mZoneEditionY;
+    prop->mScale= fullP.mScale;
+    prop->mAcceleration= fullP.mAcceleration;
+    prop->mPositionX= fullP.mPositionX;
+    prop->mPositionY= fullP.mPositionY;
+    prop->mAttraction= fullP.mAttraction;
+    prop->mAngle= fullP.mAngle;
+    prop->mRebound= fullP.mRebound;
+    prop->mMinBonusSpawnTime= fullP.mMinBonusSpawnTime;
+    prop->mMaxBonusSpawnTime= fullP.mMaxBonusSpawnTime;
+    prop->mRinkRebound1= fullP.mRinkRebound1;
+    prop->mRinkRebound2= fullP.mRinkRebound2;
+    prop->mRinkRebound3= fullP.mRinkRebound3;
+    prop->mRinkRebound4= fullP.mRinkRebound4;
+    prop->mRinkRebound5= fullP.mRinkRebound5;
+    prop->mRinkRebound6= fullP.mRinkRebound6;
+    prop->mRinkRebound7= fullP.mRinkRebound7;
+    prop->mRinkRebound8= fullP.mRinkRebound8;
+    prop->mPropertyFlagAssignment = fullP.mPropertyFlagAssignment;
     
-    return prop;
+//    return prop;
 }
 -(void) setProperties:(FullPropertiesApple*)prop;
 {
-    FullProperties* fullP;
-    fullP->mFriction = prop->mFriction;
-    fullP->mZoneEditionX = prop->mZoneEditionX;
-    fullP->mZoneEditionY = prop->mZoneEditionY;
-    fullP->mScale = prop->mScale;
-    fullP->mAcceleration = prop->mAcceleration;
-    fullP->mPositionX = prop->mPositionX;
-    fullP->mPositionY = prop->mPositionY;
-    fullP->mAttraction = prop->mAttraction;
-    fullP->mAngle = prop->mAngle;
-    fullP->mRebound = prop->mRebound;
-    fullP->mMinBonusSpawnTime = prop->mMinBonusSpawnTime;
-    fullP->mMaxBonusSpawnTime = prop->mMaxBonusSpawnTime;
-    fullP->mRinkRebound1 = prop->mRinkRebound1;
-    fullP->mRinkRebound2 = prop->mRinkRebound2;
-    fullP->mRinkRebound3 = prop->mRinkRebound3;
-    fullP->mRinkRebound4 = prop->mRinkRebound4;
-    fullP->mRinkRebound5 = prop->mRinkRebound5;
-    fullP->mRinkRebound6 = prop->mRinkRebound6;
-    fullP->mRinkRebound7 = prop->mRinkRebound7;
-    fullP->mRinkRebound8 = prop->mRinkRebound8;
-    fullP->mPropertyFlagAssignment = prop->mPropertyFlagAssignment;
-    ((Terrain*)mField)->applySelectedNodeProperties(fullP);
+    FullProperties fullP;
+    fullP.mFriction = prop->mFriction;
+    fullP.mZoneEditionX = prop->mZoneEditionX;
+    fullP.mZoneEditionY = prop->mZoneEditionY;
+    fullP.mScale = prop->mScale;
+    fullP.mAcceleration = prop->mAcceleration;
+    fullP.mPositionX = prop->mPositionX;
+    fullP.mPositionY = prop->mPositionY;
+    fullP.mAttraction = prop->mAttraction;
+    fullP.mAngle = prop->mAngle;
+    fullP.mRebound = prop->mRebound;
+    fullP.mMinBonusSpawnTime = prop->mMinBonusSpawnTime;
+    fullP.mMaxBonusSpawnTime = prop->mMaxBonusSpawnTime;
+    fullP.mRinkRebound1 = prop->mRinkRebound1;
+    fullP.mRinkRebound2 = prop->mRinkRebound2;
+    fullP.mRinkRebound3 = prop->mRinkRebound3;
+    fullP.mRinkRebound4 = prop->mRinkRebound4;
+    fullP.mRinkRebound5 = prop->mRinkRebound5;
+    fullP.mRinkRebound6 = prop->mRinkRebound6;
+    fullP.mRinkRebound7 = prop->mRinkRebound7;
+    fullP.mRinkRebound8 = prop->mRinkRebound8;
+    fullP.mPropertyFlagAssignment = prop->mPropertyFlagAssignment;
+    ((Terrain*)mField)->applySelectedNodeProperties(&fullP);
 }
 -(RazerKey) getSelectedNodesType
 {

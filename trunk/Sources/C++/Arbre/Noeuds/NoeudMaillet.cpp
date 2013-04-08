@@ -34,7 +34,7 @@
 #endif
 #include "Utilitaire.h"
 #include "EditionEventManager.h"
-#include "Runnable.h"
+
 #include "RazerGameUtilities.h"
 
 
@@ -685,10 +685,8 @@ void NoeudMaillet::appliquerAnimation( const ObjectAnimationParameters& pAnimati
     if(pAnimationResult.CanUpdatedPosition())
     {
         Vecteur3 wPos = pAnimationResult.mPosition;
-        Runnable* r = new Runnable([wPos, this](Runnable*){
+       
             this->setTargetDestination(wPos, true);
-        });
-        RazerGameUtilities::RunOnUpdateThread(r,true);
     }
     if(pAnimationResult.CanUpdatedAngle())
         mAngle = pAnimationResult.mAngle[VZ];
