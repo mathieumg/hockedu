@@ -16,6 +16,9 @@
 class NoeudMaillet;
 class JoueurVirtuel;
 
+// Fonction de test pour savoir si la condition est respectee
+typedef bool (*StratChangerValidator) (Partie* pGame, NoeudMaillet* pMaillet);
+
 ///////////////////////////////////////////////////////////////////////////
 /// @class AIMaillet
 /// @brief Maillet d'un joueur virtuel.
@@ -37,6 +40,10 @@ public:
 	/// Changement de strategie
 	void changerStrat(typeStrat);
 
+    void changerStratNext(typeStrat, StratChangerValidator pStratValidator);
+
+
+    typeStrat getNextStrat();
 protected:
 	/// La stratégie du maillet
 	AIStrat* strategie_;
@@ -49,6 +56,11 @@ public:
 	JoueurVirtuel* obtenirJv() const { return jv_; }
 	/// Accesseur de strategie_
 	AIStrat* getStrategie() const { return strategie_; }
+
+private:
+    typeStrat mNextStrat;
+    StratChangerValidator mNextStratValidator;
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////

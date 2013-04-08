@@ -1091,7 +1091,7 @@ void Partie::updateObserver( const ReplaySubject* pSubject )
     else
     {
         tempsJeu_.unPause();
-        checkf(mLastGameStatus != GAME_REPLAYING);
+        //checkf(mLastGameStatus != GAME_REPLAYING);
         if(mLastGameStatus != GAME_REPLAYING)
         {
             setGameStatus(mLastGameStatus); // Utilise le dernier etat de partie pour unpause
@@ -1329,8 +1329,8 @@ PuckProjection Partie::getPuckProjection( float pPosX, int pDelaisMaxMs /*= 1000
         while(true)
         {
             // Tick le world
-            mFieldSimulation->appliquerPhysique(5.0f/1000.0f);
-            wElapsedTime += 5;
+            mFieldSimulation->appliquerPhysique(16.0f/1000.0f);
+            wElapsedTime += 16;
 
 #if MAT_DEBUG_
             NoeudMaillet::mListePointsDebug.push_back(wPuck->getPosition());

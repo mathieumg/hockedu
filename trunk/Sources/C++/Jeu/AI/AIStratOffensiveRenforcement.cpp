@@ -61,6 +61,13 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
 	if(!maillet->getField() || !( rondelle = maillet->getField()->getPuck() ) || !( table = maillet->getField()->getTable() ) )
 		return Vecteur2();
 
+    if(mGameTime.Elapsed_Time_sec() > 3)
+    {
+        // Si apres 3 sec on est encore en defensive, on attaque
+        const_cast<AIMaillet&>(context_).changerStratNext(OFFENSIVE, AIStrat::TesterPushPuckOnTheOtherSide); // Va changer au prochain tick
+        return Vecteur2(); // On doit return car on vient d'etre delete
+    }
+
     SPJoueurVirtuel joueurVirtuel = std::dynamic_pointer_cast<JoueurVirtuel>(maillet->obtenirJoueur());
     checkf(joueurVirtuel);
 	AIMaillet* aiMallet = joueurVirtuel->getAiMaillet();
@@ -70,6 +77,46 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
 
     if(!mCalculEffectue)
     {
+        // On calcule une position "random" quand le tir fail
+        Vecteur2 wPointImpactModifie = mPointImpact;
+        Vecteur3 wDir = (mMalletTargetPos-mPointVise);
+        Vecteur3 wDirNorm = wDir;
+        wDirNorm.normaliser();
+        if(!tirReussi_)
+        {
+            // Induire une erreur dans le calcul
+            float wRayonMaillet = maillet->getRadius();
+             int wSens = rand() % 1;
+            Vecteur2 wErreur = Vecteur2(wDirNorm[VY], -wDirNorm[VX])*(wSens == 0 ? (1) : (-1))*2.0f*wRayonMaillet;
+
+            wPointImpactModifie += wErreur;
+        }
+
+       
+        Vecteur3 wPoint1 = wPointImpactModifie + 0.40f*wDir;
+        Vecteur3 wDirRondelleNorm = rondelle->obtenirVelocite();
+        wDirRondelleNorm.normaliser();
+
+        Vecteur3 mMalletTargetPos = wPointImpactModifie.convertir<2>() + (wDirRondelleNorm * (maillet->getRadius() + rondelle->getRadius()));
+
+        Vecteur3 wAjustement = wPointImpactModifie-mMalletTargetPos;
+        wAjustement.normaliser();
+
+        AnimationFrame* frame[4];
+        frame[0] = new AnimationFrame(0.0f, maillet->getPosition());
+        frame[1] = new AnimationFrame(mTimeBeforeImpact*0.75f, wPoint1);
+        frame[2] = new AnimationFrame(mTimeBeforeImpact*0.98f, mMalletTargetPos-wAjustement*maillet->getRadius());
+        frame[3] = new AnimationFrame((float)mTimeBeforeImpact, mMalletTargetPos);
+
+        Animation* animation = new Animation(BEZIER, true, false, false);
+        for(int i=0; i<4; i++)
+            animation->ajouterFrame(frame[i]);
+        animation->ajouterObjet((ObjetAnimable*)maillet);
+        GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
+
+
+        /*
+
         Vecteur3 wDirRondelleNorm = rondelle->obtenirVelocite();
         wDirRondelleNorm.normaliser();
 
@@ -94,7 +141,7 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
         animation->ajouterObjet((ObjetAnimable*)maillet);
         GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
 
-
+        */
         mCalculEffectue = true;
     }
 
