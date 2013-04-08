@@ -271,8 +271,8 @@ float temps = clock();
 
 -(void) saveField
 {
-    ((Terrain*)mField)->verifierValidite();
-    
+    if(((Terrain*)mField)->verifierValidite())
+    {
     NSError* error;
 
     
@@ -322,6 +322,7 @@ float temps = clock();
         NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
     }];
     [httpClient release];
+    }
 }
 
 // Point d'entre pour le menu de modification des proprietes

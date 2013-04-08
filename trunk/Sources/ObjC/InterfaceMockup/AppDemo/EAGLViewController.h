@@ -46,6 +46,8 @@ extern int const HAUTEUR_FENETRE;
     IBOutlet UIView *undoRedoView;
     IBOutlet UIButton *helpButton;
     IBOutlet UIView *applyView;
+    IBOutlet UIView *editionToolsView;
+    IBOutlet UIView *cameraToolsView;
     IBOutlet UIImageView *mPropertyView;
     IBOutlet UIView *mTablePropertyView;
     IBOutlet UIView *mBoostPropertyView;
@@ -69,13 +71,19 @@ extern int const HAUTEUR_FENETRE;
     IBOutlet UIButton *rightArrowButton;
     IBOutlet UIButton *applyButton;
     IBOutlet UIButton *settingsButton;
+    IBOutlet UIButton *skyViewButton;
+    IBOutlet UIButton *freeRoamButton;
+    IBOutlet UIButton *orbitalButton;
+    
+    IBOutlet UILabel *buttonToolbarLabel;
     
     NSArray* carouselElements;
     NSArray* textBoxCollection;
     NSArray* sliderCollection;
     NSArray* stepperCollection;
     
-    UIButton *previouslySelected;
+    UIButton *previouslySelectedEditionTool;
+    UIButton *previouslySelectedCameraTool;
     
     IBOutlet UIImageView *carouselBackground;
     UIImage *carouselBackgroundImage;
@@ -83,6 +91,7 @@ extern int const HAUTEUR_FENETRE;
     UIImage *buttonImage;
     UIImage *buttonImageHighlight;
     UIImage *buttonImagePressed;
+    UIImage *buttonImageDisabled;
     UIImage *buttonImageCameraPressed;
     
     BOOL animating;
@@ -138,6 +147,9 @@ extern int const HAUTEUR_FENETRE;
 - (IBAction)scaleToolButtonTouched:(UIButton *)sender;
 - (IBAction)duplicateToolButtonTouched:(UIButton *)sender;
 - (IBAction)deleteToolButtonTouched:(UIButton *)sender;
+- (IBAction)skyViewButtonTouched:(UIButton *)sender;
+- (IBAction)freeRoamButtonTouched:(UIButton *)sender;
+- (IBAction)orbitalButtonTouched:(UIButton *)sender;
 - (IBAction)editorModeButtonTouched:(UIButton *)sender;
 - (IBAction)saveAndExitButtonTouched:(UIButton *)sender;
 - (IBAction)portalButtonTouched:(UIButton *)sender;
@@ -149,6 +161,7 @@ extern int const HAUTEUR_FENETRE;
 - (void)unselectAllTools;
 - (void)carouselSelectItem:(NSInteger)index;
 - (void)pressButtonUI:(UIButton *)sender;
+- (void)pressButtonUICameras:(UIButton *)sender;
 - (void)startAnimation;
 - (void)stopAnimation;
 - (void)setupView;

@@ -107,7 +107,7 @@ enum {
     }
     
     [self.view init];
-    theEAGLView = [[EAGLView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.mGLView.bounds.size.height, self.mGLView.bounds.size.width)];
+    theEAGLView = [[EAGLView alloc] initWithFrame:CGRectMake(mSideBarView.frame.size.width, 0.0, self.mGLView.bounds.size.height - mTopBarView.frame.size.height, self.mGLView.bounds.size.width - mSideBarView.frame.size.width + 50)];
     
     if (!theEAGLView)
         NSLog(@"Failed to create ES view");
@@ -125,6 +125,9 @@ enum {
     [self.mGLView addSubview:helpButton];
     [self.mGLView addSubview:mSideBarView];
     [self.mGLView addSubview:mTopBarView];
+    [mTopBarView addSubview:editionToolsView];
+    [mTopBarView addSubview:cameraToolsView];
+    cameraToolsView.frame = editionToolsView.frame;
     [self.mGLView addSubview:undoRedoView];
     [self.mGLView addSubview:mPropertyView];
     [self.theEAGLView setFramebuffer];
@@ -159,6 +162,9 @@ enum {
     buttonImageCameraPressed = [[UIImage imageNamed:@"blueButtonCameraPressed@2x.png"]
                           resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     
+    buttonImageDisabled = [[UIImage imageNamed:@"blueButtonCameraDisabled@2x.png"]
+                                resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    
     carouselBackgroundImage = [UIImage imageNamed:@"carouselBackground.png"];
     carouselBackgroundSelected = [UIImage imageNamed:@"carouselBackgroundHighlight.png"];
     
@@ -183,6 +189,15 @@ enum {
     
     [deleteButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [deleteButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [skyViewButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [skyViewButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [freeRoamButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [freeRoamButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [orbitalButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [orbitalButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     
     [editionButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateNormal];
     [editionButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateHighlighted];
@@ -228,7 +243,9 @@ enum {
     
     carouselElements = [[NSArray alloc] initWithObjects:mailletCarousel,rondelleCarousel,muretCarousel,accelerateurCarousel,portailCarousel,bonusCarousel,nil];
 
-    [self pressButtonUI:selectButton];
+    
+    
+    [self pressButtonUICameras:orbitalButton];
     
     [buttonImage retain];
     [buttonImageHighlight retain];
@@ -287,6 +304,12 @@ enum {
     [applyButton release];
     [helpButton release];
     [settingsButton release];
+    [editionToolsView release];
+    [cameraToolsView release];
+    [buttonToolbarLabel release];
+    [skyViewButton release];
+    [freeRoamButton release];
+    [orbitalButton release];
     [super dealloc];
 }
 
@@ -1286,10 +1309,10 @@ enum {
 
 -(void)pressButtonUI:(UIButton *)sender
 {
-    if( previouslySelected != nil )
+    if( previouslySelectedEditionTool != nil )
     {
-        [previouslySelected setBackgroundImage:buttonImage forState:UIControlStateNormal];
-        [previouslySelected setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+        [previouslySelectedEditionTool setBackgroundImage:buttonImage forState:UIControlStateNormal];
+        [previouslySelectedEditionTool setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     }
     
     if( sender != nil )
@@ -1297,9 +1320,26 @@ enum {
         [sender setBackgroundImage:buttonImagePressed forState:UIControlStateNormal];
         [sender setBackgroundImage:buttonImagePressed forState:UIControlStateHighlighted];
         
-        previouslySelected = sender;
+        previouslySelectedEditionTool = sender;
         
         [carouselBackground setImage:carouselBackgroundImage];
+    }
+}
+
+-(void)pressButtonUICameras:(UIButton *)sender
+{
+    if( previouslySelectedCameraTool != nil )
+    {
+        [previouslySelectedCameraTool setBackgroundImage:buttonImage forState:UIControlStateNormal];
+        [previouslySelectedCameraTool setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    }
+    
+    if( sender != nil )
+    {
+        [sender setBackgroundImage:buttonImagePressed forState:UIControlStateNormal];
+        [sender setBackgroundImage:buttonImagePressed forState:UIControlStateHighlighted];
+        
+        previouslySelectedCameraTool = sender;
     }
 }
 
@@ -1315,6 +1355,7 @@ enum {
 {
     CarouselElement* element = [carouselElements objectAtIndex:index];
     [self carouselSelectItem:index];
+    [self editorModeButtonTouched:nil];
     [mEventManager modifyState:element->ModifType];
 }
 
@@ -1325,6 +1366,13 @@ enum {
     
     [cameraButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateNormal];
     [cameraButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateHighlighted];
+    
+    cameraToolsView.hidden = NO;
+    editionToolsView.hidden = YES;
+    
+    [buttonToolbarLabel setText:@"Cameras"];
+    [carouselBackground setImage:carouselBackgroundImage];
+    
     [mEventManager modifyState:EDITOR_STATE_MOVE_WINDOW];
 }
 
@@ -1335,6 +1383,11 @@ enum {
     
     [cameraButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [cameraButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [buttonToolbarLabel setText:@"Edition Tools"];
+    cameraToolsView.hidden = YES;
+    editionToolsView.hidden = NO;
+    
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
 }
 
@@ -1402,6 +1455,24 @@ enum {
     [mModel deleteSelection];
 }
 
+- (IBAction)skyViewButtonTouched:(UIButton *)sender
+{
+    [self pressButtonUICameras:sender];
+    [mModel createCameraFixed];
+}
+
+- (IBAction)freeRoamButtonTouched:(UIButton *)sender
+{
+    [self pressButtonUICameras:sender];
+    [mModel createCameraFree];
+}
+
+- (IBAction)orbitalButtonTouched:(UIButton *)sender
+{
+    [self pressButtonUICameras:sender];
+    [mModel createCameraOrbit];
+}
+
 - (IBAction)portalButtonTouched:(UIButton *)sender
 {
     [mEventManager modifyState:EDITOR_STATE_AJOUTER_MAILLET];
@@ -1411,6 +1482,8 @@ enum {
 {
     [mModel saveField];
 }
+
+
 
 
 ///DEPRECATED
@@ -1672,6 +1745,7 @@ enum {
     NSInteger currentIndex = carousel.currentItemIndex;
     CarouselElement* element = [carouselElements objectAtIndex:currentIndex];
     [self carouselSelectItem:currentIndex];
+    [self editorModeButtonTouched:nil];
     [mEventManager modifyState:element->ModifType];
 }
 
