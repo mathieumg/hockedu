@@ -327,6 +327,11 @@ enum {
     
     UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeDetected:)];
     
+    UIPanGestureRecognizer* panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panDetected:)];
+    
+    panGesture.maximumNumberOfTouches = 2;
+    panGesture.minimumNumberOfTouches = 2;
+    
     [rotationGesture setDelegate:self];
     //[longPressGesture setDelegate:self];
     //[longPressGesture setNumberOfTapsRequired:2];
@@ -334,11 +339,13 @@ enum {
     //[longPressGesture setCancelsTouchesInView:YES];
     [pinchGesture setDelegate:self];
     [swipeGesture setDelegate:self];
+    [panGesture setDelegate:self];
     
     [mGLView addGestureRecognizer:rotationGesture];
     //[mGLView addGestureRecognizer:longPressGesture];
     [mGLView addGestureRecognizer:longPressGesture];
     [mGLView addGestureRecognizer:pinchGesture];
+    [mGLView addGestureRecognizer:panGesture];
     [carousel addGestureRecognizer:swipeGesture];
     
     [rotationGesture release];
@@ -346,6 +353,7 @@ enum {
     [longPressGesture release];
     [pinchGesture release];
     [swipeGesture release];
+    [panGesture release];
     
     // FIN SETUP DES GESTURES
     
@@ -907,28 +915,23 @@ enum {
                 switch (textField.tag) {
                     case 29:
                         // Pos X
-                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
-                        [self textFieldValueChangedStepper:textField];
+                        prop.mPositionX = [textField.text floatValue];
                         break;
                     case 30:
                         // Pos Y
-                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
-                        [self textFieldValueChangedStepper:textField];
+                        prop.mPositionY = [textField.text floatValue];
                         break;
                     case 13:
                         // Scale
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
-                        [self textFieldValueChanged:textField];
+                        prop.mScale = [textField.text floatValue];
                         break;
                     case 14:
                         // Attraction
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAttraction];
-                        [self textFieldValueChanged:textField];
+                        prop.mAttraction = [textField.text floatValue];
                         break;
                     case 15:
                         // Angle
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
-                        [self textFieldValueChanged:textField];
+                        prop.mAngle = [textField.text floatValue];
                         break;
                         
                     default:
@@ -941,23 +944,19 @@ enum {
                 switch (textField.tag) {
                     case 31:
                         // Pos X
-                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
-                        [self textFieldValueChangedStepper:textField];
+                        prop.mPositionX = [textField.text floatValue];
                         break;
                     case 32:
                         // Pos Y
-                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
-                        [self textFieldValueChangedStepper:textField];
+                        prop.mPositionY = [textField.text floatValue];
                         break;
                     case 16:
                         // Scale
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
-                        [self textFieldValueChanged:textField];
+                        prop.mScale = [textField.text floatValue];
                         break;
                     case 17:
                         // Angle
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
-                        [self textFieldValueChanged:textField];
+                        prop.mAngle = [textField.text floatValue];
                         break;
                         
                     default:
@@ -970,68 +969,55 @@ enum {
                 switch (textField.tag) {
                     case 0:
                         // Friction
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mFriction];
-                        [self textFieldValueChanged:textField];
+                        prop.mFriction = [textField.text floatValue];
                         break;
                     case 25:
                         // Pos X
-                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mZoneEditionX];
-                        [self textFieldValueChangedStepper:textField];
+                        prop.mZoneEditionX = [textField.text floatValue];
                         break;
                     case 26:
                         // Pos Y
-                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mZoneEditionY];
-                        [self textFieldValueChangedStepper:textField];
+                        prop.mZoneEditionY = [textField.text floatValue];
                         break;
                     case 1:
                         // LeftTop
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound1];
-                        [self textFieldValueChanged:textField];
+                        prop.mRinkRebound1 = [textField.text floatValue];
                         break;
                     case 2:
                         // TopLeft
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound2];
-                        [self textFieldValueChanged:textField];
+                        prop.mRinkRebound2 = [textField.text floatValue];
                         break;
                     case 3:
                         // TopRight
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound3];
-                        [self textFieldValueChanged:textField];
+                        prop.mRinkRebound3 = [textField.text floatValue];
                         break;
                     case 4:
                         // RightTop
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound4];
-                        [self textFieldValueChanged:textField];
+                        prop.mRinkRebound4 = [textField.text floatValue];
                         break;
                     case 5:
                         // RightBot
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound5];
-                        [self textFieldValueChanged:textField];
+                        prop.mRinkRebound5 = [textField.text floatValue];
                         break;
                     case 6:
                         // BotRight
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound6];
-                        [self textFieldValueChanged:textField];
+                        prop.mRinkRebound6 = [textField.text floatValue];
                         break;
                     case 41:
                         // BotLeft
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound7];
-                        [self textFieldValueChanged:textField];
+                        prop.mRinkRebound7 = [textField.text floatValue];
                         break;
                     case 7:
                         // TopLeft
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound8];
-                        [self textFieldValueChanged:textField];
+                        prop.mRinkRebound8 = [textField.text floatValue];
                         break;
                     case 8:
                         // MinSpawn
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mMinBonusSpawnTime];
-                        [self textFieldValueChanged:textField];
+                        prop.mMinBonusSpawnTime = [textField.text floatValue];
                         break;
                     case 9:
                         // TopLeft
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mMaxBonusSpawnTime];
-                        [self textFieldValueChanged:textField];
+                        prop.mMaxBonusSpawnTime = [textField.text floatValue];
                         break;
                         
                     default:
@@ -1044,13 +1030,11 @@ enum {
                 switch (textField.tag) {
                     case 37:
                         // Pos X
-                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
-                        [self textFieldValueChangedStepper:textField];
+                        prop.mPositionX = [textField.text floatValue];
                         break;
                     case 38:
                         // Pos Y
-                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
-                        [self textFieldValueChangedStepper:textField];
+                        prop.mPositionY = [textField.text floatValue];
                         break;
                     default:
                         break;
@@ -1060,6 +1044,8 @@ enum {
         default:
             break;
     }
+[mModel setProperties:&prop];
+[self refreshProperty];
 }
 
 - (void) setupPieMenu
@@ -1176,6 +1162,14 @@ enum {
     }
     
     
+}
+
+- (IBAction)panDetected:(UIPanGestureRecognizer*)sender
+{
+    CGPoint translation = [sender translationInView:theEAGLView];
+    [sender setTranslation:translation inView:theEAGLView];
+    
+    [mModel orbit:translation.x :translation.y];
 }
 
 - (IBAction)swipeDetected:(id)sender

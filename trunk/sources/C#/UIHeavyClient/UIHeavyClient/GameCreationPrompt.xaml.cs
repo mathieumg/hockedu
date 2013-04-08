@@ -78,7 +78,7 @@ namespace UIHeavyClient
                 {
                     mMapListView.Items.Add(wItem);
                 }
-                SortListView("id", ListSortDirection.Ascending);
+                SortListView("author", ListSortDirection.Ascending);
                 mFeedbackLabel.Content = "";
             });
         }
