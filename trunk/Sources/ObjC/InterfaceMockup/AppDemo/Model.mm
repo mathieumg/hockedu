@@ -95,9 +95,10 @@ float temps = clock();
     // pour avoir le delta time en secondes
     float delta = clock()-temps;
     delta/=1000.f;
+    GestionnaireAnimations::obtenirInstance()->animer(delta);
     delta/=1000.f;
     ((Terrain*)mField)->animerTerrain(delta);
-    GestionnaireAnimations::obtenirInstance()->animer(delta);
+    
     
     
     temps = clock();
@@ -251,7 +252,6 @@ float temps = clock();
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
     delete mView;
     mView = nouvelleVue;
-    mView->centrerCamera(((Terrain*)mField)->GetTableWidth());
 }
 
 
