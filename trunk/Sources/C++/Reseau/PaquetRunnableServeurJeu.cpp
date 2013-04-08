@@ -471,9 +471,6 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
                         GameManager::obtenirInstance()->startGame(wGame->getUniqueGameId());
                     }
                 }
-
-
-
                 break;
             }
         case GAME_EVENT_PAUSE_GAME_REQUESTED:
