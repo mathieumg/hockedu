@@ -357,6 +357,7 @@ int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
     Runnable* r = new Runnable([wGameId, wPaquet](Runnable*){
         // On va chercher la partie demandee
         Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
+        bool wSendStartGamePaquet = false;
         if(wGame)
         {
             if(wGame->requirePassword())
@@ -386,6 +387,7 @@ int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
                 {
                     wGame->reloadControleMallet();
                     wGame->modifierEnPause(false);
+                    wSendStartGamePaquet = true;
                 }
                 catch(ExceptionJeu& e)
                 {
@@ -406,6 +408,14 @@ int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
         }
     
         GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
+
+        PaquetGameEvent* wPaquetEventGameStart = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+        wPaquetEventGameStart->setGameId(wPaquet->getGameId());
+        wPaquetEventGameStart->setEvent(GAME_EVENT_START_GAME);
+        wPaquetEventGameStart->setPlayer1Name(wGame->obtenirNomJoueurGauche());
+        wPaquetEventGameStart->setPlayer2Name(wGame->obtenirNomJoueurDroit());
+        RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquetEventGameStart, TCP);
+
     });
     RazerGameUtilities::RunOnUpdateThread(r,true);
     return 0;

@@ -204,6 +204,10 @@ bool CommunicateurBD::addGameResult(const std::string& pPlayer1Name, const std::
             wWinnerScore = pScoreUser2;
             wLoserScore = pScoreUser1;
         }
+        else
+        {
+            return false;
+        }
 
         std::stringstream ss;
         ss << "INSERT INTO matches (`id_user1`, `id_user2`, `score_user1`, `score_user2`, `time`) " 

@@ -77,7 +77,7 @@ RepartiteurActions::RepartiteurActions()
 
     //Fonctions de changement de mode
     banqueActions_[ACTION_ALLER_MODE_EDITION]    = &RepartiteurActions::actionBoutonAllerModeEdition;
-    banqueActions_[ACTION_ALLER_MODE_EDITION_PAS_DEFAUT_XML]    = &RepartiteurActions::actionBoutonAllerModeEditionPasDefautXML;
+    banqueActions_[ACTION_ALLER_MODE_EDITION_ONLINE]    = &RepartiteurActions::actionBoutonAllerModeEditionOnline;
     banqueActions_[ACTION_ALLER_MODE_JEU]        = &RepartiteurActions::actionBoutonAllerModeJeu;
     banqueActions_[ACTION_ALLER_MODE_TOURNOI]    = &RepartiteurActions::actionBoutonAllerModeTournoi;
     banqueActions_[ACTION_ALLER_MENU_PRINCIPAL]  = &RepartiteurActions::actionBoutonAllerMenuPrincipal;
@@ -471,7 +471,7 @@ bool RepartiteurActions::actionBoutonAllerModeEdition()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool RepartiteurActions::actionBoutonAllerModeEditionPasDefautXML()
+bool RepartiteurActions::actionBoutonAllerModeEditionOnline()
 {
     // important de signaler le modele avant de faire le changement d'état, car
     // celui-ci utilise des informations du modèle pour s'initialiser
