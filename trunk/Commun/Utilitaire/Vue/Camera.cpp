@@ -28,9 +28,16 @@
 #define DEG2RAD(a) ((a) * M_PI / 180.0)
 #define CLIP(a,min,max) (a < min) ? min : ((a > max) ? max : a)
 
+const int LimitZoomIn = 100;
+const int LimitZoomOut = 2000;
 
 namespace vue {
 
+    bool isDistanceValid(float length)
+    {
+        unsigned int lengthCrop = length - LimitZoomIn;
+        return lengthCrop < LimitZoomOut;
+    }
 
    ////////////////////////////////////////////////////////////////////////////
    ///
@@ -114,11 +121,11 @@ namespace vue {
    ////////////////////////////////////////////////////////////////////////////
    void Camera::deplacerZ(float deplacement, bool bougePointVise, bool avecPointVise)
    {
-	   float nouvellePosition = position_[VZ]+deplacement;
-	   float distanceCentre = (position_-pointVise_).norme();
-	   if(nouvellePosition>-20.0/* && distanceCentre<2000.0*/)
+	   Vecteur3 nouvellePosition = position_+Vecteur3(0,0,deplacement);
+	   float distanceCentre = (nouvellePosition-pointVise_).norme();
+	   if(nouvellePosition[VZ]>-20.0 && isDistanceValid(distanceCentre))
 	   {
-		   position_[VZ] = nouvellePosition;
+		   position_ = nouvellePosition;
 		   if(avecPointVise)
 			   (pointVise_)[VZ]+=deplacement;
 	   }
@@ -139,8 +146,8 @@ namespace vue {
    void Camera::deplacerXYZ( Vecteur3 deplacement, bool avecPointVise )
    {
 	   Vecteur3 nouvellePosition = position_+deplacement;
-	   float distanceCentre = (position_-pointVise_).norme();
-	   if(nouvellePosition[VZ]>-20.0f/* && distanceCentre<2000.0*/)
+	   float distanceCentre = (nouvellePosition-pointVise_).norme();
+	   if(nouvellePosition[VZ]>-20.0f && isDistanceValid(distanceCentre))
 	   {
 		   position_ = nouvellePosition;
 		   if(avecPointVise)
@@ -230,8 +237,8 @@ namespace vue {
 	   float dy = r*sin(theta)*sin(phi);
 	   float dz = r*cos(phi);
 	   Vecteur3 nouvellePosition(dx, dy, dz);
-	   float distanceCentre = (position_-pointVise_).norme();
-	   if(nouvellePosition[VZ]>-20.0f/* && distanceCentre<2000.0*/)
+	   float distanceCentre = (nouvellePosition-pointVise_).norme();
+	   if(nouvellePosition[VZ]>-20.0f && isDistanceValid(distanceCentre))
 	   {
 		   position_ = nouvellePosition+pointVise_;
 

@@ -134,6 +134,7 @@ int PaquetRunnable::RunnableGameCreationClient( Paquet* pPaquet )
     {
         // Creation a echouee
         std::cout << "Creation de partie echouee" << std::endl;
+		GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CREATION_FAILED);
     }
     else
     {

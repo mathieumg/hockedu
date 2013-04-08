@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "Enum_Declarations.h"
 #import "Model3DManager.h"
-
 //@interface FullPropertiesApple : NSObject{
 //@public
 typedef struct{
@@ -39,6 +38,7 @@ typedef struct{
 }FullPropertiesApple;
 //@property (retain, nonatomic) float mFriction;
 //@end
+
 @interface Model : NSObject
 {
 
@@ -51,19 +51,24 @@ typedef struct{
 - (void) dealloc;
 -(int)acceptSelectionVisitor:(float)positionMinX :(float)positionMinY :(float)positionMaxX :(float) positionMaxY;
 -(void) saveField;
--(void) beginModification:(FieldModificationStrategyType)type :(CGPoint)coordVirt;
--(void) eventModification:(FieldModificationStrategyEventType)type :(CGPoint)coordVirt;
+-(int) beginModification:(FieldModificationStrategyType)type :(CGPoint)coordVirt;
+-(int) eventModification:(FieldModificationStrategyEventType)type :(CGPoint)coordVirt;
 -(void) eventCancel;
--(void) endModification;
+-(int) endModification;
 -(void) duplicateSelection;
 -(void) deleteSelection;
 -(void) undo;
 -(void) redo;
 -(void) zoom:(float)scale;
 -(void) deplacerSouris:(int)deplacementX :(int)deplacementY;
+-(void) createCameraFixed;
+-(void) createCameraOrbit;
+-(void) createCameraFree;
 -(void) orbit:(int)deplacementX :(int)deplacementY;
 -(void) resizeWindow:(int)minX :(int)minY :(int)maxX :(int)maxY;
 -(void) getProperties:(FullPropertiesApple*)prop;
 -(void) setProperties:(FullPropertiesApple*)prop;
 -(RazerKey) getSelectedNodesType;
+bool RenderNodeCallback(RazerKey key);
+void EditionEventCallback(EditionEventCodes pEvent);
 @end

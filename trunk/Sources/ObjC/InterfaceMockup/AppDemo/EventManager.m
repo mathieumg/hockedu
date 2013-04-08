@@ -7,16 +7,18 @@
 //
 
 #import "EventManager.h"
-
+#import "EAGLViewController.h"
 @implementation EventManager
 
 @synthesize mCurrentState;
 @synthesize mModel;
+@synthesize mViewController;
 
--(EventManager*) init:(Model*)model
+-(EventManager*) init:(Model*)model:(EAGLViewController*)viewController
 {
     mModel = model;
     mCurrentState = [[EditorStateSelection alloc]init:self]; // Etat par defaut en ouvrant l'editeur
+    mViewController = viewController;
     return self;
 }
 

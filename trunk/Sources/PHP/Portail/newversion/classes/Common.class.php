@@ -350,6 +350,24 @@ class Common
         return $userInformation;
     }
     
+    public function getAchievementList()
+    { 
+        $sql = 'SELECT %s, %s
+                FROM %s 
+                ORDER BY %s ASC';
+        $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'name' ),
+                        $this->db->quoteIdentifier( 'description' ),
+
+                        $this->db->quoteIdentifier( 'achievements_list'),
+                        
+                        $this->db->quoteIdentifier( 'id' )
+                       );
+        $achievementsList = $this->db->queryAll( $sql );
+        
+        return $achievementsList;
+    }
+    
     public function getUserAchievements( $userId )
     { 
         $sql = 'SELECT %s, %s, %s, %s, %s
@@ -419,12 +437,14 @@ class Common
     
     public function getMaps()
     { 
-        $sql = 'SELECT %s, %s, %s, %s, %s, %s, %s
+        $sql = 'SELECT %s, %s as author, %s, %s, %s, %s, %s, %s
                 FROM %s 
+                LEFT JOIN %s ON %s=%s
                 WHERE %s=%d 
                 ORDER BY %s DESC';
         $sql = sprintf( $sql,
-                        $this->db->quoteIdentifier( 'id' ),
+                        $this->db->quoteIdentifier( 'maps' ) . '.' . $this->db->quoteIdentifier( 'id' ),              
+                        $this->db->quoteIdentifier( 'username' ),
                         $this->db->quoteIdentifier( 'name' ),
                         $this->db->quoteIdentifier( 'description' ),
                         $this->db->quoteIdentifier( 'rating_average' ),
@@ -433,6 +453,10 @@ class Common
                         $this->db->quoteIdentifier( 'last_modified_time' ),
                         
                         $this->db->quoteIdentifier( 'maps' ),
+                                           
+                        $this->db->quoteIdentifier( 'users' ),
+                        $this->db->quoteIdentifier( 'id_user' ),
+                        $this->db->quoteIdentifier( 'users' ) . '.' . $this->db->quoteIdentifier( 'id' ),
                         
                         $this->db->quoteIdentifier( 'is_public' ),
                         $this->db->quote( 1, 'integer' ),
@@ -482,12 +506,13 @@ class Common
                         $this->db->quoteIdentifier( 'last_modified_time' ),
                         
                         $this->db->quoteIdentifier( 'maps' ),
-                        
+
                         $this->db->quoteIdentifier( 'id_user' ),
                         $this->db->quote( $userId, 'integer' ),
                         
                         $this->db->quoteIdentifier( 'last_modified_time' )
                        );
+
         $userMaps = $this->db->queryAll( $sql );
         
         foreach( $userMaps as $index => $map )
