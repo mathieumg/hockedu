@@ -105,6 +105,8 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void requestGameCreationServerGame(string pGameName, string pMapName, int pMapId, string pPassword);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void requestMatchmaking();
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void connectPartieServerGame(int pGameId, uint pServerId, string pInputPassword);
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int GetNbrServerGames();
@@ -288,7 +290,9 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         private void mRandomButton_Click(object sender, RoutedEventArgs e)
         {
-            if (mOnlineGameListView.Items.Count > 0)
+            MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = true;
+            requestMatchmaking();
+           /* if (mOnlineGameListView.Items.Count > 0)
             {
                 mFeedbackLabel.Content = "Loading, please wait...";
                 HandleUIButtons(false);
@@ -300,7 +304,7 @@ namespace UIHeavyClient
                 mGameWaitingToConnect = randomGame.Value;
 
                 mIsWaitingForOnlineGame = true;
-            }   
+            }   */
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -553,6 +557,11 @@ namespace UIHeavyClient
                                 MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("An error occured while joining game.");
                             }
                         });
+                    }
+                    break;
+                    case EventCodes.GAME_CONNECTION_RESPONSE_MATCHMAKING:
+                    {
+                        wThis.mGameWaitingToConnect.mapName = message;
                     }
                     break;
                     default: break;

@@ -4,6 +4,7 @@
 #include "..\Reseau\ObjetsGlobaux\PartieServeurs.h"
 #include <iostream>
 #include "CommunicateurBD.h"
+#include <limits>
 
 SINGLETON_DECLARATION_CPP(GameServerManager);
 unsigned int GameServerManager::mNewGameServerId = 0;
@@ -162,6 +163,37 @@ unsigned int GameServerManager::selectGameServer()
     
     // Return server id at the selected index.
     return wServerWithLowestGamesAmount;
+}
+
+std::pair<unsigned int, int> GameServerManager::doMatchmaking(const std::string& pUsername)
+{
+    UsersWinRateContainer wWinRateContainer;
+    CommunicateurBD::obtenirInstance()->getUsersWinRate(wWinRateContainer);
+    float wUserWinRate(wWinRateContainer[pUsername]);
+    float wLowestRateDifference(std::numeric_limits<float>::max());
+    std::pair<unsigned int, int> wLowestGameIdentifier(0, -1);
+    auto wGameServersContainer = getGameServersContainer();
+    for(auto itGameServers = wGameServersContainer.begin(); itGameServers != wGameServersContainer.end(); ++itGameServers)
+    {
+        GameServer* wGameServer = itGameServers->second;
+        auto wGamesContainer = wGameServer->getGamesContainer();
+        for(auto itGames = wGamesContainer.begin(); itGames != wGamesContainer.end(); ++itGames)
+        {
+            PartieServeurs* wGame = itGames->second;
+            if(wGame->getPlayer2Name() == "" && wGame->getPassword() == "")
+            {
+                float wCreatorRate(wWinRateContainer[wGame->getPlayer1Name()]);
+                float wRateDifference = abs(wCreatorRate - wUserWinRate);
+                if(wRateDifference < wLowestRateDifference)
+                {
+                    wLowestRateDifference = wLowestRateDifference;
+                    wLowestGameIdentifier = std::pair<unsigned int, int>(wGameServer->getServerId(), wGame->getUniqueGameId());
+                }
+            }
+        }
+    }
+    
+    return wLowestGameIdentifier;
 }
 
 ////////////////////////////////////////////////////////////////////////
