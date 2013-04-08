@@ -256,7 +256,7 @@ namespace HttpHockeduRequests
             }
             else
             {
-                string wCurrentDirectory = Directory.GetParent( Directory.GetCurrentDirectory() ).ToString();
+                string wCurrentDirectory = Directory.GetCurrentDirectory().ToString();
                 string wDestinationFilePath=wCurrentDirectory + Path.DirectorySeparatorChar + "OnlineMaps" + Path.DirectorySeparatorChar + wMapId + ".xml";
                 try
                 {

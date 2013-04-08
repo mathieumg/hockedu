@@ -97,7 +97,7 @@ NoeudMaillet::~NoeudMaillet()
     RunnableBreaker::signalObservers();
     EditionEventManager::TransmitEvent(ENABLE_MALLET_CREATION);
 #if BOX2D_PLAY
-    checkf(!mMouseJoint, "Le mouse joint a mal ete liberé");
+    //checkf(!mMouseJoint, "Le mouse joint a mal ete liberé");
     destroyMouseJoint();
 #endif
 
