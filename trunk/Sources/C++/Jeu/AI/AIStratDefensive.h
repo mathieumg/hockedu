@@ -34,6 +34,9 @@ public:
 public:
 	virtual typeStrat obtenirType() { return DEFENSIVE; }
 
+private:
+
+    
 };
 
 
