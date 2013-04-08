@@ -28,7 +28,11 @@ FieldModificationStrategyType currentType;
 }
 -(void)touchesEnded:(CGPoint)coordVirt
 {
-    [mEventManager.mModel eventModification:FIELD_MODIFICATION_EVENT_CLICK:coordVirt];
+    if([mEventManager.mModel eventModification:FIELD_MODIFICATION_EVENT_CLICK:coordVirt]==0)
+    {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"You can't add outside of the edition zone and on top of other objects." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+    }
     
 }
 -(void)stateEnd

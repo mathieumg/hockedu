@@ -157,4 +157,14 @@ extern int const HAUTEUR_FENETRE;
 - (IBAction) textFieldValueChanged:(UITextField*)sender;
 - (IBAction) textFieldValueChangedStepper:(UITextField*)sender;
 - (IBAction) stepperValueChanged:(UIStepper*)sender;
+- (void) enablePuckCreation;
+- (void)disablePuckCreation;
+- (void)enableMalletCreation;
+- (void)disableMalletCreation;
+- (void)thereAreNodesSelected;
+- (void)thereAreNoNodesSelected;
+- (void)canUndo;
+- (void)cannotUndo;
+- (void)canRedo;
+- (void)cannotRedo;
 @end

@@ -9,6 +9,7 @@
 #import "EAGLView.h"
 #define degreesToRadian(x) (M_PI * (x) / 180.0)
 #import "Enum_Declarations.h"
+#import "Facade.h"
 int const LARGEUR_FENETRE = 1024;
 int const HAUTEUR_FENETRE = 768;
 // Uniform index.
@@ -116,7 +117,7 @@ enum {
     
     mModel = [[Model alloc]init];
     [mModel resizeWindow:0 :0 :LARGEUR_FENETRE :HAUTEUR_FENETRE];
-    mEventManager = [[EventManager alloc]init:mModel];
+    mEventManager = [[EventManager alloc]init:mModel:self];
     translationX = 0.0;
     translationY = 0.0;
     zoomFactor = 0.5;
@@ -128,16 +129,7 @@ enum {
     [self.mGLView addSubview:mPropertyView];
     [self.theEAGLView setFramebuffer];
     
-//    mTablePropertyView.frame = CGRectMake(0, 0, 270, 577);
-//    mBoostPropertyView.frame = CGRectMake(0, 0, 270, 577);
-//    mPortalPropertyView.frame = CGRectMake(0, 0, 270, 577);
-//    mPuckPropertyView.frame = CGRectMake(0, 0, 270, 577);
-//    mMalletPropertyView.frame = CGRectMake(0, 0, 270, 577);
-//    mWallPropertyView.frame = CGRectMake(0, 0, 270, 577);
-//    mControlPointPropertyView.frame = CGRectMake(0, 0, 270, 577);
-//    mBonusPropertyView.frame = CGRectMake(0, 0, 270, 577);
-    
-    
+    [Facade registerController:self];
     
     // On cache la bar en dehors a droite
     self.mPropertyView.center = CGPointMake(mPropertyView.center.x + mPropertyView.bounds.size.width, mPropertyView.center.y);
@@ -222,7 +214,6 @@ enum {
     bonusCarousel.ImageName = @"outil_bonus";
     
     carouselElements = [[NSArray alloc] initWithObjects:mailletCarousel,rondelleCarousel,muretCarousel,accelerateurCarousel,portailCarousel,bonusCarousel,nil];
-
     [self pressButtonUI:selectButton];
     
     [buttonImage retain];
@@ -1588,7 +1579,48 @@ enum {
     }
 }
 
-
+// Event Callback du c++ pour update du UI
+- (void) enablePuckCreation
+{
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Ben coliss" message:@"Ca marche" delegate:nil cancelButtonTitle:@"Gotcha" otherButtonTitles:nil];
+    [alert show];
+}
+- (void)disablePuckCreation
+{
+    
+}
+- (void)enableMalletCreation
+{
+    
+}
+- (void)disableMalletCreation
+{
+    
+}
+- (void)thereAreNodesSelected
+{
+    
+}
+- (void)thereAreNoNodesSelected
+{
+    // Disable le delete
+}
+- (void)canUndo
+{
+    
+}
+- (void)cannotUndo
+{
+    
+}
+- (void)canRedo
+{
+    
+}
+- (void)cannotRedo
+{
+    
+}
 
 -(void)rotationDetectee:(UIGestureRecognizer *)gestureRecognizer
 {
