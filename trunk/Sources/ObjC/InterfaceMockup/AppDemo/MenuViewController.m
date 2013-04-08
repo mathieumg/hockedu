@@ -34,6 +34,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    [self.view addSubview:mainMenuView];
+    [self.view addSubview:loadMapView];
+    
+    mainMenuView.hidden = YES;
+    
     UIImage *buttonImage = [[UIImage imageNamed:@"blueButton@2x.png"]
                             resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     UIImage *buttonImageHighlight = [[UIImage imageNamed:@"blueButtonHighlight@2x.png"]
@@ -96,6 +101,8 @@
     [loadMapButton release];
     [settingsButton release];
     [signInButton release];
+    [mainMenuView release];
+    [loadMapView release];
     [super dealloc];
 }
 @end

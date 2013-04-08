@@ -1376,6 +1376,8 @@ enum {
     cameraToolsView.hidden = NO;
     editionToolsView.hidden = YES;
     
+    undoRedoView.hidden = YES;
+    
     [buttonToolbarLabel setText:@"Cameras"];
     [carouselBackground setImage:carouselBackgroundImage];
     
@@ -1393,6 +1395,8 @@ enum {
     [buttonToolbarLabel setText:@"Edition Tools"];
     cameraToolsView.hidden = YES;
     editionToolsView.hidden = NO;
+    
+    undoRedoView.hidden = NO;
     
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
 }

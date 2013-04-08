@@ -11,6 +11,10 @@
     IBOutlet UIButton *loadMapButton;
     IBOutlet UIButton *settingsButton;
     IBOutlet UIButton *signInButton;
+    
+    
+    IBOutlet UIView *mainMenuView;
+    IBOutlet UIView *loadMapView;
 }
 
 -(IBAction) showEditor;
