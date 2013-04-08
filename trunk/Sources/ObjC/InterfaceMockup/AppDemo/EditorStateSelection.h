@@ -14,4 +14,5 @@
 -(void)touchesBegan:(CGPoint)coordVirt;
 -(void)touchesMoved:(CGPoint)coordVirt;
 -(void)touchesEnded:(CGPoint)coordVirt;
+-(void)stateEnd;
 @end

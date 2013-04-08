@@ -18,7 +18,7 @@
 @interface EventManager : NSObject
 {
     EditorStateAbstract *mCurrentState;
-    Model *mModel;
+    @public Model *mModel;
     EAGLViewController* mViewController;
 }
 @property (nonatomic, retain) EditorStateAbstract *mCurrentState;
