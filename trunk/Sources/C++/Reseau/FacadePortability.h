@@ -238,7 +238,7 @@ namespace FacadePortability {
 #endif
     }
 
-    inline void createDirectory(char* dirName)
+    inline void createDirectory(const char* dirName)
     {
 #ifdef WIN32
         CreateDirectoryA(

@@ -1022,3 +1022,38 @@ void requestMatchmaking(  )
     wPaquet->setGameServerId(0);
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
 }
+
+bool learningCancelled = false;
+
+
+void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
+{
+    learningCancelled = false;
+    SPJoueurVirtuel wPlayer(new JoueurVirtuelRenforcement("", pReinforcementProfileName, pSpeed, pFailProb));
+    SPJoueurVirtuel wOpponent(new JoueurVirtuel("AILeft", pSpeed, pFailProb));
+
+    int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE,wOpponent, wPlayer, false, true);
+
+    Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+    wGame->getField()->creerTerrainParDefaut("");
+    wGame->getReadyToPlay();
+
+    std::ostringstream wFileDirectory(pReinforcementProfileName);
+    wFileDirectory << "Data/";
+    FacadePortability::createDirectory(wFileDirectory.str().c_str());
+
+    while(!learningCancelled)
+    {
+        wGame->animer(16);
+        if(wGame->partieTerminee())
+        {
+            wGame->reinitialiserPartie();
+            AILearner::obtenirInstance()->dump();
+        }
+    }
+}
+
+void cancelLearningAI()
+{
+    learningCancelled = true;
+}
