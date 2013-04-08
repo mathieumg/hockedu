@@ -620,6 +620,8 @@ namespace UIHeavyClient
                     MainWindowHandler.MapId = pMapId;
                     MainWindowHandler.LoadMapFromLocal(pFilepath);
                     MainWindowHandler.CurrentMap = pFilepath;
+                    MainWindowHandler.MapId = pMapId;
+                    MainWindowHandler.ServerMapName = name;
                     //SetOnlineEditionInfos(pMapId, name, description, pIsPublic);
                     MainWindowHandler.GoToEditionMode(false);
                 });

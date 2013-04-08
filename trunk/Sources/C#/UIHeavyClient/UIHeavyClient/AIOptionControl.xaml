@@ -37,6 +37,10 @@
         </GroupBox>
         <GroupBox Grid.Column="2" Grid.Row="1" Header="Profile Edition" Margin="21,12,12,108" Name="mCurrentEditGroupBox" Foreground="White">
             <Grid Height="Auto">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="119*" />
+                    <ColumnDefinition Width="397*" />
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="49*" />
                     <RowDefinition Height="59*" />
@@ -44,18 +48,18 @@
                     <RowDefinition Height="66*" />
                     <RowDefinition Height="65*" />
                 </Grid.RowDefinitions>
-                <Button Content="Save" Margin="12,15,442,0" Name="mSaveButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" Grid.Row="4" Click="mSaveButton_Click" Height="39" VerticalAlignment="Top" />
-                <Label Content="Profile's Name :" Foreground="White" HorizontalAlignment="Left" Margin="12,12,0,0" Name="mProfileNameLabel" Height="26" VerticalAlignment="Top" />
-                <Label Content="Speed : " Foreground="White" HorizontalAlignment="Left" Margin="12" Name="mProfileSpeedLabel" Grid.Row="1" />
-                <Label Content="Fail probability : " Foreground="White" HorizontalAlignment="Left" Margin="12" Name="mProfileReflexLabel" Grid.Row="2" />
-                <TextBox HorizontalAlignment="Left" Margin="112,10,0,0" Name="mProfileNameTextBox" Width="120" Background="Black" Foreground="White" MaxLength="255" Height="30" VerticalAlignment="Top" />
-                <Slider HorizontalAlignment="Left" Margin="113,18,0,8" Name="mSpeedSlider" Width="265" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="1" IsSnapToTickEnabled="True" Maximum="20" />
-                <Slider HorizontalAlignment="Left" Margin="113,9,0,18" Name="mReflexSlider" Width="265" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="2" IsSnapToTickEnabled="True" Maximum="20" />
-                <Label Content="{Binding ElementName=mSpeedSlider, Path=Value}" Foreground="#FF00D500" HorizontalAlignment="Left" Margin="384,15,0,8" Name="mSpeedDisplayLabel" Width="80" Grid.Row="1" />
-                <Label Content="{Binding ElementName=mReflexSlider, Path=Value}" Foreground="#FF00D500" HorizontalAlignment="Left" Margin="384,9,0,15" Name="mReflexDisplayLabel" Width="80" Grid.Row="2" />
-                <CheckBox Content="Reinforcement learning AI" Grid.Row="3" Height="16" HorizontalAlignment="Left" Margin="15,31,0,0" Name="mLearningCheckbox" VerticalAlignment="Top" Foreground="White" />
-                <TextBox Grid.Row="3" Height="23" HorizontalAlignment="Left" Margin="192,24,0,0" Name="mLearningTextbox" VerticalAlignment="Top" Width="120" Background="Black" Foreground="White" IsEnabled="{Binding ElementName=mLearningCheckbox, Path=IsChecked}" />
-                <Button Content="Browse" Grid.Row="3" Height="23" HorizontalAlignment="Left" Margin="334,24,0,0" Name="mBrowseBotton" VerticalAlignment="Top" Width="89" Background="Black" Foreground="White" IsEnabled="{Binding ElementName=mLearningCheckbox, Path=IsChecked}" Click="mBrowseBotton_Click" />
+                <Button Content="Save" Margin="12,15,13,11" Name="mSaveButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" Grid.Row="4" Click="mSaveButton_Click" />
+                <Label Content="Profile's Name :" Foreground="White" HorizontalAlignment="Left" Margin="12,12,0,0" Name="mProfileNameLabel" Height="26" VerticalAlignment="Top" Grid.ColumnSpan="2" />
+                <Label Content="Speed : " Foreground="White" HorizontalAlignment="Left" Margin="12,12,0,12" Name="mProfileSpeedLabel" Grid.Row="1" />
+                <Label Content="Fail probability : " Foreground="White" HorizontalAlignment="Left" Margin="12,12,0,12" Name="mProfileReflexLabel" Grid.Row="2" Grid.ColumnSpan="2" />
+                <TextBox HorizontalAlignment="Left" Margin="25,10,0,0" Name="mProfileNameTextBox" Width="120" Background="Black" Foreground="White" MaxLength="255" Height="30" VerticalAlignment="Top" Grid.Column="1" />
+                <Slider HorizontalAlignment="Left" Margin="26,18,0,8" Name="mSpeedSlider" Width="265" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="1" IsSnapToTickEnabled="True" Maximum="20" Grid.Column="1" />
+                <Slider HorizontalAlignment="Left" Margin="26,9,0,18" Name="mReflexSlider" Width="265" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="2" IsSnapToTickEnabled="True" Maximum="20" Grid.Column="1" />
+                <Label Content="{Binding ElementName=mSpeedSlider, Path=Value}" Foreground="#FF00D500" HorizontalAlignment="Left" Margin="297,15,0,8" Name="mSpeedDisplayLabel" Width="80" Grid.Row="1" Grid.Column="1" />
+                <Label Content="{Binding ElementName=mReflexSlider, Path=Value}" Foreground="#FF00D500" HorizontalAlignment="Left" Margin="297,9,0,15" Name="mReflexDisplayLabel" Width="80" Grid.Row="2" Grid.Column="1" />
+                <CheckBox Content="Reinforcement learning AI" Grid.Row="3" Height="16" HorizontalAlignment="Left" Margin="15,31,0,0" Name="mLearningCheckbox" VerticalAlignment="Top" Foreground="White" Grid.ColumnSpan="2" />
+                <TextBox Grid.Row="3" Height="23" HorizontalAlignment="Left" Margin="105,24,0,0" Name="mLearningTextbox" VerticalAlignment="Top" Width="120" Background="Black" Foreground="White" IsEnabled="{Binding ElementName=mLearningCheckbox, Path=IsChecked}" Grid.Column="1" />
+                <Button Content="Browse" Grid.Row="3" Height="23" HorizontalAlignment="Left" Margin="247,24,0,0" Name="mBrowseBotton" VerticalAlignment="Top" Width="89" Background="Black" Foreground="White" IsEnabled="{Binding ElementName=mLearningCheckbox, Path=IsChecked}" Click="mBrowseBotton_Click" Grid.Column="1" />
             </Grid>
         </GroupBox>
     </Grid>

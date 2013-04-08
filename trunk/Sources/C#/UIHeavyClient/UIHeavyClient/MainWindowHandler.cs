@@ -40,9 +40,13 @@ namespace UIHeavyClient
         // Members
         private static MainWindow mContext;
         private static string mCurrentMap = "";
-        private static OpenFileDialog mOpenFileDialog = new OpenFileDialog();
-        private static Microsoft.Win32.SaveFileDialog mSaveFileDialog = new Microsoft.Win32.SaveFileDialog();
+
+        private static string mServerMapDescription = "";
+        private static string mServerMapName = "";
         private static int mMapId = -1;
+
+        private static OpenFileDialog mOpenFileDialog = new OpenFileDialog();
+        private static Microsoft.Win32.SaveFileDialog mSaveFileDialog = new Microsoft.Win32.SaveFileDialog();       
 
         // Properties
         public static MainWindow Context
@@ -59,6 +63,16 @@ namespace UIHeavyClient
         {
             get { return mMapId; }
             set { mMapId = value; }
+        }
+        public static string ServerMapDescription
+        {
+            get { return mServerMapDescription; }
+            set { mServerMapDescription = value; }
+        }
+        public static string ServerMapName
+        {
+            get { return mServerMapName; }
+            set { mServerMapName = value; }
         }
 
         public static TaskManager mTaskManager = new TaskManager();
