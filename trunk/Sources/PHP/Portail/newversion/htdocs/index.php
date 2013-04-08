@@ -37,42 +37,62 @@ require_once( 'MDB2.php' );
 
 $Website = Website::getInstance();
 
+// Pages that do not require authentication.
+switch( $Website->getModules( 0 ) )
+{
+    case 'features':
+        $Website->setIncludeModule( 'features' );
+        break;        
+    case 'register':
+        $Website->setIncludeModule( 'register' );
+        break;
+    case 'download':
+        $Website->setIncludeModule( 'download' );
+        break;
+    case 'rankings':
+        $Website->setIncludeModule( 'rankings' );
+        break;
+    case 'maps':
+        $Website->setIncludeModule( 'usermaps' );
+        break;
+    case 'map':
+        $Website->setIncludeModule( 'usermap' );
+        break;
+    case 'user':
+        $Website->setIncludeModule( 'userprofile' );
+        break;
+    case 'support':
+        $Website->setIncludeModule( 'support' );
+        break;
+    case 'about':
+        $Website->setIncludeModule( 'about' );
+        break;
+    case 'login':
+        $Website->setIncludeModule( 'login' );
+        break;
+    case 'ajax':
+        $Website->setIncludeModule( 'ajax' );
+        break;
+    case 'remote':
+        $Website->setIncludeModule( 'remote' );
+        break;
+    default:
+        $Website->setIncludeModule( 'homepage' );
+}
+
 if( $Website->isLoggedIn() )
 {
 	// Pages that require authentication.
 	switch( $Website->getModules( 0 ) )
     {
-		case 'logoff':
+        case 'myaccount':
+            $Website->setIncludeModule( 'useraccount' );
+            break;
+        case 'logout':
             $Website->setIncludeModule( 'logout' );
             break;
-        default:
-            $Website->changePage( $_SERVER['SERVER_NAME'] . '/' );
     }
-}
-else
-{    
-    // Pages that do not require authentication.
-	switch( $Website->getModules( 0 ) )
-    {
-		case 'register':
-            $Website->setIncludeModule( 'register' );
-            break;
-        case 'rankings':
-            $Website->setIncludeModule( 'rankings' );
-            break;
-		case 'login':
-            $Website->setIncludeModule( 'login' );
-            break;
-        case 'ajax':
-            $Website->setIncludeModule( 'ajax' );
-            break;
-		case 'remote':
-            $Website->setIncludeModule( 'remote' );
-            break;
-        default:
-            $Website->setIncludeModule( 'homepage' );
-    }
-}
+}  
 
 include( $Website->getModulePath() );
 
