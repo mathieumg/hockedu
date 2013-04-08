@@ -16,7 +16,7 @@
 enum RacineHUD{RACINE_JEU,RACINE_EDITION,RACINE_TOURNOI};
 
 class HUDElement;
-
+class Phont;
 ///////////////////////////////////////////////////////////////////////////
 /// @class GestionnaireHUD
 /// @brief Classe singleton qui représente un HUD avec tous ses éléments.
@@ -65,10 +65,14 @@ private:
     class HUDBonus* mRightPlayerBonuses;
     class HUDBonus* mPuckBonuses;
 
+    Phont* mSmallTextRenderer;
+    Phont* mBigTextRenderer;
+
     float mDeltaXOrtho;
 
 /// Accesseurs
 public:
+    Phont* getTextRenderer(bool smallText){return smallText?mSmallTextRenderer:mBigTextRenderer;}
 	HUDElement* obtenirRacine(RacineHUD racine);
     /// Accessors of mLeftPlayerBonuses
     inline class HUDBonus* getLeftPlayerBonuses() const { return mLeftPlayerBonuses; }
