@@ -428,6 +428,7 @@ bool Tournoi::miseAJour( bool save /*= true */ )
 {
 	if(obtenirPartieCourante()->partieTerminee())
 	{
+        obtenirPartieCourante()->setGameStatus(GAME_ENDED);
 		SPJoueurAbstrait joueur = obtenirPartieCourante()->obtenirGagnant();
 		if(joueur)
 		{

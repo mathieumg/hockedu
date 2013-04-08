@@ -642,8 +642,11 @@ void NoeudMaillet::playTick(float temps)
             {
                 SPJoueurVirtuel wJoueur = std::dynamic_pointer_cast<JoueurVirtuel>(joueur_);
                 mTargetDestination = wJoueur->obtenirDirectionAI(this);
+                if(mTargetDestination.norme() == 0)
+                {
+                    return;
+                }
                 mTargetDestination += getPosition();
-                return;
             }
         case JOUEUR_VIRTUEL:
             {
@@ -684,9 +687,19 @@ void NoeudMaillet::appliquerAnimation( const ObjectAnimationParameters& pAnimati
 {
     if(pAnimationResult.CanUpdatedPosition())
     {
-        Vecteur3 wPos = pAnimationResult.mPosition;
-       
-            this->setTargetDestination(wPos, true);
+        if(obtenirJoueur())
+        {
+            if(obtenirJoueur()->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+            {
+                Vecteur3 wPos = pAnimationResult.mPosition;
+                this->setTargetDestination(wPos, true);
+            }
+            else
+            {
+                setPosition(pAnimationResult.mPosition);
+            }
+        }
+        
     }
     if(pAnimationResult.CanUpdatedAngle())
         mAngle = pAnimationResult.mAngle[VZ];

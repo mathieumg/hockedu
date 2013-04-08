@@ -17,6 +17,8 @@
 #include "AIStratOffensiveLigneDroite.h"
 #include "AIStratOffensiveDroite.h"
 #include "AIStratOffensiveGauche.h"
+#include "FacadeModele.h"
+#include "JoueurVirtuel.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -32,7 +34,8 @@
 ////////////////////////////////////////////////////////////////////////
 AIMaillet::AIMaillet(JoueurVirtuel* jv): strategie_(0),jv_(jv)
 {
-
+    mNextStrat = NBSTRAT;
+    mNextStratValidator = NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -123,6 +126,26 @@ void AIMaillet::changerStrat( typeStrat strat )
 			delete strategie_;
 		strategie_ = nouvelleStrat;
 	}
+}
+
+
+typeStrat AIMaillet::getNextStrat()
+{
+    typeStrat wReturn = mNextStrat;
+    if(mNextStratValidator && mNextStratValidator(FacadeModele::getInstance()->obtenirPartieCourante(), jv_->getControlingMallet()))
+    {
+        mNextStrat = NBSTRAT;
+        mNextStratValidator = NULL;
+    }
+    return wReturn;
+}
+
+
+
+void AIMaillet::changerStratNext( typeStrat pStrat, StratChangerValidator pStratValidator )
+{
+    mNextStrat = pStrat;
+    mNextStratValidator = pStratValidator;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

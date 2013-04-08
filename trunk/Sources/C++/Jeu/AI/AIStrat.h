@@ -11,11 +11,13 @@
 #pragma once
 
 #include "Vecteur.h"
+#include "GameTime.h"
 
 class NoeudMaillet;
 class AIMaillet;
 
 enum typeStrat {DEFENSIVE, OFFENSIVE, OFFENSIVE_LIGNE_DROITE, OFFENSIVE_GAUCHE, OFFENSIVE_DROITE, NBSTRAT};
+
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class AIStrat
@@ -27,6 +29,9 @@ enum typeStrat {DEFENSIVE, OFFENSIVE, OFFENSIVE_LIGNE_DROITE, OFFENSIVE_GAUCHE, 
 class AIStrat
 {
 public:
+
+    static bool TesterPushPuckOnTheOtherSide(class Partie* pPartie, NoeudMaillet* pMaillet);
+
 	/// Constructeur
 	AIStrat(const AIMaillet&);
 	/// Destructeur virtuel
@@ -37,10 +42,12 @@ public:
 /// Attributs
 protected:
 	const AIMaillet& context_;
+    GameTime mGameTime;
 
 /// Accesseurs
 public:
 	virtual typeStrat obtenirType() = 0;
+
 
 };
 
