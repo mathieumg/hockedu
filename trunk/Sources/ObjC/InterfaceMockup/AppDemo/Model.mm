@@ -120,7 +120,7 @@ float temps = clock();
                                          -150,150,-150,150);
     
     ((Terrain*)mField)->setModelManagerObjc(RenderNodeCallback);
-    ((Terrain*)mField)->createRandomField("test");
+    ((Terrain*)mField)->creerTerrainParDefaut("test");
     
     return self;
 }

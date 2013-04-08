@@ -1572,8 +1572,10 @@ enum {
     {
         UITouch *touch = [[event allTouches] anyObject];
         CGPoint positionCourante = [touch locationInView:theEAGLView];
-        
+        UIView * viewTouched = touch.view;
+        if (![viewTouched isMemberOfClass:[UIImageView class]] && ![viewTouched isMemberOfClass:[UIView class]]) {
         [mEventManager touchesEnded:positionCourante];
+            }
         
     }
 }
@@ -1694,8 +1696,8 @@ enum {
 {
     NSInteger currentIndex = carousel.currentItemIndex;
     CarouselElement* element = [carouselElements objectAtIndex:currentIndex];
-    [self carouselSelectItem:currentIndex];
     [self editorModeButtonTouched:nil];
+    [self carouselSelectItem:currentIndex];
     [mEventManager modifyState:element->ModifType];
 }
 

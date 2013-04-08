@@ -711,6 +711,7 @@
 								<string key="NSFrame">{{952, 3}, {64, 64}}</string>
 								<reference key="NSSuperview" ref="8160408"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -1774,6 +1775,7 @@
 						<string key="NSFrame">{{183, 533}, {86, 23}}</string>
 						<reference key="NSSuperview" ref="492033684"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<int key="IBUITag">9</int>
@@ -2177,6 +2179,7 @@
 						<string key="NSFrame">{{183, 223}, {86, 23}}</string>
 						<reference key="NSSuperview" ref="845297986"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<int key="IBUITag">12</int>
@@ -2577,6 +2580,7 @@
 						<string key="NSFrame">{{183, 222}, {86, 23}}</string>
 						<reference key="NSSuperview" ref="609980261"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<int key="IBUITag">15</int>
@@ -2910,6 +2914,7 @@
 						<string key="NSFrame">{{183, 186}, {86, 23}}</string>
 						<reference key="NSSuperview" ref="1011340382"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<int key="IBUITag">17</int>
@@ -3243,6 +3248,7 @@
 						<string key="NSFrame">{{183, 186}, {86, 23}}</string>
 						<reference key="NSSuperview" ref="749421359"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<int key="IBUITag">19</int>
@@ -3643,6 +3649,7 @@
 						<string key="NSFrame">{{183, 223}, {86, 23}}</string>
 						<reference key="NSSuperview" ref="692195774"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<int key="IBUITag">22</int>
@@ -3837,6 +3844,7 @@
 						<string key="NSFrame">{{173, 109}, {94, 27}}</string>
 						<reference key="NSSuperview" ref="588255917"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -4173,6 +4181,7 @@
 						<string key="NSFrame">{{183, 186}, {86, 23}}</string>
 						<reference key="NSSuperview" ref="723647211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<int key="IBUITag">24</int>
@@ -4201,6 +4210,7 @@
 						<string key="NSFrameSize">{250, 44}</string>
 						<reference key="NSSuperview" ref="990656773"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -7816,6 +7826,7 @@
 					<string>67.IBUIButtonInspectorSelectedEdgeInsetMetadataKey</string>
 					<string>69.IBPluginDependency</string>
 					<string>69.IBUIButtonInspectorSelectedEdgeInsetMetadataKey</string>
+					<string>86.CustomClassName</string>
 					<string>86.IBPluginDependency</string>
 					<string>88.IBPluginDependency</string>
 					<string>88.IBUIButtonInspectorSelectedEdgeInsetMetadataKey</string>
@@ -8035,6 +8046,7 @@
 					<real value="1"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="1"/>
+					<string>UIImageView</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="0.0"/>

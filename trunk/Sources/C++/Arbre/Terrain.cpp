@@ -664,7 +664,6 @@ void Terrain::creerTerrainParDefaut(const std::string& nom)
     mTable->add(maillet2);
     mTable->add(rondelle);
 
-    rondelle->setSelection(true);
     fullRebuild();
     try
     {
