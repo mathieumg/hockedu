@@ -190,12 +190,15 @@ enum {
     
     [skyViewButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [skyViewButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [skyViewButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [freeRoamButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [freeRoamButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [freeRoamButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [orbitalButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [orbitalButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [orbitalButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [editionButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateNormal];
     [editionButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateHighlighted];
@@ -1600,11 +1603,68 @@ enum {
 - (void)thereAreNodesSelected
 {
     // Enable le delete
-    moveButton.enabled = true;
-    scaleButton.enabled = true;
-    rotationButton.enabled = true;
-    duplicateButton.enabled = true;
-    deleteButton.enabled = true;
+    
+    switch ([mModel getSelectedNodesType]) {
+        case RAZER_KEY_BONUS:
+            moveButton.enabled = true;
+            scaleButton.enabled = true;
+            rotationButton.enabled = true;
+            duplicateButton.enabled = true;
+            deleteButton.enabled = true;
+            break;
+        case RAZER_KEY_BOOST:
+            moveButton.enabled = true;
+            scaleButton.enabled = true;
+            rotationButton.enabled = true;
+            duplicateButton.enabled = true;
+            deleteButton.enabled = true;
+            break;
+        case RAZER_KEY_CONTROL_POINT:
+            moveButton.enabled = true;
+            scaleButton.enabled = true;
+            rotationButton.enabled = true;
+            duplicateButton.enabled = true;
+            deleteButton.enabled = true;
+            break;
+        case RAZER_KEY_MALLET:
+            moveButton.enabled = true;
+            scaleButton.enabled = true;
+            rotationButton.enabled = true;
+            duplicateButton.enabled = true;
+            deleteButton.enabled = true;
+            break;
+        case RAZER_KEY_PORTAL:
+            moveButton.enabled = true;
+            scaleButton.enabled = true;
+            rotationButton.enabled = true;
+            duplicateButton.enabled = true;
+            deleteButton.enabled = true;
+            break;
+        case RAZER_KEY_PUCK:
+            moveButton.enabled = true;
+            scaleButton.enabled = true;
+            rotationButton.enabled = true;
+            duplicateButton.enabled = true;
+            deleteButton.enabled = true;
+            break;
+        case RAZER_KEY_NONE:
+            moveButton.enabled = false;
+            scaleButton.enabled = false;
+            rotationButton.enabled = false;
+            duplicateButton.enabled = false;
+            deleteButton.enabled = false;
+            break;
+        case RAZER_KEY_TABLE_CONTROL_POINT:
+            moveButton.enabled = true;
+            scaleButton.enabled = false;
+            rotationButton.enabled = false;
+            duplicateButton.enabled = false;
+            deleteButton.enabled = false;
+            break;
+        default:
+            break;
+    }
+    
 }
 - (void)thereAreNoNodesSelected
 {
@@ -1630,6 +1690,18 @@ enum {
 - (void)cannotRedo
 {
     redoButton.enabled = false;
+}
+-(void)disableCameras
+{
+    orbitalButton.enabled = false;
+    freeRoamButton.enabled = false;
+    skyViewButton.enabled = false;
+}
+-(void)enableCameras
+{
+    orbitalButton.enabled = true;
+    freeRoamButton.enabled = true;
+    skyViewButton.enabled = true;
 }
 
 -(void)rotationDetectee:(UIGestureRecognizer *)gestureRecognizer

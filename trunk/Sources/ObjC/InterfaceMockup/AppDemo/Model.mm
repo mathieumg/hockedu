@@ -31,10 +31,21 @@ static Model3DManager* model3DManager = NULL;
 vue::Vue* mView = NULL;
 std::deque<class RunnableField*> mRunnables;
 bool canDOCenter = true;
+Terrain* GlobalField = NULL;
 
 void CenterCameraTerminatedCallback(Animation* pAnim)
 {
     canDOCenter = true;
+    if(GlobalField && mView)
+    {
+        Vecteur3 pos = mView->getOptimalPosition(GlobalField->GetTableWidth());
+        vue::Camera& camera = mView->obtenirCamera();
+        camera.assignerPosition(pos);
+        camera.assignerPointVise(Vecteur3());
+        camera.assignerDirectionHaut(Vecteur3(0,1,0));
+    }
+    
+    [Facade enableCameras];
 }
 
 class RunnableField
@@ -55,6 +66,7 @@ public:
         if(canDOCenter && mField)
         {
             canDOCenter = false;
+            [Facade disableCameras];
             mView->centrerCamera(mField->GetTableWidth(),1,CenterCameraTerminatedCallback);
         }
     }
@@ -169,7 +181,7 @@ float temps = clock();
     
     ((Terrain*)mField)->setModelManagerObjc(RenderNodeCallback);
     ((Terrain*)mField)->creerTerrainParDefaut("test");
-    
+    GlobalField = ((Terrain*)mField);
     return self;
 }
 
@@ -190,6 +202,7 @@ float temps = clock();
     [mModel3DManager release];
     mModel3DManager = NULL;
     delete (Terrain*)mField;
+    GlobalField = NULL;
     delete mView;
     [super dealloc];
 }
@@ -265,6 +278,7 @@ float temps = clock();
 
 -(void) createCameraFixed
 {
+    [Facade disableCameras];
     GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
     int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
     vue::Camera& cameraCourante = mView->obtenirCamera();
@@ -283,6 +297,7 @@ float temps = clock();
 }
 -(void) createCameraOrbit
 {
+    [Facade disableCameras];
     GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
     int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
     vue::Camera& cameraCourante = mView->obtenirCamera();
@@ -301,6 +316,7 @@ float temps = clock();
 }
 -(void) createCameraFree
 {
+    [Facade disableCameras];
     GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
     int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
     vue::Camera& cameraCourante = mView->obtenirCamera();
