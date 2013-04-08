@@ -75,7 +75,7 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCre
 
 
     ++mNbMalletCreated;
-    if(mNbMalletCreated >= malletLimit)
+    if(++EditionEventManager::mGlobalMallet >= EditionEventManager::mEditionLimitMallet)
     {
         EditionEventManager::TransmitEvent(DISABLE_MALLET_CREATION);
     }
@@ -95,7 +95,10 @@ NoeudMaillet::~NoeudMaillet()
 	--mNbMalletCreated;
     // indique aux runnables qui lui sont associé de s'invalidé
     RunnableBreaker::signalObservers();
-    EditionEventManager::TransmitEvent(ENABLE_MALLET_CREATION);
+    if(--EditionEventManager::mGlobalMallet < EditionEventManager::mEditionLimitMallet)
+    {
+        EditionEventManager::TransmitEvent(ENABLE_MALLET_CREATION);
+    }
 #if BOX2D_PLAY
     //checkf(!mMouseJoint, "Le mouse joint a mal ete liberé");
     destroyMouseJoint();

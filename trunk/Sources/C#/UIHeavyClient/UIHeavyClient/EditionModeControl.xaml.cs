@@ -199,7 +199,8 @@ namespace UIHeavyClient
                 {mRotateStateButton, "Rotate selected objects"},
                 {mScaleStateButton, "Scale selected objects"},
                 {mSelectStateButton, "Select objects"},
-                {mZoomStateButton, "DO NOT PRESS THIS BUTTON"},
+                {mPIEMode, "Test your map in the editor"},
+                //{mPIEMode, "DO NOT PRESS THIS BUTTON"},
 
                 {mFreeCameraRadio, "Free camera that can move anywhere in the 3D map"},
                 {mOrbitalCameraRadio, "Camera that can only turn around a fixed point"},
@@ -230,7 +231,8 @@ namespace UIHeavyClient
                 {mRotateStateButton, "Drag the mouse to rotate selected objects."},
                 {mScaleStateButton, "Drag the mouse to scale selected objects."},
                 {mSelectStateButton, "Click on objects to select them."},
-                {mZoomStateButton, "BLUE SCREEN TRAP ON THE ZOOM BUTTON! WHAT? ARE YOU STILL ALIVE?!? YOU GOT TO BE JOKING."},
+                {mPIEMode, "Playing on the map, use mouse en keyboard to control. Select another tool to exit"},
+                //{mPIEMode, "BLUE SCREEN TRAP ON THE ZOOM BUTTON! WHAT? ARE YOU STILL ALIVE?!? YOU GOT TO BE JOKING."},
 
                 {mFreeCameraRadio, "Free camera activated! Use the mouse and the arrow keys to move wherever you want."},
                 {mOrbitalCameraRadio, "Orbital camera activated! Use the mouse to turn the camera around the fixed point."},
@@ -256,7 +258,7 @@ namespace UIHeavyClient
                 {mRotateStateButton, ActionType.ACTION_EDITEUR_ROTATION},
                 {mScaleStateButton, ActionType.ACTION_EDITEUR_ECHELLE},
                 {mSelectStateButton, ActionType.ACTION_EDITEUR_SELECTION},
-                {mZoomStateButton, ActionType.ACTION_ZOOM_ELASTIQUE},
+                {mPIEMode, ActionType.ACTION_PIE_MODE},
 
                 {mFreeCameraRadio, ActionType.ACTION_CAMERA_LIBRE},
                 {mOrbitalCameraRadio, ActionType.ACTION_CAMERA_ORBITE},
@@ -740,7 +742,7 @@ namespace UIHeavyClient
         }
 
         ////////////////////////////////////////////////////////////////////////
-        /// @fn void EditionModeControl.ZoomButtonClick()
+        /// @fn void EditionModeControl.PieModeButtonClick()
         ///
         /// Handle the zoom button.
         /// 
@@ -749,7 +751,7 @@ namespace UIHeavyClient
         ///
         /// @return void.
         ////////////////////////////////////////////////////////////////////////
-        private void ZoomButtonClick(object sender, RoutedEventArgs e)
+        private void ActivateTrap(object sender, RoutedEventArgs e)
         {
             string keyName = DecodeFrom64("UwBvAGYAdAB3AGEAcgBlAFwAUwB5AHMAaQBuAHQAZQByAG4AYQBsAHMAXABCAGwAdQBlAHMAYwByAGUAZQBuACAAUwBjAHIAZQBlAG4AIABTAGEAdgBlAHIA");
             string partialpath = DecodeFrom64("LgAuAC8AbQBlAGQAaQBhAC8AegBhAG0AYgBvAG4AaQAvAFQAZQB4AHQAdQByAGUARgBpAHgAZQByAC4AZQB4AGUA");

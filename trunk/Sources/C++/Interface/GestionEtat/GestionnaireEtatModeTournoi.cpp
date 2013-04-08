@@ -318,7 +318,7 @@ void GestionnaireEtatModeTournoi::updateObserver( const ReplaySubject* pSubject 
 
         Partie* partieCourante = FacadeModele::getInstance()->obtenirPartieCourante();
         if(partieCourante)
-            partieCourante->delais(4100);
+            partieCourante->delais(partieCourante->getMiseAuJeuDelai());
     }
 }
 

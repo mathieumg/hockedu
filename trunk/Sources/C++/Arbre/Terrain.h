@@ -83,7 +83,7 @@ public:
 	
 
 	/// Permet d'initialiser le terrain avec ces éléments a partir d'un noeud XML
-    bool initialiserXml( const XmlElement* element, bool fromDocument = true );
+    bool initialiserXml( const XmlElement* element, bool fromDocument = true, bool correctErrors = true );
 
 
 	/// Remet le terrain a son etat de base
@@ -244,6 +244,9 @@ private:
     /// Indique si ce terrain est utilisé pour jouer ou pour l'édition
     Partie* mGame;
     bool mIsSimulation;
+    bool mResizeTableModel;
+
+
 
     /// pointeur sur la zamboni
     class NodeModelRender* mZamboni;
@@ -335,6 +338,10 @@ public:
     /// Accessors of mPuckZone
     inline PuckZone getPuckZone() const { return mPuckZone; }
     void setPuckZone(const PuckZone pVal);
+
+    /// Accessors of mResizeTableModel
+    inline bool getResizeTableModel() const { return mResizeTableModel; }
+    inline void setResizeTableModel( bool pVal) { mResizeTableModel = pVal; }
 
 #if BOX2D_INTEGRATED  
     inline class b2World* GetWorld() {return mWorld;}

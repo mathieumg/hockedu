@@ -18,6 +18,7 @@
 #include "SourisEtatAjout.h"
 #include "Terrain.h"
 #include "ConfigScene.h"
+#include "SourisEtatPIEMode.h"
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -255,18 +256,21 @@ void GestionnaireEtatModeEdition::miseAJourEvenementsRepetitifs( float deltaTemp
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeEdition::animer( const float& temps )
 {
-    SoundFMOD::obtenirInstance()->repeatAppSong();
-    // Mise à jour des objets
-    if(mField)
+    if(!etatSouris_ || !etatSouris_->OverrideAnimate(temps))
     {
-        mField->animerTerrain(temps);
-    }
-    if(mField && ConfigScene::obtenirInstance()->IsAutoSaveEnable())
-    {
-        if(mAutoSaveTimer.Elapsed_Time_sec() > ConfigScene::obtenirInstance()->getAutoSaveDelai())
+        SoundFMOD::obtenirInstance()->repeatAppSong();
+        // Mise à jour des objets
+        if(mField)
         {
-            mAutoSaveTimer.reset_Time();
-            RazerGameUtilities::SaveFieldToFile(FacadeModele::FICHIER_TERRAIN_EN_COURS,*mField);
+            mField->animerTerrain(temps);
+        }
+        if(mField && ConfigScene::obtenirInstance()->IsAutoSaveEnable())
+        {
+            if(mAutoSaveTimer.Elapsed_Time_sec() > ConfigScene::obtenirInstance()->getAutoSaveDelai())
+            {
+                mAutoSaveTimer.reset_Time();
+                RazerGameUtilities::SaveFieldToFile(FacadeModele::FICHIER_TERRAIN_EN_COURS,*mField);
+            }
         }
     }
 }
@@ -283,8 +287,10 @@ void GestionnaireEtatModeEdition::animer( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeEdition::afficher()
 {
-    renderBase(mField);
-    //GestionnaireHUD::obtenirInstance()->dessinerHUDEdition();
+    if(!etatSouris_ || !etatSouris_->OverrideRender())
+    {
+        renderBase(mField);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -317,6 +323,7 @@ void GestionnaireEtatModeEdition::modifierEtatSouris( NomEtatSouris etatSouris )
         case ETAT_SOURIS_AJOUTER_RONDELLE           : etatSouris_ = new SourisEtatAjout          ( FIELD_MODIFICATION_ADD_PUCK   ); break;
         case ETAT_SOURIS_AJOUTER_ACCELERATEUR       : etatSouris_ = new SourisEtatAjout          ( FIELD_MODIFICATION_ADD_BOOST  ); break;
         case ETAT_SOURIS_AJOUTER_BONUS              : etatSouris_ = new SourisEtatAjout          ( FIELD_MODIFICATION_ADD_BONUS  ); break;
+        case ETAT_SOURIS_PIE_MODE                   : etatSouris_ = new SourisEtatPIEMode        (   ); break;
         default: Super::modifierEtatSouris(etatSouris);
         }
     }
