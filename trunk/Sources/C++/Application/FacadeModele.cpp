@@ -351,7 +351,7 @@ void FacadeModele::initialiserOpenGL(HWND hWnd)
     // init fmod first because config scene will need to modify it
     SoundFMOD::obtenirInstance()->init();
     ConfigScene::obtenirInstance();
-    CheckTime(GestionnaireHUD::obtenirInstance(););
+    GestionnaireHUD::obtenirInstance();
 
 #if !SHIPPING
     debugInfo = new HUDTexte("",Vecteur4f(0,1,1,1));

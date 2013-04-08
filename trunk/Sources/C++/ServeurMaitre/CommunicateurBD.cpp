@@ -204,7 +204,32 @@ bool CommunicateurBD::addGameResult(const std::string& pPlayer1Name, const std::
 
 
 
-
+float CommunicateurBD::getWinRate(std::string& userName)
+{
+    if (validateConnection())
+    {
+        std::stringstream ss;
+        ss << "SELECT        Winners.win_count / Losers.loss_count AS WinRate "\
+            "FROM            Losers INNER JOIN"\
+            "Winners ON Losers.users_id = Winners.users_id AND Losers.users_username = \"" << userName << 
+            "\" ORDER BY WinRate DESC";
+        try 
+        {
+            mysqlpp::Query query = mConnection.query(ss.str());
+            if (mysqlpp::StoreQueryResult res = query.store()) {
+                mysqlpp::StoreQueryResult::const_iterator it;
+                for (it = res.begin(); it != res.end(); ++it) {
+                    return (float)((*it)[0]); // the query's return value is its win/rate
+                }
+            }
+        }
+        catch(...)
+        {
+            return 0;
+        }
+    }
+    return 0;
+}
 
 
 
