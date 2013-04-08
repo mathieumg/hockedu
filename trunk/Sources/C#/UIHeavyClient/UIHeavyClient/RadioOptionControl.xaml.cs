@@ -86,7 +86,6 @@ namespace UIHeavyClient
             mOpenFileDialog = new Microsoft.Win32.OpenFileDialog();
             mOpenFileDialog.Title = "Select a song file";
             mOpenFileDialog.Multiselect = true;
-            AIFF, ASF, ASX, DLS, FLAC, FSB ,IT, M3U, MIDI, MOD, MP2, MP3, Ogg Vorbis, PLS, S3M, VAG (PS2/PSP format), WAV, WAX (Windows Media Audio Redirector), WMA, XM, XMA 
             mOpenFileDialog.Filter = "Sound file(*.mp3;*.wma;*.wav;*.xm)|*.mp3;*.wma;*.wav;*.xm";
         }
 
