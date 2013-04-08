@@ -40,11 +40,12 @@ namespace UIHeavyClient
         public uint serverId { get; set; }
         public string name { get; set; }
         public string creatorName { get; set; }
+        public string opponent { get; set; }
         public string mapName { get; set; }
         public bool needPassword { get; set; }
         public string needPasswordString { get; set; }
 
-        public OnlineGameInfos(int pId, uint pServerId, string pName, string pCreatorName, string pMapName, bool pNeedPassword, string pNeedPasswordString)
+        public OnlineGameInfos(int pId, uint pServerId, string pName, string pCreatorName, string pMapName, bool pNeedPassword, string pOpponent)
             : this()
         {
             id = pId;
@@ -53,7 +54,15 @@ namespace UIHeavyClient
             creatorName = pCreatorName;
             mapName = pMapName;
             needPassword = pNeedPassword;
-            needPasswordString = pNeedPasswordString;
+            if ( pNeedPassword )
+            {
+                needPasswordString = "Yes";
+            }
+            else
+            {
+                needPasswordString = "No";
+            }
+            opponent = pOpponent;
         }
     }
 
@@ -425,7 +434,7 @@ namespace UIHeavyClient
                         // Splits the message
                         char SEPARATOR = '|';
                         string[] values = message.Split(SEPARATOR);
-                        OnlineGameInfos wOnlineGameInfos = new OnlineGameInfos(int.Parse(values[1]), uint.Parse(values[0]), values[2], values[3], values[6], bool.Parse(values[5]), values[5]);
+                        OnlineGameInfos wOnlineGameInfos = new OnlineGameInfos(int.Parse(values[1]), uint.Parse(values[0]), values[2], values[3], values[6], bool.Parse(values[5]), values[4]);
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             wThis.mOnlineGameListView.Items.Add((object)wOnlineGameInfos);

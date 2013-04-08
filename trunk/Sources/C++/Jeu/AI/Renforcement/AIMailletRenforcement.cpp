@@ -71,109 +71,111 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
 {
     Partie* wGame = FacadeModele::getInstance()->obtenirPartieCourante();
 
-    checkf(wGame);
     if(wGame && wGame->getField())
     {
         NoeudRondelle* wPuck = wGame->getField()->getPuck();
 
-        if(maillet->estAGauche() && wPuck->getPosition()[VX] >= wGame->obtenirJoueurDroit()->getControlingMallet()->getRadius()*-1.0f)
+        typeStrat wNextStrat = getNextStrat();
+        if(wNextStrat != NBSTRAT)
         {
-            // DEF uniquement
-            mPuckWasOnOppenentSize = true;
-            changerStrat(DEFENSIVE);
+            changerStrat(wNextStrat);
             return;
         }
-        else if(!maillet->estAGauche() && wPuck->getPosition()[VX] <= wGame->obtenirJoueurGauche()->getControlingMallet()->getRadius()*-1.0f)
+
+        if(maillet->estAGauche() && wPuck->getPosition()[VX] > -wPuck->getRadius()*2.0f)
         {
-            // DEF Uniquement
-            mPuckWasOnOppenentSize = true;
             changerStrat(DEFENSIVE);
-            return;
+            mPuckWasOnOppenentSize = true;
         }
-        else if(mPuckWasOnOppenentSize)
+        else if(!maillet->estAGauche() && wPuck->getPosition()[VX] < wPuck->getRadius()*2.0f)
         {
-            // Analyse
-            // On utilise la prediction pour trouver la position de la rondelle a x=75
-
-            // Calcul d'une posX a frapper en fct de la vitesse de la rondelle
-            NoeudRondelle* wPuck = wGame->getField()->getPuck();
-
-            float wVitRondelle = wPuck->obtenirVelocite().norme();
-            float wPourVitesse = wVitRondelle / 1000.0f;
-
-
-            float wPosX = 40.0f + 30.0 * wPourVitesse;
-            if(maillet->estAGauche())
-            {
-                wPosX *= -1.0f;
-            }
-            PuckProjection wPred = wGame->getPuckProjection(wPosX, 2000);
-
-            if(wPred.time == -1)
-            {
-                changerStrat(OFFENSIVE); // Ne fait que repousser la rondelle
-                return;
-            }
-            std::cout << "Projection reussie " << wPred.position << std::endl;
-            // Get good strat
-            // Get info for input
-            JoueurVirtuelRenforcement* wJoueur = (JoueurVirtuelRenforcement*)jv_;
-            Vecteur3 wPosRondelle = wPuck->getPosition();
-            Vecteur3 wVelRondelle = wPuck->obtenirVelocite();
-            Vecteur3 wPosAI = maillet->getPosition();
-            Vecteur3 wVelAI = maillet->obtenirVelocite();
-            Vecteur3 wPosAdversaire;
-            if(maillet->estAGauche())
-            {
-                wPosAdversaire = wGame->obtenirJoueurDroit()->getControlingMallet()->getPosition();
-            }
-            else
-            {
-                wPosAdversaire = wGame->obtenirJoueurGauche()->getControlingMallet()->getPosition();
-            }
-
-            //LearningAiAction wAction = (LearningAiAction) (wJoueur->getActionFor(wPosAI, wVelAI, wPosRondelle, wVelRondelle, wPosAdversaire));
-            LearningAiAction wAction = AI_ACTION_ATTAQUER_DIRECTEMENT;
-            switch(wAction)
-            {
-            case AI_ACTION_DEFENDRE:
-                changerStrat(DEFENSIVE);
-                return; // Rien d'autre a set pour strat def
-                break;
-            case AI_ACTION_ATTAQUER_DIRECTEMENT:
-                changerStrat(OFFENSIVE_LIGNE_DROITE);
-                break;
-            case AI_ACTION_ATTAQUER_DROITE:
-                changerStrat(OFFENSIVE_DROITE);
-                break;
-            case AI_ACTION_ATTAQUER_GAUCHE:
-                changerStrat(OFFENSIVE_GAUCHE);
-                break;
-            default:
-                changerStrat(DEFENSIVE);
-                return;
-                break;
-            }
-
-            // Set important data
-            AIStratOffensiveRenforcement* wStrat = (AIStratOffensiveRenforcement*) strategie_;
-            wStrat->setPointImpact(wPred.position);
-            wStrat->setTimeBeforeImpact(wPred.time);
-            //wStrat->setVelociteRondelleImpact(wPred.velocite);
-            wStrat->calculateTagetPos();
-
-            mPuckWasOnOppenentSize = false;
+            changerStrat(DEFENSIVE);
+            mPuckWasOnOppenentSize = true;
         }
         else
         {
-            // Ne change rien, pas encore renvoye de l'autre cote
-            return;
-        }
+            if(mPuckWasOnOppenentSize)
+            {
+                // Choix apprentissage
+                // On utilise la prediction pour trouver la position de la rondelle a x=60 environ
 
-        
+                // Calcul d'une posX a frapper en fct de la vitesse de la rondelle
+                NoeudRondelle* wPuck = wGame->getField()->getPuck();
+
+                float wVitRondelle = wPuck->obtenirVelocite().norme();
+                float wPourVitesse = wVitRondelle / 1000.0f;
+
+
+                float wPosX = 60.0f + 30.0 * wPourVitesse;
+                if(maillet->estAGauche())
+                {
+                    wPosX *= -1.0f;
+                }
+                PuckProjection wPred = wGame->getPuckProjection(wPosX, 10000);
+
+                if(wPred.time == -1)
+                {
+                    changerStrat(OFFENSIVE); // Ne fait que repousser la rondelle
+                    return;
+                }
+                std::cout << "Projection reussie " << wPred.position << std::endl;
+                // Get good strat
+                // Get info for input
+                JoueurVirtuelRenforcement* wJoueur = (JoueurVirtuelRenforcement*)jv_;
+                Vecteur3 wPosRondelle = wPuck->getPosition();
+                Vecteur3 wVelRondelle = wPuck->obtenirVelocite();
+                Vecteur3 wPosAI = maillet->getPosition();
+                Vecteur3 wVelAI = maillet->obtenirVelocite();
+                Vecteur3 wPosAdversaire;
+                if(maillet->estAGauche())
+                {
+                    wPosAdversaire = wGame->obtenirJoueurDroit()->getControlingMallet()->getPosition();
+                }
+                else
+                {
+                    wPosAdversaire = wGame->obtenirJoueurGauche()->getControlingMallet()->getPosition();
+                }
+
+                //LearningAiAction wAction = (LearningAiAction) (wJoueur->getActionFor(wPosAI, wVelAI, wPosRondelle, wVelRondelle, wPosAdversaire));
+                LearningAiAction wAction = AI_ACTION_ATTAQUER_DIRECTEMENT;
+                switch(wAction)
+                {
+                case AI_ACTION_DEFENDRE:
+                    changerStrat(DEFENSIVE);
+                    return; // Rien d'autre a set pour strat def
+                    break;
+                case AI_ACTION_ATTAQUER_DIRECTEMENT:
+                    changerStrat(OFFENSIVE_LIGNE_DROITE);
+                    break;
+                case AI_ACTION_ATTAQUER_DROITE:
+                    changerStrat(OFFENSIVE_DROITE);
+                    break;
+                case AI_ACTION_ATTAQUER_GAUCHE:
+                    changerStrat(OFFENSIVE_GAUCHE);
+                    break;
+                default:
+                    changerStrat(DEFENSIVE);
+                    return;
+                    break;
+                }
+
+                // Set important data
+                AIStratOffensiveRenforcement* wStrat = (AIStratOffensiveRenforcement*) strategie_;
+                wStrat->setPointImpact(wPred.position);
+                wStrat->setTimeBeforeImpact(wPred.time);
+                wStrat->calculateTagetPos();
+            }
+            else if(maillet->estAGauche() && maillet->getPosition()[VX] > wPuck->getPosition()[VX] || !maillet->estAGauche() && maillet->getPosition()[VX] < wPuck->getPosition()[VX])
+            {
+                // Mode defensif qui contourne la rondelle (si derriere)
+                changerStrat(DEFENSIVE);
+            }
+            mPuckWasOnOppenentSize = false;
+        }
     }
     else
     {
+        checkf(0);// Ne devrait pas arriver
         // Si erreur, on donne une valeur arbitraire
         changerStrat(DEFENSIVE);
         return;

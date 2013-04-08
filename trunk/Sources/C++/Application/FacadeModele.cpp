@@ -1527,7 +1527,6 @@ bool FacadeModele::verifierValiditeMap( Terrain* terrain/*= 0 */ )
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::creerTerrainParDefaut( )
 {
-    GestionnaireEvenements::modifierEtat(ETAT_MODE_EDITION);
     mEditionField->creerTerrainParDefaut(FICHIER_TERRAIN_EN_COURS);
 }
 

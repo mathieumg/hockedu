@@ -105,7 +105,7 @@ namespace UIHeavyClient
 
             mOpenFileDialog = new OpenFileDialog();
             mOpenFileDialog.Multiselect = false;
-            mOpenFileDialog.Filter = "XML Files (*.xml)|*.xml";
+            mOpenFileDialog.Filter = "AiLogic (*.ailogic)|*.ailogic";
             mOpenFileDialog.Title = "Choose a reinforcement AI profile";
         }
 

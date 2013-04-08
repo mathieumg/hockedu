@@ -10,8 +10,9 @@
 #import "Enum_Declarations.h"
 #import "Model3DManager.h"
 
-@interface FullPropertiesApple : NSObject{
-@public
+//@interface FullPropertiesApple : NSObject{
+//@public
+typedef struct{
     float mFriction;
     float mZoneEditionX;
     float mZoneEditionY;
@@ -35,9 +36,9 @@
     //BonusProperties* mBonusProperties;
     int mPropertyFlagAssignment;
     
-}
+}FullPropertiesApple;
 //@property (retain, nonatomic) float mFriction;
-@end
+//@end
 @interface Model : NSObject
 {
 
@@ -60,9 +61,12 @@
 -(void) redo;
 -(void) zoom:(float)scale;
 -(void) deplacerSouris:(int)deplacementX :(int)deplacementY;
+-(void) createCameraFixed;
+-(void) createCameraOrbit;
+-(void) createCameraFree;
 -(void) orbit:(int)deplacementX :(int)deplacementY;
 -(void) resizeWindow:(int)minX :(int)minY :(int)maxX :(int)maxY;
--(FullPropertiesApple*) getProperties;
+-(void) getProperties:(FullPropertiesApple*)prop;
 -(void) setProperties:(FullPropertiesApple*)prop;
 -(RazerKey) getSelectedNodesType;
 @end

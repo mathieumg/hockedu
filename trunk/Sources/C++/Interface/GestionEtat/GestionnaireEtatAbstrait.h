@@ -34,6 +34,7 @@ enum NomEtatSouris{
     ,ETAT_SOURIS_AJOUTER_ACCELERATEUR
     ,ETAT_SOURIS_AJOUTER_BONUS
     ,ETAT_SOURIS_ORBIT
+    ,ETAT_SOURIS_PIE_MODE
     ,ETAT_SOURIS_AUCUN
 	,NB_ETATS_SOURIS
 	,ETAT_SOURIS_INCONNU
@@ -77,7 +78,7 @@ public:
 	virtual void animer( const float& temps ) = 0;
 	/// Permet d'effectuer l'affichage specifique a l'etat
 	virtual void afficher(){}
-    void renderBase(class Terrain* pField, RenderSpecific = NULL);
+    static void renderBase(class Terrain* pField, RenderSpecific = NULL);
 
 	/// Modifier l'état de la souris
 	virtual void modifierEtatSouris(NomEtatSouris etatSouris);

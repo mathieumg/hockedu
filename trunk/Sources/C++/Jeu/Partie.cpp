@@ -54,7 +54,7 @@ const int Partie::POINTAGE_GAGNANT = 3;
 ////////////////////////////////////////////////////////////////////////
 Partie::Partie(GameType gameType, SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, const std::vector<GameUpdateCallback>& updateCallback /*= 0*/ ):
 pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 60, joueurGauche, joueurDroit),
-mGameType(gameType)
+mGameType(gameType),mMiseAuJeuDelai(4100)
 {
     mClockLastTick = 0;
     chiffres_ = new NoeudAffichage("3");
@@ -533,7 +533,7 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
     {
         tempsJeu_.reset_Time();
     }
-    delais(4100);
+    delais(mMiseAuJeuDelai);
 }
 
 
@@ -893,23 +893,24 @@ void Partie::SignalGameOver()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool Partie::getReadyToPlay()
+bool Partie::getReadyToPlay( bool loadMapFile /*= true*/ )
 {
-    if(getFieldName().size() == 0)
+    if(loadMapFile)
     {
-        mField->creerTerrainParDefaut(FacadeModele::FICHIER_TERRAIN_EN_COURS);
-    }
-    else
-    {
-        RazerGameUtilities::LoadFieldFromFile(getFieldName(),*mField);
+        if(getFieldName().size() == 0)
+        {
+            mField->creerTerrainParDefaut(FacadeModele::FICHIER_TERRAIN_EN_COURS);
+        }
+        else
+        {
+            RazerGameUtilities::LoadFieldFromFile(getFieldName(),*mField);
+        }
     }
     mField->fullRebuild();
 
     auto xml = mField->creerNoeudXML();
     mFieldSimulation->initialiserXml(xml,false);
     delete xml;
-
-    
 
     if(!mField->verifierValidite())
     {
@@ -1090,7 +1091,7 @@ void Partie::updateObserver( const ReplaySubject* pSubject )
     else
     {
         tempsJeu_.unPause();
-        checkf(mLastGameStatus != GAME_REPLAYING);
+        //checkf(mLastGameStatus != GAME_REPLAYING);
         if(mLastGameStatus != GAME_REPLAYING)
         {
             setGameStatus(mLastGameStatus); // Utilise le dernier etat de partie pour unpause
@@ -1328,8 +1329,8 @@ PuckProjection Partie::getPuckProjection( float pPosX, int pDelaisMaxMs /*= 1000
         while(true)
         {
             // Tick le world
-            mFieldSimulation->appliquerPhysique(5.0f/1000.0f);
-            wElapsedTime += 5;
+            mFieldSimulation->appliquerPhysique(16.0f/1000.0f);
+            wElapsedTime += 16;
 
 #if MAT_DEBUG_
             NoeudMaillet::mListePointsDebug.push_back(wPuck->getPosition());

@@ -197,50 +197,55 @@ void VisiteurDeplacement::visiterNoeudRondelle( NoeudRondelle* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurDeplacement::visiterNoeudPoint( NoeudPoint* noeud )
 {
-    const Vecteur3& posRelative = noeud->getPosition();
-    TypePosPoint type = noeud->obtenirTypePosNoeud();
+    if(noeud->canBeVisitedAndRemoveFlag())
+    {
+        noeud->flagSelectedAssociatedPoints();
 
-    // check pour les noeuds Haut et bas milieu
-    if(type == POSITION_HAUT_MILIEU || type == POSITION_BAS_MILIEU)
-    {
-        if(noeud->validerDeplacement(posRelative, deplacement_,VY))
-        {
-            noeud->setPosition(posRelative+Vecteur3(0, deplacement_[VY], 0));
-            noeud->obtenirPointSym()->setPosition(noeud->obtenirPointSym()->getPosition()+Vecteur3(0, -deplacement_[VY], 0));
-        }
-    }
-    else if(type == POSITION_MILIEU_GAUCHE || type == POSITION_MILIEU_DROITE)
-    {
-        if(noeud->validerDeplacement(posRelative, deplacement_,VX))
-        {
-            noeud->setPosition(posRelative+Vecteur3(deplacement_[VX], 0, 0));
-            noeud->obtenirPointSym()->setPosition(noeud->obtenirPointSym()->getPosition()+Vecteur3(-deplacement_[VX],0, 0));            
-        }
-    }
+        const Vecteur3& posRelative = noeud->getPosition();
+        TypePosPoint type = noeud->obtenirTypePosNoeud();
 
-    else if(type == POSITION_HAUT_GAUCHE || type == POSITION_HAUT_DROITE || type == POSITION_BAS_DROITE || type == POSITION_BAS_GAUCHE)
-    {
-        if(noeud->validerDeplacement(posRelative, deplacement_,VY) && noeud->validerDeplacement(posRelative, deplacement_,VX))
+        // check pour les noeuds Haut et bas milieu
+        if(type == POSITION_HAUT_MILIEU || type == POSITION_BAS_MILIEU)
         {
-            noeud->setPosition(posRelative+deplacement_);
-            deplacement_[VX]*=-1;
-            noeud->obtenirPointSym()->setPosition(noeud->obtenirPointSym()->getPosition()+deplacement_);
-            // revert change since other node might want the modif
-            deplacement_[VX]*=-1;
+            if(noeud->validerDeplacement(posRelative, deplacement_,VY))
+            {
+                noeud->setPosition(posRelative+Vecteur3(0, deplacement_[VY], 0));
+                noeud->obtenirPointSym()->setPosition(noeud->obtenirPointSym()->getPosition()+Vecteur3(0, -deplacement_[VY], 0));
+            }
         }
-    }
-
-    // Recalcul de la longueur des buts 
-    auto field = noeud->getField();
-    checkf(field);
-    if(field)
-    {
-        NoeudTable* table = field->getTable();
-        checkf(table);
-        if(table)
+        else if(type == POSITION_MILIEU_GAUCHE || type == POSITION_MILIEU_DROITE)
         {
-            table->obtenirBut(1)->updateLongueur();
-            table->obtenirBut(2)->updateLongueur();
+            if(noeud->validerDeplacement(posRelative, deplacement_,VX))
+            {
+                noeud->setPosition(posRelative+Vecteur3(deplacement_[VX], 0, 0));
+                noeud->obtenirPointSym()->setPosition(noeud->obtenirPointSym()->getPosition()+Vecteur3(-deplacement_[VX],0, 0));            
+            }
+        }
+
+        else if(type == POSITION_HAUT_GAUCHE || type == POSITION_HAUT_DROITE || type == POSITION_BAS_DROITE || type == POSITION_BAS_GAUCHE)
+        {
+            if(noeud->validerDeplacement(posRelative, deplacement_,VY) && noeud->validerDeplacement(posRelative, deplacement_,VX))
+            {
+                noeud->setPosition(posRelative+deplacement_);
+                deplacement_[VX]*=-1;
+                noeud->obtenirPointSym()->setPosition(noeud->obtenirPointSym()->getPosition()+deplacement_);
+                // revert change since other node might want the modif
+                deplacement_[VX]*=-1;
+            }
+        }
+
+        // Recalcul de la longueur des buts 
+        auto field = noeud->getField();
+        checkf(field);
+        if(field)
+        {
+            NoeudTable* table = field->getTable();
+            checkf(table);
+            if(table)
+            {
+                table->obtenirBut(1)->updateLongueur();
+                table->obtenirBut(2)->updateLongueur();
+            }
         }
     }
 }

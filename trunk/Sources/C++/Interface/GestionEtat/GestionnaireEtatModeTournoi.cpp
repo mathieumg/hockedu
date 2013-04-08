@@ -278,6 +278,7 @@ void GestionnaireEtatModeTournoi::afficher()
             renderBase(game->getField(),[&]()->void{game->afficher();});
             if(game->partieTerminee())
             {
+                game->setGameStatus(GAME_ENDED);
                 GestionnaireHUD::obtenirInstance()->dessinerHUDTournoi();
             }
             else
@@ -318,7 +319,7 @@ void GestionnaireEtatModeTournoi::updateObserver( const ReplaySubject* pSubject 
 
         Partie* partieCourante = FacadeModele::getInstance()->obtenirPartieCourante();
         if(partieCourante)
-            partieCourante->delais(4100);
+            partieCourante->delais(partieCourante->getMiseAuJeuDelai());
     }
 }
 
