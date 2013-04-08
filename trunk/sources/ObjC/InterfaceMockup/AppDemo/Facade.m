@@ -36,7 +36,7 @@ static EAGLViewController* mViewController = NULL;
     {
         if ([[item pathExtension] isEqualToString:@"xml"])
         {
-            [matches addObject:item];
+            [matches addObject:[NSString stringWithFormat:@"%@/%@",path,item]];
         }
     }
     
