@@ -44,6 +44,7 @@ extern int const HAUTEUR_FENETRE;
     IBOutlet UIView *mSideBarView;
     IBOutlet UIView *mTopBarView;
     IBOutlet UIView *undoRedoView;
+    IBOutlet UIView *applyView;
     IBOutlet UIView *mPropertyView;
     IBOutlet UIView *mTablePropertyView;
     IBOutlet UIView *mBoostPropertyView;

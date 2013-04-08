@@ -8,24 +8,31 @@
 
 #import "EditorStateAdd.h"
 #import "Enum_Declarations.h"
+#import "EventManager.h"
 @implementation EditorStateAdd
 FieldModificationStrategyType currentType;
--(EditorStateAdd*) init:(FieldModificationStrategyType)type
+-(EditorStateAdd*) init:(FieldModificationStrategyType)type:(EventManager*)eventManager;
 {
+    [super init:eventManager];
     currentType = type;
+    [mEventManager.mModel beginModification:currentType:CGPointMake(-50, 0)];
     return self;
 }
--(void)touchesBegan:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model
+-(void)touchesBegan:(CGPoint)coordVirt
 {
-    [model beginModification:currentType:coordVirt];
+    [mEventManager.mModel eventModification:FIELD_MODIFICATION_EVENT_MOVE:coordVirt];
 }
--(void)touchesMoved:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model
+-(void)touchesMoved:(CGPoint)coordVirt
 {
-    [model eventModification:FIELD_MODIFICATION_EVENT_MOVE:coordVirt];
+    [mEventManager.mModel eventModification:FIELD_MODIFICATION_EVENT_MOVE:coordVirt];
 }
--(void)touchesEnded:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model
+-(void)touchesEnded:(CGPoint)coordVirt
 {
-    [model eventModification:FIELD_MODIFICATION_EVENT_CLICK:coordVirt];
-    [model eventCancel];
+    [mEventManager.mModel eventModification:FIELD_MODIFICATION_EVENT_CLICK:coordVirt];
+    
+}
+-(void)stateEnd
+{
+    [mEventManager.mModel eventCancel];
 }
 @end

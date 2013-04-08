@@ -15,6 +15,10 @@
 #import "EditorStateView.h"
 #import "Model.h"
 @interface EventManager : NSObject
+{
+    EditorStateAbstract *mCurrentState;
+    Model *mModel;
+}
 @property (nonatomic, retain) EditorStateAbstract *mCurrentState;
 @property (nonatomic, retain) Model *mModel;
 typedef enum {
@@ -38,8 +42,8 @@ typedef enum {
 
 -(EventManager*) init:(Model*)model;
 -(void) modifyState:(EditorStateName)editorState;
--(void)touchesBegan:(UITouch *)touch :(CGPoint)coordVirt;
--(void)touchesMoved:(UITouch *)touch :(CGPoint)coordVirt;
--(void)touchesEnded:(UITouch *)touch :(CGPoint)coordVirt;
+-(void)touchesBegan:(CGPoint)coordVirt;
+-(void)touchesMoved:(CGPoint)coordVirt;
+-(void)touchesEnded:(CGPoint)coordVirt;
 
 @end

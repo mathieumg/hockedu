@@ -10,9 +10,16 @@
 #import "EditorStateAbstract.h"
 #import "Enum_Declarations.h"
 #import "Model.h"
+#import "EditorStateAbstract.h"
 @interface EditorStateAdd : EditorStateAbstract
--(EditorStateAdd*) init:(FieldModificationStrategyType)type;
--(void)touchesBegan:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model;
--(void)touchesMoved:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model;
--(void)touchesEnded:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model;
+{
+    //EventManager* mEventManager;
+}
+//@property (retain, nonatomic) EventManager* mEventManager;
+
+-(EditorStateAdd*) init:(FieldModificationStrategyType)type:(EventManager*)eventManager;
+-(void)touchesBegan:(CGPoint)coordVirt;
+-(void)touchesMoved:(CGPoint)coordVirt;
+-(void)touchesEnded:(CGPoint)coordVirt;
+-(void)stateEnd;
 @end
