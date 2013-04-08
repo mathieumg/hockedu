@@ -21,7 +21,7 @@
         <ListView Background="Black" Foreground="White" Margin="3" Name="mMapListView" Grid.Column="1" SizeChanged="ResizeGridColumns" SelectionChanged="MapChanged" GridViewColumnHeader.Click="ClickForSorting">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding id}" Header="Author" Width="100" />
+                    <GridViewColumn DisplayMemberBinding="{Binding author}" Header="Author" Width="100" />
                     <GridViewColumn DisplayMemberBinding="{Binding name}" Header="Name" Width="150" />
                     <GridViewColumn DisplayMemberBinding="{Binding description}" Header="Description" Width="250" />
                 </GridView>
