@@ -12,7 +12,9 @@
 #include "NoeudMaillet.h"
 #include "Terrain.h"
 #include "NodeBonus.h"
-#include "Partie.h"
+#ifdef WIN32
+    #include "Partie.h"
+#endif
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -109,6 +111,7 @@ bool BonusModifierAbstract::AttachToPuck( NoeudRondelle* pPuck )
 ////////////////////////////////////////////////////////////////////////
 void BonusModifierAbstract::Tick( float temps )
 {
+    #ifdef WIN32
     if(!IsFinished())
     {
         mTimeToLive -= temps;
@@ -128,6 +131,7 @@ void BonusModifierAbstract::Tick( float temps )
             Complete();
         }
     }
+    #endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -143,6 +147,7 @@ void BonusModifierAbstract::Tick( float temps )
 ////////////////////////////////////////////////////////////////////////
 void BonusModifierAbstract::Init( NodeBonus* creator )
 {
+    #ifdef WIN32
     mCreator = creator;
     auto field = mCreator->getField();
     if(field)
@@ -155,4 +160,5 @@ void BonusModifierAbstract::Init( NodeBonus* creator )
         }
     }
     mBeginTime = clock()/CLOCKS_PER_SEC;
+    #endif
 }

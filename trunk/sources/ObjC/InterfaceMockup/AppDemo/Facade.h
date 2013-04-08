@@ -10,6 +10,7 @@
 {
 }
 +(void)registerController:(void*)controller;
++(NSArray*)listFileAtPath;
 +(void)EnablePuckCreation;
 +(void)DisablePuckCreation;
 +(void)EnableMalletCreation;

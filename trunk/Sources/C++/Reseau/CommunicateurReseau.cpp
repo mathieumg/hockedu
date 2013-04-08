@@ -922,7 +922,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
             else
             {
                 // On verifie que le user n'est pas deja connecte
-                if(GestionnaireReseau::obtenirInstance()->getSocket(wPlayerName, TCP) == NULL)
+                if(GestionnaireReseau::obtenirInstance()->getPlayerName() != "MasterServer" || GestionnaireReseau::obtenirInstance()->getSocket(wPlayerName, TCP) == NULL)
                 {
                     std::string pSocketIdentifier = wPlayerName;
                     // On verifie finalement l'authentification

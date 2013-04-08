@@ -60,6 +60,22 @@ struct RenderWorkerData
     HGLRC glrc;
 };
 
+
+struct OnlineMapInfo
+{
+    OnlineMapInfo(int pId, const std::string& pName, const std::string& pDescription, bool pIsPublic)
+    {
+        id = pId;
+        name = pName;
+        description = pDescription;
+        isPublic = pIsPublic;
+    }
+    int id;
+    std::string name;
+    std::string description;
+    bool isPublic;
+};
+
 DWORD WINAPI RenderSceneWorker(LPVOID arg);
 
 ///////////////////////////////////////////////////////////////////////////
@@ -311,6 +327,7 @@ private:
 	// Lien vers le programme de SHADER
 	GLuint progPhong_;
 
+
 	/// Accesseurs
 public:
     /// Accessors of boiteEnvironnement
@@ -376,6 +393,7 @@ public:
     inline void setCurrentMap(std::string pCurrentMap) {mCurrentMapFile = pCurrentMap;}
 
     inline void setProchainePartie(int val) { prochainePartie_ = val; }
+
 
 };
 

@@ -11,6 +11,9 @@
 #include "RazerGameTypeDef.h"
 #include "JoueurAbstrait.h"
 #include "JoueurVirtuel.h"
+#if !SHIPPING
+#include <iostream>
+#endif
 
 
 bool ControllerServeurJeu::mIsLocalServer = false;
@@ -122,7 +125,9 @@ void ControllerServeurJeu::handleDisconnectDetection( SPSocket pSocket )
     // Doit mettre en pause la partie et notifier l'autre joueur
     std::string wSocketIdentifier = GestionnaireReseau::obtenirInstance()->getSocketIdentifier(pSocket);
     GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
-
+#if !SHIPPING
+    std::cout << "Deconnexion de " << wSocketIdentifier << std::endl;
+#endif
 
 
     Partie* wGameBeforeCall = GameManager::obtenirInstance()->getGameWithPlayer(wSocketIdentifier);
@@ -141,7 +146,7 @@ void ControllerServeurJeu::handleDisconnectDetection( SPSocket pSocket )
                 // Joueur gauche deconnecte
                 wGame->modifierJoueurGauche(SPJoueurAbstrait(NULL));
             }
-            else
+            else if(wGame->obtenirNomJoueurDroit() == wSocketIdentifier)
             {
                 // Joueur droit deconnecte
                 wGame->modifierJoueurDroit(SPJoueurAbstrait(NULL));
@@ -156,24 +161,37 @@ void ControllerServeurJeu::handleDisconnectDetection( SPSocket pSocket )
 
             std::vector<std::string> wList;
             GestionnaireReseau::obtenirInstance()->getController()->getPlayersInGame(wGame->getUniqueGameId(), wList);
-            wPaquet->setNbAssociatedQueries((int) wList.size());
-            if(wList.size() == 0)
+            
+            if((!wGame->obtenirJoueurDroit() || wGame->obtenirJoueurDroit()->obtenirType() == JOUEUR_VIRTUEL) && (!wGame->obtenirJoueurGauche() || wGame->obtenirJoueurGauche()->obtenirType() == JOUEUR_VIRTUEL))
             {
+                // Plus de joueurs
                 // Plus personne dans la partie. On la termine (mais on ne doit pas dire au serveur maitre de sauvegarder le score etc. puisque la partie n'est pas officiellement terminee)
                 // On doit mettre la partie en pause avant de la retirer de la liste pour ne pas qu'elle soit en train de tick
                 GameManager::obtenirInstance()->removeGame(wGameId);
+#if SHIPPING
                 std::cout << "Partie " << wGameId << " terminee car plus de joueurs." << std::endl;
+#endif
             }
             else
             {
-                for(auto it = wList.begin(); it!=wList.end(); ++it)
-                {
-                    if(*it != wSocketIdentifier && *it != "")
-                    {
-                        GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
-                    }
-                }
+                RelayeurMessage::obtenirInstance()->relayerPaquetGame(wGameId, wPaquet, TCP);
             }
+            
+//             wPaquet->setNbAssociatedQueries((int) wList.size());
+//             if(wList.size() == 0)
+//             {
+//                 
+//             }
+//             else
+//             {
+//                 for(auto it = wList.begin(); it!=wList.end(); ++it)
+//                 {
+//                     if(*it != wSocketIdentifier && *it != "")
+//                     {
+//                         GestionnaireReseau::obtenirInstance()->envoyerPaquet(*it, wPaquet, TCP);
+//                     }
+//                 }
+//             }
         }
     });
     RazerGameUtilities::RunOnUpdateThread(r,true);

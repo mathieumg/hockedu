@@ -25,6 +25,7 @@
 #include "LaunchAchievementLite.h"
 #include "Partie.h"
 #include "JoueurVirtuelRenforcement.h"
+#include <sstream>
 
 ////////////////////////////////////////////////////////////////////////
 ///

@@ -42,6 +42,8 @@ GestionnaireReseauServeurMaitre::GestionnaireReseauServeurMaitre()
     GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
     wGestionnaireReseau->initServer();
 
+    wGestionnaireReseau->setUser("MasterServer", "");
+
     // On doit ajouter une nouvelle operation reseau pour que le systeme le connaisse (1 par type de paquet), trompez-vous pas pcq sa va chier en ti pepere!
 	wGestionnaireReseau->ajouterOperationReseau(CHAT_MESSAGE, new PacketHandlerChatMessage, new UsinePaquetChatMessage);
 	wGestionnaireReseau->ajouterOperationReseau(USER_STATUS, new PacketHandlerUserStatus, new UsinePaquetUserStatus);

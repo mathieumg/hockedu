@@ -227,6 +227,7 @@ unsigned int RazerGameUtilities::CreateListSphereDefault( Modele3D* pModel, floa
 ////////////////////////////////////////////////////////////////////////
 void RazerGameUtilities::LoadFieldFromFile( const std::string& pPathFile, Terrain& pField )
 {
+    pField.setAbsolutePath(pPathFile);
     std::string pathFile = pPathFile;
     static const char ext[] = ".xml";
     if(pathFile.size() < 4 || strcmp((pathFile.c_str() + pathFile.size()-4),ext) != 0)
