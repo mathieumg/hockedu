@@ -16,6 +16,10 @@
 #include "NoeudRondelle.h"
 #include "AIMaillet.h"
 #include "JoueurVirtuel.h"
+#include "Partie.h"
+
+
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -30,6 +34,7 @@
 ////////////////////////////////////////////////////////////////////////
 AIStratDefensive::AIStratDefensive(const AIMaillet& context):AIStrat(context)
 {
+    
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -61,6 +66,13 @@ Vecteur2 AIStratDefensive::appliquerStrategie( NoeudMaillet* maillet)
 	NoeudRondelle* rondelle;
 	if(!maillet->getField() || !( rondelle = maillet->getField()->getPuck() ) )
 		return Vecteur2();
+
+    if(mGameTime.Elapsed_Time_sec() > 3)
+    {
+        // Si apres 3 sec on est encore en defensive, on attaque
+        const_cast<AIMaillet&>(context_).changerStratNext(OFFENSIVE, AIStrat::TesterPushPuckOnTheOtherSide); // Va changer au prochain tick
+        return Vecteur2(); // On doit return car on vient d'etre delete
+    }
 
 	// On obtient le but du JV
 	NoeudBut* butJV;
