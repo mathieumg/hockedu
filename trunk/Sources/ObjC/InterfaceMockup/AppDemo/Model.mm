@@ -17,23 +17,18 @@
 #import "VisitorGatherProperties.h"
 #include <time.h>
 #include <iostream>
+#include "Utilitaire.h"
 
 //@implementation FullPropertiesApple
 //@end
 
 void displayMessageCallback(const char* message)
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Really reset?" message:@"Do you really want to reset this game?" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+    NSString* msg =  [NSString stringWithFormat:@"%s" , message];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     // optional - add more buttons:
-    [alert addButtonWithTitle:@"Yes"];
-    [alert show];
-}
-
-void test()
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Really reset?" message:@"Do you really want to reset this game?" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
-    // optional - add more buttons:
-    [alert addButtonWithTitle:@"Yes"];
+    //[alert addButtonWithTitle:@"Yes"];
     [alert show];
 }
 
@@ -104,6 +99,7 @@ float temps = clock();
 }
 - (id)init
 {
+    utilitaire::mDisplayMessageCallback = displayMessageCallback;
     EditionEventManager::setEditionEventCallback(EditionEventCallback);
     mField = new Terrain(NULL);
     mModel3DManager = [[Model3DManager alloc]init];
@@ -171,7 +167,6 @@ float temps = clock();
 
 -(void) duplicateSelection
 {
-    test();
     ((Terrain*)mField)->duplicateSelection();
 }
 
@@ -219,6 +214,8 @@ float temps = clock();
 
 -(void) saveField
 {
+    ((Terrain*)mField)->verifierValidite();
+    
     NSError* error;
 
     
