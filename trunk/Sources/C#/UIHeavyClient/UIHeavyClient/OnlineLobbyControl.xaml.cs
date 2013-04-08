@@ -369,6 +369,7 @@ namespace UIHeavyClient
                     MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_JEU);
                     MainWindowHandler.Context.RestartGameMenuHandle(true);
                     MainWindowHandler.Context.ReplayMenuHandle(true);
+                    MainWindowHandler.Context.PlayModeControl.HandleChatVisibility(true);
                 }
             });
         }
@@ -853,7 +854,6 @@ namespace UIHeavyClient
             mRandomButton.IsEnabled = pIsEnable;
             mRefreshButton.IsEnabled = pIsEnable;
             mEditionModeButton.IsEnabled = pIsEnable;
-            mBackToMainButton.IsEnabled = pIsEnable;
         }
     }
 }
