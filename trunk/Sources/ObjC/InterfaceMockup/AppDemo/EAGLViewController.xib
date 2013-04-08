@@ -558,12 +558,11 @@
 							<object class="IBUIImageView" id="872724263">
 								<reference key="NSNextResponder" ref="8160408"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{754, 0}, {270, 621}}</string>
+								<string key="NSFrame">{{754, -2}, {270, 624}}</string>
 								<reference key="NSSuperview" ref="8160408"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<int key="IBUIContentMode">7</int>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
