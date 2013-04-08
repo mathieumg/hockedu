@@ -341,8 +341,11 @@ bool SourisEtatPIEMode::OverrideAnimate(float temps)
 
         if(wGame->partieTerminee())
         {
-            wGame->getReadyToPlay(false);
+            wGame->reinitialiserPartie();
             wGame->miseAuJeu(true);
+            Vecteur3 coordonneesSouris;
+            FacadeModele::getInstance()->convertirClotureAVirtuelle(mMousePos[VX], mMousePos[VY], coordonneesSouris);
+            wGame->getField()->getLeftMallet()->setTargetDestination(coordonneesSouris,true);
         }
     }
 

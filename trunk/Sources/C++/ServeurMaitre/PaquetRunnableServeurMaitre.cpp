@@ -178,17 +178,38 @@ int PaquetRunnable::RunnableGameConnectionMasterServer( Paquet* pPaquet )
 {
     PaquetGameConnection* wPaquet = (PaquetGameConnection*) pPaquet;
 
-    const int wGameId = wPaquet->getGameId();
-    GameServer* wServer = GameServerManager::obtenirInstance()->getGameServer(wPaquet->getGameServerId());
-    if(wServer)
+    if(wPaquet->getConnectionState() == GAME_CONNECTION_MATCHMAKING_REQUEST)
     {
-        wPaquet->setGameServerIp(wServer->getServerIP());
-        wPaquet->setConnectionState(GAME_CONNECTION_REPLY_GAME_SERVER_IP);
+        auto wGameIdentifier = GameServerManager::obtenirInstance()->doMatchmaking(wPaquet->getUsername());
+        unsigned int wGameServerId = wGameIdentifier.first;
+        if(wGameServerId == 0)
+        {
+            wPaquet->setConnectionState(GAME_CONNECTION_MATCHMAKING_FAILED);
+        }
+        else
+        {
+            GameServer* wGameServer = GameServerManager::obtenirInstance()->getGameServer(wGameServerId);
+            int wGameId = wGameIdentifier.second;
+            wPaquet->setGameServerId(wGameServerId);
+            wPaquet->setGameId(wGameIdentifier.second);
+            wPaquet->setGameServerIp(wGameServer->getServerIP());
+            wPaquet->setMapName(wGameServer->getGame(wGameId)->getMapName());
+            wPaquet->setConnectionState(GAME_CONNECTION_MATCHMAKING_REPLY);
+        }
     }
     else
     {
-        wPaquet->setGameId(-1);
-        wPaquet->setConnectionState(GAME_CONNECTION_REJECTED);
+        GameServer* wServer = GameServerManager::obtenirInstance()->getGameServer(wPaquet->getGameServerId());
+        if(wServer)
+        {
+            wPaquet->setGameServerIp(wServer->getServerIP());
+            wPaquet->setConnectionState(GAME_CONNECTION_REPLY_GAME_SERVER_IP);
+        }
+        else
+        {
+            wPaquet->setGameId(-1);
+            wPaquet->setConnectionState(GAME_CONNECTION_REJECTED);
+        }
     }
 
     GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);

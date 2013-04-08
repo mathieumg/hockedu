@@ -183,8 +183,9 @@ if( !$commonRemoteModule )
                         $jsonResponse['author'] = $mapInfo['id_user'];
                         $jsonResponse['version'] = $mapInfo['version'];
                         $jsonResponse['name'] = $mapInfo['name'];
+                        $jsonResponse['description'] = $mapInfo['description'];
                         $jsonResponse['rating'] = $mapInfo['rating_average'];
-                        $jsonResponse['public'] = $mapInfo['is_public'];
+                        $jsonResponse['is_public'] = $mapInfo['is_public'];
                         $jsonResponse['created'] = $mapInfo['creation_time'];
                         $jsonResponse['modified'] = $mapInfo['last_modified_time'];
                         $jsonResponse['content'] = file_get_contents( $mapCacheFilePath . $mapCacheFileName );

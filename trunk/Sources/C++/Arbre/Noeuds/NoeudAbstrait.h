@@ -138,6 +138,9 @@ public:
 	/// Met a jour la matrice de transformations
 	virtual void updateMatrice();
 
+    /// reverts and delete all modifiers
+    void DumpModifiers();
+
 	typedef std::pair<Vecteur3, Vecteur3> PaireVect3;
 	/// Retourne la zone occupee par le noeud (coord virtuelles)
 	virtual PaireVect3 obtenirZoneOccupee() const;

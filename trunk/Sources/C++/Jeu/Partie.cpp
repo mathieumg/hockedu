@@ -34,6 +34,7 @@
 #include "Solution_Defines.h"
 #include "LaunchAchievementLite.h"
 #include "..\Reseau\ControllerServeurJeu.h"
+#include "..\Arbre\Visiteur\VisiteurFunction.h"
 
 
 GLuint Partie::listePause_ = 0;
@@ -397,8 +398,16 @@ bool Partie::initialiserXML( const XmlElement* elem, ConteneurJoueur* profilsVir
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
+VISITEUR_FUNC_FUNC_DECLARATION(DumpBonusModifiers)
+{
+    pNoeud->DumpModifiers();
+}
 void Partie::reinitialiserPartie()
 {
+    VisiteurFunction v(DumpBonusModifiers);
+    mField->acceptVisitor(v);
+
+
     pointsJoueurGauche_ = 0;
     pointsJoueurDroit_ = 0;
     // Reinitialisation du noeudAffichage Chiffre
