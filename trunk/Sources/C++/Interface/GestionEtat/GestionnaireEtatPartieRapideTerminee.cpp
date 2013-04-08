@@ -14,6 +14,7 @@
 #include "Partie.h"
 #include "SoundFMOD.h"
 #include "NoeudMaillet.h"
+#include "..\Reseau\GestionnaireReseau.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -111,6 +112,7 @@ void GestionnaireEtatPartieRapideTerminee::toucheEnfoncee( EvenementClavier& eve
 	GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
 	FacadeModele::getInstance()->reinitialiserPartie();
 	FacadeModele::getInstance()->obtenirPartieCourante()->modifierEnPause(false);
+    GestionnaireReseau::obtenirInstance()->transmitEvent(EXIT_NETWORK_GAME);
 	GestionnaireEvenements::modifierEtat(ETAT_MODE_JEU);
 }
 

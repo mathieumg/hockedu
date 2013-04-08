@@ -233,7 +233,8 @@ void CallbackMapDownloaded(std::string pMapFilepath)
     for(auto it = wListe.begin(); it!=wListe.end(); ++it)
     {
         Partie* wGame = GameManager::obtenirInstance()->getGame(*it);
-        checkf(wGame);
+        // checkf(wGame);
+        // Pas de checkf car possible qu'une game precedente se soit terminee, on ne fait rien
         if(wGame)
         {
             wGame->setFieldName(pMapFilepath);

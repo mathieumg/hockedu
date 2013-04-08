@@ -788,7 +788,7 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
     int wNbTentatives = 0;
     GestionnaireReseau::obtenirInstance()->transmitEvent(RECONNECTION_IN_PROGRESS);
 
-    static const int TOTAL_TENTATIVE = 10;
+    static const int TOTAL_TENTATIVE = 2;
     bool connectionSuccessful = false;
     bool tryConnection = true;
     wSocket->setConnectionState(CONNECTING);
@@ -808,7 +808,7 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
             tryConnection = wNbTentatives < TOTAL_TENTATIVE;
             if(tryConnection)
             {
-                FacadePortability::sleep(1000); // Pas capable de connecter, on essaye encore dans 1 sec
+                FacadePortability::sleep(100); // Pas capable de connecter, on essaye encore dans 100 ms
             }
             break;
         case NOT_CONNECTED:

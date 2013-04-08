@@ -328,37 +328,49 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         static bool EventReceived(EventCodes id, IntPtr pMessage)
         {
-            if (id==EventCodes.GAME_SERVER_USER_DISCONNECTED)
+            switch(id)
             {
-                MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                case EventCodes.EXIT_NETWORK_GAME:
                 {
-                    // Affiche l'option dans le menu
-                    MainWindowHandler.Context.AddAIOpponentHandle(false);
-
-                    // Demande si on veut continuer a jouer avec un joueur AI en attendant
-                    MessageBoxResult dr=MessageBox.Show("Do you want to play againt an AI while waiting?", "Opponent disconnected", MessageBoxButton.YesNo);
-
-                    if (dr==MessageBoxResult.Yes)
+                    MainWindowHandler.GoToOnlineLobby();
+                    break;
+                }
+                case EventCodes.GAME_SERVER_USER_DISCONNECTED:
+                {
+                    MainWindowHandler.mTaskManager.ExecuteTask(() =>
                     {
-                        AskForAIOpponentInNetworkGame();
-                    }
-                    // Sinon, on reste en pause
+                        // Affiche l'option dans le menu
+                        MainWindowHandler.Context.AddAIOpponentHandle(false);
 
-                });
-            }
-            else if(id==EventCodes.GAME_SERVER_USER_CONNECTED)
-            {
-                // Cache l'option d'ajout de AI
-                MainWindowHandler.Context.AddAIOpponentHandle(true);
-            }
-            else if (id==EventCodes.GAME_ENDED_CS)
-            {
-                MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        // Demande si on veut continuer a jouer avec un joueur AI en attendant
+                        MessageBoxResult dr=MessageBox.Show("Do you want to play againt an AI while waiting?", "Opponent disconnected", MessageBoxButton.YesNo);
+
+                        if (dr==MessageBoxResult.Yes)
+                        {
+                            AskForAIOpponentInNetworkGame();
+                        }
+                        // Sinon, on reste en pause
+
+                    });
+                    break;
+                }
+                case EventCodes.GAME_SERVER_USER_CONNECTED:
                 {
-                    // On reaffiche l'option de replay dans le menu quand la partie est terminee
-                    MainWindowHandler.Context.RestartGameMenuHandle(false);
-                });
+                    // Cache l'option d'ajout de AI
+                    MainWindowHandler.Context.AddAIOpponentHandle(true);
+                    break;
+                }
+                case EventCodes.GAME_ENDED_CS:
+                {
+                    MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                    {
+                        // On reaffiche l'option de replay dans le menu quand la partie est terminee
+                        MainWindowHandler.Context.RestartGameMenuHandle(false);
+                    });
+                    break;
+                }
             }
+            
             return true;
         }
 
