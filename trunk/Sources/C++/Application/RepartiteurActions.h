@@ -83,7 +83,7 @@ public:
 	bool actionBoutonAllerModeJeu();
 	///Fonction pour aller en mode édition
 	bool actionBoutonAllerModeEdition();
-	bool actionBoutonAllerModeEditionPasDefautXML();
+	bool actionBoutonAllerModeEditionOnline();
 	///Fonction pour aller en mode tournoi
 	bool actionBoutonAllerModeTournoi();
 	///Fonction pour aller au menu principal

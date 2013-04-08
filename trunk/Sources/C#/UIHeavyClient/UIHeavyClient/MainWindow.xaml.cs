@@ -1079,7 +1079,7 @@ namespace UIHeavyClient
             mServerMapPrompt.Close();
         }
 
-        public void HandleDownloadedMap(string pFilepath, int pMapId)
+        public void HandleDownloadedMap(string pFilepath, int pMapId, string pName, string pDescription, bool pIsPublic)
         {
             // Load the map to edition mode
             MainWindowHandler.mTaskManager.ExecuteTask(() =>

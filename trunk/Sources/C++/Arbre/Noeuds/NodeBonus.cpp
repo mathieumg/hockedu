@@ -31,12 +31,17 @@ bool cubeModelArraysInit = false;
 GLfloat vertexArray[vertexArraySize];
 GLfloat colorArray[colorArraySize];
 
+#if !SHIPPING
+#include <iostream>
+#endif
+
 #if WIN32
 #include "Modele3D.h"
 #include "GestionnaireModeles.h"
 #include "FacadeModele.h"
 #include "../Reseau/RelayeurMessage.h"
 #include "../Reseau/Paquets/PaquetBonus.h"
+
 
 CreateListDelegateImplementation(EmptyBonus)
 {
@@ -313,6 +318,9 @@ void NodeBonus::playTick( float temps)
         {
             mCounting = false;
             mBonusType = (BonusType)(rand()%NB_BONUS_TYPE);
+#if MAT_DEBUG_
+            mBonusType = BONUS_TYPE_CHANGE_ZONE; // testing value
+#endif
             ResetTimeLeft();
             setVisible(true);
             // activate collision on strat creation
@@ -368,10 +376,6 @@ void NodeBonus::ExecuteBonus( class NoeudRondelle* rondelle )
 {
     if(isActive())
     {
-        //int b = rand()%NB_BONUS_TYPE;
-#if MIKE_DEBUG_
-        //b = BONUS_TYPE_GO_THROUGH_WALL; // testing value
-#endif
         auto factory = FactoryBonusModifier::getFactory(mBonusType);
         if(factory)
         {
@@ -381,11 +385,17 @@ void NodeBonus::ExecuteBonus( class NoeudRondelle* rondelle )
                 // the modifier couldn't attach itself on the node so we delete it
                 delete bonus;
             }
-            else if(!bonus->Apply())
-            {
-                /// the bonus doesn't need more time to execute
-                // so we finish it now
-                bonus->Complete();
+            else
+            { 
+                if(!bonus->Apply())
+                {
+                    /// the bonus doesn't need more time to execute
+                    // so we finish it now
+                    bonus->Complete();
+                }
+#if !SHIPPING
+                std::cout << "Bonus applied: " << mBonusType << "\t" << bonus->getOwner()->getType() << std::endl;
+#endif
             }
         }
     }

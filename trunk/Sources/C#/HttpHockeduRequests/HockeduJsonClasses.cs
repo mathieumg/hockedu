@@ -52,6 +52,8 @@ namespace HttpHockeduRequests
         public string   error;       // Error message
         public string   name;       // Map name
         public string   content;    // XML content
+        public bool     is_public;     // Is public
+        public string   description; // Description
     }
 
     // Classes pour le getMap\

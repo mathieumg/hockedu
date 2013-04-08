@@ -142,8 +142,9 @@ namespace UIHeavyClient
                 }
                 else
                 {
-                    wSuccess = ActionPerformed(ActionType.ACTION_ALLER_MODE_EDITION_PAS_DEFAUT_XML);
+                    wSuccess = ActionPerformed(ActionType.ACTION_ALLER_MODE_EDITION_ONLINE);
                 }
+
                 if (wSuccess)
                 {
 

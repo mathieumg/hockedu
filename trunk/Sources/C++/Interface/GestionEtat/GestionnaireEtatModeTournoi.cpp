@@ -251,9 +251,10 @@ void GestionnaireEtatModeTournoi::animer( const float& temps )
 				return;
 			}
 		}
+        gestionAnimationEnJeu(partieCourante, temps);
 	}
 
-	gestionAnimationEnJeu(partieCourante, temps);
+	
 
 }
 

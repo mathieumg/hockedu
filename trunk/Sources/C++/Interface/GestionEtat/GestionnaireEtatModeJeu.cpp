@@ -317,8 +317,9 @@ void GestionnaireEtatModeJeu::animer( const float& temps )
             GestionnaireEvenements::modifierEtat(ETAT_PARTIE_RAPIDE_TERMINEE);
             return;
         }
+        gestionAnimationEnJeu(wGame, temps);
 	}
-	gestionAnimationEnJeu(wGame, temps);
+	
 }
 
 ////////////////////////////////////////////////////////////////////////

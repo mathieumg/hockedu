@@ -433,7 +433,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_actionPerf
         mappingAction["INSERER_RONDELLE"    ] = ACTION_INSERER_RONDELLE    ;
         mappingAction["INSERER_ACCELERATEUR"] = ACTION_INSERER_ACCELERATEUR;
         mappingAction["ALLER_MODE_EDITION"  ] = ACTION_ALLER_MODE_EDITION  ;
-        mappingAction["ALLER_MODE_EDITION_PAS_DEFAUT_XML"  ] = ACTION_ALLER_MODE_EDITION_PAS_DEFAUT_XML  ;
+        mappingAction["ALLER_MODE_EDITION_PAS_DEFAUT_XML"  ] = ACTION_ALLER_MODE_EDITION_ONLINE  ;
         mappingAction["ALLER_MODE_JEU"      ] = ACTION_ALLER_MODE_JEU      ;
         mappingAction["ALLER_MODE_TOURNOI"  ] = ACTION_ALLER_MODE_TOURNOI  ;
         mappingAction["ALLER_MENU_PRINCIPAL"] = ACTION_ALLER_MENU_PRINCIPAL;
