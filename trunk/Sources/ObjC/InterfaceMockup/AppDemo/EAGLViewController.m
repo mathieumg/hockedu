@@ -115,9 +115,7 @@ enum {
     
     theEAGLView.opaque = YES;
     
-    mModel = [[Model alloc]init];
-    [mModel resizeWindow:0 :0 :LARGEUR_FENETRE :HAUTEUR_FENETRE];
-    mEventManager = [[EventManager alloc]init:mModel:self];
+    
     translationX = 0.0;
     translationY = 0.0;
     zoomFactor = 0.5;
@@ -154,7 +152,7 @@ enum {
     buttonImageCameraPressed = [[UIImage imageNamed:@"blueButtonCameraPressed@2x.png"]
                           resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     
-    buttonImageDisabled = [[UIImage imageNamed:@"blueButtonCameraDisabled@2x.png"]
+    buttonImageDisabled = [[UIImage imageNamed:@"blueButtonDisabled@2x.png"]
                                 resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     
     carouselBackgroundImage = [UIImage imageNamed:@"carouselBackground.png"];
@@ -166,21 +164,27 @@ enum {
     
     [selectButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [selectButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [selectButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [moveButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [moveButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [moveButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [rotationButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [rotationButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [rotationButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [scaleButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [scaleButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [scaleButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [duplicateButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [duplicateButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [duplicateButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [deleteButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [deleteButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [deleteButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [skyViewButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [skyViewButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
@@ -236,6 +240,11 @@ enum {
     carouselElements = [[NSArray alloc] initWithObjects:mailletCarousel,rondelleCarousel,muretCarousel,accelerateurCarousel,portailCarousel,bonusCarousel,nil];
 
     [self pressButtonUICameras:orbitalButton];
+    
+    
+    mModel = [[Model alloc]init];
+    [mModel resizeWindow:0 :0 :LARGEUR_FENETRE :HAUTEUR_FENETRE];
+    mEventManager = [[EventManager alloc]init:mModel:self];
     
     [buttonImage retain];
     [buttonImageHighlight retain];
@@ -300,6 +309,8 @@ enum {
     [skyViewButton release];
     [freeRoamButton release];
     [orbitalButton release];
+    [undoButton release];
+    [redoButton release];
     [super dealloc];
 }
 
@@ -1564,44 +1575,53 @@ enum {
 // Event Callback du c++ pour update du UI
 - (void) enablePuckCreation
 {
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Ben coliss" message:@"Ca marche" delegate:nil cancelButtonTitle:@"Gotcha" otherButtonTitles:nil];
-    [alert show];
+    // Decision commune de pas le handler
 }
 - (void)disablePuckCreation
 {
-    
+    // Decision commune de pas le handler
 }
 - (void)enableMalletCreation
 {
-    
+    // Decision commune de pas le handler
 }
 - (void)disableMalletCreation
 {
-    
+    // Decision commune de pas le handler
 }
 - (void)thereAreNodesSelected
 {
-    
+    // Enable le delete
+    moveButton.enabled = true;
+    scaleButton.enabled = true;
+    rotationButton.enabled = true;
+    duplicateButton.enabled = true;
+    deleteButton.enabled = true;
 }
 - (void)thereAreNoNodesSelected
 {
     // Disable le delete
+    moveButton.enabled = false;
+    scaleButton.enabled = false;
+    rotationButton.enabled = false;
+    duplicateButton.enabled = false;
+    deleteButton.enabled = false;
 }
 - (void)canUndo
 {
-    
+    undoButton.enabled = true;
 }
 - (void)cannotUndo
 {
-    
+    undoButton.enabled = false;
 }
 - (void)canRedo
 {
-    
+    redoButton.enabled = true;
 }
 - (void)cannotRedo
 {
-    
+    redoButton.enabled = false;
 }
 
 -(void)rotationDetectee:(UIGestureRecognizer *)gestureRecognizer
