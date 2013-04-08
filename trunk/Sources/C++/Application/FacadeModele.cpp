@@ -1125,7 +1125,7 @@ bool FacadeModele::passageMenuPrincipal()
 
     selectionArbre(false);
 
-    SoundFMOD::obtenirInstance()->playApplicationSong(MENU_MODE_SONG);
+    SoundFMOD::obtenirInstance()->playApplicationSong(STARTUP_SONG);
     GestionnaireEvenements::modifierEtat(ETAT_MENU_PRINCIPAL);
     return true;
 }

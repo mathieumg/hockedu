@@ -82,7 +82,7 @@ namespace UIHeavyClient
         {
             InitializeComponent();
             mWindowsFormsHost = pWindowsFormsHost;
-            mIsRadioPlaying = true;
+            mIsRadioPlaying = false;
 
             // Keyboard events
             InitRoutedCommands();
@@ -165,6 +165,7 @@ namespace UIHeavyClient
         {
             StopRadioSong();
             mIsRadioPlaying = false;
+            mPlayButton.Content = "|>";
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -224,16 +225,16 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         private void mPlayButton_Click(object sender, RoutedEventArgs e)
         {
-            if (mIsRadioPlaying)
+            if (!mIsRadioPlaying)
             {
-                PauseRadioSong();
-                mIsRadioPlaying = false;
+                PlayRadioSong();
+                mIsRadioPlaying = true;
                 (sender as Button).Content = "||";
             }
             else
             {
-                PlayRadioSong();
-                mIsRadioPlaying = true;
+                PauseRadioSong();
+                mIsRadioPlaying = false;
                 (sender as Button).Content = "|>";
             }
         }
@@ -249,6 +250,7 @@ namespace UIHeavyClient
         {
             // Clear what's on screen
             mPlaylistComboBox.Items.Clear();
+            mStopButton_Click( mStopButton, null );
 
             // Get playlists count and names
             int nbrPlaylists = GetNbrPlaylists();
@@ -266,6 +268,11 @@ namespace UIHeavyClient
             {
                 // Add it to combo box
                 mPlaylistComboBox.Items.Add(s);
+            }
+            if ( mPlaylistComboBox.Items.Count != 0 )
+            {
+                mPlaylistComboBox.SelectedIndex = 0;
+                mPlayButton_Click( mPlayButton, null );
             }
         }
 
