@@ -82,7 +82,7 @@ namespace vue {
       /// Rotation de la position de la caméra autour de son point de visé.
       void orbiterXY(float rotationX, float rotationY);
 
-
+      bool isNewPosValid(Vecteur3 nouvellePosition);
 
       /// Positionner la caméra (appel à gluLookAt).
       void positionner() const;

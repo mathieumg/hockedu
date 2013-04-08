@@ -24,7 +24,7 @@ class SourisEtatPIEMode:
 {
 public:
 	/// Constructeur par parametres
-	SourisEtatPIEMode();
+	SourisEtatPIEMode(Vecteur2i& pos);
 	/// Destructeur virtuel
 	virtual ~SourisEtatPIEMode(void);
 	/// Comportement lorsqu'une touche du clavier est enfoncée.

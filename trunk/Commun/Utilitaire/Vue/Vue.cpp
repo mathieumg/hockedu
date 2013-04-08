@@ -177,7 +177,7 @@ namespace vue {
 
 
 
-   void Vue::centrerCamera(float largeurVue,int pViewportNumber)
+   void Vue::centrerCamera(float largeurVue,int pViewportNumber, AnimationTerminatedCallback pCallback)
    {
 	   GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
 	   float angleOuverture = obtenirAngleOuvertureProjection();
@@ -192,7 +192,7 @@ namespace vue {
 
 	   vue::Camera* cameraCourante = &obtenirCamera(pViewportNumber);
        Vecteur3 cameraPos = cameraCourante->obtenirPosition();
-       
+
        auto delta = cameraPos-positionOptimale;
        float temps = delta.norme();
        
@@ -209,6 +209,7 @@ namespace vue {
 
 
 	   Animation* animation = new Animation(LINEAIRE, true, true, true);
+       animation->mAnimationTerminatedCallback = pCallback;
 	   for(int i=0; i<4; i++)
 		   animation->ajouterFrame(frame[i]);
 

@@ -150,7 +150,8 @@ namespace vue {
    void VuePerspectiveCiel::zoomerIn()
    {
 	   Vecteur3 deplacement = obtenirCamera().obtenirPointVise()-obtenirCamera().obtenirPosition();
-	   deplacement*=0.1f;
+       deplacement.normaliser();
+       deplacement*=30.f;
 	   obtenirCamera().deplacerXYZ(deplacement);
    }
 
@@ -166,7 +167,8 @@ namespace vue {
    void VuePerspectiveCiel::zoomerInSmooth()
    {
 	   Vecteur3 deplacement = obtenirCamera().obtenirPointVise()-obtenirCamera().obtenirPosition();
-	   deplacement*=0.005f;
+       deplacement.normaliser();
+       deplacement*=1.5f;
 	   obtenirCamera().deplacerXYZ(deplacement);
    }
 
@@ -183,7 +185,8 @@ namespace vue {
    void VuePerspectiveCiel::zoomerOut()
    {
 	   Vecteur3 deplacement = obtenirCamera().obtenirPosition()-obtenirCamera().obtenirPointVise();
-	   deplacement*=0.1f;
+       deplacement.normaliser();
+       deplacement*=30.f;
 	   obtenirCamera().deplacerXYZ(deplacement);
    }
 
@@ -199,7 +202,8 @@ namespace vue {
    void VuePerspectiveCiel::zoomerOutSmooth()
    {
 	   Vecteur3 deplacement = obtenirCamera().obtenirPosition()-obtenirCamera().obtenirPointVise();
-	   deplacement*=0.005f;
+       deplacement.normaliser();
+       deplacement*=1.5f;
 	   obtenirCamera().deplacerXYZ(deplacement);
    }
 
