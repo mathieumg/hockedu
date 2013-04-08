@@ -1041,17 +1041,17 @@ void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
 
     std::ostringstream wFileDirectory(pReinforcementProfileName);
     wFileDirectory << "Data/";
-    FacadePortability::createDirectory(wFileDirectory.str().c_str());
+    FacadePortability::createDirectory((char*)wFileDirectory.str().c_str());
 
-    while(!learningCancelled)
-    {
+   // while(!learningCancelled)
+   // {
         wGame->animer(16);
-        if(wGame->partieTerminee())
-        {
-            wGame->reinitialiserPartie();
+   //     if(wGame->partieTerminee())
+   //     {
+   //         wGame->reinitialiserPartie();
             AILearner::obtenirInstance()->dump();
-        }
-    }
+   //     }
+   // }
 }
 
 void cancelLearningAI()
