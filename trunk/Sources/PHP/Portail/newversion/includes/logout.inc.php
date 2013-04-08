@@ -1,18 +1,16 @@
 <?php
 /**
- * Logout page.
+ * Login page.
  * 
- * This file handles the logout process for the management system.
+ * This file is the Hockedu page that allows users to log out.
  * @author Mathieu M-Gosselin <mathieumg@gmail.com>
- * @since 26/07/2011
- * @package Cloud
+ * @since 07/04/2013
+ * @package Hockedu
  */
-
-$nextPage = $Website->getSubsiteUrl( $_SESSION['userInformation']['lastSubsite'], false );
  
 unset( $_SESSION['userInformation'] );
 
-$Website->changePage( $nextPage ); 
+$Website->changePage( $Website->getSetting('MainDomain') ); 
 
  ?>
  

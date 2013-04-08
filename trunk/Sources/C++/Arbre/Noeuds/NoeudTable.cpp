@@ -33,6 +33,7 @@
 #include "Terrain.h"
 #include "Solution_Defines.h"
 #include "VisiteurNoeud.h"
+#include "NoeudRondelle.h"
 
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
 const Vecteur3 NoeudTable::DEFAULT_SIZE = Vecteur3(300,150);
@@ -918,7 +919,7 @@ bool NoeudTable::estSurTable(Vecteur2 position)
         if(node)
         {
             auto body = node->getPhysicBody();
-            checkf(body);
+            //checkf(body);
             if(body)
             {
                 for (b2Fixture* f = body->GetFixtureList(); f; f = f->GetNext()) {
@@ -1351,6 +1352,28 @@ void NoeudTable::updatePhysicBody()
             RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_TABLE,IsInGame());
 
             mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+            NoeudRondelle* puck = getField()->getPuck();
+            if(puck)
+            {
+                float offset = puck->getRadius()*utilitaire::ratioWorldToBox2D*2;
+                topPosB2.x -= offset;
+                bottomPosB2.x -= offset;
+
+                myFixtureDef.filter.categoryBits = CATEGORY_MIDLANE;
+                myFixtureDef.filter.maskBits = CATEGORY_PUCK;
+                myFixtureDef.isSensor = true;
+
+                shape.Set(bottomPosB2,topPosB2);
+                mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+
+                topPosB2.x += offset;
+                bottomPosB2.x += offset;
+                topPosB2.x += offset;
+                bottomPosB2.x += offset;
+
+                shape.Set(bottomPosB2,topPosB2);
+                mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+            }
             mPhysicBody->SetUserData(this);
         }
     }

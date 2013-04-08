@@ -137,28 +137,32 @@ void NodeRinkBoards::updatePhysicBody()
     {
         clearPhysicsBody();
 
-        float halfLength = mScale[VX]*DEFAULT_SIZE[VX]/2.f*utilitaire::ratioWorldToBox2D;
-        float halfHeight = 0;
-
-        b2BodyDef myBodyDef;
-        myBodyDef.type = b2_staticBody; //this will be a dynamic body
-        myBodyDef.angle = 0; //set the starting angle
-
-//         const Vecteur3& pos = getPosition();
-//         b2Vec2 posB2;
-//         utilitaire::VEC3_TO_B2VEC(pos,posB2);
-//         myBodyDef.position.Set(posB2.x, posB2.y); //set the starting position
-
-        mPhysicBody = world->CreateBody(&myBodyDef);
-
-
         auto pos1 = obtenirCoin1();
         auto pos2 = obtenirCoin2();
-        
-
-        if(mPoint1)
+        NoeudPoint* p1 = mPoint1, *p2 = mPoint2;
+        /// algo pour mixer les 2 edges colinaire ensemble
+        static const unsigned int tolerance = 1;
+        unsigned int angle = (unsigned int)mAngle;
+        angle %=180;
+        if((angle+tolerance < tolerance*2) || ((angle-180)+tolerance < tolerance*2))
         {
-            auto type = mPoint1->obtenirTypePosNoeud();
+            if(p1 && p2)
+            {
+                if(p1->obtenirTypePosNoeud() == POSITION_HAUT_MILIEU || p1->obtenirTypePosNoeud() == POSITION_BAS_MILIEU)
+                {
+                    p1 = p2->obtenirPointSym();
+                    pos1 = p1->getPosition();
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+
+        if(p1)
+        {
+            auto type = p1->obtenirTypePosNoeud();
             switch (type)
             {
             case POSITION_HAUT_GAUCHE:
@@ -170,9 +174,9 @@ void NodeRinkBoards::updatePhysicBody()
                 break;
             }
         }
-        if(mPoint2)
+        if(p2)
         {
-            auto type = mPoint2->obtenirTypePosNoeud();
+            auto type = p2->obtenirTypePosNoeud();
             switch (type)
             {
             case POSITION_HAUT_GAUCHE:
@@ -185,13 +189,18 @@ void NodeRinkBoards::updatePhysicBody()
             }
         }
 
+        b2BodyDef myBodyDef;
+        myBodyDef.type = b2_staticBody; //this will be a dynamic body
+        myBodyDef.angle = 0; //set the starting angle
+        mPhysicBody = world->CreateBody(&myBodyDef);
+
+
         b2Vec2 pos1B2,pos2B2;
         utilitaire::VEC3_TO_B2VEC(pos1,pos1B2);
         utilitaire::VEC3_TO_B2VEC(pos2,pos2B2);
 
         b2EdgeShape shape;
         shape.Set(pos1B2,pos2B2);
-        //shape.SetAsBox(halfLength,halfHeight,b2Vec2(0,0),utilitaire::DEG_TO_RAD(mAngle));
 
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &shape; //this is a pointer to the shape above
@@ -225,7 +234,6 @@ void NodeRinkBoards::updateCornerPosition()
     // Do nothing, the rink board cannot be directly edited. All cal to modify it
     // should come from the nodes linked to it 
 }
-
 
 
 #if MIKE_DEBUG_

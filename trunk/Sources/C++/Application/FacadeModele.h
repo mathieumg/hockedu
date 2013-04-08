@@ -217,6 +217,10 @@ public:
     /// Modification de l'adversaire
     void modifierAdversaire(SPJoueurAbstrait val);
 
+    // Password pour la prochaine game en network
+    inline const std::string& getGameCreationPassword() const { return mGameCreationPassword; }
+    inline void setGameCreationPassword(const std::string& val) { mGameCreationPassword = val; }
+
     /// Fonction dinitialisation des shaders
     void initialiserNuanceurs();
     void afficherProgramInfoLog( GLuint obj, const char* message );
@@ -286,7 +290,11 @@ private:
 
     /// Pointeur sur la prochaine partie
     int prochainePartie_;
+
+    /// Password temporaire pour la creation d'une partie en reseau
+    std::string mGameCreationPassword;
     
+
     //std::hash_map<PartieId,Partie*> mGames;
 
 	/// Objet contenant le temps ecouler en temps reel

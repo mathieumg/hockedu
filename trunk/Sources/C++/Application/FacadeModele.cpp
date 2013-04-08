@@ -217,10 +217,13 @@ void FacadeModele::libererInstance()
     // temp fix, on libère le hud a la fin, car certain 
     // destructeur manipule le HUD
     GestionnaireHUD::libererInstance();
+    /// same pour game manager
+    GameManager::libererInstance();
 
     checkf(!ConfigScene::Exists());
     checkf(!SoundFMOD::Exists());
     checkf(!GestionnaireHUD::Exists());
+    checkf(!GameManager::Exists());
     checkf(!FacadeModele::Exists());
 }
 
@@ -1524,7 +1527,6 @@ bool FacadeModele::verifierValiditeMap( Terrain* terrain/*= 0 */ )
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::creerTerrainParDefaut( )
 {
-    GestionnaireEvenements::modifierEtat(ETAT_MODE_EDITION);
     mEditionField->creerTerrainParDefaut(FICHIER_TERRAIN_EN_COURS);
 }
 

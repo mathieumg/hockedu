@@ -22,7 +22,7 @@ public:
 
     GameServer* getGameServer( unsigned int pGameServerId );
 
-    unsigned int selectRandomGameServer();
+    unsigned int selectGameServer();
 
     const GameServersContainer& getGameServersContainer() const { return mGameServersList; }
 

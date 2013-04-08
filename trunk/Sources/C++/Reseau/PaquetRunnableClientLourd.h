@@ -14,6 +14,8 @@ namespace PaquetRunnable
 
     int RunnableGameConnectionClient(Paquet* pPaquet);
 
+    int RunnableGameCreationClient(Paquet* pPaquet);
+
     int RunnableGameEventClient(Paquet* pPaquet);
 
     int RunnableBonusClient(Paquet* pPaquet);

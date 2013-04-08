@@ -47,7 +47,6 @@ int main(int argc, char* argv[])  {
     std::string wDBPassword = "mz41wo13";
     std::string wDBName     = "poly_hockedu";
 
-
     try
     {
         for(int i = 0; i < argc; i++)
@@ -103,11 +102,7 @@ int main(int argc, char* argv[])  {
     // To prevend the server to exit without killing it
     while(true)
     {
-#ifdef LINUX
-        FacadePortability::sleep(1); // Pause until enter is pressed
-#else
         getchar();
-#endif;
     }
 
     return 0;

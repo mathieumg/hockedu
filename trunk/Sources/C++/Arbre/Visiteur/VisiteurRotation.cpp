@@ -287,10 +287,14 @@ void VisiteurRotation::rotateNode( NoeudAbstrait* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurRotation::visiterNodeControlPoint( NodeControlPoint* noeud )
 {
-    NoeudAbstrait* n = dynamic_cast<NoeudAbstrait*>(noeud->getLinkedObject());
-    if(n)
+    if(noeud->IsSelected() && noeud->canBeVisitedAndRemoveFlag())
     {
-        n->acceptVisitor(*this);
+        noeud->flagSelectedAssociatedPoints();
+        NoeudAbstrait* n = dynamic_cast<NoeudAbstrait*>(noeud->getLinkedObject());
+        if(n)
+        {
+            n->acceptVisitor(*this);
+        }
     }
 }
 

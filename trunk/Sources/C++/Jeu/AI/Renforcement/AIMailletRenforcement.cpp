@@ -36,6 +36,7 @@
 AIMailletRenforcement::AIMailletRenforcement(JoueurVirtuel* jv): AIMaillet(jv)
 {
     mPuckWasOnOppenentSize = false;
+    changerStrat(DEFENSIVE);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -75,14 +76,14 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
     {
         NoeudRondelle* wPuck = wGame->getField()->getPuck();
 
-        if(maillet->estAGauche() && wPuck->getPosition()[VX] >= 0)
+        if(maillet->estAGauche() && wPuck->getPosition()[VX] >= wGame->obtenirJoueurDroit()->getControlingMallet()->getRadius()*-1.0f)
         {
             // DEF uniquement
             mPuckWasOnOppenentSize = true;
             changerStrat(DEFENSIVE);
             return;
         }
-        else if(!maillet->estAGauche() && wPuck->getPosition()[VX] <= 0)
+        else if(!maillet->estAGauche() && wPuck->getPosition()[VX] <= wGame->obtenirJoueurGauche()->getControlingMallet()->getRadius()*-1.0f)
         {
             // DEF Uniquement
             mPuckWasOnOppenentSize = true;
@@ -93,7 +94,15 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
         {
             // Analyse
             // On utilise la prediction pour trouver la position de la rondelle a x=75
-            float wPosX = 30.0f;
+
+            // Calcul d'une posX a frapper en fct de la vitesse de la rondelle
+            NoeudRondelle* wPuck = wGame->getField()->getPuck();
+
+            float wVitRondelle = wPuck->obtenirVelocite().norme();
+            float wPourVitesse = wVitRondelle / 1000.0f;
+
+
+            float wPosX = 40.0f + 30.0 * wPourVitesse;
             if(maillet->estAGauche())
             {
                 wPosX *= -1.0f;
@@ -105,12 +114,12 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
                 changerStrat(OFFENSIVE); // Ne fait que repousser la rondelle
                 return;
             }
-            std::cout << "Projection reussie" << std::endl;
+            std::cout << "Projection reussie " << wPred.position << std::endl;
             // Get good strat
             // Get info for input
             JoueurVirtuelRenforcement* wJoueur = (JoueurVirtuelRenforcement*)jv_;
-            Vecteur3 wPosRondelle = wGame->getField()->getPuck()->getPosition();
-            Vecteur3 wVelRondelle = wGame->getField()->getPuck()->obtenirVelocite();
+            Vecteur3 wPosRondelle = wPuck->getPosition();
+            Vecteur3 wVelRondelle = wPuck->obtenirVelocite();
             Vecteur3 wPosAI = maillet->getPosition();
             Vecteur3 wVelAI = maillet->obtenirVelocite();
             Vecteur3 wPosAdversaire;
@@ -150,6 +159,7 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
             AIStratOffensiveRenforcement* wStrat = (AIStratOffensiveRenforcement*) strategie_;
             wStrat->setPointImpact(wPred.position);
             wStrat->setTimeBeforeImpact(wPred.time);
+            //wStrat->setVelociteRondelleImpact(wPred.velocite);
             wStrat->calculateTagetPos();
 
             mPuckWasOnOppenentSize = false;

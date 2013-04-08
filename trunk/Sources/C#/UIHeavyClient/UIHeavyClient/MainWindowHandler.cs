@@ -188,6 +188,7 @@ namespace UIHeavyClient
                     Context.OnlineLobbyControl.ClearOnlineUsers();
                     CallbackManager.CommitChanges();
                     Context.RestartGameMenuHandle(false);
+                    Context.ReplayMenuHandle(false);
                 }
                 else
                 {
@@ -222,6 +223,8 @@ namespace UIHeavyClient
                     Context.PlayModeControl.RemoveOpenGL();
                     Context.MainMenuControl.DisplayProfileNames();
                     Context.OnlineLobbyControl.ClearOnlineUsers();
+
+                    MainWindowHandler.Context.RestartGameMenuHandle(true);
 
                     LoginControl.DisconnectMasterServer();
                     CallbackManager.CommitChanges();

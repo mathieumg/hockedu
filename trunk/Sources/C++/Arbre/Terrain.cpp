@@ -14,11 +14,12 @@
 #endif
 #if BOX2D_PLAY
 #include "Partie.h"
-#include "SoundFMOD.h"
 #endif
 #if BOX2D_DEBUG
 #include "DebugRenderBox2D.h"
 #endif
+
+
 
 #ifndef __APPLE__
 #include "../Reseau/Paquets/PaquetMaillet.h"
@@ -30,7 +31,11 @@
 #include "../Reseau/Paquets/PaquetPortal.h"
 #include "../Reseau/RelayeurMessage.h"
 #include "../Reseau/Paquets/PaquetBonus.h"
+#include "SoundFMOD.h"
+
+#define PlayEffect(x) if(!mIsSimulation){SoundFMOD::obtenirInstance()->playEffect(x);}
 #else
+#define PlayEffect(x) 
 #endif
 
 #include "Terrain.h"
@@ -93,7 +98,8 @@ PRAGMA_DISABLE_OPTIMIZATION
 ////////////////////////////////////////////////////////////////////////
 Terrain::Terrain(Partie* pGame): 
     mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame),mZamboni(NULL),
-    mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL), mIsInit(false), mModifStrategy(NULL),mDoingUndoRedo(false),mCurrentState(NULL), mBesoinMiseAuJeu(false)
+    mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL), mIsInit(false), mModifStrategy(NULL),mDoingUndoRedo(false),mCurrentState(NULL), mBesoinMiseAuJeu(false),
+    mIsSimulation(false),mPuckZone(PUCK_ZONE_UNKNOWN)
 #if __APPLE__
 /// pointer to the callback to do the render in objc
 ,mRenderObjC(NULL)
@@ -120,6 +126,10 @@ Terrain::Terrain(Partie* pGame):
 
     setBonusesMinTimeSpawn(5);
     setBonusesMaxTimeSpawn(15);
+#if BOX2D_PLAY
+    mLeftForceField = NULL;
+    mRightForceField = NULL;
+#endif
 
     mEditionZone = NULL;
     if(mGame)
@@ -160,11 +170,18 @@ Terrain::~Terrain()
     }
 
 #if BOX2D_INTEGRATED
+    /// liberer les champ de force avant le world car ils en ont besoin
+#if BOX2D_PLAY
+    if(mLeftForceField)delete mLeftForceField;
+    if(mRightForceField)delete mRightForceField;
+#endif
+
     if(mWorld)
     {
         delete mWorld;
         mWorld = NULL;
     }
+
 #endif
 
     while(!mRunnableQueue.empty())
@@ -259,7 +276,7 @@ void Terrain::renderField()
 {
     if(mLogicTree)
         mLogicTree->render();
-
+    
 #if WIN32
     GLint renderMode;
     glGetIntegerv(GL_RENDER_MODE,&renderMode);
@@ -276,6 +293,140 @@ void Terrain::renderField()
         getZoneEdition()->afficher();
     if(mRenderTree)
         mRenderTree->render();
+    /*
+
+#if MAT_DEBUG_
+    auto table = getTable();
+    if(table)
+    {
+        float hw[2];
+        table->calculerHautLongMax(hw);
+        float x1 = -hw[1];
+        float x2 = hw[1];
+        float y1 = -hw[0];
+        float y2 = hw[0];
+
+        const float intervalle = 10;
+        const float zValue = 1;
+        const int size = (int)( ( ( hw[0] + hw[1] )*2.f / intervalle ) + 5 ) * 3 * 2;
+        float *mRenderVertices = new float[size];
+
+        int mVerticesCount = 0;
+        // Vertical lines.
+        float curX = x1 - ((int)x1 % (int)intervalle);
+        // ajout de la ligne de depart
+        if(curX != x1)
+        {
+            mRenderVertices[ mVerticesCount++ ] = x1;
+            mRenderVertices[ mVerticesCount++ ] = y1;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+
+            mRenderVertices[ mVerticesCount++ ] = x1;
+            mRenderVertices[ mVerticesCount++ ] = y2;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+        }
+        // ajout des ligne intermediaires
+        for( ; curX < x2; curX += intervalle )
+        {
+            mRenderVertices[ mVerticesCount++ ] = curX;
+            mRenderVertices[ mVerticesCount++ ] = y1;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+
+            mRenderVertices[ mVerticesCount++ ] = curX;
+            mRenderVertices[ mVerticesCount++ ] = y2;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+        }
+        // ajout de la ligne finale
+        {
+            mRenderVertices[ mVerticesCount++ ] = x2;
+            mRenderVertices[ mVerticesCount++ ] = y1;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+
+            mRenderVertices[ mVerticesCount++ ] = x2;
+            mRenderVertices[ mVerticesCount++ ] = y2;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+        }
+
+
+
+        // Horizontal lines.
+        float curY = y1 - ((int)y1 % (int)intervalle);
+        // ajout de la ligne de depart
+        if(curY != y1)
+        {
+            mRenderVertices[ mVerticesCount++ ] = x1;
+            mRenderVertices[ mVerticesCount++ ] = y1;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+
+            mRenderVertices[ mVerticesCount++ ] = x2;
+            mRenderVertices[ mVerticesCount++ ] = y1;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+        }
+        // ajout des ligne intermediaires
+        for( ; curY < y2; curY += intervalle )
+        {
+            mRenderVertices[ mVerticesCount++ ] = x1;
+            mRenderVertices[ mVerticesCount++ ] = curY;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+
+            mRenderVertices[ mVerticesCount++ ] = x2;
+            mRenderVertices[ mVerticesCount++ ] = curY;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+        }
+        // ajout de la ligne finale
+        {
+            mRenderVertices[ mVerticesCount++ ] = x1;
+            mRenderVertices[ mVerticesCount++ ] = y2;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+
+            mRenderVertices[ mVerticesCount++ ] = x2;
+            mRenderVertices[ mVerticesCount++ ] = y2;
+            mRenderVertices[ mVerticesCount++ ] = zValue;
+        }
+
+        mVerticesCount /= 3;
+
+#if WIN32
+        // États de la lumière 
+        GLboolean lighting_state;
+        // Désactiver l'éclairage
+        glGetBooleanv(GL_LIGHTING, &lighting_state);
+        glDisable(GL_LIGHTING);
+        FacadeModele::getInstance()->DeActivateShaders();
+#endif
+
+        // Dessin de la zone d'édition
+        glPushMatrix();
+        glPushAttrib(GL_ALL_ATTRIB_BITS);
+        glColor4f(1,0,0,1);
+
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer (3, GL_FLOAT , 0, mRenderVertices); 
+        glDrawArrays (GL_LINES, 0, mVerticesCount);
+        glDisableClientState(GL_VERTEX_ARRAY);
+
+        glPopAttrib();
+        glPopMatrix();
+
+
+
+#if WIN32
+        FacadeModele::getInstance()->ActivateShaders();
+
+        // Réactiver l'éclairage et (s'il y a lieu)
+        if (lighting_state == GL_TRUE) {
+            glEnable(GL_LIGHTING);
+        }
+#endif
+
+
+        delete[] mRenderVertices;
+
+    }
+
+#endif
+    */
+
 }
 
 
@@ -709,7 +860,7 @@ XmlElement* Terrain::creerNoeudXML()
     XmlElement* elem = v.obtenirRacine();
     XMLUtils::LinkEndChild(racine,elem);
 
-    checkf(getZoneEdition(), "Tentative de sauvegarder la zone Edition qui n'existe pas. S'assurer qu'on est pas en train d'essaye de save un terrain pour le mode jeu");
+    //checkf(getZoneEdition(), "Tentative de sauvegarder la zone Edition qui n'existe pas. S'assurer qu'on est pas en train d'essaye de save un terrain pour le mode jeu");
     if(getZoneEdition())
     {
         XMLUtils::LinkEndChild(racine,getZoneEdition()->creerNoeudXML());
@@ -1033,7 +1184,7 @@ NoeudRondelle* Terrain::getPuck() const
         checkf(IsGameField(), "Dans le mode édition on ne conserve pas de pointeur sur la puck");
         return mPuck;
     }
-    checkf(!IsGameField(), "Dans le mode jeu on doit avoir un pointeur sur la puck");
+    checkf(!IsGameField() || (mGame && mGame->getGameStatus() == GAME_NOT_READY), "Dans le mode jeu on doit avoir un pointeur sur la puck");
 
     if(getTable())
     {
@@ -1080,6 +1231,8 @@ void Terrain::appliquerPhysique( float temps )
         mWorld->Step(temps, 8, 8);
 
 
+        
+
         /// Limit puck's speed!
         auto puck = getPuck();
         if(puck)
@@ -1094,6 +1247,22 @@ void Terrain::appliquerPhysique( float temps )
                 {
                     velocity *= maxSpeed;
                     body->SetLinearVelocity(velocity);
+                }
+
+
+                if(mPuckZone != PUCK_ZONE_UNKNOWN)
+                {
+                    if(mZoneTimer.Elapsed_Time_sec() > 10)
+                    {
+                        if(mPuckZone == PUCK_ZONE_LEFT)
+                        {
+                            mLeftForceField->setActive(true);
+                        }
+                        else if(mPuckZone == PUCK_ZONE_RIGHT)
+                        {
+                            mRightForceField->setActive(true);
+                        }
+                    }
                 }
             }
         }
@@ -1167,26 +1336,30 @@ void Terrain::BeginContact( b2Contact* contact )
         case CATEGORY_BOUNDARY:
             {
                 NoeudBut *but = dynamic_cast<NoeudBut *>((NoeudAbstrait*)bodies[1]->GetUserData());
+                b2Body* rondelleBody = bodies[0];
+                NoeudRondelle* rondelle = (NoeudRondelle*)(rondelleBody->GetUserData());
                 if (but)
                 {
                     if(mGame && !mGame->isNetworkClientGame())
                     {
-                        b2Body* rondelleBody = bodies[0];
-                        NoeudRondelle* rondelle = (NoeudRondelle*)(rondelleBody->GetUserData());
                         if(!rondelle->IsCollisionDetected())
                         {
                             rondelle->setCollisionDetected(true);
                             FieldRunnableGoals* r = new FieldRunnableGoals();
                             r->game = mGame;
                             r->puck = rondelle;
+                            PlayEffect(GOAL_EFFECT);
                             mRunnableQueue.push_front(r);
                         }
                     }
                 }
                 else
                 {
-                    if(bodies[0]->GetLinearVelocity().LengthSquared() > 200)
-                        SoundFMOD::obtenirInstance()->playEffect(COLLISION_MURET_EFFECT);
+                    auto vel = rondelle->obtenirVelocite();
+                    if(vel.norme2() > 200)
+                    {
+                        PlayEffect(COLLISION_MURET_EFFECT);
+                    }
                 }
             }
             break;
@@ -1194,7 +1367,7 @@ void Terrain::BeginContact( b2Contact* contact )
             //         break;
         case CATEGORY_MALLET  :
             {
-                SoundFMOD::obtenirInstance()->playEffect(effect(COLLISION_MAILLET_EFFECT1+(rand()%5)));
+                PlayEffect(effect(COLLISION_MAILLET_EFFECT1+(rand()%5)));
                 NoeudMaillet* maillet = (NoeudMaillet*)(bodies[1]->GetUserData());
                 NoeudRondelle* rondelle = (NoeudRondelle*)(bodies[0]->GetUserData());
                 // Si partie en reseau, on doit envoyer un paquet game event pour dire de changer le last hitting mallet
@@ -1251,6 +1424,8 @@ void Terrain::BeginContact( b2Contact* contact )
                                     RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
                                 }
                             }
+                            PlayEffect(PORTAL_EFFECT);
+
                             FieldRunnablePortal* r = new FieldRunnablePortal();
                             r->portal = portailDeSortie;
                             r->puck = rondelle;
@@ -1273,7 +1448,7 @@ void Terrain::BeginContact( b2Contact* contact )
                 linearVelocity *= bonusAccel;
                 bodies[0]->SetLinearVelocity(linearVelocity);
 
-                SoundFMOD::obtenirInstance()->playEffect(effect(ACCELERATOR_EFFECT));
+                PlayEffect(effect(ACCELERATOR_EFFECT));
             }
             break;
 
@@ -1298,6 +1473,30 @@ void Terrain::BeginContact( b2Contact* contact )
                 r->puck = rondelle;
                 mRunnableQueue.push_front(r);
 	            break;
+            }
+        case CATEGORY_MIDLANE:
+            {
+                NoeudRondelle* rondelle = (NoeudRondelle*)(bodies[0]->GetUserData());
+                auto pos = rondelle->getPosition();
+                auto vel = rondelle->obtenirVelocite();
+                PuckZone res=PUCK_ZONE_UNKNOWN;
+                if(pos[VX]<0)
+                {
+                    if(vel[VX] < 0 )
+                    {
+                        res = PUCK_ZONE_LEFT;
+                    }
+                }
+                else
+                {
+                    if(vel[VX] > 0 )
+                    {
+                        res = PUCK_ZONE_RIGHT;
+                    }
+                }
+                setPuckZone(res);
+                mZoneTimer.reset_Time();
+                mZoneTimer.unPause();
             }
         default:
             break;
@@ -1505,6 +1704,35 @@ void Terrain::fullRebuild()
     {
         mEditionZone->rebuild();
     }
+
+#if BOX2D_PLAY
+    if(IsGameField())
+    {
+        auto puck = getPuck();
+        if(puck)
+        {
+            auto body = puck->getPhysicBody();
+            if(body)
+            {
+                float hw[2];
+                mTable->calculerHautLongMax(hw);
+                hw[0] *= utilitaire::ratioWorldToBox2D;
+                hw[1] *= utilitaire::ratioWorldToBox2D;
+
+                float force = 0.01f*utilitaire::ratioWorldToBox2D;
+                if(mLeftForceField)delete mLeftForceField;
+                if(mRightForceField)delete mRightForceField;
+
+                mLeftForceField = new ForceFieldSquare(hw[1]/3.f,hw[0],0,b2Vec2(force,0));
+                mRightForceField = new ForceFieldSquare(hw[1]/3.f,hw[0],0,b2Vec2(-force,0));
+
+                mLeftForceField->CreateBody(mWorld,CATEGORY_PUCK,b2Vec2(-hw[1]*2.f/3.f,0));
+                mRightForceField->CreateBody(mWorld,CATEGORY_PUCK,b2Vec2(hw[1]*2.f/3.f,0));
+            }
+        }
+    }
+#endif
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1627,7 +1855,7 @@ NoeudMaillet* Terrain::getLeftMallet() const
         checkf(IsGameField(), "Dans le mode Edition on ne conserve pas de pointeur sur le maillet");
         return mLeftMallet;
     }
-    checkf(!IsGameField(), "Dans le mode jeu on doit avoir un pointeur sur le maillet");
+    checkf(!IsGameField() || (mGame && mGame->getGameStatus() == GAME_NOT_READY), "Dans le mode jeu on doit avoir un pointeur sur le maillet");
 
     NoeudMaillet* maillet = NULL;
     if(getTable())
@@ -1665,7 +1893,7 @@ NoeudMaillet* Terrain::getRightMallet() const
         checkf(IsGameField(), "Dans le mode Edition on ne conserve pas de pointeur sur le maillet");
         return mRightMallet;
     }
-    checkf(!IsGameField(), "Dans le mode jeu on doit avoir un pointeur sur le maillet");
+    checkf(!IsGameField() || (mGame && mGame->getGameStatus() == GAME_NOT_READY), "Dans le mode jeu on doit avoir un pointeur sur le maillet");
 
     NoeudMaillet* maillet = NULL;
     if(getTable())
@@ -1748,7 +1976,7 @@ bool Terrain::FixCollidingObjects()
 #if BOX2D_INTEGRATED  
     if(mLogicTree)
     {
-        mWorld->Step(0.001f,0,1000);
+        mWorld->Step(0.001f,0,50);
 
         /// callbacks might have invalidate some data, rebuild just to make sure
         fullRebuild();
@@ -2102,8 +2330,9 @@ void Terrain::initNecessaryPointersForGame()
         mPuck->validerPropriteteTablePourJeu();
         mPuck->modifierPositionOriginale(mPuck->getPosition());
 
+        mRightMallet->setSkinKey(RAZER_KEY_SKIN_MALLET_RED);
 #if WIN32
-        if (GestionnaireHUD::Exists())
+        if (!mIsSimulation && GestionnaireHUD::Exists())
         {
 	        auto leftBonuses = GestionnaireHUD::obtenirInstance()->getLeftPlayerBonuses();
 	        leftBonuses->setModifiers(&mLeftMallet->GetModifiers());
@@ -2115,6 +2344,8 @@ void Terrain::initNecessaryPointersForGame()
             puckBonuses->setModifiers(&mPuck->GetModifiers());
         }
 #endif
+
+
 
     }
 }
@@ -2722,6 +2953,29 @@ void Terrain::setBonusesMaxTimeSpawn( const float pVal )
     {
         mBonusesMaxTimeSpawn = pVal;
     }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void Terrain::setPuckZone( const PuckZone& pVal )
+///
+/// /*Description*/
+///
+/// @param[in] const PuckZone & pVal
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void Terrain::setPuckZone( PuckZone pVal )
+{
+    mPuckZone = pVal;
+#if BOX2D_PLAY
+    if(mPuckZone == PUCK_ZONE_UNKNOWN)
+    {
+         mLeftForceField->setActive(false);
+         mRightForceField->setActive(false);
+    }
+#endif //BOX2D_PLAY
 }
 
 #if MIKE_DEBUG_

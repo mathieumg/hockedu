@@ -325,8 +325,9 @@ void VisiteurModifierProprieteNoeud::visiterNoeudTable( NoeudTable* noeud )
 ////////////////////////////////////////////////////////////////////////
 void VisiteurModifierProprieteNoeud::visiterNoeudPoint( NoeudPoint* noeud )
 {
-	if(noeud->IsSelected())
+	if(noeud->IsSelected() && noeud->canBeVisitedAndRemoveFlag())
 	{
+        noeud->flagSelectedAssociatedPoints();
 		// Assigner la position avant pour que le calcul de la longueur max des buts soit mise a jour
 		const Vecteur3& positionCourante = noeud->getPosition();
 		

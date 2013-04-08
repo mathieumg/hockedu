@@ -1,9 +1,5 @@
 #include "FieldRunnableStructs.h"
 
-#if WIN32
-#include "SoundFMOD.h"
-#endif
-
 #include "NoeudRondelle.h"
 #include "NoeudPortail.h"
 #include "Partie.h"
@@ -24,9 +20,6 @@ void FieldRunnablePortal::execute()
     portal->setIsAttractionFieldActive(false);
     auto newPos = portal->getPosition();
     puck->setPosition(newPos);
-#if WIN32
-    SoundFMOD::obtenirInstance()->playEffect(effect(PORTAL_EFFECT));
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -52,9 +45,6 @@ void FieldRunnableGoals::execute()
         {
             game->incrementerPointsJoueurGauche();
         }
-#if WIN32
-        SoundFMOD::obtenirInstance()->playEffect(GOAL_EFFECT);
-#endif
     }
     game->miseAuJeu();
     puck->setCollisionDetected(false);

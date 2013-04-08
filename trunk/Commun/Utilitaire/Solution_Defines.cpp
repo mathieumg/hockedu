@@ -90,6 +90,11 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
 
     if(!bIsAssertIgnored)
     {
+        appDebugBreak();
+    }
+
+    if(!bIsAssertIgnored)
+    {
         AssertHandleMode HandleMode = DisplayAssertMessage( displayMessage.c_str() );
         switch( HandleMode )
         {
@@ -107,10 +112,7 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
         }
     }
 
-    if(!bIsAssertIgnored)
-    {
-        appDebugBreak();
-    }
+    
 
 }
 

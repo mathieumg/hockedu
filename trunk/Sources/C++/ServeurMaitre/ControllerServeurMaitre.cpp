@@ -10,6 +10,7 @@
 #include "GameServerManager.h"
 #include "../Reseau/RelayeurMessage.h"
 #include "GameServer.h"
+#include <sstream>
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -137,26 +138,17 @@ void ControllerServeurMaitre::handleDisconnectDetection(SPSocket pSocket)
 // Retourne l'identifiant du serveur
 std::string ControllerServeurMaitre::authenticate( const std::string& pUsername, const std::string& pPassword )
 {
-    try
+    if(pUsername == "GameServer" && pPassword == "HockeduSuperProtectedPassword")
     {
-        if(pUsername == "GameServer" && pPassword == "HockeduSuperProtectedPassword")
-        {
-            std::string wTempUser = pUsername;
-            wTempUser += GameServerManager::generateNewGameServerId();
-            return wTempUser;
-        }
-        else if (CommunicateurBD::obtenirInstance()->authenticate(pUsername, pPassword) != -1)
-        {
-            return pUsername;
-        }
-        else
-        {
-            return "";
-        }
+        std::string wTempUser = pUsername;
+        wTempUser += GameServerManager::generateNewGameServerId();
+        return wTempUser;
     }
-    catch(ExceptionReseauBD&)
+    else
     {
-        return "";
+        std::stringstream ss;
+        ss << CommunicateurBD::obtenirInstance()->authenticate(pUsername, pPassword);
+        return ss.str();
     }
 }
 
