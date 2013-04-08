@@ -25,6 +25,7 @@
 #include "LaunchAchievementLite.h"
 #include "Partie.h"
 #include "JoueurVirtuelRenforcement.h"
+#include <sstream>
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -1012,5 +1013,6 @@ void SetDisplayMessageCallback( DisplayMessageCallback c )
 {
     utilitaire::mDisplayMessageCallback = c;
 }
+
 
 

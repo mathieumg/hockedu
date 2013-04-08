@@ -21,13 +21,13 @@
             <RowDefinition Height="70*" />
             <RowDefinition Height="70*" MinHeight="70" MaxHeight="70" />
         </Grid.RowDefinitions>
+        <Image  Height="100" Source="/UIHeavyClient;component/HockeduLogo.png" Name="mLogo" Stretch="Uniform" VerticalAlignment="Top" HorizontalAlignment="Left" Width="370" Grid.ColumnSpan="2" />
         <Button Content="Edition Mode" Margin="12" Name="mEditionModeButton" Click="editionModeButton_Click" Grid.Row="1" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
         <Button Content="Quick Play" Margin="12" Name="mQuickPlayButton" Click="quickPlayButton_Click" Grid.Row="2" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
         <Button Content="Tournament" Margin="12" Name="mTournamentButton" Click="tournamentButton_Click" Grid.Row="3" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
         <Button Content="Online Mode" Margin="12" Name="mOnlineModeButton" Click="onlineModeButton_Click" Grid.Row="4" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
         <Button Content="Options" Margin="12" Name="mOptionButton" Click="optionButton_Click" Grid.Row="5" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
         <Button Content="Unit Tests" Margin="12" Name="mUnitTestButton" Grid.Row="6" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
-        <Label Content="HOCKEDU" HorizontalAlignment="Stretch" Margin="0,0,8,14" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="72" Grid.ColumnSpan="3" />
         <Label Content="" Grid.Row="7" Height="Auto" HorizontalAlignment="Right" Margin="0,14,0,12" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" Grid.Column="0" Grid.ColumnSpan="3" />
         <GroupBox Header="Quick Play" Margin="14,55,0,0" Name="mQuickPlayGroupBox" Foreground="White" Height="217" VerticalAlignment="Top" Grid.Column="2" HorizontalAlignment="Left" Width="292" Grid.RowSpan="4">
             <Grid Height="Auto" Width="Auto" Name="mQuickPlayGrid">

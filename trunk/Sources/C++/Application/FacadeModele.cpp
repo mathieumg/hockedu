@@ -282,6 +282,7 @@ FacadeModele::~FacadeModele()
         delete boiteEnvironnement;
         boiteEnvironnement=0;
     }
+
 }
 
 ////////////////////////////////////////////////////////////////////////

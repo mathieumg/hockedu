@@ -84,7 +84,10 @@ namespace UIHeavyClient
         private ServerMapPrompt mServerMapPrompt;
 
         private HttpManager mHttpManager;
-
+        public HttpHockeduRequests.HttpManager HttpManager
+        {
+            get { return mHttpManager; }
+        }
         private Chat mChat;
 
         private bool mIsWaitingForOnlineGame;
@@ -110,7 +113,7 @@ namespace UIHeavyClient
         public static extern int GetNbrServerGames();
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void GetServersGames([In, Out] OnlineGameInfos[] pGames, int pNbrGames);
-
+        
         ////////////////////////////////////////////////////////////////////////
         /// @fn void OnlineLobbyControl.OnlineLobbyControl()
         ///
@@ -184,7 +187,8 @@ namespace UIHeavyClient
         private void HttpRequestForLoadingMap()
         {
             mServerMapPrompt = new ServerMapPrompt();
-            mServerMapPrompt.GetServerMaps();
+
+            mServerMapPrompt.GetUserMaps();
             mServerMapPrompt.ShowDialog();
 
             if (mServerMapPrompt.OkIsClicked)
@@ -349,7 +353,7 @@ namespace UIHeavyClient
         ///
         /// @return void.
         ////////////////////////////////////////////////////////////////////////
-        public void CallbackMapDownloaded(string pOutputPath, int pMapId)
+        public void CallbackMapDownloaded(string pOutputPath, int pMapId, string pName, string pDescription, bool pIsPublic)
         {
             MainWindowHandler.mTaskManager.ExecuteTask(() =>
             {
@@ -586,7 +590,7 @@ namespace UIHeavyClient
         ///
         /// @return void.
         ////////////////////////////////////////////////////////////////////////
-        public void HandleDownloadedMap(string pFilepath, int pMapId)
+        public void HandleDownloadedMap(string pFilepath, int pMapId, string name, string description, bool pIsPublic)
         {
             if(pFilepath.Length > 0)
             {
@@ -595,6 +599,8 @@ namespace UIHeavyClient
                 {
                     MainWindowHandler.MapId = pMapId;
                     MainWindowHandler.LoadMapFromLocal(pFilepath);
+                    MainWindowHandler.CurrentMap = pFilepath;
+                    //SetOnlineEditionInfos(pMapId, name, description, pIsPublic);
                     MainWindowHandler.GoToEditionMode(false);
                 });
             }
