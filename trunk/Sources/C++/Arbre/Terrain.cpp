@@ -1004,14 +1004,14 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
 {
     if(!mTable)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nNo table detected.");
+        if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nNo table detected.");
         return false;
     }
 
     // on prend un des 2 buts
     if(!mTable->obtenirBut(1))
     {
-        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nNo goal detected on the table.");
+        if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nNo goal detected on the table.");
         return false;
     }
     float hauteurBut = mTable->obtenirBut(1)->obtenirHauteurBut();
@@ -1069,7 +1069,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
     checkf(g);
     if(g && g->childCount() == 1)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nOnly one portal detected, please add a second one.");
+        if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nOnly one portal detected, please add a second one.");
         return false;
     }
 
@@ -1081,17 +1081,17 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
 
     if(!puck)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nNo puck detected.");
+        if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nNo puck detected.");
         return false;
     }
     if(!leftMallet)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nThere's no mallet on the left side.");
+        if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nThere's no mallet on the left side.");
         return false;
     }
     if(!rightMallet)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nThere's no mallet on the right side.");
+        if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nThere's no mallet on the right side.");
         return false;
     }
 
@@ -1101,7 +1101,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
         if(afficherErreur)
         {
             std::ostringstream mess;
-            mess << "Error: Invalid table\nGoals are too small.\nMissing width = ";
+            mess << "Invalid table :\nGoals are too small.\nMissing width = ";
             mess << (float)puck->getRadius()*2+20-hauteurBut;
             mess << " pixels";
             utilitaire::afficherErreur(mess.str());
@@ -1138,7 +1138,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
                     if ( f->RayCast( &output, input,childindex) )
                     {
                         // collision detected
-                        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nA mallet is touching the middle line.");
+                        if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nA mallet is touching the middle line.");
                         return false;
                     }
                 }
@@ -1152,7 +1152,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
         Vecteur2 intersection;
         if(aidecollision::calculerCollisionSegment(point1,point2,node->getPosition(),node->getRadius()).type != aidecollision::COLLISION_AUCUNE )
         {
-            if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nA mallet is touching the middle line.");
+            if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nA mallet is touching the middle line.");
             return false;
         }
     }
@@ -1163,12 +1163,12 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
     auto posright = rightMallet->getPosition();
     if(posleft[VX] > 0)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nThere're two mallets on the right side.");
+        if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nThere're two mallets on the right side.");
         return false;
     }
     if(posright[VX] < 0)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nThere're two mallets on the left side.");
+        if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nThere're two mallets on the left side.");
         return false;
     }
 
