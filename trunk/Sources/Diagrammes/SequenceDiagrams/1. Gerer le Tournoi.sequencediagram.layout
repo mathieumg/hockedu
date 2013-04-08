@@ -2,41 +2,38 @@
 <sequenceDesignerDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="1. Gerer le Tournoi">
   <SequenceDesignerModelMoniker Id="9b48d981-664d-4c4f-ac8c-c0626679ce00" />
   <nestedChildShapes>
-    <interactionUseShape Id="27271690-3fdc-48c3-8b15-6b608e610bb4" absoluteBounds="0.825, 1.3, 3.6520833333333345, 0.57" customColor="White" visible="true">
-      <interactionUseMoniker Id="32e539b1-ea3b-41b8-93f9-c27de4443593" LastKnownName="1.5 Charger tournoi" />
+    <interactionUseShape Id="27271690-3fdc-48c3-8b15-6b608e610bb4" absoluteBounds="0.825, 1.3, 2.6, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="32e539b1-ea3b-41b8-93f9-c27de4443593" LastKnownName="1.4 Charger tournoi" />
     </interactionUseShape>
-    <interactionUseShape Id="2dda0827-5653-4819-877f-d0b1bd194344" absoluteBounds="0.825, 2.17, 3.6520833333333345, 0.57" customColor="White" visible="true">
-      <interactionUseMoniker Id="b6be7194-e59f-48a4-82fc-06202d9f153d" LastKnownName="1.3 Choisir le nombre de joueurs" />
-    </interactionUseShape>
-    <interactionUseShape Id="10f45301-bb8e-43f6-b6a0-b8016c894b2c" absoluteBounds="0.825, 3.04, 3.6520833333333345, 0.57" customColor="White" visible="true">
+    <interactionUseShape Id="10f45301-bb8e-43f6-b6a0-b8016c894b2c" absoluteBounds="0.825, 2.17, 2.6, 0.57" customColor="White" visible="true">
       <interactionUseMoniker Id="7f882e14-8bfc-448b-bd86-f0e747bfb4e1" LastKnownName="1.1 Choisir les joueurs" />
     </interactionUseShape>
-    <interactionUseShape Id="69fe34f0-7c7a-47db-aefe-b1b7d649105d" absoluteBounds="0.825, 3.91, 3.6520833333333345, 0.57" customColor="White" visible="true">
+    <interactionUseShape Id="69fe34f0-7c7a-47db-aefe-b1b7d649105d" absoluteBounds="0.825, 3.04, 2.6, 0.57" customColor="White" visible="true">
       <interactionUseMoniker Id="074ea983-cca8-41fc-abb7-c9d5245d7550" LastKnownName="1.2 Choisir une carte" />
     </interactionUseShape>
-    <interactionUseShape Id="2e806f50-4269-4ff9-b4b4-32fe3b213678" absoluteBounds="0.825, 4.78, 3.6520833333333345, 0.57" customColor="White" visible="true">
-      <interactionUseMoniker Id="e9bd82b9-ea3b-4669-8413-360978e98e4a" LastKnownName="1.4 Sauvegarder tournoi" />
+    <interactionUseShape Id="2e806f50-4269-4ff9-b4b4-32fe3b213678" absoluteBounds="0.825, 3.91, 2.6, 0.57" customColor="White" visible="true">
+      <interactionUseMoniker Id="e9bd82b9-ea3b-4669-8413-360978e98e4a" LastKnownName="1.3 Sauvegarder tournoi" />
     </interactionUseShape>
-    <lifelineShape Id="bce94fff-f560-4219-8256-f6ff07ff5672" absoluteBounds="1.025, 1, 0.15, 5.5208333333333339" visible="true">
+    <lifelineShape Id="bce94fff-f560-4219-8256-f6ff07ff5672" absoluteBounds="1.025, 1, 0.15, 3.95" visible="true">
       <lifelineMoniker Id="650e1b74-479e-4a4c-8f40-d3bd4819d686" LastKnownName="utilisateur : Utilisateur" />
       <relativeChildShapes>
         <umlLifelineHeadShape Id="450081e7-fc15-4730-9480-188cb8bbebbb" absoluteBounds="0.32619940757751453, 0.6, 1.5476011848449707, 0.4" customColor="White">
           <lifelineMoniker Id="650e1b74-479e-4a4c-8f40-d3bd4819d686" LastKnownName="utilisateur : Utilisateur" />
           <relativeChildShapes />
         </umlLifelineHeadShape>
-        <lifelineHoverShape Id="be917706-24c1-425e-99fb-72e2dd3bedfa" absoluteBounds="1.025, 1, 0, 5.5">
+        <lifelineHoverShape Id="be917706-24c1-425e-99fb-72e2dd3bedfa" absoluteBounds="1.025, 1, 0, 4">
           <lifelineMoniker Id="650e1b74-479e-4a4c-8f40-d3bd4819d686" LastKnownName="utilisateur : Utilisateur" />
         </lifelineHoverShape>
       </relativeChildShapes>
     </lifelineShape>
-    <lifelineShape Id="71da7427-f6d7-4aa3-be84-ac9f35f1cf8c" absoluteBounds="4.1270833333333341, 1, 0.15, 5.5208333333333339" visible="true">
+    <lifelineShape Id="71da7427-f6d7-4aa3-be84-ac9f35f1cf8c" absoluteBounds="3.075, 1, 0.15, 3.9208333333333334" visible="true">
       <lifelineMoniker Id="a520e9bf-24c8-423c-8314-53fb5f7437a5" LastKnownName="client Lourd : Client Lourd" />
       <relativeChildShapes>
-        <umlLifelineHeadShape Id="34bfcedc-f326-40b1-a143-f918f6ff871b" absoluteBounds="3.3334476383527125, 0.6, 1.7372713899612426, 0.4" customColor="White">
+        <umlLifelineHeadShape Id="34bfcedc-f326-40b1-a143-f918f6ff871b" absoluteBounds="2.2813643050193786, 0.6, 1.7372713899612426, 0.4" customColor="White">
           <lifelineMoniker Id="a520e9bf-24c8-423c-8314-53fb5f7437a5" LastKnownName="client Lourd : Client Lourd" />
           <relativeChildShapes />
         </umlLifelineHeadShape>
-        <lifelineHoverShape Id="03081ae2-d759-4a9c-b008-eb06f4bc5a6a" absoluteBounds="4.1270833333333341, 1, 0, 5.5">
+        <lifelineHoverShape Id="03081ae2-d759-4a9c-b008-eb06f4bc5a6a" absoluteBounds="3.075, 1, 0, 3.875">
           <lifelineMoniker Id="a520e9bf-24c8-423c-8314-53fb5f7437a5" LastKnownName="client Lourd : Client Lourd" />
         </lifelineHoverShape>
       </relativeChildShapes>

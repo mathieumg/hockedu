@@ -2,55 +2,52 @@
 <sequenceDesignerDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="3. Se connecter au serveur maître">
   <SequenceDesignerModelMoniker Id="53a64768-dce9-4cc4-b806-66c55e44754d" />
   <nestedChildShapes>
-    <lifelineShape Id="a66470f6-334c-4862-9f2c-61a4ca336a15" absoluteBounds="5.791666666666667, 1, 0.15, 5.44749999821186" visible="true" visualStyleMode="Modified">
+    <lifelineShape Id="a66470f6-334c-4862-9f2c-61a4ca336a15" absoluteBounds="3.825, 1, 0.15, 4.43999999821186" visible="true" visualStyleMode="Modified">
       <lifelineMoniker Id="65bebf4f-cf32-4cd5-a165-76f27a90acd9" LastKnownName="client Lourd : Client Lourd" />
       <relativeChildShapes>
-        <umlLifelineHeadShape Id="3b869b75-a4d5-42b2-a682-d0ee3637a356" absoluteBounds="4.9980309716860454, 0.6, 1.7372713899612426, 0.4" customColor="White" visualStyleMode="Modified">
+        <umlLifelineHeadShape Id="3b869b75-a4d5-42b2-a682-d0ee3637a356" absoluteBounds="3.0313643050193786, 0.6, 1.7372713899612426, 0.4" customColor="White" visualStyleMode="Modified">
           <lifelineMoniker Id="65bebf4f-cf32-4cd5-a165-76f27a90acd9" LastKnownName="client Lourd : Client Lourd" />
           <relativeChildShapes />
         </umlLifelineHeadShape>
-        <lifelineHoverShape Id="6596820d-d344-4cd9-aff6-da75f90cf98f" absoluteBounds="5.791666666666667, 1, 0, 5.5">
+        <lifelineHoverShape Id="6596820d-d344-4cd9-aff6-da75f90cf98f" absoluteBounds="3.825, 1, 0, 4.5">
           <lifelineMoniker Id="65bebf4f-cf32-4cd5-a165-76f27a90acd9" LastKnownName="client Lourd : Client Lourd" />
         </lifelineHoverShape>
       </relativeChildShapes>
     </lifelineShape>
-    <lifelineShape Id="99a2535b-54df-4bdc-859b-e5ddf3eec5e4" absoluteBounds="2.6666666666666665, 1, 0.15, 5.44749999821186" visible="true" visualStyleMode="Modified">
+    <lifelineShape Id="99a2535b-54df-4bdc-859b-e5ddf3eec5e4" absoluteBounds="1.025, 1, 0.15, 4.43999999821186" visible="true" visualStyleMode="Modified">
       <lifelineMoniker Id="b7a76cd5-6ad7-45f7-a1e2-3f0e0b3ee9be" LastKnownName="utilisateur : Utilisateur" />
       <relativeChildShapes>
-        <umlLifelineHeadShape Id="2cb9f074-fd48-483e-a84d-4b37ec1c32e8" absoluteBounds="1.9678660742441811, 0.6, 1.5476011848449707, 0.4" customColor="White" visualStyleMode="Modified">
+        <umlLifelineHeadShape Id="2cb9f074-fd48-483e-a84d-4b37ec1c32e8" absoluteBounds="0.32619940757751453, 0.6, 1.5476011848449707, 0.4" customColor="White" visualStyleMode="Modified">
           <lifelineMoniker Id="b7a76cd5-6ad7-45f7-a1e2-3f0e0b3ee9be" LastKnownName="utilisateur : Utilisateur" />
           <relativeChildShapes />
         </umlLifelineHeadShape>
-        <lifelineHoverShape Id="97e36351-3715-40f9-a5af-b7ba0ad907fc" absoluteBounds="2.6666666666666665, 1, 0, 5.5">
+        <lifelineHoverShape Id="97e36351-3715-40f9-a5af-b7ba0ad907fc" absoluteBounds="1.025, 1, 0, 4.5">
           <lifelineMoniker Id="b7a76cd5-6ad7-45f7-a1e2-3f0e0b3ee9be" LastKnownName="utilisateur : Utilisateur" />
         </lifelineHoverShape>
       </relativeChildShapes>
     </lifelineShape>
-    <interactionUseShape Id="ccf66269-5f70-44e7-8eb1-702b0a4851aa" absoluteBounds="2.4666666666666663, 1.4375, 3.6750000000000007, 0.57" customColor="White" visible="true">
+    <interactionUseShape Id="ccf66269-5f70-44e7-8eb1-702b0a4851aa" absoluteBounds="0.825, 1.3, 3.35, 0.57" customColor="White" visible="true">
       <interactionUseMoniker Id="65595a34-f168-458f-8e13-5713eb2547bf" LastKnownName="3.1 Saisir ses informations de connexion" />
     </interactionUseShape>
-    <interactionUseShape Id="3550d3f2-6b56-4bfe-98ec-51423461ddfe" absoluteBounds="2.4666666666666663, 2.8575, 3.6750000000000007, 0.57" customColor="White" visible="true">
+    <interactionUseShape Id="3550d3f2-6b56-4bfe-98ec-51423461ddfe" absoluteBounds="0.825, 2.7199999999999998, 3.35, 0.57" customColor="White" visible="true">
       <interactionUseMoniker Id="f2dde3d4-5c78-4198-b710-9fe7441c5525" LastKnownName="3.2 Clavarder avec les autres utilisateurs" />
     </interactionUseShape>
-    <combinedFragmentShape Id="f8c69ebf-55d4-4436-85fb-9877e90fc1ca" absoluteBounds="2.1466666671137014, 2.3075, 4.0649999991059307, 3.8399999982118604" visible="true" visualStyleMode="Modified">
+    <combinedFragmentShape Id="f8c69ebf-55d4-4436-85fb-9877e90fc1ca" absoluteBounds="0.50500000044703475, 2.17, 3.73999999910593, 2.9699999982118603" visible="true" visualStyleMode="Modified">
       <combinedFragmentMoniker Id="831a63c9-c315-4f05-a79e-4d21b56659ce" LastKnownName="CombinedFragment1" />
       <nestedChildShapes>
-        <interactionOperandShape Id="8f1f5b80-a147-44d5-a9e9-5f2e38e67953" absoluteBounds="2.1666666666666665, 2.5575, 4.0200000001117591, 1.17">
+        <interactionOperandShape Id="8f1f5b80-a147-44d5-a9e9-5f2e38e67953" absoluteBounds="0.52499999999999991, 2.42, 3.6950000001117584, 1.17">
           <interactionOperandMoniker Id="a91e9a08-aef7-491a-be30-70119f1d8637" LastKnownName="InteractionOperand1" />
         </interactionOperandShape>
-        <interactionOperandShape Id="160938b7-fd01-4af6-bafe-0c069df31f87" absoluteBounds="2.1666666666666665, 3.7574999993294478, 4.0200000001117591, 1.17">
+        <interactionOperandShape Id="160938b7-fd01-4af6-bafe-0c069df31f87" absoluteBounds="0.52499999999999991, 3.6199999993294476, 3.6950000001117584, 1.17">
           <interactionOperandMoniker Id="e6710108-c62a-4c05-ab4c-9cb1521e5745" LastKnownName="InteractionOperand2" />
         </interactionOperandShape>
-        <interactionOperandShape Id="cfd6e587-cfa8-47b4-b8e7-2244c3b5d4be" absoluteBounds="2.1666666666666665, 4.9574999986588955, 4.0200000001117591, 1.17">
+        <interactionOperandShape Id="cfd6e587-cfa8-47b4-b8e7-2244c3b5d4be" absoluteBounds="0.52499999999999991, 4.8199999986588953, 3.6950000001117584, 0.29999999999999982">
           <interactionOperandMoniker Id="47487a6a-6c60-4409-b594-c710635ca05e" LastKnownName="InteractionOperand3" />
         </interactionOperandShape>
       </nestedChildShapes>
     </combinedFragmentShape>
-    <interactionUseShape Id="d942b729-9b13-48a3-a1f2-3c1569fc749c" absoluteBounds="2.4666666666666663, 4.0574999993294476, 3.6750000000000007, 0.57" customColor="White" visible="true">
+    <interactionUseShape Id="d942b729-9b13-48a3-a1f2-3c1569fc749c" absoluteBounds="0.825, 3.9199999993294474, 3.35, 0.57" customColor="White" visible="true">
       <interactionUseMoniker Id="7e037894-01bc-47e4-900b-4e18ccbbc451" LastKnownName="3.3 Jouer une partie" />
-    </interactionUseShape>
-    <interactionUseShape Id="503a6b0d-221b-4b44-9010-da1c6ec460b2" absoluteBounds="2.4666666666666663, 5.2574999986588953, 3.6750000000000007, 0.57" customColor="White" visible="true">
-      <interactionUseMoniker Id="c30c4175-2717-43fd-b20c-1a72bddabcd4" LastKnownName="3.4 Réaliser un &quot;achievement&quot;" />
     </interactionUseShape>
   </nestedChildShapes>
 </sequenceDesignerDiagram>

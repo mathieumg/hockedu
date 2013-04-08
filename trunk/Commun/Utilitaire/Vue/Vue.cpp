@@ -177,29 +177,30 @@ namespace vue {
 
 
 
-   void Vue::centrerCamera(float largeurVue,int pViewportNumber)
+   void Vue::centrerCamera(float largeurVue,int pViewportNumber, AnimationTerminatedCallback pCallback)
    {
 	   GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
-	   float angleOuverture = obtenirAngleOuvertureProjection();
-	   Vecteur3 positionOptimale = Vecteur3(0, -0.0001f, 300);
-	   if(angleOuverture!=0.0 && largeurVue!=0.0)
-	   {
-		   // On modifie la position selon l'angle pour voir toute la zone d'edition
-		   float angle = angleOuverture*((float)M_PI)/360.0f;
-		   float distance = largeurVue/(2.0f*tan(angle));
-		   positionOptimale[VZ] = distance;
-	   }
-
+       Vecteur3 positionOptimale = getOptimalPosition(largeurVue);
 	   vue::Camera* cameraCourante = &obtenirCamera(pViewportNumber);
+       Vecteur3 cameraPos = cameraCourante->obtenirPosition();
 
+       auto delta = cameraPos-positionOptimale;
+       float temps = delta.norme();
+       
+       if(temps>2000)
+       {
+           temps = 2000;
+       }
+       
 	   AnimationFrame* frame[4];
-	   frame[0] = new AnimationFrame(0, cameraCourante->obtenirPosition(), cameraCourante->obtenirPointVise(), cameraCourante->obtenirDirectionHaut());
-	   frame[1] = new AnimationFrame(800, positionOptimale, Vecteur3(0, 0, 0), Vecteur3(0, 1, 0));
-	   frame[2] = new AnimationFrame(1000, positionOptimale, Vecteur3(0, 0, 0), Vecteur3(0, 1, 0));
-	   frame[3] = new AnimationFrame(1100, positionOptimale, Vecteur3(0, 0, 0), Vecteur3(0, 1, 0));
+	   frame[0] = new AnimationFrame(0, cameraPos, cameraCourante->obtenirPointVise(), cameraCourante->obtenirDirectionHaut());
+	   frame[1] = new AnimationFrame(temps, positionOptimale, Vecteur3(0, 0, 0), Vecteur3(0, 1, 0));
+	   frame[2] = new AnimationFrame(temps+200, positionOptimale, Vecteur3(0, 0, 0), Vecteur3(0, 1, 0));
+	   frame[3] = new AnimationFrame(temps+300, positionOptimale, Vecteur3(0, 0, 0), Vecteur3(0, 1, 0));
 
 
 	   Animation* animation = new Animation(LINEAIRE, true, true, true);
+       animation->mAnimationTerminatedCallback = pCallback;
 	   for(int i=0; i<4; i++)
 		   animation->ajouterFrame(frame[i]);
 
@@ -235,6 +236,31 @@ namespace vue {
        Vecteur2 dimFenetre = obtenirProjection().obtenirDimensionFenetre();
        obtenirProjection().ajusterRapportAspect(dimCloture, dimFenetre); // APPLIQUE AUSSI LA PERSPECTIVE
        glMatrixMode (GL_MODELVIEW);   
+   }
+
+   ////////////////////////////////////////////////////////////////////////
+   ///
+   /// @fn void Vue::getOptimalPosition( float largeurVue )
+   ///
+   /// /*Description*/
+   ///
+   /// @param[in] float largeurVue
+   ///
+   /// @return void
+   ///
+   ////////////////////////////////////////////////////////////////////////
+   Vecteur3 Vue::getOptimalPosition( float largeurVue )
+   {
+       float angleOuverture = obtenirAngleOuvertureProjection();
+       Vecteur3 positionOptimale = Vecteur3(0, -0.0001f, 300);
+       if(angleOuverture!=0.0 && largeurVue!=0.0)
+       {
+           // On modifie la position selon l'angle pour voir toute la zone d'edition
+           float angle = angleOuverture*((float)M_PI)/360.0f;
+           float distance = largeurVue/(2.0f*tan(angle));
+           positionOptimale[VZ] = distance;
+       }
+       return positionOptimale;
    }
 
 

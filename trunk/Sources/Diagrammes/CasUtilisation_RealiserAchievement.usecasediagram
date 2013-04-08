@@ -7,27 +7,11 @@
       </subsystem>
     </useCaseModelRootHasTypes>
     <useCaseModelRootHasTypes>
-      <actor Id="66c93584-0025-4832-9258-efed1ae04e4f" name="Serveur maître" isAbstract="false" isLeaf="false">
+      <actor Id="66c93584-0025-4832-9258-efed1ae04e4f" name="Serveur web" isAbstract="false" isLeaf="false">
         <elementDefinition Id="d8723cee-0cbe-4ffa-8818-e60d1d0d8db2" />
         <targetEnds>
-          <association Id="a3a867ba-0946-4667-ba71-c4cd504373cf" isDerived="false" sourceEndRoleName="Serveur maître" targetEndRoleName="3.4.1 Envoyer un événement de réalisation d'achievement" isLeaf="false" isAbstract="false">
-            <useCaseMoniker Id="7bf8a462-7a33-4e12-85d6-c9ab77938e98" LastKnownName="3.4.1 Envoyer un événement de réalisation d'achievement" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd Id="3ab0ee85-e642-488f-9690-e5197ae57e83" name="Serveur maître" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                  <elementDefinition Id="ad391e6f-0cbe-4a5f-a663-6b1a1fb5c584" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd Id="9f3b118e-e4b3-4667-9168-1a79d0a98c73" name="3.4.1 Envoyer un événement de réalisation d'achievement" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                  <elementDefinition Id="7f84444b-8123-4543-9a3f-3b298ce9cc8c" />
-                </memberEnd>
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-            <elementDefinition Id="336c8f53-65ac-4677-abb4-46b3039d86f9" />
-          </association>
           <association Id="eb6064f4-56a3-4c99-aa7c-2d76cc499933" isDerived="false" sourceEndRoleName="Serveur maître" targetEndRoleName="3.4.2 Recevoir un événement de réalisation d'achievement" isLeaf="false" isAbstract="false">
-            <useCaseMoniker Id="2c56b826-d0f9-4abb-841e-b36b21e5ebf3" LastKnownName="3.4.2 Recevoir un événement de réalisation d'achievement" />
+            <useCaseMoniker Id="2c56b826-d0f9-4abb-841e-b36b21e5ebf3" LastKnownName="3.4.2 Recevoir les données de réalisation d'achievement" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
                 <memberEnd Id="dc60670d-1378-47de-bc0a-bc5a84496be3" name="Serveur maître" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
@@ -77,7 +61,7 @@
       </actor>
     </useCaseModelRootHasTypes>
     <packageHasNamedElement>
-      <useCase Id="2c56b826-d0f9-4abb-841e-b36b21e5ebf3" name="3.4.2 Recevoir un événement de réalisation d'achievement" isAbstract="false" isLeaf="false">
+      <useCase Id="2c56b826-d0f9-4abb-841e-b36b21e5ebf3" name="3.4.2 Recevoir les données de réalisation d'achievement" isAbstract="false" isLeaf="false">
         <elementDefinition Id="ac9718e0-7332-49d7-acb8-bfe8b95cc9db" />
         <suppliersInternal>
           <dependency Id="9e476057-b5b5-4013-baae-364df41f60b5">

@@ -9,6 +9,7 @@
 #import "EAGLView.h"
 #define degreesToRadian(x) (M_PI * (x) / 180.0)
 #import "Enum_Declarations.h"
+#import "Facade.h"
 int const LARGEUR_FENETRE = 1024;
 int const HAUTEUR_FENETRE = 768;
 // Uniform index.
@@ -107,37 +108,32 @@ enum {
     }
     
     [self.view init];
-    theEAGLView = [[EAGLView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.mGLView.bounds.size.height, self.mGLView.bounds.size.width)];
+    theEAGLView = [[EAGLView alloc] initWithFrame:CGRectMake(mSideBarView.frame.size.width, 0.0, self.mGLView.bounds.size.height - mTopBarView.frame.size.height, self.mGLView.bounds.size.width - mSideBarView.frame.size.width + 50)];
     
     if (!theEAGLView)
         NSLog(@"Failed to create ES view");
     
     theEAGLView.opaque = YES;
     
-    mModel = [[Model alloc]init];
-    [mModel resizeWindow:0 :0 :LARGEUR_FENETRE :HAUTEUR_FENETRE];
-    mEventManager = [[EventManager alloc]init:mModel];
+    
     translationX = 0.0;
     translationY = 0.0;
     zoomFactor = 0.5;
     
     [self.mGLView addSubview:theEAGLView];
+    [self.mGLView addSubview:helpButton];
     [self.mGLView addSubview:mSideBarView];
     [self.mGLView addSubview:mTopBarView];
+    [mTopBarView addSubview:editionToolsView];
+    [mTopBarView addSubview:cameraToolsView];
+    cameraToolsView.frame = editionToolsView.frame;
     [self.mGLView addSubview:undoRedoView];
     [self.mGLView addSubview:mPropertyView];
     [self.theEAGLView setFramebuffer];
     
-//    mTablePropertyView.frame = CGRectMake(0, 0, 270, 577);
-//    mBoostPropertyView.frame = CGRectMake(0, 0, 270, 577);
-//    mPortalPropertyView.frame = CGRectMake(0, 0, 270, 577);
-//    mPuckPropertyView.frame = CGRectMake(0, 0, 270, 577);
-//    mMalletPropertyView.frame = CGRectMake(0, 0, 270, 577);
-//    mWallPropertyView.frame = CGRectMake(0, 0, 270, 577);
-//    mControlPointPropertyView.frame = CGRectMake(0, 0, 270, 577);
-//    mBonusPropertyView.frame = CGRectMake(0, 0, 270, 577);
     
-    
+    __previousScale = 1.0;
+    [Facade registerController:self];
     
     // On cache la bar en dehors a droite
     self.mPropertyView.center = CGPointMake(mPropertyView.center.x + mPropertyView.bounds.size.width, mPropertyView.center.y);
@@ -155,6 +151,12 @@ enum {
     buttonImagePressed = [[UIImage imageNamed:@"blueButtonPressed@2x.png"]
                           resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     
+    buttonImageCameraPressed = [[UIImage imageNamed:@"blueButtonCameraPressed@2x.png"]
+                          resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    
+    buttonImageDisabled = [[UIImage imageNamed:@"blueButtonDisabled@2x.png"]
+                                resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    
     carouselBackgroundImage = [UIImage imageNamed:@"carouselBackground.png"];
     carouselBackgroundSelected = [UIImage imageNamed:@"carouselBackgroundHighlight.png"];
     
@@ -164,32 +166,51 @@ enum {
     
     [selectButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [selectButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [selectButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [moveButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [moveButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [moveButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [rotationButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [rotationButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [rotationButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [scaleButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [scaleButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [scaleButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [duplicateButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [duplicateButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
-    
-    [editionButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
-    [editionButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [duplicateButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [deleteButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [deleteButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [deleteButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
+    
+    [skyViewButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [skyViewButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [skyViewButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
+    
+    [freeRoamButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [freeRoamButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [freeRoamButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
+    
+    [orbitalButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [orbitalButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [orbitalButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
+    
+    [editionButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateNormal];
+    [editionButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateHighlighted];
     
     [cameraButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [cameraButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     
+    [settingsButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [settingsButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
     [applyButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [applyButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
-    
-    
     
     CarouselElement *mailletCarousel = [[CarouselElement alloc] init];
     mailletCarousel->ModifType=EDITOR_STATE_AJOUTER_MAILLET;
@@ -223,7 +244,12 @@ enum {
     
     carouselElements = [[NSArray alloc] initWithObjects:mailletCarousel,rondelleCarousel,muretCarousel,accelerateurCarousel,portailCarousel,bonusCarousel,nil];
 
-    [self pressButtonUI:selectButton];
+    [self pressButtonUICameras:orbitalButton];
+    
+    
+    mModel = [[Model alloc]init];
+    [mModel resizeWindow:0 :0 :LARGEUR_FENETRE :HAUTEUR_FENETRE];
+    mEventManager = [[EventManager alloc]init:mModel:self];
     
     [buttonImage retain];
     [buttonImageHighlight retain];
@@ -280,6 +306,16 @@ enum {
     [carouselBackground release];
     [applyView release];
     [applyButton release];
+    [helpButton release];
+    [settingsButton release];
+    [editionToolsView release];
+    [cameraToolsView release];
+    [buttonToolbarLabel release];
+    [skyViewButton release];
+    [freeRoamButton release];
+    [orbitalButton release];
+    [undoButton release];
+    [redoButton release];
     [super dealloc];
 }
 
@@ -1155,8 +1191,12 @@ enum {
     }
     float currentScale = [(UIPinchGestureRecognizer*)sender scale];
     float diff = currentScale-__previousScale;
-    if(diff > 1.1 || diff < 0.9)
     {
+        float delta = diff;
+        if(delta < 0)
+            delta *= -1;
+        int iteration = delta * 300.f;
+        for(int i=0; i<iteration; ++i)
         [mModel zoom:diff];
         __previousScale = currentScale;
     }
@@ -1167,8 +1207,7 @@ enum {
 - (IBAction)panDetected:(UIPanGestureRecognizer*)sender
 {
     CGPoint translation = [sender translationInView:theEAGLView];
-    [sender setTranslation:translation inView:theEAGLView];
-    
+    [sender setTranslation:CGPointMake(0,0) inView:theEAGLView];    
     [mModel orbit:translation.x :translation.y];
 }
 
@@ -1295,10 +1334,10 @@ enum {
 
 -(void)pressButtonUI:(UIButton *)sender
 {
-    if( previouslySelected != nil )
+    if( previouslySelectedEditionTool != nil )
     {
-        [previouslySelected setBackgroundImage:buttonImage forState:UIControlStateNormal];
-        [previouslySelected setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+        [previouslySelectedEditionTool setBackgroundImage:buttonImage forState:UIControlStateNormal];
+        [previouslySelectedEditionTool setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     }
     
     if( sender != nil )
@@ -1306,9 +1345,26 @@ enum {
         [sender setBackgroundImage:buttonImagePressed forState:UIControlStateNormal];
         [sender setBackgroundImage:buttonImagePressed forState:UIControlStateHighlighted];
         
-        previouslySelected = sender;
+        previouslySelectedEditionTool = sender;
         
         [carouselBackground setImage:carouselBackgroundImage];
+    }
+}
+
+-(void)pressButtonUICameras:(UIButton *)sender
+{
+    if( previouslySelectedCameraTool != nil )
+    {
+        [previouslySelectedCameraTool setBackgroundImage:buttonImage forState:UIControlStateNormal];
+        [previouslySelectedCameraTool setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    }
+    
+    if( sender != nil )
+    {
+        [sender setBackgroundImage:buttonImagePressed forState:UIControlStateNormal];
+        [sender setBackgroundImage:buttonImagePressed forState:UIControlStateHighlighted];
+        
+        previouslySelectedCameraTool = sender;
     }
 }
 
@@ -1324,16 +1380,40 @@ enum {
 {
     CarouselElement* element = [carouselElements objectAtIndex:index];
     [self carouselSelectItem:index];
+    [self editorModeButtonTouched:nil];
     [mEventManager modifyState:element->ModifType];
 }
 
 -(IBAction) cameraModeButtonTouched:(UIButton *)sender
 {
+    [editionButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [editionButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [cameraButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateNormal];
+    [cameraButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateHighlighted];
+    
+    cameraToolsView.hidden = NO;
+    editionToolsView.hidden = YES;
+    
+    [buttonToolbarLabel setText:@"Cameras"];
+    [carouselBackground setImage:carouselBackgroundImage];
+    
     [mEventManager modifyState:EDITOR_STATE_MOVE_WINDOW];
 }
 
 - (IBAction)editorModeButtonTouched:(UIButton *)sender
 {
+    [editionButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateNormal];
+    [editionButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateHighlighted];
+    
+    [cameraButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [cameraButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [buttonToolbarLabel setText:@"Edition Tools"];
+    cameraToolsView.hidden = YES;
+    editionToolsView.hidden = NO;
+    
+    [self pressButtonUI:selectButton];
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
 }
 
@@ -1401,6 +1481,24 @@ enum {
     [mModel deleteSelection];
 }
 
+- (IBAction)skyViewButtonTouched:(UIButton *)sender
+{
+    [self pressButtonUICameras:sender];
+    [mModel createCameraFixed];
+}
+
+- (IBAction)freeRoamButtonTouched:(UIButton *)sender
+{
+    [self pressButtonUICameras:sender];
+    [mModel createCameraFree];
+}
+
+- (IBAction)orbitalButtonTouched:(UIButton *)sender
+{
+    [self pressButtonUICameras:sender];
+    [mModel createCameraOrbit];
+}
+
 - (IBAction)portalButtonTouched:(UIButton *)sender
 {
     [mEventManager modifyState:EDITOR_STATE_AJOUTER_MAILLET];
@@ -1410,6 +1508,8 @@ enum {
 {
     [mModel saveField];
 }
+
+
 
 
 ///DEPRECATED
@@ -1431,8 +1531,6 @@ enum {
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     
-    
-    
     UITouch *touch = [[event allTouches] anyObject];
     CGPoint positionCourante = [touch locationInView:theEAGLView];
     
@@ -1448,22 +1546,6 @@ enum {
         }
         [mEventManager touchesBegan:positionCourante];
     }
-    
-    //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
-    //[mEventManager touchesBegan:touch:positionCourante];
-    
-    //    NSLog(@"Position de tous les doigts venant de commencer à toucher l'écran");
-    //    for(UITouch* touch in touches) {
-    //        CGPoint positionCourante = [touch locationInView:theEAGLView];
-    //        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);
-    //    }
-    //    NSLog(@"Position de tous les doigts sur l'écran");
-    //    NSSet *allTouches = [event allTouches];
-    //    for(UITouch* touch in allTouches) {
-    //        CGPoint positionCourante = [touch locationInView:theEAGLView];
-    //        NSLog(@"x: %f y: %f", positionCourante.x, positionCourante.y);
-    //    }
-    //    NSLog(@"\n\n");
 }
 
 
@@ -1476,56 +1558,9 @@ enum {
         CGPoint positionCourante = [touch locationInView:theEAGLView];
         UIView * viewTouched = touch.view;
         if (![viewTouched isMemberOfClass:[UIImageView class]] && ![viewTouched isMemberOfClass:[UIView class]]) {
-            //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
             [mEventManager touchesMoved:positionCourante];
         }
         
-        //CGPoint positionCourante = [touch locationInView:theEAGLView];
-        //        if (mCreationMode) {
-        //            // Si on est en mode creation et touchMoved, on update la position de limage
-        //            //imageObjectToAdd.center = [touch locationInView:theEAGLView];
-        //            CGPoint coordVirt = [self convertScreenCoordToVirtualCoord:positionCourante];
-        //            [mModel eventModification:FIELD_MODIFICATION_EVENT_MOVE:coordVirt];
-        //
-        //        }
-        //        else if (mSelectionMode && mMoveTool)
-        //        {
-        //            CGPoint positionPrecedente = [touch previousLocationInView:theEAGLView];
-        //            translationX -= (positionCourante.x - positionPrecedente.x);
-        //            translationY += (positionCourante.y - positionPrecedente.y);
-        //
-        //            // Set boundaries for the editing grid, currently 1000x1000, centered at 0,0.
-        //            /*
-        //             if( translationX < ( -500 / zoomFactor ) )
-        //             {
-        //             translationX = (int)( -500 / zoomFactor );
-        //             }
-        //             */
-        //            if( translationX < -500 )
-        //            {
-        //                translationX = -500;
-        //            }
-        //            else if( translationX > 500 )
-        //            {
-        //                translationX = 500;
-        //            }
-        //
-        //            if( translationY < -500 )
-        //            {
-        //                translationY = -500;
-        //            }
-        //            else if( translationY > 500 )
-        //            {
-        //                translationY = 500;
-        //            }
-        //
-        //            [self updateOrtho];
-        //
-        //        }
-        //        else if (mSelectionMode && mSelectTool)
-        //        {
-        //            touchMoved = true;
-        //        }
     }
     else if([[event allTouches] count] == 2) {
         
@@ -1540,71 +1575,134 @@ enum {
     {
         UITouch *touch = [[event allTouches] anyObject];
         CGPoint positionCourante = [touch locationInView:theEAGLView];
-        
-        //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
+        UIView * viewTouched = touch.view;
+        if (![viewTouched isMemberOfClass:[UIImageView class]] && ![viewTouched isMemberOfClass:[UIView class]]) {
         [mEventManager touchesEnded:positionCourante];
-        //
-        //        if (mCreationMode) {
-        //            // Destruction de limage de lobjet qui suit la position du doigt
-        //
-        //                // On drop lobjet
-        //                CGPoint coordVirt = [self convertScreenCoordToVirtualCoord:positionCourante];
-        //            // On drop le noeud a la position finale
-        //            [mModel eventModification:FIELD_MODIFICATION_EVENT_CLICK:coordVirt];
-        //            // On enleve le prochain noeud qui apparait pour sajouter, utilise dans c++
-        //            [mModel eventCancel];
-        //                //[imageObjectToAdd removeFromSuperview];
-        //                //[imageObjectToAdd release];
-        //        }
+            }
         
-        //        if(mSelectionMode && mSelectTool)
-        //        {
-        //
-        //
-        //            CGPoint posVirtuelle = [self convertScreenCoordToVirtualCoord:positionCourante];
-        //
-        //            int CV_X_NOW = posVirtuelle.x;
-        //            int CV_Y_NOW = posVirtuelle.y;
-        //
-        //
-        //            int CV_X_OLD;
-        //            int CV_Y_OLD;
-        //            if(touchMoved)
-        //            {
-        //                CGPoint firstCornerVirt;
-        //                firstCornerVirt = [self convertScreenCoordToVirtualCoord:firstCorner];
-        //                CV_X_OLD = firstCornerVirt.x;
-        //                CV_Y_OLD = firstCornerVirt.y;
-        //            }
-        //            else
-        //            {
-        //                CV_X_OLD = CV_X_NOW-2;
-        //                CV_X_NOW += 2;
-        //                CV_Y_OLD = CV_Y_NOW+2;
-        //                CV_Y_NOW-=2;
-        //            }
-        //            int nbNoeudsSelectionnes = [mModel acceptSelectionVisitor:CV_X_OLD:CV_Y_OLD:CV_X_NOW:CV_Y_NOW];
-        //            if(nbNoeudsSelectionnes==1)
-        //            {
-        //                // Si on a un seul noeud selectionne, on ouvre un popovercontroller contenant les proprietes modifiables du noeud
-        //
-        //                //UITableViewController *tableController = [[UITableViewController alloc]initWithStyle:UITableViewStylePlain];
-        //
-        //                //UITabBarController *tabController = [[UITabBarController alloc] init];
-        //
-        //                //UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:tableController];
-        //
-        //                //UIPopoverController *popOverController = [[UIPopoverController alloc]initWithContentViewController:navController];
-        //                //navController.tabBarController = tabController;
-        //
-        //                //[popOverController presentPopoverFromRect:CGRectMake(150, 300, 450, 300) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        //
-        //            }
-        //        }
     }
 }
 
-
+// Event Callback du c++ pour update du UI
+- (void) enablePuckCreation
+{
+    // Decision commune de pas le handler
+}
+- (void)disablePuckCreation
+{
+    // Decision commune de pas le handler
+}
+- (void)enableMalletCreation
+{
+    // Decision commune de pas le handler
+}
+- (void)disableMalletCreation
+{
+    // Decision commune de pas le handler
+}
+- (void)thereAreNodesSelected
+{
+    // Enable le delete
+    
+    switch ([mModel getSelectedNodesType]) {
+        case RAZER_KEY_BONUS:
+            moveButton.enabled = true;
+            scaleButton.enabled = true;
+            rotationButton.enabled = true;
+            duplicateButton.enabled = true;
+            deleteButton.enabled = true;
+            break;
+        case RAZER_KEY_BOOST:
+            moveButton.enabled = true;
+            scaleButton.enabled = true;
+            rotationButton.enabled = true;
+            duplicateButton.enabled = true;
+            deleteButton.enabled = true;
+            break;
+        case RAZER_KEY_CONTROL_POINT:
+            moveButton.enabled = true;
+            scaleButton.enabled = true;
+            rotationButton.enabled = true;
+            duplicateButton.enabled = true;
+            deleteButton.enabled = true;
+            break;
+        case RAZER_KEY_MALLET:
+            moveButton.enabled = true;
+            scaleButton.enabled = true;
+            rotationButton.enabled = true;
+            duplicateButton.enabled = true;
+            deleteButton.enabled = true;
+            break;
+        case RAZER_KEY_PORTAL:
+            moveButton.enabled = true;
+            scaleButton.enabled = true;
+            rotationButton.enabled = true;
+            duplicateButton.enabled = true;
+            deleteButton.enabled = true;
+            break;
+        case RAZER_KEY_PUCK:
+            moveButton.enabled = true;
+            scaleButton.enabled = true;
+            rotationButton.enabled = true;
+            duplicateButton.enabled = true;
+            deleteButton.enabled = true;
+            break;
+        case RAZER_KEY_NONE:
+            moveButton.enabled = false;
+            scaleButton.enabled = false;
+            rotationButton.enabled = false;
+            duplicateButton.enabled = false;
+            deleteButton.enabled = false;
+            break;
+        case RAZER_KEY_TABLE_CONTROL_POINT:
+            moveButton.enabled = true;
+            scaleButton.enabled = false;
+            rotationButton.enabled = false;
+            duplicateButton.enabled = false;
+            deleteButton.enabled = false;
+            break;
+        default:
+            break;
+    }
+    
+}
+- (void)thereAreNoNodesSelected
+{
+    // Disable le delete
+    moveButton.enabled = false;
+    scaleButton.enabled = false;
+    rotationButton.enabled = false;
+    duplicateButton.enabled = false;
+    deleteButton.enabled = false;
+}
+- (void)canUndo
+{
+    undoButton.enabled = true;
+}
+- (void)cannotUndo
+{
+    undoButton.enabled = false;
+}
+- (void)canRedo
+{
+    redoButton.enabled = true;
+}
+- (void)cannotRedo
+{
+    redoButton.enabled = false;
+}
+-(void)disableCameras
+{
+    orbitalButton.enabled = false;
+    freeRoamButton.enabled = false;
+    skyViewButton.enabled = false;
+}
+-(void)enableCameras
+{
+    orbitalButton.enabled = true;
+    freeRoamButton.enabled = true;
+    skyViewButton.enabled = true;
+}
 
 -(void)rotationDetectee:(UIGestureRecognizer *)gestureRecognizer
 {
@@ -1670,6 +1768,7 @@ enum {
 {
     NSInteger currentIndex = carousel.currentItemIndex;
     CarouselElement* element = [carouselElements objectAtIndex:currentIndex];
+    [self editorModeButtonTouched:nil];
     [self carouselSelectItem:currentIndex];
     [mEventManager modifyState:element->ModifType];
 }

@@ -13,7 +13,10 @@ enum GameConnectionState {
     GAME_CONNECTION_WRONG_PASSWORD, 
     GAME_CONNECTION_GAME_NOT_FOUND, 
     GAME_CONNECTION_REJECTED, 
-    GAME_CONNECTION_REPLY_GAME_SERVER_IP
+    GAME_CONNECTION_REPLY_GAME_SERVER_IP,
+    GAME_CONNECTION_MATCHMAKING_REQUEST,
+    GAME_CONNECTION_MATCHMAKING_FAILED,
+    GAME_CONNECTION_MATCHMAKING_REPLY
 };
 
 class PaquetGameConnection : public Paquet
@@ -42,6 +45,9 @@ public:
     inline const std::string& getGameServerIp() const { return mGameServerIp; }
 	inline void setGameServerIp(const std::string& val) { mGameServerIp = val; }
 
+    std::string getMapName() const { return mMapName; }
+    void setMapName(const std::string& pMapName) { mMapName = pMapName; }
+
 protected:
     PaquetGameConnection(void);
 
@@ -54,9 +60,6 @@ private:
     std::string mPassword; // For future modifications
     GameConnectionState mConnectionState; // Flag for return message
     std::string mGameServerIp; // Ip of the game server
-    
-    
-
-
+    std::string mMapName; // Map of the game
 };
 

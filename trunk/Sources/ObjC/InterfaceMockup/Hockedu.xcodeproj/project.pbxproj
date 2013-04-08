@@ -169,6 +169,7 @@
 		4ED864B4170E30E600ADBFAD /* boost.obj in Resources */ = {isa = PBXBuildFile; fileRef = 4ED864B2170E30E600ADBFAD /* boost.obj */; };
 		4EEBBF9A16E86E5B00017127 /* Model.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBF9916E86E5B00017127 /* Model.mm */; };
 		4EEBBFA316E8832900017127 /* NoeudAbstrait.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EEBBFA216E8832900017127 /* NoeudAbstrait.cpp */; };
+		4EF26F3A1712AA63001F1B61 /* Facade.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF26F391712AA63001F1B61 /* Facade.m */; };
 		6D01D099170286BB00899CCB /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D01D098170286BB00899CCB /* iCarousel.m */; };
 		6D0F2C7A170E40AE00E378CC /* blueButtonPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D0F2C79170E40AE00E378CC /* blueButtonPressed@2x.png */; };
 		6D666B97171177F400429A7D /* HockeduLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D666B94171177F400429A7D /* HockeduLogo.png */; };
@@ -547,6 +548,8 @@
 		4EEBBF9916E86E5B00017127 /* Model.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Model.mm; sourceTree = "<group>"; };
 		4EEBBFA216E8832900017127 /* NoeudAbstrait.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoeudAbstrait.cpp; sourceTree = "<group>"; };
 		4EF2169E16FA2ABE005FB093 /* TinyXml.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TinyXml.xcodeproj; path = TinyXml/TinyXml.xcodeproj; sourceTree = "<group>"; };
+		4EF26F381712AA63001F1B61 /* Facade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facade.h; sourceTree = "<group>"; };
+		4EF26F391712AA63001F1B61 /* Facade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Facade.m; sourceTree = "<group>"; };
 		6D01D097170286BB00899CCB /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
 		6D01D098170286BB00899CCB /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
 		6D0F2C79170E40AE00E378CC /* blueButtonPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueButtonPressed@2x.png"; sourceTree = "<group>"; };
@@ -1143,6 +1146,8 @@
 				4EEBBF9916E86E5B00017127 /* Model.mm */,
 				6D666B9A17117F6100429A7D /* BackgroundLayer.h */,
 				6D666B9B17117F6100429A7D /* BackgroundLayer.m */,
+				4EF26F381712AA63001F1B61 /* Facade.h */,
+				4EF26F391712AA63001F1B61 /* Facade.m */,
 			);
 			name = Hockedu;
 			path = AppDemo;
@@ -1529,6 +1534,7 @@
 				4E43BB40170E658C0074CB3D /* BonusModifierFan.cpp in Sources */,
 				4E43BB41170E658C0074CB3D /* BonusModifierGoThorughWall.cpp in Sources */,
 				6D666B9C17117F6100429A7D /* BackgroundLayer.m in Sources */,
+				4EF26F3A1712AA63001F1B61 /* Facade.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

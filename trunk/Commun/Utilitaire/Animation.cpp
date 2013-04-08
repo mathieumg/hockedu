@@ -23,7 +23,7 @@
 /// @return Aucune (constructeur).
 ///
 ///////////////////////////////////////////////////////////////////////////////
-Animation::Animation( int typeInterpolation,bool modParam1 /*= true*/, bool modParam2 /*= true*/, bool modParam3 /*= true*/, bool repeat/*=false*/  )
+Animation::Animation( int typeInterpolation,bool modParam1 /*= true*/, bool modParam2 /*= true*/, bool modParam3 /*= true*/, bool repeat/*=false*/  ):mAnimationTerminatedCallback(NULL)
 {
 	indexFrameCourant_ = 0;
 	tempsCourant_ = 0;
@@ -55,6 +55,11 @@ Animation::Animation( int typeInterpolation,bool modParam1 /*= true*/, bool modP
 ///////////////////////////////////////////////////////////////////////////////
 Animation::~Animation( void )
 {
+    if(mAnimationTerminatedCallback)
+    {
+        mAnimationTerminatedCallback(this);
+    }
+
 	// On supprime les frames
 	ListeFrame::iterator it = frames_.begin();
 	for(;it!=frames_.end(); it++)

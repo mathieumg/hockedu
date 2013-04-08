@@ -149,7 +149,8 @@ namespace vue {
    void VuePerspectiveOrbit::zoomerIn()
    {
 	   Vecteur3 deplacement = obtenirCamera().obtenirPointVise()-obtenirCamera().obtenirPosition();
-	   deplacement*=0.1f;
+       deplacement.normaliser();
+	   deplacement*=30.f;
 	   obtenirCamera().deplacerXYZ(deplacement);
    }
 
@@ -165,7 +166,8 @@ namespace vue {
    void VuePerspectiveOrbit::zoomerInSmooth()
    {
 	   Vecteur3 deplacement = obtenirCamera().obtenirPointVise()-obtenirCamera().obtenirPosition();
-	   deplacement*=0.005f;
+       deplacement.normaliser();
+       deplacement*=1.5f;
 	   obtenirCamera().deplacerXYZ(deplacement);
    }
 
@@ -182,7 +184,8 @@ namespace vue {
    void VuePerspectiveOrbit::zoomerOut()
    {
 	   Vecteur3 deplacement = obtenirCamera().obtenirPosition()-obtenirCamera().obtenirPointVise();
-	   deplacement*=0.1f;
+       deplacement.normaliser();
+       deplacement*=30.f;
 	   obtenirCamera().deplacerXYZ(deplacement);
    }
 
@@ -198,7 +201,8 @@ namespace vue {
    void VuePerspectiveOrbit::zoomerOutSmooth()
    {
 	   Vecteur3 deplacement = obtenirCamera().obtenirPosition()-obtenirCamera().obtenirPointVise();
-	   deplacement*=0.005f;
+       deplacement.normaliser();
+       deplacement*=1.5f;
 	   obtenirCamera().deplacerXYZ(deplacement);
    }
 

@@ -178,7 +178,7 @@ namespace utilitaire {
    /// @return float => la valeur absolue du nombre.
    ///
    ////////////////////////////////////////////////////////////////////////
-   float ABS( float nombre )
+   float ABSOLUTETABARNAK( float nombre )
    {
       return (SIGN(nombre) * nombre);
    }

@@ -214,7 +214,7 @@ bool CommunicateurBD::addGameResult(const std::string& pPlayer1Name, const std::
            << "VALUES((SELECT id FROM users WHERE username = \"" + wWinner + "\"), " // Winner id
            << "(SELECT id FROM users WHERE username = \"" + wLoser + "\"),  " // Loser id
            << wWinnerScore << ", " // Winner's score
-           << wLoserScore << ", " // Loser's score
+           << wLoserScore << ", "  // Loser's score
            << "CURRENT_UNIX_TIMESTAMP)"; // Timestamp for the time the game ended
 
         mysqlpp::Query query = mConnection.query(ss.str());
@@ -230,39 +230,32 @@ bool CommunicateurBD::addGameResult(const std::string& pPlayer1Name, const std::
     return false;
 }
 
-
-
-float CommunicateurBD::getWinRate(std::string& userName)
+void CommunicateurBD::getUsersWinRate(UsersWinRateContainer pUsersWinRate)
 {
     if (validateConnection())
     {
         std::stringstream ss;
-        ss << "SELECT        Winners.win_count / Losers.loss_count AS WinRate "\
-            "FROM            Losers INNER JOIN"\
-            "Winners ON Losers.users_id = Winners.users_id AND Losers.users_username = \"" << userName << 
-            "\" ORDER BY WinRate DESC";
+        ss << "SELECT losers.users_username, winners.win_count / losers.loss_count AS win_rate "\
+              "FROM  losers INNER JOIN"\
+              "winners ON losers.users_id = winners.users_id AND winners.users_id = losers.users_id "\
+              "ORDER BY win_rate DESC";
         try 
         {
             mysqlpp::Query query = mConnection.query(ss.str());
             if (mysqlpp::StoreQueryResult res = query.store()) {
                 mysqlpp::StoreQueryResult::const_iterator it;
                 for (it = res.begin(); it != res.end(); ++it) {
-                    return (float)((*it)[0]); // the query's return value is its win/rate
+                    mysqlpp::Row wRow = *it;
+                    pUsersWinRate[wRow[0].data()] = (float)wRow[1];
                 }
             }
         }
         catch(...)
         {
-            return 0;
+            pUsersWinRate.clear();
         }
     }
-    return 0;
 }
-
-
-
-
-
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

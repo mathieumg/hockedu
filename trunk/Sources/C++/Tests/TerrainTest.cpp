@@ -135,7 +135,7 @@ void TerrainTest::testInsideTable()
             {
                 Vecteur2 pos(dim[1]*i,dim[0]*j);
                 bool res = table->estSurTable(pos);
-                bool expectedRes = (utilitaire::ABS(i)<1 && utilitaire::ABS(j)<1);
+                bool expectedRes = (utilitaire::ABSOLUTETABARNAK(i)<1 && utilitaire::ABSOLUTETABARNAK(j)<1);
                 checkf(res == expectedRes);
                 CPPUNIT_ASSERT(res == expectedRes);
             }

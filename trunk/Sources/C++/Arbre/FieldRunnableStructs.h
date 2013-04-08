@@ -5,6 +5,7 @@
 class FieldRunnable
 {
 public:
+    virtual ~FieldRunnable(){}
     virtual void execute() = 0;
 };
 

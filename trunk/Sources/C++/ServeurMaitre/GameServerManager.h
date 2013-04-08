@@ -32,6 +32,7 @@ public:
 
     void callUpdateCallbackFunction(int pServerId, int pGameId, GameStatus pGameStatus) {if(mUpdateCallback) mUpdateCallback(pServerId, pGameId, pGameStatus);}
     inline void setUpdateCallback(PartieServeursCallback pCallback) {mUpdateCallback = pCallback;}
+    std::pair<unsigned int, int> doMatchmaking(const std::string& pUsername);
 private:
     GameServerManager();
     ~GameServerManager();

@@ -39,7 +39,7 @@
         <Button Content="Main Menu" Margin="3" Name="mBackToMainButton" Background="Black" Foreground="White" FontSize="16" Click="mBackToMainButton_Click" Grid.Row="3" Grid.Column="5" />
         <Button Content="Online Edition Mode" Margin="3" Name="mEditionModeButton" Background="Black" Foreground="White" Grid.Row="3" Grid.Column="4" FontSize="16" Click="mEditionModeButton_Click" />
         <Button Content="Join Game" Margin="3" Name="mJoinButton" Background="Black" Foreground="White" Grid.Row="3" Grid.Column="1" FontSize="16" Click="mJoinButton_Click" />
-        <Button Content="Join Random Game" Margin="3" Name="mRandomButton" Background="Black" Foreground="White" Grid.Row="3" Grid.Column="2" FontSize="16" Click="mRandomButton_Click" />
+        <Button Content="Matchmaking" Margin="3,0,3,3" Name="mRandomButton" Background="Black" Foreground="White" Grid.Row="3" Grid.Column="2" FontSize="16" Click="mRandomButton_Click" Height="39" VerticalAlignment="Bottom" />
         <Button Content="Create Game" Margin="3" Name="mCreateButton" Background="Black" Foreground="White" Grid.Row="3" FontSize="16" Click="mCreateButton_Click" />
         <ListView Margin="5" Name="mOnlineGameListView" Background="Black" Foreground="White" Grid.ColumnSpan="6" Grid.Row="1" SizeChanged="ResizeGridColumns" GridViewColumnHeader.Click="ClickForSorting">
             <ListView.View>

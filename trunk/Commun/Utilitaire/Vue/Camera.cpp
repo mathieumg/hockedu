@@ -28,8 +28,19 @@
 #define DEG2RAD(a) ((a) * M_PI / 180.0)
 #define CLIP(a,min,max) (a < min) ? min : ((a > max) ? max : a)
 
+const int LimitZoomIn = 100;
+const int LimitZoomOut = 2000;
 
 namespace vue {
+
+
+    bool Camera::isNewPosValid(Vecteur3 nouvellePosition)
+    {
+        float distanceCentre = (nouvellePosition-pointVise_).norme();
+        float olddistanceCentre = (position_-pointVise_).norme();
+        unsigned int lengthCrop = distanceCentre - LimitZoomIn;
+        return (nouvellePosition[VZ]>-20.0 && lengthCrop < LimitZoomOut) || (distanceCentre<olddistanceCentre ? (olddistanceCentre>LimitZoomIn) : (olddistanceCentre<LimitZoomOut));
+    }
 
 
    ////////////////////////////////////////////////////////////////////////////
@@ -114,11 +125,10 @@ namespace vue {
    ////////////////////////////////////////////////////////////////////////////
    void Camera::deplacerZ(float deplacement, bool bougePointVise, bool avecPointVise)
    {
-	   float nouvellePosition = position_[VZ]+deplacement;
-	   float distanceCentre = (position_-pointVise_).norme();
-	   if(nouvellePosition>-20.0/* && distanceCentre<2000.0*/)
+	   Vecteur3 nouvellePosition = position_+Vecteur3(0,0,deplacement);
+	   if(isNewPosValid(nouvellePosition))
 	   {
-		   position_[VZ] = nouvellePosition;
+		   position_ = nouvellePosition;
 		   if(avecPointVise)
 			   (pointVise_)[VZ]+=deplacement;
 	   }
@@ -139,9 +149,8 @@ namespace vue {
    void Camera::deplacerXYZ( Vecteur3 deplacement, bool avecPointVise )
    {
 	   Vecteur3 nouvellePosition = position_+deplacement;
-	   float distanceCentre = (position_-pointVise_).norme();
-	   if(nouvellePosition[VZ]>-20.0f/* && distanceCentre<2000.0*/)
-	   {
+       if(isNewPosValid(nouvellePosition))
+       {
 		   position_ = nouvellePosition;
 		   if(avecPointVise)
 			   pointVise_+=deplacement;
@@ -230,9 +239,8 @@ namespace vue {
 	   float dy = r*sin(theta)*sin(phi);
 	   float dz = r*cos(phi);
 	   Vecteur3 nouvellePosition(dx, dy, dz);
-	   float distanceCentre = (position_-pointVise_).norme();
-	   if(nouvellePosition[VZ]>-20.0f/* && distanceCentre<2000.0*/)
-	   {
+       if(isNewPosValid(nouvellePosition))
+       {
 		   position_ = nouvellePosition+pointVise_;
 
 		   // On calcule maintenant le veteur "Haut" de la camera

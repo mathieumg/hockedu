@@ -37,6 +37,13 @@ void PacketHandlerGameConnection::handlePacketReceptionSpecific(PacketReader& pP
         wPaquet->setGameServerIp(std::string((char*) wBuffer));
         delete wBuffer;
 
+        // Server Ip
+        wArraySize  = pPacketReader.readInteger();
+        wBuffer     = new uint8_t[wArraySize];
+        pPacketReader.readString(wBuffer, wArraySize);
+        wPaquet->setMapName(std::string((char*) wBuffer));
+        delete wBuffer;
+
 
         wPaquet->setRunnable(pRunnable);
         wPaquet->run();
@@ -52,7 +59,8 @@ void PacketHandlerGameConnection::handlePacketPreparationSpecific(Paquet* pPaque
                     << wPaquet->getUsername()
                     << wPaquet->getPassword()
                     << wPaquet->getConnectionState()
-                    << wPaquet->getGameServerIp();
+                    << wPaquet->getGameServerIp()
+                    << wPaquet->getMapName();
 
 }
 
@@ -68,6 +76,7 @@ int PacketHandlerGameConnection::getPacketSizeSpecific( Paquet* pPaquet ) const
         + getSizeForString(wPaquet->getPassword()) // Password
         + getSizeForInt() // ConnectionState
         + getSizeForString(wPaquet->getGameServerIp()) // Server Ip
+        + getSizeForString(wPaquet->getMapName())
         ;
 
 }

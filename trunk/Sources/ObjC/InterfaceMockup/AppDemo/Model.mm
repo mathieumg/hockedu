@@ -18,46 +18,105 @@
 #include "EditionEventManager.h"
 #import "VisitorGatherProperties.h"
 #include <time.h>
+#include "GestionnaireAnimations.h"
 #include <iostream>
+#include "Utilitaire.h"
+#import "Facade.h"
+#include "Animation.h"
 
 //@implementation FullPropertiesApple
 //@end
 
 static Model3DManager* model3DManager = NULL;
 vue::Vue* mView = NULL;
+std::deque<class RunnableField*> mRunnables;
+bool canDOCenter = true;
+Terrain* GlobalField = NULL;
+
+void CenterCameraTerminatedCallback(Animation* pAnim)
+{
+    canDOCenter = true;
+    if(GlobalField && mView)
+    {
+        Vecteur3 pos = mView->getOptimalPosition(GlobalField->GetTableWidth());
+        vue::Camera& camera = mView->obtenirCamera();
+        camera.assignerPosition(pos);
+        camera.assignerPointVise(Vecteur3());
+        camera.assignerDirectionHaut(Vecteur3(0,1,0));
+    }
+    
+    [Facade enableCameras];
+}
+
+class RunnableField
+{
+public:
+    virtual ~RunnableField(){}
+    virtual void execute()=0;
+};
+class RunnableCenterCamera: public RunnableField
+{
+public:
+    RunnableCenterCamera(Terrain* field)
+    {
+        mField = field;
+    }
+    virtual void execute()
+    {
+        if(canDOCenter && mField)
+        {
+            canDOCenter = false;
+            [Facade disableCameras];
+            mView->centrerCamera(mField->GetTableWidth(),1,CenterCameraTerminatedCallback);
+        }
+    }
+    Terrain* mField;
+};
+
+
+void displayMessageCallback(const char* message)
+{
+    NSString* msg =  [NSString stringWithFormat:@"%s" , message];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    // optional - add more buttons:
+    //[alert addButtonWithTitle:@"Yes"];
+    [alert show];
+}
+
+
 void EditionEventCallback(EditionEventCodes pEvent)
 {
     switch (pEvent) {
-            
         case ENABLE_PUCK_CREATION:
-            //NSLog(@"Can create Puck\n");
+            [Facade EnablePuckCreation];
             break;
         case DISABLE_PUCK_CREATION:
-            //NSLog(@"Cannot Create Puck\n");
+            [Facade DisablePuckCreation];
             break;
         case ENABLE_MALLET_CREATION:
-            //NSLog(@"Can create Mallet\n");
+            [Facade EnableMalletCreation];
             break;
         case DISABLE_MALLET_CREATION:
-            //NSLog(@"Cannot create puck\n");
+            [Facade DisableMalletCreation];
             break;
         case THERE_ARE_NODES_SELECTED:
-            //NSLog(@"There are items selected\n");
+            [Facade ThereAreNodesSelected];
             break;
         case THERE_ARE_NO_NODE_SELECTED:
-            //NSLog(@"There are no nodes selected\n");
+            [Facade ThereAreNoNodesSelected];
             break;
         case CAN_UNDO:
-            //NSLog(@"Can Undo modification\n");
+            [Facade CanUndo];
             break;
         case CANNOT_UNDO:
-            //NSLog(@"Cannot Undo modification\n");
+            [Facade CannotUndo];
             break;
         case CAN_REDO:
-            //NSLog(@"Can Redo modification\n");
+            [Facade CanRedo];
             break;
         case CANNOT_REDO:
-            //NSLog(@"Cannot Redo modification\n");
+            [Facade CannotRedo];
             break;
         default:
             break;
@@ -75,21 +134,40 @@ bool RenderNodeCallback(RazerKey key)
 
 @implementation Model
 
+
 float temps = clock();
 
 - (void)render
 {
+    while(!mRunnables.empty())
+    {
+        auto v = mRunnables.back();
+        if(v)
+        {
+            v->execute();
+            delete v;
+        }
+        mRunnables.pop_back();
+        
+    }
+    
+    
     // pour avoir le delta time en secondes
     float delta = clock()-temps;
     delta/=1000.f;
+    GestionnaireAnimations::obtenirInstance()->animer(delta);
     delta/=1000.f;
     ((Terrain*)mField)->animerTerrain(delta);
+    
+    
+    
     temps = clock();
     mView->appliquerVue(1);
     ((Terrain*)mField)->renderField();  
 }
 - (id)init
 {
+    utilitaire::mDisplayMessageCallback = displayMessageCallback;
     EditionEventManager::setEditionEventCallback(EditionEventCallback);
     mField = new Terrain(NULL);
     mModel3DManager = [[Model3DManager alloc]init];
@@ -102,16 +180,29 @@ float temps = clock();
                                          -150,150,-150,150);
     
     ((Terrain*)mField)->setModelManagerObjc(RenderNodeCallback);
-    ((Terrain*)mField)->createRandomField("test");
-    
+    ((Terrain*)mField)->creerTerrainParDefaut("test");
+    GlobalField = ((Terrain*)mField);
     return self;
 }
 
 -(void)dealloc
 {
+    while(!mRunnables.empty())
+    {
+        auto v = mRunnables.back();
+        if(v)
+        {
+            delete v;
+        }
+        mRunnables.pop_back();
+        
+    }
+    
+    
     [mModel3DManager release];
     mModel3DManager = NULL;
     delete (Terrain*)mField;
+    GlobalField = NULL;
     delete mView;
     [super dealloc];
 }
@@ -125,7 +216,7 @@ float temps = clock();
     return ((Terrain*)mField)->selectNodes((Vecteur2)posMin,(Vecteur2)posMax,false);
 }
 
--(void) beginModification:(FieldModificationStrategyType)type :(CGPoint)coordVirt
+-(int) beginModification:(FieldModificationStrategyType)type :(CGPoint)coordVirt
 {
     FieldModificationStrategyEvent event;
     Vecteur3 pos;
@@ -133,22 +224,22 @@ float temps = clock();
     event.mPosition = pos;
     event.mType = FIELD_MODIFICATION_EVENT_CLICK;
     
-    ((Terrain*)mField)->BeginModification(type, event);
+    return ((Terrain*)mField)->BeginModification(type, event);
 }
 
--(void) eventModification:(FieldModificationStrategyEventType)type :(CGPoint)coordVirt
+-(int) eventModification:(FieldModificationStrategyEventType)type :(CGPoint)coordVirt
 {
     FieldModificationStrategyEvent event;
     event.mType = type;
     Vecteur3 pos;
     mView->convertirClotureAVirtuelle(coordVirt.x, coordVirt.y, pos);
     event.mPosition = pos;
-    ((Terrain*)mField)->ReceiveModificationEvent(event);
+    return ((Terrain*)mField)->ReceiveModificationEvent(event);
 }
 
--(void) endModification
+-(int) endModification
 {
-    ((Terrain*)mField)->EndModification();
+    return ((Terrain*)mField)->EndModification();
 }
 
 -(void) eventCancel;
@@ -187,6 +278,8 @@ float temps = clock();
 
 -(void) createCameraFixed
 {
+    [Facade disableCameras];
+    GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
     int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
     vue::Camera& cameraCourante = mView->obtenirCamera();
 	mView->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);
@@ -200,10 +293,12 @@ float temps = clock();
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
     delete mView;
     mView = nouvelleVue;
-    mView->centrerCamera(((Terrain*)mField)->GetTableWidth());
+    mRunnables.push_front(new RunnableCenterCamera((Terrain*)mField));
 }
 -(void) createCameraOrbit
 {
+    [Facade disableCameras];
+    GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
     int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
     vue::Camera& cameraCourante = mView->obtenirCamera();
 	mView->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);
@@ -217,10 +312,12 @@ float temps = clock();
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
     delete mView;
     mView = nouvelleVue;
-    mView->centrerCamera(((Terrain*)mField)->GetTableWidth());
+    mRunnables.push_front(new RunnableCenterCamera((Terrain*)mField));
 }
 -(void) createCameraFree
 {
+    [Facade disableCameras];
+    GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
     int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
     vue::Camera& cameraCourante = mView->obtenirCamera();
 	mView->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);
@@ -234,7 +331,6 @@ float temps = clock();
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
     delete mView;
     mView = nouvelleVue;
-    mView->centrerCamera(((Terrain*)mField)->GetTableWidth());
 }
 
 
@@ -259,6 +355,8 @@ float temps = clock();
 
 -(void) saveField
 {
+    if(((Terrain*)mField)->verifierValidite())
+    {
     NSError* error;
 
     
@@ -308,6 +406,7 @@ float temps = clock();
         NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
     }];
     [httpClient release];
+    }
 }
 
 // Point d'entre pour le menu de modification des proprietes

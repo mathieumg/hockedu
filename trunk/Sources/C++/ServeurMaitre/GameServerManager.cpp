@@ -4,6 +4,7 @@
 #include "..\Reseau\ObjetsGlobaux\PartieServeurs.h"
 #include <iostream>
 #include "CommunicateurBD.h"
+#include <limits>
 
 SINGLETON_DECLARATION_CPP(GameServerManager);
 unsigned int GameServerManager::mNewGameServerId = 0;
@@ -16,7 +17,7 @@ void CallbackPartieServeursUpdate(int pServerId, int pGameId, GameStatus pGameSt
         // Si partie terminee, on sauvegarde dans la BD le score final
         std::cout << "Game (" << pServerId << "," << pGameId << ") ended" << std::endl;
 
-        
+
         GameServer* wGameServer = GameServerManager::obtenirInstance()->getGameServer(pServerId);
         if(wGameServer)
         {
@@ -26,7 +27,7 @@ void CallbackPartieServeursUpdate(int pServerId, int pGameId, GameStatus pGameSt
             {
                 bool wReturnValue = CommunicateurBD::obtenirInstance()->addGameResult(wGame->getPlayer1Name(), wGame->getPlayer2Name(), wGame->getPlayer1Score(), wGame->getPlayer2Score(), (int) wGame->getTime());
                 wReturnValue ? (std::cout << "Sauvegarde dans la BD reussie." << std::endl) : (std::cout << "Sauvegarde dans la BD echouee." << std::endl);
-                
+
             }
             // On supprime la partie du serveur
             wGameServer->removeGame(pGameId);
@@ -41,7 +42,7 @@ void CallbackPartieServeursUpdate(int pServerId, int pGameId, GameStatus pGameSt
 /// Default constructor
 ///
 ///
-/// @return 
+/// @return
 ///
 ////////////////////////////////////////////////////////////////////////
 GameServerManager::GameServerManager()
@@ -57,7 +58,7 @@ GameServerManager::GameServerManager()
 /// Destructor - ensures every GameServer was removed from the container.
 ///
 ///
-/// @return 
+/// @return
 ///
 ////////////////////////////////////////////////////////////////////////
 GameServerManager::~GameServerManager()
@@ -144,8 +145,8 @@ unsigned int GameServerManager::selectGameServer()
     unsigned int wLowestGamesAmount = -1;
     unsigned int wServerWithLowestGamesAmount = 0;
 
-    // Iterate over 
-    for(auto it = mGameServersList.begin(); it != mGameServersList.end(); ++it) 
+    // Iterate over
+    for(auto it = mGameServersList.begin(); it != mGameServersList.end(); ++it)
     {
         unsigned int wCurrentServerGamesAmount = it->second->getGamesContainer().size();
         if (wCurrentServerGamesAmount == 0)
@@ -159,9 +160,40 @@ unsigned int GameServerManager::selectGameServer()
             wServerWithLowestGamesAmount = it->first;
         }
     }
-    
+
     // Return server id at the selected index.
     return wServerWithLowestGamesAmount;
+}
+
+std::pair<unsigned int, int> GameServerManager::doMatchmaking(const std::string& pUsername)
+{
+    UsersWinRateContainer wWinRateContainer;
+    CommunicateurBD::obtenirInstance()->getUsersWinRate(wWinRateContainer);
+    float wUserWinRate(wWinRateContainer[pUsername]);
+    float wLowestRateDifference(std::numeric_limits<float>::max());
+    std::pair<unsigned int, int> wLowestGameIdentifier(0, -1);
+    auto wGameServersContainer = getGameServersContainer();
+    for(auto itGameServers = wGameServersContainer.begin(); itGameServers != wGameServersContainer.end(); ++itGameServers)
+    {
+        GameServer* wGameServer = itGameServers->second;
+        auto wGamesContainer = wGameServer->getGamesContainer();
+        for(auto itGames = wGamesContainer.begin(); itGames != wGamesContainer.end(); ++itGames)
+        {
+            PartieServeurs* wGame = itGames->second;
+            if(wGame->getPlayer2Name() == "" && wGame->getPassword() == "")
+            {
+                float wCreatorRate(wWinRateContainer[wGame->getPlayer1Name()]);
+                float wRateDifference = abs(wCreatorRate - wUserWinRate);
+                if(wRateDifference < wLowestRateDifference)
+                {
+                    wLowestRateDifference = wLowestRateDifference;
+                    wLowestGameIdentifier = std::pair<unsigned int, int>(wGameServer->getServerId(), wGame->getUniqueGameId());
+                }
+            }
+        }
+    }
+
+    return wLowestGameIdentifier;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -182,6 +214,6 @@ GameServer* GameServerManager::getGameServer( unsigned int pGameServerId )
     {
         throw ExceptionReseau("The specified game server ID doesn't exist.");
     }
-    
+
     return it->second;
 }

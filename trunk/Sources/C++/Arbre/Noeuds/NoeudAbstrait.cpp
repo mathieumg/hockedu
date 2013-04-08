@@ -1251,6 +1251,26 @@ void NoeudAbstrait::resetSkin()
     }
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudAbstrait::DumpModifiers()
+///
+/// reverts and delete all modifiers
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudAbstrait::DumpModifiers()
+{
+    STL_ITERATE(mModifiers,it)
+    {
+        (*it)->Revert();
+        delete (*it);
+    }
+    mModifiers.clear();
+}
+
 
 
 

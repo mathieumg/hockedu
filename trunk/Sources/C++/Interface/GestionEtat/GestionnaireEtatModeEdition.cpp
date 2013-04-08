@@ -323,7 +323,7 @@ void GestionnaireEtatModeEdition::modifierEtatSouris( NomEtatSouris etatSouris )
         case ETAT_SOURIS_AJOUTER_RONDELLE           : etatSouris_ = new SourisEtatAjout          ( FIELD_MODIFICATION_ADD_PUCK   ); break;
         case ETAT_SOURIS_AJOUTER_ACCELERATEUR       : etatSouris_ = new SourisEtatAjout          ( FIELD_MODIFICATION_ADD_BOOST  ); break;
         case ETAT_SOURIS_AJOUTER_BONUS              : etatSouris_ = new SourisEtatAjout          ( FIELD_MODIFICATION_ADD_BONUS  ); break;
-        case ETAT_SOURIS_PIE_MODE                   : etatSouris_ = new SourisEtatPIEMode        (   ); break;
+        case ETAT_SOURIS_PIE_MODE                   : etatSouris_ = new SourisEtatPIEMode        ( positionSouris_ ); break;
         default: Super::modifierEtatSouris(etatSouris);
         }
     }

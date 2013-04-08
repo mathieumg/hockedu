@@ -23,6 +23,8 @@ typedef std::vector<AnimationFrame*> ListeFrame;
 typedef std::vector<ObjetAnimable*> ListeObjetsAnimable;
 
 
+typedef void(*AnimationTerminatedCallback)(class Animation*);
+
 ///////////////////////////////////////////////////////////////////////////
 /// @class Animation
 /// @brief Effectue les calculs pour l'animation de divers objets
@@ -74,6 +76,7 @@ public:
 
 	/// Accesseur des objets animable 
 	ObjetAnimable* obtenirObjets(unsigned int pos)  { if(pos >= objets_.size()) return 0; return objets_[pos]; }
+    AnimationTerminatedCallback mAnimationTerminatedCallback;
 protected:
 	/// Types d'animation
 	void animerConstant(AnimationFrame* courant);
