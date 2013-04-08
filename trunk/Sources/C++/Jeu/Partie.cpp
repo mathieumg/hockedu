@@ -1111,6 +1111,12 @@ void Partie::updateObserver( const ReplaySubject* pSubject )
 ////////////////////////////////////////////////////////////////////////
 void Partie::setGameStatus( GameStatus pStatus )
 {
+    // Check pour ne pas redemarrer une game network qui est terminee
+    if(mGameStatus == GAME_ENDED && isNetworkClientGame())
+    {
+        return;
+    }
+
     mLastGameStatus = mGameStatus; 
     mGameStatus = pStatus;
 

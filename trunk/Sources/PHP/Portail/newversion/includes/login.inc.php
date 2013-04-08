@@ -1,26 +1,30 @@
 <?php
 /**
- * Login management page.
+ * Login page.
  * 
- * This file handles the whole login process for the management system.
+ * This file is the Hockedu page that allows users to log in.
  * @author Mathieu M-Gosselin <mathieumg@gmail.com>
- * @since 11/07/2011
- * @package Cloud
+ * @since 07/04/2013
+ * @package Hockedu
  */
 
-$activationCode = $Website->getModules( 1 );
+// Title in the browser.
+//$Website->setBrowserTitle( 'Login' );
 
-if( $activationCode !== false )
+// Was the form submitted?
+if( isset( $_POST['submit'] ) )
 {
-    // Is this code valid?
-    $Common = Common::getInstance();
+    // Initiate the DB.
+	$Common = Common::getInstance();
     
-    if( $Common->activateIp( $activationCode ) !== false )
+    $loginValid = $Common->login( $_POST['username'], $_POST['password'] );
+    
+    if( $loginValid )
     {
-        $Website->getSmarty()->assign( 'IpActivated', true );
+        $Website = Website::getInstance();
+        
+        $Website->changePage( $Website->getSetting('MainDomain') );
     }
-    
-    // Otherwise, just disregard it.
 }
 
 $Website->setTemplateToInclude( 'login' );

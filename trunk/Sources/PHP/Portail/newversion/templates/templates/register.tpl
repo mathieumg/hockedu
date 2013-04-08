@@ -1,4 +1,4 @@
-<p><a href="/">Back to home</a></p>
+<h1>Register</h1>
 
 {if isset($FormError) and $FormError eq true}
 <p class="error"><strong>Some errors occured during the validation of the form, they are highlighted below.</strong></p>

@@ -1,4 +1,7 @@
+<h1>Latest news</h1>
+
 <p>
-    Stuff coming here, eventually...
+    We released the game... or did we?
 </p>
-    {if isset($Example)} <p>Sup, <strong>{$Example}</strong>?</p>{/if}
+    
+{if isset($Example)} <p>Sup, <strong>{$Example}</strong>?</p>{/if}
