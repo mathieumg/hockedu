@@ -22,9 +22,45 @@
 #include <iostream>
 #include "Utilitaire.h"
 #import "Facade.h"
+#include "Animation.h"
 
 //@implementation FullPropertiesApple
 //@end
+
+static Model3DManager* model3DManager = NULL;
+vue::Vue* mView = NULL;
+std::deque<class RunnableField*> mRunnables;
+bool canDOCenter = true;
+
+void CenterCameraTerminatedCallback(Animation* pAnim)
+{
+    canDOCenter = true;
+}
+
+class RunnableField
+{
+public:
+    virtual ~RunnableField(){}
+    virtual void execute()=0;
+};
+class RunnableCenterCamera: public RunnableField
+{
+public:
+    RunnableCenterCamera(Terrain* field)
+    {
+        mField = field;
+    }
+    virtual void execute()
+    {
+        if(canDOCenter && mField)
+        {
+            canDOCenter = false;
+            mView->centrerCamera(mField->GetTableWidth(),1,CenterCameraTerminatedCallback);
+        }
+    }
+    Terrain* mField;
+};
+
 
 void displayMessageCallback(const char* message)
 {
@@ -36,8 +72,7 @@ void displayMessageCallback(const char* message)
     [alert show];
 }
 
-static Model3DManager* model3DManager = NULL;
-vue::Vue* mView = NULL;
+
 void EditionEventCallback(EditionEventCodes pEvent)
 {
     switch (pEvent) {
@@ -92,6 +127,19 @@ float temps = clock();
 
 - (void)render
 {
+    while(!mRunnables.empty())
+    {
+        auto v = mRunnables.back();
+        if(v)
+        {
+            v->execute();
+            delete v;
+        }
+        mRunnables.pop_back();
+        
+    }
+    
+    
     // pour avoir le delta time en secondes
     float delta = clock()-temps;
     delta/=1000.f;
@@ -127,6 +175,18 @@ float temps = clock();
 
 -(void)dealloc
 {
+    while(!mRunnables.empty())
+    {
+        auto v = mRunnables.back();
+        if(v)
+        {
+            delete v;
+        }
+        mRunnables.pop_back();
+        
+    }
+    
+    
     [mModel3DManager release];
     mModel3DManager = NULL;
     delete (Terrain*)mField;
@@ -205,6 +265,7 @@ float temps = clock();
 
 -(void) createCameraFixed
 {
+    GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
     int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
     vue::Camera& cameraCourante = mView->obtenirCamera();
 	mView->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);
@@ -218,10 +279,11 @@ float temps = clock();
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
     delete mView;
     mView = nouvelleVue;
-    mView->centrerCamera(((Terrain*)mField)->GetTableWidth());
+    mRunnables.push_front(new RunnableCenterCamera((Terrain*)mField));
 }
 -(void) createCameraOrbit
 {
+    GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
     int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
     vue::Camera& cameraCourante = mView->obtenirCamera();
 	mView->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);
@@ -235,10 +297,11 @@ float temps = clock();
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
     delete mView;
     mView = nouvelleVue;
-    mView->centrerCamera(((Terrain*)mField)->GetTableWidth());
+    mRunnables.push_front(new RunnableCenterCamera((Terrain*)mField));
 }
 -(void) createCameraFree
 {
+    GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
     int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
     vue::Camera& cameraCourante = mView->obtenirCamera();
 	mView->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);

@@ -33,11 +33,15 @@ const int LimitZoomOut = 2000;
 
 namespace vue {
 
-    bool isDistanceValid(float length)
+
+    bool Camera::isNewPosValid(Vecteur3 nouvellePosition)
     {
-        unsigned int lengthCrop = length - LimitZoomIn;
-        return lengthCrop < LimitZoomOut;
+        float distanceCentre = (nouvellePosition-pointVise_).norme();
+        float olddistanceCentre = (position_-pointVise_).norme();
+        unsigned int lengthCrop = distanceCentre - LimitZoomIn;
+        return (nouvellePosition[VZ]>-20.0 && lengthCrop < LimitZoomOut) || (distanceCentre<olddistanceCentre ? (olddistanceCentre>LimitZoomIn) : (olddistanceCentre<LimitZoomOut));
     }
+
 
    ////////////////////////////////////////////////////////////////////////////
    ///
@@ -122,8 +126,7 @@ namespace vue {
    void Camera::deplacerZ(float deplacement, bool bougePointVise, bool avecPointVise)
    {
 	   Vecteur3 nouvellePosition = position_+Vecteur3(0,0,deplacement);
-	   float distanceCentre = (nouvellePosition-pointVise_).norme();
-	   if(nouvellePosition[VZ]>-20.0 && isDistanceValid(distanceCentre))
+	   if(isNewPosValid(nouvellePosition))
 	   {
 		   position_ = nouvellePosition;
 		   if(avecPointVise)
@@ -146,9 +149,8 @@ namespace vue {
    void Camera::deplacerXYZ( Vecteur3 deplacement, bool avecPointVise )
    {
 	   Vecteur3 nouvellePosition = position_+deplacement;
-	   float distanceCentre = (nouvellePosition-pointVise_).norme();
-	   if(nouvellePosition[VZ]>-20.0f && isDistanceValid(distanceCentre))
-	   {
+       if(isNewPosValid(nouvellePosition))
+       {
 		   position_ = nouvellePosition;
 		   if(avecPointVise)
 			   pointVise_+=deplacement;
@@ -237,9 +239,8 @@ namespace vue {
 	   float dy = r*sin(theta)*sin(phi);
 	   float dz = r*cos(phi);
 	   Vecteur3 nouvellePosition(dx, dy, dz);
-	   float distanceCentre = (nouvellePosition-pointVise_).norme();
-	   if(nouvellePosition[VZ]>-20.0f && isDistanceValid(distanceCentre))
-	   {
+       if(isNewPosValid(nouvellePosition))
+       {
 		   position_ = nouvellePosition+pointVise_;
 
 		   // On calcule maintenant le veteur "Haut" de la camera

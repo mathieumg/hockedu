@@ -30,7 +30,7 @@
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-SourisEtatPIEMode::SourisEtatPIEMode(  ):shiftEnfonce_(false)
+SourisEtatPIEMode::SourisEtatPIEMode( Vecteur2i& pos ):shiftEnfonce_(false)
 {
     shiftEnfonce_ = false;
     mMiddleMousePress = false;
@@ -40,6 +40,7 @@ SourisEtatPIEMode::SourisEtatPIEMode(  ):shiftEnfonce_(false)
     auto xml = FacadeModele::getInstance()->getEditionField()->creerNoeudXML();
     mPIEGame->setFieldName("PIEGame");
     mPIEGame->setMiseAuJeuDelai(1000);
+    mPIEGame->setMousePosScreen(pos);
 
     mInitialised = false;
     mPIEGame->getField()->initialiserXml(xml,false,false);
@@ -227,7 +228,6 @@ void SourisEtatPIEMode::sourisDeplacee( EvenementSouris& evenementSouris )
 {
     Vecteur3 coordonneesSouris, anciennePos;
     FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX], evenementSouris.obtenirPosition()[VY], coordonneesSouris);
-
     // VERIF ETAT PAUSE
     if(mMiddleMousePress && boutonEnfonce_==BOUTON_SOURIS_MILIEU)
     {
@@ -252,6 +252,7 @@ void SourisEtatPIEMode::sourisDeplacee( EvenementSouris& evenementSouris )
         checkf(wGame);
         if(wGame && wGame->getGameStatus() == GAME_STARTED)
         {
+            wGame->setMousePosScreen(evenementSouris.obtenirPosition());
             NoeudMaillet* mailletGauche = wGame->getField()->getLeftMallet();
             NoeudMaillet* mailletDroit = wGame->getField()->getRightMallet();
             checkf(mailletGauche && mailletDroit);
