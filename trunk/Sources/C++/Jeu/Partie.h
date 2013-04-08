@@ -11,21 +11,23 @@
 #pragma once
 #pragma warning( disable : 4290 )
 
+#if WIN32
+#include "PartieSyncer.h"
+#include "..\Reseau\ObjetsGlobaux\PartieServeurs.h"
+#endif
+
 #include "RazerGameTypeDef.h"
 #include "NoeudAffichage.h"
 #include "GameTime.h"
 #include "ExceptionJeu.h"
-#include "PartieSyncer.h"
 #include "ReplayObserver.h"
 #include "AchievementsEnums.h"
-#include "..\Reseau\ObjetsGlobaux\PartieServeurs.h"
 #include <vector>
 
 
 class NoeudMaillet;
 class NoeudRondelle;
 class AIRenforcementTest;
-
 typedef int (*GameUpdateCallback) (int, GameStatus); // Param1 = GameID, Param2 = UpdateStatus
 
 
@@ -56,8 +58,9 @@ struct PuckProjection
 class Partie : public ReplayObserver
 {
 public:
-
+    friend class SourisEtatPIEMode;
 	friend class GameManager;
+
 	friend AIRenforcementTest;
 	/// Destructeur
 	~Partie(void);
@@ -112,7 +115,7 @@ public:
 
     float obtenirTempsJeu(){ return tempsJeu_.Elapsed_Time_sec(); }
     void SignalGameOver();
-    bool getReadyToPlay();
+    bool getReadyToPlay(bool loadMapFile = true);
 
 	inline void setUpdateCallback(const std::vector<GameUpdateCallback>& pCallbacks) {mUpdateCallbacks.insert(mUpdateCallbacks.end(), pCallbacks.begin(), pCallbacks.end());}
 
@@ -152,6 +155,10 @@ public:
     PuckProjection getPuckProjection(float pPosX, int pDelaisMaxMs = 1000); 
 
 
+    /// Accessors of mMiseAuJeuDelai
+    inline int getMiseAuJeuDelai() const { return mMiseAuJeuDelai; }
+    inline void setMiseAuJeuDelai(const int& pVal) { mMiseAuJeuDelai = pVal; }
+
 /// Protected because we need to call these from the class' children
 protected:
 
@@ -166,6 +173,7 @@ private:
 	/// Les deux joueurs qui s'affrontent
 	SPJoueurAbstrait joueurGauche_;
 	SPJoueurAbstrait joueurDroit_;
+    int mMiseAuJeuDelai;
 
 	/// Les points des deux joueurs
 	int pointsJoueurGauche_;

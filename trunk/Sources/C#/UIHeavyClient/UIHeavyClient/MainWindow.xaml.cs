@@ -33,6 +33,8 @@ using System.Collections;
 
 namespace UIHeavyClient
 {
+    public delegate void DisplayMessageCallback(string message);
+
     ///////////////////////////////////////////////////////////////////////////
     /// @class MainWindow
     /// @brief The chat window.
@@ -112,6 +114,16 @@ namespace UIHeavyClient
         public static extern void InitDLL();
         [DllImport(@"RazerGame.dll")]
         public static extern void FreeApplicationMemory();
+        [DllImport(@"RazerGame.dll")]
+        public static extern void SetDisplayMessageCallback(DisplayMessageCallback c);
+
+        static DisplayMessageCallback mDisplayMessageCallback = DisplayMessage;
+
+        public static void DisplayMessage(string message)
+        {
+            MessageBoxResult dr = System.Windows.MessageBox.Show(message, "System Message", MessageBoxButton.OK);
+        }
+
 
         ////////////////////////////////////////////////////////////////////////
         /// @fn void MainWindow.TestCallbackMapDownloaded()
@@ -247,6 +259,8 @@ namespace UIHeavyClient
             // make sure to show console before any call to the dll or we wont
             // see output
             ConsoleManager.Show();
+
+            SetDisplayMessageCallback(mDisplayMessageCallback);
 
             System.Windows.Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 #if !SHIPPING

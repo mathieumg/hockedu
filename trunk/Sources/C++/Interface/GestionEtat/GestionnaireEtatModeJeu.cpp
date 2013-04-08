@@ -409,7 +409,7 @@ void GestionnaireEtatModeJeu::updateObserver( const ReplaySubject* pSubject )
         GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
         Partie* wGame = GameManager::obtenirInstance()->getGame(mGameId);
         if(wGame)
-            wGame->delais(4100);
+            wGame->delais(wGame->getMiseAuJeuDelai());
     }
 }
 

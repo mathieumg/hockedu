@@ -77,7 +77,7 @@ NoeudRondelle::NoeudRondelle(const std::string& typeNoeud, unsigned int& puckCre
 #endif
     
     ++mNbPuckCreated;
-    if(mNbPuckCreated >= puckLimit)
+    if(++EditionEventManager::mGlobalPucks >= EditionEventManager::mEditionLimitPucks)
     {
         EditionEventManager::TransmitEvent(DISABLE_PUCK_CREATION);
     }
@@ -97,7 +97,11 @@ NoeudRondelle::~NoeudRondelle()
 {
     --mNbPuckCreated;
     RunnableBreaker::signalObservers();
-    EditionEventManager::TransmitEvent(ENABLE_PUCK_CREATION);
+
+    if(--EditionEventManager::mGlobalPucks < EditionEventManager::mEditionLimitPucks)
+    {
+        EditionEventManager::TransmitEvent(ENABLE_PUCK_CREATION);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////

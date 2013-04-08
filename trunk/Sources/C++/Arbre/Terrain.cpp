@@ -77,7 +77,7 @@
 #include "FieldRunnableStructs.h"
 
 
-#define TransmitEvent(e) EditionEventManager::TransmitEvent(e)
+#define TransmitEvent(e) if(!IsGameField()) EditionEventManager::TransmitEvent(e)
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
@@ -99,7 +99,7 @@ PRAGMA_DISABLE_OPTIMIZATION
 Terrain::Terrain(Partie* pGame): 
     mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame),mZamboni(NULL),
     mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL), mIsInit(false), mModifStrategy(NULL),mDoingUndoRedo(false),mCurrentState(NULL), mBesoinMiseAuJeu(false),
-    mIsSimulation(false),mPuckZone(PUCK_ZONE_UNKNOWN)
+    mIsSimulation(false),mPuckZone(PUCK_ZONE_UNKNOWN),mResizeTableModel(true)
 #if __APPLE__
 /// pointer to the callback to do the render in objc
 ,mRenderObjC(NULL)
@@ -528,7 +528,7 @@ void Terrain::initialiserArbreRendu()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= true */ )
+bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= true*/, bool correctErrors /*= true */ )
 {
     libererMemoire();
     
@@ -589,16 +589,24 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
     }
     catch(ExceptionJeu& e)
     {
-        // Erreur dans le fichier XML, on remet un terrain par defaut
-        creerTerrainParDefaut(mFieldName);
-        utilitaire::afficherErreur(e.what());
-        return true;
+        if(correctErrors)
+        {
+            // Erreur dans le fichier XML, on remet un terrain par defaut
+            creerTerrainParDefaut(mFieldName);
+            utilitaire::afficherErreur(e.what());
+            return true;
+        }
+        return false;
     }
     catch(...)
     {
-        // Erreur dans le fichier XML, on remet un terrain par defaut
-        creerTerrainParDefaut(mFieldName);
-        return true;
+        if(correctErrors)
+        {
+            // Erreur dans le fichier XML, on remet un terrain par defaut
+            creerTerrainParDefaut(mFieldName);
+            return true;
+        }
+        return false;
     }
 
     if(getZoneEdition() && !getZoneEdition()->initialisationXML(racine))

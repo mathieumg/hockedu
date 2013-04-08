@@ -26,6 +26,12 @@ public:
     static void TransmitEvent(EditionEventCodes pEvent){if(mEditionEventCallback)mEditionEventCallback(pEvent);}
     /// Accessors of mEditionEventCallback
     static inline void setEditionEventCallback(EditionEventReceived pVal) { mEditionEventCallback = pVal; }
+
+    static int mGlobalMallet;
+    static int mGlobalPucks;
+
+    static const int mEditionLimitMallet = 2;
+    static const int mEditionLimitPucks = 1;
 private:
     static EditionEventReceived mEditionEventCallback;
 

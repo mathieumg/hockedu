@@ -100,7 +100,8 @@ public:
 	///Fonction pour changer le mode de camera
 	bool actionChangerModeCameraLibre();
 	///Fonction pour changer le mode de camera
-	bool actionChangerModeCameraSplit();
+    bool actionChangerModeCameraSplit();
+    bool actionPlayInEditor();
 private:
 	/// typedef pour une adresse de fonction de RepartiteurActions
 	typedef bool (RepartiteurActions::*ObtenirFonction)();

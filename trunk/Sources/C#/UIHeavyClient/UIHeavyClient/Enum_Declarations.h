@@ -51,6 +51,7 @@ typedef enum
         ACTION_EDITEUR_REDO        ,
         ACTION_SUPPRIMER           ,
         ACTION_DUPLIQUER           ,
+        ACTION_PIE_MODE            ,
         ACTION_INSERER_PORTAIL     ,
         ACTION_INSERER_BONUS       ,
         ACTION_INSERER_MURET       ,
