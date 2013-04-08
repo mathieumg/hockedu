@@ -407,6 +407,9 @@ int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
             wPaquet->setConnectionState(GAME_CONNECTION_GAME_NOT_FOUND);
         }
     
+        GameConnectionState wConnState = wPaquet->getConnectionState();
+        std::string wUsername = wPaquet->getUsername();
+
         GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
 
         PaquetGameEvent* wPaquetEventGameStart = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
@@ -415,6 +418,11 @@ int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
         wPaquetEventGameStart->setPlayer1Name(wGame->obtenirNomJoueurGauche());
         wPaquetEventGameStart->setPlayer2Name(wGame->obtenirNomJoueurDroit());
         RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquetEventGameStart, TCP);
+
+        if(wConnState != GAME_CONNECTION_ACCEPTED_LEFT && wConnState!=GAME_CONNECTION_ACCEPTED_RIGHT)
+        {
+            GestionnaireReseau::obtenirInstance()->removeSocket(wUsername, TCP);
+        }
 
     });
     RazerGameUtilities::RunOnUpdateThread(r,true);

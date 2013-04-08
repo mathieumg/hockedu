@@ -129,6 +129,7 @@ void* DeamonTick( void *arg )
     clock_t wLastTick = clock();
     while(true)
     {
+        FacadePortability::takeMutex(GameManager::mMutexTickRemove);
         clock_t wElapsed = clock()-wLastTick;
         if(wElapsed > wTickInterval)
         {
@@ -136,6 +137,7 @@ void* DeamonTick( void *arg )
             wLastTick = clock();
         }
         FacadePortability::sleep(1); // Enlever cette ligne pour etre plus precis, mais va bouffer le CPU
+        FacadePortability::releaseMutex(GameManager::mMutexTickRemove);
     }
 }
 

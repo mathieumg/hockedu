@@ -10,6 +10,9 @@
 #include "BonusModifierChangeZone.h"
 
 // ne fait pas de sens d'utiliser un modifier si on ne joue pas
+#if !SHIPPING
+#include <iostream>
+#endif
 #if BOX2D_PLAY  
 #include <Box2D/Box2D.h>
 #endif
@@ -145,6 +148,10 @@ bool BonusModifierChangeZone::Apply()
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierChangeZone::Revert()
 {
+#if !SHIPPING
+    std::cout << "Change Zone reverted" << std::endl;
+#endif
+
 #if WIN32 
     SoundFMOD::obtenirInstance()->playEffect(BONUS_CHANGE_SIDE_OUT_EFFECT); 
 #endif
