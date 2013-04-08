@@ -26,14 +26,13 @@
 
 @property (readonly) NSUInteger mapID;
 @property (readonly) NSString *mapName;
-//@property (readonly) NSString *mapContent;
 @property (readonly) NSString *mapDescription;
 @property (readonly) NSUInteger mapLastModified;
 
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
 
-+ (void)globalTimelinePostsWithBlock:(void (^)(NSArray *maps, NSError *error))block :(NSInteger) userId;
++ (void)listMaps:(void (^)(NSArray *maps, NSError *error))block :(NSInteger) userId;
 
 + (void)downloadMap:(void (^)(NSArray *maps, NSError *error))block :(NSInteger) mapId;
 

@@ -50,7 +50,7 @@ typedef struct{
 - (id)init;
 - (void) dealloc;
 -(int)acceptSelectionVisitor:(float)positionMinX :(float)positionMinY :(float)positionMaxX :(float) positionMaxY;
--(void) loadField:(NSString*) stringToParse;
++(void) loadField:(NSString*) stringToParse;
 -(void) saveField;
 -(int) beginModification:(FieldModificationStrategyType)type :(CGPoint)coordVirt;
 -(int) eventModification:(FieldModificationStrategyEventType)type :(CGPoint)coordVirt;

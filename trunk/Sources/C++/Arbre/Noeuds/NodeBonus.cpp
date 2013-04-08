@@ -284,6 +284,7 @@ void NodeBonus::tick( const float& dt )
 ////////////////////////////////////////////////////////////////////////
 void NodeBonus::playTick( float temps)
 {
+    #ifdef WIN32
     Super::playTick(temps);
     if(!isActive() && !containsModifiers())
     {
@@ -318,7 +319,7 @@ void NodeBonus::playTick( float temps)
             // activate collision on strat creation
             activate(true);
 
-#if WIN32
+
             Partie* wGame = getField()->GetGame();
             if(wGame && wGame->isNetworkServerGame())
             {
@@ -329,9 +330,10 @@ void NodeBonus::playTick( float temps)
                 wPaquet->setBonusPosition(getPosition());
                 RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
             }
-#endif
+
         }
     }
+    #endif
 }
 
 ////////////////////////////////////////////////////////////////////////

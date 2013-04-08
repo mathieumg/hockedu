@@ -12,6 +12,7 @@
     IBOutlet UIButton *settingsButton;
     IBOutlet UIButton *signInButton;
     
+    IBOutlet UIButton *backMainMenuButton;
     
     IBOutlet UIView *mainMenuView;
     IBOutlet UIView *loadMapView;
@@ -27,6 +28,7 @@
 @property NSInteger userId;
 @property NSInteger mapId;
 
+- (IBAction)touchBackMainMenuButton:(UIButton *)sender;
 - (IBAction)loadMapButton:(UIButton *)sender;
 -(IBAction) showEditor;
 @end

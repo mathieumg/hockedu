@@ -353,11 +353,19 @@ float temps = clock();
     ((Terrain*)mField)->redoModification();
 }
 
--(void) loadField:(NSString*) stringToParse
++(void) loadField:(NSString*) stringToParse
 {
     TiXmlDocument doc;
     doc.Parse([stringToParse UTF8String],0,TIXML_ENCODING_UTF8);
-    ((Terrain*)mField)->initialiserXml(doc.ToElement());
+    
+    const XmlElement* root = (const XmlElement*)&doc;
+    const XmlElement* config = XMLUtils::FirstChildElement(root,"Hockedu");
+    std::string version;
+    if(config && XMLUtils::readAttribute(config,"Version",version) )
+    {
+        root = config; //backward compatibility
+    }
+    GlobalField->initialiserXml(root);
 }
 
 -(void) saveField

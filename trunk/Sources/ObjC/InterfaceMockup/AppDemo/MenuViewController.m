@@ -65,8 +65,11 @@
     [signInButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [signInButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     
+    [backMainMenuButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [backMainMenuButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
     userId = 12;
-    mapId = 17;
+    mapId = 0;
     
     [buttonImage retain];
     [buttonImageHighlight retain];
@@ -95,9 +98,15 @@
 	return YES;
 }
 
+- (IBAction)touchBackMainMenuButton:(UIButton *)sender
+{
+    mainMenuView.hidden = NO;
+    loadMapView.hidden = YES;
+}
+
 - (IBAction)loadMapButton:(UIButton *)sender
 {
-    [Map globalTimelinePostsWithBlock:^(NSArray *maps, NSError *error) {
+    [Map listMaps:^(NSArray *maps, NSError *error) {
         if (error) {
             [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil) message:[error localizedDescription] delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil] show];
         } else {
@@ -107,9 +116,6 @@
             mainMenuView.hidden = YES;
             loadMapView.hidden = NO;
         }
-        
-        //[_activityIndicatorView stopAnimating];
-        //self.navigationItem.rightBarButtonItem.enabled = YES;
     }:userId];
     
     /*
@@ -163,21 +169,21 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    //Map* map = [_userMaps objectAtIndex:indexPath.row];
-    
+    Map* map = [_userMaps objectAtIndex:indexPath.row];
+    mapId = map.mapID;
     
     [Map downloadMap:^(NSArray *maps, NSError *error) {
         if (error) {
             [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil) message:[error localizedDescription] delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil] show];
         } else {
             //_userMaps = [[NSArray alloc] initWithArray:maps];
+            //NSLog(@"Mofo");
             
+            //[self showEditor];
             
-            mainMenuView.hidden = NO;
-            loadMapView.hidden = YES;
+            //mainMenuView.hidden = NO;
+            //loadMapView.hidden = YES;
         }}:mapId];
-    
-    
 }
 
 - (IBAction)showEditor
@@ -194,6 +200,7 @@
     [mainMenuView release];
     [loadMapView release];
     //[mapListTableView release];
+    [backMainMenuButton release];
     [super dealloc];
 }
 @end

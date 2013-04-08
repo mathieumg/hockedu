@@ -22,13 +22,13 @@
 
 #import "Map.h"
 #import "AFAppDotNetAPIClient.h"
+#import "HockeduAppDelegate.h"
 #import "Model.h"
 @implementation Map
 @synthesize mapID = _mapID;
 @synthesize mapName = _mapName;
 @synthesize mapDescription = _mapDescription;
 @synthesize mapLastModified = _mapLastModified;
-//@synthesize mapContent = _mapContent;
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
     self = [super init];
@@ -48,7 +48,7 @@
 
 //,@"608b9a09de61fea254bbebdcadc0fe8c38ae2ccb", @"auth_key",
 
-+ (void)globalTimelinePostsWithBlock:(void (^)(NSArray *maps, NSError *error))block :(NSInteger) userId {
++ (void)listMaps:(void (^)(NSArray *maps, NSError *error))block :(NSInteger) userId {
     [[AFAppDotNetAPIClient sharedClient] postPath:@"remote/listmaps" parameters:@{@"user_id":[[NSNumber numberWithInt:userId] stringValue]} success:^(AFHTTPRequestOperation *operation, id JSON) {
         
         NSArray *mapsFromResponse = [JSON valueForKeyPath:@"maps"];
@@ -71,43 +71,14 @@
 + (void)downloadMap:(void (^)(NSArray *maps, NSError *error))block :(NSInteger) mapId {
     [[AFAppDotNetAPIClient sharedClient] postPath:@"remote/getmap" parameters:@{@"map_id":[[NSNumber numberWithInt:mapId] stringValue]} success:^(AFHTTPRequestOperation *operation, id JSON) {
         
-        //_mapContent = [JSON valueForKeyPath:@"content"];
-        
-        //NSLog(@"Good");
-        
-       NSLog(@"Map content: %@", [JSON valueForKeyPath:@"content"]);
-        
         [Model loadField:[JSON valueForKeyPath:@"content"]];
         
-        //NSArray *mapFromResponse = [JSON valueForKeyPath:@"content"];
-        
-        //NSArray *mapsFromResponse = [JSON valueForKeyPath:@"maps"];
-        /*
-        NSMutableArray *mutableMaps = [NSMutableArray arrayWithCapacity:[mapsFromResponse count]];
-        for (NSDictionary *attributes in mapsFromResponse) {
-            Map *map = [[Map alloc] initWithAttributes:attributes];
-            [mutableMaps addObject:map];
-        }
-        */
-        
-        /*
-        if (block) {
-            block([NSArray arrayWithArray:mutableMaps], nil);
-        }
-        */
-        
-       
+        HockeduAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
+        [delegate afficherVueAnimee];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
-        /*
-        if (block) {
-            block([NSArray array], error);
-        }
-         */
-        
-          NSLog(@"Bad");
-        
+
     }];
 }
 
