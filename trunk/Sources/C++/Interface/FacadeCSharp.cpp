@@ -136,11 +136,6 @@ void DisconnectMasterServer(  )
     //Sleep(100);
 
     GestionnaireReseau::obtenirInstance()->removeSocket("MasterServer", TCP);
-    
-
-    
-
-    
 }
 
 
@@ -1036,25 +1031,48 @@ void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
     int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE,wOpponent, wPlayer, false, true);
 
     Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+//    FacadeModele::getInstance()->setPartieCourante(wGameId);
     wGame->getField()->creerTerrainParDefaut("");
-    wGame->getReadyToPlay();
+    wGame->getReadyToPlay(false);
+    wGame->miseAuJeu(true, 0);
 
     std::ostringstream wFileDirectory(pReinforcementProfileName);
     wFileDirectory << "Data/";
-    FacadePortability::createDirectory((char*)wFileDirectory.str().c_str());
+    FacadePortability::createDirectory(wFileDirectory.str().c_str());
 
-   // while(!learningCancelled)
-   // {
+    /*while(!learningCancelled)
+    {
         wGame->animer(16);
-   //     if(wGame->partieTerminee())
-   //     {
-   //         wGame->reinitialiserPartie();
+        if(wGame->partieTerminee())
+        {
+            wGame->reinitialiserPartie();
             AILearner::obtenirInstance()->dump();
-   //     }
-   // }
+        }
+    }*/
+
+    std::queue<Vecteur3> puckPositions;
+    while(!wGame->partieTerminee())
+    {
+        wGame->animer(16);
+        puckPositions.push(wGame->getField()->getPuck()->getPosition());
+        if(puckPositions.size() > 50)
+        {
+            puckPositions.pop();
+        }
+        
+        Vecteur3 wFront = puckPositions.front();
+        Vecteur3 wBack = puckPositions.back();
+        Vecteur3 wDifference = wFront-wBack;
+
+        if(wDifference.norme() < 30)
+        {
+            wGame->getField()->getPuck()->setPosition(Vecteur3());
+        }
+    }
+    AILearner::obtenirInstance()->dump();
 }
 
 void cancelLearningAI()
 {
-    learningCancelled = true;
+    //learningCancelled = true;
 }

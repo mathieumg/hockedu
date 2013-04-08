@@ -21,7 +21,7 @@
         <Label Content="" Grid.Row="2" Height="Auto" HorizontalAlignment="Right" Margin="0,17,0,15" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" Grid.Column="3" />
         <Button Content="Option Menu" Grid.Row="2" Margin="12" Name="mBackToOptionButton" Background="Black" Foreground="White" Click="mBackToOptionButton_Click" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="18" />
         <Button Content="Main Menu" Margin="12" Name="mBackToMainButton" Grid.Row="2" Background="Black" Foreground="White" Click="mBackToMainButton_Click" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="18" Grid.Column="1" />
-        <Button Name="mStartLearning" Content="Start learning" Margin="12" Grid.Column="2" Grid.Row="2" Background="Black" Foreground="White" FontSize="18" Click="mStartLearning_Click" />
+        <!-- <Button Name="mStartLearning" Content="Start learning" Margin="12" Grid.Column="2" Grid.Row="2" Background="Black" Foreground="White" FontSize="18" Click="mStartLearning_Click" /> -->
         <GroupBox Grid.Row="1" Header="Current AI profiles" Margin="12" Name="mCurrentProfilesGroupBox" Foreground="White" Grid.ColumnSpan="2">
             <Grid>
                 <Grid.RowDefinitions>
