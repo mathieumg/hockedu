@@ -26,7 +26,6 @@ typedef BOOL (__stdcall *MessageReceivedCallBack)(char* pUsername, char* pMessag
 ///////////////////////////////////////////////////////////////////////////
 class GestionnaireReseauClientLourd :public Singleton<GestionnaireReseauClientLourd>
 {
-
     SINGLETON_DECLARATION_CLASSE_SANS_CONSTRUCTEUR(GestionnaireReseauClientLourd);
 public:
     /// Accessors of mMessageReceivedCallBack

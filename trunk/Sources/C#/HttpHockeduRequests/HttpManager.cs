@@ -256,8 +256,8 @@ namespace HttpHockeduRequests
             }
             else
             {
-                string wCurrentDirectory = Directory.GetCurrentDirectory().ToString();
-                string wDestinationFilePath=wCurrentDirectory + Path.DirectorySeparatorChar + "OnlineMaps" + Path.DirectorySeparatorChar + wMapId + ".xml";
+                string wCurrentDirectory = Directory.GetCurrentDirectory();
+                string wDestinationFilePath=wCurrentDirectory+Path.DirectorySeparatorChar+"OnlineMaps"+Path.DirectorySeparatorChar+wMapId+".xml";
                 try
                 {
                     System.IO.File.WriteAllText( wDestinationFilePath, wMapLight.content );
