@@ -237,6 +237,7 @@ namespace UIHeavyClient
                 {
                     new Server("Local", "127.0.0.1"),
                     new Server("Math's house", "173.177.0.193"),
+                    new Server("Charles' house", "135.19.211.76")
                 };
 
                 foreach ( Server s in listedServer )
