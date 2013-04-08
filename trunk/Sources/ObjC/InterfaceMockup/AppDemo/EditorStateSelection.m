@@ -16,17 +16,21 @@ CGPoint firstCorner;
 {
     [super init:eventManager];
     touchMoved = NO;
+    
+    
+    
     return self;
 }
 -(void)touchesBegan:(CGPoint)coordVirt
 {
     touchMoved = NO;
     firstCorner = coordVirt;
-    
+    [mEventManager.mModel startRectangle:&firstCorner];
 }
 -(void)touchesMoved:(CGPoint)coordVirt
 {
     touchMoved = YES;
+    [mEventManager.mModel moveRectangle:&coordVirt];
     
 }
 -(void)touchesEnded:(CGPoint)coordVirt
@@ -34,6 +38,8 @@ CGPoint firstCorner;
     //UITouch *touchOnScreen = [[event allTouches] anyObject];
     //CGPoint positionCourante = [touch locationInView:theEAGLView];
     //CGPoint posVirtuelle = [self convertScreenCoordToVirtualCoord:positionCourante];
+    
+    [mEventManager.mModel endRectangle];
     
     int CV_X_NOW = coordVirt.x;
     int CV_Y_NOW = coordVirt.y;
@@ -56,5 +62,10 @@ CGPoint firstCorner;
     }
     // int nbNoeudsSelectionnes = (Retourne le nb de noeud selectionne si on veut, pas utilise pour le moment)
     [mEventManager.mModel acceptSelectionVisitor:CV_X_OLD:CV_Y_OLD:CV_X_NOW:CV_Y_NOW];
+}
+
+-(void)stateEnd
+{
+    [mEventManager->mModel endRectangle];
 }
 @end
