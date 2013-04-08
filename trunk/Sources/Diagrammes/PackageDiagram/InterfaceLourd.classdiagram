@@ -1,19 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="e92852c5-912c-405a-b13c-4b8d79adbe1a" name="InterfaceLourd" linkedPackageId="8240a33f-bce6-4e99-8a8d-1fd225e5e615" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
-  <profileInstances>
-    <packageHasProfileInstances Id="d8791bd3-d99b-4247-bcee-0fe7a61aa2b1">
-      <profileInstance Id="bd735dfe-5f61-4ec2-9e54-7bef26362100" name="StandardProfileL2">
-        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
-      </profileInstance>
-      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
-    </packageHasProfileInstances>
-    <packageHasProfileInstances Id="df1b14d2-b9ec-4e36-90f5-5969e9259db4">
-      <profileInstance Id="b8178834-1b53-4ca1-9588-b1b15ffd9940" name="StandardProfileL3">
-        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
-      </profileInstance>
-      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
-    </packageHasProfileInstances>
-  </profileInstances>
   <packagedElements>
     <logicalClassDesignerModelHasPackages>
       <package Id="bd6f6302-e069-46d5-a73a-0cbcfbe7896b" name="Interface Lourd">
@@ -67,8 +53,8 @@
                   </relationshipOwnedElementsInternal>
                   <elementDefinition Id="beab9da4-0517-434b-bdf2-af6d98da5792" />
                 </association>
-                <association Id="94ae5c51-6874-436a-b7fe-b46e67b91d88" isDerived="false" sourceEndRoleName="MenuPrincipal" targetEndRoleName="ProfilsAI" isLeaf="false" isAbstract="false">
-                  <classMoniker Id="c5a87590-31a8-453f-8ac3-c412861c4424" LastKnownName="ProfilsAI" />
+                <association Id="94ae5c51-6874-436a-b7fe-b46e67b91d88" isDerived="false" sourceEndRoleName="MenuPrincipal" targetEndRoleName="AIConfiguration" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="c5a87590-31a8-453f-8ac3-c412861c4424" LastKnownName="AIConfiguration" />
                   <relationshipOwnedElementsInternal>
                     <associationHasOwnedEnds>
                       <memberEnd Id="371ff90f-feaa-48af-972f-dae243e78a54" name="MenuPrincipal" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
@@ -76,7 +62,7 @@
                       </memberEnd>
                     </associationHasOwnedEnds>
                     <associationHasOwnedEnds>
-                      <memberEnd Id="ac801e9c-3e8b-4066-a8fc-cf2ae13892f7" name="ProfilsAI" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                      <memberEnd Id="ac801e9c-3e8b-4066-a8fc-cf2ae13892f7" name="AIConfiguration" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
                         <elementDefinition Id="f44277e7-31ad-438c-b40a-43602f320f65" />
                       </memberEnd>
                     </associationHasOwnedEnds>
@@ -115,8 +101,8 @@
                   </relationshipOwnedElementsInternal>
                   <elementDefinition Id="392d07cf-8f26-47f4-b945-3f81ea333be6" />
                 </association>
-                <association Id="df747b00-fa01-4d44-9585-24c38affe1ba" isDerived="false" sourceEndRoleName="MenuPrincipal" targetEndRoleName="GameBrowser" isLeaf="false" isAbstract="false">
-                  <classMoniker Id="c72e1182-02a2-4d87-9dad-65f10509c436" LastKnownName="GameBrowser" />
+                <association Id="df747b00-fa01-4d44-9585-24c38affe1ba" isDerived="false" sourceEndRoleName="MenuPrincipal" targetEndRoleName="OnlineLobby" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="c72e1182-02a2-4d87-9dad-65f10509c436" LastKnownName="OnlineLobby" />
                   <relationshipOwnedElementsInternal>
                     <associationHasOwnedEnds>
                       <memberEnd Id="849d2324-2fda-4a2f-9c0f-cc0e5409c34d" name="MenuPrincipal" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
@@ -124,7 +110,7 @@
                       </memberEnd>
                     </associationHasOwnedEnds>
                     <associationHasOwnedEnds>
-                      <memberEnd Id="ceb3c2e4-1a15-4544-a224-bed5c210cf3b" name="GameBrowser" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                      <memberEnd Id="ceb3c2e4-1a15-4544-a224-bed5c210cf3b" name="OnlineLobby" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
                         <elementDefinition Id="40defadc-cdd4-42ff-8b46-5ef4ca8d34cd" />
                       </memberEnd>
                     </associationHasOwnedEnds>
@@ -146,6 +132,38 @@
                     </associationHasOwnedEnds>
                   </relationshipOwnedElementsInternal>
                   <elementDefinition Id="ecd3f84e-9cb1-4564-9a37-2d8deff6280c" />
+                </association>
+                <association Id="c231ad13-6e12-4dca-aa20-d3c603b8670a" isDerived="false" sourceEndRoleName="MenuPrincipal" targetEndRoleName="KeyboardConfiguration" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="009aaa96-d638-4ff7-b3f5-ec67ff1f2df6" LastKnownName="KeyboardConfiguration" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="36d5db11-6f7e-45fb-8505-74004b4cb94f" name="MenuPrincipal" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="693c530c-a802-4052-ab68-cffe993ede86" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="5149bc5f-425c-412c-96ba-5d85d7bf96e8" name="KeyboardConfiguration" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                        <elementDefinition Id="8afe7a63-c6a3-4cf4-8ddf-3fdb37b12f9e" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="a7fcbdf3-f3c1-4762-8111-4dbb29411e55" />
+                </association>
+                <association Id="81eb386e-d9cf-46f9-bced-1f11ccc5c982" isDerived="false" sourceEndRoleName="MenuPrincipal" targetEndRoleName="RadioConfiguration" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="f54ebc4f-da61-46b5-954b-51c38203cfbd" LastKnownName="RadioConfiguration" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="f5e607cc-7513-4664-a42a-488d02a7d133" name="MenuPrincipal" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Composite" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="1460a39e-bb54-4a55-9e84-8ec9d9f94d05" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="b7ef64f9-125c-4194-8f9a-3777e079862e" name="RadioConfiguration" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="true">
+                        <elementDefinition Id="251a822d-2f65-4a9f-9652-8b9412dd1695" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="d3b6b2ff-8f7e-43f4-8beb-350588a71a44" />
                 </association>
               </targetEnds>
             </class>
@@ -179,14 +197,14 @@
             </class>
           </packageHasNamedElement>
           <packageHasNamedElement>
-            <class Id="c72e1182-02a2-4d87-9dad-65f10509c436" name="GameBrowser" isAbstract="false" isLeaf="false" isActiveClass="false">
+            <class Id="c72e1182-02a2-4d87-9dad-65f10509c436" name="OnlineLobby" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="d5ef17e9-1152-450a-a7f6-fa66a554f667" />
               <targetEnds>
-                <association Id="c8fe8ade-7724-4002-bea7-e0791aa4e867" isDerived="false" sourceEndRoleName="GameBrowser" targetEndRoleName="Jeu" isLeaf="false" isAbstract="false">
+                <association Id="c8fe8ade-7724-4002-bea7-e0791aa4e867" isDerived="false" sourceEndRoleName="OnlineLobby" targetEndRoleName="Jeu" isLeaf="false" isAbstract="false">
                   <classMoniker Id="fc4019c8-fb0d-44be-b9bc-367cfd6528d2" LastKnownName="Partie" />
                   <relationshipOwnedElementsInternal>
                     <associationHasOwnedEnds>
-                      <memberEnd Id="b1a13343-e96c-4fcb-8177-1558c0ab67c1" name="GameBrowser" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                      <memberEnd Id="b1a13343-e96c-4fcb-8177-1558c0ab67c1" name="OnlineLobby" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
                         <elementDefinition Id="32840531-c121-4933-9908-99b0cd89b50e" />
                       </memberEnd>
                     </associationHasOwnedEnds>
@@ -230,8 +248,18 @@
             </class>
           </packageHasNamedElement>
           <packageHasNamedElement>
-            <class Id="c5a87590-31a8-453f-8ac3-c412861c4424" name="ProfilsAI" isAbstract="false" isLeaf="false" isActiveClass="false">
+            <class Id="c5a87590-31a8-453f-8ac3-c412861c4424" name="AIConfiguration" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="6c43c5bd-cd86-495e-b70b-9ac789d4aa79" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="f54ebc4f-da61-46b5-954b-51c38203cfbd" name="RadioConfiguration" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="ddf250d6-18ac-4171-bdd7-8169d2d87034" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="009aaa96-d638-4ff7-b3f5-ec67ff1f2df6" name="KeyboardConfiguration" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="7e0c55f4-de55-42ec-b972-c78c2d374029" />
             </class>
           </packageHasNamedElement>
         </packagedElements>
@@ -240,5 +268,19 @@
   </packagedElements>
   <package Id="8240a33f-bce6-4e99-8a8d-1fd225e5e615" name="PackageDiagram">
     <elementDefinition Id="e3be6b7a-c594-4cdf-a79e-a902a52468de" />
+    <profileInstances>
+      <packageHasProfileInstances Id="d8791bd3-d99b-4247-bcee-0fe7a61aa2b1">
+        <profileInstance Id="bd735dfe-5f61-4ec2-9e54-7bef26362100" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="df1b14d2-b9ec-4e36-90f5-5969e9259db4">
+        <profileInstance Id="b8178834-1b53-4ca1-9588-b1b15ffd9940" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
   </package>
 </logicalClassDesignerModel>

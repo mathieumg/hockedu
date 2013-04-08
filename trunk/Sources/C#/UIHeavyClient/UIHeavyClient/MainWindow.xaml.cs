@@ -1002,14 +1002,14 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         private void SaveMapToServer(object sender, RoutedEventArgs e)
         {            
-            if (LoginControl.mLoginInfo.mAuthOnWeb)
-            {
+            //if (LoginControl.mLoginInfo.mAuthOnWeb)
+            //{
                 HttpRequestForSavingMap();
-            }
-            else
-            {
-                WebLogin.CreateWebLoginWindow(HttpRequestForSavingMap);
-            } 
+            //}
+            //else
+            //{
+                //WebLogin.CreateWebLoginWindow(HttpRequestForSavingMap);
+            //} 
         }
 
         private void HttpRequestForSavingMap()
@@ -1051,14 +1051,14 @@ namespace UIHeavyClient
         private void LoadMapFromServer(object sender, RoutedEventArgs e)
         {
 
-            if (LoginControl.mLoginInfo.mAuthOnWeb)
-            {
+            //if (LoginControl.mLoginInfo.mAuthOnWeb)
+            //{
                 HttpRequestForLoadingMap();
-            }
-            else
-            {
-                WebLogin.CreateWebLoginWindow(HttpRequestForLoadingMap);
-            }
+            //}
+            //else
+            //{
+                //WebLogin.CreateWebLoginWindow(HttpRequestForLoadingMap);
+            //}
         }
 
         private void HttpRequestForLoadingMap()
@@ -1072,7 +1072,7 @@ namespace UIHeavyClient
                 if (mServerMapPrompt.SelectedMap != null)
                 {
                     HttpManager wHttpManager = new HttpManager();
-                    wHttpManager.downloadMap(Convert.ToInt32(LoginControl.mLoginInfo.mUserId), mServerMapPrompt.SelectedMap.id, HandleDownloadedMap);
+                    wHttpManager.downloadMap(Convert.ToInt32(LoginControl.mLoginInfo.mUserId), /*mServerMapPrompt.SelectedMap.id*/ 1234567, HandleDownloadedMap);
                 }
             }
 

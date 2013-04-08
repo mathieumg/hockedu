@@ -20,4 +20,6 @@
 +(void)CannotUndo;
 +(void)CanRedo;
 +(void)CannotRedo;
++(void)disableCameras;
++(void)enableCameras;
 @end

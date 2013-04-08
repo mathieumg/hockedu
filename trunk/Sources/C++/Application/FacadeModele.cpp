@@ -837,12 +837,12 @@ void FacadeModele::orbit( Vecteur2i deplacement )
 void FacadeModele::zoom(int nbCoches)
 {
     // Si le nombre de coche est négatif, c'est qu'on roule vers l'avant.
-    if(nbCoches < 0 && mCurrentZoom < mMaxZoom)
+    if(nbCoches < 0)
     {
         obtenirVue() -> zoomerIn();
         ++mCurrentZoom;
     }
-    else if(nbCoches > 0 && mCurrentZoom > mMinZoom)
+    else if(nbCoches > 0)
     {
         obtenirVue() -> zoomerOut();
         --mCurrentZoom;
@@ -1125,7 +1125,7 @@ bool FacadeModele::passageMenuPrincipal()
 
     selectionArbre(false);
 
-    SoundFMOD::obtenirInstance()->playApplicationSong(MENU_MODE_SONG);
+    SoundFMOD::obtenirInstance()->playApplicationSong(STARTUP_SONG);
     GestionnaireEvenements::modifierEtat(ETAT_MENU_PRINCIPAL);
     return true;
 }

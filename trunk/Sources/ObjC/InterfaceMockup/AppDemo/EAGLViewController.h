@@ -74,6 +74,8 @@ extern int const HAUTEUR_FENETRE;
     IBOutlet UIButton *skyViewButton;
     IBOutlet UIButton *freeRoamButton;
     IBOutlet UIButton *orbitalButton;
+    IBOutlet UIButton *undoButton;
+    IBOutlet UIButton *redoButton;
     
     IBOutlet UILabel *buttonToolbarLabel;
     
@@ -184,4 +186,6 @@ extern int const HAUTEUR_FENETRE;
 - (void)cannotUndo;
 - (void)canRedo;
 - (void)cannotRedo;
+-(void)disableCameras;
+-(void)enableCameras;
 @end

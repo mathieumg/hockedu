@@ -150,7 +150,7 @@ void NodeBonus::getCubeColorVertexArrays(float* vertexArray, float* colorArray)
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeBonus::NodeBonus(const std::string& typeNoeud)
-   : Super(RAZER_KEY_BONUS,typeNoeud),mHeightAngle(0)
+   : Super(RAZER_KEY_BONUS,typeNoeud),mHeightAngle(0),mCounting(0)
 {
     // temp workaround, l'édition va le considérer comme un cercle pour un moment
     setDefaultRadius(DEFAULT_RADIUS);
@@ -287,10 +287,31 @@ void NodeBonus::playTick( float temps)
     Super::playTick(temps);
     if(!isActive() && !containsModifiers())
     {
-        // game tick
-        mSpawnTimeLeft -= temps;
-        if(mSpawnTimeLeft < 0)
+        float timeLeft = 2;
+        Partie* game = NULL;
+        auto field = getField();
+        if(field)
         {
+            game = field->GetGame();
+        }
+        if(!mCounting)
+        {
+            mBeginTime = clock()/CLOCKS_PER_SEC;
+            if(game)
+            {
+                mBeginTime = game->obtenirGameTime()->Elapsed_Time_sec();
+            }
+            mCounting = true;
+        }
+        // game tick
+        if(game)
+        {
+            timeLeft = mSpawnTimeDelaiTotal - (game->obtenirGameTime()->Elapsed_Time_sec() - mBeginTime);
+        }
+
+        if(timeLeft < 0)
+        {
+            mCounting = false;
             mBonusType = (BonusType)(rand()%NB_BONUS_TYPE);
             ResetTimeLeft();
             setVisible(true);
@@ -493,11 +514,11 @@ void NodeBonus::ResetTimeLeft()
         int max = (int)(field->getBonusesMaxTimeSpawn()*100.f);
         if(min == max)
         {
-            mSpawnTimeLeft = (float)min;
+            mSpawnTimeDelaiTotal = (float)min/100.f;
         }
         else
         {
-            mSpawnTimeLeft = (float)(rand()%(max-min)+min)/100.f;
+            mSpawnTimeDelaiTotal = (float)(rand()%(max-min)+min)/100.f;
         }
     }
 

@@ -84,6 +84,7 @@ protected:
 
     NoeudAbstrait* mOwner;
     float mTimeToLive;
+    float mBeginTime;
     NodeBonus* mCreator;
 private:
     bool mIsFinished;

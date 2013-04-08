@@ -22,9 +22,57 @@
 #include <iostream>
 #include "Utilitaire.h"
 #import "Facade.h"
+#include "Animation.h"
 
 //@implementation FullPropertiesApple
 //@end
+
+static Model3DManager* model3DManager = NULL;
+vue::Vue* mView = NULL;
+std::deque<class RunnableField*> mRunnables;
+bool canDOCenter = true;
+Terrain* GlobalField = NULL;
+
+void CenterCameraTerminatedCallback(Animation* pAnim)
+{
+    canDOCenter = true;
+    if(GlobalField && mView)
+    {
+        Vecteur3 pos = mView->getOptimalPosition(GlobalField->GetTableWidth());
+        vue::Camera& camera = mView->obtenirCamera();
+        camera.assignerPosition(pos);
+        camera.assignerPointVise(Vecteur3());
+        camera.assignerDirectionHaut(Vecteur3(0,1,0));
+    }
+    
+    [Facade enableCameras];
+}
+
+class RunnableField
+{
+public:
+    virtual ~RunnableField(){}
+    virtual void execute()=0;
+};
+class RunnableCenterCamera: public RunnableField
+{
+public:
+    RunnableCenterCamera(Terrain* field)
+    {
+        mField = field;
+    }
+    virtual void execute()
+    {
+        if(canDOCenter && mField)
+        {
+            canDOCenter = false;
+            [Facade disableCameras];
+            mView->centrerCamera(mField->GetTableWidth(),1,CenterCameraTerminatedCallback);
+        }
+    }
+    Terrain* mField;
+};
+
 
 void displayMessageCallback(const char* message)
 {
@@ -36,8 +84,7 @@ void displayMessageCallback(const char* message)
     [alert show];
 }
 
-static Model3DManager* model3DManager = NULL;
-vue::Vue* mView = NULL;
+
 void EditionEventCallback(EditionEventCodes pEvent)
 {
     switch (pEvent) {
@@ -92,6 +139,19 @@ float temps = clock();
 
 - (void)render
 {
+    while(!mRunnables.empty())
+    {
+        auto v = mRunnables.back();
+        if(v)
+        {
+            v->execute();
+            delete v;
+        }
+        mRunnables.pop_back();
+        
+    }
+    
+    
     // pour avoir le delta time en secondes
     float delta = clock()-temps;
     delta/=1000.f;
@@ -120,16 +180,29 @@ float temps = clock();
                                          -150,150,-150,150);
     
     ((Terrain*)mField)->setModelManagerObjc(RenderNodeCallback);
-    ((Terrain*)mField)->createRandomField("test");
-    
+    ((Terrain*)mField)->creerTerrainParDefaut("test");
+    GlobalField = ((Terrain*)mField);
     return self;
 }
 
 -(void)dealloc
 {
+    while(!mRunnables.empty())
+    {
+        auto v = mRunnables.back();
+        if(v)
+        {
+            delete v;
+        }
+        mRunnables.pop_back();
+        
+    }
+    
+    
     [mModel3DManager release];
     mModel3DManager = NULL;
     delete (Terrain*)mField;
+    GlobalField = NULL;
     delete mView;
     [super dealloc];
 }
@@ -205,6 +278,8 @@ float temps = clock();
 
 -(void) createCameraFixed
 {
+    [Facade disableCameras];
+    GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
     int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
     vue::Camera& cameraCourante = mView->obtenirCamera();
 	mView->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);
@@ -218,10 +293,12 @@ float temps = clock();
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
     delete mView;
     mView = nouvelleVue;
-    mView->centrerCamera(((Terrain*)mField)->GetTableWidth());
+    mRunnables.push_front(new RunnableCenterCamera((Terrain*)mField));
 }
 -(void) createCameraOrbit
 {
+    [Facade disableCameras];
+    GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
     int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
     vue::Camera& cameraCourante = mView->obtenirCamera();
 	mView->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);
@@ -235,10 +312,12 @@ float temps = clock();
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
     delete mView;
     mView = nouvelleVue;
-    mView->centrerCamera(((Terrain*)mField)->GetTableWidth());
+    mRunnables.push_front(new RunnableCenterCamera((Terrain*)mField));
 }
 -(void) createCameraFree
 {
+    [Facade disableCameras];
+    GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
     int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
     vue::Camera& cameraCourante = mView->obtenirCamera();
 	mView->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);

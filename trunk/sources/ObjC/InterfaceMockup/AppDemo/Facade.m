@@ -24,37 +24,45 @@ static EAGLViewController* mViewController = NULL;
 }
 +(void)DisablePuckCreation
 {
-    
+    [mViewController disablePuckCreation];
 }
 +(void)EnableMalletCreation
 {
-    
+    [mViewController enableMalletCreation];
 }
 +(void)DisableMalletCreation
 {
-    
+    [mViewController disableMalletCreation];
 }
 +(void)ThereAreNodesSelected
 {
-    
+    [mViewController thereAreNodesSelected];
 }
 +(void)ThereAreNoNodesSelected
 {
-    
+    [mViewController thereAreNoNodesSelected];
 }
 +(void)CanUndo
 {
-    
+    [mViewController canUndo];
 }
 +(void)CannotUndo;
 {
-    
+    [mViewController cannotUndo];
 }
 +(void)CanRedo
 {
-    
+    [mViewController canRedo];
 }
 +(void)CannotRedo
+{
+    [mViewController cannotRedo];
+}
++(void)disableCameras
+{
+    
+}
++(void)enableCameras
 {
     
 }

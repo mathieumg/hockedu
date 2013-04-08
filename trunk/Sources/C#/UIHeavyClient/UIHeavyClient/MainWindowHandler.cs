@@ -198,6 +198,7 @@ namespace UIHeavyClient
                     CallbackManager.CommitChanges();
                     Context.RestartGameMenuHandle(false);
                     Context.ReplayMenuHandle(false);
+                    Context.PlayModeControl.HandleChatVisibility(false);
                 }
                 else
                 {

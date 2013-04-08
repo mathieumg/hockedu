@@ -11,10 +11,12 @@
 - MenuPrincipal
 - Options
 - Tournoi
-- GameBrowser
+- OnlineLobby
 - Editeur
 - Partie
-- Profils AI
+- AIConfiguration
+- RadioConfiguration
+- KeyboardConfiguration
 </body>
     </comment>
   </ownedCommentsInternal>
@@ -148,12 +150,12 @@
             Id="07ebfd95-d0c9-49ca-a865-7c3adf82f1f9"
             isDerived="false"
             sourceEndRoleName="MenuPrincipal"
-            targetEndRoleName="ProfilsAI"
+            targetEndRoleName="AIConfiguration"
             isLeaf="false"
             isAbstract="false">
             <classMoniker
               Id="6c43c5bd-cd86-495e-b70b-9ac789d4aa79"
-              LastKnownName="ProfilsAI"
+              LastKnownName="AIConfiguration"
               LastKnownLocation="Package1_1350.uml" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
@@ -172,7 +174,7 @@
               <associationHasOwnedEnds>
                 <memberEnd
                   Id="f44277e7-31ad-438c-b40a-43602f320f65"
-                  name="ProfilsAI"
+                  name="AIConfiguration"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
@@ -265,12 +267,12 @@
             Id="93dccd6f-d688-4d74-ae45-3c30b3b736e8"
             isDerived="false"
             sourceEndRoleName="MenuPrincipal"
-            targetEndRoleName="GameBrowser"
+            targetEndRoleName="OnlineLobby"
             isLeaf="false"
             isAbstract="false">
             <classMoniker
               Id="d5ef17e9-1152-450a-a7f6-fa66a554f667"
-              LastKnownName="GameBrowser"
+              LastKnownName="OnlineLobby"
               LastKnownLocation="Package1_1350.uml" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
@@ -289,7 +291,7 @@
               <associationHasOwnedEnds>
                 <memberEnd
                   Id="40defadc-cdd4-42ff-8b46-5ef4ca8d34cd"
-                  name="GameBrowser"
+                  name="OnlineLobby"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
@@ -336,6 +338,84 @@
                   isDerivedUnion="false"
                   aggregation="None"
                   isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="a7fcbdf3-f3c1-4762-8111-4dbb29411e55"
+            isDerived="false"
+            sourceEndRoleName="MenuPrincipal"
+            targetEndRoleName="KeyboardConfiguration"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="7e0c55f4-de55-42ec-b972-c78c2d374029"
+              LastKnownName="KeyboardConfiguration"
+              LastKnownLocation="Package1_1350.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="693c530c-a802-4052-ab68-cffe993ede86"
+                  name="MenuPrincipal"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="8afe7a63-c6a3-4cf4-8ddf-3fdb37b12f9e"
+                  name="KeyboardConfiguration"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="d3b6b2ff-8f7e-43f4-8beb-350588a71a44"
+            isDerived="false"
+            sourceEndRoleName="MenuPrincipal"
+            targetEndRoleName="RadioConfiguration"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="ddf250d6-18ac-4171-bdd7-8169d2d87034"
+              LastKnownName="RadioConfiguration"
+              LastKnownLocation="Package1_1350.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="1460a39e-bb54-4a55-9e84-8ec9d9f94d05"
+                  name="MenuPrincipal"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Composite"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="251a822d-2f65-4a9f-9652-8b9412dd1695"
+                  name="RadioConfiguration"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="true" />
               </associationHasOwnedEnds>
             </relationshipOwnedElementsInternal>
           </association>
@@ -403,7 +483,7 @@
     <packageHasNamedElement>
       <class
         Id="d5ef17e9-1152-450a-a7f6-fa66a554f667"
-        name="GameBrowser"
+        name="OnlineLobby"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
@@ -411,7 +491,7 @@
           <association
             Id="acc316b5-6863-4cbb-895a-de2efb8f32cb"
             isDerived="false"
-            sourceEndRoleName="GameBrowser"
+            sourceEndRoleName="OnlineLobby"
             targetEndRoleName="Jeu"
             isLeaf="false"
             isAbstract="false">
@@ -423,7 +503,7 @@
               <associationHasOwnedEnds>
                 <memberEnd
                   Id="32840531-c121-4933-9908-99b0cd89b50e"
-                  name="GameBrowser"
+                  name="OnlineLobby"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
@@ -511,7 +591,23 @@
     <packageHasNamedElement>
       <class
         Id="6c43c5bd-cd86-495e-b70b-9ac789d4aa79"
-        name="ProfilsAI"
+        name="AIConfiguration"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="ddf250d6-18ac-4171-bdd7-8169d2d87034"
+        name="RadioConfiguration"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="7e0c55f4-de55-42ec-b972-c78c2d374029"
+        name="KeyboardConfiguration"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
