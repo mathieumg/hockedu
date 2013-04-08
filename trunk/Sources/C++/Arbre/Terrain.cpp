@@ -14,11 +14,12 @@
 #endif
 #if BOX2D_PLAY
 #include "Partie.h"
-#include "SoundFMOD.h"
 #endif
 #if BOX2D_DEBUG
 #include "DebugRenderBox2D.h"
 #endif
+
+
 
 #ifndef __APPLE__
 #include "../Reseau/Paquets/PaquetMaillet.h"
@@ -30,7 +31,11 @@
 #include "../Reseau/Paquets/PaquetPortal.h"
 #include "../Reseau/RelayeurMessage.h"
 #include "../Reseau/Paquets/PaquetBonus.h"
+#include "SoundFMOD.h"
+
+#define PlayEffect(x) if(!mIsSimulation){SoundFMOD::obtenirInstance()->playEffect(x);}
 #else
+#define PlayEffect(x) 
 #endif
 
 #include "Terrain.h"
@@ -1331,26 +1336,30 @@ void Terrain::BeginContact( b2Contact* contact )
         case CATEGORY_BOUNDARY:
             {
                 NoeudBut *but = dynamic_cast<NoeudBut *>((NoeudAbstrait*)bodies[1]->GetUserData());
+                b2Body* rondelleBody = bodies[0];
+                NoeudRondelle* rondelle = (NoeudRondelle*)(rondelleBody->GetUserData());
                 if (but)
                 {
                     if(mGame && !mGame->isNetworkClientGame())
                     {
-                        b2Body* rondelleBody = bodies[0];
-                        NoeudRondelle* rondelle = (NoeudRondelle*)(rondelleBody->GetUserData());
                         if(!rondelle->IsCollisionDetected())
                         {
                             rondelle->setCollisionDetected(true);
                             FieldRunnableGoals* r = new FieldRunnableGoals();
                             r->game = mGame;
                             r->puck = rondelle;
+                            PlayEffect(GOAL_EFFECT);
                             mRunnableQueue.push_front(r);
                         }
                     }
                 }
                 else
                 {
-                    if(bodies[0]->GetLinearVelocity().LengthSquared() > 200)
-                        SoundFMOD::obtenirInstance()->playEffect(COLLISION_MURET_EFFECT);
+                    auto vel = rondelle->obtenirVelocite();
+                    if(vel.norme2() > 200)
+                    {
+                        PlayEffect(COLLISION_MURET_EFFECT);
+                    }
                 }
             }
             break;
@@ -1358,7 +1367,7 @@ void Terrain::BeginContact( b2Contact* contact )
             //         break;
         case CATEGORY_MALLET  :
             {
-                SoundFMOD::obtenirInstance()->playEffect(effect(COLLISION_MAILLET_EFFECT1+(rand()%5)));
+                PlayEffect(effect(COLLISION_MAILLET_EFFECT1+(rand()%5)));
                 NoeudMaillet* maillet = (NoeudMaillet*)(bodies[1]->GetUserData());
                 NoeudRondelle* rondelle = (NoeudRondelle*)(bodies[0]->GetUserData());
                 // Si partie en reseau, on doit envoyer un paquet game event pour dire de changer le last hitting mallet
@@ -1415,6 +1424,8 @@ void Terrain::BeginContact( b2Contact* contact )
                                     RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
                                 }
                             }
+                            PlayEffect(PORTAL_EFFECT);
+
                             FieldRunnablePortal* r = new FieldRunnablePortal();
                             r->portal = portailDeSortie;
                             r->puck = rondelle;
@@ -1437,7 +1448,7 @@ void Terrain::BeginContact( b2Contact* contact )
                 linearVelocity *= bonusAccel;
                 bodies[0]->SetLinearVelocity(linearVelocity);
 
-                SoundFMOD::obtenirInstance()->playEffect(effect(ACCELERATOR_EFFECT));
+                PlayEffect(effect(ACCELERATOR_EFFECT));
             }
             break;
 
