@@ -118,6 +118,19 @@ namespace vue {
 	  /// Centre la camera a l'origine pour voir la largeur du parametre
 	  virtual void centrerCamera(float largeurVue,int pViewportNumber=1, AnimationTerminatedCallback pCallback = 0);
 
+      ////////////////////////////////////////////////////////////////////////
+      ///
+      /// @fn void getOptimalPosition( float largeurVue )
+      ///
+      /// /*Description*/
+      ///
+      /// @param[in] 
+      ///
+      /// @return void
+      ///
+      ////////////////////////////////////////////////////////////////////////
+      Vecteur3 getOptimalPosition( float largeurVue );
+
 	  virtual float obtenirAngleOuvertureProjection() {return 0.0;}
 	  /// Retourne le nombre de viewports utilises par la vue
 	  int obtenirNbViewports() const { return nbViewports_; }

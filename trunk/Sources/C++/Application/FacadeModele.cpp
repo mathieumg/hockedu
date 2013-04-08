@@ -282,6 +282,7 @@ FacadeModele::~FacadeModele()
         delete boiteEnvironnement;
         boiteEnvironnement=0;
     }
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -909,6 +910,11 @@ void FacadeModele::ClearCurrentGame()
         tournoi_->modifierEstEnCours(false);
 
 
+    if(prochainePartie_ == partieCourante_)
+    {
+        return;
+    }
+
     Partie* wGame = GameManager::obtenirInstance()->getGame(partieCourante_);
     if(wGame)
     {
@@ -1082,6 +1088,7 @@ bool FacadeModele::passageModeJeu()
         partieCourante_ = prochainePartie_;
         prochainePartie_ = -1;
 
+
         GameManager::obtenirInstance()->setMapForGame(partieCourante_, getCurrentMap());
         if(!GameManager::obtenirInstance()->getGameReady(partieCourante_))
         {
@@ -1122,10 +1129,10 @@ bool FacadeModele::passageMenuPrincipal()
     Achievements::LaunchEvent(ACHIEVEMENT_EVENT_MAIN_SCREEN_LOADED);
     mEditionField->libererMemoire();
     ClearCurrentGame();
-
+    
     selectionArbre(false);
 
-    SoundFMOD::obtenirInstance()->playApplicationSong(MENU_MODE_SONG);
+    SoundFMOD::obtenirInstance()->playApplicationSong(STARTUP_SONG);
     GestionnaireEvenements::modifierEtat(ETAT_MENU_PRINCIPAL);
     return true;
 }

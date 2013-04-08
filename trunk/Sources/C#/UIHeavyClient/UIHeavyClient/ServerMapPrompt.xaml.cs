@@ -148,6 +148,15 @@ namespace UIHeavyClient
             wManager.getPublicMapList(callbackMapsFunction);
         }
 
+        public void GetUserMaps()
+        {
+            mFeedbackLabel.Content = "Downloading maps, please wait...";
+            mMapListView.Items.Clear();
+
+            // Load map list async!!!!
+            HttpManager wManager = new HttpManager();
+            wManager.getUserMapList(int.Parse(LoginControl.mLoginInfo.mUserId), LoginControl.mLoginInfo.mAuthKey, callbackMapsFunction);
+        }
         ////////////////////////////////////////////////////////////////////////
         /// @fn void ServerMapPrompt.ResizeGridColumns()
         ///

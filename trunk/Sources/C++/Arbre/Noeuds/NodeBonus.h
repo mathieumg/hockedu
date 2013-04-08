@@ -57,7 +57,10 @@ public:
     inline BonusType getBonusType() const {return mBonusType;}
 
 private:
-    float mSpawnTimeLeft;// in sec
+    float mSpawnTimeDelaiTotal;// in sec
+    bool mCounting;
+    float mBeginTime;
+
 
     BonusType mBonusType;
 

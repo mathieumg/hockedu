@@ -59,8 +59,10 @@ namespace UIHeavyClient
         {
             MainWindowHandler.mTaskManager.ExecuteTask( () =>
             {
+                Mouse.OverrideCursor = Cursors.Arrow;
                 if ( instance != null )
                 {
+                    instance.Hide();
                     if ( instance.mLoginCallback != null )
                     {
                         instance.mLoginCallback();

@@ -20,6 +20,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Runtime.InteropServices;
 
 namespace UIHeavyClient
 {
@@ -32,6 +33,8 @@ namespace UIHeavyClient
     ///////////////////////////////////////////////////////////////////////////
     public partial class SaveServerMapPrompt : Window
     {
+        
+
         private bool mOkIsClicked;
 
         public bool OkIsClicked
@@ -90,6 +93,7 @@ namespace UIHeavyClient
         private void mOkButton_Click(object sender, RoutedEventArgs e)
         {
             mOkIsClicked = true;
+
             Hide();
         }
     }

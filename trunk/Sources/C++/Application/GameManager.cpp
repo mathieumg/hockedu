@@ -26,6 +26,8 @@
 
 int GameManager::uniqueIdCount = 0;
 
+HANDLE_MUTEX GameManager::mMutexTickRemove;
+
 
 // Initialisations automatiques
 SINGLETON_DECLARATION_CPP(GameManager);
@@ -74,6 +76,7 @@ GameManager::GameManager()
 	mAdversaire = 0;
     // Ne pas mettre a 0, trop dangereux
     GameManager::uniqueIdCount = 1;// = rand() % INT_MAX/2;
+    FacadePortability::createMutex(GameManager::mMutexTickRemove);
 }
 
 
@@ -251,8 +254,9 @@ void GameManager::addGame( Partie* pGame )
 ////////////////////////////////////////////////////////////////////////
 void GameManager::removeGame( int pGameId )
 {
+    int i=0;
     Runnable* r = new Runnable([pGameId](Runnable*){
-
+        FacadePortability::takeMutex(mMutexTickRemove);
         auto wGame = GameManager::obtenirInstance()->getGame(pGameId);
         if(wGame)
         {
@@ -264,9 +268,9 @@ void GameManager::removeGame( int pGameId )
             delete wGame;
             GameManager::obtenirInstance()->removeGameFromList(pGameId);
         }
+        FacadePortability::releaseMutex(mMutexTickRemove);
     });
     RazerGameUtilities::RunOnUpdateThread(r,true);
-
 }
 
 
@@ -449,6 +453,7 @@ Partie* GameManager::getGameWithPlayer( const std::string& pPlayerName )
     }
     return NULL;
 }
+
 
 
 

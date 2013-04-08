@@ -142,8 +142,9 @@ namespace UIHeavyClient
                 }
                 else
                 {
-                    wSuccess = ActionPerformed(ActionType.ACTION_ALLER_MODE_EDITION_PAS_DEFAUT_XML);
+                    wSuccess = ActionPerformed(ActionType.ACTION_ALLER_MODE_EDITION_ONLINE);
                 }
+
                 if (wSuccess)
                 {
 
@@ -198,6 +199,7 @@ namespace UIHeavyClient
                     CallbackManager.CommitChanges();
                     Context.RestartGameMenuHandle(false);
                     Context.ReplayMenuHandle(false);
+                    Context.PlayModeControl.HandleChatVisibility(false);
                 }
                 else
                 {

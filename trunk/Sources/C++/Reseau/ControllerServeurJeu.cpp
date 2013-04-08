@@ -11,6 +11,9 @@
 #include "RazerGameTypeDef.h"
 #include "JoueurAbstrait.h"
 #include "JoueurVirtuel.h"
+#if !SHIPPING
+#include <iostream>
+#endif
 
 
 bool ControllerServeurJeu::mIsLocalServer = false;
@@ -122,7 +125,9 @@ void ControllerServeurJeu::handleDisconnectDetection( SPSocket pSocket )
     // Doit mettre en pause la partie et notifier l'autre joueur
     std::string wSocketIdentifier = GestionnaireReseau::obtenirInstance()->getSocketIdentifier(pSocket);
     GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
-
+#if !SHIPPING
+    std::cout << "Deconnexion de " << wSocketIdentifier << std::endl;
+#endif
 
 
     Partie* wGameBeforeCall = GameManager::obtenirInstance()->getGameWithPlayer(wSocketIdentifier);
@@ -141,7 +146,7 @@ void ControllerServeurJeu::handleDisconnectDetection( SPSocket pSocket )
                 // Joueur gauche deconnecte
                 wGame->modifierJoueurGauche(SPJoueurAbstrait(NULL));
             }
-            else
+            else if(wGame->obtenirNomJoueurDroit() == wSocketIdentifier)
             {
                 // Joueur droit deconnecte
                 wGame->modifierJoueurDroit(SPJoueurAbstrait(NULL));

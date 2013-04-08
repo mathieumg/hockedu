@@ -31,12 +31,17 @@ bool cubeModelArraysInit = false;
 GLfloat vertexArray[vertexArraySize];
 GLfloat colorArray[colorArraySize];
 
+#if !SHIPPING
+#include <iostream>
+#endif
+
 #if WIN32
 #include "Modele3D.h"
 #include "GestionnaireModeles.h"
 #include "FacadeModele.h"
 #include "../Reseau/RelayeurMessage.h"
 #include "../Reseau/Paquets/PaquetBonus.h"
+
 
 CreateListDelegateImplementation(EmptyBonus)
 {
@@ -150,7 +155,7 @@ void NodeBonus::getCubeColorVertexArrays(float* vertexArray, float* colorArray)
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeBonus::NodeBonus(const std::string& typeNoeud)
-   : Super(RAZER_KEY_BONUS,typeNoeud),mHeightAngle(0)
+   : Super(RAZER_KEY_BONUS,typeNoeud),mHeightAngle(0),mCounting(0)
 {
     // temp workaround, l'édition va le considérer comme un cercle pour un moment
     setDefaultRadius(DEFAULT_RADIUS);
@@ -287,11 +292,35 @@ void NodeBonus::playTick( float temps)
     Super::playTick(temps);
     if(!isActive() && !containsModifiers())
     {
-        // game tick
-        mSpawnTimeLeft -= temps;
-        if(mSpawnTimeLeft < 0)
+        float timeLeft = 2;
+        Partie* game = NULL;
+        auto field = getField();
+        if(field)
         {
+            game = field->GetGame();
+        }
+        if(!mCounting)
+        {
+            mBeginTime = clock()/CLOCKS_PER_SEC;
+            if(game)
+            {
+                mBeginTime = game->obtenirGameTime()->Elapsed_Time_sec();
+            }
+            mCounting = true;
+        }
+        // game tick
+        if(game)
+        {
+            timeLeft = mSpawnTimeDelaiTotal - (game->obtenirGameTime()->Elapsed_Time_sec() - mBeginTime);
+        }
+
+        if(timeLeft < 0)
+        {
+            mCounting = false;
             mBonusType = (BonusType)(rand()%NB_BONUS_TYPE);
+#if MAT_DEBUG_
+            mBonusType = BONUS_TYPE_CHANGE_ZONE; // testing value
+#endif
             ResetTimeLeft();
             setVisible(true);
             // activate collision on strat creation
@@ -347,10 +376,6 @@ void NodeBonus::ExecuteBonus( class NoeudRondelle* rondelle )
 {
     if(isActive())
     {
-        //int b = rand()%NB_BONUS_TYPE;
-#if MIKE_DEBUG_
-        //b = BONUS_TYPE_GO_THROUGH_WALL; // testing value
-#endif
         auto factory = FactoryBonusModifier::getFactory(mBonusType);
         if(factory)
         {
@@ -360,11 +385,17 @@ void NodeBonus::ExecuteBonus( class NoeudRondelle* rondelle )
                 // the modifier couldn't attach itself on the node so we delete it
                 delete bonus;
             }
-            else if(!bonus->Apply())
-            {
-                /// the bonus doesn't need more time to execute
-                // so we finish it now
-                bonus->Complete();
+            else
+            { 
+                if(!bonus->Apply())
+                {
+                    /// the bonus doesn't need more time to execute
+                    // so we finish it now
+                    bonus->Complete();
+                }
+#if !SHIPPING
+                std::cout << "Bonus applied: " << mBonusType << "\t" << bonus->getOwner()->getType() << std::endl;
+#endif
             }
         }
     }
@@ -493,11 +524,11 @@ void NodeBonus::ResetTimeLeft()
         int max = (int)(field->getBonusesMaxTimeSpawn()*100.f);
         if(min == max)
         {
-            mSpawnTimeLeft = (float)min;
+            mSpawnTimeDelaiTotal = (float)min/100.f;
         }
         else
         {
-            mSpawnTimeLeft = (float)(rand()%(max-min)+min)/100.f;
+            mSpawnTimeDelaiTotal = (float)(rand()%(max-min)+min)/100.f;
         }
     }
 

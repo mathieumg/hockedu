@@ -74,6 +74,9 @@ public:
     /// Init function for factories
     void Init(NodeBonus* creator);
 
+
+    inline NoeudAbstrait* getOwner() const { return mOwner; }
+
 protected:
     /// utility functions, attachs the modifier to the last hitting mallet
     bool AttachToLastHittingMallet(NoeudRondelle* pPuck);
@@ -83,7 +86,9 @@ protected:
     bool AttachToPuck(NoeudRondelle* pPuck);
 
     NoeudAbstrait* mOwner;
+    
     float mTimeToLive;
+    float mBeginTime;
     NodeBonus* mCreator;
 private:
     bool mIsFinished;
