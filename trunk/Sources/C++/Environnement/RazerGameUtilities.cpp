@@ -21,10 +21,6 @@
 #include "Utilitaire.h"
 #include "Terrain.h"
 
-#if MIKE_DEBUG_
-PRAGMA_DISABLE_OPTIMIZATION;
-#endif
-
 #if WITH_JAVA
 #include <jni.h>
 #endif
@@ -473,7 +469,3 @@ const RazerGameUtilities::StringToKeyMap* RazerGameUtilities::StringTypeToEnum =
 ///////////////////////////////////////////////////////////////////////////////
 /// @}
 ///////////////////////////////////////////////////////////////////////////////
-
-#if MIKE_DEBUG_
-PRAGMA_ENABLE_OPTIMIZATION;
-#endif

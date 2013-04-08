@@ -28,9 +28,6 @@ void CallbackPartieServeursUpdate(int pServerId, int pGameId, GameStatus pGameSt
                 wReturnValue ? (std::cout << "Sauvegarde dans la BD reussie." << std::endl) : (std::cout << "Sauvegarde dans la BD echouee." << std::endl);
                 
             }
-
-
-
             // On supprime la partie du serveur
             wGameServer->removeGame(pGameId);
         }
@@ -136,7 +133,7 @@ void GameServerManager::removeGameServer( unsigned int pGameServerId )
     mGameServersList.erase(it->first);
 }
 
-unsigned int GameServerManager::selectRandomGameServer()
+unsigned int GameServerManager::selectGameServer()
 {
     // Evite un crash si size == 0
     if(mGameServersList.size() == 0)
@@ -144,15 +141,27 @@ unsigned int GameServerManager::selectRandomGameServer()
         return -1;
     }
 
-    // Obtain a random index in range 0 - size
-    unsigned int wIndex = rand() % mGameServersList.size();
+    unsigned int wLowestGamesAmount = -1;
+    unsigned int wServerWithLowestGamesAmount = 0;
 
-    // Get the nth element of the list where n = index
-    auto it = mGameServersList.begin();
-    for(unsigned int i = 0; i < wIndex; ++i, ++it) {}
+    // Iterate over 
+    for(auto it = mGameServersList.begin(); it != mGameServersList.end(); ++it) 
+    {
+        unsigned int wCurrentServerGamesAmount = it->second->getGamesContainer().size();
+        if (wCurrentServerGamesAmount == 0)
+        {
+            wServerWithLowestGamesAmount = it->first;
+            break;
+        }
+        else if(wCurrentServerGamesAmount < wLowestGamesAmount)
+        {
+            wLowestGamesAmount = wCurrentServerGamesAmount;
+            wServerWithLowestGamesAmount = it->first;
+        }
+    }
     
-    // Return server id at index n.
-    return it->first;
+    // Return server id at the selected index.
+    return wServerWithLowestGamesAmount;
 }
 
 ////////////////////////////////////////////////////////////////////////

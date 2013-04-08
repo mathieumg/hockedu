@@ -351,6 +351,7 @@ namespace UIHeavyClient
                     // On vient de recevoir la map download, on veut maintenant passer au mode jeu
                     MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_JEU);
                     MainWindowHandler.Context.RestartGameMenuHandle(true);
+                    MainWindowHandler.Context.ReplayMenuHandle(true);
                 }
             });
         }
@@ -433,6 +434,12 @@ namespace UIHeavyClient
                     break;
                     case EventCodes.GAME_CONNECTION_RESPONSE_SUCCESS:
                     {
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                            MainWindowHandler.Context.RestartGameMenuHandle(false);
+                            MainWindowHandler.Context.AddAIOpponentHandle(false);
+                        });
+
                         // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
                         if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
                         {
@@ -486,6 +493,38 @@ namespace UIHeavyClient
                                 MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
 
                                 MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("This game doesn't exist anymore... try another one!");
+                                MainWindowHandler.Context.OnlineLobbyControl.HandleUIButtons(true);
+                                MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
+                            }
+                        });
+                    }
+                    break;
+                    case EventCodes.GAME_CONNECTION_RESPONSE_WRONG_PASSWORD_CS:
+                    {
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                            // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
+                            if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                            {
+                                MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame=false;
+
+                                MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("Wrong Password");
+                                MainWindowHandler.Context.OnlineLobbyControl.HandleUIButtons(true);
+                                MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
+                            }
+                        });
+                    }
+                    break;
+                    case EventCodes.GAME_CONNECTION_RESPONSE_GAME_CONNECTION_GENERAL_FAILURE:
+                    {
+                        MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                        {
+                            // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
+                            if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                            {
+                                MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame=false;
+
+                                MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("An error occured while joining game.");
                                 MainWindowHandler.Context.OnlineLobbyControl.HandleUIButtons(true);
                                 MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
                             }

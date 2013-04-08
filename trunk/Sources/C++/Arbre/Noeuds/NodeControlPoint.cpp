@@ -26,10 +26,6 @@
 #endif
 #include "VisiteurCollision.h"
 
-#if MIKE_DEBUG_
-PRAGMA_DISABLE_OPTIMIZATION
-#endif
-
 
 const float DEFAULT_RADIUS = 5;
 
@@ -294,10 +290,6 @@ void NodeControlPoint::updatePhysicBody()
 #endif
 }
 
-
-#if MIKE_DEBUG_
-PRAGMA_ENABLE_OPTIMIZATION
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

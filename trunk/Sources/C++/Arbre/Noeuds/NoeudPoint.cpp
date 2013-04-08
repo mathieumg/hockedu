@@ -416,7 +416,8 @@ void NoeudPoint::move3DModel( const Vecteur3& targetPosition )
 {
 #if WIN32  
     // onlny edit model if the table is present
-    if(getField() && getField()->getTable())
+    auto field = getField();
+    if( field && field->getTable() && !field->getIsSimulation())
     {
         const GroupeTripleAdresseFloat* liste = obtenirListePointsAChanger();
         Vecteur3 deplacement(targetPosition-mPosition);

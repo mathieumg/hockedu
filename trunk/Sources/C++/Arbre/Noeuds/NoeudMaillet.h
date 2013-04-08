@@ -14,6 +14,7 @@
 #include "NoeudAbstrait.h"
 #include "ObjetAnimable.h"
 #include "RunnableBreaker.h"
+#include <vector>
 
 enum DirectionMaillet{DIR_HAUT,DIR_BAS,DIR_GAUCHE,DIR_DROITE,NB_DIR};
 enum MalletSide{MALLET_SIDE_LEFT,MALLET_SIDE_RIGHT};
@@ -174,6 +175,14 @@ public:
 	/// Modificateur de joueur_
 	void setPlayer(SPJoueurAbstrait val) { joueur_ = val; }
     inline void setIsNetworkPlayer(const bool pIsNetworkPlayer) {estControleParNetwork_ = pIsNetworkPlayer;}
+
+
+#if MAT_DEBUG_
+    static std::vector<Vecteur3> mListePointsDebug;
+
+
+#endif
+
 
 };
 

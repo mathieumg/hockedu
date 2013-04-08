@@ -132,7 +132,7 @@ int PaquetRunnable::RunnableGameCreationMasterServer( Paquet* pPaquet )
     {
         if( wServerId == 0)
         {
-            wServerId = GameServerManager::obtenirInstance()->selectRandomGameServer();
+            wServerId = GameServerManager::obtenirInstance()->selectGameServer();
             if(wServerId == -1)
             {
                 wPaquet->setGameId(-1);

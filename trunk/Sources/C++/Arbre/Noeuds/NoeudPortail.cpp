@@ -152,7 +152,7 @@ void NoeudPortail::updatePhysicBody()
         circleShape.m_radius = radius;
         if(IsInGame())
         {
-            circleShape.m_radius *= 0.2f;
+            circleShape.m_radius *= 0.3f;
         }
 
         b2FixtureDef myFixtureDef;
