@@ -18,6 +18,7 @@
 #include "EditionEventManager.h"
 #import "VisitorGatherProperties.h"
 #include <time.h>
+#include "GestionnaireAnimations.h"
 #include <iostream>
 #include "Utilitaire.h"
 #import "Facade.h"
@@ -94,8 +95,12 @@ float temps = clock();
     // pour avoir le delta time en secondes
     float delta = clock()-temps;
     delta/=1000.f;
+    GestionnaireAnimations::obtenirInstance()->animer(delta);
     delta/=1000.f;
     ((Terrain*)mField)->animerTerrain(delta);
+    
+    
+    
     temps = clock();
     mView->appliquerVue(1);
     ((Terrain*)mField)->renderField();  
@@ -247,7 +252,6 @@ float temps = clock();
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
     delete mView;
     mView = nouvelleVue;
-    mView->centrerCamera(((Terrain*)mField)->GetTableWidth());
 }
 
 

@@ -107,7 +107,7 @@ int ControllerCSharp::HandleEvent(ControllerCSharp* pContext, EventCodes pEventC
     if(c)
     {
         std::string message;
-        if(pEventCode == SERVER_USER_DISCONNECTED || pEventCode == SERVER_USER_CONNECTED || pEventCode == GAME_ADDED)
+        if(pEventCode == SERVER_USER_DISCONNECTED || pEventCode == SERVER_USER_CONNECTED || pEventCode == GAME_ADDED || pEventCode == GAME_CONNECTION_RESPONSE_MATCHMAKING)
         {
             message = va_arg(pListeElems,char*);
         }

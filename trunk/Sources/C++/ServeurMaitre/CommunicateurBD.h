@@ -14,7 +14,7 @@
 #include "Singleton.h"
 #include "mysql++.h"
 
-
+typedef std::map<std::string, float> UsersWinRateContainer;
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class CommunicateurBD
@@ -42,7 +42,7 @@ public:
 
     // Envoie les resultats de la partie dans la BD
     bool addGameResult(const std::string& pPlayer1Name, const std::string& pPlayer2Name, int pScoreUser1, int pScoreUser2, int pTime);
-    float getWinRate(std::string& userName);
+    void getUsersWinRate(UsersWinRateContainer pUsersWinRate);
 
 private:
     // Methode a appeler avant chaque methode qui doit appeler la BD

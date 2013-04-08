@@ -131,6 +131,8 @@ enum {
     [self.mGLView addSubview:mPropertyView];
     [self.theEAGLView setFramebuffer];
     
+    
+    __previousScale = 1.0;
     [Facade registerController:self];
     
     // On cache la bar en dehors a droite
@@ -1186,8 +1188,12 @@ enum {
     }
     float currentScale = [(UIPinchGestureRecognizer*)sender scale];
     float diff = currentScale-__previousScale;
-    if(diff > 1.1 || diff < 0.9)
     {
+        float delta = diff;
+        if(delta < 0)
+            delta *= -1;
+        int iteration = delta * 300.f;
+        for(int i=0; i<iteration; ++i)
         [mModel zoom:diff];
         __previousScale = currentScale;
     }
@@ -1198,8 +1204,7 @@ enum {
 - (IBAction)panDetected:(UIPanGestureRecognizer*)sender
 {
     CGPoint translation = [sender translationInView:theEAGLView];
-    [sender setTranslation:translation inView:theEAGLView];
-    
+    [sender setTranslation:CGPointMake(0,0) inView:theEAGLView];    
     [mModel orbit:translation.x :translation.y];
 }
 
@@ -1405,6 +1410,7 @@ enum {
     cameraToolsView.hidden = YES;
     editionToolsView.hidden = NO;
     
+    [self pressButtonUI:selectButton];
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
 }
 
