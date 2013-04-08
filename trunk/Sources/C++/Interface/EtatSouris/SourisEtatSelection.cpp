@@ -231,8 +231,12 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 					ptr++;
 				}
 			}
-			
             auto field = FacadeModele::getInstance()->getEditionField();
+
+            const std::set<NoeudAbstrait*>& selection = field->getSelectedNodes();
+            /// old copy
+            std::set<NoeudAbstrait*> oldSelection = selection;
+
             int selected = 0;
 			ConteneurIdNoeuds::const_iterator iter = liste.begin();
 			for(; iter != liste.end(); iter++)
@@ -248,7 +252,30 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 
                 selected += visiteur.getNbSelected();
 			}
-            field->pushUndoState();
+
+            bool pushUndo = false;
+            if(oldSelection.size() == selection.size())
+            {
+                STL_ITERATE(selection,it)
+                {
+                    if(find(oldSelection.begin(),oldSelection.end(),*it) == oldSelection.end())
+                    {
+                        pushUndo = true;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                pushUndo = true;
+            }
+
+            if(pushUndo)
+            {
+                field->pushUndoState();
+            }
+
+
 			//glMatrixMode( GL_PROJECTION );
 		//	glPopMatrix();
 		//	glMatrixMode( GL_MODELVIEW );
