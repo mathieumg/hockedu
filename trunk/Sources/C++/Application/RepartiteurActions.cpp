@@ -619,11 +619,11 @@ bool RepartiteurActions::actionChangerModeCameraFixe()
 		0, 400, 0, 400,
 		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
 		-150, 150, -150, 150);
-	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
     FacadeModele::getInstance()->resetCurrentZoom();
 	FacadeModele::getInstance()->modifierVue(nouvelleVue);
+    FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 
 	return true; 
 }
@@ -650,10 +650,10 @@ bool RepartiteurActions::actionChangerModeCameraOrbite()
 		0, 400, 0, 400,
 		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
 		-150, 150, -150, 150);
-	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
 	FacadeModele::getInstance()->modifierVue(nouvelleVue);
+    FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 
 	return true; 
 }
@@ -681,11 +681,11 @@ bool RepartiteurActions::actionChangerModeCameraLibre()
 		0, 300, 0, 400,
 		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
 		-150, 150, -150, 150);
-	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
 	FacadeModele::getInstance()->modifierVue(nouvelleVue);
-	return true; 
+    FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
+    return true; 
 }
 
 ////////////////////////////////////////////////////////////////////////
