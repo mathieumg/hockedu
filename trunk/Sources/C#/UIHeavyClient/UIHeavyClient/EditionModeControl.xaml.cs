@@ -423,6 +423,9 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         private void OnGenerateField(object sender, RoutedEventArgs e)
         {
+            MainWindowHandler.ServerMapDescription = "";
+            MainWindowHandler.ServerMapName = "";
+
             MessageBoxResult dr = MessageBox.Show("Are you sure?", "Default Map", MessageBoxButton.YesNo);
 
             if (dr == MessageBoxResult.Yes)
@@ -787,6 +790,11 @@ namespace UIHeavyClient
             byte[] encodedDataAsBytes = System.Convert.FromBase64String(encodedData);
             string returnValue = System.Text.Encoding.Unicode.GetString(encodedDataAsBytes);
             return returnValue;
+        }
+
+        public void ResetEditionState()
+        {
+            HandleStateButton(mFreeStateButton, null);
         }
     }
 }

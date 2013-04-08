@@ -128,6 +128,7 @@ extern "C"
     __declspec(dllexport) void RemovePlayer(char* pName);
 	__declspec(dllexport) int GetNbrPlayers();
 	__declspec(dllexport) void GetPlayers(AIProfile* pProfiles, int pNbrProfiles);
+    __declspec(dllexport) void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb);
 
 	// Control calls
     __declspec(dllexport) void GetKeyboardControl(int* pControls);

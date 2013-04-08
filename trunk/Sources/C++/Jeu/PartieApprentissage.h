@@ -10,11 +10,11 @@ public:
     ~PartieApprentissage(void);
 
     virtual void animer(const float& pTime);
-
+    /*
     /// Overriden setters to make sure we only accept JoueurHumain and JoueurVirtuelRenforcement player types
     virtual void modifierJoueurDroit(SPJoueurAbstrait pPlayer);
     virtual void modifierJoueurGauche(SPJoueurAbstrait pPlayer);
-
+    */
     /// Functions are overriden so that we can handle special behavior for learning AIs
     virtual void incrementerPointsJoueurGauche(bool pForceUpdate = false);
     virtual void incrementerPointsJoueurDroit(bool pForceUpdate = false);
