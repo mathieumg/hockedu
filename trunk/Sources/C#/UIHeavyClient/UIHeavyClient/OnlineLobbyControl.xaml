@@ -44,12 +44,13 @@
         <ListView Margin="5" Name="mOnlineGameListView" Background="#FF555555" Foreground="White" Grid.ColumnSpan="6" Grid.Row="1" SizeChanged="ResizeGridColumns" GridViewColumnHeader.Click="ClickForSorting">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="ID" Width="80" DisplayMemberBinding="{Binding id}"/>
-                    <GridViewColumn Header="Server ID" Width="100" DisplayMemberBinding="{Binding serverId}"/>
+                    <GridViewColumn Header="ID" Width="20" DisplayMemberBinding="{Binding id}"/>
+                    <GridViewColumn Header="Server ID" Width="60" DisplayMemberBinding="{Binding serverId}"/>
                     <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding name}"/>
                     <GridViewColumn Header="Creator's Name" Width="200" DisplayMemberBinding="{Binding creatorName}"/>
-                    <GridViewColumn Header="Need Password" Width="100" DisplayMemberBinding="{Binding needPasswordString}"/>
-                    <GridViewColumn Header="Map Name" Width="300" DisplayMemberBinding="{Binding mapName}"/>
+                    <GridViewColumn Header="Current Opponent" Width="200" DisplayMemberBinding="{Binding opponent}"/>
+                    <GridViewColumn Header="Map Name" Width="200" DisplayMemberBinding="{Binding mapName}"/>
+                    <GridViewColumn Header="Password" Width="70" DisplayMemberBinding="{Binding needPasswordString}"/>
                 </GridView>
             </ListView.View>
         </ListView>

@@ -49,7 +49,7 @@ namespace UIHeavyClient
         }
         public string Password
         {
-            get { return mPasswordCheckBox.IsChecked.Value ? mNameTextBox.Text : ""; }
+            get { return mPasswordCheckBox.IsChecked.Value ? mPasswordTextBox.Password : ""; }
         }
         public UserMapDetailedJSON Map
         {
@@ -78,7 +78,7 @@ namespace UIHeavyClient
                 {
                     mMapListView.Items.Add(wItem);
                 }
-                SortListView("id", ListSortDirection.Ascending);
+                SortListView("author", ListSortDirection.Ascending);
                 mFeedbackLabel.Content = "";
             });
         }

@@ -65,6 +65,7 @@ RepartiteurActions::RepartiteurActions()
     banqueActions_[ACTION_EDITEUR_REDO]          = &RepartiteurActions::actionBoutonRedo;
     banqueActions_[ACTION_SUPPRIMER]             = &RepartiteurActions::actionBoutonSupprimer;
     banqueActions_[ACTION_DUPLIQUER]             = &RepartiteurActions::actionBoutonDupliquer;
+    banqueActions_[ACTION_PIE_MODE]          = &RepartiteurActions::actionPlayInEditor;
 
     //Fonctions d'insertions.
     banqueActions_[ACTION_INSERER_PORTAIL]       = &RepartiteurActions::actionBoutonInsererPortail;
@@ -76,6 +77,7 @@ RepartiteurActions::RepartiteurActions()
 
     //Fonctions de changement de mode
     banqueActions_[ACTION_ALLER_MODE_EDITION]    = &RepartiteurActions::actionBoutonAllerModeEdition;
+    banqueActions_[ACTION_ALLER_MODE_EDITION_PAS_DEFAUT_XML]    = &RepartiteurActions::actionBoutonAllerModeEditionPasDefautXML;
     banqueActions_[ACTION_ALLER_MODE_JEU]        = &RepartiteurActions::actionBoutonAllerModeJeu;
     banqueActions_[ACTION_ALLER_MODE_TOURNOI]    = &RepartiteurActions::actionBoutonAllerModeTournoi;
     banqueActions_[ACTION_ALLER_MENU_PRINCIPAL]  = &RepartiteurActions::actionBoutonAllerMenuPrincipal;
@@ -86,6 +88,8 @@ RepartiteurActions::RepartiteurActions()
     banqueActions_[ACTION_CAMERA_ORBITE]         = &RepartiteurActions::actionChangerModeCameraOrbite;
     banqueActions_[ACTION_CAMERA_LIBRE]          = &RepartiteurActions::actionChangerModeCameraLibre;
     banqueActions_[ACTION_CAMERA_SPLIT]          = &RepartiteurActions::actionChangerModeCameraSplit;
+
+    
 
 }
 
@@ -459,6 +463,25 @@ bool RepartiteurActions::actionBoutonAllerModeEdition()
 
 ////////////////////////////////////////////////////////////////////////
 ///
+/// @fn bool RepartiteurActions::actionBoutonAllerModeEditionPasDefautXML()
+///
+/// Fonction pour aller en mode édition
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool RepartiteurActions::actionBoutonAllerModeEditionPasDefautXML()
+{
+    // important de signaler le modele avant de faire le changement d'état, car
+    // celui-ci utilise des informations du modèle pour s'initialiser
+	bool retour =  FacadeModele::getInstance()->passageModeEdition(false);
+	return retour;
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
 /// @fn bool RepartiteurActions::actionBoutonAllerModeTournoi()
 ///
 /// Fonction pour aller en mode tournoi
@@ -546,7 +569,7 @@ bool RepartiteurActions::actionTogglePauseJeu()
 bool RepartiteurActions::actionReplay()
 {
     Partie* wGame = FacadeModele::getInstance()->obtenirPartieCourante();
-    if(wGame && !wGame->isNetworkClientGame())
+	if(wGame && (!wGame->isNetworkClientGame() || wGame->getGameStatus()==GAME_ENDED))
     {
         // Toggle
 	    if(GestionnaireAnimations::obtenirInstance()->estJouerReplay())
@@ -770,6 +793,22 @@ bool RepartiteurActions::actionReinitialiserRondelle()
     {
         FacadeModele::getInstance()->reinitialiserRondelle();
     }
+    return true;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool RepartiteurActions::actionPlayInEditor()
+///
+/// /*Description*/
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool RepartiteurActions::actionPlayInEditor()
+{
+    GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_PIE_MODE);
     return true;
 }
 

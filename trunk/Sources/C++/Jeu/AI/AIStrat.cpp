@@ -9,6 +9,17 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "AIStrat.h"
+#include "NoeudRondelle.h"
+#include "NoeudMaillet.h"
+#include "Partie.h"
+#include "Terrain.h"
+
+
+bool AIStrat::TesterPushPuckOnTheOtherSide(Partie* pPartie, NoeudMaillet* pMaillet )
+{
+    NoeudRondelle* wPuck = pPartie->getField()->getPuck();
+    return pMaillet->estAGauche() ? (wPuck->getPosition()[VX] > 0) : (wPuck->getPosition()[VX] < 0);
+}
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -23,6 +34,8 @@
 ////////////////////////////////////////////////////////////////////////
 AIStrat::AIStrat(const AIMaillet& context): context_(context)
 {
+    mGameTime.reset_Time();
+    mGameTime.unPause();
 }
 
 ////////////////////////////////////////////////////////////////////////

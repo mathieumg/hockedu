@@ -58,6 +58,9 @@ switch( $Website->getModules( 0 ) )
     case 'map':
         $Website->setIncludeModule( 'usermap' );
         break;
+    case 'achievements':
+        $Website->setIncludeModule( 'achievements' );
+        break;
     case 'user':
         $Website->setIncludeModule( 'userprofile' );
         break;

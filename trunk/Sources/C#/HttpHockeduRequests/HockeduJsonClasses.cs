@@ -42,6 +42,7 @@ namespace HttpHockeduRequests
         public string   creation_time { get; set; }
         public string   last_modified_time { get; set; }
         public override string ToString() { return name; }
+        public string author { get; set; }
     }
 
 

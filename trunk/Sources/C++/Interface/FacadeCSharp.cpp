@@ -997,6 +997,23 @@ void SetEditionEventCallBack( EditionEventReceived callback )
     EditionEventManager::setEditionEventCallback(callback);
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void SetDisplayMessageCallback( DisplayMessageCallback c )
+///
+/// /*Description*/
+///
+/// @param[in] DisplayMessageCallback c
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void SetDisplayMessageCallback( DisplayMessageCallback c )
+{
+    utilitaire::mDisplayMessageCallback = c;
+}
+
+
 void requestMatchmaking(  )
 {
     PaquetGameConnection* wPaquet = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);

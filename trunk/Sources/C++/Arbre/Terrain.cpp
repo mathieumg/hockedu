@@ -77,7 +77,7 @@
 #include "FieldRunnableStructs.h"
 
 
-#define TransmitEvent(e) EditionEventManager::TransmitEvent(e)
+#define TransmitEvent(e) if(!IsGameField()) EditionEventManager::TransmitEvent(e)
 
 const unsigned int MAX_PUCKS = 1;
 const unsigned int MAX_MALLETS = 2;
@@ -99,7 +99,7 @@ PRAGMA_DISABLE_OPTIMIZATION
 Terrain::Terrain(Partie* pGame): 
     mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame),mZamboni(NULL),
     mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL), mIsInit(false), mModifStrategy(NULL),mDoingUndoRedo(false),mCurrentState(NULL), mBesoinMiseAuJeu(false),
-    mIsSimulation(false),mPuckZone(PUCK_ZONE_UNKNOWN)
+    mIsSimulation(false),mPuckZone(PUCK_ZONE_UNKNOWN),mResizeTableModel(true)
 #if __APPLE__
 /// pointer to the callback to do the render in objc
 ,mRenderObjC(NULL)
@@ -528,7 +528,7 @@ void Terrain::initialiserArbreRendu()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= true */ )
+bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= true*/, bool correctErrors /*= true */ )
 {
     libererMemoire();
     
@@ -589,16 +589,24 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
     }
     catch(ExceptionJeu& e)
     {
-        // Erreur dans le fichier XML, on remet un terrain par defaut
-        creerTerrainParDefaut(mFieldName);
-        utilitaire::afficherErreur(e.what());
-        return true;
+        if(correctErrors)
+        {
+            // Erreur dans le fichier XML, on remet un terrain par defaut
+            creerTerrainParDefaut(mFieldName);
+            utilitaire::afficherErreur(e.what());
+            return true;
+        }
+        return false;
     }
     catch(...)
     {
-        // Erreur dans le fichier XML, on remet un terrain par defaut
-        creerTerrainParDefaut(mFieldName);
-        return true;
+        if(correctErrors)
+        {
+            // Erreur dans le fichier XML, on remet un terrain par defaut
+            creerTerrainParDefaut(mFieldName);
+            return true;
+        }
+        return false;
     }
 
     if(getZoneEdition() && !getZoneEdition()->initialisationXML(racine))
@@ -996,14 +1004,14 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
 {
     if(!mTable)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nNo table detected.");
+        if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nNo table detected.");
         return false;
     }
 
     // on prend un des 2 buts
     if(!mTable->obtenirBut(1))
     {
-        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nNo goal detected on the table.");
+        if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nNo goal detected on the table.");
         return false;
     }
     float hauteurBut = mTable->obtenirBut(1)->obtenirHauteurBut();
@@ -1061,7 +1069,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
     checkf(g);
     if(g && g->childCount() == 1)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nOnly one portal detected, please add a second one.");
+        if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nOnly one portal detected, please add a second one.");
         return false;
     }
 
@@ -1073,17 +1081,17 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
 
     if(!puck)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nNo puck detected.");
+        if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nNo puck detected.");
         return false;
     }
     if(!leftMallet)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nThere's no mallet on the left side.");
+        if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nThere's no mallet on the left side.");
         return false;
     }
     if(!rightMallet)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nThere's no mallet on the right side.");
+        if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nThere's no mallet on the right side.");
         return false;
     }
 
@@ -1093,7 +1101,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
         if(afficherErreur)
         {
             std::ostringstream mess;
-            mess << "Error: Invalid table\nGoals are too small.\nMissing width = ";
+            mess << "Invalid table :\nGoals are too small.\nMissing width = ";
             mess << (float)puck->getRadius()*2+20-hauteurBut;
             mess << " pixels";
             utilitaire::afficherErreur(mess.str());
@@ -1130,7 +1138,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
                     if ( f->RayCast( &output, input,childindex) )
                     {
                         // collision detected
-                        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nA mallet is touching the middle line.");
+                        if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nA mallet is touching the middle line.");
                         return false;
                     }
                 }
@@ -1144,7 +1152,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
         Vecteur2 intersection;
         if(aidecollision::calculerCollisionSegment(point1,point2,node->getPosition(),node->getRadius()).type != aidecollision::COLLISION_AUCUNE )
         {
-            if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nA mallet is touching the middle line.");
+            if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nA mallet is touching the middle line.");
             return false;
         }
     }
@@ -1155,12 +1163,12 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
     auto posright = rightMallet->getPosition();
     if(posleft[VX] > 0)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nThere're two mallets on the right side.");
+        if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nThere're two mallets on the right side.");
         return false;
     }
     if(posright[VX] < 0)
     {
-        if(afficherErreur)utilitaire::afficherErreur("Error: Invalid table\nThere're two mallets on the left side.");
+        if(afficherErreur)utilitaire::afficherErreur("Invalid table :\nThere're two mallets on the left side.");
         return false;
     }
 
@@ -1184,7 +1192,6 @@ NoeudRondelle* Terrain::getPuck() const
         checkf(IsGameField(), "Dans le mode édition on ne conserve pas de pointeur sur la puck");
         return mPuck;
     }
-    checkf(!IsGameField() || (mGame && mGame->getGameStatus() == GAME_NOT_READY), "Dans le mode jeu on doit avoir un pointeur sur la puck");
 
     if(getTable())
     {
@@ -1855,7 +1862,6 @@ NoeudMaillet* Terrain::getLeftMallet() const
         checkf(IsGameField(), "Dans le mode Edition on ne conserve pas de pointeur sur le maillet");
         return mLeftMallet;
     }
-    checkf(!IsGameField() || (mGame && mGame->getGameStatus() == GAME_NOT_READY), "Dans le mode jeu on doit avoir un pointeur sur le maillet");
 
     NoeudMaillet* maillet = NULL;
     if(getTable())
@@ -1893,7 +1899,6 @@ NoeudMaillet* Terrain::getRightMallet() const
         checkf(IsGameField(), "Dans le mode Edition on ne conserve pas de pointeur sur le maillet");
         return mRightMallet;
     }
-    checkf(!IsGameField() || (mGame && mGame->getGameStatus() == GAME_NOT_READY), "Dans le mode jeu on doit avoir un pointeur sur le maillet");
 
     NoeudMaillet* maillet = NULL;
     if(getTable())
@@ -2151,6 +2156,7 @@ void Terrain::NodeSelectionNotification( NoeudAbstrait* node, bool selected )
 ////////////////////////////////////////////////////////////////////////
 bool Terrain::selectNodes( Vecteur2 positionMin, Vecteur2 positionMax, bool toggleSelection )
 {
+    std::set<NoeudAbstrait*> oldSelection = mSelectedNodes;
     if(!toggleSelection)
     {
         setTableItemsSelection(false);
@@ -2219,7 +2225,30 @@ bool Terrain::selectNodes( Vecteur2 positionMin, Vecteur2 positionMax, bool togg
     acceptVisitor(visitor);
     visitor.faireSelection();
 #endif
-    pushUndoState();
+
+
+    bool pushUndo = false;
+    if(oldSelection.size() == mSelectedNodes.size())
+    {
+        STL_ITERATE(mSelectedNodes,it)
+        {
+            if(find(oldSelection.begin(),oldSelection.end(),*it) == oldSelection.end())
+            {
+                pushUndo = true;
+                break;
+            }
+        }
+    }
+    else
+    {
+        pushUndo = true;
+    }
+
+    if(pushUndo)
+    {
+        pushUndoState();
+    }
+
     return !!getSelectedNodes().size();
 }
 

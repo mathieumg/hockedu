@@ -7,69 +7,83 @@
 //
 
 #import "EventManager.h"
-
+#import "EAGLViewController.h"
 @implementation EventManager
 
-@synthesize mCurrentState = _mCurrentState;
-@synthesize mModel = _mModel;
+@synthesize mCurrentState;
+@synthesize mModel;
+@synthesize mViewController;
 
--(EventManager*) init:(Model*)model
+-(EventManager*) init:(Model*)model:(EAGLViewController*)viewController
 {
-    _mModel = model;
-    _mCurrentState = [[EditorStateSelection alloc]init]; // Etat par defaut en ouvrant l'editeur
+    mModel = model;
+    mCurrentState = [[EditorStateSelection alloc]init:self]; // Etat par defaut en ouvrant l'editeur
+    mViewController = viewController;
     return self;
 }
 
 - (void)dealloc {
-    [_mModel release];
-    [_mCurrentState release];
+    [mModel release];
+    [mCurrentState release];
     [super dealloc];
 }
 
--(void)touchesBegan:(UITouch *)touch:(CGPoint)coordVirt
+-(void)touchesBegan:(CGPoint)coordVirt
 {
-    [_mCurrentState touchesBegan:touch:coordVirt:_mModel];
+    if(mCurrentState)
+    {
+        [mCurrentState touchesBegan:coordVirt];
+    }
+    
 }
--(void)touchesMoved:(UITouch *)touch:(CGPoint)coordVirt
+-(void)touchesMoved:(CGPoint)coordVirt
 {
-    [_mCurrentState touchesMoved:touch:coordVirt:_mModel];
+    if(mCurrentState)
+    {
+        [mCurrentState touchesMoved:coordVirt];
+    }
 }
--(void)touchesEnded:(UITouch *)touch:(CGPoint)coordVirt
+-(void)touchesEnded:(CGPoint)coordVirt
 {
-    [_mCurrentState touchesEnded:touch:coordVirt:_mModel];
+    if(mCurrentState)
+    {
+        [mCurrentState touchesEnded:coordVirt];
+    }
+    
 }
 
 -(void) modifyState:(EditorStateName)editorState
 {
-    if(_mCurrentState!=nil)
+    if(mCurrentState!=nil)
     {
-        [_mCurrentState release];
+        [mCurrentState stateEnd];
+        [mCurrentState release];
     }
     switch(editorState)
     {
-        case EDITOR_STATE_TRANSFORMATION_ROTATION : _mCurrentState = [[EditorStateTransform alloc] init:FIELD_MODIFICATION_ROTATE];
+        case EDITOR_STATE_TRANSFORMATION_ROTATION : mCurrentState = [[EditorStateTransform alloc] init:FIELD_MODIFICATION_ROTATE:self];
             break;
-        case EDITOR_STATE_TRANSFORMATION_ECHELLE : _mCurrentState = [[EditorStateTransform alloc] init:FIELD_MODIFICATION_SCALE];
+        case EDITOR_STATE_TRANSFORMATION_ECHELLE : mCurrentState = [[EditorStateTransform alloc] init:FIELD_MODIFICATION_SCALE:self];
             break;
-        case EDITOR_STATE_TRANSFORMATION_DEPLACEMENT : _mCurrentState = [[EditorStateTransform alloc] init:FIELD_MODIFICATION_MOVE];
+        case EDITOR_STATE_TRANSFORMATION_DEPLACEMENT : mCurrentState = [[EditorStateTransform alloc] init:FIELD_MODIFICATION_MOVE:self];
             break;
-        case EDITOR_STATE_SELECTION : _mCurrentState = [[EditorStateSelection alloc] init];
+        case EDITOR_STATE_SELECTION : mCurrentState = [[EditorStateSelection alloc] init:self];
             break;
-        case EDITOR_STATE_AJOUTER_PORTAIL : _mCurrentState = [[EditorStateAdd alloc] init:FIELD_MODIFICATION_ADD_PORTAL];
+        case EDITOR_STATE_AJOUTER_PORTAIL : mCurrentState = [[EditorStateAdd alloc] init:FIELD_MODIFICATION_ADD_PORTAL:self];
             break;
-        case EDITOR_STATE_AJOUTER_MURET : _mCurrentState = [[EditorStateAdd alloc] init:FIELD_MODIFICATION_ADD_WALL];
+        case EDITOR_STATE_AJOUTER_MURET : mCurrentState = [[EditorStateAdd alloc] init:FIELD_MODIFICATION_ADD_WALL:self];
             break;
-        case EDITOR_STATE_AJOUTER_MAILLET : _mCurrentState = [[EditorStateAdd alloc] init:FIELD_MODIFICATION_ADD_MALLET];
+        case EDITOR_STATE_AJOUTER_MAILLET : mCurrentState = [[EditorStateAdd alloc] init:FIELD_MODIFICATION_ADD_MALLET:self];
             break;
-        case EDITOR_STATE_AJOUTER_RONDELLE : _mCurrentState = [[EditorStateAdd alloc] init:FIELD_MODIFICATION_ADD_PUCK];
+        case EDITOR_STATE_AJOUTER_RONDELLE : mCurrentState = [[EditorStateAdd alloc] init:FIELD_MODIFICATION_ADD_PUCK:self];
             break;
-        case EDITOR_STATE_AJOUTER_ACCELERATEUR : _mCurrentState = [[EditorStateAdd alloc] init:FIELD_MODIFICATION_ADD_BOOST];
+        case EDITOR_STATE_AJOUTER_ACCELERATEUR : mCurrentState = [[EditorStateAdd alloc] init:FIELD_MODIFICATION_ADD_BOOST:self];
             break;
-        case EDITOR_STATE_AJOUTER_BONUS : _mCurrentState = [[EditorStateAdd alloc] init:FIELD_MODIFICATION_ADD_BONUS];
+        case EDITOR_STATE_AJOUTER_BONUS : mCurrentState = [[EditorStateAdd alloc] init:FIELD_MODIFICATION_ADD_BONUS:self];
             break;
-        case EDITOR_STATE_MOVE_WINDOW : _mCurrentState = [[EditorStateView alloc]init];
+        case EDITOR_STATE_MOVE_WINDOW : mCurrentState = [[EditorStateView alloc]init:self];
             break;
-        case EDITOR_STATE_ZOOM_PROPORTIONNEL : _mCurrentState = [[EditorStateView alloc]init];
+        case EDITOR_STATE_ZOOM_PROPORTIONNEL : mCurrentState = [[EditorStateView alloc]init:self];
             break;
         default: break;
     }

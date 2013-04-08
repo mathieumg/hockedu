@@ -13,49 +13,62 @@
 #include "AFJSONRequestOperation.h"
 #include "AFHTTPClient.h"
 #include "VuePerspectiveOrbit.h"
+#include "VuePerspectiveCiel.h"
+#include "VuePerspectiveLibre.h"
 #include "EditionEventManager.h"
 #import "VisitorGatherProperties.h"
 #include <time.h>
 #include <iostream>
+#include "Utilitaire.h"
+#import "Facade.h"
 
-@implementation FullPropertiesApple
-@end
+//@implementation FullPropertiesApple
+//@end
+
+void displayMessageCallback(const char* message)
+{
+    NSString* msg =  [NSString stringWithFormat:@"%s" , message];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    // optional - add more buttons:
+    //[alert addButtonWithTitle:@"Yes"];
+    [alert show];
+}
 
 static Model3DManager* model3DManager = NULL;
 vue::Vue* mView = NULL;
 void EditionEventCallback(EditionEventCodes pEvent)
 {
     switch (pEvent) {
-            
         case ENABLE_PUCK_CREATION:
-            //NSLog(@"Can create Puck\n");
+            [Facade EnablePuckCreation];
             break;
         case DISABLE_PUCK_CREATION:
-            //NSLog(@"Cannot Create Puck\n");
+            [Facade DisablePuckCreation];
             break;
         case ENABLE_MALLET_CREATION:
-            //NSLog(@"Can create Mallet\n");
+            [Facade EnableMalletCreation];
             break;
         case DISABLE_MALLET_CREATION:
-            //NSLog(@"Cannot create puck\n");
+            [Facade DisableMalletCreation];
             break;
         case THERE_ARE_NODES_SELECTED:
-            //NSLog(@"There are items selected\n");
+            [Facade ThereAreNodesSelected];
             break;
         case THERE_ARE_NO_NODE_SELECTED:
-            //NSLog(@"There are no nodes selected\n");
+            [Facade ThereAreNoNodesSelected];
             break;
         case CAN_UNDO:
-            //NSLog(@"Can Undo modification\n");
+            [Facade CanUndo];
             break;
         case CANNOT_UNDO:
-            //NSLog(@"Cannot Undo modification\n");
+            [Facade CannotUndo];
             break;
         case CAN_REDO:
-            //NSLog(@"Can Redo modification\n");
+            [Facade CanRedo];
             break;
         case CANNOT_REDO:
-            //NSLog(@"Cannot Redo modification\n");
+            [Facade CannotRedo];
             break;
         default:
             break;
@@ -73,6 +86,7 @@ bool RenderNodeCallback(RazerKey key)
 
 @implementation Model
 
+
 float temps = clock();
 
 - (void)render
@@ -88,6 +102,7 @@ float temps = clock();
 }
 - (id)init
 {
+    utilitaire::mDisplayMessageCallback = displayMessageCallback;
     EditionEventManager::setEditionEventCallback(EditionEventCallback);
     mField = new Terrain(NULL);
     mModel3DManager = [[Model3DManager alloc]init];
@@ -101,6 +116,7 @@ float temps = clock();
     
     ((Terrain*)mField)->setModelManagerObjc(RenderNodeCallback);
     ((Terrain*)mField)->createRandomField("test");
+    
     return self;
 }
 
@@ -122,7 +138,7 @@ float temps = clock();
     return ((Terrain*)mField)->selectNodes((Vecteur2)posMin,(Vecteur2)posMax,false);
 }
 
--(void) beginModification:(FieldModificationStrategyType)type :(CGPoint)coordVirt
+-(int) beginModification:(FieldModificationStrategyType)type :(CGPoint)coordVirt
 {
     FieldModificationStrategyEvent event;
     Vecteur3 pos;
@@ -130,22 +146,22 @@ float temps = clock();
     event.mPosition = pos;
     event.mType = FIELD_MODIFICATION_EVENT_CLICK;
     
-    ((Terrain*)mField)->BeginModification(type, event);
+    return ((Terrain*)mField)->BeginModification(type, event);
 }
 
--(void) eventModification:(FieldModificationStrategyEventType)type :(CGPoint)coordVirt
+-(int) eventModification:(FieldModificationStrategyEventType)type :(CGPoint)coordVirt
 {
     FieldModificationStrategyEvent event;
     event.mType = type;
     Vecteur3 pos;
     mView->convertirClotureAVirtuelle(coordVirt.x, coordVirt.y, pos);
     event.mPosition = pos;
-    ((Terrain*)mField)->ReceiveModificationEvent(event);
+    return ((Terrain*)mField)->ReceiveModificationEvent(event);
 }
 
--(void) endModification
+-(int) endModification
 {
-    ((Terrain*)mField)->EndModification();
+    return ((Terrain*)mField)->EndModification();
 }
 
 -(void) eventCancel;
@@ -167,11 +183,11 @@ float temps = clock();
 {
     if(scale>0)
     {
-        mView->zoomerIn();
+        mView->zoomerInSmooth();
     }
     else
     {
-        mView->zoomerOut();
+        mView->zoomerOutSmooth();
     }
     
 }
@@ -180,6 +196,60 @@ float temps = clock();
 {
     mView->deplacerXYSouris(deplacementX, deplacementY);
 }
+
+
+-(void) createCameraFixed
+{
+    int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
+    vue::Camera& cameraCourante = mView->obtenirCamera();
+	mView->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);
+    
+	vue::VuePerspectiveCiel* nouvelleVue = new vue::VuePerspectiveCiel(
+                                                                       cameraCourante,
+                                                                       0, 400, 0, 400,
+                                                                       180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
+                                                                       -150, 150, -150, 150);
+	
+	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
+    delete mView;
+    mView = nouvelleVue;
+    mView->centrerCamera(((Terrain*)mField)->GetTableWidth());
+}
+-(void) createCameraOrbit
+{
+    int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
+    vue::Camera& cameraCourante = mView->obtenirCamera();
+	mView->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);
+    
+	vue::VuePerspectiveOrbit* nouvelleVue = new vue::VuePerspectiveOrbit(
+                                                                         cameraCourante,
+                                                                         0, 400, 0, 400,
+                                                                         180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
+                                                                         -150, 150, -150, 150);
+	
+	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
+    delete mView;
+    mView = nouvelleVue;
+    mView->centrerCamera(((Terrain*)mField)->GetTableWidth());
+}
+-(void) createCameraFree
+{
+    int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
+    vue::Camera& cameraCourante = mView->obtenirCamera();
+	mView->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);
+    
+    vue::VuePerspectiveLibre* nouvelleVue = new vue::VuePerspectiveLibre(
+                                                                         cameraCourante,
+                                                                         0, 300, 0, 400,
+                                                                         180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
+                                                                         -150, 150, -150, 150);
+	
+	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
+    delete mView;
+    mView = nouvelleVue;
+    mView->centrerCamera(((Terrain*)mField)->GetTableWidth());
+}
+
 
 -(void) orbit:(int)deplacementX :(int)deplacementY
 {
@@ -202,6 +272,8 @@ float temps = clock();
 
 -(void) saveField
 {
+    if(((Terrain*)mField)->verifierValidite())
+    {
     NSError* error;
 
     
@@ -251,64 +323,65 @@ float temps = clock();
         NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
     }];
     [httpClient release];
+    }
 }
 
 // Point d'entre pour le menu de modification des proprietes
--(FullPropertiesApple*) getProperties
+-(void) getProperties:(FullPropertiesApple*)prop
 {
-    FullProperties* fullP = new FullProperties();
-    ((Terrain*)mField)->gatherSelectedNodeProperties(fullP);
-    FullPropertiesApple *prop;
+    FullProperties fullP;
+    ((Terrain*)mField)->gatherSelectedNodeProperties(&fullP);
+    //FullPropertiesApple *prop;
     
-    prop->mFriction= fullP->mFriction;
-    prop->mZoneEditionX= fullP->mZoneEditionX;
-    prop->mZoneEditionY= fullP->mZoneEditionY;
-    prop->mScale= fullP->mScale;
-    prop->mAcceleration= fullP->mAcceleration;
-    prop->mPositionX= fullP->mPositionX;
-    prop->mPositionY= fullP->mPositionY;
-    prop->mAttraction= fullP->mAttraction;
-    prop->mAngle= fullP->mAngle;
-    prop->mRebound= fullP->mRebound;
-    prop->mMinBonusSpawnTime= fullP->mMinBonusSpawnTime;
-    prop->mMaxBonusSpawnTime= fullP->mMaxBonusSpawnTime;
-    prop->mRinkRebound1= fullP->mRinkRebound1;
-    prop->mRinkRebound2= fullP->mRinkRebound2;
-    prop->mRinkRebound3= fullP->mRinkRebound3;
-    prop->mRinkRebound4= fullP->mRinkRebound4;
-    prop->mRinkRebound5= fullP->mRinkRebound5;
-    prop->mRinkRebound6= fullP->mRinkRebound6;
-    prop->mRinkRebound7= fullP->mRinkRebound7;
-    prop->mRinkRebound8= fullP->mRinkRebound8;
-    prop->mPropertyFlagAssignment = fullP->mPropertyFlagAssignment;
+    prop->mFriction= fullP.mFriction;
+    prop->mZoneEditionX= fullP.mZoneEditionX;
+    prop->mZoneEditionY= fullP.mZoneEditionY;
+    prop->mScale= fullP.mScale;
+    prop->mAcceleration= fullP.mAcceleration;
+    prop->mPositionX= fullP.mPositionX;
+    prop->mPositionY= fullP.mPositionY;
+    prop->mAttraction= fullP.mAttraction;
+    prop->mAngle= fullP.mAngle;
+    prop->mRebound= fullP.mRebound;
+    prop->mMinBonusSpawnTime= fullP.mMinBonusSpawnTime;
+    prop->mMaxBonusSpawnTime= fullP.mMaxBonusSpawnTime;
+    prop->mRinkRebound1= fullP.mRinkRebound1;
+    prop->mRinkRebound2= fullP.mRinkRebound2;
+    prop->mRinkRebound3= fullP.mRinkRebound3;
+    prop->mRinkRebound4= fullP.mRinkRebound4;
+    prop->mRinkRebound5= fullP.mRinkRebound5;
+    prop->mRinkRebound6= fullP.mRinkRebound6;
+    prop->mRinkRebound7= fullP.mRinkRebound7;
+    prop->mRinkRebound8= fullP.mRinkRebound8;
+    prop->mPropertyFlagAssignment = fullP.mPropertyFlagAssignment;
     
-    return prop;
+//    return prop;
 }
 -(void) setProperties:(FullPropertiesApple*)prop;
 {
-    FullProperties* fullP;
-    fullP->mFriction = prop->mFriction;
-    fullP->mZoneEditionX = prop->mZoneEditionX;
-    fullP->mZoneEditionY = prop->mZoneEditionY;
-    fullP->mScale = prop->mScale;
-    fullP->mAcceleration = prop->mAcceleration;
-    fullP->mPositionX = prop->mPositionX;
-    fullP->mPositionY = prop->mPositionY;
-    fullP->mAttraction = prop->mAttraction;
-    fullP->mAngle = prop->mAngle;
-    fullP->mRebound = prop->mRebound;
-    fullP->mMinBonusSpawnTime = prop->mMinBonusSpawnTime;
-    fullP->mMaxBonusSpawnTime = prop->mMaxBonusSpawnTime;
-    fullP->mRinkRebound1 = prop->mRinkRebound1;
-    fullP->mRinkRebound2 = prop->mRinkRebound2;
-    fullP->mRinkRebound3 = prop->mRinkRebound3;
-    fullP->mRinkRebound4 = prop->mRinkRebound4;
-    fullP->mRinkRebound5 = prop->mRinkRebound5;
-    fullP->mRinkRebound6 = prop->mRinkRebound6;
-    fullP->mRinkRebound7 = prop->mRinkRebound7;
-    fullP->mRinkRebound8 = prop->mRinkRebound8;
-    fullP->mPropertyFlagAssignment = prop->mPropertyFlagAssignment;
-    ((Terrain*)mField)->applySelectedNodeProperties(fullP);
+    FullProperties fullP;
+    fullP.mFriction = prop->mFriction;
+    fullP.mZoneEditionX = prop->mZoneEditionX;
+    fullP.mZoneEditionY = prop->mZoneEditionY;
+    fullP.mScale = prop->mScale;
+    fullP.mAcceleration = prop->mAcceleration;
+    fullP.mPositionX = prop->mPositionX;
+    fullP.mPositionY = prop->mPositionY;
+    fullP.mAttraction = prop->mAttraction;
+    fullP.mAngle = prop->mAngle;
+    fullP.mRebound = prop->mRebound;
+    fullP.mMinBonusSpawnTime = prop->mMinBonusSpawnTime;
+    fullP.mMaxBonusSpawnTime = prop->mMaxBonusSpawnTime;
+    fullP.mRinkRebound1 = prop->mRinkRebound1;
+    fullP.mRinkRebound2 = prop->mRinkRebound2;
+    fullP.mRinkRebound3 = prop->mRinkRebound3;
+    fullP.mRinkRebound4 = prop->mRinkRebound4;
+    fullP.mRinkRebound5 = prop->mRinkRebound5;
+    fullP.mRinkRebound6 = prop->mRinkRebound6;
+    fullP.mRinkRebound7 = prop->mRinkRebound7;
+    fullP.mRinkRebound8 = prop->mRinkRebound8;
+    fullP.mPropertyFlagAssignment = prop->mPropertyFlagAssignment;
+    ((Terrain*)mField)->applySelectedNodeProperties(&fullP);
 }
 -(RazerKey) getSelectedNodesType
 {

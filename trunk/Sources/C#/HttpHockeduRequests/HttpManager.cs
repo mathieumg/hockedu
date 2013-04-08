@@ -245,13 +245,13 @@ namespace HttpHockeduRequests
             }
             catch
             {
-                wCallback( wMapId.ToString() );
+                wCallback("", wMapId);
                 return;
             }
             // On sauvegarde le data dans un fichier XML et on retourne le path
             if ( wMapLight.error != null )
             {
-                wCallback( wMapId.ToString() );
+                wCallback("", wMapId);
                 return;
             }
             else
@@ -273,11 +273,11 @@ namespace HttpHockeduRequests
                     catch ( Exception )
                     {
                         // Si encore une erreur, on retourne rien
-                        wCallback( wMapId.ToString() );
+                        wCallback("", wMapId);
                         return;
                     }
                 }
-                wCallback( wDestinationFilePath ); // Retourne le file path ou le fichier a ete sauvegarde en local
+                wCallback( wDestinationFilePath, wMapId ); // Retourne le file path ou le fichier a ete sauvegarde en local
             }
         }
 

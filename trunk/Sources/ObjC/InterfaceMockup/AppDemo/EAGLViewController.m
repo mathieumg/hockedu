@@ -9,6 +9,7 @@
 #import "EAGLView.h"
 #define degreesToRadian(x) (M_PI * (x) / 180.0)
 #import "Enum_Declarations.h"
+#import "Facade.h"
 int const LARGEUR_FENETRE = 1024;
 int const HAUTEUR_FENETRE = 768;
 // Uniform index.
@@ -43,7 +44,7 @@ enum {
 @property (retain, nonatomic) IBOutlet UIView *undoRedoView;
 
 // View pour le panel de modification des proprietes
-@property (retain, nonatomic) IBOutlet UIView *mPropertyView;
+@property (retain, nonatomic) IBOutlet UIImageView *mPropertyView;
 @property (retain, nonatomic) IBOutlet UIView *mTablePropertyView;
 @property (retain, nonatomic) IBOutlet UIView *mBoostPropertyView;
 @property (retain, nonatomic) IBOutlet UIView *mPortalPropertyView;
@@ -52,6 +53,8 @@ enum {
 @property (retain, nonatomic) IBOutlet UIView *mWallPropertyView;
 @property (retain, nonatomic) IBOutlet UIView *mControlPointPropertyView;
 @property (retain, nonatomic) IBOutlet UIView *mBonusPropertyView;
+@property (retain, nonatomic) IBOutlet UIView *applyView;
+
 
 @property (nonatomic, assign) CADisplayLink *displayLink;
 @property (nonatomic, assign) BOOL wrap;
@@ -79,6 +82,7 @@ enum {
 @synthesize mWallPropertyView;
 @synthesize mControlPointPropertyView;
 @synthesize mBonusPropertyView;
+@synthesize applyView;
 
 @synthesize undoRedoView;
 @synthesize context;
@@ -104,7 +108,7 @@ enum {
     }
     
     [self.view init];
-    theEAGLView = [[EAGLView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.mGLView.bounds.size.height, self.mGLView.bounds.size.width)];
+    theEAGLView = [[EAGLView alloc] initWithFrame:CGRectMake(mSideBarView.frame.size.width, 0.0, self.mGLView.bounds.size.height - mTopBarView.frame.size.height, self.mGLView.bounds.size.width - mSideBarView.frame.size.width + 50)];
     
     if (!theEAGLView)
         NSLog(@"Failed to create ES view");
@@ -113,19 +117,23 @@ enum {
     
     mModel = [[Model alloc]init];
     [mModel resizeWindow:0 :0 :LARGEUR_FENETRE :HAUTEUR_FENETRE];
-    mEventManager = [[EventManager alloc]init:mModel];
+    mEventManager = [[EventManager alloc]init:mModel:self];
     translationX = 0.0;
     translationY = 0.0;
     zoomFactor = 0.5;
     
     [self.mGLView addSubview:theEAGLView];
+    [self.mGLView addSubview:helpButton];
     [self.mGLView addSubview:mSideBarView];
     [self.mGLView addSubview:mTopBarView];
+    [mTopBarView addSubview:editionToolsView];
+    [mTopBarView addSubview:cameraToolsView];
+    cameraToolsView.frame = editionToolsView.frame;
     [self.mGLView addSubview:undoRedoView];
     [self.mGLView addSubview:mPropertyView];
     [self.theEAGLView setFramebuffer];
     
-    //mPropertyTableView.dataSource = tablePropertiesCell;
+    [Facade registerController:self];
     
     // On cache la bar en dehors a droite
     self.mPropertyView.center = CGPointMake(mPropertyView.center.x + mPropertyView.bounds.size.width, mPropertyView.center.y);
@@ -142,6 +150,12 @@ enum {
     
     buttonImagePressed = [[UIImage imageNamed:@"blueButtonPressed@2x.png"]
                           resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    
+    buttonImageCameraPressed = [[UIImage imageNamed:@"blueButtonCameraPressed@2x.png"]
+                          resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    
+    buttonImageDisabled = [[UIImage imageNamed:@"blueButtonCameraDisabled@2x.png"]
+                                resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     
     carouselBackgroundImage = [UIImage imageNamed:@"carouselBackground.png"];
     carouselBackgroundSelected = [UIImage imageNamed:@"carouselBackgroundHighlight.png"];
@@ -165,14 +179,29 @@ enum {
     [duplicateButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [duplicateButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     
-    [editionButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
-    [editionButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
-    
     [deleteButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [deleteButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     
+    [skyViewButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [skyViewButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [freeRoamButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [freeRoamButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [orbitalButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [orbitalButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [editionButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateNormal];
+    [editionButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateHighlighted];
+    
     [cameraButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [cameraButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [settingsButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [settingsButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [applyButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [applyButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     
     CarouselElement *mailletCarousel = [[CarouselElement alloc] init];
     mailletCarousel->ModifType=EDITOR_STATE_AJOUTER_MAILLET;
@@ -206,7 +235,7 @@ enum {
     
     carouselElements = [[NSArray alloc] initWithObjects:mailletCarousel,rondelleCarousel,muretCarousel,accelerateurCarousel,portailCarousel,bonusCarousel,nil];
 
-    [self pressButtonUI:selectButton];
+    [self pressButtonUICameras:orbitalButton];
     
     [buttonImage retain];
     [buttonImageHighlight retain];
@@ -261,6 +290,16 @@ enum {
     [leftArrowButton release];
     [rightArrowButton release];
     [carouselBackground release];
+    [applyView release];
+    [applyButton release];
+    [helpButton release];
+    [settingsButton release];
+    [editionToolsView release];
+    [cameraToolsView release];
+    [buttonToolbarLabel release];
+    [skyViewButton release];
+    [freeRoamButton release];
+    [orbitalButton release];
     [super dealloc];
 }
 
@@ -308,6 +347,11 @@ enum {
     
     UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeDetected:)];
     
+    UIPanGestureRecognizer* panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panDetected:)];
+    
+    panGesture.maximumNumberOfTouches = 2;
+    panGesture.minimumNumberOfTouches = 2;
+    
     [rotationGesture setDelegate:self];
     //[longPressGesture setDelegate:self];
     //[longPressGesture setNumberOfTapsRequired:2];
@@ -315,11 +359,13 @@ enum {
     //[longPressGesture setCancelsTouchesInView:YES];
     [pinchGesture setDelegate:self];
     [swipeGesture setDelegate:self];
+    [panGesture setDelegate:self];
     
     [mGLView addGestureRecognizer:rotationGesture];
     //[mGLView addGestureRecognizer:longPressGesture];
     [mGLView addGestureRecognizer:longPressGesture];
     [mGLView addGestureRecognizer:pinchGesture];
+    [mGLView addGestureRecognizer:panGesture];
     [carousel addGestureRecognizer:swipeGesture];
     
     [rotationGesture release];
@@ -327,6 +373,7 @@ enum {
     [longPressGesture release];
     [pinchGesture release];
     [swipeGesture release];
+    [panGesture release];
     
     // FIN SETUP DES GESTURES
     
@@ -346,8 +393,9 @@ enum {
 }
 
 - (void) propertiesMenuButtonTouched:(PieMenuItem *)item {
-    FullPropertiesApple* prop = [[FullPropertiesApple alloc]init];
-    prop = [mModel getProperties];
+    
+    FullPropertiesApple prop;// = [[FullPropertiesApple alloc]init];
+    [mModel getProperties: &prop];
     // On enleve lancienne view
     for(UIView* subview in [mPropertyView subviews])
     {
@@ -357,57 +405,59 @@ enum {
     // On set la nouvelle view selon la selection
     switch ([mModel getSelectedNodesType]) {
         case RAZER_KEY_BONUS:
-            for(UITextField *textField in textBoxCollection){
-                switch (textField.tag) {
-                    case 39:
-                        // Pos X
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop->mPositionX];
-                        break;
-                    case 40:
-                        // Pos Y
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop->mPositionY];
-                        break;
-                    case 23:
-                        // Scale
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop->mScale];
-                        break;
-                    case 24:
-                        // Angle
-                        textField.text = [NSString stringWithFormat:@"%.2f",prop->mAngle];
-                        break;
-                        
-                    default:
-                        break;
-                }
-            }
-            
+            [self refreshProperty];
             [mPropertyView addSubview:mBonusPropertyView];
+            [mBonusPropertyView addSubview:applyView];
+            applyView.center = CGPointMake( mBonusPropertyView.frame.size.width/2,mBonusPropertyView.frame.size.height - (applyView.frame.size.height/2) - 7);
+            //[mBonusPropertyView setNeedsDisplay];
+            
             break;
         case RAZER_KEY_BOOST:
+            [self refreshProperty];
             [mPropertyView addSubview:mBoostPropertyView];
+            [mBoostPropertyView addSubview:applyView];
+            applyView.center = CGPointMake( mBoostPropertyView.frame.size.width/2,mBoostPropertyView.frame.size.height - (applyView.frame.size.height/2) - 3);
             break;
         case RAZER_KEY_CONTROL_POINT:
-            [mPropertyView addSubview:mControlPointPropertyView];
+            // WALLS
+            [self refreshProperty];
+            [mPropertyView addSubview:mWallPropertyView];
+            [mWallPropertyView addSubview:applyView];
+            applyView.center = CGPointMake( mWallPropertyView.frame.size.width/2,mWallPropertyView.frame.size.height - (applyView.frame.size.height/2) - 3);
             break;
         case RAZER_KEY_MALLET:
+            [self refreshProperty];
             [mPropertyView addSubview:mMalletPropertyView];
+            [mMalletPropertyView addSubview:applyView];
+            applyView.center = CGPointMake( mMalletPropertyView.frame.size.width/2,mMalletPropertyView.frame.size.height - (applyView.frame.size.height/2) - 3);
             break;
         case RAZER_KEY_PORTAL:
+            [self refreshProperty];
             [mPropertyView addSubview:mPortalPropertyView];
+            [mPortalPropertyView addSubview:applyView];
+            applyView.center = CGPointMake( mPortalPropertyView.frame.size.width/2,mPortalPropertyView.frame.size.height - (applyView.frame.size.height/2) - 3);
             break;
         case RAZER_KEY_PUCK:
+            [self refreshProperty];
             [mPropertyView addSubview:mPuckPropertyView];
+            [mPuckPropertyView addSubview:applyView];
+            applyView.center = CGPointMake( mPuckPropertyView.frame.size.width/2,mPuckPropertyView.frame.size.height - (applyView.frame.size.height/2) - 3);
             break;
         case RAZER_KEY_NONE:
+            [self refreshProperty];
             [mPropertyView addSubview:mTablePropertyView];
+            [mTablePropertyView addSubview:applyView];
+            applyView.center = CGPointMake( mTablePropertyView.frame.size.width/2,mTablePropertyView.frame.size.height - (applyView.frame.size.height/2) - 7);
             break;
         case RAZER_KEY_TABLE_CONTROL_POINT:
+            [self refreshProperty];
             [mPropertyView addSubview:mControlPointPropertyView];
+            [mControlPointPropertyView addSubview:applyView];
+            applyView.center = CGPointMake( mControlPointPropertyView.frame.size.width/2,mControlPointPropertyView.frame.size.height - (applyView.frame.size.height/2) - 3);
             break;
         default:
             break;
     }
-    
     [UIView beginAnimations:@"MenuAnimationShow" context:NULL];
     [UIView setAnimationDuration:1];
     self.mPropertyView.center = CGPointMake(mPropertyView.center.x - mPropertyView.bounds.size.width, mPropertyView.center.y);
@@ -466,6 +516,556 @@ enum {
             [textField setText:stringValue];
         }
     }
+}
+
+- (void)refreshProperty
+{
+    FullPropertiesApple prop;
+    [mModel getProperties: &prop];
+    
+    // On set la nouvelle view selon la selection
+    switch ([mModel getSelectedNodesType]) {
+        case RAZER_KEY_BONUS:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 39:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 40:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 23:
+                        // Scale
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 24:
+                        // Angle
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
+                        [self textFieldValueChanged:textField];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            
+            break;
+        case RAZER_KEY_BOOST:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 27:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 28:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 10:
+                        // Scale
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 11:
+                        // Accel
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAcceleration];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 12:
+                        // Angle
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
+                        [self textFieldValueChanged:textField];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_CONTROL_POINT:
+            // WALLS
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 35:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 36:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 20:
+                        // Scale
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 21:
+                        // Angle
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 22:
+                        // Rebound
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRebound];
+                        [self textFieldValueChanged:textField];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_MALLET:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 33:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 34:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 18:
+                        // Scale
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 19:
+                        // Angle
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
+                        [self textFieldValueChanged:textField];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_PORTAL:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 29:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 30:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 13:
+                        // Scale
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 14:
+                        // Attraction
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAttraction];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 15:
+                        // Angle
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
+                        [self textFieldValueChanged:textField];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_PUCK:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 31:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 32:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 16:
+                        // Scale
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mScale];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 17:
+                        // Angle
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mAngle];
+                        [self textFieldValueChanged:textField];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_NONE:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 0:
+                        // Friction
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mFriction];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 25:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mZoneEditionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 26:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mZoneEditionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 1:
+                        // LeftTop
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound1];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 2:
+                        // TopLeft
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound2];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 3:
+                        // TopRight
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound3];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 4:
+                        // RightTop
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound4];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 5:
+                        // RightBot
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound5];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 6:
+                        // BotRight
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound6];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 41:
+                        // BotLeft
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound7];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 7:
+                        // TopLeft
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mRinkRebound8];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 8:
+                        // MinSpawn
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mMinBonusSpawnTime];
+                        [self textFieldValueChanged:textField];
+                        break;
+                    case 9:
+                        // TopLeft
+                        textField.text = [NSString stringWithFormat:@"%.2f",prop.mMaxBonusSpawnTime];
+                        [self textFieldValueChanged:textField];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_TABLE_CONTROL_POINT:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 37:
+                        // Pos X
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionX];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    case 38:
+                        // Pos Y
+                        textField.text = [NSString stringWithFormat:@"%d",(int)prop.mPositionY];
+                        [self textFieldValueChangedStepper:textField];
+                        break;
+                    default:
+                        break;
+                }
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+- (IBAction)applyButtonTouched:(UIButton *)sender
+{
+    FullPropertiesApple prop;
+    //[mModel getProperties: &prop];
+    
+    // On set la nouvelle view selon la selection
+    switch ([mModel getSelectedNodesType]) {
+        case RAZER_KEY_BONUS:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 39:
+                        // Pos X
+                        prop.mPositionX = [textField.text floatValue];
+                        break;
+                    case 40:
+                        // Pos Y
+                        prop.mPositionY = [textField.text floatValue];
+                        break;
+                    case 23:
+                        // Scale
+                        prop.mScale = [textField.text floatValue];
+                        break;
+                    case 24:
+                        // Angle
+                        prop.mAngle = [textField.text floatValue];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            
+            break;
+        case RAZER_KEY_BOOST:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 27:
+                        // Pos X
+                        prop.mPositionX = [textField.text floatValue];
+                        break;
+                    case 28:
+                        // Pos Y
+                        prop.mPositionY = [textField.text floatValue];
+                        break;
+                    case 10:
+                        // Scale
+                        prop.mScale = [textField.text floatValue];
+                        break;
+                    case 11:
+                        // Accel
+                        prop.mAcceleration = [textField.text floatValue];
+                        break;
+                    case 12:
+                        // Angle
+                        prop.mAngle = [textField.text floatValue];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_CONTROL_POINT:
+            // WALLS
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 35:
+                        // Pos X
+                        prop.mPositionX = [textField.text floatValue];
+                        break;
+                    case 36:
+                        // Pos Y
+                        prop.mPositionY = [textField.text floatValue];
+                        break;
+                    case 20:
+                        // Scale
+                        prop.mScale = [textField.text floatValue];
+                        break;
+                    case 21:
+                        // Angle
+                        prop.mAngle = [textField.text floatValue];
+                        break;
+                    case 22:
+                        // Rebound
+                        prop.mRebound = [textField.text floatValue];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_MALLET:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 33:
+                        // Pos X
+                        prop.mPositionX = [textField.text floatValue];
+                        break;
+                    case 34:
+                        // Pos Y
+                        prop.mPositionY = [textField.text floatValue];
+                        break;
+                    case 18:
+                        // Scale
+                        prop.mScale = [textField.text floatValue];
+                        break;
+                    case 19:
+                        // Angle
+                        prop.mAngle = [textField.text floatValue];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_PORTAL:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 29:
+                        // Pos X
+                        prop.mPositionX = [textField.text floatValue];
+                        break;
+                    case 30:
+                        // Pos Y
+                        prop.mPositionY = [textField.text floatValue];
+                        break;
+                    case 13:
+                        // Scale
+                        prop.mScale = [textField.text floatValue];
+                        break;
+                    case 14:
+                        // Attraction
+                        prop.mAttraction = [textField.text floatValue];
+                        break;
+                    case 15:
+                        // Angle
+                        prop.mAngle = [textField.text floatValue];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_PUCK:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 31:
+                        // Pos X
+                        prop.mPositionX = [textField.text floatValue];
+                        break;
+                    case 32:
+                        // Pos Y
+                        prop.mPositionY = [textField.text floatValue];
+                        break;
+                    case 16:
+                        // Scale
+                        prop.mScale = [textField.text floatValue];
+                        break;
+                    case 17:
+                        // Angle
+                        prop.mAngle = [textField.text floatValue];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_NONE:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 0:
+                        // Friction
+                        prop.mFriction = [textField.text floatValue];
+                        break;
+                    case 25:
+                        // Pos X
+                        prop.mZoneEditionX = [textField.text floatValue];
+                        break;
+                    case 26:
+                        // Pos Y
+                        prop.mZoneEditionY = [textField.text floatValue];
+                        break;
+                    case 1:
+                        // LeftTop
+                        prop.mRinkRebound1 = [textField.text floatValue];
+                        break;
+                    case 2:
+                        // TopLeft
+                        prop.mRinkRebound2 = [textField.text floatValue];
+                        break;
+                    case 3:
+                        // TopRight
+                        prop.mRinkRebound3 = [textField.text floatValue];
+                        break;
+                    case 4:
+                        // RightTop
+                        prop.mRinkRebound4 = [textField.text floatValue];
+                        break;
+                    case 5:
+                        // RightBot
+                        prop.mRinkRebound5 = [textField.text floatValue];
+                        break;
+                    case 6:
+                        // BotRight
+                        prop.mRinkRebound6 = [textField.text floatValue];
+                        break;
+                    case 41:
+                        // BotLeft
+                        prop.mRinkRebound7 = [textField.text floatValue];
+                        break;
+                    case 7:
+                        // TopLeft
+                        prop.mRinkRebound8 = [textField.text floatValue];
+                        break;
+                    case 8:
+                        // MinSpawn
+                        prop.mMinBonusSpawnTime = [textField.text floatValue];
+                        break;
+                    case 9:
+                        // TopLeft
+                        prop.mMaxBonusSpawnTime = [textField.text floatValue];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+            break;
+        case RAZER_KEY_TABLE_CONTROL_POINT:
+            for(UITextField *textField in textBoxCollection){
+                switch (textField.tag) {
+                    case 37:
+                        // Pos X
+                        prop.mPositionX = [textField.text floatValue];
+                        break;
+                    case 38:
+                        // Pos Y
+                        prop.mPositionY = [textField.text floatValue];
+                        break;
+                    default:
+                        break;
+                }
+            }
+            break;
+        default:
+            break;
+    }
+[mModel setProperties:&prop];
+[self refreshProperty];
 }
 
 - (void) setupPieMenu
@@ -582,6 +1182,14 @@ enum {
     }
     
     
+}
+
+- (IBAction)panDetected:(UIPanGestureRecognizer*)sender
+{
+    CGPoint translation = [sender translationInView:theEAGLView];
+    [sender setTranslation:translation inView:theEAGLView];
+    
+    [mModel orbit:translation.x :translation.y];
 }
 
 - (IBAction)swipeDetected:(id)sender
@@ -707,10 +1315,10 @@ enum {
 
 -(void)pressButtonUI:(UIButton *)sender
 {
-    if( previouslySelected != nil )
+    if( previouslySelectedEditionTool != nil )
     {
-        [previouslySelected setBackgroundImage:buttonImage forState:UIControlStateNormal];
-        [previouslySelected setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+        [previouslySelectedEditionTool setBackgroundImage:buttonImage forState:UIControlStateNormal];
+        [previouslySelectedEditionTool setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     }
     
     if( sender != nil )
@@ -718,9 +1326,26 @@ enum {
         [sender setBackgroundImage:buttonImagePressed forState:UIControlStateNormal];
         [sender setBackgroundImage:buttonImagePressed forState:UIControlStateHighlighted];
         
-        previouslySelected = sender;
+        previouslySelectedEditionTool = sender;
         
         [carouselBackground setImage:carouselBackgroundImage];
+    }
+}
+
+-(void)pressButtonUICameras:(UIButton *)sender
+{
+    if( previouslySelectedCameraTool != nil )
+    {
+        [previouslySelectedCameraTool setBackgroundImage:buttonImage forState:UIControlStateNormal];
+        [previouslySelectedCameraTool setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    }
+    
+    if( sender != nil )
+    {
+        [sender setBackgroundImage:buttonImagePressed forState:UIControlStateNormal];
+        [sender setBackgroundImage:buttonImagePressed forState:UIControlStateHighlighted];
+        
+        previouslySelectedCameraTool = sender;
     }
 }
 
@@ -736,16 +1361,39 @@ enum {
 {
     CarouselElement* element = [carouselElements objectAtIndex:index];
     [self carouselSelectItem:index];
+    [self editorModeButtonTouched:nil];
     [mEventManager modifyState:element->ModifType];
 }
 
 -(IBAction) cameraModeButtonTouched:(UIButton *)sender
 {
+    [editionButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [editionButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [cameraButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateNormal];
+    [cameraButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateHighlighted];
+    
+    cameraToolsView.hidden = NO;
+    editionToolsView.hidden = YES;
+    
+    [buttonToolbarLabel setText:@"Cameras"];
+    [carouselBackground setImage:carouselBackgroundImage];
+    
     [mEventManager modifyState:EDITOR_STATE_MOVE_WINDOW];
 }
 
 - (IBAction)editorModeButtonTouched:(UIButton *)sender
 {
+    [editionButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateNormal];
+    [editionButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateHighlighted];
+    
+    [cameraButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [cameraButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [buttonToolbarLabel setText:@"Edition Tools"];
+    cameraToolsView.hidden = YES;
+    editionToolsView.hidden = NO;
+    
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
 }
 
@@ -813,6 +1461,24 @@ enum {
     [mModel deleteSelection];
 }
 
+- (IBAction)skyViewButtonTouched:(UIButton *)sender
+{
+    [self pressButtonUICameras:sender];
+    [mModel createCameraFixed];
+}
+
+- (IBAction)freeRoamButtonTouched:(UIButton *)sender
+{
+    [self pressButtonUICameras:sender];
+    [mModel createCameraFree];
+}
+
+- (IBAction)orbitalButtonTouched:(UIButton *)sender
+{
+    [self pressButtonUICameras:sender];
+    [mModel createCameraOrbit];
+}
+
 - (IBAction)portalButtonTouched:(UIButton *)sender
 {
     [mEventManager modifyState:EDITOR_STATE_AJOUTER_MAILLET];
@@ -822,6 +1488,8 @@ enum {
 {
     [mModel saveField];
 }
+
+
 
 
 ///DEPRECATED
@@ -849,7 +1517,7 @@ enum {
     CGPoint positionCourante = [touch locationInView:theEAGLView];
     
     UIView* viewTouched = [touch view];
-    if (viewTouched != mPortalPropertyView && viewTouched != mPuckPropertyView && viewTouched != mTablePropertyView && viewTouched != mTopBarView && viewTouched != mSideBarView && viewTouched != undoRedoView && viewTouched != mMalletPropertyView && viewTouched != mControlPointPropertyView && viewTouched != mWallPropertyView && viewTouched != mBoostPropertyView && viewTouched != mBonusPropertyView) {
+    if (![viewTouched isMemberOfClass:[UIImageView class]] && ![viewTouched isMemberOfClass:[UIView class]]) {
         if(!propertyBarHidden)
         {
             [UIView beginAnimations:@"MenuAnimationShow" context:NULL];
@@ -858,7 +1526,7 @@ enum {
             [UIView commitAnimations];
             propertyBarHidden = YES;
         }
-        [mEventManager touchesBegan:touch:positionCourante];
+        [mEventManager touchesBegan:positionCourante];
     }
     
     //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
@@ -887,9 +1555,9 @@ enum {
         UITouch *touch = [[event allTouches] anyObject];
         CGPoint positionCourante = [touch locationInView:theEAGLView];
         UIView * viewTouched = touch.view;
-        if (viewTouched != mPortalPropertyView && viewTouched != mPuckPropertyView && viewTouched != mTablePropertyView && viewTouched != mTopBarView && viewTouched != mSideBarView && viewTouched != undoRedoView && viewTouched != mMalletPropertyView && viewTouched != mControlPointPropertyView && viewTouched != mWallPropertyView && viewTouched != mBoostPropertyView && viewTouched != mBonusPropertyView) {
+        if (![viewTouched isMemberOfClass:[UIImageView class]] && ![viewTouched isMemberOfClass:[UIView class]]) {
             //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
-            [mEventManager touchesMoved:touch:positionCourante];
+            [mEventManager touchesMoved:positionCourante];
         }
         
         //CGPoint positionCourante = [touch locationInView:theEAGLView];
@@ -954,7 +1622,7 @@ enum {
         CGPoint positionCourante = [touch locationInView:theEAGLView];
         
         //CGPoint touchCoordVirt = [self convertScreenCoordToVirtualCoord:[touch locationInView:theEAGLView]];
-        [mEventManager touchesEnded:touch:positionCourante];
+        [mEventManager touchesEnded:positionCourante];
         //
         //        if (mCreationMode) {
         //            // Destruction de limage de lobjet qui suit la position du doigt
@@ -1016,7 +1684,48 @@ enum {
     }
 }
 
-
+// Event Callback du c++ pour update du UI
+- (void) enablePuckCreation
+{
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Ben coliss" message:@"Ca marche" delegate:nil cancelButtonTitle:@"Gotcha" otherButtonTitles:nil];
+    [alert show];
+}
+- (void)disablePuckCreation
+{
+    
+}
+- (void)enableMalletCreation
+{
+    
+}
+- (void)disableMalletCreation
+{
+    
+}
+- (void)thereAreNodesSelected
+{
+    
+}
+- (void)thereAreNoNodesSelected
+{
+    // Disable le delete
+}
+- (void)canUndo
+{
+    
+}
+- (void)cannotUndo
+{
+    
+}
+- (void)canRedo
+{
+    
+}
+- (void)cannotRedo
+{
+    
+}
 
 -(void)rotationDetectee:(UIGestureRecognizer *)gestureRecognizer
 {
@@ -1083,6 +1792,7 @@ enum {
     NSInteger currentIndex = carousel.currentItemIndex;
     CarouselElement* element = [carouselElements objectAtIndex:currentIndex];
     [self carouselSelectItem:currentIndex];
+    [self editorModeButtonTouched:nil];
     [mEventManager modifyState:element->ModifType];
 }
 

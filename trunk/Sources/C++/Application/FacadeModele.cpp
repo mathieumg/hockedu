@@ -932,10 +932,13 @@ void FacadeModele::ClearCurrentGame()
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool FacadeModele::passageModeEdition()
+bool FacadeModele::passageModeEdition(bool pLoadDefaultXML /*= true*/)
 {
     ClearCurrentGame();
-    RazerGameUtilities::LoadFieldFromFile(FICHIER_TERRAIN_EN_COURS,*mEditionField);
+	if(pLoadDefaultXML)
+	{
+		RazerGameUtilities::LoadFieldFromFile(FICHIER_TERRAIN_EN_COURS,*mEditionField);
+	}
     getEditionField()->setTableControlPointVisible(true);
 
     GestionnaireEvenements::modifierEtat(ETAT_MODE_EDITION);

@@ -13,7 +13,7 @@
 #define kEndAngle				100.0
 #define kTotalAngle				(360.0 - endAngle + initAngle)
 #define kInnerCircleRadius		(38.0 + 10.0 * fingerSize)
-#define kOuterCircleRadius		(kInnerCircleRadius + 50.0)
+#define kOuterCircleRadius		(kInnerCircleRadius + 75.0)
 #define kBackItemRadius         (kOuterCircleRadius - 5.0)
 #define kParentItemRadius       (kOuterCircleRadius + 5.0)
 #define kCornerRadius           5.0

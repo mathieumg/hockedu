@@ -7,27 +7,29 @@
 //
 
 #import "EditorStateSelection.h"
-
+#import "EventManager.h"
 @implementation EditorStateSelection
 BOOL touchMoved;
 CGPoint firstCorner;
--(EditorStateSelection*)init
+-(EditorStateSelection*)init:(EventManager*)eventManager
+
 {
+    [super init:eventManager];
     touchMoved = NO;
     return self;
 }
--(void)touchesBegan:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model
+-(void)touchesBegan:(CGPoint)coordVirt
 {
     touchMoved = NO;
     firstCorner = coordVirt;
     
 }
--(void)touchesMoved:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model
+-(void)touchesMoved:(CGPoint)coordVirt
 {
     touchMoved = YES;
     
 }
--(void)touchesEnded:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model
+-(void)touchesEnded:(CGPoint)coordVirt
 {
     //UITouch *touchOnScreen = [[event allTouches] anyObject];
     //CGPoint positionCourante = [touch locationInView:theEAGLView];
@@ -53,6 +55,6 @@ CGPoint firstCorner;
         CV_Y_NOW-=2;
     }
     // int nbNoeudsSelectionnes = (Retourne le nb de noeud selectionne si on veut, pas utilise pour le moment)
-    [model acceptSelectionVisitor:CV_X_OLD:CV_Y_OLD:CV_X_NOW:CV_Y_NOW];
+    [mEventManager.mModel acceptSelectionVisitor:CV_X_OLD:CV_Y_OLD:CV_X_NOW:CV_Y_NOW];
 }
 @end

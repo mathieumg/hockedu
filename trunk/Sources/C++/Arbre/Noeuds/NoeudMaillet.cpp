@@ -34,7 +34,7 @@
 #endif
 #include "Utilitaire.h"
 #include "EditionEventManager.h"
-#include "Runnable.h"
+
 #include "RazerGameUtilities.h"
 
 
@@ -75,7 +75,7 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCre
 
 
     ++mNbMalletCreated;
-    if(mNbMalletCreated >= malletLimit)
+    if(++EditionEventManager::mGlobalMallet >= EditionEventManager::mEditionLimitMallet)
     {
         EditionEventManager::TransmitEvent(DISABLE_MALLET_CREATION);
     }
@@ -95,7 +95,10 @@ NoeudMaillet::~NoeudMaillet()
 	--mNbMalletCreated;
     // indique aux runnables qui lui sont associé de s'invalidé
     RunnableBreaker::signalObservers();
-    EditionEventManager::TransmitEvent(ENABLE_MALLET_CREATION);
+    if(--EditionEventManager::mGlobalMallet < EditionEventManager::mEditionLimitMallet)
+    {
+        EditionEventManager::TransmitEvent(ENABLE_MALLET_CREATION);
+    }
 #if BOX2D_PLAY
     //checkf(!mMouseJoint, "Le mouse joint a mal ete liberé");
     destroyMouseJoint();
@@ -639,8 +642,11 @@ void NoeudMaillet::playTick(float temps)
             {
                 SPJoueurVirtuel wJoueur = std::dynamic_pointer_cast<JoueurVirtuel>(joueur_);
                 mTargetDestination = wJoueur->obtenirDirectionAI(this);
+                if(mTargetDestination.norme() == 0)
+                {
+                    return;
+                }
                 mTargetDestination += getPosition();
-                return;
             }
         case JOUEUR_VIRTUEL:
             {
@@ -679,13 +685,26 @@ void NoeudMaillet::playTick(float temps)
 ////////////////////////////////////////////////////////////////////////
 void NoeudMaillet::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
 {
+
     if(pAnimationResult.CanUpdatedPosition())
     {
-        Vecteur3 wPos = pAnimationResult.mPosition;
-        Runnable* r = new Runnable([wPos, this](Runnable*){
-            this->setTargetDestination(wPos, true);
-        });
-        RazerGameUtilities::RunOnUpdateThread(r,true);
+#ifndef __APPLE__
+        if(obtenirJoueur())
+        {
+            if(obtenirJoueur()->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+            {
+                Vecteur3 wPos = pAnimationResult.mPosition;
+                this->setTargetDestination(wPos, true);
+
+            }
+            else
+            {
+#endif
+                setPosition(pAnimationResult.mPosition);
+#ifndef __APPLE__
+            }
+        }
+#endif
     }
     if(pAnimationResult.CanUpdatedAngle())
         mAngle = pAnimationResult.mAngle[VZ];

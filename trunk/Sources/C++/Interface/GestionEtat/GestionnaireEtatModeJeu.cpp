@@ -313,6 +313,7 @@ void GestionnaireEtatModeJeu::animer( const float& temps )
 		
         if(wGame->partieTerminee())
         {
+            wGame->setGameStatus(GAME_ENDED);
             GestionnaireEvenements::modifierEtat(ETAT_PARTIE_RAPIDE_TERMINEE);
             return;
         }
@@ -409,7 +410,7 @@ void GestionnaireEtatModeJeu::updateObserver( const ReplaySubject* pSubject )
         GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
         Partie* wGame = GameManager::obtenirInstance()->getGame(mGameId);
         if(wGame)
-            wGame->delais(4100);
+            wGame->delais(wGame->getMiseAuJeuDelai());
     }
 }
 

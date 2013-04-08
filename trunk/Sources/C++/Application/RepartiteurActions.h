@@ -83,6 +83,7 @@ public:
 	bool actionBoutonAllerModeJeu();
 	///Fonction pour aller en mode édition
 	bool actionBoutonAllerModeEdition();
+	bool actionBoutonAllerModeEditionPasDefautXML();
 	///Fonction pour aller en mode tournoi
 	bool actionBoutonAllerModeTournoi();
 	///Fonction pour aller au menu principal
@@ -100,7 +101,8 @@ public:
 	///Fonction pour changer le mode de camera
 	bool actionChangerModeCameraLibre();
 	///Fonction pour changer le mode de camera
-	bool actionChangerModeCameraSplit();
+    bool actionChangerModeCameraSplit();
+    bool actionPlayInEditor();
 private:
 	/// typedef pour une adresse de fonction de RepartiteurActions
 	typedef bool (RepartiteurActions::*ObtenirFonction)();

@@ -81,6 +81,7 @@ int FieldModificationStrategyAddNode::receivedEventSpecific( const FieldModifica
                 createNewNode(pEvent.mPosition);
             }
         }
+        return validPos;
     }
     return 1;
 }

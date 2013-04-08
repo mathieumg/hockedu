@@ -118,6 +118,7 @@ int FieldModificationStrategyAddWall::receivedEventSpecific( const FieldModifica
                 }
             }
         }
+        return validPos;
     }
     return 1;
 }
