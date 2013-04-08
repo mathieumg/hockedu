@@ -20,45 +20,56 @@
 #include <time.h>
 #include "GestionnaireAnimations.h"
 #include <iostream>
+#include "Utilitaire.h"
+#import "Facade.h"
 
 //@implementation FullPropertiesApple
 //@end
+
+void displayMessageCallback(const char* message)
+{
+    NSString* msg =  [NSString stringWithFormat:@"%s" , message];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    // optional - add more buttons:
+    //[alert addButtonWithTitle:@"Yes"];
+    [alert show];
+}
 
 static Model3DManager* model3DManager = NULL;
 vue::Vue* mView = NULL;
 void EditionEventCallback(EditionEventCodes pEvent)
 {
     switch (pEvent) {
-            
         case ENABLE_PUCK_CREATION:
-            //NSLog(@"Can create Puck\n");
+            [Facade EnablePuckCreation];
             break;
         case DISABLE_PUCK_CREATION:
-            //NSLog(@"Cannot Create Puck\n");
+            [Facade DisablePuckCreation];
             break;
         case ENABLE_MALLET_CREATION:
-            //NSLog(@"Can create Mallet\n");
+            [Facade EnableMalletCreation];
             break;
         case DISABLE_MALLET_CREATION:
-            //NSLog(@"Cannot create puck\n");
+            [Facade DisableMalletCreation];
             break;
         case THERE_ARE_NODES_SELECTED:
-            //NSLog(@"There are items selected\n");
+            [Facade ThereAreNodesSelected];
             break;
         case THERE_ARE_NO_NODE_SELECTED:
-            //NSLog(@"There are no nodes selected\n");
+            [Facade ThereAreNoNodesSelected];
             break;
         case CAN_UNDO:
-            //NSLog(@"Can Undo modification\n");
+            [Facade CanUndo];
             break;
         case CANNOT_UNDO:
-            //NSLog(@"Cannot Undo modification\n");
+            [Facade CannotUndo];
             break;
         case CAN_REDO:
-            //NSLog(@"Can Redo modification\n");
+            [Facade CanRedo];
             break;
         case CANNOT_REDO:
-            //NSLog(@"Cannot Redo modification\n");
+            [Facade CannotRedo];
             break;
         default:
             break;
@@ -75,6 +86,7 @@ bool RenderNodeCallback(RazerKey key)
 }
 
 @implementation Model
+
 
 float temps = clock();
 
@@ -94,6 +106,7 @@ float temps = clock();
 }
 - (id)init
 {
+    utilitaire::mDisplayMessageCallback = displayMessageCallback;
     EditionEventManager::setEditionEventCallback(EditionEventCallback);
     mField = new Terrain(NULL);
     mModel3DManager = [[Model3DManager alloc]init];
@@ -129,7 +142,7 @@ float temps = clock();
     return ((Terrain*)mField)->selectNodes((Vecteur2)posMin,(Vecteur2)posMax,false);
 }
 
--(void) beginModification:(FieldModificationStrategyType)type :(CGPoint)coordVirt
+-(int) beginModification:(FieldModificationStrategyType)type :(CGPoint)coordVirt
 {
     FieldModificationStrategyEvent event;
     Vecteur3 pos;
@@ -137,22 +150,22 @@ float temps = clock();
     event.mPosition = pos;
     event.mType = FIELD_MODIFICATION_EVENT_CLICK;
     
-    ((Terrain*)mField)->BeginModification(type, event);
+    return ((Terrain*)mField)->BeginModification(type, event);
 }
 
--(void) eventModification:(FieldModificationStrategyEventType)type :(CGPoint)coordVirt
+-(int) eventModification:(FieldModificationStrategyEventType)type :(CGPoint)coordVirt
 {
     FieldModificationStrategyEvent event;
     event.mType = type;
     Vecteur3 pos;
     mView->convertirClotureAVirtuelle(coordVirt.x, coordVirt.y, pos);
     event.mPosition = pos;
-    ((Terrain*)mField)->ReceiveModificationEvent(event);
+    return ((Terrain*)mField)->ReceiveModificationEvent(event);
 }
 
--(void) endModification
+-(int) endModification
 {
-    ((Terrain*)mField)->EndModification();
+    return ((Terrain*)mField)->EndModification();
 }
 
 -(void) eventCancel;
@@ -263,6 +276,8 @@ float temps = clock();
 
 -(void) saveField
 {
+    if(((Terrain*)mField)->verifierValidite())
+    {
     NSError* error;
 
     
@@ -312,6 +327,7 @@ float temps = clock();
         NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
     }];
     [httpClient release];
+    }
 }
 
 // Point d'entre pour le menu de modification des proprietes
