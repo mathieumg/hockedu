@@ -133,11 +133,11 @@ enum {
 //    mPortalPropertyView.frame = CGRectMake(0, 0, 270, 577);
 //    mPuckPropertyView.frame = CGRectMake(0, 0, 270, 577);
 //    mMalletPropertyView.frame = CGRectMake(0, 0, 270, 577);
-//    mWallPropertyView.frame = CGRectMake(0, 0, 270, 577);
+//    mWallPropertyView.frame = CGRectMake(0, 0, 27Ø0, 577);
 //    mControlPointPropertyView.frame = CGRectMake(0, 0, 270, 577);
 //    mBonusPropertyView.frame = CGRectMake(0, 0, 270, 577);
     
-    
+    __previousScale = 1.0;
     
     // On cache la bar en dehors a droite
     self.mPropertyView.center = CGPointMake(mPropertyView.center.x + mPropertyView.bounds.size.width, mPropertyView.center.y);
@@ -1155,8 +1155,12 @@ enum {
     }
     float currentScale = [(UIPinchGestureRecognizer*)sender scale];
     float diff = currentScale-__previousScale;
-    if(diff > 1.1 || diff < 0.9)
     {
+        float delta = diff;
+        if(delta < 0)
+            delta *= -1;
+        int iteration = delta * 300.f;
+        for(int i=0; i<iteration; ++i)
         [mModel zoom:diff];
         __previousScale = currentScale;
     }
@@ -1167,8 +1171,7 @@ enum {
 - (IBAction)panDetected:(UIPanGestureRecognizer*)sender
 {
     CGPoint translation = [sender translationInView:theEAGLView];
-    [sender setTranslation:translation inView:theEAGLView];
-    
+    [sender setTranslation:CGPointMake(0,0) inView:theEAGLView];    
     [mModel orbit:translation.x :translation.y];
 }
 

@@ -18,6 +18,7 @@
 #include "EditionEventManager.h"
 #import "VisitorGatherProperties.h"
 #include <time.h>
+#include "GestionnaireAnimations.h"
 #include <iostream>
 
 //@implementation FullPropertiesApple
@@ -84,6 +85,9 @@ float temps = clock();
     delta/=1000.f;
     delta/=1000.f;
     ((Terrain*)mField)->animerTerrain(delta);
+    GestionnaireAnimations::obtenirInstance()->animer(delta);
+    
+    
     temps = clock();
     mView->appliquerVue(1);
     ((Terrain*)mField)->renderField();  
