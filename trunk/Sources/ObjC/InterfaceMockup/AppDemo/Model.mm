@@ -21,6 +21,22 @@
 @implementation FullPropertiesApple
 @end
 
+void displayMessageCallback(const char* message)
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Really reset?" message:@"Do you really want to reset this game?" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+    // optional - add more buttons:
+    [alert addButtonWithTitle:@"Yes"];
+    [alert show];
+}
+
+void test()
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Really reset?" message:@"Do you really want to reset this game?" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+    // optional - add more buttons:
+    [alert addButtonWithTitle:@"Yes"];
+    [alert show];
+}
+
 static Model3DManager* model3DManager = NULL;
 vue::Vue* mView = NULL;
 void EditionEventCallback(EditionEventCodes pEvent)
@@ -155,6 +171,7 @@ float temps = clock();
 
 -(void) duplicateSelection
 {
+    test();
     ((Terrain*)mField)->duplicateSelection();
 }
 
