@@ -217,6 +217,7 @@ extern "C"
     __declspec(dllexport) void testConnexionUDPCSharp();
     __declspec(dllexport) void AskForAIOpponentInNetworkGame();
     __declspec(dllexport) void TestTrajectoryPredictionDLL();
+    __declspec(dllexport) void requestMatchmaking();
     //__declspec(dllexport) void recevoirPaquet( Paquet* pPaquet );
     /// 
     //////////////////////////////////////////////////////////////////////////

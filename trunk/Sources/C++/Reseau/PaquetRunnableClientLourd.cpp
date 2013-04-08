@@ -217,9 +217,11 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
             std::cout << "Connection rejected. No more info. Game: " << wPaquet->getGameId() << std::endl;
             break;
         }
-    case GAME_CONNECTION_PENDING:
+    case GAME_CONNECTION_MATCHMAKING_REPLY:
         {
-            // Pas de break, meme comportement que default
+            // Sends map.
+            GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_MATCHMAKING, wPaquet->getMapName().c_str());
+            // Fall through to GAME_CONNECTION_REPLY_GAME_SERVER_IP behaviour as well.
         }
     case GAME_CONNECTION_REPLY_GAME_SERVER_IP:
         {
@@ -236,6 +238,10 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
                 wGestionnaireReseau->envoyerPaquet("GameServer", wPaquet, TCP);
             });
             break;
+        }
+    case GAME_CONNECTION_PENDING:
+        {
+            // Pas de break, meme comportement que default
         }
     default:
         GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_GAME_CONNECTION_GENERAL_FAILURE);

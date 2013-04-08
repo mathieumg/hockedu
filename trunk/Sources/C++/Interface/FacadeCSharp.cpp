@@ -997,4 +997,11 @@ void SetEditionEventCallBack( EditionEventReceived callback )
     EditionEventManager::setEditionEventCallback(callback);
 }
 
-
+void requestMatchmaking(  )
+{
+    PaquetGameConnection* wPaquet = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);
+    wPaquet->setConnectionState(GAME_CONNECTION_MATCHMAKING_REQUEST);
+    wPaquet->setGameId(-1);
+    wPaquet->setGameServerId(0);
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
+}
