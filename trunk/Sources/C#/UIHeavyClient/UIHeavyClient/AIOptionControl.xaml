@@ -5,21 +5,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="603" d:DesignWidth="832">
-    <Grid Name="mGrid" Height="Auto" Background="Black" Width="Auto">
+    <Grid Name="mGrid" Height="Auto" Width="Auto" Background="Black">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="142*" />
             <ColumnDefinition Width="129*" />
-            <ColumnDefinition Width="561*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="401*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="100*" MinHeight="100" MaxHeight="100" />
             <RowDefinition Height="446*" />
             <RowDefinition Height="70*" MinHeight="70" MaxHeight="70" />
         </Grid.RowDefinitions>
-        <Label Content="AI CONFIGURATION" HorizontalAlignment="Stretch" Margin="0,0,8,8" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="72" Grid.ColumnSpan="3" />
-        <Label Content="" Grid.Row="2" Height="Auto" HorizontalAlignment="Right" Margin="0,14,0,12" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" Grid.Column="2" />
+        <Label Content="AI CONFIGURATION" HorizontalAlignment="Stretch" Margin="0,0,8,8" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="72" Grid.ColumnSpan="4" />
+        <Label Content="" Grid.Row="2" Height="Auto" HorizontalAlignment="Right" Margin="0,17,0,15" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" Grid.Column="3" />
         <Button Content="Option Menu" Grid.Row="2" Margin="12" Name="mBackToOptionButton" Background="Black" Foreground="White" Click="mBackToOptionButton_Click" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="18" />
         <Button Content="Main Menu" Margin="12" Name="mBackToMainButton" Grid.Row="2" Background="Black" Foreground="White" Click="mBackToMainButton_Click" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="18" Grid.Column="1" />
+        <!-- <Button Name="mStartLearning" Content="Start learning" Margin="12" Grid.Column="2" Grid.Row="2" Background="Black" Foreground="White" FontSize="18" Click="mStartLearning_Click" /> -->
         <GroupBox Grid.Row="1" Header="Current AI profiles" Margin="12" Name="mCurrentProfilesGroupBox" Foreground="White" Grid.ColumnSpan="2">
             <Grid>
                 <Grid.RowDefinitions>
@@ -30,12 +32,12 @@
                     <ColumnDefinition Width="100*" />
                     <ColumnDefinition Width="116*" />
                 </Grid.ColumnDefinitions>
-                <Button Content="Add New" Margin="12" Name="mAddButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" Grid.Column="1" Grid.Row="1" Click="mAddButton_Click" />
+                <Button Content="Add New" Margin="12" Name="mAddButton" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" Grid.Column="1" Grid.Row="1" Click="mAddButton_Click" Background="Black" />
                 <Button Content="Delete" Margin="12" Name="mDeleteButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" Grid.Row="1" Click="mDeleteButton_Click" />
                 <ListView Margin="12" Name="mProfilesListView" Background="Black" Foreground="White" Grid.ColumnSpan="2" SelectionChanged="mCurrentAIList_SelectionChanged" />
             </Grid>
         </GroupBox>
-        <GroupBox Grid.Column="2" Grid.Row="1" Header="Profile Edition" Margin="21,12,12,108" Name="mCurrentEditGroupBox" Foreground="White">
+        <GroupBox Grid.Column="2" Grid.Row="1" Header="Profile Edition" Margin="21,12,12,108" Name="mCurrentEditGroupBox" Foreground="White" Grid.ColumnSpan="2">
             <Grid Height="Auto">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="119*" />

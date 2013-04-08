@@ -7,8 +7,16 @@
 #import "LoadMapViewController.h"
 #import "HockeduAppDelegate.h"
 #import "BackgroundLayer.h"
+#import "AFJSONRequestOperation.h"
+#import "AFHTTPClient.h"
+#import "Map.h"
+#import "MapTableViewCell.h"
 
 @implementation MenuViewController
+
+@synthesize _userMaps;
+@synthesize userId;
+@synthesize mapId;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {      
@@ -34,6 +42,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    [self.view addSubview:mainMenuView];
+    [self.view addSubview:loadMapView];
+    
+    //mainMenuView.hidden = YES;
+    loadMapView.hidden = YES;
+    
     UIImage *buttonImage = [[UIImage imageNamed:@"blueButton@2x.png"]
                             resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     UIImage *buttonImageHighlight = [[UIImage imageNamed:@"blueButtonHighlight@2x.png"]
@@ -50,6 +64,12 @@
     
     [signInButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [signInButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [backMainMenuButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [backMainMenuButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    userId = 12;
+    mapId = 0;
     
     [buttonImage retain];
     [buttonImageHighlight retain];
@@ -78,17 +98,98 @@
 	return YES;
 }
 
+- (IBAction)touchBackMainMenuButton:(UIButton *)sender
+{
+    mainMenuView.hidden = NO;
+    loadMapView.hidden = YES;
+}
+
+- (IBAction)loadMapButton:(UIButton *)sender
+{
+    [Map listMaps:^(NSArray *maps, NSError *error) {
+        if (error) {
+            [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil) message:[error localizedDescription] delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil] show];
+        } else {
+            _userMaps = [[NSArray alloc] initWithArray:maps];
+            
+            [self.tableView reloadData];
+            mainMenuView.hidden = YES;
+            loadMapView.hidden = NO;
+        }
+    }:userId];
+    
+    /*
+    NSURL *url = [NSURL URLWithString:@"http://hockedu.com"];
+    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
+    [httpClient setDefaultHeader:@"Accept" value:@"application/json"];
+    [httpClient registerHTTPOperationClass:[AFJSONRequestOperation class]];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            @"testies", @"username",
+                            @"608b9a09de61fea254bbebdcadc0fe8c38ae2ccb", @"password",
+                            nil];
+    
+    [httpClient postPath:@"/remote/listmaps" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //_userMaps = responseObject;
+        
+        
+        //NSLog(@"Auth key: %@", [responseObject valueForKeyPath:@"auth_key"]);
+        //NSLog(@"Error: %@", [responseObject valueForKeyPath:@"error"]);
+        //NSLog(@"Auth key: %@", [responseObject valueForKeyPath:@"auth_key"]);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
+    }];
+    [httpClient release];
+    */
+}
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [_userMaps count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *CellIdentifier = @"Cell";
+    
+    MapTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (!cell) {
+        cell = [[MapTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }
+    
+    cell.map = [_userMaps objectAtIndex:indexPath.row];
+    
+    return cell;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [MapTableViewCell heightForCellWithMap:[_userMaps objectAtIndex:indexPath.row]];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    Map* map = [_userMaps objectAtIndex:indexPath.row];
+    mapId = map.mapID;
+    
+    [Map downloadMap:^(NSArray *maps, NSError *error) {
+        if (error) {
+            [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil) message:[error localizedDescription] delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil] show];
+        } else {
+            //_userMaps = [[NSArray alloc] initWithArray:maps];
+            //NSLog(@"Mofo");
+            
+            //[self showEditor];
+            
+            //mainMenuView.hidden = NO;
+            //loadMapView.hidden = YES;
+        }}:mapId];
+}
+
 - (IBAction)showEditor
 {
     HockeduAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
     [delegate afficherVueAnimee];
-}
-
--(IBAction) openMapList
-{
-    HockeduAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
-    [delegate showMapList];
-    
 }
 
 - (void)dealloc {
@@ -96,6 +197,10 @@
     [loadMapButton release];
     [settingsButton release];
     [signInButton release];
+    [mainMenuView release];
+    [loadMapView release];
+    //[mapListTableView release];
+    [backMainMenuButton release];
     [super dealloc];
 }
 @end

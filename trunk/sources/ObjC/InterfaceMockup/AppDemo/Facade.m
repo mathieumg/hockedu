@@ -18,6 +18,37 @@ static EAGLViewController* mViewController = NULL;
 {
     mViewController = controller;
 }
+
++(NSArray *)listFileAtPath
+{
+    //-----> LIST ALL FILES <-----//
+    NSLog(@"LISTING ALL FILES FOUND");
+    NSMutableArray* matches = [[NSMutableArray alloc]init];
+    NSString* item;
+    int count;
+    NSString *path;
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	path = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Hockedu"];
+    NSArray *directoryContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:NULL];
+
+    
+    for (item in directoryContent)
+    {
+        if ([[item pathExtension] isEqualToString:@"xml"])
+        {
+            [matches addObject:[NSString stringWithFormat:@"%@/%@",path,item]];
+        }
+    }
+    
+    for (count = 0; count < (int)[matches count]; count++)
+    {
+        NSLog(@"File %d: %@", (count + 1), [matches objectAtIndex:count]);
+    }
+    
+    
+    return matches;
+}
+
 +(void)EnablePuckCreation
 {
     [mViewController enablePuckCreation];

@@ -115,6 +115,7 @@ enum {
     
     theEAGLView.opaque = YES;
     
+    [Facade listFileAtPath];
     
     translationX = 0.0;
     translationY = 0.0;
@@ -1395,6 +1396,8 @@ enum {
     cameraToolsView.hidden = NO;
     editionToolsView.hidden = YES;
     
+    undoRedoView.hidden = YES;
+    
     [buttonToolbarLabel setText:@"Cameras"];
     [carouselBackground setImage:carouselBackgroundImage];
     
@@ -1413,6 +1416,7 @@ enum {
     cameraToolsView.hidden = YES;
     editionToolsView.hidden = NO;
     
+    undoRedoView.hidden = NO;
     [self pressButtonUI:selectButton];
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
 }

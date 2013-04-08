@@ -223,9 +223,6 @@ void Partie::incrementerPointsJoueurGauche(bool pForceUpdate /*= false*/)
         {
             callGameUpdate(GAME_SCORE);
         }
-
-
-        
     }
     
 }
@@ -515,7 +512,7 @@ void Partie::reloadControleMallet()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Partie::miseAuJeu( bool debutDePartie /*= false */ )
+void Partie::miseAuJeu( bool debutDePartie /*= false */, int pMiseAuJeuDelai)
 {
     setGameStatus(GAME_STARTED);
     // Obtention des éléments
@@ -542,7 +539,7 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
     {
         tempsJeu_.reset_Time();
     }
-    delais(mMiseAuJeuDelai);
+    delais(pMiseAuJeuDelai);
 }
 
 
