@@ -37,7 +37,8 @@ public:
 	virtual void sourisRelachee( EvenementSouris& evenementSouris ) = 0;
 	/// Comportement lorsque la souris est déplacée.
 	virtual void sourisDeplacee( EvenementSouris& evenementSouris ) = 0;
-
+    virtual bool OverrideAnimate(float temps){return false;}
+    virtual bool OverrideRender(){return false;}
 	/// Retourne l'état courant
 	virtual NomEtatSouris obtenirNomEtatSouris() = 0;
 

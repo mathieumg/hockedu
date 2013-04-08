@@ -25,6 +25,7 @@
 #include "GestionnaireAnimations.h"
 #include "HUDBonus.h"
 #include "HUDForeverAlone.h"
+#include "Phont.h"
 
 // Déclarations de base pour le singleton
 SINGLETON_DECLARATION_CPP(GestionnaireHUD);
@@ -40,6 +41,17 @@ SINGLETON_DECLARATION_CPP(GestionnaireHUD);
 ////////////////////////////////////////////////////////////////////////
 GestionnaireHUD::GestionnaireHUD()
 {
+    mSmallTextRenderer = new Phont();
+    mBigTextRenderer = new Phont();
+    if(!mSmallTextRenderer->load("", (RazerGameUtilities::NOM_DOSSIER_MEDIA + "game_over").c_str()))
+    {
+        utilitaire::afficherErreur("Erreur: incapable d'ouvrir le font game_over");
+    }
+    if(!mBigTextRenderer->load("", (RazerGameUtilities::NOM_DOSSIER_MEDIA + "game_over_big_text").c_str()))
+    {
+        utilitaire::afficherErreur("Erreur: incapable d'ouvrir le font game_over_big_text");
+    }
+
     HUDBonus::initSurfaces();
     creerHUDJeu();
     creerHUDTournoi();
@@ -61,6 +73,9 @@ GestionnaireHUD::GestionnaireHUD()
 GestionnaireHUD::~GestionnaireHUD()
 {
     HUDBonus::clearSurfaces();
+
+    delete mSmallTextRenderer;
+    delete mBigTextRenderer;
 
     racineJeu_->vider();
     delete racineJeu_;
@@ -258,7 +273,6 @@ void GestionnaireHUD::dessinerHUDEdition()
 void GestionnaireHUD::creerHUDJeu()
 {
     racineJeu_ = new HUDElement();
-    std::string policeGrosTexte = "game_over_big_text";
 
     // ATTENTION Chaque surface doit avoir son propre conteneur de vertexes.
 
@@ -280,11 +294,11 @@ void GestionnaireHUD::creerHUDJeu()
     surfaceJoueurGauche->modifierPosition(0.0f, 0.0f);
     surfaceJoueurGauche->modifierTaille(0.5f, 1.0f);
 
-    HUDTexte* nomJoueurGauche=new HUDTexte(NOM_JOUEUR_GAUCHE, Vecteur4f(1.0f,1.0f,1.0f,1.0f), policeGrosTexte);
+    HUDTexte* nomJoueurGauche=new HUDTexte(NOM_JOUEUR_GAUCHE, Vecteur4f(1.0f,1.0f,1.0f,1.0f), false);
     nomJoueurGauche->modifierPosition(0.3f,0.4f);
     surfaceJoueurGauche->add(nomJoueurGauche);
 
-    HUDTexte* scoreJoueurGauche=new HUDTexte(POINTAGE_JOUEUR_GAUCHE, Vecteur4f(1.0f,1.0f,1.0f,1.0f), policeGrosTexte);
+    HUDTexte* scoreJoueurGauche=new HUDTexte(POINTAGE_JOUEUR_GAUCHE, Vecteur4f(1.0f,1.0f,1.0f,1.0f), false);
     scoreJoueurGauche->modifierPosition(0.4f,0.9f);
     surfaceJoueurGauche->add(scoreJoueurGauche);
 
@@ -310,11 +324,11 @@ void GestionnaireHUD::creerHUDJeu()
     surfaceJoueurDroit->modifierPosition(0.5f, 0.0f);
     surfaceJoueurDroit->modifierTaille(0.5f, 1.0f);
 
-    HUDTexte* nomJoueurDroit=new HUDTexte(NOM_JOUEUR_DROIT, Vecteur4f(1.0f,1.0f,1.0f,1.0f), policeGrosTexte);
+    HUDTexte* nomJoueurDroit=new HUDTexte(NOM_JOUEUR_DROIT, Vecteur4f(1.0f,1.0f,1.0f,1.0f), false);
     nomJoueurDroit->modifierPosition(0.5f,0.4f);
     surfaceJoueurDroit->add(nomJoueurDroit);
 
-    HUDTexte* scoreJoueurDroit=new HUDTexte(POINTAGE_JOUEUR_DROIT, Vecteur4f(1.0f,1.0f,1.0f,1.0f), policeGrosTexte);
+    HUDTexte* scoreJoueurDroit=new HUDTexte(POINTAGE_JOUEUR_DROIT, Vecteur4f(1.0f,1.0f,1.0f,1.0f), false);
     scoreJoueurDroit->modifierPosition(0.6f,0.9f);
     surfaceJoueurDroit->add(scoreJoueurDroit);
 
@@ -369,20 +383,20 @@ void GestionnaireHUD::creerHUDJeu()
     panneauVainqueur->modifierTaille(0.6f, 0.6f);
     panneauVainqueur->modifierPosition(0.2f, 0.2f);
 
-    HUDTexte* textePartieTerminee = new HUDTexte("Game over! The winner is :", Vecteur4f(1.0f,1.0f,1.0f,1.0f), policeGrosTexte);
+    HUDTexte* textePartieTerminee = new HUDTexte("Game over! The winner is :", Vecteur4f(1.0f,1.0f,1.0f,1.0f), false);
     textePartieTerminee->modifierPosition(0.1f, 0.33f);
     panneauVainqueur->add(textePartieTerminee);
 
-    HUDTexte* texteNomVainqueur = new HUDTexte(NOM_VAINQUEUR, Vecteur4f(1.0f,1.0f,1.0f,1.0f), policeGrosTexte);
+    HUDTexte* texteNomVainqueur = new HUDTexte(NOM_VAINQUEUR, Vecteur4f(1.0f,1.0f,1.0f,1.0f), false);
     texteNomVainqueur->modifierPosition(0.3f, 0.66f);
     panneauVainqueur->add(texteNomVainqueur);
 
     std::string messageContinuer("Press any key to continue...");
-    HUDTexte* espacePourContinuer = new HUDTexte(messageContinuer, Vecteur4f(1.0f,1.0f,1.0f,0.9f), policeGrosTexte);
+    HUDTexte* espacePourContinuer = new HUDTexte(messageContinuer, Vecteur4f(1.0f,1.0f,1.0f,0.9f), false);
     espacePourContinuer->modifierPosition(0.0f, 0.9f);
     panneauVainqueur->add(espacePourContinuer);
     std::string messageContinuer2("Or press Ctrl + R for a video replay!");
-    HUDTexte* espacePourContinuer2 = new HUDTexte(messageContinuer2, Vecteur4f(1.0f,1.0f,1.0f,0.9f), policeGrosTexte);
+    HUDTexte* espacePourContinuer2 = new HUDTexte(messageContinuer2, Vecteur4f(1.0f,1.0f,1.0f,0.9f), false);
     espacePourContinuer2->modifierPosition(0.0f, 1.0f);
     panneauVainqueur->add(espacePourContinuer2);
     

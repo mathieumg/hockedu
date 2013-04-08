@@ -32,9 +32,11 @@ void HUDBonus::initSurfaces()
 {
     const std::string iconPath = RazerGameUtilities::NOM_DOSSIER_MEDIA+"BonusIcons/";
     memset(mTextures,0,sizeof(mTextures));
-    aidegl::glLoadTexture(iconPath+"God.jpg", mTextures[BONUS_TYPE_GO_THROUGH_WALL]);
+    aidegl::glLoadTexture(iconPath+"TrollFace.png", mTextures[BONUS_TYPE_GO_THROUGH_WALL]);
+    aidegl::glLoadTexture(iconPath+"God.jpg", mTextures[BONUS_TYPE_GO_THROUGH_WALL_MALLET]);
     aidegl::glLoadTexture(iconPath+"Goaler.png", mTextures[BONUS_TYPE_BLOCK_GOAL]);
     aidegl::glLoadTexture(iconPath+"ChangeZone.png", mTextures[BONUS_TYPE_CHANGE_ZONE]);
+    
     
     ConteneurVertex2D* vertex = new ConteneurVertex2D();
     vertex->push_back(Vecteur2f(0,1));

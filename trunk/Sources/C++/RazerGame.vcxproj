@@ -315,6 +315,7 @@
     <ClCompile Include="Interface\EtatSouris\SourisEtatAjout.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatDeplacerFenetre.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatOrbit.cpp" />
+    <ClCompile Include="Interface\EtatSouris\SourisEtatPIEMode.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatSelection.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatTransformation.cpp" />
     <ClCompile Include="Interface\EtatSouris\SourisEtatZoomElastique.cpp" />
@@ -509,6 +510,7 @@
     <ClInclude Include="Interface\EtatSouris\SourisEtatAjout.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatDeplacerFenetre.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatOrbit.h" />
+    <ClInclude Include="Interface\EtatSouris\SourisEtatPIEMode.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatSelection.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatTransformation.h" />
     <ClInclude Include="Interface\EtatSouris\SourisEtatZoomElastique.h" />

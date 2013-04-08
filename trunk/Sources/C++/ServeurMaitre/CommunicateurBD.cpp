@@ -185,9 +185,33 @@ bool CommunicateurBD::addGameResult(const std::string& pPlayer1Name, const std::
 {
     if (validateConnection())
     {
+        std::string wWinner;
+        std::string wLoser;
+        int wWinnerScore;
+        int wLoserScore;
+
+        if(pScoreUser1 > pScoreUser2)
+        {
+            wWinner = pPlayer1Name;
+            wLoser = pPlayer2Name;
+            wWinnerScore = pScoreUser1;
+            wLoserScore = pScoreUser2;
+        }
+        else if (pScoreUser1 < pScoreUser2)
+        {
+            wWinner = pPlayer2Name;
+            wLoser = pPlayer1Name;
+            wWinnerScore = pScoreUser2;
+            wLoserScore = pScoreUser1;
+        }
+
         std::stringstream ss;
-        ss << "INSERT INTO matches (`id_user1`, `id_user2`, `score_user1`, `score_user2`, `time`) VALUES((SELECT id FROM users WHERE username = \"" + pPlayer1Name + "\"), (SELECT id FROM users WHERE username = \"" + pPlayer2Name + "\"),  "
-            << pScoreUser1 << ", " << pScoreUser2 << ", " << pTime << ")";
+        ss << "INSERT INTO matches (`id_user1`, `id_user2`, `score_user1`, `score_user2`, `time`) " 
+           << "VALUES((SELECT id FROM users WHERE username = \"" + wWinner + "\"), " // Winner id
+           << "(SELECT id FROM users WHERE username = \"" + wLoser + "\"),  " // Loser id
+           << wWinnerScore << ", " // Winner's score
+           << wLoserScore << ", " // Loser's score
+           << "CURRENT_UNIX_TIMESTAMP)"; // Timestamp for the time the game ended
 
         mysqlpp::Query query = mConnection.query(ss.str());
         try 
@@ -204,7 +228,32 @@ bool CommunicateurBD::addGameResult(const std::string& pPlayer1Name, const std::
 
 
 
-
+float CommunicateurBD::getWinRate(std::string& userName)
+{
+    if (validateConnection())
+    {
+        std::stringstream ss;
+        ss << "SELECT        Winners.win_count / Losers.loss_count AS WinRate "\
+            "FROM            Losers INNER JOIN"\
+            "Winners ON Losers.users_id = Winners.users_id AND Losers.users_username = \"" << userName << 
+            "\" ORDER BY WinRate DESC";
+        try 
+        {
+            mysqlpp::Query query = mConnection.query(ss.str());
+            if (mysqlpp::StoreQueryResult res = query.store()) {
+                mysqlpp::StoreQueryResult::const_iterator it;
+                for (it = res.begin(); it != res.end(); ++it) {
+                    return (float)((*it)[0]); // the query's return value is its win/rate
+                }
+            }
+        }
+        catch(...)
+        {
+            return 0;
+        }
+    }
+    return 0;
+}
 
 
 

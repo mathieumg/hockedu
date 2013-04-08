@@ -16,6 +16,8 @@
 #include "Utilitaire.h"
 #include "JoueurAbstrait.h"
 #include <algorithm>
+#include "GestionnaireHUD.h"
+#include "phont.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -29,13 +31,10 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-HUDTexte::HUDTexte(std::string texte, Vecteur4f& couleur, std::string& typeFont)
-	:message_(texte), couleur_(couleur), typeTexte_(TEXTE)
+HUDTexte::HUDTexte(std::string texte, Vecteur4f& couleur, bool isSmallText)
+	:message_(texte), couleur_(couleur), typeTexte_(TEXTE),mIsSmallText(isSmallText)
 {
-	if(!textRenderer_.load("", (RazerGameUtilities::NOM_DOSSIER_MEDIA + typeFont).c_str()))
-	{
-		utilitaire::afficherErreur("Erreur: incapable d'ouvrir le font " + typeFont);
-	}
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -50,13 +49,10 @@ HUDTexte::HUDTexte(std::string texte, Vecteur4f& couleur, std::string& typeFont)
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-HUDTexte::HUDTexte(TypeTexte typeTexte, Vecteur4f& couleur, std::string& typeFont)
-	:couleur_(couleur), typeTexte_(typeTexte)
+HUDTexte::HUDTexte(TypeTexte typeTexte, Vecteur4f& couleur, bool isSmallText)
+	:couleur_(couleur), typeTexte_(typeTexte),mIsSmallText(isSmallText)
 {
-	if(!textRenderer_.load("", (RazerGameUtilities::NOM_DOSSIER_MEDIA +typeFont).c_str()))
-	{
-		utilitaire::afficherErreur("Erreur: incapable d'ouvrir le font game_over");
-	}
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -74,13 +70,9 @@ HUDTexte::HUDTexte(TypeTexte typeTexte, Vecteur4f& couleur, std::string& typeFon
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-HUDTexte::HUDTexte(unsigned int& idPartie, unsigned int& joueur, Vecteur4f& couleur, Vecteur4f& couleurSiGagnantPartie, std::string& typeFont)
-	:typeTexte_(TOURNOI_JOUEUR), indexPartie_(idPartie), indexJoueur_(joueur), couleur_(couleur), couleurSiGagnantPartie_(couleurSiGagnantPartie)
+HUDTexte::HUDTexte(unsigned int& idPartie, unsigned int& joueur, Vecteur4f& couleur, Vecteur4f& couleurSiGagnantPartie, bool isSmallText)
+    :typeTexte_(TOURNOI_JOUEUR), indexPartie_(idPartie), indexJoueur_(joueur), couleur_(couleur), couleurSiGagnantPartie_(couleurSiGagnantPartie),mIsSmallText(isSmallText)
 {
-	if(!textRenderer_.load("", (RazerGameUtilities::NOM_DOSSIER_MEDIA +typeFont).c_str()))
-	{
-		utilitaire::afficherErreur("Erreur: incapable d'ouvrir le font game_over");
-	}
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -174,7 +166,11 @@ void HUDTexte::peindreElement()
 			mess << ((tempsJeu<10 && nbMinutes > 0)?"0":"") << tempsJeu;
 			break;
 	}
-	textRenderer_.print(obtenirX(),1-obtenirY(),true,mess.str().c_str());
+    Phont* phont = GestionnaireHUD::obtenirInstance()->getTextRenderer(mIsSmallText);
+    if(phont)
+    {
+        phont->print(obtenirX(),1-obtenirY(),true,mess.str().c_str());
+    }
 	glPopAttrib();
 	glPopMatrix();
 }

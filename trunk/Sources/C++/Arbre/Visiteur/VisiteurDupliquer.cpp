@@ -18,6 +18,9 @@
 #include "NoeudAccelerateur.h"
 #include "RazerGameTree.h"
 #include "Terrain.h"
+#include "ControlPointMutableAbstract.h"
+#include "NodeControlPoint.h"
+#include "NodeWallEdition.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -82,38 +85,26 @@ void VisiteurDupliquer::visiterNoeudComposite( NoeudComposite* noeud )
 void VisiteurDupliquer::visiterNoeudMuret( NodeWallAbstract* noeud )
 {
     Terrain* terrain = noeud->getField();
-	if(terrain && noeud -> IsSelected())
+    NodeWallEdition *wall = dynamic_cast<NodeWallEdition *>(noeud);
+    if(terrain && wall && wall->isAnyPointSelected())
 	{
         // assume ici qu'un muret relatif ne peut etre selectionné
-		NoeudMuret* nouveauNoeud = (NoeudMuret*)(arbre_->ajouterNouveauNoeud(RazerGameUtilities::NOM_TABLE, noeud->getType()));
-		if(nouveauNoeud != 0)
+		NodeWallEdition* nouveauNoeud = (NodeWallEdition*)(arbre_->ajouterNouveauNoeud(RazerGameUtilities::NOM_TABLE, noeud->getType()));
+		if(nouveauNoeud)
 		{
-			for (int i=1; i<10; i++)
-			{
-				Vecteur3 positionClic1_(noeud->obtenirCoin1()+Vecteur3(0.0f,i*5.0f)), positionVirtuelle(noeud->obtenirCoin2()+Vecteur3(0.0f,i*5.0f));
-				nouveauNoeud->assignerPositionCoin(1,positionClic1_);
-				nouveauNoeud->assignerPositionCoin(2,positionVirtuelle);
-				float deltaX = positionVirtuelle[VX]-positionClic1_[VX];
-				float deltaY = positionVirtuelle[VY]-positionClic1_[VY];
-				float angle = (atan2(deltaY, deltaX)*180.0f/(float)M_PI);
-				float rayon = sqrt(deltaX*deltaX+deltaY*deltaY);
-				if(rayon>1)
-				{
-					nouveauNoeud->assignerPositionCoin(2, positionVirtuelle);
-					nouveauNoeud->setScale(Vecteur3(rayon, 1, 1));
-					nouveauNoeud->setAngle(angle);
-					nouveauNoeud->updateMatrice();
-				}
-				if(terrain->IsNodeAtValidEditionPosition(nouveauNoeud))
-				{
-					
-					return;
-				}
-			}
-            nouveauNoeud->deleteThis();
+            NodeControlPoint* coin1 = new NodeControlPoint(RazerGameUtilities::NAME_CONTROL_POINT);
+            NodeControlPoint* coin2 = new NodeControlPoint(RazerGameUtilities::NAME_CONTROL_POINT);
+            auto pos1 = noeud->obtenirCoin1();
+            auto pos2 = noeud->obtenirCoin2();
+            pos1[VX] += 5;
+            pos2[VX] -= 5;
+            coin1->setPosition(pos1);
+            coin2->setPosition(pos2);
+            nouveauNoeud->addControlPoint(coin1);
+            nouveauNoeud->addControlPoint(coin2);
+            nouveauNoeud->forceFullUpdate();
 		}
 	}
-    visiterNoeudComposite(noeud);
 }
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -307,6 +298,32 @@ void VisiteurDupliquer::dupliquerNoeud( NoeudAbstrait* noeud )
 // 			}
 		}
 	}
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void VisiteurDupliquer::visiterNodeControlPoint( NodeControlPoint* noeud )
+///
+/// /*Description*/
+///
+/// @param[in] NodeControlPoint * noeud
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void VisiteurDupliquer::visiterNodeControlPoint( NodeControlPoint* noeud )
+{
+    /// on 
+//     if(noeud->IsSelected() && noeud->canBeVisitedAndRemoveFlag())
+//     {
+//         noeud->flagSelectedAssociatedPoints();
+// 
+//         NoeudAbstrait* obj = dynamic_cast<NoeudAbstrait*>(noeud->getLinkedObject());
+//         if(obj)
+//         {
+//             obj->acceptVisitor(*this);
+//         }
+//     }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

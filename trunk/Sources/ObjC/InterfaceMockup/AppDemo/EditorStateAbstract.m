@@ -7,18 +7,27 @@
 //
 
 #import "EditorStateAbstract.h"
-
+#import "EventManager.h"
 @implementation EditorStateAbstract
--(void)touchesBegan:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model
+@synthesize mEventManager;
+-(EditorStateAbstract*)init:(EventManager*)eventManager
+{
+    mEventManager = eventManager;
+    return self;
+}
+-(void)touchesBegan:(CGPoint)coordVirt;
 {
     // Rien, les sub classes reimplemente cette methode (virtual)
 }
--(void)touchesMoved:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model
+-(void)touchesMoved:(CGPoint)coordVirt;
 {
     // Rien, les sub classes reimplemente cette methode (virtual)
 }
--(void)touchesEnded:(UITouch *)touch:(CGPoint)coordVirt:(Model*)model
+-(void)touchesEnded:(CGPoint)coordVirt;
 {
     // Rien, les sub classes reimplemente cette methode (virtual)
+}
+-(void)stateEnd
+{
 }
 @end

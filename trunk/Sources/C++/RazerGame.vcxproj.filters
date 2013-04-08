@@ -665,6 +665,9 @@
     <ClCompile Include="Arbre\FieldRunnableStructs.cpp">
       <Filter>Sources Files\Arbre\Edition</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\EtatSouris\SourisEtatPIEMode.cpp">
+      <Filter>Sources Files\Interface\EtatSouris</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1251,6 +1254,9 @@
     </ClInclude>
     <ClInclude Include="Arbre\FieldRunnableStructs.h">
       <Filter>Sources Files\Arbre\Edition</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\EtatSouris\SourisEtatPIEMode.h">
+      <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

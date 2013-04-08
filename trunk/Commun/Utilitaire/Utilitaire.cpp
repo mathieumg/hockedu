@@ -27,6 +27,7 @@
 
 namespace utilitaire {
 
+    DisplayMessageCallback mDisplayMessageCallback = NULL;
 
    ////////////////////////////////////////////////////////////////////////
    ///
@@ -41,11 +42,18 @@ namespace utilitaire {
    ////////////////////////////////////////////////////////////////////////
    void afficherErreur(const std::string& message)
    {
-   #ifdef WIN32
-      MessageBoxA(0, message.c_str(), "Erreur", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
-   #else
-      std::cerr << message << std::endl;
-   #endif
+       if(mDisplayMessageCallback)
+       {
+           mDisplayMessageCallback(message.c_str());
+       }
+       else
+       {
+#ifdef WIN32
+           MessageBoxA(0, message.c_str(), "Erreur", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
+#else
+           std::cerr << message << std::endl;
+#endif
+       }
    }
 
 

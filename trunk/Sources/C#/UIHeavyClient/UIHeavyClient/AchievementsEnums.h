@@ -16,9 +16,10 @@ namespace UIHeavyClient
 /// donc ne pas jouer avec ceux-ci.
 /// laisser un espace suffisant entre 2 achievements pour des nouveaux
 #if CSHARP
-public
+public enum AchievementsType
+#else
+typedef enum
 #endif
-enum AchievementsType
 {
     ACHIEVEMENTS_START_APPLICATION = 100,
 
@@ -37,15 +38,20 @@ enum AchievementsType
     ACHIEVEMENTS_PORTAL_L1 = 350,
     ACHIEVEMENTS_PORTAL_L2,
     ACHIEVEMENTS_PORTAL_L3,
-};
+}
+#if !CSHARP
+AchievementsType
+#endif
+;
 
 /// Ordre pas important.
 /// Sert au programme d'indiquer un type d'événement qui peut
 /// possiblement etre écouter par un ou plusieurs achievement
 #if CSHARP
-public
+public enum AchievementEvent
+#else
+typedef enum
 #endif
-enum AchievementEvent
 {
     ACHIEVEMENT_EVENT_MAIN_SCREEN_LOADED,
     ACHIEVEMENT_EVENT_GAME_WON,
@@ -55,7 +61,11 @@ enum AchievementEvent
     ACHIEVEMENT_EVENT_PORTAL,
 
     ACHIEVEMENT_EVENT_NONE, // When you need to specify an event, but there's no event
-};
+}
+#if !CSHARP
+AchievementEvent
+#endif
+    ;
 
 #if CSHARP
 }

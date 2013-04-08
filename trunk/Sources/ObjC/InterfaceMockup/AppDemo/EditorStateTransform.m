@@ -7,24 +7,25 @@
 //
 
 #import "EditorStateTransform.h"
-
+#import "EventManager.h"
 @implementation EditorStateTransform
 FieldModificationStrategyType _mType;
--(EditorStateTransform*)init:(FieldModificationStrategyType)type
+-(EditorStateTransform*)init:(FieldModificationStrategyType)type:(EventManager*)eventManager
 {
+    [super init:eventManager];
     _mType = type;
     return self;
 }
--(void)touchesBegan:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model
+-(void)touchesBegan:(CGPoint)coordVirt
 {
-    [model beginModification:_mType :coordVirt];
+    [mEventManager.mModel beginModification:_mType:coordVirt];
 }
--(void)touchesMoved:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model
+-(void)touchesMoved:(CGPoint)coordVirt
 {
-    [model eventModification:FIELD_MODIFICATION_EVENT_MOVE:coordVirt];
+    [mEventManager.mModel eventModification:FIELD_MODIFICATION_EVENT_MOVE:coordVirt];
 }
--(void)touchesEnded:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model
+-(void)touchesEnded:(CGPoint)coordVirt
 {
-    [model endModification];
+    [mEventManager.mModel endModification];
 }
 @end

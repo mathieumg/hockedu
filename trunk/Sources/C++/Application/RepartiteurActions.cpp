@@ -65,6 +65,7 @@ RepartiteurActions::RepartiteurActions()
     banqueActions_[ACTION_EDITEUR_REDO]          = &RepartiteurActions::actionBoutonRedo;
     banqueActions_[ACTION_SUPPRIMER]             = &RepartiteurActions::actionBoutonSupprimer;
     banqueActions_[ACTION_DUPLIQUER]             = &RepartiteurActions::actionBoutonDupliquer;
+    banqueActions_[ACTION_PIE_MODE]          = &RepartiteurActions::actionPlayInEditor;
 
     //Fonctions d'insertions.
     banqueActions_[ACTION_INSERER_PORTAIL]       = &RepartiteurActions::actionBoutonInsererPortail;
@@ -86,6 +87,8 @@ RepartiteurActions::RepartiteurActions()
     banqueActions_[ACTION_CAMERA_ORBITE]         = &RepartiteurActions::actionChangerModeCameraOrbite;
     banqueActions_[ACTION_CAMERA_LIBRE]          = &RepartiteurActions::actionChangerModeCameraLibre;
     banqueActions_[ACTION_CAMERA_SPLIT]          = &RepartiteurActions::actionChangerModeCameraSplit;
+
+    
 
 }
 
@@ -770,6 +773,22 @@ bool RepartiteurActions::actionReinitialiserRondelle()
     {
         FacadeModele::getInstance()->reinitialiserRondelle();
     }
+    return true;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn bool RepartiteurActions::actionPlayInEditor()
+///
+/// /*Description*/
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool RepartiteurActions::actionPlayInEditor()
+{
+    GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_PIE_MODE);
     return true;
 }
 
