@@ -365,6 +365,7 @@ namespace UIHeavyClient
         public static void LoadMapFromLocal(string pMapName)
         {
             LoadMap(pMapName);
+            Context.EditionModeControl.ResetEditionState();
         }
 
         ////////////////////////////////////////////////////////////////////////

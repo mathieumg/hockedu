@@ -791,6 +791,11 @@ namespace UIHeavyClient
             string returnValue = System.Text.Encoding.Unicode.GetString(encodedDataAsBytes);
             return returnValue;
         }
+
+        public void ResetEditionState()
+        {
+            HandleStateButton(mFreeStateButton, null);
+        }
     }
 }
 
