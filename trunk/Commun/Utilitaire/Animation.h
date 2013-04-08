@@ -23,7 +23,7 @@ typedef std::vector<AnimationFrame*> ListeFrame;
 typedef std::vector<ObjetAnimable*> ListeObjetsAnimable;
 
 
-typedef void(*AnimationTerminatedCallback)(Animation*);
+typedef void(*AnimationTerminatedCallback)(class Animation*);
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class Animation
