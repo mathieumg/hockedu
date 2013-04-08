@@ -6,7 +6,7 @@
       <actorMoniker Id="963987a5-4318-453d-b728-4aff11e6cdbd" LastKnownName="Utilisateur" />
       <relativeChildShapes />
     </actorShape>
-    <SubsystemShape Id="e139bcb6-4135-4250-8be9-3dc02b664d9a" absoluteBounds="1.625, 0.75, 4.25, 3.875" customColor="White">
+    <SubsystemShape Id="e139bcb6-4135-4250-8be9-3dc02b664d9a" absoluteBounds="1.625, 0.75, 4.25, 3.25" customColor="White">
       <subsystemMoniker Id="9ebc4855-fea0-4636-930d-debe0519538d" LastKnownName="1. Gérer un tournoi" />
       <nestedChildShapes>
         <useCaseShape Id="5c877ae6-9352-4d6a-83dd-c1290b4722ae" absoluteBounds="2.375, 1.25, 1.875, 0.5" customColor="238, 237, 131" heightOffset="0">
@@ -17,16 +17,12 @@
           <useCaseMoniker Id="a6f2b45a-dbcc-455a-884f-1e857a82ec84" LastKnownName="1.2 Choisir une carte" />
           <relativeChildShapes />
         </useCaseShape>
-        <useCaseShape Id="77e01e12-1d1d-4b74-99b2-73c4ab740351" absoluteBounds="3.125, 2.5, 2.625, 0.5" customColor="238, 237, 131" heightOffset="0">
-          <useCaseMoniker Id="c0d0bb7d-e9f8-43ee-a53e-5b9e321a7522" LastKnownName="1.3 Choisir le nombre de joueurs" />
+        <useCaseShape Id="f132ea92-a948-4dd0-bb87-82d75e6fd4f9" absoluteBounds="2.875, 2.625, 2.625, 0.5" customColor="238, 237, 131" heightOffset="0">
+          <useCaseMoniker Id="7c5d7e20-17b7-47bd-9f05-76aeeb98a2b5" LastKnownName="1.3 Sauvegarder le tournoi" />
           <relativeChildShapes />
         </useCaseShape>
-        <useCaseShape Id="f132ea92-a948-4dd0-bb87-82d75e6fd4f9" absoluteBounds="2.75, 3.25, 2.625, 0.5" customColor="238, 237, 131" heightOffset="0">
-          <useCaseMoniker Id="7c5d7e20-17b7-47bd-9f05-76aeeb98a2b5" LastKnownName="1.4 Sauvegarder le tournoi" />
-          <relativeChildShapes />
-        </useCaseShape>
-        <useCaseShape Id="40fd8aeb-9545-4ca7-8b3c-ac58401064fd" absoluteBounds="1.875, 3.875, 2.625, 0.5" customColor="238, 237, 131" heightOffset="0">
-          <useCaseMoniker Id="b2c1a05d-b496-4f5b-a079-91d2447b26be" LastKnownName="1.5 Charger un tournoi" />
+        <useCaseShape Id="40fd8aeb-9545-4ca7-8b3c-ac58401064fd" absoluteBounds="2, 3.25, 2.625, 0.5" customColor="238, 237, 131" heightOffset="0">
+          <useCaseMoniker Id="b2c1a05d-b496-4f5b-a079-91d2447b26be" LastKnownName="1.4 Charger un tournoi" />
           <relativeChildShapes />
         </useCaseShape>
       </nestedChildShapes>
@@ -47,15 +43,7 @@
         <useCaseShapeMoniker Id="dbc34b41-0568-4097-9b4b-ba51ad2efb6c" />
       </nodes>
     </useCaseAssociationConnector>
-    <useCaseAssociationConnector edgePoints="[(1.375 : 1.94103773584906); (3.66983711426507 : 2.54722112452285)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="113, 111, 110" sourceMultiplicity="" targetMultiplicity="">
-      <associationMoniker Id="822ef18f-660d-4439-964a-97e1b6dd1f69" />
-      <relativeChildShapes />
-      <nodes>
-        <actorShapeMoniker Id="18f99cc6-34d0-43cf-9d25-9a824000073c" />
-        <useCaseShapeMoniker Id="77e01e12-1d1d-4b74-99b2-73c4ab740351" />
-      </nodes>
-    </useCaseAssociationConnector>
-    <useCaseAssociationConnector edgePoints="[(1.375 : 2.01329787234043); (3.63519764296887 : 3.26361997270619)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="113, 111, 110" sourceMultiplicity="" targetMultiplicity="">
+    <useCaseAssociationConnector edgePoints="[(1.375 : 1.95663265306122); (3.52616927899964 : 2.65905527477539)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="113, 111, 110" sourceMultiplicity="" targetMultiplicity="">
       <associationMoniker Id="ae0a5ff0-de29-40ae-abf2-67d717b3a309" />
       <relativeChildShapes />
       <nodes>
@@ -63,7 +51,7 @@
         <useCaseShapeMoniker Id="f132ea92-a948-4dd0-bb87-82d75e6fd4f9" />
       </nodes>
     </useCaseAssociationConnector>
-    <useCaseAssociationConnector edgePoints="[(1.35416666666667 : 2.125); (2.96174865668223 : 3.8787258072897)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="113, 111, 110" sourceMultiplicity="" targetMultiplicity="">
+    <useCaseAssociationConnector edgePoints="[(1.375 : 2.06071428571429); (2.98650735277364 : 3.25783403348899)]" fixedFrom="Algorithm" fixedTo="Algorithm" customColor="113, 111, 110" sourceMultiplicity="" targetMultiplicity="">
       <associationMoniker Id="ab09604c-3025-4566-8460-9a7eaf34810e" />
       <relativeChildShapes />
       <nodes>

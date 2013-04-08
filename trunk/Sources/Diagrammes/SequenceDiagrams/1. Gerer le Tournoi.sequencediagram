@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<SequenceDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="9b48d981-664d-4c4f-ac8c-c0626679ce00" name="1. Gerer un Tournoi" linkedPackageId="3feb9bc6-0e21-4715-8d3a-cac368c3ac25" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner">
+<SequenceDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="9b48d981-664d-4c4f-ac8c-c0626679ce00" name="1. Gerer un Tournoi" linkedPackageId="3feb9bc6-0e21-4715-8d3a-cac368c3ac25" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner">
   <packagedElements>
     <packageHasNamedElement>
       <interaction Id="ad0d1e71-73bb-4e61-a4b5-07b638a9d580" name="1. Gerer un Tournoi" collapseFragmentsFlag="false" isActiveClass="false" isAbstract="false" isLeaf="false" isReentrant="false">
         <elementDefinition Id="aca7837e-9392-49b6-88f3-97c228aba79d" />
         <fragments>
-          <interactionUse Id="32e539b1-ea3b-41b8-93f9-c27de4443593" name="1.5 Charger tournoi" referredToFile="1.5 Charger tournoi">
+          <interactionUse Id="32e539b1-ea3b-41b8-93f9-c27de4443593" name="1.4 Charger tournoi" referredToFile="1.5 Charger tournoi">
             <referencesInternal>
               <reference Id="e6f65cf9-084e-445e-87bc-b76899e33bb5" handle="backplane://Backplane/Microsoft.VisualStudio.TeamArchitect.SequenceDesigner.ToolAdapter.SequenceServiceManager/4d8b9a69-1dd8-4616-881c-7a06cfb77fa7\1.5 Charger tournoi.sequencediagram" tag="Definition Reference">
                 <elementDefinition Id="9b6f7d91-649a-48d2-8e9a-b07cf0eea965" />
@@ -29,34 +29,6 @@
           </interactionUseOccurrenceSpecification>
           <interactionUseOccurrenceSpecification Id="31373e46-59a1-432e-a58d-8912c3c5c36e" name="InteractionUseOccurrenceSpecification14">
             <elementDefinition Id="e1d8102f-c943-46e2-a6cb-39e1c9cd8b14" />
-            <covered>
-              <lifelineMoniker Id="a520e9bf-24c8-423c-8314-53fb5f7437a5" LastKnownName="client Lourd : Client Lourd" />
-            </covered>
-          </interactionUseOccurrenceSpecification>
-          <interactionUse Id="b6be7194-e59f-48a4-82fc-06202d9f153d" name="1.3 Choisir le nombre de joueurs" referredToFile="1.3 Choisir le nombre de joueurs">
-            <referencesInternal>
-              <reference Id="66b56813-c500-4f5c-bad1-b371a9af4e49" handle="backplane://Backplane/Microsoft.VisualStudio.TeamArchitect.SequenceDesigner.ToolAdapter.SequenceServiceManager/4d8b9a69-1dd8-4616-881c-7a06cfb77fa7\1.3 Choisir le nombre de joueurs.sequencediagram" tag="Definition Reference">
-                <elementDefinition Id="2f895e18-2c5b-446b-9708-a68a5184bb04" />
-              </reference>
-            </referencesInternal>
-            <elementDefinition Id="3cf93398-524d-403e-b4db-eec4ed198476" />
-            <coveredLifelines>
-              <lifelineMoniker Id="650e1b74-479e-4a4c-8f40-d3bd4819d686" LastKnownName="utilisateur : Utilisateur" />
-              <lifelineMoniker Id="a520e9bf-24c8-423c-8314-53fb5f7437a5" LastKnownName="client Lourd : Client Lourd" />
-            </coveredLifelines>
-            <interactionUseOccurrenceSpecifications>
-              <interactionUseOccurrenceSpecificationMoniker Id="ea5c6df4-0fe7-41cd-9b1c-f25b2e26b411" LastKnownName="InteractionUseOccurrenceSpecification5" />
-              <interactionUseOccurrenceSpecificationMoniker Id="45f2f2d8-a673-4c40-9ab8-c7ed1bb33b80" LastKnownName="InteractionUseOccurrenceSpecification6" />
-            </interactionUseOccurrenceSpecifications>
-          </interactionUse>
-          <interactionUseOccurrenceSpecification Id="ea5c6df4-0fe7-41cd-9b1c-f25b2e26b411" name="InteractionUseOccurrenceSpecification5">
-            <elementDefinition Id="d7684088-4ea0-4d40-bef1-28f0d3ce7b58" />
-            <covered>
-              <lifelineMoniker Id="650e1b74-479e-4a4c-8f40-d3bd4819d686" LastKnownName="utilisateur : Utilisateur" />
-            </covered>
-          </interactionUseOccurrenceSpecification>
-          <interactionUseOccurrenceSpecification Id="45f2f2d8-a673-4c40-9ab8-c7ed1bb33b80" name="InteractionUseOccurrenceSpecification6">
-            <elementDefinition Id="b3600293-5033-45b6-8e00-8a5db5b8b00e" />
             <covered>
               <lifelineMoniker Id="a520e9bf-24c8-423c-8314-53fb5f7437a5" LastKnownName="client Lourd : Client Lourd" />
             </covered>
@@ -117,7 +89,7 @@
               <lifelineMoniker Id="650e1b74-479e-4a4c-8f40-d3bd4819d686" LastKnownName="utilisateur : Utilisateur" />
             </covered>
           </interactionUseOccurrenceSpecification>
-          <interactionUse Id="e9bd82b9-ea3b-4669-8413-360978e98e4a" name="1.4 Sauvegarder tournoi" referredToFile="1.4 Sauvegarder tournoi">
+          <interactionUse Id="e9bd82b9-ea3b-4669-8413-360978e98e4a" name="1.3 Sauvegarder tournoi" referredToFile="1.4 Sauvegarder tournoi">
             <referencesInternal>
               <reference Id="03e88a89-38f4-4d66-aeae-cd603d72ec09" handle="backplane://Backplane/Microsoft.VisualStudio.TeamArchitect.SequenceDesigner.ToolAdapter.SequenceServiceManager/4d8b9a69-1dd8-4616-881c-7a06cfb77fa7\1.4 Sauvegarder tournoi.sequencediagram" tag="Definition Reference">
                 <elementDefinition Id="27894387-ef87-4003-a102-ac5e06c4c6d7" />
@@ -154,7 +126,6 @@
             </represents>
             <topLevelOccurrences>
               <interactionUseOccurrenceSpecificationMoniker Id="b22c2be0-92a4-450f-adf1-dcf1bf4bcaaf" LastKnownName="InteractionUseOccurrenceSpecification13" />
-              <interactionUseOccurrenceSpecificationMoniker Id="ea5c6df4-0fe7-41cd-9b1c-f25b2e26b411" LastKnownName="InteractionUseOccurrenceSpecification5" />
               <interactionUseOccurrenceSpecificationMoniker Id="d089b28e-27b1-4aaf-b44a-0401077f6adb" LastKnownName="InteractionUseOccurrenceSpecification7" />
               <interactionUseOccurrenceSpecificationMoniker Id="9d5ea4d9-f46a-4d72-9c54-f69b5be87d55" LastKnownName="InteractionUseOccurrenceSpecification9" />
               <interactionUseOccurrenceSpecificationMoniker Id="486379ae-93ef-44b2-884b-aed8d36665fc" LastKnownName="InteractionUseOccurrenceSpecification11" />
@@ -167,7 +138,6 @@
             </represents>
             <topLevelOccurrences>
               <interactionUseOccurrenceSpecificationMoniker Id="31373e46-59a1-432e-a58d-8912c3c5c36e" LastKnownName="InteractionUseOccurrenceSpecification14" />
-              <interactionUseOccurrenceSpecificationMoniker Id="45f2f2d8-a673-4c40-9ab8-c7ed1bb33b80" LastKnownName="InteractionUseOccurrenceSpecification6" />
               <interactionUseOccurrenceSpecificationMoniker Id="a9a2b692-feae-4182-a869-c183203b5c57" LastKnownName="InteractionUseOccurrenceSpecification8" />
               <interactionUseOccurrenceSpecificationMoniker Id="f9b97836-8fbe-4c9c-adc3-b6395917d7a9" LastKnownName="InteractionUseOccurrenceSpecification10" />
               <interactionUseOccurrenceSpecificationMoniker Id="85ce944d-0152-47c8-b9e2-1a317ee8b4a1" LastKnownName="InteractionUseOccurrenceSpecification12" />

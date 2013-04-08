@@ -1,19 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<SequenceDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="53a64768-dce9-4cc4-b806-66c55e44754d" name="3. Se connecter au serveur maître" linkedPackageId="70570c0f-6ad7-4483-8a0a-2dc4efc31154" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner">
-  <profileInstances>
-    <packageHasProfileInstances Id="fe40ed8e-565a-4616-9495-395a31d7575d">
-      <profileInstance Id="929643de-b94a-43dd-a8d9-73b435b1bf31" name="StandardProfileL2">
-        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
-      </profileInstance>
-      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
-    </packageHasProfileInstances>
-    <packageHasProfileInstances Id="cd013be6-5448-4a48-9d98-c9c5f24a62dd">
-      <profileInstance Id="8fea0d26-2c9e-4517-aed8-348b7adcd78e" name="StandardProfileL3">
-        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
-      </profileInstance>
-      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
-    </packageHasProfileInstances>
-  </profileInstances>
+<SequenceDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="53a64768-dce9-4cc4-b806-66c55e44754d" name="3. Se connecter au serveur maître" linkedPackageId="70570c0f-6ad7-4483-8a0a-2dc4efc31154" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner">
   <packagedElements>
     <packageHasNamedElement>
       <interaction Id="c2251257-0eba-4859-a4af-bd8f0c379c81" name="3. Se connecter au serveur maître" collapseFragmentsFlag="false" isActiveClass="false" isAbstract="false" isLeaf="false" isReentrant="false">
@@ -226,34 +212,6 @@
               <lifelineMoniker Id="b7a76cd5-6ad7-45f7-a1e2-3f0e0b3ee9be" LastKnownName="utilisateur : Utilisateur" />
             </covered>
           </operandOccurrenceSpecification>
-          <interactionUse Id="c30c4175-2717-43fd-b20c-1a72bddabcd4" name="3.4 Réaliser un &quot;achievement&quot;" referredToFile="3.4 Réaliser un &quot;achievement&quot;">
-            <referencesInternal>
-              <reference Id="7d8cb265-6b36-440c-bec1-0041beea5bc1" handle="backplane://Backplane/Microsoft.VisualStudio.TeamArchitect.SequenceDesigner.ToolAdapter.SequenceServiceManager/4d8b9a69-1dd8-4616-881c-7a06cfb77fa7\3.4 Réaliser un _achievement.sequencediagram" tag="Definition Reference">
-                <elementDefinition Id="94c03f9c-08b2-4bb3-8591-12def777717b" />
-              </reference>
-            </referencesInternal>
-            <elementDefinition Id="aab56df3-2604-45aa-b0d3-b30fc31aec73" />
-            <coveredLifelines>
-              <lifelineMoniker Id="b7a76cd5-6ad7-45f7-a1e2-3f0e0b3ee9be" LastKnownName="utilisateur : Utilisateur" />
-              <lifelineMoniker Id="65bebf4f-cf32-4cd5-a165-76f27a90acd9" LastKnownName="client Lourd : Client Lourd" />
-            </coveredLifelines>
-            <interactionUseOccurrenceSpecifications>
-              <interactionUseOccurrenceSpecificationMoniker Id="58a60b11-2d82-44a2-84c2-0ba714fc7548" LastKnownName="InteractionUseOccurrenceSpecification9" />
-              <interactionUseOccurrenceSpecificationMoniker Id="908ec8a8-7303-4862-8ec9-19558105e50b" LastKnownName="InteractionUseOccurrenceSpecification10" />
-            </interactionUseOccurrenceSpecifications>
-          </interactionUse>
-          <interactionUseOccurrenceSpecification Id="58a60b11-2d82-44a2-84c2-0ba714fc7548" name="InteractionUseOccurrenceSpecification9">
-            <elementDefinition Id="57a2aa0a-d53b-41f4-9a4a-83ef9694f181" />
-            <covered>
-              <lifelineMoniker Id="b7a76cd5-6ad7-45f7-a1e2-3f0e0b3ee9be" LastKnownName="utilisateur : Utilisateur" />
-            </covered>
-          </interactionUseOccurrenceSpecification>
-          <interactionUseOccurrenceSpecification Id="908ec8a8-7303-4862-8ec9-19558105e50b" name="InteractionUseOccurrenceSpecification10">
-            <elementDefinition Id="895e122b-65cf-4eab-88ef-12fc5b140263" />
-            <covered>
-              <lifelineMoniker Id="65bebf4f-cf32-4cd5-a165-76f27a90acd9" LastKnownName="client Lourd : Client Lourd" />
-            </covered>
-          </interactionUseOccurrenceSpecification>
           <operandOccurrenceSpecification Id="49241c3f-7a36-4165-ad2c-f49f62808f25" name="OperandOccurrenceSpecification10">
             <elementDefinition Id="6750cadf-0cac-4d6b-838e-3711bfe15c67" />
             <covered>
@@ -282,7 +240,6 @@
               <interactionUseOccurrenceSpecificationMoniker Id="98c4cd31-caf4-4e6d-9493-f795c1e618cf" LastKnownName="InteractionUseOccurrenceSpecification7" />
               <operandOccurrenceSpecificationMoniker Id="8323c830-eda9-4b08-8e74-e79edf7a53cc" LastKnownName="OperandOccurrenceSpecification6" />
               <operandOccurrenceSpecificationMoniker Id="26db914d-1756-440a-a9a8-65c5b8a76e99" LastKnownName="OperandOccurrenceSpecification9" />
-              <interactionUseOccurrenceSpecificationMoniker Id="58a60b11-2d82-44a2-84c2-0ba714fc7548" LastKnownName="InteractionUseOccurrenceSpecification9" />
               <operandOccurrenceSpecificationMoniker Id="49241c3f-7a36-4165-ad2c-f49f62808f25" LastKnownName="OperandOccurrenceSpecification10" />
             </topLevelOccurrences>
           </lifeline>
@@ -300,7 +257,6 @@
               <interactionUseOccurrenceSpecificationMoniker Id="f3a13c09-4e6a-46c6-85d6-c852f7293c48" LastKnownName="InteractionUseOccurrenceSpecification8" />
               <operandOccurrenceSpecificationMoniker Id="1b95a7a9-3d93-4715-83a7-184d3c796467" LastKnownName="OperandOccurrenceSpecification8" />
               <operandOccurrenceSpecificationMoniker Id="64a27794-e19d-40f2-ae2e-ac72a6defa29" LastKnownName="OperandOccurrenceSpecification11" />
-              <interactionUseOccurrenceSpecificationMoniker Id="908ec8a8-7303-4862-8ec9-19558105e50b" LastKnownName="InteractionUseOccurrenceSpecification10" />
               <operandOccurrenceSpecificationMoniker Id="5e11e8d5-1503-400e-91d9-9393f0418178" LastKnownName="OperandOccurrenceSpecification12" />
             </topLevelOccurrences>
           </lifeline>
@@ -340,5 +296,19 @@
   </packagedElements>
   <package Id="70570c0f-6ad7-4483-8a0a-2dc4efc31154" name="Diagrammes">
     <elementDefinition Id="bd496572-2d56-4f1a-82f9-f287c782ea4e" />
+    <profileInstances>
+      <packageHasProfileInstances Id="fe40ed8e-565a-4616-9495-395a31d7575d">
+        <profileInstance Id="929643de-b94a-43dd-a8d9-73b435b1bf31" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="cd013be6-5448-4a48-9d98-c9c5f24a62dd">
+        <profileInstance Id="8fea0d26-2c9e-4517-aed8-348b7adcd78e" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
   </package>
 </SequenceDesignerModel>
