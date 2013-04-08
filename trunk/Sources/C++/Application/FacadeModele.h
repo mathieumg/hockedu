@@ -149,7 +149,7 @@ public:
 	void modifierVariableZoomElastique(bool actif, Vecteur2i coin1 = Vecteur2i(), Vecteur2i coin2 = Vecteur2i());
 
 	/// Changements d'états
-	bool passageModeEdition();
+	bool passageModeEdition(bool pLoadDefaultXML = true);
 	bool passageModeJeu(); 
 	bool passageModeTournoi();
 	bool passageMenuPrincipal();
