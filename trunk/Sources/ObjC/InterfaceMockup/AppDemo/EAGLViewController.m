@@ -190,12 +190,15 @@ enum {
     
     [skyViewButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [skyViewButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [skyViewButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [freeRoamButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [freeRoamButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [freeRoamButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [orbitalButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [orbitalButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [orbitalButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [editionButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateNormal];
     [editionButton setBackgroundImage:buttonImageCameraPressed forState:UIControlStateHighlighted];
@@ -1687,6 +1690,18 @@ enum {
 - (void)cannotRedo
 {
     redoButton.enabled = false;
+}
+-(void)disableCameras
+{
+    orbitalButton.enabled = false;
+    freeRoamButton.enabled = false;
+    skyViewButton.enabled = false;
+}
+-(void)enableCameras
+{
+    orbitalButton.enabled = true;
+    freeRoamButton.enabled = true;
+    skyViewButton.enabled = true;
 }
 
 -(void)rotationDetectee:(UIGestureRecognizer *)gestureRecognizer

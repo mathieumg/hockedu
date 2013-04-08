@@ -35,6 +35,7 @@ bool canDOCenter = true;
 void CenterCameraTerminatedCallback(Animation* pAnim)
 {
     canDOCenter = true;
+    [Facade enableCameras];
 }
 
 class RunnableField
@@ -55,6 +56,7 @@ public:
         if(canDOCenter && mField)
         {
             canDOCenter = false;
+            [Facade disableCameras];
             mView->centrerCamera(mField->GetTableWidth(),1,CenterCameraTerminatedCallback);
         }
     }
@@ -265,6 +267,7 @@ float temps = clock();
 
 -(void) createCameraFixed
 {
+    [Facade disableCameras];
     GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
     int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
     vue::Camera& cameraCourante = mView->obtenirCamera();
@@ -283,6 +286,7 @@ float temps = clock();
 }
 -(void) createCameraOrbit
 {
+    [Facade disableCameras];
     GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
     int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
     vue::Camera& cameraCourante = mView->obtenirCamera();
@@ -301,6 +305,7 @@ float temps = clock();
 }
 -(void) createCameraFree
 {
+    [Facade disableCameras];
     GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
     int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
     vue::Camera& cameraCourante = mView->obtenirCamera();

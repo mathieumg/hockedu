@@ -186,4 +186,6 @@ extern int const HAUTEUR_FENETRE;
 - (void)cannotUndo;
 - (void)canRedo;
 - (void)cannotRedo;
+-(void)disableCameras;
+-(void)enableCameras;
 @end

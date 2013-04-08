@@ -58,4 +58,12 @@ static EAGLViewController* mViewController = NULL;
 {
     [mViewController cannotRedo];
 }
++(void)disableCameras
+{
+    
+}
++(void)enableCameras
+{
+    
+}
 @end
