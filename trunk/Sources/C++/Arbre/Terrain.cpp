@@ -2156,6 +2156,7 @@ void Terrain::NodeSelectionNotification( NoeudAbstrait* node, bool selected )
 ////////////////////////////////////////////////////////////////////////
 bool Terrain::selectNodes( Vecteur2 positionMin, Vecteur2 positionMax, bool toggleSelection )
 {
+    std::set<NoeudAbstrait*> oldSelection = mSelectedNodes;
     if(!toggleSelection)
     {
         setTableItemsSelection(false);
@@ -2224,7 +2225,30 @@ bool Terrain::selectNodes( Vecteur2 positionMin, Vecteur2 positionMax, bool togg
     acceptVisitor(visitor);
     visitor.faireSelection();
 #endif
-    pushUndoState();
+
+
+    bool pushUndo = false;
+    if(oldSelection.size() == mSelectedNodes.size())
+    {
+        STL_ITERATE(mSelectedNodes,it)
+        {
+            if(find(oldSelection.begin(),oldSelection.end(),*it) == oldSelection.end())
+            {
+                pushUndo = true;
+                break;
+            }
+        }
+    }
+    else
+    {
+        pushUndo = true;
+    }
+
+    if(pushUndo)
+    {
+        pushUndoState();
+    }
+
     return !!getSelectedNodes().size();
 }
 
