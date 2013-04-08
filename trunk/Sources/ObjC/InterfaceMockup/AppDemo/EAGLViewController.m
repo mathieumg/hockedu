@@ -1399,6 +1399,7 @@ enum {
     cameraToolsView.hidden = YES;
     editionToolsView.hidden = NO;
     
+    [self pressButtonUI:selectButton];
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
 }
 

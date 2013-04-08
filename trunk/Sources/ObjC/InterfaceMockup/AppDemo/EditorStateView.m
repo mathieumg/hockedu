@@ -25,7 +25,7 @@ CGPoint positionPrecedente;
     
     int translationX = (positionCourante.x - positionPrecedente.x);
     int translationY = (positionCourante.y - positionPrecedente.y);
-    [mEventManager.mModel orbit:translationX :translationY];
+    [mEventManager.mModel deplacerSouris:translationX :translationY];
     positionPrecedente = positionCourante;
 }
 -(void)touchesEnded:(CGPoint)coordVirt
