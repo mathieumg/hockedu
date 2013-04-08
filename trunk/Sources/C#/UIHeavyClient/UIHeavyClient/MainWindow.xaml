@@ -27,6 +27,7 @@
             </MenuItem>
             <MenuItem Header="About">
                 <MenuItem Header="Credits" Click="ShowCreditsPopup"/>
+                <MenuItem Header="Rachel" Click="Rachel"/>
             </MenuItem>
         </Menu>
         

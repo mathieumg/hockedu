@@ -1135,6 +1135,12 @@ namespace UIHeavyClient
         {
             mAiOpponentItem.Visibility=pMustBeCollapse?Visibility.Collapsed:Visibility.Visible;
         }
+
+        private void Rachel(object sender, RoutedEventArgs e)
+        {
+            // Rachel
+            EditionModeControl.Rachel();
+        }
     }
 }
 
