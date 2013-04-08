@@ -644,6 +644,7 @@ void SetRadioVolume(int pVolume)
 void SetCurrentRadioPlaylist(char* pPlaylist)
 {
 	SoundFMOD::obtenirInstance()->modifierPlaylistActuelle(std::string(pPlaylist));
+    SoundFMOD::obtenirInstance()->next_Song();
 }
 
 void GetCurrentRadioPlaylist(char* pPlaylist)

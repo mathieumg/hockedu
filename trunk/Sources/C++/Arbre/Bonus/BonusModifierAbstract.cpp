@@ -11,7 +11,8 @@
 #include "NoeudRondelle.h"
 #include "NoeudMaillet.h"
 #include "Terrain.h"
-
+#include "NodeBonus.h"
+#include "Partie.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -111,6 +112,16 @@ void BonusModifierAbstract::Tick( float temps )
     if(!IsFinished())
     {
         mTimeToLive -= temps;
+        auto field = mCreator->getField();
+        if(field)
+        {
+            auto game = field->GetGame();
+            if(game)
+            {
+                mTimeToLive = 10 - (game->obtenirGameTime()->Elapsed_Time_sec() - mBeginTime);
+            }
+        }
+
         if(mTimeToLive < 0)
         {
             Revert();
@@ -133,4 +144,15 @@ void BonusModifierAbstract::Tick( float temps )
 void BonusModifierAbstract::Init( NodeBonus* creator )
 {
     mCreator = creator;
+    auto field = mCreator->getField();
+    if(field)
+    {
+        auto game = field->GetGame();
+        if(game)
+        {
+            mBeginTime = game->obtenirGameTime()->Elapsed_Time_sec();
+            return;
+        }
+    }
+    mBeginTime = clock()/CLOCKS_PER_SEC;
 }

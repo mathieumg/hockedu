@@ -140,22 +140,25 @@ void NodeRinkBoards::updatePhysicBody()
         auto pos1 = obtenirCoin1();
         auto pos2 = obtenirCoin2();
         NoeudPoint* p1 = mPoint1, *p2 = mPoint2;
-        /// algo pour mixer les 2 edges colinaire ensemble
-        static const unsigned int tolerance = 1;
-        unsigned int angle = (unsigned int)mAngle;
-        angle %=180;
-        if((angle+tolerance < tolerance*2) || ((angle-180)+tolerance < tolerance*2))
+        if(IsInGame())
         {
-            if(p1 && p2)
+            /// algo pour mixer les 2 edges colinaire ensemble
+            static const unsigned int tolerance = 1;
+            unsigned int angle = (unsigned int)mAngle;
+            angle %=180;
+            if((angle+tolerance < tolerance*2) || ((angle-180)+tolerance < tolerance*2))
             {
-                if(p1->obtenirTypePosNoeud() == POSITION_HAUT_MILIEU || p1->obtenirTypePosNoeud() == POSITION_BAS_MILIEU)
+                if(p1 && p2)
                 {
-                    p1 = p2->obtenirPointSym();
-                    pos1 = p1->getPosition();
-                }
-                else
-                {
-                    return;
+                    if(p1->obtenirTypePosNoeud() == POSITION_HAUT_MILIEU || p1->obtenirTypePosNoeud() == POSITION_BAS_MILIEU)
+                    {
+                        p1 = p2->obtenirPointSym();
+                        pos1 = p1->getPosition();
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
             }
         }
