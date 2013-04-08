@@ -77,6 +77,7 @@ RepartiteurActions::RepartiteurActions()
 
     //Fonctions de changement de mode
     banqueActions_[ACTION_ALLER_MODE_EDITION]    = &RepartiteurActions::actionBoutonAllerModeEdition;
+    banqueActions_[ACTION_ALLER_MODE_EDITION_PAS_DEFAUT_XML]    = &RepartiteurActions::actionBoutonAllerModeEditionPasDefautXML;
     banqueActions_[ACTION_ALLER_MODE_JEU]        = &RepartiteurActions::actionBoutonAllerModeJeu;
     banqueActions_[ACTION_ALLER_MODE_TOURNOI]    = &RepartiteurActions::actionBoutonAllerModeTournoi;
     banqueActions_[ACTION_ALLER_MENU_PRINCIPAL]  = &RepartiteurActions::actionBoutonAllerMenuPrincipal;
@@ -462,6 +463,25 @@ bool RepartiteurActions::actionBoutonAllerModeEdition()
 
 ////////////////////////////////////////////////////////////////////////
 ///
+/// @fn bool RepartiteurActions::actionBoutonAllerModeEditionPasDefautXML()
+///
+/// Fonction pour aller en mode édition
+///
+///
+/// @return bool
+///
+////////////////////////////////////////////////////////////////////////
+bool RepartiteurActions::actionBoutonAllerModeEditionPasDefautXML()
+{
+    // important de signaler le modele avant de faire le changement d'état, car
+    // celui-ci utilise des informations du modèle pour s'initialiser
+	bool retour =  FacadeModele::getInstance()->passageModeEdition(false);
+	return retour;
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///
 /// @fn bool RepartiteurActions::actionBoutonAllerModeTournoi()
 ///
 /// Fonction pour aller en mode tournoi
@@ -549,7 +569,7 @@ bool RepartiteurActions::actionTogglePauseJeu()
 bool RepartiteurActions::actionReplay()
 {
     Partie* wGame = FacadeModele::getInstance()->obtenirPartieCourante();
-    if(wGame && !wGame->isNetworkClientGame())
+	if(wGame && (!wGame->isNetworkClientGame() || wGame->getGameStatus()==GAME_ENDED))
     {
         // Toggle
 	    if(GestionnaireAnimations::obtenirInstance()->estJouerReplay())
@@ -619,11 +639,11 @@ bool RepartiteurActions::actionChangerModeCameraFixe()
 		0, 400, 0, 400,
 		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
 		-150, 150, -150, 150);
-	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
     FacadeModele::getInstance()->resetCurrentZoom();
 	FacadeModele::getInstance()->modifierVue(nouvelleVue);
+    FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 
 	return true; 
 }
@@ -650,10 +670,10 @@ bool RepartiteurActions::actionChangerModeCameraOrbite()
 		0, 400, 0, 400,
 		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
 		-150, 150, -150, 150);
-	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
 	FacadeModele::getInstance()->modifierVue(nouvelleVue);
+    FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 
 	return true; 
 }
@@ -681,11 +701,11 @@ bool RepartiteurActions::actionChangerModeCameraLibre()
 		0, 300, 0, 400,
 		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
 		-150, 150, -150, 150);
-	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
 	FacadeModele::getInstance()->modifierVue(nouvelleVue);
-	return true; 
+    FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
+    return true; 
 }
 
 ////////////////////////////////////////////////////////////////////////

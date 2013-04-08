@@ -24,6 +24,8 @@ public:
 
     const std::string& getServerIP() { return mServerIP; }
 
+    const unsigned int& getServerId() { return mServerId; }
+
     const GamesContainer& getGamesContainer() const { return mGamesList; }
 
     void removeGame(int pGameId);

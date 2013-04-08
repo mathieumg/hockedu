@@ -57,7 +57,7 @@ namespace utilitaire {
 	float SIGN( float nombre );
 
 	/// Fonction qui retourne la valeur absolue d'un nombre.
-	float ABS( float nombre );
+	float ABSOLUTETABARNAK( float nombre );
 
 	/// Fonction pour savoir si un float est égal à zéro.
 	bool EGAL_ZERO(float Nombre);
