@@ -588,13 +588,27 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public void HandleDownloadedMap(string pFilepath, int pMapId)
         {
-            // Load the map to edition mode
-            MainWindowHandler.mTaskManager.ExecuteTask(() =>
+            if(pFilepath.Length > 0)
             {
-                MainWindowHandler.MapId = pMapId;
-                MainWindowHandler.LoadMapFromLocal(pFilepath);
-                MainWindowHandler.GoToEditionMode();
-            });
+                // Load the map to edition mode
+                MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                {
+                    MainWindowHandler.MapId = pMapId;
+                    MainWindowHandler.LoadMapFromLocal(pFilepath);
+                    MainWindowHandler.GoToEditionMode(false);
+                });
+            }
+            else
+            {
+                MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                {
+                    MainWindowHandler.Context.OnlineLobbyControl.HandleUIButtons(true);
+                    MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
+                    MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("Failed to download map");
+                    
+                });
+            }
+            
         }
 
         ////////////////////////////////////////////////////////////////////////
