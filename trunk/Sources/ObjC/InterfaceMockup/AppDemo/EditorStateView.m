@@ -7,27 +7,28 @@
 //
 
 #import "EditorStateView.h"
-
+#import "EventManager.h"
 @implementation EditorStateView
 CGPoint positionPrecedente;
--(EditorStateView*)init
+-(EditorStateView*)init:(EventManager*)eventManager
 {
+    [super init:eventManager];
     return self;
 }
--(void)touchesBegan:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model
+-(void)touchesBegan:(CGPoint)coordVirt
 {
     positionPrecedente = coordVirt;
 }
--(void)touchesMoved:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model
+-(void)touchesMoved:(CGPoint)coordVirt
 {
     CGPoint positionCourante = coordVirt;
     
     int translationX = (positionCourante.x - positionPrecedente.x);
     int translationY = (positionCourante.y - positionPrecedente.y);
-    [model orbit:translationX :translationY];
+    [mEventManager.mModel orbit:translationX :translationY];
     positionPrecedente = positionCourante;
 }
--(void)touchesEnded:(UITouch *)touch :(CGPoint)coordVirt :(Model*)model
+-(void)touchesEnded:(CGPoint)coordVirt
 {
     
 }

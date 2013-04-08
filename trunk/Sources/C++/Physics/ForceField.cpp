@@ -105,7 +105,7 @@ void ForceFieldCircle::ApplyForceField() const
     }
 }
 
-#endif
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -170,3 +170,4 @@ void ForceFieldSquare::ApplyForceField() const
         }
     }
 }
+#endif
