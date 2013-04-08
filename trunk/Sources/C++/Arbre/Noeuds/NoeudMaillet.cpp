@@ -685,21 +685,26 @@ void NoeudMaillet::playTick(float temps)
 ////////////////////////////////////////////////////////////////////////
 void NoeudMaillet::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
 {
+
     if(pAnimationResult.CanUpdatedPosition())
     {
+#ifndef __APPLE__
         if(obtenirJoueur())
         {
             if(obtenirJoueur()->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
             {
                 Vecteur3 wPos = pAnimationResult.mPosition;
                 this->setTargetDestination(wPos, true);
+
             }
             else
             {
+#endif
                 setPosition(pAnimationResult.mPosition);
+#ifndef __APPLE__
             }
         }
-        
+#endif
     }
     if(pAnimationResult.CanUpdatedAngle())
         mAngle = pAnimationResult.mAngle[VZ];
