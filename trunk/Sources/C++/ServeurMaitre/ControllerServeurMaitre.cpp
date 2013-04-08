@@ -71,8 +71,9 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
 #endif
             for(auto i = GameServerManager::getAddedGameServersAmount() + 1; i <= GameServerManager::getLatestGameServerId(); ++i)
             {
-                std::string wIdentificationString("GameServer");
-                wIdentificationString += i;
+                std::ostringstream wIdentificationStringstream;
+                wIdentificationStringstream << "GameServer" << i;
+                std::string wIdentificationString = wIdentificationStringstream.str();
                 SPSocket wAssociatedSocket = GestionnaireReseau::obtenirInstance()->getSocket(wIdentificationString, TCP);
                 std::string wServerIP = wAssociatedSocket->getAdresseDestination();
                 GameServerManager::obtenirInstance()->addNewGameServer(i, wServerIP, wIdentificationString);
@@ -131,18 +132,36 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
 
 void ControllerServeurMaitre::handleDisconnectDetection(SPSocket pSocket)
 {
+    std::string wSocketIdentifier(GestionnaireReseau::obtenirInstance()->getConnectionId(pSocket));
     GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
+    if(wSocketIdentifier.find("GameServer") != std::string::npos)
+    {
+        std::string wServerIdString = wSocketIdentifier.substr(10);
+        unsigned int wServerId = atoi(wServerIdString.c_str());
+#if !SHIPPING
+        std::cout << "Disconnection server " << wServerId << std::endl;
+#endif
+        try
+        {
+        	GameServerManager::obtenirInstance()->removeGameServer(wServerId);
+        }
+        catch (ExceptionReseau& e)
+        {
+#if !SHIPPING
+            std::cout << "Couldn't find server id " << wServerId;
+#endif
+        }
+    }
 }
-
 
 // Retourne l'identifiant du serveur
 std::string ControllerServeurMaitre::authenticate( const std::string& pUsername, const std::string& pPassword )
 {
     if(pUsername == "GameServer" && pPassword == "HockeduSuperProtectedPassword")
     {
-        std::string wTempUser = pUsername;
-        wTempUser += GameServerManager::generateNewGameServerId();
-        return wTempUser;
+        std::ostringstream wTempUser;
+        wTempUser << pUsername << GameServerManager::generateNewGameServerId();
+        return wTempUser.str();
     }
     else
     {
