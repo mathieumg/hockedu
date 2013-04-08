@@ -254,6 +254,7 @@ void GameManager::addGame( Partie* pGame )
 ////////////////////////////////////////////////////////////////////////
 void GameManager::removeGame( int pGameId )
 {
+    int i=0;
     Runnable* r = new Runnable([pGameId](Runnable*){
         FacadePortability::takeMutex(mMutexTickRemove);
         auto wGame = GameManager::obtenirInstance()->getGame(pGameId);

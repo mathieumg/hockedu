@@ -303,6 +303,16 @@ GameConnectionState connectPlayer(const std::string& pPlayerName, Partie* pGame)
 {
     if(pGame)
     {
+        if(pGame->obtenirNomJoueurGauche() == pPlayerName)
+        {
+            return GAME_CONNECTION_ACCEPTED_LEFT;
+        }
+        else if(pGame->obtenirNomJoueurDroit() == pPlayerName)
+        {
+            return GAME_CONNECTION_ACCEPTED_RIGHT;
+        }
+
+
         if(!pGame->obtenirJoueurGauche())
         {
             // Pas de joueur gauche. On assigne le joueur la
@@ -315,10 +325,6 @@ GameConnectionState connectPlayer(const std::string& pPlayerName, Partie* pGame)
             pGame->reloadControleMallet();
             return GAME_CONNECTION_ACCEPTED_LEFT;
         }
-        else if(pGame->obtenirNomJoueurGauche() == pPlayerName)
-        {
-            return GAME_CONNECTION_ALREADY_CONNECTED;
-        }
         else if(!pGame->obtenirJoueurDroit())
         {
             // Pas de joueur droit. On assigne le joueur la
@@ -330,10 +336,6 @@ GameConnectionState connectPlayer(const std::string& pPlayerName, Partie* pGame)
             pGame->modifierJoueurDroit(SPJoueurNetworkServeur(new JoueurNetworkServeur(pPlayerName)));
             pGame->reloadControleMallet();
             return GAME_CONNECTION_ACCEPTED_RIGHT;
-        }
-        else if(pGame->obtenirNomJoueurDroit() == pPlayerName)
-        {
-            return GAME_CONNECTION_ALREADY_CONNECTED;
         }
         else
         {
@@ -411,17 +413,22 @@ int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
         std::string wUsername = wPaquet->getUsername();
 
         GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
+        
 
-        PaquetGameEvent* wPaquetEventGameStart = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
-        wPaquetEventGameStart->setGameId(wPaquet->getGameId());
-        wPaquetEventGameStart->setEvent(GAME_EVENT_START_GAME);
-        wPaquetEventGameStart->setPlayer1Name(wGame->obtenirNomJoueurGauche());
-        wPaquetEventGameStart->setPlayer2Name(wGame->obtenirNomJoueurDroit());
-        RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquetEventGameStart, TCP);
-
+        
+        
         if(wConnState != GAME_CONNECTION_ACCEPTED_LEFT && wConnState!=GAME_CONNECTION_ACCEPTED_RIGHT)
         {
             GestionnaireReseau::obtenirInstance()->removeSocket(wUsername, TCP);
+        }
+        else
+        {
+            PaquetGameEvent* wPaquetEventGameStart = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+            wPaquetEventGameStart->setGameId(wPaquet->getGameId());
+            wPaquetEventGameStart->setEvent(GAME_EVENT_START_GAME);
+            wPaquetEventGameStart->setPlayer1Name(wGame->obtenirNomJoueurGauche());
+            wPaquetEventGameStart->setPlayer2Name(wGame->obtenirNomJoueurDroit());
+            RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquetEventGameStart, TCP);
         }
 
     });
