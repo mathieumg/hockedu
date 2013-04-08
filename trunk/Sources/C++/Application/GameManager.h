@@ -19,6 +19,7 @@ namespace std {using namespace __gnu_cxx; }
 #endif
 #include "../Jeu/Partie.h"
 #include <vector>
+#include "../Reseau/FacadePortability.h"
 
 
 typedef int (*GameAddedCallback) (int); // Param1 = GameID
@@ -34,7 +35,7 @@ class GameManager:public Singleton<GameManager>
 {
 	SINGLETON_DECLARATION_CLASSE_SANS_CONSTRUCTEUR(GameManager);
 public:
-
+    static HANDLE_MUTEX mMutexTickRemove;
     inline void setMaximumGameCount(int pGameCount) {mMaximumGameCount = pGameCount;}
 
     void removeGame(int pGameId);
@@ -72,6 +73,8 @@ public:
 
 	inline void setAdversaire(SPJoueurAbstrait val) {mAdversaire = val;}
 private:
+    
+
     int mMaximumGameCount;
 
     std::hash_map<int, Partie*> mListePartiesParId;

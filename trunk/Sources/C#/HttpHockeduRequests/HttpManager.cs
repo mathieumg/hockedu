@@ -18,7 +18,7 @@ namespace HttpHockeduRequests
 
     // Declaration des delegates pour les callback des retours de fonction des workers
     public delegate void MapsListLoadedCallBack( List<UserMapDetailedJSON> pList );
-    public delegate void MapDownloadedCallBack( string pFilepath, int pMapId = -1 );
+    public delegate void MapDownloadedCallBack( string pFilepath, int pMapId = -1, string pName = "", string pDescription = "", bool pIsPublic = true );
     public delegate void MapUploadCallback( UploadOperationStatus pStatus, int pMapId = -1 );
     public delegate void AchievementsUploadCallback( UploadOperationStatus pStatus );
     public delegate void AchievementsDownloadedCallback( DownloadOperationStatus pStatus );
@@ -277,7 +277,7 @@ namespace HttpHockeduRequests
                         return;
                     }
                 }
-                wCallback( wDestinationFilePath, wMapId ); // Retourne le file path ou le fichier a ete sauvegarde en local
+                wCallback(wDestinationFilePath, wMapId, wMapLight.name, wMapLight.description, wMapLight.is_public); // Retourne le file path ou le fichier a ete sauvegarde en local
             }
         }
 
@@ -401,7 +401,7 @@ namespace HttpHockeduRequests
                     }
                 };
             }
-            catch ( System.Exception )
+            catch ( System.Exception e )
             {
                 wParams.callback( UploadOperationStatus.UPLOAD_FAILED_UNKNOWN_ERROR );
             }

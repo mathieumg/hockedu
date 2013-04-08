@@ -269,6 +269,9 @@ private:
 
     PuckZone mPuckZone;
     GameTime mZoneTimer;
+
+    std::string mAbsolutePath;
+    
 #if BOX2D_INTEGRATED  
     class b2World* mWorld;
 #endif
@@ -342,6 +345,9 @@ public:
     /// Accessors of mResizeTableModel
     inline bool getResizeTableModel() const { return mResizeTableModel; }
     inline void setResizeTableModel( bool pVal) { mResizeTableModel = pVal; }
+
+    inline const std::string& getAbsolutePath() const { return mAbsolutePath; }
+    inline void setAbsolutePath(const std::string& val) { mAbsolutePath = val; }
 
 #if BOX2D_INTEGRATED  
     inline class b2World* GetWorld() {return mWorld;}

@@ -1606,67 +1606,11 @@ enum {
 - (void)thereAreNodesSelected
 {
     // Enable le delete
-    
-    switch ([mModel getSelectedNodesType]) {
-        case RAZER_KEY_BONUS:
-            moveButton.enabled = true;
-            scaleButton.enabled = true;
-            rotationButton.enabled = true;
-            duplicateButton.enabled = true;
-            deleteButton.enabled = true;
-            break;
-        case RAZER_KEY_BOOST:
-            moveButton.enabled = true;
-            scaleButton.enabled = true;
-            rotationButton.enabled = true;
-            duplicateButton.enabled = true;
-            deleteButton.enabled = true;
-            break;
-        case RAZER_KEY_CONTROL_POINT:
-            moveButton.enabled = true;
-            scaleButton.enabled = true;
-            rotationButton.enabled = true;
-            duplicateButton.enabled = true;
-            deleteButton.enabled = true;
-            break;
-        case RAZER_KEY_MALLET:
-            moveButton.enabled = true;
-            scaleButton.enabled = true;
-            rotationButton.enabled = true;
-            duplicateButton.enabled = true;
-            deleteButton.enabled = true;
-            break;
-        case RAZER_KEY_PORTAL:
-            moveButton.enabled = true;
-            scaleButton.enabled = true;
-            rotationButton.enabled = true;
-            duplicateButton.enabled = true;
-            deleteButton.enabled = true;
-            break;
-        case RAZER_KEY_PUCK:
-            moveButton.enabled = true;
-            scaleButton.enabled = true;
-            rotationButton.enabled = true;
-            duplicateButton.enabled = true;
-            deleteButton.enabled = true;
-            break;
-        case RAZER_KEY_NONE:
-            moveButton.enabled = false;
-            scaleButton.enabled = false;
-            rotationButton.enabled = false;
-            duplicateButton.enabled = false;
-            deleteButton.enabled = false;
-            break;
-        case RAZER_KEY_TABLE_CONTROL_POINT:
-            moveButton.enabled = true;
-            scaleButton.enabled = false;
-            rotationButton.enabled = false;
-            duplicateButton.enabled = false;
-            deleteButton.enabled = false;
-            break;
-        default:
-            break;
-    }
+    moveButton.enabled = true;
+    scaleButton.enabled = true;
+    rotationButton.enabled = true;
+    duplicateButton.enabled = true;
+    deleteButton.enabled = true;
     
 }
 - (void)thereAreNoNodesSelected

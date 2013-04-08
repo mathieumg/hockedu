@@ -57,6 +57,15 @@ namespace UIHeavyClient
             get{return mEventCallBack;}
         }
 
+
+        public static void CallbackUploadMapToServer(HttpHockeduRequests.UploadOperationStatus pStatus, int pMapId)
+        {
+            MainWindowHandler.mTaskManager.ExecuteTask(() =>
+            {
+                MainWindowHandler.Context.EditionModeControl.mGuidanceTextBlock.Text = "An error occured while uploading the map";
+            });
+        }
+
         ////////////////////////////////////////////////////////////////////////
         /// @fn void EditionModeControl.EditionModeEventReceived()
         ///

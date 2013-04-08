@@ -1158,6 +1158,16 @@ void Partie::setGameStatus( GameStatus pStatus )
         }
     case GAME_STARTED:
         {
+            /*if(isNetworkServerGame())
+            {
+                // On veut s'assurer que les client ne hang pas en pause
+                PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+                wPaquet->setEvent(GAME_EVENT_START_GAME);
+                wPaquet->setGameId(mUniqueGameId);
+                wPaquet->setPlayer1Name(obtenirNomJoueurGauche());
+                wPaquet->setPlayer2Name(obtenirNomJoueurDroit());
+            }*/
+
             // Quand on met la partie en cours, on unpause le timer
             tempsJeu_.unPause();
             break;
