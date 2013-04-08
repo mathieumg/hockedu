@@ -223,9 +223,6 @@ void Partie::incrementerPointsJoueurGauche(bool pForceUpdate /*= false*/)
         {
             callGameUpdate(GAME_SCORE);
         }
-
-
-        
     }
     
 }

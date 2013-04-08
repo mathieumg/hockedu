@@ -319,17 +319,17 @@ GameConnectionState connectPlayer(const std::string& pPlayerName, Partie* pGame)
             pGame->assignerJoueur(SPJoueurNetworkServeur(new JoueurNetworkServeur(pPlayerName)));
             return GAME_CONNECTION_ACCEPTED_LEFT;
         }
-        else if(pGame->obtenirJoueurGauche()->obtenirType() == JOUEUR_VIRTUEL)
-        {
-            pGame->modifierJoueurGauche(SPJoueurNetworkServeur(new JoueurNetworkServeur(pPlayerName)));
-            pGame->reloadControleMallet();
-            return GAME_CONNECTION_ACCEPTED_LEFT;
-        }
         else if(!pGame->obtenirJoueurDroit())
         {
             // Pas de joueur droit. On assigne le joueur la
             pGame->assignerJoueur(SPJoueurNetworkServeur(new JoueurNetworkServeur(pPlayerName)));
             return GAME_CONNECTION_ACCEPTED_RIGHT;
+        }
+        else if(pGame->obtenirJoueurGauche()->obtenirType() == JOUEUR_VIRTUEL)
+        {
+            pGame->modifierJoueurGauche(SPJoueurNetworkServeur(new JoueurNetworkServeur(pPlayerName)));
+            pGame->reloadControleMallet();
+            return GAME_CONNECTION_ACCEPTED_LEFT;
         }
         else if(pGame->obtenirJoueurDroit()->obtenirType() == JOUEUR_VIRTUEL)
         {
