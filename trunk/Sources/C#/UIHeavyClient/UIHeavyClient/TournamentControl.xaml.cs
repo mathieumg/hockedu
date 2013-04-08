@@ -54,6 +54,13 @@ namespace UIHeavyClient
         List<RadioButton> mHumanRadios;
         List<ComboBox> mAIComboBoxes;
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void TournamentControl.TournamentControl()
+        ///
+        /// Constructor.
+        ///
+        /// @return none.
+        ////////////////////////////////////////////////////////////////////////
         public TournamentControl()
         {
             InitializeComponent();
@@ -85,21 +92,61 @@ namespace UIHeavyClient
             mTournamentFileDialog.Title = "Choose a tournament file";
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void TournamentControl.mBackToMainButton_Click()
+        ///
+        /// Return to main menu.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mBackToMainButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindowHandler.GoToMainMenu();
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void TournamentControl.DisplayGuidanceMessages()
+        ///
+        /// Display Bastien & Scapin.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void DisplayGuidanceMessages(object sender, MouseEventArgs e)
         {
             mGuidanceLabel.Content = mGuidanceMessages[sender];
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void TournamentControl.ClearGuidanceMessages()
+        ///
+        /// Clear Bastien & Scapin.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void ClearGuidanceMessages(object sender, MouseEventArgs e)
         {
             mGuidanceLabel.Content = "";
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void TournamentControl.mTournamentLoadButton_Click()
+        ///
+        /// Load an existing tournament.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mTournamentLoadButton_Click(object sender, RoutedEventArgs e)
         {
             if (mTournamentFileDialog.ShowDialog().Value)
@@ -109,6 +156,13 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void TournamentControl.DisplayProfileNames()
+        ///
+        /// Get AI profiles from DLL and display them.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         public void DisplayProfileNames()
         {
             foreach (ComboBox cb in mAIComboBoxes)
@@ -121,7 +175,7 @@ namespace UIHeavyClient
 
             for (int i = 0; i < nbrProfiles; ++i)
             {
-                profiles[i] = new AIProfile(new string('s', 255), 1, 0);
+                profiles[i] = new AIProfile(new string('s', 255), 1, 0, false, new string('s', 255));
             }
 
             GetPlayers(profiles, nbrProfiles);
@@ -136,6 +190,16 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void TournamentControl.mLoadMapButton_Click()
+        ///
+        /// Load the map for the tournament.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mLoadMapButton_Click(object sender, RoutedEventArgs e)
         {
             if (mMapFileDialog.ShowDialog().Value)
@@ -144,6 +208,16 @@ namespace UIHeavyClient
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void TournamentControl.mTournamentBeginButton_Click()
+        ///
+        /// Start tournament. Make check to see if everything is ok.
+        /// 
+        /// @param[in] object : The sender.
+        /// @param[in] RoutedEventArgs : The event.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
         private void mTournamentBeginButton_Click(object sender, RoutedEventArgs e)
         {
             string mapName = mMapNameTextBox.Text;
@@ -184,6 +258,18 @@ namespace UIHeavyClient
 
             BeginNewTournament(tournamentName, mapName, playersNames, nbrPlayers);
             MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_TOURNOI);
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void TournamentControl.SetFocus()
+        ///
+        /// Give focus to tournament name text box.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        public void SetFocus()
+        {
+            mTournamentNameTextBox.Focus();
         }
     }
 }

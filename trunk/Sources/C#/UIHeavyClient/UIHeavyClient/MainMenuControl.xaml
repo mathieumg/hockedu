@@ -31,7 +31,7 @@
         <Label Content="" Grid.Row="7" Height="Auto" HorizontalAlignment="Right" Margin="0,14,0,12" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" Grid.Column="0" Grid.ColumnSpan="3" />
         <GroupBox Header="Quick Play" Margin="14,55,0,0" Name="mQuickPlayGroupBox" Foreground="White" Height="217" VerticalAlignment="Top" Grid.Column="2" HorizontalAlignment="Left" Width="292" Grid.RowSpan="4">
             <Grid Height="Auto" Width="Auto" Name="mQuickPlayGrid">
-                <Button Content="Go!" Height="23" HorizontalAlignment="Left" Margin="233,167,0,0" Name="mQuickPlayGoButton" VerticalAlignment="Top" Width="43" Background="Black" Foreground="White" Click="mQuickPlayGoButton_Click" />
+                <Button Content="Go!" Height="23" HorizontalAlignment="Left" Margin="233,167,0,0" Name="mQuickPlayGoButton" VerticalAlignment="Top" Width="43" Background="Black" Foreground="White" Click="mQuickPlayGoButton_Click" IsDefault="True" />
                 <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="182,167,0,0" Name="mQuickPlayCancelButton" VerticalAlignment="Top" Width="43" Background="Black" Foreground="White" Click="mQuickPlayCancelButton_Click" />
                 <Label Content="Choose your opponent" Height="Auto" HorizontalAlignment="Left" Margin="6,6,0,0" Name="mOpponentLabel" VerticalAlignment="Top" Foreground="White" />
                 <Label Content="Choose a map" Height="Auto" HorizontalAlignment="Left" Margin="6,95,0,0" Name="mMapLabel" VerticalAlignment="Top" Width="Auto" Foreground="White" />

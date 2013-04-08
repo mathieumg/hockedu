@@ -35,15 +35,16 @@
                 <ListView Margin="12" Name="mProfilesListView" Background="Black" Foreground="White" Grid.ColumnSpan="2" SelectionChanged="mCurrentAIList_SelectionChanged" />
             </Grid>
         </GroupBox>
-        <GroupBox Grid.Column="2" Grid.Row="1" Header="Profile Edition" Margin="21,88,12,108" Name="mCurrentEditGroupBox" Foreground="White">
+        <GroupBox Grid.Column="2" Grid.Row="1" Header="Profile Edition" Margin="21,12,12,108" Name="mCurrentEditGroupBox" Foreground="White">
             <Grid Height="Auto">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50*" />
-                    <RowDefinition Height="61*" />
-                    <RowDefinition Height="50*" />
-                    <RowDefinition Height="53*" />
+                    <RowDefinition Height="49*" />
+                    <RowDefinition Height="59*" />
+                    <RowDefinition Height="51*" />
+                    <RowDefinition Height="66*" />
+                    <RowDefinition Height="65*" />
                 </Grid.RowDefinitions>
-                <Button Content="Save" Margin="12,12,442,12" Name="mSaveButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" Grid.Row="3" Click="mSaveButton_Click" />
+                <Button Content="Save" Margin="12,15,442,0" Name="mSaveButton" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="16" Grid.Row="4" Click="mSaveButton_Click" Height="39" VerticalAlignment="Top" />
                 <Label Content="Profile's Name :" Foreground="White" HorizontalAlignment="Left" Margin="12,12,0,0" Name="mProfileNameLabel" Height="26" VerticalAlignment="Top" />
                 <Label Content="Speed : " Foreground="White" HorizontalAlignment="Left" Margin="12" Name="mProfileSpeedLabel" Grid.Row="1" />
                 <Label Content="Fail probability : " Foreground="White" HorizontalAlignment="Left" Margin="12" Name="mProfileReflexLabel" Grid.Row="2" />
@@ -52,6 +53,9 @@
                 <Slider HorizontalAlignment="Left" Margin="113,9,0,18" Name="mReflexSlider" Width="265" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="2" IsSnapToTickEnabled="True" Maximum="20" />
                 <Label Content="{Binding ElementName=mSpeedSlider, Path=Value}" Foreground="#FF00D500" HorizontalAlignment="Left" Margin="384,15,0,8" Name="mSpeedDisplayLabel" Width="80" Grid.Row="1" />
                 <Label Content="{Binding ElementName=mReflexSlider, Path=Value}" Foreground="#FF00D500" HorizontalAlignment="Left" Margin="384,9,0,15" Name="mReflexDisplayLabel" Width="80" Grid.Row="2" />
+                <CheckBox Content="Reinforcement learning AI" Grid.Row="3" Height="16" HorizontalAlignment="Left" Margin="15,31,0,0" Name="mLearningCheckbox" VerticalAlignment="Top" Foreground="White" />
+                <TextBox Grid.Row="3" Height="23" HorizontalAlignment="Left" Margin="192,24,0,0" Name="mLearningTextbox" VerticalAlignment="Top" Width="120" Background="Black" Foreground="White" IsEnabled="{Binding ElementName=mLearningCheckbox, Path=IsChecked}" />
+                <Button Content="Browse" Grid.Row="3" Height="23" HorizontalAlignment="Left" Margin="334,24,0,0" Name="mBrowseBotton" VerticalAlignment="Top" Width="89" Background="Black" Foreground="White" IsEnabled="{Binding ElementName=mLearningCheckbox, Path=IsChecked}" Click="mBrowseBotton_Click" />
             </Grid>
         </GroupBox>
     </Grid>

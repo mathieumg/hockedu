@@ -33,6 +33,7 @@
 #include "Terrain.h"
 #include "Solution_Defines.h"
 #include "VisiteurNoeud.h"
+#include "NoeudRondelle.h"
 
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
 const Vecteur3 NoeudTable::DEFAULT_SIZE = Vecteur3(300,150);
@@ -557,11 +558,15 @@ void NoeudTable::renderOpenGLES() const
     glEnableClientState(GL_VERTEX_ARRAY);
     // dessin de la table
     {
-        const int nbVertices = (NB_HORIZONTAL_VERTICES*2+(NB_VERTICAL_VERTICES-2)*2);
+        const int nbVertices = (NB_HORIZONTAL_VERTICES*2+(NB_VERTICAL_VERTICES-2)*2)+2;
         GLfloat vertices[nbVertices*3];
         int count = 0;
 
-
+        // Le point du centre
+        vertices[count++] = 0;
+        vertices[count++] = 0;
+        vertices[count++] = -1;
+        
         // La partie de gauche
         for(int i=1;i<NB_VERTICAL_VERTICES-1; ++i)
         {
@@ -591,6 +596,11 @@ void NoeudTable::renderOpenGLES() const
             vertices[count++] = mTableVertices[i][0][VY];
             vertices[count++] = -1;
         }
+        
+        // On remet le point gauche pour le triangle fan
+        vertices[count++] = mTableVertices[0][1][VX];
+        vertices[count++] = mTableVertices[0][1][VY];
+        vertices[count++] = -1;
 
         glColor4f(1.0f,1.0f,1.0f,1.0f);
         glVertexPointer (3, GL_FLOAT , 0, vertices); 
@@ -1342,6 +1352,28 @@ void NoeudTable::updatePhysicBody()
             RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_TABLE,IsInGame());
 
             mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+            NoeudRondelle* puck = getField()->getPuck();
+            if(puck)
+            {
+                float offset = puck->getRadius()*utilitaire::ratioWorldToBox2D*2;
+                topPosB2.x -= offset;
+                bottomPosB2.x -= offset;
+
+                myFixtureDef.filter.categoryBits = CATEGORY_MIDLANE;
+                myFixtureDef.filter.maskBits = CATEGORY_PUCK;
+                myFixtureDef.isSensor = true;
+
+                shape.Set(bottomPosB2,topPosB2);
+                mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+
+                topPosB2.x += offset;
+                bottomPosB2.x += offset;
+                topPosB2.x += offset;
+                bottomPosB2.x += offset;
+
+                shape.Set(bottomPosB2,topPosB2);
+                mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+            }
             mPhysicBody->SetUserData(this);
         }
     }

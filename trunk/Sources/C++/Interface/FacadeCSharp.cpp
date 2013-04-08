@@ -460,6 +460,7 @@ void connectPartieServerGame( int pGameId, unsigned int pServerId, char* pInputP
 
 void requestGameCreationServerGame( char* pGameName, char* pMapName, int pMapId, char* pPassword  )
 {
+    FacadeModele::getInstance()->setGameCreationPassword(pPassword);
     PaquetGameCreation* wPaquet = (PaquetGameCreation*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CREATION_REQUEST);
     wPaquet->setGameName(pGameName);
     wPaquet->setMapName(pMapName);
@@ -504,11 +505,18 @@ void SetSecondPlayer(bool pIsHuman, char* pName)
     GameManager::obtenirInstance()->setAdversaire(player);
 }
 
-void AddPlayer(char* pName, int pSpeed, int pFailProb)
+void AddPlayer(char* pName, int pSpeed, int pFailProb, bool pIsLearning, char* pFilePath)
 {
-    SPJoueurAbstrait joueurVirtuel(new JoueurVirtuel(pName, pSpeed, pFailProb));
-    //SPJoueurAbstrait joueurVirtuel(new JoueurVirtuelRenforcement("", pName, pSpeed, pFailProb));
-    FacadeModele::getInstance()->ajouterJoueur(joueurVirtuel);
+    if(pIsLearning)
+    {
+        SPJoueurAbstrait joueurRenforcement(new JoueurVirtuelRenforcement(std::string(pFilePath), pName, pSpeed, pFailProb));
+        FacadeModele::getInstance()->ajouterJoueur(joueurRenforcement);
+    }
+    else
+    {
+        SPJoueurAbstrait joueurVirtuel(new JoueurVirtuel(pName, pSpeed, pFailProb));
+        FacadeModele::getInstance()->ajouterJoueur(joueurVirtuel);
+    }
 }
 
 void RemovePlayer(char* pName)
@@ -536,7 +544,7 @@ void GetPlayers(AIProfile* pProfiles, int pNbrProfiles)
 	{
         joueur = FacadeModele::getInstance()->obtenirJoueur(*iter);
 
-        if(joueur->obtenirType()==JOUEUR_VIRTUEL || joueur->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+        if(joueur->obtenirType() == JOUEUR_VIRTUEL)
 	    {
 		    SPJoueurVirtuel joueurVirtuel = std::dynamic_pointer_cast<JoueurVirtuel>(joueur);
 
@@ -544,6 +552,26 @@ void GetPlayers(AIProfile* pProfiles, int pNbrProfiles)
 
             pProfiles[i].Speed = joueurVirtuel->obtenirVitesse();
             pProfiles[i].FailProb = joueurVirtuel->obtenirProbabiliteEchec();
+
+            pProfiles[i].IsLearning = false;
+
+            strcpy_s(pProfiles[i].FilePath, 255, "");
+
+            ++i;
+	    }
+        else if(joueur->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+	    {
+            SPJoueurVirtuelRenforcement joueurRenforcement = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(joueur);
+
+            strcpy_s(pProfiles[i].Name, 255, joueurRenforcement->obtenirNom().c_str());
+
+            pProfiles[i].Speed = joueurRenforcement->obtenirVitesse();
+            pProfiles[i].FailProb = joueurRenforcement->obtenirProbabiliteEchec();
+
+            pProfiles[i].IsLearning = true;
+
+            strcpy_s(pProfiles[i].FilePath, 255, joueurRenforcement->GetAiLogicFilepath().c_str());
+
             ++i;
 	    }
 	}
@@ -932,6 +960,20 @@ void ResetAchievements()
     AchievementsManager::obtenirInstance()->ResetAchievements();
 }
 
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void ReloadAchievementsProgress()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void ReloadAchievementsProgress()
+{
+    AchievementsManager::obtenirInstance()->ReloadAchievements();
+}
 
 
 void TestTrajectoryPredictionDLL()

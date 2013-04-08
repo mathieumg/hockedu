@@ -84,8 +84,7 @@ namespace UIHeavyClient
             mOpenFileDialog.Filter = "XML Files (*.xml)|*.xml";
             mOpenFileDialog.Title = "Choose a map";
 
-            mLoginControl = new LoginControl();
-            
+            mLoginControl = new LoginControl( MainWindowHandler.GoToOnlineLobby, false );
         }
 
         // C++ function
@@ -128,6 +127,8 @@ namespace UIHeavyClient
             mQuickPlayGroupBox.Visibility = Visibility.Visible;
             mOnlineGroupBox.Visibility = Visibility.Hidden;
             DisplayProfileNames();
+            (sender as Button).IsDefault = false;
+            mQuickPlayGoButton.IsDefault = true;
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -316,7 +317,7 @@ namespace UIHeavyClient
 
             for (int i = 0; i < nbrProfiles; ++i)
             {
-                profiles[i] = new AIProfile(new string('s', 255), 1, 0);
+                profiles[i] = new AIProfile(new string('s', 255), 1, 0, false, new string('s', 255));
             }
 
             GetPlayers(profiles, nbrProfiles);

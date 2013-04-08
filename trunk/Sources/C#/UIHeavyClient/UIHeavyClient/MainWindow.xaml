@@ -7,7 +7,7 @@
         <Menu Name="MenuBar" DockPanel.Dock="Top">
             <MenuItem Header="File">
                 <MenuItem Header="Load Map (Ctrl + O)" Click="LoadMapFromLocal" Name="mLoadMapItem" Visibility="Collapsed"/>
-                <MenuItem Header="Load Map From Server" Name="mServerLoadMapItem" Visibility="Collapsed"/>
+                <MenuItem Header="Load Map From Server" Name="mServerLoadMapItem" Visibility="Collapsed" Click="LoadMapFromServer"/>
                 <MenuItem Header="Save Map As (Ctrl + Shift + S)" Click="SaveMapToLocal" Name="mSaveMapItem" Visibility="Collapsed"/>
                 <MenuItem Header="Save Map (Ctrl + S)" Click="QuickSaveMapToLocal" Name="mQuickSaveMapItem" Visibility="Collapsed"/>
                 <MenuItem Header="Save Map To Server" Name="mServerSaveMapItem" Visibility="Collapsed" Click="SaveMapToServer" />
@@ -19,15 +19,14 @@
                 <MenuItem Header="Pause Game" Click="PauseGameClick" />
                 <MenuItem Header="Restart Game" Click="RestartGameClick" Name="mRestartGameMenuItem"/>
                 <MenuItem Header="Reset Puck"   Click="ResetPuckClick" />
-                <MenuItem Header="Replay last 10s (Ctrl + R)"  Click="ReplayClick" />
+                <MenuItem Header="Replay last 10s (Ctrl + R)"  Click="ReplayClick" Name="mReplayItem" />
+                <MenuItem Header="Add AI Opponent"  Click="AddAIOpponentClick" Name="mAiOpponentItem" Visibility="Collapsed" />
             </MenuItem>
             <MenuItem Header="Online Mode">
                 <MenuItem Header="Web Site" Click="OpenWebSite"/>
             </MenuItem>
-            <MenuItem Header="Help">
-                <MenuItem Header="FAQ"/>
+            <MenuItem Header="About">
                 <MenuItem Header="Credits" Click="ShowCreditsPopup"/>
-                <MenuItem Header="About"/>
             </MenuItem>
         </Menu>
         

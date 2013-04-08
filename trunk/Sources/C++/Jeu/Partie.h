@@ -43,6 +43,7 @@ struct PuckProjection
 {
     int time;
     Vecteur2 position;
+    Vecteur2 velocite;
 };
 
 ///////////////////////////////////////////////////////////////////////////

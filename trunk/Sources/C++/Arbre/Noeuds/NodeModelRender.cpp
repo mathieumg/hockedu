@@ -92,6 +92,11 @@ void NodeModelRender::tick( const float& temps)
    
 }
 
+void NodeModelRender::renderOpenGLES() const
+{
+    
+}
+
 
 
 ///////////////////////////////////////////////////////////////////////////////

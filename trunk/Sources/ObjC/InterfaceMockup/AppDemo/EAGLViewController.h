@@ -22,7 +22,18 @@ extern int const HAUTEUR_FENETRE;
 
 @class EAGLView;
 
+@interface CarouselElement : NSObject
+{
+    NSString* LabelValue;
+    NSString* ImageName;
+    @public
+    EditorStateName ModifType;
+}
 
+@property (readwrite, nonatomic, retain) NSString* LabelValue;
+@property (readwrite, nonatomic, retain) NSString* ImageName;
+
+@end
 
 @interface EAGLViewController : UIViewController <UIGestureRecognizerDelegate, iCarouselDataSource, iCarouselDelegate> {
     EAGLContext *context;
@@ -34,6 +45,14 @@ extern int const HAUTEUR_FENETRE;
     IBOutlet UIView *mTopBarView;
     IBOutlet UIView *undoRedoView;
     IBOutlet UIView *mPropertyView;
+    IBOutlet UIView *mTablePropertyView;
+    IBOutlet UIView *mBoostPropertyView;
+    IBOutlet UIView *mPortalPropertyView;
+    IBOutlet UIView *mPuckPropertyView;
+    IBOutlet UIView *mMalletPropertyView;
+    IBOutlet UIView *mWallPropertyView;
+    IBOutlet UIView *mControlPointPropertyView;
+    IBOutlet UIView *mBonusPropertyView;
     
     IBOutlet UIButton *editionButton;
     IBOutlet UIButton *cameraButton;
@@ -44,9 +63,19 @@ extern int const HAUTEUR_FENETRE;
     IBOutlet UIButton *moveButton;
     IBOutlet UIButton *selectButton;
     IBOutlet UIButton *saveButton;
+    IBOutlet UIButton *leftArrowButton;
+    IBOutlet UIButton *rightArrowButton;
+    
+    NSArray* carouselElements;
+    NSArray* textBoxCollection;
+    NSArray* sliderCollection;
+    NSArray* stepperCollection;
     
     UIButton *previouslySelected;
     
+    IBOutlet UIImageView *carouselBackground;
+    UIImage *carouselBackgroundImage;
+    UIImage *carouselBackgroundSelected;
     UIImage *buttonImage;
     UIImage *buttonImageHighlight;
     UIImage *buttonImagePressed;
@@ -73,9 +102,6 @@ extern int const HAUTEUR_FENETRE;
     // Pinch et zoom
     CGFloat __scale;
     CGFloat __previousScale;
-    IBOutlet UITableViewController *propertyTableViewController;
-    IBOutlet UITableView *propertyTableView;
-    IBOutlet UITableViewCell *tablePropertiesCell;
 }
 
 
@@ -92,8 +118,15 @@ extern int const HAUTEUR_FENETRE;
 @property (nonatomic) NSInteger animationFrameInterval;
 @property (nonatomic, retain) OpenGLWaveFrontObject *cube;
 @property (nonatomic, retain) IBOutlet iCarousel *carousel;
+@property (readonly, nonatomic, retain) NSArray* carouselElements;
+@property (nonatomic, retain) IBOutletCollection(UITextField) NSArray* textBoxCollection;
+@property (nonatomic, retain) IBOutletCollection(UISlider) NSArray* sliderCollection;
+@property (nonatomic, retain) IBOutletCollection(UIStepper) NSArray* stepperCollection;
+
 
 - (IBAction)cameraModeButtonTouched:(UIButton *)sender;
+- (IBAction)leftArrowButton:(UIButton *)sender;
+- (IBAction)rightArrowButton:(UIButton *)sender;
 - (IBAction)selectToolButtonTouched:(UIButton *)sender;
 - (IBAction)moveToolButtonTouched:(UIButton *)sender;
 - (IBAction)rotationToolButtonTouched:(UIButton *)sender;
@@ -107,6 +140,7 @@ extern int const HAUTEUR_FENETRE;
 - (IBAction)redoButtonTouched:(UIButton *)sender;
 - (void) propertiesMenuButtonTouched:(PieMenuItem *)item;
 - (void)unselectAllTools;
+- (void)carouselSelectItem:(NSInteger)index;
 - (void)pressButtonUI:(UIButton *)sender;
 - (void)startAnimation;
 - (void)stopAnimation;
@@ -114,5 +148,9 @@ extern int const HAUTEUR_FENETRE;
 - (CGPoint)convertScreenCoordToVirtualCoord:(CGPoint)pointToConvert;
 - (void)rotationDetectee:(UIGestureRecognizer *)gestureRecognizer;
 - (IBAction)longPressDetected:(UILongPressGestureRecognizer*)sender;
-
+- (IBAction)swipeDetected:(id)sender;
+- (IBAction) sliderValueChanged:(UISlider*)sender;
+- (IBAction) textFieldValueChanged:(UITextField*)sender;
+- (IBAction) textFieldValueChangedStepper:(UITextField*)sender;
+- (IBAction) stepperValueChanged:(UIStepper*)sender;
 @end

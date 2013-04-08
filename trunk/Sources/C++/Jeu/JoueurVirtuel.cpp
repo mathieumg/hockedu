@@ -70,7 +70,7 @@ JoueurVirtuel::JoueurVirtuel( JNIEnv* env, jobject& joueurVirtuel ) : JoueurAbst
 	probabiliteEchec_ = probabiliteEchec;
 	type_ = JOUEUR_VIRTUEL;
 
-    setAiMaillet(new AIMaillet(*this));
+    setAiMaillet(new AIMaillet(this));
 
 }
 

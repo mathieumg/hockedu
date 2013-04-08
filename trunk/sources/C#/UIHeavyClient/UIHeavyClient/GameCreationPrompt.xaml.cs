@@ -284,6 +284,18 @@ namespace UIHeavyClient
                 items.Refresh();
             }
         }
+
+        ////////////////////////////////////////////////////////////////////////
+        /// @fn void GameCreationPrompt.SetFocus()
+        ///
+        /// Give focus to name text box.
+        ///
+        /// @return void.
+        ////////////////////////////////////////////////////////////////////////
+        public void SetFocus()
+        {
+            mNameTextBox.Focus();
+        }
     }
 }
 

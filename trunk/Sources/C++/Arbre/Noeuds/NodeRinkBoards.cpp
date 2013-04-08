@@ -17,10 +17,6 @@
 #include <Box2D/Box2D.h>
 #endif
 
-#if MIKE_DEBUG_
-PRAGMA_DISABLE_OPTIMIZATION
-#endif
-
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn  NodeRinkBoards::NodeRinkBoards( NoeudPoint* n1, NoeudPoint* n2 )
@@ -226,11 +222,6 @@ void NodeRinkBoards::updateCornerPosition()
     // should come from the nodes linked to it 
 }
 
-
-
-#if MIKE_DEBUG_
-PRAGMA_ENABLE_OPTIMIZATION
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

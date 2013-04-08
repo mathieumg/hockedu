@@ -22,9 +22,9 @@ struct b2Manifold;
 #include "RazerGameTypeDef.h"
 #include "XMLUtils.h"
 #include "Enum_Declarations.h"
-#include "RunnableBreaker.h"
 #include <deque>
 #include "FieldModificationStrategyAbstract.h"
+#include "GameTime.h"
 
 
 class RazerGameTree;
@@ -40,6 +40,13 @@ class VisiteurNoeud;
 
 typedef std::set<NoeudAbstrait*> NodeSet;
 
+enum PuckZone
+{
+    PUCK_ZONE_UNKNOWN,
+    PUCK_ZONE_LEFT,
+    PUCK_ZONE_RIGHT,
+};
+
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class Terrain
@@ -54,9 +61,9 @@ typedef std::set<NoeudAbstrait*> NodeSet;
 /// @author Michael Ferris
 /// @date 2012-03-19
 ///////////////////////////////////////////////////////////////////////////
-class Terrain : public RunnableBreaker
+class Terrain
 #if BOX2D_PLAY
-, public b2ContactListener
+: public b2ContactListener
 #endif
 {
 public:
@@ -236,6 +243,7 @@ private:
 	
     /// Indique si ce terrain est utilisé pour jouer ou pour l'édition
     Partie* mGame;
+    bool mIsSimulation;
 
     /// pointeur sur la zamboni
     class NodeModelRender* mZamboni;
@@ -254,12 +262,16 @@ private:
     float mBonusesMaxTimeSpawn;
 
 
+    std::deque<class FieldRunnable*> mRunnableQueue;
 
+    PuckZone mPuckZone;
+    GameTime mZoneTimer;
 #if BOX2D_INTEGRATED  
     class b2World* mWorld;
 #endif
 #if BOX2D_PLAY
     std::set<class ForceField*> mForceFieldActive;
+    class ForceField* mLeftForceField,*mRightForceField;
 #endif
 
 
@@ -285,6 +297,8 @@ private:
     
 /// Accesseurs
 public:
+    inline bool getIsSimulation() const { return mIsSimulation; }
+    inline void setIsSimulation(bool val) { mIsSimulation = val; }
     /// Accessors of mZamboni
     inline class NodeModelRender* getZamboni() const { return mZamboni; }
 	/// Accesseur de arbreRendu_
@@ -317,6 +331,10 @@ public:
     /// Accessors of mBonusesMaxTimeSpawn
     inline float getBonusesMaxTimeSpawn() const { return mBonusesMaxTimeSpawn; }
     void setBonusesMaxTimeSpawn(const float pVal);
+
+    /// Accessors of mPuckZone
+    inline PuckZone getPuckZone() const { return mPuckZone; }
+    void setPuckZone(const PuckZone pVal);
 
 #if BOX2D_INTEGRATED  
     inline class b2World* GetWorld() {return mWorld;}

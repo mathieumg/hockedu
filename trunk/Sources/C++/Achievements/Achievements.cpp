@@ -103,6 +103,8 @@ void AbstractAchievement::GoToNextLevel()
     UnRegisterLevel(mLevelUnlocked);
     ++mLevelUnlocked;
     RegisterLevel(mLevelUnlocked);
+
+    mHasProgressed = false;
 }
 
 const char AchievementTag[] = "Achievement";
@@ -136,7 +138,7 @@ void AbstractAchievement::CreateAchievementNode(XmlElement* root) const
         ++id;
     }
 
-    if(mLevelUnlocked<mNbLevels)
+    if(mLevelUnlocked<mNbLevels && mHasProgressed)
     {
         XMLUtils::writeAttribute(elem,IdTag,id);
         XMLUtils::LinkEndChild(root,elem);
@@ -208,9 +210,10 @@ bool AbstractAchievement::LoadAchievementNode( const XmlElement* root )
         const XmlElement* data = XMLUtils::FirstChildElement(maxLevelElem,DataTag);
         if(data)
         {
+            mHasProgressed = true;
             return LoadAchievementData(data);
         }
-        return mLevelUnlocked == mNbLevels;
+        return mLevelUnlocked == mNbLevels || !mHasProgressed;
     }
     return false;
 }
@@ -340,7 +343,8 @@ void AchievementGameWon::EventWinCallBack( AbstractAchievement* pAchievement, Ac
 
     auto achievement = (AchievementGameWon*)pAchievement;
     int n = ++achievement->mNbGameWon;
-    
+    achievement->mHasProgressed = true;
+
     int level = achievement->mLevelUnlocked;
     if(level < ARRAY_COUNT(NbGameWinNeeded) && n >= NbGameWinNeeded[level])
     {
@@ -385,6 +389,10 @@ bool AchievementGameWon::LoadAchievementData( const XmlElement* elem)
             mNbGameWon = NbGameWinNeeded[mLevelUnlocked];
         }
     }
+    else
+    {
+        mHasProgressed = true;
+    }
     return true;
 }
 
@@ -418,6 +426,7 @@ void AchievementAICreation::EventAICreatedCallBack( AbstractAchievement* pAchiev
 {
     auto wThis = (AchievementAICreation*)pAchievement;
     auto val = ++wThis->mNbAiCreated;
+    wThis->mHasProgressed = true;
 
     int level = wThis->mLevelUnlocked;
     if(level < ARRAY_COUNT(AchievementAICreation::AI_CREATION_NEEDED) && val >= AchievementAICreation::AI_CREATION_NEEDED[level])
@@ -440,6 +449,10 @@ bool AchievementAICreation::LoadAchievementData( const XmlElement* elem )
         {
             mNbAiCreated = AI_CREATION_NEEDED[mLevelUnlocked];
         }
+    }
+    else
+    {
+        mHasProgressed = true;
     }
     return true;
 }
@@ -464,12 +477,13 @@ void AchievementMute::EventMuteCallBack( AbstractAchievement* pAchievement, Achi
 {
     auto wThis = (AchievementMute*)pAchievement;
     wThis->mMuted = true;
+    wThis->mHasProgressed = true;
 
     int level = wThis->mLevelUnlocked;
     if(level < 1)
     {
         wThis->GoToNextLevel();
-        AchievementsManager::obtenirInstance()->AchievementUnlocked(AchievementsType(ACHIEVEMENT_EVENT_MUTE+level),AchievementMute::MUTE_LEVEL_NAME[level]);
+        AchievementsManager::obtenirInstance()->AchievementUnlocked(AchievementsType(ACHIEVEMENT_EVENT_MUTE+level),AchievementMute::MUTE_LEVEL_NAME[level]);   
     }
 }
 
@@ -483,6 +497,10 @@ bool AchievementMute::LoadAchievementData( const XmlElement* elem )
     if(!XMLUtils::readAttribute(elem,"MuteSound",mMuted))
     {
          mMuted = false;
+    }
+    else
+    {
+        mHasProgressed = true;
     }
     return true;
 }
@@ -523,12 +541,13 @@ void AchievementPortal::EventPortalCallBack( AbstractAchievement* pAchievement, 
 {
     auto wThis = (AchievementPortal*)pAchievement;
     auto val = ++wThis->mNbrPortalCreated;
+    wThis->mHasProgressed = true;
 
     int level = wThis->mLevelUnlocked;
     if(level < ARRAY_COUNT(AchievementPortal::PORTAL_NEEDED) && val >= AchievementPortal::PORTAL_NEEDED[level])
     {
         wThis->GoToNextLevel();
-        AchievementsManager::obtenirInstance()->AchievementUnlocked(AchievementsType(ACHIEVEMENTS_PORTAL_L1+level),AchievementPortal::PORTAL_LEVEL_NAME[level]);
+        AchievementsManager::obtenirInstance()->AchievementUnlocked(AchievementsType(ACHIEVEMENTS_PORTAL_L1+level),AchievementPortal::PORTAL_LEVEL_NAME[level]);       
     }
 }
 
@@ -545,6 +564,10 @@ bool AchievementPortal::LoadAchievementData( const XmlElement* elem )
         {
             mNbrPortalCreated = PORTAL_NEEDED[mLevelUnlocked];
         }
+    }
+    else
+    {
+        mHasProgressed = true;
     }
     return true;
 }

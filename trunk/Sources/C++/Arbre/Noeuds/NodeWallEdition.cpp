@@ -13,9 +13,6 @@
 #include "NodeControlPoint.h"
 #include "VisiteurNoeud.h"
 
-#if MIKE_DEBUG_
-PRAGMA_DISABLE_OPTIMIZATION
-#endif
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -288,9 +285,6 @@ void NodeWallEdition::updateCornerPosition()
     mUpdatingCornerPosition= false;
 }
 
-#if MIKE_DEBUG_
-PRAGMA_ENABLE_OPTIMIZATION
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

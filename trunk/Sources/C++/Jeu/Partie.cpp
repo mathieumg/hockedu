@@ -8,6 +8,10 @@
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
+#if BOX2D_DEBUG
+#include <Box2D/Box2D.h>
+#endif
+
 #include "Partie.h"
 #include "JoueurHumain.h"
 #include "JoueurVirtuel.h"
@@ -56,6 +60,8 @@ mGameType(gameType)
     chiffres_ = new NoeudAffichage("3");
     mField = new Terrain(this);
     mFieldSimulation = new Terrain(this);
+    mFieldSimulation->setIsSimulation(true);
+
 	mUniqueGameId = uniqueGameId;
 	mUpdateCallbacks = updateCallback;
     mGameStatus = GAME_NOT_READY;
@@ -508,6 +514,8 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
     NoeudMaillet* maillet1 = mField->getLeftMallet();
     NoeudMaillet* maillet2 = mField->getRightMallet();
 
+    mField->setPuckZone(PUCK_ZONE_UNKNOWN);
+
     // Positionnement
     rondelle->setPosition(rondelle->obtenirPositionOriginale());
     rondelle->modifierVelocite(0);
@@ -678,6 +686,71 @@ void Partie::modifierJoueurGauche( SPJoueurAbstrait val )
 void Partie::afficher()
 {
     mField->renderField();
+    
+    
+
+#if MAT_DEBUG_
+    // Render trajet rondelle
+
+    
+
+#if WIN32
+    // États de la lumière 
+    GLboolean lighting_state;
+    // Désactiver l'éclairage
+    glGetBooleanv(GL_LIGHTING, &lighting_state);
+    glDisable(GL_LIGHTING);
+    FacadeModele::getInstance()->DeActivateShaders();
+#endif
+
+    // Dessin de la zone d'édition
+    glPushMatrix();
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
+    glColor4f(0,0,0,1);
+    glLineWidth(5.0f);
+
+    glBegin(GL_LINE_STRIP);
+    for(int i=0; i<NoeudMaillet::mListePointsDebug.size(); i++)
+    {
+        Vecteur3 wVect = NoeudMaillet::mListePointsDebug[i];
+        glVertex3f(wVect[VX], wVect[VY], wVect[VZ]);
+    }
+    glEnd();
+
+
+
+
+    glPopAttrib();
+    glPopMatrix();
+    
+
+//     glTranslatef(0, 0, 5.0f);
+// #if BOX2D_DEBUG
+//     glPushMatrix();
+//     glPushAttrib(GL_ALL_ATTRIB_BITS);
+// 
+//     auto world = mFieldSimulation->GetWorld();
+//     if(world)
+//     {
+//         world->DrawDebugData();
+//     }
+//     // Restauration de la matrice.
+//     glPopAttrib();
+//     glPopMatrix();
+// #endif
+
+#if WIN32
+    FacadeModele::getInstance()->ActivateShaders();
+
+    // Réactiver l'éclairage et (s'il y a lieu)
+    if (lighting_state == GL_TRUE) {
+        glEnable(GL_LIGHTING);
+    }
+#endif
+
+
+#endif
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -825,25 +898,34 @@ bool Partie::getReadyToPlay()
     if(getFieldName().size() == 0)
     {
         mField->creerTerrainParDefaut(FacadeModele::FICHIER_TERRAIN_EN_COURS);
-        mFieldSimulation->creerTerrainParDefaut(FacadeModele::FICHIER_TERRAIN_EN_COURS);
     }
     else
     {
         RazerGameUtilities::LoadFieldFromFile(getFieldName(),*mField);
-        RazerGameUtilities::LoadFieldFromFile(getFieldName(),*mFieldSimulation);
     }
-
     mField->fullRebuild();
-    mFieldSimulation->fullRebuild();
+
+    auto xml = mField->creerNoeudXML();
+    mFieldSimulation->initialiserXml(xml,false);
+    delete xml;
+
+    
 
     if(!mField->verifierValidite())
     {
         return false;
     }
-    
+#if BOX2D_INTEGRATED
+    auto body = mFieldSimulation->getPuck()->getPhysicBody();
+    for(auto fixture = body->GetFixtureList(); fixture; fixture = fixture->GetNext())
+    {
+        b2Filter filter = fixture->GetFilterData();
+        filter.maskBits &= ~CATEGORY_MALLET;
+        fixture->SetFilterData(filter);
+    }
+#endif
     try
     {
-        assignerControlesMaillet(mField->getLeftMallet(),mField->getRightMallet(),mField->getPuck());
         assignerControlesMaillet(mField->getLeftMallet(),mField->getRightMallet(),mField->getPuck());
     }
     catch(ExceptionJeu& e)
@@ -981,9 +1063,9 @@ bool Partie::validatePassword( const std::string& pPasswordToValidate ) const
 void Partie::setPassword( const std::string& pPassword )
 {
     mPassword = pPassword;
-    if(pPassword.length() == 0)
+    if(pPassword.length() > 0)
     {
-        mRequirePassword = false;
+        mRequirePassword = true;
     }
 }
 
@@ -1220,6 +1302,10 @@ bool Partie::updateTerrainSimulation()
 
 PuckProjection Partie::getPuckProjection( float pPosX, int pDelaisMaxMs /*= 10000*/ )
 {
+#if MAT_DEBUG_
+    NoeudMaillet::mListePointsDebug.clear();
+#endif
+
     PuckProjection wReturnVal;
     wReturnVal.time = -1;
     // On sync le terrain de simulation pour trouver la position
@@ -1236,8 +1322,13 @@ PuckProjection Partie::getPuckProjection( float pPosX, int pDelaisMaxMs /*= 1000
         while(true)
         {
             // Tick le world
-            mFieldSimulation->appliquerPhysique(10.0f/1000.0f);
-            wElapsedTime += 10;
+            mFieldSimulation->appliquerPhysique(5.0f/1000.0f);
+            wElapsedTime += 5;
+
+#if MAT_DEBUG_
+            NoeudMaillet::mListePointsDebug.push_back(wPuck->getPosition());
+#endif
+            //std::cout << "Position:" << wPuck->getPosition() << std::endl;
 
             // Verifie la rondelle
             //std::cout << wDiffXStart << "\t" << (pPosX - wPuck->getPosition()[VX]) << std::endl;
@@ -1245,6 +1336,7 @@ PuckProjection Partie::getPuckProjection( float pPosX, int pDelaisMaxMs /*= 1000
             {
                 wReturnVal.position = wPuck->getPosition().convertir<2>();
                 wReturnVal.time = wElapsedTime;
+                wReturnVal.velocite = wPuck->obtenirVelocite().convertir<2>();
                 break;
             }
             

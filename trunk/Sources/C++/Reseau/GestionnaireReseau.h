@@ -101,6 +101,9 @@ public:
     // Port a utiliser pour les comminications de base
     static int communicationUDPPortServeurJeu;
 
+    inline const std::string& getUserId() const { return mUserId; }
+    inline void setUserId(const std::string& val) { mUserId = val; }
+
     // Initialise le GestionnaireReseau
     void initClient(const std::string& pUsername = "", const std::string& pPassword = "");
     // Initialise le GestionnaireReseau avec des fonctionnalites de serveur (listen de ports, etc.)
@@ -212,7 +215,22 @@ public:
 
     inline bool requireAuthentification() const {return mControlleur->requireAuthentification();}
 
-    inline std::string authenticate(const std::string& pUsername, const std::string& pPassword) const {return mControlleur->authenticate(pUsername, pPassword);}
+    inline std::string authenticate(const std::string& pUsername, const std::string& pPassword)
+    {
+        mUserId = mControlleur->authenticate(pUsername, pPassword);
+        if(mUserId != "-1" && pUsername!= "GameServer")
+        {
+            return pUsername;
+        }
+        else if(pUsername == "GameServer")
+        {
+            return mUserId;
+        }
+        else
+        {
+            return "";
+        }
+    }
 
     bool isMasterServerConnected() const;
 
@@ -232,7 +250,7 @@ private:
     // Userinfo
     std::string mUsername;
     std::string mPassword;
-
+    std::string mUserId;
 
     // Controlleur associe au modele
     ControllerInterface* mControlleur;

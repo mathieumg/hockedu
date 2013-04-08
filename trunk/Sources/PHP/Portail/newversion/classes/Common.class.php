@@ -503,6 +503,32 @@ class Common
         return $userMaps;
     }
     
+    public function getUsersRankings()
+    { 
+        $sql = 'SELECT %s, %s, COUNT(%s) as win_count
+                FROM %s 
+                RIGHT JOIN %s ON %s = %s
+                GROUP BY %s
+                ORDER BY win_count DESC';
+
+        $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'users' ) . '.' . $this->db->quoteIdentifier( 'id' ),
+                        $this->db->quoteIdentifier( 'username' ),
+                        $this->db->quoteIdentifier( 'id_user1' ),
+                        
+                        $this->db->quoteIdentifier( 'matches' ),
+                        
+                        $this->db->quoteIdentifier( 'users' ),
+                        $this->db->quoteIdentifier( 'users' ) . '.' . $this->db->quoteIdentifier( 'id' ),
+                        $this->db->quoteIdentifier( 'id_user1' ),
+                        
+                        $this->db->quoteIdentifier( 'users' ) . '.' . $this->db->quoteIdentifier( 'id' )
+                       );
+        $userRankings = $this->db->queryAll( $sql );
+
+        return $userRankings;
+    }
+    
     /**
      * Indicates whether a user with the specified email exists.
      * @access public
@@ -638,12 +664,13 @@ class Common
     
     public function getValidAuthenticationData( $userId )
     {
-        $sql = 'SELECT %s, %s
+        $sql = 'SELECT %s, %s, %s
                 FROM %s 
                 WHERE %s=%d AND %s>=%d
                 ORDER BY %s DESC';
         $sql = sprintf( $sql,
                         $this->db->quoteIdentifier( 'key' ),
+                        $this->db->quoteIdentifier( 'id_user' ),
                         $this->db->quoteIdentifier( 'expiration' ),
                         
                         $this->db->quoteIdentifier( 'remote_authentication'),
@@ -663,6 +690,7 @@ class Common
         {
             // Renew the expiration, then return it.
             $userInformation['expiration'] = time() + 3600;
+            $userInformation['id_user'] = (int)$userInformation['id_user'];
             
             $sql = 'UPDATE %s
                     SET %s=%d

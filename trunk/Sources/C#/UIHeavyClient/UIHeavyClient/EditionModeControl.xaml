@@ -88,7 +88,7 @@
                 <Button Content="Wall" Margin="1" Name="mWallButton"    Grid.Row="2" Click="HandleStateButton" />
                 <Button Content="Booster" Margin="1" Name="mBoosterButton"    Grid.Column="1" Click="HandleStateButton" />
                 <Button Content="Portal" Margin="1" Name="mPortalButton"    Grid.Column="1" Grid.Row="1" Click="HandleStateButton" />
-                <Button Content="Random bonus" Margin="1" Name="mBonusButton"    Grid.Column="1" Grid.Row="2" Click="HandleStateButton" />
+                <Button Content="Random Bonus" Margin="1" Name="mBonusButton"    Grid.Column="1" Grid.Row="2" Click="HandleStateButton" />
             </Grid>
         </GroupBox>
         <userControls:FieldPropertiesControl x:Name="mPropertiesGroupBox" Grid.Row="2"/>

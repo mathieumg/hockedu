@@ -7,6 +7,6 @@
              >
     <StackPanel Orientation="Horizontal">
         <Label Name="InputLabel" Foreground="White"/>
-        <xctk:DecimalUpDown Name="InputBox" Margin="0,0,5,5" FormatString="F2" Value="30" Increment=".5" Maximum="9999" Minimum="0"/>
+        <xctk:DecimalUpDown Name="InputBox" Margin="0,0,5,5" FormatString="F2" Value="30" Increment=".5" Maximum="9999" Minimum="0" HorizontalAlignment="Right"/>
     </StackPanel>
 </UserControl>

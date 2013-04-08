@@ -140,13 +140,11 @@ bool BonusModifierBlockGoal::Apply()
             b2BodyDef myBodyDef;
             myBodyDef.type = b2_staticBody; //this will be a dynamic body
 
-            float angle;
-            Vecteur3 pos;
-            getGoalPosition(pos,angle);
+            getGoalPosition(mPosition,mAngle);
             b2Vec2 posB2;
-            utilitaire::VEC3_TO_B2VEC(pos,posB2);
+            utilitaire::VEC3_TO_B2VEC(mPosition,posB2);
             myBodyDef.position.Set(posB2.x,posB2.y); //set the starting position
-            myBodyDef.angle = angle; //set the starting angle
+            myBodyDef.angle = mAngle; //set the starting angle
 
             mPhysicBody = world->CreateBody(&myBodyDef);
             b2PolygonShape shape;
@@ -222,11 +220,8 @@ void BonusModifierBlockGoal::render() const
         glPushMatrix();
         glDisable(GL_LIGHTING);
 #if BOX2D_PLAY  
-        auto transform = mPhysicBody->GetTransform();
-        Vecteur3 pos;
-        utilitaire::B2VEC_TO_VEC3(pos,transform.p);
-        glTranslatef(pos[VX],pos[VY],0);
-        glRotatef(utilitaire::RAD_TO_DEG(transform.q.GetAngle()),0,0,1);
+        glTranslatef(mPosition[VX],mPosition[VY],0);
+        glRotatef(utilitaire::RAD_TO_DEG(mAngle),0,0,1);
 #endif //BOX2D_PLAY
         glCallList(liste);
         glEnable(GL_LIGHTING);
@@ -251,14 +246,14 @@ void BonusModifierBlockGoal::render() const
 ////////////////////////////////////////////////////////////////////////
 void BonusModifierBlockGoal::Tick( float temps )
 {
-
-    Vecteur3 pos;
-    float angle;
-    getGoalPosition(pos,angle);
+    getGoalPosition(mPosition,mAngle);
 #if BOX2D_PLAY
-    b2Vec2 posB2;
-    utilitaire::VEC3_TO_B2VEC(pos,posB2);
-    mPhysicBody->SetTransform(posB2,angle);
+    if(mPhysicBody)
+    {
+        b2Vec2 posB2;
+        utilitaire::VEC3_TO_B2VEC(mPosition,posB2);
+        mPhysicBody->SetTransform(posB2,mAngle);
+    }
 #endif
     BonusModifierAbstract::Tick(temps);
 }
