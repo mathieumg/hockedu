@@ -30,7 +30,7 @@ void FonctionAppelDownload(int pUserId, int pMapId, CallbackDone pMapDownloadedC
     mCallbackMapDownloadedDLL = pMapDownloadedCallback;
 
     MapDownloadedCallBack ^delegate1 = gcnew MapDownloadedCallBack(&CallbackMapDownloadedManaged);
-    wManager->downloadMap(pUserId, pMapId, delegate1);
+    wManager->downloadMap(pUserId, pMapId, "", delegate1);
 }
 
 int main(array<System::String ^> ^args)

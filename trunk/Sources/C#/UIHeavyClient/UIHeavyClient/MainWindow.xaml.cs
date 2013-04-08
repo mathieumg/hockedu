@@ -1076,7 +1076,7 @@ namespace UIHeavyClient
                 if (mServerMapPrompt.SelectedMap != null)
                 {
                     HttpManager wHttpManager = new HttpManager();
-                    wHttpManager.downloadMap(Convert.ToInt32(LoginControl.mLoginInfo.mUserId), mServerMapPrompt.SelectedMap.id, HandleDownloadedMap);
+                    wHttpManager.downloadMap(Convert.ToInt32(LoginControl.mLoginInfo.mUserId), mServerMapPrompt.SelectedMap.id, LoginControl.mLoginInfo.mAuthKey, HandleDownloadedMap);
                 }
             }
 
