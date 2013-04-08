@@ -47,7 +47,7 @@ CreateListDelegateImplementation(TableControlPoint)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudPoint::NoeudPoint( const std::string& typeNoeud, float coordX, float coordY, TypePosPoint typePosNoeud)
-	: NoeudComposite(RAZER_KEY_TABLE_CONTROL_POINT,typeNoeud) , longueurCote_(2.0f), typePosNoeud_(typePosNoeud)
+	: NoeudComposite(RAZER_KEY_TABLE_CONTROL_POINT,typeNoeud) , longueurCote_(2.0f), typePosNoeud_(typePosNoeud),mCanBeVisited(true)
 {
     /// les noeuds points ne peuvent etre supprimer
     mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
@@ -471,6 +471,25 @@ void NoeudPoint::updatePhysicBody()
         }
     }
 #endif
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudPoint::flagSelectedAssociatedPoints()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudPoint::flagSelectedAssociatedPoints() const
+{
+    NoeudPoint* point = obtenirPointSym();
+    if(point)
+    {
+        point->flagVisitationIfSelected();
+    }
 }
 
 

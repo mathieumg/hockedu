@@ -1976,7 +1976,7 @@ bool Terrain::FixCollidingObjects()
 #if BOX2D_INTEGRATED  
     if(mLogicTree)
     {
-        mWorld->Step(0.001f,0,1000);
+        mWorld->Step(0.001f,0,50);
 
         /// callbacks might have invalidate some data, rebuild just to make sure
         fullRebuild();
