@@ -348,27 +348,27 @@ void VisiteurModifierProprieteNoeud::visiterNoeudPoint( NoeudPoint* noeud )
                 if(noeud->obtenirTypePosNoeud() == POSITION_HAUT_MILIEU || noeud->obtenirTypePosNoeud() == POSITION_BAS_MILIEU)
                 {
 
-                    if(utilitaire::ABS(position_[VY])>zone->obtenirLimiteExtY())
+                    if(utilitaire::ABSOLUTE(position_[VY])>zone->obtenirLimiteExtY())
                         position_[VY] = signe[VY]*zone->obtenirLimiteExtY();
-                    if(utilitaire::ABS(position_[VY])<zone->obtenirLimiteIntY())
+                    if(utilitaire::ABSOLUTE(position_[VY])<zone->obtenirLimiteIntY())
                         position_[VY] = signe[VY]*zone->obtenirLimiteIntY();
                 }
                 else if(noeud->obtenirTypePosNoeud() == POSITION_MILIEU_GAUCHE || noeud->obtenirTypePosNoeud() == POSITION_MILIEU_DROITE)
                 {
-                    if(utilitaire::ABS(position_[VX])>zone->obtenirLimiteExtX())
+                    if(utilitaire::ABSOLUTE(position_[VX])>zone->obtenirLimiteExtX())
                         position_[VX] = signe[VX]*zone->obtenirLimiteExtX();
-                    if(utilitaire::ABS(position_[VX])<zone->obtenirLimiteIntX())
+                    if(utilitaire::ABSOLUTE(position_[VX])<zone->obtenirLimiteIntX())
                         position_[VX] = signe[VX]*zone->obtenirLimiteIntX();
                 }
                 else if(noeud->obtenirTypePosNoeud() == POSITION_HAUT_GAUCHE || noeud->obtenirTypePosNoeud() == POSITION_HAUT_DROITE || noeud->obtenirTypePosNoeud() == POSITION_BAS_DROITE || noeud->obtenirTypePosNoeud() == POSITION_BAS_GAUCHE)
                 {
-                    if(utilitaire::ABS(position_[VY])>zone->obtenirLimiteExtY())
+                    if(utilitaire::ABSOLUTE(position_[VY])>zone->obtenirLimiteExtY())
                         position_[VY] = signe[VY]*zone->obtenirLimiteExtY();
-                    if(utilitaire::ABS(position_[VY])<zone->obtenirLimiteIntY())
+                    if(utilitaire::ABSOLUTE(position_[VY])<zone->obtenirLimiteIntY())
                         position_[VY] = signe[VY]*zone->obtenirLimiteIntY();
-                    if(utilitaire::ABS(position_[VX])>zone->obtenirLimiteExtX())
+                    if(utilitaire::ABSOLUTE(position_[VX])>zone->obtenirLimiteExtX())
                         position_[VX] = signe[VX]*zone->obtenirLimiteExtX();
-                    if(utilitaire::ABS(position_[VX])<zone->obtenirLimiteIntX())
+                    if(utilitaire::ABSOLUTE(position_[VX])<zone->obtenirLimiteIntX())
                         position_[VX] = signe[VX]*zone->obtenirLimiteIntX();
                 }
             }

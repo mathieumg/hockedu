@@ -19,10 +19,21 @@
 #import "VisitorGatherProperties.h"
 #include <time.h>
 #include <iostream>
+#include "Utilitaire.h"
 #import "Facade.h"
 
 //@implementation FullPropertiesApple
 //@end
+
+void displayMessageCallback(const char* message)
+{
+    NSString* msg =  [NSString stringWithFormat:@"%s" , message];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    // optional - add more buttons:
+    //[alert addButtonWithTitle:@"Yes"];
+    [alert show];
+}
 
 static Model3DManager* model3DManager = NULL;
 vue::Vue* mView = NULL;
@@ -91,6 +102,7 @@ float temps = clock();
 }
 - (id)init
 {
+    utilitaire::mDisplayMessageCallback = displayMessageCallback;
     EditionEventManager::setEditionEventCallback(EditionEventCallback);
     mField = new Terrain(NULL);
     mModel3DManager = [[Model3DManager alloc]init];
@@ -260,6 +272,8 @@ float temps = clock();
 
 -(void) saveField
 {
+    if(((Terrain*)mField)->verifierValidite())
+    {
     NSError* error;
 
     
@@ -309,6 +323,7 @@ float temps = clock();
         NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
     }];
     [httpClient release];
+    }
 }
 
 // Point d'entre pour le menu de modification des proprietes
