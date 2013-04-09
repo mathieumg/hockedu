@@ -172,6 +172,7 @@
         
         [signInButton setTitle:@"Sign In" forState:UIControlStateNormal];
         userId = 0;
+        authKey = @"";
         [Model saveLogin:0 : @""];
         [loadMapButton setEnabled:NO];
     }
@@ -199,7 +200,7 @@
     }
     else{
         HockeduAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
-        [delegate showFieldSaved:textMapName.text : textMapDescription.text : switchMapPublic.state];
+        [delegate showFieldSaved:textMapName.text : textMapDescription.text : switchMapPublic.on];
     }
 }
 
@@ -212,6 +213,8 @@
 
 - (IBAction)loadMapButton:(UIButton *)sender
 {
+     //NSLog(@"%@",authKey);
+    
     [Map listMaps:^(NSArray *maps, NSError *error) {
         if (error) {
             [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil) message:[error localizedDescription] delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil] show];
@@ -307,6 +310,8 @@
         }
         else{
             userId = [[responseObject valueForKeyPath:@"id_user"] integerValue];
+            authKey = [NSString stringWithFormat:@"%@",[responseObject valueForKeyPath:@"auth_key"]];
+           
             [Model saveLogin:userId : [responseObject valueForKeyPath:@"auth_key"]];
             [signInButton setTitle:@"Sign Out" forState:UIControlStateNormal];
             [loadMapButton setEnabled:YES];

@@ -35,6 +35,7 @@
     NSArray* _userMaps;
     
     NSInteger userId;
+    NSString* authKey;
     NSInteger mapId;
 }
 
