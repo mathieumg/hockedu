@@ -70,6 +70,4 @@ typedef struct{
 -(void) getProperties:(FullPropertiesApple*)prop;
 -(void) setProperties:(FullPropertiesApple*)prop;
 -(RazerKey) getSelectedNodesType;
-bool RenderNodeCallback(RazerKey key);
-void EditionEventCallback(EditionEventCodes pEvent);
 @end

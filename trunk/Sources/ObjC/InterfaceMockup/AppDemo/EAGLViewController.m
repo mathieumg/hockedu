@@ -1368,22 +1368,6 @@ enum {
     }
 }
 
-- (void)carouselSelectItem:(NSInteger)index
-{
-    NSLog(@"%d", index);
-    [carouselBackground setImage:carouselBackgroundSelected];
-    [self pressButtonUI:nil];
-}
-
-
-- (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index
-{
-    CarouselElement* element = [carouselElements objectAtIndex:index];
-    [self carouselSelectItem:index];
-    [self editorModeButtonTouched:nil];
-    [mEventManager modifyState:element->ModifType];
-}
-
 -(IBAction) cameraModeButtonTouched:(UIButton *)sender
 {
     [editionButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
@@ -1720,6 +1704,22 @@ enum {
     [mEventManager modifyState:element->ModifType];
 }
 
+- (void)carouselSelectItem:(NSInteger)index
+{
+    //NSLog(@"%d", index);
+    [carouselBackground setImage:carouselBackgroundSelected];
+    [self pressButtonUI:nil];
+}
+
+
+- (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index
+{
+    CarouselElement* element = [carouselElements objectAtIndex:index];
+    [self editorModeButtonTouched:nil];
+    [self carouselSelectItem:index];
+    [mEventManager modifyState:element->ModifType];
+}
+
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
 {
     UILabel *label = nil;
@@ -1785,5 +1785,6 @@ enum {
     }
     return value;
 }
+
 
 @end
