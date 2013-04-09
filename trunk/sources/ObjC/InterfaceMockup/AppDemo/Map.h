@@ -38,4 +38,6 @@
 
 //+ (void)uploadMap:(void (^)(NSArray *maps, NSError *error))block :(NSData*) xmlData;
 
+//+ (void)loggy:(void (^)(NSArray *logins, NSError *error))block : (NSString*) username : (NSString*) sha;
+
 @end

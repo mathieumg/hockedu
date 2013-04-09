@@ -11,12 +11,32 @@
 #import "AFHTTPClient.h"
 #import "Map.h"
 #import "MapTableViewCell.h"
+#import <CommonCrypto/CommonDigest.h>
+#import "Model.h"
 
 @implementation MenuViewController
 
 @synthesize _userMaps;
 @synthesize userId;
 @synthesize mapId;
+
+-(NSString*) sha1:(NSString*)input
+{
+    const char *cstr = [input cStringUsingEncoding:NSUTF8StringEncoding];
+    NSData *data = [NSData dataWithBytes:cstr length:input.length];
+    
+    uint8_t digest[CC_SHA1_DIGEST_LENGTH];
+    
+    CC_SHA1(data.bytes, data.length, digest);
+    
+    NSMutableString* output = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
+    
+    for(int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++)
+        [output appendFormat:@"%02x", digest[i]];
+    
+    return output;
+    
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {      
@@ -45,10 +65,15 @@
     [self.view addSubview:mainMenuView];
     [self.view addSubview:loadMapView];
     [self.view addSubview:saveMapView];
+    [self.view addSubview:mainMenuLoginView];
+    [self.view addSubview:mainMenuMiddleView];
+    
+    mainMenuLoginView.frame = mainMenuMiddleView.frame;
     
     //mainMenuView.hidden = YES;
     loadMapView.hidden = YES;
     saveMapView.hidden = YES;
+    mainMenuLoginView.hidden = YES;
     
     UIImage *buttonImage = [[UIImage imageNamed:@"blueButton@2x.png"]
                             resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
@@ -83,7 +108,16 @@
     [discardMainMenuButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [discardMainMenuButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     
-    userId = 12;
+    [signInButton2 setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [signInButton2 setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [registerButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [registerButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [backToMainFromLogin setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [backToMainFromLogin  setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    userId = 0;
     mapId = 0;
     
     [buttonImage retain];
@@ -114,10 +148,30 @@
 	return YES;
 }
 
+- (IBAction)touchBackToMainFromLogin:(UIButton *)sender
+{
+    mainMenuMiddleView.hidden = NO;
+    mainMenuLoginView.hidden = YES;
+}
+
+- (IBAction)touchRegisterButton:(UIButton *)sender
+{
+    NSURL *url = [NSURL URLWithString:@"http://hockedu.com/register"];
+    [[UIApplication sharedApplication] openURL:url];
+}
+
+- (IBAction)touchMainSignInButton:(UIButton *)sender
+{
+    mainMenuLoginView.hidden = NO;
+    mainMenuMiddleView.hidden = YES;
+}
+
 - (IBAction)touchBackMainMenuButton:(UIButton *)sender
 {
+    mainMenuMiddleView.hidden = NO;
     mainMenuView.hidden = NO;
     loadMapView.hidden = YES;
+    mainMenuLoginView.hidden = YES;
 }
 
 - (IBAction)touchBackEditorButton:(UIButton *)sender
@@ -135,6 +189,7 @@
 - (IBAction)touchDiscardMainMenuButton:(UIButton *)sender
 {
     mainMenuView.hidden = NO;
+    mainMenuMiddleView.hidden = NO;
     saveMapView.hidden = YES;
 }
 
@@ -149,6 +204,8 @@
             [self.tableView reloadData];
             mainMenuView.hidden = YES;
             loadMapView.hidden = NO;
+            mainMenuLoginView.hidden = YES;
+            mainMenuMiddleView.hidden = YES;
         }
     }:userId];
     
@@ -174,6 +231,75 @@
     }];
     [httpClient release];
     */
+}
+
+- (IBAction)touchSignIn2:(UIButton *)sender
+{
+    
+    /*
+    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://hockedu.com"]];
+    [httpClient setParameterEncoding:AFFormURLParameterEncoding];
+    NSMutableURLRequest *request = [httpClient requestWithMethod:@"POST"
+                                                            path:@"/remote/authenticate"
+                                                      parameters:@{@"username":usernameField.text,@"password":[self sha1: passwordField.text]}];
+    
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [httpClient registerHTTPOperationClass:[AFHTTPRequestOperation class]];
+    [httpClient setDefaultHeader:@"Accept" value:@"application/json"];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        // Print the response body in text
+        //NSLog(@"Response: %@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+        
+        
+        id error1 = [responseObject valueForKey:@"error"];
+        if (!error1) {
+            userId = [[responseObject valueForKeyPath:@"id_user"] integerValue];
+            [Model saveLogin:userId : [responseObject valueForKeyPath:@"auth_key"]];
+        }
+        else
+        {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Invalid login credentials." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            [alert show];
+        }
+        
+     
+     
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //NSLog(@"Error: %@", error);
+    }];
+    [operation start];
+    
+    */
+    
+    NSURL *url = [NSURL URLWithString:@"http://hockedu.com"];
+    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
+    [httpClient setDefaultHeader:@"Accept" value:@"application/json"];
+    [httpClient registerHTTPOperationClass:[AFJSONRequestOperation class]];
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            usernameField.text, @"username",
+                            [self sha1: passwordField.text], @"password",
+                            nil];
+    
+    [httpClient postPath:@"/remote/authenticate" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //_userMaps = responseObject;
+        
+        if( [responseObject valueForKeyPath:@"error"] != nil )
+        {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Invalid login credentials." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            [alert show];
+        }
+        else{
+            userId = [[responseObject valueForKeyPath:@"id_user"] integerValue];
+            [Model saveLogin:userId : [responseObject valueForKeyPath:@"auth_key"]];
+        }
+        
+        //NSLog(@"Auth key: %@", [responseObject valueForKeyPath:@"auth_key"]);
+        //NSLog(@"Error: %@", [responseObject valueForKeyPath:@"error"]);
+        //NSLog(@"Auth key: %@", [responseObject valueForKeyPath:@"auth_key"]);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
+    }];
+    [httpClient release];
 }
 
 #pragma mark - UITableViewDataSource
@@ -242,6 +368,14 @@
     [textMapDescription release];
     [textMapName release];
     [discardMainMenuButton release];
+    [mainMenuMiddleView release];
+    [mainMenuLoginView release];
+    [signInButton release];
+    [registerButton release];
+    [backToMainFromLogin release];
+    [signInButton2 release];
+    [usernameField release];
+    [passwordField release];
     [super dealloc];
 }
 @end

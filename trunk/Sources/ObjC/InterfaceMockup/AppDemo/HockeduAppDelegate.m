@@ -17,7 +17,7 @@
 - (void) afficherVueAnimee
 {    
     self.window.rootViewController = self.eaglViewController;
-    
+    self.menuViewController->mainMenuMiddleView.hidden = YES;
 }
 
 - (void) showFieldSaved:(NSString*) mapName : (NSString*) mapDescription : (int) mapPublic
@@ -39,6 +39,8 @@
     self.menuViewController->loadMapView.hidden = NO;
     self.menuViewController->mainMenuView.hidden = YES;
     self.menuViewController->saveMapView.hidden = YES;
+    self.menuViewController->mainMenuLoginView.hidden = YES;
+    self.menuViewController->mainMenuMiddleView.hidden = YES;
     [self showMenu];
 }
 
@@ -46,6 +48,8 @@
 {
     self.menuViewController->saveMapView.hidden = NO;
     self.menuViewController->mainMenuView.hidden = YES;
+    self.menuViewController->mainMenuLoginView.hidden = YES;
+    self.menuViewController->mainMenuMiddleView.hidden = YES;
     self.menuViewController->loadMapView.hidden = YES;
     [self showMenu];
 }

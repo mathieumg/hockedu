@@ -36,6 +36,8 @@ std::string mapName;
 std::string mapDescription;
 int mapPublic = 1;
 int mapId = 0;
+int userId;
+NSString* auth;
 
 void CenterCameraTerminatedCallback(Animation* pAnim)
 {
@@ -230,6 +232,17 @@ Vecteur3 rectanglePos1,rectanglePos2;
     }
 
 }
+-(bool) verifierValiditeTerrain
+{
+    return GlobalField->verifierValidite();
+}
+
++(void) saveLogin:(int)uid : (NSString*)authy
+{
+    userId = uid;
+    auth = authy;
+}
+
 - (id)init
 {
     utilitaire::mDisplayMessageCallback = displayMessageCallback;

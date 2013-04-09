@@ -100,4 +100,27 @@
 }
 */
 
+/*
+
++ (void)loggy:(void (^)(NSArray *maps, NSError *error))block : (NSString*) username : (NSString*) sha1 {
+    [[AFAppDotNetAPIClient sharedClient] postPath:@"remote/authenticate" parameters:@{@"username":username,@"password":sha1} success:^(AFHTTPRequestOperation *operation, id JSON) {
+        
+        if( [[JSON valueForKeyPath:@"id_user"] intValue] != 0 )
+        {
+            [Model saveLogin:[JSON valueForKeyPath:@"id_user"] intValue] : @"test" ];
+        }
+        //else
+        //{
+        //    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Invalid login credentials" delegate:nil cancelButtonTitle:@"Ok", nil|;
+        }
+        
+        //HockeduAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
+        //[delegate afficherVueAnimee];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        
+     }];
+*/
+
 @end

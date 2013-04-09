@@ -1496,9 +1496,12 @@ enum {
 
 -(IBAction) saveAndExitButtonTouched:(UIButton *)sender
 {
-    HockeduAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
-    [delegate showMenuSave];
-    //[mModel saveField];
+    if( [mModel verifierValiditeTerrain] )
+    {
+        HockeduAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
+        [delegate showMenuSave];
+        //[mModel saveField];
+    }
 }
 
 
