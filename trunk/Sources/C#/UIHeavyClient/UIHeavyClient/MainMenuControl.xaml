@@ -21,7 +21,7 @@
             <RowDefinition Height="70*" />
             <RowDefinition Height="70*" MinHeight="70" MaxHeight="70" />
         </Grid.RowDefinitions>
-        <Image  Height="100" Source="/UIHeavyClient;component/HockeduLogo.png" Name="mLogo" Stretch="Uniform" VerticalAlignment="Top" HorizontalAlignment="Left" Width="370" Grid.ColumnSpan="2" />
+        <Image  Height="100" Source="HockeduLogo.png" Name="mLogo" Stretch="Uniform" VerticalAlignment="Top" HorizontalAlignment="Left" Width="370" Grid.ColumnSpan="2" />
         <Button Content="Edition Mode" Margin="12" Name="mEditionModeButton" Click="editionModeButton_Click" Grid.Row="1" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
         <Button Content="Quick Play" Margin="12" Name="mQuickPlayButton" Click="quickPlayButton_Click" Grid.Row="2" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
         <Button Content="Tournament" Margin="12" Name="mTournamentButton" Click="tournamentButton_Click" Grid.Row="3" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
