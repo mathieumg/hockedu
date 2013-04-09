@@ -32,6 +32,10 @@ vue::Vue* mView = NULL;
 std::deque<class RunnableField*> mRunnables;
 bool canDOCenter = true;
 Terrain* GlobalField = NULL;
+std::string mapName;
+std::string mapDescription;
+int mapPublic = 1;
+int mapId = 0;
 
 void CenterCameraTerminatedCallback(Animation* pAnim)
 {
@@ -156,6 +160,14 @@ Vecteur3 rectanglePos1,rectanglePos2;
     renderingRectangle = false;
 }
 
+
+-(void) setMapFields:(NSString*)pMapName : (NSString*) pMapDescription : (int) pMapPublic
+{
+    mapName = [pMapName UTF8String];
+    mapDescription = [pMapDescription UTF8String];
+    mapPublic = pMapPublic;
+}
+
 - (void)render
 {
     while(!mRunnables.empty())
@@ -226,8 +238,8 @@ Vecteur3 rectanglePos1,rectanglePos2;
     mModel3DManager = [[Model3DManager alloc]init];
     model3DManager = mModel3DManager;
     mView = new vue::VuePerspectiveOrbit(
-            vue::Camera(Vecteur3(0,-0.0001f,300), Vecteur3(0,0,0),
-                       Vecteur3(0,1,0),Vecteur3(0,1,0)),
+                                         vue::Camera(Vecteur3(0,-0.0001f,300), Vecteur3(0,0,0),
+                                                     Vecteur3(0,1,0),Vecteur3(0,1,0)),
                                          0,400,0,400,
                                          180,50000,10,15000,1.25f,
                                          -150,150,-150,150);
@@ -425,118 +437,162 @@ Vecteur3 rectanglePos1,rectanglePos2;
 {
     if(((Terrain*)mField)->verifierValidite())
     {
-    NSError* error;
+        NSError* error;
+        
+        
+        
+        NSString *path;
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        path = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Hockedu"];
+        if (![[NSFileManager defaultManager] fileExistsAtPath:path])	//Does directory already exist?
+        {
+            if (![[NSFileManager defaultManager] createDirectoryAtPath:path
+                                           withIntermediateDirectories:NO
+                                                            attributes:nil
+                                                                 error:&error])
+            {
+                NSLog(@"Create directory error: %@", error);
+            }
+        }
+        
+        NSLog(@"Documents directory: %@", [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error]);
+        
+        
+        const char* cPath = [path UTF8String];
+        std::string targetPath = cPath;
+        targetPath += "/" + mapName + ".xml";
+        
+        
+        //FacadeModele::saveField();
+        //((Terrain*)mField)
+        RazerGameUtilities::SaveFieldToFile(targetPath, *((Terrain*)mField));
+        
+        
+        
+        
+        GlobalField->modifierNom(mapName);
+        
+        XmlDocument document ;
+        XMLUtils::CreateDocument(document);
+        
+        XmlElement* version = XMLUtils::createNode("Hockedu");
+        XMLUtils::writeAttribute(version,"Version",XMLUtils::XmlFieldVersion);
+        XMLUtils::LinkEndChild(document,version);
+        
+        // Creation du noeud du terrain
+        XMLUtils::LinkEndChild(version,GlobalField->creerNoeudXML());
+        
+        TiXmlPrinter printer;
+        
+        document.mNode->Accept(&printer);
+        NSString* xmlData = [NSString stringWithUTF8String:printer.CStr()];
+        NSData *data = [xmlData dataUsingEncoding:NSUTF8StringEncoding];
+        
+        
+        AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://posttestserver.com"]];
+        [httpClient setParameterEncoding:AFFormURLParameterEncoding];
+        
+        NSMutableURLRequest *request = [httpClient multipartFormRequestWithMethod:@"POST" path:@"/post.php" parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
+            [formData appendPartWithFileData:data name:@"xmldata" fileName:@"xmlmap.xml" mimeType:@"text/xml"];
+        }];
+        
+        AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+        [httpClient registerHTTPOperationClass:[AFHTTPRequestOperation class]];
+        [httpClient setDefaultHeader:@"Accept" value:@"application/json"];
+        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            // Print the response body in text
+            NSLog(@"Response: %@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Error: %@", error);
+        }];
+        [operation start];
 
-    
-    
-    NSString *path;
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	path = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Hockedu"];
-	if (![[NSFileManager defaultManager] fileExistsAtPath:path])	//Does directory already exist?
-	{
-		if (![[NSFileManager defaultManager] createDirectoryAtPath:path
-									   withIntermediateDirectories:NO
-														attributes:nil
-															 error:&error])
-		{
-			NSLog(@"Create directory error: %@", error);
-		}
-	}
-    
-    NSLog(@"Documents directory: %@", [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error]);
-    
-    
-    const char* cPath = [path UTF8String];
-    std::string targetPath = cPath;
-    targetPath += "/test.xml";
-    
-    
-    //FacadeModele::saveField();
-    //((Terrain*)mField)
-    RazerGameUtilities::SaveFieldToFile(targetPath, *((Terrain*)mField));
-    ((Terrain*)mField)->libererMemoire();
-    RazerGameUtilities::LoadFieldFromFile(targetPath, *((Terrain*)mField));
-    
-    
-    NSURL *url = [NSURL URLWithString:@"http://hockedu.com"];
-    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
-    [httpClient setDefaultHeader:@"Accept" value:@"application/json"];
-    [httpClient registerHTTPOperationClass:[AFJSONRequestOperation class]];
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            @"testies", @"username",
-                            @"608b9a09de61fea254bbebdcadc0fe8c38ae2ccb", @"password",
-                            nil];
-    
-    [httpClient postPath:@"/remote/authenticate" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Error: %@", [responseObject valueForKeyPath:@"error"]);
-        NSLog(@"Auth key: %@", [responseObject valueForKeyPath:@"auth_key"]);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
-    }];
-    [httpClient release];
+        
+        //((Terrain*)mField)->libererMemoire();
+        //RazerGameUtilities::LoadFieldFromFile(targetPath, *((Terrain*)mField));
+        
+        /*
+         NSURL *url = [NSURL URLWithString:@"http://hockedu.com"];
+         AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
+         [httpClient setDefaultHeader:@"Accept" value:@"application/json"];
+         [httpClient registerHTTPOperationClass:[AFJSONRequestOperation class]];
+         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+         @"testies", @"username",
+         @"608b9a09de61fea254bbebdcadc0fe8c38ae2ccb", @"password",
+         nil];
+         
+         [httpClient postPath:@"/remote/authenticate" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+         NSLog(@"Error: %@", [responseObject valueForKeyPath:@"error"]);
+         NSLog(@"Auth key: %@", [responseObject valueForKeyPath:@"auth_key"]);
+         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         NSLog(@"[HTTPClient Error]: %@", error.localizedDescription);
+         }];
+         [httpClient release];
+         */
     }
+         
 }
-
-// Point d'entre pour le menu de modification des proprietes
--(void) getProperties:(FullPropertiesApple*)prop
-{
-    FullProperties fullP;
-    ((Terrain*)mField)->gatherSelectedNodeProperties(&fullP);
-    //FullPropertiesApple *prop;
     
-    prop->mFriction= fullP.mFriction;
-    prop->mZoneEditionX= fullP.mZoneEditionX;
-    prop->mZoneEditionY= fullP.mZoneEditionY;
-    prop->mScale= fullP.mScale;
-    prop->mAcceleration= fullP.mAcceleration;
-    prop->mPositionX= fullP.mPositionX;
-    prop->mPositionY= fullP.mPositionY;
-    prop->mAttraction= fullP.mAttraction;
-    prop->mAngle= fullP.mAngle;
-    prop->mRebound= fullP.mRebound;
-    prop->mMinBonusSpawnTime= fullP.mMinBonusSpawnTime;
-    prop->mMaxBonusSpawnTime= fullP.mMaxBonusSpawnTime;
-    prop->mRinkRebound1= fullP.mRinkRebound1;
-    prop->mRinkRebound2= fullP.mRinkRebound2;
-    prop->mRinkRebound3= fullP.mRinkRebound3;
-    prop->mRinkRebound4= fullP.mRinkRebound4;
-    prop->mRinkRebound5= fullP.mRinkRebound5;
-    prop->mRinkRebound6= fullP.mRinkRebound6;
-    prop->mRinkRebound7= fullP.mRinkRebound7;
-    prop->mRinkRebound8= fullP.mRinkRebound8;
-    prop->mPropertyFlagAssignment = fullP.mPropertyFlagAssignment;
+    // Point d'entre pour le menu de modification des proprietes
+    -(void) getProperties:(FullPropertiesApple*)prop
+    {
+        FullProperties fullP;
+        ((Terrain*)mField)->gatherSelectedNodeProperties(&fullP);
+        //FullPropertiesApple *prop;
+        
+        prop->mFriction= fullP.mFriction;
+        prop->mZoneEditionX= fullP.mZoneEditionX;
+        prop->mZoneEditionY= fullP.mZoneEditionY;
+        prop->mScale= fullP.mScale;
+        prop->mAcceleration= fullP.mAcceleration;
+        prop->mPositionX= fullP.mPositionX;
+        prop->mPositionY= fullP.mPositionY;
+        prop->mAttraction= fullP.mAttraction;
+        prop->mAngle= fullP.mAngle;
+        prop->mRebound= fullP.mRebound;
+        prop->mMinBonusSpawnTime= fullP.mMinBonusSpawnTime;
+        prop->mMaxBonusSpawnTime= fullP.mMaxBonusSpawnTime;
+        prop->mRinkRebound1= fullP.mRinkRebound1;
+        prop->mRinkRebound2= fullP.mRinkRebound2;
+        prop->mRinkRebound3= fullP.mRinkRebound3;
+        prop->mRinkRebound4= fullP.mRinkRebound4;
+        prop->mRinkRebound5= fullP.mRinkRebound5;
+        prop->mRinkRebound6= fullP.mRinkRebound6;
+        prop->mRinkRebound7= fullP.mRinkRebound7;
+        prop->mRinkRebound8= fullP.mRinkRebound8;
+        prop->mPropertyFlagAssignment = fullP.mPropertyFlagAssignment;
+        
+        //    return prop;
+    }
+    -(void) setProperties:(FullPropertiesApple*)prop;
+    {
+        FullProperties fullP;
+        fullP.mFriction = prop->mFriction;
+        fullP.mZoneEditionX = prop->mZoneEditionX;
+        fullP.mZoneEditionY = prop->mZoneEditionY;
+        fullP.mScale = prop->mScale;
+        fullP.mAcceleration = prop->mAcceleration;
+        fullP.mPositionX = prop->mPositionX;
+        fullP.mPositionY = prop->mPositionY;
+        fullP.mAttraction = prop->mAttraction;
+        fullP.mAngle = prop->mAngle;
+        fullP.mRebound = prop->mRebound;
+        fullP.mMinBonusSpawnTime = prop->mMinBonusSpawnTime;
+        fullP.mMaxBonusSpawnTime = prop->mMaxBonusSpawnTime;
+        fullP.mRinkRebound1 = prop->mRinkRebound1;
+        fullP.mRinkRebound2 = prop->mRinkRebound2;
+        fullP.mRinkRebound3 = prop->mRinkRebound3;
+        fullP.mRinkRebound4 = prop->mRinkRebound4;
+        fullP.mRinkRebound5 = prop->mRinkRebound5;
+        fullP.mRinkRebound6 = prop->mRinkRebound6;
+        fullP.mRinkRebound7 = prop->mRinkRebound7;
+        fullP.mRinkRebound8 = prop->mRinkRebound8;
+        fullP.mPropertyFlagAssignment = prop->mPropertyFlagAssignment;
+        ((Terrain*)mField)->applySelectedNodeProperties(&fullP);
+    }
+    -(RazerKey) getSelectedNodesType
+    {
+        return ((Terrain*)mField)->getSelectedNodeUniqueKey();
+    }
     
-//    return prop;
-}
--(void) setProperties:(FullPropertiesApple*)prop;
-{
-    FullProperties fullP;
-    fullP.mFriction = prop->mFriction;
-    fullP.mZoneEditionX = prop->mZoneEditionX;
-    fullP.mZoneEditionY = prop->mZoneEditionY;
-    fullP.mScale = prop->mScale;
-    fullP.mAcceleration = prop->mAcceleration;
-    fullP.mPositionX = prop->mPositionX;
-    fullP.mPositionY = prop->mPositionY;
-    fullP.mAttraction = prop->mAttraction;
-    fullP.mAngle = prop->mAngle;
-    fullP.mRebound = prop->mRebound;
-    fullP.mMinBonusSpawnTime = prop->mMinBonusSpawnTime;
-    fullP.mMaxBonusSpawnTime = prop->mMaxBonusSpawnTime;
-    fullP.mRinkRebound1 = prop->mRinkRebound1;
-    fullP.mRinkRebound2 = prop->mRinkRebound2;
-    fullP.mRinkRebound3 = prop->mRinkRebound3;
-    fullP.mRinkRebound4 = prop->mRinkRebound4;
-    fullP.mRinkRebound5 = prop->mRinkRebound5;
-    fullP.mRinkRebound6 = prop->mRinkRebound6;
-    fullP.mRinkRebound7 = prop->mRinkRebound7;
-    fullP.mRinkRebound8 = prop->mRinkRebound8;
-    fullP.mPropertyFlagAssignment = prop->mPropertyFlagAssignment;
-    ((Terrain*)mField)->applySelectedNodeProperties(&fullP);
-}
--(RazerKey) getSelectedNodesType
-{
-    return ((Terrain*)mField)->getSelectedNodeUniqueKey();
-}
-
-@end
+    @end

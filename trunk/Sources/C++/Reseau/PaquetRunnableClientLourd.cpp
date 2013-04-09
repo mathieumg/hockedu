@@ -171,18 +171,22 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
         {
             // Accepted, on est maintenant dans la partie demandee sur le serveur jeu a gauche
             int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_NETWORK_CLIENT,SPJoueurHumain(new JoueurHumain(GestionnaireReseau::obtenirInstance()->getPlayerName())), SPJoueurNetwork(new JoueurNetwork()), true, false, wPaquet->getGameId());
+            Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
             std::cout << "Connecte a la partie: " << wGameId << std::endl;
             FacadeModele::getInstance()->setProchainePartie(wGameId);
             GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_SUCCESS);
+            wGame->setTempsPlus(wPaquet->getGameTime());
             break;
         }
     case GAME_CONNECTION_ACCEPTED_RIGHT:
         {
             // Accepted, on est maintenant dans la partie demandee sur le serveur jeu a droite
             int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_NETWORK_CLIENT,SPJoueurNetwork(new JoueurNetwork()), SPJoueurHumain(new JoueurHumain(GestionnaireReseau::obtenirInstance()->getPlayerName())), true, false, wPaquet->getGameId());
+            Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
             std::cout << "Connecte a la partie: " << wGameId << std::endl;
             FacadeModele::getInstance()->setProchainePartie(wGameId);
             GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_SUCCESS);
+             wGame->setTempsPlus(wPaquet->getGameTime());
             break;
         }
     case GAME_CONNECTION_ALREADY_CONNECTED:
@@ -282,7 +286,7 @@ int PaquetRunnable::RunnableGameEventClient( Paquet* pPaquet )
                         wGame->obtenirJoueurDroit()->modifierNom(wPaquet->getPlayer2Name());
                         // Resume game only
                         GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(false);
-                        wGame->modifierEnPause(false);
+                        wGame->miseAuJeu(false);
                     }
                     else if(wGame->getGameStatus() == GAME_READY)
                     {
