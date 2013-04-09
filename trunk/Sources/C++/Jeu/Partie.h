@@ -92,7 +92,7 @@ public:
 	inline bool partieTerminee() const {return pointsJoueurGauche_>=POINTAGE_GAGNANT || pointsJoueurDroit_>= POINTAGE_GAGNANT ;}
 
 	/// Effectue une mise au jeu
-	void miseAuJeu( bool debutDePartie = false );
+	void miseAuJeu( bool debutDePartie = false, int pMiseAuJeuDelai = 4100);
 
 	/// Cree un delais d'inactivite de (time) ms
 	void delais(int time);

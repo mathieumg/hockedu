@@ -18,6 +18,7 @@ PartieApprentissage::~PartieApprentissage(void)
 {
 }
 
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn PartieApprentissage::animer()
@@ -48,9 +49,10 @@ void PartieApprentissage::animer(const float& pTime)
         }
         mPreviousPuckPosition = wPuckPosition;
     }
-    Partie::animer(pTime);
+    Partie::animerBase(pTime);
 }
 
+/*
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn PartieApprentissage::modifierJoueurDroit( SPJoueurAbstrait pPlayer )
@@ -74,6 +76,7 @@ void PartieApprentissage::modifierJoueurDroit( SPJoueurAbstrait pPlayer )
     }
 }
 
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn PartieApprentissage::modifierJoueurGauche( SPJoueurAbstrait pPlayer )
@@ -96,6 +99,7 @@ void PartieApprentissage::modifierJoueurGauche( SPJoueurAbstrait pPlayer )
         std::cout << "Called modifierJoueurGauche with JOUEUR_VIRTUEL player type." << std::endl;
     }
 }
+*/
 
 ////////////////////////////////////////////////////////////////////////
 ///

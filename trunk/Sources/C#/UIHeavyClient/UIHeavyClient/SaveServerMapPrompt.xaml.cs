@@ -45,10 +45,12 @@ namespace UIHeavyClient
         public string MapName
         {
             get { return mNameTextBox.Text; }
+            set { mNameTextBox.Text = value; }
         }
         public string MapDescription
         {
             get { return mDescriptionTextBox.Text; }
+            set { mDescriptionTextBox.Text = value; }
         }
         public bool IsPublic
         {

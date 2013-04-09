@@ -77,6 +77,8 @@ namespace UIHeavyClient
         private static extern int GetNbrPlayers();
         [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void GetPlayers([In, Out] AIProfile[] pProfiles, int pNbrProfiles);
+        [DllImport(@"RazerGame.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void startLearningAI(string pReinforcementProfileName, int pSpeed, int pFailProb );
 
         ////////////////////////////////////////////////////////////////////////
         /// @fn AIOptionControl.AIOptionControl()
@@ -325,7 +327,6 @@ namespace UIHeavyClient
             mReflexSlider.Value = 0;
             mLearningCheckbox.IsChecked = false;
             mLearningTextbox.Text = "";
-
             mSelectedProfile = "";
         }
 
@@ -335,6 +336,11 @@ namespace UIHeavyClient
             {
                 mLearningTextbox.Text = mOpenFileDialog.FileName;
             }
+        }
+
+        private void mStartLearning_Click(object sender, RoutedEventArgs e)
+        {
+            startLearningAI(mProfileNameTextBox.Text, (int)mSpeedSlider.Value, (int)mReflexSlider.Value );
         }
     }
 }

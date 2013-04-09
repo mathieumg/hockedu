@@ -31,7 +31,7 @@ void parseParamWithArg(std::string& pOutParam, int pLoopCounter, int argc, char*
 int main(int argc, char* argv[])  {
 
 #ifdef LINUX
-    daemon(0,0);
+    //daemon(0,0);
 #endif
 
     std::cout << "--------- Serveur Maitre ---------" << std::endl << std::endl;

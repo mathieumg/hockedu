@@ -140,6 +140,25 @@ bool RenderNodeCallback(RazerKey key)
 
 
 float temps = clock();
+bool renderingRectangle = false;
+Vecteur3 rectanglePos1,rectanglePos2;
+
+-(void) startRectangle:(CGPoint*)startPos
+{
+    mView->convertirClotureAVirtuelle(startPos->x, startPos->y, rectanglePos1);
+    rectanglePos1[2] = 10;
+    rectanglePos2 = rectanglePos1;
+    renderingRectangle = true;
+}
+-(void) moveRectangle:(CGPoint*)pos
+{
+    mView->convertirClotureAVirtuelle(pos->x, pos->y, rectanglePos2);
+    rectanglePos2[2] = 10;
+}
+-(void) endRectangle
+{
+    renderingRectangle = false;
+}
 
 
 -(void) setMapFields:(NSString*)pMapName : (NSString*) pMapDescription : (int) pMapPublic
@@ -176,6 +195,40 @@ float temps = clock();
     temps = clock();
     mView->appliquerVue(1);
     ((Terrain*)mField)->renderField();
+    
+    if(renderingRectangle)
+    {
+    Vecteur3 point3 = rectanglePos1;
+    point3[VX] = rectanglePos2[VX];
+    Vecteur3 point4 = rectanglePos2;
+    point4[VX] = rectanglePos1[VX];
+    
+    
+    float vertex[15];
+    int count = 0;
+    vertex[count++] = rectanglePos1[0];
+    vertex[count++] = rectanglePos1[1];
+    vertex[count++] = rectanglePos1[2];
+    vertex[count++] = point3[0];
+    vertex[count++] = point3[1];
+    vertex[count++] = point3[2];
+    vertex[count++] = rectanglePos2[0];
+    vertex[count++] = rectanglePos2[1];
+    vertex[count++] = rectanglePos2[2];
+    vertex[count++] = point4[0];
+    vertex[count++] = point4[1];
+    vertex[count++] = point4[2];
+    vertex[count++] = rectanglePos1[0];
+    vertex[count++] = rectanglePos1[1];
+    vertex[count++] = rectanglePos1[2];
+    
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glColor4f(0.0f,0.0f,0.0f,1.0f);
+    glVertexPointer (3, GL_FLOAT , 0, vertex);
+    glDrawArrays (GL_LINE_STRIP, 0, 5);
+    glDisableClientState(GL_VERTEX_ARRAY);
+    }
+
 }
 - (id)init
 {

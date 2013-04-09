@@ -116,6 +116,7 @@ enum {
     
     theEAGLView.opaque = YES;
     
+    [Facade listFileAtPath];
     
     translationX = 0.0;
     translationY = 0.0;
