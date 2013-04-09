@@ -38,7 +38,7 @@
 
 
 GLuint Partie::listePause_ = 0;
-const int Partie::POINTAGE_GAGNANT = 3;
+const int Partie::POINTAGE_GAGNANT = 7;
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -54,9 +54,11 @@ const int Partie::POINTAGE_GAGNANT = 3;
 ///
 ////////////////////////////////////////////////////////////////////////
 Partie::Partie(GameType gameType, SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, const std::vector<GameUpdateCallback>& updateCallback /*= 0*/ ):
-pointsJoueurGauche_(0),pointsJoueurDroit_(0),joueurGauche_(joueurGauche),joueurDroit_(joueurDroit), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 60, joueurGauche, joueurDroit),
+pointsJoueurGauche_(0),pointsJoueurDroit_(0), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 60, joueurGauche, joueurDroit),
 mGameType(gameType),mMiseAuJeuDelai(4100)
 {
+    modifierJoueurGauche(joueurGauche);
+    modifierJoueurDroit(joueurDroit);
     mClockLastTick = 0;
     chiffres_ = new NoeudAffichage("3");
     mField = new Terrain(this);
@@ -495,7 +497,7 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
 
 void Partie::reloadControleMallet()
 {
-    checkf(getGameStatus() == GAME_PAUSED, "La partie doit avoir ete initialise avant de pouvoir appeler un reload sur les maillets");
+    //checkf(getGameStatus() == GAME_PAUSED, "La partie doit avoir ete initialise avant de pouvoir appeler un reload sur les maillets");
     Terrain* wField = getField();
     checkf(wField, "Terrain invalide lors du reloadMallet");
     assignerControlesMaillet(wField->getLeftMallet(), wField->getRightMallet(), wField->getPuck()); 
@@ -514,7 +516,7 @@ void Partie::reloadControleMallet()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Partie::miseAuJeu( bool debutDePartie /*= false */ )
+void Partie::miseAuJeu( bool debutDePartie /*= false */, int pMiseAuJeuDelai)
 {
     setGameStatus(GAME_STARTED);
     // Obtention des éléments
@@ -541,7 +543,7 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
     {
         tempsJeu_.reset_Time();
     }
-    delais(mMiseAuJeuDelai);
+    delais(pMiseAuJeuDelai);
 }
 
 
@@ -670,8 +672,6 @@ void Partie::modifierJoueurDroit( SPJoueurAbstrait val )
 ////////////////////////////////////////////////////////////////////////
 void Partie::modifierJoueurGauche( SPJoueurAbstrait val )
 {
-//  if(joueurGauche_)
-//      delete joueurGauche_;
     joueurGauche_ = val;
     if(joueurGauche_)
     {
@@ -694,7 +694,6 @@ void Partie::modifierJoueurGauche( SPJoueurAbstrait val )
 void Partie::afficher()
 {
     mField->renderField();
-    std::cout << tempsJeu_.Elapsed_Time_sec() << std::endl;
     
 
 #if MAT_DEBUG_

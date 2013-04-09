@@ -133,6 +133,9 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
 void ControllerServeurMaitre::handleDisconnectDetection(SPSocket pSocket)
 {
     std::string wSocketIdentifier(GestionnaireReseau::obtenirInstance()->getConnectionId(pSocket));
+#if !SHIPPING
+    std::cout << wSocketIdentifier << " disconnected" << std::endl;
+#endif
     GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
     if(wSocketIdentifier.find("GameServer") != std::string::npos)
     {

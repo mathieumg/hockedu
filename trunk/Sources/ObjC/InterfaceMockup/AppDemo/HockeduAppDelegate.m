@@ -13,7 +13,6 @@
 @synthesize window = _window;
 @synthesize menuViewController = _menuViewController;
 @synthesize eaglViewController = _eaglViewController;
-@synthesize loadMapViewController = _loadMapViewController;
 
 - (void) afficherVueAnimee
 {    
@@ -21,10 +20,34 @@
     
 }
 
-- (void) showMapList
+- (void) showFieldSaved:(NSString*) mapName : (NSString*) mapDescription : (int) mapPublic
 {
-    self.window.rootViewController = self.loadMapViewController;
+    [self.eaglViewController->mModel setMapFields:mapName :mapDescription :mapPublic];
     
+    [self afficherVueAnimee];
+    [self.eaglViewController->mModel saveField];
+}
+
+- (void) showMenu
+{
+
+    self.window.rootViewController = self.menuViewController;
+}
+
+- (void) showMenuLoad
+{
+    self.menuViewController->loadMapView.hidden = NO;
+    self.menuViewController->mainMenuView.hidden = YES;
+    self.menuViewController->saveMapView.hidden = YES;
+    [self showMenu];
+}
+
+- (void) showMenuSave
+{
+    self.menuViewController->saveMapView.hidden = NO;
+    self.menuViewController->mainMenuView.hidden = YES;
+    self.menuViewController->loadMapView.hidden = YES;
+    [self showMenu];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -78,7 +101,6 @@
     [_window release];
     [_menuViewController release];
     [_eaglViewController release];
-    [_loadMapViewController release];
     [super dealloc];
 }
 

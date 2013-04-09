@@ -44,13 +44,18 @@
     
     [self.view addSubview:mainMenuView];
     [self.view addSubview:loadMapView];
+    [self.view addSubview:saveMapView];
     
     //mainMenuView.hidden = YES;
     loadMapView.hidden = YES;
+    saveMapView.hidden = YES;
     
     UIImage *buttonImage = [[UIImage imageNamed:@"blueButton@2x.png"]
                             resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     UIImage *buttonImageHighlight = [[UIImage imageNamed:@"blueButtonHighlight@2x.png"]
+                                     resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    
+    UIImage *buttonImageDisabled = [[UIImage imageNamed:@"blueButtonDisabled@2x.png"]
                                      resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     
     [newMapButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
@@ -61,6 +66,7 @@
     
     [settingsButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [settingsButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [settingsButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [signInButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [signInButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
@@ -68,11 +74,21 @@
     [backMainMenuButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [backMainMenuButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     
+    [backEditorButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [backEditorButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [saveMapButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [saveMapButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
+    [discardMainMenuButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [discardMainMenuButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    
     userId = 12;
     mapId = 0;
     
     [buttonImage retain];
     [buttonImageHighlight retain];
+    [buttonImageDisabled retain];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -102,6 +118,24 @@
 {
     mainMenuView.hidden = NO;
     loadMapView.hidden = YES;
+}
+
+- (IBAction)touchBackEditorButton:(UIButton *)sender
+{
+    HockeduAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
+    [delegate afficherVueAnimee];
+}
+
+- (IBAction)touchSaveMapButton:(UIButton *)sender
+{    
+    HockeduAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
+    [delegate showFieldSaved:textMapName.text:textMapDescription.text:switchMapPublic.state];
+}
+
+- (IBAction)touchDiscardMainMenuButton:(UIButton *)sender
+{
+    mainMenuView.hidden = NO;
+    saveMapView.hidden = YES;
 }
 
 - (IBAction)loadMapButton:(UIButton *)sender
@@ -201,6 +235,13 @@
     [loadMapView release];
     //[mapListTableView release];
     [backMainMenuButton release];
+    [saveMapView release];
+    [backEditorButton release];
+    [saveMapButton release];
+    [switchMapPublic release];
+    [textMapDescription release];
+    [textMapName release];
+    [discardMainMenuButton release];
     [super dealloc];
 }
 @end

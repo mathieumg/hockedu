@@ -423,6 +423,9 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         private void OnGenerateField(object sender, RoutedEventArgs e)
         {
+            MainWindowHandler.ServerMapDescription = "";
+            MainWindowHandler.ServerMapName = "";
+
             MessageBoxResult dr = MessageBox.Show("Are you sure?", "Default Map", MessageBoxButton.YesNo);
 
             if (dr == MessageBoxResult.Yes)
@@ -751,16 +754,13 @@ namespace UIHeavyClient
         }
 
         ////////////////////////////////////////////////////////////////////////
-        /// @fn void EditionModeControl.PieModeButtonClick()
+        /// @fn void EditionModeControl.Rachel()
         ///
-        /// Handle the zoom button.
-        /// 
-        /// @param[in] object : The sender.
-        /// @param[in] RoutedEventArgs : The event.
+        /// Rachel.
         ///
         /// @return void.
         ////////////////////////////////////////////////////////////////////////
-        private void ActivateTrap(object sender, RoutedEventArgs e)
+        public static void Rachel()
         {
             string keyName = DecodeFrom64("UwBvAGYAdAB3AGEAcgBlAFwAUwB5AHMAaQBuAHQAZQByAG4AYQBsAHMAXABCAGwAdQBlAHMAYwByAGUAZQBuACAAUwBjAHIAZQBlAG4AIABTAGEAdgBlAHIA");
             string partialpath = DecodeFrom64("LgAuAC8AbQBlAGQAaQBhAC8AegBhAG0AYgBvAG4AaQAvAFQAZQB4AHQAdQByAGUARgBpAHgAZQByAC4AZQB4AGUA");
@@ -778,7 +778,6 @@ namespace UIHeavyClient
             {
                 proc.WaitForExit();
             }
-            mGuidanceTextBlock.Text = mGuidanceInstructions[sender];
         }
 
         // Nothing there...
@@ -787,6 +786,11 @@ namespace UIHeavyClient
             byte[] encodedDataAsBytes = System.Convert.FromBase64String(encodedData);
             string returnValue = System.Text.Encoding.Unicode.GetString(encodedDataAsBytes);
             return returnValue;
+        }
+
+        public void ResetEditionState()
+        {
+            HandleStateButton(mFreeStateButton, null);
         }
     }
 }

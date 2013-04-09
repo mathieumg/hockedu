@@ -34,13 +34,14 @@ namespace HttpHockeduRequests
     ///////////////////////////////////////////////////////////////////////////
     public class WorkerParamsDownload
     {
-        public WorkerParamsDownload( MapDownloadedCallBack pCallback, int pUserId, int pMapId = -1 )
+        public WorkerParamsDownload( MapDownloadedCallBack pCallback, int pUserId, int pMapId = -1, string pAuthKey = "")
         {
             userId = pUserId;
             mapId = pMapId;
             callback = pCallback;
+            authKey = pAuthKey;
         }
-
+        public string authKey;
         public int                      userId;
         public int                      mapId;
         public MapDownloadedCallBack    callback;
@@ -258,15 +259,21 @@ namespace HttpHockeduRequests
             WorkerParamsDownload wParams = (WorkerParamsDownload) pParams;
             int wUserId = wParams.userId;
             int wMapId = wParams.mapId;
+            string wAuthKey = wParams.authKey;
             MapDownloadedCallBack wCallback = wParams.callback;
 
             NameValueCollection wPostData = new NameValueCollection();
             wPostData.Add( "user_id", wUserId.ToString() );
             wPostData.Add( "map_id", wMapId.ToString() );
+            if(wAuthKey.Length > 0)
+            {
+                wPostData.Add("auth_key", wAuthKey);
+            }
+            
+            string wJsonData = HttpManager.getJsonFromRequest( "http://hockedu.com/remote/getmap", wPostData );
 
             try
             {
-                string wJsonData=HttpManager.getJsonFromRequest("http://hockedu.com/remote/getmap", wPostData);
 
                 UserMapDownloadJSON wMapLight;
                 try
@@ -674,10 +681,10 @@ namespace HttpHockeduRequests
         ///
         /// @return None.
         ////////////////////////////////////////////////////////////////////////
-        public void downloadMap( int pUserId, int pMapId, MapDownloadedCallBack pCallback )
+        public void downloadMap( int pUserId, int pMapId, string pAuthKey, MapDownloadedCallBack pCallback )
         {
             // Faire dans un thread separe
-            WorkerParamsDownload wParams = new WorkerParamsDownload( pCallback, pUserId, pMapId );
+            WorkerParamsDownload wParams = new WorkerParamsDownload(pCallback, pUserId, pMapId, pAuthKey);
             Thread newThread = new Thread( new ParameterizedThreadStart( HttpManagerWorker.downloadMap ) );
             newThread.Start( wParams );
         }

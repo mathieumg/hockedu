@@ -521,6 +521,7 @@ void NoeudMaillet::updatePhysicBody()
         myBodyDef.angle = 0; //set the starting angle
         myBodyDef.fixedRotation = true;
 
+
         mPhysicBody = world->CreateBody(&myBodyDef);
         b2CircleShape circleShape;
         circleShape.m_p.Set(0, 0); //position, relative to body position
@@ -529,6 +530,7 @@ void NoeudMaillet::updatePhysicBody()
         b2FixtureDef myFixtureDef;
         myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
         myFixtureDef.density = 0.02f;
+        myFixtureDef.restitution = 0.2f;
         RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_MALLET,IsInGame());
 
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
