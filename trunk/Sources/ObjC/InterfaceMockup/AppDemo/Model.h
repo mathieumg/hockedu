@@ -70,4 +70,9 @@ typedef struct{
 -(void) getProperties:(FullPropertiesApple*)prop;
 -(void) setProperties:(FullPropertiesApple*)prop;
 -(RazerKey) getSelectedNodesType;
+bool RenderNodeCallback(RazerKey key);
+-(void) startRectangle:(CGPoint*)startPos;
+-(void) moveRectangle:(CGPoint*)pos;
+-(void) endRectangle;
+void EditionEventCallback(EditionEventCodes pEvent);
 @end

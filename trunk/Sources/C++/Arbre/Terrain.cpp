@@ -1236,9 +1236,6 @@ void Terrain::appliquerPhysique( float temps )
 
         mWorld->Step(temps, 8, 8);
 
-
-        
-
         /// Limit puck's speed!
         auto puck = getPuck();
         if(puck)
@@ -1247,7 +1244,7 @@ void Terrain::appliquerPhysique( float temps )
             if(body)
             {
                 auto velocity = body->GetLinearVelocity();
-                const float maxSpeed = 1000* utilitaire::ratioWorldToBox2D;
+                const float maxSpeed = 750* utilitaire::ratioWorldToBox2D;
                 float speed = velocity.Normalize();
                 if(speed > maxSpeed)
                 {

@@ -93,6 +93,7 @@ public:
 	/// Pour les test unitaires
 	friend GestionnaireEvenementsTest;
     friend AIRenforcementTest;
+    //friend __declspec(dllexport) void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb);
 
 	/// Obtient l'instance unique de la classe.
 	static FacadeModele* getInstance();

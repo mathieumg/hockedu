@@ -792,6 +792,8 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         void LoadMapFromLocal(object sender, RoutedEventArgs e)
         {
+            MainWindowHandler.ServerMapDescription = "";
+            MainWindowHandler.ServerMapName = "";
             MainWindowHandler.DialogLoadMapFromLocal();
         }
 
@@ -1002,20 +1004,22 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         private void SaveMapToServer(object sender, RoutedEventArgs e)
         {            
-            //if (LoginControl.mLoginInfo.mAuthOnWeb)
-            //{
+            if (LoginControl.mLoginInfo.mAuthOnWeb)
+            {
                 HttpRequestForSavingMap();
-            //}
-            //else
-            //{
-                //WebLogin.CreateWebLoginWindow(HttpRequestForSavingMap);
-            //} 
+            }
+            else
+            {
+                WebLogin.CreateWebLoginWindow(HttpRequestForSavingMap);
+            } 
         }
 
         private void HttpRequestForSavingMap()
         {
             mSaveServerMapPrompt = new SaveServerMapPrompt();
             mSaveServerMapPrompt.GiveFocus();
+            mSaveServerMapPrompt.MapName = MainWindowHandler.ServerMapName;
+            mSaveServerMapPrompt.MapDescription = MainWindowHandler.ServerMapDescription;
             mSaveServerMapPrompt.ShowDialog();
 
             if (mSaveServerMapPrompt.OkIsClicked)
@@ -1051,20 +1055,20 @@ namespace UIHeavyClient
         private void LoadMapFromServer(object sender, RoutedEventArgs e)
         {
 
-            //if (LoginControl.mLoginInfo.mAuthOnWeb)
-            //{
+            if (LoginControl.mLoginInfo.mAuthOnWeb)
+            {
                 HttpRequestForLoadingMap();
-            //}
-            //else
-            //{
-                //WebLogin.CreateWebLoginWindow(HttpRequestForLoadingMap);
-            //}
+            }
+            else
+            {
+                WebLogin.CreateWebLoginWindow(HttpRequestForLoadingMap);
+            }
         }
 
         private void HttpRequestForLoadingMap()
         {
             mServerMapPrompt = new ServerMapPrompt();
-            mServerMapPrompt.GetServerMaps();
+            mServerMapPrompt.GetUserMaps();
             mServerMapPrompt.ShowDialog();
 
             if (mServerMapPrompt.OkIsClicked)
@@ -1072,7 +1076,7 @@ namespace UIHeavyClient
                 if (mServerMapPrompt.SelectedMap != null)
                 {
                     HttpManager wHttpManager = new HttpManager();
-                    wHttpManager.downloadMap(Convert.ToInt32(LoginControl.mLoginInfo.mUserId), /*mServerMapPrompt.SelectedMap.id*/ 1234567, HandleDownloadedMap);
+                    wHttpManager.downloadMap(Convert.ToInt32(LoginControl.mLoginInfo.mUserId), mServerMapPrompt.SelectedMap.id, LoginControl.mLoginInfo.mAuthKey, HandleDownloadedMap);
                 }
             }
 
@@ -1083,9 +1087,12 @@ namespace UIHeavyClient
         {
             // Load the map to edition mode
             MainWindowHandler.mTaskManager.ExecuteTask(() =>
-            {
-                MainWindowHandler.MapId = pMapId;
+            { 
                 MainWindowHandler.LoadMapFromLocal(pFilepath);
+                MainWindowHandler.CurrentMap = pFilepath;
+                MainWindowHandler.MapId = pMapId;
+                MainWindowHandler.ServerMapName = pName;
+                MainWindowHandler.ServerMapDescription = pDescription;
             });
         }
 
@@ -1127,6 +1134,12 @@ namespace UIHeavyClient
         public void AddAIOpponentHandle(bool pMustBeCollapse)
         {
             mAiOpponentItem.Visibility=pMustBeCollapse?Visibility.Collapsed:Visibility.Visible;
+        }
+
+        private void Rachel(object sender, RoutedEventArgs e)
+        {
+            // Rachel
+            EditionModeControl.Rachel();
         }
     }
 }

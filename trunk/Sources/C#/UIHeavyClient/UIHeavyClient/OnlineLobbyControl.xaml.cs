@@ -210,7 +210,7 @@ namespace UIHeavyClient
                     mFeedbackLabel.Content = "Loading, please wait...";
                     HandleUIButtons(false);
 
-                    mHttpManager.downloadMap(Convert.ToInt32(LoginControl.mLoginInfo.mUserId), mServerMapPrompt.SelectedMap.id, HandleDownloadedMap);
+                    mHttpManager.downloadMap(Convert.ToInt32(LoginControl.mLoginInfo.mUserId), mServerMapPrompt.SelectedMap.id, LoginControl.mLoginInfo.mAuthKey, HandleDownloadedMap);
                 }
             }
 
@@ -392,7 +392,7 @@ namespace UIHeavyClient
                 if(wMap.name == wMapToFind)
                 {
                     // Trouve, pas besoin du user_id pcq la map devrait etre publique si une partie a ete creee avec
-                    MainWindowHandler.Context.OnlineLobbyControl.mHttpManager.downloadMap(Convert.ToInt32(LoginControl.mLoginInfo.mUserId), wMap.id, MainWindowHandler.Context.OnlineLobbyControl.CallbackMapDownloaded);
+                    MainWindowHandler.Context.OnlineLobbyControl.mHttpManager.downloadMap(Convert.ToInt32(LoginControl.mLoginInfo.mUserId), wMap.id, "", MainWindowHandler.Context.OnlineLobbyControl.CallbackMapDownloaded);
                     break;
                 }
             }
@@ -620,6 +620,8 @@ namespace UIHeavyClient
                     MainWindowHandler.MapId = pMapId;
                     MainWindowHandler.LoadMapFromLocal(pFilepath);
                     MainWindowHandler.CurrentMap = pFilepath;
+                    MainWindowHandler.MapId = pMapId;
+                    MainWindowHandler.ServerMapName = name;
                     //SetOnlineEditionInfos(pMapId, name, description, pIsPublic);
                     MainWindowHandler.GoToEditionMode(false);
                 });
