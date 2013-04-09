@@ -1033,9 +1033,10 @@ void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
 
     Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
 //    FacadeModele::getInstance()->setPartieCourante(wGameId);
+    wGame->setMiseAuJeuDelai(0);
     wGame->getField()->creerTerrainParDefaut("");
     wGame->getReadyToPlay(false);
-    wGame->miseAuJeu(true, 0);
+    wGame->miseAuJeu(true);
 
     std::ostringstream wFileDirectory(pReinforcementProfileName);
     wFileDirectory << "Data/";

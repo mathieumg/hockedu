@@ -516,7 +516,7 @@ void Partie::reloadControleMallet()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Partie::miseAuJeu( bool debutDePartie /*= false */, int pMiseAuJeuDelai)
+void Partie::miseAuJeu( bool debutDePartie /*= false */)
 {
     setGameStatus(GAME_STARTED);
     // Obtention des éléments
@@ -543,7 +543,7 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */, int pMiseAuJeuDelai)
     {
         tempsJeu_.reset_Time();
     }
-    delais(pMiseAuJeuDelai);
+    delais(mMiseAuJeuDelai);
 }
 
 

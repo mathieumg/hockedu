@@ -66,14 +66,11 @@ JoueurVirtuelRenforcement::~JoueurVirtuelRenforcement( void )
 ////////////////////////////////////////////////////////////////////////
 XmlElement* JoueurVirtuelRenforcement::creerNoeudXML() const
 {
-	/*XmlElement* elementNoeud = JoueurAbstrait::creerNoeudXML();
+	XmlElement* elementNoeud = JoueurVirtuel::creerNoeudXML();
 
-	elementNoeud->SetAttribute(JoueurAbstrait::etiquetteType.c_str(),type_);
-	elementNoeud->SetAttribute("vitesse",obtenirVitesse());
-	elementNoeud->SetAttribute("probEchec",obtenirProbabiliteEchec());
+    XMLUtils::writeString(elementNoeud,"path",mAiLogicFilepath.c_str());
 
-	return elementNoeud;*/
-    return JoueurAbstrait::creerNoeudXML();
+	return elementNoeud;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -90,17 +87,17 @@ XmlElement* JoueurVirtuelRenforcement::creerNoeudXML() const
 ////////////////////////////////////////////////////////////////////////
 bool JoueurVirtuelRenforcement::initialiser( const XmlElement* element )
 {
-	/*if(!JoueurAbstrait::initialiser(element))
+	if(!JoueurVirtuel::initialiser(element))
 		return false;
-	int elem;
-	if( element->QueryIntAttribute("vitesse", &elem) != TIXML_SUCCESS )
-		return false;
-	modifierVitesse(elem);
-	if( element->QueryIntAttribute("probEchec", &elem) != TIXML_SUCCESS )
-		return false;
-	modifierProbabiliteEchec(elem);
-	type_ = JOUEUR_VIRTUEL;
-	*/
+	
+    std::string path;
+    if(XMLUtils::readAttribute(element,"path",path))
+    {
+        chargerAiLogic(path);
+    }
+
+	type_ = JOUEUR_VIRTUEL_RENFORCEMENT;
+	
 	return true;
 }
 
