@@ -306,19 +306,6 @@ namespace UIHeavyClient
         {
             MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = true;
             requestMatchmaking();
-           /* if (mOnlineGameListView.Items.Count > 0)
-            {
-                mFeedbackLabel.Content = "Loading, please wait...";
-                HandleUIButtons(false);
-
-                Random rand = new Random();
-                OnlineGameInfos? randomGame = (mOnlineGameListView.Items[rand.Next(mOnlineGameListView.Items.Count - 1)] as OnlineGameInfos?);
-
-                connectPartieServerGame(randomGame.Value.id, randomGame.Value.serverId, "");
-                mGameWaitingToConnect = randomGame.Value;
-
-                mIsWaitingForOnlineGame = true;
-            }   */
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -371,6 +358,8 @@ namespace UIHeavyClient
         {
             MainWindowHandler.mTaskManager.ExecuteTask(() =>
             {
+                HandleUIButtons(true);
+
                 if(pOutputPath.Length > 0)
                 {
                     // Assigner la map a jouer dans le modele avec le filepah recu
