@@ -82,4 +82,22 @@
     }];
 }
 
+/*
++ (void)uploadMap:(void (^)(NSArray *maps, NSError *error))block :(NSData*) xmlData {
+    [[AFAppDotNetAPIClient sharedClient] multipartFormRequestWithMethod:@"POST" path:@"remote/sendmap" parameters:@{@"map_id":@"12"} constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
+        [formData appendPartWithFileData:xmlData name:@"xmlmap" fileName:@"xmlmap.xml" mimeType:@"text/xml"];
+    } success:^(AFHTTPRequestOperation *operation, id JSON) {
+        
+        [Model loadField:[JSON valueForKeyPath:@"content"]];
+        
+        HockeduAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
+        [delegate afficherVueAnimee];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        
+    }];
+}
+*/
+
 @end

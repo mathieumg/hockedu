@@ -44,6 +44,8 @@ typedef struct{
 
     void* mField;
     Model3DManager* mModel3DManager;
+    
+
 }
 
 - (void)render;
@@ -72,4 +74,5 @@ typedef struct{
 -(RazerKey) getSelectedNodesType;
 bool RenderNodeCallback(RazerKey key);
 void EditionEventCallback(EditionEventCodes pEvent);
+-(void) setMapFields:(NSString*)pMapName : (NSString*) pMapDescription : (int) pMapPublic;
 @end

@@ -101,8 +101,7 @@ extern int const HAUTEUR_FENETRE;
     
     NSInteger animationFrameInterval;
     CADisplayLink *displayLink;
-    
-    Model* mModel;
+
     
     //OpenGLWaveFrontObject *cube;
     
@@ -118,6 +117,9 @@ extern int const HAUTEUR_FENETRE;
     // Pinch et zoom
     CGFloat __scale;
     CGFloat __previousScale;
+    
+    @public
+    Model* mModel;
 }
 
 

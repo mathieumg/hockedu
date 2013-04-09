@@ -13,9 +13,17 @@
     IBOutlet UIButton *signInButton;
     
     IBOutlet UIButton *backMainMenuButton;
+    IBOutlet UIButton *backEditorButton;
+    IBOutlet UIButton *saveMapButton;
+    IBOutlet UIButton *discardMainMenuButton;
+    IBOutlet UISwitch *switchMapPublic;
+    IBOutlet UITextView *textMapDescription;
+    IBOutlet UITextField *textMapName;
     
+    @public
     IBOutlet UIView *mainMenuView;
     IBOutlet UIView *loadMapView;
+    IBOutlet UIView *saveMapView;
     
     NSArray* _userMaps;
     
@@ -29,6 +37,9 @@
 @property NSInteger mapId;
 
 - (IBAction)touchBackMainMenuButton:(UIButton *)sender;
+- (IBAction)touchBackEditorButton:(UIButton *)sender;
+- (IBAction)touchSaveMapButton:(UIButton *)sender;
+- (IBAction)touchDiscardMainMenuButton:(UIButton *)sender;
 - (IBAction)loadMapButton:(UIButton *)sender;
 -(IBAction) showEditor;
 @end
