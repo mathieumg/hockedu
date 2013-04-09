@@ -10,6 +10,7 @@
 #define degreesToRadian(x) (M_PI * (x) / 180.0)
 #import "Enum_Declarations.h"
 #import "Facade.h"
+#import "HockeduAppDelegate.h"
 int const LARGEUR_FENETRE = 1024;
 int const HAUTEUR_FENETRE = 768;
 // Uniform index.
@@ -209,6 +210,7 @@ enum {
     
     [settingsButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [settingsButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [settingsButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [applyButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [applyButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
@@ -1369,22 +1371,6 @@ enum {
     }
 }
 
-- (void)carouselSelectItem:(NSInteger)index
-{
-    NSLog(@"%d", index);
-    [carouselBackground setImage:carouselBackgroundSelected];
-    [self pressButtonUI:nil];
-}
-
-
-- (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index
-{
-    CarouselElement* element = [carouselElements objectAtIndex:index];
-    [self carouselSelectItem:index];
-    [self editorModeButtonTouched:nil];
-    [mEventManager modifyState:element->ModifType];
-}
-
 -(IBAction) cameraModeButtonTouched:(UIButton *)sender
 {
     [editionButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
@@ -1433,55 +1419,38 @@ enum {
 
 - (IBAction)selectToolButtonTouched:(UIButton *)sender
 {
-    if(![sender isMemberOfClass:[PieMenuItem class]])
-    {
-        [self pressButtonUI:sender];
-    }
+    [self pressButtonUI:selectButton];
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
 }
 
 - (IBAction)moveToolButtonTouched:(UIButton *)sender
 {
-    if(![sender isMemberOfClass:[PieMenuItem class]])
-    {
-        [self pressButtonUI:sender];
-    }
+    [self pressButtonUI:moveButton];
     [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_DEPLACEMENT];
 }
 
 - (IBAction)rotationToolButtonTouched:(UIButton *)sender
 {
-    if(![sender isMemberOfClass:[PieMenuItem class]])
-    {
-        [self pressButtonUI:sender];
-    }
+    [self pressButtonUI:rotationButton];
     [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_ROTATION];
 }
 
 - (IBAction)scaleToolButtonTouched:(UIButton *)sender
 {
-    if(![sender isMemberOfClass:[PieMenuItem class]])
-    {
-        [self pressButtonUI:sender];
-    }
+    [self pressButtonUI:scaleButton];
     [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_ECHELLE];
 }
 
 - (IBAction)duplicateToolButtonTouched:(UIButton *)sender
 {
-    if(![sender isMemberOfClass:[PieMenuItem class]])
-    {
-        [self pressButtonUI:nil];
-    }
+    
+    [self pressButtonUI:nil];
     [mModel duplicateSelection];
 }
 
 - (IBAction)deleteToolButtonTouched:(UIButton *)sender
 {
-    if(![sender isMemberOfClass:[PieMenuItem class]])
-    {
-        [self pressButtonUI:nil];
-    }
+    [self pressButtonUI:nil];
     [mModel deleteSelection];
 }
 
@@ -1510,7 +1479,9 @@ enum {
 
 -(IBAction) saveAndExitButtonTouched:(UIButton *)sender
 {
-    [mModel saveField];
+    HockeduAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
+    [delegate showMenuSave];
+    //[mModel saveField];
 }
 
 
@@ -1721,6 +1692,22 @@ enum {
     [mEventManager modifyState:element->ModifType];
 }
 
+- (void)carouselSelectItem:(NSInteger)index
+{
+    //NSLog(@"%d", index);
+    [carouselBackground setImage:carouselBackgroundSelected];
+    [self pressButtonUI:nil];
+}
+
+
+- (void)carousel:(iCarousel *)carousel didSelectItemAtIndex:(NSInteger)index
+{
+    CarouselElement* element = [carouselElements objectAtIndex:index];
+    [self editorModeButtonTouched:nil];
+    [self carouselSelectItem:index];
+    [mEventManager modifyState:element->ModifType];
+}
+
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
 {
     UILabel *label = nil;
@@ -1786,5 +1773,6 @@ enum {
     }
     return value;
 }
+
 
 @end

@@ -48,6 +48,9 @@ public:
     std::string getMapName() const { return mMapName; }
     void setMapName(const std::string& pMapName) { mMapName = pMapName; }
 
+    inline const float& getGameTime() const { return mGameTime; }
+    inline void setGameTime(const float& val) { mGameTime = val; }
+
 protected:
     PaquetGameConnection(void);
 
@@ -61,5 +64,7 @@ private:
     GameConnectionState mConnectionState; // Flag for return message
     std::string mGameServerIp; // Ip of the game server
     std::string mMapName; // Map of the game
+    float mGameTime; // Time in the game in sec
+    
 };
 

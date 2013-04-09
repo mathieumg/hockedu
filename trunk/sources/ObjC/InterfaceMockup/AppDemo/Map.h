@@ -36,4 +36,6 @@
 
 + (void)downloadMap:(void (^)(NSArray *maps, NSError *error))block :(NSInteger) mapId;
 
+//+ (void)uploadMap:(void (^)(NSArray *maps, NSError *error))block :(NSData*) xmlData;
+
 @end

@@ -71,6 +71,8 @@ mGameType(gameType),mMiseAuJeuDelai(4100)
     mLastGameStatus = GAME_NOT_READY;
     mRequirePassword = false;
     mPassword = "";
+    tempsJeu_.reset_Time();
+    mTempsPlus = 0;
     mPartieSyncer.setPlayers(joueurGauche, joueurDroit);
 
     GestionnaireAnimations::obtenirInstance()->attach(this);
@@ -495,7 +497,7 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
 
 void Partie::reloadControleMallet()
 {
-    checkf(getGameStatus() == GAME_PAUSED, "La partie doit avoir ete initialise avant de pouvoir appeler un reload sur les maillets");
+    //checkf(getGameStatus() == GAME_PAUSED, "La partie doit avoir ete initialise avant de pouvoir appeler un reload sur les maillets");
     Terrain* wField = getField();
     checkf(wField, "Terrain invalide lors du reloadMallet");
     assignerControlesMaillet(wField->getLeftMallet(), wField->getRightMallet(), wField->getPuck()); 
@@ -537,7 +539,7 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */)
 
 
 
-    if(debutDePartie)
+    if(debutDePartie && mTempsPlus == 1.0f)
     {
         tempsJeu_.reset_Time();
     }
@@ -692,7 +694,6 @@ void Partie::modifierJoueurGauche( SPJoueurAbstrait val )
 void Partie::afficher()
 {
     mField->renderField();
-    
     
 
 #if MAT_DEBUG_
@@ -1140,6 +1141,7 @@ void Partie::setGameStatus( GameStatus pStatus )
         {
             // Quand on devient pret (apres getGameReady), on reset le timer
             tempsJeu_.reset_Time();
+            tempsJeu_.adjustTime(mTempsPlus * -1000.0f);
             break;
         }
     case GAME_REPLAYING:
