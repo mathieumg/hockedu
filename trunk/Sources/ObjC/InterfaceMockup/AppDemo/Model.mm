@@ -23,6 +23,7 @@
 #include "Utilitaire.h"
 #import "Facade.h"
 #include "Animation.h"
+#import "HockeduAppDelegate.h"
 
 //@implementation FullPropertiesApple
 //@end
@@ -37,7 +38,7 @@ std::string mapDescription;
 int mapPublic = 1;
 int mapId = 0;
 int userId;
-NSString* auth;
+std::string auth;
 
 void CenterCameraTerminatedCallback(Animation* pAnim)
 {
@@ -240,7 +241,7 @@ Vecteur3 rectanglePos1,rectanglePos2;
 +(void) saveLogin:(int)uid : (NSString*)authy
 {
     userId = uid;
-    auth = authy;
+    auth = [authy UTF8String];
 }
 
 - (id)init
@@ -502,12 +503,32 @@ Vecteur3 rectanglePos1,rectanglePos2;
         NSData *data = [xmlData dataUsingEncoding:NSUTF8StringEncoding];
         
         
-        AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://posttestserver.com"]];
+        AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://hockedu.com"]];
         [httpClient setParameterEncoding:AFFormURLParameterEncoding];
+        [httpClient setDefaultHeader:@"Accept" value:@"application/json"];
         
-        NSMutableURLRequest *request = [httpClient multipartFormRequestWithMethod:@"POST" path:@"/post.php" parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
-            [formData appendPartWithFileData:data name:@"xmldata" fileName:@"xmlmap.xml" mimeType:@"text/xml"];
+        NSLog(@"%s", mapName.c_str());
+        
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [NSString stringWithFormat:@"%d", mapId], @"map_id",
+                                [NSString stringWithFormat:@"%d", userId], @"user_id",
+                                [NSString stringWithUTF8String:auth.c_str()], @"auth_key",
+                                [NSString stringWithUTF8String:mapName.c_str()], @"name",
+                                [NSString stringWithUTF8String:mapDescription.c_str()], @"description",
+                                [NSString stringWithFormat:@"%d", mapPublic], @"public",
+                                nil];
+        
+        NSMutableURLRequest *request = [httpClient multipartFormRequestWithMethod:@"POST" path:@"/remote/sendmap" parameters:params constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
+            [formData appendPartWithFileData:data name:@"mapfile" fileName:@"xmlmap.xml" mimeType:@"text/xml"];
         }];
+        
+        /*
+         
+         NSMutableURLRequest *request = [httpClient multipartFormRequestWithMethod:@"POST" path:@"/remote/sendmap" parameters:@{@"map_id":[NSString stringWithFormat:@"%d", mapId],@"user_id":[NSString stringWithFormat:@"%d", userId],@"auth_key":auth,@"map_name":[NSString stringWithUTF8String:mapName.c_str()],@"map_description":[NSString stringWithUTF8String:mapDescription.c_str()],@"map_public":[NSString stringWithFormat:@"%d", mapPublic]} constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
+         [formData appendPartWithFileData:data name:@"mapfile" fileName:@"xmlmap.xml" mimeType:@"text/xml"];
+         }];
+         
+         */
         
         AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
         [httpClient registerHTTPOperationClass:[AFHTTPRequestOperation class]];
@@ -515,8 +536,11 @@ Vecteur3 rectanglePos1,rectanglePos2;
         [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
             // Print the response body in text
             NSLog(@"Response: %@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+            
+            HockeduAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
+            [delegate afficherVueAnimee];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"Error: %@", error);
+            //NSLog(@"Error: %@", error);
         }];
         [operation start];
 

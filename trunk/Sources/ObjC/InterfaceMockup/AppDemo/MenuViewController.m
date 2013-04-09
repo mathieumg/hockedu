@@ -88,6 +88,7 @@
     
     [loadMapButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [loadMapButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [loadMapButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [settingsButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [settingsButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
@@ -162,8 +163,18 @@
 
 - (IBAction)touchMainSignInButton:(UIButton *)sender
 {
-    mainMenuLoginView.hidden = NO;
-    mainMenuMiddleView.hidden = YES;
+    if( userId == 0 )
+    {
+        mainMenuLoginView.hidden = NO;
+        mainMenuMiddleView.hidden = YES;
+    }
+    else{
+        
+        [signInButton setTitle:@"Sign In" forState:UIControlStateNormal];
+        userId = 0;
+        [Model saveLogin:0 : @""];
+        [loadMapButton setEnabled:NO];
+    }
 }
 
 - (IBAction)touchBackMainMenuButton:(UIButton *)sender
@@ -182,8 +193,14 @@
 
 - (IBAction)touchSaveMapButton:(UIButton *)sender
 {    
-    HockeduAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
-    [delegate showFieldSaved:textMapName.text:textMapDescription.text:switchMapPublic.state];
+    if( userId == 0 )
+    {
+        [[[UIAlertView alloc] initWithTitle:@"Error" message:@"You must be logged in to save a map." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil] show];
+    }
+    else{
+        HockeduAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
+        [delegate showFieldSaved:textMapName.text : textMapDescription.text : switchMapPublic.state];
+    }
 }
 
 - (IBAction)touchDiscardMainMenuButton:(UIButton *)sender
@@ -291,6 +308,9 @@
         else{
             userId = [[responseObject valueForKeyPath:@"id_user"] integerValue];
             [Model saveLogin:userId : [responseObject valueForKeyPath:@"auth_key"]];
+            [signInButton setTitle:@"Sign Out" forState:UIControlStateNormal];
+            [loadMapButton setEnabled:YES];
+            [self showEditor];
         }
         
         //NSLog(@"Auth key: %@", [responseObject valueForKeyPath:@"auth_key"]);

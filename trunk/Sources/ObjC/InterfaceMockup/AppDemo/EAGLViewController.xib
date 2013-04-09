@@ -131,6 +131,10 @@
 												<string key="IBUITitleShadowOffset">{2, 2}</string>
 												<string key="IBUINormalTitle">Select</string>
 												<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
+												<object class="NSColor" key="IBUIDisabledTitleColor" id="40666833">
+													<int key="NSColorSpace">3</int>
+													<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
+												</object>
 												<reference key="IBUINormalTitleColor" ref="631714026"/>
 												<object class="NSColor" key="IBUINormalTitleShadowColor" id="542764720">
 													<int key="NSColorSpace">3</int>
@@ -174,6 +178,7 @@
 												<string key="IBUITitleShadowOffset">{2, 2}</string>
 												<string key="IBUINormalTitle">Move</string>
 												<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
+												<reference key="IBUIDisabledTitleColor" ref="40666833"/>
 												<reference key="IBUINormalTitleColor" ref="631714026"/>
 												<reference key="IBUINormalTitleShadowColor" ref="542764720"/>
 												<object class="NSCustomResource" key="IBUINormalImage">
@@ -203,6 +208,7 @@
 												<string key="IBUITitleShadowOffset">{2, 2}</string>
 												<string key="IBUINormalTitle">Rotation</string>
 												<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
+												<reference key="IBUIDisabledTitleColor" ref="40666833"/>
 												<reference key="IBUINormalTitleColor" ref="631714026"/>
 												<reference key="IBUINormalTitleShadowColor" ref="542764720"/>
 												<object class="NSCustomResource" key="IBUINormalImage">
@@ -232,6 +238,7 @@
 												<string key="IBUITitleShadowOffset">{2, 2}</string>
 												<string key="IBUINormalTitle">Scale</string>
 												<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
+												<reference key="IBUIDisabledTitleColor" ref="40666833"/>
 												<reference key="IBUINormalTitleColor" ref="631714026"/>
 												<reference key="IBUINormalTitleShadowColor" ref="542764720"/>
 												<object class="NSCustomResource" key="IBUINormalImage">
@@ -261,6 +268,7 @@
 												<string key="IBUITitleShadowOffset">{2, 2}</string>
 												<string key="IBUINormalTitle">Duplicate</string>
 												<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
+												<reference key="IBUIDisabledTitleColor" ref="40666833"/>
 												<reference key="IBUINormalTitleColor" ref="631714026"/>
 												<reference key="IBUINormalTitleShadowColor" ref="542764720"/>
 												<object class="NSCustomResource" key="IBUINormalImage">
@@ -290,6 +298,7 @@
 												<string key="IBUITitleShadowOffset">{2, 2}</string>
 												<string key="IBUINormalTitle">Delete</string>
 												<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
+												<reference key="IBUIDisabledTitleColor" ref="40666833"/>
 												<reference key="IBUINormalTitleColor" ref="631714026"/>
 												<reference key="IBUINormalTitleShadowColor" ref="542764720"/>
 												<object class="NSCustomResource" key="IBUINormalImage">
@@ -356,10 +365,7 @@
 										<string key="IBUITitleShadowOffset">{2, 2}</string>
 										<string key="IBUINormalTitle">Settings</string>
 										<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
-										<object class="NSColor" key="IBUINormalTitleColor">
-											<int key="NSColorSpace">3</int>
-											<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
-										</object>
+										<reference key="IBUINormalTitleColor" ref="40666833"/>
 										<reference key="IBUINormalTitleShadowColor" ref="542764720"/>
 										<reference key="IBUIFontDescription" ref="437964532"/>
 										<reference key="IBUIFont" ref="589001317"/>
@@ -7778,6 +7784,7 @@
 					<string>529.IBPluginDependency</string>
 					<string>53.IBPluginDependency</string>
 					<string>53.IBUIButtonInspectorSelectedEdgeInsetMetadataKey</string>
+					<string>53.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
 					<string>530.IBPluginDependency</string>
 					<string>531.IBPluginDependency</string>
 					<string>532.IBPluginDependency</string>
@@ -7800,12 +7807,16 @@
 					<string>56.IBPluginDependency</string>
 					<string>63.IBPluginDependency</string>
 					<string>63.IBUIButtonInspectorSelectedEdgeInsetMetadataKey</string>
+					<string>63.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
 					<string>65.IBPluginDependency</string>
 					<string>65.IBUIButtonInspectorSelectedEdgeInsetMetadataKey</string>
+					<string>65.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
 					<string>67.IBPluginDependency</string>
 					<string>67.IBUIButtonInspectorSelectedEdgeInsetMetadataKey</string>
+					<string>67.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
 					<string>69.IBPluginDependency</string>
 					<string>69.IBUIButtonInspectorSelectedEdgeInsetMetadataKey</string>
+					<string>69.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
 					<string>86.CustomClassName</string>
 					<string>86.IBPluginDependency</string>
 					<string>88.IBPluginDependency</string>
@@ -7991,13 +8002,14 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="1"/>
-					<real value="0.0"/>
+					<real value="3"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="1"/>
+					<real value="3"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -8020,12 +8032,16 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="1"/>
+					<real value="3"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="1"/>
+					<real value="3"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="1"/>
+					<real value="3"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="1"/>
+					<real value="3"/>
 					<string>UIImageView</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -8072,7 +8088,6 @@
 							<string>moveToolButtonTouched:</string>
 							<string>orbitalButtonTouched:</string>
 							<string>panDetected:</string>
-							<string>pinchDetected:</string>
 							<string>portalButtonTouched:</string>
 							<string>redoButtonTouched:</string>
 							<string>rightArrowButton:</string>
@@ -8103,7 +8118,6 @@
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIPanGestureRecognizer</string>
-							<string>id</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
@@ -8137,7 +8151,6 @@
 							<string>moveToolButtonTouched:</string>
 							<string>orbitalButtonTouched:</string>
 							<string>panDetected:</string>
-							<string>pinchDetected:</string>
 							<string>portalButtonTouched:</string>
 							<string>redoButtonTouched:</string>
 							<string>rightArrowButton:</string>
@@ -8206,10 +8219,6 @@
 							<object class="IBActionInfo">
 								<string key="name">panDetected:</string>
 								<string key="candidateClassName">UIPanGestureRecognizer</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">pinchDetected:</string>
-								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">portalButtonTouched:</string>
