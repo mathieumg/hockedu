@@ -435,6 +435,11 @@ namespace UIHeavyClient
                     }
                     case EventCodes.SERVER_USER_DISCONNECTED:
                     {
+                        if (message.IndexOf("GameServer") != -1)
+                        {
+                            return true;
+                        }
+
                         wThis.ChatObject.removeChatUser(message);
 
                         // affiche un message de l'événement
@@ -450,6 +455,11 @@ namespace UIHeavyClient
                     break;
                     case EventCodes.SERVER_USER_CONNECTED:
                     {
+                        if (message.IndexOf("GameServer") != -1)
+                        {
+                            return true;
+                        }
+
                         wThis.ChatObject.addChatUser(message);
 
                         // affiche un message de l'événement
