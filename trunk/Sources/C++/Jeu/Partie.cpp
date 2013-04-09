@@ -69,6 +69,8 @@ mGameType(gameType),mMiseAuJeuDelai(4100)
     mLastGameStatus = GAME_NOT_READY;
     mRequirePassword = false;
     mPassword = "";
+    tempsJeu_.reset_Time();
+    mTempsPlus = 0;
     mPartieSyncer.setPlayers(joueurGauche, joueurDroit);
 
     GestionnaireAnimations::obtenirInstance()->attach(this);
@@ -535,7 +537,7 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */ )
 
 
 
-    if(debutDePartie)
+    if(debutDePartie && mTempsPlus == 1.0f)
     {
         tempsJeu_.reset_Time();
     }
@@ -692,7 +694,7 @@ void Partie::modifierJoueurGauche( SPJoueurAbstrait val )
 void Partie::afficher()
 {
     mField->renderField();
-    
+    std::cout << tempsJeu_.Elapsed_Time_sec() << std::endl;
     
 
 #if MAT_DEBUG_
@@ -1140,6 +1142,7 @@ void Partie::setGameStatus( GameStatus pStatus )
         {
             // Quand on devient pret (apres getGameReady), on reset le timer
             tempsJeu_.reset_Time();
+            tempsJeu_.adjustTime(mTempsPlus * -1000.0f);
             break;
         }
     case GAME_REPLAYING:
