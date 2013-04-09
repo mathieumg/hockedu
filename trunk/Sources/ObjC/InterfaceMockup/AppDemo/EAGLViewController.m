@@ -10,6 +10,7 @@
 #define degreesToRadian(x) (M_PI * (x) / 180.0)
 #import "Enum_Declarations.h"
 #import "Facade.h"
+#import "HockeduAppDelegate.h"
 int const LARGEUR_FENETRE = 1024;
 int const HAUTEUR_FENETRE = 768;
 // Uniform index.
@@ -209,6 +210,7 @@ enum {
     
     [settingsButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [settingsButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [settingsButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
     
     [applyButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [applyButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
@@ -1494,7 +1496,9 @@ enum {
 
 -(IBAction) saveAndExitButtonTouched:(UIButton *)sender
 {
-    [mModel saveField];
+    HockeduAppDelegate* delegate = [[UIApplication sharedApplication] delegate];
+    [delegate showMenuSave];
+    //[mModel saveField];
 }
 
 

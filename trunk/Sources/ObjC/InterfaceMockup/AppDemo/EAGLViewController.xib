@@ -349,13 +349,17 @@
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+										<bool key="IBUIEnabled">NO</bool>
 										<int key="IBUIContentHorizontalAlignment">0</int>
 										<int key="IBUIContentVerticalAlignment">0</int>
 										<int key="IBUIButtonType">1</int>
 										<string key="IBUITitleShadowOffset">{2, 2}</string>
 										<string key="IBUINormalTitle">Settings</string>
 										<reference key="IBUIHighlightedTitleColor" ref="631714026"/>
-										<reference key="IBUINormalTitleColor" ref="631714026"/>
+										<object class="NSColor" key="IBUINormalTitleColor">
+											<int key="NSColorSpace">3</int>
+											<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
+										</object>
 										<reference key="IBUINormalTitleShadowColor" ref="542764720"/>
 										<reference key="IBUIFontDescription" ref="437964532"/>
 										<reference key="IBUIFont" ref="589001317"/>
