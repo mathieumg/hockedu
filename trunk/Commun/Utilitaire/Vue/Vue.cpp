@@ -191,6 +191,11 @@ namespace vue {
        {
            temps = 2000;
        }
+
+       if(temps < 500)
+       {
+           temps = 500;
+       }
        
 	   AnimationFrame* frame[4];
 	   frame[0] = new AnimationFrame(0, cameraPos, cameraCourante->obtenirPointVise(), cameraCourante->obtenirDirectionHaut());

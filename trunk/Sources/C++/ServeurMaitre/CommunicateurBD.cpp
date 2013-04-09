@@ -215,7 +215,7 @@ bool CommunicateurBD::addGameResult(const std::string& pPlayer1Name, const std::
            << "(SELECT id FROM users WHERE username = \"" + wLoser + "\"),  " // Loser id
            << wWinnerScore << ", " // Winner's score
            << wLoserScore << ", "  // Loser's score
-           << "CURRENT_UNIX_TIMESTAMP)"; // Timestamp for the time the game ended
+           << "unix_timestamp(now()) )"; // Timestamp for the time the game ended
 
         mysqlpp::Query query = mConnection.query(ss.str());
         try 
