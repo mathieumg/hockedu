@@ -356,6 +356,7 @@ void AnimationReprise::viderListe()
 		(*it) = 0;
 	}
 	frames_.clear();
+    termine_ = true;
 }
 
 
