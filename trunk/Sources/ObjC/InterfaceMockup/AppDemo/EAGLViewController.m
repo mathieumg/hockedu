@@ -1419,55 +1419,38 @@ enum {
 
 - (IBAction)selectToolButtonTouched:(UIButton *)sender
 {
-    if(![sender isMemberOfClass:[PieMenuItem class]])
-    {
-        [self pressButtonUI:sender];
-    }
+    [self pressButtonUI:selectButton];
     [mEventManager modifyState:EDITOR_STATE_SELECTION];
 }
 
 - (IBAction)moveToolButtonTouched:(UIButton *)sender
 {
-    if(![sender isMemberOfClass:[PieMenuItem class]])
-    {
-        [self pressButtonUI:sender];
-    }
+    [self pressButtonUI:moveButton];
     [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_DEPLACEMENT];
 }
 
 - (IBAction)rotationToolButtonTouched:(UIButton *)sender
 {
-    if(![sender isMemberOfClass:[PieMenuItem class]])
-    {
-        [self pressButtonUI:sender];
-    }
+    [self pressButtonUI:rotationButton];
     [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_ROTATION];
 }
 
 - (IBAction)scaleToolButtonTouched:(UIButton *)sender
 {
-    if(![sender isMemberOfClass:[PieMenuItem class]])
-    {
-        [self pressButtonUI:sender];
-    }
+    [self pressButtonUI:scaleButton];
     [mEventManager modifyState:EDITOR_STATE_TRANSFORMATION_ECHELLE];
 }
 
 - (IBAction)duplicateToolButtonTouched:(UIButton *)sender
 {
-    if(![sender isMemberOfClass:[PieMenuItem class]])
-    {
-        [self pressButtonUI:nil];
-    }
+    
+    [self pressButtonUI:nil];
     [mModel duplicateSelection];
 }
 
 - (IBAction)deleteToolButtonTouched:(UIButton *)sender
 {
-    if(![sender isMemberOfClass:[PieMenuItem class]])
-    {
-        [self pressButtonUI:nil];
-    }
+    [self pressButtonUI:nil];
     [mModel deleteSelection];
 }
 

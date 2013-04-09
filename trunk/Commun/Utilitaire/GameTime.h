@@ -48,6 +48,7 @@ public:
     inline void pause(){if(!paused_) {pause_time_ = clock();paused_ = true;}}
     inline void unPause(){if(paused_) {paused_ = false; adjustTime((clock()-pause_time_)/(CLOCKS_PER_SEC/1000.0f));}}
 
+
 private:
 	/// Le temps initial
 	clock_t begin_time_;

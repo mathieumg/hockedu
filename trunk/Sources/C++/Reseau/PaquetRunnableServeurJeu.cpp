@@ -398,7 +398,7 @@ int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
                 }
             }
 
-            // Si tout le monde connecte, on demarre la partie
+            // Si tout le monde connecte, met la partie prete
             else if(wGame->getGameStatus() == GAME_NOT_READY && wGame->obtenirJoueurGauche() && wGame->obtenirJoueurDroit())
             {
                 GameManager::obtenirInstance()->getGameReady(wGame->getUniqueGameId());
@@ -411,7 +411,8 @@ int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
     
         GameConnectionState wConnState = wPaquet->getConnectionState();
         std::string wUsername = wPaquet->getUsername();
-
+        float wTemps = wGame->obtenirTempsJeu();
+        wPaquet->setGameTime(wTemps);
         GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
         
 
@@ -421,7 +422,7 @@ int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
         {
             GestionnaireReseau::obtenirInstance()->removeSocket(wUsername, TCP);
         }
-        else
+        /*else
         {
             PaquetGameEvent* wPaquetEventGameStart = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
             wPaquetEventGameStart->setGameId(wPaquet->getGameId());
@@ -429,7 +430,7 @@ int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
             wPaquetEventGameStart->setPlayer1Name(wGame->obtenirNomJoueurGauche());
             wPaquetEventGameStart->setPlayer2Name(wGame->obtenirNomJoueurDroit());
             RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquetEventGameStart, TCP);
-        }
+        }*/
 
     });
     RazerGameUtilities::RunOnUpdateThread(r,true);

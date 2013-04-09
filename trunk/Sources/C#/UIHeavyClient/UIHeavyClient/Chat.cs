@@ -161,7 +161,7 @@ namespace UIHeavyClient
 
         public void addChatUser(string pUser)
         {
-            if (!mConnectedUsers.Contains(pUser))
+            if (!mConnectedUsers.Contains(pUser) && pUser.IndexOf("GameServer") == -1)
             {
                 mConnectedUsers.Add(pUser);
                 mConnectedUsers.Sort();

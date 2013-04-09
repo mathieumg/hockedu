@@ -92,7 +92,7 @@ public:
 	inline bool partieTerminee() const {return pointsJoueurGauche_>=POINTAGE_GAGNANT || pointsJoueurDroit_>= POINTAGE_GAGNANT ;}
 
 	/// Effectue une mise au jeu
-	void miseAuJeu( bool debutDePartie = false, int pMiseAuJeuDelai = 4100);
+	void miseAuJeu( bool debutDePartie = false);
 
 	/// Cree un delais d'inactivite de (time) ms
 	void delais(int time);
@@ -114,6 +114,9 @@ public:
 	GameTime* obtenirGameTime(){return &tempsJeu_;}
 
     float obtenirTempsJeu(){ return tempsJeu_.Elapsed_Time_sec(); }
+    // Temps en sec
+    void setTempsJeu(float pElapsedTime) {tempsJeu_.adjustTime(pElapsedTime * 1000.0f);}
+
     void SignalGameOver();
     bool getReadyToPlay(bool loadMapFile = true);
 
@@ -159,6 +162,9 @@ public:
     inline int getMiseAuJeuDelai() const { return mMiseAuJeuDelai; }
     inline void setMiseAuJeuDelai(const int& pVal) { mMiseAuJeuDelai = pVal; }
 
+    inline float getTempsPlus() const { return mTempsPlus; }
+    inline void setTempsPlus(float val) { mTempsPlus = val; }
+
 /// Protected because we need to call these from the class' children
 protected:
 
@@ -190,7 +196,8 @@ private:
 
 	/// Temps ecoule depuis le debut de la partie
 	GameTime tempsJeu_;
-
+    float mTempsPlus; // Temps de depart en sec
+    
 	/// Indique si cette
 	bool faitPartieDunTournoi_;
 

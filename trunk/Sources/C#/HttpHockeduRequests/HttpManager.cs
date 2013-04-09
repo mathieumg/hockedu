@@ -155,23 +155,32 @@ namespace HttpHockeduRequests
 
         public static void getPublicMapList( object pCallback )
         {
-            MapsListLoadedCallBack wCallback = (MapsListLoadedCallBack) pCallback;
-            string wData = HttpManager.getJsonFromRequest( "http://hockedu.com/remote/listmaps" );
-            if ( wData.Length == 0 )
+            MapsListLoadedCallBack wCallback=(MapsListLoadedCallBack)pCallback;
+            try
             {
-                wCallback( new List<UserMapDetailedJSON>() );
-            }
-            MapListJSON wMapList = (MapListJSON) JsonConvert.Import( typeof( MapListJSON ), wData );
+                string wData=HttpManager.getJsonFromRequest("http://hockedu.com/remote/listmaps");
+                if (wData.Length==0)
+                {
+                    wCallback(new List<UserMapDetailedJSON>());
+                }
+                MapListJSON wMapList=(MapListJSON)JsonConvert.Import(typeof(MapListJSON), wData);
 
-            // Si pas d'erreur
-            if ( wMapList.error == null )
-            {
-                wCallback( new List<UserMapDetailedJSON>( wMapList.maps ) );
+                // Si pas d'erreur
+                if (wMapList.error==null)
+                {
+                    wCallback(new List<UserMapDetailedJSON>(wMapList.maps));
+                }
+                else
+                {
+                    wCallback(new List<UserMapDetailedJSON>());
+                }
             }
-            else
+            catch (System.Exception)
             {
-                wCallback( new List<UserMapDetailedJSON>() );
+                wCallback(new List<UserMapDetailedJSON>());
             }
+            
+
         }
 
         public static void getUserPublicMapList( object pParams )
@@ -180,23 +189,32 @@ namespace HttpHockeduRequests
 
             NameValueCollection wPostData = new NameValueCollection();
             wPostData.Add( "user_id", wParams.userId.ToString() );
-            string wData = HttpManager.getJsonFromRequest( "http://hockedu.com/remote/listmaps", wPostData );
 
-            if ( wData.Length == 0 )
+            try
             {
-                wParams.callback( new List<UserMapDetailedJSON>() );
-            }
-            MapListJSON wMapList = (MapListJSON) JsonConvert.Import( typeof( MapListJSON ), wData );
+                string wData=HttpManager.getJsonFromRequest("http://hockedu.com/remote/listmaps", wPostData);
 
-            // Si pas d'erreur
-            if ( wMapList.error == null )
-            {
-                wParams.callback( new List<UserMapDetailedJSON>( wMapList.maps ) );
+                if (wData.Length==0)
+                {
+                    wParams.callback(new List<UserMapDetailedJSON>());
+                }
+                MapListJSON wMapList=(MapListJSON)JsonConvert.Import(typeof(MapListJSON), wData);
+
+                // Si pas d'erreur
+                if (wMapList.error==null)
+                {
+                    wParams.callback(new List<UserMapDetailedJSON>(wMapList.maps));
+                }
+                else
+                {
+                    wParams.callback(new List<UserMapDetailedJSON>());
+                }
             }
-            else
+            catch (System.Exception)
             {
-                wParams.callback( new List<UserMapDetailedJSON>() );
+                wParams.callback(new List<UserMapDetailedJSON>());
             }
+            
         }
 
 
@@ -207,23 +225,32 @@ namespace HttpHockeduRequests
             NameValueCollection wPostData = new NameValueCollection();
             wPostData.Add( "user_id", wParams.userId.ToString() );
             wPostData.Add( "auth_key", wParams.authentication.ToString() );
-            string wData = HttpManager.getJsonFromRequest( "http://hockedu.com/remote/listmaps", wPostData );
+            
+            try
+            {
+                string wData=HttpManager.getJsonFromRequest("http://hockedu.com/remote/listmaps", wPostData);
 
-            if ( wData.Length == 0 )
-            {
-                wParams.callback( new List<UserMapDetailedJSON>() );
-            }
-            MapListJSON wMapList = (MapListJSON) JsonConvert.Import( typeof( MapListJSON ), wData );
+                if (wData.Length==0)
+                {
+                    wParams.callback(new List<UserMapDetailedJSON>());
+                }
+                MapListJSON wMapList=(MapListJSON)JsonConvert.Import(typeof(MapListJSON), wData);
 
-            // Si pas d'erreur
-            if ( wMapList.error == null )
-            {
-                wParams.callback( new List<UserMapDetailedJSON>( wMapList.maps ) );
+                // Si pas d'erreur
+                if (wMapList.error==null)
+                {
+                    wParams.callback(new List<UserMapDetailedJSON>(wMapList.maps));
+                }
+                else
+                {
+                    wParams.callback(new List<UserMapDetailedJSON>());
+                }
             }
-            else
+            catch (System.Exception)
             {
-                wParams.callback( new List<UserMapDetailedJSON>() );
+                wParams.callback(new List<UserMapDetailedJSON>());
             }
+            
         }
 
 
@@ -245,47 +272,56 @@ namespace HttpHockeduRequests
             
             string wJsonData = HttpManager.getJsonFromRequest( "http://hockedu.com/remote/getmap", wPostData );
 
-            UserMapDownloadJSON wMapLight;
             try
             {
-                wMapLight = (UserMapDownloadJSON) JsonConvert.Import( typeof( UserMapDownloadJSON ), wJsonData );
-            }
-            catch
-            {
-                wCallback("", wMapId);
-                return;
-            }
-            // On sauvegarde le data dans un fichier XML et on retourne le path
-            if ( wMapLight.error != null )
-            {
-                wCallback("", wMapId);
-                return;
-            }
-            else
-            {
-                string wCurrentDirectory = Directory.GetCurrentDirectory();
-                string wDestinationFilePath=wCurrentDirectory+Path.DirectorySeparatorChar+"OnlineMaps"+Path.DirectorySeparatorChar+wMapId+".xml";
+
+                UserMapDownloadJSON wMapLight;
                 try
                 {
-                    System.IO.File.WriteAllText( wDestinationFilePath, wMapLight.content );
+                    wMapLight=(UserMapDownloadJSON)JsonConvert.Import(typeof(UserMapDownloadJSON), wJsonData);
                 }
-                catch ( System.IO.IOException )
+                catch
                 {
+                    wCallback("", wMapId);
+                    return;
+                }
+                // On sauvegarde le data dans un fichier XML et on retourne le path
+                if (wMapLight.error!=null)
+                {
+                    wCallback("", wMapId);
+                    return;
+                }
+                else
+                {
+                    string wCurrentDirectory=Directory.GetCurrentDirectory();
+                    string wDestinationFilePath=wCurrentDirectory+Path.DirectorySeparatorChar+"OnlineMaps"+Path.DirectorySeparatorChar+wMapId+".xml";
                     try
                     {
-                        // Si erreur, on le met dans C:/temp/
-                        wDestinationFilePath = "C:" + Path.DirectorySeparatorChar + "temp" + Path.DirectorySeparatorChar + wMapId + ".xml";
-                        System.IO.File.WriteAllText( wDestinationFilePath, wMapLight.content );
+                        System.IO.File.WriteAllText(wDestinationFilePath, wMapLight.content);
                     }
-                    catch ( Exception )
+                    catch (System.IO.IOException)
                     {
-                        // Si encore une erreur, on retourne rien
-                        wCallback("", wMapId);
-                        return;
+                        try
+                        {
+                            // Si erreur, on le met dans C:/temp/
+                            wDestinationFilePath="C:"+Path.DirectorySeparatorChar+"temp"+Path.DirectorySeparatorChar+wMapId+".xml";
+                            System.IO.File.WriteAllText(wDestinationFilePath, wMapLight.content);
+                        }
+                        catch (Exception)
+                        {
+                            // Si encore une erreur, on retourne rien
+                            wCallback("", wMapId);
+                            return;
+                        }
                     }
+                    wCallback(wDestinationFilePath, wMapId, wMapLight.name, wMapLight.description, wMapLight.is_public); // Retourne le file path ou le fichier a ete sauvegarde en local
                 }
-                wCallback(wDestinationFilePath, wMapId, wMapLight.name, wMapLight.description, wMapLight.is_public); // Retourne le file path ou le fichier a ete sauvegarde en local
             }
+            catch (System.Exception)
+            {
+                wCallback("", wMapId);
+            }
+            
         }
 
         public const string TemplateFormData = "--{0}\r\nContent-Disposition: form-data; name=\"{1}\"\r\n\r\n{2}\r\n";
@@ -519,8 +555,17 @@ namespace HttpHockeduRequests
             NameValueCollection wPostData = new NameValueCollection();
             wPostData.Add( "user_id", wUserId );
             wPostData.Add( "auth_key", wAuthKey );
-            string wJsonData = HttpManager.getJsonFromRequest( "http://hockedu.com/remote/getachievements", wPostData );
-
+            string wJsonData;
+            try
+            {
+                wJsonData=HttpManager.getJsonFromRequest("http://hockedu.com/remote/getachievements", wPostData);
+            }
+            catch (System.Exception )
+            {
+                wCallback(DownloadOperationStatus.DOWNLOAD_FAILED_UNKNOWN_ERROR);
+                return;
+            }
+            
             UserAchievementDownloadJSON wAchievementLight;
             try
             {

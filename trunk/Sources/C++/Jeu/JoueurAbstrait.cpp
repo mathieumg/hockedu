@@ -13,6 +13,7 @@
 #include "JoueurVirtuel.h"
 #include "XMLUtils.h"
 #include "JoueurNetwork.h"
+#include "JoueurVirtuelRenforcement.h"
 
 const std::string JoueurAbstrait::etiquetteJoueur = "Joueur";
 const std::string JoueurAbstrait::etiquetteType = "Type";
@@ -183,6 +184,10 @@ SPJoueurAbstrait JoueurAbstrait::usineJoueurXML( const XmlElement* element, Cont
                 {
                     joueur = SPJoueurAbstrait(new JoueurNetwork()); break;
                 }
+            case JOUEUR_VIRTUEL_RENFORCEMENT:
+            {
+                joueur = SPJoueurAbstrait(new JoueurVirtuelRenforcement("")); break;
+            }
 			default: break;
 			}
 			if(joueur->initialiser(element))

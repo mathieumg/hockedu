@@ -306,19 +306,6 @@ namespace UIHeavyClient
         {
             MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = true;
             requestMatchmaking();
-           /* if (mOnlineGameListView.Items.Count > 0)
-            {
-                mFeedbackLabel.Content = "Loading, please wait...";
-                HandleUIButtons(false);
-
-                Random rand = new Random();
-                OnlineGameInfos? randomGame = (mOnlineGameListView.Items[rand.Next(mOnlineGameListView.Items.Count - 1)] as OnlineGameInfos?);
-
-                connectPartieServerGame(randomGame.Value.id, randomGame.Value.serverId, "");
-                mGameWaitingToConnect = randomGame.Value;
-
-                mIsWaitingForOnlineGame = true;
-            }   */
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -371,6 +358,8 @@ namespace UIHeavyClient
         {
             MainWindowHandler.mTaskManager.ExecuteTask(() =>
             {
+                HandleUIButtons(true);
+
                 if(pOutputPath.Length > 0)
                 {
                     // Assigner la map a jouer dans le modele avec le filepah recu
@@ -435,6 +424,11 @@ namespace UIHeavyClient
                     }
                     case EventCodes.SERVER_USER_DISCONNECTED:
                     {
+                        if (message.IndexOf("GameServer") != -1)
+                        {
+                            return true;
+                        }
+
                         wThis.ChatObject.removeChatUser(message);
 
                         // affiche un message de l'événement
@@ -450,6 +444,11 @@ namespace UIHeavyClient
                     break;
                     case EventCodes.SERVER_USER_CONNECTED:
                     {
+                        if (message.IndexOf("GameServer") != -1)
+                        {
+                            return true;
+                        }
+
                         wThis.ChatObject.addChatUser(message);
 
                         // affiche un message de l'événement

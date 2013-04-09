@@ -1863,6 +1863,8 @@ void FacadeModele::togglePause()
                 PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
                 wPaquet->setGameId(FacadeModele::getInstance()->obtenirPartieCouranteId());
                 wPaquet->setEvent(GAME_EVENT_START_GAME);
+                wPaquet->setPlayer1Name(wGame->obtenirNomJoueurGauche());
+                wPaquet->setPlayer2Name(wGame->obtenirNomJoueurDroit());
                 RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
             }
             else
@@ -1870,6 +1872,8 @@ void FacadeModele::togglePause()
                 PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
                 wPaquet->setGameId(FacadeModele::getInstance()->obtenirPartieCouranteId());
                 wPaquet->setEvent(GAME_EVENT_PAUSE_GAME_REQUESTED);
+                wPaquet->setPlayer1Name(wGame->obtenirNomJoueurGauche());
+                wPaquet->setPlayer2Name(wGame->obtenirNomJoueurDroit());
                 RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
             }
         }
