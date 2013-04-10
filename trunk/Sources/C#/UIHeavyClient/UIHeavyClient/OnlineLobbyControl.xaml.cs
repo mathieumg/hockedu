@@ -417,7 +417,18 @@ namespace UIHeavyClient
                                 MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
                                 MainWindowHandler.Context.OnlineLobbyControl.HandleUIButtons(true);
                                 MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
-                                MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("Game creation failed for unknown reason.");
+                                if ( message == "1" )
+                                {
+                                    MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack( "No Game Server Found" );
+                                }
+                                else if ( message == "2" )
+                                {
+                                    MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack( "A game with that name already exists" );
+                                }
+                                else
+                                {
+                                    MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack( "Game creation failed for unknown reason." );
+                                }
                             }
                         });
                         break;

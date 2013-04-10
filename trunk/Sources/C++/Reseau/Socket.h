@@ -25,6 +25,8 @@ enum InternetProtocol {IPv4 = AF_INET, IPv6 = AF_INET6, UNSPECIFIED = AF_UNSPEC}
 enum ConnectionType {UDP, TCP};
 enum ConnectionState {CONNECTED, CONNECTING, NOT_CONNECTED};
 
+typedef std::string SocketIdentifer;
+
 typedef std::function<void ()> OnConnectionCallback;
 
 enum SocketFlags
@@ -87,6 +89,10 @@ public:
 
     void setOnConnectionCallback(OnConnectionCallback pOnConnectionSendCallback);
 
+    /// Accessors of mId
+    inline SocketIdentifer getId() const { return mId; }
+    inline void setId(const SocketIdentifer& pVal) { mId = pVal; }
+
 private:
 
     HANDLE_MUTEX mMutexActiviteSocket;
@@ -101,7 +107,8 @@ private:
 	//Will stock the information of the socket
 	sockaddr_in* mSocketInfo;
     int mIndexPaquet;
-    
+    SocketIdentifer mId;
+
 protected:
 
 

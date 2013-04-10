@@ -35,8 +35,6 @@ void FonctionAppelDownload(int pUserId, int pMapId, CallbackDone pMapDownloadedC
 
 int main(array<System::String ^> ^args)
 {
-    Console::WriteLine(L"Hello World");
-
     for(int i=0; i<(args->Length); i++)
     {
         Console::WriteLine(args[i]);

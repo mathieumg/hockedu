@@ -37,7 +37,7 @@ public:
 
     inline int getNbAssociatedQueries() const { return mNbAssociatedQueries; }
     // Attention, si la mauvaise valeur est mise, cela peut causer des GROS problemes
-    inline void setNbAssociatedQueries(int pNbAssociatedQueries) { if(pNbAssociatedQueries == 0) {delete this;} else{ mNbAssociatedQueries = pNbAssociatedQueries;} }
+    inline void setNbAssociatedQueries(int pNbAssociatedQueries) { checkf(pNbAssociatedQueries != 0);{ mNbAssociatedQueries = pNbAssociatedQueries;} }
     // Fonction qui decremente le compteur de queries associees a ce Paquet, Si compteur = 0, on appelle le destructeur
     void removeAssociatedQuery();
 

@@ -28,6 +28,16 @@
 #include <stdarg.h>
 #endif
 
+#define NETWORK_LOG(...) GestionnaireReseau::obtenirInstance()->sendMessageToLog(__FILE__, __LINE__, ##__VA_ARGS__);
+
+#if !SHIPPING
+#define PACKETS_SEND_LOG(content) GestionnaireReseau::obtenirInstance()->PacketSendToLog(content);
+#define PACKETS_RECEIVE_LOG(content) GestionnaireReseau::obtenirInstance()->PacketReceivedToLog(content);
+#else
+#define PACKETS_SEND_LOG(content)
+#define PACKETS_RECEIVE_LOG(content)
+#endif
+
 class PacketHandler;
 class UsinePaquet;
 // Typedef pour la liste de sockets
@@ -50,8 +60,6 @@ enum PacketTypes {
     LOGIN_INFO,
     CHAT_MESSAGE,
     USER_STATUS,
-    TEST,
-    BASE,
     GAME_STATUS,
     GAME_CREATION_REQUEST,
     GAME_CONNECTION,
@@ -61,6 +69,8 @@ enum PacketTypes {
     GAME_EVENT,
     PORTAL,
     BONUS,
+
+    NB_PACKET_TYPES
 };
 
 struct ConnectionStateEvent
@@ -135,6 +145,8 @@ public:
 
 	// Methode pour obtenir l'adresse IP locale qui est dans le meme subnet que l'adresse IP passee en parametre
 	std::string getAdresseIPLocaleAssociee(const std::string& pDestinationIP);
+    /// unsigned important, all 32 bits used
+    std::string getAdresseIPLocaleAssociee( unsigned int minAdress, unsigned int maxAdress );
 
 	// Methode pour ajouter une operation reseau (ex: deplacerNoeud). Le handler doit etre fourni ainsi que l'usine pour creer les noeuds
 	void ajouterOperationReseau(const PacketTypes pNomOperation, PacketHandler* pPacketHandler, UsinePaquet* pUsine);
@@ -207,7 +219,11 @@ public:
 
 
 	// Methode pour ecrire une erreur dans le log de reseautique
-	static void sendMessageToLog(const std::string& pMessage);
+    static void sendMessageToLog(const std::string& pMessage);
+    static void sendMessageToLog(const char* File, int Line, const char* Format="", ... );
+    static void PacketSendToLog(const char* pMessage);
+    static void PacketReceivedToLog(const char* pMessage);
+
 
     // Methode pour throw une exception du bon type
     void throwExceptionReseau(const std::string& pMessagePrefix = "") const;
@@ -264,7 +280,7 @@ private:
     std::map<int, ExceptionTypes> mMapExceptions;
 
 	// Communicateur Reseau a utiliser
-	CommunicateurReseau mCommunicateurReseau;
+	CommunicateurReseau* mCommunicateurReseau;
 
 	// Liste des Sockets associes par un key:(string et un type de socket)
 	ListeSockets mListeSockets;

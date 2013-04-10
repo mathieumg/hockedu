@@ -63,26 +63,34 @@ void RelayeurMessage::relayerPaquetGlobalement( Paquet* pPaquet, const std::set<
 {
     // On trouve la liste des personnes connectees et on envoie le Paquet a tous
     std::set<std::string> wListe = GestionnaireReseau::obtenirInstance()->getConnectionIdList(pConnectionType);
-    pPaquet->setNbAssociatedQueries((int) (wListe.size()));
-    for(std::set<std::string>::const_iterator it = wListe.begin(); it!=wListe.end(); ++it)
+    if(wListe.size())
     {
-        bool wNomFound = false;
-        if(pListeNomsAIgnorer)
+        pPaquet->setNbAssociatedQueries((int) (wListe.size()));
+        for(std::set<std::string>::const_iterator it = wListe.begin(); it!=wListe.end(); ++it)
         {
-            for(auto itListe = pListeNomsAIgnorer->begin(); itListe != pListeNomsAIgnorer->end(); itListe++)
+            bool wNomFound = false;
+            if(pListeNomsAIgnorer)
             {
-                size_t wIndexFound = (*it).find(*itListe);
-                if(wIndexFound == 0) // Si contient le nom a ignorer au debut de son nom
+                for(auto itListe = pListeNomsAIgnorer->begin(); itListe != pListeNomsAIgnorer->end(); itListe++)
                 {
-                    wNomFound = true;
-                    break;
+                    size_t wIndexFound = (*it).find(*itListe);
+                    if(wIndexFound == 0) // Si contient le nom a ignorer au debut de son nom
+                    {
+                        wNomFound = true;
+                        break;
+                    }
                 }
             }
+            if(!wNomFound)
+            {
+                relayerPaquet((*it), pPaquet, TCP);
+            }
         }
-        if(!wNomFound)
-        {
-            relayerPaquet((*it), pPaquet, TCP);
-        }
+    }
+    else
+    {
+        // si le paquet est destiné a personne, on le supprime
+        delete pPaquet;
     }
 }
 
@@ -139,15 +147,20 @@ void RelayeurMessage::relayerPaquetGame( int pGameId, Paquet* pPaquet, Connectio
     std::vector<std::string> wPlayersList;
     GestionnaireReseau::obtenirInstance()->getController()->getPlayersInGame(pGameId, wPlayersList);
     
-    
-    pPaquet->setNbAssociatedQueries((int)wPlayersList.size());
-
-    for(auto it = wPlayersList.begin(); it != wPlayersList.end(); ++it)
+    int nbPlayer = (int)wPlayersList.size();
+    if(nbPlayer)
     {
-        relayerPaquet((*it), pPaquet, pConnectionType);
-    }
-    
+        pPaquet->setNbAssociatedQueries(nbPlayer);
 
+        for(auto it = wPlayersList.begin(); it != wPlayersList.end(); ++it)
+        {
+            relayerPaquet((*it), pPaquet, pConnectionType);
+        }
+    }
+    else
+    {
+        delete pPaquet;
+    }
 }
 
 

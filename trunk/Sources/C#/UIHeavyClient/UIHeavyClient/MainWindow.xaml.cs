@@ -264,6 +264,8 @@ namespace UIHeavyClient
 
             System.Windows.Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 #if !SHIPPING
+
+
             System.Windows.Controls.MenuItem debugMenu = new System.Windows.Controls.MenuItem();
             debugMenu.Header = "Debug";
             MenuBar.Items.Add(debugMenu);

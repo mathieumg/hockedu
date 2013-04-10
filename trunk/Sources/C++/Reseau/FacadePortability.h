@@ -199,6 +199,16 @@ namespace FacadePortability {
 #endif
     }
 
+    inline void waitForThreadExit (HANDLE_THREAD& pThread)
+    {
+#ifdef WINDOWS
+        WaitForSingleObject(pThread, INFINITE);
+#elif defined(LINUX)
+        pthread_join(pThread,0);
+#endif
+    }
+
+
     inline void exitThread      (int result)
     {
 #ifdef WINDOWS

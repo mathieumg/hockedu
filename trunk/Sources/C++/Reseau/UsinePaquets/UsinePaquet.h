@@ -10,9 +10,6 @@
 
 #pragma once
 #include <string>
-#include <map>
-#include "../Paquets/Paquet.h"
-
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class UsinePaquet
@@ -30,15 +27,43 @@ public:
 	/// Fonction à surcharger pour la création d'un paquet.
 	virtual Paquet* creerPaquet() const = 0;
 
-
 protected:
 	/// Constructeur qui prend le nom associé à l'usine.
 	UsinePaquet()  {}
 
-
 };
 
 
+#define PAQUET_FACTORY_DECLARATION(FactoryName)      \
+class UsinePaquet## FactoryName : public UsinePaquet   \
+{                                                           \
+public:                                                     \
+    virtual Paquet* creerPaquet() const;     \
+};
+
+#define PAQUET_FACTORY_IMPLEMENTATION(FactoryName)                \
+    Paquet* UsinePaquet## FactoryName::creerPaquet() const    \
+{  return new FactoryName();  }
+
+
+PAQUET_FACTORY_DECLARATION(ChatMessage    );
+PAQUET_FACTORY_DECLARATION(ConnAutomatique);
+PAQUET_FACTORY_DECLARATION(Event          );
+PAQUET_FACTORY_DECLARATION(LoginInfo      );
+PAQUET_FACTORY_DECLARATION(ChatMessage    );
+PAQUET_FACTORY_DECLARATION(UserStatus     );
+PAQUET_FACTORY_DECLARATION(GameStatus     );
+PAQUET_FACTORY_DECLARATION(GameCreation   );
+PAQUET_FACTORY_DECLARATION(GameConnection );
+PAQUET_FACTORY_DECLARATION(Maillet        );
+PAQUET_FACTORY_DECLARATION(Rondelle       );
+PAQUET_FACTORY_DECLARATION(GameEvent      );
+PAQUET_FACTORY_DECLARATION(Portal         );
+PAQUET_FACTORY_DECLARATION(Bonus          );
+
+// extern pour s'assurer d'allouer la memoire a 1 seule place et une seule fois
+extern const std::string PaquetNamesArray[NB_PACKET_TYPES];
+extern UsinePaquet* PaquetFactories[NB_PACKET_TYPES];
 
 
 ///////////////////////////////////////////////////////////////////////////////

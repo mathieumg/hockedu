@@ -31,6 +31,9 @@
 // Taille maximale des buffers pour l<envoie et la reception
 unsigned int CommunicateurReseau::maxBufferSize = 5000;
 
+bool exitSendingThreadRoutine = false;
+bool exitReceivingThreadRoutine = false;
+
 struct ArgsConnectionThread {
     CommunicateurReseau* communicateurReseau;
     SPSocket socketAConnecter;
@@ -63,10 +66,12 @@ void CommunicateurReseau::envoyerPaquetSync( Paquet* wPaquetAEnvoyer, SPSocket w
 ////////////////////////////////////////////////////////////////////////
 CommunicateurReseau::CommunicateurReseau():mListeEnvoie(maxBufferSize),mListeReception(maxBufferSize)
 {
-
+    exitSendingThreadRoutine = false;
+    exitReceivingThreadRoutine = false;
     FacadePortability::createMutex(mMutexListeSocketsEcoute);
     FacadePortability::createMutex(mMutexListeSocketsConnection);
     FacadePortability::createSemaphore(mHandleSemaphoreContentSend, 0, maxBufferSize);
+    FacadePortability::createSemaphore(mTCPConnectionUsedSemaphore, 0, 20);
     demarrerSendingThread();
     demarrerReceivingThread();
 
@@ -85,6 +90,58 @@ CommunicateurReseau::CommunicateurReseau():mListeEnvoie(maxBufferSize),mListeRec
 ////////////////////////////////////////////////////////////////////////
 CommunicateurReseau::~CommunicateurReseau()
 {
+    for(int i=0; i<(int)mHandlesThreadConnectionTCPServeur.size(); ++i)
+    {
+        FacadePortability::takeSemaphore(mTCPConnectionUsedSemaphore);  // on attend que tous les threads ait terminer d'essayer de ce connecter
+    }
+    // il est maintenant safe de les "kills"
+    for(auto it = mHandlesThreadConnectionTCPServeur.begin(); it!=mHandlesThreadConnectionTCPServeur.end(); ++it)
+    {
+        // Quitter les threads
+        FacadePortability::terminateThread(*it);
+    }
+    mHandlesThreadConnectionTCPServeur.clear();
+
+    FacadePortability::takeMutex(mMutexListeSocketsConnection);
+    std::vector<HANDLE_THREAD> threads;
+    // on ce fait une copie puisque les threads vont eux-meme se retirer de la map
+    for(auto it = mHandlesThreadConnection.begin(); it!=mHandlesThreadConnection.end(); ++it)
+    {
+        threads.push_back(it->second);
+    }
+    FacadePortability::releaseMutex(mMutexListeSocketsConnection);
+
+
+    for(auto it = threads.begin(); it!=threads.end(); ++it)
+    {    
+        // Tous les sockets devraient etre signaler comme cancel ici et donc les thread de connexion devraietn sarreter
+        FacadePortability::waitForThreadExit(*it);
+    }
+
+    mHandlesThreadConnection.clear();
+
+    exitReceivingThreadRoutine = true;
+    exitSendingThreadRoutine = true;
+    
+    // simule du contenu pour que le thread debloque
+    FacadePortability::releaseSemaphore(mHandleSemaphoreContentSend);
+
+    FacadePortability::waitForThreadExit(mHandleThreadEnvoie);
+    FacadePortability::waitForThreadExit(mHandleThreadReception);
+    FacadePortability::terminateThread(mHandleThreadEnvoie);
+    FacadePortability::terminateThread(mHandleThreadReception);
+
+    /// Must correctly end this thread if udp used
+    //FacadePortability::terminateThread(mHandleThreadReceptionUDP);
+
+
+//     FacadePortability::closeMutex(mMutexListeSocketsEcoute);
+//     FacadePortability::closeMutex(mTCPConnectionUsedSemaphore );
+//     FacadePortability::closeMutex(mMutexListeSocketsConnection);
+//     FacadePortability::closeMutex(mHandleSemaphoreContentSend );
+
+
+
     // On doit supprimer les Paquets contenus dans les files de paquets. Pas besoin d'etre effectuer souvent alors pas besoin d'etre performant.
     // Ces paquets ne seront jamais envoyes
     while(!mListeEnvoie.empty())
@@ -106,12 +163,7 @@ CommunicateurReseau::~CommunicateurReseau()
         }
     }
 
-    for(auto it = mHandlesThreadConnectionTCPServeur.begin(); it!=mHandlesThreadConnectionTCPServeur.end(); ++it)
-    {
-        // Quitter les threads
-        FacadePortability::terminateThread(*it);
-    }
-    mHandlesThreadConnectionTCPServeur.empty();
+
 
 }
 
@@ -214,6 +266,7 @@ void CommunicateurReseau::demarrerThreadsConnectionServeur()
         {
             // On ajoute le handle a la liste
             mHandlesThreadConnectionTCPServeur.push_back(wThread);
+            FacadePortability::releaseSemaphore(mTCPConnectionUsedSemaphore);  // on alloue un thread supplementaire, celui-ci commence a sexecuter
         }
     }
 }
@@ -262,21 +315,21 @@ void CommunicateurReseau::demarrerThreadsReceptionUDPClientLourd()
 void CommunicateurReseau::demarrerThreadsReceptionUDPServeurJeu()
 {
 
-    ArgsConnectionThread* wArgs = new ArgsConnectionThread;
-    wArgs->communicateurReseau = this;
-    wArgs->socketAConnecter = SPSocket(new Socket("0.0.0.0", GestionnaireReseau::communicationUDPPortServeurJeu, UDP));
-
-    HANDLE_THREAD wThread;
-    FacadePortability::createThread(wThread, receivingUDPThreadRoutine, wArgs);
-    if(wThread==NULL)
-    {
-        throw ExceptionReseau("Erreur lors de la creation du thread de reception UDP", NULL);
-    }
-    else
-    {
-        // On ajoute le handle a la liste
-        mHandleThreadReceptionUDP = wThread;
-    }
+//     ArgsConnectionThread* wArgs = new ArgsConnectionThread;
+//     wArgs->communicateurReseau = this;
+//     wArgs->socketAConnecter = SPSocket(new Socket("0.0.0.0", GestionnaireReseau::communicationUDPPortServeurJeu, UDP));
+// 
+//     HANDLE_THREAD wThread;
+//     FacadePortability::createThread(wThread, receivingUDPThreadRoutine, wArgs);
+//     if(wThread==NULL)
+//     {
+//         throw ExceptionReseau("Erreur lors de la creation du thread de reception UDP", NULL);
+//     }
+//     else
+//     {
+//         // On ajoute le handle a la liste
+//         mHandleThreadReceptionUDP = wThread;
+//     }
 
 }
 
@@ -514,7 +567,7 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
     PacketBuilder wPacketBuilder;
     int nbBytesEnvoye = 0;
     PaquetAEnvoyer* wPaquetAEnvoyer = NULL;
-    while (true)
+    while (!exitSendingThreadRoutine)
     {
         FacadePortability::takeSemaphore(wCommunicateurReseau->mHandleSemaphoreContentSend);
         if(!listeAEnvoyer->empty())
@@ -540,16 +593,20 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
                         {
                             FacadePortability::releaseSemaphore(wCommunicateurReseau->mHandleSemaphoreContentSend);
                         }
-                        continue;
+                        continue; // on continue la boucle car le paquet est remis dans la pile 
                     }
                     // Sinon on continue car le temps est atteint et on envoie le paquet
                 }
 
                 SPSocket wSocket = wPaquetAEnvoyer->socket;
                 
-                // Fix crash
-                if(!wSocket)
+                // Fix crash && socket
+                if(!wSocket || wSocket->isPendingDelete() )
                 {
+                    if(wPaquet)
+                    {
+                        wPaquet->removeAssociatedQuery(); // fix leak
+                    }
                     continue; // Si le socket est invalide, on drop le paquet
                 }
                 ConnectionState wConnectionState = wSocket->getConnectionState();
@@ -574,7 +631,9 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
                     wPacketBuilder.clearBuffer(); // On s'assure que le buffer est vide
                     wPacketHandler->handlePacketPreparation(wPaquet, wPacketBuilder);
                 
-                
+#if !SHIPPING
+                    PACKETS_SEND_LOG((const char*)wPacketBuilder.getPacketString());
+#endif //!SHIPPING
                     // On essaie d'envoyer la chaine, envoi bloquant
                     wSocket->send( wPacketBuilder.getPacketString(),  wPacketBuilder.getPacketLength(), true);
                 
@@ -603,8 +662,8 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
                     // Probleme, on ne sait pas c'est quoi, on drop le paquet
                 }
                 
-                wPaquetAEnvoyer->paquet->removeAssociatedQuery();
-                delete wPaquetAEnvoyer;
+                // le meme paquer peut etre envoyer a plusieurs personne so we dont delete it directly
+                wPaquetAEnvoyer->paquet->removeAssociatedQuery(); 
             }
         }
     }
@@ -630,7 +689,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
     CommunicateurReseau* wCommunicateurReseau = (CommunicateurReseau*) arg;
     uint8_t readBuffer[GestionnaireReseau::TAILLE_BUFFER_RECEPTION_ENVOI];
     PacketReader wPacketReader;
-    while(true)
+    while(!exitReceivingThreadRoutine)
     {
         auto it = wCommunicateurReseau->getFirstSocketEcoute();
         auto end = wCommunicateurReseau->getEndSocketEcoute();
@@ -638,6 +697,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
         {
             bool breakLoop = false;
             SPSocket wSocket = (*it);
+            
             if(wSocket == 0)
             {
                 // Bad socket, on le supprime et on doit recommencer la boucle car l'iterateur n'est plus valide
@@ -705,6 +765,11 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                                             throw ExceptionReseau("Erreur de reception du message. Loop infinie");
                                         }
                                     }
+
+#if !SHIPPING
+                                    PACKETS_RECEIVE_LOG((const char*)readBuffer);
+#endif //!SHIPPING
+
                                     PacketHandler* wPacketHandler = GestionnaireReseau::obtenirInstance()->getPacketHandler(wPacketHeader.type);
                                     wPacketHandler->handlePacketReceptionSpecific( wPacketReader , GestionnaireReseau::obtenirInstance()->getController()->getRunnable(wPacketHeader.type) );
                                 }
@@ -716,6 +781,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                 }
                 catch(ExceptionReseauSocketDeconnecte&)
                 {
+                    NETWORK_LOG("Socket disconnected");
                     wSocket->disconnect();
                     wCommunicateurReseau->terminerIterationListeSocketEcoute();
                     GestionnaireReseau::obtenirInstance()->getController()->handleDisconnectDetection(wSocket);
@@ -737,6 +803,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
             }
             else if(wState == NOT_CONNECTED)
             {
+
                 // On essaye de demarrer un thread de connection et on le retire de la liste de sockets a ecouter
                 wCommunicateurReseau->demarrerConnectionThread(wSocket);
                 it = wCommunicateurReseau->supprimerEcouteSocket(it);
@@ -793,6 +860,8 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
     bool tryConnection = true;
     wSocket->setConnectionState(CONNECTING);
 
+    NETWORK_LOG("Attempting connection for  %s  to  %s", wSocket->getId().c_str(), wSocket->getAdresseDestination().c_str());
+
     while(tryConnection)
     {
         // Essayer de connecter le socket
@@ -801,6 +870,7 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
         case CONNECTED:
             tryConnection = false;
             connectionSuccessful = true;
+            NETWORK_LOG("connection successful for  %s  to  %s", wSocket->getId().c_str(), wSocket->getAdresseDestination().c_str());
             break;
         case CONNECTING:
             ++wNbTentatives;
@@ -813,6 +883,7 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
             break;
         case NOT_CONNECTED:
         default:
+            NETWORK_LOG("connection failed for  %s  to  %s", wSocket->getId().c_str(), wSocket->getAdresseDestination().c_str());
             // probleme de logique de connection alors on arrete
             tryConnection = false;
             break;
@@ -862,6 +933,8 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
 
     delete wArgs; // Plus besoin des arguments
 
+    // on prend la semaphore pour débuter notre travail
+    FacadePortability::takeSemaphore(wCommunicateurReseau->mTCPConnectionUsedSemaphore);
 
     // call bind + listen on the Socket
     try
@@ -871,7 +944,6 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
     catch(ExceptionReseau&)
     {
         wSocket->setConnectionState(NOT_CONNECTED);
-        throw ExceptionReseau("Appel a bind() impossible. Type: TCP SERVEUR.");
         FacadePortability::exitThread(EXIT_FAILURE);
     }
 
@@ -883,13 +955,14 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
     catch(ExceptionReseau&)
     {
         wSocket->setConnectionState(NOT_CONNECTED);
-        throw ExceptionReseau("Appel a listen() impossible. Type: TCP SERVEUR.");
         FacadePortability::exitThread(EXIT_FAILURE);
     }
 
-
     while(true)
     {
+        // liberation au debut pour indiquer que le thread est "libre" cest-a-dire en attente de connection
+        FacadePortability::releaseSemaphore(wCommunicateurReseau->mTCPConnectionUsedSemaphore);  // on libere ce thread
+
         sockaddr_in sinRemote;
         uint32_t nAddrSize = sizeof(sinRemote);
         SPSocket wNewSocket = NULL;
@@ -898,6 +971,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
         try
         {
             wNewSocket = wSocket->accept((sockaddr*)&sinRemote, &nAddrSize);
+            FacadePortability::takeSemaphore(wCommunicateurReseau->mTCPConnectionUsedSemaphore);  // on indique que ce thread est occupé
 
             // On recoit le premier paquet venant de la personne qui se connecte (contient son nom) ne pas bloquer trop longtemps
             char wPlayerName[50];
@@ -907,10 +981,13 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
             }
             wNewSocket->recv((uint8_t*) &wPlayerName, 50, true);
 
+            NETWORK_LOG("connection received from  %s  at  %s", wSocket->getId().c_str(), wSocket->getAdresseSource().c_str());
+
+
             // On verifie que le nom ne contient pas d'espaces et n'est pas vide
             if(strlen(wPlayerName) == 0 || GestionnaireReseau::obtenirInstance()->getPlayerName() == wPlayerName || !GestionnaireReseau::obtenirInstance()->validerUsername(std::string(wPlayerName)))
             {
-                // On envoit un message de confirmation pour dire que la conenction est refusee
+                // On envoit un message de confirmation pour dire que la connection est refusee
                 // Send connection state message
                 char ssAuth[4];
                 uint32_t len = sprintf_s(ssAuth,"%d",INVALID_USERNAME);
@@ -921,10 +998,10 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
             }
             else
             {
+                std::string pSocketIdentifier = wPlayerName;
                 // On verifie que le user n'est pas deja connecte
                 if(GestionnaireReseau::obtenirInstance()->getPlayerName() != "MasterServer" || GestionnaireReseau::obtenirInstance()->getSocket(wPlayerName, TCP) == NULL)
                 {
-                    std::string pSocketIdentifier = wPlayerName;
                     // On verifie finalement l'authentification
                     if(GestionnaireReseau::obtenirInstance()->requireAuthentification())
                     {
@@ -956,6 +1033,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
 
                             wNewSocket->disconnect();
                             wNewSocket = 0;
+
                             continue; // On ne veut pas retourner un status connected alors on skip le reste de la boucle
                         }
                         catch(ExceptionReseau&)
@@ -970,6 +1048,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
 
                             wNewSocket->disconnect();
                             wNewSocket = 0;
+
                             continue; // On ne veut pas retourner un status connected alors on skip le reste de la boucle
                         }
                     }
@@ -986,10 +1065,12 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
                     wNewSocket->setConnectionState(CONNECTED);
 
                     std::cout << pSocketIdentifier << " Connected" << std::endl;
-                    // On envoit un message de confirmation pour dire que la conenction est acceptee
+                    NETWORK_LOG("Connection : %s",wPlayerName);
+                    // On envoit un message de confirmation pour dire que la connexion est acceptee
                 }
                 else
                 {
+                    NETWORK_LOG("Connection Attempt Already Connected : %s",wPlayerName);
                     // Sinon on ne connecte pas et on delete le socket
                     // On envoit un message de confirmation pour dire que la conenction est refusee
                     char wMessageConfirmation[4];
@@ -1003,6 +1084,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
         }
         catch(ExceptionReseauTimeout&)
         {
+            NETWORK_LOG("User connection timeout");
             wMessageConfirmation = USER_DID_NOT_SEND_NAME_ON_CONNECTION;
             // Send connection state message
             try
@@ -1016,6 +1098,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
         }
         catch(ExceptionReseau&)
         {
+            NETWORK_LOG("Critical Error : User Connection");
             wMessageConfirmation = USER_DISCONNECTED;
             // Send connection state message
             try
@@ -1027,6 +1110,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
             wNewSocket->disconnect();
             wNewSocket = 0;
         }
+
     }
     // On termine le thread
     return 0;
@@ -1049,6 +1133,8 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
 ////////////////////////////////////////////////////////////////////////
 void * CommunicateurReseau::receivingUDPThreadRoutine( void *arg )
 {
+    /// NOT USED
+
     ArgsConnectionThread* wArgs = (ArgsConnectionThread*) arg;
 
     SPSocket wSocket = (SPSocket)wArgs->socketAConnecter;
@@ -1060,8 +1146,6 @@ void * CommunicateurReseau::receivingUDPThreadRoutine( void *arg )
     PacketReader wPacketReader;
 
     std::hash_map<std::string, int> wMapNoSequence;
-
-
 
     try
     {

@@ -32,6 +32,9 @@
 
 void InitDLLServeurJeu()
 {
+    NETWORK_LOG_FILE_NAME = "GAME_SVR_LOG_";
+    NETWORK_PACKET_FILE_NAME = "GAME_SVR_PACKET_";
+
     // Initialisation du GestionnaireReseau
     GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
 
@@ -81,14 +84,19 @@ void ConnectMasterServer(const std::string& wMasterServerIP)
         });
     }
 }
+void CleanUp()
+{
+    FacadeServeurJeu::libererInstance();
+    GestionnaireReseau::libererInstance();
+}
 
 
-char* ObtenirAdresseIpLocaleAssociee(const std::string& pIpAssociee)
+DLLEXPORT_SERVEUR_JEU const char* ObtenirAdresseIpLocaleAssociee( unsigned int minAdress, unsigned int maxAdress )
 {
     std::string wTemp;
     try 
     {
-        wTemp = GestionnaireReseau::obtenirInstance()->getAdresseIPLocaleAssociee(pIpAssociee);
+        wTemp = GestionnaireReseau::obtenirInstance()->getAdresseIPLocaleAssociee(minAdress,maxAdress);
     }
     catch(ExceptionReseau&)
     {
@@ -118,6 +126,7 @@ FacadeServeurJeu* FacadeServeurJeu::instance_ = 0;
 /// @return void*
 ///
 ////////////////////////////////////////////////////////////////////////
+bool tickDaemon = true;
 void* DeamonTick( void *arg )
 {
     FacadeServeurJeu* wFacade = (FacadeServeurJeu*) arg;
@@ -127,7 +136,7 @@ void* DeamonTick( void *arg )
 
     // Not Accurate
     clock_t wLastTick = clock();
-    while(true)
+    while(tickDaemon)
     {
         FacadePortability::takeMutex(GameManager::mMutexTickRemove);
         clock_t wElapsed = clock()-wLastTick;
@@ -139,13 +148,15 @@ void* DeamonTick( void *arg )
         FacadePortability::sleep(1); // Enlever cette ligne pour etre plus precis, mais va bouffer le CPU
         FacadePortability::releaseMutex(GameManager::mMutexTickRemove);
     }
+    return 0;
 }
 
-
+// Callback a appeler pour demarrer le download de la map
+ManagedStartMapDownload mCallbackManagedStartDownload = NULL;
 
 void SetStartMapDownloadCallback( ManagedStartMapDownload pCallback )
 {
-    FacadeServeurJeu::getInstance()->setCallbackManagedStartDownload(pCallback);
+    mCallbackManagedStartDownload = pCallback;
 }
 
 
@@ -186,11 +197,11 @@ FacadeServeurJeu* FacadeServeurJeu::getInstance()
 ////////////////////////////////////////////////////////////////////////
 void FacadeServeurJeu::libererInstance()
 {
-
-    instance_->libererMemoire();
-    delete instance_;
-    instance_ = 0;
-
+    if(instance_)
+    {
+        delete instance_;
+        instance_ = 0;
+    }
 }
 
 
@@ -212,15 +223,11 @@ FacadeServeurJeu::FacadeServeurJeu()
     srand( (unsigned int) clock()+(unsigned int) time);
 
     // Demarrage du thread de tick
-    HANDLE wHandle;
-    FacadePortability::createThread(wHandle, DeamonTick, this);
-    if(wHandle==NULL)
+    FacadePortability::createThread(mDaemon, DeamonTick, this);
+    if(mDaemon==NULL)
     {
         throw std::runtime_error("Erreur lors de la creation du thread de reception");
     }
-
-    mCallbackManagedStartDownload = NULL;
-    
 }
 
 
@@ -236,6 +243,11 @@ FacadeServeurJeu::FacadeServeurJeu()
 ////////////////////////////////////////////////////////////////////////
 FacadeServeurJeu::~FacadeServeurJeu()
 {
+    tickDaemon = false;
+    FacadePortability::waitForThreadExit(mDaemon);
+    FacadePortability::terminateThread(mDaemon);
+
+    GameManager::libererInstance();
 }
 
 
@@ -266,22 +278,6 @@ void FacadeServeurJeu::animer( const float& temps)
 }
 
 
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void FacadeServeurJeu::libererMemoire()
-///
-/// Liberation de la memoire
-///
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void FacadeServeurJeu::libererMemoire()
-{
-
-}
 
 
 ////////////////////////////////////////////////////////////////////////

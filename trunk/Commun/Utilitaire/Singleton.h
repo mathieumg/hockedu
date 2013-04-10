@@ -113,8 +113,11 @@ inline T* Singleton<T>::obtenirInstance()
 template <class T>
 inline void Singleton<T>::libererInstance()
 {
-   delete instance_;
-   instance_ = 0;
+    if(instance_)
+    {
+        delete instance_;
+        instance_ = 0;
+    }
 }
 
 

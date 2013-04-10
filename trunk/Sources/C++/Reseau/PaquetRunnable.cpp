@@ -15,7 +15,6 @@
 #include <iomanip>
 
 #include "ObjetsGlobaux/JoueurServeurs.h"
-#include "Paquets/PaquetTest.h"
 #include "Paquets/PaquetGameStatus.h"
 #include "Paquets/PaquetMaillet.h"
 #include <iostream>
@@ -118,19 +117,6 @@ int PaquetRunnable::RunnableUserStatusServer( Paquet* pPaquet )
 }
 
 
-// Global
-// Pour des tests
-int PaquetRunnable::RunnableTest( Paquet* pPaquet )
-{
-    PaquetTest* wPaquet = (PaquetTest*) pPaquet;
-
-    std::cout << std::endl << "Message: "  << wPaquet->getMessage() << std::endl;
-    std::cout << "Int: " << wPaquet->getInt() << std::endl;
-    std::cout << "Float: " << wPaquet->getFloat() << std::endl;
-
-    wPaquet->removeAssociatedQuery(); // delete
-    return 0;
-}
 
 
 int PaquetRunnable::RunnableGameStatusClient( Paquet* pPaquet )

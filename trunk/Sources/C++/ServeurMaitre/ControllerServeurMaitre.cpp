@@ -31,7 +31,6 @@ ControllerServeurMaitre::ControllerServeurMaitre()
     //mPaquetRunnables[CONN_AUTOMATIQUE]    = PaquetRunnable::RunnableConnAutomatiqueServer;
     mPaquetRunnables[USER_STATUS]           = PaquetRunnable::RunnableUserStatusMasterServer;
     mPaquetRunnables[CHAT_MESSAGE]          = PaquetRunnable::RunnableChatMessageMasterServer;
-    mPaquetRunnables[TEST]                  = PaquetRunnable::RunnableTest;
     mPaquetRunnables[GAME_STATUS]           = PaquetRunnable::RunnableGameStatusMasterServer;
     mPaquetRunnables[GAME_CREATION_REQUEST] = PaquetRunnable::RunnableGameCreationMasterServer;
     mPaquetRunnables[GAME_CONNECTION]       = PaquetRunnable::RunnableGameConnectionMasterServer;

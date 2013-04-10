@@ -49,7 +49,7 @@ bool QueueThreadSafe<T>::pop( T& pOutElem )
 	if(!mFile.empty())
 	{
 		pOutElem = mFile.front();
-		mFile.pop();
+		mFile.pop(); // erase first element (queue erases element at begining not end)
 		wObjectPresent = true;
 	}
 	releaseMutex();

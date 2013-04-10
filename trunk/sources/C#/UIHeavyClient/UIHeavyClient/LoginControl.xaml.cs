@@ -26,6 +26,9 @@ using System.ComponentModel;
 using System.Security.Cryptography;
 using HttpHockeduRequests;
 using System.Threading;
+using System.Net.NetworkInformation;
+using System.Net;
+using System.Diagnostics;
 
 namespace UIHeavyClient
 {
@@ -220,6 +223,7 @@ namespace UIHeavyClient
 
             InitSavedValues();
 
+
             mConnectionSuccessfulCallback = connectionSuccessfulCallback;
             AuthWebOnly = onlyWebAuth;
             if ( AuthWebOnly )
@@ -235,9 +239,8 @@ namespace UIHeavyClient
                 ManualServerEntry.IsEnabledChanged += ControlEnabledChanged;
                 listedServer = new Server[]
                 {
+                    new Server("Main Server", "Hockedu.com"/*"173.231.120.124"*/),
                     new Server("Local", "127.0.0.1"),
-                    new Server("Math's house", "173.177.0.193"),
-                    new Server("Charles' house", "135.19.211.76")
                 };
 
                 foreach ( Server s in listedServer )
@@ -316,6 +319,8 @@ namespace UIHeavyClient
             UnBlockUIContent();
         }
 
+
+
         ////////////////////////////////////////////////////////////////////////
         /// @fn void LoginControl.TryConnecting()
         ///
@@ -348,34 +353,48 @@ namespace UIHeavyClient
                 {
                     string serverName;
                     string ipAdress;
+
+
                     if ( ManualServerEntry.Text != "" )
                     {
                         ipAdress = ManualServerEntry.Text;
                         serverName = ipAdress;
+                        //IPAddress[] ips = Dns.GetHostAddresses( ManualServerEntry.Text );
                     }
                     else
                     {
                         ipAdress = listedServer[serverComboBox.SelectedIndex].mIPAdress;
                         serverName = listedServer[serverComboBox.SelectedIndex].mName;
+
+                        if ( serverComboBox.SelectedIndex == 1 )
+                        {
+                            MainWindowHandler.StartServers();
+                        }
                     }
+                    IPAddress[] ips = Dns.GetHostAddresses( ipAdress );
 
-                    if ( Utilities.IsIPv4( ipAdress ) )
+                    if ( ips.Count() > 0)
                     {
-                        mCurrentRequest = new ConnectionRequest();
+                        ipAdress = ips[0].ToString();
+                        if ( !Utilities.IsIPv4( ipAdress ) )
+                        {
+                            SetUserMessageFeedBack( String.Format( "IP Address [{0}] invalid", ipAdress ), true );
+                            return;
+                        }
+                        else
+                        {
+                            mCurrentRequest = new ConnectionRequest();
 
-                        mLoginInfo.mUserName = userNameInput.Text;
-                        mLoginInfo.mPassword = CalculateSHA1( passwordInput.Password );
-                        mLoginInfo.mIpAddress = ipAdress;
-                        BlockUIContent();
-                        mCurrentRequest.mConnectionSuccessfulCallback = mConnectionSuccessfulCallback;
-                        AuthenticateToWeb( mCurrentRequest );
+                            mLoginInfo.mUserName = userNameInput.Text;
+                            mLoginInfo.mPassword = CalculateSHA1( passwordInput.Password );
+                            mLoginInfo.mIpAddress = ipAdress;
+                            BlockUIContent();
+                            mCurrentRequest.mConnectionSuccessfulCallback = mConnectionSuccessfulCallback;
+                            AuthenticateToWeb( mCurrentRequest );
 
-                        SetUserMessageFeedBack( String.Format( "Connecting to server {0}\nPlease wait...", serverName ), false );
-                        RequestLogin( userNameInput.Text, passwordInput.Password, ipAdress );
-                    }
-                    else
-                    {
-                        SetUserMessageFeedBack( String.Format( "IP Address [{0}] invalid", ipAdress ), true );
+                            SetUserMessageFeedBack( String.Format( "Connecting to server {0}\nPlease wait...", serverName ), false );
+                            RequestLogin( userNameInput.Text, passwordInput.Password, ipAdress );
+                        }
                     }
                 }
             }

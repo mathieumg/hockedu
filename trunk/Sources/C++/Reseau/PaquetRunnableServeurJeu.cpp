@@ -280,7 +280,7 @@ int PaquetRunnable::RunnableGameCreationServerGame( Paquet* pPaquet )
         // Si creation a ecouee, id = -1
 
         // On peut meme utiliser le meme paquet pour renvoyer le message de confirmation
-        wPaquet->setGameId(-1);
+        wPaquet->setGameId(-2);
     }
 
     // If not local server -> Reply to Master Server.

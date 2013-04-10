@@ -124,9 +124,11 @@ void AchievementsManager::LoadAchievementProgress()
             {
                 if(!it->second->LoadAchievementNode(achievementRoot))
                 {
+#if !SHIPPING
                     /// noeud n'a pas charger son noeud
                     /// comportement possible, mais checkf pour s'assurer que callback'est desire
                     std::cout << "Error loading achievement data " << it->second->GetFirstType() << std::endl;
+#endif
                 }
             }
         }
@@ -280,7 +282,9 @@ void AchievementsManager::AchievementUnlocked( AchievementsType pType, const std
 {
     if(!mAchievementUnlockedCallback || !mAchievementUnlockedCallback(pType,(char*)pAchievementName.c_str()))
     {
+#if !SHIPPING
         std::cout << "Achievement Unlocked : " << pAchievementName << std::endl;
+#endif //!SHIPPING
     }
     SaveAchievementProgress();
 }

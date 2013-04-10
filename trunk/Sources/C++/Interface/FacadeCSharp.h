@@ -14,7 +14,6 @@
 #include "..\Reseau\UsinePaquets\UsinePaquetChatMessage.h"
 #include "..\Reseau\UsinePaquets\UsinePaquetUserStatus.h"
 #include "..\Reseau\Paquets\PaquetChatMessage.h"
-#include "..\Reseau\Paquets\PaquetTest.h"
 #include "..\Reseau\ControllerCSharp.h"
 #include "UsineNoeud.h"
 #include "..\Jeu\JoueurVirtuel.h"

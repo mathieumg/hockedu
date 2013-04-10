@@ -118,7 +118,9 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
                     changerStrat(OFFENSIVE); // Ne fait que repousser la rondelle
                     return;
                 }
+#if !SHIPPING
                 std::cout << "Projection reussie " << wPred.position << std::endl;
+#endif //!SHIPPING
                 // Get good strat
                 // Get info for input
                 JoueurVirtuelRenforcement* wJoueur = (JoueurVirtuelRenforcement*)jv_;

@@ -31,6 +31,6 @@
         <Label Content="Sound effects : " Foreground="White" Height="28" HorizontalAlignment="Left" Margin="19,0,0,10" Name="mEffectLabel" VerticalAlignment="Bottom" Grid.Column="2" />
         <Slider IsSnapToTickEnabled="True" Margin="46,12,0,11" Name="mEffectSlider" Value="2" Grid.Row="1" Orientation="Vertical" Grid.RowSpan="3" Grid.Column="2" HorizontalAlignment="Left" Width="29" />
         <Label Content="{Binding ElementName=mEffectSlider, Path=Value}" Foreground="#FF00D500" Height="23" HorizontalAlignment="Left" Margin="49,14,0,0" Name="mEffectDisplayLabel" VerticalAlignment="Top" Width="42" Grid.Column="2" Grid.Row="4" />
-        <CheckBox Content="Display house" Grid.Row="4" Margin="56,28,85,23" Name="mHouseCheckBox" Foreground="White" Click="mHouseCheckBox_Checked" />
+        <CheckBox Content="Display house" Grid.Row="4" Margin="56,28,85,23" Name="mHouseCheckBox" Foreground="White" Click="mHouseCheckBox_Checked" IsChecked="True" />
     </Grid>
 </UserControl>

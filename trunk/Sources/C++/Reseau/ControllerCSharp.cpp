@@ -37,7 +37,6 @@ ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceiv
     mPaquetRunnables[CONN_AUTOMATIQUE]      = PaquetRunnable::RunnableConnAutomatiqueClient;
     mPaquetRunnables[USER_STATUS]           = PaquetRunnable::RunnableUserStatusClient;
     mPaquetRunnables[CHAT_MESSAGE]          = PaquetRunnable::RunnableChatMessageClient;
-    mPaquetRunnables[TEST]                  = PaquetRunnable::RunnableTest;
     mPaquetRunnables[MAILLET]               = PaquetRunnable::RunnableMailletClient;
     mPaquetRunnables[RONDELLE]              = PaquetRunnable::RunnableRondelleClient;
     mPaquetRunnables[GAME_CREATION_REQUEST] = PaquetRunnable::RunnableGameCreationClient;
@@ -107,9 +106,25 @@ int ControllerCSharp::HandleEvent(ControllerCSharp* pContext, EventCodes pEventC
     if(c)
     {
         std::string message;
-        if(pEventCode == SERVER_USER_DISCONNECTED || pEventCode == SERVER_USER_CONNECTED || pEventCode == GAME_ADDED || pEventCode == GAME_CONNECTION_RESPONSE_MATCHMAKING)
+        switch(pEventCode)
         {
+        case SERVER_USER_DISCONNECTED:
+        case SERVER_USER_CONNECTED:
+        case GAME_ADDED:
+        case GAME_CONNECTION_RESPONSE_MATCHMAKING:
             message = va_arg(pListeElems,char*);
+            break;
+        case GAME_CREATION_FAILED:
+            {
+                int error = va_arg(pListeElems,int);
+                if(error <0)
+                {
+                    message.append(1,(char)('0'-error));
+                }
+            }
+            break;
+        default:
+            break;
         }
         return c(pEventCode,(char*)message.c_str());
     }

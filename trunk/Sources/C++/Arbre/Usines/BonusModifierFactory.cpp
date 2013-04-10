@@ -20,7 +20,17 @@ DEFAULT_BONUS_FACTORY_IMPLEMENTATION(BonusModifierFan);
 DEFAULT_BONUS_FACTORY_IMPLEMENTATION(BonusModifierChangeZone);
 
 
-FactoryBonusModifier* FactoryBonusModifier::mFactories[NB_BONUS_TYPE] =
+const std::string BonusNamesArray[NB_BONUS_TYPE] = 
+{
+    "Troll Puck",     //BonusModifierGoThroughWall(),
+    "Piercing Mallet",//BonusModifierGoThroughWallMallet(),
+    "Goaler",         //BonusModifierBlockGoal(),
+    "Fan",            //BonusModifierFan(),
+    "Cheater",        //BonusModifierChangeZone(),
+};
+
+
+FactoryBonusModifier* BonusFactories[NB_BONUS_TYPE] =
 {
     new FactoryBonusModifierGoThroughWall(),
     new FactoryBonusModifierGoThroughWallMallet(),
@@ -43,7 +53,7 @@ void FactoryBonusModifier::ClearFactories()
 {
     for(int i=0; i<NB_BONUS_TYPE; ++i)
     {
-        delete mFactories[i];
+        delete BonusFactories[i];
     }
 }
 

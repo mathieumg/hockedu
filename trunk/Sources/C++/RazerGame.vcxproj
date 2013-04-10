@@ -391,7 +391,6 @@
     <ClCompile Include="reseau\PaquetHandlers\PacketHandlerMaillet.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerPortal.cpp" />
     <ClCompile Include="reseau\PaquetHandlers\PacketHandlerRondelle.cpp" />
-    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerTest.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp" />
     <ClCompile Include="Reseau\PaquetRunnable.cpp" />
     <ClCompile Include="Reseau\PaquetRunnableClientLourd.cpp" />
@@ -409,7 +408,6 @@
     <ClCompile Include="Reseau\Paquets\PaquetMaillet.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetPortal.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetRondelle.cpp" />
-    <ClCompile Include="Reseau\Paquets\PaquetTest.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetUserStatus.cpp" />
     <ClCompile Include="Reseau\RelayeurMessage.cpp" />
     <ClCompile Include="Reseau\Socket.cpp" />
@@ -579,7 +577,6 @@
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerConnAutomatique.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerEvent.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerLoginInfo.h" />
-    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerTest.h" />
     <ClInclude Include="Reseau\PaquetRunnable.h" />
     <ClInclude Include="Reseau\PaquetRunnableClientLourd.h" />
     <ClInclude Include="Reseau\PaquetRunnableServeurJeu.h" />
@@ -596,7 +593,6 @@
     <ClInclude Include="Reseau\Paquets\PaquetMaillet.h" />
     <ClInclude Include="Reseau\Paquets\PaquetPortal.h" />
     <ClInclude Include="Reseau\Paquets\PaquetRondelle.h" />
-    <ClInclude Include="Reseau\Paquets\PaquetTest.h" />
     <ClInclude Include="Reseau\Paquets\PaquetUserStatus.h" />
     <ClInclude Include="Reseau\RelayeurMessage.h" />
     <ClInclude Include="Reseau\Socket.h" />
@@ -614,7 +610,6 @@
     <ClInclude Include="reseau\UsinePaquets\UsinePaquetMaillet.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetPortal.h" />
     <ClInclude Include="reseau\UsinePaquets\UsinePaquetRondelle.h" />
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetTest.h" />
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetUserStatus.h" />
     <ClInclude Include="Sons\SoundFMOD.h" />
     <ClInclude Include="Tests\AchievementsTests.h" />

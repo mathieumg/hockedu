@@ -398,9 +398,6 @@
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerLoginInfo.cpp">
       <Filter>Sources Files\Reseau\Global\PaquetHandlers</Filter>
     </ClCompile>
-    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerTest.cpp">
-      <Filter>Sources Files\Reseau\Global\PaquetHandlers</Filter>
-    </ClCompile>
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandler.cpp">
       <Filter>Sources Files\Reseau\Global\PaquetHandlers</Filter>
     </ClCompile>
@@ -408,9 +405,6 @@
       <Filter>Sources Files\Reseau\Global\Paquets</Filter>
     </ClCompile>
     <ClCompile Include="Reseau\Paquets\PaquetLoginInfo.cpp">
-      <Filter>Sources Files\Reseau\Global\Paquets</Filter>
-    </ClCompile>
-    <ClCompile Include="Reseau\Paquets\PaquetTest.cpp">
       <Filter>Sources Files\Reseau\Global\Paquets</Filter>
     </ClCompile>
     <ClCompile Include="Reseau\Paquets\Paquet.cpp">
@@ -970,9 +964,6 @@
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerLoginInfo.h">
       <Filter>Sources Files\Reseau\Global\PaquetHandlers</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerTest.h">
-      <Filter>Sources Files\Reseau\Global\PaquetHandlers</Filter>
-    </ClInclude>
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandler.h">
       <Filter>Sources Files\Reseau\Global\PaquetHandlers</Filter>
     </ClInclude>
@@ -983,9 +974,6 @@
       <Filter>Sources Files\Reseau\Global\Paquets</Filter>
     </ClInclude>
     <ClInclude Include="Reseau\Paquets\PaquetLoginInfo.h">
-      <Filter>Sources Files\Reseau\Global\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\Paquets\PaquetTest.h">
       <Filter>Sources Files\Reseau\Global\Paquets</Filter>
     </ClInclude>
     <ClInclude Include="Reseau\Paquets\Paquet.h">
@@ -1001,9 +989,6 @@
       <Filter>Sources Files\Reseau\Global\UsinePaquets</Filter>
     </ClInclude>
     <ClInclude Include="Reseau\UsinePaquets\UsinePaquetLoginInfo.h">
-      <Filter>Sources Files\Reseau\Global\UsinePaquets</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetTest.h">
       <Filter>Sources Files\Reseau\Global\UsinePaquets</Filter>
     </ClInclude>
     <ClInclude Include="Reseau\RelayeurMessage.h">

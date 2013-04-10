@@ -396,7 +396,7 @@ void NodeBonus::ExecuteBonus( class NoeudRondelle* rondelle )
                     bonus->Complete();
                 }
 #if !SHIPPING
-                std::cout << "Bonus applied: " << mBonusType << "\t" << bonus->getOwner()->getType() << std::endl;
+                std::cout << "Bonus applied: " << BonusNamesArray[mBonusType] << "\t" << bonus->getOwner()->getType() << std::endl;
 #endif
             }
         }

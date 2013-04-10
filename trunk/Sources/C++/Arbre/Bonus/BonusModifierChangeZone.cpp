@@ -148,10 +148,6 @@ bool BonusModifierChangeZone::Apply()
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierChangeZone::Revert()
 {
-#if !SHIPPING
-    std::cout << "Change Zone reverted" << std::endl;
-#endif
-
 #if WIN32 
     SoundFMOD::obtenirInstance()->playEffect(BONUS_CHANGE_SIDE_OUT_EFFECT); 
 #endif

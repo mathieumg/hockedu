@@ -141,6 +141,7 @@ private:
 
     // Liste des HANDLE pour les threads de connection TCP
     std::vector<HANDLE_THREAD> mHandlesThreadConnectionTCPServeur;
+    HANDLE_SEMAPHORE mTCPConnectionUsedSemaphore;
 
     // Liste des HANDLE pour les threads de reception UDP
     HANDLE_THREAD mHandleThreadReceptionUDP;

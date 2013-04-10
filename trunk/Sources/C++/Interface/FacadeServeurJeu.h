@@ -14,12 +14,17 @@
 typedef void (*CallbackDone)(std::string pFilepath);
 typedef void (*ManagedStartMapDownload)(int pUserId, int pMapId, CallbackDone pCallbackFromManaged);
 
+/// ne pas rename, utis/ comme extern ailleur
+extern std::string NETWORK_LOG_FILE_NAME;
+extern std::string NETWORK_PACKET_FILE_NAME;
 extern "C" 
 {
+
     DLLEXPORT_SERVEUR_JEU void InitDLLServeurJeu();
     DLLEXPORT_SERVEUR_JEU void ConnectMasterServer(const std::string& wMasterServerIP);
-    DLLEXPORT_SERVEUR_JEU char* ObtenirAdresseIpLocaleAssociee(const std::string& pIpAssociee);
+    DLLEXPORT_SERVEUR_JEU const char* ObtenirAdresseIpLocaleAssociee(unsigned int minAdress, unsigned int maxAdress);
     DLLEXPORT_SERVEUR_JEU void SetStartMapDownloadCallback(ManagedStartMapDownload pCallback);
+    DLLEXPORT_SERVEUR_JEU void CleanUp();
 
 
     class ControllerInterface;
@@ -85,8 +90,6 @@ private:
     /// Opérateur d'assignation.  Déclaré mais non défini pour éviter qu'il
     /// soit généré par le compilateur.
     FacadeServeurJeu& operator =(const FacadeServeurJeu&);
-    /// Liberation de la mémoire
-    void libererMemoire();
 
     /// Pointeur vers l'instance unique de la classe.
     static FacadeServeurJeu* instance_;
@@ -94,15 +97,10 @@ private:
     // interval entre les ticks (en ms)
     int mTickInterval;
 
-    // Callback a appeler pour demarrer le download de la map
-    ManagedStartMapDownload mCallbackManagedStartDownload;
-    
+    void* mDaemon;
     /// Accesseurs
 public:
     inline int getTickInterval() const { return mTickInterval; }
-
-    inline ManagedStartMapDownload getCallbackManagedStartDownload() const { return mCallbackManagedStartDownload; }
-    inline void setCallbackManagedStartDownload(ManagedStartMapDownload val) { mCallbackManagedStartDownload = val; }
 };
 
 

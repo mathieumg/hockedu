@@ -25,6 +25,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows.Forms;
 using HttpHockeduRequests;
+using System.Diagnostics;
 
 namespace UIHeavyClient
 {
@@ -471,6 +472,34 @@ namespace UIHeavyClient
             SetPlayMap(pMapFile);
         }
 
+        static public Process ServeurJeuProcess = null;
+        static public Process MainServerProcess = null;
+
+        public static void StartServers()
+        {
+            if ( ServeurJeuProcess != null )
+            {
+                ServeurJeuProcess.Close();
+            }
+            if ( MainServerProcess != null )
+            {
+                MainServerProcess.Close();
+            }
+
+            ProcessStartInfo start = new ProcessStartInfo();
+            start.Arguments = "local";
+            string gameServerPath = AppDomain.CurrentDomain.BaseDirectory + "ServeurJeuLauncher.exe";
+            start.FileName = gameServerPath;
+            start.WindowStyle = ProcessWindowStyle.Minimized;
+            start.CreateNoWindow = false;
+            MainWindowHandler.ServeurJeuProcess = Process.Start( start );
+
+            string mainServerPath = AppDomain.CurrentDomain.BaseDirectory + "ServeurMaitre_x86.exe";
+            start.Arguments = "";
+            start.FileName = mainServerPath;
+            MainWindowHandler.MainServerProcess = Process.Start( start );
+        }
+
         ////////////////////////////////////////////////////////////////////////
         /// @fn void MainWindowHandler.Cleanup()
         ///
@@ -481,6 +510,14 @@ namespace UIHeavyClient
         public static void Cleanup()
         {
             CallbackManager.ChangeGameMode(GameState.GAME_STATE_NONE);
+            if ( ServeurJeuProcess != null )
+            {
+                ServeurJeuProcess.Close();
+            }
+            if ( MainServerProcess != null )
+            {
+                MainServerProcess.Close();
+            }
         }
 
 

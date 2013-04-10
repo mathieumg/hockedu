@@ -25,7 +25,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 Socket::Socket(const std::string& pDestinationIP, const int& pPortNumber, ConnectionType pConType/*=TCP*/, InternetProtocol pIpProtocol /*=IPv4*/)
-    :mIpProtocol(pIpProtocol),mFlags(0),mOnConnectionCallback(NULL)
+    :mIpProtocol(pIpProtocol),mFlags(0),mOnConnectionCallback(NULL),mId("")
 {
 	mConnectionType = pConType;
 	mSocketInfo = new sockaddr_in;
@@ -505,7 +505,7 @@ ConnectionState Socket::initClient()
 
     // par défaut on tente la reconnection, si la connection réussi, celle-ci override le comportement de reconnection
     ConnectionState attemptReconnect = CONNECTING;
-    if(isPendingCancel())
+    if(isPendingCancel() || isPendingDelete())
     {
         GestionnaireReseau::obtenirInstance()->transmitEvent(CONNECTION_CANCELED);
         attemptReconnect = NOT_CONNECTED;
@@ -589,12 +589,6 @@ ConnectionState Socket::initClient()
                 }
                 else
                 {
-                    // Could not connect
-                    // on n'arrive pas à ce connecter, on relance la tentative un peu plus tard
-                    attemptReconnect = CONNECTING;
-
-                    GestionnaireReseau::obtenirInstance()->sendMessageToLog("Appel a connect() impossible. Type: TCP CLIENT. Adresse: " + getAdresseDestination());
-
                     attemptReconnect = CONNECTED;
                 }
             }
@@ -634,7 +628,7 @@ ConnectionState Socket::initServer()
 
     // par défaut on tente la reconnection, si la connection réussi, celle-ci override le comportement de reconnection
     ConnectionState attemptReconnect = CONNECTING;
-    if(isPendingCancel())
+    if(isPendingCancel() || isPendingDelete())
     {
         GestionnaireReseau::obtenirInstance()->transmitEvent(CONNECTION_CANCELED);
         attemptReconnect = NOT_CONNECTED;

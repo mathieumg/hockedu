@@ -157,3 +157,4 @@ T PacketReader::readData( )
 
     return mSwapBytes ? swapBytes(wDataRead) : wDataRead;
 }
+

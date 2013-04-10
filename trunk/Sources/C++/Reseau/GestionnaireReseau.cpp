@@ -28,7 +28,6 @@
 #include "CommunicateurReseau.h"
 #include "PaquetHandlers/PacketHandler.h"
 #include "UsinePaquets/UsinePaquetConnAutomatique.h"
-#include "UsinePaquets/UsinePaquetTest.h"
 #include <utility>
 #include "UsinePaquets/UsinePaquetEvent.h"
 
@@ -47,10 +46,10 @@ SINGLETON_DECLARATION_CPP(GestionnaireReseau);
 int GestionnaireReseau::multicastPort = 1001;
 
 // Port a utiliser pour les communications de base
-int GestionnaireReseau::communicationPort = 5010;//25565;
+int GestionnaireReseau::communicationPort = /*5010;//*/25565;
 
 // Port a utiliser pour les communications de base
-int GestionnaireReseau::communicationPortMasterServer = 5011;//25566;
+int GestionnaireReseau::communicationPortMasterServer = /*5011;//*/25566;
 
 // Port a utiliser pour les communications UDP sur le client Lourd
 int GestionnaireReseau::communicationUDPPortClientLourd = GestionnaireReseau::communicationPort;
@@ -59,8 +58,13 @@ int GestionnaireReseau::communicationUDPPortClientLourd = GestionnaireReseau::co
 int GestionnaireReseau::communicationUDPPortServeurJeu = GestionnaireReseau::communicationPortMasterServer;
 
 std::ofstream errorLogHandle;
+std::ofstream PacketLogHandle;
 bool bLogCreated = false;
+bool bPacketLogCreated = false;
 
+/// ne pas rename, utis/ comme extern ailleur
+std::string NETWORK_LOG_FILE_NAME = "NETWORK_LOG_";
+std::string NETWORK_PACKET_FILE_NAME = "PACKET_LOG_";
 
 // Network Log setup
 // Methode pour creer le fichier de log
@@ -73,12 +77,27 @@ void logSetup()
         struct tm wTimeNow;
         localtime_s( &wTimeNow, &wTime );
         std::stringstream wFilename;
-        wFilename << "logs/NETWORK_LOG_" << wTimeNow.tm_mon << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec << ".txt";
+        wFilename << "logs/";
+        wFilename <<NETWORK_LOG_FILE_NAME<< wTimeNow.tm_mon << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec << ".txt";
         errorLogHandle.open(wFilename.str(), std::fstream::out);
         bLogCreated = true;
     }
 }
 
+void PacketlogSetup()
+{
+    if(!bPacketLogCreated)
+    {
+        FacadePortability::createDirectory("logs");
+        time_t wTime = time(0);
+        struct tm wTimeNow;
+        localtime_s( &wTimeNow, &wTime );
+        std::stringstream wFilename;
+        wFilename << "logs/"<< NETWORK_PACKET_FILE_NAME << wTimeNow.tm_mon << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec << ".txt";
+        PacketLogHandle.open(wFilename.str(), std::ios::binary|std::ios::out);
+        bPacketLogCreated = true;
+    }
+}
 
 
 
@@ -95,6 +114,7 @@ void logSetup()
 ////////////////////////////////////////////////////////////////////////
 GestionnaireReseau::GestionnaireReseau(): mSocketStateCallback(NULL), mControlleur(NULL)
 {
+    mCommunicateurReseau = new CommunicateurReseau();
     getNativeByteOrder();
 
 	FacadePortability::createMutex(mMutexListeSockets);
@@ -117,6 +137,10 @@ GestionnaireReseau::~GestionnaireReseau()
         bLogCreated = false;
 		errorLogHandle.close();
 	}
+
+    
+    delete mCommunicateurReseau;
+
 #ifdef WINDOWS
     WSACleanup();
 #endif
@@ -184,7 +208,6 @@ void GestionnaireReseau::init()
 
     // Ajout des classes PacketHandler et UsinePaquet de base
     ajouterOperationReseau(CONN_AUTOMATIQUE, new PacketHandlerConnAutomatique(), new UsinePaquetConnAutomatique());
-    ajouterOperationReseau(TEST, new PacketHandlerTest(), new UsinePaquetTest());
     ajouterOperationReseau(EVENT, new PacketHandlerEvent(), new UsinePaquetEvent());
 
 	// Init Winsock2
@@ -247,6 +270,39 @@ std::string GestionnaireReseau::getAdresseIPLocaleAssociee( const std::string& p
 	}
 
 }
+std::string GestionnaireReseau::getAdresseIPLocaleAssociee( unsigned int minAdress, unsigned int maxAdress )
+{
+    std::string wIpLocaleFinale = "";
+    std::list<std::string> wIPs;
+    FacadePortability::getLocalIPAddresses(wIPs);
+
+    for(auto it = wIPs.begin(); it != wIPs.end(); ++it)
+    {
+        std::string& wIPAddr = *it;
+        unsigned long addInverse = inet_addr(wIPAddr.c_str());
+        ///addInverse = ABC.DEF.GHI.JKL
+        ///add = JKL.GHI.DEF.ABC
+
+        /// on renverse le tout
+        unsigned int add = ((addInverse&255)<<24) | (((addInverse>>8)&255)<<16) | (((addInverse>>16)&255)<<8) | (((addInverse>>24)&8));
+        if(add-minAdress <= maxAdress-minAdress)
+        {
+            // Good network interface
+            wIpLocaleFinale = *it;
+            break;
+        }
+    }
+    // IP not found in the spcified subnet
+    if(wIpLocaleFinale.length() == 0)
+    {
+        throw ExceptionReseau("Impossible de trouver l'adresse locale associee dans le range");
+    }
+    // IP found
+    else
+    {
+        return wIpLocaleFinale;
+    }
+}
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -305,10 +361,11 @@ void GestionnaireReseau::supprimerPacketHandlersEtUsines()
     // Vider la liste de Sockets et les detruire
     std::map<std::pair<std::string, ConnectionType>, SPSocket>::iterator iter;
     FacadePortability::takeMutex(mMutexListeSockets);
-//     for (iter = mListeSockets.begin(); iter != mListeSockets.end(); ++iter)
-//     {
-//         delete (*iter).second;
-//     }
+    for (iter = mListeSockets.begin(); iter != mListeSockets.end(); ++iter)
+    {
+        (*iter).second->flagToDelete();
+        (*iter).second->flagToCancel();
+    }
     mListeSockets.clear();
     FacadePortability::releaseMutex(mMutexListeSockets);
 }
@@ -331,7 +388,7 @@ void GestionnaireReseau::envoyerPaquet( SPSocket pSocketAUtiliser, Paquet* pPaqu
 {
     if(validerOperation(pPaquet->getOperation()))
     {
-        if(!mCommunicateurReseau.ajouterPaquetEnvoie(pSocketAUtiliser, pPaquet))
+        if(!mCommunicateurReseau->ajouterPaquetEnvoie(pSocketAUtiliser, pPaquet))
         {
             // Le paquet ne peut pas etre ajouter
             pPaquet->removeAssociatedQuery();
@@ -559,6 +616,7 @@ void GestionnaireReseau::saveSocket( const std::string& pNomJoueur, SPSocket pSo
 
     if(getController()->getNbConnectionMax() == wListeUsers.size() && wListeUsers.find(pNomJoueur) == wListeUsers.end())
     {
+        NETWORK_LOG("Too many player connected dropping : %s", pNomJoueur.c_str());
         FacadePortability::releaseMutex(mMutexListeSockets);
         throw ExceptionReseau("Trop de users connectes");
     }
@@ -567,9 +625,10 @@ void GestionnaireReseau::saveSocket( const std::string& pNomJoueur, SPSocket pSo
 
 	// On ecrase le dernier socket qui etait associe a ce nom de joueur et a ce type de socket
 	mListeSockets[std::pair<std::string, ConnectionType>(pNomJoueur, pSocket->getConnectionType())] = pSocket;
+    pSocket->setId(pNomJoueur);
     if(pSocket->getConnectionType() == TCP)
     {
-	    mCommunicateurReseau.ajouterSocketEcoute(pSocket);
+	    mCommunicateurReseau->ajouterSocketEcoute(pSocket);
     }
     FacadePortability::releaseMutex(mMutexListeSockets);
 }
@@ -634,18 +693,18 @@ void GestionnaireReseau::removeSocket( const std::string& pNomJoueur, Connection
     FacadePortability::takeMutex(wMutex);
 
     // On doit le retirer de la liste de Socket a ecouter avant de le supprimer
-    auto it = mCommunicateurReseau.getFirstSocketEcoute(); // On va egalement chercher le mutex vers la liste de Sockets a ecouter
-	for(it; it!=mCommunicateurReseau.getEndSocketEcoute(); ++it)
+    auto it = mCommunicateurReseau->getFirstSocketEcoute(); // On va egalement chercher le mutex vers la liste de Sockets a ecouter
+	for(it; it!=mCommunicateurReseau->getEndSocketEcoute(); ++it)
 	{
 		if((*it)==wSocketASupprimer)
 		{
 			// Le supprimer de la liste de Socket a ecouter
-			mCommunicateurReseau.supprimerEcouteSocket(it);
+			mCommunicateurReseau->supprimerEcouteSocket(it);
 			break;
 		}
 	}
     // On relache le mutex
-	mCommunicateurReseau.terminerIterationListeSocketEcoute();
+	mCommunicateurReseau->terminerIterationListeSocketEcoute();
 
     // Changer le connection state (a pour effet d'envoyer un event de deconnection)
     FacadePortability::releaseMutex(mMutexListeSockets);
@@ -779,6 +838,59 @@ void GestionnaireReseau::sendMessageToLog( const std::string& pMessage )
         errorLogHandle << " " << pMessage << std::endl;
 		errorLogHandle.flush(); // Pour etre certain d'avoir tout meme si le programme crash
 	}
+}
+
+void GestionnaireReseau::sendMessageToLog(const char* File, int Line, const char* Format/*=""*/, ... )
+{
+    char ErrorMsg[2048];
+    GET_VARARGS( ErrorMsg, ARRAY_COUNT(ErrorMsg), ARRAY_COUNT(ErrorMsg)-1, Format, Format );
+    sendMessageToLog(ErrorMsg);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void GestionnaireReseau::PacketSendToLog( const std::string& pMessage )
+///
+/// /*Description*/
+///
+/// @param[in] const std::string & pMessage
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void GestionnaireReseau::PacketSendToLog( const char* pMessage )
+{
+    PacketlogSetup();
+
+    // On verifie que le fichier d'output a bien pu etre creer au demarrage
+    if(!PacketLogHandle.fail())
+    {
+        PacketLogHandle<<1;
+        PacketLogHandle<<pMessage;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void GestionnaireReseau::PacketReceivedToLog( const std::string& pMessage )
+///
+/// /*Description*/
+///
+/// @param[in] const std::string & pMessage
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void GestionnaireReseau::PacketReceivedToLog( const char* pMessage )
+{
+    logSetup();
+
+    // On verifie que le fichier d'output a bien pu etre creer au demarrage
+    if(!PacketLogHandle.fail())
+    {
+        PacketLogHandle<<0;
+        PacketLogHandle<<pMessage;
+    }
 }
 
 
@@ -1021,7 +1133,7 @@ void GestionnaireReseau::initClient(const std::string& pUsername/* = ""*/, const
     init();
 
     // Demarre les threads de reception UDP (pour serveur et client)
-    mCommunicateurReseau.demarrerThreadsReceptionUDPClientLourd();
+    mCommunicateurReseau->demarrerThreadsReceptionUDPClientLourd();
 }
 
 
@@ -1032,12 +1144,7 @@ void GestionnaireReseau::initServer()
     init();
 
     // Demarrer le thread de connexion TCP
-    mCommunicateurReseau.demarrerThreadsConnectionServeur();
-
-    // Demarre les threads de reception UDP (pour serveur et client)
-    mCommunicateurReseau.demarrerThreadsReceptionUDPServeurJeu();
-
-
+    mCommunicateurReseau->demarrerThreadsConnectionServeur();
 
     // Demarrer Thread connexion automatique
 }
@@ -1047,17 +1154,19 @@ void GestionnaireReseau::initGameServer()
     mUsername = "GameServer";
     mPassword = "HockeduSuperProtectedPassword";
     initServer();
+    // Demarre les threads de reception UDP (pour serveur et client)
+    mCommunicateurReseau->demarrerThreadsReceptionUDPServeurJeu();
 }
 
 void GestionnaireReseau::demarrerConnectionThread( SPSocket pSocket )
 {
-    mCommunicateurReseau.demarrerConnectionThread(pSocket);
+    mCommunicateurReseau->demarrerConnectionThread(pSocket);
 }
 
 
 void GestionnaireReseau::supprimerEcouteSocket( SPSocket pSocket )
 {
-    mCommunicateurReseau.supprimerEcouteSocket(pSocket);
+    mCommunicateurReseau->supprimerEcouteSocket(pSocket);
 }
 
 
@@ -1106,6 +1215,8 @@ bool GestionnaireReseau::isAGameServerConnected() const
     }
     return false;
 }
+
+
 
 
 

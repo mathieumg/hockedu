@@ -71,12 +71,6 @@
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerEvent.cpp">
       <Filter>Source Files\PacketHandlers</Filter>
     </ClCompile>
-    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerTest.cpp">
-      <Filter>Source Files\PacketHandlers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Reseau\Paquets\PaquetTest.cpp">
-      <Filter>Source Files\Paquets</Filter>
-    </ClCompile>
     <ClCompile Include="..\Reseau\Paquets\Paquet.cpp">
       <Filter>Source Files\Paquets</Filter>
     </ClCompile>
@@ -217,9 +211,6 @@
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandler.h">
       <Filter>Source Files\PacketHandlers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Reseau\Paquets\PaquetTest.h">
-      <Filter>Source Files\Paquets</Filter>
-    </ClInclude>
     <ClInclude Include="..\Reseau\Paquets\Paquet.h">
       <Filter>Source Files\Paquets</Filter>
     </ClInclude>
@@ -228,9 +219,6 @@
     </ClInclude>
     <ClInclude Include="..\Reseau\Paquets\PaquetEvent.h">
       <Filter>Source Files\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetTest.h">
-      <Filter>Source Files\UsinePaquets</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquet.h">
       <Filter>Source Files\UsinePaquets</Filter>

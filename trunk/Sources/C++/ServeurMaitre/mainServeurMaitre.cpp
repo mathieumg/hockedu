@@ -10,6 +10,10 @@
 
 const char flagChar = '-';
 
+/// ne pas rename, utis/ comme extern ailleur
+extern std::string NETWORK_LOG_FILE_NAME;
+extern std::string NETWORK_PACKET_FILE_NAME;
+
 // Fonction pour les flags qui ont un string apres la flag
 // Ex: -m 192.168.0.0.1
 void parseParamWithArg(std::string& pOutParam, int pLoopCounter, int argc, char* argv[])
@@ -33,7 +37,8 @@ int main(int argc, char* argv[])  {
 #ifdef LINUX
     //daemon(0,0);
 #endif
-
+    NETWORK_LOG_FILE_NAME = "MASTER_SVR_LOG_";
+    NETWORK_PACKET_FILE_NAME = "MASTER_SVR_PACKET_";
     std::cout << "--------- Serveur Maitre ---------" << std::endl << std::endl;
 
     //********** Liste des flags

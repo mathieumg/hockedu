@@ -1,0 +1,48 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+	<PropertyGroup>
+		<!-- Select a Product Configuration -->
+		<InstallShieldProductConfiguration>Express</InstallShieldProductConfiguration>
+		<!-- Select a Visual Studio Configuration / InstallShield Release -->
+		<Configuration>Debug</Configuration>
+		<InstallShieldRelease>$(Configuration)</InstallShieldRelease>
+	</PropertyGroup>
+	<ItemGroup>
+		<!-- The InstallShieldProject item selects the project to build -->
+		<InstallShieldProject Include="$(MSBuildProjectDirectory)\$(MSBuildProjectName).isl"/>
+		<!-- The InstallShieldReleaseFlags sets Release Flags -->
+		<!--<InstallShieldReleaseFlags Include=""/>-->
+		<!-- The InstallShieldMergeModulePath specifies what directories are
+		searched for Merge Modules -->
+		<!--<InstallShieldMergeModulePath Include=""/>-->
+	</ItemGroup>
+	<ItemGroup>
+		<!-- The ProjectReference items refer to any Visual Studio solutions you want to automatically probe for Project Output Groups.  -->
+	</ItemGroup>
+	<ItemGroup>
+		<!-- The TaggedOutputs items allow you to explicitly add extra files to output groups. Each item must include both Name and OutputGroup, as well as TargetPath metadata values. -->
+		<!--<TaggedOutputs Include="C:\My Test Exe.exe">
+			<Name>My Test Project</Name>
+			<OutputGroup>Primary output</OutputGroup>
+			<TargetPath>My Test Exe.exe</TargetPath>
+		</TaggedOutputs> -->
+	</ItemGroup>
+	<Import Project="$(MSBuildExtensionsPath32)\InstallShield\2012SpringLimited\InstallShield.targets"/>
+	<ItemGroup>
+		<ProjectReference Include="..\Sources\C++\RazerGame.vcxproj">
+			<Name>RazerGame</Name>
+			<Project>{67188F6B-27BE-4E93-A7EF-C512656343A1}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\Sources\C++\ServeurJeuLauncher\ServeurJeuLauncher.vcxproj">
+			<Name>ServeurJeuLauncher</Name>
+			<Project>{E855C041-719C-42FF-8B12-C36C31439A81}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\Sources\C++\ServeurMaitre\ServeurMaitre.vcxproj">
+			<Name>ServeurMaitre</Name>
+			<Project>{DF32D3B2-5344-47CA-A836-E6C80EB0E40A}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\Sources\C#\UIHeavyClient\UIHeavyClient\UIHeavyClient.csproj">
+			<Name>UIHeavyClient</Name>
+			<Project>{8A935C00-5AD9-4CED-9867-B2F0174BF979}</Project>
+		</ProjectReference>
+	</ItemGroup>
+</Project>

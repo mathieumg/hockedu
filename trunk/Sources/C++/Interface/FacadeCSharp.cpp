@@ -62,14 +62,6 @@ void TestGestionnaireReseau()
     GestionnaireReseauClientLourd::obtenirInstance();
     
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("bob", "127.0.0.1", TCP);
-
-    PaquetTest* wPaquet = (PaquetTest*) GestionnaireReseau::obtenirInstance()->creerPaquet(TEST);
-    wPaquet->setMessage("SUP C#");
-    wPaquet->setInt(666);
-    wPaquet->setFloat(666.666f);
-
-    GestionnaireReseau::obtenirInstance()->envoyerPaquet("bob", wPaquet,TCP);
-
 }
 
 void InitDLL()
@@ -975,6 +967,7 @@ void ReloadAchievementsProgress()
 
 void TestTrajectoryPredictionDLL()
 {
+#if !SHIPPING
     Partie* wGame = FacadeModele::getInstance()->obtenirPartieCourante();
 
     if(wGame)
@@ -982,6 +975,7 @@ void TestTrajectoryPredictionDLL()
         PuckProjection wPred = wGame->getPuckProjection(75.0f, 10000);
         std::cout << "Test prediction: " << wPred.position << "\t" << wPred.time << "ms" <<  std::endl;
     }
+#endif //!SHIPPING
 }
 
 void ReloadModels()
