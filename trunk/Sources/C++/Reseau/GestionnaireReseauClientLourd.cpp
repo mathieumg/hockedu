@@ -9,10 +9,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "GestionnaireReseauClientLourd.h"
-#include "UsinePaquets/UsinePaquetChatMessage.h"
-#include "PaquetHandlers/PacketHandler.h"
-#include "UsinePaquets/UsinePaquetUserStatus.h"
-#include "UsinePaquets/UsinePaquetGameCreation.h"
 
 // Initialisations automatiques
 SINGLETON_DECLARATION_CPP(GestionnaireReseauClientLourd);
@@ -34,8 +30,8 @@ GestionnaireReseauClientLourd::GestionnaireReseauClientLourd(): mMessageReceived
     wGestionnaireReseau->initClient();
 
     // On doit ajouter une nouvelle operation reseau pour que le systeme le connaisse (1 par type de paquet)
-    wGestionnaireReseau->ajouterOperationReseau(CHAT_MESSAGE, new PacketHandlerChatMessage, new UsinePaquetChatMessage);
-	wGestionnaireReseau->ajouterOperationReseau(USER_STATUS, new PacketHandlerUserStatus, new UsinePaquetUserStatus);
+
+
 
 
 }

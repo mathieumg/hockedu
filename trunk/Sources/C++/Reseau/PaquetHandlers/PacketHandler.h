@@ -2,10 +2,11 @@
 
 #pragma once
 class Paquet;
-#include "../PacketBuilder.h"
-#include "../PacketReader.h"
-#include "../GestionnaireReseau.h"
+#include "PacketBuilder.h"
+#include "PacketReader.h"
+#include "UsinePaquet.h"
 #include <string>
+#include "PaquetRunnable.h"
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class PaquetHandler
@@ -46,7 +47,6 @@ protected:                                                                      
 };                                                                                                               \
 
 HANDLER_DECLARATION(UserStatus);
-HANDLER_DECLARATION(Test);
 HANDLER_DECLARATION(Rondelle);
 HANDLER_DECLARATION(Maillet);
 HANDLER_DECLARATION(LoginInfo);
@@ -59,6 +59,8 @@ HANDLER_DECLARATION(ConnAutomatique);
 HANDLER_DECLARATION(ChatMessage);
 HANDLER_DECLARATION(Portal);
 HANDLER_DECLARATION(Bonus);
+
+extern PacketHandler* PaquetHandlersArray[NB_PACKET_TYPES];
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

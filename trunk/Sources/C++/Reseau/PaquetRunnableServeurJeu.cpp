@@ -164,7 +164,7 @@ int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
         if(wGame->getGameStatus() == GAME_PAUSED)
         {
             // Si la partie est en pause, on doit dire au client de se mettre en pause (cas ou il n'aurait pas recu le paquet de mise en pause et il continue a envoyer une position)
-            /*PaquetGameEvent* wPaquetResponse = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+            /*PaquetGameEvent* wPaquetResponse = (PaquetGameEvent*) UsinePaquet::creerPaquet(GAME_EVENT);
             wPaquetResponse->setGameId(wPaquet->getGameId());
             wPaquetResponse->setEvent(GAME_EVENT_PAUSE_GAME_SIGNAL);
             RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquetResponse->getGameId(), wPaquetResponse, TCP);*/
@@ -424,7 +424,7 @@ int PaquetRunnable::RunnableGameConnectionServerGame( Paquet* pPaquet )
         }
         /*else
         {
-            PaquetGameEvent* wPaquetEventGameStart = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+            PaquetGameEvent* wPaquetEventGameStart = (PaquetGameEvent*) UsinePaquet::creerPaquet(GAME_EVENT);
             wPaquetEventGameStart->setGameId(wPaquet->getGameId());
             wPaquetEventGameStart->setEvent(GAME_EVENT_START_GAME);
             wPaquetEventGameStart->setPlayer1Name(wGame->obtenirNomJoueurGauche());
@@ -487,7 +487,7 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
                     if(wPlayer2->isReady())
                     {
                         // On envoie le paquet
-                        PaquetGameEvent* wPaquetEventGameStart = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+                        PaquetGameEvent* wPaquetEventGameStart = (PaquetGameEvent*) UsinePaquet::creerPaquet(GAME_EVENT);
                         wPaquetEventGameStart->setGameId(wPaquet->getGameId());
                         wPaquetEventGameStart->setEvent(GAME_EVENT_START_GAME);
                         wPaquetEventGameStart->setPlayer1Name(wGame->obtenirNomJoueurGauche());
@@ -509,7 +509,7 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
                 {
                     wGame->modifierEnPause(true);
 
-                    PaquetGameEvent* wPaquetResponse = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+                    PaquetGameEvent* wPaquetResponse = (PaquetGameEvent*) UsinePaquet::creerPaquet(GAME_EVENT);
                     wPaquetResponse->setGameId(wPaquet->getGameId());
                     wPaquetResponse->setEvent(GAME_EVENT_PAUSE_GAME_SIGNAL);
                     RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquetResponse->getGameId(), wPaquetResponse, TCP);
@@ -561,7 +561,11 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
                         {
                             wSocket = GestionnaireReseau::obtenirInstance()->getSocket(wGame->obtenirNomJoueurDroit(), TCP);
                         }
-                        GestionnaireReseau::obtenirInstance()->getController()->handleDisconnectDetection(wSocket);
+                        if(wSocket)
+                        {
+                            GestionnaireReseau::obtenirInstance()->getController()->handleDisconnectDetection(wSocket);
+                            GestionnaireReseau::obtenirInstance()->removeSocket(wSocket);
+                        }
                     }
                 });
                 RazerGameUtilities::RunOnUpdateThread(r,true);
@@ -598,7 +602,7 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
                         }
                         wGame->setGameStatus(GAME_STARTED);
 
-                        PaquetGameEvent* wPaquetStartGame = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+                        PaquetGameEvent* wPaquetStartGame = (PaquetGameEvent*) UsinePaquet::creerPaquet(GAME_EVENT);
                         wPaquetStartGame->setEvent(GAME_EVENT_START_GAME);
                         wPaquetStartGame->setGameId(wGameId);
                         wPaquetStartGame->setPlayer1Name(wGame->obtenirNomJoueurGauche());

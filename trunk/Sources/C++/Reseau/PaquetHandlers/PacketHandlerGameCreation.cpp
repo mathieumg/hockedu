@@ -5,7 +5,7 @@ void PacketHandlerGameCreation::handlePacketReceptionSpecific(PacketReader& pPac
 {
     if(pRunnable)
     {
-        PaquetGameCreation* wPaquet = (PaquetGameCreation*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CREATION_REQUEST);
+        PaquetGameCreation* wPaquet = (PaquetGameCreation*) UsinePaquet::creerPaquet(GAME_CREATION_REQUEST);
 
         // GameId
         wPaquet->setGameId(pPacketReader.readInteger());

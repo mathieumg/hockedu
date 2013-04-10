@@ -17,7 +17,7 @@ void PacketHandlerUserStatus::handlePacketReceptionSpecific(PacketReader& pPacke
 
     if(pRunnable)
     {
-        PaquetUserStatus* wPaquet = (PaquetUserStatus*) GestionnaireReseau::obtenirInstance()->creerPaquet(USER_STATUS);
+        PaquetUserStatus* wPaquet = (PaquetUserStatus*) UsinePaquet::creerPaquet(USER_STATUS);
         int wArraySize = pPacketReader.readInteger();
         uint8_t* wBuffer = new uint8_t[wArraySize];
         pPacketReader.readString(wBuffer, wArraySize);

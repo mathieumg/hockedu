@@ -146,7 +146,7 @@ int PaquetRunnable::RunnableGameCreationClient( Paquet* pPaquet )
 
         //GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer", wPaquet->getServerIP(), UDP);
 
-        PaquetGameConnection* wPaquetConnexion = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);
+        PaquetGameConnection* wPaquetConnexion = (PaquetGameConnection*) UsinePaquet::creerPaquet(GAME_CONNECTION);
         wPaquetConnexion->setGameId(wPaquet->getGameId());
         wPaquetConnexion->setGameServerId(wPaquet->getServerId());
         wPaquetConnexion->setPassword(FacadeModele::getInstance()->getGameCreationPassword());

@@ -10,8 +10,9 @@
 
 #pragma once
 #include <string>
-#include "../GestionnaireReseau.h"
+#include "GestionnaireReseau.h"
 #include <time.h>
+#include "UsinePaquet.h"
 class UsinePaquet;
 
 

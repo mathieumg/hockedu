@@ -27,7 +27,7 @@ int CallbackGameEndedServeurJeu(int pGameId, GameStatus pNewGameStatus)
 
         if(wGame)
         {
-            PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+            PaquetGameEvent* wPaquet = (PaquetGameEvent*) UsinePaquet::creerPaquet(GAME_EVENT);
 
             wPaquet->setGameId(pGameId);
             wPaquet->setEvent(GAME_EVENT_GAME_ENDED);
@@ -115,7 +115,7 @@ void ControllerServeurJeu::handleEvent( EventCodes pEventCode, va_list pListeEle
             break;
         }
     default:
-        std::cout << "EventCode: " << pEventCode << std::endl;
+        NETWORK_LOG("Unknown EventCode: %d", pEventCode);
         break;
     };
 }
@@ -155,7 +155,7 @@ void ControllerServeurJeu::handleDisconnectDetection( SPSocket pSocket )
             
 
             // Mettre la partie en pause sur le client qui est encore connecte
-            PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+            PaquetGameEvent* wPaquet = (PaquetGameEvent*) UsinePaquet::creerPaquet(GAME_EVENT);
             wPaquet->setGameId(wGame->getUniqueGameId());
             wPaquet->setEvent(GAME_EVENT_PAUSE_GAME_USER_DISCONNECTED);
 

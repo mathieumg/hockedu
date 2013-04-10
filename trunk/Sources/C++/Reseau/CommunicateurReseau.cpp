@@ -43,7 +43,7 @@ void CommunicateurReseau::envoyerPaquetSync( Paquet* wPaquetAEnvoyer, SPSocket w
 {
     PacketBuilder wPacketBuilder;
 
-    PacketHandler* wPacketHandler = GestionnaireReseau::obtenirInstance()->getPacketHandler(wPaquetAEnvoyer->getOperation());
+    PacketHandler* wPacketHandler = PaquetHandlersArray[wPaquetAEnvoyer->getOperation()];
 
     // On utilise le handler pour convertir le paquet en suite de char et l'envoyer
     wPacketHandler->handlePacketPreparation(wPaquetAEnvoyer, wPacketBuilder);
@@ -625,7 +625,7 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
                 
                 try
                 {
-                    PacketHandler* wPacketHandler = GestionnaireReseau::obtenirInstance()->getPacketHandler(wPaquetAEnvoyer->paquet->getOperation());
+                    PacketHandler* wPacketHandler = PaquetHandlersArray[wPaquetAEnvoyer->paquet->getOperation()];
                 
                     // On utilise le handler pour convertir le paquet en suite de char et l'envoyer
                     wPacketBuilder.clearBuffer(); // On s'assure que le buffer est vide
@@ -644,6 +644,7 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
                     // On drop le paquet et on envoie le Socket se faire connecter
                     wSocket->disconnect();
                     GestionnaireReseau::obtenirInstance()->getController()->handleDisconnectDetection(wSocket);
+                    GestionnaireReseau::obtenirInstance()->removeSocket(wSocket);
                     break;
                 }
                 catch(ExceptionReseauTimeout&)
@@ -655,6 +656,7 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
                     // On drop le paquet et on envoie le Socket se faire connecter
                     wSocket->disconnect();
                     GestionnaireReseau::obtenirInstance()->getController()->handleDisconnectDetection(wSocket);
+                    GestionnaireReseau::obtenirInstance()->removeSocket(wSocket);
                     break;
                 }
                 catch(ExceptionReseau&)
@@ -770,7 +772,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                                     PACKETS_RECEIVE_LOG((const char*)readBuffer);
 #endif //!SHIPPING
 
-                                    PacketHandler* wPacketHandler = GestionnaireReseau::obtenirInstance()->getPacketHandler(wPacketHeader.type);
+                                    PacketHandler* wPacketHandler = PaquetHandlersArray[wPacketHeader.type];
                                     wPacketHandler->handlePacketReceptionSpecific( wPacketReader , GestionnaireReseau::obtenirInstance()->getController()->getRunnable(wPacketHeader.type) );
                                 }
                                 wPacketReader.clearBuffer();
@@ -785,6 +787,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                     wSocket->disconnect();
                     wCommunicateurReseau->terminerIterationListeSocketEcoute();
                     GestionnaireReseau::obtenirInstance()->getController()->handleDisconnectDetection(wSocket);
+                    GestionnaireReseau::obtenirInstance()->removeSocket(wSocket);
                     breakLoop = true;
                 }
                 catch(ExceptionReseauTimeout&)
@@ -860,7 +863,7 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
     bool tryConnection = true;
     wSocket->setConnectionState(CONNECTING);
 
-    NETWORK_LOG("Attempting connection for  %s  to  %s", wSocket->getId().c_str(), wSocket->getAdresseDestination().c_str());
+    NETWORK_LOG("Attempting connection for  %s  to  %s", wSocket->getId().ToCString(), wSocket->getAdresseDestination().c_str());
 
     while(tryConnection)
     {
@@ -870,7 +873,7 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
         case CONNECTED:
             tryConnection = false;
             connectionSuccessful = true;
-            NETWORK_LOG("connection successful for  %s  to  %s", wSocket->getId().c_str(), wSocket->getAdresseDestination().c_str());
+            NETWORK_LOG("connection successful for  %s  to  %s", wSocket->getId().ToCString(), wSocket->getAdresseDestination().c_str());
             break;
         case CONNECTING:
             ++wNbTentatives;
@@ -883,7 +886,7 @@ void* CommunicateurReseau::connectionThreadRoutine( void *arg )
             break;
         case NOT_CONNECTED:
         default:
-            NETWORK_LOG("connection failed for  %s  to  %s", wSocket->getId().c_str(), wSocket->getAdresseDestination().c_str());
+            NETWORK_LOG("connection failed for  %s  to  %s", wSocket->getId().ToCString(), wSocket->getAdresseDestination().c_str());
             // probleme de logique de connection alors on arrete
             tryConnection = false;
             break;
@@ -981,7 +984,7 @@ void * CommunicateurReseau::connectionTCPServeurThreadRoutine( void *arg )
             }
             wNewSocket->recv((uint8_t*) &wPlayerName, 50, true);
 
-            NETWORK_LOG("connection received from  %s  at  %s", wSocket->getId().c_str(), wSocket->getAdresseSource().c_str());
+            NETWORK_LOG("connection received from  %s  at  %s", wPlayerName, wSocket->getAdresseSource().c_str());
 
 
             // On verifie que le nom ne contient pas d'espaces et n'est pas vide
@@ -1181,7 +1184,7 @@ void * CommunicateurReseau::receivingUDPThreadRoutine( void *arg )
             {
                 wPacketReader.append(wReceivedBytes, readBuffer+(sizeof(uint8_t)*getPacketHeaderSize()));
 
-                PacketHandler* wPacketHandler = GestionnaireReseau::obtenirInstance()->getPacketHandler(wPacketHeader.type);
+                PacketHandler* wPacketHandler = PaquetHandlersArray[wPacketHeader.type];
                 wPacketHandler->handlePacketReceptionSpecific( wPacketReader , GestionnaireReseau::obtenirInstance()->getController()->getRunnable(wPacketHeader.type) );
 
                 wMapNoSequence[wIP] = wPacketHeader.numeroPaquet;

@@ -74,7 +74,7 @@ Socket::Socket(const std::string& pDestinationIP, const int& pPortNumber, Connec
 ///
 ////////////////////////////////////////////////////////////////////////
 Socket::Socket( HANDLE_SOCKET socket, sockaddr_in* socketInfo, ConnectionType pConnectionType)
-    :mFlags(0)
+    :mFlags(0),mId("")
 {
     mIpProtocol =  IPv4;
     mConnectionType = pConnectionType;

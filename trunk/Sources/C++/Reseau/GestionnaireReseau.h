@@ -19,7 +19,6 @@
 #include <fstream>
 #include <set>
 #include "ControllerInterface.h"
-#include "../../Sources/C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"
 
 #ifdef LINUX
 #include <sys/socket.h>
@@ -54,24 +53,7 @@ enum ByteOrder : uint8_t
 
 enum ExceptionTypes {GLOBALE, PARAMETRE_INVALIDE, SOCKET_DECONNECTE, TIMEOUT, TYPE_NOT_DEFINED, AUCUNE_ERREUR};
 
-enum PacketTypes {
-    CONN_AUTOMATIQUE,
-    EVENT,
-    LOGIN_INFO,
-    CHAT_MESSAGE,
-    USER_STATUS,
-    GAME_STATUS,
-    GAME_CREATION_REQUEST,
-    GAME_CONNECTION,
-    GAMES_LIST,
-    MAILLET,
-    RONDELLE,
-    GAME_EVENT,
-    PORTAL,
-    BONUS,
 
-    NB_PACKET_TYPES
-};
 
 struct ConnectionStateEvent
 {
@@ -149,7 +131,7 @@ public:
     std::string getAdresseIPLocaleAssociee( unsigned int minAdress, unsigned int maxAdress );
 
 	// Methode pour ajouter une operation reseau (ex: deplacerNoeud). Le handler doit etre fourni ainsi que l'usine pour creer les noeuds
-	void ajouterOperationReseau(const PacketTypes pNomOperation, PacketHandler* pPacketHandler, UsinePaquet* pUsine);
+
 
 	// Verifie le type de socket et utilise le bon communicateurReseau afin de transmettre la message
     void envoyerPaquet(SPSocket pSocketAUtiliser, Paquet* pPaquet);
@@ -166,7 +148,6 @@ public:
     // True si valide
     bool validerUsername(const std::string& pUsername) const;
 
-	PacketHandler* getPacketHandler(const PacketTypes pOperation);
 
 	// Methode pour sauvegarder un socket en fonction d'un nom de joueur
 	void saveSocket(const std::string& pNomJoueur, SPSocket pSocket);
@@ -198,9 +179,6 @@ public:
 
     // Retourne la liste des adresses IP disponibles sur la machine courante
     void getListeAdressesIPLocales(std::list<std::string>& pOut) const;
-
-	// Methode qui appelle la Factory de Paquets et qui retourne un Paquet du bon type représenté par le nom d'opération
-	Paquet* creerPaquet(const PacketTypes pOperation);
 
 	// Methode pour creer une nouvelle connection (un nouveau Socket) et le sauvegarder a la liste des Sockets actifs
 	void demarrerNouvelleConnection(const std::string& pConnectionId, const std::string& pIP, ConnectionType pConnectionType);
@@ -270,12 +248,6 @@ private:
 
     // Controlleur associe au modele
     ControllerInterface* mControlleur;
-
-
-	// Liste des handlers pour les paquets
-	std::map<PacketTypes, PacketHandler*> mListeHandlers;
-	// Liste des usines de paquets avec la clée = nom de l'opération
-	std::map<PacketTypes, UsinePaquet*> mListeUsines;
 
     std::map<int, ExceptionTypes> mMapExceptions;
 

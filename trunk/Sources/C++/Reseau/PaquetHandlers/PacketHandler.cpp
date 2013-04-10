@@ -39,5 +39,20 @@ int PacketHandler::getPacketSize( Paquet* pPaquet ) const
 }
 
 
-
+PacketHandler* PaquetHandlersArray[NB_PACKET_TYPES] =
+{
+    new PacketHandlerConnAutomatique,//CONN_AUTOMATIQUE,
+    new PacketHandlerEvent          ,//EVENT,
+    new PacketHandlerLoginInfo      ,//LOGIN_INFO,
+    new PacketHandlerChatMessage    ,//CHAT_MESSAGE,
+    new PacketHandlerUserStatus     ,//USER_STATUS,
+    new PacketHandlerGameStatus     ,//GAME_STATUS,
+    new PacketHandlerGameCreation   ,//GAME_CREATION_REQUEST,
+    new PacketHandlerGameConnection ,//GAME_CONNECTION,
+    new PacketHandlerMaillet        ,//MAILLET,
+    new PacketHandlerRondelle       ,//RONDELLE,
+    new PacketHandlerGameEvent      ,//GAME_EVENT,
+    new PacketHandlerPortal         ,//PORTAL,
+    new PacketHandlerBonus          ,//BONUS,
+};
 

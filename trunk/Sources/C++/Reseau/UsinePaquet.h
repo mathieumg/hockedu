@@ -10,6 +10,9 @@
 
 #pragma once
 #include <string>
+#include "Enum_Declarations.h"
+
+class Paquet;
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class UsinePaquet
@@ -24,10 +27,10 @@ public:
 	/// Destructeur vide déclaré virtuel pour les classes dérivées.
 	inline virtual ~UsinePaquet() {};
 
-	/// Fonction à surcharger pour la création d'un paquet.
-	virtual Paquet* creerPaquet() const = 0;
-
+    static Paquet* creerPaquet(PacketTypes t);
 protected:
+    /// Fonction à surcharger pour la création d'un paquet.
+    virtual Paquet* creerPaquet() const = 0;
 	/// Constructeur qui prend le nom associé à l'usine.
 	UsinePaquet()  {}
 
@@ -37,20 +40,19 @@ protected:
 #define PAQUET_FACTORY_DECLARATION(FactoryName)      \
 class UsinePaquet## FactoryName : public UsinePaquet   \
 {                                                           \
-public:                                                     \
+protected:                                                     \
     virtual Paquet* creerPaquet() const;     \
 };
 
 #define PAQUET_FACTORY_IMPLEMENTATION(FactoryName)                \
-    Paquet* UsinePaquet## FactoryName::creerPaquet() const    \
-{  return new FactoryName();  }
+    Paquet* UsinePaquet##FactoryName::creerPaquet() const    \
+{  return new Paquet##FactoryName();  }
 
 
 PAQUET_FACTORY_DECLARATION(ChatMessage    );
 PAQUET_FACTORY_DECLARATION(ConnAutomatique);
 PAQUET_FACTORY_DECLARATION(Event          );
 PAQUET_FACTORY_DECLARATION(LoginInfo      );
-PAQUET_FACTORY_DECLARATION(ChatMessage    );
 PAQUET_FACTORY_DECLARATION(UserStatus     );
 PAQUET_FACTORY_DECLARATION(GameStatus     );
 PAQUET_FACTORY_DECLARATION(GameCreation   );

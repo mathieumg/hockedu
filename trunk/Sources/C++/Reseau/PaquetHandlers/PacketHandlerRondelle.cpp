@@ -9,7 +9,7 @@ void PacketHandlerRondelle::handlePacketReceptionSpecific(PacketReader& pPacketR
 {
     if(pRunnable)
     {
-        PaquetRondelle* wPaquet = (PaquetRondelle*) GestionnaireReseau::obtenirInstance()->creerPaquet(RONDELLE);
+        PaquetRondelle* wPaquet = (PaquetRondelle*) UsinePaquet::creerPaquet(RONDELLE);
 
         wPaquet->setGameId(pPacketReader.readInteger());
         float wX = pPacketReader.readFloat();

@@ -1,4 +1,3 @@
-#include "GestionnaireReseau.h"
 #include "PacketBuilder.h"
 
 PacketBuilder::PacketBuilder()

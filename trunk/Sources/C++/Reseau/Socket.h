@@ -25,7 +25,21 @@ enum InternetProtocol {IPv4 = AF_INET, IPv6 = AF_INET6, UNSPECIFIED = AF_UNSPEC}
 enum ConnectionType {UDP, TCP};
 enum ConnectionState {CONNECTED, CONNECTING, NOT_CONNECTED};
 
-typedef std::string SocketIdentifer;
+
+/// lorsque changement pour ne plus deriver de string, cacher une string pour l'utilisation dans le logging debug
+class SocketIdentifer : public std::string
+{
+public:
+    /// constructor
+    SocketIdentifer(const std::string& s):std::string(s){}
+    SocketIdentifer(const char* s):std::string(s){}
+
+    const std::string& ToString()const{return *this;}
+    const char* ToCString()const{return std::string::c_str();}
+private:
+    const char *c_str() const{}
+};
+
 
 typedef std::function<void ()> OnConnectionCallback;
 
@@ -90,7 +104,7 @@ public:
     void setOnConnectionCallback(OnConnectionCallback pOnConnectionSendCallback);
 
     /// Accessors of mId
-    inline SocketIdentifer getId() const { return mId; }
+    inline const SocketIdentifer& getId() const { return mId; }
     inline void setId(const SocketIdentifer& pVal) { mId = pVal; }
 
 private:

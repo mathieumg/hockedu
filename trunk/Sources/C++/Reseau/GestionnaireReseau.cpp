@@ -15,7 +15,6 @@
 #include <algorithm>
 #include <exception>
 #include <map>
-#include "UsinePaquets/UsinePaquet.h"
 #include <iostream>
 #include <ctime>
 #include <sstream>
@@ -27,9 +26,9 @@
 #include <stdexcept>
 #include "CommunicateurReseau.h"
 #include "PaquetHandlers/PacketHandler.h"
-#include "UsinePaquets/UsinePaquetConnAutomatique.h"
 #include <utility>
-#include "UsinePaquets/UsinePaquetEvent.h"
+#include "Paquets/Paquet.h"
+#include "Paquets/PaquetEvent.h"
 
 #ifdef WINDOWS
 // lien avec la librairie winsock2
@@ -207,8 +206,8 @@ void GestionnaireReseau::init()
 #endif
 
     // Ajout des classes PacketHandler et UsinePaquet de base
-    ajouterOperationReseau(CONN_AUTOMATIQUE, new PacketHandlerConnAutomatique(), new UsinePaquetConnAutomatique());
-    ajouterOperationReseau(EVENT, new PacketHandlerEvent(), new UsinePaquetEvent());
+
+
 
 	// Init Winsock2
 	// --> The WSAStartup function initiates use of the Winsock DLL by a process.
@@ -304,32 +303,6 @@ std::string GestionnaireReseau::getAdresseIPLocaleAssociee( unsigned int minAdre
     }
 }
 
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void GestionnaireReseau::ajouterOperationReseau(const std::string& pNomOperation, PacketHandler* pPacketHandler, UsinePaquet* pUsine)
-///
-/// (Private)
-/// Methode pour ajouter une operation reseau (ex: deplacerNoeud). Le handler doit etre fourni ainsi que l'usine pour creer les noeuds
-///
-/// @param[in] const std::string& pNomOperation     : Nom de l'operation a ajouter
-/// @param[in] PacketHandler* pPacketHandler        : Pointeur vers un PaquetHandler a associer a ce type de Paquet
-/// @param[in] UsinePaquet* pUsine                  : Pointeur vers une UsinePaquet a associer a ce type de Paquet
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void GestionnaireReseau::ajouterOperationReseau(const PacketTypes pNomOperation, PacketHandler* pPacketHandler, UsinePaquet* pUsine)
-{
-	// Ajouter le handler de paquet
-	mListeHandlers[pNomOperation] = pPacketHandler;
-
-	// Ajouter le Factory (Usine) pour le type de paquet
-	mListeUsines[pNomOperation] = pUsine;
-
-}
-
-
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void GestionnaireReseau::supprimerPacketHandlersEtUsines()
@@ -342,22 +315,6 @@ void GestionnaireReseau::ajouterOperationReseau(const PacketTypes pNomOperation,
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireReseau::supprimerPacketHandlersEtUsines()
 {
-	// Vide liste Handlers
-	auto itHandlers = mListeHandlers.begin();
-	for(itHandlers; itHandlers != this->mListeHandlers.end(); ++itHandlers)
-	{
-		delete (*itHandlers).second;
-	}
-	mListeHandlers.clear();
-
-	// Vide liste Usines
-	auto itUsines = mListeUsines.begin();
-	for(itUsines; itUsines!=this->mListeUsines.end(); ++itUsines)
-	{
-		delete (*itUsines).second;
-	}
-	mListeUsines.clear();
-
     // Vider la liste de Sockets et les detruire
     std::map<std::pair<std::string, ConnectionType>, SPSocket>::iterator iter;
     FacadePortability::takeMutex(mMutexListeSockets);
@@ -386,19 +343,11 @@ void GestionnaireReseau::supprimerPacketHandlersEtUsines()
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireReseau::envoyerPaquet( SPSocket pSocketAUtiliser, Paquet* pPaquet )
 {
-    if(validerOperation(pPaquet->getOperation()))
+    if(!mCommunicateurReseau->ajouterPaquetEnvoie(pSocketAUtiliser, pPaquet))
     {
-        if(!mCommunicateurReseau->ajouterPaquetEnvoie(pSocketAUtiliser, pPaquet))
-        {
-            // Le paquet ne peut pas etre ajouter
-            pPaquet->removeAssociatedQuery();
-            checkf(0); // Si ca arrive, qqch est louche
-        }
-    }
-    else
-    {
+        // Le paquet ne peut pas etre ajouter
         pPaquet->removeAssociatedQuery();
-        checkf(0); // Probleme d'ajout de l'operation dans le gestionnaire
+        checkf(0); // Si ca arrive, qqch est louche, la file est plein au damn
     }
 }
 
@@ -443,56 +392,10 @@ void GestionnaireReseau::envoyerPaquet( const std::string& pConnectionId, Paquet
 ////////////////////////////////////////////////////////////////////////
 bool GestionnaireReseau::validerOperation( const PacketTypes pOperation ) const
 {
-	return mListeHandlers.find(pOperation)!=mListeHandlers.end();
+    /// TODO:: ajouter une validation supp pour que les controlleur indiquent si on peut ou non envoyer ce type de paquet
+	return true;
 }
 
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void GestionnaireReseau::getPacketHandler( const std::string& pOperation )
-///
-/// Methode pour obtenir le PaquetHandler associe a un type d'operation qui a ete ajoute auparavant
-///
-/// @param[in] const std::string& pOperation     : Nom de l'operation dont on veut le PaquetHandler
-///
-/// @return     : Pointeur sur le PaquetHandler (Ne pas appeler delete sur ce pointeur. GestionnaireReseau va s'en occuper.)
-///
-////////////////////////////////////////////////////////////////////////
-PacketHandler* GestionnaireReseau::getPacketHandler( const PacketTypes pOperation )
-{
-    auto it = mListeHandlers.find(pOperation);
-    if(it == mListeHandlers.end())
-    {
-        throw ExceptionReseau("Operation invalide lors de l'appel a getPacketHandler");
-    }
-    return (*it).second;
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void GestionnaireReseau::creerPaquet( const std::string& pOperation )
-///
-/// Methode pour obtenir un paquet du bon type de paquet selon le nom d'operation (Appelle la factory)
-///
-/// @param[in] const std::string& pOperation     : Nom de l'operation dont on veut creer un paquet
-///
-/// @return     : Pointeur sur un Paquet du bon type
-///
-////////////////////////////////////////////////////////////////////////
-Paquet* GestionnaireReseau::creerPaquet( const PacketTypes pOperation )
-{
-    auto wIterateur = mListeUsines.find(pOperation);
-
-    // Valider l'operation
-    if (wIterateur == mListeUsines.end())
-    {
-        throw ExceptionReseau("Operation invalide a la creation d'un paquet. L'usine n'existe pas.");
-    }
-
-	// Appeler la bonne usine et retourner le resultat
-	return (*wIterateur).second->creerPaquet();
-}
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -738,19 +641,23 @@ void GestionnaireReseau::removeSocket( const std::string& pNomJoueur, Connection
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireReseau::removeSocket( SPSocket pSocket )
 {
-
-    // Now remove it from here and delete it
-    FacadePortability::takeMutex(mMutexListeSockets);
-    for (auto it = mListeSockets.begin(); it!=mListeSockets.end(); ++it)
+    if(pSocket)
     {
-        if((*it).second == pSocket)
+        pSocket->flagToCancel();
+        pSocket->flagToDelete();
+        // Now remove it from here and delete it
+        FacadePortability::takeMutex(mMutexListeSockets);
+        for (auto it = mListeSockets.begin(); it!=mListeSockets.end(); ++it)
         {
-            FacadePortability::releaseMutex(mMutexListeSockets);
-            removeSocket(it->first.first,it->first.second); // On laisse l'autre methode faire le retrait
-            return;
+            if((*it).second == pSocket)
+            {
+                FacadePortability::releaseMutex(mMutexListeSockets);
+                removeSocket(it->first.first,it->first.second); // On laisse l'autre methode faire le retrait
+                return;
+            }
         }
+        FacadePortability::releaseMutex(mMutexListeSockets);
     }
-    FacadePortability::releaseMutex(mMutexListeSockets);
 }
 
 
@@ -838,6 +745,9 @@ void GestionnaireReseau::sendMessageToLog( const std::string& pMessage )
         errorLogHandle << " " << pMessage << std::endl;
 		errorLogHandle.flush(); // Pour etre certain d'avoir tout meme si le programme crash
 	}
+#if !SHIPPING
+    std::cout << pMessage << std::endl;
+#endif
 }
 
 void GestionnaireReseau::sendMessageToLog(const char* File, int Line, const char* Format/*=""*/, ... )
@@ -867,6 +777,7 @@ void GestionnaireReseau::PacketSendToLog( const char* pMessage )
     {
         PacketLogHandle<<1;
         PacketLogHandle<<pMessage;
+        PacketLogHandle.flush(); // Pour etre certain d'avoir tout meme si le programme crash
     }
 }
 
@@ -890,6 +801,7 @@ void GestionnaireReseau::PacketReceivedToLog( const char* pMessage )
     {
         PacketLogHandle<<0;
         PacketLogHandle<<pMessage;
+        PacketLogHandle.flush(); // Pour etre certain d'avoir tout meme si le programme crash
     }
 }
 
@@ -1077,7 +989,7 @@ void GestionnaireReseau::socketConnectionStateEvent( SPSocket pSocket, Connectio
 void GestionnaireReseau::disconnectClient( const std::string& pConnectionId, ConnectionType pConnectionType /*= TCP*/ )
 {
     SPSocket wSocket = getSocket(pConnectionId, pConnectionType);
-    PaquetEvent* wPaquet = (PaquetEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(EVENT);
+    PaquetEvent* wPaquet = (PaquetEvent*) UsinePaquet::creerPaquet(EVENT);
     wPaquet->setEventCode(USER_DISCONNECTED);
     wPaquet->setMessage(GestionnaireReseau::obtenirInstance()->getPlayerName());
     CommunicateurReseau::envoyerPaquetSync(wPaquet, wSocket);

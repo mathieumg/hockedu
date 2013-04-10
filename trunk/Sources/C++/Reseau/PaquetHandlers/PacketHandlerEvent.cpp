@@ -8,7 +8,7 @@ void PacketHandlerEvent::handlePacketReceptionSpecific(PacketReader& pPacketRead
 {
     if(pRunnable)
     {
-        PaquetEvent* wPaquet = (PaquetEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(EVENT);
+        PaquetEvent* wPaquet = (PaquetEvent*) UsinePaquet::creerPaquet(EVENT);
         uint32_t wArraySize = pPacketReader.readInteger();
         uint8_t* wBuffer = new uint8_t[wArraySize];
         pPacketReader.readString(wBuffer, wArraySize);

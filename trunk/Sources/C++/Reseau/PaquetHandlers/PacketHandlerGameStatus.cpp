@@ -7,7 +7,7 @@ void PacketHandlerGameStatus::handlePacketReceptionSpecific(PacketReader& pPacke
 {
     if(pRunnable)
     {
-        PaquetGameStatus* wPaquet = (PaquetGameStatus*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_STATUS);
+        PaquetGameStatus* wPaquet = (PaquetGameStatus*) UsinePaquet::creerPaquet(GAME_STATUS);
         PartieServeurs* wGameInfos = wPaquet->getGameInfos();
 
         // ServerId

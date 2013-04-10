@@ -9,7 +9,7 @@ void PacketHandlerBonus::handlePacketReceptionSpecific(PacketReader& pPacketRead
 {
     if(pRunnable)
     {
-        PaquetBonus* wPaquet = (PaquetBonus*) GestionnaireReseau::obtenirInstance()->creerPaquet(BONUS);
+        PaquetBonus* wPaquet = (PaquetBonus*) UsinePaquet::creerPaquet(BONUS);
 
         wPaquet->setGameId(pPacketReader.readInteger());
 
