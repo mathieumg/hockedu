@@ -4398,3 +4398,29 @@
 	"Paquet.h"
 	"Vecteur.h"
 
+1365642411 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/NetworkEnums.cpp
+	"NetworkEnums.h"
+
+1365239834 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetBonus.cpp
+	"PaquetBonus.h"
+
+1363915973 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetGameEvent.cpp
+	"PaquetGameEvent.h"
+
+1363040401 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetMaillet.cpp
+	"PaquetMaillet.h"
+
+1365231632 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetPortal.cpp
+	"PaquetPortal.h"
+
+1363666045 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetRondelle.cpp
+	"PaquetRondelle.h"
+
+1365801989 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerGameEvent.cpp
+	"PacketHandler.h"
+	"PaquetGameEvent.h"
+
+1365802080 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerMaillet.cpp
+	"PacketHandler.h"
+	"PaquetMaillet.h"
+

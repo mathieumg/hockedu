@@ -9,7 +9,7 @@ void PacketHandlerPortal::handlePacketReceptionSpecific(PacketReader& pPacketRea
 {
     if(pRunnable)
     {
-        PaquetPortal* wPaquet = (PaquetPortal*) GestionnaireReseau::obtenirInstance()->creerPaquet(PORTAL);
+        PaquetPortal* wPaquet = (PaquetPortal*) UsinePaquet::creerPaquet(PORTAL);
 
         wPaquet->setGameId(pPacketReader.readInteger());
         float wX = pPacketReader.readFloat();
