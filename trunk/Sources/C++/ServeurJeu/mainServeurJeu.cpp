@@ -47,7 +47,7 @@ void DoNothing()
 
 }
 
-void connect(std::string& ip)
+void connect(std::string ip)
 {
     CleanUp();
     InitDLLServeurJeu();
@@ -65,8 +65,7 @@ void ManualConnect()
     std::cout << "Enter ip adress : ";
     char wInput [256];
     fgets ( wInput, 256, stdin );
-    std::string ip = wInput;
-    connect(ip);
+    connect(wInput);
 }
 
 void ConnectLocal()
@@ -97,17 +96,16 @@ void ConnectLocal()
             if(strlen(wLocalIp)  == 0)
             {
                 delete[] wLocalIp;
-                ConnectMasterServer("127.0.0.1"); // fallback if not a on a lan network
+                connect("127.0.0.1"); // fallback if not a on a lan network
                 return;
             }
         }
     }
-    std::string ip = wLocalIp;
+    connect(wLocalIp);
     delete[] wLocalIp;
-    connect(ip);
 }
 
-int mainServeurJeu(std::string pMasterServerIp)  {
+int mainServeurJeu(const char* pMasterServerIp)  {
     
     std::cout << "--------- Serveur Jeu ---------" << std::endl << std::endl;
     //std::string wMasterServerIP = "192.168.0.105"; // Adresse par defaut du serveur maitre
@@ -117,14 +115,14 @@ int mainServeurJeu(std::string pMasterServerIp)  {
     //**********
 
     // Appel a la fonction d'initialisation
-    
-    if(pMasterServerIp == "local")
+    std::string ipArg = pMasterServerIp;
+    if(ipArg == "local")
     {
         ConnectLocal();
     }
-    if(pMasterServerIp != "")
+    if(ipArg != "")
     {
-        connect(pMasterServerIp);
+        connect(ipArg);
     }
     else
     {

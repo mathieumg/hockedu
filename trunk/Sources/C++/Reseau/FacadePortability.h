@@ -256,8 +256,8 @@ namespace FacadePortability {
             NULL
             );
 #else
-        struct stat st = {0};
-        if (stat(dirName, &st) == -1)
+        //struct stat st = {0};
+        //if (stat(dirName, &st) == -1)
         {
             mkdir(dirName, 0777);
         }

@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="ServeurMaitre" prefix_auto="1" extension_auto="1" />
+				<Option output="HockeduMasterServer_d" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../../../../Content/Exe/" />
 				<Option object_output="../../x64/Debug/" />
 				<Option type="1" />
@@ -22,7 +22,7 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="ServeurMaitre" prefix_auto="1" extension_auto="1" />
+				<Option output="HockeduMasterServer" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../../../../Content/Release/" />
 				<Option object_output="../../x64/Release/" />
 				<Option type="1" />
@@ -30,6 +30,7 @@
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-DSHIPPING=1" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -51,6 +52,9 @@
 			<Add directory="../../Reseau/PaquetHandlers" />
 			<Add directory="../../../../Commun/Externe/MySQL++/lib" />
 			<Add directory="../../../../Commun/Externe/MySQL/include" />
+			<Add directory="../../../C#/UIHeavyClient/UIHeavyClient" />
+			<Add directory="../../Reseau/Paquets" />
+			<Add directory="../../Reseau/ExceptionsReseau" />
 		</Compiler>
 		<Linker>
 			<Add option="-pthread" />
@@ -62,6 +66,7 @@
 		</Linker>
 		<Unit filename="../../../../Commun/Utilitaire/Solution_Defines.cpp" />
 		<Unit filename="../../../../Commun/Utilitaire/Solution_Defines.h" />
+		<Unit filename="../../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h" />
 		<Unit filename="../../Reseau/CommunicateurReseau.cpp" />
 		<Unit filename="../../Reseau/CommunicateurReseau.h" />
 		<Unit filename="../../Reseau/ControllerCPP.h" />
@@ -85,6 +90,8 @@
 		<Unit filename="../../Reseau/GestionnaireReseau.h" />
 		<Unit filename="../../Reseau/GestionnaireReseauServeurMaitre.cpp" />
 		<Unit filename="../../Reseau/GestionnaireReseauServeurMaitre.h" />
+		<Unit filename="../../Reseau/NetworkEnums.cpp" />
+		<Unit filename="../../Reseau/NetworkEnums.h" />
 		<Unit filename="../../Reseau/ObjetsGlobaux/JoueurServeurs.cpp" />
 		<Unit filename="../../Reseau/ObjetsGlobaux/JoueurServeurs.h" />
 		<Unit filename="../../Reseau/ObjetsGlobaux/PartieServeurs.cpp" />
@@ -105,11 +112,14 @@
 		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerEvent.h" />
 		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerGameConnection.cpp" />
 		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerGameCreation.cpp" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerGameEvent.cpp" />
 		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerGameStatus.cpp" />
 		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerGameStatus.h" />
 		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerLoginInfo.cpp" />
 		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerLoginInfo.h" />
-		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerTest.cpp" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerMaillet.cpp" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerPortal.cpp" />
+		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerRondelle.cpp" />
 		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerTest.h" />
 		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerUserStatus.cpp" />
 		<Unit filename="../../Reseau/PaquetHandlers/PacketHandlerUserStatus.h" />
@@ -117,6 +127,8 @@
 		<Unit filename="../../Reseau/PaquetRunnable.h" />
 		<Unit filename="../../Reseau/Paquets/Paquet.cpp" />
 		<Unit filename="../../Reseau/Paquets/Paquet.h" />
+		<Unit filename="../../Reseau/Paquets/PaquetBonus.cpp" />
+		<Unit filename="../../Reseau/Paquets/PaquetBonus.h" />
 		<Unit filename="../../Reseau/Paquets/PaquetChatMessage.cpp" />
 		<Unit filename="../../Reseau/Paquets/PaquetChatMessage.h" />
 		<Unit filename="../../Reseau/Paquets/PaquetConnAutomatique.cpp" />
@@ -127,11 +139,18 @@
 		<Unit filename="../../Reseau/Paquets/PaquetGameConnection.h" />
 		<Unit filename="../../Reseau/Paquets/PaquetGameCreation.cpp" />
 		<Unit filename="../../Reseau/Paquets/PaquetGameCreation.h" />
+		<Unit filename="../../Reseau/Paquets/PaquetGameEvent.cpp" />
+		<Unit filename="../../Reseau/Paquets/PaquetGameEvent.h" />
 		<Unit filename="../../Reseau/Paquets/PaquetGameStatus.cpp" />
 		<Unit filename="../../Reseau/Paquets/PaquetGameStatus.h" />
 		<Unit filename="../../Reseau/Paquets/PaquetLoginInfo.cpp" />
 		<Unit filename="../../Reseau/Paquets/PaquetLoginInfo.h" />
-		<Unit filename="../../Reseau/Paquets/PaquetTest.cpp" />
+		<Unit filename="../../Reseau/Paquets/PaquetMaillet.cpp" />
+		<Unit filename="../../Reseau/Paquets/PaquetMaillet.h" />
+		<Unit filename="../../Reseau/Paquets/PaquetPortal.cpp" />
+		<Unit filename="../../Reseau/Paquets/PaquetPortal.h" />
+		<Unit filename="../../Reseau/Paquets/PaquetRondelle.cpp" />
+		<Unit filename="../../Reseau/Paquets/PaquetRondelle.h" />
 		<Unit filename="../../Reseau/Paquets/PaquetTest.h" />
 		<Unit filename="../../Reseau/Paquets/PaquetUserStatus.cpp" />
 		<Unit filename="../../Reseau/Paquets/PaquetUserStatus.h" />
@@ -141,6 +160,7 @@
 		<Unit filename="../../Reseau/Socket.h" />
 		<Unit filename="../../Reseau/SocketTCPServeur.cpp" />
 		<Unit filename="../../Reseau/SocketTCPServeur.h" />
+		<Unit filename="../../Reseau/UsinePaquet.cpp" />
 		<Unit filename="../../Reseau/UsinePaquets/UsinePaquet.h" />
 		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetChatMessage.h" />
 		<Unit filename="../../Reseau/UsinePaquets/UsinePaquetConnAutomatique.h" />

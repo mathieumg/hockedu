@@ -4080,7 +4080,7 @@
 	<arpa/inet.h>
 	"GestionnaireReseau.h"
 
-1365539925 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/FacadePortability.h
+1365849279 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/FacadePortability.h
 	<WinSock2.h>
 	<windows.h>
 	<pthread.h>
@@ -4423,4 +4423,14 @@
 1365802080 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerMaillet.cpp
 	"PacketHandler.h"
 	"PaquetMaillet.h"
+
+1365847946 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerPortal.cpp
+	<iostream>
+	<sstream>
+	"PacketHandler.h"
+	"..\Paquets\PaquetPortal.h"
+
+1365802167 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerRondelle.cpp
+	"PacketHandler.h"
+	"PaquetRondelle.h"
 
